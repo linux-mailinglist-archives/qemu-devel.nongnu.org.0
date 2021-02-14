@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 645C331B026
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 11:54:46 +0100 (CET)
-Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4056131B032
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 12:26:54 +0100 (CET)
+Received: from localhost ([::1]:52670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBF36-00026K-UW
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 05:54:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
+	id 1lBFYC-0007X8-ON
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 06:26:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lBF1F-0001Nl-0Q
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 05:52:49 -0500
-Received: from mout.web.de ([217.72.192.78]:58303)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1lBF1D-0005cF-4z
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 05:52:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1613299943;
- bh=+bMCvSICiCPMkSwmkMSVIp3EfEzW9aHdqJrvkxZ6Tfw=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=D6O87X4JiYuDflEFPxNovYWQhJIae9CtwnYTDtQwwjoCuHhCQ4lotXUA89QmH5vk/
- ut9lKJWEREOpLkKL/AjFVqZ9X/K+Np+Eu0NATs5UEO8Z26ajCHS5ZUDLgWfQgjsw/K
- RTwAcn5jQEcXAg77s77DA+3RiOzHDkPblBS3upQU=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.128]) by smtp.web.de (mrweb106
- [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYLmq-1lP71p1yMs-00VNkV; Sun, 14
- Feb 2021 11:52:23 +0100
-Date: Sun, 14 Feb 2021 11:52:06 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: leirao <lei.rao@intel.com>
-Subject: Re: [PATCH 07/10] Disable auto-coverge before entering COLO mode.
-Message-ID: <20210214115206.7d851b22@gecko.fritz.box>
-In-Reply-To: <1610505995-144129-8-git-send-email-lei.rao@intel.com>
-References: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
- <1610505995-144129-8-git-send-email-lei.rao@intel.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ZGJLXUz9zYgI7ioD7_Jyo20";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:EfsYgDsyZVQp60Pd/hC2q7n+vIPlOUSI5wkRbOv8W/GHcF16jZQ
- BeYQ3JCp2JXaj+HXFzB8QjeO/Ol6bc98GexUuNSnvnXNeSUKG5N1IfZfgy4rjRdKWp0RCAo
- z6dhLcfl+SeuHFMfPM07FHUOuzscxnvEeUg6l6qBzpih0552x3E+DOWh4sRf0lIzBTcRDjx
- Pms8niFHrEfMShBDnYKsg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:+Euwbsli9lg=:Thm0Ap/RjLjDnn1CDc41UQ
- HQdM1/poUXv6GOs2fBa4X5azrkzobFWbQEjDG2E7lNw7kvPDjh7Twnj3IKqNfecic8q+9Uh71
- e0Y1+Q8f2MUL3cDCgpNly39HMmEux3ERNkm1aEOud+uASc1x0rRfiFJeyW4M/n2K/bhxAZcy/
- YU4WlcrUiRD9stAPMFqGbs8yAtEbKcYd3e3U4Gal8PPx+a+PZueyZfZqcjZ8vDQUNdWX1fncg
- kgOCaOE1njxXF4yJqmcPl6oiDQ+G17lYhl66Jci59IMYDXppS3HYyXuNBcv8TRq361OPQalJd
- GYPye9TWKnQU6DKfj/nPqxfQfwremipKOCJD9xTj5DvfUluPhuk+DH8X+3xmB6mvv2WDIFyt9
- OSBEqkeRz0NCvtsFWn6fXjEeHfKvil+hlIwh8Zj0ED3/MTNuFwcyX0bhjvG048xENr07NTSi5
- F++8HwPY474A53WsiSMIgEWT+HUI2VnOiL62T286c5w4kTDq6zkAIBbMyv8ZG0bVosSRL542k
- aiurKB8Eqy8tdCvm/Lr9zgwuevMgLmsK8HQXPpI++I7Uy53U5dspESKC1wZyZRFg5yIE8Lj/M
- V3Kbr5mAe217YAL2wACAKwOYTyRgj4+LH0W+ZEZYMNdXexKhfP7fy45v0eYchHXCny21JpgjB
- FoPsTg9GyJ6xSwvDp2WG5ZYjVPOukFbMlb4KB39u2+5ai23DQ+B2rIbBkHfSTcZMTp3VsEyEK
- HZ8kF4e82ky4r6iYUL77UpD59n6n+oQ0+CDuaOdf107t3SJ+7hPHbqE6psM7lnib+DDCSveLP
- 1D0+3HIWSMgi7jII8FKKUVa080wbTfTrI6V++2ZJYDofPayKgdeNkJLGbhT1M7dke/hxmN8c8
- 1Brp2qOSPzTQ8Se5Eqiw==
-Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lBFVc-0006JM-G0; Sun, 14 Feb 2021 06:24:12 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:41296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lBFVa-0005Zo-Up; Sun, 14 Feb 2021 06:24:12 -0500
+Received: by mail-pg1-x535.google.com with SMTP id t11so2611598pgu.8;
+ Sun, 14 Feb 2021 03:24:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=9YFm4UhfZK2ZB3exhmFWkb03UDQ939ZUttahTpDxj0Q=;
+ b=TXqwUnhMI5Ncmo7qMN7/ZVblFG+ST0srEaI3UPYk7OBtpILN1iwX545ehk/YkJPFEq
+ otuXwWAxGjCDuzDljVSITEZO/+HmEA/IarowqogEwiTUxPEz2WCXFhMy0f5x1b7P9nCs
+ yNugA5AnW2ITTivxOmMt4DMLVlIRvX8HIoY1+h4s2ugqd2gjLDpzhk5jHkJPKxtrcq0I
+ J1qZ1r5IaYMCC84vXHwC1TfQVGiwsiV4IeFyrGB2LJwdcih73ydH60H3u+WOR4YDu7wq
+ ipBgMqERnOPvS/H8aVNTvJR6Qlf+B73cBpugDn9h6yNpP141/WPTiouIrFKvNG0c20YJ
+ unEw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=9YFm4UhfZK2ZB3exhmFWkb03UDQ939ZUttahTpDxj0Q=;
+ b=G1z9R8jbvSGZG6saaru8HjdM3+7v/i8/O1vlzP2yuM1fx7xxypuqflIY4Wjvj8V2Ra
+ lzeXnWO4fjZU35ljuZb9igwJHVXKZhTZodkbbcHVMnMNCjM+uA5UJDHb4OH1zWGkfXz1
+ mXzjw3MdA3SJ39yafXQegvb6vIlxA51l/6jYjB5p8cPNti81sq9vmVgVZ4U2z5rliGQM
+ AV1csohimmSqv4mDu3j5gdphtsZNoiagfzeuN1gujn4MbjB8KNYo+nZUstvmrdqrbEB7
+ 6ol+71zaG7rdR+y5+lSmN7ssIIPoRHVKT2MaOu042lmVFTvbWDF9w+hk5mODd6s0hLOx
+ RR2Q==
+X-Gm-Message-State: AOAM531FC/yJsrWCqrgXkeQct9y4Nst4Lz+3Gvu4c6Y5fVcYHvSxPFoc
+ 0kqV1hLzPG32NlZDGhpG6+IC8I/SYLG9vA==
+X-Google-Smtp-Source: ABdhPJy4EjKxdKe26GxtTRW9v77ZczrEs8uT1SBVC1r3wDCTLf3Arnqp13emCdQWMoWbrQNum4RhJg==
+X-Received: by 2002:a62:30c2:0:b029:1c5:242f:c925 with SMTP id
+ w185-20020a6230c20000b02901c5242fc925mr10967529pfw.7.1613301848722; 
+ Sun, 14 Feb 2021 03:24:08 -0800 (PST)
+Received: from localhost.localdomain ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id k24sm14802181pfg.40.2021.02.14.03.24.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 14 Feb 2021 03:24:08 -0800 (PST)
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Subject: [PATCH 0/2] hw/block/nvme: support ANA
+Date: Sun, 14 Feb 2021 20:23:58 +0900
+Message-Id: <20210214112400.26956-1-minwoo.im.dev@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,98 +76,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, lizhijian@cn.fujitsu.com,
- quintela@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org, chen.zhang@intel.com
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/ZGJLXUz9zYgI7ioD7_Jyo20
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-On Wed, 13 Jan 2021 10:46:32 +0800
-leirao <lei.rao@intel.com> wrote:
+This series is to support Asymmetric Namespace Access(ANA).
 
-> From: "Rao, Lei" <lei.rao@intel.com>
->=20
-> If we don't disable the feature of auto-converge for live migration
-> before entering COLO mode, it will continue to run with COLO running,
-> and eventually the system will hang due to the CPU throttle reaching
-> DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
->=20
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> ---
->  migration/migration.c | 16 +++++++++++++++-
->  1 file changed, 15 insertions(+), 1 deletion(-)
->=20
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 31417ce..6ab37e5 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1673,6 +1673,20 @@ void migrate_set_block_enabled(bool value, Error *=
-*errp)
->      qapi_free_MigrationCapabilityStatusList(cap);
->  }
-> =20
-> +static void colo_auto_converge_enabled(bool value, Error **errp)
-> +{
-> +    MigrationCapabilityStatusList *cap =3D NULL;
-> +
-> +    if (migrate_colo_enabled() && migrate_auto_converge()) {
-> +        QAPI_LIST_PREPEND(cap,
-> +                          migrate_cap_add(MIGRATION_CAPABILITY_AUTO_CONV=
-ERGE,
-> +                                          value));
-> +        qmp_migrate_set_capabilities(cap, errp);
-> +        qapi_free_MigrationCapabilityStatusList(cap);
-> +    }
-> +    cpu_throttle_stop();
-> +}
-> +
+`ana` parameter to the `nvme-subsys` device will turn all the
+controllers in the subsystem to support multipath I/O with ANA.  Once
+ana is enabled, `nvme-ns` device can have `ana.grpid` for the ANA group
+ID.  All this information will be reported as a log information via Get
+Log Page command of ANA page.
 
-I think it's better to error out in migration_prepare or migrate_caps_check
-if both colo and auto-converge is enabled.
+But, this is just for ANA state considered, not including any
+transitions for ANA states between controllers and namespaces.
+Therefore, the second patch introduced an interface to transite the ANA
+state for a given ANA group via HMP command.  `nvme_ana_inject_state`
+command will inject a given state to the given ANA group.
 
->  static void migrate_set_block_incremental(MigrationState *s, bool value)
->  {
->      s->parameters.block_incremental =3D value;
-> @@ -3401,7 +3415,7 @@ static MigIterateState migration_iteration_run(Migr=
-ationState *s)
->  static void migration_iteration_finish(MigrationState *s)
->  {
->      /* If we enabled cpu throttling for auto-converge, turn it off. */
-> -    cpu_throttle_stop();
-> +    colo_auto_converge_enabled(false, &error_abort);
-> =20
->      qemu_mutex_lock_iothread();
->      switch (s->state) {
+The following example breaks the path to the namespace(nsid=1) by
+chainging the ANA group(ana.grpid=1) state to INACCESSIBLE.  Once this
+state is injected by HMP interface, Asynchronous Event Notifier(AEN)
+will be reported to the host for ANA change.  Then host will read the
+log page again and find a path to the namespace(nsid=1) not through the
+`nvme0` controller: `nvme` controller will be taken.  Then all the I/O
+heading to namespace(nsid=1) will be routed to the `nvme1` controller.
 
+Example:
 
+  NVMe subsystem topology
 
---=20
+    -device nvme-subsys,id=subsys0,ana=true \
+    -device nvme,serial=foo,id=nvme0,subsys=subsys0 \
+    -device nvme,serial=bar,id=nvme1,subsys=subsys0 \
+    -device nvme-ns,id=ns1,drive=drv10,nsid=1,subsys=subsys0,ana.grpid=1 \
+    -device nvme-ns,id=ns2,drive=drv11,nsid=2,subsys=subsys0,ana.grpid=2 \
 
+  ANA state transition (HMP command)
 
---Sig_/ZGJLXUz9zYgI7ioD7_Jyo20
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+    (qemu) nvme_ana_inject_state nvme0 1 inaccessible
+    nvme0: ANA state inaccessible(3) injected
 
------BEGIN PGP SIGNATURE-----
+Thanks,
 
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmApANYACgkQNasLKJxd
-slixHg//Szdv+wrGi0Dy95B6HpazVR7VrJd2bAOEYZR2Y7FFZhVLKlWnZTyumW+b
-p6OGGggwRKoQslwffGbF7AwbJ7VAx3e3g35QsFcJP5cDRKJd2YgPk4GqnRydCw/6
-EoJGyiTjfgCrwwZKFo9VEwOFw4/iKC+t7gmKxogCF+qeuXT30LWLNp+dB2X37K17
-JUH0vTt93sUWzPy09Nn0PyxjyzJFDFANV+duIMcENkeWT0Q2Si9EmO2KljSSjQ8g
-XBnDVduTJOXIoYpol1zDlxA5mCctNIr/UvRQTpkZkLfMRxoOy1oCEJuyo3Ujkab8
-sH1kMNhxOtfjldZJx4wnEC0dHi71cKbdcIoG8HMNwuMARK7V5bWe06mD4zmUgvUk
-acyNiuQeTfCwu0e5b5fxwZWzvtxm3gfXPYAdN2w1pm3djwEKxUZP168LLDnbmr05
-7WyorDY/zR2FnAlBw8OBmWLo+axG93Q8VZQfN3o1E0YHoE62HzOz3CVfISHDj8z7
-mcPnUVNc6tRVzJzE0SJWTlrFA2LWkhdNiITSK9cwkqy6iqE0xyEZeEgXBKZ9HzTi
-VdA8DgS/iAS07TuEMxWCcGfK1v+CBceDdMXdmEo3UHa/OG8yG3ErdUk905fvJIru
-8gvG9RVG49Mo2iiapc5UH/Ux38g0N+c+NQKhjsyTfA/WOnQwwxo=
-=eXQF
------END PGP SIGNATURE-----
+Minwoo Im (2):
+  hw/block/nvme: support Asymmetric Namespace Access(ANA)
+  hw/block/nvme: add 'nvme_ana_inject_state' HMP command
 
---Sig_/ZGJLXUz9zYgI7ioD7_Jyo20--
+ hmp-commands.hx        |  13 +++
+ hw/block/nvme-ns.c     |  26 +++++
+ hw/block/nvme-ns.h     |   3 +
+ hw/block/nvme-subsys.c |   6 ++
+ hw/block/nvme-subsys.h |   6 ++
+ hw/block/nvme.c        | 240 ++++++++++++++++++++++++++++++++++++++++-
+ hw/block/nvme.h        |  26 +++++
+ include/block/nvme.h   |  51 ++++++++-
+ include/monitor/hmp.h  |   1 +
+ 9 files changed, 369 insertions(+), 3 deletions(-)
+
+-- 
+2.17.1
+
 
