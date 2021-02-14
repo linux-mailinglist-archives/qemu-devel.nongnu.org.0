@@ -2,62 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 556C831B0E9
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 16:19:01 +0100 (CET)
-Received: from localhost ([::1]:53912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0063431B0F4
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 16:34:10 +0100 (CET)
+Received: from localhost ([::1]:34878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBJAp-0004NO-TO
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 10:18:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36314)
+	id 1lBJPV-0000Vq-92
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 10:34:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBJ9X-0003u8-4U
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 10:17:39 -0500
-Received: from mail-oi1-f182.google.com ([209.85.167.182]:44228)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBJ9V-0000mu-JR
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 10:17:38 -0500
-Received: by mail-oi1-f182.google.com with SMTP id r75so5236478oie.11
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 07:17:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=b2Q2eK99u6mOKlAHpOq83Ss3p8q452IKHmvPKX9FG3A=;
- b=t2L7ZHhBGL0T0h8yRjVtuN0dJ6zo66XCk140TjGEYuZMFTyja29SpD417bzYfLy+dt
- U72Lg/Lq98KpRebkl0YqFUbOgHvwcyOwbt9NqGEsc7H6MFKJyA59uNLmykwN9M2tjP7k
- hklQGosXrR15XjQDDYNMnLhnQOTWqXcXZYRCwFiVPJnz5HzAxj4f9ifGCbfdJYkMX6JT
- ZGfpArGmZar1wRPwYUmQopHagWijZQIZMpHCROM3tHAb8IqDFnu0uJ/e/u5FnNAsdfQc
- H05NgrQPioj1SKFmYOdcXp9HtJx5kcJTIDYjjaMoiccsetDG3rIHxJGOqfp136pT0CG0
- +FPA==
-X-Gm-Message-State: AOAM533XPbDLwsOoWsxnmu62Fp9jwW7/Hnw6B8CrYi6vRY75a80bcpoF
- 43CQ751xtoqVtrNfu9YWEBxRgN8ZNy/PFeqnIE0=
-X-Google-Smtp-Source: ABdhPJzqypR3L14rfAOvZhVI8aHGLqb+LCWGf2siIfz9ANR1ayVFCHBdoSIbgInx9JWrkVfJYvu+RFeSyB9LqVcpIrM=
-X-Received: by 2002:aca:1a0a:: with SMTP id a10mr5849345oia.46.1613315855795; 
- Sun, 14 Feb 2021 07:17:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lBJHo-00075f-CA
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 10:26:12 -0500
+Received: from isrv.corpit.ru ([86.62.121.231]:33935)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lBJHm-0002yj-3G
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 10:26:12 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id E5F95403D8
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 18:25:57 +0300 (MSK)
+Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 81454DE
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 18:25:58 +0300 (MSK)
+To: qemu-devel@nongnu.org
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: RFC: linux-user: preserving argv[0] of the original binary in context
+ of binfmt-misc
+Message-ID: <27dfe8eb-adce-8db4-f28b-c42858b086db@msgid.tls.msk.ru>
+Date: Sun, 14 Feb 2021 18:25:57 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <cover.1541701393.git.noring@nocrew.org>
- <5bea109f0c140da6a821aa7f9705d4b3717e86dc.1541701393.git.noring@nocrew.org>
-In-Reply-To: <5bea109f0c140da6a821aa7f9705d4b3717e86dc.1541701393.git.noring@nocrew.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Sun, 14 Feb 2021 16:17:24 +0100
-Message-ID: <CAAdtpL4B-19ZrtkLcfY0PY7RUMrEVWsH310jZ6CGHB-K+nKCQQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] linux-user/mips: Support the n32 ABI for the R5900
-To: Fredrik Noring <noring@nocrew.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.167.182;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f182.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,24 +54,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?J=C3=BCrgen_Urban?= <JuergenUrban@gmx.de>,
- "Maciej W. Rozycki" <macro@linux-mips.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Nov 8, 2018 at 7:45 PM Fredrik Noring <noring@nocrew.org> wrote:
->
-> Recognise the R5900, which reports itself as MIPS III, as a 64-bit CPU
-> supporting the n32 ABI.
->
-> Signed-off-by: Fredrik Noring <noring@nocrew.org>
-> ---
->  linux-user/mips64/target_elf.h | 3 +++
->  1 file changed, 3 insertions(+)
+Hi!
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+As known for a long time, qemu's linux-user, when invoked in context of binfmt-misc mechanism,
+does not preserve the original argv[0] element, so some software which relies on argv[0] is
+not functioning under qemu-user.  When run this way, argv[0] of the program being run under
+qemu-user points to this qemu-user binary, instead of being what has been used to spawn the
+original binary.
+
+There's an interpreter flag in binfmt handling in recent kernels, P, or preserve, which meant
+to pass 3 extra first arguments to the binfmt interpeter, - namely, the path to interpreter
+itself, the argv[0] as used when spawning the original binary, and the actual path of the
+said binary. But qemu-user/main does not handle this situation, - it should be prepared for
+this unusual way of being invoked.
+
+There are several hackish solutions exists on this theme used by downstreams, which introduces
+a wrapper program especially for binfmt registration and nothing else, uses this P flag, and
+uses -argv0 qemu-user argument to pass all the necessary information to qemu-user.
+
+But these wrappers introduce a different issue: since the wrapper executes the qemu binary,
+we can't use F binfmt-misc flag anymore without copying the qemu-user binary inside any
+foreign chroot being used with it.
+
+So the possible solution is to made qemu-user aware of this in-kernel binfmt mechanism,
+which I implemented for Debian for now, as a guinea pig :)
+
+Since the original problem is the proper handling of programs which depend on their own
+name in argv[0], the proposed solution is also based on the program name, - this time
+it is the name under which qemu-user binary is called.
+
+I introduced a special name for qemu-user binaries to be used _only_ for binfmt registration.
+This is, in my case, /usr/libexec/qemu-binfmt/foo-binfmt-P - where "foo" is the architecture
+name, and "-binfmt-P" is the literal suffix. This name is just a (sym)link to /usr/bin/qemu-foo,
+- just an alternative name for qemu-foo, nothing more.
+
+And added a patch for linux-user/main.c which checks suffix of its argv[0], and if it ends
+up on the literal "-binfmt-P", we assume we're being called from in-kernel binfmt-misc
+subsystem with the P flag enabled, which means first 3 args are: our own name, the original
+argv[0], and the intended binary's path, and the rest are the arguments for the binary to
+run.
+
+At first I thought it is a hackish approach, and mentioned that in a comment in the code,
+but the more I think about it, the more I like it, and the more it makes sense.
+
+Here's the patch I used in Debian (it is not intended for upstream for now), - for comments,
+what do you think? At least it seems like a good step in the right direction, finally.. :)
+
+And we have another issue still, in the same field. Some programs executes itself by using
+/proc/self/exe. This does not work under linux-user too, since this link, again, points to
+the qemu binary, not the original binary being run. But this is a different story.
+
+Thanks,
+
+/mjt
+
+Subject: [PATCH, HACK]: linux-user: handle binfmt-misc P flag as a separate exe name
+From: Michael Tokarev <mjt@tls.msk.ru>
+Date: Sat, 13 Feb 2021 13:57:52 +0300
+
+A hackish way to distinguish the case when qemu-user binary is executed
+using in-kernel binfmt-misc subsystem with P flag (preserve argv).
+We register binfmt interpreter under name /usr/libexec/qemu-binfmt/qemu-foo-binfmt-P
+(which is just a symlink to ../../bin/qemu-foo), and if run like that,
+qemu-user binary will "know" it should interpret argv[1] & argv[2]
+in a special way.
+
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 24d1eb73ad..5596dab9be 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -560,6 +560,27 @@ static int parse_args(int argc, char **argv)
+          }
+      }
+
++    /* HACK alert.
++     * when run as an interpreter using kernel's binfmt-misc mechanism,
++     * we have to know where are we (our own binary), where's the binary being run,
++     * and what it's argv[0] element.
++     * Only with the P interpreter flag kernel passes all 3 elements as first 3 argv[],
++     * but we can't distinguish if we were run with or without this P flag.
++     * So we register a special name with binfmt-misc system, a name which ends up
++     * in "-binfmt-P", and if our argv[0] ends up with that, we assume we were run
++     * from kernel's binfmt with P flag and our first 3 args are from kernel.
++     */
++    if (strlen(argv[0]) > sizeof("binfmt-P") &&
++        strcmp(argv[0] + strlen(argv[0]) - sizeof("binfmt-P"), "-binfmt-P") == 0) {
++        if (argc < 3) {
++            (void) fprintf(stderr, "qemu: %s has to be run using kernel binfmt-misc subsystem\n", argv[0]);
++            exit(EXIT_FAILURE);
++        }
++        handle_arg_argv0(argv[1]);
++        exec_path = argv[2];
++        return 2;
++    }
++
+      optind = 1;
+      for (;;) {
+          if (optind >= argc) {
 
