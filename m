@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6E831AFC8
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 10:07:49 +0100 (CET)
-Received: from localhost ([::1]:47328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 645C331B026
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 11:54:46 +0100 (CET)
+Received: from localhost ([::1]:43948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBDNb-0001YD-Rz
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 04:07:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43080)
+	id 1lBF36-00026K-UW
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 05:54:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lBDLr-00010e-LD; Sun, 14 Feb 2021 04:05:59 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:41117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lBDLn-0002qT-DF; Sun, 14 Feb 2021 04:05:59 -0500
-Received: by mail-ed1-x533.google.com with SMTP id v9so335512edw.8;
- Sun, 14 Feb 2021 01:05:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=kvRofmg7/YjJn9lYF62NfW0huM3PJn/GGhXb2sVcmi8=;
- b=F+WOzJZdQkixMDuA19OsgTgf7qu+9lmeMcMkx3vczJ1833qCc4BccKCPBbLlgOWXa4
- bQVNbDMebAoftkwOBKkNt6Oj+/7qMRhAI99NMpHw1a5E4pbEyfsTRsQI4m/Gip+qV4pi
- JVnDeIL00UKuXKXdntTqfSUlFZXuZSuSAQ3Fa+ZevaewI9idJp/EAhZ7mtfAI6NQKxZt
- xXSAIxnAl66GzWHv0C5wiK1PvesJ+FGm+bAxUWm46jC6w8ikLXkpKbnJVrVGSG1u3XkG
- 2QVYRtjogDmNmBQmQRnDqqhwnvY3Zbf5mtn88uKbX3413OA83hDQ1eYZeOIE17r5wQkS
- Ff+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=kvRofmg7/YjJn9lYF62NfW0huM3PJn/GGhXb2sVcmi8=;
- b=qYQcIkyY+lFasiLeGvVdFrrqtjL8Ub2swMbUP04N+7c2P3qG1ButKIx82lrnZcjYb3
- h2VPJFIps6GeK6NzVXIeHdRcfERupMmPCri4zg+pWM7ZvW+9xauGOIfaKgUOCLSuKSJH
- PPVyHXUNPnMKCiLTboZXvLTgzcKx9+E7tcZ2mNTRadIcq6YJxMTjXpR0jFq/NVowqCkY
- tPDl5njsTCPVQkVJb8JA4OUDkoptctP6X8hJS91neFUW+z+sE40b+9sCh7wuYefvhGNh
- j0kx6YMfCWMsT1MSSD5/ApojgznQ5+g61TezgGOBCJovgYd2/fg86XxbGsYLpT5nNo66
- vB7w==
-X-Gm-Message-State: AOAM530es26lWzIKtevW1FGuR/O6q4uG4Gpjo1MGuR/vvVtztfiB+wcH
- yu9yiTm7LYxROsbyZIrPDZ86HB9PXMlHb4/Ncrk=
-X-Google-Smtp-Source: ABdhPJzCRCSL4SEYI+SJ2Cnu6tXOnMkaHU0QprOqAG00R9c4Udvc3j5vHKeAOfZVLv3bINCa/0CpUM6z2Vo0ISZE00U=
-X-Received: by 2002:a05:6402:4389:: with SMTP id
- o9mr10761131edc.164.1613293553075; 
- Sun, 14 Feb 2021 01:05:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lBF1F-0001Nl-0Q
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 05:52:49 -0500
+Received: from mout.web.de ([217.72.192.78]:58303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
+ id 1lBF1D-0005cF-4z
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 05:52:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+ s=dbaedf251592; t=1613299943;
+ bh=+bMCvSICiCPMkSwmkMSVIp3EfEzW9aHdqJrvkxZ6Tfw=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+ b=D6O87X4JiYuDflEFPxNovYWQhJIae9CtwnYTDtQwwjoCuHhCQ4lotXUA89QmH5vk/
+ ut9lKJWEREOpLkKL/AjFVqZ9X/K+Np+Eu0NATs5UEO8Z26ajCHS5ZUDLgWfQgjsw/K
+ RTwAcn5jQEcXAg77s77DA+3RiOzHDkPblBS3upQU=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from gecko.fritz.box ([88.130.61.128]) by smtp.web.de (mrweb106
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYLmq-1lP71p1yMs-00VNkV; Sun, 14
+ Feb 2021 11:52:23 +0100
+Date: Sun, 14 Feb 2021 11:52:06 +0100
+From: Lukas Straub <lukasstraub2@web.de>
+To: leirao <lei.rao@intel.com>
+Subject: Re: [PATCH 07/10] Disable auto-coverge before entering COLO mode.
+Message-ID: <20210214115206.7d851b22@gecko.fritz.box>
+In-Reply-To: <1610505995-144129-8-git-send-email-lei.rao@intel.com>
+References: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
+ <1610505995-144129-8-git-send-email-lei.rao@intel.com>
 MIME-Version: 1.0
-References: <5F96915D.2040102@huawei.com>
- <CAJ+F1CJT7SDt63ZyUAVCZhoYJ=Ep4KXF7MbcQJREaDHrTZXBeA@mail.gmail.com>
- <4a7adb06-c911-1d1b-631a-7cb06d39f89d@vivier.eu>
-In-Reply-To: <4a7adb06-c911-1d1b-631a-7cb06d39f89d@vivier.eu>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sun, 14 Feb 2021 13:05:40 +0400
-Message-ID: <CAJ+F1C+HVRieOFBvgU=SbKKDmOfuv0w=56dnt2fesGaXbMo2rQ@mail.gmail.com>
-Subject: Re: [PATCH 0/4] qga: Fix some style problems
-To: Laurent Vivier <laurent@vivier.eu>
-Content-Type: multipart/alternative; boundary="0000000000002649a205bb482d37"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; boundary="Sig_/ZGJLXUz9zYgI7ioD7_Jyo20";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Provags-ID: V03:K1:EfsYgDsyZVQp60Pd/hC2q7n+vIPlOUSI5wkRbOv8W/GHcF16jZQ
+ BeYQ3JCp2JXaj+HXFzB8QjeO/Ol6bc98GexUuNSnvnXNeSUKG5N1IfZfgy4rjRdKWp0RCAo
+ z6dhLcfl+SeuHFMfPM07FHUOuzscxnvEeUg6l6qBzpih0552x3E+DOWh4sRf0lIzBTcRDjx
+ Pms8niFHrEfMShBDnYKsg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+Euwbsli9lg=:Thm0Ap/RjLjDnn1CDc41UQ
+ HQdM1/poUXv6GOs2fBa4X5azrkzobFWbQEjDG2E7lNw7kvPDjh7Twnj3IKqNfecic8q+9Uh71
+ e0Y1+Q8f2MUL3cDCgpNly39HMmEux3ERNkm1aEOud+uASc1x0rRfiFJeyW4M/n2K/bhxAZcy/
+ YU4WlcrUiRD9stAPMFqGbs8yAtEbKcYd3e3U4Gal8PPx+a+PZueyZfZqcjZ8vDQUNdWX1fncg
+ kgOCaOE1njxXF4yJqmcPl6oiDQ+G17lYhl66Jci59IMYDXppS3HYyXuNBcv8TRq361OPQalJd
+ GYPye9TWKnQU6DKfj/nPqxfQfwremipKOCJD9xTj5DvfUluPhuk+DH8X+3xmB6mvv2WDIFyt9
+ OSBEqkeRz0NCvtsFWn6fXjEeHfKvil+hlIwh8Zj0ED3/MTNuFwcyX0bhjvG048xENr07NTSi5
+ F++8HwPY474A53WsiSMIgEWT+HUI2VnOiL62T286c5w4kTDq6zkAIBbMyv8ZG0bVosSRL542k
+ aiurKB8Eqy8tdCvm/Lr9zgwuevMgLmsK8HQXPpI++I7Uy53U5dspESKC1wZyZRFg5yIE8Lj/M
+ V3Kbr5mAe217YAL2wACAKwOYTyRgj4+LH0W+ZEZYMNdXexKhfP7fy45v0eYchHXCny21JpgjB
+ FoPsTg9GyJ6xSwvDp2WG5ZYjVPOukFbMlb4KB39u2+5ai23DQ+B2rIbBkHfSTcZMTp3VsEyEK
+ HZ8kF4e82ky4r6iYUL77UpD59n6n+oQ0+CDuaOdf107t3SJ+7hPHbqE6psM7lnib+DDCSveLP
+ 1D0+3HIWSMgi7jII8FKKUVa080wbTfTrI6V++2ZJYDofPayKgdeNkJLGbhT1M7dke/hxmN8c8
+ 1Brp2qOSPzTQ8Se5Eqiw==
+Received-SPF: pass client-ip=217.72.192.78; envelope-from=lukasstraub2@web.de;
+ helo=mout.web.de
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,122 +81,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: AlexChen <alex.chen@huawei.com>, qemu trival <qemu-trivial@nongnu.org>,
- Michael Tokarev <mjt@tls.msk.ru>, QEMU <qemu-devel@nongnu.org>
+Cc: zhang.zhanghailiang@huawei.com, lizhijian@cn.fujitsu.com,
+ quintela@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
+ qemu-devel@nongnu.org, chen.zhang@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002649a205bb482d37
-Content-Type: text/plain; charset="UTF-8"
+--Sig_/ZGJLXUz9zYgI7ioD7_Jyo20
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Wed, 13 Jan 2021 10:46:32 +0800
+leirao <lei.rao@intel.com> wrote:
 
-On Sun, Feb 14, 2021 at 3:20 AM Laurent Vivier <laurent@vivier.eu> wrote:
+> From: "Rao, Lei" <lei.rao@intel.com>
+>=20
+> If we don't disable the feature of auto-converge for live migration
+> before entering COLO mode, it will continue to run with COLO running,
+> and eventually the system will hang due to the CPU throttle reaching
+> DEFAULT_MIGRATE_MAX_CPU_THROTTLE.
+>=20
+> Signed-off-by: Lei Rao <lei.rao@intel.com>
+> ---
+>  migration/migration.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/migration/migration.c b/migration/migration.c
+> index 31417ce..6ab37e5 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -1673,6 +1673,20 @@ void migrate_set_block_enabled(bool value, Error *=
+*errp)
+>      qapi_free_MigrationCapabilityStatusList(cap);
+>  }
+> =20
+> +static void colo_auto_converge_enabled(bool value, Error **errp)
+> +{
+> +    MigrationCapabilityStatusList *cap =3D NULL;
+> +
+> +    if (migrate_colo_enabled() && migrate_auto_converge()) {
+> +        QAPI_LIST_PREPEND(cap,
+> +                          migrate_cap_add(MIGRATION_CAPABILITY_AUTO_CONV=
+ERGE,
+> +                                          value));
+> +        qmp_migrate_set_capabilities(cap, errp);
+> +        qapi_free_MigrationCapabilityStatusList(cap);
+> +    }
+> +    cpu_throttle_stop();
+> +}
+> +
 
-> Le 04/11/2020 =C3=A0 08:46, Marc-Andr=C3=A9 Lureau a =C3=A9crit :
-> >
-> >
-> > On Mon, Oct 26, 2020 at 1:16 PM AlexChen <alex.chen@huawei.com <mailto:
-> alex.chen@huawei.com>> wrote:
-> >
-> >     Fix some error style problems found by checkpatch.pl <
-> http://checkpatch.pl>.
-> >
-> >     alexchen (4):
-> >       qga: Add spaces around operator
-> >       qga: Delete redundant spaces
-> >       qga: Open brace '{' following struct go on the same
-> >       qga: switch and case should be at the same indent
-> >
-> >      qga/channel-win32.c  |  6 ++---
-> >      qga/commands-posix.c |  4 +--
-> >      qga/commands-win32.c | 28 ++++++++++-----------
-> >      qga/commands.c       |  4 +--
-> >      qga/main.c           | 59
-> ++++++++++++++++++++++----------------------
-> >      5 files changed, 50 insertions(+), 51 deletions(-)
-> >
-> >
-> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com <mailt=
-o:
-> marcandre.lureau@redhat.com>>
->
-> Where are the patches?
->
-> I don't find them in my mailbox and patchew didn't receive them:
->
-> https://patchew.org/QEMU/5F96915D.2040102@huawei.com/
->
->
-It was received on the mailing list:
-https://lists.gnu.org/archive/html/qemu-devel/2020-10/index.html
-(I got them in my mailbox as well)
+I think it's better to error out in migration_prepare or migrate_caps_check
+if both colo and auto-converge is enabled.
+
+>  static void migrate_set_block_incremental(MigrationState *s, bool value)
+>  {
+>      s->parameters.block_incremental =3D value;
+> @@ -3401,7 +3415,7 @@ static MigIterateState migration_iteration_run(Migr=
+ationState *s)
+>  static void migration_iteration_finish(MigrationState *s)
+>  {
+>      /* If we enabled cpu throttling for auto-converge, turn it off. */
+> -    cpu_throttle_stop();
+> +    colo_auto_converge_enabled(false, &error_abort);
+> =20
+>      qemu_mutex_lock_iothread();
+>      switch (s->state) {
+
+
 
 --=20
-Marc-Andr=C3=A9 Lureau
 
---0000000000002649a205bb482d37
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Feb 14, 2021 at 3:20 AM Lau=
-rent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Le 04=
-/11/2020 =C3=A0 08:46, Marc-Andr=C3=A9 Lureau a =C3=A9crit=C2=A0:<br>
-&gt; <br>
-&gt; <br>
-&gt; On Mon, Oct 26, 2020 at 1:16 PM AlexChen &lt;<a href=3D"mailto:alex.ch=
-en@huawei.com" target=3D"_blank">alex.chen@huawei.com</a> &lt;mailto:<a hre=
-f=3D"mailto:alex.chen@huawei.com" target=3D"_blank">alex.chen@huawei.com</a=
->&gt;&gt; wrote:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Fix some error style problems found by <a href=3D"h=
-ttp://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a>=
- &lt;<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">=
-http://checkpatch.pl</a>&gt;.<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0alexchen (4):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: Add spaces around operator<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: Delete redundant spaces<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: Open brace &#39;{&#39; following struct=
- go on the same<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: switch and case should be at the same i=
-ndent<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/channel-win32.c=C2=A0 |=C2=A0 6 ++---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/commands-posix.c |=C2=A0 4 +--<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/commands-win32.c | 28 ++++++++++---------=
---<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/commands.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
-=A0 4 +--<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0| 59 ++++++++++++++++++++++----------------------<br>
-&gt;=C2=A0 =C2=A0 =C2=A0=C2=A05 files changed, 50 insertions(+), 51 deletio=
-ns(-)<br>
-&gt; <br>
-&gt; <br>
-&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
-reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> &lt;mail=
-to:<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcand=
-re.lureau@redhat.com</a>&gt;&gt;<br>
-<br>
-Where are the patches?<br>
-<br>
-I don&#39;t find them in my mailbox and patchew didn&#39;t receive them:<br=
->
-<br>
-<a href=3D"https://patchew.org/QEMU/5F96915D.2040102@huawei.com/" rel=3D"no=
-referrer" target=3D"_blank">https://patchew.org/QEMU/5F96915D.2040102@huawe=
-i.com/</a><br>
-<br></blockquote><div><br></div>It was received on the mailing list: <a hre=
-f=3D"https://lists.gnu.org/archive/html/qemu-devel/2020-10/index.html">http=
-s://lists.gnu.org/archive/html/qemu-devel/2020-10/index.html</a></div><div =
-class=3D"gmail_quote">(I got them in my mailbox as well)<br></div><br>-- <b=
-r><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></di=
-v></div>
+--Sig_/ZGJLXUz9zYgI7ioD7_Jyo20
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
---0000000000002649a205bb482d37--
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmApANYACgkQNasLKJxd
+slixHg//Szdv+wrGi0Dy95B6HpazVR7VrJd2bAOEYZR2Y7FFZhVLKlWnZTyumW+b
+p6OGGggwRKoQslwffGbF7AwbJ7VAx3e3g35QsFcJP5cDRKJd2YgPk4GqnRydCw/6
+EoJGyiTjfgCrwwZKFo9VEwOFw4/iKC+t7gmKxogCF+qeuXT30LWLNp+dB2X37K17
+JUH0vTt93sUWzPy09Nn0PyxjyzJFDFANV+duIMcENkeWT0Q2Si9EmO2KljSSjQ8g
+XBnDVduTJOXIoYpol1zDlxA5mCctNIr/UvRQTpkZkLfMRxoOy1oCEJuyo3Ujkab8
+sH1kMNhxOtfjldZJx4wnEC0dHi71cKbdcIoG8HMNwuMARK7V5bWe06mD4zmUgvUk
+acyNiuQeTfCwu0e5b5fxwZWzvtxm3gfXPYAdN2w1pm3djwEKxUZP168LLDnbmr05
+7WyorDY/zR2FnAlBw8OBmWLo+axG93Q8VZQfN3o1E0YHoE62HzOz3CVfISHDj8z7
+mcPnUVNc6tRVzJzE0SJWTlrFA2LWkhdNiITSK9cwkqy6iqE0xyEZeEgXBKZ9HzTi
+VdA8DgS/iAS07TuEMxWCcGfK1v+CBceDdMXdmEo3UHa/OG8yG3ErdUk905fvJIru
+8gvG9RVG49Mo2iiapc5UH/Ux38g0N+c+NQKhjsyTfA/WOnQwwxo=
+=eXQF
+-----END PGP SIGNATURE-----
+
+--Sig_/ZGJLXUz9zYgI7ioD7_Jyo20--
 
