@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1C931B20D
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:41:51 +0100 (CET)
-Received: from localhost ([::1]:45692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA3331B213
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:45:33 +0100 (CET)
+Received: from localhost ([::1]:54364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBML8-000796-6e
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:41:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1lBMOh-0002ay-NO
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:45:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLid-0000pY-68
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:03 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:36702)
+ id 1lBLih-0000rs-QY
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:12 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLib-0004fF-LT
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:02 -0500
-Received: by mail-wr1-x436.google.com with SMTP id u14so6132318wri.3
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:01 -0800 (PST)
+ id 1lBLig-0004ff-FS
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:07 -0500
+Received: by mail-wr1-x436.google.com with SMTP id 7so6167303wrz.0
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mkWyAtTNih1SiLyNenBvY33a3fDFwrFdz2sJ8roLmlQ=;
- b=ld/Qv1fTQ8DagOv3MRhc+TdISAknasL8/TDDYKNbawhinUXIFhsz9/DBOiNxTVKBl3
- tsES6NQaEH/zl3vmsOTh5wNNt2QoQuTJPGSGBiQFDuViNLBos238L0uddl9iYbPmXczX
- MgbHOEGh+HYRC6ejS/mhHW6/+tNu/1I+3GhOzdm9eizvRvGTjAfv+S66Wgln0RD4CJ0C
- l0I4wDkp1GMap8A8OBUgErqC+vFGE2znxlKfgO1XvqrLFCzBOTtv/d5WUwb1KYyxL+Bg
- tk/CKs1b7v6S5B92YhyT8dh3kTyx00O2Uz13dHzh/eOmgaUNk86VhYJ9CEf8zmX/wRcw
- Xd9A==
+ bh=Twme+gWXDR778jC4YebnrwyqPShuK2VSIsTo2Civx54=;
+ b=VwmE/3r1M2iBkyrkmvuLhDibJN6OXHSVINP8i7r9044dgZHmXhQNj3f9wfPe+AWs7d
+ RXoD2pRw5RTUn+INffLlrk42WGf3wcd/A+knkNVHsP4Kj6pLojzJ6o5ZLl6NRqoDMqHD
+ rU74d/aUemUOUhXzQwtVf3xvD9SENZcOO/2h12CRYPdHq+rOc2aqkoRP+N1fh2aqEBd4
+ ECmeT4aKXXGZlFVwwb79pncqrDgdNEIE3whWyRT2XMV2IfYSRdXjXegQLdhiFqNEOfBD
+ z+yk4a1qkIfJn/9DOIPEagXqc7/0J5Lr8t7/4AAijcW4h1atsb7Bdiu6MyUZk8Ldd2fH
+ 7zxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=mkWyAtTNih1SiLyNenBvY33a3fDFwrFdz2sJ8roLmlQ=;
- b=JcT0RY3al1x4pJU5NtkknF1l+p36s4z0l0y6MbRq+/eNcKtNRTwXl5yQrBsRce0PsY
- d4Lk6J68oPnnIeVbxlrl3m18Okd8pg5DhhFAd/YH9pH1OEK23DcH8Pe9mPEmYkjMxam9
- DkzhOiTeQBH15Zjq0kAA9asDlNpQcaGSiLfR/LuHZtyu6KKQBvroggDPoyRMN2ip0YkD
- +SCSNUXFl3NVDKaYJgrhN4AQBKXCMqkDIMPVTmcViHd3KSDgtKnjcROyJtPNmCtSPS06
- zCwWJPzciYQN5Wf+/hWTxa37kK/rZ8HJ+nwtTZrJM++iCV5iQm1Y19/pJRpvOHuF7vtg
- tkNA==
-X-Gm-Message-State: AOAM532f1yzS5cQBxfa6BEFLcHBbwbNEKjH6ww315P/WKeavbVRth17e
- QZX6STYNSuwjudLyp5fK0lJX+VYTqL0=
-X-Google-Smtp-Source: ABdhPJyvfLPXKLBWmqD8mDDh/vxhoPLrVDdV1KxWa0ZGoCVR7YHQxortDd9p9RWEiRZ9+wBd9LfBhQ==
-X-Received: by 2002:adf:f206:: with SMTP id p6mr13576873wro.337.1613325720028; 
- Sun, 14 Feb 2021 10:02:00 -0800 (PST)
+ bh=Twme+gWXDR778jC4YebnrwyqPShuK2VSIsTo2Civx54=;
+ b=Di21yqM9UiXZknLIbUdHVWhW3/QEqKS2hd+u4q1vzIb8au7FJ4yGuBJr2Ckm/x3Pmf
+ i4pnyAeWTeuWjnmbT4jah9nAtUQGWvsBy6weCa7Z7quSLxDJZRWXdNhzFFAPaLB7sADp
+ DVWZZpyrNUhRT/1lKi1ZNzEZkAYstFE8ynSJ1XB21kLZcx5rtTsDva98IfkpIWIPNrIv
+ YX1Xwlbrr6U0uuPvIU82IDKmBAwGMxf+ZGCgwgxNPuyH915J53TYCMNgembI57QYsOt7
+ ObsrL+qirUePd3Y8eXblBQJmScePYm4HCgYcdcACA+ztxVkF0tDNI643EU322Iac4Ue2
+ TuIA==
+X-Gm-Message-State: AOAM532EQFQRpmrAVJne7+u8LQnNURw6UlNWIvFOFndkGzYzvwwNGPEt
+ xWW8MJJ19cpQHuBG8rvwoy1/knFzQ/E=
+X-Google-Smtp-Source: ABdhPJwrap/KMyoG7tgmtAtQVe2cC4NvXaIEDYyGbRp7pLiEY7sC5J9RuoVnCD3Tvstr9jpudWx9Gg==
+X-Received: by 2002:adf:e98d:: with SMTP id h13mr15198324wrm.246.1613325725056; 
+ Sun, 14 Feb 2021 10:02:05 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id l2sm21551953wmf.15.2021.02.14.10.01.59
+ by smtp.gmail.com with ESMTPSA id r124sm22218427wmr.16.2021.02.14.10.02.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:01:59 -0800 (PST)
+ Sun, 14 Feb 2021 10:02:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 33/42] gitlab-ci: Pass optional EXTRA_FILES when building
- docker images
-Date: Sun, 14 Feb 2021 18:59:03 +0100
-Message-Id: <20210214175912.732946-34-f4bug@amsat.org>
+Subject: [RFC PATCH 34/42] gitlab-ci: Build MIPS R5900 cross-toolchain (Gentoo
+ based)
+Date: Sun, 14 Feb 2021 18:59:04 +0100
+Message-Id: <20210214175912.732946-35-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
@@ -97,26 +97,31 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pass EXTRA_FILES to tests/docker/docker.py to use its --extra-files
-command line option.
+Add a job to build the Gentoo based MIPS R5900 cross-toolchain image.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- .gitlab-ci.d/containers.yml | 1 +
- 1 file changed, 1 insertion(+)
+ .gitlab-ci.d/containers.yml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 90fac85ce46..587bd4ba2e3 100644
+index 587bd4ba2e3..f441e608446 100644
 --- a/.gitlab-ci.d/containers.yml
 +++ b/.gitlab-ci.d/containers.yml
-@@ -16,6 +16,7 @@
-     - ./tests/docker/docker.py --engine docker build
-           -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
-           -r $CI_REGISTRY_IMAGE
-+          $(test -n "$EXTRA_FILES" && echo "--extra-files $EXTRA_FILES")
-     - docker tag "qemu/$NAME" "$TAG"
-     - docker push "$TAG"
-   after_script:
+@@ -152,6 +152,13 @@ mipsel-debian-cross-container:
+   variables:
+     NAME: debian-mipsel-cross
+ 
++mipsr5900el-gentoo-cross-container:
++  <<: *container_job_definition
++  variables:
++    NAME: gentoo-mipsr5900el-cross
++    EXTRA_FILES: tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
++  timeout: 1h 30m
++
+ powerpc-debian-cross-container:
+   <<: *container_job_definition
+   stage: containers-layer2
 -- 
 2.26.2
 
