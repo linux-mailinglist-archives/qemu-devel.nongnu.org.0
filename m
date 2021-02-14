@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B81F31B25E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 21:14:21 +0100 (CET)
-Received: from localhost ([::1]:42686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF29D31B293
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 21:58:48 +0100 (CET)
+Received: from localhost ([::1]:39530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBNmd-000370-MS
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 15:14:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60940)
+	id 1lBOTf-0007fB-D6
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 15:58:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBNli-0002gs-2W
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 15:13:22 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:40533)
+ id 1lBOSO-000730-PM
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 15:57:29 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:55482)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBNlg-0004gl-9F
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 15:13:21 -0500
-Received: by mail-pl1-x632.google.com with SMTP id z7so2566606plk.7
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 12:13:19 -0800 (PST)
+ id 1lBOSM-00004w-Mh
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 15:57:28 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id cv23so2541936pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 12:57:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=U/e5bxaIyRPDsKQFtAXbCjCjtRM9Ht8q4mMv4t35Nb8=;
- b=jYlxUDexbtVJHaOChY04IQiwkHNYKK23NBMusFq+wS1Q+QFpU9Z1I0LTrC901VMfBF
- aw7IYaQChYSedQ8gJG+5kOvVFBKj/SWCbxE1DbC8bYfcSmukY50/zkWvWfSMcF46rFSi
- YT3X+GXieS+Z4FROpcWeNrry60E+h9QKKRUJgbBXsPuuD3FlDrVJznW44ZKYNI7kOa22
- b+nLDuVyDHx9YJyj/56jgATlQgwH6hqWBJepUpA4bEg25Q5LAMQoefF/x1tBpY0MtABM
- B73gnURmHEzBGec3rnS+ADOLIX0RDE5xoNezZ0f0nD6V/KOHH+Gjs4h4YM+nlUvZSVZK
- 0W3A==
+ bh=DT0vJVKdojEgfL3RF7wvdqNsJ1WQuxbzKOLZxE1YSog=;
+ b=K5DcTCVbb5Bx06IQj/ag74lbf8E//4b1iNOK0lLF1ubAwTt9+EwiT20VFsxCRVFect
+ o1v6nHeoGXcXo07iC/pps++yu/6SCaKaT0qo4LJwsxt/ah3sWY4VUJc58G5HNnoBZbzb
+ x/in+VHV73pwDTY2G9kOCMWWG24CrJstw8Ypz90DqHR53+kkMBcBYy31rdJSkf9NUWHs
+ DuI+VpVHX22kHJzNZGeD1cH0RzJ+thFYPEOMnzFoFgjL0ZiI3Hcqwz9ALY9mQbI6a3iL
+ o0u09B7BtGtu70rSgp7rS/q3W7VL2raI3LYmbKCBevPtXaVosHYue/L7aZDr5LgS3wTs
+ lpNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=U/e5bxaIyRPDsKQFtAXbCjCjtRM9Ht8q4mMv4t35Nb8=;
- b=kcTmgrNt7RoAJRgbioB8zSfxppiEPgJaiU4cza6kPvMKWPI03Wwo0NWyjnnWZA0XIj
- EK2wh5q9uz/yKQKdXQmOTjVppJC8uNNZ1UoCfUyLAtQY6msKjmErQzdN/JUVzGTkV21d
- eL67zmpu2PLE7+5rsokOuqmsimNjqIK6A6mEEGe+Szh093syOL59v7hJ09lYnOK41ZFY
- 6saoPxmvynbiSCS5BCNWi3YAGSYp3VkObKAMv+R/B6GFfLv20hYOuE5UsSO7MCwaRvpC
- a7Ta2AMHy4P0e8rTzs1toew/S1kUMBf5p80eXJIFLqOotemR3tXe/bRuguSwut2a+2cQ
- dAXQ==
-X-Gm-Message-State: AOAM531FpGB6/DT15+BCiGHpoOJC0pDz+gkMd5Eil2/nxG/NxSkNR9ah
- DT968T4ixGQG1wljODKLZpaA2A==
-X-Google-Smtp-Source: ABdhPJzgRn4vbYCqF5TFY9iu5zJZqJ66kKa2MuUnnrNYYocJWQ8uk5vK4WIvNlVkS/p3STwIFrjWFg==
-X-Received: by 2002:a17:90a:c84:: with SMTP id
- v4mr12983114pja.228.1613333598811; 
- Sun, 14 Feb 2021 12:13:18 -0800 (PST)
+ bh=DT0vJVKdojEgfL3RF7wvdqNsJ1WQuxbzKOLZxE1YSog=;
+ b=moRGe9FoheE1ZoFWV6DGg4FYH9S42tChLMT55NTWyrhVKzc/hFT6XY5Rh1Zojeikw/
+ +2y4ZSJvEfqXRtCL+E1KpnVtDQCD/DmSA+jLjohVSr0CjfgBgr47qG0XCWIywGwK32IF
+ uJDOK3fSdV/3hZiaQW4erB+r7vc/ygMsaJxVp+7PgJfvYrCjH/M1QvDCD+rZbqqeet2Y
+ MeGqShyOAohKk0612uIqri5hdB4npofxc2lRIKEoGW/I1Qs1DBWLSeOqmS7WTcN4G0Qz
+ r/0u0bpPbMOCSPBC/gYTUjVE179f8iobB+zWDaRfgOm6uMlCTTOID8IZWJqOoOddOvQc
+ reZA==
+X-Gm-Message-State: AOAM532a1u7ng7WZeXTLixazFwwfzkJSGtHeJPM+gMaY/9JkEXPBedlE
+ fjgZqHND/xZsIsTexQyiXGKCjw==
+X-Google-Smtp-Source: ABdhPJzPvQYuYRBwYy0QmK1TLfgeDQ5SqagpfXvxDkJhtMDh1nOo5fJ9mf+x0e12SOeZKUlhC9083w==
+X-Received: by 2002:a17:90b:3781:: with SMTP id
+ mz1mr12932173pjb.178.1613336244977; 
+ Sun, 14 Feb 2021 12:57:24 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- g7sm15785335pgg.50.2021.02.14.12.13.17
+ s11sm15166686pfu.69.2021.02.14.12.57.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 12:13:18 -0800 (PST)
-Subject: Re: [PATCH v8 15/35] Hexagon (target/hexagon/arch.[ch]) utility
+ Sun, 14 Feb 2021 12:57:24 -0800 (PST)
+Subject: Re: [PATCH v8 16/35] Hexagon (target/hexagon/conv_emu.[ch]) utility
  functions
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-16-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-17-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3c036fc7-444f-6ea3-7b1c-2a42837fb5ac@linaro.org>
-Date: Sun, 14 Feb 2021 12:13:16 -0800
+Message-ID: <f0ff8663-9ea2-e8be-9123-4afffc41bad2@linaro.org>
+Date: Sun, 14 Feb 2021 12:57:22 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-16-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1612763186-18161-17-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,35 +96,29 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> +uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c)
+> +uint64_t conv_sf_to_8u(float32 in, float_status *fp_status);
+> +uint32_t conv_sf_to_4u(float32 in, float_status *fp_status);
+> +int64_t conv_sf_to_8s(float32 in, float_status *fp_status);
+> +int32_t conv_sf_to_4s(float32 in, float_status *fp_status);
+> +
+> +uint64_t conv_df_to_8u(float64 in, float_status *fp_status);
+> +uint32_t conv_df_to_4u(float64 in, float_status *fp_status);
+> +int64_t conv_df_to_8s(float64 in, float_status *fp_status);
+> +int32_t conv_df_to_4s(float64 in, float_status *fp_status);
+
+You need to either use the normal float conversion routines, or document what
+the differences are.
+
+> +static uint64_t conv_f64_to_8u_n(float64 in, int will_negate,
+> +                                 float_status *fp_status)
 > +{
-> +    uint64_t tmpa, tmpb, tmpc;
-> +    tmpa = fGETUWORD(0, a);
-> +    tmpb = fGETUWORD(0, b);
-> +    tmpc = tmpa + tmpb + c;
-> +    tmpa = fGETUWORD(1, a);
-> +    tmpb = fGETUWORD(1, b);
-> +    tmpc = tmpa + tmpb + fGETUWORD(1, tmpc);
-> +    tmpc = fGETUWORD(1, tmpc);
-> +    return tmpc;
-> +}
+> +    uint8_t sign = float64_is_neg(in);
+> +    if (float64_is_infinity(in)) {
+> +        float_raise(float_flag_invalid, fp_status);
+> +        if (float64_is_neg(in)) {
+> +            return 0ULL;
 
-I presume this is intended to compute carry-out from 64-bit addition with carry-in?
-
-    uint64_t r = a + b;
-    return c ? r <= a : r < a;
-
-> +static const int softfloat_roundingmodes[] = {
-
-FloatRoundMode
-
-> +static float32 float32_mul_pow2(float32 a, uint32_t p, float_status *fp_status)
-> +{
-> +    float32 b = make_float32((SF_BIAS + p) << SF_MANTBITS);
-> +    return float32_mul(a, b, fp_status);
-> +}
-
-This is float32_scalbn.
+This isn't right for will_negate.
 
 
 r~
