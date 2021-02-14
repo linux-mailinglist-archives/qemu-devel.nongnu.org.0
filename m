@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BF931B20E
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:42:20 +0100 (CET)
-Received: from localhost ([::1]:47882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE6731B215
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:46:45 +0100 (CET)
+Received: from localhost ([::1]:56434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMLb-0008G5-Lf
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:42:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37630)
+	id 1lBMPs-0003SX-P3
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLus-0007m4-NR
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:14:46 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42346)
+ id 1lBLxV-0001xc-2X
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:17:25 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:38376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLuq-0005x2-Tc
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:14:42 -0500
-Received: by mail-wr1-x429.google.com with SMTP id r21so6123754wrr.9
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:14:40 -0800 (PST)
+ id 1lBLxT-0006M4-PH
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:17:24 -0500
+Received: by mail-wr1-x434.google.com with SMTP id b3so6158424wrj.5
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:17:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=XIxvwItIBELzFYWM7Y5KpKLFfHFEGbonG7wcMyzKJPA=;
- b=fdfhvHMh3pdH4EB+FsQaQW+9YSu1hLVBrJmvXuArW9lp+zlo+gG8HSbn2dywBW9Vhh
- OPY5Vn6RK9SRn68fGu5I6fQVEpdTx3MnB/X9KIWG5ApPi7KF2513svb/7lEC6MTFjkLk
- ZXNvgNlbebhG1EuqCyXvq1QZA3tv24zZL6i2BOc4R/DnlczcBnovnJFeXGRBIkAQ9ucn
- r1cODtEdHPmWK1y1FPtCmhkJW72Xnu+Ei3QT14EHho5uvp2RZ0AICBlPu8Pq3Rd64OYH
- //Zr/lFx2LQkN/F9AkcxYVD/rNx0EQnCeVoIfJEF/mS7Ho6FoeBmJyQ7WdHg6Phd/mqU
- Xp6A==
+ bh=gAV9dhSmD8XPDhHarK0arlCMTLOuk2R9uOOKR4h5qX0=;
+ b=rGuD63dNMc3jaYdxW50/bZFrSgko/sZ84bFOq1zkh8RmbE5QfwTJ+cXjzPFtl74wFd
+ kglsc9yn9nu6KtPAjJ92WpQ3xAOWkRjFUW00Dvvoio/beVpC9L/XTuMWooFEV8Ek7ejz
+ jD+AylNVUXiWPwfu3t5pLTLxDMX9Sv4iNhMGleeboHZj6D4lUJvk5iyg0CILfIRXsuOy
+ Z2alT6ssZ6ttykCgdP9R9i3Uw9jyis2WWU1J7SpHRiXAzG6FupHl2wTXn27ci+9pxBXp
+ 2XQTxpXtFUNjJQpHqys4pprl7R7hQCrbL9QoasbPaLDMkecU+ph9WhJ0HU3X0hr8sGYY
+ BU+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=XIxvwItIBELzFYWM7Y5KpKLFfHFEGbonG7wcMyzKJPA=;
- b=OZ+gv/zoy8cnxD6xfYhGpPp7hvxH+8C3xAwMDIowfyI/dTF9Ns7ei7XekJWHbBVJ0+
- GhcKhKU1dpMMwd0w3vH8xk7s58uBFNKLuUsPC/9vPOcttzDRrP/OmQevn7bvPPT21Qsl
- BFkLZEvPgD53pq1qVv3G27ELiXWp5xN32j1l1SfTdtHH5BOOrVix45y870j6RkwI3Fu3
- bta7SNdLIGig2rXsSeMGXC3dyT8Hmr0usmKbJl2fMiYcPF+odKh/6BUIsIY+4fWL+MUv
- wZRuzNThu7bs8Q6G979tmeKqDx1HHJv35RGjUg4AXiXKGP5EDYCRyJSRfNfqtaV/o/AX
- 7xeg==
-X-Gm-Message-State: AOAM530FhINYZHSvsBIvWVYrW/FGybOHTOqarqWs9jTyYc23gvCHGq8i
- +Rr7Urpt5JJwOOmd3uDEUvU=
-X-Google-Smtp-Source: ABdhPJys5EX2McA0mrxh/Yw2V4w29fNfPsHNJPNnJGQjcNR2rVY8hHX/IV90uP52DWDDjoN+wyxnJA==
-X-Received: by 2002:adf:ec8b:: with SMTP id z11mr12399234wrn.374.1613326479080; 
- Sun, 14 Feb 2021 10:14:39 -0800 (PST)
+ bh=gAV9dhSmD8XPDhHarK0arlCMTLOuk2R9uOOKR4h5qX0=;
+ b=kQCWLSqscrLfkqeT1tXmoUgRt9NWdT7UbNStV2AyIDCcVvPpuz0EcfXIOrz2F1talt
+ Ag8AL2hLKDmwUrP19zr3xiDJIDi36gESFXQ7PErZxxkiw3E5wyBAzQSTnOux7THAV1WJ
+ Z6Tv3wJ+CD7FzUZEzJS1+sWngOdX2kP3ulFIfVYutExRCAW50EqDt+3ze8+VozqhbkZk
+ uJPspZeiZBYcJlats4aPF5WhDDteewRXbdIHbqtnF2Izs+WMrRVpYuEzKWv9wZfJ1qlI
+ VqSiU6+v6EvvH6xVExdwS2obYBv8hBCUKTFPHRY9zdgEDQBtajrGGIuP6hidxjkX+tHW
+ qGQA==
+X-Gm-Message-State: AOAM531WdjM7pOXYfxLOyJGrm1hYn8G21v5abnZMniOGJbITySikzxJg
+ LkVxn9OfutI32e3bUMILxDXh8MwCUDI=
+X-Google-Smtp-Source: ABdhPJwwPF2hvSMyK8A2tOlcMA26ba4+zrPIqg7CtUf86xqGnd4gE0S9uccdKwZFOP4qpoA+CMkvvw==
+X-Received: by 2002:a5d:6181:: with SMTP id j1mr14711356wru.11.1613326642419; 
+ Sun, 14 Feb 2021 10:17:22 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o17sm19828325wrm.52.2021.02.14.10.14.38
+ by smtp.gmail.com with ESMTPSA id x18sm1583892wro.66.2021.02.14.10.17.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 10:14:38 -0800 (PST)
-Subject: Re: [PATCH v8 31/35] Hexagon (tests/tcg/hexagon) TCG tests - multiarch
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-32-git-send-email-tsimpson@quicinc.com>
+ Sun, 14 Feb 2021 10:17:21 -0800 (PST)
+Subject: Re: [RFC PATCH 01/15] qemu/int128: Add int128_or
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201021045149.1582203-1-richard.henderson@linaro.org>
+ <20201021045149.1582203-2-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8d217fd6-e37f-3b03-069a-547152ab1cfc@amsat.org>
-Date: Sun, 14 Feb 2021 19:14:37 +0100
+Message-ID: <6353c5f1-6e08-ad2e-7c09-beb6203c53c7@amsat.org>
+Date: Sun, 14 Feb 2021 19:17:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-32-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20201021045149.1582203-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,26 +89,15 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, alex.bennee@linaro.org, richard.henderson@linaro.org,
- laurent@vivier.eu, bcain@quicinc.com
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 6:46 AM, Taylor Simpson wrote:
-> Enable multiarch tests for Hexagon
-> Modify tests/tcg/configure.sh
-> Add reference files to tests/tcg/hexagon
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+On 10/21/20 6:51 AM, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tests/tcg/configure.sh            |   4 +-
->  tests/tcg/hexagon/Makefile.target |  30 ++
->  tests/tcg/hexagon/float_convs.ref | 748 +++++++++++++++++++++++++++++++++++++
->  tests/tcg/hexagon/float_madds.ref | 768 ++++++++++++++++++++++++++++++++++++++
->  4 files changed, 1549 insertions(+), 1 deletion(-)
->  create mode 100644 tests/tcg/hexagon/Makefile.target
->  create mode 100644 tests/tcg/hexagon/float_convs.ref
->  create mode 100644 tests/tcg/hexagon/float_madds.ref
+>  include/qemu/int128.h | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
