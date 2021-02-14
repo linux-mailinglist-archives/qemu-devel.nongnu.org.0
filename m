@@ -2,60 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DC031B186
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 18:24:27 +0100 (CET)
-Received: from localhost ([::1]:56848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D9731B18A
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 18:28:30 +0100 (CET)
+Received: from localhost ([::1]:39592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBL8E-0005OC-PG
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 12:24:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55280)
+	id 1lBLC9-0001hA-OU
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 12:28:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBL79-0004x4-MB
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:23:19 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:46719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBL78-0007zH-1K
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:23:19 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mvs2R-1m3ZxO2b5D-00sxHz; Sun, 14 Feb 2021 18:22:57 +0100
-Subject: Re: [PATCH 1/2] linux-user/mips: Support the n32 ABI for the R5900
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Fredrik Noring <noring@nocrew.org>
-References: <cover.1541701393.git.noring@nocrew.org>
- <5bea109f0c140da6a821aa7f9705d4b3717e86dc.1541701393.git.noring@nocrew.org>
- <CAAdtpL4B-19ZrtkLcfY0PY7RUMrEVWsH310jZ6CGHB-K+nKCQQ@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <b2bb8e01-ec38-a2c6-9b7b-f96d811b6b75@vivier.eu>
-Date: Sun, 14 Feb 2021 18:22:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBL9c-0007nw-Sb
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:25:52 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:53386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBL9b-0008PD-Cj
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:25:52 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id nm1so2374662pjb.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 09:25:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FPQNVusWjm973n3xT0RkMQE88t4ve5gnP7mPrQ1ACiM=;
+ b=B7g2lkcSLzrXBjrlPYg+T0+fSJBM5/QY9mhWVY+IqhPG0wTVFDa0J+XJm1Gb9lx9pa
+ FNfKGUnHMHQ35vG8fjLGfI+r2l9Y7PuwF1PsskEukg7GHgrJpGh17D7QV4CYqkpjMvCp
+ beOdw9lh4nlJcAr7x0q7cVuxPLql4uh5qKZYkQMY/D0WMUVEPsEvRw+fzPRoZGHW3mgc
+ 5dKpibpLRxuYju4SpNa6HOF/5dkpNB07DSwkpxZrT9b2l/TxzKskLdgUJ6AkpUOaXTLF
+ QPYeapKzMVlU0gHJagv61AAM4OJE0oQ1sRsIMIiqxRFU4rg8oNli+nYyHrlCLmzbWQOd
+ 913Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FPQNVusWjm973n3xT0RkMQE88t4ve5gnP7mPrQ1ACiM=;
+ b=a4GkPsTeLAXbh10YCPITL4mmB4W7Fn0XVM5MyHJHK6A+VzRBarUxBpXTbby3kQic5u
+ l2L11+LFijZFHfG1+9fjdlPCcEYaxkURkbICrP9ESZUC5BdpElIaTFjOAzT9kSUSI550
+ SZb6JE8i+IoqJxwZWqiDwSzvm0lgoz92HOVtlztSjz75xpCmkPoxh0Kttlcjot0NkKXZ
+ GcA8Y6Zhb4VyN2ObXu0UcrX7S/QyGbs3zo/sltaQtlMp7K/ddmhLEWikkSLvugtaEcOq
+ cmFSyH758n7YpduDVqlQnIIgKHFrYcGyKFAcS/88jk/ZaQF7hdCW5XUJMisfsjmCbkvB
+ iOLQ==
+X-Gm-Message-State: AOAM531LaG2wIOYxIoDCRN5NeSEz24xu1h6yVPmpKQ0/32FPWNHZ8ETQ
+ 5Jo0lfbvACqM1VIHtuoXtv2/fg==
+X-Google-Smtp-Source: ABdhPJzD/9RclB2jorCMwx+nkR202rx420nj0D18BVD32cMocmqwggM7aPpM7Njq3nXt4C/02hQ6Jw==
+X-Received: by 2002:a17:902:9341:b029:e1:7b4e:57a8 with SMTP id
+ g1-20020a1709029341b02900e17b4e57a8mr11664341plp.34.1613323549884; 
+ Sun, 14 Feb 2021 09:25:49 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ t25sm15434507pgo.87.2021.02.14.09.25.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 14 Feb 2021 09:25:49 -0800 (PST)
+Subject: Re: [PATCH v8 11/35] Hexagon (target/hexagon) register fields
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-12-git-send-email-tsimpson@quicinc.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <3c6b4f4d-ba57-2164-f64e-d50727a8b993@linaro.org>
+Date: Sun, 14 Feb 2021 09:25:47 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL4B-19ZrtkLcfY0PY7RUMrEVWsH310jZ6CGHB-K+nKCQQ@mail.gmail.com>
+In-Reply-To: <1612763186-18161-12-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EmRZff9cvnzHOh68QV8mLoYaUdhbysfjoN/jvnLZ7SHX43reoMy
- ap8X+FSO35fPCTh83zLg2Ck2bNBC/3aSaTybDevekp46a0bxpnfmC9cK/B12Ms9UF5Apk7h
- 896WB5LV2s9k+GXh4T8E/h5cChLgfuLcUzfTOMHvW/Ws0j3Z7ldXwZZmTpIfaHXOJYngFjR
- Zw/GnuY4nqq73aCYy++5Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ngPpJpUXwcI=:QXJ9hbH1jgCMZieKDyKpbn
- 5cJ/qIV+aCbD18oMJ1mMPUoH+iRaumw5/F+YqdT+UGsJ1/gxr1YIXSEA4AUyh16sYi3OEd3ut
- 4f/JqDr8iL4vZ0dsBOPkKwG2rNwPolQQxJpBrK0BJyavC6sx/7/iZTioehpb0bz7NPV3Pu6rY
- L/PxBCyBAsowCHCGyTahF5CSxClziOctUR5BAxTKRSXjmKnGagsRAFDrUvt1Av322uQvUNujT
- XoUpJbzPRdzIxIlbuTJzyEgTdmTaAN2Da+5+vIkhSBB0K3kGuB9yWZdA/o/bhV1BkzmuPwl4M
- lhBeMPFalky2N1X0zbIFglZL1YEF+K33Uv6//pDcVyOJLeE+RRIuCEyqyFL8sYa0wa7KjPPSe
- IaIUKcRJSIhlcQCadr3V7xA+ebEvj95qdcPkooQmC3YGbsOb0yDhGpm+lzO53M8Y4+R2w/sC0
- eR/btbbbsg==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,30 +89,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?J=c3=bcrgen_Urban?= <JuergenUrban@gmx.de>,
- Aleksandar Markovic <amarkovic@wavecomp.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: ale@rev.ng, alex.bennee@linaro.org, philmd@redhat.com, laurent@vivier.eu,
+ bcain@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 14/02/2021 à 16:17, Philippe Mathieu-Daudé a écrit :
-> On Thu, Nov 8, 2018 at 7:45 PM Fredrik Noring <noring@nocrew.org> wrote:
->>
->> Recognise the R5900, which reports itself as MIPS III, as a 64-bit CPU
->> supporting the n32 ABI.
->>
->> Signed-off-by: Fredrik Noring <noring@nocrew.org>
->> ---
->>  linux-user/mips64/target_elf.h | 3 +++
->>  1 file changed, 3 insertions(+)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
+On 2/7/21 9:46 PM, Taylor Simpson wrote:
+> +const RegField reg_field_info[] = {
+> +#define DEF_REG_FIELD(TAG, START, WIDTH)    \
+> +      { START, WIDTH },
+> +#include "reg_fields_def.h.inc"
+> +      { 0, 0 }
+> +#undef DEF_REG_FIELD
+> +};
 
-Applied to my linux-user-for-6.0 branch.
+What is the purpose of the 0,0 entry?  Surely you don't actually reference
+reg_field_info[NUM_REG_FIELDS]?
 
-Thanks,
-Laurent
+You could also annotate the declaration and definition of reg_field_info with
+the array size:
+
+extern const RegField reg_field_info[NUM_REG_FIELDS];
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
