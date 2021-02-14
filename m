@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB9231B1C3
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:03:59 +0100 (CET)
-Received: from localhost ([::1]:41600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F94531B1C7
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:07:30 +0100 (CET)
+Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBLkU-0001Fm-5A
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:03:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33250)
+	id 1lBLnt-0005Uo-88
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:07:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLgN-00073t-Ly
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:43 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51914)
+ id 1lBLgS-0007BQ-UH
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:48 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:55105)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLgM-0004Eg-9Y
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:43 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id r5so972824wmp.1
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 09:59:41 -0800 (PST)
+ id 1lBLgR-0004FD-1J
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:48 -0500
+Received: by mail-wm1-x332.google.com with SMTP id w4so4199329wmi.4
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 09:59:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Q6CNX5Kr5ou+lQ+Lg6GCrWhdQH/cff3hYwGEFQXfNvI=;
- b=nK7n1LV4o5dnc6aV9bEfLTmWJmi9aMEJi0UmjXjoiD/wkazzyIni6SShSN+SBwYJKR
- JIKMN/nyUYtUI3EvolYX2dwLv1kgpUgVMjyhJRoINFvYGUZaRyhD2HOnhAfDJ6UUZxmy
- /H8lD240iw9XanU4frF8ejf3Kut0ccpyz25wx5F7zUMDwtQgqt2xEKPTUSk/ZJ1rmrSG
- cVAntk2kt6DQxW19P8txK7V1bTfWP8AvKAobKFgc4eLFBvXP+vdv8C8rQyaOcdqH2OrM
- rqORGZS8cjzZabMPqsFREakeFx2BDMxQtpNQh0uFGYfNjAMgX2T9ONUgOhD2xPiPAn7v
- 7YkA==
+ bh=5iC/ffrrmyVLY0EDOJ/UkLv4vuk3u7VA9Ue4o0gxHXk=;
+ b=k/nhZ3n6V9zl28eL4Q0Nf+yLWMsIrqEBA5Oi34wtYHKKL9aLrnj2kcY21H4QjoOLnx
+ 6507KeP4q6mIMTZDLVrkcSTGJFl7d3DDDTnhjsMpudoxw9ASnpL4dL8y7IT4ox/lNeUE
+ wbfsEWB6DEJM4zjrL/4XlA2hIwY41ezdpkHCTQXOufaJDeK4YXQeG7VxpnCTPfwpF4sm
+ NiWmrW2kgCdooH0luTbAEyk46Z0OWK45nGNwTqzcejizVKIBn8GvMIO5Usc1QxKDF1q/
+ Phdmi9Khz5VBJ06s2z4i9cFhO2bR6oYoXPr3AY6cc6iKHgy5/BqicHc+NFlLyQe+huVc
+ ki1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Q6CNX5Kr5ou+lQ+Lg6GCrWhdQH/cff3hYwGEFQXfNvI=;
- b=pSjV5/PKTaQ11ng4EU6ftD6scoJ4p6lRHHbZxIrtEFi+QCnpNHAXVXyHeMlBYP/Kgj
- 4cRw8LVp5ST1UinV4+wnFl2xCm5iZR9ugs2cBy2p8q8qPO1fAEriDMtedbwvsPFCzIdH
- SmuI9xhADmUIvjeOMF8NVHZKoG7QAL1wfVoVv7FenQSWX5vmpvnOZqpgiqIHS0eFLKzH
- +8GAgvGRdl7slYOXV8E0o8l6KzkumAgtIKVGG2TMLiwIsi6apt2Rlgw6+udFNYEa7fnM
- pvVQ8TAZKgw7Pmsa4/JLVrmlpoRhlvHmxD1uv8YyeSS5cx1kmSnX8Q9i/4uC4u5E93K3
- /hrQ==
-X-Gm-Message-State: AOAM5316ms9Ch58xkCuz7cv2ob39lj514AnpSt/WALhZT57PyMKfgfvF
- K9KFmC51v4i45/bf60qiPUQXW/B1yqg=
-X-Google-Smtp-Source: ABdhPJzCq/Iylo8j8O/9rAR4Fz8/p1HWglFZgdnXrBkMMzZFq6Vu39S9adpEG0GJ22oWqrQ27xMbHw==
-X-Received: by 2002:a1c:770e:: with SMTP id t14mr11386933wmi.45.1613325580751; 
- Sun, 14 Feb 2021 09:59:40 -0800 (PST)
+ bh=5iC/ffrrmyVLY0EDOJ/UkLv4vuk3u7VA9Ue4o0gxHXk=;
+ b=Nl+VoskG7VaWVGUCVu1DFrjEGa0Z3AdsH+Slg77kx8LvcYcpkZwlj7uQvOhI3y3s7m
+ tjGpajwbXx4HDdPFe4ZGEXZUDd+9+EstZqDGercjp0UYcI+lWAXWRNy2hXNCHEVl7Nld
+ yK48X1IISIIO+PNUxaJ0GHxP4YXOWqKtedrSA7So2uP+z3qw2ZHhylZGCTKR/CvZVU2B
+ fdEu3Z2tWkmhLOh8+q/i5XSweoSaqr6jGdhwByJ/h/0LUeePO7CNaAjV8Vd2IUYKyM9A
+ H+RQsKJ98NKidI0ZXl6x86+NGdlnFH6NvyfgOxXJzrF669cxmB51rzbqgvP7nL0eoebG
+ G8Ow==
+X-Gm-Message-State: AOAM533OME7D7u2VTzBx+LugLwE8pk9G2f+n/CcW6n0GNdH8Wh/OiKFJ
+ HBQrZAIQHtTsFt1KovG711zPMbHXV50=
+X-Google-Smtp-Source: ABdhPJwx2RJ8pNLUw5R+K15D7lp+2uBOVt4SUUpS1JOihS6n9apVrMTK2I8G3/X3bgV7mFCWObYYGw==
+X-Received: by 2002:a7b:c5cc:: with SMTP id n12mr10929618wmk.123.1613325585575; 
+ Sun, 14 Feb 2021 09:59:45 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id m13sm1444951wmc.22.2021.02.14.09.59.39
+ by smtp.gmail.com with ESMTPSA id t6sm11181283wrn.96.2021.02.14.09.59.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 09:59:40 -0800 (PST)
+ Sun, 14 Feb 2021 09:59:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 05/42] target/mips: Rename 128-bit upper halve GPR
- registers
-Date: Sun, 14 Feb 2021 18:58:35 +0100
-Message-Id: <20210214175912.732946-6-f4bug@amsat.org>
+Subject: [RFC PATCH 06/42] target/mips: Introduce gen_load_gpr_hi() /
+ gen_store_gpr_hi() helpers
+Date: Sun, 14 Feb 2021 18:58:36 +0100
+Message-Id: <20210214175912.732946-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,33 +97,56 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TCG displays the upper halve registers with the same name
-as their lower halves. Rename the upper halves with the
-'[hi]' suffix.
-
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/mips/translate.h |  4 ++++
+ target/mips/translate.c | 18 ++++++++++++++++++
+ 2 files changed, 22 insertions(+)
 
+diff --git a/target/mips/translate.h b/target/mips/translate.h
+index 3014c20cadb..468e29d7578 100644
+--- a/target/mips/translate.h
++++ b/target/mips/translate.h
+@@ -131,6 +131,10 @@ void gen_move_low32(TCGv ret, TCGv_i64 arg);
+ void gen_move_high32(TCGv ret, TCGv_i64 arg);
+ void gen_load_gpr(TCGv t, int reg);
+ void gen_store_gpr(TCGv t, int reg);
++#if defined(TARGET_MIPS64)
++void gen_load_gpr_hi(TCGv_i64 t, int reg);
++void gen_store_gpr_hi(TCGv_i64 t, int reg);
++#endif /* TARGET_MIPS64 */
+ void gen_load_fpr32(DisasContext *ctx, TCGv_i32 t, int reg);
+ void gen_load_fpr64(DisasContext *ctx, TCGv_i64 t, int reg);
+ void gen_store_fpr32(DisasContext *ctx, TCGv_i32 t, int reg);
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index ab9b0999c93..9c034c934d5 100644
+index 9c034c934d5..16a731d3f37 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -29289,10 +29289,12 @@ void mips_tcg_init(void)
-     cpu_gpr_hi[0] = NULL;
- 
-     for (unsigned i = 1; i < 32; i++) {
-+        g_autofree char *rname = g_strdup_printf("%s[hi]", regnames[i]);
-+
-         cpu_gpr_hi[i] = tcg_global_mem_new_i64(cpu_env,
-                                                offsetof(CPUMIPSState,
-                                                         active_tc.gpr_hi[i]),
--                                               regnames[i]);
-+                                               rname);
+@@ -2291,6 +2291,24 @@ void gen_store_gpr(TCGv t, int reg)
      }
- #endif /* !TARGET_MIPS64 */
-     for (i = 0; i < 32; i++) {
+ }
+ 
++#if defined(TARGET_MIPS64)
++void gen_load_gpr_hi(TCGv_i64 t, int reg)
++{
++    if (reg == 0) {
++        tcg_gen_movi_i64(t, 0);
++    } else {
++        tcg_gen_mov_i64(t, cpu_gpr_hi[reg]);
++    }
++}
++
++void gen_store_gpr_hi(TCGv_i64 t, int reg)
++{
++    if (reg != 0) {
++        tcg_gen_mov_i64(cpu_gpr_hi[reg], t);
++    }
++}
++#endif /* TARGET_MIPS64 */
++
+ /* Moves to/from shadow registers. */
+ static inline void gen_load_srsgpr(int from, int to)
+ {
 -- 
 2.26.2
 
