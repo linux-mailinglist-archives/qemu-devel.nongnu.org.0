@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A180231B1CC
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:08:56 +0100 (CET)
-Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07BCB31B1C2
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:03:37 +0100 (CET)
+Received: from localhost ([::1]:41078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBLpG-0007r2-9v
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:08:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33190)
+	id 1lBLk7-00011U-FG
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:03:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLgD-0006pS-HK
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:33 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39163)
+ id 1lBLgJ-0006uN-4x
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:39 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLgC-0004B9-9d
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:33 -0500
-Received: by mail-wr1-x435.google.com with SMTP id v1so6102040wrd.6
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 09:59:31 -0800 (PST)
+ id 1lBLgH-0004C9-FZ
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 12:59:38 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id w4so4199208wmi.4
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 09:59:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=u+P4R7wX8AF+OGlD477IP+Y2yPBUc7P8DSYLD639hCU=;
- b=C9WDa3+3bo8STg8qP3QPPL1lTN/AiKQvXfwivEx22TCWccwjEGofl3SOFcTV6Fi7py
- BMYBvx219SlRBDx1aGKsAJyeOppFB4fVCJDqqACOQmy/nD1mGLkkFV9zIH1bHQAjEJnc
- 8p3Mnb/WCEP5n3Ia0UZnpnLwzfciqG56gd82+zYDqjxPHn4OIJ++Kg1aZeA/ojR/GZuh
- bYX/1msuRAsTZP4lRt26unZgMVGCkH4ypE1LmV/QZERiFOxGCbJ3cLTg94BuYE43ZsDt
- mONlCJUgeSwBJrcKq0nSMyseVxQbXXk1WlOIebs1LwA/LxLA8dc3bCwl1NQ8gQnL1d14
- zCpQ==
+ bh=HIH/Qop6/6k2YrFoaMsBXNf5uQCyB+f+6cDo/DLbLyU=;
+ b=L1Djrp3EmgbzHIb9r6F91UvVAePOJ/KUe4GuUJBeAGuwcZyHN5VBxSdq0eXUD/xixr
+ pFZZpt6TmYL0dQjyTFwRRUZWIuhjvNRuIGvdFXsAf/rxZyyAaOy5Bm8sP9gSz4vc2U6V
+ GCfwNfVSUbKzTxdmwWdNrqHaTtIcJTH5Fe5f6tx2qA01N0rw9ZUrBcCZWPqAxHzrMlek
+ LTiHE3yaJe9VNCQPHEtfw5U1S6gA9xGzdd/rolWwG3qZZBul/lkqCiAAraIi1pELOQla
+ LiVASQrWvwkcwkTVWXX6slCf7Oa81fUPwgz6+k/WbdSC2CHsAoOrqPyAq1eQ6waJ7u3Z
+ tSvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=u+P4R7wX8AF+OGlD477IP+Y2yPBUc7P8DSYLD639hCU=;
- b=qmrEd40IX77R7mhMA9JAJX0KdFTDKBz6czkUrPalABzVW30oW+mCP0jaOixMwx3NVb
- i3AjWSJ1NA8ZxzaGpmr56R2HsqeLb+rj/ef28iN57g/s8jOdxjuTszQy8ZgILpgPJb/S
- NAyjJVkI4KmneiUvhZg2kF1AQjJNOzYGMap1c2zqolHaOt4/8vD4n5+Prj2TVth27imS
- oX8ep3zYKdBVwE/5R4yjjZc+iXDPxGTA8UC+YFnOzOtbrgb51urIcFYt3v+Xyz6slHQD
- kgwCZ95QX7XDCC0iKIN3G8KdKJxZkDuS5M0pqv8EJmaaWaYPq9GfrqIq3ycD36bHl5dL
- 8qfQ==
-X-Gm-Message-State: AOAM533UTkX5ytj7Zws8noVBxAZcHC2cC6F/tvFCaLCc8XlXC6E5HkQ1
- lBdSDV7eswZyXht4ukAF16emHsDttAA=
-X-Google-Smtp-Source: ABdhPJx4IiSJEthYHKZHTptQtxkWV3xmqNPSeizXe61bQLHeRPmDrVxioGjL9qJRatW6dFfqw0HgWw==
-X-Received: by 2002:a5d:51d0:: with SMTP id n16mr15428256wrv.382.1613325570755; 
- Sun, 14 Feb 2021 09:59:30 -0800 (PST)
+ bh=HIH/Qop6/6k2YrFoaMsBXNf5uQCyB+f+6cDo/DLbLyU=;
+ b=pNbOv2QAlRpWCVE5NJiK2+Zshbpn/LlMocBUYJcjGfjfIeUILc/PHjhGw4m1XUC4ke
+ 3BL8i0nTiu65xAhy1n0LmuWmb2QNBS8+VI88SgHtdC40MD9IT40RnLK9ylrO/cl2kDaL
+ Af/IkSuDGDxuNN6IiYWQ8bnbPTTAt01vXgDIUY9u9FkJXh/LT/BTamHs5nmoalE1YcyJ
+ mnqc+FE7XM/isNqjH1GltIAo0EpzFOb8evr8DRm0npsnW1LQrn4+V6LgegR1AMYv0pc4
+ xAKV+o7/5GzZTazc8R7D9k7/R8ZmmdOIdLjs+0ZovmmBftYP/1tiDq1ZfyQkKpfPZoIS
+ wMUQ==
+X-Gm-Message-State: AOAM532ENwXweYNGCUUb55q6za9hWDdHkeygtpAqcnzufRz5XRhlOd8O
+ IGR9A9ghM4WEk9y10aYVMw1p7Ce0G2k=
+X-Google-Smtp-Source: ABdhPJxjyYAK7SwPuJeEvhFYA0TmuZjoBKYRb2sGkIQOfU5UnSO9osfJhX8zMVAtRehqs1Oy3tGo+Q==
+X-Received: by 2002:a1c:20cf:: with SMTP id
+ g198mr10723222wmg.173.1613325575777; 
+ Sun, 14 Feb 2021 09:59:35 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o18sm20584458wmp.19.2021.02.14.09.59.29
+ by smtp.gmail.com with ESMTPSA id o83sm22544318wme.37.2021.02.14.09.59.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 09:59:30 -0800 (PST)
+ Sun, 14 Feb 2021 09:59:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 03/42] target/mips/translate: Make cpu_HI/LO registers
- public
-Date: Sun, 14 Feb 2021 18:58:33 +0100
-Message-Id: <20210214175912.732946-4-f4bug@amsat.org>
+Subject: [RFC PATCH 04/42] target/mips: Promote 128-bit multimedia registers
+ as global ones
+Date: Sun, 14 Feb 2021 18:58:34 +0100
+Message-Id: <20210214175912.732946-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,40 +98,191 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will access the cpu_HI/LO registers outside of translate.c.
-Make them publicly accessible.
+The cpu::mmr[] array contains the upper halves of 128-bit GPR
+registers. While they are only used by the R5900 CPU, the
+concept is generic and could be used by another MIPS implementation.
+
+Rename 'cpu::mmr' as 'cpu::gpr_hi' and make them global.
+
+When the code is similar to the GPR lower halves, move it
+close by.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.h | 1 +
- target/mips/translate.c | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ target/mips/cpu.h       | 10 ++++++---
+ target/mips/translate.h |  3 +++
+ target/mips/translate.c | 48 ++++++++++++++++++++---------------------
+ 3 files changed, 34 insertions(+), 27 deletions(-)
 
+diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+index b9e227a30e9..7011d0dc707 100644
+--- a/target/mips/cpu.h
++++ b/target/mips/cpu.h
+@@ -460,6 +460,13 @@ typedef struct mips_def_t mips_def_t;
+ typedef struct TCState TCState;
+ struct TCState {
+     target_ulong gpr[32];
++#if defined(TARGET_MIPS64)
++    /*
++     * For CPUs using 128-bit GPR registers, we put the lower halves in gpr[])
++     * and the upper halves in gpr_hi[].
++     */
++    uint64_t gpr_hi[32];
++#endif /* TARGET_MIPS64 */
+     target_ulong PC;
+     target_ulong HI[MIPS_DSP_ACC];
+     target_ulong LO[MIPS_DSP_ACC];
+@@ -505,9 +512,6 @@ struct TCState {
+ 
+     float_status msa_fp_status;
+ 
+-    /* Upper 64-bit MMRs (multimedia registers); the lower 64-bit are GPRs */
+-    uint64_t mmr[32];
+-
+ #define NUMBER_OF_MXU_REGISTERS 16
+     target_ulong mxu_gpr[NUMBER_OF_MXU_REGISTERS - 1];
+     target_ulong mxu_cr;
 diff --git a/target/mips/translate.h b/target/mips/translate.h
-index f47b5f2c8d0..2a1d8f570bb 100644
+index 2a1d8f570bb..3014c20cadb 100644
 --- a/target/mips/translate.h
 +++ b/target/mips/translate.h
-@@ -145,6 +145,7 @@ bool gen_lsa(DisasContext *ctx, int rd, int rt, int rs, int sa);
+@@ -145,6 +145,9 @@ bool gen_lsa(DisasContext *ctx, int rd, int rt, int rs, int sa);
  bool gen_dlsa(DisasContext *ctx, int rd, int rt, int rs, int sa);
  
  extern TCGv cpu_gpr[32], cpu_PC;
-+extern TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
++#if defined(TARGET_MIPS64)
++extern TCGv_i64 cpu_gpr_hi[32];
++#endif
+ extern TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
  extern TCGv_i32 fpu_fcr0, fpu_fcr31;
  extern TCGv_i64 fpu_f64[32];
- extern TCGv bcond;
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index a5cf1742a8b..be40f79229f 100644
+index be40f79229f..ab9b0999c93 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -2179,7 +2179,7 @@ enum {
+@@ -2179,6 +2179,11 @@ enum {
  
  /* global register indices */
  TCGv cpu_gpr[32], cpu_PC;
--static TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
-+TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
++/*
++ * For CPUs using 128-bit GPR registers, we put the lower halves in cpu_gpr[])
++ * and the upper halves in cpu_gpr_hi[].
++ */
++TCGv_i64 cpu_gpr_hi[32];
+ TCGv cpu_HI[MIPS_DSP_ACC], cpu_LO[MIPS_DSP_ACC];
  static TCGv cpu_dspctrl, btarget;
  TCGv bcond;
- static TCGv cpu_lladdr, cpu_llval;
+@@ -2187,11 +2192,6 @@ static TCGv_i32 hflags;
+ TCGv_i32 fpu_fcr0, fpu_fcr31;
+ TCGv_i64 fpu_f64[32];
+ 
+-#if defined(TARGET_MIPS64)
+-/* Upper halves of R5900's 128-bit registers: MMRs (multimedia registers) */
+-static TCGv_i64 cpu_mmr[32];
+-#endif
+-
+ #if !defined(TARGET_MIPS64)
+ /* MXU registers */
+ static TCGv mxu_gpr[NUMBER_OF_MXU_REGISTERS - 1];
+@@ -24784,7 +24784,7 @@ static void gen_mmi_pcpyh(DisasContext *ctx)
+         /* nop */
+     } else if (rt == 0) {
+         tcg_gen_movi_i64(cpu_gpr[rd], 0);
+-        tcg_gen_movi_i64(cpu_mmr[rd], 0);
++        tcg_gen_movi_i64(cpu_gpr_hi[rd], 0);
+     } else {
+         TCGv_i64 t0 = tcg_temp_new();
+         TCGv_i64 t1 = tcg_temp_new();
+@@ -24802,7 +24802,7 @@ static void gen_mmi_pcpyh(DisasContext *ctx)
+ 
+         tcg_gen_mov_i64(cpu_gpr[rd], t1);
+ 
+-        tcg_gen_andi_i64(t0, cpu_mmr[rt], mask);
++        tcg_gen_andi_i64(t0, cpu_gpr_hi[rt], mask);
+         tcg_gen_movi_i64(t1, 0);
+         tcg_gen_or_i64(t1, t0, t1);
+         tcg_gen_shli_i64(t0, t0, 16);
+@@ -24812,7 +24812,7 @@ static void gen_mmi_pcpyh(DisasContext *ctx)
+         tcg_gen_shli_i64(t0, t0, 16);
+         tcg_gen_or_i64(t1, t0, t1);
+ 
+-        tcg_gen_mov_i64(cpu_mmr[rd], t1);
++        tcg_gen_mov_i64(cpu_gpr_hi[rd], t1);
+ 
+         tcg_temp_free(t0);
+         tcg_temp_free(t1);
+@@ -24844,9 +24844,9 @@ static void gen_mmi_pcpyld(DisasContext *ctx)
+         /* nop */
+     } else {
+         if (rs == 0) {
+-            tcg_gen_movi_i64(cpu_mmr[rd], 0);
++            tcg_gen_movi_i64(cpu_gpr_hi[rd], 0);
+         } else {
+-            tcg_gen_mov_i64(cpu_mmr[rd], cpu_gpr[rs]);
++            tcg_gen_mov_i64(cpu_gpr_hi[rd], cpu_gpr[rs]);
+         }
+         if (rt == 0) {
+             tcg_gen_movi_i64(cpu_gpr[rd], 0);
+@@ -24885,13 +24885,13 @@ static void gen_mmi_pcpyud(DisasContext *ctx)
+         if (rs == 0) {
+             tcg_gen_movi_i64(cpu_gpr[rd], 0);
+         } else {
+-            tcg_gen_mov_i64(cpu_gpr[rd], cpu_mmr[rs]);
++            tcg_gen_mov_i64(cpu_gpr[rd], cpu_gpr_hi[rs]);
+         }
+         if (rt == 0) {
+-            tcg_gen_movi_i64(cpu_mmr[rd], 0);
++            tcg_gen_movi_i64(cpu_gpr_hi[rd], 0);
+         } else {
+             if (rd != rt) {
+-                tcg_gen_mov_i64(cpu_mmr[rd], cpu_mmr[rt]);
++                tcg_gen_mov_i64(cpu_gpr_hi[rd], cpu_gpr_hi[rt]);
+             }
+         }
+     }
+@@ -29285,6 +29285,16 @@ void mips_tcg_init(void)
+                                         offsetof(CPUMIPSState,
+                                                  active_tc.gpr[i]),
+                                         regnames[i]);
++#if defined(TARGET_MIPS64)
++    cpu_gpr_hi[0] = NULL;
++
++    for (unsigned i = 1; i < 32; i++) {
++        cpu_gpr_hi[i] = tcg_global_mem_new_i64(cpu_env,
++                                               offsetof(CPUMIPSState,
++                                                        active_tc.gpr_hi[i]),
++                                               regnames[i]);
++    }
++#endif /* !TARGET_MIPS64 */
+     for (i = 0; i < 32; i++) {
+         int off = offsetof(CPUMIPSState, active_fpu.fpr[i].wr.d[0]);
+ 
+@@ -29323,16 +29333,6 @@ void mips_tcg_init(void)
+     cpu_llval = tcg_global_mem_new(cpu_env, offsetof(CPUMIPSState, llval),
+                                    "llval");
+ 
+-#if defined(TARGET_MIPS64)
+-    cpu_mmr[0] = NULL;
+-    for (i = 1; i < 32; i++) {
+-        cpu_mmr[i] = tcg_global_mem_new_i64(cpu_env,
+-                                            offsetof(CPUMIPSState,
+-                                                     active_tc.mmr[i]),
+-                                            regnames[i]);
+-    }
+-#endif
+-
+ #if !defined(TARGET_MIPS64)
+     for (i = 0; i < NUMBER_OF_MXU_REGISTERS - 1; i++) {
+         mxu_gpr[i] = tcg_global_mem_new(cpu_env,
+@@ -29344,7 +29344,7 @@ void mips_tcg_init(void)
+     mxu_CR = tcg_global_mem_new(cpu_env,
+                                 offsetof(CPUMIPSState, active_tc.mxu_cr),
+                                 mxuregnames[NUMBER_OF_MXU_REGISTERS - 1]);
+-#endif
++#endif /* !TARGET_MIPS64 */
+ }
+ 
+ void restore_state_to_opc(CPUMIPSState *env, TranslationBlock *tb,
 -- 
 2.26.2
 
