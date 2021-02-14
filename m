@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 678D531B0BC
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 15:29:52 +0100 (CET)
-Received: from localhost ([::1]:58812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0661831B0DA
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 15:51:59 +0100 (CET)
+Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBIPH-0007Lh-Gz
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 09:29:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58064)
+	id 1lBIkf-0006yw-GS
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 09:51:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33118)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lBINl-0006P9-4Q; Sun, 14 Feb 2021 09:28:17 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:41238)
+ (Exim 4.90_1) (envelope-from <phillip.ennen@gmail.com>)
+ id 1lBIjO-0006Yj-Cz
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 09:50:38 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36773)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lBINj-0004LI-2b; Sun, 14 Feb 2021 09:28:16 -0500
-Received: by mail-pl1-x635.google.com with SMTP id a9so171892plh.8;
- Sun, 14 Feb 2021 06:28:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <phillip.ennen@gmail.com>)
+ id 1lBIjK-00024s-DF
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 09:50:38 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id u14so5557928wri.3
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 06:50:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=i3OZXxBJsFlQ0HAOk7kLpzZwFqDxVMT3jtH4mK2YPzI=;
- b=fdjeilfzh56vIGLD9puespE4Fi+6iGVLk2U2KkefCwiOPC9UtOPtFVfQR9EdjHbcsq
- 1q0hO9DAFcw4eXFSI96KkOUUDCW5hxq+BO1ZVcBap0iAK6HDxtVJPHSm/t9MzD1U8NC5
- CvbMdYvtw6hL62ca4V6wSGWKsv+ursHJE64QwJWkvqZNq3ADUF6KId1eV3pb+uIBpzXb
- wNw0+Mnn5zrjvnkay7+0Aj4h2/SLyCKFd/hb3unVq+LZQJzW52gx/RtWgi4cG/oo8BbY
- 6RHoT6r1/sJRcTDOlEbyXxWR3249BWEuUrE4fHorXzRqZF+A2DW3ArGwnlvc8ZC7fYOH
- q9vg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nCbmkzSM44gV+JSW455YJmGFHoM6ftP5/RtrFhEuEeI=;
+ b=In9kQCO+QC6KUfdDW7x+GbLqm3Amx5GbT3hdvhyW6/0a9RpSYU5IHCWiOJ2grxCyWt
+ QlsJwBaE1pjW23E29lLAHStSGDYG5s0ecqBeQ4RSutD7jZyH/+6v+NVkMOPeIXAqxGoG
+ jVzbqKcC4kDnRKk6nrA3QjEqL0pyJjDi3fApoCMCrUjXkDF7pw6PK+6D6IUL4D+SvnqW
+ QNnXiiY4JwaSupstrpRoM/hlKz6KAKUFbYlicilOg0j3TSj9vXqkUpH3ObVqFrEnhUej
+ RjopfF87hizr81VRXtqw7BsudKW7JAQX+PsQq68XO8iFIJByii4g9vzFcT+CTaEn6YrG
+ +n9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=i3OZXxBJsFlQ0HAOk7kLpzZwFqDxVMT3jtH4mK2YPzI=;
- b=QSSWVCPxbbPM5qE3ofmMRVLkBvUcAippLBn/rgX/xjmGLKE4XVMUsfrmBUTYz1/0+d
- 6WMQ+AUTMAFO7ogyKEjknxmdSmjPWToAMCMqrPc25ZRFzJOaoIDnstRK0+MZmA8W/dvZ
- 7/QIEsWtGVJEIKSHs1GG9LruBKuwqfHngPDeJX5KEzd+TKDIlnfZa2cgONvkhmaFukUX
- TfcjnAp4YxMdQCKs2MK3zF3BbjJ0ZhNmFnWwlKxMzvphZAgY9gR93f6gPEOoS3fmZWrv
- JS2/ASt9BNxBlQytGsz8IclOJ9Koa4Y0dIBO7XAtZDcT3p3UlGJKsK8riUrp28JKoQEZ
- D/HQ==
-X-Gm-Message-State: AOAM5328/Xpas7mEPMY8pW7y+QY9B27EgYzoWT90Tc2kYo6zPijzn/3B
- f6jvn1LcUnMmIFiAywAXFqIf0AInDqoZkw==
-X-Google-Smtp-Source: ABdhPJyADUsTB8M0oYGczlY76EJgi+woZAOTwcxNT/HUgZUNThQ6ZTATHiYfhbbJ8DpV2qhXxWTk2A==
-X-Received: by 2002:a17:90a:ca95:: with SMTP id
- y21mr5234629pjt.179.1613312893336; 
- Sun, 14 Feb 2021 06:28:13 -0800 (PST)
-Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id r68sm15502224pfc.49.2021.02.14.06.28.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 06:28:13 -0800 (PST)
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [PATCH V2 1/1] hw/block/nvme: support command retry delay
-Date: Sun, 14 Feb 2021 23:28:05 +0900
-Message-Id: <20210214142805.21534-2-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210214142805.21534-1-minwoo.im.dev@gmail.com>
-References: <20210214142805.21534-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x635.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nCbmkzSM44gV+JSW455YJmGFHoM6ftP5/RtrFhEuEeI=;
+ b=Ua2xmAtDRfm1Pngvd7XnVM/L0TZa17l7cWAPbioQzaIELBvH7mqzFuHNoAPkvOdWtB
+ wxc4A1o2ogoI6CTaGi0NU53N/ncs9pVfxmY9muITigUZSJaUzdhOMNFL4Pq3NAkkNuZ9
+ LVmD2xVgvVAgbq6mf+IZvrEU1beub+p9jvzu8QbtrCKxt2PS5cKhigRVVDvx5lgHJ+TI
+ VjHEBjh7K4gJoiZaCu2nL9XjkXoRSo0zTeDCaXRTTd+NH10EhwS5wSOrgDJWlPe5gSxZ
+ gLNXldXQV9H8d0v8LUjOpPZwjTQ2eGDQmLL9ASwEFUzS9RvM7O958ssyFVS24iuqXyCE
+ OCfA==
+X-Gm-Message-State: AOAM530ehdnbtfCjnMllXio7HNTtwSdh+FQ9aLDGcZ+Q5FLLNuehECwH
+ cFH50kCnkPSC26siGZ2M7x2eof64XwtmKQ==
+X-Google-Smtp-Source: ABdhPJwM6vQVfM8vtScsCiznZNbHWqFJhhcjjr2T8/ym2HF2jUGEPbHT4TgKZTHhjp+2B0CDCMcdmw==
+X-Received: by 2002:adf:e98d:: with SMTP id h13mr14450357wrm.246.1613314231146; 
+ Sun, 14 Feb 2021 06:50:31 -0800 (PST)
+Received: from localhost.localdomain ([2a01:e34:ec19:cd20:44a:9262:b285:8799])
+ by smtp.gmail.com with ESMTPSA id
+ n11sm19607797wrt.34.2021.02.14.06.50.30
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sun, 14 Feb 2021 06:50:30 -0800 (PST)
+From: phillip.ennen@gmail.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] net/macos: implement vmnet-based netdev
+Date: Sun, 14 Feb 2021 15:50:29 +0100
+Message-Id: <20210214145029.84359-1-phillip.ennen@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=phillip.ennen@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,255 +82,753 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: thuth@redhat.com, stefanha@gmail.com, jasowang@redhat.com,
+ armbru@redhat.com, phillip@axleos.com, hsp.cat7@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Set CRDT1(Command Retry Delay Time 1) in the Identify controller data
-structure to milliseconds units of 100ms by the given value of
-'cmd-retry-delay' parameter which is newly added.  If
-cmd-retry-delay=1000, it will be set CRDT1 to 10.  This patch only
-considers the CRDT1 without CRDT2 and 3 for the simplicity.
+From: Phillip Tennen <phillip@axleos.com>
 
-This patch also introduced set/get feature command handler for Host
-Behavior feature (16h).  In this feature, ACRE(Advanced Command Retry
-Enable) will be set by the host based on the Identify controller data
-structure, especially by CRDTs.
+This patch implements a new netdev device, reachable via -netdev
+vmnet-macos, that’s backed by macOS’s vmnet framework.
 
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+The vmnet framework provides native bridging support, and its usage in
+this patch is intended as a replacement for attempts to use a tap device
+via the tuntaposx kernel extension. Notably, the tap/tuntaposx approach
+never would have worked in the first place, as QEMU interacts with the
+tap device via poll(), and macOS does not support polling device files.
+
+vmnet requires either a special entitlement, granted via a provisioning
+profile, or root access. Otherwise attempts to create the virtual
+interface will fail with a “generic error” status code. QEMU may not
+currently be signed with an entitlement granted in a provisioning
+profile, as this would necessitate pre-signed binary build distribution,
+rather than source-code distribution. As such, using this netdev
+currently requires that qemu be run with root access. I’ve opened a
+feedback report with Apple to allow the use of the relevant entitlement
+with this use case:
+https://openradar.appspot.com/radar?id=5007417364447232
+
+vmnet offers three operating modes, all of which are supported by this
+patch via the “mode=host|shared|bridge” option:
+
+* "Host" mode: Allows the vmnet interface to communicate with other
+* vmnet
+interfaces that are in host mode and also with the native host.
+* "Shared" mode: Allows traffic originating from the vmnet interface to
+reach the Internet through a NAT. The vmnet interface can also
+communicate with the native host.
+* "Bridged" mode: Bridges the vmnet interface with a physical network
+interface.
+
+Each of these modes also provide some extra configuration that’s
+supported by this patch:
+
+* "Bridged" mode: The user may specify the physical interface to bridge
+with. Defaults to en0.
+* "Host" mode / "Shared" mode: The user may specify the DHCP range and
+subnet. Allocated by vmnet if not provided.
+
+vmnet also offers some extra configuration options that are not
+supported by this patch:
+
+* Enable isolation from other VMs using vmnet
+* Port forwarding rules
+* Enabling TCP segmentation offload
+* Only applicable in "shared" mode: specifying the NAT IPv6 prefix
+* Only available in "host" mode: specifying the IP address for the VM
+within an isolated network
+
+Note that this patch requires macOS 10.15 as a minimum, as this is when
+bridging support was implemented in vmnet.framework.
+
+Signed-off-by: Phillip Tennen <phillip@axleos.com>
 ---
- hw/block/nvme.c      | 68 +++++++++++++++++++++++++++++++++++++++++++-
- hw/block/nvme.h      |  2 ++
- include/block/nvme.h | 13 ++++++++-
- 3 files changed, 81 insertions(+), 2 deletions(-)
+ configure         |   2 +-
+ net/clients.h     |   6 +
+ net/meson.build   |   1 +
+ net/net.c         |   3 +
+ net/vmnet-macos.c | 440 ++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/net.json     | 120 ++++++++++++-
+ qemu-options.hx   |   9 +
+ 7 files changed, 578 insertions(+), 3 deletions(-)
+ create mode 100644 net/vmnet-macos.c
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1cd82fa3c9fe..5aedb26cea9e 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -23,7 +23,7 @@
-  *              max_ioqpairs=<N[optional]>, \
-  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
-  *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]>, \
-- *              subsys=<subsys_id> \
-+ *              subsys=<subsys_id>,cmd-retry-delay=<N[optional]> \
-  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
-  *              zoned=<true|false[optional]>, \
-  *              subsys=<subsys_id>
-@@ -71,6 +71,14 @@
-  *   data size being in effect. By setting this property to 0, users can make
-  *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
-  *
-+ * - `cmd-retry-delay`
-+ *   Command Retry Delay value in unit of millisecond.  This value will be
-+ *   reported to the CRDT1(Command Retry Delay Time 1) in Identify Controller
-+ *   data structure in 100 milliseconds unit.  If this is not given, DNR(Do Not
-+ *   Retry) bit field in the Status field of CQ entry.  If it's given to 0,
-+ *   CRD(Command Retry Delay) will be set to 0 which is for retry without
-+ *   delay.  Otherwise, it will set to 1 to delay for CRDT1 value.
+diff --git a/configure b/configure
+index 4afd22bdf5..f449198db1 100755
+--- a/configure
++++ b/configure
+@@ -778,7 +778,7 @@ Darwin)
+   fi
+   audio_drv_list="coreaudio try-sdl"
+   audio_possible_drivers="coreaudio sdl"
+-  QEMU_LDFLAGS="-framework CoreFoundation -framework IOKit $QEMU_LDFLAGS"
++  QEMU_LDFLAGS="-framework CoreFoundation -framework IOKit -framework vmnet $QEMU_LDFLAGS"
+   # Disable attempts to use ObjectiveC features in os/object.h since they
+   # won't work when we're compiling with gcc as a C compiler.
+   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
+diff --git a/net/clients.h b/net/clients.h
+index 92f9b59aed..463a9b2f67 100644
+--- a/net/clients.h
++++ b/net/clients.h
+@@ -63,4 +63,10 @@ int net_init_vhost_user(const Netdev *netdev, const char *name,
+ 
+ int net_init_vhost_vdpa(const Netdev *netdev, const char *name,
+                         NetClientState *peer, Error **errp);
++
++#ifdef CONFIG_DARWIN
++int net_init_vmnet_macos(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp);
++#endif
++
+ #endif /* QEMU_NET_CLIENTS_H */
+diff --git a/net/meson.build b/net/meson.build
+index 1076b0a7ab..8c7c32f775 100644
+--- a/net/meson.build
++++ b/net/meson.build
+@@ -37,5 +37,6 @@ endif
+ softmmu_ss.add(when: 'CONFIG_POSIX', if_true: files(tap_posix))
+ softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('tap-win32.c'))
+ softmmu_ss.add(when: 'CONFIG_VHOST_NET_VDPA', if_true: files('vhost-vdpa.c'))
++softmmu_ss.add(when: 'CONFIG_DARWIN', if_true: files('vmnet-macos.c'))
+ 
+ subdir('can')
+diff --git a/net/net.c b/net/net.c
+index c1cd9c75f6..e68a410a89 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -977,6 +977,9 @@ static int (* const net_client_init_fun[NET_CLIENT_DRIVER__MAX])(
+ #ifdef CONFIG_L2TPV3
+         [NET_CLIENT_DRIVER_L2TPV3]    = net_init_l2tpv3,
+ #endif
++#ifdef CONFIG_DARWIN
++        [NET_CLIENT_DRIVER_VMNET_MACOS] = net_init_vmnet_macos,
++#endif
+ };
+ 
+ 
+diff --git a/net/vmnet-macos.c b/net/vmnet-macos.c
+new file mode 100644
+index 0000000000..67dcb700b0
+--- /dev/null
++++ b/net/vmnet-macos.c
+@@ -0,0 +1,440 @@
++/*
++ * vmnet.framework backed netdev for macOS 10.15+ hosts
 + *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  * - `subsys`
-@@ -154,6 +162,7 @@ static const bool nvme_feature_support[NVME_FID_MAX] = {
-     [NVME_WRITE_ATOMICITY]          = true,
-     [NVME_ASYNCHRONOUS_EVENT_CONF]  = true,
-     [NVME_TIMESTAMP]                = true,
-+    [NVME_HOST_BEHAVIOR_SUPPORT]    = true,
- };
- 
- static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-@@ -163,6 +172,7 @@ static const uint32_t nvme_feature_cap[NVME_FID_MAX] = {
-     [NVME_NUMBER_OF_QUEUES]         = NVME_FEAT_CAP_CHANGE,
-     [NVME_ASYNCHRONOUS_EVENT_CONF]  = NVME_FEAT_CAP_CHANGE,
-     [NVME_TIMESTAMP]                = NVME_FEAT_CAP_CHANGE,
-+    [NVME_HOST_BEHAVIOR_SUPPORT]    = NVME_FEAT_CAP_CHANGE,
- };
- 
- static const uint32_t nvme_cse_acs[256] = {
-@@ -942,9 +952,30 @@ static void nvme_post_cqes(void *opaque)
-     }
- }
- 
-+static void nvme_setup_crdt(NvmeCtrl *n, NvmeRequest *req)
++ * Copyright (c) 2021 Phillip Tennen <phillip@axleos.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++#include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "qemu/error-report.h"
++#include "qapi/qapi-types-net.h"
++#include "net/net.h"
++/* macOS vmnet framework header */
++#include <vmnet/vmnet.h>
++
++typedef struct vmnet_state {
++    NetClientState nc;
++    interface_ref vmnet_iface_ref;
++    /* Switched on after vmnet informs us that the interface has started */
++    bool link_up;
++    /*
++     * If qemu_send_packet_async returns 0, this is switched off until our
++     * delivery callback is invoked
++     */
++    bool qemu_ready_to_receive;
++} vmnet_state_t;
++
++int net_init_vmnet_macos(const Netdev *netdev, const char *name,
++                         NetClientState *peer, Error **errp);
++
++static const char *_vmnet_status_repr(vmnet_return_t status)
 +{
-+    if (!n->features.acre) {
-+        return;
++    switch (status) {
++    case VMNET_SUCCESS:
++        return "success";
++    case VMNET_FAILURE:
++        return "generic failure";
++    case VMNET_MEM_FAILURE:
++        return "out of memory";
++    case VMNET_INVALID_ARGUMENT:
++        return "invalid argument";
++    case VMNET_SETUP_INCOMPLETE:
++        return "setup is incomplete";
++    case VMNET_INVALID_ACCESS:
++        return "insufficient permissions";
++    case VMNET_PACKET_TOO_BIG:
++        return "packet size exceeds MTU";
++    case VMNET_BUFFER_EXHAUSTED:
++        return "kernel buffers temporarily exhausted";
++    case VMNET_TOO_MANY_PACKETS:
++        return "number of packets exceeds system limit";
++    /* This error code was introduced in macOS 11.0 */
++#if __MAC_OS_X_VERSION_MAX_ALLOWED >= 110000
++    case VMNET_SHARING_SERVICE_BUSY:
++        return "sharing service busy";
++#endif
++    default:
++        return "unknown status code";
++    }
++}
++
++static operating_modes_t _vmnet_operating_mode_enum_compat(
++    VmnetOperatingMode mode)
++{
++    switch (mode) {
++    case VMNET_OPERATING_MODE_HOST:
++        return VMNET_HOST_MODE;
++    case VMNET_OPERATING_MODE_SHARED:
++        return VMNET_SHARED_MODE;
++    case VMNET_OPERATING_MODE_BRIDGED:
++        return VMNET_BRIDGED_MODE;
++    default:
++        /* Should never happen as the modes are parsed before we get here */
++        assert(false);
++    }
++}
++
++static bool vmnet_can_receive(NetClientState *nc)
++{
++    vmnet_state_t *s = DO_UPCAST(vmnet_state_t, nc, nc);
++    return s->link_up;
++}
++
++static ssize_t vmnet_receive_iov(NetClientState *nc,
++                                 const struct iovec *iovs,
++                                 int iovcnt)
++{
++    vmnet_state_t *s = DO_UPCAST(vmnet_state_t, nc, nc);
++
++    /* Combine the provided iovs into a single vmnet packet */
++    struct vmpktdesc *packet = g_new0(struct vmpktdesc, 1);
++    packet->vm_pkt_iov = g_new0(struct iovec, iovcnt);
++    memcpy(packet->vm_pkt_iov, iovs, sizeof(struct iovec) * iovcnt);
++    packet->vm_pkt_iovcnt = iovcnt;
++    packet->vm_flags = 0;
++
++    /* Figure out the packet size by iterating the iov's */
++    for (int i = 0; i < iovcnt; i++) {
++        const struct iovec *iov = iovs + i;
++        packet->vm_pkt_size += iov->iov_len;
 +    }
 +
-+    /*
-+     * We just support CRDT1 for now without considering CRDT2 and CRDT3.
-+     * Also, regardless to the status code, if there's no NVME_DNR, then we
-+     * set up the command retry delay.
-+     */
-+    if (req->status && !(req->status & NVME_DNR)) {
-+        if (n->params.cmd_retry_delay) {
-+            req->status |= NVME_CRD_CRDT1;
++    /* Finally, write the packet to the vmnet interface */
++    int packet_count = 1;
++    vmnet_return_t result = vmnet_write(s->vmnet_iface_ref, packet,
++                                        &packet_count);
++    if (result != VMNET_SUCCESS || packet_count != 1) {
++        error_printf("Failed to send packet to host: %s\n",
++            _vmnet_status_repr(result));
++    }
++    ssize_t wrote_bytes = packet->vm_pkt_size;
++    g_free(packet->vm_pkt_iov);
++    g_free(packet);
++    return wrote_bytes;
++}
++
++static void vmnet_send_completed(NetClientState *nc, ssize_t len)
++{
++    vmnet_state_t *vmnet_client_state = DO_UPCAST(vmnet_state_t, nc, nc);
++    /* Ready to receive more packets! */
++    vmnet_client_state->qemu_ready_to_receive = true;
++}
++
++static NetClientInfo net_vmnet_macos_info = {
++    .type = NET_CLIENT_DRIVER_VMNET_MACOS,
++    .size = sizeof(vmnet_state_t),
++    .receive_iov = vmnet_receive_iov,
++    .can_receive = vmnet_can_receive,
++};
++
++static bool _validate_ifname_is_valid_bridge_target(const char *ifname)
++{
++    /* Iterate available bridge interfaces, ensure the provided one is valid */
++    xpc_object_t bridge_interfaces = vmnet_copy_shared_interface_list();
++    bool failed_to_match_iface_name = xpc_array_apply(
++        bridge_interfaces,
++        ^bool(size_t index, xpc_object_t  _Nonnull value) {
++        if (!strcmp(xpc_string_get_string_ptr(value), ifname)) {
++            /* The interface name is valid! Stop iterating */
++            return false;
++        }
++        return true;
++    });
++
++    if (failed_to_match_iface_name) {
++        error_printf("Invalid bridge interface name provided: %s\n", ifname);
++        error_printf("Valid bridge interfaces:\n");
++        xpc_array_apply(
++            vmnet_copy_shared_interface_list(),
++            ^bool(size_t index, xpc_object_t  _Nonnull value) {
++            error_printf("\t%s\n", xpc_string_get_string_ptr(value));
++            /* Keep iterating */
++            return true;
++        });
++        exit(1);
++        return false;
++    }
++
++    return true;
++}
++
++static xpc_object_t _construct_vmnet_interface_description(
++    const NetdevVmnetModeOptions *vmnet_opts)
++{
++    operating_modes_t mode = _vmnet_operating_mode_enum_compat(
++        vmnet_opts->mode);
++
++    /* Validate options */
++    if (mode == VMNET_HOST_MODE || mode == VMNET_SHARED_MODE) {
++        NetdevVmnetModeOptionsHostOrShared mode_opts = vmnet_opts->u.host;
++        /* If one DHCP parameter is configured, all 3 are required */
++        if (mode_opts.has_dhcp_start_address ||
++            mode_opts.has_dhcp_end_address ||
++            mode_opts.has_dhcp_subnet_mask) {
++            if (!(mode_opts.has_dhcp_start_address &&
++                  mode_opts.has_dhcp_end_address &&
++                  mode_opts.has_dhcp_subnet_mask)) {
++                error_printf("Incomplete DHCP configuration provided\n");
++                exit(1);
++            }
++        }
++    } else if (mode == VMNET_BRIDGED_MODE) {
++        /* Nothing to validate */
++    } else {
++        error_printf("Unknown vmnet mode %d\n", mode);
++        exit(1);
++    }
++
++    xpc_object_t interface_desc = xpc_dictionary_create(NULL, NULL, 0);
++    xpc_dictionary_set_uint64(
++        interface_desc,
++        vmnet_operation_mode_key,
++        mode
++    );
++
++    if (mode == VMNET_BRIDGED_MODE) {
++        /*
++         * Configure the provided physical interface to act
++         * as a bridge with QEMU
++         */
++        NetdevVmnetModeOptionsBridged mode_opts = vmnet_opts->u.bridged;
++        /* Bridge with en0 by default */
++        const char *physical_ifname = mode_opts.has_ifname ? mode_opts.ifname :
++                                                             "en0";
++        _validate_ifname_is_valid_bridge_target(physical_ifname);
++        xpc_dictionary_set_string(interface_desc,
++                                  vmnet_shared_interface_name_key,
++                                  physical_ifname);
++    } else if (mode == VMNET_HOST_MODE || mode == VMNET_SHARED_MODE) {
++        /* Pass the DHCP configuration to vmnet, if the user provided one */
++        NetdevVmnetModeOptionsHostOrShared mode_opts = vmnet_opts->u.host;
++        if (mode_opts.has_dhcp_start_address) {
++            /* All DHCP arguments are available, as per the checks above */
++            xpc_dictionary_set_string(interface_desc,
++                                      vmnet_start_address_key,
++                                      mode_opts.dhcp_start_address);
++            xpc_dictionary_set_string(interface_desc,
++                                      vmnet_end_address_key,
++                                      mode_opts.dhcp_end_address);
++            xpc_dictionary_set_string(interface_desc,
++                                      vmnet_subnet_mask_key,
++                                      mode_opts.dhcp_subnet_mask);
 +        }
 +    }
++
++    return interface_desc;
 +}
 +
- static void nvme_enqueue_req_completion(NvmeCQueue *cq, NvmeRequest *req)
- {
-     assert(cq->cqid == req->sq->cqid);
-+
-+    nvme_setup_crdt(cq->ctrl, req);
-+
-     trace_pci_nvme_enqueue_req_completion(nvme_cid(req), cq->cqid,
-                                           req->status);
- 
-@@ -3501,6 +3532,16 @@ static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
-                     DMA_DIRECTION_FROM_DEVICE, req);
- }
- 
-+static uint16_t nvme_get_feature_host_behavior(NvmeCtrl *n, NvmeRequest *req)
++int net_init_vmnet_macos(const Netdev *netdev, const char *name,
++                        NetClientState *peer, Error **errp)
 +{
-+    NvmeFeatureHostBehavior data = {};
++    assert(netdev->type == NET_CLIENT_DRIVER_VMNET_MACOS);
 +
-+    data.acre = n->features.acre;
++    NetdevVmnetModeOptions *vmnet_opts = netdev->u.vmnet_macos.options;
++    xpc_object_t iface_desc = _construct_vmnet_interface_description(vmnet_opts);
 +
-+    return nvme_dma(n, (uint8_t *)&data, sizeof(data),
-+                    DMA_DIRECTION_FROM_DEVICE, req);
-+}
++    NetClientState *nc = qemu_new_net_client(&net_vmnet_macos_info, peer,
++                                             "vmnet", name);
++    vmnet_state_t *vmnet_client_state = DO_UPCAST(vmnet_state_t, nc, nc);
 +
- static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeCmd *cmd = &req->cmd;
-@@ -3607,6 +3648,8 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-         goto out;
-     case NVME_TIMESTAMP:
-         return nvme_get_feature_timestamp(n, req);
-+    case NVME_HOST_BEHAVIOR_SUPPORT:
-+        return nvme_get_feature_host_behavior(n, req);
-     default:
-         break;
-     }
-@@ -3670,6 +3713,22 @@ static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_SUCCESS;
- }
- 
-+static uint16_t nvme_set_feature_host_behavior(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeFeatureHostBehavior data;
-+    int ret;
++    dispatch_queue_t vmnet_dispatch_queue = dispatch_queue_create(
++        "org.qemu.vmnet.iface_queue",
++        DISPATCH_QUEUE_SERIAL
++    );
 +
-+    ret = nvme_dma(n, (uint8_t *)&data, sizeof(data),
-+                   DMA_DIRECTION_TO_DEVICE, req);
-+    if (ret) {
-+        return ret;
++    __block vmnet_return_t vmnet_start_status = 0;
++    __block uint64_t vmnet_iface_mtu = 0;
++    __block uint64_t vmnet_max_packet_size = 0;
++    __block const char *vmnet_mac_address = NULL;
++    /*
++     * We can't refer to an array type directly within a block,
++     * so hold a pointer instead.
++     */
++    uuid_string_t vmnet_iface_uuid = {0};
++    __block uuid_string_t *vmnet_iface_uuid_ptr = &vmnet_iface_uuid;
++    /* These are only provided in VMNET_HOST_MODE and VMNET_SHARED_MODE */
++    bool vmnet_provides_dhcp_info = (
++        vmnet_opts->mode == VMNET_OPERATING_MODE_HOST ||
++        vmnet_opts->mode == VMNET_OPERATING_MODE_SHARED);
++    __block const char *vmnet_subnet_mask = NULL;
++    __block const char *vmnet_dhcp_range_start = NULL;
++    __block const char *vmnet_dhcp_range_end = NULL;
++
++    /* Create the vmnet interface */
++    dispatch_semaphore_t vmnet_iface_sem = dispatch_semaphore_create(0);
++    interface_ref vmnet_iface_ref = vmnet_start_interface(
++        iface_desc,
++        vmnet_dispatch_queue,
++        ^(vmnet_return_t status, xpc_object_t  _Nullable interface_param) {
++        vmnet_start_status = status;
++        if (vmnet_start_status != VMNET_SUCCESS || !interface_param) {
++            /* Early return if the interface couldn't be started */
++            dispatch_semaphore_signal(vmnet_iface_sem);
++            return;
++        }
++
++        /*
++         * Read the configuration that vmnet provided us.
++         * The provided dictionary is owned by XPC and may be freed
++         * shortly after this block's execution.
++         * So, copy data buffers now.
++         */
++        vmnet_iface_mtu = xpc_dictionary_get_uint64(
++            interface_param,
++            vmnet_mtu_key
++        );
++        vmnet_max_packet_size = xpc_dictionary_get_uint64(
++            interface_param,
++            vmnet_max_packet_size_key
++        );
++        vmnet_mac_address = strdup(xpc_dictionary_get_string(
++            interface_param,
++            vmnet_mac_address_key
++        ));
++
++        const uint8_t *iface_uuid = xpc_dictionary_get_uuid(
++            interface_param,
++            vmnet_interface_id_key
++        );
++        uuid_unparse_upper(iface_uuid, *vmnet_iface_uuid_ptr);
++
++        /* If we're in a mode that provides DHCP info, read it out now */
++        if (vmnet_provides_dhcp_info) {
++            vmnet_dhcp_range_start = strdup(xpc_dictionary_get_string(
++                interface_param,
++                vmnet_start_address_key
++            ));
++            vmnet_dhcp_range_end = strdup(xpc_dictionary_get_string(
++                interface_param,
++                vmnet_end_address_key
++            ));
++            vmnet_subnet_mask = strdup(xpc_dictionary_get_string(
++                interface_param,
++                vmnet_subnet_mask_key
++            ));
++        }
++        dispatch_semaphore_signal(vmnet_iface_sem);
++    });
++
++    /* And block until we receive a response from vmnet */
++    dispatch_semaphore_wait(vmnet_iface_sem, DISPATCH_TIME_FOREVER);
++
++    /* Did we manage to start the interface? */
++    if (vmnet_start_status != VMNET_SUCCESS || !vmnet_iface_ref) {
++        error_printf("Failed to start interface: %s\n",
++            _vmnet_status_repr(vmnet_start_status));
++        if (vmnet_start_status == VMNET_FAILURE) {
++            error_printf("Hint: vmnet requires running with root access\n");
++        }
++        return -1;
 +    }
 +
-+    n->features.acre = data.acre;
++    info_report("Started vmnet interface with configuration:");
++    info_report("MTU:              %llu", vmnet_iface_mtu);
++    info_report("Max packet size:  %llu", vmnet_max_packet_size);
++    info_report("MAC:              %s", vmnet_mac_address);
++    if (vmnet_provides_dhcp_info) {
++        info_report("DHCP IPv4 start:  %s", vmnet_dhcp_range_start);
++        info_report("DHCP IPv4 end:    %s", vmnet_dhcp_range_end);
++        info_report("IPv4 subnet mask: %s", vmnet_subnet_mask);
++    }
++    info_report("UUID:             %s", vmnet_iface_uuid);
 +
-+    return NVME_SUCCESS;
-+}
++    /* The interface is up! Set a block to run when packets are received */
++    vmnet_client_state->vmnet_iface_ref = vmnet_iface_ref;
++    vmnet_return_t event_cb_stat = vmnet_interface_set_event_callback(
++        vmnet_iface_ref,
++        VMNET_INTERFACE_PACKETS_AVAILABLE,
++        vmnet_dispatch_queue,
++        ^(interface_event_t event_mask, xpc_object_t  _Nonnull event) {
++        if (event_mask != VMNET_INTERFACE_PACKETS_AVAILABLE) {
++            error_printf("Unknown vmnet interface event 0x%08x\n", event_mask);
++            return;
++        }
 +
- static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns = NULL;
-@@ -3801,6 +3860,8 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-         break;
-     case NVME_TIMESTAMP:
-         return nvme_set_feature_timestamp(n, req);
-+    case NVME_HOST_BEHAVIOR_SUPPORT:
-+        return nvme_set_feature_host_behavior(n, req);
-     case NVME_COMMAND_SET_PROFILE:
-         if (dw11 & 0x1ff) {
-             trace_pci_nvme_err_invalid_iocsci(dw11 & 0x1ff);
-@@ -4816,6 +4877,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->oacs = cpu_to_le16(0);
-     id->cntrltype = 0x1;
- 
-+    if (n->params.cmd_retry_delay) {
-+        id->crdt1 = cpu_to_le16(DIV_ROUND_UP(n->params.cmd_retry_delay, 100));
++        /* If we're unable to handle more packets now, drop this packet */
++        if (!vmnet_client_state->qemu_ready_to_receive) {
++            return;
++        }
++
++        /*
++         * TODO(Phillip Tennen <phillip@axleos.com>): There may be more than
++         * one packet available.
++         * As an optimization, we could read
++         * vmnet_estimated_packets_available_key packets now.
++         */
++        char *packet_buf = g_malloc0(vmnet_max_packet_size);
++        struct iovec *iov = g_new0(struct iovec, 1);
++        iov->iov_base = packet_buf;
++        iov->iov_len = vmnet_max_packet_size;
++
++        int pktcnt = 1;
++        struct vmpktdesc *v = g_new0(struct vmpktdesc, pktcnt);
++        v->vm_pkt_size = vmnet_max_packet_size;
++        v->vm_pkt_iov = iov;
++        v->vm_pkt_iovcnt = 1;
++        v->vm_flags = 0;
++
++        vmnet_return_t result = vmnet_read(vmnet_iface_ref, v, &pktcnt);
++        if (result != VMNET_SUCCESS) {
++            error_printf("Failed to read packet from host: %s\n",
++                _vmnet_status_repr(result));
++        }
++
++        /* Ensure we read exactly one packet */
++        assert(pktcnt == 1);
++
++        dispatch_async(dispatch_get_main_queue(), ^{
++            qemu_mutex_lock_iothread();
++
++            /*
++             * Deliver the packet to the guest
++             * If the delivery succeeded synchronously, this returns the length
++             * of the sent packet.
++             */
++            if (qemu_send_packet_async(nc, iov->iov_base,
++                                       v->vm_pkt_size,
++                                       vmnet_send_completed) == 0) {
++                vmnet_client_state->qemu_ready_to_receive = false;
++            }
++
++            /*
++             * It's safe to free the packet buffers.
++             * Even if delivery needs to wait, qemu_net_queue_append copies
++             * the packet buffer.
++             */
++            g_free(v);
++            g_free(iov);
++            g_free(packet_buf);
++
++            qemu_mutex_unlock_iothread();
++        });
++    });
++
++    /* Did we manage to set an event callback? */
++    if (event_cb_stat != VMNET_SUCCESS) {
++        error_printf("Failed to set up a callback to receive packets: %s\n",
++            _vmnet_status_repr(vmnet_start_status));
++        exit(1);
 +    }
 +
-     /*
-      * Because the controller always completes the Abort command immediately,
-      * there can never be more than one concurrently executing Abort command,
-@@ -4988,6 +5053,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
-     DEFINE_PROP_SIZE32("zoned.append_size_limit", NvmeCtrl, params.zasl_bs,
-                        NVME_DEFAULT_MAX_ZA_SIZE),
-+    DEFINE_PROP_UINT32("cmd-retry-delay", NvmeCtrl, params.cmd_retry_delay, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index cb2b5175f1a1..94fc5c333bbe 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -22,6 +22,7 @@ typedef struct NvmeParams {
-     bool     use_intel_id;
-     uint32_t zasl_bs;
-     bool     legacy_cmb;
-+    uint32_t cmd_retry_delay;
- } NvmeParams;
- 
- typedef struct NvmeAsyncEvent {
-@@ -124,6 +125,7 @@ typedef struct NvmeFeatureVal {
-         uint16_t temp_thresh_low;
-     };
-     uint32_t    async_config;
-+    uint8_t     acre;
- } NvmeFeatureVal;
- 
- typedef struct NvmeCtrl {
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index b23f3ae2279f..9f8f97b7f9f5 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -813,6 +813,7 @@ enum NvmeStatusCodes {
-     NVME_SGL_DESCR_TYPE_INVALID = 0x0011,
-     NVME_INVALID_USE_OF_CMB     = 0x0012,
-     NVME_INVALID_PRP_OFFSET     = 0x0013,
-+    NVME_COMMAND_INTERRUPTED    = 0x0021,
-     NVME_CMD_SET_CMB_REJECTED   = 0x002b,
-     NVME_INVALID_CMD_SET        = 0x002c,
-     NVME_LBA_RANGE              = 0x0080,
-@@ -858,6 +859,7 @@ enum NvmeStatusCodes {
-     NVME_DULB                   = 0x0287,
-     NVME_MORE                   = 0x2000,
-     NVME_DNR                    = 0x4000,
-+    NVME_CRD_CRDT1              = 0x0800,
-     NVME_NO_COMPLETE            = 0xffff,
- };
- 
-@@ -987,7 +989,10 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
-     uint8_t     rsvd100[11];
-     uint8_t     cntrltype;
-     uint8_t     fguid[16];
--    uint8_t     rsvd128[128];
-+    uint16_t    crdt1;
-+    uint16_t    crdt2;
-+    uint16_t    crdt3;
-+    uint8_t     rsvd134[122];
-     uint16_t    oacs;
-     uint8_t     acl;
-     uint8_t     aerl;
-@@ -1139,6 +1144,7 @@ enum NvmeFeatureIds {
-     NVME_WRITE_ATOMICITY            = 0xa,
-     NVME_ASYNCHRONOUS_EVENT_CONF    = 0xb,
-     NVME_TIMESTAMP                  = 0xe,
-+    NVME_HOST_BEHAVIOR_SUPPORT      = 0x16,
-     NVME_COMMAND_SET_PROFILE        = 0x19,
-     NVME_SOFTWARE_PROGRESS_MARKER   = 0x80,
-     NVME_FID_MAX                    = 0x100,
-@@ -1170,6 +1176,11 @@ typedef enum NvmeGetFeatureSelect {
- #define NVME_SETFEAT_SAVE(dw10) \
-     ((dw10 >> NVME_SETFEAT_SAVE_SHIFT) & NVME_SETFEAT_SAVE_MASK)
- 
-+typedef struct QEMU_PACKED NvmeFeatureHostBehavior {
-+    uint8_t     acre;
-+    uint8_t     rsvd1[511];
-+} NvmeFeatureHostBehavior;
++    /* We're now ready to receive packets */
++    vmnet_client_state->qemu_ready_to_receive = true;
++    vmnet_client_state->link_up = true;
 +
- typedef struct QEMU_PACKED NvmeRangeType {
-     uint8_t     type;
-     uint8_t     attributes;
++    /* Include DHCP info if we're in a relevant mode */
++    if (vmnet_provides_dhcp_info) {
++        snprintf(nc->info_str, sizeof(nc->info_str),
++                 "dhcp_start=%s,dhcp_end=%s,mask=%s",
++                 vmnet_dhcp_range_start, vmnet_dhcp_range_end,
++                 vmnet_subnet_mask);
++    } else {
++        snprintf(nc->info_str, sizeof(nc->info_str),
++                 "mac=%s", vmnet_mac_address);
++    }
++
++    return 0;
++}
+diff --git a/qapi/net.json b/qapi/net.json
+index c31748c87f..e4d4143243 100644
+--- a/qapi/net.json
++++ b/qapi/net.json
+@@ -450,6 +450,115 @@
+     '*vhostdev':     'str',
+     '*queues':       'int' } }
+ 
++##
++# @VmnetOperatingMode:
++#
++# The operating modes in which a vmnet netdev can run
++# Only available on macOS
++#
++# @host: the guest may communicate with the host 
++#        and other guest network interfaces
++#
++# @shared: the guest may reach the Internet through a NAT, 
++#          and may communicate with the host and other guest 
++#          network interfaces
++#
++# @bridged: the guest's traffic is bridged with a 
++#           physical network interface of the host
++#
++# Since: 6.0
++##
++{ 'enum': 'VmnetOperatingMode',
++  'data': [ 'host', 'shared', 'bridged' ],
++  'if': 'defined(CONFIG_DARWIN)' }
++
++##
++# @NetdevVmnetModeOptionsBridged:
++#
++# Options for the vmnet-macos netdev
++# that are only available in 'bridged' mode
++# Only available on macOS
++#
++# @ifname: the physical network interface to bridge with 
++#          (defaults to en0 if not specified)
++#
++# Since: 6.0
++##
++{ 'struct': 'NetdevVmnetModeOptionsBridged',
++  'data': { '*ifname':  'str' },
++  'if': 'defined(CONFIG_DARWIN)' }
++
++##
++# @NetdevVmnetModeOptionsHostOrShared:
++#
++# Options for the vmnet-macos netdev
++# that are only available in 'host' or 'shared' mode
++# Only available on macOS
++#
++# @dhcp-start-address: the gateway address to use for the interface. 
++#                      The range to dhcp_end_address is placed in the DHCP pool.
++#                      (only valid with mode=host|shared)
++#                      (must be specified with dhcp-end-address and 
++#                       dhcp-subnet-mask)
++#                      (allocated automatically if unset)
++#
++# @dhcp-end-address: the DHCP IPv4 range end address to use for the interface. 
++#                      (only valid with mode=host|shared)
++#                      (must be specified with dhcp-start-address and 
++#                       dhcp-subnet-mask)
++#                      (allocated automatically if unset)
++#
++# @dhcp-subnet-mask: the IPv4 subnet mask (string) to use on the interface.
++#                    (only valid with mode=host|shared)
++#                    (must be specified with dhcp-start-address and 
++#                     dhcp-end-address)
++#                    (allocated automatically if unset)
++#
++# Since: 6.0
++##
++{ 'struct': 'NetdevVmnetModeOptionsHostOrShared',
++  'data': { 
++    '*dhcp-start-address': 'str' ,
++    '*dhcp-end-address':   'str',
++    '*dhcp-subnet-mask':   'str' },
++  'if': 'defined(CONFIG_DARWIN)' }
++
++##
++# @NetdevVmnetModeOptions:
++#
++# Options specific to different operating modes of a vmnet netdev
++# Only available on macOS
++#
++# @mode: the operating mode vmnet should run in
++#
++# Since: 6.0
++##
++{ 'union': 'NetdevVmnetModeOptions',
++  'base': { 'mode': 'VmnetOperatingMode' },
++  'discriminator': 'mode',
++  'data': {
++    'bridged':      'NetdevVmnetModeOptionsBridged',
++    'host':         'NetdevVmnetModeOptionsHostOrShared',
++    'shared':       'NetdevVmnetModeOptionsHostOrShared' },
++  'if': 'defined(CONFIG_DARWIN)' }
++
++##
++# @NetdevVmnetOptions:
++#
++# vmnet network backend
++# Only available on macOS
++#
++# @options: a structure specifying the mode and mode-specific options
++#           (once QAPI supports a union type as a branch to another union type,
++#            this structure can be changed to a union, and the contents of
++#            NetdevVmnetModeOptions moved here)
++#
++# Since: 6.0
++##
++{ 'struct': 'NetdevVmnetOptions',
++  'data': {'options': 'NetdevVmnetModeOptions' },
++  'if': 'defined(CONFIG_DARWIN)' }
++
+ ##
+ # @NetClientDriver:
+ #
+@@ -458,10 +567,13 @@
+ # Since: 2.7
+ #
+ #        @vhost-vdpa since 5.1
++#
++#        @vmnet-macos since 6.0 (only available on macOS)
+ ##
+ { 'enum': 'NetClientDriver',
+   'data': [ 'none', 'nic', 'user', 'tap', 'l2tpv3', 'socket', 'vde',
+-            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa' ] }
++            'bridge', 'hubport', 'netmap', 'vhost-user', 'vhost-vdpa',
++            { 'name': 'vmnet-macos', 'if': 'defined(CONFIG_DARWIN)' } ] }
+ 
+ ##
+ # @Netdev:
+@@ -475,6 +587,8 @@
+ # Since: 1.2
+ #
+ #        'l2tpv3' - since 2.1
++#
++#        'vmnet-macos' since 6.0 (only available on macOS)
+ ##
+ { 'union': 'Netdev',
+   'base': { 'id': 'str', 'type': 'NetClientDriver' },
+@@ -490,7 +604,9 @@
+     'hubport':  'NetdevHubPortOptions',
+     'netmap':   'NetdevNetmapOptions',
+     'vhost-user': 'NetdevVhostUserOptions',
+-    'vhost-vdpa': 'NetdevVhostVDPAOptions' } }
++    'vhost-vdpa': 'NetdevVhostVDPAOptions',
++    'vmnet-macos': { 'type': 'NetdevVmnetOptions', 
++                     'if': 'defined(CONFIG_DARWIN)' } } }
+ 
+ ##
+ # @NetFilterDirection:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 9172d51659..ec6b40b079 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2483,6 +2483,15 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
+ #ifdef __linux__
+     "-netdev vhost-vdpa,id=str,vhostdev=/path/to/dev\n"
+     "                configure a vhost-vdpa network,Establish a vhost-vdpa netdev\n"
++#endif
++#ifdef CONFIG_DARWIN
++    "-netdev vmnet-macos,id=str,mode=bridged[,ifname=ifname]\n"
++    "         configure a macOS-provided vmnet network in \"physical interface bridge\" mode\n"
++    "         the physical interface to bridge with defaults to en0 if unspecified\n"
++    "-netdev vmnet-macos,id=str,mode=host|shared\n"
++    "                     [,dhcp_start_address=addr,dhcp_end_address=addr,dhcp_subnet_mask=mask]\n"
++    "         configure a macOS-provided vmnet network in \"host\" or \"shared\" mode\n"
++    "         the DHCP configuration will be set automatically if unspecified\n"
+ #endif
+     "-netdev hubport,id=str,hubid=n[,netdev=nd]\n"
+     "                configure a hub port on the hub with ID 'n'\n", QEMU_ARCH_ALL)
 -- 
-2.17.1
+2.24.3 (Apple Git-128)
 
 
