@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4084131B1D7
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:14:10 +0100 (CET)
-Received: from localhost ([::1]:41618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9188231B1D9
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:15:04 +0100 (CET)
+Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBLuK-0005Un-S0
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:14:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33652)
+	id 1lBLvD-0006qi-IR
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:15:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLhJ-0007fP-TP
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:44 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:37188)
+ id 1lBLhL-0007fu-36
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:47 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44568)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLhG-0004VK-0K
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:41 -0500
-Received: by mail-wm1-x330.google.com with SMTP id m1so5840336wml.2
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:36 -0800 (PST)
+ id 1lBLhJ-0004Vg-NM
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:42 -0500
+Received: by mail-wr1-x432.google.com with SMTP id g6so6065409wrs.11
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=7E2jJiu6LIhE2Ap/QoeyVnqYU2wBaOLlH1WxXmievrY=;
- b=TvAxD6cvjNPwhfwRH/JvPIU+9lLd2hWTFQgN15UKRMijoPvU6kDh54YYE6KCDdk+B1
- L2sk6DZnPVo+9GTbpx/XDhGQ1Lg4aVKAcdjLfUtVPr0PhP48/ek9jwD9pt+y4KjjDR3u
- l1hlmujK28cCqu3aZzqF6bATDZdzdf0nVulawAr+LfdAbvA4RXWW26fFhgDTo7KpZSiP
- 7Xc7ymuQxq4WsQkttj+jz8sVY7V9fz4K2dultCI5wpaYi8KKh3c3qZkz60iEuHHaigiR
- 4O6I2UXqkdwvqh8yC3pDmQeGG4QJx8LiUO6WUw9F5jsb2fZFkaOQFFKVNOAEqJQ8EqBS
- fEeQ==
+ bh=U+V4mgoYQ8a3cKweLkQIShkW02XCP8ivJVee8UjrEHo=;
+ b=dlxzrA+zv+GRNm37c1NMndsCwHA7t/eXJkN+TKLQ7L8gf1qet5HCUdeRy5SkIs+vPf
+ mRmq/F9leZx2LnVN5YQ5pkhU2J8u4PDXxPBnFr19zLjHvTMP/xwacLumOs2z7MSAUfLZ
+ 5Wii+rFtl4zk+yLtDiuxLSyU9r5yQwI/DaTCyoFkO1o9vDd2YR/l3u5ug0d2OJ5SgV4O
+ gFK4R3PqlHH4kPiQ5C2aAzSaY+jZOBSY85n8IUaNKRGUn9KwGEN3SGPmnWFVFSHiNUD4
+ S2O2g4/4VW+dA17wizBM1h9GQCgTJqSaRjZrbu0dcnMFV4lr8qWZasnVXr+boigIJ2Uf
+ qzkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=7E2jJiu6LIhE2Ap/QoeyVnqYU2wBaOLlH1WxXmievrY=;
- b=oyj6EIsO4hI4RJfdxZVhtvJfRGDhedkDKPv3L0vQCKtGYXoV2pHRfbYqdAfJ0Hoe0G
- Dh4ZsuzeOOYjH3h4eVPo3CMeTkVT9c/XgwJ6QSNgbx5h6LQGD0PXi1IovEc/F9GFe1n+
- AmI7EzZIdUUnkftKOx3SL6/feDdOWFkpWFUYOzxaVg6zONu/CNxbSvELiFC26Omr0kBf
- mLE29rsGLMSwR2JScKVW+/RI6+uWUvbz42KwHHY/v5RrE/r8fpyaDWM+Xaoe0T5FmDFk
- mXPju2GcdqpkwJCSA0qDTIYsnzGiNN3+eXCGs7l9GbVRu68Vr2o2cSoP9criuZct/TB0
- umSA==
-X-Gm-Message-State: AOAM531kwmqEmpbcvvGLv17ei2mgLsQu+zdLWRlCfERaWg9tKmJebX8v
- egd0rjWwa4wxhpVvqFIrEQEo6XEblBY=
-X-Google-Smtp-Source: ABdhPJx9jOV5B0JicBnmBcr658AEI18ZGOIttCkT6W6q+voWKUHLESVRR1MjR9esitoDq52hO0lonA==
-X-Received: by 2002:a1c:4d03:: with SMTP id o3mr11371598wmh.136.1613325634726; 
- Sun, 14 Feb 2021 10:00:34 -0800 (PST)
+ bh=U+V4mgoYQ8a3cKweLkQIShkW02XCP8ivJVee8UjrEHo=;
+ b=RV9GK95bNP8RLPRPKTgD+/olBjeTpts7z/3PcQd3DgJRJ3SoQH6pbCwlsWAOdwHzZC
+ GeWwdOuOHsALEwIADSv7Ml8TPffEo4dEMEIyOY/oJbJ4JbPll4DXUJuen73W41TGjadq
+ EyC6qKKB1ownLm43DAog9rkIrmm2x3yTfX6+em0QRolGScROXvGCFmgfKCfcNaH8L+8Y
+ McJIxiCf7IbolU0FD4UHnUJ14m5kihIRxO4LoXbJzysXqbNF2k4pPw0Az6rVXKK1cBCL
+ fWcUoQkRvawLPfi1l5RIxiZv8uviNHTxDOcnAZyG3tPkRSndu6yfWq0LQ/Yb8KMLNww0
+ GZew==
+X-Gm-Message-State: AOAM532RMzvoHxHr9KTw7w3ZwZ9KdXHKymh7W6uspafNpEIvj2CEkvAG
+ r35zBunWUrsH/OSL3E++V5+cK7b3nio=
+X-Google-Smtp-Source: ABdhPJzJKdSKdL74uaZXjTmaKRj0UWLWKTYZmp5FpyuI2vjxI/3BtMw8vUQbjIcgIwDFwfssLRkyjw==
+X-Received: by 2002:a05:6000:1543:: with SMTP id
+ 3mr15024308wry.254.1613325639825; 
+ Sun, 14 Feb 2021 10:00:39 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t9sm15791314wrw.76.2021.02.14.10.00.33
+ by smtp.gmail.com with ESMTPSA id o13sm27880973wrs.45.2021.02.14.10.00.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:00:34 -0800 (PST)
+ Sun, 14 Feb 2021 10:00:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 16/42] target/mips/tx79: Introduce PSUB* opcodes (Parallel
- Subtract)
-Date: Sun, 14 Feb 2021 18:58:46 +0100
-Message-Id: <20210214175912.732946-17-f4bug@amsat.org>
+Subject: [RFC PATCH 17/42] target/mips/tx79: Introduce PEXTUW (Parallel Extend
+ Upper from Word)
+Date: Sun, 14 Feb 2021 18:58:47 +0100
+Message-Id: <20210214175912.732946-18-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,46 +98,41 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the 'Parallel Subtract' opcodes:
-
- - PSUBB (Parallel Subtract Byte)
- - PSUBH (Parallel Subtract Halfword)
- - PSUBW (Parallel Subtract Word)
+Introduce the PEXTUW opcode (Parallel Extend Upper from Word).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tx79.decode      |  6 ++++
- target/mips/tx79_translate.c | 61 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 67 insertions(+)
+ target/mips/tx79.decode      |  4 ++++
+ target/mips/tx79_translate.c | 26 ++++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
 
 diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index 26c80b9bce5..d1c07c7d901 100644
+index d1c07c7d901..ead5f8281e5 100644
 --- a/target/mips/tx79.decode
 +++ b/target/mips/tx79.decode
-@@ -29,6 +29,12 @@ MTHI1           011100 .....  0000000000 00000 010001   @rs
- MFLO1           011100 0000000000  ..... 00000 010010   @rd
- MTLO1           011100 .....  0000000000 00000 010011   @rs
+@@ -35,6 +35,10 @@ PSUBW           011100 ..... ..... ..... 00001 001000   @rs_rt_rd
+ PSUBH           011100 ..... ..... ..... 00101 001000   @rs_rt_rd
+ PSUBB           011100 ..... ..... ..... 01001 001000   @rs_rt_rd
  
-+# MMI0
++# MMI1
 +
-+PSUBW           011100 ..... ..... ..... 00001 001000   @rs_rt_rd
-+PSUBH           011100 ..... ..... ..... 00101 001000   @rs_rt_rd
-+PSUBB           011100 ..... ..... ..... 01001 001000   @rs_rt_rd
++PEXTUW          011100 ..... ..... ..... 10010 101000   @rs_rt_rd
 +
  # MMI2
  
  PCPYLD          011100 ..... ..... ..... 01110 001001   @rs_rt_rd
 diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index 28d07baaa73..23146f6bfac 100644
+index 23146f6bfac..0a2fb28600b 100644
 --- a/target/mips/tx79_translate.c
 +++ b/target/mips/tx79_translate.c
-@@ -115,6 +115,67 @@ static bool trans_MTLO1(DisasContext *ctx, arg_rtype *a)
-  * PSUBUW  rd, rs, rt        Parallel Subtract with Unsigned saturation Word
+@@ -332,6 +332,32 @@ static bool trans_PNOR(DisasContext *ctx, arg_rtype *a)
+  * PEXTLW  rd, rs, rt        Parallel Extend Lower from Word
   */
  
-+static bool trans_parallel_substract(DisasContext *ctx, arg_rtype *a, unsigned wlen)
++/* Parallel Extend Upper from Word */
++static bool trans_PEXTUW(DisasContext *ctx, arg_rtype *a)
 +{
-+    TCGv_i64 ax, bx, t0, t1, t2;
++    TCGv_i64 ax, bx;
 +
 +    if (a->rd == 0) {
 +        /* nop */
@@ -145,58 +141,22 @@ index 28d07baaa73..23146f6bfac 100644
 +
 +    ax = tcg_temp_new_i64();
 +    bx = tcg_temp_new_i64();
-+    t0 = tcg_temp_new_i64();
-+    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
 +
-+    /* Lower halve */
-+    gen_load_gpr(ax, a->rs);
-+    gen_load_gpr(bx, a->rt);
-+    for (int i = 0; i < (64 / wlen); i++) {
-+        tcg_gen_sextract_i64(t0, ax, wlen * i, wlen);
-+        tcg_gen_sextract_i64(t1, bx, wlen * i, wlen);
-+        tcg_gen_sub_i64(t2, t0, t1);
-+        tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], t2, wlen * i, wlen);
-+    }
-+    /* Upper halve */
 +    gen_load_gpr_hi(ax, a->rs);
 +    gen_load_gpr_hi(bx, a->rt);
-+    for (int i = 0; i < (64 / wlen); i++) {
-+        tcg_gen_sextract_i64(t0, ax, wlen * i, wlen);
-+        tcg_gen_sextract_i64(t1, bx, wlen * i, wlen);
-+        tcg_gen_sub_i64(t2, t0, t1);
-+        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rd], t2, wlen * i, wlen);
-+    }
 +
-+    tcg_temp_free(t2);
-+    tcg_temp_free(t1);
-+    tcg_temp_free(t0);
++    tcg_gen_deposit_i64(cpu_gpr[a->rd], bx, ax, 32, 32);
++    tcg_gen_shri_i64(bx, bx, 32);
++    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], ax, bx, 0, 32);
++
 +    tcg_temp_free(bx);
 +    tcg_temp_free(ax);
 +
 +    return true;
 +}
 +
-+/* Parallel Subtract Byte */
-+static bool trans_PSUBB(DisasContext *ctx, arg_rtype *a)
-+{
-+    return trans_parallel_substract(ctx, a, 8);
-+}
-+
-+/* Parallel Subtract Halfword */
-+static bool trans_PSUBH(DisasContext *ctx, arg_rtype *a)
-+{
-+    return trans_parallel_substract(ctx, a, 16);
-+}
-+
-+/* Parallel Subtract Word */
-+static bool trans_PSUBW(DisasContext *ctx, arg_rtype *a)
-+{
-+    return trans_parallel_substract(ctx, a, 32);
-+}
-+
  /*
-  *     Min/Max (4 instructions)
+  *     Others (16 instructions)
   *     ------------------------
 -- 
 2.26.2
