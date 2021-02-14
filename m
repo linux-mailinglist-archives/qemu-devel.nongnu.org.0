@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F133B31AEF6
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 06:06:47 +0100 (CET)
-Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9158B31AF69
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 06:58:22 +0100 (CET)
+Received: from localhost ([::1]:39212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lB9cM-0007Y5-M4
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 00:06:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49176)
+	id 1lBAQH-0004Yf-3S
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 00:58:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lB9b1-000728-1p; Sun, 14 Feb 2021 00:05:23 -0500
-Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:41245)
+ id 1lBAOT-0003ua-4z; Sun, 14 Feb 2021 00:56:29 -0500
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:42011)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lB9ay-0007X3-C3; Sun, 14 Feb 2021 00:05:22 -0500
-Received: by mail-yb1-xb2c.google.com with SMTP id m9so1746157ybk.8;
- Sat, 13 Feb 2021 21:05:19 -0800 (PST)
+ id 1lBAON-0003v9-7b; Sun, 14 Feb 2021 00:56:28 -0500
+Received: by mail-yb1-xb35.google.com with SMTP id n195so3879872ybg.9;
+ Sat, 13 Feb 2021 21:56:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=93JBS1kasGrjGQP5QyWouIB88V8r++th0aGR+lBYdZ8=;
- b=FTWnkSiyr/aBvXXv2l50/5ybgqpCGl+oNk52E8k1wQrMFsUrtPuigr6d1X6zjiF/Fp
- CL4TlWIGECdm5GOZAUboI/3QoPKIf9jEEqsxYtQUY3+qc2z+r5jjttQYnoexVPPcuqpR
- z0rZ/Xf3B8Pl/gFz+NdfJq5rwiNEu9vq2Jzgklb3rh76OmqJJg5xjvNBmPvkMAUc/60I
- IfkAxqP+bdohOfEgJsBTRQ44O8vIrUVUOWmfr1krTaULO2TY+4oBpSUoFrMselR2gKW4
- ineMJlHNSNeUVOiHqKuF02gJDYL4uYua8vsOxw/Q/SeYJMLO4UXLOSKzYT5yGkZS6/Vu
- lbAg==
+ :cc; bh=aNZz0zBoiOK03R/fI1w8UfEn0o62Om9klQqrLhNR6gc=;
+ b=WjrWl4jR2BOM460K5wlo2iHtpkjmy8gokV1fXvT95eb7Z4k/DtmWx6B6B7CZjX198K
+ puoDuuFcSZDQBatJU3/2WzvitOvZF/etK+/OF60Uu6rK2QYS8i3olDldfJERChlAItSi
+ a/+VWTCuhAjeOKJsfolWDquGd+CCrKOy4o0U1r8/S6c5O4nRO97hk8EuAXH6QuxTdbRX
+ ial+JOXD9fQsrN38E7VUKYtVsHVzw2nflqXAfYg8/psehECm+sGvY9za3tciAK2dVxK3
+ 75HJQdOjidn6OFG/BgOCrrIZFgtT6CVrM+gE2pYl97v+Qxz1P2tIcaVywb8wb5QJvvZs
+ /yjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=93JBS1kasGrjGQP5QyWouIB88V8r++th0aGR+lBYdZ8=;
- b=hmK633ml/222DJq44hn0iakHdb7ceIfqJQM83twkbgj0kRjKxZcY7IiKR0rUblPv6T
- qVdipNz6piL2Z0OtaqDPp6lVGyIGg3RQ11bon2O3rrFcTK+nwO1h8P1fsb32U9U2SHZA
- 1mHqWa/CrEE+xYdBHdth5QrumcDHB9oQU4r5ZSbL4Qp/O4EfHchHYumzqoXI0NIda5nD
- yeK3po0ckOzJD6hJM4vRkfN17Py+0g/SYR8PYu5+5PJxCT12KpZVchNy+W8WmhCleEDW
- H+F1qPcs3TPMVqEdojsvn+y92GmRK5KTxr34d3qfiAMPZWQAX7/PVVwewhRGWJhmVzVs
- 22bQ==
-X-Gm-Message-State: AOAM533dhr8s7ct8jlT9K1zU5bYmkPiLP79LPHhU7PaBzlqNOUIL62rn
- FyOcuzyKXYL0Iy2DEe5NVM/f2bEanUI+jDOg6Ro=
-X-Google-Smtp-Source: ABdhPJy1HGAV4Jy/Beg9PnJ8DClE2jk5PbUP0VJ0bzBoS+L3Bpk9Uefo/GTybd0/OnbegefUQx8fvzO8Vi6yn7Cdj3U=
-X-Received: by 2002:a25:c407:: with SMTP id u7mr15427178ybf.387.1613279118993; 
- Sat, 13 Feb 2021 21:05:18 -0800 (PST)
+ bh=aNZz0zBoiOK03R/fI1w8UfEn0o62Om9klQqrLhNR6gc=;
+ b=OPDmaI2KOFirZnTN6Fz3oEgYaifnMJodbo6e7QWXq9hn3901fL6UoctKfxn2oydoCd
+ eMnHPem1kjFNED+ivlrprMTN8oiEnSy8CsSK1Zp0zKt9NFXMbZK2uZivTuM0/wkonAzf
+ j8vlHQ7VMjYQbw7CbUBl8D31YLzvNCJZV/EuwefwTa9RuuP4X7Q6YUSV7VrjUfa4ePDj
+ rxnLpjz3OO3Ynu+sHSNvQrKx2jIP2XvpIlJrh0BbAxIra5UBSRLUaQKUhCmRhoxZC4fi
+ ALFvIc+LDfwiVwAxdmcak8U/XxLOELSbjhM70z59O3fePJr4SIv8fKPB6PHLh5/ceTdK
+ PS/g==
+X-Gm-Message-State: AOAM532MGfMyfY+4vQnbluthICr4iIQT+EOtAevYTnUzh6AhNjgS3Eep
+ 3ONOQrl7OR73JThC8eaOZ7Dps30EYjEmY+02XwQ=
+X-Google-Smtp-Source: ABdhPJy3FLt2ycQ3SGU4L+UY3L4DzRBUNbCJpoG+6JuFkVi3h2T4HcbxPZIIKujZygoUmlHtMIMb4KsiCTVoZ6E6fkw=
+X-Received: by 2002:a25:8712:: with SMTP id a18mr14915281ybl.306.1613282180725; 
+ Sat, 13 Feb 2021 21:56:20 -0800 (PST)
 MIME-Version: 1.0
-References: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
- <CAKmqyKOVvaVV-WHhm7dwWyO9zSomvTRA5bXJjf=4aRqqjD96rg@mail.gmail.com>
- <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
-In-Reply-To: <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
+References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
+ <20210211165351.5rr2dpzlg4eqygdn@mozz.bu.edu>
+ <20210211212434.oydbc7ucjbowtnrh@mozz.bu.edu>
+In-Reply-To: <20210211212434.oydbc7ucjbowtnrh@mozz.bu.edu>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 14 Feb 2021 13:05:07 +0800
-Message-ID: <CAEUhbmXY1JDk4tEd0QuoGV+r8vpiQrmHaabxPRqx2haG1hmtQQ@mail.gmail.com>
-Subject: Re: Emulating sd card with hifive_u risc-v machine
-To: Pascal Scholz <pascal.scholz@tu-dresden.de>
+Date: Sun, 14 Feb 2021 13:56:09 +0800
+Message-ID: <CAEUhbmX_omO=F9qGVfX72uhyi8LXKV0EsueW-B27HwAtMNigZw@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
+To: Alexander Bulekov <alxndr@bu.edu>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -76,92 +76,423 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Pascal Scholz <s6899329@msx.tu-dresden.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Li Qiang <liq3ea@163.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Pascal,
+Hi Alexander,
 
-On Thu, Feb 11, 2021 at 5:47 AM Pascal Scholz
-<pascal.scholz@tu-dresden.de> wrote:
+On Fri, Feb 12, 2021 at 5:25 AM Alexander Bulekov <alxndr@bu.edu> wrote:
 >
-> Hi Alistair,
->
-> thanks for your quick and helpful reply. :)
->
-> I'll see, if I can try them out on the weekend and will report my results.
->
-> Best regards and thanks again!
->
-> Pascal
->
-> On 08.02.21 23:49, Alistair Francis wrote:
-> > On Mon, Feb 8, 2021 at 12:00 PM Pascal Scholz
-> > <s6899329@msx.tu-dresden.de> wrote:
-> >> Hi all,
-> >>
-> >> I'm hoping that I addressed the right mailing lists.
-> > Hello Pascal,
+> On 210211 1154, Alexander Bulekov wrote:
+> ...
+> > I applied this along with <20210208193450.2689517-1-f4bug@amsat.org>
+> > "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
 > >
-> > Yep, this is the right place :)
+> > I ran through the entire OSS-Fuzz corpus, and could not reproduce the
+> > crash.
 > >
-> >> I'm working a bit with qemu's risc-v emulation. My current goal is to
-> >> simulate a complete boot process for the SiFive Unleashed Board (SU 540
-> >> SoC)[1]. I've created the correspondig OpenSBI and U-Boot images, being
-> >> the -bios and the -kernel images. It's possible for me to boot up to the
-> >> U-Boot prompt. From this prompt I now want to boot an system image
-> >> located on an emulated sd card.
-
-Yep, your goal is now satisfied with the patch series Alistair pointed
-out, along with one more dependent series (see below)
-
-> >>
-> >> However I now fail to get a working sd card within qemu for the device
-> >> sifive_u. For example i tried the following command:
-> >>
-> >> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
-> >> build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
-> >> ../../u-boot/u-boot.bin -device sdhci-pci -device sd-card,drive=sdX
-> >> -drive id=sdX,if=none,format=raw,file=path/to/image.elf
-> >>
-> >> This results in Qemu telling me: -device sdhci-pci: No 'PCI' bus found
-> >> for device 'sdhci-pci'.
-> >>
-> >> Using the machine "virt" the command above works.
-> >>
-> >> The thing i tried was:
-> >>
-> >> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
-> >> opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
-> >> ../u-boot/u-boot.bin -sd path/to/image.elf
-> >>
-> >> Resulting in: machine type does not support if=sd,bus=0,unit=0
-> >>
-> >>
-> >> Even if the machine gets stuck at some point when booting, Qemu has no
-> >> problem starting the VM if I use "-M virt" instead of "-M sifive_u". At
-> >> this point i think, that the machine "sifive_u" doesn't support sd
-> >> cards? Is this guess right or is there anything left I can try? After
-> > Correct. There is no SD card support for the SiFive U in QEMU.
+> > Tested-by: Alexander Bulekov <alxndr@bu.edu>
 > >
-> > You actually just reminded me though that someone has sent patches to
-> > add support and I need to review them.
-> >
-> > You can find the patches here:
-> > https://patchew.org/QEMU/20210126060007.12904-1-bmeng.cn@gmail.com/
-> > which should work when applied to QEMU.
+> Hi Bin,
+> Phil explained to me that this patch should fix the problem independent
+> of
+> "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
 
-Note you will also need to apply the following SD card patches to make it work:
-http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226785
+Yes, that's what I expect too.
 
-> >
-> > If you do get a chance to test the patches it would be great if you
-> > can let me know what works/doesn't work for you.
+>
+> With only this patch, there are still crashes. Here are three
+> reproducers:
+>
+> Some of these are quite long, so here are pastebins for convenience:
+> Repro 1: https://paste.debian.net/plain/1185137
+> Repro 2: https://paste.debian.net/plain/1185141
+> Repro 3: https://paste.debian.net/plain/1185136
 
-Please test and report.
+I will take a look.
+
+>
+> Just wget and pipe them into
+>  ./qemu-system-i386 -display none -machine accel=qtest -nographic \
+> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
+> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+> -device sd-card,drive=mydrive -qtest stdio
+>
+> ==== Repro 1 ====
+> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
+> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
+> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+> -device sd-card,drive=mydrive -qtest stdio
+> outl 0xcf8 0x80001010
+> outl 0xcfc 0xfbefff00
+> outl 0xcf8 0x80001001
+> outl 0xcfc 0x06000000
+> write 0xfbefff2c 0x1 0x05
+> write 0xfbefff0f 0x1 0x37
+> write 0xfbefff0a 0x1 0x01
+> write 0xfbefff0f 0x1 0x29
+> write 0xfbefff0f 0x1 0x02
+> write 0xfbefff0f 0x1 0x03
+> write 0xfbefff04 0x1 0x01
+> write 0xfbefff05 0x1 0x01
+> write 0xfbefff07 0x1 0x02
+> write 0xfbefff0c 0x1 0x33
+> write 0xfbefff0e 0x1 0x20
+> write 0xfbefff0f 0x1 0x00
+> write 0xfbefff2a 0x1 0x01
+> write 0xfbefff0c 0x1 0x00
+> write 0xfbefff03 0x1 0x00
+> write 0xfbefff05 0x1 0x00
+> write 0xfbefff2a 0x1 0x02
+> write 0xfbefff0c 0x1 0x32
+> write 0xfbefff01 0x1 0x01
+> write 0xfbefff02 0x1 0x01
+> write 0xfbefff03 0x1 0x01
+> EOF
+>
+> ==== Stack Trace 1 ====
+> ==929953==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x615000031880 at pc 0x564cf01ceae7 bp 0x7ffe17361e10 sp 0x7ffe173615d8
+> READ of size 520027904 at 0x615000031880 thread T0
+>     #0 0x564cf01ceae6 in __asan_memcpy (/home/alxndr/Development/qemu/build/qemu-system-i386+0x2a8cae6)
+>     #1 0x564cf19111a5 in flatview_write_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2781:13
+>     #2 0x564cf1906beb in flatview_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2816:14
+>     #3 0x564cf1906beb in address_space_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2908:18
+>     #4 0x564cf096348c in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
+>     #5 0x564cf096348c in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
+>     #6 0x564cf096348c in dma_memory_write /home/alxndr/Development/qemu/include/sysemu/dma.h:163:12
+>     #7 0x564cf096348c in sdhci_sdma_transfer_multi_blocks /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:619:13
+>     #8 0x564cf097237d in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1131:17
+>     #9 0x564cf154333c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
+>
+> ==== Repro 2 ====
+>
+> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
+> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
+> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+> -device sd-card,drive=mydrive -qtest stdio
+> outl 0xcf8 0x80001013
+> outl 0xcfc 0x91
+> outl 0xcf8 0x80001001
+> outl 0xcfc 0x06000000
+> write 0x9100002c 0x1 0x05
+> write 0x9100000f 0x1 0x37
+> write 0x9100000a 0x1 0x01
+> write 0x9100000f 0x1 0x29
+> write 0x9100000f 0x1 0x02
+> write 0x9100000f 0x1 0x03
+> write 0x0 0x1 0x01
+> write 0x8 0x1 0x01
+> write 0x10 0x1 0x01
+> write 0x18 0x1 0x01
+> write 0x20 0x1 0x01
+> write 0x28 0x1 0x01
+> write 0x30 0x1 0x01
+> write 0x38 0x1 0x01
+> write 0x40 0x1 0x01
+> write 0x48 0x1 0x01
+> write 0x50 0x1 0x01
+> write 0x58 0x1 0x01
+> write 0x60 0x1 0x01
+> write 0x68 0x1 0x01
+> write 0x70 0x1 0x01
+> write 0x91000005 0x1 0x02
+> write 0x91000007 0x1 0x20
+> write 0x78 0x1 0x01
+> write 0x80 0x1 0x01
+> write 0x88 0x1 0x01
+> write 0x90 0x1 0x01
+> write 0x98 0x1 0x01
+> write 0xa0 0x1 0x01
+> write 0xa8 0x1 0x01
+> write 0xb0 0x1 0x01
+> write 0xb8 0x1 0x01
+> write 0xc0 0x1 0x01
+> write 0x9100000e 0x1 0x21
+> write 0x91000028 0x1 0x10
+> write 0x9100000c 0x1 0x01
+> write 0x9100000f 0x1 0x06
+> write 0xc8 0x1 0x01
+> write 0xd0 0x1 0x01
+> write 0xd8 0x1 0x01
+> write 0xe0 0x1 0x01
+> write 0xe8 0x1 0x01
+> write 0xf0 0x1 0x01
+> write 0xf8 0x1 0x01
+> write 0x100 0x1 0x01
+> write 0x108 0x1 0x01
+> write 0x110 0x1 0x01
+> write 0x118 0x1 0x01
+> write 0x120 0x1 0x01
+> write 0x128 0x1 0x01
+> write 0x130 0x1 0x01
+> write 0x138 0x1 0x01
+> write 0x140 0x1 0x01
+> write 0x148 0x1 0x01
+> write 0x150 0x1 0x01
+> write 0x158 0x1 0x01
+> write 0x160 0x1 0x01
+> write 0x168 0x1 0x01
+> write 0x170 0x1 0x01
+> write 0x178 0x1 0x01
+> write 0x180 0x1 0x01
+> write 0x188 0x1 0x01
+> write 0x190 0x1 0x01
+> write 0x198 0x1 0x01
+> write 0x1a0 0x1 0x01
+> write 0x1a8 0x1 0x01
+> write 0x1b0 0x1 0x01
+> write 0x91000037 0x1 0x00
+> write 0x91000038 0x1 0x00
+> write 0x1b8 0x1 0x01
+> write 0x1c0 0x1 0x01
+> write 0x1c8 0x1 0x01
+> write 0x1d0 0x1 0x01
+> write 0x1d8 0x1 0x01
+> write 0x1e0 0x1 0x01
+> write 0x1e8 0x1 0x01
+> write 0x1f0 0x1 0x01
+> write 0x1f8 0x1 0x01
+> write 0x200 0x1 0x01
+> write 0x208 0x1 0x01
+> write 0x210 0x1 0x01
+> write 0x218 0x1 0x01
+> write 0x220 0x1 0x01
+> write 0x228 0x1 0x01
+> write 0x9100000d 0x1 0x00
+> write 0x9100000f 0x1 0x10
+> write 0x91000011 0x1 0x00
+> write 0x230 0x1 0x01
+> write 0x238 0x1 0x01
+> write 0x240 0x1 0x01
+> write 0x248 0x1 0x01
+> write 0x250 0x1 0x01
+> write 0x258 0x1 0x01
+> write 0x260 0x1 0x01
+> write 0x268 0x1 0x01
+> write 0x270 0x1 0x01
+> write 0x278 0x1 0x01
+> write 0x280 0x1 0x01
+> write 0x288 0x1 0x01
+> write 0x290 0x1 0x01
+> write 0x298 0x1 0x01
+> write 0x2a0 0x1 0x01
+> write 0x9100000a 0x2 0x0000
+> write 0x9100000c 0x6 0x010000
+> write 0x2a8 0x1 0x01
+> write 0x2b0 0x1 0x01
+> write 0x2b8 0x1 0x01
+> write 0x2c0 0x1 0x01
+> write 0x2c8 0x1 0x01
+> write 0x2d0 0x1 0x01
+> write 0x2d8 0x1 0x01
+> write 0x2e0 0x1 0x01
+> write 0x2e8 0x1 0x01
+> write 0x2f0 0x1 0x01
+> write 0x2f8 0x1 0x01
+> write 0x300 0x1 0x01
+> write 0x308 0x1 0x01
+> write 0x310 0x1 0x01
+> write 0x318 0x1 0x01
+> write 0x320 0x1 0x01
+> write 0x328 0x1 0x01
+> write 0x330 0x1 0x01
+> write 0x338 0x1 0x01
+> write 0x340 0x1 0x01
+> write 0x348 0x1 0x01
+> write 0x350 0x1 0x01
+> write 0x358 0x1 0x01
+> write 0x360 0x1 0x01
+> write 0x368 0x1 0x01
+> write 0x370 0x1 0x01
+> write 0x378 0x1 0x01
+> write 0x380 0x1 0x01
+> write 0x388 0x1 0x01
+> write 0x390 0x1 0x01
+> write 0x9100000f 0x1 0x00
+> write 0x91000011 0x1 0x00
+> write 0x398 0x1 0x01
+> write 0x3a0 0x1 0x01
+> write 0x3a8 0x1 0x01
+> write 0x3b0 0x1 0x01
+> write 0x3b8 0x1 0x21
+> write 0x3bb 0x1 0x01
+> write 0x3c0 0x1 0x21
+> write 0x9100000a 0x2 0x0000
+> write 0x9100000c 0x6 0x010000
+> write 0x9100000a 0x2 0x00
+> write 0x9100000c 0x6 0x01
+> write 0x9100000a 0x2 0x0000
+> write 0x9100000c 0x6 0x010000
+> write 0x9100000a 0x2 0x00
+> write 0x9100000c 0x6 0x010000
+> write 0x91000005 0x1 0x00
+> write 0x9100000c 0x1 0x00
+> EOF
+>
+> ==== Stack Trace 2 ====
+> ==837609==ERROR: AddressSanitizer: heap-buffer-overflow on address
+> 0x615000032280 at pc 0x564afb30eb6a bp 0x7ffdda140d90 sp 0x7ffdda140558
+> WRITE of size 483589332 at 0x615000032280 thread T0
+> #0 0x564afb30eb69 in __asan_memcpy (/home/alxndr/Development/qemu/build/qemu-fuzz-i386+0x2bccb69)
+> #1 0x564afca598bd in flatview_read_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2846:13
+> #2 0x564afca5b09b in flatview_read /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2879:12
+> #3 0x564afca5b09b in address_space_read_full /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2892:18
+> #4 0x564afbab9e9d in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
+> #5 0x564afbab9e9d in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
+> #6 0x564afbab9e9d in dma_memory_read /home/alxndr/Development/qemu/include/sysemu/dma.h:145:12
+> #7 0x564afbab9e9d in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:809:21
+> #8 0x564afbab2b81 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
+> #9 0x564afbac2966 in sdhci_resume_pending_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:964:5
+> #10 0x564afbac2966 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1120:9
+> #11 0x564afc697c6c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
+>
+>
+> ==== Repro 3 ====
+> (There is an identical one for a heap overflow through read ldl_he_p.
+> Let me know if it would be useful to provide it):
+>
+> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
+> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
+> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+> -device sd-card,drive=mydrive -qtest stdio
+> outl 0xcf8 0x80001010
+> outl 0xcfc 0xe0000000
+> outl 0xcf8 0x80001004
+> outw 0xcfc 0x06
+> write 0xe0000004 0x1 0x41
+> write 0xe0000006 0x1 0x80
+> write 0xe0000028 0x1 0x10
+> write 0xe000002c 0x1 0x05
+> write 0x0 0x1 0x21
+> write 0x2 0x1 0x0a
+> write 0x8 0x1 0x01
+> write 0xa 0x1 0x00
+> write 0x10 0x1 0x01
+> write 0x12 0x1 0x00
+> write 0x18 0x1 0x21
+> write 0x1a 0x1 0x16
+> write 0x20 0x1 0x01
+> write 0x22 0x1 0x00
+> write 0x28 0x1 0x01
+> write 0x2a 0x1 0x00
+> write 0x30 0x1 0x21
+> write 0x32 0x1 0x16
+> write 0x38 0x1 0x01
+> write 0x3a 0x1 0x00
+> write 0x40 0x1 0x01
+> write 0x42 0x1 0x00
+> write 0x48 0x1 0x21
+> write 0x4a 0x1 0x16
+> write 0x50 0x1 0x01
+> write 0x52 0x1 0x00
+> write 0x58 0x1 0x01
+> write 0x5a 0x1 0x00
+> write 0x60 0x1 0x21
+> write 0x62 0x1 0x16
+> write 0x68 0x1 0x01
+> write 0x6a 0x1 0x00
+> write 0x70 0x1 0x01
+> write 0x72 0x1 0x00
+> write 0x78 0x1 0x21
+> write 0x80 0x1 0x21
+> write 0x82 0x1 0x58
+> write 0x88 0x1 0x01
+> write 0x8a 0x1 0x00
+> write 0x90 0x1 0x01
+> write 0x92 0x1 0x00
+> write 0x98 0x1 0x21
+> write 0x9a 0x1 0x16
+> write 0xa0 0x1 0x21
+> write 0xa8 0x1 0x01
+> write 0xaa 0x1 0x00
+> write 0xb0 0x1 0x01
+> write 0xb2 0x1 0x00
+> write 0xb8 0x1 0x21
+> write 0xba 0x1 0x18
+> write 0xc0 0x1 0x01
+> write 0xc2 0x1 0x00
+> write 0xc8 0x1 0x01
+> write 0xca 0x1 0x00
+> write 0xd0 0x1 0x21
+> write 0xd2 0x1 0x16
+> write 0xd8 0x1 0x01
+> write 0xda 0x1 0x00
+> write 0xe0 0x1 0x01
+> write 0xe2 0x1 0x00
+> write 0xe8 0x1 0x21
+> write 0xea 0x1 0x18
+> write 0xf0 0x1 0x01
+> write 0xf2 0x1 0x00
+> write 0xf8 0x1 0x01
+> write 0xfa 0x1 0x00
+> write 0x100 0x1 0x21
+> write 0x102 0x1 0x16
+> write 0x108 0x1 0x01
+> write 0x10a 0x1 0x00
+> write 0x110 0x1 0x01
+> write 0x112 0x1 0x00
+> write 0x118 0x1 0x21
+> write 0x11a 0x1 0x18
+> write 0x120 0x1 0x01
+> write 0x122 0x1 0x00
+> write 0x128 0x1 0x01
+> write 0x12a 0x1 0x00
+> write 0x130 0x1 0x21
+> write 0x132 0x1 0x16
+> write 0x138 0x1 0x01
+> write 0x13a 0x1 0x00
+> write 0x140 0x1 0x01
+> write 0x142 0x1 0x00
+> write 0x148 0x1 0x21
+> write 0x14a 0x1 0x18
+> write 0x150 0x1 0x01
+> write 0x152 0x1 0x00
+> write 0x158 0x1 0x01
+> write 0x15a 0x1 0x00
+> write 0x160 0x1 0x21
+> write 0x162 0x1 0x16
+> write 0xe000000c 0x1 0x01
+> write 0xe000000e 0x1 0x20
+> write 0xe000000f 0x1 0x00
+> write 0x168 0x1 0x21
+> write 0x16d 0x1 0xff
+> write 0x16e 0x1 0xff
+> write 0x16f 0x1 0x1f
+> write 0xe0000000 0x4 0x00
+> write 0xe0000004 0x4 0x03010000
+> write 0xe0000085 0x1 0x00
+> write 0xe0000086 0x6 0x00
+> write 0xe000008c 0x1 0x00
+> write 0xe0000000 0x4 0x00
+> write 0xe0000004 0x2 0x00
+> write 0xe0000038 0x1 0x00
+> EOF
+>
+>
+> Stack Trace 3:
+> =817509==ERROR: AddressSanitizer: heap-buffer-overflow on address
+> 0x615000032280 at pc 0x564afca59f2b bp 0x7ffdda140d90 sp 0x7ffdda140d88
+> WRITE of size 4 at 0x615000032280 thread T0
+> #0 0x564afca59f2a in stl_he_p /home/alxndr/Development/qemu/include/qemu/bswap.h:353:5
+> #1 0x564afca59f2a in stn_he_p /home/alxndr/Development/qemu/include/qemu/bswap.h:546:1
+> #2 0x564afca59f2a in flatview_read_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2841:13
+> #3 0x564afca5b09b in flatview_read /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2879:12
+> #4 0x564afca5b09b in address_space_read_full /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2892:18
+> #5 0x564afbab9e9d in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
+> #6 0x564afbab9e9d in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
+> #7 0x564afbab9e9d in dma_memory_read /home/alxndr/Development/qemu/include/sysemu/dma.h:145:12
+> #8 0x564afbab9e9d in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:809:21
+> #9 0x564afbab2b81 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
+> #10 0x564afbac2966 in sdhci_resume_pending_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:964:5
+> #11 0x564afbac2966 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1120:9
+> #12 0x564afc697c6c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
 
 Regards,
 Bin
