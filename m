@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43F431AEF4
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 06:02:48 +0100 (CET)
-Received: from localhost ([::1]:59898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F133B31AEF6
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 06:06:47 +0100 (CET)
+Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lB9YV-0006KS-Ai
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 00:02:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
+	id 1lB9cM-0007Y5-M4
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 00:06:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lB9VX-0005fg-Qj
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 23:59:43 -0500
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:36846)
+ id 1lB9b1-000728-1p; Sun, 14 Feb 2021 00:05:23 -0500
+Received: from mail-yb1-xb2c.google.com ([2607:f8b0:4864:20::b2c]:41245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lB9VU-00065h-B2
- for qemu-devel@nongnu.org; Sat, 13 Feb 2021 23:59:43 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id b10so3859314ybn.3
- for <qemu-devel@nongnu.org>; Sat, 13 Feb 2021 20:59:39 -0800 (PST)
+ id 1lB9ay-0007X3-C3; Sun, 14 Feb 2021 00:05:22 -0500
+Received: by mail-yb1-xb2c.google.com with SMTP id m9so1746157ybk.8;
+ Sat, 13 Feb 2021 21:05:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=TEWAUO5MFsgh+0YfNb56EcWMHDN8bZwFigmucghgLbY=;
- b=tFYS7Vh7BfzyAcNLU9lFfyN6ZRKOuTptQyLGK3Qbd3o8VNb5H7zYfyYGO34CwlT03b
- tgmp+y2zgj+sW1rDzGESD+8TXDgUmUzofF562SgRr6j5wpSKxMRbhPjs5OzxK5vzXieU
- ETws+2xVineHxGZwhmNLDxpJXptD29JckrKkABzRO++ubhTOSlkXnASJWbzDr0s4G15n
- MdVOzDl2eN4PHlGhyusz1VvGWnlJBcmA1JPFGZ7vlVBs0WMx3xLsEbtTW0lwu9hbk9d2
- atLNXXbCmgaQn6kbQ+oLOhvPbbg/hKIyR4Q1rWII7s5O4mJEiOgUeM9FpInLCNqm4gNk
- klTw==
+ :cc; bh=93JBS1kasGrjGQP5QyWouIB88V8r++th0aGR+lBYdZ8=;
+ b=FTWnkSiyr/aBvXXv2l50/5ybgqpCGl+oNk52E8k1wQrMFsUrtPuigr6d1X6zjiF/Fp
+ CL4TlWIGECdm5GOZAUboI/3QoPKIf9jEEqsxYtQUY3+qc2z+r5jjttQYnoexVPPcuqpR
+ z0rZ/Xf3B8Pl/gFz+NdfJq5rwiNEu9vq2Jzgklb3rh76OmqJJg5xjvNBmPvkMAUc/60I
+ IfkAxqP+bdohOfEgJsBTRQ44O8vIrUVUOWmfr1krTaULO2TY+4oBpSUoFrMselR2gKW4
+ ineMJlHNSNeUVOiHqKuF02gJDYL4uYua8vsOxw/Q/SeYJMLO4UXLOSKzYT5yGkZS6/Vu
+ lbAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=TEWAUO5MFsgh+0YfNb56EcWMHDN8bZwFigmucghgLbY=;
- b=myVSX6Yl11UHahr15uw0B36PhprNMEVBMbcBE3D7ZHZIOBkzf2oa3zqExn0+lNV5lb
- Smou+Cup58GDensO5uIAP+o6Ggcc8BYihtuUFQ83MNjXdmGDyQEYrcNhofrcsDl2Ht2I
- hCZr2i1g1RtJfDxj+s5brlESaLY/8NRHxGpaCYudTMS1MkVa5iPNX+9l+f7XtfrT9Hjl
- EAl6N9zzLbozPuvtUqof/h6Vxf2JkjDltMpM4h6iGNUtQb2s0TgpOaHbteih0TEV76jl
- IxR5i6FdgH0jK5+Y+CmBzrflc5sWWNN0UrnrjQMIEoxq9qrDYVjy4KpESWU+9m+P35Sz
- urXg==
-X-Gm-Message-State: AOAM533GKF0UnpArKdeml43KhugnVKDRfepzBJC6EcPEQL67lwEJzwqa
- dBCksu2G2riX1bF92gwPxI3EwwAsRHSQihzJ2vE=
-X-Google-Smtp-Source: ABdhPJwvswzDLVg+BaYpNp761VqSLIsjjXBM53Du5F+vRliekhLKZTO6GHxwtgo/jkTEBoiE28TOpERXaiEOcsgNMWo=
-X-Received: by 2002:a25:7d01:: with SMTP id y1mr15376404ybc.152.1613278779080; 
- Sat, 13 Feb 2021 20:59:39 -0800 (PST)
+ bh=93JBS1kasGrjGQP5QyWouIB88V8r++th0aGR+lBYdZ8=;
+ b=hmK633ml/222DJq44hn0iakHdb7ceIfqJQM83twkbgj0kRjKxZcY7IiKR0rUblPv6T
+ qVdipNz6piL2Z0OtaqDPp6lVGyIGg3RQ11bon2O3rrFcTK+nwO1h8P1fsb32U9U2SHZA
+ 1mHqWa/CrEE+xYdBHdth5QrumcDHB9oQU4r5ZSbL4Qp/O4EfHchHYumzqoXI0NIda5nD
+ yeK3po0ckOzJD6hJM4vRkfN17Py+0g/SYR8PYu5+5PJxCT12KpZVchNy+W8WmhCleEDW
+ H+F1qPcs3TPMVqEdojsvn+y92GmRK5KTxr34d3qfiAMPZWQAX7/PVVwewhRGWJhmVzVs
+ 22bQ==
+X-Gm-Message-State: AOAM533dhr8s7ct8jlT9K1zU5bYmkPiLP79LPHhU7PaBzlqNOUIL62rn
+ FyOcuzyKXYL0Iy2DEe5NVM/f2bEanUI+jDOg6Ro=
+X-Google-Smtp-Source: ABdhPJy1HGAV4Jy/Beg9PnJ8DClE2jk5PbUP0VJ0bzBoS+L3Bpk9Uefo/GTybd0/OnbegefUQx8fvzO8Vi6yn7Cdj3U=
+X-Received: by 2002:a25:c407:: with SMTP id u7mr15427178ybf.387.1613279118993; 
+ Sat, 13 Feb 2021 21:05:18 -0800 (PST)
 MIME-Version: 1.0
-References: <CACAZ_0-0Ei17mzWhQJmjiqmcGY7s7uNvX=VYh1zezoyYTreHHQ@mail.gmail.com>
-In-Reply-To: <CACAZ_0-0Ei17mzWhQJmjiqmcGY7s7uNvX=VYh1zezoyYTreHHQ@mail.gmail.com>
+References: <d2511f50-8b72-8a3b-9127-75b3ed98c584@msx.tu-dresden.de>
+ <CAKmqyKOVvaVV-WHhm7dwWyO9zSomvTRA5bXJjf=4aRqqjD96rg@mail.gmail.com>
+ <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
+In-Reply-To: <91d3712d74d3443397af042388b78865@MSX-L105.msx.ad.zih.tu-dresden.de>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 14 Feb 2021 12:59:27 +0800
-Message-ID: <CAEUhbmVfv6Tr2EEmC23g2Bwr1KL2TGmRaBg=nrFLz7Y24EnTgw@mail.gmail.com>
-Subject: Re: hifive-unleashed board
-To: Sanskar Khandelwal <kdsanskar07@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>
+Date: Sun, 14 Feb 2021 13:05:07 +0800
+Message-ID: <CAEUhbmXY1JDk4tEd0QuoGV+r8vpiQrmHaabxPRqx2haG1hmtQQ@mail.gmail.com>
+Subject: Re: Emulating sd card with hifive_u risc-v machine
+To: Pascal Scholz <pascal.scholz@tu-dresden.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2c;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,29 +76,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, xiaoguangrong.eric@gmail.com,
+Cc: Alistair Francis <alistair23@gmail.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Pascal Scholz <s6899329@msx.tu-dresden.de>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Sanskar,
+Hi Pascal,
 
-On Sat, Feb 13, 2021 at 7:27 PM Sanskar Khandelwal
-<kdsanskar07@gmail.com> wrote:
+On Thu, Feb 11, 2021 at 5:47 AM Pascal Scholz
+<pascal.scholz@tu-dresden.de> wrote:
 >
-> Hii there,
+> Hi Alistair,
 >
-> I want to know, what are the devices(e.g., networking, UART, flash, etc?) qemu support for the platform sifive risc-v hifive unleashed board .Also if you can share any document related to this will be a big help.
-
-Please see this patch which is the documentation of the sifive_u
-target which is the emulation of the SiFive HiFive Unleashed board.
-http://patchwork.ozlabs.org/project/qemu-devel/patch/20210126060007.12904-10-bmeng.cn@gmail.com/
-
+> thanks for your quick and helpful reply. :)
 >
-> Actually I am new to embedded systems and this is for my project where I have to add support for a few of these devices in the bsp.
+> I'll see, if I can try them out on the weekend and will report my results.
+>
+> Best regards and thanks again!
+>
+> Pascal
+>
+> On 08.02.21 23:49, Alistair Francis wrote:
+> > On Mon, Feb 8, 2021 at 12:00 PM Pascal Scholz
+> > <s6899329@msx.tu-dresden.de> wrote:
+> >> Hi all,
+> >>
+> >> I'm hoping that I addressed the right mailing lists.
+> > Hello Pascal,
+> >
+> > Yep, this is the right place :)
+> >
+> >> I'm working a bit with qemu's risc-v emulation. My current goal is to
+> >> simulate a complete boot process for the SiFive Unleashed Board (SU 540
+> >> SoC)[1]. I've created the correspondig OpenSBI and U-Boot images, being
+> >> the -bios and the -kernel images. It's possible for me to boot up to the
+> >> U-Boot prompt. From this prompt I now want to boot an system image
+> >> located on an emulated sd card.
 
-Great. Hope QEMU could help you support these devices.
+Yep, your goal is now satisfied with the patch series Alistair pointed
+out, along with one more dependent series (see below)
+
+> >>
+> >> However I now fail to get a working sd card within qemu for the device
+> >> sifive_u. For example i tried the following command:
+> >>
+> >> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
+> >> build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
+> >> ../../u-boot/u-boot.bin -device sdhci-pci -device sd-card,drive=sdX
+> >> -drive id=sdX,if=none,format=raw,file=path/to/image.elf
+> >>
+> >> This results in Qemu telling me: -device sdhci-pci: No 'PCI' bus found
+> >> for device 'sdhci-pci'.
+> >>
+> >> Using the machine "virt" the command above works.
+> >>
+> >> The thing i tried was:
+> >>
+> >> qemu-system-riscv64 -M sifive_u -m 8G -serial stdio -bios
+> >> opensbi/build/platform/sifive/fu540/firmware/fw_jump.bin -kernel
+> >> ../u-boot/u-boot.bin -sd path/to/image.elf
+> >>
+> >> Resulting in: machine type does not support if=sd,bus=0,unit=0
+> >>
+> >>
+> >> Even if the machine gets stuck at some point when booting, Qemu has no
+> >> problem starting the VM if I use "-M virt" instead of "-M sifive_u". At
+> >> this point i think, that the machine "sifive_u" doesn't support sd
+> >> cards? Is this guess right or is there anything left I can try? After
+> > Correct. There is no SD card support for the SiFive U in QEMU.
+> >
+> > You actually just reminded me though that someone has sent patches to
+> > add support and I need to review them.
+> >
+> > You can find the patches here:
+> > https://patchew.org/QEMU/20210126060007.12904-1-bmeng.cn@gmail.com/
+> > which should work when applied to QEMU.
+
+Note you will also need to apply the following SD card patches to make it work:
+http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226785
+
+> >
+> > If you do get a chance to test the patches it would be great if you
+> > can let me know what works/doesn't work for you.
+
+Please test and report.
 
 Regards,
 Bin
