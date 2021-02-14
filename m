@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 291F731B36D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:33:07 +0100 (CET)
-Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E5B31B373
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:42:38 +0100 (CET)
+Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBQt0-0004li-3p
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:33:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34132)
+	id 1lBR2D-0001mq-NI
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:42:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBQmS-00057C-CL
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:26:20 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:37591)
+ id 1lBQwa-0002Zj-Gn
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:36:50 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43357)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBQmQ-0007wz-A8
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:26:19 -0500
-Received: by mail-pf1-x431.google.com with SMTP id b145so3133104pfb.4
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 15:26:17 -0800 (PST)
+ id 1lBQwY-0002oS-C7
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:36:48 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id n10so3229664pgl.10
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 15:36:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8xdPVWuGPzdI/5f3O2HTMaRq72haBg6YXY0PhC14shg=;
- b=dCVzPcMQwTpJ9Fu/75dPytbq25IWRT6rkUaWREAUBNgaz9Wj4f9umNnFr4YJPFwq7o
- 30SOrcU0N6BUVykLSHQP7GIc0wIdjQ4q1jIpHrvYlk63oPQSAsp/F+Zn4xYNKtYRvepr
- tiBsFHRTqvSPq0isDhKQURu95Dc3abCN9waiqmp813p+zx2JqOD7A7daq0+ItOfdIOyz
- 3qrQWdB9Ac0RCoVpf7ORB90Y1w3EZP1WzPQ9HWzTRduePUBRq0wp0bY6iZHZ0dcK85G1
- 40WMD/68QmZD6N+TtAAYCp9oFLOVKoomH0Y85AI4fN1Z7YbAknOJslSVGkNELul+qu8M
- VsYQ==
+ bh=6MXLB98Y2+Glg1C/oxlt6X7gNhP9w8vCS4rutCUOyT4=;
+ b=ry7J/kG64cqGYDMf3O9sCVxxoC6HJEKp8YA4qmtHZNRmISKbP+rkiq38AIupoiyU4c
+ joxS9VAuBClw25JM0kkthaYt8R9sWZHSNrD8QA72DCM0PvbobmpuyhI7KoN0IbALXgdK
+ biDlapySNxN3XxjMBMaSks7IVD9BRvb3O4oYI335MqZ3zJp/xi1Z/yrT00a5+jD4HjQF
+ Tbvb0MCgmcqViwzy0qboENs4hj2oHgJ92/F/3hIUDwfl8ergCwlneS5nTc3s4mpI93xw
+ ErFuQRxX6MEeQF1bk1MCjcZquh0+WG7sz9BsPZQkLFwAWBL3I2yxyP9gTFHnBXhgU1au
+ QeVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=8xdPVWuGPzdI/5f3O2HTMaRq72haBg6YXY0PhC14shg=;
- b=E9P34sXJmJ3jrZ9dNDLDYQVbXXG670xfUTtfb6PpgonPGyVvKWr5lG5NoeqieamxBY
- rUT2SdTAKXzdHkWB23x6obFpL5lL7qNLvWepKm1CWu0vibmT/S72PELeaNee/q22z2CU
- DpHBHE/3s+UklAWs3mOpwwBz0x22I8dg4Xs9TQucajJ7F6D6kwW1IzUiaY5bJ3iqv4Jd
- YnhXAey/tuDCTZwAwcAHqzX9HDp4NGtHpz75IJXyS8/DyLLcuyeiRpalEcL+cBJSEMne
- TSMxuMfybVaHXUQNsL0hCa1/qLw9uMSUPXn+7cOejo+YmS1xbUGuNqb0/y/WP4ID7eiY
- 1j9Q==
-X-Gm-Message-State: AOAM530KAtek5LZqVeZIftzURHtDpE/5O9BFMqS7PwX1+xaPeW9oJSqA
- JmUDS/7UyOy9ZaIEEG9JqhfiLg==
-X-Google-Smtp-Source: ABdhPJxXZaKTtIxTxh8uFIgtCQShFCKp0kkvuw/u6RCW0yX4rUQiGw9jTlmfFvCAAbsOxcITq7uJzg==
-X-Received: by 2002:a63:3686:: with SMTP id
- d128mr12483841pga.240.1613345176363; 
- Sun, 14 Feb 2021 15:26:16 -0800 (PST)
+ bh=6MXLB98Y2+Glg1C/oxlt6X7gNhP9w8vCS4rutCUOyT4=;
+ b=QINCB3tNv6TT/BeKDEn/lX/jNhsVBKOrJRAVZNr4WVBJci5yPVbBKkmV9KrOZYcD6l
+ FHOJcuuvgkHIspjJdppEzHw7ZBVHYpLpMXjjBicn+iUnz0tyQckaeGkGxr/Sryp6QfCg
+ aG60Rcq/CsSCWImbgJS5CFGi+LFBRFR7tnn+0uy08vA+dlbszTPdQswxyz+nF3mNDGoY
+ /O2LWfSlqzCLIj1f0daysg2KCCpUPL4bbL2gIotXwCoublWlaCzazx6u2itUg+qsj0Fx
+ QA7aRz0XxBbYtLRHwZ6GqafBtXQ4R4N7rYtboREMsqO40sSvpKZYcGxX7gk+xMdr0YKs
+ Y+6g==
+X-Gm-Message-State: AOAM5331yvg5JjeLZwBuldEAOy6sGWLI6Fyx+wDzrGKtQ8iHvnKn7JKy
+ cCd2Nzp5S/eUWMKiOU/xeXBIzA==
+X-Google-Smtp-Source: ABdhPJwRkn0NE7niWEQUevYcEFWniE4Ou5zDwrAmGGKsyisUaV4ufte1bV+U4pbBLzawQ+Jt/3/gKg==
+X-Received: by 2002:a63:d242:: with SMTP id t2mr12662883pgi.431.1613345804883; 
+ Sun, 14 Feb 2021 15:36:44 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- q126sm15804964pfb.111.2021.02.14.15.26.15
+ v23sm15779600pgo.43.2021.02.14.15.36.44
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 15:26:15 -0800 (PST)
-Subject: Re: [PATCH v8 22/35] Hexagon (target/hexagon) generater phase 4 -
- decode tree
+ Sun, 14 Feb 2021 15:36:44 -0800 (PST)
+Subject: Re: [PATCH v8 24/35] Hexagon (target/hexagon) macros
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-23-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-25-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <36023201-1fba-a1bb-8bb7-6f3ed974d905@linaro.org>
-Date: Sun, 14 Feb 2021 15:26:14 -0800
+Message-ID: <0d91f4bd-824f-d370-13ba-ec2c393ae115@linaro.org>
+Date: Sun, 14 Feb 2021 15:36:42 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-23-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1612763186-18161-25-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,13 +94,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> Python script that emits the decode tree in dectree_generated.h.
+> macros to interface with the generator
+> macros referenced in instruction semantics
 > 
 > Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->  target/hexagon/dectree.py | 351 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 351 insertions(+)
->  create mode 100755 target/hexagon/dectree.py
+>  target/hexagon/macros.h | 592 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 592 insertions(+)
+>  create mode 100644 target/hexagon/macros.h
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
