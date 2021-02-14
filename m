@@ -2,80 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B6E831B2E6
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 22:53:25 +0100 (CET)
-Received: from localhost ([::1]:59834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F50F31B331
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:08:57 +0100 (CET)
+Received: from localhost ([::1]:35534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBPKW-0004CL-4f
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 16:53:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47728)
+	id 1lBQVb-0007DP-Ne
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:08:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBPJh-0003lU-Rt
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 16:52:33 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:32821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBPJe-0007KR-Ek
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 16:52:33 -0500
-Received: by mail-pl1-x634.google.com with SMTP id d13so2660912plg.0
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 13:52:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=r2gNAr6FKwUYYAgdhaqxeClhLlm2XQnjAlOWbkTIRyA=;
- b=LbC1/uV2Le7gpOmrOnVzbyT8UxnSh2hA3q//jXaoVK/QA4K47DfPcKb7u2MBITl6OF
- Oo0IsCQy6yqSR7Iq6Srqo7ylK6m4010MRbxWqwDJeI5W/cpTkTjLKaRfiOFb0SbX/IKi
- cYMm07A8XLMr/i0IkFeIl6zdIXH5Zn2U5MtdT8/NUxcJDUdS4NYNTi5yFvJbNe7Rz3SJ
- HY69VskRDSdgkUvUNY+MDMAehlf4Ou35R5sy739WfddruX3rRpiV1OWTp/N8lkcdDUd0
- GESmG6ocUEVVrciEaUGzH6uEPgcXErMrSD6XIsCe2P6S0MguZeSLyVfYfYEcOg0lZfsR
- Qp2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=r2gNAr6FKwUYYAgdhaqxeClhLlm2XQnjAlOWbkTIRyA=;
- b=oVFm0unLEcob66P1yxTPfHA4dFF+uXa0AKPTcr7YBs43ltZsar94EoXPm7XDFxlFpz
- lPEHtAS0PPYqOBjZxwJkZH6aQZz7hqdj/KCjGp4WLfOm2OhAEf6fcCQuHPPoKT1BMNHW
- JP5QSuKyiAo9niPjrsPWLlXEk9auasnTvrlrU9LHsRwt4AIupPSPUGLEUz774mlqNCYu
- NK6DdnHzE7cjjboyvwnkyiE3w0fYXTeIX9YDS/XEIbQu67FlWXWZXPZP16CYCaIbP4QE
- 5kS1CxsfwaH6DAS9w/JFgHOpwOGiWOcUZL2Yzz1Usg1flxfXZTEiLnzwvgcB9gxwkPUX
- EICA==
-X-Gm-Message-State: AOAM533vjvRJohnvJJbZ6td62SW9jcWuXdaqHCz3YrjPWfEsIZ1SD6JJ
- uBD0KUufc3fWiWFtiRPmmkWhVg==
-X-Google-Smtp-Source: ABdhPJwo87nbmp5VfQ5M0Th6CRBEaPSM/+h1vaCwzhAOijMDNiXb1TmCRxezMFNPLpuCPm1OaDmCJw==
-X-Received: by 2002:a17:90a:658a:: with SMTP id
- k10mr12700396pjj.144.1613339548742; 
- Sun, 14 Feb 2021 13:52:28 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- me5sm13706823pjb.19.2021.02.14.13.52.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 13:52:28 -0800 (PST)
-Subject: Re: [RFC PATCH 00/10] target/hexagon: introduce idef-parser
-To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
-References: <20210211215051.2102435-1-ale.qemu@rev.ng>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <517570b3-2e0f-3f3e-697b-5fa61754ba7e@linaro.org>
-Date: Sun, 14 Feb 2021 13:52:25 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lBQPn-0004Lo-IW; Sun, 14 Feb 2021 18:02:55 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34983)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lBQPk-0001mM-72; Sun, 14 Feb 2021 18:02:55 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 8F2E15C009D;
+ Sun, 14 Feb 2021 18:02:46 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Sun, 14 Feb 2021 18:02:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=3myw+3vzLKL4E12AFq/cSTTmFW
+ CMM/DbUHP+ZYUp7es=; b=fph4D+vE1k+lxXUFEjLqlGkYYP3U8zwWztu1zN33Lc
+ UB60kiOPhQfVnh9JD+wnBlqiG665NJO/LKDfvDqAXd8NWGvYhvPbF+2tz224TvfC
+ 84QtIsCzDw71ScDJDBEWEdz3P9qv24LCH8qaW29f6gT9MwcGDl9GPwcFdRcFqcOs
+ wWJLD/WItgJEoDzFXQ9R29rNoXE4osC5cnmbFqkCBOhA+idbGDN33bJy8Et/alO9
+ c5Qq3QtcILtCHakXWCk9TtLZV8EoChYF6r8E32ck0qv+ieCjmbghZir1exGjnL8I
+ AeHWter0atT/9U7O4SNICl0LK0DeY9M+Nmxit1hfB4CQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=3myw+3
+ vzLKL4E12AFq/cSTTmFWCMM/DbUHP+ZYUp7es=; b=mRZlJ2yGCTJAs3PWy9jnKw
+ qUkCQlx+Z0HSx/g2lARZtKryR62m/eFP15n0MKEticeVKGDcB6M8cMIXLvDXUm9T
+ XbfcmKBcPUMXVXuNhX/OXHZ8IZC6FMYz+0sIQdC3a++p9h1sMni7du1b+sK44SaQ
+ 665quYnkzYZeN37FLKfGNC2QWKPu14IOhE4YjHESJem9bSe5vAvMxAWXexffg3Uf
+ wL5YOApQKr/ULz8t6/18Q8OPSXB9k4NQIbZQz5xb7gq4bxq+kg3uTbWdKOE3SMWz
+ ucznxNrgf1ocAsIKBGN9KQE7c7YYVGxZxBdaJqYoMtSADJariPaSbCiyi1KzhRxA
+ ==
+X-ME-Sender: <xms:FKwpYCg-NVohLx7p57wlenrGDC4sckn2V3AQ4Lx5_rymVd3NGcx87Q>
+ <xme:FKwpYDCDWYMbq6B0AA3bOKD6BoCcxLlB2QU81jDiI8F65O_4llCjPjgUaMLWMDsIa
+ jl68V2hJ26yLp7Vsi0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrieeigddtgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpefhgeevkeeigfekvedvteejjeekkedugfdvheeijeffgfekffdvveelffetvdeghfen
+ ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:FKwpYKFTmuD8TxH71CztZFIDk6r1hXS0dAXyxHKC5RXhJr5mF6wvGA>
+ <xmx:FKwpYLStJ0Tqb9MGfBa0xa7Z1QpzQ1esekO2j9PQdXqOobyz_nZJmw>
+ <xmx:FKwpYPxxKCH6TuqgNkezvM9fzW7vRQn51t0sMZZh5f8oI4mJ_CMncQ>
+ <xmx:FqwpYGw56nBRu3T6r-k-fZPm9ot0IN5ccRI9BrYsM-5hS5AUDHx20g>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 384F924005A;
+ Sun, 14 Feb 2021 18:02:43 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH RFC v3 00/12] hw/block/nvme: metadata and end-to-end data
+ protection support
+Date: Mon, 15 Feb 2021 00:02:28 +0100
+Message-Id: <20210214230240.301275-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210211215051.2102435-1-ale.qemu@rev.ng>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,57 +92,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: babush@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com, nizzo@rev.ng,
- Alessandro Di Federico <ale@rev.ng>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 1:50 PM, Alessandro Di Federico via wrote:
-> From: Alessandro Di Federico <ale@rev.ng>
-> 
-> This patchset introduces the idef-parser for target/hexagon.
-> It is based on "[PATCH v8 00/35] Hexagon patch series".
-> 
-> `idef-parser` is a build-time tool built using flex and bison. Its aim
-> is to generate a large part of the tiny code generator frontend for
-> Hexagon. The prototype of idef-parser has been presented at KVM Forum
-> 2019 ("QEMU-Hexagon: Automatic Translation of the ISA Manual Pseudcode
-> to Tiny Code Instructions"):
-> 
->     https://www.youtube.com/watch?v=3EpnTYBOXCI
-> 
-> `target/hexagon/idef-parser/README.rst` provides an overview of the
-> parser and its inner working.
-> 
-> Please consider this an RFC, this is our first large patchset. Feedback
-> is more than welcome.
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Well, first off, this fails to build with our gitlab CI.
-
-There are several problems, apart from the new bison parse.error option
-previously reported:
-
-(1) bison and flex not added to dockerfiles, so the packages are not available
-to CI.
-
-(2) idef-parser program not marked with "native: true", so we get an early
-meson error about that.
-
-(3) flex = generator() does not specify both output files, so the proper
-dependency on idef-parser.yy.h is not present.
-
-(4) idef-parser.yy.h is placed in the wrong directory, because you used
-'%option header-file="xyz"' instead of the command-line
-'--headerfile=@OUTPUT1@'.  This results in an immediate compilation failure,
-because the file isn't found.
-
-(5) There's an odd mismatch in file naming, in which you have
-idef-lexer.lex.yy.c but idef-parser.yy.h.  Not a bug, really, but it looks odd
-when fixing 3 & 4.
-
-I can provide a patch for these if you like, but they're fairly obvious when
-you try it.
-
-
-r~
+This is RFC v3 of a series that adds support for metadata and end-to-end da=
+ta=0D
+protection.=0D
+=0D
+First, on the subject of metadata, in v1, support was restricted to=0D
+extended logical blocks, which was pretty trivial to implement, but=0D
+required special initialization and broke DULBE. In v2, metadata is=0D
+always stored continuously at the end of the underlying block device.=0D
+This has the advantage of not breaking DULBE since the data blocks=0D
+remains aligned and allows bdrv_block_status to be used to determinate=0D
+allocation status. It comes at the expense of complicating the extended=0D
+LBA emulation, but on the other hand it also gains support for metadata=0D
+transfered as a separate buffer.=0D
+=0D
+The end-to-end data protection support blew up in terms of required=0D
+changes. This is due to the fact that a bunch of new commands has been=0D
+added to the device since v1 (zone append, compare, copy), and they all=0D
+require various special handling for protection information. If=0D
+potential reviewers would like it split up into multiple patches, each=0D
+adding pi support to one command, shout out.=0D
+=0D
+The core of the series (metadata and eedp) is preceeded by a set of=0D
+patches that refactors mapping (yes, again) and tries to deal with the=0D
+qsg/iov duality mess (maybe also again?).=0D
+=0D
+Support fro metadata and end-to-end data protection is all joint work=0D
+with Gollu Appalanaidu.=0D
+=0D
+v3:=0D
+=0D
+  * added patch with Verify command=0D
+  * added patches for multiple LBA formats and Format NVM=0D
+  * changed NvmeSG to be a union (Keith)=0D
+=0D
+Gollu Appalanaidu (1):=0D
+  hw/block/nvme: add verify command=0D
+=0D
+Klaus Jensen (9):=0D
+  hw/block/nvme: remove redundant len member in compare context=0D
+  hw/block/nvme: remove block accounting for write zeroes=0D
+  hw/block/nvme: fix strerror printing=0D
+  hw/block/nvme: try to deal with the iov/qsg duality=0D
+  hw/block/nvme: remove the req dependency in map functions=0D
+  hw/block/nvme: refactor nvme_dma=0D
+  hw/block/nvme: add metadata support=0D
+  hw/block/nvme: end-to-end data protection=0D
+  hw/block/nvme: add non-mdts command size limit for verify=0D
+=0D
+Minwoo Im (2):=0D
+  hw/block/nvme: support multiple lba formats=0D
+  hw/block/nvme: add support for the format nvm command=0D
+=0D
+ hw/block/nvme-ns.h    |   47 +-=0D
+ hw/block/nvme.h       |   56 +-=0D
+ include/block/nvme.h  |   34 +-=0D
+ hw/block/nvme-ns.c    |   90 +-=0D
+ hw/block/nvme.c       | 2063 +++++++++++++++++++++++++++++++++++------=0D
+ hw/block/trace-events |   25 +-=0D
+ 6 files changed, 2027 insertions(+), 288 deletions(-)=0D
+=0D
+-- =0D
+2.30.0=0D
+=0D
 
