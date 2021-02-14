@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65DB231B35F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:28:48 +0100 (CET)
-Received: from localhost ([::1]:41010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78A2D31B348
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:23:43 +0100 (CET)
+Received: from localhost ([::1]:55070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBQop-0005pr-Bb
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:28:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59140)
+	id 1lBQju-00087o-CM
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:23:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lBQQ7-0004U7-7f; Sun, 14 Feb 2021 18:03:15 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:35465)
+ id 1lBQQ4-0004R6-BN; Sun, 14 Feb 2021 18:03:13 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:47307)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lBQPw-0001pa-Ly; Sun, 14 Feb 2021 18:03:14 -0500
+ id 1lBQPw-0001qH-OQ; Sun, 14 Feb 2021 18:03:12 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 45D325C00CD;
- Sun, 14 Feb 2021 18:02:58 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id B7D725C0083;
+ Sun, 14 Feb 2021 18:02:59 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Sun, 14 Feb 2021 18:02:58 -0500
+ by compute4.internal (MEProxy); Sun, 14 Feb 2021 18:02:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=dn5W3rCE/jC+2
- tcamkUO+fE9Y29PsOrEwULbVRYQM0M=; b=uNIDCYkqD9gsItge8EIdbqQxPyKuv
- oLGkz+j8cG7KDm8eazl0NZH0auQumSMC2GSxkUIMGB7byHMJjkzztZjZ0W63pVl+
- vVrTfd7HJ3HDj6G0bn9ZeHB2ff2GsgOYCft02gaMSOl0MPoupvg5YqupC7oNBxh0
- dfrR9W9ibZ01Goz/e0qnCGew/HNiVMjmHVK8YOCGJPouhBavtHjJjeimyp1b0yW5
- Lk71SmVRoghoe9C60rr4dx9F7MMaMlivlLZy32ei9ryjShQusliz4BQ12D+9G/1R
- ymyXczRlUCVB9n/Mr2jVsBIutLs0NylpjL5ie37IQLg8Pl8itRtWUjNEQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=mgiIQL+45rpWB
+ hWBCWU6B6bQA6oPi+g+ctu4wJJLMiM=; b=SVx17E6vXEKch5wiP9YJTHNSy+DH/
+ mBVJAJBh8bus98/Q3Wl2uceWZrnqd9mjTbQGiJ+SbLWGbvb+UGB5nfFDiDeXoJtH
+ OEa88gPqkBIL3SH/P4z2WQW+VurZcIgB+g94vBANs0oMKCOmgPyvvYC5oK6OGQF8
+ 5ju9Pi/wDtlfO6W2/QlJJGuvtYeNbWnh3hwFuJJbRL0P1hYaYgaZ/3MrbGFIHj0P
+ GPAzgMfQrzVn2E0ysur+fon7A/PrgLo+2CV5xCe3ksKL3N1C48ugtYw1uIQ2XIdj
+ OK/k/DWwyEFeVJLDXDqKUR8hgys7aQbav1mey/Z/qmE9ruAAcTeovAWqw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=dn5W3rCE/jC+2tcamkUO+fE9Y29PsOrEwULbVRYQM0M=; b=U/nzQw05
- DNddyULHr1xY5p/7AGDRUgkgXxPRsiaxmluSUrDnIV7WbzEWjjPCGfiee3g6QRiu
- 9Js3vhnPg6nJeuZsKNKPDx+8XEbl8N4Z20XHDGQoopw3SZpyvJ9jRQ9G3W+w+4Wk
- QUlbD63WbBxDlSFUPEWz2wRl8hjdsgTQSUgdhUd5Z2Vo4z2ujm+9YhRIhA2IqmCh
- a61gDgcHtVgOxQlDf7Ura+RBkjRVZHz7+gsW84+2r89VjHgVIMpE/vG6t4Iap3OY
- yO3R98LpZdfXFBoczia1znox7EG536gvNg5kl/nY78AU7krEbIl1Rb2HvIDYpydC
- wG1Nh1ieVA2CIw==
-X-ME-Sender: <xms:IqwpYHMnlZseQCrN8tGO1ez8jLGd8SiwpEZkX7hz26bFskFU3Frsqg>
- <xme:IqwpYB867Z-s3my6gx5c-dqAms2HvHqV5AzzsIfHjCSULapA36jRHGyBXwCTu-N8S
- 9Y_MHz-zf42YwzpZq0>
+ fm2; bh=mgiIQL+45rpWBhWBCWU6B6bQA6oPi+g+ctu4wJJLMiM=; b=M76rioEF
+ NcXLcWsJH5ZN7lQ8NLvv30rUhBNQvrZfNCcZWPK8rc89MYw4/PBA3nsrqiLCKKgm
+ 3eABHzbBeOvBPUpOOZTfz1IlO4+PNE6LLCwveMDnebpxZng7jptsWto5h3tJEYrk
+ Xf9lYuOTFHMBT0jgtwH9dI18kuxQ2i6cBwOKTqe+jLhLB7rboMO3A6kQgOg6fuVO
+ /DSvxvQLipTXlwQkRa0HZieKdvhCnL59VlLQR4ldBikNJ7bxzVWwNL0/cVRdX7Jd
+ Z/L2fCDdtJV+NXkRnJ8wSVwU/8WE27ZgX/Q/MqKFdu6e7g9D+fpIFY/C94Vk0aKU
+ lpA+wfEq32h57g==
+X-ME-Sender: <xms:I6wpYGOeJ0Mg2MWPge6bQ9FSeITue9Zgg3Z4x91J7DZ0qiBSuC_wOw>
+ <xme:I6wpYE9-ZVXKfArmqmRTQP9RR9Gy0eq4YmFlzCKB0h2fhl-E5WIbkofOTarpAJ9Jv
+ mENRXCogxm0oEYRXQ4>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrieeigddtgecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,19 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrieeigddtgecutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepkeenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:IqwpYGTxLagrgdv3bbmPpg4czvWx9iCtKAnFBbdfNlXvpCo2Yn29IQ>
- <xmx:IqwpYLsLg2e58YMDndzSBFVB_2--KU8tfapZLgrj96FUP8UhwkR0yQ>
- <xmx:IqwpYPfE_QU4Ik22mir996PPT9JrJGson8osCSINIOyH-HRMt5YVBA>
- <xmx:IqwpYBuKJV73nyhE3j40fE7ywKm_4TwndAQeOoLy8T8WP3PesSiLRA>
+X-ME-Proxy: <xmx:I6wpYNQZ5nU9AXc31aMVelreivu2U-TKLq80QO6d_doi3wSzQ9EhLA>
+ <xmx:I6wpYGvjgNqlenSDxyefzOtlZEdJZmDCTPoM9eh9TpPb-OXh9Ng4tA>
+ <xmx:I6wpYOe6GoJwIFfU2SdkSoRwWcYdKMY9txhlzuiDADqAjURIWODQMQ>
+ <xmx:I6wpYEs690eP73yncq3JL1pobrpX1BLIodjcom2h1rKtjPgOkTsuNA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id D706B240057;
- Sun, 14 Feb 2021 18:02:56 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 56E37240057;
+ Sun, 14 Feb 2021 18:02:58 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC v3 09/12] hw/block/nvme: add verify command
-Date: Mon, 15 Feb 2021 00:02:37 +0100
-Message-Id: <20210214230240.301275-10-its@irrelevant.dk>
+Subject: [PATCH RFC v3 10/12] hw/block/nvme: add non-mdts command size limit
+ for verify
+Date: Mon, 15 Feb 2021 00:02:38 +0100
+Message-Id: <20210214230240.301275-11-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210214230240.301275-1-its@irrelevant.dk>
 References: <20210214230240.301275-1-its@irrelevant.dk>
@@ -100,260 +101,155 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+From: Klaus Jensen <k.jensen@samsung.com>
 
-See NVM Express 1.4, section 6.14 ("Verify Command").
+Verify is not subject to MDTS, so a single Verify command may result in
+excessive amounts of allocated memory. Impose a limit on the data size
+by adding support for TP 4040 ("Non-MDTS Command Size Limits").
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-[k.jensen: rebased, refactored for e2e]
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.h       |   1 +
- include/block/nvme.h  |   2 +
- hw/block/nvme.c       | 148 +++++++++++++++++++++++++++++++++++++++++-
- hw/block/trace-events |   3 +
- 4 files changed, 153 insertions(+), 1 deletion(-)
+ hw/block/nvme.h      |  1 +
+ include/block/nvme.h |  5 +++++
+ hw/block/nvme.c      | 50 +++++++++++++++++++++++++++++++++-----------
+ 3 files changed, 44 insertions(+), 12 deletions(-)
 
 diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index 86f000235cf0..3b8ed73d2a04 100644
+index 3b8ed73d2a04..d1b09ece1985 100644
 --- a/hw/block/nvme.h
 +++ b/hw/block/nvme.h
-@@ -82,6 +82,7 @@ static inline const char *nvme_io_opc_str(uint8_t opc)
-     case NVME_CMD_COMPARE:          return "NVME_NVM_CMD_COMPARE";
-     case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
-     case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
-+    case NVME_CMD_VERIFY:           return "NVME_NVM_CMD_VERIFY";
-     case NVME_CMD_COPY:             return "NVME_NVM_CMD_COPY";
-     case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_ZONED_CMD_MGMT_SEND";
-     case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_ZONED_CMD_MGMT_RECV";
+@@ -19,6 +19,7 @@ typedef struct NvmeParams {
+     uint8_t  aerl;
+     uint32_t aer_max_queued;
+     uint8_t  mdts;
++    uint8_t  vsl;
+     bool     use_intel_id;
+     uint32_t zasl_bs;
+     bool     legacy_cmb;
 diff --git a/include/block/nvme.h b/include/block/nvme.h
-index a7debf29c644..c2fd7e817e5d 100644
+index c2fd7e817e5d..ec5262d17e12 100644
 --- a/include/block/nvme.h
 +++ b/include/block/nvme.h
-@@ -579,6 +579,7 @@ enum NvmeIoCommands {
-     NVME_CMD_COMPARE            = 0x05,
-     NVME_CMD_WRITE_ZEROES       = 0x08,
-     NVME_CMD_DSM                = 0x09,
-+    NVME_CMD_VERIFY             = 0x0c,
-     NVME_CMD_COPY               = 0x19,
-     NVME_CMD_ZONE_MGMT_SEND     = 0x79,
-     NVME_CMD_ZONE_MGMT_RECV     = 0x7a,
-@@ -1060,6 +1061,7 @@ enum NvmeIdCtrlOncs {
-     NVME_ONCS_FEATURES      = 1 << 4,
-     NVME_ONCS_RESRVATIONS   = 1 << 5,
-     NVME_ONCS_TIMESTAMP     = 1 << 6,
-+    NVME_ONCS_VERIFY        = 1 << 7,
-     NVME_ONCS_COPY          = 1 << 8,
- };
+@@ -1042,6 +1042,11 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
+     uint8_t     vs[1024];
+ } NvmeIdCtrl;
  
++typedef struct NvmeIdCtrlNvm {
++    uint8_t     vsl;
++    uint8_t     rsvd1[4095];
++} NvmeIdCtrlNvm;
++
+ typedef struct NvmeIdCtrlZoned {
+     uint8_t     zasl;
+     uint8_t     rsvd1[4095];
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index ab45e58b2a3b..7b366f979a1c 100644
+index 7b366f979a1c..e5832ce2a69e 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -186,6 +186,7 @@ static const uint32_t nvme_cse_iocs_nvm[256] = {
-     [NVME_CMD_WRITE]                = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-     [NVME_CMD_READ]                 = NVME_CMD_EFF_CSUPP,
-     [NVME_CMD_DSM]                  = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-+    [NVME_CMD_VERIFY]               = NVME_CMD_EFF_CSUPP,
-     [NVME_CMD_COPY]                 = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-     [NVME_CMD_COMPARE]              = NVME_CMD_EFF_CSUPP,
- };
-@@ -196,6 +197,7 @@ static const uint32_t nvme_cse_iocs_zoned[256] = {
-     [NVME_CMD_WRITE]                = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-     [NVME_CMD_READ]                 = NVME_CMD_EFF_CSUPP,
-     [NVME_CMD_DSM]                  = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-+    [NVME_CMD_VERIFY]               = NVME_CMD_EFF_CSUPP,
-     [NVME_CMD_COPY]                 = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-     [NVME_CMD_COMPARE]              = NVME_CMD_EFF_CSUPP,
-     [NVME_CMD_ZONE_APPEND]          = NVME_CMD_EFF_CSUPP | NVME_CMD_EFF_LBCC,
-@@ -2154,6 +2156,91 @@ out:
-     nvme_e2e_rw_cb(ctx, ret);
+@@ -22,7 +22,8 @@
+  *              [pmrdev=<mem_backend_file_id>,] \
+  *              max_ioqpairs=<N[optional]>, \
+  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
+- *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]>, \
++ *              mdts=<N[optional]>,vsl=<N[optional]>, \
++ *              zoned.append_size_limit=<N[optional]>, \
+  *              subsys=<subsys_id> \
+  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
+  *              zoned=<true|false[optional]>, \
+@@ -63,6 +64,18 @@
+  *   completion when there are no outstanding AERs. When the maximum number of
+  *   enqueued events are reached, subsequent events will be dropped.
+  *
++ * - `mdts`
++ *   Indicates the maximum data transfer size for a command that transfers data
++ *   between host-accessible memory and the controller. The value is specified
++ *   as a power of two (2^n) and is in units of the minimum memory page size
++ *   (CAP.MPSMIN). The default value is 7 (i.e. 512 KiB).
++ *
++ * - `vsl`
++ *   Indicates the maximum data size limit for the Verify command. Like `mdts`,
++ *   this value is specified as a power of two (2^n) and is in units of the
++ *   minimum memory page size (CAP.MPSMIN). The default value is 7 (i.e. 512
++ *   KiB).
++ *
+  * - `zoned.append_size_limit`
+  *   The maximum I/O size in bytes that is allowed in Zone Append command.
+  *   The default is 128KiB. Since internally this this value is maintained as
+@@ -2866,6 +2879,10 @@ static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
+         }
+     }
+ 
++    if (len > n->page_size << n->params.vsl) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++
+     status = nvme_check_bounds(ns, slba, nlb);
+     if (status) {
+         trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
+@@ -4551,20 +4568,24 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+ {
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+-    NvmeIdCtrlZoned id = {};
++    uint8_t id[NVME_IDENTIFY_DATA_SIZE] = {};
+ 
+     trace_pci_nvme_identify_ctrl_csi(c->csi);
+ 
+-    if (c->csi == NVME_CSI_NVM) {
+-        return nvme_rpt_empty_id_struct(n, req);
+-    } else if (c->csi == NVME_CSI_ZONED) {
+-        if (n->params.zasl_bs) {
+-            id.zasl = n->zasl;
+-        }
+-        return nvme_c2h(n, (uint8_t *)&id, sizeof(id), req);
++    switch (c->csi) {
++    case NVME_CSI_NVM:
++        ((NvmeIdCtrlNvm *)&id)->vsl = n->params.vsl;
++        break;
++
++    case NVME_CSI_ZONED:
++        ((NvmeIdCtrlZoned *)&id)->zasl = n->zasl;
++        break;
++
++    default:
++        return NVME_INVALID_FIELD | NVME_DNR;
+     }
+ 
+-    return NVME_INVALID_FIELD | NVME_DNR;
++    return nvme_c2h(n, id, sizeof(id), req);
  }
  
+ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+@@ -5968,6 +5989,11 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+             return;
+         }
+     }
 +
-+static void nvme_verify_cb(void *opaque, int ret)
-+{
-+    struct nvme_bounce_ctx *ctx = opaque;
-+    NvmeRequest *req = ctx->req;
-+    NvmeNamespace *ns = req->ns;
-+    BlockBackend *blk = ns->blkconf.blk;
-+    BlockAcctCookie *acct = &req->acct;
-+    BlockAcctStats *stats = blk_get_stats(blk);
-+    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-+    uint64_t slba = le64_to_cpu(rw->slba);
-+    uint16_t ctrl = le16_to_cpu(rw->control);
-+    uint16_t apptag = le16_to_cpu(rw->apptag);
-+    uint16_t appmask = le16_to_cpu(rw->appmask);
-+    uint32_t reftag = le32_to_cpu(rw->reftag);
-+    uint16_t status;
-+
-+    trace_pci_nvme_verify_cb(nvme_cid(req), NVME_RW_PRINFO(ctrl), apptag,
-+                             appmask, reftag);
-+
-+    if (ret) {
-+        block_acct_failed(stats, acct);
-+        nvme_aio_err(req, ret);
-+        goto out;
++    if (!n->params.vsl) {
++        error_setg(errp, "vsl must be non-zero");
++        return;
 +    }
-+
-+    block_acct_done(stats, acct);
-+
-+    if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
-+        status = nvme_e2e_mangle_mdata(ns, ctx->mdata.bounce,
-+                                       ctx->mdata.iov.size, slba);
-+        if (status) {
-+            req->status = status;
-+            goto out;
-+        }
-+
-+        req->status = nvme_e2e_check(ns, ctx->data.bounce, ctx->data.iov.size,
-+                                     ctx->mdata.bounce, ctx->mdata.iov.size,
-+                                     ctrl, slba, apptag, appmask, reftag);
-+    }
-+
-+out:
-+    qemu_iovec_destroy(&ctx->data.iov);
-+    g_free(ctx->data.bounce);
-+
-+    qemu_iovec_destroy(&ctx->mdata.iov);
-+    g_free(ctx->mdata.bounce);
-+
-+    g_free(ctx);
-+
-+    nvme_enqueue_req_completion(nvme_cq(req), req);
-+}
-+
-+
-+static void nvme_verify_mdata_in_cb(void *opaque, int ret)
-+{
-+    struct nvme_bounce_ctx *ctx = opaque;
-+    NvmeRequest *req = ctx->req;
-+    NvmeNamespace *ns = req->ns;
-+    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-+    uint64_t slba = le64_to_cpu(rw->slba);
-+    uint32_t nlb = le16_to_cpu(rw->nlb) + 1;
-+    size_t mlen = nvme_m2b(ns, nlb);
-+    uint64_t offset = ns->mdata_offset + nvme_m2b(ns, slba);
-+    BlockBackend *blk = ns->blkconf.blk;
-+
-+    trace_pci_nvme_verify_mdata_in_cb(nvme_cid(req), blk_name(blk));
-+
-+    if (ret) {
-+        goto out;
-+    }
-+
-+    ctx->mdata.bounce = g_malloc(mlen);
-+
-+    qemu_iovec_reset(&ctx->mdata.iov);
-+    qemu_iovec_add(&ctx->mdata.iov, ctx->mdata.bounce, mlen);
-+
-+    req->aiocb = blk_aio_preadv(blk, offset, &ctx->mdata.iov, 0,
-+                                nvme_verify_cb, ctx);
-+    return;
-+
-+out:
-+    nvme_verify_cb(ctx, ret);
-+}
-+
- static void nvme_e2e_rw_mdata_in_cb(void *opaque, int ret)
- {
-     struct nvme_bounce_ctx *ctx = opaque;
-@@ -2752,6 +2839,62 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
-     return status;
  }
  
-+static uint16_t nvme_verify(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-+    NvmeNamespace *ns = req->ns;
-+    BlockBackend *blk = ns->blkconf.blk;
-+    uint64_t slba = le64_to_cpu(rw->slba);
-+    uint32_t nlb = le16_to_cpu(rw->nlb) + 1;
-+    size_t len = nvme_l2b(ns, nlb);
-+    int64_t offset = nvme_l2b(ns, slba);
-+    uint16_t ctrl = le16_to_cpu(rw->control);
-+    uint32_t reftag = le32_to_cpu(rw->reftag);
-+    struct nvme_bounce_ctx *ctx = NULL;
-+    uint16_t status;
-+
-+    trace_pci_nvme_verify(nvme_cid(req), nvme_nsid(ns), slba, nlb);
-+
-+    if (NVME_ID_NS_DPS_TYPE(ns->id_ns.dps)) {
-+        status = nvme_check_prinfo(ns, ctrl, slba, reftag);
-+        if (status) {
-+            return status;
-+        }
-+
-+        if (ctrl & NVME_RW_PRINFO_PRACT) {
-+            return NVME_INVALID_PROT_INFO | NVME_DNR;
-+        }
-+    }
-+
-+    status = nvme_check_bounds(ns, slba, nlb);
-+    if (status) {
-+        trace_pci_nvme_err_invalid_lba_range(slba, nlb, ns->id_ns.nsze);
-+        return status;
-+    }
-+
-+    if (NVME_ERR_REC_DULBE(ns->features.err_rec)) {
-+        status = nvme_check_dulbe(ns, slba, nlb);
-+        if (status) {
-+            return status;
-+        }
-+    }
-+
-+    ctx = g_new0(struct nvme_bounce_ctx, 1);
-+    ctx->req = req;
-+
-+    ctx->data.bounce = g_malloc(len);
-+
-+    qemu_iovec_init(&ctx->data.iov, 1);
-+    qemu_iovec_add(&ctx->data.iov, ctx->data.bounce, len);
-+
-+    block_acct_start(blk_get_stats(blk), &req->acct, ctx->data.iov.size,
-+                     BLOCK_ACCT_READ);
-+
-+    req->aiocb = blk_aio_preadv(ns->blkconf.blk, offset, &ctx->data.iov, 0,
-+                                nvme_verify_mdata_in_cb, ctx);
-+    return NVME_NO_COMPLETE;
-+}
-+
- static uint16_t nvme_copy(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns = req->ns;
-@@ -3934,6 +4077,8 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
-         return nvme_compare(n, req);
-     case NVME_CMD_DSM:
-         return nvme_dsm(n, req);
-+    case NVME_CMD_VERIFY:
-+        return nvme_verify(n, req);
-     case NVME_CMD_COPY:
-         return nvme_copy(n, req);
-     case NVME_CMD_ZONE_MGMT_SEND:
-@@ -6045,7 +6190,8 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ static void nvme_init_state(NvmeCtrl *n)
+@@ -6190,8 +6216,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
      id->nn = cpu_to_le32(n->num_namespaces);
      id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROES | NVME_ONCS_TIMESTAMP |
                             NVME_ONCS_FEATURES | NVME_ONCS_DSM |
--                           NVME_ONCS_COMPARE | NVME_ONCS_COPY);
-+                           NVME_ONCS_COMPARE | NVME_ONCS_COPY |
-+                           NVME_ONCS_VERIFY);
+-                           NVME_ONCS_COMPARE | NVME_ONCS_COPY |
+-                           NVME_ONCS_VERIFY);
++                           NVME_ONCS_COMPARE | NVME_ONCS_COPY);
  
      /*
       * NOTE: If this device ever supports a command set that does NOT use 0x0
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 243b0857b3d9..b5189aa88b85 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -59,6 +59,9 @@ pci_nvme_copy(uint16_t cid, uint32_t nsid, uint16_t nr, uint8_t format) "cid %"P
- pci_nvme_copy_source_range(uint64_t slba, uint32_t nlb) "slba 0x%"PRIx64" nlb %"PRIu32""
- pci_nvme_copy_in_complete(uint16_t cid) "cid %"PRIu16""
- pci_nvme_copy_cb(uint16_t cid) "cid %"PRIu16""
-+pci_nvme_verify(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba 0x%"PRIx64" nlb %"PRIu32""
-+pci_nvme_verify_mdata_in_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
-+pci_nvme_verify_cb(uint16_t cid, uint8_t prinfo, uint16_t apptag, uint16_t appmask, uint32_t reftag) "cid %"PRIu16" prinfo 0x%"PRIx8" apptag 0x%"PRIx16" appmask 0x%"PRIx16" reftag 0x%"PRIx32""
- pci_nvme_rw_complete_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
- pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
- pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
+@@ -6334,6 +6359,7 @@ static Property nvme_props[] = {
+     DEFINE_PROP_UINT8("aerl", NvmeCtrl, params.aerl, 3),
+     DEFINE_PROP_UINT32("aer_max_queued", NvmeCtrl, params.aer_max_queued, 64),
+     DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
++    DEFINE_PROP_UINT8("vsl", NvmeCtrl, params.vsl, 7),
+     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
+     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
+     DEFINE_PROP_SIZE32("zoned.append_size_limit", NvmeCtrl, params.zasl_bs,
 -- 
 2.30.0
 
