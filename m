@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29A2B31B204
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:33:45 +0100 (CET)
-Received: from localhost ([::1]:59030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE74B31B208
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:37:33 +0100 (CET)
+Received: from localhost ([::1]:39452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMDI-0000eG-5I
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:33:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34300)
+	id 1lBMGz-0004To-1O
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:37:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34388)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLiT-0000lt-3U
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:01:53 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40898)
+ id 1lBLid-0000pZ-6c
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:03 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37199)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLiR-0004ed-O0
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:01:52 -0500
-Received: by mail-wm1-x336.google.com with SMTP id o24so5809312wmh.5
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:01:51 -0800 (PST)
+ id 1lBLiZ-0004ez-Tl
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:02 -0500
+Received: by mail-wm1-x335.google.com with SMTP id m1so5842222wml.2
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=n3Ruy+Xz1agjPvsuiBU7vncCZhEJuePdDDqrAtuEmMk=;
- b=aOPQCOR5VVDODm+YYA2dWOcWVSqjP82C64DlckI4snPkGSq5SqDsnBo4yLvmg9zhrb
- KfkzkS0zyo6PNTww8FRQ/hiQ/Gtu6I88zjZb12daqJcxsq5AEZQpp3D/OsXvVXunsu16
- qzNXz5N/BhngNxaUJGJgbIJraOJKIKCC11NQVbvAAvkCl7oKKpXmhy1XPV/l8U5ys9QH
- 7zD7siIx5kN9TIdnbeHI6vWzAY/eWVgBDs7eFNBfR4bhgp88nT4bPMGME6fvwEpoTfNH
- XkTRZ2Ux1wFS+jD5D1B6l2+CV/NNQgPUjOzIfpX/9D978NGdpAF8D84MzdtBg1Yv9xQX
- 8+vg==
+ bh=0AWEhq001McQAH/89WIBVS1NfSah7AxRRJlHmFbgoT8=;
+ b=PRa62vJbssrp3t/XYnAjmm+m9WM+b/JWW5S5ciaRMs4Vw5VI4I/eM/eHRBLXpOR4fa
+ bVsmEbN8SxMqnKv2zLAPYqYffDhD14zaoYCbCaxtVsGHuneSsTYgDMuFzlu6dCfred42
+ /SCIFc+MCXgH50tbQ3cXlCaunVjeuVYj4l2eGpGzKVDjDwlVQzbh/VosfYDrpAs17mgz
+ BD2uY0UlpeOOB04EKC3Ev5pGNizPv0W+YOP8Kk/jAvrJAf/g6eUa5HOrEJ3kToYEKDjw
+ AAA5D/F+Y36Y/X4+XDfv6UqNbpSwQPLM8wvPrvIHiitkyigqi1BXNfuImJnIGDFq8Rvh
+ dZDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=n3Ruy+Xz1agjPvsuiBU7vncCZhEJuePdDDqrAtuEmMk=;
- b=HIcoI8oAKIRnbpG1nhuyN+fQrvsmL5n/UshbjAbJ8jDz5W5oTxPAGHMavafVOW1NYM
- lD321zL49+wy23/G5ggSUBoy/wdFKVhEs1L/cE+EB/EW++cMvJSwItu2ueJ3KelNuMdU
- 93U/p3T2xoSp+ejL29aUBoPhS2n6UniIdz2j4h0qcj05cW3gbyI1V46aikUfwg1P2Xf/
- kKN4zzFxykeWZEFXandxeHABEf5AcQfXbd3/IrtsFOj9yxfVw2+xxg8LOLmZ+cv1G00m
- zcIKOxnjQ+SJBFlb63DgcsRqyKuaIy7xsibibwNh4u03g8j6MWfROaHfL43PdZiha7kD
- lEKQ==
-X-Gm-Message-State: AOAM532ekDm3yBXCWJT3Udy7aI3Gr6B7ZYFxBLHjGpVCU9klVXGDgZHu
- TSXI4eQZKTPSxchOXykdzgHDkB5HweM=
-X-Google-Smtp-Source: ABdhPJzjdZf/c25iP5AS3GOJtk1l6iNOF7TOdb1z21ywbVQUqdcF/P7C2bT7qmyQ7FyhrorFxQkJ6w==
-X-Received: by 2002:a1c:c904:: with SMTP id f4mr11173025wmb.14.1613325710056; 
- Sun, 14 Feb 2021 10:01:50 -0800 (PST)
+ bh=0AWEhq001McQAH/89WIBVS1NfSah7AxRRJlHmFbgoT8=;
+ b=r5BdNx6acUNC+5dc63tmP1UzilByHGpW4s5Me6dFoYkuHqViJGAIBah3THy86sovyf
+ utQGY7rv1cK1ISDI3JuwDVFJSeHcW/TzTZOgkI2DDt+0qQpq6vRGZaV+3FE+Ht5lnoAl
+ 8OOo7TRFQR3iZD+DsilDmfqwlJs6GVUiUo0Xfmeb3lJKjfbNFyT30ntxoJUQa8x7oqmM
+ KXlqHlQJq6GQNGtyuf7gLe6Q8wM94o4hqFyuzV1+U3zzaxxzIva09J6g1RQie4Fx9x/4
+ YxNzmUJCXEFFmK5MwCGE35O/QuKpm4PViUjvBdC6oLp3Amcqqoj8D/PB3lHPbJa//R3c
+ rgGg==
+X-Gm-Message-State: AOAM5324FqQtYwy++YXs/jkTaB0o9Qgku8jnb2EvZPaUYbJGTROE/5dX
+ OEx0quHEhrB19LeyU4e8XJrrbr9YGCg=
+X-Google-Smtp-Source: ABdhPJxW1jlZvwa9CaxhVXwWI/9uEiydyU2itHORIgIsLFlWGYPim7sMBRr84NJPF32hf0Y81lrtPw==
+X-Received: by 2002:a05:600c:4fcb:: with SMTP id
+ o11mr10893805wmq.88.1613325715239; 
+ Sun, 14 Feb 2021 10:01:55 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id l1sm20040169wmi.48.2021.02.14.10.01.48
+ by smtp.gmail.com with ESMTPSA id w3sm9097130wrr.62.2021.02.14.10.01.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:01:49 -0800 (PST)
+ Sun, 14 Feb 2021 10:01:54 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 31/42] default-configs: Support o32 ABI with R5900 64-bit
- MIPS CPU
-Date: Sun, 14 Feb 2021 18:59:01 +0100
-Message-Id: <20210214175912.732946-32-f4bug@amsat.org>
+Subject: [RFC PATCH 32/42] docker: Add gentoo-mipsr5900el-cross image
+Date: Sun, 14 Feb 2021 18:59:02 +0100
+Message-Id: <20210214175912.732946-33-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,62 +86,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fredrik Noring <noring@nocrew.org>,
+Cc: Fam Zheng <fam@euphon.net>, Fredrik Noring <noring@nocrew.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MIPS o32 ABI on 64-bit CPUs looks like a ILP32-on-64bit data
-model, allowing 64-bit arithmetic and data movement instructions.
+Add a Docker image providing cross toolchain for the MIPS R5900 CPU
+(used on the Sony PS2).
 
-Since this ABI seems to have only ever been used for the
-development of the PS2 with the "Sony Linux Toolkit for
-Playstation 2" targetting the R5900 CPU (little-endian),
-we name this user-mode target 'r5900o32el'.
+This image is based on Gentoo and the toolchain is built using crossdev.
 
-Inspired-by: Richard Henderson <rth@twiddle.net>
+Recipe from:
+  https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03944.html
+
+Suggested-by: Fredrik Noring <noring@nocrew.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-v2: Rename qemu-mips64o32el -> qemu-r5900o32el (Fredrik)
----
- docs/user/main.rst                                | 3 +++
- default-configs/targets/r5900o32el-linux-user.mak | 7 +++++++
- 2 files changed, 10 insertions(+)
- create mode 100644 default-configs/targets/r5900o32el-linux-user.mak
+ tests/docker/Makefile.include                 |  3 ++
+ .../gentoo-mipsr5900el-cross.docker           | 35 +++++++++++++++++++
+ .../crossdev.conf                             |  5 +++
+ 3 files changed, 43 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
+ create mode 100644 tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
 
-diff --git a/docs/user/main.rst b/docs/user/main.rst
-index 8dfe232a3af..405acb8155e 100644
---- a/docs/user/main.rst
-+++ b/docs/user/main.rst
-@@ -221,6 +221,9 @@ Other binaries
-    * ``qemu-mipsn32el`` executes 32-bit little endian MIPS binaries (MIPS N32
-      ABI).
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 93b29ad823e..3d6306c7728 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -146,6 +146,9 @@ docker-image-debian-riscv64-cross: docker-image-debian10
+ docker-image-debian-s390x-cross: docker-image-debian10
+ docker-image-debian-sh4-cross: docker-image-debian10
+ docker-image-debian-sparc64-cross: docker-image-debian10
++docker-image-gentoo-mipsr5900el-cross: EXTRA_FILES:=$(addprefix \
++			$(SRC_PATH)/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/,\
++				crossdev.conf)
  
-+   * ``qemu-r5900o32el`` executes 64-bit little endian MIPS R5900 binaries (MIPS
-+     O32 ABI).
-+
- -  user mode (NiosII)
+ docker-image-travis: NOUSER=1
  
-    * ``qemu-nios2`` TODO.
-diff --git a/default-configs/targets/r5900o32el-linux-user.mak b/default-configs/targets/r5900o32el-linux-user.mak
+diff --git a/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
 new file mode 100644
-index 00000000000..ecd57ff949f
+index 00000000000..88ada20623d
 --- /dev/null
-+++ b/default-configs/targets/r5900o32el-linux-user.mak
-@@ -0,0 +1,7 @@
-+TARGET_ARCH=mips64
-+TARGET_BASE_ARCH=mips
-+TARGET_ABI_MIPSO32=y
-+TARGET_ABI32=y
-+TARGET_SYSTBL_ABI=o32
-+TARGET_SYSTBL=../mips/syscall_o32.tbl
-+TARGET_ALIGNED_ONLY=y
++++ b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
+@@ -0,0 +1,35 @@
++#
++# Docker mipsel (r5900) cross-compiler target
++#
++# Using multi-stage builds, this image requires docker-17.05.0 or later.
++# (See: https://github.com/gentoo/gentoo-docker-images)
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++# name the portage image
++FROM gentoo/portage:20201121 as portage
++
++# image is based on stage3-amd64
++FROM gentoo/stage3:latest
++
++# copy the entire portage volume in
++COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
++
++MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
++
++# set CROSSDEV_OVERLAY to /usr/local/portage-crossdev
++RUN mkdir -p /usr/local/portage-crossdev/{profiles,metadata} && \
++    echo 'crossdev' > /usr/local/portage-crossdev/profiles/repo_name && \
++    echo 'masters = gentoo' > /usr/local/portage-crossdev/metadata/layout.conf && \
++    chown -R portage:portage /usr/local/portage-crossdev && \
++    mkdir -p /etc/portage/repos.conf
++ADD crossdev.conf /etc/portage/repos.conf/crossdev.conf
++
++RUN emerge -qv \
++        dev-vcs/git ">=dev-libs/glib-2.0" \
++        sys-devel/crossdev \
++        sys-libs/zlib dev-lang/python
++
++RUN crossdev -s4 -t mipsr5900el-unknown-linux-gnu
++
++ENV QEMU_CONFIGURE_OPTS --cross-prefix=mipsr5900el-unknown-linux-gnu-
+diff --git a/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
+new file mode 100644
+index 00000000000..b8fa368c1c3
+--- /dev/null
++++ b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
+@@ -0,0 +1,5 @@
++[crossdev]
++location = /usr/local/portage-crossdev
++priority = 10
++masters = gentoo
++auto-sync = no
 -- 
 2.26.2
 
