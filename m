@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E5B31B373
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:42:38 +0100 (CET)
-Received: from localhost ([::1]:34044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3908431B376
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:45:06 +0100 (CET)
+Received: from localhost ([::1]:37758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBR2D-0001mq-NI
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:42:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36862)
+	id 1lBR4X-0003Ns-FJ
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:45:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBQwa-0002Zj-Gn
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:36:50 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:43357)
+ id 1lBR0n-0000Pa-Hf
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:41:09 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:35572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBQwY-0002oS-C7
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:36:48 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id n10so3229664pgl.10
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 15:36:45 -0800 (PST)
+ id 1lBR0m-0004AF-2D
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:41:09 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id e9so2848071pjj.0
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 15:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6MXLB98Y2+Glg1C/oxlt6X7gNhP9w8vCS4rutCUOyT4=;
- b=ry7J/kG64cqGYDMf3O9sCVxxoC6HJEKp8YA4qmtHZNRmISKbP+rkiq38AIupoiyU4c
- joxS9VAuBClw25JM0kkthaYt8R9sWZHSNrD8QA72DCM0PvbobmpuyhI7KoN0IbALXgdK
- biDlapySNxN3XxjMBMaSks7IVD9BRvb3O4oYI335MqZ3zJp/xi1Z/yrT00a5+jD4HjQF
- Tbvb0MCgmcqViwzy0qboENs4hj2oHgJ92/F/3hIUDwfl8ergCwlneS5nTc3s4mpI93xw
- ErFuQRxX6MEeQF1bk1MCjcZquh0+WG7sz9BsPZQkLFwAWBL3I2yxyP9gTFHnBXhgU1au
- QeVw==
+ bh=NzxiDIQ+O1V6+mulwZknEw9G0MAm3c7+XsbIPffsDnY=;
+ b=TNQjFSVegaAIoWaNWS7y3oBQHGExIZIKlExq0VY9Tm3D4kk0UGfS1wjs+HRg+GukRn
+ UVGJpXvldTyVT7TeDBv8ngxCz711pFfo67daZzK5fQ3/vCWE9v3s7nAV949DaXqJrMts
+ EhCOGugzrKYddH1TjynYZe9f9T9+tyuC1SSrfo0cT8QyWK9h4/d5zI1P/L/UlPPd8PTy
+ Dx21QWDkoDWFUhLdOmeiIwYxum045HOmYuAwp9SCTpp4ey4/URsmeGzcUMc/n36xE5f/
+ c9huB6Xve011YoOxLrJgVa2pSGARD3jSZDQqCkcHcfRynEax/YPfjMQ/rdbhlXS8SVTV
+ sL3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=6MXLB98Y2+Glg1C/oxlt6X7gNhP9w8vCS4rutCUOyT4=;
- b=QINCB3tNv6TT/BeKDEn/lX/jNhsVBKOrJRAVZNr4WVBJci5yPVbBKkmV9KrOZYcD6l
- FHOJcuuvgkHIspjJdppEzHw7ZBVHYpLpMXjjBicn+iUnz0tyQckaeGkGxr/Sryp6QfCg
- aG60Rcq/CsSCWImbgJS5CFGi+LFBRFR7tnn+0uy08vA+dlbszTPdQswxyz+nF3mNDGoY
- /O2LWfSlqzCLIj1f0daysg2KCCpUPL4bbL2gIotXwCoublWlaCzazx6u2itUg+qsj0Fx
- QA7aRz0XxBbYtLRHwZ6GqafBtXQ4R4N7rYtboREMsqO40sSvpKZYcGxX7gk+xMdr0YKs
- Y+6g==
-X-Gm-Message-State: AOAM5331yvg5JjeLZwBuldEAOy6sGWLI6Fyx+wDzrGKtQ8iHvnKn7JKy
- cCd2Nzp5S/eUWMKiOU/xeXBIzA==
-X-Google-Smtp-Source: ABdhPJwRkn0NE7niWEQUevYcEFWniE4Ou5zDwrAmGGKsyisUaV4ufte1bV+U4pbBLzawQ+Jt/3/gKg==
-X-Received: by 2002:a63:d242:: with SMTP id t2mr12662883pgi.431.1613345804883; 
- Sun, 14 Feb 2021 15:36:44 -0800 (PST)
+ bh=NzxiDIQ+O1V6+mulwZknEw9G0MAm3c7+XsbIPffsDnY=;
+ b=nofm456B57gY7uU1BwMLnTqpPGbnyRFhreMJ90Mc6MJCwAb2e4o8LUSymqt8iXaJ3l
+ iu4JU4YoAA6ngzI8yPK045WFzDnd7e3B4m493RZt3Ka2e29jcbiZYXy7pXNxZAzeMHb1
+ 1chdqOq1AY5w5Qswh1zhz45i4eTOIrkUf8x3G6cVIa0wyP7tcgG9X+ykJcjVlQR8sAgF
+ f+svKnZ2+cGJIyIJK0Ii9Wpungs4qO2+SL6uGClrKbvwZL4jwdVCtxePYjJboJzIrpoe
+ izrV8CQziGJM0a6T+exY1YBAKbvsjrnxT25V92oNldW2He2GACFr2GARJqUA3DIo0kb9
+ /kXQ==
+X-Gm-Message-State: AOAM531MWdmcBwtbINbd099NNUNyzFkJKhHblqsCjfPUOUVnq7aceEl8
+ 2baB7s97GU7T5hOLjzyp+5YTgw==
+X-Google-Smtp-Source: ABdhPJyfpxTIedyZ3LyeQzAfMHDSWy04qpw8N4spmmnsHxlpkv+yctvk73mvd8apZA7Qbv2rinn09g==
+X-Received: by 2002:a17:90a:2f06:: with SMTP id
+ s6mr8800224pjd.76.1613346066467; 
+ Sun, 14 Feb 2021 15:41:06 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- v23sm15779600pgo.43.2021.02.14.15.36.44
+ d13sm14478658pjz.3.2021.02.14.15.41.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 15:36:44 -0800 (PST)
-Subject: Re: [PATCH v8 24/35] Hexagon (target/hexagon) macros
+ Sun, 14 Feb 2021 15:41:06 -0800 (PST)
+Subject: Re: [PATCH v8 25/35] Hexagon (target/hexagon) instruction classes
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-25-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-26-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0d91f4bd-824f-d370-13ba-ec2c393ae115@linaro.org>
-Date: Sun, 14 Feb 2021 15:36:42 -0800
+Message-ID: <3d366d6a-b278-cda0-f822-5c8aa7ba67dc@linaro.org>
+Date: Sun, 14 Feb 2021 15:41:04 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-25-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1612763186-18161-26-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,17 +95,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> macros to interface with the generator
-> macros referenced in instruction semantics
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  target/hexagon/macros.h | 592 ++++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 592 insertions(+)
->  create mode 100644 target/hexagon/macros.h
+> +    } else if ((itype == ICLASS_V2LDST) && (GET_ATTRIB(opcode, A_STORE))) {
+> +        return SLOTS_01;
+> +    } else if ((itype == ICLASS_V2LDST) && (!GET_ATTRIB(opcode, A_STORE))) {
+> +        return SLOTS_01;
 
+What's the point of this?  Between the two all ICLASS_V2LDST use SLOTS_01.  Why
+can't it be done in
+
+> +        return iclass_info[itype];
+
+here?
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
