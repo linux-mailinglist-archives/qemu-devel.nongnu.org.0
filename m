@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF4C231B1F4
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:23:59 +0100 (CET)
-Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C90A31B1FB
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:27:05 +0100 (CET)
+Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBM3q-0007MM-QB
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:23:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
+	id 1lBM6q-0002il-ET
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:27:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLh2-0007as-7B
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:33 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43548)
+ id 1lBLhG-0007d5-1R
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:43 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:50461)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLh0-0004Nq-1u
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:24 -0500
-Received: by mail-wr1-x436.google.com with SMTP id n8so6073253wrm.10
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:21 -0800 (PST)
+ id 1lBLh7-0004SI-OK
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:31 -0500
+Received: by mail-wm1-x332.google.com with SMTP id u5so1453308wmj.0
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qDYzgz4nCnzAeAmRqFLDDh2jFjyyR2cEOET9WBNOhTQ=;
- b=Ch0AW4PVYKP/KtWr0Do6gwKwIwSv9Wwg+SwhS/OX3Fu1AZ8jVVB12lKrWl8KAc1KVO
- 3TD35mGqC928qz73cB/qEgyEwTfTSPTdztsX6l4eNZaWqpzzJ5TxFqXJCupe9Pkww8CD
- 1P51Bg6vaFPLBwoY5msk4PPSuLP5Q/qO8D9D+oxPfll5TTEK4sNkZb78v/pbK7XRoe9B
- fR1778MqjznHWMOG/jrkYET0jeiuC+rQoXkGG5bcq6p0+iVFd5pGLGbS2gA2mll+Rb2u
- GVoQY5RlqYicCIEv49klHaCsR6cbDGd8kpQ62IAdeHycsbrFeNtZI8v27VU3MwusAtFc
- aR6A==
+ bh=eeNqpVCPfAsmNmu/UfWttEow0ZyEedVgTFzxxlhV8h4=;
+ b=YBt38dg1DE3JTkjZ7eOyTNsU3imOZ7aI5pqBkRBJOH16K0xU3+m4ZDe8klDSvsug7A
+ t5nfx6NsnPIdglpxUzUSdo+yBvjZlZ51dgGg7WSVi5UYzUbAwk/zJTufWpK9kfFW9xPR
+ igxCFIfSrovsIfnJhW9iHd2RZ69OkOtdLbZ9AlvJzlm2rD7GxHCsF6uwS/Cn5e76MQTN
+ 6QOc446N36NuC0IGySL02v9PNGc3cuCx8hA8jrbwYUR54eYu2SFMklc/pLNSb7Z49Mav
+ fT8JMuDXY2LTq68GCi+6Oa9hR/Z7tu9MPVjmJTf440CT0a5je8VxLB0IIev3+pBbNwD5
+ LKwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qDYzgz4nCnzAeAmRqFLDDh2jFjyyR2cEOET9WBNOhTQ=;
- b=njeUczVfdh+OxzBF1j/WcVYaINIlHKMolVnAoLIfLxsysl/iTx66lvS6a1NVHfiorY
- UoahhQqMMBGRXSpV07LX41q5RRqCZoHh4rHjB2Pfe1UFgMABFX/+4wyPqTOj7v901pxD
- 7iFjiaaKoZ0CgSK+UeHNiJAxITFSFrFpxPtwO6GIBCKlDLEv/TkejWI4v9vSQCrLbfCb
- sOfiGYBuzXpIy/IoLjdkAMYZ4DFtknSiMaHTb5W1D1OAGp8kivrOgTViGAtWh6mHldi4
- u+CiUJf1/HJ5Uc7vxEJzjsyLWcM39exSGZQ2AmQFqIbhto+KTrGu4cAs4R4rnSqGBeLE
- S0EQ==
-X-Gm-Message-State: AOAM533UdflZVsjNKIoQ8iyhfHOcKvJmVyEIR0F5QbOytuj8pPBredtF
- wb6CMLWvpXMeqF7qzha0CUFqlsPHge8=
-X-Google-Smtp-Source: ABdhPJxeMmA1LeY4/YyrzsA75YGOh3SPNt4hT32uOhk904Mvvc7kD6tNZplAgmX2YcHpgLi5GqHfTw==
-X-Received: by 2002:adf:bb54:: with SMTP id x20mr15218449wrg.112.1613325619857; 
- Sun, 14 Feb 2021 10:00:19 -0800 (PST)
+ bh=eeNqpVCPfAsmNmu/UfWttEow0ZyEedVgTFzxxlhV8h4=;
+ b=MUWw2BFpWGn/aEVXBMd2NN0rDLNJXvYT20Jtw597wYOyPnhgttyh388s5S2n1EAw/h
+ y8N4RQadJWm9OYIut7nE3rzn+erl2NU2KnQplpPrxS0GFynZGK1HEKQEvUjNRX80H69f
+ g6D8I6KjjCzNAw6F4zxA6G1vOlvseTXQEJh1MkOEj5Lf6VAgIWYdC/FNhclmeVUFY3Iq
+ 0YR/KHuYrOxJ1GX5HZEftg2yp4cHrxuRSOaEdAun6yS6dzTUgi2XeDnQrpixZqFMxUX/
+ ch1G7PD43Y2f119K66H6KBIf8cufGjl5leWJL7+4WUaMp7wE4wylHew2xP+4L1Ufw1Zw
+ C38g==
+X-Gm-Message-State: AOAM532Vy0AfXBytb8Fl4O+Ijw394N1OhC+08sFEGvY+YCpx/VmZt1XF
+ Z5/x8tVJkFHXurCuZy45741cJcwmkgs=
+X-Google-Smtp-Source: ABdhPJy38cdmgiQC7W+b2dHuq/2sFfzpsmPtWXVfYjZg8QYIfq7qeAkQhFDanfnjncYs0yCYWZsOQw==
+X-Received: by 2002:a7b:cb4f:: with SMTP id v15mr11112160wmj.162.1613325625003; 
+ Sun, 14 Feb 2021 10:00:25 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o13sm27879362wrs.45.2021.02.14.10.00.18
+ by smtp.gmail.com with ESMTPSA id f17sm19694283wrx.57.2021.02.14.10.00.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:00:19 -0800 (PST)
+ Sun, 14 Feb 2021 10:00:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 13/42] target/mips: Remove 'C790 Multimedia Instructions'
- dead code
-Date: Sun, 14 Feb 2021 18:58:43 +0100
-Message-Id: <20210214175912.732946-14-f4bug@amsat.org>
+Subject: [RFC PATCH 14/42] target/mips/tx79: Salvage instructions description
+ comment
+Date: Sun, 14 Feb 2021 18:58:44 +0100
+Message-Id: <20210214175912.732946-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,435 +97,400 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have almost 400 lines of code full of /* TODO */ comments
-which end calling gen_reserved_instruction().
-
-As we are not going to implement them, and all the caller's
-switch() default cases already call gen_reserved_instruction(),
-we can remove this altogether.
+This comment describing the tx79 opcodes is helpful. As we
+will implement these instructions in tx79_translate.c, move
+the comment there.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.c | 372 ----------------------------------------
- 1 file changed, 372 deletions(-)
+ target/mips/translate.c      | 160 -----------------------------
+ target/mips/tx79_translate.c | 188 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 188 insertions(+), 160 deletions(-)
 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index cf5a6a83ae5..22d106405c6 100644
+index 22d106405c6..109f7f80f3d 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -1970,207 +1970,12 @@ enum {
- enum {
-     MMI_OPC_MADD       = 0x00 | MMI_OPC_CLASS_MMI, /* Same as OPC_MADD */
-     MMI_OPC_MADDU      = 0x01 | MMI_OPC_CLASS_MMI, /* Same as OPC_MADDU */
--    MMI_OPC_PLZCW      = 0x04 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_CLASS_MMI0 = 0x08 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_CLASS_MMI2 = 0x09 | MMI_OPC_CLASS_MMI,
-     MMI_OPC_MULT1      = 0x18 | MMI_OPC_CLASS_MMI, /* Same minor as OPC_MULT */
-     MMI_OPC_MULTU1     = 0x19 | MMI_OPC_CLASS_MMI, /* Same min. as OPC_MULTU */
-     MMI_OPC_DIV1       = 0x1A | MMI_OPC_CLASS_MMI, /* Same minor as OPC_DIV  */
-     MMI_OPC_DIVU1      = 0x1B | MMI_OPC_CLASS_MMI, /* Same minor as OPC_DIVU */
-     MMI_OPC_MADD1      = 0x20 | MMI_OPC_CLASS_MMI,
-     MMI_OPC_MADDU1     = 0x21 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_CLASS_MMI1 = 0x28 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_CLASS_MMI3 = 0x29 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PMFHL      = 0x30 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PMTHL      = 0x31 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PSLLH      = 0x34 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PSRLH      = 0x36 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PSRAH      = 0x37 | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PSLLW      = 0x3C | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PSRLW      = 0x3E | MMI_OPC_CLASS_MMI,
--    MMI_OPC_PSRAW      = 0x3F | MMI_OPC_CLASS_MMI,
--};
--
--/*
-- * MMI instructions with opcode field = MMI and bits 5..0 = MMI0:
-- *
-- *  31    26                        10     6 5      0
-- * +--------+----------------------+--------+--------+
-- * |   MMI  |                      |function|  MMI0  |
-- * +--------+----------------------+--------+--------+
-- *
-- * function  bits 7..6
-- *     bits |   0   |   1   |   2   |   3
-- *    10..8 |   00  |   01  |   10  |   11
-- *   -------+-------+-------+-------+-------
-- *    0 000 | PADDW | PSUBW | PCGTW | PMAXW
-- *    1 001 | PADDH | PSUBH | PCGTH | PMAXH
-- *    2 010 | PADDB | PSUBB | PCGTB |   *
-- *    3 011 |   *   |   *   |   *   |   *
-- *    4 100 | PADDSW| PSUBSW| PEXTLW| PPACW
-- *    5 101 | PADDSH| PSUBSH| PEXTLH| PPACH
-- *    6 110 | PADDSB| PSUBSB| PEXTLB| PPACB
-- *    7 111 |   *   |   *   | PEXT5 | PPAC5
-- */
--
--#define MASK_MMI0(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
--enum {
--    MMI_OPC_0_PADDW  = (0x00 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PSUBW  = (0x01 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PCGTW  = (0x02 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PMAXW  = (0x03 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PADDH  = (0x04 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PSUBH  = (0x05 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PCGTH  = (0x06 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PMAXH  = (0x07 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PADDB  = (0x08 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PSUBB  = (0x09 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PCGTB  = (0x0A << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PADDSW = (0x10 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PSUBSW = (0x11 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PEXTLW = (0x12 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PPACW  = (0x13 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PADDSH = (0x14 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PSUBSH = (0x15 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PEXTLH = (0x16 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PPACH  = (0x17 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PADDSB = (0x18 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PSUBSB = (0x19 << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PEXTLB = (0x1A << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PPACB  = (0x1B << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PEXT5  = (0x1E << 6) | MMI_OPC_CLASS_MMI0,
--    MMI_OPC_0_PPAC5  = (0x1F << 6) | MMI_OPC_CLASS_MMI0,
--};
--
--/*
-- * MMI instructions with opcode field = MMI and bits 5..0 = MMI1:
-- *
-- *  31    26                        10     6 5      0
-- * +--------+----------------------+--------+--------+
-- * |   MMI  |                      |function|  MMI1  |
-- * +--------+----------------------+--------+--------+
-- *
-- * function  bits 7..6
-- *     bits |   0   |   1   |   2   |   3
-- *    10..8 |   00  |   01  |   10  |   11
-- *   -------+-------+-------+-------+-------
-- *    0 000 |   *   | PABSW | PCEQW | PMINW
-- *    1 001 | PADSBH| PABSH | PCEQH | PMINH
-- *    2 010 |   *   |   *   | PCEQB |   *
-- *    3 011 |   *   |   *   |   *   |   *
-- *    4 100 | PADDUW| PSUBUW| PEXTUW|   *
-- *    5 101 | PADDUH| PSUBUH| PEXTUH|   *
-- *    6 110 | PADDUB| PSUBUB| PEXTUB| QFSRV
-- *    7 111 |   *   |   *   |   *   |   *
-- */
--
--#define MASK_MMI1(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
--enum {
--    MMI_OPC_1_PABSW  = (0x01 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PCEQW  = (0x02 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PMINW  = (0x03 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PADSBH = (0x04 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PABSH  = (0x05 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PCEQH  = (0x06 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PMINH  = (0x07 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PCEQB  = (0x0A << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PADDUW = (0x10 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PSUBUW = (0x11 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PEXTUW = (0x12 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PADDUH = (0x14 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PSUBUH = (0x15 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PEXTUH = (0x16 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PADDUB = (0x18 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PSUBUB = (0x19 << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_PEXTUB = (0x1A << 6) | MMI_OPC_CLASS_MMI1,
--    MMI_OPC_1_QFSRV  = (0x1B << 6) | MMI_OPC_CLASS_MMI1,
--};
--
--/*
-- * MMI instructions with opcode field = MMI and bits 5..0 = MMI2:
-- *
-- *  31    26                        10     6 5      0
-- * +--------+----------------------+--------+--------+
-- * |   MMI  |                      |function|  MMI2  |
-- * +--------+----------------------+--------+--------+
-- *
-- * function  bits 7..6
-- *     bits |   0   |   1   |   2   |   3
-- *    10..8 |   00  |   01  |   10  |   11
-- *   -------+-------+-------+-------+-------
-- *    0 000 | PMADDW|   *   | PSLLVW| PSRLVW
-- *    1 001 | PMSUBW|   *   |   *   |   *
-- *    2 010 | PMFHI | PMFLO | PINTH |   *
-- *    3 011 | PMULTW| PDIVW | PCPYLD|   *
-- *    4 100 | PMADDH| PHMADH|  PAND |  PXOR
-- *    5 101 | PMSUBH| PHMSBH|   *   |   *
-- *    6 110 |   *   |   *   | PEXEH | PREVH
-- *    7 111 | PMULTH| PDIVBW| PEXEW | PROT3W
-- */
--
--#define MASK_MMI2(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
--enum {
--    MMI_OPC_2_PMADDW = (0x00 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PSLLVW = (0x02 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PSRLVW = (0x03 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMSUBW = (0x04 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMFHI  = (0x08 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMFLO  = (0x09 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PINTH  = (0x0A << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMULTW = (0x0C << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PDIVW  = (0x0D << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PCPYLD = (0x0E << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMADDH = (0x10 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PHMADH = (0x11 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PAND   = (0x12 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PXOR   = (0x13 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMSUBH = (0x14 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PHMSBH = (0x15 << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PEXEH  = (0x1A << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PREVH  = (0x1B << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PMULTH = (0x1C << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PDIVBW = (0x1D << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PEXEW  = (0x1E << 6) | MMI_OPC_CLASS_MMI2,
--    MMI_OPC_2_PROT3W = (0x1F << 6) | MMI_OPC_CLASS_MMI2,
--};
--
--/*
-- * MMI instructions with opcode field = MMI and bits 5..0 = MMI3:
-- *
-- *  31    26                        10     6 5      0
-- * +--------+----------------------+--------+--------+
-- * |   MMI  |                      |function|  MMI3  |
-- * +--------+----------------------+--------+--------+
-- *
-- * function  bits 7..6
-- *     bits |   0   |   1   |   2   |   3
-- *    10..8 |   00  |   01  |   10  |   11
-- *   -------+-------+-------+-------+-------
-- *    0 000 |PMADDUW|   *   |   *   | PSRAVW
-- *    1 001 |   *   |   *   |   *   |   *
-- *    2 010 | PMTHI | PMTLO | PINTEH|   *
-- *    3 011 |PMULTUW| PDIVUW| PCPYUD|   *
-- *    4 100 |   *   |   *   |  POR  |  PNOR
-- *    5 101 |   *   |   *   |   *   |   *
-- *    6 110 |   *   |   *   | PEXCH | PCPYH
-- *    7 111 |   *   |   *   | PEXCW |   *
-- */
--
--#define MASK_MMI3(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
--enum {
--    MMI_OPC_3_PMADDUW = (0x00 << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PSRAVW  = (0x03 << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PMTHI   = (0x08 << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PMTLO   = (0x09 << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PINTEH  = (0x0A << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PMULTUW = (0x0C << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PDIVUW  = (0x0D << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PCPYUD  = (0x0E << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_POR     = (0x12 << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PNOR    = (0x13 << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PEXCH   = (0x1A << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PCPYH   = (0x1B << 6) | MMI_OPC_CLASS_MMI3,
--    MMI_OPC_3_PEXCW   = (0x1E << 6) | MMI_OPC_CLASS_MMI3,
+@@ -1743,166 +1743,6 @@ enum {
  };
  
- /* global register indices */
-@@ -24713,29 +24518,6 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
+ /*
+- *     Overview of the TX79-specific instruction set
+- *     =============================================
+- *
+- * The R5900 and the C790 have 128-bit wide GPRs, where the upper 64 bits
+- * are only used by the specific quadword (128-bit) LQ/SQ load/store
+- * instructions and certain multimedia instructions (MMIs). These MMIs
+- * configure the 128-bit data path as two 64-bit, four 32-bit, eight 16-bit
+- * or sixteen 8-bit paths.
+- *
+- * Reference:
+- *
+- * The Toshiba TX System RISC TX79 Core Architecture manual,
+- * https://wiki.qemu.org/File:C790.pdf
+- *
+- *     Three-Operand Multiply and Multiply-Add (4 instructions)
+- *     --------------------------------------------------------
+- * MADD    [rd,] rs, rt      Multiply/Add
+- * MADDU   [rd,] rs, rt      Multiply/Add Unsigned
+- * MULT    [rd,] rs, rt      Multiply (3-operand)
+- * MULTU   [rd,] rs, rt      Multiply Unsigned (3-operand)
+- *
+- *     Multiply Instructions for Pipeline 1 (10 instructions)
+- *     ------------------------------------------------------
+- * MULT1   [rd,] rs, rt      Multiply Pipeline 1
+- * MULTU1  [rd,] rs, rt      Multiply Unsigned Pipeline 1
+- * DIV1    rs, rt            Divide Pipeline 1
+- * DIVU1   rs, rt            Divide Unsigned Pipeline 1
+- * MADD1   [rd,] rs, rt      Multiply-Add Pipeline 1
+- * MADDU1  [rd,] rs, rt      Multiply-Add Unsigned Pipeline 1
+- * MFHI1   rd                Move From HI1 Register
+- * MFLO1   rd                Move From LO1 Register
+- * MTHI1   rs                Move To HI1 Register
+- * MTLO1   rs                Move To LO1 Register
+- *
+- *     Arithmetic (19 instructions)
+- *     ----------------------------
+- * PADDB   rd, rs, rt        Parallel Add Byte
+- * PSUBB   rd, rs, rt        Parallel Subtract Byte
+- * PADDH   rd, rs, rt        Parallel Add Halfword
+- * PSUBH   rd, rs, rt        Parallel Subtract Halfword
+- * PADDW   rd, rs, rt        Parallel Add Word
+- * PSUBW   rd, rs, rt        Parallel Subtract Word
+- * PADSBH  rd, rs, rt        Parallel Add/Subtract Halfword
+- * PADDSB  rd, rs, rt        Parallel Add with Signed Saturation Byte
+- * PSUBSB  rd, rs, rt        Parallel Subtract with Signed Saturation Byte
+- * PADDSH  rd, rs, rt        Parallel Add with Signed Saturation Halfword
+- * PSUBSH  rd, rs, rt        Parallel Subtract with Signed Saturation Halfword
+- * PADDSW  rd, rs, rt        Parallel Add with Signed Saturation Word
+- * PSUBSW  rd, rs, rt        Parallel Subtract with Signed Saturation Word
+- * PADDUB  rd, rs, rt        Parallel Add with Unsigned saturation Byte
+- * PSUBUB  rd, rs, rt        Parallel Subtract with Unsigned saturation Byte
+- * PADDUH  rd, rs, rt        Parallel Add with Unsigned saturation Halfword
+- * PSUBUH  rd, rs, rt        Parallel Subtract with Unsigned saturation Halfword
+- * PADDUW  rd, rs, rt        Parallel Add with Unsigned saturation Word
+- * PSUBUW  rd, rs, rt        Parallel Subtract with Unsigned saturation Word
+- *
+- *     Min/Max (4 instructions)
+- *     ------------------------
+- * PMAXH   rd, rs, rt        Parallel Maximum Halfword
+- * PMINH   rd, rs, rt        Parallel Minimum Halfword
+- * PMAXW   rd, rs, rt        Parallel Maximum Word
+- * PMINW   rd, rs, rt        Parallel Minimum Word
+- *
+- *     Absolute (2 instructions)
+- *     -------------------------
+- * PABSH   rd, rt            Parallel Absolute Halfword
+- * PABSW   rd, rt            Parallel Absolute Word
+- *
+- *     Logical (4 instructions)
+- *     ------------------------
+- * PAND    rd, rs, rt        Parallel AND
+- * POR     rd, rs, rt        Parallel OR
+- * PXOR    rd, rs, rt        Parallel XOR
+- * PNOR    rd, rs, rt        Parallel NOR
+- *
+- *     Shift (9 instructions)
+- *     ----------------------
+- * PSLLH   rd, rt, sa        Parallel Shift Left Logical Halfword
+- * PSRLH   rd, rt, sa        Parallel Shift Right Logical Halfword
+- * PSRAH   rd, rt, sa        Parallel Shift Right Arithmetic Halfword
+- * PSLLW   rd, rt, sa        Parallel Shift Left Logical Word
+- * PSRLW   rd, rt, sa        Parallel Shift Right Logical Word
+- * PSRAW   rd, rt, sa        Parallel Shift Right Arithmetic Word
+- * PSLLVW  rd, rt, rs        Parallel Shift Left Logical Variable Word
+- * PSRLVW  rd, rt, rs        Parallel Shift Right Logical Variable Word
+- * PSRAVW  rd, rt, rs        Parallel Shift Right Arithmetic Variable Word
+- *
+- *     Compare (6 instructions)
+- *     ------------------------
+- * PCGTB   rd, rs, rt        Parallel Compare for Greater Than Byte
+- * PCEQB   rd, rs, rt        Parallel Compare for Equal Byte
+- * PCGTH   rd, rs, rt        Parallel Compare for Greater Than Halfword
+- * PCEQH   rd, rs, rt        Parallel Compare for Equal Halfword
+- * PCGTW   rd, rs, rt        Parallel Compare for Greater Than Word
+- * PCEQW   rd, rs, rt        Parallel Compare for Equal Word
+- *
+- *     LZC (1 instruction)
+- *     -------------------
+- * PLZCW   rd, rs            Parallel Leading Zero or One Count Word
+- *
+- *     Quadword Load and Store (2 instructions)
+- *     ----------------------------------------
+- * LQ      rt, offset(base)  Load Quadword
+- * SQ      rt, offset(base)  Store Quadword
+- *
+- *     Multiply and Divide (19 instructions)
+- *     -------------------------------------
+- * PMULTW  rd, rs, rt        Parallel Multiply Word
+- * PMULTUW rd, rs, rt        Parallel Multiply Unsigned Word
+- * PDIVW   rs, rt            Parallel Divide Word
+- * PDIVUW  rs, rt            Parallel Divide Unsigned Word
+- * PMADDW  rd, rs, rt        Parallel Multiply-Add Word
+- * PMADDUW rd, rs, rt        Parallel Multiply-Add Unsigned Word
+- * PMSUBW  rd, rs, rt        Parallel Multiply-Subtract Word
+- * PMULTH  rd, rs, rt        Parallel Multiply Halfword
+- * PMADDH  rd, rs, rt        Parallel Multiply-Add Halfword
+- * PMSUBH  rd, rs, rt        Parallel Multiply-Subtract Halfword
+- * PHMADH  rd, rs, rt        Parallel Horizontal Multiply-Add Halfword
+- * PHMSBH  rd, rs, rt        Parallel Horizontal Multiply-Subtract Halfword
+- * PDIVBW  rs, rt            Parallel Divide Broadcast Word
+- * PMFHI   rd                Parallel Move From HI Register
+- * PMFLO   rd                Parallel Move From LO Register
+- * PMTHI   rs                Parallel Move To HI Register
+- * PMTLO   rs                Parallel Move To LO Register
+- * PMFHL   rd                Parallel Move From HI/LO Register
+- * PMTHL   rs                Parallel Move To HI/LO Register
+- *
+- *     Pack/Extend (11 instructions)
+- *     -----------------------------
+- * PPAC5   rd, rt            Parallel Pack to 5 bits
+- * PPACB   rd, rs, rt        Parallel Pack to Byte
+- * PPACH   rd, rs, rt        Parallel Pack to Halfword
+- * PPACW   rd, rs, rt        Parallel Pack to Word
+- * PEXT5   rd, rt            Parallel Extend Upper from 5 bits
+- * PEXTUB  rd, rs, rt        Parallel Extend Upper from Byte
+- * PEXTLB  rd, rs, rt        Parallel Extend Lower from Byte
+- * PEXTUH  rd, rs, rt        Parallel Extend Upper from Halfword
+- * PEXTLH  rd, rs, rt        Parallel Extend Lower from Halfword
+- * PEXTUW  rd, rs, rt        Parallel Extend Upper from Word
+- * PEXTLW  rd, rs, rt        Parallel Extend Lower from Word
+- *
+- *     Others (16 instructions)
+- *     ------------------------
+- * PCPYH   rd, rt            Parallel Copy Halfword
+- * PCPYLD  rd, rs, rt        Parallel Copy Lower Doubleword
+- * PCPYUD  rd, rs, rt        Parallel Copy Upper Doubleword
+- * PREVH   rd, rt            Parallel Reverse Halfword
+- * PINTH   rd, rs, rt        Parallel Interleave Halfword
+- * PINTEH  rd, rs, rt        Parallel Interleave Even Halfword
+- * PEXEH   rd, rt            Parallel Exchange Even Halfword
+- * PEXCH   rd, rt            Parallel Exchange Center Halfword
+- * PEXEW   rd, rt            Parallel Exchange Even Word
+- * PEXCW   rd, rt            Parallel Exchange Center Word
+- * QFSRV   rd, rs, rt        Quadword Funnel Shift Right Variable
+- * MFSA    rd                Move from Shift Amount Register
+- * MTSA    rs                Move to Shift Amount Register
+- * MTSAB   rs, immediate     Move Byte Count to Shift Amount Register
+- * MTSAH   rs, immediate     Move Halfword Count to Shift Amount Register
+- * PROT3W  rd, rt            Parallel Rotate 3 Words
+- *
+  *     MMI (MultiMedia Instruction) encodings
+  *     ======================================
+  *
+diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
+index de09bb0d314..243a81c3c5e 100644
+--- a/target/mips/tx79_translate.c
++++ b/target/mips/tx79_translate.c
+@@ -14,6 +14,22 @@
+ /* Include the auto-generated decoder.  */
+ #include "decode-tx79.c.inc"
+ 
++/*
++ *     Overview of the TX79-specific instruction set
++ *     =============================================
++ *
++ * The R5900 and the C790 have 128-bit wide GPRs, where the upper 64 bits
++ * are only used by the specific quadword (128-bit) LQ/SQ load/store
++ * instructions and certain multimedia instructions (MMIs). These MMIs
++ * configure the 128-bit data path as two 64-bit, four 32-bit, eight 16-bit
++ * or sixteen 8-bit paths.
++ *
++ * Reference:
++ *
++ * The Toshiba TX System RISC TX79 Core Architecture manual,
++ * https://wiki.qemu.org/File:C790.pdf
++ */
++
+ bool decode_ext_tx79(DisasContext *ctx, uint32_t insn)
+ {
+     if (TARGET_LONG_BITS == 64 && decode_tx79(ctx, insn)) {
+@@ -22,6 +38,30 @@ bool decode_ext_tx79(DisasContext *ctx, uint32_t insn)
+     return false;
  }
  
- 
--#if defined(TARGET_MIPS64)
--
--/*
-- *
-- *           MMI (MultiMedia Interface) ASE instructions
-- *           ===========================================
-- */
--
--/*
-- *          MMI instructions category: data communication
-- *          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-- *
-- *   PCPYH    PEXCH    PEXTLB   PINTH    PPACB    PEXT5    PREVH
-- *   PCPYLD   PEXCW    PEXTLH   PINTEH   PPACH    PPAC5    PROT3W
-- *   PCPYUD   PEXEH    PEXTLW            PPACW
-- *            PEXEW    PEXTUB
-- *                     PEXTUH
-- *                     PEXTUW
-- */
--
--#endif
--
--
- #if !defined(TARGET_MIPS64)
- 
- /* MXU accumulate add/subtract 1-bit pattern 'aptn1' */
-@@ -27682,137 +27464,6 @@ static void decode_opc_special3_legacy(CPUMIPSState *env, DisasContext *ctx)
- 
- #if defined(TARGET_MIPS64)
- 
--static void decode_mmi0(CPUMIPSState *env, DisasContext *ctx)
--{
--    uint32_t opc = MASK_MMI0(ctx->opcode);
--
--    switch (opc) {
--    case MMI_OPC_0_PADDW:     /* TODO: MMI_OPC_0_PADDW */
--    case MMI_OPC_0_PSUBW:     /* TODO: MMI_OPC_0_PSUBW */
--    case MMI_OPC_0_PCGTW:     /* TODO: MMI_OPC_0_PCGTW */
--    case MMI_OPC_0_PMAXW:     /* TODO: MMI_OPC_0_PMAXW */
--    case MMI_OPC_0_PADDH:     /* TODO: MMI_OPC_0_PADDH */
--    case MMI_OPC_0_PSUBH:     /* TODO: MMI_OPC_0_PSUBH */
--    case MMI_OPC_0_PCGTH:     /* TODO: MMI_OPC_0_PCGTH */
--    case MMI_OPC_0_PMAXH:     /* TODO: MMI_OPC_0_PMAXH */
--    case MMI_OPC_0_PADDB:     /* TODO: MMI_OPC_0_PADDB */
--    case MMI_OPC_0_PSUBB:     /* TODO: MMI_OPC_0_PSUBB */
--    case MMI_OPC_0_PCGTB:     /* TODO: MMI_OPC_0_PCGTB */
--    case MMI_OPC_0_PADDSW:    /* TODO: MMI_OPC_0_PADDSW */
--    case MMI_OPC_0_PSUBSW:    /* TODO: MMI_OPC_0_PSUBSW */
--    case MMI_OPC_0_PEXTLW:    /* TODO: MMI_OPC_0_PEXTLW */
--    case MMI_OPC_0_PPACW:     /* TODO: MMI_OPC_0_PPACW */
--    case MMI_OPC_0_PADDSH:    /* TODO: MMI_OPC_0_PADDSH */
--    case MMI_OPC_0_PSUBSH:    /* TODO: MMI_OPC_0_PSUBSH */
--    case MMI_OPC_0_PEXTLH:    /* TODO: MMI_OPC_0_PEXTLH */
--    case MMI_OPC_0_PPACH:     /* TODO: MMI_OPC_0_PPACH */
--    case MMI_OPC_0_PADDSB:    /* TODO: MMI_OPC_0_PADDSB */
--    case MMI_OPC_0_PSUBSB:    /* TODO: MMI_OPC_0_PSUBSB */
--    case MMI_OPC_0_PEXTLB:    /* TODO: MMI_OPC_0_PEXTLB */
--    case MMI_OPC_0_PPACB:     /* TODO: MMI_OPC_0_PPACB */
--    case MMI_OPC_0_PEXT5:     /* TODO: MMI_OPC_0_PEXT5 */
--    case MMI_OPC_0_PPAC5:     /* TODO: MMI_OPC_0_PPAC5 */
--        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI0 */
--        break;
--    default:
--        MIPS_INVAL("TX79 MMI class MMI0");
--        gen_reserved_instruction(ctx);
--        break;
--    }
--}
--
--static void decode_mmi1(CPUMIPSState *env, DisasContext *ctx)
--{
--    uint32_t opc = MASK_MMI1(ctx->opcode);
--
--    switch (opc) {
--    case MMI_OPC_1_PABSW:     /* TODO: MMI_OPC_1_PABSW */
--    case MMI_OPC_1_PCEQW:     /* TODO: MMI_OPC_1_PCEQW */
--    case MMI_OPC_1_PMINW:     /* TODO: MMI_OPC_1_PMINW */
--    case MMI_OPC_1_PADSBH:    /* TODO: MMI_OPC_1_PADSBH */
--    case MMI_OPC_1_PABSH:     /* TODO: MMI_OPC_1_PABSH */
--    case MMI_OPC_1_PCEQH:     /* TODO: MMI_OPC_1_PCEQH */
--    case MMI_OPC_1_PMINH:     /* TODO: MMI_OPC_1_PMINH */
--    case MMI_OPC_1_PCEQB:     /* TODO: MMI_OPC_1_PCEQB */
--    case MMI_OPC_1_PADDUW:    /* TODO: MMI_OPC_1_PADDUW */
--    case MMI_OPC_1_PSUBUW:    /* TODO: MMI_OPC_1_PSUBUW */
--    case MMI_OPC_1_PEXTUW:    /* TODO: MMI_OPC_1_PEXTUW */
--    case MMI_OPC_1_PADDUH:    /* TODO: MMI_OPC_1_PADDUH */
--    case MMI_OPC_1_PSUBUH:    /* TODO: MMI_OPC_1_PSUBUH */
--    case MMI_OPC_1_PEXTUH:    /* TODO: MMI_OPC_1_PEXTUH */
--    case MMI_OPC_1_PADDUB:    /* TODO: MMI_OPC_1_PADDUB */
--    case MMI_OPC_1_PSUBUB:    /* TODO: MMI_OPC_1_PSUBUB */
--    case MMI_OPC_1_PEXTUB:    /* TODO: MMI_OPC_1_PEXTUB */
--    case MMI_OPC_1_QFSRV:     /* TODO: MMI_OPC_1_QFSRV */
--        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI1 */
--        break;
--    default:
--        MIPS_INVAL("TX79 MMI class MMI1");
--        gen_reserved_instruction(ctx);
--        break;
--    }
--}
--
--static void decode_mmi2(CPUMIPSState *env, DisasContext *ctx)
--{
--    uint32_t opc = MASK_MMI2(ctx->opcode);
--
--    switch (opc) {
--    case MMI_OPC_2_PMADDW:    /* TODO: MMI_OPC_2_PMADDW */
--    case MMI_OPC_2_PSLLVW:    /* TODO: MMI_OPC_2_PSLLVW */
--    case MMI_OPC_2_PSRLVW:    /* TODO: MMI_OPC_2_PSRLVW */
--    case MMI_OPC_2_PMSUBW:    /* TODO: MMI_OPC_2_PMSUBW */
--    case MMI_OPC_2_PMFHI:     /* TODO: MMI_OPC_2_PMFHI */
--    case MMI_OPC_2_PMFLO:     /* TODO: MMI_OPC_2_PMFLO */
--    case MMI_OPC_2_PINTH:     /* TODO: MMI_OPC_2_PINTH */
--    case MMI_OPC_2_PMULTW:    /* TODO: MMI_OPC_2_PMULTW */
--    case MMI_OPC_2_PDIVW:     /* TODO: MMI_OPC_2_PDIVW */
--    case MMI_OPC_2_PMADDH:    /* TODO: MMI_OPC_2_PMADDH */
--    case MMI_OPC_2_PHMADH:    /* TODO: MMI_OPC_2_PHMADH */
--    case MMI_OPC_2_PAND:      /* TODO: MMI_OPC_2_PAND */
--    case MMI_OPC_2_PXOR:      /* TODO: MMI_OPC_2_PXOR */
--    case MMI_OPC_2_PMSUBH:    /* TODO: MMI_OPC_2_PMSUBH */
--    case MMI_OPC_2_PHMSBH:    /* TODO: MMI_OPC_2_PHMSBH */
--    case MMI_OPC_2_PEXEH:     /* TODO: MMI_OPC_2_PEXEH */
--    case MMI_OPC_2_PREVH:     /* TODO: MMI_OPC_2_PREVH */
--    case MMI_OPC_2_PMULTH:    /* TODO: MMI_OPC_2_PMULTH */
--    case MMI_OPC_2_PDIVBW:    /* TODO: MMI_OPC_2_PDIVBW */
--    case MMI_OPC_2_PEXEW:     /* TODO: MMI_OPC_2_PEXEW */
--    case MMI_OPC_2_PROT3W:    /* TODO: MMI_OPC_2_PROT3W */
--        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI2 */
--        break;
--    default:
--        MIPS_INVAL("TX79 MMI class MMI2");
--        gen_reserved_instruction(ctx);
--        break;
--    }
--}
--
--static void decode_mmi3(CPUMIPSState *env, DisasContext *ctx)
--{
--    uint32_t opc = MASK_MMI3(ctx->opcode);
--
--    switch (opc) {
--    case MMI_OPC_3_PMADDUW:    /* TODO: MMI_OPC_3_PMADDUW */
--    case MMI_OPC_3_PSRAVW:     /* TODO: MMI_OPC_3_PSRAVW */
--    case MMI_OPC_3_PMTHI:      /* TODO: MMI_OPC_3_PMTHI */
--    case MMI_OPC_3_PMTLO:      /* TODO: MMI_OPC_3_PMTLO */
--    case MMI_OPC_3_PINTEH:     /* TODO: MMI_OPC_3_PINTEH */
--    case MMI_OPC_3_PMULTUW:    /* TODO: MMI_OPC_3_PMULTUW */
--    case MMI_OPC_3_PDIVUW:     /* TODO: MMI_OPC_3_PDIVUW */
--    case MMI_OPC_3_POR:        /* TODO: MMI_OPC_3_POR */
--    case MMI_OPC_3_PNOR:       /* TODO: MMI_OPC_3_PNOR */
--    case MMI_OPC_3_PEXCH:      /* TODO: MMI_OPC_3_PEXCH */
--    case MMI_OPC_3_PEXCW:      /* TODO: MMI_OPC_3_PEXCW */
--        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI3 */
--        break;
--    default:
--        MIPS_INVAL("TX79 MMI class MMI3");
--        gen_reserved_instruction(ctx);
--        break;
--    }
--}
--
- static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
++/*
++ *     Three-Operand Multiply and Multiply-Add (4 instructions)
++ *     --------------------------------------------------------
++ * MADD    [rd,] rs, rt      Multiply/Add
++ * MADDU   [rd,] rs, rt      Multiply/Add Unsigned
++ * MULT    [rd,] rs, rt      Multiply (3-operand)
++ * MULTU   [rd,] rs, rt      Multiply Unsigned (3-operand)
++ */
++
++/*
++ *     Multiply Instructions for Pipeline 1 (10 instructions)
++ *     ------------------------------------------------------
++ * MULT1   [rd,] rs, rt      Multiply Pipeline 1
++ * MULTU1  [rd,] rs, rt      Multiply Unsigned Pipeline 1
++ * DIV1    rs, rt            Divide Pipeline 1
++ * DIVU1   rs, rt            Divide Unsigned Pipeline 1
++ * MADD1   [rd,] rs, rt      Multiply-Add Pipeline 1
++ * MADDU1  [rd,] rs, rt      Multiply-Add Unsigned Pipeline 1
++ * MFHI1   rd                Move From HI1 Register
++ * MFLO1   rd                Move From LO1 Register
++ * MTHI1   rs                Move To HI1 Register
++ * MTLO1   rs                Move To LO1 Register
++ */
++
+ static bool trans_MFHI1(DisasContext *ctx, arg_rtype *a)
  {
-     uint32_t opc = MASK_MMI(ctx->opcode);
-@@ -27821,18 +27472,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
-     int rd = extract32(ctx->opcode, 11, 5);
+     gen_store_gpr(cpu_HI[1], a->rd);
+@@ -50,6 +90,154 @@ static bool trans_MTLO1(DisasContext *ctx, arg_rtype *a)
+     return true;
+ }
  
-     switch (opc) {
--    case MMI_OPC_CLASS_MMI0:
--        decode_mmi0(env, ctx);
--        break;
--    case MMI_OPC_CLASS_MMI1:
--        decode_mmi1(env, ctx);
--        break;
--    case MMI_OPC_CLASS_MMI2:
--        decode_mmi2(env, ctx);
--        break;
--    case MMI_OPC_CLASS_MMI3:
--        decode_mmi3(env, ctx);
--        break;
-     case MMI_OPC_MULT1:
-     case MMI_OPC_MULTU1:
-     case MMI_OPC_MADD:
-@@ -27845,17 +27484,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
-     case MMI_OPC_DIVU1:
-         gen_div1_tx79(ctx, opc, rs, rt);
-         break;
--    case MMI_OPC_PLZCW:         /* TODO: MMI_OPC_PLZCW */
--    case MMI_OPC_PMFHL:         /* TODO: MMI_OPC_PMFHL */
--    case MMI_OPC_PMTHL:         /* TODO: MMI_OPC_PMTHL */
--    case MMI_OPC_PSLLH:         /* TODO: MMI_OPC_PSLLH */
--    case MMI_OPC_PSRLH:         /* TODO: MMI_OPC_PSRLH */
--    case MMI_OPC_PSRAH:         /* TODO: MMI_OPC_PSRAH */
--    case MMI_OPC_PSLLW:         /* TODO: MMI_OPC_PSLLW */
--    case MMI_OPC_PSRLW:         /* TODO: MMI_OPC_PSRLW */
--    case MMI_OPC_PSRAW:         /* TODO: MMI_OPC_PSRAW */
--        gen_reserved_instruction(ctx);    /* TODO: MMI_OPC_CLASS_MMI */
--        break;
-     default:
-         MIPS_INVAL("TX79 MMI class");
-         gen_reserved_instruction(ctx);
++/*
++ *     Arithmetic (19 instructions)
++ *     ----------------------------
++ * PADDB   rd, rs, rt        Parallel Add Byte
++ * PSUBB   rd, rs, rt        Parallel Subtract Byte
++ * PADDH   rd, rs, rt        Parallel Add Halfword
++ * PSUBH   rd, rs, rt        Parallel Subtract Halfword
++ * PADDW   rd, rs, rt        Parallel Add Word
++ * PSUBW   rd, rs, rt        Parallel Subtract Word
++ * PADSBH  rd, rs, rt        Parallel Add/Subtract Halfword
++ * PADDSB  rd, rs, rt        Parallel Add with Signed Saturation Byte
++ * PSUBSB  rd, rs, rt        Parallel Subtract with Signed Saturation Byte
++ * PADDSH  rd, rs, rt        Parallel Add with Signed Saturation Halfword
++ * PSUBSH  rd, rs, rt        Parallel Subtract with Signed Saturation Halfword
++ * PADDSW  rd, rs, rt        Parallel Add with Signed Saturation Word
++ * PSUBSW  rd, rs, rt        Parallel Subtract with Signed Saturation Word
++ * PADDUB  rd, rs, rt        Parallel Add with Unsigned saturation Byte
++ * PSUBUB  rd, rs, rt        Parallel Subtract with Unsigned saturation Byte
++ * PADDUH  rd, rs, rt        Parallel Add with Unsigned saturation Halfword
++ * PSUBUH  rd, rs, rt        Parallel Subtract with Unsigned saturation Halfword
++ * PADDUW  rd, rs, rt        Parallel Add with Unsigned saturation Word
++ * PSUBUW  rd, rs, rt        Parallel Subtract with Unsigned saturation Word
++ */
++
++/*
++ *     Min/Max (4 instructions)
++ *     ------------------------
++ * PMAXH   rd, rs, rt        Parallel Maximum Halfword
++ * PMINH   rd, rs, rt        Parallel Minimum Halfword
++ * PMAXW   rd, rs, rt        Parallel Maximum Word
++ * PMINW   rd, rs, rt        Parallel Minimum Word
++ */
++
++/*
++ *     Absolute (2 instructions)
++ *     -------------------------
++ * PABSH   rd, rt            Parallel Absolute Halfword
++ * PABSW   rd, rt            Parallel Absolute Word
++ */
++
++/*
++ *     Logical (4 instructions)
++ *     ------------------------
++ * PAND    rd, rs, rt        Parallel AND
++ * POR     rd, rs, rt        Parallel OR
++ * PXOR    rd, rs, rt        Parallel XOR
++ * PNOR    rd, rs, rt        Parallel NOR
++ */
++
++/*
++ *     Shift (9 instructions)
++ *     ----------------------
++ * PSLLH   rd, rt, sa        Parallel Shift Left Logical Halfword
++ * PSRLH   rd, rt, sa        Parallel Shift Right Logical Halfword
++ * PSRAH   rd, rt, sa        Parallel Shift Right Arithmetic Halfword
++ * PSLLW   rd, rt, sa        Parallel Shift Left Logical Word
++ * PSRLW   rd, rt, sa        Parallel Shift Right Logical Word
++ * PSRAW   rd, rt, sa        Parallel Shift Right Arithmetic Word
++ * PSLLVW  rd, rt, rs        Parallel Shift Left Logical Variable Word
++ * PSRLVW  rd, rt, rs        Parallel Shift Right Logical Variable Word
++ * PSRAVW  rd, rt, rs        Parallel Shift Right Arithmetic Variable Word
++ */
++
++/*
++ *     Compare (6 instructions)
++ *     ------------------------
++ * PCGTB   rd, rs, rt        Parallel Compare for Greater Than Byte
++ * PCEQB   rd, rs, rt        Parallel Compare for Equal Byte
++ * PCGTH   rd, rs, rt        Parallel Compare for Greater Than Halfword
++ * PCEQH   rd, rs, rt        Parallel Compare for Equal Halfword
++ * PCGTW   rd, rs, rt        Parallel Compare for Greater Than Word
++ * PCEQW   rd, rs, rt        Parallel Compare for Equal Word
++ */
++
++/*
++ *     LZC (1 instruction)
++ *     -------------------
++ * PLZCW   rd, rs            Parallel Leading Zero or One Count Word
++ */
++
++/*
++ *     Quadword Load and Store (2 instructions)
++ *     ----------------------------------------
++ * LQ      rt, offset(base)  Load Quadword
++ * SQ      rt, offset(base)  Store Quadword
++ */
++
++/*
++ *     Multiply and Divide (19 instructions)
++ *     -------------------------------------
++ * PMULTW  rd, rs, rt        Parallel Multiply Word
++ * PMULTUW rd, rs, rt        Parallel Multiply Unsigned Word
++ * PDIVW   rs, rt            Parallel Divide Word
++ * PDIVUW  rs, rt            Parallel Divide Unsigned Word
++ * PMADDW  rd, rs, rt        Parallel Multiply-Add Word
++ * PMADDUW rd, rs, rt        Parallel Multiply-Add Unsigned Word
++ * PMSUBW  rd, rs, rt        Parallel Multiply-Subtract Word
++ * PMULTH  rd, rs, rt        Parallel Multiply Halfword
++ * PMADDH  rd, rs, rt        Parallel Multiply-Add Halfword
++ * PMSUBH  rd, rs, rt        Parallel Multiply-Subtract Halfword
++ * PHMADH  rd, rs, rt        Parallel Horizontal Multiply-Add Halfword
++ * PHMSBH  rd, rs, rt        Parallel Horizontal Multiply-Subtract Halfword
++ * PDIVBW  rs, rt            Parallel Divide Broadcast Word
++ * PMFHI   rd                Parallel Move From HI Register
++ * PMFLO   rd                Parallel Move From LO Register
++ * PMTHI   rs                Parallel Move To HI Register
++ * PMTLO   rs                Parallel Move To LO Register
++ * PMFHL   rd                Parallel Move From HI/LO Register
++ * PMTHL   rs                Parallel Move To HI/LO Register
++ */
++
++/*
++ *     Pack/Extend (11 instructions)
++ *     -----------------------------
++ * PPAC5   rd, rt            Parallel Pack to 5 bits
++ * PPACB   rd, rs, rt        Parallel Pack to Byte
++ * PPACH   rd, rs, rt        Parallel Pack to Halfword
++ * PPACW   rd, rs, rt        Parallel Pack to Word
++ * PEXT5   rd, rt            Parallel Extend Upper from 5 bits
++ * PEXTUB  rd, rs, rt        Parallel Extend Upper from Byte
++ * PEXTLB  rd, rs, rt        Parallel Extend Lower from Byte
++ * PEXTUH  rd, rs, rt        Parallel Extend Upper from Halfword
++ * PEXTLH  rd, rs, rt        Parallel Extend Lower from Halfword
++ * PEXTUW  rd, rs, rt        Parallel Extend Upper from Word
++ * PEXTLW  rd, rs, rt        Parallel Extend Lower from Word
++ */
++
++/*
++ *     Others (16 instructions)
++ *     ------------------------
++ * PCPYH   rd, rt            Parallel Copy Halfword
++ * PCPYLD  rd, rs, rt        Parallel Copy Lower Doubleword
++ * PCPYUD  rd, rs, rt        Parallel Copy Upper Doubleword
++ * PREVH   rd, rt            Parallel Reverse Halfword
++ * PINTH   rd, rs, rt        Parallel Interleave Halfword
++ * PINTEH  rd, rs, rt        Parallel Interleave Even Halfword
++ * PEXEH   rd, rt            Parallel Exchange Even Halfword
++ * PEXCH   rd, rt            Parallel Exchange Center Halfword
++ * PEXEW   rd, rt            Parallel Exchange Even Word
++ * PEXCW   rd, rt            Parallel Exchange Center Word
++ * QFSRV   rd, rs, rt        Quadword Funnel Shift Right Variable
++ * MFSA    rd                Move from Shift Amount Register
++ * MTSA    rs                Move to Shift Amount Register
++ * MTSAB   rs, immediate     Move Byte Count to Shift Amount Register
++ * MTSAH   rs, immediate     Move Halfword Count to Shift Amount Register
++ * PROT3W  rd, rt            Parallel Rotate 3 Words
++ */
++
+ /* Parallel Copy Halfword */
+ static bool trans_PCPYH(DisasContext *s, arg_rtype *a)
+ {
 -- 
 2.26.2
 
