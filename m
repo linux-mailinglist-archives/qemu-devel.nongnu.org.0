@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9158B31AF69
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 06:58:22 +0100 (CET)
-Received: from localhost ([::1]:39212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C6E831AFC8
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 10:07:49 +0100 (CET)
+Received: from localhost ([::1]:47328 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBAQH-0004Yf-3S
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 00:58:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52594)
+	id 1lBDNb-0001YD-Rz
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 04:07:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBAOT-0003ua-4z; Sun, 14 Feb 2021 00:56:29 -0500
-Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:42011)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lBDLr-00010e-LD; Sun, 14 Feb 2021 04:05:59 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:41117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBAON-0003v9-7b; Sun, 14 Feb 2021 00:56:28 -0500
-Received: by mail-yb1-xb35.google.com with SMTP id n195so3879872ybg.9;
- Sat, 13 Feb 2021 21:56:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lBDLn-0002qT-DF; Sun, 14 Feb 2021 04:05:59 -0500
+Received: by mail-ed1-x533.google.com with SMTP id v9so335512edw.8;
+ Sun, 14 Feb 2021 01:05:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aNZz0zBoiOK03R/fI1w8UfEn0o62Om9klQqrLhNR6gc=;
- b=WjrWl4jR2BOM460K5wlo2iHtpkjmy8gokV1fXvT95eb7Z4k/DtmWx6B6B7CZjX198K
- puoDuuFcSZDQBatJU3/2WzvitOvZF/etK+/OF60Uu6rK2QYS8i3olDldfJERChlAItSi
- a/+VWTCuhAjeOKJsfolWDquGd+CCrKOy4o0U1r8/S6c5O4nRO97hk8EuAXH6QuxTdbRX
- ial+JOXD9fQsrN38E7VUKYtVsHVzw2nflqXAfYg8/psehECm+sGvY9za3tciAK2dVxK3
- 75HJQdOjidn6OFG/BgOCrrIZFgtT6CVrM+gE2pYl97v+Qxz1P2tIcaVywb8wb5QJvvZs
- /yjQ==
+ :cc; bh=kvRofmg7/YjJn9lYF62NfW0huM3PJn/GGhXb2sVcmi8=;
+ b=F+WOzJZdQkixMDuA19OsgTgf7qu+9lmeMcMkx3vczJ1833qCc4BccKCPBbLlgOWXa4
+ bQVNbDMebAoftkwOBKkNt6Oj+/7qMRhAI99NMpHw1a5E4pbEyfsTRsQI4m/Gip+qV4pi
+ JVnDeIL00UKuXKXdntTqfSUlFZXuZSuSAQ3Fa+ZevaewI9idJp/EAhZ7mtfAI6NQKxZt
+ xXSAIxnAl66GzWHv0C5wiK1PvesJ+FGm+bAxUWm46jC6w8ikLXkpKbnJVrVGSG1u3XkG
+ 2QVYRtjogDmNmBQmQRnDqqhwnvY3Zbf5mtn88uKbX3413OA83hDQ1eYZeOIE17r5wQkS
+ Ff+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=aNZz0zBoiOK03R/fI1w8UfEn0o62Om9klQqrLhNR6gc=;
- b=OPDmaI2KOFirZnTN6Fz3oEgYaifnMJodbo6e7QWXq9hn3901fL6UoctKfxn2oydoCd
- eMnHPem1kjFNED+ivlrprMTN8oiEnSy8CsSK1Zp0zKt9NFXMbZK2uZivTuM0/wkonAzf
- j8vlHQ7VMjYQbw7CbUBl8D31YLzvNCJZV/EuwefwTa9RuuP4X7Q6YUSV7VrjUfa4ePDj
- rxnLpjz3OO3Ynu+sHSNvQrKx2jIP2XvpIlJrh0BbAxIra5UBSRLUaQKUhCmRhoxZC4fi
- ALFvIc+LDfwiVwAxdmcak8U/XxLOELSbjhM70z59O3fePJr4SIv8fKPB6PHLh5/ceTdK
- PS/g==
-X-Gm-Message-State: AOAM532MGfMyfY+4vQnbluthICr4iIQT+EOtAevYTnUzh6AhNjgS3Eep
- 3ONOQrl7OR73JThC8eaOZ7Dps30EYjEmY+02XwQ=
-X-Google-Smtp-Source: ABdhPJy3FLt2ycQ3SGU4L+UY3L4DzRBUNbCJpoG+6JuFkVi3h2T4HcbxPZIIKujZygoUmlHtMIMb4KsiCTVoZ6E6fkw=
-X-Received: by 2002:a25:8712:: with SMTP id a18mr14915281ybl.306.1613282180725; 
- Sat, 13 Feb 2021 21:56:20 -0800 (PST)
+ bh=kvRofmg7/YjJn9lYF62NfW0huM3PJn/GGhXb2sVcmi8=;
+ b=qYQcIkyY+lFasiLeGvVdFrrqtjL8Ub2swMbUP04N+7c2P3qG1ButKIx82lrnZcjYb3
+ h2VPJFIps6GeK6NzVXIeHdRcfERupMmPCri4zg+pWM7ZvW+9xauGOIfaKgUOCLSuKSJH
+ PPVyHXUNPnMKCiLTboZXvLTgzcKx9+E7tcZ2mNTRadIcq6YJxMTjXpR0jFq/NVowqCkY
+ tPDl5njsTCPVQkVJb8JA4OUDkoptctP6X8hJS91neFUW+z+sE40b+9sCh7wuYefvhGNh
+ j0kx6YMfCWMsT1MSSD5/ApojgznQ5+g61TezgGOBCJovgYd2/fg86XxbGsYLpT5nNo66
+ vB7w==
+X-Gm-Message-State: AOAM530es26lWzIKtevW1FGuR/O6q4uG4Gpjo1MGuR/vvVtztfiB+wcH
+ yu9yiTm7LYxROsbyZIrPDZ86HB9PXMlHb4/Ncrk=
+X-Google-Smtp-Source: ABdhPJzCRCSL4SEYI+SJ2Cnu6tXOnMkaHU0QprOqAG00R9c4Udvc3j5vHKeAOfZVLv3bINCa/0CpUM6z2Vo0ISZE00U=
+X-Received: by 2002:a05:6402:4389:: with SMTP id
+ o9mr10761131edc.164.1613293553075; 
+ Sun, 14 Feb 2021 01:05:53 -0800 (PST)
 MIME-Version: 1.0
-References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
- <20210211165351.5rr2dpzlg4eqygdn@mozz.bu.edu>
- <20210211212434.oydbc7ucjbowtnrh@mozz.bu.edu>
-In-Reply-To: <20210211212434.oydbc7ucjbowtnrh@mozz.bu.edu>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 14 Feb 2021 13:56:09 +0800
-Message-ID: <CAEUhbmX_omO=F9qGVfX72uhyi8LXKV0EsueW-B27HwAtMNigZw@mail.gmail.com>
-Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
-To: Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+References: <5F96915D.2040102@huawei.com>
+ <CAJ+F1CJT7SDt63ZyUAVCZhoYJ=Ep4KXF7MbcQJREaDHrTZXBeA@mail.gmail.com>
+ <4a7adb06-c911-1d1b-631a-7cb06d39f89d@vivier.eu>
+In-Reply-To: <4a7adb06-c911-1d1b-631a-7cb06d39f89d@vivier.eu>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Sun, 14 Feb 2021 13:05:40 +0400
+Message-ID: <CAJ+F1C+HVRieOFBvgU=SbKKDmOfuv0w=56dnt2fesGaXbMo2rQ@mail.gmail.com>
+Subject: Re: [PATCH 0/4] qga: Fix some style problems
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: multipart/alternative; boundary="0000000000002649a205bb482d37"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,424 +77,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- qemu-stable@nongnu.org, Li Qiang <liq3ea@163.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: AlexChen <alex.chen@huawei.com>, qemu trival <qemu-trivial@nongnu.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alexander,
+--0000000000002649a205bb482d37
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Feb 12, 2021 at 5:25 AM Alexander Bulekov <alxndr@bu.edu> wrote:
->
-> On 210211 1154, Alexander Bulekov wrote:
-> ...
-> > I applied this along with <20210208193450.2689517-1-f4bug@amsat.org>
-> > "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
+Hi
+
+On Sun, Feb 14, 2021 at 3:20 AM Laurent Vivier <laurent@vivier.eu> wrote:
+
+> Le 04/11/2020 =C3=A0 08:46, Marc-Andr=C3=A9 Lureau a =C3=A9crit :
 > >
-> > I ran through the entire OSS-Fuzz corpus, and could not reproduce the
-> > crash.
 > >
-> > Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> > On Mon, Oct 26, 2020 at 1:16 PM AlexChen <alex.chen@huawei.com <mailto:
+> alex.chen@huawei.com>> wrote:
 > >
-> Hi Bin,
-> Phil explained to me that this patch should fix the problem independent
-> of
-> "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
+> >     Fix some error style problems found by checkpatch.pl <
+> http://checkpatch.pl>.
+> >
+> >     alexchen (4):
+> >       qga: Add spaces around operator
+> >       qga: Delete redundant spaces
+> >       qga: Open brace '{' following struct go on the same
+> >       qga: switch and case should be at the same indent
+> >
+> >      qga/channel-win32.c  |  6 ++---
+> >      qga/commands-posix.c |  4 +--
+> >      qga/commands-win32.c | 28 ++++++++++-----------
+> >      qga/commands.c       |  4 +--
+> >      qga/main.c           | 59
+> ++++++++++++++++++++++----------------------
+> >      5 files changed, 50 insertions(+), 51 deletions(-)
+> >
+> >
+> > Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com <mailt=
+o:
+> marcandre.lureau@redhat.com>>
+>
+> Where are the patches?
+>
+> I don't find them in my mailbox and patchew didn't receive them:
+>
+> https://patchew.org/QEMU/5F96915D.2040102@huawei.com/
+>
+>
+It was received on the mailing list:
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/index.html
+(I got them in my mailbox as well)
 
-Yes, that's what I expect too.
+--=20
+Marc-Andr=C3=A9 Lureau
 
->
-> With only this patch, there are still crashes. Here are three
-> reproducers:
->
-> Some of these are quite long, so here are pastebins for convenience:
-> Repro 1: https://paste.debian.net/plain/1185137
-> Repro 2: https://paste.debian.net/plain/1185141
-> Repro 3: https://paste.debian.net/plain/1185136
+--0000000000002649a205bb482d37
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I will take a look.
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Feb 14, 2021 at 3:20 AM Lau=
+rent Vivier &lt;<a href=3D"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Le 04=
+/11/2020 =C3=A0 08:46, Marc-Andr=C3=A9 Lureau a =C3=A9crit=C2=A0:<br>
+&gt; <br>
+&gt; <br>
+&gt; On Mon, Oct 26, 2020 at 1:16 PM AlexChen &lt;<a href=3D"mailto:alex.ch=
+en@huawei.com" target=3D"_blank">alex.chen@huawei.com</a> &lt;mailto:<a hre=
+f=3D"mailto:alex.chen@huawei.com" target=3D"_blank">alex.chen@huawei.com</a=
+>&gt;&gt; wrote:<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0Fix some error style problems found by <a href=3D"h=
+ttp://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">checkpatch.pl</a>=
+ &lt;<a href=3D"http://checkpatch.pl" rel=3D"noreferrer" target=3D"_blank">=
+http://checkpatch.pl</a>&gt;.<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0alexchen (4):<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: Add spaces around operator<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: Delete redundant spaces<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: Open brace &#39;{&#39; following struct=
+ go on the same<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0 qga: switch and case should be at the same i=
+ndent<br>
+&gt; <br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/channel-win32.c=C2=A0 |=C2=A0 6 ++---<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/commands-posix.c |=C2=A0 4 +--<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/commands-win32.c | 28 ++++++++++---------=
+--<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/commands.c=C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=
+=A0 4 +--<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A0qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0| 59 ++++++++++++++++++++++----------------------<br>
+&gt;=C2=A0 =C2=A0 =C2=A0=C2=A05 files changed, 50 insertions(+), 51 deletio=
+ns(-)<br>
+&gt; <br>
+&gt; <br>
+&gt; Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lu=
+reau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a> &lt;mail=
+to:<a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marcand=
+re.lureau@redhat.com</a>&gt;&gt;<br>
+<br>
+Where are the patches?<br>
+<br>
+I don&#39;t find them in my mailbox and patchew didn&#39;t receive them:<br=
+>
+<br>
+<a href=3D"https://patchew.org/QEMU/5F96915D.2040102@huawei.com/" rel=3D"no=
+referrer" target=3D"_blank">https://patchew.org/QEMU/5F96915D.2040102@huawe=
+i.com/</a><br>
+<br></blockquote><div><br></div>It was received on the mailing list: <a hre=
+f=3D"https://lists.gnu.org/archive/html/qemu-devel/2020-10/index.html">http=
+s://lists.gnu.org/archive/html/qemu-devel/2020-10/index.html</a></div><div =
+class=3D"gmail_quote">(I got them in my mailbox as well)<br></div><br>-- <b=
+r><div dir=3D"ltr" class=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></di=
+v></div>
 
->
-> Just wget and pipe them into
->  ./qemu-system-i386 -display none -machine accel=qtest -nographic \
-> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
-> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-> -device sd-card,drive=mydrive -qtest stdio
->
-> ==== Repro 1 ====
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
-> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
-> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-> -device sd-card,drive=mydrive -qtest stdio
-> outl 0xcf8 0x80001010
-> outl 0xcfc 0xfbefff00
-> outl 0xcf8 0x80001001
-> outl 0xcfc 0x06000000
-> write 0xfbefff2c 0x1 0x05
-> write 0xfbefff0f 0x1 0x37
-> write 0xfbefff0a 0x1 0x01
-> write 0xfbefff0f 0x1 0x29
-> write 0xfbefff0f 0x1 0x02
-> write 0xfbefff0f 0x1 0x03
-> write 0xfbefff04 0x1 0x01
-> write 0xfbefff05 0x1 0x01
-> write 0xfbefff07 0x1 0x02
-> write 0xfbefff0c 0x1 0x33
-> write 0xfbefff0e 0x1 0x20
-> write 0xfbefff0f 0x1 0x00
-> write 0xfbefff2a 0x1 0x01
-> write 0xfbefff0c 0x1 0x00
-> write 0xfbefff03 0x1 0x00
-> write 0xfbefff05 0x1 0x00
-> write 0xfbefff2a 0x1 0x02
-> write 0xfbefff0c 0x1 0x32
-> write 0xfbefff01 0x1 0x01
-> write 0xfbefff02 0x1 0x01
-> write 0xfbefff03 0x1 0x01
-> EOF
->
-> ==== Stack Trace 1 ====
-> ==929953==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x615000031880 at pc 0x564cf01ceae7 bp 0x7ffe17361e10 sp 0x7ffe173615d8
-> READ of size 520027904 at 0x615000031880 thread T0
->     #0 0x564cf01ceae6 in __asan_memcpy (/home/alxndr/Development/qemu/build/qemu-system-i386+0x2a8cae6)
->     #1 0x564cf19111a5 in flatview_write_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2781:13
->     #2 0x564cf1906beb in flatview_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2816:14
->     #3 0x564cf1906beb in address_space_write /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2908:18
->     #4 0x564cf096348c in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
->     #5 0x564cf096348c in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
->     #6 0x564cf096348c in dma_memory_write /home/alxndr/Development/qemu/include/sysemu/dma.h:163:12
->     #7 0x564cf096348c in sdhci_sdma_transfer_multi_blocks /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:619:13
->     #8 0x564cf097237d in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1131:17
->     #9 0x564cf154333c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
->
-> ==== Repro 2 ====
->
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
-> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
-> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-> -device sd-card,drive=mydrive -qtest stdio
-> outl 0xcf8 0x80001013
-> outl 0xcfc 0x91
-> outl 0xcf8 0x80001001
-> outl 0xcfc 0x06000000
-> write 0x9100002c 0x1 0x05
-> write 0x9100000f 0x1 0x37
-> write 0x9100000a 0x1 0x01
-> write 0x9100000f 0x1 0x29
-> write 0x9100000f 0x1 0x02
-> write 0x9100000f 0x1 0x03
-> write 0x0 0x1 0x01
-> write 0x8 0x1 0x01
-> write 0x10 0x1 0x01
-> write 0x18 0x1 0x01
-> write 0x20 0x1 0x01
-> write 0x28 0x1 0x01
-> write 0x30 0x1 0x01
-> write 0x38 0x1 0x01
-> write 0x40 0x1 0x01
-> write 0x48 0x1 0x01
-> write 0x50 0x1 0x01
-> write 0x58 0x1 0x01
-> write 0x60 0x1 0x01
-> write 0x68 0x1 0x01
-> write 0x70 0x1 0x01
-> write 0x91000005 0x1 0x02
-> write 0x91000007 0x1 0x20
-> write 0x78 0x1 0x01
-> write 0x80 0x1 0x01
-> write 0x88 0x1 0x01
-> write 0x90 0x1 0x01
-> write 0x98 0x1 0x01
-> write 0xa0 0x1 0x01
-> write 0xa8 0x1 0x01
-> write 0xb0 0x1 0x01
-> write 0xb8 0x1 0x01
-> write 0xc0 0x1 0x01
-> write 0x9100000e 0x1 0x21
-> write 0x91000028 0x1 0x10
-> write 0x9100000c 0x1 0x01
-> write 0x9100000f 0x1 0x06
-> write 0xc8 0x1 0x01
-> write 0xd0 0x1 0x01
-> write 0xd8 0x1 0x01
-> write 0xe0 0x1 0x01
-> write 0xe8 0x1 0x01
-> write 0xf0 0x1 0x01
-> write 0xf8 0x1 0x01
-> write 0x100 0x1 0x01
-> write 0x108 0x1 0x01
-> write 0x110 0x1 0x01
-> write 0x118 0x1 0x01
-> write 0x120 0x1 0x01
-> write 0x128 0x1 0x01
-> write 0x130 0x1 0x01
-> write 0x138 0x1 0x01
-> write 0x140 0x1 0x01
-> write 0x148 0x1 0x01
-> write 0x150 0x1 0x01
-> write 0x158 0x1 0x01
-> write 0x160 0x1 0x01
-> write 0x168 0x1 0x01
-> write 0x170 0x1 0x01
-> write 0x178 0x1 0x01
-> write 0x180 0x1 0x01
-> write 0x188 0x1 0x01
-> write 0x190 0x1 0x01
-> write 0x198 0x1 0x01
-> write 0x1a0 0x1 0x01
-> write 0x1a8 0x1 0x01
-> write 0x1b0 0x1 0x01
-> write 0x91000037 0x1 0x00
-> write 0x91000038 0x1 0x00
-> write 0x1b8 0x1 0x01
-> write 0x1c0 0x1 0x01
-> write 0x1c8 0x1 0x01
-> write 0x1d0 0x1 0x01
-> write 0x1d8 0x1 0x01
-> write 0x1e0 0x1 0x01
-> write 0x1e8 0x1 0x01
-> write 0x1f0 0x1 0x01
-> write 0x1f8 0x1 0x01
-> write 0x200 0x1 0x01
-> write 0x208 0x1 0x01
-> write 0x210 0x1 0x01
-> write 0x218 0x1 0x01
-> write 0x220 0x1 0x01
-> write 0x228 0x1 0x01
-> write 0x9100000d 0x1 0x00
-> write 0x9100000f 0x1 0x10
-> write 0x91000011 0x1 0x00
-> write 0x230 0x1 0x01
-> write 0x238 0x1 0x01
-> write 0x240 0x1 0x01
-> write 0x248 0x1 0x01
-> write 0x250 0x1 0x01
-> write 0x258 0x1 0x01
-> write 0x260 0x1 0x01
-> write 0x268 0x1 0x01
-> write 0x270 0x1 0x01
-> write 0x278 0x1 0x01
-> write 0x280 0x1 0x01
-> write 0x288 0x1 0x01
-> write 0x290 0x1 0x01
-> write 0x298 0x1 0x01
-> write 0x2a0 0x1 0x01
-> write 0x9100000a 0x2 0x0000
-> write 0x9100000c 0x6 0x010000
-> write 0x2a8 0x1 0x01
-> write 0x2b0 0x1 0x01
-> write 0x2b8 0x1 0x01
-> write 0x2c0 0x1 0x01
-> write 0x2c8 0x1 0x01
-> write 0x2d0 0x1 0x01
-> write 0x2d8 0x1 0x01
-> write 0x2e0 0x1 0x01
-> write 0x2e8 0x1 0x01
-> write 0x2f0 0x1 0x01
-> write 0x2f8 0x1 0x01
-> write 0x300 0x1 0x01
-> write 0x308 0x1 0x01
-> write 0x310 0x1 0x01
-> write 0x318 0x1 0x01
-> write 0x320 0x1 0x01
-> write 0x328 0x1 0x01
-> write 0x330 0x1 0x01
-> write 0x338 0x1 0x01
-> write 0x340 0x1 0x01
-> write 0x348 0x1 0x01
-> write 0x350 0x1 0x01
-> write 0x358 0x1 0x01
-> write 0x360 0x1 0x01
-> write 0x368 0x1 0x01
-> write 0x370 0x1 0x01
-> write 0x378 0x1 0x01
-> write 0x380 0x1 0x01
-> write 0x388 0x1 0x01
-> write 0x390 0x1 0x01
-> write 0x9100000f 0x1 0x00
-> write 0x91000011 0x1 0x00
-> write 0x398 0x1 0x01
-> write 0x3a0 0x1 0x01
-> write 0x3a8 0x1 0x01
-> write 0x3b0 0x1 0x01
-> write 0x3b8 0x1 0x21
-> write 0x3bb 0x1 0x01
-> write 0x3c0 0x1 0x21
-> write 0x9100000a 0x2 0x0000
-> write 0x9100000c 0x6 0x010000
-> write 0x9100000a 0x2 0x00
-> write 0x9100000c 0x6 0x01
-> write 0x9100000a 0x2 0x0000
-> write 0x9100000c 0x6 0x010000
-> write 0x9100000a 0x2 0x00
-> write 0x9100000c 0x6 0x010000
-> write 0x91000005 0x1 0x00
-> write 0x9100000c 0x1 0x00
-> EOF
->
-> ==== Stack Trace 2 ====
-> ==837609==ERROR: AddressSanitizer: heap-buffer-overflow on address
-> 0x615000032280 at pc 0x564afb30eb6a bp 0x7ffdda140d90 sp 0x7ffdda140558
-> WRITE of size 483589332 at 0x615000032280 thread T0
-> #0 0x564afb30eb69 in __asan_memcpy (/home/alxndr/Development/qemu/build/qemu-fuzz-i386+0x2bccb69)
-> #1 0x564afca598bd in flatview_read_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2846:13
-> #2 0x564afca5b09b in flatview_read /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2879:12
-> #3 0x564afca5b09b in address_space_read_full /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2892:18
-> #4 0x564afbab9e9d in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
-> #5 0x564afbab9e9d in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
-> #6 0x564afbab9e9d in dma_memory_read /home/alxndr/Development/qemu/include/sysemu/dma.h:145:12
-> #7 0x564afbab9e9d in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:809:21
-> #8 0x564afbab2b81 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
-> #9 0x564afbac2966 in sdhci_resume_pending_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:964:5
-> #10 0x564afbac2966 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1120:9
-> #11 0x564afc697c6c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
->
->
-> ==== Repro 3 ====
-> (There is an identical one for a heap overflow through read ldl_he_p.
-> Let me know if it would be useful to provide it):
->
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest -nographic \
-> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
-> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-> -device sd-card,drive=mydrive -qtest stdio
-> outl 0xcf8 0x80001010
-> outl 0xcfc 0xe0000000
-> outl 0xcf8 0x80001004
-> outw 0xcfc 0x06
-> write 0xe0000004 0x1 0x41
-> write 0xe0000006 0x1 0x80
-> write 0xe0000028 0x1 0x10
-> write 0xe000002c 0x1 0x05
-> write 0x0 0x1 0x21
-> write 0x2 0x1 0x0a
-> write 0x8 0x1 0x01
-> write 0xa 0x1 0x00
-> write 0x10 0x1 0x01
-> write 0x12 0x1 0x00
-> write 0x18 0x1 0x21
-> write 0x1a 0x1 0x16
-> write 0x20 0x1 0x01
-> write 0x22 0x1 0x00
-> write 0x28 0x1 0x01
-> write 0x2a 0x1 0x00
-> write 0x30 0x1 0x21
-> write 0x32 0x1 0x16
-> write 0x38 0x1 0x01
-> write 0x3a 0x1 0x00
-> write 0x40 0x1 0x01
-> write 0x42 0x1 0x00
-> write 0x48 0x1 0x21
-> write 0x4a 0x1 0x16
-> write 0x50 0x1 0x01
-> write 0x52 0x1 0x00
-> write 0x58 0x1 0x01
-> write 0x5a 0x1 0x00
-> write 0x60 0x1 0x21
-> write 0x62 0x1 0x16
-> write 0x68 0x1 0x01
-> write 0x6a 0x1 0x00
-> write 0x70 0x1 0x01
-> write 0x72 0x1 0x00
-> write 0x78 0x1 0x21
-> write 0x80 0x1 0x21
-> write 0x82 0x1 0x58
-> write 0x88 0x1 0x01
-> write 0x8a 0x1 0x00
-> write 0x90 0x1 0x01
-> write 0x92 0x1 0x00
-> write 0x98 0x1 0x21
-> write 0x9a 0x1 0x16
-> write 0xa0 0x1 0x21
-> write 0xa8 0x1 0x01
-> write 0xaa 0x1 0x00
-> write 0xb0 0x1 0x01
-> write 0xb2 0x1 0x00
-> write 0xb8 0x1 0x21
-> write 0xba 0x1 0x18
-> write 0xc0 0x1 0x01
-> write 0xc2 0x1 0x00
-> write 0xc8 0x1 0x01
-> write 0xca 0x1 0x00
-> write 0xd0 0x1 0x21
-> write 0xd2 0x1 0x16
-> write 0xd8 0x1 0x01
-> write 0xda 0x1 0x00
-> write 0xe0 0x1 0x01
-> write 0xe2 0x1 0x00
-> write 0xe8 0x1 0x21
-> write 0xea 0x1 0x18
-> write 0xf0 0x1 0x01
-> write 0xf2 0x1 0x00
-> write 0xf8 0x1 0x01
-> write 0xfa 0x1 0x00
-> write 0x100 0x1 0x21
-> write 0x102 0x1 0x16
-> write 0x108 0x1 0x01
-> write 0x10a 0x1 0x00
-> write 0x110 0x1 0x01
-> write 0x112 0x1 0x00
-> write 0x118 0x1 0x21
-> write 0x11a 0x1 0x18
-> write 0x120 0x1 0x01
-> write 0x122 0x1 0x00
-> write 0x128 0x1 0x01
-> write 0x12a 0x1 0x00
-> write 0x130 0x1 0x21
-> write 0x132 0x1 0x16
-> write 0x138 0x1 0x01
-> write 0x13a 0x1 0x00
-> write 0x140 0x1 0x01
-> write 0x142 0x1 0x00
-> write 0x148 0x1 0x21
-> write 0x14a 0x1 0x18
-> write 0x150 0x1 0x01
-> write 0x152 0x1 0x00
-> write 0x158 0x1 0x01
-> write 0x15a 0x1 0x00
-> write 0x160 0x1 0x21
-> write 0x162 0x1 0x16
-> write 0xe000000c 0x1 0x01
-> write 0xe000000e 0x1 0x20
-> write 0xe000000f 0x1 0x00
-> write 0x168 0x1 0x21
-> write 0x16d 0x1 0xff
-> write 0x16e 0x1 0xff
-> write 0x16f 0x1 0x1f
-> write 0xe0000000 0x4 0x00
-> write 0xe0000004 0x4 0x03010000
-> write 0xe0000085 0x1 0x00
-> write 0xe0000086 0x6 0x00
-> write 0xe000008c 0x1 0x00
-> write 0xe0000000 0x4 0x00
-> write 0xe0000004 0x2 0x00
-> write 0xe0000038 0x1 0x00
-> EOF
->
->
-> Stack Trace 3:
-> =817509==ERROR: AddressSanitizer: heap-buffer-overflow on address
-> 0x615000032280 at pc 0x564afca59f2b bp 0x7ffdda140d90 sp 0x7ffdda140d88
-> WRITE of size 4 at 0x615000032280 thread T0
-> #0 0x564afca59f2a in stl_he_p /home/alxndr/Development/qemu/include/qemu/bswap.h:353:5
-> #1 0x564afca59f2a in stn_he_p /home/alxndr/Development/qemu/include/qemu/bswap.h:546:1
-> #2 0x564afca59f2a in flatview_read_continue /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2841:13
-> #3 0x564afca5b09b in flatview_read /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2879:12
-> #4 0x564afca5b09b in address_space_read_full /home/alxndr/Development/qemu/build/../softmmu/physmem.c:2892:18
-> #5 0x564afbab9e9d in dma_memory_rw_relaxed /home/alxndr/Development/qemu/include/sysemu/dma.h:88:12
-> #6 0x564afbab9e9d in dma_memory_rw /home/alxndr/Development/qemu/include/sysemu/dma.h:127:12
-> #7 0x564afbab9e9d in dma_memory_read /home/alxndr/Development/qemu/include/sysemu/dma.h:145:12
-> #8 0x564afbab9e9d in sdhci_do_adma /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:809:21
-> #9 0x564afbab2b81 in sdhci_data_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c
-> #10 0x564afbac2966 in sdhci_resume_pending_transfer /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:964:5
-> #11 0x564afbac2966 in sdhci_write /home/alxndr/Development/qemu/build/../hw/sd/sdhci.c:1120:9
-> #12 0x564afc697c6c in memory_region_write_accessor /home/alxndr/Development/qemu/build/../softmmu/memory.c:491:5
-
-Regards,
-Bin
+--0000000000002649a205bb482d37--
 
