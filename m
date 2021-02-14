@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A73131B20B
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:39:23 +0100 (CET)
-Received: from localhost ([::1]:43784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D26731B210
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:42:44 +0100 (CET)
+Received: from localhost ([::1]:48342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMIk-0006NI-0C
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:39:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34610)
+	id 1lBMLz-0008SR-7B
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLjA-0001P7-H3
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:37 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42291)
+ id 1lBLjC-0001Se-Dy
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:38 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:40897)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLj5-0004hq-RB
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:33 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r21so6084038wrr.9
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:31 -0800 (PST)
+ id 1lBLjB-0004iA-0M
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:02:38 -0500
+Received: by mail-wm1-x332.google.com with SMTP id o24so5810259wmh.5
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:02:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=xbl9/61wM37nBJWaz7/wAXPCJcp3ey0kqtBTl5rgBR4=;
- b=qGzTr9/PvCuaprwZhrz3F1W4/R4yIE/+GKJtiZD8Y0jeV5DjPHVdPLXMTusB/oiOfl
- q/FnShDy481dTAftmHSQq3xx9BCgdGge48Ox5TjC1e+1hWdpZaWqTrXCdx8DIrCMMTNG
- iohrcjua+bm7zkAYSiaBtKEoytBxfg42Ve7w9M+rU3y6XfS2IkIhtYAoupZZDQWK/NwZ
- +zmahm8vahEDZOGQnbqaKZMdCcEhAXqhBnnUq1JCSbp3mUAZhAViuNfLhY5HH17OvxzI
- eHn4U6qVvjmwXFQjdneRmmzyUZb5dEtp3PbBP+89AH1ksIMtmeFJ5vKojLnffRFLCaT/
- PK+A==
+ bh=+cZfbBSXi4Z9o9LLnkjECQmd20GFE8Z07Hn7lNqThho=;
+ b=KI59o3Gjm1IkC0lZcR7O24Aa/dmZfbhYzKvR02FUgoF67vhPjH42Sn5xnZxc28pLVn
+ Ce5f/GyHBXRJMkt5QamBJQS4O4nhu5wOYFC/T0SHHJiyQmsI9CddizSz9mhuNjFqFu0d
+ 78zOKxxLqDQhzSGLCcuS+RZPZsR0KL4SZdcC+E6J0O+gMH0HjOK2HAYssEauzNKWWKKd
+ fn2g4oADG8fBxfFNFso2I++2hf/BIVH/33k11+zgbm2X6BXfdm4/9spZhJSurFH2wlAP
+ Il5Cn+ice6jIN8tQR2wk65vWw142kNKS+SSWvT+o7PIypAMnhLRqDBWOHhUAhFknQgOI
+ zVsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=xbl9/61wM37nBJWaz7/wAXPCJcp3ey0kqtBTl5rgBR4=;
- b=VAgHf30vuFiYtEimBJtiqLa7U8HEXeCclg7/GTV57RZMouu3BXqK5/AuMHcJ7hQdQu
- 5YwGuE/eM0t1o8om2e9SbMUHbUTFVjXp6Quh78AtQeB/ieL4IkjOcQftaxt5JLKeIVtS
- TdyaJTAkbrDRF7P0vh2ePW/KihHwuEaraMsaRsXagUNo6s4zw8Xcvzehjky8x2XU3Hhu
- GByg5qSyVMhpOm5dYyihjOaijexBb9UT/uxwK8S93mF+3f58mXuhEBAATJMyvpbOlcff
- wI9JTSLUO77grvloNy7eVMggrDHT6fvdQzQOy0EPmD/uiv6jFyopgWxSFqcCYkkNShC1
- eaJQ==
-X-Gm-Message-State: AOAM530LFsaY/I12bQDavwjBZMb2KWU3rlhhW4LZHNKhx1bp2JPsUxNi
- w8x86v5w9+u5BIg6lNkhsoU01AsW6mk=
-X-Google-Smtp-Source: ABdhPJwXS2FCGdhgqLXj/yRSvfRTIPhHY70AMqN/giruUifvEZc58fbjyMGJzRAKJeK8aE3JwP2rTw==
-X-Received: by 2002:a05:6000:143:: with SMTP id
- r3mr14787333wrx.357.1613325750310; 
- Sun, 14 Feb 2021 10:02:30 -0800 (PST)
+ bh=+cZfbBSXi4Z9o9LLnkjECQmd20GFE8Z07Hn7lNqThho=;
+ b=IHQKTSzyBHmqa8NHEsDwZJGqGawthOkrrpRgTfyUD6UVLNpU0JK/E539nClilFKF+i
+ Usjdb0A0v9MmVlj1CnLDT73569Kfy7OMoxIn6YIz29s9AdpiWVnTw/ElOKyecZe7wfow
+ x+X2ZiRDgyXmvIqo2958P/Q+QzTQrrSekuNKiNUNYrUgtGicXV/i2ecSD/88zUAJGos1
+ xPYuUAC99KBO+JSkbBuSfXjzuJC2hMS3Bkr7NC2EACLxpjuiBGuozXUj05wxSnHJ8mCv
+ AP7xuhX5DXt835psCliDg/2qwWruCXLUBpJTQLVdNbUwggaiD4pSc4Y1wIJ0MyWlmPyE
+ GtdA==
+X-Gm-Message-State: AOAM5314nHy2957IECHJNIhl82tccYO2aQsQAw3pjHqEkDPU/8GRsiI2
+ 0AEDCWEwm+oxGTxOMPJyZOA27CNEPEQ=
+X-Google-Smtp-Source: ABdhPJxYo+adgBsrVCRP0mlymx98Z/ToQ3zYqO/gpkNAvvyWXjSwucxpep3anJ38dLYbhFgN9Hh7Ng==
+X-Received: by 2002:a1c:3804:: with SMTP id f4mr8843697wma.115.1613325755252; 
+ Sun, 14 Feb 2021 10:02:35 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id u4sm19386083wrr.37.2021.02.14.10.02.29
+ by smtp.gmail.com with ESMTPSA id n186sm4728191wmn.22.2021.02.14.10.02.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:02:29 -0800 (PST)
+ Sun, 14 Feb 2021 10:02:34 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 39/42] tests/acceptance: Make pick_default_qemu_bin() more
- generic
-Date: Sun, 14 Feb 2021 18:59:09 +0100
-Message-Id: <20210214175912.732946-40-f4bug@amsat.org>
+Subject: [RFC PATCH 40/42] tests/acceptance: Introduce QemuUserTest base class
+Date: Sun, 14 Feb 2021 18:59:10 +0100
+Message-Id: <20210214175912.732946-41-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,62 +98,45 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make pick_default_qemu_bin() generic to find qemu-system or
-qemu-user binaries.
+Similarly to the 'System' Test base class with methods for testing
+system emulation, the QemuUserTest class contains methods useful to
+test user-mode emulation.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/acceptance/avocado_qemu/__init__.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/acceptance/avocado_qemu/__init__.py | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
-index 31b7064c0e5..e0067abca61 100644
+index e0067abca61..a293d228140 100644
 --- a/tests/acceptance/avocado_qemu/__init__.py
 +++ b/tests/acceptance/avocado_qemu/__init__.py
-@@ -38,7 +38,7 @@ def is_readable_executable_file(path):
-     return os.path.isfile(path) and os.access(path, os.R_OK | os.X_OK)
+@@ -15,6 +15,7 @@
+ import tempfile
  
+ import avocado
++from avocado.utils import process
  
--def pick_default_qemu_bin(arch=None):
-+def pick_default_qemu_bin(bin_fmt, arch=None):
-     """
-     Picks the path of a QEMU binary, starting either in the current working
-     directory or in the source tree root directory.
-@@ -57,7 +57,7 @@ def pick_default_qemu_bin(arch=None):
-     # qemu binary path does not match arch for powerpc, handle it
-     if 'ppc64le' in arch:
-         arch = 'ppc64'
--    qemu_bin_relative_path = "./qemu-system-%s" % arch
-+    qemu_bin_relative_path = os.path.join(".", bin_fmt % arch)
-     if is_readable_executable_file(qemu_bin_relative_path):
-         return qemu_bin_relative_path
- 
-@@ -155,14 +155,14 @@ def _get_unique_tag_val(self, tag_name):
-             return vals.pop()
-         return None
- 
--    def setUp(self):
-+    def setUp(self, bin_fmt):
-         self.arch = self.params.get('arch',
-                                     default=self._get_unique_tag_val('arch'))
- 
-         self.machine = self.params.get('machine',
-                                        default=self._get_unique_tag_val('machine'))
- 
--        default_qemu_bin = pick_default_qemu_bin(arch=self.arch)
-+        default_qemu_bin = pick_default_qemu_bin(bin_fmt, arch=self.arch)
-         self.qemu_bin = self.params.get('qemu_bin',
-                                         default=default_qemu_bin)
-         if self.qemu_bin is None:
-@@ -185,7 +185,7 @@ def fetch_asset(self, name,
- class Test(QemuBaseTest):
-     def setUp(self):
-         self._vms = {}
--        super(Test, self).setUp()
-+        super(Test, self).setUp("qemu-system-%s")
- 
-     def _new_vm(self, *args):
-         self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
+ #: The QEMU build root directory.  It may also be the source directory
+ #: if building from the source dir, but it's safer to use BUILD_DIR for
+@@ -211,3 +212,17 @@ def tearDown(self):
+         for vm in self._vms.values():
+             vm.shutdown()
+         self._sd = None
++
++class QemuUserTest(QemuBaseTest):
++    def setUp(self):
++        self._ldpath = []
++        super(QemuUserTest, self).setUp("qemu-%s")
++
++    def add_ldpath(self, ldpath):
++        self._ldpath += [os.path.abspath(ldpath)]
++
++    def run(self, bin_path, args=[]):
++        qemu_args = " ".join(["-L %s" % ldpath for ldpath in self._ldpath])
++        bin_args = " ".join(args)
++        return process.run("%s %s %s %s" % (self.qemu_bin, qemu_args,
++                                            bin_path, bin_args))
 -- 
 2.26.2
 
