@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B26731B1E3
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:20:43 +0100 (CET)
-Received: from localhost ([::1]:55748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF4C231B1F4
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:23:59 +0100 (CET)
+Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBM0g-0003Ur-2w
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:20:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33522)
+	id 1lBM3q-0007MM-QB
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:23:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLgw-0007Yu-4u
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:22 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41723)
+ id 1lBLh2-0007as-7B
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:33 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLgu-0004Jx-Gj
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:17 -0500
-Received: by mail-wr1-x434.google.com with SMTP id n6so6081268wrv.8
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:16 -0800 (PST)
+ id 1lBLh0-0004Nq-1u
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:24 -0500
+Received: by mail-wr1-x436.google.com with SMTP id n8so6073253wrm.10
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ctqh0opI3wSs6g5030R5tpAWxCcfc3trhfuQ734e1Oo=;
- b=psKzm07w/zS7J946H0mss95a1nqk4eZ1GZCf7d1xANT4vGCkhSU9Hl+m8XBwNqdJYu
- fBGOsIjFS+me66ElagUD0OsMHs/jMaFwkjqTiKi6IFDKnCYR7SgR+J4cd9f3dDoRANWt
- MSLWvP/DqVO94ZGiIE1C6ims3HKVPIEvJaXrynFvoimerQSpoa3HaOJRaAxYXF9AD4wE
- 2MV7mKSWRfHnd4wpEBh6eLHA2PR7v8/Y/LWmVnGKrl9d7HjXKKXtv/xSmPGashKr5d+D
- zLRo+HZwKkNkWH2qVQHoC3rOhxkRJrzb0QHwnfeQau02eMFY19NK5AUucDXhblv2gnBC
- mnZA==
+ bh=qDYzgz4nCnzAeAmRqFLDDh2jFjyyR2cEOET9WBNOhTQ=;
+ b=Ch0AW4PVYKP/KtWr0Do6gwKwIwSv9Wwg+SwhS/OX3Fu1AZ8jVVB12lKrWl8KAc1KVO
+ 3TD35mGqC928qz73cB/qEgyEwTfTSPTdztsX6l4eNZaWqpzzJ5TxFqXJCupe9Pkww8CD
+ 1P51Bg6vaFPLBwoY5msk4PPSuLP5Q/qO8D9D+oxPfll5TTEK4sNkZb78v/pbK7XRoe9B
+ fR1778MqjznHWMOG/jrkYET0jeiuC+rQoXkGG5bcq6p0+iVFd5pGLGbS2gA2mll+Rb2u
+ GVoQY5RlqYicCIEv49klHaCsR6cbDGd8kpQ62IAdeHycsbrFeNtZI8v27VU3MwusAtFc
+ aR6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ctqh0opI3wSs6g5030R5tpAWxCcfc3trhfuQ734e1Oo=;
- b=XJb9QSFEAbX31RdiFjj/tdEGrRwAipOWXCV88EUeKOtx43TBfclBI60vpHI6M/j5FI
- WK6gF4JPNj4S/7qd9U9mXzv4RkqOV6+iq56uiyh+kO6sx7BYlLc0p0skvxfhQDhS6YXX
- UOSP11I6c7+YsTmhrcAyV8HP//mYj+zuZ6c+twnPu0jT4kNTyaXqlCajL2BY5XLc++Pp
- qO0YUfYc4xu0saVssofEdeejskRu1jblZ43rmm3CErJSMs0Yv7tSxeUYRQWwrH4vbHSx
- 5X2uY/enNXWY6REJ2/Aeh/ynVIWUdutATE9Wc5KIEszMRhgj6dXcr9Y29ChEHAIMNLJs
- VlXQ==
-X-Gm-Message-State: AOAM532unq46aMLgrSIjrgJRBM7uPVdzS3YZ6KCodYAxbkPbmqDl9LnP
- 3+k0ALJ84AoMa5eqtbJoLfMklWGCeMo=
-X-Google-Smtp-Source: ABdhPJyg6sBGnQEqLmn0qq4Hlkiiho3KwA9GqAXPQ8fUS4phc/tM/BtAHaTlp4hKD6E0agveKMB9NA==
-X-Received: by 2002:a05:6000:1788:: with SMTP id
- e8mr14973825wrg.171.1613325614996; 
- Sun, 14 Feb 2021 10:00:14 -0800 (PST)
+ bh=qDYzgz4nCnzAeAmRqFLDDh2jFjyyR2cEOET9WBNOhTQ=;
+ b=njeUczVfdh+OxzBF1j/WcVYaINIlHKMolVnAoLIfLxsysl/iTx66lvS6a1NVHfiorY
+ UoahhQqMMBGRXSpV07LX41q5RRqCZoHh4rHjB2Pfe1UFgMABFX/+4wyPqTOj7v901pxD
+ 7iFjiaaKoZ0CgSK+UeHNiJAxITFSFrFpxPtwO6GIBCKlDLEv/TkejWI4v9vSQCrLbfCb
+ sOfiGYBuzXpIy/IoLjdkAMYZ4DFtknSiMaHTb5W1D1OAGp8kivrOgTViGAtWh6mHldi4
+ u+CiUJf1/HJ5Uc7vxEJzjsyLWcM39exSGZQ2AmQFqIbhto+KTrGu4cAs4R4rnSqGBeLE
+ S0EQ==
+X-Gm-Message-State: AOAM533UdflZVsjNKIoQ8iyhfHOcKvJmVyEIR0F5QbOytuj8pPBredtF
+ wb6CMLWvpXMeqF7qzha0CUFqlsPHge8=
+X-Google-Smtp-Source: ABdhPJxeMmA1LeY4/YyrzsA75YGOh3SPNt4hT32uOhk904Mvvc7kD6tNZplAgmX2YcHpgLi5GqHfTw==
+X-Received: by 2002:adf:bb54:: with SMTP id x20mr15218449wrg.112.1613325619857; 
+ Sun, 14 Feb 2021 10:00:19 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r124sm22213789wmr.16.2021.02.14.10.00.13
+ by smtp.gmail.com with ESMTPSA id o13sm27879362wrs.45.2021.02.14.10.00.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:00:14 -0800 (PST)
+ Sun, 14 Feb 2021 10:00:19 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 12/42] target/mips/tx79: Move PCPYLD / PCPYUD opcodes to
- decodetree
-Date: Sun, 14 Feb 2021 18:58:42 +0100
-Message-Id: <20210214175912.732946-13-f4bug@amsat.org>
+Subject: [RFC PATCH 13/42] target/mips: Remove 'C790 Multimedia Instructions'
+ dead code
+Date: Sun, 14 Feb 2021 18:58:43 +0100
+Message-Id: <20210214175912.732946-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,204 +97,435 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move PCPYLD (Parallel Copy Lower Doubleword) and PCPYUD
-(Parallel Copy Upper Doubleword) to decodetree. Remove
-unnecessary code / comments.
+We have almost 400 lines of code full of /* TODO */ comments
+which end calling gen_reserved_instruction().
+
+As we are not going to implement them, and all the caller's
+switch() default cases already call gen_reserved_instruction(),
+we can remove this altogether.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tx79.decode      |  6 +++
- target/mips/translate.c      | 84 ------------------------------------
- target/mips/tx79_translate.c | 46 ++++++++++++++++++++
- 3 files changed, 52 insertions(+), 84 deletions(-)
+ target/mips/translate.c | 372 ----------------------------------------
+ 1 file changed, 372 deletions(-)
 
-diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index 7af35458b0a..0f748b53a64 100644
---- a/target/mips/tx79.decode
-+++ b/target/mips/tx79.decode
-@@ -17,6 +17,7 @@
- # Named instruction formats.  These are generally used to
- # reduce the amount of duplication between instruction patterns.
- 
-+@rs_rt_rd       ...... rs:5  rt:5  rd:5  ..... ......   &rtype sa=0
- @rt_rd          ...... ..... rt:5  rd:5  ..... ......   &rtype rs=0 sa=0
- @rs             ...... rs:5  ..... ..........  ......   &rtype rt=0 rd=0 sa=0
- @rd             ...... ..........  rd:5  ..... ......   &rtype rs=0 rt=0 sa=0
-@@ -28,6 +29,11 @@ MTHI1           011100 .....  0000000000 00000 010001   @rs
- MFLO1           011100 0000000000  ..... 00000 010010   @rd
- MTLO1           011100 .....  0000000000 00000 010011   @rs
- 
-+# MMI2
-+
-+PCPYLD          011100 ..... ..... ..... 01110 001001   @rs_rt_rd
-+
- # MMI3
- 
-+PCPYUD          011100 ..... ..... ..... 01110 101001   @rs_rt_rd
- PCPYH           011100 00000 ..... ..... 11011 101001   @rt_rd
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index b81a66ed373..cf5a6a83ae5 100644
+index cf5a6a83ae5..22d106405c6 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -24733,84 +24733,6 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
-  *                     PEXTUW
-  */
- 
--/*
-- *  PCPYLD rd, rs, rt
-- *
-- *    Parallel Copy Lower Doubleword
-- *
-- *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
-- *  +-----------+---------+---------+---------+---------+-----------+
-- *  |    MMI    |   rs    |   rt    |   rd    | PCPYLD  |    MMI2   |
-- *  +-----------+---------+---------+---------+---------+-----------+
-- */
--static void gen_mmi_pcpyld(DisasContext *ctx)
--{
--    uint32_t rs, rt, rd;
--    uint32_t opcode;
--
--    opcode = ctx->opcode;
--
--    rs = extract32(opcode, 21, 5);
--    rt = extract32(opcode, 16, 5);
--    rd = extract32(opcode, 11, 5);
--
--    if (rd == 0) {
--        /* nop */
--    } else {
--        if (rs == 0) {
--            tcg_gen_movi_i64(cpu_gpr_hi[rd], 0);
--        } else {
--            tcg_gen_mov_i64(cpu_gpr_hi[rd], cpu_gpr[rs]);
--        }
--        if (rt == 0) {
--            tcg_gen_movi_i64(cpu_gpr[rd], 0);
--        } else {
--            if (rd != rt) {
--                tcg_gen_mov_i64(cpu_gpr[rd], cpu_gpr[rt]);
--            }
--        }
--    }
--}
+@@ -1970,207 +1970,12 @@ enum {
+ enum {
+     MMI_OPC_MADD       = 0x00 | MMI_OPC_CLASS_MMI, /* Same as OPC_MADD */
+     MMI_OPC_MADDU      = 0x01 | MMI_OPC_CLASS_MMI, /* Same as OPC_MADDU */
+-    MMI_OPC_PLZCW      = 0x04 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_CLASS_MMI0 = 0x08 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_CLASS_MMI2 = 0x09 | MMI_OPC_CLASS_MMI,
+     MMI_OPC_MULT1      = 0x18 | MMI_OPC_CLASS_MMI, /* Same minor as OPC_MULT */
+     MMI_OPC_MULTU1     = 0x19 | MMI_OPC_CLASS_MMI, /* Same min. as OPC_MULTU */
+     MMI_OPC_DIV1       = 0x1A | MMI_OPC_CLASS_MMI, /* Same minor as OPC_DIV  */
+     MMI_OPC_DIVU1      = 0x1B | MMI_OPC_CLASS_MMI, /* Same minor as OPC_DIVU */
+     MMI_OPC_MADD1      = 0x20 | MMI_OPC_CLASS_MMI,
+     MMI_OPC_MADDU1     = 0x21 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_CLASS_MMI1 = 0x28 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_CLASS_MMI3 = 0x29 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PMFHL      = 0x30 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PMTHL      = 0x31 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PSLLH      = 0x34 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PSRLH      = 0x36 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PSRAH      = 0x37 | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PSLLW      = 0x3C | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PSRLW      = 0x3E | MMI_OPC_CLASS_MMI,
+-    MMI_OPC_PSRAW      = 0x3F | MMI_OPC_CLASS_MMI,
+-};
 -
 -/*
-- *  PCPYUD rd, rs, rt
+- * MMI instructions with opcode field = MMI and bits 5..0 = MMI0:
 - *
-- *    Parallel Copy Upper Doubleword
+- *  31    26                        10     6 5      0
+- * +--------+----------------------+--------+--------+
+- * |   MMI  |                      |function|  MMI0  |
+- * +--------+----------------------+--------+--------+
 - *
-- *   1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0 9 8 7 6 5 4 3 2 1 0
-- *  +-----------+---------+---------+---------+---------+-----------+
-- *  |    MMI    |   rs    |   rt    |   rd    | PCPYUD  |    MMI3   |
-- *  +-----------+---------+---------+---------+---------+-----------+
+- * function  bits 7..6
+- *     bits |   0   |   1   |   2   |   3
+- *    10..8 |   00  |   01  |   10  |   11
+- *   -------+-------+-------+-------+-------
+- *    0 000 | PADDW | PSUBW | PCGTW | PMAXW
+- *    1 001 | PADDH | PSUBH | PCGTH | PMAXH
+- *    2 010 | PADDB | PSUBB | PCGTB |   *
+- *    3 011 |   *   |   *   |   *   |   *
+- *    4 100 | PADDSW| PSUBSW| PEXTLW| PPACW
+- *    5 101 | PADDSH| PSUBSH| PEXTLH| PPACH
+- *    6 110 | PADDSB| PSUBSB| PEXTLB| PPACB
+- *    7 111 |   *   |   *   | PEXT5 | PPAC5
 - */
--static void gen_mmi_pcpyud(DisasContext *ctx)
--{
--    uint32_t rs, rt, rd;
--    uint32_t opcode;
 -
--    opcode = ctx->opcode;
+-#define MASK_MMI0(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
+-enum {
+-    MMI_OPC_0_PADDW  = (0x00 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PSUBW  = (0x01 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PCGTW  = (0x02 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PMAXW  = (0x03 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PADDH  = (0x04 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PSUBH  = (0x05 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PCGTH  = (0x06 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PMAXH  = (0x07 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PADDB  = (0x08 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PSUBB  = (0x09 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PCGTB  = (0x0A << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PADDSW = (0x10 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PSUBSW = (0x11 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PEXTLW = (0x12 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PPACW  = (0x13 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PADDSH = (0x14 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PSUBSH = (0x15 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PEXTLH = (0x16 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PPACH  = (0x17 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PADDSB = (0x18 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PSUBSB = (0x19 << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PEXTLB = (0x1A << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PPACB  = (0x1B << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PEXT5  = (0x1E << 6) | MMI_OPC_CLASS_MMI0,
+-    MMI_OPC_0_PPAC5  = (0x1F << 6) | MMI_OPC_CLASS_MMI0,
+-};
 -
--    rs = extract32(opcode, 21, 5);
--    rt = extract32(opcode, 16, 5);
--    rd = extract32(opcode, 11, 5);
+-/*
+- * MMI instructions with opcode field = MMI and bits 5..0 = MMI1:
+- *
+- *  31    26                        10     6 5      0
+- * +--------+----------------------+--------+--------+
+- * |   MMI  |                      |function|  MMI1  |
+- * +--------+----------------------+--------+--------+
+- *
+- * function  bits 7..6
+- *     bits |   0   |   1   |   2   |   3
+- *    10..8 |   00  |   01  |   10  |   11
+- *   -------+-------+-------+-------+-------
+- *    0 000 |   *   | PABSW | PCEQW | PMINW
+- *    1 001 | PADSBH| PABSH | PCEQH | PMINH
+- *    2 010 |   *   |   *   | PCEQB |   *
+- *    3 011 |   *   |   *   |   *   |   *
+- *    4 100 | PADDUW| PSUBUW| PEXTUW|   *
+- *    5 101 | PADDUH| PSUBUH| PEXTUH|   *
+- *    6 110 | PADDUB| PSUBUB| PEXTUB| QFSRV
+- *    7 111 |   *   |   *   |   *   |   *
+- */
 -
--    if (rd == 0) {
--        /* nop */
--    } else {
--        if (rs == 0) {
--            tcg_gen_movi_i64(cpu_gpr[rd], 0);
--        } else {
--            tcg_gen_mov_i64(cpu_gpr[rd], cpu_gpr_hi[rs]);
--        }
--        if (rt == 0) {
--            tcg_gen_movi_i64(cpu_gpr_hi[rd], 0);
--        } else {
--            if (rd != rt) {
--                tcg_gen_mov_i64(cpu_gpr_hi[rd], cpu_gpr_hi[rt]);
--            }
--        }
--    }
--}
+-#define MASK_MMI1(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
+-enum {
+-    MMI_OPC_1_PABSW  = (0x01 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PCEQW  = (0x02 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PMINW  = (0x03 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PADSBH = (0x04 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PABSH  = (0x05 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PCEQH  = (0x06 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PMINH  = (0x07 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PCEQB  = (0x0A << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PADDUW = (0x10 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PSUBUW = (0x11 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PEXTUW = (0x12 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PADDUH = (0x14 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PSUBUH = (0x15 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PEXTUH = (0x16 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PADDUB = (0x18 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PSUBUB = (0x19 << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_PEXTUB = (0x1A << 6) | MMI_OPC_CLASS_MMI1,
+-    MMI_OPC_1_QFSRV  = (0x1B << 6) | MMI_OPC_CLASS_MMI1,
+-};
 -
- #endif
+-/*
+- * MMI instructions with opcode field = MMI and bits 5..0 = MMI2:
+- *
+- *  31    26                        10     6 5      0
+- * +--------+----------------------+--------+--------+
+- * |   MMI  |                      |function|  MMI2  |
+- * +--------+----------------------+--------+--------+
+- *
+- * function  bits 7..6
+- *     bits |   0   |   1   |   2   |   3
+- *    10..8 |   00  |   01  |   10  |   11
+- *   -------+-------+-------+-------+-------
+- *    0 000 | PMADDW|   *   | PSLLVW| PSRLVW
+- *    1 001 | PMSUBW|   *   |   *   |   *
+- *    2 010 | PMFHI | PMFLO | PINTH |   *
+- *    3 011 | PMULTW| PDIVW | PCPYLD|   *
+- *    4 100 | PMADDH| PHMADH|  PAND |  PXOR
+- *    5 101 | PMSUBH| PHMSBH|   *   |   *
+- *    6 110 |   *   |   *   | PEXEH | PREVH
+- *    7 111 | PMULTH| PDIVBW| PEXEW | PROT3W
+- */
+-
+-#define MASK_MMI2(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
+-enum {
+-    MMI_OPC_2_PMADDW = (0x00 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PSLLVW = (0x02 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PSRLVW = (0x03 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMSUBW = (0x04 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMFHI  = (0x08 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMFLO  = (0x09 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PINTH  = (0x0A << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMULTW = (0x0C << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PDIVW  = (0x0D << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PCPYLD = (0x0E << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMADDH = (0x10 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PHMADH = (0x11 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PAND   = (0x12 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PXOR   = (0x13 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMSUBH = (0x14 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PHMSBH = (0x15 << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PEXEH  = (0x1A << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PREVH  = (0x1B << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PMULTH = (0x1C << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PDIVBW = (0x1D << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PEXEW  = (0x1E << 6) | MMI_OPC_CLASS_MMI2,
+-    MMI_OPC_2_PROT3W = (0x1F << 6) | MMI_OPC_CLASS_MMI2,
+-};
+-
+-/*
+- * MMI instructions with opcode field = MMI and bits 5..0 = MMI3:
+- *
+- *  31    26                        10     6 5      0
+- * +--------+----------------------+--------+--------+
+- * |   MMI  |                      |function|  MMI3  |
+- * +--------+----------------------+--------+--------+
+- *
+- * function  bits 7..6
+- *     bits |   0   |   1   |   2   |   3
+- *    10..8 |   00  |   01  |   10  |   11
+- *   -------+-------+-------+-------+-------
+- *    0 000 |PMADDUW|   *   |   *   | PSRAVW
+- *    1 001 |   *   |   *   |   *   |   *
+- *    2 010 | PMTHI | PMTLO | PINTEH|   *
+- *    3 011 |PMULTUW| PDIVUW| PCPYUD|   *
+- *    4 100 |   *   |   *   |  POR  |  PNOR
+- *    5 101 |   *   |   *   |   *   |   *
+- *    6 110 |   *   |   *   | PEXCH | PCPYH
+- *    7 111 |   *   |   *   | PEXCW |   *
+- */
+-
+-#define MASK_MMI3(op) (MASK_OP_MAJOR(op) | ((op) & 0x7FF))
+-enum {
+-    MMI_OPC_3_PMADDUW = (0x00 << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PSRAVW  = (0x03 << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PMTHI   = (0x08 << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PMTLO   = (0x09 << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PINTEH  = (0x0A << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PMULTUW = (0x0C << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PDIVUW  = (0x0D << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PCPYUD  = (0x0E << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_POR     = (0x12 << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PNOR    = (0x13 << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PEXCH   = (0x1A << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PCPYH   = (0x1B << 6) | MMI_OPC_CLASS_MMI3,
+-    MMI_OPC_3_PEXCW   = (0x1E << 6) | MMI_OPC_CLASS_MMI3,
+ };
  
- 
-@@ -27859,9 +27781,6 @@ static void decode_mmi2(CPUMIPSState *env, DisasContext *ctx)
-     case MMI_OPC_2_PROT3W:    /* TODO: MMI_OPC_2_PROT3W */
-         gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI2 */
-         break;
--    case MMI_OPC_2_PCPYLD:
--        gen_mmi_pcpyld(ctx);
--        break;
-     default:
-         MIPS_INVAL("TX79 MMI class MMI2");
-         gen_reserved_instruction(ctx);
-@@ -27887,9 +27806,6 @@ static void decode_mmi3(CPUMIPSState *env, DisasContext *ctx)
-     case MMI_OPC_3_PEXCW:      /* TODO: MMI_OPC_3_PEXCW */
-         gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI3 */
-         break;
--    case MMI_OPC_3_PCPYUD:
--        gen_mmi_pcpyud(ctx);
--        break;
-     default:
-         MIPS_INVAL("TX79 MMI class MMI3");
-         gen_reserved_instruction(ctx);
-diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index d58b4fcd7b3..de09bb0d314 100644
---- a/target/mips/tx79_translate.c
-+++ b/target/mips/tx79_translate.c
-@@ -71,3 +71,49 @@ static bool trans_PCPYH(DisasContext *s, arg_rtype *a)
- 
-     return true;
+ /* global register indices */
+@@ -24713,29 +24518,6 @@ static void decode_opc_special(CPUMIPSState *env, DisasContext *ctx)
  }
-+
-+/* Parallel Copy Lower Doubleword */
-+static bool trans_PCPYLD(DisasContext *s, arg_rtype *a)
-+{
-+    if (a->rd == 0) {
-+        /* nop */
-+        return true;
-+    }
-+
-+    if (a->rs == 0) {
-+        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
-+    } else {
-+        tcg_gen_mov_i64(cpu_gpr_hi[a->rd], cpu_gpr[a->rs]);
-+    }
-+
-+    if (a->rt == 0) {
-+        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
-+    } else if (a->rd != a->rt) {
-+        tcg_gen_mov_i64(cpu_gpr[a->rd], cpu_gpr[a->rt]);
-+    }
-+
-+    return true;
-+}
-+
-+/* Parallel Copy Upper Doubleword */
-+static bool trans_PCPYUD(DisasContext *s, arg_rtype *a)
-+{
-+    if (a->rd == 0) {
-+        /* nop */
-+        return true;
-+    }
-+
-+    if (a->rs == 0) {
-+        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
-+    } else {
-+        tcg_gen_mov_i64(cpu_gpr[a->rd], cpu_gpr_hi[a->rs]);
-+    }
-+
-+    if (a->rt == 0) {
-+        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
-+    } else if (a->rd != a->rt) {
-+        tcg_gen_mov_i64(cpu_gpr_hi[a->rd], cpu_gpr_hi[a->rt]);
-+    }
-+
-+    return true;
-+}
+ 
+ 
+-#if defined(TARGET_MIPS64)
+-
+-/*
+- *
+- *           MMI (MultiMedia Interface) ASE instructions
+- *           ===========================================
+- */
+-
+-/*
+- *          MMI instructions category: data communication
+- *          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+- *
+- *   PCPYH    PEXCH    PEXTLB   PINTH    PPACB    PEXT5    PREVH
+- *   PCPYLD   PEXCW    PEXTLH   PINTEH   PPACH    PPAC5    PROT3W
+- *   PCPYUD   PEXEH    PEXTLW            PPACW
+- *            PEXEW    PEXTUB
+- *                     PEXTUH
+- *                     PEXTUW
+- */
+-
+-#endif
+-
+-
+ #if !defined(TARGET_MIPS64)
+ 
+ /* MXU accumulate add/subtract 1-bit pattern 'aptn1' */
+@@ -27682,137 +27464,6 @@ static void decode_opc_special3_legacy(CPUMIPSState *env, DisasContext *ctx)
+ 
+ #if defined(TARGET_MIPS64)
+ 
+-static void decode_mmi0(CPUMIPSState *env, DisasContext *ctx)
+-{
+-    uint32_t opc = MASK_MMI0(ctx->opcode);
+-
+-    switch (opc) {
+-    case MMI_OPC_0_PADDW:     /* TODO: MMI_OPC_0_PADDW */
+-    case MMI_OPC_0_PSUBW:     /* TODO: MMI_OPC_0_PSUBW */
+-    case MMI_OPC_0_PCGTW:     /* TODO: MMI_OPC_0_PCGTW */
+-    case MMI_OPC_0_PMAXW:     /* TODO: MMI_OPC_0_PMAXW */
+-    case MMI_OPC_0_PADDH:     /* TODO: MMI_OPC_0_PADDH */
+-    case MMI_OPC_0_PSUBH:     /* TODO: MMI_OPC_0_PSUBH */
+-    case MMI_OPC_0_PCGTH:     /* TODO: MMI_OPC_0_PCGTH */
+-    case MMI_OPC_0_PMAXH:     /* TODO: MMI_OPC_0_PMAXH */
+-    case MMI_OPC_0_PADDB:     /* TODO: MMI_OPC_0_PADDB */
+-    case MMI_OPC_0_PSUBB:     /* TODO: MMI_OPC_0_PSUBB */
+-    case MMI_OPC_0_PCGTB:     /* TODO: MMI_OPC_0_PCGTB */
+-    case MMI_OPC_0_PADDSW:    /* TODO: MMI_OPC_0_PADDSW */
+-    case MMI_OPC_0_PSUBSW:    /* TODO: MMI_OPC_0_PSUBSW */
+-    case MMI_OPC_0_PEXTLW:    /* TODO: MMI_OPC_0_PEXTLW */
+-    case MMI_OPC_0_PPACW:     /* TODO: MMI_OPC_0_PPACW */
+-    case MMI_OPC_0_PADDSH:    /* TODO: MMI_OPC_0_PADDSH */
+-    case MMI_OPC_0_PSUBSH:    /* TODO: MMI_OPC_0_PSUBSH */
+-    case MMI_OPC_0_PEXTLH:    /* TODO: MMI_OPC_0_PEXTLH */
+-    case MMI_OPC_0_PPACH:     /* TODO: MMI_OPC_0_PPACH */
+-    case MMI_OPC_0_PADDSB:    /* TODO: MMI_OPC_0_PADDSB */
+-    case MMI_OPC_0_PSUBSB:    /* TODO: MMI_OPC_0_PSUBSB */
+-    case MMI_OPC_0_PEXTLB:    /* TODO: MMI_OPC_0_PEXTLB */
+-    case MMI_OPC_0_PPACB:     /* TODO: MMI_OPC_0_PPACB */
+-    case MMI_OPC_0_PEXT5:     /* TODO: MMI_OPC_0_PEXT5 */
+-    case MMI_OPC_0_PPAC5:     /* TODO: MMI_OPC_0_PPAC5 */
+-        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI0 */
+-        break;
+-    default:
+-        MIPS_INVAL("TX79 MMI class MMI0");
+-        gen_reserved_instruction(ctx);
+-        break;
+-    }
+-}
+-
+-static void decode_mmi1(CPUMIPSState *env, DisasContext *ctx)
+-{
+-    uint32_t opc = MASK_MMI1(ctx->opcode);
+-
+-    switch (opc) {
+-    case MMI_OPC_1_PABSW:     /* TODO: MMI_OPC_1_PABSW */
+-    case MMI_OPC_1_PCEQW:     /* TODO: MMI_OPC_1_PCEQW */
+-    case MMI_OPC_1_PMINW:     /* TODO: MMI_OPC_1_PMINW */
+-    case MMI_OPC_1_PADSBH:    /* TODO: MMI_OPC_1_PADSBH */
+-    case MMI_OPC_1_PABSH:     /* TODO: MMI_OPC_1_PABSH */
+-    case MMI_OPC_1_PCEQH:     /* TODO: MMI_OPC_1_PCEQH */
+-    case MMI_OPC_1_PMINH:     /* TODO: MMI_OPC_1_PMINH */
+-    case MMI_OPC_1_PCEQB:     /* TODO: MMI_OPC_1_PCEQB */
+-    case MMI_OPC_1_PADDUW:    /* TODO: MMI_OPC_1_PADDUW */
+-    case MMI_OPC_1_PSUBUW:    /* TODO: MMI_OPC_1_PSUBUW */
+-    case MMI_OPC_1_PEXTUW:    /* TODO: MMI_OPC_1_PEXTUW */
+-    case MMI_OPC_1_PADDUH:    /* TODO: MMI_OPC_1_PADDUH */
+-    case MMI_OPC_1_PSUBUH:    /* TODO: MMI_OPC_1_PSUBUH */
+-    case MMI_OPC_1_PEXTUH:    /* TODO: MMI_OPC_1_PEXTUH */
+-    case MMI_OPC_1_PADDUB:    /* TODO: MMI_OPC_1_PADDUB */
+-    case MMI_OPC_1_PSUBUB:    /* TODO: MMI_OPC_1_PSUBUB */
+-    case MMI_OPC_1_PEXTUB:    /* TODO: MMI_OPC_1_PEXTUB */
+-    case MMI_OPC_1_QFSRV:     /* TODO: MMI_OPC_1_QFSRV */
+-        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI1 */
+-        break;
+-    default:
+-        MIPS_INVAL("TX79 MMI class MMI1");
+-        gen_reserved_instruction(ctx);
+-        break;
+-    }
+-}
+-
+-static void decode_mmi2(CPUMIPSState *env, DisasContext *ctx)
+-{
+-    uint32_t opc = MASK_MMI2(ctx->opcode);
+-
+-    switch (opc) {
+-    case MMI_OPC_2_PMADDW:    /* TODO: MMI_OPC_2_PMADDW */
+-    case MMI_OPC_2_PSLLVW:    /* TODO: MMI_OPC_2_PSLLVW */
+-    case MMI_OPC_2_PSRLVW:    /* TODO: MMI_OPC_2_PSRLVW */
+-    case MMI_OPC_2_PMSUBW:    /* TODO: MMI_OPC_2_PMSUBW */
+-    case MMI_OPC_2_PMFHI:     /* TODO: MMI_OPC_2_PMFHI */
+-    case MMI_OPC_2_PMFLO:     /* TODO: MMI_OPC_2_PMFLO */
+-    case MMI_OPC_2_PINTH:     /* TODO: MMI_OPC_2_PINTH */
+-    case MMI_OPC_2_PMULTW:    /* TODO: MMI_OPC_2_PMULTW */
+-    case MMI_OPC_2_PDIVW:     /* TODO: MMI_OPC_2_PDIVW */
+-    case MMI_OPC_2_PMADDH:    /* TODO: MMI_OPC_2_PMADDH */
+-    case MMI_OPC_2_PHMADH:    /* TODO: MMI_OPC_2_PHMADH */
+-    case MMI_OPC_2_PAND:      /* TODO: MMI_OPC_2_PAND */
+-    case MMI_OPC_2_PXOR:      /* TODO: MMI_OPC_2_PXOR */
+-    case MMI_OPC_2_PMSUBH:    /* TODO: MMI_OPC_2_PMSUBH */
+-    case MMI_OPC_2_PHMSBH:    /* TODO: MMI_OPC_2_PHMSBH */
+-    case MMI_OPC_2_PEXEH:     /* TODO: MMI_OPC_2_PEXEH */
+-    case MMI_OPC_2_PREVH:     /* TODO: MMI_OPC_2_PREVH */
+-    case MMI_OPC_2_PMULTH:    /* TODO: MMI_OPC_2_PMULTH */
+-    case MMI_OPC_2_PDIVBW:    /* TODO: MMI_OPC_2_PDIVBW */
+-    case MMI_OPC_2_PEXEW:     /* TODO: MMI_OPC_2_PEXEW */
+-    case MMI_OPC_2_PROT3W:    /* TODO: MMI_OPC_2_PROT3W */
+-        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI2 */
+-        break;
+-    default:
+-        MIPS_INVAL("TX79 MMI class MMI2");
+-        gen_reserved_instruction(ctx);
+-        break;
+-    }
+-}
+-
+-static void decode_mmi3(CPUMIPSState *env, DisasContext *ctx)
+-{
+-    uint32_t opc = MASK_MMI3(ctx->opcode);
+-
+-    switch (opc) {
+-    case MMI_OPC_3_PMADDUW:    /* TODO: MMI_OPC_3_PMADDUW */
+-    case MMI_OPC_3_PSRAVW:     /* TODO: MMI_OPC_3_PSRAVW */
+-    case MMI_OPC_3_PMTHI:      /* TODO: MMI_OPC_3_PMTHI */
+-    case MMI_OPC_3_PMTLO:      /* TODO: MMI_OPC_3_PMTLO */
+-    case MMI_OPC_3_PINTEH:     /* TODO: MMI_OPC_3_PINTEH */
+-    case MMI_OPC_3_PMULTUW:    /* TODO: MMI_OPC_3_PMULTUW */
+-    case MMI_OPC_3_PDIVUW:     /* TODO: MMI_OPC_3_PDIVUW */
+-    case MMI_OPC_3_POR:        /* TODO: MMI_OPC_3_POR */
+-    case MMI_OPC_3_PNOR:       /* TODO: MMI_OPC_3_PNOR */
+-    case MMI_OPC_3_PEXCH:      /* TODO: MMI_OPC_3_PEXCH */
+-    case MMI_OPC_3_PEXCW:      /* TODO: MMI_OPC_3_PEXCW */
+-        gen_reserved_instruction(ctx); /* TODO: MMI_OPC_CLASS_MMI3 */
+-        break;
+-    default:
+-        MIPS_INVAL("TX79 MMI class MMI3");
+-        gen_reserved_instruction(ctx);
+-        break;
+-    }
+-}
+-
+ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
+ {
+     uint32_t opc = MASK_MMI(ctx->opcode);
+@@ -27821,18 +27472,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
+     int rd = extract32(ctx->opcode, 11, 5);
+ 
+     switch (opc) {
+-    case MMI_OPC_CLASS_MMI0:
+-        decode_mmi0(env, ctx);
+-        break;
+-    case MMI_OPC_CLASS_MMI1:
+-        decode_mmi1(env, ctx);
+-        break;
+-    case MMI_OPC_CLASS_MMI2:
+-        decode_mmi2(env, ctx);
+-        break;
+-    case MMI_OPC_CLASS_MMI3:
+-        decode_mmi3(env, ctx);
+-        break;
+     case MMI_OPC_MULT1:
+     case MMI_OPC_MULTU1:
+     case MMI_OPC_MADD:
+@@ -27845,17 +27484,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
+     case MMI_OPC_DIVU1:
+         gen_div1_tx79(ctx, opc, rs, rt);
+         break;
+-    case MMI_OPC_PLZCW:         /* TODO: MMI_OPC_PLZCW */
+-    case MMI_OPC_PMFHL:         /* TODO: MMI_OPC_PMFHL */
+-    case MMI_OPC_PMTHL:         /* TODO: MMI_OPC_PMTHL */
+-    case MMI_OPC_PSLLH:         /* TODO: MMI_OPC_PSLLH */
+-    case MMI_OPC_PSRLH:         /* TODO: MMI_OPC_PSRLH */
+-    case MMI_OPC_PSRAH:         /* TODO: MMI_OPC_PSRAH */
+-    case MMI_OPC_PSLLW:         /* TODO: MMI_OPC_PSLLW */
+-    case MMI_OPC_PSRLW:         /* TODO: MMI_OPC_PSRLW */
+-    case MMI_OPC_PSRAW:         /* TODO: MMI_OPC_PSRAW */
+-        gen_reserved_instruction(ctx);    /* TODO: MMI_OPC_CLASS_MMI */
+-        break;
+     default:
+         MIPS_INVAL("TX79 MMI class");
+         gen_reserved_instruction(ctx);
 -- 
 2.26.2
 
