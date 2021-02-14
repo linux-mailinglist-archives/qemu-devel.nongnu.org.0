@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CD0431B221
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:56:05 +0100 (CET)
-Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D67E231B229
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 20:03:56 +0100 (CET)
+Received: from localhost ([::1]:45212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBMYu-0007D1-6j
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:56:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41530)
+	id 1lBMgU-0006DL-VX
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 14:03:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBMFr-0004bu-Eu
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:36:23 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:56218)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lBLyk-0003QS-FH
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:18:42 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBMFo-0002Yc-AQ
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:36:22 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id cv23so2425394pjb.5
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:36:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lBLyg-0006Uh-Ep
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:18:39 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id r5so992038wmp.1
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:18:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zv5CLpEFCuhEuE62rMSTi48K+zNvlW8XCdDT7wpnbwQ=;
- b=EGPKxPoUm8FCxHhcY9Jv/0L/2x7bQYii2Kz/ZZJOe/pWCcod6bmWwuD6tWlxF6YZvf
- H/m+3g5zqzFwVxEyZimlH2fjfl3G1wxRoKq3ncSudwhUJVo4536VrL+vFHOcUi/FfKno
- twBe+/LOvU/2SZ42NZJ1psLPwDTTamT5Wj3dbIgBzmym8IxNnYzbuMmAgfQ3nqWlEQEk
- 44QHEU2Y7C06wpQ3qSVD6mqU/6gyXbqWRkRC3OKh1ZaPH4Mj8Rh7/LHSIrIdUVxWpR2t
- iyVHur0QomBnfyxy9ueFpXKKr/Akc6ZTmV0LJ7mY8yS1HfubclTTgZhEUKy14GvDUiFC
- Eahw==
+ bh=uDNgjlXd9CDG3W+/aZkjQylleIUFydjLlR29KEQMsNg=;
+ b=gSxePNOw1dx0zuYHotIYTcWg75WF9mj68it+TxCdxshFVFwkmIi92UkuGzjybn0oZj
+ PiFeRFvxwyHgoTg9k+nkbzRHKyafu0xLO+TUdokr/BLxBi2WAAhrimzC3AOaNQe/ORw9
+ HLzQdfEr/VisWTAjONDmP/5nQ2WHkZGop7+x6l6xkvUJ3gPEycGe9XSHKn0WJg0Fh/em
+ VM1YDa7ULm3aNIhIMfuvWLM43F39oKqgrGrt/85+R+hhHFIi6hzgNgZcZWaoJ2vjEz7A
+ mzk+F4eCYgVbizb9m7DBh4BVFVCZrdxxQMxx6+1aQc99pL/7OieJHfHVtL/YiUGLkI/W
+ 2NIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zv5CLpEFCuhEuE62rMSTi48K+zNvlW8XCdDT7wpnbwQ=;
- b=Yq8dLv8kOB7j/b71a91xfrvWldgWtEveLXF+b0vLLkh4A94j9C7Bi3gdUPe9zpNL9y
- qNQeyl3Qzoa/LYvIJJ5zXFRqjcbSwu+uG/KcgEqMssRi04WJn6GXQz4z2vUcckZLImOZ
- 08yyZ0JATnXdunVgYAl1lTDPUA5hMdQhkR99gl0eh5GFJwCnE2uSjueuFpEvKShD1xGU
- I5mg29uY2t3ZaGuG/w2moVr34v8/bpYS5uotE2aMnoCX0debdzAKnzhT+41FjpX4ojpN
- i6q9pEfp9ZAjQQZxTGaqumRnTr8LPSROOCneNgsAZJR5CFuoP+DKsr1VhvDmesiTS/to
- hMBg==
-X-Gm-Message-State: AOAM5301e6kwHG06G0xubfDkDZZyoWYK13xsJp1hEs2RRvPZAqoICFqf
- 6UsYVO0eS5/TMm49kqdrh4+HXw==
-X-Google-Smtp-Source: ABdhPJwcCOZTA1j8ASxZZ9bZD6n2ofmUk5Vi2F8NK6t6piFdH5M5zP4o3ooYoEdlSMbrW35ZK3/CoQ==
-X-Received: by 2002:a17:902:f545:b029:e1:1466:f42b with SMTP id
- h5-20020a170902f545b02900e11466f42bmr11937856plf.45.1613327778393; 
- Sun, 14 Feb 2021 10:36:18 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- 30sm16097140pgl.77.2021.02.14.10.36.17
+ bh=uDNgjlXd9CDG3W+/aZkjQylleIUFydjLlR29KEQMsNg=;
+ b=AUAhTAbahg6tbGH2b5iRsDgOl5k5zv0jMyLF9/7n0Q0FL/fGQ7qLJ0HR8oAPR84GJd
+ VVajr75C9wXWn/BELtrGndaX5+ChzX1pnGP2SG+C5g+/n2emffLLVnHcZ97TmqiFRAGQ
+ fuGJqdNH9VB3CBat0qycVLyoRGI2L5TemyZifCiQluqRlZx7Ba37uM8yVJU89vc+QLFV
+ HkDF5k3M0MjSbTb1j2AjYgntzoTouMIXBYILxGaSSFg2b4jL2TR7vriNWjZQOCD3IQcj
+ aU/kBSTogqC6KDj/oE8LG+D8bQsIug30ofzBEZPn0Gx+kQWC3v/mhUdtUplgyH+qpcpp
+ Y65A==
+X-Gm-Message-State: AOAM531gAHYrfhygckg1bAuRuldmj+KX61VFPbV68HCrbrGKMfyBbEub
+ Fyw4jB5sIPJDqO2MS/TLQKo=
+X-Google-Smtp-Source: ABdhPJxvnXGX1QdGWPrCREPp5IRQvyWh+GZQQrR9NoelH8tKC22SFxujcE+gOmZSAIl2Pzu39XVnyQ==
+X-Received: by 2002:a1c:3286:: with SMTP id
+ y128mr11074838wmy.104.1613326717219; 
+ Sun, 14 Feb 2021 10:18:37 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id i8sm24959717wry.90.2021.02.14.10.18.36
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 10:36:17 -0800 (PST)
-Subject: Re: [PATCH v8 14/35] Hexagon (target/hexagon) instruction printing
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-15-git-send-email-tsimpson@quicinc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <5089aeee-dd3b-eeaf-732a-89dfc44ccbb9@linaro.org>
-Date: Sun, 14 Feb 2021 10:36:16 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Sun, 14 Feb 2021 10:18:36 -0800 (PST)
+Subject: Re: [RFC PATCH 03/15] qemu/int128: Rename int128_rshift, int128_lshift
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20201021045149.1582203-1-richard.henderson@linaro.org>
+ <20201021045149.1582203-4-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <44fef9a7-a619-bcd3-c8de-1179d9fb489e@amsat.org>
+Date: Sun, 14 Feb 2021 19:18:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-15-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <20201021045149.1582203-4-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,22 +90,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, alex.bennee@linaro.org, philmd@redhat.com, laurent@vivier.eu,
- bcain@quicinc.com
+Cc: alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On 10/21/20 6:51 AM, Richard Henderson wrote:
+> Change these to sar/shl to emphasize the signed shift.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/hexagon/printinsn.h |  27 +++++++++
->  target/hexagon/printinsn.c | 146 +++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 173 insertions(+)
->  create mode 100644 target/hexagon/printinsn.h
->  create mode 100644 target/hexagon/printinsn.c
+>  include/qemu/int128.h   |  8 ++++----
+>  softmmu/physmem.c       |  4 ++--
+>  target/ppc/int_helper.c |  4 ++--
+>  tests/test-int128.c     | 44 ++++++++++++++++++++---------------------
+>  4 files changed, 30 insertions(+), 30 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-r~
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
