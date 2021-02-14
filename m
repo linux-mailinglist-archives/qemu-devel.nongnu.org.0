@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9706631B361
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:29:05 +0100 (CET)
-Received: from localhost ([::1]:47674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E9A31B350
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 00:26:04 +0100 (CET)
+Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBQp6-00007a-Ko
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:29:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60656)
+	id 1lBQmA-0003lC-UY
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 18:26:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBQbd-00041z-8d
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:15:09 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:36477)
+ id 1lBQgk-0007Iw-P2
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:20:28 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:34719)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBQbb-0004xu-9F
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:15:08 -0500
-Received: by mail-pf1-x432.google.com with SMTP id z15so3125209pfc.3
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 15:15:03 -0800 (PST)
+ id 1lBQgd-0006It-Tl
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 18:20:24 -0500
+Received: by mail-pg1-x532.google.com with SMTP id o7so3251357pgl.1
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 15:20:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cLluezcyBxHum0y4xkiMGYlT0RROM31F4g6Q4tjaKR4=;
- b=EoO3SAXLIB5w10zVscz9McO9j4nkedNMYxWYNCgJLo8ew0fEMsS4+8NbDAyKPer9N5
- nERObiQfufxhwG7/YTAIDvEYXhbCyLdh1cNWbbYmID0X96ywtQsKbgDmY8cWG6nhsCvW
- noq6wXg9i+9cMrYsXw3pEgfHJKsJtkH/j3BSQ0n4chuo3gAh2mBG5PFl74mCf0nyQm30
- nTxofMJ5cv0uEIzODe7jytNgVsOotxFGSrIjRunm5iIWCmAkyMvARNaeGs5c8q0LF2ki
- vqF70c3RHO96qSnY8WXcCd+ipXvpjy5+kIH0/3w7QyzrjAL07TVPrY3RHKL8H7vYl39J
- Ttpw==
+ bh=XKiBfsGpA5UAxeCjk/N0lGekac77DnBgyIiE5symtJ4=;
+ b=e8UZcOjDHycc23cI1DoObt8JJ6mnr336a1e8iOoO2/Rw1FVUnJUsXDjcC0o3GbeLtl
+ I+sk6SsWzdVDcKt+/a2qJxzLI5eRO6GeMkre7Hub7taIZ1rIQqihIcowPorgEyfgdPHR
+ N5Tb4+ZvWQ7nwpDdhXQwicGFpPct7zQdBplqdtQrSk7+ePxdlwNddtQzTPPKxMpIBvRk
+ jzE+9C/7RESZ2HQSceQBE2f4VCqFHKKQnaICGYKhHni/5eGzvA+swL+EKfdBuhDZMslM
+ 77R83r+D+USnh1xMF3qkM4N1s38efmPj3Chi7nN40MmkZlGEFojh2rrDn6T0DVjR6tfH
+ 9yXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cLluezcyBxHum0y4xkiMGYlT0RROM31F4g6Q4tjaKR4=;
- b=BBiMmKA6sF9xm6e3543VNXEyuisWyVie1CU7+S5sJlFiEaRR85Ubitvtf3tE4huLN4
- qEr2sDuQ7gfctE0K2eKsYR1PUAoL2cugwr9fy8jeGUCE4FEnbP6n/8X2ZL7KAOoAwxMI
- 41STWDIFQpvaRxe8L5BiDez6BsCuYU0/I7G5yFNIjueB2N+SeVtZE9cNTZ7YktnDuXTW
- 35WOXyZMyOs92oAmuuaz5mf2D5JSyz3nKiyY5oB3RoQNCR7aX8TldNC9mogD+gttpBf1
- MyrSwQ7+GGdCe8CDiC9ANvVTnD/OefICKJ0J1UGuuK94IlldwpCWb8r+Y39M37zCaXSy
- AtrQ==
-X-Gm-Message-State: AOAM533DhLHawmLftKFiOhBkiYXrx0NOEwPx8fSqrDvxiZhr+5aEYQXX
- z5RBGm2zoWMpWQ6gq0KYijYG5Q==
-X-Google-Smtp-Source: ABdhPJz5VUycwD5NWnMq8z9DQR+YHC3TdhxLTMXXfcWEuGJH2ocAtIyOrNYhoRFDI584yK5sGw8hlw==
-X-Received: by 2002:a05:6a00:1756:b029:1de:b761:92ae with SMTP id
- j22-20020a056a001756b02901deb76192aemr12907731pfc.29.1613344502027; 
- Sun, 14 Feb 2021 15:15:02 -0800 (PST)
+ bh=XKiBfsGpA5UAxeCjk/N0lGekac77DnBgyIiE5symtJ4=;
+ b=F3Ask724ViNDsiCuk8aihUfeemi6q1nnmUpHLaX8thBumNp0mgmCr4oZ0ZgUtP4nz+
+ fCXFlo+dfvgF9vLR62OWTZIsYsC5cQUJ+X8yDb9GbWIajFeqjPM9uZyH8KFrDpUXoNhS
+ S691miuDZ09NlRCNs+KJzkvGs3eotOwYL0xZ56qCUfTUmBWPBLWBuJT/r/pYE+qXX5c6
+ pg/CMyi69bccPn6vEdhhsF3shaFRUxy0Q4DSwpEdaTewvWi2QaoVtptQMFfXy6xR1X/+
+ fXZteL4saYlRHTHUB+IeBeMw6KZCMrWHkOfpUfCbbcCuJibK5bsXxXgDNLfdtt8QgODS
+ u8uw==
+X-Gm-Message-State: AOAM532XzfK/NcQegq9BJdkoTyw8O8c/hQmnXQT64mkbqB2amfOHZVeu
+ R656oopTD14eAUm6yMI03omsNw==
+X-Google-Smtp-Source: ABdhPJy/8Vo5c2Vhzmf78yeNXjOB00wq0eEDlq8jsiCWAUCtFwwF336bNmSoKNsbIC2NFf2X/f4k1Q==
+X-Received: by 2002:a62:7985:0:b029:1e1:1703:c2e7 with SMTP id
+ u127-20020a6279850000b02901e11703c2e7mr12828032pfc.69.1613344817963; 
+ Sun, 14 Feb 2021 15:20:17 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- f18sm14522549pjq.53.2021.02.14.15.15.01
+ x64sm15702633pfc.46.2021.02.14.15.20.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 15:15:01 -0800 (PST)
-Subject: Re: [PATCH v8 17/35] Hexagon (target/hexagon/fma_emu.[ch]) utility
- functions
+ Sun, 14 Feb 2021 15:20:17 -0800 (PST)
+Subject: Re: [PATCH v8 20/35] Hexagon (target/hexagon) generator phase 2 -
+ generate header files
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-18-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-21-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <cd233aee-e185-e9e5-2ad0-0493c93f1ad5@linaro.org>
-Date: Sun, 14 Feb 2021 15:14:59 -0800
+Message-ID: <d5c3046f-f333-cc89-85c3-2483945dea74@linaro.org>
+Date: Sun, 14 Feb 2021 15:20:15 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-18-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1612763186-18161-21-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,118 +96,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> +#define DF_NAN         0xffffffffffffffffULL
-> +#define DF_INF         0x7ff0000000000000ULL
-> +#define DF_MINUS_INF   0xfff0000000000000ULL
-> +#define DF_MAXF        0x7fefffffffffffffULL
-> +#define DF_MINUS_MAXF  0xffefffffffffffffULL
-...
-> +#define SF_INF         0x7f800000
-> +#define SF_MINUS_INF   0xff800000
-> +#define SF_MAXF        0x7f7fffff
-> +#define SF_MINUS_MAXF  0xff7fffff
+> Python scripts generate the following files
+>     helper_protos_generated.h.inc
+>         For each instruction we create DEF_HELPER function prototype
+>     helper_funcs_generated.c.inc
+>         For each instruction we create the helper function definition
+>     tcg_funcs_generated.c.inc
+>         For each instruction we create TCG code to generate call to helper
+>     tcg_func_table_generated.c.inc
+>         Table of function pointers indexed by opcode
+>     shortcode_generated.h.inc
+>         Generate a table of instruction "shortcode" semantics
+>     opcodes_def_generated.h.inc
+>         Gives a list of all the opcodes
+>     op_attribs_generated.h.inc
+>         Lists all the attributes associated with each instruction
+>     op_regs_generated.h.inc
+>         Lists the register and immediate operands for each instruction
+>     printinsn_generated.h.inc
+>         Data for printing (disassembling) each instruction (format
+>         string + operands)
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+> ---
 
-Redundant with softfloat.  Is the default nan really -1?  I suppose then that
-hexagon does not distinguish QNaN from SNaN?
-
-You'll want to patch fpu/softfloat-specialize.c.inc for both of these choices:
-no_signaling_nans and parts_default_nan.
-
-> +typedef union {
-> +    double f;
-> +    uint64_t i;
-> +    struct {
-> +        uint64_t mant:52;
-> +        uint64_t exp:11;
-> +        uint64_t sign:1;
-> +    };
-> +} Double;
-
-You cannot use a union with bitfields portably.  This will fail on a big-endian
-host.  Anyway, extracting these bits of a float are already present via softfloat.
-
-> +static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
-> +{
-> +    Int128 a, b;
-> +    uint64_t pp0, pp1a, pp1b, pp1s, pp2;
-> +
-> +    a = int128_make64(ai);
-> +    b = int128_make64(bi);
-> +    pp0 = (uint64_t)int128_getw0(a) * (uint64_t)int128_getw0(b);
-> +    pp1a = (uint64_t)int128_getw1(a) * (uint64_t)int128_getw0(b);
-> +    pp1b = (uint64_t)int128_getw1(b) * (uint64_t)int128_getw0(a);
-> +    pp2 = (uint64_t)int128_getw1(a) * (uint64_t)int128_getw1(b);
-> +
-> +    pp1s = pp1a + pp1b;
-> +    if ((pp1s < pp1a) || (pp1s < pp1b)) {
-> +        pp2 += (1ULL << 32);
-> +    }
-> +    uint64_t ret_low = pp0 + (pp1s << 32);
-> +    if ((ret_low < pp0) || (ret_low < (pp1s << 32))) {
-> +        pp2 += 1;
-> +    }
-> +
-> +    return int128_make128(ret_low, pp2 + (pp1s >> 32));
-> +}
-
-This is duplicating code from include/fpu/softfloat-macros.h, except for the
-wrapping to Int128.  That said, I don't think you should actually need this,
-or, frankly, the vast majority of the rest of your fp code.
-
-> +typedef struct {
-> +    Int128 mant;
-> +    int32_t exp;
-> +    uint8_t sign;
-> +    uint8_t guard;
-> +    uint8_t round;
-> +    uint8_t sticky;
-> +} Accum;
-
-Um.. what?  Why in the world would you split the 3 guard bits away from the
-rest of mant?
-
-> +/* Return an infinity with requested sign */
-> +static inline float64 infinite_float64(uint8_t sign)
-> +{
-> +    if (sign) {
-> +        return make_float64(DF_MINUS_INF);
-> +    } else {
-> +        return make_float64(DF_INF);
-> +    }
-> +}
-
-Surely just float64_set_sign(float64_infinity, sign).
-
-
-> +static bool is_inf_prod(float64 a, float64 b)
-> +{
-> +    return ((float64_is_infinity(a) && float64_is_infinity(b)) ||
-> +            (float64_is_infinity(a) && is_finite(b) && (!float64_is_zero(b))) ||
-
-This is always false, because is_finite excludes infinity.
-
-
-> +float32 internal_fmafx(float32 a, float32 b, float32 c, int scale,
-> +                       float_status *fp_status)
-> +{
-
-Right.  So, best I can figure, all of this support code that's re-implementing
-softfloat stuff is just so you can add "int scale" to floatXX_muladd.
-
-Currently, we have a single bit to affect scaling of muladd (2**-1), for Arm.
-It would be easy to adjust the softfloat implementation to handle arbitrary
-scaling.
-
-I would vastly prefer to do that than do this.
-
-> +float64 internal_mpyhh(float64 a, float64 b,
-> +                      unsigned long long int accumulated,
-> +                      float_status *fp_status)
-
-I really don't understand what this is doing.  Sadly, the hexagon manual
-doesn't bother to define some of its pseudocode functions, and this (dfmpyhh)
-is one of them.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
