@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CD3131B0FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 16:48:31 +0100 (CET)
-Received: from localhost ([::1]:51956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD0731B103
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 16:55:35 +0100 (CET)
+Received: from localhost ([::1]:33702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBJdO-0000FG-I8
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 10:48:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41248)
+	id 1lBJkE-0004gi-9t
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 10:55:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lBJbI-0007Rt-UO
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 10:46:21 -0500
-Resent-Date: Sun, 14 Feb 2021 10:46:20 -0500
-Resent-Message-Id: <E1lBJbI-0007Rt-UO@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21320)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lBJbF-0000BW-Q5
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 10:46:20 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613317563; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=ia5WPgQOFCvMKBFvqB2YJdou+1LmQVGDphc/tHsup8JihwmA1uUn3NbdYkindo60M3wVUaetCxiASRKjlxBNo/Nnp4LojsIqkt6j/UH30GDE0gdqY4wJuW5uyIUNnlEsyLYX4kuIpIb6OLNZHPwQQnEDm59LRcU54pMa9qhC/XY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613317563;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=n2wAPIxsTQk6mqb6Ed9ji1oGjSetzb5TwUO+/PpBI+Q=; 
- b=W3C3gOPmVjmhtn8q2fVi0oo9bsHNHhJ0bDXMIYkacag3L8dZzt59CdMvUI6iAa+8cM1kuHXR7kbH9A2JSqNR0dUyaruTl3Kbhq4yo5RNn9DP3irJ2Fv3CNvMbCu7C4WM36Ikl2h9xCfkunB7BKIZ/64ofkPTarBN0oO0+L0fFMI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613317544371613.8944569308512;
- Sun, 14 Feb 2021 07:45:44 -0800 (PST)
-In-Reply-To: <27dfe8eb-adce-8db4-f28b-c42858b086db@msgid.tls.msk.ru>
-Subject: Re: RFC: linux-user: preserving argv[0] of the original binary in
- context of binfmt-misc
-Message-ID: <161331754325.5712.13313748836699159516@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lBJiN-0003hk-L7; Sun, 14 Feb 2021 10:53:39 -0500
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:40129)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lBJiL-0002Ci-UT; Sun, 14 Feb 2021 10:53:39 -0500
+Received: by mail-yb1-xb2f.google.com with SMTP id i71so4743659ybg.7;
+ Sun, 14 Feb 2021 07:53:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=aqi3bumhGXFQWX0o4FpyWmH4QVV8SRYTfmg+5qORrGQ=;
+ b=Q/sx6WdWmk3B3ASgOFyKZCrg5wwxvFY8i0yuC1BOKKc6cirY6fF5IC+yEdRmNDk9TA
+ yRryh6jK/LKhv9GWIABM8mj2oZ78To6h07ZkFNjR+rWmF0NHIJGVtbQr+ih8Cx5RW7Rz
+ XCIt7Xrj7a+NG3S8rgE+MSJoj251Ra9y2t+2qQhSwZwvQGLSyl/dYvxLoIUr6OU9h43C
+ 1bwEuNRr9jT6fwO3NFRQi87iFmZhFAHddJh8B76NTQOSgjdf7hoyA9vMPc2tUmr46Bur
+ cmpIdyTCihEsiCObhfML93NoAW14kkzqzmnd4LHBy92TbAxxqOGOZzk0kYnssmaGHeOo
+ Vr4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=aqi3bumhGXFQWX0o4FpyWmH4QVV8SRYTfmg+5qORrGQ=;
+ b=JvxjEFJQPxDGhOOReS6lnD/cCWdFLFuaFCbs9ZtWw7qyNrKUyPs8lAvwKjRRv/Eslw
+ RV3uNRrABpZ9Z0xaLkyRkLauOVmPulJ6Xr9lS6rNIULklecN4XioSLsjTxOfN8CBBg9I
+ Bx7nA/EpblcZnc6XsibiV7vWV8PbQbOj/+8tJEV4hCTa0z9x07PHm+CBdbnJMHHV09H2
+ qrOKiyTzTNXBKBmB7q7po81XzvMUn4gBV3u1ENpsCf10Fl88eA0Z9fBqLSxMBSszy4Fw
+ KIHa5Q0ungeqtcvgF96hWkVC3z3+ubTe5BPSBf7ORFD9Sf4ytd0B8CA+euGim4tYyFxW
+ cbuQ==
+X-Gm-Message-State: AOAM530ztV9GXYrqulPmT8bvHqSdNelUtQV17hsz9SZ0+rcbLn8Gc3dU
+ KbAaMyEIsOa+hBEL1cWatFeP4j481kTki/B+gJA=
+X-Google-Smtp-Source: ABdhPJzseAn4CPC5zWZWbgR5+H645h7QJWc0vsCSdZxCAH717WsRdiqfFZ7+d/IpYQIR/NNjMBY3PtkHfiADm6XZBQE=
+X-Received: by 2002:a25:c407:: with SMTP id u7mr18266918ybf.387.1613318016248; 
+ Sun, 14 Feb 2021 07:53:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: mjt@tls.msk.ru
-Date: Sun, 14 Feb 2021 07:45:44 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+References: <1612868085-72809-1-git-send-email-bmeng.cn@gmail.com>
+ <20210211165351.5rr2dpzlg4eqygdn@mozz.bu.edu>
+ <20210211212434.oydbc7ucjbowtnrh@mozz.bu.edu>
+ <CAEUhbmX_omO=F9qGVfX72uhyi8LXKV0EsueW-B27HwAtMNigZw@mail.gmail.com>
+In-Reply-To: <CAEUhbmX_omO=F9qGVfX72uhyi8LXKV0EsueW-B27HwAtMNigZw@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 14 Feb 2021 23:53:25 +0800
+Message-ID: <CAEUhbmWeA7gc+ZNmpJAzPwfHvMwuQsyb716hHFM1nCrjw2KHBw@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: sdhci: Do not transfer any data when command fails
+To: Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,80 +77,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-devel@nongnu.org
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Li Qiang <liq3ea@163.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yN2RmZThlYi1hZGNlLThkYjQt
-ZjI4Yi1jNDI4NThiMDg2ZGJAbXNnaWQudGxzLm1zay5ydS8KCgoKSGksCgpUaGlzIHNlcmllcyBz
-ZWVtcyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93
-IGZvcgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDI3ZGZlOGVi
-LWFkY2UtOGRiNC1mMjhiLWM0Mjg1OGIwODZkYkBtc2dpZC50bHMubXNrLnJ1ClN1YmplY3Q6IFJG
-QzogbGludXgtdXNlcjogcHJlc2VydmluZyBhcmd2WzBdIG9mIHRoZSBvcmlnaW5hbCBiaW5hcnkg
-aW4gY29udGV4dCBvZiBiaW5mbXQtbWlzYwoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9i
-aW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25m
-aWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVu
-YW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9z
-Y3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVO
-RCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQK
-RnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICAgZWFjOTJkMy4u
-ZjRjZWViZCAgbWFzdGVyICAgICAtPiBtYXN0ZXIKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hl
-dy8xNjEwNTA1OTk1LTE0NDEyOS0xLWdpdC1zZW5kLWVtYWlsLWxlaS5yYW9AaW50ZWwuY29tIC0+
-IHBhdGNoZXcvMTYxMDUwNTk5NS0xNDQxMjktMS1naXQtc2VuZC1lbWFpbC1sZWkucmFvQGludGVs
-LmNvbQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjAxMDA4MDQzMTA1LjIxMDU4LTEt
-Y2hlbmdhbmdAZW1pbmRzb2Z0LmNvbS5jbiAtPiBwYXRjaGV3LzIwMjAxMDA4MDQzMTA1LjIxMDU4
-LTEtY2hlbmdhbmdAZW1pbmRzb2Z0LmNvbS5jbgogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRjaGV3
-LzIwMjAxMDExMTk1MDAxLjMyMTk3MzAtMS1mNGJ1Z0BhbXNhdC5vcmcgLT4gcGF0Y2hldy8yMDIw
-MTAxMTE5NTAwMS4zMjE5NzMwLTEtZjRidWdAYW1zYXQub3JnCiAtIFt0YWcgdXBkYXRlXSAgICAg
-IHBhdGNoZXcvMjAyMTAxMzEwNjE4NDkuMTI2MTUtMS12ZmF6aW9AeGVzLWluYy5jb20gLT4gcGF0
-Y2hldy8yMDIxMDEzMTA2MTg0OS4xMjYxNS0xLXZmYXppb0B4ZXMtaW5jLmNvbQogLSBbdGFnIHVw
-ZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMTMxMDYxOTQ4LjE1OTkwLTEtdmZhemlvQHhlcy1pbmMu
-Y29tIC0+IHBhdGNoZXcvMjAyMTAxMzEwNjE5NDguMTU5OTAtMS12ZmF6aW9AeGVzLWluYy5jb20K
-IC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIwMTE1NTkyMi5HQTE4MjkxQGxzMzUz
-MC5mcml0ei5ib3ggLT4gcGF0Y2hldy8yMDIxMDIwMTE1NTkyMi5HQTE4MjkxQGxzMzUzMC5mcml0
-ei5ib3gKIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIwMTIyMDU1MS5HQTgwMTVA
-bHMzNTMwLmZyaXR6LmJveCAtPiBwYXRjaGV3LzIwMjEwMjAxMjIwNTUxLkdBODAxNUBsczM1MzAu
-ZnJpdHouYm94CiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAyMDQxNTM5MjUuMjAz
-MDYwNi0xLUphc29uQHp4MmM0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMjA0MTUzOTI1LjIwMzA2MDYt
-MS1KYXNvbkB6eDJjNC5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIxMDE3
-MTUzNy4zMjkzMi0xLWRhdmlkQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIxMDIxMDE3MTUzNy4z
-MjkzMi0xLWRhdmlkQHJlZGhhdC5jb20KIC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIx
-MDIxMzEzMDMyNS4xNDc4MS0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIx
-MDIxMzEzMDMyNS4xNDc4MS0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKICogW25ldyB0YWddICAg
-ICAgICAgcGF0Y2hldy8yN2RmZThlYi1hZGNlLThkYjQtZjI4Yi1jNDI4NThiMDg2ZGJAbXNnaWQu
-dGxzLm1zay5ydSAtPiBwYXRjaGV3LzI3ZGZlOGViLWFkY2UtOGRiNC1mMjhiLWM0Mjg1OGIwODZk
-YkBtc2dpZC50bHMubXNrLnJ1ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNTNjNzg0
-MCBSRkM6IGxpbnV4LXVzZXI6IHByZXNlcnZpbmcgYXJndlswXSBvZiB0aGUgb3JpZ2luYWwgYmlu
-YXJ5IGluIGNvbnRleHQgb2YgYmluZm10LW1pc2MKCj09PSBPVVRQVVQgQkVHSU4gPT09CldBUk5J
-Tkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBzZXBhcmF0ZSBsaW5lCiM4
-NTogRklMRTogbGludXgtdXNlci9tYWluLmM6NTY0OgorICAgIC8qIEhBQ0sgYWxlcnQuCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojODc6IEZJTEU6IGxpbnV4LXVzZXIvbWFpbi5j
-OjU2NjoKKyAgICAgKiB3ZSBoYXZlIHRvIGtub3cgd2hlcmUgYXJlIHdlIChvdXIgb3duIGJpbmFy
-eSksIHdoZXJlJ3MgdGhlIGJpbmFyeSBiZWluZyBydW4sCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAg
-Y2hhcmFjdGVycwojODk6IEZJTEU6IGxpbnV4LXVzZXIvbWFpbi5jOjU2ODoKKyAgICAgKiBPbmx5
-IHdpdGggdGhlIFAgaW50ZXJwcmV0ZXIgZmxhZyBrZXJuZWwgcGFzc2VzIGFsbCAzIGVsZW1lbnRz
-IGFzIGZpcnN0IDMgYXJndltdLAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzkx
-OiBGSUxFOiBsaW51eC11c2VyL21haW4uYzo1NzA6CisgICAgICogU28gd2UgcmVnaXN0ZXIgYSBz
-cGVjaWFsIG5hbWUgd2l0aCBiaW5mbXQtbWlzYyBzeXN0ZW0sIGEgbmFtZSB3aGljaCBlbmRzIHVw
-CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojOTI6IEZJTEU6IGxpbnV4LXVzZXIv
-bWFpbi5jOjU3MToKKyAgICAgKiBpbiAiLWJpbmZtdC1QIiwgYW5kIGlmIG91ciBhcmd2WzBdIGVu
-ZHMgdXAgd2l0aCB0aGF0LCB3ZSBhc3N1bWUgd2Ugd2VyZSBydW4KCldBUk5JTkc6IGxpbmUgb3Zl
-ciA4MCBjaGFyYWN0ZXJzCiM5NjogRklMRTogbGludXgtdXNlci9tYWluLmM6NTc1OgorICAgICAg
-ICBzdHJjbXAoYXJndlswXSArIHN0cmxlbihhcmd2WzBdKSAtIHNpemVvZigiYmluZm10LVAiKSwg
-Ii1iaW5mbXQtUCIpID09IDApIHsKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojOTg6
-IEZJTEU6IGxpbnV4LXVzZXIvbWFpbi5jOjU3NzoKKyAgICAgICAgICAgICh2b2lkKSBmcHJpbnRm
-KHN0ZGVyciwgInFlbXU6ICVzIGhhcyB0byBiZSBydW4gdXNpbmcga2VybmVsIGJpbmZtdC1taXNj
-IHN1YnN5c3RlbVxuIiwgYXJndlswXSk7CgpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBs
-aW5lKHMpCgp0b3RhbDogMiBlcnJvcnMsIDYgd2FybmluZ3MsIDI3IGxpbmVzIGNoZWNrZWQKCkNv
-bW1pdCA1M2M3ODQwNTUxYTEgKFJGQzogbGludXgtdXNlcjogcHJlc2VydmluZyBhcmd2WzBdIG9m
-IHRoZSBvcmlnaW5hbCBiaW5hcnkgaW4gY29udGV4dCBvZiBiaW5mbXQtbWlzYykgaGFzIHN0eWxl
-IHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFs
-c2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRD
-SCBpbiBNQUlOVEFJTkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVk
-IHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNo
-ZXcub3JnL2xvZ3MvMjdkZmU4ZWItYWRjZS04ZGI0LWYyOGItYzQyODU4YjA4NmRiQG1zZ2lkLnRs
-cy5tc2sucnUvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
-cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
-ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Sun, Feb 14, 2021 at 1:56 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> Hi Alexander,
+>
+> On Fri, Feb 12, 2021 at 5:25 AM Alexander Bulekov <alxndr@bu.edu> wrote:
+> >
+> > On 210211 1154, Alexander Bulekov wrote:
+> > ...
+> > > I applied this along with <20210208193450.2689517-1-f4bug@amsat.org>
+> > > "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
+> > >
+> > > I ran through the entire OSS-Fuzz corpus, and could not reproduce the
+> > > crash.
+> > >
+> > > Tested-by: Alexander Bulekov <alxndr@bu.edu>
+> > >
+> > Hi Bin,
+> > Phil explained to me that this patch should fix the problem independent
+> > of
+> > "hw/sd/sdhci: Do not modify BlockSizeRegister if transaction in progress"
+>
+> Yes, that's what I expect too.
+>
+> >
+> > With only this patch, there are still crashes. Here are three
+> > reproducers:
+> >
+> > Some of these are quite long, so here are pastebins for convenience:
+> > Repro 1: https://paste.debian.net/plain/1185137
+> > Repro 2: https://paste.debian.net/plain/1185141
+> > Repro 3: https://paste.debian.net/plain/1185136
+>
+> I will take a look.
+
+I have figured out a fix and will send out for review and testing soon.
+
+Regards,
+Bin
 
