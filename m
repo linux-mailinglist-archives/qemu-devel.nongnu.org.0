@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06BAE31B1E9
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:21:20 +0100 (CET)
-Received: from localhost ([::1]:58386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D56B31B1F6
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:24:49 +0100 (CET)
+Received: from localhost ([::1]:38322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBM1H-0004hQ-1h
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:21:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34100)
+	id 1lBM4e-0008Mn-Be
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:24:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLhx-0008KN-1U
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:01:23 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:45587)
+ id 1lBLi4-0008NJ-5A
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:01:28 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35233)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLhv-0004aP-Lp
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:01:20 -0500
-Received: by mail-wr1-x429.google.com with SMTP id v7so6063905wrr.12
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:01:16 -0800 (PST)
+ id 1lBLi2-0004b7-Kh
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:01:27 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id n10so5843859wmq.0
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:01:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G3/ym6u6v63O1H9s9Yezp8ui+y1bj86FlTiPhugIplI=;
- b=Klo5Y6mKfHvyILZ5JrhNLmNVHQV/tVIJMBaluYcqZUgc8xXApkOjxedpHbeq2IIDOK
- jcmATjqesYhYDquY8OS9h3Q2cm3SWFB7T4t4RtSVWh44rrH2RON41WeFjRc5RdTrN5dh
- tFvUMAX77Yt76y6cn1OQzXUInPOWU90mAbxZH3WMJDkcCjD5M8uZIpMai5YD3SvKYwz/
- CR98OsNJTMR0Rv31+Bv6MSOQUdRwjlJAm1MZqxXEIlOqjqdwRS0VX4RSIATaLsuvEvQd
- J7HQneW/YW/vfs+g0mneOvJi6FAbmAlleYdWL4W8SdFKYMQHqMFgBlwKTILKpii7PWfj
- VQoA==
+ bh=OHI9+2iJLTvRrWFTQN2s8ImAvRqlxsnv2mLO+JxxUWA=;
+ b=H5Br+EJ7FHHEJL5ifZ7ef5dlAsBMr9Zl4Ry0J2stKzhQWhcNHmAtbkaLPbfkdTRcrM
+ sS4ALuIaY7ggtNjvoVuz5OcEPy8rpiBwy1wZGQh9IypFMQucmL8kEl4itAa0j6zG91cJ
+ +EAScVVN7eC/iKdUw5rQNr4c6R9FwbdElBwKh2aHHxoy9qkwsmpJul/lf2WjmMKJvWZZ
+ xw73Mdol7USRfYfCfEOmRofW56ZtveWqu02+Rj0XwcPziXPFQzw4nzbQ3N/1LRGAt0Tq
+ 9+GDLgSQzakgyIZ2wykCkz9KSzbAR7iRyL382/vECig55I0i0U6bOjSu4aZ2hHnEbBL5
+ aEUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=G3/ym6u6v63O1H9s9Yezp8ui+y1bj86FlTiPhugIplI=;
- b=COK+1067LCD5KJPH2FCDx12EjsR2BlThgufj7lMs8y07Apv0PrkIJdj00wve1x2R2a
- xqCCfT+mH6OlLl4/38BRqmnRZHckKm3b9nDI/YaEbW8pxuDRekxnHfdOPw4zCmuV9kN5
- 9he9QALExnduwJ/17DmzmTgFDi5vfpdnTwUbC+iN/0Cawt3NwcnBJlLetZlTEU8KLBdP
- Hi5skaDB3IuMKPU+ICen9xT/9K3oo7s8Bh7A3S6P9AiYgkCrKnoqY0TODUHBLvYd2hpV
- 17Pqr+Km/LYVEQXEfCDxOF+w0416UE3RiHcZqk7uAobatPpLsq5lI6pwBjtRBhoJGQMd
- s1yA==
-X-Gm-Message-State: AOAM531V5lNEk9sU+JF6UJi3pd3IdgTi4bXM/LFA4+ZJfP/j0XiGaBbW
- HVwC+HIxwT+bQP+h95cdccyh8bSGBP8=
-X-Google-Smtp-Source: ABdhPJwzc+W5UUGlMaKt6SZ8lq1DqKMn4gFNtGPGy7QldaeTcQ+CaP1Av8ch5re5tgzzspXoxoFHig==
-X-Received: by 2002:adf:f089:: with SMTP id n9mr15162924wro.98.1613325675275; 
- Sun, 14 Feb 2021 10:01:15 -0800 (PST)
+ bh=OHI9+2iJLTvRrWFTQN2s8ImAvRqlxsnv2mLO+JxxUWA=;
+ b=FQm8TmEL7cku/1E+svrn4VkrqtIuEqy2+AIuTtSdNB2y6Refb80ZwYIj0SaEIa/sil
+ UXL9RjBHt5YUoshXKpz+3f7t6FjKNkEfpDgtv4iu+MTf/4+rff0MgL++kKZ/NJDgXtkp
+ QZkXb8HSX0gRwsv25jHlG8BNFwVEK84qgCtYSGpGUFoi4bGT4m+mtY+sPfVq5odpZI3H
+ 1N43ObKYOhKDCYO6IzQUSpClJpHleOM/bUPBJMMDeQfkanKNIqKvEr/L3jOsNkC5UoyN
+ cnLju881CWZ6+fubpD7ktPa/lXpEnu7HAoXZtPKao4LIDLRwpkKqksfsc1+PaOTSIe7t
+ z4Zw==
+X-Gm-Message-State: AOAM5300ff0RF/bqq/cfhGzIxiGuy3zIDTo8znEOZt8IMS0xJ5GQDBje
+ M1N9YhsLEN4xuC7cH2HXQlVNfw+8M+M=
+X-Google-Smtp-Source: ABdhPJxvSDW8F1/5k9Lq5SpQr/y819cLaiv48VAcuLz01Vc73xr28V2TYBrKs3h0J4/gRzV+RdT8RQ==
+X-Received: by 2002:a1c:f203:: with SMTP id s3mr11048487wmc.152.1613325685147; 
+ Sun, 14 Feb 2021 10:01:25 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g136sm7512538wme.10.2021.02.14.10.01.14
+ by smtp.gmail.com with ESMTPSA id d15sm16117354wru.80.2021.02.14.10.01.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:01:14 -0800 (PST)
+ Sun, 14 Feb 2021 10:01:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 24/42] target/mips/tx79: Introduce PROT3W opcode (Parallel
- Rotate 3 Words)
-Date: Sun, 14 Feb 2021 18:58:54 +0100
-Message-Id: <20210214175912.732946-25-f4bug@amsat.org>
+Subject: [RFC PATCH 26/42] target/mips/tx79: Introduce SQ opcode (Store
+ Quadword)
+Date: Sun, 14 Feb 2021 18:58:56 +0100
+Message-Id: <20210214175912.732946-27-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,62 +97,61 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the PROT3W opcode (Parallel Rotate 3 Words).
+Introduce the SQ opcode (Store Quadword).
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  target/mips/tx79.decode      |  1 +
- target/mips/tx79_translate.c | 28 ++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ target/mips/tx79_translate.c | 27 +++++++++++++++++++++++++++
+ 2 files changed, 28 insertions(+)
 
 diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index 0ea9fc95568..79001359242 100644
+index b5396f48c2d..f1cb7ebfa3c 100644
 --- a/target/mips/tx79.decode
 +++ b/target/mips/tx79.decode
-@@ -56,6 +56,7 @@ PAND            011100 ..... ..... ..... 10010 001001   @rs_rt_rd
- PXOR            011100 ..... ..... ..... 10011 001001   @rs_rt_rd
- PEXEH           011100 00000 ..... ..... 11010 001001   @rt_rd
- PEXEW           011100 00000 ..... ..... 11110 001001   @rt_rd
-+PROT3W          011100 00000 ..... ..... 11111 001001   @rt_rd
+@@ -73,3 +73,4 @@ PCPYH           011100 00000 ..... ..... 11011 101001   @rt_rd
+ # SPECIAL
  
- # MMI3
- 
+ LQ              011110 ..... ..... ................     @ldst
++SQ              011111 ..... ..... ................     @ldst
 diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index 59451a043a4..c25f61d382c 100644
+index 293efd7bd06..386bae7808b 100644
 --- a/target/mips/tx79_translate.c
 +++ b/target/mips/tx79_translate.c
-@@ -753,3 +753,31 @@ static bool trans_PEXEW(DisasContext *ctx, arg_rtype *a)
- 
+@@ -411,6 +411,33 @@ static bool trans_LQ(DisasContext *ctx, arg_itype *a)
      return true;
  }
-+
-+/* Parallel Rotate 3 Words Left */
-+static bool trans_PROT3W(DisasContext *ctx, arg_rtype *a)
+ 
++static bool trans_SQ(DisasContext *ctx, arg_itype *a)
 +{
-+    TCGv_i64 ax;
++    TCGv_i64 t0 = tcg_temp_new_i64();
++    TCGv addr = tcg_temp_new();
 +
-+    if (a->rd == 0) {
-+        /* nop */
-+        return true;
-+    }
-+    if (a->rt == 0) {
-+        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
-+        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
-+        return true;
-+    }
++    gen_base_offset_addr(ctx, addr, a->base, a->offset);
++    /*
++     * Clear least-significant four bits of the effective
++     * address, effectively creating an aligned address.
++     */
++    tcg_gen_andi_tl(addr, addr, ~0xf);
 +
-+    ax = tcg_temp_new_i64();
++    /* Lower halve */
++    gen_load_gpr(t0, a->rt);
++    tcg_gen_qemu_st_i64(t0, addr, ctx->mem_idx, MO_TEQ);
 +
-+    tcg_gen_mov_i64(ax, cpu_gpr_hi[a->rt]);
-+    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], ax, cpu_gpr[a->rt], 0, 32);
++    /* Upper halve */
++    tcg_gen_addi_i64(addr, addr, 8);
++    gen_load_gpr_hi(t0, a->rt);
++    tcg_gen_qemu_st_i64(t0, addr, ctx->mem_idx, MO_TEQ);
 +
-+    tcg_gen_deposit_i64(cpu_gpr[a->rd], cpu_gpr[a->rt], ax, 0, 32);
-+    tcg_gen_rotri_i64(cpu_gpr[a->rd], cpu_gpr[a->rd], 32);
-+
-+    tcg_temp_free(ax);
++    tcg_temp_free(addr);
++    tcg_temp_free(t0);
 +
 +    return true;
 +}
++
+ /*
+  *     Multiply and Divide (19 instructions)
+  *     -------------------------------------
 -- 
 2.26.2
 
