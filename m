@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9188231B1D9
-	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:15:04 +0100 (CET)
-Received: from localhost ([::1]:44728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AB531B1D6
+	for <lists+qemu-devel@lfdr.de>; Sun, 14 Feb 2021 19:13:48 +0100 (CET)
+Received: from localhost ([::1]:40676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBLvD-0006qi-IR
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:15:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33690)
+	id 1lBLtz-00054W-Nj
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 13:13:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLhL-0007fu-36
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:47 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44568)
+ id 1lBLhQ-0007ib-Us
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:49 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40741)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBLhJ-0004Vg-NM
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:42 -0500
-Received: by mail-wr1-x432.google.com with SMTP id g6so6065409wrs.11
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:40 -0800 (PST)
+ id 1lBLhO-0004XW-Uj
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 13:00:48 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v14so6088198wro.7
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 10:00:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U+V4mgoYQ8a3cKweLkQIShkW02XCP8ivJVee8UjrEHo=;
- b=dlxzrA+zv+GRNm37c1NMndsCwHA7t/eXJkN+TKLQ7L8gf1qet5HCUdeRy5SkIs+vPf
- mRmq/F9leZx2LnVN5YQ5pkhU2J8u4PDXxPBnFr19zLjHvTMP/xwacLumOs2z7MSAUfLZ
- 5Wii+rFtl4zk+yLtDiuxLSyU9r5yQwI/DaTCyoFkO1o9vDd2YR/l3u5ug0d2OJ5SgV4O
- gFK4R3PqlHH4kPiQ5C2aAzSaY+jZOBSY85n8IUaNKRGUn9KwGEN3SGPmnWFVFSHiNUD4
- S2O2g4/4VW+dA17wizBM1h9GQCgTJqSaRjZrbu0dcnMFV4lr8qWZasnVXr+boigIJ2Uf
- qzkA==
+ bh=SDHdCg7Mye3AzFKx4ibkRRFtRHfjnUTnAAujz3rX0fg=;
+ b=WXjrqFIBE+198Wt61yI6B5UNkEvJfUx64IhHrzNV1R0qbkJiHB7E3aI9Mr5vVlbMil
+ lDezMOMIOmAw+klnrbpqdOfbX0HG4HpOd0GMQ7Jl9jtkxQCkfdOTJWWt0ff2YrWN3lVd
+ tVTQCdxv3ZuqQTIKYa1xc8jcbPtiuR3dVVfDXsm6rW1iCC8hWYOpYaNDpxlu9UVfo6SP
+ q3r+VkZ73qiDw0PY4Yx7bcRahX4JBqlzj0dn0nUrR1Fb0dokmndsPUE8ytJmORCW8D9i
+ 1gHUmQPoWpy3ntUDlvtURj+22OJIzV9RlFFvvhV6PrgdtWhLKdYjqUepj7UgBCC9oyyb
+ c7wQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=U+V4mgoYQ8a3cKweLkQIShkW02XCP8ivJVee8UjrEHo=;
- b=RV9GK95bNP8RLPRPKTgD+/olBjeTpts7z/3PcQd3DgJRJ3SoQH6pbCwlsWAOdwHzZC
- GeWwdOuOHsALEwIADSv7Ml8TPffEo4dEMEIyOY/oJbJ4JbPll4DXUJuen73W41TGjadq
- EyC6qKKB1ownLm43DAog9rkIrmm2x3yTfX6+em0QRolGScROXvGCFmgfKCfcNaH8L+8Y
- McJIxiCf7IbolU0FD4UHnUJ14m5kihIRxO4LoXbJzysXqbNF2k4pPw0Az6rVXKK1cBCL
- fWcUoQkRvawLPfi1l5RIxiZv8uviNHTxDOcnAZyG3tPkRSndu6yfWq0LQ/Yb8KMLNww0
- GZew==
-X-Gm-Message-State: AOAM532RMzvoHxHr9KTw7w3ZwZ9KdXHKymh7W6uspafNpEIvj2CEkvAG
- r35zBunWUrsH/OSL3E++V5+cK7b3nio=
-X-Google-Smtp-Source: ABdhPJzJKdSKdL74uaZXjTmaKRj0UWLWKTYZmp5FpyuI2vjxI/3BtMw8vUQbjIcgIwDFwfssLRkyjw==
-X-Received: by 2002:a05:6000:1543:: with SMTP id
- 3mr15024308wry.254.1613325639825; 
- Sun, 14 Feb 2021 10:00:39 -0800 (PST)
+ bh=SDHdCg7Mye3AzFKx4ibkRRFtRHfjnUTnAAujz3rX0fg=;
+ b=dUHdKpL9kOJyg1rg3M7JPf+gm1isgI2Ew1wrgkOdXg+pRH3nCdNK6LP58fXEmv7zCQ
+ /yNx4Yj4F/unC+jb+RR6tVuCp1Y30ioTP/NJbq0pYuZMybI8KsPRDjsipWVeJnsfg7Wj
+ 10KEBwRkHeFNLULgLKLaZF7+VYl2ryZ6wzSIJXZrQTONqjXYMN8xsXy7fW3WK/PNSV3b
+ q1S1p03sY5ZwCHVKsojNfwd/gHYjvDGjkUEC6WdHTk6ZaIlV/QjEXcaXyGwH2lZpMd6g
+ OWKJir96aPWjJC/9ZvIIYTbxwsWePL/SgtOl5op/frSme6QJPigGAQvLBxdAHkU0+2hw
+ Wnig==
+X-Gm-Message-State: AOAM530pT+xbFAQOaQot/ksFnbbKSBtsxHLoBwdDZbz1J9kZsrmgZmPt
+ subhQx9m0pPDSK6QH0W+8ngrCsVYtWw=
+X-Google-Smtp-Source: ABdhPJwxbkOoVkbbuR2FAuCskz60XedGxH9bmv3Yjcz9gbU3/uEUg7mRx+RV60NhDmaPedqK6uEZqQ==
+X-Received: by 2002:adf:f542:: with SMTP id j2mr7412226wrp.46.1613325644748;
+ Sun, 14 Feb 2021 10:00:44 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o13sm27880973wrs.45.2021.02.14.10.00.38
+ by smtp.gmail.com with ESMTPSA id f7sm10918378wmh.39.2021.02.14.10.00.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 14 Feb 2021 10:00:39 -0800 (PST)
+ Sun, 14 Feb 2021 10:00:44 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 17/42] target/mips/tx79: Introduce PEXTUW (Parallel Extend
- Upper from Word)
-Date: Sun, 14 Feb 2021 18:58:47 +0100
-Message-Id: <20210214175912.732946-18-f4bug@amsat.org>
+Subject: [RFC PATCH 18/42] target/mips/tx79: Introduce PEXTU[BHW] opcodes
+ (Parallel Extend Lower)
+Date: Sun, 14 Feb 2021 18:58:48 +0100
+Message-Id: <20210214175912.732946-19-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210214175912.732946-1-f4bug@amsat.org>
 References: <20210214175912.732946-1-f4bug@amsat.org>
@@ -98,39 +97,41 @@ Cc: Fredrik Noring <noring@nocrew.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the PEXTUW opcode (Parallel Extend Upper from Word).
+Introduce the 'Parallel Extend Lower' opcodes:
+
+ - PEXTLB (Parallel Extend Upper from Byte)
+ - PEXTLH (Parallel Extend Upper from Halfword)
+ - PEXTLW (Parallel Extend Upper from Word)
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/tx79.decode      |  4 ++++
- target/mips/tx79_translate.c | 26 ++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
+ target/mips/tx79.decode      |  3 ++
+ target/mips/tx79_translate.c | 78 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 81 insertions(+)
 
 diff --git a/target/mips/tx79.decode b/target/mips/tx79.decode
-index d1c07c7d901..ead5f8281e5 100644
+index ead5f8281e5..98f21d33e3f 100644
 --- a/target/mips/tx79.decode
 +++ b/target/mips/tx79.decode
-@@ -35,6 +35,10 @@ PSUBW           011100 ..... ..... ..... 00001 001000   @rs_rt_rd
+@@ -34,6 +34,9 @@ MTLO1           011100 .....  0000000000 00000 010011   @rs
+ PSUBW           011100 ..... ..... ..... 00001 001000   @rs_rt_rd
  PSUBH           011100 ..... ..... ..... 00101 001000   @rs_rt_rd
  PSUBB           011100 ..... ..... ..... 01001 001000   @rs_rt_rd
++PEXTLW          011100 ..... ..... ..... 10010 001000   @rs_rt_rd
++PEXTLH          011100 ..... ..... ..... 10110 001000   @rs_rt_rd
++PEXTLB          011100 ..... ..... ..... 11010 001000   @rs_rt_rd
  
-+# MMI1
-+
-+PEXTUW          011100 ..... ..... ..... 10010 101000   @rs_rt_rd
-+
- # MMI2
+ # MMI1
  
- PCPYLD          011100 ..... ..... ..... 01110 001001   @rs_rt_rd
 diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
-index 23146f6bfac..0a2fb28600b 100644
+index 0a2fb28600b..11968d6edab 100644
 --- a/target/mips/tx79_translate.c
 +++ b/target/mips/tx79_translate.c
-@@ -332,6 +332,32 @@ static bool trans_PNOR(DisasContext *ctx, arg_rtype *a)
+@@ -332,6 +332,84 @@ static bool trans_PNOR(DisasContext *ctx, arg_rtype *a)
   * PEXTLW  rd, rs, rt        Parallel Extend Lower from Word
   */
  
-+/* Parallel Extend Upper from Word */
-+static bool trans_PEXTUW(DisasContext *ctx, arg_rtype *a)
++static bool trans_PEXTLx(DisasContext *ctx, arg_rtype *a, unsigned wlen)
 +{
 +    TCGv_i64 ax, bx;
 +
@@ -142,8 +143,61 @@ index 23146f6bfac..0a2fb28600b 100644
 +    ax = tcg_temp_new_i64();
 +    bx = tcg_temp_new_i64();
 +
-+    gen_load_gpr_hi(ax, a->rs);
-+    gen_load_gpr_hi(bx, a->rt);
++    gen_load_gpr(ax, a->rs);
++    gen_load_gpr(bx, a->rt);
++
++    /* Lower halve */
++    for (int i = 0; i < 64 / (2 * wlen); i++) {
++        tcg_gen_deposit_i64(cpu_gpr[a->rd],
++                            cpu_gpr[a->rd], bx, 2 * wlen * i, wlen);
++        tcg_gen_deposit_i64(cpu_gpr[a->rd],
++                            cpu_gpr[a->rd], ax, 2 * wlen * i + wlen, wlen);
++        tcg_gen_shri_i64(bx, bx, wlen);
++        tcg_gen_shri_i64(ax, ax, wlen);
++    }
++    /* Upper halve */
++    for (int i = 0; i < 64 / (2 * wlen); i++) {
++        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd],
++                            cpu_gpr_hi[a->rd], bx, 2 * wlen * i, wlen);
++        tcg_gen_deposit_i64(cpu_gpr_hi[a->rd],
++                            cpu_gpr_hi[a->rd], ax, 2 * wlen * i + wlen, wlen);
++        tcg_gen_shri_i64(bx, bx, wlen);
++        tcg_gen_shri_i64(ax, ax, wlen);
++    }
++
++    tcg_temp_free(bx);
++    tcg_temp_free(ax);
++
++    return true;
++}
++
++/* Parallel Extend Lower from Byte */
++static bool trans_PEXTLB(DisasContext *ctx, arg_rtype *a)
++{
++    return trans_PEXTLx(ctx, a, 8);
++}
++
++/* Parallel Extend Lower from Halfword */
++static bool trans_PEXTLH(DisasContext *ctx, arg_rtype *a)
++{
++    return trans_PEXTLx(ctx, a, 16);
++}
++
++/* Parallel Extend Lower from Word */
++static bool trans_PEXTLW(DisasContext *ctx, arg_rtype *a)
++{
++    TCGv_i64 ax, bx;
++
++    if (a->rd == 0) {
++        /* nop */
++        return true;
++    }
++
++    ax = tcg_temp_new_i64();
++    bx = tcg_temp_new_i64();
++
++    gen_load_gpr(ax, a->rs);
++    gen_load_gpr(bx, a->rt);
 +
 +    tcg_gen_deposit_i64(cpu_gpr[a->rd], bx, ax, 32, 32);
 +    tcg_gen_shri_i64(bx, bx, 32);
@@ -155,9 +209,9 @@ index 23146f6bfac..0a2fb28600b 100644
 +    return true;
 +}
 +
- /*
-  *     Others (16 instructions)
-  *     ------------------------
+ /* Parallel Extend Upper from Word */
+ static bool trans_PEXTUW(DisasContext *ctx, arg_rtype *a)
+ {
 -- 
 2.26.2
 
