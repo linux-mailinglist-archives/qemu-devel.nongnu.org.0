@@ -2,78 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE3DC31C021
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:09:25 +0100 (CET)
-Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8251431C022
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:09:46 +0100 (CET)
+Received: from localhost ([::1]:54904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBhNE-0007CY-DB
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:09:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58384)
+	id 1lBhNZ-0007oQ-Ja
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:09:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lBhFP-0001Xr-Bm
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:01:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34557)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBhHo-0002rf-0j
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:03:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60042)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lBhFL-0005Wk-8u
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:01:18 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBhHi-0005xE-T6
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:03:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613408473;
+ s=mimecast20190719; t=1613408619;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JYvBcBAK8vtxkk9g9Y9ObdQvN6fIvuA/+COcfL5EPiQ=;
- b=MqLdOpJ2N64xwC2hplxtJnx6+tWkziMC7fQlkautvh5FMja4XlInsSU9ZzAE6mGXMGIbCY
- L1h7pnjWGPS3TUy+uvVUEp8ylKMUJUfW2ukUSuQpV4c3btkBj7bbORKsbqlPfGUcO8622g
- TKzx/OyE7q34XrDekiu1YVD/S/GjgxU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-NfW0VCE9PW2pVWEw2JywuQ-1; Mon, 15 Feb 2021 12:01:11 -0500
-X-MC-Unique: NfW0VCE9PW2pVWEw2JywuQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF3D11005501
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 17:01:10 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DD28B62461;
- Mon, 15 Feb 2021 17:01:08 +0000 (UTC)
-Date: Mon, 15 Feb 2021 18:01:06 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
- enablement/disablement
-Message-ID: <20210215180106.7e573e6a@redhat.com>
-In-Reply-To: <87eehhlnj5.fsf@vitty.brq.redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-17-vkuznets@redhat.com>
- <20210211183555.2136b5c8@redhat.com>
- <87tuqhllmn.fsf@vitty.brq.redhat.com>
- <20210212151259.3db7406f@redhat.com>
- <87k0rdl3er.fsf@vitty.brq.redhat.com>
- <20210212170113.30a902b2@redhat.com>
- <87eehhlnj5.fsf@vitty.brq.redhat.com>
+ bh=Av+OP0zeujo5pvzxBw/MgMSq+IOjUmJERrInDUIeCaE=;
+ b=SuFed1DApVmxNSafZWFW/c+wtfc29jPjx9WJiAoU29jdak5tVZRd51PGMdnMtOqPNp9ods
+ urcIMxKua0Af677bHxj+CoT4VjgYIFSH39ykI/pWcdNqTTIy+G6PKOn018H6LRpn+vORhL
+ wNhhR3HIhGQsc/a7Xv29Zno9rQbKtlQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-Rek8h98qMhaeowOoAA-JMg-1; Mon, 15 Feb 2021 12:03:37 -0500
+X-MC-Unique: Rek8h98qMhaeowOoAA-JMg-1
+Received: by mail-wm1-f71.google.com with SMTP id c125so7335819wmf.9
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 09:03:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Av+OP0zeujo5pvzxBw/MgMSq+IOjUmJERrInDUIeCaE=;
+ b=FTMbE1Z64iMJv5RMJLFp6GGttzzP45D30VMuUIUm83erZa6868XHpiJkDNWsmS+3UQ
+ VnWv1FWqtNjYAz65d3b4sqTpBqd7sglosLlhSoyUl7DKsix6rIV9W0HrfwuTK7whdI8N
+ JrDqZWnvx1pJbvUeWpku5IB1hGme0AIxB39NYpQw9bnbCE7yyPw1bN+1Z7JNH2kgFJ+5
+ UAh943qK8TOp1P64CszUdo0HggQyO0yyL3iV0tc0hGa8Otn1lhBceMLMeNstjksJ8sZ4
+ uPS6cspPGdTtCT6TKT88dJBsIiZerXtJasCHBMNBdFFN5S1XGBXZLg2yDZ9DVKGDh0tm
+ oq3Q==
+X-Gm-Message-State: AOAM5306gf/jqkGnuyMOAzcabSWNm9FiSfT4pCcU5KfqJm1UiTIildJI
+ 0lWLuW0vRYgQ9TPBWQZCxI1YJPqLuwXoLF6psW4rmqzyaiFbjV7mmOByrsKk7qJFWTY517AzmAP
+ gbUpSC2Oy5q9AiO4=
+X-Received: by 2002:a1c:e905:: with SMTP id q5mr15122968wmc.84.1613408616366; 
+ Mon, 15 Feb 2021 09:03:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZQWFkdmiyHgFZegxTYm0+OwhAgXvCxhkIqs51Oc8KlslSbxGKfrFOn67MiCAC/A7qDsFHyA==
+X-Received: by 2002:a1c:e905:: with SMTP id q5mr15122943wmc.84.1613408616097; 
+ Mon, 15 Feb 2021 09:03:36 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id u14sm24995107wro.10.2021.02.15.09.03.34
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Feb 2021 09:03:35 -0800 (PST)
+Subject: Re: [PATCH 00/22] Acceptance Test: introduce base class for Linux
+ based tests
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <02bcee13-64fa-e14a-98ad-e8426a26d7d2@redhat.com>
+ <dd2fda88-723c-7954-6f7e-bfb2d4bdae81@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <a57b6bbb-d170-6746-5234-193038b41c41@redhat.com>
+Date: Mon, 15 Feb 2021 18:03:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <dd2fda88-723c-7954-6f7e-bfb2d4bdae81@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,136 +101,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Eric Auger <eauger@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Feb 2021 09:53:50 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-
-> Igor Mammedov <imammedo@redhat.com> writes:
+On 2/15/21 4:49 PM, Wainer dos Santos Moschetta wrote:
+> Hi,
 > 
-> >> >
-> >> > Please try reusing scratch CPU approach, see
-> >> >   kvm_arm_get_host_cpu_features()
-> >> > for an example. You will very likely end up with simpler series,
-> >> > compared to reinventing wheel.    
-> >> 
-> >> Even if I do that (and I serioulsy doubt it's going to be easier than
-> >> just adding two 'u64's, kvm_arm_get_host_cpu_features() alone is 200  
-> > it does a lot more then what you need, kvm_arm_create_scratch_host_vcpu()
-> > which it uses will do the job and even that could be made smaller
-> > for hv usecase.
-> >  
-> >> lines long) this is not going to give us what we need to distinguish
-> >> between
-> >> 
-> >> 'hv-passthrough,hv-evmcs'
-> >> 
-> >> and 
-> >> 
-> >> 'hv-passthrough'
-> >> 
-> >> when 'hv-evmcs' *is* supported by the host. When guest CPU lacks VMX we
-> >> don't want to enable it unless it was requested explicitly (former but
-> >> not the later).  
-> > could you elaborate more on it, i.e. why do we need to distinguish and why
-> > do we need evmcs without VMX if user asked for it (will it be usable)
-> >  
+> On 2/8/21 8:35 AM, Philippe Mathieu-Daudé wrote:
+>> On 2/3/21 6:23 PM, Cleber Rosa wrote:
+>>> This introduces a base class for tests that need to interact with a
+>>> Linux guest.  It generalizes the "boot_linux.py" code, already been
+>>> used by the "virtiofs_submounts.py" and also SSH related code being
+>>> used by that and "linux_ssh_mips_malta.py".
+>>>
+>>> While at it, a number of fixes on hopeful improvements to those tests
+>>> were added.
+>>>
+>>> Cleber Rosa (22):
+>>>    tests/acceptance/boot_linux.py: fix typo on cloudinit error message
+>>>    tests/acceptance/boot_linux.py: rename misleading cloudinit method
+>>>    Acceptance Tests: remove unnecessary tag from documentation example
+>>>    tests/acceptance/virtiofs_submounts.py: use workdir property
+>>>    tests/acceptance/virtiofs_submounts.py: do not ask for ssh key
+>>>      password
+>>>    tests/acceptance/virtiofs_submounts.py: use a virtio-net device
+>>>      instead
+>>>    tests/acceptance/virtiofs_submounts.py: evaluate string not length
+>>>    tests/acceptance/virtiofs_submounts.py: standardize port as integer
+>>>    tests/acceptance/virtiofs_submounts.py: required space between IP and
+>>>      port
+>>>    Python: add utility function for retrieving port redirection
+>>>    tests/acceptance/linux_ssh_mips_malta.py: standardize port as integer
+>>>    Acceptance tests: clarify ssh connection failure reason
+>>>    tests/acceptance/virtiofs_submounts.py: add missing accel tag
+>>>    Acceptance Tests: introduce LinuxTest base class
+>>>    Acceptance Tests: move useful ssh methods to base class
+>>>    Acceptance Tests: introduce method for requiring an accelerator
+>>>    Acceptance Tests: fix population of public key in cloudinit image
+>>>    Acceptance Tests: set up existing ssh keys by default
+>>>    Acceptance Tests: add port redirection for ssh by default
+>>>    Acceptance Tests: add basic documentation on LinuxTest base class
+>>>    Acceptance Tests: introduce CPU hotplug test
+>>>    [NOTFORMERGE] Bump Avocado version to latest master
+>>>
+>>>   docs/devel/testing.rst                    |  29 +++-
+>>>   python/qemu/utils.py                      |  35 +++++
+>>>   tests/acceptance/avocado_qemu/__init__.py | 176 ++++++++++++++++++++++
+>>>   tests/acceptance/boot_linux.py            | 128 ++--------------
+>>>   tests/acceptance/hotplug_cpu.py           |  38 +++++
+>>>   tests/acceptance/info_usernet.py          |  29 ++++
+>>>   tests/acceptance/linux_ssh_mips_malta.py  |  44 +-----
+>>>   tests/acceptance/virtiofs_submounts.py    |  73 +--------
+>>>   tests/requirements.txt                    |   2 +-
+>>>   tests/vm/basevm.py                        |   7 +-
+>>>   10 files changed, 334 insertions(+), 227 deletions(-)
+>>>   create mode 100644 python/qemu/utils.py
+>>>   create mode 100644 tests/acceptance/hotplug_cpu.py
+>>>   create mode 100644 tests/acceptance/info_usernet.py
+>> Patches 1-6, 8-9 & 12 queued.
 > 
-> We need to distinguish because that would be sane.
 > 
-> Enlightened VMCS is an extension to VMX, it can't be used without
-> it. Genuine Hyper-V doesn't have a knob for enabling and disabling it,
-...
-> That bein said, if
-> guest CPU lacks VMX it is counter-productive to expose EVMCS. However,
-> there is a problem with explicit enablement: what should
-> 
-> 'hv-passthrough,hv-evmcs' option do? Just silently drop EVMCS? Doesn't
-> sound sane to me.
-based on above I'd error out is user asks for unsupported option
-i.e. no VMX -> no hv-evmcs - if explicitly asked -> error out
+> Those are merged. Most of the remaining patches got at least one review,
+> so could you (Cleber or Philippe) open a pull request for them as well?
+> Telling it because there are many series in flight for the acceptance
+> tests, and to avoid conflicts with future series...
 
-if later on we find usecase for VMX=off + hv-evmcs=on,
-we will be able to drop error without affecting existing users,
-but not other way around.
+I asked a question to Cleber in patch 13 and am waiting what he meant
+before queuing the series (fixing the typo Marc-André noticed).
 
-> >> Moreover, instead of just adding two 'u64's we're now doing an ioctl
-> >> which can fail, be subject to limits,... Creating and destroying a CPU
-> >> is also slow. Sorry, I hardly see how this is better, maybe just from
-> >> 'code purity' point of view.  
-> > readable and easy to maintain code is not a thing to neglect.  
-> 
-> Of couse, but 'scratch CPU' idea is not a good design decision, it is an
-> ugly hack we should get rid of in ARM land, not try bringing it to other
-> architectures. Generally, KVM should allow to query all its capabilities
-> without the need to create a vCPU or, if not possible, we should create
-> 'real' QEMU VCPUs and use one/all of the to query capabilities, avoiding
-> 'scratch' because:
-> - Creating and destroying a vCPU makes VM startup slower, much
-> slower. E.g. for a single-CPU VM you're doubling the time required to
-> create vCPUs!
-> - vCPUs in KVM are quite memory consuming. Just 'struct kvm_vcpu_arch'
-> was something like 12kb last time I looked at it. 
-> 
-> I have no clue why scratch vCPUs were implemented on ARM, however, I'd
-> very much want us to avoid doing the same on x86. We do have use-cases
-> where startup time and consumed memory is important. There is a point in
-> limiting ioctls for security reasons (e.g. if I'm creating a single vCPU
-> VM I may want to limit userspace process to one and only one
-> KVM_CREATE_VCPU call).
-it should be possible to reuse scratch VCPU (kvm file descriptor) as
-the first CPU of VM, if there is a will/need, without creating unnecessary overhead.
-I don't like scratch CPU either but from my pov it's a lesser evil to
-spawning custom parser every time someone fills like it.
+Regards,
 
-
-> Now to the code you complain about. The 'hard to read and maintain' code
-> is literaly this:
-> 
-> +static void x86_hv_feature_set(Object *obj, bool value, int feature)
-> +{
-> +    X86CPU *cpu = X86_CPU(obj);
-> +
-> +    if (value) {
-> +        cpu->hyperv_features |= BIT(feature);
-> +        cpu->hyperv_features_on |= BIT(feature);
-> +        cpu->hyperv_features_off &= ~BIT(feature);
-> +    } else {
-> +        cpu->hyperv_features &= ~BIT(feature);
-> +        cpu->hyperv_features_on &= ~BIT(feature);
-> +        cpu->hyperv_features_off |= BIT(feature);
-> +    }
-> +}
-It's not just that code but the rest that uses above variables to
-get final hyperv_features feature set. There is a lot of invariants
-that are hidden in hv specific code that you put in hyperv kvm
-specific part.
-
-btw why can't we get supported hyperv_features in passthrough mode
-during time we initialize KVM (without a vCPU)?
-
-> I can add as many comments here as needed, however, I don't see what
-> requires additional explanaition. We just want to know two things:
-> - What's the 'effective' setting of the control
-> - Was it explicitly enabled or disabled on the command line.
-> 
-> Custom parsers are not new in QEMU and they're not going anywhere I
-> believe. There are options with simple enablent and there are some with
-> additional considerations. Trying to make CPU objects somewhat 'special'
-> by forcing all options to be of type-1 (and thus crippling user
-> experience) is not the way to go IMHO. I'd very much like us to go in
-> another direction, make our option parser better so my very simple
-> use-case is covered 'out-of-the-box'.
-there is a lot of effort spent on getting rid of custom parsers that
-QEMU accumulated over years. Probably there were good reasons to add
-them back then, and now someone else has to spend time to clean them up.
-
-hyperv case is not any special in that regard (at least I'm not convinced
-at this point). Try alternative(s) first, if that doesn't work out, then
-custom parser might be necessary.
+Phil.
 
 
