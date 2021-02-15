@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D4031C276
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:32:02 +0100 (CET)
-Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F74831C281
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:35:34 +0100 (CET)
+Received: from localhost ([::1]:39820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBjbF-0003UZ-Bt
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:32:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58754)
+	id 1lBjef-0006p8-AR
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:35:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBjTE-0000D1-G4
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:23:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46197)
+ id 1lBjVS-0001RD-MO
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:26:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:44031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBjTB-0004mr-UL
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:23:44 -0500
+ id 1lBjVR-0005lT-97
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:26:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613417021;
+ s=mimecast20190719; t=1613417160;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=qwO/t9Kd9MZdiXBewiYLrwMIRZJ26ucysVG2/ShyEIc=;
- b=bxCqzVtVXxEU2XkOlHBjU8GX1XGG8mR6dfHyR9orx8Z56RBCqq3jgX/MVuxXtdLWKWR0nS
- I6iVR3r0ye7yJf7Th8kf/fGghKFqb+nYQTiXDTXzclkloCcws3h8WwrBPRs5EHYSN5W1rb
- NoynUSmOwmknY8YQQBemSCyUtVZw3zM=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-evl5BNifMmO58uwvMUKs-w-1; Mon, 15 Feb 2021 14:23:39 -0500
-X-MC-Unique: evl5BNifMmO58uwvMUKs-w-1
-Received: by mail-vk1-f198.google.com with SMTP id c69so1335006vke.14
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 11:23:39 -0800 (PST)
+ bh=/CWgUHvVincpTOUQrrG1QFsc/2KWGXf2e7kb4yQaoHE=;
+ b=AvkOzNKpZVjp/Rpd+t19s2NSP8aRNzP5y+wI8mIJFSyzni4UX/IEfKOphvaoIwlTsxz3si
+ uA5n9Nhc78zep6GKnvJ+nkV3Id9YLkDzf9F7A9XFCaA9XP+XTLeCHCWqPUfWL4zDwWo/2Z
+ Hgl9Us7CVQlYs1Ql1OiGlFfsi/6xI7w=
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com
+ [209.85.222.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-38-F-tNqHUMMQWFECb4MX3Cpw-1; Mon, 15 Feb 2021 14:25:56 -0500
+X-MC-Unique: F-tNqHUMMQWFECb4MX3Cpw-1
+Received: by mail-ua1-f70.google.com with SMTP id z24so3598145uao.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 11:25:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=qwO/t9Kd9MZdiXBewiYLrwMIRZJ26ucysVG2/ShyEIc=;
- b=Vx6cWAhLbE8QFD6Km2hDi445Lbl9DsipJScANi1rN+6FraQKB/y6Q/8zVeWHG/zrQq
- feOeFz8MewmFozo7/Qz7CR1805PvVAjC/YITVtPkPXXs2ykagMTgRLI0CdrMxEh2LTuC
- 2fDPlW5SAedY9Dwo8IJzkhohEp7EDLWtCIJuSARUJ8GFj+g6dRCw9HKliKeY8eljvgso
- 4aTrR538enEC/ot97N25cUg8pm6sSMjmFVwIQgxLc1ueU8vEFkz0bn3xPjILX2HUDMHs
- fVBwavKtgHof6LqpvLCStXCa33uP3QjFxQj5FM3aKi/rDV2SZIeQv37c+GWr8TprjHCo
- hptg==
-X-Gm-Message-State: AOAM530A4aZzNZRljcTsB7cXIXQcZTaTRNh6rbpobt32XTfu7S7k472k
- NNOolIx3mnZ3IIwuYCxj3Z8ADvZa2bAFsO3gBP71jAGR8CRuym9XSppXm/2WswNRMLGjw3JBd9Q
- XfCuaz3mPz4kxoHcsVLU1df36hnmNrCE=
-X-Received: by 2002:a67:fe99:: with SMTP id b25mr4277193vsr.45.1613417019098; 
- Mon, 15 Feb 2021 11:23:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzbz0DGvhi/EJyILzGa8yAIMwAroQUNREexaimyIOlFNM1V4YBZbrLTl28XJgfHvTT5leccl4pb8kaeXlUwSjE=
-X-Received: by 2002:a67:fe99:: with SMTP id b25mr4277174vsr.45.1613417018970; 
- Mon, 15 Feb 2021 11:23:38 -0800 (PST)
+ bh=/CWgUHvVincpTOUQrrG1QFsc/2KWGXf2e7kb4yQaoHE=;
+ b=JzSzEG2uLpKtbQ1yTac0KZEsYX7PIHk6GqANfAcB+/3fkkokRpGNBhzDCumMCUfXy4
+ GukzvdseMGVCCEPZiwV6Q9CcwjYHBT1+8DL/lYovapyCmRqrTYnluJfHa9vmJHecI/fB
+ +4uNAWdjpeOjBeeqTGd4ZLDHWTMIMUBCfB9wBwYxPfGDAezOSOyxUCmVTQisxEFiChhf
+ rTlAfQnFgTwtAiS1yR9IXoZNpPZPAQNKbAaA1zrfLazKYj3W409TvCzCxW+DNiV1mrsD
+ yBgj4KRMxP8taHp09K3GmcbalUOBsL1U3v2kLaDqf516op/I11LFXOqX2Mmi2qQ+z3jC
+ kaEg==
+X-Gm-Message-State: AOAM5338sUr0BwOylMtp2cmqdEvw5d/Xi1Mo2FRX7gs1R0us6LuTwBdO
+ EccJACNHxaP91sebWwQ6vJ0P+ZtOCyRfIIU0MekO27Ar6M63pRLPbY/TPVFDrQuAiXn2BSGCUA3
+ mFG+ZQNEolPmcPUWKPYgFXl+kSOq4HPw=
+X-Received: by 2002:a05:6102:22db:: with SMTP id
+ a27mr9223963vsh.1.1613417155983; 
+ Mon, 15 Feb 2021 11:25:55 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz/heXTXAtQLc/NIt4wGs5aURGFMNpJcwa6Yi2LK7x3g69my5cWPNkqdZ8uoVeImUE+4nNvxtTP4FP0fk44r7M=
+X-Received: by 2002:a05:6102:22db:: with SMTP id
+ a27mr9223949vsh.1.1613417155792; 
+ Mon, 15 Feb 2021 11:25:55 -0800 (PST)
 MIME-Version: 1.0
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-18-crosa@redhat.com>
-In-Reply-To: <20210203172357.1422425-18-crosa@redhat.com>
+ <20210203172357.1422425-19-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-19-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 15 Feb 2021 16:23:13 -0300
-Message-ID: <CAKJDGDZ7cf0UrvCeu668DXv1WopNE5578YoFvBOtZ+8UxLzwHA@mail.gmail.com>
-Subject: Re: [PATCH 17/22] Acceptance Tests: fix population of public key in
- cloudinit image
+Date: Mon, 15 Feb 2021 16:25:30 -0300
+Message-ID: <CAKJDGDbcB=rxtoNBx=2TAX8M_2x2euzTHQS+sDVjf2JOq3=p2A@mail.gmail.com>
+Subject: Re: [PATCH 18/22] Acceptance Tests: set up existing ssh keys by
+ default
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -107,13 +109,23 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, Feb 3, 2021 at 2:25 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> Currently the path of the ssh public key is being set, but its
-> content is obviously what's needed.
+> It's questionable wether it's necessary to create one brand new pair
+> for each test.  It's not questionable that it takes less time and
+> resources to just use the keys available at "tests/keys" that exist
+> for that exact reason.
+>
+> If a location for the public key is not given explicitly, the
+> LinuxTest will now set up the existing pair of keys as the default.
+> This removes the need for a lot of boiler plate code.
+>
+> To avoid the ssh client from erroring on permission issues, a
+> directory with restricive permissions is created for the private key.
+> This should still be a lot cheaper than creating a new key.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
