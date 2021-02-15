@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB09931BDD7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:56:40 +0100 (CET)
-Received: from localhost ([::1]:53782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D04131BDE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:58:50 +0100 (CET)
+Received: from localhost ([::1]:58394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBgEp-0006iJ-Vb
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:56:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44062)
+	id 1lBgGv-0000F8-IZ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:58:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44468)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lBgDW-0006Di-Oi
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:55:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29035)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lBgFb-0007nV-NQ
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:57:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lBgDQ-0000Oa-LX
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:55:18 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lBgFa-0001V1-5o
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:57:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613404510;
+ s=mimecast20190719; t=1613404645;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hChexZuSxKUB/bAadHD9L5Ld+TxXIDOozAKZdecAXYM=;
- b=J0547NNHarimaq2jpCvNBs8qTLwZk2oVGu8Mk9DIHCgH++ZO6Vf2NsNTdXpOIJ6A5qizbX
- LEVyMZVVZXpNYmjnD6Qa9I93jo2MnCAG/dxCox+oACBAYDQFIbuOZy/3PLAgE82KgEz8QC
- b2C3bU4lHCnOpsZxxmMIN4m3Gw9uEWg=
+ bh=xZfq79Da3uTkittJEqhUW+Oi6C5CdJ7LzHr0GuC9EyY=;
+ b=IVKUFv0iBn2sEay3rdTrteH4hxViLiLucU3XTywUC3xICS/ocxPEejjbthWftkDdsXm7EO
+ xchKKThQq+5zXfC3JvgqrwHTtgdy/MVMP9uLA4n1xySd38NdqQWOQGNF3NP6VJkM4TJUly
+ aTSLLfA6nI44CrjqeQNzS8YWshLd+lM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-124-umpOJF5VNoeW7Y7G6Tjn8A-1; Mon, 15 Feb 2021 10:55:07 -0500
-X-MC-Unique: umpOJF5VNoeW7Y7G6Tjn8A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-578-f1VbjurHPKSsg0eF3Cf7jg-1; Mon, 15 Feb 2021 10:57:23 -0500
+X-MC-Unique: f1VbjurHPKSsg0eF3Cf7jg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0D40E107ACED
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 15:55:07 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 593665C233;
- Mon, 15 Feb 2021 15:55:05 +0000 (UTC)
-Date: Mon, 15 Feb 2021 16:55:02 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
- enablement/disablement
-Message-ID: <20210215165502.64e1e629@redhat.com>
-In-Reply-To: <87blcllnf0.fsf@vitty.brq.redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-17-vkuznets@redhat.com>
- <20210211183555.2136b5c8@redhat.com>
- <87tuqhllmn.fsf@vitty.brq.redhat.com>
- <20210212151259.3db7406f@redhat.com>
- <87k0rdl3er.fsf@vitty.brq.redhat.com>
- <87h7mhl33o.fsf@vitty.brq.redhat.com>
- <20210212170527.0e93e6b2@redhat.com>
- <87blcllnf0.fsf@vitty.brq.redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A7F2106BB24
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 15:57:22 +0000 (UTC)
+Received: from localhost (ovpn-113-245.ams2.redhat.com [10.36.113.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9BC845D9C0;
+ Mon, 15 Feb 2021 15:57:12 +0000 (UTC)
+Date: Mon, 15 Feb 2021 15:57:11 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 23/24] vhost-user-fs: Implement drop CAP_FSETID
+ functionality
+Message-ID: <20210215155711.GA95852@stefanha-x1.localdomain>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-24-dgilbert@redhat.com>
+ <20210211143542.GT247031@stefanha-x1.localdomain>
+ <20210211144031.GB5014@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210211144031.GB5014@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="d6Gm4EdcadzBjdND"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,78 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, mst@redhat.com,
+ "Dr. David Alan Gilbert \(git\)" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Feb 2021 09:56:19 +0100
-Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+--d6Gm4EdcadzBjdND
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Igor Mammedov <imammedo@redhat.com> writes:
-> 
-> > On Fri, 12 Feb 2021 16:26:03 +0100
-> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> >  
-> >> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
-> >>   
-> >> > Igor Mammedov <imammedo@redhat.com> writes:
-> >> >    
-> >> >>
-> >> >> Please try reusing scratch CPU approach, see
-> >> >>   kvm_arm_get_host_cpu_features()
-> >> >> for an example. You will very likely end up with simpler series,
-> >> >> compared to reinventing wheel.    
-> >> >
-> >> > Even if I do that (and I serioulsy doubt it's going to be easier than
-> >> > just adding two 'u64's, kvm_arm_get_host_cpu_features() alone is 200
-> >> > lines long) this is not going to give us what we need to distinguish
-> >> > between
-> >> >
-> >> > 'hv-passthrough,hv-evmcs'
-> >> >
-> >> > and 
-> >> >
-> >> > 'hv-passthrough'
-> >> >
-> >> > when 'hv-evmcs' *is* supported by the host. When guest CPU lacks VMX we
-> >> > don't want to enable it unless it was requested explicitly (former but
-> >> > not the later).    
-> >> 
-> >> ... and if for whatever reason we decide that this is also bad/not
-> >> needed, I can just drop patches 16-18 from the series (leaving
-> >> 'hv-passthrough,hv-feature=off' problem to better times).  
-> > that's also an option,
-> > we would need to make sure that hv-passthrough is mutually exclusive
-> > with ''all'' other hv- properties to avoid above combination being
-> > ever (mis)used.  
-> 
-> That's an option to finally get these patches merged, not a good option
-> for end users. 
-> 
-> 'hv-passthrough,hv-feature' works today and it's useful. Should we drop
-> it?
-well,
-try suggested idea about using scratch CPU and it might get merged sooner.
-(it's not like I'm suggesting you to rewrite half of QEMU, just some of
-patches, which most likely would simplify series from my point of view
-and would be easier to maintain)
+On Thu, Feb 11, 2021 at 09:40:31AM -0500, Vivek Goyal wrote:
+> On Thu, Feb 11, 2021 at 02:35:42PM +0000, Stefan Hajnoczi wrote:
+> > On Tue, Feb 09, 2021 at 07:02:23PM +0000, Dr. David Alan Gilbert (git) =
+wrote:
+> > > From: Vivek Goyal <vgoyal@redhat.com>
+> > >=20
+> > > As part of slave_io message, slave can ask to do I/O on an fd. Additi=
+onally
+> > > slave can ask for dropping CAP_FSETID (if master has it) before doing=
+ I/O.
+> > > Implement functionality to drop CAP_FSETID and gain it back after the
+> > > operation.
+> > >=20
+> > > This also creates a dependency on libcap-ng.
+> >=20
+> > Is this patch only for the case where QEMU is running as root?
+> >=20
+>=20
+> Yes, it primarily is for the case where qemu is running as root, or
+> somebody managed to launch it non-root but with still having capability
+> CAP_FSETID.
 
-> 
-> 'hv-passthrough/hv-default' and 'hv-passthrough/hv-default,hv-evmcs'
-> should give us sane results.
-> 
-> 'hv-passthrough,hv-feature=off' is convenient.
-> 
-> Why droppping this all? To save 9 (nine) lines of code in the parser? 
-it's doing what generic property parsing is capable off, provided you
-fish out hv-passthrough value in advance like arm/virt does (I think ppc
-does similar hing also), so I consider it as unnecessary code duplication/
-complication and maintenance burden.
+Running QEMU as root is not encouraged because the security model is
+designed around the principle of least privilege (only give QEMU access
+to resources that belong to the guest).
 
-If it were a hotfix during hard-freeze may be I'd agree (with promise to
-rework it later to something more palatable), but it's not, for patches in
-state they are now I'm not confident enough to ACK them.
+What happens in the case where QEMU is not root? Does that mean QEMU
+will drop suid/guid bits even if the FUSE client wanted them to be
+preserved?
+
+Stefan
+
+--d6Gm4EdcadzBjdND
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAqmdcACgkQnKSrs4Gr
+c8iYPQf+ItykL4kTL3tGtciggQvbGHX/AMImfY87LtKrT9teSO+cRq7s70fnwhqj
+3EExD7CtMYVO1q0CrJgfN7ICd2melPLkD5FHc2oAm4KW1Zb4/B1KoB8A+j3SJLsO
+6zfqx5JMCVaHheEUxqoiMfsgwyH1H8rhBjQjr4/XQ3vNZJ+OsWiYFsENqi3HcH6S
+tF83XT4iXzsyXXJ4N/59bSQWtJHnWQ/9o6tD513aMwJiU5d9HxYqjp4avBXKs5zy
+mk2vRkr7gi8maknAOIfzcNggQAhsHNIfW1FPvzUbBdr5Y+MMohVNCUNX+9BLsq/O
+zV2WMshVc4YPGk9SqGPOETlKsEsQhQ==
+=GsZz
+-----END PGP SIGNATURE-----
+
+--d6Gm4EdcadzBjdND--
 
 
