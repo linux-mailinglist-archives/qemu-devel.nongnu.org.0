@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A9F31C367
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 22:07:33 +0100 (CET)
-Received: from localhost ([::1]:38244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF91031C396
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 22:30:15 +0100 (CET)
+Received: from localhost ([::1]:47032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBl5g-0006wq-3G
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 16:07:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49492)
+	id 1lBlRe-0005D6-8W
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 16:30:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBl46-00063L-0d
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:05:54 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:33242)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lBlQ3-0004Xp-Vs; Mon, 15 Feb 2021 16:28:36 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:33978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBl43-0008B6-3J
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:05:52 -0500
-Received: by mail-pf1-x434.google.com with SMTP id z6so4889267pfq.0
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 13:05:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=D9SkIpdxfuSW8p2ymt4y1LgDGnudNvpEe2KQMl5vbww=;
- b=rqGHuI9QnlIDNt+v1WDmER2T83v409jCikCTz1vkfsoC6MvsaRZUgw/dChOEJYwCX9
- vaL+01MNsxJkRd6/tOuU+iYmnDHBi2G8sH/aykHIjnIDNM+2yJ7r+ZHYrKtVKYB0QxWg
- 2GgmWtC3PFeAMXGnaOHH5UdY/iz3YTohxUoRAJDrm+DqPmsfY74AuwVjFpg1z2GwQLCR
- buEtOG6UIOQ/D0gAJh3A6pmoQoLdXjj70BANjIVzPAsVlbGMtI2rfkSbec3Oaa2AU1cX
- 8bWR+7s4WcYFcMVgMxMMgWT7kGFksLS94XprTvRtgzCLnLHg36zdgwIZVtohprT8TnFc
- k/RA==
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lBlQ1-0007Yk-KZ; Mon, 15 Feb 2021 16:28:35 -0500
+Received: by mail-ej1-x631.google.com with SMTP id hs11so13585904ejc.1;
+ Mon, 15 Feb 2021 13:28:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=NpqTHORryW2lD2kJnhsTDbHkDVnXJfU8VQv92tNoQ54=;
+ b=ppB9qJu224DQCoBu1dJYmPKn35ht28jnS6Ty5d8yJSHoRhcpFQ2CUuqZ5NJ/GHpqdG
+ zR+4+K0lr3j5fwEW6Zgly1dq7qzceJ5vZ3jhwV1txSRlsoLesQs0pcbUZ5vO0wS+C2W7
+ bskyHwaoF7q6rJ+JQSRX1/jr1K/I5jABL6MqR00YN+aVzx/tOo/875aJyp3tR1RKdQK5
+ YqVPB/MbT5WmkcQ5HZytie+pdkidiA0j1ATpZLRs15CQgwzuOdmyd1xx33ryQZUUdFEM
+ kdneAqLUDW9LqNgu7/VBY2j8EEbYQ4IZKwNgxnlV4JaiHtN4IeFbxIvVc+d7g9t+Uehe
+ v3yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D9SkIpdxfuSW8p2ymt4y1LgDGnudNvpEe2KQMl5vbww=;
- b=n/RsXqlswX+DfOxEU93Oo2HkSgdizpTS7YFLneVMCFqV94dKfScRPLFeOxHllQEmRM
- BxXzYvHBnPoXtt/tSkX5dTzil1QW8JNYzQfijqNz7Eaqh8C/WtUSmgNozec2n/5Df6A/
- 7lfTw5TmjNrcwZ9hTjG7gFsplZnxdvbuoDsvmzHpomJ5hpkgGY3FzR/AJ+fqLpgJDGmN
- gWzusoc9rnyulF9aRq8V0+c1bjk6k1TmQcmd95hcDS9N50uNIroPSeEzbpEf9GSYlSyd
- I7ppamTthziw2p7t4PTxS0G0m+F35BDAGTEHo9lqaFOQqbRvPTGRAnC27Y3HvYkCTsU4
- Jp/g==
-X-Gm-Message-State: AOAM531AfNfHJP7ZVRQZdx39op2/FppQAlUqGzzb+0ZxVHieVej0mCER
- FYRa7zSRz+up0J8bwuNE4g7sFw==
-X-Google-Smtp-Source: ABdhPJwME0FCRywxHWYVY+W+z7V0ygzKpCzvmKQKWktIg3HqVaNXJPt5m7SfqS4A6FGpNEzaawjGgQ==
-X-Received: by 2002:a63:343:: with SMTP id 64mr16483326pgd.232.1613423149728; 
- Mon, 15 Feb 2021 13:05:49 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id r123sm19810449pfc.67.2021.02.15.13.05.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 13:05:49 -0800 (PST)
-Subject: Re: [RFC PATCH 31/42] default-configs: Support o32 ABI with R5900
- 64-bit MIPS CPU
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-32-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bfd7c7ae-53c1-80fc-cbf8-bb093667db37@linaro.org>
-Date: Mon, 15 Feb 2021 13:05:47 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=NpqTHORryW2lD2kJnhsTDbHkDVnXJfU8VQv92tNoQ54=;
+ b=jGLbxEN/F5al0NR4s+0ZmWdXXiqthx8Nd3mJdEufBcIjkMn36Dntw3V3olRhTjMNCK
+ 1Y1cHwZUrAAcPr8QFKcp7VXLZt/w/fFZ/nLyECsyqXVfU2gqijQ5tcr8dr+N6zH5NVN3
+ OvVZB94pO+OyZ/FYlraI0Phr3/4ipL19/j42DfKmX3K7IOOdSRmvN5+RJS92/b3DLNzb
+ B3F0H8u5pKZ29a9aZKxVK/T8jK0JWv3FW5L+aZGB89v2otLFvlJQsKAydaMipeVDoQI9
+ Pr50hNLKDhiGURhGyBsaU0Vw7RJ+y0lg93JHzsxo1rX9ZgRuKUtYnJ5ImVBo6Gjk7oaW
+ rxNQ==
+X-Gm-Message-State: AOAM5302oqsuNAvE4TJmQLd7Uld01raZW0nCofFcf5kn1q7hEQaHQjQE
+ ROP+9TAdmP8D1ZmuN1TQpW7E+9iFTU9LSsNKN64=
+X-Google-Smtp-Source: ABdhPJzr+DeeLW+fEUEyLmkTacKdRo4Afveu9tn+SyV7soWynFj9o5z/c2Xb5vlMJ8lNraDCbxlArLC7cZgBkSCErQo=
+X-Received: by 2002:a17:906:798:: with SMTP id
+ l24mr17656756ejc.92.1613424511337; 
+ Mon, 15 Feb 2021 13:28:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-32-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+References: <20210215090225.1046239-1-thuth@redhat.com>
+In-Reply-To: <20210215090225.1046239-1-thuth@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 16 Feb 2021 01:28:19 +0400
+Message-ID: <CAJ+F1CKcHAR_Ue+Ca8z4Ekt-Dj1AWA+GRt9d4LDKEb6hSVYhrA@mail.gmail.com>
+Subject: Re: [PATCH] net: Use id_generate() in the network subsystem, too
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000deca7905bb66aa25"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,36 +75,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
- Richard Henderson <rth@twiddle.net>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: qemu trival <qemu-trivial@nongnu.org>, Jason Wang <jasowang@redhat.com>,
+ QEMU <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/21 9:59 AM, Philippe Mathieu-Daudé wrote:
-> MIPS o32 ABI on 64-bit CPUs looks like a ILP32-on-64bit data
-> model, allowing 64-bit arithmetic and data movement instructions.
-> 
-> Since this ABI seems to have only ever been used for the
-> development of the PS2 with the "Sony Linux Toolkit for
-> Playstation 2" targetting the R5900 CPU (little-endian),
-> we name this user-mode target 'r5900o32el'.
-> 
-> Inspired-by: Richard Henderson <rth@twiddle.net>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> v2: Rename qemu-mips64o32el -> qemu-r5900o32el (Fredrik)
-> ---
->  docs/user/main.rst                                | 3 +++
->  default-configs/targets/r5900o32el-linux-user.mak | 7 +++++++
->  2 files changed, 10 insertions(+)
->  create mode 100644 default-configs/targets/r5900o32el-linux-user.mak
+--000000000000deca7905bb66aa25
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Mon, Feb 15, 2021 at 1:03 PM Thomas Huth <thuth@redhat.com> wrote:
 
-r~
+> We already got a global function called id_generate() to create unique
+> IDs within QEMU. Let's use it in the network subsytem, too, instead of
+> inventing our own ID scheme here.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>
 
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+---
+>  include/qemu/id.h | 1 +
+>  net/net.c         | 6 +++---
+>  util/id.c         | 1 +
+>  3 files changed, 5 insertions(+), 3 deletions(-)
+>
+> diff --git a/include/qemu/id.h b/include/qemu/id.h
+> index b55c406e69..46b759b284 100644
+> --- a/include/qemu/id.h
+> +++ b/include/qemu/id.h
+> @@ -5,6 +5,7 @@ typedef enum IdSubSystems {
+>      ID_QDEV,
+>      ID_BLOCK,
+>      ID_CHR,
+> +    ID_NET,
+>      ID_MAX      /* last element, used as array size */
+>  } IdSubSystems;
+>
+> diff --git a/net/net.c b/net/net.c
+> index fb7b7dcc25..ca30df963d 100644
+> --- a/net/net.c
+> +++ b/net/net.c
+> @@ -43,6 +43,7 @@
+>  #include "qemu/cutils.h"
+>  #include "qemu/config-file.h"
+>  #include "qemu/ctype.h"
+> +#include "qemu/id.h"
+>  #include "qemu/iov.h"
+>  #include "qemu/qemu-print.h"
+>  #include "qemu/main-loop.h"
+> @@ -1111,8 +1112,7 @@ static int net_client_init(QemuOpts *opts, bool
+> is_netdev, Error **errp)
+>
+>      /* Create an ID for -net if the user did not specify one */
+>      if (!is_netdev && !qemu_opts_id(opts)) {
+> -        static int idx;
+> -        qemu_opts_set_id(opts, g_strdup_printf("__org.qemu.net%i",
+> idx++));
+> +        qemu_opts_set_id(opts, id_generate(ID_NET));
+>      }
+>
+>      if (visit_type_Netdev(v, NULL, &object, errp)) {
+> @@ -1467,7 +1467,7 @@ static int net_param_nic(void *dummy, QemuOpts
+> *opts, Error **errp)
+>      /* Create an ID if the user did not specify one */
+>      nd_id =3D g_strdup(qemu_opts_id(opts));
+>      if (!nd_id) {
+> -        nd_id =3D g_strdup_printf("__org.qemu.nic%i", idx);
+> +        nd_id =3D id_generate(ID_NET);
+>          qemu_opts_set_id(opts, nd_id);
+>      }
+>
+> diff --git a/util/id.c b/util/id.c
+> index 5addb4460e..ded41c5025 100644
+> --- a/util/id.c
+> +++ b/util/id.c
+> @@ -35,6 +35,7 @@ static const char *const id_subsys_str[ID_MAX] =3D {
+>      [ID_QDEV]  =3D "qdev",
+>      [ID_BLOCK] =3D "block",
+>      [ID_CHR] =3D "chr",
+> +    [ID_NET] =3D "net",
+>  };
+>
+>  /*
+> --
+> 2.27.0
+>
+>
+>
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000deca7905bb66aa25
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 15, 2021 at 1:03 PM Thoma=
+s Huth &lt;<a href=3D"mailto:thuth@redhat.com">thuth@redhat.com</a>&gt; wro=
+te:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
+0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">We already g=
+ot a global function called id_generate() to create unique<br>
+IDs within QEMU. Let&#39;s use it in the network subsytem, too, instead of<=
+br>
+inventing our own ID scheme here.<br>
+<br>
+Signed-off-by: Thomas Huth &lt;<a href=3D"mailto:thuth@redhat.com" target=
+=3D"_blank">thuth@redhat.com</a>&gt;<br></blockquote><div><br></div><div>Re=
+viewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div><br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
+r-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0include/qemu/id.h | 1 +<br>
+=C2=A0net/net.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 6 +++---<br>
+=C2=A0util/id.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 1 +<br>
+=C2=A03 files changed, 5 insertions(+), 3 deletions(-)<br>
+<br>
+diff --git a/include/qemu/id.h b/include/qemu/id.h<br>
+index b55c406e69..46b759b284 100644<br>
+--- a/include/qemu/id.h<br>
++++ b/include/qemu/id.h<br>
+@@ -5,6 +5,7 @@ typedef enum IdSubSystems {<br>
+=C2=A0 =C2=A0 =C2=A0ID_QDEV,<br>
+=C2=A0 =C2=A0 =C2=A0ID_BLOCK,<br>
+=C2=A0 =C2=A0 =C2=A0ID_CHR,<br>
++=C2=A0 =C2=A0 ID_NET,<br>
+=C2=A0 =C2=A0 =C2=A0ID_MAX=C2=A0 =C2=A0 =C2=A0 /* last element, used as arr=
+ay size */<br>
+=C2=A0} IdSubSystems;<br>
+<br>
+diff --git a/net/net.c b/net/net.c<br>
+index fb7b7dcc25..ca30df963d 100644<br>
+--- a/net/net.c<br>
++++ b/net/net.c<br>
+@@ -43,6 +43,7 @@<br>
+=C2=A0#include &quot;qemu/cutils.h&quot;<br>
+=C2=A0#include &quot;qemu/config-file.h&quot;<br>
+=C2=A0#include &quot;qemu/ctype.h&quot;<br>
++#include &quot;qemu/id.h&quot;<br>
+=C2=A0#include &quot;qemu/iov.h&quot;<br>
+=C2=A0#include &quot;qemu/qemu-print.h&quot;<br>
+=C2=A0#include &quot;qemu/main-loop.h&quot;<br>
+@@ -1111,8 +1112,7 @@ static int net_client_init(QemuOpts *opts, bool is_ne=
+tdev, Error **errp)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0/* Create an ID for -net if the user did not specify on=
+e */<br>
+=C2=A0 =C2=A0 =C2=A0if (!is_netdev &amp;&amp; !qemu_opts_id(opts)) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 static int idx;<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_set_id(opts, g_strdup_printf(&quot;_=
+_<a href=3D"http://org.qemu.net" rel=3D"noreferrer" target=3D"_blank">org.q=
+emu.net</a>%i&quot;, idx++));<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_opts_set_id(opts, id_generate(ID_NET));<b=
+r>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (visit_type_Netdev(v, NULL, &amp;object, errp)) {<br=
+>
+@@ -1467,7 +1467,7 @@ static int net_param_nic(void *dummy, QemuOpts *opts,=
+ Error **errp)<br>
+=C2=A0 =C2=A0 =C2=A0/* Create an ID if the user did not specify one */<br>
+=C2=A0 =C2=A0 =C2=A0nd_id =3D g_strdup(qemu_opts_id(opts));<br>
+=C2=A0 =C2=A0 =C2=A0if (!nd_id) {<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 nd_id =3D g_strdup_printf(&quot;__org.qemu.nic=
+%i&quot;, idx);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 nd_id =3D id_generate(ID_NET);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_set_id(opts, nd_id);<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+diff --git a/util/id.c b/util/id.c<br>
+index 5addb4460e..ded41c5025 100644<br>
+--- a/util/id.c<br>
++++ b/util/id.c<br>
+@@ -35,6 +35,7 @@ static const char *const id_subsys_str[ID_MAX] =3D {<br>
+=C2=A0 =C2=A0 =C2=A0[ID_QDEV]=C2=A0 =3D &quot;qdev&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0[ID_BLOCK] =3D &quot;block&quot;,<br>
+=C2=A0 =C2=A0 =C2=A0[ID_CHR] =3D &quot;chr&quot;,<br>
++=C2=A0 =C2=A0 [ID_NET] =3D &quot;net&quot;,<br>
+=C2=A0};<br>
+<br>
+=C2=A0/*<br>
+-- <br>
+2.27.0<br>
+<br>
+<br>
+</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000deca7905bb66aa25--
 
