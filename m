@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2893A31B9E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:57:47 +0100 (CET)
-Received: from localhost ([::1]:49780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A0731B9DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:55:49 +0100 (CET)
+Received: from localhost ([::1]:42930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBdRi-0000BH-4T
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:57:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52776)
+	id 1lBdPn-0005nb-Bl
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:55:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFx-00048G-Fw
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:37 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:42653)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdGC-0004Bv-68
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:59 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:46845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFr-0000gy-MM
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:37 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdG7-0000jJ-2E
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:51 -0500
 Received: from localhost.localdomain ([82.252.134.158]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M593i-1lCjBV1oPs-001740; Mon, 15 Feb 2021 13:45:29 +0100
+ id 1MzQXu-1m6ui20AJE-00vQgC; Mon, 15 Feb 2021 13:45:30 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/13] docs/user: Remove outdated 'Quick Start' section
-Date: Mon, 15 Feb 2021 13:45:18 +0100
-Message-Id: <20210215124519.720265-13-laurent@vivier.eu>
+Subject: [PULL 13/13] linux-user/mips: Support the n32 ABI for the R5900
+Date: Mon, 15 Feb 2021 13:45:19 +0100
+Message-Id: <20210215124519.720265-14-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210215124519.720265-1-laurent@vivier.eu>
 References: <20210215124519.720265-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:6JmhkBcIZLNPBn5cQjoXcxgzYkCgWEsbXlKbj5wtk1wH130ruv5
- mhhYbg+vg5aSa5uzBdM+hPcA/TUiYN+lrpQPbZPNW/NEstmYhHN/4ZpZ5LaZ0XXn6WuV7xu
- LOEOgLjwS1ji9CrgL6KkcjyNDdirny7l+J8tbCKwQ1M1gLSg2FSMe+86HFgrNr2S/ju/U6B
- s/R22SKI5hOS0XK4tdzlw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Mvn1i4mtv0Q=:AePhWnZLnLpth0GIZiM6u5
- mYtLW9o4uX7VGT2l7slKv+cpVWqD5UEh2KRO/PY7VUQwb7+AofC9TyYWUCGv8aaHwc4Vnzkzm
- PCnFPwQU0+Pp60vKAbT01sB7I8uTE2IHEOW3jZmxt0pDGzA9xvBC7etKS89cwI94A1Sdcr0FD
- GlPKMJVNL7EKKnMhHnpqeMFFIUybRyIb0ZxF0MAfCtqQAQW3o9VFZzhdnwe9JdWMC3OwCbtHV
- wHq/T7X+QdN5xI22/uviPC3lvy8iLFDY+cmuLZhgiYRZLAMY5bSGvT6OEEn/nb2tVukH5s54z
- xY0gakNtF/8gxkVLrCiGGwAJV2zjeYJPdUEqIRhR5LtR+ETUw9vDyHcoeEX3wbW9A1yrSTDD+
- ev1qj4QtBfhLokJ8rQtWaQFJ9ruUOZpFy0eFWcvGHoSl5zpwDyplAZkLfMBms4jF6B0z9RiTG
- od60lp5YGw==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:OWVUR9QOaknYTL1YGHgI5udPBlz8uHTPzJcluLpV5yclvebKg2f
+ y3D4SaJdoxSbuRtpImxr8DcDSXgAp3rT2iPeefeZeNlxDfE1JqCdBCc46q5cZjBpuxD93bW
+ de6sGBQJoqX2J7bGw+MsSIaHP4gGxMmpoA5tN7GjQE0alUkF+FGJicjafgPSUQqcQEfGQcw
+ nn1dh3OaQc+euoRRnXUfA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ckf8rSexkjk=:Svn75acuRA2iSzKk2GSClc
+ 1kaEbZkZJT2py5h5p9GGAYXGYfX7GmXMJYxXN/CzyVUqrL9ws4vZ/r08qR9vJVvqlEVhQfmaE
+ Bf6gfTFt5POqDP5rQ85ymlQnB6zwBw9EIX1QeJDmj8C8netKFO7Qo9nlqyyi7eX4rlNPqvG61
+ scvPWBSa3Z4tZh1tpJ5thdzeoXm+Ch9ZpbOGnpfyJ1A9sKrvZKYJdDBWH4OdsNDknsoSoF4Ip
+ /9MNUmLVqWgodYGBdfi1jF1KgOAklFUhplQHpQSHyw6gB0NVxACxsyO3FrJ0Ek3trbzvfuSNN
+ didX9N8li0tkIdHNvovlWq43zxxXWeritVn/O1F30vK/ppUY1765qxRA/xSUrbVuP3paiFOFl
+ 6vJ+05PiHAPepIZ5vXZQb+U7VIM0VGMXVs4TIYpX3NqIS522m1OrmqIm5D5zdnuGFTDCuebv1
+ YAthveqjjw==
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,104 +63,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+From: Fredrik Noring <noring@nocrew.org>
 
-The 'Quick Start' section of the userspace emulator documentation is
-very old and outdated. In particular:
- - it suggests running x86-on-x86 emulation, which is the least
-   interesting possible use case
- - it recommends that users download tarballs of guest binaries
-   from the QEMU web page which we no longer provide there
+Recognise the R5900, which reports itself as MIPS III, as a 64-bit CPU
+supporting the n32 ABI.
 
-There's nothing salvageable here; delete it all.
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Acked-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201122000131.18487-1-peter.maydell@linaro.org>
+Signed-off-by: Fredrik Noring <noring@nocrew.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <5bea109f0c140da6a821aa7f9705d4b3717e86dc.1541701393.git.noring@nocrew.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- docs/user/main.rst | 61 ----------------------------------------------
- 1 file changed, 61 deletions(-)
+ linux-user/mips64/target_elf.h | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/docs/user/main.rst b/docs/user/main.rst
-index 8dfe232a3af1..e08d4be63b71 100644
---- a/docs/user/main.rst
-+++ b/docs/user/main.rst
-@@ -45,67 +45,6 @@ emulator.
- Linux User space emulator
- -------------------------
- 
--Quick Start
--~~~~~~~~~~~
--
--In order to launch a Linux process, QEMU needs the process executable
--itself and all the target (x86) dynamic libraries used by it.
--
---  On x86, you can just try to launch any process by using the native
--   libraries::
--
--      qemu-i386 -L / /bin/ls
--
--   ``-L /`` tells that the x86 dynamic linker must be searched with a
--   ``/`` prefix.
--
---  Since QEMU is also a linux process, you can launch QEMU with QEMU
--   (NOTE: you can only do that if you compiled QEMU from the sources)::
--
--      qemu-i386 -L / qemu-i386 -L / /bin/ls
--
---  On non x86 CPUs, you need first to download at least an x86 glibc
--   (``qemu-runtime-i386-XXX-.tar.gz`` on the QEMU web page). Ensure that
--   ``LD_LIBRARY_PATH`` is not set::
--
--      unset LD_LIBRARY_PATH
--
--   Then you can launch the precompiled ``ls`` x86 executable::
--
--      qemu-i386 tests/i386/ls
--
--   You can look at ``scripts/qemu-binfmt-conf.sh`` so that QEMU is
--   automatically launched by the Linux kernel when you try to launch x86
--   executables. It requires the ``binfmt_misc`` module in the Linux
--   kernel.
--
---  The x86 version of QEMU is also included. You can try weird things
--   such as::
--
--      qemu-i386 /usr/local/qemu-i386/bin/qemu-i386 \
--                /usr/local/qemu-i386/bin/ls-i386
--
--Wine launch
--~~~~~~~~~~~
--
---  Ensure that you have a working QEMU with the x86 glibc distribution
--   (see previous section). In order to verify it, you must be able to
--   do::
--
--      qemu-i386 /usr/local/qemu-i386/bin/ls-i386
--
---  Download the binary x86 Wine install (``qemu-XXX-i386-wine.tar.gz``
--   on the QEMU web page).
--
---  Configure Wine on your account. Look at the provided script
--   ``/usr/local/qemu-i386/bin/wine-conf.sh``. Your previous
--   ``${HOME}/.wine`` directory is saved to ``${HOME}/.wine.org``.
--
---  Then you can try the example ``putty.exe``::
--
--      qemu-i386 /usr/local/qemu-i386/wine/bin/wine \
--                /usr/local/qemu-i386/wine/c/Program\ Files/putty.exe
--
- Command line options
- ~~~~~~~~~~~~~~~~~~~~
- 
+diff --git a/linux-user/mips64/target_elf.h b/linux-user/mips64/target_elf.h
+index ec55d8542ae1..5f2f2df29f7f 100644
+--- a/linux-user/mips64/target_elf.h
++++ b/linux-user/mips64/target_elf.h
+@@ -12,6 +12,9 @@ static inline const char *cpu_get_model(uint32_t eflags)
+     if ((eflags & EF_MIPS_ARCH) == EF_MIPS_ARCH_64R6) {
+         return "I6400";
+     }
++    if ((eflags & EF_MIPS_MACH) == EF_MIPS_MACH_5900) {
++        return "R5900";
++    }
+     return "5KEf";
+ }
+ #endif
 -- 
 2.29.2
 
