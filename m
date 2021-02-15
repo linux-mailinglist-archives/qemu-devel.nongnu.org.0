@@ -2,76 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BC7B31BFAF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:48:46 +0100 (CET)
-Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A89731BFBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:51:24 +0100 (CET)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBh3F-0004Kx-7g
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:48:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
+	id 1lBh5n-00067V-6m
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:51:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBh1K-0003WF-G7
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:46:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBh1H-0003s8-Ge
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:46:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613407602;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=q65UFJy/gkry1+SfB1Q7gS0yo2Hl7rGlfn75+wdFExI=;
- b=R/BxHniAyVomywZTUdyaqLuAgSG7r6i9cSNwpCKzI1A82rqsipB/rFs3cLuvgPUPDav6/Q
- 3RE2S+XHhVv/tAIT+TaRLwyEpUMuXKTGQQOvW6OEBv+ZNoxRd7rovwooCvRVeuckq7ME7e
- 3hqts6z74zbe5MBZAtGr0Z4HJEEYT3U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-OXepaJ27MNiof0ylOZCSxg-1; Mon, 15 Feb 2021 11:46:38 -0500
-X-MC-Unique: OXepaJ27MNiof0ylOZCSxg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEF7B106BB23;
- Mon, 15 Feb 2021 16:46:37 +0000 (UTC)
-Received: from [10.3.112.189] (ovpn-112-189.phx2.redhat.com [10.3.112.189])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 411741F0;
- Mon, 15 Feb 2021 16:46:37 +0000 (UTC)
-Subject: Re: [PULL 3/5] qemu-iotests: 300: Add test case for modifying
- persistence of bitmap
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210212232134.1462756-1-eblake@redhat.com>
- <20210212232134.1462756-4-eblake@redhat.com>
- <20210215123152.GM7226@merkur.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0cd1617d-b22f-4ce1-38c2-df8822c3fbbe@redhat.com>
-Date: Mon, 15 Feb 2021 10:46:36 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1lBh39-0004bY-Vy; Mon, 15 Feb 2021 11:48:39 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:47044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1lBh37-00040B-Q1; Mon, 15 Feb 2021 11:48:39 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 11FGkpBJ027823
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 15 Feb 2021 11:46:54 -0500
+Date: Mon, 15 Feb 2021 11:46:51 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Bin Meng <bmeng.cn@gmail.com>
+Subject: Re: [PATCH 0/4] hw/sd: sdhci: Fixes to CVE-2020-17380,
+ CVE-2020-25085, CVE-2021-3409
+Message-ID: <20210215164646.zqjbsd7mtiwqvyaj@mozz.bu.edu>
+References: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210215123152.GM7226@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,66 +55,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@163.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 6:31 AM, Kevin Wolf wrote:
-> Am 13.02.2021 um 00:21 hat Eric Blake geschrieben:
->> From: Peter Krempa <pkrempa@redhat.com>
->>
->> Verify that the modification of the bitmap persistence over migration
->> which is controlled via BitmapMigrationBitmapAliasTransform works
->> properly.
->>
->> Based on TestCrossAliasMigration
->>
->> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
->> Message-Id: <d9c8e9827e9b6001b2dd1b92e64aab858e6d2a86.1613150869.git.pkrempa@redhat.com>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
->> [eblake: Adjust test for explicit read_zeroes=False]
->> Signed-off-by: Eric Blake <eblake@redhat.com>
+Hi Bin,
+Thank you for this. I ran through the OSS-Fuzz tests again, and it found
+one thing:
+
+Maybe this is already much better than the current state of the code, so
+this one can be fixed in a later patch?
+
+cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest \
+-m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
+-device sd-card,drive=mydrive \
+-drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+-nographic -qtest stdio
+outl 0xcf8 0x80001010
+outl 0xcfc 0xe0000000
+outl 0xcf8 0x80001001
+outl 0xcfc 0x06000000
+write 0xe000002c 0x1 0x05
+write 0xe0000005 0x1 0x02
+write 0xe0000007 0x1 0x01
+write 0xe0000028 0x1 0x10
+write 0x0 0x1 0x23
+write 0x2 0x1 0x08
+write 0xe000000c 0x1 0x01
+write 0xe000000e 0x1 0x20
+write 0xe000000f 0x1 0x00
+write 0xe000000c 0x1 0x32
+write 0xe0000004 0x2 0x0200
+write 0xe0000028 0x1 0x00
+write 0xe0000003 0x1 0x40
+EOF
+
+
+==1730971==ERROR: AddressSanitizer: heap-buffer-overflow on address
+0x615000031880 at pc 0x55d070f2c6d9 bp 0x7ffdcb63f130 sp 0x7ffdcb63f128
+READ of size 4 at 0x615000031880 thread T0
+#0 0x55d070f2c6d8 in ldl_he_p bswap.h:347:5
+#1 0x55d070f2c6d8 in ldn_he_p bswap.h:546:1
+#2 0x55d070f2c6d8 in flatview_write_continue build/../softmmu/physmem.c:2775:19
+#3 0x55d070f219eb in flatview_write build/../softmmu/physmem.c:2816:14
+#4 0x55d070f219eb in address_space_write build/../softmmu/physmem.c:2908:18
+#5 0x55d07040de4a in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
+#6 0x55d07040de4a in dma_memory_rw include/sysemu/dma.h:127:12
+#7 0x55d07040de4a in dma_memory_write include/sysemu/dma.h:163:12
+#8 0x55d07040de4a in sdhci_sdma_transfer_multi_blocks build/../hw/sd/sdhci.c:619:13
+#9 0x55d07041d15b in sdhci_write build/../hw/sd/sdhci.c:1134:21
+#10 0x55d07123b1ac in memory_region_write_accessor build/../softmmu/memory.c:491:5
+#11 0x55d07123acab in access_with_adjusted_size build/../softmmu/memory.c:552:18
+#12 0x55d07123a4b0 in memory_region_dispatch_write build/../softmmu/memory.c
+#13 0x55d070f2c29b in flatview_write_continue build/../softmmu/physmem.c:2776:23
+#14 0x55d070f219eb in flatview_write build/../softmmu/physmem.c:2816:14
+#15 0x55d070f219eb in address_space_write build/../softmmu/physmem.c:2908:18
+
+
+-Alex
+
+On 210215 2311, Bin Meng wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 > 
-> This breaks 297:
+> This series includes several fixes to CVE-2020-17380, CVE-2020-25085
+> and CVE-2021-3409 that are heap-based buffer overflow issues existing
+> in the sdhci model.
 > 
-> --- /home/kwolf/source/qemu/tests/qemu-iotests/297.out
-> +++ 297.out.bad
-> @@ -1,2 +1,8 @@
->  === pylint ===
-> +************* Module 300
-> +300:605:0: C0301: Line too long (80/79) (line-too-long)
-> +300:677:0: C0301: Line too long (98/79) (line-too-long)
-
-These two are easy fixes (add line breaks for shorter lines), but this:
-
->  === mypy ===
-> +300:646: error: Dict entry 2 has incompatible type "str": "Dict[str, bool]"; expected "str": "str"
-> +Found 1 error in 1 file (checked 1 source file)
-
-is beyond my skill.  The typing at line 33:
-
-BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
-
-is insufficient to allow our new 'transform' member in the new
-transform_mapping() -> Block BitmapMapping near line 677:
-
-                'bitmaps': [
-                    {
-                        'name': 'bmap-a',
-                        'alias': 'bmap-a',
-                        'transform':
-                            {
-                                'persistent': True
-                            }
-                    },
-
-but I'm not sure how to tell python the right type it should be.  John?
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+> These CVEs are pretty much similar, and were filed using different
+> reproducers. With this series, current known reproducers I have
+> cannot be reproduced any more.
+> 
+> The implementation of this model may still have some issues, i.e.:
+> some codes do not strictly match the spec, but since this series
+> only aimes to address CVEs, such issue should be fixed in a separate
+> series in the future, if I have time :)
+> 
+> 
+> Bin Meng (4):
+>   hw/sd: sdhci: Don't transfer any data when command time out
+>   hw/sd: sdhci: Don't write to SDHC_SYSAD register when transfer is in
+>     progress
+>   hw/sd: sdhci: Correctly set the controller status for ADMA
+>   hw/sd: sdhci: Simplify updating s->prnsts in
+>     sdhci_sdma_transfer_multi_blocks()
+> 
+>  hw/sd/sdhci.c | 34 ++++++++++++++++++++--------------
+>  1 file changed, 20 insertions(+), 14 deletions(-)
+> 
+> -- 
+> 2.7.4
+> 
 
