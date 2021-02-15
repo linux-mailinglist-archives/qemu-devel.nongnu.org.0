@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B1B31C268
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:23:34 +0100 (CET)
-Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1D4031C276
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:32:02 +0100 (CET)
+Received: from localhost ([::1]:60836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBjT3-0007WM-GM
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:23:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58138)
+	id 1lBjbF-0003UZ-Bt
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:32:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBjQK-0006Cm-C1
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:20:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41101)
+ id 1lBjTE-0000D1-G4
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:23:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46197)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBjQH-0003dU-NC
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:20:44 -0500
+ id 1lBjTB-0004mr-UL
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:23:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613416840;
+ s=mimecast20190719; t=1613417021;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O0jKZydgnXvffsdI154M1S4KRjQcU+GG3xvtpYNtiTA=;
- b=LH814//0qeTXoW8TbyfUeSl8xqNONvuLBDYok9LM2QmmFpfNmGZXVb5VdiucaFNaogRpoQ
- ewL0cTksExE7cXksNSGIzlg/oO8NWZZQOb3Yv8znGTpP1hw1oo3kNjTj8kZyax6lHPUgwj
- DKaEm/f3WVO5fzsIC9pO9O+y8BnHQyY=
+ bh=qwO/t9Kd9MZdiXBewiYLrwMIRZJ26ucysVG2/ShyEIc=;
+ b=bxCqzVtVXxEU2XkOlHBjU8GX1XGG8mR6dfHyR9orx8Z56RBCqq3jgX/MVuxXtdLWKWR0nS
+ I6iVR3r0ye7yJf7Th8kf/fGghKFqb+nYQTiXDTXzclkloCcws3h8WwrBPRs5EHYSN5W1rb
+ NoynUSmOwmknY8YQQBemSCyUtVZw3zM=
 Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
  [209.85.221.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-IBV-pSk4MMqXnCnt58HFkA-1; Mon, 15 Feb 2021 14:20:38 -0500
-X-MC-Unique: IBV-pSk4MMqXnCnt58HFkA-1
-Received: by mail-vk1-f198.google.com with SMTP id v126so521477vkb.9
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 11:20:38 -0800 (PST)
+ us-mta-136-evl5BNifMmO58uwvMUKs-w-1; Mon, 15 Feb 2021 14:23:39 -0500
+X-MC-Unique: evl5BNifMmO58uwvMUKs-w-1
+Received: by mail-vk1-f198.google.com with SMTP id c69so1335006vke.14
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 11:23:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=O0jKZydgnXvffsdI154M1S4KRjQcU+GG3xvtpYNtiTA=;
- b=lniaRPGU0pwI7ozKy6k605hYwzivezRoOEZp5swBbHcH29brFfr0yYlKLawkZpfgKd
- mhIEGUyyJFG0iBnsikyBXZBNxb23UtdnioheaQFFBpLgTMhA3YPWnJ1N+Zp/gQ7+27CY
- qNVBv5ZCgU5OlOzQrD9nkQ//fU+VttUtBVfU9uSU6yfonUEPDx9tgCABosC+7YsK82Cm
- igqBswmLV+0e8VFqLKiXtkRcs3hD/Jm8tE5FFnqNCKriBXCDWy2JI8itKbNurDT9lC1q
- 5Ny/8xV5bqktCpcpD6VHzWQtEg24SAvjyMTc5tMbp0j6EfHTo5f7K5L2sTcJOnWxUMvS
- 5LKA==
-X-Gm-Message-State: AOAM530rdV4b1VFqD/csD3BPSZGHoQWY2NTRaUEN6ORB4MWH+vSHgMMu
- 94kGWsZxCX482O+rOSSLgY91abmb0nShQpdoU0jefZGWlWDpcsqsBf1UjYKopXVrytCopozpGb5
- iBIluypHVsxnyF+N8Xs7JeQ5XRJQRO7I=
-X-Received: by 2002:ab0:5a47:: with SMTP id m7mr10083099uad.124.1613416838367; 
- Mon, 15 Feb 2021 11:20:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyyOcooSZhwhTn8o4yfFS+/oJjoyn2XSCHJqi0AV4Z0zE8pktZvwSgM72Fl/gr7aC5iclLpSbUPnJL8TVbvmno=
-X-Received: by 2002:ab0:5a47:: with SMTP id m7mr10083083uad.124.1613416838220; 
- Mon, 15 Feb 2021 11:20:38 -0800 (PST)
+ bh=qwO/t9Kd9MZdiXBewiYLrwMIRZJ26ucysVG2/ShyEIc=;
+ b=Vx6cWAhLbE8QFD6Km2hDi445Lbl9DsipJScANi1rN+6FraQKB/y6Q/8zVeWHG/zrQq
+ feOeFz8MewmFozo7/Qz7CR1805PvVAjC/YITVtPkPXXs2ykagMTgRLI0CdrMxEh2LTuC
+ 2fDPlW5SAedY9Dwo8IJzkhohEp7EDLWtCIJuSARUJ8GFj+g6dRCw9HKliKeY8eljvgso
+ 4aTrR538enEC/ot97N25cUg8pm6sSMjmFVwIQgxLc1ueU8vEFkz0bn3xPjILX2HUDMHs
+ fVBwavKtgHof6LqpvLCStXCa33uP3QjFxQj5FM3aKi/rDV2SZIeQv37c+GWr8TprjHCo
+ hptg==
+X-Gm-Message-State: AOAM530A4aZzNZRljcTsB7cXIXQcZTaTRNh6rbpobt32XTfu7S7k472k
+ NNOolIx3mnZ3IIwuYCxj3Z8ADvZa2bAFsO3gBP71jAGR8CRuym9XSppXm/2WswNRMLGjw3JBd9Q
+ XfCuaz3mPz4kxoHcsVLU1df36hnmNrCE=
+X-Received: by 2002:a67:fe99:: with SMTP id b25mr4277193vsr.45.1613417019098; 
+ Mon, 15 Feb 2021 11:23:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzbz0DGvhi/EJyILzGa8yAIMwAroQUNREexaimyIOlFNM1V4YBZbrLTl28XJgfHvTT5leccl4pb8kaeXlUwSjE=
+X-Received: by 2002:a67:fe99:: with SMTP id b25mr4277174vsr.45.1613417018970; 
+ Mon, 15 Feb 2021 11:23:38 -0800 (PST)
 MIME-Version: 1.0
 References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-17-crosa@redhat.com>
-In-Reply-To: <20210203172357.1422425-17-crosa@redhat.com>
+ <20210203172357.1422425-18-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-18-crosa@redhat.com>
 From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 15 Feb 2021 16:20:12 -0300
-Message-ID: <CAKJDGDa+nM75nZdoyUy=1MJVtr_CHPwf23K6y9r1t+jTAeYMeA@mail.gmail.com>
-Subject: Re: [PATCH 16/22] Acceptance Tests: introduce method for requiring an
- accelerator
+Date: Mon, 15 Feb 2021 16:23:13 -0300
+Message-ID: <CAKJDGDZ7cf0UrvCeu668DXv1WopNE5578YoFvBOtZ+8UxLzwHA@mail.gmail.com>
+Subject: Re: [PATCH 17/22] Acceptance Tests: fix population of public key in
+ cloudinit image
 To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
@@ -107,17 +107,13 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, Feb 3, 2021 at 2:25 PM Cleber Rosa <crosa@redhat.com> wrote:
 >
-> Some tests explicitly require a QEMU accelerator to be available.
-> Given that this depends on some runtime aspects not known before
-> the test is started, such as the currently set QEMU binary, it's
-> left to be checked also at runtime.
+> Currently the path of the ssh public key is being set, but its
+> content is obviously what's needed.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 24 ++++++++++++++++
->  tests/acceptance/boot_linux.py            | 34 ++++++-----------------
->  tests/acceptance/virtiofs_submounts.py    |  5 +---
->  3 files changed, 34 insertions(+), 29 deletions(-)
+>  tests/acceptance/avocado_qemu/__init__.py | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
 
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
