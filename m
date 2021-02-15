@@ -2,46 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A89731BFBD
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:51:24 +0100 (CET)
-Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDA4331C005
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:04:15 +0100 (CET)
+Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBh5n-00067V-6m
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:51:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56064)
+	id 1lBhIE-0001n0-B7
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:04:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lBh39-0004bY-Vy; Mon, 15 Feb 2021 11:48:39 -0500
-Received: from relay68.bu.edu ([128.197.228.73]:47044)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lBh37-00040B-Q1; Mon, 15 Feb 2021 11:48:39 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 11FGkpBJ027823
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 15 Feb 2021 11:46:54 -0500
-Date: Mon, 15 Feb 2021 11:46:51 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 0/4] hw/sd: sdhci: Fixes to CVE-2020-17380,
- CVE-2020-25085, CVE-2021-3409
-Message-ID: <20210215164646.zqjbsd7mtiwqvyaj@mozz.bu.edu>
-References: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lBhDD-0000K7-US
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:59:03 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lBhDC-00056r-Gr
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:59:03 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id r5so3562141wmp.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:59:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7t3q/7j8XANO/eMjtO8F9brWBUGATYE6BRUqKesopmg=;
+ b=UEzn/Dymmreo1hDQaG6HmojBQsUNQP0wHrlFYLS+6RO4qx9CROyuWQwCf9azIEfe1+
+ kXUNVXDz6y7nSCy1ZPVBa3Ohv8LtQQPsQyUEyT1d4Na5gBkHavCfoUIm7epPyL2ND3NG
+ Xem2UarP04hzCjcHY8SsFK/dZVogbfGI3sh3LmqB5alwRSRzaCvCUVJlxBZuRZpMXl3D
+ rienjtC80IqUdOHIi+nCeCcrZCzKK5GWwE/Cmiof0DOpx0C0mkFW2tRI6XCvRLNP5uwh
+ AKlJWnqw/z3bfmI0afhA0yvKGK8Bxzfd2Kmu5056dhIUYNGOnluZAAs9taqjF6XQgKTn
+ l3Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7t3q/7j8XANO/eMjtO8F9brWBUGATYE6BRUqKesopmg=;
+ b=miZjMcBEK6XrgNxPz1FfM8Ybq74SrHZmbNDpiMWVF/S3OYgGcGWZ2uNiLdbXKsqYJ8
+ rVxFgFFFdnt+KOZQCTaRuCAZsBeTKf4wtNCpofw4HuUliFUJW7Y8+rCQ6szDZUr1Cet1
+ vsYgyyad5zwksgDF8QrvLGHF4v9E0o92rtkZFbyrdIFZlyXEGQfUeDm8WPRtaIF+wKEN
+ C9XPM+R33hCD++uQPk//INB9U6L6Vs0rqP3nlbNLDPoO0a1i8mpQfW0/34+yfaHFWCPz
+ tR0Y6sB2TsulbLmf64SRjVxiVOCwdQTfnDPLu/65C9i3W7i2r4G4nYEz4WbMBA4+MhJr
+ hFhQ==
+X-Gm-Message-State: AOAM5336QN2GDU9z94zXq//7aC1sCuds3nslOM8L4pp1zHrrVAxZ2Ysv
+ z2z/J9cYabq2u9yttDlGGIc=
+X-Google-Smtp-Source: ABdhPJzT/fUvJsMJ+2vfvQjFMTuK3WNZZz5OzNe0peN8lf4vD/Gtv23NBawv8nvDFLArNUxD3+qTTA==
+X-Received: by 2002:a1c:5a08:: with SMTP id o8mr511518wmb.60.1613408340387;
+ Mon, 15 Feb 2021 08:59:00 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id a9sm21793536wrn.60.2021.02.15.08.58.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Feb 2021 08:58:59 -0800 (PST)
+Subject: Re: [RFC PATCH 12/42] target/mips/tx79: Move PCPYLD / PCPYUD opcodes
+ to decodetree
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210214175912.732946-1-f4bug@amsat.org>
+ <20210214175912.732946-13-f4bug@amsat.org>
+ <2606adaa-6558-61da-53e0-c4830f7fc448@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <efff1469-bcf6-92d6-fe9c-188c6112eb14@amsat.org>
+Date: Mon, 15 Feb 2021 17:58:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
- helo=relay68.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+In-Reply-To: <2606adaa-6558-61da-53e0-c4830f7fc448@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -55,99 +91,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mauro Matteo Cascella <mcascell@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, qemu-stable@nongnu.org,
- Bin Meng <bin.meng@windriver.com>, Li Qiang <liq3ea@163.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Thomas Huth <thuth@redhat.com>, Fredrik Noring <noring@nocrew.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Bin,
-Thank you for this. I ran through the OSS-Fuzz tests again, and it found
-one thing:
+On 2/15/21 5:28 PM, Richard Henderson wrote:
+> On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
+>> +    if (a->rs == 0) {
+>> +        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
+>> +    } else {
+>> +        tcg_gen_mov_i64(cpu_gpr_hi[a->rd], cpu_gpr[a->rs]);
+>> +    }
+>> +
+>> +    if (a->rt == 0) {
+>> +        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
+>> +    } else if (a->rd != a->rt) {
+>> +        tcg_gen_mov_i64(cpu_gpr[a->rd], cpu_gpr[a->rt]);
+>> +    }
+> 
+> Use gen_load_gpr.
 
-Maybe this is already much better than the current state of the code, so
-this one can be fixed in a later patch?
+This is code movement, but I'll clean in a previous patch.
 
-cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest \
--m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
--device sd-card,drive=mydrive \
--drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
--nographic -qtest stdio
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0xe000002c 0x1 0x05
-write 0xe0000005 0x1 0x02
-write 0xe0000007 0x1 0x01
-write 0xe0000028 0x1 0x10
-write 0x0 0x1 0x23
-write 0x2 0x1 0x08
-write 0xe000000c 0x1 0x01
-write 0xe000000e 0x1 0x20
-write 0xe000000f 0x1 0x00
-write 0xe000000c 0x1 0x32
-write 0xe0000004 0x2 0x0200
-write 0xe0000028 0x1 0x00
-write 0xe0000003 0x1 0x40
-EOF
+> Otherwise,
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-
-==1730971==ERROR: AddressSanitizer: heap-buffer-overflow on address
-0x615000031880 at pc 0x55d070f2c6d9 bp 0x7ffdcb63f130 sp 0x7ffdcb63f128
-READ of size 4 at 0x615000031880 thread T0
-#0 0x55d070f2c6d8 in ldl_he_p bswap.h:347:5
-#1 0x55d070f2c6d8 in ldn_he_p bswap.h:546:1
-#2 0x55d070f2c6d8 in flatview_write_continue build/../softmmu/physmem.c:2775:19
-#3 0x55d070f219eb in flatview_write build/../softmmu/physmem.c:2816:14
-#4 0x55d070f219eb in address_space_write build/../softmmu/physmem.c:2908:18
-#5 0x55d07040de4a in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
-#6 0x55d07040de4a in dma_memory_rw include/sysemu/dma.h:127:12
-#7 0x55d07040de4a in dma_memory_write include/sysemu/dma.h:163:12
-#8 0x55d07040de4a in sdhci_sdma_transfer_multi_blocks build/../hw/sd/sdhci.c:619:13
-#9 0x55d07041d15b in sdhci_write build/../hw/sd/sdhci.c:1134:21
-#10 0x55d07123b1ac in memory_region_write_accessor build/../softmmu/memory.c:491:5
-#11 0x55d07123acab in access_with_adjusted_size build/../softmmu/memory.c:552:18
-#12 0x55d07123a4b0 in memory_region_dispatch_write build/../softmmu/memory.c
-#13 0x55d070f2c29b in flatview_write_continue build/../softmmu/physmem.c:2776:23
-#14 0x55d070f219eb in flatview_write build/../softmmu/physmem.c:2816:14
-#15 0x55d070f219eb in address_space_write build/../softmmu/physmem.c:2908:18
-
-
--Alex
-
-On 210215 2311, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> This series includes several fixes to CVE-2020-17380, CVE-2020-25085
-> and CVE-2021-3409 that are heap-based buffer overflow issues existing
-> in the sdhci model.
-> 
-> These CVEs are pretty much similar, and were filed using different
-> reproducers. With this series, current known reproducers I have
-> cannot be reproduced any more.
-> 
-> The implementation of this model may still have some issues, i.e.:
-> some codes do not strictly match the spec, but since this series
-> only aimes to address CVEs, such issue should be fixed in a separate
-> series in the future, if I have time :)
-> 
-> 
-> Bin Meng (4):
->   hw/sd: sdhci: Don't transfer any data when command time out
->   hw/sd: sdhci: Don't write to SDHC_SYSAD register when transfer is in
->     progress
->   hw/sd: sdhci: Correctly set the controller status for ADMA
->   hw/sd: sdhci: Simplify updating s->prnsts in
->     sdhci_sdma_transfer_multi_blocks()
-> 
->  hw/sd/sdhci.c | 34 ++++++++++++++++++++--------------
->  1 file changed, 20 insertions(+), 14 deletions(-)
-> 
-> -- 
-> 2.7.4
-> 
+Thanks!
 
