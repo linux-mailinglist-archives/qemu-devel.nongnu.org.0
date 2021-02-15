@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2934431BF68
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:34:44 +0100 (CET)
-Received: from localhost ([::1]:42224 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E6631BF6E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:35:59 +0100 (CET)
+Received: from localhost ([::1]:44324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBgpf-0003w1-6w
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:34:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52508)
+	id 1lBgqs-0004th-Ny
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:35:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgnd-0003Nk-2e
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:32:37 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:39823)
+ id 1lBgp8-00048G-Dq
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:34:12 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:36817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgnb-0001WR-E6
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:32:36 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id d2so4214422pjs.4
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:32:34 -0800 (PST)
+ id 1lBgp2-0001kL-K6
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:34:08 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id z15so4482013pfc.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:34:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=M/b5GLx/S8iZR/Jpq4jOvC3z/tnOvH7by+1LBJmiIoY=;
- b=uByfB6mQrQ9e9WpuKW4R3ZTtUA/tKooKUuLnpJ7CRhQsRjUJ48Mg3XJ0/rVbn4cwJF
- XmJlY3Eq63kBq4gtBv4s63BFL862MApm1J3QrHWstJ7n2Fjc+84PE802lxxMh9pdVs0R
- MZrMmzAWov78kNB2m8L3qCH/n8X42R/TZUzevSBHrmMBue17KIdWNEuxMGTPDx+aSOul
- Yar/z726kuFFwdo/ftjz7VQUoxq1h8OnZ+bOUQ5vxaMS1+Cqpp9PlFsRx3XUNthGyIJP
- VbRM8vbuzg43V/+h3oW7glmtvNPoMr8qAP6xYTb0DR7wzXCRc564P+/WRTmo+eto/aAK
- fBLg==
+ bh=uE+s2aGipq1emTyCb2JE5v7ry69+ArFvwbcUgM52uW0=;
+ b=GYh+cFMGqtrczNGxFc53ZfHOgwwG4FioFpG/iPILFckKm4J1ypXrjDVae3T9zghP4F
+ SiolbCiOIbNVbmm+kiiVWPxnW/ZDlYGCtC5LW8QEc5rM3gW97g1sGB1Ihidlk0YrpeU4
+ sz2t/+aowHw0P9jxrWMb200VLDfzcnyOb/EJPM+gMJOyYr06lixDRc2V3280WuukjNl+
+ /rbJ8CRdUs5Gm1jr7yTmaoBzrRgM5AZlM6VBKoXLFhmPttQKak5JC9VFbQre7FQcowU8
+ DU7Yf+B5tS6yQYJCiKKarFRgQ81ZkPZ5HRk7kpyoW5t16hpKPr1o2ZWoMgmH11kZv0FG
+ cf2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=M/b5GLx/S8iZR/Jpq4jOvC3z/tnOvH7by+1LBJmiIoY=;
- b=MHmvwjk5uRlzhey6lED6FmJf/DqoZDgbDpFpSuZeJ5GuvPsmg0jmdFbGttlyVVHaqM
- QN/VnhAXgdKXSQilM9do25thlmLtd/TadHNAFYy/1ZIuL3CQbzNri2l8ReQZZB+O2SfK
- BfUZoWGA1POpUCu6wJixuJcjSo0Ae3psoUoigJiCTDSs3v6bzEZsn5IzF2xeJ/rri8ls
- OuWCX1PlVIl/fLjJSFWP9joOXLNSKLcSP2oLFyxT3SPFR0dj0B8ZOZWg/roJ4EJdbhGn
- Wp9OISExeY3ooZUCr1Y2IZSTm+sA8uNmdJWPwrDFnCQFdkYqmxvPP6H5Bq8ae+5yNDIm
- llNA==
-X-Gm-Message-State: AOAM533NCFppN2C0l61otyCrMIGgvf/Dxh2xtXCuzhQy73rJRL0D+Ywx
- vuyxAaUdGAZH0gOKodYY/rzfAw==
-X-Google-Smtp-Source: ABdhPJw1klgC7AMJRH+UhbBAA21tSTFY6J2rMCQ8tCLk0qzDAUnI/pRoGl05uaJRmBGX4YtMtrpxkw==
-X-Received: by 2002:a17:90a:404c:: with SMTP id
- k12mr16843743pjg.4.1613406753703; 
- Mon, 15 Feb 2021 08:32:33 -0800 (PST)
+ bh=uE+s2aGipq1emTyCb2JE5v7ry69+ArFvwbcUgM52uW0=;
+ b=UBt5s9oScqICmbFtOP7hv0UpnppYFhT27tuPHZMUfP83VG+Hs2IdqsoSoc0SjTEqwn
+ zb84BV6n0KFliOnmRRgCInud29c5eitSK9Ak+VGBs+lTim0xDlKGOWIjGNsP2qLoA+ys
+ fpMIAzFlleaxH/DHXb+ayRRvDwkBZXS4WpOFduyS//22O+D08zH7tGfcq7Pixg+GP2Wn
+ 4tVJnAErvb3HbF2WzttPVnFNmJoN6oDuIB+jQ6li8a/599FtadRlxWLyaIU7Ed4KldU8
+ ee6OZ3wp4zkQDYhyFRdP4mR+g3ntKA30Ax8uDd6LdNeug+TuVLRfUc6buiaXZo3yp9mK
+ jdgw==
+X-Gm-Message-State: AOAM532bCmu3Z29QGd6swGAgwSqCYq8/e0gwPh81CzMy70DtgZd2mic4
+ a6juOsCqcL6E2Y9bukr8YdBTlg==
+X-Google-Smtp-Source: ABdhPJwMDuVm7OPkCX3Ez3gNESSUAlPjwr0427MC+bUbhpjMmbL4+Vx+2wQJwmzqmTRrpvHmd/ZSHg==
+X-Received: by 2002:a63:da4a:: with SMTP id l10mr15595612pgj.222.1613406840769; 
+ Mon, 15 Feb 2021 08:34:00 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- b17sm18786741pfb.75.2021.02.15.08.32.32
+ 194sm19067786pfu.165.2021.02.15.08.33.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:32:33 -0800 (PST)
-Subject: Re: [RFC PATCH 13/42] target/mips: Remove 'C790 Multimedia
- Instructions' dead code
+ Mon, 15 Feb 2021 08:34:00 -0800 (PST)
+Subject: Re: [RFC PATCH 14/42] target/mips/tx79: Salvage instructions
+ description comment
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-14-f4bug@amsat.org>
+ <20210214175912.732946-15-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <921462c4-3d6d-62e6-f267-3567ea4c5846@linaro.org>
-Date: Mon, 15 Feb 2021 08:32:31 -0800
+Message-ID: <734c7bc8-9115-d0f3-99e7-e41ace021210@linaro.org>
+Date: Mon, 15 Feb 2021 08:33:58 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-14-f4bug@amsat.org>
+In-Reply-To: <20210214175912.732946-15-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,17 +99,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
-> We have almost 400 lines of code full of /* TODO */ comments
-> which end calling gen_reserved_instruction().
-> 
-> As we are not going to implement them, and all the caller's
-> switch() default cases already call gen_reserved_instruction(),
-> we can remove this altogether.
+> This comment describing the tx79 opcodes is helpful. As we
+> will implement these instructions in tx79_translate.c, move
+> the comment there.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.c | 372 ----------------------------------------
->  1 file changed, 372 deletions(-)
+>  target/mips/translate.c      | 160 -----------------------------
+>  target/mips/tx79_translate.c | 188 +++++++++++++++++++++++++++++++++++
+>  2 files changed, 188 insertions(+), 160 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
