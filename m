@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60AF631C040
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:16:40 +0100 (CET)
-Received: from localhost ([::1]:42258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8D531C0B6
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:36:58 +0100 (CET)
+Received: from localhost ([::1]:49940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBhUF-0006M2-Fh
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:16:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32974)
+	id 1lBhnt-0002tM-BB
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:36:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBhSS-0005Lu-F7
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:14:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37857)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lBhlE-0002Ds-QU
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:34:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23188)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBhSQ-0007ue-9f
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:14:48 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lBhlB-0001rz-Ts
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:34:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613409284;
+ s=mimecast20190719; t=1613410447;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5+R4mFhMsSveEph5jOrDNesxebc4zbmrsIY1tGpqbpE=;
- b=cXIdteRW49TagyvUmHAFMBUFtrvyAp0czgIkUYpTX6ZwT/HacJT53xMBYZ6TxjTY9GAsx/
- ptatyvRo/WoQEnFnbR2g2cQw1rrruumuCr9D/RETYOTeWau2F43RVyNU7CwAd8FqY2Rqy1
- LYy9E1mBg7vKqTTljb7T6eZ5fmJ/dUE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-auTorCi2P7-_RUffujh3Xg-1; Mon, 15 Feb 2021 12:14:42 -0500
-X-MC-Unique: auTorCi2P7-_RUffujh3Xg-1
-Received: by mail-wr1-f71.google.com with SMTP id s18so10184492wrf.0
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 09:14:41 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=5+R4mFhMsSveEph5jOrDNesxebc4zbmrsIY1tGpqbpE=;
- b=qPTFArY+5uGzSGzkaU+gJs3vxEjumTtyVAhnHlBg4MCLRQlFNIiSUA9Weg5tgNVp0W
- +lg22C7N9xVSFxni0gaomGQGU0Nndi3l+QNQ+P/KmTEGs6iC9DK01TBz4/FXeZhPpZAq
- O42Qkn7AuAHJIZ1FEkPXhx2cAGXt9N8JfdYwqdGG8c4RhZV6UmH+UMM8XbGHG1IfkD4+
- blLAKB/1g4v5GGlJe7d8TSc9ett/SKHQLzD3YsanRLOP+Gsg2tclNmLX9Tyaun+5rA2p
- uZYJMxwa+OCXzVzJut78oeDY1LUlXaGoxxh/g+fMgT3n+l4ed7F66E1jVy7+OAgyZZBs
- EZ/w==
-X-Gm-Message-State: AOAM532Q3o0NpUYa6wpEyb78zd62ngNPlj5/FkP6WDbNZ+8cT+0tdNVb
- 5XpVbDA4WMfM4juLE2WBIopM0sLxxd2mUE+jLtRYrV/8soKBTnahTTR20z1+m/9eVGa5mH6sj+K
- +NsVa0ugbWfxWmUajTOqHKoYteSvq+ipPmgB+zJdbvg+yUM+HSOA+E3m+ZjnIfyv7
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr19758542wrj.209.1613409280583; 
- Mon, 15 Feb 2021 09:14:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsAxabAK/+ogVuC9UJ/dbinMQCeBylkv0VU2pXVhwtxnyWJBRC5EBVfKZeNoysH7Ud76Kj3A==
-X-Received: by 2002:adf:dc8d:: with SMTP id r13mr19758528wrj.209.1613409280389; 
- Mon, 15 Feb 2021 09:14:40 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v15sm26754651wra.61.2021.02.15.09.14.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 09:14:40 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci: Display Avocado log content when tests timeout
-Date: Mon, 15 Feb 2021 18:14:38 +0100
-Message-Id: <20210215171438.935665-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ in-reply-to:in-reply-to:references:references;
+ bh=+GLvO7x1tNchLvPvRNg3/4sfnMW8c6QhPEVl4+FaMVQ=;
+ b=K2BVlqLPLliZfz3pRJn7Xvb8tiOqPbgCcliP7MT+iSn5H7fUH67CdOG/Q9jjXkcbO/AMow
+ jvnQUGzdH6GYw3CSwJ65VWTWvL3J03LSZCWisv+WVA/UH5Q2imJcxRhj4TZqthsDjZ+FAj
+ cKeT/WLcWpNydnM/4slR6ttL3/HywgU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-106-ns1oN4fLMTC_46Ou6bjTSw-1; Mon, 15 Feb 2021 12:34:04 -0500
+X-MC-Unique: ns1oN4fLMTC_46Ou6bjTSw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6E2CA6D4E6
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 17:34:03 +0000 (UTC)
+Received: from localhost (ovpn-113-245.ams2.redhat.com [10.36.113.245])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F36F65C241;
+ Mon, 15 Feb 2021 17:34:02 +0000 (UTC)
+Date: Mon, 15 Feb 2021 17:34:01 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 0/2] trace: fix "-trace file=...."
+Message-ID: <20210215173401.GE87159@stefanha-x1.localdomain>
+References: <20210209145759.141231-1-pbonzini@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210209145759.141231-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="X3gaHHMYHkYqP6yf"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -90,44 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since commit ba2232bae6d ("gitlab-ci: Refactor code that show logs
-of failed acceptances") we display the log content of failing tests
-(Avocado "FAIL" event).
+--X3gaHHMYHkYqP6yf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Since we are also interested in tests timeouting, update our global
-Avocado config to display log content for the "INTERRUPT" event,
-"possible when the timeout is reached" (See [*]).
+On Tue, Feb 09, 2021 at 03:57:57PM +0100, Paolo Bonzini wrote:
+> This series contains two fixes for "-trace file=3D...".  The first applie=
+s
+> to all backends, while the second only applies to the log backend.
+>=20
+> Paolo Bonzini (2):
+>   trace: fix "-trace file=3D..."
+>   trace: skip qemu_set_log_filename if no "-D" option was passed
+>=20
+>  softmmu/vl.c    |  4 +++-
+>  trace/control.c | 13 +++++++------
+>  2 files changed, 10 insertions(+), 7 deletions(-)
+>=20
+> --=20
+> 2.29.2
+>=20
 
-[*] https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#test-statuses
+Thanks, applied to my tracing tree:
+https://gitlab.com/stefanha/qemu/commits/tracing
 
-Suggested-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- .gitlab-ci.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Stefan
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 7adb9a4cef0..234cead60c2 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -64,7 +64,7 @@ include:
-     - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
-     - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
-            >> ~/.config/avocado/avocado.conf
--    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL"]'
-+    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL", "INTERRUPT"]'
-            >> ~/.config/avocado/avocado.conf
-     - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
-         du -chs ${CI_PROJECT_DIR}/avocado-cache ;
--- 
-2.26.2
+--X3gaHHMYHkYqP6yf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAqsIkACgkQnKSrs4Gr
+c8ibGggAhzTKcLAq1oPC+3BmAy7V6CYlnX4zidXKeXcEGC4DPDP8ppybkHBxMNq6
+nm8f4QRuxgFJAi2QpI8bRKoGSOV48EkiVBGfhL3L4FoxHPP959vMgx84oQHAJYbq
+M/EqSeasfdcqgtZobVM3j0EVnXtfT74AC9bWjJXfOm32KTY6ZFhOiXeUXF18Gke6
++kAZQWjf4NmeytXSe8dNPaNES2HmWJBZXIaLDarPfo7KTzzORTmKQoyEt28B4GB/
+cYJUqR67StXsDIzQW78MmltHCg9kXk2OSZ7lw12kT58lIiWFzjut/wJtifOLCHqE
+VAvZl+VDHLoGh8eyPgD699pdnMFk/Q==
+=VNxR
+-----END PGP SIGNATURE-----
+
+--X3gaHHMYHkYqP6yf--
 
 
