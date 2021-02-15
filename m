@@ -2,72 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F35C431BA80
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 14:44:00 +0100 (CET)
-Received: from localhost ([::1]:54418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F2D931BA77
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 14:40:06 +0100 (CET)
+Received: from localhost ([::1]:44596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBeAS-0006B5-1N
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 08:44:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33776)
+	id 1lBe6f-0001nW-Ab
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 08:40:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lBdsg-0004wD-Vt
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 08:25:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lBdse-0000hm-8T
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 08:25:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613395534;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Lv0RKSP5jXYchIx+2WPR21e2so+Kcwoj+GlnQBOQc/c=;
- b=eyS0n7SuwQQoIj5ssImMDXn08DIxcmtsORI2zYkfK2irUiMJfmjHCpZ6FeT94vN0nnYC8O
- 8o5PYbZ0np3k0qR+eRhrnHFn+HGop4mHlDh7zhXuXgr+ZxDbXNBWk1Hx/RSclo4zO2CDvr
- t9pR/uSmST/1Ep1G+Q2soQgLcb4fycI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-NUI6xn0oMXGokHO7gZWc8Q-1; Mon, 15 Feb 2021 08:25:32 -0500
-X-MC-Unique: NUI6xn0oMXGokHO7gZWc8Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE645801A93;
- Mon, 15 Feb 2021 13:25:31 +0000 (UTC)
-Received: from work-vm (ovpn-115-61.ams2.redhat.com [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7AE9D62679;
- Mon, 15 Feb 2021 13:25:16 +0000 (UTC)
-Date: Mon, 15 Feb 2021 13:25:13 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Chirantan Ekbote <chirantan@chromium.org>
-Subject: Re: [Virtio-fs] [PATCH 07/24] DAX: virtio-fs: Add vhost-user slave
- commands for mapping
-Message-ID: <YCp2OSa3LQT4vIEm@work-vm>
-References: <20210209190224.62827-1-dgilbert@redhat.com>
- <20210209190224.62827-8-dgilbert@redhat.com>
- <CAJFHJrqioXu7K8Z=dFgMQDWoKoNK3pddcgf9znCS72BR4WHSYA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lBdvq-0007g3-4N; Mon, 15 Feb 2021 08:28:54 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:52573)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lBdvi-0001tV-OT; Mon, 15 Feb 2021 08:28:53 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Mon, 15 Feb 2021 14:28:35 +0100
+Subject: Re: [PATCH V2 1/7] block/rbd: bump librbd requirement to luminous
+ release
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210126112540.11880-1-pl@kamp.de>
+ <20210126112540.11880-2-pl@kamp.de> <20210215102401.GB1542881@redhat.com>
+ <4b010479-bd8b-85e9-ef29-88524fef6495@kamp.de>
+ <20210215114101.GD1542881@redhat.com>
+ <5cc0ff5a-5360-5d81-2da9-724a2baf9f6d@kamp.de>
+ <20210215121334.GJ7226@merkur.fritz.box>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <6c52a0b5-ce02-fd62-25ef-7e303472fc5c@kamp.de>
+Date: Mon, 15 Feb 2021 14:28:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAJFHJrqioXu7K8Z=dFgMQDWoKoNK3pddcgf9znCS72BR4WHSYA@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210215121334.GJ7226@merkur.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,84 +60,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org,
- virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- marcandre.lureau@redhat.com, Vivek Goyal <vgoyal@redhat.com>
+Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ mreitz@redhat.com, pbonzini@redhat.com, dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Chirantan Ekbote (chirantan@chromium.org) wrote:
-> On Wed, Feb 10, 2021 at 4:04 AM Dr. David Alan Gilbert (git)
-> <dgilbert@redhat.com> wrote:
-> >
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > +
-> > +typedef struct {
-> > +    /* Offsets within the file being mapped */
-> > +    uint64_t fd_offset[VHOST_USER_FS_SLAVE_ENTRIES];
-> > +    /* Offsets within the cache */
-> > +    uint64_t c_offset[VHOST_USER_FS_SLAVE_ENTRIES];
-> > +    /* Lengths of sections */
-> > +    uint64_t len[VHOST_USER_FS_SLAVE_ENTRIES];
-> > +    /* Flags, from VHOST_USER_FS_FLAG_* */
-> > +    uint64_t flags[VHOST_USER_FS_SLAVE_ENTRIES];
-> > +} VhostUserFSSlaveMsg;
-> > +
-> 
-> Is it too late to change this?
+Am 15.02.21 um 13:13 schrieb Kevin Wolf:
+> Am 15.02.2021 um 12:45 hat Peter Lieven geschrieben:
+>> Am 15.02.21 um 12:41 schrieb Daniel P. Berrangé:
+>>> On Mon, Feb 15, 2021 at 12:32:24PM +0100, Peter Lieven wrote:
+>>>> Am 15.02.21 um 11:24 schrieb Daniel P. Berrangé:
+>>>>> On Tue, Jan 26, 2021 at 12:25:34PM +0100, Peter Lieven wrote:
+>>>>>> even luminous (version 12.2) is unmaintained for over 3 years now.
+>>>>>> Bump the requirement to get rid of the ifdef'ry in the code.
+>>>>> We have clear rules on when we bump minimum versions, determined by
+>>>>> the OS platforms we target:
+>>>>>
+>>>>>      https://qemu.readthedocs.io/en/latest/system/build-platforms.html
+>>>>>
+>>>>> At this time RHEL-7 is usually the oldest platform, and it
+>>>>> builds with RBD 10.2.5, so we can't bump the version to 12.2.
+>>>>>
+>>>>> I'm afraid this patch has to be dropped.
+>>>> I have asked exactly this question before I started work on this series and got reply
+>>>>
+>>>> from Jason that he sees no problem in bumping to a release which is already unmaintained
+>>>>
+>>>> for 3 years.
+>>> I'm afraid Jason is wrong here.  It doesn't matter what the upstream
+>>> consider the support status to be. QEMU targets what the OS vendors
+>>> ship, and they still consider this to be a supported version.
+>>
+>> Okay, but the whole coroutine stuff would get a total mess with all
+>> the ifdef'ry.
+> Hm, but how are these ifdefs even related to the coroutine conversation?
+> It's a bit more code that you're moving around, but shouldn't it be
+> unchanged from the old code, just moving from an AIO callback to a
+> coroutine? Or am I missing some complications?
 
-No; this is a message defined as part of this series so still up for
-review.  It's not guest visible; just on the vhist-user pipe.
 
-> This struct allocates space for up to
-> 8 entries but most of the time the server will only try to set up one
-> mapping at a time so only 32 out of the 256 bytes in the message are
-> actually being used.  We're just wasting time memcpy'ing bytes that
-> will never be used.  Is there some reason this can't be dynamically
-> sized?  Something like:
-> 
-> typedef struct {
->     /* Number of mapping requests */
->     uint16_t num_requests;
->     /* `num_requests` mapping requests */
->    MappingRequest requests[];
-> } VhostUserFSSlaveMsg;
-> 
-> typedef struct {
->     /* Offset within the file being mapped */
->     uint64_t fd_offset;
->     /* Offset within the cache */
->     uint64_t c_offset;
->     /* Length of section */
->     uint64_t len;
->     /* Flags, from VHOST_USER_FS_FLAG_* */
->     uint64_t flags;
-> } MappingRequest;
-> 
-> The current pre-allocated structure both wastes space when there are
-> fewer than 8 requests and requires extra messages to be sent when
-> there are more than 8 requests.  I realize that in the grand scheme of
-> things copying 224 extra bytes is basically not noticeable but it just
-> irks me that we could fix this really easily before it gets propagated
-> to too many other places.
+No, the ifdef's only come back in for the write zeroes part.
 
-Sure; I'll have a look.  I think at the moment the only
-more-than-one-entry case is the remove mapping case.
 
-Dave
+>
+>> Would it be an option to make a big ifdef in the rbd driver? One with
+>> old code for < 12.0.0 and one
+>>
+>> with new code for >= 12.0.0?
+> I don't think this is a good idea, this would be a huge mess to
+> maintain.
+>
+> The conversion is probably a good idea in general, simply because it's
+> more in line with the rest of the block layer, but I don't think it adds
+> anything per se, so it's hard to justify such duplication with the
+> benefits it brings.
 
-> Chirantan
-> 
-> > --
-> > 2.29.2
-> >
-> > _______________________________________________
-> > Virtio-fs mailing list
-> > Virtio-fs@redhat.com
-> > https://www.redhat.com/mailman/listinfo/virtio-fs
-> >
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+I would wait for Jasons comment on the rbd part of the series and then spin a V3
+
+with a for-6.1 tag.
+
+
+Peter
 
 
