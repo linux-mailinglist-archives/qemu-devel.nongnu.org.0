@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1D9B31B9BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:51:26 +0100 (CET)
-Received: from localhost ([::1]:58512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B4231B9CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:53:00 +0100 (CET)
+Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBdLa-0000J1-0E
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:51:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52676)
+	id 1lBdN5-00029Y-FQ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFp-0003xf-Fr
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:29 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:53561)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdGA-0004BA-1m
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:51 -0500
+Received: from mout.kundenserver.de ([217.72.192.74]:59365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFm-0000eP-HJ
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:29 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFz-0000j5-Mm
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:49 -0500
 Received: from localhost.localdomain ([82.252.134.158]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MN5aF-1lUX9L2Ten-00J3SH; Mon, 15 Feb 2021 13:45:22 +0100
+ id 1Md6ZB-1lkh9j27tb-00aAdH; Mon, 15 Feb 2021 13:45:24 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/13] Linux user for 6.0 patches
-Date: Mon, 15 Feb 2021 13:45:06 +0100
-Message-Id: <20210215124519.720265-1-laurent@vivier.eu>
+Subject: [PULL 03/13] linux-user/signal: Decode waitid si_code
+Date: Mon, 15 Feb 2021 13:45:09 +0100
+Message-Id: <20210215124519.720265-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210215124519.720265-1-laurent@vivier.eu>
+References: <20210215124519.720265-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:+mBsFZENNpKh3zzYGZCvugb2iZgeMS3OdJDzHUSbWSUg7Wsb5VG
- zG04PcYRCPxgt1TNDl12zBZ5pnKtXnDe6Ih6ttNZDoLc+CjFz7MrImmJ2aEhvhxzIwjPBoG
- pLSJj+robzsA9HBhPZ0wbo2cW5oNlkP2v07eZQVIJq9m+DCwnV1Pc/jfyff8uURIAndeRZG
- eXWlgaQ8fy1ZzVSfKE6Qg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:5w2cAncyl5Q=:ouAsHxGGA45oi/yLF78QJo
- CM4OnwDKBBR1kemHy8Puvvt1yUmpxFtuFnefnt0y4EAqKVGmfkbrM096K+qICd8sagN9nuB8B
- XescwQOJOJgzSSdtSi9pTnVdv3JjRpyykoPUt+B8bhWMdB7bHMstYzO4qKxKSa1ZS5xOScnwl
- IJXPdvVHVKyN5+H0nyXEPVyzNzf0c7aNsKFG7mtpkeFB95l/dhKHLmwnDFuOAHIG/HbKnE9g5
- 094w9YMMwWASk+6Xv513+y5LP5cb95tPbXYFwc48bXL1F/ksEwuSv4+71nVKVgpyWMeX0DFx9
- gZSy5yfYLSfApIFyYtVfAPW5j+mNVwIX4mBGkfmQ9HdKRPT2xMGG7aIyzVjPIs4WYoRg5ZYBx
- TCxYn04Z+8CfHmMZTZaGj3DaUkQtYEjsRsy04SdLagIRWH09PZ/WYh12zc9bS
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:aNd3FKayuVLgCsMObiLexFk29QyHeWVgSFkQ/onLx4VBSVc+/9/
+ WWSoKUaVLeBKmxmo3bZutNybuFB1C7M4mfaKN5eDlb6aDHCMr5WKCk/Bxr66JjSDiEMxbV3
+ QzdPoOmefepdhG9s3mDlUzp488j8OrXMoUfSxpYvEQSidn84OIcpF+xR26OZKYpKWSph+CN
+ R6K7waq7A9OMWcSHSw2xw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:feIV5dC12ZM=:/OAt6iGI6s4ykEkyOy+Yqa
+ gw3Lw9n2uxt87YsZfxEPZWOitqIoJzzeFDv1tFuWI2VD30/RjqtFtdhSBjcbf57jCNDaws3w+
+ r/qpIw1vLXUoKulpWuHaadIpuREDI+W9qe9958Ka3UmpGAghrhUy80pDC83L7nbuePwBv/oBF
+ ecDeGWX6XZmz+SKLSMjH5F4KRAYbMWOZPnweYk+INe/U49PvABAOVEokKYQalkZ3SA2XBeytR
+ +aEz2enou/qUG/QvqFQLGHkAPQ+mDR2MFlB2k4CeyiyfDr1OPLIkoGXrI/Rv/ZQrIDSXSBPk8
+ 6/uqj7MfZ79uApLRo4+o2BoP8j0NZsDZq8NCee7n9uV6/R/fM6A89PVP5IYgzyOnNQWHhoLe1
+ Pygb1UwkUx8qdvjN7Lc+S54QB7jBhxxgooOeUIvCjSysK1Vzt+X3UTG9yVxzw
+Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -60,92 +62,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: =?UTF-8?q?Andreas=20K=20=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f4ceebdec531243dd72e38f85f085287e6e63258=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/vivier/tags/m68k-for-6.0-pull-reque=
-st=3D=0D
-' into staging (2021-02-13 18:16:43 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to b8f91fd49c5c6993e06f0cd7bf024d176051320e:=0D
-=0D
-  linux-user/mips: Support the n32 ABI for the R5900 (2021-02-15 12:10:03 +=
-01=3D=0D
-00)=0D
-=0D
-----------------------------------------------------------------=0D
-Pull request linux-user 20210215=0D
-=0D
-mips o32 ABI update / R5900 update=0D
-Remove outdated info from docs=0D
-Add definitions of TARGET_SS_AUTODISARM, TARGET_SO_DOMAIN, TARGET_SO_PROTOC=
-OL=0D
-Fix ioctl(), waitid(), mremap(), signalfd4(), eventfd2()=0D
-Fix O_NONBLOCK (hppa), __O_TMPFILE (hppa/alpha)=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Alistair Francis (1):=0D
-  linux-user/signal: Decode waitid si_code=0D
-=0D
-Chen Gang (1):=0D
-  linux-user: target: signal: Support TARGET_SS_AUTODISARM=0D
-=0D
-Fredrik Noring (1):=0D
-  linux-user/mips: Support the n32 ABI for the R5900=0D
-=0D
-Giuseppe Musacchio (1):=0D
-  linux-user: Fix loading of BSS segments=0D
-=0D
-Helge Deller (3):=0D
-  linux-user: Add missing TARGET___O_TMPFILE for hppa and alpha=0D
-  linux-user: fix O_NONBLOCK usage for hppa target=0D
-  linux-user: fix O_NONBLOCK in signalfd4() and eventfd2() syscalls=0D
-=0D
-Jason A. Donenfeld (1):=0D
-  linux-user: add TARGET_SO_{DOMAIN,PROTOCOL}=0D
-=0D
-Peter Maydell (1):=0D
-  docs/user: Remove outdated 'Quick Start' section=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (2):=0D
-  linux-user/mips64: Restore setup_frame() for o32 ABI=0D
-  linux-user/mips64: Support o32 ABI syscalls=0D
-=0D
-Richard Purdie (1):=0D
-  linux-user/mmap: Avoid asserts for out of range mremap calls=0D
-=0D
-Stefan (1):=0D
-  linux-user/syscall: Fix do_ioctl_ifconf() for 64 bit targets.=0D
-=0D
- docs/user/main.rst                | 61 -------------------------------=0D
- linux-user/alpha/target_fcntl.h   |  1 +=0D
- linux-user/alpha/target_signal.h  |  6 +++=0D
- linux-user/elfload.c              | 30 ++++++++++-----=0D
- linux-user/generic/signal.h       |  6 +++=0D
- linux-user/generic/sockbits.h     |  3 ++=0D
- linux-user/hppa/target_fcntl.h    |  4 +-=0D
- linux-user/hppa/target_signal.h   |  5 +++=0D
- linux-user/mips/sockbits.h        |  2 +=0D
- linux-user/mips/target_signal.h   |  6 +++=0D
- linux-user/mips64/syscall_nr.h    |  5 ++-=0D
- linux-user/mips64/target_elf.h    |  3 ++=0D
- linux-user/mips64/target_signal.h |  9 +++++=0D
- linux-user/mmap.c                 |  4 +-=0D
- linux-user/signal.c               |  3 +-=0D
- linux-user/sparc/target_signal.h  |  6 +++=0D
- linux-user/syscall.c              | 18 +++++++--=0D
- 17 files changed, 93 insertions(+), 79 deletions(-)=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+From: Alistair Francis <alistair.francis@wdc.com>
+
+When mapping the host waitid status to the target status we previously
+just used decoding information in the status value. This doesn't follow
+what the waitid documentation describes, which instead suggests using
+the si_code value for the decoding. This results in the incorrect values
+seen when calling waitid. This is especially apparent on RV32 where all
+wait calls use waitid (see the bug case).
+
+This patch just passes the waitid status directly back to the guest.
+
+Buglink: https://bugs.launchpad.net/qemu/+bug/1906193
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Tested-by: Andreas K. Hüttel <dilfridge@gentoo.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <1fb2d56aa23a81f4473e638abe9e2d78c09a3d5b.1611080607.git.alistair.francis@wdc.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/signal.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index 73de934c6511..7eecec46c407 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -349,8 +349,7 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
+         case TARGET_SIGCHLD:
+             tinfo->_sifields._sigchld._pid = info->si_pid;
+             tinfo->_sifields._sigchld._uid = info->si_uid;
+-            tinfo->_sifields._sigchld._status
+-                = host_to_target_waitstatus(info->si_status);
++            tinfo->_sifields._sigchld._status = info->si_status;
+             tinfo->_sifields._sigchld._utime = info->si_utime;
+             tinfo->_sifields._sigchld._stime = info->si_stime;
+             si_type = QEMU_SI_CHLD;
+-- 
+2.29.2
+
 
