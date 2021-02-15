@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B2131B75E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:42:45 +0100 (CET)
-Received: from localhost ([::1]:58488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2DA31B75D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:42:41 +0100 (CET)
+Received: from localhost ([::1]:58104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBbL2-0000Tw-VD
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:42:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50236)
+	id 1lBbKy-0000IC-7U
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:42:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBbBA-0004Uj-Rr
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:35 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34791)
+ (Exim 4.90_1) (envelope-from <chirantan@google.com>)
+ id 1lBbEf-0000dm-IB
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:36:09 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:40613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBbB3-0001je-LC
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:32 -0500
-Received: by mail-wr1-x432.google.com with SMTP id n4so5265049wrx.1
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 02:32:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=LvF8P5E15O40+Gw1s78SulbtIHDLH/Ds9X/sriTHyPY=;
- b=OwZWmmH+67QuViAPfJoNecTjOjmDLkz2Pz7l3FwpD5dmEKYEl+NKDrHufot9y+vBpu
- 95FruJvL+vrVVPA6CvnN8c4B4BgB+cGyhEA5DHCrLlSMYssxnRrENtFox96ljyLfxfvO
- rWXXB70AXb04VD9SqVUnf86bKQF28CkQHbQC97bee5XMa50LhRTY90F5aQ14DJycs8Nm
- ksAcrzxK1Ijls0fHOIVHDDzJggx3LUFwYOIma1IZKkF6ypY6cT8ITg+S2u54hC9o4eBA
- +UoNvIejGmMFsXcK+gK6eiri2Aw1KNl/u4V27oXXsV/mrVU+CdonvvBj1+pW+YjsTSuH
- u0cg==
+ (Exim 4.90_1) (envelope-from <chirantan@google.com>)
+ id 1lBbEd-0003Gt-C5
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:36:09 -0500
+Received: by mail-ej1-x629.google.com with SMTP id b14so4326266eju.7
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 02:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chromium.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lT/LLKzu5HIqoSbSW/QvdHYh/J21YhqJ53RuEd1nGlY=;
+ b=SVdhVZvVixektXLbPk6WMBq4bXc46Awf+Jc+6NUZnaPK/wk2YTVrQG7ohz9xPW4tcK
+ KEkrHrQTEYhkgbxwDIXCRpVQn+hTOrPTJE5dEwIxg3DoIOHh/QnRh5FOy7rt6zmxi71A
+ 1/ONnfRJFnirbDGgsJQtyWWxJxc9f1M+oxGlc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=LvF8P5E15O40+Gw1s78SulbtIHDLH/Ds9X/sriTHyPY=;
- b=DZ4En4X0X5hAri9Bt8aDgdk2u2kzcWBBOYY1+HPOpf2IRO7T63bT8icQT7uHRDrhad
- Sf8489zMZBdg8Qty5Y2vb1vf/ZHWHfLDHh/ZGjHxotLvhTJPF96BQUq/Ix5+ks87EkPV
- EoMQsxUovAzrixGHkwweSWLVaxUbHGZmBCu/2cNDni9ys+wWnjBppo/V5fiQhpVNgBQ0
- gnsRNKBImVdMewtCRYv05+gFeYZU411o/xAYzI2wt2RSjNNCQcVD5Gwj73eOCSW75Dbx
- 5QDBYR2QadFals0/rp97vZflcjXtKHMCcVNRF4bVtmLS+oRKLAvkqcjzriiLf7kP+w6S
- 4w1g==
-X-Gm-Message-State: AOAM530qEVz1l43VmedqFSx46g7Xln0tLoWMP98gDH4tggdaKNAwPSD2
- XTxuJqizwAgoKP/njEWnUgJkWg==
-X-Google-Smtp-Source: ABdhPJx2jj51v4FTTjpIMfY+6TUpp2EhnqjPfgOEWJLrgm+o5M0Chn+JgtmZii0Y4Jm4aLaOFMit1Q==
-X-Received: by 2002:adf:b611:: with SMTP id f17mr17787056wre.8.1613385144453; 
- Mon, 15 Feb 2021 02:32:24 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 36sm25196300wrj.97.2021.02.15.02.32.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 02:32:24 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH 9/9] hw/display/omap_lcdc: Delete unnecessary macro
-Date: Mon, 15 Feb 2021 10:32:15 +0000
-Message-Id: <20210215103215.4944-10-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210215103215.4944-1-peter.maydell@linaro.org>
-References: <20210215103215.4944-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lT/LLKzu5HIqoSbSW/QvdHYh/J21YhqJ53RuEd1nGlY=;
+ b=a8OcSa6cvN5dLGaIgC5Sd8Kx2277nXV5zjjtJ9CdkmHQ2WPvGNEZtg/X7utJdRSnal
+ jcv3FdPG0Zl91t9VR/cbUsuL0lUJmlb12YmgpV0FNK3f8zo78G7zJOb+qXn0pH0/JeQE
+ 4gqht+Q5XqRUWjHuwfC0OILqsW5Z/vnb6RqBBnYvIrVyc3wNRF+GEOWQezVr/8Yr3K5t
+ IGFD72McepCzajNFj7PoS0JQ7+RUS4LlSuo33KbstM0Mb4Qnl+Ov98wyMr/0+p1TMeTP
+ if9XZ0YuNOPHpZm42zYpKLe2DKKi0LGR3PIjA8sMENYXGkLnSGEKradxXvXBgZHa7l7H
+ luqw==
+X-Gm-Message-State: AOAM533+eCmqBj1o6ddUy0MbPW3/MnPRgB7P6VQJ2TuTqmtJeySU2PDH
+ oMbLiRJtLxsZZOmdrNY/g+Qx9DpzTaRWJPVR47bhNA==
+X-Google-Smtp-Source: ABdhPJzkOGw8nfOlkBDjh5IXAND7jVkuEIzADPlMwCGYq23iuQ48rm8+pUExVioTLyVY3y3BEw7QGbQw//sTQe+VEnY=
+X-Received: by 2002:a17:906:c10a:: with SMTP id
+ do10mr15034474ejc.543.1613385364237; 
+ Mon, 15 Feb 2021 02:36:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-8-dgilbert@redhat.com>
+In-Reply-To: <20210209190224.62827-8-dgilbert@redhat.com>
+From: Chirantan Ekbote <chirantan@chromium.org>
+Date: Mon, 15 Feb 2021 19:35:53 +0900
+Message-ID: <CAJFHJrqioXu7K8Z=dFgMQDWoKoNK3pddcgf9znCS72BR4WHSYA@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH 07/24] DAX: virtio-fs: Add vhost-user slave
+ commands for mapping
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=chirantan@google.com; helo=mail-ej1-x629.google.com
+X-Spam_score_int: -92
+X-Spam_score: -9.3
+X-Spam_bar: ---------
+X-Spam_report: (-9.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +77,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org,
+ virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ marcandre.lureau@redhat.com, Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The macro draw_line_func is used only once; just expand it.
+On Wed, Feb 10, 2021 at 4:04 AM Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> +
+> +typedef struct {
+> +    /* Offsets within the file being mapped */
+> +    uint64_t fd_offset[VHOST_USER_FS_SLAVE_ENTRIES];
+> +    /* Offsets within the cache */
+> +    uint64_t c_offset[VHOST_USER_FS_SLAVE_ENTRIES];
+> +    /* Lengths of sections */
+> +    uint64_t len[VHOST_USER_FS_SLAVE_ENTRIES];
+> +    /* Flags, from VHOST_USER_FS_FLAG_* */
+> +    uint64_t flags[VHOST_USER_FS_SLAVE_ENTRIES];
+> +} VhostUserFSSlaveMsg;
+> +
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/display/omap_lcdc.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Is it too late to change this?  This struct allocates space for up to
+8 entries but most of the time the server will only try to set up one
+mapping at a time so only 32 out of the 256 bytes in the message are
+actually being used.  We're just wasting time memcpy'ing bytes that
+will never be used.  Is there some reason this can't be dynamically
+sized?  Something like:
 
-diff --git a/hw/display/omap_lcdc.c b/hw/display/omap_lcdc.c
-index 2db04fad2fc..0ba42ef637c 100644
---- a/hw/display/omap_lcdc.c
-+++ b/hw/display/omap_lcdc.c
-@@ -70,8 +70,6 @@ static void omap_lcd_interrupts(struct omap_lcd_panel_s *s)
-     qemu_irq_lower(s->irq);
- }
- 
--#define draw_line_func drawfn
--
- /*
-  * 2-bit colour
-  */
-@@ -202,7 +200,7 @@ static void omap_update_display(void *opaque)
- {
-     struct omap_lcd_panel_s *omap_lcd = (struct omap_lcd_panel_s *) opaque;
-     DisplaySurface *surface;
--    draw_line_func draw_line;
-+    drawfn draw_line;
-     int size, height, first, last;
-     int width, linesize, step, bpp, frame_offset;
-     hwaddr frame_base;
--- 
-2.20.1
+typedef struct {
+    /* Number of mapping requests */
+    uint16_t num_requests;
+    /* `num_requests` mapping requests */
+   MappingRequest requests[];
+} VhostUserFSSlaveMsg;
 
+typedef struct {
+    /* Offset within the file being mapped */
+    uint64_t fd_offset;
+    /* Offset within the cache */
+    uint64_t c_offset;
+    /* Length of section */
+    uint64_t len;
+    /* Flags, from VHOST_USER_FS_FLAG_* */
+    uint64_t flags;
+} MappingRequest;
+
+The current pre-allocated structure both wastes space when there are
+fewer than 8 requests and requires extra messages to be sent when
+there are more than 8 requests.  I realize that in the grand scheme of
+things copying 224 extra bytes is basically not noticeable but it just
+irks me that we could fix this really easily before it gets propagated
+to too many other places.
+
+Chirantan
+
+> --
+> 2.29.2
+>
+> _______________________________________________
+> Virtio-fs mailing list
+> Virtio-fs@redhat.com
+> https://www.redhat.com/mailman/listinfo/virtio-fs
+>
 
