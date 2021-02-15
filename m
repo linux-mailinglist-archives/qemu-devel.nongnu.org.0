@@ -2,80 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288D331B80B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:33:27 +0100 (CET)
-Received: from localhost ([::1]:52656 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DCB231B80C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:33:56 +0100 (CET)
+Received: from localhost ([::1]:54772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBc86-00087C-79
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:33:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34590)
+	id 1lBc8Z-0000iv-5I
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:33:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBc5Z-00067Q-F0
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:30:49 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40711)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBc5T-0002MO-Jd
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:30:49 -0500
-Received: by mail-wm1-x330.google.com with SMTP id o24so8964198wmh.5
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=DyiEMzohMwmhQ4jTxdMqg2wKx/CI3A7ZVHyBRXx9ga0=;
- b=IfFe55carfHPPFdTUckNeS1WnZGEQouFIwjRGx4L0JPxO28cQH0nVspwRKuvb4uaBm
- AJi5aS31Hkc58w5BISftzLA199a8fcGbRAu3TXN35Eqv+EF6AxV0ksCkinu93mvUHz7A
- LoNkqno7mfO/ItceuegnRyVbngCWqJezuFAMoaOrwSI1fp1yMJum+mOZmOdFCPn/gSeP
- TguGCmaxg8BM5kIsyKBRiPVhvR6pKGm3wtkznKKOVBcabFzOOkInWiTnF2Kq1r+/iAIA
- E5srSH5c1JypUKjDqKFsczAjPSCPDbz5GUKrQFRa+gC4fgq3raLimc94Fli8bC7PCvY9
- nzXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=DyiEMzohMwmhQ4jTxdMqg2wKx/CI3A7ZVHyBRXx9ga0=;
- b=DcdkMTao5eMb0eEKmUC8vogdrnI0lJzRRiw7S5tPU4+UOUK65SJH88SMjQGBW2eFIu
- ZCtY92IbQz4UvValfe4+cbmZI7VQnRdTjR9z7bVTNP2MTnlSsaj1LVdtPewnt7WQ5anz
- yHVA82yId3u0jNghYIxfIa/3x5Ty6gDcp/2Sw10Lyfqnb8+xs8LbDZcSlonRWjeMx6Ce
- X7g2E0mG565yVajGIFz5evZM78zeZjhM/pkTs501VmKES5Sl3aqtGD22S6q/xoyAsr6Q
- /ychZwP/4C6jzeI+4lvIHK4BQM7uUYZGZ9Wa13UM0Ri2DvlD3uUFZGC3kE4XiZsaGOGJ
- e+nw==
-X-Gm-Message-State: AOAM531eUIlmlIIa6p+c7nyk5AUpKdJ4+al5HSh52eM58pqQvh8P1GW8
- RuBaaRDGB2I9/2GAc3N3p6LUUA==
-X-Google-Smtp-Source: ABdhPJzpJGRxwllm39cSeui/5diTg9DsHQtaJ3igUwW35VL4JHskrdz2XwkBCv9DnlSxoWAjMuQxQQ==
-X-Received: by 2002:a7b:c007:: with SMTP id c7mr2717969wmb.59.1613388642381;
- Mon, 15 Feb 2021 03:30:42 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v204sm25385653wmg.38.2021.02.15.03.30.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 03:30:41 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 82B151FF7E;
- Mon, 15 Feb 2021 11:30:40 +0000 (GMT)
-References: <20210212123622.15834-1-cfontana@suse.de>
- <20210212123622.15834-3-cfontana@suse.de>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v18 02/15] cpu: call AccelCPUClass::cpu_realizefn in
- cpu_exec_realizefn
-Date: Mon, 15 Feb 2021 11:30:35 +0000
-In-reply-to: <20210212123622.15834-3-cfontana@suse.de>
-Message-ID: <87ft1xva8v.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lBc7O-00084a-5x; Mon, 15 Feb 2021 06:32:42 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:51449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lBc7L-0003CB-Vs; Mon, 15 Feb 2021 06:32:41 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Mon, 15 Feb 2021 12:32:20 +0100
+Subject: Re: [PATCH V2 1/7] block/rbd: bump librbd requirement to luminous
+ release
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210126112540.11880-1-pl@kamp.de>
+ <20210126112540.11880-2-pl@kamp.de> <20210215102401.GB1542881@redhat.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <4b010479-bd8b-85e9-ef29-88524fef6495@kamp.de>
+Date: Mon, 15 Feb 2021 12:32:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210215102401.GB1542881@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,26 +56,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, ct@flyingcircus.io,
+ qemu-devel@nongnu.org, mreitz@redhat.com, pbonzini@redhat.com,
+ dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Claudio Fontana <cfontana@suse.de> writes:
-
-> move the call to accel_cpu->cpu_realizefn to the general
-> cpu_exec_realizefn from target/i386, so it does not need to be
-> called for every target explicitly as we enable more targets.
+Am 15.02.21 um 11:24 schrieb Daniel P. Berrangé:
+> On Tue, Jan 26, 2021 at 12:25:34PM +0100, Peter Lieven wrote:
+>> even luminous (version 12.2) is unmaintained for over 3 years now.
+>> Bump the requirement to get rid of the ifdef'ry in the code.
+> We have clear rules on when we bump minimum versions, determined by
+> the OS platforms we target:
 >
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>    https://qemu.readthedocs.io/en/latest/system/build-platforms.html
+>
+> At this time RHEL-7 is usually the oldest platform, and it
+> builds with RBD 10.2.5, so we can't bump the version to 12.2.
+>
+> I'm afraid this patch has to be dropped.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
---=20
-Alex Benn=C3=A9e
+I have asked exactly this question before I started work on this series and got reply
+
+from Jason that he sees no problem in bumping to a release which is already unmaintained
+
+for 3 years.
+
+
+If qemu 6.0 is required to build on RHEL-7 than I am afraid we can abandon the whole series.
+
+
+Peter
+
+
 
