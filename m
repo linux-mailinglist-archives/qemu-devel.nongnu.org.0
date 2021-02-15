@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F7131BFA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:47:15 +0100 (CET)
-Received: from localhost ([::1]:57640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BC7B31BFAF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:48:46 +0100 (CET)
+Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBh1l-0003BS-Rs
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:47:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55214)
+	id 1lBh3F-0004Kx-7g
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:48:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgzY-0002ZT-9L
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:44:56 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35135)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgzW-0003TC-QT
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:44:55 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id e9so4245963pjj.0
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:44:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NEclFU1SRq0AzwXnjxFtjDwyqPRFjoq+mgTN1xFuvnE=;
- b=pKgqUBMTjjw4eDBVCRhcAhcIE4FrPmYIQm8w2Th542I5Z5cKuLax737qNXf6nlyio/
- y/KYAd/8iAlQuRrcUIKg+eP2qp6uneQf0N10RN5zg2p/jSDs1KiNhNh849dCtg65B35q
- dSJKRHkcO8bFdQ6fghMcRHk1ZdY2hU36LSUDccxdTfj7vKXkmM1r5MnH8CgDW/ybVPKF
- poaIymek17tS7MuSq5dcwVPdFrBhfPtpUw8EfVp7ZI8ShQ+3f/4yKoEoIT/LfIuFN9Hu
- L9jOKKglKq9llrgvaKT0SV6xJebXEbvQ2KFDgMvF8iPrlfLKE9GbPCd3yNAtaIRi3vsz
- HfZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NEclFU1SRq0AzwXnjxFtjDwyqPRFjoq+mgTN1xFuvnE=;
- b=Wjdd9o1OP01VICvZPjq3Uvq3oJ2ee3b4I9DwWuiGq8U9eANX0mOqciwi8XiGbFQhBC
- lvo1rpg1oPKKXCTeck6JiiS0qbDQR72VPoE45E8iIqAO+98B1xLcIyGfBs4FWVqd2iYk
- vAwzhvKWviU4xXZ5WaJ/m+EJ7HvGVm+wG53q8KIbUtkRMQWby6S9AhSB/4+EBL6W8Gf1
- 4em9e8Dz8EwoMbFNlqle65SFKyRbomRI/c9s8Z3R91vmsg2XLt6FWWw4c4hT+7xvtyxi
- MW8h5QkhdzwY67U5I79CbahyZUFtkzqNvFrsefOKiqwLaY+2TcAEvarivt4uFqtxxXwP
- SMNw==
-X-Gm-Message-State: AOAM530lMpv5+4bffZRl7dB0jWxN7W7PkMF/Jbmh3a1RUPihuX1/al3e
- tEsrJfy4MwNR0H9gxgG7d45vJw==
-X-Google-Smtp-Source: ABdhPJwB2J6AZgYfPjsWZHytiqAPT/3MXp0FXHFAIMoKHfBUodhP3G/XMxobHtgxleCp1cEyXQisPQ==
-X-Received: by 2002:a17:902:9a49:b029:df:fab8:384 with SMTP id
- x9-20020a1709029a49b02900dffab80384mr16244796plv.37.1613407492989; 
- Mon, 15 Feb 2021 08:44:52 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- 12sm18252034pjm.28.2021.02.15.08.44.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:44:52 -0800 (PST)
-Subject: Re: [RFC PATCH 17/42] target/mips/tx79: Introduce PEXTUW (Parallel
- Extend Upper from Word)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-18-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <da28d921-ac5a-28d7-af0f-e6e5d23986fc@linaro.org>
-Date: Mon, 15 Feb 2021 08:44:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBh1K-0003WF-G7
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:46:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23827)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBh1H-0003s8-Ge
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:46:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613407602;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=q65UFJy/gkry1+SfB1Q7gS0yo2Hl7rGlfn75+wdFExI=;
+ b=R/BxHniAyVomywZTUdyaqLuAgSG7r6i9cSNwpCKzI1A82rqsipB/rFs3cLuvgPUPDav6/Q
+ 3RE2S+XHhVv/tAIT+TaRLwyEpUMuXKTGQQOvW6OEBv+ZNoxRd7rovwooCvRVeuckq7ME7e
+ 3hqts6z74zbe5MBZAtGr0Z4HJEEYT3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-OXepaJ27MNiof0ylOZCSxg-1; Mon, 15 Feb 2021 11:46:38 -0500
+X-MC-Unique: OXepaJ27MNiof0ylOZCSxg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CEF7B106BB23;
+ Mon, 15 Feb 2021 16:46:37 +0000 (UTC)
+Received: from [10.3.112.189] (ovpn-112-189.phx2.redhat.com [10.3.112.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 411741F0;
+ Mon, 15 Feb 2021 16:46:37 +0000 (UTC)
+Subject: Re: [PULL 3/5] qemu-iotests: 300: Add test case for modifying
+ persistence of bitmap
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210212232134.1462756-1-eblake@redhat.com>
+ <20210212232134.1462756-4-eblake@redhat.com>
+ <20210215123152.GM7226@merkur.fritz.box>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0cd1617d-b22f-4ce1-38c2-df8822c3fbbe@redhat.com>
+Date: Mon, 15 Feb 2021 10:46:36 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-18-f4bug@amsat.org>
+In-Reply-To: <20210215123152.GM7226@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,25 +84,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Peter Krempa <pkrempa@redhat.com>, John Snow <jsnow@redhat.com>,
+ qemu-devel@nongnu.org, "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
-> +    tcg_gen_deposit_i64(cpu_gpr[a->rd], bx, ax, 32, 32);
-> +    tcg_gen_shri_i64(bx, bx, 32);
-> +    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], ax, bx, 0, 32);
+On 2/15/21 6:31 AM, Kevin Wolf wrote:
+> Am 13.02.2021 um 00:21 hat Eric Blake geschrieben:
+>> From: Peter Krempa <pkrempa@redhat.com>
+>>
+>> Verify that the modification of the bitmap persistence over migration
+>> which is controlled via BitmapMigrationBitmapAliasTransform works
+>> properly.
+>>
+>> Based on TestCrossAliasMigration
+>>
+>> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+>> Message-Id: <d9c8e9827e9b6001b2dd1b92e64aab858e6d2a86.1613150869.git.pkrempa@redhat.com>
+>> Reviewed-by: Eric Blake <eblake@redhat.com>
+>> [eblake: Adjust test for explicit read_zeroes=False]
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> This breaks 297:
+> 
+> --- /home/kwolf/source/qemu/tests/qemu-iotests/297.out
+> +++ 297.out.bad
+> @@ -1,2 +1,8 @@
+>  === pylint ===
+> +************* Module 300
+> +300:605:0: C0301: Line too long (80/79) (line-too-long)
+> +300:677:0: C0301: Line too long (98/79) (line-too-long)
 
-I think you should pull this out as a helper:
+These two are easy fixes (add line breaks for shorter lines), but this:
 
-void gen_pextw(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 a, TCGv_i64 b);
+>  === mypy ===
+> +300:646: error: Dict entry 2 has incompatible type "str": "Dict[str, bool]"; expected "str": "str"
+> +Found 1 error in 1 file (checked 1 source file)
 
-since you'll re-use this for PEXTLW.
+is beyond my skill.  The typing at line 33:
 
+BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
 
-r~
+is insufficient to allow our new 'transform' member in the new
+transform_mapping() -> Block BitmapMapping near line 677:
+
+                'bitmaps': [
+                    {
+                        'name': 'bmap-a',
+                        'alias': 'bmap-a',
+                        'transform':
+                            {
+                                'persistent': True
+                            }
+                    },
+
+but I'm not sure how to tell python the right type it should be.  John?
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
