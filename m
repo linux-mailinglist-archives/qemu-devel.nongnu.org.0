@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5C531C345
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 21:54:26 +0100 (CET)
-Received: from localhost ([::1]:34390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 750F831C362
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 22:05:02 +0100 (CET)
+Received: from localhost ([::1]:59900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBksz-0000BE-SU
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 15:54:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44840)
+	id 1lBl3E-00043Y-Ph
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 16:05:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1lBkqz-0007er-64; Mon, 15 Feb 2021 15:52:22 -0500
-Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:41758)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBl0L-0001Ty-AR
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:02:02 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:45450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <baturo.alexey@gmail.com>)
- id 1lBkqv-0001ET-PX; Mon, 15 Feb 2021 15:52:20 -0500
-Received: by mail-lf1-x12a.google.com with SMTP id d24so12561091lfs.8;
- Mon, 15 Feb 2021 12:52:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=REzYk8mt8LPYoROmKkHdnq0I+RdbVFqEzaLOu2U4cIA=;
- b=gqOXwUU6ExZI+m86V3zoly7a7y1+YjUgElsBWAKSNFQZe0LKzxqqjiJFA8dv49x0ns
- m5lcJ59KHauIe2wzN3aDaUdhFPb4EMZglfsrEmrTt22iu565yW7zcaW0GpFzGIGp7ndk
- hK/MZFoFf4B6QDA+rfDwfk09yyWBF0xA3z/Xd/OfdOMQj8nutFvsZPnbGHJhHtahfwma
- VZKpKNRy+6o8PnvJgy3Ievu+eRTAZjtldOOj6wgPLEnxLw4AO8vLtWHjPwIAfmCBADqn
- BXR3AvvRbkW26f/ygJV9VqTkY5hGpFfeidue3sG3ancjEtZnZWbNSD0LcZwevgWeZ/uR
- kGgA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBl0H-00069q-Bu
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:02:00 -0500
+Received: by mail-pf1-x435.google.com with SMTP id j12so4849921pfj.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 13:01:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1qwBER4EcrbMZjvmGZZNRHvT6bcLut3Nyjir6UuUSTM=;
+ b=stEBuHL5Zs9HajyqRofpvrfveKymN40/q4BteQNJgxUEPK6PuQd81n2GjO67jIM6/X
+ UcwfSnrtHQCHAWkb/DegXKluZX0qTi/GJxBxaJBeFyp7R4Arr/S1poGIrQJO6nppheVt
+ mR6PwmE2REBv9+kTPxAT01c5kl6JhrbV7QGdlmIt/Gz6kvH3MJ7pKsqElpA9es0SpKUk
+ iSMR6EwPiwXvhaZxua4cgw3QfTrSusRYs1hTpvj2JnOiuR4vNCnzNTR2fUG857/wWvag
+ R5QPhlBwNDWStFETPeBGtMvTF6SoRkYHM7QcOw5Hr/Zn0yauOGW2N+IqOkrZNnBZ55Ir
+ Cpxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=REzYk8mt8LPYoROmKkHdnq0I+RdbVFqEzaLOu2U4cIA=;
- b=AgY2SligDeUa13KrNjSyC4fSKIr2VV6iaQzgiEOSXGY/Dz+hnMOQBG+jYwQYBaVCgb
- YDpAgo8VAf5yp8CxBoqJBOwXTxDkR79H0cd/TwJ2Ui5k8deW0dD1YWibajg3qDR8cwYX
- +kRQUvA0YBUFxquhlkQ7h4K5degrKoV195q7jCC2U7BJOmck1Xy4JUYzfRNQkh1EvWe/
- FfGKxnVR63aSKiNfKR36yBQ/8Rf54YKKIxBgQttBAfrxSSoWh429fVGdxWDVbym55X8e
- cJ+xAUIoiS4NeT8kxahQ7nXE92jzvJk7YJmlWvodYufpVQFqwEz3SbxDI0JthbTSZ3yU
- SOXQ==
-X-Gm-Message-State: AOAM533y1sOYU1qTWk3UmniT2z9Gm7DCkijQgrtrQwtjvuWAuXJ1lZTv
- puaEzQxOXYvkNdPccBSx1coI6LfVmWqWQWUnU90=
-X-Google-Smtp-Source: ABdhPJzZuHbGd8MA5C+erAROXbipy0e1rFGJNLBIst+7uNZT4AN1WJX1PQk9TocnHWngFQH+ZPIC3vmH34ug7HSDEfk=
-X-Received: by 2002:ac2:5605:: with SMTP id v5mr2845050lfd.655.1613422335332; 
- Mon, 15 Feb 2021 12:52:15 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1qwBER4EcrbMZjvmGZZNRHvT6bcLut3Nyjir6UuUSTM=;
+ b=bguMKyAx22NoyQbxnT5S0KBeP4Nm4BeVQ9YVmmS8Qwu0NCO3YAu6gWGDj4ma974vyi
+ R1jcE2b+QZQ1x0dYXAOZDtPESCWoZ9T60gHsWQ02p2MYKtZIJmdZ3OsJEqsYpCMQPtpd
+ c7T6cJJpIxG5uxK6JEoWLYC3//xaZrDOXiDNiVPZIbZr2/iMn6MSlrzUWBqeT5I3V2yD
+ 7JnnGCFGWT5betrqV6oCqVQc7Y1HbXgHlyC12jzn6zYQqWYJC6JjrCsCgCYpg9UpCdh8
+ G2iurhRXyJGCaLQA/AzPEyaSjTILPaMkIv4c/Tsf1E2mxNIagSF9zLxzWpFNW3ZedWLD
+ /cLw==
+X-Gm-Message-State: AOAM530oboMLZ9B+GNmQwLQgcjPAPRYViZnrdozg/z30TIjD55EExLkq
+ x0Y49OAFGppwJ1i+eEMThQLZug==
+X-Google-Smtp-Source: ABdhPJyhCAV6dWJeXggWl44xxXocf9KaGapd9p/MlnTdbDUvLR+wtdyu7hniwrF8JSSv4OAdvAUGRg==
+X-Received: by 2002:aa7:8b59:0:b029:1e9:8229:c100 with SMTP id
+ i25-20020aa78b590000b02901e98229c100mr15641702pfd.19.1613422915773; 
+ Mon, 15 Feb 2021 13:01:55 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id kr16sm352606pjb.23.2021.02.15.13.01.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Feb 2021 13:01:55 -0800 (PST)
+Subject: Re: [RFC PATCH 28/42] target/mips/tx79: Move RDHWR usermode kludge to
+ trans_SQ()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210214175912.732946-1-f4bug@amsat.org>
+ <20210214175912.732946-29-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <d47d5ab7-9663-8647-483f-878e0bcb3bbe@linaro.org>
+Date: Mon, 15 Feb 2021 13:01:52 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
- <CAKmqyKP7tig8Lh=qktUnM+HMhZK0__qTgRXDeCayiZ-S0fyGTA@mail.gmail.com>
-In-Reply-To: <CAKmqyKP7tig8Lh=qktUnM+HMhZK0__qTgRXDeCayiZ-S0fyGTA@mail.gmail.com>
-From: Alexey Baturo <baturo.alexey@gmail.com>
-Date: Mon, 15 Feb 2021 23:52:04 +0300
-Message-ID: <CAFukJ-DcspptvOzcqHEdXsdXZbu4uSVrOgwjVbc41BpMOtq=+Q@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] RISC-V Pointer Masking implementation
-To: Alistair Francis <alistair23@gmail.com>
-Content-Type: multipart/alternative; boundary="0000000000002b95b705bb662966"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12a;
- envelope-from=baturo.alexey@gmail.com; helo=mail-lf1-x12a.google.com
+In-Reply-To: <20210214175912.732946-29-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,216 +90,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- "space.monkey.delivers@gmail.com" <space.monkey.delivers@gmail.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000002b95b705bb662966
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
+> Now than SQ is properly implemented, we can move the RDHWR
+> kludge required to have usermode working with recent glibc.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/translate.c      | 56 ------------------------------------
+>  target/mips/tx79_translate.c | 34 +++++++++++++++++++++-
+>  2 files changed, 33 insertions(+), 57 deletions(-)
+> 
+> diff --git a/target/mips/translate.c b/target/mips/translate.c
+> index c1d07a4591d..0fa2b3bcc15 100644
+> --- a/target/mips/translate.c
+> +++ b/target/mips/translate.c
+> @@ -1780,7 +1780,6 @@ enum {
+>  
+>  enum {
+>      MMI_OPC_CLASS_MMI = 0x1C << 26,    /* Same as OPC_SPECIAL2 */
+> -    MMI_OPC_SQ        = 0x1F << 26,    /* Same as OPC_SPECIAL3 */
+>  };
+>  
+>  /*
+> @@ -27330,53 +27329,6 @@ static void decode_mmi(CPUMIPSState *env, DisasContext *ctx)
+>      }
+>  }
+>  
+> -static void gen_mmi_sq(DisasContext *ctx, int base, int rt, int offset)
+> -{
+> -    gen_reserved_instruction(ctx);    /* TODO: MMI_OPC_SQ */
+> -}
+> -
+> -/*
+> - * The TX79-specific instruction Store Quadword
+> - *
+> - * +--------+-------+-------+------------------------+
+> - * | 011111 |  base |   rt  |           offset       | SQ
+> - * +--------+-------+-------+------------------------+
+> - *      6       5       5                 16
+> - *
+> - * has the same opcode as the Read Hardware Register instruction
+> - *
+> - * +--------+-------+-------+-------+-------+--------+
+> - * | 011111 | 00000 |   rt  |   rd  | 00000 | 111011 | RDHWR
+> - * +--------+-------+-------+-------+-------+--------+
+> - *      6       5       5       5       5        6
+> - *
+> - * that is required, trapped and emulated by the Linux kernel. However, all
+> - * RDHWR encodings yield address error exceptions on the TX79 since the SQ
+> - * offset is odd. Therefore all valid SQ instructions can execute normally.
+> - * In user mode, QEMU must verify the upper and lower 11 bits to distinguish
+> - * between SQ and RDHWR, as the Linux kernel does.
+> - */
+> -static void decode_mmi_sq(CPUMIPSState *env, DisasContext *ctx)
+> -{
+> -    int base = extract32(ctx->opcode, 21, 5);
+> -    int rt = extract32(ctx->opcode, 16, 5);
+> -    int offset = extract32(ctx->opcode, 0, 16);
+> -
+> -#ifdef CONFIG_USER_ONLY
+> -    uint32_t op1 = MASK_SPECIAL3(ctx->opcode);
+> -    uint32_t op2 = extract32(ctx->opcode, 6, 5);
+> -
+> -    if (base == 0 && op2 == 0 && op1 == OPC_RDHWR) {
+> -        int rd = extract32(ctx->opcode, 11, 5);
+> -
+> -        gen_rdhwr(ctx, rt, rd, 0);
+> -        return;
+> -    }
+> -#endif
+> -
+> -    gen_mmi_sq(ctx, base, rt, offset);
+> -}
+> -
+>  #endif
+>  
+>  static void decode_opc_special3(CPUMIPSState *env, DisasContext *ctx)
+> @@ -27561,15 +27513,7 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+>          }
+>          break;
+>      case OPC_SPECIAL3:
+> -#if defined(TARGET_MIPS64)
+> -        if (ctx->insn_flags & INSN_R5900) {
+> -            decode_mmi_sq(env, ctx);    /* MMI_OPC_SQ */
+> -        } else {
+> -            decode_opc_special3(env, ctx);
+> -        }
+> -#else
+>          decode_opc_special3(env, ctx);
+> -#endif
+>          break;
+>      case OPC_REGIMM:
+>          op1 = MASK_REGIMM(ctx->opcode);
+> diff --git a/target/mips/tx79_translate.c b/target/mips/tx79_translate.c
+> index 386bae7808b..2aa3182d21d 100644
+> --- a/target/mips/tx79_translate.c
+> +++ b/target/mips/tx79_translate.c
+> @@ -411,7 +411,7 @@ static bool trans_LQ(DisasContext *ctx, arg_itype *a)
+>      return true;
+>  }
+>  
+> -static bool trans_SQ(DisasContext *ctx, arg_itype *a)
+> +static bool trans_SQ_real(DisasContext *ctx, arg_itype *a)
+>  {
+>      TCGv_i64 t0 = tcg_temp_new_i64();
+>      TCGv addr = tcg_temp_new();
+> @@ -438,6 +438,38 @@ static bool trans_SQ(DisasContext *ctx, arg_itype *a)
+>      return true;
+>  }
+>  
+> +static bool trans_SQ(DisasContext *ctx, arg_itype *a)
+> +{
+> +    /*
+> +     * The TX79-specific instruction Store Quadword
+> +     *
+> +     * +--------+-------+-------+------------------------+
+> +     * | 011111 |  base |   rt  |           offset       | SQ
+> +     * +--------+-------+-------+------------------------+
+> +     *      6       5       5                 16
+> +     *
+> +     * has the same opcode as the Read Hardware Register instruction
+> +     *
+> +     * +--------+-------+-------+-------+-------+--------+
+> +     * | 011111 | 00000 |   rt  |   rd  | 00000 | 111011 | RDHWR
+> +     * +--------+-------+-------+-------+-------+--------+
+> +     *      6       5       5       5       5        6
+> +     *
+> +     * that is required, trapped and emulated by the Linux kernel. However, all
+> +     * RDHWR encodings yield address error exceptions on the TX79 since the SQ
+> +     * offset is odd.
 
-Hi Alistair,
+Not that it's odd (the final address is masked, remember), but that it a store
+to an address in the zero page.
 
-Sorry for the late reply.
+> Therefore all valid SQ instructions can execute normally.
+> +     * In user mode, QEMU must verify the upper and lower 13 bits to distinguish
 
->Do you know the current state of the spec?
-As far as I can tell, the spec for PointerMasking is quite frozen: it has
-not been updated for quite some time, but some of the clarifications have
-not been included in the actual spec.
-I'll ask the J workgroup if they could do draft release v0.1, while I'll
-address the fixed you proposed in this patch series.
-Meanwhile could you please tell, if it's ok to push several series of
-patches to claim the support of i.e. v0.1 or it's mandatory to push all the
-patches at once?
+11 bits.
 
-Thanks!
+> +     * between SQ and RDHWR, as the Linux kernel does.
+> +     */
+> +#if defined(CONFIG_USER_ONLY)
+> +    if (!a->base && extract32(a->offset, 0, 11) == 0b00000111011) {
+> +        gen_rdhwr(ctx, a->rt, extract32(ctx->opcode, 11, 5), 0);
+> +        return true;
+> +    }
+> +#endif
 
-=D1=81=D1=80, 3 =D1=84=D0=B5=D0=B2=D1=80. 2021 =D0=B3. =D0=B2 22:22, Alista=
-ir Francis <alistair23@gmail.com>:
+I would do this as
 
-> On Sun, Jan 10, 2021 at 10:54 AM Alexey Baturo <baturo.alexey@gmail.com>
-> wrote:
-> >
-> > Hi folks,
-> >
-> > Sorry it took me almost 3 month to provide the reply and fixes: it was =
-a
-> really busy EOY.
-> > This series contains fixed @Alistair suggestion on enabling J-ext.
-> >
-> > As for @Richard comments:
-> > - Indeed I've missed appending review-by to the approved commits. Now
-> I've restored them except for the fourth commit. @Richard could you pleas=
-e
-> tell if you think it's still ok to commit it as is, or should I support
-> masking mem ops for RVV first?
-> > - These patches don't have any support for load/store masking for RVV
-> and RVH extensions, so no support for special load/store for Hypervisor i=
-n
-> particular.
-> >
-> > If this patch series would be accepted, I think my further attention
-> would be to:
-> > - Support pm for memory operations for RVV
-> > - Add proper csr and support pm for memory operations for Hypervisor mo=
-de
-> > - Support address wrapping on unaligned accesses as @Richard mentioned
-> previously
->
-> Overall this looks fine.
->
-> Unfortunately it doesn't look like there is a release of the pointer
-> masking spec. Until there is a release (a draft release counts) we
-> can't accept it. We need a version to point to so that we can say "we
-> support v0.1 of the RISC-V pointer masking spec". Otherwise we are
-> chasing a moving target and users don't know what version we do/don't
-> support.
->
-> Do you know the current state of the spec?
->
-> Alistair
->
-> >
-> > Thanks!
-> >
-> > Alexey Baturo (5):
-> >   [RISCV_PM] Add J-extension into RISC-V
-> >   [RISCV_PM] Support CSRs required for RISC-V PM extension except for
-> >     the ones required for hypervisor mode
-> >   [RISCV_PM] Print new PM CSRs in QEMU logs
-> >   [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
-> >     instructions
-> >   [RISCV_PM] Allow experimental J-ext to be turned on
-> >
-> > Anatoly Parshintsev (1):
-> >   [RISCV_PM] Implement address masking functions required for RISC-V
-> >     Pointer Masking extension
-> >
-> >  target/riscv/cpu.c                      |  30 +++
-> >  target/riscv/cpu.h                      |  33 +++
-> >  target/riscv/cpu_bits.h                 |  66 ++++++
-> >  target/riscv/csr.c                      | 271 ++++++++++++++++++++++++
-> >  target/riscv/insn_trans/trans_rva.c.inc |   3 +
-> >  target/riscv/insn_trans/trans_rvd.c.inc |   2 +
-> >  target/riscv/insn_trans/trans_rvf.c.inc |   2 +
-> >  target/riscv/insn_trans/trans_rvi.c.inc |   2 +
-> >  target/riscv/translate.c                |  44 ++++
-> >  9 files changed, 453 insertions(+)
-> >
-> > --
-> > 2.20.1
-> >
-> >
->
+{
+  RDHWR_user  011111 00000 ..... ..... 00000 111011   @rd_rt
+  SQ          011111 ..... ..... ................     @ldst
+}
 
---0000000000002b95b705bb662966
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+static bool trans_RDHWR_user(DisasContext *ctx, arg_rtype *a)
+{
+#ifdef CONFIG_USER_ONLY
+    gen_rdhwr(ctx, a->rt, a->rd, 0);
+    return true;
+#else
+    return false;
+#endif
+}
 
-<div dir=3D"ltr">Hi Alistair,<div><br></div><div>Sorry for the late reply.<=
-/div><div><br></div><div>&gt;Do you know the current state of the spec?</di=
-v><div>As far as I can tell, the spec for PointerMasking is quite frozen: i=
-t has not been updated for quite some time, but some of the clarifications =
-have not been included in the actual spec.</div><div>I&#39;ll ask the J wor=
-kgroup if they could do draft release v0.1, while I&#39;ll address the fixe=
-d you proposed in this patch series.</div><div>Meanwhile could you please t=
-ell, if it&#39;s ok to push several series of patches to claim the support =
-of i.e. v0.1 or it&#39;s mandatory to push all the patches at once?</div><d=
-iv><br></div><div>Thanks!</div></div><br><div class=3D"gmail_quote"><div di=
-r=3D"ltr" class=3D"gmail_attr">=D1=81=D1=80, 3 =D1=84=D0=B5=D0=B2=D1=80. 20=
-21 =D0=B3. =D0=B2 22:22, Alistair Francis &lt;<a href=3D"mailto:alistair23@=
-gmail.com">alistair23@gmail.com</a>&gt;:<br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex">On Sun, Jan 10, 2021 at 10:54 AM Alexey Baturo &lt=
-;<a href=3D"mailto:baturo.alexey@gmail.com" target=3D"_blank">baturo.alexey=
-@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Hi folks,<br>
-&gt;<br>
-&gt; Sorry it took me almost 3 month to provide the reply and fixes: it was=
- a really busy EOY.<br>
-&gt; This series contains fixed @Alistair suggestion on enabling J-ext.<br>
-&gt;<br>
-&gt; As for @Richard comments:<br>
-&gt; - Indeed I&#39;ve missed appending review-by to the approved commits. =
-Now I&#39;ve restored them except for the fourth commit. @Richard could you=
- please tell if you think it&#39;s still ok to commit it as is, or should I=
- support masking mem ops for RVV first?<br>
-&gt; - These patches don&#39;t have any support for load/store masking for =
-RVV and RVH extensions, so no support for special load/store for Hypervisor=
- in particular.<br>
-&gt;<br>
-&gt; If this patch series would be accepted, I think my further attention w=
-ould be to:<br>
-&gt; - Support pm for memory operations for RVV<br>
-&gt; - Add proper csr and support pm for memory operations for Hypervisor m=
-ode<br>
-&gt; - Support address wrapping on unaligned accesses as @Richard mentioned=
- previously<br>
-<br>
-Overall this looks fine.<br>
-<br>
-Unfortunately it doesn&#39;t look like there is a release of the pointer<br=
->
-masking spec. Until there is a release (a draft release counts) we<br>
-can&#39;t accept it. We need a version to point to so that we can say &quot=
-;we<br>
-support v0.1 of the RISC-V pointer masking spec&quot;. Otherwise we are<br>
-chasing a moving target and users don&#39;t know what version we do/don&#39=
-;t<br>
-support.<br>
-<br>
-Do you know the current state of the spec?<br>
-<br>
-Alistair<br>
-<br>
-&gt;<br>
-&gt; Thanks!<br>
-&gt;<br>
-&gt; Alexey Baturo (5):<br>
-&gt;=C2=A0 =C2=A0[RISCV_PM] Add J-extension into RISC-V<br>
-&gt;=C2=A0 =C2=A0[RISCV_PM] Support CSRs required for RISC-V PM extension e=
-xcept for<br>
-&gt;=C2=A0 =C2=A0 =C2=A0the ones required for hypervisor mode<br>
-&gt;=C2=A0 =C2=A0[RISCV_PM] Print new PM CSRs in QEMU logs<br>
-&gt;=C2=A0 =C2=A0[RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/=
-a types of<br>
-&gt;=C2=A0 =C2=A0 =C2=A0instructions<br>
-&gt;=C2=A0 =C2=A0[RISCV_PM] Allow experimental J-ext to be turned on<br>
-&gt;<br>
-&gt; Anatoly Parshintsev (1):<br>
-&gt;=C2=A0 =C2=A0[RISCV_PM] Implement address masking functions required fo=
-r RISC-V<br>
-&gt;=C2=A0 =C2=A0 =C2=A0Pointer Masking extension<br>
-&gt;<br>
-&gt;=C2=A0 target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 30 +++<br>
-&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 33 +++<br>
-&gt;=C2=A0 target/riscv/cpu_bits.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0|=C2=A0 66 ++++++<br>
-&gt;=C2=A0 target/riscv/csr.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 271 ++++++++++++++++++++++++<br>
-&gt;=C2=A0 target/riscv/insn_trans/trans_rva.c.inc |=C2=A0 =C2=A03 +<br>
-&gt;=C2=A0 target/riscv/insn_trans/trans_rvd.c.inc |=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 target/riscv/insn_trans/trans_rvf.c.inc |=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 target/riscv/insn_trans/trans_rvi.c.inc |=C2=A0 =C2=A02 +<br>
-&gt;=C2=A0 target/riscv/translate.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 |=C2=A0 44 ++++<br>
-&gt;=C2=A0 9 files changed, 453 insertions(+)<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.20.1<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div>
 
---0000000000002b95b705bb662966--
+r~
 
