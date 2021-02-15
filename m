@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7826A31B8DA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:17:37 +0100 (CET)
-Received: from localhost ([::1]:46022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF07E31B906
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:21:24 +0100 (CET)
+Received: from localhost ([::1]:53846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBcoq-0003U8-GR
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:17:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41750)
+	id 1lBcsW-0006xk-0C
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:21:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBcY1-0003Cu-6j
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:00:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43750)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBcXy-0007If-Si
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:00:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613390410;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pDply04e8Z6C0SbQndH0QOOZsR+C9gWr3bq56MP+oLU=;
- b=eMemAra3+rDWrD+pcC5qrnt2MLl/P5QRtIiOEdpz3lNQ6l+sLLtDwlVRjZy7M+2ohbHFSg
- 8FIZiaZOx1mCn6RTLG9aBeFeg5YmKgmBMmjTJki4bWgGA6b3rSGIMh5FRU6POABfBqaSM1
- Y4+qvSNngf7B+S5UFBP5OI3XLgDAvts=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-d7i6oTY8PC-10rPIChBz7w-1; Mon, 15 Feb 2021 07:00:05 -0500
-X-MC-Unique: d7i6oTY8PC-10rPIChBz7w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3B7F83DCC6;
- Mon, 15 Feb 2021 12:00:03 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7BE915D9CA;
- Mon, 15 Feb 2021 12:00:00 +0000 (UTC)
-Date: Mon, 15 Feb 2021 11:59:57 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 32/42] docker: Add gentoo-mipsr5900el-cross image
-Message-ID: <20210215115957.GG1542881@redhat.com>
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-33-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lBca6-0005Fl-4B
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:02:22 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39946)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lBca2-0008CI-Im
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:02:21 -0500
+Received: by mail-wm1-x336.google.com with SMTP id o24so9049664wmh.5
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 04:02:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=57uPlBSKfyRA2c3AHqsYNnwOJrVEMuXdNhntg7Akhls=;
+ b=OGo/j+iJNAVAamBCODGtgZ44fOEuO1Q17Lo1wN9goMFUY2TP150hhVf7F1skK9zAcz
+ V2yL3bklHgrMm7salYQEVqsnKm/lswAfrCT5U4RN5XvTSHjikHrVoLF1M0FRnB9u57Ve
+ znJGKJ+cMcy31HsbeOoyWTblMr9tAnuIZaDZTWRZLDqCPo0TS3Iq0I4Qdx2rXrNnyAFy
+ fGUyUH238wAlYnifIZK0UV/ElRx75s0dYOldFSWl6LRnQKhPIFik7tWfJiSFRn9BJGJr
+ rXEhxhd9ki+6NONTQPfqwoL/qwjdO9VFwKiGxCPE0Vwo8BgmpYZxLh0EaL1QNNnWN5PZ
+ TVdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=57uPlBSKfyRA2c3AHqsYNnwOJrVEMuXdNhntg7Akhls=;
+ b=gmDYPZuAKLrWQGDTVRf2gUIJA4T3iZek0oOhEZi3XXoxwBzgalH03Ff4+XlgjRtrwi
+ V4fU0bgQwGKbOq78lz3kPIBMa5VjjtYuCRagYSsZNALgLT3XVbA3ggoPKU+VI5OglAjL
+ RkBqZFgznhvdO+5U9PCGe2PkLtRMb63Yaii7l2guQH18oHLiYWdNDHK9IYrUZWC7Vxw7
+ YcVTPpbVCiVg4Gs5ZTF62In8EMuhHbXNREdf+SCw47JRjFvv+ckeIuWoaLyMSS5aU1x3
+ NuZT/HD3R9uVZD+m4OjP5ZI0U5W2b1v30zmJOXRFWfg6n9oYEIoksYQ7Xjdq2dPLy1Lv
+ Ut6g==
+X-Gm-Message-State: AOAM53263GlXVjN0PcTVW0tFsjabh6MHRG5Gnk3ao9srSfRtkMnU8wB6
+ 4mo4uVdUD0qfG5mofMh42IdvWw==
+X-Google-Smtp-Source: ABdhPJwQfQX5o4dWc6i1pjqXkddUQH0NLM/nQeLGD+ZkXiWX0KS3uJYkwrUEupE7/uG3q3TkF1bloA==
+X-Received: by 2002:a1c:1bc4:: with SMTP id b187mr13815352wmb.18.1613390535607; 
+ Mon, 15 Feb 2021 04:02:15 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id o83sm25799934wme.37.2021.02.15.04.02.14
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Feb 2021 04:02:14 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 9E0531FF7E;
+ Mon, 15 Feb 2021 12:02:13 +0000 (GMT)
+References: <20210117164813.4101761-1-f4bug@amsat.org>
+ <20210117164813.4101761-5-f4bug@amsat.org>
+ <fd7e64cd-d2cd-104f-ac1b-f5476e08b5a9@suse.de>
+ <47f62c85-243c-ba70-56d6-0157afa5ae86@amsat.org>
+ <35adfe42-6f89-1f48-7ed2-da1d2f4d7eb7@suse.de>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH 4/6] accel/tcg: Declare missing cpu_loop_exit*() stubs
+Date: Mon, 15 Feb 2021 12:01:02 +0000
+In-reply-to: <35adfe42-6f89-1f48-7ed2-da1d2f4d7eb7@suse.de>
+Message-ID: <874kidv8sa.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-33-f4bug@amsat.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,117 +90,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Fredrik Noring <noring@nocrew.org>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Huacai Chen <chenhuacai@kernel.org>, Eduardo Habkost <ehabkost@redhat.com>,
+ Riku Voipio <riku.voipio@iki.fi>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Feb 14, 2021 at 06:59:02PM +0100, Philippe Mathieu-Daudé wrote:
-> Add a Docker image providing cross toolchain for the MIPS R5900 CPU
-> (used on the Sony PS2).
-> 
-> This image is based on Gentoo and the toolchain is built using crossdev.
 
-Is there any way we can do this with a distro that isn't Gentoo
-so that we can get a container build that is fast enough to be
-useful for CI ?
+Claudio Fontana <cfontana@suse.de> writes:
 
-> 
-> Recipe from:
->   https://lists.gnu.org/archive/html/qemu-devel/2018-09/msg03944.html
-> 
-> Suggested-by: Fredrik Noring <noring@nocrew.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  tests/docker/Makefile.include                 |  3 ++
->  .../gentoo-mipsr5900el-cross.docker           | 35 +++++++++++++++++++
->  .../crossdev.conf                             |  5 +++
->  3 files changed, 43 insertions(+)
->  create mode 100644 tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
->  create mode 100644 tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
-> 
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index 93b29ad823e..3d6306c7728 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -146,6 +146,9 @@ docker-image-debian-riscv64-cross: docker-image-debian10
->  docker-image-debian-s390x-cross: docker-image-debian10
->  docker-image-debian-sh4-cross: docker-image-debian10
->  docker-image-debian-sparc64-cross: docker-image-debian10
-> +docker-image-gentoo-mipsr5900el-cross: EXTRA_FILES:=$(addprefix \
-> +			$(SRC_PATH)/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/,\
-> +				crossdev.conf)
->  
->  docker-image-travis: NOUSER=1
->  
-> diff --git a/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
-> new file mode 100644
-> index 00000000000..88ada20623d
-> --- /dev/null
-> +++ b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker
-> @@ -0,0 +1,35 @@
-> +#
-> +# Docker mipsel (r5900) cross-compiler target
-> +#
-> +# Using multi-stage builds, this image requires docker-17.05.0 or later.
-> +# (See: https://github.com/gentoo/gentoo-docker-images)
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-or-later
-> +
-> +# name the portage image
-> +FROM gentoo/portage:20201121 as portage
-> +
-> +# image is based on stage3-amd64
-> +FROM gentoo/stage3:latest
-> +
-> +# copy the entire portage volume in
-> +COPY --from=portage /var/db/repos/gentoo /var/db/repos/gentoo
-> +
-> +MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
-> +
-> +# set CROSSDEV_OVERLAY to /usr/local/portage-crossdev
-> +RUN mkdir -p /usr/local/portage-crossdev/{profiles,metadata} && \
-> +    echo 'crossdev' > /usr/local/portage-crossdev/profiles/repo_name && \
-> +    echo 'masters = gentoo' > /usr/local/portage-crossdev/metadata/layout.conf && \
-> +    chown -R portage:portage /usr/local/portage-crossdev && \
-> +    mkdir -p /etc/portage/repos.conf
-> +ADD crossdev.conf /etc/portage/repos.conf/crossdev.conf
-> +
-> +RUN emerge -qv \
-> +        dev-vcs/git ">=dev-libs/glib-2.0" \
-> +        sys-devel/crossdev \
-> +        sys-libs/zlib dev-lang/python
-> +
-> +RUN crossdev -s4 -t mipsr5900el-unknown-linux-gnu
-> +
-> +ENV QEMU_CONFIGURE_OPTS --cross-prefix=mipsr5900el-unknown-linux-gnu-
-> diff --git a/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
-> new file mode 100644
-> index 00000000000..b8fa368c1c3
-> --- /dev/null
-> +++ b/tests/docker/dockerfiles/gentoo-mipsr5900el-cross.docker.d/crossdev.conf
-> @@ -0,0 +1,5 @@
-> +[crossdev]
-> +location = /usr/local/portage-crossdev
-> +priority = 10
-> +masters = gentoo
-> +auto-sync = no
-> -- 
-> 2.26.2
-> 
-> 
+> On 1/18/21 10:39 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 1/18/21 10:29 AM, Claudio Fontana wrote:
+>>> On 1/17/21 5:48 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+>>>> cpu_loop_exit*() functions are declared in accel/tcg/cpu-exec-common.c,
+>>>> and are not available when TCG accelerator is not built. Add stubs so
+>>>> linking without TCG succeed.
+>>>
+>>> The reason why stubs are needed here at all seems to be that that the c=
+ode
+>>> calling cpu_loop_exit is not refactored properly yet;
+>>=20
+>> I agree ...
+>>=20
+>>> if we look at the example of i386, after the refactoring moving tcg rel=
+ated code into target/i386/tcg/,
+>>> (and really even before that I think),
+>>> the code calling cpu_loop_exit is not built for non-TCG at all, and so =
+we don't need stubs.
+>>>
+>>> I am ok with this anyway, just wanted to convey that I think we should =
+look at stubs as a necessary evil until all code stops mixing tcg, kvm and =
+other accels...
+>>>
+>>> Thanks,
+>>>
+>>> Claudio
+>>>
+>>>>
+>>>> Problematic files:
+>>>>
+>>>> - hw/semihosting/console.c in qemu_semihosting_console_inc()
+>>>> - hw/ppc/spapr_hcall.c in h_confer()
+>>>> - hw/s390x/ipl.c in s390_ipl_reset_request()
+>>>> - hw/misc/mips_itu.c
+>>=20
+>> ... but I have no clue how to refactore these, as they
+>> are used in both KVM and TCG.
+>>=20
+>> How would you do? I'm stuck with the semihosting code
+>> dependency on ARM since 2 years...
+>>=20
+>> Phil.
+>>=20
+>
+> Just naively looking at this, qemu_semihosting_console_inc seems called o=
+nly by
+> do_arm_semihosting in target/arm/arm-semi.c,
+>
+> which in turn is called by linux-user (TCG),
+>
+> target/arm/m_helper.c in arm_v7m_cpu_do_interrupt(),
+> which I would assume is TCG only too, just waiting for the TCG/KVM refact=
+oring in ARM, which I would assume would make cpu_tcg.c TCG-only,
+>
+> target/arm/helper.c in handle_semihosting, which is already wrapped in #i=
+fdef CONFIG_TCG and is commented with:
+>
+> "
+> * We only see semihosting exceptions in TCG only as they are not=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> * trapped to the hypervisor in KVM.=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=
+=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20=20
+> */
+> "
+>
+> So am I wrong in my assumption that as soon as we are able to separate
+> TCG vs KVM in target/arm/ , the issue of hw/semihosting/console.c
+> would be solved?
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+I think it is - certainly for ARM. I don't know if real RiscV HW can
+trap semihosting calls to the kernel/hypervisor.
 
+--=20
+Alex Benn=C3=A9e
 
