@@ -2,71 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E78DA31B6C1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 10:53:57 +0100 (CET)
-Received: from localhost ([::1]:48682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A40F831B6CB
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 10:57:45 +0100 (CET)
+Received: from localhost ([::1]:60450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBaZp-00031h-0u
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 04:53:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35506)
+	id 1lBadU-0007xE-Ha
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 04:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBaPL-0000J8-OL
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:43:08 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38916)
+ id 1lBac3-0006yI-4s
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:56:15 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBaPJ-0004St-5M
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:43:07 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id v1so8079035wrd.6
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 01:43:04 -0800 (PST)
+ id 1lBac0-0001Rl-Nd
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:56:14 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id g6so8087712wrs.11
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 01:56:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=f2IEkjM81r5SYAy7mQIsVMnjra8RgSV/rhAVqqV8yLc=;
- b=rMza0s+tlGl9/XU9x+e6gYo/7K7srdUkrQ3quz3P+Je1D/qEORid8ERGg1stcwJn7Q
- sA31yN03/VlNTo1GKPwdEWFRXQI1N1NrGflT/k78W/AGVrHPm3cL+eLgyfVrNT8nMaFu
- xx28z9Awp7plqVy3ILwlWfJCdGwP7U8ZZ13uHbFUvAIRRH+2i0Pjip/HgLf+92DmTubU
- O3xKc1Of/TFyM1MKDbXIHwYIsshm2vrpjQ07+p4S69WV9y1xLJnBkv4qhEtoaRlpmHPs
- 9zXlXWcvSK+ZwzBnp7OgPlSRCWmNgmEun9MyDDeV0xu9xh5S1qCCUUxmRTHDwqxUAc8x
- LxDg==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=SUSrQfK6rV4esqvleKy4eisqUROARpTuGpGG4gMSY/Y=;
+ b=v5fexGNtKy6CJSnXz+cMQcGmZr0h/AnyVcUxGZj2DkSgAyRsHb5hc2xvMQoflFall7
+ 2VF3C23ODEHah6d55R7WqqDB8zrrNmb9oNnN2FXOneaFd9+2s8REYxwAd1dLkn5Fjdi0
+ w/c05Y5V8RU8GyN5t7+kkhM1ry7NhEcL26qaPQQsUj4aj49Da4AKkQmELN7cH/ulvHI7
+ vPZwPNU8cZ5jSAxf28kB8UKmMiMYWmcUn/hEHpxsSu+qMnixNtdxcyDUCFUjvJclBqm7
+ sIb28A76EH/zEBMKv/qbgwdNOOz6zI4O7tQ2jBLU6WqtAKOdQ6mus1celETooIwQ+asR
+ 1UQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=f2IEkjM81r5SYAy7mQIsVMnjra8RgSV/rhAVqqV8yLc=;
- b=gucQO5LBjUEqAX86zoyumsVNwPywrC/9/VfYmQoN22BgX13QJ5tCgZczH+cu0s36Jc
- PF7ly7jwZYbS9FFReY10o4An6WosOXdPOzmlgf0i+6/LdQHuUUmFrmztLEeV4ZJomsQr
- ei3DeT8App5mfVuNLJKIBxmsCJ3BRjEmEnRLTXYSgrhsR86lj0fmlXRPSV7aoWlyB8mK
- jlEfKhXH4F51To/JncJx08Kdi9dNjX4HiBBTekIyQnbAD6zMPGZwSAtKqpgOjcGguHeQ
- uib1MMO0YFkI9gnXhTKK7xAFaoQ69+IcDPHlrruMfHobU7hjvMyjSzPfha/HvE2E5yCQ
- eM8w==
-X-Gm-Message-State: AOAM532aUOvSLKVVWZoJDc903HFGGMGVdfyuAWlzH0bccj3g4tGIxV71
- GSFn31larjfOSE7N0rcka5W3D0fqBYBIBzwu
-X-Google-Smtp-Source: ABdhPJz8gk1upOJcwk5NgmXgku0SvKaHCxkKuROZGhld/HmsLa7YhPHnjriJDpqVqVmIujlk0/DY8Q==
-X-Received: by 2002:a5d:52ce:: with SMTP id r14mr17946309wrv.71.1613382183853; 
- Mon, 15 Feb 2021 01:43:03 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=SUSrQfK6rV4esqvleKy4eisqUROARpTuGpGG4gMSY/Y=;
+ b=DmmszJU3R4DBclURy4Frh2xl25bZIMlif+1NMVxJA1KT5B/gG9c49ihO8gtHCJDWte
+ C4XhbrqEbnzkM7MIdfCdFKmEC5AiQdGWLxcso7wZ1EG/Xl0/bSnzbz2Ca8MNIz6czzwe
+ qpi5Xqz4dbm+U3A3hb4wc1UqJkNEvgdBwxiuLmRKQCiJ5zitSUsr2nvRBK4OEPdGy7ZD
+ qUIO/WG5+uSzVHXuDf9i/kjF+wki1szm4HddgbQN+g+Enz7XqsYvg9bU92PRY0xyoxBY
+ JSSFGC7U28bTKrOwzW8B5IC7nDO9aSh5PVT0V5Aw0xXmqqav07ran7rjJE9CFRy9nVsM
+ 2GlA==
+X-Gm-Message-State: AOAM533JEe1tYjgl3K9EGbFT9ek/bFSyAbQ7Cq0VMPNMwLmgCqyyxo1Y
+ tVpB4IBfHXOMgaurZfkNTALvNSk8i/HneDkk
+X-Google-Smtp-Source: ABdhPJy7KzPqvOw10BGn4vi9jfNYuSSy2GfSlr0pVOTV/BdfBAkIrM5WFbdcjy+t2z+BeoSt7if1Iw==
+X-Received: by 2002:a5d:558b:: with SMTP id i11mr18296282wrv.125.1613382971279; 
+ Mon, 15 Feb 2021 01:56:11 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w3sm11643033wrr.62.2021.02.15.01.42.52
+ by smtp.gmail.com with ESMTPSA id r12sm23466775wmg.44.2021.02.15.01.56.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 01:43:03 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5E7601FF9E;
- Mon, 15 Feb 2021 09:42:46 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Subject: [PULL 15/15] tests/tcg: fix silent skipping of softmmu gdb tests
-Date: Mon, 15 Feb 2021 09:42:44 +0000
-Message-Id: <20210215094244.12716-16-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210215094244.12716-1-alex.bennee@linaro.org>
-References: <20210215094244.12716-1-alex.bennee@linaro.org>
+ Mon, 15 Feb 2021 01:56:10 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 835381FF7E;
+ Mon, 15 Feb 2021 09:56:09 +0000 (GMT)
+References: <20210131061930.14554-1-vfazio@xes-inc.com>
+ <87o8gmc2k5.fsf@linaro.org>
+ <78c75d31-f8be-a98a-8649-87ceca224b8b@vivier.eu>
+ <CAOrEah7X3H7g7gSKFf-jD0nQ7YqnE+hUP7eq7Ozk8HfwYaxuqA@mail.gmail.com>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Vincent Fazio <vfazio@gmail.com>
+Subject: Re: [PATCH] linux-user/elfload: do not assume MAP_FIXED_NOREPLACE
+ kernel support
+Date: Mon, 15 Feb 2021 09:52:26 +0000
+In-reply-to: <CAOrEah7X3H7g7gSKFf-jD0nQ7YqnE+hUP7eq7Ozk8HfwYaxuqA@mail.gmail.com>
+Message-ID: <87o8glveme.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,30 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Vincent Fazio <vfazio@xes-inc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210211122750.22645-16-alex.bennee@linaro.org>
 
-diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
-index 4657f6e4cf..625ed792c6 100644
---- a/tests/tcg/multiarch/system/Makefile.softmmu-target
-+++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
-@@ -27,5 +27,9 @@ run-gdbstub-memory: memory
- 		--bin $< --test $(MULTIARCH_SRC)/gdbstub/memory.py, \
- 	"softmmu gdbstub support")
- 
--MULTIARCH_RUNS += run-gdbstub-memory
-+else
-+run-gdbstub-%:
-+	$(call skip-test, "gdbstub test $*", "need working gdb")
- endif
-+
-+MULTIARCH_RUNS += run-gdbstub-memory
--- 
-2.20.1
+Vincent Fazio <vfazio@gmail.com> writes:
 
+> On Sun, Feb 14, 2021 at 6:50 AM Laurent Vivier <laurent@vivier.eu> wrote:
+>>
+>> Le 14/02/2021 =C3=A0 12:24, Alex Benn=C3=A9e a =C3=A9crit :
+>> >
+>> > Vincent Fazio <vfazio@xes-inc.com> writes:
+>> >
+>> >> From: Vincent Fazio <vfazio@gmail.com>
+>> >>
+>> >> Previously, pgd_find_hole_fallback assumed that if the build host's l=
+ibc
+>> >> had MAP_FIXED_NOREPLACE defined that the address returned by mmap wou=
+ld
+>> >> match the requested address. This is not a safe assumption for Linux
+>> >> kernels prior to 4.17
+>> >
+>> > It doesn't as we have in osdep.h:
+>> >
+>> >   #ifndef MAP_FIXED_NOREPLACE
+>> >   #define MAP_FIXED_NOREPLACE 0
+>> >   #endif
+>> >
+>> > which is to say to assume if MAP_FIXED_NOREPLACE is defined the kernel
+>> > should have given us what we want otherwise we do the check.
+>>
+>>
+>> But what is the purpose of the "if (MAP_FIXED_NOREPLACE !=3D 0 ||"?
+>> Can't we rely only on "mmap_start =3D=3D (void *) align_start"?
+>>
+>> Thanks,
+>> Laurent
+>>
+>
+> I think we have to rely on address matching. The problem is
+> specifically when MAP_FIXED_NOREPLACE is defined and is passed to mmap
+> but the running kernel doesn't know what to do with the flag so
+> returns a value that is not what was hinted at. Previously the code
+> assumed that if MAP_FIXED_NOREPLACE was defined that the returned
+> address would match, but that isn't always the case if the kernel
+> doesn't have support for the flag. The 4.4, 4.9 and 4.14 LTS kernels
+> are still in use and could run into this problem.
+
+Ahh right so I think this is a case of binaries being built on a
+different platform than kernel they are running on. In which case the
+flag would be defined but the underlying kernel fails to identify it. Is
+this a container like case by any chance?
+
+If I'd read the man page closer:
+
+   Note   that   older   kernels   which   do   not  recognize  the
+   MAP_FIXED_NOREPLACE flag will typically (upon detecting a colli=E2=80=90
+   sion  with a preexisting mapping) fall back to a "non-MAP_FIXED"
+   type of behavior: they will return an address that is  different
+   from  the  requested  address.   Therefore,  backward-compatible
+   software should check the returned address against the requested
+   address.
+
+so yes we should avoid short circuiting the return address check.
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
