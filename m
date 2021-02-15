@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DE9631B39B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 01:36:10 +0100 (CET)
-Received: from localhost ([::1]:33700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ECDD31B3D4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 02:05:03 +0100 (CET)
+Received: from localhost ([::1]:41122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBRs1-0000cz-KK
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 19:36:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44148)
+	id 1lBSJx-0005FT-Io
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 20:05:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBRqj-0008RO-Nt
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 19:34:49 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:37716)
+ id 1lBSIy-0004qE-NK
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 20:04:00 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:56015)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBRqi-0001rM-4b
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 19:34:49 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id t2so2893285pjq.2
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 16:34:47 -0800 (PST)
+ id 1lBSIw-0001aI-Tg
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 20:04:00 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id cv23so2761097pjb.5
+ for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 17:03:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Z6NH1swYCj8rVkKXRPKk+1EktmQT7T1txq7iHadg5Gs=;
- b=Vqgi+t0tYtEFSHVxq82fzQQSI0bGhJRZP47weIpzjO4fHJTuXWGg1ic7KXnV99+Oie
- v2ijt+zrZSFFXNF2JXjXBRzALW6xt0T8vYSHb7hw01l+GycaM3dved5MyFOlJ7r5LGIs
- onBcZPDSYDD9ejUFb9dYi75/GIp9H53nfLOQiamuZjY51DdE3goQUmX5jBlQdJnlP5V5
- dhC9fOYf5C5QcrnLWYIdqj6RcC979KZtfrLHPh9SV78gAO56cb9zu/uXXPVwunIx9snA
- 5215W/e8WhxSoDW2hj13YcsavZG/mOo/JjMHPeESuRZK7rVuqqgRhnw7XGtR7bBF72xY
- 480Q==
+ bh=tVQKlXmYelTqclqkTi3dKKitQ7XZYfz3QLUNX7aYovU=;
+ b=HFqAZk7PlwofXKftPQFQjNj25EngrkS2+CNyDc+dk3ifkPvSSdJszGBEklhE7NcZ9i
+ jiablyyav0SV15BhKz1BXXD7drC3T0m0ZZR4pPbzHUiHntx1I6XMX3zV45h4SvOY59+0
+ HZ6oRdWCXhbaCwRF6NKSQkStCgQblL973wqPaXQwCgkaLPBN8LrdU8CMlFS3akq5VwoQ
+ MIe/JL2QN6liZuZXDWb7Pw7tlaUKsDyjPy1zWPZ2uEekeY8sLRtRH6HMAEU5m3ZRALSW
+ HgtosbhNlpBhuCtmSZfjqOJGNsfEKuZnhwK9vRgLwmT84R3DosRp8O/skjItwd0rlwrx
+ MxFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Z6NH1swYCj8rVkKXRPKk+1EktmQT7T1txq7iHadg5Gs=;
- b=B0LGpjnuokIElQmmQwU6m9Wtsf62WrzNoj+Uy+p49wzvPnf/UuZEsMMZac0RVUjLdv
- UTerKrkVxw/pG0yDnjE+ySTIGysutK6h/IYIT/j7k1/sbd+AK2D/KJlW+wvCYpNUEMrh
- MzuDnoivXOaaO+CXbtFfrl8Pijhkdh0IHcFEoUECH9grPva6ttX1sk3rv2MoOo/eSZ0S
- k+gVTq0LdmNzZhqPIpT5NSFhB7hvSg4HwcnuBJh6nLh4T0jnaoGVkE1Q5M4bqL3DQuVb
- 1qmFkxd9Wy9wjDmA7PlUDwGQELLbvgQf+jQvYhImHhaIsFuMxGut+qvTI3TJH6OlilMK
- cb+g==
-X-Gm-Message-State: AOAM5303KJj8pMbNj1B3SPdbnoDZIGI+TXEKaRpcSNnYo6KZfKKm9xKs
- 5vdsUHFgPyRtUGW7oCgljS11rw==
-X-Google-Smtp-Source: ABdhPJzjSKXxg3n6+e0lqcItm1T6rjQJniKybjzY++XK1dm3FryvHpSNjNEzszbpdG2LkWAQjuj30Q==
-X-Received: by 2002:a17:90a:fd0f:: with SMTP id
- cv15mr13794620pjb.36.1613349286714; 
- Sun, 14 Feb 2021 16:34:46 -0800 (PST)
+ bh=tVQKlXmYelTqclqkTi3dKKitQ7XZYfz3QLUNX7aYovU=;
+ b=CdkHhrqqqiGedlnout2DAOMRJ2PoqvzdEMFJcdyAXEg4TpuRmoQLHVYcJ0IgaZNuNd
+ ksCqp6WdEfDT47rRIfHgUuYN3Hvug191EwroDjwEqr4rvDTSxYZcd5HmFdgKm36T5Ljo
+ vk9qTo+glBB+GHsbqVlACZMDtkCgE1WUX4eHqiijJk0V0RPAlalMA49NUFMl+iSb+Gqb
+ ITzcoueQ07eSv62enmL/eEAr4sd/eKmKXkHLl6qcct4lxHssXhGNKZLo9gmHeas+ephx
+ X1ZxewyYeh9mZCtR3e/dF2WYqs8+AR2K4JNu2dr2hE5BGLmg52nMjgJYL9NTSoQI78tx
+ Mq2Q==
+X-Gm-Message-State: AOAM533VxwXPodUiYGqZVNPpsUUeYbyvOii6g9umKvrIJ8QtRkNLD4vA
+ S4f6efB7BoLD7T7JfhS9FlvK5g==
+X-Google-Smtp-Source: ABdhPJz7Nrli0g1wOKiLg3xuamJMJ1mg4lUpXhfXmIsylc9GbeF7J044jlW4GDdVNwr30jJUIjvysw==
+X-Received: by 2002:a17:90b:1008:: with SMTP id
+ gm8mr14031803pjb.174.1613351037223; 
+ Sun, 14 Feb 2021 17:03:57 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- k13sm16522605pfg.146.2021.02.14.16.34.45
+ ms24sm3135605pjb.18.2021.02.14.17.03.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 16:34:46 -0800 (PST)
-Subject: Re: [PATCH v8 28/35] Hexagon (target/hexagon) TCG for floating point
- instructions
+ Sun, 14 Feb 2021 17:03:56 -0800 (PST)
+Subject: Re: [PATCH v8 29/35] Hexagon (target/hexagon) translation
 To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <1612763186-18161-29-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-30-git-send-email-tsimpson@quicinc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1232d24c-2f3d-a7f8-a44d-53b97446402b@linaro.org>
-Date: Sun, 14 Feb 2021 16:34:44 -0800
+Message-ID: <152e99c9-675a-1fc8-c44c-e80d5af8ce70@linaro.org>
+Date: Sun, 14 Feb 2021 17:03:54 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1612763186-18161-29-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <1612763186-18161-30-git-send-email-tsimpson@quicinc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,16 +95,68 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/7/21 9:46 PM, Taylor Simpson wrote:
-> The imported code uses host floating point.  We override them
-> to use qemu softfloat
-> 
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  target/hexagon/gen_tcg.h | 121 +++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 121 insertions(+)
+> +static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Drop the inline markup throughout.
+
+> +static int read_packet_words(CPUHexagonState *env, DisasContext *ctx,
+> +                             uint32_t words[])
+> +{
+> +    bool found_end = false;
+> +    int nwords, max_words;
+> +
+> +    memset(words, 0, PACKET_WORDS_MAX * sizeof(uint32_t));
+> +    for (nwords = 0; !found_end && nwords < PACKET_WORDS_MAX; nwords++) {
+> +        words[nwords] = cpu_ldl_code(env,
+> +                                ctx->base.pc_next + nwords * sizeof(uint32_t));
+
+translate_ldl, so that a plugin has access to the packet data.  (Note that
+pkt_crosses_page is fine, because that's read-ahead, not reads for the current
+packet.)
+
+> +#if HEX_DEBUG
+> +static inline void gen_check_store_width(DisasContext *ctx, int slot_num)
+> +{
+> +    TCGv slot = tcg_const_tl(slot_num);
+> +    TCGv check = tcg_const_tl(ctx->store_width[slot_num]);
+> +    gen_helper_debug_check_store_width(cpu_env, slot, check);
+> +    tcg_temp_free(slot);
+> +    tcg_temp_free(check);
+> +}
+> +#define HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num) \
+> +    gen_check_store_width(ctx, slot_num)
+> +#else
+> +#define HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num)  /* nothing */
+> +#endif
+
+Fold this to a simple function call:
+
+static void gen_check_store_width(...)
+{
+    if (HEX_DEBUG) {
+       ....
+    }
+}
+
+> +#if HEX_DEBUG
+> +        /* When debugging, only put one packet per TB */
+> +        ctx->base.is_jmp = DISAS_TOO_MANY;
+> +#endif
+
+Why?  You can always add -singlestep to the command-line.
+
+> +    case DISAS_NORETURN:
+> +        gen_exec_counters(ctx);
+> +        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
+> +        if (ctx->base.singlestep_enabled) {
+> +            gen_exception_debug();
+> +        } else {
+> +            tcg_gen_exit_tb(NULL, 0);
+> +        }
+
+DISAS_NORETURN says that we have *already* exited the TB.  None of the code you
+emit here will be reachable.
+
 
 r~
-
 
