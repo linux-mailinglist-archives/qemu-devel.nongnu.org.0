@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA60C31BBE8
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:10:34 +0100 (CET)
-Received: from localhost ([::1]:54024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A054E31BBE0
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:08:14 +0100 (CET)
+Received: from localhost ([::1]:46790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBfWD-0005BF-Ph
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:10:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55070)
+	id 1lBfTx-0002Em-EY
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:08:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNG-0005QG-4m
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNE-0000hp-1a
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNF-0005OZ-AY
  for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfND-0000g5-2a
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613401275;
+ s=mimecast20190719; t=1613401274;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=mFAJGHMTIcqkF9k82J2swaNaaRa6gZ22/9SbNCI0gfs=;
- b=R6G2atkgji211cKfX/zhBxdr/RL52iGRTG3f8qag7BBNFVOWIs4V0ALWoO/PZScAH0Jg5+
- xEAPJiZyNo4zUko2XpKZpc/3iX1inPGYN27tbEvAhnjWsc2aruRh064Vwb2eZX5g6xt6BB
- yMcKMxN0pc9GpkU0pR3r3M0wLHYdcMY=
+ bh=WbEsh+aZqTJoLF+nmSGGSz31gOUx3qYYW0pgtpMQuSw=;
+ b=iPbhyPrzeb9nMq3oXo8ClSSN1W7XXs2SHit8YHcaw6cH2NmMqo7QNmLCGdC8JQ3UgtEoPq
+ XEq+fV5MPTJeqfgRahLh/znhsYbKpqe6fxMMLZqETc7KVUtGK/2VDSWO8t7MkeFaQGBhik
+ UfcId8V4PLag1HoYnSm5HWjU+4YN3Ag=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-YaWMK2aFMRGPisFtAq1Gkg-1; Mon, 15 Feb 2021 10:01:10 -0500
-X-MC-Unique: YaWMK2aFMRGPisFtAq1Gkg-1
+ us-mta-596-N7K9OlzhOECavQbUjqLAnw-1; Mon, 15 Feb 2021 10:01:11 -0500
+X-MC-Unique: N7K9OlzhOECavQbUjqLAnw-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BDFE801965;
- Mon, 15 Feb 2021 15:01:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B16A19357B1;
+ Mon, 15 Feb 2021 15:01:10 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-113-28.ams2.redhat.com [10.36.113.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1382A5C233;
- Mon, 15 Feb 2021 15:01:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 544AE5C241;
+ Mon, 15 Feb 2021 15:01:09 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 04/11] hw/ide/ahci: map cmd_fis as DMA_DIRECTION_TO_DEVICE
-Date: Mon, 15 Feb 2021 16:00:53 +0100
-Message-Id: <20210215150100.436555-5-kwolf@redhat.com>
+Subject: [PULL 05/11] xen-block: fix reporting of discard feature
+Date: Mon, 15 Feb 2021 16:00:54 +0100
+Message-Id: <20210215150100.436555-6-kwolf@redhat.com>
 In-Reply-To: <20210215150100.436555-1-kwolf@redhat.com>
 References: <20210215150100.436555-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -53,16 +53,16 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,73 +80,40 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+From: Roger Pau Monne <roger.pau@citrix.com>
 
-cmd_fis is mapped as DMA_DIRECTION_FROM_DEVICE, however, it is read
-from, and not written to anywhere. Fix the DMA_DIRECTION and mark
-cmd_fis as read-only in the code.
+Linux blkfront expects both "discard-granularity" and
+"discard-alignment" present on xenbus in order to properly enable the
+feature, not exposing "discard-alignment" left some Linux blkfront
+versions with a broken discard setup. This has also been addressed in
+Linux with:
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Message-Id: <20210119164051.89268-1-alxndr@bu.edu>
+https://lore.kernel.org/lkml/20210118151528.81668-1-roger.pau@citrix.com/T/#u
+
+Fix QEMU to report a "discard-alignment" of 0, in order for it to work
+with older Linux frontends.
+
+Reported-by: Arthur Borsboom <arthurborsboom@gmail.com>
+Signed-off-by: Roger Pau Monné <roger.pau@citrix.com>
+Message-Id: <20210118153330.82324-1-roger.pau@citrix.com>
+Reviewed-by: Paul Durrant <paul@xen.org>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- hw/ide/ahci.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/block/xen-block.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
-index 6d50482b8d..f2c5157483 100644
---- a/hw/ide/ahci.c
-+++ b/hw/ide/ahci.c
-@@ -700,7 +700,7 @@ static void ahci_reset_port(AHCIState *s, int port)
- }
- 
- /* Buffer pretty output based on a raw FIS structure. */
--static char *ahci_pretty_buffer_fis(uint8_t *fis, int cmd_len)
-+static char *ahci_pretty_buffer_fis(const uint8_t *fis, int cmd_len)
- {
-     int i;
-     GString *s = g_string_new("FIS:");
-@@ -1100,11 +1100,11 @@ static void execute_ncq_command(NCQTransferState *ncq_tfs)
- }
- 
- 
--static void process_ncq_command(AHCIState *s, int port, uint8_t *cmd_fis,
-+static void process_ncq_command(AHCIState *s, int port, const uint8_t *cmd_fis,
-                                 uint8_t slot)
- {
-     AHCIDevice *ad = &s->dev[port];
--    NCQFrame *ncq_fis = (NCQFrame*)cmd_fis;
-+    const NCQFrame *ncq_fis = (NCQFrame *)cmd_fis;
-     uint8_t tag = ncq_fis->tag >> 3;
-     NCQTransferState *ncq_tfs = &ad->ncq_tfs[tag];
-     size_t size;
-@@ -1185,7 +1185,7 @@ static AHCICmdHdr *get_cmd_header(AHCIState *s, uint8_t port, uint8_t slot)
- }
- 
- static void handle_reg_h2d_fis(AHCIState *s, int port,
--                               uint8_t slot, uint8_t *cmd_fis)
-+                               uint8_t slot, const uint8_t *cmd_fis)
- {
-     IDEState *ide_state = &s->dev[port].port.ifs[0];
-     AHCICmdHdr *cmd = get_cmd_header(s, port, slot);
-@@ -1301,7 +1301,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot)
-     tbl_addr = le64_to_cpu(cmd->tbl_addr);
-     cmd_len = 0x80;
-     cmd_fis = dma_memory_map(s->as, tbl_addr, &cmd_len,
--                             DMA_DIRECTION_FROM_DEVICE);
-+                             DMA_DIRECTION_TO_DEVICE);
-     if (!cmd_fis) {
-         trace_handle_cmd_badfis(s, port);
-         return -1;
-@@ -1326,7 +1326,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot)
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 0e7d66c2a7..a3b69e2709 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -253,6 +253,7 @@ static void xen_block_realize(XenDevice *xendev, Error **errp)
+         xen_device_backend_printf(xendev, "feature-discard", "%u", 1);
+         xen_device_backend_printf(xendev, "discard-granularity", "%u",
+                                   conf->discard_granularity);
++        xen_device_backend_printf(xendev, "discard-alignment", "%u", 0);
      }
  
- out:
--    dma_memory_unmap(s->as, cmd_fis, cmd_len, DMA_DIRECTION_FROM_DEVICE,
-+    dma_memory_unmap(s->as, cmd_fis, cmd_len, DMA_DIRECTION_TO_DEVICE,
-                      cmd_len);
- 
-     if (s->dev[port].port.ifs[0].status & (BUSY_STAT|DRQ_STAT)) {
+     xen_device_backend_printf(xendev, "feature-flush-cache", "%u", 1);
 -- 
 2.29.2
 
