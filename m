@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAFDE31BE98
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:18:38 +0100 (CET)
-Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526E431BE99
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:18:47 +0100 (CET)
+Received: from localhost ([::1]:47048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBga5-00010o-P4
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:18:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48762)
+	id 1lBgaE-0001Cn-AA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:18:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgX0-0007iQ-Uc
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:15:26 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:39144)
+ id 1lBgXX-0007tL-Rs
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:15:59 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:34138)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgWz-0007iR-9o
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:15:26 -0500
-Received: by mail-pl1-x629.google.com with SMTP id k22so3979459pll.6
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:15:24 -0800 (PST)
+ id 1lBgXV-0007pq-0q
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:15:59 -0500
+Received: by mail-pl1-x630.google.com with SMTP id ba1so3997422plb.1
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:15:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=4vl+6kQSU7F0sJaWhUI7nNyUdEyD9KI5H1/dIXJcvrs=;
- b=TRyYB3b4nTqn3mj7pnVbIAuNT5WP4aYzTB2Aj4WdMHo+4FEnnWyC8Vs8m57Y+y/XB3
- gQ1DtMyfhkxXv9Tk1WYNJZboXJVYusOGzAfNDhH/V7Ew2XkgwvqxKapHZVze99UWMTG/
- M033rEOSSQl3oe9BLy/zqSvi79799YQX6ZzqEdullG/NPqtnHTE1U2nlSVFCL1k4ar+X
- uYLQZyzZHLHx1JFPxyBsa4f9/ADU1Al4N1Wk8vJm8lo/UQU2YzlUXL0QpK2TEkCQGUZa
- iTdprtDGD6U76tRtUZWuYeIPezUOvEAICP1Pw2c7fnUWqzs+UZk9STuynAcWXjXfoOr2
- r4bg==
+ bh=XCk27eLIMDUfsbI1xn5bUQIp6XYVK9zuguAtZSJR5oU=;
+ b=NAPWyhZk3kcYRVQ9p06UkDpRAfLFLXcfTAam8hzuK3BmNBWVfWzwcxCHW4SbtF9SEH
+ LYm6CM9zUODMH3ITu4Mkha0XiImzfy9sHwD+DO4B9CvO5NoLL+je74VHTwnRSpGUlfvd
+ MW7h6tkcUD5AuqZH4sEjOhaOl2mfDGkgrvMbXpV+nHyJOO0xoGq1DxHcHCNWHD8M7Xpa
+ YAHwZRNzga27erMj57yCNRQQABfxH0/bXxp1/Dml5A6bhwC9OQMTQP9cBcw3DDZbijKs
+ QpSHW6R0cWtg0D4SG6SslBmHYSoSpN3Xz8a02dNr7N4RqpKj0lohuW6TG+LDn0u3g25/
+ SAnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=4vl+6kQSU7F0sJaWhUI7nNyUdEyD9KI5H1/dIXJcvrs=;
- b=RCEFIkj8gQGojz8UcFMDwrcJdRrRwjOP2klGAa0cKpsuNM0cr8/GArqB2oM2I0MjgF
- mvZmc+MfhMJCUFS1Fb0vmgbb6JGSBMaLdPGn1RYxxWW6ndefEufMvqYQFrp1s899W1gr
- fqenobQkAKOB4qtpDwVx2laMTmzYPVc0fAeUjx+2QZ3FhosXXxwEEe6YA7bVg3v07sRE
- mohZkcgLyz1BWcoXsnrog0YR0CSpOx//VlVDgHZx9KXzViKCmrY9oFO/p/u28opQa3rj
- 9/88/GYyGVBc2RM0joXgX0QSjIHCVzqGeZjuAiOh9bF5knntYalgHKTWg4d7kpqGLYfg
- zRHg==
-X-Gm-Message-State: AOAM53130iwO2VtjPO1NOfJnE+zwNb92xy6Pk21S7MZwXAd/+/2Nkpen
- 0dX/pJyAy0RS3dMZ/QN+451nMQ==
-X-Google-Smtp-Source: ABdhPJxs9mMaHc2VHoEUZqbzQtnip8lgYAlZyYFJJwlgBFIWQ6sC00UISE6GyB1oOIM+YPLAkzJmqw==
-X-Received: by 2002:a17:902:9348:b029:e1:506a:7f67 with SMTP id
- g8-20020a1709029348b02900e1506a7f67mr15863560plp.71.1613405723846; 
- Mon, 15 Feb 2021 08:15:23 -0800 (PST)
+ bh=XCk27eLIMDUfsbI1xn5bUQIp6XYVK9zuguAtZSJR5oU=;
+ b=Id9fXUfrYMKOcpfEThAub6wxolVsYchzzKjleCmseyLGSFn/euS3/GmaX4dg6iXIm9
+ +eRHp5cyMhTqI3JCD2Li4VJZ5uCbsOsxOcvMkBLciBaF9sfTsmC8R2+GvxbxdID4njnW
+ Zo3EXXwhEaakLJ+w4dzwdv+GRhDg6tNw9BthfCLSoWcypWByVrbdAK/CFMxw4wHlAlZG
+ B2T6oOKt+tumcGmpf+czT23Mr8yCXxGotZLAwrN0d34kVkkWSjD5jKw57Pb3mtNMBbrS
+ F9IgyuSnVzyIcr8DNUfWU9lU5zj3q0iRviBVA4BwUF1zl+4Thpmf3ZfxdQtzPKQOdDTI
+ iWaA==
+X-Gm-Message-State: AOAM531N+6tFLAaDJ7W8fSDrZ+UkJb0Ix4TSt75oMieZu/bU9LAQ5dNv
+ J87zDDBdkHPTw1SA6RFpG899/g==
+X-Google-Smtp-Source: ABdhPJxqF851f6LVAy5TLDWy/E6vrGvn9SeZ9RdhVYIuT36uA4OxYSt3MVURdYuST9xLIQnV3nj4pw==
+X-Received: by 2002:a17:902:ec82:b029:de:8483:50b4 with SMTP id
+ x2-20020a170902ec82b02900de848350b4mr15754613plg.41.1613405755701; 
+ Mon, 15 Feb 2021 08:15:55 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- lr7sm17535866pjb.56.2021.02.15.08.15.22
+ x9sm18517923pfc.114.2021.02.15.08.15.54
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:15:23 -0800 (PST)
-Subject: Re: [RFC PATCH 05/42] target/mips: Rename 128-bit upper halve GPR
- registers
+ Mon, 15 Feb 2021 08:15:55 -0800 (PST)
+Subject: Re: [RFC PATCH 06/42] target/mips: Introduce gen_load_gpr_hi() /
+ gen_store_gpr_hi() helpers
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-6-f4bug@amsat.org>
+ <20210214175912.732946-7-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7c8e6b90-8671-ca07-fdac-8514edd698e9@linaro.org>
-Date: Mon, 15 Feb 2021 08:15:21 -0800
+Message-ID: <61778501-685c-3956-7413-3fd966e3a322@linaro.org>
+Date: Mon, 15 Feb 2021 08:15:53 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-6-f4bug@amsat.org>
+In-Reply-To: <20210214175912.732946-7-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,14 +100,11 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
-> TCG displays the upper halve registers with the same name
-> as their lower halves. Rename the upper halves with the
-> '[hi]' suffix.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  target/mips/translate.h |  4 ++++
+>  target/mips/translate.c | 18 ++++++++++++++++++
+>  2 files changed, 22 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
