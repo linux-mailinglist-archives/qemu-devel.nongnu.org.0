@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FA9E31C429
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 23:56:21 +0100 (CET)
-Received: from localhost ([::1]:51800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EFFA31C430
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 00:06:56 +0100 (CET)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBmmx-0003ua-PO
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 17:56:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39796)
+	id 1lBmxC-0006ch-KW
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 18:06:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41368)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBmm3-0003RK-G7
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:55:23 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:53642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBmm1-0006tU-TQ
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:55:23 -0500
-Received: by mail-wm1-x336.google.com with SMTP id j11so7432821wmi.3
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 14:55:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vCU7VBP1+9fA/8RNC19ASRuMYYyFDrV1Glj0QyKbZRs=;
- b=wLxbTCBz0hlRqT2kAdwsyAC42feRUYnCGVtGycTsH/Oz8E/jsON3N57yNFGVigsffd
- RODTz3WKtRIVExjoq45EFMp3cilLaP80ZuItLEGQTrxo796NSUQ9QofCmr2L5epANjUI
- bHgXcbNpdUHGW+gPO1blExwssYL/W6OByCyhHuqC+5Y4X31wCwrMLM/UMDHikYwRXsaj
- I68bpET6RPTs4eK4oLHzWzgpFMweWbJKd3eOi7XfZZui+lCQi3HL/UPtLR/750QJYH74
- Cf6hfFxHuslJtZb8O9neK71sCzAVLTkm9oGggME9CNTHgXYy95VocDPnoipst/P1xqHg
- g3jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vCU7VBP1+9fA/8RNC19ASRuMYYyFDrV1Glj0QyKbZRs=;
- b=azQn9piv2F61+6X9cQxVy8tJqIouiChC7d7woaKMm6cD+1e/UwNJNMxvtnce+nfR6y
- 8SIIeuW+zud2ICc3CNzGfJ+FPaM/mH2CFAjqrlpvzKybe4hGxEV/jB8wgBqc35G0XR80
- eydhvlhicOnJLrkmo62QQU2pEDeZTuGApNFrMEmY8tknml7E5B2oCpY0Yt2u5YnO7ruJ
- ih6OfLk/Ua1G/FDOe0Bcg5WxqtZm6G6TFsX9xlohDmSIHJfgKKKecNvsl2Z9H0XR+wLE
- PMWFEnTtPpRIYfxiOKnppa2sA2IATWc1RZAA+S0QZV0kzsxJRFxKvJuHV/iixJ0sSnb0
- CERA==
-X-Gm-Message-State: AOAM530Ia61/vrV7oOEMGblbhOsi2BN2ZINoJ7FuTkdokrkuLbOoJU8S
- 10B7A1gGbOwi/NWdGp95F946bA==
-X-Google-Smtp-Source: ABdhPJyilFnTRfz5CCaWreIirgGrlCgT/xsozcDw6mQkkDUifxnhuQsqAU73xrPhKe3HvsGLnhW75Q==
-X-Received: by 2002:a1c:318a:: with SMTP id x132mr870376wmx.6.1613429720349;
- Mon, 15 Feb 2021 14:55:20 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v66sm828167wme.33.2021.02.15.14.55.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 14:55:19 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 775FE1FF7E;
- Mon, 15 Feb 2021 22:55:18 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson.build: expose TCG cross compiler information in summary
-Date: Mon, 15 Feb 2021 22:55:11 +0000
-Message-Id: <20210215225511.23286-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBmvb-00060s-Hw
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 18:05:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBmvW-0001CG-W9
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 18:05:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613430309;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1TcMyeuLSsJvzLVjG9fq3QW+F+WNzz7hEJoL4iBAsH0=;
+ b=bRKD+ILBgr1SSwGXuSfRq0KWg0OXbKR1AncXckSxW7yjSZtMEdINOrHccXBQYqYiLkJ4wW
+ pjRRyBvdpO79PY7tgaPhVoQ6O2e49FJS/kJVfR4oqfgMg2HS+PSsMHBYMlKdJf0Fx/8fyY
+ C7ldF4fsCPNneK4GCs2XJJFgNzbvPDA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-231-flBqTFCcMC63LCbxp7NJxw-1; Mon, 15 Feb 2021 18:05:06 -0500
+X-MC-Unique: flBqTFCcMC63LCbxp7NJxw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E78F192AB79
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 23:05:05 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F09C25B697;
+ Mon, 15 Feb 2021 23:05:04 +0000 (UTC)
+Subject: Re: [PATCH] maint: Tell git that *.py files should use python diff
+ hunks
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210215222524.1820223-1-eblake@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <3ba77bdb-25c4-9b31-2fa5-d1af4898a331@redhat.com>
+Date: Mon, 15 Feb 2021 18:05:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210215222524.1820223-1-eblake@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,66 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
+Cc: crosa@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Blink and you miss the cross TCG compiler stuff so lets display it
-with the rest of the compiler information.
+On 2/15/21 5:25 PM, Eric Blake wrote:
+> Git's default hunk pattern recognizer favors the C language, but it
+> also includes several built-in diff styles that give saner results in
+> other languages.  In particular, telling git to treat all .py files as
+> python changes the beginning of diff hunks as follows:
+> 
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- meson.build            | 18 ++++++++++++++++++
- tests/tcg/configure.sh |  8 --------
- 2 files changed, 18 insertions(+), 8 deletions(-)
+As a language recommendation, "gives [improved|better|more readable] 
+results".
 
-diff --git a/meson.build b/meson.build
-index a923f249d8..3c8135add2 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2508,6 +2508,24 @@ endif
- summary_info += {'strip binaries':    get_option('strip')}
- summary_info += {'sparse':            sparse.found() ? sparse.full_path() : false}
- summary_info += {'mingw32 support':   targetos == 'windows'}
-+
-+# snarf the cross-compilation information for tests
-+tcg_compile_config = run_command('find',
-+                                 meson.current_build_dir() / 'tests/tcg',
-+                                 '-iname', '*.mak').stdout().strip().split('\n')
-+foreach tcg_mak: tcg_compile_config
-+  config_cross_tcg = keyval.load(tcg_mak)
-+  target = config_cross_tcg['TARGET_NAME']
-+  compiler = ''
-+  if 'DOCKER_CROSS_CC_GUEST' in config_cross_tcg
-+    summary_info += {target + ' tests': config_cross_tcg['DOCKER_CROSS_CC_GUEST'] +
-+                                      ' via ' + config_cross_tcg['DOCKER_IMAGE']}
-+  elif 'CROSS_CC_GUEST' in config_cross_tcg
-+    summary_info += {target + ' tests'
-+                     : config_cross_tcg['CROSS_CC_GUEST'] }
-+  endif
-+endforeach
-+
- summary(summary_info, bool_yn: true, section: 'Compilation')
- 
- # Targets and accelerators
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index e1b70e25f2..77a18fd289 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -257,11 +257,3 @@ for target in $target_list; do
-     echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
-   fi
- done
--
--# report container support state
--echo "cross containers  $container"
--
--if test -n "$enabled_cross_compilers"; then
--    echo
--    echo "NOTE: guest cross-compilers enabled:$enabled_cross_compilers"
--fi
--- 
-2.20.1
+> |  --- a/python/qemu/machine.py
+> |  +++ b/python/qemu/machine.py
+> | -@@ -337,12 +337,12 @@ class QEMUMachine:
+> | +@@ -337,12 +337,12 @@ def _post_shutdown(self) -> None:
+> |               self._qmp.close()
+> 
+
+Much better.
+
+> which makes it much easier to tell what function a patch is touching,
+> rather than a non-descript listing of what class contains the changes.
+> 
+> Sadly, our python files that don't use .py suffix (such as numerous
+> iotests) do not benefit from this glob.
+> 
+
+Probably not a big deal, since those generally don't have class-based 
+code anyway.
+
+> Reported-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+
+Reviewed-by: John Snow <jsnow@redhat.com>
+
+> ---
+>   .gitattributes | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/.gitattributes b/.gitattributes
+> index 3d2fe2ecda8b..3e03ee01c0d9 100644
+> --- a/.gitattributes
+> +++ b/.gitattributes
+> @@ -1,2 +1,3 @@
+>   *.c.inc         diff=c
+>   *.h.inc         diff=c
+> +*.py            diff=python
+> 
 
 
