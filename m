@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F70331B747
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:38:22 +0100 (CET)
-Received: from localhost ([::1]:42624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3725D31B736
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:35:23 +0100 (CET)
+Received: from localhost ([::1]:33756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBbGn-0002Aa-9E
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:38:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50130)
+	id 1lBbDu-0006Z8-8s
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:35:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBbB7-0004NS-Ce
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:29 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:35694)
+ id 1lBbB6-0004Lm-PE
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:28 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:42507)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBbAy-0001gz-Kx
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:29 -0500
-Received: by mail-wr1-x430.google.com with SMTP id l12so8287415wry.2
+ id 1lBbAz-0001i0-G8
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:28 -0500
+Received: by mail-wr1-x432.google.com with SMTP id r21so8219134wrr.9
  for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 02:32:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9bceLBdb3iGzpfJ2NpcGXJpz+JJSn554nq+lipt4b8U=;
- b=WSxolL9dBqJYDnTcboOhCriAiAv+qWe5xEakY2FqT2MDmz7K9m4YOpuUygqbUhEgKM
- SSoqvKddfiNOcvK+5LdxsasvEWt5v6KeLXWRQWy3+FWtF3pcR3Of4z0H03vnrxf8e5hO
- s01wPzgQpv4KKBjxep13VJSy4HgsS2ptzuH0JpDt4xnOU+jHGRqH7wqiFcKppFulHHwa
- zwWs1TNKgLakLfPDXkoIF5zp3czaFvmGQXQR1Ii9OTm9USA9A3XGOrP/HpyEQYgjbzJT
- CE++Cfh/70/wQML9IfV6uMsRLoC0mj3lgLsO6sueDVdgO6QbYSlkuVyN+OJi27F5d2IC
- cwvA==
+ bh=8Pn0+fUrgN1cOJcpBnEN8VL4IjMtADYNe+/RkpTUxHU=;
+ b=r5trOF4xH7tJBTDZ4+nVU57V0qVY5k0jgPOn+V34UGgaOIWA1ec6z3k4c1Txa9HIIk
+ Yb5s0ANl6Xolqt+A9f8kzTTI/lCVY5OXv9dvawjLxo92YY5LRDcAS3CWEQUygUg60pI1
+ 8PSOkg+bRUqO0T1fgl6N3WXnuRfUCqO3hm8s/l77HnplUkQOVdMIwwE7bwcnStb+oit4
+ Vj+Uxb2XAQJfN2qp1XeEhc3G990pi8Gz3TnYS27jVg8S4wapUUosVlWF5LCMMt0bO3Qi
+ QtuqO8nk7BbJ00tfmhjIu6rh96uDRiJvwK1eroklgU/ySE9U5UKCtK19HusMytBJ69FP
+ E4tA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=9bceLBdb3iGzpfJ2NpcGXJpz+JJSn554nq+lipt4b8U=;
- b=NIgu9Dbm5Ztf9AG84Q713HYvmq9tAs71PzrCnMsnEnhz+G3XamWnUpwJHhBsOaW/9U
- 2le2ehX1Y4/yFYTdmkZ1o2X6yykesO6u/f+wLUEEGfbAZ+OV2hTOad5GnH1g5T/Genbr
- A0vN1Q8UuKOQpOwZIGIsRoX0wEPvl6BiuABPteMlpX5CEHyncoYFhs5gsnKMOlXR0Cxr
- K4rNuuyHOmc9HrZKiQvuzJ9fBQRbwHfXyk1JcmuThooDujBYeRh676vVr7/DV74p3MlG
- gYhRTXhJ7b6caoK5po7HAj5x66jReKHBbTMv4y9K5ghbGXUQJMdKHG04C+mozYUAyalt
- y6kQ==
-X-Gm-Message-State: AOAM532+1mPtLMiQtw3fT4+ebWyW7Gb5xS6PXHHuTQ2JQVgzfUxlY3Ti
- iAwD2bepaHKwO/za1uSVEaJ3pw==
-X-Google-Smtp-Source: ABdhPJwRhAZtrdI+j58sN1SYNelhzFf0+kpiQ3VASYCRwYiHiztpUtIn/G78agRHDPWBWBkvKuhDrA==
-X-Received: by 2002:a5d:5910:: with SMTP id v16mr7496639wrd.304.1613385139338; 
- Mon, 15 Feb 2021 02:32:19 -0800 (PST)
+ bh=8Pn0+fUrgN1cOJcpBnEN8VL4IjMtADYNe+/RkpTUxHU=;
+ b=nj4QCKaSTu6Pi+8kSS7FB9sbinP5yutx+npgzFQplvOANhh4SjOlIQZJHVh+QIHdCa
+ WEPUXXRNEvd6sj8JbTxNplV0QG34Xiv67IMeJbdW0VbOKw8zBkl1l/rcrJSghS4kPO0W
+ E90xcMhIeM2irZJegsLKK12yotExdxBnFeIL+1jhN4SUVIqVWZ95JnXix018lekEmsZX
+ DGvZu9z/M5NJszlNw/AVZZIozzQWn+fw2VVeuG9uGxdloLq8RTnoW1kmW7eVb7SDYMVi
+ 8cUNAlHmI1UAUsC5UK4NlEEzOfl3jqXw8BI9m/wHcnnkMjTH3FgQNtVm/ymSvZh9rSmz
+ +Y9g==
+X-Gm-Message-State: AOAM533z6E60+l7vtj09Q4Eg2vF2T837stDDgsjP1MYc2GAepCXeq62X
+ TgmWtMRb7jCTwB2E475QHk3kAZAaEEiRxQ==
+X-Google-Smtp-Source: ABdhPJzmhcWnFYLRSkUqIeo7H7hE4kJ5Efdn/KTEdPycbCM5GH3Wxfbn10dzr6zozOmVA41DuExnZg==
+X-Received: by 2002:a5d:5705:: with SMTP id a5mr14769676wrv.333.1613385140064; 
+ Mon, 15 Feb 2021 02:32:20 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id 36sm25196300wrj.97.2021.02.15.02.32.18
+ by smtp.gmail.com with ESMTPSA id 36sm25196300wrj.97.2021.02.15.02.32.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 15 Feb 2021 02:32:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/9] hw/display/tc6393xb: Remove dead code for handling
- non-32bpp surfaces
-Date: Mon, 15 Feb 2021 10:32:08 +0000
-Message-Id: <20210215103215.4944-3-peter.maydell@linaro.org>
+Subject: [PATCH 3/9] hw/display/tc6393xb: Expand out macros in template header
+Date: Mon, 15 Feb 2021 10:32:09 +0000
+Message-Id: <20210215103215.4944-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210215103215.4944-1-peter.maydell@linaro.org>
 References: <20210215103215.4944-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,87 +87,73 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For a long time now the UI layer has guaranteed that the console
-surface is always 32 bits per pixel RGB. Remove the legacy dead
-code from the tc6393xb display device which was handling the
-possibility that the console surface was some other format.
+Now the template header is included only for BITS==32, expand
+out all the macros that depended on the BITS setting.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/ui/console.h  | 10 ----------
- hw/display/tc6393xb.c | 33 +--------------------------------
- 2 files changed, 1 insertion(+), 42 deletions(-)
+ hw/display/tc6393xb_template.h | 35 ++++------------------------------
+ 1 file changed, 4 insertions(+), 31 deletions(-)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index d30e972d0b5..ed086f9f1ad 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -266,16 +266,6 @@ PixelFormat qemu_default_pixelformat(int bpp);
- DisplaySurface *qemu_create_displaysurface(int width, int height);
- void qemu_free_displaysurface(DisplaySurface *surface);
+diff --git a/hw/display/tc6393xb_template.h b/hw/display/tc6393xb_template.h
+index 78629c07f97..7789ffc4399 100644
+--- a/hw/display/tc6393xb_template.h
++++ b/hw/display/tc6393xb_template.h
+@@ -21,25 +21,7 @@
+  * with this program; if not, see <http://www.gnu.org/licenses/>.
+  */
  
--static inline int is_surface_bgr(DisplaySurface *surface)
--{
--    if (PIXMAN_FORMAT_BPP(surface->format) == 32 &&
--        PIXMAN_FORMAT_TYPE(surface->format) == PIXMAN_TYPE_ABGR) {
--        return 1;
--    } else {
--        return 0;
--    }
--}
+-#if BITS == 8
+-# define SET_PIXEL(addr, color)  (*(uint8_t *)addr = color)
+-#elif BITS == 15 || BITS == 16
+-# define SET_PIXEL(addr, color)  (*(uint16_t *)addr = color)
+-#elif BITS == 24
+-# define SET_PIXEL(addr, color)  \
+-    do {                         \
+-        addr[0] = color;         \
+-        addr[1] = (color) >> 8;  \
+-        addr[2] = (color) >> 16; \
+-    } while (0)
+-#elif BITS == 32
+-# define SET_PIXEL(addr, color)  (*(uint32_t *)addr = color)
+-#else
+-# error unknown bit depth
+-#endif
 -
- static inline int is_buffer_shared(DisplaySurface *surface)
+-
+-static void glue(tc6393xb_draw_graphic, BITS)(TC6393xbState *s)
++static void tc6393xb_draw_graphic32(TC6393xbState *s)
  {
-     return !(surface->flags & QEMU_ALLOCATED_FLAG);
-diff --git a/hw/display/tc6393xb.c b/hw/display/tc6393xb.c
-index 49a676d1b0e..4cddb1a99ad 100644
---- a/hw/display/tc6393xb.c
-+++ b/hw/display/tc6393xb.c
-@@ -410,43 +410,12 @@ static void tc6393xb_nand_writeb(TC6393xbState *s, hwaddr addr, uint32_t value)
-                                         (uint32_t) addr, value & 0xff);
+     DisplaySurface *surface = qemu_console_surface(s->con);
+     int i;
+@@ -49,24 +31,15 @@ static void glue(tc6393xb_draw_graphic, BITS)(TC6393xbState *s)
+     data_buffer = s->vram_ptr;
+     data_display = surface_data(surface);
+     for(i = 0; i < s->scr_height; i++) {
+-#if (BITS == 16)
+-        memcpy(data_display, data_buffer, s->scr_width * 2);
+-        data_buffer += s->scr_width;
+-        data_display += surface_stride(surface);
+-#else
+         int j;
+-        for (j = 0; j < s->scr_width; j++, data_display += BITS / 8, data_buffer++) {
++        for (j = 0; j < s->scr_width; j++, data_display += 4, data_buffer++) {
+             uint16_t color = *data_buffer;
+-            uint32_t dest_color = glue(rgb_to_pixel, BITS)(
++            uint32_t dest_color = rgb_to_pixel32(
+                            ((color & 0xf800) * 0x108) >> 11,
+                            ((color & 0x7e0) * 0x41) >> 9,
+                            ((color & 0x1f) * 0x21) >> 2
+                            );
+-            SET_PIXEL(data_display, dest_color);
++            *(uint32_t *)data_display = dest_color;
+         }
+-#endif
+     }
  }
- 
--#define BITS 8
--#include "tc6393xb_template.h"
--#define BITS 15
--#include "tc6393xb_template.h"
--#define BITS 16
--#include "tc6393xb_template.h"
--#define BITS 24
--#include "tc6393xb_template.h"
- #define BITS 32
- #include "tc6393xb_template.h"
- 
- static void tc6393xb_draw_graphic(TC6393xbState *s, int full_update)
- {
--    DisplaySurface *surface = qemu_console_surface(s->con);
 -
--    switch (surface_bits_per_pixel(surface)) {
--        case 8:
--            tc6393xb_draw_graphic8(s);
--            break;
--        case 15:
--            tc6393xb_draw_graphic15(s);
--            break;
--        case 16:
--            tc6393xb_draw_graphic16(s);
--            break;
--        case 24:
--            tc6393xb_draw_graphic24(s);
--            break;
--        case 32:
--            tc6393xb_draw_graphic32(s);
--            break;
--        default:
--            printf("tc6393xb: unknown depth %d\n",
--                   surface_bits_per_pixel(surface));
--            return;
--    }
--
-+    tc6393xb_draw_graphic32(s);
-     dpy_gfx_update_full(s->con);
- }
- 
+-#undef BITS
+-#undef SET_PIXEL
 -- 
 2.20.1
 
