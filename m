@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D31E31C40B
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 23:29:17 +0100 (CET)
-Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BFAB31C40C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 23:29:27 +0100 (CET)
+Received: from localhost ([::1]:35266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBmMm-0003Nb-JT
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 17:29:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35744)
+	id 1lBmMw-0003eg-KA
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 17:29:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lBmLN-0002Xy-88
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:27:49 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:37994
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lBmLL-0007cR-Jg
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:27:49 -0500
-Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lBmLc-0001XB-8o; Mon, 15 Feb 2021 22:28:07 +0000
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-11-mark.cave-ayland@ilande.co.uk>
- <6e1d5061-422e-797e-f96f-d0e78890fde2@amsat.org>
- <7315a388-e038-7a57-08a2-a2152fa7a6b2@ilande.co.uk>
- <42c31664-cdda-9aac-ac00-04d731a585d9@amsat.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <505db0b9-977d-8ba0-5fb5-9b5c99800172@ilande.co.uk>
-Date: Mon, 15 Feb 2021 22:27:36 +0000
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBmLU-0002fE-I8
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:27:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50156)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBmLT-0007fg-39
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:27:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613428074;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yc63Ej0tOiKDmlDwH8yOnHfUumkkhBI4Fv+5rim19pc=;
+ b=OglgTBqOMYucx2jmgqnAGg3BHWpNblJd9bUThwed0FOt5kekiNzwHz3JDHq6wkdIj+OlVu
+ mEV11JG9GX22WffcrAeXw8WBfpReOUJmMun2uojI4EhgwQPOdXZi7qp9r8j2F3Aj9vG49g
+ hJ6waol7dQ6RDwrjXVL4M4wPlwsltCU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-UjUsGpd_PlyxECBAkqwFzQ-1; Mon, 15 Feb 2021 17:27:52 -0500
+X-MC-Unique: UjUsGpd_PlyxECBAkqwFzQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B98E910066EE;
+ Mon, 15 Feb 2021 22:27:51 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 04BD92BFEC;
+ Mon, 15 Feb 2021 22:27:46 +0000 (UTC)
+Subject: Re: [PATCH 2/6] Python: expose QEMUMachine's temporary directory
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210211220146.2525771-1-crosa@redhat.com>
+ <20210211220146.2525771-3-crosa@redhat.com>
+ <3830f6ae-5f92-fc0f-99dd-0783c1cd13a2@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <a541cda7-47db-fc58-cd4d-e7a3aa8f0189@redhat.com>
+Date: Mon, 15 Feb 2021 17:27:46 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <42c31664-cdda-9aac-ac00-04d731a585d9@amsat.org>
+In-Reply-To: <3830f6ae-5f92-fc0f-99dd-0783c1cd13a2@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 109.153.84.1
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 10/42] esp: introduce esp_get_stc()
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,57 +83,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/02/2021 10:07, Philippe Mathieu-Daudé wrote:
-> On 2/11/21 8:53 AM, Mark Cave-Ayland wrote:
->> On 10/02/2021 22:33, Philippe Mathieu-Daudé wrote:
->>
->>> On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
->>>> This simplifies reading the STC register value without having to
->>>> manually shift
->>>> each individual 8-bit value.
->>>
->>> If possible repeat the subject so the sentence is easier to understand.
->>
->> I've always read commit messages as summary followed detail, so I've
->> tended to avoid repetition if the context is obvious from the summary (a
->> quick glance through my inbox suggest that quite a few authors also do
->> the same).
+On 2/15/21 1:50 PM, Wainer dos Santos Moschetta wrote:
 > 
-> Not because other do it means it is a good practice ;)
+> In qtest.QEMUQtestMachine.__init__(), the argument named 'test_dir' 
+> still make sense, right?
 > 
-> I suppose it depends on personal review workflow and email client used
-> or gitk layout. In the one I use the commit description is displayed
-> first, so I have to look elsewhere to prepend the patch subject which
-> is using another font.
-> I'm using Thunderbird on Fedora and X1 carbon but had to do some config
-> change in the default config because the font was too small, unreadable,
-> then I added some 1.5x zoom factor. It always looked ugly. Apparently
-> checking that again it seems the Fedora I used was not supporting these
-> now displays well but now it should work OK, but I'm still using this
-> old config. Well, my bad. Not in mood to reinstall. Forget my comment
-> about having "atomic" commit descriptions then.
-> 
->>
->> Perhaps adding in the word "function" would help readability here, e.g.
->> "This function simplifies reading the STC register value..."?
-> 
-> Sounds better to me :)
+> - Wainer
 
-Okay - I've made this change, along with a similar change to the patch before which 
-had similar wording.
+It might upset pylint/mypy to rename parameters in the initializer for a 
+parent class. If we rename it in the base class, we should rename it in 
+the descendants, too.
 
->>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>>> ---
->>>>    hw/scsi/esp.c | 15 ++++++++++++---
->>>>    1 file changed, 12 insertions(+), 3 deletions(-)
->>>
->>> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+(I say "might" because I have not yet worked out under the exact 
+conditions that mypy will give you LSP warnings for initializer methods. 
+It definitely doesn't always seem to, but I have run afoul of it enough 
+times that I try to avoid it as a matter of habit now.)
 
-
-ATB,
-
-Mark.
 
