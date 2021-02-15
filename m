@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3E2231BE51
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:08:43 +0100 (CET)
-Received: from localhost ([::1]:37190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55FC31BE8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:14:24 +0100 (CET)
+Received: from localhost ([::1]:39494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBgQU-0004gr-J7
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:08:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46998)
+	id 1lBgVz-000655-SW
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:14:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBgPY-0004Fj-Mz
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:07:45 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44001)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBgUC-0005ax-Dc
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:12:34 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBgPX-0006hN-3h
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:07:44 -0500
-Received: by mail-ej1-x631.google.com with SMTP id i23so5759477ejg.10
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:07:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBgUA-0007EX-PZ
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:12:32 -0500
+Received: by mail-pg1-x531.google.com with SMTP id t26so4478685pgv.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:12:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=lbkE0M2bZ9dMoyxLBrR/DCqdLmd5KLs4erf002V53Kg=;
- b=xfjHLrT0gB01SVXvEpTln2f3z8ufUtDmRgPZwu4byhUdvxftnUhH87NFfFZc5yp8Jo
- DnG8At0cm6aUwZqk2ukCgqwuPVHQk8gOSvuqCA+p9bhMrkoj7jFKr7GrZjc4cp+rzvJG
- gpEQziYkkzGveAmziIVQdsWIDhVPw2BSdsx98khavcNY/mEuCSFsUXvX7nO6PIpqOgj8
- vh29OlMacDGpi4ZRi4trmRxSGtx04THgv/gV8bucJ+4/y5RPc5+IBOlRbCbXrKMPX5aT
- Tx3bYdha58YRgi2NHZJVFxp6pVMgGFqH7UfbJwuEFNPvJwcW2OqSCXAbx4JgkGUusgmQ
- kycQ==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=e8SZf6Jx/0a8Zmhi1kw48dXgS/8jxqDUPuPgQ5Xzm4A=;
+ b=hOeVWBTWZ3BmHfDIyIozpfNAuBUBT7gFawHqg9p1lWx5GNbIIMjBmN68kVPPujSHSG
+ 8xyA6JofG7HoVSCoR33CeRVtrbwZN9F4hd+M9FfLZgzSaOehwitzqMgGgWdbJMj7h7XH
+ vDE1wtYqBUNatcRvP0eJvdbQxfJh8ZA/JHuI0k4mhVNGtcwFDSEN/X5SQteE7ifzSC73
+ S+a78Qw39YbmKKUzujYzZdKXecBybynKTpVlmWJGL113f0ILPRF68ET3aDPg4naSKTbC
+ ypF+q1Kjuh5QXxW6Y9LZmzvT4bH4TlnIy9bRJpy5OY5OHANFXENwMeYn0lY/QxoHnVk3
+ wX9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=lbkE0M2bZ9dMoyxLBrR/DCqdLmd5KLs4erf002V53Kg=;
- b=aq1ZBUeMJd7qWAEvlXKNg5aRq/5QxDn4VyDrj8KqM+T7TGMqThBJ8wBUJfix1zsdup
- TxtpQYlRYfeTz2qFYgNBQqgd1ZDjh1AGI8dBUc+KU3SW7f6RiZU3QPoeXxkDVUO1zbTY
- ia4BH2wHsn+7NhM2JL5isHpif18FHHM5ZPnYogdSfTLjkH5pC9hE3TUDMcbsH9nHrEPp
- t1Mx6Gqw8r5kKSA1JSXstyZQ7vYGCIagVjTddHHijMxBELNUkD1MlD/YBJ/jEYexA4iY
- VNsm7hR5E9T7qf0SrMvw97VCDDjdlpAO/guz8tRM5WuRAYypCoDi9kwP5+8/HRw2HhI/
- jDMg==
-X-Gm-Message-State: AOAM533SCfVf0gPGHBq/TsI3+xu2yO+6tEykdkt4etT7i0i5VkDnyV5g
- 2gRL8G889Sh9dzXOHfK1RCeqmWdPU+7nZf2+zt/2xbRHAcI=
-X-Google-Smtp-Source: ABdhPJymfUpBtIzg27kQiSr0KIQo83nnC2xEN2RSYPObnV3TAzkU5wECVWGpH8JW01pydj3TlNiVxnDohijxfSvRU4A=
-X-Received: by 2002:a17:906:3a89:: with SMTP id
- y9mr16300854ejd.4.1613405261326; 
- Mon, 15 Feb 2021 08:07:41 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=e8SZf6Jx/0a8Zmhi1kw48dXgS/8jxqDUPuPgQ5Xzm4A=;
+ b=uRZoi0vnwGGkZrGTk84xwZXcS0RlnGqB8SPLG3hpFjr+AVPy7fTJGXEHlra+Tga9Vt
+ dryeoxaRxxwN9icrsxBnXvtoNdmzVdkIa4o4zArjAOfXGYJXXrv9qkF3AszhTgmif0Mk
+ 8qk6AJhI1+18YextwliX9vOD7NBpVVaZUrh0BXwwp2ddqTh/4VpwEnmiFoAEJ/4Y3rSM
+ AsOa7FSGuZll6N+BJ4JSWu/Gq8aeCPWeF7MbukP/9XhbKKoxhalwcdGIXiDltDvUjchF
+ qtI/v2P1XYAl2pTgpNnGjKCq7+evqpw4q2rYE66XFWDtr6C9xIdQXifmErsz3jTN9QUD
+ yV1Q==
+X-Gm-Message-State: AOAM532yu0RNR4TuBAA5ho1/HwexITWUht+crjlQr9YaFsjFLderWa1y
+ e2lOY/h8lssILoZIZi8K/Y+wEg==
+X-Google-Smtp-Source: ABdhPJx9aNmsiOzsdOlDIgfGjDhS35g/g0CLi0FfmCmaap9q5lqB+1Aa5tRJY9fkYTHmamoDZk2S2w==
+X-Received: by 2002:a65:43ca:: with SMTP id n10mr39382pgp.430.1613405549236;
+ Mon, 15 Feb 2021 08:12:29 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ w123sm18932851pgb.13.2021.02.15.08.12.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Feb 2021 08:12:28 -0800 (PST)
+Subject: Re: [RFC PATCH 03/42] target/mips/translate: Make cpu_HI/LO registers
+ public
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210214175912.732946-1-f4bug@amsat.org>
+ <20210214175912.732946-4-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <835fd18b-3aa2-0bbf-b7a4-8c503992641a@linaro.org>
+Date: Mon, 15 Feb 2021 08:12:26 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210212161311.28915-1-peter.maydell@linaro.org>
-In-Reply-To: <20210212161311.28915-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 15 Feb 2021 16:07:30 +0000
-Message-ID: <CAFEAcA-ZHGhswRe9mAYCz5eZfZ2hSq78hde-5k_1YULFJ7-DtQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/sphinx/qapidoc.py: Handle change of QAPI's builtin
- module name
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+In-Reply-To: <20210214175912.732946-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,31 +90,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 12 Feb 2021 at 16:13, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> In commit e2bbc4eaa7f0 we changed the QAPI modules to name the built-in
-> module "./builtin" rather than None, but forgot to update the Sphinx
-> plugin. The effect of this was that when the plugin generated a dependency
-> file it was including a bogus dependency on a non-existent file named
-> "builtin", which meant that ninja would run Sphinx and rebuild all
-> the documentation every time even if nothing had changed.
->
-> Update the plugin to use the new name of the builtin module.
->
-> Fixes: e2bbc4eaa7f0
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
+> We will access the cpu_HI/LO registers outside of translate.c.
+> Make them publicly accessible.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  docs/sphinx/qapidoc.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/mips/translate.h | 1 +
+>  target/mips/translate.c | 2 +-
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
-Applied to master so we can all stop wasting CPU cycles rebuilding
-the documentation :-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-thanks
--- PMM
+r~
 
