@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4884631B8B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:07:39 +0100 (CET)
-Received: from localhost ([::1]:46962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7CD31B8C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:10:13 +0100 (CET)
+Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBcfC-0008Tr-AI
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:07:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
+	id 1lBchg-0003hW-QB
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:10:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBcQR-0007P3-Ku
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:23 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38143)
+ id 1lBcQY-0007hc-R2
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:30 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45505)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBcQP-0003yR-Ul
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:23 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id x4so9060671wmi.3
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:52:21 -0800 (PST)
+ id 1lBcQX-000415-3D
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:30 -0500
+Received: by mail-wr1-x430.google.com with SMTP id v7so8455379wrr.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:52:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YocI5mwW2d9jWoFEVN2qubyzzCutaE6tbqO05qvCxyI=;
- b=Li5nd5+qO8jmsWicbG40YqUZ5Uq2zeOVi9HL2zjMN0p578CgzUVaYSq9pUZR3nptox
- 9VRICfQeEivD99KrvOvXfe4PEsQVExgXWmRteQIdhX6Tz76Bvz8VOU6g5K8QtrLtgM9z
- 4VYZQQQZik5Em8Yxk8zYE2/HPtaaUzxU+x/Fx5Vx6HIQNfA1aBVE+SQ8fOhnXQ7yPrTv
- SkjjSxpKU3jNcGAMVN/JWKUpGBjAWjj0mmSec7SX2ahw9+uA4GcJpd/GH5b1vl1bpl85
- LzA78oZONNIzhnnKP4b00m0HXbzPZiDJnnuvEWv0PJD53bZEwPj6IwV8NHzbXQPzmzHm
- UxAg==
+ bh=Ok51mWFe/EHn9mJ70RUpKX9SuyFsEZZOYsJcbxrhCtM=;
+ b=MWrc0AdmkdABWEbP2TLy1p4KVEBQRu5S9EoM5KOj7yuStRi8WBRv1lHgVE6nZYdGDW
+ 0KoycWMpLjOBd2lF0aVPyOau+OlVaeKi+U7RlcRbDGFrFRQgvUCD8zHYhx9xxFsLpLwc
+ TIRXQsLc0R5CNfOAEbJbjJsIJwlU/litP9jK26CNJyumaVviN6SkxFmV/9bDmaRSq5Tp
+ aoI6Y1p5Smum6V3tw30EU2O7Z2+ZiIRHJ3u+WuUB/n99JVMWrckYJsl3cVSxQbGbLdm2
+ 6ZgyyULFAFst2U+kG/QQ6MkPG9N1gPWyOH9eUA/LjduSpzjjKzVN6Cdcv/K20wKqnbDn
+ +Urg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=YocI5mwW2d9jWoFEVN2qubyzzCutaE6tbqO05qvCxyI=;
- b=HmpxT9uMsLKIiI6Ol52aENQwsYy/dBqHyAVtAP3ITxg/y5OYNwyIDIv8j3mq4CuAMG
- ZxicroRgNGTARhSKsiH8lZ0PTd+QBqXAKYqx6gk275c8N/BUhVm/YuCotMyz5RzvZlP3
- /QCrLAGZsJEWu6pQ5g4vjdEug61An+B9R+/Mg4n51hLVI0lCRiC05fUh54aTmRrXeghr
- fcvMJcexMe+PaQyaPR/6TuQCDSRUJnCSAtgtVwDxQkyqw7IJVuiE+R5wkYDK4GY47sT8
- gQCCGWeqRr6ontlnQtMrIkNz7CPReV9s8QzaYeZFkAakFK3exT5UxB0gUQpCjKbPCGZI
- B/WQ==
-X-Gm-Message-State: AOAM533TgdJcU1GTOIpneWRIBoWx16DimWFxHYWHRvOXeErItoEzX26H
- gUaFqV5fxM2aCxhUJGAr3H5LJlUYhmHh6A==
-X-Google-Smtp-Source: ABdhPJzwD5/xhdlvl2zivj5vct+gdi9XnZynLb9l6y8OfEIchHCq51Ad6nNJmKk8OYayrnr0B4BI2g==
-X-Received: by 2002:a1c:4ca:: with SMTP id 193mr13925685wme.178.1613389940668; 
- Mon, 15 Feb 2021 03:52:20 -0800 (PST)
+ bh=Ok51mWFe/EHn9mJ70RUpKX9SuyFsEZZOYsJcbxrhCtM=;
+ b=FpAomon8pwjASRrWAY+1goKajSop7EK/v1ID5aKEHKct9kiL2SSsj48caTAx8ghZy8
+ b4b9nJp8jrQLtRJ+ox5vxjfBKDMK+V04/QywDL3tY+WVN/9WaEAYxE6YK8dLeuOHQ+GD
+ ujt0pU9ehaXdIoc8w81OqpbGMKixbW9Ox798U/J+us50tlj5QjgzEJYBrOKyvzhCzD5I
+ RHAWuDASRicdIDoSdawm8Ku+9VeQ5nOSEVO9LtfGE/RUswvWEHVuX2W3oMK+0bt3bK2L
+ ME+DWpnRuds6lXbOibc05/bny50Kmo7/CVqoHRsXOpgBN7uMWPC5iAz8SlppdQg4hJUt
+ HUqA==
+X-Gm-Message-State: AOAM530OWllDFbmL0+drHaFkcGasThHertJcojE4+SdojfD93yj84omD
+ i0dSPAVx0DO+PTnpvTdnyPO3mQ==
+X-Google-Smtp-Source: ABdhPJyy0u6L1qTrOY2Uu/VHz/avD5zg6jKgMFuI26LQs9SYJxwrfidrXKhxz/ZFz2RwkCm8yvqlYw==
+X-Received: by 2002:a05:6000:1cc:: with SMTP id
+ t12mr17719201wrx.142.1613389947866; 
+ Mon, 15 Feb 2021 03:52:27 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l83sm25574812wmf.4.2021.02.15.03.52.17
+ by smtp.gmail.com with ESMTPSA id l83sm25574812wmf.4.2021.02.15.03.52.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 03:52:20 -0800 (PST)
+ Mon, 15 Feb 2021 03:52:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 09/24] hw/arm/mps2-tz: Make number of IRQs board-specific
-Date: Mon, 15 Feb 2021 11:51:23 +0000
-Message-Id: <20210215115138.20465-10-peter.maydell@linaro.org>
+Subject: [PATCH v2 11/24] hw/arm/mps2-tz: Correct wrong interrupt numbers for
+ DMA and SPI
+Date: Mon, 15 Feb 2021 11:51:25 +0000
+Message-Id: <20210215115138.20465-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210215115138.20465-1-peter.maydell@linaro.org>
 References: <20210215115138.20465-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,97 +89,92 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN524 has more interrupt lines than the AN505 and AN521; make
-numirq board-specific rather than a compile-time constant.
+On the MPS2 boards, the first 32 interrupt lines are entirely
+internal to the SSE; interrupt lines for devices outside the SSE
+start at 32.  In the application notes that document each FPGA image,
+the interrupt wiring is documented from the point of view of the CPU,
+so '0' is the first of the SSE's interrupts and the devices in the
+FPGA image itself are '32' and up: so the UART 0 Receive interrupt is
+32, the SPI #0 interrupt is 51, and so on.
 
-Since the difference is small (92 on the current boards and 95 on the
-new one) we don't dynamically allocate the cpu_irq_splitter[] array
-but leave it as a fixed length array whose size is the maximum needed
-for any of the boards.
+Within our implementation, because the external interrupts must be
+connected to the EXP_IRQ[0...n] lines of the SSE object, we made the
+get_sse_irq_in() function take an irqno whose values start at 0 for
+the first FPGA device interrupt.  In this numbering scheme the UART 0
+Receive interrupt is 0, the SPI #0 interrupt is 19, and so on.
+
+The result of these two different numbering schemes has been that
+half of the devices were wired up to the wrong IRQs: the UART IRQs
+are wired up correctly, but the DMA and SPI devices were passing
+start-at-32 values to get_sse_irq_in() and so being mis-connected.
+
+Fix the bug by making get_sse_irq_in() take values specified with the
+same scheme that the hardware manuals use, to avoid confusion.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/arm/mps2-tz.c | 15 ++++++++++-----
- 1 file changed, 10 insertions(+), 5 deletions(-)
+ hw/arm/mps2-tz.c | 24 +++++++++++++++++-------
+ 1 file changed, 17 insertions(+), 7 deletions(-)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 5561c30b126..6362652e617 100644
+index 6362652e617..ff8b7e5f1ae 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -65,7 +65,7 @@
- #include "hw/qdev-clock.h"
- #include "qom/object.h"
+@@ -139,11 +139,21 @@ static void make_ram_alias(MemoryRegion *mr, const char *name,
  
--#define MPS2TZ_NUMIRQ 92
-+#define MPS2TZ_NUMIRQ_MAX 92
- 
- typedef enum MPS2TZFPGAType {
-     FPGA_AN505,
-@@ -81,6 +81,7 @@ struct MPS2TZMachineClass {
-     const uint32_t *oscclk;
-     uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
-     bool fpgaio_has_switches; /* Does FPGAIO have SWITCH register? */
-+    int numirq; /* Number of external interrupts */
-     const char *armsse_type;
- };
- 
-@@ -105,7 +106,7 @@ struct MPS2TZMachineState {
-     SplitIRQ sec_resp_splitter;
-     qemu_or_irq uart_irq_orgate;
-     DeviceState *lan9118;
--    SplitIRQ cpu_irq_splitter[MPS2TZ_NUMIRQ];
-+    SplitIRQ cpu_irq_splitter[MPS2TZ_NUMIRQ_MAX];
-     Clock *sysclk;
-     Clock *s32kclk;
- };
-@@ -140,8 +141,9 @@ static qemu_irq get_sse_irq_in(MPS2TZMachineState *mms, int irqno)
+ static qemu_irq get_sse_irq_in(MPS2TZMachineState *mms, int irqno)
  {
-     /* Return a qemu_irq which will signal IRQ n to all CPUs in the SSE. */
+-    /* Return a qemu_irq which will signal IRQ n to all CPUs in the SSE. */
++    /*
++     * Return a qemu_irq which will signal IRQ n to all CPUs in the
++     * SSE.  The irqno should be as the CPU sees it, so the first
++     * external-to-the-SSE interrupt is 32.
++     */
      MachineClass *mc = MACHINE_GET_CLASS(mms);
-+    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
+     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
  
--    assert(irqno < MPS2TZ_NUMIRQ);
-+    assert(irqno < mmc->numirq);
+-    assert(irqno < mmc->numirq);
++    assert(irqno >= 32 && irqno < (mmc->numirq + 32));
++
++    /*
++     * Convert from "CPU irq number" (as listed in the FPGA image
++     * documentation) to the SSE external-interrupt number.
++     */
++    irqno -= 32;
  
      if (mc->max_cpus > 1) {
          return qdev_get_gpio_in(DEVICE(&mms->cpu_irq_splitter[irqno]), 0);
-@@ -428,7 +430,7 @@ static void mps2tz_common_init(MachineState *machine)
-     iotkitdev = DEVICE(&mms->iotkit);
-     object_property_set_link(OBJECT(&mms->iotkit), "memory",
-                              OBJECT(system_memory), &error_abort);
--    qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", MPS2TZ_NUMIRQ);
-+    qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", mmc->numirq);
-     qdev_connect_clock_in(iotkitdev, "MAINCLK", mms->sysclk);
-     qdev_connect_clock_in(iotkitdev, "S32KCLK", mms->s32kclk);
-     sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
-@@ -439,8 +441,9 @@ static void mps2tz_common_init(MachineState *machine)
-      * board. If there is only one CPU, we can just wire the device IRQ
-      * directly to the SSE's IRQ input.
-      */
-+    assert(mmc->numirq <= MPS2TZ_NUMIRQ_MAX);
-     if (mc->max_cpus > 1) {
--        for (i = 0; i < MPS2TZ_NUMIRQ; i++) {
-+        for (i = 0; i < mmc->numirq; i++) {
-             char *name = g_strdup_printf("mps2-irq-splitter%d", i);
-             SplitIRQ *splitter = &mms->cpu_irq_splitter[i];
+@@ -197,9 +207,9 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
+     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
+     CMSDKAPBUART *uart = opaque;
+     int i = uart - &mms->uart[0];
+-    int rxirqno = i * 2;
+-    int txirqno = i * 2 + 1;
+-    int combirqno = i + 10;
++    int rxirqno = i * 2 + 32;
++    int txirqno = i * 2 + 33;
++    int combirqno = i + 42;
+     SysBusDevice *s;
+     DeviceState *orgate_dev = DEVICE(&mms->uart_irq_orgate);
  
-@@ -693,6 +696,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
-     mmc->fpgaio_num_leds = 2;
-     mmc->fpgaio_has_switches = false;
-+    mmc->numirq = 92;
-     mmc->armsse_type = TYPE_IOTKIT;
+@@ -266,7 +276,7 @@ static MemoryRegion *make_eth_dev(MPS2TZMachineState *mms, void *opaque,
+ 
+     s = SYS_BUS_DEVICE(mms->lan9118);
+     sysbus_realize_and_unref(s, &error_fatal);
+-    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 16));
++    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 48));
+     return sysbus_mmio_get_region(s, 0);
  }
  
-@@ -713,6 +717,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
-     mmc->fpgaio_num_leds = 2;
-     mmc->fpgaio_has_switches = false;
-+    mmc->numirq = 92;
-     mmc->armsse_type = TYPE_SSE200;
- }
+@@ -507,7 +517,7 @@ static void mps2tz_common_init(MachineState *machine)
+                             &error_fatal);
+     qdev_realize(DEVICE(&mms->uart_irq_orgate), NULL, &error_fatal);
+     qdev_connect_gpio_out(DEVICE(&mms->uart_irq_orgate), 0,
+-                          get_sse_irq_in(mms, 15));
++                          get_sse_irq_in(mms, 47));
  
+     /* Most of the devices in the FPGA are behind Peripheral Protection
+      * Controllers. The required order for initializing things is:
 -- 
 2.20.1
 
