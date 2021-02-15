@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A9B731C197
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:37:42 +0100 (CET)
-Received: from localhost ([::1]:33928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 362E931C1CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:42:17 +0100 (CET)
+Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBike-0002bL-GX
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:37:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49198)
+	id 1lBip6-0004vC-AY
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:42:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lBidm-0006KG-KR
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:30:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32933)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lBiiW-0001Wa-Pl
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:35:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lBidj-0006X9-Va
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:30:34 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lBiiU-0000Zx-0K
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:35:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613413830;
+ s=mimecast20190719; t=1613414124;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QNsDA/tFlzIrWv1+iHJE3vV5c7BRU689WscEAvSzD44=;
- b=V/6Hdus2y5eV88zad9kgIIU6Y/ybPGdww6eMTf0hi8xfrLMfOzqlme5OD2W1fe8SO9g6ym
- XoQxB0wE98Zaf9jeo1R1i3rUa2IT97G1C9gEzztQvLFfhbPjnobFI/l9X4X4VMkBKKICOv
- SdnG8c2xV3joh7HKZdEitq2RH+rBLFc=
+ bh=iSu52RK1rxJQ1Dl5Sz8w5Za11duteqX8FixQahuRbwA=;
+ b=J/FRbsRnAtLpTBhq5f+mvOQnSvQY7EhqQAfvkoB6DbJf7FEiYyTet6IcQ7ur4Fs/Y3uvy+
+ PPdapth+SU0ohYkhHlF+cAJos3MZTRpVyH2H3XXSbVDAAMsQHuZYO3Mi4gtIjoPoLuYv6m
+ 42Bgogk0TZgOJIWA+n/CSD6zt6RGzFk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-E1-qRJ7vOaeF8d3qXsNO2w-1; Mon, 15 Feb 2021 13:30:27 -0500
-X-MC-Unique: E1-qRJ7vOaeF8d3qXsNO2w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-562-rr1DScKvNnemz-suUvS6EA-1; Mon, 15 Feb 2021 13:35:20 -0500
+X-MC-Unique: rr1DScKvNnemz-suUvS6EA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFD281E568;
- Mon, 15 Feb 2021 18:30:26 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CD6A95C241;
- Mon, 15 Feb 2021 18:30:19 +0000 (UTC)
-Subject: Re: [PATCH 1/6] Python: close the log file kept by QEMUMachine before
- reading it
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210211220146.2525771-1-crosa@redhat.com>
- <20210211220146.2525771-2-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <965f7460-bbaa-bde4-ef93-e8f968f06907@redhat.com>
-Date: Mon, 15 Feb 2021 15:30:16 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91EC66EE22;
+ Mon, 15 Feb 2021 18:35:19 +0000 (UTC)
+Received: from work-vm (ovpn-115-61.ams2.redhat.com [10.36.115.61])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A7B319719;
+ Mon, 15 Feb 2021 18:35:17 +0000 (UTC)
+Date: Mon, 15 Feb 2021 18:35:15 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH 05/33] migration: push Error **errp into
+ qemu_loadvm_state_main()
+Message-ID: <YCq+4/8hUcAWV1HM@work-vm>
+References: <20210204171907.901471-1-berrange@redhat.com>
+ <20210204171907.901471-6-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210211220146.2525771-2-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210204171907.901471-6-berrange@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,57 +82,288 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Willian Rampazzo <wrampazz@redhat.com>, John Snow <jsnow@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-On 2/11/21 7:01 PM, Cleber Rosa wrote:
-> Closing a file that is open for writing, and then reading from it
-> sounds like a better idea than the opposite, given that the content
-> will be flushed.
->
-> Reference: https://docs.python.org/3/library/io.html#io.IOBase.close
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> This is an incremental step in converting vmstate loading code to report
+> via Error objects instead of printing directly to the console/monitor.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > ---
->   python/qemu/machine.py | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 7a40f4604b..6e44bda337 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -337,12 +337,12 @@ class QEMUMachine:
->               self._qmp.close()
->               self._qmp_connection = None
->   
-> -        self._load_io_log()
-> -
->           if self._qemu_log_file is not None:
->               self._qemu_log_file.close()
->               self._qemu_log_file = None
->   
-> +        self._load_io_log()
-> +
+>  migration/colo.c   |  3 +-
+>  migration/savevm.c | 73 +++++++++++++++++++++++++++++++---------------
+>  migration/savevm.h |  3 +-
+>  3 files changed, 52 insertions(+), 27 deletions(-)
+> 
+> diff --git a/migration/colo.c b/migration/colo.c
+> index e344b7cf32..4a050ac579 100644
+> --- a/migration/colo.c
+> +++ b/migration/colo.c
+> @@ -705,11 +705,10 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+>  
+>      qemu_mutex_lock_iothread();
+>      cpu_synchronize_all_states();
+> -    ret = qemu_loadvm_state_main(mis->from_src_file, mis);
+> +    ret = qemu_loadvm_state_main(mis->from_src_file, mis, errp);
+>      qemu_mutex_unlock_iothread();
+>  
+>      if (ret < 0) {
+> -        error_setg(errp, "Load VM's live state (ram) error");
+>          return;
+>      }
+>  
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index dd41292d4e..e47aec435c 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -1819,6 +1819,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>      QEMUFile *f = mis->from_src_file;
+>      int load_res;
+>      MigrationState *migr = migrate_get_current();
+> +    Error *local_err = NULL;
+>  
+>      object_ref(OBJECT(migr));
+>  
+> @@ -1833,7 +1834,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>       * in qemu_file, and thus we must be blocking now.
+>       */
+>      qemu_file_set_blocking(f, true);
+> -    load_res = qemu_loadvm_state_main(f, mis);
+> +    load_res = qemu_loadvm_state_main(f, mis, &local_err);
+>  
+>      /*
+>       * This is tricky, but, mis->from_src_file can change after it
+> @@ -1849,6 +1850,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>      if (load_res < 0) {
+>          qemu_file_set_error(f, load_res);
+>          dirty_bitmap_mig_cancel_incoming();
+> +        error_report_err(local_err);
+>          if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING &&
+>              !migrate_postcopy_ram() && migrate_dirty_bitmaps())
+>          {
+> @@ -1859,12 +1861,10 @@ static void *postcopy_ram_listen_thread(void *opaque)
+>                           __func__, load_res);
+>              load_res = 0; /* prevent further exit() */
+>          } else {
+> -            error_report("%s: loadvm failed: %d", __func__, load_res);
+>              migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+>                                             MIGRATION_STATUS_FAILED);
+>          }
+> -    }
+> -    if (load_res >= 0) {
+> +    } else {
+>          /*
+>           * This looks good, but it's possible that the device loading in the
+>           * main thread hasn't finished yet, and so we might not be in 'RUN'
+> @@ -2116,14 +2116,17 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
+>   * @mis: Incoming state
+>   * @length: Length of packaged data to read
+>   *
+> - * Returns: Negative values on error
+> - *
+> + * Returns:
+> + *   0: success
+> + *   LOADVM_QUIT: success, but stop
+> + *   -1: error
+>   */
+>  static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
+>  {
+>      int ret;
+>      size_t length;
+>      QIOChannelBuffer *bioc;
+> +    Error *local_err = NULL;
+>  
+>      length = qemu_get_be32(mis->from_src_file);
+>      trace_loadvm_handle_cmd_packaged(length);
+> @@ -2149,8 +2152,11 @@ static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
+>  
+>      QEMUFile *packf = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
+>  
+> -    ret = qemu_loadvm_state_main(packf, mis);
+> +    ret = qemu_loadvm_state_main(packf, mis, &local_err);
+>      trace_loadvm_handle_cmd_packaged_main(ret);
+> +    if (ret < 0) {
+> +        error_report_err(local_err);
+> +    }
+>      qemu_fclose(packf);
+>      object_unref(OBJECT(bioc));
+>  
+> @@ -2568,7 +2574,14 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
+>      return true;
+>  }
+>  
+> -int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis)
+> +/*
+> + * Returns:
+> + *   0: success
+> + *   LOADVM_QUIT: success, but stop
+> + *   -1: error
+> + */
+> +int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis,
+> +                           Error **errp)
+>  {
+>      uint8_t section_type;
+>      int ret = 0;
+> @@ -2579,7 +2592,9 @@ retry:
+>  
+>          if (qemu_file_get_error(f)) {
+>              ret = qemu_file_get_error(f);
+> -            break;
+> +            error_setg(errp,
+> +                       "Failed to load device state section ID: %d", ret);
+
+Can I ask why these don't use strerror(ret) ?
+
+The test I'm running is, start a VM with an actual guest and a useful
+amount of ram:
+
+./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -nographic -m 8G -drive if=virtio,file=/home/vmimages/fedora-33-nest.qcow
+
+./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -nographic -m 8G -drive if=virtio,file=/home/vmimages/fedora-33-nest.qcow -incoming tcp:0:4444
+
+source:
+  migrate_set_speed 1m
+  migrate -d tcp:0:4444
+  <Now quickly>
+  migrate_cancel
+
+In the old world I get:
+qemu-system-x86_64: load of migration failed: Input/output error
+
+In your world I get:
+qemu-system-x86_64: Failed to load device state section ID: -5
+
+(5 being EIO)
+
+Dave
 
 
-IMO it's a too fragile fix. It needs the `self._qemu_log_file.close()` 
-being called before `self._load_io_log()` but a future change can make 
-this condition unmet again. Maybe you could document that in the code. 
-Or change the `_load_io_log()` to close the log file if it is open (also 
-document it in code).
-
-- Wainer
-
->           self._qemu_log_path = None
->   
->           if self._temp_dir is not None:
+> +            goto out;
+>          }
+>  
+>          trace_qemu_loadvm_state_section(section_type);
+> @@ -2588,6 +2603,9 @@ retry:
+>          case QEMU_VM_SECTION_FULL:
+>              ret = qemu_loadvm_section_start_full(f, mis);
+>              if (ret < 0) {
+> +                error_setg(errp,
+> +                           "Failed to load device state section start: %d",
+> +                           ret);
+>                  goto out;
+>              }
+>              break;
+> @@ -2595,29 +2613,38 @@ retry:
+>          case QEMU_VM_SECTION_END:
+>              ret = qemu_loadvm_section_part_end(f, mis);
+>              if (ret < 0) {
+> +                error_setg(errp,
+> +                           "Failed to load device state section end: %d", ret);
+>                  goto out;
+>              }
+>              break;
+>          case QEMU_VM_COMMAND:
+>              ret = loadvm_process_command(f);
+>              trace_qemu_loadvm_state_section_command(ret);
+> -            if ((ret < 0) || (ret == LOADVM_QUIT)) {
+> +            if (ret < 0) {
+> +                error_setg(errp,
+> +                           "Failed to load device state command: %d", ret);
+> +                goto out;
+> +            }
+> +            if (ret == LOADVM_QUIT) {
+>                  goto out;
+>              }
+>              break;
+>          case QEMU_VM_EOF:
+>              /* This is the end of migration */
+> +            ret = 0;
+>              goto out;
+>          default:
+> -            error_report("Unknown savevm section type %d", section_type);
+> -            ret = -EINVAL;
+> +            error_setg(errp,
+> +                       "Unknown savevm section type %d", section_type);
+> +            ret = -1;
+>              goto out;
+>          }
+>      }
+>  
+>  out:
+>      if (ret < 0) {
+> -        qemu_file_set_error(f, ret);
+> +        qemu_file_set_error(f, -EINVAL);
+>  
+>          /* Cancel bitmaps incoming regardless of recovery */
+>          dirty_bitmap_mig_cancel_incoming();
+> @@ -2643,6 +2670,12 @@ out:
+>      return ret;
+>  }
+>  
+> +/*
+> + * Returns:
+> + *   0: success
+> + *   LOADVM_QUIT: success, but stop
+> + *   -1: error
+> + */
+>  int qemu_loadvm_state(QEMUFile *f, Error **errp)
+>  {
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+> @@ -2662,17 +2695,12 @@ int qemu_loadvm_state(QEMUFile *f, Error **errp)
+>  
+>      cpu_synchronize_all_pre_loadvm();
+>  
+> -    ret = qemu_loadvm_state_main(f, mis);
+> -    if (ret < 0) {
+> -        error_setg(errp, "Error %d while loading VM state", ret);
+> -        ret = -1;
+> -    }
+> +    ret = qemu_loadvm_state_main(f, mis, errp);
+>      qemu_event_set(&mis->main_thread_load_event);
+>  
+>      trace_qemu_loadvm_state_post_main(ret);
+>  
+>      if (mis->have_listen_thread) {
+> -        error_setg(errp, "Error %d while loading VM state", ret);
+>          /* Listen thread still going, can't clean up yet */
+>          return ret;
+>      }
+> @@ -2729,13 +2757,10 @@ int qemu_loadvm_state(QEMUFile *f, Error **errp)
+>  int qemu_load_device_state(QEMUFile *f, Error **errp)
+>  {
+>      MigrationIncomingState *mis = migration_incoming_get_current();
+> -    int ret;
+>  
+>      /* Load QEMU_VM_SECTION_FULL section */
+> -    ret = qemu_loadvm_state_main(f, mis);
+> -    if (ret < 0) {
+> -        error_setg(errp, "Failed to load device state: %d", ret);
+> -        return ret;
+> +    if (qemu_loadvm_state_main(f, mis, errp) < 0) {
+> +        return -1;
+>      }
+>  
+>      cpu_synchronize_all_post_init();
+> diff --git a/migration/savevm.h b/migration/savevm.h
+> index c727bc103e..1cec83c729 100644
+> --- a/migration/savevm.h
+> +++ b/migration/savevm.h
+> @@ -62,7 +62,8 @@ int qemu_save_device_state(QEMUFile *f);
+>  
+>  int qemu_loadvm_state(QEMUFile *f, Error **errp);
+>  void qemu_loadvm_state_cleanup(void);
+> -int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+> +int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis,
+> +                           Error **errp);
+>  int qemu_load_device_state(QEMUFile *f, Error **errp);
+>  
+>  #endif
+> -- 
+> 2.29.2
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
