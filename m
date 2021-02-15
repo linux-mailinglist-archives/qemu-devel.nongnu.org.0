@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B4231B9CA
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:53:00 +0100 (CET)
-Received: from localhost ([::1]:34564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F17131B9D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:54:10 +0100 (CET)
+Received: from localhost ([::1]:37502 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBdN5-00029Y-FQ
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:52:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52862)
+	id 1lBdOD-0003O9-DR
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:54:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdGA-0004BA-1m
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:51 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:59365)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFu-00046l-MR
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:35 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:33581)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFz-0000j5-Mm
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:49 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFm-0000fh-LM
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:33 -0500
 Received: from localhost.localdomain ([82.252.134.158]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Md6ZB-1lkh9j27tb-00aAdH; Mon, 15 Feb 2021 13:45:24 +0100
+ id 1MQMqN-1lXr4X3ndp-00MMqP; Mon, 15 Feb 2021 13:45:25 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/13] linux-user/signal: Decode waitid si_code
-Date: Mon, 15 Feb 2021 13:45:09 +0100
-Message-Id: <20210215124519.720265-4-laurent@vivier.eu>
+Subject: [PULL 04/13] linux-user: Add missing TARGET___O_TMPFILE for hppa and
+ alpha
+Date: Mon, 15 Feb 2021 13:45:10 +0100
+Message-Id: <20210215124519.720265-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210215124519.720265-1-laurent@vivier.eu>
 References: <20210215124519.720265-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:aNd3FKayuVLgCsMObiLexFk29QyHeWVgSFkQ/onLx4VBSVc+/9/
- WWSoKUaVLeBKmxmo3bZutNybuFB1C7M4mfaKN5eDlb6aDHCMr5WKCk/Bxr66JjSDiEMxbV3
- QzdPoOmefepdhG9s3mDlUzp488j8OrXMoUfSxpYvEQSidn84OIcpF+xR26OZKYpKWSph+CN
- R6K7waq7A9OMWcSHSw2xw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:feIV5dC12ZM=:/OAt6iGI6s4ykEkyOy+Yqa
- gw3Lw9n2uxt87YsZfxEPZWOitqIoJzzeFDv1tFuWI2VD30/RjqtFtdhSBjcbf57jCNDaws3w+
- r/qpIw1vLXUoKulpWuHaadIpuREDI+W9qe9958Ka3UmpGAghrhUy80pDC83L7nbuePwBv/oBF
- ecDeGWX6XZmz+SKLSMjH5F4KRAYbMWOZPnweYk+INe/U49PvABAOVEokKYQalkZ3SA2XBeytR
- +aEz2enou/qUG/QvqFQLGHkAPQ+mDR2MFlB2k4CeyiyfDr1OPLIkoGXrI/Rv/ZQrIDSXSBPk8
- 6/uqj7MfZ79uApLRo4+o2BoP8j0NZsDZq8NCee7n9uV6/R/fM6A89PVP5IYgzyOnNQWHhoLe1
- Pygb1UwkUx8qdvjN7Lc+S54QB7jBhxxgooOeUIvCjSysK1Vzt+X3UTG9yVxzw
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:Js7in6gK8aAOzL2AY+rsXNEGdm9OXejg39NF2XcOp7KRz7Y/Xce
+ ZEPvZ/Xtvmx/HiLu5O3OuszdIPSvsfC9m7ubcFiX3n0DcOs8fFUwZEhcC2cIFt/3dx1nl4f
+ pNSwV6NAgp0+qIze+Id5BC7KoxM1wET3IBv74Fq/q97OayqKrptCdX/SjVcJh1cfnRB7eVO
+ sgU3k7y8CaHC6R08aJvtQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:agyGsgrcf3w=:n1tti4B0/Az7Pv3TxKzNny
+ ouDIHM7lezquCMjLzBwlltPHqUp+Wm3s/7nxYgnWbCBem4v0oPxHNvTDYCrxp1jiva5Nmsqe4
+ tLF9OlHRZzj8z4FOPXk13ns0DGfY97zAkjabdp/w63W0KDPM33sqYSLzZ2hvj9TBE07juS2Y8
+ xRDjjKjnLsfMXIAXwauPYJhE7ncL7iOaqEv41ZOnzov0ltfdcnwyVLuCzO5TvvLQv7vR5KW6y
+ QttotAxdCAxnChIWlIyFOADl+r6g9OH406RA3aKo/YuUjaiQ7uLkTjNY0iNNTswML8JFGOqdj
+ 4d8/Wun8kFtHEvqjhaNj9aO46n8g5/vUlwCBJgomdPAzskVHT/orxrwwYLaC2vrOYJIGNEw3S
+ KgOfRuQsmJF5lVaVL5XXoQvIgQSkaX2w9qiMPJIM1ZLyq/VVACTpUF0JI312i
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,47 +62,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Andreas=20K=20=2E=20H=C3=BCttel?= <dilfridge@gentoo.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Helge Deller <deller@gmx.de>
 
-When mapping the host waitid status to the target status we previously
-just used decoding information in the status value. This doesn't follow
-what the waitid documentation describes, which instead suggests using
-the si_code value for the decoding. This results in the incorrect values
-seen when calling waitid. This is especially apparent on RV32 where all
-wait calls use waitid (see the bug case).
+The hppa and alpha targets miss the #define of the TARGET___O_TMPFILE
+and as such fail to run a trivial symlink command like
 
-This patch just passes the waitid status directly back to the guest.
+    ln -s /bin/bash /tmp
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1906193
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Tested-by: Andreas K. Hüttel <dilfridge@gentoo.org>
+which results in an -EINVAL return code.
+
+Adding the define fixes the problem.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <1fb2d56aa23a81f4473e638abe9e2d78c09a3d5b.1611080607.git.alistair.francis@wdc.com>
+Message-Id: <20210201155922.GA18291@ls3530.fritz.box>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/signal.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ linux-user/alpha/target_fcntl.h | 1 +
+ linux-user/hppa/target_fcntl.h  | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 73de934c6511..7eecec46c407 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -349,8 +349,7 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
-         case TARGET_SIGCHLD:
-             tinfo->_sifields._sigchld._pid = info->si_pid;
-             tinfo->_sifields._sigchld._uid = info->si_uid;
--            tinfo->_sifields._sigchld._status
--                = host_to_target_waitstatus(info->si_status);
-+            tinfo->_sifields._sigchld._status = info->si_status;
-             tinfo->_sifields._sigchld._utime = info->si_utime;
-             tinfo->_sifields._sigchld._stime = info->si_stime;
-             si_type = QEMU_SI_CHLD;
+diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_fcntl.h
+index e16ed1d4157f..99774d731727 100644
+--- a/linux-user/alpha/target_fcntl.h
++++ b/linux-user/alpha/target_fcntl.h
+@@ -23,6 +23,7 @@
+ #define TARGET_O_CLOEXEC     010000000
+ #define TARGET___O_SYNC      020000000
+ #define TARGET_O_PATH        040000000
++#define TARGET___O_TMPFILE  0100000000
+ 
+ #define TARGET_F_GETLK         7
+ #define TARGET_F_SETLK         8
+diff --git a/linux-user/hppa/target_fcntl.h b/linux-user/hppa/target_fcntl.h
+index bd966a59b8d4..9eaeef9d8e7b 100644
+--- a/linux-user/hppa/target_fcntl.h
++++ b/linux-user/hppa/target_fcntl.h
+@@ -21,6 +21,7 @@
+ #define TARGET_O_CLOEXEC     010000000
+ #define TARGET___O_SYNC      000100000
+ #define TARGET_O_PATH        020000000
++#define TARGET___O_TMPFILE   040000000
+ 
+ #define TARGET_F_RDLCK         1
+ #define TARGET_F_WRLCK         2
 -- 
 2.29.2
 
