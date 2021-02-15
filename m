@@ -2,69 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 420A331B790
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:49:53 +0100 (CET)
-Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1846531B79F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:51:26 +0100 (CET)
+Received: from localhost ([::1]:42906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBbRw-0005A3-C6
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:49:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54076)
+	id 1lBbTR-0006Ed-6I
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:51:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lBbQe-0004j6-A2
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:48:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51493)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBbS9-0005db-2L
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:50:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lBbQc-0008TX-Uu
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:48:32 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBbS7-0000cE-Oi
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:50:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613386109;
+ s=mimecast20190719; t=1613386203;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QlmyTgqDynys31AY47yrwAPgxdYm5TI/DoXZuRY5R9I=;
- b=OPT9SIOpvwZ8Bb9UnJHniIHALQLpEWprhTVYotCO5MMmiqkGHPRzULArU4mfnQe76I7isi
- KsR6WeHO5DK+PZccYnFPHW5M7pitTnxRT+2r3eYRHUfN0fHbd+/4Q7hjgu49juCYj+BKHP
- 4dGhl432NDg/jJ1oy1Y0KyMBUyW50HQ=
+ bh=V+gZd4XVVP68KAGn4W3srPv4EQuvUeR1t8l+cKwvppM=;
+ b=HBbEadkYR+tYe776Q/J1RiI2DFcu/ttDO9awvV3ZPMB9EADu82wYF8ER1v2q52PT9wPIo1
+ o9I/lZOHDiucjnyAkWELiSJgZuPHIV/lDrCS84qiAMtXi2fv5J+vsfJmBnYe/KhMYfBYfW
+ FAQXa4Xc2x8YqpqU3kH30IZMUIfc7gU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-62-8OSHkTjwN0-9crrIqLriSg-1; Mon, 15 Feb 2021 05:48:27 -0500
-X-MC-Unique: 8OSHkTjwN0-9crrIqLriSg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-326-XDxZElk8N-mynRrFGd_rvg-1; Mon, 15 Feb 2021 05:50:01 -0500
+X-MC-Unique: XDxZElk8N-mynRrFGd_rvg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BE041E561
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 10:48:26 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.195.216])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 15F6F60C5F;
- Mon, 15 Feb 2021 10:48:24 +0000 (UTC)
-Date: Mon, 15 Feb 2021 11:48:22 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Vitaly Kuznetsov <vkuznets@redhat.com>
-Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
- enablement/disablement
-Message-ID: <20210215104822.vo4npvyp4vqowiyl@kamzik.brq.redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-17-vkuznets@redhat.com>
- <20210211183555.2136b5c8@redhat.com>
- <87tuqhllmn.fsf@vitty.brq.redhat.com>
- <20210212151259.3db7406f@redhat.com>
- <87k0rdl3er.fsf@vitty.brq.redhat.com>
- <20210212170113.30a902b2@redhat.com>
- <87eehhlnj5.fsf@vitty.brq.redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D80D107ACE3;
+ Mon, 15 Feb 2021 10:50:00 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-28.ams2.redhat.com [10.36.113.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3594C5F9B8;
+ Mon, 15 Feb 2021 10:49:59 +0000 (UTC)
+Date: Mon, 15 Feb 2021 11:49:57 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH] hw/ide/ahci: map cmd_fis as DMA_DIRECTION_TO_DEVICE
+Message-ID: <20210215104957.GF7226@merkur.fritz.box>
+References: <20210119164051.89268-1-alxndr@bu.edu>
 MIME-Version: 1.0
-In-Reply-To: <87eehhlnj5.fsf@vitty.brq.redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210119164051.89268-1-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,19 +75,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, "open list:IDE" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 15, 2021 at 09:53:50AM +0100, Vitaly Kuznetsov wrote:
-> I have no clue why scratch vCPUs were implemented on ARM, however, I'd
+Am 19.01.2021 um 17:40 hat Alexander Bulekov geschrieben:
+> cmd_fis is mapped as DMA_DIRECTION_FROM_DEVICE, however, it is read
+> from, and not written to anywhere. Fix the DMA_DIRECTION and mark
+> cmd_fis as read-only in the code.
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 
-We don't have an ioctl like KVM_GET_SUPPORTED_CPUID, which operates on
-the KVM fd. Perhaps we should.
+Thanks, applied to the block branch.
 
-Thanks,
-drew
+Kevin
 
 
