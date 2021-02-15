@@ -2,78 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1686131C529
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 02:51:07 +0100 (CET)
-Received: from localhost ([::1]:49592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2851B31C541
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:07:02 +0100 (CET)
+Received: from localhost ([::1]:53044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBpW3-00010o-Tk
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 20:51:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40518)
+	id 1lBplU-0003tF-JI
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:07:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBpUl-0000Xa-49
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 20:49:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29632)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBpUh-0006la-Ld
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 20:49:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613440177;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y6icFfvOeU1uVCX/qH6fFgNt+uJ12GUdhKTH/L4P/40=;
- b=BJyRwGQIJu4IaZxR+rXs5/sNLiQCqeTRY8v9zainPx6UIMvOGr9FmTBVm7tp414yPv6Ja3
- EwZGbnOdeiiOMIdV/eal9KPxxbZZzJlifMnZNwSQesPWqlhNbOuexhuUFWSv5FuBPyvoTv
- hTObaLm0b+hKHpJG9fKsHNwC72qIv+4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-136-3NFSbetRMlW_hhQ4fGzodg-1; Mon, 15 Feb 2021 20:49:34 -0500
-X-MC-Unique: 3NFSbetRMlW_hhQ4fGzodg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43BF8107ACC7;
- Tue, 16 Feb 2021 01:49:33 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0269919D6C;
- Tue, 16 Feb 2021 01:49:31 +0000 (UTC)
-Subject: Re: [PATCH v9 0/6] Rework iotests/check
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Kevin Wolf <kwolf@redhat.com>
-References: <20210125185056.129513-1-vsementsov@virtuozzo.com>
- <20210126125301.GE4385@merkur.fritz.box>
- <2628b158-cc41-908e-550f-ec4fe726a31f@virtuozzo.com>
- <20210126150750.GH4385@merkur.fritz.box>
- <5bb6d3fd-2a2c-91a4-f12a-5e195627a7fb@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <af46aebd-a6b4-cc64-1d6e-d08e78c6b0ae@redhat.com>
-Date: Mon, 15 Feb 2021 20:49:31 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lBn5x-00036V-Qp
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 18:15:57 -0500
+Received: from mo4-p00-ob.smtp.rzone.de ([81.169.146.221]:33317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alexander.wagner@ulal.de>)
+ id 1lBn5v-0004qU-M5
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 18:15:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1613430950;
+ s=strato-dkim-0002; d=ulal.de;
+ h=Message-Id:Date:Subject:Cc:To:From:Cc:Date:From:Subject:Sender;
+ bh=mP6vnzx1bOnH5ayVmsm6Y4XavvCKI64f/p4yWr3MDxA=;
+ b=axTG2tVHz+zlnDzaVmQux6ObTpsi5NYCmXdCUP+tqTxYGUR/xu7glIZB7IZRTe7CHj
+ gI5j+Wfosk939yQnTkzyEBKQEHsxL+IKNJcHgTf2DVhgt/gGnIlNS/IkhHXRlQOF/ppm
+ F5vbZYF7/oTyJGnkzJ4D479YiX+k/XdZJg0J58QUAWfUQSmOLda1iIlHcoqt2A/M7MzA
+ GJ8i5E/8Kv0UGstl8/P506T9LmT4jZ7NcZDpSkhCLBV+r14u2IrqmHMRotrVFoNfible
+ o9+ZrWQIu/C3mtoFFFe/Ujb35MFQHZVhkzmcMbkJm7Kl1fxOKgx8jyV8uPYIGyq3gZ3E
+ Vjaw==
+X-RZG-AUTH: ":LWABbUGmf/p3d3fx281mbpk9zOkHG9L8L9MnY9md4b2JTjr0xj1uUQtYCbJnQW9aY+KkeQGMenXp3aVVIrQH1y0no9Td6RznSK+7tpWsnlYtAiaE"
+X-RZG-CLASS-ID: mo00
+Received: from alwagner-T470s.fritz.box by smtp.strato.de (RZmta 47.18.0 AUTH)
+ with ESMTPSA id i0935ax1FNFk1eG
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Tue, 16 Feb 2021 00:15:46 +0100 (CET)
+From: Alexander Wagner <alexander.wagner@ulal.de>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/char: disable ibex uart receive if the buffer is full
+Date: Tue, 16 Feb 2021 00:15:28 +0100
+Message-Id: <20210215231528.2718086-1-alexander.wagner@ulal.de>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <5bb6d3fd-2a2c-91a4-f12a-5e195627a7fb@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=81.169.146.221;
+ envelope-from=alexander.wagner@ulal.de; helo=mo4-p00-ob.smtp.rzone.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 15 Feb 2021 21:06:05 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -85,56 +66,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: den@openvz.org, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- mreitz@redhat.com
+Cc: marcandre.lureau@redhat.com, Alistair.Francis@wdc.com,
+ Alexander Wagner <alexander.wagner@ulal.de>, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 10:15 AM, Vladimir Sementsov-Ogievskiy wrote:
->>
-> 
-> OK, thanks for handling it!
-> 
-> When will we move to python 3.7?
+Not disabling the UART leads to QEMU overwriting the UART receive buffer with
+the newest received byte. The rx_level variable is added to allow the use of
+the existing OpenTitan driver libraries.
 
-"I don't know, but it seems like a very long time."
+Signed-off-by: Alexander Wagner <alexander.wagner@ulal.de>
+---
+ hw/char/ibex_uart.c         | 20 +++++++++++++++-----
+ include/hw/char/ibex_uart.h |  4 ++++
+ 2 files changed, 19 insertions(+), 5 deletions(-)
 
-The nominal EOL for Python 3.6 is this December; see 
-https://www.python.org/dev/peps/pep-0494/
-
-Debian 10 ships 3.7.
-Fedora has appropriate packages going back to F29 and possibly earlier.
-OpenSuSE tumbleweed offers 3.8 and 3.9.
-Ubuntu 18.04 LTS offers 3.7 and 3.8 packages.
-Ubuntu 20.04 LTS offers 3.7 and 3.8 packages.
-
-OpenSUSE 15.2 ... ships with Python 3.6, and I don't see an option to 
-install anything more modern. This distribution is supported (both by us 
-and by SuSE) until 2021-12-31.
-
-As of 2020-12-29, OpenSuSE 15.3 appears to be set to ship Python 3.6:
-"python3-3.6.12-3.70.1.x86_64.rpm". It is set to ship 2021-07-07, and 
-does not have an estimated EOL date yet.
-
-SLES 15 ... I'm not sure and can't seem to find that information 
-quickly. https://www.suse.com/releasenotes/x86_64/SUSE-SLES/15-SP1/ 
-which was published at the end of 2020, suggests that Python 3 
-support(?) is new(?) to some extent. 
-https://packagehub.suse.com/packages/python3/ suggests that SLES 15.2 is 
-Python 3.6-based.
-
-I can't tell if they offer the optional addition of Python 3.7 on either 
-SLES or OpenSuSE. Would love to know.
-
-As for RHEL/CentOS, I think it's in the same shape right now. It's 
-3.6-based, but I don't know if there's an optional 3.7+ package or not.
-
---js
-
-
-Note: our configure script doesn't try several canonical sources of 
-Python interpreters, we just try to use "python3". In the case of 
-multiple python installations, we'd have to try python3.7, python3.8, 
-python3.9, etc.
+diff --git a/hw/char/ibex_uart.c b/hw/char/ibex_uart.c
+index 89f1182c9b..dac09d53d6 100644
+--- a/hw/char/ibex_uart.c
++++ b/hw/char/ibex_uart.c
+@@ -66,7 +66,8 @@ static int ibex_uart_can_receive(void *opaque)
+ {
+     IbexUartState *s = opaque;
+ 
+-    if (s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) {
++    if ((s->uart_ctrl & R_CTRL_RX_ENABLE_MASK)
++           && !(s->uart_status & R_STATUS_RXFULL_MASK)) {
+         return 1;
+     }
+ 
+@@ -83,6 +84,8 @@ static void ibex_uart_receive(void *opaque, const uint8_t *buf, int size)
+ 
+     s->uart_status &= ~R_STATUS_RXIDLE_MASK;
+     s->uart_status &= ~R_STATUS_RXEMPTY_MASK;
++    s->uart_status |= R_STATUS_RXFULL_MASK;
++    s->rx_level += 1;
+ 
+     if (size > rx_fifo_level) {
+         s->uart_intr_state |= R_INTR_STATE_RX_WATERMARK_MASK;
+@@ -199,6 +202,7 @@ static void ibex_uart_reset(DeviceState *dev)
+     s->uart_timeout_ctrl = 0x00000000;
+ 
+     s->tx_level = 0;
++    s->rx_level = 0;
+ 
+     s->char_tx_time = (NANOSECONDS_PER_SECOND / 230400) * 10;
+ 
+@@ -243,11 +247,15 @@ static uint64_t ibex_uart_read(void *opaque, hwaddr addr,
+ 
+     case R_RDATA:
+         retvalue = s->uart_rdata;
+-        if (s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) {
++        if ((s->uart_ctrl & R_CTRL_RX_ENABLE_MASK) && (s->rx_level > 0)) {
+             qemu_chr_fe_accept_input(&s->chr);
+ 
+-            s->uart_status |= R_STATUS_RXIDLE_MASK;
+-            s->uart_status |= R_STATUS_RXEMPTY_MASK;
++            s->rx_level -= 1;
++            s->uart_status &= ~R_STATUS_RXFULL_MASK;
++            if (s->rx_level == 0) {
++                s->uart_status |= R_STATUS_RXIDLE_MASK;
++                s->uart_status |= R_STATUS_RXEMPTY_MASK;
++            }
+         }
+         break;
+     case R_WDATA:
+@@ -261,7 +269,8 @@ static uint64_t ibex_uart_read(void *opaque, hwaddr addr,
+     case R_FIFO_STATUS:
+         retvalue = s->uart_fifo_status;
+ 
+-        retvalue |= s->tx_level & 0x1F;
++        retvalue |= (s->rx_level & 0x1F) << R_FIFO_STATUS_RXLVL_SHIFT;
++        retvalue |= (s->tx_level & 0x1F) << R_FIFO_STATUS_TXLVL_SHIFT;
+ 
+         qemu_log_mask(LOG_UNIMP,
+                       "%s: RX fifos are not supported\n", __func__);
+@@ -364,6 +373,7 @@ static void ibex_uart_write(void *opaque, hwaddr addr,
+         s->uart_fifo_ctrl = value;
+ 
+         if (value & R_FIFO_CTRL_RXRST_MASK) {
++            s->rx_level = 0;
+             qemu_log_mask(LOG_UNIMP,
+                           "%s: RX fifos are not supported\n", __func__);
+         }
+diff --git a/include/hw/char/ibex_uart.h b/include/hw/char/ibex_uart.h
+index 03d19e3f6f..546f958eb8 100644
+--- a/include/hw/char/ibex_uart.h
++++ b/include/hw/char/ibex_uart.h
+@@ -62,6 +62,8 @@ REG32(FIFO_CTRL, 0x1c)
+     FIELD(FIFO_CTRL, RXILVL, 2, 3)
+     FIELD(FIFO_CTRL, TXILVL, 5, 2)
+ REG32(FIFO_STATUS, 0x20)
++    FIELD(FIFO_STATUS, TXLVL, 0, 5)
++    FIELD(FIFO_STATUS, RXLVL, 16, 5)
+ REG32(OVRD, 0x24)
+ REG32(VAL, 0x28)
+ REG32(TIMEOUT_CTRL, 0x2c)
+@@ -82,6 +84,8 @@ struct IbexUartState {
+     uint8_t tx_fifo[IBEX_UART_TX_FIFO_SIZE];
+     uint32_t tx_level;
+ 
++    uint32_t rx_level;
++
+     QEMUTimer *fifo_trigger_handle;
+     uint64_t char_tx_time;
+ 
+-- 
+2.25.1
 
 
