@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F0931BF28
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:27:57 +0100 (CET)
-Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE6CA31BF1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:27:10 +0100 (CET)
+Received: from localhost ([::1]:58514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBgj6-0007b4-V2
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:27:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50492)
+	id 1lBgiL-0006pm-Oi
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:27:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgeZ-0005Gr-Gm
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:23:17 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:52331)
+ id 1lBgfU-0005ea-Em
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:24:14 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35949)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgeW-0000KI-Rl
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:23:15 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id q72so4006933pjq.2
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:23:12 -0800 (PST)
+ id 1lBgfS-0000NR-86
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:24:12 -0500
+Received: by mail-pl1-x630.google.com with SMTP id e9so4001407plh.3
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:24:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=p8D5S5oUZWPsW+VEQQ58DPh1jJg6Xc5/MPq4hBEjmeo=;
- b=H9DwOdLkgQ+PUxkJN08cNSW7cAdzk3a9t+PKJ28kAuh6hQIhGAEnXWw3ywypIgeU2F
- M6BMc/toSgbJKqUsCYGEskz4s7L5uz3RAfcltQVaxneTNtCWVTXZR6vAHst5n+Nnr2uJ
- 4HIb8cXHcsGvetA9nN4bakJ9rNfLkzROvstyxZ/q0gItl6wffw4zRn1Lq4+o2wXgfsdj
- 2UYnxNXUzxqUJSZ2+2RFs2NWuWYYbTeRzbu0fLbU8NNIoRfgMKsblw93WHgC7Z+nAe9d
- Xviq7bLumYJUgax7CNSrr6WxtHX0mKGBNBFyCU8x5lMyXvUFwSrDUWQTT3NxHyKE+F1m
- G0zA==
+ bh=Y05sVjk0pwhT2ErboWrRhlMDhTMMTmMS+y/D00XjNYI=;
+ b=I++AKDY1WiD8oO0hz5zBtWcxsa2KkiN+TYNBitIJlBrXrxsQwOddET4Pk0k8oIN4M0
+ rwvkxerVF+tTTvZTeVhpNFFIizRFBZHqO5nhBta9jMOG9Eh3sD9/bTUwc55IB1u+WdGr
+ tyR2CKuCI8TdIRw17MuZBMf049fJTtWyU7bmG5E11oWvWq71YjL/VIGh2W9gnKn64N/D
+ pYJmDjejxXqZSXdIrKjwKlmlrgAOWvbecRI2hTMzpEgevBN6HPA9RTGAQ/gQMpNvBPOg
+ sEeK4WwohlfYA4YWrpgi1Pr6Xa13dZrkDWqN7olHJP0B5tusJGF99qXL9GRqusH971nT
+ fddA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p8D5S5oUZWPsW+VEQQ58DPh1jJg6Xc5/MPq4hBEjmeo=;
- b=EdBvEyPQWt8HRI7nLHRfUggbbcHRD089OosINc2CXa3Xn7sOkp5oIFxeSXFKSuTLOc
- 9BYGaYOsHs7oAATgm5B1fFtHQ3UGOhIyg1FK0BW9hxwODtxS2dK1jsK8Giet+yIbDQUr
- uUs3w+CRDTFxguFJOpMJJwORJwvOnDYH6Rg0s03ePvMSofsKhd3gCbR9C1JeuzItRxjW
- cQwMt52LoYLWvVPeRfY+PFvKpqVft30jStWzSp3L3vB8T6W6Bt25Y+fmYUx1fEQ+NiUE
- MH88V6tmAGqgL5nCGO2Qln8TH9oENX2kpR4jASg72Sj7bg9XHmNsnpEc9UovG1rL5Mk7
- 4f+w==
-X-Gm-Message-State: AOAM533+tkSgdJRsim9ctZ7Dhkfu+x/Azu52HCD3/76ocrGugsQ9mMt3
- 0ywRIitFOb2e2zMRUj9GdrtaIg==
-X-Google-Smtp-Source: ABdhPJyyIPhbLRCtn3MCIyKdOWsiwNxFuvYDepjo9WEWEOIdYbwVUrg2bVyzNmasJdw2iS/EVp4Z2w==
-X-Received: by 2002:a17:90a:43a7:: with SMTP id
- r36mr17153182pjg.189.1613406191164; 
- Mon, 15 Feb 2021 08:23:11 -0800 (PST)
+ bh=Y05sVjk0pwhT2ErboWrRhlMDhTMMTmMS+y/D00XjNYI=;
+ b=d7xHe1owERC4f7itQa7DxYTWc5Dd6ABPsk4dSH4GtQDrVXMsbnT5wSA7LHsUcZjYVx
+ 6FmHLCvq/i3VlTb97IvLeCN5BzT7s3rnzicdyRj7PlB2GQNt2eoo5bym9pt0LIMfX3sN
+ IcwhCQz2TWRqcd7OmN8s3ZO8c/RoIjrhtD7yMLg2VvvqDuG45FN1m80EXVrIual7Q4gx
+ H8JvlxaLS2gKeoGWQLMIZUuk/xCISeVdjl4yTnqcCkoyOSdnVW0AdnoLJlMbDWfnXG55
+ 080zbDTltm1Z8rXmu4r8HgFPgHYrFLEfk/DD4GaXujIIWS7SsGDasfWr3sedu6DfjYvz
+ zbng==
+X-Gm-Message-State: AOAM532QJtWSw6E35fasXdWOKIrNuzJIloUW2mjF6OnWZ+8hhCUHvpQG
+ AJdJS66IwNK8h+Ev5vUf4C/rjA==
+X-Google-Smtp-Source: ABdhPJzvgJopZL2GTPdpu8iGqzjZZaQTtR8LAdL0TEB5sbr7dS2IjgKLyGDtF0MtrLNdPERxRAPOkw==
+X-Received: by 2002:a17:902:e5cc:b029:df:bc77:3aba with SMTP id
+ u12-20020a170902e5ccb02900dfbc773abamr16232560plf.72.1613406244801; 
+ Mon, 15 Feb 2021 08:24:04 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- f18sm17845261pjq.53.2021.02.15.08.23.10
+ q12sm19917076pfc.95.2021.02.15.08.24.03
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:23:10 -0800 (PST)
-Subject: Re: [RFC PATCH 09/42] target/mips/tx79: Move MTHI1 / MTLO1 opcodes to
- decodetree
+ Mon, 15 Feb 2021 08:24:04 -0800 (PST)
+Subject: Re: [RFC PATCH 10/42] target/mips/translate: Simplify PCPYH using
+ deposit_i64()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-10-f4bug@amsat.org>
+ <20210214175912.732946-11-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <19777b40-9608-6bce-abfd-54c87c28fd84@linaro.org>
-Date: Mon, 15 Feb 2021 08:23:08 -0800
+Message-ID: <37a3c528-b720-44bf-34ac-010441d65a7d@linaro.org>
+Date: Mon, 15 Feb 2021 08:24:02 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-10-f4bug@amsat.org>
+In-Reply-To: <20210214175912.732946-11-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,12 +100,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
+> Simplify the PCPYH (Parallel Copy Halfword) instruction by using
+> multiple calls to deposit_i64() which can be optimized by some
+> TCG backends.
+> 
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/tx79.decode      |  3 +++
->  target/mips/translate.c      | 25 -------------------------
->  target/mips/tx79_translate.c | 14 ++++++++++++++
->  3 files changed, 17 insertions(+), 25 deletions(-)
+> v3: Use missing rt, optimize (Richard)
+> ---
+>  target/mips/translate.c | 34 ++++------------------------------
+>  1 file changed, 4 insertions(+), 30 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
