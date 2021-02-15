@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7B6F31C215
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:01:11 +0100 (CET)
-Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55FBC31C219
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:01:25 +0100 (CET)
+Received: from localhost ([::1]:49880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBj7O-0001r7-Ph
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:01:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
+	id 1lBj7c-0002HX-AZ
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:01:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBj5H-0000jE-PM
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57261)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lBj5S-0000xT-8N
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:59:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBj5D-0002FP-Uu
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:59 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lBj5Q-0002Kz-DN
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:59:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613415535;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1613415547;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LkVBPQzfIoYEzxp5o3AyiIn7aphrQ2Z2vvQVNLC78jg=;
- b=ZqH+5Vq57huYsOz9cx2OVy5ZpYWZtYB+TQNCrJgqKHuR0OzdcvP0JVthCS156B/KRGq3Dk
- franDkky06e76VFPBeHbyZxquc48Zro1mQc/p00aSW9KdmsqHi879DfM0cJZf0YI5x6ny5
- bdQc8M4wmr332err19K19STd62NEnGU=
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
- [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-323-zMxdRZSIN6-eZl8s-K5kyg-1; Mon, 15 Feb 2021 13:58:51 -0500
-X-MC-Unique: zMxdRZSIN6-eZl8s-K5kyg-1
-Received: by mail-ua1-f71.google.com with SMTP id o6so3560851uap.10
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 10:58:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=LkVBPQzfIoYEzxp5o3AyiIn7aphrQ2Z2vvQVNLC78jg=;
- b=PXfznQ9DBiaGxP/aN7WtLkHwtdeHFW40NAmN3r6jfCG7GVmzDRJ7cP9UJH4eRK8hrK
- C2k90Fq6aMtZJoD61Q6eQYH+gN6xGZVYpuhKdW93/F36sQUKMvxb+slFBVrx7w9IyNVv
- WrHI63008pSyD60LdwhnfsaJ2l3VSh45fT69Ngv1z83wvNz9xmU6U/eenEhTIq139t/G
- 6WXvuPWdoMUOK9B+DvuoURwdFgamz5o/d7+8D+Jgd5sCgcGPXTrBqsLP5+fk5txNXsWp
- ic8syo/dz4XfPVHu2izaqz2KrHMW+Oj/QSyOjTSIwTZ7tAFVdHnim2ycJAeLvxvPPbdp
- +GJQ==
-X-Gm-Message-State: AOAM531vOpBvB/NitllKL0GMD6q3Eq0IblYrXcM1Id2JqpJOiBvB/7JS
- Eu4tZNCWph5ZSrE8Bblwz8afihcd+hWg2hiPpBrZOtCY79EMfusMBQBEi5HM5ZCRrnucL3QubYw
- m2Oa8T2Q6KKuC74FbvOO7fHsvPUeimMo=
-X-Received: by 2002:a67:fe99:: with SMTP id b25mr4179567vsr.45.1613415530982; 
- Mon, 15 Feb 2021 10:58:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwWkaSUDEU+C7oKEnhqu/yZjhSCt+7H07UChaxADpXAzdDdwVzpqEJY/NPBH7q6C9Y4Jegr7SaDQbftzKP9mJM=
-X-Received: by 2002:a67:fe99:: with SMTP id b25mr4179564vsr.45.1613415530859; 
- Mon, 15 Feb 2021 10:58:50 -0800 (PST)
+ bh=JnYpb0dAbg5jeeGo1du51FNO1omUmDuVwG/47gsbjOQ=;
+ b=DdxooL5noU43X1cR8Fh6s5UghEXBMUzBDZ07x6gLc+qIi8xgfkqJkbiz6xqzg0piBco7yN
+ YCmiNVI604UqoyV5f457ETwRi/vVE2Y4UXYl3ErncbL2QizfizEp08yQf8RbUDu0m0T/YE
+ gPp8ngYJDe4V1/lHZ1Z8zLplcZpTSYs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-Hcmdhcp7OtuPxCMCqlGSrg-1; Mon, 15 Feb 2021 13:59:05 -0500
+X-MC-Unique: Hcmdhcp7OtuPxCMCqlGSrg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F436835E23;
+ Mon, 15 Feb 2021 18:59:03 +0000 (UTC)
+Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F221E5D9C0;
+ Mon, 15 Feb 2021 18:59:01 +0000 (UTC)
+Date: Mon, 15 Feb 2021 18:58:58 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 05/33] migration: push Error **errp into
+ qemu_loadvm_state_main()
+Message-ID: <20210215185858.GN1542881@redhat.com>
+References: <20210204171907.901471-1-berrange@redhat.com>
+ <20210204171907.901471-6-berrange@redhat.com>
+ <YCq+4/8hUcAWV1HM@work-vm>
 MIME-Version: 1.0
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-12-crosa@redhat.com>
-In-Reply-To: <20210203172357.1422425-12-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 15 Feb 2021 15:58:25 -0300
-Message-ID: <CAKJDGDZEGGh4g-GBx95nL4Hxg=K156Oj5RCpzXufpdn5f8iKWg@mail.gmail.com>
-Subject: Re: [PATCH 11/22] tests/acceptance/linux_ssh_mips_malta.py:
- standardize port as integer
-To: Cleber Rosa <crosa@redhat.com>
+In-Reply-To: <YCq+4/8hUcAWV1HM@work-vm>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,30 +84,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- John Snow <jsnow@redhat.com>, Eric Auger <eauger@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 3, 2021 at 2:24 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  tests/acceptance/linux_ssh_mips_malta.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
+On Mon, Feb 15, 2021 at 06:35:15PM +0000, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > This is an incremental step in converting vmstate loading code to report
+> > via Error objects instead of printing directly to the console/monitor.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > ---
+> >  migration/colo.c   |  3 +-
+> >  migration/savevm.c | 73 +++++++++++++++++++++++++++++++---------------
+> >  migration/savevm.h |  3 +-
+> >  3 files changed, 52 insertions(+), 27 deletions(-)
+> > 
+> > diff --git a/migration/colo.c b/migration/colo.c
+> > index e344b7cf32..4a050ac579 100644
+> > --- a/migration/colo.c
+> > +++ b/migration/colo.c
+> > @@ -705,11 +705,10 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
+> >  
+> >      qemu_mutex_lock_iothread();
+> >      cpu_synchronize_all_states();
+> > -    ret = qemu_loadvm_state_main(mis->from_src_file, mis);
+> > +    ret = qemu_loadvm_state_main(mis->from_src_file, mis, errp);
+> >      qemu_mutex_unlock_iothread();
+> >  
+> >      if (ret < 0) {
+> > -        error_setg(errp, "Load VM's live state (ram) error");
+> >          return;
+> >      }
+> >  
+> > diff --git a/migration/savevm.c b/migration/savevm.c
+> > index dd41292d4e..e47aec435c 100644
+> > --- a/migration/savevm.c
+> > +++ b/migration/savevm.c
+> > @@ -1819,6 +1819,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> >      QEMUFile *f = mis->from_src_file;
+> >      int load_res;
+> >      MigrationState *migr = migrate_get_current();
+> > +    Error *local_err = NULL;
+> >  
+> >      object_ref(OBJECT(migr));
+> >  
+> > @@ -1833,7 +1834,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> >       * in qemu_file, and thus we must be blocking now.
+> >       */
+> >      qemu_file_set_blocking(f, true);
+> > -    load_res = qemu_loadvm_state_main(f, mis);
+> > +    load_res = qemu_loadvm_state_main(f, mis, &local_err);
+> >  
+> >      /*
+> >       * This is tricky, but, mis->from_src_file can change after it
+> > @@ -1849,6 +1850,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> >      if (load_res < 0) {
+> >          qemu_file_set_error(f, load_res);
+> >          dirty_bitmap_mig_cancel_incoming();
+> > +        error_report_err(local_err);
+> >          if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING &&
+> >              !migrate_postcopy_ram() && migrate_dirty_bitmaps())
+> >          {
+> > @@ -1859,12 +1861,10 @@ static void *postcopy_ram_listen_thread(void *opaque)
+> >                           __func__, load_res);
+> >              load_res = 0; /* prevent further exit() */
+> >          } else {
+> > -            error_report("%s: loadvm failed: %d", __func__, load_res);
+> >              migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
+> >                                             MIGRATION_STATUS_FAILED);
+> >          }
+> > -    }
+> > -    if (load_res >= 0) {
+> > +    } else {
+> >          /*
+> >           * This looks good, but it's possible that the device loading in the
+> >           * main thread hasn't finished yet, and so we might not be in 'RUN'
+> > @@ -2116,14 +2116,17 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
+> >   * @mis: Incoming state
+> >   * @length: Length of packaged data to read
+> >   *
+> > - * Returns: Negative values on error
+> > - *
+> > + * Returns:
+> > + *   0: success
+> > + *   LOADVM_QUIT: success, but stop
+> > + *   -1: error
+> >   */
+> >  static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
+> >  {
+> >      int ret;
+> >      size_t length;
+> >      QIOChannelBuffer *bioc;
+> > +    Error *local_err = NULL;
+> >  
+> >      length = qemu_get_be32(mis->from_src_file);
+> >      trace_loadvm_handle_cmd_packaged(length);
+> > @@ -2149,8 +2152,11 @@ static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
+> >  
+> >      QEMUFile *packf = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
+> >  
+> > -    ret = qemu_loadvm_state_main(packf, mis);
+> > +    ret = qemu_loadvm_state_main(packf, mis, &local_err);
+> >      trace_loadvm_handle_cmd_packaged_main(ret);
+> > +    if (ret < 0) {
+> > +        error_report_err(local_err);
+> > +    }
+> >      qemu_fclose(packf);
+> >      object_unref(OBJECT(bioc));
+> >  
+> > @@ -2568,7 +2574,14 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
+> >      return true;
+> >  }
+> >  
+> > -int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis)
+> > +/*
+> > + * Returns:
+> > + *   0: success
+> > + *   LOADVM_QUIT: success, but stop
+> > + *   -1: error
+> > + */
+> > +int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis,
+> > +                           Error **errp)
+> >  {
+> >      uint8_t section_type;
+> >      int ret = 0;
+> > @@ -2579,7 +2592,9 @@ retry:
+> >  
+> >          if (qemu_file_get_error(f)) {
+> >              ret = qemu_file_get_error(f);
+> > -            break;
+> > +            error_setg(errp,
+> > +                       "Failed to load device state section ID: %d", ret);
+> 
+> Can I ask why these don't use strerror(ret) ?
 
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+No good reason.
+
+> 
+> The test I'm running is, start a VM with an actual guest and a useful
+> amount of ram:
+> 
+> ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -nographic -m 8G -drive if=virtio,file=/home/vmimages/fedora-33-nest.qcow
+> 
+> ./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -nographic -m 8G -drive if=virtio,file=/home/vmimages/fedora-33-nest.qcow -incoming tcp:0:4444
+> 
+> source:
+>   migrate_set_speed 1m
+>   migrate -d tcp:0:4444
+>   <Now quickly>
+>   migrate_cancel
+> 
+> In the old world I get:
+> qemu-system-x86_64: load of migration failed: Input/output error
+> 
+> In your world I get:
+> qemu-system-x86_64: Failed to load device state section ID: -5
+> 
+> (5 being EIO)
+
+Yep, looks like I should fix that.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
