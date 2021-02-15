@@ -2,79 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027E531B862
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:52:49 +0100 (CET)
-Received: from localhost ([::1]:59976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3CA31B868
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:53:46 +0100 (CET)
+Received: from localhost ([::1]:34868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBcQq-00079o-1b
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:52:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38806)
+	id 1lBcRl-0008Sb-86
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:53:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBcPZ-0005qh-HW
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:51:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43358)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBcPW-0003YS-3X
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:51:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613389884;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Aq6kwMcnHljxeQrqjbjqHhLdIbIoDKL4sDh4lHX1Fik=;
- b=B/Z4Z7LBx7suOQDgj81kHaYMGMBG5X3hjSov5dQnoQts0lOdKNHTM71T8UnOBlk9NkkGgY
- PIFLK6wa9wsFqfIP7vgqXiYh1h7IM68hjwqmpdgo/28P0mEm14g8PHvB7QdoEl8HVxxWPw
- mKijDkdcE+esXMnAg91rCwx+JpBDtsI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-Hsk41lsZNKmHNEGZXpbZeg-1; Mon, 15 Feb 2021 06:51:23 -0500
-X-MC-Unique: Hsk41lsZNKmHNEGZXpbZeg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08AD21E565;
- Mon, 15 Feb 2021 11:51:22 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5C8D45B698;
- Mon, 15 Feb 2021 11:51:17 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lBcQ1-0006et-QS
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:51:57 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:33085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lBcPw-0003kp-Vv
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:51:57 -0500
+Received: by mail-wr1-x430.google.com with SMTP id 7so8562619wrz.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:51:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zKBxTWgyl2c0Ezu3w8Ywtxl02/Y89qRFPX4kamMcCvU=;
+ b=RQNh6QOmkr4lRQW3u7oQmOT68A+FVCCUin9ejKjaZHCAA0/SdKnXxOncbf0xRAJUw4
+ RqDQTAN7tnMd6P+fChQ7uoIwRdfiNoS6VW1Nw1QIwa6bpVB/SxYE74gSCDhtQo4rVMvA
+ CKCNNIwNbp8aXbb+U0bL/bwU14KOwni6hT+iJGXTgpDWccDJCT0v9kcmnCvWJet5d3lx
+ 8p3hARBkq+fVxQT3J4RLlvmKr3T1lVfsnpxAgjp9uEMKWO4STFTh7s4jdIiOhrfCPyt3
+ ichDCMq5jlylAezosnM3uXlL9MfNJVCUeMVMDcs52IJMyN3etq5INLgH4pBcbXmi/Dq6
+ 8hYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zKBxTWgyl2c0Ezu3w8Ywtxl02/Y89qRFPX4kamMcCvU=;
+ b=Mu9RZVPWb1wfKQpNJ95T9oJyVLERJx1+OVh2fl1pMI/sFsnbRhu9+hRxx/iTh6W80j
+ J3FCDp5MG1efWCQRbnP04kLSpdBTUEn5bl9haVFD8qFJ1PdRSgX18ZMX0WMiXYQSyak6
+ BXFd2BA6BJl4i3zm25XAA83W53Fo+ZwkHsdVKTgjx/ei79QWocZ1vjuCEjOAA5me2yxc
+ R9veEyfBXE/2n9ghHBE3f5n4cO5lnsn3rBxy0WELtKfdL5IKJy8qClLfhgoZ6rjJRs/r
+ 8m6Vb6hL7Lrma8Cp98Yd+6S5+REUg9TlP8zsBrR4ugYe7h2+7pFipuX+F9FY+zV/O4dw
+ nfTw==
+X-Gm-Message-State: AOAM532nFOBxjb9pn+G3fMpKaLJu1mftsIh/+eLRXfxsBpBA3G+MMixx
+ jK9AlUANWm1VmdlFc1W+C6eblA==
+X-Google-Smtp-Source: ABdhPJxJ8ZZ2GRoLkLicMwjYJU+zKGFkIm3c4ZHTs1wttAfQiMiGa1+n3C6pAUgCCNpnmfBZqT5nLg==
+X-Received: by 2002:adf:b611:: with SMTP id f17mr18118727wre.8.1613389911279; 
+ Mon, 15 Feb 2021 03:51:51 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l83sm25574812wmf.4.2021.02.15.03.51.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Feb 2021 03:51:50 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 00/24] hw/arm: New board model mps3-an524
 Date: Mon, 15 Feb 2021 11:51:14 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Lieven <pl@kamp.de>
-Subject: Re: [PATCH V2 1/7] block/rbd: bump librbd requirement to luminous
- release
-Message-ID: <20210215115114.GE1542881@redhat.com>
-References: <20210126112540.11880-1-pl@kamp.de>
- <20210126112540.11880-2-pl@kamp.de>
- <20210215102401.GB1542881@redhat.com>
- <4b010479-bd8b-85e9-ef29-88524fef6495@kamp.de>
- <20210215114101.GD1542881@redhat.com>
- <5cc0ff5a-5360-5d81-2da9-724a2baf9f6d@kamp.de>
+Message-Id: <20210215115138.20465-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <5cc0ff5a-5360-5d81-2da9-724a2baf9f6d@kamp.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,63 +82,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, ct@flyingcircus.io,
- qemu-devel@nongnu.org, mreitz@redhat.com, pbonzini@redhat.com,
- dillaman@redhat.com
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 15, 2021 at 12:45:01PM +0100, Peter Lieven wrote:
-> Am 15.02.21 um 12:41 schrieb Daniel P. Berrangé:
-> > On Mon, Feb 15, 2021 at 12:32:24PM +0100, Peter Lieven wrote:
-> > > Am 15.02.21 um 11:24 schrieb Daniel P. Berrangé:
-> > > > On Tue, Jan 26, 2021 at 12:25:34PM +0100, Peter Lieven wrote:
-> > > > > even luminous (version 12.2) is unmaintained for over 3 years now.
-> > > > > Bump the requirement to get rid of the ifdef'ry in the code.
-> > > > We have clear rules on when we bump minimum versions, determined by
-> > > > the OS platforms we target:
-> > > > 
-> > > >     https://qemu.readthedocs.io/en/latest/system/build-platforms.html
-> > > > 
-> > > > At this time RHEL-7 is usually the oldest platform, and it
-> > > > builds with RBD 10.2.5, so we can't bump the version to 12.2.
-> > > > 
-> > > > I'm afraid this patch has to be dropped.
-> > > 
-> > > I have asked exactly this question before I started work on this series and got reply
-> > > 
-> > > from Jason that he sees no problem in bumping to a release which is already unmaintained
-> > > 
-> > > for 3 years.
-> > I'm afraid Jason is wrong here.  It doesn't matter what the upstream
-> > consider the support status to be. QEMU targets what the OS vendors
-> > ship, and they still consider this to be a supported version.
-> 
-> 
-> Okay, but the whole coroutine stuff would get a total mess with all the ifdef'ry.
+This patchseries implements a new board model in the mps2/mps3 family,
+based on Application Note AN524:
+https://developer.arm.com/documentation/dai0524/latest/
 
-Doesn't seem like the write zeros code is adding much more comapred to
-the ifdefs that already exist... 
+v1->v2 changes (very minor):
+ * renamed have-switches to has_switches
+ * added missing initializations of num_leds and has_switches
+   for new board model
+Patches still needing review: 10 - 18, 20
 
 
-> Would it be an option to make a big ifdef in the rbd driver? One with old code for < 12.0.0 and one
-> 
-> with new code for >= 12.0.0?
+Like the other MPS models, this board is an FPGA image; the AN524
+image is based on the SSE-200, like the mps2-an521, but it is
+for the MPS3 board rather than the MPS2+. The major differences
+are QSPI flash and USB (which we don't model), and support for
+2GB of RAM (which we do). Since the MPS3 is very similar to the
+MPS2, I've implemented mps3-an524 as a subclass of TYPE_MPS2TZ_MACHINE,
+sharing most of the code with mps2-an505 and mps2-an521.
 
-..but I don't have a strong opinion on that, since I'm not maintaining this
-driver.
+The motivation for this model is two-fold:
+ * Linaro's Zephyr team would like it, so they can test their
+    code targeting the MPS3 on QEMU
+ * It's a useful stepping-stone towards a future MPS family model
+   which uses the SSE-300 and Cortex-M55. All the "make various bits
+   of mps2-tz.c be driven by per-board data structures rather than
+   hardcoding them" changes will be needed for that future board model.
+   This way they can be code-reviewed now, rather than making the
+   future patchseries even bigger (it will be pretty large even so,
+   because of all the "implement SSE-300 model" patches).
+
+thanks
+-- PMM
 
 
-BTW, we will be free to drop RHEL-7 in the next development cycle of
-QEMU, starting after the forthcoming 6.0.0 release is out, as it will
-fall out of our OS support matrix.
+Peter Maydell (24):
+  hw/arm/mps2-tz: Make SYSCLK frequency board-specific
+  hw/misc/mps2-scc: Support configurable number of OSCCLK values
+  hw/arm/mps2-tz: Correct the OSCCLK settings for mps2-an505 and
+    mps2-an511
+  hw/arm/mps2-tz: Make the OSCCLK settings be configurable per-board
+  hw/misc/mps2-fpgaio: Make number of LEDs configurable by board
+  hw/misc/mps2-fpgaio: Support SWITCH register
+  hw/arm/mps2-tz: Make FPGAIO switch and LED config per-board
+  hw/arm/mps2-tz: Condition IRQ splitting on number of CPUs, not board
+    type
+  hw/arm/mps2-tz: Make number of IRQs board-specific
+  hw/misc/mps2-scc: Implement CFG_REG5 and CFG_REG6 for MPS3 AN524
+  hw/arm/mps2-tz: Correct wrong interrupt numbers for DMA and SPI
+  hw/arm/mps2-tz: Allow PPCPortInfo structures to specify device
+    interrupts
+  hw/arm/mps2-tz: Move device IRQ info to data structures
+  hw/arm/mps2-tz: Size the uart-irq-orgate based on the number of UARTs
+  hw/arm/mps2-tz: Allow boards to have different PPCInfo data
+  hw/arm/mps2-tz: Make RAM arrangement board-specific
+  hw/arm/mps2-tz: Set MachineClass default_ram info from RAMInfo data
+  hw/arm/mps2-tz: Support ROMs as well as RAMs
+  hw/arm/mps2-tz: Get armv7m_load_kernel() size argument from RAMInfo
+  hw/arm/mps2-tz: Add new mps3-an524 board
+  hw/arm/mps2-tz: Stub out USB controller for mps3-an524
+  hw/arm/mps2-tz: Provide PL031 RTC on mps3-an524
+  docs/system/arm/mps2.rst: Document the new mps3-an524 board
+  hw/arm/mps2: Update old infocenter.arm.com URLs
 
-Regards,
-Daniel
+ docs/system/arm/mps2.rst         |  24 +-
+ include/hw/arm/armsse.h          |   4 +-
+ include/hw/misc/armsse-cpuid.h   |   2 +-
+ include/hw/misc/armsse-mhu.h     |   2 +-
+ include/hw/misc/iotkit-secctl.h  |   2 +-
+ include/hw/misc/iotkit-sysctl.h  |   2 +-
+ include/hw/misc/iotkit-sysinfo.h |   2 +-
+ include/hw/misc/mps2-fpgaio.h    |   8 +-
+ include/hw/misc/mps2-scc.h       |  10 +-
+ hw/arm/mps2-tz.c                 | 632 +++++++++++++++++++++++++------
+ hw/arm/mps2.c                    |   5 +
+ hw/misc/armsse-cpuid.c           |   2 +-
+ hw/misc/armsse-mhu.c             |   2 +-
+ hw/misc/iotkit-sysctl.c          |   2 +-
+ hw/misc/iotkit-sysinfo.c         |   2 +-
+ hw/misc/mps2-fpgaio.c            |  43 ++-
+ hw/misc/mps2-scc.c               |  93 ++++-
+ 17 files changed, 680 insertions(+), 157 deletions(-)
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
