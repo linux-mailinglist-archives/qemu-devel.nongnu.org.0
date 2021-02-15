@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8249931B6AD
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 10:49:25 +0100 (CET)
-Received: from localhost ([::1]:36838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95A0F31B6C3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 10:54:10 +0100 (CET)
+Received: from localhost ([::1]:50162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBaVQ-0006Rn-C4
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 04:49:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35490)
+	id 1lBaa1-0003cW-KF
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 04:54:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBaPJ-0000He-7c
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:43:05 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33896)
+ id 1lBaYK-0001vI-Ka
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:52:25 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:42112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBaPH-0004S6-EL
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:43:05 -0500
-Received: by mail-wm1-x335.google.com with SMTP id o10so3940253wmc.1
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 01:43:03 -0800 (PST)
+ id 1lBaYI-0008AT-W6
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 04:52:24 -0500
+Received: by mail-wr1-x429.google.com with SMTP id r21so8082411wrr.9
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 01:52:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wuLIrN+cvrv8RPxrfnz+evu3tq4U+UFFBZhfiRYFFq8=;
- b=gbQQUoEmDZXZIdkr6kjQaZetX0hngC4f/0IOE/YjUSShTQO22167ygK1iiOTsS3eJH
- lE58roY7qxP5qrzefDq+/eLC2D0/2aTlQGYT9NPnGNd19JSF8vzNSRGHmvVanw+q1KZi
- 2Fbhtxy4fySXAVT4Mj+rlXMZkBbsPhHIKb0afV64QYfdpIn8vH8rK1jCPTUi+V68/ZsX
- Kp0Dfh3IZyacjc5ZlI/G7z3zNDQRPpoikEpsYv76JwfrznssGcPT/SVi3q3JG3P7K9Gn
- nG36RvfwJi54rn87K7Zjwyo2S3OlUJqr/5WYNGOsJaz7PFA/uDubzltwcs2umAs129hz
- lhXA==
+ bh=D3Fr91XJCXcm4d4eYGJnhtw/QeqRtMf5zDy1ilXxRkY=;
+ b=dHCBT2mjwKPFBnfX8eoiF7pHHTczI4YKg0EWKV5R0RsiJ+959I27blhR6xCxtCQo5R
+ J27bWg6XYOWkSl+JEr9Qwz7bJUbp7koQJCA9VryaiizzofbaX+Lm0BC82bPnSMzYQmTA
+ byJV2toyeIlEHCfcNurzM3z656aijodH/X24G77dhTgYj7ABxG0xhxoHGOwRJ2126r56
+ ws87gZlWIZbnQ5sarbCwKii4mF0VmIzISmFe7yJujvjmxiJfwLhur/B5i3JGxsxBQ1C2
+ 671uE+Aesj7zrNC9JOrJ1TAxJG6AaH+LLR/jPQR9rvIB7a/3cVN7Lwi9WFiuKKx/N0/g
+ Q8/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wuLIrN+cvrv8RPxrfnz+evu3tq4U+UFFBZhfiRYFFq8=;
- b=D8Su2YUA1gd4CRMgJ9rtpQuoGykKUNlZW22ng1aKIRgDd6/oZrdJYLLYxic+lxkh1w
- MgGjzyta/j4weQks+mFecgGGOUic3yK6wtOV41SPlfU2281zGOQIOLRQxLYokEkaErvv
- /u4wniqEfQuUfPRhlYOTxTeu30cd5KvL3V3/OaWGSXY4rHWQjVJRrhaC5qLHLW6zW50q
- Ddb7MTvwBhNY7X6VhzdgzIWVQRkry5oN25/FLDfa7koL1OMkF4c/iPXC1e9Btc3xkBkD
- 3fmvlrXjukYlkn1QtmGqvk5shXXdUvFtpibJbOuIzu1RhCSqL6VBMZQyQuIQbjHRjy6s
- l9Kg==
-X-Gm-Message-State: AOAM530F0P6uDzLWckn2WWMR9JlleqXP8Gj5UxwBX99NYYxOcUGPKVo3
- se9kBfNRkKhjIFJBZOGXX1OJhg==
-X-Google-Smtp-Source: ABdhPJwu/6zLB+BurHQZEaRuBAYWAUlbiPMWtdffrrAoDf7pxs+5iS8+u2DwWVbdyZhWlz3wP4Sw9A==
-X-Received: by 2002:a7b:ca49:: with SMTP id m9mr1512263wml.53.1613382182081;
- Mon, 15 Feb 2021 01:43:02 -0800 (PST)
+ bh=D3Fr91XJCXcm4d4eYGJnhtw/QeqRtMf5zDy1ilXxRkY=;
+ b=IsLQes64P5bApqJDQEiEW7WPZmvRu7pMXgg+r88Q8RKoFafeWBu+26dcau/XWOzl5R
+ fGRxtdjRL4MDSGa3W9V0uf/x/K4wh1iG4UrtuELlnJvy1QhnoMhpj7zNUGaw+1i9Wz5C
+ 0nEyiBe3SDoul7S1Q3YSwsjtcGJ0An1FPEiKur0bWpahkX0E5oMZgvaMVpM23cydzt0f
+ IxxPeTEka8b09y4CVf4pZOZZnKXkhazRhK2G1+4vXZygomZtcLIrLcPcU818riuCMy/k
+ MJCWAa+zQsYjAyaPx61BNpWdmiT14qdyLWbGL25T3XclRCbtoxQ6YWoqdKRq4FjJhzYM
+ sbnA==
+X-Gm-Message-State: AOAM532Dc+PGFREfWyqbi4xG9qifXa4X7CVSsgWd0lfEt0uEWyBVJw3n
+ C34MALsNZqQH21WmONP/Qmf1JA==
+X-Google-Smtp-Source: ABdhPJzm1MATOuYvXbHYl/5nnI1j0xeqhUuc4AHRmeRgLxOAylJcKbAtsVU8wbOupuLDh2DOiy8zUQ==
+X-Received: by 2002:a05:6000:1806:: with SMTP id
+ m6mr17613800wrh.320.1613382741603; 
+ Mon, 15 Feb 2021 01:52:21 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c18sm63693952wmk.0.2021.02.15.01.42.51
+ by smtp.gmail.com with ESMTPSA id g18sm4279425wrw.40.2021.02.15.01.52.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 01:42:52 -0800 (PST)
+ Mon, 15 Feb 2021 01:52:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1ABDB1FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 2F4851FF9C;
  Mon, 15 Feb 2021 09:42:46 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 12/15] target/ppc: Drop use of gdb_get_float64() and ldfq_p()
-Date: Mon, 15 Feb 2021 09:42:41 +0000
-Message-Id: <20210215094244.12716-13-alex.bennee@linaro.org>
+Subject: [PULL 13/15] gdbstub: Remove unused gdb_get_float32() and
+ gdb_get_float64()
+Date: Mon, 15 Feb 2021 09:42:42 +0000
+Message-Id: <20210215094244.12716-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210215094244.12716-1-alex.bennee@linaro.org>
 References: <20210215094244.12716-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,99 +88,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
- "open list:PowerPC TCG CPUs" <qemu-ppc@nongnu.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-We used to make a distinction between 'float64'/'float32' types and
-the 'uint64_t'/'uint32_t' types, requiring special conversion
-operations to go between them.  We've now dropped this distinction as
-unnecessary, and the 'float*' types remain primarily for
-documentation purposes when used in places like the function
-prototypes of TCG helper functions.
-
-This means that there's no need for a special gdb_get_float64()
-function to write a float64 value to the GDB protocol buffer; we can
-just use gdb_get_reg64().
-
-Similarly, for reading a value out of the GDB buffer into a float64
-we can use ldq_p() and need not use ldfq_p().
+The functions gdb_get_float32() and gdb_get_float64() are now unused;
+remove them.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20210208113428.7181-4-peter.maydell@linaro.org>
-Message-Id: <20210211122750.22645-13-alex.bennee@linaro.org>
+Message-Id: <20210208113428.7181-5-peter.maydell@linaro.org>
+Message-Id: <20210211122750.22645-14-alex.bennee@linaro.org>
 
-diff --git a/target/ppc/gdbstub.c b/target/ppc/gdbstub.c
-index 01459dd31d..c28319fb97 100644
---- a/target/ppc/gdbstub.c
-+++ b/target/ppc/gdbstub.c
-@@ -130,7 +130,7 @@ int ppc_cpu_gdb_read_register(CPUState *cs, GByteArray *buf, int n)
-         gdb_get_regl(buf, env->gpr[n]);
-     } else if (n < 64) {
-         /* fprs */
--        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
-+        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
-     } else {
-         switch (n) {
-         case 64:
-@@ -184,7 +184,7 @@ int ppc_cpu_gdb_read_register_apple(CPUState *cs, GByteArray *buf, int n)
-         gdb_get_reg64(buf, env->gpr[n]);
-     } else if (n < 64) {
-         /* fprs */
--        gdb_get_float64(buf, *cpu_fpr_ptr(env, n - 32));
-+        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n - 32));
-     } else if (n < 96) {
-         /* Altivec */
-         gdb_get_reg64(buf, n - 64);
-@@ -241,7 +241,7 @@ int ppc_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-         env->gpr[n] = ldtul_p(mem_buf);
-     } else if (n < 64) {
-         /* fprs */
--        *cpu_fpr_ptr(env, n - 32) = ldfq_p(mem_buf);
-+        *cpu_fpr_ptr(env, n - 32) = ldq_p(mem_buf);
-     } else {
-         switch (n) {
-         case 64:
-@@ -291,7 +291,7 @@ int ppc_cpu_gdb_write_register_apple(CPUState *cs, uint8_t *mem_buf, int n)
-         env->gpr[n] = ldq_p(mem_buf);
-     } else if (n < 64) {
-         /* fprs */
--        *cpu_fpr_ptr(env, n - 32) = ldfq_p(mem_buf);
-+        *cpu_fpr_ptr(env, n - 32) = ldq_p(mem_buf);
-     } else {
-         switch (n) {
-         case 64 + 32:
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index 3ec45cbc19..e7324e85cd 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -9923,7 +9923,7 @@ static int gdb_get_float_reg(CPUPPCState *env, GByteArray *buf, int n)
+diff --git a/include/exec/gdbstub.h b/include/exec/gdbstub.h
+index ff0b7bc45e..a024a0350d 100644
+--- a/include/exec/gdbstub.h
++++ b/include/exec/gdbstub.h
+@@ -135,26 +135,6 @@ static inline int gdb_get_reg128(GByteArray *buf, uint64_t val_hi,
+     return 16;
+ }
+ 
+-static inline int gdb_get_float32(GByteArray *array, float32 val)
+-{
+-    uint8_t buf[sizeof(CPU_FloatU)];
+-
+-    stfl_p(buf, val);
+-    g_byte_array_append(array, buf, sizeof(buf));
+-
+-    return sizeof(buf);
+-}
+-
+-static inline int gdb_get_float64(GByteArray *array, float64 val)
+-{
+-    uint8_t buf[sizeof(CPU_DoubleU)];
+-
+-    stfq_p(buf, val);
+-    g_byte_array_append(array, buf, sizeof(buf));
+-
+-    return sizeof(buf);
+-}
+-
+ static inline int gdb_get_zeroes(GByteArray *array, size_t len)
  {
-     uint8_t *mem_buf;
-     if (n < 32) {
--        gdb_get_float64(buf, *cpu_fpr_ptr(env, n));
-+        gdb_get_reg64(buf, *cpu_fpr_ptr(env, n));
-         mem_buf = gdb_get_reg_ptr(buf, 8);
-         ppc_maybe_bswap_register(env, mem_buf, 8);
-         return 8;
-@@ -9941,7 +9941,7 @@ static int gdb_set_float_reg(CPUPPCState *env, uint8_t *mem_buf, int n)
- {
-     if (n < 32) {
-         ppc_maybe_bswap_register(env, mem_buf, 8);
--        *cpu_fpr_ptr(env, n) = ldfq_p(mem_buf);
-+        *cpu_fpr_ptr(env, n) = ldq_p(mem_buf);
-         return 8;
-     }
-     if (n == 32) {
+     guint oldlen = array->len;
 -- 
 2.20.1
 
