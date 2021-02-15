@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F17131B9D3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:54:10 +0100 (CET)
-Received: from localhost ([::1]:37502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5596431B9A4
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:49:38 +0100 (CET)
+Received: from localhost ([::1]:53396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBdOD-0003O9-DR
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:54:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52738)
+	id 1lBdJp-0006ap-9O
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:49:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFu-00046l-MR
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:35 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:33581)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFr-00041e-7E
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:31 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:57407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFm-0000fh-LM
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:33 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lBdFn-0000fq-VS
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:45:30 -0500
 Received: from localhost.localdomain ([82.252.134.158]) by
  mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MQMqN-1lXr4X3ndp-00MMqP; Mon, 15 Feb 2021 13:45:25 +0100
+ id 1MPGNn-1lWk4u1ZK1-00PfAD; Mon, 15 Feb 2021 13:45:25 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/13] linux-user: Add missing TARGET___O_TMPFILE for hppa and
- alpha
-Date: Mon, 15 Feb 2021 13:45:10 +0100
-Message-Id: <20210215124519.720265-5-laurent@vivier.eu>
+Subject: [PULL 05/13] linux-user: fix O_NONBLOCK usage for hppa target
+Date: Mon, 15 Feb 2021 13:45:11 +0100
+Message-Id: <20210215124519.720265-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210215124519.720265-1-laurent@vivier.eu>
 References: <20210215124519.720265-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Js7in6gK8aAOzL2AY+rsXNEGdm9OXejg39NF2XcOp7KRz7Y/Xce
- ZEPvZ/Xtvmx/HiLu5O3OuszdIPSvsfC9m7ubcFiX3n0DcOs8fFUwZEhcC2cIFt/3dx1nl4f
- pNSwV6NAgp0+qIze+Id5BC7KoxM1wET3IBv74Fq/q97OayqKrptCdX/SjVcJh1cfnRB7eVO
- sgU3k7y8CaHC6R08aJvtQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:agyGsgrcf3w=:n1tti4B0/Az7Pv3TxKzNny
- ouDIHM7lezquCMjLzBwlltPHqUp+Wm3s/7nxYgnWbCBem4v0oPxHNvTDYCrxp1jiva5Nmsqe4
- tLF9OlHRZzj8z4FOPXk13ns0DGfY97zAkjabdp/w63W0KDPM33sqYSLzZ2hvj9TBE07juS2Y8
- xRDjjKjnLsfMXIAXwauPYJhE7ncL7iOaqEv41ZOnzov0ltfdcnwyVLuCzO5TvvLQv7vR5KW6y
- QttotAxdCAxnChIWlIyFOADl+r6g9OH406RA3aKo/YuUjaiQ7uLkTjNY0iNNTswML8JFGOqdj
- 4d8/Wun8kFtHEvqjhaNj9aO46n8g5/vUlwCBJgomdPAzskVHT/orxrwwYLaC2vrOYJIGNEw3S
- KgOfRuQsmJF5lVaVL5XXoQvIgQSkaX2w9qiMPJIM1ZLyq/VVACTpUF0JI312i
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:EzY8OY8vIkdi38FGaibpVXauhPAkY8FXX1qRSMW5bzIFnAm3Z8G
+ gepABBiP9Kd0rh/qVVYFkkgS38E7GYDpAJGU+6N8HH8V8Db2JMF5HnvfXksnnCakHAyJasL
+ /6r0vd/YLY5+Vr4y+S+4e6jRe+80YpDoocqJ60n1u1Q0I3myMFJdbGKa3pFsClclK1gydpZ
+ HWodlhbuEeWdtBHMoh6Kw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:X1g62lQpgh8=:n1uLvePFhm0QV8/Fn9aCwn
+ qlAjWjTj86hG66WTk9SDKv+v70rONI8nQT15vTzcsGoq9HOH8AeAjxqgFNAs8RVOSCIP9en3h
+ p03VhHbu8AM7Nn+qcRRxP22R+gzNY/SBEUwGFw+aQm5BDFJHopF3mUD1TuSMAO2WX6mXjqQrm
+ PzN+oIu6IwNGb1+LjxLOCFjEJKxwgJ+KIL9i3o/n6RxA+ZYzrzsLPSI/0ApAp7Zn+1kHy3gNR
+ Rt4d4m99pfRWSDwaFLIDiuUYBvyxLcWi/nd0ivOVvx5qVo6TDF5efxi5+vU5Mziah3L7vYI7N
+ G1+OTpdpP66ffXvPjsb1teP+GnacLALLC+fNeHk8PydRx1FtOw/H0CsmR+3+urAxteSsCFNln
+ yqMHkU9fS2hbsJZOYnvQufklfCMuWB3urKE6UpMwWtsQ4jPszIvngSweiTTjD
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -68,48 +67,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Helge Deller <deller@gmx.de>
 
-The hppa and alpha targets miss the #define of the TARGET___O_TMPFILE
-and as such fail to run a trivial symlink command like
+Historically the parisc linux port tried to be compatible with HP-UX
+userspace and as such defined the O_NONBLOCK constant to 0200004 to
+emulate separate NDELAY & NONBLOCK values.
 
-    ln -s /bin/bash /tmp
+Since parisc was the only Linux platform which had two bits set, this
+produced various userspace issues. Finally it was decided to drop the
+(never completed) HP-UX compatibilty, which is why O_NONBLOCK was
+changed upstream to only have one bit set in future with this commit:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=75ae04206a4d0e4f541c1d692b7febd1c0fdb814
 
-which results in an -EINVAL return code.
-
-Adding the define fixes the problem.
+This patch simply adjusts the value for qemu-user too.
 
 Signed-off-by: Helge Deller <deller@gmx.de>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210201155922.GA18291@ls3530.fritz.box>
+Message-Id: <20210201220551.GA8015@ls3530.fritz.box>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/alpha/target_fcntl.h | 1 +
- linux-user/hppa/target_fcntl.h  | 1 +
- 2 files changed, 2 insertions(+)
+ linux-user/hppa/target_fcntl.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_fcntl.h
-index e16ed1d4157f..99774d731727 100644
---- a/linux-user/alpha/target_fcntl.h
-+++ b/linux-user/alpha/target_fcntl.h
-@@ -23,6 +23,7 @@
- #define TARGET_O_CLOEXEC     010000000
- #define TARGET___O_SYNC      020000000
- #define TARGET_O_PATH        040000000
-+#define TARGET___O_TMPFILE  0100000000
- 
- #define TARGET_F_GETLK         7
- #define TARGET_F_SETLK         8
 diff --git a/linux-user/hppa/target_fcntl.h b/linux-user/hppa/target_fcntl.h
-index bd966a59b8d4..9eaeef9d8e7b 100644
+index 9eaeef9d8e7b..08e3a4fcb0b7 100644
 --- a/linux-user/hppa/target_fcntl.h
 +++ b/linux-user/hppa/target_fcntl.h
-@@ -21,6 +21,7 @@
- #define TARGET_O_CLOEXEC     010000000
- #define TARGET___O_SYNC      000100000
- #define TARGET_O_PATH        020000000
-+#define TARGET___O_TMPFILE   040000000
+@@ -8,7 +8,7 @@
+ #ifndef HPPA_TARGET_FCNTL_H
+ #define HPPA_TARGET_FCNTL_H
  
- #define TARGET_F_RDLCK         1
- #define TARGET_F_WRLCK         2
+-#define TARGET_O_NONBLOCK    000200004 /* HPUX has separate NDELAY & NONBLOCK */
++#define TARGET_O_NONBLOCK    000200000
+ #define TARGET_O_APPEND      000000010
+ #define TARGET_O_CREAT       000000400 /* not fcntl */
+ #define TARGET_O_EXCL        000002000 /* not fcntl */
 -- 
 2.29.2
 
