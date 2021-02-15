@@ -2,51 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A8F731B867
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:53:30 +0100 (CET)
-Received: from localhost ([::1]:33384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B09431B899
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:03:38 +0100 (CET)
+Received: from localhost ([::1]:38346 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBcRU-0007qg-RD
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:53:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
+	id 1lBcbJ-0004lA-F8
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:03:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBcPo-0006G6-Cn
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:51:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBcPm-0003gC-IK
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:51:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 5E1A3AD29;
- Mon, 15 Feb 2021 11:51:41 +0000 (UTC)
-Subject: Re: [RFC v18 08/15] i386: split smm helper (softmmu)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210212123622.15834-1-cfontana@suse.de>
- <20210212123622.15834-9-cfontana@suse.de>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <b6b053ef-998e-08ef-4354-27cdcfb331e9@suse.de>
-Date: Mon, 15 Feb 2021 12:51:40 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lBcQQ-0007LB-09
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:22 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45500)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lBcQM-0003wA-AZ
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:21 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id v7so8454659wrr.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:52:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=SKNE8HC09qZegLpjoVlF4jaNo0rqYYfYydVh0a/tGNg=;
+ b=ItvzkFszLoSbG0DF64GJ/LUAgzbrGCYSy/c30EJVyn90bIwZeajLSYtPJyVZkuwtCi
+ S7qBcu/si6MbtAijXdaXJamj/iEP/I5uCeJ7JVq3goxbsLIh1d64Va+6sfCajivGs/02
+ i9Vq0Naaz4J0eSEzWA2aOBvwaAr30g/De/9XxHRqGYwJKaPI8y3AYhAfInNKhYfT3mTA
+ CkPEzlrOTuCtEPCeRIYOTZ0Ykr1cYjMmW2D5m/+Y9it0sgxtLUApYi9CDYpWkaXqG2vt
+ E7JfYWREfTj26Prx5J+M5Luv1DdJ+k7BQGBD0b+zMuoxt/Bws4vd3tnQ1z85k7HCThIb
+ /rmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=SKNE8HC09qZegLpjoVlF4jaNo0rqYYfYydVh0a/tGNg=;
+ b=Sle3KcZcv3aaQpZVB6Jg6vNm3E6hoUkWPwld9iqYi4YDr+QPa5KriuMwykYYsxRPyo
+ vTfT9yVILWpyyidg7m2Msf6d2Qbz3Z8BwbPMxmWtohRqLlnGb4noWAlDYru4zpq2HzlF
+ cu+8/jQg0Hw0ICV45/m5ogjvD+B4hk2T4OopOQcTDM7gQ9jToxSHb7iA05KGO6ko8Fan
+ 4zQqV2nf2FYUnTJ/7mBEUJKNOuxT+cTigaoizHgwETRSPLtaRKEO66O0sX9C05FCUKP7
+ m2+kg/fvkzVhIwb490Kj2spQEcnjJnFK2+3eqp3Mh5Ns/AudE4Jj6xk8yuMxRmSnqJTA
+ Pc6w==
+X-Gm-Message-State: AOAM5329EOipwa1jX87/ub0TRrI2dUXgKj7+Mfn+8ajADYShZtLlR6UY
+ 1X5J6d/0lB1sIwPv1RATSikQKg==
+X-Google-Smtp-Source: ABdhPJxoJCbBXYMDKUyLqA5J+sWR72g/ANqiOeit4P4KjLC+LUUCcMCd/rwHv66fCl0T7T07RMchEg==
+X-Received: by 2002:adf:f54c:: with SMTP id j12mr18144770wrp.175.1613389936989; 
+ Mon, 15 Feb 2021 03:52:16 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id l83sm25574812wmf.4.2021.02.15.03.52.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 15 Feb 2021 03:52:16 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH v2 08/24] hw/arm/mps2-tz: Condition IRQ splitting on number of
+ CPUs, not board type
+Date: Mon, 15 Feb 2021 11:51:22 +0000
+Message-Id: <20210215115138.20465-9-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210215115138.20465-1-peter.maydell@linaro.org>
+References: <20210215115138.20465-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210212123622.15834-9-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,152 +85,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/12/21 1:36 PM, Claudio Fontana wrote:
-> smm is only really useful for softmmu, split in two modules
-> around the CONFIG_USER_ONLY, in order to remove the ifdef
-> and use the build system instead.
-> 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  target/i386/helper.h                       |  4 ++++
->  target/i386/tcg/seg_helper.c               |  2 ++
->  target/i386/tcg/{ => softmmu}/smm_helper.c | 19 ++-----------------
->  target/i386/tcg/translate.c                |  2 ++
->  target/i386/tcg/meson.build                |  1 -
->  target/i386/tcg/softmmu/meson.build        |  1 +
->  6 files changed, 11 insertions(+), 18 deletions(-)
->  rename target/i386/tcg/{ => softmmu}/smm_helper.c (98%)
-> 
-> diff --git a/target/i386/helper.h b/target/i386/helper.h
-> index c2ae2f7e61..8ffda4cdc6 100644
-> --- a/target/i386/helper.h
-> +++ b/target/i386/helper.h
-> @@ -70,7 +70,11 @@ DEF_HELPER_1(clac, void, env)
->  DEF_HELPER_1(stac, void, env)
->  DEF_HELPER_3(boundw, void, env, tl, int)
->  DEF_HELPER_3(boundl, void, env, tl, int)
-> +
-> +#ifndef CONFIG_USER_ONLY
->  DEF_HELPER_1(rsm, void, env)
-> +#endif /* !CONFIG_USER_ONLY */
-> +
->  DEF_HELPER_2(into, void, env, int)
->  DEF_HELPER_2(cmpxchg8b_unlocked, void, env, tl)
->  DEF_HELPER_2(cmpxchg8b, void, env, tl)
-> diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-> index 180d47f0e9..f0cb1bffe7 100644
-> --- a/target/i386/tcg/seg_helper.c
-> +++ b/target/i386/tcg/seg_helper.c
-> @@ -1351,7 +1351,9 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->      case CPU_INTERRUPT_SMI:
->          cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
->          cs->interrupt_request &= ~CPU_INTERRUPT_SMI;
-> +#ifndef CONFIG_USER_ONLY
->          do_smm_enter(cpu);
-> +#endif
->          break;
->      case CPU_INTERRUPT_NMI:
->          cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
-> diff --git a/target/i386/tcg/smm_helper.c b/target/i386/tcg/softmmu/smm_helper.c
-> similarity index 98%
-> rename from target/i386/tcg/smm_helper.c
-> rename to target/i386/tcg/softmmu/smm_helper.c
-> index 62d027abd3..ee53b26629 100644
-> --- a/target/i386/tcg/smm_helper.c
-> +++ b/target/i386/tcg/softmmu/smm_helper.c
-> @@ -1,5 +1,5 @@
->  /*
-> - *  x86 SMM helpers
-> + *  x86 SMM helpers (softmmu-only)
->   *
->   *  Copyright (c) 2003 Fabrice Bellard
->   *
-> @@ -18,27 +18,14 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -#include "qemu/main-loop.h"
->  #include "cpu.h"
->  #include "exec/helper-proto.h"
->  #include "exec/log.h"
-> -#include "helper-tcg.h"
-> +#include "tcg/helper-tcg.h"
->  
->  
->  /* SMM support */
->  
-> -#if defined(CONFIG_USER_ONLY)
-> -
-> -void do_smm_enter(X86CPU *cpu)
-> -{
-> -}
-> -
-> -void helper_rsm(CPUX86State *env)
-> -{
-> -}
-> -
-> -#else
-> -
->  #ifdef TARGET_X86_64
->  #define SMM_REVISION_ID 0x00020064
->  #else
-> @@ -330,5 +317,3 @@ void helper_rsm(CPUX86State *env)
->      qemu_log_mask(CPU_LOG_INT, "SMM: after RSM\n");
->      log_cpu_state_mask(CPU_LOG_INT, CPU(cpu), CPU_DUMP_CCOP);
->  }
-> -
-> -#endif /* !CONFIG_USER_ONLY */
-> diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-> index af1faf9342..5075ac4830 100644
-> --- a/target/i386/tcg/translate.c
-> +++ b/target/i386/tcg/translate.c
-> @@ -8321,7 +8321,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
->              goto illegal_op;
->          gen_update_cc_op(s);
->          gen_jmp_im(s, s->pc - s->cs_base);
-> +#ifndef CONFIG_USER_ONLY
->          gen_helper_rsm(cpu_env);
-> +#endif /* CONFIG_USER_ONLY */
->          gen_eob(s);
->          break;
+In the mps2-tz board code, we handle devices whose interrupt lines
+must be wired to all CPUs by creating IRQ splitter devices for the
+AN521, because it has 2 CPUs, but wiring the device IRQ directly to
+the SSE/IoTKit input for the AN505, which has only 1 CPU.
 
-Hello Alex,
+We can avoid making an explicit check on the board type constant by
+instead creating and using the IRQ splitters for any board with more
+than 1 CPU.  This avoids having to add extra cases to the
+conditionals every time we add new boards.
 
-this is something I wanted to bring in the foreground:
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+This removes the only current user of mmc->fpga_type, but we're
+going to want it again later in the series.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/arm/mps2-tz.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-while before we were generating an empty helper call for CONFIG_USER_ONLY,
-now we are not generating anything.
-
-
-
->      case 0x1b8: /* SSE4.2 popcnt */
-> diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
-> index 68fa0c3187..ec5daa1edc 100644
-> --- a/target/i386/tcg/meson.build
-> +++ b/target/i386/tcg/meson.build
-> @@ -8,7 +8,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
->    'misc_helper.c',
->    'mpx_helper.c',
->    'seg_helper.c',
-> -  'smm_helper.c',
->    'svm_helper.c',
->    'tcg-cpu.c',
->    'translate.c'), if_false: files('tcg-stub.c'))
-> diff --git a/target/i386/tcg/softmmu/meson.build b/target/i386/tcg/softmmu/meson.build
-> index 4ab30cc32e..35ba16dc3d 100644
-> --- a/target/i386/tcg/softmmu/meson.build
-> +++ b/target/i386/tcg/softmmu/meson.build
-> @@ -1,3 +1,4 @@
->  i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
->    'tcg-cpu.c',
-> +  'smm_helper.c',
->  ))
-> 
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 6e345cf1f09..5561c30b126 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -139,17 +139,14 @@ static void make_ram_alias(MemoryRegion *mr, const char *name,
+ static qemu_irq get_sse_irq_in(MPS2TZMachineState *mms, int irqno)
+ {
+     /* Return a qemu_irq which will signal IRQ n to all CPUs in the SSE. */
+-    MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
++    MachineClass *mc = MACHINE_GET_CLASS(mms);
+ 
+     assert(irqno < MPS2TZ_NUMIRQ);
+ 
+-    switch (mmc->fpga_type) {
+-    case FPGA_AN505:
+-        return qdev_get_gpio_in_named(DEVICE(&mms->iotkit), "EXP_IRQ", irqno);
+-    case FPGA_AN521:
++    if (mc->max_cpus > 1) {
+         return qdev_get_gpio_in(DEVICE(&mms->cpu_irq_splitter[irqno]), 0);
+-    default:
+-        g_assert_not_reached();
++    } else {
++        return qdev_get_gpio_in_named(DEVICE(&mms->iotkit), "EXP_IRQ", irqno);
+     }
+ }
+ 
+@@ -437,10 +434,12 @@ static void mps2tz_common_init(MachineState *machine)
+     sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
+ 
+     /*
+-     * The AN521 needs us to create splitters to feed the IRQ inputs
+-     * for each CPU in the SSE-200 from each device in the board.
++     * If this board has more than one CPU, then we need to create splitters
++     * to feed the IRQ inputs for each CPU in the SSE from each device in the
++     * board. If there is only one CPU, we can just wire the device IRQ
++     * directly to the SSE's IRQ input.
+      */
+-    if (mmc->fpga_type == FPGA_AN521) {
++    if (mc->max_cpus > 1) {
+         for (i = 0; i < MPS2TZ_NUMIRQ; i++) {
+             char *name = g_strdup_printf("mps2-irq-splitter%d", i);
+             SplitIRQ *splitter = &mms->cpu_irq_splitter[i];
+-- 
+2.20.1
 
 
