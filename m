@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E0C31B3F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 02:36:01 +0100 (CET)
-Received: from localhost ([::1]:54990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0B031B42F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 04:17:19 +0100 (CET)
+Received: from localhost ([::1]:42734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBSnw-00054K-BU
-	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 20:36:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51866)
+	id 1lBUNx-00062m-R5
+	for lists+qemu-devel@lfdr.de; Sun, 14 Feb 2021 22:17:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBSmO-0004bb-73
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 20:34:24 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:56076)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lBUMT-0005So-Re
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 22:15:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBSmM-0001FT-II
- for qemu-devel@nongnu.org; Sun, 14 Feb 2021 20:34:23 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id cv23so2791679pjb.5
- for <qemu-devel@nongnu.org>; Sun, 14 Feb 2021 17:34:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=a0qjX7q0JNdJMuPH6q4JPwYDAl+4Ljydqw7vcwITkoc=;
- b=Cl6BOZX0OaVH0w66OaATvHZZ64CtMzniUKkHLd6nvCGu120GEVBZOQn5tcCf3ZM4D1
- aF+v5g3R6pYroqmMVLVehw7GTg3sTRyoNkkzUQVWq3D317QVKif7CElwr9aCsy6yojKy
- VM1HaWuvqJtYBq9STfppDe1ndUPd5I10YgIyPcS0GEmhfbIWiUhhQDwW3MDcX7ta7gaX
- HIGhRrk9Egr01drTSAjRmiDLkIEASx4wDrQ+y3UEXypw/QLgAAHpdeFvPXeGPsA4lwkc
- Iwy8XOLyhYp6zlMDPwhxzFNJJeHmL0JNEY2sahbAP2/IGDJjdcGxRZtJ39QYw+0tgnli
- +0Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=a0qjX7q0JNdJMuPH6q4JPwYDAl+4Ljydqw7vcwITkoc=;
- b=h2RXpGFvuRNeaw+bekapKtC+Q8hX96NHZjs2Syie2QhRQmRftAyhSvuHCo8r+McjAV
- gSIduFPExDeqr+zwgViJJXW5LUT42bFAedlPARqCWqbsi9nQMbfnu4aXogeSJ87ZGf4b
- 7YAV9lX8VgXw6adO1eRu1IEYI1U9T666fCSdHEilCTp+Q02iwzaaAB49eMWyx2D64mdK
- wYbYI1iAVq/Cp9yU7t1Jd4g0ddUcBEzQz9fIjDaGjEVfloa1BSs/jwZJ/ma/hCb3SLPs
- PQE9Hf4nAA1DfBuP0ui0I8P3d5KQECdg6+sTts4MyWknEUUK6h/dOPaB70g3+5ua416w
- 9VaQ==
-X-Gm-Message-State: AOAM532LkzpaionAeLXpdWVUENAhr0Lz51LMEUx/9vP3F7VkgHf2gofq
- 8NCP9EPJKT8q5rBwFz4xBnO8SA==
-X-Google-Smtp-Source: ABdhPJzpRLGTAIwT8o1VvAh7Q4Bhe2flbh1kwhoD6rijX6GNGsvArBoRz4lRc/3wtIuv5VpUcXQmzw==
-X-Received: by 2002:a17:902:9341:b029:e1:7b4e:57a8 with SMTP id
- g1-20020a1709029341b02900e17b4e57a8mr13013051plp.34.1613352860935; 
- Sun, 14 Feb 2021 17:34:20 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- o14sm17376183pgr.44.2021.02.14.17.34.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 14 Feb 2021 17:34:20 -0800 (PST)
-Subject: Re: [RFC PATCH 10/10] target/hexagon: import additional tests
-To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
-References: <20210211215051.2102435-1-ale.qemu@rev.ng>
- <20210211215051.2102435-11-ale.qemu@rev.ng>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <dcda4e43-6043-3235-6d84-d646a9fc98c6@linaro.org>
-Date: Sun, 14 Feb 2021 17:34:18 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lBUMQ-0003sh-Nf
+ for qemu-devel@nongnu.org; Sun, 14 Feb 2021 22:15:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lBUMN-0003uD-0n
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:15:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EFCFA2E8005
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:15:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210211215051.2102435-11-ale.qemu@rev.ng>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Feb 2021 03:08:44 -0000
+From: Dirk A Niggemann <1915682@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dniggema
+X-Launchpad-Bug-Reporter: Dirk A Niggemann (dniggema)
+X-Launchpad-Bug-Modifier: Dirk A Niggemann (dniggema)
+Message-Id: <161335852512.21767.9269376658096381420.malonedeb@wampee.canonical.com>
+Subject: [Bug 1915682] [NEW] i386-linux-user wine exception regression tests
+ fail
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: fe8e1dab46157d27c7aa1d62821319d63e23c662
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,21 +69,282 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: babush@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com, nizzo@rev.ng,
- Alessandro Di Federico <ale@rev.ng>
+Reply-To: Bug 1915682 <1915682@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 1:50 PM, Alessandro Di Federico via wrote:
-> +    {
-> +        r1=#0
-> +        r2=#0
-> +    }
-> +    {
-> +        r3=add(r2,r3)
-> +    }
+Public bug reported:
 
-Typo r3?  It's uninitialized.
+When trying to run wine (latest devel from git) regression tests for
+ntdll in a statically linked qemu-i386 (commit
+392b9a74b9b621c52d05e37bc6f41f1bbab5c6f8) on arm32 (raspberry pi 4) in a
+debian buster chroot, the exception tests fail at the first test with an
+infinite exception loop.
 
-r~
+WINEDEBUG=3D+seh wine wine/dlls/ntdll/tests/ntdll_test.exe exception
+
+
+Working x86_64 system running 32-bit code
+
+0024:warn:seh:dispatch_exception EXCEPTION_ACCESS_VIOLATION exception (code=
+=3Dc0000005) raised
+0024:trace:seh:dispatch_exception  eax=3D00000000 ebx=3D7ffc2000 ecx=3D004e=
+0ef4 edx=3D003c0004 esi=3D003c0000 edi=3D00000000
+0024:trace:seh:dispatch_exception  ebp=3D0085fa08 esp=3D0085f9ac cs=3D0023 =
+ds=3D002b es=3D002b fs=3D0063 gs=3D006b flags=3D00010246
+0024:trace:seh:call_vectored_handlers calling handler at 7B00B460 code=3Dc0=
+000005 flags=3D0
+0024:trace:seh:call_vectored_handlers handler at 7B00B460 returned 0
+0024:trace:seh:call_stack_handlers calling handler at 004178B0 code=3Dc0000=
+005 flags=3D0
+0024:trace:seh:call_stack_handlers handler at 004178B0 returned 0
+0024:trace:seh:dispatch_exception  call_stack_handlers continuing
+0024:trace:seh:NtGetContextThread 0xfffffffe: dr0=3D42424240 dr1=3D00000000=
+ dr2=3D126bb070 dr3=3D0badbad0 dr6=3D00000000 dr7=3Dffff0115
+
+
+Non-working qemu
+
+0024:warn:seh:dispatch_exception EXCEPTION_ACCESS_VIOLATION exception (code=
+=3Dc0000005) raised
+0024:trace:seh:dispatch_exception  eax=3D00000000 ebx=3D3ffe2000 ecx=3D004e=
+0ef4 edx=3D003c0004 esi=3D003c0000 edi=3D00000000
+0024:trace:seh:dispatch_exception  ebp=3D0085fa08 esp=3D0085f9ac cs=3D0023 =
+ds=3D002b es=3D002b fs=3D003b gs=3D0033 flags=3D00000246
+0024:trace:seh:call_vectored_handlers calling handler at 7B00B460 code=3Dc0=
+000005 flags=3D0
+0024:trace:seh:call_vectored_handlers handler at 7B00B460 returned 0
+0024:trace:seh:call_stack_handlers calling handler at 004178B0 code=3Dc0000=
+005 flags=3D0
+0024:trace:seh:call_stack_handlers handler at 004178B0 returned 0
+0024:trace:seh:dispatch_exception  call_stack_handlers continuing
+0024:trace:seh:dispatch_exception  call_stack_handlers ret status =3D 0
+0024:trace:seh:dispatch_exception code=3D0 flags=3D1 addr=3D7BC2389C ip=3D7=
+bc2389c tid=3D0024
+
+The non-working verion is never managing to set the CPU context using
+NtContinue/SetContextThread back to the correct running thread stack and
+IP. It executes as if the context restore just returns to the function
+that called NtContinue() (dispatch_exception(), not the function that
+raised the exception or one of its parent exception handlers).
+
+It looks like NtSetContextThread(), specifically the asm function
+set_full_cpu_context() is being handled incorrectly.
+
+wine code below. note interesting use of iret with no previous interrupt
+call. The exception handler is called with a jmp.
+
+/***********************************************************************
+ *           set_full_cpu_context
+ *
+ * Set the new CPU context.
+ */
+extern void set_full_cpu_context( const CONTEXT *context );
+__ASM_GLOBAL_FUNC( set_full_cpu_context,
+                   "movl $0,%fs:0x1f8\n\t"     /* x86_thread_data()->syscal=
+l_frame =3D NULL */
+                   "movl 4(%esp),%ecx\n\t"
+                   "movw 0x8c(%ecx),%gs\n\t"  /* SegGs */
+                   "movw 0x90(%ecx),%fs\n\t"  /* SegFs */
+                   "movw 0x94(%ecx),%es\n\t"  /* SegEs */
+                   "movl 0x9c(%ecx),%edi\n\t" /* Edi */
+                   "movl 0xa0(%ecx),%esi\n\t" /* Esi */
+                   "movl 0xa4(%ecx),%ebx\n\t" /* Ebx */
+                   "movl 0xb4(%ecx),%ebp\n\t" /* Ebp */
+                   "movw %ss,%ax\n\t"
+                   "cmpw 0xc8(%ecx),%ax\n\t"  /* SegSs */
+                   "jne 1f\n\t"
+                   /* As soon as we have switched stacks the context struct=
+ure could
+                    * be invalid (when signal handlers are executed for exa=
+mple). Copy
+                    * values on the target stack before changing ESP. */
+                   "movl 0xc4(%ecx),%eax\n\t" /* Esp */
+                   "leal -4*4(%eax),%eax\n\t"
+                   "movl 0xc0(%ecx),%edx\n\t" /* EFlags */
+                   ".byte 0x36\n\t"
+                   "movl %edx,3*4(%eax)\n\t"
+                   "movl 0xbc(%ecx),%edx\n\t" /* SegCs */
+                   ".byte 0x36\n\t"
+                   "movl %edx,2*4(%eax)\n\t"
+                   "movl 0xb8(%ecx),%edx\n\t" /* Eip */
+                   ".byte 0x36\n\t"
+                   "movl %edx,1*4(%eax)\n\t"
+                   "movl 0xb0(%ecx),%edx\n\t" /* Eax */
+                   ".byte 0x36\n\t"
+                   "movl %edx,0*4(%eax)\n\t"
+                   "pushl 0x98(%ecx)\n\t"     /* SegDs */
+                   "movl 0xa8(%ecx),%edx\n\t" /* Edx */
+                   "movl 0xac(%ecx),%ecx\n\t" /* Ecx */
+                   "popl %ds\n\t"
+                   "movl %eax,%esp\n\t"
+                   "popl %eax\n\t"
+                   "iret\n"
+                   /* Restore the context when the stack segment changes. W=
+e can't use
+                    * the same code as above because we do not know if the =
+stack segment
+                    * is 16 or 32 bit, and 'movl' will throw an exception w=
+hen we try to
+                    * access memory above the limit. */
+                   "1:\n\t"
+                   "movl 0xa8(%ecx),%edx\n\t" /* Edx */
+                   "movl 0xb0(%ecx),%eax\n\t" /* Eax */
+                   "movw 0xc8(%ecx),%ss\n\t"  /* SegSs */
+                   "movl 0xc4(%ecx),%esp\n\t" /* Esp */
+                   "pushl 0xc0(%ecx)\n\t"     /* EFlags */
+                   "pushl 0xbc(%ecx)\n\t"     /* SegCs */
+                   "pushl 0xb8(%ecx)\n\t"     /* Eip */
+                   "pushl 0x98(%ecx)\n\t"     /* SegDs */
+                   "movl 0xac(%ecx),%ecx\n\t" /* Ecx */
+                   "popl %ds\n\t"
+                   "iret" )
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915682
+
+Title:
+  i386-linux-user wine exception regression tests fail
+
+Status in QEMU:
+  New
+
+Bug description:
+  When trying to run wine (latest devel from git) regression tests for
+  ntdll in a statically linked qemu-i386 (commit
+  392b9a74b9b621c52d05e37bc6f41f1bbab5c6f8) on arm32 (raspberry pi 4) in
+  a debian buster chroot, the exception tests fail at the first test
+  with an infinite exception loop.
+
+  WINEDEBUG=3D+seh wine wine/dlls/ntdll/tests/ntdll_test.exe exception
+
+  =
+
+  Working x86_64 system running 32-bit code
+
+  0024:warn:seh:dispatch_exception EXCEPTION_ACCESS_VIOLATION exception (co=
+de=3Dc0000005) raised
+  0024:trace:seh:dispatch_exception  eax=3D00000000 ebx=3D7ffc2000 ecx=3D00=
+4e0ef4 edx=3D003c0004 esi=3D003c0000 edi=3D00000000
+  0024:trace:seh:dispatch_exception  ebp=3D0085fa08 esp=3D0085f9ac cs=3D002=
+3 ds=3D002b es=3D002b fs=3D0063 gs=3D006b flags=3D00010246
+  0024:trace:seh:call_vectored_handlers calling handler at 7B00B460 code=3D=
+c0000005 flags=3D0
+  0024:trace:seh:call_vectored_handlers handler at 7B00B460 returned 0
+  0024:trace:seh:call_stack_handlers calling handler at 004178B0 code=3Dc00=
+00005 flags=3D0
+  0024:trace:seh:call_stack_handlers handler at 004178B0 returned 0
+  0024:trace:seh:dispatch_exception  call_stack_handlers continuing
+  0024:trace:seh:NtGetContextThread 0xfffffffe: dr0=3D42424240 dr1=3D000000=
+00 dr2=3D126bb070 dr3=3D0badbad0 dr6=3D00000000 dr7=3Dffff0115
+
+  =
+
+  Non-working qemu
+
+  0024:warn:seh:dispatch_exception EXCEPTION_ACCESS_VIOLATION exception (co=
+de=3Dc0000005) raised
+  0024:trace:seh:dispatch_exception  eax=3D00000000 ebx=3D3ffe2000 ecx=3D00=
+4e0ef4 edx=3D003c0004 esi=3D003c0000 edi=3D00000000
+  0024:trace:seh:dispatch_exception  ebp=3D0085fa08 esp=3D0085f9ac cs=3D002=
+3 ds=3D002b es=3D002b fs=3D003b gs=3D0033 flags=3D00000246
+  0024:trace:seh:call_vectored_handlers calling handler at 7B00B460 code=3D=
+c0000005 flags=3D0
+  0024:trace:seh:call_vectored_handlers handler at 7B00B460 returned 0
+  0024:trace:seh:call_stack_handlers calling handler at 004178B0 code=3Dc00=
+00005 flags=3D0
+  0024:trace:seh:call_stack_handlers handler at 004178B0 returned 0
+  0024:trace:seh:dispatch_exception  call_stack_handlers continuing
+  0024:trace:seh:dispatch_exception  call_stack_handlers ret status =3D 0
+  0024:trace:seh:dispatch_exception code=3D0 flags=3D1 addr=3D7BC2389C ip=
+=3D7bc2389c tid=3D0024
+
+  The non-working verion is never managing to set the CPU context using
+  NtContinue/SetContextThread back to the correct running thread stack
+  and IP. It executes as if the context restore just returns to the
+  function that called NtContinue() (dispatch_exception(), not the
+  function that raised the exception or one of its parent exception
+  handlers).
+
+  It looks like NtSetContextThread(), specifically the asm function
+  set_full_cpu_context() is being handled incorrectly.
+
+  wine code below. note interesting use of iret with no previous
+  interrupt call. The exception handler is called with a jmp.
+
+  /***********************************************************************
+   *           set_full_cpu_context
+   *
+   * Set the new CPU context.
+   */
+  extern void set_full_cpu_context( const CONTEXT *context );
+  __ASM_GLOBAL_FUNC( set_full_cpu_context,
+                     "movl $0,%fs:0x1f8\n\t"     /* x86_thread_data()->sysc=
+all_frame =3D NULL */
+                     "movl 4(%esp),%ecx\n\t"
+                     "movw 0x8c(%ecx),%gs\n\t"  /* SegGs */
+                     "movw 0x90(%ecx),%fs\n\t"  /* SegFs */
+                     "movw 0x94(%ecx),%es\n\t"  /* SegEs */
+                     "movl 0x9c(%ecx),%edi\n\t" /* Edi */
+                     "movl 0xa0(%ecx),%esi\n\t" /* Esi */
+                     "movl 0xa4(%ecx),%ebx\n\t" /* Ebx */
+                     "movl 0xb4(%ecx),%ebp\n\t" /* Ebp */
+                     "movw %ss,%ax\n\t"
+                     "cmpw 0xc8(%ecx),%ax\n\t"  /* SegSs */
+                     "jne 1f\n\t"
+                     /* As soon as we have switched stacks the context stru=
+cture could
+                      * be invalid (when signal handlers are executed for e=
+xample). Copy
+                      * values on the target stack before changing ESP. */
+                     "movl 0xc4(%ecx),%eax\n\t" /* Esp */
+                     "leal -4*4(%eax),%eax\n\t"
+                     "movl 0xc0(%ecx),%edx\n\t" /* EFlags */
+                     ".byte 0x36\n\t"
+                     "movl %edx,3*4(%eax)\n\t"
+                     "movl 0xbc(%ecx),%edx\n\t" /* SegCs */
+                     ".byte 0x36\n\t"
+                     "movl %edx,2*4(%eax)\n\t"
+                     "movl 0xb8(%ecx),%edx\n\t" /* Eip */
+                     ".byte 0x36\n\t"
+                     "movl %edx,1*4(%eax)\n\t"
+                     "movl 0xb0(%ecx),%edx\n\t" /* Eax */
+                     ".byte 0x36\n\t"
+                     "movl %edx,0*4(%eax)\n\t"
+                     "pushl 0x98(%ecx)\n\t"     /* SegDs */
+                     "movl 0xa8(%ecx),%edx\n\t" /* Edx */
+                     "movl 0xac(%ecx),%ecx\n\t" /* Ecx */
+                     "popl %ds\n\t"
+                     "movl %eax,%esp\n\t"
+                     "popl %eax\n\t"
+                     "iret\n"
+                     /* Restore the context when the stack segment changes.=
+ We can't use
+                      * the same code as above because we do not know if th=
+e stack segment
+                      * is 16 or 32 bit, and 'movl' will throw an exception=
+ when we try to
+                      * access memory above the limit. */
+                     "1:\n\t"
+                     "movl 0xa8(%ecx),%edx\n\t" /* Edx */
+                     "movl 0xb0(%ecx),%eax\n\t" /* Eax */
+                     "movw 0xc8(%ecx),%ss\n\t"  /* SegSs */
+                     "movl 0xc4(%ecx),%esp\n\t" /* Esp */
+                     "pushl 0xc0(%ecx)\n\t"     /* EFlags */
+                     "pushl 0xbc(%ecx)\n\t"     /* SegCs */
+                     "pushl 0xb8(%ecx)\n\t"     /* Eip */
+                     "pushl 0x98(%ecx)\n\t"     /* SegDs */
+                     "movl 0xac(%ecx),%ecx\n\t" /* Ecx */
+                     "popl %ds\n\t"
+                     "iret" )
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915682/+subscriptions
 
