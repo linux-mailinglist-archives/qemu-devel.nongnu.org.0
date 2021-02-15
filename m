@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC30531BF09
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:24:54 +0100 (CET)
-Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F0931BF28
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:27:57 +0100 (CET)
+Received: from localhost ([::1]:60050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBgg9-0005RQ-Nt
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:24:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50058)
+	id 1lBgj6-0007b4-V2
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:27:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgce-0004MH-FS
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:21:18 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:36759)
+ id 1lBgeZ-0005Gr-Gm
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:23:17 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:52331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgca-00005I-Vx
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:21:15 -0500
-Received: by mail-pf1-x434.google.com with SMTP id z15so4461483pfc.3
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:21:12 -0800 (PST)
+ id 1lBgeW-0000KI-Rl
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:23:15 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id q72so4006933pjq.2
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=VyP49pgysZ1EuZz1kHbakPZjmUVZWSnYmmo4Lms1Iww=;
- b=eCvinVYtzzrOmap+CIGqPvUfVJOWS8VjjdC9W+mz6wyBa/jNEZDtua1MlMUINkkgpm
- /3Jv79fg6vh45nlU6tB4ByQfa3PgUPRTJz/4O1OVo2HAtRqcaeyl0eUsAXmQR7SpslKJ
- lyz2zbJuF0fipA1jNB8FzAOUjt1kAY8W5hW/juPVMiIO2X5HyrorLifoK5Pnz7+n1+v9
- b27MuFetVL7RXpKo+386CPE+y79Q9xa8uqXOYXu0xE/B+TunEF/xZw3zwR0Sa2zx6lwe
- /Mc7t1ssrLwTnGCxx8ZVDJ4jJlFIVzH/9xTRgi5cTUlfEoNQgacfRxnucYW5DtyCEB0B
- VeGQ==
+ bh=p8D5S5oUZWPsW+VEQQ58DPh1jJg6Xc5/MPq4hBEjmeo=;
+ b=H9DwOdLkgQ+PUxkJN08cNSW7cAdzk3a9t+PKJ28kAuh6hQIhGAEnXWw3ywypIgeU2F
+ M6BMc/toSgbJKqUsCYGEskz4s7L5uz3RAfcltQVaxneTNtCWVTXZR6vAHst5n+Nnr2uJ
+ 4HIb8cXHcsGvetA9nN4bakJ9rNfLkzROvstyxZ/q0gItl6wffw4zRn1Lq4+o2wXgfsdj
+ 2UYnxNXUzxqUJSZ2+2RFs2NWuWYYbTeRzbu0fLbU8NNIoRfgMKsblw93WHgC7Z+nAe9d
+ Xviq7bLumYJUgax7CNSrr6WxtHX0mKGBNBFyCU8x5lMyXvUFwSrDUWQTT3NxHyKE+F1m
+ G0zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=VyP49pgysZ1EuZz1kHbakPZjmUVZWSnYmmo4Lms1Iww=;
- b=PDm3ZN6Pj0Ot4qmMmT8dGmEsRy9CvvEBXJB4zCsrUUM1s5StokeWVFO+npo/5qZCFb
- xMZMs2c7q4EJmO4epoCxQTR1GhD8Z/xegayvfjURWOHbfXFA89QYevq5LjDToYAcnqKf
- vFj0RAlLAfC0F0u6agV0g3Lb6XJLOedt5x+Cpem1FRHpsUf+steid+wWTL2YswppSCWu
- AAL96zl5LRkky75wf/l5kTYlHAOJ4xzi0927OAYIfPFBu7uUkpcP9qvyac8PwkXxa7+f
- 7W7hrvzAD0MC9yYkv9yI4mHhWeQ474QGvyvinQUj0/PkQg554o7pDqzyMchrolvM5XmD
- Am8g==
-X-Gm-Message-State: AOAM5339kxISDC4wnSxVXWlqhORoxPby+22tS36o9LT2wC/3P8t70A4P
- aJ+Eccbo9ZYCijr34DWjm1tDvQ==
-X-Google-Smtp-Source: ABdhPJxEBLSnQ2wXxuXRjchcnGKg/O06D9/FO0VbeapU8luc9PdCogofnM4Kgbe77F3qrwpcrdmohg==
-X-Received: by 2002:a62:8342:0:b029:1eb:5024:6f1b with SMTP id
- h63-20020a6283420000b02901eb50246f1bmr9994795pfe.49.1613406071308; 
- Mon, 15 Feb 2021 08:21:11 -0800 (PST)
+ bh=p8D5S5oUZWPsW+VEQQ58DPh1jJg6Xc5/MPq4hBEjmeo=;
+ b=EdBvEyPQWt8HRI7nLHRfUggbbcHRD089OosINc2CXa3Xn7sOkp5oIFxeSXFKSuTLOc
+ 9BYGaYOsHs7oAATgm5B1fFtHQ3UGOhIyg1FK0BW9hxwODtxS2dK1jsK8Giet+yIbDQUr
+ uUs3w+CRDTFxguFJOpMJJwORJwvOnDYH6Rg0s03ePvMSofsKhd3gCbR9C1JeuzItRxjW
+ cQwMt52LoYLWvVPeRfY+PFvKpqVft30jStWzSp3L3vB8T6W6Bt25Y+fmYUx1fEQ+NiUE
+ MH88V6tmAGqgL5nCGO2Qln8TH9oENX2kpR4jASg72Sj7bg9XHmNsnpEc9UovG1rL5Mk7
+ 4f+w==
+X-Gm-Message-State: AOAM533+tkSgdJRsim9ctZ7Dhkfu+x/Azu52HCD3/76ocrGugsQ9mMt3
+ 0ywRIitFOb2e2zMRUj9GdrtaIg==
+X-Google-Smtp-Source: ABdhPJyyIPhbLRCtn3MCIyKdOWsiwNxFuvYDepjo9WEWEOIdYbwVUrg2bVyzNmasJdw2iS/EVp4Z2w==
+X-Received: by 2002:a17:90a:43a7:: with SMTP id
+ r36mr17153182pjg.189.1613406191164; 
+ Mon, 15 Feb 2021 08:23:11 -0800 (PST)
 Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
  by smtp.gmail.com with ESMTPSA id
- w3sm3223315pjt.24.2021.02.15.08.21.10
+ f18sm17845261pjq.53.2021.02.15.08.23.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:21:10 -0800 (PST)
-Subject: Re: [RFC PATCH 08/42] target/mips/tx79: Move MFHI1 / MFLO1 opcodes to
+ Mon, 15 Feb 2021 08:23:10 -0800 (PST)
+Subject: Re: [RFC PATCH 09/42] target/mips/tx79: Move MTHI1 / MTLO1 opcodes to
  decodetree
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-9-f4bug@amsat.org>
+ <20210214175912.732946-10-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <ece80c8b-2521-db4f-8988-7ba94b5a0c01@linaro.org>
-Date: Mon, 15 Feb 2021 08:21:08 -0800
+Message-ID: <19777b40-9608-6bce-abfd-54c87c28fd84@linaro.org>
+Date: Mon, 15 Feb 2021 08:23:08 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-9-f4bug@amsat.org>
+In-Reply-To: <20210214175912.732946-10-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,26 +100,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
-> Introduce decodetree structure to decode the tx79 opcodes.
-> Start it by moving the existing MFHI1 and MFLO1 opcodes.
-> Remove unnecessary comments.
-> 
-> As the TX79 share opcodes with the TX19/TX39/TX49 CPUs,
-> we introduce the decode_ext_txx9() dispatcher where we
-> will add the other decoders later.
-> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.h      |  4 ++++
->  target/mips/tx79.decode      | 25 ++++++++++++++++++++++++
->  target/mips/translate.c      | 15 +++------------
->  target/mips/tx79_translate.c | 37 ++++++++++++++++++++++++++++++++++++
->  target/mips/txx9_translate.c | 20 +++++++++++++++++++
->  target/mips/meson.build      |  5 +++++
->  6 files changed, 94 insertions(+), 12 deletions(-)
->  create mode 100644 target/mips/tx79.decode
->  create mode 100644 target/mips/tx79_translate.c
->  create mode 100644 target/mips/txx9_translate.c
+>  target/mips/tx79.decode      |  3 +++
+>  target/mips/translate.c      | 25 -------------------------
+>  target/mips/tx79_translate.c | 14 ++++++++++++++
+>  3 files changed, 17 insertions(+), 25 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
