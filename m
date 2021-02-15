@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2260A31B992
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:46:10 +0100 (CET)
-Received: from localhost ([::1]:45132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 413F131B9A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:47:47 +0100 (CET)
+Received: from localhost ([::1]:48898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBdGQ-0002pY-RA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:46:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49526)
+	id 1lBdI2-0004fq-Ax
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:47:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1lBd4w-0004O4-LN
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:34:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55447)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lBdDY-0002el-QG
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:43:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51514)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1lBd4u-0004Vj-Dp
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:34:14 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lBdDN-0008Kz-Qk
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:43:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613392451;
+ s=mimecast20190719; t=1613392975;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=25T4yV6rV400kul9of+viny/H5Ddk77O8KcEvFpo05k=;
- b=ZIR1FLCjsld4WIHZzwZ5h5zcSghTyIHnHx+gSM+02HqTLpv3l5pt4hPBQe+6Ob7KrERvXS
- 8bnjQgi0dyPZBgro34DEYjY0qgV6VLt0sFDuU2M0gvge3XGowXbWiKJUQX+0WVK8BoZs+Q
- MiOSRmEETDQaBh/JlOcS+oVkclDfgOM=
+ bh=cDe16YJ2FQ8dx/rc31pE+c+y5rdnmWovwZjrYbuaAtA=;
+ b=EdGCK1eJwqfhFr8dD5IHJLxrh2V8EWxjLJCzXTE7pSmL1m7yOjwOKKplESplwEB2BJHLQ3
+ VqR4QkoMBVuPuNSrCwM0zm31F7nFAwYI6N251r82VtMEGp/Rq/Cpt17CsTGOpa99VkKmFm
+ nRh5+5VWLKZHg3p66K5cS5RG8z4j+/s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-_HwZgnU9NKS7V5JHxvu-Mg-1; Mon, 15 Feb 2021 07:34:08 -0500
-X-MC-Unique: _HwZgnU9NKS7V5JHxvu-Mg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-458-rwvcCWC-PeKRhEhkn8t71g-1; Mon, 15 Feb 2021 07:42:53 -0500
+X-MC-Unique: rwvcCWC-PeKRhEhkn8t71g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F38D107ACC7
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 12:34:07 +0000 (UTC)
-Received: from [10.40.193.96] (unknown [10.40.193.96])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D92B5C5DF;
- Mon, 15 Feb 2021 12:34:06 +0000 (UTC)
-Subject: Re: [PATCH RESEND] hostmem: Don't report pmem attribute if unsupported
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-References: <dfcc5dc7e2efc0283bc38e3036da2c0323621cdb.1611647111.git.mprivozn@redhat.com>
-Message-ID: <48b5fe65-784a-17ab-c542-60e1b406e2a7@redhat.com>
-Date: Mon, 15 Feb 2021 13:34:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C72BB85EE61
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 12:42:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-100.ams2.redhat.com
+ [10.36.114.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 99DBA608DB;
+ Mon, 15 Feb 2021 12:42:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 1E23B113865F; Mon, 15 Feb 2021 13:42:51 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 2/2] monitor/qmp: Stop processing requests when shutdown
+ is requested
+References: <20210212172028.288825-1-kwolf@redhat.com>
+ <20210212172028.288825-3-kwolf@redhat.com>
+ <87blclzg4p.fsf@dusky.pond.sub.org>
+ <20210215122819.GL7226@merkur.fritz.box>
+Date: Mon, 15 Feb 2021 13:42:51 +0100
+In-Reply-To: <20210215122819.GL7226@merkur.fritz.box> (Kevin Wolf's message of
+ "Mon, 15 Feb 2021 13:28:19 +0100")
+Message-ID: <87k0r9y01g.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <dfcc5dc7e2efc0283bc38e3036da2c0323621cdb.1611647111.git.mprivozn@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mprivozn@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,36 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 8:48 AM, Michal Privoznik wrote:
-> When management applications (like Libvirt) want to check whether
-> memory-backend-file.pmem is supported they can list object
-> properties using 'qom-list-properties'. However, 'pmem' is
-> declared always (and thus reported always) and only at runtime
-> QEMU errors out if it was built without libpmem (and thus can not
-> guarantee write persistence). This is suboptimal since we have
-> ability to declare attributes at compile time.
-> 
-> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1915216
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> ---
-> 
-> This is just a resend of a patch I've sent earlier with Reviewed-by and
-> Tested-by added:
-> 
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg04558.html
-> 
->   backends/hostmem-file.c | 13 ++++---------
->   1 file changed, 4 insertions(+), 9 deletions(-)
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Polite ping, please.
+> Am 15.02.2021 um 13:09 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>> 
+>> > monitor_qmp_dispatcher_co() used to check whether shutdown is requested
+>> 
+>> "used to": until when?
+>
+> Until right before this patch. Do you prefer present tense to describe
+> the old state?
 
-Michal
+I've done it both ways.  I think present tense works better for me.
+Case in point: I wasn't confident I read your commit message correctly,
+so I asked.
+
+> Also, does your Tested-by imply that you expect someone else to merge
+> this series? I'm planning to send a pull request today, so if that was
+> your intention, I can include it there.
+
+I didn't mean to imply anything beyond "I ran my reproducer, and your
+patches fix it."
+
+I don't mind you including the fixes in your pull request.  I also don't
+mind doing a pull request for your fixes.  Up to you!
 
 
