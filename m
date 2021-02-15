@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB17431B94D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:33:04 +0100 (CET)
-Received: from localhost ([::1]:52990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0B6831B952
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:35:08 +0100 (CET)
+Received: from localhost ([::1]:55900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBd3n-0002V9-Tn
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45884)
+	id 1lBd5n-0003gy-R4
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:35:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lBcsK-000833-F3
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:21:12 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:40439)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lBcsI-0007Fi-Ot
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:21:12 -0500
-Received: by mail-ed1-x533.google.com with SMTP id q10so7732080edt.7
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 04:21:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fXrVralff0SjoDVI5QtpCncRZch593aCZlgQG/xWAvk=;
- b=L+CkY36hcfEHtDWMAKJbVwqo48m4wFnpnJrdI4CvjF6YdCtzuOfPwGJ1LPo7x0fzOO
- sH08YRulwInI/mOIjsqTqbIf8yQ1f7pEjlhME0nmEPHPbJ+7CHUSKipc+TKHkwcTx425
- oisIEE0/zEl5zHUu7NWe6L6LD8sj4TF8l/Tb3HI8b92l21MHCubVjPWY/GtMtzJHCIh+
- EXneIwcuupOimkz75X65R5ZyDyUK4MqhI0Xdwh74pUJhnH1uczDxFwAQloHBNX/g5Air
- O9TJqsVvCw3YSPFR5Joa0o6tXYpSQWWGur1mkDb7o3ygm/DnBkYOAy0rWMxKmrMJqqCB
- GdMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=fXrVralff0SjoDVI5QtpCncRZch593aCZlgQG/xWAvk=;
- b=bt9tuZ41/iwgyBn/VEO0MTqgrdZTbZp6vh3fKxFWPb24hfHFOYpsHwufwiuqWwa0in
- 66ipHnA7Qhsw/RApl3UgFZCq56BrgsybnGmZjEWfQ36TbIkN6MknSM+x/DQHricWAzse
- cfY3N6tUXwOdMV2DJJdNu47CzSExKT86BxfD4pDNSIPL+VLFoKQW6G92fRovLaGyu0rx
- doog/S8XVvjGJktfnLH23eNZGv1M4AQ+Tz1+tjJcOxQzySbOrZNITUYptadsTwykqVMv
- +OkfdSQz8kEAk+Uv9Wp/cX7VyHpQI+/+u6Olk/8aEZJDtdPoK1+vd5yMEerf3BzXx40T
- Tc2A==
-X-Gm-Message-State: AOAM53379qnIM3HoaSjD9OlHua3w5/s8rKLTQW5XweMVz1TgGJvJg2RE
- XJYNl6ZH5EurCw933UbPUL3FNnDulWY=
-X-Google-Smtp-Source: ABdhPJyzG6H6e4l29pVcNnlxVJh67Bfo9oKdThIztrlWdxae1m5F34xP9jYGhsEBmfrxDWnq1lAxHA==
-X-Received: by 2002:a05:6402:26d5:: with SMTP id
- x21mr15293514edd.50.1613391665578; 
- Mon, 15 Feb 2021 04:21:05 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id c18sm9676794edu.20.2021.02.15.04.21.04
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 04:21:04 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] build-sys: invoke ninja with -d keepdepfile
-Date: Mon, 15 Feb 2021 13:21:03 +0100
-Message-Id: <20210215122103.63933-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBczL-0006s2-OD
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:28:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28769)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBczJ-0001qD-Cs
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 07:28:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613392103;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=puKTxWMdDGkgRSoKVc3bc9lodN+l/1q+xI22O7VyVGs=;
+ b=isdxSRDfL28hKBFjTHkIg345BUM3fU6tlzjljqxpklkV7aJYtbnqi1aQYUDhhkYURVDSod
+ JaKfUCTXKzDG3TWpuKBV6PKhz/ah6AvJCwCqYZ9+8R4YAlIaYfq8Kg4fTwj9h4CRNc1F5I
+ n4PZkHFwpR4opoBmEwpa4Ax2MVTqEC8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-504-CHo69wmtP-2-FYno6uBZ2w-1; Mon, 15 Feb 2021 07:28:22 -0500
+X-MC-Unique: CHo69wmtP-2-FYno6uBZ2w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5DF7F192D787
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 12:28:21 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-28.ams2.redhat.com [10.36.113.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B09A25C233;
+ Mon, 15 Feb 2021 12:28:20 +0000 (UTC)
+Date: Mon, 15 Feb 2021 13:28:19 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH 2/2] monitor/qmp: Stop processing requests when shutdown
+ is requested
+Message-ID: <20210215122819.GL7226@merkur.fritz.box>
+References: <20210212172028.288825-1-kwolf@redhat.com>
+ <20210212172028.288825-3-kwolf@redhat.com>
+ <87blclzg4p.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <87blclzg4p.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After reading the dependency file, ninja just deletes it, in the name
-of cleanliness I guess.  However this complicates debugging unnecessarily
-compared to good old "-include *.d".  Use the keepdepfile debugging
-option to make it easier to see what is going on.
+Am 15.02.2021 um 13:09 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
+> 
+> > monitor_qmp_dispatcher_co() used to check whether shutdown is requested
+> 
+> "used to": until when?
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Until right before this patch. Do you prefer present tense to describe
+the old state?
 
-diff --git a/Makefile b/Makefile
-index d7fb6b270e..bcbbec71a1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -149,7 +149,7 @@ $(ninja-targets): run-ninja
- # --output-sync line.
- run-ninja: config-host.mak
- ifneq ($(filter $(ninja-targets), $(ninja-cmd-goals)),)
--	+$(quiet-@)$(if $(MAKE.nq),@:, $(NINJA) \
-+	+$(quiet-@)$(if $(MAKE.nq),@:, $(NINJA) -d keepdepfile \
- 	   $(NINJAFLAGS) $(sort $(filter $(ninja-targets), $(ninja-cmd-goals))) | cat)
- endif
- endif
--- 
-2.29.2
+Also, does your Tested-by imply that you expect someone else to merge
+this series? I'm planning to send a pull request today, so if that was
+your intention, I can include it there.
+
+Kevin
+
+> > only when it would have to wait for new requests. If there were still
+> > some queued requests, it would try to execute all of them before
+> > shutting down.
+> >
+> > This can be surprising when the queued QMP commands take long or hang
+> > because Ctrl-C may not actually exit QEMU as soon as possible.
+> >
+> > Change monitor_qmp_dispatcher_co() so that it additionally checks
+> > whether shutdown is request before it gets a new request from the queue.
+> >
+> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> > ---
+> >  monitor/qmp.c | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/monitor/qmp.c b/monitor/qmp.c
+> > index 43880fa623..2326bd7f9b 100644
+> > --- a/monitor/qmp.c
+> > +++ b/monitor/qmp.c
+> > @@ -227,6 +227,11 @@ void coroutine_fn monitor_qmp_dispatcher_co(void *data)
+> >           */
+> >          qatomic_mb_set(&qmp_dispatcher_co_busy, false);
+> >  
+> > +        /* On shutdown, don't take any more requests from the queue */
+> > +        if (qmp_dispatcher_co_shutdown) {
+> > +            return;
+> > +        }
+> > +
+> >          while (!(req_obj = monitor_qmp_requests_pop_any_with_lock())) {
+> >              /*
+> >               * No more requests to process.  Wait to be reentered from
 
 
