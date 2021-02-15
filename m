@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362E931C1CF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:42:17 +0100 (CET)
-Received: from localhost ([::1]:38748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF10031C1CE
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:41:58 +0100 (CET)
+Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBip6-0004vC-AY
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:42:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50124)
+	id 1lBion-0004UZ-Hd
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:41:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lBiiW-0001Wa-Pl
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:35:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51393)
+ id 1lBilK-0003Um-D6
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:38:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60894)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lBiiU-0000Zx-0K
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:35:28 -0500
+ id 1lBilG-0001pQ-ER
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:38:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613414124;
+ s=mimecast20190719; t=1613414297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iSu52RK1rxJQ1Dl5Sz8w5Za11duteqX8FixQahuRbwA=;
- b=J/FRbsRnAtLpTBhq5f+mvOQnSvQY7EhqQAfvkoB6DbJf7FEiYyTet6IcQ7ur4Fs/Y3uvy+
- PPdapth+SU0ohYkhHlF+cAJos3MZTRpVyH2H3XXSbVDAAMsQHuZYO3Mi4gtIjoPoLuYv6m
- 42Bgogk0TZgOJIWA+n/CSD6zt6RGzFk=
+ bh=QrnEu000yHGg+IA4NHr0qCWz0uQrAQM4wen6qb8wZSs=;
+ b=hsUo2x/xDClEI01SZa262bxhNk72HA/qbnMARB2BPkzhmVTOyYAsS/ypgMsKFBzhPRerUB
+ Y1NGIMUnWZAP4xxys6RLBdVQm5OzkcsQlDcVflqbKaTdZHogUdF8+p9yI/eyNYIM38H/QT
+ DdSyaVuuXNnzoqu3nbKNASKhKyMxvZw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-rr1DScKvNnemz-suUvS6EA-1; Mon, 15 Feb 2021 13:35:20 -0500
-X-MC-Unique: rr1DScKvNnemz-suUvS6EA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-175-7HoXGt17PI6zZK5gDXcblQ-1; Mon, 15 Feb 2021 13:38:10 -0500
+X-MC-Unique: 7HoXGt17PI6zZK5gDXcblQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 91EC66EE22;
- Mon, 15 Feb 2021 18:35:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E8831005501;
+ Mon, 15 Feb 2021 18:38:09 +0000 (UTC)
 Received: from work-vm (ovpn-115-61.ams2.redhat.com [10.36.115.61])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2A7B319719;
- Mon, 15 Feb 2021 18:35:17 +0000 (UTC)
-Date: Mon, 15 Feb 2021 18:35:15 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E708A5C241;
+ Mon, 15 Feb 2021 18:38:07 +0000 (UTC)
+Date: Mon, 15 Feb 2021 18:38:05 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH 05/33] migration: push Error **errp into
- qemu_loadvm_state_main()
-Message-ID: <YCq+4/8hUcAWV1HM@work-vm>
+Subject: Re: [PATCH 00/33] migration: capture error reports into Error object
+Message-ID: <YCq/jV1wa4EiVZQK@work-vm>
 References: <20210204171907.901471-1-berrange@redhat.com>
- <20210204171907.901471-6-berrange@redhat.com>
+ <20210204182249.GO3039@work-vm>
+ <20210204190927.GB903389@redhat.com>
+ <20210208132903.GH3032@work-vm>
+ <20210208134206.GH1141037@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210204171907.901471-6-berrange@redhat.com>
+In-Reply-To: <20210208134206.GH1141037@redhat.com>
 User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,14 +63,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,287 +84,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>
+Cc: Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> This is an incremental step in converting vmstate loading code to report
-> via Error objects instead of printing directly to the console/monitor.
+> On Mon, Feb 08, 2021 at 01:29:03PM +0000, Dr. David Alan Gilbert wrote:
+> > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > On Thu, Feb 04, 2021 at 06:22:49PM +0000, Dr. David Alan Gilbert wrote:
+> > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > > Due to its long term heritage most of the migration code just invokes
+> > > > > 'error_report' when problems hit. This was fine for HMP, since the
+> > > > > messages get redirected from stderr, into the HMP console. It is not
+> > > > > OK for QMP because the errors will not be fed back to the QMP client.
+> > > > > 
+> > > > > This wasn't a terrible real world problem with QMP so far because
+> > > > > live migration happens in the background, so at least on the target side
+> > > > > there is not a QMP command that needs to capture the incoming migration.
+> > > > > It is a problem on the source side but it doesn't hit frequently as the
+> > > > > source side has fewer failure scenarios. None the less on both sides it
+> > > > > would be desirable if 'query-migrate' can report errors correctly.
+> > > > > With the introduction of the load-snapshot QMP commands, the need for
+> > > > > error reporting becomes more pressing.
+> > > > > 
+> > > > > Wiring up good error reporting is a large and difficult job, which
+> > > > > this series does NOT complete. The focus here has been on converting
+> > > > > all methods in savevm.c which have an 'int' return value capable of
+> > > > > reporting errors. This covers most of the infrastructure for controlling
+> > > > > the migration state serialization / protocol.
+> > > > > 
+> > > > > The remaining part that is missing error reporting are the callbacks in
+> > > > > the VMStateDescription struct which can return failure codes, but have
+> > > > > no "Error **errp" parameter. Thinking about how this might be dealt with
+> > > > > in future, a big bang conversion is likely non-viable. We'll probably
+> > > > > want to introduce a duplicate set of callbacks with the "Error **errp"
+> > > > > parameter and convert impls in batches, eventually removing the
+> > > > > original callbacks. I don't intend todo that myself in the immediate
+> > > > > future.
+> > > > > 
+> > > > > IOW, this patch series probably solves 50% of the problem, but we
+> > > > > still do need the rest to get ideal error reporting.
+> > > > > 
+> > > > > In doing this savevm conversion I noticed a bunch of places which
+> > > > > see and then ignore errors. I only fixed one or two of them which
+> > > > > were clearly dubious. Other places in savevm.c where it seemed it
+> > > > > was probably ok to ignore errors, I've left using error_report()
+> > > > > on the basis that those are really warnings. Perhaps they could
+> > > > > be changed to warn_report() instead.
+> > > > > 
+> > > > > There are alot of patches here, but I felt it was easier to review
+> > > > > for correctness if I converted 1 function at a time. The series
+> > > > > does not neccessarily have to be reviewed/appied in 1 go.
+> > > > 
+> > > > After this series, what do my errors look like, and where do they end
+> > > > up?
+> > > > Do I get my nice backtrace shwoing that device failed, then that was
+> > > > part of that one...
+> > > 
+> > > It hasn't modified any of the VMStateDescription callbacks so any
+> > > of the per-device logic that was printing errors will still be using
+> > > error_report to the console as before.
+> > > 
+> > > The errors that have changed (at this stage) are only the higher
+> > > level ones that are in the generic part of the code. Where those
+> > > errors mentioned a device name/ID they still do.
+> > > 
+> > > In some of the parts I've modified there will have been multiple
+> > > error_reports collapsed into one error_setg() but the ones that
+> > > are eliminated are high level generic messages with no useful
+> > > info, so I don't think loosing those is a problem per-se.
+> > > 
+> > > The example that I tested was the case where we load a snapshot
+> > > under a different config that we saved it with. This is the scenario
+> > > that gave the non-deterministic ordering in the iotest you disabled
+> > > from my previous series.
+> > > 
+> > > In that case, we changed from:
+> > > 
+> > >   qemu-system-x86_64: Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
+> > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Error -22 while loading VM state"}]}
+> > > 
+> > > To
+> > > 
+> > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices"}]}
+> > > 
+> > > From a HMP loadvm POV, this means instead of seeing
+> > > 
+> > >   (hmp)  loadvm foo
+> > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
+> > >   Error -22 while loading VM state
+> > > 
+> > > You will only see the detailed error message
+> > > 
+> > >   (hmp)  loadvm foo
+> > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
+> > > 
+> > > In this case I think loosing the "Error -22 while loading VM state"
+> > > is fine, as it didn't add value IMHO.
+> > > 
+> > > 
+> > > If we get around to converting the VMStateDescription callbacks to
+> > > take an error object, then I think we'll possibly need to stack the
+> > > error message from the callback, with the higher level message.
+> > > 
+> > > Do you have any familiar/good examples of error message stacking I
+> > > can look at ?  I should be able to say whether they would be impacted
+> > > by this series or not - if they are, then I hopefully only threw away
+> > > the fairly useless high level messages, like the "Error -22" message
+> > > above.
+> > 
+> > Can you try migrating:
+> >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng,disable-modern=true
+> > to
+> >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng
+> > 
+> > what I currently get is:
+> > qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
+> > qemu-system-x86_64: Failed to load PCIDevice:config
+> > qemu-system-x86_64: Failed to load virtio-rng:virtio
+> > qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
+> > qemu-system-x86_64: load of migration failed: Invalid argument
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->  migration/colo.c   |  3 +-
->  migration/savevm.c | 73 +++++++++++++++++++++++++++++++---------------
->  migration/savevm.h |  3 +-
->  3 files changed, 52 insertions(+), 27 deletions(-)
+> After my patches the very last line is gone.
 > 
-> diff --git a/migration/colo.c b/migration/colo.c
-> index e344b7cf32..4a050ac579 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -705,11 +705,10 @@ static void colo_incoming_process_checkpoint(MigrationIncomingState *mis,
->  
->      qemu_mutex_lock_iothread();
->      cpu_synchronize_all_states();
-> -    ret = qemu_loadvm_state_main(mis->from_src_file, mis);
-> +    ret = qemu_loadvm_state_main(mis->from_src_file, mis, errp);
->      qemu_mutex_unlock_iothread();
->  
->      if (ret < 0) {
-> -        error_setg(errp, "Load VM's live state (ram) error");
->          return;
->      }
->  
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index dd41292d4e..e47aec435c 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1819,6 +1819,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
->      QEMUFile *f = mis->from_src_file;
->      int load_res;
->      MigrationState *migr = migrate_get_current();
-> +    Error *local_err = NULL;
->  
->      object_ref(OBJECT(migr));
->  
-> @@ -1833,7 +1834,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
->       * in qemu_file, and thus we must be blocking now.
->       */
->      qemu_file_set_blocking(f, true);
-> -    load_res = qemu_loadvm_state_main(f, mis);
-> +    load_res = qemu_loadvm_state_main(f, mis, &local_err);
->  
->      /*
->       * This is tricky, but, mis->from_src_file can change after it
-> @@ -1849,6 +1850,7 @@ static void *postcopy_ram_listen_thread(void *opaque)
->      if (load_res < 0) {
->          qemu_file_set_error(f, load_res);
->          dirty_bitmap_mig_cancel_incoming();
-> +        error_report_err(local_err);
->          if (postcopy_state_get() == POSTCOPY_INCOMING_RUNNING &&
->              !migrate_postcopy_ram() && migrate_dirty_bitmaps())
->          {
-> @@ -1859,12 +1861,10 @@ static void *postcopy_ram_listen_thread(void *opaque)
->                           __func__, load_res);
->              load_res = 0; /* prevent further exit() */
->          } else {
-> -            error_report("%s: loadvm failed: %d", __func__, load_res);
->              migrate_set_state(&mis->state, MIGRATION_STATUS_POSTCOPY_ACTIVE,
->                                             MIGRATION_STATUS_FAILED);
->          }
-> -    }
-> -    if (load_res >= 0) {
-> +    } else {
->          /*
->           * This looks good, but it's possible that the device loading in the
->           * main thread hasn't finished yet, and so we might not be in 'RUN'
-> @@ -2116,14 +2116,17 @@ static int loadvm_postcopy_handle_resume(MigrationIncomingState *mis)
->   * @mis: Incoming state
->   * @length: Length of packaged data to read
->   *
-> - * Returns: Negative values on error
-> - *
-> + * Returns:
-> + *   0: success
-> + *   LOADVM_QUIT: success, but stop
-> + *   -1: error
->   */
->  static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
->  {
->      int ret;
->      size_t length;
->      QIOChannelBuffer *bioc;
-> +    Error *local_err = NULL;
->  
->      length = qemu_get_be32(mis->from_src_file);
->      trace_loadvm_handle_cmd_packaged(length);
-> @@ -2149,8 +2152,11 @@ static int loadvm_handle_cmd_packaged(MigrationIncomingState *mis)
->  
->      QEMUFile *packf = qemu_fopen_channel_input(QIO_CHANNEL(bioc));
->  
-> -    ret = qemu_loadvm_state_main(packf, mis);
-> +    ret = qemu_loadvm_state_main(packf, mis, &local_err);
->      trace_loadvm_handle_cmd_packaged_main(ret);
-> +    if (ret < 0) {
-> +        error_report_err(local_err);
-> +    }
->      qemu_fclose(packf);
->      object_unref(OBJECT(bioc));
->  
-> @@ -2568,7 +2574,14 @@ static bool postcopy_pause_incoming(MigrationIncomingState *mis)
->      return true;
->  }
->  
-> -int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis)
-> +/*
-> + * Returns:
-> + *   0: success
-> + *   LOADVM_QUIT: success, but stop
-> + *   -1: error
-> + */
-> +int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis,
-> +                           Error **errp)
->  {
->      uint8_t section_type;
->      int ret = 0;
-> @@ -2579,7 +2592,9 @@ retry:
->  
->          if (qemu_file_get_error(f)) {
->              ret = qemu_file_get_error(f);
-> -            break;
-> +            error_setg(errp,
-> +                       "Failed to load device state section ID: %d", ret);
+> So, still reporting using  error_report() is the first 3:
+> 
+>  qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
+>  qemu-system-x86_64: Failed to load PCIDevice:config
+>  qemu-system-x86_64: Failed to load virtio-rng:virtio
+> 
+> Then reported in process_incoming_migration_co() using the message
+> populated in the Error object, using error_report_err():
+> 
+>  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
+> 
+> Finally, this is no longer reported:
+> 
+>  qemu-system-x86_64: load of migration failed: Invalid argument
+> 
+> So in this case we've not lost any useful information
 
-Can I ask why these don't use strerror(ret) ?
+One thing to check, and I *think* you're OK, but we have one place where
+we actually check the error number:
 
-The test I'm running is, start a VM with an actual guest and a useful
-amount of ram:
+migration.c:
+3414 static MigThrError migration_detect_error(MigrationState *s)
+...
+3426     /* Try to detect any file errors */
+3427     ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
+3428     if (!ret) {
+3429         /* Everything is fine */
+3430         assert(!local_error);
+3431         return MIG_THR_ERR_NONE;
+3432     }
+3433 
+3434     if (local_error) {
+3435         migrate_set_error(s, local_error);
+3436         error_free(local_error);
+3437     }
+3438 
+3439     if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret == -EIO) {
+3440         /*
+3441          * For postcopy, we allow the network to be down for a
+3442          * while. After that, it can be continued by a
+3443          * recovery phase.
+3444          */
+3445         return postcopy_pause(s);
+3446     } else {
 
-./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -nographic -m 8G -drive if=virtio,file=/home/vmimages/fedora-33-nest.qcow
+This is to go into postcopy pause if the network connection broke (but
+not if for example a device moaned about being in an invalid state)
 
-./x86_64-softmmu/qemu-system-x86_64 -M pc,accel=kvm -nographic -m 8G -drive if=virtio,file=/home/vmimages/fedora-33-nest.qcow -incoming tcp:0:4444
-
-source:
-  migrate_set_speed 1m
-  migrate -d tcp:0:4444
-  <Now quickly>
-  migrate_cancel
-
-In the old world I get:
-qemu-system-x86_64: load of migration failed: Input/output error
-
-In your world I get:
-qemu-system-x86_64: Failed to load device state section ID: -5
-
-(5 being EIO)
+If I read this correctly, file errors are still being preserved - is
+that correct?
 
 Dave
 
 
-> +            goto out;
->          }
->  
->          trace_qemu_loadvm_state_section(section_type);
-> @@ -2588,6 +2603,9 @@ retry:
->          case QEMU_VM_SECTION_FULL:
->              ret = qemu_loadvm_section_start_full(f, mis);
->              if (ret < 0) {
-> +                error_setg(errp,
-> +                           "Failed to load device state section start: %d",
-> +                           ret);
->                  goto out;
->              }
->              break;
-> @@ -2595,29 +2613,38 @@ retry:
->          case QEMU_VM_SECTION_END:
->              ret = qemu_loadvm_section_part_end(f, mis);
->              if (ret < 0) {
-> +                error_setg(errp,
-> +                           "Failed to load device state section end: %d", ret);
->                  goto out;
->              }
->              break;
->          case QEMU_VM_COMMAND:
->              ret = loadvm_process_command(f);
->              trace_qemu_loadvm_state_section_command(ret);
-> -            if ((ret < 0) || (ret == LOADVM_QUIT)) {
-> +            if (ret < 0) {
-> +                error_setg(errp,
-> +                           "Failed to load device state command: %d", ret);
-> +                goto out;
-> +            }
-> +            if (ret == LOADVM_QUIT) {
->                  goto out;
->              }
->              break;
->          case QEMU_VM_EOF:
->              /* This is the end of migration */
-> +            ret = 0;
->              goto out;
->          default:
-> -            error_report("Unknown savevm section type %d", section_type);
-> -            ret = -EINVAL;
-> +            error_setg(errp,
-> +                       "Unknown savevm section type %d", section_type);
-> +            ret = -1;
->              goto out;
->          }
->      }
->  
->  out:
->      if (ret < 0) {
-> -        qemu_file_set_error(f, ret);
-> +        qemu_file_set_error(f, -EINVAL);
->  
->          /* Cancel bitmaps incoming regardless of recovery */
->          dirty_bitmap_mig_cancel_incoming();
-> @@ -2643,6 +2670,12 @@ out:
->      return ret;
->  }
->  
-> +/*
-> + * Returns:
-> + *   0: success
-> + *   LOADVM_QUIT: success, but stop
-> + *   -1: error
-> + */
->  int qemu_loadvm_state(QEMUFile *f, Error **errp)
->  {
->      MigrationIncomingState *mis = migration_incoming_get_current();
-> @@ -2662,17 +2695,12 @@ int qemu_loadvm_state(QEMUFile *f, Error **errp)
->  
->      cpu_synchronize_all_pre_loadvm();
->  
-> -    ret = qemu_loadvm_state_main(f, mis);
-> -    if (ret < 0) {
-> -        error_setg(errp, "Error %d while loading VM state", ret);
-> -        ret = -1;
-> -    }
-> +    ret = qemu_loadvm_state_main(f, mis, errp);
->      qemu_event_set(&mis->main_thread_load_event);
->  
->      trace_qemu_loadvm_state_post_main(ret);
->  
->      if (mis->have_listen_thread) {
-> -        error_setg(errp, "Error %d while loading VM state", ret);
->          /* Listen thread still going, can't clean up yet */
->          return ret;
->      }
-> @@ -2729,13 +2757,10 @@ int qemu_loadvm_state(QEMUFile *f, Error **errp)
->  int qemu_load_device_state(QEMUFile *f, Error **errp)
->  {
->      MigrationIncomingState *mis = migration_incoming_get_current();
-> -    int ret;
->  
->      /* Load QEMU_VM_SECTION_FULL section */
-> -    ret = qemu_loadvm_state_main(f, mis);
-> -    if (ret < 0) {
-> -        error_setg(errp, "Failed to load device state: %d", ret);
-> -        return ret;
-> +    if (qemu_loadvm_state_main(f, mis, errp) < 0) {
-> +        return -1;
->      }
->  
->      cpu_synchronize_all_post_init();
-> diff --git a/migration/savevm.h b/migration/savevm.h
-> index c727bc103e..1cec83c729 100644
-> --- a/migration/savevm.h
-> +++ b/migration/savevm.h
-> @@ -62,7 +62,8 @@ int qemu_save_device_state(QEMUFile *f);
->  
->  int qemu_loadvm_state(QEMUFile *f, Error **errp);
->  void qemu_loadvm_state_cleanup(void);
-> -int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
-> +int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis,
-> +                           Error **errp);
->  int qemu_load_device_state(QEMUFile *f, Error **errp);
->  
->  #endif
+> Regards,
+> Daniel
 > -- 
-> 2.29.2
-> 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
