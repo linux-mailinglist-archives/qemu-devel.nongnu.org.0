@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C4831C2F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 21:28:05 +0100 (CET)
-Received: from localhost ([::1]:38080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCF931C309
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 21:33:26 +0100 (CET)
+Received: from localhost ([::1]:40598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBkTU-00057g-GP
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 15:28:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41458)
+	id 1lBkYf-0006Rj-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 15:33:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBkSY-0004cF-MU
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 15:27:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBkSW-00079m-JD
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 15:27:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613420823;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CpEmzBFfhY2btzMgtfUqPH/L+lZjtQVJXUsZo8Pyu2M=;
- b=M3LnL0V3+2TG302gZMw3z+1fzh5112GPn8aD0hKTxxUPx3XgHIP9d9GYRy6fm4072Z1Zpm
- l9RKHa3qa5kQmaceeUUskJ6J+GMaiQJumhEdwLzuq5bPVUK+GN39qr8Q0BaQJiuI52bKQs
- 5b6E6xFEJCko5NdvK3m3LClsjUsRtJA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-21-aJYJiiZJO52Gd3s59tBCGA-1; Mon, 15 Feb 2021 15:27:01 -0500
-X-MC-Unique: aJYJiiZJO52Gd3s59tBCGA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C1046D4F3;
- Mon, 15 Feb 2021 20:27:00 +0000 (UTC)
-Received: from [10.3.113.98] (ovpn-113-98.phx2.redhat.com [10.3.113.98])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8F41C2BFEC;
- Mon, 15 Feb 2021 20:26:59 +0000 (UTC)
-Subject: Re: [PULL 3/5] qemu-iotests: 300: Add test case for modifying
- persistence of bitmap
-To: John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-References: <20210212232134.1462756-1-eblake@redhat.com>
- <20210212232134.1462756-4-eblake@redhat.com>
- <20210215123152.GM7226@merkur.fritz.box>
- <0cd1617d-b22f-4ce1-38c2-df8822c3fbbe@redhat.com>
- <20210215170902.GS7226@merkur.fritz.box>
- <42192dc8-329c-ef2d-d8f7-3d02ae9d2c85@redhat.com>
- <0138182f-0e17-f225-0060-85f1776f26dc@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <e0b79772-feb0-34e5-fb0c-54b28a0da042@redhat.com>
-Date: Mon, 15 Feb 2021 14:26:58 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1lBkWS-0005sA-9M; Mon, 15 Feb 2021 15:31:08 -0500
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:33517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
+ id 1lBkWQ-0000bC-9b; Mon, 15 Feb 2021 15:31:08 -0500
+Received: by mail-il1-x131.google.com with SMTP id e1so6556759ilu.0;
+ Mon, 15 Feb 2021 12:31:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=78fwAa+Rsw01RxG2wWugKvlSZtpYHUe6+3hnhVfYDCw=;
+ b=dBmHsztun12FVOFpF17R10e1VYCMWEoXBvlw8Z8j0AN0FJfejEV32fZT+Z2JR5zqVN
+ mrDmFCBmq9sneXUbG4nb/opxppy2C59ct0e/b4XfdDuL8qYZUdSi4QN65vNIyUMTaBlR
+ O1HjeBVukFmRisuWTxMtWl1QOozRgO9MCf+PDhUgg65mfeZm1V9HZ+S4q+LNjmdNG6De
+ Kno5bokmRLKtqgltOmF99L5tQ4bhjcckC+QiD8zb4oR0XmbaA0xGKxW4cze3azYrnAGO
+ sjn3A2TN7UX7DcRdoMvbKnoroFEIxMu9y7s8cxpevHK5Y94plmrIG7+8MaHsnF8Vn9JG
+ KeMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=78fwAa+Rsw01RxG2wWugKvlSZtpYHUe6+3hnhVfYDCw=;
+ b=ivmhehC0/9NMqvZ2RK5LZwn716fXipJhMwROFws+iV74sLwX2nQw+FGDlsau8UKY+C
+ nz7an2ZJ2QTk6h8vPFwdz18qrX3STM3hgqPadGJVI1PgqJxQ2dPlOym/AT41ItjQHLU7
+ v3oYDEWHLZRDGUC4EcUwrRQx5SG3GlGtknAcWg8w9ufgeKEJfMwM/D8hSCJ44ijZ/o9y
+ hrcJFhGRu0F8bOPYfR15mabiQaNyvd6L3Db3U1d3k76cZdZIrOjVe/2Vj9TIULEg8GcX
+ bJL+XDlFbyrIR+n6lI8brNq3Jj2IcZ8U3F9ubFd7MTDONOOo0bASRj7u8C8mtXaZVo75
+ zQ/g==
+X-Gm-Message-State: AOAM532YDd9snkRlX9NHV5WcN1d7wcAQjavlhISRMLQdafu9p0WRxBKE
+ xYbvGEL3HV4d/BS31ENPRk+i89HaYWrzbB6hvW0=
+X-Google-Smtp-Source: ABdhPJwzVKUpmn3bDjEe/zsrPx9tWHxoe/D3cCpjlQGJFjzzpriQX7+HxtVGjMrL7gmr93UBHC9N3nJWhz6lb7ovhZ4=
+X-Received: by 2002:a92:cc03:: with SMTP id s3mr13278062ilp.45.1613421064003; 
+ Mon, 15 Feb 2021 12:31:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0138182f-0e17-f225-0060-85f1776f26dc@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210211220055.19047-1-nieklinnenbank@gmail.com>
+ <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
+In-Reply-To: <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
+From: Niek Linnenbank <nieklinnenbank@gmail.com>
+Date: Mon, 15 Feb 2021 21:30:52 +0100
+Message-ID: <CAPan3WqGAzWE+gCqo0Rggu70GpQAbWYyA2thH6LX=oTxhnvRfQ@mail.gmail.com>
+Subject: Re: [PATCH 0/2] Allwinner H3 fixes for EMAC and acceptance tests
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000064a2cb05bb65ddfe"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=nieklinnenbank@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,80 +75,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, qemu-devel@nongnu.org,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>, Pavel.Dovgaluk@ispras.ru,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
+ b.galvani@gmail.com, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, crosa@redhat.com,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 1:00 PM, John Snow wrote:
-> On 2/15/21 1:25 PM, Eric Blake wrote:
->> -BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
->> +BlockBitmapMapping = List[Dict[str,
->> +                               Union[str,
->> +                                     List[Dict[str,
->> +                                               Union[str, Dict[str,
->> bool]]]]]]]
-> 
-> That looks *very* beefy.
-> 
-> Is the Union because that union is valid for every key, or because every
-> key has a potentially different value that is specific to that key?
-> 
-> if it's the latter, I'd ditch the Union and just go with:
-> 
-> Dict[str, object], or
-> Dict[str, Any]
-> 
-> object: will allow any type, but keeps strict checking enabled. If you
-> try to use that value later on without a cast, mypy will warn you if you
-> are using it in a manner not guaranteed by the "object" type. Can be
-> useful if you are passing values to a function that already does RTTI to
-> determine behavior.
+--00000000000064a2cb05bb65ddfe
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We're in luck; both 297 and 300 still pass with this applied on top of
-my previous attempt:
+Op vr 12 feb. 2021 15:10 schreef Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
+.com>:
 
-diff --git i/tests/qemu-iotests/300 w/tests/qemu-iotests/300
-index 7501bd1018e2..adb927629747 100755
---- i/tests/qemu-iotests/300
-+++ w/tests/qemu-iotests/300
-@@ -22,7 +22,7 @@
- import os
- import random
- import re
--from typing import Dict, List, Optional, Union
-+from typing import Dict, List, Optional
-
- import iotests
-
-@@ -30,10 +30,7 @@ import iotests
- # pylint: disable=wrong-import-order
- import qemu
-
--BlockBitmapMapping = List[Dict[str,
--                               Union[str,
--                                     List[Dict[str,
--                                               Union[str, Dict[str,
-bool]]]]]]]
-+BlockBitmapMapping = List[Dict[str, object]]
-
- mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
+> Hi Niek and QEMU community,
+>
+> On 2/11/21 11:00 PM, Niek Linnenbank wrote:
+> > The following are maintenance patches for the Allwinner H3. The first
+> patch
+> > is a proposal to relocate the binary artifacts of the acceptance tests
+> away
+> > from the apt.armbian.com domain. In the past we had problems with
+> artifacts being
+> > removed, and now the recently added Armbian 20.08.1 image has been
+> removed as well:
+> >
+> > $ wget
+> https://dl.armbian.com/orangepipc/archive/Armbian_20.08.1_Orangepipc_bion=
+ic_current_5.8.5.img.xz
+> > Connecting to dl.armbian.com (dl.armbian.com)|2605:7900:20::5|:443...
+> connected.
+> > ...
+> > HTTP request sent, awaiting response... 404 Not Found
+> > 2021-02-11 22:34:45 ERROR 404: Not Found.
+> >
+> > I've now added the artifacts to a server maintained by me. The machine
+> has a stable
+> > uptime of several years, ~100Mbit bandwidth and plenty of available
+> storage.
+> > Also for other artifacts if needed. I'm open to discuss if there is a
+> proposal
+> > for a better location for these artifacts or a more generic qemu
+> location.
+>
+> Thanks for trying to fix this long standing problem.
+>
+> While this works in your case, this doesn't scale to the community,
+> as not all contributors have access to such hardware and bandwidth /
+> storage.
+>
+> While your first patch is useful in showing where the artifacts are
+> stored doesn't matter - as long as we use cryptographic hashes - I
+> think it is a step in the wrong direction, so I am not keen on
+> accepting it.
 
 
+> My personal view is that any contributor should have the same
+> possibilities to add tests to the project.
 
-> 
-> Any: Also allows any type, but enables gradual typing. If you later
-> "assume" the type of this value, mypy will say nothing. Can be useful
-> when you've just got a job to do and the right tool would have been a
-> recursive type or a TypedDict (unavailable in Python 3.6.)
 
-I'm not too worried about needing to further enhance the type-checking
-on an individual iotest.
+Hi Philippe,
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I see your point. How about I simply upload the artifacts to github
+instead? There are already multiple tests right now that use artifacts
+stored on github. And github is available to everyone. For me that would
+work fine. If you agree, I can respin the patch.
 
+Regards
+Niek
+
+Now I am also open to
+> discuss with the others :) I might be proven wrong, and it could
+> be better to rely on good willing contributors rather than having
+> nothing useful at all.
+
+
+> Regards,
+>
+> Phil.
+>
+>
+
+--00000000000064a2cb05bb65ddfe
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">Op vr 12 feb. 2021 15:10 schreef Philippe Mathieu-Daud=
+=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt;:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">Hi Niek and QEMU community,<br>
+<br>
+On 2/11/21 11:00 PM, Niek Linnenbank wrote:<br>
+&gt; The following are maintenance patches for the Allwinner H3. The first =
+patch<br>
+&gt; is a proposal to relocate the binary artifacts of the acceptance tests=
+ away<br>
+&gt; from the <a href=3D"http://apt.armbian.com" rel=3D"noreferrer noreferr=
+er" target=3D"_blank">apt.armbian.com</a> domain. In the past we had proble=
+ms with artifacts being<br>
+&gt; removed, and now the recently added Armbian 20.08.1 image has been rem=
+oved as well:<br>
+&gt; <br>
+&gt; $ wget <a href=3D"https://dl.armbian.com/orangepipc/archive/Armbian_20=
+.08.1_Orangepipc_bionic_current_5.8.5.img.xz" rel=3D"noreferrer noreferrer"=
+ target=3D"_blank">https://dl.armbian.com/orangepipc/archive/Armbian_20.08.=
+1_Orangepipc_bionic_current_5.8.5.img.xz</a><br>
+&gt; Connecting to <a href=3D"http://dl.armbian.com" rel=3D"noreferrer nore=
+ferrer" target=3D"_blank">dl.armbian.com</a> (<a href=3D"http://dl.armbian.=
+com" rel=3D"noreferrer noreferrer" target=3D"_blank">dl.armbian.com</a>)|26=
+05:7900:20::5|:443... connected.<br>
+&gt; ...<br>
+&gt; HTTP request sent, awaiting response... 404 Not Found<br>
+&gt; 2021-02-11 22:34:45 ERROR 404: Not Found.<br>
+&gt; <br>
+&gt; I&#39;ve now added the artifacts to a server maintained by me. The mac=
+hine has a stable<br>
+&gt; uptime of several years, ~100Mbit bandwidth and plenty of available st=
+orage.<br>
+&gt; Also for other artifacts if needed. I&#39;m open to discuss if there i=
+s a proposal<br>
+&gt; for a better location for these artifacts or a more generic qemu locat=
+ion.<br>
+<br>
+Thanks for trying to fix this long standing problem.<br>
+<br>
+While this works in your case, this doesn&#39;t scale to the community,<br>
+as not all contributors have access to such hardware and bandwidth /<br>
+storage.<br>
+<br>
+While your first patch is useful in showing where the artifacts are<br>
+stored doesn&#39;t matter - as long as we use cryptographic hashes - I<br>
+think it is a step in the wrong direction, so I am not keen on<br>
+accepting it.</blockquote></div></div><div dir=3D"auto"><div class=3D"gmail=
+_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><br>
+My personal view is that any contributor should have the same<br>
+possibilities to add tests to the project. </blockquote></div></div><div di=
+r=3D"auto"><br></div><div dir=3D"auto">Hi Philippe,</div><div dir=3D"auto">=
+<br></div><div dir=3D"auto">I see your point. How about I simply upload the=
+ artifacts to github instead? There are already multiple tests right now th=
+at use artifacts stored on github. And github is available to everyone. For=
+ me that would work fine. If you agree, I can respin the patch.</div><div d=
+ir=3D"auto"><br></div><div dir=3D"auto">Regards</div><div dir=3D"auto">Niek=
+</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quo=
+te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
+t:1px #ccc solid;padding-left:1ex">Now I am also open to<br>
+discuss with the others :) I might be proven wrong, and it could<br>
+be better to rely on good willing contributors rather than having<br>
+nothing useful at all.</blockquote></div></div><div dir=3D"auto"><div class=
+=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
+ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Regards,<br>
+<br>
+Phil.<br>
+<br>
+</blockquote></div></div></div>
+
+--00000000000064a2cb05bb65ddfe--
 
