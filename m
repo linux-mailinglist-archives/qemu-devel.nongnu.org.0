@@ -2,83 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDA4331C005
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:04:15 +0100 (CET)
-Received: from localhost ([::1]:42946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE3DC31C021
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 18:09:25 +0100 (CET)
+Received: from localhost ([::1]:53526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBhIE-0001n0-B7
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:04:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57770)
+	id 1lBhNE-0007CY-DB
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 12:09:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBhDD-0000K7-US
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:59:03 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lBhDC-00056r-Gr
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:59:03 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id r5so3562141wmp.1
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:59:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7t3q/7j8XANO/eMjtO8F9brWBUGATYE6BRUqKesopmg=;
- b=UEzn/Dymmreo1hDQaG6HmojBQsUNQP0wHrlFYLS+6RO4qx9CROyuWQwCf9azIEfe1+
- kXUNVXDz6y7nSCy1ZPVBa3Ohv8LtQQPsQyUEyT1d4Na5gBkHavCfoUIm7epPyL2ND3NG
- Xem2UarP04hzCjcHY8SsFK/dZVogbfGI3sh3LmqB5alwRSRzaCvCUVJlxBZuRZpMXl3D
- rienjtC80IqUdOHIi+nCeCcrZCzKK5GWwE/Cmiof0DOpx0C0mkFW2tRI6XCvRLNP5uwh
- AKlJWnqw/z3bfmI0afhA0yvKGK8Bxzfd2Kmu5056dhIUYNGOnluZAAs9taqjF6XQgKTn
- l3Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7t3q/7j8XANO/eMjtO8F9brWBUGATYE6BRUqKesopmg=;
- b=miZjMcBEK6XrgNxPz1FfM8Ybq74SrHZmbNDpiMWVF/S3OYgGcGWZ2uNiLdbXKsqYJ8
- rVxFgFFFdnt+KOZQCTaRuCAZsBeTKf4wtNCpofw4HuUliFUJW7Y8+rCQ6szDZUr1Cet1
- vsYgyyad5zwksgDF8QrvLGHF4v9E0o92rtkZFbyrdIFZlyXEGQfUeDm8WPRtaIF+wKEN
- C9XPM+R33hCD++uQPk//INB9U6L6Vs0rqP3nlbNLDPoO0a1i8mpQfW0/34+yfaHFWCPz
- tR0Y6sB2TsulbLmf64SRjVxiVOCwdQTfnDPLu/65C9i3W7i2r4G4nYEz4WbMBA4+MhJr
- hFhQ==
-X-Gm-Message-State: AOAM5336QN2GDU9z94zXq//7aC1sCuds3nslOM8L4pp1zHrrVAxZ2Ysv
- z2z/J9cYabq2u9yttDlGGIc=
-X-Google-Smtp-Source: ABdhPJzT/fUvJsMJ+2vfvQjFMTuK3WNZZz5OzNe0peN8lf4vD/Gtv23NBawv8nvDFLArNUxD3+qTTA==
-X-Received: by 2002:a1c:5a08:: with SMTP id o8mr511518wmb.60.1613408340387;
- Mon, 15 Feb 2021 08:59:00 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a9sm21793536wrn.60.2021.02.15.08.58.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:58:59 -0800 (PST)
-Subject: Re: [RFC PATCH 12/42] target/mips/tx79: Move PCPYLD / PCPYUD opcodes
- to decodetree
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-13-f4bug@amsat.org>
- <2606adaa-6558-61da-53e0-c4830f7fc448@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <efff1469-bcf6-92d6-fe9c-188c6112eb14@amsat.org>
-Date: Mon, 15 Feb 2021 17:58:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lBhFP-0001Xr-Bm
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:01:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lBhFL-0005Wk-8u
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 12:01:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613408473;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JYvBcBAK8vtxkk9g9Y9ObdQvN6fIvuA/+COcfL5EPiQ=;
+ b=MqLdOpJ2N64xwC2hplxtJnx6+tWkziMC7fQlkautvh5FMja4XlInsSU9ZzAE6mGXMGIbCY
+ L1h7pnjWGPS3TUy+uvVUEp8ylKMUJUfW2ukUSuQpV4c3btkBj7bbORKsbqlPfGUcO8622g
+ TKzx/OyE7q34XrDekiu1YVD/S/GjgxU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-NfW0VCE9PW2pVWEw2JywuQ-1; Mon, 15 Feb 2021 12:01:11 -0500
+X-MC-Unique: NfW0VCE9PW2pVWEw2JywuQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF3D11005501
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 17:01:10 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DD28B62461;
+ Mon, 15 Feb 2021 17:01:08 +0000 (UTC)
+Date: Mon, 15 Feb 2021 18:01:06 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Vitaly Kuznetsov <vkuznets@redhat.com>
+Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
+ enablement/disablement
+Message-ID: <20210215180106.7e573e6a@redhat.com>
+In-Reply-To: <87eehhlnj5.fsf@vitty.brq.redhat.com>
+References: <20210210164033.607612-1-vkuznets@redhat.com>
+ <20210210164033.607612-17-vkuznets@redhat.com>
+ <20210211183555.2136b5c8@redhat.com>
+ <87tuqhllmn.fsf@vitty.brq.redhat.com>
+ <20210212151259.3db7406f@redhat.com>
+ <87k0rdl3er.fsf@vitty.brq.redhat.com>
+ <20210212170113.30a902b2@redhat.com>
+ <87eehhlnj5.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <2606adaa-6558-61da-53e0-c4830f7fc448@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,34 +86,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Fredrik Noring <noring@nocrew.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 5:28 PM, Richard Henderson wrote:
-> On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
->> +    if (a->rs == 0) {
->> +        tcg_gen_movi_i64(cpu_gpr_hi[a->rd], 0);
->> +    } else {
->> +        tcg_gen_mov_i64(cpu_gpr_hi[a->rd], cpu_gpr[a->rs]);
->> +    }
->> +
->> +    if (a->rt == 0) {
->> +        tcg_gen_movi_i64(cpu_gpr[a->rd], 0);
->> +    } else if (a->rd != a->rt) {
->> +        tcg_gen_mov_i64(cpu_gpr[a->rd], cpu_gpr[a->rt]);
->> +    }
+On Mon, 15 Feb 2021 09:53:50 +0100
+Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+
+> Igor Mammedov <imammedo@redhat.com> writes:
 > 
-> Use gen_load_gpr.
+> >> >
+> >> > Please try reusing scratch CPU approach, see
+> >> >   kvm_arm_get_host_cpu_features()
+> >> > for an example. You will very likely end up with simpler series,
+> >> > compared to reinventing wheel.    
+> >> 
+> >> Even if I do that (and I serioulsy doubt it's going to be easier than
+> >> just adding two 'u64's, kvm_arm_get_host_cpu_features() alone is 200  
+> > it does a lot more then what you need, kvm_arm_create_scratch_host_vcpu()
+> > which it uses will do the job and even that could be made smaller
+> > for hv usecase.
+> >  
+> >> lines long) this is not going to give us what we need to distinguish
+> >> between
+> >> 
+> >> 'hv-passthrough,hv-evmcs'
+> >> 
+> >> and 
+> >> 
+> >> 'hv-passthrough'
+> >> 
+> >> when 'hv-evmcs' *is* supported by the host. When guest CPU lacks VMX we
+> >> don't want to enable it unless it was requested explicitly (former but
+> >> not the later).  
+> > could you elaborate more on it, i.e. why do we need to distinguish and why
+> > do we need evmcs without VMX if user asked for it (will it be usable)
+> >  
+> 
+> We need to distinguish because that would be sane.
+> 
+> Enlightened VMCS is an extension to VMX, it can't be used without
+> it. Genuine Hyper-V doesn't have a knob for enabling and disabling it,
+...
+> That bein said, if
+> guest CPU lacks VMX it is counter-productive to expose EVMCS. However,
+> there is a problem with explicit enablement: what should
+> 
+> 'hv-passthrough,hv-evmcs' option do? Just silently drop EVMCS? Doesn't
+> sound sane to me.
+based on above I'd error out is user asks for unsupported option
+i.e. no VMX -> no hv-evmcs - if explicitly asked -> error out
 
-This is code movement, but I'll clean in a previous patch.
+if later on we find usecase for VMX=off + hv-evmcs=on,
+we will be able to drop error without affecting existing users,
+but not other way around.
 
-> Otherwise,
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >> Moreover, instead of just adding two 'u64's we're now doing an ioctl
+> >> which can fail, be subject to limits,... Creating and destroying a CPU
+> >> is also slow. Sorry, I hardly see how this is better, maybe just from
+> >> 'code purity' point of view.  
+> > readable and easy to maintain code is not a thing to neglect.  
+> 
+> Of couse, but 'scratch CPU' idea is not a good design decision, it is an
+> ugly hack we should get rid of in ARM land, not try bringing it to other
+> architectures. Generally, KVM should allow to query all its capabilities
+> without the need to create a vCPU or, if not possible, we should create
+> 'real' QEMU VCPUs and use one/all of the to query capabilities, avoiding
+> 'scratch' because:
+> - Creating and destroying a vCPU makes VM startup slower, much
+> slower. E.g. for a single-CPU VM you're doubling the time required to
+> create vCPUs!
+> - vCPUs in KVM are quite memory consuming. Just 'struct kvm_vcpu_arch'
+> was something like 12kb last time I looked at it. 
+> 
+> I have no clue why scratch vCPUs were implemented on ARM, however, I'd
+> very much want us to avoid doing the same on x86. We do have use-cases
+> where startup time and consumed memory is important. There is a point in
+> limiting ioctls for security reasons (e.g. if I'm creating a single vCPU
+> VM I may want to limit userspace process to one and only one
+> KVM_CREATE_VCPU call).
+it should be possible to reuse scratch VCPU (kvm file descriptor) as
+the first CPU of VM, if there is a will/need, without creating unnecessary overhead.
+I don't like scratch CPU either but from my pov it's a lesser evil to
+spawning custom parser every time someone fills like it.
 
-Thanks!
+
+> Now to the code you complain about. The 'hard to read and maintain' code
+> is literaly this:
+> 
+> +static void x86_hv_feature_set(Object *obj, bool value, int feature)
+> +{
+> +    X86CPU *cpu = X86_CPU(obj);
+> +
+> +    if (value) {
+> +        cpu->hyperv_features |= BIT(feature);
+> +        cpu->hyperv_features_on |= BIT(feature);
+> +        cpu->hyperv_features_off &= ~BIT(feature);
+> +    } else {
+> +        cpu->hyperv_features &= ~BIT(feature);
+> +        cpu->hyperv_features_on &= ~BIT(feature);
+> +        cpu->hyperv_features_off |= BIT(feature);
+> +    }
+> +}
+It's not just that code but the rest that uses above variables to
+get final hyperv_features feature set. There is a lot of invariants
+that are hidden in hv specific code that you put in hyperv kvm
+specific part.
+
+btw why can't we get supported hyperv_features in passthrough mode
+during time we initialize KVM (without a vCPU)?
+
+> I can add as many comments here as needed, however, I don't see what
+> requires additional explanaition. We just want to know two things:
+> - What's the 'effective' setting of the control
+> - Was it explicitly enabled or disabled on the command line.
+> 
+> Custom parsers are not new in QEMU and they're not going anywhere I
+> believe. There are options with simple enablent and there are some with
+> additional considerations. Trying to make CPU objects somewhat 'special'
+> by forcing all options to be of type-1 (and thus crippling user
+> experience) is not the way to go IMHO. I'd very much like us to go in
+> another direction, make our option parser better so my very simple
+> use-case is covered 'out-of-the-box'.
+there is a lot of effort spent on getting rid of custom parsers that
+QEMU accumulated over years. Probably there were good reasons to add
+them back then, and now someone else has to spend time to clean them up.
+
+hyperv case is not any special in that regard (at least I'm not convinced
+at this point). Try alternative(s) first, if that doesn't work out, then
+custom parser might be necessary.
+
 
