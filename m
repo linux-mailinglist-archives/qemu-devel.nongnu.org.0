@@ -2,81 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9222831C256
+	by mail.lfdr.de (Postfix) with ESMTPS id 5955931C255
 	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:18:14 +0100 (CET)
-Received: from localhost ([::1]:43430 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:43426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBjNt-00044X-Lm
+	id 1lBjNs-00044U-WF
 	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:18:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57210)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBjLV-00033a-SY
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lBjLV-00033c-U2
  for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:15:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45605)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46308)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
- id 1lBjLT-0001X7-4i
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lBjLT-0001X4-6k
  for qemu-devel@nongnu.org; Mon, 15 Feb 2021 14:15:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613416542;
+ s=mimecast20190719; t=1613416541;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qCV6Gb23hyWZd1F9yxfUtxju8e9XSO4AMyPYN1Fy8h0=;
- b=bw2nwIqjZcd/fhpr0A/1TPRIHlb0qfy/Gg+ndORPLrIskIobFs8K1P+JOr57r01TdByHn3
- QKSBjalDkLxKjPGoz0R8AGNDQu68NC01SsrmDsUQjyC9uaTmrKf4RavrL9TlrQ8ZHoW7Oc
- OoOJIJYP80QANs8R9bzSylLIqhlOq38=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-kRUbIMSCMr-eO4iOuC-DKg-1; Mon, 15 Feb 2021 14:15:40 -0500
-X-MC-Unique: kRUbIMSCMr-eO4iOuC-DKg-1
-Received: by mail-vs1-f72.google.com with SMTP id m11so1284663vsp.17
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 11:15:40 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qCV6Gb23hyWZd1F9yxfUtxju8e9XSO4AMyPYN1Fy8h0=;
- b=inhn/LEXABczvTBaECJ6tspPoxSP3hbBXNR/GrRy6GRiNG0PAS60w/H/gzCp4z75Ah
- hI6MDao6A0YKu+6vL3qZ3WdKU0yFmWUVB9b0VfsPfBcws61yF7WFeh4AtAa3jCdQZjkC
- Tb0+aTQAGMIi15NIaqQhUANwUH5gg1u1iYrMeLAbMliTpIWQuRlKcinQOtKUJDIGqrGF
- MS0Zk5zhGH1OyYncY1iZ4+SQdBhZcfQiHWibWuEt38n9A6sT326Lf0q14q4Nestw/5xJ
- IysaI7rjuAxfIzA9P8DDGoeXpFMPI6SljKt5aqcZAoQjhJre20aSorEBZgaTciGPAAiA
- eL0w==
-X-Gm-Message-State: AOAM533sIhqey0/eAWR8tLpV/EziV10e3/ROwH1rIYjMwJVcJHFnwn80
- qvQHcPJfvgPfpZEMoe8QOKm99rvmp348mg9jnQeImgSGz+Zk2YD+jbj78KhXv/k2eHjVuIUqgEa
- GF4x7z3qECaNJkkvtJBlpPJtN5tX6hww=
-X-Received: by 2002:a1f:bd08:: with SMTP id n8mr9614759vkf.1.1613416540009;
- Mon, 15 Feb 2021 11:15:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCQ4mwjDuFKpZj2cpUBN+sxRMI1yEboG/XrFX2vfLyh4Pv2jwMOTsww1YH1sklo5/Ipyw12Uo0j3saUp4Bztk=
-X-Received: by 2002:a1f:bd08:: with SMTP id n8mr9614742vkf.1.1613416539829;
- Mon, 15 Feb 2021 11:15:39 -0800 (PST)
+ bh=+tKdah/4t+7HUPrJVZ+D0Irf19pf/+vyOwdFf6O1TG4=;
+ b=AIZ4O0Lz+czHwzsfldxwM+LajaEOld2E7R5UAzURbXezATax69XbK/br3/mPNLSa3nncWr
+ FdFFfz8y5EXUzpiBIkgCNQWwBYqqWsdc486F1uA16ISX2MhTytOaZIWLGFCHiFvXCUbQq4
+ WuCxKqQjzDB3vwkErSBQwg9+37gSXSI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-360-sC4PRocQP6etaTZscXZpEw-1; Mon, 15 Feb 2021 14:15:37 -0500
+X-MC-Unique: sC4PRocQP6etaTZscXZpEw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7E71107ACC7;
+ Mon, 15 Feb 2021 19:15:36 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0129722E2;
+ Mon, 15 Feb 2021 19:15:26 +0000 (UTC)
+Subject: Re: [PATCH 4/6] Acceptance Tests: log information when creating
+ QEMUMachine
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210211220146.2525771-1-crosa@redhat.com>
+ <20210211220146.2525771-5-crosa@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <0affd566-9511-f581-8925-8fb1c2551848@redhat.com>
+Date: Mon, 15 Feb 2021 16:15:23 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-16-crosa@redhat.com>
-In-Reply-To: <20210203172357.1422425-16-crosa@redhat.com>
-From: Willian Rampazzo <wrampazz@redhat.com>
-Date: Mon, 15 Feb 2021 16:15:14 -0300
-Message-ID: <CAKJDGDZH0o41N-NM5sKmKvmuHvAtj2JBNwcbtvzkg3ZrVOcqOw@mail.gmail.com>
-Subject: Re: [PATCH 15/22] Acceptance Tests: move useful ssh methods to base
- class
-To: Cleber Rosa <crosa@redhat.com>
+In-Reply-To: <20210211220146.2525771-5-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,45 +85,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- John Snow <jsnow@redhat.com>, Eric Auger <eauger@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 3, 2021 at 2:24 PM Cleber Rosa <crosa@redhat.com> wrote:
->
-> Both the virtiofs submounts and the linux ssh mips malta tests
-> contains useful methods related to ssh that deserve to be made
-> available to other tests.  Let's move them to the base LinuxTest
-> class.
->
-> The method that helps with setting up an ssh connection will now
-> support both key and password based authentication, defaulting to key
-> based.
+
+On 2/11/21 7:01 PM, Cleber Rosa wrote:
+> Including its base temporary directory, given that information useful
+> for debugging can be put there.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  tests/acceptance/avocado_qemu/__init__.py | 49 ++++++++++++++++++++++-
->  tests/acceptance/linux_ssh_mips_malta.py  | 38 ++----------------
->  tests/acceptance/virtiofs_submounts.py    | 36 -----------------
->  3 files changed, 51 insertions(+), 72 deletions(-)
+>   tests/acceptance/avocado_qemu/__init__.py | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
+
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+
 >
-
-Here I bring back my comment from patch 14, having a common place for
-test specific classes would bring a better organization to the code.
-Anyway,
-
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> diff --git a/tests/acceptance/avocado_qemu/__init__.py b/tests/acceptance/avocado_qemu/__init__.py
+> index b7ab836455..94b78fd7c8 100644
+> --- a/tests/acceptance/avocado_qemu/__init__.py
+> +++ b/tests/acceptance/avocado_qemu/__init__.py
+> @@ -170,10 +170,12 @@ class Test(avocado.Test):
+>           if self.qemu_bin is None:
+>               self.cancel("No QEMU binary defined or found in the build tree")
+>   
+> -    def _new_vm(self, *args):
+> +    def _new_vm(self, name, *args):
+>           self._sd = tempfile.TemporaryDirectory(prefix="avo_qemu_sock_")
+>           vm = QEMUMachine(self.qemu_bin, base_temp_dir=self.workdir,
+>                            sock_dir=self._sd.name)
+> +        self.log.debug('QEMUMachine "%s" created', name)
+> +        self.log.debug('QEMUMachine "%s" temp_dir: %s', name, vm.temp_dir)
+>           if args:
+>               vm.add_args(*args)
+>           return vm
+> @@ -186,7 +188,7 @@ class Test(avocado.Test):
+>           if not name:
+>               name = str(uuid.uuid4())
+>           if self._vms.get(name) is None:
+> -            self._vms[name] = self._new_vm(*args)
+> +            self._vms[name] = self._new_vm(name, *args)
+>               if self.machine is not None:
+>                   self._vms[name].set_machine(self.machine)
+>           return self._vms[name]
 
 
