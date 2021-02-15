@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 711BB31BFDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:57:54 +0100 (CET)
-Received: from localhost ([::1]:39310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F7131BFA5
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:47:15 +0100 (CET)
+Received: from localhost ([::1]:57640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBhC4-000847-KW
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:57:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
+	id 1lBh1l-0003BS-Rs
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:47:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lBhA2-0007bm-Q9
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:55:46 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44296)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBgzY-0002ZT-9L
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:44:56 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35135)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lBhA1-0004kK-1t
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:55:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lBh9z-0004id-4o
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:55:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 091242E80F3
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:55:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lBgzW-0003TC-QT
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:44:55 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id e9so4245963pjj.0
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:44:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NEclFU1SRq0AzwXnjxFtjDwyqPRFjoq+mgTN1xFuvnE=;
+ b=pKgqUBMTjjw4eDBVCRhcAhcIE4FrPmYIQm8w2Th542I5Z5cKuLax737qNXf6nlyio/
+ y/KYAd/8iAlQuRrcUIKg+eP2qp6uneQf0N10RN5zg2p/jSDs1KiNhNh849dCtg65B35q
+ dSJKRHkcO8bFdQ6fghMcRHk1ZdY2hU36LSUDccxdTfj7vKXkmM1r5MnH8CgDW/ybVPKF
+ poaIymek17tS7MuSq5dcwVPdFrBhfPtpUw8EfVp7ZI8ShQ+3f/4yKoEoIT/LfIuFN9Hu
+ L9jOKKglKq9llrgvaKT0SV6xJebXEbvQ2KFDgMvF8iPrlfLKE9GbPCd3yNAtaIRi3vsz
+ HfZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NEclFU1SRq0AzwXnjxFtjDwyqPRFjoq+mgTN1xFuvnE=;
+ b=Wjdd9o1OP01VICvZPjq3Uvq3oJ2ee3b4I9DwWuiGq8U9eANX0mOqciwi8XiGbFQhBC
+ lvo1rpg1oPKKXCTeck6JiiS0qbDQR72VPoE45E8iIqAO+98B1xLcIyGfBs4FWVqd2iYk
+ vAwzhvKWviU4xXZ5WaJ/m+EJ7HvGVm+wG53q8KIbUtkRMQWby6S9AhSB/4+EBL6W8Gf1
+ 4em9e8Dz8EwoMbFNlqle65SFKyRbomRI/c9s8Z3R91vmsg2XLt6FWWw4c4hT+7xvtyxi
+ MW8h5QkhdzwY67U5I79CbahyZUFtkzqNvFrsefOKiqwLaY+2TcAEvarivt4uFqtxxXwP
+ SMNw==
+X-Gm-Message-State: AOAM530lMpv5+4bffZRl7dB0jWxN7W7PkMF/Jbmh3a1RUPihuX1/al3e
+ tEsrJfy4MwNR0H9gxgG7d45vJw==
+X-Google-Smtp-Source: ABdhPJwB2J6AZgYfPjsWZHytiqAPT/3MXp0FXHFAIMoKHfBUodhP3G/XMxobHtgxleCp1cEyXQisPQ==
+X-Received: by 2002:a17:902:9a49:b029:df:fab8:384 with SMTP id
+ x9-20020a1709029a49b02900dffab80384mr16244796plv.37.1613407492989; 
+ Mon, 15 Feb 2021 08:44:52 -0800 (PST)
+Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
+ by smtp.gmail.com with ESMTPSA id
+ 12sm18252034pjm.28.2021.02.15.08.44.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 15 Feb 2021 08:44:52 -0800 (PST)
+Subject: Re: [RFC PATCH 17/42] target/mips/tx79: Introduce PEXTUW (Parallel
+ Extend Upper from Word)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210214175912.732946-1-f4bug@amsat.org>
+ <20210214175912.732946-18-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <da28d921-ac5a-28d7-af0f-e6e5d23986fc@linaro.org>
+Date: Mon, 15 Feb 2021 08:44:50 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 15 Feb 2021 16:41:58 -0000
-From: Stefan Hajnoczi <1404278@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: 64bit tap windows
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dhsc19 myersjj prideaux90 stefanha tf-x th-huth
- tim-tree-of-life varun-chitre15 wsertz3a
-X-Launchpad-Bug-Reporter: timsoft (tim-tree-of-life)
-X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
-References: <20141219153639.25009.84583.malonedeb@wampee.canonical.com>
-Message-Id: <161340731909.21344.250566060681868029.malone@wampee.canonical.com>
-Subject: [Bug 1404278] Re: tap connections not working on windows host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
-X-Launchpad-Hash: 17b59d20a3f7221a8f5e4f4a1dcf218f7b094a6d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210214175912.732946-18-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,50 +91,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1404278 <1404278@bugs.launchpad.net>
+Cc: Thomas Huth <thuth@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Varun Chitre: I'm not sure the fix was identified, but this one stood
-out in the git log:
+On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
+> +    tcg_gen_deposit_i64(cpu_gpr[a->rd], bx, ax, 32, 32);
+> +    tcg_gen_shri_i64(bx, bx, 32);
+> +    tcg_gen_deposit_i64(cpu_gpr_hi[a->rd], ax, bx, 0, 32);
 
-commit b73c1849148da1229a3c3b336311a8194970b35f
-Author: Andrew Baumann <Andrew.Baumann@microsoft.com>
-Date:   Wed Nov 18 11:45:09 2015 -0800
+I think you should pull this out as a helper:
 
-    tap-win32: disable broken async write path
+void gen_pextw(TCGv_i64 dl, TCGv_i64 dh, TCGv_i64 a, TCGv_i64 b);
 
--- =
+since you'll re-use this for PEXTLW.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1404278
 
-Title:
-  tap connections not working on windows host
-
-Status in QEMU:
-  Fix Released
-
-Bug description:
-  using latest qemu 2.2.0 64bit for windows host (installed from
-  qemu-w64-setup-20141210.exe obtained from http://qemu.weilnetz.de/w64/
-  ),OpenVPN 2.6.3-I601 64bit tap adapter named tap01 and calling qemu
-  using the following.
-
-  qemu-system-x86_64.exe -m 512 -net nic -net tap,ifname=3Dtap01 -hda
-  "c:\\data\\images\\test.img"
-
-  where the image contains a slackware 14.0 64bit install.
-  The tap is bridged with the real network adapter and the bridge is given =
-an ip of 10.1.1.41 (which works as the ip for the windows host). The tap ad=
-apter (in network connections) shows connected when the qemu vm is running.=
- inside the vm, the network is given an ip of 10.1.1.143 (the netmask and d=
-efault gateway are the same for the virtual and real pc).
-  fault.
-  The vm cannot see the rest of the local network or visa-versa. This used =
-to work in early (0.9 32bit) versions of qemu.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1404278/+subscriptions
+r~
 
