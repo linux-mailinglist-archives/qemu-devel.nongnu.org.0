@@ -2,86 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E26531BF8D
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:39:52 +0100 (CET)
-Received: from localhost ([::1]:51954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 711BB31BFDF
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 17:57:54 +0100 (CET)
+Received: from localhost ([::1]:39310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBgud-0008UE-3u
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:39:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53698)
+	id 1lBhC4-000847-KW
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 11:57:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgtH-0007yA-Vw
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:38:28 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:46228)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lBhA2-0007bm-Q9
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:55:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44296)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBgtG-0002Me-CY
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:38:27 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 75so1126468pgf.13
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 08:38:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=GPHqm3YVrL9VkrcMInzslOUDB7Ymwyqx9roo4qagmus=;
- b=r0jNSDquQa6hkv9LeNinXFDG1wNeaad8DlNPspt7pyRZ9vugS9ZOglBzcUglD4B8xa
- Ncqbra8uxek2D0MD6Aa6ncE105Y0hSo/rPXKiStB6nBMk45jN7meu5wnj9DGhnuDC1oZ
- qXtKd57A+2MxLr1LZFyMl8WB0q8YmSwvtRF9obnV6nNKUBnIKMcQziHzONRNYyuALZ4A
- aOqxZx6GxT3P/OhUC4XM0aHv8R05e9b0uTwjG1HO7EAdL6eOfDExHmIO5gr9a/4verNn
- 3e5E6Fll4/gjYoS1cRWeP9ovy+5xg7okBwaAF2cIrayaY9CjVsxpNeVSc/qDKcZ/Assh
- yKXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=GPHqm3YVrL9VkrcMInzslOUDB7Ymwyqx9roo4qagmus=;
- b=WncCooaHmxesgNgF2ySrv2Ofm1fNITh/m7fBbVyHlkrnG/pe3syLgxbTTtZDW+8hbe
- mnfDjFreQICLUKQ9lcuWJeg4qx+8tdgwiDPRrM3cVrp8MiIaqufUYCI5gDGkYIfixb6k
- K3OmTKNW8d9/+HEDxgFEzGHybWgYmoTs1k3PpzL/GN72p97XhR0IBFtTHC2/nBtfNv/U
- FpCi0/+KHBFDQTULdRdyOOZHRCEVZ5q9FzTqfOjvGGWEyVTy7imE86TL3U17bUrzawaK
- m62M4+81SCGmb5VZViV3ZeCpN9WqYyoqSR5bU28816wCShOSe0LMeI22V1UWQBh4ISnh
- P3BA==
-X-Gm-Message-State: AOAM532jOHfyKp48d8ok5WuRDBvI2MbO3Z3EfMorqzhyav86i3GFfEKu
- E4DAc+PbN8xzK7rQ3X+3AJcI8av8SAUpPA==
-X-Google-Smtp-Source: ABdhPJzxB2Qy7x8D4IbGvICV1dTuXp4FxyqRrjJ3whYodCErDgEPrlNCDo0A+V8+c3fOprK3MVVeUQ==
-X-Received: by 2002:a63:1e4b:: with SMTP id p11mr15960524pgm.301.1613407104965; 
- Mon, 15 Feb 2021 08:38:24 -0800 (PST)
-Received: from [192.168.1.11] (174-21-150-71.tukw.qwest.net. [174.21.150.71])
- by smtp.gmail.com with ESMTPSA id
- q188sm19461629pfb.8.2021.02.15.08.38.23
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 08:38:24 -0800 (PST)
-Subject: Re: [RFC PATCH 16/42] target/mips/tx79: Introduce PSUB* opcodes
- (Parallel Subtract)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-17-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fd568d8d-a60f-5644-f8d3-5163ec21173d@linaro.org>
-Date: Mon, 15 Feb 2021 08:38:22 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lBhA1-0004kK-1t
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 11:55:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lBh9z-0004id-4o
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:55:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 091242E80F3
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:55:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-17-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 15 Feb 2021 16:41:58 -0000
+From: Stefan Hajnoczi <1404278@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: 64bit tap windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: dhsc19 myersjj prideaux90 stefanha tf-x th-huth
+ tim-tree-of-life varun-chitre15 wsertz3a
+X-Launchpad-Bug-Reporter: timsoft (tim-tree-of-life)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <20141219153639.25009.84583.malonedeb@wampee.canonical.com>
+Message-Id: <161340731909.21344.250566060681868029.malone@wampee.canonical.com>
+Subject: [Bug 1404278] Re: tap connections not working on windows host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 17b59d20a3f7221a8f5e4f4a1dcf218f7b094a6d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,36 +72,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Fredrik Noring <noring@nocrew.org>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Reply-To: Bug 1404278 <1404278@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
-> +/* Parallel Subtract Byte */
-> +static bool trans_PSUBB(DisasContext *ctx, arg_rtype *a)
-> +{
-> +    return trans_parallel_substract(ctx, a, 8);
-> +}
-> +
-> +/* Parallel Subtract Halfword */
-> +static bool trans_PSUBH(DisasContext *ctx, arg_rtype *a)
-> +{
-> +    return trans_parallel_substract(ctx, a, 16);
-> +}
-> +
-> +/* Parallel Subtract Word */
-> +static bool trans_PSUBW(DisasContext *ctx, arg_rtype *a)
-> +{
-> +    return trans_parallel_substract(ctx, a, 32);
-> +}
+Varun Chitre: I'm not sure the fix was identified, but this one stood
+out in the git log:
 
-We already have helpers for these operations.  Use your trans_parallel_logic
-with tcg_gen_vec_sub{8,16,32}_i64.
+commit b73c1849148da1229a3c3b336311a8194970b35f
+Author: Andrew Baumann <Andrew.Baumann@microsoft.com>
+Date:   Wed Nov 18 11:45:09 2015 -0800
 
+    tap-win32: disable broken async write path
 
-r~
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1404278
+
+Title:
+  tap connections not working on windows host
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  using latest qemu 2.2.0 64bit for windows host (installed from
+  qemu-w64-setup-20141210.exe obtained from http://qemu.weilnetz.de/w64/
+  ),OpenVPN 2.6.3-I601 64bit tap adapter named tap01 and calling qemu
+  using the following.
+
+  qemu-system-x86_64.exe -m 512 -net nic -net tap,ifname=3Dtap01 -hda
+  "c:\\data\\images\\test.img"
+
+  where the image contains a slackware 14.0 64bit install.
+  The tap is bridged with the real network adapter and the bridge is given =
+an ip of 10.1.1.41 (which works as the ip for the windows host). The tap ad=
+apter (in network connections) shows connected when the qemu vm is running.=
+ inside the vm, the network is given an ip of 10.1.1.143 (the netmask and d=
+efault gateway are the same for the virtual and real pc).
+  fault.
+  The vm cannot see the rest of the local network or visa-versa. This used =
+to work in early (0.9 32bit) versions of qemu.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1404278/+subscriptions
 
