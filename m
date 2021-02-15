@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FCF931C309
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 21:33:26 +0100 (CET)
-Received: from localhost ([::1]:40598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D280131C30C
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 21:34:12 +0100 (CET)
+Received: from localhost ([::1]:44012 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBkYf-0006Rj-Ae
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 15:33:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41906)
+	id 1lBkZP-0007qz-V8
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 15:34:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lBkWS-0005sA-9M; Mon, 15 Feb 2021 15:31:08 -0500
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:33517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lBkWQ-0000bC-9b; Mon, 15 Feb 2021 15:31:08 -0500
-Received: by mail-il1-x131.google.com with SMTP id e1so6556759ilu.0;
- Mon, 15 Feb 2021 12:31:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=78fwAa+Rsw01RxG2wWugKvlSZtpYHUe6+3hnhVfYDCw=;
- b=dBmHsztun12FVOFpF17R10e1VYCMWEoXBvlw8Z8j0AN0FJfejEV32fZT+Z2JR5zqVN
- mrDmFCBmq9sneXUbG4nb/opxppy2C59ct0e/b4XfdDuL8qYZUdSi4QN65vNIyUMTaBlR
- O1HjeBVukFmRisuWTxMtWl1QOozRgO9MCf+PDhUgg65mfeZm1V9HZ+S4q+LNjmdNG6De
- Kno5bokmRLKtqgltOmF99L5tQ4bhjcckC+QiD8zb4oR0XmbaA0xGKxW4cze3azYrnAGO
- sjn3A2TN7UX7DcRdoMvbKnoroFEIxMu9y7s8cxpevHK5Y94plmrIG7+8MaHsnF8Vn9JG
- KeMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=78fwAa+Rsw01RxG2wWugKvlSZtpYHUe6+3hnhVfYDCw=;
- b=ivmhehC0/9NMqvZ2RK5LZwn716fXipJhMwROFws+iV74sLwX2nQw+FGDlsau8UKY+C
- nz7an2ZJ2QTk6h8vPFwdz18qrX3STM3hgqPadGJVI1PgqJxQ2dPlOym/AT41ItjQHLU7
- v3oYDEWHLZRDGUC4EcUwrRQx5SG3GlGtknAcWg8w9ufgeKEJfMwM/D8hSCJ44ijZ/o9y
- hrcJFhGRu0F8bOPYfR15mabiQaNyvd6L3Db3U1d3k76cZdZIrOjVe/2Vj9TIULEg8GcX
- bJL+XDlFbyrIR+n6lI8brNq3Jj2IcZ8U3F9ubFd7MTDONOOo0bASRj7u8C8mtXaZVo75
- zQ/g==
-X-Gm-Message-State: AOAM532YDd9snkRlX9NHV5WcN1d7wcAQjavlhISRMLQdafu9p0WRxBKE
- xYbvGEL3HV4d/BS31ENPRk+i89HaYWrzbB6hvW0=
-X-Google-Smtp-Source: ABdhPJwzVKUpmn3bDjEe/zsrPx9tWHxoe/D3cCpjlQGJFjzzpriQX7+HxtVGjMrL7gmr93UBHC9N3nJWhz6lb7ovhZ4=
-X-Received: by 2002:a92:cc03:: with SMTP id s3mr13278062ilp.45.1613421064003; 
- Mon, 15 Feb 2021 12:31:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lBkXT-0006Wh-AN
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 15:32:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24663)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lBkXM-0000zm-Vx
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 15:32:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613421124;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9vmkmr8vSY+OjwAMRMPT5+0qz8c1bNn3LdIfDt3jESs=;
+ b=M7tODbiOrnjQSlx9rqH2DE1/6VpSsgfaug2dcMDFrVtwYy0Bn7IwqzWxOqAx7VfmocEJU0
+ ds5fsx/nRrpePFa8r5UxfHizRGFsiWjVZDFspSeya9hZi+MGlXpAH5x/+FepRP3NiPqbPc
+ RG+/aid3gRr3nJLEeCin0Uot5ge6s7o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-BKYVQZxcPGeMX4emUys8sg-1; Mon, 15 Feb 2021 15:32:02 -0500
+X-MC-Unique: BKYVQZxcPGeMX4emUys8sg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62040195D560;
+ Mon, 15 Feb 2021 20:32:01 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB3A510023B4;
+ Mon, 15 Feb 2021 20:31:48 +0000 (UTC)
+Subject: Re: [PATCH 10/22] Python: add utility function for retrieving port
+ redirection
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-11-crosa@redhat.com>
+ <4d848476-c5b4-2fd0-cbcc-01f87e4dfb71@redhat.com>
+ <20210215182714.GC72984@localhost.localdomain>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <96c1f98d-4b88-ddbd-7d27-c04d65866a9b@redhat.com>
+Date: Mon, 15 Feb 2021 17:31:45 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210211220055.19047-1-nieklinnenbank@gmail.com>
- <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
-In-Reply-To: <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Mon, 15 Feb 2021 21:30:52 +0100
-Message-ID: <CAPan3WqGAzWE+gCqo0Rggu70GpQAbWYyA2thH6LX=oTxhnvRfQ@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Allwinner H3 fixes for EMAC and acceptance tests
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000064a2cb05bb65ddfe"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-il1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210215182714.GC72984@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,166 +87,220 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>, Pavel.Dovgaluk@ispras.ru,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org, f4bug@amsat.org,
- b.galvani@gmail.com, qemu-arm@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, crosa@redhat.com,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Eric Auger <eauger@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000064a2cb05bb65ddfe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Op vr 12 feb. 2021 15:10 schreef Philippe Mathieu-Daud=C3=A9 <philmd@redhat=
-.com>:
-
-> Hi Niek and QEMU community,
+On 2/15/21 3:27 PM, Cleber Rosa wrote:
+> On Tue, Feb 09, 2021 at 11:50:51AM -0300, Wainer dos Santos Moschetta wrote:
+>> Hi,
+>>
+>> On 2/3/21 2:23 PM, Cleber Rosa wrote:
+>>> Slightly different versions for the same utility code are currently
+>>> present on different locations.  This unifies them all, giving
+>>> preference to the version from virtiofs_submounts.py, because of the
+>>> last tweaks added to it.
+>>>
+>>> While at it, this adds a "qemu.util" module to host the utility
+>>> function and a test.
+>>>
+>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>>> ---
+>>>    python/qemu/utils.py                     | 35 ++++++++++++++++++++++++
+>>>    tests/acceptance/info_usernet.py         | 29 ++++++++++++++++++++
+>>>    tests/acceptance/linux_ssh_mips_malta.py | 16 +++++------
+>>>    tests/acceptance/virtiofs_submounts.py   | 20 +++-----------
+>>>    tests/vm/basevm.py                       |  7 ++---
+>>>    5 files changed, 77 insertions(+), 30 deletions(-)
+>>>    create mode 100644 python/qemu/utils.py
+>>>    create mode 100644 tests/acceptance/info_usernet.py
+>> I've a few suggestions:
+>>
+>> - IMHO "utils" is too broad, people may start throwing random stuffs there.
+>> Maybe call it "net". I am sure there will be more net-related code to be
+>> clustered on that module in the future.
+>>
+> It's hard to find the right balance here.  If you take a look at what John
+> is proposing wrt the packaging the "qemu" Python libs, I believe one module
+> is a good compromise at this point.  I really to expect that it will grow
+> and that more modules will be created.
 >
-> On 2/11/21 11:00 PM, Niek Linnenbank wrote:
-> > The following are maintenance patches for the Allwinner H3. The first
-> patch
-> > is a proposal to relocate the binary artifacts of the acceptance tests
-> away
-> > from the apt.armbian.com domain. In the past we had problems with
-> artifacts being
-> > removed, and now the recently added Armbian 20.08.1 image has been
-> removed as well:
-> >
-> > $ wget
-> https://dl.armbian.com/orangepipc/archive/Armbian_20.08.1_Orangepipc_bion=
-ic_current_5.8.5.img.xz
-> > Connecting to dl.armbian.com (dl.armbian.com)|2605:7900:20::5|:443...
-> connected.
-> > ...
-> > HTTP request sent, awaiting response... 404 Not Found
-> > 2021-02-11 22:34:45 ERROR 404: Not Found.
-> >
-> > I've now added the artifacts to a server maintained by me. The machine
-> has a stable
-> > uptime of several years, ~100Mbit bandwidth and plenty of available
-> storage.
-> > Also for other artifacts if needed. I'm open to discuss if there is a
-> proposal
-> > for a better location for these artifacts or a more generic qemu
-> location.
+>> - Rename the method to "get_hostfwd_port()" because the parameter's name
+>> already implies it is expected an "info usernet" output.
+>>
+> I thought about the method name, and decided to keep the more verbose name
+> because this method is *not* about retrieving the "hostfwd port" from a
+> running QEMU, but rather from the output that should be produced by a "info
+> usernet" command.  It may become the foundation of a method on the QEMUMachine
+> class that is called "get_hostfwd_port()" as you suggested, that includes
+> getting the data (that is, issuing a "info usernet" command).
 >
-> Thanks for trying to fix this long standing problem.
+> Anyway, I tend to favor "explicit is better than implicit" approach, but
+> I recognize that I can be too verbose at times.  Let's see if other people
+> chip in with naming suggestions.
 >
-> While this works in your case, this doesn't scale to the community,
-> as not all contributors have access to such hardware and bandwidth /
-> storage.
+>> - Drop the InfoUsernet Test. It is too simple, and the same functionality is
+>> tested indirectly by other tests.
+>>
+> I find "too simple" is a typical case of "famous last words" :D.
+> Now, as a functional test to cover the utility function, it's indeed
+> a bit of overkill.  It'd probably be less necessary if there were unittests
+> for those (and there will hopefully be some soon).
 >
-> While your first patch is useful in showing where the artifacts are
-> stored doesn't matter - as long as we use cryptographic hashes - I
-> think it is a step in the wrong direction, so I am not keen on
-> accepting it.
+> Now, testing *directly* was indeed the intention here. I see a few
+> reasons for that, including saving a good amount of debugging time:
+> such a test failing would provide *direct* indication of where the
+> regression is.  These simpler tests can also be run with targets other
+> than the ones really connecting into guests at this moment (while it's
+> debatable wether such a regression would appear only on such targets).
 
+I confess I was thinking on the impact of many small/simple tests on CI 
+if that become a trend. Time to run a job should be manageable. In this 
+case, having unittests for the utilities is all we need and would save 
+some minutes on CI.
 
-> My personal view is that any contributor should have the same
-> possibilities to add tests to the project.
+On the absence of unittests, I'm not opposed to merge this test.
 
-
-Hi Philippe,
-
-I see your point. How about I simply upload the artifacts to github
-instead? There are already multiple tests right now that use artifacts
-stored on github. And github is available to everyone. For me that would
-work fine. If you agree, I can respin the patch.
-
-Regards
-Niek
-
-Now I am also open to
-> discuss with the others :) I might be proven wrong, and it could
-> be better to rely on good willing contributors rather than having
-> nothing useful at all.
-
-
-> Regards,
 >
-> Phil.
+>>> diff --git a/python/qemu/utils.py b/python/qemu/utils.py
+>>> new file mode 100644
+>>> index 0000000000..89a246ab30
+>>> --- /dev/null
+>>> +++ b/python/qemu/utils.py
+>>> @@ -0,0 +1,35 @@
+>>> +"""
+>>> +QEMU utility library
+>>> +
+>>> +This offers miscellaneous utility functions, which may not be easily
+>>> +distinguishable or numerous to be in their own module.
+>>> +"""
+>>> +
+>>> +# Copyright (C) 2021 Red Hat Inc.
+>>> +#
+>>> +# Authors:
+>>> +#  Cleber Rosa <crosa@redhat.com>
+>>> +#
+>>> +# This work is licensed under the terms of the GNU GPL, version 2.  See
+>>> +# the COPYING file in the top-level directory.
+>>> +#
+>>> +
+>>> +import re
+>>> +from typing import Optional
+>>> +
+>>> +
+>>> +def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optional[int]:
+>>> +    """
+>>> +    Returns the port given to the hostfwd parameter via info usernet
+>>> +
+>>> +    :param info_usernet_output: output generated by hmp command "info usernet"
+>>> +    :param info_usernet_output: str
+>>> +    :return: the port number allocated by the hostfwd option
+>>> +    :rtype: int
+>>> +    """
+>>> +    for line in info_usernet_output.split('\r\n'):
+>>> +        regex = r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
+>>> +        match = re.search(regex, line)
+>>> +        if match is not None:
+>>> +            return int(match[1])
+>>> +    return None
+>>> diff --git a/tests/acceptance/info_usernet.py b/tests/acceptance/info_usernet.py
+>>> new file mode 100644
+>>> index 0000000000..9c1fd903a0
+>>> --- /dev/null
+>>> +++ b/tests/acceptance/info_usernet.py
+>>> @@ -0,0 +1,29 @@
+>>> +# Test for the hmp command "info usernet"
+>>> +#
+>>> +# Copyright (c) 2021 Red Hat, Inc.
+>>> +#
+>>> +# Author:
+>>> +#  Cleber Rosa <crosa@redhat.com>
+>>> +#
+>>> +# This work is licensed under the terms of the GNU GPL, version 2 or
+>>> +# later.  See the COPYING file in the top-level directory.
+>>> +
+>>> +from avocado_qemu import Test
+>>> +
+>>> +from qemu.utils import get_info_usernet_hostfwd_port
+>>> +
+>>> +
+>>> +class InfoUsernet(Test):
+>>> +
+>>> +    def test_hostfwd(self):
+>>> +        self.vm.add_args('-netdev', 'user,id=vnet,hostfwd=:127.0.0.1:0-:22')
+>>> +        self.vm.launch()
+>>> +        res = self.vm.command('human-monitor-command',
+>>> +                              command_line='info usernet')
+>>> +        port = get_info_usernet_hostfwd_port(res)
+>>> +        self.assertIsNotNone(port,
+>>> +                             ('"info usernet" output content does not seem to '
+>>> +                              'contain the redirected port'))
+>>> +        self.assertGreater(port, 0,
+>>> +                           ('Found a redirected port that is not greater than'
+>>> +                            ' zero'))
+>>> diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/linux_ssh_mips_malta.py
+>>> index 25c5c5f741..275659c785 100644
+>>> --- a/tests/acceptance/linux_ssh_mips_malta.py
+>>> +++ b/tests/acceptance/linux_ssh_mips_malta.py
+>>> @@ -18,6 +18,8 @@ from avocado.utils import process
+>>>    from avocado.utils import archive
+>>>    from avocado.utils import ssh
+>>> +from qemu.utils import get_info_usernet_hostfwd_port
+>>> +
+>>>    class LinuxSSH(Test):
+>>> @@ -70,18 +72,14 @@ class LinuxSSH(Test):
+>>>        def setUp(self):
+>>>            super(LinuxSSH, self).setUp()
+>>> -    def get_portfwd(self):
+>>> +    def ssh_connect(self, username, password):
+>>> +        self.ssh_logger = logging.getLogger('ssh')
+>>>            res = self.vm.command('human-monitor-command',
+>>>                                  command_line='info usernet')
+>>> -        line = res.split('\r\n')[2]
+>>> -        port = re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+10\..*',
+>>> -                        line)[1]
+>>> +        port = get_info_usernet_hostfwd_port(res)
+>>> +        if not port:
+>>> +            self.cancel("Failed to retrieve SSH port")
+>> Here I think it should assert not none, otherwise there is a bug somewhere.
+>>
+>> - Wainer
+> I'm trying to be careful and conservative with adding assertions,
+> because IMO those belong to test writers.  IMO the expectation of a
+> user writing a test using "ssh_connect()" as a framework utility,
+> would be more aligned with the framework bailing out, than blatantly
+> setting a test failure.
 >
+> It's similar to what happens if a "vmimage" snapshot can not be
+> created... there's an issue somewhere, but it'd be a bit unfair, and
+> confusing, to set a assertion error (and thus test failure).  But, I
+> think this is the kind of design decision that will evolve with (more)
+> time here.
+I see. I agree with that design, I will keep it in mind when reviewing 
+patches and submitting changes.
 >
+> Let me know if my explanations make sense and change your mind
+> any bit :).
 
---00000000000064a2cb05bb65ddfe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Sure, thanks for the explanations. As I mentioned in my first reply, 
+they were just suggestions. So,
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">Op vr 12 feb. 2021 15:10 schreef Philippe Mathieu-Daud=
-=C3=A9 &lt;<a href=3D"mailto:philmd@redhat.com">philmd@redhat.com</a>&gt;:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">Hi Niek and QEMU community,<br>
-<br>
-On 2/11/21 11:00 PM, Niek Linnenbank wrote:<br>
-&gt; The following are maintenance patches for the Allwinner H3. The first =
-patch<br>
-&gt; is a proposal to relocate the binary artifacts of the acceptance tests=
- away<br>
-&gt; from the <a href=3D"http://apt.armbian.com" rel=3D"noreferrer noreferr=
-er" target=3D"_blank">apt.armbian.com</a> domain. In the past we had proble=
-ms with artifacts being<br>
-&gt; removed, and now the recently added Armbian 20.08.1 image has been rem=
-oved as well:<br>
-&gt; <br>
-&gt; $ wget <a href=3D"https://dl.armbian.com/orangepipc/archive/Armbian_20=
-.08.1_Orangepipc_bionic_current_5.8.5.img.xz" rel=3D"noreferrer noreferrer"=
- target=3D"_blank">https://dl.armbian.com/orangepipc/archive/Armbian_20.08.=
-1_Orangepipc_bionic_current_5.8.5.img.xz</a><br>
-&gt; Connecting to <a href=3D"http://dl.armbian.com" rel=3D"noreferrer nore=
-ferrer" target=3D"_blank">dl.armbian.com</a> (<a href=3D"http://dl.armbian.=
-com" rel=3D"noreferrer noreferrer" target=3D"_blank">dl.armbian.com</a>)|26=
-05:7900:20::5|:443... connected.<br>
-&gt; ...<br>
-&gt; HTTP request sent, awaiting response... 404 Not Found<br>
-&gt; 2021-02-11 22:34:45 ERROR 404: Not Found.<br>
-&gt; <br>
-&gt; I&#39;ve now added the artifacts to a server maintained by me. The mac=
-hine has a stable<br>
-&gt; uptime of several years, ~100Mbit bandwidth and plenty of available st=
-orage.<br>
-&gt; Also for other artifacts if needed. I&#39;m open to discuss if there i=
-s a proposal<br>
-&gt; for a better location for these artifacts or a more generic qemu locat=
-ion.<br>
-<br>
-Thanks for trying to fix this long standing problem.<br>
-<br>
-While this works in your case, this doesn&#39;t scale to the community,<br>
-as not all contributors have access to such hardware and bandwidth /<br>
-storage.<br>
-<br>
-While your first patch is useful in showing where the artifacts are<br>
-stored doesn&#39;t matter - as long as we use cryptographic hashes - I<br>
-think it is a step in the wrong direction, so I am not keen on<br>
-accepting it.</blockquote></div></div><div dir=3D"auto"><div class=3D"gmail=
-_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
--left:1px #ccc solid;padding-left:1ex"><br>
-My personal view is that any contributor should have the same<br>
-possibilities to add tests to the project. </blockquote></div></div><div di=
-r=3D"auto"><br></div><div dir=3D"auto">Hi Philippe,</div><div dir=3D"auto">=
-<br></div><div dir=3D"auto">I see your point. How about I simply upload the=
- artifacts to github instead? There are already multiple tests right now th=
-at use artifacts stored on github. And github is available to everyone. For=
- me that would work fine. If you agree, I can respin the patch.</div><div d=
-ir=3D"auto"><br></div><div dir=3D"auto">Regards</div><div dir=3D"auto">Niek=
-</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D"gmail_quo=
-te"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-lef=
-t:1px #ccc solid;padding-left:1ex">Now I am also open to<br>
-discuss with the others :) I might be proven wrong, and it could<br>
-be better to rely on good willing contributors rather than having<br>
-nothing useful at all.</blockquote></div></div><div dir=3D"auto"><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Regards,<br>
-<br>
-Phil.<br>
-<br>
-</blockquote></div></div></div>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
---00000000000064a2cb05bb65ddfe--
+
+>
+> Thanks for the review!
+> - Cleber.
+
 
