@@ -2,75 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BFAB31C40C
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 23:29:27 +0100 (CET)
-Received: from localhost ([::1]:35266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BAC31C40E
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 23:31:02 +0100 (CET)
+Received: from localhost ([::1]:38372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBmMw-0003eg-KA
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 17:29:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35770)
+	id 1lBmOU-0004zg-1f
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 17:31:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBmLU-0002fE-I8
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:27:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50156)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBmLT-0007fg-39
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:27:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613428074;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Yc63Ej0tOiKDmlDwH8yOnHfUumkkhBI4Fv+5rim19pc=;
- b=OglgTBqOMYucx2jmgqnAGg3BHWpNblJd9bUThwed0FOt5kekiNzwHz3JDHq6wkdIj+OlVu
- mEV11JG9GX22WffcrAeXw8WBfpReOUJmMun2uojI4EhgwQPOdXZi7qp9r8j2F3Aj9vG49g
- hJ6waol7dQ6RDwrjXVL4M4wPlwsltCU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-13-UjUsGpd_PlyxECBAkqwFzQ-1; Mon, 15 Feb 2021 17:27:52 -0500
-X-MC-Unique: UjUsGpd_PlyxECBAkqwFzQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B98E910066EE;
- Mon, 15 Feb 2021 22:27:51 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 04BD92BFEC;
- Mon, 15 Feb 2021 22:27:46 +0000 (UTC)
-Subject: Re: [PATCH 2/6] Python: expose QEMUMachine's temporary directory
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210211220146.2525771-1-crosa@redhat.com>
- <20210211220146.2525771-3-crosa@redhat.com>
- <3830f6ae-5f92-fc0f-99dd-0783c1cd13a2@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <a541cda7-47db-fc58-cd4d-e7a3aa8f0189@redhat.com>
-Date: Mon, 15 Feb 2021 17:27:46 -0500
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lBmNH-0004Tu-SN
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:29:47 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38012
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lBmNG-0008Aa-CI
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 17:29:47 -0500
+Received: from host109-153-84-1.range109-153.btcentralplus.com ([109.153.84.1]
+ helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lBmNV-0001Xv-Ld; Mon, 15 Feb 2021 22:30:07 +0000
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-4-mark.cave-ayland@ilande.co.uk>
+ <743ad0ea-6b85-29cb-8f92-60b4d9f0e9de@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <4cdbc056-fc58-15f7-b480-860b1821974e@ilande.co.uk>
+Date: Mon, 15 Feb 2021 22:29:33 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <3830f6ae-5f92-fc0f-99dd-0783c1cd13a2@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <743ad0ea-6b85-29cb-8f92-60b4d9f0e9de@amsat.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 109.153.84.1
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 03/42] esp: QOMify the internal ESP device state
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,29 +65,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 1:50 PM, Wainer dos Santos Moschetta wrote:
+On 12/02/2021 18:51, Philippe Mathieu-Daudé wrote:
+
+> On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
+>> Make this new QOM device state a child device of both the sysbus-esp and esp-pci
+>> implementations.
+>>
+>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>> ---
+>>   hw/scsi/esp-pci.c     | 48 +++++++++++++++++++++++++++++++------------
+>>   hw/scsi/esp.c         | 45 +++++++++++++++++++++++++++++++++-------
+>>   include/hw/scsi/esp.h |  5 +++++
+>>   3 files changed, 78 insertions(+), 20 deletions(-)
 > 
-> In qtest.QEMUQtestMachine.__init__(), the argument named 'test_dir' 
-> still make sense, right?
+> Please setup scripts/git.orderfile ;)
+
+I will have to take a look at this at some point - it has been on my TODO list for a 
+while :)
+
+>> @@ -354,9 +365,11 @@ static void esp_pci_scsi_realize(PCIDevice *dev, Error **errp)
+>>   {
+>>       PCIESPState *pci = PCI_ESP(dev);
+>>       DeviceState *d = DEVICE(dev);
+>> -    ESPState *s = &pci->esp;
+>> +    ESPState *s = ESP(&pci->esp);
+>>       uint8_t *pci_conf;
+>>   
+>> +    qdev_realize(DEVICE(s), NULL, errp);
 > 
-> - Wainer
+>         if (!qdev_realize(DEVICE(s), NULL, errp)) {
+>             return;
+>         }
+> 
+>>       pci_conf = dev->config;
+>>   
+>>       /* Interrupt pin A */
+>> @@ -375,11 +388,19 @@ static void esp_pci_scsi_realize(PCIDevice *dev, Error **errp)
+>>       scsi_bus_new(&s->bus, sizeof(s->bus), d, &esp_pci_scsi_info, NULL);
+>>   }
+> ...
+> 
+>> @@ -956,7 +958,9 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
+>>   {
+>>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+>>       SysBusESPState *sysbus = SYSBUS_ESP(dev);
+>> -    ESPState *s = &sysbus->esp;
+>> +    ESPState *s = ESP(&sysbus->esp);
+>> +
+>> +    qdev_realize(DEVICE(s), NULL, errp);
+> 
+>         if (!qdev_realize(DEVICE(s), NULL, errp)) {
+>             return;
+>         }
+> 
+> With both if():
+> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-It might upset pylint/mypy to rename parameters in the initializer for a 
-parent class. If we rename it in the base class, we should rename it in 
-the descendants, too.
+Great! I've added the if() statements and added your R-B to the patch.
 
-(I say "might" because I have not yet worked out under the exact 
-conditions that mypy will give you LSP warnings for initializer methods. 
-It definitely doesn't always seem to, but I have run afoul of it enough 
-times that I try to avoid it as a matter of habit now.)
 
+ATB,
+
+Mark.
 
