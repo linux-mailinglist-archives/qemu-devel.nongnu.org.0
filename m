@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7759E31C1F3
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:52:09 +0100 (CET)
-Received: from localhost ([::1]:43976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E05CB31C214
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:00:57 +0100 (CET)
+Received: from localhost ([::1]:48326 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBiye-0007nx-29
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:52:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52846)
+	id 1lBj79-0001cI-P0
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:00:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lBix1-00076r-Tt
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:50:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35025)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lBj4t-0000bj-LK
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47413)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lBiwv-0006sp-Bh
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:50:27 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lBj4q-00025B-Rp
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613415020;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1613415510;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=niE5yTbpvKwDm/IAJ42SkMefry7QtnRs4IS0fP+Spfg=;
- b=fXdV3J4DqbOlG3wBwXCxwdiUdgdgjVa+OXCTRQHTIhAgbWtS483Db9FIq2Hem0mXagNQoC
- XMiQK5niar6vlUw3xMc4B08eTyi6DbjL5/iitCsZuJseDbqpeVxMguj6GdNPt9yZr+k1F1
- V66iXKJ6vmwNVzOwfqsS/UjNZ0CM3P0=
+ bh=Wi4Tj72nrnzHBOhRmakgAqO++z3qPPkRvOwHlfFy8fQ=;
+ b=Qd0dngj6g4vPZW1uFhtJ/cVrYJ7YJHeSjxhNzP2UXjN3vnKh6RyRoztpJ/C5+d8RQT5glD
+ 8LalDjYDiOTRqVwHt1ycHuhfBVUl0nF4UxzEhe3WljtVV6wjpcKVTfanwfs9xWczEnkLhe
+ C/ljeN6qJ0981XiWVe0Kykkb/rHTAsA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-LnL4vrMfPjOkt5TxI_kQvQ-1; Mon, 15 Feb 2021 13:50:18 -0500
-X-MC-Unique: LnL4vrMfPjOkt5TxI_kQvQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-294-oK8PciQJPA--VtAz9GrTog-1; Mon, 15 Feb 2021 13:58:28 -0500
+X-MC-Unique: oK8PciQJPA--VtAz9GrTog-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6AD701936B69;
- Mon, 15 Feb 2021 18:50:17 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4111E10016DB;
- Mon, 15 Feb 2021 18:50:07 +0000 (UTC)
-Subject: Re: [PATCH 2/6] Python: expose QEMUMachine's temporary directory
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210211220146.2525771-1-crosa@redhat.com>
- <20210211220146.2525771-3-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <3830f6ae-5f92-fc0f-99dd-0783c1cd13a2@redhat.com>
-Date: Mon, 15 Feb 2021 15:50:04 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BC97192D785;
+ Mon, 15 Feb 2021 18:58:27 +0000 (UTC)
+Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CEA770483;
+ Mon, 15 Feb 2021 18:58:25 +0000 (UTC)
+Date: Mon, 15 Feb 2021 18:58:22 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH 00/33] migration: capture error reports into Error object
+Message-ID: <20210215185822.GM1542881@redhat.com>
+References: <20210204171907.901471-1-berrange@redhat.com>
+ <20210204182249.GO3039@work-vm>
+ <20210204190927.GB903389@redhat.com>
+ <20210208132903.GH3032@work-vm>
+ <20210208134206.GH1141037@redhat.com> <YCq/jV1wa4EiVZQK@work-vm>
 MIME-Version: 1.0
-In-Reply-To: <20210211220146.2525771-3-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <YCq/jV1wa4EiVZQK@work-vm>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,156 +85,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Juan Quintela <quintela@redhat.com>,
+ Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Mon, Feb 15, 2021 at 06:38:05PM +0000, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > On Mon, Feb 08, 2021 at 01:29:03PM +0000, Dr. David Alan Gilbert wrote:
+> > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > On Thu, Feb 04, 2021 at 06:22:49PM +0000, Dr. David Alan Gilbert wrote:
+> > > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
+> > > > > > Due to its long term heritage most of the migration code just invokes
+> > > > > > 'error_report' when problems hit. This was fine for HMP, since the
+> > > > > > messages get redirected from stderr, into the HMP console. It is not
+> > > > > > OK for QMP because the errors will not be fed back to the QMP client.
+> > > > > > 
+> > > > > > This wasn't a terrible real world problem with QMP so far because
+> > > > > > live migration happens in the background, so at least on the target side
+> > > > > > there is not a QMP command that needs to capture the incoming migration.
+> > > > > > It is a problem on the source side but it doesn't hit frequently as the
+> > > > > > source side has fewer failure scenarios. None the less on both sides it
+> > > > > > would be desirable if 'query-migrate' can report errors correctly.
+> > > > > > With the introduction of the load-snapshot QMP commands, the need for
+> > > > > > error reporting becomes more pressing.
+> > > > > > 
+> > > > > > Wiring up good error reporting is a large and difficult job, which
+> > > > > > this series does NOT complete. The focus here has been on converting
+> > > > > > all methods in savevm.c which have an 'int' return value capable of
+> > > > > > reporting errors. This covers most of the infrastructure for controlling
+> > > > > > the migration state serialization / protocol.
+> > > > > > 
+> > > > > > The remaining part that is missing error reporting are the callbacks in
+> > > > > > the VMStateDescription struct which can return failure codes, but have
+> > > > > > no "Error **errp" parameter. Thinking about how this might be dealt with
+> > > > > > in future, a big bang conversion is likely non-viable. We'll probably
+> > > > > > want to introduce a duplicate set of callbacks with the "Error **errp"
+> > > > > > parameter and convert impls in batches, eventually removing the
+> > > > > > original callbacks. I don't intend todo that myself in the immediate
+> > > > > > future.
+> > > > > > 
+> > > > > > IOW, this patch series probably solves 50% of the problem, but we
+> > > > > > still do need the rest to get ideal error reporting.
+> > > > > > 
+> > > > > > In doing this savevm conversion I noticed a bunch of places which
+> > > > > > see and then ignore errors. I only fixed one or two of them which
+> > > > > > were clearly dubious. Other places in savevm.c where it seemed it
+> > > > > > was probably ok to ignore errors, I've left using error_report()
+> > > > > > on the basis that those are really warnings. Perhaps they could
+> > > > > > be changed to warn_report() instead.
+> > > > > > 
+> > > > > > There are alot of patches here, but I felt it was easier to review
+> > > > > > for correctness if I converted 1 function at a time. The series
+> > > > > > does not neccessarily have to be reviewed/appied in 1 go.
+> > > > > 
+> > > > > After this series, what do my errors look like, and where do they end
+> > > > > up?
+> > > > > Do I get my nice backtrace shwoing that device failed, then that was
+> > > > > part of that one...
+> > > > 
+> > > > It hasn't modified any of the VMStateDescription callbacks so any
+> > > > of the per-device logic that was printing errors will still be using
+> > > > error_report to the console as before.
+> > > > 
+> > > > The errors that have changed (at this stage) are only the higher
+> > > > level ones that are in the generic part of the code. Where those
+> > > > errors mentioned a device name/ID they still do.
+> > > > 
+> > > > In some of the parts I've modified there will have been multiple
+> > > > error_reports collapsed into one error_setg() but the ones that
+> > > > are eliminated are high level generic messages with no useful
+> > > > info, so I don't think loosing those is a problem per-se.
+> > > > 
+> > > > The example that I tested was the case where we load a snapshot
+> > > > under a different config that we saved it with. This is the scenario
+> > > > that gave the non-deterministic ordering in the iotest you disabled
+> > > > from my previous series.
+> > > > 
+> > > > In that case, we changed from:
+> > > > 
+> > > >   qemu-system-x86_64: Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
+> > > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Error -22 while loading VM state"}]}
+> > > > 
+> > > > To
+> > > > 
+> > > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices"}]}
+> > > > 
+> > > > From a HMP loadvm POV, this means instead of seeing
+> > > > 
+> > > >   (hmp)  loadvm foo
+> > > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
+> > > >   Error -22 while loading VM state
+> > > > 
+> > > > You will only see the detailed error message
+> > > > 
+> > > >   (hmp)  loadvm foo
+> > > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
+> > > > 
+> > > > In this case I think loosing the "Error -22 while loading VM state"
+> > > > is fine, as it didn't add value IMHO.
+> > > > 
+> > > > 
+> > > > If we get around to converting the VMStateDescription callbacks to
+> > > > take an error object, then I think we'll possibly need to stack the
+> > > > error message from the callback, with the higher level message.
+> > > > 
+> > > > Do you have any familiar/good examples of error message stacking I
+> > > > can look at ?  I should be able to say whether they would be impacted
+> > > > by this series or not - if they are, then I hopefully only threw away
+> > > > the fairly useless high level messages, like the "Error -22" message
+> > > > above.
+> > > 
+> > > Can you try migrating:
+> > >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng,disable-modern=true
+> > > to
+> > >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng
+> > > 
+> > > what I currently get is:
+> > > qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
+> > > qemu-system-x86_64: Failed to load PCIDevice:config
+> > > qemu-system-x86_64: Failed to load virtio-rng:virtio
+> > > qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
+> > > qemu-system-x86_64: load of migration failed: Invalid argument
+> > 
+> > After my patches the very last line is gone.
+> > 
+> > So, still reporting using  error_report() is the first 3:
+> > 
+> >  qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
+> >  qemu-system-x86_64: Failed to load PCIDevice:config
+> >  qemu-system-x86_64: Failed to load virtio-rng:virtio
+> > 
+> > Then reported in process_incoming_migration_co() using the message
+> > populated in the Error object, using error_report_err():
+> > 
+> >  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
+> > 
+> > Finally, this is no longer reported:
+> > 
+> >  qemu-system-x86_64: load of migration failed: Invalid argument
+> > 
+> > So in this case we've not lost any useful information
+> 
+> One thing to check, and I *think* you're OK, but we have one place where
+> we actually check the error number:
+> 
+> migration.c:
+> 3414 static MigThrError migration_detect_error(MigrationState *s)
+> ...
+> 3426     /* Try to detect any file errors */
+> 3427     ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
+> 3428     if (!ret) {
+> 3429         /* Everything is fine */
+> 3430         assert(!local_error);
+> 3431         return MIG_THR_ERR_NONE;
+> 3432     }
+> 3433 
+> 3434     if (local_error) {
+> 3435         migrate_set_error(s, local_error);
+> 3436         error_free(local_error);
+> 3437     }
+> 3438 
+> 3439     if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret == -EIO) {
+> 3440         /*
+> 3441          * For postcopy, we allow the network to be down for a
+> 3442          * while. After that, it can be continued by a
+> 3443          * recovery phase.
+> 3444          */
+> 3445         return postcopy_pause(s);
+> 3446     } else {
+> 
+> This is to go into postcopy pause if the network connection broke (but
+> not if for example a device moaned about being in an invalid state)
+> 
+> If I read this correctly, file errors are still being preserved - is
+> that correct?
 
-On 2/11/21 7:01 PM, Cleber Rosa wrote:
-> Each instance of qemu.machine.QEMUMachine currently has a "test
-> directory", which may not have any relation to a "test", and it's
-> really a temporary directory.
->
-> Users instantiating the QEMUMachine class will be able to set the
-> location of the directory that will *contain* the QEMUMachine unique
-> temporary directory, so that parameter name has been changed from
-> test_dir to base_temp_dir.
->
-> A property has been added to allow users to access it without using
-> private attributes, and with that, the directory is created on first
-> use of the property.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> ---
->   python/qemu/machine.py         | 24 ++++++++++++++++--------
->   python/qemu/qtest.py           |  6 +++---
->   tests/acceptance/virtio-gpu.py |  2 +-
->   tests/qemu-iotests/iotests.py  |  2 +-
->   4 files changed, 21 insertions(+), 13 deletions(-)
->
-> diff --git a/python/qemu/machine.py b/python/qemu/machine.py
-> index 6e44bda337..b379fcbe72 100644
-> --- a/python/qemu/machine.py
-> +++ b/python/qemu/machine.py
-> @@ -84,7 +84,7 @@ class QEMUMachine:
->                    args: Sequence[str] = (),
->                    wrapper: Sequence[str] = (),
->                    name: Optional[str] = None,
-> -                 test_dir: str = "/var/tmp",
-> +                 base_temp_dir: str = "/var/tmp",
->                    monitor_address: Optional[SocketAddrT] = None,
->                    socket_scm_helper: Optional[str] = None,
->                    sock_dir: Optional[str] = None,
-> @@ -97,10 +97,10 @@ class QEMUMachine:
->           @param args: list of extra arguments
->           @param wrapper: list of arguments used as prefix to qemu binary
->           @param name: prefix for socket and log file names (default: qemu-PID)
-> -        @param test_dir: where to create socket and log file
-> +        @param base_temp_dir: default location where temporary files are created
->           @param monitor_address: address for QMP monitor
->           @param socket_scm_helper: helper program, required for send_fd_scm()
-> -        @param sock_dir: where to create socket (overrides test_dir for sock)
-> +        @param sock_dir: where to create socket (defaults to base_temp_dir)
->           @param drain_console: (optional) True to drain console socket to buffer
->           @param console_log: (optional) path to console log file
->           @note: Qemu process is not started until launch() is used.
-> @@ -112,8 +112,8 @@ class QEMUMachine:
->           self._wrapper = wrapper
->   
->           self._name = name or "qemu-%d" % os.getpid()
-> -        self._test_dir = test_dir
-> -        self._sock_dir = sock_dir or self._test_dir
-> +        self._base_temp_dir = base_temp_dir
-> +        self._sock_dir = sock_dir or self._base_temp_dir
->           self._socket_scm_helper = socket_scm_helper
->   
->           if monitor_address is not None:
-> @@ -303,9 +303,7 @@ class QEMUMachine:
->           return args
->   
->       def _pre_launch(self) -> None:
-> -        self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
-> -                                          dir=self._test_dir)
-> -        self._qemu_log_path = os.path.join(self._temp_dir, self._name + ".log")
-> +        self._qemu_log_path = os.path.join(self.temp_dir, self._name + ".log")
->           self._qemu_log_file = open(self._qemu_log_path, 'wb')
->   
->           if self._console_set:
-> @@ -744,3 +742,13 @@ class QEMUMachine:
->                   file=self._console_log_path,
->                   drain=self._drain_console)
->           return self._console_socket
-> +
-> +    @property
-> +    def temp_dir(self) -> str:
-> +        """
-> +        Returns a temporary directory to be used for this machine
-> +        """
-> +        if self._temp_dir is None:
-> +            self._temp_dir = tempfile.mkdtemp(prefix="qemu-machine-",
-> +                                              dir=self._base_temp_dir)
-> +        return self._temp_dir
-> diff --git a/python/qemu/qtest.py b/python/qemu/qtest.py
-> index 39a0cf62fe..78b97d13cf 100644
-> --- a/python/qemu/qtest.py
-> +++ b/python/qemu/qtest.py
-> @@ -112,14 +112,14 @@ class QEMUQtestMachine(QEMUMachine):
->                    binary: str,
->                    args: Sequence[str] = (),
->                    name: Optional[str] = None,
-> -                 test_dir: str = "/var/tmp",
-> +                 base_temp_dir: str = "/var/tmp",
+Yes, in places where QemuFile is reporting an actual I/O error I've
+tried to preserve that. Only removed setting of fake I/O errors. So
+if anything, we ought to get more accurate at detecting the recoverable
+scenarios once we fully cleanup errors.
 
 
-In qtest.QEMUQtestMachine.__init__(), the argument named 'test_dir' 
-still make sense, right?
-
-- Wainer
-
->                    socket_scm_helper: Optional[str] = None,
->                    sock_dir: Optional[str] = None):
->           if name is None:
->               name = "qemu-%d" % os.getpid()
->           if sock_dir is None:
-> -            sock_dir = test_dir
-> -        super().__init__(binary, args, name=name, test_dir=test_dir,
-> +            sock_dir = base_temp_dir
-> +        super().__init__(binary, args, name=name, base_temp_dir=base_temp_dir,
->                            socket_scm_helper=socket_scm_helper,
->                            sock_dir=sock_dir)
->           self._qtest: Optional[QEMUQtestProtocol] = None
-> diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-> index 211f02932f..8d689eb820 100644
-> --- a/tests/acceptance/virtio-gpu.py
-> +++ b/tests/acceptance/virtio-gpu.py
-> @@ -119,7 +119,7 @@ class VirtioGPUx86(Test):
->           os.set_inheritable(vug_sock.fileno(), True)
->   
->           self._vug_log_path = os.path.join(
-> -            self.vm._test_dir, "vhost-user-gpu.log"
-> +            self.vm.temp_dir, "vhost-user-gpu.log"
->           )
->           self._vug_log_file = open(self._vug_log_path, "wb")
->           print(self._vug_log_path)
-> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index 00be68eca3..b02a3dc092 100644
-> --- a/tests/qemu-iotests/iotests.py
-> +++ b/tests/qemu-iotests/iotests.py
-> @@ -562,7 +562,7 @@ class VM(qtest.QEMUQtestMachine):
->       def __init__(self, path_suffix=''):
->           name = "qemu%s-%d" % (path_suffix, os.getpid())
->           super().__init__(qemu_prog, qemu_opts, name=name,
-> -                         test_dir=test_dir,
-> +                         base_temp_dir=test_dir,
->                            socket_scm_helper=socket_scm_helper,
->                            sock_dir=sock_dir)
->           self._num_drives = 0
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
