@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E936D31C363
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 22:05:06 +0100 (CET)
-Received: from localhost ([::1]:60300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB4731C366
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 22:07:30 +0100 (CET)
+Received: from localhost ([::1]:38124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBl3J-0004Dl-RB
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 16:05:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48236)
+	id 1lBl5d-0006tr-Nj
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 16:07:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBl1A-0002AY-Am
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:02:53 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:45940)
+ id 1lBl2w-0004VF-FE
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:04:42 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:46376)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBl14-0006a1-5H
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:02:52 -0500
-Received: by mail-pl1-x636.google.com with SMTP id b8so4342902plh.12
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 13:02:45 -0800 (PST)
+ id 1lBl2u-0007XA-6E
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 16:04:42 -0500
+Received: by mail-pf1-x432.google.com with SMTP id k13so4848262pfh.13
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 13:04:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=KEI60WRjq4C/qOpfB860PJkbu/GQeVcyQrFemf42j30=;
- b=aVdxq5nbVycgZWOkDKRZgWtMVuIuj4wJ895OZAj9GEdSkrWlhkkGLDXa86LNvFuRsi
- v7cN4uru8XupIUdgYYeHgiJXDfmIafvmzpwBALY1Rbd8mW3q9S08asUU6BLEVF3T32b6
- Iy74AYjzytVf6ljuZP3saCzsMc7ls03upYrcOU1gHfKFXoadIfPapm01nfnatk52w28w
- CroIZhi/JbkeyTOgH83bCgT3mN+usjQoScvgDChRXwdMky2lq3AHkcwGESAJCOWGJZp7
- KxKp9pj9pp7di3OFk2l7JitWcFkCyukpP/vEgu8GIKBmVRx6W0pzMKqk0BSp2HxKZJdm
- eGkg==
+ bh=uDIU0Nzem+epLirhZd1hhcsXIYnfDnVstAX3JrE96lY=;
+ b=ky53PSLyjpZvmUrM3rdOqSogsP4MLmpO4FIDryxf3QtPk1i/kJxAgSWJL9KDhSqLlO
+ vTAgxhJ9hYUzJxx9LLaDHhERw9KztQBk2tJQRISHsuUprH4UUnwg/P/o3beNxmHEqC+h
+ o7yvJZ7GH1dErrKmVV/BbkLHyR3NMllfonyzHtpSnTXHabu0qNUkneiRLBsg0qgYgAoP
+ ADoDheBWHysYF86NrROakvKaqiApLmZQwDaMVJoHUyyNXmBgPnIlTLgiDpCVCu6/uGyu
+ ABLsb05b64tWalbHLLaX+q+SRbKdcVRXoVW6EciDwR4bdPRnohM3HVQdRHE0066aenRk
+ m1ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=KEI60WRjq4C/qOpfB860PJkbu/GQeVcyQrFemf42j30=;
- b=RncWfSij8FyBHXWXw/MGzKJMoSTlvH+lPjRgR3B4uUiMG7r407pAMrBfxVzm8tg38o
- R9wZ5Qb1bHDLqnzBKJXO2swmle8lKKpCxNfqRgc+j5PHNr1ArTNq4EyvIrAkGrHrWmRV
- 12lkdPMM+IbFKD+vJQRbwIJpSR4hBXo/WJBvQl2gjXORz63WqotOUZO5FZg03/98Gowf
- tYZFBeFGQ1+HlPGA0M8lydJW859Fp2HIqMytnXVJGK3LCThMZPbGM0TxWkke3HpqMdMc
- RfeZa2SJe3SrxFwC6vEkWbeb6gYXbrvhnO3SzLNA1I676OlWsWaUl1S4MXXjvQtguPaN
- BNmA==
-X-Gm-Message-State: AOAM531ODOTq60Q4PZhwUah4dqbmTvjldvtgM5tj0zrtMU38OjwTcnkD
- 2PHEHq0RU5q3mElnQ9jcja+SFw==
-X-Google-Smtp-Source: ABdhPJw0k+34DcS/tPikzJY+JCbEQnSY1SMIFXHnIZ+eN86cEmP8POGDkhH+lxE70e633/q7XGuRmA==
-X-Received: by 2002:a17:90a:4fa1:: with SMTP id
- q30mr688006pjh.230.1613422964484; 
- Mon, 15 Feb 2021 13:02:44 -0800 (PST)
+ bh=uDIU0Nzem+epLirhZd1hhcsXIYnfDnVstAX3JrE96lY=;
+ b=ABolUkCpDVTy0JTKrvrHxcENEdoh028rjNoD1gslWJWXz0wFLS0c5793cNkX5v4A3l
+ qd/xauzI2IGqX3VYS/iX42qSS5RYmZxzlfW3n4Io2OdmwaibZu+L7TY8xdQT/xO6J2ik
+ qn2keTrXnMhCRD///TuesBQ1mCC0qGRsf2rL7jM91b4rRRGAzsuhUEMk4/6ySoqalTpY
+ 3shTrQqwjS0X4U3rjVnkv+BB8uuT6BgwC/Qukvp1aG0r69v4gD/u7GvV9Fc1JpMYjAuK
+ ZB9HSlAEJsHBEvHXxuBj6VhEBIOldGZSfgeBrqwwcY6ulBAc+e82A9eu1stBKco2uEJZ
+ b0YA==
+X-Gm-Message-State: AOAM532d8/RPl53tKa2yCn+FcEb+4Cq0C/dw9z1CIzHHixOe4GcpktDc
+ dTFt4BW0X8rb2CFNnr5zwS5x9w==
+X-Google-Smtp-Source: ABdhPJyjcSUXBnXPbkP4pAv4SufRuy4z4pj43mNJQ/bgol1sPODd26+gs6gdLZtYgaFk/yhHLtGlrg==
+X-Received: by 2002:a63:574b:: with SMTP id h11mr16232288pgm.25.1613423078904; 
+ Mon, 15 Feb 2021 13:04:38 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id l21sm339149pjy.31.2021.02.15.13.02.43
+ by smtp.gmail.com with ESMTPSA id u15sm2687758pfm.130.2021.02.15.13.04.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 13:02:43 -0800 (PST)
-Subject: Re: [RFC PATCH 29/42] linux-user/mips64: Support the n32 ABI for the
- R5900
+ Mon, 15 Feb 2021 13:04:38 -0800 (PST)
+Subject: Re: [RFC PATCH 30/42] target/mips: Reintroduce the R5900 CPU
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-30-f4bug@amsat.org>
+ <20210214175912.732946-31-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6166652f-0046-450d-7b35-e95278fa2f5c@linaro.org>
-Date: Mon, 15 Feb 2021 13:02:42 -0800
+Message-ID: <0d0fb390-b0c9-7ab1-7cc3-564356fc501f@linaro.org>
+Date: Mon, 15 Feb 2021 13:04:36 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-30-f4bug@amsat.org>
+In-Reply-To: <20210214175912.732946-31-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,21 +96,20 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/14/21 9:58 AM, Philippe Mathieu-Daudé wrote:
-> From: Fredrik Noring <noring@nocrew.org>
+On 2/14/21 9:59 AM, Philippe Mathieu-Daudé wrote:
+> Now that we have the minimum prerequisites to support the
+> R5900 CPU, we can reintroduce it.
 > 
-> Recognise the R5900, which reports itself as MIPS III, as a 64-bit CPU
-> supporting the n32 ABI.
+> While we are reverting commit 823f2897bdd ("Disable R5900
+> support"), we effectively cherry-pick commit ed4f49ba9bb
+> ("target/mips: Define the R5900 CPU").
 > 
-> Signed-off-by: Fredrik Noring <noring@nocrew.org>
-> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-Id: <5bea109f0c140da6a821aa7f9705d4b3717e86dc.1541701393.git.noring@nocrew.org>
+> This reverts commit 823f2897bdd78185f3ba33292a25105ba8bad1b5.
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  linux-user/mips64/target_elf.h | 3 +++
->  1 file changed, 3 insertions(+)
+>  target/mips/cpu-defs.c.inc | 59 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 59 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
