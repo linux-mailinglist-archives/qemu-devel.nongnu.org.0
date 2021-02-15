@@ -2,64 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD2331C17F
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:29:09 +0100 (CET)
-Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52BAF31C184
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:29:56 +0100 (CET)
+Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBicO-0004N4-7K
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:29:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
+	id 1lBid9-0004gY-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:29:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBiaq-0003Ox-HB
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:27:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42853)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lBibP-0003jS-Du
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:28:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38220)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBiao-0004ok-8t
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:27:32 -0500
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lBibN-000559-L0
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:28:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613413649;
+ s=mimecast20190719; t=1613413684;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yeMy0hRkIWzIIHz7dVXmUb1hccOS7jRGd+VvdJYteec=;
- b=A6bNM1cyPblMZkU7f5WCTRu/YuilurWkZjx/4e3JZkusYUwjGuwVPYtOdE53Dl6mtoR1MT
- B5L8mSpZh4r1QbCdNFzoBFPZIa3NMVypOE4kVD1xVwNWhAA0+ijZlyTWLv0I6YPg7KO3w8
- 2oHNEVnw987mQ37A5ZEb+s3VcOjpLvc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-94-mazTWVKRPf2acul9HiBhUg-1; Mon, 15 Feb 2021 13:27:25 -0500
-X-MC-Unique: mazTWVKRPf2acul9HiBhUg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE948107ACED;
- Mon, 15 Feb 2021 18:27:23 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-114-28.rdu2.redhat.com
- [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DA9AA60BE2;
- Mon, 15 Feb 2021 18:27:15 +0000 (UTC)
-Date: Mon, 15 Feb 2021 13:27:14 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 10/22] Python: add utility function for retrieving port
- redirection
-Message-ID: <20210215182714.GC72984@localhost.localdomain>
-References: <20210203172357.1422425-1-crosa@redhat.com>
- <20210203172357.1422425-11-crosa@redhat.com>
- <4d848476-c5b4-2fd0-cbcc-01f87e4dfb71@redhat.com>
+ bh=ISgo0SgkNpZLe7AFp7RIanreaW0RsuG3l14rAZCOSGA=;
+ b=fEwb0Tsd7O3aYpvzJL44+fdurepilO+QD5BG4DYsrTDYDzkfbc6lik57rh2dBovYaRimni
+ tALet7wE/LmnDk4Los0itvzYOI/5E6Te5j5XC50BB/YTSPzjGEGKUT0mUV9OfpJYMQQpG8
+ O+DPjdxBbcoRFg3ACKXgkX1rZMwQIyk=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-wqh7Lgq2PKWvAFhn6W_AqA-1; Mon, 15 Feb 2021 13:28:01 -0500
+X-MC-Unique: wqh7Lgq2PKWvAFhn6W_AqA-1
+Received: by mail-ua1-f72.google.com with SMTP id k10so831670uag.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 10:28:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ISgo0SgkNpZLe7AFp7RIanreaW0RsuG3l14rAZCOSGA=;
+ b=tbxkg+qv9y5kk6TdpJhOxJuQugtBM7Ls1z6ZmKvnsc02wcgAXOGl1KLvXTyrda95kj
+ V4gtZLmagUx8nNk7uICl0IdydQp/CkaU0UtspAi3uSDM3esVTnuujCecS9aHVH2o3/ww
+ tIrle7nfo8Zdmqa7RgsIqN1nutZ46ixQkaa1Z4LnPFQ9pzyLShg5Z4ho9h25o8MdSotW
+ G5n+7Rcs5AxOJIJNRmaTCZyHp7po+LiiuO1ZqFhsX7vOnclWC5mvCW/Vls2UYbmgWCTU
+ NGOYw/tvz8TjhXkQLSkntmVjJ0/hgfeXZ3k7y+PtrDuQyFeDuI6rwYcH9zkrtBTGkj+l
+ ekIg==
+X-Gm-Message-State: AOAM530nnAtMT2A6KR3DnrRiOvk2eREEAyaI1expFHqV20QzYQAKSHI1
+ XGMB5gSU5VEuUGTaMNCyXNeZwHokpwglXjodyLnw0330T+/sjTiylWPWTkblLI7407gwe3d3/ss
+ Yg81n0oc/24SIbaFCaRzgPRNJTNjlZmI=
+X-Received: by 2002:a1f:a2c2:: with SMTP id l185mr9165157vke.2.1613413681453; 
+ Mon, 15 Feb 2021 10:28:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcDQfZ6QO5gfqL4HgoYrgFx/oofns+tcmbSBpzerzjaSQjLYEd+CCo/1/CQgRJkNoZX1fuL7dWkLNoLsBOHTA=
+X-Received: by 2002:a1f:a2c2:: with SMTP id l185mr9165151vke.2.1613413681298; 
+ Mon, 15 Feb 2021 10:28:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4d848476-c5b4-2fd0-cbcc-01f87e4dfb71@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+References: <20210215171438.935665-1-philmd@redhat.com>
+In-Reply-To: <20210215171438.935665-1-philmd@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 15 Feb 2021 15:27:35 -0300
+Message-ID: <CAKJDGDZ+Y8Fv1rfAVYDSBo-PsFBAHkHvaJg1Q2oFKcm43_GLxw@mail.gmail.com>
+Subject: Re: [PATCH] gitlab-ci: Display Avocado log content when tests timeout
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="TYecfFk8j8mZq+dy"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -80,250 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Eric Auger <eauger@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Max Reitz <mreitz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---TYecfFk8j8mZq+dy
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Feb 09, 2021 at 11:50:51AM -0300, Wainer dos Santos Moschetta wrote=
-:
-> Hi,
->=20
-> On 2/3/21 2:23 PM, Cleber Rosa wrote:
-> > Slightly different versions for the same utility code are currently
-> > present on different locations.  This unifies them all, giving
-> > preference to the version from virtiofs_submounts.py, because of the
-> > last tweaks added to it.
-> >=20
-> > While at it, this adds a "qemu.util" module to host the utility
-> > function and a test.
-> >=20
-> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> > ---
-> >   python/qemu/utils.py                     | 35 +++++++++++++++++++++++=
-+
-> >   tests/acceptance/info_usernet.py         | 29 ++++++++++++++++++++
-> >   tests/acceptance/linux_ssh_mips_malta.py | 16 +++++------
-> >   tests/acceptance/virtiofs_submounts.py   | 20 +++-----------
-> >   tests/vm/basevm.py                       |  7 ++---
-> >   5 files changed, 77 insertions(+), 30 deletions(-)
-> >   create mode 100644 python/qemu/utils.py
-> >   create mode 100644 tests/acceptance/info_usernet.py
->=20
-> I've a few suggestions:
->=20
-> - IMHO "utils" is too broad, people may start throwing random stuffs ther=
-e.
-> Maybe call it "net". I am sure there will be more net-related code to be
-> clustered on that module in the future.
+On Mon, Feb 15, 2021 at 2:14 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> Since commit ba2232bae6d ("gitlab-ci: Refactor code that show logs
+> of failed acceptances") we display the log content of failing tests
+> (Avocado "FAIL" event).
+>
+> Since we are also interested in tests timeouting, update our global
+> Avocado config to display log content for the "INTERRUPT" event,
+> "possible when the timeout is reached" (See [*]).
+>
+> [*] https://avocado-framework.readthedocs.io/en/latest/guides/writer/chap=
+ters/writing.html#test-statuses
+>
+> Suggested-by: Willian Rampazzo <willianr@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  .gitlab-ci.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
 
-It's hard to find the right balance here.  If you take a look at what John
-is proposing wrt the packaging the "qemu" Python libs, I believe one module
-is a good compromise at this point.  I really to expect that it will grow
-and that more modules will be created.
-
-> - Rename the method to "get_hostfwd_port()" because the parameter's name
-> already implies it is expected an "info usernet" output.
->
-
-I thought about the method name, and decided to keep the more verbose name
-because this method is *not* about retrieving the "hostfwd port" from a
-running QEMU, but rather from the output that should be produced by a "info
-usernet" command.  It may become the foundation of a method on the QEMUMach=
-ine
-class that is called "get_hostfwd_port()" as you suggested, that includes
-getting the data (that is, issuing a "info usernet" command).
-
-Anyway, I tend to favor "explicit is better than implicit" approach, but
-I recognize that I can be too verbose at times.  Let's see if other people
-chip in with naming suggestions.
-
-> - Drop the InfoUsernet Test. It is too simple, and the same functionality=
- is
-> tested indirectly by other tests.
->
-
-I find "too simple" is a typical case of "famous last words" :D.
-Now, as a functional test to cover the utility function, it's indeed
-a bit of overkill.  It'd probably be less necessary if there were unittests
-for those (and there will hopefully be some soon).
-
-Now, testing *directly* was indeed the intention here. I see a few
-reasons for that, including saving a good amount of debugging time:
-such a test failing would provide *direct* indication of where the
-regression is.  These simpler tests can also be run with targets other
-than the ones really connecting into guests at this moment (while it's
-debatable wether such a regression would appear only on such targets).
-
-> >=20
-> > diff --git a/python/qemu/utils.py b/python/qemu/utils.py
-> > new file mode 100644
-> > index 0000000000..89a246ab30
-> > --- /dev/null
-> > +++ b/python/qemu/utils.py
-> > @@ -0,0 +1,35 @@
-> > +"""
-> > +QEMU utility library
-> > +
-> > +This offers miscellaneous utility functions, which may not be easily
-> > +distinguishable or numerous to be in their own module.
-> > +"""
-> > +
-> > +# Copyright (C) 2021 Red Hat Inc.
-> > +#
-> > +# Authors:
-> > +#  Cleber Rosa <crosa@redhat.com>
-> > +#
-> > +# This work is licensed under the terms of the GNU GPL, version 2.  Se=
-e
-> > +# the COPYING file in the top-level directory.
-> > +#
-> > +
-> > +import re
-> > +from typing import Optional
-> > +
-> > +
-> > +def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optiona=
-l[int]:
-> > +    """
-> > +    Returns the port given to the hostfwd parameter via info usernet
-> > +
-> > +    :param info_usernet_output: output generated by hmp command "info =
-usernet"
-> > +    :param info_usernet_output: str
-> > +    :return: the port number allocated by the hostfwd option
-> > +    :rtype: int
-> > +    """
-> > +    for line in info_usernet_output.split('\r\n'):
-> > +        regex =3D r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
-> > +        match =3D re.search(regex, line)
-> > +        if match is not None:
-> > +            return int(match[1])
-> > +    return None
-> > diff --git a/tests/acceptance/info_usernet.py b/tests/acceptance/info_u=
-sernet.py
-> > new file mode 100644
-> > index 0000000000..9c1fd903a0
-> > --- /dev/null
-> > +++ b/tests/acceptance/info_usernet.py
-> > @@ -0,0 +1,29 @@
-> > +# Test for the hmp command "info usernet"
-> > +#
-> > +# Copyright (c) 2021 Red Hat, Inc.
-> > +#
-> > +# Author:
-> > +#  Cleber Rosa <crosa@redhat.com>
-> > +#
-> > +# This work is licensed under the terms of the GNU GPL, version 2 or
-> > +# later.  See the COPYING file in the top-level directory.
-> > +
-> > +from avocado_qemu import Test
-> > +
-> > +from qemu.utils import get_info_usernet_hostfwd_port
-> > +
-> > +
-> > +class InfoUsernet(Test):
-> > +
-> > +    def test_hostfwd(self):
-> > +        self.vm.add_args('-netdev', 'user,id=3Dvnet,hostfwd=3D:127.0.0=
-.1:0-:22')
-> > +        self.vm.launch()
-> > +        res =3D self.vm.command('human-monitor-command',
-> > +                              command_line=3D'info usernet')
-> > +        port =3D get_info_usernet_hostfwd_port(res)
-> > +        self.assertIsNotNone(port,
-> > +                             ('"info usernet" output content does not =
-seem to '
-> > +                              'contain the redirected port'))
-> > +        self.assertGreater(port, 0,
-> > +                           ('Found a redirected port that is not great=
-er than'
-> > +                            ' zero'))
-> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptanc=
-e/linux_ssh_mips_malta.py
-> > index 25c5c5f741..275659c785 100644
-> > --- a/tests/acceptance/linux_ssh_mips_malta.py
-> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
-> > @@ -18,6 +18,8 @@ from avocado.utils import process
-> >   from avocado.utils import archive
-> >   from avocado.utils import ssh
-> > +from qemu.utils import get_info_usernet_hostfwd_port
-> > +
-> >   class LinuxSSH(Test):
-> > @@ -70,18 +72,14 @@ class LinuxSSH(Test):
-> >       def setUp(self):
-> >           super(LinuxSSH, self).setUp()
-> > -    def get_portfwd(self):
-> > +    def ssh_connect(self, username, password):
-> > +        self.ssh_logger =3D logging.getLogger('ssh')
-> >           res =3D self.vm.command('human-monitor-command',
-> >                                 command_line=3D'info usernet')
-> > -        line =3D res.split('\r\n')[2]
-> > -        port =3D re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+1=
-0\..*',
-> > -                        line)[1]
-> > +        port =3D get_info_usernet_hostfwd_port(res)
-> > +        if not port:
-> > +            self.cancel("Failed to retrieve SSH port")
->=20
-> Here I think it should assert not none, otherwise there is a bug somewher=
-e.
->
-> - Wainer
-
-I'm trying to be careful and conservative with adding assertions,
-because IMO those belong to test writers.  IMO the expectation of a
-user writing a test using "ssh_connect()" as a framework utility,
-would be more aligned with the framework bailing out, than blatantly
-setting a test failure.
-
-It's similar to what happens if a "vmimage" snapshot can not be
-created... there's an issue somewhere, but it'd be a bit unfair, and
-confusing, to set a assertion error (and thus test failure).  But, I
-think this is the kind of design decision that will evolve with (more)
-time here.
-
-Let me know if my explanations make sense and change your mind
-any bit :).
-
-Thanks for the review!
-- Cleber.
-
---TYecfFk8j8mZq+dy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAqvP8ACgkQZX6NM6Xy
-CfPxHhAAxixfsWRPky1Gtel8sAsPAf+sdI1JWUpnfPYtgr9n/8YGcaThguEHkdxm
-MFqtFnQbcj9M0NSHlBMkVtIhTLdtpKZTeVWfkKS/7c7IEFPItmP1sjQFQvsVByNO
-3fJ6nF0oltQdfcXWSXQTDmu13/YXiQXDphZk0hE/ZODsh5C6r6BG8VYMtYy90mOq
-WMyha019A6cGSTlLHAOK9HQ5sA7fFVUxI/+c84DcODeOG3jyOt8jHgEtcenS1E7k
-/jzHd0AQZQFN+J6aCtsnDwq1Oc4YJe276yTN6qXghTicUi7LJbALQBryFR6bdGC3
-PAe3RAe7ZiYE9FIop2eLgZClrvmsQQhqeh7mXMPBWaopEjCp1C+6SGSnnyL+JczZ
-zbQjyiOAuXl1O/DE54TwG9zyfv6UXTY3TzH45AY5zzveoSQJNRMr+PBJZXbNPu9l
-iCUQG4Gr8qS6bLOJhs8JzGMylhlcpiP8CtswJz4b0wJinQigO6yOWfnFDY4C0Wte
-gN/spZaAtDAhLMxHh2UPxhV802j6dH42PLGPk0dYgARcQugZpE7VVbSFHiU5925r
-0fjcLfPfEovfFW3k4TXeZp067o6pJYpYjLpGxGYMJVfL1CypClLNVNulkV5c01eM
-sW1wwM15XdI4AtAwGFGCVK3VQhOVTY02eg2rFs+yn5ghwn2GmPQ=
-=tB6L
------END PGP SIGNATURE-----
-
---TYecfFk8j8mZq+dy--
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
