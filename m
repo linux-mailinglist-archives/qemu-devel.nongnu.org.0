@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2D331BC07
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:15:55 +0100 (CET)
-Received: from localhost ([::1]:43760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BBD131BC2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:22:56 +0100 (CET)
+Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBfbO-00046T-Op
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:15:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58342)
+	id 1lBfiB-0001lI-Fq
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:22:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBfXM-0007nM-5j; Mon, 15 Feb 2021 10:11:45 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34662)
+ id 1lBfXV-0007pT-E0; Mon, 15 Feb 2021 10:11:55 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBfXI-00050E-S6; Mon, 15 Feb 2021 10:11:43 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id df22so8506800edb.1;
- Mon, 15 Feb 2021 07:11:39 -0800 (PST)
+ id 1lBfXO-00052o-Rf; Mon, 15 Feb 2021 10:11:51 -0500
+Received: by mail-ed1-x531.google.com with SMTP id y18so8375235edw.13;
+ Mon, 15 Feb 2021 07:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=H2L8unWUlArPw7R/5bRhRpbQDhA50JONh9WRib1752Y=;
- b=lvyPJw1Pat1C2EwVjY+MsFATiTwx+G0mLcX/13ynnjiV8JRPs7WrXTgBTxA5Ytg29V
- JLvhZW4kFlXmfn2IP9Nkq6IfrIp2iT/e7KZh0n6WCklUhur4A5TalMqXfOwLiYkKo89A
- 8mHZNEwaG2vGPw+8NlPk1Gvj5nUQZDRsLpW7PtqU6ECl1jpBFDEJhGKxAH6kuG/P7lUj
- WOERulNZEjg6DWgn6FGOlgdVUW4wUktPZSE31J6Ny5sHTj80fvOxUtdKVeSK3jbUGviw
- GUJ9R045n9nGTsX5jRBkCdDvRDjqa/85gUVUF+n2LBWuRbB73a0rKah3QV7E0niEjWF4
- budQ==
+ bh=GmPOyYhtMaQGLeUL8TQFwbbYMxSl6yrfYp58gXklU0I=;
+ b=s4JR5BmoowEqqMVFLip4nIYyDaZKMRVik7N0t3KXRPEdAMrFj8/SQXUFxtNn+er6St
+ kGmVoSbKhdcieRYUakZeaJzZonKdsBbrXE+caSjgHkNPQq0PD5U7kImHAY96aIeLgFT9
+ jAoOMBovgpaRGAD9j2bOejrPD1SrSNOmlqGxWF2BKMMpGIGpNwr2Cd6V3I23UIm3ZVWc
+ 9u3AS7+5I8ljiJvn4QjyEvrVRb3xfTstRcVje0+lqpQg2SMYfy48iCHT1qVF3e5Yjgxg
+ tfOeEWAYtLk3rzQrNbcRAxLpPpxdvft1sGL1dXqeWd4Ugya63qqhb2cTGHWtnOjecF64
+ 6cHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=H2L8unWUlArPw7R/5bRhRpbQDhA50JONh9WRib1752Y=;
- b=qcK3SxIyV6b1HFjYRqGQSm9RyY4FN3uj/jV4mgqGqBmZiqvms5TabwpLIL64VJAzhF
- Bb+r9I2UVmOFFittMvn/oyLCQHzHZ7CcurzwyxSqaAuiauzB7V7rsMKjf5DzX54B+7Xu
- Tm327ZKZUkQwLOLlkQsICmxVzat7W76J3fvcxup/1k5DZcpznp3WQf40PgSzDgR2L6Td
- xRxjQc8/xGpjULb4mRNRkLLPoxOjwzXe3nu8xl9pQme+746xP0BOamjgndmXkliMuveh
- mIbYsyJJ8wog7DnwyZvVohyA756+RZqLtyst20v3IoxDZFPshl90oPSl6WHSxiSgHlGA
- yF7Q==
-X-Gm-Message-State: AOAM531c56K2pFg3mvjCUR611z565CKndUOivOBO8EYeRZX01SmS+ALU
- ULBqzgOB04L0N/+JOUtf5qXcgyDWpkY=
-X-Google-Smtp-Source: ABdhPJy11EPXWff25kIje7TEFOyHCm/KL3NXUL+7UmL9EJ5gP1cDlKgY6Uj0pvlv3iI+EMp2/j63hQ==
-X-Received: by 2002:a05:6402:3508:: with SMTP id
- b8mr16083634edd.341.1613401898759; 
- Mon, 15 Feb 2021 07:11:38 -0800 (PST)
+ bh=GmPOyYhtMaQGLeUL8TQFwbbYMxSl6yrfYp58gXklU0I=;
+ b=eDesSu3goy9sEt5tkVS6grrIpjI0XSguK11MASCS5WgO+uyrhMZ4VQmed2uNL6JzT9
+ DUxhU2IP9FcdBpa2d+BXEsreC13zZW6VAGtVxQJ/DcKKibrO/+EE3i/UdnoOr2SUxmiI
+ 1cpN1rTG2hhcY2TLwtY24OmlwWpRO1rRar3Ovtylp3M63uExpL9/nWwWgC+wXJiiVr0l
+ KRHXfmhhTitQ5j55MIW9SZSJYlokHbC+QD2Qu9pVaFV11A7h89M+He7Edu0zNNuukOrr
+ gWqH28qj5rSk3fCHd2t+6Ev00ffkXWXNjVfmKHRzKZka/RBY2WxwCQLdCb/uOK8+0vL0
+ Rq1g==
+X-Gm-Message-State: AOAM530MvnnvcjJiwoSY8tVEO2Gn0ZE1SQBQRKMu+AXebj/n76jmSAxD
+ 8MLNJEEZbfr1ZczPJj2+WJM=
+X-Google-Smtp-Source: ABdhPJwja0kpqBJljvb3c+czPkWdLYxSFunQypCmncNOZdrpGcHkZhc18T3tW5UclPDovrnF1AdEHA==
+X-Received: by 2002:aa7:d50b:: with SMTP id y11mr3685180edq.288.1613401904823; 
+ Mon, 15 Feb 2021 07:11:44 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id gz14sm10813069ejc.105.2021.02.15.07.11.33
+ by smtp.gmail.com with ESMTPSA id gz14sm10813069ejc.105.2021.02.15.07.11.39
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Feb 2021 07:11:38 -0800 (PST)
+ Mon, 15 Feb 2021 07:11:44 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
  Alexander Bulekov <alxndr@bu.edu>,
  Alistair Francis <alistair.francis@wdc.com>,
  Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
-Subject: [PATCH 2/4] hw/sd: sdhci: Don't write to SDHC_SYSAD register when
- transfer is in progress
-Date: Mon, 15 Feb 2021 23:11:09 +0800
-Message-Id: <1613401871-59515-3-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH 3/4] hw/sd: sdhci: Correctly set the controller status for ADMA
+Date: Mon, 15 Feb 2021 23:11:10 +0800
+Message-Id: <1613401871-59515-4-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
 References: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,22 +86,20 @@ Cc: qemu-stable@nongnu.org, qemu-block@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Per "SD Host Controller Standard Specification Version 7.00"
-chapter 2.2.1 SDMA System Address Register:
+When an ADMA transfer is started, the codes forget to set the
+controller status to indicate a transfer is in progress.
 
-This register can be accessed only if no transaction is executing
-(i.e., after a transaction has stopped).
+With this fix, the following 2 reproducers:
 
-With this fix, the following reproducer:
-
-https://paste.debian.net/plain/1185137
+https://paste.debian.net/plain/1185136
+https://paste.debian.net/plain/1185141
 
 cannot be reproduced with the following QEMU command line:
 
 $ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
-       -nodefaults -device sdhci-pci,sd-spec-version=3 \
-       -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-       -device sd-card,drive=mydrive -qtest stdio
+      -nodefaults -device sdhci-pci,sd-spec-version=3 \
+      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+      -device sd-card,drive=mydrive -qtest stdio
 
 Cc: qemu-stable@nongnu.org
 Fixes: CVE-2020-17380
@@ -121,40 +117,31 @@ Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
 ---
 
- hw/sd/sdhci.c | 20 +++++++++++---------
- 1 file changed, 11 insertions(+), 9 deletions(-)
+ hw/sd/sdhci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 1c5ab26..05cb281 100644
+index 05cb281..0b0ca6f 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -1122,15 +1122,17 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+@@ -769,7 +769,9 @@ static void sdhci_do_adma(SDHCIState *s)
  
-     switch (offset & ~0x3) {
-     case SDHC_SYSAD:
--        s->sdmasysad = (s->sdmasysad & mask) | value;
--        MASKED_WRITE(s->sdmasysad, mask, value);
--        /* Writing to last byte of sdmasysad might trigger transfer */
--        if (!(mask & 0xFF000000) && TRANSFERRING_DATA(s->prnsts) && s->blkcnt &&
--                s->blksize && SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
--            if (s->trnmod & SDHC_TRNS_MULTI) {
--                sdhci_sdma_transfer_multi_blocks(s);
--            } else {
--                sdhci_sdma_transfer_single_block(s);
-+        if (!TRANSFERRING_DATA(s->prnsts)) {
-+            s->sdmasysad = (s->sdmasysad & mask) | value;
-+            MASKED_WRITE(s->sdmasysad, mask, value);
-+            /* Writing to last byte of sdmasysad might trigger transfer */
-+            if (!(mask & 0xFF000000) && s->blkcnt && s->blksize &&
-+                SDHC_DMA_TYPE(s->hostctl1) == SDHC_CTRL_SDMA) {
-+                if (s->trnmod & SDHC_TRNS_MULTI) {
-+                    sdhci_sdma_transfer_multi_blocks(s);
-+                } else {
-+                    sdhci_sdma_transfer_single_block(s);
-+                }
-             }
-         }
-         break;
+         switch (dscr.attr & SDHC_ADMA_ATTR_ACT_MASK) {
+         case SDHC_ADMA_ATTR_ACT_TRAN:  /* data transfer */
++            s->prnsts |= SDHC_DATA_INHIBIT | SDHC_DAT_LINE_ACTIVE;
+             if (s->trnmod & SDHC_TRNS_READ) {
++                s->prnsts |= SDHC_DOING_READ;
+                 while (length) {
+                     if (s->data_count == 0) {
+                         sdbus_read_data(&s->sdbus, s->fifo_buffer, block_size);
+@@ -797,6 +799,7 @@ static void sdhci_do_adma(SDHCIState *s)
+                     }
+                 }
+             } else {
++                s->prnsts |= SDHC_DOING_WRITE;
+                 while (length) {
+                     begin = s->data_count;
+                     if ((length + begin) < block_size) {
 -- 
 2.7.4
 
