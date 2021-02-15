@@ -2,79 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C292631B814
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:36:23 +0100 (CET)
-Received: from localhost ([::1]:58768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB3C131B813
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 12:36:15 +0100 (CET)
+Received: from localhost ([::1]:58322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBcAw-0002ar-QT
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:36:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35354)
+	id 1lBcAo-0002OY-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 06:36:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBc9I-0001Sx-KO
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:34:41 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:52572)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBc9D-00044q-7j
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:34:40 -0500
-Received: by mail-wm1-x331.google.com with SMTP id l17so5927976wmq.2
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:34:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=ISWETQSfyfDAvmMObQIqVCjD/ngAjYAorC4sfNJ1cfs=;
- b=rWk8/t1FmzLa0gMOBPtpM98O7Xrz8ji0ZFxdpL8gOPwpu/ENmPanrMIRsKThLhwXN0
- EliCdQ4Vzv33/kzHTRkCloZq19ihDpssjcEj/NyPDqzoeWebCnLKviOI1F2K3oR4hoZL
- SOmRDtzAG3wBlhebPJzQmGDLJbsioXAfyLcE7E8slHrnOlKJ6r0+NKq0jpwggXbNqG6v
- jcK06LyquWU7XMuHf1gYiQhk2Ow/UX/0QpxUCzbvxcpzR+3ifBD25bLBDadU8S1481if
- 6tzWvO+cAsOLS6r58VBPkJ74HBgKYc/uactb6nb3ABJbzi/3s5ukXDboooN1ntEbK8c3
- GwLA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ISWETQSfyfDAvmMObQIqVCjD/ngAjYAorC4sfNJ1cfs=;
- b=C3sTEqinZzXKgjcdjAgpWiO2frc8PxTGg44DR5xgJOACtxobvqqZE/lH29GFkiAxi/
- 12+bwQ8dagKITZm9tbRwjC638kWADdj3OCQLo6eCx2rKyJM/GPQn59K3SfeB5c284PVZ
- qGCrDQ/NAe+3G9wti9hemyVFIPA5VkHxs1WqLkHU0nmBihCh06YMH50AE7FcPKgJ88yW
- HDv+vCAJBhQxaoFOBnd7NjNjwfczBXo7lrjabnOmQjV++sriCfZTwmISf7GcrQSgqY3k
- BknfHR+TIhaWZl5dbVhjcHI2Ffd0dKOt7JPlMm8yc1TpX5hMbgTjcGeDfR2IYyuidL6Q
- YejQ==
-X-Gm-Message-State: AOAM530jCn3Vbe8gS4weETkYSJz22Hvxw5fPeyEVcrnKE+ko3WfOqtxo
- MqTNxR89e7bdE+XrmF8rlslwEg==
-X-Google-Smtp-Source: ABdhPJx4ruVX3y34X6WP83F6m3a+hihmPokiNZxeBRR5qmVHpp645+mYFNTDLfGlVtoP1FeC/H2SqQ==
-X-Received: by 2002:a1c:2e83:: with SMTP id u125mr13581422wmu.13.1613388873853; 
- Mon, 15 Feb 2021 03:34:33 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p12sm22527278wmq.1.2021.02.15.03.34.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 03:34:32 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3388E1FF7E;
- Mon, 15 Feb 2021 11:34:32 +0000 (GMT)
-References: <20210212123622.15834-1-cfontana@suse.de>
- <20210212123622.15834-4-cfontana@suse.de>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v18 03/15] accel: introduce new accessor functions
-Date: Mon, 15 Feb 2021 11:34:27 +0000
-In-reply-to: <20210212123622.15834-4-cfontana@suse.de>
-Message-ID: <87czx1va2f.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lBc9G-0001S8-H6; Mon, 15 Feb 2021 06:34:38 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:51469)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1lBc9E-00044u-UQ; Mon, 15 Feb 2021 06:34:38 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from [172.21.12.60] ([172.21.12.60]) (authenticated user pl@kamp.de)
+ by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Mon, 15 Feb 2021 12:34:28 +0100
+Subject: Re: [PATCH V2 1/7] block/rbd: bump librbd requirement to luminous
+ release
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210126112540.11880-1-pl@kamp.de>
+ <20210126112540.11880-2-pl@kamp.de> <20210215101123.GC7226@merkur.fritz.box>
+ <20210215101911.GA1542881@redhat.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <3c6dd9d8-f842-dd9b-e56b-0bb07357f975@kamp.de>
+Date: Mon, 15 Feb 2021 12:34:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210215101911.GA1542881@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,31 +58,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, ct@flyingcircus.io,
+ mreitz@redhat.com, pbonzini@redhat.com, dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 15.02.21 um 11:19 schrieb Daniel P. Berrangé:
+> On Mon, Feb 15, 2021 at 11:11:23AM +0100, Kevin Wolf wrote:
+>> Am 26.01.2021 um 12:25 hat Peter Lieven geschrieben:
+>>> even luminous (version 12.2) is unmaintained for over 3 years now.
+>>> Bump the requirement to get rid of the ifdef'ry in the code.
+>>>
+>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>> diff --git a/meson.build b/meson.build
+>>> index 5943aa8a51..02d263ad33 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -691,19 +691,24 @@ if not get_option('rbd').auto() or have_block
+>>>                              required: get_option('rbd'),
+>>>                              kwargs: static_kwargs)
+>>>     if librados.found() and librbd.found()
+>>> -    if cc.links('''
+>>> +    result = cc.run('''
+>> Doesn't running compiled binaries break cross compilation?
+>>
+>>>         #include <stdio.h>
+>>>         #include <rbd/librbd.h>
+>>>         int main(void) {
+>>>           rados_t cluster;
+>>>           rados_create(&cluster, NULL);
+>>> +        rados_shutdown(cluster);
+>>> +        #if LIBRBD_VERSION_CODE < LIBRBD_VERSION(1, 12, 0)
+>>> +        return 1;
+>>> +        #endif
+>>>           return 0;
+>> Would #error achieve what you want without running the binary?
+>>
+>> But most, if not all, other version checks use pkg-config instead of
+>> trying to compile code, so that's probably what we should be doing here,
+>> too.
+> Yep, for something that is merely a version number check there's no
+> need to compile anything. pkg-config can just validate the version
+> straightup.
 
-Claudio Fontana <cfontana@suse.de> writes:
 
-> avoid open coding the accesses to cpu->accel_cpu interfaces,
-> and instead introduce:
->
-> accel_cpu_instance_init,
-> accel_cpu_realizefn
->
-> to be used by the targets/ initfn code,
-> and by cpu_exec_realizefn respectively.
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+I would have loved to, but at least the Ubuntu/Debian packages do not contain
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+pkg-config files. I can switch to #error, of course. My initial version of the patch
 
---=20
-Alex Benn=C3=A9e
+distinguished between can't compile and version is too old. With #error we just
+
+can say doesn't compile, but I think this would be ok.
+
+
+Peter
+
+
 
