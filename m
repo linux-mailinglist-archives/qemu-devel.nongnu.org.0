@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05CB31C214
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:00:57 +0100 (CET)
-Received: from localhost ([::1]:48326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7B6F31C215
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 20:01:11 +0100 (CET)
+Received: from localhost ([::1]:48882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBj79-0001cI-P0
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:00:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54060)
+	id 1lBj7O-0001r7-Ph
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 14:01:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBj4t-0000bj-LK
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47413)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lBj5H-0000jE-PM
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57261)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBj4q-00025B-Rp
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:35 -0500
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lBj5D-0002FP-Uu
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:58:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613415510;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1613415535;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Wi4Tj72nrnzHBOhRmakgAqO++z3qPPkRvOwHlfFy8fQ=;
- b=Qd0dngj6g4vPZW1uFhtJ/cVrYJ7YJHeSjxhNzP2UXjN3vnKh6RyRoztpJ/C5+d8RQT5glD
- 8LalDjYDiOTRqVwHt1ycHuhfBVUl0nF4UxzEhe3WljtVV6wjpcKVTfanwfs9xWczEnkLhe
- C/ljeN6qJ0981XiWVe0Kykkb/rHTAsA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-294-oK8PciQJPA--VtAz9GrTog-1; Mon, 15 Feb 2021 13:58:28 -0500
-X-MC-Unique: oK8PciQJPA--VtAz9GrTog-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7BC97192D785;
- Mon, 15 Feb 2021 18:58:27 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9CEA770483;
- Mon, 15 Feb 2021 18:58:25 +0000 (UTC)
-Date: Mon, 15 Feb 2021 18:58:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH 00/33] migration: capture error reports into Error object
-Message-ID: <20210215185822.GM1542881@redhat.com>
-References: <20210204171907.901471-1-berrange@redhat.com>
- <20210204182249.GO3039@work-vm>
- <20210204190927.GB903389@redhat.com>
- <20210208132903.GH3032@work-vm>
- <20210208134206.GH1141037@redhat.com> <YCq/jV1wa4EiVZQK@work-vm>
+ bh=LkVBPQzfIoYEzxp5o3AyiIn7aphrQ2Z2vvQVNLC78jg=;
+ b=ZqH+5Vq57huYsOz9cx2OVy5ZpYWZtYB+TQNCrJgqKHuR0OzdcvP0JVthCS156B/KRGq3Dk
+ franDkky06e76VFPBeHbyZxquc48Zro1mQc/p00aSW9KdmsqHi879DfM0cJZf0YI5x6ny5
+ bdQc8M4wmr332err19K19STd62NEnGU=
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com
+ [209.85.222.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-zMxdRZSIN6-eZl8s-K5kyg-1; Mon, 15 Feb 2021 13:58:51 -0500
+X-MC-Unique: zMxdRZSIN6-eZl8s-K5kyg-1
+Received: by mail-ua1-f71.google.com with SMTP id o6so3560851uap.10
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 10:58:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=LkVBPQzfIoYEzxp5o3AyiIn7aphrQ2Z2vvQVNLC78jg=;
+ b=PXfznQ9DBiaGxP/aN7WtLkHwtdeHFW40NAmN3r6jfCG7GVmzDRJ7cP9UJH4eRK8hrK
+ C2k90Fq6aMtZJoD61Q6eQYH+gN6xGZVYpuhKdW93/F36sQUKMvxb+slFBVrx7w9IyNVv
+ WrHI63008pSyD60LdwhnfsaJ2l3VSh45fT69Ngv1z83wvNz9xmU6U/eenEhTIq139t/G
+ 6WXvuPWdoMUOK9B+DvuoURwdFgamz5o/d7+8D+Jgd5sCgcGPXTrBqsLP5+fk5txNXsWp
+ ic8syo/dz4XfPVHu2izaqz2KrHMW+Oj/QSyOjTSIwTZ7tAFVdHnim2ycJAeLvxvPPbdp
+ +GJQ==
+X-Gm-Message-State: AOAM531vOpBvB/NitllKL0GMD6q3Eq0IblYrXcM1Id2JqpJOiBvB/7JS
+ Eu4tZNCWph5ZSrE8Bblwz8afihcd+hWg2hiPpBrZOtCY79EMfusMBQBEi5HM5ZCRrnucL3QubYw
+ m2Oa8T2Q6KKuC74FbvOO7fHsvPUeimMo=
+X-Received: by 2002:a67:fe99:: with SMTP id b25mr4179567vsr.45.1613415530982; 
+ Mon, 15 Feb 2021 10:58:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwWkaSUDEU+C7oKEnhqu/yZjhSCt+7H07UChaxADpXAzdDdwVzpqEJY/NPBH7q6C9Y4Jegr7SaDQbftzKP9mJM=
+X-Received: by 2002:a67:fe99:: with SMTP id b25mr4179564vsr.45.1613415530859; 
+ Mon, 15 Feb 2021 10:58:50 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <YCq/jV1wa4EiVZQK@work-vm>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-12-crosa@redhat.com>
+In-Reply-To: <20210203172357.1422425-12-crosa@redhat.com>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Mon, 15 Feb 2021 15:58:25 -0300
+Message-ID: <CAKJDGDZEGGh4g-GBx95nL4Hxg=K156Oj5RCpzXufpdn5f8iKWg@mail.gmail.com>
+Subject: Re: [PATCH 11/22] tests/acceptance/linux_ssh_mips_malta.py:
+ standardize port as integer
+To: Cleber Rosa <crosa@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,194 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Juan Quintela <quintela@redhat.com>,
- Hailiang Zhang <zhang.zhanghailiang@huawei.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ John Snow <jsnow@redhat.com>, Eric Auger <eauger@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 15, 2021 at 06:38:05PM +0000, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > On Mon, Feb 08, 2021 at 01:29:03PM +0000, Dr. David Alan Gilbert wrote:
-> > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > On Thu, Feb 04, 2021 at 06:22:49PM +0000, Dr. David Alan Gilbert wrote:
-> > > > > * Daniel P. Berrangé (berrange@redhat.com) wrote:
-> > > > > > Due to its long term heritage most of the migration code just invokes
-> > > > > > 'error_report' when problems hit. This was fine for HMP, since the
-> > > > > > messages get redirected from stderr, into the HMP console. It is not
-> > > > > > OK for QMP because the errors will not be fed back to the QMP client.
-> > > > > > 
-> > > > > > This wasn't a terrible real world problem with QMP so far because
-> > > > > > live migration happens in the background, so at least on the target side
-> > > > > > there is not a QMP command that needs to capture the incoming migration.
-> > > > > > It is a problem on the source side but it doesn't hit frequently as the
-> > > > > > source side has fewer failure scenarios. None the less on both sides it
-> > > > > > would be desirable if 'query-migrate' can report errors correctly.
-> > > > > > With the introduction of the load-snapshot QMP commands, the need for
-> > > > > > error reporting becomes more pressing.
-> > > > > > 
-> > > > > > Wiring up good error reporting is a large and difficult job, which
-> > > > > > this series does NOT complete. The focus here has been on converting
-> > > > > > all methods in savevm.c which have an 'int' return value capable of
-> > > > > > reporting errors. This covers most of the infrastructure for controlling
-> > > > > > the migration state serialization / protocol.
-> > > > > > 
-> > > > > > The remaining part that is missing error reporting are the callbacks in
-> > > > > > the VMStateDescription struct which can return failure codes, but have
-> > > > > > no "Error **errp" parameter. Thinking about how this might be dealt with
-> > > > > > in future, a big bang conversion is likely non-viable. We'll probably
-> > > > > > want to introduce a duplicate set of callbacks with the "Error **errp"
-> > > > > > parameter and convert impls in batches, eventually removing the
-> > > > > > original callbacks. I don't intend todo that myself in the immediate
-> > > > > > future.
-> > > > > > 
-> > > > > > IOW, this patch series probably solves 50% of the problem, but we
-> > > > > > still do need the rest to get ideal error reporting.
-> > > > > > 
-> > > > > > In doing this savevm conversion I noticed a bunch of places which
-> > > > > > see and then ignore errors. I only fixed one or two of them which
-> > > > > > were clearly dubious. Other places in savevm.c where it seemed it
-> > > > > > was probably ok to ignore errors, I've left using error_report()
-> > > > > > on the basis that those are really warnings. Perhaps they could
-> > > > > > be changed to warn_report() instead.
-> > > > > > 
-> > > > > > There are alot of patches here, but I felt it was easier to review
-> > > > > > for correctness if I converted 1 function at a time. The series
-> > > > > > does not neccessarily have to be reviewed/appied in 1 go.
-> > > > > 
-> > > > > After this series, what do my errors look like, and where do they end
-> > > > > up?
-> > > > > Do I get my nice backtrace shwoing that device failed, then that was
-> > > > > part of that one...
-> > > > 
-> > > > It hasn't modified any of the VMStateDescription callbacks so any
-> > > > of the per-device logic that was printing errors will still be using
-> > > > error_report to the console as before.
-> > > > 
-> > > > The errors that have changed (at this stage) are only the higher
-> > > > level ones that are in the generic part of the code. Where those
-> > > > errors mentioned a device name/ID they still do.
-> > > > 
-> > > > In some of the parts I've modified there will have been multiple
-> > > > error_reports collapsed into one error_setg() but the ones that
-> > > > are eliminated are high level generic messages with no useful
-> > > > info, so I don't think loosing those is a problem per-se.
-> > > > 
-> > > > The example that I tested was the case where we load a snapshot
-> > > > under a different config that we saved it with. This is the scenario
-> > > > that gave the non-deterministic ordering in the iotest you disabled
-> > > > from my previous series.
-> > > > 
-> > > > In that case, we changed from:
-> > > > 
-> > > >   qemu-system-x86_64: Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> > > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Error -22 while loading VM state"}]}
-> > > > 
-> > > > To
-> > > > 
-> > > >   {"return": [{"current-progress": 1, "status": "concluded", "total-progress": 1, "type": "snapshot-load", "id": "load-err-stderr", "error": "Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices"}]}
-> > > > 
-> > > > From a HMP loadvm POV, this means instead of seeing
-> > > > 
-> > > >   (hmp)  loadvm foo
-> > > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> > > >   Error -22 while loading VM state
-> > > > 
-> > > > You will only see the detailed error message
-> > > > 
-> > > >   (hmp)  loadvm foo
-> > > >   Unknown savevm section or instance '0000:00:02.0/virtio-rng' 0. Make sure that your current VM setup matches your saved VM setup, including any hotplugged devices
-> > > > 
-> > > > In this case I think loosing the "Error -22 while loading VM state"
-> > > > is fine, as it didn't add value IMHO.
-> > > > 
-> > > > 
-> > > > If we get around to converting the VMStateDescription callbacks to
-> > > > take an error object, then I think we'll possibly need to stack the
-> > > > error message from the callback, with the higher level message.
-> > > > 
-> > > > Do you have any familiar/good examples of error message stacking I
-> > > > can look at ?  I should be able to say whether they would be impacted
-> > > > by this series or not - if they are, then I hopefully only threw away
-> > > > the fairly useless high level messages, like the "Error -22" message
-> > > > above.
-> > > 
-> > > Can you try migrating:
-> > >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng,disable-modern=true
-> > > to
-> > >   ./x86_64-softmmu/qemu-system-x86_64 -M pc -nographic -device virtio-rng
-> > > 
-> > > what I currently get is:
-> > > qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
-> > > qemu-system-x86_64: Failed to load PCIDevice:config
-> > > qemu-system-x86_64: Failed to load virtio-rng:virtio
-> > > qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
-> > > qemu-system-x86_64: load of migration failed: Invalid argument
-> > 
-> > After my patches the very last line is gone.
-> > 
-> > So, still reporting using  error_report() is the first 3:
-> > 
-> >  qemu-system-x86_64: get_pci_config_device: Bad config data: i=0x6 read: 0 device: 10 cmask: 10 wmask: 0 w1cmask:0
-> >  qemu-system-x86_64: Failed to load PCIDevice:config
-> >  qemu-system-x86_64: Failed to load virtio-rng:virtio
-> > 
-> > Then reported in process_incoming_migration_co() using the message
-> > populated in the Error object, using error_report_err():
-> > 
-> >  qemu-system-x86_64: error while loading state for instance 0x0 of device '0000:00:04.0/virtio-rng'
-> > 
-> > Finally, this is no longer reported:
-> > 
-> >  qemu-system-x86_64: load of migration failed: Invalid argument
-> > 
-> > So in this case we've not lost any useful information
-> 
-> One thing to check, and I *think* you're OK, but we have one place where
-> we actually check the error number:
-> 
-> migration.c:
-> 3414 static MigThrError migration_detect_error(MigrationState *s)
-> ...
-> 3426     /* Try to detect any file errors */
-> 3427     ret = qemu_file_get_error_obj(s->to_dst_file, &local_error);
-> 3428     if (!ret) {
-> 3429         /* Everything is fine */
-> 3430         assert(!local_error);
-> 3431         return MIG_THR_ERR_NONE;
-> 3432     }
-> 3433 
-> 3434     if (local_error) {
-> 3435         migrate_set_error(s, local_error);
-> 3436         error_free(local_error);
-> 3437     }
-> 3438 
-> 3439     if (state == MIGRATION_STATUS_POSTCOPY_ACTIVE && ret == -EIO) {
-> 3440         /*
-> 3441          * For postcopy, we allow the network to be down for a
-> 3442          * while. After that, it can be continued by a
-> 3443          * recovery phase.
-> 3444          */
-> 3445         return postcopy_pause(s);
-> 3446     } else {
-> 
-> This is to go into postcopy pause if the network connection broke (but
-> not if for example a device moaned about being in an invalid state)
-> 
-> If I read this correctly, file errors are still being preserved - is
-> that correct?
+On Wed, Feb 3, 2021 at 2:24 PM Cleber Rosa <crosa@redhat.com> wrote:
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> ---
+>  tests/acceptance/linux_ssh_mips_malta.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
 
-Yes, in places where QemuFile is reporting an actual I/O error I've
-tried to preserve that. Only removed setting of fake I/O errors. So
-if anything, we ought to get more accurate at detecting the recoverable
-scenarios once we fully cleanup errors.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
