@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C6831C17E
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:28:00 +0100 (CET)
-Received: from localhost ([::1]:45292 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BD2331C17F
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 19:29:09 +0100 (CET)
+Received: from localhost ([::1]:48096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBibG-00039R-Ec
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:27:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48388)
+	id 1lBicO-0004N4-7K
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 13:29:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBiZc-0002cp-Lc
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:26:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29291)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBiaq-0003Ox-HB
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:27:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42853)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lBiZT-000412-BW
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:26:16 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBiao-0004ok-8t
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 13:27:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613413566;
+ s=mimecast20190719; t=1613413649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+OzDhUGPyCukdrkizdfmCFVnDh2bxW7SBCFu+fppP9Y=;
- b=e7mx2YJMv/p5mWAq2PoTreyfkXawDvobUCHdanOIbuYWnt4PUXdhidGhjkZzEj7UnP9WGK
- CFQZ0Ihig73OcOqfMovZ4tE3GfE444FrpB0AAvWaCb5nah5bJWLOvWeIzydYCVoDAVLC/T
- eiavwF7k4b+cSZ911M/nrTCwgrkZEKs=
+ bh=yeMy0hRkIWzIIHz7dVXmUb1hccOS7jRGd+VvdJYteec=;
+ b=A6bNM1cyPblMZkU7f5WCTRu/YuilurWkZjx/4e3JZkusYUwjGuwVPYtOdE53Dl6mtoR1MT
+ B5L8mSpZh4r1QbCdNFzoBFPZIa3NMVypOE4kVD1xVwNWhAA0+ijZlyTWLv0I6YPg7KO3w8
+ 2oHNEVnw987mQ37A5ZEb+s3VcOjpLvc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-3WzGo_ImOhWhT6x1-xZctA-1; Mon, 15 Feb 2021 13:26:01 -0500
-X-MC-Unique: 3WzGo_ImOhWhT6x1-xZctA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-94-mazTWVKRPf2acul9HiBhUg-1; Mon, 15 Feb 2021 13:27:25 -0500
+X-MC-Unique: mazTWVKRPf2acul9HiBhUg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04E2E192CC41;
- Mon, 15 Feb 2021 18:26:00 +0000 (UTC)
-Received: from [10.3.114.78] (ovpn-114-78.phx2.redhat.com [10.3.114.78])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7613C19D9F;
- Mon, 15 Feb 2021 18:25:58 +0000 (UTC)
-Subject: Re: [PULL 3/5] qemu-iotests: 300: Add test case for modifying
- persistence of bitmap
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210212232134.1462756-1-eblake@redhat.com>
- <20210212232134.1462756-4-eblake@redhat.com>
- <20210215123152.GM7226@merkur.fritz.box>
- <0cd1617d-b22f-4ce1-38c2-df8822c3fbbe@redhat.com>
- <20210215170902.GS7226@merkur.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <42192dc8-329c-ef2d-d8f7-3d02ae9d2c85@redhat.com>
-Date: Mon, 15 Feb 2021 12:25:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE948107ACED;
+ Mon, 15 Feb 2021 18:27:23 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-114-28.rdu2.redhat.com
+ [10.10.114.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA9AA60BE2;
+ Mon, 15 Feb 2021 18:27:15 +0000 (UTC)
+Date: Mon, 15 Feb 2021 13:27:14 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: [PATCH 10/22] Python: add utility function for retrieving port
+ redirection
+Message-ID: <20210215182714.GC72984@localhost.localdomain>
+References: <20210203172357.1422425-1-crosa@redhat.com>
+ <20210203172357.1422425-11-crosa@redhat.com>
+ <4d848476-c5b4-2fd0-cbcc-01f87e4dfb71@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210215170902.GS7226@merkur.fritz.box>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <4d848476-c5b4-2fd0-cbcc-01f87e4dfb71@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="TYecfFk8j8mZq+dy"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,92 +80,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Krempa <pkrempa@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-devel@nongnu.org, "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Beraldo Leal <bleal@redhat.com>, John Snow <jsnow@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, Eric Auger <eauger@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Max Reitz <mreitz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 11:09 AM, Kevin Wolf wrote:
+--TYecfFk8j8mZq+dy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->>> This breaks 297:
+On Tue, Feb 09, 2021 at 11:50:51AM -0300, Wainer dos Santos Moschetta wrote=
+:
+> Hi,
+>=20
+> On 2/3/21 2:23 PM, Cleber Rosa wrote:
+> > Slightly different versions for the same utility code are currently
+> > present on different locations.  This unifies them all, giving
+> > preference to the version from virtiofs_submounts.py, because of the
+> > last tweaks added to it.
+> >=20
+> > While at it, this adds a "qemu.util" module to host the utility
+> > function and a test.
+> >=20
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >   python/qemu/utils.py                     | 35 +++++++++++++++++++++++=
++
+> >   tests/acceptance/info_usernet.py         | 29 ++++++++++++++++++++
+> >   tests/acceptance/linux_ssh_mips_malta.py | 16 +++++------
+> >   tests/acceptance/virtiofs_submounts.py   | 20 +++-----------
+> >   tests/vm/basevm.py                       |  7 ++---
+> >   5 files changed, 77 insertions(+), 30 deletions(-)
+> >   create mode 100644 python/qemu/utils.py
+> >   create mode 100644 tests/acceptance/info_usernet.py
+>=20
+> I've a few suggestions:
+>=20
+> - IMHO "utils" is too broad, people may start throwing random stuffs ther=
+e.
+> Maybe call it "net". I am sure there will be more net-related code to be
+> clustered on that module in the future.
+>
 
->>>  === mypy ===
->>> +300:646: error: Dict entry 2 has incompatible type "str": "Dict[str, bool]"; expected "str": "str"
->>> +Found 1 error in 1 file (checked 1 source file)
->>
->> is beyond my skill.  The typing at line 33:
->>
->> BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
->>
->> is insufficient to allow our new 'transform' member in the new
->> transform_mapping() -> Block BitmapMapping near line 677:
->>
->>                 'bitmaps': [
->>                     {
->>                         'name': 'bmap-a',
->>                         'alias': 'bmap-a',
->>                         'transform':
->>                             {
->>                                 'persistent': True
->>                             }
->>                     },
->>
->> but I'm not sure how to tell python the right type it should be.  John?
-> 
-> To be honest, this looks sufficiently like JSON that I would just go for
-> List[Dict[str, Any]] (as long as recursive types don't work), but if you
-> really want to have an explicit type, I think you'd have to replace the
-> rightmost str with Union[str, Dict[str, bool]] to allow both.
+It's hard to find the right balance here.  If you take a look at what John
+is proposing wrt the packaging the "qemu" Python libs, I believe one module
+is a good compromise at this point.  I really to expect that it will grow
+and that more modules will be created.
 
-Indeed, I played with it before reading your response, and came up with
-this.  Shall I turn it into a formal patch?
+> - Rename the method to "get_hostfwd_port()" because the parameter's name
+> already implies it is expected an "info usernet" output.
+>
 
-diff --git i/tests/qemu-iotests/300 w/tests/qemu-iotests/300
-index 63036f6a6e13..7501bd1018e2 100755
---- i/tests/qemu-iotests/300
-+++ w/tests/qemu-iotests/300
-@@ -30,7 +30,10 @@ import iotests
- # pylint: disable=wrong-import-order
- import qemu
+I thought about the method name, and decided to keep the more verbose name
+because this method is *not* about retrieving the "hostfwd port" from a
+running QEMU, but rather from the output that should be produced by a "info
+usernet" command.  It may become the foundation of a method on the QEMUMach=
+ine
+class that is called "get_hostfwd_port()" as you suggested, that includes
+getting the data (that is, issuing a "info usernet" command).
 
--BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
-+BlockBitmapMapping = List[Dict[str,
-+                               Union[str,
-+                                     List[Dict[str,
-+                                               Union[str, Dict[str,
-bool]]]]]]]
+Anyway, I tend to favor "explicit is better than implicit" approach, but
+I recognize that I can be too verbose at times.  Let's see if other people
+chip in with naming suggestions.
 
- mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
+> - Drop the InfoUsernet Test. It is too simple, and the same functionality=
+ is
+> tested indirectly by other tests.
+>
 
-@@ -602,7 +605,8 @@ class TestCrossAliasMigration(TestDirtyBitmapMigration):
+I find "too simple" is a typical case of "famous last words" :D.
+Now, as a functional test to cover the utility function, it's indeed
+a bit of overkill.  It'd probably be less necessary if there were unittests
+for those (and there will hopefully be some soon).
 
- class TestAliasTransformMigration(TestDirtyBitmapMigration):
-     """
--    Tests the 'transform' option which modifies bitmap persistence on
-migration.
-+    Tests the 'transform' option which modifies bitmap persistence on
-+    migration.
-     """
+Now, testing *directly* was indeed the intention here. I see a few
+reasons for that, including saving a good amount of debugging time:
+such a test failing would provide *direct* indication of where the
+regression is.  These simpler tests can also be run with targets other
+than the ones really connecting into guests at this moment (while it's
+debatable wether such a regression would appear only on such targets).
 
-     src_node_name = 'node-a'
-@@ -674,7 +678,8 @@ class
-TestAliasTransformMigration(TestDirtyBitmapMigration):
-         bitmaps = self.vm_b.query_bitmaps()
+> >=20
+> > diff --git a/python/qemu/utils.py b/python/qemu/utils.py
+> > new file mode 100644
+> > index 0000000000..89a246ab30
+> > --- /dev/null
+> > +++ b/python/qemu/utils.py
+> > @@ -0,0 +1,35 @@
+> > +"""
+> > +QEMU utility library
+> > +
+> > +This offers miscellaneous utility functions, which may not be easily
+> > +distinguishable or numerous to be in their own module.
+> > +"""
+> > +
+> > +# Copyright (C) 2021 Red Hat Inc.
+> > +#
+> > +# Authors:
+> > +#  Cleber Rosa <crosa@redhat.com>
+> > +#
+> > +# This work is licensed under the terms of the GNU GPL, version 2.  Se=
+e
+> > +# the COPYING file in the top-level directory.
+> > +#
+> > +
+> > +import re
+> > +from typing import Optional
+> > +
+> > +
+> > +def get_info_usernet_hostfwd_port(info_usernet_output: str) -> Optiona=
+l[int]:
+> > +    """
+> > +    Returns the port given to the hostfwd parameter via info usernet
+> > +
+> > +    :param info_usernet_output: output generated by hmp command "info =
+usernet"
+> > +    :param info_usernet_output: str
+> > +    :return: the port number allocated by the hostfwd option
+> > +    :rtype: int
+> > +    """
+> > +    for line in info_usernet_output.split('\r\n'):
+> > +        regex =3D r'TCP.HOST_FORWARD.*127\.0\.0\.1\s+(\d+)\s+10\.'
+> > +        match =3D re.search(regex, line)
+> > +        if match is not None:
+> > +            return int(match[1])
+> > +    return None
+> > diff --git a/tests/acceptance/info_usernet.py b/tests/acceptance/info_u=
+sernet.py
+> > new file mode 100644
+> > index 0000000000..9c1fd903a0
+> > --- /dev/null
+> > +++ b/tests/acceptance/info_usernet.py
+> > @@ -0,0 +1,29 @@
+> > +# Test for the hmp command "info usernet"
+> > +#
+> > +# Copyright (c) 2021 Red Hat, Inc.
+> > +#
+> > +# Author:
+> > +#  Cleber Rosa <crosa@redhat.com>
+> > +#
+> > +# This work is licensed under the terms of the GNU GPL, version 2 or
+> > +# later.  See the COPYING file in the top-level directory.
+> > +
+> > +from avocado_qemu import Test
+> > +
+> > +from qemu.utils import get_info_usernet_hostfwd_port
+> > +
+> > +
+> > +class InfoUsernet(Test):
+> > +
+> > +    def test_hostfwd(self):
+> > +        self.vm.add_args('-netdev', 'user,id=3Dvnet,hostfwd=3D:127.0.0=
+.1:0-:22')
+> > +        self.vm.launch()
+> > +        res =3D self.vm.command('human-monitor-command',
+> > +                              command_line=3D'info usernet')
+> > +        port =3D get_info_usernet_hostfwd_port(res)
+> > +        self.assertIsNotNone(port,
+> > +                             ('"info usernet" output content does not =
+seem to '
+> > +                              'contain the redirected port'))
+> > +        self.assertGreater(port, 0,
+> > +                           ('Found a redirected port that is not great=
+er than'
+> > +                            ' zero'))
+> > diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptanc=
+e/linux_ssh_mips_malta.py
+> > index 25c5c5f741..275659c785 100644
+> > --- a/tests/acceptance/linux_ssh_mips_malta.py
+> > +++ b/tests/acceptance/linux_ssh_mips_malta.py
+> > @@ -18,6 +18,8 @@ from avocado.utils import process
+> >   from avocado.utils import archive
+> >   from avocado.utils import ssh
+> > +from qemu.utils import get_info_usernet_hostfwd_port
+> > +
+> >   class LinuxSSH(Test):
+> > @@ -70,18 +72,14 @@ class LinuxSSH(Test):
+> >       def setUp(self):
+> >           super(LinuxSSH, self).setUp()
+> > -    def get_portfwd(self):
+> > +    def ssh_connect(self, username, password):
+> > +        self.ssh_logger =3D logging.getLogger('ssh')
+> >           res =3D self.vm.command('human-monitor-command',
+> >                                 command_line=3D'info usernet')
+> > -        line =3D res.split('\r\n')[2]
+> > -        port =3D re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+1=
+0\..*',
+> > -                        line)[1]
+> > +        port =3D get_info_usernet_hostfwd_port(res)
+> > +        if not port:
+> > +            self.cancel("Failed to retrieve SSH port")
+>=20
+> Here I think it should assert not none, otherwise there is a bug somewher=
+e.
+>
+> - Wainer
 
-         for node in bitmaps:
--            bitmaps[node] = sorted(((bmap['name'], bmap['persistent'])
-for bmap in bitmaps[node]))
-+            bitmaps[node] = sorted(((bmap['name'], bmap['persistent'])
-+                                    for bmap in bitmaps[node]))
+I'm trying to be careful and conservative with adding assertions,
+because IMO those belong to test writers.  IMO the expectation of a
+user writing a test using "ssh_connect()" as a framework utility,
+would be more aligned with the framework bailing out, than blatantly
+setting a test failure.
 
-         self.assertEqual(bitmaps,
-                          {'node-a': [('bmap-a', True), ('bmap-b', False)],
+It's similar to what happens if a "vmimage" snapshot can not be
+created... there's an issue somewhere, but it'd be a bit unfair, and
+confusing, to set a assertion error (and thus test failure).  But, I
+think this is the kind of design decision that will evolve with (more)
+time here.
 
+Let me know if my explanations make sense and change your mind
+any bit :).
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Thanks for the review!
+- Cleber.
+
+--TYecfFk8j8mZq+dy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAqvP8ACgkQZX6NM6Xy
+CfPxHhAAxixfsWRPky1Gtel8sAsPAf+sdI1JWUpnfPYtgr9n/8YGcaThguEHkdxm
+MFqtFnQbcj9M0NSHlBMkVtIhTLdtpKZTeVWfkKS/7c7IEFPItmP1sjQFQvsVByNO
+3fJ6nF0oltQdfcXWSXQTDmu13/YXiQXDphZk0hE/ZODsh5C6r6BG8VYMtYy90mOq
+WMyha019A6cGSTlLHAOK9HQ5sA7fFVUxI/+c84DcODeOG3jyOt8jHgEtcenS1E7k
+/jzHd0AQZQFN+J6aCtsnDwq1Oc4YJe276yTN6qXghTicUi7LJbALQBryFR6bdGC3
+PAe3RAe7ZiYE9FIop2eLgZClrvmsQQhqeh7mXMPBWaopEjCp1C+6SGSnnyL+JczZ
+zbQjyiOAuXl1O/DE54TwG9zyfv6UXTY3TzH45AY5zzveoSQJNRMr+PBJZXbNPu9l
+iCUQG4Gr8qS6bLOJhs8JzGMylhlcpiP8CtswJz4b0wJinQigO6yOWfnFDY4C0Wte
+gN/spZaAtDAhLMxHh2UPxhV802j6dH42PLGPk0dYgARcQugZpE7VVbSFHiU5925r
+0fjcLfPfEovfFW3k4TXeZp067o6pJYpYjLpGxGYMJVfL1CypClLNVNulkV5c01eM
+sW1wwM15XdI4AtAwGFGCVK3VQhOVTY02eg2rFs+yn5ghwn2GmPQ=
+=tB6L
+-----END PGP SIGNATURE-----
+
+--TYecfFk8j8mZq+dy--
 
 
