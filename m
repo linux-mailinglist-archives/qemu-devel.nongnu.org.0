@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566CB31B6F7
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:20:55 +0100 (CET)
-Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7232831B6FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:22:18 +0100 (CET)
+Received: from localhost ([::1]:48426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBazt-00075d-NI
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:20:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46066)
+	id 1lBb1F-0008Lq-Gx
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:22:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBayh-0006P5-0s
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:19:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51771)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBazo-0007RC-O7
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:20:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lBayc-0003vb-GX
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:19:38 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBazj-0004WQ-FE
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:20:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613384371;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=mdAN1to1fpQoEz/7lAhoZGUfYUymiINLr+2fUfAes/M=;
- b=ILHlNL6llvR0KyGK3gunqrK6h2+qqYe6uOUddFjcxxW1k0QRLbsal+LqIWeDq6oeMzxqV4
- jnLcZ+MhnzphW8t/8drR+ImhsTgzcPZzTb95A9uVtawWElKyaCcfLdzxT7i1mPWgKykaJe
- egc1MDKrSuGZ7cjV7cFuMaT2oAA2DG8=
+ s=mimecast20190719; t=1613384442;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q9FQK6tN/ELkQFVnpg5VSayLlF/asdHAzCRwxWhKMsA=;
+ b=CDD/LQRyyb8xPNokm8BB06WfRJm0lsn7VkIvTYBOXBaJh64glPuKTgkyAuQF4eBfejs1rx
+ BPmCGRSc3mk6JPQDqtZV+L77z7zGQtlNIBcJ+gK0Y+vAcTqTWKV4T7KRjxwiqULaTczlV9
+ kVuHZ2/rBO9lw3dQq95SCKpthAV7Ue8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-3evTs4vbPBO7d_56J4aj2w-1; Mon, 15 Feb 2021 05:19:21 -0500
-X-MC-Unique: 3evTs4vbPBO7d_56J4aj2w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-478-HYcvkwLoOZaYoEzqub3vYw-1; Mon, 15 Feb 2021 05:20:39 -0500
+X-MC-Unique: HYcvkwLoOZaYoEzqub3vYw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A1D2100CCC4;
- Mon, 15 Feb 2021 10:19:20 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E00666A16;
- Mon, 15 Feb 2021 10:19:14 +0000 (UTC)
-Date: Mon, 15 Feb 2021 10:19:11 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH V2 1/7] block/rbd: bump librbd requirement to luminous
- release
-Message-ID: <20210215101911.GA1542881@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CF7AEC7400;
+ Mon, 15 Feb 2021 10:20:37 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-28.ams2.redhat.com [10.36.113.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 885065DF21;
+ Mon, 15 Feb 2021 10:20:33 +0000 (UTC)
+Date: Mon, 15 Feb 2021 11:20:31 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Lieven <pl@kamp.de>
+Subject: Re: [PATCH V2 4/7] block/rbd: add bdrv_attach_aio_context
+Message-ID: <20210215102031.GD7226@merkur.fritz.box>
 References: <20210126112540.11880-1-pl@kamp.de>
- <20210126112540.11880-2-pl@kamp.de>
- <20210215101123.GC7226@merkur.fritz.box>
+ <20210126112540.11880-5-pl@kamp.de>
 MIME-Version: 1.0
-In-Reply-To: <20210215101123.GC7226@merkur.fritz.box>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210126112540.11880-5-pl@kamp.de>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,74 +76,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, Peter Lieven <pl@kamp.de>,
- ct@flyingcircus.io, mreitz@redhat.com, pbonzini@redhat.com,
- dillaman@redhat.com
+Cc: qemu-block@nongnu.org, ct@flyingcircus.io, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, mreitz@redhat.com, dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 15, 2021 at 11:11:23AM +0100, Kevin Wolf wrote:
-> Am 26.01.2021 um 12:25 hat Peter Lieven geschrieben:
-> > even luminous (version 12.2) is unmaintained for over 3 years now.
-> > Bump the requirement to get rid of the ifdef'ry in the code.
-> > 
-> > Signed-off-by: Peter Lieven <pl@kamp.de>
+Am 26.01.2021 um 12:25 hat Peter Lieven geschrieben:
+> Signed-off-by: Peter Lieven <pl@kamp.de>
+> ---
+>  block/rbd.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
 > 
-> > diff --git a/meson.build b/meson.build
-> > index 5943aa8a51..02d263ad33 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -691,19 +691,24 @@ if not get_option('rbd').auto() or have_block
-> >                             required: get_option('rbd'),
-> >                             kwargs: static_kwargs)
-> >    if librados.found() and librbd.found()
-> > -    if cc.links('''
-> > +    result = cc.run('''
-> 
-> Doesn't running compiled binaries break cross compilation?
-> 
-> >        #include <stdio.h>
-> >        #include <rbd/librbd.h>
-> >        int main(void) {
-> >          rados_t cluster;
-> >          rados_create(&cluster, NULL);
-> > +        rados_shutdown(cluster);
-> > +        #if LIBRBD_VERSION_CODE < LIBRBD_VERSION(1, 12, 0)
-> > +        return 1;
-> > +        #endif
-> >          return 0;
-> 
-> Would #error achieve what you want without running the binary?
-> 
-> But most, if not all, other version checks use pkg-config instead of
-> trying to compile code, so that's probably what we should be doing here,
-> too.
+> diff --git a/block/rbd.c b/block/rbd.c
+> index f68ebcf240..7abd0252c9 100644
+> --- a/block/rbd.c
+> +++ b/block/rbd.c
+> @@ -91,6 +91,7 @@ typedef struct BDRVRBDState {
+>      char *namespace;
+>      uint64_t image_size;
+>      uint64_t object_size;
+> +    AioContext *aio_context;
+>  } BDRVRBDState;
 
-Yep, for something that is merely a version number check there's no
-need to compile anything. pkg-config can just validate the version
-straightup.
+A commit message explaining the why would be helpful here.
 
-> 
-> > -      }''', dependencies: [librbd, librados])
-> > +    }''', dependencies: [librbd, librados], name: 'librbd version check')
-> > +    if result.compiled() and result.returncode() == 0
-> >        rbd = declare_dependency(dependencies: [librbd, librados])
-> >      elif get_option('rbd').enabled()
-> > -      error('could not link librados')
-> > +      error('librados/librbd >= 12.0.0 required')
-> >      else
-> > -      warning('could not link librados, disabling')
-> > +      warning('librados/librbd >= 12.0.0 not found, disabling rbd support')
-> >      endif
-> >    endif
-> >  endif
+This is already stored in BlockDriverState, which should be available
+everywhere. Keeping redundant information needs a good justification,
+which seems unlikely when BlockDriverState and BDRVRBDState are already
+connected through the BlockDriverState.opaque pointer.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+The rest of the series doesn't seem to make more use of it either.
+
+Kevin
 
 
