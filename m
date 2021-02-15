@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7CD31B8C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:10:13 +0100 (CET)
-Received: from localhost ([::1]:55514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B68A31B8B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 13:07:26 +0100 (CET)
+Received: from localhost ([::1]:45710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBchg-0003hW-QB
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:10:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39384)
+	id 1lBcez-0007rz-2V
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 07:07:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBcQY-0007hc-R2
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:30 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45505)
+ id 1lBcQf-0007zd-Or
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:37 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:45503)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBcQX-000415-3D
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:30 -0500
-Received: by mail-wr1-x430.google.com with SMTP id v7so8455379wrr.12
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:52:28 -0800 (PST)
+ id 1lBcQd-000441-Of
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 06:52:37 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id v7so8455734wrr.12
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 03:52:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ok51mWFe/EHn9mJ70RUpKX9SuyFsEZZOYsJcbxrhCtM=;
- b=MWrc0AdmkdABWEbP2TLy1p4KVEBQRu5S9EoM5KOj7yuStRi8WBRv1lHgVE6nZYdGDW
- 0KoycWMpLjOBd2lF0aVPyOau+OlVaeKi+U7RlcRbDGFrFRQgvUCD8zHYhx9xxFsLpLwc
- TIRXQsLc0R5CNfOAEbJbjJsIJwlU/litP9jK26CNJyumaVviN6SkxFmV/9bDmaRSq5Tp
- aoI6Y1p5Smum6V3tw30EU2O7Z2+ZiIRHJ3u+WuUB/n99JVMWrckYJsl3cVSxQbGbLdm2
- 6ZgyyULFAFst2U+kG/QQ6MkPG9N1gPWyOH9eUA/LjduSpzjjKzVN6Cdcv/K20wKqnbDn
- +Urg==
+ bh=+NbEIvKPXeseDuihlw5UuA+TE/Yh6pzRecBSPQLOGzA=;
+ b=JcB953aXQ+kOZN6UN3HgPCvje9PxaJ4R82K4joukXBdiWrh7rvgf8d/fxkjLtTpsAU
+ tzR2cBoV8fNtl+OM7px6ziJtYMNaKmVgCtNLa1phNiyeCsdZ3H8m9/oFTg4x+INhpQm5
+ UYfwDYiu6l8+pDXX/k2q/nZakEBKGNZGAEyq/4lQR8A5CcHly1teNc1gVElDTyfcvcrH
+ cKO3K2+ge6QIrK72pxNVcqk5/A2bq+qGw1gIGYRxMrDtv9j0C8BHpqWgmzaIhZ5ieGpz
+ sz5gLTLS9GuEZNGQ1HigVhoU442a38VIBQuDD63jMnp/A7IlQ7DYmbsB/vrZboyieO1Q
+ I1cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Ok51mWFe/EHn9mJ70RUpKX9SuyFsEZZOYsJcbxrhCtM=;
- b=FpAomon8pwjASRrWAY+1goKajSop7EK/v1ID5aKEHKct9kiL2SSsj48caTAx8ghZy8
- b4b9nJp8jrQLtRJ+ox5vxjfBKDMK+V04/QywDL3tY+WVN/9WaEAYxE6YK8dLeuOHQ+GD
- ujt0pU9ehaXdIoc8w81OqpbGMKixbW9Ox798U/J+us50tlj5QjgzEJYBrOKyvzhCzD5I
- RHAWuDASRicdIDoSdawm8Ku+9VeQ5nOSEVO9LtfGE/RUswvWEHVuX2W3oMK+0bt3bK2L
- ME+DWpnRuds6lXbOibc05/bny50Kmo7/CVqoHRsXOpgBN7uMWPC5iAz8SlppdQg4hJUt
- HUqA==
-X-Gm-Message-State: AOAM530OWllDFbmL0+drHaFkcGasThHertJcojE4+SdojfD93yj84omD
- i0dSPAVx0DO+PTnpvTdnyPO3mQ==
-X-Google-Smtp-Source: ABdhPJyy0u6L1qTrOY2Uu/VHz/avD5zg6jKgMFuI26LQs9SYJxwrfidrXKhxz/ZFz2RwkCm8yvqlYw==
-X-Received: by 2002:a05:6000:1cc:: with SMTP id
- t12mr17719201wrx.142.1613389947866; 
- Mon, 15 Feb 2021 03:52:27 -0800 (PST)
+ bh=+NbEIvKPXeseDuihlw5UuA+TE/Yh6pzRecBSPQLOGzA=;
+ b=IufS4sf231Az7XWVRonLpsTdrpMoprBaQmSiHjMdlNngjuBZsoM4v302HNCFl/v9eY
+ 4m+UDxAoEIIYKfJWK8Yzv3bvd6dbsNTM6x1InvXeG80BU4+Pu4+nj+wpZxaZyrrZgbrh
+ SP8rxqAG1bedmq1sMad66ncHKxNXnyY7qsgpvAfyjEWgwkTNC32IKfbSwg0p5r01bZ6T
+ juEBknOeO6BAQIp9tPTT0vwWDRcbCNBhec/EjLBC560IHq1UfGSHeFP6l7R5DiBBSiJN
+ nUTPmYNvPlLDwGN3ugNumFZprfvCbs9Hwzg313Sa4GQj9ebvtKoKfEkHyUr+C8jP3NQ5
+ ZVog==
+X-Gm-Message-State: AOAM533RGh9kS0+3aVi0U1ZJAwB3s98ESDLyXKe6UVpniq1N35StRMl+
+ ZdSgXGLD63FXKLAYUmTekqNoGjJ1inXWJA==
+X-Google-Smtp-Source: ABdhPJxLS6lxoNJeqinL75T6aEWtu99h4Q9rgz/VWJAzitSKEkMEcDEgMNgx8imfjotfMKBRIOPYCQ==
+X-Received: by 2002:adf:b749:: with SMTP id n9mr18299390wre.267.1613389954486; 
+ Mon, 15 Feb 2021 03:52:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id l83sm25574812wmf.4.2021.02.15.03.52.25
+ by smtp.gmail.com with ESMTPSA id l83sm25574812wmf.4.2021.02.15.03.52.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 03:52:27 -0800 (PST)
+ Mon, 15 Feb 2021 03:52:34 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 11/24] hw/arm/mps2-tz: Correct wrong interrupt numbers for
- DMA and SPI
-Date: Mon, 15 Feb 2021 11:51:25 +0000
-Message-Id: <20210215115138.20465-12-peter.maydell@linaro.org>
+Subject: [PATCH v2 13/24] hw/arm/mps2-tz: Move device IRQ info to data
+ structures
+Date: Mon, 15 Feb 2021 11:51:27 +0000
+Message-Id: <20210215115138.20465-14-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210215115138.20465-1-peter.maydell@linaro.org>
 References: <20210215115138.20465-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,92 +88,142 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On the MPS2 boards, the first 32 interrupt lines are entirely
-internal to the SSE; interrupt lines for devices outside the SSE
-start at 32.  In the application notes that document each FPGA image,
-the interrupt wiring is documented from the point of view of the CPU,
-so '0' is the first of the SSE's interrupts and the devices in the
-FPGA image itself are '32' and up: so the UART 0 Receive interrupt is
-32, the SPI #0 interrupt is 51, and so on.
-
-Within our implementation, because the external interrupts must be
-connected to the EXP_IRQ[0...n] lines of the SSE object, we made the
-get_sse_irq_in() function take an irqno whose values start at 0 for
-the first FPGA device interrupt.  In this numbering scheme the UART 0
-Receive interrupt is 0, the SPI #0 interrupt is 19, and so on.
-
-The result of these two different numbering schemes has been that
-half of the devices were wired up to the wrong IRQs: the UART IRQs
-are wired up correctly, but the DMA and SPI devices were passing
-start-at-32 values to get_sse_irq_in() and so being mis-connected.
-
-Fix the bug by making get_sse_irq_in() take values specified with the
-same scheme that the hardware manuals use, to avoid confusion.
+Move the specification of the IRQ information for the uart, ethernet,
+dma and spi devices to the data structures.  (The other devices
+handled by the PPCPortInfo structures don't have any interrupt lines
+we need to wire up.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 24 +++++++++++++++++-------
- 1 file changed, 17 insertions(+), 7 deletions(-)
+ hw/arm/mps2-tz.c | 52 +++++++++++++++++++++++-------------------------
+ 1 file changed, 25 insertions(+), 27 deletions(-)
 
 diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index 6362652e617..ff8b7e5f1ae 100644
+index 085746ac3e6..014ba775783 100644
 --- a/hw/arm/mps2-tz.c
 +++ b/hw/arm/mps2-tz.c
-@@ -139,11 +139,21 @@ static void make_ram_alias(MemoryRegion *mr, const char *name,
- 
- static qemu_irq get_sse_irq_in(MPS2TZMachineState *mms, int irqno)
+@@ -208,12 +208,10 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
+                                const char *name, hwaddr size,
+                                const int *irqs)
  {
--    /* Return a qemu_irq which will signal IRQ n to all CPUs in the SSE. */
-+    /*
-+     * Return a qemu_irq which will signal IRQ n to all CPUs in the
-+     * SSE.  The irqno should be as the CPU sees it, so the first
-+     * external-to-the-SSE interrupt is 32.
-+     */
-     MachineClass *mc = MACHINE_GET_CLASS(mms);
-     MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
- 
--    assert(irqno < mmc->numirq);
-+    assert(irqno >= 32 && irqno < (mmc->numirq + 32));
-+
-+    /*
-+     * Convert from "CPU irq number" (as listed in the FPGA image
-+     * documentation) to the SSE external-interrupt number.
-+     */
-+    irqno -= 32;
- 
-     if (mc->max_cpus > 1) {
-         return qdev_get_gpio_in(DEVICE(&mms->cpu_irq_splitter[irqno]), 0);
-@@ -197,9 +207,9 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
++    /* The irq[] array is tx, rx, combined, in that order */
      MPS2TZMachineClass *mmc = MPS2TZ_MACHINE_GET_CLASS(mms);
      CMSDKAPBUART *uart = opaque;
      int i = uart - &mms->uart[0];
--    int rxirqno = i * 2;
--    int txirqno = i * 2 + 1;
--    int combirqno = i + 10;
-+    int rxirqno = i * 2 + 32;
-+    int txirqno = i * 2 + 33;
-+    int combirqno = i + 42;
+-    int rxirqno = i * 2 + 32;
+-    int txirqno = i * 2 + 33;
+-    int combirqno = i + 42;
      SysBusDevice *s;
      DeviceState *orgate_dev = DEVICE(&mms->uart_irq_orgate);
  
-@@ -266,7 +276,7 @@ static MemoryRegion *make_eth_dev(MPS2TZMachineState *mms, void *opaque,
+@@ -222,11 +220,11 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
+     qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", mmc->sysclk_frq);
+     sysbus_realize(SYS_BUS_DEVICE(uart), &error_fatal);
+     s = SYS_BUS_DEVICE(uart);
+-    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, txirqno));
+-    sysbus_connect_irq(s, 1, get_sse_irq_in(mms, rxirqno));
++    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, irqs[0]));
++    sysbus_connect_irq(s, 1, get_sse_irq_in(mms, irqs[1]));
+     sysbus_connect_irq(s, 2, qdev_get_gpio_in(orgate_dev, i * 2));
+     sysbus_connect_irq(s, 3, qdev_get_gpio_in(orgate_dev, i * 2 + 1));
+-    sysbus_connect_irq(s, 4, get_sse_irq_in(mms, combirqno));
++    sysbus_connect_irq(s, 4, get_sse_irq_in(mms, irqs[2]));
+     return sysbus_mmio_get_region(SYS_BUS_DEVICE(uart), 0);
+ }
+ 
+@@ -283,7 +281,7 @@ static MemoryRegion *make_eth_dev(MPS2TZMachineState *mms, void *opaque,
  
      s = SYS_BUS_DEVICE(mms->lan9118);
      sysbus_realize_and_unref(s, &error_fatal);
--    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 16));
-+    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 48));
+-    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 48));
++    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, irqs[0]));
      return sysbus_mmio_get_region(s, 0);
  }
  
-@@ -507,7 +517,7 @@ static void mps2tz_common_init(MachineState *machine)
-                             &error_fatal);
-     qdev_realize(DEVICE(&mms->uart_irq_orgate), NULL, &error_fatal);
-     qdev_connect_gpio_out(DEVICE(&mms->uart_irq_orgate), 0,
--                          get_sse_irq_in(mms, 15));
-+                          get_sse_irq_in(mms, 47));
+@@ -329,6 +327,7 @@ static MemoryRegion *make_dma(MPS2TZMachineState *mms, void *opaque,
+                               const char *name, hwaddr size,
+                               const int *irqs)
+ {
++    /* The irq[] array is DMACINTR, DMACINTERR, DMACINTTC, in that order */
+     PL080State *dma = opaque;
+     int i = dma - &mms->dma[0];
+     SysBusDevice *s;
+@@ -373,9 +372,9 @@ static MemoryRegion *make_dma(MPS2TZMachineState *mms, void *opaque,
  
-     /* Most of the devices in the FPGA are behind Peripheral Protection
-      * Controllers. The required order for initializing things is:
+     s = SYS_BUS_DEVICE(dma);
+     /* Wire up DMACINTR, DMACINTERR, DMACINTTC */
+-    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 58 + i * 3));
+-    sysbus_connect_irq(s, 1, get_sse_irq_in(mms, 56 + i * 3));
+-    sysbus_connect_irq(s, 2, get_sse_irq_in(mms, 57 + i * 3));
++    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, irqs[0]));
++    sysbus_connect_irq(s, 1, get_sse_irq_in(mms, irqs[1]));
++    sysbus_connect_irq(s, 2, get_sse_irq_in(mms, irqs[2]));
+ 
+     g_free(mscname);
+     return sysbus_mmio_get_region(s, 0);
+@@ -394,13 +393,12 @@ static MemoryRegion *make_spi(MPS2TZMachineState *mms, void *opaque,
+      * lines are set via the "MISC" register in the MPS2 FPGAIO device.
+      */
+     PL022State *spi = opaque;
+-    int i = spi - &mms->spi[0];
+     SysBusDevice *s;
+ 
+     object_initialize_child(OBJECT(mms), name, spi, TYPE_PL022);
+     sysbus_realize(SYS_BUS_DEVICE(spi), &error_fatal);
+     s = SYS_BUS_DEVICE(spi);
+-    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, 51 + i));
++    sysbus_connect_irq(s, 0, get_sse_irq_in(mms, irqs[0]));
+     return sysbus_mmio_get_region(s, 0);
+ }
+ 
+@@ -551,16 +549,16 @@ static void mps2tz_common_init(MachineState *machine)
+         }, {
+             .name = "apb_ppcexp1",
+             .ports = {
+-                { "spi0", make_spi, &mms->spi[0], 0x40205000, 0x1000 },
+-                { "spi1", make_spi, &mms->spi[1], 0x40206000, 0x1000 },
+-                { "spi2", make_spi, &mms->spi[2], 0x40209000, 0x1000 },
+-                { "spi3", make_spi, &mms->spi[3], 0x4020a000, 0x1000 },
+-                { "spi4", make_spi, &mms->spi[4], 0x4020b000, 0x1000 },
+-                { "uart0", make_uart, &mms->uart[0], 0x40200000, 0x1000 },
+-                { "uart1", make_uart, &mms->uart[1], 0x40201000, 0x1000 },
+-                { "uart2", make_uart, &mms->uart[2], 0x40202000, 0x1000 },
+-                { "uart3", make_uart, &mms->uart[3], 0x40203000, 0x1000 },
+-                { "uart4", make_uart, &mms->uart[4], 0x40204000, 0x1000 },
++                { "spi0", make_spi, &mms->spi[0], 0x40205000, 0x1000, { 51 } },
++                { "spi1", make_spi, &mms->spi[1], 0x40206000, 0x1000, { 52 } },
++                { "spi2", make_spi, &mms->spi[2], 0x40209000, 0x1000, { 53 } },
++                { "spi3", make_spi, &mms->spi[3], 0x4020a000, 0x1000, { 54 } },
++                { "spi4", make_spi, &mms->spi[4], 0x4020b000, 0x1000, { 55 } },
++                { "uart0", make_uart, &mms->uart[0], 0x40200000, 0x1000, { 32, 33, 42 } },
++                { "uart1", make_uart, &mms->uart[1], 0x40201000, 0x1000, { 34, 35, 43 } },
++                { "uart2", make_uart, &mms->uart[2], 0x40202000, 0x1000, { 36, 37, 44 } },
++                { "uart3", make_uart, &mms->uart[3], 0x40203000, 0x1000, { 38, 39, 45 } },
++                { "uart4", make_uart, &mms->uart[4], 0x40204000, 0x1000, { 40, 41, 46 } },
+                 { "i2c0", make_i2c, &mms->i2c[0], 0x40207000, 0x1000 },
+                 { "i2c1", make_i2c, &mms->i2c[1], 0x40208000, 0x1000 },
+                 { "i2c2", make_i2c, &mms->i2c[2], 0x4020c000, 0x1000 },
+@@ -582,15 +580,15 @@ static void mps2tz_common_init(MachineState *machine)
+                 { "gpio1", make_unimp_dev, &mms->gpio[1], 0x40101000, 0x1000 },
+                 { "gpio2", make_unimp_dev, &mms->gpio[2], 0x40102000, 0x1000 },
+                 { "gpio3", make_unimp_dev, &mms->gpio[3], 0x40103000, 0x1000 },
+-                { "eth", make_eth_dev, NULL, 0x42000000, 0x100000 },
++                { "eth", make_eth_dev, NULL, 0x42000000, 0x100000, { 48 } },
+             },
+         }, {
+             .name = "ahb_ppcexp1",
+             .ports = {
+-                { "dma0", make_dma, &mms->dma[0], 0x40110000, 0x1000 },
+-                { "dma1", make_dma, &mms->dma[1], 0x40111000, 0x1000 },
+-                { "dma2", make_dma, &mms->dma[2], 0x40112000, 0x1000 },
+-                { "dma3", make_dma, &mms->dma[3], 0x40113000, 0x1000 },
++                { "dma0", make_dma, &mms->dma[0], 0x40110000, 0x1000, { 58, 56, 57 } },
++                { "dma1", make_dma, &mms->dma[1], 0x40111000, 0x1000, { 61, 59, 60 } },
++                { "dma2", make_dma, &mms->dma[2], 0x40112000, 0x1000, { 64, 62, 63 } },
++                { "dma3", make_dma, &mms->dma[3], 0x40113000, 0x1000, { 67, 65, 66 } },
+             },
+         },
+     };
 -- 
 2.20.1
 
