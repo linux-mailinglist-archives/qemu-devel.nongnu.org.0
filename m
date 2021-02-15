@@ -2,89 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0374F31BA81
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 14:44:17 +0100 (CET)
-Received: from localhost ([::1]:54882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B7E31BA83
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 14:49:12 +0100 (CET)
+Received: from localhost ([::1]:34310 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBeAi-0006SA-10
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 08:44:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36978)
+	id 1lBeFT-00022q-Jc
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 08:49:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBe7j-0004Ob-VT
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 08:41:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBe7e-0007Os-8P
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 08:41:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613396465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4E7lYHNQqysqcSM1giL818+iqIB6QexLGJgq0kr1v9E=;
- b=HYSTPchhqCwCXhkTplWGoiN9E9fU1KAPBZz5h5HcqmKJocNokE1PNzEcm1B/RcgmfJX+Es
- vQdxGb6AQBtZ+j2aGv9xQcKZzdBE6rFWy/Lc6lh/X8tDETDWw8KMuOC3i1L+gEt7OH843g
- EhxirUpxcx9nyIHXjTMbHqBCn0rDoqk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-57-FNpFJLdoNBeRBxN6CkUhmQ-1; Mon, 15 Feb 2021 08:41:01 -0500
-X-MC-Unique: FNpFJLdoNBeRBxN6CkUhmQ-1
-Received: by mail-wr1-f72.google.com with SMTP id o16so9937347wrn.1
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 05:41:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4E7lYHNQqysqcSM1giL818+iqIB6QexLGJgq0kr1v9E=;
- b=ZSu2DH8aXqsuwNLVPeb2hrKTzZE9r9NL5xWjSd4Qn2iDh+64Z9benfvHEFoaZP1BSD
- kpfz7ZQB0I3GujNFnA5x9nQAUJOGvSg8KQWwX9MtU5AIys9flNHuHdzisFC0KtDtHG3M
- TTXRm4I2pVBmu56Goy5J61Bq25gw81t6WhKLEv+yOygPdsL+hhlLoOXnJhUqb665vUWZ
- W+ThQbVHAHSL3MSTKpwB/slZRLbxz4Dev8hFEJDn2ZQd1x+ZRe44FlmH4W38YwYKAXH+
- rzo7R3rp6kycZ/hmGogX53aGOWKoJl/7RbpCznQixfBD9t8uMrIsmTMdVKo1Lp7FTGoO
- y6UA==
-X-Gm-Message-State: AOAM530hofEHA+6Fzzi+NOACPa9Wx3jJgBxOv4bijeAW5Hebc6QnYKf+
- /U+UeXyvJb0tec4Dxj3UQdIsJVqVizoINTM3eWyJHDrrhChC64lC9FjM5ls52vX/m7UENXwPAff
- aikVuv3Fh9v5UhA4=
-X-Received: by 2002:adf:ab55:: with SMTP id r21mr18164673wrc.270.1613396460775; 
- Mon, 15 Feb 2021 05:41:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0qW/3MiGbMNBb+ZupNANXZ28kkqDr7hlvBetRP6pw4IsGfebek8J9dANn1nZEb7NXU0KfcA==
-X-Received: by 2002:adf:ab55:: with SMTP id r21mr18164522wrc.270.1613396457327; 
- Mon, 15 Feb 2021 05:40:57 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i7sm54976166wmq.2.2021.02.15.05.40.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 05:40:56 -0800 (PST)
-Subject: Re: [PULL 00/13] Linux user for 6.0 patches
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org,
- Stefan <stefan-guix@vodafonemail.de>
-References: <20210215124519.720265-1-laurent@vivier.eu>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <813f55f9-5d45-28f5-3507-78872e1625ca@redhat.com>
-Date: Mon, 15 Feb 2021 14:40:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lBeAi-0007wW-1l
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 08:44:16 -0500
+Resent-Date: Mon, 15 Feb 2021 08:44:16 -0500
+Resent-Message-Id: <E1lBeAi-0007wW-1l@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lBeAd-0000Ai-2T
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 08:44:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1613396644; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=SskUb+9htaKVNOy2KYAkr5DodGq6wkkm/1sXbxumR97CjOjrUh6veAPgG97bgl8qebYiP1+8WToXrQAd7mO/vyotufpDV6PlT+iBuOANDTHgMAskFtiPUM4WHbUNlD2pj9cixsbdoAJp6WyufiYxziVab6+2qpN3g50gI3H2YX4=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1613396644;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=lc0LYfadZHFbmgAroJH36HHehywM1SG7IYUCFrXfGko=; 
+ b=I1JYI5s9tFq2Z3pn0GUx/Tt6MPzFS2lY0K7X8u32tR5vVxanap3sZLAxrIhfnwo0PkQXCLhcrirow5JrQL3VV7YD5/9iHRbggiua5OHc/bdDv3/xvcctdo5ecbwmM+yOpQfAOsoR5Kl3RgeBmgmNXHbJaTs7gcq+12v8kjW8wsw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1613396639574498.79586872439506;
+ Mon, 15 Feb 2021 05:43:59 -0800 (PST)
+In-Reply-To: <20210215131626.65640-1-pbonzini@redhat.com>
+Subject: Re: [PULL 00/19] i386, qgraph patches for 2020-02-15
+Message-ID: <161339663868.11193.13793362647858974969@c667a6b167f6>
 MIME-Version: 1.0
-In-Reply-To: <20210215124519.720265-1-laurent@vivier.eu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Mon, 15 Feb 2021 05:43:59 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,73 +67,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 1:45 PM, Laurent Vivier wrote:
-> The following changes since commit f4ceebdec531243dd72e38f85f085287e6e63258:
-> 
->   Merge remote-tracking branch 'remotes/vivier/tags/m68k-for-6.0-pull-request=
-> ' into staging (2021-02-13 18:16:43 +0000)
-> 
-> are available in the Git repository at:
-> 
->   git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request
-> 
-> for you to fetch changes up to b8f91fd49c5c6993e06f0cd7bf024d176051320e:
-> 
->   linux-user/mips: Support the n32 ABI for the R5900 (2021-02-15 12:10:03 +01=
-> 00)
-> 
-> ----------------------------------------------------------------
-> Pull request linux-user 20210215
-> 
-> mips o32 ABI update / R5900 update
-> Remove outdated info from docs
-> Add definitions of TARGET_SS_AUTODISARM, TARGET_SO_DOMAIN, TARGET_SO_PROTOCOL
-> Fix ioctl(), waitid(), mremap(), signalfd4(), eventfd2()
-> Fix O_NONBLOCK (hppa), __O_TMPFILE (hppa/alpha)
-> 
-> ----------------------------------------------------------------
-> 
-> Alistair Francis (1):
->   linux-user/signal: Decode waitid si_code
-> 
-> Chen Gang (1):
->   linux-user: target: signal: Support TARGET_SS_AUTODISARM
-> 
-> Fredrik Noring (1):
->   linux-user/mips: Support the n32 ABI for the R5900
-> 
-> Giuseppe Musacchio (1):
->   linux-user: Fix loading of BSS segments
-> 
-> Helge Deller (3):
->   linux-user: Add missing TARGET___O_TMPFILE for hppa and alpha
->   linux-user: fix O_NONBLOCK usage for hppa target
->   linux-user: fix O_NONBLOCK in signalfd4() and eventfd2() syscalls
-> 
-> Jason A. Donenfeld (1):
->   linux-user: add TARGET_SO_{DOMAIN,PROTOCOL}
-> 
-> Peter Maydell (1):
->   docs/user: Remove outdated 'Quick Start' section
-> 
-> Philippe Mathieu-Daud=C3=A9 (2):
->   linux-user/mips64: Restore setup_frame() for o32 ABI
->   linux-user/mips64: Support o32 ABI syscalls
-> 
-> Richard Purdie (1):
->   linux-user/mmap: Avoid asserts for out of range mremap calls
-> 
-> Stefan (1):
->   linux-user/syscall: Fix do_ioctl_ifconf() for 64 bit targets.
-
-Not sure this is very important, but from the QEMU guidelines
-about submitting patches [*]: "Please use your real name to sign
-a patch (not an alias or acronym)."
-
-[*]
-https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a_Signed-off-by:_line
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxNTEzMTYyNi42NTY0
+MC0xLXBib256aW5pQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
+ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
+bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIxNTEzMTYyNi42NTY0
+MC0xLXBib256aW5pQHJlZGhhdC5jb20KU3ViamVjdDogW1BVTEwgMDAvMTldIGkzODYsIHFncmFw
+aCBwYXRjaGVzIGZvciAyMDIwLTAyLTE1Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jp
+bi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZp
+ZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
+bWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Nj
+cmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5E
+ID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApG
+cm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10g
+ICAgICAgICBwYXRjaGV3LzIwMjEwMjE1MTMxNjI2LjY1NjQwLTEtcGJvbnppbmlAcmVkaGF0LmNv
+bSAtPiBwYXRjaGV3LzIwMjEwMjE1MTMxNjI2LjY1NjQwLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpB
+dXRvIHBhY2tpbmcgdGhlIHJlcG9zaXRvcnkgZm9yIG9wdGltdW0gcGVyZm9ybWFuY2UuIFlvdSBt
+YXkgYWxzbwpydW4gImdpdCBnYyIgbWFudWFsbHkuIFNlZSAiZ2l0IGhlbHAgZ2MiIGZvciBtb3Jl
+IGluZm9ybWF0aW9uLgpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjZhOTVmNGUgaHZm
+OiBGZXRjaCBjcjQgYmVmb3JlIGV2YWx1YXRpbmcgQ1BVSUQoMSkKZTYyNzYzMSB0YXJnZXQvaTM4
+Ni9odmY6IGFkZCByZG1zciAzNUggTVNSX0NPUkVfVEhSRUFEX0NPVU5UCjI5NzA1OGEgaHZmOiB4
+ODY6IFJlbW92ZSB1bnVzZWQgZGVmaW5pdGlvbnMKM2ZlOGZjNyB0YXJnZXQvaTM4Ni9odmY6IGFk
+ZCB2bXdhcmUtY3B1aWQtZnJlcSBjcHUgZmVhdHVyZQo5YTYyOGQ3IGh2ZjogR3VhcmQgeGdldGJ2
+IGNhbGwKNGQxNTRmMSB1dGlsL2N1dGlsczogU2tpcCAiLiIgd2hlbiBsb29raW5nIGZvciBuZXh0
+IGRpcmVjdG9yeSBjb21wb25lbnQKMmU4OTQ3YSB0ZXN0cy9xdGVzdC9xb3MtdGVzdDogZHVtcCBR
+RU1VIGNvbW1hbmQgaWYgdmVyYm9zZQo4Y2ZhOGU5IHRlc3RzL3F0ZXN0L3Fvcy10ZXN0OiBkdW1w
+IGVudmlyb25tZW50IHZhcmlhYmxlcyBpZiB2ZXJib3NlCmYzODAyMmQgdGVzdHMvcXRlc3QvcW9z
+LXRlc3Q6IGR1bXAgcW9zIGdyYXBoIGlmIHZlcmJvc2UKMmM2YjI0ZSBsaWJxb3MvcWdyYXBoX2lu
+dGVybmFsOiBhZGQgcW9zX3ByaW50ZigpIGFuZCBxb3NfcHJpbnRmX2xpdGVyYWwoKQpkMWNhZjRm
+IGxpYnFvcy9xZ3JhcGg6IGFkZCBxb3Nfbm9kZV9jcmVhdGVfZHJpdmVyX25hbWVkKCkKOThlZTBi
+MSBzZXYvaTM4NjogRW5hYmxlIGFuIFNFVi1FUyBndWVzdCBiYXNlZCBvbiBTRVYgcG9saWN5Cjcx
+NGQyNmYga3ZtL2kzODY6IFVzZSBhIHBlci1WTSBjaGVjayBmb3IgU01NIGNhcGFiaWxpdHkKOWUy
+YjBlNSBzZXYvaTM4NjogRG9uJ3QgYWxsb3cgYSBzeXN0ZW0gcmVzZXQgdW5kZXIgYW4gU0VWLUVT
+IGd1ZXN0CmQzZGZkNjYgc2V2L2kzODY6IEFsbG93IEFQIGJvb3RpbmcgdW5kZXIgU0VWLUVTCmU1
+YjQzZjMgc2V2L2kzODY6IFJlcXVpcmUgaW4ta2VybmVsIGlycWNoaXAgc3VwcG9ydCBmb3IgU0VW
+LUVTIGd1ZXN0cwoxOWY5NWRmIHNldi9pMzg2OiBBZGQgaW5pdGlhbCBzdXBwb3J0IGZvciBTRVYt
+RVMKYjc3NDk2ZCBzZXY6IHVwZGF0ZSBzZXYtaW5qZWN0LWxhdW5jaC1zZWNyZXQgdG8gbWFrZSBn
+cGEgb3B0aW9uYWwKYTEzMDNlMyBwYzogYWRkIHBhcnNlciBmb3IgT1ZNRiByZXNldCBibG9jawoK
+PT09IE9VVFBVVCBCRUdJTiA9PT0KMS8xOSBDaGVja2luZyBjb21taXQgYTEzMDNlM2NmMjMzIChw
+YzogYWRkIHBhcnNlciBmb3IgT1ZNRiByZXNldCBibG9jaykKMi8xOSBDaGVja2luZyBjb21taXQg
+Yjc3NDk2ZDQyZjUwIChzZXY6IHVwZGF0ZSBzZXYtaW5qZWN0LWxhdW5jaC1zZWNyZXQgdG8gbWFr
+ZSBncGEgb3B0aW9uYWwpCjMvMTkgQ2hlY2tpbmcgY29tbWl0IDE5Zjk1ZGYzYzY3OCAoc2V2L2kz
+ODY6IEFkZCBpbml0aWFsIHN1cHBvcnQgZm9yIFNFVi1FUykKNC8xOSBDaGVja2luZyBjb21taXQg
+ZTViNDNmM2ZmMjE2IChzZXYvaTM4NjogUmVxdWlyZSBpbi1rZXJuZWwgaXJxY2hpcCBzdXBwb3J0
+IGZvciBTRVYtRVMgZ3Vlc3RzKQo1LzE5IENoZWNraW5nIGNvbW1pdCBkM2RmZDY2MGQyNTEgKHNl
+di9pMzg2OiBBbGxvdyBBUCBib290aW5nIHVuZGVyIFNFVi1FUykKRVJST1I6IGxpbmUgb3ZlciA5
+MCBjaGFyYWN0ZXJzCiMyMTQ6IEZJTEU6IHRhcmdldC9pMzg2L3Nldi5jOjk0NToKKyAgICAgICAg
+ZXJyb3JfcmVwb3J0KCJTRVYgaW5mb3JtYXRpb24gYmxvY2svRmlybXdhcmUgR1VJRCBUYWJsZSBi
+bG9jayBub3QgZm91bmQgaW4gcGZsYXNoIHJvbSIpOwoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5p
+bmdzLCAyMTIgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS8xOSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
+ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
+cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
+RVJTLgoKNi8xOSBDaGVja2luZyBjb21taXQgOWUyYjBlNTI5MTgzIChzZXYvaTM4NjogRG9uJ3Qg
+YWxsb3cgYSBzeXN0ZW0gcmVzZXQgdW5kZXIgYW4gU0VWLUVTIGd1ZXN0KQo3LzE5IENoZWNraW5n
+IGNvbW1pdCA3MTRkMjZmMGY0YmEgKGt2bS9pMzg2OiBVc2UgYSBwZXItVk0gY2hlY2sgZm9yIFNN
+TSBjYXBhYmlsaXR5KQo4LzE5IENoZWNraW5nIGNvbW1pdCA5OGVlMGIxNjUwODUgKHNldi9pMzg2
+OiBFbmFibGUgYW4gU0VWLUVTIGd1ZXN0IGJhc2VkIG9uIFNFViBwb2xpY3kpCjkvMTkgQ2hlY2tp
+bmcgY29tbWl0IGQxY2FmNGZlYWY5OSAobGlicW9zL3FncmFwaDogYWRkIHFvc19ub2RlX2NyZWF0
+ZV9kcml2ZXJfbmFtZWQoKSkKMTAvMTkgQ2hlY2tpbmcgY29tbWl0IDJjNmIyNGU4ZTcxYiAobGli
+cW9zL3FncmFwaF9pbnRlcm5hbDogYWRkIHFvc19wcmludGYoKSBhbmQgcW9zX3ByaW50Zl9saXRl
+cmFsKCkpCjExLzE5IENoZWNraW5nIGNvbW1pdCBmMzgwMjJkZWNjMjIgKHRlc3RzL3F0ZXN0L3Fv
+cy10ZXN0OiBkdW1wIHFvcyBncmFwaCBpZiB2ZXJib3NlKQoxMi8xOSBDaGVja2luZyBjb21taXQg
+OGNmYThlOTg3MWM4ICh0ZXN0cy9xdGVzdC9xb3MtdGVzdDogZHVtcCBlbnZpcm9ubWVudCB2YXJp
+YWJsZXMgaWYgdmVyYm9zZSkKMTMvMTkgQ2hlY2tpbmcgY29tbWl0IDJlODk0N2E1NWRlZCAodGVz
+dHMvcXRlc3QvcW9zLXRlc3Q6IGR1bXAgUUVNVSBjb21tYW5kIGlmIHZlcmJvc2UpCjE0LzE5IENo
+ZWNraW5nIGNvbW1pdCA0ZDE1NGYxNzA2NzUgKHV0aWwvY3V0aWxzOiBTa2lwICIuIiB3aGVuIGxv
+b2tpbmcgZm9yIG5leHQgZGlyZWN0b3J5IGNvbXBvbmVudCkKMTUvMTkgQ2hlY2tpbmcgY29tbWl0
+IDlhNjI4ZDc5MWFkOCAoaHZmOiBHdWFyZCB4Z2V0YnYgY2FsbCkKMTYvMTkgQ2hlY2tpbmcgY29t
+bWl0IDNmZThmYzc2YTVmNCAodGFyZ2V0L2kzODYvaHZmOiBhZGQgdm13YXJlLWNwdWlkLWZyZXEg
+Y3B1IGZlYXR1cmUpCjE3LzE5IENoZWNraW5nIGNvbW1pdCAyOTcwNThhY2E3MDYgKGh2ZjogeDg2
+OiBSZW1vdmUgdW51c2VkIGRlZmluaXRpb25zKQoxOC8xOSBDaGVja2luZyBjb21taXQgZTYyNzYz
+MTJmMjNmICh0YXJnZXQvaTM4Ni9odmY6IGFkZCByZG1zciAzNUggTVNSX0NPUkVfVEhSRUFEX0NP
+VU5UKQoxOS8xOSBDaGVja2luZyBjb21taXQgNmE5NWY0ZWY1NDIzIChodmY6IEZldGNoIGNyNCBi
+ZWZvcmUgZXZhbHVhdGluZyBDUFVJRCgxKSkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1h
+bmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0
+cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAyMTUxMzE2MjYuNjU2NDAtMS1wYm9uemluaUByZWRo
+YXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJh
+dGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVh
+c2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
