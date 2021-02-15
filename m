@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8447631B547
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 06:33:04 +0100 (CET)
-Received: from localhost ([::1]:36328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF6B31B562
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 07:28:22 +0100 (CET)
+Received: from localhost ([::1]:47290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBWVL-0007Bj-3n
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 00:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55516)
+	id 1lBXMq-0007BR-Qf
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 01:28:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lBWUF-0006jB-19
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 00:31:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lBWUC-0002XN-PW
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 00:31:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613367110;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CnJW1nEtp93wXL/4vu3SNePTRQNdVxKIG6IqRACb43Y=;
- b=g+JYr+b/hVZxgY3e7ac7rNXgD9afWj+klb1eoN0zJAihbQjNoOogD1R/Wj3p7snkLRe4rA
- JHw37C46tVRYsMnCN2qvovT3U7nn2KdGzH/CMRDNllwRzfc/uLZOAgEdtZJQ07dFTFL+sh
- Yeh+frgDVaQLZcKfz7i9h9P3bAUF2Nw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-354-AoYa-_JwMdKGEaQCib83AQ-1; Mon, 15 Feb 2021 00:31:46 -0500
-X-MC-Unique: AoYa-_JwMdKGEaQCib83AQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2FC14107ACE4;
- Mon, 15 Feb 2021 05:31:44 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-80.ams2.redhat.com [10.36.112.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 738211F44B;
- Mon, 15 Feb 2021 05:31:34 +0000 (UTC)
-Subject: Re: [RFC PATCH 37/42] gitlab-ci: Add job to test the MIPS r5900o32el
- target
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-38-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e0d29976-8ee5-a24f-cbcf-50e49a230091@redhat.com>
-Date: Mon, 15 Feb 2021 06:31:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lBXLf-0006fk-E2; Mon, 15 Feb 2021 01:27:07 -0500
+Received: from ozlabs.org ([2401:3900:2:1::2]:38751)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lBXLb-0001ro-18; Mon, 15 Feb 2021 01:27:06 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DfDf15chDz9rx8; Mon, 15 Feb 2021 17:26:49 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1613370409;
+ bh=6QFspuApKUBbyTIz8sE6Qx/yiCNx6BcNoJ3Mo20FJ5Y=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Dndp2/sOtTOe+eJu4ADslsAIU8kdkCmbywR3WI4nNSRAudE4I9rwfl4Emy6jHJnfz
+ YBPLpR4mOYXtZ+7nssNGLsmRG6lyUu+jEwpYX82dWYTzZFnHrnDHUgDGPrftZMy5a7
+ uZO9iUYXmN/gcH21lITCtqYKXeLBR+XfJSgjnXiY=
+Date: Mon, 15 Feb 2021 17:12:38 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 0/3] hw/display/sm501: Tidy up template header
+Message-ID: <YCoQ1mnORNTAjyIY@yekko.fritz.box>
+References: <20210212180653.27588-1-peter.maydell@linaro.org>
+ <8642ea4f-e75a-e12-211b-6495546aaee3@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <20210214175912.732946-38-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Ld0tJR9XIKA+7m0E"
+Content-Disposition: inline
+In-Reply-To: <8642ea4f-e75a-e12-211b-6495546aaee3@eik.bme.hu>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,42 +58,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fredrik Noring <noring@nocrew.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/02/2021 18.59, Philippe Mathieu-Daudé wrote:
-> Add a job to build the MIPS r5900o32el (linux-user) target
-> and run the TCG tests.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.yml | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index 28a83afb914..7d7559416e3 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -622,6 +622,18 @@ build-without-default-features:
->           --target-list-exclude=arm-softmmu,i386-softmmu,mipsel-softmmu,mips64-softmmu,ppc-softmmu
->       MAKE_CHECK_ARGS: check-unit
->   
-> +build-r5900-user:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: fedora
 
-Don't you have to use the new gentoo-mipsr5900el-cross image to get the 
-cross-compiler?
+--Ld0tJR9XIKA+7m0E
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  Thomas
+On Fri, Feb 12, 2021 at 09:28:35PM +0100, BALATON Zoltan wrote:
+> On Fri, 12 Feb 2021, Peter Maydell wrote:
+> > For a long time now the UI layer has guaranteed that the console
+> > surface is always 32 bits per pixel RGB, but some older display device
+> > models still have the code to handle other formats. This patchset
+> > cleans up that dead code for the sm501 device, which allows us
+> > to remove the multiply-included sm501_template.h header entirely.
+> >=20
+> > There have been a few attempts at doing this cleanup on this
+> > device in the past by various people; rather than trying to
+> > resurrect those old patchsets and get them to apply to the current
+> > code in master, I just started from scratch.
+> >=20
+> > Tested with AROS ISO image on sam460ex.
+> >=20
+> > thanks
+> > -- PMM
+> >=20
+> > Peter Maydell (3):
+> >  hw/display/sm501: Remove dead code for non-32-bit RGB surfaces
+> >  hw/display/sm501: Expand out macros in template header
+> >  hw/display/sm501: Inline template header into C file
+>=20
+> I've tried with AmigaOS and MorphOS and those also work. Unfortunately the
+> drivers for sm501 on those are restricted to 16bit modes (maybe because r=
+eal
+> hardware is too slow otherwise or does not have enough memory) so every
+> screen update in QEMU needs conversion which makes it quite slow. But this
+> was like that before and unless we want to allow other than 32bit surfaces
+> again we can't use the code removed here but that was the reason I've kept
+> it and not removed so far in case we want to do this optimisation again.
+>=20
+> Otherwise,
+>=20
+> Acked-by: BALATON Zoltan <balaton@eik.bme.hu>
+>=20
+> The sm501 is also used on the SH4 r2d machine I think. Aurelien probably
+> knows more about that. I've found some images for it here:
+>=20
+> https://people.debian.org/~aurel32/qemu/sh4/
+> https://lists.nongnu.org/archive/html/qemu-devel/2008-08/msg01308.html
+>=20
+> in case you want to test that too.
 
+I've queued these to ppc-for-6.0.
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--Ld0tJR9XIKA+7m0E
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAqENQACgkQbDjKyiDZ
+s5KK6A/9FH1Oj3Cs8G/viifqHwyOK4SRJ+VUgBnhPkt9wKCQVt7fX0VqxZiM4Pjp
+VSiW3YPpzYK9cHaaJeyLoUOVvYEwXNKyDEqiNSFJNPhWixJcnL+6Zoa/vNkWCHww
+u5BTqPt3vMBUGK9z8KGlxlU/qYue5NTY42MITUDRElmioyNl1QBlHEUlw58BYxOB
+Dsmx+/ToP+I/nKhkvyxVhgGkRgWelU0tIrKMYAzbUboh4wGmBIWU0EQQhvsO6SxV
+/LUWwrhJeUJ07rWF/QVcLMzfCB6AthSOysROfRD/ctjEm7AClewkoydhR6lhKelS
+eYUkScBs0bocr+aPPE8kld6P3Ta2KviaThtzjmBW35EWbkT5J+hUMclPEwLeVGBs
+Fk60vJX2h5Sblk0vEbL6q1FzmbHm611JJkA0itGcQh4A336Ruw6Ay4oyRHjf6ZlT
+fRpoLC2VpW4H7lOVWqRcntK78Mi6pL0k4Wi0dA1OSZuF+sYCzZL+Llp3FVtaBSB3
+LvA1tydGNVHj/EQlJ1lMaR13yQYxr2p+228SKdlN9y53A6TfTRELZDCSGrIjZh09
+kOaSQswgL/fx57RWSWpA26ptzVpSf1gq5Vp8gTd0ZILfAoG2Tom7HdSbv1p30Cpb
+bzOcaxXwc8w7Dj8geyRVUqR8bcso8PkGFtlJ4SkAStNYGUrgtTQ=
+=pPmI
+-----END PGP SIGNATURE-----
+
+--Ld0tJR9XIKA+7m0E--
 
