@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91CD31BBE1
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:09:28 +0100 (CET)
-Received: from localhost ([::1]:50844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFEEA31BBED
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 16:11:15 +0100 (CET)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBfV9-0003sg-Qi
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:09:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
+	id 1lBfWs-0006Yl-Ua
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 10:11:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNX-0005ky-4S
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43893)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNj-0005lY-9J
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23127)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNP-0000pH-Ge
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:31 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lBfNR-0000qV-QX
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 10:01:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613401286;
+ s=mimecast20190719; t=1613401289;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CBTRNqmafznyYCVZMQP0yfudKciY85Jk+uk/dwgJ4n0=;
- b=ELnOiotBEXzwB3bXgnj9Pq9lgs2H5Mq4zxJIb7QWu82igPh4sf7vxB5wX3NQanlZbJYiFr
- w3iTre/lDjG3vk/shLaIgJC62rNnUUcM0y9eIAM3bLOgQH7/48NJu8rzFtNbxQpgxfkljx
- drrp1fIRvfkPozcP+gpDNOJoGG3ZjcM=
+ bh=LQuK7B1zQjPnR1Or4CfzlmST0ttXFEex4jpU9vIz9uE=;
+ b=WhvJU2svNwIsrKNwauZXns5GTCZejar2+vFUHCPawQv3823a2YBUoPI3+jcK0NXcN/WIXd
+ g8+1swcCVkUCXhmME1vgMRLJOStuKeNxK1EG1qH//wNDeCPR/92BuSM9zhPlrMVFjIS+TF
+ qBFlradE2JCi+H5WP5DhJotM9YGPR3k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-MQZ0lMWdMBOAjg7vIsbA0w-1; Mon, 15 Feb 2021 10:01:24 -0500
-X-MC-Unique: MQZ0lMWdMBOAjg7vIsbA0w-1
+ us-mta-51-DS_ofvzlNrWf9JP_HATm5w-1; Mon, 15 Feb 2021 10:01:25 -0500
+X-MC-Unique: DS_ofvzlNrWf9JP_HATm5w-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6257E814738;
- Mon, 15 Feb 2021 15:01:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8382107ACED;
+ Mon, 15 Feb 2021 15:01:16 +0000 (UTC)
 Received: from merkur.fritz.box (ovpn-113-28.ams2.redhat.com [10.36.113.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6AF685C233;
- Mon, 15 Feb 2021 15:01:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AB2A05C233;
+ Mon, 15 Feb 2021 15:01:15 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/11] block: qcow2: remove the created file on initialization
- error
-Date: Mon, 15 Feb 2021 16:00:58 +0100
-Message-Id: <20210215150100.436555-10-kwolf@redhat.com>
+Subject: [PULL 10/11] monitor: Fix assertion failure on shutdown
+Date: Mon, 15 Feb 2021 16:00:59 +0100
+Message-Id: <20210215150100.436555-11-kwolf@redhat.com>
 In-Reply-To: <20210215150100.436555-1-kwolf@redhat.com>
 References: <20210215150100.436555-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -56,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,44 +80,85 @@ Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Maxim Levitsky <mlevitsk@redhat.com>
+Commit 357bda95 already tried to fix the order in monitor_cleanup() by
+moving shutdown of the dispatcher coroutine further to the start.
+However, it didn't go far enough:
 
-If the qcow initialization fails, we should remove the file if it was
-already created, to avoid leaving stale files around.
+iothread_stop() makes sure that all pending work (bottom halves) in the
+AioContext of the monitor iothread is completed. iothread_destroy()
+depends on this and fails an assertion if there is still a pending BH.
 
-We already do this for luks raw images.
+While the dispatcher coroutine is running, it will try to resume the
+monitor after taking a request out of the queue, which involves a BH.
+The dispatcher is run until it terminates in the AIO_WAIT_WHILE() loop.
+However, adding new BHs between iothread_stop() and iothread_destroy()
+is forbidden.
 
-Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Message-Id: <20201217170904.946013-4-mlevitsk@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Fix this by stopping the dispatcher first before shutting down the other
+parts of the monitor. This means we can now receive requests that aren't
+handled any more when QEMU is shutting down, but this is unlikely to be
+a problem for QMP clients.
+
+Fixes: 357bda9590784ff75803d52de43150d4107ed98e
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210212172028.288825-2-kwolf@redhat.com>
+Tested-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ monitor/monitor.c | 25 +++++++++++++++----------
+ 1 file changed, 15 insertions(+), 10 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 5d94f45be9..d9f49a52e7 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -3846,12 +3846,14 @@ static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
+diff --git a/monitor/monitor.c b/monitor/monitor.c
+index 1e4a6b3f20..e94f532cf5 100644
+--- a/monitor/monitor.c
++++ b/monitor/monitor.c
+@@ -618,16 +618,6 @@ void monitor_data_destroy(Monitor *mon)
  
-     /* Create the qcow2 image (format layer) */
-     ret = qcow2_co_create(create_options, errp);
-+finish:
-     if (ret < 0) {
--        goto finish;
-+        bdrv_co_delete_file_noerr(bs);
-+        bdrv_co_delete_file_noerr(data_bs);
-+    } else {
-+        ret = 0;
-     }
+ void monitor_cleanup(void)
+ {
+-    /*
+-     * We need to explicitly stop the I/O thread (but not destroy it),
+-     * clean up the monitor resources, then destroy the I/O thread since
+-     * we need to unregister from chardev below in
+-     * monitor_data_destroy(), and chardev is not thread-safe yet
+-     */
+-    if (mon_iothread) {
+-        iothread_stop(mon_iothread);
+-    }
+-
+     /*
+      * The dispatcher needs to stop before destroying the monitor and
+      * the I/O thread.
+@@ -637,6 +627,11 @@ void monitor_cleanup(void)
+      * eventually terminates.  qemu_aio_context is automatically
+      * polled by calling AIO_WAIT_WHILE on it, but we must poll
+      * iohandler_ctx manually.
++     *
++     * Letting the iothread continue while shutting down the dispatcher
++     * means that new requests may still be coming in. This is okay,
++     * we'll just leave them in the queue without sending a response
++     * and monitor_data_destroy() will free them.
+      */
+     qmp_dispatcher_co_shutdown = true;
+     if (!qatomic_xchg(&qmp_dispatcher_co_busy, true)) {
+@@ -647,6 +642,16 @@ void monitor_cleanup(void)
+                    (aio_poll(iohandler_get_aio_context(), false),
+                     qatomic_mb_read(&qmp_dispatcher_co_busy)));
  
--    ret = 0;
--finish:
-     qobject_unref(qdict);
-     bdrv_unref(bs);
-     bdrv_unref(data_bs);
++    /*
++     * We need to explicitly stop the I/O thread (but not destroy it),
++     * clean up the monitor resources, then destroy the I/O thread since
++     * we need to unregister from chardev below in
++     * monitor_data_destroy(), and chardev is not thread-safe yet
++     */
++    if (mon_iothread) {
++        iothread_stop(mon_iothread);
++    }
++
+     /* Flush output buffers and destroy monitors */
+     qemu_mutex_lock(&monitor_lock);
+     monitor_destroyed = true;
 -- 
 2.29.2
 
