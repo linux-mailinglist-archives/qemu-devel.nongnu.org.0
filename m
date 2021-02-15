@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC45231B734
-	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:35:02 +0100 (CET)
-Received: from localhost ([::1]:60762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E2C31B745
+	for <lists+qemu-devel@lfdr.de>; Mon, 15 Feb 2021 11:38:19 +0100 (CET)
+Received: from localhost ([::1]:42270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBbDZ-00062x-Bd
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:35:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
+	id 1lBbGk-00020M-VD
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 05:38:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBbAt-0004HP-84
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:15 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39393)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lBbB1-0004JO-UW
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:25 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39388)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBbAq-0001dv-De
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:14 -0500
-Received: by mail-wr1-x430.google.com with SMTP id v1so8242912wrd.6
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 02:32:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lBbAx-0001gT-6B
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 05:32:21 -0500
+Received: by mail-wr1-x429.google.com with SMTP id v1so8243335wrd.6
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 02:32:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=SOD3NreGo1V885+N/yx+58IbyIp4/uSuO02wnwe4frc=;
- b=rIMiN84tefJhmsH6gZzbQyMYsAOJ7CcxZwmP+u6YBIr3CtHLWhA1X764Bb4uvpX3Vi
- syo6jcG5J0c2mjAoJh4WQeZDRMz9WOSMDwy6PK7nUgVpfD5pA04mk042eerJngJyo4YY
- KpriCDhHMfTLMjRJ3+zGO8Ha2npf44rYzQI+4sOVuRWKWr42+hL+Lxpovkl3hzyV0XnB
- JBDPI3jl1++8sc2/zQ+qn32Uok54Bq7y0x0JOqzLxduxm5S/m+mFIxE0YLwDJzFt2DzT
- gxoDSFW8bo4vgfp+34gl2ypSGPX6jBT+gLlXA2ca+lmyMPIbgWvS7aetWLFE+Bs80ytD
- CSSA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k+iy8xHCSQpgWfxPW8C578vD665e8MF/3+qtPx7S9FY=;
+ b=YOQNBcH0sebvMbrbIVjWnmzMVLrJkW5gPskNsRg0zg/qNNG2V4btGIzBQ7ZoIMuD5+
+ h6RYi/Ddon2ymQXRiRLZKK1VfDj6AsAtBt1yezOLoDO9q33+b++0BDw2JOKGzh2xZjNO
+ l9ZHtOfTCcdbb/BiGrPQSIvPNGDNwxundKTC0PmevyZhHu8dwvhDjKeO0xXf+VvAKYRz
+ Sx46OfXUztafDb7iRRxV+9c15sMvXZT+tiBmYRGI8PTHKFXExSP16K69ohtsWfK5lKFA
+ 9eHMS12xQaClqmYnh57WwtJ7MbZ0osT+2VQQVRgdEBT6ORSwxVVWdbKRSGv/mJgWK7E3
+ G65Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=SOD3NreGo1V885+N/yx+58IbyIp4/uSuO02wnwe4frc=;
- b=J1gT+mxIJie1inTHWAasSmbR0r1MC7mLr9WroC9A5SNqZNXEa+LMCCW8j462BIF8bA
- syM3tgRufHfCd4O/4O/NTf3LbH6drb5Fa5zURPcvIg4pFOonmI+2HJf/LtDFiZlIclfd
- p/yfGj4kgqrW2HZM4C5nSwdeLeJGXeXLfYKLEsNEkP8PGT16FVJt+4qAiNIX7m2PffzB
- aKC06vZhWvgTSLljONsvAKJiOy1B0RQYvoWNDALNZuQL1Jko4Rmw2GBM4FKaEIDjGEO3
- cR9hBTNni91/MOeccg1b2h7T5uwOQGdfq65FgUs+vmRYDVZKdXboqH2+0xlpq9Csfs77
- Ds6Q==
-X-Gm-Message-State: AOAM533jMvGE6Dqe2QlGyaNCDQgrvVXVGXvHjjhWxNcm/kCp7ut2POM+
- iDIrLv3AvZmI6Fyn1DkPXEmcjg==
-X-Google-Smtp-Source: ABdhPJzggCBDemU8V1Zvk94f6Y1S+F95hJRKupSrh+YnsEpWTj5U+BAQVZSQ4RimGiLB9viVl2xElg==
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr18525007wrq.51.1613385130865; 
- Mon, 15 Feb 2021 02:32:10 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w8sm23060966wrm.21.2021.02.15.02.32.09
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=k+iy8xHCSQpgWfxPW8C578vD665e8MF/3+qtPx7S9FY=;
+ b=mJgHuAfF8WdwHKoT/Ee8KZ8w4UTWDQWeHN1QgUCuBiWbdtfpaZJiVh/2FrKeRyWlOu
+ h0xWPaZvsrwtYp3bgo8gqDKmsSrJrEzYPnBabHcU5Xp9QRMIyNN5SOnUgZWRIEtW9S1V
+ GCEbG0folSr944l2PWq9kLr8m32KGcGLUZxkQtXK7BEMecPwFLXTE+5L1MO5/ZYmpI1E
+ 4NgAP+GaOV10pQolHuP2Gn7q3uv2eW7fykNMGgzxwR+WKKuOdbNBl7H3y4QKUGoVoKTG
+ srUr/pK+waaP81HrJzel7Mboam3nXPjZHrGzg7ugc44xXEMzU9D/AzouB+bdoNwv8oiU
+ EktQ==
+X-Gm-Message-State: AOAM532++58Ln155bIGIIcBwTXrxnOk2algFDwn49QRBQRrCEbPHhL/8
+ nGZoMFWb31pi/t1kvsEfo5jt3Q==
+X-Google-Smtp-Source: ABdhPJwaiUS2VTJMoPdYpQUV0k6pZ4Aft+ttDHGXmINStWZHjJzVUmUDr1Niyik8vfDIyWNJBDhP1A==
+X-Received: by 2002:adf:f089:: with SMTP id n9mr18457716wro.98.1613385137921; 
+ Mon, 15 Feb 2021 02:32:17 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id 36sm25196300wrj.97.2021.02.15.02.32.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 15 Feb 2021 02:32:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 26E8B1FF7E;
- Mon, 15 Feb 2021 10:32:09 +0000 (GMT)
-References: <20210212123622.15834-1-cfontana@suse.de>
- <20210212123622.15834-13-cfontana@suse.de>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [RFC v18 12/15] i386: separate fpu_helper into user and softmmu
- parts
-Date: Mon, 15 Feb 2021 10:32:04 +0000
-In-reply-to: <20210212123622.15834-13-cfontana@suse.de>
-Message-ID: <87lfbpvcye.fsf@linaro.org>
+ Mon, 15 Feb 2021 02:32:17 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Subject: [PATCH 0/9] arm: drop dead code for non-32-bit-RGB surfaces
+Date: Mon, 15 Feb 2021 10:32:06 +0000
+Message-Id: <20210215103215.4944-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,22 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This patchset removes dead code (including a couple of 'template'
+headers) for handling UI surfaces that are formats other than
+32-bit RGB for the musicpal, tc6393xb and omap_lcdc display devices.
 
-Claudio Fontana <cfontana@suse.de> writes:
+For a long time now the UI layer has guaranteed that the console
+surface is always 32 bits per pixel RGB, so the legacy code in these
+devices which was handling the possibility that the console surface
+was some other format can all be deleted.
 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Notes:
+ (1) the patch "hw/display/omap_lcdc: Drop broken bigendian ifdef"
+     fixes a bug introduced in commit ea644cf343129 in 2016 in a
+     previous partial start on this cleanup
+ (2) the omap_lcdc changes are tested only with 'make check' as I
+     don't have any test images for the OMAP1.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+With these plus the other on-list patches, the only remaining
+'template' header files in hw/display are pl110 (which needs it to
+handle the different guest-side pixel formats) and the
+milkymist-vgafb device.  Milkymist is in the 'deprecated and will be
+deleted in a few releases' bucket so it's not worth doing this
+cleanup for it, since it's not blocking any API transition.
+(I'll take this task off the BiteSizedTasks list shortly.)
 
---=20
-Alex Benn=C3=A9e
+After the musicpal cleanup and the tcx patch I just posted, there
+will be no more users of is_surface_bgr(), so that could then be
+deleted.
+
+thanks
+-- PMM
+
+Peter Maydell (9):
+  hw/arm/musicpal: Remove dead code for non-32-bit-RGB surfaces
+  hw/display/tc6393xb: Remove dead code for handling non-32bpp surfaces
+  hw/display/tc6393xb: Expand out macros in template header
+  hw/display/tc6393xb: Inline tc6393xb_draw_graphic32() at its callsite
+  hw/display/omap_lcdc: Expand out macros in template header
+  hw/display/omap_lcdc: Drop broken bigendian ifdef
+  hw/display/omap_lcdc: Fix coding style issues in template header
+  hw/display/omap_lcdc: Inline template header into C file
+  hw/display/omap_lcdc: Delete unnecessary macro
+
+ hw/display/omap_lcd_template.h | 169 ---------------------------------
+ hw/display/tc6393xb_template.h |  72 --------------
+ include/ui/console.h           |  10 --
+ hw/arm/musicpal.c              |  64 +++++--------
+ hw/display/omap_lcdc.c         | 129 ++++++++++++++++++++++++-
+ hw/display/tc6393xb.c          |  48 ++++------
+ 6 files changed, 165 insertions(+), 327 deletions(-)
+ delete mode 100644 hw/display/omap_lcd_template.h
+ delete mode 100644 hw/display/tc6393xb_template.h
+
+-- 
+2.20.1
+
 
