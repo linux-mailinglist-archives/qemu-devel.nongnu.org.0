@@ -2,91 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF9631C8F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:40:31 +0100 (CET)
-Received: from localhost ([::1]:46444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DD631C900
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:44:00 +0100 (CET)
+Received: from localhost ([::1]:49128 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBxmR-00077V-1o
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:40:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49516)
+	id 1lBxpn-0008Pm-6S
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:43:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBxlN-0006hr-UA
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:39:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBxlM-0002bx-8Z
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:39:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613471963;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tCLxUop3tlnipPey/iZ6yzYYH6DMDZ4Aim3OL/PfOTo=;
- b=MnIHPmXmotv4rHyKnAeIkkzkEGifj4SUnNmq+xO8v1K4c+x5trZRdBBm9wOVT1VwRpZ96V
- jzna0RVdBcrWNHFFmQa6+i4K1EcAiJZbN8csGd0dG+NfpqjOlUpklYAYIT+pFeXNyfuw2+
- aEmvstY0QJhAs+MAsfHEH2Zi1/p9wzg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-RjW5M9N3NA-FV9ST7VlrDw-1; Tue, 16 Feb 2021 05:39:21 -0500
-X-MC-Unique: RjW5M9N3NA-FV9ST7VlrDw-1
-Received: by mail-wr1-f72.google.com with SMTP id e13so10116582wrg.4
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 02:39:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lBxp3-00080m-OH
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:43:13 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33755)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lBxp2-0004KK-52
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:43:13 -0500
+Received: by mail-wr1-x429.google.com with SMTP id 7so12394437wrz.0
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 02:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XBF3Zt3dCDLfZo8ULXi8L9YXCD3KR7OGZVrM08a4U8E=;
+ b=KD/h7B6HulSCcVaR8YHAk4wRnFTtDUB77RkbTWyfEjtXlacVDTavUnBvWt1Ogh8fLX
+ K9U3wj7l9NpUlkwwnhFrdyk1rWUU+uGdYFVMQrIM/TrhLP4UxGLrqcERi2bjb1iFYMof
+ fCNj3rloUFB88d1X9gjkU7YOA4wGGfR8JXNFjJFxod4C3JAq/R2b/Zgo7LMm/KcB4Umm
+ PCJSwPL5bV3Phv3aCgl801gKJHFn/uJ4AvZJNeAyxNFGDZPXh9/gMCmI/F4HwhTcG5ut
+ RArJ/UvB01gv7psUiCY1LxySMLQGI5o4ZVGqarlBx0wD32up1Dm95Vb2HRr5hsJ93M4o
+ qJqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=tCLxUop3tlnipPey/iZ6yzYYH6DMDZ4Aim3OL/PfOTo=;
- b=iq/JuS66uZ4ZM5mQbCjIAJ5Gqk9FVBFXLwpV9FVFeGzFmu88X5jx/sBXXLy71PS882
- +IJFqp2LG4SO6pffe8FYAapeK+Tow5LgnjW2GNCmKXzXmkBzxl58SEBzlm9vtsJsmlI/
- rm/1diocxWY1QGtX9x/AYLApu1q7uDcLoJsceyAlcVvgHAnA2Pmm7ucbsOMlYJLLBb0K
- Z7QcqnjyZyXUlzYARAmzloxatQsHsVWage322H6Vw/rbb2qe/vqnCkNKQ+y1svkYIlFN
- qujW/egxvXWANKIKYW6muojQ7MFGr98CXJzueM9ZdqI9SeUNdILcM01fZyfPHTOgbwlM
- pw6g==
-X-Gm-Message-State: AOAM532pDZtk7rP5qlU3BiIM7Wwz9IdFli3DQBeDn3dDhzdxUcJu7et8
- aaOg5zk/KeAnUFTcyt+q82XnOqfNzOS7MPMB2bpf3Ed+912wC6lzl+otl/UvHWskCMSW6KcYdb4
- b14UzXdpszSbAbGo=
-X-Received: by 2002:a5d:53d2:: with SMTP id a18mr23390519wrw.194.1613471960493; 
- Tue, 16 Feb 2021 02:39:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxyRN6BpJXkNAPqWBuDokxSQbEjDTUwI8OmXQyBiqnMwv2ThiJLrAEKO9D1EMLb5zhb7MM4jg==
-X-Received: by 2002:a5d:53d2:: with SMTP id a18mr23390510wrw.194.1613471960392; 
- Tue, 16 Feb 2021 02:39:20 -0800 (PST)
+ bh=XBF3Zt3dCDLfZo8ULXi8L9YXCD3KR7OGZVrM08a4U8E=;
+ b=TvT2KxkYkGV9RCxFfmqBh79kVLlcZ5b0MAsMqTeVhUg2x9cmM56TpPNTROAnM+jwzJ
+ rq5iMH5/wHpe71EvziYEVzHhkGQ/bUEuBtviQaPgpFCvJ55kmOMfWWdiVJgvu70QpXN/
+ pLN6d9itCqTzcLgdBczkTaPpsPal/uKtCtsD9x+mH9UyRl/mzkxAu2AHG8Epg6KANcY3
+ gmjAiAKigMFd367rR8WYvR18EkOatK4nCsurj/WpyP8VTW+tE1xTCEfRCODwtQTxdYIZ
+ HLUq55sVdOQIDYyl9DC102yybaelbB3EhH+wLkcDADRCGUbJw24rMIYekLSS2i7GVBYe
+ YK3g==
+X-Gm-Message-State: AOAM533yVy4c1nm/fmOhYNRBshr/rq4YTmEgFJf8pa03Orp7WM0Xx6tj
+ m8intqa939VZnj3+qE4RBF8=
+X-Google-Smtp-Source: ABdhPJyy3M5byhbOKHfoBEYdPnQVM4TCX1KCvxuYHDWdMIifBVXT6Gn7L7Gx+yHSmFA09gchP+dvTQ==
+X-Received: by 2002:adf:a1d6:: with SMTP id v22mr23095981wrv.372.1613472190683; 
+ Tue, 16 Feb 2021 02:43:10 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id k81sm751351wmf.10.2021.02.16.02.39.19
+ by smtp.gmail.com with ESMTPSA id b2sm27653738wrv.73.2021.02.16.02.43.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Feb 2021 02:39:19 -0800 (PST)
-Subject: Re: [PATCH 0/3] fix build failures from incorrectly skipped container
- build jobs
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Tue, 16 Feb 2021 02:43:10 -0800 (PST)
+Subject: Re: [PATCH v2] meson.build: expose TCG cross compiler information in
+ summary
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-References: <20210208163339.1159514-1-berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <fb7ba9b2-622f-8a79-ae72-7d84f51f6d41@redhat.com>
-Date: Tue, 16 Feb 2021 11:39:18 +0100
+References: <20210216102522.6279-1-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <714083ae-0ede-c4f1-5828-6ccc53211e66@amsat.org>
+Date: Tue, 16 Feb 2021 11:43:09 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210208163339.1159514-1-berrange@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210216102522.6279-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,38 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/8/21 5:33 PM, Daniel P. Berrangé wrote:
-> This series fixes a problem with our gitlab CI rules that cause
-> container builds to be skipped. See the commit description in the
-> first patch for the details on this problem.
-...
+On 2/16/21 11:25 AM, Alex Bennée wrote:
+> Blink and you miss the cross TCG compiler stuff so lets display it
+> with the rest of the compiler information.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> ---
+> v2
+>   - use target_dirs/fs.exists() instead of find
+> ---
+>  meson.build            | 18 ++++++++++++++++++
+>  tests/tcg/configure.sh |  8 --------
+>  2 files changed, 18 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meson.build b/meson.build
+> index a923f249d8..4462e7279e 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2508,6 +2508,24 @@ endif
+>  summary_info += {'strip binaries':    get_option('strip')}
+>  summary_info += {'sparse':            sparse.found() ? sparse.full_path() : false}
+>  summary_info += {'mingw32 support':   targetos == 'windows'}
+> +
+> +# snarf the cross-compilation information for tests
+> +foreach target: target_dirs
+> +  tcg_mak = meson.current_build_dir() / 'tests/tcg' / 'config-' + target + '.mak'
+> +  if fs.exists(tcg_mak)
+> +    config_cross_tcg = keyval.load(tcg_mak)
+> +    target = config_cross_tcg['TARGET_NAME']
+> +    compiler = ''
+> +    if 'DOCKER_CROSS_CC_GUEST' in config_cross_tcg
+> +      summary_info += {target + ' tests': config_cross_tcg['DOCKER_CROSS_CC_GUEST'] +
+> +                                          ' via ' + config_cross_tcg['DOCKER_IMAGE']}
+> +    elif 'CROSS_CC_GUEST' in config_cross_tcg
+> +      summary_info += {target + ' tests'
+> +                                : config_cross_tcg['CROSS_CC_GUEST'] }
+> +    endif
+> +   endif
+> +endforeach
+> +
+>  summary(summary_info, bool_yn: true, section: 'Compilation')
 
-> There is still a race condition though where build jobs can run
-> with the wrong containers. This happens if you push two different
-> branches to gitlab with different docker file content. If the
-> container jobs for the 2nd branch finish before the 1st
-> branch runs its build jobs, the 1st branch can end up using
-> containers fro the second branch.  The only fix to truely fix
-> that would be to stop using "latest" docker tag and always
-> use a tag based on the branch name. This would mean we build
-> up a growing set of docker images in the gitlab registry.
+Testing on top of "Reintroduce the R5900 CPU":
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg782449.html
 
-OK this indeed describes the problem I'm facing.
+  Compilation
+    ...
+    CFI support                  : NO
+    strip binaries               : NO
+    sparse                       : /usr/bin/cgcc
+    mingw32 support              : NO
+    mipsel tests                 : mipsel-linux-gnu-gcc via
+debian-mipsel-cross
+    r5900o32el tests             : mipsr5900el-unknown-linux-gnu-gcc via
+gentoo-mipsr5900el-cross
+    mips64el tests               : mips64el-linux-gnuabi64-gcc via
+debian-mips64el-cross
 
-> At least this series is much more correct that what exists in
-> git currently.
+  Targets and accelerators
+    TCG support                  : YES
+    TCG backend                  : native (x86_64)
+    TCG debug enabled            : YES
+    target list                  : mipsel-linux-user
+r5900o32el-linux-user mips64el-linux-user
 
-Good, I'll test it then.
-
-Regards,
-
-Phil.
-
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
