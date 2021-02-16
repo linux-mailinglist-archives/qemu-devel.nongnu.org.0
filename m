@@ -2,90 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D603731CCCA
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:19:09 +0100 (CET)
-Received: from localhost ([::1]:35076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E95931CCAC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:11:31 +0100 (CET)
+Received: from localhost ([::1]:46514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC284-0004ST-UV
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:19:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42254)
+	id 1lC20g-0005SZ-Lp
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:11:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lC1si-0004HN-5v
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:03:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56998)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lC1y4-0002fv-Pj
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:08:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lC1sg-0006M7-9v
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:03:15 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lC1y2-0006qO-Aw
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:08:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613487793;
+ s=mimecast20190719; t=1613488125;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=d33dCm4FBOcq44mpD+DLalzE31ZqO1knvxHtN/4GQac=;
- b=ZUElwIqTMW2+dz6e+4CEQkgscKXJMU6LjhpX/dkxvxRJ4h6nbDvDAwZ2TvewuGOgMLeO+w
- T7KUMsv5DkkHgajheQHKk/PPY2e/niTcctHNqcIhinnNUqUwtVYNIGC7vWxwkVmAQW1CrD
- gGdqcQIhM151yePlBl1a7EvIv7S9/iY=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-218-hIuxvYRfNp6dFxeUCJ1N5w-1; Tue, 16 Feb 2021 10:03:12 -0500
-X-MC-Unique: hIuxvYRfNp6dFxeUCJ1N5w-1
-Received: by mail-wr1-f72.google.com with SMTP id l10so13555082wry.16
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 07:03:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=d33dCm4FBOcq44mpD+DLalzE31ZqO1knvxHtN/4GQac=;
- b=PYrdqCkXehAi1GaJZyWHUoRrosMAueEL7cPtowu2S0ke1amEsYkzENfvjiB4bJJ1c0
- 4eExlpJCOB0zjnjBJoCQTpDbQTkGs1mucNxKTyAwHQixjaUyMghzy5/ICYKpJH2IJNHk
- 2PmKexi1kKzRyJ83gZwFZklJIrD1f8Z/Y41Zap6kjNEzwYq40WelroYOz3DrmAofFRXP
- gdx7QeddQtC/488SBrOlncDDZXORkoI7UM0cOfuHAb+vjdqqFnjR5nN0Bhv0e6hhf8iw
- tlrXzjzKR0EJGN4W98++6uKpYJhlPWrzn3QRHsseCxqWd8KFQum/29HJaP0KyfEOxcpT
- aNBw==
-X-Gm-Message-State: AOAM532TLprLrjwiPf8iYNR8jbyHHNrqRbIz+P8hlw+JXQv27kv+Z2j+
- GvcuUSQw/WG2TuvmJM42myycj8MDHV33OOon46JWCD4bwWoCsiaKBAGiXsXcCcx0MhrU22YvwO9
- 4/VMDxiUxNSivTUH9XmCzuA7TZSqXGzQn29aBC3gfO536DQPSQ4v/1y3RS5UtfUBG
-X-Received: by 2002:a1c:1fce:: with SMTP id f197mr3646586wmf.110.1613487790449; 
- Tue, 16 Feb 2021 07:03:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyR8buDJPcVEtSvT8+2md6ZXs+iajoJ3Pzg/W5/FXaXn800bdH1LgHIrH1Rzxm7H62YB5jHAA==
-X-Received: by 2002:a1c:1fce:: with SMTP id f197mr3646407wmf.110.1613487787308; 
- Tue, 16 Feb 2021 07:03:07 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w2sm5089853wmg.27.2021.02.16.07.03.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Feb 2021 07:03:06 -0800 (PST)
-Subject: Re: [RFC PATCH 0/3] hw/pflash_cfi01: Reduce memory consumption when
- flash image is smaller than region
-To: David Edmondson <david.edmondson@oracle.com>, qemu-block@nongnu.org
-References: <20210216142721.1985543-1-david.edmondson@oracle.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <df4db595-c2db-4fa8-0a4b-1403117dcc76@redhat.com>
-Date: Tue, 16 Feb 2021 16:03:05 +0100
+ bh=tuJb9Rdf8a7isVyDbJQuS+WoYZmpjcgsO3YrfWJo0Rs=;
+ b=jVK/sBW3hwK0tQmcupXBNsK90sc+XhSCz9xefTFyuSRZ2U1w6l7bLQCTavD1yHnwtNi8yX
+ Upw/e0F+s7ga+CGLmu5b/oiJ+lDIuufNjM+dLSoPR8eV7zm/f8QC7eAvkno58Xu4cfBCWR
+ fG4AAAX6fgaDHIK1suCn0b7cx7K7FOk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-oFyezKIXMOmH59WBjema0Q-1; Tue, 16 Feb 2021 10:08:41 -0500
+X-MC-Unique: oFyezKIXMOmH59WBjema0Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 33337801965;
+ Tue, 16 Feb 2021 15:08:40 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 65C365D74D;
+ Tue, 16 Feb 2021 15:08:39 +0000 (UTC)
+Subject: Re: [PATCH v6 19/19] qapi/introspect.py: add SchemaMetaType enum
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210216021809.134886-1-jsnow@redhat.com>
+ <20210216021809.134886-20-jsnow@redhat.com>
+ <87pn10nz57.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <ff534bd4-ad04-1afe-b820-cc1482c8566b@redhat.com>
+Date: Tue, 16 Feb 2021 10:08:38 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210216142721.1985543-1-david.edmondson@oracle.com>
+In-Reply-To: <87pn10nz57.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,92 +82,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 3:27 PM, David Edmondson wrote:
-> As described in
-> https://lore.kernel.org/r/20201116104216.439650-1-david.edmondson@oracle.com,
-> I'd like to reduce the amount of memory consumed by QEMU mapping UEFI
-> images on aarch64.
+On 2/16/21 4:24 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 > 
-> To recap:
-> 
->> Currently ARM UEFI images are typically built as 2MB/768kB flash
->> images for code and variables respectively. These images are both
->> then padded out to 64MB before being loaded by QEMU.
+>> Follows the qapi/introspect.py definition of the same; this adds a more
+>> precise typing to _gen_tree's mtype parameter.
 >>
->> Because the images are 64MB each, QEMU allocates 128MB of memory to
->> read them, and then proceeds to read all 128MB from disk (dirtying
->> the memory). Of this 128MB less than 3MB is useful - the rest is
->> zero padding.
+>> NB: print(SchemaMetaType.BUILTIN) would produce the string
+>> "SchemaMetaType.BUILTIN", but when using format strings (.format or f-strings),
+>> it relies on the __format__ method defined in the Enum class, which uses the
+>> "value" of the enum instead, producing the string "builtin".
 >>
->> On a machine with 100 VMs this wastes over 12GB of memory.
+>> For consistency with old-style format strings (which simply call the
+>> __str__ method of an object), a __str__ dunder is added, though it is
+>> not actually used here in this code.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/introspect.py | 38 +++++++++++++++++++++++++++++---------
+>>   1 file changed, 29 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>> index c6f5cf8d874..008a21f5c4c 100644
+>> --- a/scripts/qapi/introspect.py
+>> +++ b/scripts/qapi/introspect.py
+>> @@ -11,6 +11,7 @@
+>>   See the COPYING file in the top-level directory.
+>>   """
+>>   
+>> +from enum import Enum
+>>   from typing import (
+>>       Any,
+>>       Dict,
+>> @@ -79,6 +80,23 @@
+>>   SchemaInfoCommand = Dict[str, object]
+>>   
+>>   
+>> +class SchemaMetaType(str, Enum):
+>> +    """
+>> +    Mimics the SchemaMetaType enum from qapi/introspect.json.
+>> +    """
+>> +    BUILTIN = 'builtin'
+>> +    ENUM = 'enum'
+>> +    ARRAY = 'array'
+>> +    OBJECT = 'object'
+>> +    ALTERNATE = 'alternate'
+>> +    COMMAND = 'command'
+>> +    EVENT = 'event'
+>> +
+>> +    def __str__(self) -> str:
+>> +        # Needed for intuitive behavior with old-style format strings.
+>> +        return str(self.value)
+>> +
+>> +
 > 
-> There were objections to my previous patch because it changed the size
-> of the regions reported to the guest via the memory map (the reported
-> size depended on the size of the image).
+> The fanciness compared to plain Enum('SchemaMetaType', 'BUILTIN ...')
+> avoids extra code to map the enum values to the strings with need.
 > 
-> This is a smaller patch which only helps with read-only flash images,
-> as it does so by changing the memory region that covers the entire
-> region to be IO rather than RAM, and loads the flash image into a
-> smaller sub-region that is the more traditional mixed IO/ROMD type.
+
+I wasn't even aware there was a short form. (TIL!)
+
+This form allows me to inherit from str and pass the value around 
+anywhere strings are used. Due to the generalized nature of 
+tree_to_qlit, using the short constructor form (which creates ints) 
+would need additional magic to be useful.
+
+You can almost replicate it:
+
+_values = ('builtin', 'enum', 'array')
+_nv_pairs = [(value.upper(), value) for value in _values]
+SchemaMetaType = enum.Enum('SchemaMetaType', _nv_pairs, type=str)
+
+though this loses out on the __str__ method hack, and I don't think mypy 
+will be able to introspect into this functional constructor.
+
+>>   _ValueT = TypeVar('_ValueT', bound=_Value)
+>>   
+>>   
+>> @@ -251,7 +269,8 @@ def _gen_features(features: Sequence[QAPISchemaFeature]
+>>                         ) -> List[Annotated[str]]:
+>>           return [Annotated(f.name, f.ifcond) for f in features]
+>>   
+>> -    def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+>> +    def _gen_tree(self, name: str, mtype: SchemaMetaType,
+>> +                  obj: Dict[str, object],
+>>                     ifcond: Sequence[str] = (),
+>>                     features: Sequence[QAPISchemaFeature] = ()) -> None:
+>>           """
+>> @@ -299,7 +318,7 @@ def _gen_variant(self, variant: QAPISchemaVariant
+>>   
+>>       def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                              json_type: str) -> None:
+>> -        self._gen_tree(name, 'builtin', {'json-type': json_type})
+>> +        self._gen_tree(name, SchemaMetaType.BUILTIN, {'json-type': json_type})
+>>   
+>>       def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                           ifcond: Sequence[str],
+>> @@ -307,7 +326,7 @@ def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                           members: List[QAPISchemaEnumMember],
+>>                           prefix: Optional[str]) -> None:
+>>           self._gen_tree(
+>> -            name, 'enum',
+>> +            name, SchemaMetaType.ENUM,
+>>               {'values': [Annotated(m.name, m.ifcond) for m in members]},
+>>               ifcond, features
+>>           )
+>> @@ -316,8 +335,8 @@ def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                            ifcond: Sequence[str],
+>>                            element_type: QAPISchemaType) -> None:
+>>           element = self._use_type(element_type)
+>> -        self._gen_tree('[' + element + ']', 'array', {'element-type': element},
+>> -                       ifcond)
+>> +        self._gen_tree('[' + element + ']', SchemaMetaType.ARRAY,
+>> +                       {'element-type': element}, ifcond)
+>>   
+>>       def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
+>>                                  ifcond: Sequence[str],
+>> @@ -330,14 +349,14 @@ def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
+>>           if variants:
+>>               obj['tag'] = variants.tag_member.name
+>>               obj['variants'] = [self._gen_variant(v) for v in variants.variants]
+>> -        self._gen_tree(name, 'object', obj, ifcond, features)
+>> +        self._gen_tree(name, SchemaMetaType.OBJECT, obj, ifcond, features)
+>>   
+>>       def visit_alternate_type(self, name: str, info: Optional[QAPISourceInfo],
+>>                                ifcond: Sequence[str],
+>>                                features: List[QAPISchemaFeature],
+>>                                variants: QAPISchemaVariants) -> None:
+>>           self._gen_tree(
+>> -            name, 'alternate',
+>> +            name, SchemaMetaType.ALTERNATE,
+>>               {'members': [Annotated({'type': self._use_type(m.type)},
+>>                                      m.ifcond)
+>>                            for m in variants.variants]},
+>> @@ -361,7 +380,7 @@ def visit_command(self, name: str, info: Optional[QAPISourceInfo],
+>>           }
+>>           if allow_oob:
+>>               obj['allow-oob'] = allow_oob
+>> -        self._gen_tree(name, 'command', obj, ifcond, features)
+>> +        self._gen_tree(name, SchemaMetaType.COMMAND, obj, ifcond, features)
+>>   
+>>       def visit_event(self, name: str, info: Optional[QAPISourceInfo],
+>>                       ifcond: Sequence[str], features: List[QAPISchemaFeature],
+>> @@ -370,7 +389,8 @@ def visit_event(self, name: str, info: Optional[QAPISourceInfo],
+>>           assert self._schema is not None
+>>   
+>>           arg_type = arg_type or self._schema.the_empty_object_type
+>> -        self._gen_tree(name, 'event', {'arg-type': self._use_type(arg_type)},
+>> +        self._gen_tree(name, SchemaMetaType.EVENT,
+>> +                       {'arg-type': self._use_type(arg_type)},
+>>                          ifcond, features)
 > 
-> All read/write operations to areas outside of the underlying block
-> device are handled directly (reads return 0, writes fail (which is
-> okay, because this path only supports read-only devices)).
+> Gain: _gen_tree()'s second argument's type now serves as documentation,
+> and passing crap to it becomes harder.
 > 
-> This reduces the memory consumption for the read-only AAVMF code image
-> from 64MB to around 2MB (presuming that the UEFI image is adjusted
-> accordingly). It does nothing to improve the memory consumption caused
-> by the read-write AAVMF vars image.
-
-So for each VM this changes from 64 + 64 to 2 + 64 MiB.
-
-100 VMs now use 6.5GB instead of 400MB. Quite an improvement already :)
-
-> There was a suggestion in a previous thread that perhaps the pflash
-> driver could be re-worked to use the block IO interfaces to access the
-> underlying device "on demand" rather than reading in the entire image
-> at startup (at least, that's how I understood the comment).
+> Gut feeling: too much notational overhead for too little gain.
 > 
-> I looked at implementing this and struggled to get it to work for all
-> of the required use cases. Specifically, there are several code paths
-> that expect to retrieve a pointer to the flat memory image of the
-> pflash device and manipulate it directly (examples include the Malta
-> board and encrypted memory support on x86), or write the entire image
-> to storage (after migration).
-
-IIUC these are specific uses when the machine is paused. For Malta we
-can map a ROM instead.
-
-I don't know about encrypted x86 machines.
-
-> My implementation was based around mapping the flash region only for
-> IO, which meant that every read or write had to be handled directly by
-> the pflash driver (there was no ROMD style operation), which also made
-> booting an aarch64 VM noticeably slower - getting through the firmware
-> went from under 1 second to around 10 seconds.
+> Opinions?
 > 
-> Improving the writeable device support requires some more general
-> infrastructure, I think, but I'm not familiar with everything that
-> QEMU currently provides, and would be very happy to learn otherwise.
 
-I am not a block expert, but I wonder if something like this could
-be used:
+No strong feelings one way or the other, honestly. I wrote this mostly 
+to see how much the overhead would be based on your comment about the 
+loose typing of meta-type as str.
 
-- create a raw (parent) block image of 64MiB
+If it's too much for too little for you, I'm okay without it too.
 
-- add a raw (child) block with your 768kB of VARS file
-
-- add a null-co (child) block of 63Mib + 256kiB
-
-- pass the parent block to the pflash device
-
-Regards,
-
-Phil.
+--js
 
 
