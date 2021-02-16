@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F07431D2B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 23:34:18 +0100 (CET)
-Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B895731D2CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 23:48:17 +0100 (CET)
+Received: from localhost ([::1]:55982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC8vA-0003Tu-K6
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 17:34:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37136)
+	id 1lC98i-0002WB-9t
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 17:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lC8tc-0002dI-H3
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 17:32:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28240)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lC8tZ-0003Cw-L3
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 17:32:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613514756;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pJb4I0cqYMPhhGnHnXk7Q6B8q9iBA0pX65YpqN4T6Ns=;
- b=QopWmESsbeGlxBHnt1qu+vTjN5FZe43man6S6ak/+2JES873aSzEPVn8vkRV0JsXY//G2m
- 0Z2x58WjIvgEadbVjLQSsbdPV2szKbTCZUg2nKhvMIEengL4UPUSbxL3yCy2ujWmGO/tq/
- CYsvgvFgKkE73YeXZCnpD5obBWFLVDA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-H4lg-ixlOniXZMHSk9r42g-1; Tue, 16 Feb 2021 17:32:33 -0500
-X-MC-Unique: H4lg-ixlOniXZMHSk9r42g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47600DF8A4;
- Tue, 16 Feb 2021 22:32:32 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2267210016FF;
- Tue, 16 Feb 2021 22:32:26 +0000 (UTC)
-Date: Tue, 16 Feb 2021 23:32:25 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: isaku.yamahata@gmail.com
-Subject: Re: [PATCH v4 07/10] hw/i386: declare ACPI mother board resource
- for MMCONFIG region
-Message-ID: <20210216233225.78a438ea@redhat.com>
-In-Reply-To: <c7a950f33bba2fd1dc70ac825fdd64a6f40be184.1613436967.git.isaku.yamahata@intel.com>
-References: <cover.1613436967.git.isaku.yamahata@intel.com>
- <c7a950f33bba2fd1dc70ac825fdd64a6f40be184.1613436967.git.isaku.yamahata@intel.com>
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lC96P-0000qP-FY
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 17:45:53 -0500
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:45767)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1lC96N-0004s9-NC
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 17:45:53 -0500
+Received: by mail-oi1-x22a.google.com with SMTP id q186so8980998oig.12
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 14:45:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hrJrCx4IupfkxEsF5d43g+ctOQybqXDlHjJYCDnVPX4=;
+ b=kuVMuxFJKSdcZ8S9+jzEIT/s2KsIGJ+KI2Lf0pxe1osmHZHiWu/pfTjWUp42JVmCU6
+ qOZ3IpmL1Qq7B9AN3OaGZHiSS1/F2GVZzcV71sb1qDadMTEdIPkvbvUbM3O0ny28r+QI
+ AR1F9zKJxJYXxrpbbRIW33p6rHugjOdgythG9R2SYFZDHLasr6FNQsoxE6Z4tbZ/oW8E
+ h3k7rKig+bEGLSp/jmketsHJ2ZYja9c8KelVM7sZ5ulG1TBmVjoL/E+PTefpkGq/QU2E
+ veL2EyrL1MIJki6Moe0MApUZcKR40Cekn8ycMsSyJ+TpvKhlzs2afXGY2S9QvdWuhlhb
+ jVTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hrJrCx4IupfkxEsF5d43g+ctOQybqXDlHjJYCDnVPX4=;
+ b=NBhdev+lbpZvTq5zpvI8yTf5JdvsoxrQweOgyiKk3eOnQSRQoxaQC82P4tj8LAmv5Y
+ rzpWYM+HJ91N5l8ZaXV9tZF0WGtvANSbfJOIxIP562Ly+lgbg5nxx349myXkRtVDlh88
+ hJDcouHAg3OOuaX/3VKhwMwLAA7gbYh0rUxcQhX8j9l+BcUCNowxFJ1Vj6dwzEw+t1Dk
+ P5Y/U+mn1hrQGe8ClBoD1p6bPKLk2lNhYCS1JoHgjPfunW9KgrbBwDbtagviKllmt15U
+ W6xlgaWFBVE5zPfJR2CCWqYG5HvZLUifPmrvJfigE5WUyXRg6dxt4TIA+hPYqqhsxdlH
+ kt8Q==
+X-Gm-Message-State: AOAM532oGHSAqTXr8u4ZnWVdWhFWmp65M96vqmRJTKzZPZ6j2MIvfafC
+ 5q29m1KOuyUjSVBcC+IS26VBBg==
+X-Google-Smtp-Source: ABdhPJynqDuKF9Gycbi83IaXhCZCI2M71c/ZsnEOBp2XMuToisuzXsbtowqf6Ov+4G9hE5m8V0tMQA==
+X-Received: by 2002:aca:eb13:: with SMTP id j19mr4074829oih.10.1613515549906; 
+ Tue, 16 Feb 2021 14:45:49 -0800 (PST)
+Received: from cube.nuviainc.com (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id b12sm32909oti.65.2021.02.16.14.45.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Feb 2021 14:45:49 -0800 (PST)
+From: Rebecca Cran <rebecca@nuviainc.com>
+To: qemu-arm@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2 0/3] target/arm: Add support for FEAT_SSBS
+Date: Tue, 16 Feb 2021 15:45:40 -0700
+Message-Id: <20210216224543.16142-1-rebecca@nuviainc.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
+ envelope-from=rebecca@nuviainc.com; helo=mail-oi1-x22a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,200 +82,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, qemu-devel@nongnu.org, mst@redhat.com
+Cc: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Feb 2021 17:04:12 -0800
-isaku.yamahata@gmail.com wrote:
 
-> From: Isaku Yamahata <isaku.yamahata@intel.com>
-> 
-> Declare PNP0C01 device to reserve MMCONFIG region to conform to the
-> spec better and play nice with guest BIOSes/OSes.
-> 
-> According to PCI Firmware Specification[0], MMCONFIG region must be
-> reserved by declaring a motherboard resource. It's optional to reserve
-> the region in memory map by Int 15 E820h or EFIGetMemoryMap.
-> Guest Linux checks if the MMCFG region is reserved by bios memory map
-> or ACPI resource. If it's not reserved, Linux falls back to legacy PCI
-> configuration access.
-> 
-> TDVF [1] [2] doesn't reserve MMCONFIG the region in memory map.
-> On the other hand OVMF reserves it in memory map without declaring a
-> motherboard resource. With memory map reservation, linux guest uses
-> MMCONFIG region. However it doesn't comply to PCI Firmware
-> specification.
-> 
-> [0] PCI Firmware specification Revision 3.2
->   4.1.2 MCFG Table Description table 4-2 NOTE 2
->   If the operating system does not natively comprehend reserving the
->   MMCFG region, The MMCFG region must e reserved by firmware. ...
->   For most systems, the mortheroard resource would appear at the root
->   of the ACPI namespace (under \_SB)...
->   The resource can optionally be returned in Int15 E820h or
->   EFIGetMemoryMap as reserved memory but must always be reported
->   through ACPI as a motherboard resource
-> 
-> [1] TDX: Intel Trust Domain Extension
->     https://software.intel.com/content/www/us/en/develop/articles/intel-trust-domain-extensions.html
-> [2] TDX Virtual Firmware
->     https://github.com/tianocore/edk2-staging/tree/TDVF
-> 
-> The change to DSDT is as follows.
-> 
-> @@ -68,32 +68,51 @@
-> 
->                      If ((CDW3 != Local0))
->                      {
->                          CDW1 |= 0x10
->                      }
-> 
->                      CDW3 = Local0
->                  }
->                  Else
->                  {
->                      CDW1 |= 0x04
->                  }
-> 
->                  Return (Arg3)
->              }
->          }
-> +
-> +        Device (DRAC)
-> +        {
-> +            Name (_HID, "PNP0C01" /* System Board */)  // _HID: Hardware ID
-> +            Name (RBUF, ResourceTemplate ()
-> +            {
-> +                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
-> +                    0x00000000,         // Granularity
-> +                    0xB0000000,         // Range Minimum
-> +                    0xB0000000,         // Range Maximum
-> +                    0x00000000,         // Translation Offset
-> +                    0x10000000,         // Length
-> +                    ,, , AddressRangeMemory, TypeStatic)
-> +            })
-> +            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
-> +            {
-> +                Return (RBUF) /* \_SB_.DRAC.RBUF */
-> +            }
-> +        }
->      }
-> 
->      Scope (_SB)
->      {
->          Device (HPET)
->          {
->              Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
->              Name (_UID, Zero)  // _UID: Unique ID
->              OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
->              Field (HPTM, DWordAcc, Lock, Preserve)
->              {
->                  VEND,   32,
->                  PRD,    32
->              }
-> 
->              Method (_STA, 0, NotSerialized)  // _STA: Status
-> 
-> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
-> ---
->  hw/i386/acpi-build.c | 55 +++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 54 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index e3386ae674..30326f69b3 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1072,6 +1072,55 @@ static void build_q35_pci0_int(Aml *table)
->      aml_append(table, sb_scope);
->  }
->  
-> +static Aml *build_q35_dram_controller(AcpiMcfgInfo *mcfg)
-> +{
-> +    Aml *dev;
-> +    Aml *rbuf;
-> +    Aml *resource_template;
-> +    Aml *rbuf_name;
-> +    Aml *crs;
-> +
-> +    /* DRAM controller */
-> +    dev = aml_device("DRAC");
-> +    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C01")));
-> +
-> +    resource_template = aml_resource_template();
-> +    if (mcfg->base + mcfg->size - 1 >= (1ULL << 32)) {
-> +        aml_append(resource_template,
-> +                   aml_qword_memory(AML_POS_DECODE,
-> +                                    AML_MIN_FIXED,
-> +                                    AML_MAX_FIXED,
-> +                                    AML_NON_CACHEABLE,
-> +                                    AML_READ_WRITE,
-> +                                    0x0000000000000000,
-> +                                    mcfg->base,
-> +                                    mcfg->base,
-                                here       ^^^
+Add support for FEAT_SSBS, Speculative Store Bypass Safe. SSBS is an
+optional feature in ARMv8.0 and is mandatory in ARMv8.5.
 
-> +        aml_append(resource_template,
-> +                   aml_dword_memory(AML_POS_DECODE,
-> +                                    AML_MIN_FIXED,
-> +                                    AML_MAX_FIXED,
-> +                                    AML_NON_CACHEABLE,
-> +                                    AML_READ_WRITE,
-> +                                    0x0000000000000000,
-> +                                    mcfg->base,
-> +                                    mcfg->base,
-                             and here   ^^^
-please revert it to the way did it in v3,
-I was wrong suggesting that for fixed address case.
- 
-> +                                    0x0000000000000000,
-> +                                    mcfg->size));
-> +    }
+Changes from v1 to v2:
 
-> +    rbuf = aml_name_decl("RBUF", resource_template);
-> +    aml_append(dev, rbuf);
-> +
-> +    crs = aml_method("_CRS", 0, AML_SERIALIZED);
-> +    rbuf_name = aml_name("RBUF");
-> +    aml_append(crs, aml_return(rbuf_name));
-> +    aml_append(dev, crs);
-can be simpler if method is replaced with _CRS variable, i.e.:
+o Removed changes to cpsr_write_from_spsr_elx and cpsr_read_for_spsr_elx.
+o Moved the SSBS case in translate-a64.c above DIT to keep the numbers in
+  order.
+o Moved the check for SCTLR_DSSBS_32 in take_aarch32_exception.
 
-       aml_append(dev, aml_name_decl("_CRS", resource_template));
+Rebecca Cran (3):
+  target/arm: Add support for FEAT_SSBS, Speculative Store Bypass Safe
+  target/arm: Enable FEAT_SSBS for "max" AARCH64 CPU
+  target/arm: Set ID_PFR2.SSBS to 1 for "max" 32-bit CPU
 
-> +
-> +    return dev;
-> +}
-> +
->  static void build_q35_isa_bridge(Aml *table)
->  {
->      Aml *dev;
-> @@ -1218,6 +1267,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->      PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(machine);
->      X86MachineState *x86ms = X86_MACHINE(machine);
->      AcpiMcfgInfo mcfg;
-> +    bool mcfg_valid = !!acpi_get_mcfg(&mcfg);
->      uint32_t nr_mem = machine->ram_slots;
->      int root_bus_limit = 0xFF;
->      PCIBus *bus = NULL;
-> @@ -1256,6 +1306,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->          aml_append(dev, aml_name_decl("_UID", aml_int(0)));
->          aml_append(dev, build_q35_osc_method());
->          aml_append(sb_scope, dev);
-> +        if (mcfg_valid) {
-> +            aml_append(sb_scope, build_q35_dram_controller(&mcfg));
-> +        }
->  
->          if (pm->smi_on_cpuhp) {
->              /* reserve SMI block resources, IO ports 0xB2, 0xB3 */
-> @@ -1386,7 +1439,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
->       * the PCI0._CRS.  Add mmconfig to the set so it will be excluded
->       * too.
->       */
-> -    if (acpi_get_mcfg(&mcfg)) {
-> +    if (mcfg_valid) {
->          crs_range_insert(crs_range_set.mem_ranges,
->                           mcfg.base, mcfg.base + mcfg.size - 1);
->      }
+ target/arm/cpu.c           |  4 +++
+ target/arm/cpu.h           | 15 +++++++-
+ target/arm/cpu64.c         |  5 +++
+ target/arm/helper.c        | 37 ++++++++++++++++++++
+ target/arm/internals.h     |  6 ++++
+ target/arm/translate-a64.c | 12 +++++++
+ 6 files changed, 78 insertions(+), 1 deletion(-)
+
+-- 
+2.26.2
 
 
