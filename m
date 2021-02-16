@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22EBF31CE1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:34:53 +0100 (CET)
-Received: from localhost ([::1]:41014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7124C31CE1C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:34:52 +0100 (CET)
+Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3JM-0000iF-5M
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:34:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40518)
+	id 1lC3JL-0000hT-Ft
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32s-0008Be-63
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:50 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37918)
+ id 1lC32u-0008FE-Kz
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:52 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36222)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32H-0002QN-7r
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:49 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id b3so13779447wrj.5
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:12 -0800 (PST)
+ id 1lC32J-0002Qm-AM
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:52 -0500
+Received: by mail-wm1-x336.google.com with SMTP id a207so1844583wmd.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=oOzT7sOzTR42HbW+vtiKP9qod26e6MefuWrn5uRr7O8=;
- b=PqA3VTobA2mXBwuPZmASvILebCTcpUuLAmR1HYBvFwDgg/J90eWJ3a76iNO4u8UUw3
- VBGiDRQ9Dmcyp+A3/pVM+3FYF6KI1mSHNslo1mwDKgRO+WDLsIYk69KYnAwhvd2LhYQa
- 5zg+NiOPUp+hciDtQPCEu7RZO43lZ0RT4ooHFLxhpGkgKEc+uKSozB2+hS2vS7+vrMmC
- AY6JpRGQcAmlMWWshG5ffBMyC4OUjF1zdWzNywRIEoQ9uE/2VkeDUCvn8pV3RaI532ry
- 3MoCBBmOvooR5xIkox5NVVFHXB3rTgX+62+zbAjmQtcO07TlJXonPNoy2Dw/V9KSTe+C
- ZkwA==
+ bh=iEBIv7+OwI51woRY737KKllG0LWlaFF7AMx5WRjtclo=;
+ b=nVvnUNNLun7cMAnTt0gMfqH86lfTela6X6GN859srQKdCMnDVfFLR1ArPtxHTHhjv2
+ RAH7WaVTiR9sI50XAxNZQsstQLFyS/hN3znLckra13lB5amMZ4HNl3BK7Iqd1tNbLp7B
+ uB0aEWWx2GVBIBaa/v7Y4w8sP4kKX8rL7YFJFAmqFwDWBCDCRzHg8oiiVPcPf9wtB5s9
+ Y6A2tqwW5MdxlUzOXmmHWNGytKc2PmxCg01g31+1CxplV1vyDsAMCUYYl7BR74gvg4WW
+ RhpHvfclTqPlAMP9B9oqxsQfsA8q3kJG6twuewufftl9j8NC35R0MhuoGb+Wz71MNDTb
+ E1lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oOzT7sOzTR42HbW+vtiKP9qod26e6MefuWrn5uRr7O8=;
- b=Qb4EGGqx2X9IEuDNFqBKfIh3wkpf0URCIYizVVG491l5wqcQRLN3A1JxDn7IQTO8Rd
- hiGnraGPnXJFYn5oPze2Zl9V36a3QECDOMFg3E59ucrVqzF/uAjQP1UcC8Ndvd+kz60H
- s7wXfmEr+QrYAWG0MsAPcVYRlwAnmVk+cITqQ/DQQQjeq6aVdHmipdv039A1bwcyxuNd
- 8ETryAZQnSPIFM2dyIuidJBjzp2ZjO39CbTnkzFQFWMIN16XqPf3E9giDOg7eExUA+aR
- i4xLMF6qEp4wbLN3px74RHe0bIG8q0b72hGaDhvtBn7E0INR/tFtHfTXyZUhWkJKV9uT
- j+Qw==
-X-Gm-Message-State: AOAM531FlyFyMrqWGMIGU1muY12OygN2ayPqEmVBClghlNKH0YPRvf5f
- BOCD59TY9wZSvNpuaeRUQWN2O3pctoxd3A==
-X-Google-Smtp-Source: ABdhPJytGbfUZG7DQNKlGepozdu+Rk5wjTBYSvYEC8AitbDdHEjBWa2K74utjsuqj/oO4JPbMA78Yg==
-X-Received: by 2002:adf:eac6:: with SMTP id o6mr23982189wrn.172.1613492232000; 
+ bh=iEBIv7+OwI51woRY737KKllG0LWlaFF7AMx5WRjtclo=;
+ b=KvkUwFtjFnIyCW15zBmuxNEPLmr6X2tcOJle/h5OS50YlhUfR5CR3XAFiKoKPS5vCW
+ n22P9A4z2ntX+S5PzrJ/FxyuvJJEaw4aWePp1fMKaveggTI1D3L3D2uS9YVsJMShAzIX
+ RoHEBvURLE+GGfvIqmXT3p33DNEVzG6M8NmMqhVIxONh5K6N6x2ILTs0C/ng2lE4yaPC
+ JiNVjLh0+abYZBvqBPaDTM9h0fSqCMUQtGTdIIsWs+CKzRiqUIo+k0y/SfQ+pwENQWrd
+ heA44eLyzOPkzQl5wg9J8YO3o8cBDrGh1McEFQ0mrJTf12ATfJfpkRdlsz4sAAMB7Pft
+ 8KvA==
+X-Gm-Message-State: AOAM53049Gn5kYK4InO9F3k1w3JXEOdlAXZsa1RMMxIdp8r7gi738mpN
+ wqROvsZ5IOx+oJh8SyDjSnFsVkPnDVM/jg==
+X-Google-Smtp-Source: ABdhPJwTbfZ+86ff0fSRc7ko9iaGo6TRktDqjH9pPNMIQrsrTnQoujro1hq54LmaJLtKEAc/Rg2mGw==
+X-Received: by 2002:a1c:20c7:: with SMTP id g190mr3749424wmg.156.1613492232687; 
  Tue, 16 Feb 2021 08:17:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.11
+ by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:11 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/40] linux-user: Use cpu_untagged_addr in access_ok;
- split out *_untagged
-Date: Tue, 16 Feb 2021 16:16:34 +0000
-Message-Id: <20210216161658.29881-17-peter.maydell@linaro.org>
+Subject: [PULL 17/40] linux-user: Move lock_user et al out of line
+Date: Tue, 16 Feb 2021 16:16:35 +0000
+Message-Id: <20210216161658.29881-18-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
 References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,166 +89,147 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Provide both tagged and untagged versions of access_ok.
-In a few places use thread_cpu, as the user is several
-callees removed from do_syscall1.
+These functions are not small, except for unlock_user
+without debugging enabled.  Move them out of line, and
+add missing braces on the way.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210212184902.1251044-17-richard.henderson@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210212184902.1251044-18-richard.henderson@linaro.org
+[PMM: fixed the sense of an ifdef test in qemu.h]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/qemu.h          | 11 +++++++++--
- linux-user/elfload.c       |  2 +-
- linux-user/hppa/cpu_loop.c |  8 ++++----
- linux-user/i386/cpu_loop.c |  2 +-
- linux-user/i386/signal.c   |  5 +++--
- linux-user/syscall.c       |  9 ++++++---
- 6 files changed, 24 insertions(+), 13 deletions(-)
+ linux-user/qemu.h    | 47 +++++++-------------------------------------
+ linux-user/uaccess.c | 46 +++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 53 insertions(+), 40 deletions(-)
 
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index b3ccffbf0fa..82eabb73f80 100644
+index 82eabb73f80..971af97a2fb 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -491,7 +491,7 @@ extern unsigned long guest_stack_size;
- #define VERIFY_READ  PAGE_READ
- #define VERIFY_WRITE (PAGE_READ | PAGE_WRITE)
+@@ -640,57 +640,24 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
  
--static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
-+static inline bool access_ok_untagged(int type, abi_ulong addr, abi_ulong size)
- {
-     if (size == 0
-         ? !guest_addr_valid_untagged(addr)
-@@ -501,6 +501,12 @@ static inline bool access_ok(int type, abi_ulong addr, abi_ulong size)
-     return page_check_range((target_ulong)addr, size, type) == 0;
- }
+ /* Lock an area of guest memory into the host.  If copy is true then the
+    host area will have the same contents as the guest.  */
+-static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
+-{
+-    if (!access_ok_untagged(type, guest_addr, len)) {
+-        return NULL;
+-    }
+-#ifdef DEBUG_REMAP
+-    {
+-        void *addr;
+-        addr = g_malloc(len);
+-        if (copy)
+-            memcpy(addr, g2h(guest_addr), len);
+-        else
+-            memset(addr, 0, len);
+-        return addr;
+-    }
+-#else
+-    return g2h_untagged(guest_addr);
+-#endif
+-}
++void *lock_user(int type, abi_ulong guest_addr, long len, int copy);
  
-+static inline bool access_ok(CPUState *cpu, int type,
-+                             abi_ulong addr, abi_ulong size)
+ /* Unlock an area of guest memory.  The first LEN bytes must be
+    flushed back to guest memory. host_ptr = NULL is explicitly
+    allowed and does nothing. */
+-static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
+-                               long len)
+-{
+-
+-#ifdef DEBUG_REMAP
+-    if (!host_ptr)
+-        return;
+-    if (host_ptr == g2h_untagged(guest_addr))
+-        return;
+-    if (len > 0)
+-        memcpy(g2h_untagged(guest_addr), host_ptr, len);
+-    g_free(host_ptr);
++#ifndef DEBUG_REMAP
++static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, long len)
++{ }
++#else
++void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
+ #endif
+-}
+ 
+ /* Return the length of a string in target memory or -TARGET_EFAULT if
+    access error. */
+ abi_long target_strlen(abi_ulong gaddr);
+ 
+ /* Like lock_user but for null terminated strings.  */
+-static inline void *lock_user_string(abi_ulong guest_addr)
+-{
+-    abi_long len;
+-    len = target_strlen(guest_addr);
+-    if (len < 0)
+-        return NULL;
+-    return lock_user(VERIFY_READ, guest_addr, (long)(len + 1), 1);
+-}
++void *lock_user_string(abi_ulong guest_addr);
+ 
+ /* Helper macros for locking/unlocking a target struct.  */
+ #define lock_user_struct(type, host_ptr, guest_addr, copy)	\
+diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
+index e215ecc2a60..bba012ed159 100644
+--- a/linux-user/uaccess.c
++++ b/linux-user/uaccess.c
+@@ -4,6 +4,52 @@
+ 
+ #include "qemu.h"
+ 
++void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
 +{
-+    return access_ok_untagged(type, cpu_untagged_addr(cpu, addr), size);
++    if (!access_ok_untagged(type, guest_addr, len)) {
++        return NULL;
++    }
++#ifdef DEBUG_REMAP
++    {
++        void *addr;
++        addr = g_malloc(len);
++        if (copy) {
++            memcpy(addr, g2h(guest_addr), len);
++        } else {
++            memset(addr, 0, len);
++        }
++        return addr;
++    }
++#else
++    return g2h_untagged(guest_addr);
++#endif
 +}
 +
- /* NOTE __get_user and __put_user use host pointers and don't check access.
-    These are usually used to access struct data members once the struct has
-    been locked - usually with lock_user_struct.  */
-@@ -636,8 +642,9 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
-    host area will have the same contents as the guest.  */
- static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
- {
--    if (!access_ok(type, guest_addr, len))
-+    if (!access_ok_untagged(type, guest_addr, len)) {
-         return NULL;
++#ifdef DEBUG_REMAP
++void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
++{
++    if (!host_ptr) {
++        return;
 +    }
- #ifdef DEBUG_REMAP
-     {
-         void *addr;
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index 902be3ff117..73d750c8091 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -3510,7 +3510,7 @@ static int vma_get_mapping_count(const struct mm_struct *mm)
- static abi_ulong vma_dump_size(const struct vm_area_struct *vma)
- {
-     /* if we cannot even read the first page, skip it */
--    if (!access_ok(VERIFY_READ, vma->vma_start, TARGET_PAGE_SIZE))
-+    if (!access_ok_untagged(VERIFY_READ, vma->vma_start, TARGET_PAGE_SIZE))
-         return (0);
- 
-     /*
-diff --git a/linux-user/hppa/cpu_loop.c b/linux-user/hppa/cpu_loop.c
-index 944511bbe43..3aaaf3337cb 100644
---- a/linux-user/hppa/cpu_loop.c
-+++ b/linux-user/hppa/cpu_loop.c
-@@ -35,7 +35,7 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
-         return -TARGET_ENOSYS;
- 
-     case 0: /* elf32 atomic 32bit cmpxchg */
--        if ((addr & 3) || !access_ok(VERIFY_WRITE, addr, 4)) {
-+        if ((addr & 3) || !access_ok(cs, VERIFY_WRITE, addr, 4)) {
-             return -TARGET_EFAULT;
-         }
-         old = tswap32(old);
-@@ -50,9 +50,9 @@ static abi_ulong hppa_lws(CPUHPPAState *env)
-             return -TARGET_ENOSYS;
-         }
-         if (((addr | old | new) & ((1 << size) - 1))
--            || !access_ok(VERIFY_WRITE, addr, 1 << size)
--            || !access_ok(VERIFY_READ, old, 1 << size)
--            || !access_ok(VERIFY_READ, new, 1 << size)) {
-+            || !access_ok(cs, VERIFY_WRITE, addr, 1 << size)
-+            || !access_ok(cs, VERIFY_READ, old, 1 << size)
-+            || !access_ok(cs, VERIFY_READ, new, 1 << size)) {
-             return -TARGET_EFAULT;
-         }
-         /* Note that below we use host-endian loads so that the cmpxchg
-diff --git a/linux-user/i386/cpu_loop.c b/linux-user/i386/cpu_loop.c
-index 19c8a18cd30..f813e87294a 100644
---- a/linux-user/i386/cpu_loop.c
-+++ b/linux-user/i386/cpu_loop.c
-@@ -99,7 +99,7 @@ static bool write_ok_or_segv(CPUX86State *env, abi_ptr addr, size_t len)
-      * For all the vsyscalls, NULL means "don't write anything" not
-      * "write it at address 0".
-      */
--    if (addr == 0 || access_ok(VERIFY_WRITE, addr, len)) {
-+    if (addr == 0 || access_ok(env_cpu(env), VERIFY_WRITE, addr, len)) {
-         return true;
-     }
- 
-diff --git a/linux-user/i386/signal.c b/linux-user/i386/signal.c
-index 97a39204cc2..9320e1d4726 100644
---- a/linux-user/i386/signal.c
-+++ b/linux-user/i386/signal.c
-@@ -513,9 +513,10 @@ restore_sigcontext(CPUX86State *env, struct target_sigcontext *sc)
- 
-     fpstate_addr = tswapl(sc->fpstate);
-     if (fpstate_addr != 0) {
--        if (!access_ok(VERIFY_READ, fpstate_addr,
--                       sizeof(struct target_fpstate)))
-+        if (!access_ok(env_cpu(env), VERIFY_READ, fpstate_addr,
-+                       sizeof(struct target_fpstate))) {
-             goto badframe;
-+        }
- #ifndef TARGET_X86_64
-         cpu_x86_frstor(env, fpstate_addr, 1);
- #else
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 53529e4004c..3d0411da57e 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -3526,8 +3526,9 @@ static abi_long do_accept4(int fd, abi_ulong target_addr,
-         return -TARGET_EINVAL;
-     }
- 
--    if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
-+    if (!access_ok(thread_cpu, VERIFY_WRITE, target_addr, addrlen)) {
-         return -TARGET_EFAULT;
++    if (host_ptr == g2h_untagged(guest_addr)) {
++        return;
 +    }
- 
-     addr = alloca(addrlen);
- 
-@@ -3557,8 +3558,9 @@ static abi_long do_getpeername(int fd, abi_ulong target_addr,
-         return -TARGET_EINVAL;
-     }
- 
--    if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
-+    if (!access_ok(thread_cpu, VERIFY_WRITE, target_addr, addrlen)) {
-         return -TARGET_EFAULT;
++    if (len > 0) {
++        memcpy(g2h_untagged(guest_addr), host_ptr, len);
 +    }
- 
-     addr = alloca(addrlen);
- 
-@@ -3588,8 +3590,9 @@ static abi_long do_getsockname(int fd, abi_ulong target_addr,
-         return -TARGET_EINVAL;
-     }
- 
--    if (!access_ok(VERIFY_WRITE, target_addr, addrlen))
-+    if (!access_ok(thread_cpu, VERIFY_WRITE, target_addr, addrlen)) {
-         return -TARGET_EFAULT;
++    g_free(host_ptr);
++}
++#endif
++
++void *lock_user_string(abi_ulong guest_addr)
++{
++    abi_long len = target_strlen(guest_addr);
++    if (len < 0) {
++        return NULL;
 +    }
- 
-     addr = alloca(addrlen);
- 
++    return lock_user(VERIFY_READ, guest_addr, (long)(len + 1), 1);
++}
++
+ /* copy_from_user() and copy_to_user() are usually used to copy data
+  * buffers between the target and host.  These internally perform
+  * locking/unlocking of the memory.
 -- 
 2.20.1
 
