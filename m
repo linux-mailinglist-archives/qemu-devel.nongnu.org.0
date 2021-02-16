@@ -2,78 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A20E31CB42
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:39:19 +0100 (CET)
-Received: from localhost ([::1]:55592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 747B531CB51
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:40:23 +0100 (CET)
+Received: from localhost ([::1]:59484 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC0ZS-0005FZ-0y
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:39:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48782)
+	id 1lC0aU-0006pO-Iu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:40:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC0XF-0003AA-0T
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:37:01 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:35637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC0XD-0008K5-78
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:37:00 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id g5so13077323ejt.2
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 05:36:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DQ4jAVggB8EkG4i0r0VuWXJejQJDw8yQG3wZqaexqS8=;
- b=n8y2MqJmS2Y3tAN11hqlxHS81RmCbDZdDJUJuBYxTQjNfC1PAoiIwsjamx8BPGmb4i
- c6deMsbM50v9YHbhV3cr1STVaohsti/Z/jPYDRJr1GJf4x2I3e2a41Bn3xTBAfV/nYTc
- uG3HWDCxKR2ZUnYjlW8ztDSTkCHkp2uxOBr4qtwbxZwuqm+HRD9o7VpZ5ZqLMBaU2v9I
- URIX/IGHcWDLHczSXgy7l+timOF2+c7NYJIZBBSeDmEYCv45OeD7UvTGtw7yjV9aSlyt
- t2GKJ/BxaNTgojL6T6aYJOJdZAd3KNkNgeWSZ7wawP92B/JMYIST7MmdHwk7iR8iUUxW
- breQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=DQ4jAVggB8EkG4i0r0VuWXJejQJDw8yQG3wZqaexqS8=;
- b=Ev1xzmb0RygzNmjR2B+JeGoM2dK1XralUcGn7M6Dg27mPY4b+sxe5LxlAnSsjiHpjP
- VmG2D1q8mL8Rp2qOJe66J4VGkPrggMRVsdT5mCT5JgbVRJkb8XL5CH0Iv9C5e/y37Vm9
- vqlg9aUr6pT0TlWETtG6xqq1JEesHKvCC5vXx0N4UP9MEGctqDPCjWtmGZWOan5MrFrA
- tODdZgQi3y9axugprcVF53jggdj/aNc5PU5xG97mZwuTwjQ2qSjPpuBBpAmLcYYtx2cc
- THIR5GIgjEFi/yUhPZmfaCg72OEYwBo5MmUNLTtB5JQtlp+7MYcBaaxEuUYqNwzp7LoO
- sMAg==
-X-Gm-Message-State: AOAM5324UZXuDeU4aJXpm3+XLSG1iNlnYlGfwUaZufL9Jp7scZjNHwVX
- 1d2+XfmqoQKqEd5v6Be5pE6gYB820mdhhRed5c3Okg==
-X-Google-Smtp-Source: ABdhPJxMyd3Tk1Xx/NF7xEe5fMcy5kijO93b1+l3PZokJMJcO3QtbyKRnkHALcZ09F8O8ghXXy5DYz1B5d7nrPlJFoI=
-X-Received: by 2002:a17:906:3a89:: with SMTP id
- y9mr20451821ejd.4.1613482617671; 
- Tue, 16 Feb 2021 05:36:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lC0Z6-0005id-7H
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:38:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50395)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lC0Z3-0000cM-9d
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:38:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613482732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=szKdsNJtEr/a6XnD2Jd+oSRCBzyNgM1CmD5Kl3JBUYM=;
+ b=DxkGZRsxYWpB8RDvKQM+E8Pd/g8aa5o6lqnFH8AExzqFuHIuQh9d5JEpnVoktKcU64cUsI
+ kpc3YdtluSch5/xK2yaqMleg6j8h+5x5phpSQvVGYgSa8Qn3ZySiJQWHKkhtf4NappZEyR
+ PvFOl1Kb62Jx+IYdCIOi/z0JWXHJax8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-6qcP7E0XNrqW03Y9T7SxCA-1; Tue, 16 Feb 2021 08:38:49 -0500
+X-MC-Unique: 6qcP7E0XNrqW03Y9T7SxCA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0698080196C;
+ Tue, 16 Feb 2021 13:38:42 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C708F5C1B4;
+ Tue, 16 Feb 2021 13:38:40 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qga: return a more explicit error on why a command is disabled
+Date: Tue, 16 Feb 2021 17:38:37 +0400
+Message-Id: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20210123143128.1167797-1-pbonzini@redhat.com>
- <20210123143128.1167797-32-pbonzini@redhat.com>
- <CAFEAcA8R84_-BPG-suKDvkpE1BxG8o1edGv=zfU_CCw27pK4eg@mail.gmail.com>
- <CABgObfZNy_j3DYt3NKKvC1Ou8TW2zACZ2LffnrR7LU8PeS5hww@mail.gmail.com>
- <CAFEAcA_6RiR+ud5U0Y9K3jNmEoQ-Ex8fZN3-o0MkLxpK8PROgw@mail.gmail.com>
- <378df6af-8383-8a51-4286-54739dba99e4@redhat.com>
- <CAFEAcA9-bOggKPjJiZNc3WXD9Uu-TxzDc7NMvUDGgoM7ERg3hg@mail.gmail.com>
- <1a8f0b62-0adf-9360-2365-e9881a6aef94@redhat.com>
- <CAFEAcA8VCGmqbdLFLQ0R9Uun4MzxLTnOZExmYJZ65qZ_fjDUvg@mail.gmail.com>
- <f61447bf-f556-b626-4a6c-f86e724b0f7f@redhat.com>
-In-Reply-To: <f61447bf-f556-b626-4a6c-f86e724b0f7f@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 13:36:46 +0000
-Message-ID: <CAFEAcA9G7CQDPb1QNaajwG5wSdND-E5nkTox1yEocdsBDsfc3g@mail.gmail.com>
-Subject: Re: [PULL 31/31] qemu-option: warn for short-form boolean options
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,39 +76,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: michael.roth@amd.com, pkrempa@redhat.com, armbru@redhat.com,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 13:30, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> On 16/02/21 12:58, Peter Maydell wrote:
-> > On Tue, 16 Feb 2021 at 11:23, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >> I agree, and that's why I have no plans to move -chardev off QemuOpts;
-> >> warning is a different step than excising and sometimes years pass from
-> >> one to the other.  However, that doesn't prevent introducing a warning
-> >> so that users slowly move away from the problematic functionality.
-> >
-> > If we want to continue to support the functionality then complaining
-> > about it doesn't serve much purpose IMHO.
->
-> It depends.  I don't want to support it forever for all options;
-> -machine, -accel and -object are those for which I do intend to remove
-> support for short-form options after the two release deprecation period.
->
-> My first submission of this patch even special cased "-chardev" to hide
-> the warning, but this was dropped in response to reviews.
-> (https://patchew.org/QEMU/20201103151452.416784-1-pbonzini@redhat.com/20201103151452.416784-5-pbonzini@redhat.com/).
->   I can add that back if you prefer, since it's very simple.
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-I agree with Daniel that it would be better to be consistent about
-whether we like these short options or not, but disagree that
-the answer is to deprecate everywhere :-)
+qmp_disable_command() now takes an optional error string to return a
+more explicit error message.
 
-Broadly, I think that being able to say 'foo' when foo is a
-boolean option being set to true is obvious and nice-to-use
-syntax, and I don't really want it to go away. 'nofoo' for
-'foo=false' is much less obvious and I'm happy if we only
-support it as a special-case for 'nowait'.
+Fixes:
+https://bugzilla.redhat.com/show_bug.cgi?id=1928806
 
--- PMM
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ include/qapi/qmp/dispatch.h | 3 ++-
+ qapi/qmp-dispatch.c         | 2 +-
+ qapi/qmp-registry.c         | 9 +++++----
+ qga/main.c                  | 4 ++--
+ 4 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
+index 1486cac3ef..d50420cdd8 100644
+--- a/include/qapi/qmp/dispatch.h
++++ b/include/qapi/qmp/dispatch.h
+@@ -36,6 +36,7 @@ typedef struct QmpCommand
+     QmpCommandOptions options;
+     QTAILQ_ENTRY(QmpCommand) node;
+     bool enabled;
++    const char *err_msg;
+ } QmpCommand;
+ 
+ typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
+@@ -44,7 +45,7 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
+                           QmpCommandFunc *fn, QmpCommandOptions options);
+ const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
+                                    const char *name);
+-void qmp_disable_command(QmpCommandList *cmds, const char *name);
++void qmp_disable_command(QmpCommandList *cmds, const char *name, const char *err_msg);
+ void qmp_enable_command(QmpCommandList *cmds, const char *name);
+ 
+ bool qmp_command_is_enabled(const QmpCommand *cmd);
+diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+index 0a2b20a4e4..ce4bf56b2c 100644
+--- a/qapi/qmp-dispatch.c
++++ b/qapi/qmp-dispatch.c
+@@ -157,7 +157,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+     }
+     if (!cmd->enabled) {
+         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+-                  "The command %s has been disabled for this instance",
++                  cmd->err_msg ?: "The command %s has been disabled for this instance",
+                   command);
+         goto out;
+     }
+diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
+index 58c65b5052..ddc49b8f2d 100644
+--- a/qapi/qmp-registry.c
++++ b/qapi/qmp-registry.c
+@@ -43,26 +43,27 @@ const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const char *name)
+ }
+ 
+ static void qmp_toggle_command(QmpCommandList *cmds, const char *name,
+-                               bool enabled)
++                               bool enabled, const char *err_msg)
+ {
+     QmpCommand *cmd;
+ 
+     QTAILQ_FOREACH(cmd, cmds, node) {
+         if (strcmp(cmd->name, name) == 0) {
+             cmd->enabled = enabled;
++            cmd->err_msg = err_msg;
+             return;
+         }
+     }
+ }
+ 
+-void qmp_disable_command(QmpCommandList *cmds, const char *name)
++void qmp_disable_command(QmpCommandList *cmds, const char *name, const char *err_msg)
+ {
+-    qmp_toggle_command(cmds, name, false);
++    qmp_toggle_command(cmds, name, false, err_msg);
+ }
+ 
+ void qmp_enable_command(QmpCommandList *cmds, const char *name)
+ {
+-    qmp_toggle_command(cmds, name, true);
++    qmp_toggle_command(cmds, name, true, NULL);
+ }
+ 
+ bool qmp_command_is_enabled(const QmpCommand *cmd)
+diff --git a/qga/main.c b/qga/main.c
+index e7f8f3b161..c59b610691 100644
+--- a/qga/main.c
++++ b/qga/main.c
+@@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
+     }
+     if (!whitelisted) {
+         g_debug("disabling command: %s", name);
+-        qmp_disable_command(&ga_commands, name);
++        qmp_disable_command(&ga_commands, name, "The command was disabled after fsfreeze.");
+     }
+ }
+ 
+@@ -1329,7 +1329,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
+         s->blacklist = config->blacklist;
+         do {
+             g_debug("disabling command: %s", (char *)l->data);
+-            qmp_disable_command(&ga_commands, l->data);
++            qmp_disable_command(&ga_commands, l->data, NULL);
+             l = g_list_next(l);
+         } while (l);
+     }
+-- 
+2.29.0
+
 
