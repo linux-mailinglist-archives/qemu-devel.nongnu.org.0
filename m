@@ -2,67 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43F331C93F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:03:23 +0100 (CET)
-Received: from localhost ([::1]:47182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF78731C95A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:06:39 +0100 (CET)
+Received: from localhost ([::1]:52734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBy8Y-0005w2-M3
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:03:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53986)
+	id 1lByBj-0008L7-0D
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:06:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lBy4w-00037x-81
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:59:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23421)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lBy6N-0004Dt-PF
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:01:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37501)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lBy4u-00033Y-LQ
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:59:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lBy6K-0003nk-Ab
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:01:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613473175;
+ s=mimecast20190719; t=1613473263;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=abAYU2TJqowXi2NPvKgjnszpd1UKx4SoWXjwgDiRxyY=;
- b=RMsyBEqM97dB3W1BHz4zlIfyrj7O12eP5lF6iUoGR783wb7kMGnUI8THONyKilcvfDTNOm
- v8xL+1efgkz3KkAZ731JLAp10vQ2xAqJynpVO31A2859IxFk/gkEUeqgR9TuwbXBLJ9QaY
- hLvC4IusESXrfTZGdXF+DdrHlowXW+s=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5lf2YSXRu/jZWVdx7C+hA17219f6W1Eg56+V8+YUNSk=;
+ b=ePC6OpwemMit/LeTfvtiYmkAO9s6kes+zgfZmCAaH/rCSN37ULL1qVHdoV7L8nyQEh9oqA
+ vEdjpZACi/QMku4n2VRDI1ESZgO1srWReWH4dZCSpHQTBSqvx2467mOowFEXukMErUxTXJ
+ 1ocs2YkuBkKCJ7sswuYBDVz93Aa7IQA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-dmM7Ohi3OeS9V1mQfhJTOg-1; Tue, 16 Feb 2021 05:59:33 -0500
-X-MC-Unique: dmM7Ohi3OeS9V1mQfhJTOg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-480-uEBUz2LhP_yChkGyWqYfVA-1; Tue, 16 Feb 2021 06:01:02 -0500
+X-MC-Unique: uEBUz2LhP_yChkGyWqYfVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B123480196E;
- Tue, 16 Feb 2021 10:59:32 +0000 (UTC)
-Received: from work-vm (ovpn-115-109.ams2.redhat.com [10.36.115.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CC2BF6A8E8;
- Tue, 16 Feb 2021 10:59:19 +0000 (UTC)
-Date: Tue, 16 Feb 2021 10:59:17 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: Re: [PATCH 1/1] virtiofsd: Allow to build it without the tools
-Message-ID: <YCulhZyeZRIS3wQj@work-vm>
-References: <20210201211456.1133364-1-wainersm@redhat.com>
- <20210201211456.1133364-2-wainersm@redhat.com>
- <OSBPR01MB45828271AC8D2F8F5FAA52D7E5B59@OSBPR01MB4582.jpnprd01.prod.outlook.com>
- <41d8b908-652f-a8c4-0bef-7420c65bd1d2@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D38C0801962;
+ Tue, 16 Feb 2021 11:01:00 +0000 (UTC)
+Received: from thuth.com (ovpn-112-157.ams2.redhat.com [10.36.112.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 73C18226F0;
+ Tue, 16 Feb 2021 11:00:59 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
+Date: Tue, 16 Feb 2021 12:00:56 +0100
+Message-Id: <20210216110056.1228582-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <41d8b908-652f-a8c4-0bef-7420c65bd1d2@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,43 +74,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "misono.tomohiro@fujitsu.com" <misono.tomohiro@fujitsu.com>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "stefanha@redhat.com" <stefanha@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wainer dos Santos Moschetta (wainersm@redhat.com) wrote:
-> 
-> On 2/2/21 2:55 AM, misono.tomohiro@fujitsu.com wrote:
-> > > Subject: [PATCH 1/1] virtiofsd: Allow to build it without the tools
-> > > 
-> > > This changed the Meson build script to allow virtiofsd be built even
-> > > though the tools build is disabled, thus honoring the --enable-virtiofsd
-> > > option.
-> > > 
-> > > Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-> > I misunderstood that virtiofsd builds somehow depends on tools build at that time.
-> > Thanks for fixing. I did quick build test.
-> Thanks for the review and test!
-> 
-> If not needed a v2 for this patch, please could the maintainer add to the
-> commit message:
-> 
->   Fixes: cece116c939d219070b250338439c2d16f94e3da (configure: add option for
-> virtiofsd)
+According to the virtio specification, a memory barrier should be
+used before incrementing the idx field in the "available" ring.
+So far, we did not do this in the s390-ccw bios yet, but recently
+Peter Maydell saw problems with the s390-ccw bios when running
+the qtests on an aarch64 host (the bios panic'ed with the message:
+"SCSI cannot report LUNs: response VS RESP=09"), which could
+maybe be related to the missing memory barriers. Thus let's add
+those barriers now. Since we've only seen the problem on TCG so far,
+a "bcr 14,0" should be sufficient here to trigger the tcg_gen_mb()
+in the TCG translate code.
 
-Queued with that line added to the commit message
+(Note: The virtio spec also talks about using a memory barrier
+*after* incrementing the idx field, but if I understood correctly
+this is only required when using notification suppression - which
+we don't use in the s390-ccw bios here)
 
-> - Wainer
-> 
-> > 
-> > Reviewed-by: Misono Tomohiro <misono.tomohiro@jp.fujitsu.com>
-> > 
-> 
-> 
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ pc-bios/s390-ccw/virtio-net.c | 1 +
+ pc-bios/s390-ccw/virtio.c     | 1 +
+ pc-bios/s390-ccw/virtio.h     | 2 ++
+ 3 files changed, 4 insertions(+)
+
+diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-net.c
+index 2fcb0a58c5..25598a7a97 100644
+--- a/pc-bios/s390-ccw/virtio-net.c
++++ b/pc-bios/s390-ccw/virtio-net.c
+@@ -127,6 +127,7 @@ int recv(int fd, void *buf, int maxlen, int flags)
+ 
+     /* Mark buffer as available to the host again */
+     rxvq->avail->ring[rxvq->avail->idx % rxvq->num] = id;
++    virtio_mb();
+     rxvq->avail->idx = rxvq->avail->idx + 1;
+     vring_notify(rxvq);
+ 
+diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
+index ab49840db8..fb9687f9b3 100644
+--- a/pc-bios/s390-ccw/virtio.c
++++ b/pc-bios/s390-ccw/virtio.c
+@@ -154,6 +154,7 @@ void vring_send_buf(VRing *vr, void *p, int len, int flags)
+ 
+     /* Chains only have a single ID */
+     if (!(flags & VRING_DESC_F_NEXT)) {
++        virtio_mb();
+         vr->avail->idx++;
+     }
+ }
+diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
+index 19fceb6495..6ac65482a9 100644
+--- a/pc-bios/s390-ccw/virtio.h
++++ b/pc-bios/s390-ccw/virtio.h
+@@ -271,6 +271,8 @@ struct VirtioCmd {
+ };
+ typedef struct VirtioCmd VirtioCmd;
+ 
++#define virtio_mb()  asm volatile("bcr 14,0" : : : "memory")
++
+ bool vring_notify(VRing *vr);
+ int drain_irqs(SubChannelId schid);
+ void vring_send_buf(VRing *vr, void *p, int len, int flags);
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.27.0
 
 
