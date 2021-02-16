@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 642FC31CCC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:17:48 +0100 (CET)
-Received: from localhost ([::1]:59422 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F4A631CC9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:09:22 +0100 (CET)
+Received: from localhost ([::1]:39954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC26l-0002nx-DV
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:17:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42160)
+	id 1lC1yb-0002XN-3l
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:09:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lC1sW-0004AY-CM; Tue, 16 Feb 2021 10:03:04 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:46925)
+ id 1lC1sc-0004Cj-Ck; Tue, 16 Feb 2021 10:03:11 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33344)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lC1sU-0006Ki-Oy; Tue, 16 Feb 2021 10:03:04 -0500
-Received: by mail-pf1-x434.google.com with SMTP id k13so6262349pfh.13;
- Tue, 16 Feb 2021 07:03:01 -0800 (PST)
+ id 1lC1sX-0006LH-AH; Tue, 16 Feb 2021 10:03:10 -0500
+Received: by mail-pl1-x631.google.com with SMTP id d13so5630221plg.0;
+ Tue, 16 Feb 2021 07:03:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=De5bwJf/gB6oegTlcXsKYXiBI7vnaHuG8ebxRTJsS0w=;
- b=IxK5AWVfj1TdsEdGT6rfy7p6YyT+sX1r8p+mtJXmgGN0pbPOJqacjmab0lxVbrOypq
- 7rEKI8g3zYMuoMyUlMbDg8tW6SSPMsbt4MSWymOEYXWPoX4jRTzpYuAp0NzbpVMcKkxc
- tgmJP1Pe1DomQQNkdYGTyhhG7AHotzrigXedUWQbawHHjV4ye06Af8wkb7kinxFcsZB/
- 3XKTrGYHAO53P7TGaRAqdxZUec7+NNb+UkeOz38VfHx7s9oWRnE8C+Pr3jwUW2DOdQ2S
- L+b/E86NX46WTQAXID3tVucVwth6gK0dZY7cOKu1jNvAQfCg1C/g6y6O99ldO5e3gy0q
- yXqw==
+ bh=RX9/mc21LlaINOEfHOR1CYj3YRn+N+tLyleUVvIUn/c=;
+ b=I/PPjPe4HHIvpKcnnhlsXaA8Bx6bbGE4SLdYgJcPtZWItImIBeoRKTtRX2vJBW5D/v
+ 7QoSjffi+jQdhG2oV24hGLmQ5aU1LHwS8lxsR4QjZOjij1XW81cq/NwN24nEJTk7urnL
+ bTR4ij3bOwJTHHNoaEpnd0Px8uWZC4ix0o1zPasCFHo/QNGQtJyXOxmsAkbdGH7ZvY33
+ 5gQha4pxgE1WR3Cydx0mDdsYLJLRHf5kVzr50gcQ9wS+SVmAQAI2ugPchIAwqO4GTaji
+ AFCzxoGG66m8hArkwLa/JrTY+0qd8WvYEcDsf36m7nwlVx5JxT8g5wH2MypFmQ9TS4Bi
+ 3nVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=De5bwJf/gB6oegTlcXsKYXiBI7vnaHuG8ebxRTJsS0w=;
- b=eKR1QFrOSYOMArLopLIsma36LVKnYXc48c7jfUTHSf+RkZzd3cGHS91cOiuKXrjOsc
- rnC7EMyFb677/pCeCQ9yZCqKCKH9mXpFxzNCdUE9GKQLm+3mMcy5JDqVmuE7pWF3WrYY
- Z7nif5sK7Iirmk+Cb6S5K07Y3qXj/UAehxMaVH5cGN16rAVQkJWJND1qWJhSQDIQFSBp
- MmW236JO1gRfEkJYv7RaDJ1495ap6UQ+cLnLjT4/ySRTP61rYDvHYxv6z2aEO6RPYd4N
- MM5jtWkwQ2dOFGGajwHnLTu4s2gqTrxN1bbGxVjChJkUTpsUGcmUlniVmQ9WiPoImPeB
- e3bg==
-X-Gm-Message-State: AOAM5337Z3ChAz3EqfcHQ2KEiOmH+sGj7UIIzJwTQbLYh4rODVeykJmL
- 8x3I6VzVWDA0xAfe8SG1tXE=
-X-Google-Smtp-Source: ABdhPJyVkfpBUo1rHJF/vTBKE/wjmUGZgHFXLbADVxqp4kLn1LNOudXftKtwAZIj3Nf+Bf87cNSxzw==
-X-Received: by 2002:a63:2214:: with SMTP id i20mr19309470pgi.189.1613487780850; 
- Tue, 16 Feb 2021 07:03:00 -0800 (PST)
+ bh=RX9/mc21LlaINOEfHOR1CYj3YRn+N+tLyleUVvIUn/c=;
+ b=qkcmCFYWznDyueLDVzHxXNCzpwoOix+YeaSAOSdcWTYvMJS90TNYQsxfmEQ62Ootfl
+ BY1vj3swTMCWtsvkNg3PvywKcjVgVbODQCxSgzXptC1P0eqv7D69EYUWjLt3UenbdBB8
+ x4fzVBQu0zC/tcEc7u38g51aBvFSBLvvD4UTQNzwKkzZXKmICRRBkr6rmjubb0Wf0KBO
+ ssayjEPr3U5Qfu4dyzeWVB65hST1GPy9puVfqsH9NwCIF6IsItnAPOT3SY3w5WNo5i/C
+ D8uOcan+SAwYOuekYnFgnU9H+5b5oc3C090DGjwTBdJLzAurWFZ9EeoEye4a+gn3GmkP
+ KxgA==
+X-Gm-Message-State: AOAM533CykWsfHrecHtuvTewgsGkwTrFh5moAyk2nrs2fmHaRy0TxIFd
+ JMJohyiLuFI1TTgpb4chfYCEsecZ958=
+X-Google-Smtp-Source: ABdhPJxXRo8jpANODl9iaH8WtstQ6KyrlOyuBFnY/vS8XSXFHCWNcIAIrZLcTMoUWSAdqyDb8A0D0Q==
+X-Received: by 2002:a17:902:ed0d:b029:e3:76d8:79de with SMTP id
+ b13-20020a170902ed0db02900e376d879demr3227493pld.36.1613487783910; 
+ Tue, 16 Feb 2021 07:03:03 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id n15sm21960300pgl.31.2021.02.16.07.02.57
+ by smtp.gmail.com with ESMTPSA id n15sm21960300pgl.31.2021.02.16.07.03.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 07:03:00 -0800 (PST)
+ Tue, 16 Feb 2021 07:03:03 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 7/8] hw/sd: sd: Skip write protect groups check in CMD24/25
- for high capacity cards
-Date: Tue, 16 Feb 2021 23:02:24 +0800
-Message-Id: <20210216150225.27996-8-bmeng.cn@gmail.com>
+Subject: [PATCH v2 8/8] hw/sd: sd: Bypass the RCA check for CMD13 in SPI mode
+Date: Tue, 16 Feb 2021 23:02:25 +0800
+Message-Id: <20210216150225.27996-9-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210216150225.27996-1-bmeng.cn@gmail.com>
 References: <20210216150225.27996-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,51 +89,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-High capacity cards don't support write protection hence we should
-not preform the write protect groups check in CMD24/25 for them.
+Unlike SD mode, when SD card is working in SPI mode, the argument
+of CMD13 is stuff bits. Hence we should bypass the RCA check.
+
+See "Physical Layer Specification Version 8.00", chapter 7.3.1.3
+Detailed Command Description (SPI mode):
+
+  "The card shall ignore stuff bits and reserved bits in an argument"
+
+and Table 7-3 Commands and Arguments (SPI mode):
+
+  "CMD13 Argument [31:0] stuff bits"
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 ---
 
 Changes in v2:
-- new patch: sd: Skip write protect groups check in CMD24/25 for high capacity cards
+- update commit message to include the reference in the spec
 
- hw/sd/sd.c | 14 +++++++++-----
- 1 file changed, 9 insertions(+), 5 deletions(-)
+ hw/sd/sd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index b386f16fcb..75dc57bf0e 100644
+index 75dc57bf0e..6d6da83b4b 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1274,8 +1274,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             sd->data_offset = 0;
-             sd->blk_written = 0;
+@@ -1169,8 +1169,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+     case 13:	/* CMD13:  SEND_STATUS */
+         switch (sd->mode) {
+         case sd_data_transfer_mode:
+-            if (sd->rca != rca)
++            if (!sd->spi && sd->rca != rca) {
+                 return sd_r0;
++            }
  
--            if (sd_wp_addr(sd, sd->data_start)) {
--                sd->card_status |= WP_VIOLATION;
-+            if (sd->size <= SDSC_MAX_CAPACITY) {
-+                if (sd_wp_addr(sd, sd->data_start)) {
-+                    sd->card_status |= WP_VIOLATION;
-+                }
-             }
-             if (sd->csd[14] & 0x30) {
-                 sd->card_status |= WP_VIOLATION;
-@@ -1827,9 +1829,11 @@ void sd_write_byte(SDState *sd, uint8_t value)
-                 sd->card_status |= ADDRESS_ERROR;
-                 break;
-             }
--            if (sd_wp_addr(sd, sd->data_start)) {
--                sd->card_status |= WP_VIOLATION;
--                break;
-+            if (sd->size <= SDSC_MAX_CAPACITY) {
-+                if (sd_wp_addr(sd, sd->data_start)) {
-+                    sd->card_status |= WP_VIOLATION;
-+                    break;
-+                }
-             }
-         }
-         sd->data[sd->data_offset++] = value;
+             return sd_r1;
+ 
 -- 
 2.25.1
 
