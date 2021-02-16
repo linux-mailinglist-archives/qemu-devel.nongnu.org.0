@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B18031C567
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:20:49 +0100 (CET)
-Received: from localhost ([::1]:41160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C8031C581
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:27:44 +0100 (CET)
+Received: from localhost ([::1]:38136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBpyq-0002wS-Ja
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:20:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
+	id 1lBq5X-0004xO-JP
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:27:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lBpte-0006Qz-Er
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:27 -0500
-Received: from mga17.intel.com ([192.55.52.151]:25639)
+ id 1lBptc-0006Pl-HO
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:25 -0500
+Received: from mga17.intel.com ([192.55.52.151]:25635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lBptS-0001Zp-0c
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:26 -0500
-IronPort-SDR: nAF/eMzQxn9Fru3NSKJtzma/vrNDrq6xRazvrccDeim+THm2mQ3Uw+G+2eo2HL8DWw7l7RxJZ9
- b8Tn0mSUgnGg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162558764"
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="162558764"
+ id 1lBptS-0001ZH-Bd
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:22 -0500
+IronPort-SDR: JkDguJz6G/kN9xYgz21tqlDx6JC/Ggtknr/fnu9YZp5QDkeU8biN/Ode/V+C4ao0cvrhD/KOoR
+ Emy6qdNlv7bQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162558765"
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="162558765"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Feb 2021 18:14:52 -0800
-IronPort-SDR: kw8wE7s6+1sJZg0EIihC7z+FLtmQXjavIVVEEbyL0obw9oaHQZtE4rbedZzQvxn66xqMa+dJ3a
- 7R9ofpfY3eSw==
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591705419"
+IronPort-SDR: kGolas827/4WVTeSPnU5GW5stCkB2P25hj4ZlZwiKaOW4lFIV20fjx2W4iSZjxVjuWiI7vGFBz
+ Z0ogGkm0ZV3g==
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591705423"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Feb 2021 18:14:52 -0800
@@ -37,10 +37,10 @@ To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com
-Subject: [RFC PATCH 12/23] target/i386/tdx: Finalize the TD's measurement when
- machine is done
-Date: Mon, 15 Feb 2021 18:13:08 -0800
-Message-Id: <73044bc1f696b1409445b6fe35712044c875928c.1613188118.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH 13/23] i386/tdx: Frame in tdx_get_supported_cpuid with
+ KVM_TDX_CAPABILITIES
+Date: Mon, 15 Feb 2021 18:13:09 -0800
+Message-Id: <dd854268085b6edea4af103ddb8951ac9ac70b67.1613188118.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613188118.git.isaku.yamahata@intel.com>
 References: <cover.1613188118.git.isaku.yamahata@intel.com>
@@ -65,96 +65,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com, kvm@vger.kernel.org
+Cc: isaku.yamahata@intel.com,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ isaku.yamahata@gmail.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xiaoyao Li <xiaoyao.li@intel.com>
+From: Sean Christopherson <sean.j.christopherson@intel.com>
 
-Invoke KVM_TDX_FINALIZEMR to finalize the TD's measurement and make the
-TD vCPUs runnable once machine initialization is complete.
+Add support for grabbing KVM_TDX_CAPABILITIES and use the new
+kvm_get_supported_cpuid() hook to adjust the supported XCR0 bits.
 
-Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Add TODOs for the remaining work.
+
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- target/i386/kvm/kvm.c |  7 +++++++
- target/i386/kvm/tdx.c | 20 ++++++++++++++++++++
- target/i386/kvm/tdx.h |  3 +++
- 3 files changed, 30 insertions(+)
+ target/i386/kvm/kvm.c |  2 ++
+ target/i386/kvm/tdx.c | 84 ++++++++++++++++++++++++++++++++++++++-----
+ target/i386/kvm/tdx.h |  2 ++
+ 3 files changed, 80 insertions(+), 8 deletions(-)
 
 diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index beb768a7d3..018a757dc6 100644
+index 018a757dc6..e6f7015be8 100644
 --- a/target/i386/kvm/kvm.c
 +++ b/target/i386/kvm/kvm.c
-@@ -51,6 +51,7 @@
- #include "migration/blocker.h"
- #include "exec/memattrs.h"
- #include "trace.h"
-+#include "tdx.h"
- 
- //#define DEBUG_KVM
- 
-@@ -2184,6 +2185,12 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-         return ret;
+@@ -441,6 +441,8 @@ uint32_t kvm_arch_get_supported_cpuid(KVMState *s, uint32_t function,
+         ret |= 1U << KVM_HINTS_REALTIME;
      }
  
-+    ret = tdx_kvm_init(ms->cgs, &local_err);
-+    if (ret < 0) {
-+        error_report_err(local_err);
-+        return ret;
-+    }
++    tdx_get_supported_cpuid(s, function, index, reg, &ret);
 +
-     if (!kvm_check_extension(s, KVM_CAP_IRQ_ROUTING)) {
-         error_report("kvm: KVM_CAP_IRQ_ROUTING not supported by KVM");
-         return -ENOTSUP;
+     return ret;
+ }
+ 
 diff --git a/target/i386/kvm/tdx.c b/target/i386/kvm/tdx.c
-index 00eda80725..d8b79e975f 100644
+index d8b79e975f..9d4195a705 100644
 --- a/target/i386/kvm/tdx.c
 +++ b/target/i386/kvm/tdx.c
-@@ -56,6 +56,26 @@ static void __tdx_ioctl(int ioctl_no, const char *ioctl_name,
- #define tdx_ioctl(ioctl_no, metadata, data) \
-         __tdx_ioctl(ioctl_no, stringify(ioctl_no), metadata, data)
+@@ -21,6 +21,7 @@
+ #include "hw/boards.h"
+ #include "qapi/error.h"
+ #include "qom/object_interfaces.h"
++#include "standard-headers/asm-x86/kvm_para.h"
+ #include "sysemu/sysemu.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/kvm_int.h"
+@@ -47,7 +48,11 @@ static void __tdx_ioctl(int ioctl_no, const char *ioctl_name,
+     tdx_cmd.metadata = metadata;
+     tdx_cmd.data = (__u64)(unsigned long)data;
  
-+static void tdx_finalize_vm(Notifier *notifier, void *unused)
-+{
-+    tdx_ioctl(KVM_TDX_FINALIZE_VM, 0, NULL);
-+}
-+
-+static Notifier tdx_machine_done_late_notify = {
-+    .notify = tdx_finalize_vm,
-+};
-+
-+int tdx_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(cgs),
-+                                                    TYPE_TDX_GUEST);
-+    if (tdx) {
-+        qemu_add_machine_init_done_late_notifier(
-+            &tdx_machine_done_late_notify);
+-    r = kvm_vm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_OP, &tdx_cmd);
++    if (ioctl_no == KVM_TDX_CAPABILITIES) {
++        r = kvm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_OP, &tdx_cmd);
++    } else {
++        r = kvm_vm_ioctl(kvm_state, KVM_MEMORY_ENCRYPT_OP, &tdx_cmd);
 +    }
-+    return 0;
+     if (r) {
+         error_report("%s failed: %s", ioctl_name, strerror(-r));
+         exit(1);
+@@ -65,17 +70,83 @@ static Notifier tdx_machine_done_late_notify = {
+     .notify = tdx_finalize_vm,
+ };
+ 
++#define TDX1_MAX_NR_CPUID_CONFIGS 6
++
++static struct {
++    struct kvm_tdx_capabilities __caps;
++    struct kvm_tdx_cpuid_config __cpuid_configs[TDX1_MAX_NR_CPUID_CONFIGS];
++} __tdx_caps;
++
++static struct kvm_tdx_capabilities *tdx_caps = (void *)&__tdx_caps;
++
++#define XCR0_MASK (MAKE_64BIT_MASK(0, 8) | BIT_ULL(9))
++#define XSS_MASK (~XCR0_MASK)
++
+ int tdx_kvm_init(ConfidentialGuestSupport *cgs, Error **errp)
+ {
+     TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(cgs),
+                                                     TYPE_TDX_GUEST);
+-    if (tdx) {
+-        qemu_add_machine_init_done_late_notifier(
+-            &tdx_machine_done_late_notify);
++    if (!tdx) {
++        return 0;
+     }
++
++    QEMU_BUILD_BUG_ON(sizeof(__tdx_caps) !=
++                      sizeof(struct kvm_tdx_capabilities) +
++                      sizeof(struct kvm_tdx_cpuid_config) *
++                      TDX1_MAX_NR_CPUID_CONFIGS);
++
++    tdx_caps->nr_cpuid_configs = TDX1_MAX_NR_CPUID_CONFIGS;
++    tdx_ioctl(KVM_TDX_CAPABILITIES, 0, tdx_caps);
++
++    qemu_add_machine_init_done_late_notifier(&tdx_machine_done_late_notify);
+     return 0;
+ }
+ 
++void tdx_get_supported_cpuid(KVMState *s, uint32_t function,
++                             uint32_t index, int reg, uint32_t *ret)
++{
++    MachineState *ms = MACHINE(qdev_get_machine());
++    TdxGuest *tdx = (TdxGuest *)object_dynamic_cast(OBJECT(ms->cgs),
++                                                    TYPE_TDX_GUEST);
++
++    if (!tdx) {
++        return;
++    }
++
++    switch (function) {
++    case 1:
++        if (reg == R_ECX) {
++            *ret &= ~CPUID_EXT_VMX;
++        }
++        break;
++    case 0xd:
++        if (index == 0) {
++            if (reg == R_EAX) {
++                *ret &= (uint32_t)tdx_caps->xfam_fixed0 & XCR0_MASK;
++                *ret |= (uint32_t)tdx_caps->xfam_fixed1 & XCR0_MASK;
++            } else if (reg == R_EDX) {
++                *ret &= (tdx_caps->xfam_fixed0 & XCR0_MASK) >> 32;
++                *ret |= (tdx_caps->xfam_fixed1 & XCR0_MASK) >> 32;
++            }
++        } else if (index == 1) {
++            /* TODO: Adjust XSS when it's supported. */
++        }
++        break;
++    case KVM_CPUID_FEATURES:
++        if (reg == R_EAX) {
++            *ret &= ~((1ULL << KVM_FEATURE_CLOCKSOURCE) |
++                      (1ULL << KVM_FEATURE_CLOCKSOURCE2) |
++                      (1ULL << KVM_FEATURE_CLOCKSOURCE_STABLE_BIT) |
++                      (1ULL << KVM_FEATURE_ASYNC_PF) |
++                      (1ULL << KVM_FEATURE_ASYNC_PF_VMEXIT));
++        }
++        break;
++    default:
++        /* TODO: Use tdx_caps to adjust CPUID leafs. */
++        break;
++    }
 +}
 +
  void tdx_pre_create_vcpu(CPUState *cpu)
  {
      struct {
+@@ -103,10 +174,7 @@ void tdx_pre_create_vcpu(CPUState *cpu)
+         return;
+     }
+ 
+-    /* HACK: Remove MPX support, which is not allowed by TDX. */
+-    env->features[FEAT_XSAVE_COMP_LO] &= ~(XSTATE_BNDREGS_MASK |
+-                                           XSTATE_BNDCSR_MASK);
+-
++    /* TODO: Use tdx_caps to validate the config. */
+     if (!(env->features[FEAT_1_ECX] & CPUID_EXT_XSAVE)) {
+         error_report("TDX VM must support XSAVE features");
+         exit(1);
 diff --git a/target/i386/kvm/tdx.h b/target/i386/kvm/tdx.h
-index 6ad6c9a313..e15657d272 100644
+index e15657d272..844d24aade 100644
 --- a/target/i386/kvm/tdx.h
 +++ b/target/i386/kvm/tdx.h
-@@ -2,6 +2,7 @@
- #define QEMU_I386_TDX_H
- 
- #include "qom/object.h"
-+#include "qapi/error.h"
- #include "exec/confidential-guest-support.h"
- 
- #define TYPE_TDX_GUEST "tdx-guest"
-@@ -21,4 +22,6 @@ typedef struct TdxGuest {
-     bool debug;
+@@ -23,5 +23,7 @@ typedef struct TdxGuest {
  } TdxGuest;
  
-+int tdx_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
-+
+ int tdx_kvm_init(ConfidentialGuestSupport *cgs, Error **errp);
++void tdx_get_supported_cpuid(KVMState *s, uint32_t function,
++                             uint32_t index, int reg, uint32_t *ret);
+ 
  #endif
 -- 
 2.17.1
