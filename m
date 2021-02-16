@@ -2,64 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568C931C886
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:13:27 +0100 (CET)
-Received: from localhost ([::1]:34512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1075031C8BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:26:46 +0100 (CET)
+Received: from localhost ([::1]:39124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBxMD-0000zE-Sg
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:13:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44628)
+	id 1lBxZ6-0003Sv-K2
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:26:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBxKb-0000Yn-Ir
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:11:45 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:37239)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lBxXx-0002zD-CS
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:25:33 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:34857)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lBxKa-0006Y3-03
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:11:45 -0500
-Received: by mail-ed1-x534.google.com with SMTP id o3so9253238edv.4
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 02:11:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lBxXv-0004bt-Hw
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:25:33 -0500
+Received: by mail-wr1-x431.google.com with SMTP id l12so12309071wry.2
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 02:25:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=XhnAYhrOmtNYBYH1EqN/J6DfGvJONW7wXsjJ7KimBGc=;
- b=nNBktqfocck00lbptjqWAzSc+a4Zc6+Y4tmYg+xx6E2DI01bSYhSGDtijD5mP0iuk7
- qkESG4LFDuxjfM0t+Nfq28W1Kq1IbK0s5WKB+0W8evKEJB5PVzN1YHTRpAIAKiFmK0iT
- tK8BFZ9NYCMsXwkoQpVR38Fjw3nBDu/ufUmCPAmXRvGke6YGIy8wXCE+DUr8IcwauaAe
- g58I2X5xmTCb6+cxrZdt7cgRIShM35gcB2S2MPEZoqdaGqHdtI0LPsDHWsGDcpM+8kLm
- Pa0qBJX63wVe4VTys9bakmJc1PHIKoyMi6oEyiGaN2X5hSGv7LBoGc5AxVcb9BRqPKzd
- Gp/g==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pux4r6TgZgDo+9rV0r4Idu4yWRrFc6+zhYYmUdQg184=;
+ b=pZOpF67YMXtpOKx3Q3D/SEnsYIcGMoHxX5sCXtJRzM5k30evQoRPeVL9J1L+iIBAL5
+ 6edPZv9BX3RXu6tdOrRkDiZaPv8zXkfDV7wBdaLMWgVLruBcogVJ6AaHHc63f4++G7yk
+ 06ErutjmxqvE0+ANqCRK2dHy7JPWuEiJ6Hrt0oLrEtawaX6SXA243sxFMGqZOzHH76SP
+ im4yLDnTxDZvKuILxlIwsDiv1/y4avWgJsVQuuFEO8RCroJ624TIQWonokaNe1rnDtTy
+ WzkVADnyahPR6JxHbZKacfP1103JMkDLiGtEnjlYhpO1VqVU5JOFntTc0ADKOcA6QfTB
+ Iq5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=XhnAYhrOmtNYBYH1EqN/J6DfGvJONW7wXsjJ7KimBGc=;
- b=F+ArbayCPCp9Mcrj31AnQoz0tX5qy4Vs3Nh+SSW1sk4u2Iq/JgKz7F6uIaxDy0OHSs
- 0Sx/N87HSm0ijyM2sGm/jnCO7SkqQnRmzMGfEs5DXlI9obUhrx6zLg4hy4u9B+oy7O+0
- 6zhTj+9jG2dvsI/uMFj1SeaU8Ja+Hsg2xTS9KjJ/ubUI6hRpw8zLnffPg2d9dBgkkkOi
- 4scA31zh61oO3JKZEGOGbUqXPTOLNtzVxT5MUz1WXD0jXCigiwb3uCQUYZtYwMqqAGcI
- qtLop6YT+vpKFD3RxXMgO7MFlNMZsgib6XYH5eeAL/8LogYZDQ0TZVXJsWVhaCFMM6ys
- vznw==
-X-Gm-Message-State: AOAM530HB5RBsurDBoTD+ouqQRaOTSFZIV5TfpMire0fSJ6GFOlxftYL
- b+jAvy1Lq7mcugblhI6TGo46XKAHq+W9kuOPqU66WA==
-X-Google-Smtp-Source: ABdhPJzs1c+I7HG1+20Jl3iHbQiUTccutqRqTV1xkG6YVPaeqLSDn6Z3YWE2c42rxJanjrGttiFm2wCgSNvLNwSvx6k=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr20013618edd.52.1613470302301; 
- Tue, 16 Feb 2021 02:11:42 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pux4r6TgZgDo+9rV0r4Idu4yWRrFc6+zhYYmUdQg184=;
+ b=b3KmmISPJpyk8rUaelhF4UeqRQhFbFkbtg/dL51xp83v/Qc1pLZeF8Hp242SH53q80
+ TboNcKc2NTl4iNCMj0CmauGOoDvPLwzjh1DUOuMDt1V5LIF1xs1nOQqs5vI4G3ximoXD
+ GULVhJx6x8+yL8Xd/y1JbDv2BHTo29TUpw+eLNUgaGmWr7dixbo5lc7eBkbxptvNkyLT
+ KGwziVuKoi0Sfqaze35yZS3qjtSRuotp9c9ANUWVN92TIwLTs/64+MsGbyZHBYG8Da3i
+ /eTVCL98du0XqoucS73imcItjO6JrLJd1yEGa5FgrwE2ZSTfh01KCEw1xTzMvwwuDo3V
+ Knvw==
+X-Gm-Message-State: AOAM5321+HD9fyYECh8NkfRIZd8Diyl8rCkogIWEe/6+El/NdLc97mbf
+ 59NoZMd6z2xSjoA1hP/5wFEBiQ==
+X-Google-Smtp-Source: ABdhPJxq89+gk85RV+hFutSZ3wdr0MagRhvm8r95Cb4pp8Nr/ChK+KZEdf1HN08SRLSIVq7ngH69yg==
+X-Received: by 2002:a5d:690b:: with SMTP id t11mr23248705wru.12.1613471129779; 
+ Tue, 16 Feb 2021 02:25:29 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id f5sm2938492wmf.15.2021.02.16.02.25.28
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Feb 2021 02:25:28 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 009821FF7E;
+ Tue, 16 Feb 2021 10:25:27 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] meson.build: expose TCG cross compiler information in
+ summary
+Date: Tue, 16 Feb 2021 10:25:22 +0000
+Message-Id: <20210216102522.6279-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20210215102149.20513-1-peter.maydell@linaro.org>
- <5b91b4f1-f557-ca74-9e68-8f860cac76c7@ilande.co.uk>
-In-Reply-To: <5b91b4f1-f557-ca74-9e68-8f860cac76c7@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 10:11:31 +0000
-Message-ID: <CAFEAcA-QP8-hc1i-fgy--=R1K99ubxRDX38Q1QrVrzQm+aMbew@mail.gmail.com>
-Subject: Re: [PATCH] hw/display/tcx: Drop unnecessary code for handling BGR
- format outputs
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,38 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: pbonzini@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Feb 2021 at 22:41, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> On 15/02/2021 10:21, Peter Maydell wrote:
->
-> > For a long time now the UI layer has guaranteed that the console
-> > surface is always 32 bits per pixel, RGB. The TCX code already
-> > assumes 32bpp, but it still has some checks of is_surface_bgr()
-> > in an attempt to support 32bpp BGR. is_surface_bgr() will always
-> > return false for the qemu_console_surface(), unless the display
-> > device itself has deliberately created an alternate-format
-> > surface via a function like qemu_create_displaysurface_from().
-> >
-> > Drop the never-used BGR-handling code, and assert that we have
-> > a 32-bit surface rather than just doing nothing if it isn't.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Blink and you miss the cross TCG compiler stuff so lets display it
+with the rest of the compiler information.
 
-> Thanks Peter - looks good to me.
->
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->
-> Would you like this to go via a qemu-sparc PR or is it easier to go as part of a
-> group alongside your other display surface patches via target-arm.next?
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-I'm happy either way -- if you don't happen to have anything else
-queued up for sparc I can just put it in with the arm queue.
+---
+v2
+  - use target_dirs/fs.exists() instead of find
+---
+ meson.build            | 18 ++++++++++++++++++
+ tests/tcg/configure.sh |  8 --------
+ 2 files changed, 18 insertions(+), 8 deletions(-)
 
-thanks
--- PMM
+diff --git a/meson.build b/meson.build
+index a923f249d8..4462e7279e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -2508,6 +2508,24 @@ endif
+ summary_info += {'strip binaries':    get_option('strip')}
+ summary_info += {'sparse':            sparse.found() ? sparse.full_path() : false}
+ summary_info += {'mingw32 support':   targetos == 'windows'}
++
++# snarf the cross-compilation information for tests
++foreach target: target_dirs
++  tcg_mak = meson.current_build_dir() / 'tests/tcg' / 'config-' + target + '.mak'
++  if fs.exists(tcg_mak)
++    config_cross_tcg = keyval.load(tcg_mak)
++    target = config_cross_tcg['TARGET_NAME']
++    compiler = ''
++    if 'DOCKER_CROSS_CC_GUEST' in config_cross_tcg
++      summary_info += {target + ' tests': config_cross_tcg['DOCKER_CROSS_CC_GUEST'] +
++                                          ' via ' + config_cross_tcg['DOCKER_IMAGE']}
++    elif 'CROSS_CC_GUEST' in config_cross_tcg
++      summary_info += {target + ' tests'
++                                : config_cross_tcg['CROSS_CC_GUEST'] }
++    endif
++   endif
++endforeach
++
+ summary(summary_info, bool_yn: true, section: 'Compilation')
+ 
+ # Targets and accelerators
+diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
+index e1b70e25f2..77a18fd289 100755
+--- a/tests/tcg/configure.sh
++++ b/tests/tcg/configure.sh
+@@ -257,11 +257,3 @@ for target in $target_list; do
+     echo "DOCKER_CROSS_CC_GUEST=$container_cross_cc" >> $config_target_mak
+   fi
+ done
+-
+-# report container support state
+-echo "cross containers  $container"
+-
+-if test -n "$enabled_cross_compilers"; then
+-    echo
+-    echo "NOTE: guest cross-compilers enabled:$enabled_cross_compilers"
+-fi
+-- 
+2.20.1
+
 
