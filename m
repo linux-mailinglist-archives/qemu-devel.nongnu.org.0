@@ -2,97 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F3A931CC36
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:42:15 +0100 (CET)
-Received: from localhost ([::1]:52060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2313331CC44
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:42:52 +0100 (CET)
+Received: from localhost ([::1]:55164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1YM-00085S-GK
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:42:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
+	id 1lC1Yx-0000vP-7R
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:42:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lC1Wa-000737-HH; Tue, 16 Feb 2021 09:40:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lC1WY-0003WJ-Ec; Tue, 16 Feb 2021 09:40:24 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11GEY8XV104148; Tue, 16 Feb 2021 09:40:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=+Jev2TFzbfp8s4vupt5NanNGQVYYQwLjM0yWsh5F42M=;
- b=U1z/WYiNTyeBoj/kK/MYC5ZftZ4I1tcdF49B2qFJAN/eEZLmMFNMXc0awAqH7rd+6jdZ
- bfaPKZv9/ZOyeylrvKHnLEMU9UO3sx/mv+0txsZDSrVokJXoByPbL56K4idtXAfYyY+O
- 3fK7JVGzT2yu1gneTK9AfFclBdW4HlP4OZxBLsXzFfXdaRUuwOKNQuZqawRt5HVN3MvV
- piLt4C12mtxy/Le24/EPw8os/9sOrgKCcsUcXp7nI2J7o2+2jAAQp4kLBvgJSh4afEuH
- 8Ssnwv26gs6PP33xB/5bTWGU5eeybI+3O5tyXYnCsNvt284K1EnwOxepdalMmfX18wEQ dg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36rfuw0crn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 09:40:19 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11GEYAWF104228;
- Tue, 16 Feb 2021 09:40:18 -0500
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36rfuw0cqc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 09:40:18 -0500
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11GEclUe026860;
- Tue, 16 Feb 2021 14:40:16 GMT
-Received: from b06cxnps3075.portsmouth.uk.ibm.com
- (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
- by ppma01fra.de.ibm.com with ESMTP id 36p6d89fkn-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 14:40:16 +0000
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
- [9.149.105.232])
- by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11GEeEQu20578694
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 16 Feb 2021 14:40:14 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CE4B752076;
- Tue, 16 Feb 2021 14:40:13 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
- by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 7C90652069;
- Tue, 16 Feb 2021 14:40:13 +0000 (GMT)
-Date: Tue, 16 Feb 2021 15:40:10 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
-Message-ID: <20210216154010.3691880f.pasic@linux.ibm.com>
-In-Reply-To: <20210216110056.1228582-1-thuth@redhat.com>
-References: <20210216110056.1228582-1-thuth@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC1Xu-00085j-KA
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:41:46 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC1Xr-0003hE-P9
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:41:46 -0500
+Received: by mail-ed1-x530.google.com with SMTP id y10so7617002edt.12
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 06:41:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+BXXGTBnnyOcq2GIbsNl0vKC+tWCnaZqIpqSlEls2rg=;
+ b=GTJ3cdwg2gz+ByUOmATTVyEnGntSx8W4i65Y/EwtKqBN4UjvfJwXuF7bHNLvvaClJ5
+ kjppgnuYJZWUO5svb2qxx6KHA4GztuduRCJn3fhY6xhX70lksP47gCm9+96ONULRdB7W
+ +jQ1TIwV7EbpB+Hj4cvcM0+1DOqXsDhcUl87HEzBVeQpe/Rpb3pg8gfZpbb7DDeQmtQD
+ e/McSbvZEh/Nqv/m1eOdc5vyo+n8+2qI/pO4YNQ5jGBCPQ8pcVwL2+r8z5CXBjc7+nSI
+ +0cidLX2U/8KYdF8/i+xaX9JAHIvsggXkczdwbT7beYSIGrgyGg5X12m3YeDH1NOVpgf
+ /A3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+BXXGTBnnyOcq2GIbsNl0vKC+tWCnaZqIpqSlEls2rg=;
+ b=qErMSafRHlsYUOiYFBsFhvFBFELSY2JQKoK6Q7pKrx0SAb7hIXwsusPaF0GISP06rb
+ C0iyMM4W57xa7eHzQFpcpUmesekS1rk0IvDLdaYvfZTxrCfpxUfTMYz2O8WU0vVq0nA9
+ bTLp8dPRGtyfIi0u46nes7uGS8h6ARAQIz6doYENAea7hydEBbMvKH2cJJPoUAz2OEko
+ NJbyqbEJCQ2oiHdortufLMlsKBlTDx1Kp+wSPcOfgrkRYbYCZAHe9CpIkWaxbfcwEHR7
+ MeDMAa+8XSY7axorL7zH5UGHm3NBV+jZjKtb68+9gFFQW2OQ5v77TNcr8uTEHa5eWgNu
+ oTLg==
+X-Gm-Message-State: AOAM533VaNXNniqadxCvcnOiYmbf2xrk+vE/UFU0n2vv0qfQOFvVWq+e
+ WVegieg2jOeStUoH7vdctx0LUeB4PEbgHJ4ALJIaZg==
+X-Google-Smtp-Source: ABdhPJzgpR6nDpE6zaPKN+QzF27+Uxe/JcFSthwLw+HHLyyms5TRvGnG1JCNN9SUrLVa4kSa3C4jZON6VqKIBKYPGmE=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr21155786edd.52.1613486502214; 
+ Tue, 16 Feb 2021 06:41:42 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-16_04:2021-02-16,
- 2021-02-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- mlxlogscore=999 malwarescore=0 clxscore=1015 bulkscore=0 mlxscore=0
- spamscore=0 suspectscore=0 priorityscore=1501 adultscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102160134
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <CAFEAcA-OE+NGfbgjEuydjCfpiR_kuFVsSxYwE-PfvQSX-rzHLQ@mail.gmail.com>
+ <2D7F6EA4-5525-4F48-ACA7-B157E8A02A2A@icloud.com>
+In-Reply-To: <2D7F6EA4-5525-4F48-ACA7-B157E8A02A2A@icloud.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Feb 2021 14:41:31 +0000
+Message-ID: <CAFEAcA9L__t-qLX0aDs9fjEWy=Yh2upoTyLRy=nb1vZuOBd=uA@mail.gmail.com>
+Subject: Re: Fill tlb for data and io address
+To: =?UTF-8?B?5rKI5qKm5aej?= <shen.mengjiao3@icloud.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,44 +80,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 12:00:56 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+On Tue, 16 Feb 2021 at 14:39, =E6=B2=88=E6=A2=A6=E5=A7=A3 <shen.mengjiao3@i=
+cloud.com> wrote:
+> > =E5=9C=A8 2021=E5=B9=B42=E6=9C=8816=E6=97=A5=EF=BC=8C=E4=B8=8B=E5=8D=88=
+7:48=EF=BC=8CPeter Maydell <peter.maydell@linaro.org> =E5=86=99=E9=81=93=EF=
+=BC=9A
+> >
+> > =EF=BB=BFOn Tue, 16 Feb 2021 at 11:28, =E6=B2=88=E6=A2=A6=E5=A7=A3 <she=
+n.mengjiao3@icloud.com> wrote:
+> >> Look at the store/load helper, it will use the tlb entry to do the add=
+ress translation(from guest virtual address to host virtual address) but wh=
+ere the tlb is filled for the data ram and io address, I know where the cod=
+e ram is filled(tb_find->tb_lookup__cpu_state...)
+> >
+> > The common QEMU code calls the target
+> Thanks Peter. But what=E2=80=99s the common code? I mean in which case th=
+e tlb_fill will be triggered, the generated code will trigger or something =
+else? Thanks in advance.
 
-> According to the virtio specification, a memory barrier should be
-> used before incrementing the idx field in the "available" ring.
-> So far, we did not do this in the s390-ccw bios yet, but recently
-> Peter Maydell saw problems with the s390-ccw bios when running
-> the qtests on an aarch64 host (the bios panic'ed with the message:
-> "SCSI cannot report LUNs: response VS RESP=09"), which could
-> maybe be related to the missing memory barriers. Thus let's add
-> those barriers now. Since we've only seen the problem on TCG so far,
-> a "bcr 14,0" should be sufficient here to trigger the tcg_gen_mb()
-> in the TCG translate code.
-> 
-> (Note: The virtio spec also talks about using a memory barrier
-> *after* incrementing the idx field, but if I understood correctly
-> this is only required when using notification suppression - which
-> we don't use in the s390-ccw bios here)
+"git grep tlb_fill accel/tcg" will tell you the call sites.
+Basically if the guest code tries to access an address and
+we don't already have that in the QEMU TLB, then we call
+tlb_fill.
 
-I suggest to the barrier after incrementing the idx field for two
-reasons. First: If the device were to see the notification, but
-not see the incremented idx field, it would effectively loose
-initiative. That is pretty straight forward, because the
-notification just says 'check out that queue', and if we don't
-see the incremented index, miss the buffer that was made available
-by incrementing idx.
+> > CPU tlb_fill function, which tries
+> > to translate the guest virtual address to a physical address (usually b=
+y
+> > walking the guest page tables). If it succeeds then will update the QEM=
+U
+> > TLB by calling either tlb_set_page() or tlb_set_page_with_attrs().
+>
+> > If it
+> > fails then it arranges to deliver a suitable exception to the guest.
+> This should be page fault, guest code will update page table, am I right?=
+ Thanks
 
-Second: We are in the bios, and I hope even an unnecessary barrier
-would not hurt us significantly.
+It depends on the guest architecture, but yes, that's the usual thing.
 
-Conny, what do you think?
-
-Regards,
-Halil
+-- PMM
 
