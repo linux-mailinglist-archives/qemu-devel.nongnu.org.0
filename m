@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45D931CB1F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:33:09 +0100 (CET)
-Received: from localhost ([::1]:38522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0156531CB22
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:34:50 +0100 (CET)
+Received: from localhost ([::1]:41118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC0TU-0006UM-E9
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:33:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46900)
+	id 1lC0V7-0007jr-1h
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:34:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47218)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lC0PL-0005aj-9q; Tue, 16 Feb 2021 08:28:52 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:33117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lC0PH-00050m-F6; Tue, 16 Feb 2021 08:28:50 -0500
-Received: by mail-wm1-x336.google.com with SMTP id a16so5585352wmm.0;
- Tue, 16 Feb 2021 05:28:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=DiErgxXIKZHj0mE/5ESu4xZEYHglSCcvkDWnGPVKAp4=;
- b=j2ogIzTy+zoe7Kwrne+jC0PQXK498FghYgOK1wtbIt/fn0mFdJBFMJaFfiZQ++nYsb
- QEAvPP8tsZHADTDjD/lw3oMvnlxsOsMY6CDbmljSjRu3WN2cg0ffZG0xRIkXQDQfGht2
- LzYubR9Rr4+8tHBx9uWhV7dmQRlza0R+66fBd+YijFU0SiXASsojPS++BpGUVZ9bnVpz
- kscBUbLQlAnsQyzsTfE25c+ymQVrnK/qPHNyDuGJHuBCmUYOubazhDmNboYerNzccBLY
- jS97vwcFAm9DzXn6Y3zpJWk+yVqsVJPMO+bhJeDtpgjrpC0B9oY7GJt9cmtbEOEvbCk1
- wCCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=DiErgxXIKZHj0mE/5ESu4xZEYHglSCcvkDWnGPVKAp4=;
- b=hlZJD1QKYh9lSklOhVFqI86NJeBfWJ4Kl5XzMPjDVxE8K9vxHc+0GASqHzCyPdzbiE
- C0YX/V0Zx8v2nYU3bGb7Z/0/+T1h9RCln2LxS+acLYl8ySvyYFACbQTGNc5Ege99I0Sf
- bwG27n6yHDk7Qd3AREK/gfTs6e5T94cz1G7m/T9NpGgxvv3CAC1BYTS+H3BT8RZ18jPa
- 5u5O8bFhvJq8Aj88flLclTGUsdZXZL0PyeZRMn1+J6iAmaHGuK2CEGmW4PGNmFzt2CRc
- ML/4VAeimg+WobjCG1TwZKRhuKIi1a+Ur/ieszjUPss3WwOdyMojV7OA5h6tL5pUxS86
- Y9jA==
-X-Gm-Message-State: AOAM530M1YpBt49f0vDEEgrJoAXA26tEmlg2SFPVVFSM0Vh5AdxSR5HM
- cM34Sx3L3IXjk9iH4G7ONmygidGyzu4=
-X-Google-Smtp-Source: ABdhPJz/c9BBe2X0/d7Co5/W/FCJo6rOZb88ZGgTy1EpqhD/k6RkACeTGxvHRu4qSpN/b5Gci6qOaw==
-X-Received: by 2002:a1c:a90e:: with SMTP id s14mr3389254wme.36.1613482123761; 
- Tue, 16 Feb 2021 05:28:43 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p16sm5624090wmj.3.2021.02.16.05.28.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 05:28:43 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lC0Qa-00067y-Gc
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:30:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57124)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lC0QY-0005aH-30
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:30:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613482203;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uTSOUPFBBpGdofX2ATTDm8US6qCDB/0GH4z8Fq0SmZM=;
+ b=UYGOAur0GdoF4v26f6OZi9hB2QdgAol3XgA6jZ1ATWb21SFr9W1BbNtDL5SVXDVwpwXlp2
+ srANik5fZAU82TSd5mEszzxnbB/xSKg321UeAszB3TEWzgvVaBGvJphIBjTSXpFQgfTjh5
+ YDTqD3QkjobAScsjWNbtu5wSsCssqbE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-70-3U5X3lHDPQqysma_gQj0ng-1; Tue, 16 Feb 2021 08:30:02 -0500
+X-MC-Unique: 3U5X3lHDPQqysma_gQj0ng-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 389D7107ACE3;
+ Tue, 16 Feb 2021 13:30:01 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-215.ams2.redhat.com
+ [10.36.112.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AF035D9CC;
+ Tue, 16 Feb 2021 13:29:56 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] MAINTAINERS: Add Bin Meng as co-maintainer for SD/MMC cards
-Date: Tue, 16 Feb 2021 14:28:41 +0100
-Message-Id: <20210216132841.1121653-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+Subject: [PATCH v2 0/3] fix build failures from incorrectly skipped container
+ build jobs
+Date: Tue, 16 Feb 2021 13:29:51 +0000
+Message-Id: <20210216132954.295906-1-berrange@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.19,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,38 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is new interest in the SD/MMC device emulation, so it
-would be good to have more than only one maintainer / reviewer
-for it.
-
-Bin Meng proved by his contributions a deep understanding of the
-SD cards internals, so let's add him to the corresponding section
-in the MAINTAINERS file.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8201f12271b..88c28d2ccd7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1745,6 +1745,7 @@ F: hw/ssi/xilinx_*
- 
- SD (Secure Card)
- M: Philippe Mathieu-Daudé <f4bug@amsat.org>
-+M: Bin Meng <bin.meng@windriver.com>
- L: qemu-block@nongnu.org
- S: Odd Fixes
- F: include/hw/sd/sd*
--- 
-2.26.2
+This series fixes a problem with our gitlab CI rules that cause=0D
+container builds to be skipped. See the commit description in the=0D
+first patch for the details on this problem.=0D
+=0D
+The overall result of this series though is a small increase in overall=0D
+pipeline time.=0D
+=0D
+Previously=0D
+=0D
+ - When container jobs are skipped: approx 1hr 5 mins=0D
+ - When container jobs are run, cached by docker: approx 1hr 15 mins=0D
+ - When container jobs are run, not cached by docker: approx 1hr 30 mins=0D
+=0D
+With this series applied the first scenario no longer exists, so=0D
+all piplines are either 1hr 15 or 1hr 30 depending on whether the=0D
+container phase is skipped.=0D
+=0D
+On the plus side the builds are more reliable as we're actually=0D
+building container images at correct times.=0D
+=0D
+There is still a race condition though where build jobs can run=0D
+with the wrong containers. This happens if you push two different=0D
+branches to gitlab with different docker file content. If the=0D
+container jobs for the 2nd branch finish before the 1st=0D
+branch runs its build jobs, the 1st branch can end up using=0D
+containers fro the second branch.  The only fix to truely fix=0D
+that would be to stop using "latest" docker tag and always=0D
+use a tag based on the branch name. This would mean we build=0D
+up a growing set of docker images in the gitlab registry.=0D
+=0D
+At least this series is much more correct that what exists in=0D
+git currently. I'm intending to continue to investigate a solution=0D
+for the remaining race condition, but don't want to block this=0D
+series from merging, since this already solves the problem for the=0D
+majority of contributors' usage.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Set needs rules for cross jobs too=0D
+=0D
+Daniel P. Berrang=C3=A9 (3):=0D
+  gitlab: always build container images=0D
+  gitlab: add fine grained job deps for all build jobs=0D
+  gitlab: fix inconsistent indentation=0D
+=0D
+ .gitlab-ci.d/containers.yml  |  7 ----=0D
+ .gitlab-ci.d/crossbuilds.yml | 46 ++++++++++++++++++++++=0D
+ .gitlab-ci.yml               | 74 ++++++++++++++++++++++++++++++++----=0D
+ 3 files changed, 112 insertions(+), 15 deletions(-)=0D
+=0D
+--=20=0D
+2.29.2=0D
+=0D
 
 
