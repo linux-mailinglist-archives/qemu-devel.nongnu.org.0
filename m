@@ -2,74 +2,121 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8AA131D034
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 19:28:29 +0100 (CET)
-Received: from localhost ([::1]:52708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A2831D03C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 19:31:29 +0100 (CET)
+Received: from localhost ([::1]:59050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC55I-0004Rx-P8
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 13:28:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34180)
+	id 1lC58C-0007Kt-3V
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 13:31:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lC53C-00035t-7J
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 13:26:18 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35388)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lC539-0007Mj-KY
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 13:26:18 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id l12so14429397wry.2
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 10:26:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yqsbTHTTOa7rHNBF4QGybpcyGyE8zlRS5Tnaearu2tA=;
- b=LcyWiigUNcNhu7AVGVj/L03+FcVhOmk9nIGivD1ioc9rRPgEDAbDZBtflxYseVxF2Q
- cnAeCBq3+GPny8KxxxcrerEXuG5+Q1ifeM+uFHkTuc4jy3JJvDCihBf0ssJQwC+6kueA
- nQ5LntiVidSisorWL9EmG9i0ramI6povdEBqrVoX5fgD/BRhbKdKyY//4IGC+Y1mKtYm
- ZWTVePaIc1HBfLmB88z0rriovjsmGLUig667arKgao57JRWXSlwoD3OxLkCifiBypzBn
- cQPwZUlHNi4TYeivOi568+o8WtfQVqf0UqRso656cFqH7+N1PNviXJzWRcxrbJ4MUYS0
- UOtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yqsbTHTTOa7rHNBF4QGybpcyGyE8zlRS5Tnaearu2tA=;
- b=M4b7WHU/NaEA71FZvF6DGaoKHTpQ3jYaHSxaeVBNebPfWfVKIxGOlcyTRESXvErz5Q
- qQH9Ib75uUDi6CuinBReQ1PjekB354Wa16xJ6fMjM673wDgj+qepagfW/zpjMOWrYsuf
- XpnsXbttDUF+WBXpWhR8UHEV4aAIBxP6o2tBkA03PJ/mwzQWAH3OY75FGBFZoWORQ5aM
- BQPcJzKMuTqgJy8DCEWtfMLTQJKOuD3iP4UVZ6kzXXsNT4cGq1eBjy2Fr9p4eFaMoDK9
- lzPDz/IBGZgMy+2ngVmXkbOFp7fXAGGnQeXmkJc0LWy8lZGDtDDpq8z131ZdQXCYO1pO
- NlXw==
-X-Gm-Message-State: AOAM530YZe4n0RuY7YAV7vbKkBsmsx+EVSUjj3KiHXzcvL7/z8CQLhlL
- a2toOu1L3EVDB9nEDJHQ2/EnjZPEndM=
-X-Google-Smtp-Source: ABdhPJxQPNHHXK8IAUSfftkkY0DKbXWs3W346ZKRaewvRqtDV71+OCgULEzBnwTqwkwiwmRIY8F7yg==
-X-Received: by 2002:adf:b1cd:: with SMTP id r13mr25055489wra.157.1613499974387; 
- Tue, 16 Feb 2021 10:26:14 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i10sm39394601wrp.0.2021.02.16.10.26.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 10:26:14 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1lC55Q-0005Wp-Pl; Tue, 16 Feb 2021 13:28:37 -0500
+Received: from mail-bn7nam10on2132.outbound.protection.outlook.com
+ ([40.107.92.132]:20864 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1lC55O-0007Uk-Im; Tue, 16 Feb 2021 13:28:36 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=NmSyr02dFRygRQAyxLk5T2mW8lcjbFbCulNqwxhw8s3rJi/DmzpPHBhi6Gc5WaW9Ef3jkqXWcbLWOtV9yrUHhcEubA3vdzRmQfmb2XEg/qIfDXAlt8U2Q9V2bGZAOI0qc8W9WM3r7KEqp5k1+3eAR1ax9H5rmtlXAfL0tSCE1cx5OFHTW4vkmsddnqxiXsVzXNRfp6s+mCfB/QHWOxid4Tz0ysrJxZUcuXV/jUJ94QNwuPvcNSQ5JLph/JQqgf0KgImgjpBPscEZqwT7QIRybYqu6SXQiKc1XnUN7HY3AabKGy68aGQAL/3G4HiApW7dAe+uNGKLgkT79+3izfX/fQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xSgFoTj4uq7rnGGptJEjENOdmC9BiMpahAPVjwMFlUM=;
+ b=Em4e9Sq//n1E9kbbZk18So+Z3BmZ9D2TghLZU4nO66oOnqluzU+0SOEviKjVSMZ/M0sQwivtOnFHK5rWAOkwbnTiIkD4RY19vlgcLVpUKJlEIIEzdSk4p/DqOzfVWgys9KljBgbNj8z9NAR6fcl9rNM/XxWNjmdadTRI9asql3gqcROgfvJF5AQAeD6E/YAvGaDweugpkMabPYyMR1qr01jBCrg7VYRl97T6OXD8ffbW9zYuR7K/OTpiAwb9e3x9iX6IiUmo5I0hefPl41BTP4sUjMKFdt63sc38Vzs/5cEMfIsiFTc4ItKaihycw0ci75KIT0lphl8wn+yR7/8bhQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xSgFoTj4uq7rnGGptJEjENOdmC9BiMpahAPVjwMFlUM=;
+ b=JMxAuwyY6P/exZ6rGpNJuOhJalt4fH9YFML64Hwr5LJlqQU3rBS2eWvqUDYyvGJ3GZ55LBwha+N0KBOiTOagH0cLOa3OVR+g57jZ792tLkFQiXAL+NA49L4LoKseXQUzsHnus00fRXYnYBRqvCQviWQC2/Q9/kJWqr9sJV5bc/c=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB3615.namprd03.prod.outlook.com (2603:10b6:805:50::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.27; Tue, 16 Feb
+ 2021 18:13:28 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::e828:cd84:e00c:6310]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::e828:cd84:e00c:6310%6]) with mapi id 15.20.3846.041; Tue, 16 Feb 2021
+ 18:13:28 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] replay: fix icount request when replaying clock access
-Date: Tue, 16 Feb 2021 19:26:11 +0100
-Message-Id: <20210216182611.139813-3-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210216182611.139813-1-pbonzini@redhat.com>
-References: <20210216182611.139813-1-pbonzini@redhat.com>
-MIME-Version: 1.0
+Subject: [PATCH] fuzz-test: remove unneccessary debugging flags
+Date: Tue, 16 Feb 2021 13:13:15 -0500
+Message-Id: <20210216181316.794276-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.19,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [72.74.210.193]
+X-ClientProxiedBy: BL0PR0102CA0055.prod.exchangelabs.com
+ (2603:10b6:208:25::32) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.74.210.193) by
+ BL0PR0102CA0055.prod.exchangelabs.com (2603:10b6:208:25::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3846.28 via Frontend Transport; Tue, 16 Feb 2021 18:13:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a871192c-fdea-464c-4d58-08d8d2a68ee6
+X-MS-TrafficTypeDiagnostic: SN6PR03MB3615:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB36157D40CAA2CBC76B1D1840BA879@SN6PR03MB3615.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:419;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: geBY29W6pXaR+PpikVDzfwPT9xnaMlL6lgRvrmrf3xS39bXiQB/ZeZkPKQNTim/7y4j4ygtkH7KVV6qK9sbJA8VC7C8I0m3arqq4O98qqVXztYjq4rfQHIv4u7hSb+zvlI3mKMIvyYTiNvDxOJM/xvfEx13D7lfCM7vHi/yuVjrOKvxaOtZrBFSEPn5yGg7fp33XFFJGOjCsrotfaZjYoyhqEbsGa0m8xIUeoIL/9BKjkX/0xxZYmn9qmA5E8/TlYnZFTbf6djxrILG734pZGDlwhw32m2OktuTnsRn8hIedfp51/fp08qVLnrJGKK5vBYR+6A9lozxSzRTMZQuA19DjhgxxwMmkmv6oIvQKLbNLnV3NesqPyb67tgwjKIVIYcSaeO/jfJhvmX3qGbbs64h/D1yxqB44NwdrvKQW4S9pysXHDHeBBUrHJaDXIfAj4ymetOb5v+KFmi9uBuBUYgfHBYTa5uZStoqShDGht8LiAYPV9pn516IVkjnG1FKTS03/ViZE3dEP/oHmG0+/vw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(396003)(39860400002)(136003)(346002)(376002)(2906002)(6512007)(83380400001)(66556008)(786003)(316002)(66476007)(75432002)(54906003)(8676002)(6916009)(66946007)(186003)(52116002)(4326008)(1076003)(36756003)(8936002)(6486002)(478600001)(5660300002)(16526019)(26005)(6506007)(86362001)(6666004)(4744005)(2616005)(956004);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?eCTZhN0aZH2fG1bSHWS6/q5RWxcBUkOYAXcLs/YOuUHFy1XcSxcBUw3N4vKQ?=
+ =?us-ascii?Q?vWtlH0+HSwF54SfsjLJISsKIjP+ZDUuCTSLfI8ocVAM5jva3agC7Kmi4L4z2?=
+ =?us-ascii?Q?HHY4PyojpqrKoH+Vzw7I5u53wkSj28268FZUzeePQeDXS9f6wqZGP6jSMJqk?=
+ =?us-ascii?Q?bqTSseKbDZsfSeXxLf/Sgbov/tOe6lMkzIm7JJrCbY9HcUqyu2bakG1yAeQK?=
+ =?us-ascii?Q?5Bf762gt4RqhieIKsXlBt01gB/UglWa7fMFf3QplVkKeXPDSyHGLs2fqTFS3?=
+ =?us-ascii?Q?Rq5PdqJKQKKZoGIhKKDsx3Z/eMVhL6J5rkMb1AC9DEWxNTvXkVID5P1EsI5g?=
+ =?us-ascii?Q?BceQb6yHaTyU9rFxm1WDkdB+Z65Kv+ctdO3cMbjza8V8DwL/feDQ/6ioOL5M?=
+ =?us-ascii?Q?0wON5cH5IZOKPSsCcgbH3sVD2kYxgjGYJGyyDoQRtIUcWEEQswl1/vIxvpES?=
+ =?us-ascii?Q?r6Ntpz9ykD8nVhzrE5k6QMTq7pN0hWuPyH9hge3lt3gqT5SnUj3ebVqKjHXy?=
+ =?us-ascii?Q?a64Yf+8havQk7QjpM76hD2gKKYZj163OtqIziCUl23aBQrTy4nN8LJ3H1yzA?=
+ =?us-ascii?Q?++DZiABrQQfQSZm8Kf4+AKjIX4FzCUpNh94kdEQ7oWTB0myrrxXhjk4IexQ9?=
+ =?us-ascii?Q?6SxmNefN5WCRHCwfKzFxpbZS1NDNf34HwyCbI0BuErk4vHRJkfqzHa83HFSN?=
+ =?us-ascii?Q?Be2y6VxLRxy4xJgBWJY+ZeaWcLREQvY/niJg2QZY10cPqW4DBNqIZp8ZTggL?=
+ =?us-ascii?Q?IrK1RzT0pYvupyrWd0C3rIyRMSNL/tYSKgkfdBaLYW2wxBCFkQxt1HZxAHls?=
+ =?us-ascii?Q?PWcPTcVfoI+8RV5xcd89HG6FeKwzZKCKhbFWA/gkSskI3bDicWq8gPWUSOiJ?=
+ =?us-ascii?Q?bwnObJM7VqZ++JoKu1wXfx9lurGgtviitEdeyOYj/YBUbVpiRc0DQ7nWPOdb?=
+ =?us-ascii?Q?yh3be26pSxT1f4AAiHGwmo7zNOczv8uesPiGm2iVCZmP9P00Dp9j2alFuNg/?=
+ =?us-ascii?Q?Ll46Vo8k8trdhn+oqJWcBB36rKTZwOSG4g2MLhpG8/1eHJRUmIfxUjuILQvj?=
+ =?us-ascii?Q?Gl6Q13fPFxEq22AQJsCBzYK7cm+u60dIyPbGT4+94wYnivE4Aq1lxymVUlcM?=
+ =?us-ascii?Q?4vdinvQqc/g5iXFVMfSagoWqwiboxfFKsFhU/sW3vahLSsFR+HWn3YkTyoQx?=
+ =?us-ascii?Q?iHo+Vp20yd9oMVG4KCL1myWGzZGxwgKD8A9NGFZVBXU5JCoaX6+LMOq2BAIV?=
+ =?us-ascii?Q?kUh/XHqZrsWGmrI7QoDHHvUq4/bKgaSXBxa8rX93SyRSeqoJonybXWRXMiFJ?=
+ =?us-ascii?Q?xYFJObdrU+qXM8e1egqfJOLb?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: a871192c-fdea-464c-4d58-08d8d2a68ee6
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2021 18:13:28.0125 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wp+rw/fsalP/zZMjlyHYTNxu3l2hLwFPH97JItli7qHmx7H9/GtuzMJI/rsA2T8g
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB3615
+Received-SPF: pass client-ip=40.107.92.132; envelope-from=alxndr@bu.edu;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,171 +130,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-trivial@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+These flags cause the output to look strange for 'make check', and
+they aren't needed to reproduce bugs, if they reappear.
 
-Record/replay provides REPLAY_CLOCK_LOCKED macro to access
-the clock when vm_clock_seqlock is locked. This macro is
-needed because replay internals operate icount. In locked case
-replay use icount_get_raw_locked for icount request, which prevents
-excess locking which leads to deadlock. But previously only
-record code used *_locked function and replay did not.
-Therefore sometimes clock access lead to deadlocks.
-This patch fixes clock access for replay too and uses *_locked
-icount access function.
-
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Message-Id: <161347990483.1313189.8371838968343494161.stgit@pasha-ThinkPad-X280>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- include/sysemu/replay.h  | 14 ++++++++------
- replay/replay-internal.c | 29 +++++++++++++++++++++++++----
- replay/replay-time.c     |  4 ++--
- replay/replay.c          | 23 +----------------------
- stubs/replay-tools.c     |  2 +-
- 5 files changed, 37 insertions(+), 35 deletions(-)
+ tests/qtest/fuzz-test.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/include/sysemu/replay.h b/include/sysemu/replay.h
-index 56c0c17c30..0f3b0f7eac 100644
---- a/include/sysemu/replay.h
-+++ b/include/sysemu/replay.h
-@@ -128,18 +128,20 @@ bool replay_has_interrupt(void);
- int64_t replay_save_clock(ReplayClockKind kind, int64_t clock,
-                           int64_t raw_icount);
- /*! Read the specified clock from the log or return cached data */
--int64_t replay_read_clock(ReplayClockKind kind);
-+int64_t replay_read_clock(ReplayClockKind kind, int64_t raw_icount);
- /*! Saves or reads the clock depending on the current replay mode. */
- #define REPLAY_CLOCK(clock, value)                                      \
--    (replay_mode == REPLAY_MODE_PLAY ? replay_read_clock((clock))       \
-+    (replay_mode == REPLAY_MODE_PLAY                                    \
-+        ? replay_read_clock((clock), icount_get_raw())                  \
-         : replay_mode == REPLAY_MODE_RECORD                             \
--            ? replay_save_clock((clock), (value), icount_get_raw()) \
--        : (value))
-+            ? replay_save_clock((clock), (value), icount_get_raw())     \
-+            : (value))
- #define REPLAY_CLOCK_LOCKED(clock, value)                               \
--    (replay_mode == REPLAY_MODE_PLAY ? replay_read_clock((clock))       \
-+    (replay_mode == REPLAY_MODE_PLAY                                    \
-+        ? replay_read_clock((clock), icount_get_raw_locked())           \
-         : replay_mode == REPLAY_MODE_RECORD                             \
-             ? replay_save_clock((clock), (value), icount_get_raw_locked()) \
--        : (value))
-+            : (value))
+diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
+index cdb1100a0b..6f161c93be 100644
+--- a/tests/qtest/fuzz-test.c
++++ b/tests/qtest/fuzz-test.c
+@@ -39,8 +39,7 @@ static void test_lp1878642_pci_bus_get_irq_level_assert(void)
+     QTestState *s;
  
- /* Processing data from random generators */
+     s = qtest_init("-M pc-q35-5.0 "
+-                   "-nographic -monitor none -serial none "
+-                   "-d guest_errors -trace pci*");
++                   "-nographic -monitor none -serial none");
  
-diff --git a/replay/replay-internal.c b/replay/replay-internal.c
-index 2e8a3e947a..77d0c82327 100644
---- a/replay/replay-internal.c
-+++ b/replay/replay-internal.c
-@@ -247,10 +247,31 @@ void replay_advance_current_icount(uint64_t current_icount)
-     /* Time can only go forward */
-     assert(diff >= 0);
- 
--    if (diff > 0) {
--        replay_put_event(EVENT_INSTRUCTION);
--        replay_put_dword(diff);
--        replay_state.current_icount += diff;
-+    if (replay_mode == REPLAY_MODE_RECORD) {
-+        if (diff > 0) {
-+            replay_put_event(EVENT_INSTRUCTION);
-+            replay_put_dword(diff);
-+            replay_state.current_icount += diff;
-+        }
-+    } else if (replay_mode == REPLAY_MODE_PLAY) {
-+        if (diff > 0) {
-+            replay_state.instruction_count -= diff;
-+            replay_state.current_icount += diff;
-+            if (replay_state.instruction_count == 0) {
-+                assert(replay_state.data_kind == EVENT_INSTRUCTION);
-+                replay_finish_event();
-+                /* Wake up iothread. This is required because
-+                    timers will not expire until clock counters
-+                    will be read from the log. */
-+                qemu_notify_event();
-+            }
-+        }
-+        /* Execution reached the break step */
-+        if (replay_break_icount == replay_state.current_icount) {
-+            /* Cannot make callback directly from the vCPU thread */
-+            timer_mod_ns(replay_break_timer,
-+                qemu_clock_get_ns(QEMU_CLOCK_REALTIME));
-+        }
-     }
- }
- 
-diff --git a/replay/replay-time.c b/replay/replay-time.c
-index 43357c9f24..00ebcb7a49 100644
---- a/replay/replay-time.c
-+++ b/replay/replay-time.c
-@@ -46,12 +46,12 @@ void replay_read_next_clock(ReplayClockKind kind)
- }
- 
- /*! Reads next clock event from the input. */
--int64_t replay_read_clock(ReplayClockKind kind)
-+int64_t replay_read_clock(ReplayClockKind kind, int64_t raw_icount)
- {
-     int64_t ret;
-     g_assert(replay_file && replay_mutex_locked());
- 
--    replay_account_executed_instructions();
-+    replay_advance_current_icount(raw_icount);
- 
-     if (replay_next_event_is(EVENT_CLOCK + kind)) {
-         replay_read_next_clock(kind);
-diff --git a/replay/replay.c b/replay/replay.c
-index d4c228ab28..c806fec69a 100644
---- a/replay/replay.c
-+++ b/replay/replay.c
-@@ -94,28 +94,7 @@ void replay_account_executed_instructions(void)
-     if (replay_mode == REPLAY_MODE_PLAY) {
-         g_assert(replay_mutex_locked());
-         if (replay_state.instruction_count > 0) {
--            int count = (int)(replay_get_current_icount()
--                              - replay_state.current_icount);
--
--            /* Time can only go forward */
--            assert(count >= 0);
--
--            replay_state.instruction_count -= count;
--            replay_state.current_icount += count;
--            if (replay_state.instruction_count == 0) {
--                assert(replay_state.data_kind == EVENT_INSTRUCTION);
--                replay_finish_event();
--                /* Wake up iothread. This is required because
--                   timers will not expire until clock counters
--                   will be read from the log. */
--                qemu_notify_event();
--            }
--            /* Execution reached the break step */
--            if (replay_break_icount == replay_state.current_icount) {
--                /* Cannot make callback directly from the vCPU thread */
--                timer_mod_ns(replay_break_timer,
--                    qemu_clock_get_ns(QEMU_CLOCK_REALTIME));
--            }
-+            replay_advance_current_icount(replay_get_current_icount());
-         }
-     }
- }
-diff --git a/stubs/replay-tools.c b/stubs/replay-tools.c
-index c06b360e22..43296b3d4e 100644
---- a/stubs/replay-tools.c
-+++ b/stubs/replay-tools.c
-@@ -13,7 +13,7 @@ int64_t replay_save_clock(unsigned int kind, int64_t clock, int64_t raw_icount)
-     return 0;
- }
- 
--int64_t replay_read_clock(unsigned int kind)
-+int64_t replay_read_clock(unsigned int kind, int64_t raw_icount)
- {
-     abort();
-     return 0;
+     qtest_outl(s, 0xcf8, 0x8400f841);
+     qtest_outl(s, 0xcfc, 0xebed205d);
 -- 
-2.29.2
+2.28.0
 
 
