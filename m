@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9893B31CD91
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:09:43 +0100 (CET)
-Received: from localhost ([::1]:42630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68C9331CD9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:11:30 +0100 (CET)
+Received: from localhost ([::1]:45746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC2v0-0000cf-4y
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:09:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36132)
+	id 1lC2wj-0001yt-GG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:11:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lC2tv-0000AC-Ez
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:08:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27734)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lC2tp-0000kr-LZ
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:08:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613491706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=64Hry2zjT+kwLfudNLiZPEF89t0YtLjHZ4RGxV5v/n4=;
- b=ba+DXcDg2rese9BWOiFb1/4SstX0il92bXnk3buad8bNyVvUZPVGc1fo60bwQQ+WN4Xf6H
- aJGsugr+IbSPVASNOfhKF65YA1k00HLI/S91YKBOCMil1sngXmQmlQNHt6uK0eqFmQ+IpM
- Ipph4ns12/TyjOSda+lAkYA4Ym/jtz4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-ECoBT9VyMTSvEnF4K8MeHQ-1; Tue, 16 Feb 2021 11:08:12 -0500
-X-MC-Unique: ECoBT9VyMTSvEnF4K8MeHQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63442801965;
- Tue, 16 Feb 2021 16:08:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-100.ams2.redhat.com
- [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B581A19D6C;
- Tue, 16 Feb 2021 16:08:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 47BE6113865F; Tue, 16 Feb 2021 17:08:09 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 14/19] qapi/introspect.py: add type hint annotations
-References: <20210216021809.134886-1-jsnow@redhat.com>
- <20210216021809.134886-15-jsnow@redhat.com>
- <87a6s4pf22.fsf@dusky.pond.sub.org>
- <a724070a-0075-52ca-b11f-cf736d626279@redhat.com>
-Date: Tue, 16 Feb 2021 17:08:09 +0100
-In-Reply-To: <a724070a-0075-52ca-b11f-cf736d626279@redhat.com> (John Snow's
- message of "Tue, 16 Feb 2021 10:33:25 -0500")
-Message-ID: <87r1lgq9li.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lC2vG-00016n-7x; Tue, 16 Feb 2021 11:09:58 -0500
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:38962)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lC2vD-0000tl-HR; Tue, 16 Feb 2021 11:09:58 -0500
+Received: by mail-qk1-x735.google.com with SMTP id h8so9862550qkk.6;
+ Tue, 16 Feb 2021 08:09:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wINIaAX+S/7Sfn6RYG6BrB/yGR01RF1VdaPeBdTkJUE=;
+ b=J2GsUl1AqCNgiQ7v7wL3iJce/SOhOCrQlc0XUCOmPAdiJbxAN5n+/x6vt9MqzlE20t
+ qiWZOlfMBhqFzl2+OIa6nZHMmBuo3cvXDHPemPM44vvt8Zbv5sUfpVz9W04+8DhpEHKu
+ iPseqKEFE2Eoe1LD4eqND/A4ij8hgCKY6b37xYeI7NuvtLZUZ8xrO0Ib7L4DhmmbmSfv
+ NW6tGgYX0zBCZczKWP/l1cGGd5afScmjs1V8q4l6CbE3RhEMiTFCEPwtQjROMUKhkuHq
+ iabCO2B4YH6/cGpDQyxXj866iRg/crHHIDJHZFiEtBfdiq5xLr56YLYyrU0EmMQHQmi+
+ /sZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=wINIaAX+S/7Sfn6RYG6BrB/yGR01RF1VdaPeBdTkJUE=;
+ b=hMhykd49d5C9yRAVRvnk5gvYd/jYPkxy8owxMfpoyIlg+brD+bofCoBJgBU7v0lWrm
+ kiDdaBg3IhtHSE3c20LtHHuV0N89pzQMWxmLNZnoI5a1Tx4s1KXRgn3hOGDfBUO+NYaG
+ 3gx91GA8JhMol+10WUV6EgyuYhPzxh891/NV+kPSHFCP0MatEY+AGYrYesd5Cuwcmnek
+ 7wDiDFNYFuT8MQac8YYwkb8I8IgrFNKpWiIuu/jTnhRQ/25UtvPwKO2g+EocUDgjbTZt
+ m+NgLsCJP2fyWhXL6cg7eF7jRYqCAzpr3ZLFeDrYtZ3gHOJ6ufSHyoz9OBWGzhSN1qwQ
+ T6sw==
+X-Gm-Message-State: AOAM533BfCcjmQQLKAHFnTTqnHNqFxBrqvs8DJQv2OZj/qzE6uLANGuF
+ 2FBxnONCXWpr6mThjroyPvqoKKOR/Uk=
+X-Google-Smtp-Source: ABdhPJyNI1+JbcUqNSZZYphf+nifWpVP6N5FKSpYreDnQX98vAfonFwl+6OlRVUrI1I1y2IU8L+dww==
+X-Received: by 2002:a37:8005:: with SMTP id b5mr20404276qkd.238.1613491793498; 
+ Tue, 16 Feb 2021 08:09:53 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c6:a50d:bdb3:4a9d:cdde:b53f?
+ ([2804:431:c7c6:a50d:bdb3:4a9d:cdde:b53f])
+ by smtp.gmail.com with ESMTPSA id i3sm3451245qkl.19.2021.02.16.08.09.51
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Feb 2021 08:09:53 -0800 (PST)
+Subject: Re: [PATCH v3 2/7] spapr_pci.c: simplify spapr_pci_unplug_request()
+ function handling
+To: Greg Kurz <groug@kaod.org>
+References: <20210211225246.17315-1-danielhb413@gmail.com>
+ <20210211225246.17315-3-danielhb413@gmail.com>
+ <20210216165059.284d2a21@bahia.lan>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <5bdd86f2-0a00-bccf-65dc-236b064e8029@gmail.com>
+Date: Tue, 16 Feb 2021 13:09:43 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210216165059.284d2a21@bahia.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,365 +89,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
 
-> On 2/16/21 3:55 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> NB: The type aliases (SchemaInfo et al) declare intent for some of the
->>> "dictly-typed" objects we pass around in introspect.py. They do not
->>> enforce the shape of those objects, and cannot, until Python 3.7 or
->>> later. (And even then, it may not be "worth it".)
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   scripts/qapi/introspect.py | 124 +++++++++++++++++++++++++++----------
->>>   scripts/qapi/mypy.ini      |   5 --
->>>   scripts/qapi/schema.py     |   2 +-
->>>   3 files changed, 92 insertions(+), 39 deletions(-)
->>>
->>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->>> index b0fcc4443c1..45284af1330 100644
->>> --- a/scripts/qapi/introspect.py
->>> +++ b/scripts/qapi/introspect.py
->>> @@ -17,6 +17,7 @@
->>>       Iterable,
->>>       List,
->>>       Optional,
->>> +    Sequence,
->>>       Tuple,
->>>       TypeVar,
->>>       Union,
->>> @@ -30,10 +31,19 @@
->>>   )
->>>   from .gen import QAPISchemaMonolithicCVisitor
->>>   from .schema import (
->>> +    QAPISchema,
->>>       QAPISchemaArrayType,
->>>       QAPISchemaBuiltinType,
->>> +    QAPISchemaEntity,
->>> +    QAPISchemaEnumMember,
->>> +    QAPISchemaFeature,
->>> +    QAPISchemaObjectType,
->>> +    QAPISchemaObjectTypeMember,
->>>       QAPISchemaType,
->>> +    QAPISchemaVariant,
->>> +    QAPISchemaVariants,
->>>   )
->>> +from .source import QAPISourceInfo
->>>     
->>>   # This module constructs a tree data structure that is used to
->>> @@ -58,6 +68,15 @@
->>>   _Value = Union[_Scalar, _NonScalar]
->>>   JSONValue = Union[_Value, 'Annotated[_Value]']
->>>   +# These types are based on structures defined in QEMU's schema,
->>> so we lack
->>> +# precise types for them here. Python 3.6 does not offer TypedDict constructs,
->>> +# so they are broadly typed here as simple Python Dicts.
+
+On 2/16/21 12:50 PM, Greg Kurz wrote:
+> On Thu, 11 Feb 2021 19:52:41 -0300
+> Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+> 
+>> When hotunplugging a PCI function we'll branch out the logic in two cases,
+>> function zero and non-zero. If non-zero, we'll call spapr_drc_detach() and
+>> nothing else. If it's function zero, we'll loop it once between all the
+>> functions in the slot to call spapr_drc_detach() on them, and afterwards
+>> we'll do another backwards loop where we'll signal the event to the guest.
 >>
->> PEP 8: "For flowing long blocks of text with fewer structural
->> restrictions (docstrings or comments), the line length should be limited
->> to 72 characters."
->> 
->
-> I'm very likely going to keep violating this until some tool enforces
-> it on me. I'm also very unlikely to enforce it for anyone else.
->
-> You can reflow it as you see fit, but I'll likely need better
-> long-term assistance for remembering that 72/80 column DANGER ZONE.
-
-Automated assistance would be nice, but not having it is no big deal for
-me.  I don't mind pointing out the occasional long line I spot in
-review.
-
->>> +SchemaInfo = Dict[str, object]
->>> +SchemaInfoObject = Dict[str, object]
->>> +SchemaInfoObjectVariant = Dict[str, object]
->>> +SchemaInfoObjectMember = Dict[str, object]
->>> +SchemaInfoCommand = Dict[str, object]
->>> +
->>>     _ValueT = TypeVar('_ValueT', bound=_Value)
->>>   @@ -77,9 +96,11 @@ def __init__(self, value: _ValueT, ifcond:
->>> Iterable[str],
->>>           self.ifcond: Tuple[str, ...] = tuple(ifcond)
->>>     
->>> -def _tree_to_qlit(obj, level=0, dict_value=False):
->>> +def _tree_to_qlit(obj: JSONValue,
->>> +                  level: int = 0,
->>> +                  dict_value: bool = False) -> str:
->>>   -    def indent(level):
->>> +    def indent(level: int) -> str:
->>>           return level * 4 * ' '
->>>         if isinstance(obj, Annotated):
->>> @@ -136,21 +157,21 @@ def indent(level):
->>>       return ret
->>>     
->>> -def to_c_string(string):
->>> +def to_c_string(string: str) -> str:
->>>       return '"' + string.replace('\\', r'\\').replace('"', r'\"') + '"'
->>>     
->>>   class QAPISchemaGenIntrospectVisitor(QAPISchemaMonolithicCVisitor):
->>>   -    def __init__(self, prefix, unmask):
->>> +    def __init__(self, prefix: str, unmask: bool):
->>>           super().__init__(
->>>               prefix, 'qapi-introspect',
->>>               ' * QAPI/QMP schema introspection', __doc__)
->>>           self._unmask = unmask
->>> -        self._schema = None
->>> -        self._trees = []
->>> -        self._used_types = []
->>> -        self._name_map = {}
->>> +        self._schema: Optional[QAPISchema] = None
->>> +        self._trees: List[Annotated[SchemaInfo]] = []
->>> +        self._used_types: List[QAPISchemaType] = []
->>> +        self._name_map: Dict[str, str] = {}
->>>           self._genc.add(mcgen('''
->>>   #include "qemu/osdep.h"
->>>   #include "%(prefix)sqapi-introspect.h"
->>> @@ -158,10 +179,10 @@ def __init__(self, prefix, unmask):
->>>   ''',
->>>                                prefix=prefix))
->>>   -    def visit_begin(self, schema):
->>> +    def visit_begin(self, schema: QAPISchema) -> None:
->>>           self._schema = schema
->>>   -    def visit_end(self):
->>> +    def visit_end(self) -> None:
->>>           # visit the types that are actually used
->>>           for typ in self._used_types:
->>>               typ.visit(self)
->>> @@ -183,18 +204,18 @@ def visit_end(self):
->>>           self._used_types = []
->>>           self._name_map = {}
->>>   -    def visit_needed(self, entity):
->>> +    def visit_needed(self, entity: QAPISchemaEntity) -> bool:
->>>           # Ignore types on first pass; visit_end() will pick up used types
->>>           return not isinstance(entity, QAPISchemaType)
->>>   -    def _name(self, name):
->>> +    def _name(self, name: str) -> str:
->>>           if self._unmask:
->>>               return name
->>>           if name not in self._name_map:
->>>               self._name_map[name] = '%d' % len(self._name_map)
->>>           return self._name_map[name]
->>>   -    def _use_type(self, typ):
->>> +    def _use_type(self, typ: QAPISchemaType) -> str:
->>>           assert self._schema is not None
->>>             # Map the various integer types to plain int
->>> @@ -216,10 +237,13 @@ def _use_type(self, typ):
->>>           return self._name(typ.name)
->>>         @staticmethod
->>> -    def _gen_features(features):
->>> +    def _gen_features(features: List[QAPISchemaFeature]
->>> +                      ) -> List[Annotated[str]]:
->>>           return [Annotated(f.name, f.ifcond) for f in features]
->>>   -    def _gen_tree(self, name, mtype, obj, ifcond, features):
->>> +    def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+>> We can simplify this logic. We can ignore all the DRC handling for non-zero
+>> functions, since we'll end up doing that regardless when unplugging function
+>> zero. And for function zero, everything can be done in a single loop, since
+>> tt doesn't matter if we end up marking the function DRCs as unplug pending in
+>> backwards order or not, as long as we call spapr_drc_detach() before issuing
+>> the hotunplug event to the guest.
 >>
->> Schould this be obj: SchemaInfo?
->> 
->
-> Yes-ish. It's kind of like the dictly-typed object is being promoted
-> to a SchemaInfo. In a sense, it isn't one yet (It's missing necessary 
-> keys), but we upgrade it into one in this very function.
->
-> I talk about TypedDict a lot and how we don't have it yet; one
-> interesting feature of TypedDict is that it doesn't allow you to 
-> incrementally build the object -- it requires all of the necessary
-> keys be present right away.
->
-> If we were to have that kind of model in our heads, then this wouldn't
-> be a SchemaInfo coming in.
->
-> So I'll admit here: I don't know. It depends on your perspective,
-> honestly. It might be the sort of thing that a docstring comment would 
-> be best at addressing, since we're already in the margins for what
-> mypy can reasonably enforce statically.
-
-Let's leave it as is.  Rationale: it only becomes a SchemaInfo in
-_gen_tree().
-
->
->>> +                  ifcond: Sequence[str],
->>> +                  features: Optional[List[QAPISchemaFeature]]) -> None:
->>>           comment: Optional[str] = None
->>>           if mtype not in ('command', 'event', 'builtin', 'array'):
->>>               if not self._unmask:
->>> @@ -233,42 +257,65 @@ def _gen_tree(self, name, mtype, obj, ifcond, features):
->>>               obj['features'] = self._gen_features(features)
->>>           self._trees.append(Annotated(obj, ifcond, comment))
->>>   -    def _gen_member(self, member):
->>> -        obj = {'name': member.name, 'type': self._use_type(member.type)}
->>> +    def _gen_member(self, member: QAPISchemaObjectTypeMember
->>> +                    ) -> Annotated[SchemaInfoObjectMember]:
->>> +        obj: SchemaInfoObjectMember = {
->>> +            'name': member.name,
->>> +            'type': self._use_type(member.type)
->>> +        }
->>>           if member.optional:
->>>               obj['default'] = None
->>>           if member.features:
->>>               obj['features'] = self._gen_features(member.features)
->>>           return Annotated(obj, member.ifcond)
->>>   -    def _gen_variant(self, variant):
->>> -        obj = {'case': variant.name, 'type': self._use_type(variant.type)}
->>> +    def _gen_variant(self, variant: QAPISchemaVariant
->>> +                     ) -> Annotated[SchemaInfoObjectVariant]:
->>> +        obj: SchemaInfoObjectVariant = {
->>> +            'case': variant.name,
->>> +            'type': self._use_type(variant.type)
->>> +        }
->>>           return Annotated(obj, variant.ifcond)
->>>   -    def visit_builtin_type(self, name, info, json_type):
->>> +    def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
->>> +                           json_type: str) -> None:
->>>           self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
->>>   -    def visit_enum_type(self, name, info, ifcond, features,
->>> members, prefix):
->>> +    def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
->>> +                        ifcond: Sequence[str],
->>> +                        features: List[QAPISchemaFeature],
->>> +                        members: List[QAPISchemaEnumMember],
->>> +                        prefix: Optional[str]) -> None:
->>>           self._gen_tree(
->>>               name, 'enum',
->>>               {'values': [Annotated(m.name, m.ifcond) for m in members]},
->>>               ifcond, features
->>>           )
->>>   -    def visit_array_type(self, name, info, ifcond,
->>> element_type):
->>> +    def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
->>> +                         ifcond: Sequence[str],
->>> +                         element_type: QAPISchemaType) -> None:
->>>           element = self._use_type(element_type)
->>>           self._gen_tree('[' + element + ']', 'array', {'element-type': element},
->>>                          ifcond, None)
->>>   -    def visit_object_type_flat(self, name, info, ifcond,
->>> features,
->>> -                               members, variants):
->>> -        obj = {'members': [self._gen_member(m) for m in members]}
->>> +    def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
->>> +                               ifcond: Sequence[str],
->>> +                               features: List[QAPISchemaFeature],
->>> +                               members: List[QAPISchemaObjectTypeMember],
->>> +                               variants: Optional[QAPISchemaVariants]) -> None:
->>> +        obj: SchemaInfoObject = {
->>> +            'members': [self._gen_member(m) for m in members]
->>> +        }
->>>           if variants:
->>>               obj['tag'] = variants.tag_member.name
->>>               obj['variants'] = [self._gen_variant(v) for v in variants.variants]
->>>           self._gen_tree(name, 'object', obj, ifcond, features)
->>>   -    def visit_alternate_type(self, name, info, ifcond, features,
->>> variants):
->>> +    def visit_alternate_type(self, name: str, info: Optional[QAPISourceInfo],
->>> +                             ifcond: Sequence[str],
->>> +                             features: List[QAPISchemaFeature],
->>> +                             variants: QAPISchemaVariants) -> None:
->>>           self._gen_tree(
->>>               name, 'alternate',
->>>               {'members': [Annotated({'type': self._use_type(m.type)},
->>> @@ -277,27 +324,38 @@ def visit_alternate_type(self, name, info, ifcond, features, variants):
->>>               ifcond, features
->>>           )
->>>   -    def visit_command(self, name, info, ifcond, features,
->>> -                      arg_type, ret_type, gen, success_response, boxed,
->>> -                      allow_oob, allow_preconfig, coroutine):
->>> +    def visit_command(self, name: str, info: Optional[QAPISourceInfo],
->>> +                      ifcond: Sequence[str],
->>> +                      features: List[QAPISchemaFeature],
->>> +                      arg_type: Optional[QAPISchemaObjectType],
->>> +                      ret_type: Optional[QAPISchemaType], gen: bool,
->>> +                      success_response: bool, boxed: bool, allow_oob: bool,
->>> +                      allow_preconfig: bool, coroutine: bool) -> None:
->>>           assert self._schema is not None
->>>             arg_type = arg_type or
->>> self._schema.the_empty_object_type
->>>           ret_type = ret_type or self._schema.the_empty_object_type
->>> -        obj = {'arg-type': self._use_type(arg_type),
->>> -               'ret-type': self._use_type(ret_type)}
->>> +        obj: SchemaInfoCommand = {
->>> +            'arg-type': self._use_type(arg_type),
->>> +            'ret-type': self._use_type(ret_type)
->>> +        }
->>>           if allow_oob:
->>>               obj['allow-oob'] = allow_oob
->>>           self._gen_tree(name, 'command', obj, ifcond, features)
->>>   -    def visit_event(self, name, info, ifcond, features,
->>> arg_type, boxed):
->>> +    def visit_event(self, name: str, info: Optional[QAPISourceInfo],
->>> +                    ifcond: Sequence[str], features: List[QAPISchemaFeature],
->>> +                    arg_type: Optional[QAPISchemaObjectType],
->>> +                    boxed: bool) -> None:
->>>           assert self._schema is not None
->>> +
->>>           arg_type = arg_type or self._schema.the_empty_object_type
->>>           self._gen_tree(name, 'event', {'arg-type': self._use_type(arg_type)},
->>>                          ifcond, features)
->>>     
->>> -def gen_introspect(schema, output_dir, prefix, opt_unmask):
->>> +def gen_introspect(schema: QAPISchema, output_dir: str, prefix: str,
->>> +                   opt_unmask: bool) -> None:
->>>       vis = QAPISchemaGenIntrospectVisitor(prefix, opt_unmask)
->>>       schema.visit(vis)
->>>       vis.write(output_dir)
->>> diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
->>> index 04bd5db5278..0a000d58b37 100644
->>> --- a/scripts/qapi/mypy.ini
->>> +++ b/scripts/qapi/mypy.ini
->>> @@ -13,11 +13,6 @@ disallow_untyped_defs = False
->>>   disallow_incomplete_defs = False
->>>   check_untyped_defs = False
->>>   -[mypy-qapi.introspect]
->>> -disallow_untyped_defs = False
->>> -disallow_incomplete_defs = False
->>> -check_untyped_defs = False
->>> -
->>>   [mypy-qapi.parser]
->>>   disallow_untyped_defs = False
->>>   disallow_incomplete_defs = False
->>> diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
->>> index 353e8020a27..ff16578f6de 100644
->>> --- a/scripts/qapi/schema.py
->>> +++ b/scripts/qapi/schema.py
->>> @@ -28,7 +28,7 @@
->>>   class QAPISchemaEntity:
->>>       meta: Optional[str] = None
->>>   -    def __init__(self, name, info, doc, ifcond=None,
->>> features=None):
->>> +    def __init__(self, name: str, info, doc, ifcond=None, features=None):
->>>           assert name is None or isinstance(name, str)
->>>           for f in features or []:
->>>               assert isinstance(f, QAPISchemaFeature)
+>> This will also avoid a possible scenario where the user starts to hotunplug
+>> the slot, starting with a non-zero function, and then delays/forgets to
+>> hotunplug function zero afterwards. This would keep the function DRC marked
+>> as unplug requested indefinitely.
 >>
->> How is this hunk related to typing introspect.py
->> 
->
-> I forget!
->
-> qapi/introspect.py:262: error: Returning Any from function declared to
-> return "str"
-> Found 1 error in 1 file (checked 14 source files)
->
-> Oh, for this reason:
->
->         if isinstance(typ, QAPISchemaBuiltinType):
->             return typ.name
->
-> _use_type has a return type that is dependent upon the type of
-> "typ.name", which required typing the QAPISchemaEntity initializer.
->
->
-> (Do you want this in its own preceding patch?)
+> 
+> ... or until the guest is reset, which will no longer happen with this
+> patch applied, i.e. breaks the long standing policy that machine reset
+> causes pending hot-unplug requests to succeed. I don't see an obvious
+> reason to special case non-zero PCI functions.
 
-That would work.
+It's not possible to hotunplug the non-zero functions during machine reset for
+multifunction PCI devices. We need to unplug the entire slot, and that will only
+happen when function zero is unplugged. In fact, I think bad things will happen
+in this case you mentioned if we are forcing the removal of non-zero functions
+without function zero (spoiler: didn't test it).
 
-Keeping it in this patch with a suitable hint in the commit message
-would also work.  Up to you.  If you want me to tweak in my tree, tell
-me how.
+What I'm doing in this patch is making it clearer that non-zero functions does
+not matter for the unplug of multifunction PCI devices. We'll detach the whole
+slot when function zero is unplugged, regardless of the unplug state of other
+functions.
 
+The only reason why I didn't make 'device_del' to error out when used with a
+non-zero function is because we allowed this in the past and it would break user
+ABI. Otherwise, FWIW, "device_del <non-zero function>" is doing nothing since
+commit "spapr_pci: remove all child functions in function zero unplug".
+
+
+Thanks,
+
+
+DHB
+
+
+
+> 
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>> ---
+>>   hw/ppc/spapr_pci.c | 44 ++++++++++++++++----------------------------
+>>   1 file changed, 16 insertions(+), 28 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+>> index f1c7479816..1791d98a49 100644
+>> --- a/hw/ppc/spapr_pci.c
+>> +++ b/hw/ppc/spapr_pci.c
+>> @@ -1709,38 +1709,26 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
+>>               return;
+>>           }
+>>   
+>> -        /* ensure any other present functions are pending unplug */
+>> -        if (PCI_FUNC(pdev->devfn) == 0) {
+>> -            for (i = 1; i < 8; i++) {
+>> -                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
+>> -                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
+>> -                state = func_drck->dr_entity_sense(func_drc);
+>> -                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT
+>> -                    && !spapr_drc_unplug_requested(func_drc)) {
+>> -                    /*
+>> -                     * Attempting to remove function 0 of a multifunction
+>> -                     * device will will cascade into removing all child
+>> -                     * functions, even if their unplug weren't requested
+>> -                     * beforehand.
+>> -                     */
+>> -                    spapr_drc_detach(func_drc);
+>> -                }
+>> -            }
+>> +        /*
+>> +         * The hotunplug itself will occur when unplugging function 0,
+>> +         * regardless of marking any other functions DRCs as pending
+>> +         * unplug beforehand (since 02a1536eee33).
+>> +         */
+>> +        if (PCI_FUNC(pdev->devfn) != 0) {
+>> +            return;
+>>           }
+>>   
+>> -        spapr_drc_detach(drc);
+>> +        for (i = 7; i >= 0; i--) {
+>> +            func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
+>> +            func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
+>> +            state = func_drck->dr_entity_sense(func_drc);
+>>   
+>> -        /* if this isn't func 0, defer unplug event. otherwise signal removal
+>> -         * for all present functions
+>> -         */
+>> -        if (PCI_FUNC(pdev->devfn) == 0) {
+>> -            for (i = 7; i >= 0; i--) {
+>> -                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
+>> -                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
+>> -                state = func_drck->dr_entity_sense(func_drc);
+>> -                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
+>> -                    spapr_hotplug_req_remove_by_index(func_drc);
+>> +            if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
+>> +                /* Mark the DRC as requested unplug if needed. */
+>> +                if (!spapr_drc_unplug_requested(func_drc)) {
+>> +                    spapr_drc_detach(func_drc);
+>>                   }
+>> +                spapr_hotplug_req_remove_by_index(func_drc);
+>>               }
+>>           }
+>>       }
+> 
 
