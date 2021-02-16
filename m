@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AD331CE28
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:36:56 +0100 (CET)
-Received: from localhost ([::1]:45420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94AF931CE33
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:38:42 +0100 (CET)
+Received: from localhost ([::1]:50288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3LL-0002pZ-CM
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:36:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
+	id 1lC3N3-00054V-LK
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:38:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32z-0008TO-Um
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:57 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34325)
+ id 1lC332-00008i-Bg
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:00 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:46721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32L-0002T9-Cr
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:57 -0500
-Received: by mail-wr1-x429.google.com with SMTP id n4so10809533wrx.1
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:16 -0800 (PST)
+ id 1lC32N-0002Ta-54
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:00 -0500
+Received: by mail-wr1-x431.google.com with SMTP id t15so13726117wrx.13
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=aBQbZtjh6qoRiTLl0J95xhpcxji8rRRUHNr03avILCc=;
- b=tHmAbL/dO8y84yaT9eFb/OJXY0cEOAFr7GCo162UBCEzkOLX0Y8Au3ejI0FW+uiFq6
- 0tTQrL1Yi/WZnjNNg1i8eaCKLK/dckxu+H4rO8UX646AJ7wnWJLKJOAY+ekz2ioVGjt2
- BP4i1mgR/6qGYOS8yEjtnpcwWN+dnjrNIbfWyjs2ggBo45IwYv9hNXS2Ulo3GT3rXlAK
- uWAlkaNewC1947gX0V11j7qSe94/dJP2DaMRn5NexFejl8QBb/yGPHlFl4bVB93x46oO
- xCvPOMctBA8B5iHYtRU1J2A2OsIRpFvCotL+TgGyziS2iKI1vKJMMFY+73mnkBsPFII1
- FgjA==
+ bh=DEZrFxnmtYoUbk6wmXZjoAUzhwwl0K4+E7EsDRLKJrQ=;
+ b=WU8/Til7azW7UT30YRGoVXOrB7WrSV09SL2v9Kyspe7jeICzZJ2UUW9OSPrK7KquV+
+ +3imfChyIKwRvUY9712zHBqI4vO0utwjnesr1AKydKZYgUp9sPhvDJqI3toMTUQfsuNy
+ gc2JiJQ5vgCbTvPSq/6f1OB9j5DKK7SsG/Q6CGt69tkF1Q5heOxTChgX5TiuM6pvtCNC
+ k1tMQznaseUZC/jszvt3tabZwbdW17BgTAyiABZq9F7FhmQb+7Vlh2wYYjpmKLtTSyj1
+ f9nxtsjweN4nWz6E1rU8nMH3BT/cjMG770ndjfACwoS3PKt0e6lTO7thkP3pjjm5jYXC
+ Lq0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aBQbZtjh6qoRiTLl0J95xhpcxji8rRRUHNr03avILCc=;
- b=F45EH0iltz8lMcjIoOCRC8uvyfL5j8js2V0weuK/KRSPhSYwMVWHRwfWC6b3xXIcTC
- X1Hhvw4NW48fs+MvnIeVgfTIckKZBReDT2LzaUO9XhGfZuztbSYcRrSG16CEi0iUb8MO
- klrK0S04fAns3q+YUqELp49CbSBoS5CLbwPCaGE1l2NzW2URumQoggKCjBh7EwDx9Ltv
- Lu4sVmIk6nn9/iVNKKp0A7iFu5AJQ6+EXywnZwcaScrli8AHZWSAALQgl39fcwg/cw2q
- nLzARDTNz4EfOQvq06FUjZ/6Gp/AqJDTT380Kyb51/Bv/rB8jDLySx9eqf9dog0W2kok
- QpnA==
-X-Gm-Message-State: AOAM533ijVfnbXzOfIINdPWHqbijssa9uZSkgmdhGey+2sqC2QHDojxV
- tQksmrCiyJ1PLSnWMxgICm7Qu4NzO9HIJg==
-X-Google-Smtp-Source: ABdhPJyQJdAGcd9/iEDtcfdd570OS3obC/vXaXe446eYDU1NxYKnnOPZif5N0P2+ajAc2JBeWLQ7sA==
-X-Received: by 2002:adf:fb91:: with SMTP id a17mr24233214wrr.93.1613492235941; 
- Tue, 16 Feb 2021 08:17:15 -0800 (PST)
+ bh=DEZrFxnmtYoUbk6wmXZjoAUzhwwl0K4+E7EsDRLKJrQ=;
+ b=I119yKpUimIaj6WWDioFZXq2ByFT+gucNLd0ZdjFiJm1D4Bo0GZ94beCF2EAOSYkkB
+ Nu8Xm2qZELMq/7nl8lnzoILriaSGWz7WH7G3HKt/N7vx+TYXU90Vz5MazkBadCItIchj
+ BCTATGJo6/tNRYefHh9bvtMvZsNrRWcpz82tunRPGbUU2hrQYrXQQwv9io/8ffQIkVfk
+ knGpN5nzSAgix64elu81c54DZNMHcfUeJRznrj51jpANWgX44SJF8cOcIpvfIT/tFoos
+ bb5EoKWLw42QoSIHqtvZvQ5beJD9qqCHH25zRCZA2whWKu32nxMg1A7Spzmq+uwzFP7u
+ Jl/g==
+X-Gm-Message-State: AOAM530tNoHadFvlYoghOnCxvEVqMhSnIWBt51x4+jZNt6OXu/XiUtSc
+ mx/T2IwbwMWWZJhl7Gyl3vvv3tWIPAIh3g==
+X-Google-Smtp-Source: ABdhPJxR8n9E2iO2+NRYB3W745hV630Lf5bDsqL/M/JbpgOUE408mjgpHxoNVf5fNAnHmcCvrqDcAA==
+X-Received: by 2002:adf:edc8:: with SMTP id v8mr24405947wro.330.1613492236606; 
+ Tue, 16 Feb 2021 08:17:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.15
+ by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.16
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:15 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:16 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/40] target/arm: Use the proper TBI settings for linux-user
-Date: Tue, 16 Feb 2021 16:16:40 +0000
-Message-Id: <20210216161658.29881-23-peter.maydell@linaro.org>
+Subject: [PULL 23/40] linux-user/aarch64: Implement PR_MTE_TCF and PR_MTE_TAG
+Date: Tue, 16 Feb 2021 16:16:41 +0000
+Message-Id: <20210216161658.29881-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
 References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,73 +88,108 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-We were fudging TBI1 enabled to speed up the generated code.
-Now that we've improved the code generation, remove this.
-Also, tidy the comment to reflect the current code.
-
-The pauth test was testing a kernel address (-1) and making
-incorrect assumptions about TBI1; stick to userland addresses.
+These prctl fields are required for the function of MTE.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210212184902.1251044-23-richard.henderson@linaro.org
+Message-id: 20210212184902.1251044-24-richard.henderson@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/internals.h      |  4 ++--
- target/arm/cpu.c            | 10 +++-------
- tests/tcg/aarch64/pauth-2.c |  1 -
- 3 files changed, 5 insertions(+), 10 deletions(-)
+ linux-user/aarch64/target_syscall.h |  9 ++++++
+ linux-user/syscall.c                | 43 +++++++++++++++++++++++++++++
+ 2 files changed, 52 insertions(+)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index b251fe44506..112bbb14f07 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -1425,9 +1425,9 @@ static inline bool tcma_check(uint32_t desc, int bit55, int ptr_tag)
-  */
- static inline uint64_t useronly_clean_ptr(uint64_t ptr)
- {
--    /* TBI is known to be enabled. */
- #ifdef CONFIG_USER_ONLY
--    ptr = sextract64(ptr, 0, 56);
-+    /* TBI0 is known to be enabled, while TBI1 is disabled. */
-+    ptr &= sextract64(ptr, 0, 56);
- #endif
-     return ptr;
- }
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5cf6c056c50..70cfcbc9181 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -205,14 +205,10 @@ static void arm_cpu_reset(DeviceState *dev)
-             env->vfp.zcr_el[1] = MIN(cpu->sve_max_vq - 1, 3);
-         }
-         /*
--         * Enable TBI0 and TBI1.  While the real kernel only enables TBI0,
--         * turning on both here will produce smaller code and otherwise
--         * make no difference to the user-level emulation.
--         *
--         * In sve_probe_page, we assume that this is set.
--         * Do not modify this without other changes.
-+         * Enable TBI0 but not TBI1.
-+         * Note that this must match useronly_clean_ptr.
-          */
--        env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
-+        env->cp15.tcr_el[1].raw_tcr = (1ULL << 37);
- #else
-         /* Reset into the highest available EL */
-         if (arm_feature(env, ARM_FEATURE_EL3)) {
-diff --git a/tests/tcg/aarch64/pauth-2.c b/tests/tcg/aarch64/pauth-2.c
-index 9bba0beb639..978652ede3a 100644
---- a/tests/tcg/aarch64/pauth-2.c
-+++ b/tests/tcg/aarch64/pauth-2.c
-@@ -53,7 +53,6 @@ void do_test(uint64_t value)
- int main()
- {
-     do_test(0);
--    do_test(-1);
-     do_test(0xda004acedeadbeefull);
-     return 0;
- }
+diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+index 820601dfcc8..76f6c3391d3 100644
+--- a/linux-user/aarch64/target_syscall.h
++++ b/linux-user/aarch64/target_syscall.h
+@@ -33,5 +33,14 @@ struct target_pt_regs {
+ #define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
+ #define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
+ # define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
++/* MTE tag check fault modes */
++# define TARGET_PR_MTE_TCF_SHIFT       1
++# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
++# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
++/* MTE tag inclusion mask */
++# define TARGET_PR_MTE_TAG_SHIFT       3
++# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
+ 
+ #endif /* AARCH64_TARGET_SYSCALL_H */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index cf0b39461b6..389ec097647 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10997,17 +10997,53 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+             {
+                 abi_ulong valid_mask = TARGET_PR_TAGGED_ADDR_ENABLE;
+                 CPUARMState *env = cpu_env;
++                ARMCPU *cpu = env_archcpu(env);
++
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    valid_mask |= TARGET_PR_MTE_TCF_MASK;
++                    valid_mask |= TARGET_PR_MTE_TAG_MASK;
++                }
+ 
+                 if ((arg2 & ~valid_mask) || arg3 || arg4 || arg5) {
+                     return -TARGET_EINVAL;
+                 }
+                 env->tagged_addr_enable = arg2 & TARGET_PR_TAGGED_ADDR_ENABLE;
++
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    switch (arg2 & TARGET_PR_MTE_TCF_MASK) {
++                    case TARGET_PR_MTE_TCF_NONE:
++                    case TARGET_PR_MTE_TCF_SYNC:
++                    case TARGET_PR_MTE_TCF_ASYNC:
++                        break;
++                    default:
++                        return -EINVAL;
++                    }
++
++                    /*
++                     * Write PR_MTE_TCF to SCTLR_EL1[TCF0].
++                     * Note that the syscall values are consistent with hw.
++                     */
++                    env->cp15.sctlr_el[1] =
++                        deposit64(env->cp15.sctlr_el[1], 38, 2,
++                                  arg2 >> TARGET_PR_MTE_TCF_SHIFT);
++
++                    /*
++                     * Write PR_MTE_TAG to GCR_EL1[Exclude].
++                     * Note that the syscall uses an include mask,
++                     * and hardware uses an exclude mask -- invert.
++                     */
++                    env->cp15.gcr_el1 =
++                        deposit64(env->cp15.gcr_el1, 0, 16,
++                                  ~arg2 >> TARGET_PR_MTE_TAG_SHIFT);
++                    arm_rebuild_hflags(env);
++                }
+                 return 0;
+             }
+         case TARGET_PR_GET_TAGGED_ADDR_CTRL:
+             {
+                 abi_long ret = 0;
+                 CPUARMState *env = cpu_env;
++                ARMCPU *cpu = env_archcpu(env);
+ 
+                 if (arg2 || arg3 || arg4 || arg5) {
+                     return -TARGET_EINVAL;
+@@ -11015,6 +11051,13 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                 if (env->tagged_addr_enable) {
+                     ret |= TARGET_PR_TAGGED_ADDR_ENABLE;
+                 }
++                if (cpu_isar_feature(aa64_mte, cpu)) {
++                    /* See above. */
++                    ret |= (extract64(env->cp15.sctlr_el[1], 38, 2)
++                            << TARGET_PR_MTE_TCF_SHIFT);
++                    ret = deposit64(ret, TARGET_PR_MTE_TAG_SHIFT, 16,
++                                    ~env->cp15.gcr_el1);
++                }
+                 return ret;
+             }
+ #endif /* AARCH64 */
 -- 
 2.20.1
 
