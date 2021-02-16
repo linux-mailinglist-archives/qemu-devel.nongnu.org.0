@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AF3731C577
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:23:25 +0100 (CET)
-Received: from localhost ([::1]:49680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C34B31C579
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:23:28 +0100 (CET)
+Received: from localhost ([::1]:49992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBq1M-0006Va-C1
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:23:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45996)
+	id 1lBq1P-0006dO-4x
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:23:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lBptH-00064k-HG
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:03 -0500
-Received: from mga17.intel.com ([192.55.52.151]:25639)
+ id 1lBptI-00066k-I9
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:04 -0500
+Received: from mga17.intel.com ([192.55.52.151]:25646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lBptF-0001Zp-Ng
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:03 -0500
-IronPort-SDR: uD+2snnvicz/6NY9AzisANtIIdcNuTS7rDoGMfXqKjdoGQ/HO1toR3ez3H3mepQOOVRIkMgU4H
- Qb5h3m5jvUNQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162558760"
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="162558760"
+ id 1lBptG-0001e2-GD
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:04 -0500
+IronPort-SDR: YtbycAhWqtyVCWY88htL6pbyRG5OdNtML1CPbN2C7UJrb7/JYWBPQWuicKiUELknumAl8clMUc
+ IOHVUCUm2RnQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162558762"
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="162558762"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 15 Feb 2021 18:14:51 -0800
-IronPort-SDR: IMUUA3bKKiJ20NH1cCwy4eaJvgH448mUZ64kz7iauktw/bpJCLxiti5q80tCZBoM3DZVVp7iKB
- 9PWCJJoT1mrg==
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591705407"
+ 15 Feb 2021 18:14:52 -0800
+IronPort-SDR: uk6syOeDOvhkQuDfEv/IIoRSrMLvGqK71IgvyiNhA8am+Oy2D66C+Se5ej5MoML3muH73m1+0a
+ HJOctXilKsgw==
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591705411"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Feb 2021 18:14:51 -0800
@@ -37,10 +37,10 @@ To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
  ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
  cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
  seanjc@google.com
-Subject: [RFC PATCH 09/23] target/i386: kvm: don't synchronize guest tsc for
- TD guest
-Date: Mon, 15 Feb 2021 18:13:05 -0800
-Message-Id: <eb49151c4b11fc934e1e845bedf5a6ebe1daf03b.1613188118.git.isaku.yamahata@intel.com>
+Subject: [RFC PATCH 10/23] linux-headers: Update headers to pull in TDX API
+ changes
+Date: Mon, 15 Feb 2021 18:13:06 -0800
+Message-Id: <57d0d0e8fe38929292cc30a3674f81d340bbf7a9.1613188118.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613188118.git.isaku.yamahata@intel.com>
 References: <cover.1613188118.git.isaku.yamahata@intel.com>
@@ -65,39 +65,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com, kvm@vger.kernel.org
+Cc: isaku.yamahata@intel.com,
+ Sean Christopherson <sean.j.christopherson@intel.com>,
+ isaku.yamahata@gmail.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make kvm_synchronize_all_tsc() nop for TD-guest.
+From: Xiaoyao Li <xiaoyao.li@intel.com>
 
-TDX module specification, 9.11.1 TSC Virtualization
-"Virtual TSC values are consistent among all the TD;s VCPUs at the
-level suppored by the CPU".
-There is no need for qemu to synchronize tsc and VMM can't access
-to guest TSC. Actually do_kvm_synchronize_tsc() hits assert due to
-failure to write to guest tsc.
+Pull in recent TDX updates, which are not backwards compatible.
 
-> qemu/target/i386/kvm.c:235: kvm_get_tsc: Assertion `ret == 1' failed.
-
-Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+Signed-off-by: Xiaoyao Li <xiaoyao.li@intel.com>
+Co-developed-by: Sean Christopherson <sean.j.christopherson@intel.com>
+Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
 ---
- target/i386/kvm/kvm.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-headers/asm-x86/kvm.h | 55 +++++++++++++++++++++++++++++++++++++
+ linux-headers/linux/kvm.h   |  2 ++
+ 2 files changed, 57 insertions(+)
 
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index fb94cdd370..beb768a7d3 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -247,7 +247,7 @@ void kvm_synchronize_all_tsc(void)
- {
-     CPUState *cpu;
+diff --git a/linux-headers/asm-x86/kvm.h b/linux-headers/asm-x86/kvm.h
+index 8e76d3701d..26d8197e41 100644
+--- a/linux-headers/asm-x86/kvm.h
++++ b/linux-headers/asm-x86/kvm.h
+@@ -487,4 +487,59 @@ struct kvm_pmu_event_filter {
+ #define KVM_PMU_EVENT_ALLOW 0
+ #define KVM_PMU_EVENT_DENY 1
  
--    if (kvm_enabled()) {
-+    if (kvm_enabled() && vm_type != KVM_X86_TDX_VM) {
-         CPU_FOREACH(cpu) {
-             run_on_cpu(cpu, do_kvm_synchronize_tsc, RUN_ON_CPU_NULL);
-         }
++#define KVM_X86_LEGACY_VM	0
++#define KVM_X86_SW_PROTECTED_VM	1
++#define KVM_X86_TDX_VM		2
++
++/* Trust Domain eXtension command*/
++enum tdx_cmd_id {
++	KVM_TDX_CAPABILITIES = 0,
++	KVM_TDX_INIT_VM,
++	KVM_TDX_INIT_VCPU,
++	KVM_TDX_INIT_MEM_REGION,
++	KVM_TDX_FINALIZE_VM,
++
++	KVM_TDX_CMD_NR_MAX,
++};
++
++struct kvm_tdx_cmd {
++	__u32 id;
++	__u32 metadata;
++	__u64 data;
++};
++
++struct kvm_tdx_cpuid_config {
++	__u32 leaf;
++	__u32 sub_leaf;
++	__u32 eax;
++	__u32 ebx;
++	__u32 ecx;
++	__u32 edx;
++};
++
++struct kvm_tdx_capabilities {
++	__u64 attrs_fixed0;
++	__u64 attrs_fixed1;
++	__u64 xfam_fixed0;
++	__u64 xfam_fixed1;
++
++	__u32 nr_cpuid_configs;
++	struct kvm_tdx_cpuid_config cpuid_configs[0];
++};
++
++struct kvm_tdx_init_vm {
++	__u32 max_vcpus;
++	__u32 reserved;
++	__u64 attributes;
++	__u64 cpuid;
++};
++
++#define KVM_TDX_MEASURE_MEMORY_REGION	(1UL << 0)
++
++struct kvm_tdx_init_mem_region {
++	__u64 source_addr;
++	__u64 gpa;
++	__u64 nr_pages;
++};
++
+ #endif /* _ASM_X86_KVM_H */
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index 020b62a619..0467c335a0 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -1057,6 +1057,8 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_SYS_HYPERV_CPUID 191
+ #define KVM_CAP_DIRTY_LOG_RING 192
+ 
++#define KVM_CAP_VM_TYPES 1000
++
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+ struct kvm_irq_routing_irqchip {
 -- 
 2.17.1
 
