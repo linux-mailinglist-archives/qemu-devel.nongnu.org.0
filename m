@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9146D31C4B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 01:48:16 +0100 (CET)
-Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1901631C4B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 01:57:00 +0100 (CET)
+Received: from localhost ([::1]:43244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBoXH-0006S2-Mp
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 19:48:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
+	id 1lBofj-00007U-4p
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 19:56:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBoVC-00053X-2y
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:46:06 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:34919)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lBoed-0007w4-GH; Mon, 15 Feb 2021 19:55:51 -0500
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:45645)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBoV9-0003To-WC
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:46:05 -0500
-Received: by mail-pg1-x532.google.com with SMTP id t25so5208765pga.2
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:46:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UmQEaEpcZ5m3RF5wXE0g/HWB07grjMeQiTMdkEc+evk=;
- b=uuuWzFjyVV8BwzshWmXZ8K+dfujUsfPkAhlME0knbA6GqBI4TI7fnkRpg2ik8Ad7AW
- ymy45pUnSFhQPTd51d1a0utdahHNNlmkkz+gIe6W6CypcmXkpDF/fe8z/+8hmXIvQ60B
- O2zf08ahyCpRgADV1XWCVypAsh3sTsgD3roqfPeY1D0LtDj0bMTzOt0+6fX310KlvMd2
- BvL9s113bWu0jSqwt+EbKZbgNQn3oimT4W87wVzy/TrVtyZ0ZYt/lvbWYq+rKaQUFskT
- uWjePjAP0+bJqBQHeFy0R1lnuNGHhhujFej4wivtViVvUAIyP6CoPi/Tp/KQ6r0NhrCq
- RUKA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lBoea-00088D-Rx; Mon, 15 Feb 2021 19:55:51 -0500
+Received: by mail-yb1-xb35.google.com with SMTP id l8so8867567ybe.12;
+ Mon, 15 Feb 2021 16:55:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=MIKOo3T5+foNBd5yMZccldrl5a4LyIEl4Yq2/UQ2OKo=;
+ b=mcsxPuM2EkRcVDhijjXpixJuU3bZsP0gFYIdJ1i8qwy1i76xxyWKTK9x91Hcrx2pQU
+ /YLcmvlAfA09wRz11GrUXFCO0ResjH/v17WcDhFpRXxdMcmrpe89aUeu4y6kW4s4l6wJ
+ CTgaH7G3XrU7anLePWxXSCp/gHnHys9adRZ5oNCik1YAz1wbkWaoAJZ4S3SWheWe0j4v
+ /yVgE6xEUSGgNIeGXupXdvjgrhSftD9xxwIqINVebZaVmvJQxk3DjUKRH523lnP036Jc
+ DLVeIcPjehd1YCfkwxj0cdQ7Zm8r8/OlWX8hSFpbT8Xt1x4acWXV5tBy6RBBUmm+3XA7
+ K6IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UmQEaEpcZ5m3RF5wXE0g/HWB07grjMeQiTMdkEc+evk=;
- b=WgcXAe3yvTlskldg4LSJhJUbf3uzq0/8qF/JV6uZtV7BfsvBlofEZjvt7xSEs8Lu8d
- Xj4QxMvKwRyfkGqMxFSNfHeYHSq5NZw/lybpFc+gKY/J2Mnfs7U51tPEcvLlxIAHgmiM
- q0iqkrbhZ+6D/G3/zcEOwA77zUpULq6vfXPZOuvH+XD6HUhktnHWcXGaRe+bLwatvkAA
- mHM7VxpJgtH8lZUlX8fx6qsZNazcXMWLuyEdRXquF6CAWxhmNtyFHmtNxVupSBtKfkik
- Ks3R3fWhFe0oNgx9RZfdjdswuJqidFltdN5My62zi4bL3j/+2ytL1R99ayPHqUkBkDWH
- IcYQ==
-X-Gm-Message-State: AOAM533LVDK/1f70RW0g9lA0nFgGX0p9svPEvouwS82EBy23e2pe6qii
- n05SgEdvg8FaCmfK7nuxJ7hh/A==
-X-Google-Smtp-Source: ABdhPJx4XH8JdqH1M8UKL2RWgvwAK7D0QXF7xzldHI4qlSqoP7WWjaFQCKgPJ2pBGGXB/7atYL4Ziw==
-X-Received: by 2002:a63:580d:: with SMTP id m13mr16856274pgb.342.1613436362633; 
- Mon, 15 Feb 2021 16:46:02 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id z11sm620311pjn.5.2021.02.15.16.46.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 16:46:02 -0800 (PST)
-Subject: Re: [PATCH] hw/display/tcx: Drop unnecessary code for handling BGR
- format outputs
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20210215102149.20513-1-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <17c82dda-2b78-d70c-9f15-87c0fd33c9d4@linaro.org>
-Date: Mon, 15 Feb 2021 16:46:00 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MIKOo3T5+foNBd5yMZccldrl5a4LyIEl4Yq2/UQ2OKo=;
+ b=Z0znCk0eQMnlfl+gpDv4pLbaPxKLFHe0yYmSpbkikl5RYDH08BUpzs01y29xwrHPR/
+ jZ4eXhmC1uNAlEqLD0zn/eCZnh4I06AAoc3GmvWzZ3iR7ygj02gJu6g8r+COApwFpQvM
+ eojiudHQw7iL/DenHgKdkkkNPVw2V5hGemHwUDD1ImeKgFBBbcYXoUp1DZ6npYzXqdBm
+ 0RzBe2N4LtyK6AwgdPPGku78HA2o800jqxNli8xhgnNDQA8zEXyCEtzFrz9YMESKxG4E
+ q4k4YhhhoLoIt0cPDyeyWK4/HczryckTNeqMBEGF9RA9D8p/t0kZAnJm5fpPyFMUxd3Q
+ DqaA==
+X-Gm-Message-State: AOAM530F6qsHdfmObmStD10X4o9VMKIId1Twttvuvrsk51N5lAsUPspI
+ u+hyXrTrNdeCGLhUA3lMcj6WbCzKxN5TzAXMH6k=
+X-Google-Smtp-Source: ABdhPJx9AL8/PgWAoI+TR2JF7Hm+nmjg3DMb9rw5mvhOyGg7ommibKLR3PSx0LVBVmJvKME02FxuHb5KRgS+Zt05lFI=
+X-Received: by 2002:a25:d08d:: with SMTP id
+ h135mr26352957ybg.122.1613436947128; 
+ Mon, 15 Feb 2021 16:55:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210215102149.20513-1-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+References: <1613401871-59515-1-git-send-email-bmeng.cn@gmail.com>
+ <20210215164646.zqjbsd7mtiwqvyaj@mozz.bu.edu>
+In-Reply-To: <20210215164646.zqjbsd7mtiwqvyaj@mozz.bu.edu>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 16 Feb 2021 08:55:36 +0800
+Message-ID: <CAEUhbmVgP08pO2LqFOcYja2vuOPw7C_py7F9r9dKkbwAt70m7Q@mail.gmail.com>
+Subject: Re: [PATCH 0/4] hw/sd: sdhci: Fixes to CVE-2020-17380,
+ CVE-2020-25085, CVE-2021-3409
+To: Alexander Bulekov <alxndr@bu.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,32 +77,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Li Qiang <liq3ea@163.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 2:21 AM, Peter Maydell wrote:
-> For a long time now the UI layer has guaranteed that the console
-> surface is always 32 bits per pixel, RGB. The TCX code already
-> assumes 32bpp, but it still has some checks of is_surface_bgr()
-> in an attempt to support 32bpp BGR. is_surface_bgr() will always
-> return false for the qemu_console_surface(), unless the display
-> device itself has deliberately created an alternate-format
-> surface via a function like qemu_create_displaysurface_from().
-> 
-> Drop the never-used BGR-handling code, and assert that we have
-> a 32-bit surface rather than just doing nothing if it isn't.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> Tested by booting Linux on an SS-5.
-> ---
->  hw/display/tcx.c | 31 ++++++++-----------------------
->  1 file changed, 8 insertions(+), 23 deletions(-)
+Hi Alex,
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Tue, Feb 16, 2021 at 12:48 AM Alexander Bulekov <alxndr@bu.edu> wrote:
+>
+> Hi Bin,
+> Thank you for this. I ran through the OSS-Fuzz tests again, and it found
+> one thing:
 
-r~
+Thanks for testing. Are there instructions to run OSS-Fuzz tests myself?
 
+> Maybe this is already much better than the current state of the code, so
+> this one can be fixed in a later patch?
+
+Depend on when Philippe can pick up this sereis, but I can also try to
+have a quick look :)
+
+>
+> cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest \
+> -m 512M -nodefaults -device sdhci-pci,sd-spec-version=3 \
+> -device sd-card,drive=mydrive \
+> -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+> -nographic -qtest stdio
+> outl 0xcf8 0x80001010
+> outl 0xcfc 0xe0000000
+> outl 0xcf8 0x80001001
+> outl 0xcfc 0x06000000
+> write 0xe000002c 0x1 0x05
+> write 0xe0000005 0x1 0x02
+> write 0xe0000007 0x1 0x01
+> write 0xe0000028 0x1 0x10
+> write 0x0 0x1 0x23
+> write 0x2 0x1 0x08
+> write 0xe000000c 0x1 0x01
+> write 0xe000000e 0x1 0x20
+> write 0xe000000f 0x1 0x00
+> write 0xe000000c 0x1 0x32
+> write 0xe0000004 0x2 0x0200
+> write 0xe0000028 0x1 0x00
+> write 0xe0000003 0x1 0x40
+> EOF
+>
+>
+> ==1730971==ERROR: AddressSanitizer: heap-buffer-overflow on address
+> 0x615000031880 at pc 0x55d070f2c6d9 bp 0x7ffdcb63f130 sp 0x7ffdcb63f128
+> READ of size 4 at 0x615000031880 thread T0
+> #0 0x55d070f2c6d8 in ldl_he_p bswap.h:347:5
+> #1 0x55d070f2c6d8 in ldn_he_p bswap.h:546:1
+> #2 0x55d070f2c6d8 in flatview_write_continue build/../softmmu/physmem.c:2775:19
+> #3 0x55d070f219eb in flatview_write build/../softmmu/physmem.c:2816:14
+> #4 0x55d070f219eb in address_space_write build/../softmmu/physmem.c:2908:18
+> #5 0x55d07040de4a in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
+> #6 0x55d07040de4a in dma_memory_rw include/sysemu/dma.h:127:12
+> #7 0x55d07040de4a in dma_memory_write include/sysemu/dma.h:163:12
+> #8 0x55d07040de4a in sdhci_sdma_transfer_multi_blocks build/../hw/sd/sdhci.c:619:13
+> #9 0x55d07041d15b in sdhci_write build/../hw/sd/sdhci.c:1134:21
+> #10 0x55d07123b1ac in memory_region_write_accessor build/../softmmu/memory.c:491:5
+> #11 0x55d07123acab in access_with_adjusted_size build/../softmmu/memory.c:552:18
+> #12 0x55d07123a4b0 in memory_region_dispatch_write build/../softmmu/memory.c
+> #13 0x55d070f2c29b in flatview_write_continue build/../softmmu/physmem.c:2776:23
+> #14 0x55d070f219eb in flatview_write build/../softmmu/physmem.c:2816:14
+> #15 0x55d070f219eb in address_space_write build/../softmmu/physmem.c:2908:18
+
+Regards,
+Bin
 
