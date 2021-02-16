@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EC431D0D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 20:19:01 +0100 (CET)
-Received: from localhost ([::1]:48862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10FA31D0E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 20:23:12 +0100 (CET)
+Received: from localhost ([::1]:57454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC5sC-00081o-Hv
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 14:19:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45914)
+	id 1lC5wF-0003Gx-LZ
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 14:23:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lC5kK-0002nf-20
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 14:10:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46621)
+ id 1lC5kL-0002oH-Uq
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 14:10:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lC5kH-0004Q3-3L
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 14:10:51 -0500
+ id 1lC5kH-0004QB-JN
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 14:10:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613502648;
+ s=mimecast20190719; t=1613502649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3MH8R2iLFmSey485r/jtFELxBHqIKye+LJZy/uTIPL0=;
- b=iCWtkGR0UTtfje1iKsQLdoWqh9lIbJlNMrWu4whE4a5Q47ztoc2aiTSHjAIxA+C1u1/So4
- XkVv9rdWQh2L099JVC+ACobzaf2kvUrzrGaUWpDRH+RwMSe3Fn0AYlz9NG0xCDD2gaYVAC
- mvLAPrwhaMudOGueKbgwg7ky65KmQps=
+ bh=GZPTmJ8LNbLOv9fwAIwYBhRAogi9qA1B6gydG57uNUo=;
+ b=WDHkf0P4f2QEUYavlbGlG3GmqKa3QqvUBv/G2MXjqgSuNBRGkYH2rRfVUwl9EM1I4TN6sW
+ r9hC7eFk+ASpu2BeFFsDOHEsyaff/26Ez6tO3QvGMJmhjY957mBXT5D7pXL0T0JyIlFCCe
+ x1spuASqmmGBavXaMl52sZX8XExYjHM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-mdmNCQhIN_Sg7_ZfwuNjew-1; Tue, 16 Feb 2021 14:10:45 -0500
-X-MC-Unique: mdmNCQhIN_Sg7_ZfwuNjew-1
+ us-mta-107-EJPPTYw0PqCcbMz7n5qhiA-1; Tue, 16 Feb 2021 14:10:46 -0500
+X-MC-Unique: EJPPTYw0PqCcbMz7n5qhiA-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 385BC10082F5;
- Tue, 16 Feb 2021 19:10:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA7981846096;
+ Tue, 16 Feb 2021 19:10:45 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-215.ams2.redhat.com
  [10.36.112.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 13E015C1B4;
- Tue, 16 Feb 2021 19:10:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A07955C1B4;
+ Tue, 16 Feb 2021 19:10:44 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/10] qemu-options: update to show preferred boolean syntax
- for -incoming
-Date: Tue, 16 Feb 2021 19:10:22 +0000
-Message-Id: <20210216191027.595031-6-berrange@redhat.com>
+Subject: [PATCH 06/10] qemu-options: update to show preferred boolean syntax
+ for -vnc
+Date: Tue, 16 Feb 2021 19:10:23 +0000
+Message-Id: <20210216191027.595031-7-berrange@redhat.com>
 In-Reply-To: <20210216191027.595031-1-berrange@redhat.com>
 References: <20210216191027.595031-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -89,38 +89,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 The preferred syntax is to use "foo=on|off", rather than a bare
 "foo" or "nofoo".
 
+The on|off syntax has been supported since -vnc switched to use
+QemuOpts in commit 4db14629c38611061fc19ec6927405923de84f08
+
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- qemu-options.hx | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ qemu-options.hx | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
 diff --git a/qemu-options.hx b/qemu-options.hx
-index fb2050cda9..da0ddf8a3a 100644
+index da0ddf8a3a..34be5a7a2d 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -4135,8 +4135,8 @@ SRST
+@@ -2123,13 +2123,13 @@ SRST
+     Following the display value there may be one or more option flags
+     separated by commas. Valid options are
+ 
+-    ``reverse``
++    ``reverse=on|off``
+         Connect to a listening VNC client via a "reverse" connection.
+         The client is specified by the display. For reverse network
+         connections (host:d,``reverse``), the d argument is a TCP port
+         number, not a display number.
+ 
+-    ``websocket``
++    ``websocket=on|off``
+         Opens an additional TCP listening port dedicated to VNC
+         Websocket connections. If a bare websocket option is given, the
+         Websocket port is 5700+display. An alternative port can be
+@@ -2143,7 +2143,7 @@ SRST
+         runs in unencrypted mode. If TLS credentials are provided, the
+         websocket connection requires encrypted client connections.
+ 
+-    ``password``
++    ``password=on|off``
+         Require that password based authentication is used for client
+         connections.
+ 
+@@ -2180,7 +2180,7 @@ SRST
+         on the fly while the VNC server is active. If missing, it will
+         default to denying access.
+ 
+-    ``sasl``
++    ``sasl=on|off``
+         Require that the client use SASL to authenticate with the VNC
+         server. The exact choice of authentication method used is
+         controlled from the system / user's SASL configuration file for
+@@ -2203,7 +2203,7 @@ SRST
+         fly while the VNC server is active. If missing, it will default
+         to denying access.
+ 
+-    ``acl``
++    ``acl=on|off``
+         Legacy method for enabling authorization of clients against the
+         x509 distinguished name and SASL username. It results in the
+         creation of two ``authz-list`` objects with IDs of
+@@ -2213,13 +2213,13 @@ SRST
+         This option is deprecated and should no longer be used. The new
+         ``sasl-authz`` and ``tls-authz`` options are a replacement.
+ 
+-    ``lossy``
++    ``lossy=on|off``
+         Enable lossy compression methods (gradient, JPEG, ...). If this
+         option is set, VNC client may receive lossy framebuffer updates
+         depending on its encoding settings. Enabling this option can
+         save a lot of bandwidth at the expense of quality.
+ 
+-    ``non-adaptive``
++    ``non-adaptive=on|off``
+         Disable adaptive encodings. Adaptive encodings are enabled by
+         default. An adaptive encoding will try to detect frequently
+         updated screen regions, and send updates in these regions using
+@@ -2254,7 +2254,7 @@ SRST
+         must be omitted, otherwise is must be present and specify a
+         valid audiodev.
+ 
+-    ``power-control``
++    ``power-control=on|off``
+         Permit the remote client to issue shutdown, reboot or reset power
+         control requests.
  ERST
- 
- DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
--    "-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]\n" \
--    "-incoming rdma:host:port[,ipv4][,ipv6]\n" \
-+    "-incoming tcp:[host]:port[,to=maxport][,ipv4=on|off][,ipv6=on|off]\n" \
-+    "-incoming rdma:host:port[,ipv4=on|off][,ipv6=on|off]\n" \
-     "-incoming unix:socketpath\n" \
-     "                prepare for incoming migration, listen on\n" \
-     "                specified protocol and socket address\n" \
-@@ -4148,9 +4148,9 @@ DEF("incoming", HAS_ARG, QEMU_OPTION_incoming, \
-     "                wait for the URI to be specified via migrate_incoming\n",
-     QEMU_ARCH_ALL)
- SRST
--``-incoming tcp:[host]:port[,to=maxport][,ipv4][,ipv6]``
-+``-incoming tcp:[host]:port[,to=maxport][,ipv4=on|off][,ipv6=on|off]``
-   \ 
--``-incoming rdma:host:port[,ipv4][,ipv6]``
-+``-incoming rdma:host:port[,ipv4=on|off][,ipv6=on|off]``
-     Prepare for incoming migration, listen on a given tcp port.
- 
- ``-incoming unix:socketpath``
 -- 
 2.29.2
 
