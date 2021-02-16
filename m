@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62D4A31CC73
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:53:28 +0100 (CET)
-Received: from localhost ([::1]:41854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CA5831CC89
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:00:21 +0100 (CET)
+Received: from localhost ([::1]:44916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1jD-0007iL-Dr
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:53:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39154)
+	id 1lC1ps-00013X-MG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:00:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC1hk-0006vq-KC
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:51:56 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:40143)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lC1oL-0000bY-WF
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:58:46 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:33940)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC1hi-0004vw-LL
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:51:56 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id b14so11013031eju.7
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 06:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lC1oK-0005bN-3C
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:58:45 -0500
+Received: by mail-ed1-x534.google.com with SMTP id j9so2301044edp.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 06:58:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=BSAIdYa1Na355P1BQL3NX/5vMdW9WYbKkGaWnI1HUcQ=;
- b=xrjlaETFoQElV5+vkRU1JY+D8xE/lHXOzoOBZyUGpIVuGJYN64Kw+AXOCvmQOqApiz
- 8ahHB8eW+tUd7v4w7EaVdWr1eAVQGaSkiwS2Gys+V+dtPd48B9n5Kr+Jb3afMIEYa3r9
- Wnc2SudB453OaxUD6mJzbcBljrWTMrVcPH9qWhwHoiVXOboEKLyy/k6zTFjllOYKDjyT
- NnKx/JP7nDTN7wOypJM/Z9OhAN7+npktxyW8TH8YS5621Opk3al0pkJ6ckVOSpiQT7qU
- ReGdk1adcEKa200zp7pnwZqizmjI/s9W+A8CsBJgeU55a7IwdlX7IER1+Vhu6PhDsWFE
- X9NQ==
+ :cc; bh=P2Bm3LxHZ2shuWpxbjOSjlSO9DT0cOOlOM+uZFqiEE0=;
+ b=oPPVSHfaiBsGbFt+WMAhGcKs3k+lgOdvwwvXJeS84Ni0Q91lQC266EfasZG1zjJgnE
+ 2S16+nwXDHJZ+jgnyQobQ7SbpHLlAX3HxgKPKc3r6qIYc7nQhIM7CF2MXr56cW2+zTXv
+ DO57YKiVDpVK3t0qYW1CMZWy926BUdCY03h6lFTLZ03uuk6h2lv855SlNVXkcz46dKG5
+ Gvi8AptdsOLCrl54KQaWBydobglqqFnJ3kP/+8bL+iYeR9r8vX9jvMPpx0+G1bfIMpt7
+ kXXgYNIATJ6tuAU294TTUkb8ivUNS1crmvHFZXknrir8ydn8y/goCQvYRZCHkXCNwR3R
+ bFQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=BSAIdYa1Na355P1BQL3NX/5vMdW9WYbKkGaWnI1HUcQ=;
- b=EpiVLF/WeRn7hdii5Pw2FBroWs9/LOy51u0EMWk/JNgXayv+KPsQGUopcmTbZodP2U
- EROhZr6j6HSt66tsysZT+pNO/mldLJCTQni4Ll/A3QiN9G1FucJFtv+8XSZHd+aJJb38
- cqRAa56YQIh4290MUufTuNru4x9LZD1Viy8Ad/cH60ovg2wTSd3ejn68Zo4blxXC4aNG
- d75galj3NSTrJbNXDW1f7ESe+rBBWDBn35ruxiVLDFnLCenw2ep23Lx+NKW9kkUeB0HC
- PAjDExw59yLqQj33dVmqO1MtOxhFyvUR2k0dO2cqmAsCSvuhtLTBX2Rtr1AFK1RaVA26
- tLRw==
-X-Gm-Message-State: AOAM530HxBTPsxVEjsLfL38fi8wBGADa7CDPM/gSol0N76NEFQSZN4Z5
- LbGwBdLjD9HJ4YCk3mwoT/eXGQFEBatcM6lC7AM33Q==
-X-Google-Smtp-Source: ABdhPJwNF6Ei7ax60iA0VHA2lKWNcl2RMp0u34FJ4Y3Drl5hLDaEC/p20Pz9MW2p4URAQN2J1YVrrYib8Fpcs1DnSNU=
-X-Received: by 2002:a17:906:1d51:: with SMTP id
- o17mr20957138ejh.85.1613487112965; 
- Tue, 16 Feb 2021 06:51:52 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=P2Bm3LxHZ2shuWpxbjOSjlSO9DT0cOOlOM+uZFqiEE0=;
+ b=d6AEWFmbZf++9pwBAQooZ+TeF3peN46CynjjnPq95avjn+Dc435kJy5gaKsNgD2DvR
+ LxEigHtyuUi9+MT8cl1cQQln4FU4zd+W38KezX+nM1wbyUjW9ClYRd1C9JP6JWQLAkWM
+ fLUT/qEwVf+oWbvNJ80uSJNPjE7SAEw+H72XRo8be0b0IieEc9Sxjk/ALeboist2CcWg
+ htQ+dkow/xWbs6MGbchqQZF0WLCr8HhelmtY6AwcUVlbkske9MNVc99+ZA7sfiVuqbuW
+ 0561ewdXUR0CCde3rZEK3AfxiDeVEX5ub9hVogG0ZAXC+l1Y96hjjShUu4KespD+ZDyl
+ ZdrQ==
+X-Gm-Message-State: AOAM532x5WjZFz9rkYi3ksfiu6o7YYQircg6nMSpEPhhP34TCBUKDKJU
+ 9Fz0s07rjIToTHLeBTH9jBS8HEBsAucxoQMP8XI=
+X-Google-Smtp-Source: ABdhPJxS9rgvWhEDEcuFd5YbIh1sf0G4WylZqMkqC6JatFPOEXdmPCAff6rtRjTZbGXaA1p7pi1j/NjhaqmYQr8ly80=
+X-Received: by 2002:a05:6402:11d3:: with SMTP id
+ j19mr21162417edw.314.1613487522568; 
+ Tue, 16 Feb 2021 06:58:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20210123143128.1167797-1-pbonzini@redhat.com>
- <20210123143128.1167797-32-pbonzini@redhat.com>
- <CAFEAcA8R84_-BPG-suKDvkpE1BxG8o1edGv=zfU_CCw27pK4eg@mail.gmail.com>
- <CABgObfZNy_j3DYt3NKKvC1Ou8TW2zACZ2LffnrR7LU8PeS5hww@mail.gmail.com>
- <CAFEAcA_6RiR+ud5U0Y9K3jNmEoQ-Ex8fZN3-o0MkLxpK8PROgw@mail.gmail.com>
- <378df6af-8383-8a51-4286-54739dba99e4@redhat.com>
- <CAFEAcA9-bOggKPjJiZNc3WXD9Uu-TxzDc7NMvUDGgoM7ERg3hg@mail.gmail.com>
- <1a8f0b62-0adf-9360-2365-e9881a6aef94@redhat.com>
- <CAFEAcA8VCGmqbdLFLQ0R9Uun4MzxLTnOZExmYJZ65qZ_fjDUvg@mail.gmail.com>
- <f61447bf-f556-b626-4a6c-f86e724b0f7f@redhat.com>
- <CAFEAcA9G7CQDPb1QNaajwG5wSdND-E5nkTox1yEocdsBDsfc3g@mail.gmail.com>
- <9f9999eb-66a5-3fe4-64fe-41f64edb49ff@redhat.com>
- <CAFEAcA9c01xj0bGcKai-wOeR_c67+Uvcse1Xn=tbYRE7tjwhSw@mail.gmail.com>
- <CABgObfa+0zJdDvJPbX4j2+-cSU=BxVHTd5_U+mnbfYn7ct8qJw@mail.gmail.com>
-In-Reply-To: <CABgObfa+0zJdDvJPbX4j2+-cSU=BxVHTd5_U+mnbfYn7ct8qJw@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 14:51:41 +0000
-Message-ID: <CAFEAcA9G2eVMG3we5E6cyeY-qYt_y5JTt6qeBj+_p9eqLQARMg@mail.gmail.com>
-Subject: Re: [PULL 31/31] qemu-option: warn for short-form boolean options
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+References: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
+ <20210216143027.GL2875719@angien.pipo.sk>
+In-Reply-To: <20210216143027.GL2875719@angien.pipo.sk>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 16 Feb 2021 18:58:30 +0400
+Message-ID: <CAJ+F1CJd1tReqXnoGZSh=BnRdvCcrQQ+XSH856OgEkOYM8VZ9w@mail.gmail.com>
+Subject: Re: [PATCH] qga: return a more explicit error on why a command is
+ disabled
+To: Peter Krempa <pkrempa@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000a1de4805bb7556f7"
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,44 +79,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Michael Roth <michael.roth@amd.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 14:45, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> Il mar 16 feb 2021, 15:11 Peter Maydell <peter.maydell@linaro.org> ha scr=
-itto:
->>
->> On Tue, 16 Feb 2021 at 13:44, Paolo Bonzini <pbonzini@redhat.com> wrote:
->> >
->> > On 16/02/21 14:36, Peter Maydell wrote:
->> > > Broadly, I think that being able to say 'foo' when foo is a
->> > > boolean option being set to true is obvious and nice-to-use
->> > > syntax, and I don't really want it to go away. 'nofoo' for
->> > > 'foo=3Dfalse' is much less obvious and I'm happy if we only
->> > > support it as a special-case for 'nowait'.
->> >
->> > It really depends on what the default  "-M pc,nographics" arguably mak=
-es
->> > sense too (more so than "-M pc,graphics" since true is the default).
->>
->> Is anybody using 'pc,nographics' ? google didn't find any examples.
->
->
-> It's just an example that the prevalence of "nowait" over "wait" is simpl=
-y because the default of "server" is false while the default of "wait" is t=
-rue. Any boolean option whose default is true could benefit from a "no"-pre=
-fixed short form. But I am pretty sure that there are users in the wild for=
- noipv4 or noipv6.
+--000000000000a1de4805bb7556f7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-I think 'nowait' is special only because for so long our documentation
-has recommended 'server,nowait' (and possibly also because inetd
-uses 'nowait'?). I don't think it's inherently much better than
-"wait=3Doff" or whatever. I just think that if we have a situation
-where exactly 1 boolean option has very widespread use of 'nofoo' then
-it's worth special casing it. If we had 50 boolean options which all
-had about 10% use of 'nofoo' vs 90% 'foo=3Doff' that would be different.
+On Tue, Feb 16, 2021 at 6:33 PM Peter Krempa <pkrempa@redhat.com> wrote:
 
--- PMM
+> On Tue, Feb 16, 2021 at 17:38:37 +0400, marcandre.lureau@redhat.com wrote=
+:
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > qmp_disable_command() now takes an optional error string to return a
+> > more explicit error message.
+> >
+> > Fixes:
+> > https://bugzilla.redhat.com/show_bug.cgi?id=3D1928806
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  include/qapi/qmp/dispatch.h | 3 ++-
+> >  qapi/qmp-dispatch.c         | 2 +-
+> >  qapi/qmp-registry.c         | 9 +++++----
+> >  qga/main.c                  | 4 ++--
+> >  4 files changed, 10 insertions(+), 8 deletions(-)
+>
+> [...]
+>
+> > diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
+> > index 0a2b20a4e4..ce4bf56b2c 100644
+> > --- a/qapi/qmp-dispatch.c
+> > +++ b/qapi/qmp-dispatch.c
+> > @@ -157,7 +157,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds,
+> QObject *request,
+> >      }
+> >      if (!cmd->enabled) {
+> >          error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+> > -                  "The command %s has been disabled for this instance"=
+,
+> > +                  cmd->err_msg ?: "The command %s has been disabled fo=
+r
+> this instance",
+>
+> Passing in the formatting string from a variable looks shady and it's
+> hard to ensure that callers pass in the appropriate format modifier ...
+>
+> >                    command);
+> >          goto out;
+> >      }
+>
+> [...]
+>
+> > diff --git a/qga/main.c b/qga/main.c
+> > index e7f8f3b161..c59b610691 100644
+> > --- a/qga/main.c
+> > +++ b/qga/main.c
+> > @@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const
+> QmpCommand *cmd, void *opaque)
+> >      }
+> >      if (!whitelisted) {
+> >          g_debug("disabling command: %s", name);
+> > -        qmp_disable_command(&ga_commands, name);
+> > +        qmp_disable_command(&ga_commands, name, "The command was
+> disabled after fsfreeze.");
+>
+> ... such as here where '%s' is missing. Luckily that is not a problem
+> compared to when there would be more than one format modifier.
+>
+>
+Sure, although it's an internal API, I agree it's error prone.
+
+But the error message looks definitely better.
+>
+
+> >      }
+> >  }
+>
+> My suggestion would be to store a boolean flag that the command was
+> disabled due to an ongoing fsfreeze and then choose the appropriate
+> error message directly at the point where it's reported.
+>
+
+Let's make it an enum for the reason.
+thanks
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--000000000000a1de4805bb7556f7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 16, 2021 at 6:33 PM Peter=
+ Krempa &lt;<a href=3D"mailto:pkrempa@redhat.com">pkrempa@redhat.com</a>&gt=
+; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
+ 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue,=
+ Feb 16, 2021 at 17:38:37 +0400, <a href=3D"mailto:marcandre.lureau@redhat.=
+com" target=3D"_blank">marcandre.lureau@redhat.com</a> wrote:<br>
+&gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@re=
+dhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
+&gt; <br>
+&gt; qmp_disable_command() now takes an optional error string to return a<b=
+r>
+&gt; more explicit error message.<br>
+&gt; <br>
+&gt; Fixes:<br>
+&gt; <a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D1928806" rel=
+=3D"noreferrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?=
+id=3D1928806</a><br>
+&gt; <br>
+&gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.=
+lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br=
+>
+&gt; ---<br>
+&gt;=C2=A0 include/qapi/qmp/dispatch.h | 3 ++-<br>
+&gt;=C2=A0 qapi/qmp-dispatch.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 2 +-<br>
+&gt;=C2=A0 qapi/qmp-registry.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 9 +++++--=
+--<br>
+&gt;=C2=A0 qga/main.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 | 4 ++--<br>
+&gt;=C2=A0 4 files changed, 10 insertions(+), 8 deletions(-)<br>
+<br>
+[...]<br>
+<br>
+&gt; diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c<br>
+&gt; index 0a2b20a4e4..ce4bf56b2c 100644<br>
+&gt; --- a/qapi/qmp-dispatch.c<br>
+&gt; +++ b/qapi/qmp-dispatch.c<br>
+&gt; @@ -157,7 +157,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QO=
+bject *request,<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (!cmd-&gt;enabled) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_set(&amp;err, ERROR_CLASS_COMM=
+AND_NOT_FOUND,<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;=
+The command %s has been disabled for this instance&quot;,<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cmd-&g=
+t;err_msg ?: &quot;The command %s has been disabled for this instance&quot;=
+,<br>
+<br>
+Passing in the formatting string from a variable looks shady and it&#39;s<b=
+r>
+hard to ensure that callers pass in the appropriate format modifier ...<br>
+<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c=
+ommand);<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto out;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+[...]<br>
+<br>
+&gt; diff --git a/qga/main.c b/qga/main.c<br>
+&gt; index e7f8f3b161..c59b610691 100644<br>
+&gt; --- a/qga/main.c<br>
+&gt; +++ b/qga/main.c<br>
+&gt; @@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCo=
+mmand *cmd, void *opaque)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 if (!whitelisted) {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 g_debug(&quot;disabling command: %s&=
+quot;, name);<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_disable_command(&amp;ga_commands, nam=
+e);<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 qmp_disable_command(&amp;ga_commands, nam=
+e, &quot;The command was disabled after fsfreeze.&quot;);<br>
+<br>
+... such as here where &#39;%s&#39; is missing. Luckily that is not a probl=
+em<br>
+compared to when there would be more than one format modifier.<br>
+<br></blockquote><div><br></div><div>Sure, although it&#39;s an internal AP=
+I, I agree it&#39;s error prone.</div><div> <br></div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+But the error message looks definitely better.<br></blockquote><blockquote =
+class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
+id rgb(204,204,204);padding-left:1ex"><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 }<br>
+<br>
+My suggestion would be to store a boolean flag that the command was<br>
+disabled due to an ongoing fsfreeze and then choose the appropriate<br>
+error message directly at the point where it&#39;s reported.<br></blockquot=
+e><div><br></div><div>Let&#39;s make it an enum for the reason.</div><div>t=
+hanks<br></div></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D=
+"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--000000000000a1de4805bb7556f7--
 
