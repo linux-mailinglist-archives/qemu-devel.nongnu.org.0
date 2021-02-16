@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C6FB31CCBB
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:15:54 +0100 (CET)
-Received: from localhost ([::1]:55996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCACB31CCCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:21:19 +0100 (CET)
+Received: from localhost ([::1]:37544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC24v-0001Hw-DQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:15:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44154)
+	id 1lC2AA-0005UO-RF
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:21:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lC22z-0008Ok-Ci
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:13:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30193)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lC23P-0000Xp-IA
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:14:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lC22w-0007K8-Sn
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:13:53 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lC23N-0007Nl-F9
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:14:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613488429;
+ s=mimecast20190719; t=1613488455;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8KStfDPPzFkhvzyqYeownxreYGGnGvGQN8fdnEdGghc=;
- b=Pq/T8l9ea8ZlUZos1QXGn6X4UPzVbws1YLYQHinb31sXEuT4YFFpmP460lxN7uWO913Bnq
- Ihq7d4WxtRNixxs9WoGjbAHHCU2nfzgtGpxihfWW3yWA/4g4tS0aqJ2ELHONrwc/QPSA3v
- OHcdufJakj2TVeKMACYEOubqidqQuMI=
+ bh=xsPN0JbVwxehgIiD7+wBGaNwS+/6HN3DC4nQi/m8TEQ=;
+ b=HhMKknm/GqYTkqO8gpxr/v+afMXrNRF+cf+0loWpk0g31ek6+einHSrHvZuAc4wIW6sO3t
+ GfLSZlhq/CTWmCS2NKRLskkB42SZLuutDoSWzjZvtoMiGnAlwtNgV8qE3PpZQv3/+K//ey
+ bmE70SBOQ+gjjDwelWLgp1AduZbGNnE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-528-gUWysrgzOvqIYZHCy5BRGg-1; Tue, 16 Feb 2021 10:13:45 -0500
-X-MC-Unique: gUWysrgzOvqIYZHCy5BRGg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-482-B7cozJ1jMzCwF4OQqVuDjQ-1; Tue, 16 Feb 2021 10:14:10 -0500
+X-MC-Unique: B7cozJ1jMzCwF4OQqVuDjQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0765F195D563;
- Tue, 16 Feb 2021 15:13:44 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44C9519D6C;
- Tue, 16 Feb 2021 15:13:43 +0000 (UTC)
-Subject: Re: [PATCH v6 17/19] qapi/introspect.py: Type _gen_tree variants as
- Sequence[str]
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210216021809.134886-1-jsnow@redhat.com>
- <20210216021809.134886-18-jsnow@redhat.com>
- <87v9asnzsu.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <7d83cfca-1ce0-d898-de89-e819633eba98@redhat.com>
-Date: Tue, 16 Feb 2021 10:13:42 -0500
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71876801976;
+ Tue, 16 Feb 2021 15:14:09 +0000 (UTC)
+Received: from [10.3.112.76] (ovpn-112-76.phx2.redhat.com [10.3.112.76])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E612560C15;
+ Tue, 16 Feb 2021 15:14:03 +0000 (UTC)
+Subject: Re: [PATCH] qga: return a more explicit error on why a command is
+ disabled
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <ff150e0f-7559-c966-4b1c-ec32305a0286@redhat.com>
+Date: Tue, 16 Feb 2021 09:14:02 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <87v9asnzsu.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,88 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: michael.roth@amd.com, pkrempa@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 4:10 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 2/16/21 7:38 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
->> Optional[List] is clunky; an empty sequence can more elegantly convey
->> "no variants". By downgrading "List" to "Sequence", we can also accept
->> tuples; this is useful for the empty tuple specifically, which we may
->> use as a default parameter because it is immutable.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/introspect.py | 11 ++++++-----
->>   1 file changed, 6 insertions(+), 5 deletions(-)
->>
->> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->> index 649225988d1..e4d31a59503 100644
->> --- a/scripts/qapi/introspect.py
->> +++ b/scripts/qapi/introspect.py
->> @@ -247,13 +247,13 @@ def _use_type(self, typ: QAPISchemaType) -> str:
->>           return self._name(typ.name)
->>   
->>       @staticmethod
->> -    def _gen_features(features: List[QAPISchemaFeature]
->> +    def _gen_features(features: Sequence[QAPISchemaFeature]
->>                         ) -> List[Annotated[str]]:
->>           return [Annotated(f.name, f.ifcond) for f in features]
->>   
->>       def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
->>                     ifcond: Sequence[str],
->> -                  features: Optional[List[QAPISchemaFeature]]) -> None:
->> +                  features: Sequence[QAPISchemaFeature] = ()) -> None:
->>           """
->>           Build and append a SchemaInfo object to self._trees.
->>   
->> @@ -261,7 +261,8 @@ def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
->>           :param mtype: The entity's meta-type.
->>           :param obj: Additional entity fields, as appropriate for the meta-type.
->>           :param ifcond: Sequence of conditionals that apply to this entity.
->> -        :param features: Optional features field for SchemaInfo.
->> +        :param features: Optional, The features field for SchemaInfo.
+> qmp_disable_command() now takes an optional error string to return a
+> more explicit error message.
 > 
-> Downcase "The".
+> Fixes:
+> https://bugzilla.redhat.com/show_bug.cgi?id=1928806
 > 
->> +                         Will be omitted from the output if empty.
->>           """
->>           comment: Optional[str] = None
->>           if mtype not in ('command', 'event', 'builtin', 'array'):
->> @@ -298,7 +299,7 @@ def _gen_variant(self, variant: QAPISchemaVariant
->>   
->>       def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
->>                              json_type: str) -> None:
->> -        self._gen_tree(name, 'builtin', {'json-type': json_type}, [], None)
->> +        self._gen_tree(name, 'builtin', {'json-type': json_type}, [])
->>   
->>       def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
->>                           ifcond: Sequence[str],
->> @@ -316,7 +317,7 @@ def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
->>                            element_type: QAPISchemaType) -> None:
->>           element = self._use_type(element_type)
->>           self._gen_tree('[' + element + ']', 'array', {'element-type': element},
->> -                       ifcond, None)
->> +                       ifcond)
->>   
->>       def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
->>                                  ifcond: Sequence[str],
-> 
-> Marginal by itself.  Might be worth it as part of a more general move
-> away from Optional[List[...]].  See also next patch.
-> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
 
-Yep, it's tiny. Still, maybe worth taking just to remove a bad habit 
-from the code in case of cargo-culting?
+> +++ b/qapi/qmp-dispatch.c
+> @@ -157,7 +157,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
+>      }
+>      if (!cmd->enabled) {
+>          error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
+> -                  "The command %s has been disabled for this instance",
+> +                  cmd->err_msg ?: "The command %s has been disabled for this instance",
 
-Go with whatcha feel, it's a style nit you raised -- I'm not sure I'll 
-remember to do a more thorough pass after pt6 is done.
+No trailing dot (good),...
 
-ACK to change the comment casing if you take these.
+> +++ b/qga/main.c
+> @@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
+>      }
+>      if (!whitelisted) {
+>          g_debug("disabling command: %s", name);
+> -        qmp_disable_command(&ga_commands, name);
+> +        qmp_disable_command(&ga_commands, name, "The command was disabled after fsfreeze.");
 
---js
+...while this introduces one (not good).
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
