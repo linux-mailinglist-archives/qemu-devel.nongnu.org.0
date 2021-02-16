@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1084A31CE6A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:51:44 +0100 (CET)
-Received: from localhost ([::1]:55358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89FCD31CE3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:41:10 +0100 (CET)
+Received: from localhost ([::1]:58724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3Ze-0002f4-BC
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:51:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40844)
+	id 1lC3PR-0000FN-4Q
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:41:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40852)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC33C-0000GP-2m
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:11 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40452)
+ id 1lC33D-0000H1-Uv
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:13 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40443)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32T-0002XC-AD
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:08 -0500
-Received: by mail-wr1-x435.google.com with SMTP id v14so13773551wro.7
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:24 -0800 (PST)
+ id 1lC32U-0002XO-Ce
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:09 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id v14so13773608wro.7
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=Btazgn6Y5qOJThEGpbN02VT8W+WTRqqeVzuGqS4pkq4=;
- b=BjRZymBBtatqlwFC74+hFiPlNrd+PcGe/VT7oDFnQsaNSmm2uroAaHvWekMfgWzeWP
- qbFtB24rbyle57rdPxnB84OsRWtGOKz5gVvJhmM3obH7lEUKIOG2aAR4bsN4TOcTSIo4
- l4G5gwhBOZW92MX8j6/lLiZgfB7wwAy35Jgn90GP7lsS22fdg17XNQOsfFMsgMRgMyAv
- VWrYlLR6ETBLr7LWc65vBZMBNgzlidNoRA93NIYYLEvqTUhO3ue95v0aBE4bpLimbow/
- UIsj00sVagjvHCTKgG2DgcmnRbGFoyqVFngBs/JuKG2YQU4VvOsN83/XxfuvUG51MfVK
- qslg==
+ bh=0UrAqxs2CL5jokH0yLA3JrB6tz+n6Z0MaeUkxlhcczE=;
+ b=L64zyvdwvDOnH5Se4CNDj6I7lec/kyDnch2e/M1oukXU+uyJIwIuuPXgj1mMs2qspK
+ bLSJ8eYr3Dl9A5ZbnpHmFw0p/vKrvX+V2vNNawIXdr/CU+lIVPh6vi6i3MNPtx3qPiPt
+ McwMjmnoQ47PwxvUuWivNi/lKa6VbOKdM6AEAQX9TISkaRudWS/y1662360FGm8fquLf
+ X4/+p+oAZ6EVn1a0QkWPqH9uO2afjrEgUOuRV2O8K0y1oSjSJZPsqKiEcGBa3hM2tmSt
+ X3zDY8czrZHQy4QC4bcIXhnFT+sRe8lbdR6O/6lEj7bF2H2Iezn5OA5VEQsjOnLb3Zpe
+ 1QLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Btazgn6Y5qOJThEGpbN02VT8W+WTRqqeVzuGqS4pkq4=;
- b=JxWemZPe/y4OPu+jKqVTWZ7aDPxccNgQ7cgt0N8yY5mK7tz4vsoZfhvGqWSH9LAH5N
- 38bbQrCeDDk1oeO4GgShiNKtU7ol0yRtClAIolan/+oBEJLAbbHMdMuHraFy5FXW74f8
- akaZpiMSus6Sl2y0s+himqKpGwlR+ZMG4kPtsjT0omphiwbUPJicWdTbnWbHQSgG3/De
- aDJExZFM72PTq8veuGcy7EJNXyOO2Fh2TZ4ymGP4lJUS8LTWn7l7IfC09z298+9IxFD3
- MzXDh6i6rGUl4kqTu6FcXJLMJ8yon85NL+cGdYgYhqsDFCj/oweEDxnh2mZvbHRUPv4+
- jTqw==
-X-Gm-Message-State: AOAM532EXBn6uT8dAdS4vLQdydIReOKg2aG7fiCPLilhGknFtTAcGaNN
- Q2Me8S48ovToxBgRhMzrnLfXTYQul9n2rQ==
-X-Google-Smtp-Source: ABdhPJztYQJD5E8HWiqeLlIaL2Dbzw5ZlG0v0iVgrKDrtBOm+JMO69uo8Gs72+13BMwwT9ykP2b2Gg==
-X-Received: by 2002:a5d:6881:: with SMTP id h1mr24260349wru.384.1613492244145; 
+ bh=0UrAqxs2CL5jokH0yLA3JrB6tz+n6Z0MaeUkxlhcczE=;
+ b=rh5AGAsqQV3WyWSCr13DQecLZO2DRhY13CLxo1o1HF207Eooa5fkM6AS3DU5eMK8D9
+ Bz4T1PBS99aznXKrEu1WkzF1oY9YX1bEpbtDZFcJEDQXfdAIlgMuH3sLDYaepDHJhYIy
+ K7pmFdttEUhpdEhepWKaiL407AOWxk38jfiiGWyEQAK1D/BjZy8LCInaSCled2OZj0Z3
+ iP7dEbB1tyspVRGLO9Ka6e4OosJaxrYcwIVOV+6MUmvHDNhyi8OVSWCIaIqM33JwBszK
+ A/IjFrDvcyGXAIY23mJycNm84uhjxiTcGqvr79Lt+TAL8lIg4yE5wIX9TKyU2OffdMNO
+ E0Rw==
+X-Gm-Message-State: AOAM53077EH3S+9yStNVT1jl7ObJ5GVDKyoDbxTK+xUFrRG8g9TvDIRR
+ UCSmLX5wbaaXbDvhKcSOrfak2wB++IlY4g==
+X-Google-Smtp-Source: ABdhPJytiIuxr/FWY/lkv4WMKYjAt8PVnEtGpz9x6tU1pMKrqp9XlK5FbScyUb/E1yNTdLfM1Dnu9A==
+X-Received: by 2002:a05:6000:1547:: with SMTP id
+ 7mr24697509wry.301.1613492244903; 
  Tue, 16 Feb 2021 08:17:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.23
+ by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:23 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/40] hw/arm: Add I2C sensors for NPCM750 eval board
-Date: Tue, 16 Feb 2021 16:16:51 +0000
-Message-Id: <20210216161658.29881-34-peter.maydell@linaro.org>
+Subject: [PULL 34/40] hw/arm: Add I2C sensors and EEPROM for GSJ machine
+Date: Tue, 16 Feb 2021 16:16:52 +0000
+Message-Id: <20210216161658.29881-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
 References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,55 +89,90 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hao Wu <wuhaotsh@google.com>
 
-Add I2C temperature sensors for NPCM750 eval board.
+Add AT24 EEPROM and temperature sensors for GSJ machine.
 
 Reviewed-by: Doug Evans<dje@google.com>
 Reviewed-by: Tyrong Ting<kfting@nuvoton.com>
 Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Message-id: 20210210220426.3577804-4-wuhaotsh@google.com
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-id: 20210210220426.3577804-3-wuhaotsh@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/npcm7xx_boards.c | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ hw/arm/npcm7xx_boards.c | 27 +++++++++++++++++++++++++++
+ hw/arm/Kconfig          |  1 +
+ 2 files changed, 28 insertions(+)
 
 diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-index 3fdd5cab01d..47a215bd015 100644
+index 47a215bd015..fbf6ce8e028 100644
 --- a/hw/arm/npcm7xx_boards.c
 +++ b/hw/arm/npcm7xx_boards.c
-@@ -98,6 +98,24 @@ static NPCM7xxState *npcm7xx_create_soc(MachineState *machine,
-     return NPCM7XX(obj);
+@@ -19,6 +19,7 @@
+ #include "exec/address-spaces.h"
+ #include "hw/arm/npcm7xx.h"
+ #include "hw/core/cpu.h"
++#include "hw/i2c/smbus_eeprom.h"
+ #include "hw/loader.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+@@ -104,6 +105,17 @@ static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
+     return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
  }
  
-+static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
++static void at24c_eeprom_init(NPCM7xxState *soc, int bus, uint8_t addr,
++                              uint32_t rsize)
 +{
-+    g_assert(num < ARRAY_SIZE(soc->smbus));
-+    return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
++    I2CBus *i2c_bus = npcm7xx_i2c_get_bus(soc, bus);
++    I2CSlave *i2c_dev = i2c_slave_new("at24c-eeprom", addr);
++    DeviceState *dev = DEVICE(i2c_dev);
++
++    qdev_prop_set_uint32(dev, "rom-size", rsize);
++    i2c_slave_realize_and_unref(i2c_dev, i2c_bus, &error_abort);
 +}
 +
-+static void npcm750_evb_i2c_init(NPCM7xxState *soc)
+ static void npcm750_evb_i2c_init(NPCM7xxState *soc)
+ {
+     /* lm75 temperature sensor on SVB, tmp105 is compatible */
+@@ -116,6 +128,20 @@ static void npcm750_evb_i2c_init(NPCM7xxState *soc)
+     i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 6), "tmp105", 0x48);
+ }
+ 
++static void quanta_gsj_i2c_init(NPCM7xxState *soc)
 +{
-+    /* lm75 temperature sensor on SVB, tmp105 is compatible */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 0), "tmp105", 0x48);
-+    /* lm75 temperature sensor on EB, tmp105 is compatible */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), "tmp105", 0x48);
-+    /* tmp100 temperature sensor on EB, tmp105 is compatible */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 2), "tmp105", 0x48);
-+    /* tmp100 temperature sensor on SVB, tmp105 is compatible */
-+    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 6), "tmp105", 0x48);
++    /* GSJ machine have 4 max31725 temperature sensors, tmp105 is compatible. */
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), "tmp105", 0x5c);
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 2), "tmp105", 0x5c);
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 3), "tmp105", 0x5c);
++    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 4), "tmp105", 0x5c);
++
++    at24c_eeprom_init(soc, 9, 0x55, 8192);
++    at24c_eeprom_init(soc, 10, 0x55, 8192);
++
++    /* TODO: Add additional i2c devices. */
 +}
 +
  static void npcm750_evb_init(MachineState *machine)
  {
      NPCM7xxState *soc;
-@@ -108,6 +126,7 @@ static void npcm750_evb_init(MachineState *machine)
- 
+@@ -141,6 +167,7 @@ static void quanta_gsj_init(MachineState *machine)
      npcm7xx_load_bootrom(machine, soc);
-     npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", drive_get(IF_MTD, 0, 0));
-+    npcm750_evb_i2c_init(soc);
+     npcm7xx_connect_flash(&soc->fiu[0], 0, "mx25l25635e",
+                           drive_get(IF_MTD, 0, 0));
++    quanta_gsj_i2c_init(soc);
      npcm7xx_load_kernel(machine, soc);
  }
  
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index be017b997ab..4e6f4ffe90c 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -370,6 +370,7 @@ config NPCM7XX
+     bool
+     select A9MPCORE
+     select ARM_GIC
++    select AT24C  # EEPROM
+     select PL310  # cache controller
+     select SERIAL
+     select SSI
 -- 
 2.20.1
 
