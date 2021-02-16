@@ -2,61 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A1DE31CD36
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:52:32 +0100 (CET)
-Received: from localhost ([::1]:50398 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1EDA31CD4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:55:33 +0100 (CET)
+Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC2eM-0006sz-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:52:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52720)
+	id 1lC2hI-0000lL-Q3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:55:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lC2d6-0006NU-Ts
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:51:12 -0500
-Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:37432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lC2d3-0003yV-3w
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:51:12 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.42])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 919482411B6;
- Tue, 16 Feb 2021 16:51:05 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 16 Feb
- 2021 16:51:03 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005ad1fba23-1b28-4b06-9e1b-7280bb190662,
- 18E752744DD7A5F94FE4BC27DA0A342EBB233BD3) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 91.175.254.3
-Date: Tue, 16 Feb 2021 16:50:59 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 2/7] spapr_pci.c: simplify spapr_pci_unplug_request()
- function handling
-Message-ID: <20210216165059.284d2a21@bahia.lan>
-In-Reply-To: <20210211225246.17315-3-danielhb413@gmail.com>
-References: <20210211225246.17315-1-danielhb413@gmail.com>
- <20210211225246.17315-3-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lC2fk-0008LL-Df
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:53:56 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38367)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lC2fg-0004TC-HY
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:53:56 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id x4so14942409wmi.3
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 07:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=ZL7cCA9ZufnnYpq1BMVpGD72uv0oS9reVif+GGXak58=;
+ b=DnJUTl9heO4wPdqKhOdqWY39DDhyduhKEYytmD9n+d4KHWkmtHh3b63/QmCD4RecUa
+ 8Buk5UURgiQFoBMq9RRNKbHPDCNCuV/nDC7KtweEuZ0M1ovZDVFiKPTZ9uKI8wOQMiWo
+ jxrGrq+ELr1/uFN7gKju6R08pyoZAiBA4v1F4r4tkicvhysXJFBkSLJsSXociI6UArxK
+ A3JZfRAktsHY+YXrtfzAUPS5HLBBdzRxdxbpKJuIWm+8m2WPjSquuTzCElxz0e4PLdkh
+ os6qABRRXtskILjuRyE8MvRC1mMYMmQlqQ1W5NNwPsRVYLanXVcWUCsGT4RxT+rpBrNv
+ Ippg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=ZL7cCA9ZufnnYpq1BMVpGD72uv0oS9reVif+GGXak58=;
+ b=iqg1hrE1l/gxXeAbqQC/CobwxpZtCzFwgiTcMX/H/M1sdhYCeEI59JPZ/7Y+IYf1eZ
+ w2bZCHo3I/6LX/LWBJwRY1SymJrJZXTdMrQunbzoLBdrYVcj2Ymp5+cgkuu59Ez7ISZQ
+ BD0tpo3t2R2yKOs/AG+vG7lK5Hl7JnR64BpcIN9ohYiTm8iB7aFRTXLsu49jOYN7Ck3E
+ SntrE116XKOWCsAJ75Qvu8DeknjE2pJrmVKqFn+LBut18+vITe+c+o6TyXCOUbpZhX4F
+ Hxr2am5te8fvtJNOa41ycyi7GYXDfc5Ecp2rh5ArozEy7ImmudPp9ShwviyqSjZ0s7SW
+ x4XQ==
+X-Gm-Message-State: AOAM532SsqncKo4h00Zak2nErw0HJ+Jjy8zHXdtqOyVCmW/uTdM8YjKN
+ 5ZXMPD5fqb2dOhg68OjgF3FCUQ==
+X-Google-Smtp-Source: ABdhPJy6uWNGTLicJtb7ntwAEmnjulHqgwD74M6vk683xjoGIPNk3nRI6km4VH1j6P6obFqSLvXAOQ==
+X-Received: by 2002:a05:600c:4c94:: with SMTP id
+ g20mr3712880wmp.41.1613490830117; 
+ Tue, 16 Feb 2021 07:53:50 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id v204sm4340412wmg.38.2021.02.16.07.53.49
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Feb 2021 07:53:49 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id be10ef3d;
+ Tue, 16 Feb 2021 15:53:48 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org
+Subject: Re: [RFC PATCH 0/3] hw/pflash_cfi01: Reduce memory consumption when
+ flash image is smaller than region
+In-Reply-To: <fcff2ad0-0280-f78f-c563-5e18ec37f800@redhat.com>
+References: <20210216142721.1985543-1-david.edmondson@oracle.com>
+ <df4db595-c2db-4fa8-0a4b-1403117dcc76@redhat.com>
+ <cunh7mcjaw3.fsf@dme.org>
+ <fcff2ad0-0280-f78f-c563-5e18ec37f800@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Tue, 16 Feb 2021 15:53:48 +0000
+Message-ID: <cuneehgj9f7.fsf@dme.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG5EX2.mxp5.local (172.16.2.42) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: fd8b34b2-e638-4605-9a71-34ce84500ec8
-X-Ovh-Tracer-Id: 16855003080595839456
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrjedtgdekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=groug@kaod.org;
- helo=2.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::32a;
+ envelope-from=dme@dme.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,100 +91,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 11 Feb 2021 19:52:41 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Tuesday, 2021-02-16 at 16:44:58 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
-> When hotunplugging a PCI function we'll branch out the logic in two cases,
-> function zero and non-zero. If non-zero, we'll call spapr_drc_detach() and
-> nothing else. If it's function zero, we'll loop it once between all the
-> functions in the slot to call spapr_drc_detach() on them, and afterwards
-> we'll do another backwards loop where we'll signal the event to the guest.
-> 
-> We can simplify this logic. We can ignore all the DRC handling for non-zero
-> functions, since we'll end up doing that regardless when unplugging function
-> zero. And for function zero, everything can be done in a single loop, since
-> tt doesn't matter if we end up marking the function DRCs as unplug pending in
-> backwards order or not, as long as we call spapr_drc_detach() before issuing
-> the hotunplug event to the guest.
-> 
-> This will also avoid a possible scenario where the user starts to hotunplug
-> the slot, starting with a non-zero function, and then delays/forgets to
-> hotunplug function zero afterwards. This would keep the function DRC marked
-> as unplug requested indefinitely.
-> 
+> On 2/16/21 4:22 PM, David Edmondson wrote:
+>> On Tuesday, 2021-02-16 at 16:03:05 +01, Philippe Mathieu-Daud=C3=A9 wrot=
+e:
+>>=20
+>>> I am not a block expert, but I wonder if something like this could
+>>> be used:
+>>>
+>>> - create a raw (parent) block image of 64MiB
+>>>
+>>> - add a raw (child) block with your 768kB of VARS file
+>>>
+>>> - add a null-co (child) block of 63Mib + 256kiB
+>>>
+>>> - pass the parent block to the pflash device
+>>=20
+>> I'm not clear how this would behave if there is a write to the device at
+>> (say) 1MiB.
+>
+> Discarded.
+>
+>> More philosophically, how should it behave?
+>
+> null-co: reads return zeroes, writes are discarded.
+>
+>> My expectation was that if the machine says that there is 64MiB of
+>> writable flash, we have to allow writes throughout the full 64MiB and
+>> (significantly) persist them to the backing block device.
+>>=20
+>> Just because the backing block device started out 768KiB big doesn't
+>> mean that we should not write to the remaining extent if that's what the
+>> VM attempts.
+>>=20
+>> Would the above approach achieve that? (It doesn't sound like it.)
+>
+> Well this was a simple suggestion if you know your guest won't access
+> anything beside these 768KiB (IIRC AAVMF "consumes" the flash devices
+> and doesn't expose them to the guest via ACPI/other).
 
-... or until the guest is reset, which will no longer happen with this
-patch applied, i.e. breaks the long standing policy that machine reset
-causes pending hot-unplug requests to succeed. I don't see an obvious
-reason to special case non-zero PCI functions.
+If that's the case, mirroring the approach in the patch that I sent
+should work - we run the 768kiB as a subregion with IO/ROMD behaviour,
+fail or discard writes to the rest and read as zero.
 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr_pci.c | 44 ++++++++++++++++----------------------------
->  1 file changed, 16 insertions(+), 28 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index f1c7479816..1791d98a49 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1709,38 +1709,26 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
->              return;
->          }
->  
-> -        /* ensure any other present functions are pending unplug */
-> -        if (PCI_FUNC(pdev->devfn) == 0) {
-> -            for (i = 1; i < 8; i++) {
-> -                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
-> -                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-> -                state = func_drck->dr_entity_sense(func_drc);
-> -                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT
-> -                    && !spapr_drc_unplug_requested(func_drc)) {
-> -                    /*
-> -                     * Attempting to remove function 0 of a multifunction
-> -                     * device will will cascade into removing all child
-> -                     * functions, even if their unplug weren't requested
-> -                     * beforehand.
-> -                     */
-> -                    spapr_drc_detach(func_drc);
-> -                }
-> -            }
-> +        /*
-> +         * The hotunplug itself will occur when unplugging function 0,
-> +         * regardless of marking any other functions DRCs as pending
-> +         * unplug beforehand (since 02a1536eee33).
-> +         */
-> +        if (PCI_FUNC(pdev->devfn) != 0) {
-> +            return;
->          }
->  
-> -        spapr_drc_detach(drc);
-> +        for (i = 7; i >= 0; i--) {
-> +            func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
-> +            func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-> +            state = func_drck->dr_entity_sense(func_drc);
->  
-> -        /* if this isn't func 0, defer unplug event. otherwise signal removal
-> -         * for all present functions
-> -         */
-> -        if (PCI_FUNC(pdev->devfn) == 0) {
-> -            for (i = 7; i >= 0; i--) {
-> -                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
-> -                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-> -                state = func_drck->dr_entity_sense(func_drc);
-> -                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
-> -                    spapr_hotplug_req_remove_by_index(func_drc);
-> +            if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
-> +                /* Mark the DRC as requested unplug if needed. */
-> +                if (!spapr_drc_unplug_requested(func_drc)) {
-> +                    spapr_drc_detach(func_drc);
->                  }
-> +                spapr_hotplug_req_remove_by_index(func_drc);
->              }
->          }
->      }
+> If you are into memory optimization, this is worth considering.
+> Else it doesn't make sense.
+>
+> AAVMF is designed for virtual world. Is the virtual world interested in
+> doing firmware upgrade on the CODE flash? Unlikely, if you want to
+> upgrade AAVMF you'd do it on the host. Why not mount the CODE flash as
+> ROM? I suppose because AAVMF does CFI MMIO accesses to detect the flash,
+> but I wonder what is the point if this flash will be ever written...
 
+I don't expect that the CODE flash will ever be written by the guest, no
+(it's generally presented to the guest as read-only), and currently the
+VARS flash is also often presented read-only as well, but I don't think
+that is a situation that we can maintain given increasing use (DBX
+updates, for example).
+
+If it's acceptable to limit flash writes to the extent of the underlying
+block device then things are straightforward. It's not clear to me that
+this is the case.
+
+dme.
+--=20
+She's got no name, but she is family.
 
