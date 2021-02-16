@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 776F131CDD8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:19:30 +0100 (CET)
-Received: from localhost ([::1]:59896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92BD131CDDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:20:40 +0100 (CET)
+Received: from localhost ([::1]:34912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC34T-0000bB-G1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:19:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39692)
+	id 1lC35b-000217-Kp
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:20:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32D-0006td-RV
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:09 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:54555)
+ id 1lC32E-0006vY-Jf
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:10 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:41473)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC328-0002Li-32
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:09 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id w4so9549838wmi.4
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:02 -0800 (PST)
+ id 1lC328-0002Ly-Bd
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:10 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id n6so13759300wrv.8
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/4g7OxkDfBoZUgvDH1ddlqQHuAeacEL0ex4Mh5BK8po=;
- b=gBCZ3z0k7yIiqHOuLpIbGmxlVuutSoa5wqI8IPySUTQkOtm0ZGZAO2r8aHP13qV7M5
- XnCs9nShtVEE+8Rmemdr+hExNeFxYaNR6BK14URGpik2xfa2w2LlbykBZ6P9s4zzHDNl
- AkJM1l5V6RjoT2JWAIaBeBIbHEwm8z/8baR3hLBU74BlEo2E+B3bBRhSHg60axJnhfnU
- RO7nurDGrNiKcLrXTKxYJwvRXSsnXokWPhYAhlD3k1srSMnHqbXfJKlqR5BynO0bLph7
- r9GTofkKWyzZK2E3etqTRSxlDmryqvW3EsCwvIaId+jYC24VzIAaJrbgpT5q3p8DHiC/
- LAxw==
+ bh=CtmmfXvax6/vFQdcYPhQ9hSJnYjUDnJEzMjqiouGk60=;
+ b=qi+f+Zi/J9EDmxCmzdfmsKWOawjXpqWyHtGIG2mcMT33mvbXzS6gKoNHEIbM4mj60d
+ +k6tBSZoBifhGa2hXYzyFEelT6zCd9+IkRqrTElCb6por1NSfBevPZEQBFye92LjYNyX
+ 1qFH5sSh/vMPL9sXpK/c7uzhbBeLgJZ5/zj+97g17K44UN8HyydO8QcS0gKMfh28Wpcp
+ i6UOr8218rsH+HgoIk6+7cfRDZv1dYa1Ibr8rFpjhHbcHOJJgWQD1aPqo8fx72loFS2c
+ V8fNPB1cTlOix9NWSeiosf1gEi8EWCc9/BWgo/AoD+kXe21GHziexEr6ZNZmDxRc5SVR
+ B5DA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=/4g7OxkDfBoZUgvDH1ddlqQHuAeacEL0ex4Mh5BK8po=;
- b=SSw6yeBawbPGzpnmBEO/4/th4qsn7va+y8qvGf4pghjmH7XbXx0MiJFDTjZ8EojCJR
- BoB36PPhQp69DcqNXbEfkWhIALdkPSDG0O288DBOPxkObercrrAyxI4X5zPKMmayAD45
- LbeQWIxwUqW3tf7GXYsQjt9lxRlekZu8q53ZC98YjySmfs0CT28KIMDZ/SbOfaZZOxuG
- S5XMfd/AaLnFED59kgA/e9X/v5dVRY5UMkPNv0TASnJfD5Rb2srjN+fIkQBJFJx6NVJt
- idcklZuiVZFryI7D+zCNDAoRzAqGyKFRy/z0TgTh65ersMB6RrrLZq0F1sgKHS9LcFbD
- hnjw==
-X-Gm-Message-State: AOAM531P4Tw7Iu/69rIx7VAj4T6ywAX6y8DN89FKdCXHyQGEkIrZRDzl
- 5pjKtI5ZQWPImJm6TayL/Op1G2zKfg7YbA==
-X-Google-Smtp-Source: ABdhPJzV7CFfa8q1+oWq74HP/4gILMxpI/ez17wZxo36OM7F/iAfT85HfNwncWLFZbHgLrdDsJyhPA==
-X-Received: by 2002:a05:600c:2351:: with SMTP id
- 17mr3880382wmq.2.1613492220745; 
- Tue, 16 Feb 2021 08:17:00 -0800 (PST)
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=CtmmfXvax6/vFQdcYPhQ9hSJnYjUDnJEzMjqiouGk60=;
+ b=YD9+JPHqMEN9oSxDwUjY4KRTADFdaRHm2pk844eglj83Axw1ykADJ+3qjNiih/+znB
+ Q+q/L+7+589Uo6YbqBrAp1TSd12TRaQY3Kn3gU3adBDVeYazY8HVvyFwBdlnx56UPD44
+ IBc/74YNef6sWYPRIoFf/gR99goepYZz4qrr2xY2oWbrJjXF1TUhp/gvdvbxQPRBDIE5
+ IBEIS+AfsLnFzPmQJHTECqoFFIyhR22JxNB+S68VHTGH78fWGmfOKvmRyUE67jyE92NP
+ lfQ580gv25W6wDx8yoXtLvXx6TuBri/Aq1G4TT5vc4PkqQNyzYG3GwOSxhhuYCOF4Doa
+ QGBA==
+X-Gm-Message-State: AOAM533ckzZxe58SpsDY/rPlDzbrmxTGjWwCRwwYkb4EIOeVoyMBbMyi
+ tsFH+wxdov4d/1X+40pzrIYxz11H+n9Pjw==
+X-Google-Smtp-Source: ABdhPJx0QECcccaPdxSkfi1kSVuYjUML6ieb+ylrlhf+CtfDh9Ikdbk/FFVJdo5p2L2FsurNXqbUVQ==
+X-Received: by 2002:adf:fc4c:: with SMTP id e12mr25463122wrs.106.1613492221472; 
+ Tue, 16 Feb 2021 08:17:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:00 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:01 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/40] target-arm queue
-Date: Tue, 16 Feb 2021 16:16:18 +0000
-Message-Id: <20210216161658.29881-1-peter.maydell@linaro.org>
+Subject: [PULL 01/40] tcg: Introduce target-specific page data for user-only
+Date: Tue, 16 Feb 2021 16:16:19 +0000
+Message-Id: <20210216161658.29881-2-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
+References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,150 +86,189 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another go at the v8.5-MemTag linux-user support, plus a
-couple more npcm7xx devices.
+From: Richard Henderson <richard.henderson@linaro.org>
 
--- PMM
+This data can be allocated by page_alloc_target_data() and
+released by page_set_flags(start, end, prot | PAGE_RESET).
 
-The following changes since commit 8ba4bca570ace1e60614a0808631a517cf5df67a:
+This data will be used to hold tag memory for AArch64 MTE.
 
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-02-15 17:13:57 +0000)
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20210212184902.1251044-2-richard.henderson@linaro.org
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ include/exec/cpu-all.h    | 42 +++++++++++++++++++++++++++++++++------
+ accel/tcg/translate-all.c | 28 ++++++++++++++++++++++++++
+ linux-user/mmap.c         |  4 +++-
+ linux-user/syscall.c      |  4 ++--
+ 4 files changed, 69 insertions(+), 9 deletions(-)
 
-are available in the Git repository at:
+diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
+index babf0a8959f..6421892830c 100644
+--- a/include/exec/cpu-all.h
++++ b/include/exec/cpu-all.h
+@@ -256,15 +256,21 @@ extern intptr_t qemu_host_page_mask;
+ #define PAGE_EXEC      0x0004
+ #define PAGE_BITS      (PAGE_READ | PAGE_WRITE | PAGE_EXEC)
+ #define PAGE_VALID     0x0008
+-/* original state of the write flag (used when tracking self-modifying
+-   code */
++/*
++ * Original state of the write flag (used when tracking self-modifying code)
++ */
+ #define PAGE_WRITE_ORG 0x0010
+-/* Invalidate the TLB entry immediately, helpful for s390x
+- * Low-Address-Protection. Used with PAGE_WRITE in tlb_set_page_with_attrs() */
+-#define PAGE_WRITE_INV 0x0040
++/*
++ * Invalidate the TLB entry immediately, helpful for s390x
++ * Low-Address-Protection. Used with PAGE_WRITE in tlb_set_page_with_attrs()
++ */
++#define PAGE_WRITE_INV 0x0020
++/* For use with page_set_flags: page is being replaced; target_data cleared. */
++#define PAGE_RESET     0x0040
++
+ #if defined(CONFIG_BSD) && defined(CONFIG_USER_ONLY)
+ /* FIXME: Code that sets/uses this is broken and needs to go away.  */
+-#define PAGE_RESERVED  0x0020
++#define PAGE_RESERVED  0x0100
+ #endif
+ /* Target-specific bits that will be used via page_get_flags().  */
+ #define PAGE_TARGET_1  0x0080
+@@ -279,6 +285,30 @@ int walk_memory_regions(void *, walk_memory_regions_fn);
+ int page_get_flags(target_ulong address);
+ void page_set_flags(target_ulong start, target_ulong end, int flags);
+ int page_check_range(target_ulong start, target_ulong len, int flags);
++
++/**
++ * page_alloc_target_data(address, size)
++ * @address: guest virtual address
++ * @size: size of data to allocate
++ *
++ * Allocate @size bytes of out-of-band data to associate with the
++ * guest page at @address.  If the page is not mapped, NULL will
++ * be returned.  If there is existing data associated with @address,
++ * no new memory will be allocated.
++ *
++ * The memory will be freed when the guest page is deallocated,
++ * e.g. with the munmap system call.
++ */
++void *page_alloc_target_data(target_ulong address, size_t size);
++
++/**
++ * page_get_target_data(address)
++ * @address: guest virtual address
++ *
++ * Return any out-of-bound memory assocated with the guest page
++ * at @address, as per page_alloc_target_data.
++ */
++void *page_get_target_data(target_ulong address);
+ #endif
+ 
+ CPUArchState *cpu_copy(CPUArchState *env);
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 81d4c83f225..bba9c8e0b3e 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -114,6 +114,7 @@ typedef struct PageDesc {
+     unsigned int code_write_count;
+ #else
+     unsigned long flags;
++    void *target_data;
+ #endif
+ #ifndef CONFIG_USER_ONLY
+     QemuSpin lock;
+@@ -2740,6 +2741,7 @@ int page_get_flags(target_ulong address)
+ void page_set_flags(target_ulong start, target_ulong end, int flags)
+ {
+     target_ulong addr, len;
++    bool reset_target_data;
+ 
+     /* This function should never be called with addresses outside the
+        guest address space.  If this assert fires, it probably indicates
+@@ -2754,6 +2756,8 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+     if (flags & PAGE_WRITE) {
+         flags |= PAGE_WRITE_ORG;
+     }
++    reset_target_data = !(flags & PAGE_VALID) || (flags & PAGE_RESET);
++    flags &= ~PAGE_RESET;
+ 
+     for (addr = start, len = end - start;
+          len != 0;
+@@ -2767,10 +2771,34 @@ void page_set_flags(target_ulong start, target_ulong end, int flags)
+             p->first_tb) {
+             tb_invalidate_phys_page(addr, 0);
+         }
++        if (reset_target_data && p->target_data) {
++            g_free(p->target_data);
++            p->target_data = NULL;
++        }
+         p->flags = flags;
+     }
+ }
+ 
++void *page_get_target_data(target_ulong address)
++{
++    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
++    return p ? p->target_data : NULL;
++}
++
++void *page_alloc_target_data(target_ulong address, size_t size)
++{
++    PageDesc *p = page_find(address >> TARGET_PAGE_BITS);
++    void *ret = NULL;
++
++    if (p->flags & PAGE_VALID) {
++        ret = p->target_data;
++        if (!ret) {
++            p->target_data = ret = g_malloc0(size);
++        }
++    }
++    return ret;
++}
++
+ int page_check_range(target_ulong start, target_ulong len, int flags)
+ {
+     PageDesc *p;
+diff --git a/linux-user/mmap.c b/linux-user/mmap.c
+index 1c9faef4769..ac0624f31ac 100644
+--- a/linux-user/mmap.c
++++ b/linux-user/mmap.c
+@@ -599,6 +599,7 @@ abi_long target_mmap(abi_ulong start, abi_ulong len, int target_prot,
+         }
+     }
+  the_end1:
++    page_flags |= PAGE_RESET;
+     page_set_flags(start, start + len, page_flags);
+  the_end:
+     trace_target_mmap_complete(start);
+@@ -794,7 +795,8 @@ abi_long target_mremap(abi_ulong old_addr, abi_ulong old_size,
+         new_addr = h2g(host_addr);
+         prot = page_get_flags(old_addr);
+         page_set_flags(old_addr, old_addr + old_size, 0);
+-        page_set_flags(new_addr, new_addr + new_size, prot | PAGE_VALID);
++        page_set_flags(new_addr, new_addr + new_size,
++                       prot | PAGE_VALID | PAGE_RESET);
+     }
+     tb_invalidate_phys_range(new_addr, new_addr + new_size);
+     mmap_unlock();
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 36b09010552..0c2d660bc42 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -4643,8 +4643,8 @@ static inline abi_ulong do_shmat(CPUArchState *cpu_env,
+     raddr=h2g((unsigned long)host_raddr);
+ 
+     page_set_flags(raddr, raddr + shm_info.shm_segsz,
+-                   PAGE_VALID | PAGE_READ |
+-                   ((shmflg & SHM_RDONLY)? 0 : PAGE_WRITE));
++                   PAGE_VALID | PAGE_RESET | PAGE_READ |
++                   (shmflg & SHM_RDONLY ? 0 : PAGE_WRITE));
+ 
+     for (i = 0; i < N_SHM_REGIONS; i++) {
+         if (!shm_regions[i].in_use) {
+-- 
+2.20.1
 
-  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210216
-
-for you to fetch changes up to 64fd5bddf3b71d1b92b55382ab39768bd87ecfbd:
-
-  tests/qtests: Add npcm7xx emc model test (2021-02-16 14:27:05 +0000)
-
-----------------------------------------------------------------
-target-arm queue:
- * Support ARMv8.5-MemTag for linux-user
- * ncpm7xx: Support SMBus, EMC ethernet devices
- * MAINTAINERS: add section for Clock framework
-
-----------------------------------------------------------------
-Doug Evans (3):
-      hw/net: Add npcm7xx emc model
-      hw/arm: Add npcm7xx emc model
-      tests/qtests: Add npcm7xx emc model test
-
-Hao Wu (5):
-      hw/i2c: Implement NPCM7XX SMBus Module Single Mode
-      hw/arm: Add I2C sensors for NPCM750 eval board
-      hw/arm: Add I2C sensors and EEPROM for GSJ machine
-      hw/i2c: Add a QTest for NPCM7XX SMBus Device
-      hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
-
-Luc Michel (1):
-      MAINTAINERS: add myself maintainer for the clock framework
-
-Richard Henderson (31):
-      tcg: Introduce target-specific page data for user-only
-      linux-user: Introduce PAGE_ANON
-      exec: Use uintptr_t for guest_base
-      exec: Use uintptr_t in cpu_ldst.h
-      exec: Improve types for guest_addr_valid
-      linux-user: Check for overflow in access_ok
-      linux-user: Tidy VERIFY_READ/VERIFY_WRITE
-      bsd-user: Tidy VERIFY_READ/VERIFY_WRITE
-      linux-user: Do not use guest_addr_valid for h2g_valid
-      linux-user: Fix guest_addr_valid vs reserved_va
-      exec: Introduce cpu_untagged_addr
-      exec: Use cpu_untagged_addr in g2h; split out g2h_untagged
-      linux-user: Explicitly untag memory management syscalls
-      linux-user: Use guest_range_valid in access_ok
-      exec: Rename guest_{addr,range}_valid to *_untagged
-      linux-user: Use cpu_untagged_addr in access_ok; split out *_untagged
-      linux-user: Move lock_user et al out of line
-      linux-user: Fix types in uaccess.c
-      linux-user: Handle tags in lock_user/unlock_user
-      linux-user/aarch64: Implement PR_TAGGED_ADDR_ENABLE
-      target/arm: Improve gen_top_byte_ignore
-      target/arm: Use the proper TBI settings for linux-user
-      linux-user/aarch64: Implement PR_MTE_TCF and PR_MTE_TAG
-      linux-user/aarch64: Implement PROT_MTE
-      target/arm: Split out syndrome.h from internals.h
-      linux-user/aarch64: Pass syndrome to EXC_*_ABORT
-      linux-user/aarch64: Signal SEGV_MTESERR for sync tag check fault
-      linux-user/aarch64: Signal SEGV_MTEAERR for async tag check error
-      target/arm: Add allocation tag storage for user mode
-      target/arm: Enable MTE for user-only
-      tests/tcg/aarch64: Add mte smoke tests
-
- docs/system/arm/nuvoton.rst         |    5 +-
- bsd-user/qemu.h                     |   17 +-
- include/exec/cpu-all.h              |   47 +-
- include/exec/cpu_ldst.h             |   39 +-
- include/exec/exec-all.h             |    2 +-
- include/hw/arm/npcm7xx.h            |    4 +
- include/hw/i2c/npcm7xx_smbus.h      |  113 ++++
- include/hw/net/npcm7xx_emc.h        |  286 +++++++++
- linux-user/aarch64/target_signal.h  |    3 +
- linux-user/aarch64/target_syscall.h |   13 +
- linux-user/qemu.h                   |   76 +--
- linux-user/syscall_defs.h           |    1 +
- target/arm/cpu-param.h              |    3 +
- target/arm/cpu.h                    |   32 +
- target/arm/internals.h              |  249 +-------
- target/arm/syndrome.h               |  273 +++++++++
- tests/tcg/aarch64/mte.h             |   60 ++
- accel/tcg/translate-all.c           |   32 +-
- accel/tcg/user-exec.c               |   51 +-
- bsd-user/elfload.c                  |    2 +-
- bsd-user/main.c                     |    8 +-
- bsd-user/mmap.c                     |   23 +-
- hw/arm/npcm7xx.c                    |  118 +++-
- hw/arm/npcm7xx_boards.c             |   46 ++
- hw/i2c/npcm7xx_smbus.c              | 1099 +++++++++++++++++++++++++++++++++++
- hw/net/npcm7xx_emc.c                |  857 +++++++++++++++++++++++++++
- linux-user/aarch64/cpu_loop.c       |   38 +-
- linux-user/elfload.c                |   18 +-
- linux-user/flatload.c               |    2 +-
- linux-user/hppa/cpu_loop.c          |   39 +-
- linux-user/i386/cpu_loop.c          |    6 +-
- linux-user/i386/signal.c            |    5 +-
- linux-user/main.c                   |    4 +-
- linux-user/mmap.c                   |   88 +--
- linux-user/ppc/signal.c             |    4 +-
- linux-user/syscall.c                |  165 ++++--
- linux-user/uaccess.c                |   82 ++-
- target/arm/cpu.c                    |   25 +-
- target/arm/helper-a64.c             |    4 +-
- target/arm/mte_helper.c             |   39 +-
- target/arm/tlb_helper.c             |   15 +-
- target/arm/translate-a64.c          |   25 +-
- target/hppa/op_helper.c             |    2 +-
- target/i386/tcg/mem_helper.c        |    2 +-
- target/s390x/mem_helper.c           |    4 +-
- tests/qtest/npcm7xx_emc-test.c      |  862 +++++++++++++++++++++++++++
- tests/qtest/npcm7xx_smbus-test.c    |  495 ++++++++++++++++
- tests/tcg/aarch64/mte-1.c           |   28 +
- tests/tcg/aarch64/mte-2.c           |   45 ++
- tests/tcg/aarch64/mte-3.c           |   51 ++
- tests/tcg/aarch64/mte-4.c           |   45 ++
- tests/tcg/aarch64/pauth-2.c         |    1 -
- MAINTAINERS                         |   11 +
- hw/arm/Kconfig                      |    1 +
- hw/i2c/meson.build                  |    1 +
- hw/i2c/trace-events                 |   12 +
- hw/net/meson.build                  |    1 +
- hw/net/trace-events                 |   17 +
- tests/qtest/meson.build             |    2 +
- tests/tcg/aarch64/Makefile.target   |    6 +
- tests/tcg/configure.sh              |    4 +
- 61 files changed, 5052 insertions(+), 556 deletions(-)
- create mode 100644 include/hw/i2c/npcm7xx_smbus.h
- create mode 100644 include/hw/net/npcm7xx_emc.h
- create mode 100644 target/arm/syndrome.h
- create mode 100644 tests/tcg/aarch64/mte.h
- create mode 100644 hw/i2c/npcm7xx_smbus.c
- create mode 100644 hw/net/npcm7xx_emc.c
- create mode 100644 tests/qtest/npcm7xx_emc-test.c
- create mode 100644 tests/qtest/npcm7xx_smbus-test.c
- create mode 100644 tests/tcg/aarch64/mte-1.c
- create mode 100644 tests/tcg/aarch64/mte-2.c
- create mode 100644 tests/tcg/aarch64/mte-3.c
- create mode 100644 tests/tcg/aarch64/mte-4.c
 
