@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482B731CC8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:03:32 +0100 (CET)
-Received: from localhost ([::1]:49892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40EBF31CC90
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:04:13 +0100 (CET)
+Received: from localhost ([::1]:51102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1sx-0003KV-91
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:03:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41444)
+	id 1lC1tc-0003pG-83
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:04:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lC1r1-0002EW-9A
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:01:31 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:41032)
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1lC1rF-0002ZD-JU; Tue, 16 Feb 2021 10:01:45 -0500
+Received: from muminek.juszkiewicz.com.pl ([2001:41d0:1:43dd::1]:48912)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lC1qz-00067O-68
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:01:30 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11GF0Upe012883
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 16 Feb 2021 10:00:33 -0500
-Date: Tue, 16 Feb 2021 10:00:30 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] qtest: add a reproducer for LP#1878642
-Message-ID: <20210216150025.ujuq7cxspep2kaei@mozz.bu.edu>
-References: <20201102163336.115444-1-alxndr@bu.edu>
- <CAFEAcA9d=ZTXzK+u5rjFvkiA53izTBq5Hm5VwQ9=WEAZX+TRJg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <marcin.juszkiewicz@linaro.org>)
+ id 1lC1rD-00068i-Oo; Tue, 16 Feb 2021 10:01:45 -0500
+Received: from localhost (localhost [127.0.0.1])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTP id 981EB2606BA;
+ Tue, 16 Feb 2021 16:01:39 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at juszkiewicz.com.pl
+Received: from muminek.juszkiewicz.com.pl ([127.0.0.1])
+ by localhost (muminek.juszkiewicz.com.pl [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id fl2vFTSPBcea; Tue, 16 Feb 2021 16:01:37 +0100 (CET)
+Received: from puchatek.com (89-67-26-161.dynamic.chello.pl [89.67.26.161])
+ by muminek.juszkiewicz.com.pl (Postfix) with ESMTPSA id 9D0B3260131;
+ Tue, 16 Feb 2021 16:01:35 +0100 (CET)
+From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+To: qemu-arm@nongnu.org
+Subject: [PATCH v3 0/2] sbsa-ref: update list of supported cpus
+Date: Tue, 16 Feb 2021 16:01:20 +0100
+Message-Id: <20210216150122.3830863-1-marcin.juszkiewicz@linaro.org>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA9d=ZTXzK+u5rjFvkiA53izTBq5Hm5VwQ9=WEAZX+TRJg@mail.gmail.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
+Content-Transfer-Encoding: 8bit
+Received-SPF: softfail client-ip=2001:41d0:1:43dd::1;
+ envelope-from=marcin.juszkiewicz@linaro.org; helo=muminek.juszkiewicz.com.pl
+X-Spam_score_int: -11
+X-Spam_score: -1.2
 X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,62 +54,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?q?Rados=C5=82aw=20Biernacki?= <rad@semihalf.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210216 1325, Peter Maydell wrote:
-> On Mon, 2 Nov 2020 at 16:35, Alexander Bulekov <alxndr@bu.edu> wrote:
-> >
-> > https://bugs.launchpad.net/qemu/+bug/1878642
-> >
-> > Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >
-> > Based-on: <20200717151705.18611-1-f4bug@amsat.org>
-> >
-> > The added testcase will fail, unless this ^^^ patch is applied.
-> >
-> >  tests/qtest/fuzz-test.c | 15 +++++++++++++++
-> >  1 file changed, 15 insertions(+)
-> >
-> > diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
-> > index 2f38bb1ec2..9cb4c42bde 100644
-> > --- a/tests/qtest/fuzz-test.c
-> > +++ b/tests/qtest/fuzz-test.c
-> > @@ -34,6 +34,19 @@ static void test_lp1878263_megasas_zero_iov_cnt(void)
-> >      qtest_quit(s);
-> >  }
-> >
-> > +static void test_lp1878642_pci_bus_get_irq_level_assert(void)
-> > +{
-> > +    QTestState *s;
-> > +
-> > +    s = qtest_init("-M pc-q35-5.0 "
-> > +                   "-nographic -monitor none -serial none "
-> > +                   "-d guest_errors -trace pci*");
-> > +
-> > +    qtest_outl(s, 0xcf8, 0x8400f841);
-> > +    qtest_outl(s, 0xcfc, 0xebed205d);
-> > +    qtest_outl(s, 0x5d02, 0xebed205d);
-> > +}
-> 
-> Hi; I just noticed this, but why does this test case pass
-> "-trace pci*" to QEMU? It doesn't look like it does anything to
-> try to capture the trace output, which thus winds up just going
-> to the stdout/stderr of the "make check" run. Similarly I'm not
-> sure '-d guest_errors' is going to do anything helpful unless
-> you take steps to capture the output and check it.
-> 
+Cortex-A53 goes away due to 40-bit address space (so below sbsa-ref
+default memory map) and 'max' goes in as we want to be able to test SVE
+support.
 
-Ah, I sometimes include those in the initial report, if the device has
-trace-events. I can remove this from fuzz-test.c, if it is slowing
-things down.
--Alex
+Marcin Juszkiewicz (2):
+  sbsa-ref: remove cortex-a53 from list of supported cpus
+  sbsa-ref: add 'max' to list of allowed cpus
 
-> thanks
-> -- PMM
+ hw/arm/sbsa-ref.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 
