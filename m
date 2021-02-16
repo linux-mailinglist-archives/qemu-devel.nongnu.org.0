@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCCA631CF9F
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:53:00 +0100 (CET)
-Received: from localhost ([::1]:45650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0B3A31CFB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:57:45 +0100 (CET)
+Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC4Wx-0003UC-Po
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:52:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51306)
+	id 1lC4bX-0005nj-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:57:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lC4VO-0002ug-0k
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:51:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57454)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lC4ZW-0004uf-EG
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:55:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32484)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lC4VI-00038T-3r
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:51:21 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lC4ZU-0003a2-Ua
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:55:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613497874;
+ s=mimecast20190719; t=1613498136;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=+tyxUS8yK/U/81cDPBP0ohl6NmXuvQnnSkeMxFUH7xQ=;
- b=fj2tBizO1V0ETXyqNB4oxd7hBiSzRK5npywPKHJHUQxrwLy1To8YBqkXP3nyvpc90h1/vU
- lZW5y7fRYz2fO92kC/VoiCgt6OaOsrxhYN0VoPftN0wATu7xG+68/s1YkHN4UxLiGuxyTV
- 2WC4dHPTIybR8LMIMBG+2g6B4krzmyE=
+ bh=jYG1pogPeorXiNbGkjpg4X6ddLmVfeeGhcxb8D4tEcY=;
+ b=P87/FYNw3iuQYC5gmE0ct8Y2OHuOZpAMFkZ7bK7ZcM8NE2M31YwrxQvy94CpTdgaLEdBw4
+ E6nQcSrdOunlLXAzXmU48qVbd9qMUbNhIlLE84g8yTdZX8wF7Vam4trkYk77hWGVAvZTWf
+ T276Bz5WVqq+kOn7k3+9vcYRkCoaKd4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530-aHPrGPS3Oz-7zCL4fK70sw-1; Tue, 16 Feb 2021 12:51:12 -0500
-X-MC-Unique: aHPrGPS3Oz-7zCL4fK70sw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-472-hYmhFWk8P4mz0GiWVQLHRA-1; Tue, 16 Feb 2021 12:55:34 -0500
+X-MC-Unique: hYmhFWk8P4mz0GiWVQLHRA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B3CE26DD24;
- Tue, 16 Feb 2021 17:51:09 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-159.ams2.redhat.com [10.36.113.159])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4019819D6C;
- Tue, 16 Feb 2021 17:51:07 +0000 (UTC)
-Date: Tue, 16 Feb 2021 18:51:06 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [RFC PATCH v2 0/4] Allow changing bs->file on reopen
-Message-ID: <20210216175106.GD5282@merkur.fritz.box>
-References: <cover.1612809837.git.berto@igalia.com>
- <20210210172657.GJ5144@merkur.fritz.box>
- <w514kic2cmf.fsf@maestria.local.igalia.com>
- <20210216164807.GC5282@merkur.fritz.box>
- <w511rdf3oxp.fsf@maestria.local.igalia.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 523368799F1
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 17:55:33 +0000 (UTC)
+Received: from work-vm (ovpn-115-109.ams2.redhat.com [10.36.115.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7726360C15;
+ Tue, 16 Feb 2021 17:55:29 +0000 (UTC)
+Date: Tue, 16 Feb 2021 17:55:26 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH 1/1] virtiofsd: Do not use a thread pool by
+ default
+Message-ID: <YCwHDvMDDYMy+4de@work-vm>
+References: <20210210182744.27324-1-vgoyal@redhat.com>
+ <20210210182744.27324-2-vgoyal@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <w511rdf3oxp.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210210182744.27324-2-vgoyal@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -66,7 +67,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,26 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, pkrempa@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.02.2021 um 18:25 hat Alberto Garcia geschrieben:
-> On Tue 16 Feb 2021 05:48:07 PM CET, Kevin Wolf wrote:
+* Vivek Goyal (vgoyal@redhat.com) wrote:
+> Currently we created a thread pool (With 64 max threads per pool) for
+> each virtqueue. We hoped that this will provide us with better scalability
+> and performance.
 > 
-> >> There is no problem with removing the filter anymore. See here for a
-> >> description of the original problem:
-> >> 
-> >> https://lists.gnu.org/archive/html/qemu-block/2020-12/msg00090.html
-> >
-> > Ah, nice. Can we just add removing the filter again to the test then?
+> But in practice, we are getting better numbers in most of the cases
+> when we don't create a thread pool at all and a single thread per
+> virtqueue receives the request and processes it.
 > 
-> That is already in this series, see patch #2.
+> Hence, I am proposing that we switch to no thread pool by default
+> (equivalent of --thread-pool-size=0). This will provide out of
+> box better performance to most of the users. In fact other users
+> have confirmed that not using a thread pool gives them better
+> numbers. So why not use this as default. It can be changed when
+> somebody can fix the issues with thread pool performance.
+> 
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 
-Oh, indeed. I missed the second reopen, probably expected the code to be
-longer than that. :-)
+OK, lets try it - I still worry it really means we're missing something
+silly about them, you'd really think eventually the threads should help.
 
-Kevin
+
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  tools/virtiofsd/fuse_lowlevel.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
+> index e94b71110b..fbdf62ee9b 100644
+> --- a/tools/virtiofsd/fuse_lowlevel.c
+> +++ b/tools/virtiofsd/fuse_lowlevel.c
+> @@ -18,7 +18,7 @@
+>  
+>  #include <sys/file.h>
+>  
+> -#define THREAD_POOL_SIZE 64
+> +#define THREAD_POOL_SIZE 0
+>  
+>  #define OFFSET_MAX 0x7fffffffffffffffLL
+>  
+> -- 
+> 2.25.4
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
