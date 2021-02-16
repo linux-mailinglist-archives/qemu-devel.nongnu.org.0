@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC0F31CCDD
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:25:26 +0100 (CET)
-Received: from localhost ([::1]:45518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E54B31CCF9
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:33:39 +0100 (CET)
+Received: from localhost ([::1]:51928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC2E9-0000Yv-Ep
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:25:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45982)
+	id 1lC2M6-0003le-0i
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:33:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lC2Bx-0007bS-Ce; Tue, 16 Feb 2021 10:23:09 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55186)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lC2JN-0002ff-4y
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:30:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lC2Bv-0008Nv-1p; Tue, 16 Feb 2021 10:23:09 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id w4so9416064wmi.4;
- Tue, 16 Feb 2021 07:23:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Uvp0YJqe6swKIinp6H5lcVQioEW7pHnMTKuvCBzS6nc=;
- b=uVZhn1SnGBgI+QAd8iJ8dUYqBy76nfJMV8WGCFQ0ShB7Vn5xdyXEeOBDUGFiTxR6d7
- bqYC6jV5nBpwHRFfd+8Ss+h2tNnSa6ZNgjtUHF580H3h1SaHd8eMI6uL8Qp/FIKWKMtE
- JY+bW32n1thoEzG5LRiLZ79qeely5GwyCNAaJT6nNR04IyeqnAWu+f+ysikABZd90WVj
- zOHahRw2sVQJSz3UUgDIiwv54sbGrOXE9eqfbwpO/r7UNfdZXXm2HtX3YVbAj4b4XoTU
- PHRh2Gzzv9kmXGJXV+yAxEi+dIGGwjDKJ+6MXEzad011cjqS1hxHHwZ39b8qi5fodc6I
- fwsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Uvp0YJqe6swKIinp6H5lcVQioEW7pHnMTKuvCBzS6nc=;
- b=bIOtRC032Rp10Hqq6ZcusMNRyB+COKW6T0uST95X+OuuPLOFfNCcDQaUdWUJula+5g
- hr4DoSX7tCcKzrttNJXbX7IiEJJyw3WXLXAbne2DfSiWXR1r1EqNZKAt+unKXY9SVf4I
- YTWGYSHyW+39g1edMAjF0jKWdd8pUcAX49qJ7lEEANW7PCGj/gPCUMl68ajO2Gk/X64f
- v5hdGzRKxRXaNF4na0t4dDkiRae6F1nG6MrzalcIsLVQ25trq4Ce9X6DCexCj0UteLSW
- pGKR/lbtC0I0ocbl9vGnzVLEO230hK0CvhJwTr8Y3y4JdCsIVEQq4i80sBx1DOTBf7OX
- HQXg==
-X-Gm-Message-State: AOAM532Ut0076cPXrcOlSHmuCa8s5fTK/Spk+OiFDZrmKutWuhsTBc1M
- B5dfHb0fxY7WjQAMpjlJR4c=
-X-Google-Smtp-Source: ABdhPJwSgiHhQpFRa9nb58D6g2x8YEd8l14F/m7AMbUKPyF9qZGrnijirKL2Ea/Bqy2B5qWr45l7Uw==
-X-Received: by 2002:a05:600c:4f56:: with SMTP id
- m22mr3793671wmq.143.1613488985122; 
- Tue, 16 Feb 2021 07:23:05 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o18sm3680729wmp.19.2021.02.16.07.23.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Feb 2021 07:23:04 -0800 (PST)
-Subject: Re: [PATCH v2 8/8] hw/sd: sd: Bypass the RCA check for CMD13 in SPI
- mode
-To: Bin Meng <bmeng.cn@gmail.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
-References: <20210216150225.27996-1-bmeng.cn@gmail.com>
- <20210216150225.27996-9-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <e9328f47-62ff-771b-bbd8-ccdcbb692632@amsat.org>
-Date: Tue, 16 Feb 2021 16:23:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lC2JI-00019p-0R
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:30:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lC2JF-00083A-Uo
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 15:30:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E3B922E80FB
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 15:30:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210216150225.27996-9-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.19,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 16 Feb 2021 15:23:32 -0000
+From: Philipp Oppermann <1915794@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: phil-opp ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Philipp Oppermann (phil-opp)
+X-Launchpad-Bug-Modifier: Philipp Oppermann (phil-opp)
+References: <161346747703.23365.3708625175581048243.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161348901277.4907.9976105188620705687.malone@gac.canonical.com>
+Subject: [Bug 1915794] Re: could not load PC BIOS 'bios-256k.bin' on latest
+ Windows exe (*-20210203.exe)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 57878ff4d9505231cf8069b563889ae6f51654b4
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,35 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Reply-To: Bug 1915794 <1915794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 4:02 PM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> Unlike SD mode, when SD card is working in SPI mode, the argument
-> of CMD13 is stuff bits. Hence we should bypass the RCA check.
-> 
-> See "Physical Layer Specification Version 8.00", chapter 7.3.1.3
-> Detailed Command Description (SPI mode):
-> 
->   "The card shall ignore stuff bits and reserved bits in an argument"
-> 
-> and Table 7-3 Commands and Arguments (SPI mode):
-> 
->   "CMD13 Argument [31:0] stuff bits"
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - update commit message to include the reference in the spec
-> 
->  hw/sd/sd.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Thanks a lot!
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915794
+
+Title:
+  could not load PC BIOS 'bios-256k.bin' on latest Windows exe
+  (*-20210203.exe)
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  I'm using https://scoop.sh/ to install QEMU on a Windows CI job, which
+  is run daily. Since today, the job is failing with an `could not load
+  PC BIOS 'bios-256k.bin'` error thrown by QEMU.
+
+  The version that causes this error is: https://qemu.weilnetz.de/w64/2021/=
+qemu-w64-setup-20210203.exe#/dl.7z
+  The previous version, which worked fine, was: https://qemu.weilnetz.de/w6=
+4/2020/qemu-w64-setup-20201124.exe#/dl.7z
+
+  Both CI runs build the exact same code. You can find the full logs at
+  https://github.com/rust-
+  osdev/x86_64/runs/1908137213?check_suite_focus=3Dtrue (failing) and
+  https://github.com/rust-
+  osdev/x86_64/runs/1900698412?check_suite_focus=3Dtrue (previous).
+
+  (I hope this is the right place to report this issue.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915794/+subscriptions
 
