@@ -2,66 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F03431C588
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:30:33 +0100 (CET)
-Received: from localhost ([::1]:47022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD99731C58A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 03:32:38 +0100 (CET)
+Received: from localhost ([::1]:54610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBq8G-0000FX-6V
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:30:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46812)
+	id 1lBqAH-0003XF-R6
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 21:32:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBpwQ-0001Sd-1r
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:18:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58865)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lBpwN-00031J-HB
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:18:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613441894;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=5917PSMz2g65wMtlQWH02CpbndSiFwxp9o3DSEVvCVU=;
- b=DjHmEuVC7XSVuzebO/P9wK8nV85OaYq71Z4eYLvHaG+gOxLEWHZ+Tl3S2eiRBIfu54ldCI
- hpur9acoL6+mdpevVC1/FWJcIYKlo9JRMJQdLOGfRNac2K1fZ9UXkQnBdZ7C3efyIM7eLQ
- 3IldBdeXHWGxyMuDBMMjYnvptqivk+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-295-hWOg9oDpPSOaqYKpDUOuyQ-1; Mon, 15 Feb 2021 21:18:12 -0500
-X-MC-Unique: hWOg9oDpPSOaqYKpDUOuyQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D62018A08C3;
- Tue, 16 Feb 2021 02:18:11 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDBAA10023AF;
- Tue, 16 Feb 2021 02:18:09 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>
-Subject: [PATCH v6 00/19] qapi: static typing conversion, pt2
-Date: Mon, 15 Feb 2021 21:17:50 -0500
-Message-Id: <20210216021809.134886-1-jsnow@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1lBptt-0006ZX-Kv
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:41 -0500
+Received: from mga17.intel.com ([192.55.52.151]:25635)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
+ id 1lBpto-0001ZH-4K
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 21:15:41 -0500
+IronPort-SDR: yt/xabNJEu2nqWyCywAfIZ+7R6Nf9Mxf75l+6MHC0jLW5qbToLKkxJ92aaKj4yrzdAY5S2sRP6
+ Kwxj9QxZQTaw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="162558769"
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="162558769"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+ by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 18:14:52 -0800
+IronPort-SDR: 9wrA8/hVUP4wIQGFrBdo4XWGEQePv8IzBDMmZUP83C4+MsSqjjfQgsQBzNEG/42GJZZ5HkZmJb
+ idPVcYyEZM7g==
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591705432"
+Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
+ by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 15 Feb 2021 18:14:52 -0800
+From: Isaku Yamahata <isaku.yamahata@intel.com>
+To: qemu-devel@nongnu.org, pbonzini@redhat.com, alistair@alistair23.me,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, mst@redhat.com,
+ cohuck@redhat.com, mtosatti@redhat.com, xiaoyao.li@intel.com,
+ seanjc@google.com
+Subject: [RFC PATCH 16/23] hw/i386: Add definitions from UEFI spec for volumes,
+ resources, etc...
+Date: Mon, 15 Feb 2021 18:13:12 -0800
+Message-Id: <0506624d4d3e44d618651b0f96f89bd16e75a0e2.1613188118.git.isaku.yamahata@intel.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <cover.1613188118.git.isaku.yamahata@intel.com>
+References: <cover.1613188118.git.isaku.yamahata@intel.com>
+In-Reply-To: <cover.1613188118.git.isaku.yamahata@intel.com>
+References: <cover.1613188118.git.isaku.yamahata@intel.com>
+Received-SPF: pass client-ip=192.55.52.151;
+ envelope-from=isaku.yamahata@intel.com; helo=mga17.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UPPERCASE_50_75=0.008 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,130 +66,527 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: isaku.yamahata@intel.com, isaku.yamahata@gmail.com, kvm@vger.kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi, this series adds static type hints to the QAPI module.=0D
-This is part two, and covers introspect.py.=0D
-=0D
-Part 2: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt2=0D
-Everything: https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt6=0D
-=0D
-- Requires Python 3.6+=0D
-- Requires mypy 0.770 or newer (for type analysis only)=0D
-- Requires pylint 2.6.0 or newer (for lint checking only)=0D
-=0D
-(Note: pylint does not like Python 3.9 very much yet. Known problem.)=0D
-=0D
-Type hints are added in patches that add *only* type hints and change no=0D
-other behavior. Any necessary changes to behavior to accommodate typing=0D
-are split out into their own tiny patches.=0D
-=0D
-Every commit should pass with (from ./scripts):=0D
- - flake8 qapi/=0D
- - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
- - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
- - isort -c qapi/=0D
-=0D
-V6:=0D
-=0D
-001/19:[down] 'qapi: Replace List[str] with Sequence[str] for ifcond'=0D
-009/19:[0021] [FC] 'qapi/introspect.py: Introduce preliminary tree typing'=
-=0D
-010/19:[0013] [FC] 'qapi/introspect.py: create a typed 'Annotated' data str=
-utcure'=0D
-013/19:[down] 'qapi/introspect.py: remove _gen_variants helper'=0D
-014/19:[0053] [FC] 'qapi/introspect.py: add type hint annotations'=0D
-015/19:[down] 'qapi/introspect.py: Add docstrings to _gen_tree and _tree_to=
-_qlit'=0D
-017/19:[down] 'qapi/introspect.py: Type _gen_tree variants as Sequence[str]=
-'=0D
-018/19:[down] 'qapi/introspect.py: set _gen_tree's default ifcond argument =
-to ()'=0D
-019/19:[down] 'qapi/introspect.py: add SchemaMetaType enum'=0D
-=0D
-01: New; consistently type ifcond as Seq[str] in already-typed files.=0D
-09: Adjust comment concerning _stub to be more clear (?)=0D
-    Rename _stub to _Stub, etc.=0D
-    TreeValue becomes JSONValue.=0D
-10: _NodeT becomes _ValueT to match the _Value name.=0D
-    Change visit_alternate_type whitespace around some more.=0D
-13: New, pre-requisite for using SchemaInfo aliases.=0D
-        (Was not appropriate to go into #14.)=0D
-14: Use Sequence[str] instead of List[str] for ifcond=0D
-    Use SchemaInfo "dummy types" instead of _DObject=0D
-15: Adjust comment to mention dict_value limitation.=0D
-    Add docstring for _gen_tree (from former "dummy types" patch).=0D
-    Change name of commit to reflect now-multiple docstring additions.=0D
-=0D
-OPTIONAL PATCHES:=0D
-=0D
-17: Use Sequence[QAPISchemaFeature] instead of Optional[List[QAPISchemaFeat=
-ure]]=0D
-18: Set a default argument for ifcond to the empty tuple ().=0D
-    Stylistically matches the above patch.=0D
-19: Create a SchemaMetaType enum and use it instead of the string type.=0D
-    (Contains an optional blurb that can be removed if desired.)=0D
-=0D
-V5:=0D
-=0D
-04: Rename 'suppress_first_indent' to 'dict_value'=0D
-    (Docstring added in 014.)=0D
-06: Avoid changing the output structure of _make_tree=0D
-07: Chance the structure of _make_tree 8-)=0D
-08: Change commented TreeValue to include a TODO instead.=0D
-09: Change NodeT bound to _value instead of TreeValue=0D
-    Change "Remove in 3.7" text to include "TODO: "=0D
-    Remove forwarding suppress_first_indent/dict_value in recursive cases=
-=0D
-    Change spacing in visit_alternate_type()=0D
-11: Consequence of suppress_first_value/dict_value change=0D
-12: Commit message note added=0D
-    Changed _DObject comment=0D
-13: Commit notes adjusted=0D
-    _DObject stuff: Comment near SchemaInfo et al adjusted=0D
-14: Changed docstring to reflect dict_value change=0D
-15: Updated copyright year for 2021 :~)=0D
-=0D
-V4:=0D
- - Rebased on "pt1.5" v4=0D
- - signatures updated to use Optional[QAPISourceInfo]=0D
-=0D
-John Snow (19):=0D
-  qapi: Replace List[str] with Sequence[str] for ifcond=0D
-  qapi/introspect.py: assert schema is not None=0D
-  qapi/introspect.py: use _make_tree for features nodes=0D
-  qapi/introspect.py: add _gen_features helper=0D
-  qapi/introspect.py: guard against ifcond/comment misuse=0D
-  qapi/introspect.py: Unify return type of _make_tree()=0D
-  qapi/introspect.py: replace 'extra' dict with 'comment' argument=0D
-  qapi/introspect.py: Always define all 'extra' dict keys=0D
-  qapi/introspect.py: Introduce preliminary tree typing=0D
-  qapi/introspect.py: create a typed 'Annotated' data strutcure=0D
-  qapi/introspect.py: improve _tree_to_qlit error message=0D
-  qapi/introspect.py: improve readability of _tree_to_qlit=0D
-  qapi/introspect.py: remove _gen_variants helper=0D
-  qapi/introspect.py: add type hint annotations=0D
-  qapi/introspect.py: Add docstrings to _gen_tree and _tree_to_qlit=0D
-  qapi/introspect.py: Update copyright and authors list=0D
-  qapi/introspect.py: Type _gen_tree variants as Sequence[str]=0D
-  qapi/introspect.py: set _gen_tree's default ifcond argument to ()=0D
-  qapi/introspect.py: add SchemaMetaType enum=0D
-=0D
- scripts/qapi/commands.py   |   3 +-=0D
- scripts/qapi/events.py     |   4 +-=0D
- scripts/qapi/gen.py        |  12 +-=0D
- scripts/qapi/introspect.py | 350 +++++++++++++++++++++++++++----------=0D
- scripts/qapi/mypy.ini      |   5 -=0D
- scripts/qapi/schema.py     |   2 +-=0D
- scripts/qapi/types.py      |  12 +-=0D
- scripts/qapi/visit.py      |  10 +-=0D
- 8 files changed, 275 insertions(+), 123 deletions(-)=0D
-=0D
---=20=0D
-2.29.2=0D
-=0D
+Add definitions for literals, enums, structs, GUIDs, etc... that will be
+used by TDX to build the UEFI Hand-Off Block (HOB) that is passed to the
+Trusted Domain Virtual Firmware (TDVF).  All values come from the UEFI
+specification.
+
+note: EFI_RESOURCE_ATTRIBUTE_{ENCRYPTED, UNACCEPTED}, will be added
+in future UEFI spec.
+
+Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+---
+ hw/i386/uefi.h | 496 +++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 496 insertions(+)
+ create mode 100644 hw/i386/uefi.h
+
+diff --git a/hw/i386/uefi.h b/hw/i386/uefi.h
+new file mode 100644
+index 0000000000..2ff6eeaa9e
+--- /dev/null
++++ b/hw/i386/uefi.h
+@@ -0,0 +1,496 @@
++/*
++ * Copyright (C) 2020 Intel Corporation
++ *
++ * Author: Isaku Yamahata <isaku.yamahata at gmail.com>
++ *                        <isaku.yamahata at intel.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++
++ * You should have received a copy of the GNU General Public License along
++ * with this program; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#ifndef HW_I386_UEFI_H
++#define HW_I386_UEFI_H
++
++/***************************************************************************/
++/*
++ * basic EFI definitions
++ * supplemented with UEFI Specification Version 2.8 (Errata A)
++ * released February 2020
++ */
++/* UEFI integer is little endian */
++
++typedef struct {
++    uint32_t Data1;
++    uint16_t Data2;
++    uint16_t Data3;
++    uint8_t Data4[8];
++} EFI_GUID;
++
++typedef uint64_t EFI_PHYSICAL_ADDRESS;
++typedef uint32_t EFI_BOOT_MODE;
++
++typedef enum {
++    EfiReservedMemoryType,
++    EfiLoaderCode,
++    EfiLoaderData,
++    EfiBootServicesCode,
++    EfiBootServicesData,
++    EfiRuntimeServicesCode,
++    EfiRuntimeServicesData,
++    EfiConventionalMemory,
++    EfiUnusableMemory,
++    EfiACPIReclaimMemory,
++    EfiACPIMemoryNVS,
++    EfiMemoryMappedIO,
++    EfiMemoryMappedIOPortSpace,
++    EfiPalCode,
++    EfiPersistentMemory,
++    EfiMaxMemoryType
++} EFI_MEMORY_TYPE;
++
++
++/*
++ * data structure firmware volume/file
++ * based on
++ * UEFI Platform Initialization Specification Version 1.7. vol 3, 3.2.1
++ */
++
++#define SIGNATURE_16(A, B)        (((A) | (B << 8)))
++#define SIGNATURE_32(A, B, C, D)  (((A) | (B << 8) | (C << 16) | (D << 24)))
++#define SIGNATURE_64(A, B, C, D, E, F, G, H)                            \
++    (SIGNATURE_32(A, B, C, D) | ((uint64_t) (SIGNATURE_32(E, F, G, H)) << 32))
++
++/***************************************************************************/
++/* Firmware Volume format */
++
++typedef uint32_t EFI_FV_FILE_ATTRIBUTES;
++
++
++#define EFI_FV_FILE_ATTRIB_ALIGNMENT     0x0000001F
++#define EFI_FV_FILE_ATTRIB_FIXED         0x00000100
++#define EFI_FV_FILE_ATTRIB_MEMORY_MAPPED 0x00000200
++
++typedef uint32_t EFI_FVB_ATTRIBUTES_2;
++
++
++#define EFI_FVB2_READ_DISABLED_CAP  0x00000001
++#define EFI_FVB2_READ_ENABLED_CAP   0x00000002
++#define EFI_FVB2_READ_STATUS        0x00000004
++#define EFI_FVB2_WRITE_DISABLED_CAP 0x00000008
++#define EFI_FVB2_WRITE_ENABLED_CAP  0x00000010
++#define EFI_FVB2_WRITE_STATUS       0x00000020
++#define EFI_FVB2_LOCK_CAP           0x00000040
++#define EFI_FVB2_LOCK_STATUS        0x00000080
++#define EFI_FVB2_STICKY_WRITE       0x00000200
++#define EFI_FVB2_MEMORY_MAPPED      0x00000400
++#define EFI_FVB2_ERASE_POLARITY     0x00000800
++#define EFI_FVB2_READ_LOCK_CAP      0x00001000
++#define EFI_FVB2_READ_LOCK_STATUS   0x00002000
++#define EFI_FVB2_WRITE_LOCK_CAP     0x00004000
++#define EFI_FVB2_WRITE_LOCK_STATUS  0x00008000
++#define EFI_FVB2_ALIGNMENT          0x001F0000
++#define EFI_FVB2_WEAK_ALIGNMENT     0x80000000
++#define EFI_FVB2_ALIGNMENT_1        0x00000000
++#define EFI_FVB2_ALIGNMENT_2        0x00010000
++#define EFI_FVB2_ALIGNMENT_4        0x00020000
++#define EFI_FVB2_ALIGNMENT_8        0x00030000
++#define EFI_FVB2_ALIGNMENT_16       0x00040000
++#define EFI_FVB2_ALIGNMENT_32       0x00050000
++#define EFI_FVB2_ALIGNMENT_64       0x00060000
++#define EFI_FVB2_ALIGNMENT_128      0x00070000
++#define EFI_FVB2_ALIGNMENT_256      0x00080000
++#define EFI_FVB2_ALIGNMENT_512      0x00090000
++#define EFI_FVB2_ALIGNMENT_1K       0x000A0000
++#define EFI_FVB2_ALIGNMENT_2K       0x000B0000
++#define EFI_FVB2_ALIGNMENT_4K       0x000C0000
++#define EFI_FVB2_ALIGNMENT_8K       0x000D0000
++#define EFI_FVB2_ALIGNMENT_16K      0x000E0000
++#define EFI_FVB2_ALIGNMENT_32K      0x000F0000
++#define EFI_FVB2_ALIGNMENT_64K      0x00100000
++#define EFI_FVB2_ALIGNMENT_128K     0x00110000
++#define EFI_FVB2_ALIGNMENT_256K     0x00120000
++#define EFI_FVB2_ALIGNMENT_512K     0x00130000
++#define EFI_FVB2_ALIGNMENT_1M       0x00140000
++#define EFI_FVB2_ALIGNMENT_2M       0x00150000
++#define EFI_FVB2_ALIGNMENT_4M       0x00160000
++#define EFI_FVB2_ALIGNMENT_8M       0x00170000
++#define EFI_FVB2_ALIGNMENT_16M      0x00180000
++#define EFI_FVB2_ALIGNMENT_32M      0x00190000
++#define EFI_FVB2_ALIGNMENT_64M      0x001A0000
++#define EFI_FVB2_ALIGNMENT_128M     0x001B0000
++#define EFI_FVB2_ALIGNMENT_256M     0x001C0000
++#define EFI_FVB2_ALIGNMENT_512M     0x001D0000
++#define EFI_FVB2_ALIGNMENT_1G       0x001E0000
++#define EFI_FVB2_ALIGNMENT_2G       0x001F0000
++
++typedef struct {
++    uint32_t NumBlocks;
++    uint32_t Length;
++} EFI_FV_BLOCK_MAP_ENTRY;
++
++typedef struct {
++    uint8_t ZeroVector[16];
++    EFI_GUID FileSystemGuid;
++    uint64_t FvLength;
++    uint32_t Signature;
++    EFI_FVB_ATTRIBUTES_2 Attributes;
++    uint16_t HeaderLength;
++    uint16_t Checksum;
++    uint16_t ExtHeaderOffset;
++    uint8_t Reserved[1];
++    uint8_t Revision;
++    EFI_FV_BLOCK_MAP_ENTRY BlockMap[1];
++} EFI_FIRMWARE_VOLUME_HEADER;
++
++#define EFI_FVH_SIGNATURE SIGNATURE_32('_', 'F', 'V', 'H')
++
++#define EFI_FVH_REVISION 0x02
++
++typedef struct {
++    EFI_GUID FvName;
++    uint32_t ExtHeaderSize;
++} EFI_FIRMWARE_VOLUME_EXT_HEADER;
++
++typedef struct {
++    uint16_t ExtEntrySize;
++    uint16_t ExtEntryType;
++} EFI_FIRMWARE_VOLUME_EXT_ENTRY;
++
++#define EFI_FV_EXT_TYPE_OEM_TYPE 0x01
++typedef struct {
++    EFI_FIRMWARE_VOLUME_EXT_ENTRY Hdr;
++    uint32_t TypeMask;
++
++    EFI_GUID Types[];
++} EFI_FIRMWARE_VOLUME_EXT_ENTRY_OEM_TYPE;
++
++#define EFI_FV_EXT_TYPE_GUID_TYPE 0x0002
++typedef struct {
++    EFI_FIRMWARE_VOLUME_EXT_ENTRY Hdr;
++    EFI_GUID FormatType;
++
++    uint8_t Data[];
++} EFI_FIRMWARE_VOLUME_EXT_ENTRY_GUID_TYPE;
++
++#define EFI_FV_EXT_TYPE_USED_SIZE_TYPE 0x03
++typedef struct {
++  EFI_FIRMWARE_VOLUME_EXT_ENTRY Hdr;
++  uint32_t UsedSize;
++} EFI_FIRMWARE_VOLUME_EXT_ENTRY_USED_SIZE_TYPE;
++
++/***************************************************************************/
++/* Firmware File */
++
++#pragma pack(push, 1)
++
++typedef union {
++    struct {
++        uint8_t Header;
++        uint8_t File;
++    } Checksum;
++    uint16_t Checksum16;
++} EFI_FFS_INTEGRITY_CHECK;
++
++typedef uint8_t EFI_FV_FILETYPE;
++typedef uint8_t EFI_FFS_FILE_ATTRIBUTES;
++typedef uint8_t EFI_FFS_FILE_STATE;
++
++
++#define EFI_FV_FILETYPE_ALL                   0x00
++#define EFI_FV_FILETYPE_RAW                   0x01
++#define EFI_FV_FILETYPE_FREEFORM              0x02
++#define EFI_FV_FILETYPE_SECURITY_CORE         0x03
++#define EFI_FV_FILETYPE_PEI_CORE              0x04
++#define EFI_FV_FILETYPE_DXE_CORE              0x05
++#define EFI_FV_FILETYPE_PEIM                  0x06
++#define EFI_FV_FILETYPE_DRIVER                0x07
++#define EFI_FV_FILETYPE_COMBINED_PEIM_DRIVER  0x08
++#define EFI_FV_FILETYPE_APPLICATION           0x09
++#define EFI_FV_FILETYPE_SMM                   0x0A
++#define EFI_FV_FILETYPE_FIRMWARE_VOLUME_IMAGE 0x0B
++#define EFI_FV_FILETYPE_COMBINED_SMM_DXE      0x0C
++#define EFI_FV_FILETYPE_SMM_CORE              0x0D
++#define EFI_FV_FILETYPE_MM_STANDALONE         0x0E
++#define EFI_FV_FILETYPE_MM_CORE_STANDALONE    0x0F
++#define EFI_FV_FILETYPE_OEM_MIN               0xc0
++#define EFI_FV_FILETYPE_OEM_MAX               0xdf
++#define EFI_FV_FILETYPE_DEBUG_MIN             0xe0
++#define EFI_FV_FILETYPE_DEBUG_MAX             0xef
++#define EFI_FV_FILETYPE_FFS_MIN               0xf0
++#define EFI_FV_FILETYPE_FFS_MAX               0xff
++#define EFI_FV_FILETYPE_FFS_PAD               0xf0
++
++
++#define FFS_ATTRIB_LARGE_FILE         0x01
++#define FFS_ATTRIB_DATA_ALIGNMENT2    0x02
++#define FFS_ATTRIB_FIXED              0x04
++#define FFS_ATTRIB_DATA_ALIGNMENT     0x38
++#define FFS_ATTRIB_CHECKSUM           0x40
++
++
++#define EFI_FILE_HEADER_CONSTRUCTION  0x01
++#define EFI_FILE_HEADER_VALID         0x02
++#define EFI_FILE_DATA_VALID           0x04
++#define EFI_FILE_MARKED_FOR_UPDATE    0x08
++#define EFI_FILE_DELETED              0x10
++#define EFI_FILE_HEADER_INVALID       0x20
++
++
++#define EFI_FILE_ALL_STATE_BITS                 \
++    (EFI_FILE_HEADER_CONSTRUCTION |             \
++     EFI_FILE_HEADER_VALID |                    \
++     EFI_FILE_DATA_VALID |                      \
++     EFI_FILE_MARKED_FOR_UPDATE |               \
++     EFI_FILE_DELETED |                         \
++     EFI_FILE_HEADER_INVALID)
++
++
++typedef struct {
++    EFI_GUID Name;
++    EFI_FFS_INTEGRITY_CHECK IntegrityCheck;
++    EFI_FV_FILETYPE Type;
++    EFI_FFS_FILE_ATTRIBUTES Attributes;
++    uint8_t Size[3];
++    EFI_FFS_FILE_STATE State;
++} EFI_FFS_FILE_HEADER;
++
++
++typedef struct {
++    EFI_GUID Name;
++    EFI_FFS_INTEGRITY_CHECK IntegrityCheck;
++    EFI_FV_FILETYPE Type;
++    EFI_FFS_FILE_ATTRIBUTES Attributes;
++    uint8_t Size[3];
++    EFI_FFS_FILE_STATE State;
++    uint64_t ExtendedSize;
++} EFI_FFS_FILE_HEADER2;
++
++#define MAX_FFS_SIZE 0x1000000
++
++#pragma pack(pop)
++
++
++/***************************************************************************/
++/* GUIDs */
++#define EFI_FIRMWARE_FILE_SYSTEM2_GUID                          \
++    ((EFI_GUID){ 0x8c8ce578, 0x8a3d, 0x4f1c,                    \
++        { 0x99, 0x35, 0x89, 0x61, 0x85, 0xc3, 0x2d, 0xd3 } })
++
++#define EFI_FIRMWARE_FILE_SYSTEM3_GUID                          \
++    ((EFI_GUID){ 0x5473c07a, 0x3dcb, 0x4dca,                    \
++        { 0xbd, 0x6f, 0x1e, 0x96, 0x89, 0xe7, 0x34, 0x9a } })
++
++#define EFI_SYSTEM_NV_DATA_FV_GUID                              \
++    ((EFI_GUID){ 0xfff12b8d, 0x7696, 0x4c8b,                    \
++        { 0xa9, 0x85, 0x27, 0x47, 0x7, 0x5b, 0x4f, 0x50 } })
++
++#define EFI_FFS_VOLUME_TOP_FILE_GUID                            \
++    ((EFI_GUID){ 0x1BA0062E, 0xC779, 0x4582,                    \
++        { 0x85, 0x66, 0x33, 0x6A, 0xE8, 0xF7, 0x8F, 0x09 } })
++
++/*
++ * data structure for hob(Hand-Off block)
++ * based on
++ * UEFI Platform Initialization Specification Version 1.7. vol 3, chap 4 and 5
++ */
++
++#define EFI_HOB_TYPE_HANDOFF              0x0001
++#define EFI_HOB_TYPE_MEMORY_ALLOCATION    0x0002
++#define EFI_HOB_TYPE_RESOURCE_DESCRIPTOR  0x0003
++#define EFI_HOB_TYPE_GUID_EXTENSION       0x0004
++#define EFI_HOB_TYPE_FV                   0x0005
++#define EFI_HOB_TYPE_CPU                  0x0006
++#define EFI_HOB_TYPE_MEMORY_POOL          0x0007
++#define EFI_HOB_TYPE_FV2                  0x0009
++#define EFI_HOB_TYPE_LOAD_PEIM_UNUSED     0x000A
++#define EFI_HOB_TYPE_UEFI_CAPSULE         0x000B
++#define EFI_HOB_TYPE_FV3                  0x000C
++#define EFI_HOB_TYPE_UNUSED               0xFFFE
++#define EFI_HOB_TYPE_END_OF_HOB_LIST      0xFFFF
++
++typedef struct {
++    uint16_t HobType;
++    uint16_t HobLength;
++    uint32_t Reserved;
++} EFI_HOB_GENERIC_HEADER;
++
++
++#define EFI_HOB_HANDOFF_TABLE_VERSION 0x0009
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    uint32_t Version;
++    EFI_BOOT_MODE BootMode;
++    EFI_PHYSICAL_ADDRESS EfiMemoryTop;
++    EFI_PHYSICAL_ADDRESS EfiMemoryBottom;
++    EFI_PHYSICAL_ADDRESS EfiFreeMemoryTop;
++    EFI_PHYSICAL_ADDRESS EfiFreeMemoryBottom;
++    EFI_PHYSICAL_ADDRESS EfiEndOfHobList;
++} EFI_HOB_HANDOFF_INFO_TABLE;
++
++typedef struct {
++    EFI_GUID Name;
++    EFI_PHYSICAL_ADDRESS MemoryBaseAddress;
++    uint64_t MemoryLength;
++    EFI_MEMORY_TYPE MemoryType;
++    uint8_t Reserved[4];
++} EFI_HOB_MEMORY_ALLOCATION_HEADER;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_HOB_MEMORY_ALLOCATION_HEADER AllocDescriptor;
++} EFI_HOB_MEMORY_ALLOCATION;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_HOB_MEMORY_ALLOCATION_HEADER AllocDescriptor;
++} EFI_HOB_MEMORY_ALLOCATION_STACK;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_HOB_MEMORY_ALLOCATION_HEADER AllocDescriptor;
++} EFI_HOB_MEMORY_ALLOCATION_BSP_STORE;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_HOB_MEMORY_ALLOCATION_HEADER MemoryAllocationHeader;
++    EFI_GUID ModuleName;
++    EFI_PHYSICAL_ADDRESS EntryPoint;
++} EFI_HOB_MEMORY_ALLOCATION_MODULE;
++
++#define EFI_HOB_MEMORY_ALLOC_STACK_GUID                         \
++    ((EFI_GUID){ 0x4ed4bf27, 0x4092, 0x42e9,                    \
++        { 0x80, 0x7d, 0x52, 0x7b, 0x1d, 0x0, 0xc9, 0xbd } })
++
++#define EFI_HOB_MEMORY_ALLOC_BSP_STORE_GUID                     \
++    ((EFI_GUID){ 0x564b33cd, 0xc92a, 0x4593,                    \
++        { 0x90, 0xbf, 0x24, 0x73, 0xe4, 0x3c, 0x63, 0x22 } })
++
++#define EFI_HOB_MEMORY_ALLOC_MODULE_GUID                        \
++    ((EFI_GUID){ 0xf8e21975, 0x899, 0x4f58,                     \
++        { 0xa4, 0xbe, 0x55, 0x25, 0xa9, 0xc6, 0xd7, 0x7a } })
++
++
++typedef uint32_t EFI_RESOURCE_TYPE;
++
++#define EFI_RESOURCE_SYSTEM_MEMORY          0x00000000
++#define EFI_RESOURCE_MEMORY_MAPPED_IO       0x00000001
++#define EFI_RESOURCE_IO                     0x00000002
++#define EFI_RESOURCE_FIRMWARE_DEVICE        0x00000003
++#define EFI_RESOURCE_MEMORY_MAPPED_IO_PORT  0x00000004
++#define EFI_RESOURCE_MEMORY_RESERVED        0x00000005
++#define EFI_RESOURCE_IO_RESERVED            0x00000006
++#define EFI_RESOURCE_MAX_MEMORY_TYPE        0x00000007
++
++typedef uint32_t EFI_RESOURCE_ATTRIBUTE_TYPE;
++
++#define EFI_RESOURCE_ATTRIBUTE_PRESENT                  0x00000001
++#define EFI_RESOURCE_ATTRIBUTE_INITIALIZED              0x00000002
++#define EFI_RESOURCE_ATTRIBUTE_TESTED                   0x00000004
++#define EFI_RESOURCE_ATTRIBUTE_READ_PROTECTED           0x00000080
++
++#define EFI_RESOURCE_ATTRIBUTE_WRITE_PROTECTED          0x00000100
++#define EFI_RESOURCE_ATTRIBUTE_EXECUTION_PROTECTED      0x00000200
++#define EFI_RESOURCE_ATTRIBUTE_PERSISTENT               0x00800000
++
++#define EFI_RESOURCE_ATTRIBUTE_SINGLE_BIT_ECC           0x00000008
++#define EFI_RESOURCE_ATTRIBUTE_MULTIPLE_BIT_ECC         0x00000010
++#define EFI_RESOURCE_ATTRIBUTE_ECC_RESERVED_1           0x00000020
++#define EFI_RESOURCE_ATTRIBUTE_ECC_RESERVED_2           0x00000040
++#define EFI_RESOURCE_ATTRIBUTE_UNCACHEABLE              0x00000400
++#define EFI_RESOURCE_ATTRIBUTE_WRITE_COMBINEABLE        0x00000800
++#define EFI_RESOURCE_ATTRIBUTE_WRITE_THROUGH_CACHEABLE  0x00001000
++#define EFI_RESOURCE_ATTRIBUTE_WRITE_BACK_CACHEABLE     0x00002000
++#define EFI_RESOURCE_ATTRIBUTE_16_BIT_IO                0x00004000
++#define EFI_RESOURCE_ATTRIBUTE_32_BIT_IO                0x00008000
++#define EFI_RESOURCE_ATTRIBUTE_64_BIT_IO                0x00010000
++#define EFI_RESOURCE_ATTRIBUTE_UNCACHED_EXPORTED        0x00020000
++#define EFI_RESOURCE_ATTRIBUTE_READ_PROTECTABLE         0x00100000
++
++#define EFI_RESOURCE_ATTRIBUTE_WRITE_PROTECTABLE        0x00200000
++#define EFI_RESOURCE_ATTRIBUTE_EXECUTION_PROTECTABLE    0x00400000
++#define EFI_RESOURCE_ATTRIBUTE_PERSISTABLE              0x01000000
++
++#define EFI_RESOURCE_ATTRIBUTE_READ_ONLY_PROTECTED      0x00040000
++#define EFI_RESOURCE_ATTRIBUTE_READ_ONLY_PROTECTABLE    0x00080000
++
++#define EFI_RESOURCE_ATTRIBUTE_MORE_RELIABLE            0x02000000
++#define EFI_RESOURCE_ATTRIBUTE_ENCRYPTED                0x04000000
++
++/* FIXME: place holder for now */
++#define EFI_RESOURCE_ATTRIBUTE_UNACCEPTED               0x00000000
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_GUID Owner;
++    EFI_RESOURCE_TYPE ResourceType;
++    EFI_RESOURCE_ATTRIBUTE_TYPE ResourceAttribute;
++    EFI_PHYSICAL_ADDRESS PhysicalStart;
++    uint64_t ResourceLength;
++} EFI_HOB_RESOURCE_DESCRIPTOR;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_GUID Name;
++
++    /* guid specific data follows */
++} EFI_HOB_GUID_TYPE;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_PHYSICAL_ADDRESS BaseAddress;
++    uint64_t Length;
++} EFI_HOB_FIRMWARE_VOLUME;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_PHYSICAL_ADDRESS BaseAddress;
++    uint64_t Length;
++    EFI_GUID FvName;
++    EFI_GUID FileName;
++} EFI_HOB_FIRMWARE_VOLUME2;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    EFI_PHYSICAL_ADDRESS BaseAddress;
++    uint64_t Length;
++    uint32_t AuthenticationStatus;
++    bool ExtractedFv;
++    EFI_GUID FvName;
++    EFI_GUID FileName;
++} EFI_HOB_FIRMWARE_VOLUME3;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++    uint8_t SizeOfMemorySpace;
++    uint8_t SizeOfIoSpace;
++    uint8_t Reserved[6];
++} EFI_HOB_CPU;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++} EFI_HOB_MEMORY_POOL;
++
++typedef struct {
++    EFI_HOB_GENERIC_HEADER Header;
++
++    EFI_PHYSICAL_ADDRESS BaseAddress;
++    uint64_t Length;
++} EFI_HOB_UEFI_CAPSULE;
++
++#define EFI_HOB_OWNER_ZERO                                      \
++    ((EFI_GUID){ 0x00000000, 0x0000, 0x0000,                    \
++        { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 } })
++
++#endif
+-- 
+2.17.1
 
 
