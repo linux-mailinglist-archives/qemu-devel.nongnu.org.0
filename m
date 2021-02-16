@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D34531CA50
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 13:03:42 +0100 (CET)
-Received: from localhost ([::1]:46484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A283B31CA57
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 13:04:29 +0100 (CET)
+Received: from localhost ([::1]:48470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBz4v-00029C-L0
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 07:03:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44086)
+	id 1lBz5g-000318-Mp
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 07:04:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lBz3L-0001Ci-2G; Tue, 16 Feb 2021 07:02:03 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:51037)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lBz3G-0005yO-Ko; Tue, 16 Feb 2021 07:02:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=GUBbb8DJVslE858dgI26g1ljCgqvK1R3zaQXSXaUxQo=; b=nM18WeT5xZcj24Wk9XOPUdIlu+
- t/5rq0ufU81LPaFDuIM0bOjv5+bt8K+svY8q8BJk9mw0k6spZKrt00cSDN8sjcd2nH2DSAyfYq5xC
- xat372iIrUgH6aMNRZS9YFBX2DWYmKTbxNHuk2lgCZrD/xmJtdnybwVgZW77fgDJvzJlm51sADesN
- dfMfFa0Z8E/kXJQVP5V1Suy5QdUvnIG+b28SjEnCtG4hvXtLsPKLtRGU25RkZxrMBdaWQ7qeILPLf
- 3n+qlkEitMiBRc3V1p3DTB2xkEpSx3jejLiHngsCs5+FbhIKzHCKpBDWuIXackLZ6QNIJGZF59Kl0
- P1XjltstB9gJCP9B74XEMbuIPIsYThned5D26oY7ay434ioMhRFu+T/u/uLeHwX5H2tq6OQmsTJt2
- VTvIh2ACWxRVSru0rBRkCNLvhKr33pk6CcYRXdb/EnmJ2FUXv9RlHsrg24l0cqmZaEkS/ST9yU6Zi
- aDJdc5fWfJoS2+sQ7cW080Q0zubt2Wn2eCZXEiWZ1QvyNgOsC/BjUYAvjS6M87jqANT9dwJS/2u7f
- iMEudaBmKHU+0qqJpKKI3/znRcfvQhvKDEj9RF1WT/2U//L/gFpv05Awj8U320H4ulFdjXE/n4x9Z
- RSI5cpG3y/9KFuAYuoQ2WiO3VNYkcN1nvw/OO8qaU=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lBz4H-0002A0-W5
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 07:03:02 -0500
+Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:43792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lBz4G-0006JL-Iy
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 07:03:01 -0500
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-543-4-tW8xYxMr-7gO-S83uMew-1; Tue, 16 Feb 2021 07:02:50 -0500
+X-MC-Unique: 4-tW8xYxMr-7gO-S83uMew-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01AEB8030D5;
+ Tue, 16 Feb 2021 12:02:49 +0000 (UTC)
+Received: from bahia.redhat.com (ovpn-115-143.ams2.redhat.com [10.36.115.143])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D0E545D765;
+ Tue, 16 Feb 2021 12:02:47 +0000 (UTC)
+From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-trivial@nongnu.org,
- Philippe =?ISO-8859-1?Q?Mathieu=2DDaud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH] scripts/checkpatch: Improve the check for authors mangled
- by the mailing list
-Date: Tue, 16 Feb 2021 13:01:34 +0100
-Message-ID: <6113420.MkNRk1MDtq@silver>
-In-Reply-To: <20210216071512.1199827-1-thuth@redhat.com>
-References: <20210216071512.1199827-1-thuth@redhat.com>
+Subject: [PATCH] event_notifier: Set ->initialized earlier in
+ event_notifier_init()
+Date: Tue, 16 Feb 2021 13:02:47 +0100
+Message-Id: <20210216120247.1293569-1-groug@kaod.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: kaod.org
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=WINDOWS-1252
+Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+ helo=us-smtp-delivery-44.mimecast.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,49 +63,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Greg Kurz <groug@kaod.org>,
+ mlevitsk@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 16. Februar 2021 08:15:12 CET Thomas Huth wrote:
-> There were recently some patches on the list which had their "From:"
-> line mangled like this:
-> 
->  From: qemu_oss--- via <qemu-devel@nongnu.org>
-> 
-> Since our test in the checkpatch.pl script did not trigger here, the
-> patches finally also ended up in a pull request, with the wrong author
-> set. So let's improve the regular expression to also complain on
-> these new patterns, too.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  scripts/checkpatch.pl | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> index e47ad878d8..7f194c842b 100755
-> --- a/scripts/checkpatch.pl
-> +++ b/scripts/checkpatch.pl
-> @@ -1499,7 +1499,7 @@ sub process {
->  			$is_patch = 1;
->  		}
-> 
-> -		if ($line =~ /^Author: .*via Qemu-devel.*<qemu-devel\@nongnu.org>/) {
-> +		if ($line =~ /^(Author|From): .* via .*<qemu-devel\@nongnu.org>/) {
->  		    ERROR("Author email address is mangled by the mailing list\n" .
-> $herecurr); }
+Otherwise the call to event_notifier_set() is a nop, which causes
+the SLOF firmware on POWER to hang when booting from a virtio-scsi
+device:
 
-I would probably generalize the pattern even a bit more:
+virtio_scsi_dataplane_start()
+ virtio_scsi_vring_init()
+  virtio_bus_set_host_notifier() <- assign =3D=3D true
+   event_notifier_init() <- active =3D=3D 1
+    event_notifier_set() <- fails right away if !e->initialized
 
-		if ($line =~ /^(Author|From): .*<qemu-devel\@nongnu.org>/) {
+Fixes: e34e47eb28c0 ("event_notifier: handle initialization failure better"=
+)
+Cc: mlevitsk@redhat.com
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ util/event_notifier-posix.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Because mailman's precise sender-rewrite prefix changed couple times. But for 
-now the change above will do as well of course.
-
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-
-Best regards,
-Christian Schoenebeck
-
+diff --git a/util/event_notifier-posix.c b/util/event_notifier-posix.c
+index 5b2110e86198..8307013c5df0 100644
+--- a/util/event_notifier-posix.c
++++ b/util/event_notifier-posix.c
+@@ -66,10 +66,10 @@ int event_notifier_init(EventNotifier *e, int active)
+         e->rfd =3D fds[0];
+         e->wfd =3D fds[1];
+     }
++    e->initialized =3D true;
+     if (active) {
+         event_notifier_set(e);
+     }
+-    e->initialized =3D true;
+     return 0;
+=20
+ fail:
+--=20
+2.26.2
 
 
