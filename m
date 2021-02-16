@@ -2,102 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A193C31CEEF
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:24:37 +0100 (CET)
-Received: from localhost ([::1]:58956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29CF31CEF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:27:08 +0100 (CET)
+Received: from localhost ([::1]:36332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC45U-0000Ay-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:24:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37468)
+	id 1lC47v-0002aP-Nj
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:27:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lC3tH-0003No-5p; Tue, 16 Feb 2021 12:11:59 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4326
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lC3tE-0003qI-5b; Tue, 16 Feb 2021 12:11:58 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11GH3AeE036571; Tue, 16 Feb 2021 12:11:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=Qly56iPF/VO1qx4llxSo4EsJmlB5FJpb6/wLjI6aFGc=;
- b=OC+6UZvqzaKrpI1M6aREMJ1aqvEwQmi2S8aVGcKtx9OPt/1eSZvHzJCNiJtY5MjdUJIX
- /k6hcHhr4CKTaYHfF1oKAjxc7kCfV5hWf1YGZ9XN+DKbCT8mzfwxcwVpMS3L7ysjsOFG
- B6lqWeKVyctsSoKzZ11QAtGF6lDoBLVu/+afCCxnA9obhpLegKYMsVV7LzhQqvhDoVLr
- ioWyqd3e/ez/bpLGjRENFvwkYKfJSmdV2HNP2MwZB6+F5tTnzJMM1i7CbVWq5xVa6Kat
- 1f1OSGiTpVCeEfpqExd0Pr3LWReZvGX4pRieTStl5NGu5AjlQb+VfePb1oU1JJkI2/Ov Ow== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36rhf19um2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 12:11:54 -0500
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11GHB7jb078089;
- Tue, 16 Feb 2021 12:11:53 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36rhf19uk4-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 12:11:53 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11GH3hFR031372;
- Tue, 16 Feb 2021 17:11:52 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma04ams.nl.ibm.com with ESMTP id 36p6d8ay3g-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 17:11:52 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11GHBnnO63242662
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 16 Feb 2021 17:11:50 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C62F2A405B;
- Tue, 16 Feb 2021 17:11:49 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 668EDA4054;
- Tue, 16 Feb 2021 17:11:49 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 16 Feb 2021 17:11:49 +0000 (GMT)
-Date: Tue, 16 Feb 2021 18:11:46 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
-Message-ID: <20210216181146.54370a29.pasic@linux.ibm.com>
-In-Reply-To: <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
-References: <20210216110056.1228582-1-thuth@redhat.com>
- <20210216154010.3691880f.pasic@linux.ibm.com>
- <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lC3yQ-0000Wk-5c; Tue, 16 Feb 2021 12:17:18 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:33688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lC3yM-0005MK-At; Tue, 16 Feb 2021 12:17:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+ bh=ms7vxDT7MkgIcKOYZfST+aJKTL4hnw/oQ4N4Qyq5OEk=; 
+ b=mPbpp054jNHpq/NYCDUX0ON9e9aJNClj1XZ7ccNFnfYfs+9Xi3vTx/jZSVbHC6kA5QSgvO0gMzjTQZ49LHx3DsnTs91e+8rzwxlPzDlxUuhzpcOip7dLlsXkeWCt7M4cJuSO5xcR6mrHB/vxTfnHwOoM1Me3iAL+oHduFNbT2nmWhIMr8FGH29GKo19ZiXKIPb1zyQN0ujbxLVWyBRKiecvyC3VyrteWnRO3as4qQjRGej8JbKO+QvIiDNqmnPA4mBl16mA5Y18hcNHNAMKDp9PJ/x7U7A18kI38MjF7h22wtGITG5y7dvQxXBJZuPg7pEIkjvgxKk2blrdAhCarEg==;
+Received: from [213.94.25.37] (helo=perseus.local)
+ by fanzine.igalia.com with esmtpsa 
+ (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+ id 1lC3yJ-000099-4N; Tue, 16 Feb 2021 18:17:11 +0100
+Received: from berto by perseus.local with local (Exim 4.92)
+ (envelope-from <berto@igalia.com>)
+ id 1lC3y5-0001iH-A7; Tue, 16 Feb 2021 18:16:57 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests: Drop deprecated 'props' from object-add
+Date: Tue, 16 Feb 2021 18:16:53 +0100
+Message-Id: <20210216171653.6543-1-berto@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-16_07:2021-02-16,
- 2021-02-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0
- spamscore=0 clxscore=1015 adultscore=0 phishscore=0 impostorscore=0
- priorityscore=1501 mlxlogscore=999 lowpriorityscore=0 mlxscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102160146
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,38 +57,205 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 17:15:19 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ tests/qemu-iotests/087     |  8 ++------
+ tests/qemu-iotests/184     | 18 ++++++------------
+ tests/qemu-iotests/218     |  2 +-
+ tests/qemu-iotests/235     |  2 +-
+ tests/qemu-iotests/245     |  4 ++--
+ tests/qemu-iotests/258     |  7 +++----
+ tests/qemu-iotests/258.out |  4 ++--
+ tests/qemu-iotests/295     |  2 +-
+ tests/qemu-iotests/296     |  2 +-
+ 9 files changed, 19 insertions(+), 30 deletions(-)
 
-> >> (Note: The virtio spec also talks about using a memory barrier
-> >> *after* incrementing the idx field, but if I understood correctly
-> >> this is only required when using notification suppression - which
-> >> we don't use in the s390-ccw bios here)  
-> > 
-> > I suggest to the barrier after incrementing the idx field for two
-> > reasons. First: If the device were to see the notification, but
-> > not see the incremented idx field, it would effectively loose
-> > initiative. That is pretty straight forward, because the
-> > notification just says 'check out that queue', and if we don't
-> > see the incremented index, miss the buffer that was made available
-> > by incrementing idx.  
-> 
-> I was just about to reply that this is certainly not necessary, since
-> the DIAGNOSE instruction that we use for the notification hypercall
-> should be serializing anyway ... but after looking at the PoP, it
-> actually is not marked as a serializing instruction! (while e.g.
-> SVC - supervisor call - is explicitly marked as serializing)
+diff --git a/tests/qemu-iotests/087 b/tests/qemu-iotests/087
+index edd43f1a28..d8e0e384cd 100755
+--- a/tests/qemu-iotests/087
++++ b/tests/qemu-iotests/087
+@@ -143,9 +143,7 @@ run_qemu <<EOF
+   "arguments": {
+       "qom-type": "secret",
+       "id": "sec0",
+-      "props": {
+-          "data": "123456"
+-      }
++      "data": "123456"
+   }
+ }
+ { "execute": "blockdev-add",
+@@ -176,9 +174,7 @@ run_qemu <<EOF
+   "arguments": {
+       "qom-type": "secret",
+       "id": "sec0",
+-      "props": {
+-          "data": "123456"
+-      }
++      "data": "123456"
+   }
+ }
+ { "execute": "blockdev-add",
+diff --git a/tests/qemu-iotests/184 b/tests/qemu-iotests/184
+index 513d167098..e4cbcd8634 100755
+--- a/tests/qemu-iotests/184
++++ b/tests/qemu-iotests/184
+@@ -67,10 +67,8 @@ run_qemu <<EOF
+   "arguments": {
+     "qom-type": "throttle-group",
+     "id": "group0",
+-    "props": {
+-      "limits" : {
+-        "iops-total": 1000
+-      }
++    "limits" : {
++      "iops-total": 1000
+     }
+   }
+ }
+@@ -96,10 +94,8 @@ run_qemu <<EOF
+   "arguments": {
+     "qom-type": "throttle-group",
+     "id": "group0",
+-    "props" : {
+-      "limits": {
+-          "iops-total": 1000
+-      }
++    "limits": {
++        "iops-total": 1000
+     }
+   }
+ }
+@@ -136,10 +132,8 @@ run_qemu <<EOF
+   "arguments": {
+     "qom-type": "throttle-group",
+     "id": "group0",
+-    "props" : {
+-      "limits": {
+-          "iops-total": 1000
+-      }
++    "limits": {
++        "iops-total": 1000
+     }
+   }
+ }
+diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
+index ae7c4fb187..cbb38923cf 100755
+--- a/tests/qemu-iotests/218
++++ b/tests/qemu-iotests/218
+@@ -152,7 +152,7 @@ with iotests.VM() as vm, \
+     vm.launch()
+ 
+     ret = vm.qmp('object-add', qom_type='throttle-group', id='tg',
+-                 props={'x-bps-read': 4096})
++                 x_bps_read = 4096)
+     assert ret['return'] == {}
+ 
+     ret = vm.qmp('blockdev-add',
+diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
+index 20d16dbf38..f5c73b9c17 100755
+--- a/tests/qemu-iotests/235
++++ b/tests/qemu-iotests/235
+@@ -57,7 +57,7 @@ vm.add_args('-drive', 'id=src,file=' + disk)
+ vm.launch()
+ 
+ log(vm.qmp('object-add', qom_type='throttle-group', id='tg0',
+-           props={ 'x-bps-total': size }))
++           x_bps_total=size))
+ 
+ log(vm.qmp('blockdev-add',
+            **{ 'node-name': 'target',
+diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
+index cfdeb902be..30b1d7b22d 100755
+--- a/tests/qemu-iotests/245
++++ b/tests/qemu-iotests/245
+@@ -644,12 +644,12 @@ class TestBlockdevReopen(iotests.QMPTestCase):
+         ###### throttle ######
+         ######################
+         opts = { 'qom-type': 'throttle-group', 'id': 'group0',
+-                 'props': { 'limits': { 'iops-total': 1000 } } }
++                 'limits': { 'iops-total': 1000 } }
+         result = self.vm.qmp('object-add', conv_keys = False, **opts)
+         self.assert_qmp(result, 'return', {})
+ 
+         opts = { 'qom-type': 'throttle-group', 'id': 'group1',
+-                 'props': { 'limits': { 'iops-total': 2000 } } }
++                 'limits': { 'iops-total': 2000 } }
+         result = self.vm.qmp('object-add', conv_keys = False, **opts)
+         self.assert_qmp(result, 'return', {})
+ 
+diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
+index 9a2d33ae5e..65ce02501a 100755
+--- a/tests/qemu-iotests/258
++++ b/tests/qemu-iotests/258
+@@ -103,10 +103,9 @@ def test_concurrent_finish(write_to_stream_node):
+         vm.qmp_log('object-add',
+                    qom_type='throttle-group',
+                    id='tg',
+-                   props={
+-                       'x-iops-write': 1,
+-                       'x-iops-write-max': 1
+-                   })
++                   x_iops_write=1,
++                   x_iops_write_max=1
++                   )
+ 
+         vm.qmp_log('blockdev-add',
+                    filters=[filter_qmp_testfiles, filter_qmp_imgfmt],
+diff --git a/tests/qemu-iotests/258.out b/tests/qemu-iotests/258.out
+index ce6e9ba3e5..bfcaf97afe 100644
+--- a/tests/qemu-iotests/258.out
++++ b/tests/qemu-iotests/258.out
+@@ -2,7 +2,7 @@ Running tests:
+ 
+ === Commit and stream finish concurrently (letting stream write) ===
+ 
+-{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-write": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
++{"execute": "object-add", "arguments": {"id": "tg", "qom-type": "throttle-group", "x-iops-write": 1, "x-iops-write-max": 1}}
+ {"return": {}}
+ {"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backing": {"backing": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-node0.img"}, "node-name": "node0"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node1.img"}, "node-name": "node1"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node3.img"}, "node-name": "node3"}, "driver": "IMGFMT", "file": {"driver": "throttle", "file": {"driver": "file", "filename": "TEST_DIR/PID-node4.img"}, "throttle-group": "tg"}, "node-name": "node4"}}
+ {"return": {}}
+@@ -18,7 +18,7 @@ Running tests:
+ 
+ === Commit and stream finish concurrently (letting commit write) ===
+ 
+-{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-write": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
++{"execute": "object-add", "arguments": {"id": "tg", "qom-type": "throttle-group", "x-iops-write": 1, "x-iops-write-max": 1}}
+ {"return": {}}
+ {"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backing": {"backing": {"driver": "raw", "file": {"driver": "throttle", "file": {"driver": "file", "filename": "TEST_DIR/PID-node0.img"}, "throttle-group": "tg"}, "node-name": "node0"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node1.img"}, "node-name": "node1"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node3.img"}, "node-name": "node3"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node4.img"}, "node-name": "node4"}}
+ {"return": {}}
+diff --git a/tests/qemu-iotests/295 b/tests/qemu-iotests/295
+index 01a6c0b31f..270ad3999f 100755
+--- a/tests/qemu-iotests/295
++++ b/tests/qemu-iotests/295
+@@ -43,7 +43,7 @@ class Secret:
+ 
+     def to_qmp_object(self):
+         return { "qom_type" : "secret", "id": self.id(),
+-                 "props": { "data": self.secret() } }
++                 "data": self.secret() }
+ 
+ ################################################################################
+ class EncryptionSetupTestCase(iotests.QMPTestCase):
+diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
+index 0bc3c6c7d7..7c65e987a1 100755
+--- a/tests/qemu-iotests/296
++++ b/tests/qemu-iotests/296
+@@ -43,7 +43,7 @@ class Secret:
+ 
+     def to_qmp_object(self):
+         return { "qom_type" : "secret", "id": self.id(),
+-                 "props": { "data": self.secret() } }
++                 "data": self.secret() }
+ 
+ ################################################################################
+ 
+-- 
+2.20.1
 
-I was talking about whether a suitable barrier is needed, from
-virtio perspective. How the suitable barrier is put in place is a
-different issue.
-
-Regards,
-Halil
 
