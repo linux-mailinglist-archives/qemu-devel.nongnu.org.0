@@ -2,79 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3E3E31C5E8
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 04:53:34 +0100 (CET)
-Received: from localhost ([::1]:54562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A188531C614
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 05:58:33 +0100 (CET)
+Received: from localhost ([::1]:35432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBrQb-00088Y-NU
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 22:53:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34114)
+	id 1lBsRU-0007VX-5I
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 23:58:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBrL1-0001v8-02; Mon, 15 Feb 2021 22:47:47 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:37177)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBrKz-0002lV-5L; Mon, 15 Feb 2021 22:47:46 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id o3so8389424edv.4;
- Mon, 15 Feb 2021 19:47:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=vby0w9tVl7tpi89wMw3MRMn6A1a+kR+5AXybQWDoxcQ=;
- b=cqB3QVOoqfI+mIMo17DZEyknr/9oGuMq6QHWk3gSSaU9qqUQ8729oL7kymkYALDW0c
- 7dUjKCRvQFIon66OE1e7eZ3C5c0FTGOu2LSG0yCR2SF6jRQe3IYbgzH76Czc1wp1ZuOY
- ECXrGfiW1TBvJlHlFvFUiXso/ve779sZaS6u9RWEnJe/PcB9qBL1TLv+6GwjFnOv036M
- qORXUHSnrqUZgqxXN/p62V+MmNfTL8n7K0C3ZsYsrbm7kWQRSzK57O/HrEv+fyKG55gR
- 86RnodSVIZ75h3igAXY5+IIpaqLU7p3ExFaMj+A1dRQ9KOdDEiBhXfcTtzCCW4N3io2r
- zF1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=vby0w9tVl7tpi89wMw3MRMn6A1a+kR+5AXybQWDoxcQ=;
- b=pr3Inbn9C2epLOa1UJdo6Tg/dbQDnEgUPyw71oGT9yP1Uygd6XUkPmaMoz1eorLB+k
- vdcqs9nIDSlPrll/bftf6TIumt6Ki1gpa587lGdtMgvA2/SryJp5/vjLH39l0vj702JE
- 3lSsRZe11xbk/WpfffWUlAkA/atFMzrfJCm37sXB4zJA0ih7NyBiWaRWro3gHMuTWL6J
- Ab9yVk9Gw2yWNLwC/jxkc0n3YRwVs6JN9BXZ8+/pCuXpH+Ikec9N05djqkgVkt7ywRuH
- qnlR1gi2srWrwFIuIxrZmnZHJ5UK3cD918yeUxgzJVONV1KwOtwt7ulDyeXu21ljd8ez
- FkIg==
-X-Gm-Message-State: AOAM531X/besuR6lf3ZWNdWUdNY5qlzuTWWa9HzkrrGM3mBQBDBJsjbR
- zYhJTpFHMHFf23T/R05AN8jhHH4YdKI=
-X-Google-Smtp-Source: ABdhPJywooZx7cIcuoS8rdL003cDcqaLwdCw88wbwOj693BXkpYQIkKG5+Y0C+nrDtQ3AFFOTrGfSA==
-X-Received: by 2002:aa7:cb8f:: with SMTP id r15mr19103957edt.130.1613447263141; 
- Mon, 15 Feb 2021 19:47:43 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id z19sm12837866edr.69.2021.02.15.19.47.37
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Feb 2021 19:47:42 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- Alistair Francis <alistair.francis@wdc.com>,
- Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
-Subject: [PATCH v2 6/6] hw/sd: sdhci: Reset the data pointer of
- s->fifo_buffer[] when a different block size is programmed
-Date: Tue, 16 Feb 2021 11:46:54 +0800
-Message-Id: <1613447214-81951-7-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
-References: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBsQI-00066u-P0
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 23:57:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBsQG-0007iP-Eu
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 23:57:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613451434;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=GClDayQbsKj02VbIWPQ44oZH8IJREDOAlm0k1eRzR10=;
+ b=LpUiVReRlz1nPx1FcGyOBdIXs1gtFKpIq0O5JVEL2zM3mTQUmjGkGpJ5st7i8EebunFdtD
+ Y2FMPp4b2Eg6fvh/FsgVYMJ8IGwfLUz/Tprs4xJYkL7Knf7rzmYtNv4Khf2V4etL1Ku4pJ
+ 3inz1SGKXieqY//NX/H/r1KvPC2gIpU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-583-Vw7dVOgSOMKst-v5NNu56w-1; Mon, 15 Feb 2021 23:57:12 -0500
+X-MC-Unique: Vw7dVOgSOMKst-v5NNu56w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9671C1005501;
+ Tue, 16 Feb 2021 04:57:11 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-129.rdu2.redhat.com
+ [10.10.112.129])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 375E51F0;
+ Tue, 16 Feb 2021 04:57:07 +0000 (UTC)
+From: Cleber Rosa <crosa@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 0/9] Acceptance Tests and Python libs patches for 2021-02-15
+Date: Mon, 15 Feb 2021 23:56:56 -0500
+Message-Id: <20210216045705.9590-1-crosa@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,96 +75,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the block size is programmed to a different value from the
-previous one, reset the data pointer of s->fifo_buffer[] so that
-s->fifo_buffer[] can be filled in using the new block size in
-the next transfer.
-
-With this fix, the following reproducer:
-
-outl 0xcf8 0x80001010
-outl 0xcfc 0xe0000000
-outl 0xcf8 0x80001001
-outl 0xcfc 0x06000000
-write 0xe000002c 0x1 0x05
-write 0xe0000005 0x1 0x02
-write 0xe0000007 0x1 0x01
-write 0xe0000028 0x1 0x10
-write 0x0 0x1 0x23
-write 0x2 0x1 0x08
-write 0xe000000c 0x1 0x01
-write 0xe000000e 0x1 0x20
-write 0xe000000f 0x1 0x00
-write 0xe000000c 0x1 0x32
-write 0xe0000004 0x2 0x0200
-write 0xe0000028 0x1 0x00
-write 0xe0000003 0x1 0x40
-
-cannot be reproduced with the following QEMU command line:
-
-$ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
-      -nodefaults -device sdhci-pci,sd-spec-version=3 \
-      -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
-      -device sd-card,drive=mydrive -qtest stdio
-
-Cc: qemu-stable@nongnu.org
-Fixes: CVE-2020-17380
-Fixes: CVE-2020-25085
-Fixes: CVE-2021-3409
-Fixes: d7dfca0807a0 ("hw/sdhci: introduce standard SD host controller")
-Reported-by: Alexander Bulekov <alxndr@bu.edu>
-Reported-by: Cornelius Aschermann (Ruhr-University Bochum)
-Reported-by: Muhammad Ramdhan
-Reported-by: Sergej Schumilo (Ruhr-University Bochum)
-Reported-by: Simon Wrner (Ruhr-University Bochum)
-Buglink: https://bugs.launchpad.net/qemu/+bug/1892960
-Buglink: https://bugs.launchpad.net/qemu/+bug/1909418
-Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1928146
-Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
-
----
-
-Changes in v2:
-- new patch: sdhci: Reset the data pointer of s->fifo_buffer[] when a different block size is programmed
-
- hw/sd/sdhci.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
-
-diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index d0c8e29..5b86781 100644
---- a/hw/sd/sdhci.c
-+++ b/hw/sd/sdhci.c
-@@ -1140,6 +1140,8 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
-         break;
-     case SDHC_BLKSIZE:
-         if (!TRANSFERRING_DATA(s->prnsts)) {
-+            uint16_t blksize = s->blksize;
-+
-             MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
-             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
- 
-@@ -1151,6 +1153,16 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
- 
-                 s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
-             }
-+
-+            /*
-+             * If the block size is programmed to a different value from
-+             * the previous one, reset the data pointer of s->fifo_buffer[]
-+             * so that s->fifo_buffer[] can be filled in using the new block
-+             * size in the next transfer.
-+             */
-+            if (blksize != s->blksize) {
-+                s->data_count = 0;
-+            }
-         }
- 
-         break;
--- 
-2.7.4
+The following changes since commit 8ba4bca570ace1e60614a0808631a517cf5df67a=
+:=0D
+=0D
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into stagi=
+ng=3D=0D
+ (2021-02-15 17:13:57 +0000)=0D
+=0D
+are available in the Git repository at:=0D
+=0D
+  https://gitlab.com/cleber.gnu/qemu.git/ tags/python-next-pull-request=0D
+=0D
+for you to fetch changes up to c0c5a7f18e623b8f6eb7a9ccebdccdc56db2cec7:=0D
+=0D
+  Acceptance Tests: set up existing ssh keys by default (2021-02-15 22:30:0=
+6 =3D=0D
+-0500)=0D
+=0D
+----------------------------------------------------------------=0D
+Acceptance Tests and Python libs improvements=0D
+=0D
+Along with the Acceptance Tests and Python libs improvements, a=0D
+improvement to the diff generation for Python code.=0D
+=0D
+----------------------------------------------------------------=0D
+=0D
+Cleber Rosa (7):=0D
+  Acceptance Tests: bump Avocado version requirement to 85.0=0D
+  Python: close the log file kept by QEMUMachine before reading it=0D
+  tests/acceptance/virtio-gpu.py: preserve virtio-user-gpu log=0D
+  Acceptance Tests: introduce LinuxTest base class=0D
+  Acceptance Tests: introduce method for requiring an accelerator=0D
+  Acceptance Tests: fix population of public key in cloudinit image=0D
+  Acceptance Tests: set up existing ssh keys by default=0D
+=0D
+Eric Blake (1):=0D
+  maint: Tell git that *.py files should use python diff hunks=0D
+=0D
+Max Reitz (1):=0D
+  virtiofs_submounts.py test: Note on vmlinuz param=0D
+=0D
+ .gitattributes                            |   1 +=0D
+ python/qemu/machine.py                    |   4 +-=0D
+ tests/acceptance/avocado_qemu/__init__.py | 127 +++++++++++++++++++++=0D
+ tests/acceptance/boot_linux.py            | 128 +++-------------------=0D
+ tests/acceptance/virtio-gpu.py            |   5 +-=0D
+ tests/acceptance/virtiofs_submounts.py    |  23 ++--=0D
+ tests/requirements.txt                    |   2 +-=0D
+ 7 files changed, 163 insertions(+), 127 deletions(-)=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
 
