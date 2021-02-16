@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54D1831C4E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 02:14:27 +0100 (CET)
-Received: from localhost ([::1]:37260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E1631C4CA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 02:08:44 +0100 (CET)
+Received: from localhost ([::1]:49264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBowc-0001sH-E8
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 20:14:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34092)
+	id 1lBor5-0003aL-T4
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 20:08:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lBopM-0001uz-8p
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 20:06:58 -0500
-Received: from mga07.intel.com ([134.134.136.100]:13610)
+ id 1lBopP-0001vB-VD
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 20:07:01 -0500
+Received: from mga07.intel.com ([134.134.136.100]:13620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lBopJ-0004gD-Vp
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 20:06:55 -0500
-IronPort-SDR: bAhO1JtJRbDDd2NH5xYX82j0t9eUGj5WTO5m2yxPoCLyWJhH0m862e89U9IU25pBLmVigQL6sC
- zNzmZKY3Nu/w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="246849237"
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="246849237"
+ id 1lBopO-0004jm-E2
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 20:06:59 -0500
+IronPort-SDR: nZ+0Q/YWEBGKUKE8HDw3Cw/XqzKShs0xCldEwuYEwgcCuQzGsnFfcuyyNQFsS8qn2Ci1Dwt/ve
+ CFtkqAttPhug==
+X-IronPort-AV: E=McAfee;i="6000,8403,9896"; a="246849238"
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="246849238"
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Feb 2021 17:06:43 -0800
-IronPort-SDR: JdMrqQlNN9AMHNEV+Xy3OMIuwO/Z7LEN8hzn0O+cXTxjrqceoFDg2t5vJ8kUkgsC/cT4Mhquh9
- vurpong7Oj/w==
-X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591695484"
+IronPort-SDR: +q4yynGrRxpOxEp/f4Xz1xNtqg8H2f9PRSW3ozemc5qPcs3FrhqXVu7cNV9ioDtwp2KmTIgbA3
+ 6QCEwXpbZkqQ==
+X-IronPort-AV: E=Sophos;i="5.81,182,1610438400"; d="scan'208";a="591695489"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  15 Feb 2021 17:06:43 -0800
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com
-Subject: [PATCH v4 04/10] acpi/core: always set SCI_EN when SMM isn't supported
-Date: Mon, 15 Feb 2021 17:04:09 -0800
-Message-Id: <d26581b7e58de3bc36998df1f5b854171946ce9a.1613436967.git.isaku.yamahata@intel.com>
+Subject: [PATCH v4 05/10] acpi: set fadt.smi_cmd to zero when SMM is not
+ supported
+Date: Mon, 15 Feb 2021 17:04:10 -0800
+Message-Id: <16074d361886c5c9846e92fc84d07883d8b28b1f.1613436967.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613436967.git.isaku.yamahata@intel.com>
 References: <cover.1613436967.git.isaku.yamahata@intel.com>
@@ -71,134 +72,111 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-If SMM is not supported, ACPI fixed hardware doesn't support
-legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
-always set.
-The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
+From table 5.9 SMI_CMD of ACPI spec
+> This field is reserved and must be zero on system
+> that does not support System Management mode.
 
-With the next patch (setting fadt.smi_cmd = 0 when smm isn't enabled),
-guest Linux tries to switch to ACPI mode, finds smi_cmd = 0, and then
-fails to initialize acpi subsystem. This patch proactively fixes it.
+When smm is not enabled, set it to zero to comform to the spec.
+When -machine smm=off is passed, the change to FACP is as follows.
 
-This patch changes guest ABI. To keep compatibility, use
-"x-smm-compat-5" introduced by earlier patch.
-If the property is true, disable new behavior.
+@@ -1,46 +1,46 @@
+ /*
+  * Intel ACPI Component Architecture
+  * AML/ASL+ Disassembler version 20180105 (64-bit version)
+  * Copyright (c) 2000 - 2018 Intel Corporation
+  *
+- * Disassembly of tests/data/acpi/q35/FACP, Fri Feb  5 16:57:04 2021
++ * Disassembly of /tmp/aml-1OQYX0, Fri Feb  5 16:57:04 2021
+  *
+  * ACPI Data Table [FACP]
+  *
+  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
+  */
 
-ACPI spec 4.8.10.1 PM1 Event Grouping
-PM1 Eanble Registers
-> For ACPI-only platforms (where SCI_EN is always set)
+ [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
+ [004h 0004   4]                 Table Length : 000000F4
+ [008h 0008   1]                     Revision : 03
+-[009h 0009   1]                     Checksum : 1F
++[009h 0009   1]                     Checksum : D6
+ [00Ah 0010   6]                       Oem ID : "BOCHS "
+ [010h 0016   8]                 Oem Table ID : "BXPCFACP"
+ [018h 0024   4]                 Oem Revision : 00000001
+ [01Ch 0028   4]              Asl Compiler ID : "BXPC"
+ [020h 0032   4]        Asl Compiler Revision : 00000001
 
+ [024h 0036   4]                 FACS Address : 00000000
+ [028h 0040   4]                 DSDT Address : 00000000
+ [02Ch 0044   1]                        Model : 01
+ [02Dh 0045   1]                   PM Profile : 00 [Unspecified]
+ [02Eh 0046   2]                SCI Interrupt : 0009
+-[030h 0048   4]             SMI Command Port : 000000B2
+-[034h 0052   1]            ACPI Enable Value : 02
+-[035h 0053   1]           ACPI Disable Value : 03
++[030h 0048   4]             SMI Command Port : 00000000
++[034h 0052   1]            ACPI Enable Value : 00
++[035h 0053   1]           ACPI Disable Value : 00
+ [036h 0054   1]               S4BIOS Command : 00
+ [037h 0055   1]              P-State Control : 00
+ [038h 0056   4]     PM1A Event Block Address : 00000600
+ [03Ch 0060   4]     PM1B Event Block Address : 00000000
+ [040h 0064   4]   PM1A Control Block Address : 00000604
+ [044h 0068   4]   PM1B Control Block Address : 00000000
+ [048h 0072   4]    PM2 Control Block Address : 00000000
+ [04Ch 0076   4]       PM Timer Block Address : 00000608
+ [050h 0080   4]           GPE0 Block Address : 00000620
+ [054h 0084   4]           GPE1 Block Address : 00000000
+ [058h 0088   1]       PM1 Event Block Length : 04
+ [059h 0089   1]     PM1 Control Block Length : 02
+ [05Ah 0090   1]     PM2 Control Block Length : 00
+ [05Bh 0091   1]        PM Timer Block Length : 04
+ [05Ch 0092   1]            GPE0 Block Length : 10
+ [05Dh 0093   1]            GPE1 Block Length : 00
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/acpi/core.c         | 11 ++++++++++-
- hw/acpi/ich9.c         |  2 +-
- hw/acpi/piix4.c        |  3 ++-
- hw/isa/vt82c686.c      |  2 +-
- include/hw/acpi/acpi.h |  4 +++-
- 5 files changed, 17 insertions(+), 5 deletions(-)
+ hw/i386/acpi-build.c | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 7170bff657..1e004d0078 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -579,6 +579,10 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
-                          bool sci_enable, bool sci_disable)
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index f56d699c7f..e3386ae674 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -139,6 +139,14 @@ const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio = {
+ static void init_common_fadt_data(MachineState *ms, Object *o,
+                                   AcpiFadtData *data)
  {
-     /* ACPI specs 3.0, 4.7.2.5 */
-+    if (ar->pm1.cnt.acpi_only) {
-+        return;
-+    }
-+
-     if (sci_enable) {
-         ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-     } else if (sci_disable) {
-@@ -608,11 +612,13 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
- };
- 
- void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
--                       bool disable_s3, bool disable_s4, uint8_t s4_val)
-+                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-+                       bool acpi_only)
- {
-     FWCfgState *fw_cfg;
- 
-     ar->pm1.cnt.s4_val = s4_val;
-+    ar->pm1.cnt.acpi_only = acpi_only;
-     ar->wakeup.notify = acpi_notify_wakeup;
-     qemu_register_wakeup_notifier(&ar->wakeup);
- 
-@@ -638,6 +644,9 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
- void acpi_pm1_cnt_reset(ACPIREGS *ar)
- {
-     ar->pm1.cnt.cnt = 0;
-+    if (ar->pm1.cnt.acpi_only) {
-+        ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-+    }
- }
- 
- /* ACPI GPE */
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 5ff4e01c36..853447cf9d 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -282,7 +282,7 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
-     acpi_pm_tmr_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
-     acpi_pm1_evt_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
-     acpi_pm1_cnt_init(&pm->acpi_regs, &pm->io, pm->disable_s3, pm->disable_s4,
--                      pm->s4_val);
-+                      pm->s4_val, !pm->smm_compat && !smm_enabled);
- 
-     acpi_gpe_init(&pm->acpi_regs, ICH9_PMIO_GPE0_LEN);
-     memory_region_init_io(&pm->io_gpe, OBJECT(lpc_pci), &ich9_gpe_ops, pm,
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 30dd9b2309..1efc0ded9f 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -497,7 +497,8 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
- 
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
--    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val);
-+    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val,
-+                      !s->smm_compat && !s->smm_enabled);
-     acpi_gpe_init(&s->ar, GPE_LEN);
- 
-     s->powerdown_notifier.notify = piix4_pm_powerdown_req;
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d..071b64b497 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -240,7 +240,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- 
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
--    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
-+    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
- }
- 
- static Property via_pm_properties[] = {
-diff --git a/include/hw/acpi/acpi.h b/include/hw/acpi/acpi.h
-index 22b0b65bb2..9e8a76f2e2 100644
---- a/include/hw/acpi/acpi.h
-+++ b/include/hw/acpi/acpi.h
-@@ -128,6 +128,7 @@ struct ACPIPM1CNT {
-     MemoryRegion io;
-     uint16_t cnt;
-     uint8_t s4_val;
-+    bool acpi_only;
- };
- 
- struct ACPIGPE {
-@@ -163,7 +164,8 @@ void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
- 
- /* PM1a_CNT: piix and ich9 don't implement PM1b CNT. */
- void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
--                       bool disable_s3, bool disable_s4, uint8_t s4_val);
-+                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-+                       bool acpi_only);
- void acpi_pm1_cnt_update(ACPIREGS *ar,
-                          bool sci_enable, bool sci_disable);
- void acpi_pm1_cnt_reset(ACPIREGS *ar);
++    X86MachineState *x86ms = X86_MACHINE(ms);
++    /*
++     * "ICH9-LPC" or "PIIX4_PM" has "smm-compat" property to keep the old
++     * behavior for compatibility irrelevant to smm_enabled, which doesn't
++     * comforms to ACPI spec.
++     */
++    bool smm_enabled = object_property_get_bool(o, "smm-compat", NULL) ?
++        true : x86_machine_is_smm_enabled(x86ms);
+     uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
+     AmlAddressSpace as = AML_AS_SYSTEM_IO;
+     AcpiFadtData fadt = {
+@@ -159,12 +167,16 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
+         .rtc_century = RTC_CENTURY,
+         .plvl2_lat = 0xfff /* C2 state not supported */,
+         .plvl3_lat = 0xfff /* C3 state not supported */,
+-        .smi_cmd = ACPI_PORT_SMI_CMD,
++        .smi_cmd = smm_enabled ? ACPI_PORT_SMI_CMD : 0,
+         .sci_int = object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NULL),
+         .acpi_enable_cmd =
+-            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL),
++            smm_enabled ?
++            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL) :
++            0,
+         .acpi_disable_cmd =
+-            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL),
++            smm_enabled ?
++            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL) :
++            0,
+         .pm1a_evt = { .space_id = as, .bit_width = 4 * 8, .address = io },
+         .pm1a_cnt = { .space_id = as, .bit_width = 2 * 8,
+                       .address = io + 0x04 },
 -- 
 2.17.1
 
