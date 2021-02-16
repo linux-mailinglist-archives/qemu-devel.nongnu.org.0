@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA66531D260
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 22:54:31 +0100 (CET)
-Received: from localhost ([::1]:52832 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3088431D261
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 22:58:18 +0100 (CET)
+Received: from localhost ([::1]:57046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC8Ig-0008PK-80
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 16:54:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1lC8ML-00021s-7a
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 16:58:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lC8H8-0007wd-ER
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:52:54 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39742
+ id 1lC8LM-0001NB-As
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:57:16 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39754
  helo=mail.default.ilande.uk0.bigv.io)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lC8H6-0007EZ-Nz
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:52:54 -0500
+ id 1lC8LK-0007ey-OJ
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:57:16 -0500
 Received: from host86-150-128-218.range86-150.btcentralplus.com
  ([86.150.128.218] helo=[192.168.1.65])
  by mail.default.ilande.uk0.bigv.io with esmtpsa
  (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
  (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lC8HM-0007bK-P6; Tue, 16 Feb 2021 21:53:13 +0000
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-12-mark.cave-ayland@ilande.co.uk>
- <215d5901-e5d9-fe70-1b46-5baadb7048df@amsat.org>
+ id 1lC8Lk-0007dG-TF; Tue, 16 Feb 2021 21:57:41 +0000
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210215102149.20513-1-peter.maydell@linaro.org>
+ <5b91b4f1-f557-ca74-9e68-8f860cac76c7@ilande.co.uk>
+ <CAFEAcA-QP8-hc1i-fgy--=R1K99ubxRDX38Q1QrVrzQm+aMbew@mail.gmail.com>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <a10eb92a-ceb9-cee2-d747-172e56fba0bf@ilande.co.uk>
-Date: Tue, 16 Feb 2021 21:52:40 +0000
+Message-ID: <6fc7b6cd-6e36-cd21-cf8a-b9de904c8f51@ilande.co.uk>
+Date: Tue, 16 Feb 2021 21:57:12 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <215d5901-e5d9-fe70-1b46-5baadb7048df@amsat.org>
+In-Reply-To: <CAFEAcA-QP8-hc1i-fgy--=R1K99ubxRDX38Q1QrVrzQm+aMbew@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 86.150.128.218
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 11/42] esp: apply transfer length adjustment when STC
- is zero at TC load time
+Subject: Re: [PATCH] hw/display/tcx: Drop unnecessary code for handling BGR
+ format outputs
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -67,62 +66,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/02/2021 07:33, Philippe Mathieu-Daudé wrote:
+On 16/02/2021 10:11, Peter Maydell wrote:
 
-> On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
->> Perform the length adjustment whereby a value of 0 in the STC represents
->> a transfer length of 0x10000 at the point where the TC is loaded at the
+>> Would you like this to go via a qemu-sparc PR or is it easier to go as part of a
+>> group alongside your other display surface patches via target-arm.next?
 > 
-> 0x10000 -> 64 KiB?
+> I'm happy either way -- if you don't happen to have anything else
+> queued up for sparc I can just put it in with the arm queue.
 
-I'd prefer to keep these as they are, since TC is described in the documentation as 
-16-bit counter: it is the number of bits that is relevant here as opposed to the 
-absolute size.
-
-There is a slight bit of trickery here in that the ESP emulation already handles a 
-later variant of the chip which has a 24-bit counter which is why we can get away 
-with setting its value to 0x10000 - guests that don't check for this will simply 
-ignore the register containing the MSB.
-
->> start of a DMA command rather than just when a TI (Transfer Information)
->> command is executed. This better matches the description as given in the
->> datasheet.
->>
->> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->> ---
->>   hw/scsi/esp.c | 9 +++++----
->>   1 file changed, 5 insertions(+), 4 deletions(-)
->>
->> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
->> index a1acc2c9bd..02b7876394 100644
->> --- a/hw/scsi/esp.c
->> +++ b/hw/scsi/esp.c
->> @@ -562,9 +562,6 @@ static void handle_ti(ESPState *s)
->>       }
->>   
->>       dmalen = esp_get_tc(s);
->> -    if (dmalen == 0) {
->> -        dmalen = 0x10000;
->> -    }
->>       s->dma_counter = dmalen;
->>   
->>       if (s->do_cmd) {
->> @@ -699,7 +696,11 @@ void esp_reg_write(ESPState *s, uint32_t saddr, uint64_t val)
->>           if (val & CMD_DMA) {
->>               s->dma = 1;
->>               /* Reload DMA counter.  */
->> -            esp_set_tc(s, esp_get_stc(s));
->> +            if (esp_get_stc(s) == 0) {
->> +                esp_set_tc(s, 0x10000);
-> 
-> 0x10000 -> 64 * KiB
-
-And same here too.
-
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Nothing at the moment. I'm not sure whether the ESP patches will go via qemu-sparc or 
+Laurent's m68k queue, and the ESP series is probably large enough by itself already. 
+So if you've got a pending PR feel free to add it in, otherwise I'll have a look 
+post-ESP :)
 
 
 ATB,
