@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7DAB31CE8E
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:01:21 +0100 (CET)
-Received: from localhost ([::1]:52634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E8A31CE9A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:04:31 +0100 (CET)
+Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3iy-0005D5-Da
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:01:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50190)
+	id 1lC3m2-0000V4-E4
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:04:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lC3LE-0003vZ-DO; Tue, 16 Feb 2021 11:36:48 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:60006)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC3TJ-0006AN-Vy
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:45:10 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38170)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lC3L8-0005aE-LU; Tue, 16 Feb 2021 11:36:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=xvCwVff2POEh7uH+jYbrBkQWoLzfq7Sx+ebiFo/PvvQ=; 
- b=L4k7DmGz1Z7eLcoO5PZiXxf/h/yyUnVQgn0l7PdoMTzhjnem5NhgKcjPEHPK0W5RgcdQIc0JkiZ1aatLnBWomGE0si9jBzIqZpFS8RxK3CBT98uM9tRjdfJndXaFCXa6aRoVfJWj0E0s2kpjLgAc4Xx5lBkVAW4nTzwyDj0+mI19Tb1SBayyzQE3tIFaqHGyHYMLWxonRProi5Oe6MTaV5j3VnNttex0buWgCICphIMtEn/7E06RPrnXQvYwbjGY9hHdaNaVG9V95uG8O9ghWqKsi4dM3DBLuIStCEI1K9YG6ys+BPpk24iWUEuFxZuvJblDpiGBgYJqGqX3Ox/5QA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1lC3L6-00010y-LI; Tue, 16 Feb 2021 17:36:40 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1lC3L6-0002si-Bg; Tue, 16 Feb 2021 17:36:40 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [RFC PATCH v2 0/4] Allow changing bs->file on reopen
-In-Reply-To: <20210210172657.GJ5144@merkur.fritz.box>
-References: <cover.1612809837.git.berto@igalia.com>
- <20210210172657.GJ5144@merkur.fritz.box>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Tue, 16 Feb 2021 17:36:40 +0100
-Message-ID: <w514kic2cmf.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC3TD-0006qj-JF
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:45:09 -0500
+Received: by mail-ed1-x533.google.com with SMTP id s11so13012690edd.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:45:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Xp8gyyw4XX+v5GfAXxip4UNdg+CNKu2z9lmgf9b+QEI=;
+ b=SCQCIGlNZmbtz2ejbwiOgXOxelbHvmReciN0EQj3r0b4kRb8u5QIW/i16Ur02cNsfb
+ CyRgHQQVopVIvfka7tPFSL2UavQha7ogwuiusFzj3yaLn7Sb23GFwUwKg7f6/I4Bd8z3
+ QdZ0N9uNYjxhtH5TmdZSCaa1wuUNVckHf8rXbJ99oqGGj/KtpTwJ3RcOyi4+ZscKJYSc
+ 6q09Wj9sVj0t2Eca35WoMiR73f34LlMLsMoLgC/ACwmIBJc8QPCbILDC4rsEWexxywK3
+ 4HGsXqlD6PRV9ifEJzFi7fu8TN4puzZkMlKvMZfk+SPlBcqHmrT/JZ6NfvuFxpAjHV61
+ mVIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Xp8gyyw4XX+v5GfAXxip4UNdg+CNKu2z9lmgf9b+QEI=;
+ b=g7Fvp8cE6ZfVK9s4LgIW0UC/drdhRRZzrIW+snVubvEpt6H/eKmWSQ16qnsMFegawM
+ 1cWr9w5ISQmsWO2RAwJ+UNbZxzxk+2OvDxWtnAP7I2jehr5YoLajcB5MDtufTLFstigH
+ 50dDLrnITPkH5FeuJKlW+2W+Czb52E6KNNt4xaP7vxws2Tk1T2FvG+0kEbid+B11N+0x
+ pe7vcDyIDbZt/oErmvmhy/uygHaB5476kIdOCxEpmjkev0ZYfK6PCGFcE1DM4hH35FHf
+ quvMCxiHFazJuB3WB9kot0gA1k8sd6N15hsGHjd4EkBwDV3P/umZQKfwILUfNN0mLtOh
+ xLVw==
+X-Gm-Message-State: AOAM533NZTpJ59b33TverUCuu119K/GfEY4Rm7ehP8raNmtq7WwDy2ow
+ QZIgWRT5W8CvclBRyWLxoqHFm1A570QCpcapyfD3dQ==
+X-Google-Smtp-Source: ABdhPJxVX3B7vLefA/PltxdwERUcV7Lpfc/UrUeKoiO/osLJDfnoxHwfZK+aA0WZ1uLuOD3NMgasEr9m1yxhHfhvc9Q=
+X-Received: by 2002:a05:6402:3494:: with SMTP id
+ v20mr22514439edc.146.1613493900110; 
+ Tue, 16 Feb 2021 08:45:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
+References: <20210216110056.1228582-1-thuth@redhat.com>
+ <20210216154010.3691880f.pasic@linux.ibm.com>
+ <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
+In-Reply-To: <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Feb 2021 16:44:48 +0000
+Message-ID: <CAFEAcA-yutW-96v2ktvMfVsaZPeA2aTxMg+Y-t-F1Q_xtM-a1Q@mail.gmail.com>
+Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,27 +79,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, pkrempa@redhat.com,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 10 Feb 2021 06:26:57 PM CET, Kevin Wolf wrote:
+On Tue, 16 Feb 2021 at 16:15, Thomas Huth <thuth@redhat.com> wrote:
+> I was just about to reply that this is certainly not necessary, since
+> the DIAGNOSE instruction that we use for the notification hypercall
+> should be serializing anyway ... but after looking at the PoP, it
+> actually is not marked as a serializing instruction! (while e.g.
+> SVC - supervisor call - is explicitly marked as serializing)
+>
+> So maybe that's worth a try: Peter, could you please apply this patch
+> on top an see whether it makes a difference?
+>
+> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
+> --- a/pc-bios/s390-ccw/virtio.c
+> +++ b/pc-bios/s390-ccw/virtio.c
+> @@ -54,6 +54,7 @@ static long kvm_hypercall(unsigned long nr, unsigned long param1,
+>       register ulong r_param3 asm("4") = param3;
+>       register long retval asm("2");
+>
+> +    virtio_mb();
+>       asm volatile ("diag 2,4,0x500"
+>                     : "=d" (retval)
+>                     : "d" (r_nr), "0" (r_param1), "r"(r_param2), "d"(r_param3)
 
-> You have a test case for adding a throttling filter. Can we also
-> remove it again or is there still a problem with that? I seem to
-> remember that that was a bit trickier, though I'm not sure what it
-> was. Was it that we can't have the throttle node without a file, so it
-> would possibly still have permission conflicts?
+Doesn't really help (maybe brings the occurrence rate down a bit
+more, towards about 1 in 9?)
 
-There is no problem with removing the filter anymore. See here for a
-description of the original problem:
-
-https://lists.gnu.org/archive/html/qemu-block/2020-12/msg00090.html
-
-But this series is based on Vladimir's branch ("update graph permissions
-update") which reworks how the permissions are calculated on reopen and
-solves the issue.
-
-Berto
+-- PMM
 
