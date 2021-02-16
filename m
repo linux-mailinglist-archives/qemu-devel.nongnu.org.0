@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 839C131CC2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:39:37 +0100 (CET)
-Received: from localhost ([::1]:47402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD7931CC32
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:41:00 +0100 (CET)
+Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1Vo-0005u8-KN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:39:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35678)
+	id 1lC1X9-0006xj-FI
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:40:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC1Ts-0005Dp-1c
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:37:36 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:41171)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC1Tq-0003F9-Fw
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:37:35 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id v9so8052307edw.8
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 06:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=n5Nx5J2EeeDhrUwEVC+p9XsfTS1a53NMSNwrryztp8I=;
- b=w+JzhmOf+TQcNhVOimUBFbgqACkOxHR9CTUhhDPEjvSOA5ppX95oe91I4QxyHOoQBY
- Pyw+UlBLpdR1MLfmP9DJ309SslrVO2iSpmqnJHYuKF2qgQTRUziKkq8/DVKHoLS81qLT
- Ia/Mi9X6pbCSq+VBhMq0CzlWnMfw5hfKSYLFdqtcdPnMIZhE33+iZhtA5r5Rzg3K/kPB
- F9RKOiQCovesS1RmKKo83pAbGfdI6QqU33bGoTQYwKb+t+ritqyRL0K/0/i0b1VFGwyM
- 4jGd+qShiq6DMB9zOXj2W92izjc9QJ8nhnYnL3j0YUgWJ4G4N3pPa43tzYlv46uTBTBb
- 6krA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=n5Nx5J2EeeDhrUwEVC+p9XsfTS1a53NMSNwrryztp8I=;
- b=DUJHMZYckC4E5yxXwIxSsWycOno5RlnlNW2iCTXfjmFlezOLlau2Op+ThU3dzvAWnK
- hkBu6Z89Hryp+8g/d1pgKWwWno79I0HBvVQemFIsnd9oXUMvpjELCf6vgWaqAeql4uoC
- irujdRMWxS5moUse89d6jEpE8EIHJtA7RjGRtkCPkwyTIV9rAxy5zlTKQFHwo+ePIQDr
- HvNFyayG2LNjF3mPTmCiOeyDz2N18HtjKV9tsdBjB2Qfc/U5SdGmWRLo0v5F6urj1t1y
- EjeRGqQUSMlZcX+mRam4OihctIaMORUC+d0bdhqm7zfCffM0BmsBV/axhXTPIvbyKrwq
- INJA==
-X-Gm-Message-State: AOAM531cbd93zcobzWqyDpChtX3GpzfUT6yqxwvqDPTDRxn9os0wypDq
- nPU5iZcOq11tMbXpBGm88f8MA7YtSWGRB6t5wP8UzE4ebMY=
-X-Google-Smtp-Source: ABdhPJyfJoiYnNhT8k91yd+0PoHuxbmPi50v9UiSWoDD2U0Er3HeBpZc+9+zGKbU+bkmaEL9KE6Z30MQSjczieUGPqM=
-X-Received: by 2002:a50:9e01:: with SMTP id z1mr21064613ede.44.1613486252996; 
- Tue, 16 Feb 2021 06:37:32 -0800 (PST)
-MIME-Version: 1.0
-References: <20210216110056.1228582-1-thuth@redhat.com>
- <20210216124757.4eb664e9.cohuck@redhat.com>
- <a561530e-d800-67e0-ee2b-fea6efb4638c@redhat.com>
- <20210216153003.16b05725.cohuck@redhat.com>
- <CAFEAcA-B1pXNs8X+mha3x9Ynt83dkmC9sL_XGtextCD3qDXeAQ@mail.gmail.com>
- <5765bde0-f222-4b07-25d4-430b101ef8ff@redhat.com>
-In-Reply-To: <5765bde0-f222-4b07-25d4-430b101ef8ff@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 14:37:22 +0000
-Message-ID: <CAFEAcA8H=ixwj6PtGSDtEuiADY775o68gk8DZ5PrwOjftqtWtg@mail.gmail.com>
-Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
+ id 1lC1Vj-0006Ga-Ha
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:39:31 -0500
+Received: from pv50p00im-ztdg10011301.me.com ([17.58.6.40]:60633)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
+ id 1lC1Vh-0003Om-Ro
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:39:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1613486366;
+ bh=0o/OQjvVhLYjAb8pmVqFdB2ywsJrrqRSBMFqliSX3QE=;
+ h=Content-Type:From:Mime-Version:Subject:Date:Message-Id:To;
+ b=vF5CalUJbR+qwi33J+jpbAOKPCiPn1dV91o3bftASghnSZR21eJxZzrwIlYeEyVTT
+ vU2CnIR80jzbwWyrxfabaV5o7VDVwd3Gv0nje+6ZB93xXjAeMBg4bqDcmLFI4lTfiv
+ /4EIHnSaSmKebGtDk1aC2tTi9Us8R861HlqqySu+xR9pdXMGds/SrvcCJytgCJLav8
+ L37w2GEKOLJn0cRrtjwpje7ge/HZM6ixHD04VQeb46+cLl5rcBhadE7QBlxqb2S0WO
+ 6cBvdq4zNFQngNT3hVOr0j0ZYILe5j6KHgOgCUdiBX/+AB6U2B+dzQIKmxDsw3yg7g
+ wQ2Tr1Mm0O1CA==
+Received: from [192.168.50.237] (unknown [139.227.197.244])
+ by pv50p00im-ztdg10011301.me.com (Postfix) with ESMTPSA id 4F1167604BB;
+ Tue, 16 Feb 2021 14:39:26 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: =?utf-8?B?5rKI5qKm5aej?= <shen.mengjiao3@icloud.com>
+Mime-Version: 1.0 (1.0)
+Subject: Re: Fill tlb for data and io address 
+Date: Tue, 16 Feb 2021 22:39:08 +0800
+Message-Id: <2D7F6EA4-5525-4F48-ACA7-B157E8A02A2A@icloud.com>
+References: <CAFEAcA-OE+NGfbgjEuydjCfpiR_kuFVsSxYwE-PfvQSX-rzHLQ@mail.gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ qemu-discuss <qemu-discuss@nongnu.org>
+In-Reply-To: <CAFEAcA-OE+NGfbgjEuydjCfpiR_kuFVsSxYwE-PfvQSX-rzHLQ@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-Mailer: iPhone Mail (18D52)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-16_04:2021-02-16,
+ 2021-02-16 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1011 mlxscore=0
+ mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2006250000 definitions=main-2102160135
+Received-SPF: pass client-ip=17.58.6.40;
+ envelope-from=shen.mengjiao3@icloud.com; helo=pv50p00im-ztdg10011301.me.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, MIME_QP_LONG_LINE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,36 +75,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 14:35, Thomas Huth <thuth@redhat.com> wrote:
->
-> On 16/02/2021 15.32, Peter Maydell wrote:
-> > On Tue, 16 Feb 2021 at 14:30, Cornelia Huck <cohuck@redhat.com> wrote:
-> >> Step 4 in "2.7.13 Supplying Buffers to The Device":
-> >>
-> >> "The driver performs a suitable memory barrier to ensure the device
-> >> sees the updated descriptor table and available ring before the next
-> >> step."
-> >
-> > I thought that my first time through the spec as well, but
-> > I think the whole of section 2.7 is dealing with "packed virtqueues",
-> > which have to be explicitly negotiated and which I don't think
-> > the s390-ccw code is doing.
->
-> Right. I think the s390-ccw code is still based on virtio v1.0, that's why I
-> also only looked at that version of the spec.
 
-I think the ideal would be to find somebody who's really well
-acquainted with the virtio spec (MST?) and ask them to have
-a quick look-over the s390-ccw code to say where it needs
-changes... The fact that this patch doesn't completely fix
-the bug leaves me suspicious that we're missing something in
-our readings of the spec.
 
--- PMM
+> =E5=9C=A8 2021=E5=B9=B42=E6=9C=8816=E6=97=A5=EF=BC=8C=E4=B8=8B=E5=8D=887:4=
+8=EF=BC=8CPeter Maydell <peter.maydell@linaro.org> =E5=86=99=E9=81=93=EF=BC=9A=
+
+>=20
+> =EF=BB=BFOn Tue, 16 Feb 2021 at 11:28, =E6=B2=88=E6=A2=A6=E5=A7=A3 <shen.m=
+engjiao3@icloud.com> wrote:
+>> Look at the store/load helper, it will use the tlb entry to do the addres=
+s translation(from guest virtual address to host virtual address) but where t=
+he tlb is filled for the data ram and io address, I know where the code ram i=
+s filled(tb_find->tb_lookup__cpu_state...)
+>=20
+> The common QEMU code calls the target
+Thanks Peter. But what=E2=80=99s the common code? I mean in which case the t=
+lb_fill will be triggered, the generated code will trigger or something else=
+? Thanks in advance.
+> CPU tlb_fill function, which tries
+> to translate the guest virtual address to a physical address (usually by
+> walking the guest page tables). If it succeeds then will update the QEMU
+> TLB by calling either tlb_set_page() or tlb_set_page_with_attrs().
+
+> If it
+> fails then it arranges to deliver a suitable exception to the guest.
+This should be page fault, guest code will update page table, am I right? Th=
+anks=20
+>=20
+> thanks
+> -- PMM
 
