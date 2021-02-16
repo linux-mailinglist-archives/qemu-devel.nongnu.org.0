@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11AB131C4B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 01:46:55 +0100 (CET)
-Received: from localhost ([::1]:37124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9146D31C4B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 01:48:16 +0100 (CET)
+Received: from localhost ([::1]:39616 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBoVx-0005Oh-ID
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 19:46:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
+	id 1lBoXH-0006S2-Mp
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 19:48:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBoUz-0004r8-4h
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:45:53 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37670)
+ id 1lBoVC-00053X-2y
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:46:06 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:34919)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lBoUs-0003Mu-CX
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:45:52 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id t2so4898629pjq.2
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:45:45 -0800 (PST)
+ id 1lBoV9-0003To-WC
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:46:05 -0500
+Received: by mail-pg1-x532.google.com with SMTP id t25so5208765pga.2
+ for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 16:46:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=MsbgF87+Din+0JOLk/SX90VFUqvr2HfqdUj8sasraoI=;
- b=BlzdQVEB5CHgpR7sfB3CUWcsu8FXRZTaslLUSTTSJ2UXu9ErzNEQMBD2mdFSFcIWP4
- PS5LLklstu2hsrBGBHOzbfk4F7WJezl8vzh3u1P6RA7QnRS5CTKkNpM3DokDUH80jK8C
- QWdzwyqR0erktjq7GOyK6QG0UeQcp8HXOC98XZw7cyvnwLNk4z2dDl2h2VrGCh8ampVO
- cAq45zs25CElwHF+w4PLEh4enO2NRvWAKoXRXxwN+k+8vFEoK7aEG/TtJ/3Ll9eNzZ7t
- 4mgqWnlNk5/JkHBtBVNlyWGKZ8ovj9LRQbW7RGL2a5eDa+wQMBQfzZ7oGuLKuRZG8aRu
- rQow==
+ bh=UmQEaEpcZ5m3RF5wXE0g/HWB07grjMeQiTMdkEc+evk=;
+ b=uuuWzFjyVV8BwzshWmXZ8K+dfujUsfPkAhlME0knbA6GqBI4TI7fnkRpg2ik8Ad7AW
+ ymy45pUnSFhQPTd51d1a0utdahHNNlmkkz+gIe6W6CypcmXkpDF/fe8z/+8hmXIvQ60B
+ O2zf08ahyCpRgADV1XWCVypAsh3sTsgD3roqfPeY1D0LtDj0bMTzOt0+6fX310KlvMd2
+ BvL9s113bWu0jSqwt+EbKZbgNQn3oimT4W87wVzy/TrVtyZ0ZYt/lvbWYq+rKaQUFskT
+ uWjePjAP0+bJqBQHeFy0R1lnuNGHhhujFej4wivtViVvUAIyP6CoPi/Tp/KQ6r0NhrCq
+ RUKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=MsbgF87+Din+0JOLk/SX90VFUqvr2HfqdUj8sasraoI=;
- b=CLJHplgMht3W0leBH0S0sP6g/s0fS4aJeIUHWHBDZE+ktrI62kxpi85MYE3qCdXzTe
- GcfQSLfXTxYq/d6f2WkU4Elf6z0iXy1oUEzvxYuGIWtFdH9ONj5siC4ZbziRRplE0OcD
- vJTOLqNLSj/vqvwJzgMg05d6YMNQd5sBnsLkLM3CXSNnAabKRZzdZhpGL/YPceQnjhDP
- TG8yh3DzRgliWJi94TMxM2Jqc8Di0YT0tdIuXOXGMyTVy0Qc2zwDLOW6+g+d2sBMOYjg
- kpJ7rG5os49UcsR5nid2KOROj+qsAqzFIcW2KLct1x3VIDtolA6t/BSvz4uSZuTCVUHp
- 4+nA==
-X-Gm-Message-State: AOAM531yVN2aG1bRjILSBgdzD1Hx2ANWP/DPrrEtnYru5GKg/heoVyB2
- /ifsaGeQXU7qx4obgg4DHUpa0w==
-X-Google-Smtp-Source: ABdhPJxO8Bfnk+TWFsgzetTKLPCgxsTjAPFx/M3YRLTu4g9aaK0MRS52GheIMuusxD0AFfsQRIcOqA==
-X-Received: by 2002:a17:90b:806:: with SMTP id
- bk6mr1462418pjb.16.1613436344692; 
- Mon, 15 Feb 2021 16:45:44 -0800 (PST)
+ bh=UmQEaEpcZ5m3RF5wXE0g/HWB07grjMeQiTMdkEc+evk=;
+ b=WgcXAe3yvTlskldg4LSJhJUbf3uzq0/8qF/JV6uZtV7BfsvBlofEZjvt7xSEs8Lu8d
+ Xj4QxMvKwRyfkGqMxFSNfHeYHSq5NZw/lybpFc+gKY/J2Mnfs7U51tPEcvLlxIAHgmiM
+ q0iqkrbhZ+6D/G3/zcEOwA77zUpULq6vfXPZOuvH+XD6HUhktnHWcXGaRe+bLwatvkAA
+ mHM7VxpJgtH8lZUlX8fx6qsZNazcXMWLuyEdRXquF6CAWxhmNtyFHmtNxVupSBtKfkik
+ Ks3R3fWhFe0oNgx9RZfdjdswuJqidFltdN5My62zi4bL3j/+2ytL1R99ayPHqUkBkDWH
+ IcYQ==
+X-Gm-Message-State: AOAM533LVDK/1f70RW0g9lA0nFgGX0p9svPEvouwS82EBy23e2pe6qii
+ n05SgEdvg8FaCmfK7nuxJ7hh/A==
+X-Google-Smtp-Source: ABdhPJx4XH8JdqH1M8UKL2RWgvwAK7D0QXF7xzldHI4qlSqoP7WWjaFQCKgPJ2pBGGXB/7atYL4Ziw==
+X-Received: by 2002:a63:580d:: with SMTP id m13mr16856274pgb.342.1613436362633; 
+ Mon, 15 Feb 2021 16:46:02 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id q15sm639237pja.22.2021.02.15.16.45.43
+ by smtp.gmail.com with ESMTPSA id z11sm620311pjn.5.2021.02.15.16.46.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 15 Feb 2021 16:45:44 -0800 (PST)
-Subject: Re: [PATCH 0/9] arm: drop dead code for non-32-bit-RGB surfaces
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210215103215.4944-1-peter.maydell@linaro.org>
+ Mon, 15 Feb 2021 16:46:02 -0800 (PST)
+Subject: Re: [PATCH] hw/display/tcx: Drop unnecessary code for handling BGR
+ format outputs
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210215102149.20513-1-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7d6f9419-9389-b2de-8569-78502fec2251@linaro.org>
-Date: Mon, 15 Feb 2021 16:45:41 -0800
+Message-ID: <17c82dda-2b78-d70c-9f15-87c0fd33c9d4@linaro.org>
+Date: Mon, 15 Feb 2021 16:46:00 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210215103215.4944-1-peter.maydell@linaro.org>
+In-Reply-To: <20210215102149.20513-1-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,21 +87,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 2:32 AM, Peter Maydell wrote:
-> Peter Maydell (9):
->   hw/arm/musicpal: Remove dead code for non-32-bit-RGB surfaces
->   hw/display/tc6393xb: Remove dead code for handling non-32bpp surfaces
->   hw/display/tc6393xb: Expand out macros in template header
->   hw/display/tc6393xb: Inline tc6393xb_draw_graphic32() at its callsite
->   hw/display/omap_lcdc: Expand out macros in template header
->   hw/display/omap_lcdc: Drop broken bigendian ifdef
->   hw/display/omap_lcdc: Fix coding style issues in template header
->   hw/display/omap_lcdc: Inline template header into C file
->   hw/display/omap_lcdc: Delete unnecessary macro
+On 2/15/21 2:21 AM, Peter Maydell wrote:
+> For a long time now the UI layer has guaranteed that the console
+> surface is always 32 bits per pixel, RGB. The TCX code already
+> assumes 32bpp, but it still has some checks of is_surface_bgr()
+> in an attempt to support 32bpp BGR. is_surface_bgr() will always
+> return false for the qemu_console_surface(), unless the display
+> device itself has deliberately created an alternate-format
+> surface via a function like qemu_create_displaysurface_from().
+> 
+> Drop the never-used BGR-handling code, and assert that we have
+> a 32-bit surface rather than just doing nothing if it isn't.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+> Tested by booting Linux on an SS-5.
+> ---
+>  hw/display/tcx.c | 31 ++++++++-----------------------
+>  1 file changed, 8 insertions(+), 23 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
