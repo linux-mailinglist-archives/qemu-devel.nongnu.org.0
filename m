@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48C631C9A5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:28:38 +0100 (CET)
-Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA8831C9AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:32:39 +0100 (CET)
+Received: from localhost ([::1]:35396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lByWz-0005D5-TM
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:28:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33280)
+	id 1lByas-0000gr-2P
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
- id 1lByUH-0003SI-Sj
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:25:49 -0500
-Received: from pv50p00im-ztbu10011701.me.com ([17.58.6.53]:36833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
- id 1lByUG-0005zr-2k
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:25:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
- s=1a1hai; t=1613474745;
- bh=iFG8TbbH2Nq6brhBRtJhu5ohW/fUmra5/qBpVMgn/KY=;
- h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
- b=cdr/Fs7hmfCPlVugacqK5uS2BoFOkMdumJSqsnBpHyzkVlgNSyQQdViMJF3yQbwlw
- sLhg+OGXAoe5vMd+n2F8or4mXG0cRhKtOGaE8Ox6ejRQj+0MtK0NWl0/03mPxIa0He
- /+a8x9/mfnwH6jYtCy11kcCLWAXmgu4AtGmcfD4gvqfjkxyXsHxze1DNWA2TMw4SkL
- wuIMNopK7V8bYEFjOqdbIXtI12+UAEFCZWXeBxUD2HXxTuVvn5r5YCvH+Xh3ZHMfY6
- ycxrDpd0OXHnLNi117ritTZiHKLABtvMieFc+5dtEqFVOAZ8K0azjWQlScxo9iEaS8
- 3EGiegi0pFrmQ==
-Received: from [192.168.50.237] (unknown [139.227.197.244])
- by pv50p00im-ztbu10011701.me.com (Postfix) with ESMTPSA id C8DE38A014F;
- Tue, 16 Feb 2021 11:25:44 +0000 (UTC)
-Content-Type: text/plain; charset=us-ascii
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lByZB-000084-OZ
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:30:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42432)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lByZ2-0008Js-Oh
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:30:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lByYy-0002rW-91
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 11:30:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 206BB2E80F3
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 11:30:40 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-From: =?utf-8?B?5rKI5qKm5aej?= <shen.mengjiao3@icloud.com>
-Mime-Version: 1.0 (1.0)
-Date: Tue, 16 Feb 2021 19:25:26 +0800
-Subject: Fill tlb for data and io address 
-Message-Id: <E1B16679-A55E-479C-9EAC-BE7BA9D71235@icloud.com>
-To: QEMU Developers <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
-X-Mailer: iPhone Mail (18D52)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-16_01:2021-02-16,
- 2021-02-15 signatures=0
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- malwarescore=0
- phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
- mlxlogscore=617 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-2006250000 definitions=main-2102160107
-Received-SPF: pass client-ip=17.58.6.53;
- envelope-from=shen.mengjiao3@icloud.com; helo=pv50p00im-ztbu10011701.me.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Tue, 16 Feb 2021 11:22:00 -0000
+From: Stefan Weil <1915794@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: phil-opp ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Philipp Oppermann (phil-opp)
+X-Launchpad-Bug-Modifier: Stefan Weil (ubuntu-weilnetz)
+References: <161346747703.23365.3708625175581048243.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161347452028.23267.11295770639948799031.malone@chaenomeles.canonical.com>
+Subject: [Bug 1915794] Re: could not load PC BIOS 'bios-256k.bin' on latest
+ Windows exe (*-20210203.exe)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 55a03dd2a37bec476db67cfd93db67c1b3e4090f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,13 +70,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1915794 <1915794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Look at the store/load helper, it will use the tlb entry to do the address t=
-ranslation(from guest virtual address to host virtual address) but where the=
- tlb is filled for the data ram and io address, I know where the code ram is=
- filled(tb_find->tb_lookup__cpu_state...)=20
+This is a known and documented problem with a simple workaround: "Known
+issue: currently requires start from installation directory or -L option
+to specify the location of the firmware files."
 
-Thanks a lot=20=
+And it is already fixed in the newer installer.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915794
+
+Title:
+  could not load PC BIOS 'bios-256k.bin' on latest Windows exe
+  (*-20210203.exe)
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm using https://scoop.sh/ to install QEMU on a Windows CI job, which
+  is run daily. Since today, the job is failing with an `could not load
+  PC BIOS 'bios-256k.bin'` error thrown by QEMU.
+
+  The version that causes this error is: https://qemu.weilnetz.de/w64/2021/=
+qemu-w64-setup-20210203.exe#/dl.7z
+  The previous version, which worked fine, was: https://qemu.weilnetz.de/w6=
+4/2020/qemu-w64-setup-20201124.exe#/dl.7z
+
+  Both CI runs build the exact same code. You can find the full logs at
+  https://github.com/rust-
+  osdev/x86_64/runs/1908137213?check_suite_focus=3Dtrue (failing) and
+  https://github.com/rust-
+  osdev/x86_64/runs/1900698412?check_suite_focus=3Dtrue (previous).
+
+  (I hope this is the right place to report this issue.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915794/+subscriptions
 
