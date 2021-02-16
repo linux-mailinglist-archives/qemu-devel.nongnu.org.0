@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF7631CE84
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:57:02 +0100 (CET)
-Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D998431CE44
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:42:27 +0100 (CET)
+Received: from localhost ([::1]:34236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3en-0007vy-M6
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:57:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40828)
+	id 1lC3Qg-0001sq-Ub
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:42:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC33A-0000GJ-56
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:10 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:33982)
+ id 1lC33G-0000HO-I0
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:15 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37321)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32R-0002WL-Jw
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:06 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id o10so27404wmc.1
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:23 -0800 (PST)
+ id 1lC32S-0002X3-Tw
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:11 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id v15so13789592wrx.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=/RJcDvGIGvkCSgDk2m8FCNPgpPHCltCDnIahhMcIs5Y=;
- b=BeiMhKLlavVq4vhZAkZViUMoQf8W3pTLxFzQk8khhNlBDNfrqSGB822fwkD5WuaAAW
- aNkEGK/rl5v9hdJqHHGp15cTb8st2z1JxqhU3mhUeHfGqKyYKIO6Be5bOx72i1+hq2vG
- BjnLARUosa/AfoITyQe6fSeMBIZgzYS5K66mtuY/PbgR9sqOzANCj9qm7d35UeL7VkEL
- edp9E8FCvRGX3Fx9q08yFkLvIpbINqsWOtlDPDZd+rsq5ous4CkyxWfqCoAdMAfScNo/
- kFOGzcwkZR5ngzrgnaKu2Pz1EwFn1qThXfwId2YyVSvbKtnbSRwWKOqOwsxK/LZanWbS
- WdmQ==
+ bh=CHzSelrqiJpml+/7oW4ipaAhal6n0PwtZseSIYjMtLw=;
+ b=U4nOa8xPGUd9Y0o0zKQP+dpj7+++fLBQzeNOdvyUWdCa1BJp0iAIwllEHlvjPmiqLv
+ lbkI+kroTcFVTAdVEbv3JaVErn20MKbsrBAJeHRibwBAUx2Jq8luNk99aft3yTfTbnfS
+ w9uGffZAzOS0rggSMoPFd4G3C3/mKStI4DOvWxwFcC7vCf9O9xjr4A87WaNY+Dy+5E3s
+ 2BCVoJCerpvDsTBy4qiSU8ey/Dy6obiEwUytxbrm18/ruTMjkeV1tGYw5Dd1i0UVqqZr
+ 5yitwPXQcfImo28P9fSfSnNswBuOYpEUo7AErwRVLt7YEfJN5J/yI0NZn5L/0yk1i6hw
+ jhyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=/RJcDvGIGvkCSgDk2m8FCNPgpPHCltCDnIahhMcIs5Y=;
- b=l+WhzVpnZUl/AyyWlN4CwjVS8FyoX6uZIFQxPUMfsjWJLk+x0xj70WoHQxJEqd00SZ
- sbo9rCdqH0smw6qgEOfcQz91u37qMBECCTcsP5d7b8UtDu4GeBZ01R/GkxCpBqfMkYUq
- Ghf65aLP3Ow5uzRmkP5R2s//py8rKCj6jCDVH5zHjPF8Dml01B5XIehQW9ceSJRLFMcz
- VHjkznfd19fxSOIQxsIWoQmO9eXl7/raMAaZQ+QcrWB4QC9V4WH9mAolaJE+zlcdzixM
- ML8poVbWi5A/VT0DdpDLTM8D3Av4yIA/1ChwpqrNF2pp8FeqR/rzWzkLJAjaKbRiim1N
- ZKFQ==
-X-Gm-Message-State: AOAM531ElsUA7nNIHFLgXTenuC23ew5p9If3TjYw6Oq0Nu90nUezbT76
- dGLqcacb6EGBpHjcrw+HL3MHFZHBiccK/g==
-X-Google-Smtp-Source: ABdhPJyzeLOEgvEoQjBVEzSDx6wPuxqiAltPpMnnSPASxIyfJdsJvJrGHu7dtIf6cs5raN4/Ve2OFg==
-X-Received: by 2002:a1c:2094:: with SMTP id g142mr3918573wmg.101.1613492242102; 
- Tue, 16 Feb 2021 08:17:22 -0800 (PST)
+ bh=CHzSelrqiJpml+/7oW4ipaAhal6n0PwtZseSIYjMtLw=;
+ b=cUZ2afRW9biPA7BlAjS7AgVtCHg3vJmtKNt8j8plZTYN8B9N4bP/Zhjjtl8yHFYhkA
+ 2cLdTjcNNHNdDzQo2UwPIy9DrBDLdW4f8+V3D2LUW8iV+MMs0RdH9Nzu8w4cCF1YQ43m
+ S/TpWsLvWaPkoD5vcwsFIkfFLQdfeov35Hqh7BmlQoVSP+0fbi6gO0zYmTQAwv87vovz
+ OpuS6nJOMYEmSzoW0WRW9I0ld8Ui8pjboXccwlqN9YtqR8NJNgZFSPJT5K0l+JXbbkUm
+ k3mB3fsAVSkd7i03j2AR8lMrL+bWpMQmd66z3Knx5/m+7YBI0r2B6Q3V9JQAJDE+OiTE
+ z3Wg==
+X-Gm-Message-State: AOAM532b6CZvrsmxq6Z3BFOGUw5H32ZoGgBgZBo8rZxgpNLm89wI2YpC
+ SihkLS05bUp3ZMjcIO5pkdRo94E5b2Sjlw==
+X-Google-Smtp-Source: ABdhPJzGOxpVKOr9bD3M2hMD4uTYsvfHMeWk1Ebq5pcif0yqn+0OhHiSQA9BxZOc3YSqzkzOjOVQbA==
+X-Received: by 2002:a5d:5248:: with SMTP id k8mr24406300wrc.17.1613492243545; 
+ Tue, 16 Feb 2021 08:17:23 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.21
+ by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.22
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:21 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:22 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 31/40] tests/tcg/aarch64: Add mte smoke tests
-Date: Tue, 16 Feb 2021 16:16:49 +0000
-Message-Id: <20210216161658.29881-32-peter.maydell@linaro.org>
+Subject: [PULL 32/40] hw/i2c: Implement NPCM7XX SMBus Module Single Mode
+Date: Tue, 16 Feb 2021 16:16:50 +0000
+Message-Id: <20210216161658.29881-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
 References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,318 +86,1098 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Hao Wu <wuhaotsh@google.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210212184902.1251044-32-richard.henderson@linaro.org
+This commit implements the single-byte mode of the SMBus.
+
+Each Nuvoton SoC has 16 System Management Bus (SMBus). These buses
+compliant with SMBus and I2C protocol.
+
+This patch implements the single-byte mode of the SMBus. In this mode,
+the user sends or receives a byte each time. The SMBus device transmits
+it to the underlying i2c device and sends an interrupt back to the QEMU
+guest.
+
+Reviewed-by: Doug Evans<dje@google.com>
+Reviewed-by: Tyrong Ting<kfting@nuvoton.com>
+Signed-off-by: Hao Wu <wuhaotsh@google.com>
+Reviewed-by: Corey Minyard <cminyard@mvista.com>
+Message-id: 20210210220426.3577804-2-wuhaotsh@google.com
+Acked-by: Corey Minyard <cminyard@mvista.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- tests/tcg/aarch64/mte.h           | 60 +++++++++++++++++++++++++++++++
- tests/tcg/aarch64/mte-1.c         | 28 +++++++++++++++
- tests/tcg/aarch64/mte-2.c         | 45 +++++++++++++++++++++++
- tests/tcg/aarch64/mte-3.c         | 51 ++++++++++++++++++++++++++
- tests/tcg/aarch64/mte-4.c         | 45 +++++++++++++++++++++++
- tests/tcg/aarch64/Makefile.target |  6 ++++
- tests/tcg/configure.sh            |  4 +++
- 7 files changed, 239 insertions(+)
- create mode 100644 tests/tcg/aarch64/mte.h
- create mode 100644 tests/tcg/aarch64/mte-1.c
- create mode 100644 tests/tcg/aarch64/mte-2.c
- create mode 100644 tests/tcg/aarch64/mte-3.c
- create mode 100644 tests/tcg/aarch64/mte-4.c
+ docs/system/arm/nuvoton.rst    |   2 +-
+ include/hw/arm/npcm7xx.h       |   2 +
+ include/hw/i2c/npcm7xx_smbus.h |  88 ++++
+ hw/arm/npcm7xx.c               |  68 ++-
+ hw/i2c/npcm7xx_smbus.c         | 783 +++++++++++++++++++++++++++++++++
+ hw/i2c/meson.build             |   1 +
+ hw/i2c/trace-events            |  11 +
+ 7 files changed, 938 insertions(+), 17 deletions(-)
+ create mode 100644 include/hw/i2c/npcm7xx_smbus.h
+ create mode 100644 hw/i2c/npcm7xx_smbus.c
 
-diff --git a/tests/tcg/aarch64/mte.h b/tests/tcg/aarch64/mte.h
+diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+index a1786342e21..34fc799b2df 100644
+--- a/docs/system/arm/nuvoton.rst
++++ b/docs/system/arm/nuvoton.rst
+@@ -43,6 +43,7 @@ Supported devices
+  * GPIO controller
+  * Analog to Digital Converter (ADC)
+  * Pulse Width Modulation (PWM)
++ * SMBus controller (SMBF)
+ 
+ Missing devices
+ ---------------
+@@ -58,7 +59,6 @@ Missing devices
+ 
+  * Ethernet controllers (GMAC and EMC)
+  * USB device (USBD)
+- * SMBus controller (SMBF)
+  * Peripheral SPI controller (PSPI)
+  * SD/MMC host
+  * PECI interface
+diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
+index f6227aa8aa8..cea1bd1f620 100644
+--- a/include/hw/arm/npcm7xx.h
++++ b/include/hw/arm/npcm7xx.h
+@@ -20,6 +20,7 @@
+ #include "hw/adc/npcm7xx_adc.h"
+ #include "hw/cpu/a9mpcore.h"
+ #include "hw/gpio/npcm7xx_gpio.h"
++#include "hw/i2c/npcm7xx_smbus.h"
+ #include "hw/mem/npcm7xx_mc.h"
+ #include "hw/misc/npcm7xx_clk.h"
+ #include "hw/misc/npcm7xx_gcr.h"
+@@ -85,6 +86,7 @@ typedef struct NPCM7xxState {
+     NPCM7xxMCState      mc;
+     NPCM7xxRNGState     rng;
+     NPCM7xxGPIOState    gpio[8];
++    NPCM7xxSMBusState   smbus[16];
+     EHCISysBusState     ehci;
+     OHCISysBusState     ohci;
+     NPCM7xxFIUState     fiu[2];
+diff --git a/include/hw/i2c/npcm7xx_smbus.h b/include/hw/i2c/npcm7xx_smbus.h
 new file mode 100644
-index 00000000000..141cef522ce
+index 00000000000..b9761a69932
 --- /dev/null
-+++ b/tests/tcg/aarch64/mte.h
-@@ -0,0 +1,60 @@
++++ b/include/hw/i2c/npcm7xx_smbus.h
+@@ -0,0 +1,88 @@
 +/*
-+ * Linux kernel fallback API definitions for MTE and test helpers.
++ * Nuvoton NPCM7xx SMBus Module.
 + *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
++ * Copyright 2020 Google LLC
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
++ */
++#ifndef NPCM7XX_SMBUS_H
++#define NPCM7XX_SMBUS_H
++
++#include "exec/memory.h"
++#include "hw/i2c/i2c.h"
++#include "hw/irq.h"
++#include "hw/sysbus.h"
++
++/*
++ * Number of addresses this module contains. Do not change this without
++ * incrementing the version_id in the vmstate.
++ */
++#define NPCM7XX_SMBUS_NR_ADDRS 10
++
++typedef enum NPCM7xxSMBusStatus {
++    NPCM7XX_SMBUS_STATUS_IDLE,
++    NPCM7XX_SMBUS_STATUS_SENDING,
++    NPCM7XX_SMBUS_STATUS_RECEIVING,
++    NPCM7XX_SMBUS_STATUS_NEGACK,
++    NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE,
++    NPCM7XX_SMBUS_STATUS_STOPPING_NEGACK,
++} NPCM7xxSMBusStatus;
++
++/*
++ * struct NPCM7xxSMBusState - System Management Bus device state.
++ * @bus: The underlying I2C Bus.
++ * @irq: GIC interrupt line to fire on events (if enabled).
++ * @sda: The serial data register.
++ * @st: The status register.
++ * @cst: The control status register.
++ * @cst2: The control status register 2.
++ * @cst3: The control status register 3.
++ * @ctl1: The control register 1.
++ * @ctl2: The control register 2.
++ * @ctl3: The control register 3.
++ * @ctl4: The control register 4.
++ * @ctl5: The control register 5.
++ * @addr: The SMBus module's own addresses on the I2C bus.
++ * @scllt: The SCL low time register.
++ * @sclht: The SCL high time register.
++ * @status: The current status of the SMBus.
++ */
++typedef struct NPCM7xxSMBusState {
++    SysBusDevice parent;
++
++    MemoryRegion iomem;
++
++    I2CBus      *bus;
++    qemu_irq     irq;
++
++    uint8_t      sda;
++    uint8_t      st;
++    uint8_t      cst;
++    uint8_t      cst2;
++    uint8_t      cst3;
++    uint8_t      ctl1;
++    uint8_t      ctl2;
++    uint8_t      ctl3;
++    uint8_t      ctl4;
++    uint8_t      ctl5;
++    uint8_t      addr[NPCM7XX_SMBUS_NR_ADDRS];
++
++    uint8_t      scllt;
++    uint8_t      sclht;
++
++    NPCM7xxSMBusStatus status;
++} NPCM7xxSMBusState;
++
++#define TYPE_NPCM7XX_SMBUS "npcm7xx-smbus"
++#define NPCM7XX_SMBUS(obj) OBJECT_CHECK(NPCM7xxSMBusState, (obj), \
++                                        TYPE_NPCM7XX_SMBUS)
++
++#endif /* NPCM7XX_SMBUS_H */
+diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+index d1fe9bd1df6..f8950f94708 100644
+--- a/hw/arm/npcm7xx.c
++++ b/hw/arm/npcm7xx.c
+@@ -102,6 +102,22 @@ enum NPCM7xxInterrupt {
+     NPCM7XX_WDG2_IRQ,                   /* Timer Module 2 Watchdog */
+     NPCM7XX_EHCI_IRQ            = 61,
+     NPCM7XX_OHCI_IRQ            = 62,
++    NPCM7XX_SMBUS0_IRQ          = 64,
++    NPCM7XX_SMBUS1_IRQ,
++    NPCM7XX_SMBUS2_IRQ,
++    NPCM7XX_SMBUS3_IRQ,
++    NPCM7XX_SMBUS4_IRQ,
++    NPCM7XX_SMBUS5_IRQ,
++    NPCM7XX_SMBUS6_IRQ,
++    NPCM7XX_SMBUS7_IRQ,
++    NPCM7XX_SMBUS8_IRQ,
++    NPCM7XX_SMBUS9_IRQ,
++    NPCM7XX_SMBUS10_IRQ,
++    NPCM7XX_SMBUS11_IRQ,
++    NPCM7XX_SMBUS12_IRQ,
++    NPCM7XX_SMBUS13_IRQ,
++    NPCM7XX_SMBUS14_IRQ,
++    NPCM7XX_SMBUS15_IRQ,
+     NPCM7XX_PWM0_IRQ            = 93,   /* PWM module 0 */
+     NPCM7XX_PWM1_IRQ,                   /* PWM module 1 */
+     NPCM7XX_GPIO0_IRQ           = 116,
+@@ -152,6 +168,26 @@ static const hwaddr npcm7xx_pwm_addr[] = {
+     0xf0104000,
+ };
+ 
++/* Direct memory-mapped access to each SMBus Module. */
++static const hwaddr npcm7xx_smbus_addr[] = {
++    0xf0080000,
++    0xf0081000,
++    0xf0082000,
++    0xf0083000,
++    0xf0084000,
++    0xf0085000,
++    0xf0086000,
++    0xf0087000,
++    0xf0088000,
++    0xf0089000,
++    0xf008a000,
++    0xf008b000,
++    0xf008c000,
++    0xf008d000,
++    0xf008e000,
++    0xf008f000,
++};
++
+ static const struct {
+     hwaddr regs_addr;
+     uint32_t unconnected_pins;
+@@ -353,6 +389,11 @@ static void npcm7xx_init(Object *obj)
+         object_initialize_child(obj, "gpio[*]", &s->gpio[i], TYPE_NPCM7XX_GPIO);
+     }
+ 
++    for (i = 0; i < ARRAY_SIZE(s->smbus); i++) {
++        object_initialize_child(obj, "smbus[*]", &s->smbus[i],
++                                TYPE_NPCM7XX_SMBUS);
++    }
++
+     object_initialize_child(obj, "ehci", &s->ehci, TYPE_NPCM7XX_EHCI);
+     object_initialize_child(obj, "ohci", &s->ohci, TYPE_SYSBUS_OHCI);
+ 
+@@ -509,6 +550,17 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+                            npcm7xx_irq(s, NPCM7XX_GPIO0_IRQ + i));
+     }
+ 
++    /* SMBus modules. Cannot fail. */
++    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_smbus_addr) != ARRAY_SIZE(s->smbus));
++    for (i = 0; i < ARRAY_SIZE(s->smbus); i++) {
++        Object *obj = OBJECT(&s->smbus[i]);
++
++        sysbus_realize(SYS_BUS_DEVICE(obj), &error_abort);
++        sysbus_mmio_map(SYS_BUS_DEVICE(obj), 0, npcm7xx_smbus_addr[i]);
++        sysbus_connect_irq(SYS_BUS_DEVICE(obj), 0,
++                           npcm7xx_irq(s, NPCM7XX_SMBUS0_IRQ + i));
++    }
++
+     /* USB Host */
+     object_property_set_bool(OBJECT(&s->ehci), "companion-enable", true,
+                              &error_abort);
+@@ -576,22 +628,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
+     create_unimplemented_device("npcm7xx.pcierc",       0xe1000000,  64 * KiB);
+     create_unimplemented_device("npcm7xx.kcs",          0xf0007000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.gfxi",         0xf000e000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[0]",     0xf0080000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[1]",     0xf0081000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[2]",     0xf0082000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[3]",     0xf0083000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[4]",     0xf0084000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[5]",     0xf0085000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[6]",     0xf0086000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[7]",     0xf0087000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[8]",     0xf0088000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[9]",     0xf0089000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[10]",    0xf008a000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[11]",    0xf008b000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[12]",    0xf008c000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[13]",    0xf008d000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[14]",    0xf008e000,   4 * KiB);
+-    create_unimplemented_device("npcm7xx.smbus[15]",    0xf008f000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.espi",         0xf009f000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.peci",         0xf0100000,   4 * KiB);
+     create_unimplemented_device("npcm7xx.siox[1]",      0xf0101000,   4 * KiB);
+diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
+new file mode 100644
+index 00000000000..a465740623f
+--- /dev/null
++++ b/hw/i2c/npcm7xx_smbus.c
+@@ -0,0 +1,783 @@
++/*
++ * Nuvoton NPCM7xx SMBus Module.
++ *
++ * Copyright 2020 Google LLC
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
 + */
 +
-+#include <assert.h>
-+#include <string.h>
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <signal.h>
-+#include <sys/mman.h>
-+#include <sys/prctl.h>
++#include "qemu/osdep.h"
 +
-+#ifndef PR_SET_TAGGED_ADDR_CTRL
-+# define PR_SET_TAGGED_ADDR_CTRL  55
-+#endif
-+#ifndef PR_TAGGED_ADDR_ENABLE
-+# define PR_TAGGED_ADDR_ENABLE    (1UL << 0)
-+#endif
-+#ifndef PR_MTE_TCF_SHIFT
-+# define PR_MTE_TCF_SHIFT         1
-+# define PR_MTE_TCF_NONE          (0UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_SYNC          (1UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TCF_ASYNC         (2UL << PR_MTE_TCF_SHIFT)
-+# define PR_MTE_TAG_SHIFT         3
-+#endif
++#include "hw/i2c/npcm7xx_smbus.h"
++#include "migration/vmstate.h"
++#include "qemu/bitops.h"
++#include "qemu/guest-random.h"
++#include "qemu/log.h"
++#include "qemu/module.h"
++#include "qemu/units.h"
 +
-+#ifndef PROT_MTE
-+# define PROT_MTE 0x20
-+#endif
++#include "trace.h"
 +
-+#ifndef SEGV_MTEAERR
-+# define SEGV_MTEAERR    8
-+# define SEGV_MTESERR    9
-+#endif
++enum NPCM7xxSMBusCommonRegister {
++    NPCM7XX_SMB_SDA     = 0x0,
++    NPCM7XX_SMB_ST      = 0x2,
++    NPCM7XX_SMB_CST     = 0x4,
++    NPCM7XX_SMB_CTL1    = 0x6,
++    NPCM7XX_SMB_ADDR1   = 0x8,
++    NPCM7XX_SMB_CTL2    = 0xa,
++    NPCM7XX_SMB_ADDR2   = 0xc,
++    NPCM7XX_SMB_CTL3    = 0xe,
++    NPCM7XX_SMB_CST2    = 0x18,
++    NPCM7XX_SMB_CST3    = 0x19,
++    NPCM7XX_SMB_VER     = 0x1f,
++};
 +
-+static void enable_mte(int tcf)
++enum NPCM7xxSMBusBank0Register {
++    NPCM7XX_SMB_ADDR3   = 0x10,
++    NPCM7XX_SMB_ADDR7   = 0x11,
++    NPCM7XX_SMB_ADDR4   = 0x12,
++    NPCM7XX_SMB_ADDR8   = 0x13,
++    NPCM7XX_SMB_ADDR5   = 0x14,
++    NPCM7XX_SMB_ADDR9   = 0x15,
++    NPCM7XX_SMB_ADDR6   = 0x16,
++    NPCM7XX_SMB_ADDR10  = 0x17,
++    NPCM7XX_SMB_CTL4    = 0x1a,
++    NPCM7XX_SMB_CTL5    = 0x1b,
++    NPCM7XX_SMB_SCLLT   = 0x1c,
++    NPCM7XX_SMB_FIF_CTL = 0x1d,
++    NPCM7XX_SMB_SCLHT   = 0x1e,
++};
++
++enum NPCM7xxSMBusBank1Register {
++    NPCM7XX_SMB_FIF_CTS  = 0x10,
++    NPCM7XX_SMB_FAIR_PER = 0x11,
++    NPCM7XX_SMB_TXF_CTL  = 0x12,
++    NPCM7XX_SMB_T_OUT    = 0x14,
++    NPCM7XX_SMB_TXF_STS  = 0x1a,
++    NPCM7XX_SMB_RXF_STS  = 0x1c,
++    NPCM7XX_SMB_RXF_CTL  = 0x1e,
++};
++
++/* ST fields */
++#define NPCM7XX_SMBST_STP           BIT(7)
++#define NPCM7XX_SMBST_SDAST         BIT(6)
++#define NPCM7XX_SMBST_BER           BIT(5)
++#define NPCM7XX_SMBST_NEGACK        BIT(4)
++#define NPCM7XX_SMBST_STASTR        BIT(3)
++#define NPCM7XX_SMBST_NMATCH        BIT(2)
++#define NPCM7XX_SMBST_MODE          BIT(1)
++#define NPCM7XX_SMBST_XMIT          BIT(0)
++
++/* CST fields */
++#define NPCM7XX_SMBCST_ARPMATCH        BIT(7)
++#define NPCM7XX_SMBCST_MATCHAF         BIT(6)
++#define NPCM7XX_SMBCST_TGSCL           BIT(5)
++#define NPCM7XX_SMBCST_TSDA            BIT(4)
++#define NPCM7XX_SMBCST_GCMATCH         BIT(3)
++#define NPCM7XX_SMBCST_MATCH           BIT(2)
++#define NPCM7XX_SMBCST_BB              BIT(1)
++#define NPCM7XX_SMBCST_BUSY            BIT(0)
++
++/* CST2 fields */
++#define NPCM7XX_SMBCST2_INTSTS         BIT(7)
++#define NPCM7XX_SMBCST2_MATCH7F        BIT(6)
++#define NPCM7XX_SMBCST2_MATCH6F        BIT(5)
++#define NPCM7XX_SMBCST2_MATCH5F        BIT(4)
++#define NPCM7XX_SMBCST2_MATCH4F        BIT(3)
++#define NPCM7XX_SMBCST2_MATCH3F        BIT(2)
++#define NPCM7XX_SMBCST2_MATCH2F        BIT(1)
++#define NPCM7XX_SMBCST2_MATCH1F        BIT(0)
++
++/* CST3 fields */
++#define NPCM7XX_SMBCST3_EO_BUSY        BIT(7)
++#define NPCM7XX_SMBCST3_MATCH10F       BIT(2)
++#define NPCM7XX_SMBCST3_MATCH9F        BIT(1)
++#define NPCM7XX_SMBCST3_MATCH8F        BIT(0)
++
++/* CTL1 fields */
++#define NPCM7XX_SMBCTL1_STASTRE     BIT(7)
++#define NPCM7XX_SMBCTL1_NMINTE      BIT(6)
++#define NPCM7XX_SMBCTL1_GCMEN       BIT(5)
++#define NPCM7XX_SMBCTL1_ACK         BIT(4)
++#define NPCM7XX_SMBCTL1_EOBINTE     BIT(3)
++#define NPCM7XX_SMBCTL1_INTEN       BIT(2)
++#define NPCM7XX_SMBCTL1_STOP        BIT(1)
++#define NPCM7XX_SMBCTL1_START       BIT(0)
++
++/* CTL2 fields */
++#define NPCM7XX_SMBCTL2_SCLFRQ(rv)  extract8((rv), 1, 6)
++#define NPCM7XX_SMBCTL2_ENABLE      BIT(0)
++
++/* CTL3 fields */
++#define NPCM7XX_SMBCTL3_SCL_LVL     BIT(7)
++#define NPCM7XX_SMBCTL3_SDA_LVL     BIT(6)
++#define NPCM7XX_SMBCTL3_BNK_SEL     BIT(5)
++#define NPCM7XX_SMBCTL3_400K_MODE   BIT(4)
++#define NPCM7XX_SMBCTL3_IDL_START   BIT(3)
++#define NPCM7XX_SMBCTL3_ARPMEN      BIT(2)
++#define NPCM7XX_SMBCTL3_SCLFRQ(rv)  extract8((rv), 0, 2)
++
++/* ADDR fields */
++#define NPCM7XX_ADDR_EN             BIT(7)
++#define NPCM7XX_ADDR_A(rv)          extract8((rv), 0, 6)
++
++#define KEEP_OLD_BIT(o, n, b)       (((n) & (~(b))) | ((o) & (b)))
++#define WRITE_ONE_CLEAR(o, n, b)    ((n) & (b) ? (o) & (~(b)) : (o))
++
++#define NPCM7XX_SMBUS_ENABLED(s)    ((s)->ctl2 & NPCM7XX_SMBCTL2_ENABLE)
++
++/* VERSION fields values, read-only. */
++#define NPCM7XX_SMBUS_VERSION_NUMBER 1
++#define NPCM7XX_SMBUS_VERSION_FIFO_SUPPORTED 0
++
++/* Reset values */
++#define NPCM7XX_SMB_ST_INIT_VAL     0x00
++#define NPCM7XX_SMB_CST_INIT_VAL    0x10
++#define NPCM7XX_SMB_CST2_INIT_VAL   0x00
++#define NPCM7XX_SMB_CST3_INIT_VAL   0x00
++#define NPCM7XX_SMB_CTL1_INIT_VAL   0x00
++#define NPCM7XX_SMB_CTL2_INIT_VAL   0x00
++#define NPCM7XX_SMB_CTL3_INIT_VAL   0xc0
++#define NPCM7XX_SMB_CTL4_INIT_VAL   0x07
++#define NPCM7XX_SMB_CTL5_INIT_VAL   0x00
++#define NPCM7XX_SMB_ADDR_INIT_VAL   0x00
++#define NPCM7XX_SMB_SCLLT_INIT_VAL  0x00
++#define NPCM7XX_SMB_SCLHT_INIT_VAL  0x00
++
++static uint8_t npcm7xx_smbus_get_version(void)
 +{
-+    int r = prctl(PR_SET_TAGGED_ADDR_CTRL,
-+                  PR_TAGGED_ADDR_ENABLE | tcf | (0xfffe << PR_MTE_TAG_SHIFT),
-+                  0, 0, 0);
-+    if (r < 0) {
-+        perror("PR_SET_TAGGED_ADDR_CTRL");
-+        exit(2);
++    return NPCM7XX_SMBUS_VERSION_FIFO_SUPPORTED << 7 |
++           NPCM7XX_SMBUS_VERSION_NUMBER;
++}
++
++static void npcm7xx_smbus_update_irq(NPCM7xxSMBusState *s)
++{
++    int level;
++
++    if (s->ctl1 & NPCM7XX_SMBCTL1_INTEN) {
++        level = !!((s->ctl1 & NPCM7XX_SMBCTL1_NMINTE &&
++                    s->st & NPCM7XX_SMBST_NMATCH) ||
++                   (s->st & NPCM7XX_SMBST_BER) ||
++                   (s->st & NPCM7XX_SMBST_NEGACK) ||
++                   (s->st & NPCM7XX_SMBST_SDAST) ||
++                   (s->ctl1 & NPCM7XX_SMBCTL1_STASTRE &&
++                    s->st & NPCM7XX_SMBST_SDAST) ||
++                   (s->ctl1 & NPCM7XX_SMBCTL1_EOBINTE &&
++                    s->cst3 & NPCM7XX_SMBCST3_EO_BUSY));
++
++        if (level) {
++            s->cst2 |= NPCM7XX_SMBCST2_INTSTS;
++        } else {
++            s->cst2 &= ~NPCM7XX_SMBCST2_INTSTS;
++        }
++        qemu_set_irq(s->irq, level);
 +    }
 +}
 +
-+static void *alloc_mte_mem(size_t size)
++static void npcm7xx_smbus_nack(NPCM7xxSMBusState *s)
 +{
-+    void *p = mmap(NULL, size, PROT_READ | PROT_WRITE | PROT_MTE,
-+                   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
-+    if (p == MAP_FAILED) {
-+        perror("mmap PROT_MTE");
-+        exit(2);
++    s->st &= ~NPCM7XX_SMBST_SDAST;
++    s->st |= NPCM7XX_SMBST_NEGACK;
++    s->status = NPCM7XX_SMBUS_STATUS_NEGACK;
++}
++
++static void npcm7xx_smbus_send_byte(NPCM7xxSMBusState *s, uint8_t value)
++{
++    int rv = i2c_send(s->bus, value);
++
++    if (rv) {
++        npcm7xx_smbus_nack(s);
++    } else {
++        s->st |= NPCM7XX_SMBST_SDAST;
 +    }
-+    return p;
-+}
-diff --git a/tests/tcg/aarch64/mte-1.c b/tests/tcg/aarch64/mte-1.c
-new file mode 100644
-index 00000000000..88dcd617add
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-1.c
-@@ -0,0 +1,28 @@
-+/*
-+ * Memory tagging, basic pass cases.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+int main(int ac, char **av)
-+{
-+    int *p0, *p1, *p2;
-+    long c;
-+
-+    enable_mte(PR_MTE_TCF_NONE);
-+    p0 = alloc_mte_mem(sizeof(*p0));
-+
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(1));
-+    assert(p1 != p0);
-+    asm("subp %0,%1,%2" : "=r"(c) : "r"(p0), "r"(p1));
-+    assert(c == 0);
-+
-+    asm("stg %0, [%0]" : : "r"(p1));
-+    asm("ldg %0, [%1]" : "=r"(p2) : "r"(p0), "0"(p0));
-+    assert(p1 == p2);
-+
-+    return 0;
-+}
-diff --git a/tests/tcg/aarch64/mte-2.c b/tests/tcg/aarch64/mte-2.c
-new file mode 100644
-index 00000000000..a62278276a4
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-2.c
-@@ -0,0 +1,45 @@
-+/*
-+ * Memory tagging, basic fail cases, synchronous signals.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+void pass(int sig, siginfo_t *info, void *uc)
-+{
-+    assert(info->si_code == SEGV_MTESERR);
-+    exit(0);
++    trace_npcm7xx_smbus_send_byte((DEVICE(s)->canonical_path), value, !rv);
++    npcm7xx_smbus_update_irq(s);
 +}
 +
-+int main(int ac, char **av)
++static void npcm7xx_smbus_recv_byte(NPCM7xxSMBusState *s)
 +{
-+    struct sigaction sa;
-+    int *p0, *p1, *p2;
-+    long excl = 1;
-+
-+    enable_mte(PR_MTE_TCF_SYNC);
-+    p0 = alloc_mte_mem(sizeof(*p0));
-+
-+    /* Create two differently tagged pointers.  */
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
-+    asm("gmi %0,%1,%0" : "+r"(excl) : "r" (p1));
-+    assert(excl != 1);
-+    asm("irg %0,%1,%2" : "=r"(p2) : "r"(p0), "r"(excl));
-+    assert(p1 != p2);
-+
-+    /* Store the tag from the first pointer.  */
-+    asm("stg %0, [%0]" : : "r"(p1));
-+
-+    *p1 = 0;
-+
-+    memset(&sa, 0, sizeof(sa));
-+    sa.sa_sigaction = pass;
-+    sa.sa_flags = SA_SIGINFO;
-+    sigaction(SIGSEGV, &sa, NULL);
-+
-+    *p2 = 0;
-+
-+    abort();
-+}
-diff --git a/tests/tcg/aarch64/mte-3.c b/tests/tcg/aarch64/mte-3.c
-new file mode 100644
-index 00000000000..424ea685c2b
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-3.c
-@@ -0,0 +1,51 @@
-+/*
-+ * Memory tagging, basic fail cases, asynchronous signals.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
-+
-+#include "mte.h"
-+
-+void pass(int sig, siginfo_t *info, void *uc)
-+{
-+    assert(info->si_code == SEGV_MTEAERR);
-+    exit(0);
++    s->sda = i2c_recv(s->bus);
++    s->st |= NPCM7XX_SMBST_SDAST;
++    if (s->st & NPCM7XX_SMBCTL1_ACK) {
++        trace_npcm7xx_smbus_nack(DEVICE(s)->canonical_path);
++        i2c_nack(s->bus);
++        s->st &= NPCM7XX_SMBCTL1_ACK;
++    }
++    trace_npcm7xx_smbus_recv_byte((DEVICE(s)->canonical_path), s->sda);
++    npcm7xx_smbus_update_irq(s);
 +}
 +
-+int main(int ac, char **av)
++static void npcm7xx_smbus_start(NPCM7xxSMBusState *s)
 +{
-+    struct sigaction sa;
-+    long *p0, *p1, *p2;
-+    long excl = 1;
-+
-+    enable_mte(PR_MTE_TCF_ASYNC);
-+    p0 = alloc_mte_mem(sizeof(*p0));
-+
-+    /* Create two differently tagged pointers.  */
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
-+    asm("gmi %0,%1,%0" : "+r"(excl) : "r" (p1));
-+    assert(excl != 1);
-+    asm("irg %0,%1,%2" : "=r"(p2) : "r"(p0), "r"(excl));
-+    assert(p1 != p2);
-+
-+    /* Store the tag from the first pointer.  */
-+    asm("stg %0, [%0]" : : "r"(p1));
-+
-+    *p1 = 0;
-+
-+    memset(&sa, 0, sizeof(sa));
-+    sa.sa_sigaction = pass;
-+    sa.sa_flags = SA_SIGINFO;
-+    sigaction(SIGSEGV, &sa, NULL);
-+
 +    /*
-+     * Signal for async error will happen eventually.
-+     * For a real kernel this should be after the next IRQ (e.g. timer).
-+     * For qemu linux-user, we kick the cpu and exit at the next TB.
-+     * In either case, loop until this happens (or killed by timeout).
-+     * For extra sauce, yield, producing EXCP_YIELD to cpu_loop().
++     * We can start the bus if one of these is true:
++     * 1. The bus is idle (so we can request it)
++     * 2. We are the occupier (it's a repeated start condition.)
 +     */
-+    asm("str %0, [%0]; yield" : : "r"(p2));
-+    while (1);
++    int available = !i2c_bus_busy(s->bus) ||
++                    s->status != NPCM7XX_SMBUS_STATUS_IDLE;
++
++    if (available) {
++        s->st |= NPCM7XX_SMBST_MODE | NPCM7XX_SMBST_XMIT | NPCM7XX_SMBST_SDAST;
++        s->cst |= NPCM7XX_SMBCST_BUSY;
++    } else {
++        s->st &= ~NPCM7XX_SMBST_MODE;
++        s->cst &= ~NPCM7XX_SMBCST_BUSY;
++        s->st |= NPCM7XX_SMBST_BER;
++    }
++
++    trace_npcm7xx_smbus_start(DEVICE(s)->canonical_path, available);
++    s->cst |= NPCM7XX_SMBCST_BB;
++    s->status = NPCM7XX_SMBUS_STATUS_IDLE;
++    npcm7xx_smbus_update_irq(s);
 +}
-diff --git a/tests/tcg/aarch64/mte-4.c b/tests/tcg/aarch64/mte-4.c
-new file mode 100644
-index 00000000000..a8cc9f59841
---- /dev/null
-+++ b/tests/tcg/aarch64/mte-4.c
-@@ -0,0 +1,45 @@
-+/*
-+ * Memory tagging, re-reading tag checks.
-+ *
-+ * Copyright (c) 2021 Linaro Ltd
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
 +
-+#include "mte.h"
-+
-+void __attribute__((noinline)) tagset(void *p, size_t size)
++static void npcm7xx_smbus_send_address(NPCM7xxSMBusState *s, uint8_t value)
 +{
-+    size_t i;
-+    for (i = 0; i < size; i += 16) {
-+        asm("stg %0, [%0]" : : "r"(p + i));
++    int recv;
++    int rv;
++
++    recv = value & BIT(0);
++    rv = i2c_start_transfer(s->bus, value >> 1, recv);
++    trace_npcm7xx_smbus_send_address(DEVICE(s)->canonical_path,
++                                     value >> 1, recv, !rv);
++    if (rv) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: requesting i2c bus for 0x%02x failed: %d\n",
++                      DEVICE(s)->canonical_path, value, rv);
++        /* Failed to start transfer. NACK to reject.*/
++        if (recv) {
++            s->st &= ~NPCM7XX_SMBST_XMIT;
++        } else {
++            s->st |= NPCM7XX_SMBST_XMIT;
++        }
++        npcm7xx_smbus_nack(s);
++        npcm7xx_smbus_update_irq(s);
++        return;
++    }
++
++    s->st &= ~NPCM7XX_SMBST_NEGACK;
++    if (recv) {
++        s->status = NPCM7XX_SMBUS_STATUS_RECEIVING;
++        s->st &= ~NPCM7XX_SMBST_XMIT;
++    } else {
++        s->status = NPCM7XX_SMBUS_STATUS_SENDING;
++        s->st |= NPCM7XX_SMBST_XMIT;
++    }
++
++    if (s->ctl1 & NPCM7XX_SMBCTL1_STASTRE) {
++        s->st |= NPCM7XX_SMBST_STASTR;
++        if (!recv) {
++            s->st |= NPCM7XX_SMBST_SDAST;
++        }
++    } else if (recv) {
++        npcm7xx_smbus_recv_byte(s);
++    }
++    npcm7xx_smbus_update_irq(s);
++}
++
++static void npcm7xx_smbus_execute_stop(NPCM7xxSMBusState *s)
++{
++    i2c_end_transfer(s->bus);
++    s->st = 0;
++    s->cst = 0;
++    s->status = NPCM7XX_SMBUS_STATUS_IDLE;
++    s->cst3 |= NPCM7XX_SMBCST3_EO_BUSY;
++    trace_npcm7xx_smbus_stop(DEVICE(s)->canonical_path);
++    npcm7xx_smbus_update_irq(s);
++}
++
++
++static void npcm7xx_smbus_stop(NPCM7xxSMBusState *s)
++{
++    if (s->st & NPCM7XX_SMBST_MODE) {
++        switch (s->status) {
++        case NPCM7XX_SMBUS_STATUS_RECEIVING:
++        case NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE:
++            s->status = NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE;
++            break;
++
++        case NPCM7XX_SMBUS_STATUS_NEGACK:
++            s->status = NPCM7XX_SMBUS_STATUS_STOPPING_NEGACK;
++            break;
++
++        default:
++            npcm7xx_smbus_execute_stop(s);
++            break;
++        }
 +    }
 +}
 +
-+void __attribute__((noinline)) tagcheck(void *p, size_t size)
++static uint8_t npcm7xx_smbus_read_sda(NPCM7xxSMBusState *s)
 +{
-+    size_t i;
-+    void *c;
++    uint8_t value = s->sda;
 +
-+    for (i = 0; i < size; i += 16) {
-+        asm("ldg %0, [%1]" : "=r"(c) : "r"(p + i), "0"(p));
-+        assert(c == p);
++    switch (s->status) {
++    case NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE:
++        npcm7xx_smbus_execute_stop(s);
++        break;
++
++    case NPCM7XX_SMBUS_STATUS_RECEIVING:
++        npcm7xx_smbus_recv_byte(s);
++        break;
++
++    default:
++        /* Do nothing */
++        break;
++    }
++
++    return value;
++}
++
++static void npcm7xx_smbus_write_sda(NPCM7xxSMBusState *s, uint8_t value)
++{
++    s->sda = value;
++    if (s->st & NPCM7XX_SMBST_MODE) {
++        switch (s->status) {
++        case NPCM7XX_SMBUS_STATUS_IDLE:
++            npcm7xx_smbus_send_address(s, value);
++            break;
++        case NPCM7XX_SMBUS_STATUS_SENDING:
++            npcm7xx_smbus_send_byte(s, value);
++            break;
++        default:
++            qemu_log_mask(LOG_GUEST_ERROR,
++                          "%s: write to SDA in invalid status %d: %u\n",
++                          DEVICE(s)->canonical_path, s->status, value);
++            break;
++        }
 +    }
 +}
 +
-+int main(int ac, char **av)
++static void npcm7xx_smbus_write_st(NPCM7xxSMBusState *s, uint8_t value)
 +{
-+    size_t size = getpagesize() * 4;
-+    long excl = 1;
-+    int *p0, *p1;
++    s->st = WRITE_ONE_CLEAR(s->st, value, NPCM7XX_SMBST_STP);
++    s->st = WRITE_ONE_CLEAR(s->st, value, NPCM7XX_SMBST_BER);
++    s->st = WRITE_ONE_CLEAR(s->st, value, NPCM7XX_SMBST_STASTR);
++    s->st = WRITE_ONE_CLEAR(s->st, value, NPCM7XX_SMBST_NMATCH);
 +
-+    enable_mte(PR_MTE_TCF_ASYNC);
-+    p0 = alloc_mte_mem(size);
++    if (value & NPCM7XX_SMBST_NEGACK) {
++        s->st &= ~NPCM7XX_SMBST_NEGACK;
++        if (s->status == NPCM7XX_SMBUS_STATUS_STOPPING_NEGACK) {
++            npcm7xx_smbus_execute_stop(s);
++        }
++    }
 +
-+    /* Tag the pointer. */
-+    asm("irg %0,%1,%2" : "=r"(p1) : "r"(p0), "r"(excl));
++    if (value & NPCM7XX_SMBST_STASTR &&
++            s->status == NPCM7XX_SMBUS_STATUS_RECEIVING) {
++        npcm7xx_smbus_recv_byte(s);
++    }
 +
-+    tagset(p1, size);
-+    tagcheck(p1, size);
-+
-+    return 0;
++    npcm7xx_smbus_update_irq(s);
 +}
-diff --git a/tests/tcg/aarch64/Makefile.target b/tests/tcg/aarch64/Makefile.target
-index d7d33e293c0..bf53ad00870 100644
---- a/tests/tcg/aarch64/Makefile.target
-+++ b/tests/tcg/aarch64/Makefile.target
-@@ -35,6 +35,12 @@ endif
- # bti-2 tests PROT_BTI, so no special compiler support required.
- AARCH64_TESTS += bti-2
- 
-+# MTE Tests
-+ifneq ($(DOCKER_IMAGE)$(CROSS_CC_HAS_ARMV8_MTE),)
-+AARCH64_TESTS += mte-1 mte-2 mte-3 mte-4
-+mte-%: CFLAGS += -march=armv8.5-a+memtag
-+endif
 +
- # Semihosting smoke test for linux-user
- AARCH64_TESTS += semihosting
- run-semihosting: semihosting
-diff --git a/tests/tcg/configure.sh b/tests/tcg/configure.sh
-index e1b70e25f23..ba8ac9a93e9 100755
---- a/tests/tcg/configure.sh
-+++ b/tests/tcg/configure.sh
-@@ -244,6 +244,10 @@ for target in $target_list; do
-                -mbranch-protection=standard -o $TMPE $TMPC; then
-                 echo "CROSS_CC_HAS_ARMV8_BTI=y" >> $config_target_mak
-             fi
-+            if do_compiler "$target_compiler" $target_compiler_cflags \
-+               -march=armv8.5-a+memtag -o $TMPE $TMPC; then
-+                echo "CROSS_CC_HAS_ARMV8_MTE=y" >> $config_target_mak
-+            fi
-         ;;
-     esac
- 
++static void npcm7xx_smbus_write_cst(NPCM7xxSMBusState *s, uint8_t value)
++{
++    uint8_t new_value = s->cst;
++
++    s->cst = WRITE_ONE_CLEAR(new_value, value, NPCM7XX_SMBCST_BB);
++    npcm7xx_smbus_update_irq(s);
++}
++
++static void npcm7xx_smbus_write_cst3(NPCM7xxSMBusState *s, uint8_t value)
++{
++    s->cst3 = WRITE_ONE_CLEAR(s->cst3, value, NPCM7XX_SMBCST3_EO_BUSY);
++    npcm7xx_smbus_update_irq(s);
++}
++
++static void npcm7xx_smbus_write_ctl1(NPCM7xxSMBusState *s, uint8_t value)
++{
++    s->ctl1 = KEEP_OLD_BIT(s->ctl1, value,
++            NPCM7XX_SMBCTL1_START | NPCM7XX_SMBCTL1_STOP | NPCM7XX_SMBCTL1_ACK);
++
++    if (value & NPCM7XX_SMBCTL1_START) {
++        npcm7xx_smbus_start(s);
++    }
++
++    if (value & NPCM7XX_SMBCTL1_STOP) {
++        npcm7xx_smbus_stop(s);
++    }
++
++    npcm7xx_smbus_update_irq(s);
++}
++
++static void npcm7xx_smbus_write_ctl2(NPCM7xxSMBusState *s, uint8_t value)
++{
++    s->ctl2 = value;
++
++    if (!NPCM7XX_SMBUS_ENABLED(s)) {
++        /* Disable this SMBus module. */
++        s->ctl1 = 0;
++        s->st = 0;
++        s->cst3 = s->cst3 & (~NPCM7XX_SMBCST3_EO_BUSY);
++        s->cst = 0;
++    }
++}
++
++static void npcm7xx_smbus_write_ctl3(NPCM7xxSMBusState *s, uint8_t value)
++{
++    uint8_t old_ctl3 = s->ctl3;
++
++    /* Write to SDA and SCL bits are ignored. */
++    s->ctl3 =  KEEP_OLD_BIT(old_ctl3, value,
++                            NPCM7XX_SMBCTL3_SCL_LVL | NPCM7XX_SMBCTL3_SDA_LVL);
++}
++
++static uint64_t npcm7xx_smbus_read(void *opaque, hwaddr offset, unsigned size)
++{
++    NPCM7xxSMBusState *s = opaque;
++    uint64_t value = 0;
++    uint8_t bank = s->ctl3 & NPCM7XX_SMBCTL3_BNK_SEL;
++
++    /* The order of the registers are their order in memory. */
++    switch (offset) {
++    case NPCM7XX_SMB_SDA:
++        value = npcm7xx_smbus_read_sda(s);
++        break;
++
++    case NPCM7XX_SMB_ST:
++        value = s->st;
++        break;
++
++    case NPCM7XX_SMB_CST:
++        value = s->cst;
++        break;
++
++    case NPCM7XX_SMB_CTL1:
++        value = s->ctl1;
++        break;
++
++    case NPCM7XX_SMB_ADDR1:
++        value = s->addr[0];
++        break;
++
++    case NPCM7XX_SMB_CTL2:
++        value = s->ctl2;
++        break;
++
++    case NPCM7XX_SMB_ADDR2:
++        value = s->addr[1];
++        break;
++
++    case NPCM7XX_SMB_CTL3:
++        value = s->ctl3;
++        break;
++
++    case NPCM7XX_SMB_CST2:
++        value = s->cst2;
++        break;
++
++    case NPCM7XX_SMB_CST3:
++        value = s->cst3;
++        break;
++
++    case NPCM7XX_SMB_VER:
++        value = npcm7xx_smbus_get_version();
++        break;
++
++    /* This register is either invalid or banked at this point. */
++    default:
++        if (bank) {
++            /* Bank 1 */
++            qemu_log_mask(LOG_GUEST_ERROR,
++                    "%s: read from invalid offset 0x%" HWADDR_PRIx "\n",
++                    DEVICE(s)->canonical_path, offset);
++        } else {
++            /* Bank 0 */
++            switch (offset) {
++            case NPCM7XX_SMB_ADDR3:
++                value = s->addr[2];
++                break;
++
++            case NPCM7XX_SMB_ADDR7:
++                value = s->addr[6];
++                break;
++
++            case NPCM7XX_SMB_ADDR4:
++                value = s->addr[3];
++                break;
++
++            case NPCM7XX_SMB_ADDR8:
++                value = s->addr[7];
++                break;
++
++            case NPCM7XX_SMB_ADDR5:
++                value = s->addr[4];
++                break;
++
++            case NPCM7XX_SMB_ADDR9:
++                value = s->addr[8];
++                break;
++
++            case NPCM7XX_SMB_ADDR6:
++                value = s->addr[5];
++                break;
++
++            case NPCM7XX_SMB_ADDR10:
++                value = s->addr[9];
++                break;
++
++            case NPCM7XX_SMB_CTL4:
++                value = s->ctl4;
++                break;
++
++            case NPCM7XX_SMB_CTL5:
++                value = s->ctl5;
++                break;
++
++            case NPCM7XX_SMB_SCLLT:
++                value = s->scllt;
++                break;
++
++            case NPCM7XX_SMB_SCLHT:
++                value = s->sclht;
++                break;
++
++            default:
++                qemu_log_mask(LOG_GUEST_ERROR,
++                        "%s: read from invalid offset 0x%" HWADDR_PRIx "\n",
++                        DEVICE(s)->canonical_path, offset);
++                break;
++            }
++        }
++        break;
++    }
++
++    trace_npcm7xx_smbus_read(DEVICE(s)->canonical_path, offset, value, size);
++
++    return value;
++}
++
++static void npcm7xx_smbus_write(void *opaque, hwaddr offset, uint64_t value,
++                              unsigned size)
++{
++    NPCM7xxSMBusState *s = opaque;
++    uint8_t bank = s->ctl3 & NPCM7XX_SMBCTL3_BNK_SEL;
++
++    trace_npcm7xx_smbus_write(DEVICE(s)->canonical_path, offset, value, size);
++
++    /* The order of the registers are their order in memory. */
++    switch (offset) {
++    case NPCM7XX_SMB_SDA:
++        npcm7xx_smbus_write_sda(s, value);
++        break;
++
++    case NPCM7XX_SMB_ST:
++        npcm7xx_smbus_write_st(s, value);
++        break;
++
++    case NPCM7XX_SMB_CST:
++        npcm7xx_smbus_write_cst(s, value);
++        break;
++
++    case NPCM7XX_SMB_CTL1:
++        npcm7xx_smbus_write_ctl1(s, value);
++        break;
++
++    case NPCM7XX_SMB_ADDR1:
++        s->addr[0] = value;
++        break;
++
++    case NPCM7XX_SMB_CTL2:
++        npcm7xx_smbus_write_ctl2(s, value);
++        break;
++
++    case NPCM7XX_SMB_ADDR2:
++        s->addr[1] = value;
++        break;
++
++    case NPCM7XX_SMB_CTL3:
++        npcm7xx_smbus_write_ctl3(s, value);
++        break;
++
++    case NPCM7XX_SMB_CST2:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                "%s: write to read-only reg: offset 0x%" HWADDR_PRIx "\n",
++                DEVICE(s)->canonical_path, offset);
++        break;
++
++    case NPCM7XX_SMB_CST3:
++        npcm7xx_smbus_write_cst3(s, value);
++        break;
++
++    case NPCM7XX_SMB_VER:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                "%s: write to read-only reg: offset 0x%" HWADDR_PRIx "\n",
++                DEVICE(s)->canonical_path, offset);
++        break;
++
++    /* This register is either invalid or banked at this point. */
++    default:
++        if (bank) {
++            /* Bank 1 */
++            qemu_log_mask(LOG_GUEST_ERROR,
++                    "%s: write to invalid offset 0x%" HWADDR_PRIx "\n",
++                    DEVICE(s)->canonical_path, offset);
++        } else {
++            /* Bank 0 */
++            switch (offset) {
++            case NPCM7XX_SMB_ADDR3:
++                s->addr[2] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR7:
++                s->addr[6] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR4:
++                s->addr[3] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR8:
++                s->addr[7] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR5:
++                s->addr[4] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR9:
++                s->addr[8] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR6:
++                s->addr[5] = value;
++                break;
++
++            case NPCM7XX_SMB_ADDR10:
++                s->addr[9] = value;
++                break;
++
++            case NPCM7XX_SMB_CTL4:
++                s->ctl4 = value;
++                break;
++
++            case NPCM7XX_SMB_CTL5:
++                s->ctl5 = value;
++                break;
++
++            case NPCM7XX_SMB_SCLLT:
++                s->scllt = value;
++                break;
++
++            case NPCM7XX_SMB_SCLHT:
++                s->sclht = value;
++                break;
++
++            default:
++                qemu_log_mask(LOG_GUEST_ERROR,
++                        "%s: write to invalid offset 0x%" HWADDR_PRIx "\n",
++                        DEVICE(s)->canonical_path, offset);
++                break;
++            }
++        }
++        break;
++    }
++}
++
++static const MemoryRegionOps npcm7xx_smbus_ops = {
++    .read = npcm7xx_smbus_read,
++    .write = npcm7xx_smbus_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++        .unaligned = false,
++    },
++};
++
++static void npcm7xx_smbus_enter_reset(Object *obj, ResetType type)
++{
++    NPCM7xxSMBusState *s = NPCM7XX_SMBUS(obj);
++
++    s->st = NPCM7XX_SMB_ST_INIT_VAL;
++    s->cst = NPCM7XX_SMB_CST_INIT_VAL;
++    s->cst2 = NPCM7XX_SMB_CST2_INIT_VAL;
++    s->cst3 = NPCM7XX_SMB_CST3_INIT_VAL;
++    s->ctl1 = NPCM7XX_SMB_CTL1_INIT_VAL;
++    s->ctl2 = NPCM7XX_SMB_CTL2_INIT_VAL;
++    s->ctl3 = NPCM7XX_SMB_CTL3_INIT_VAL;
++    s->ctl4 = NPCM7XX_SMB_CTL4_INIT_VAL;
++    s->ctl5 = NPCM7XX_SMB_CTL5_INIT_VAL;
++
++    for (int i = 0; i < NPCM7XX_SMBUS_NR_ADDRS; ++i) {
++        s->addr[i] = NPCM7XX_SMB_ADDR_INIT_VAL;
++    }
++    s->scllt = NPCM7XX_SMB_SCLLT_INIT_VAL;
++    s->sclht = NPCM7XX_SMB_SCLHT_INIT_VAL;
++
++    s->status = NPCM7XX_SMBUS_STATUS_IDLE;
++}
++
++static void npcm7xx_smbus_hold_reset(Object *obj)
++{
++    NPCM7xxSMBusState *s = NPCM7XX_SMBUS(obj);
++
++    qemu_irq_lower(s->irq);
++}
++
++static void npcm7xx_smbus_init(Object *obj)
++{
++    NPCM7xxSMBusState *s = NPCM7XX_SMBUS(obj);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
++
++    sysbus_init_irq(sbd, &s->irq);
++    memory_region_init_io(&s->iomem, obj, &npcm7xx_smbus_ops, s,
++                          "regs", 4 * KiB);
++    sysbus_init_mmio(sbd, &s->iomem);
++
++    s->bus = i2c_init_bus(DEVICE(s), "i2c-bus");
++    s->status = NPCM7XX_SMBUS_STATUS_IDLE;
++}
++
++static const VMStateDescription vmstate_npcm7xx_smbus = {
++    .name = "npcm7xx-smbus",
++    .version_id = 0,
++    .minimum_version_id = 0,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8(sda, NPCM7xxSMBusState),
++        VMSTATE_UINT8(st, NPCM7xxSMBusState),
++        VMSTATE_UINT8(cst, NPCM7xxSMBusState),
++        VMSTATE_UINT8(cst2, NPCM7xxSMBusState),
++        VMSTATE_UINT8(cst3, NPCM7xxSMBusState),
++        VMSTATE_UINT8(ctl1, NPCM7xxSMBusState),
++        VMSTATE_UINT8(ctl2, NPCM7xxSMBusState),
++        VMSTATE_UINT8(ctl3, NPCM7xxSMBusState),
++        VMSTATE_UINT8(ctl4, NPCM7xxSMBusState),
++        VMSTATE_UINT8(ctl5, NPCM7xxSMBusState),
++        VMSTATE_UINT8_ARRAY(addr, NPCM7xxSMBusState, NPCM7XX_SMBUS_NR_ADDRS),
++        VMSTATE_UINT8(scllt, NPCM7xxSMBusState),
++        VMSTATE_UINT8(sclht, NPCM7xxSMBusState),
++        VMSTATE_END_OF_LIST(),
++    },
++};
++
++static void npcm7xx_smbus_class_init(ObjectClass *klass, void *data)
++{
++    ResettableClass *rc = RESETTABLE_CLASS(klass);
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->desc = "NPCM7xx System Management Bus";
++    dc->vmsd = &vmstate_npcm7xx_smbus;
++    rc->phases.enter = npcm7xx_smbus_enter_reset;
++    rc->phases.hold = npcm7xx_smbus_hold_reset;
++}
++
++static const TypeInfo npcm7xx_smbus_types[] = {
++    {
++        .name = TYPE_NPCM7XX_SMBUS,
++        .parent = TYPE_SYS_BUS_DEVICE,
++        .instance_size = sizeof(NPCM7xxSMBusState),
++        .class_init = npcm7xx_smbus_class_init,
++        .instance_init = npcm7xx_smbus_init,
++    },
++};
++DEFINE_TYPES(npcm7xx_smbus_types);
+diff --git a/hw/i2c/meson.build b/hw/i2c/meson.build
+index 3a511539ad2..cdcd694a7fb 100644
+--- a/hw/i2c/meson.build
++++ b/hw/i2c/meson.build
+@@ -9,6 +9,7 @@ i2c_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4210_i2c.c'))
+ i2c_ss.add(when: 'CONFIG_IMX_I2C', if_true: files('imx_i2c.c'))
+ i2c_ss.add(when: 'CONFIG_MPC_I2C', if_true: files('mpc_i2c.c'))
+ i2c_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('microbit_i2c.c'))
++i2c_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_smbus.c'))
+ i2c_ss.add(when: 'CONFIG_SMBUS_EEPROM', if_true: files('smbus_eeprom.c'))
+ i2c_ss.add(when: 'CONFIG_VERSATILE_I2C', if_true: files('versatile_i2c.c'))
+ i2c_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_i2c.c'))
+diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+index 08db8fa6892..c3bb70ad045 100644
+--- a/hw/i2c/trace-events
++++ b/hw/i2c/trace-events
+@@ -14,3 +14,14 @@ aspeed_i2c_bus_read(uint32_t busid, uint64_t offset, unsigned size, uint64_t val
+ aspeed_i2c_bus_write(uint32_t busid, uint64_t offset, unsigned size, uint64_t value) "bus[%d]: To 0x%" PRIx64 " of size %u: 0x%" PRIx64
+ aspeed_i2c_bus_send(const char *mode, int i, int count, uint8_t byte) "%s send %d/%d 0x%02x"
+ aspeed_i2c_bus_recv(const char *mode, int i, int count, uint8_t byte) "%s recv %d/%d 0x%02x"
++
++# npcm7xx_smbus.c
++
++npcm7xx_smbus_read(const char *id, uint64_t offset, uint64_t value, unsigned size) "%s offset: 0x%04" PRIx64 " value: 0x%02" PRIx64 " size: %u"
++npcm7xx_smbus_write(const char *id, uint64_t offset, uint64_t value, unsigned size) "%s offset: 0x%04" PRIx64 " value: 0x%02" PRIx64 " size: %u"
++npcm7xx_smbus_start(const char *id, int success) "%s starting, success: %d"
++npcm7xx_smbus_send_address(const char *id, uint8_t addr, int recv, int success) "%s sending address: 0x%02x, recv: %d, success: %d"
++npcm7xx_smbus_send_byte(const char *id, uint8_t value, int success) "%s send byte: 0x%02x, success: %d"
++npcm7xx_smbus_recv_byte(const char *id, uint8_t value) "%s recv byte: 0x%02x"
++npcm7xx_smbus_stop(const char *id) "%s stopping"
++npcm7xx_smbus_nack(const char *id) "%s nacking"
 -- 
 2.20.1
 
