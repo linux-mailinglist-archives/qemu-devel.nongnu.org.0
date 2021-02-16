@@ -2,62 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7F531CF20
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:35:36 +0100 (CET)
-Received: from localhost ([::1]:49668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBC4E31CF1D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:34:17 +0100 (CET)
+Received: from localhost ([::1]:47480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC4G8-0008W6-19
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:35:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40078)
+	id 1lC4Eq-0007dD-C5
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:34:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lC3yA-00006X-FT
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:17:02 -0500
-Received: from 6.mo52.mail-out.ovh.net ([188.165.49.222]:33056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lC3y8-0005Hg-3Q
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:17:02 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.20.102])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id BFC54240DF8;
- Tue, 16 Feb 2021 18:16:56 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 16 Feb
- 2021 18:16:56 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R0041e4aeb65-0e21-442f-bbb4-b3222174a689,
- 18E752744DD7A5F94FE4BC27DA0A342EBB233BD3) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 91.175.254.3
-Date: Tue, 16 Feb 2021 18:16:54 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 2/7] spapr_pci.c: simplify spapr_pci_unplug_request()
- function handling
-Message-ID: <20210216181654.7eaf0ff1@bahia.lan>
-In-Reply-To: <5bdd86f2-0a00-bccf-65dc-236b064e8029@gmail.com>
-References: <20210211225246.17315-1-danielhb413@gmail.com>
- <20210211225246.17315-3-danielhb413@gmail.com>
- <20210216165059.284d2a21@bahia.lan>
- <5bdd86f2-0a00-bccf-65dc-236b064e8029@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lC4C1-0006N2-7h
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:31:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37954)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lC4Bx-00085u-UD
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 12:31:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613496675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0R/REM+fkNYSL2EOeATww8cUnuH/U9oV46Z8IZCblDU=;
+ b=OqExFYnRfn4EZVLQ7tsK62UICCiz1cJL+z16+1o82RDIEPe3QNjz/dJOuglAPE5j2Poo/W
+ h1CHpoGgJnDEY/qqifIFQMFtN/H8KwgaoqVajE2yXYRjWFTYLAr7jG6YjV7XIA1Ud31/sg
+ o2C/SJwdbtf5dRaYjstLbYRHuo1DrX4=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-YgLaYEl4PIqhTf2pqpUKng-1; Tue, 16 Feb 2021 12:31:12 -0500
+X-MC-Unique: YgLaYEl4PIqhTf2pqpUKng-1
+Received: by mail-wr1-f69.google.com with SMTP id e11so13325847wro.19
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 09:31:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0R/REM+fkNYSL2EOeATww8cUnuH/U9oV46Z8IZCblDU=;
+ b=NpN9M7BfA6sZQueOa4fUafPul19vArVdA1saqvqnlmKe/vSa/fxw+iZDg58PbPb8Cl
+ 3UPE8j8YfTSVBtxfCgxkUrBcVbVoxXtcOMYEsUAZ+omNL/D/U+BEIZW+aooQHz0cX18X
+ XxQ5DgmNdI+7gLI90mIPjveIx/cV3BwpCujDn9ibrGna6D9xBw/+vze6vN+/4EpGnFeR
+ C51ca8MCWuY5qxIlOR9RnwA5TlC6Ba8RsL/dSPNXHyBaZyqmFrGj48ClvTzj9dDJ56Hc
+ PridvuIR+pob8DcOMbPC+yAJ9oHq7RzW6aqRLITQiYQ++Y25pQ8SuX4ePmfzcstT4AGN
+ WiNQ==
+X-Gm-Message-State: AOAM532JkW+VcYTFkQsYExlqG1u0oq4x/AgVyzS6z1TNhPaW3ZGfnin8
+ O9sIYDA9bmHFafrD76nZrtNk9mnZSG7h9UULcFKG5+t11RawQJRxbOg9y0tWX1k/gHsK9GsXFv6
+ tOhEUeGbE9MKNgnqaEwynuk0lGccQuoHPGbNa5gn7ozAFfSk7q4LLUh69nfpIKdba
+X-Received: by 2002:a1c:2090:: with SMTP id g138mr4038823wmg.137.1613496670695; 
+ Tue, 16 Feb 2021 09:31:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyKycXNNJh3qQlfqSXMUKLEWnNTnikgQNu6Zm2K2kGNxVHYqF8q7SP+BeOtBqaHPn/T5vWx1g==
+X-Received: by 2002:a1c:2090:: with SMTP id g138mr4038799wmg.137.1613496670312; 
+ Tue, 16 Feb 2021 09:31:10 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id h18sm17073989wrm.54.2021.02.16.09.31.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Feb 2021 09:31:09 -0800 (PST)
+Subject: Re: [PATCH] qtest: add a reproducer for LP#1878642
+To: Alexander Bulekov <alxndr@bu.edu>, Peter Maydell <peter.maydell@linaro.org>
+References: <20201102163336.115444-1-alxndr@bu.edu>
+ <CAFEAcA9d=ZTXzK+u5rjFvkiA53izTBq5Hm5VwQ9=WEAZX+TRJg@mail.gmail.com>
+ <20210216150025.ujuq7cxspep2kaei@mozz.bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <25d3918d-913b-a2c6-209f-92732002e823@redhat.com>
+Date: Tue, 16 Feb 2021 18:31:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <20210216150025.ujuq7cxspep2kaei@mozz.bu.edu>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 0bddc345-8e05-4c40-b254-6691f7b69090
-X-Ovh-Tracer-Id: 18304880687254378976
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrjedtgdellecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=188.165.49.222; envelope-from=groug@kaod.org;
- helo=6.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,148 +99,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 13:09:43 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On 2/16/21 4:00 PM, Alexander Bulekov wrote:
+> On 210216 1325, Peter Maydell wrote:
+>> On Mon, 2 Nov 2020 at 16:35, Alexander Bulekov <alxndr@bu.edu> wrote:
+>>>
+>>> https://bugs.launchpad.net/qemu/+bug/1878642
+>>>
+>>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+>>> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+>>> ---
+>>>
+>>> Based-on: <20200717151705.18611-1-f4bug@amsat.org>
+>>>
+>>> The added testcase will fail, unless this ^^^ patch is applied.
+>>>
+>>>  tests/qtest/fuzz-test.c | 15 +++++++++++++++
+>>>  1 file changed, 15 insertions(+)
+>>>
+>>> diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
+>>> index 2f38bb1ec2..9cb4c42bde 100644
+>>> --- a/tests/qtest/fuzz-test.c
+>>> +++ b/tests/qtest/fuzz-test.c
+>>> @@ -34,6 +34,19 @@ static void test_lp1878263_megasas_zero_iov_cnt(void)
+>>>      qtest_quit(s);
+>>>  }
+>>>
+>>> +static void test_lp1878642_pci_bus_get_irq_level_assert(void)
+>>> +{
+>>> +    QTestState *s;
+>>> +
+>>> +    s = qtest_init("-M pc-q35-5.0 "
+>>> +                   "-nographic -monitor none -serial none "
+>>> +                   "-d guest_errors -trace pci*");
+>>> +
+>>> +    qtest_outl(s, 0xcf8, 0x8400f841);
+>>> +    qtest_outl(s, 0xcfc, 0xebed205d);
+>>> +    qtest_outl(s, 0x5d02, 0xebed205d);
+>>> +}
+>>
+>> Hi; I just noticed this, but why does this test case pass
+>> "-trace pci*" to QEMU? It doesn't look like it does anything to
+>> try to capture the trace output, which thus winds up just going
+>> to the stdout/stderr of the "make check" run. Similarly I'm not
+>> sure '-d guest_errors' is going to do anything helpful unless
+>> you take steps to capture the output and check it.
 
-> 
-> 
-> On 2/16/21 12:50 PM, Greg Kurz wrote:
-> > On Thu, 11 Feb 2021 19:52:41 -0300
-> > Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
-> > 
-> >> When hotunplugging a PCI function we'll branch out the logic in two cases,
-> >> function zero and non-zero. If non-zero, we'll call spapr_drc_detach() and
-> >> nothing else. If it's function zero, we'll loop it once between all the
-> >> functions in the slot to call spapr_drc_detach() on them, and afterwards
-> >> we'll do another backwards loop where we'll signal the event to the guest.
-> >>
-> >> We can simplify this logic. We can ignore all the DRC handling for non-zero
-> >> functions, since we'll end up doing that regardless when unplugging function
-> >> zero. And for function zero, everything can be done in a single loop, since
-> >> tt doesn't matter if we end up marking the function DRCs as unplug pending in
-> >> backwards order or not, as long as we call spapr_drc_detach() before issuing
-> >> the hotunplug event to the guest.
-> >>
-> >> This will also avoid a possible scenario where the user starts to hotunplug
-> >> the slot, starting with a non-zero function, and then delays/forgets to
-> >> hotunplug function zero afterwards. This would keep the function DRC marked
-> >> as unplug requested indefinitely.
-> >>
-> > 
-> > ... or until the guest is reset, which will no longer happen with this
-> > patch applied, i.e. breaks the long standing policy that machine reset
-> > causes pending hot-unplug requests to succeed. I don't see an obvious
-> > reason to special case non-zero PCI functions.
-> 
-> It's not possible to hotunplug the non-zero functions during machine reset for
-> multifunction PCI devices. We need to unplug the entire slot, and that will only
-> happen when function zero is unplugged. In fact, I think bad things will happen
-> in this case you mentioned if we are forcing the removal of non-zero functions
-> without function zero (spoiler: didn't test it).
-> 
+I suppose Alex took it from commit 4177b062fc5 ("hw/isa/lpc_ich9:
+Ignore reserved/invalid SCI IRQ") where it is used to show the
+problem the fuzzer reproducer triggers. Not useful in regular testing.
 
-I've tested with the aggregation of two e1000e emulated devices:
+> Ah, I sometimes include those in the initial report, if the device has
+> trace-events. I can remove this from fuzz-test.c, if it is slowing
+> things down.
 
-device_add e1000e,addr=10.1,id=netfn1
-device_add e1000e,multifunction=on,addr=10.0,id=netfn0
-
-And I don't quite see what "bad things" could happen. We're resetting the
-machine to a stable state and the new OS instance will just not see the
-removed function (just like only function netfn0 got added).
-
-> What I'm doing in this patch is making it clearer that non-zero functions does
-> not matter for the unplug of multifunction PCI devices. We'll detach the whole
-> slot when function zero is unplugged, regardless of the unplug state of other
-> functions.
-> 
-
-I understand that hot-unplug of non-zero functions is special cased while
-the guest OS is running, but this doesn't really applies if the guest is
-rebooted. Code simplification is not a good reason enough, at least for me,
-to alter the "reset complete all pending hotplugs" general rule.
-
-> The only reason why I didn't make 'device_del' to error out when used with a
-> non-zero function is because we allowed this in the past and it would break user
-> ABI. Otherwise, FWIW, "device_del <non-zero function>" is doing nothing since
-> commit "spapr_pci: remove all child functions in function zero unplug".
-> 
-> 
-> Thanks,
-> 
-> 
-> DHB
-> 
-> 
-> 
-> > 
-> >> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> >> ---
-> >>   hw/ppc/spapr_pci.c | 44 ++++++++++++++++----------------------------
-> >>   1 file changed, 16 insertions(+), 28 deletions(-)
-> >>
-> >> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> >> index f1c7479816..1791d98a49 100644
-> >> --- a/hw/ppc/spapr_pci.c
-> >> +++ b/hw/ppc/spapr_pci.c
-> >> @@ -1709,38 +1709,26 @@ static void spapr_pci_unplug_request(HotplugHandler *plug_handler,
-> >>               return;
-> >>           }
-> >>   
-> >> -        /* ensure any other present functions are pending unplug */
-> >> -        if (PCI_FUNC(pdev->devfn) == 0) {
-> >> -            for (i = 1; i < 8; i++) {
-> >> -                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
-> >> -                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-> >> -                state = func_drck->dr_entity_sense(func_drc);
-> >> -                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT
-> >> -                    && !spapr_drc_unplug_requested(func_drc)) {
-> >> -                    /*
-> >> -                     * Attempting to remove function 0 of a multifunction
-> >> -                     * device will will cascade into removing all child
-> >> -                     * functions, even if their unplug weren't requested
-> >> -                     * beforehand.
-> >> -                     */
-> >> -                    spapr_drc_detach(func_drc);
-> >> -                }
-> >> -            }
-> >> +        /*
-> >> +         * The hotunplug itself will occur when unplugging function 0,
-> >> +         * regardless of marking any other functions DRCs as pending
-> >> +         * unplug beforehand (since 02a1536eee33).
-> >> +         */
-> >> +        if (PCI_FUNC(pdev->devfn) != 0) {
-> >> +            return;
-> >>           }
-> >>   
-> >> -        spapr_drc_detach(drc);
-> >> +        for (i = 7; i >= 0; i--) {
-> >> +            func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
-> >> +            func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-> >> +            state = func_drck->dr_entity_sense(func_drc);
-> >>   
-> >> -        /* if this isn't func 0, defer unplug event. otherwise signal removal
-> >> -         * for all present functions
-> >> -         */
-> >> -        if (PCI_FUNC(pdev->devfn) == 0) {
-> >> -            for (i = 7; i >= 0; i--) {
-> >> -                func_drc = drc_from_devfn(phb, chassis, PCI_DEVFN(slotnr, i));
-> >> -                func_drck = SPAPR_DR_CONNECTOR_GET_CLASS(func_drc);
-> >> -                state = func_drck->dr_entity_sense(func_drc);
-> >> -                if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
-> >> -                    spapr_hotplug_req_remove_by_index(func_drc);
-> >> +            if (state == SPAPR_DR_ENTITY_SENSE_PRESENT) {
-> >> +                /* Mark the DRC as requested unplug if needed. */
-> >> +                if (!spapr_drc_unplug_requested(func_drc)) {
-> >> +                    spapr_drc_detach(func_drc);
-> >>                   }
-> >> +                spapr_hotplug_req_remove_by_index(func_drc);
-> >>               }
-> >>           }
-> >>       }
-> > 
+I doubt it is slowing things down, but it probably make it harder to
+find other problems (I suppose Peter got confused when looking for
+another failure and found these traces).
 
 
