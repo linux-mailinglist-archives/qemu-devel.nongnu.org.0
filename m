@@ -2,130 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99BF31C91D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:53:18 +0100 (CET)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F03331C93E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:02:29 +0100 (CET)
+Received: from localhost ([::1]:44042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBxyn-0002AR-Vh
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:53:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52366)
+	id 1lBy7g-0004Za-FA
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:02:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lBxwt-0000K4-64; Tue, 16 Feb 2021 05:51:19 -0500
-Received: from mail-dm6nam12on2056.outbound.protection.outlook.com
- ([40.107.243.56]:12000 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBxt2-00039V-AL
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:47:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59396)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lBxwq-00082n-2Z; Tue, 16 Feb 2021 05:51:18 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=T8/EHiLhyYbbXUKTip6pbq2j5/Mna163wb/bDVNojILSLWy4SGK5Py7K97CDcmx9JZzFJrCJs5SF6yle1P0UkIB9RCxV+hBC6Es6V4nYGp0k+CiD3l8JAlbXyeVqAu2W+nHaSZ+F6GNZOWgg0oycQ9W6AfWTd55VSBAvQ5MKzVe6hb3RvlZdp2fo1sN0iOYAmrnY8IH8o1wcZiQe4cansBZfF+A2Nxw142mG4wHhQyu/KHrC0eAQN/SAqh3l9qcacaGCHrk7IsZ+6ByQKtpmrzFa5RTyLc0URfrteEAmKbinZX+aMpFE4ejc1NC+m0/ye8c27u93BX4QEaCNTUGIoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o9CEycJ0I1gdNigMJLIO343tsDBI+NjKWcmsMqRDIsk=;
- b=KSJDB0GKESBC0K6tNsBNSR4q6GibfIN+CZix9+qSzUm5wL7Lx5ueSPIW9PV8+xXI6+KHk2+V9DhjYciMn4gpsut2+x3D6Psq4eeXXM9dOFRcZb9PNyqUaNpYwKZQydiueQyZShO3t7G2cg3RtpY9WO3DO2/+QnWDu7vaQYZB1ut7S8qEVMjdSJjTOdTXhlCNODw9+gVb0kfWBeQ8y7xf62rAzcwNdW1L2aszPnhwSUfHuCUujgz2Yt4LfClHmKFSU38ZlS+ODg51NRSbHTjpxOPIEiGlCOMLVKvmR5WbQLrQNESys20u9sbD7SOHKGT0HdHBxE/52FOLQoldYKazTw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
- dkim=pass header.d=xilinx.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=o9CEycJ0I1gdNigMJLIO343tsDBI+NjKWcmsMqRDIsk=;
- b=RXxEsL0FGeIzwLrR/WgaQnLHNk+/veBZpq7Bn2o9ZfTu6Q1so3F8whYIKBTwXIxBOkMhKsTOv4QdsWBUVZqyUfx0N17EGnfbrJKQQVrU1juYzBsDLt58myCbLJ7qIsv2OHAiVEfH/2ZViMddWEHJHP35HRp/tS0UKJfP6apf7mI=
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
- by BYAPR02MB5896.namprd02.prod.outlook.com (2603:10b6:a03:122::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.31; Tue, 16 Feb
- 2021 10:51:12 +0000
-Received: from BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::c18e:1693:fd4e:7fdf]) by BY5PR02MB6772.namprd02.prod.outlook.com
- ([fe80::c18e:1693:fd4e:7fdf%5]) with mapi id 15.20.3846.042; Tue, 16 Feb 2021
- 10:51:12 +0000
-From: Sai Pavan Boddu <saipava@xilinx.com>
-To: Alistair Francis <alistair23@gmail.com>
-Subject: RE: [RFC PATCH 10/15] sd: emmc: Update CID structure for eMMC
-Thread-Topic: [RFC PATCH 10/15] sd: emmc: Update CID structure for eMMC
-Thread-Index: AQHXAE21JgFd38Ueskm4IxNX+87atapVFyiAgAWLEEA=
-Date: Tue, 16 Feb 2021 10:51:12 +0000
-Message-ID: <BY5PR02MB677267A884D78F5E54E382D6CA879@BY5PR02MB6772.namprd02.prod.outlook.com>
-References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613031446-22154-11-git-send-email-sai.pavan.boddu@xilinx.com>
- <CAKmqyKOcADG6Dd=BQ3GwixNmEAKMUg7bR7Nhx4wc33iLrcZbvQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKOcADG6Dd=BQ3GwixNmEAKMUg7bR7Nhx4wc33iLrcZbvQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=xilinx.com;
-x-originating-ip: [149.199.50.128]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 8c687929-328f-4d29-2342-08d8d268c6a6
-x-ms-traffictypediagnostic: BYAPR02MB5896:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <BYAPR02MB5896C4A977022805BAA09FF7CA879@BYAPR02MB5896.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:3276;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 1CImNS64rSeb3jbKzgvC+PmRWTcMjMpJfpLNSzH2xLATIe/yprmFb5chSYoeox6Zq6LP8XMkMfEZYrxUTDdS5jq0Igj9eCe6Bp1NmiYguv/91BKOPs8A3eZGTeQigiZkg4hAdJwYDt8T8JXkLV8l2rPQzynRWqKRhEYfQ4Mnd+AULmM81CjOvWkVl0Oo0V4E4/hf/Q+KSn4LN12HxwOdcaoDbX4A7hJGVnFxgrnt/8OlsvdO2nfdHWpVYaTtUqTApJnqmrI/3K0/7/e5N7jTRr18Vm1G9f601nbHuTMLGWTacWZOmY84MmdkJOg+4SOG9UvDjidhSQleGbD9IOp/l0yN3X9kPrCt0MKPSwTr7zRaoHby/C0YlfqIOxl8tz86L0zdqKBUfvdDGSYO+WfQ/j4TOJr3FPOO3zLKYgSe682uhTuvEchaG0+PY7HjFCvV77ScEcfHwSs0Ri+qNUzvEoMx3lo+F58u5pbll9cLnCzFsC+Ua+wpeUjXZzgcnWnS/Y+BOVXVc7/JhT9uTCqvDw==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(39850400004)(396003)(366004)(136003)(376002)(478600001)(8936002)(86362001)(33656002)(71200400001)(7696005)(4326008)(53546011)(26005)(83380400001)(5660300002)(54906003)(8676002)(6506007)(55016002)(9686003)(66476007)(76116006)(66446008)(64756008)(66946007)(186003)(66556008)(15650500001)(52536014)(7416002)(6916009)(66574015)(316002)(2906002);
- DIR:OUT; SFP:1101; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?cGFVbG5ucGhDZWpCSlJqTmhzRU1LTEZmQjhYL3hUMmpkZmEvQkZvOVRQblBD?=
- =?utf-8?B?eG5ZVlgrTnJOaVRGa1pJeTh3bkMrRDYrVXJRb3dabURLclk0aVdlc1BmWUli?=
- =?utf-8?B?d0E5RzUzeERNT2I0ZTROWVcyVnR5ckpuY1NNOGdWUDVEWGc2bjN4bjE3K3BB?=
- =?utf-8?B?dnVXUHRJK0JUV1VFSXhKcDZrNWhDTUVWUkxTSGhOVFBOb3Q5QnJnRlA1MVk3?=
- =?utf-8?B?aG1WNVdIMGNZQkFRbXpoSlp6RUdjRnpMcW8zTVlZUTZ0a3UyK3crS0x4U3NE?=
- =?utf-8?B?K2YrQldwWFluYklvMUMwSG81NHl4ZXVlblorN2l4dlU1TGJidzV3cXRDQWVo?=
- =?utf-8?B?TUJEeXVOcFlyZWdSa0VFajJ0MHZub1pmcVNGcTBiNGtGUTJUbXNnMnVVQnlX?=
- =?utf-8?B?T0M2SkFtaGN5WS9rSWFXQkM3OUFSZ3ZFNHB0a2hpMG1ZdkNka1FjcGJlb0Jj?=
- =?utf-8?B?ZlZyZE1pL0tBOXQ4NklHRjV3UVBnZFk5bVhKSGk5Zk1LWFFFMy9yNmV3Q0x4?=
- =?utf-8?B?R0FXWE82dTJpWGV6UDg0b0lDVWhhL2lXckcxeXRxckF1aThUNDI1WHZiSEdH?=
- =?utf-8?B?SWJBMnVrcVBteXUxQkdKZGJXa2JjVjIzTmRvenpXaXRsN3l6YlVLK1k3Qitz?=
- =?utf-8?B?cXZzWDExcWdhWG5DV0o4b0lHU2dHRTE4YmVpaXJxSThsK3h2NG9xOVAxMjYz?=
- =?utf-8?B?UWtIQzlEcW5FYXd4RjgwRkVCemNmWmd0UVhScHZrd05NbFc2bVZ5YUY4bWlT?=
- =?utf-8?B?QUJXbm5KczlSeUo5cHZpT3VWYk11QldXckJBSXJKMi9HNUljM1J6Y0RoWVNU?=
- =?utf-8?B?ZUNyWUNYbjlBSmhBQ0VPUy9qRTNMOVE4Unp6bU9ML3RsdjRUZkQ2Y0NHcENn?=
- =?utf-8?B?RlFkUWlYaUl4c2xPT3Fybk91ckl6dVdJYWVyalBxMGVTM0YwZ2pLQXBWbksx?=
- =?utf-8?B?VEw3VXE2cEsxWktmNWFDRmpNNGFtZzEveWNkTWdjTEpITEZ2dWZLSjZNUmUr?=
- =?utf-8?B?dld3VEQ3NXg1eEtGWm9kSVY5aXRQMGhzYkZCYUR4NS9CaWw2SGluWitIODhO?=
- =?utf-8?B?U3VoSDk2ejdHZVRGa3JoM1M2S2NVby90cXF6Y0RhSjJtL3k1WmdrTmdqUGww?=
- =?utf-8?B?SWZnTE5PaGRTN0hRS1hlRlhXM25ybFFZcDJGNkVaZWVkdHpLcVdRdkY1bWJF?=
- =?utf-8?B?enA4NzhuTlBYcHQ1OVJkYXlxYUxoWno0c1BpNEluajl1c1RxU3daSUtjQi80?=
- =?utf-8?B?MEo2eWdYdXdwWTdzQnYrMStoMnFac1l2RFRCdmhMeitrQldIZXhBVnBoVng4?=
- =?utf-8?B?bmQ3QzFyY1RUMTdBS2lmQ1dkTUkzV0x6R08zYUVxRUdreUR2VmlxYjZtY3RB?=
- =?utf-8?B?MGdPcXcyK1BkcytHQWVlak9yYkxtUGhCSGhlTG52S2FURG82dUFzSWtpTklE?=
- =?utf-8?B?RDNpTXVIYjVUdXhPTjNmNUQ0Z2VMVzRuSHgxQmNlTXJ5Q1gvcElWS0VrZ3pG?=
- =?utf-8?B?SVFuellMM1NmaEYvNGVCRld2U2orUUw0dUxBNnFiQkVETXFURm9WQmFPMloz?=
- =?utf-8?B?Zmk3cmZYYnduck50UWJ5MlJKbW5GbWhZYnBOSFR3UGx4VFJBRGU0UTBDWlpI?=
- =?utf-8?B?NkhicFArZWdUQmVaQ2p1MVVrVzZua0QxVFZ6cEN4Q1AzS0lTeTh0RWxLSVF0?=
- =?utf-8?B?Q1hJbmZBTkZJTDNRbE9Ma0phanFvUmFQY0h0ZjloT2w1R2NpTGtVS3doR3FQ?=
- =?utf-8?Q?RwG2TtD3VKaoBLhVaMm2C2wGXCF4lunjKdS0eFm?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBxsu-000684-HN
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:47:20 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D7D86AF31;
+ Tue, 16 Feb 2021 10:46:56 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [RFC v19 11/15] i386: split misc helper into user and softmmu parts
+Date: Tue, 16 Feb 2021 11:46:43 +0100
+Message-Id: <20210216104647.13400-12-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210216104647.13400-1-cfontana@suse.de>
+References: <20210216104647.13400-1-cfontana@suse.de>
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c687929-328f-4d29-2342-08d8d268c6a6
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Feb 2021 10:51:12.2919 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qcyKLdNadGBqooDuxU6TV51PTz0gHexKJigoWfBsfUl3zVjBF5Uyn7dcw+4Pdr5IBwiL98AK7szwQb4WBSnLdA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5896
-Received-SPF: pass client-ip=40.107.243.56; envelope-from=saipava@xilinx.com;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,100 +56,1063 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Vincent Palatin <vpalatin@chromium.org>, Luc Michel <luc.michel@greensocs.com>,
- Qemu-block <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Edgar Iglesias <edgari@xilinx.com>,
- Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgQWxpc3RhaXINCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWxpc3Rh
-aXIgRnJhbmNpcyA8YWxpc3RhaXIyM0BnbWFpbC5jb20+DQo+IFNlbnQ6IFNhdHVyZGF5LCBGZWJy
-dWFyeSAxMywgMjAyMSAzOjQxIEFNDQo+IFRvOiBTYWkgUGF2YW4gQm9kZHUgPHNhaXBhdmFAeGls
-aW54LmNvbT4NCj4gQ2M6IE1hcmt1cyBBcm1icnVzdGVyIDxhcm1icnVAcmVkaGF0LmNvbT47IEtl
-dmluIFdvbGYNCj4gPGt3b2xmQHJlZGhhdC5jb20+OyBNYXggUmVpdHogPG1yZWl0ekByZWRoYXQu
-Y29tPjsgVmxhZGltaXIgU2VtZW50c292LQ0KPiBPZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmlydHVv
-enpvLmNvbT47IEVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPjsNCj4gSm9lbCBTdGFubGV5
-IDxqb2VsQGptcy5pZC5hdT47IEPDqWRyaWMgTGUgR29hdGVyIDxjbGdAa2FvZC5vcmc+OyBWaW5j
-ZW50DQo+IFBhbGF0aW4gPHZwYWxhdGluQGNocm9taXVtLm9yZz47IERyLiBEYXZpZCBBbGFuIEdp
-bGJlcnQNCj4gPGRnaWxiZXJ0QHJlZGhhdC5jb20+OyBUaG9tYXMgSHV0aCA8dGh1dGhAcmVkaGF0
-LmNvbT47IFN0ZWZhbiBIYWpub2N6aQ0KPiA8c3RlZmFuaGFAcmVkaGF0LmNvbT47IFBldGVyIE1h
-eWRlbGwgPHBldGVyLm1heWRlbGxAbGluYXJvLm9yZz47IEFsaXN0YWlyDQo+IEZyYW5jaXMgPGFs
-aXN0YWlyLmZyYW5jaXNAd2RjLmNvbT47IEVkZ2FyIElnbGVzaWFzIDxlZGdhcmlAeGlsaW54LmNv
-bT47IEx1Yw0KPiBNaWNoZWwgPGx1Yy5taWNoZWxAZ3JlZW5zb2NzLmNvbT47IFBhb2xvIEJvbnpp
-bmkgPHBib256aW5pQHJlZGhhdC5jb20+Ow0KPiBTYWkgUGF2YW4gQm9kZHUgPHNhaXBhdmFAeGls
-aW54LmNvbT47IHFlbXUtZGV2ZWxAbm9uZ251Lm9yZyBEZXZlbG9wZXJzDQo+IDxxZW11LWRldmVs
-QG5vbmdudS5vcmc+OyBRZW11LWJsb2NrIDxxZW11LWJsb2NrQG5vbmdudS5vcmc+DQo+IFN1Ympl
-Y3Q6IFJlOiBbUkZDIFBBVENIIDEwLzE1XSBzZDogZW1tYzogVXBkYXRlIENJRCBzdHJ1Y3R1cmUg
-Zm9yIGVNTUMNCj4gDQo+IE9uIFRodSwgRmViIDExLCAyMDIxIGF0IDEyOjMwIEFNIFNhaSBQYXZh
-biBCb2RkdQ0KPiA8c2FpLnBhdmFuLmJvZGR1QHhpbGlueC5jb20+IHdyb3RlOg0KPiA+DQo+ID4g
-Q0lEIHN0cnVjdHVyZSBpcyBsaXR0bGUgZGlmZmVyZW50IGZvciBlTU1DLCB3LnIudCB0byBwcm9k
-dWN0IG5hbWUgYW5kDQo+ID4gbWFudWZhY3R1cmluZyBkYXRlLg0KPiA+DQo+ID4gU2lnbmVkLW9m
-Zi1ieTogU2FpIFBhdmFuIEJvZGR1IDxzYWkucGF2YW4uYm9kZHVAeGlsaW54LmNvbT4NCj4gPiBT
-aWduZWQtb2ZmLWJ5OiBFZGdhciBFLiBJZ2xlc2lhcyA8ZWRnYXIuaWdsZXNpYXNAeGlsaW54LmNv
-bT4NCj4gPiAtLS0NCj4gPiAgaHcvc2Qvc2QuYyB8IDUyICsrKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKysrLS0tLS0tLS0tLS0tLS0tLS0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDM1IGlu
-c2VydGlvbnMoKyksIDE3IGRlbGV0aW9ucygtKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL2h3L3Nk
-L3NkLmMgYi9ody9zZC9zZC5jDQo+ID4gaW5kZXggN2FhYjY0Ny4uNDUzMTFmYSAxMDA2NDQNCj4g
-PiAtLS0gYS9ody9zZC9zZC5jDQo+ID4gKysrIGIvaHcvc2Qvc2QuYw0KPiA+IEBAIC0zNDUsMjMg
-KzM0NSw0MSBAQCBzdGF0aWMgdm9pZCBzZF9zZXRfc2NyKFNEU3RhdGUgKnNkKQ0KPiA+DQo+ID4g
-IHN0YXRpYyB2b2lkIHNkX3NldF9jaWQoU0RTdGF0ZSAqc2QpDQo+ID4gIHsNCj4gPiAtICAgIHNk
-LT5jaWRbMF0gPSBNSUQ7ICAgICAgICAgIC8qIEZha2UgY2FyZCBtYW51ZmFjdHVyZXIgSUQgKE1J
-RCkgKi8NCj4gPiAtICAgIHNkLT5jaWRbMV0gPSBPSURbMF07ICAgICAgIC8qIE9FTS9BcHBsaWNh
-dGlvbiBJRCAoT0lEKSAqLw0KPiA+IC0gICAgc2QtPmNpZFsyXSA9IE9JRFsxXTsNCj4gPiAtICAg
-IHNkLT5jaWRbM10gPSBQTk1bMF07ICAgICAgIC8qIEZha2UgcHJvZHVjdCBuYW1lIChQTk0pICov
-DQo+ID4gLSAgICBzZC0+Y2lkWzRdID0gUE5NWzFdOw0KPiA+IC0gICAgc2QtPmNpZFs1XSA9IFBO
-TVsyXTsNCj4gPiAtICAgIHNkLT5jaWRbNl0gPSBQTk1bM107DQo+ID4gLSAgICBzZC0+Y2lkWzdd
-ID0gUE5NWzRdOw0KPiA+IC0gICAgc2QtPmNpZFs4XSA9IFBSVjsgICAgICAgICAgLyogRmFrZSBw
-cm9kdWN0IHJldmlzaW9uIChQUlYpICovDQo+ID4gLSAgICBzZC0+Y2lkWzldID0gMHhkZTsgICAg
-ICAgICAvKiBGYWtlIHNlcmlhbCBudW1iZXIgKFBTTikgKi8NCj4gPiAtICAgIHNkLT5jaWRbMTBd
-ID0gMHhhZDsNCj4gPiAtICAgIHNkLT5jaWRbMTFdID0gMHhiZTsNCj4gPiAtICAgIHNkLT5jaWRb
-MTJdID0gMHhlZjsNCj4gPiAtICAgIHNkLT5jaWRbMTNdID0gMHgwMCB8ICAgICAgIC8qIE1hbnVm
-YWN0dXJlIGRhdGUgKE1EVCkgKi8NCj4gPiAtICAgICAgICAoKE1EVF9ZUiAtIDIwMDApIC8gMTAp
-Ow0KPiA+IC0gICAgc2QtPmNpZFsxNF0gPSAoKE1EVF9ZUiAlIDEwKSA8PCA0KSB8IE1EVF9NT047
-DQo+ID4gLSAgICBzZC0+Y2lkWzE1XSA9IChzZF9jcmM3KHNkLT5jaWQsIDE1KSA8PCAxKSB8IDE7
-DQo+ID4gKyAgICBpZiAoc2QtPmVtbWMpIHsNCj4gPiArICAgICAgICBzZC0+Y2lkWzBdID0gTUlE
-Ow0KPiA+ICsgICAgICAgIHNkLT5jaWRbMV0gPSAweDE7ICAgICAgIC8qIENCWCAqLw0KPiA+ICsg
-ICAgICAgIHNkLT5jaWRbMl0gPSBPSURbMF07ICAgIC8qIE9FTS9BcHBsaWNhdGlvbiBJRCAoT0lE
-KSAqLw0KPiA+ICsgICAgICAgIHNkLT5jaWRbM10gPSBQTk1bMF07ICAgIC8qIEZha2UgcHJvZHVj
-dCBuYW1lIChQTk0pIDQ4Yml0ICovDQo+ID4gKyAgICAgICAgc2QtPmNpZFs0XSA9IFBOTVsxXTsN
-Cj4gPiArICAgICAgICBzZC0+Y2lkWzVdID0gUE5NWzJdOw0KPiA+ICsgICAgICAgIHNkLT5jaWRb
-Nl0gPSBQTk1bM107DQo+ID4gKyAgICAgICAgc2QtPmNpZFs3XSA9IFBOTVs0XTsNCj4gDQo+IEFy
-ZW4ndCB0aGUgbWFqb3JpdHkgb2YgdGhlc2UgdGhlIHNhbWUgYmV0d2VlbiB0aGUgdHdvIGNhc2Vz
-PyBJdCdzIHByb2JhYmx5DQo+IGNsZWFuZXIgdG8gc3BsaXQgdGhlbSBvdXQgdGhlbi4NCltTYWkg
-UGF2YW4gQm9kZHVdIFllcywgSSB3b3VsZCB0cnkgdG8gcmUtb3JkZXIuIElmIEkgc2VlIG9ubHkg
-dGhlIFBOTSBmaWVsZHMgYXJlIHNhbWUsIHJlc3QgYWxsIGZpZWxkcyBraW5kIG9mIG1vdmVkIGEg
-Ynl0ZSBiZWxvdy4NCg0KUmVnYXJkcywNClNhaSBQYXZhbg0KPiANCj4gQWxpc3RhaXINCj4gDQo+
-ID4gKyAgICAgICAgc2QtPmNpZFs4XSA9IDB4MDsNCj4gPiArICAgICAgICBzZC0+Y2lkWzldID0g
-UFJWOyAgICAgICAgLyogRmFrZSBwcm9kdWN0IHJldmlzaW9uIChQUlYpICovDQo+ID4gKyAgICAg
-ICAgc2QtPmNpZFsxMF0gPSAweGRlOyAgICAgIC8qIEZha2Ugc2VyaWFsIG51bWJlciAoUFNOKSAq
-Lw0KPiA+ICsgICAgICAgIHNkLT5jaWRbMTFdID0gMHhhZDsNCj4gPiArICAgICAgICBzZC0+Y2lk
-WzEyXSA9IDB4YmU7DQo+ID4gKyAgICAgICAgc2QtPmNpZFsxM10gPSAweGVmOw0KPiA+ICsgICAg
-ICAgIHNkLT5jaWRbMTRdID0gKChNRFRfWVIgLSAxOTk3KSAlIDB4MTApOyAvKiBNRFQgKi8NCj4g
-PiArICAgIH0gZWxzZSB7DQo+ID4gKyAgICAgICAgc2QtPmNpZFswXSA9IE1JRDsgICAgICAgLyog
-RmFrZSBjYXJkIG1hbnVmYWN0dXJlciBJRCAoTUlEKSAqLw0KPiA+ICsgICAgICAgIHNkLT5jaWRb
-MV0gPSBPSURbMF07ICAgIC8qIE9FTS9BcHBsaWNhdGlvbiBJRCAoT0lEKSAqLw0KPiA+ICsgICAg
-ICAgIHNkLT5jaWRbMl0gPSBPSURbMV07DQo+ID4gKyAgICAgICAgc2QtPmNpZFszXSA9IFBOTVsw
-XTsgICAgLyogRmFrZSBwcm9kdWN0IG5hbWUgKFBOTSkgNDBiaXQgKi8NCj4gPiArICAgICAgICBz
-ZC0+Y2lkWzRdID0gUE5NWzFdOw0KPiA+ICsgICAgICAgIHNkLT5jaWRbNV0gPSBQTk1bMl07DQo+
-ID4gKyAgICAgICAgc2QtPmNpZFs2XSA9IFBOTVszXTsNCj4gPiArICAgICAgICBzZC0+Y2lkWzdd
-ID0gUE5NWzRdOw0KPiA+ICsgICAgICAgIHNkLT5jaWRbOF0gPSBQUlY7ICAgICAgIC8qIEZha2Ug
-cHJvZHVjdCByZXZpc2lvbiAoUFJWKSAqLw0KPiA+ICsgICAgICAgIHNkLT5jaWRbOV0gPSAweGRl
-OyAgICAgIC8qIEZha2Ugc2VyaWFsIG51bWJlciAoUFNOKSAqLw0KPiA+ICsgICAgICAgIHNkLT5j
-aWRbMTBdID0gMHhhZDsNCj4gPiArICAgICAgICBzZC0+Y2lkWzExXSA9IDB4YmU7DQo+ID4gKyAg
-ICAgICAgc2QtPmNpZFsxMl0gPSAweGVmOw0KPiA+ICsgICAgICAgIHNkLT5jaWRbMTNdID0gMHgw
-MCB8ICAgIC8qIE1hbnVmYWN0dXJlIGRhdGUgKE1EVCkgKi8NCj4gPiArICAgICAgICAgICAgKChN
-RFRfWVIgLSAyMDAwKSAvIDEwKTsNCj4gPiArICAgICAgICBzZC0+Y2lkWzE0XSA9ICgoTURUX1lS
-ICUgMTApIDw8IDQpIHwgTURUX01PTjsNCj4gPiArICAgfQ0KPiA+ICsgICBzZC0+Y2lkWzE1XSA9
-IChzZF9jcmM3KHNkLT5jaWQsIDE1KSA8PCAxKSB8IDE7DQo+ID4gIH0NCj4gPg0KPiA+ICAjZGVm
-aW5lIEhXQkxPQ0tfU0hJRlQgIDkgICAgICAgICAgICAgICAgICAgICAgIC8qIDUxMiBieXRlcyAq
-Lw0KPiA+IC0tDQo+ID4gMi43LjQNCj4gPg0KPiA+DQo=
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ target/i386/tcg/misc_helper.c         | 463 --------------------------
+ target/i386/tcg/softmmu/misc_helper.c | 438 ++++++++++++++++++++++++
+ target/i386/tcg/user/misc_helper.c    |  72 ++++
+ target/i386/tcg/softmmu/meson.build   |   1 +
+ target/i386/tcg/user/meson.build      |   1 +
+ 5 files changed, 512 insertions(+), 463 deletions(-)
+ create mode 100644 target/i386/tcg/softmmu/misc_helper.c
+ create mode 100644 target/i386/tcg/user/misc_helper.c
+
+diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
+index f02e4fd400..82fb7037ac 100644
+--- a/target/i386/tcg/misc_helper.c
++++ b/target/i386/tcg/misc_helper.c
+@@ -18,12 +18,9 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
+ #include "exec/exec-all.h"
+-#include "exec/cpu_ldst.h"
+-#include "exec/address-spaces.h"
+ #include "helper-tcg.h"
+ 
+ /*
+@@ -39,69 +36,6 @@ void cpu_load_eflags(CPUX86State *env, int eflags, int update_mask)
+         (eflags & update_mask) | 0x2;
+ }
+ 
+-void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "outb: port=0x%04x, data=%02x\n", port, data);
+-#else
+-    address_space_stb(&address_space_io, port, data,
+-                      cpu_get_mem_attrs(env), NULL);
+-#endif
+-}
+-
+-target_ulong helper_inb(CPUX86State *env, uint32_t port)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "inb: port=0x%04x\n", port);
+-    return 0;
+-#else
+-    return address_space_ldub(&address_space_io, port,
+-                              cpu_get_mem_attrs(env), NULL);
+-#endif
+-}
+-
+-void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "outw: port=0x%04x, data=%04x\n", port, data);
+-#else
+-    address_space_stw(&address_space_io, port, data,
+-                      cpu_get_mem_attrs(env), NULL);
+-#endif
+-}
+-
+-target_ulong helper_inw(CPUX86State *env, uint32_t port)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "inw: port=0x%04x\n", port);
+-    return 0;
+-#else
+-    return address_space_lduw(&address_space_io, port,
+-                              cpu_get_mem_attrs(env), NULL);
+-#endif
+-}
+-
+-void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "outl: port=0x%04x, data=%08x\n", port, data);
+-#else
+-    address_space_stl(&address_space_io, port, data,
+-                      cpu_get_mem_attrs(env), NULL);
+-#endif
+-}
+-
+-target_ulong helper_inl(CPUX86State *env, uint32_t port)
+-{
+-#ifdef CONFIG_USER_ONLY
+-    fprintf(stderr, "inl: port=0x%04x\n", port);
+-    return 0;
+-#else
+-    return address_space_ldl(&address_space_io, port,
+-                             cpu_get_mem_attrs(env), NULL);
+-#endif
+-}
+-
+ void helper_into(CPUX86State *env, int next_eip_addend)
+ {
+     int eflags;
+@@ -126,64 +60,6 @@ void helper_cpuid(CPUX86State *env)
+     env->regs[R_EDX] = edx;
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-target_ulong helper_read_crN(CPUX86State *env, int reg)
+-{
+-    return 0;
+-}
+-
+-void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+-{
+-}
+-#else
+-target_ulong helper_read_crN(CPUX86State *env, int reg)
+-{
+-    target_ulong val;
+-
+-    cpu_svm_check_intercept_param(env, SVM_EXIT_READ_CR0 + reg, 0, GETPC());
+-    switch (reg) {
+-    default:
+-        val = env->cr[reg];
+-        break;
+-    case 8:
+-        if (!(env->hflags2 & HF2_VINTR_MASK)) {
+-            val = cpu_get_apic_tpr(env_archcpu(env)->apic_state);
+-        } else {
+-            val = env->v_tpr;
+-        }
+-        break;
+-    }
+-    return val;
+-}
+-
+-void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
+-{
+-    cpu_svm_check_intercept_param(env, SVM_EXIT_WRITE_CR0 + reg, 0, GETPC());
+-    switch (reg) {
+-    case 0:
+-        cpu_x86_update_cr0(env, t0);
+-        break;
+-    case 3:
+-        cpu_x86_update_cr3(env, t0);
+-        break;
+-    case 4:
+-        cpu_x86_update_cr4(env, t0);
+-        break;
+-    case 8:
+-        if (!(env->hflags2 & HF2_VINTR_MASK)) {
+-            qemu_mutex_lock_iothread();
+-            cpu_set_apic_tpr(env_archcpu(env)->apic_state, t0);
+-            qemu_mutex_unlock_iothread();
+-        }
+-        env->v_tpr = t0 & 0x0f;
+-        break;
+-    default:
+-        env->cr[reg] = t0;
+-        break;
+-    }
+-}
+-#endif
+-
+ void helper_lmsw(CPUX86State *env, target_ulong t0)
+ {
+     /* only 4 lower bits of CR0 are modified. PE cannot be set to zero
+@@ -232,345 +108,6 @@ void helper_rdpmc(CPUX86State *env)
+     raise_exception_err(env, EXCP06_ILLOP, 0);
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-void helper_wrmsr(CPUX86State *env)
+-{
+-}
+-
+-void helper_rdmsr(CPUX86State *env)
+-{
+-}
+-#else
+-void helper_wrmsr(CPUX86State *env)
+-{
+-    uint64_t val;
+-    CPUState *cs = env_cpu(env);
+-
+-    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 1, GETPC());
+-
+-    val = ((uint32_t)env->regs[R_EAX]) |
+-        ((uint64_t)((uint32_t)env->regs[R_EDX]) << 32);
+-
+-    switch ((uint32_t)env->regs[R_ECX]) {
+-    case MSR_IA32_SYSENTER_CS:
+-        env->sysenter_cs = val & 0xffff;
+-        break;
+-    case MSR_IA32_SYSENTER_ESP:
+-        env->sysenter_esp = val;
+-        break;
+-    case MSR_IA32_SYSENTER_EIP:
+-        env->sysenter_eip = val;
+-        break;
+-    case MSR_IA32_APICBASE:
+-        cpu_set_apic_base(env_archcpu(env)->apic_state, val);
+-        break;
+-    case MSR_EFER:
+-        {
+-            uint64_t update_mask;
+-
+-            update_mask = 0;
+-            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_SYSCALL) {
+-                update_mask |= MSR_EFER_SCE;
+-            }
+-            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
+-                update_mask |= MSR_EFER_LME;
+-            }
+-            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
+-                update_mask |= MSR_EFER_FFXSR;
+-            }
+-            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_NX) {
+-                update_mask |= MSR_EFER_NXE;
+-            }
+-            if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
+-                update_mask |= MSR_EFER_SVME;
+-            }
+-            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
+-                update_mask |= MSR_EFER_FFXSR;
+-            }
+-            cpu_load_efer(env, (env->efer & ~update_mask) |
+-                          (val & update_mask));
+-        }
+-        break;
+-    case MSR_STAR:
+-        env->star = val;
+-        break;
+-    case MSR_PAT:
+-        env->pat = val;
+-        break;
+-    case MSR_IA32_PKRS:
+-        if (val & 0xFFFFFFFF00000000ull) {
+-            goto error;
+-        }
+-        env->pkrs = val;
+-        tlb_flush(cs);
+-        break;
+-    case MSR_VM_HSAVE_PA:
+-        env->vm_hsave = val;
+-        break;
+-#ifdef TARGET_X86_64
+-    case MSR_LSTAR:
+-        env->lstar = val;
+-        break;
+-    case MSR_CSTAR:
+-        env->cstar = val;
+-        break;
+-    case MSR_FMASK:
+-        env->fmask = val;
+-        break;
+-    case MSR_FSBASE:
+-        env->segs[R_FS].base = val;
+-        break;
+-    case MSR_GSBASE:
+-        env->segs[R_GS].base = val;
+-        break;
+-    case MSR_KERNELGSBASE:
+-        env->kernelgsbase = val;
+-        break;
+-#endif
+-    case MSR_MTRRphysBase(0):
+-    case MSR_MTRRphysBase(1):
+-    case MSR_MTRRphysBase(2):
+-    case MSR_MTRRphysBase(3):
+-    case MSR_MTRRphysBase(4):
+-    case MSR_MTRRphysBase(5):
+-    case MSR_MTRRphysBase(6):
+-    case MSR_MTRRphysBase(7):
+-        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
+-                       MSR_MTRRphysBase(0)) / 2].base = val;
+-        break;
+-    case MSR_MTRRphysMask(0):
+-    case MSR_MTRRphysMask(1):
+-    case MSR_MTRRphysMask(2):
+-    case MSR_MTRRphysMask(3):
+-    case MSR_MTRRphysMask(4):
+-    case MSR_MTRRphysMask(5):
+-    case MSR_MTRRphysMask(6):
+-    case MSR_MTRRphysMask(7):
+-        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
+-                       MSR_MTRRphysMask(0)) / 2].mask = val;
+-        break;
+-    case MSR_MTRRfix64K_00000:
+-        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
+-                        MSR_MTRRfix64K_00000] = val;
+-        break;
+-    case MSR_MTRRfix16K_80000:
+-    case MSR_MTRRfix16K_A0000:
+-        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
+-                        MSR_MTRRfix16K_80000 + 1] = val;
+-        break;
+-    case MSR_MTRRfix4K_C0000:
+-    case MSR_MTRRfix4K_C8000:
+-    case MSR_MTRRfix4K_D0000:
+-    case MSR_MTRRfix4K_D8000:
+-    case MSR_MTRRfix4K_E0000:
+-    case MSR_MTRRfix4K_E8000:
+-    case MSR_MTRRfix4K_F0000:
+-    case MSR_MTRRfix4K_F8000:
+-        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
+-                        MSR_MTRRfix4K_C0000 + 3] = val;
+-        break;
+-    case MSR_MTRRdefType:
+-        env->mtrr_deftype = val;
+-        break;
+-    case MSR_MCG_STATUS:
+-        env->mcg_status = val;
+-        break;
+-    case MSR_MCG_CTL:
+-        if ((env->mcg_cap & MCG_CTL_P)
+-            && (val == 0 || val == ~(uint64_t)0)) {
+-            env->mcg_ctl = val;
+-        }
+-        break;
+-    case MSR_TSC_AUX:
+-        env->tsc_aux = val;
+-        break;
+-    case MSR_IA32_MISC_ENABLE:
+-        env->msr_ia32_misc_enable = val;
+-        break;
+-    case MSR_IA32_BNDCFGS:
+-        /* FIXME: #GP if reserved bits are set.  */
+-        /* FIXME: Extend highest implemented bit of linear address.  */
+-        env->msr_bndcfgs = val;
+-        cpu_sync_bndcs_hflags(env);
+-        break;
+-    default:
+-        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
+-            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
+-            (4 * env->mcg_cap & 0xff)) {
+-            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
+-            if ((offset & 0x3) != 0
+-                || (val == 0 || val == ~(uint64_t)0)) {
+-                env->mce_banks[offset] = val;
+-            }
+-            break;
+-        }
+-        /* XXX: exception? */
+-        break;
+-    }
+-    return;
+-error:
+-    raise_exception_err_ra(env, EXCP0D_GPF, 0, GETPC());
+-}
+-
+-void helper_rdmsr(CPUX86State *env)
+-{
+-    X86CPU *x86_cpu = env_archcpu(env);
+-    uint64_t val;
+-
+-    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 0, GETPC());
+-
+-    switch ((uint32_t)env->regs[R_ECX]) {
+-    case MSR_IA32_SYSENTER_CS:
+-        val = env->sysenter_cs;
+-        break;
+-    case MSR_IA32_SYSENTER_ESP:
+-        val = env->sysenter_esp;
+-        break;
+-    case MSR_IA32_SYSENTER_EIP:
+-        val = env->sysenter_eip;
+-        break;
+-    case MSR_IA32_APICBASE:
+-        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
+-        break;
+-    case MSR_EFER:
+-        val = env->efer;
+-        break;
+-    case MSR_STAR:
+-        val = env->star;
+-        break;
+-    case MSR_PAT:
+-        val = env->pat;
+-        break;
+-    case MSR_IA32_PKRS:
+-        val = env->pkrs;
+-        break;
+-    case MSR_VM_HSAVE_PA:
+-        val = env->vm_hsave;
+-        break;
+-    case MSR_IA32_PERF_STATUS:
+-        /* tsc_increment_by_tick */
+-        val = 1000ULL;
+-        /* CPU multiplier */
+-        val |= (((uint64_t)4ULL) << 40);
+-        break;
+-#ifdef TARGET_X86_64
+-    case MSR_LSTAR:
+-        val = env->lstar;
+-        break;
+-    case MSR_CSTAR:
+-        val = env->cstar;
+-        break;
+-    case MSR_FMASK:
+-        val = env->fmask;
+-        break;
+-    case MSR_FSBASE:
+-        val = env->segs[R_FS].base;
+-        break;
+-    case MSR_GSBASE:
+-        val = env->segs[R_GS].base;
+-        break;
+-    case MSR_KERNELGSBASE:
+-        val = env->kernelgsbase;
+-        break;
+-    case MSR_TSC_AUX:
+-        val = env->tsc_aux;
+-        break;
+-#endif
+-    case MSR_SMI_COUNT:
+-        val = env->msr_smi_count;
+-        break;
+-    case MSR_MTRRphysBase(0):
+-    case MSR_MTRRphysBase(1):
+-    case MSR_MTRRphysBase(2):
+-    case MSR_MTRRphysBase(3):
+-    case MSR_MTRRphysBase(4):
+-    case MSR_MTRRphysBase(5):
+-    case MSR_MTRRphysBase(6):
+-    case MSR_MTRRphysBase(7):
+-        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
+-                             MSR_MTRRphysBase(0)) / 2].base;
+-        break;
+-    case MSR_MTRRphysMask(0):
+-    case MSR_MTRRphysMask(1):
+-    case MSR_MTRRphysMask(2):
+-    case MSR_MTRRphysMask(3):
+-    case MSR_MTRRphysMask(4):
+-    case MSR_MTRRphysMask(5):
+-    case MSR_MTRRphysMask(6):
+-    case MSR_MTRRphysMask(7):
+-        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
+-                             MSR_MTRRphysMask(0)) / 2].mask;
+-        break;
+-    case MSR_MTRRfix64K_00000:
+-        val = env->mtrr_fixed[0];
+-        break;
+-    case MSR_MTRRfix16K_80000:
+-    case MSR_MTRRfix16K_A0000:
+-        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
+-                              MSR_MTRRfix16K_80000 + 1];
+-        break;
+-    case MSR_MTRRfix4K_C0000:
+-    case MSR_MTRRfix4K_C8000:
+-    case MSR_MTRRfix4K_D0000:
+-    case MSR_MTRRfix4K_D8000:
+-    case MSR_MTRRfix4K_E0000:
+-    case MSR_MTRRfix4K_E8000:
+-    case MSR_MTRRfix4K_F0000:
+-    case MSR_MTRRfix4K_F8000:
+-        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
+-                              MSR_MTRRfix4K_C0000 + 3];
+-        break;
+-    case MSR_MTRRdefType:
+-        val = env->mtrr_deftype;
+-        break;
+-    case MSR_MTRRcap:
+-        if (env->features[FEAT_1_EDX] & CPUID_MTRR) {
+-            val = MSR_MTRRcap_VCNT | MSR_MTRRcap_FIXRANGE_SUPPORT |
+-                MSR_MTRRcap_WC_SUPPORTED;
+-        } else {
+-            /* XXX: exception? */
+-            val = 0;
+-        }
+-        break;
+-    case MSR_MCG_CAP:
+-        val = env->mcg_cap;
+-        break;
+-    case MSR_MCG_CTL:
+-        if (env->mcg_cap & MCG_CTL_P) {
+-            val = env->mcg_ctl;
+-        } else {
+-            val = 0;
+-        }
+-        break;
+-    case MSR_MCG_STATUS:
+-        val = env->mcg_status;
+-        break;
+-    case MSR_IA32_MISC_ENABLE:
+-        val = env->msr_ia32_misc_enable;
+-        break;
+-    case MSR_IA32_BNDCFGS:
+-        val = env->msr_bndcfgs;
+-        break;
+-     case MSR_IA32_UCODE_REV:
+-        val = x86_cpu->ucode_rev;
+-        break;
+-    default:
+-        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
+-            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
+-            (4 * env->mcg_cap & 0xff)) {
+-            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
+-            val = env->mce_banks[offset];
+-            break;
+-        }
+-        /* XXX: exception? */
+-        val = 0;
+-        break;
+-    }
+-    env->regs[R_EAX] = (uint32_t)(val);
+-    env->regs[R_EDX] = (uint32_t)(val >> 32);
+-}
+-#endif
+-
+ static void do_pause(X86CPU *cpu)
+ {
+     CPUState *cs = CPU(cpu);
+diff --git a/target/i386/tcg/softmmu/misc_helper.c b/target/i386/tcg/softmmu/misc_helper.c
+new file mode 100644
+index 0000000000..0a1b3be0c4
+--- /dev/null
++++ b/target/i386/tcg/softmmu/misc_helper.c
+@@ -0,0 +1,438 @@
++/*
++ *  x86 misc helpers - softmmu-only
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/main-loop.h"
++#include "cpu.h"
++#include "exec/helper-proto.h"
++#include "exec/cpu_ldst.h"
++#include "exec/address-spaces.h"
++#include "tcg/helper-tcg.h"
++
++void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
++{
++    address_space_stb(&address_space_io, port, data,
++                      cpu_get_mem_attrs(env), NULL);
++}
++
++target_ulong helper_inb(CPUX86State *env, uint32_t port)
++{
++    return address_space_ldub(&address_space_io, port,
++                              cpu_get_mem_attrs(env), NULL);
++}
++
++void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
++{
++    address_space_stw(&address_space_io, port, data,
++                      cpu_get_mem_attrs(env), NULL);
++}
++
++target_ulong helper_inw(CPUX86State *env, uint32_t port)
++{
++    return address_space_lduw(&address_space_io, port,
++                              cpu_get_mem_attrs(env), NULL);
++}
++
++void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
++{
++    address_space_stl(&address_space_io, port, data,
++                      cpu_get_mem_attrs(env), NULL);
++}
++
++target_ulong helper_inl(CPUX86State *env, uint32_t port)
++{
++    return address_space_ldl(&address_space_io, port,
++                             cpu_get_mem_attrs(env), NULL);
++}
++
++target_ulong helper_read_crN(CPUX86State *env, int reg)
++{
++    target_ulong val;
++
++    cpu_svm_check_intercept_param(env, SVM_EXIT_READ_CR0 + reg, 0, GETPC());
++    switch (reg) {
++    default:
++        val = env->cr[reg];
++        break;
++    case 8:
++        if (!(env->hflags2 & HF2_VINTR_MASK)) {
++            val = cpu_get_apic_tpr(env_archcpu(env)->apic_state);
++        } else {
++            val = env->v_tpr;
++        }
++        break;
++    }
++    return val;
++}
++
++void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
++{
++    cpu_svm_check_intercept_param(env, SVM_EXIT_WRITE_CR0 + reg, 0, GETPC());
++    switch (reg) {
++    case 0:
++        cpu_x86_update_cr0(env, t0);
++        break;
++    case 3:
++        cpu_x86_update_cr3(env, t0);
++        break;
++    case 4:
++        cpu_x86_update_cr4(env, t0);
++        break;
++    case 8:
++        if (!(env->hflags2 & HF2_VINTR_MASK)) {
++            qemu_mutex_lock_iothread();
++            cpu_set_apic_tpr(env_archcpu(env)->apic_state, t0);
++            qemu_mutex_unlock_iothread();
++        }
++        env->v_tpr = t0 & 0x0f;
++        break;
++    default:
++        env->cr[reg] = t0;
++        break;
++    }
++}
++
++void helper_wrmsr(CPUX86State *env)
++{
++    uint64_t val;
++    CPUState *cs = env_cpu(env);
++
++    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 1, GETPC());
++
++    val = ((uint32_t)env->regs[R_EAX]) |
++        ((uint64_t)((uint32_t)env->regs[R_EDX]) << 32);
++
++    switch ((uint32_t)env->regs[R_ECX]) {
++    case MSR_IA32_SYSENTER_CS:
++        env->sysenter_cs = val & 0xffff;
++        break;
++    case MSR_IA32_SYSENTER_ESP:
++        env->sysenter_esp = val;
++        break;
++    case MSR_IA32_SYSENTER_EIP:
++        env->sysenter_eip = val;
++        break;
++    case MSR_IA32_APICBASE:
++        cpu_set_apic_base(env_archcpu(env)->apic_state, val);
++        break;
++    case MSR_EFER:
++        {
++            uint64_t update_mask;
++
++            update_mask = 0;
++            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_SYSCALL) {
++                update_mask |= MSR_EFER_SCE;
++            }
++            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
++                update_mask |= MSR_EFER_LME;
++            }
++            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
++                update_mask |= MSR_EFER_FFXSR;
++            }
++            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_NX) {
++                update_mask |= MSR_EFER_NXE;
++            }
++            if (env->features[FEAT_8000_0001_ECX] & CPUID_EXT3_SVM) {
++                update_mask |= MSR_EFER_SVME;
++            }
++            if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_FFXSR) {
++                update_mask |= MSR_EFER_FFXSR;
++            }
++            cpu_load_efer(env, (env->efer & ~update_mask) |
++                          (val & update_mask));
++        }
++        break;
++    case MSR_STAR:
++        env->star = val;
++        break;
++    case MSR_PAT:
++        env->pat = val;
++        break;
++    case MSR_IA32_PKRS:
++        if (val & 0xFFFFFFFF00000000ull) {
++            goto error;
++        }
++        env->pkrs = val;
++        tlb_flush(cs);
++        break;
++    case MSR_VM_HSAVE_PA:
++        env->vm_hsave = val;
++        break;
++#ifdef TARGET_X86_64
++    case MSR_LSTAR:
++        env->lstar = val;
++        break;
++    case MSR_CSTAR:
++        env->cstar = val;
++        break;
++    case MSR_FMASK:
++        env->fmask = val;
++        break;
++    case MSR_FSBASE:
++        env->segs[R_FS].base = val;
++        break;
++    case MSR_GSBASE:
++        env->segs[R_GS].base = val;
++        break;
++    case MSR_KERNELGSBASE:
++        env->kernelgsbase = val;
++        break;
++#endif
++    case MSR_MTRRphysBase(0):
++    case MSR_MTRRphysBase(1):
++    case MSR_MTRRphysBase(2):
++    case MSR_MTRRphysBase(3):
++    case MSR_MTRRphysBase(4):
++    case MSR_MTRRphysBase(5):
++    case MSR_MTRRphysBase(6):
++    case MSR_MTRRphysBase(7):
++        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
++                       MSR_MTRRphysBase(0)) / 2].base = val;
++        break;
++    case MSR_MTRRphysMask(0):
++    case MSR_MTRRphysMask(1):
++    case MSR_MTRRphysMask(2):
++    case MSR_MTRRphysMask(3):
++    case MSR_MTRRphysMask(4):
++    case MSR_MTRRphysMask(5):
++    case MSR_MTRRphysMask(6):
++    case MSR_MTRRphysMask(7):
++        env->mtrr_var[((uint32_t)env->regs[R_ECX] -
++                       MSR_MTRRphysMask(0)) / 2].mask = val;
++        break;
++    case MSR_MTRRfix64K_00000:
++        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
++                        MSR_MTRRfix64K_00000] = val;
++        break;
++    case MSR_MTRRfix16K_80000:
++    case MSR_MTRRfix16K_A0000:
++        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
++                        MSR_MTRRfix16K_80000 + 1] = val;
++        break;
++    case MSR_MTRRfix4K_C0000:
++    case MSR_MTRRfix4K_C8000:
++    case MSR_MTRRfix4K_D0000:
++    case MSR_MTRRfix4K_D8000:
++    case MSR_MTRRfix4K_E0000:
++    case MSR_MTRRfix4K_E8000:
++    case MSR_MTRRfix4K_F0000:
++    case MSR_MTRRfix4K_F8000:
++        env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
++                        MSR_MTRRfix4K_C0000 + 3] = val;
++        break;
++    case MSR_MTRRdefType:
++        env->mtrr_deftype = val;
++        break;
++    case MSR_MCG_STATUS:
++        env->mcg_status = val;
++        break;
++    case MSR_MCG_CTL:
++        if ((env->mcg_cap & MCG_CTL_P)
++            && (val == 0 || val == ~(uint64_t)0)) {
++            env->mcg_ctl = val;
++        }
++        break;
++    case MSR_TSC_AUX:
++        env->tsc_aux = val;
++        break;
++    case MSR_IA32_MISC_ENABLE:
++        env->msr_ia32_misc_enable = val;
++        break;
++    case MSR_IA32_BNDCFGS:
++        /* FIXME: #GP if reserved bits are set.  */
++        /* FIXME: Extend highest implemented bit of linear address.  */
++        env->msr_bndcfgs = val;
++        cpu_sync_bndcs_hflags(env);
++        break;
++    default:
++        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
++            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
++            (4 * env->mcg_cap & 0xff)) {
++            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
++            if ((offset & 0x3) != 0
++                || (val == 0 || val == ~(uint64_t)0)) {
++                env->mce_banks[offset] = val;
++            }
++            break;
++        }
++        /* XXX: exception? */
++        break;
++    }
++    return;
++error:
++    raise_exception_err_ra(env, EXCP0D_GPF, 0, GETPC());
++}
++
++void helper_rdmsr(CPUX86State *env)
++{
++    X86CPU *x86_cpu = env_archcpu(env);
++    uint64_t val;
++
++    cpu_svm_check_intercept_param(env, SVM_EXIT_MSR, 0, GETPC());
++
++    switch ((uint32_t)env->regs[R_ECX]) {
++    case MSR_IA32_SYSENTER_CS:
++        val = env->sysenter_cs;
++        break;
++    case MSR_IA32_SYSENTER_ESP:
++        val = env->sysenter_esp;
++        break;
++    case MSR_IA32_SYSENTER_EIP:
++        val = env->sysenter_eip;
++        break;
++    case MSR_IA32_APICBASE:
++        val = cpu_get_apic_base(env_archcpu(env)->apic_state);
++        break;
++    case MSR_EFER:
++        val = env->efer;
++        break;
++    case MSR_STAR:
++        val = env->star;
++        break;
++    case MSR_PAT:
++        val = env->pat;
++        break;
++    case MSR_IA32_PKRS:
++        val = env->pkrs;
++        break;
++    case MSR_VM_HSAVE_PA:
++        val = env->vm_hsave;
++        break;
++    case MSR_IA32_PERF_STATUS:
++        /* tsc_increment_by_tick */
++        val = 1000ULL;
++        /* CPU multiplier */
++        val |= (((uint64_t)4ULL) << 40);
++        break;
++#ifdef TARGET_X86_64
++    case MSR_LSTAR:
++        val = env->lstar;
++        break;
++    case MSR_CSTAR:
++        val = env->cstar;
++        break;
++    case MSR_FMASK:
++        val = env->fmask;
++        break;
++    case MSR_FSBASE:
++        val = env->segs[R_FS].base;
++        break;
++    case MSR_GSBASE:
++        val = env->segs[R_GS].base;
++        break;
++    case MSR_KERNELGSBASE:
++        val = env->kernelgsbase;
++        break;
++    case MSR_TSC_AUX:
++        val = env->tsc_aux;
++        break;
++#endif
++    case MSR_SMI_COUNT:
++        val = env->msr_smi_count;
++        break;
++    case MSR_MTRRphysBase(0):
++    case MSR_MTRRphysBase(1):
++    case MSR_MTRRphysBase(2):
++    case MSR_MTRRphysBase(3):
++    case MSR_MTRRphysBase(4):
++    case MSR_MTRRphysBase(5):
++    case MSR_MTRRphysBase(6):
++    case MSR_MTRRphysBase(7):
++        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
++                             MSR_MTRRphysBase(0)) / 2].base;
++        break;
++    case MSR_MTRRphysMask(0):
++    case MSR_MTRRphysMask(1):
++    case MSR_MTRRphysMask(2):
++    case MSR_MTRRphysMask(3):
++    case MSR_MTRRphysMask(4):
++    case MSR_MTRRphysMask(5):
++    case MSR_MTRRphysMask(6):
++    case MSR_MTRRphysMask(7):
++        val = env->mtrr_var[((uint32_t)env->regs[R_ECX] -
++                             MSR_MTRRphysMask(0)) / 2].mask;
++        break;
++    case MSR_MTRRfix64K_00000:
++        val = env->mtrr_fixed[0];
++        break;
++    case MSR_MTRRfix16K_80000:
++    case MSR_MTRRfix16K_A0000:
++        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
++                              MSR_MTRRfix16K_80000 + 1];
++        break;
++    case MSR_MTRRfix4K_C0000:
++    case MSR_MTRRfix4K_C8000:
++    case MSR_MTRRfix4K_D0000:
++    case MSR_MTRRfix4K_D8000:
++    case MSR_MTRRfix4K_E0000:
++    case MSR_MTRRfix4K_E8000:
++    case MSR_MTRRfix4K_F0000:
++    case MSR_MTRRfix4K_F8000:
++        val = env->mtrr_fixed[(uint32_t)env->regs[R_ECX] -
++                              MSR_MTRRfix4K_C0000 + 3];
++        break;
++    case MSR_MTRRdefType:
++        val = env->mtrr_deftype;
++        break;
++    case MSR_MTRRcap:
++        if (env->features[FEAT_1_EDX] & CPUID_MTRR) {
++            val = MSR_MTRRcap_VCNT | MSR_MTRRcap_FIXRANGE_SUPPORT |
++                MSR_MTRRcap_WC_SUPPORTED;
++        } else {
++            /* XXX: exception? */
++            val = 0;
++        }
++        break;
++    case MSR_MCG_CAP:
++        val = env->mcg_cap;
++        break;
++    case MSR_MCG_CTL:
++        if (env->mcg_cap & MCG_CTL_P) {
++            val = env->mcg_ctl;
++        } else {
++            val = 0;
++        }
++        break;
++    case MSR_MCG_STATUS:
++        val = env->mcg_status;
++        break;
++    case MSR_IA32_MISC_ENABLE:
++        val = env->msr_ia32_misc_enable;
++        break;
++    case MSR_IA32_BNDCFGS:
++        val = env->msr_bndcfgs;
++        break;
++     case MSR_IA32_UCODE_REV:
++        val = x86_cpu->ucode_rev;
++        break;
++    default:
++        if ((uint32_t)env->regs[R_ECX] >= MSR_MC0_CTL
++            && (uint32_t)env->regs[R_ECX] < MSR_MC0_CTL +
++            (4 * env->mcg_cap & 0xff)) {
++            uint32_t offset = (uint32_t)env->regs[R_ECX] - MSR_MC0_CTL;
++            val = env->mce_banks[offset];
++            break;
++        }
++        /* XXX: exception? */
++        val = 0;
++        break;
++    }
++    env->regs[R_EAX] = (uint32_t)(val);
++    env->regs[R_EDX] = (uint32_t)(val >> 32);
++}
+diff --git a/target/i386/tcg/user/misc_helper.c b/target/i386/tcg/user/misc_helper.c
+new file mode 100644
+index 0000000000..f5851c0389
+--- /dev/null
++++ b/target/i386/tcg/user/misc_helper.c
+@@ -0,0 +1,72 @@
++/*
++ *  x86 misc helpers
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
++ *
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/helper-proto.h"
++
++void helper_outb(CPUX86State *env, uint32_t port, uint32_t data)
++{
++    fprintf(stderr, "outb: port=0x%04x, data=%02x\n", port, data);
++}
++
++target_ulong helper_inb(CPUX86State *env, uint32_t port)
++{
++    fprintf(stderr, "inb: port=0x%04x\n", port);
++    return 0;
++}
++
++void helper_outw(CPUX86State *env, uint32_t port, uint32_t data)
++{
++    fprintf(stderr, "outw: port=0x%04x, data=%04x\n", port, data);
++}
++
++target_ulong helper_inw(CPUX86State *env, uint32_t port)
++{
++    fprintf(stderr, "inw: port=0x%04x\n", port);
++    return 0;
++}
++
++void helper_outl(CPUX86State *env, uint32_t port, uint32_t data)
++{
++    fprintf(stderr, "outl: port=0x%04x, data=%08x\n", port, data);
++}
++
++target_ulong helper_inl(CPUX86State *env, uint32_t port)
++{
++    fprintf(stderr, "inl: port=0x%04x\n", port);
++    return 0;
++}
++
++target_ulong helper_read_crN(CPUX86State *env, int reg)
++{
++    return 0;
++}
++
++void helper_write_crN(CPUX86State *env, int reg, target_ulong t0)
++{
++}
++
++void helper_wrmsr(CPUX86State *env)
++{
++}
++
++void helper_rdmsr(CPUX86State *env)
++{
++}
+diff --git a/target/i386/tcg/softmmu/meson.build b/target/i386/tcg/softmmu/meson.build
+index 1580950141..b2aaab6eef 100644
+--- a/target/i386/tcg/softmmu/meson.build
++++ b/target/i386/tcg/softmmu/meson.build
+@@ -3,4 +3,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
+   'smm_helper.c',
+   'excp_helper.c',
+   'bpt_helper.c',
++  'misc_helper.c',
+ ))
+diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
+index e0ef0f02e2..fb8cdc13ef 100644
+--- a/target/i386/tcg/user/meson.build
++++ b/target/i386/tcg/user/meson.build
+@@ -1,3 +1,4 @@
+ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
+   'excp_helper.c',
++  'misc_helper.c',
+ ))
+-- 
+2.26.2
+
 
