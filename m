@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9786631CC03
+	by mail.lfdr.de (Postfix) with ESMTPS id 940D031CC02
 	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:35:02 +0100 (CET)
-Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1RN-00021H-Jr
+	id 1lC1RN-00021s-Mu
 	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:35:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1lC1NB-0007bT-RJ
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:30:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40255)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
- id 1lC1NA-0002at-5P
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:30:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613485839;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=daHCBPHAMcAhIS4g+K0dvPUAvZiM0Q5MFRDnccFRnY8=;
- b=LmT+f/guYXSO9JL7l+vcDKUgBS5Bw+O4AYK6bPl5AQyk8v25Bgwet58/3aBp7R6jRgMMaE
- +iOAQl+YCDIWjlciUrgt/hD/udfKu8VGHx9zzf11vHm3q+NVor4/+ryLONgmKxQKUKSPPP
- CY/7l5upw0dzLymDoIxgtD4vjsFIgOo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-SJJDrMIqNoCcMUIYTvxyNA-1; Tue, 16 Feb 2021 09:30:36 -0500
-X-MC-Unique: SJJDrMIqNoCcMUIYTvxyNA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2D2C100961D;
- Tue, 16 Feb 2021 14:30:35 +0000 (UTC)
-Received: from angien.pipo.sk (unknown [10.40.208.53])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AFE4722CD;
- Tue, 16 Feb 2021 14:30:30 +0000 (UTC)
-Date: Tue, 16 Feb 2021 15:30:27 +0100
-From: Peter Krempa <pkrempa@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH] qga: return a more explicit error on why a command is
- disabled
-Message-ID: <20210216143027.GL2875719@angien.pipo.sk>
-References: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC1Pk-0000m1-2e
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:33:20 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:43502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC1Pc-0002j0-Mc
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:33:19 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id r17so5825712edy.10
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 06:33:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=rCtlas9S5tZJybDXLJFNv32Kg8+xEWOKSarfTFDVFY8=;
+ b=P0S+LjetSsH8ujGe2x2nqlPGal69cTLCdvdp1lCINjfMfWJu0Fy21pyCQbIrpiIlNz
+ 0G3bFL3GBGsUN233lT2E/feRkFtJFeJ6Y89KP9HnQT+LXyXVQlH6eOdBmR2r3I5dOgT4
+ +QONWd/6w+/p/s6BZ58wCV/l0E1Ob/MeAxVgNHOuLAuy2bpUx/hozSkz6SEEWPKAGzG1
+ K2uLaYO5kALtSnHBpIttkU2BtE7je35zF+LjH12Noj8C0DPNqZVP8TyqsF6qfZy8fbBQ
+ xzPukRPTWuH8c57PZT7nfjUEOk6Dw5nZdV7xfDUXbXw/V7Bqg4GFlxK8bsgaxfe0hXH2
+ FWNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=rCtlas9S5tZJybDXLJFNv32Kg8+xEWOKSarfTFDVFY8=;
+ b=iRMvgwxhKl1L7wzKPup/1qoqGvtJE/bFSY9Eg+ZpdEobw2f+iUG60srnR4gbWYDcHE
+ 5IsK3jPsGQP9W31j2VWXbly8NZBz3w/yxBdVEaDPVbXmYmFfY60nM3EPkfumNiK26eN1
+ 8AXv1/4AwY+3MzbWWhIFqZq7u0+XWUJKe0D2zAdcu2BE9ctbLOuY8XPM5C4kP1kj25Fr
+ vOeB3+PIv24Wo69DbzLyQu47Av87voUjBUCvSgDypkFXx4UdX4BWfiVc4jsxAAtG3tVk
+ 7M5UyDAbc2mN4mgu6UNcbxDrOnCFahskuPXX4ZdUM3WJtMIr4RzJ956fO0NqvIMyITOp
+ 77PQ==
+X-Gm-Message-State: AOAM531Ox8EiI+qAODIRtHgkeKSxt53Cbkk9N5Wh75soaNEzOgu+9Uer
+ 65HfBnqrJDBuXiFRUYevGeawLcko0771BKTu17uXAg==
+X-Google-Smtp-Source: ABdhPJy2Z8+5O6XedSWwGKnIcyzG7TPmXLakFRemzlsQA8XXca2GBOT1nc4nBhIiGvsgR++nz/WafSntj6+tZnSUBIw=
+X-Received: by 2002:a50:9e01:: with SMTP id z1mr21040803ede.44.1613485990813; 
+ Tue, 16 Feb 2021 06:33:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pkrempa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210216110056.1228582-1-thuth@redhat.com>
+ <20210216124757.4eb664e9.cohuck@redhat.com>
+ <a561530e-d800-67e0-ee2b-fea6efb4638c@redhat.com>
+ <20210216153003.16b05725.cohuck@redhat.com>
+In-Reply-To: <20210216153003.16b05725.cohuck@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Feb 2021 14:32:59 +0000
+Message-ID: <CAFEAcA-B1pXNs8X+mha3x9Ynt83dkmC9sL_XGtextCD3qDXeAQ@mail.gmail.com>
+Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
+To: Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,70 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-s390x <qemu-s390x@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 16, 2021 at 17:38:37 +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> qmp_disable_command() now takes an optional error string to return a
-> more explicit error message.
-> 
-> Fixes:
-> https://bugzilla.redhat.com/show_bug.cgi?id=1928806
-> 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/qapi/qmp/dispatch.h | 3 ++-
->  qapi/qmp-dispatch.c         | 2 +-
->  qapi/qmp-registry.c         | 9 +++++----
->  qga/main.c                  | 4 ++--
->  4 files changed, 10 insertions(+), 8 deletions(-)
+On Tue, 16 Feb 2021 at 14:30, Cornelia Huck <cohuck@redhat.com> wrote:
+> Step 4 in "2.7.13 Supplying Buffers to The Device":
+>
+> "The driver performs a suitable memory barrier to ensure the device
+> sees the updated descriptor table and available ring before the next
+> step."
 
-[...]
+I thought that my first time through the spec as well, but
+I think the whole of section 2.7 is dealing with "packed virtqueues",
+which have to be explicitly negotiated and which I don't think
+the s390-ccw code is doing.
 
-> diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-> index 0a2b20a4e4..ce4bf56b2c 100644
-> --- a/qapi/qmp-dispatch.c
-> +++ b/qapi/qmp-dispatch.c
-> @@ -157,7 +157,7 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
->      }
->      if (!cmd->enabled) {
->          error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-> -                  "The command %s has been disabled for this instance",
-> +                  cmd->err_msg ?: "The command %s has been disabled for this instance",
-
-Passing in the formatting string from a variable looks shady and it's
-hard to ensure that callers pass in the appropriate format modifier ...
-
->                    command);
->          goto out;
->      }
-
-[...]
-
-> diff --git a/qga/main.c b/qga/main.c
-> index e7f8f3b161..c59b610691 100644
-> --- a/qga/main.c
-> +++ b/qga/main.c
-> @@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
->      }
->      if (!whitelisted) {
->          g_debug("disabling command: %s", name);
-> -        qmp_disable_command(&ga_commands, name);
-> +        qmp_disable_command(&ga_commands, name, "The command was disabled after fsfreeze.");
-
-... such as here where '%s' is missing. Luckily that is not a problem
-compared to when there would be more than one format modifier.
-
-But the error message looks definitely better.
-
->      }
->  }
-
-My suggestion would be to store a boolean flag that the command was
-disabled due to an ongoing fsfreeze and then choose the appropriate
-error message directly at the point where it's reported.
-
+thnaks
+-- PMM
 
