@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AB5531C619
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 06:00:21 +0100 (CET)
-Received: from localhost ([::1]:43122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A141B31C615
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 05:58:39 +0100 (CET)
+Received: from localhost ([::1]:35928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBsTE-0002A7-A1
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 00:00:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45164)
+	id 1lBsRa-0007iz-Ly
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 23:58:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBsQO-0006Aj-PK
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 23:57:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57666)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBsQN-000696-BZ
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 23:57:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26982)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBsQL-0007lB-F8
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 23:57:24 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBsQL-0007lX-Gb
+ for qemu-devel@nongnu.org; Mon, 15 Feb 2021 23:57:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1613451440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=70mW4G+SJUfIbeNJ7LUC7z3l6yu13FjxjvsOiv05Dvk=;
- b=hbKf2I9MX1l9lEO4cyPAxJyRi7xpOQAy8Pli2aDAZbvES4F0MKkr9ced6dYPPuNPe26iOh
- kYJCSoD3oQ16UqY3QCMRFscU/rpg7c+j1IyGZ5fOKXrcs/3BIOSvjLOJBHqo42goSmEQAd
- mbllyuHfrWacP8KgW/HpOpjLG5uMSRs=
+ bh=FEWS1m/vgfkM9TwFeLdNOe19IoEc1Df3xEFtS/xlU/s=;
+ b=h/+e0VKTWicu090XPRkd1hJcFoZHz9NAL7cUuqpQYKZXSk4Zu5ziCC60q38IvV2ASsEotd
+ /WyhuXy4zUShcTr9eZ7BdWCgoZOf71c5XUclEPmWiBriJLFSWP4bQtcBJehomrWfn0m4+s
+ wMpQvSvK8u1aPkttYNemgixa6bgkdEc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-236-PD0g67IfM7SsbGMVAG2K1A-1; Mon, 15 Feb 2021 23:57:17 -0500
-X-MC-Unique: PD0g67IfM7SsbGMVAG2K1A-1
+ us-mta-518-VRYHR1ZDMaW1li7RkBLabg-1; Mon, 15 Feb 2021 23:57:18 -0500
+X-MC-Unique: VRYHR1ZDMaW1li7RkBLabg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 449A26EE28;
- Tue, 16 Feb 2021 04:57:16 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE8C31005501;
+ Tue, 16 Feb 2021 04:57:17 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-129.rdu2.redhat.com
  [10.10.112.129])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C14F51F0;
- Tue, 16 Feb 2021 04:57:11 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5092D1F0;
+ Tue, 16 Feb 2021 04:57:16 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/9] Acceptance Tests: bump Avocado version requirement to 85.0
-Date: Mon, 15 Feb 2021 23:56:57 -0500
-Message-Id: <20210216045705.9590-2-crosa@redhat.com>
+Subject: [PULL 2/9] virtiofs_submounts.py test: Note on vmlinuz param
+Date: Mon, 15 Feb 2021 23:56:58 -0500
+Message-Id: <20210216045705.9590-3-crosa@redhat.com>
 In-Reply-To: <20210216045705.9590-1-crosa@redhat.com>
 References: <20210216045705.9590-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -78,45 +78,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Beraldo Leal <bleal@redhat.com>,
+Cc: Willian Rampazzo <willianr@redhat.com>, Beraldo Leal <bleal@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>
+ Max Reitz <mreitz@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ John Snow <jsnow@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This version (and 84.0) contain improvements that address specific
-QEMU use cases, including:
+From: Max Reitz <mreitz@redhat.com>
 
- * Being able to download and use Fedora 31 images and thus
-   re-activate the "boot_linux.py" tests
+From the cancel message, it is not entirely clear why this parameter is
+mandatory now, or that it will be optional in the future.  Add such a
+more detailed explanation as a comment in the test source file.
 
- * Being able to register local assets via "avocado assets register"
-   and use them in tests
-
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Message-Id: <20210211232835.2608059-2-crosa@redhat.com>
-Acked-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Suggested-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20210212151649.252440-1-mreitz@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/requirements.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/acceptance/virtiofs_submounts.py | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 62e8ffd28c2..91f3a343b95 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -1,5 +1,5 @@
- # Add Python module requirements, one per line, to be installed
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
--avocado-framework==83.0
-+avocado-framework==85.0
- pycdlib==1.11.0
+diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/virtiofs_submounts.py
+index 949ca87a837..9a69b6b17bc 100644
+--- a/tests/acceptance/virtiofs_submounts.py
++++ b/tests/acceptance/virtiofs_submounts.py
+@@ -228,6 +228,18 @@ def live_cleanup(self):
+     def setUp(self):
+         vmlinuz = self.params.get('vmlinuz')
+         if vmlinuz is None:
++            """
++            The Linux kernel supports FUSE auto-submounts only as of 5.10.
++            boot_linux.py currently provides Fedora 31, whose kernel is too
++            old, so this test cannot pass with the on-image kernel (you are
++            welcome to try, hence the option to force such a test with
++            -p vmlinuz='').  Therefore, for now the user must provide a
++            sufficiently new custom kernel, or effectively explicitly
++            request failure with -p vmlinuz=''.
++            Once an image with a sufficiently new kernel is available
++            (probably Fedora 34), we can make -p vmlinuz='' the default, so
++            that this parameter no longer needs to be specified.
++            """
+             self.cancel('vmlinuz parameter not set; you must point it to a '
+                         'Linux kernel binary to test (to run this test with ' \
+                         'the on-image kernel, set it to an empty string)')
 -- 
 2.26.2
 
