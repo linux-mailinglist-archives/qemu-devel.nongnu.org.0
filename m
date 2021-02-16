@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D0F631C5E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 04:49:52 +0100 (CET)
-Received: from localhost ([::1]:42466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3A1631C5E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 04:52:33 +0100 (CET)
+Received: from localhost ([::1]:52424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBrN1-00038I-83
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 22:49:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34072)
+	id 1lBrPc-0007ER-Qa
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 22:52:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBrKp-0001Qf-BS; Mon, 15 Feb 2021 22:47:35 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:39531)
+ id 1lBrKu-0001eb-PL; Mon, 15 Feb 2021 22:47:40 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:42142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lBrKn-0002eQ-Mq; Mon, 15 Feb 2021 22:47:35 -0500
-Received: by mail-ed1-x535.google.com with SMTP id h10so5831617edl.6;
- Mon, 15 Feb 2021 19:47:32 -0800 (PST)
+ id 1lBrKt-0002hg-93; Mon, 15 Feb 2021 22:47:40 -0500
+Received: by mail-ed1-x535.google.com with SMTP id z22so10498395edb.9;
+ Mon, 15 Feb 2021 19:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=BDo04eiVdRpSfmb3nBH2DvGZY71bds0sndzN9THAQNs=;
- b=sQ+1aOYeBDt7smtQpThd/jtSahXt733c/CvTNIXKR8C+gAO8O88QNShMckJe/Ey5N8
- 2pkhplfbRTGM7FbpZU3LfsMWH73CtRXwP48TIH675lzNBihmgnf/hIc+5rsn2PRV6cml
- d5STP7/iDwslbpVkgqMEuvOV1x+n1mHpFFGeXxsGCzh+M58g20wihtxKx/GMxQ8/+JXy
- W99MwW9Ujq/TALT+M8BvpT1T++CR039Ccfuw8sZepwZw1vHIdYUtU5lAs3X51rI0y/KJ
- +fc2ThQuUKIyrBnqfheq9VCwtCT26gEGS3wcG32gAOXHNZhrHMDxO+D5/6Flk7uhKdoa
- 0vDQ==
+ bh=CJO8DxU1QoLsfU9lugfwUF5MGKH2/AMCsBzzgg9qF94=;
+ b=MlUMCNBpEbTJEh6Nji3441OXFEQffD+WQnVlEzYWqWAIpU/YO5U3dxE210GvMziwAm
+ O8ULfd8aezzZWEo6hVq4GABupx8LlFFc1n3niJquT+97084E+E20ulUCjeSY5keSzeXZ
+ yaNasKpCFerm83npaqnTukr8sIecai0AJTRkhMWR3X7bc3seLj3MyjaCk4mUqxJLqhqt
+ jXLqqpZJ2fwy2cHmcAnHUoNIKrulD0JO9Eu+PtSnaWFj+ewBQKprwWgfgnyY/pdkTGo3
+ EUIa3Fj+Bc+QO5aq6yGBMp2UjdcXmMolKe5uf+B9Zh4ZyPFbMEsoHV0Uv7RykzC8oern
+ kJGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=BDo04eiVdRpSfmb3nBH2DvGZY71bds0sndzN9THAQNs=;
- b=VBIO9lXEK9zKy+zcmrMPBs9aUidugWv4DhUc2Yyc8PUqDw1yp1DIg158lGI9bUI/Zq
- mgEEiLqtzCjDRN5G4jvYt0epR0RIXEA4OekdmUiPwvYR49KVxdwUQNIsZ4EGvYRPnXDw
- 8gZMx6u/UoeSbKOdbUE7NAtySCEO/scNDzcKVMfAtfJpml0jJkJ1vyLa0wttC3mAlltc
- 33WP5SStaF27ZHOKuWFxhlZrHggnz5Ml/QrwLnrehWn3zeQ2b36faMz6NV9VPLpAlOCf
- tPMndYbmHSraKvzXPDJ/5Hd19Tt6sq0xp1HbPljIF7k/gxSZZJFvNXIDEEqaMvR8PO01
- LOZA==
-X-Gm-Message-State: AOAM531Hdx5QxzmEq12j1xVo4WUhQlVMakOvZrvx7KtFlefP7apSckf0
- J8+dfC0ZrR3ovc5Yt0uKWcg=
-X-Google-Smtp-Source: ABdhPJwp0KtsKaiV9w1lTB9eOotq7hEaeHlowNxRE3GBJuLAilIVZZYIbJQTyJ5X9Xs74rZjjJYdOQ==
-X-Received: by 2002:a50:be8b:: with SMTP id b11mr13147102edk.145.1613447251804; 
- Mon, 15 Feb 2021 19:47:31 -0800 (PST)
+ bh=CJO8DxU1QoLsfU9lugfwUF5MGKH2/AMCsBzzgg9qF94=;
+ b=s8lzGk/eT65/JRX3z3YofrfLUULRwy0bKvdbRPB2ZFibYwCIDYvFEIVSePeJ/M10dP
+ oNY/ShmqDBJlE7IzrwcDBxzmnM2xG9b6CYatwoYbIBKZOcyHoZUQJ+v42P/0ZF3Q1qxW
+ TeJgauz5Dhu+9KaYI3Q8T+wTT2wSJqamfBrQ1TmZbtmLHSMVySMZh1UWNUlwiZd05ub0
+ Mr9yIfq1MngWtdBaQRl49NMGtirsTXX5TqoorvpOluGiIxwhkpmJqjQQMbkplIUNi6YH
+ QHEBqkl65lH2V+2TAaBcm1e+HaHUFQ0WcdY75GHs3Ih7YMdg8o9WC1m6SpxhHM36vaWC
+ wgvA==
+X-Gm-Message-State: AOAM533jJTSgw44C4hchffbHAuvNytQjwz0Crxryl6tAQiDb+rFsTbcD
+ Nvwbg+2x+sUjN65ZhnNzrlYa+nvEbhc=
+X-Google-Smtp-Source: ABdhPJzUSUIFVWwsahW2Br/tDkOMgYHFJyB/iqtRxS9gvrrZdMEfuT06GjI6m5ynwMWbA/9snM6E8g==
+X-Received: by 2002:aa7:c0da:: with SMTP id j26mr18772464edp.253.1613447257375; 
+ Mon, 15 Feb 2021 19:47:37 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com
  (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id z19sm12837866edr.69.2021.02.15.19.47.26
+ by smtp.gmail.com with ESMTPSA id z19sm12837866edr.69.2021.02.15.19.47.32
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 15 Feb 2021 19:47:31 -0800 (PST)
+ Mon, 15 Feb 2021 19:47:37 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Mauro Matteo Cascella <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
  Alexander Bulekov <alxndr@bu.edu>,
  Alistair Francis <alistair.francis@wdc.com>,
  Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
-Subject: [PATCH v2 4/6] hw/sd: sdhci: Simplify updating s->prnsts in
- sdhci_sdma_transfer_multi_blocks()
-Date: Tue, 16 Feb 2021 11:46:52 +0800
-Message-Id: <1613447214-81951-5-git-send-email-bmeng.cn@gmail.com>
+Subject: [PATCH v2 5/6] hw/sd: sdhci: Limit block size only when SDHC_BLKSIZE
+ register is writable
+Date: Tue, 16 Feb 2021 11:46:53 +0800
+Message-Id: <1613447214-81951-6-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
 References: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
@@ -87,43 +87,46 @@ Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-s->prnsts is updated in both branches of the if () else () statement.
-Move the common bits outside so that it is cleaner.
+The codes to limit the maximum block size is only necessary when
+SDHC_BLKSIZE register is writable.
 
 Signed-off-by: Bin Meng <bmeng.cn@gmail.com>
+
 ---
 
-(no changes since v1)
+Changes in v2:
+- new patch: sdhci: Limit block size only when SDHC_BLKSIZE register is writable
 
- hw/sd/sdhci.c | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
+ hw/sd/sdhci.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
-index 0b0ca6f..7a2003b 100644
+index 7a2003b..d0c8e29 100644
 --- a/hw/sd/sdhci.c
 +++ b/hw/sd/sdhci.c
-@@ -598,9 +598,9 @@ static void sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
-         page_aligned = true;
-     }
+@@ -1142,15 +1142,15 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t val, unsigned size)
+         if (!TRANSFERRING_DATA(s->prnsts)) {
+             MASKED_WRITE(s->blksize, mask, extract32(value, 0, 12));
+             MASKED_WRITE(s->blkcnt, mask >> 16, value >> 16);
+-        }
  
-+    s->prnsts |= SDHC_DATA_INHIBIT | SDHC_DAT_LINE_ACTIVE;
-     if (s->trnmod & SDHC_TRNS_READ) {
--        s->prnsts |= SDHC_DOING_READ | SDHC_DATA_INHIBIT |
--                SDHC_DAT_LINE_ACTIVE;
-+        s->prnsts |= SDHC_DOING_READ;
-         while (s->blkcnt) {
-             if (s->data_count == 0) {
-                 sdbus_read_data(&s->sdbus, s->fifo_buffer, block_size);
-@@ -627,8 +627,7 @@ static void sdhci_sdma_transfer_multi_blocks(SDHCIState *s)
-             }
+-        /* Limit block size to the maximum buffer size */
+-        if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
+-            qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than "
+-                          "the maximum buffer 0x%x\n", __func__, s->blksize,
+-                          s->buf_maxsz);
++            /* Limit block size to the maximum buffer size */
++            if (extract32(s->blksize, 0, 12) > s->buf_maxsz) {
++                qemu_log_mask(LOG_GUEST_ERROR, "%s: Size 0x%x is larger than "
++                              "the maximum buffer 0x%x\n", __func__, s->blksize,
++                              s->buf_maxsz);
+ 
+-            s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
++                s->blksize = deposit32(s->blksize, 0, 12, s->buf_maxsz);
++            }
          }
-     } else {
--        s->prnsts |= SDHC_DOING_WRITE | SDHC_DATA_INHIBIT |
--                SDHC_DAT_LINE_ACTIVE;
-+        s->prnsts |= SDHC_DOING_WRITE;
-         while (s->blkcnt) {
-             begin = s->data_count;
-             if (((boundary_count + begin) < block_size) && page_aligned) {
+ 
+         break;
 -- 
 2.7.4
 
