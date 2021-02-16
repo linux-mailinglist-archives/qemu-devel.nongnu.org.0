@@ -2,46 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F7AC31CA84
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 13:22:58 +0100 (CET)
-Received: from localhost ([::1]:42404 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E116531CA85
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 13:24:21 +0100 (CET)
+Received: from localhost ([::1]:45138 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBzNY-0004fL-N0
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 07:22:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48476)
+	id 1lBzOu-0005tO-VI
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 07:24:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48704)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <macro@orcam.me.uk>) id 1lBzMK-0003ln-D9
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 07:21:40 -0500
-Received: from angie.orcam.me.uk ([2001:4190:8020::4]:44296)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <macro@orcam.me.uk>) id 1lBzMI-0006JR-9Z
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 07:21:40 -0500
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
- id 57F6092009D; Tue, 16 Feb 2021 13:21:34 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by angie.orcam.me.uk (Postfix) with ESMTP id 51A2392009C;
- Tue, 16 Feb 2021 13:21:34 +0100 (CET)
-Date: Tue, 16 Feb 2021 13:21:34 +0100 (CET)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: Fredrik Noring <noring@nocrew.org>
-Subject: Re: [RFC PATCH 28/42] target/mips/tx79: Move RDHWR usermode kludge
- to trans_SQ()
-In-Reply-To: <YCtu1czHMjeixsj+@sx9>
-Message-ID: <alpine.DEB.2.21.2102161244430.1521@angie.orcam.me.uk>
-References: <20210214175912.732946-1-f4bug@amsat.org>
- <20210214175912.732946-29-f4bug@amsat.org>
- <d47d5ab7-9663-8647-483f-878e0bcb3bbe@linaro.org> <YCtu1czHMjeixsj+@sx9>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lBzNb-0005Ip-DB
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 07:22:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29594)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lBzNY-0006q7-VO
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 07:22:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613478174;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rIrYnqA45fbMO/a0qhPxwQuQVIvgdY5GCAzB1nObFd0=;
+ b=hTZ6PWj9FmFWruu4EIbuAi7ir07G+Razdxd4bIGuTnFir4aI5KAjojLlHWqw49F5JHvJDe
+ p8jD4PSI18S+8qtSuVcyfLI76WVI5k8AR9NJROzxGIiyPJ4tct230UWvfri/1PPfMmCuZo
+ MhurxJdtbSMd2nFzeOfJJFThV+8fjhU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-SV9LISWsMyKV-PlmnJ_XOQ-1; Tue, 16 Feb 2021 07:22:53 -0500
+X-MC-Unique: SV9LISWsMyKV-PlmnJ_XOQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 87BE8EC1A1
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 12:22:52 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-114-100.ams2.redhat.com
+ [10.36.114.100])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31B3E10016F0;
+ Tue, 16 Feb 2021 12:22:52 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id B5C79113865F; Tue, 16 Feb 2021 13:22:50 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 3/6] qapi: Simplify full_name_nth() in
+ qobject-input-visitor
+References: <20210211183118.422036-1-kwolf@redhat.com>
+ <20210211183118.422036-4-kwolf@redhat.com>
+Date: Tue, 16 Feb 2021 13:22:50 +0100
+In-Reply-To: <20210211183118.422036-4-kwolf@redhat.com> (Kevin Wolf's message
+ of "Thu, 11 Feb 2021 19:31:15 +0100")
+Message-ID: <87czx0urqd.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: none client-ip=2001:4190:8020::4; envelope-from=macro@orcam.me.uk;
- helo=angie.orcam.me.uk
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,116 +81,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021, Fredrik Noring wrote:
+Kevin Wolf <kwolf@redhat.com> writes:
 
-> > Not that it's odd (the final address is masked, remember), but that it a store
-> > to an address in the zero page.
-> 
-> The address always resolves to 0xffffe83b (then masked) in 32-bit KSEG2,
-> because rt is always $3 and rd is always $29 so -6085(zero), hence the
-> last page (which is much better) rather than the first, as Maciej
-> discovered:
-> 
-> https://patchwork.kernel.org/comment/23824173/
-> 
-> Other possible RDHWR encodings are no longer used, and can therefore be
-> ignored and revert to SQ:
-> 
-> https://patchwork.kernel.org/comment/23842167/
+> Instead of counting how many elements from the top of the stack we need
+> to ignore until we find the thing we're interested in, we can just
+> directly pass the StackObject pointer because all callers already know
+> it.
+>
+> We only need a different way now to tell if we want to know the name of
+> something contained in the given StackObject or of the StackObject
+> itself. Passing name = NULL is the obvious way to request the latter.
 
- Or rather were never used in the general case (I can't rule out someone 
-using that stuff for something, but I wouldn't call it supported; I used 
-some of it internally while evaluating the speed of RDHWR emulation before 
-the use of $3 or indeed RDHWR was settled in the TLS psABI, though the 
-actual code that ultimately went into Linux was developed independently).
+Is the last sentence still accurate?
 
-> > I would do this as
-> > 
-> > {
-> >   RDHWR_user  011111 00000 ..... ..... 00000 111011   @rd_rt
-> >   SQ          011111 ..... ..... ................     @ldst
-> > }
-> 
-> Both rd and rt have fixed values, as mentioned.
+> This simplifies the interface and makes it easier to use in cases where
+> we have the StackObject, but don't know how many steps down the stack it
+> is.
 
- I would suggest actually supporting variable `rt', see below.  Would it 
-be a problem?
+No such case exists, but the next patch adds one.  Correct?
 
-> For reference, RDHWR is currently done like this in the Linux kernel:
-> 
-> 	if (IS_ENABLED(CONFIG_CPU_R5900)) {
-> 		/*
-> 		 * On the R5900, a valid RDHWR instruction
-> 		 *
-> 		 *     +--------+-------+----+----+-------+--------+
-> 		 *     | 011111 | 00000 | rt | rd | 00000 | 111011 |
-> 		 *     +--------+-------+----+----+-------+--------+
-> 		 *          6       5      5    5     5        6
-> 		 *
-> 		 * having rt $3 (v1) and rd $29 (MIPS_HWR_ULR) is
-> 		 * interpreted as the R5900 specific SQ instruction
-> 		 *
-> 		 *     +--------+-------+----+---------------------+
-> 		 *     | 011111 |  base | rt |        offset       |
-> 		 *     +--------+-------+----+---------------------+
-> 		 *          6       5      5            16
-> 		 *
-> 		 * with
-> 		 *
-> 		 *     sq v1,-6085(zero)
-> 		 *
-> 		 * that asserts an address exception since -6085(zero)
-> 		 * always resolves to 0xffffe83b in 32-bit KSEG2.
-> 		 *
-> 		 * Other legacy values of rd, such as MIPS_HWR_CPUNUM,
-> 		 * are ignored.
-> 		 */
-> 		if (insn.r_format.func == rdhwr_op &&
-> 		    insn.r_format.rd == MIPS_HWR_ULR &&
-> 		    insn.r_format.rt == 3 &&
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> ---
+>  qapi/qobject-input-visitor.c | 43 ++++++++++++++++++++----------------
+>  1 file changed, 24 insertions(+), 19 deletions(-)
+>
+> diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
+> index aa95cd49bd..dd04ef0027 100644
+> --- a/qapi/qobject-input-visitor.c
+> +++ b/qapi/qobject-input-visitor.c
+> @@ -108,20 +108,20 @@ static QObjectInputVisitor *to_qiv(Visitor *v)
+>  }
+>  
+>  /*
+> - * Find the full name of something @qiv is currently visiting.
+> - * @qiv is visiting something named @name in the stack of containers
+> - * @qiv->stack.
+> - * If @n is zero, return its full name.
+> - * If @n is positive, return the full name of the @n-th container
+> - * counting from the top.  The stack of containers must have at least
+> - * @n elements.
+> - * The returned string is valid until the next full_name_nth(@v) or
+> - * destruction of @v.
+> + * Find the full name of a member in @so which @qiv is currently
+> + * visiting.  If the currently visited thing is an object, @name is
+> + * the (local) name of the member to describe.  If it is a list, @name
+> + * is ignored and the current index (so->index) is included.
+> + *
+> + * If @skip_member is true, find the full name of @so itself instead.
+> + * @name must be NULL then.
+> + *
+> + * The returned string is valid until the next full_name_so(@qiv) or
+> + * destruction of @qiv.
+>   */
+> -static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+> -                                 int n)
+> +static const char *full_name_so(QObjectInputVisitor *qiv, const char *name,
+> +                                bool skip_member, StackObject *so)
+>  {
+> -    StackObject *so;
+>      char buf[32];
+>  
+>      if (qiv->errname) {
+> @@ -130,10 +130,14 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+>          qiv->errname = g_string_new("");
+>      }
+>  
+> -    QSLIST_FOREACH(so , &qiv->stack, node) {
+> -        if (n) {
+> -            n--;
+> -        } else if (qobject_type(so->obj) == QTYPE_QDICT) {
+> +    if (skip_member && so) {
+> +        assert(name == NULL);
+> +        name = so->name;
+> +        so = QSLIST_NEXT(so, node);
+> +    }
+> +
+> +    for (; so; so = QSLIST_NEXT(so, node)) {
+> +        if (qobject_type(so->obj) == QTYPE_QDICT) {
+>              g_string_prepend(qiv->errname, name ?: "<anonymous>");
+>              g_string_prepend_c(qiv->errname, '.');
+>          } else {
+> @@ -144,7 +148,6 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+>          }
+>          name = so->name;
+>      }
+> -    assert(!n);
+>  
+>      if (name) {
+>          g_string_prepend(qiv->errname, name);
+> @@ -159,7 +162,9 @@ static const char *full_name_nth(QObjectInputVisitor *qiv, const char *name,
+>  
+>  static const char *full_name(QObjectInputVisitor *qiv, const char *name)
+>  {
+> -    return full_name_nth(qiv, name, 0);
+> +    StackObject *tos = QSLIST_FIRST(&qiv->stack);
+> +
+> +    return full_name_so(qiv, name, false, tos);
+>  }
+>  
+>  static QObject *qobject_input_try_get_object(QObjectInputVisitor *qiv,
+> @@ -503,7 +508,7 @@ static bool qobject_input_check_list(Visitor *v, Error **errp)
+>  
+>      if (tos->entry) {
+>          error_setg(errp, "Only %u list elements expected in %s",
+> -                   tos->index + 1, full_name_nth(qiv, NULL, 1));
+> +                   tos->index + 1, full_name_so(qiv, NULL, true, tos));
+>          return false;
+>      }
+>      return true;
 
- I suggest leaving the `rt' check out for consistency, as changing the 
-register to read the value of UserLocal into from psABI-mandated $3 does 
-not cause any issue with the R5900 (the `rt' field overlaps between both 
-machine instructions, so the encoding placed there does not affect the 
-KSEG2 access trap caused) and those encodings are also emulated in the 
-slow path for other legacy ISA CPUs:
-
-	case MIPS_HWR_ULR:		/* Read UserLocal register */
-		regs->regs[rt] = ti->tp_value;
-		return 0;
-
-
- So e.g. `rdhwr $25, $29' is interpreted as `sq $25,-6085($0)' by the 
-R5900 => no issue, it still traps.
-
- I know I have previously written that we can ignore `rt' encodings other 
-than $3, but they are harmless and handling them saves a couple of machine 
-instructions needed to make the check, so I think while we can, we do not 
-actually have to ignore them.
-
-> 		    insn.r_format.rs == 0 &&
-> 		    insn.r_format.re == 0) {
-> 			if (compute_return_epc(regs) < 0 ||
-> 			    simulate_rdhwr(regs, insn.r_format.rd,
-> 					   insn.r_format.rt) < 0)
-> 				goto sigill;
-> 			return;
-> 		}
-> 		goto sigbus;
-> 	} else ...
-
- Code continuation quoted left for reference.
-
-  Maciej
 
