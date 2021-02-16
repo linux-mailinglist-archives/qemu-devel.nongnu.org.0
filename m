@@ -2,69 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42EE931CB57
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:41:42 +0100 (CET)
-Received: from localhost ([::1]:34104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E261331CB5A
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:44:19 +0100 (CET)
+Received: from localhost ([::1]:37314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC0bl-00084y-92
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:41:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49496)
+	id 1lC0eI-00010Q-W4
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:44:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lC0ax-0007Yu-PH; Tue, 16 Feb 2021 08:40:51 -0500
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:37179)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lC0d7-0000TN-3s; Tue, 16 Feb 2021 08:43:05 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:42573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lC0aw-0001Ql-8B; Tue, 16 Feb 2021 08:40:51 -0500
-Received: by mail-yb1-xb30.google.com with SMTP id p193so10486192yba.4;
- Tue, 16 Feb 2021 05:40:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lC0d5-0002Ne-HV; Tue, 16 Feb 2021 08:43:04 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id r21so13021230wrr.9;
+ Tue, 16 Feb 2021 05:43:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xsQDUiNGEdquhhJZRL6p2Se03ObDxUnJQRHwQ56TnIU=;
- b=riElzIKjRZTF+VwxjdlqajPcnL4MInRIcPWo61qqTqQxfSDGYT1b6jTZboCxvKcEzZ
- GkO4W5Jt7/K6y5PXHiM8s/1qs7Tq91/8f9GLRVlabDhYgaKz2QBtixNpDVOQh4m4wViv
- 0Q7Ud7qyYXt0GYwndnNOwcGc1YzJG0Xvv4V/VWbHub3ijepA69EzOh1XdOCb7mDi3O9a
- tVyqT3+UlYvkcpZY7r6uPhFqmE2GMZgB+SqVu/hdTA/sux/vik0z5LWUEHwj7Xbsjo7M
- 5fpt7X6ZFK0hWgqtZfgtd6WL4rNLhrYBkcknlca5xQcqfggiMJ0SRAs1lLtmsXbYzP8P
- X4sA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=z43kKCdxvSOoXLFMbdq5zMT8mPveQTUl00XI8BuBM1k=;
+ b=UBAxW69DZcfLEk8qKmAj+eGDxNRmxhSL047iAlWHLsPGUvnx16VYXGAPOPFpfeLTDU
+ dcgFKtZLsvVjDh0vm8IvW0ALomTqCqbSHn0lWPdmIJczhWZRpCt8iqB6zjZrFQIYYR0Z
+ 1dVOaVfOJdJrS7YsyEyR5hbgMmQXhNIxJlPYPEXlsfzD5d5nDxHDm00x5C4v5HdZQhoF
+ gZmK9XZ1+Lhcx+92G9419blA0EtEtuND4qqV2N4PFxVUrd3xscPtJLLfy6y1MWrW8xBZ
+ vsrzrKLNTKVJQjN8iqwtO2PGtUAHzOzAo95EB3BHAFlPRcm1h0sQLtH5nan/EQd5sthP
+ 1dBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xsQDUiNGEdquhhJZRL6p2Se03ObDxUnJQRHwQ56TnIU=;
- b=EMQOBz5xKeAzHvTjlhBDY/ay7RZ7i8+c+iawFqcTmst5zEpVsDIwsyvV1jnLU4a6If
- 2ljLy+U+vDSNUtmWHHcEFziqtPt8VnWzByJNS9FgCePEDaC8+NBFQYZTMiv+rryCOZ02
- v3+DH+uamvhrPXJliWNP5E1SG7zbDk2UevfHL6pFT0RuSCYH7UHiBesTAuyHLZbxO43+
- K8o522KdTWymidkoZlRTLEtYg3tJQS37uq6XhIo+ISrWitmOfptDHlTIj9uXw5KYDfpn
- Gj7kkSwNxd0PsCII6GGdw0YLBivErSqLWzpEpG0S5/imjbQ1ifdEaUTxCmgGvCd1fmDo
- eShw==
-X-Gm-Message-State: AOAM530X77OcGCUyJNuOL/lcto3eaof1tfQw9as3qqRfLirVDkS/Q8gC
- 2lT4mPeXV6PxAbuirKuxi6qFgmK71YI4Nzd1Dmk=
-X-Google-Smtp-Source: ABdhPJyxYOM4mppWm2Bym9RwnwSeeD9vMl1a9EoUV8Qet2vWCLcBAZTypijRNBf0Sa3TtESc/BszFqUQ+aY5XaU6Ydw=
-X-Received: by 2002:a5b:147:: with SMTP id c7mr3609278ybp.332.1613482848926;
- Tue, 16 Feb 2021 05:40:48 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=z43kKCdxvSOoXLFMbdq5zMT8mPveQTUl00XI8BuBM1k=;
+ b=aAD3neG9cQaGxYrRjgxFkKE1Yh7IFlJea3LHQoy3CTaWRlcPCVEnAsBcYIeZLPESFs
+ KnEWS5QxmMWqOvw7pI+yz9R8oGUXIVGSrdV5aMGj4ZwGLZnb2iKdDcD9rA3GAqgCWok0
+ 9gSzRCNswTKgMOqg2qpOWjbQZWPaY5Un7VZQJYYArz0S0ElUjstBcavy0ypbvGAMULGJ
+ H43Z/uqhh2hfckKvebbiXJdJ6LgdCYdZNHGstL62Eig2dChQsHxqq2B/teYWl9rVgoBE
+ 218RGNiGUNlSwXBSYS22s5HjeRUjrFmDskecgGmUEeZ3tfSfGFei8krAXdNS3wVM2Y5Q
+ TMtg==
+X-Gm-Message-State: AOAM530jSOikhwgqO/ipMXrfCcCOlt5uFAuZ/73wNoz4UDx2GausF97v
+ iE40wMKxVnLkAhA8InC0yDr1ZmeIeH0=
+X-Google-Smtp-Source: ABdhPJygmr1GkizU+V/VFpV4Jd7vfJc9L5t7AotgPwQVw1UzXB9yCqXKI6xU4P5Ogh5ZekHd+uuWHw==
+X-Received: by 2002:a5d:4982:: with SMTP id r2mr24695165wrq.41.1613482981574; 
+ Tue, 16 Feb 2021 05:43:01 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id t198sm3709511wmt.7.2021.02.16.05.43.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Feb 2021 05:43:01 -0800 (PST)
+Subject: Re: [PATCH v4 0/9] hw/sd: Support block read/write in SPI mode
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <20210128063035.15674-1-bmeng.cn@gmail.com>
+ <CAEUhbmXofQq9AerwBQfjDZkwp0kA9w+y+x_F0LUWZ6ArP+9H=g@mail.gmail.com>
+ <CAEUhbmXb58yxg1TAgq0vdH=QE-o0qCTjYghX2XZag-S1cWB=Eg@mail.gmail.com>
+ <2a425f7a-67c6-ad96-5351-ac6c28cbc5ce@amsat.org>
+ <CAEUhbmUeYdfC8GEqJy798d1wmDW3TZA78siiJd3gGBZ0C_E9bg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <cf247b50-df7d-7544-01c2-46214b4dc1eb@amsat.org>
+Date: Tue, 16 Feb 2021 14:43:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210216132841.1121653-1-f4bug@amsat.org>
-In-Reply-To: <20210216132841.1121653-1-f4bug@amsat.org>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 16 Feb 2021 21:40:37 +0800
-Message-ID: <CAEUhbmWYx13DOx7PvDwQ7benjub+7SAtEeAU6=Heq_vjEvUAQA@mail.gmail.com>
-Subject: Re: [PATCH] MAINTAINERS: Add Bin Meng as co-maintainer for SD/MMC
- cards
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b30;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb30.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+In-Reply-To: <CAEUhbmUeYdfC8GEqJy798d1wmDW3TZA78siiJd3gGBZ0C_E9bg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.19,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,31 +90,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 16, 2021 at 9:28 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> There is new interest in the SD/MMC device emulation, so it
-> would be good to have more than only one maintainer / reviewer
-> for it.
->
-> Bin Meng proved by his contributions a deep understanding of the
-> SD cards internals, so let's add him to the corresponding section
-> in the MAINTAINERS file.
+On 2/16/21 12:53 PM, Bin Meng wrote:
+> On Wed, Feb 10, 2021 at 1:36 AM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 2/9/21 3:32 PM, Bin Meng wrote:
+>>> Hi Philippe,
+>>>
+>>> On Thu, Feb 4, 2021 at 2:02 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>>
+>>>> On Thu, Jan 28, 2021 at 2:30 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>>>>>
+>>>>> From: Bin Meng <bin.meng@windriver.com>
+>>>>>
+>>>>> This includes the previously v3 series [1], and one single patch [2].
+>>>>>
+>>>>> Compared to v3, this fixed the following issue in patch [v3,6/6]:
+>>>>> - Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
+>>>>>   receiving the STOP_TRAN token per the spec
+>>>>>
+>>>>> All software tested so far (U-Boot/Linux/VxWorks) do work without
+>>>>> the fix, but it is better to comform with the spec.
+>>>>>
+>>>>> In addition to [2], one more issue was exposed when testing with
+>>>>> VxWorks driver related to STOP_TRANSMISSION (CMD12) response.
+>>>>>
+>>>>> [1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226136
+>>>>> [2] http://patchwork.ozlabs.org/project/qemu-devel/patch/1611636214-52427-1-git-send-email-bmeng.cn@gmail.com/
+>>>>>
+>>>>> Changes in v4:
+>>>>> - Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
+>>>>>   receiving the STOP_TRAN token per the spec
+>>>>> - new patch: fix STOP_TRANSMISSION (CMD12) response
+>>>>> - new patch: handle the rest commands with R1b response type
+>>>>>
+>>>>
+>>>> Ping?
+>>>
+>>> Will a PR be sent soon to include this series so that the SiFive SPI
+>>> series can follow?
+>>
+>> I had it planned for yesterday but had problems with the mails from
+>> the list, + the CVE (you fixed) took priority.
+>>
+>> Missing review is patch #8 "Fix STOP_TRANSMISSION (CMD12) response"
+>> for which I don't have test yet.
+> 
+> Ping? If there is any comment for patch #8?
 
-Thanks Philippe!
+No more comment, series applied to sdmmc-next tree.
 
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  MAINTAINERS | 1 +
->  1 file changed, 1 insertion(+)
->
+Thanks,
 
-Acked-by: Bin Meng <bin.meng@windriver.com>
+Phil.
 
