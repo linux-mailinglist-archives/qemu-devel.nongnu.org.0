@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0885231C801
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 10:25:32 +0100 (CET)
-Received: from localhost ([::1]:51878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A0F531C82E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 10:37:46 +0100 (CET)
+Received: from localhost ([::1]:36016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBwbr-0008EQ-5K
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 04:25:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35120)
+	id 1lBwnh-0005NU-20
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 04:37:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lBwb6-0007k7-DL
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:24:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40478)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lBwb4-00033G-3c
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:24:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613467481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Nnlaa1JeC60VINlR2716p26AKOLjdVWXudY86zzTQ3c=;
- b=ecJUtxs9pDiJihyPpq/J2IvybOBhdicYnzGiIqUQ7TFT+9pNkiK2LByPGQoLx7c3bsMByI
- FzXUPwqb2dB9j0I5Xuo5/sLc7/a7cB0wXWvqx2+l4fm5By6gEaAlUyQebf5lujLTUNV3uR
- 7eED45k6aGrNCUUb71xVXrV4DdjJH+0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-dLysOgQ4OZOySGF6C6GsZw-1; Tue, 16 Feb 2021 04:24:39 -0500
-X-MC-Unique: dLysOgQ4OZOySGF6C6GsZw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8AF9D107ACE3;
- Tue, 16 Feb 2021 09:24:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-114-100.ams2.redhat.com
- [10.36.114.100])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3636360C61;
- Tue, 16 Feb 2021 09:24:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id BD049113865F; Tue, 16 Feb 2021 10:24:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 19/19] qapi/introspect.py: add SchemaMetaType enum
-References: <20210216021809.134886-1-jsnow@redhat.com>
- <20210216021809.134886-20-jsnow@redhat.com>
-Date: Tue, 16 Feb 2021 10:24:36 +0100
-In-Reply-To: <20210216021809.134886-20-jsnow@redhat.com> (John Snow's message
- of "Mon, 15 Feb 2021 21:18:09 -0500")
-Message-ID: <87pn10nz57.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lBwlj-0003hR-1i
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:35:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lBwle-000862-1H
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:35:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lBwlb-00045v-39
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 09:35:35 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 12BA92E80FA
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 09:35:35 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 16 Feb 2021 09:24:36 -0000
+From: Philipp Oppermann <1915794@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: phil-opp
+X-Launchpad-Bug-Reporter: Philipp Oppermann (phil-opp)
+X-Launchpad-Bug-Modifier: Philipp Oppermann (phil-opp)
+Message-Id: <161346747703.23365.3708625175581048243.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1915794] [NEW] could not load PC BIOS 'bios-256k.bin' on latest
+ Windows exe (*-20210203.exe)
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: b408e9f46b8a50fc8e83ca1e64cbbb6e583d5442
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -80,149 +69,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1915794 <1915794@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Public bug reported:
 
-> Follows the qapi/introspect.py definition of the same; this adds a more
-> precise typing to _gen_tree's mtype parameter.
->
-> NB: print(SchemaMetaType.BUILTIN) would produce the string
-> "SchemaMetaType.BUILTIN", but when using format strings (.format or f-strings),
-> it relies on the __format__ method defined in the Enum class, which uses the
-> "value" of the enum instead, producing the string "builtin".
->
-> For consistency with old-style format strings (which simply call the
-> __str__ method of an object), a __str__ dunder is added, though it is
-> not actually used here in this code.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/introspect.py | 38 +++++++++++++++++++++++++++++---------
->  1 file changed, 29 insertions(+), 9 deletions(-)
->
-> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-> index c6f5cf8d874..008a21f5c4c 100644
-> --- a/scripts/qapi/introspect.py
-> +++ b/scripts/qapi/introspect.py
-> @@ -11,6 +11,7 @@
->  See the COPYING file in the top-level directory.
->  """
->  
-> +from enum import Enum
->  from typing import (
->      Any,
->      Dict,
-> @@ -79,6 +80,23 @@
->  SchemaInfoCommand = Dict[str, object]
->  
->  
-> +class SchemaMetaType(str, Enum):
-> +    """
-> +    Mimics the SchemaMetaType enum from qapi/introspect.json.
-> +    """
-> +    BUILTIN = 'builtin'
-> +    ENUM = 'enum'
-> +    ARRAY = 'array'
-> +    OBJECT = 'object'
-> +    ALTERNATE = 'alternate'
-> +    COMMAND = 'command'
-> +    EVENT = 'event'
-> +
-> +    def __str__(self) -> str:
-> +        # Needed for intuitive behavior with old-style format strings.
-> +        return str(self.value)
-> +
-> +
+I'm using https://scoop.sh/ to install QEMU on a Windows CI job, which
+is run daily. Since today, the job is failing with an `could not load PC
+BIOS 'bios-256k.bin'` error thrown by QEMU.
 
-The fanciness compared to plain Enum('SchemaMetaType', 'BUILTIN ...')
-avoids extra code to map the enum values to the strings with need.
+The version that causes this error is: https://qemu.weilnetz.de/w64/2021/qe=
+mu-w64-setup-20210203.exe#/dl.7z
+The previous version, which worked fine, was: https://qemu.weilnetz.de/w64/=
+2020/qemu-w64-setup-20201124.exe#/dl.7z
 
->  _ValueT = TypeVar('_ValueT', bound=_Value)
->  
->  
-> @@ -251,7 +269,8 @@ def _gen_features(features: Sequence[QAPISchemaFeature]
->                        ) -> List[Annotated[str]]:
->          return [Annotated(f.name, f.ifcond) for f in features]
->  
-> -    def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
-> +    def _gen_tree(self, name: str, mtype: SchemaMetaType,
-> +                  obj: Dict[str, object],
->                    ifcond: Sequence[str] = (),
->                    features: Sequence[QAPISchemaFeature] = ()) -> None:
->          """
-> @@ -299,7 +318,7 @@ def _gen_variant(self, variant: QAPISchemaVariant
->  
->      def visit_builtin_type(self, name: str, info: Optional[QAPISourceInfo],
->                             json_type: str) -> None:
-> -        self._gen_tree(name, 'builtin', {'json-type': json_type})
-> +        self._gen_tree(name, SchemaMetaType.BUILTIN, {'json-type': json_type})
->  
->      def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
->                          ifcond: Sequence[str],
-> @@ -307,7 +326,7 @@ def visit_enum_type(self, name: str, info: Optional[QAPISourceInfo],
->                          members: List[QAPISchemaEnumMember],
->                          prefix: Optional[str]) -> None:
->          self._gen_tree(
-> -            name, 'enum',
-> +            name, SchemaMetaType.ENUM,
->              {'values': [Annotated(m.name, m.ifcond) for m in members]},
->              ifcond, features
->          )
-> @@ -316,8 +335,8 @@ def visit_array_type(self, name: str, info: Optional[QAPISourceInfo],
->                           ifcond: Sequence[str],
->                           element_type: QAPISchemaType) -> None:
->          element = self._use_type(element_type)
-> -        self._gen_tree('[' + element + ']', 'array', {'element-type': element},
-> -                       ifcond)
-> +        self._gen_tree('[' + element + ']', SchemaMetaType.ARRAY,
-> +                       {'element-type': element}, ifcond)
->  
->      def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
->                                 ifcond: Sequence[str],
-> @@ -330,14 +349,14 @@ def visit_object_type_flat(self, name: str, info: Optional[QAPISourceInfo],
->          if variants:
->              obj['tag'] = variants.tag_member.name
->              obj['variants'] = [self._gen_variant(v) for v in variants.variants]
-> -        self._gen_tree(name, 'object', obj, ifcond, features)
-> +        self._gen_tree(name, SchemaMetaType.OBJECT, obj, ifcond, features)
->  
->      def visit_alternate_type(self, name: str, info: Optional[QAPISourceInfo],
->                               ifcond: Sequence[str],
->                               features: List[QAPISchemaFeature],
->                               variants: QAPISchemaVariants) -> None:
->          self._gen_tree(
-> -            name, 'alternate',
-> +            name, SchemaMetaType.ALTERNATE,
->              {'members': [Annotated({'type': self._use_type(m.type)},
->                                     m.ifcond)
->                           for m in variants.variants]},
-> @@ -361,7 +380,7 @@ def visit_command(self, name: str, info: Optional[QAPISourceInfo],
->          }
->          if allow_oob:
->              obj['allow-oob'] = allow_oob
-> -        self._gen_tree(name, 'command', obj, ifcond, features)
-> +        self._gen_tree(name, SchemaMetaType.COMMAND, obj, ifcond, features)
->  
->      def visit_event(self, name: str, info: Optional[QAPISourceInfo],
->                      ifcond: Sequence[str], features: List[QAPISchemaFeature],
-> @@ -370,7 +389,8 @@ def visit_event(self, name: str, info: Optional[QAPISourceInfo],
->          assert self._schema is not None
->  
->          arg_type = arg_type or self._schema.the_empty_object_type
-> -        self._gen_tree(name, 'event', {'arg-type': self._use_type(arg_type)},
-> +        self._gen_tree(name, SchemaMetaType.EVENT,
-> +                       {'arg-type': self._use_type(arg_type)},
->                         ifcond, features)
+Both CI runs build the exact same code. You can find the full logs at
+https://github.com/rust-
+osdev/x86_64/runs/1908137213?check_suite_focus=3Dtrue (failing) and
+https://github.com/rust-
+osdev/x86_64/runs/1900698412?check_suite_focus=3Dtrue (previous).
 
-Gain: _gen_tree()'s second argument's type now serves as documentation,
-and passing crap to it becomes harder.
+(I hope this is the right place to report this issue.)
 
-Gut feeling: too much notational overhead for too little gain.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-Opinions?
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915794
+
+Title:
+  could not load PC BIOS 'bios-256k.bin' on latest Windows exe
+  (*-20210203.exe)
+
+Status in QEMU:
+  New
+
+Bug description:
+  I'm using https://scoop.sh/ to install QEMU on a Windows CI job, which
+  is run daily. Since today, the job is failing with an `could not load
+  PC BIOS 'bios-256k.bin'` error thrown by QEMU.
+
+  The version that causes this error is: https://qemu.weilnetz.de/w64/2021/=
+qemu-w64-setup-20210203.exe#/dl.7z
+  The previous version, which worked fine, was: https://qemu.weilnetz.de/w6=
+4/2020/qemu-w64-setup-20201124.exe#/dl.7z
+
+  Both CI runs build the exact same code. You can find the full logs at
+  https://github.com/rust-
+  osdev/x86_64/runs/1908137213?check_suite_focus=3Dtrue (failing) and
+  https://github.com/rust-
+  osdev/x86_64/runs/1900698412?check_suite_focus=3Dtrue (previous).
+
+  (I hope this is the right place to report this issue.)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915794/+subscriptions
 
