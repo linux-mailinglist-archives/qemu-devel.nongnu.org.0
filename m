@@ -2,81 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C28B531C83D
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 10:44:29 +0100 (CET)
-Received: from localhost ([::1]:43002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D103031C861
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 10:50:51 +0100 (CET)
+Received: from localhost ([::1]:45844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBwuC-0008UG-KC
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 04:44:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38840)
+	id 1lBx0M-0001YT-Tt
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 04:50:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1lBwt1-00084L-Rq
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:43:15 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:37490)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <isaku.yamahata@gmail.com>)
- id 1lBwsz-0002kz-Lz
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:43:15 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id t2so5595008pjq.2
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 01:43:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=8dIkdZS725F6crHs/wzawaXhWitDInC7D7fSuD5ArSg=;
- b=Q3F4h6PRr24fRtMP/5IRawe4D8m+xgEfOKgwJS7APdYGGM26Pz9tveS5UGmo/deD/o
- dNNvdsjpGReoXXuwe+ohmoLa/JvYNgGFzazUm3OJhI5JBKfspiSi9XSiAkUtLkor8hnK
- kmbqR3hOMziBbbXyflDZNdaqg+1P21a+PVur6b6rfF3Z3redyTllvl4z0ACCVBWH7KX+
- +YbBpNZzWMW1Zz43sBOLsUkp/Klq9LTAALUqwZ6UQ6XGZ8+f01p0qyArthU8TP901bZ5
- yWgRU8i8at03Ekp+byMUweKjMrNkW6C1NIPNi1DArxnYi08gZqRZ8R8GQnFfsga5vfhk
- G2Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=8dIkdZS725F6crHs/wzawaXhWitDInC7D7fSuD5ArSg=;
- b=mVWeY2cLWNkWznrzqmRvcx6+hcZqPRUYQTTVfRi9UljHa2368HikL7NomtEJKeU6zQ
- KWlOTSV/WeascVq6M632J8+ArHJxVwrqoN0a2OIt6hhSXXJc9eijKAKxin7VfwnH75oY
- nymDwxMGjmvfUHEqGGTNFJUgmcfR8kBeXtCUk+zKRSDLk63WMXWuEPO5BLKzm9ZCrwG8
- GL0kjL3e4brRobRgYrxVK5A+K7rp5sDUHfid3w/EEJsg/2QLJSOu1ejd9DKBY3WouCLU
- d8KO/vhRL4+7KSvDugb0pyWJZF2WVmAZMsw1E3dTcu2cr5s8f4FHsRtVr0WmmUwiP0JQ
- wCSg==
-X-Gm-Message-State: AOAM532hoB4OYxbFbihPsLU/qpvM4c4FbFULuTUKTVF5y62aPMJz82kS
- g6k1ClwDFmDi0AYMIZhhOT0=
-X-Google-Smtp-Source: ABdhPJwFdKk64dKsSpGh0naybYFSy+hnxw0k6y7Z/IA3MLq6zK/tR90hzvxZAFgMtArYBumq9FMnYA==
-X-Received: by 2002:a17:903:181:b029:df:c7e5:8e39 with SMTP id
- z1-20020a1709030181b02900dfc7e58e39mr19464360plg.25.1613468590095; 
- Tue, 16 Feb 2021 01:43:10 -0800 (PST)
-Received: from localhost ([2601:647:4600:11e1:d2fd:ba5d:619c:c25d])
- by smtp.gmail.com with ESMTPSA id z36sm1490983pgl.23.2021.02.16.01.43.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 01:43:09 -0800 (PST)
-Date: Tue, 16 Feb 2021 01:43:01 -0800
-From: Isaku Yamahata <isaku.yamahata@gmail.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3 07/10] hw/i386: declare ACPI mother board resource for
- MMCONFIG region
-Message-ID: <20210216094301.GA15303@private.email.ne.jp>
-References: <cover.1613025709.git.isaku.yamahata@intel.com>
- <ea43ecd8e920088a783f81a7b2aeee8715657dc6.1613025709.git.isaku.yamahata@intel.com>
- <20210212164038.207e0f54@redhat.com>
- <20210212205157.GA7151@private.email.ne.jp>
- <20210215134832.5a32e851@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lBwyw-00014d-1n
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:49:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lBwyq-0005Pn-Nh
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 04:49:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613468954;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mcR9Mti49PeXpEpnpVBZELAkSXzOZmOCDvhppOFGuD0=;
+ b=H3C6+Rl+KjZ0EB/gMgv0DLXXI6L/03VIgO+EzWo8j5dWsHKtjdjTr1T5/RDjs1PeE7QwJC
+ oAsHjb6nXrH41raIeU6SmL2jdwruDqJucfvt8t9P4uV5/hJRHzuxQ+T/V6FV1OwEJsstca
+ 1agycxEeh9o4trHA96HgK9nB45My8rw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-144-pn55FUsRNVSlla8r1mWksw-1; Tue, 16 Feb 2021 04:49:10 -0500
+X-MC-Unique: pn55FUsRNVSlla8r1mWksw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA9E7107ACE3;
+ Tue, 16 Feb 2021 09:49:08 +0000 (UTC)
+Received: from redhat.com (ovpn-112-215.ams2.redhat.com [10.36.112.215])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D6315C6AB;
+ Tue, 16 Feb 2021 09:49:02 +0000 (UTC)
+Date: Tue, 16 Feb 2021 09:48:59 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/2] Allwinner H3 fixes for EMAC and acceptance tests
+Message-ID: <YCuVC4T+TFjuskhF@redhat.com>
+References: <20210211220055.19047-1-nieklinnenbank@gmail.com>
+ <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-2022-jp
+In-Reply-To: <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210215134832.5a32e851@redhat.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=isaku.yamahata@gmail.com; helo=mail-pj1-x1036.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,68 +82,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Isaku Yamahata <isaku.yamahata@intel.com>, qemu-devel@nongnu.org,
- Isaku Yamahata <isaku.yamahata@gmail.com>, mst@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Pavel.Dovgaluk@ispras.ru, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, b.galvani@gmail.com,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, crosa@redhat.com,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 15, 2021 at 01:48:32PM +0100,
-Igor Mammedov <imammedo@redhat.com> wrote:
-
-> On Fri, 12 Feb 2021 12:51:57 -0800
-> Isaku Yamahata <isaku.yamahata@gmail.com> wrote:
+On Fri, Feb 12, 2021 at 03:10:00PM +0100, Philippe Mathieu-Daudé wrote:
+> Hi Niek and QEMU community,
 > 
-> > On Fri, Feb 12, 2021 at 04:40:38PM +0100,
-> > Igor Mammedov <imammedo@redhat.com> wrote:
+> On 2/11/21 11:00 PM, Niek Linnenbank wrote:
+> > The following are maintenance patches for the Allwinner H3. The first patch
+> > is a proposal to relocate the binary artifacts of the acceptance tests away
+> > from the apt.armbian.com domain. In the past we had problems with artifacts being
+> > removed, and now the recently added Armbian 20.08.1 image has been removed as well:
 > > 
-> > > On Wed, 10 Feb 2021 22:46:43 -0800
-> > > Isaku Yamahata <isaku.yamahata@intel.com> wrote:
-> > >   
-> > > > +    Aml *dev;
-> > > > +    Aml *rbuf;
-> > > > +    Aml *resource_template;
-> > > > +    Aml *rbuf_name;
-> > > > +    Aml *crs;
-> > > > +
-> > > > +    if (!acpi_get_mcfg(&mcfg)) {
-> > > > +        return NULL;
-> > > > +    }
-> > > > +
-> > > > +    /* DRAM controller */
-> > > > +    dev = aml_device("DRAC");
-> > > > +    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C01")));
-> > > > +
-> > > > +    resource_template = aml_resource_template();
-> > > > +    aml_append(resource_template,
-> > > > +               aml_qword_memory(AML_POS_DECODE,
-> > > > +                                AML_MIN_FIXED,
-> > > > +                                AML_MAX_FIXED,
-> > > > +                                AML_NON_CACHEABLE,
-> > > > +                                AML_READ_WRITE,
-> > > > +                                0x0000000000000000,
-> > > > +                                mcfg.base,
-> > > > +                                mcfg.base + mcfg.size - 1,  
-> > > s/mcfg.base + mcfg.size - 1/mcfg.base/  
+> > $ wget https://dl.armbian.com/orangepipc/archive/Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz
+> > Connecting to dl.armbian.com (dl.armbian.com)|2605:7900:20::5|:443... connected.
+> > ...
+> > HTTP request sent, awaiting response... 404 Not Found
+> > 2021-02-11 22:34:45 ERROR 404: Not Found.
 > > 
-> > AddressMaximum needs to be the highest address of the region.
-> > Not base address. By disassemble/assembl it, iasl complains as follows.
-> > Also there are similar examples in acpi-build.c.
-> I mostly clean up all places to use the same base address for min/max,
-> but probably something were left behind.
+> > I've now added the artifacts to a server maintained by me. The machine has a stable
+> > uptime of several years, ~100Mbit bandwidth and plenty of available storage.
+> > Also for other artifacts if needed. I'm open to discuss if there is a proposal
+> > for a better location for these artifacts or a more generic qemu location.
 > 
-> spec says:
+> Thanks for trying to fix this long standing problem.
 > 
-> acpi 6.3: 19.6.110 QWordMemory
+> While this works in your case, this doesn't scale to the community,
+> as not all contributors have access to such hardware and bandwidth /
+> storage.
 > 
-> AddressMaximum evaluates to a 64-bit integer that specifies the highest possible base address of the
-> Memory range. The value must have $B!F(B0$B!G(B in all bits where the corresponding bit in AddressGranularity is
-> $B!F(B1$B!G(B. For bridge devices which translate addresses, this is the address on the secondary bus. The 64-bit
-> field DescriptorName ._MAX is automatically created to refer to this portion of the resource descriptor.
+> While your first patch is useful in showing where the artifacts are
+> stored doesn't matter - as long as we use cryptographic hashes - I
+> think it is a step in the wrong direction, so I am not keen on
+> accepting it.
+> 
+> My personal view is that any contributor should have the same
+> possibilities to add tests to the project. Now I am also open to
+> discuss with the others :) I might be proven wrong, and it could
+> be better to rely on good willing contributors rather than having
+> nothing useful at all.
 
-Ok, Linux guest is happy with min=max.
-I conlude that it's iasl issue.
+There aren't many options here
 
-Thanks,
+ 1. Rely on a vendor to provide stable download URLs for images
+
+ 2. QEMU host all images we use in testing
+
+ 3. Contributor finds some site to upload images to
+
+
+For the armbian images we rely on (1), but the URLs didn't turn out to be
+stable. In fact no OS vendor seems to have guaranteed stable URLs forever,
+regardless of distro, though most eventually do have an archive site that
+has good life. Armbian was an exception in this respect IIUC.
+
+(2) would solve the long term stability problem as QEMU would be in full
+control, and could open it up for any images we need. The big challenge
+there is that QEMU now owns the license compliance problem. Merely uploading
+binary images/packages without the corresponding source is generally a license
+violation. QEMU could provide hosting, but we need to be clear about the fact
+that we now own the license compliance problem ourselves. Many sites hosting
+images simply ignore this problem, but that doesn't make it right.
+
+
+This series is proposing (3), with a site the contributor happens to control
+themselves, but using a free 3rd party hosting site is no different really.
+Again there is a the same need for license compliance, but it is now the
+responsibility of the user, not QEMU project.
+
+In this http://www.freenos.org/pub/qemu/cubieboard/ site I can't even see a
+directory listing, so even if corresponding source does exist in this server,
+I can't find it. 
+
+The isn't really a problem for QEMU CI to consume the images, but as a free
+software developer I don't like encouraging practices that are not compliant
+with licensing reuqirement.
+
+It is an open question whether the (3) is really better than (1) in terms
+of URL stability long term, especially if running off a user's personal
+server.
+
+Regards,
+Daniel
 -- 
-Isaku Yamahata <isaku.yamahata@gmail.com>
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
