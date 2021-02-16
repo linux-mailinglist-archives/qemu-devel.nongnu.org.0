@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA6F731D30B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 00:39:05 +0100 (CET)
-Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7A5731D30F
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 00:47:39 +0100 (CET)
+Received: from localhost ([::1]:37416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC9vs-0004kr-Vq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 18:39:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50048)
+	id 1lCA4B-0000Q3-0g
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 18:47:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lC9tX-0002xI-3p
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 18:36:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48238)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lC9tT-0002FF-CP
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 18:36:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613518594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5Ju3wwRU2KI0P5XAy04Kxw6gLp4WGBGW2slJkOkzBRs=;
- b=cwrkeF25kKFS0Vzs16aU/WaW9ZYcGWiTRgBRpfbn5NrBhCHep5zmWmBOwdGvCWNffVfxOR
- QaCjRaurbhPaPujJ52q3DsUCmhdxZyCZjjdOhK503Q3KJATZJM/4qz1UQUSlIgiqkBg8Zz
- +6pFKLKYBninDPr2RZ5umOtq2pHgSzo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-446-sp7Q_FogPd-CHrPwtuIWHQ-1; Tue, 16 Feb 2021 18:36:32 -0500
-X-MC-Unique: sp7Q_FogPd-CHrPwtuIWHQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B904280364B;
- Tue, 16 Feb 2021 23:36:31 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-114-123.rdu2.redhat.com [10.10.114.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFBE110016FD;
- Tue, 16 Feb 2021 23:36:25 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 3B5C4225FCD; Tue, 16 Feb 2021 18:36:25 -0500 (EST)
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org,
-	virtio-fs@redhat.com
-Subject: [PATCH 3/3] virtiofsd: Change umask if posix acls are enabled
-Date: Tue, 16 Feb 2021 18:36:11 -0500
-Message-Id: <20210216233611.33400-4-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lCA2d-0008Fz-Bk
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 18:46:03 -0500
+Resent-Date: Tue, 16 Feb 2021 18:46:03 -0500
+Resent-Message-Id: <E1lCA2d-0008Fz-Bk@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21381)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lCA2a-00032c-Pa
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 18:46:03 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1613519149; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=Vj0M70wqXRDYqSiAVGfEgD235WUeYr7QdfJc3q8ovWfUzPm9UUsRpcFCPDSG9B9cBCi8/OK+VO3LVRtJpMGYVlz6QC6hc4p6Lwg73XXhg4fGNQz5V4y4FJK4osSWcHezw2taOUm4WBpZqhz+81c1cwTYnDf60SYS0FZTvwvvFXQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1613519149;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=If1BdOFDN4oWVK5IFTiSfgICYRtNfp6JkrRtg3TUoy0=; 
+ b=WkIm8J3Sp5lqvJ7RAHUqIGrP0XfVHy/aR0Wq05hdP0uI+7jlotb5w+PRGTjk5VN6U9/CsCv4EfObiXeDLgA1pH0VDwWTZCyAzC3xwARPVYSdCvdQP7q9+4DqtUtfpI6bC29Ff2CwayhrBXlT083ecSFWHpeKIDuD+QI/wgu+an8=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1613519146414750.8768058992334;
+ Tue, 16 Feb 2021 15:45:46 -0800 (PST)
 In-Reply-To: <20210216233611.33400-1-vgoyal@redhat.com>
-References: <20210216233611.33400-1-vgoyal@redhat.com>
+Subject: Re: [PATCH 0/3] virtiofsd: Add options to enable/disable posix acl
+Message-ID: <161351914495.372.17420007914971008741@c667a6b167f6>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: vgoyal@redhat.com
+Date: Tue, 16 Feb 2021 15:45:46 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,157 +67,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: miklos@szeredi.hu, stefanha@redhat.com, dgilbert@redhat.com,
- vgoyal@redhat.com, lhenriques@suse.de
+Reply-To: qemu-devel@nongnu.org
+Cc: miklos@szeredi.hu, dgilbert@redhat.com, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, lhenriques@suse.de, stefanha@redhat.com,
+ vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When parent directory has default acl and a file is created in that
-directory, then umask is ignored and final file permissions are
-determined using default acl instead. (man 2 umask).
-
-Currently, fuse applies the umask and sends modified mode in create
-request accordingly. fuse server can set FUSE_DONT_MASK and tell
-fuse client to not apply umask and fuse server will take care of
-it as needed.
-
-With posix acls enabled, requirement will be that we want umask
-to determine final file mode if parent directory does not have
-default acl.
-
-So if posix acls are enabled, opt in for FUSE_DONT_MASK. virtiofsd
-will set umask of the thread doing file creation. And host kernel
-should use that umask if parent directory does not have default
-acls, otherwise umask does not take affect.
-
-Miklos mentioned that we already call unshare(CLONE_FS) for
-every thread. That means umask has now become property of per
-thread and it should be ok to manipulate it in file creation path.
-
-So this patch opts in for FUSE_DONT_MASK if posix acls are enabled
-and changes umask to caller umask before file creation and restores
-original umask after file creation is done.
-
-This should fix fstest generic/099.
-
-Reported-by: Luis Henriques <lhenriques@suse.de>
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c | 26 +++++++++++++++++++-------
- 1 file changed, 19 insertions(+), 7 deletions(-)
-
-diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-index 34b2848e61..84691571d2 100644
---- a/tools/virtiofsd/passthrough_ll.c
-+++ b/tools/virtiofsd/passthrough_ll.c
-@@ -120,6 +120,7 @@ struct lo_inode {
- struct lo_cred {
-     uid_t euid;
-     gid_t egid;
-+    mode_t umask;
- };
- 
- enum {
-@@ -169,6 +170,8 @@ struct lo_data {
-     /* An O_PATH file descriptor to /proc/self/fd/ */
-     int proc_self_fd;
-     int user_posix_acl;
-+    /* If set, virtiofsd is responsible for setting umask during creation */
-+    bool change_umask;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -641,7 +644,8 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-          * in fuse_lowlevel.c
-          */
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
--        conn->want |= FUSE_CAP_POSIX_ACL;
-+        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
-+        lo->change_umask = true;
-     } else {
-         /*
-          * Either user specified to disable posix_acl, or did not specify
-@@ -649,6 +653,7 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
-          */
-         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-         conn->want &= ~FUSE_CAP_POSIX_ACL;
-+        lo->change_umask = false;
-     }
- }
- 
-@@ -1043,7 +1048,8 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
-  * ownership of caller.
-  * TODO: What about selinux context?
-  */
--static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
-+static int lo_change_cred(fuse_req_t req, struct lo_cred *old,
-+                          bool change_umask)
- {
-     int res;
- 
-@@ -1063,11 +1069,14 @@ static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
-         return errno_save;
-     }
- 
-+    if (change_umask)
-+        old->umask = umask(req->ctx.umask);
-+
-     return 0;
- }
- 
- /* Regain Privileges */
--static void lo_restore_cred(struct lo_cred *old)
-+static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
- {
-     int res;
- 
-@@ -1082,6 +1091,9 @@ static void lo_restore_cred(struct lo_cred *old)
-         fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
-         exit(1);
-     }
-+
-+    if (restore_umask)
-+        umask(old->umask);
- }
- 
- static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-@@ -1106,7 +1118,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
-         return;
-     }
- 
--    saverr = lo_change_cred(req, &old);
-+    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
-     if (saverr) {
-         goto out;
-     }
-@@ -1115,7 +1127,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
- 
-     saverr = errno;
- 
--    lo_restore_cred(&old);
-+    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
- 
-     if (res == -1) {
-         goto out;
-@@ -1780,7 +1792,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-         return;
-     }
- 
--    err = lo_change_cred(req, &old);
-+    err = lo_change_cred(req, &old, lo->change_umask);
-     if (err) {
-         goto out;
-     }
-@@ -1791,7 +1803,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
-     fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
-     err = fd == -1 ? errno : 0;
- 
--    lo_restore_cred(&old);
-+    lo_restore_cred(&old, lo->change_umask);
- 
-     /* Ignore the error if file exists and O_EXCL was not given */
-     if (err && (err != EEXIST || (fi->flags & O_EXCL))) {
--- 
-2.25.4
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxNjIzMzYxMS4zMzQw
+MC0xLXZnb3lhbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMTYyMzM2MTEuMzM0MDAt
+MS12Z295YWxAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggMC8zXSB2aXJ0aW9mc2Q6IEFkZCBv
+cHRpb25zIHRvIGVuYWJsZS9kaXNhYmxlIHBvc2l4IGFjbAoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
+ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
+CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
+b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
+U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
+ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICog
+W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDIxNjIzMzYxMS4zMzQwMC0xLXZnb3lhbEBy
+ZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMTYyMzM2MTEuMzM0MDAtMS12Z295YWxAcmVkaGF0
+LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjU5OWMzNTcgdmlydGlvZnNkOiBD
+aGFuZ2UgdW1hc2sgaWYgcG9zaXggYWNscyBhcmUgZW5hYmxlZAo1OTljYzE5IHZpcnRpb2ZzZDog
+QWRkIHVtYXNrIHRvIHNlY2NvbSBhbGxvdyBsaXN0CjcyZWExODUgdmlydGlvZnNkOiBBZGQgYW4g
+b3B0aW9uIHRvIGVuYWJsZS9kaXNhYmxlIHBvc2l4IGFjbHMKCj09PSBPVVRQVVQgQkVHSU4gPT09
+CjEvMyBDaGVja2luZyBjb21taXQgNzJlYTE4NWFjNzU0ICh2aXJ0aW9mc2Q6IEFkZCBhbiBvcHRp
+b24gdG8gZW5hYmxlL2Rpc2FibGUgcG9zaXggYWNscykKV0FSTklORzogQmxvY2sgY29tbWVudHMg
+c2hvdWxkIGFsaWduIHRoZSAqIG9uIGVhY2ggbGluZQojNTY6IEZJTEU6IHRvb2xzL3ZpcnRpb2Zz
+ZC9wYXNzdGhyb3VnaF9sbC5jOjY0ODoKKyAgICAgICAgICogRWl0aGVyIHVzZXIgc3BlY2lmaWVk
+IHRvIGRpc2FibGUgcG9zaXhfYWNsLCBvciBkaWQgbm90IHNwZWNpZnkKKyAgICAgICAgICAqIGFu
+eXRoaW5nLiBJbiBib3RoIHRoZSBjYXNlcyBkbyBub3QgZW5hYmxlIHBvc2l4IGFjbC4KCldBUk5J
+Tkc6IEJsb2NrIGNvbW1lbnRzIHNob3VsZCBhbGlnbiB0aGUgKiBvbiBlYWNoIGxpbmUKIzU3OiBG
+SUxFOiB0b29scy92aXJ0aW9mc2QvcGFzc3Rocm91Z2hfbGwuYzo2NDk6CisgICAgICAgICAgKiBh
+bnl0aGluZy4gSW4gYm90aCB0aGUgY2FzZXMgZG8gbm90IGVuYWJsZSBwb3NpeCBhY2wuCisgICAg
+ICAgICAqLwoKdG90YWw6IDAgZXJyb3JzLCAyIHdhcm5pbmdzLCA0NSBsaW5lcyBjaGVja2VkCgpQ
+YXRjaCAxLzMgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRo
+ZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFp
+bmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KMi8zIENoZWNraW5nIGNvbW1pdCA1
+OTljYzE5ZmFmNTYgKHZpcnRpb2ZzZDogQWRkIHVtYXNrIHRvIHNlY2NvbSBhbGxvdyBsaXN0KQoz
+LzMgQ2hlY2tpbmcgY29tbWl0IDU5OWMzNTc1ZWM4MyAodmlydGlvZnNkOiBDaGFuZ2UgdW1hc2sg
+aWYgcG9zaXggYWNscyBhcmUgZW5hYmxlZCkKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5
+IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojOTU6IEZJTEU6IHRvb2xzL3ZpcnRpb2Zz
+ZC9wYXNzdGhyb3VnaF9sbC5jOjEwNzI6CisgICAgaWYgKGNoYW5nZV91bWFzaykKWy4uLl0KCnRv
+dGFsOiAxIGVycm9ycywgMCB3YXJuaW5ncywgOTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMy8zIGhh
+cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
+YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
+RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFu
+ZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRw
+Oi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDIxNjIzMzYxMS4zMzQwMC0xLXZnb3lhbEByZWRoYXQu
+Y29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVk
+IGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ug
+c2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
 
