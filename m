@@ -2,59 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3204E31CE75
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:54:05 +0100 (CET)
-Received: from localhost ([::1]:60882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4947D31CE8C
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:59:33 +0100 (CET)
+Received: from localhost ([::1]:49914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3bw-00057Q-8v
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:54:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43242)
+	id 1lC3hE-00047s-CG
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:59:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49422)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lC36D-0004jq-C2
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:21:17 -0500
-Received: from mout.kundenserver.de ([217.72.192.75]:53591)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lC369-000373-N3
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:21:16 -0500
-Received: from [192.168.100.1] ([82.252.134.158]) by mrelayeu.kundenserver.de
- (mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MTRdK-1lJeqj0NXI-00Tp8q; Tue, 16 Feb 2021 17:21:05 +0100
-Subject: Re: [RFC PATCH] linux-user/mmap: Return EFAULT for invalid addresses
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <b71cbfb68c227ae999e8caa5e247d5bb93ddad43.camel@linuxfoundation.org>
- <4309ac79-d729-682c-b3e2-7d657869566c@vivier.eu>
- <0fb977ec30a318ace2bb1853b9cca7b8d7cfcea5.camel@linuxfoundation.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <40acb232-a9da-951c-38fd-2fa1c529edd5@vivier.eu>
-Date: Tue, 16 Feb 2021 17:21:03 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lC3I6-00018q-GX; Tue, 16 Feb 2021 11:33:39 -0500
+Received: from fanzine.igalia.com ([178.60.130.6]:59838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <berto@igalia.com>)
+ id 1lC3Hy-0005AM-5x; Tue, 16 Feb 2021 11:33:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+ s=20170329; 
+ h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+ bh=YjH8hW7wYzMlGapM/AutNPU2H7eNF9tOzGNl1uewZ9k=; 
+ b=ovX+ry5nBKlSuwFyc8r4Tx2GKtfgpS28kyaxGZvt7XTngYld/n9GbL05M63otVtNZKDuH1VOdYmpI26FrIFN1jo3jmdnqkAt2b44BgpyxxUcKU/+LM5KLa2J/axz3A8ZgVixsuCO5cJf7JVGPoBCPxlk0z/HyXRL1TfjPpQYx04i3S0Z8IEkfj6hATtIFduVV622bMF8CBY256sP3cN/gi/cfXoloLXbN9vEOq404hqZG8BK3gQQZ8dmO70nZWBaKVSE0LfHDoGZ5CzvebYg/eWnAHyUcexecEr8uZXegQuc26VnwSq922joSSZE6Jl59EYssfepQEljweVpPsVO+Q==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+ by fanzine.igalia.com with esmtps 
+ (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+ id 1lC3Hu-0000Qd-Ao; Tue, 16 Feb 2021 17:33:22 +0100
+Received: from berto by mail.igalia.com with local (Exim)
+ id 1lC3Hu-0001hH-1Y; Tue, 16 Feb 2021 17:33:22 +0100
+From: Alberto Garcia <berto@igalia.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 3/4] block: Support multiple reopening with
+ x-blockdev-reopen
+In-Reply-To: <06587add-3242-6041-6a76-e2fd41e8c040@virtuozzo.com>
+References: <cover.1612809837.git.berto@igalia.com>
+ <145882bca942bb629bce2b1f5546fe0946ccdfcd.1612809837.git.berto@igalia.com>
+ <06587add-3242-6041-6a76-e2fd41e8c040@virtuozzo.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+ (i586-pc-linux-gnu)
+Date: Tue, 16 Feb 2021 17:33:22 +0100
+Message-ID: <w517dn82crx.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <0fb977ec30a318ace2bb1853b9cca7b8d7cfcea5.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:tz8p6wChR68FjnXLzU7khFIvpTqsjSBVl1WBQYneltfk5+TyEWI
- SGPsBLNxqvHW0aj07xfOgVdwMa6dEgvrWVU8X+Fft4hC0ho/BCFn4weu2SLxAHJAfPkUzRz
- L0K2EMUqNSCgAyDTwS0oia7WT7XAT7qheUItri5G7dIQojdrs/1Td3Kv15KbunBfn0B4wEA
- tF+TRgrxS79pwrEHkxWzg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:M9+Vs2s+V4Q=:+6l1HNl48MZAG15WUGsHdC
- ljvQQfdSTqOWgfm9rbtXn0yuskYCpzCh95mek6SKuSYR3bdD5jdFosWj2WklcJ83cwN070jxv
- umbVfo4XFi4vkgUSkaEcywABA0kS6jOoxF/AmMUz52m/QEiUnZIemKWc311vmIc0QtBAN8LzS
- m1AHgyhNh3RDhBIXk0xWZ2fSHa4nNW3Ns/3JC8B15otyYhjJ6mlgy+8gND0e8WFpzwiAgnt35
- +W9ZBg13L+CW50A67POMxyoUiguUV9NFe7w23NIXOMft/zJfPNevTBOf77rOANMUnqv/aK80G
- sqT1YZzWnvmEvCYlXNVbE1mZrR5Do3Ikh9uee08RqVu0S6faiPiwPOHIgTZDJgqEsPd3Nxsyj
- 1p3Tx+ZsBKfjYus43nmQ0vN6eH63h84A6HhfLvMA9kPJuiZxIS0lb7HcemAOL
-Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
+ helo=fanzine.igalia.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,78 +63,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 16/02/2021 à 12:49, Richard Purdie a écrit :
-> On Sat, 2021-02-13 at 18:40 +0100, Laurent Vivier wrote:
->> Le 08/01/2021 à 18:46, Richard Purdie a écrit :
->>> When using qemu-i386 to run gobject introspection parts of a webkitgtk 
->>> build using musl as libc on a 64 bit host, it sits in an infinite loop 
->>> of mremap calls of ever decreasing/increasing addresses.
->>>
->>> I suspect something in the musl memory allocation code loops indefinitely
->>> if it only sees ENOMEM and only exits when it hits EFAULT.
->>>
->>> According to the docs, trying to mremap outside the address space
->>> can/should return EFAULT and changing this allows the build to succeed.
->>>
->>> There was previous discussion of this as it used to work before qemu 2.11
->>> and we've carried hacks to work around it since, this appears to be a
->>> better fix of the real issue?
->>>
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
->>>
->>> Index: qemu-5.2.0/linux-user/mmap.c
->>> ===================================================================
->>> --- qemu-5.2.0.orig/linux-user/mmap.c
->>> +++ qemu-5.2.0/linux-user/mmap.c
->>> @@ -727,7 +727,7 @@ abi_long target_mremap(abi_ulong old_add
->>>           !guest_range_valid(new_addr, new_size)) ||
->>>          ((flags & MREMAP_MAYMOVE) == 0 &&
->>>           !guest_range_valid(old_addr, new_size))) {
->>> -        errno = ENOMEM;
->>> +        errno = EFAULT;
->>>          return -1;
->>>      }
->>>  
->>>
->>>
->>>
->>
->> I agree with that, the ENOMEM is returned when there is not enough virtual memory (the
->> mmap_find_vma() case).
->>
->> According to the manpage, EFAULT is returned when old_addr and old_addr + old_size is an invalid
->> address space.
->>
->> So:
->>
->>     if (!guest_range_valid(old_addr, old_size)) {
->>         errno = EFAULT;
->>         return -1;
->>     }
->>
->> But in the case of new_size and new_addr, it seems the good value to use is EINVAL.
->>
->> So:
->>
->>    if (((flags & MREMAP_FIXED) && !guest_range_valid(new_addr, new_size)) ||
->>        ((flags & MREMAP_MAYMOVE) == 0 && !guest_range_valid(old_addr, new_size))) {
->>         errno = EINVAL;
->>         return -1;
->>     }
->>
->> Did you try that?
-> 
-> Its taken me a short while to reproduce the test environment but I did
-> so and can confirm that using EINVAL works just as well as EFAULT in
-> the test case we have. The above would therefore seem to make sense to
-> me and would fix the case we found.
+On Tue 09 Feb 2021 09:03:02 AM CET, Vladimir Sementsov-Ogievskiy wrote:
+>>   { 'command': 'x-blockdev-reopen',
+>> -  'data': 'BlockdevOptions', 'boxed': true }
+>> +  'data': { 'options': ['BlockdevOptions'] } }
+>
+> Do we also want to drop x- prefix?
 
-Could you send a v2 of your patch with these changes?
+I think we can drop it once it's clear the the API is fine. It can be on
+a separate patch after this.
 
-Thanks,
-Laurent
+>> -    visit_free(v);
+>> +    bdrv_reopen_queue_free(queue);
+>> +    g_slist_free_full(drained, (GDestroyNotify) bdrv_subtree_drained_end);
+>> +    g_slist_free_full(aio_ctxs, (GDestroyNotify) aio_context_release);
+>> +    g_slist_free_full(visitors, (GDestroyNotify) visit_free);
+>
+> Probably you can use g_autoslist() for defining these lists to get
+> automatic cleanup.
 
+g_autoslist() requires that the type has a cleanup function, but that's
+not the case here and I don't think we can add one ('drained' contains a
+BlockDriverState, what's the cleanup function? bdrv_subtree_drained_end
+or bdrv_unref?)
+
+I think it's fine to call g_slist_free_full() explicitly in this case.
+
+Berto
 
