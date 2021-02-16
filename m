@@ -2,101 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 121C931CBC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:21:31 +0100 (CET)
-Received: from localhost ([::1]:44554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3100831CBC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:23:01 +0100 (CET)
+Received: from localhost ([::1]:46810 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1EI-0000bf-5h
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:21:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59584)
+	id 1lC1Fk-0001Zu-A9
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:23:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lC1Cq-00082e-3B; Tue, 16 Feb 2021 09:20:00 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:4486
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lC1Cn-0001Af-B8; Tue, 16 Feb 2021 09:19:59 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11GE26lL040150; Tue, 16 Feb 2021 09:19:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=lLpAaN8e0M0pVGt7l6FhU+skFWnoiyaXGubx2SAIqbI=;
- b=N8/2Rg221+z15+GqdB/N+XSdMh1SejhUhdqmKpRrQzZu1pw9R7fDgL3wKRpbyLsgkqI8
- ZVE5FHQpPXtQjEpc6Z2ljL2Pf1vQZdeKsr+/fdmXbNp3iMEwgqmXcI3ANNiEgGW7W56J
- fmYYTY3y8hMZvJGPEewnMmv4zfZlQGGFkyqaLsipMl9H1ZBMYNAjs6JIcUCzcvImkiDf
- XEjV3z2JUAYjhMbEAcGJsVkgAR8GELX99w8XWVQAOIt2MVP0mrLfMh0m6IAndQzAgKJw
- VT0C7i2v1Ko8WpePbozqs5ydgG6f/csLGifvdsLpa/6fl6Z4k8qJlPFMfUmQcDjVDhOJ pQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36reexjx7k-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 09:19:53 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11GE3jDJ048537;
- Tue, 16 Feb 2021 09:19:53 -0500
-Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.106])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36reexjx6t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 09:19:52 -0500
-Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
- by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11GEICFC003045;
- Tue, 16 Feb 2021 14:19:51 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma04fra.de.ibm.com with ESMTP id 36p6d89f9f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 16 Feb 2021 14:19:51 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11GEJnWj41681334
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 16 Feb 2021 14:19:49 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D7287A405D;
- Tue, 16 Feb 2021 14:19:48 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 810ACA4051;
- Tue, 16 Feb 2021 14:19:48 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Tue, 16 Feb 2021 14:19:48 +0000 (GMT)
-Date: Tue, 16 Feb 2021 15:19:45 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lC1Eh-00017D-Ri
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:21:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lC1Ef-0001Vg-1d
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:21:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613485311;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=6L263UDGrn4scR5Lz5TYJ5DyNcjVsmVXQP5VkYdUQZY=;
+ b=II6jP8Kjm8GeGIIZEMikQabQfRf4acCLmxDUDO+PqHUcEQpEEWCdj8RI4AGSmiSbNnuqUN
+ bEzaq58hR6xOIhY+sc/X3TcgN8fTpmsLzkPCZ9maJToeKo0wHvsEe+yDPenT4SSIrqmNTF
+ t6Pte5m2Zo72GQKGIS7BFu6NGPX6jUg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-537-f6NNffpLPg20KtAc2hLRxA-1; Tue, 16 Feb 2021 09:21:48 -0500
+X-MC-Unique: f6NNffpLPg20KtAc2hLRxA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73C341936B73;
+ Tue, 16 Feb 2021 14:21:47 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-157.ams2.redhat.com [10.36.112.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A54C60C9C;
+ Tue, 16 Feb 2021 14:21:46 +0000 (UTC)
+Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
 To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH] virtio-ccw: commands on revision-less devices
-Message-ID: <20210216151945.736eb6c7.pasic@linux.ibm.com>
-In-Reply-To: <20210216111830.1087847-1-cohuck@redhat.com>
-References: <20210216111830.1087847-1-cohuck@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+References: <20210216110056.1228582-1-thuth@redhat.com>
+ <20210216124757.4eb664e9.cohuck@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a561530e-d800-67e0-ee2b-fea6efb4638c@redhat.com>
+Date: Tue, 16 Feb 2021 15:21:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-16_03:2021-02-16,
- 2021-02-16 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 suspectscore=0
- bulkscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- lowpriorityscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 clxscore=1015
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102160126
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <20210216124757.4eb664e9.cohuck@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -109,97 +81,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 12:18:30 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
-
-> The virtio standard specifies that any non-transitional device must
-> reject commands prior to revision setting (which we do) and else
-> assume revision 0 (legacy) if the driver sends a non-revision-setting
-> command first. We neglected to do the latter.
-
-Huh, I my opinion, it ain't very clear what is specified by the virtio
-standard (which starts with version 1.0) for the described situation.
-
-The corresponding device normative section (4.3.2.1.1 Device
-Requirements: Setting the Virtio Revision) says that: "A device MUST
-treat the revision as unset from the time the associated subchannel has
-been enabled until a revision has been successfully set by the driver.
-This implies that revisions are not persistent across disabling and
-enabling of the associated subchannel.". It doesn't say anything more
-about the situation where the first command is not SET_VIRTIO_REV.
-
-The section "4.3.2.1.3 Legacy Interfaces: A Note on Setting the Virtio
-Revision" which is to my best knowledge not normative, as none of the
-legacy-interface stuff is normative, but a mere advice on how to deal
-with legacy then says: "A legacy driver will not issue the
-CCW_CMD_SET_VIRTIO_REV prior to issuing other virtio-ccw specific
-channel commands." ... "A transitional device MUST assume
-in this case that the driver is a legacy driver and continue as if the
-driver selected revision 0. This implies that the device MUST reject any
-command not valid for revision 0, including a subsequent
-CCW_CMD_SET_VIRTIO_REV."
-
-Do we agree that the legacy interface sections in general, and 4.3.2.1.3
-in particular is non-normative?
-
-In my opinion the normative 'must threat as unset until set by driver'
-and 'if first cmd is not _REV, must continue as if the driver selected
-revision 0' is in a slight collision.
-
-
+On 16/02/2021 12.47, Cornelia Huck wrote:
+> On Tue, 16 Feb 2021 12:00:56 +0100
+> Thomas Huth <thuth@redhat.com> wrote:
 > 
-> Fortunately, nearly everything worked as intended anyway; the only
-> problem was not properly rejecting revision setting after some other
-> command had been issued. Easy to fix by setting revision to 0 if
-> we see a non-revision command on a legacy-capable revision-less
-> device.
+>> According to the virtio specification, a memory barrier should be
+>> used before incrementing the idx field in the "available" ring.
+>> So far, we did not do this in the s390-ccw bios yet, but recently
+>> Peter Maydell saw problems with the s390-ccw bios when running
+>> the qtests on an aarch64 host (the bios panic'ed with the message:
+>> "SCSI cannot report LUNs: response VS RESP=09"), which could
+>> maybe be related to the missing memory barriers. Thus let's add
+>> those barriers now. Since we've only seen the problem on TCG so far,
+>> a "bcr 14,0" should be sufficient here to trigger the tcg_gen_mb()
+>> in the TCG translate code.
+>>
+>> (Note: The virtio spec also talks about using a memory barrier
+>> *after* incrementing the idx field, but if I understood correctly
+>> this is only required when using notification suppression - which
+>> we don't use in the s390-ccw bios here)
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   pc-bios/s390-ccw/virtio-net.c | 1 +
+>>   pc-bios/s390-ccw/virtio.c     | 1 +
+>>   pc-bios/s390-ccw/virtio.h     | 2 ++
+>>   3 files changed, 4 insertions(+)
+>>
+>> diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-net.c
+>> index 2fcb0a58c5..25598a7a97 100644
+>> --- a/pc-bios/s390-ccw/virtio-net.c
+>> +++ b/pc-bios/s390-ccw/virtio-net.c
+>> @@ -127,6 +127,7 @@ int recv(int fd, void *buf, int maxlen, int flags)
+>>   
+>>       /* Mark buffer as available to the host again */
+>>       rxvq->avail->ring[rxvq->avail->idx % rxvq->num] = id;
+>> +    virtio_mb();
+>>       rxvq->avail->idx = rxvq->avail->idx + 1;
+>>       vring_notify(rxvq);
+>>   
+>> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
+>> index ab49840db8..fb9687f9b3 100644
+>> --- a/pc-bios/s390-ccw/virtio.c
+>> +++ b/pc-bios/s390-ccw/virtio.c
+>> @@ -154,6 +154,7 @@ void vring_send_buf(VRing *vr, void *p, int len, int flags)
+>>   
+>>       /* Chains only have a single ID */
+>>       if (!(flags & VRING_DESC_F_NEXT)) {
+>> +        virtio_mb();
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> I think you need to also need barriers for changes to the buffers, as
+> the spec talks about "manipulating the descriptor table".
 
-The change won't hurt so with a toned down commit message:
-Acked-by: Halil Pasic <pasic@linux.ibm.com>
+Which paragraph in the virtio spec are you refering to here? I can't find 
+that part right now...
 
-> ---
->  hw/s390x/virtio-ccw.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+>>           vr->avail->idx++;
+>>       }
+>>   }
+>> diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
+>> index 19fceb6495..6ac65482a9 100644
+>> --- a/pc-bios/s390-ccw/virtio.h
+>> +++ b/pc-bios/s390-ccw/virtio.h
+>> @@ -271,6 +271,8 @@ struct VirtioCmd {
+>>   };
+>>   typedef struct VirtioCmd VirtioCmd;
+>>   
+>> +#define virtio_mb()  asm volatile("bcr 14,0" : : : "memory")
 > 
-> diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
-> index 4582e94ae7dc..06c06056814b 100644
-> --- a/hw/s390x/virtio-ccw.c
-> +++ b/hw/s390x/virtio-ccw.c
-> @@ -327,13 +327,20 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
->                                     ccw.cmd_code);
->      check_len = !((ccw.flags & CCW_FLAG_SLI) && !(ccw.flags & CCW_FLAG_DC));
->  
-> -    if (dev->force_revision_1 && dev->revision < 0 &&
-> -        ccw.cmd_code != CCW_CMD_SET_VIRTIO_REV) {
-> -        /*
-> -         * virtio-1 drivers must start with negotiating to a revision >= 1,
-> -         * so post a command reject for all other commands
-> -         */
-> -        return -ENOSYS;
-> +    if (dev->revision < 0 && ccw.cmd_code != CCW_CMD_SET_VIRTIO_REV) {
-> +        if (dev->force_revision_1) {
-> +            /*
-> +             * virtio-1 drivers must start with negotiating to a revision >= 1,
-> +             * so post a command reject for all other commands
-> +             */
-> +            return -ENOSYS;
-> +        } else {
-> +            /*
-> +             * If the driver issues any command that is not SET_VIRTIO_REV,
-> +             * we'll have to operate the device in legacy mode.
-> +             */
-> +            dev->revision = 0;
-> +        }
->      }
->  
->      /* Look at the command. */
+> The bios is built for z900, so you probably need a bcr15 here?
+
+I thought about that, too, but for TCG, it currently should not matter since 
+both, 14 and 15, end up with the same code in op_bc() in 
+target/s390x/translate.c. And on a real host, we've never seen this problem 
+to occur, so it should not matter there, too. But if you prefer (e.g. in 
+case somebody tweaks the TCG implementation one day), I can also switch to 
+bcr15 instead.
+
+  Thomas
 
 
