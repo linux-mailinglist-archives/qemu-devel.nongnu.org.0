@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47B6731D1F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 22:18:32 +0100 (CET)
-Received: from localhost ([::1]:37542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2D3631D22F
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 22:37:22 +0100 (CET)
+Received: from localhost ([::1]:44910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC7jq-0007hA-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 16:18:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47160)
+	id 1lC825-00045I-CM
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 16:37:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC7ir-00074L-66
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:17:29 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:41997)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC7ip-0002pP-G1
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:17:28 -0500
-Received: by mail-ed1-x533.google.com with SMTP id z22so13965837edb.9
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 13:17:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=6cgNVgvm4gZkKvSNMvQNLWbl/uvu9oFY4ps1XjBGUMM=;
- b=R7LTATcRbQuy9aP2YhmYMMv5xAU5Q19s8Bj2X5PKzKhmsWP6ztxUKR47c54kdMR1QH
- cVA11EqjJq8S5tOBsIwJqREY/RfKZgA4k1cfuQkJXkNYoKPyIF+yPR1oO+DFh893Q5yW
- kMUbTYRxX+LMKs2VJsfuahnboNVQczCC5nlXflKDNqdDKiQTIomWM8CVW91beay1agsP
- xKhUZt6Kn5UU96hWL+1mWM9Nsls5aZfWM4HVYM8Vduz3Rxx9iG6XzMEnNCEsZvB1xaBM
- 8WJVk3QEZ65kL134LTDOABPYghNcX1N1lRIxNGGjnGR1B3UYUX0aPYc2N7wCrxfe/r1T
- wOWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=6cgNVgvm4gZkKvSNMvQNLWbl/uvu9oFY4ps1XjBGUMM=;
- b=ThNSIjvEudw+urjHyxKD1FJ42LC6SuQJ2XE1FQME2gvAeWNJxD5w8lJOTncFm89oa9
- Nnt9uolOIryVf1v255MmKxat4y+mdPzZaDq7jZ80/vlYQLj/iMFNdNeQAYxEA9cc3bk8
- KspiQhdaI600LpxXDn6Cfk0T+DZ0bbN/ecz8IpPJvCemSxk1qeNJOLc6sATzG5f2PKsc
- bT3gls7nyn7sAJC7lQvxi5Ht7K2YLlxqCIUAc22sJDdkeJ89ponGu2WiazyVwhyzDCX1
- tEbZ1uF7FD6/l+RVmmHQ5OCpqLQ23BbVMIvbc6Nydh5z2h/NwvygtOn+puq4c+3cN3gf
- RyDg==
-X-Gm-Message-State: AOAM533o9nIKvRVtgvC87bwQ4+URISI2Z8SwLOB5dTrTyM+GyeLk29BL
- dVRESY6STmG4N7x8SHar+lDY90VVNFLDTmY0qBGgZw==
-X-Google-Smtp-Source: ABdhPJwYjPl1X/r/Qk5abTCRJGodjUUlpaAmM0Jso3B0RR9QxD+phFmO3SBj4GnjgSTFUo0upNYcQTozyMDsBInjCPo=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr22570290edd.100.1613510244695; 
- Tue, 16 Feb 2021 13:17:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lC81M-0003d3-T0
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:36:36 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:39720
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lC81L-0005Rv-AX
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 16:36:36 -0500
+Received: from host86-150-128-218.range86-150.btcentralplus.com
+ ([86.150.128.218] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lC81f-0007Ud-O0; Tue, 16 Feb 2021 21:36:56 +0000
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-31-mark.cave-ayland@ilande.co.uk>
+ <0978e91b-d2e8-ce30-87de-cba2896ecc16@amsat.org>
+ <ce56bbc6-8467-db6d-599d-c52c56ad6f5f@ilande.co.uk>
+ <e86ba2e0-c023-b2fa-6c38-d9fe762bba50@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <67aef0c4-cace-fdd1-15f9-91be224411dd@ilande.co.uk>
+Date: Tue, 16 Feb 2021 21:36:26 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
- <27b85311-3161-eebd-8e00-95ac87f7376d@linaro.org>
- <BYAPR02MB48861D2450B42859C77DC86DDE879@BYAPR02MB4886.namprd02.prod.outlook.com>
-In-Reply-To: <BYAPR02MB48861D2450B42859C77DC86DDE879@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 21:17:13 +0000
-Message-ID: <CAFEAcA-5XGrmJ2DrJZtH0Tq8ic=V6Te7o-KJZ_K26Yzk4X79vQ@mail.gmail.com>
-Subject: Re: [PATCH v8 00/35] Hexagon patch series
-To: Taylor Simpson <tsimpson@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e86ba2e0-c023-b2fa-6c38-d9fe762bba50@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.150.128.218
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 30/42] esp: add 4 byte PDMA read and write transfers
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,44 +68,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
- "philmd@redhat.com" <philmd@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: fam@euphon.net, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 20:59, Taylor Simpson <tsimpson@quicinc.com> wrote:
-> > -----Original Message-----
-> > From: Richard Henderson <richard.henderson@linaro.org>
-> > I've completed review of this round, and there are some nits.  But they're
-> > minor enough that I wouldn't even mind them being addressed via the
-> > normal
-> > development process.  I.e. I'd be keen to not look through that diffstat again.
-> >  ;-)
+On 16/02/2021 07:30, Philippe Mathieu-Daudé wrote:
 
-> > Any objections from anyone else on that?
-> >
-> > I don't suppose you and Peter Maydell signed gpg keys when we all met in
-> > Lyon?
->
-> Nope.  Peter, please advise
+>> Are you planning to review any more of this series? I'm keen to put out
+>> a (hopefully final) v3 soon, but I'll hold off for little while if you
+>> want more time to look over the remaining patches.
+> 
+> I talked about this series with Laurent on Sunday, asking him for
+> review help ;) I don't remember if there is any big comment to
+> address in patches 1-14. If not I can review the missing ones
+> there today and you could send directly a pull request for this
+> first set, then send the rest as v3. Does that help?
+> For the rest I doubt having time to focus before Friday.
 
-We effectively are operating a TOFU policy for gpg keys,
-ie put them on a public keyserver, to the extent that you can arrange
-to get them signed by other people who also have gpg keys please do,
-and at some point we may be able to meet up and get a shorter
-trust path.
+I'd prefer to merge the entire series, since there is more than one migration 
+compatibility break for the q800 machine and I think it would be almost impossible to 
+ensure that all test images didn't regress at some point until all patches have been 
+applied.
 
-For this patchset, I would prefer it if Richard collected the patches
-and sent me a pullrequest. First pullrequests from new submaintainers
-are higher-effort for me, because I need to look them through carefully
-to be sure that they're the right format and so on; so I'd rather
-not do that with an enormous patchset. It's easier for me if that
-work is postponed and done with something smaller later.
+I should probably add that I expanded the test suite to booting 10 images from v1 to 
+v2 across a mix of SPARC, m68k, x86_64 and hppa including both commercial and free OSs.
 
-thanks
--- PMM
+
+ATB,
+
+Mark.
 
