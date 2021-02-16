@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0156531CB22
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:34:50 +0100 (CET)
-Received: from localhost ([::1]:41118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A70331CB25
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:36:30 +0100 (CET)
+Received: from localhost ([::1]:45972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC0V7-0007jr-1h
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:34:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47218)
+	id 1lC0Wj-0001KQ-Ci
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:36:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lC0Qa-00067y-Gc
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:30:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57124)
+ id 1lC0Qe-0006C9-5a
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:30:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lC0QY-0005aH-30
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:30:07 -0500
+ id 1lC0Qc-0005dk-Dj
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:30:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613482203;
+ s=mimecast20190719; t=1613482209;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uTSOUPFBBpGdofX2ATTDm8US6qCDB/0GH4z8Fq0SmZM=;
- b=UYGOAur0GdoF4v26f6OZi9hB2QdgAol3XgA6jZ1ATWb21SFr9W1BbNtDL5SVXDVwpwXlp2
- srANik5fZAU82TSd5mEszzxnbB/xSKg321UeAszB3TEWzgvVaBGvJphIBjTSXpFQgfTjh5
- YDTqD3QkjobAScsjWNbtu5wSsCssqbE=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IJq1C2sR7w5F0IxKwhKqbqySl18My6VanQCSO9Mzv+g=;
+ b=KzGQTcLJWOhLNf0Gaz2BNybnn2EHk80PPDyjwv0KcuaXtbIJnREE50iyAjNmhV126tFJJn
+ 1SjxOcr7Myfux6xZRv9tZDFAh2m6ltvk2Rca0o9tLD8e1DTbiqPHEv2p0hybTh3rFBbSKq
+ Vw17Msa0OQXUyoTxTbjswiH/oWvlIJc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-3U5X3lHDPQqysma_gQj0ng-1; Tue, 16 Feb 2021 08:30:02 -0500
-X-MC-Unique: 3U5X3lHDPQqysma_gQj0ng-1
+ us-mta-512-4KdZh20rMTS2eJDmpGvuEw-1; Tue, 16 Feb 2021 08:30:07 -0500
+X-MC-Unique: 4KdZh20rMTS2eJDmpGvuEw-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 389D7107ACE3;
- Tue, 16 Feb 2021 13:30:01 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42953107ACE3;
+ Tue, 16 Feb 2021 13:30:06 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-215.ams2.redhat.com
  [10.36.112.215])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8AF035D9CC;
- Tue, 16 Feb 2021 13:29:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B943D5D9CC;
+ Tue, 16 Feb 2021 13:30:01 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] fix build failures from incorrectly skipped container
- build jobs
-Date: Tue, 16 Feb 2021 13:29:51 +0000
-Message-Id: <20210216132954.295906-1-berrange@redhat.com>
+Subject: [PATCH v2 1/3] gitlab: always build container images
+Date: Tue, 16 Feb 2021 13:29:52 +0000
+Message-Id: <20210216132954.295906-2-berrange@redhat.com>
+In-Reply-To: <20210216132954.295906-1-berrange@redhat.com>
+References: <20210216132954.295906-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -85,58 +87,92 @@ Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series fixes a problem with our gitlab CI rules that cause=0D
-container builds to be skipped. See the commit description in the=0D
-first patch for the details on this problem.=0D
-=0D
-The overall result of this series though is a small increase in overall=0D
-pipeline time.=0D
-=0D
-Previously=0D
-=0D
- - When container jobs are skipped: approx 1hr 5 mins=0D
- - When container jobs are run, cached by docker: approx 1hr 15 mins=0D
- - When container jobs are run, not cached by docker: approx 1hr 30 mins=0D
-=0D
-With this series applied the first scenario no longer exists, so=0D
-all piplines are either 1hr 15 or 1hr 30 depending on whether the=0D
-container phase is skipped.=0D
-=0D
-On the plus side the builds are more reliable as we're actually=0D
-building container images at correct times.=0D
-=0D
-There is still a race condition though where build jobs can run=0D
-with the wrong containers. This happens if you push two different=0D
-branches to gitlab with different docker file content. If the=0D
-container jobs for the 2nd branch finish before the 1st=0D
-branch runs its build jobs, the 1st branch can end up using=0D
-containers fro the second branch.  The only fix to truely fix=0D
-that would be to stop using "latest" docker tag and always=0D
-use a tag based on the branch name. This would mean we build=0D
-up a growing set of docker images in the gitlab registry.=0D
-=0D
-At least this series is much more correct that what exists in=0D
-git currently. I'm intending to continue to investigate a solution=0D
-for the remaining race condition, but don't want to block this=0D
-series from merging, since this already solves the problem for the=0D
-majority of contributors' usage.=0D
-=0D
-Changed in v2:=0D
-=0D
- - Set needs rules for cross jobs too=0D
-=0D
-Daniel P. Berrang=C3=A9 (3):=0D
-  gitlab: always build container images=0D
-  gitlab: add fine grained job deps for all build jobs=0D
-  gitlab: fix inconsistent indentation=0D
-=0D
- .gitlab-ci.d/containers.yml  |  7 ----=0D
- .gitlab-ci.d/crossbuilds.yml | 46 ++++++++++++++++++++++=0D
- .gitlab-ci.yml               | 74 ++++++++++++++++++++++++++++++++----=0D
- 3 files changed, 112 insertions(+), 15 deletions(-)=0D
-=0D
---=20=0D
-2.29.2=0D
-=0D
+Currently we attempt to skip building container images if the commits do
+not involve changes to the dockerfiles or gitlab CI definitions.
+
+Conceptually this makes sense, but there is a challenge in the real
+world implementation of this in gitlab.
+
+In the case of a CI pipeline triggered from a merge request, GitLab
+knows the common ancestor of the merge request and the main git repo,
+so it can trivially determine if any of the commits associated with
+the MR change the dockerfiles.
+
+In the case of a CI pipeline triggered from a push to a branch, it is
+much more difficult. There is no concept of a common ancestor in this
+case. Instead GitLab looks at the set of commits in the git push event.
+
+On the surface this may sound reasonable, but it doesn't take into
+account that a push event does not always contain the full set of
+patches from a branch.
+
+For example, consider pushing 5 commits, one of which contains a
+dockerfile change. This will trigger a CI pipeline for the
+containers. Now consider you do some more work on the branch and push 3
+further commits, so you now have a branch of 8 commits. For the second
+push GitLab will only look at the 3 most recent commits, the other 5
+were already present. Thus GitLab will not realize that the branch has
+dockerfile changes that need to trigger the container build.
+
+This can cause real world problems:
+
+ - Push 5 commits to branch "foo", including a dockerfile change
+
+    => rebuilds the container images with content from "foo"
+    => build jobs runs against containers from "foo"
+
+ - Refresh your master branch with latest upstream master
+
+    => rebuilds the container images with content from "master"
+    => build jobs runs against containers from "master"
+
+ - Push 3 more commits to branch "foo", with no dockerfile change
+
+    => no container rebuild triggers
+    => build jobs runs against containers from "master"
+
+The "changes" conditional in gitlab is OK, *provided* your build
+jobs are not relying on any external state from previous builds.
+
+This is NOT the case in QEMU, because we are building container
+images and these are cached. This is a scenario in which the
+"changes" conditional is not usuable.
+
+The only other way to avoid this problem would be to use the git
+branch name as the container image tag, instead of always using
+"latest". The downside of this approach is that the user's gitlab
+registry will grow significantly until it starts to trigger
+GitLab's automatic deletion policy.  Every time the user starts
+a new branch they will have to trigger a rebuild of the container
+images. Given this, we might as well just drop the conditional
+and always build the container images. Most of the time docker
+will be able to use the layer cache to avoid the most expensive
+part of the rebuild process (installing all the RPMs/debs/etc)
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ .gitlab-ci.d/containers.yml | 7 -------
+ 1 file changed, 7 deletions(-)
+
+diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+index 90fac85ce4..33e4046e23 100644
+--- a/.gitlab-ci.d/containers.yml
++++ b/.gitlab-ci.d/containers.yml
+@@ -20,13 +20,6 @@
+     - docker push "$TAG"
+   after_script:
+     - docker logout
+-  rules:
+-    - changes:
+-      - .gitlab-ci.d/containers.yml
+-      - tests/docker/*
+-      - tests/docker/dockerfiles/*
+-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+-    - if: '$CI_COMMIT_REF_NAME == "testing/next"'
+ 
+ amd64-alpine-container:
+   <<: *container_job_definition
+-- 
+2.29.2
 
 
