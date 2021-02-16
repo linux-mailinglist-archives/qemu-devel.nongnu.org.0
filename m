@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9054631CE68
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:50:33 +0100 (CET)
-Received: from localhost ([::1]:51686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8BC531CE60
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:48:58 +0100 (CET)
+Received: from localhost ([::1]:47968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3YW-00017Q-93
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:50:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40976)
+	id 1lC3Wz-0007t1-Qk
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:48:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC33Q-0000Vs-MY
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:24 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38554)
+ id 1lC33U-0000aU-Sf
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:28 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:37924)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32Z-0002ZB-5A
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:24 -0500
-Received: by mail-wm1-x329.google.com with SMTP id x4so15010489wmi.3
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:30 -0800 (PST)
+ id 1lC32a-0002ZM-LA
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:18:27 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id b3so13781022wrj.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=7++HAIPf+kBQsOI8XyUWZnHk1HqjunJMxoWabmHNDsM=;
- b=be0rTGXjg7/DcttXy8vPzaTGzJ/cBQDN3KeIoOcCyK4ercsMkZcjLha98PSLFVB0gM
- qM8B2Iwtg5M4G9YAswhH3yiivvQsJ225eZkvJHfV68n56ZzGTygiMsP145kjdBbTKRx3
- +nqDLsjhZe5lEmF3OiPxlE00h6QrHd1neE2nQ0Z1i9bw7KES+aMUkZ/P0/NTnRpJ5Uos
- apAZdZgFLVAXSt1Xh+q472EbCQgDSaGxe9U5VCNovsS/9SExqb9wkus1WzBVrYges72P
- tTWjqnrBOQx/gPBNE6fVqf0AKvBIEs5FlTUJonCx21jLOCAPdmU+x0lJSd7m48xLAP8q
- wz4w==
+ bh=Qiq8axp4iQT5bjc5ra+O5yf3fOap+X0+eOreHTSM218=;
+ b=Cqtwl56v4HcIL8VlXd/WBgwnif0AFQ4Bbw88/8+202z5DHPPZEaA+VW9qGbATqdeVd
+ BWxhwSx2KFiYruJ8HWvF2X5axCAtfeL/QI7K+B4D7WTRq/ZypDXTaQUJ8QQxjvRLxGqF
+ 16KKiHDZAdRepqP2y6WVlm3G/Ao9w7FnXY/zTlaRBprQUfassyd98t7d/80v5PDGYKHc
+ 0wdwC827h+zoLc3SqrtU8u45kykfed0T4bIfyG9EuOe7q5vYeMctVbevUNWVRbpmbWsz
+ KHvA9iy9gLuNurR0YGHvrGg5B4EybSYSbFRcPeMC6jrVP7jxUC9AXJn4W2RAuoO7wJUm
+ iq6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=7++HAIPf+kBQsOI8XyUWZnHk1HqjunJMxoWabmHNDsM=;
- b=kM7i5RLi5REktIkdnR7cd/TmL7TufD/sMQ/odE770ocBvZCfjeFAtaYO/Oit0lXtC3
- JrTRKy6sRaH15aNDkjx+C4cGno2mD1XFVZcYLYxGu+f2jm2X5ESWhJPalUb+ofFkupT9
- +t0x6Nq6tBME3EY7DZy7CORBa7hyp+YI4AowvnoZXllGSb40Q/g+LJA3CE8FoOXmFiOV
- Sg+tA2yloxygJyPZULhHFNdTQqa04R5MraKhH49n5n4pX5U8Emv/c2tN7WkLAujtMIBZ
- mNBcl41WrZLCTr5t1iRSuLJfJ5B+hZQqbDsAX5pbI0tg2lwJ1ZZIyeE4CoygI0ulPTJ2
- q4Ww==
-X-Gm-Message-State: AOAM533TrltG0s5bYOAWGbZzgIwCI3UyRmCpb+2aNnJ1Jpqs3gC4KnsT
- AZ9hnpqo4Zbnm72gWB16WDcGutJrQIZAJA==
-X-Google-Smtp-Source: ABdhPJztEADRee3qGLH2v0sc/KxF+BQVXS9lzjVNtPVlrQOvmOVph/f2fnhUHt3l5aowT7hK7e2JCA==
-X-Received: by 2002:a1c:28c1:: with SMTP id o184mr3713315wmo.183.1613492249522; 
- Tue, 16 Feb 2021 08:17:29 -0800 (PST)
+ bh=Qiq8axp4iQT5bjc5ra+O5yf3fOap+X0+eOreHTSM218=;
+ b=mTk1VZTjpYXbquROgv+jA7svawp9QHyd4XjkntPgyafMdzFtztJr5MOAawaorqe7jU
+ bq5ZIf4tZzGyApcmaOuOrixeHotXEbT2HjCgg6KgLYDIcBA4Ra+3Qxa/26JYrS+RaLxu
+ b+dpgnaXsC3SUusiS+RDcyJ5XMRjyuFTSNzTgEAWUvFA22pdggIJMz07cZ9L6SD10f5J
+ ZLiyO5L6ySIaIbN9esRfW2hyoyzXYkidCMQpuHTAyJUYnIp9DtiyBFBndSM39GfDh8q2
+ KT6aAZGiB04pYPQp6M5QsbZDRrg5+mNLGsEFOKIfRvdu+tcGD/uOMObQS43WhTF0ZkQg
+ HoEQ==
+X-Gm-Message-State: AOAM533t5U7M4hN+2SS5APsEZqTzR/UmBDifvxVHG5zruW/8/odAul3S
+ KQjGx+NU1jpbWMB9U9LBTO4xiwhTGx8XyA==
+X-Google-Smtp-Source: ABdhPJw0x7fUnKcdT/G+iJrBR2t0V3hPIsHvWNZd+/CDn+KiIAt1IyzSLL86AyOVFZfdE8yGA5JWJg==
+X-Received: by 2002:adf:e94c:: with SMTP id m12mr25316898wrn.146.1613492250692; 
+ Tue, 16 Feb 2021 08:17:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.28
+ by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.29
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:29 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 39/40] hw/arm: Add npcm7xx emc model
-Date: Tue, 16 Feb 2021 16:16:57 +0000
-Message-Id: <20210216161658.29881-40-peter.maydell@linaro.org>
+Subject: [PULL 40/40] tests/qtests: Add npcm7xx emc model test
+Date: Tue, 16 Feb 2021 16:16:58 +0000
+Message-Id: <20210216161658.29881-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
 References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,159 +88,898 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Doug Evans <dje@google.com>
 
-This is a 10/100 ethernet device that has several features.
-Only the ones needed by the Linux driver have been implemented.
-See npcm7xx_emc.c for a list of unimplemented features.
-
 Reviewed-by: Hao Wu <wuhaotsh@google.com>
 Reviewed-by: Avi Fishman <avi.fishman@nuvoton.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Doug Evans <dje@google.com>
-Message-id: 20210213002520.1374134-3-dje@google.com
+Message-id: 20210213002520.1374134-4-dje@google.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/system/arm/nuvoton.rst |  3 ++-
- include/hw/arm/npcm7xx.h    |  2 ++
- hw/arm/npcm7xx.c            | 50 +++++++++++++++++++++++++++++++++++--
- 3 files changed, 52 insertions(+), 3 deletions(-)
+ tests/qtest/npcm7xx_emc-test.c | 862 +++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |   1 +
+ 2 files changed, 863 insertions(+)
+ create mode 100644 tests/qtest/npcm7xx_emc-test.c
 
-diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
-index 34fc799b2df..f9fb9224da9 100644
---- a/docs/system/arm/nuvoton.rst
-+++ b/docs/system/arm/nuvoton.rst
-@@ -44,6 +44,7 @@ Supported devices
-  * Analog to Digital Converter (ADC)
-  * Pulse Width Modulation (PWM)
-  * SMBus controller (SMBF)
-+ * Ethernet controller (EMC)
- 
- Missing devices
- ---------------
-@@ -57,7 +58,7 @@ Missing devices
-    * Shared memory (SHM)
-    * eSPI slave interface
- 
-- * Ethernet controllers (GMAC and EMC)
-+ * Ethernet controller (GMAC)
-  * USB device (USBD)
-  * Peripheral SPI controller (PSPI)
-  * SD/MMC host
-diff --git a/include/hw/arm/npcm7xx.h b/include/hw/arm/npcm7xx.h
-index cea1bd1f620..d32849a456b 100644
---- a/include/hw/arm/npcm7xx.h
-+++ b/include/hw/arm/npcm7xx.h
-@@ -26,6 +26,7 @@
- #include "hw/misc/npcm7xx_gcr.h"
- #include "hw/misc/npcm7xx_pwm.h"
- #include "hw/misc/npcm7xx_rng.h"
-+#include "hw/net/npcm7xx_emc.h"
- #include "hw/nvram/npcm7xx_otp.h"
- #include "hw/timer/npcm7xx_timer.h"
- #include "hw/ssi/npcm7xx_fiu.h"
-@@ -90,6 +91,7 @@ typedef struct NPCM7xxState {
-     EHCISysBusState     ehci;
-     OHCISysBusState     ohci;
-     NPCM7xxFIUState     fiu[2];
-+    NPCM7xxEMCState     emc[2];
- } NPCM7xxState;
- 
- #define TYPE_NPCM7XX    "npcm7xx"
-diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
-index f8950f94708..9bd1e83f021 100644
---- a/hw/arm/npcm7xx.c
-+++ b/hw/arm/npcm7xx.c
-@@ -82,6 +82,8 @@ enum NPCM7xxInterrupt {
-     NPCM7XX_UART1_IRQ,
-     NPCM7XX_UART2_IRQ,
-     NPCM7XX_UART3_IRQ,
-+    NPCM7XX_EMC1RX_IRQ          = 15,
-+    NPCM7XX_EMC1TX_IRQ,
-     NPCM7XX_TIMER0_IRQ          = 32,   /* Timer Module 0 */
-     NPCM7XX_TIMER1_IRQ,
-     NPCM7XX_TIMER2_IRQ,
-@@ -120,6 +122,8 @@ enum NPCM7xxInterrupt {
-     NPCM7XX_SMBUS15_IRQ,
-     NPCM7XX_PWM0_IRQ            = 93,   /* PWM module 0 */
-     NPCM7XX_PWM1_IRQ,                   /* PWM module 1 */
-+    NPCM7XX_EMC2RX_IRQ          = 114,
-+    NPCM7XX_EMC2TX_IRQ,
-     NPCM7XX_GPIO0_IRQ           = 116,
-     NPCM7XX_GPIO1_IRQ,
-     NPCM7XX_GPIO2_IRQ,
-@@ -188,6 +192,12 @@ static const hwaddr npcm7xx_smbus_addr[] = {
-     0xf008f000,
- };
- 
-+/* Register base address for each EMC Module */
-+static const hwaddr npcm7xx_emc_addr[] = {
-+    0xf0825000,
-+    0xf0826000,
+diff --git a/tests/qtest/npcm7xx_emc-test.c b/tests/qtest/npcm7xx_emc-test.c
+new file mode 100644
+index 00000000000..7a281731950
+--- /dev/null
++++ b/tests/qtest/npcm7xx_emc-test.c
+@@ -0,0 +1,862 @@
++/*
++ * QTests for Nuvoton NPCM7xx EMC Modules.
++ *
++ * Copyright 2020 Google LLC
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++#include "libqos/libqos.h"
++#include "qapi/qmp/qdict.h"
++#include "qapi/qmp/qnum.h"
++#include "qemu/bitops.h"
++#include "qemu/iov.h"
++
++/* Name of the emc device. */
++#define TYPE_NPCM7XX_EMC "npcm7xx-emc"
++
++/* Timeout for various operations, in seconds. */
++#define TIMEOUT_SECONDS 10
++
++/* Address in memory of the descriptor. */
++#define DESC_ADDR (1 << 20) /* 1 MiB */
++
++/* Address in memory of the data packet. */
++#define DATA_ADDR (DESC_ADDR + 4096)
++
++#define CRC_LENGTH 4
++
++#define NUM_TX_DESCRIPTORS 3
++#define NUM_RX_DESCRIPTORS 2
++
++/* Size of tx,rx test buffers. */
++#define TX_DATA_LEN 64
++#define RX_DATA_LEN 64
++
++#define TX_STEP_COUNT 10000
++#define RX_STEP_COUNT 10000
++
++/* 32-bit register indices. */
++typedef enum NPCM7xxPWMRegister {
++    /* Control registers. */
++    REG_CAMCMR,
++    REG_CAMEN,
++
++    /* There are 16 CAMn[ML] registers. */
++    REG_CAMM_BASE,
++    REG_CAML_BASE,
++
++    REG_TXDLSA = 0x22,
++    REG_RXDLSA,
++    REG_MCMDR,
++    REG_MIID,
++    REG_MIIDA,
++    REG_FFTCR,
++    REG_TSDR,
++    REG_RSDR,
++    REG_DMARFC,
++    REG_MIEN,
++
++    /* Status registers. */
++    REG_MISTA,
++    REG_MGSTA,
++    REG_MPCNT,
++    REG_MRPC,
++    REG_MRPCC,
++    REG_MREPC,
++    REG_DMARFS,
++    REG_CTXDSA,
++    REG_CTXBSA,
++    REG_CRXDSA,
++    REG_CRXBSA,
++
++    NPCM7XX_NUM_EMC_REGS,
++} NPCM7xxPWMRegister;
++
++enum { NUM_CAMML_REGS = 16 };
++
++/* REG_CAMCMR fields */
++/* Enable CAM Compare */
++#define REG_CAMCMR_ECMP (1 << 4)
++/* Accept Unicast Packet */
++#define REG_CAMCMR_AUP (1 << 0)
++
++/* REG_MCMDR fields */
++/* Software Reset */
++#define REG_MCMDR_SWR (1 << 24)
++/* Frame Transmission On */
++#define REG_MCMDR_TXON (1 << 8)
++/* Accept Long Packet */
++#define REG_MCMDR_ALP (1 << 1)
++/* Frame Reception On */
++#define REG_MCMDR_RXON (1 << 0)
++
++/* REG_MIEN fields */
++/* Enable Transmit Completion Interrupt */
++#define REG_MIEN_ENTXCP (1 << 18)
++/* Enable Transmit Interrupt */
++#define REG_MIEN_ENTXINTR (1 << 16)
++/* Enable Receive Good Interrupt */
++#define REG_MIEN_ENRXGD (1 << 4)
++/* ENable Receive Interrupt */
++#define REG_MIEN_ENRXINTR (1 << 0)
++
++/* REG_MISTA fields */
++/* Transmit Bus Error Interrupt */
++#define REG_MISTA_TXBERR (1 << 24)
++/* Transmit Descriptor Unavailable Interrupt */
++#define REG_MISTA_TDU (1 << 23)
++/* Transmit Completion Interrupt */
++#define REG_MISTA_TXCP (1 << 18)
++/* Transmit Interrupt */
++#define REG_MISTA_TXINTR (1 << 16)
++/* Receive Bus Error Interrupt */
++#define REG_MISTA_RXBERR (1 << 11)
++/* Receive Descriptor Unavailable Interrupt */
++#define REG_MISTA_RDU (1 << 10)
++/* DMA Early Notification Interrupt */
++#define REG_MISTA_DENI (1 << 9)
++/* Maximum Frame Length Interrupt */
++#define REG_MISTA_DFOI (1 << 8)
++/* Receive Good Interrupt */
++#define REG_MISTA_RXGD (1 << 4)
++/* Packet Too Long Interrupt */
++#define REG_MISTA_PTLE (1 << 3)
++/* Receive Interrupt */
++#define REG_MISTA_RXINTR (1 << 0)
++
++typedef struct NPCM7xxEMCTxDesc NPCM7xxEMCTxDesc;
++typedef struct NPCM7xxEMCRxDesc NPCM7xxEMCRxDesc;
++
++struct NPCM7xxEMCTxDesc {
++    uint32_t flags;
++    uint32_t txbsa;
++    uint32_t status_and_length;
++    uint32_t ntxdsa;
 +};
 +
- static const struct {
-     hwaddr regs_addr;
-     uint32_t unconnected_pins;
-@@ -406,6 +416,10 @@ static void npcm7xx_init(Object *obj)
-     for (i = 0; i < ARRAY_SIZE(s->pwm); i++) {
-         object_initialize_child(obj, "pwm[*]", &s->pwm[i], TYPE_NPCM7XX_PWM);
-     }
++struct NPCM7xxEMCRxDesc {
++    uint32_t status_and_length;
++    uint32_t rxbsa;
++    uint32_t reserved;
++    uint32_t nrxdsa;
++};
 +
-+    for (i = 0; i < ARRAY_SIZE(s->emc); i++) {
-+        object_initialize_child(obj, "emc[*]", &s->emc[i], TYPE_NPCM7XX_EMC);
++/* NPCM7xxEMCTxDesc.flags values */
++/* Owner: 0 = cpu, 1 = emc */
++#define TX_DESC_FLAG_OWNER_MASK (1 << 31)
++/* Transmit interrupt enable */
++#define TX_DESC_FLAG_INTEN (1 << 2)
++
++/* NPCM7xxEMCTxDesc.status_and_length values */
++/* Transmission complete */
++#define TX_DESC_STATUS_TXCP (1 << 19)
++/* Transmit interrupt */
++#define TX_DESC_STATUS_TXINTR (1 << 16)
++
++/* NPCM7xxEMCRxDesc.status_and_length values */
++/* Owner: 0b00 = cpu, 0b10 = emc */
++#define RX_DESC_STATUS_OWNER_SHIFT 30
++#define RX_DESC_STATUS_OWNER_MASK 0xc0000000
++/* Frame Reception Complete */
++#define RX_DESC_STATUS_RXGD (1 << 20)
++/* Packet too long */
++#define RX_DESC_STATUS_PTLE (1 << 19)
++/* Receive Interrupt */
++#define RX_DESC_STATUS_RXINTR (1 << 16)
++
++#define RX_DESC_PKT_LEN(word) ((uint32_t) (word) & 0xffff)
++
++typedef struct EMCModule {
++    int rx_irq;
++    int tx_irq;
++    uint64_t base_addr;
++} EMCModule;
++
++typedef struct TestData {
++    const EMCModule *module;
++} TestData;
++
++static const EMCModule emc_module_list[] = {
++    {
++        .rx_irq     = 15,
++        .tx_irq     = 16,
++        .base_addr  = 0xf0825000
++    },
++    {
++        .rx_irq     = 114,
++        .tx_irq     = 115,
++        .base_addr  = 0xf0826000
 +    }
- }
- 
- static void npcm7xx_realize(DeviceState *dev, Error **errp)
-@@ -589,6 +603,40 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-         sysbus_connect_irq(sbd, i, npcm7xx_irq(s, NPCM7XX_PWM0_IRQ + i));
-     }
- 
++};
++
++/* Returns the index of the EMC module. */
++static int emc_module_index(const EMCModule *mod)
++{
++    ptrdiff_t diff = mod - emc_module_list;
++
++    g_assert_true(diff >= 0 && diff < ARRAY_SIZE(emc_module_list));
++
++    return diff;
++}
++
++static void packet_test_clear(void *sockets)
++{
++    int *test_sockets = sockets;
++
++    close(test_sockets[0]);
++    g_free(test_sockets);
++}
++
++static int *packet_test_init(int module_num, GString *cmd_line)
++{
++    int *test_sockets = g_new(int, 2);
++    int ret = socketpair(PF_UNIX, SOCK_STREAM, 0, test_sockets);
++    g_assert_cmpint(ret, != , -1);
++
 +    /*
-+     * EMC Modules. Cannot fail.
-+     * The mapping of the device to its netdev backend works as follows:
-+     * emc[i] = nd_table[i]
-+     * This works around the inability to specify the netdev property for the
-+     * emc device: it's not pluggable and thus the -device option can't be
-+     * used.
++     * KISS and use -nic. We specify two nics (both emc{0,1}) because there's
++     * currently no way to specify only emc1: The driver implicitly relies on
++     * emc[i] == nd_table[i].
 +     */
-+    QEMU_BUILD_BUG_ON(ARRAY_SIZE(npcm7xx_emc_addr) != ARRAY_SIZE(s->emc));
-+    QEMU_BUILD_BUG_ON(ARRAY_SIZE(s->emc) != 2);
-+    for (i = 0; i < ARRAY_SIZE(s->emc); i++) {
-+        s->emc[i].emc_num = i;
-+        SysBusDevice *sbd = SYS_BUS_DEVICE(&s->emc[i]);
-+        if (nd_table[i].used) {
-+            qemu_check_nic_model(&nd_table[i], TYPE_NPCM7XX_EMC);
-+            qdev_set_nic_properties(DEVICE(sbd), &nd_table[i]);
-+        }
-+        /*
-+         * The device exists regardless of whether it's connected to a QEMU
-+         * netdev backend. So always instantiate it even if there is no
-+         * backend.
-+         */
-+        sysbus_realize(sbd, &error_abort);
-+        sysbus_mmio_map(sbd, 0, npcm7xx_emc_addr[i]);
-+        int tx_irq = i == 0 ? NPCM7XX_EMC1TX_IRQ : NPCM7XX_EMC2TX_IRQ;
-+        int rx_irq = i == 0 ? NPCM7XX_EMC1RX_IRQ : NPCM7XX_EMC2RX_IRQ;
-+        /*
-+         * N.B. The values for the second argument sysbus_connect_irq are
-+         * chosen to match the registration order in npcm7xx_emc_realize.
-+         */
-+        sysbus_connect_irq(sbd, 0, npcm7xx_irq(s, tx_irq));
-+        sysbus_connect_irq(sbd, 1, npcm7xx_irq(s, rx_irq));
++    if (module_num == 0) {
++        g_string_append_printf(cmd_line,
++                               " -nic socket,fd=%d,model=" TYPE_NPCM7XX_EMC " "
++                               " -nic user,model=" TYPE_NPCM7XX_EMC " ",
++                               test_sockets[1]);
++    } else {
++        g_string_append_printf(cmd_line,
++                               " -nic user,model=" TYPE_NPCM7XX_EMC " "
++                               " -nic socket,fd=%d,model=" TYPE_NPCM7XX_EMC " ",
++                               test_sockets[1]);
 +    }
 +
-     /*
-      * Flash Interface Unit (FIU). Can fail if incorrect number of chip selects
-      * specified, but this is a programming error.
-@@ -649,8 +697,6 @@ static void npcm7xx_realize(DeviceState *dev, Error **errp)
-     create_unimplemented_device("npcm7xx.vcd",          0xf0810000,  64 * KiB);
-     create_unimplemented_device("npcm7xx.ece",          0xf0820000,   8 * KiB);
-     create_unimplemented_device("npcm7xx.vdma",         0xf0822000,   8 * KiB);
--    create_unimplemented_device("npcm7xx.emc1",         0xf0825000,   4 * KiB);
--    create_unimplemented_device("npcm7xx.emc2",         0xf0826000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.usbd[0]",      0xf0830000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.usbd[1]",      0xf0831000,   4 * KiB);
-     create_unimplemented_device("npcm7xx.usbd[2]",      0xf0832000,   4 * KiB);
++    g_test_queue_destroy(packet_test_clear, test_sockets);
++    return test_sockets;
++}
++
++static uint32_t emc_read(QTestState *qts, const EMCModule *mod,
++                         NPCM7xxPWMRegister regno)
++{
++    return qtest_readl(qts, mod->base_addr + regno * sizeof(uint32_t));
++}
++
++static void emc_write(QTestState *qts, const EMCModule *mod,
++                      NPCM7xxPWMRegister regno, uint32_t value)
++{
++    qtest_writel(qts, mod->base_addr + regno * sizeof(uint32_t), value);
++}
++
++static void emc_read_tx_desc(QTestState *qts, uint32_t addr,
++                             NPCM7xxEMCTxDesc *desc)
++{
++    qtest_memread(qts, addr, desc, sizeof(*desc));
++    desc->flags = le32_to_cpu(desc->flags);
++    desc->txbsa = le32_to_cpu(desc->txbsa);
++    desc->status_and_length = le32_to_cpu(desc->status_and_length);
++    desc->ntxdsa = le32_to_cpu(desc->ntxdsa);
++}
++
++static void emc_write_tx_desc(QTestState *qts, const NPCM7xxEMCTxDesc *desc,
++                              uint32_t addr)
++{
++    NPCM7xxEMCTxDesc le_desc;
++
++    le_desc.flags = cpu_to_le32(desc->flags);
++    le_desc.txbsa = cpu_to_le32(desc->txbsa);
++    le_desc.status_and_length = cpu_to_le32(desc->status_and_length);
++    le_desc.ntxdsa = cpu_to_le32(desc->ntxdsa);
++    qtest_memwrite(qts, addr, &le_desc, sizeof(le_desc));
++}
++
++static void emc_read_rx_desc(QTestState *qts, uint32_t addr,
++                             NPCM7xxEMCRxDesc *desc)
++{
++    qtest_memread(qts, addr, desc, sizeof(*desc));
++    desc->status_and_length = le32_to_cpu(desc->status_and_length);
++    desc->rxbsa = le32_to_cpu(desc->rxbsa);
++    desc->reserved = le32_to_cpu(desc->reserved);
++    desc->nrxdsa = le32_to_cpu(desc->nrxdsa);
++}
++
++static void emc_write_rx_desc(QTestState *qts, const NPCM7xxEMCRxDesc *desc,
++                              uint32_t addr)
++{
++    NPCM7xxEMCRxDesc le_desc;
++
++    le_desc.status_and_length = cpu_to_le32(desc->status_and_length);
++    le_desc.rxbsa = cpu_to_le32(desc->rxbsa);
++    le_desc.reserved = cpu_to_le32(desc->reserved);
++    le_desc.nrxdsa = cpu_to_le32(desc->nrxdsa);
++    qtest_memwrite(qts, addr, &le_desc, sizeof(le_desc));
++}
++
++/*
++ * Reset the EMC module.
++ * The module must be reset before, e.g., TXDLSA,RXDLSA are changed.
++ */
++static bool emc_soft_reset(QTestState *qts, const EMCModule *mod)
++{
++    uint32_t val;
++    uint64_t end_time;
++
++    emc_write(qts, mod, REG_MCMDR, REG_MCMDR_SWR);
++
++    /*
++     * Wait for device to reset as the linux driver does.
++     * During reset the AHB reads 0 for all registers. So first wait for
++     * something that resets to non-zero, and then wait for SWR becoming 0.
++     */
++    end_time = g_get_monotonic_time() + TIMEOUT_SECONDS * G_TIME_SPAN_SECOND;
++
++    do {
++        qtest_clock_step(qts, 100);
++        val = emc_read(qts, mod, REG_FFTCR);
++    } while (val == 0 && g_get_monotonic_time() < end_time);
++    if (val != 0) {
++        do {
++            qtest_clock_step(qts, 100);
++            val = emc_read(qts, mod, REG_MCMDR);
++            if ((val & REG_MCMDR_SWR) == 0) {
++                /*
++                 * N.B. The CAMs have been reset here, so macaddr matching of
++                 * incoming packets will not work.
++                 */
++                return true;
++            }
++        } while (g_get_monotonic_time() < end_time);
++    }
++
++    g_message("%s: Timeout expired", __func__);
++    return false;
++}
++
++/* Check emc registers are reset to default value. */
++static void test_init(gconstpointer test_data)
++{
++    const TestData *td = test_data;
++    const EMCModule *mod = td->module;
++    QTestState *qts = qtest_init("-machine quanta-gsj");
++    int i;
++
++#define CHECK_REG(regno, value) \
++  do { \
++    g_assert_cmphex(emc_read(qts, mod, (regno)), ==, (value)); \
++  } while (0)
++
++    CHECK_REG(REG_CAMCMR, 0);
++    CHECK_REG(REG_CAMEN, 0);
++    CHECK_REG(REG_TXDLSA, 0xfffffffc);
++    CHECK_REG(REG_RXDLSA, 0xfffffffc);
++    CHECK_REG(REG_MCMDR, 0);
++    CHECK_REG(REG_MIID, 0);
++    CHECK_REG(REG_MIIDA, 0x00900000);
++    CHECK_REG(REG_FFTCR, 0x0101);
++    CHECK_REG(REG_DMARFC, 0x0800);
++    CHECK_REG(REG_MIEN, 0);
++    CHECK_REG(REG_MISTA, 0);
++    CHECK_REG(REG_MGSTA, 0);
++    CHECK_REG(REG_MPCNT, 0x7fff);
++    CHECK_REG(REG_MRPC, 0);
++    CHECK_REG(REG_MRPCC, 0);
++    CHECK_REG(REG_MREPC, 0);
++    CHECK_REG(REG_DMARFS, 0);
++    CHECK_REG(REG_CTXDSA, 0);
++    CHECK_REG(REG_CTXBSA, 0);
++    CHECK_REG(REG_CRXDSA, 0);
++    CHECK_REG(REG_CRXBSA, 0);
++
++#undef CHECK_REG
++
++    for (i = 0; i < NUM_CAMML_REGS; ++i) {
++        g_assert_cmpuint(emc_read(qts, mod, REG_CAMM_BASE + i * 2), ==,
++                         0);
++        g_assert_cmpuint(emc_read(qts, mod, REG_CAML_BASE + i * 2), ==,
++                         0);
++    }
++
++    qtest_quit(qts);
++}
++
++static bool emc_wait_irq(QTestState *qts, const EMCModule *mod, int step,
++                         bool is_tx)
++{
++    uint64_t end_time =
++        g_get_monotonic_time() + TIMEOUT_SECONDS * G_TIME_SPAN_SECOND;
++
++    do {
++        if (qtest_get_irq(qts, is_tx ? mod->tx_irq : mod->rx_irq)) {
++            return true;
++        }
++        qtest_clock_step(qts, step);
++    } while (g_get_monotonic_time() < end_time);
++
++    g_message("%s: Timeout expired", __func__);
++    return false;
++}
++
++static bool emc_wait_mista(QTestState *qts, const EMCModule *mod, int step,
++                           uint32_t flag)
++{
++    uint64_t end_time =
++        g_get_monotonic_time() + TIMEOUT_SECONDS * G_TIME_SPAN_SECOND;
++
++    do {
++        uint32_t mista = emc_read(qts, mod, REG_MISTA);
++        if (mista & flag) {
++            return true;
++        }
++        qtest_clock_step(qts, step);
++    } while (g_get_monotonic_time() < end_time);
++
++    g_message("%s: Timeout expired", __func__);
++    return false;
++}
++
++static bool wait_socket_readable(int fd)
++{
++    fd_set read_fds;
++    struct timeval tv;
++    int rv;
++
++    FD_ZERO(&read_fds);
++    FD_SET(fd, &read_fds);
++    tv.tv_sec = TIMEOUT_SECONDS;
++    tv.tv_usec = 0;
++    rv = select(fd + 1, &read_fds, NULL, NULL, &tv);
++    if (rv == -1) {
++        perror("select");
++    } else if (rv == 0) {
++        g_message("%s: Timeout expired", __func__);
++    }
++    return rv == 1;
++}
++
++/* Initialize *desc (in host endian format). */
++static void init_tx_desc(NPCM7xxEMCTxDesc *desc, size_t count,
++                         uint32_t desc_addr)
++{
++    g_assert(count >= 2);
++    memset(&desc[0], 0, sizeof(*desc) * count);
++    /* Leave the last one alone, owned by the cpu -> stops transmission. */
++    for (size_t i = 0; i < count - 1; ++i) {
++        desc[i].flags =
++            (TX_DESC_FLAG_OWNER_MASK | /* owner = 1: emc */
++             TX_DESC_FLAG_INTEN |
++             0 | /* crc append = 0 */
++             0 /* padding enable = 0 */);
++        desc[i].status_and_length =
++            (0 | /* collision count = 0 */
++             0 | /* SQE = 0 */
++             0 | /* PAU = 0 */
++             0 | /* TXHA = 0 */
++             0 | /* LC = 0 */
++             0 | /* TXABT = 0 */
++             0 | /* NCS = 0 */
++             0 | /* EXDEF = 0 */
++             0 | /* TXCP = 0 */
++             0 | /* DEF = 0 */
++             0 | /* TXINTR = 0 */
++             0 /* length filled in later */);
++        desc[i].ntxdsa = desc_addr + (i + 1) * sizeof(*desc);
++    }
++}
++
++static void enable_tx(QTestState *qts, const EMCModule *mod,
++                      const NPCM7xxEMCTxDesc *desc, size_t count,
++                      uint32_t desc_addr, uint32_t mien_flags)
++{
++    /* Write the descriptors to guest memory. */
++    for (size_t i = 0; i < count; ++i) {
++        emc_write_tx_desc(qts, desc + i, desc_addr + i * sizeof(*desc));
++    }
++
++    /* Trigger sending the packet. */
++    /* The module must be reset before changing TXDLSA. */
++    g_assert(emc_soft_reset(qts, mod));
++    emc_write(qts, mod, REG_TXDLSA, desc_addr);
++    emc_write(qts, mod, REG_CTXDSA, ~0);
++    emc_write(qts, mod, REG_MIEN, REG_MIEN_ENTXCP | mien_flags);
++    {
++        uint32_t mcmdr = emc_read(qts, mod, REG_MCMDR);
++        mcmdr |= REG_MCMDR_TXON;
++        emc_write(qts, mod, REG_MCMDR, mcmdr);
++    }
++
++    /* Prod the device to send the packet. */
++    emc_write(qts, mod, REG_TSDR, 1);
++}
++
++static void emc_send_verify1(QTestState *qts, const EMCModule *mod, int fd,
++                             bool with_irq, uint32_t desc_addr,
++                             uint32_t next_desc_addr,
++                             const char *test_data, int test_size)
++{
++    NPCM7xxEMCTxDesc result_desc;
++    uint32_t expected_mask, expected_value, recv_len;
++    int ret;
++    char buffer[TX_DATA_LEN];
++
++    g_assert(wait_socket_readable(fd));
++
++    /* Read the descriptor back. */
++    emc_read_tx_desc(qts, desc_addr, &result_desc);
++    /* Descriptor should be owned by cpu now. */
++    g_assert((result_desc.flags & TX_DESC_FLAG_OWNER_MASK) == 0);
++    /* Test the status bits, ignoring the length field. */
++    expected_mask = 0xffff << 16;
++    expected_value = TX_DESC_STATUS_TXCP;
++    if (with_irq) {
++        expected_value |= TX_DESC_STATUS_TXINTR;
++    }
++    g_assert_cmphex((result_desc.status_and_length & expected_mask), ==,
++                    expected_value);
++
++    /* Check data sent to the backend. */
++    recv_len = ~0;
++    ret = qemu_recv(fd, &recv_len, sizeof(recv_len), MSG_DONTWAIT);
++    g_assert_cmpint(ret, == , sizeof(recv_len));
++
++    g_assert(wait_socket_readable(fd));
++    memset(buffer, 0xff, sizeof(buffer));
++    ret = qemu_recv(fd, buffer, test_size, MSG_DONTWAIT);
++    g_assert_cmpmem(buffer, ret, test_data, test_size);
++}
++
++static void emc_send_verify(QTestState *qts, const EMCModule *mod, int fd,
++                            bool with_irq)
++{
++    NPCM7xxEMCTxDesc desc[NUM_TX_DESCRIPTORS];
++    uint32_t desc_addr = DESC_ADDR;
++    static const char test1_data[] = "TEST1";
++    static const char test2_data[] = "Testing 1 2 3 ...";
++    uint32_t data1_addr = DATA_ADDR;
++    uint32_t data2_addr = data1_addr + sizeof(test1_data);
++    bool got_tdu;
++    uint32_t end_desc_addr;
++
++    /* Prepare test data buffer. */
++    qtest_memwrite(qts, data1_addr, test1_data, sizeof(test1_data));
++    qtest_memwrite(qts, data2_addr, test2_data, sizeof(test2_data));
++
++    init_tx_desc(&desc[0], NUM_TX_DESCRIPTORS, desc_addr);
++    desc[0].txbsa = data1_addr;
++    desc[0].status_and_length |= sizeof(test1_data);
++    desc[1].txbsa = data2_addr;
++    desc[1].status_and_length |= sizeof(test2_data);
++
++    enable_tx(qts, mod, &desc[0], NUM_TX_DESCRIPTORS, desc_addr,
++              with_irq ? REG_MIEN_ENTXINTR : 0);
++
++    /*
++     * It's problematic to observe the interrupt for each packet.
++     * Instead just wait until all the packets go out.
++     */
++    got_tdu = false;
++    while (!got_tdu) {
++        if (with_irq) {
++            g_assert_true(emc_wait_irq(qts, mod, TX_STEP_COUNT,
++                                       /*is_tx=*/true));
++        } else {
++            g_assert_true(emc_wait_mista(qts, mod, TX_STEP_COUNT,
++                                         REG_MISTA_TXINTR));
++        }
++        got_tdu = !!(emc_read(qts, mod, REG_MISTA) & REG_MISTA_TDU);
++        /* If we don't have TDU yet, reset the interrupt. */
++        if (!got_tdu) {
++            emc_write(qts, mod, REG_MISTA,
++                      emc_read(qts, mod, REG_MISTA) & 0xffff0000);
++        }
++    }
++
++    end_desc_addr = desc_addr + 2 * sizeof(desc[0]);
++    g_assert_cmphex(emc_read(qts, mod, REG_CTXDSA), ==, end_desc_addr);
++    g_assert_cmphex(emc_read(qts, mod, REG_MISTA), ==,
++                    REG_MISTA_TXCP | REG_MISTA_TXINTR | REG_MISTA_TDU);
++
++    emc_send_verify1(qts, mod, fd, with_irq,
++                     desc_addr, end_desc_addr,
++                     test1_data, sizeof(test1_data));
++    emc_send_verify1(qts, mod, fd, with_irq,
++                     desc_addr + sizeof(desc[0]), end_desc_addr,
++                     test2_data, sizeof(test2_data));
++}
++
++/* Initialize *desc (in host endian format). */
++static void init_rx_desc(NPCM7xxEMCRxDesc *desc, size_t count,
++                         uint32_t desc_addr, uint32_t data_addr)
++{
++    g_assert_true(count >= 2);
++    memset(desc, 0, sizeof(*desc) * count);
++    desc[0].rxbsa = data_addr;
++    desc[0].status_and_length =
++        (0b10 << RX_DESC_STATUS_OWNER_SHIFT | /* owner = 10: emc */
++         0 | /* RP = 0 */
++         0 | /* ALIE = 0 */
++         0 | /* RXGD = 0 */
++         0 | /* PTLE = 0 */
++         0 | /* CRCE = 0 */
++         0 | /* RXINTR = 0 */
++         0   /* length (filled in later) */);
++    /* Leave the last one alone, owned by the cpu -> stops transmission. */
++    desc[0].nrxdsa = desc_addr + sizeof(*desc);
++}
++
++static void enable_rx(QTestState *qts, const EMCModule *mod,
++                      const NPCM7xxEMCRxDesc *desc, size_t count,
++                      uint32_t desc_addr, uint32_t mien_flags,
++                      uint32_t mcmdr_flags)
++{
++    /*
++     * Write the descriptor to guest memory.
++     * FWIW, IWBN if the docs said the buffer needs to be at least DMARFC
++     * bytes.
++     */
++    for (size_t i = 0; i < count; ++i) {
++        emc_write_rx_desc(qts, desc + i, desc_addr + i * sizeof(*desc));
++    }
++
++    /* Trigger receiving the packet. */
++    /* The module must be reset before changing RXDLSA. */
++    g_assert(emc_soft_reset(qts, mod));
++    emc_write(qts, mod, REG_RXDLSA, desc_addr);
++    emc_write(qts, mod, REG_MIEN, REG_MIEN_ENRXGD | mien_flags);
++
++    /*
++     * We don't know what the device's macaddr is, so just accept all
++     * unicast packets (AUP).
++     */
++    emc_write(qts, mod, REG_CAMCMR, REG_CAMCMR_AUP);
++    emc_write(qts, mod, REG_CAMEN, 1 << 0);
++    {
++        uint32_t mcmdr = emc_read(qts, mod, REG_MCMDR);
++        mcmdr |= REG_MCMDR_RXON | mcmdr_flags;
++        emc_write(qts, mod, REG_MCMDR, mcmdr);
++    }
++
++    /* Prod the device to accept a packet. */
++    emc_write(qts, mod, REG_RSDR, 1);
++}
++
++static void emc_recv_verify(QTestState *qts, const EMCModule *mod, int fd,
++                            bool with_irq)
++{
++    NPCM7xxEMCRxDesc desc[NUM_RX_DESCRIPTORS];
++    uint32_t desc_addr = DESC_ADDR;
++    uint32_t data_addr = DATA_ADDR;
++    int ret;
++    uint32_t expected_mask, expected_value;
++    NPCM7xxEMCRxDesc result_desc;
++
++    /* Prepare test data buffer. */
++    const char test[RX_DATA_LEN] = "TEST";
++    int len = htonl(sizeof(test));
++    const struct iovec iov[] = {
++        {
++            .iov_base = &len,
++            .iov_len = sizeof(len),
++        },{
++            .iov_base = (char *) test,
++            .iov_len = sizeof(test),
++        },
++    };
++
++    /*
++     * Reset the device BEFORE sending a test packet, otherwise the packet
++     * may get swallowed by an active device of an earlier test.
++     */
++    init_rx_desc(&desc[0], NUM_RX_DESCRIPTORS, desc_addr, data_addr);
++    enable_rx(qts, mod, &desc[0], NUM_RX_DESCRIPTORS, desc_addr,
++              with_irq ? REG_MIEN_ENRXINTR : 0, 0);
++
++    /* Send test packet to device's socket. */
++    ret = iov_send(fd, iov, 2, 0, sizeof(len) + sizeof(test));
++    g_assert_cmpint(ret, == , sizeof(test) + sizeof(len));
++
++    /* Wait for RX interrupt. */
++    if (with_irq) {
++        g_assert_true(emc_wait_irq(qts, mod, RX_STEP_COUNT, /*is_tx=*/false));
++    } else {
++        g_assert_true(emc_wait_mista(qts, mod, RX_STEP_COUNT, REG_MISTA_RXGD));
++    }
++
++    g_assert_cmphex(emc_read(qts, mod, REG_CRXDSA), ==,
++                    desc_addr + sizeof(desc[0]));
++
++    expected_mask = 0xffff;
++    expected_value = (REG_MISTA_DENI |
++                      REG_MISTA_RXGD |
++                      REG_MISTA_RXINTR);
++    g_assert_cmphex((emc_read(qts, mod, REG_MISTA) & expected_mask),
++                    ==, expected_value);
++
++    /* Read the descriptor back. */
++    emc_read_rx_desc(qts, desc_addr, &result_desc);
++    /* Descriptor should be owned by cpu now. */
++    g_assert((result_desc.status_and_length & RX_DESC_STATUS_OWNER_MASK) == 0);
++    /* Test the status bits, ignoring the length field. */
++    expected_mask = 0xffff << 16;
++    expected_value = RX_DESC_STATUS_RXGD;
++    if (with_irq) {
++        expected_value |= RX_DESC_STATUS_RXINTR;
++    }
++    g_assert_cmphex((result_desc.status_and_length & expected_mask), ==,
++                    expected_value);
++    g_assert_cmpint(RX_DESC_PKT_LEN(result_desc.status_and_length), ==,
++                    RX_DATA_LEN + CRC_LENGTH);
++
++    {
++        char buffer[RX_DATA_LEN];
++        qtest_memread(qts, data_addr, buffer, sizeof(buffer));
++        g_assert_cmpstr(buffer, == , "TEST");
++    }
++}
++
++static void emc_test_ptle(QTestState *qts, const EMCModule *mod, int fd)
++{
++    NPCM7xxEMCRxDesc desc[NUM_RX_DESCRIPTORS];
++    uint32_t desc_addr = DESC_ADDR;
++    uint32_t data_addr = DATA_ADDR;
++    int ret;
++    NPCM7xxEMCRxDesc result_desc;
++    uint32_t expected_mask, expected_value;
++
++    /* Prepare test data buffer. */
++#define PTLE_DATA_LEN 1600
++    char test_data[PTLE_DATA_LEN];
++    int len = htonl(sizeof(test_data));
++    const struct iovec iov[] = {
++        {
++            .iov_base = &len,
++            .iov_len = sizeof(len),
++        },{
++            .iov_base = (char *) test_data,
++            .iov_len = sizeof(test_data),
++        },
++    };
++    memset(test_data, 42, sizeof(test_data));
++
++    /*
++     * Reset the device BEFORE sending a test packet, otherwise the packet
++     * may get swallowed by an active device of an earlier test.
++     */
++    init_rx_desc(&desc[0], NUM_RX_DESCRIPTORS, desc_addr, data_addr);
++    enable_rx(qts, mod, &desc[0], NUM_RX_DESCRIPTORS, desc_addr,
++              REG_MIEN_ENRXINTR, REG_MCMDR_ALP);
++
++    /* Send test packet to device's socket. */
++    ret = iov_send(fd, iov, 2, 0, sizeof(len) + sizeof(test_data));
++    g_assert_cmpint(ret, == , sizeof(test_data) + sizeof(len));
++
++    /* Wait for RX interrupt. */
++    g_assert_true(emc_wait_irq(qts, mod, RX_STEP_COUNT, /*is_tx=*/false));
++
++    /* Read the descriptor back. */
++    emc_read_rx_desc(qts, desc_addr, &result_desc);
++    /* Descriptor should be owned by cpu now. */
++    g_assert((result_desc.status_and_length & RX_DESC_STATUS_OWNER_MASK) == 0);
++    /* Test the status bits, ignoring the length field. */
++    expected_mask = 0xffff << 16;
++    expected_value = (RX_DESC_STATUS_RXGD |
++                      RX_DESC_STATUS_PTLE |
++                      RX_DESC_STATUS_RXINTR);
++    g_assert_cmphex((result_desc.status_and_length & expected_mask), ==,
++                    expected_value);
++    g_assert_cmpint(RX_DESC_PKT_LEN(result_desc.status_and_length), ==,
++                    PTLE_DATA_LEN + CRC_LENGTH);
++
++    {
++        char buffer[PTLE_DATA_LEN];
++        qtest_memread(qts, data_addr, buffer, sizeof(buffer));
++        g_assert(memcmp(buffer, test_data, PTLE_DATA_LEN) == 0);
++    }
++}
++
++static void test_tx(gconstpointer test_data)
++{
++    const TestData *td = test_data;
++    GString *cmd_line = g_string_new("-machine quanta-gsj");
++    int *test_sockets = packet_test_init(emc_module_index(td->module),
++                                         cmd_line);
++    QTestState *qts = qtest_init(cmd_line->str);
++
++    /*
++     * TODO: For pedantic correctness test_sockets[0] should be closed after
++     * the fork and before the exec, but that will require some harness
++     * improvements.
++     */
++    close(test_sockets[1]);
++    /* Defensive programming */
++    test_sockets[1] = -1;
++
++    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
++
++    emc_send_verify(qts, td->module, test_sockets[0], /*with_irq=*/false);
++    emc_send_verify(qts, td->module, test_sockets[0], /*with_irq=*/true);
++
++    qtest_quit(qts);
++}
++
++static void test_rx(gconstpointer test_data)
++{
++    const TestData *td = test_data;
++    GString *cmd_line = g_string_new("-machine quanta-gsj");
++    int *test_sockets = packet_test_init(emc_module_index(td->module),
++                                         cmd_line);
++    QTestState *qts = qtest_init(cmd_line->str);
++
++    /*
++     * TODO: For pedantic correctness test_sockets[0] should be closed after
++     * the fork and before the exec, but that will require some harness
++     * improvements.
++     */
++    close(test_sockets[1]);
++    /* Defensive programming */
++    test_sockets[1] = -1;
++
++    qtest_irq_intercept_in(qts, "/machine/soc/a9mpcore/gic");
++
++    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/false);
++    emc_recv_verify(qts, td->module, test_sockets[0], /*with_irq=*/true);
++    emc_test_ptle(qts, td->module, test_sockets[0]);
++
++    qtest_quit(qts);
++}
++
++static void emc_add_test(const char *name, const TestData* td,
++                         GTestDataFunc fn)
++{
++    g_autofree char *full_name = g_strdup_printf(
++            "npcm7xx_emc/emc[%d]/%s", emc_module_index(td->module), name);
++    qtest_add_data_func(full_name, td, fn);
++}
++#define add_test(name, td) emc_add_test(#name, td, test_##name)
++
++int main(int argc, char **argv)
++{
++    TestData test_data_list[ARRAY_SIZE(emc_module_list)];
++
++    g_test_init(&argc, &argv, NULL);
++
++    for (int i = 0; i < ARRAY_SIZE(emc_module_list); ++i) {
++        TestData *td = &test_data_list[i];
++
++        td->module = &emc_module_list[i];
++
++        add_test(init, td);
++        add_test(tx, td);
++        add_test(rx, td);
++    }
++
++    return g_test_run();
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index ba6ecaed325..8dea0b6fb62 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -136,6 +136,7 @@ qtests_sparc64 = \
+ 
+ qtests_npcm7xx = \
+   ['npcm7xx_adc-test',
++   'npcm7xx_emc-test',
+    'npcm7xx_gpio-test',
+    'npcm7xx_pwm-test',
+    'npcm7xx_rng-test',
 -- 
 2.20.1
 
