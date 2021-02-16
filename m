@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF24C31D2F0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 00:09:36 +0100 (CET)
-Received: from localhost ([::1]:57872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1213131D2F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 00:13:25 +0100 (CET)
+Received: from localhost ([::1]:34828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC9TL-0007Vq-Vb
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 18:09:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45030)
+	id 1lC9X2-0001So-5l
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 18:13:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1lC9Sa-0006pE-Qn; Tue, 16 Feb 2021 18:08:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42622)
+ id 1lC9W1-0000hA-6M; Tue, 16 Feb 2021 18:12:21 -0500
+Received: from mail.kernel.org ([198.145.29.99]:42796)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1lC9SY-0007Xp-Qm; Tue, 16 Feb 2021 18:08:48 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id BA33964E79;
- Tue, 16 Feb 2021 23:08:41 +0000 (UTC)
+ id 1lC9Vz-0007yE-Kp; Tue, 16 Feb 2021 18:12:20 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 92B4164E7A;
+ Tue, 16 Feb 2021 23:12:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1613516922;
- bh=FuaNp1Kd588a9HHc6BAHac6oLVtBPXfpcIm2uY+Dxgs=;
+ s=k20201202; t=1613517136;
+ bh=POGCWEywOoXtGSSW6UtbE+UNePDYsvxtAghkQG/hedQ=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=iv3HdeDMEW85Lmpto/+r2wfF3wib4Ys6Z7HztFScmk1XN8tVNLtD9+Xp7eJohQ5og
- VoykcLjwSq6hz/Ko3ZB5NP2IPVTB2vAvVfaduPYVSnqfEX6gJRDRjELaGx+kv0aMTr
- xsMR8LZjPhkpvnxKV4XYRQqOotYJdsCz/NKS2lv1Vb+OSjTQcBSX7YnEhZPOMiQamg
- K2wCZn4QWYyPmDw0sNSEU3x0Z0LscMiYkUCeso4Q2dYWIajmo/GgqwDt5C+bbY3JTU
- V037cGcOm4e7PNGYrkkfrU06iKp0EM7NybJ+Qs+VApxk3WWmYf9U1obnzRl9/EJ9cg
- 8wZHhbnrvqMOQ==
-Date: Tue, 16 Feb 2021 15:08:39 -0800
+ b=dbFAf/OUHfBBkCGq3O0+D2mktzZhKkOxbiNrMzEiLgMPyxPcHL/rsHOgEnjp5U4ZO
+ b57mq3RtjMUumId3fXBEi9iji56lav/VXmw+qP9Eo1m98ZXdE6FwqZFyOpV7sGllvN
+ YJPjWix1YiQUYDuu76VisSMzRi27GRYNQEL64Fm+rOnoulBBHF4oD4mUSzBQLIZ50k
+ pyDHmwT376rHPqfFIN7COT9V6eUQlkFMdIKCesv8WZkkf8dtLHSeSxYkxyyMlYE/t1
+ pDiypWQt7ys8HYUe/C3j1dZxP8/ufW/NyiYRt2OFXdfE1KdOL+2ZY/zWNxN7hLntxS
+ edwQd0JDVY0Ag==
+Date: Tue, 16 Feb 2021 15:12:13 -0800
 From: Keith Busch <kbusch@kernel.org>
 To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH RFC v3 08/12] hw/block/nvme: end-to-end data protection
-Message-ID: <20210216230839.GD2708768@dhcp-10-100-145-180.wdc.com>
+Subject: Re: [PATCH RFC v3 09/12] hw/block/nvme: add verify command
+Message-ID: <20210216231213.GE2708768@dhcp-10-100-145-180.wdc.com>
 References: <20210214230240.301275-1-its@irrelevant.dk>
- <20210214230240.301275-9-its@irrelevant.dk>
+ <20210214230240.301275-10-its@irrelevant.dk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210214230240.301275-9-its@irrelevant.dk>
+In-Reply-To: <20210214230240.301275-10-its@irrelevant.dk>
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
  helo=mail.kernel.org
 X-Spam_score_int: -70
@@ -68,22 +68,17 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 15, 2021 at 12:02:36AM +0100, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On Mon, Feb 15, 2021 at 12:02:37AM +0100, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 > 
-> Add support for namespaces formatted with protection information. The
-> type of end-to-end data protection (i.e. Type 1, Type 2 or Type 3) is
-> selected with the `pi` nvme-ns device parameter. If the number of
-> metadata bytes is larger than 8, the `pil` nvme-ns device parameter may
-> be used to control the location of the 8-byte DIF tuple. The default
-> `pil` value of '0', causes the DIF tuple to be transferred as the last
-> 8 bytes of the metadata. Set to 1 to store this in the first eight bytes
-> instead.
+> See NVM Express 1.4, section 6.14 ("Verify Command").
+> 
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> [k.jensen: rebased, refactored for e2e]
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 
-
-This file is getting quite large. I think this feature can have the bulk
-of the implementation in a separate file. For ex, nvme-dif.c. But like
-the linux implementation this is based on, it isn't really nvme
-specific, so even better if t10 dif is implemented in a generic location
-with an API for nvme and others.
+Verify is a generic block command supported in other protocols beyond
+nvme. If we're going to support the command in nvme, I prefer the
+implementation had generic backing out of the qemu block API rather than
+emulate the entirety out of the nvme device.
 
