@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1EDA31CD4C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:55:33 +0100 (CET)
-Received: from localhost ([::1]:55918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECBDF31CD50
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:57:03 +0100 (CET)
+Received: from localhost ([::1]:58184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC2hI-0000lL-Q3
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:55:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53176)
+	id 1lC2il-0001nZ-2Y
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:57:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lC2fk-0008LL-Df
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:53:56 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lC2fg-0004TC-HY
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:53:56 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id x4so14942409wmi.3
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 07:53:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ZL7cCA9ZufnnYpq1BMVpGD72uv0oS9reVif+GGXak58=;
- b=DnJUTl9heO4wPdqKhOdqWY39DDhyduhKEYytmD9n+d4KHWkmtHh3b63/QmCD4RecUa
- 8Buk5UURgiQFoBMq9RRNKbHPDCNCuV/nDC7KtweEuZ0M1ovZDVFiKPTZ9uKI8wOQMiWo
- jxrGrq+ELr1/uFN7gKju6R08pyoZAiBA4v1F4r4tkicvhysXJFBkSLJsSXociI6UArxK
- A3JZfRAktsHY+YXrtfzAUPS5HLBBdzRxdxbpKJuIWm+8m2WPjSquuTzCElxz0e4PLdkh
- os6qABRRXtskILjuRyE8MvRC1mMYMmQlqQ1W5NNwPsRVYLanXVcWUCsGT4RxT+rpBrNv
- Ippg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version:content-transfer-encoding;
- bh=ZL7cCA9ZufnnYpq1BMVpGD72uv0oS9reVif+GGXak58=;
- b=iqg1hrE1l/gxXeAbqQC/CobwxpZtCzFwgiTcMX/H/M1sdhYCeEI59JPZ/7Y+IYf1eZ
- w2bZCHo3I/6LX/LWBJwRY1SymJrJZXTdMrQunbzoLBdrYVcj2Ymp5+cgkuu59Ez7ISZQ
- BD0tpo3t2R2yKOs/AG+vG7lK5Hl7JnR64BpcIN9ohYiTm8iB7aFRTXLsu49jOYN7Ck3E
- SntrE116XKOWCsAJ75Qvu8DeknjE2pJrmVKqFn+LBut18+vITe+c+o6TyXCOUbpZhX4F
- Hxr2am5te8fvtJNOa41ycyi7GYXDfc5Ecp2rh5ArozEy7ImmudPp9ShwviyqSjZ0s7SW
- x4XQ==
-X-Gm-Message-State: AOAM532SsqncKo4h00Zak2nErw0HJ+Jjy8zHXdtqOyVCmW/uTdM8YjKN
- 5ZXMPD5fqb2dOhg68OjgF3FCUQ==
-X-Google-Smtp-Source: ABdhPJy6uWNGTLicJtb7ntwAEmnjulHqgwD74M6vk683xjoGIPNk3nRI6km4VH1j6P6obFqSLvXAOQ==
-X-Received: by 2002:a05:600c:4c94:: with SMTP id
- g20mr3712880wmp.41.1613490830117; 
- Tue, 16 Feb 2021 07:53:50 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [2001:8b0:bb71:7140:64::1])
- by smtp.gmail.com with ESMTPSA id v204sm4340412wmg.38.2021.02.16.07.53.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 07:53:49 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id be10ef3d;
- Tue, 16 Feb 2021 15:53:48 +0000 (UTC)
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org
-Subject: Re: [RFC PATCH 0/3] hw/pflash_cfi01: Reduce memory consumption when
- flash image is smaller than region
-In-Reply-To: <fcff2ad0-0280-f78f-c563-5e18ec37f800@redhat.com>
-References: <20210216142721.1985543-1-david.edmondson@oracle.com>
- <df4db595-c2db-4fa8-0a4b-1403117dcc76@redhat.com>
- <cunh7mcjaw3.fsf@dme.org>
- <fcff2ad0-0280-f78f-c563-5e18ec37f800@redhat.com>
-X-HGTTG: zarquon
-From: David Edmondson <dme@dme.org>
-Date: Tue, 16 Feb 2021 15:53:48 +0000
-Message-ID: <cuneehgj9f7.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lC2gC-0000Oi-Dh
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:54:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lC2g7-0004Wk-Lz
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:54:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613490856;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xj8wI8FQpfAQxBssXLDSftq9iNCY6LfJxAiXVD84+5g=;
+ b=ia95uv59S9sTrSrEdSG0o/f/KIreUNHxofj+WF146yeak4k86niJq68NDE1lPO3ARWd7x0
+ qtfxRK7pcMXTECSRSPe6B15m0B0Jd4b+DMrsCns5S4Ltr21u2pQa1yL7hVjX7r3xrM7C1N
+ JSl+CENrCUirtf2xZzNe0l5uc9j+NQA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-8-42nO463LOvKp-QZFwQqm_A-1; Tue, 16 Feb 2021 10:54:14 -0500
+X-MC-Unique: 42nO463LOvKp-QZFwQqm_A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0747189DF4E;
+ Tue, 16 Feb 2021 15:54:13 +0000 (UTC)
+Received: from gondolin (ovpn-113-145.ams2.redhat.com [10.36.113.145])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E20DD19D9F;
+ Tue, 16 Feb 2021 15:54:07 +0000 (UTC)
+Date: Tue, 16 Feb 2021 16:54:05 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH] virtio-ccw: commands on revision-less devices
+Message-ID: <20210216165405.57599fe8.cohuck@redhat.com>
+In-Reply-To: <20210216151945.736eb6c7.pasic@linux.ibm.com>
+References: <20210216111830.1087847-1-cohuck@redhat.com>
+ <20210216151945.736eb6c7.pasic@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: neutral client-ip=2a00:1450:4864:20::32a;
- envelope-from=dme@dme.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,75 +78,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tuesday, 2021-02-16 at 16:44:58 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+On Tue, 16 Feb 2021 15:19:45 +0100
+Halil Pasic <pasic@linux.ibm.com> wrote:
 
-> On 2/16/21 4:22 PM, David Edmondson wrote:
->> On Tuesday, 2021-02-16 at 16:03:05 +01, Philippe Mathieu-Daud=C3=A9 wrot=
-e:
->>=20
->>> I am not a block expert, but I wonder if something like this could
->>> be used:
->>>
->>> - create a raw (parent) block image of 64MiB
->>>
->>> - add a raw (child) block with your 768kB of VARS file
->>>
->>> - add a null-co (child) block of 63Mib + 256kiB
->>>
->>> - pass the parent block to the pflash device
->>=20
->> I'm not clear how this would behave if there is a write to the device at
->> (say) 1MiB.
->
-> Discarded.
->
->> More philosophically, how should it behave?
->
-> null-co: reads return zeroes, writes are discarded.
->
->> My expectation was that if the machine says that there is 64MiB of
->> writable flash, we have to allow writes throughout the full 64MiB and
->> (significantly) persist them to the backing block device.
->>=20
->> Just because the backing block device started out 768KiB big doesn't
->> mean that we should not write to the remaining extent if that's what the
->> VM attempts.
->>=20
->> Would the above approach achieve that? (It doesn't sound like it.)
->
-> Well this was a simple suggestion if you know your guest won't access
-> anything beside these 768KiB (IIRC AAVMF "consumes" the flash devices
-> and doesn't expose them to the guest via ACPI/other).
+> On Tue, 16 Feb 2021 12:18:30 +0100
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+> > The virtio standard specifies that any non-transitional device must
+> > reject commands prior to revision setting (which we do) and else
+> > assume revision 0 (legacy) if the driver sends a non-revision-setting
+> > command first. We neglected to do the latter.  
+> 
+> Huh, I my opinion, it ain't very clear what is specified by the virtio
+> standard (which starts with version 1.0) for the described situation.
+> 
+> The corresponding device normative section (4.3.2.1.1 Device
+> Requirements: Setting the Virtio Revision) says that: "A device MUST
+> treat the revision as unset from the time the associated subchannel has
+> been enabled until a revision has been successfully set by the driver.
+> This implies that revisions are not persistent across disabling and
+> enabling of the associated subchannel.". It doesn't say anything more
+> about the situation where the first command is not SET_VIRTIO_REV.
+> 
+> The section "4.3.2.1.3 Legacy Interfaces: A Note on Setting the Virtio
+> Revision" which is to my best knowledge not normative, as none of the
+> legacy-interface stuff is normative, but a mere advice on how to deal
+> with legacy then says: "A legacy driver will not issue the
+> CCW_CMD_SET_VIRTIO_REV prior to issuing other virtio-ccw specific
+> channel commands." ... "A transitional device MUST assume
+> in this case that the driver is a legacy driver and continue as if the
+> driver selected revision 0. This implies that the device MUST reject any
+> command not valid for revision 0, including a subsequent
+> CCW_CMD_SET_VIRTIO_REV."
+> 
+> Do we agree that the legacy interface sections in general, and 4.3.2.1.3
+> in particular is non-normative?
 
-If that's the case, mirroring the approach in the patch that I sent
-should work - we run the 768kiB as a subregion with IO/ROMD behaviour,
-fail or discard writes to the rest and read as zero.
+IMHO, normative and non-normative are not something that applies to the
+legacy sections. The legacy sections are supposed to give guidance on
+how to write transitional devices/drivers that can deal with legacy
+implementations. If you want to write something that strictly only
+adheres to normative statements, you have to write a non-transitional
+device/driver. Legacy support was never an official standard, so
+'normative' is meaningless in that context.
 
-> If you are into memory optimization, this is worth considering.
-> Else it doesn't make sense.
->
-> AAVMF is designed for virtual world. Is the virtual world interested in
-> doing firmware upgrade on the CODE flash? Unlikely, if you want to
-> upgrade AAVMF you'd do it on the host. Why not mount the CODE flash as
-> ROM? I suppose because AAVMF does CFI MMIO accesses to detect the flash,
-> but I wonder what is the point if this flash will be ever written...
+> 
+> In my opinion the normative 'must threat as unset until set by driver'
+> and 'if first cmd is not _REV, must continue as if the driver selected
+> revision 0' is in a slight collision.
 
-I don't expect that the CODE flash will ever be written by the guest, no
-(it's generally presented to the guest as read-only), and currently the
-VARS flash is also often presented read-only as well, but I don't think
-that is a situation that we can maintain given increasing use (DBX
-updates, for example).
+I don't think there's a collision. If we want to accommodate legacy
+drivers, we have to deal with their lack of revision handling, and
+therefore treat non-_REV commands as implicitly selecting revision 0.
 
-If it's acceptable to limit flash writes to the extent of the underlying
-block device then things are straightforward. It's not clear to me that
-this is the case.
+If we want to implement a non-transitional device, the implicit
+selection of revision 0 goes away, of course. In fact, I'm currently
+trying to make legacy support optional for virtio-ccw, so that's why I
+had been looking at the revision handling :)
 
-dme.
---=20
-She's got no name, but she is family.
+> 
+> 
+> > 
+> > Fortunately, nearly everything worked as intended anyway; the only
+> > problem was not properly rejecting revision setting after some other
+> > command had been issued. Easy to fix by setting revision to 0 if
+> > we see a non-revision command on a legacy-capable revision-less
+> > device.
+> > 
+> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>  
+> 
+> The change won't hurt so with a toned down commit message:
+> Acked-by: Halil Pasic <pasic@linux.ibm.com>
+
+Replace 'and else' with 'a transitional device needs to'?
+
+> 
+> > ---
+> >  hw/s390x/virtio-ccw.c | 21 ++++++++++++++-------
+> >  1 file changed, 14 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/hw/s390x/virtio-ccw.c b/hw/s390x/virtio-ccw.c
+> > index 4582e94ae7dc..06c06056814b 100644
+> > --- a/hw/s390x/virtio-ccw.c
+> > +++ b/hw/s390x/virtio-ccw.c
+> > @@ -327,13 +327,20 @@ static int virtio_ccw_cb(SubchDev *sch, CCW1 ccw)
+> >                                     ccw.cmd_code);
+> >      check_len = !((ccw.flags & CCW_FLAG_SLI) && !(ccw.flags & CCW_FLAG_DC));
+> >  
+> > -    if (dev->force_revision_1 && dev->revision < 0 &&
+> > -        ccw.cmd_code != CCW_CMD_SET_VIRTIO_REV) {
+> > -        /*
+> > -         * virtio-1 drivers must start with negotiating to a revision >= 1,
+> > -         * so post a command reject for all other commands
+> > -         */
+> > -        return -ENOSYS;
+> > +    if (dev->revision < 0 && ccw.cmd_code != CCW_CMD_SET_VIRTIO_REV) {
+> > +        if (dev->force_revision_1) {
+> > +            /*
+> > +             * virtio-1 drivers must start with negotiating to a revision >= 1,
+> > +             * so post a command reject for all other commands
+> > +             */
+> > +            return -ENOSYS;
+> > +        } else {
+> > +            /*
+> > +             * If the driver issues any command that is not SET_VIRTIO_REV,
+> > +             * we'll have to operate the device in legacy mode.
+> > +             */
+> > +            dev->revision = 0;
+> > +        }
+> >      }
+> >  
+> >      /* Look at the command. */  
+> 
+
 
