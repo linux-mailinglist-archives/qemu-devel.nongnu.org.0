@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC1031C907
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:48:23 +0100 (CET)
-Received: from localhost ([::1]:58258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F11431C909
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:48:26 +0100 (CET)
+Received: from localhost ([::1]:58614 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBxu2-0003u8-Hu
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:48:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51262)
+	id 1lBxu5-00042c-J5
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:48:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51296)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBxsf-0002Ls-Lc
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:46:58 -0500
-Received: from mx2.suse.de ([195.135.220.15]:59036)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBxsh-0002MT-PA
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:47:00 -0500
+Received: from mx2.suse.de ([195.135.220.15]:59058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBxsc-00064s-Sm
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:46:57 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lBxsc-000653-Sl
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:46:59 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 65005AEBF;
+ by mx2.suse.de (Postfix) with ESMTP id E089DACD4;
  Tue, 16 Feb 2021 10:46:52 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -28,10 +28,9 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [RFC v19 02/15] cpu: call AccelCPUClass::cpu_realizefn in
- cpu_exec_realizefn
-Date: Tue, 16 Feb 2021 11:46:34 +0100
-Message-Id: <20210216104647.13400-3-cfontana@suse.de>
+Subject: [RFC v19 03/15] accel: introduce new accessor functions
+Date: Tue, 16 Feb 2021 11:46:35 +0100
+Message-Id: <20210216104647.13400-4-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210216104647.13400-1-cfontana@suse.de>
 References: <20210216104647.13400-1-cfontana@suse.de>
@@ -64,85 +63,127 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move the call to accel_cpu->cpu_realizefn to the general
-cpu_exec_realizefn from target/i386, so it does not need to be
-called for every target explicitly as we enable more targets.
+avoid open coding the accesses to cpu->accel_cpu interfaces,
+and instead introduce:
+
+accel_cpu_instance_init,
+accel_cpu_realizefn
+
+to be used by the targets/ initfn code,
+and by cpu_exec_realizefn respectively.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- cpu.c             |  6 ++++++
- target/i386/cpu.c | 20 +++++++-------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ include/qemu/accel.h | 13 +++++++++++++
+ accel/accel-common.c | 19 +++++++++++++++++++
+ cpu.c                |  6 +-----
+ target/i386/cpu.c    |  9 ++-------
+ 4 files changed, 35 insertions(+), 12 deletions(-)
 
-diff --git a/cpu.c b/cpu.c
-index bfbe5a66f9..ba5d272c1e 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -36,6 +36,7 @@
- #include "sysemu/replay.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
-+#include "hw/core/accel-cpu.h"
+diff --git a/include/qemu/accel.h b/include/qemu/accel.h
+index b9d6d69eb8..da0c8ab523 100644
+--- a/include/qemu/accel.h
++++ b/include/qemu/accel.h
+@@ -78,4 +78,17 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
+ void accel_setup_post(MachineState *ms);
+ #endif /* !CONFIG_USER_ONLY */
  
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
-@@ -130,6 +131,11 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
++/**
++ * accel_cpu_instance_init:
++ * @cpu: The CPU that needs to do accel-specific object initializations.
++ */
++void accel_cpu_instance_init(CPUState *cpu);
++
++/**
++ * accel_cpu_realizefn:
++ * @cpu: The CPU that needs to call accel-specific cpu realization.
++ * @errp: currently unused.
++ */
++void accel_cpu_realizefn(CPUState *cpu, Error **errp);
++
+ #endif /* QEMU_ACCEL_H */
+diff --git a/accel/accel-common.c b/accel/accel-common.c
+index 9901b0531c..0f6fb4fb66 100644
+--- a/accel/accel-common.c
++++ b/accel/accel-common.c
+@@ -89,6 +89,25 @@ void accel_init_interfaces(AccelClass *ac)
+     accel_init_cpu_interfaces(ac);
+ }
  
-     cpu_list_add(cpu);
- 
-+    if (cc->accel_cpu) {
++void accel_cpu_instance_init(CPUState *cpu)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->accel_cpu && cc->accel_cpu->cpu_instance_init) {
++        cc->accel_cpu->cpu_instance_init(cpu);
++    }
++}
++
++void accel_cpu_realizefn(CPUState *cpu, Error **errp)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++
++    if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
 +        /* NB: errp parameter is unused currently */
 +        cc->accel_cpu->cpu_realizefn(cpu, errp);
 +    }
++}
 +
+ static const TypeInfo accel_cpu_type = {
+     .name = TYPE_ACCEL_CPU,
+     .parent = TYPE_OBJECT,
+diff --git a/cpu.c b/cpu.c
+index ba5d272c1e..25e6fbfa2c 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -130,11 +130,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
+     CPUClass *cc = CPU_GET_CLASS(cpu);
+ 
+     cpu_list_add(cpu);
+-
+-    if (cc->accel_cpu) {
+-        /* NB: errp parameter is unused currently */
+-        cc->accel_cpu->cpu_realizefn(cpu, errp);
+-    }
++    accel_cpu_realizefn(cpu, errp);
+ 
  #ifdef CONFIG_TCG
      /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index b034571869..a81a1edcd4 100644
+index a81a1edcd4..8d2e1c3136 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -6339,16 +6339,19 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+@@ -28,7 +28,6 @@
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
+ #include "sysemu/hvf.h"
+-#include "hw/core/accel-cpu.h"
+ #include "sysemu/xen.h"
+ #include "sysemu/whpx.h"
+ #include "kvm/kvm_i386.h"
+@@ -6680,8 +6679,6 @@ static void x86_cpu_initfn(Object *obj)
  {
-     CPUState *cs = CPU(dev);
--    CPUClass *cc = CPU_GET_CLASS(cs);
-     X86CPU *cpu = X86_CPU(dev);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(dev);
+     X86CPU *cpu = X86_CPU(obj);
+     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
+-    CPUClass *cc = CPU_CLASS(xcc);
+-
      CPUX86State *env = &cpu->env;
-     Error *local_err = NULL;
-     static bool ht_warned;
  
--    /* The accelerator realizefn needs to be called first. */
+     env->nr_dies = 1;
+@@ -6730,10 +6727,8 @@ static void x86_cpu_initfn(Object *obj)
+         x86_cpu_load_model(cpu, xcc->model);
+     }
+ 
+-    /* if required, do the accelerator-specific cpu initialization */
 -    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_realizefn(cs, errp);
-+    /* Process Hyper-V enlightenments */
-+    x86_cpu_hyperv_realize(cpu);
-+
-+    cpu_exec_realizefn(cs, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
-     }
- 
-     if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-@@ -6464,15 +6467,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         env->cache_info_amd.l3_cache = &legacy_l3_cache;
-     }
- 
--    /* Process Hyper-V enlightenments */
--    x86_cpu_hyperv_realize(cpu);
--
--    cpu_exec_realizefn(cs, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
--        return;
+-        cc->accel_cpu->cpu_instance_init(CPU(obj));
 -    }
--
- #ifndef CONFIG_USER_ONLY
-     MachineState *ms = MACHINE(qdev_get_machine());
-     qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
++    /* if required, do accelerator-specific cpu initializations */
++    accel_cpu_instance_init(CPU(obj));
+ }
+ 
+ static int64_t x86_cpu_get_arch_id(CPUState *cs)
 -- 
 2.26.2
 
