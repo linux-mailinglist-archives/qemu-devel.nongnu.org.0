@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C06F931CC97
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:06:16 +0100 (CET)
-Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FACC31CC9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:09:06 +0100 (CET)
+Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1vb-0005z7-QY
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:06:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41960)
+	id 1lC1yL-00020m-Ae
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:09:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lC1sO-0003tp-KY; Tue, 16 Feb 2021 10:02:58 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:40215)
+ id 1lC1sS-00040A-Du; Tue, 16 Feb 2021 10:03:00 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:37464)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lC1sE-0006Gv-Vf; Tue, 16 Feb 2021 10:02:56 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id z9so6084264pjl.5;
- Tue, 16 Feb 2021 07:02:43 -0800 (PST)
+ id 1lC1sO-0006HL-M5; Tue, 16 Feb 2021 10:03:00 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id d15so5618189plh.4;
+ Tue, 16 Feb 2021 07:02:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=kNHsYjJ4o6EKBsRClxcIj8D2KvENAwyWtLKbAfGkZ0g=;
- b=gTNMOJKCLhYWfJ/MACn13yTVucLtNdMKeLHA4cF0M5ZlbKlrRcYeLK1+WilNFtJrj+
- 32fzdP+s8JY7Qm2w1IODKg0XQ6AvPpfIsIYnIuFP04lK5RuCogI/Anf5Vk4hSSgNdOkv
- XKMGdGcdrL/dm79Usg+Ho4FTxAsm9Zwxv96uT977XPntlLhJi1gbHg83OilI3OD3DiHF
- +kq5hgcDOnuO5dDUkdV4o7JoFrVPEvcaY7X8XfdNNduLEM8U7/C/CTt6xPOisTe/UxZa
- 1UAROR0FzK8Tst9/5M5hiZ3i2efNVk5Nz+iAIz5PKkBgJMJRSs2kxuuBT27G75zrReMI
- 7k8w==
+ bh=JSSbbEQMVPfDlmsQro50Dl0kGOHve+9ueKscDDbMorY=;
+ b=Yf8HmdkQnEfEZ83r1tDR/VR7Wb1iUMkx4g1QnK2i+HdoC1/Wpy31KsbD5MA6QbIngM
+ 7IRneV7x6yOligK/UwfMd7EDqMKlFb5tF5o4YMV5A7SMzYF24zc3+KmNuMVKj8VRsKGo
+ rdtwoX/LP6OD+1egfsWbcTLjqq9E1Ihbd++qtyT+K8rumOIcdPEW9+A8rsDqZoZM7DGn
+ gqISHDn08AHouKHXPpjLhRLrYdU4Jm6Gw9l6R+nbTjbOG1Y4hsB7od2ALybcADPI6cuc
+ HcVTVy2aPUC6YUcQMQnOPnVegvoWmmJXq8c4SToA71gbKqhKSbiXSYK0b5horMz6p7zA
+ XDKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=kNHsYjJ4o6EKBsRClxcIj8D2KvENAwyWtLKbAfGkZ0g=;
- b=WOCBF0KC7kAbTXXGZfUh61Ccv4z+UZ5jdV3We84mcqCaA3F4HsVKj4Kngih6HPvk2o
- HW0uCHUhdV6SBxvGTTpYSMccbgQN799z0ZaZWMDegTRMHB9ODseaW05RP3LjWQS58rCC
- sKIwtWWNu+hjU1Uh26ABXZmbEtgCTAWqnADYXlbmyNmI3E1SGOYt3bOOij0Gc2ChDcK3
- iOJiQPxelktjhpymZrz3iqMGXFuaCGjHnRziPEBCfAdlJ4p2CMd2kpCtZ/Dh4Gxs6wKv
- zXEOFmkBisx/2FWf1rD9TMLwftn6ndlJY0n1vdEZf1ImU3BAbcow+17jPQVafWG6qvdt
- ebng==
-X-Gm-Message-State: AOAM530EuY4rEKFr4Lcc9s43c0hnfmjkkIsJCQd9ZZ8AbdSNWFz5yAqg
- SMq9nmPDE3J1uuJTtixkysgUHd1I9Yc=
-X-Google-Smtp-Source: ABdhPJy/eTnl3koEIGVbHahDAt6lgHDsdjl8P4UPu1QLQlPLcnx/NCNF79LI5khqe9qs033/nzWPHw==
-X-Received: by 2002:a17:902:b487:b029:e2:d2e2:60c0 with SMTP id
- y7-20020a170902b487b02900e2d2e260c0mr20271027plr.32.1613487762943; 
- Tue, 16 Feb 2021 07:02:42 -0800 (PST)
+ bh=JSSbbEQMVPfDlmsQro50Dl0kGOHve+9ueKscDDbMorY=;
+ b=OFSccyimvJtvkoOrF0hi5OoFpC54zcCGAuTtAIw+CnxZJZ4bHVIUD4H9nygqAm3t7D
+ dm6RqXJONpyPmBAo1NxM6nyoIZW7zmOOu4Vj6hwwPVgD+3YqLHiNA9z0PR3HFAI972sK
+ wVfl0pd6ofeZnFUJa5uKlysiwGTcESGml/Ql4JZGiGF1rSQMO0thxTL1j4CRGJ++5vX3
+ C8cgvYnkKMXuHRDpAZpDSjDP9wiCOIMVNprmLAWig9+NtyKUcGarL8LdY3nJZt4O3kCL
+ cSx8t3tKUfdpQdYYVl2L+hjdeIgUjQUAfLb/3hcZ2JzJQMtp7E4o9bIGDTVHjRvASj4c
+ RHfw==
+X-Gm-Message-State: AOAM530vQwAqQtL8awCAFEVDkPaVO2t+mn9rXrgwchMtNdVngxp64M/l
+ D9988k6UO+dVZem2UGMuXzA=
+X-Google-Smtp-Source: ABdhPJyNWXJfrUYlj01JAE8YT4/vid5r5FpvI7so4d47aZmxG9ewvAugAZO3VPcwBLNhPyrdSu43jw==
+X-Received: by 2002:a17:90a:46cc:: with SMTP id
+ x12mr4625498pjg.114.1613487767406; 
+ Tue, 16 Feb 2021 07:02:47 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id n15sm21960300pgl.31.2021.02.16.07.02.39
+ by smtp.gmail.com with ESMTPSA id n15sm21960300pgl.31.2021.02.16.07.02.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 07:02:42 -0800 (PST)
+ Tue, 16 Feb 2021 07:02:45 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 2/8] hw/sd: sd: Only SDSC cards support CMD28/29/30
-Date: Tue, 16 Feb 2021 23:02:19 +0800
-Message-Id: <20210216150225.27996-3-bmeng.cn@gmail.com>
+Subject: [PATCH v2 3/8] hw/sd: sd: Fix CMD30 response type
+Date: Tue, 16 Feb 2021 23:02:20 +0800
+Message-Id: <20210216150225.27996-4-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210216150225.27996-1-bmeng.cn@gmail.com>
 References: <20210216150225.27996-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,62 +90,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Bin Meng <bin.meng@windriver.com>
 
 Per the "Physical Layer Specification Version 8.00", table 4-26
-(SD mode) and table 7-3 (SPI mode) command descriptions, the
-following commands:
+(SD mode) and table 7-3 (SPI mode) command descriptions, CMD30
+response type is R1, not R1b.
 
-- CMD28 (SET_WRITE_PROT)
-- CMD29 (CLR_WRITE_PROT)
-- CMD30 (SEND_WRITE_PROT)
-
-are only supported by SDSC cards.
-
+Fixes: a1bb27b1e98a ("SD card emulation initial implementation")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 ---
 
 Changes in v2:
-- new patch: sd: Only SDSC cards support CMD28/29/30
+- new patch: sd: Fix CMD30 response type
 
- hw/sd/sd.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ hw/sd/sd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index a6a0b3dcc6..273bae0a9a 100644
+index 273bae0a9a..6af821b75b 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1284,6 +1284,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+@@ -1340,7 +1340,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+             *(uint32_t *) sd->data = sd_wpbits(sd, req.arg);
+             sd->data_start = addr;
+             sd->data_offset = 0;
+-            return sd_r1b;
++            return sd_r1;
  
-     /* Write protection (Class 6) */
-     case 28:	/* CMD28:  SET_WRITE_PROT */
-+        if (sd->size > SDSC_MAX_CAPACITY) {
-+            return sd_illegal;
-+        }
-+
-         switch (sd->state) {
-         case sd_transfer_state:
-             if (addr >= sd->size) {
-@@ -1303,6 +1307,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         break;
- 
-     case 29:	/* CMD29:  CLR_WRITE_PROT */
-+        if (sd->size > SDSC_MAX_CAPACITY) {
-+            return sd_illegal;
-+        }
-+
-         switch (sd->state) {
-         case sd_transfer_state:
-             if (addr >= sd->size) {
-@@ -1322,6 +1330,10 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         break;
- 
-     case 30:	/* CMD30:  SEND_WRITE_PROT */
-+        if (sd->size > SDSC_MAX_CAPACITY) {
-+            return sd_illegal;
-+        }
-+
-         switch (sd->state) {
-         case sd_transfer_state:
-             sd->state = sd_sendingdata_state;
+         default:
+             break;
 -- 
 2.25.1
 
