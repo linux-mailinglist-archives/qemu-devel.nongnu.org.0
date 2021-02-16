@@ -2,71 +2,125 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E8A31CE9A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:04:31 +0100 (CET)
-Received: from localhost ([::1]:33138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8390D31CEAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 18:11:15 +0100 (CET)
+Received: from localhost ([::1]:50906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3m2-0000V4-E4
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:04:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52426)
+	id 1lC3sY-00009a-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 12:11:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC3TJ-0006AN-Vy
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:45:10 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:38170)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC3TD-0006qj-JF
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:45:09 -0500
-Received: by mail-ed1-x533.google.com with SMTP id s11so13012690edd.5
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:45:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Xp8gyyw4XX+v5GfAXxip4UNdg+CNKu2z9lmgf9b+QEI=;
- b=SCQCIGlNZmbtz2ejbwiOgXOxelbHvmReciN0EQj3r0b4kRb8u5QIW/i16Ur02cNsfb
- CyRgHQQVopVIvfka7tPFSL2UavQha7ogwuiusFzj3yaLn7Sb23GFwUwKg7f6/I4Bd8z3
- QdZ0N9uNYjxhtH5TmdZSCaa1wuUNVckHf8rXbJ99oqGGj/KtpTwJ3RcOyi4+ZscKJYSc
- 6q09Wj9sVj0t2Eca35WoMiR73f34LlMLsMoLgC/ACwmIBJc8QPCbILDC4rsEWexxywK3
- 4HGsXqlD6PRV9ifEJzFi7fu8TN4puzZkMlKvMZfk+SPlBcqHmrT/JZ6NfvuFxpAjHV61
- mVIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Xp8gyyw4XX+v5GfAXxip4UNdg+CNKu2z9lmgf9b+QEI=;
- b=g7Fvp8cE6ZfVK9s4LgIW0UC/drdhRRZzrIW+snVubvEpt6H/eKmWSQ16qnsMFegawM
- 1cWr9w5ISQmsWO2RAwJ+UNbZxzxk+2OvDxWtnAP7I2jehr5YoLajcB5MDtufTLFstigH
- 50dDLrnITPkH5FeuJKlW+2W+Czb52E6KNNt4xaP7vxws2Tk1T2FvG+0kEbid+B11N+0x
- pe7vcDyIDbZt/oErmvmhy/uygHaB5476kIdOCxEpmjkev0ZYfK6PCGFcE1DM4hH35FHf
- quvMCxiHFazJuB3WB9kot0gA1k8sd6N15hsGHjd4EkBwDV3P/umZQKfwILUfNN0mLtOh
- xLVw==
-X-Gm-Message-State: AOAM533NZTpJ59b33TverUCuu119K/GfEY4Rm7ehP8raNmtq7WwDy2ow
- QZIgWRT5W8CvclBRyWLxoqHFm1A570QCpcapyfD3dQ==
-X-Google-Smtp-Source: ABdhPJxVX3B7vLefA/PltxdwERUcV7Lpfc/UrUeKoiO/osLJDfnoxHwfZK+aA0WZ1uLuOD3NMgasEr9m1yxhHfhvc9Q=
-X-Received: by 2002:a05:6402:3494:: with SMTP id
- v20mr22514439edc.146.1613493900110; 
- Tue, 16 Feb 2021 08:45:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lC3U1-0006im-LC; Tue, 16 Feb 2021 11:45:53 -0500
+Received: from mail-eopbgr60108.outbound.protection.outlook.com
+ ([40.107.6.108]:14830 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1lC3Ts-000776-Dw; Tue, 16 Feb 2021 11:45:51 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=epup5h/M2/CmdmdGGJ2V+/zKbC1HJG/MD526ruobNbRAex2kWaXAOLJzwSbeJsOwVERC2cxa7D8B/rY+bvONtyWFvKw3+MV5G1dq1YoodIW5D4jLcZa/2gUx6VGSmDrsnRcyVXyhegqOAxQyEbH3PJxb4GYOzWYhV39KkS6L3KQBr2kWnDuh58sjzaqwgMZuaTHHE7xM5YByP+LRBcyUEXyOajaaZyIN8902RfYdRWYrTpb6dx8zmuNNeoQFBN0RzaYdWXYu5u8+GH0opZupy1HmSTXef9lf/KUPWXYDI3PCKCxy1u67gcipWToAnPqK+DIWnGsDautMPeUYHzYzdA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QxssX9ooq5Mz096wFQMFl2L69jzdpkjrciIgdG07XuU=;
+ b=k9pnY3aN6I1L+R5pzHUq1nnU0VzaInveTclU8FvPwAEqeKRULsuo/yP2FKWgFQqLVo04AXnEDdfXV6Imw9HOhC8u93wm4A3tQldQZdLS+n0OBkG/2mCeLdZGFreHWTTmMNy69597+mDbpjQLGj0ErKLZvbyT7GTZyFOG3vvFWgHRX6mXpqg79wUhEPPhVGCthrqyv6suVcSCY3xE4BK1Fs6Lz0g7BBmukWJ0U+CjMmV1TdQvTsyfLmWhNk8GXzZZsduBoAeOighV0gV0Sn3fLG5TQNeB1UMfCqi7oWxZt4EoIejrR1fZ16rdwd29bj0uGbyoGr0vLK6wd0qGclJ+yQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=QxssX9ooq5Mz096wFQMFl2L69jzdpkjrciIgdG07XuU=;
+ b=RvEXnqeFlcB3XqC6B3KZ84TTn5x75/XsKOZe6P3uRaQjOBILZdZv5mGC5zZ18uV+qyjKU/iJ9jHYMz6Fiszk8ezzBOYV+PtaARjv6vE2UnUmSULNum8JmSpG3g2keR6d7U6LJnQTETFUeG3rK8QGiZaM9zlL9D3/AnR0rsoZNdc=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6359.eurprd08.prod.outlook.com (2603:10a6:20b:31a::8)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.25; Tue, 16 Feb
+ 2021 16:45:40 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3846.043; Tue, 16 Feb 2021
+ 16:45:40 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, den@openvz.org, stefanha@redhat.com,
+ mreitz@redhat.com, kwolf@redhat.com, jsnow@redhat.com,
+ vsementsov@virtuozzo.com, eblake@redhat.com
+Subject: [PATCH 0/5] parallels: load bitmap extension
+Date: Tue, 16 Feb 2021 19:45:22 +0300
+Message-Id: <20210216164527.37745-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [185.215.60.244]
+X-ClientProxiedBy: AM3PR05CA0149.eurprd05.prod.outlook.com
+ (2603:10a6:207:3::27) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-References: <20210216110056.1228582-1-thuth@redhat.com>
- <20210216154010.3691880f.pasic@linux.ibm.com>
- <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
-In-Reply-To: <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 16:44:48 +0000
-Message-ID: <CAFEAcA-yutW-96v2ktvMfVsaZPeA2aTxMg+Y-t-F1Q_xtM-a1Q@mail.gmail.com>
-Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.sw.ru (185.215.60.244) by
+ AM3PR05CA0149.eurprd05.prod.outlook.com (2603:10a6:207:3::27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3846.25 via Frontend Transport; Tue, 16 Feb 2021 16:45:39 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 11c73755-6ebf-4170-065b-08d8d29a4ae1
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6359:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB635942E24806EC0346E0739BC1879@AS8PR08MB6359.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:156;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: bqPga6TcKsECXEUXuxN3jIn2AMWbf10tF8Ofi4R5X2Pk9rTygo9ukyNFMVuJVANFPYH1bT88kQ2Jfa4ZWTsTP/Qmf6G/EE8Ew/hwiSTMBj/5y+u+mJPPSDPM01pF4gsLgKLbWT7b0HO6iYGAzteRzhFIqdl8JvAnEBXIoDzOsMdhqmJHz5n90eqP3q1nWl+7phA62ylS1TxJFKISldzqtC5ChOWiq39Sn3JD3e7M/vMIHjoN1BtcZZC9MrgrBjcULgVwqlQQJBvfqkocf4js/Tf2pIYJMg+C5iHoh3GHtoT+9/LjvmprtDDSAndO0CSJZrZs20mR8mycvQmewdQNBzT8fb0ut1Si9f8fd7+Y2u0tt/mxwtNT9qtA/fCDMuVoG+Bo2MTk1huRHhFIIyjcZxp1aeu5WEX5yp6n4cHSm735gC+4uac2HaHsh8y9YKfEil0gnCA1DquGLFv2WaTRWXUIvdWUKVq6XiF4XUVd2gFGKohivE3Q3LgznFZFAA/L9/9mSkbXykAIN92cjf5PmQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(136003)(346002)(39850400004)(396003)(8936002)(956004)(316002)(83380400001)(36756003)(26005)(8676002)(2616005)(5660300002)(1076003)(66946007)(66556008)(86362001)(52116002)(6512007)(186003)(2906002)(6486002)(6506007)(4326008)(16526019)(66476007)(6666004)(6916009)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?WQodXfaSYVKcIGVjkY6JIzQmYbs/Lov2esxM8PVGWk/2LrFgeGNvTobptfbf?=
+ =?us-ascii?Q?zHtyjzRhTnYwq98h10KaSz8eTYRU7536i6t6sJNc/VNwTSLuJ9FD00s2onm5?=
+ =?us-ascii?Q?b2BMSo8TDQR3g+lbgfuHFa1Fxv1Zez5zlBJNbtaMMTJppj4q6MH8JCxk5aX1?=
+ =?us-ascii?Q?G72FzNNdp+JPqaEc/qf4Asooufuu/omybZ71qM3Viu1oIqdiMRBqE4uE4yfw?=
+ =?us-ascii?Q?PYhplQSs2qy4QIcU4xVUH+7kJ2ILngo8BKU0TBS12QOOzdIozgffrRqGH+c9?=
+ =?us-ascii?Q?nWno0Ye7fUiB3o5q81HjmmxWp8wIXZQ3iDodhSBD1b0ylia7HjJuDXKj5ph6?=
+ =?us-ascii?Q?nA5uh7N5Y6+GNBy5PHUQ9f0TUjZ/MGGOyHybHzRd+iEdPInT7qpKD+Xep6Ra?=
+ =?us-ascii?Q?c7KaAJG145DZJITSFXHfPqOOP+KGCTLA4KYMtoGJJlJ+jYOpQKosfgS6mubd?=
+ =?us-ascii?Q?1z6McxQ2AwBNHfkJ3a2Q1OW5W7c/PtTMMzDDLQtkR6Yk4BcHXU1d19m6j9a7?=
+ =?us-ascii?Q?CX76t0ULSPfM6UiAdMOKc954f+wcdPqTjdH/1Q3e1fRTnXORzFhePc6tzf6n?=
+ =?us-ascii?Q?0lbO7/AT5Bc9J78EsZtNmOuT9+3eDxAAHOJbupLv2D0JrAsS4TpsqHFQ8Bho?=
+ =?us-ascii?Q?GJCdwdS1/a32PNQhMSLrjbzg40Wx9hAI84Rbb97RBOV2FTDJb8dZSVkprDIZ?=
+ =?us-ascii?Q?PWptfymbqNPIzu1YqXYHmPCBkbgcgG/b1ZeGqQ0E3zjDvs12aqTJWvuchzE2?=
+ =?us-ascii?Q?v+pl8n5I1LqhJVpaxxmAMtaLPLfIqgVxhDFwtGua9KzsCfB8YzPvhschqmou?=
+ =?us-ascii?Q?psrh1KHw1fnqciq3rUbgxwfqR9+r61cjo0Tw6yszd795l82DLyk0vHmwxNxp?=
+ =?us-ascii?Q?CnLmotfIcFOs6LOIB2QfVweEAtZeEzv4u5wqI8LHaOhIm78eX/OvvfCJlNx8?=
+ =?us-ascii?Q?v5ei83Q9AFSjOBlEY4UYfSkyc16VoGcKpk9/7aed3ZOhD8Q3i6X8BUihwicI?=
+ =?us-ascii?Q?Vzj0sZyEcT7swXtHzf9H3TLy1bwjgqcy3emNiUCtuBeRFUb2OCPYmw7tOq5M?=
+ =?us-ascii?Q?0qJ2QyNFEs19sJbmzUlE65X/FgX/luPktWkGQIJ8ZBNYcYkSuS/uWj6kMNVg?=
+ =?us-ascii?Q?AF3TIq6XVM8rYQM5g0pVsKtR341iUB8J+AlKoOlJDWhTiBPzU2fBhNPUwZwL?=
+ =?us-ascii?Q?4Eh2RXvYsvKrw2SSrXw3iDTcBNJc9W+Jb77iiKB0thY0cO5D9BG9otU9RtBh?=
+ =?us-ascii?Q?VTQn6MSM1gNnjWcUwrGKVSWmicYZrvNFkZlZL1DW0iOt1rHU9O/ZhbkuFw1K?=
+ =?us-ascii?Q?OeWE0XpQ9bv6AdrcnGS+9O90?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11c73755-6ebf-4170-065b-08d8d29a4ae1
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Feb 2021 16:45:40.0194 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: l3eEu6RTP+MOAyLK97KHrx+4o53OwrHmm2MeH/CqbnmY7oWGEnlpK63AdhRee/w6QbmGioBmlYXQCimU6W1nnpqGyXjAgExjJhaL7BmixMQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6359
+Received-SPF: pass client-ip=40.107.6.108;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,37 +133,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, Cornelia Huck <cohuck@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 16:15, Thomas Huth <thuth@redhat.com> wrote:
-> I was just about to reply that this is certainly not necessary, since
-> the DIAGNOSE instruction that we use for the notification hypercall
-> should be serializing anyway ... but after looking at the PoP, it
-> actually is not marked as a serializing instruction! (while e.g.
-> SVC - supervisor call - is explicitly marked as serializing)
->
-> So maybe that's worth a try: Peter, could you please apply this patch
-> on top an see whether it makes a difference?
->
-> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
-> --- a/pc-bios/s390-ccw/virtio.c
-> +++ b/pc-bios/s390-ccw/virtio.c
-> @@ -54,6 +54,7 @@ static long kvm_hypercall(unsigned long nr, unsigned long param1,
->       register ulong r_param3 asm("4") = param3;
->       register long retval asm("2");
->
-> +    virtio_mb();
->       asm volatile ("diag 2,4,0x500"
->                     : "=d" (retval)
->                     : "d" (r_nr), "0" (r_param1), "r"(r_param2), "d"(r_param3)
+Hi all!
 
-Doesn't really help (maybe brings the occurrence rate down a bit
-more, towards about 1 in 9?)
+Suddenly we need to load bitmaps from parallels image in our product.
+So here is a feature.
 
--- PMM
+Vladimir Sementsov-Ogievskiy (5):
+  qcow2-bitmap: make bytes_covered_by_bitmap_cluster() public
+  parallels.txt: fix bitmap L1 table description
+  parallels: support bitmap extension for read-only mode
+  iotests.py: add unarchive_sample_image() helper
+  iotests: add parallels-read-bitmap test
+
+ docs/interop/parallels.txt                    |  15 +-
+ block/parallels.h                             |   6 +-
+ include/block/dirty-bitmap.h                  |   2 +
+ block/dirty-bitmap.c                          |  13 +
+ block/parallels-ext.c                         | 286 ++++++++++++++++++
+ block/parallels.c                             |  18 ++
+ block/qcow2-bitmap.c                          |  16 +-
+ block/meson.build                             |   3 +-
+ tests/qemu-iotests/iotests.py                 |  10 +
+ .../sample_images/parallels-with-bitmap.bz2   | Bin 0 -> 203 bytes
+ .../sample_images/parallels-with-bitmap.sh    |  33 ++
+ .../qemu-iotests/tests/parallels-read-bitmap  |  57 ++++
+ .../tests/parallels-read-bitmap.out           |   6 +
+ 13 files changed, 443 insertions(+), 22 deletions(-)
+ create mode 100644 block/parallels-ext.c
+ create mode 100644 tests/qemu-iotests/sample_images/parallels-with-bitmap.bz2
+ create mode 100755 tests/qemu-iotests/sample_images/parallels-with-bitmap.sh
+ create mode 100755 tests/qemu-iotests/tests/parallels-read-bitmap
+ create mode 100644 tests/qemu-iotests/tests/parallels-read-bitmap.out
+
+-- 
+2.29.2
+
 
