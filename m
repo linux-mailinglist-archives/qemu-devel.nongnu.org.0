@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6B8731CCD7
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:23:01 +0100 (CET)
-Received: from localhost ([::1]:39666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 269C631CCDC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 16:24:50 +0100 (CET)
+Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC2Bo-0006Wq-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45276)
+	id 1lC2DZ-0008G3-8O
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 10:24:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lC28m-0005Xb-7a
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:19:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41337)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lC28j-00080F-U4
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:19:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613488788;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MgexAIkG3GJrP9Wm4a/6DAxTkm6kAxFPr1jEK0/qvWs=;
- b=F+J0mPihiKDjs4FHMDMEexIpr+0xizywD7iXZh8wgjK3lAcsgogJVmJ4Xq0KPvJUyyF0ea
- mKQzKEol1ChnZrCFpy9Y8on8QCdI0zle4II5thtachDwwrekvCdcZebVFfAtjrEuo1GSGL
- m1GpbqIKdlwsVhISfx8ovQPLTaql3NA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-471-OmMmAbrdPDCULT__P3t0Tw-1; Tue, 16 Feb 2021 10:19:44 -0500
-X-MC-Unique: OmMmAbrdPDCULT__P3t0Tw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1E12107ACF2;
- Tue, 16 Feb 2021 15:19:43 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D8645D74C;
- Tue, 16 Feb 2021 15:19:42 +0000 (UTC)
-Subject: Re: [PATCH v6 01/19] qapi: Replace List[str] with Sequence[str] for
- ifcond
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210216021809.134886-1-jsnow@redhat.com>
- <20210216021809.134886-2-jsnow@redhat.com>
- <87h7mcpflg.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <cbe912f8-ede2-870c-1ad6-a8080840b374@redhat.com>
-Date: Tue, 16 Feb 2021 10:19:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lC2B0-0006yj-JP
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:22:15 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:34808)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lC2Ax-0008JP-SS
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 10:22:10 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id n4so10564635wrx.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 07:22:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=YBsxjlXjlQAODSDZ0pXAR17GD22Gx+AANhmStiVFbaA=;
+ b=K+CnLB7Eqj15BheuS4XfTJDcZMLUtF/x1QTDug2aCpOI2L16Kp+Pdr8IwKj6pBXNKd
+ tV3nz7Gms823fm9ii1x4eB73oFDWx6PV/d+UPstVZwTF2ccs65tJrWsSyWzJZ+tLiHgi
+ KLE4dvU9tydoTxEXOp3wAYdexiM/bGuaL2lTmYR4eeodpyBqLW61B/VHKnRaz/4nuchZ
+ 5MokCmxn5XOSx5xm7gjOk2TSSq1y6BywUjlkvoVO+cTckEIINPTjPrpVA6f+Idl5P2I6
+ yl1v+sIjUICNGcmQEZXgCX+ywxCt+cw6O7zTB+DrI7lgpUZ52XIq0Pw0RzM3xmqfZmE7
+ KG3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YBsxjlXjlQAODSDZ0pXAR17GD22Gx+AANhmStiVFbaA=;
+ b=OEfMvIdb4yFYuXPnUsgyiRAL3VOPMuth/NZ1CrhhXxFW3VPZYqhavwXw2Ux/FSpmP4
+ CajJmdTWo6gMTcT6eZbXAv2paxz94fufw99t+sehLtLEJriN1Wnfg686o5dpNGvTL1D9
+ Dhv9zbTtFf8BFFjweF59zXRmfWuwdNEhy09z+G9dLKQxuVwvvecg8tX3whghxdsdhWUj
+ CGywuwdi2mIOn00GZEHmUA3q0LkNj94DP5QdYg+K94Dwf1ks4VtfC1YF+GCuZMzcFFqd
+ oMezvHNrsA7UXZf5eFnOwu02LYgM+vePECxuygmV/2HOnIL74sEOD3Sk2qU1RpeM3ZAq
+ RD1g==
+X-Gm-Message-State: AOAM533aadWptUYi83a2EkQsILhh1sXeK7Iy0otL3ILstdETAnC+ZLaV
+ hlUaCWq+bqQcOlXj2XHCnSwN7w==
+X-Google-Smtp-Source: ABdhPJxE0mSZVe6RPXoltk+sf5l8dosueDnzVZQaGGX8D2FBpJi2QMxBOujechlEUPhXOEUksLuHNQ==
+X-Received: by 2002:adf:f591:: with SMTP id f17mr24367402wro.60.1613488925437; 
+ Tue, 16 Feb 2021 07:22:05 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id o129sm4190138wme.21.2021.02.16.07.22.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 16 Feb 2021 07:22:05 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id 817d484e;
+ Tue, 16 Feb 2021 15:22:04 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-block@nongnu.org
+Subject: Re: [RFC PATCH 0/3] hw/pflash_cfi01: Reduce memory consumption when
+ flash image is smaller than region
+In-Reply-To: <df4db595-c2db-4fa8-0a4b-1403117dcc76@redhat.com>
+References: <20210216142721.1985543-1-david.edmondson@oracle.com>
+ <df4db595-c2db-4fa8-0a4b-1403117dcc76@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Tue, 16 Feb 2021 15:22:04 +0000
+Message-ID: <cunh7mcjaw3.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <87h7mcpflg.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::42d;
+ envelope-from=dme@dme.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,47 +88,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 3:43 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> It does happen to be a list (as of now), but we can describe it in more
->> general terms with no loss in accuracy to allow tuples and other
->> constructs.
->>
->> In the future, we can write "ifcond: Sequence[str] = ()" as a default
->> parameter, which we could not do with a Mutable type like a List.
-> 
-> Well, we could write "= []", but we shouldn't.  Worth a commit message
-> tweak?
-> 
+On Tuesday, 2021-02-16 at 16:03:05 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
-It would be funny to leave it in to see if anyone tries to disprove me, 
-and in the act of disproving me, learns for themselves why you "can't" 
-do that. Rite of passage for Python programming.
+> I am not a block expert, but I wonder if something like this could
+> be used:
+>
+> - create a raw (parent) block image of 64MiB
+>
+> - add a raw (child) block with your 768kB of VARS file
+>
+> - add a null-co (child) block of 63Mib + 256kiB
+>
+> - pass the parent block to the pflash device
 
-Jokes aside:
+I'm not clear how this would behave if there is a write to the device at
+(say) 1MiB.
 
-"which we could not do ^safely^ with a Mutable type like a List."
+More philosophically, how should it behave?
 
-If that warrants further exposition by Professor Snow:
+My expectation was that if the machine says that there is 64MiB of
+writable flash, we have to allow writes throughout the full 64MiB and
+(significantly) persist them to the backing block device.
 
-"(Unsafe due to how Python initializes defaults, see 
-https://docs.python-guide.org/writing/gotchas/#mutable-default-arguments)"
+Just because the backing block device started out 768KiB big doesn't
+mean that we should not write to the remaining extent if that's what the
+VM attempts.
 
-I leave it to your discretion.
+Would the above approach achieve that? (It doesn't sound like it.)
 
->> Signed-off-by: John Snow <jsnow@redhat.com>
-> 
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> 
-
-These are worth more than BTC!
-
---js
-
+dme.
+--=20
+No visible means of support and you have not seen nothing yet.
 
