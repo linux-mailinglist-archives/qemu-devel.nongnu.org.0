@@ -2,70 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A7231C9A3
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:28:14 +0100 (CET)
-Received: from localhost ([::1]:52946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48C631C9A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 12:28:38 +0100 (CET)
+Received: from localhost ([::1]:54786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lByWb-0004Ka-TQ
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:28:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32794)
+	id 1lByWz-0005D5-TM
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 06:28:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lByTO-0002iR-KT
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:24:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31054)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lByTI-0005Y1-NS
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:24:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613474687;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A5Uxd8P8scYDw/+dHIbSi1ZAqU/590LnX5BLUEBaGcE=;
- b=VL0+pRcSkobKm60e2WdYbJP++00bOp8/QvhVAUldDaQ8XE77U6W8PSuF+FS6L2f67chFii
- PSth+4L86yBF7ZdNFYWzyIL/hYec1t29Hwga4ErkSXXz31hsxYRv78DDmoehLDvwxtMcwi
- RG1R2sfbXtp6SIepO3n9llXjTj3ChII=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-150-ia82XpO2Pr2l5fjC3O75ng-1; Tue, 16 Feb 2021 06:24:45 -0500
-X-MC-Unique: ia82XpO2Pr2l5fjC3O75ng-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56359107ACC7;
- Tue, 16 Feb 2021 11:24:44 +0000 (UTC)
-Received: from work-vm (ovpn-115-109.ams2.redhat.com [10.36.115.109])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C133A5D9D0;
- Tue, 16 Feb 2021 11:24:36 +0000 (UTC)
-Date: Tue, 16 Feb 2021 11:24:34 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH v2] virtiofsd: vu_dispatch locking should never fail
-Message-ID: <YCurchq2xzD+QyaO@work-vm>
-References: <20210203182434.93870-1-groug@kaod.org>
-MIME-Version: 1.0
-In-Reply-To: <20210203182434.93870-1-groug@kaod.org>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
+ id 1lByUH-0003SI-Sj
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:25:49 -0500
+Received: from pv50p00im-ztbu10011701.me.com ([17.58.6.53]:36833)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shen.mengjiao3@icloud.com>)
+ id 1lByUG-0005zr-2k
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 06:25:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+ s=1a1hai; t=1613474745;
+ bh=iFG8TbbH2Nq6brhBRtJhu5ohW/fUmra5/qBpVMgn/KY=;
+ h=Content-Type:From:Mime-Version:Date:Subject:Message-Id:To;
+ b=cdr/Fs7hmfCPlVugacqK5uS2BoFOkMdumJSqsnBpHyzkVlgNSyQQdViMJF3yQbwlw
+ sLhg+OGXAoe5vMd+n2F8or4mXG0cRhKtOGaE8Ox6ejRQj+0MtK0NWl0/03mPxIa0He
+ /+a8x9/mfnwH6jYtCy11kcCLWAXmgu4AtGmcfD4gvqfjkxyXsHxze1DNWA2TMw4SkL
+ wuIMNopK7V8bYEFjOqdbIXtI12+UAEFCZWXeBxUD2HXxTuVvn5r5YCvH+Xh3ZHMfY6
+ ycxrDpd0OXHnLNi117ritTZiHKLABtvMieFc+5dtEqFVOAZ8K0azjWQlScxo9iEaS8
+ 3EGiegi0pFrmQ==
+Received: from [192.168.50.237] (unknown [139.227.197.244])
+ by pv50p00im-ztbu10011701.me.com (Postfix) with ESMTPSA id C8DE38A014F;
+ Tue, 16 Feb 2021 11:25:44 +0000 (UTC)
 Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+From: =?utf-8?B?5rKI5qKm5aej?= <shen.mengjiao3@icloud.com>
+Mime-Version: 1.0 (1.0)
+Date: Tue, 16 Feb 2021 19:25:26 +0800
+Subject: Fill tlb for data and io address 
+Message-Id: <E1B16679-A55E-479C-9EAC-BE7BA9D71235@icloud.com>
+To: QEMU Developers <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+X-Mailer: iPhone Mail (18D52)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-16_01:2021-02-16,
+ 2021-02-15 signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ malwarescore=0
+ phishscore=0 bulkscore=0 spamscore=0 clxscore=1015 mlxscore=0
+ mlxlogscore=617 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-2006250000 definitions=main-2102160107
+Received-SPF: pass client-ip=17.58.6.53;
+ envelope-from=shen.mengjiao3@icloud.com; helo=pv50p00im-ztbu10011701.me.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,174 +71,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> pthread_rwlock_rdlock() and pthread_rwlock_wrlock() can fail if a
-> deadlock condition is detected or the current thread already owns
-> the lock. They can also fail, like pthread_rwlock_unlock(), if the
-> mutex wasn't properly initialized. None of these are ever expected
-> to happen with fv_VuDev::vu_dispatch_rwlock.
-> 
-> Some users already check the return value and assert, some others
-> don't. Introduce rdlock/wrlock/unlock wrappers that just do the
-> former and use them everywhere for improved consistency and
-> robustness.
-> 
-> This is just cleanup. It doesn't fix any actual issue.
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+Look at the store/load helper, it will use the tlb entry to do the address t=
+ranslation(from guest virtual address to host virtual address) but where the=
+ tlb is filled for the data ram and io address, I know where the code ram is=
+ filled(tb_find->tb_lookup__cpu_state...)=20
 
-Queued
-
-> ---
-> 
-> v2: - open-code helpers instead of defining them with a macro (Vivek, Stefan)
->     - fixed rd/wr typo in fv_queue_thread() (Stefan)
->     - make it clear in the changelog this is just cleanup (Stefan)
-> 
->  tools/virtiofsd/fuse_virtio.c | 49 +++++++++++++++++++++++++----------
->  1 file changed, 35 insertions(+), 14 deletions(-)
-> 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index ddcefee4272f..523ee64fb7ae 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -187,6 +187,31 @@ static void copy_iov(struct iovec *src_iov, int src_count,
->      }
->  }
->  
-> +/*
-> + * pthread_rwlock_rdlock() and pthread_rwlock_wrlock can fail if
-> + * a deadlock condition is detected or the current thread already
-> + * owns the lock. They can also fail, like pthread_rwlock_unlock(),
-> + * if the mutex wasn't properly initialized. None of these are ever
-> + * expected to happen.
-> + */
-> +static void vu_dispatch_rdlock(struct fv_VuDev *vud)
-> +{
-> +    int ret = pthread_rwlock_rdlock(&vud->vu_dispatch_rwlock);
-> +    assert(ret == 0);
-> +}
-> +
-> +static void vu_dispatch_wrlock(struct fv_VuDev *vud)
-> +{
-> +    int ret = pthread_rwlock_wrlock(&vud->vu_dispatch_rwlock);
-> +    assert(ret == 0);
-> +}
-> +
-> +static void vu_dispatch_unlock(struct fv_VuDev *vud)
-> +{
-> +    int ret = pthread_rwlock_unlock(&vud->vu_dispatch_rwlock);
-> +    assert(ret == 0);
-> +}
-> +
->  /*
->   * Called back by ll whenever it wants to send a reply/message back
->   * The 1st element of the iov starts with the fuse_out_header
-> @@ -240,12 +265,12 @@ int virtio_send_msg(struct fuse_session *se, struct fuse_chan *ch,
->  
->      copy_iov(iov, count, in_sg, in_num, tosend_len);
->  
-> -    pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +    vu_dispatch_rdlock(qi->virtio_dev);
->      pthread_mutex_lock(&qi->vq_lock);
->      vu_queue_push(dev, q, elem, tosend_len);
->      vu_queue_notify(dev, q);
->      pthread_mutex_unlock(&qi->vq_lock);
-> -    pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +    vu_dispatch_unlock(qi->virtio_dev);
->  
->      req->reply_sent = true;
->  
-> @@ -403,12 +428,12 @@ int virtio_send_data_iov(struct fuse_session *se, struct fuse_chan *ch,
->  
->      ret = 0;
->  
-> -    pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +    vu_dispatch_rdlock(qi->virtio_dev);
->      pthread_mutex_lock(&qi->vq_lock);
->      vu_queue_push(dev, q, elem, tosend_len);
->      vu_queue_notify(dev, q);
->      pthread_mutex_unlock(&qi->vq_lock);
-> -    pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +    vu_dispatch_unlock(qi->virtio_dev);
->  
->  err:
->      if (ret == 0) {
-> @@ -558,12 +583,12 @@ out:
->          fuse_log(FUSE_LOG_DEBUG, "%s: elem %d no reply sent\n", __func__,
->                   elem->index);
->  
-> -        pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +        vu_dispatch_rdlock(qi->virtio_dev);
->          pthread_mutex_lock(&qi->vq_lock);
->          vu_queue_push(dev, q, elem, 0);
->          vu_queue_notify(dev, q);
->          pthread_mutex_unlock(&qi->vq_lock);
-> -        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +        vu_dispatch_unlock(qi->virtio_dev);
->      }
->  
->      pthread_mutex_destroy(&req->ch.lock);
-> @@ -596,7 +621,6 @@ static void *fv_queue_thread(void *opaque)
->               qi->qidx, qi->kick_fd);
->      while (1) {
->          struct pollfd pf[2];
-> -        int ret;
->  
->          pf[0].fd = qi->kick_fd;
->          pf[0].events = POLLIN;
-> @@ -645,8 +669,7 @@ static void *fv_queue_thread(void *opaque)
->              break;
->          }
->          /* Mutual exclusion with virtio_loop() */
-> -        ret = pthread_rwlock_rdlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> -        assert(ret == 0); /* there is no possible error case */
-> +        vu_dispatch_rdlock(qi->virtio_dev);
->          pthread_mutex_lock(&qi->vq_lock);
->          /* out is from guest, in is too guest */
->          unsigned int in_bytes, out_bytes;
-> @@ -672,7 +695,7 @@ static void *fv_queue_thread(void *opaque)
->          }
->  
->          pthread_mutex_unlock(&qi->vq_lock);
-> -        pthread_rwlock_unlock(&qi->virtio_dev->vu_dispatch_rwlock);
-> +        vu_dispatch_unlock(qi->virtio_dev);
->  
->          /* Process all the requests. */
->          if (!se->thread_pool_size && req_list != NULL) {
-> @@ -799,7 +822,6 @@ int virtio_loop(struct fuse_session *se)
->      while (!fuse_session_exited(se)) {
->          struct pollfd pf[1];
->          bool ok;
-> -        int ret;
->          pf[0].fd = se->vu_socketfd;
->          pf[0].events = POLLIN;
->          pf[0].revents = 0;
-> @@ -825,12 +847,11 @@ int virtio_loop(struct fuse_session *se)
->          assert(pf[0].revents & POLLIN);
->          fuse_log(FUSE_LOG_DEBUG, "%s: Got VU event\n", __func__);
->          /* Mutual exclusion with fv_queue_thread() */
-> -        ret = pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock);
-> -        assert(ret == 0); /* there is no possible error case */
-> +        vu_dispatch_wrlock(se->virtio_dev);
->  
->          ok = vu_dispatch(&se->virtio_dev->dev);
->  
-> -        pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
-> +        vu_dispatch_unlock(se->virtio_dev);
->  
->          if (!ok) {
->              fuse_log(FUSE_LOG_ERR, "%s: vu_dispatch failed\n", __func__);
-> -- 
-> 2.26.2
-> 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+Thanks a lot=20=
 
