@@ -2,59 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53C9731CB67
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:48:12 +0100 (CET)
-Received: from localhost ([::1]:43742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F1931CB6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:51:07 +0100 (CET)
+Received: from localhost ([::1]:49036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC0i3-0003lg-Cq
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:48:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51050)
+	id 1lC0kn-0005w5-4a
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:51:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lC0gi-0002wU-4Q
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:46:48 -0500
-Resent-Date: Tue, 16 Feb 2021 08:46:48 -0500
-Resent-Message-Id: <E1lC0gi-0002wU-4Q@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lC0ga-0003zb-T3
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:46:47 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613483188; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=aRc17vA0T8dr6flYfDqP2ZWlihexE17PUdrBz0842iBdZ/J3+1YZNxdPfXeGOQi+tO1i08EnUTCipJvZIR8S6u47vkZD/Cjr0hz8HkulGL/8D3tBWcpUl8VbXZW9JRNSOF8aH8QarkkrDo9sJr33GyjM+HLwuaMiPdD4wLGo5p8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613483188;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Gb2KwfAOKRfQUxQ9DAPtDizv/p6YH+wxwyYQ1yx0xiA=; 
- b=QYOrEIiifFL5Nw4u5M8Hs+W5IciD8NpP+ZiYZILfuVJpCnmb2Ny2tpfa4SxJ4vOD5Cmc5wb8Hl9G3bigrMXBtQsJ9lI024NdZkPrpyFzQqZp5kPXLKNWpnshKXyuRidSCNNxsQLTjmTxyqe8su/RqRvyTIYKTwbzkFpVQy1cX8U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613483182997133.59786879857415;
- Tue, 16 Feb 2021 05:46:22 -0800 (PST)
-In-Reply-To: <20210216133837.2347190-1-marcandre.lureau@redhat.com>
-Subject: Re: [PATCH] qga: return a more explicit error on why a command is
- disabled
-Message-ID: <161348318194.372.15789384963096435721@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC0jA-0005NX-9V
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:49:20 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC0j8-00053M-Fq
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:49:19 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id s11so12195422edd.5
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 05:49:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ACyNmfYOa3VsP+GnCCazL/IQ3wblXbi2lSsFkJJIsSI=;
+ b=sTN7dbr3q+ItXRegPZc3qV417qjwMFmiVdkpAyWTx/Scd5Ug8QwfDPsd5N/jIruVCZ
+ IswmKCHsjA8ga/QIQsJpTttSElAK8jWvXIW9aLdMQa5Rsb9tNwFhrtM7wgPPTv1rp8uP
+ NHkcs3yucLl1zabCvChseo/1jWzXW1GbnpqmcWzES4FsQXHGSlOKsRA7jpIoq54TfUij
+ 89y6pbFI2LVNrEilUlTQt3P6AaYW37OG/Rq6+1ZWsHgNAIFtyewrv9Iis/z10H+i3Myc
+ JlOEvkJIoYTNMufvMnaya3ElR615AaWUqcnCAo3oNlGYGvOrtrGy12AYkflNF+qXgZaF
+ pd2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ACyNmfYOa3VsP+GnCCazL/IQ3wblXbi2lSsFkJJIsSI=;
+ b=g65Q/nOLZ5+Z65MWFBtjH/DmA+mWX5iqQLFAop5xjzuVr3orQVfnhcl2Lh32HM+iUC
+ 0K8kA+OKopcktxeM0l+Y+Es9o8lcYvW//kGWY6KfAKyvlIOGUKsWRuljNGw8JK79nRsa
+ /+idWFLs2iAQyEd+/z0xUGjJu8toJ1dQebdiQg8hm41h5tYKVNbidw2l+zW8LGbBhq7D
+ kdvXwAZB9JMW2DFE9RUL0FG70PX3jE4k3rXj/7L5o/cSrGpVSU1B6cewNDXR+EHdX0GT
+ nIBCMxMS1d9fRQmTorLDB5Am5q02cqJZwmYb/RMJmYdbwI8RcQuKe5/P2tGR/ZVcUJkh
+ fIHw==
+X-Gm-Message-State: AOAM530Byau1e1xwRLJhkBjQ4N6Ux5LLttP95EEUp2L7J3wFlWzLkIEp
+ JJwGBbLAamF8H1Y+KGhZMwnsZQxhtIcZhsQFk00MmFr1CXw=
+X-Google-Smtp-Source: ABdhPJzv2tVfBm/pPabzoaTP+BA9qyE2jTAYqfr2mo0pBRfaQXH7CCO+Gs0BS8VPFdi5bDdYnMUYu6n4TjGAyDAnYRc=
+X-Received: by 2002:a05:6402:541:: with SMTP id
+ i1mr20852273edx.36.1613483356674; 
+ Tue, 16 Feb 2021 05:49:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Tue, 16 Feb 2021 05:46:22 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210212184902.1251044-1-richard.henderson@linaro.org>
+In-Reply-To: <20210212184902.1251044-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Feb 2021 13:49:05 +0000
+Message-ID: <CAFEAcA81RbbnmZ8namNE0vLFkmeEvjA0vdsTDeZf9cPnH5uODQ@mail.gmail.com>
+Subject: Re: [PATCH v7 00/31] target-arm: Implement ARMv8.5-MemTag, user mode
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,46 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com, armbru@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxNjEzMzgzNy4yMzQ3
-MTkwLTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMTYx
-MzM4MzcuMjM0NzE5MC0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFU
-Q0hdIHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBvbiB3aHkgYSBjb21tYW5kIGlz
-IGRpc2FibGVkCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
-cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
-cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
-aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcg
-M2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCmE3NjIxNzkgcWdhOiByZXR1cm4gYSBtb3JlIGV4cGxpY2l0IGVycm9y
-IG9uIHdoeSBhIGNvbW1hbmQgaXMgZGlzYWJsZWQKCj09PSBPVVRQVVQgQkVHSU4gPT09CldBUk5J
-Tkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzOTogRklMRTogaW5jbHVkZS9xYXBpL3FtcC9k
-aXNwYXRjaC5oOjQ4Ogordm9pZCBxbXBfZGlzYWJsZV9jb21tYW5kKFFtcENvbW1hbmRMaXN0ICpj
-bWRzLCBjb25zdCBjaGFyICpuYW1lLCBjb25zdCBjaGFyICplcnJfbXNnKTsKCldBUk5JTkc6IGxp
-bmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiM1MjogRklMRTogcWFwaS9xbXAtZGlzcGF0Y2guYzoxNjA6
-CisgICAgICAgICAgICAgICAgICBjbWQtPmVycl9tc2cgPzogIlRoZSBjb21tYW5kICVzIGhhcyBi
-ZWVuIGRpc2FibGVkIGZvciB0aGlzIGluc3RhbmNlIiwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiM3OTogRklMRTogcWFwaS9xbXAtcmVnaXN0cnkuYzo1OToKK3ZvaWQgcW1wX2Rp
-c2FibGVfY29tbWFuZChRbXBDb21tYW5kTGlzdCAqY21kcywgY29uc3QgY2hhciAqbmFtZSwgY29u
-c3QgY2hhciAqZXJyX21zZykKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojMTAxOiBG
-SUxFOiBxZ2EvbWFpbi5jOjM3ODoKKyAgICAgICAgcW1wX2Rpc2FibGVfY29tbWFuZCgmZ2FfY29t
-bWFuZHMsIG5hbWUsICJUaGUgY29tbWFuZCB3YXMgZGlzYWJsZWQgYWZ0ZXIgZnNmcmVlemUuIik7
-Cgp0b3RhbDogMSBlcnJvcnMsIDMgd2FybmluZ3MsIDcwIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCBh
-NzYyMTc5M2M2ZDYgKHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBvbiB3aHkgYSBj
-b21tYW5kIGlzIGRpc2FibGVkKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVU
-IEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9n
-IGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDIxNjEzMzgzNy4y
-MzQ3MTkwLTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/
-dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hl
-dyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBh
-dGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Fri, 12 Feb 2021 at 18:49, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Changes for v7:
+>   * Fix bsd-user vs g2h_untagged.
+>
+>
+
+
+
+Applied to target-arm.next (with the ifdef tweak in patches 17/18), thanks.
+
+-- PMM
 
