@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3100831CBC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:23:01 +0100 (CET)
-Received: from localhost ([::1]:46810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC71031CBCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 15:24:38 +0100 (CET)
+Received: from localhost ([::1]:49350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC1Fk-0001Zu-A9
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59962)
+	id 1lC1HK-0002fp-0q
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 09:24:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lC1Eh-00017D-Ri
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:21:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lC1Ef-0001Vg-1d
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:21:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613485311;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6L263UDGrn4scR5Lz5TYJ5DyNcjVsmVXQP5VkYdUQZY=;
- b=II6jP8Kjm8GeGIIZEMikQabQfRf4acCLmxDUDO+PqHUcEQpEEWCdj8RI4AGSmiSbNnuqUN
- bEzaq58hR6xOIhY+sc/X3TcgN8fTpmsLzkPCZ9maJToeKo0wHvsEe+yDPenT4SSIrqmNTF
- t6Pte5m2Zo72GQKGIS7BFu6NGPX6jUg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-537-f6NNffpLPg20KtAc2hLRxA-1; Tue, 16 Feb 2021 09:21:48 -0500
-X-MC-Unique: f6NNffpLPg20KtAc2hLRxA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73C341936B73;
- Tue, 16 Feb 2021 14:21:47 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-157.ams2.redhat.com [10.36.112.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A54C60C9C;
- Tue, 16 Feb 2021 14:21:46 +0000 (UTC)
-Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20210216110056.1228582-1-thuth@redhat.com>
- <20210216124757.4eb664e9.cohuck@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <a561530e-d800-67e0-ee2b-fea6efb4638c@redhat.com>
-Date: Tue, 16 Feb 2021 15:21:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC1GM-00027N-Op
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:23:38 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:44883)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lC1GL-0001es-1b
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 09:23:38 -0500
+Received: by mail-ed1-x530.google.com with SMTP id g3so9872894edb.11
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 06:23:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=2xXW8vZICAdcaeO7FqLvJ/bL7E0JJoDe05nJEyOiIcE=;
+ b=yE5yLI7Sj+G8qLP6IIMVZdztcYhOEpx6/TypWSlhws7Vs6LFp4OAQQ+zmuhrLHBvP4
+ nvc1GoxOob5ZTZ8VQG1nI2HGxb2HJwplP4PfS9EErLFtBjeOUGXfjojJ186hsZ0/MRMR
+ KXXMXUbWZDcVBJvoo/pipCVumOXN9YSLGVqRiQz+W7Wmi5ytwXA7YR2pRBvmYGCvja1L
+ L+8Sj9tcY2GLAf0PZBtrLgOSoHeiIaulhLPsGiDbnda9/25/fov+e0CAc7e6kxUZnzKl
+ xmoBBCTocoHFuFLFwK4KKGXG2b8RLKH87CyRqgV2+OISsOBat4ybzqY19jGKoJebGVvN
+ JpXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=2xXW8vZICAdcaeO7FqLvJ/bL7E0JJoDe05nJEyOiIcE=;
+ b=UcW93am8IzNLrzNkNjvnhY2wjzlkjC03ZdyIOQtjTANDtC08TZuWpH6/FPZlqAJmQK
+ 3+ynwCIZQE9tITlqDoZWz0IFq91/Ta2a+Y3mAWkJXxpHonwPmvN2yFUvBw8GntgfkkS4
+ C4MaETXk6xtYT4nZN0rirU55ueeoLs7pAQxFSkPCeTHRiq8iftl9Kapoj3H6tLNAl/tX
+ O3wblG8Ln1EcDsp/+D8wtsf4A/sxLHO9B43+gnLwS0y8ERMQZk+Lrh/cM1nRPwxoeMkp
+ ZO0P2jzi403jeORpEjmNu5ho3hLqOka8W/+swFaCBdNg4o/Rz5Sjn/nEYgcc2RyS1B/o
+ F2QA==
+X-Gm-Message-State: AOAM533LuPLOsXVtuHM7XL+5lMZzwosgK6IgRqjXEmKNyi5xJ/+/4eZe
+ KLbXOYTeuxibqp8A0Y/cVuUWBVjZ+gPR+OQ0DJeZeA==
+X-Google-Smtp-Source: ABdhPJxGSgnoVmhqrchQvRrpqkM0HGoQNqmKJVDn5rJ71EeB/MOcC3lrKH//T1aNfUnElD/SdN7JMT8whc/FzB3Q3PE=
+X-Received: by 2002:a05:6402:3514:: with SMTP id
+ b20mr20682751edd.100.1613485415498; 
+ Tue, 16 Feb 2021 06:23:35 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210216124757.4eb664e9.cohuck@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210211122022.1811362-1-marcin.juszkiewicz@linaro.org>
+ <20210211123638.1820482-1-marcin.juszkiewicz@linaro.org>
+In-Reply-To: <20210211123638.1820482-1-marcin.juszkiewicz@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 16 Feb 2021 14:23:24 +0000
+Message-ID: <CAFEAcA8JqjSg=spRdQUonORghEL2HP+q9ZjB=JwL1c2Laco8DA@mail.gmail.com>
+Subject: Re: [PATCH 1/2] sbsa-ref: remove cortex-a53 from list of supported
+ cpus
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,88 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: Leif Lindholm <leif@nuviainc.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Rados=C5=82aw_Biernacki?= <rad@semihalf.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16/02/2021 12.47, Cornelia Huck wrote:
-> On Tue, 16 Feb 2021 12:00:56 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> According to the virtio specification, a memory barrier should be
->> used before incrementing the idx field in the "available" ring.
->> So far, we did not do this in the s390-ccw bios yet, but recently
->> Peter Maydell saw problems with the s390-ccw bios when running
->> the qtests on an aarch64 host (the bios panic'ed with the message:
->> "SCSI cannot report LUNs: response VS RESP=09"), which could
->> maybe be related to the missing memory barriers. Thus let's add
->> those barriers now. Since we've only seen the problem on TCG so far,
->> a "bcr 14,0" should be sufficient here to trigger the tcg_gen_mb()
->> in the TCG translate code.
->>
->> (Note: The virtio spec also talks about using a memory barrier
->> *after* incrementing the idx field, but if I understood correctly
->> this is only required when using notification suppression - which
->> we don't use in the s390-ccw bios here)
->>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   pc-bios/s390-ccw/virtio-net.c | 1 +
->>   pc-bios/s390-ccw/virtio.c     | 1 +
->>   pc-bios/s390-ccw/virtio.h     | 2 ++
->>   3 files changed, 4 insertions(+)
->>
->> diff --git a/pc-bios/s390-ccw/virtio-net.c b/pc-bios/s390-ccw/virtio-net.c
->> index 2fcb0a58c5..25598a7a97 100644
->> --- a/pc-bios/s390-ccw/virtio-net.c
->> +++ b/pc-bios/s390-ccw/virtio-net.c
->> @@ -127,6 +127,7 @@ int recv(int fd, void *buf, int maxlen, int flags)
->>   
->>       /* Mark buffer as available to the host again */
->>       rxvq->avail->ring[rxvq->avail->idx % rxvq->num] = id;
->> +    virtio_mb();
->>       rxvq->avail->idx = rxvq->avail->idx + 1;
->>       vring_notify(rxvq);
->>   
->> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
->> index ab49840db8..fb9687f9b3 100644
->> --- a/pc-bios/s390-ccw/virtio.c
->> +++ b/pc-bios/s390-ccw/virtio.c
->> @@ -154,6 +154,7 @@ void vring_send_buf(VRing *vr, void *p, int len, int flags)
->>   
->>       /* Chains only have a single ID */
->>       if (!(flags & VRING_DESC_F_NEXT)) {
->> +        virtio_mb();
-> 
-> I think you need to also need barriers for changes to the buffers, as
-> the spec talks about "manipulating the descriptor table".
+On Thu, 11 Feb 2021 at 12:36, Marcin Juszkiewicz
+<marcin.juszkiewicz@linaro.org> wrote:
+>
+> Cortex-A53 supports 40bits of address space. sbsa-ref's memory starts
+> above this limit.
+>
+> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
 
-Which paragraph in the virtio spec are you refering to here? I can't find 
-that part right now...
+Hi; could you resend your patches in the right format, please?
+ * with a cover letter if it's a multi-patch series
+ * with the cover letter not a reply-to or follow-up to any
+   existing email
+ * with each patch in the series being a follow-up to its cover letter
+ * with a suitable '[PATCH v3]' in the subject if this is v3 of
+   a patch(series), etc
+ * with any accumulated reviewed-by, acked-by, etc tags
 
->>           vr->avail->idx++;
->>       }
->>   }
->> diff --git a/pc-bios/s390-ccw/virtio.h b/pc-bios/s390-ccw/virtio.h
->> index 19fceb6495..6ac65482a9 100644
->> --- a/pc-bios/s390-ccw/virtio.h
->> +++ b/pc-bios/s390-ccw/virtio.h
->> @@ -271,6 +271,8 @@ struct VirtioCmd {
->>   };
->>   typedef struct VirtioCmd VirtioCmd;
->>   
->> +#define virtio_mb()  asm volatile("bcr 14,0" : : : "memory")
-> 
-> The bios is built for z900, so you probably need a bcr15 here?
+Otherwise it's pretty confusing to try to fish the right version
+out of the mailing list; in particular the automated patch handling
+tools and scripts have got confused by your patches here.
 
-I thought about that, too, but for TCG, it currently should not matter since 
-both, 14 and 15, end up with the same code in op_bc() in 
-target/s390x/translate.c. And on a real host, we've never seen this problem 
-to occur, so it should not matter there, too. But if you prefer (e.g. in 
-case somebody tweaks the TCG implementation one day), I can also switch to 
-bcr15 instead.
+https://wiki.qemu.org/Contribute/SubmitAPatch has some notes.
 
-  Thomas
-
+thanks
+-- PMM
 
