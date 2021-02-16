@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A48431C661
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 06:31:07 +0100 (CET)
-Received: from localhost ([::1]:34340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37E9531C6A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 07:57:06 +0100 (CET)
+Received: from localhost ([::1]:52612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBswz-0003CJ-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 00:31:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50192)
+	id 1lBuIC-0007Ud-SV
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 01:57:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lBsvQ-0002Ta-Kc
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 00:29:28 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40800)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1lBsvO-0005p2-5e
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 00:29:28 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v14so11563487wro.7
- for <qemu-devel@nongnu.org>; Mon, 15 Feb 2021 21:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id;
- bh=FpLy6ROik8mkwjeVpeUjzzK104Lh22vBdwv4RsQ+Oj0=;
- b=jtG4GIWoaPPcDV7r6KbLat9WQWtP2eP4zKoYyff5AXviTNSk9bWAP2hMMhTa1l0ZdA
- 5vxh0p1xteZCeD2VoaZ3F8UJcSKRDcw04lOHLGN5gsZjVfZclrmlrPrVpOH1086vZ49V
- W7O6rEP2AOvn1AmowiY7e10qkCR4e6V/vLg+h2jDNh1u+k7oamGa+Mv7kJM8B2EdZKu3
- mKhHxnFTZjZAgwHKYeM/6rn2Qk0uPhwCVFXK2wuOdEhtUCFkrF72rineCQWsNds3J5bZ
- 9Qh4eM024NzS8IuKHpsGR+ujp9ViU//EEHf8gExR8t9fl9dftzR0ddgKiZYNKAS3VL0u
- XJlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=FpLy6ROik8mkwjeVpeUjzzK104Lh22vBdwv4RsQ+Oj0=;
- b=puf3RFpK7lvTD/TUW8yfNdgGWkCp/JMYJX5obojAb7ZfToj29kyyQ0kE4+n/udW/CP
- Kse1KOSUcxTtVdo7/+2tl9BU7S8GSVt/XF6UVMQRqP64c6OFIFsvr7KjhGg98EyfUP+k
- +ZdfinLy1eZWdK5vwffu4M+EMrBXfskQDsrmo2L47uCmqhzOq+p48M7yMXImu6nwFDaB
- Vak0AE/dVvlcDU0Sl5gKbDQMWlb1cCP8qnA62zECZ6SrX1XYw/pp2snX5V9pAIbnO/Si
- BwJnGhOh79GO9WIQmC4kxEonftmyMs4MWuoDr1KHdlLfcXvOh/oPPBQanZP2v9yl46il
- lvCQ==
-X-Gm-Message-State: AOAM532/3JFwAeRKqPjhQr26GL6eUCwGAZ6faZ2ec55aeSFYdNLTDDGs
- Kv9tUzXECgpR0Xtif0ORWZ2Ysw==
-X-Google-Smtp-Source: ABdhPJy5rXyx4v0TE/e3EefvTcgRvIDHs0ziSscFVqtdwQ0Up4vUITEvIcA7h09VT/GzS9ERcLIi2A==
-X-Received: by 2002:adf:9bd7:: with SMTP id e23mr21745568wrc.48.1613453364323; 
- Mon, 15 Feb 2021 21:29:24 -0800 (PST)
-Received: from f2.redhat.com (bzq-109-64-9-177.red.bezeqint.net.
- [109.64.9.177])
- by smtp.gmail.com with ESMTPSA id y1sm16995653wrr.41.2021.02.15.21.29.23
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 15 Feb 2021 21:29:23 -0800 (PST)
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-To: mst@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH] virtio-pci: add check for vdev in virtio_pci_isr_read
-Date: Tue, 16 Feb 2021 07:29:17 +0200
-Message-Id: <20210216052917.5712-1-yuri.benditovich@daynix.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: none client-ip=2a00:1450:4864:20::432;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lBuGu-0006wj-H3
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 01:55:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lBuGq-0003M5-2Q
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 01:55:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613458537;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=PEJnbqMzn4PgmSlpKErUiCo3IraFCV1rEfyQnevjxgk=;
+ b=Vg9mQ8+bAiRNZaIyFCxE8cBSMj9TwoNzfPZZt06Cnc4jRY/84REqL8ZzUhTHjWgzboQAQJ
+ G55wrerHFUmNjNn6Z7dxEhrt/WKPIlwfIyXNfsTZxKeui9PWkR5h8usEvMmwQ/MRM8KiUl
+ IYPYO6F69nBXeOlE0byiciBtTuMXvGc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-270-Qk2r8atFOK6TxiflkfUUjQ-1; Tue, 16 Feb 2021 01:55:35 -0500
+X-MC-Unique: Qk2r8atFOK6TxiflkfUUjQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E8E9100B3B0;
+ Tue, 16 Feb 2021 06:55:34 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-157.ams2.redhat.com [10.36.112.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9E1760C15;
+ Tue, 16 Feb 2021 06:55:29 +0000 (UTC)
+Subject: Re: [PATCH] gitlab-ci: Only push Docker 'latest' image when building
+ default branch
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210215192814.989441-1-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <97878d0a-5c47-c50c-c4ef-f6d69a52a7d0@redhat.com>
+Date: Tue, 16 Feb 2021 07:55:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <20210215192814.989441-1-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,39 +82,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://bugzilla.redhat.com/show_bug.cgi?id=1743098
-There is missing check for vdev in this procedure.
-QEMU crash happens in it in hot unplug flow.
+On 15/02/2021 20.28, Philippe Mathieu-Daudé wrote:
+> While we are interested in building docker images in different
+> branches, it only makes sense to push 'latest' to the registry
+> when this is the project default branch (usually 'master').
+> 
+> Else when pushing different branches concurrently we might have
+> inconsistent image state between branches.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   .gitlab-ci.d/containers.yml | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+> index 90fac85ce46..52a915f4141 100644
+> --- a/.gitlab-ci.d/containers.yml
+> +++ b/.gitlab-ci.d/containers.yml
+> @@ -17,7 +17,7 @@
+>             -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+>             -r $CI_REGISTRY_IMAGE
+>       - docker tag "qemu/$NAME" "$TAG"
+> -    - docker push "$TAG"
+> +    - test "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" && docker push "$TAG"
 
-Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
----
- hw/virtio/virtio-pci.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+So does that mean that the following stages in the CI (i.e. build, test) are 
+only always (i.e. also for the non-master branches) going to use containers 
+that have been build on the master branch?
 
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 094c36aa3e..2f19301267 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -1364,7 +1364,13 @@ static uint64_t virtio_pci_isr_read(void *opaque, hwaddr addr,
- {
-     VirtIOPCIProxy *proxy = opaque;
-     VirtIODevice *vdev = virtio_bus_get_device(&proxy->bus);
--    uint64_t val = qatomic_xchg(&vdev->isr, 0);
-+    uint64_t val = 0;
-+
-+    if (vdev == NULL) {
-+        return val;
-+    }
-+
-+    val = qatomic_xchg(&vdev->isr, 0);
-     pci_irq_deassert(&proxy->pci_dev);
- 
-     return val;
--- 
-2.17.1
+  Thomas
 
 
