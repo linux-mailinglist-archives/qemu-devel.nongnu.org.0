@@ -2,83 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A54031C8E5
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:37:13 +0100 (CET)
-Received: from localhost ([::1]:42038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 979E831C8EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 11:38:32 +0100 (CET)
+Received: from localhost ([::1]:44230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBxjD-0005FB-PI
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:37:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48960)
+	id 1lBxkV-0006Bt-Nl
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 05:38:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBxi0-0004cL-T0
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:35:56 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:39661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lBxhv-00013f-D0
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:35:56 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id v1so12301023wrd.6
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 02:35:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=CXQT3LPJW+U2rm11Jlg7Cmf0Yoh6mD5HhuY/G58R1cc=;
- b=MvRICkqOje1Y2ad3Ty3srgwyLlPozGJ/DlzUuB7Oq44rZh/a6OcnNcnOT7Flr07jaF
- JyWY4D7+/OZH3K/TQx73XV1UmgugVzOmpXEMlsjQ15x/BwCF8a5/vSiyjYRCSqpmlh7X
- gAVcCR8UwaTkgk3RcpecdfOipTECRAsAVlyJm+bwkUp6mPf0X5OH8nTxudvP3eQgizj2
- z8ZiskIYAUOz0ubXqi5eIuKos3uOqDBVdLeGL661S3231AJveAUDojGz3Bwwpl/tWZHR
- szsVpbvejpC1q/7s74YDuoiFQo7xMmPWPE8DAdcfmiU8UdspeF3C0jdVMNdpmYXMv2uo
- WEOg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBxjK-0005gp-Oa
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:37:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24777)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lBxjH-0001ga-Qb
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 05:37:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613471834;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1mv0fVtJk9SHBPdOpJXbpFxOhxt6eq11u3D9Ojwq3x8=;
+ b=WyPtaLBHtwkjnGMDZJxqpCdm6WMi/zex+m/4CEE7a9G/lkwh2eA4nE4EA90jix+g+HrKkJ
+ UbjJ8mQ5W08uU5QPc8Azvyg7k760qvQR6FwxANXVPQ93DJBj0/31b3C8QEemRksucrDfaV
+ MFwizNGsIa6qEdmnWXQLRjvdR8I88Cg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-M8wk3JlINUWcXThQWriDqg-1; Tue, 16 Feb 2021 05:37:11 -0500
+X-MC-Unique: M8wk3JlINUWcXThQWriDqg-1
+Received: by mail-wr1-f71.google.com with SMTP id d10so12807482wrq.17
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 02:37:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=CXQT3LPJW+U2rm11Jlg7Cmf0Yoh6mD5HhuY/G58R1cc=;
- b=lnVei259zafXraYspF8V7XkjTc/SaFfxVFMsXvYH3dR4MVOWRrjAqche2MC9PG7L6U
- 4oB6pHr3jY2dTTZ4kEvWTPkhX5o8dyQQp1r2rNbB1HUavFjdgP27sIq9pJg5PwI4For9
- +oMcVyHRNXo/MpFeqGNpK2QsKZIq0kHaYn3iCVqIFQ8WpWWO7mZUyRbQ81BF/jgys6Pk
- Bsx1OwVIw2uBUzFSWhnVKqjYcjq1+pj1TbXdU2Q2esQbQ7nUMOJJmHEHuRpYJW9s/G2S
- fiIUq7Z84axr0waJnBVOxg90PqGYGGxV6FhEYNCwkyyiyoqbqODtBtGiynI0vKH+Lxz8
- Criw==
-X-Gm-Message-State: AOAM533vQycRQbhxpc7d+qAGrkszTUbk347EWFmmj2goQAXQk+Nr3Qcc
- 7RsCtKcqrSDvV0ojlQU/1iUP2g==
-X-Google-Smtp-Source: ABdhPJw+fbch06O8qhoX7Egcz1KoxthgUIOWjuXxlmBmOBr7cBohRaXQw6EE8JGvpwaGW2qe8tAoRA==
-X-Received: by 2002:adf:a1c4:: with SMTP id v4mr23397704wrv.104.1613471749410; 
- Tue, 16 Feb 2021 02:35:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b15sm26230791wrr.47.2021.02.16.02.35.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 02:35:47 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 10DA51FF7E;
- Tue, 16 Feb 2021 10:35:47 +0000 (GMT)
-References: <20210210221053.18050-1-alex.bennee@linaro.org>
- <20210210221053.18050-21-alex.bennee@linaro.org>
- <YCXRpCiekU+TgoAX@strawberry.localdomain> <877dndz6p7.fsf@linaro.org>
- <YCahojKDngG997Xz@strawberry.localdomain>
- <CAHDbmO0no_pRyG_hAEzUUJ60X6xoX1387CwaaZCJQwyyT+b0VQ@mail.gmail.com>
- <YCax2Q6VsDwMDMe6@strawberry.localdomain>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: Re: [PATCH v2 20/21] accel/tcg: allow plugin instrumentation to be
- disable via cflags
-Date: Tue, 16 Feb 2021 10:34:51 +0000
-In-reply-to: <YCax2Q6VsDwMDMe6@strawberry.localdomain>
-Message-ID: <87r1lgti4c.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1mv0fVtJk9SHBPdOpJXbpFxOhxt6eq11u3D9Ojwq3x8=;
+ b=G/5CTuh+rpJWOWJiUcC7Vx74uxAjYGjvQbl5TKWE7NFTrLcVDCqHS2Dr9rF4JelUbg
+ 37Fh4jIV8ZVUGlQz1NtMnQ2xHlP5gUkAutsJj27a4InT6lL1l/OX/XOtnusSPLMZdeSY
+ MXoWo4c1Q3+v4lVyjPUqgqNgfWJT9LF+hIwKakf2rGPu7iqJeboLZ03Na/TkrHOFq86g
+ tZlTbDEznt63/ko0GWPXRPoWiB2ZOE1NGmAkq0lUXsfmn8FHS5DVxW1IWYO8PgJWUkhe
+ +jpfRPWLgsvYK4veyLZgntenxVb9YMwYD9YFTN+YaZrqQbR37sw6e8UnPIZYvp0c6f/m
+ UuPA==
+X-Gm-Message-State: AOAM531MOc+nCDXmnkMIXdDuoelfyDQzwvrKCrtOMH1dDyBdz2tX9kLT
+ vADTbs46eXMOqnP8ndEii3wOCQb46gWrImQUruBAi63o0cKgDau3Wo11ZYRN0wkpOYaQJIyTGo9
+ 6/yFRhU50mKKXJGQ=
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr2736381wmk.63.1613471830617;
+ Tue, 16 Feb 2021 02:37:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyIHhrBA7aPYPbGp7OlagwJv/N9eVfGkpxmDUAz+swq4Fdh0O7PIhX2NMMr4WDk6KukiFSsqA==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr2736358wmk.63.1613471830416;
+ Tue, 16 Feb 2021 02:37:10 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id c2sm8727865wrx.70.2021.02.16.02.37.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Feb 2021 02:37:10 -0800 (PST)
+Subject: Re: [PATCH] gitlab-ci: Only push Docker 'latest' image when building
+ default branch
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210215192814.989441-1-philmd@redhat.com>
+ <97878d0a-5c47-c50c-c4ef-f6d69a52a7d0@redhat.com>
+ <b09a8758-4cb5-b0bb-4c4a-334ea2d52b29@redhat.com>
+ <YCuV624Qhy5F9CAZ@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3d817033-2a28-9ed8-5712-c5d7a53b76db@redhat.com>
+Date: Tue, 16 Feb 2021 11:37:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <YCuV624Qhy5F9CAZ@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,327 +102,61 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Robert Henry <robhenry@microsoft.com>,
- mahmoudabdalghany@outlook.com, "Emilio G. Cota" <cota@braap.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/16/21 10:52 AM, Daniel P. Berrangé wrote:
+> On Tue, Feb 16, 2021 at 08:05:09AM +0100, Philippe Mathieu-Daudé wrote:
+>> On 2/16/21 7:55 AM, Thomas Huth wrote:
+>>> On 15/02/2021 20.28, Philippe Mathieu-Daudé wrote:
+>>>> While we are interested in building docker images in different
+>>>> branches, it only makes sense to push 'latest' to the registry
+>>>> when this is the project default branch (usually 'master').
+>>>>
+>>>> Else when pushing different branches concurrently we might have
+>>>> inconsistent image state between branches.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>>> ---
+>>>>   .gitlab-ci.d/containers.yml | 2 +-
+>>>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+>>>> index 90fac85ce46..52a915f4141 100644
+>>>> --- a/.gitlab-ci.d/containers.yml
+>>>> +++ b/.gitlab-ci.d/containers.yml
+>>>> @@ -17,7 +17,7 @@
+>>>>             -t "qemu/$NAME" -f "tests/docker/dockerfiles/$NAME.docker"
+>>>>             -r $CI_REGISTRY_IMAGE
+>>>>       - docker tag "qemu/$NAME" "$TAG"
+>>>> -    - docker push "$TAG"
+>>>> +    - test "$CI_COMMIT_BRANCH" = "$CI_DEFAULT_BRANCH" && docker push
+>>>> "$TAG"
+>>>
+>>> So does that mean that the following stages in the CI (i.e. build, test)
+>>> are only always (i.e. also for the non-master branches) going to use
+>>> containers that have been build on the master branch?
+>>
+>> Hmm good point. Should we use "$CI_COMMIT_BRANCH" instead of "latest"?
+> 
+> This doesn't work because git branch names are not guaranteed to be
+> valid docker tag names. Please see my thread here:
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg03535.html
 
-Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+Indeed this thread describes the problem I am having. I'll see if there
+are follow up on your thread.
 
-> On Feb 12 16:04, Alex Benn=C3=A9e wrote:
->> Do you see two stores or one store? I think I got the sense the wrong
->> way around because the store is instrumented before the mmu code,
->> hence should be skipped on a re-instrumented block.
->
-> I only see one store between the instruction callback for the store and
-> the instruction callback for the subsequent instruction.
+Another way of fixing this is to find a way to only allow 1 pipeline at
+a time. I haven't tried it yet because I don't like the idea of making
+CI slower, but this is still better than debugging inconsistent
+pipelines when Docker images are rebuilt.
 
-I've posted:
+Regards,
 
-  Subject: [PATCH  v3 00/23] plugins/next pre-PR (hwprofile, regression fix=
-es, icount count fix)
-  Date: Sat, 13 Feb 2021 13:03:02 +0000
-  Message-Id: <20210213130325.14781-1-alex.bennee@linaro.org>
+Phil.
 
-which I think solves it. Could you have a look?
-
->
-> -Aaron
->
->> On Fri, 12 Feb 2021 at 15:41, Aaron Lindsay
->> <aaron@os.amperecomputing.com> wrote:
->> >
->> > On Feb 12 14:43, Alex Benn=C3=A9e wrote:
->> > > Aaron Lindsay <aaron@os.amperecomputing.com> writes:
->> > > > On Feb 10 22:10, Alex Benn=C3=A9e wrote:
->> > > >> When icount is enabled and we recompile an MMIO access we end up
->> > > >> double counting the instruction execution. To avoid this we intro=
-duce
->> > > >> the CF_NOINSTR cflag which disables instrumentation for the next =
-TB.
->> > > >> As this is part of the hashed compile flags we will only execute =
-the
->> > > >> generated TB while coming out of a cpu_io_recompile.
->> > > >
->> > > > Unfortunately this patch works a little too well!
->> > > >
->> > > > With this change, the memory access callbacks registered via
->> > > > `qemu_plugin_register_vcpu_mem_cb()` are never called for the
->> > > > re-translated instruction making the IO access, since we've disabl=
-ed all
->> > > > instrumentation.
->> > > >
->> > > > Is it possible to selectively disable only instruction callbacks u=
-sing
->> > > > this mechanism, while still allowing others that would not yet hav=
-e been
->> > > > called for the re-translated instruction?
->> > >
->> > > Can you try the following fugly patch on top of this series:
->> >
->> > This patch does allow me to successfully observe memory callbacks for
->> > stores in this case. It seems from looking at the patch that you
->> > intentionally only allowed memory callbacks for stores in this case, a=
-nd
->> > I still don't see callbacks any for loads.
->> >
->> > -Aaron
->> >
->> > > --8<---------------cut here---------------start------------->8---
->> > > diff --git a/include/exec/plugin-gen.h b/include/exec/plugin-gen.h
->> > > index 4834a9e2f4..b1b72b5d90 100644
->> > > --- a/include/exec/plugin-gen.h
->> > > +++ b/include/exec/plugin-gen.h
->> > > @@ -19,7 +19,7 @@ struct DisasContextBase;
->> > >
->> > >  #ifdef CONFIG_PLUGIN
->> > >
->> > > -bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb);
->> > > +bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb,=
- bool supress);
->> > >  void plugin_gen_tb_end(CPUState *cpu);
->> > >  void plugin_gen_insn_start(CPUState *cpu, const struct DisasContext=
-Base *db);
->> > >  void plugin_gen_insn_end(void);
->> > > @@ -41,7 +41,7 @@ static inline void plugin_insn_append(const void *=
-from, size_t size)
->> > >  #else /* !CONFIG_PLUGIN */
->> > >
->> > >  static inline
->> > > -bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb)
->> > > +bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb,=
- bool supress)
->> > >  {
->> > >      return false;
->> > >  }
->> > > diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
->> > > index 841deed79c..2a26a2277f 100644
->> > > --- a/include/qemu/plugin.h
->> > > +++ b/include/qemu/plugin.h
->> > > @@ -92,6 +92,7 @@ struct qemu_plugin_dyn_cb {
->> > >      };
->> > >  };
->> > >
->> > > +/* Internal context for instrumenting an instruction */
->> > >  struct qemu_plugin_insn {
->> > >      GByteArray *data;
->> > >      uint64_t vaddr;
->> > > @@ -99,6 +100,7 @@ struct qemu_plugin_insn {
->> > >      GArray *cbs[PLUGIN_N_CB_TYPES][PLUGIN_N_CB_SUBTYPES];
->> > >      bool calls_helpers;
->> > >      bool mem_helper;
->> > > +    bool store_only;
->> > >  };
->> > >
->> > >  /*
->> > > @@ -128,6 +130,7 @@ static inline struct qemu_plugin_insn *qemu_plug=
-in_insn_alloc(void)
->> > >      return insn;
->> > >  }
->> > >
->> > > +/* Internal context for this TranslationBlock */
->> > >  struct qemu_plugin_tb {
->> > >      GPtrArray *insns;
->> > >      size_t n;
->> > > @@ -135,6 +138,7 @@ struct qemu_plugin_tb {
->> > >      uint64_t vaddr2;
->> > >      void *haddr1;
->> > >      void *haddr2;
->> > > +    bool store_only;
->> > >      GArray *cbs[PLUGIN_N_CB_SUBTYPES];
->> > >  };
->> > >
->> > > diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
->> > > index 8a1bb801e0..137b91282e 100644
->> > > --- a/accel/tcg/plugin-gen.c
->> > > +++ b/accel/tcg/plugin-gen.c
->> > > @@ -842,7 +842,7 @@ static void plugin_gen_inject(const struct qemu_=
-plugin_tb *plugin_tb)
->> > >      pr_ops();
->> > >  }
->> > >
->> > > -bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb)
->> > > +bool plugin_gen_tb_start(CPUState *cpu, const TranslationBlock *tb,=
- bool store_only)
->> > >  {
->> > >      struct qemu_plugin_tb *ptb =3D tcg_ctx->plugin_tb;
->> > >      bool ret =3D false;
->> > > @@ -855,6 +855,7 @@ bool plugin_gen_tb_start(CPUState *cpu, const Tr=
-anslationBlock *tb)
->> > >          ptb->vaddr2 =3D -1;
->> > >          get_page_addr_code_hostp(cpu->env_ptr, tb->pc, &ptb->haddr1=
-);
->> > >          ptb->haddr2 =3D NULL;
->> > > +        ptb->store_only =3D store_only;
->> > >
->> > >          plugin_gen_empty_callback(PLUGIN_GEN_FROM_TB);
->> > >      }
->> > > diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
->> > > index 14d1ea795d..082f2c8ee1 100644
->> > > --- a/accel/tcg/translator.c
->> > > +++ b/accel/tcg/translator.c
->> > > @@ -58,7 +58,7 @@ void translator_loop(const TranslatorOps *ops, Dis=
-asContextBase *db,
->> > >      ops->tb_start(db, cpu);
->> > >      tcg_debug_assert(db->is_jmp =3D=3D DISAS_NEXT);  /* no early ex=
-it */
->> > >
->> > > -    plugin_enabled =3D !(tb_cflags(db->tb) & CF_NOINSTR) && plugin_=
-gen_tb_start(cpu, tb);
->> > > +    plugin_enabled =3D plugin_gen_tb_start(cpu, tb, tb_cflags(db->t=
-b) & CF_NOINSTR);
->> > >
->> > >      while (true) {
->> > >          db->num_insns++;
->> > > @@ -100,6 +100,8 @@ void translator_loop(const TranslatorOps *ops, D=
-isasContextBase *db,
->> > >              gen_io_start();
->> > >              ops->translate_insn(db, cpu);
->> > >          } else {
->> > > +            /* we should only see NOINSTR for io_recompile */
->> > > +            g_assert(!(tb_cflags(db->tb) & CF_NOINSTR));
->> > >              ops->translate_insn(db, cpu);
->> > >          }
->> > >
->> > > diff --git a/plugins/api.c b/plugins/api.c
->> > > index 5dc8e6f934..ac8475707d 100644
->> > > --- a/plugins/api.c
->> > > +++ b/plugins/api.c
->> > > @@ -84,15 +84,19 @@ void qemu_plugin_register_vcpu_tb_exec_cb(struct=
- qemu_plugin_tb *tb,
->> > >                                            enum qemu_plugin_cb_flags=
- flags,
->> > >                                            void *udata)
->> > >  {
->> > > -    plugin_register_dyn_cb__udata(&tb->cbs[PLUGIN_CB_REGULAR],
->> > > -                                  cb, flags, udata);
->> > > +    if (!tb->store_only) {
->> > > +        plugin_register_dyn_cb__udata(&tb->cbs[PLUGIN_CB_REGULAR],
->> > > +                                      cb, flags, udata);
->> > > +    }
->> > >  }
->> > >
->> > >  void qemu_plugin_register_vcpu_tb_exec_inline(struct qemu_plugin_tb=
- *tb,
->> > >                                                enum qemu_plugin_op o=
-p,
->> > >                                                void *ptr, uint64_t i=
-mm)
->> > >  {
->> > > -    plugin_register_inline_op(&tb->cbs[PLUGIN_CB_INLINE], 0, op, pt=
-r, imm);
->> > > +    if (!tb->store_only) {
->> > > +        plugin_register_inline_op(&tb->cbs[PLUGIN_CB_INLINE], 0, op=
-, ptr, imm);
->> > > +    }
->> > >  }
->> > >
->> > >  void qemu_plugin_register_vcpu_insn_exec_cb(struct qemu_plugin_insn=
- *insn,
->> > > @@ -100,16 +104,20 @@ void qemu_plugin_register_vcpu_insn_exec_cb(st=
-ruct qemu_plugin_insn *insn,
->> > >                                              enum qemu_plugin_cb_fla=
-gs flags,
->> > >                                              void *udata)
->> > >  {
->> > > -    plugin_register_dyn_cb__udata(&insn->cbs[PLUGIN_CB_INSN][PLUGIN=
-_CB_REGULAR],
->> > > -        cb, flags, udata);
->> > > +    if (!insn->store_only) {
->> > > +        plugin_register_dyn_cb__udata(&insn->cbs[PLUGIN_CB_INSN][PL=
-UGIN_CB_REGULAR],
->> > > +                                      cb, flags, udata);
->> > > +    }
->> > >  }
->> > >
->> > >  void qemu_plugin_register_vcpu_insn_exec_inline(struct qemu_plugin_=
-insn *insn,
->> > >                                                  enum qemu_plugin_op=
- op,
->> > >                                                  void *ptr, uint64_t=
- imm)
->> > >  {
->> > > -    plugin_register_inline_op(&insn->cbs[PLUGIN_CB_INSN][PLUGIN_CB_=
-INLINE],
->> > > -                              0, op, ptr, imm);
->> > > +    if (!insn->store_only) {
->> > > +        plugin_register_inline_op(&insn->cbs[PLUGIN_CB_INSN][PLUGIN=
-_CB_INLINE],
->> > > +                                  0, op, ptr, imm);
->> > > +    }
->> > >  }
->> > >
->> > >
->> > > @@ -120,8 +128,13 @@ void qemu_plugin_register_vcpu_mem_cb(struct qe=
-mu_plugin_insn *insn,
->> > >                                        enum qemu_plugin_mem_rw rw,
->> > >                                        void *udata)
->> > >  {
->> > > -    plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB=
-_REGULAR],
->> > > -                                cb, flags, rw, udata);
->> > > +    if (insn->store_only && (rw & QEMU_PLUGIN_MEM_W)) {
->> > > +        plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGI=
-N_CB_REGULAR],
->> > > +                                    cb, flags, QEMU_PLUGIN_MEM_W, u=
-data);
->> > > +    } else {
->> > > +        plugin_register_vcpu_mem_cb(&insn->cbs[PLUGIN_CB_MEM][PLUGI=
-N_CB_REGULAR],
->> > > +                                    cb, flags, rw, udata);
->> > > +    }
->> > >  }
->> > >
->> > >  void qemu_plugin_register_vcpu_mem_inline(struct qemu_plugin_insn *=
-insn,
->> > > @@ -129,8 +142,10 @@ void qemu_plugin_register_vcpu_mem_inline(struc=
-t qemu_plugin_insn *insn,
->> > >                                            enum qemu_plugin_op op, v=
-oid *ptr,
->> > >                                            uint64_t imm)
->> > >  {
->> > > -    plugin_register_inline_op(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_CB_I=
-NLINE],
->> > > -        rw, op, ptr, imm);
->> > > +    if (!insn->store_only) {
->> > > +        plugin_register_inline_op(&insn->cbs[PLUGIN_CB_MEM][PLUGIN_=
-CB_INLINE],
->> > > +                                  rw, op, ptr, imm);
->> > > +    }
->> > >  }
->> > >
->> > >  void qemu_plugin_register_vcpu_tb_trans_cb(qemu_plugin_id_t id,
->> > > @@ -181,10 +196,13 @@ uint64_t qemu_plugin_tb_vaddr(const struct qem=
-u_plugin_tb *tb)
->> > >  struct qemu_plugin_insn *
->> > >  qemu_plugin_tb_get_insn(const struct qemu_plugin_tb *tb, size_t idx)
->> > >  {
->> > > +    struct qemu_plugin_insn *insn;
->> > >      if (unlikely(idx >=3D tb->n)) {
->> > >          return NULL;
->> > >      }
->> > > -    return g_ptr_array_index(tb->insns, idx);
->> > > +    insn =3D g_ptr_array_index(tb->insns, idx);
->> > > +    insn->store_only =3D tb->store_only;
->> > > +    return insn;
->> > >  }
->> > >
->> > >  /*
->> > > --8<---------------cut here---------------end--------------->8---
->> > >
->> > > --
->> > > Alex Benn=C3=A9e
->>=20
->>=20
->>=20
->> --=20
->> Alex Benn=C3=A9e
->> KVM/QEMU Hacker for Linaro
-
-
---=20
-Alex Benn=C3=A9e
 
