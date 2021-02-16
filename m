@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A28CB31C47A
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 01:03:07 +0100 (CET)
-Received: from localhost ([::1]:44914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C76231C47D
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 01:04:13 +0100 (CET)
+Received: from localhost ([::1]:47058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lBnpa-00025i-4w
-	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 19:03:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52992)
+	id 1lBnqe-00030m-4b
+	for lists+qemu-devel@lfdr.de; Mon, 15 Feb 2021 19:04:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBnnh-00010b-Qv
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:01:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22764)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lBnnf-0000IW-5c
- for qemu-devel@nongnu.org; Mon, 15 Feb 2021 19:01:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613433665;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Tin75Cl9Z+LD3wXxGMRwHYzYQj4uYkrXnkKiPq/9unE=;
- b=eETVQBfUtaLOQwSL6Wc3NwgnV6n3HNxj5MS/m7EdIxRuPPOHZ95scF+e6zQmOonnHZACWW
- i0GbDw6rc0h6s65soYQgNxjicaqfNaPNiE4owdFAE3zIpCHYR7c9m1RTrhgXzQWj9iFFnT
- YQnB4H08zAzLzEkwUbtKTpCRHf7uPxo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-hkA98ex_PICmmaK3q9J0sg-1; Mon, 15 Feb 2021 19:01:01 -0500
-X-MC-Unique: hkA98ex_PICmmaK3q9J0sg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8087E7B9E;
- Tue, 16 Feb 2021 00:01:00 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-114-28.rdu2.redhat.com
- [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 649BB5C541;
- Tue, 16 Feb 2021 00:00:56 +0000 (UTC)
-Date: Mon, 15 Feb 2021 19:00:54 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH] virtiofs_submounts.py test: Note on vmlinuz param
-Message-ID: <20210216000054.GA117147@localhost.localdomain>
-References: <20210212151649.252440-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lBnoh-0001it-DZ; Mon, 15 Feb 2021 19:02:11 -0500
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:40525)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1lBnof-0000gB-JC; Mon, 15 Feb 2021 19:02:11 -0500
+Received: by mail-io1-xd2f.google.com with SMTP id i8so4164671iog.7;
+ Mon, 15 Feb 2021 16:02:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ABztf+f6y72C9fnGNo0IZQqgq+8P63WIRwXANiYq8I4=;
+ b=J3tl3tORfoACEqlzjJjcvbjVw6C74+H4agdYCHbq9gZIFbtTPoAf+Mvcfj3yASO6ZK
+ 7jJvYOzeZjwRSP7NLMDdo+Ilsi7e/VgHaAJgt6unm58EadrHaKXvgd7RlhNODvLVRxrw
+ qG8RBpGbphuPQnoYdheqsuk9NAHKcBPEgZ0uAqMVhERDdyFSu0J97KETp681PLtdW56X
+ sqiYI5u7bU2aYR2SUKgVeCjQzoEk/l8Y3rFtM7H2AUouSxWFJwmCWhUi/Mn9DnpSRAv+
+ Ywgn0xloaQMz7RmNezPj9Qg4nWPlz+bcXFJbSBqOT8pbYCfaydP0LYJ9RNwUZci8k9kr
+ ic8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ABztf+f6y72C9fnGNo0IZQqgq+8P63WIRwXANiYq8I4=;
+ b=mflhMe1Sw68t+ZnzgdU8QvUiHeiJJ4BKA1DRtHS/MWGjgIt+zM74wFFm7zmGkGjCdL
+ nKSfF8mYsnJwSeThLPxMZz8gmfAL8hnCAkhGmRJJZv/dxpIH2fxTDlVUDXcLi0mbgZFD
+ 5msBkQxNGHTL9RLrZ1BPHJeXAKEkbKyItt0dzwZmw4HNKeojWIrfBIk8rtf5Jxi4d1If
+ bfL/MFYkyfiwZdYisxiGXagnfpI1R1HncASDQq1CLZ4Nr+uD6TTbK3uYxc+xCKrelQvZ
+ nWSv1qwC7XpFp8nVapzop3BMRMKLBzC/FWPBGDycWSsFCMINx/4HZN9VpU1MtB7X5/Oa
+ KbTw==
+X-Gm-Message-State: AOAM532rOIxBZrlB9iyjt9oHgZPhbhjCqNJR8qBj30fyp/a+2OmU35Q2
+ Gc+7MDke8R/ZkA3h2F5Wlmp4s5XhHllh0GvflcE=
+X-Google-Smtp-Source: ABdhPJxlMRTQ3Nzh3Q445zrT1owDcj4hJ2uNIpAkDmybtFjRT0f4o0moJ3EdP02g30MX3D14LJYd7RtoMX7LPuWH3r8=
+X-Received: by 2002:a05:6638:2683:: with SMTP id
+ o3mr8356035jat.8.1613433727573; 
+ Mon, 15 Feb 2021 16:02:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210212151649.252440-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="T4sUOijqQbZv57TR"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210110185109.29841-1-space.monkey.delivers@gmail.com>
+ <CAKmqyKP7tig8Lh=qktUnM+HMhZK0__qTgRXDeCayiZ-S0fyGTA@mail.gmail.com>
+ <CAFukJ-DcspptvOzcqHEdXsdXZbu4uSVrOgwjVbc41BpMOtq=+Q@mail.gmail.com>
+In-Reply-To: <CAFukJ-DcspptvOzcqHEdXsdXZbu4uSVrOgwjVbc41BpMOtq=+Q@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 15 Feb 2021 16:01:25 -0800
+Message-ID: <CAKmqyKOjHHGqBfT4mz8tcmucsF9d8XmTrCiZhYeF367U7_nE-Q@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] RISC-V Pointer Masking implementation
+To: Alexey Baturo <baturo.alexey@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,99 +80,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "space.monkey.delivers@gmail.com" <space.monkey.delivers@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Dave Smith <kupokupokupopo@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---T4sUOijqQbZv57TR
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, Feb 15, 2021 at 12:52 PM Alexey Baturo <baturo.alexey@gmail.com> wr=
+ote:
+>
+> Hi Alistair,
+>
+> Sorry for the late reply.
+>
+> >Do you know the current state of the spec?
+> As far as I can tell, the spec for PointerMasking is quite frozen: it has=
+ not been updated for quite some time, but some of the clarifications have =
+not been included in the actual spec.
+> I'll ask the J workgroup if they could do draft release v0.1, while I'll =
+address the fixed you proposed in this patch series.
+> Meanwhile could you please tell, if it's ok to push several series of pat=
+ches to claim the support of i.e. v0.1 or it's mandatory to push all the pa=
+tches at once?
 
-On Fri, Feb 12, 2021 at 04:16:49PM +0100, Max Reitz wrote:
-> From the cancel message, it is not entirely clear why this parameter is
-> mandatory now, or that it will be optional in the future.  Add such a
-> more detailed explanation as a comment in the test source file.
->=20
-> Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> I=E2=80=99ve uploaded a build of Linux 5.10 here:
->   https://xanclic.moe/linux-5.10
->=20
-> But I=E2=80=99ve decided against mentioning it in this new comment or the=
- cancel
-> message, because, well, it=E2=80=99s my private server and I have limited
-> bandwidth.
-> ---
->  tests/acceptance/virtiofs_submounts.py | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/tests/acceptance/virtiofs_submounts.py b/tests/acceptance/vi=
-rtiofs_submounts.py
-> index 949ca87a83..9a69b6b17b 100644
-> --- a/tests/acceptance/virtiofs_submounts.py
-> +++ b/tests/acceptance/virtiofs_submounts.py
-> @@ -228,6 +228,18 @@ class VirtiofsSubmountsTest(BootLinux):
->      def setUp(self):
->          vmlinuz =3D self.params.get('vmlinuz')
->          if vmlinuz is None:
-> +            """
-> +            The Linux kernel supports FUSE auto-submounts only as of 5.1=
-0.
-> +            boot_linux.py currently provides Fedora 31, whose kernel is =
-too
-> +            old, so this test cannot pass with the on-image kernel (you =
-are
-> +            welcome to try, hence the option to force such a test with
-> +            -p vmlinuz=3D'').  Therefore, for now the user must provide =
-a
-> +            sufficiently new custom kernel, or effectively explicitly
-> +            request failure with -p vmlinuz=3D''.
-> +            Once an image with a sufficiently new kernel is available
-> +            (probably Fedora 34), we can make -p vmlinuz=3D'' the defaul=
-t, so
-> +            that this parameter no longer needs to be specified.
-> +            """
->              self.cancel('vmlinuz parameter not set; you must point it to=
- a '
->                          'Linux kernel binary to test (to run this test w=
-ith ' \
->                          'the on-image kernel, set it to an empty string)=
-')
-> --=20
-> 2.29.2
->=20
+You can post multiple patches on the list, but I wouldn't claim to
+support v0.1 until there is a v0.1 to claim.
 
-Hi Max,
+For actual changes being merged we can only claim to support v0.1 when
+there is a v0.1 and it is supported. We can push the patches in
+stages, for example we can merge some tidy ups before merging the full
+support, but we can't allow a user to enable support (or advertise it)
+until it's fully supported.
 
-FIY I'm queueing this patch.
+Alistair
 
-Thanks,
-- Cleber.
-
---T4sUOijqQbZv57TR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmArCzIACgkQZX6NM6Xy
-CfM3BQ//SE7c3mgxfQdD1FIlRhYwOuXHeBmEyuuVXGT1FtNbY1v9xqtOZDGfSnju
-d0rGAaH4Zi6jGJKrhrAqKtouG86xuPd9/W43w1Spbp8RE9bfh58notsmBw6z4M1s
-JC3dPykAe1ZWpcv+R3I7swo1MKR2qBNJ0adjLPRV+GxyfpzaOKEaS1ExxMTh/ZhX
-FwpRDKmXqLM6Zvng7KUASZw67QroVFJHnDJwkwwbAeUKN/63uUN7NA9wF5f2EUUA
-R0fjCGTPsUktEHrcijmfjuRRlBUAdafQrF0xqlhpF3nUshTD6+UEiAXwtFVPZAo6
-RwxKXPJiJzfJ4BtGvXORDhKC1pYeIVbYYbahWFwFOq4V4L8/uTJjzqHJuGL9gmb8
-l+sJHhhdV8zLp0ZQjgfbYGv+d0GfGVwb0J9XQUVSK3E5moDsiUJJQAJIiNiWazgj
-v+Lj1sFpULjEqtp/zB5CgIchDGnG6nhmd/7jnaO68CrZoporgxTIWOTIklc+jDKy
-VMa+HKSzxa6DZHRxRWT9lut01cYMh6h/a/GKb/D273FwT5PyqSBkUcelA3qJPZAJ
-8dMF6k22VXeIp82glSnnrUe8xcfuz1sSVv3rS8yrEDyKU8fGe6UFCdZL4Uw/Q+1k
-gjEGgLOxxNLU1U6KH8jMM+c5zB8Uq0o6TSa8PqT4b3lSpakLQCA=
-=WRwT
------END PGP SIGNATURE-----
-
---T4sUOijqQbZv57TR--
-
+>
+> Thanks!
+>
+> =D1=81=D1=80, 3 =D1=84=D0=B5=D0=B2=D1=80. 2021 =D0=B3. =D0=B2 22:22, Alis=
+tair Francis <alistair23@gmail.com>:
+>>
+>> On Sun, Jan 10, 2021 at 10:54 AM Alexey Baturo <baturo.alexey@gmail.com>=
+ wrote:
+>> >
+>> > Hi folks,
+>> >
+>> > Sorry it took me almost 3 month to provide the reply and fixes: it was=
+ a really busy EOY.
+>> > This series contains fixed @Alistair suggestion on enabling J-ext.
+>> >
+>> > As for @Richard comments:
+>> > - Indeed I've missed appending review-by to the approved commits. Now =
+I've restored them except for the fourth commit. @Richard could you please =
+tell if you think it's still ok to commit it as is, or should I support mas=
+king mem ops for RVV first?
+>> > - These patches don't have any support for load/store masking for RVV =
+and RVH extensions, so no support for special load/store for Hypervisor in =
+particular.
+>> >
+>> > If this patch series would be accepted, I think my further attention w=
+ould be to:
+>> > - Support pm for memory operations for RVV
+>> > - Add proper csr and support pm for memory operations for Hypervisor m=
+ode
+>> > - Support address wrapping on unaligned accesses as @Richard mentioned=
+ previously
+>>
+>> Overall this looks fine.
+>>
+>> Unfortunately it doesn't look like there is a release of the pointer
+>> masking spec. Until there is a release (a draft release counts) we
+>> can't accept it. We need a version to point to so that we can say "we
+>> support v0.1 of the RISC-V pointer masking spec". Otherwise we are
+>> chasing a moving target and users don't know what version we do/don't
+>> support.
+>>
+>> Do you know the current state of the spec?
+>>
+>> Alistair
+>>
+>> >
+>> > Thanks!
+>> >
+>> > Alexey Baturo (5):
+>> >   [RISCV_PM] Add J-extension into RISC-V
+>> >   [RISCV_PM] Support CSRs required for RISC-V PM extension except for
+>> >     the ones required for hypervisor mode
+>> >   [RISCV_PM] Print new PM CSRs in QEMU logs
+>> >   [RISCV_PM] Support pointer masking for RISC-V for i/c/f/d/a types of
+>> >     instructions
+>> >   [RISCV_PM] Allow experimental J-ext to be turned on
+>> >
+>> > Anatoly Parshintsev (1):
+>> >   [RISCV_PM] Implement address masking functions required for RISC-V
+>> >     Pointer Masking extension
+>> >
+>> >  target/riscv/cpu.c                      |  30 +++
+>> >  target/riscv/cpu.h                      |  33 +++
+>> >  target/riscv/cpu_bits.h                 |  66 ++++++
+>> >  target/riscv/csr.c                      | 271 +++++++++++++++++++++++=
++
+>> >  target/riscv/insn_trans/trans_rva.c.inc |   3 +
+>> >  target/riscv/insn_trans/trans_rvd.c.inc |   2 +
+>> >  target/riscv/insn_trans/trans_rvf.c.inc |   2 +
+>> >  target/riscv/insn_trans/trans_rvi.c.inc |   2 +
+>> >  target/riscv/translate.c                |  44 ++++
+>> >  9 files changed, 453 insertions(+)
+>> >
+>> > --
+>> > 2.20.1
+>> >
+>> >
 
