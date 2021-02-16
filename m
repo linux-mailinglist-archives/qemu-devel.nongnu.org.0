@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8778631CB02
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:19:20 +0100 (CET)
-Received: from localhost ([::1]:58378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1F431CB12
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 14:27:20 +0100 (CET)
+Received: from localhost ([::1]:34924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC0G7-00026V-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:19:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43606)
+	id 1lC0Nr-0004mr-Kd
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 08:27:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC0Cp-0000qN-GK
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:15:56 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:43633)
+ id 1lC0MA-0004Da-Au
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:25:35 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:35479)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC0Cn-0007oe-Ry
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:15:55 -0500
-Received: by mail-ed1-x536.google.com with SMTP id r17so5477217edy.10
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 05:15:52 -0800 (PST)
+ id 1lC0M6-0003Yn-Ae
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 08:25:32 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id g5so13016456ejt.2
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 05:25:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=hWf6Qjcmse9OLPkFZplSkmUjV0aXxlZ+z6bAu5QRxLk=;
- b=XRqymkir3dG+7ls4vdmQlBWnSjXi5jhK1nnGn2yInvVOgKRnpvEAgRcpbjBgG5PHhA
- MbqMnhtLCT274PFzpqxvXa5hGsTEILSeXsAvhd/iJqo11q6taJucKrkGb2ZPWZwM51HP
- doYM6uPkiRsxORJ+JgMVCsKdCy+E85gOeoAJrsnr6M5biADufG64DB7zlv4YmTGMxZpl
- oLQtecO1TVQb5H+nfoMjM7raveM/loV0lq95pkaCeBOHx63mSaWstg0v2B7CH/tx1u/G
- z/+JBUAB/EtdczkKt0zkj4tf2KFcmbH+jLQGPwRkF8ujGD1CEHBhxh5kWK1P1SWF77q/
- 1Ccw==
+ :cc; bh=vQN8Jp0Lg1pQZzgeCJ9p6l+tibrhd72tY4e/WdrrSWM=;
+ b=Jch2w385yr3s0B8yI/AIvRBAXeBB1wwj5l90V9YgKcTXzwVteYTuSBeHUrhlXAPLT/
+ s1E7G7Omm4fRnu9M507wsutg/XWOueSxmUD7bSuS4s/24xb3FSt5OSZYwhhl/8YoGpii
+ CbzNGMssKKMFyuWl5bXP3R1hVFhHQ4I35lKyX/qJze0xma/3RIUQsk/1WL5jU/Zi/fXR
+ TxwGn5wYZjpmJRlls1MCQ3hWwN9Nly2Zd3s3+CpFR2QmCONnSgtR9xGE6TZkRVCQX/8I
+ 1O98zDM08HqvCOoi5+P5IsRJFAzQvgcSabooBObRYDZLMTHQKSQMWd3yL5xsVgjBXVPE
+ fOKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=hWf6Qjcmse9OLPkFZplSkmUjV0aXxlZ+z6bAu5QRxLk=;
- b=geSFPpWeKW1yPutpUZM4e4UrI5TwT4cqLnDx/XjDItvmXm67VL7OhSls/ISrCUWauH
- Jk6uioGL3SQlAuN+G5O59pmgWDzvGWCt7rqcYQB4sX71Rw72/QA6OojJQiYDgDx0/MJ4
- i3C//NdnXX6PObpnNaN6x9Q3mbiTQOlRuP9WJv4uiqNCKg/8pNgpEiKkSVVCCxqqoFuh
- 3YWWXn6vboTTbgoN5IuZMBcWqXuVoaww9k0aUB1wlW1706meu+NpL64lJz1Y7cjFaCZA
- u6b3UBqV1YSyFkY2aceIkL7xfXM/RDh0oKM32kbA4bbhwlZ5H/36Z0NlZ0B0SdbWtVf7
- Gzaw==
-X-Gm-Message-State: AOAM532WhgPGgCWsOWUVsja/VozeQ5XCijyeFV498/sN4bKdRcT8Krcl
- +sh5a0SwbfbxjeOJ2hwP3xRf4bOvTZYhgj3WiUipXg==
-X-Google-Smtp-Source: ABdhPJwMbCcvYXnkrt3eUfNV0+1oIAhBufhcy9pJrzONRVnZYhqWlKLNV4OXzbAiQb5DGSse1z+dB2PPhnW35eqHe68=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr20768218edd.52.1613481351814; 
- Tue, 16 Feb 2021 05:15:51 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=vQN8Jp0Lg1pQZzgeCJ9p6l+tibrhd72tY4e/WdrrSWM=;
+ b=duyi8gLEiZE9i3EvmQ93/y+xlFnIhgMLbcx/Dh6EyKwahh9ZzZpME9Dyg3FKFJpF9Q
+ BhIyAdeWIQtMoNJOveaANCvKzZooQ50mqYjr1omVGtRr4fZybCvz/vrMbsEaJSKmHFmd
+ isIXJrl8GiILyn8NYWZmCYk8FBQWjgScPO3i2YBEbyao87a/tu7aOKh10WQ72jS/PHjU
+ bwI8ZHeEDcu6FRl+gCs29gKiHg7713+LoVJhRovk9Fxbkbk0P9VhSO58CGaWPlHrGpP/
+ OCn1bRJ18S50kxbBvfhuvT2vPkRYO7aqUF7Y9mokeMJ9En9wV90C139Rd6WM2rAepWdO
+ h3tA==
+X-Gm-Message-State: AOAM531jxfnCHjCrlEE35fIXhmSGFoSie0wLC+XXrhIGgZ+jlY1e2P93
+ qy63rTn0hvuxHE81CmyURLa8kr9c5dGN05vBDAo9Uw==
+X-Google-Smtp-Source: ABdhPJxGfoqnziSNNUXrF0ZxGweLiaMUykdFyjMUOqdKxutNEHn1/SNf+FzxNT/xhya01emyV4uflmg9A5nyf8qn+xE=
+X-Received: by 2002:a17:906:b4a:: with SMTP id
+ v10mr19914919ejg.382.1613481928313; 
+ Tue, 16 Feb 2021 05:25:28 -0800 (PST)
 MIME-Version: 1.0
-References: <20210216131132.1116574-1-f4bug@amsat.org>
-In-Reply-To: <20210216131132.1116574-1-f4bug@amsat.org>
+References: <20201102163336.115444-1-alxndr@bu.edu>
+In-Reply-To: <20201102163336.115444-1-alxndr@bu.edu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 16 Feb 2021 13:15:40 +0000
-Message-ID: <CAFEAcA9kg1qEMamBxgshqL0YADDX9e7U94wr9HuzCh0yV9w-mw@mail.gmail.com>
-Subject: Re: [PATCH v4] MAINTAINERS: Add an entry for the Siemens SX1
- (OMAP310) machines
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 16 Feb 2021 13:25:17 +0000
+Message-ID: <CAFEAcA9d=ZTXzK+u5rjFvkiA53izTBq5Hm5VwQ9=WEAZX+TRJg@mail.gmail.com>
+Subject: Re: [PATCH] qtest: add a reproducer for LP#1878642
+To: Alexander Bulekov <alxndr@bu.edu>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,39 +77,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 13:13, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Mon, 2 Nov 2020 at 16:35, Alexander Bulekov <alxndr@bu.edu> wrote:
 >
-> Add the Siemens SX1 (OMAP310) cellphones with the other ARM machines.
+> https://bugs.launchpad.net/qemu/+bug/1878642
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
-> v4: Maintained -> Odd Fixes (no test image known)
-> ---
->  MAINTAINERS | 6 ++++++
->  1 file changed, 6 insertions(+)
 >
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 8201f12271b..47f8c591760 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -656,6 +656,12 @@ S: Maintained
->  F: hw/rtc/goldfish_rtc.c
->  F: include/hw/rtc/goldfish_rtc.h
+> Based-on: <20200717151705.18611-1-f4bug@amsat.org>
 >
-> +Siemens SX1 (OMAP310)
-> +M: Peter Maydell <peter.maydell@linaro.org>
-> +L: qemu-arm@nongnu.org
-> +S: Odd Fixes
-> +F: hw/arm/omap_sx1.c
+> The added testcase will fail, unless this ^^^ patch is applied.
+>
+>  tests/qtest/fuzz-test.c | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+>
+> diff --git a/tests/qtest/fuzz-test.c b/tests/qtest/fuzz-test.c
+> index 2f38bb1ec2..9cb4c42bde 100644
+> --- a/tests/qtest/fuzz-test.c
+> +++ b/tests/qtest/fuzz-test.c
+> @@ -34,6 +34,19 @@ static void test_lp1878263_megasas_zero_iov_cnt(void)
+>      qtest_quit(s);
+>  }
+>
+> +static void test_lp1878642_pci_bus_get_irq_level_assert(void)
+> +{
+> +    QTestState *s;
+> +
+> +    s = qtest_init("-M pc-q35-5.0 "
+> +                   "-nographic -monitor none -serial none "
+> +                   "-d guest_errors -trace pci*");
+> +
+> +    qtest_outl(s, 0xcf8, 0x8400f841);
+> +    qtest_outl(s, 0xcfc, 0xebed205d);
+> +    qtest_outl(s, 0x5d02, 0xebed205d);
+> +}
 
-docs/system/arm/sx1.rst is already listed in MAINTAINERS
-under the 'OMAP' section; if we want to have a separate
-section for the SX1 we should move that F: line here.
+Hi; I just noticed this, but why does this test case pass
+"-trace pci*" to QEMU? It doesn't look like it does anything to
+try to capture the trace output, which thus winds up just going
+to the stdout/stderr of the "make check" run. Similarly I'm not
+sure '-d guest_errors' is going to do anything helpful unless
+you take steps to capture the output and check it.
 
 thanks
 -- PMM
