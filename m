@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7124C31CE1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:34:52 +0100 (CET)
-Received: from localhost ([::1]:40978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D340B31CE36
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 17:39:37 +0100 (CET)
+Received: from localhost ([::1]:52494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC3JL-0000hT-Ft
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:34:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
+	id 1lC3Nw-00061e-SS
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 11:39:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32u-0008FE-Kz
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:52 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36222)
+ id 1lC32v-0008Ht-Im
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:53 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39893)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lC32J-0002Qm-AM
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:52 -0500
-Received: by mail-wm1-x336.google.com with SMTP id a207so1844583wmd.1
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:13 -0800 (PST)
+ id 1lC32J-0002RR-Aa
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 11:17:53 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id v62so5490617wmg.4
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 08:17:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iEBIv7+OwI51woRY737KKllG0LWlaFF7AMx5WRjtclo=;
- b=nVvnUNNLun7cMAnTt0gMfqH86lfTela6X6GN859srQKdCMnDVfFLR1ArPtxHTHhjv2
- RAH7WaVTiR9sI50XAxNZQsstQLFyS/hN3znLckra13lB5amMZ4HNl3BK7Iqd1tNbLp7B
- uB0aEWWx2GVBIBaa/v7Y4w8sP4kKX8rL7YFJFAmqFwDWBCDCRzHg8oiiVPcPf9wtB5s9
- Y6A2tqwW5MdxlUzOXmmHWNGytKc2PmxCg01g31+1CxplV1vyDsAMCUYYl7BR74gvg4WW
- RhpHvfclTqPlAMP9B9oqxsQfsA8q3kJG6twuewufftl9j8NC35R0MhuoGb+Wz71MNDTb
- E1lg==
+ bh=5JWfwKowe7rah/3Vj4T/sMmaK9HUgrKB3BjWRcVxMcw=;
+ b=DuB8HQfSsz7qSwT47EVWeBnojAgzlhbJ3VEAY5sg6Xc3moqp5XC64DgHI38O2tsqQF
+ OcY3GBAuBeabkBQBL9kW5yhjz1ZMGElDw22yTyE0WwDyEeDG3kJNUJ4njVoHTG7gRWhj
+ ijVMCicQUGbn29M8nJKMJJPIc1/Fvk3Hm2AgUpUkAEJqKiWYRNg7kI/YpGQrME41h7xi
+ vxXDt7E6Zf4KwoZgcL6nHj46K8I4aDRL+FzHH+pmICNP0wmKFZt1sqcLuL5UpActWRjM
+ 0gDGSubPdBzkcV5/HGoUbVyEO5FoVaR+yhwWAIHyEBofL56XTD/nJyQF3FqJMVk/fsKZ
+ dcTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iEBIv7+OwI51woRY737KKllG0LWlaFF7AMx5WRjtclo=;
- b=KvkUwFtjFnIyCW15zBmuxNEPLmr6X2tcOJle/h5OS50YlhUfR5CR3XAFiKoKPS5vCW
- n22P9A4z2ntX+S5PzrJ/FxyuvJJEaw4aWePp1fMKaveggTI1D3L3D2uS9YVsJMShAzIX
- RoHEBvURLE+GGfvIqmXT3p33DNEVzG6M8NmMqhVIxONh5K6N6x2ILTs0C/ng2lE4yaPC
- JiNVjLh0+abYZBvqBPaDTM9h0fSqCMUQtGTdIIsWs+CKzRiqUIo+k0y/SfQ+pwENQWrd
- heA44eLyzOPkzQl5wg9J8YO3o8cBDrGh1McEFQ0mrJTf12ATfJfpkRdlsz4sAAMB7Pft
- 8KvA==
-X-Gm-Message-State: AOAM53049Gn5kYK4InO9F3k1w3JXEOdlAXZsa1RMMxIdp8r7gi738mpN
- wqROvsZ5IOx+oJh8SyDjSnFsVkPnDVM/jg==
-X-Google-Smtp-Source: ABdhPJwTbfZ+86ff0fSRc7ko9iaGo6TRktDqjH9pPNMIQrsrTnQoujro1hq54LmaJLtKEAc/Rg2mGw==
-X-Received: by 2002:a1c:20c7:: with SMTP id g190mr3749424wmg.156.1613492232687; 
- Tue, 16 Feb 2021 08:17:12 -0800 (PST)
+ bh=5JWfwKowe7rah/3Vj4T/sMmaK9HUgrKB3BjWRcVxMcw=;
+ b=UM4SZnbHNxy3wVa0TYNF2pvIWdXv95OGyJtAm9TxqWWCUyJr8ARSrS6qpl7TARnHbo
+ QU4vTrb2wEbfNAeQwR7K0Yk62rIFb5QecFmz4AY35cDv0biBOQm5SZv5H2AijOeP0MG8
+ tZ0t8TBITzhvjuN1rTaR6foR1c4x96AT17luTisWrB8U0kGkk1X+yIVAabu5I46QDU/6
+ hPLHPEFhZVJbakhZ2H+5ePSIPjJ4J3N1k76ipWwUfBw3ODigaTN8bXxKa7PUE24KcR41
+ ENpD02frjRQTqbFwTAIrn8X6Yc+MEh2QTGxeiwSh1HxFY6XaAf+JJMbnPEPEO+MmixVX
+ purQ==
+X-Gm-Message-State: AOAM532uw4a4fUyvohEAa/zWOLnJlwaWfSkgZUbVTsqgS5MpDIIK1sBk
+ c/LCqQfcFrluOT8CG5+UYK9fxzoofUGIVg==
+X-Google-Smtp-Source: ABdhPJy3fMoc4pwlQQwblOIeb1KLL2i9C19+Yeuz1C6oSZNmU5tYYnBkabMKj2GrWNiu1J/TxCAkjg==
+X-Received: by 2002:a1c:6387:: with SMTP id x129mr3934170wmb.84.1613492233458; 
+ Tue, 16 Feb 2021 08:17:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
  by smtp.gmail.com with ESMTPSA id d5sm30630482wrb.14.2021.02.16.08.17.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 16 Feb 2021 08:17:12 -0800 (PST)
+ Tue, 16 Feb 2021 08:17:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 17/40] linux-user: Move lock_user et al out of line
-Date: Tue, 16 Feb 2021 16:16:35 +0000
-Message-Id: <20210216161658.29881-18-peter.maydell@linaro.org>
+Subject: [PULL 18/40] linux-user: Fix types in uaccess.c
+Date: Tue, 16 Feb 2021 16:16:36 +0000
+Message-Id: <20210216161658.29881-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210216161658.29881-1-peter.maydell@linaro.org>
 References: <20210216161658.29881-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,147 +89,188 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-These functions are not small, except for unlock_user
-without debugging enabled.  Move them out of line, and
-add missing braces on the way.
+For copy_*_user, only 0 and -TARGET_EFAULT are returned; no need
+to involve abi_long.  Use size_t for lengths.  Use bool for the
+lock_user copy argument.  Use ssize_t for target_strlen, because
+we can't overflow the host memory space.
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210212184902.1251044-18-richard.henderson@linaro.org
-[PMM: fixed the sense of an ifdef test in qemu.h]
+Message-id: 20210212184902.1251044-19-richard.henderson@linaro.org
+[PMM: moved fix for ifdef error to previous commit]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- linux-user/qemu.h    | 47 +++++++-------------------------------------
- linux-user/uaccess.c | 46 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 53 insertions(+), 40 deletions(-)
+ linux-user/qemu.h    | 12 +++++-------
+ linux-user/uaccess.c | 45 ++++++++++++++++++++++----------------------
+ 2 files changed, 28 insertions(+), 29 deletions(-)
 
 diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 82eabb73f80..971af97a2fb 100644
+index 971af97a2fb..d25a5dafc0f 100644
 --- a/linux-user/qemu.h
 +++ b/linux-user/qemu.h
-@@ -640,57 +640,24 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
+@@ -7,8 +7,6 @@
+ #include "exec/cpu_ldst.h"
+ 
+ #undef DEBUG_REMAP
+-#ifdef DEBUG_REMAP
+-#endif /* DEBUG_REMAP */
+ 
+ #include "exec/user/abitypes.h"
+ 
+@@ -629,8 +627,8 @@ static inline bool access_ok(CPUState *cpu, int type,
+  * buffers between the target and host.  These internally perform
+  * locking/unlocking of the memory.
+  */
+-abi_long copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
+-abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
++int copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
++int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
+ 
+ /* Functions for accessing guest memory.  The tget and tput functions
+    read/write single values, byteswapping as necessary.  The lock_user function
+@@ -640,13 +638,13 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
  
  /* Lock an area of guest memory into the host.  If copy is true then the
     host area will have the same contents as the guest.  */
--static inline void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
--{
--    if (!access_ok_untagged(type, guest_addr, len)) {
--        return NULL;
--    }
--#ifdef DEBUG_REMAP
--    {
--        void *addr;
--        addr = g_malloc(len);
--        if (copy)
--            memcpy(addr, g2h(guest_addr), len);
--        else
--            memset(addr, 0, len);
--        return addr;
--    }
--#else
--    return g2h_untagged(guest_addr);
--#endif
--}
-+void *lock_user(int type, abi_ulong guest_addr, long len, int copy);
+-void *lock_user(int type, abi_ulong guest_addr, long len, int copy);
++void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy);
  
  /* Unlock an area of guest memory.  The first LEN bytes must be
     flushed back to guest memory. host_ptr = NULL is explicitly
     allowed and does nothing. */
--static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
--                               long len)
--{
--
--#ifdef DEBUG_REMAP
--    if (!host_ptr)
--        return;
--    if (host_ptr == g2h_untagged(guest_addr))
--        return;
--    if (len > 0)
--        memcpy(g2h_untagged(guest_addr), host_ptr, len);
--    g_free(host_ptr);
-+#ifndef DEBUG_REMAP
-+static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, long len)
-+{ }
-+#else
-+void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
- #endif
--}
+ #ifndef DEBUG_REMAP
+-static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, long len)
++static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
+ { }
+ #else
+ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
+@@ -654,7 +652,7 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
  
  /* Return the length of a string in target memory or -TARGET_EFAULT if
     access error. */
- abi_long target_strlen(abi_ulong gaddr);
+-abi_long target_strlen(abi_ulong gaddr);
++ssize_t target_strlen(abi_ulong gaddr);
  
  /* Like lock_user but for null terminated strings.  */
--static inline void *lock_user_string(abi_ulong guest_addr)
--{
--    abi_long len;
--    len = target_strlen(guest_addr);
--    if (len < 0)
--        return NULL;
--    return lock_user(VERIFY_READ, guest_addr, (long)(len + 1), 1);
--}
-+void *lock_user_string(abi_ulong guest_addr);
- 
- /* Helper macros for locking/unlocking a target struct.  */
- #define lock_user_struct(type, host_ptr, guest_addr, copy)	\
+ void *lock_user_string(abi_ulong guest_addr);
 diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-index e215ecc2a60..bba012ed159 100644
+index bba012ed159..76af6a92b11 100644
 --- a/linux-user/uaccess.c
 +++ b/linux-user/uaccess.c
-@@ -4,6 +4,52 @@
+@@ -4,7 +4,7 @@
  
  #include "qemu.h"
  
-+void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
-+{
-+    if (!access_ok_untagged(type, guest_addr, len)) {
-+        return NULL;
-+    }
-+#ifdef DEBUG_REMAP
-+    {
-+        void *addr;
-+        addr = g_malloc(len);
-+        if (copy) {
-+            memcpy(addr, g2h(guest_addr), len);
-+        } else {
-+            memset(addr, 0, len);
-+        }
-+        return addr;
-+    }
-+#else
-+    return g2h_untagged(guest_addr);
-+#endif
-+}
-+
-+#ifdef DEBUG_REMAP
-+void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
-+{
-+    if (!host_ptr) {
-+        return;
-+    }
-+    if (host_ptr == g2h_untagged(guest_addr)) {
-+        return;
-+    }
-+    if (len > 0) {
-+        memcpy(g2h_untagged(guest_addr), host_ptr, len);
-+    }
-+    g_free(host_ptr);
-+}
-+#endif
-+
-+void *lock_user_string(abi_ulong guest_addr)
-+{
-+    abi_long len = target_strlen(guest_addr);
-+    if (len < 0) {
-+        return NULL;
-+    }
-+    return lock_user(VERIFY_READ, guest_addr, (long)(len + 1), 1);
-+}
-+
+-void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
++void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
+ {
+     if (!access_ok_untagged(type, guest_addr, len)) {
+         return NULL;
+@@ -26,7 +26,7 @@ void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
+ }
+ 
+ #ifdef DEBUG_REMAP
+-void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
++void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
+ {
+     if (!host_ptr) {
+         return;
+@@ -34,7 +34,7 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
+     if (host_ptr == g2h_untagged(guest_addr)) {
+         return;
+     }
+-    if (len > 0) {
++    if (len != 0) {
+         memcpy(g2h_untagged(guest_addr), host_ptr, len);
+     }
+     g_free(host_ptr);
+@@ -43,53 +43,53 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
+ 
+ void *lock_user_string(abi_ulong guest_addr)
+ {
+-    abi_long len = target_strlen(guest_addr);
++    ssize_t len = target_strlen(guest_addr);
+     if (len < 0) {
+         return NULL;
+     }
+-    return lock_user(VERIFY_READ, guest_addr, (long)(len + 1), 1);
++    return lock_user(VERIFY_READ, guest_addr, (size_t)len + 1, 1);
+ }
+ 
  /* copy_from_user() and copy_to_user() are usually used to copy data
   * buffers between the target and host.  These internally perform
   * locking/unlocking of the memory.
+  */
+-abi_long copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
++int copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
+ {
+-    abi_long ret = 0;
+-    void *ghptr;
++    int ret = 0;
++    void *ghptr = lock_user(VERIFY_READ, gaddr, len, 1);
+ 
+-    if ((ghptr = lock_user(VERIFY_READ, gaddr, len, 1))) {
++    if (ghptr) {
+         memcpy(hptr, ghptr, len);
+         unlock_user(ghptr, gaddr, 0);
+-    } else
++    } else {
+         ret = -TARGET_EFAULT;
+-
++    }
+     return ret;
+ }
+ 
+-
+-abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
++int copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
+ {
+-    abi_long ret = 0;
+-    void *ghptr;
++    int ret = 0;
++    void *ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0);
+ 
+-    if ((ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0))) {
++    if (ghptr) {
+         memcpy(ghptr, hptr, len);
+         unlock_user(ghptr, gaddr, len);
+-    } else
++    } else {
+         ret = -TARGET_EFAULT;
++    }
+ 
+     return ret;
+ }
+ 
+ /* Return the length of a string in target memory or -TARGET_EFAULT if
+    access error  */
+-abi_long target_strlen(abi_ulong guest_addr1)
++ssize_t target_strlen(abi_ulong guest_addr1)
+ {
+     uint8_t *ptr;
+     abi_ulong guest_addr;
+-    int max_len, len;
++    size_t max_len, len;
+ 
+     guest_addr = guest_addr1;
+     for(;;) {
+@@ -101,11 +101,12 @@ abi_long target_strlen(abi_ulong guest_addr1)
+         unlock_user(ptr, guest_addr, 0);
+         guest_addr += len;
+         /* we don't allow wrapping or integer overflow */
+-        if (guest_addr == 0 || 
+-            (guest_addr - guest_addr1) > 0x7fffffff)
++        if (guest_addr == 0 || (guest_addr - guest_addr1) > 0x7fffffff) {
+             return -TARGET_EFAULT;
+-        if (len != max_len)
++        }
++        if (len != max_len) {
+             break;
++        }
+     }
+     return guest_addr - guest_addr1;
+ }
 -- 
 2.20.1
 
