@@ -2,72 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B33A31D056
-	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 19:42:30 +0100 (CET)
-Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28DF631D06B
+	for <lists+qemu-devel@lfdr.de>; Tue, 16 Feb 2021 19:51:20 +0100 (CET)
+Received: from localhost ([::1]:36008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lC5Ir-0006ff-Cg
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 13:42:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37078)
+	id 1lC5RP-0005ts-8B
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 13:51:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lC5Eg-0004U7-76
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 13:38:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23562)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lC5Ph-0003uS-Pe
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 13:49:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23881)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1lC5Ee-0000If-KM
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 13:38:09 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lC5Pe-0001aD-VZ
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 13:49:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613500686;
+ s=mimecast20190719; t=1613501369;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6bPppjYUr8n0R4SImxdmVnZA7LVYOuJ5fA7nHO7XOr8=;
- b=Rh0PCgHlj+jSYdiFbrDKdSMW+auvw401lwD/GdYUmozcneprtDHmiLmuhqxJFuXqosQyDh
- Yfz0L9Ju/GwFviIsBq7kashIQhQNvek2qE52XKtZ5HxpKHEshdXKfSV5IbRD6e9MludIxl
- 3MFX7k7L5/iJ6BZa4WWBSHQEmRlA0Qk=
+ bh=1/7x0bOqLR72nBo8DbhFzWSrJBqzrxLPdA7fyK7XCmU=;
+ b=EvzG+H5QDe1oSgmtz513x+jqTtahNXDXhLtoCMXCV9VjEhR3kXkv9B0jcCHCu38OvejLxm
+ 4Z9AsXsdJzyjZyjovIE0WlXRBjPj6WL5czK/+vrZhw03AS7N7x78XHEB8gxSnCoxKkydIq
+ nl4uweagjc9kgtE+DbdYM/+UN8i4g+Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-559-PVJAtutHObS5YUqkpHJBJw-1; Tue, 16 Feb 2021 13:38:03 -0500
-X-MC-Unique: PVJAtutHObS5YUqkpHJBJw-1
+ us-mta-1-u1lSIX9YOai_wZMHxPpK7g-1; Tue, 16 Feb 2021 13:49:27 -0500
+X-MC-Unique: u1lSIX9YOai_wZMHxPpK7g-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4ECF884E254;
- Tue, 16 Feb 2021 18:38:02 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-115-109.ams2.redhat.com
- [10.36.115.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D3B0E5C1B4;
- Tue, 16 Feb 2021 18:37:54 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org, wainersm@redhat.com, groug@kaod.org,
- philmd@redhat.com, vgoyal@redhat.com
-Subject: [PULL 6/6] virtiofsd: Do not use a thread pool by default
-Date: Tue, 16 Feb 2021 18:37:34 +0000
-Message-Id: <20210216183734.57810-7-dgilbert@redhat.com>
-In-Reply-To: <20210216183734.57810-1-dgilbert@redhat.com>
-References: <20210216183734.57810-1-dgilbert@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E2361E563;
+ Tue, 16 Feb 2021 18:49:26 +0000 (UTC)
+Received: from [10.36.114.70] (ovpn-114-70.ams2.redhat.com [10.36.114.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 430F25C1B4;
+ Tue, 16 Feb 2021 18:49:10 +0000 (UTC)
+Subject: Re: [PATCH v5 00/11] virtio-mem: vfio support
+To: Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <20210121110540.33704-1-david@redhat.com>
+ <20210127074407-mutt-send-email-mst@kernel.org>
+ <0c34a461-bdfe-3512-b9f6-69bdb2b34f19@redhat.com>
+ <f9025da1-a8da-a281-514e-9f56e3bda04e@redhat.com>
+ <20210216113359.70af1ad4@omen.home.shazbot.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <83763c2d-c0dd-12d8-193d-a58517340015@redhat.com>
+Date: Tue, 16 Feb 2021 19:49:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210216113359.70af1ad4@omen.home.shazbot.org>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,49 +86,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ teawater <teawaterz@linux.alibaba.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vivek Goyal <vgoyal@redhat.com>
+On 16.02.21 19:33, Alex Williamson wrote:
+> On Mon, 15 Feb 2021 15:03:43 +0100
+> David Hildenbrand <david@redhat.com> wrote:
+> 
+>> On 08.02.21 09:28, David Hildenbrand wrote:
+>>> On 27.01.21 13:45, Michael S. Tsirkin wrote:
+>>>> On Thu, Jan 21, 2021 at 12:05:29PM +0100, David Hildenbrand wrote:
+>>>>> A virtio-mem device manages a memory region in guest physical address
+>>>>> space, represented as a single (currently large) memory region in QEMU,
+>>>>> mapped into system memory address space. Before the guest is allowed to use
+>>>>> memory blocks, it must coordinate with the hypervisor (plug blocks). After
+>>>>> a reboot, all memory is usually unplugged - when the guest comes up, it
+>>>>> detects the virtio-mem device and selects memory blocks to plug (based on
+>>>>> resize requests from the hypervisor).
+>>>>>
+>>>>> Memory hot(un)plug consists of (un)plugging memory blocks via a virtio-mem
+>>>>> device (triggered by the guest). When unplugging blocks, we discard the
+>>>>> memory - similar to memory balloon inflation. In contrast to memory
+>>>>> ballooning, we always know which memory blocks a guest may actually use -
+>>>>> especially during a reboot, after a crash, or after kexec (and during
+>>>>> hibernation as well). Guests agreed to not access unplugged memory again,
+>>>>> especially not via DMA.
+>>>>>
+>>>>> The issue with vfio is, that it cannot deal with random discards - for this
+>>>>> reason, virtio-mem and vfio can currently only run mutually exclusive.
+>>>>> Especially, vfio would currently map the whole memory region (with possible
+>>>>> only little/no plugged blocks), resulting in all pages getting pinned and
+>>>>> therefore resulting in a higher memory consumption than expected (turning
+>>>>> virtio-mem basically useless in these environments).
+>>>>>
+>>>>> To make vfio work nicely with virtio-mem, we have to map only the plugged
+>>>>> blocks, and map/unmap properly when plugging/unplugging blocks (including
+>>>>> discarding of RAM when unplugging). We achieve that by using a new notifier
+>>>>> mechanism that communicates changes.
+>>>>
+>>>> series
+>>>>
+>>>> Acked-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>
+>>>> virtio bits
+>>>>
+>>>> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>>>>
+>>>> This needs to go through vfio tree I assume.
+>>>
+>>> Thanks Michael.
+>>>
+>>> @Alex, what are your suggestions?
+>>
+>> Gentle ping.
+> 
+> Sorry for the delay.  It looks to me like patches 1, 8, and 9 are
+> Memory API that are still missing an Ack from Paolo.  I'll toss in my
+> A-b+R-b for patches 6 and 7.  I don't see that this necessarily needs
+> to go in through vfio, I'm more than happy if someone else wants to
+> grab it.  Thanks,
 
-Currently we created a thread pool (With 64 max threads per pool) for
-each virtqueue. We hoped that this will provide us with better scalability
-and performance.
+Thanks, I assume patch #11 is fine with you as well?
 
-But in practice, we are getting better numbers in most of the cases
-when we don't create a thread pool at all and a single thread per
-virtqueue receives the request and processes it.
+@Paolo, it would be great if I can get your feedback on patch #1. I have 
+more stuff coming up that will reuse RamDiscardMgr (i.e., for better 
+migration handling and better guest memory dump handling).
 
-Hence, I am proposing that we switch to no thread pool by default
-(equivalent of --thread-pool-size=0). This will provide out of
-box better performance to most of the users. In fact other users
-have confirmed that not using a thread pool gives them better
-numbers. So why not use this as default. It can be changed when
-somebody can fix the issues with thread pool performance.
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-Message-Id: <20210210182744.27324-2-vgoyal@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- tools/virtiofsd/fuse_lowlevel.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tools/virtiofsd/fuse_lowlevel.c b/tools/virtiofsd/fuse_lowlevel.c
-index f78692ef66..1aa26c6333 100644
---- a/tools/virtiofsd/fuse_lowlevel.c
-+++ b/tools/virtiofsd/fuse_lowlevel.c
-@@ -18,7 +18,7 @@
- 
- #include <sys/file.h>
- 
--#define THREAD_POOL_SIZE 64
-+#define THREAD_POOL_SIZE 0
- 
- #define OFFSET_MAX 0x7fffffffffffffffLL
- 
 -- 
-2.29.2
+Thanks,
+
+David / dhildenb
 
 
