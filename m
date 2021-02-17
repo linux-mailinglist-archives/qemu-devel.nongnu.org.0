@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BED0531DA69
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:29:56 +0100 (CET)
-Received: from localhost ([::1]:54104 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1984231DA85
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:33:39 +0100 (CET)
+Received: from localhost ([::1]:57766 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCMtv-0003lV-Io
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:29:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43110)
+	id 1lCMxV-0005ZQ-Tx
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:33:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMrZ-0003DN-N6
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:27:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41310)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMrU-00034U-PC
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:27:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613568443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=bIYNhR7ZnqJhF6CvMhxjgjoOM4wGFsoFzKH2+vWMdW4=;
- b=QpoW5OLr1KOZxu2i58I898RFxR1G7Hz7CPMu1+pAF7c1C45pQYWzCAYWVHeognbjsipjTD
- pmhTfGF9GOP5h1ne/vnlis5Fnrinhua5tuQYL2chSR6K9vGYMJJ0Lrh7HQVfQ+yihYTVfW
- id06thMVq+BtTovX+9GDJaqUMweYpQo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-AnaXUdB8NKiiDL0wkSPxrQ-1; Wed, 17 Feb 2021 08:27:21 -0500
-X-MC-Unique: AnaXUdB8NKiiDL0wkSPxrQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1D0A419611A9;
- Wed, 17 Feb 2021 13:27:20 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3E3C5D746;
- Wed, 17 Feb 2021 13:27:18 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id E292D1800398; Wed, 17 Feb 2021 14:27:15 +0100 (CET)
-Date: Wed, 17 Feb 2021 14:27:15 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Bruce Rogers <brogers@suse.com>
-Subject: Re: [PATCH] spice-app: avoid crash when core spice module doesn't
- loaded
-Message-ID: <20210217132715.dptkbqi4kfspev2e@sirius.home.kraxel.org>
-References: <20210213032318.346093-1-brogers@suse.com>
+ (Exim 4.90_1) (envelope-from <lhenriques@suse.de>)
+ id 1lCJBb-0000Nr-42
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 04:31:55 -0500
+Received: from mx2.suse.de ([195.135.220.15]:48730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lhenriques@suse.de>)
+ id 1lCJBZ-00019A-I0
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 04:31:54 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id AB76DB131;
+ Wed, 17 Feb 2021 09:31:50 +0000 (UTC)
+Received: from localhost (brahms [local])
+ by brahms (OpenSMTPD) with ESMTPA id 5a080ecb;
+ Wed, 17 Feb 2021 09:32:53 +0000 (UTC)
+From: Luis Henriques <lhenriques@suse.de>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 0/3] virtiofsd: Add options to enable/disable posix acl
+References: <20210216233611.33400-1-vgoyal@redhat.com>
+Date: Wed, 17 Feb 2021 09:32:53 +0000
+In-Reply-To: <20210216233611.33400-1-vgoyal@redhat.com> (Vivek Goyal's message
+ of "Tue, 16 Feb 2021 18:36:08 -0500")
+Message-ID: <87zh03hwe2.fsf@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <20210213032318.346093-1-brogers@suse.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=lhenriques@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 17 Feb 2021 08:29:52 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -79,23 +57,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
+ stefanha@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 08:23:18PM -0700, Bruce Rogers wrote:
-> When qemu is built with modules, but a given module doesn't load
-> qemu should handle that gracefully. When ui-spice-core.so isn't
-> able to be loaded and qemu is invoked with -display spice-app or
-> -spice, qemu will dereference a null pointer. With this change we
-> check the pointer before dereferencing and error out in a normal
-> way.
-> 
-> Signed-off-by: Bruce Rogers <brogers@suse.com>
+Vivek Goyal <vgoyal@redhat.com> writes:
 
-Added to UI queue.
+> Luis Henriques reported that fstest generic/099 fails with virtiofs.
+> Little debugging showed that we don't enable acl support. So this
+> patch series provides option to enable/disable posix acl support. By
+> default it is disabled.
+>
+> I have run blogbench and pjdfstests with posix acl enabled and
+> things work fine. 
+>
+> Luis, can you please apply these patches, and run virtiofsd with
+> "-o posix_acl" and see if it fixes the failure you are seeing. I
+> ran the steps you provided manually and it fixes the issue for
+> me.
 
-thanks,
-  Gerd
+Awesome, thanks for looking into this.  I'll have a look and test these
+patches.  I expect to be able to report back later today.
 
+Cheers,
+-- 
+Luis
+
+
+>
+> Vivek Goyal (3):
+>   virtiofsd: Add an option to enable/disable posix acls
+>   virtiofsd: Add umask to seccom allow list
+>   virtiofsd: Change umask if posix acls are enabled
+>
+>  tools/virtiofsd/passthrough_ll.c      | 45 +++++++++++++++++++++++----
+>  tools/virtiofsd/passthrough_seccomp.c |  1 +
+>  2 files changed, 40 insertions(+), 6 deletions(-)
+>
+> -- 
+> 2.25.4
+>
 
