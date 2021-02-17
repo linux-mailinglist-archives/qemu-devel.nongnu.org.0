@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEBDC31D3EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 03:27:21 +0100 (CET)
-Received: from localhost ([::1]:45252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8024F31D3F4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 03:35:07 +0100 (CET)
+Received: from localhost ([::1]:48702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCCYj-0007XF-1Z
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 21:27:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51874)
+	id 1lCCgE-0000tO-K3
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 21:35:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCCXq-000723-9e
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 21:26:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34438)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCCXo-0003xM-FW
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 21:26:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613528783;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iRkI7IlrP/UhwWiNrxsqX2g2G1irQrOyNIUrw+uNITg=;
- b=jIyG2EJG+NV06M0MhDdre9uKERfKC2vn6ZL7Nmbw+BqHFJfNLhafcVtKQoEmBcNvCeTX2a
- Phuq6VH8zt/S2kmsgIJo+KbxCAE5i2IR51QLDvqpLBHqrqG7T23UgHp+HjjFrmomyd28uK
- AuRzJrZrDQoAHNsnoOXWQC3Wwfn8jJ0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-516-HUy_DdH_MAe1jAg38mfLkw-1; Tue, 16 Feb 2021 21:26:21 -0500
-X-MC-Unique: HUy_DdH_MAe1jAg38mfLkw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 227EB593B1;
- Wed, 17 Feb 2021 02:26:20 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-112-29.rdu2.redhat.com
- [10.10.112.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 682AB5D9C0;
- Wed, 17 Feb 2021 02:26:11 +0000 (UTC)
-Date: Tue, 16 Feb 2021 21:26:09 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 06/24] python: add VERSION file
-Message-ID: <YCx+wUXGX60DGoIP@localhost.localdomain>
-References: <20210211185856.3975616-1-jsnow@redhat.com>
- <20210211185856.3975616-7-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lCCeZ-0008Nn-Rh; Tue, 16 Feb 2021 21:33:24 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51419 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lCCeX-0004gl-2j; Tue, 16 Feb 2021 21:33:23 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DgMMZ6qTTz9sRf; Wed, 17 Feb 2021 13:33:14 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1613529194;
+ bh=ybuP2uxZWcqgXGIdNxIAsC/Po4B22bK9vG+eVKrWJgM=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=JacNLUBCAsllnEmi7Pf9wu1i0gxrLu+CJRt6vVSnGSSXc+oUwaf/oXuGFnx6uK+gs
+ YzwL8SezqbBTXV1Bq6Z60HHSjXoKAk6JI7jpGkN13JFaxNguT8ev+ULEx0jkfKcrbU
+ nNHeKhWOPmIsntGHmZUYb64dUhrFigo3xAryQuew=
+Date: Wed, 17 Feb 2021 13:31:29 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v3 7/7] spapr_drc.c: use DRC reconfiguration to cleanup
+ DIMM unplug state
+Message-ID: <YCyAAe4dJzpsgQ0x@yekko.fritz.box>
+References: <20210211225246.17315-1-danielhb413@gmail.com>
+ <20210211225246.17315-8-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210211185856.3975616-7-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="S0uu8lJDfU9/HNiv"
+ protocol="application/pgp-signature"; boundary="2ohOW0kNf5n6XSvz"
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210211225246.17315-8-danielhb413@gmail.com>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,96 +59,245 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---S0uu8lJDfU9/HNiv
-Content-Type: text/plain; charset=us-ascii
+
+--2ohOW0kNf5n6XSvz
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 01:58:38PM -0500, John Snow wrote:
-> Python infrastructure as it exists today is not capable reliably of
-> single-sourcing a package version from a parent directory. The authors
-> of pip are working to correct this, but as of today this is not possible.
+On Thu, Feb 11, 2021 at 07:52:46PM -0300, Daniel Henrique Barboza wrote:
+> Handling errors in memory hotunplug in the pSeries machine is more complex
+> than any other device type, because there are all the complications that =
+other
+> devices has, and more.
 >=20
-> The problem is that when using pip to build and install a python
-> package, it copies files over to a temporary directory and performs its
-> build there. This loses access to any information in the parent
-> directory, including git itself.
+> For instance, determining a timeout for a DIMM hotunplug must consider if=
+ it's a
+> Hash-MMU or a Radix-MMU guest, because Hash guests takes longer to hotunp=
+lug DIMMs.
+> The size of the DIMM is also a factor, given that longer DIMMs naturally =
+takes
+> longer to be hotunplugged from the kernel. And there's also the guest mem=
+ory usage to
+> be considered: if there's a process that is consuming memory that would b=
+e lost by
+> the DIMM unplug, the kernel will postpone the unplug process until the pr=
+ocess
+> finishes, and then initiate the regular hotunplug process. The first two
+> considerations are manageable, but the last one is a deal breaker.
 >=20
-> Further, Python versions have a standard (PEP 440) that may or may not
-> follow QEMU's versioning. In general, it does; but naturally QEMU does
-> not follow PEP 440. To avoid any automatically-generated conflict, a
-> manual version file is preferred.
+> There is no sane way for the pSeries machine to determine the memory load=
+ in the guest
+> when attempting a DIMM hotunplug - and even if there was a way, the guest=
+ can start
+> using all the RAM in the middle of the unplug process and invalidate our =
+previous
+> assumptions - and in result we can't even begin to calculate a timeout fo=
+r the
+> operation. This means that we can't implement a viable timeout mechanism =
+for memory
+> unplug in pSeries.
 >=20
+> Going back to why we would consider an unplug timeout, the reason is that=
+ we can't
+> know if the kernel is giving up the unplug. Turns out that, sometimes, we=
+ can.
+> Consider a failed memory hotunplug attempt where the kernel will error ou=
+t with
+> the following message:
 >=20
-> I am proposing:
+> 'pseries-hotplug-mem: Memory indexed-count-remove failed, adding any remo=
+ved LMBs'
 >=20
-> - Python tooling follows the QEMU version, indirectly, but with a major
->   version of 0 to indicate that the API is not expected to be
->   stable. This would mean version 0.5.2.0, 0.5.1.1, 0.5.3.0, etc.
+> This happens when there is a LMB that the kernel gave up in removing, and=
+ the LMBs
+> marked for removal of the same DIMM are now being added back. This proces=
+s happens
+
+We need to be a little careful about terminology here.  From the
+guest's point of view, there's no such thing as a DIMM, only LMBs.
+What the guest is doing here is essentially rejecting a single "index
++ number" DRC unplug request, which corresponds to one DIMM on the
+qemu side.
+
+> in the pseries kernel in [1], dlpar_memory_remove_by_ic() into dlpar_add_=
+lmb(), and
+> after that update_lmb_associativity_index(). In this function, the kernel=
+ is configuring
+> the LMB DRC connector again. Note that this is a valid usage in LOPAR, as=
+ stated in
+> section "ibm,configure-connector RTAS Call":
 >=20
-> - In the event that a Python package needs to be updated independently
->   of the QEMU version, a pre-release alpha version should be preferred,
->   but *only* after inclusion to the qemu development or stable branches.
+> 'A subsequent sequence of calls to ibm,configure-connector with the same =
+entry from
+> the =E2=80=9Cibm,drc-indexes=E2=80=9D or =E2=80=9Cibm,drc-info=E2=80=9D p=
+roperty will restart the configuration of
+> devices which were not completely configured.'
 >=20
->   e.g. 0.5.2.0a1, 0.5.2.0a2, and so on should be preferred prior to
->   5.2.0's release.
+> We can use this kernel behavior in our favor. If a DRC connector reconfig=
+uration
+> for a LMB that we marked as unplug pending happens, this indicates that t=
+he kernel
+> changed its mind about the unplug and is reasserting that it will keep us=
+ing the
+> DIMM. In this case, it's safe to assume that the whole DIMM unplug was ca=
+ncelled.
 >=20
-> - The Python core tooling makes absolutely no version compatibility
->   checks or constraints. It *may* work with releases of QEMU from the
->   past or future, but it is not required to.
+> This patch hops into rtas_ibm_configure_connector() and, in the scenario =
+described
+> above, clear the unplug state for the DIMM device. This will not solve al=
+l the
+> problems we still have with memory unplug, but it will cover this case wh=
+ere the
+> kernel reconfigures LMBs after a failed unplug. We are a bit more resilie=
+nt,
+> without using an unreliable timeout, and we didn't make the remaining err=
+or cases
+> any worse.
+
+I wonder if we could use this as a beginning of a hotplug failure
+reporting mechanism.  As noted, this is explicitly allowed by PAPR and
+I think in general it makes sense that a configure-connector would
+re-assert that the guest is using the resource and we can't unplug it.
+
+Could we extend guests to do an indicative configure-connector on any
+unplug it knows it can't complete?  Or if configure-connector is too
+disruptive could we use an (extra) H_SET_INDICATOR to "UNISOLATE"
+state? If I'm reading right, that should be both permitted and a no-op
+for existing PAPR implementations, so it should be a pretty safe way
+to add that indication.
+
 >=20
->   i.e., "qemu.machine" will, for now, remain in lock-step with QEMU.
+> [1] arch/powerpc/platforms/pseries/hotplug-memory.c
 >=20
-> - We reserve the right to split the qemu package into independently
->   versioned subpackages at a later date. This might allow for us to
->   begin versioning QMP independently from QEMU at a later date, if
->   we so choose.
->=20
->=20
-> Implement this versioning scheme by adding a VERSION file and setting it
-> to 0.6.0.0a1.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  python/VERSION   | 1 +
->  python/setup.cfg | 1 +
->  2 files changed, 2 insertions(+)
->  create mode 100644 python/VERSION
+>  hw/ppc/spapr.c         | 30 ++++++++++++++++++++++++++++++
+>  hw/ppc/spapr_drc.c     | 14 ++++++++++++++
+>  include/hw/ppc/spapr.h |  2 ++
+>  3 files changed, 46 insertions(+)
 >=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index ecce8abf14..4bcded4a1a 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3575,6 +3575,36 @@ static SpaprDimmState *spapr_recover_pending_dimm_=
+state(SpaprMachineState *ms,
+>      return spapr_pending_dimm_unplugs_add(ms, avail_lmbs, dimm);
+>  }
+> =20
+> +void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+> +                                           PCDIMMDevice *dimm)
+> +{
+> +    SpaprDimmState *ds =3D spapr_pending_dimm_unplugs_find(spapr, dimm);
+> +    SpaprDrc *drc;
+> +    uint32_t nr_lmbs;
+> +    uint64_t size, addr_start, addr;
+> +    int i;
+> +
+> +    if (ds) {
+> +        spapr_pending_dimm_unplugs_remove(spapr, ds);
+> +    }
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Hrm... how would !ds arise?  Could this just be an assert?
 
---S0uu8lJDfU9/HNiv
+> +
+> +    size =3D memory_device_get_region_size(MEMORY_DEVICE(dimm), &error_a=
+bort);
+> +    nr_lmbs =3D size / SPAPR_MEMORY_BLOCK_SIZE;
+> +
+> +    addr_start =3D object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_P=
+ROP,
+> +                                          &error_abort);
+> +
+> +    addr =3D addr_start;
+> +    for (i =3D 0; i < nr_lmbs; i++) {
+> +        drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+> +                              addr / SPAPR_MEMORY_BLOCK_SIZE);
+> +        g_assert(drc);
+> +
+> +        drc->unplug_requested =3D false;
+> +        addr +=3D SPAPR_MEMORY_BLOCK_SIZE;
+> +    }
+> +}
+> +
+>  /* Callback to be called during DRC release. */
+>  void spapr_lmb_release(DeviceState *dev)
+>  {
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index c143bfb6d3..eae941233a 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -1230,6 +1230,20 @@ static void rtas_ibm_configure_connector(PowerPCCP=
+U *cpu,
+> =20
+>      drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> =20
+> +    /*
+> +     * This indicates that the kernel is reconfiguring a LMB due to
+> +     * a failed hotunplug. Clear the pending unplug state for the whole
+> +     * DIMM.
+> +     */
+> +    if (spapr_drc_type(drc) =3D=3D SPAPR_DR_CONNECTOR_TYPE_LMB &&
+> +        drc->unplug_requested) {
+> +
+> +        /* This really shouldn't happen in this point, but ... */
+> +        g_assert(drc->dev);
+
+I'm a little worried that a buggy or malicious guest could trigger
+this assert.
+
+> +
+> +        spapr_clear_pending_dimm_unplug_state(spapr, PC_DIMM(drc->dev));
+> +    }
+> +
+>      if (!drc->fdt) {
+>          void *fdt;
+>          int fdt_size;
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index ccbeeca1de..5bcc8f3bb8 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -847,6 +847,8 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
+>  int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **er=
+rp);
+>  void spapr_clear_pending_events(SpaprMachineState *spapr);
+>  void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
+> +void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+> +                                           PCDIMMDevice *dimm);
+>  int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--2ohOW0kNf5n6XSvz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAsfsEACgkQZX6NM6Xy
-CfO+nBAAnIhHLB/RPQkePLm2qafaZq2qjGI1QMz/5AuEE/eYK7YeBOdFCdJs9WoO
-c3ljIrFJgEZbtZ8zOoT5a/zHPYmfjVa2jVk6uXS8bX5gF7nIJniEUg5ciJxstGA+
-wg/CSUzw55gxxg9RQREso/dRJuOMgye8s+ulsg1jSIo0Y3jUOcmBNGxEluAd0OWE
-OLmsXZuHpARRSUC9LyBlj2dTbSnqkwugaGQBQp88Jyb+fhC/haFzQ2UlEb7HrQKG
-HnbyxXKGajS+vWXKD+AKTuPNVxCTm/CdzSuUt5u7e7UKL0n9w+bWq3yb7Fi40Z0x
-e/3042Tdp9dIshvWF103OHBD4qVeLhk0ZYhw3HYlQYf9D39384WEujpgIts7ejMA
-id4IwHeoMok4MlILWely2QcU+h2Wx0uv6/IiNx11lmpRnMhCRQwA3frhLV897dTA
-XgGFBnUJ41AeVWkN6hjeR8XlUuW+ge7haB6Si1cmClqhB9dm8IL1zfYEkSDpcqjg
-BR0NIvv/UshW4VpnQlhK1SBfwEQ+SVQfp85kIN3eR/fajX6Z1FTyYlHi+qZqMKj6
-EzHY146BKOcv5lXVNXchWzKJSuf3KptlvaITl0w4S2o0+blaKPmHabtQhSVa953T
-CF1PreNxuKMrM8eKlyI5rEn/v0jiXAgwZw1c9vz0XZ7/MVuB3/g=
-=RsEt
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsf/8ACgkQbDjKyiDZ
+s5Iuhw//UIs1N0GLNX9eGtcbAJQAnmh1x8W3jMWfO58Fcf/GHh6yA44cfw5bd95z
+2ioHNkqODHyC1SJ57AWzMIcQEfSsbGUEML+cILR5lwJDOHzjBl4xkSbcjN7pq2Ax
+HRPts3ke2+wVhxg9mx6addUFTKfQw6BrUGCg2ueBnN+kyDdGIEa2n9OpvAJtD5Rn
+aXp/i+prgXRVzZCFrxmCc95udQRtNTO9Lsh3y/H7qucDRerNa6+UezuaAH9KS2Th
+lk+mayEwMJwmj2MxGFMFCeRwu6Ky5HqccgOUXjwFdmJzUWamq/RStuelAwCT9oVq
+KX29T0S6A/SVP4N/PEEEzctymkTa4LQUEjwLQH4iBtFDGgyauZGuiHy3IPonlsty
+7dya1SwfjUH3DwNejUADJX1haEVtiFDk238cSsWfZtK58/ry/djMs6Qo/aeLopK3
+0OFYxsniovAQ/MNboDIUNh7qb3Moakemx+BvjPdr8p85bxUU+dUotJhpk3v+mRj0
+1cx8GEeNLFEcf1uB/pKcoUp4loPvXhNjEUC9qcoathZRRubQE9zzZWbfI9Ldlj0z
+rvyxDC7ugqyVhlTB9Y0lWsguQKvKqE9RZQgAP7leEtnJ1BHnEDlSlcuYfzTFNjLv
+FK7+XjvHudlBk4I5zQkD29HWd7IAdh6kT/948zqnYbuCeXaHly8=
+=1vbB
 -----END PGP SIGNATURE-----
 
---S0uu8lJDfU9/HNiv--
-
+--2ohOW0kNf5n6XSvz--
 
