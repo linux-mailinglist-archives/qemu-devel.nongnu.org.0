@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC11731E028
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 21:25:31 +0100 (CET)
-Received: from localhost ([::1]:53490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089CE31E022
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 21:23:51 +0100 (CET)
+Received: from localhost ([::1]:49504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCTO7-0001ha-25
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 15:25:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60370)
+	id 1lCTMU-0008QJ-3R
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 15:23:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCTJi-0006D2-Qn
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:20:58 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:35204)
+ id 1lCTJn-0006JG-1B
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:21:03 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:42960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCTJh-0006i2-6Q
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:20:58 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id t25so9224681pga.2
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:20:56 -0800 (PST)
+ id 1lCTJl-0006mm-G8
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:21:02 -0500
+Received: by mail-pf1-x434.google.com with SMTP id w18so9154407pfu.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:21:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ItHqhLdC4sOUBCwiiiRcMM+Q2th6s4A0m8xxVBo1Ego=;
- b=fYBvxMpXzbii6KkhMzkkbayjhcohyg2QOHQekpq+hUxR7jCD9JvDw346PULo4DxSe1
- DGccktfIsPNuKB8LbGewhATLAyshMNsavCkvCJ3RZjBllmvAcB9V6qmbXGGDndxTf9hy
- 6iU40iSk9fyWLKvrqdPD5QGG3huzxF2+qn8pg5MK8D9T+FxS6JDi3LcfcAOCI4/Pj5xf
- 9OQUjd3+BTbtL1YwEYpWSwe/f2SpR0m5E3818PP5Yf18uAkhAK1pUgKl5qL8ajgzTH4G
- NxR589I0bivC35eVpGl0LnbGFM1ybsH7QlmcBywdIszUpvdd7rHZ0kd8hd5rAPXRDKD3
- NV4g==
+ bh=rTk7Zu1K9am+nHTK4Qgzw1qdbWz4Og49PpMunTWLZww=;
+ b=yONhUzE/ZFPuJQCJnBW3TFseiiV2XlrJwXnpZRn4SW3SQ/np4YUKjgOBjVdG6Zo7J6
+ DXX61R7yywJ179YZFdvZCSNgwR9ZhO9btLYtlxplNkrPQ2jrrlrK6SlvHytFAaisy+/s
+ bL3AkGL7L57UbcHwXqrIPZLaKNy34/2ERxV/A7grRAPTJ94M8pB0M+IgX6l8VK5abEiN
+ 7nLb/DA2UicFebNiy44ylQOmYuNbI1icmS/UiXuj2KY2gHBcDuCJ7xz2cmuOLGRs9Ru5
+ 6B/d8FML+8n025eAC2uXJhg5iASRPQHQWikbLRCZGc/OAz8jmsiSjsQe9iXcUHLsyxRF
+ mqxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ItHqhLdC4sOUBCwiiiRcMM+Q2th6s4A0m8xxVBo1Ego=;
- b=uayCFLLTNKXcD/ywUpO8L67tyiU6Asur/uLVz1CL1cfsiKYiJa/J6yhmdooS6YpAq9
- 62G3uX4NwgZQuHqplWXq3ly1SvfPSVRtQvmBJ+zsBhbt6Ngxs3M6DfzThEkTiCHyefyL
- 1rFK6HI3fBkPIQcZDPzWfZW1htUu44SxTGM5fxwJjc/UsmJGZhMh71FxE4lsihpLG10m
- /iTy5wsX5jXC84/xnrSAN4O9t+ddMY7faBTNOHiGoIIxPovJgRLywYCktXAXiGwm+hYJ
- l0Y1E8H6QW2ylc0mhoVaawyeINXJHQEsdN3RsWQmfTM7C/T/uyVCCKIbxwcgknDXU+KS
- jcxg==
-X-Gm-Message-State: AOAM531OWbve4NKZzdpr+siyyacy0/2T3JxGJYgiQuuKnqjIjP7vryIO
- ZAmMfexxv0/wIuyBtNdeP1x9lZke4xKKvQ==
-X-Google-Smtp-Source: ABdhPJx+8NM9d51SqWnBxdjXgTK9930zr6ffCtHf5SU8Ql0EEqbIBk58fj0aBFBibPCEZsbRilaHnQ==
-X-Received: by 2002:a63:5525:: with SMTP id j37mr935270pgb.191.1613593255782; 
- Wed, 17 Feb 2021 12:20:55 -0800 (PST)
+ bh=rTk7Zu1K9am+nHTK4Qgzw1qdbWz4Og49PpMunTWLZww=;
+ b=VHku3LZzXdFX+oEjFkZG9TcCChJa1qNgCIQ7Oonldidgiy64E+UPgIOY+/tHyNnIMk
+ sdjidNaTgoft7Twty+coZ96w+seuAaYu16KISaB8yWZdwBdqK2NeLb6pmZIsBxW+CQv5
+ RQFK/4B98bOnXgtvscqanANsR0b3/+Ga10cqLXYclpK/ILHsPFS0Fmtrcmor++apR8se
+ WpqF6M9Lma9UdZ62GmM2SPK/41xbANRXFVJCCj768vUezqtER0fMhs0db2DUY3lioNPY
+ qTTZwhxe9eF0vA6Xl7gE8MIEmveOsmjRxeFGaQTKUCabgfZ5jBYmr2uvQSYDoYUeQl9/
+ Zf3g==
+X-Gm-Message-State: AOAM532QBClx64UwlAfoMTLv5/nZ9mR8HitX6t8nxVktRo/I3ZZVm7PC
+ Ik6Zpo+8jp//LaImZ7ePcMdtOtPafPtuow==
+X-Google-Smtp-Source: ABdhPJzzet5zmG+XzUYJMrZDjXenqCCqKLdR32ZQ4MPNqbIR6dMqlPcibnPzvZbqc2V0aY5JEEHhOw==
+X-Received: by 2002:a63:cd4f:: with SMTP id a15mr934412pgj.105.1613593260075; 
+ Wed, 17 Feb 2021 12:21:00 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id 3sm3001576pjk.26.2021.02.17.12.20.51
+ by smtp.gmail.com with ESMTPSA id 3sm3001576pjk.26.2021.02.17.12.20.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 12:20:55 -0800 (PST)
+ Wed, 17 Feb 2021 12:20:59 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 01/71] tcg/tci: Use exec/cpu_ldst.h interfaces
-Date: Wed, 17 Feb 2021 12:19:26 -0800
-Message-Id: <20210217202036.1724901-2-richard.henderson@linaro.org>
+Subject: [PATCH v4 02/71] tcg: Split out tcg_raise_tb_overflow
+Date: Wed, 17 Feb 2021 12:19:27 -0800
+Message-Id: <20210217202036.1724901-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217202036.1724901-1-richard.henderson@linaro.org>
 References: <20210217202036.1724901-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,101 +87,40 @@ Cc: sw@weilnetz.de, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the provided cpu_ldst.h interfaces.  This fixes the build vs
-the unconverted uses of g2h(), adds missed memory trace events,
-and correctly recognizes when a SIGSEGV belongs to the guest via
-set_helper_retaddr().
+Allow other places in tcg to restart with a smaller tb.
 
-Fixes: 3e8f1628e864
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci.c | 73 +++++++++++++++++++++----------------------------------
- 1 file changed, 28 insertions(+), 45 deletions(-)
+ tcg/tcg.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index fb3c97aaf1..1c667537fe 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -346,51 +346,34 @@ static bool tci_compare64(uint64_t u0, uint64_t u1, TCGCond condition)
-     return result;
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 63a12b197b..bbe3dcee03 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -346,6 +346,12 @@ static void set_jmp_reset_offset(TCGContext *s, int which)
+     s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
  }
  
--#ifdef CONFIG_SOFTMMU
--# define qemu_ld_ub \
--    helper_ret_ldub_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_ld_leuw \
--    helper_le_lduw_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_ld_leul \
--    helper_le_ldul_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_ld_leq \
--    helper_le_ldq_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_ld_beuw \
--    helper_be_lduw_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_ld_beul \
--    helper_be_ldul_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_ld_beq \
--    helper_be_ldq_mmu(env, taddr, oi, (uintptr_t)tb_ptr)
--# define qemu_st_b(X) \
--    helper_ret_stb_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--# define qemu_st_lew(X) \
--    helper_le_stw_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--# define qemu_st_lel(X) \
--    helper_le_stl_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--# define qemu_st_leq(X) \
--    helper_le_stq_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--# define qemu_st_bew(X) \
--    helper_be_stw_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--# define qemu_st_bel(X) \
--    helper_be_stl_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--# define qemu_st_beq(X) \
--    helper_be_stq_mmu(env, taddr, X, oi, (uintptr_t)tb_ptr)
--#else
--# define qemu_ld_ub      ldub_p(g2h(taddr))
--# define qemu_ld_leuw    lduw_le_p(g2h(taddr))
--# define qemu_ld_leul    (uint32_t)ldl_le_p(g2h(taddr))
--# define qemu_ld_leq     ldq_le_p(g2h(taddr))
--# define qemu_ld_beuw    lduw_be_p(g2h(taddr))
--# define qemu_ld_beul    (uint32_t)ldl_be_p(g2h(taddr))
--# define qemu_ld_beq     ldq_be_p(g2h(taddr))
--# define qemu_st_b(X)    stb_p(g2h(taddr), X)
--# define qemu_st_lew(X)  stw_le_p(g2h(taddr), X)
--# define qemu_st_lel(X)  stl_le_p(g2h(taddr), X)
--# define qemu_st_leq(X)  stq_le_p(g2h(taddr), X)
--# define qemu_st_bew(X)  stw_be_p(g2h(taddr), X)
--# define qemu_st_bel(X)  stl_be_p(g2h(taddr), X)
--# define qemu_st_beq(X)  stq_be_p(g2h(taddr), X)
--#endif
-+#define qemu_ld_ub \
-+    cpu_ldub_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_ld_leuw \
-+    cpu_lduw_le_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_ld_leul \
-+    cpu_ldl_le_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_ld_leq \
-+    cpu_ldq_le_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_ld_beuw \
-+    cpu_lduw_be_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_ld_beul \
-+    cpu_ldl_be_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_ld_beq \
-+    cpu_ldq_be_mmuidx_ra(env, taddr, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_b(X) \
-+    cpu_stb_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_lew(X) \
-+    cpu_stw_le_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_lel(X) \
-+    cpu_stl_le_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_leq(X) \
-+    cpu_stq_le_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_bew(X) \
-+    cpu_stw_be_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_bel(X) \
-+    cpu_stl_be_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
-+#define qemu_st_beq(X) \
-+    cpu_stq_be_mmuidx_ra(env, taddr, X, get_mmuidx(oi), (uintptr_t)tb_ptr)
++/* Signal overflow, starting over with fewer guest insns. */
++static void QEMU_NORETURN tcg_raise_tb_overflow(TCGContext *s)
++{
++    siglongjmp(s->jmp_trans, -2);
++}
++
+ #define C_PFX1(P, A)                    P##A
+ #define C_PFX2(P, A, B)                 P##A##_##B
+ #define C_PFX3(P, A, B, C)              P##A##_##B##_##C
+@@ -1310,8 +1316,7 @@ static TCGTemp *tcg_temp_alloc(TCGContext *s)
+     int n = s->nb_temps++;
  
- #if TCG_TARGET_REG_BITS == 64
- # define CASE_32_64(x) \
+     if (n >= TCG_MAX_TEMPS) {
+-        /* Signal overflow, starting over with fewer guest insns. */
+-        siglongjmp(s->jmp_trans, -2);
++        tcg_raise_tb_overflow(s);
+     }
+     return memset(&s->temps[n], 0, sizeof(TCGTemp));
+ }
 -- 
 2.25.1
 
