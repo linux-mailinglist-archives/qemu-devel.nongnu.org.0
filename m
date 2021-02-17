@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1855431D451
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 04:46:52 +0100 (CET)
-Received: from localhost ([::1]:58780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4784831D478
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 05:13:41 +0100 (CET)
+Received: from localhost ([::1]:38216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCDnf-0004Gl-6f
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 22:46:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34562)
+	id 1lCEDb-000139-OS
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 23:13:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCDme-0003kQ-Pl
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 22:45:49 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:45234)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCDmc-0004nP-O6
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 22:45:48 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id p21so1994245pgl.12
- for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 19:45:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=JMxbtxx7bMCLhGz9dcCS6nwDK/8XWrhJs7Bgc8M8ujQ=;
- b=eNVB1KPly6LsaS/zJinQUVbjAmUsFvn62PIXkQwOcJJDIUY3izHkvv1meNV52OPupV
- r/+k59AayIjIAkG+SUG7WwxCS2F+AVmCD5KBhIbck0cbMykzEEksujs5nKUEqvsiBi/H
- zqU9cxdTy7VUWKm+13/t6Mwd/DVcDiHbfvadHqWYyPYhJguemJJ/ZXuHlRR0qaDXJMQu
- q+99Rhg4WL2hdaT8q7fI8h8IsF0ZAfX1majb3Z5GMbK0exv/uvlJUK47FMrqwGvlsoXf
- ZjYKSe67xkNNZw6hynrq3/3ZBhK5tch+lwPt/j6qiiKx+EiaI10LYvEo9voQWVgus5zt
- lRpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=JMxbtxx7bMCLhGz9dcCS6nwDK/8XWrhJs7Bgc8M8ujQ=;
- b=b6uXo4YhfRNSzUbLjFrqmHTmrVJX3kiBKFOjcEIfO/0iMYKEDznQNL6cfYgUTOjJX/
- ePBnmA+RNge7++oUvmb0tYjsgHxEZBxeGzWEzQCpFzdK8ssqLGemsCqX7U5SwoOZcfRJ
- XbGBrrCW4JpbpwQWbtt7ChZ0/2wWDepFJumYNqgKHjHqWlwLWfwsdqcDtUrH1dLq/VPo
- k/k+g136RGH/UJnLgUdS1YSuyvzJVfJvy1216Ms3tFcKXS+aJNrQYRepAPTBJ2t9URpU
- guEzkhOl5P008Yy/vQoItpUlwO3QklDNlEyB2BLQf4/vWI/hT9uSBrQQDL3CtNQmaMem
- ErLg==
-X-Gm-Message-State: AOAM533ws1AN8q8BxJrzwPsKXrADlq9uFiaN4xs3OlondiT+esTpIPdi
- NvmmeG8vrxY4lSrbXcuKFhlZidmTkeUBfg==
-X-Google-Smtp-Source: ABdhPJzUesrlz4q3Sjd18njIZOUYZJVTN3Mc3fOnCnhGsTc/BoRd1nBUs9Xy2BNYP569TAkzU5G4XA==
-X-Received: by 2002:aa7:9018:0:b029:1d9:55d7:1ffc with SMTP id
- m24-20020aa790180000b02901d955d71ffcmr22297469pfo.71.1613533544660; 
- Tue, 16 Feb 2021 19:45:44 -0800 (PST)
-Received: from [192.168.3.43] (047-051-160-125.biz.spectrum.com.
- [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id y73sm421141pfb.17.2021.02.16.19.45.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 16 Feb 2021 19:45:44 -0800 (PST)
-Subject: Re: [PATCH v2 1/3] target/arm: Add support for FEAT_SSBS, Speculative
- Store Bypass Safe
-To: Rebecca Cran <rebecca@nuviainc.com>, qemu-arm@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210216224543.16142-1-rebecca@nuviainc.com>
- <20210216224543.16142-2-rebecca@nuviainc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <7ad3acde-1f9b-13d5-7600-000400fe0c38@linaro.org>
-Date: Tue, 16 Feb 2021 19:45:41 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCECG-0000Vx-PX
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 23:12:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCECE-0003sg-RG
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 23:12:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613535134;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=u01iG1ChvwGztf3NflI0QCA4Tg7+cyKb3LRU2ib2WHY=;
+ b=foEFs9sHGu34TotaIVHA5DDL+7/zmIRcD0MEIXSD5+SdSFXxkYbI2IRL/bUm8iir6r1aHR
+ RLKzRVdCrnqlhv3TNettnvustQOFZCB/XuIKL7tK7OxzqKqptxmb1VAARSqTAkBayv6peG
+ oUmYktiblejdKnFQV7+AnuuZFbxrgNs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-169-JBO3b_Z-PS2fppXvx-_g0g-1; Tue, 16 Feb 2021 23:12:10 -0500
+X-MC-Unique: JBO3b_Z-PS2fppXvx-_g0g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1634C28F;
+ Wed, 17 Feb 2021 04:12:08 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-29.rdu2.redhat.com
+ [10.10.112.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D0B05D72F;
+ Wed, 17 Feb 2021 04:12:04 +0000 (UTC)
+Date: Tue, 16 Feb 2021 23:12:02 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 11/24] python: add pylint to pipenv
+Message-ID: <YCyXkjIZmszDsMIa@localhost.localdomain>
+References: <20210211185856.3975616-1-jsnow@redhat.com>
+ <20210211185856.3975616-12-jsnow@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210216224543.16142-2-rebecca@nuviainc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210211185856.3975616-12-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6kZfGUK+UwE4Y6vx"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,23 +78,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 2:45 PM, Rebecca Cran wrote:
-> Add support for FEAT_SSBS. SSBS (Speculative Store Bypass Safe) is an
-> optional feature in ARMv8.0, and mandatory in ARMv8.5.
-> 
-> Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
+--6kZfGUK+UwE4Y6vx
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Feb 11, 2021 at 01:58:43PM -0500, John Snow wrote:
+> We are specifying >=3D pylint 2.6.x for two reasons:
+>=20
+> 1. For setup.cfg support, added in pylint 2.5.x
+> 2. To clarify that we are using a version that has incompatibly dropped
+> bad-whitespace checks.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  target/arm/cpu.h           | 15 +++++++-
->  target/arm/helper.c        | 37 ++++++++++++++++++++
->  target/arm/internals.h     |  6 ++++
->  target/arm/translate-a64.c | 12 +++++++
->  4 files changed, 69 insertions(+), 1 deletion(-)
+>  python/Pipfile      |   1 +
+>  python/Pipfile.lock | 137 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 138 insertions(+)
+>  create mode 100644 python/Pipfile.lock
+>=20
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested at this point with:
 
-r~
+ $ pipenv install --dev
+ $ pipenv run pip freeze
+ astroid=3D=3D2.4.2
+ isort=3D=3D5.7.0
+ lazy-object-proxy=3D=3D1.4.3
+ mccabe=3D=3D0.6.1
+ pylint=3D=3D2.6.0
+ six=3D=3D1.15.0
+ toml=3D=3D0.10.2
+ typed-ast=3D=3D1.4.2
+ wrapt=3D=3D1.12.1
+
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
+
+--6kZfGUK+UwE4Y6vx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAsl4gACgkQZX6NM6Xy
+CfMpSBAAwVO/6GorXJZdttpXV/hFd6F2KvJGUiAq+x201v8BGPyrsELS48vCc+5M
+WzqCpBGZuST7nrWIX9QwsLiFllXB4+4sZc74FA8bQ1OTWxq+CHcSH7kRaK9wYxzA
+Tthp4knlut4dUq5ePKUlGfI5LovUKkVjEeupcJC3g6DrmtqF+Kr/LwATzg06E79g
+pDZ1R+FfIEwsSiIM8/7gGSLeV2iSQ/onD997XvErrZ5VK/rETZU788g0RH1YzKvw
+oYBVZuRdygOthdNrK+JVFtGfD/u3uFaaygRwS4kSmulejaT0WX2Nwnx7LQZA2mYn
+3t7Xgskdxhg0AVUTBUB7JknNN5WopOBv4knek72PyvFokyL7WFjanpvEPacWZxQy
+6tNOMXo1kAwQwlRsdOOYZTHgmCIQKndjjahmUan+LqeKEN59fIIZ00v8DHzIBLTS
+pUxRqn8ZgLyvdGhPn0PTSxJKvyWS0ttPUnyPu+K79MeuMqGX5JoLadX1SVcIbVhn
+64sAxn8/HQl5LQbzTjwQrA7pBkEA0KKPFeRgh8Kp62GTeVi9dFXyyZk/sp9UB9Uw
+b47Z08lMLSS+zc3ca+dGeURNXpEUI28WWez8s3PwPhRJ7/FmC90l1KfcOyFOmSSH
++GTkVPCMU+vk4U5yEDx5GljB+xdTGYO0JC6DKJnvOBFb3P9hdyg=
+=eArs
+-----END PGP SIGNATURE-----
+
+--6kZfGUK+UwE4Y6vx--
+
 
