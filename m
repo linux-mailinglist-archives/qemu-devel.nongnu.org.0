@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A819A31D9EC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:04:28 +0100 (CET)
-Received: from localhost ([::1]:55668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D1431D9F6
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:06:29 +0100 (CET)
+Received: from localhost ([::1]:57936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCMVH-00081z-PQ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:04:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
+	id 1lCMXE-0000fk-Jy
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:06:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCMU5-0007Ic-46
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:03:13 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41627)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCMU3-0004js-Fp
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:03:12 -0500
-Received: by mail-ed1-x535.google.com with SMTP id v9so11933866edw.8
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 05:03:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=3Gja1lz4OIKYwjL5oE3m8cmoQ42c6eTohbfvDfM8i4A=;
- b=uq4pFNhSEkY/CrDnB4TLbk/NV/4I+TbloxKUvEqBfwKBVP7Is8tbNfjtkcPX9yE+NA
- LVaJMT6Wzw291Ak66v/e6dLrP8cWlaQqe3Eyh76HXe+PwdiimCuoS9ilqM1f0ilhDlPq
- oCNlJEDA1mC6ixrNcHwKxTlDfhrXgGGxjRRDqLEXMygClZtaaO52iQkAe+b6a8emFDqt
- O3/4sPNJ8SvJcIU1/0r2eJir9KQVvScNRAG9ixCrzo4d/PZRNGH5l5uvL2X3rQXUzk9V
- hXjMSmBhIWClHzKO0i9ZHge8m3Zm4n4juMS6oWCvotmbp1xhZ3N4p+4tLhHwGXMaXxux
- SKFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=3Gja1lz4OIKYwjL5oE3m8cmoQ42c6eTohbfvDfM8i4A=;
- b=s/5DxAGKXt5gesnJe73Pa1Tali+LyC9tYUGbStu93XE6M77p8p69BLrrNeo0Rneqx/
- vmD9v5oqYiYWZeGp4liVYfdBLtCZLRnzdXMsmjAcozQe/J2/3rGqGPVlgWDmlwX8hElc
- Hbx5je0aCr3IQehJ7B1GeIoLk65yRJaCFEpyk/FccM4u8/7XDbw1rkUm3t9VZZyhh2UP
- kyLkxVcT6igtWqqLJ4DaCoMxBkXZWERhE8ic1CyBhFgNo364Ni9X0XeMG1aVwe+BIxWe
- E5a1reQGMmpXU3Qe4rrd/Kt0yN1K78w7OXpbmbsZorB1p3jXbUdA+C7Yq7I6rVbvJuML
- ugLw==
-X-Gm-Message-State: AOAM5301WcU1Xm2uZc2nVYHpyLaliwW1TJlYiHRbvDE35N0E8uyy3uAN
- 6K7vI0Nb437pbLJH+c1OuO9u2G7UlTgr1choGfvE/sG0fW8=
-X-Google-Smtp-Source: ABdhPJysQw+1nhCcDkYxpCx3BHRjbzWsZ3rRwGxYQC83i1JYLTlQpHitFSE/FcRwfSrRHmXFAqEXq+l5re3mrJ1STa0=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr25657296edd.100.1613566989514; 
- Wed, 17 Feb 2021 05:03:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMVY-00005e-51
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:04:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35801)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMVW-00057h-26
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:04:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613567080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DsYFCjrCrdnSzIPAw3UeK3sSS4FElXC0w5Wl3Ak+s0A=;
+ b=IOsfsIQrg1mbqDF8WY/VLZSK0TiYgiiluzTfUbAWOSqokgwqzWZuNjbsySao2pVtJboeuj
+ Hu/CIMbljNj3zNYuSNoahq9B06jZ3ixUdn+IJUCHn6yjA/YYMDC5a8w2fOsJZ8YMD7agZO
+ iAcw0SpV1dLzGnRfmgmIU79Ykv5uLfc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-_occ2citPGi0CFua1dfyBw-1; Wed, 17 Feb 2021 08:04:37 -0500
+X-MC-Unique: _occ2citPGi0CFua1dfyBw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E325B192CC40;
+ Wed, 17 Feb 2021 13:04:35 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FCB919C46;
+ Wed, 17 Feb 2021 13:04:35 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 964F01800398; Wed, 17 Feb 2021 14:04:28 +0100 (CET)
+Date: Wed, 17 Feb 2021 14:04:28 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Do not copy members of pixman image
+Message-ID: <20210217130428.ez6qc5444vqxfxc7@sirius.home.kraxel.org>
+References: <20210212000629.28551-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-References: <20210217110341.2243-1-peter.maydell@linaro.org>
-In-Reply-To: <20210217110341.2243-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Feb 2021 13:02:58 +0000
-Message-ID: <CAFEAcA-h4V7VBsn_d3UZqDgjrUF2CuWqEr3LFVtJKT_cMzx+1g@mail.gmail.com>
-Subject: Re: [PULL v2 00/37] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210212000629.28551-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,37 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Feb 2021 at 11:03, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> v2: dropped the npcm7xx ethernet device, whose test case
-> fails weirdly on the 'build-disabled' gitlab CI job:
-> https://gitlab.com/qemu-project/qemu/-/jobs/1034174731#L12
->
-> The following changes since commit 8ba4bca570ace1e60614a0808631a517cf5df67a:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-02-15 17:13:57 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210217
->
-> for you to fetch changes up to 59c7a187dd8bd8ef675768dd8af9de11528ea7e2:
->
->   MAINTAINERS: add myself maintainer for the clock framework (2021-02-16 14:16:17 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Support ARMv8.5-MemTag for linux-user
->  * ncpm7xx: Support SMBus
->  * MAINTAINERS: add section for Clock framework
+On Fri, Feb 12, 2021 at 09:06:29AM +0900, Akihiko Odaki wrote:
+> The old CocoaView had an idea of synchronizing the host window
+> configuration and the guest screen configuration. Here, the guest screen
+> actually means pixman image given ui/cocoa display implementation.
+> 
+> However, [CocoaView -drawRect:] directly interacts with the pixman
+> image buffer in reality. There is no such distinction of "host" and
+> "guest." This change removes the "host" configuration and let drawRect
+> consistently have the direct reference to pixman image. It allows to
+> get rid of the error-prone "sync" and reduce code size a bit.
 
-Applied, thanks.
+Added to UI patch queue.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+thanks,
+  Gerd
 
--- PMM
 
