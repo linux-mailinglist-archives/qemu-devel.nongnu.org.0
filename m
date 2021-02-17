@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 847B031D5A1
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 08:11:56 +0100 (CET)
-Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D1831D5A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 08:17:10 +0100 (CET)
+Received: from localhost ([::1]:52206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCH07-00071L-56
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 02:11:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38048)
+	id 1lCH5B-0008Nf-O0
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 02:17:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lCGyK-0006SU-MC
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:10:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57002)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lCGyE-0003h3-J2
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:10:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613545796;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=ZSUdrBRPPPxVgZzDnP5hw4/zEg9sFLZ0KUMcgAkdJVo=;
- b=Oz3y041jtCxtRcu3jnErf9/fFBAowtZw0+6qsl+ZWgo/b/8nYKH0HBuOYeBoarCL3V+6Jb
- VWsNzXGL8zhoEx5Lo2s0gaGgUQnxe3C46G1eSUnxxDnZ+KeoBn2fqqmSROG1O0gTdqjHfc
- DFkqZsPRgqwfKq+7BiiVNB32Li7FEvM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-162-pNsuhB8ONXKCuKRz4RPQNA-1; Wed, 17 Feb 2021 02:09:53 -0500
-X-MC-Unique: pNsuhB8ONXKCuKRz4RPQNA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39B84100A623;
- Wed, 17 Feb 2021 07:09:52 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B110E10023B2;
- Wed, 17 Feb 2021 07:09:47 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] qga: return a more explicit error on why a command is
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lCH4A-0007xs-4v
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:16:06 -0500
+Resent-Date: Wed, 17 Feb 2021 02:16:06 -0500
+Resent-Message-Id: <E1lCH4A-0007xs-4v@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21333)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lCH46-0005KT-Nl
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:16:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1613546149; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=OruICSyIOHiaOC/sQyzG3i49iMPU4Nh6W20xavv0qgh4ZKTEQ5VH/UnH6rWN41O7/AK5h6gQEW57DDVtgs/75TbMreHDzMZAJbSzmUsFRY7FetNccZZWHGvwYNkAhqCYfz0Hwx56xN5IgIHLtN8Eo8rZKa4B45+RRSCo7mV2A20=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1613546149;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=N2DiIHB67dYOcc0RX2/yDht/0EiKm8lB1cSf1fYbJHM=; 
+ b=bBdxhzYiolBgAyAbd7sXQgLbkLeYTdapp69SMlvuBcOlVnfEpFkf+9vMksC5mkacHWTFtiVBtsvMRZ1hJqitz9hZSRx7HUZbJca2S/R8qY0lrCJOaSQ8hAFX1zDHXs9182hNAW0lGvGeXf8H56rq70Ck4sGLVAkKBP8baRqBcaU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1613546145000838.6403099070708;
+ Tue, 16 Feb 2021 23:15:45 -0800 (PST)
+In-Reply-To: <20210217070944.2371327-1-marcandre.lureau@redhat.com>
+Subject: Re: [PATCH v2] qga: return a more explicit error on why a command is
  disabled
-Date: Wed, 17 Feb 2021 11:09:44 +0400
-Message-Id: <20210217070944.2371327-1-marcandre.lureau@redhat.com>
+Message-ID: <161354614357.372.9583027759713506788@c667a6b167f6>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124;
- envelope-from=marcandre.lureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: marcandre.lureau@redhat.com
+Date: Tue, 16 Feb 2021 23:15:45 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,184 +68,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, pkrempa@redhat.com, armbru@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: michael.roth@amd.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
+ marcandre.lureau@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-qmp_disable_command() now takes an enum for the reason, to be able
-to give more explicit error messages.
-
-Fixes:
-https://bugzilla.redhat.com/show_bug.cgi?id=1928806
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
-
-v2:
- - replace string with an enum for disabling reason
- - remove trailing dot
-
- include/qapi/qmp/dispatch.h | 12 ++++++++++--
- monitor/qmp-cmds-control.c  |  2 +-
- qapi/qmp-dispatch.c         | 10 +++++++++-
- qapi/qmp-registry.c         | 16 +++++++++-------
- qga/main.c                  |  4 ++--
- 5 files changed, 31 insertions(+), 13 deletions(-)
-
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 1486cac3ef..fda9ffad73 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -28,6 +28,13 @@ typedef enum QmpCommandOptions
-     QCO_COROUTINE             =  (1U << 3),
- } QmpCommandOptions;
- 
-+typedef enum QmpDisabled
-+{
-+    QMP_DISABLED_NONE,
-+    QMP_DISABLED_GENERIC,
-+    QMP_DISABLED_FROZEN,
-+} QmpDisabled;
-+
- typedef struct QmpCommand
- {
-     const char *name;
-@@ -35,7 +42,7 @@ typedef struct QmpCommand
-     QmpCommandFunc *fn;
-     QmpCommandOptions options;
-     QTAILQ_ENTRY(QmpCommand) node;
--    bool enabled;
-+    QmpDisabled disabled;
- } QmpCommand;
- 
- typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
-@@ -44,7 +51,8 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
-                           QmpCommandFunc *fn, QmpCommandOptions options);
- const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
-                                    const char *name);
--void qmp_disable_command(QmpCommandList *cmds, const char *name);
-+void qmp_disable_command(QmpCommandList *cmds, const char *name,
-+                         QmpDisabled disabled);
- void qmp_enable_command(QmpCommandList *cmds, const char *name);
- 
- bool qmp_command_is_enabled(const QmpCommand *cmd);
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index 509ae870bd..94a8e133b6 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -107,7 +107,7 @@ static void query_commands_cb(const QmpCommand *cmd, void *opaque)
-     CommandInfo *info;
-     CommandInfoList **list = opaque;
- 
--    if (!cmd->enabled) {
-+    if (!qmp_command_is_enabled(cmd)) {
-         return;
-     }
- 
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 0a2b20a4e4..b65f670152 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -155,11 +155,19 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-                   "The command %s has not been found", command);
-         goto out;
-     }
--    if (!cmd->enabled) {
-+    switch (cmd->disabled) {
-+    case QMP_DISABLED_FROZEN:
-+        error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-+                  "The command %s has been disabled after fsfreeze",
-+                  command);
-+        goto out;
-+    case QMP_DISABLED_GENERIC:
-         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
-                   "The command %s has been disabled for this instance",
-                   command);
-         goto out;
-+    case QMP_DISABLED_NONE:
-+        break;
-     }
-     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
-         error_setg(&err, "The command %s does not support OOB",
-diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-index 58c65b5052..e39e3b449c 100644
---- a/qapi/qmp-registry.c
-+++ b/qapi/qmp-registry.c
-@@ -25,7 +25,7 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
- 
-     cmd->name = name;
-     cmd->fn = fn;
--    cmd->enabled = true;
-+    cmd->disabled = QMP_DISABLED_NONE;
-     cmd->options = options;
-     QTAILQ_INSERT_TAIL(cmds, cmd, node);
- }
-@@ -43,31 +43,33 @@ const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const char *name)
- }
- 
- static void qmp_toggle_command(QmpCommandList *cmds, const char *name,
--                               bool enabled)
-+                               QmpDisabled disabled)
- {
-     QmpCommand *cmd;
- 
-     QTAILQ_FOREACH(cmd, cmds, node) {
-         if (strcmp(cmd->name, name) == 0) {
--            cmd->enabled = enabled;
-+            cmd->disabled = disabled;
-             return;
-         }
-     }
- }
- 
--void qmp_disable_command(QmpCommandList *cmds, const char *name)
-+void qmp_disable_command(QmpCommandList *cmds, const char *name,
-+                         QmpDisabled disabled)
- {
--    qmp_toggle_command(cmds, name, false);
-+    assert(disabled != QMP_DISABLED_NONE);
-+    qmp_toggle_command(cmds, name, disabled);
- }
- 
- void qmp_enable_command(QmpCommandList *cmds, const char *name)
- {
--    qmp_toggle_command(cmds, name, true);
-+    qmp_toggle_command(cmds, name, QMP_DISABLED_NONE);
- }
- 
- bool qmp_command_is_enabled(const QmpCommand *cmd)
- {
--    return cmd->enabled;
-+    return cmd->disabled != QMP_DISABLED_NONE;
- }
- 
- const char *qmp_command_name(const QmpCommand *cmd)
-diff --git a/qga/main.c b/qga/main.c
-index e7f8f3b161..0dbf0cacd2 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
-     }
-     if (!whitelisted) {
-         g_debug("disabling command: %s", name);
--        qmp_disable_command(&ga_commands, name);
-+        qmp_disable_command(&ga_commands, name, QMP_DISABLED_FROZEN);
-     }
- }
- 
-@@ -1329,7 +1329,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-         s->blacklist = config->blacklist;
-         do {
-             g_debug("disabling command: %s", (char *)l->data);
--            qmp_disable_command(&ga_commands, l->data);
-+            qmp_disable_command(&ga_commands, l->data, QMP_DISABLED_GENERIC);
-             l = g_list_next(l);
-         } while (l);
-     }
--- 
-2.29.0
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxNzA3MDk0NC4yMzcx
+MzI3LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
+ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
+Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMTcw
+NzA5NDQuMjM3MTMyNy0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFU
+Q0ggdjJdIHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBvbiB3aHkgYSBjb21tYW5k
+IGlzIGRpc2FibGVkCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCBy
+ZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
+ZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0
+IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2tw
+YXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRp
+bmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRj
+aGV3LzIwMjEwMjExMjI1MjQ2LjE3MzE1LTEtZGFuaWVsaGI0MTNAZ21haWwuY29tIC0+IHBhdGNo
+ZXcvMjAyMTAyMTEyMjUyNDYuMTczMTUtMS1kYW5pZWxoYjQxM0BnbWFpbC5jb20KIC0gW3RhZyB1
+cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIxNjE4MTMxNi43OTQyNzYtMS1hbHhuZHJAYnUuZWR1
+IC0+IHBhdGNoZXcvMjAyMTAyMTYxODEzMTYuNzk0Mjc2LTEtYWx4bmRyQGJ1LmVkdQogLSBbdGFn
+IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjE2MjI0NTQzLjE2MTQyLTEtcmViZWNjYUBudXZp
+YWluYy5jb20gLT4gcGF0Y2hldy8yMDIxMDIxNjIyNDU0My4xNjE0Mi0xLXJlYmVjY2FAbnV2aWFp
+bmMuY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAyMTcwNzA5NDQuMjM3MTMy
+Ny0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMjE3MDcwOTQ0
+LjIzNzEzMjctMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcg
+YnJhbmNoICd0ZXN0Jwo1NmViMGM5IHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBv
+biB3aHkgYSBjb21tYW5kIGlzIGRpc2FibGVkCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjog
+b3BlbiBicmFjZSAneycgZm9sbG93aW5nIGVudW0gZ28gb24gdGhlIHNhbWUgbGluZQojMzI6IEZJ
+TEU6IGluY2x1ZGUvcWFwaS9xbXAvZGlzcGF0Y2guaDozMjoKK3R5cGVkZWYgZW51bSBRbXBEaXNh
+YmxlZAorewoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMjEgbGluZXMgY2hlY2tlZAoK
+Q29tbWl0IDU2ZWIwYzkwY2YyOCAocWdhOiByZXR1cm4gYSBtb3JlIGV4cGxpY2l0IGVycm9yIG9u
+IHdoeSBhIGNvbW1hbmQgaXMgZGlzYWJsZWQpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
+dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
+dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09
+PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMjE3
+MDcwOTQ0LjIzNzEzMjctMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vdGVzdGluZy5jaGVj
+a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
+eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
+Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
