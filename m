@@ -2,78 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F34231DB41
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 15:14:29 +0100 (CET)
-Received: from localhost ([::1]:47462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E790331DB59
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 15:24:13 +0100 (CET)
+Received: from localhost ([::1]:54312 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCNb2-000734-4R
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 09:14:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53440)
+	id 1lCNkS-0002E2-Hb
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 09:24:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCNaG-0006cj-Uy
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:13:41 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39900)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCNjQ-0001SC-Ld
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:23:08 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36953)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCNaE-0007Xo-Aq
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:13:40 -0500
-Received: by mail-wm1-x333.google.com with SMTP id v62so3758291wmg.4
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 06:13:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=user-agent:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=G6vEF4upB+n7agzVoHiCg05zG3RTXQ3K7DFSMhxS31s=;
- b=Nv3f5CleWleVlAZezSwE3SXsCCDeWuJvGK0yNM2K4Lu1llOSh/YRAaOM9rPuYj6h+l
- ND8y8lI0G/lXdUWxU9IaMds6IOo/lnN6qpg4wf5RbpsKOTlGz+KIeLRe6ACX/u5X+FZj
- 0VNCjzgCYm/LgJMEs8kc5HVmDUqU51TUKw5BqeFVnSILwONJIDXYxtSpjHuvMH7x4txA
- TliJr26BeruGlVkNzgcnyTlj5ztfXLyRpCV+1s/7YQ5VoVdWxGG6j/0G9Z2vxOGPYZdg
- 4WbPU7TrZDQF01BmQ+BZpGnERlMbRlvIgfUwtrhEKRJFJUP8/6fibe9GT7LsU0EfEWbP
- Cjqw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCNjP-00024t-0J
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:23:08 -0500
+Received: by mail-wm1-x329.google.com with SMTP id m1so3797609wml.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 06:23:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=plvUUYKHLgrnG31aiKRW0ZEtk/sCkpcVs0X/V0BUt9Q=;
+ b=pGv3ri26hqolUbq4sjMgz61zUsRZf63pwyW2ENqHnL/karD19cTfxeQNUaIgNRtGyn
+ IgOj1nuCqb4r4YQ8aOG4gJMI/S7Lrd8eXtR3zSJjXCe8ZyqwvTaycc3YrNIyV4ESh+b8
+ rOTHUxjeKiLisSfVyPdN21N2wp1W0oy6AQSWC285hpCzRpkL9/md+D0C1whdfdXuT3pP
+ tyZ2ALRBmR7ItGIs3aA4ZSd2wMrvW9FbwaRKgus/FgWsq3y52DEgVLNzxcVEQPwkw0QO
+ SjCEDqCCAhUKE6bLrx+ZvvUZu6k47TAR+XeBQ21Grm4f9mkuxlZHY5ew9xFRAw27Y2a9
+ 4iIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=G6vEF4upB+n7agzVoHiCg05zG3RTXQ3K7DFSMhxS31s=;
- b=mwp7nsqVzZiKQyXuqRTeKfA4rSaXlQgmgwlXGJxhTSJutZn8IHOS3C1mge3bUW41h5
- Zlj6oaMfgqYQ8WEG21cmnkzTt5p5ZMZAwRYqWS7ZUAohePuczCGeS8Rqp8GXdiZ38xzh
- gPkr0sslwZREVwkTrtDvnnfeREK7zf/xpf8VLD/S5voaajWApS3pGvWDmmWck/YZftZF
- EYQMZW+kWhGPnZ0su4A/qtAlq0R1gYkZLGez8uCJJALdZPjlyPaC/VgxQcHmj8yqj2mx
- 810qK8MZeiBeE+t4IPOO9cXepcYLXbXE2bhW45UdmGRoaEtWzF+SIBvDBij/+Py1Z+z4
- ykeQ==
-X-Gm-Message-State: AOAM533ZS8fVRmkq+HaOjCeHmyqQ5xpxu2s+BLqw52y/3C6uvH924L2e
- UF3uo7cpNYwi7knUrNCqSrRjVg==
-X-Google-Smtp-Source: ABdhPJzGC6ymr/e5eLq14HP3aptllKwz6AcXZz19FcAzQJ+YTcTy8mORxfSVTG7d/nDRdO51W8ixlg==
-X-Received: by 2002:a05:600c:21d2:: with SMTP id
- x18mr7338664wmj.186.1613571213725; 
- Wed, 17 Feb 2021 06:13:33 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g1sm3294927wmh.9.2021.02.17.06.13.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 06:13:32 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 985C81FF7E;
- Wed, 17 Feb 2021 14:13:31 +0000 (GMT)
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Gerd Hoffmann <kraxel@redhat.com>, =?utf-8?Q?Marc-Andr=C3=A9?= Lureau
- <marcandre.lureau@redhat.com>
-Subject: Measuring the impact of buffer copy for virtio-gpu guests
-Date: Wed, 17 Feb 2021 13:46:28 +0000
-Message-ID: <87y2fmsrxw.fsf@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=plvUUYKHLgrnG31aiKRW0ZEtk/sCkpcVs0X/V0BUt9Q=;
+ b=QFOggSMb8bs7JQMoZpxBvaXiP8jEdqToYWYM5CR9tKsM+jPRnSdfMIKQ6WxpoTbbdd
+ KP4QyQKo9/8RaJkCDbKxOC+9CD+R6I5MgpPY6/MGHuVJprefSVi6QFhfmBgpc0MpbTJj
+ 4BuH1YkVMctMttaC/75bK85UDnxO2buc3caDrbEFBf0pUAXGVNJdPjFhFogrLGMDUpXc
+ Eq3SE08lSGXlXw3qqCA5VtwiXZGtk56HtzoYFCzM7gggoEOWKg45MITxc3uIFp3ZDGTK
+ 3eLwVGqusmF2ReHybnnMzgOvwAKTJ36W9faoc0KWNmve6njILefU4Cf28AxRT/j67aUy
+ xx3g==
+X-Gm-Message-State: AOAM53208QrQEsNRmPrKgKSDvXCHKmjVYMVRtbmyMZpaygVOhaIsN2+n
+ mmn1zuyQEfs2mJLt/OMRBho=
+X-Google-Smtp-Source: ABdhPJzy1sMQwfxLpRhF96x6MHfahWAyG/rszgZEakXj2Ylo48xPRMVRK6K3zmNqqT4/7eeyUIf9iQ==
+X-Received: by 2002:a1c:8005:: with SMTP id b5mr2036024wmd.130.1613571785107; 
+ Wed, 17 Feb 2021 06:23:05 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id c3sm4142483wrr.29.2021.02.17.06.23.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Feb 2021 06:23:04 -0800 (PST)
+Subject: Re: [PATCH v8 00/35] Hexagon patch series
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Taylor Simpson <tsimpson@quicinc.com>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <27b85311-3161-eebd-8e00-95ac87f7376d@linaro.org>
+ <BYAPR02MB48861D2450B42859C77DC86DDE879@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <CAFEAcA-5XGrmJ2DrJZtH0Tq8ic=V6Te7o-KJZ_K26Yzk4X79vQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ba13b1e6-6689-fc3a-dd0d-2f2ff835c813@amsat.org>
+Date: Wed, 17 Feb 2021 15:23:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-5XGrmJ2DrJZtH0Tq8ic=V6Te7o-KJZ_K26Yzk4X79vQ@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,45 +92,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francois Ozog <francois.ozog@linaro.org>,
- Mikhail Golubev <Mikhail.Golubev@opensynergy.com>,
- Vasyl Vavrychuk <Vasyl.Vavrychuk@opensynergy.com>,
- "Zhao Jiancong \(Jerry =?utf-8?B?6LaZ?=
- =?utf-8?B?IOWBpea3mQ==?=\)" <chou.kensou@jp.panasonic.com>,
- qemu-devel@nongnu.org, Peter Griffin <peter.griffin@linaro.org>,
- Stratos Mailing List <stratos-dev@op-lists.linaro.org>
+Cc: "ale@rev.ng" <ale@rev.ng>, Brian Cain <bcain@quicinc.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+On 2/16/21 10:17 PM, Peter Maydell wrote:
+> On Tue, 16 Feb 2021 at 20:59, Taylor Simpson <tsimpson@quicinc.com> wrote:
+>>> -----Original Message-----
+>>> From: Richard Henderson <richard.henderson@linaro.org>
+>>> I've completed review of this round, and there are some nits.  But they're
+>>> minor enough that I wouldn't even mind them being addressed via the
+>>> normal
+>>> development process.  I.e. I'd be keen to not look through that diffstat again.
+>>>  ;-)
+> 
+>>> Any objections from anyone else on that?
 
-I was in a discussion with the AGL folks today talking about approaches
-to achieving zero-copy when running VirGL virtio guests. AIUI (which is
-probably not very much) the reasons for copy can be due to a number of
-reasons:
+I'm very pleased with how this series evolved over the time,
+and Taylor interaction with the community during the long
+review process.
 
-  - the GPA not being mapped to a HPA that is accessible to the final HW
-  - the guest allocation of a buffer not meeting stride/alignment requireme=
-nts
-  - data needing to be transformed for consumption by the real hardware?
+Patches 1-34 are OK but I don't think patch 35 (Dockerfile hexagon)
+should enter mainstream that way. It probably makes sense to add
+it along with the CI testing job (missing so far).
 
-any others? Is there an impedance between different buffer resource
-allocators in the guest and the guest? Is that just a problem for
-non-FLOSS blob drivers in the kernel?
+Patch 30 (Linux user emulation) could have an Acked-by from Laurent.
 
-I'm curious if it's possible to measure the effect of these extra copies
-and where do they occur? Do all resources get copied from the guest buffer =
-to
-host or does this only occur when there is a mismatch in the buffer
-requirements?
+Also, while having TCG unit tests is great, it doesn't replace
+integration tests using real world binaries. So personally I'd
+like to be able to test an Hexagon BusyBox, ideally one coming
+from the official Hexagon distribution (extracted from the SDK).
+We talked about this and Brian will probably share it.
 
-Are there any functions where I could add trace points to measure this?
-If this occurs in the kernel I wonder if I could use an eBPF probe to
-count the number of bytes copied?
+Whole series tested it on x86, so:
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+(I still plan to test it on big-endian host)
 
-Apologies for the wall of questions I'm still very new to the 3D side of
-things ;-)
+>>> I don't suppose you and Peter Maydell signed gpg keys when we all met in
+>>> Lyon?
+>>
+>> Nope.  Peter, please advise
+> 
+> We effectively are operating a TOFU policy for gpg keys,
+> ie put them on a public keyserver, to the extent that you can arrange
+> to get them signed by other people who also have gpg keys please do,
+> and at some point we may be able to meet up and get a shorter
+> trust path.
+> 
+> For this patchset, I would prefer it if Richard collected the patches
+> and sent me a pullrequest. First pullrequests from new submaintainers
+> are higher-effort for me, because I need to look them through carefully
+> to be sure that they're the right format and so on; so I'd rather
+> not do that with an enormous patchset. It's easier for me if that
+> work is postponed and done with something smaller later.
 
---=20
-Alex Benn=C3=A9e
+Ahah I just suggested to Taylor to look at your previous explanation
+before reading the same explanation here :)
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg765788.html
+
+Regards,
+
+Phil.
 
