@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCC531E366
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:10:35 +0100 (CET)
-Received: from localhost ([::1]:32938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B229B31E363
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:06:46 +0100 (CET)
+Received: from localhost ([::1]:52598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWtu-0001cR-BP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:10:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51192)
+	id 1lCWqD-0006G3-QU
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:06:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWSD-0001Ce-6H
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:57 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:42336)
+ id 1lCWS8-0001C2-Un
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:53 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431]:42147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWS5-0004vU-AW
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:56 -0500
-Received: by mail-pl1-x634.google.com with SMTP id s16so197357plr.9
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:41:48 -0800 (PST)
+ id 1lCWS3-0004vH-FQ
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:52 -0500
+Received: by mail-pf1-x431.google.com with SMTP id w18so24825pfu.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:41:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=SLHfS+Gcj+KKjKVIhmB4FpKge7O6y5amgsSfjoU+Ky4=;
- b=iisYvsSCbxIHnI8GgCtddcc0tna0xnSI+1XXW/fCbovln2PVvYQ3t7jnwuVPIJT0Ly
- QZWEcW8E3x1n07OfTq3VAQyGPdfnOyJtMdP7gbudeOZGLNf1EPoe4U8vxbqF18Vi9O2D
- aUYtrtVsqSfiErN7RsUgSuVYGE67E+2F8HRuCKH+RP1g5yW9aT4o/3iohzQqq2+dQs0R
- OiR+47eSpqpZZaXsNoH/FCJRDy6S049Ti12WskuVXnHzVpu3fBOTkQvi/va3Lv2Rxymx
- ClPsHlvJKBPtEfCSbYtGqR2m7IjEjGhWrkicane4FMijJ1L24wE15sMGmKhgGFMZA5wC
- o0AA==
+ bh=wadihy0ZN45qBHR18cRkPDzIIFYhZQPkhTGr+p9Ixkg=;
+ b=ram42as/Vb6drqiL1C5MOaTk1MwfLXGA86mzg8W5PrXNIVoJjzIYrKuq6hu79aQvQ6
+ slm8h7CFKtSXsGgiU9P3FqqYOoVpSTAh48dEDvtiUAjoQxB4WIcvEsk2sD8M5b5BI1LV
+ 9NSyT9V8V8hOWSpPwGZNEwc+XgdiASrFERAvQSS5jfPBQ7582AEkLKqNNN3ubaqmDxJx
+ nIJ5DbbxqlhzeAWKedXNWoPvRkoKd0mSOMtmKqMcULonj2jllbPoZLjl2t0iupB/wr8U
+ j5xQI0t5fv+Q50ZbLyX7hVWmBO3BPC7IzdHXR+URcUOu820snof6yw0XpKefY04+Rb7Z
+ 4THg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=SLHfS+Gcj+KKjKVIhmB4FpKge7O6y5amgsSfjoU+Ky4=;
- b=Y2L6v+3n7Xey2mWuGMtwa8b4rB4pImWIakcsmcs3VVvudH66h8W8hl6T9yDk+T5MKt
- nyxE5SVTRz1o2r18UUzdQpnq4Nw+dEnS14yGzkrgU4p7GGMLAXQuK+syX4RQcTaRz8KY
- anwFZBtqheOLjVUdxt+gRgFwJYX1d6RoCTOl+OFMmrigJCiRYmxvmVyNZkM7q8W4S+Hk
- NkyIb3hASCnM45chASan85XqNb1Nxi2MIDD7yqYBo+0jAMNHQZEhTiEVcQO1naCTMSHT
- IlMNTFDxV0pbi77soWQlTRtFl5Dtg23nA9ZKUO3x94nkQy6YRgHfQioexvXVTWbD3jq0
- gjqw==
-X-Gm-Message-State: AOAM533w03oj1K80G8XuSIxT8I559uBTKUtFWCDPfOc/bJrYgjsdsOCQ
- JNmMGV9KHNrfl55bFOIJX6DuZFaUMtLxlA==
-X-Google-Smtp-Source: ABdhPJykLWkvAGahAZXmU8uiQ/rdSLkdP9DmWwkHhHcLXcBI8iM+i1I5UNI2l2Dn/wFfbPLMZpqcVQ==
-X-Received: by 2002:a17:90b:1495:: with SMTP id
- js21mr1195582pjb.127.1613605304373; 
- Wed, 17 Feb 2021 15:41:44 -0800 (PST)
+ bh=wadihy0ZN45qBHR18cRkPDzIIFYhZQPkhTGr+p9Ixkg=;
+ b=D9Usic6O4xdrYF6wIF/7h+vDmoAerYhYHuWXvZLfsVO25g/IuwCu17m5jjr9QAzkHT
+ 9Ax5zSgvRmxRxqU3caEXpqOynKlgPinyoxrRS70QE30Gu28ccuvwrMaH8fe8nPPSqz7K
+ BjIOjSkJyHVY1bo4kEGNb5Uw+G/JqmuR2hwf5x2f5U3nStiCER6JyIZYOmgP7plvd7Xm
+ ko6b/yuRscDu6kPaubYldTluvs8+eAZcKH8j1w9vurpWf6ewHVymS2d2w4Y8YJyJbUYf
+ IXnDRDL15U8XURXU9QyiMG00+KPwHpzg09EbOqczJkXjH6WTTukV+dt8axWVpU6taPgM
+ SlVg==
+X-Gm-Message-State: AOAM531QjUHhWeIhjejU6lKRj6+3NbRYByx0alIJUoTh2ENpLQPa3kz8
+ weJu1pU1v2HxUXZ6uUt+jXNpkd0pFN40ZA==
+X-Google-Smtp-Source: ABdhPJyKx+VNPrtcI7E/HDYVTl/ONAFI90tCfPTPzpHH8TAajNFv4qHa9Zt84SgHOgDZljvnDeUpng==
+X-Received: by 2002:a63:7d13:: with SMTP id y19mr1507895pgc.369.1613605306107; 
+ Wed, 17 Feb 2021 15:41:46 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.41.42
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.41.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:41:43 -0800 (PST)
+ Wed, 17 Feb 2021 15:41:45 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 34/35] Hexagon (tests/tcg/hexagon) TCG tests - floating point
-Date: Wed, 17 Feb 2021 15:40:22 -0800
-Message-Id: <20210217234023.1742406-35-richard.henderson@linaro.org>
+Subject: [PULL 35/35] Hexagon build infrastructure
+Date: Wed, 17 Feb 2021 15:40:23 -0800
+Message-Id: <20210217234023.1742406-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
 References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,409 +84,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
+Add file to default-configs
+Add hexagon to meson.build
+Add hexagon to target/meson.build
+Add target/hexagon/meson.build
+Change scripts/qemu-binfmt-conf.sh
+
+We can build a hexagon-linux-user target and run programs on
+the Hexagon scalar core.  With hexagon-linux-clang installed,
+"make check-tcg" will pass.
+
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1612763186-18161-34-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1612763186-18161-35-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/hexagon/fpstuff.c       | 370 ++++++++++++++++++++++++++++++
- tests/tcg/hexagon/Makefile.target |   1 +
- 2 files changed, 371 insertions(+)
- create mode 100644 tests/tcg/hexagon/fpstuff.c
+ .../targets/hexagon-linux-user.mak            |   1 +
+ meson.build                                   |   1 +
+ scripts/qemu-binfmt-conf.sh                   |   6 +-
+ target/hexagon/meson.build                    | 193 ++++++++++++++++++
+ target/meson.build                            |   1 +
+ 5 files changed, 201 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/targets/hexagon-linux-user.mak
+ create mode 100644 target/hexagon/meson.build
 
-diff --git a/tests/tcg/hexagon/fpstuff.c b/tests/tcg/hexagon/fpstuff.c
+diff --git a/default-configs/targets/hexagon-linux-user.mak b/default-configs/targets/hexagon-linux-user.mak
 new file mode 100644
-index 0000000000..e4f1a0eeb4
+index 0000000000..003ed0a408
 --- /dev/null
-+++ b/tests/tcg/hexagon/fpstuff.c
-@@ -0,0 +1,370 @@
-+/*
-+ *  Copyright(c) 2020-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+/*
-+ * This test checks various FP operations performed on Hexagon
-+ */
-+
-+#include <stdio.h>
-+
-+const int FPINVF_BIT = 1;                 /* Invalid */
-+const int FPINVF = 1 << FPINVF_BIT;
-+const int FPDBZF_BIT = 2;                 /* Divide by zero */
-+const int FPDBZF = 1 << FPDBZF_BIT;
-+const int FPOVFF_BIT = 3;                 /* Overflow */
-+const int FPOVFF = 1 << FPOVFF_BIT;
-+const int FPUNFF_BIT = 4;                 /* Underflow */
-+const int FPUNFF = 1 << FPUNFF_BIT;
-+const int FPINPF_BIT = 5;                 /* Inexact */
-+const int FPINPF = 1 << FPINPF_BIT;
-+
-+const int SF_ZERO =                       0x00000000;
-+const int SF_NaN =                        0x7fc00000;
-+const int SF_NaN_special =                0x7f800001;
-+const int SF_ANY =                        0x3f800000;
-+const int SF_HEX_NAN =                    0xffffffff;
-+
-+const long long DF_NaN =                  0x7ff8000000000000ULL;
-+const long long DF_ANY =                  0x3f80000000000000ULL;
-+const long long DF_HEX_NAN =              0xffffffffffffffffULL;
-+
-+int err;
-+
-+#define CLEAR_FPSTATUS \
-+    "r2 = usr\n\t" \
-+    "r2 = clrbit(r2, #1)\n\t" \
-+    "r2 = clrbit(r2, #2)\n\t" \
-+    "r2 = clrbit(r2, #3)\n\t" \
-+    "r2 = clrbit(r2, #4)\n\t" \
-+    "r2 = clrbit(r2, #5)\n\t" \
-+    "usr = r2\n\t"
-+
-+static void check_fpstatus_bit(int usr, int expect, int flag, const char *n)
-+{
-+    int bit = 1 << flag;
-+    if ((usr & bit) != (expect & bit)) {
-+        printf("ERROR %s: usr = %d, expect = %d\n", n,
-+               (usr >> flag) & 1, (expect >> flag) & 1);
-+        err++;
-+    }
-+}
-+
-+static void check_fpstatus(int usr, int expect)
-+{
-+    check_fpstatus_bit(usr, expect, FPINVF_BIT, "Invalid");
-+    check_fpstatus_bit(usr, expect, FPDBZF_BIT, "Div by zero");
-+    check_fpstatus_bit(usr, expect, FPOVFF_BIT, "Overflow");
-+    check_fpstatus_bit(usr, expect, FPUNFF_BIT, "Underflow");
-+    check_fpstatus_bit(usr, expect, FPINPF_BIT, "Inexact");
-+}
-+
-+static void check32(int val, int expect)
-+{
-+    if (val != expect) {
-+        printf("ERROR: 0x%x != 0x%x\n", val, expect);
-+        err++;
-+    }
-+}
-+static void check64(unsigned long long val, unsigned long long expect)
-+{
-+    if (val != expect) {
-+        printf("ERROR: 0x%llx != 0x%llx\n", val, expect);
-+        err++;
-+    }
-+}
-+
-+static void check_compare_exception(void)
-+{
-+    int cmp;
-+    int usr;
-+
-+    /* Check that FP compares are quiet (don't raise any execptions) */
-+    asm (CLEAR_FPSTATUS
-+         "p0 = sfcmp.eq(%2, %3)\n\t"
-+         "%0 = p0\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(cmp), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+         : "r2", "p0", "usr");
-+    check32(cmp, 0);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "p0 = sfcmp.gt(%2, %3)\n\t"
-+         "%0 = p0\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(cmp), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+         : "r2", "p0", "usr");
-+    check32(cmp, 0);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "p0 = sfcmp.ge(%2, %3)\n\t"
-+         "%0 = p0\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(cmp), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+         : "r2", "p0", "usr");
-+    check32(cmp, 0);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "p0 = dfcmp.eq(%2, %3)\n\t"
-+         "%0 = p0\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(cmp), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+         : "r2", "p0", "usr");
-+    check32(cmp, 0);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "p0 = dfcmp.gt(%2, %3)\n\t"
-+         "%0 = p0\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(cmp), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+         : "r2", "p0", "usr");
-+    check32(cmp, 0);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "p0 = dfcmp.ge(%2, %3)\n\t"
-+         "%0 = p0\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(cmp), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+         : "r2", "p0", "usr");
-+    check32(cmp, 0);
-+    check_fpstatus(usr, 0);
-+}
-+
-+static void check_sfminmax(void)
-+{
-+    int minmax;
-+    int usr;
-+
-+    /*
-+     * Execute sfmin/sfmax instructions with one operand as NaN
-+     * Check that
-+     *     Result is the other operand
-+     *     Invalid bit in USR is not set
-+     */
-+     asm (CLEAR_FPSTATUS
-+         "%0 = sfmin(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+         : "r2", "usr");
-+    check64(minmax, SF_ANY);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "%0 = sfmax(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+         : "r2", "usr");
-+    check64(minmax, SF_ANY);
-+    check_fpstatus(usr, 0);
-+
-+    /*
-+     * Execute sfmin/sfmax instructions with both operands NaN
-+     * Check that
-+     *     Result is SF_HEX_NAN
-+     *     Invalid bit in USR is set
-+     */
-+    asm (CLEAR_FPSTATUS
-+         "%0 = sfmin(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(SF_NaN), "r"(SF_NaN)
-+         : "r2", "usr");
-+    check64(minmax, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm (CLEAR_FPSTATUS
-+         "%0 = sfmax(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(SF_NaN), "r"(SF_NaN)
-+         : "r2", "usr");
-+    check64(minmax, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+}
-+
-+static void check_dfminmax(void)
-+{
-+    unsigned long long minmax;
-+    int usr;
-+
-+    /*
-+     * Execute dfmin/dfmax instructions with one operand as NaN
-+     * Check that
-+     *     Result is the other operand
-+     *     Invalid bit in USR is set
-+     */
-+     asm (CLEAR_FPSTATUS
-+         "%0 = dfmin(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+         : "r2", "usr");
-+    check64(minmax, DF_ANY);
-+    check_fpstatus(usr, FPINVF);
-+
-+    asm (CLEAR_FPSTATUS
-+         "%0 = dfmax(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+         : "r2", "usr");
-+    check64(minmax, DF_ANY);
-+    check_fpstatus(usr, FPINVF);
-+
-+    /*
-+     * Execute dfmin/dfmax instructions with both operands NaN
-+     * Check that
-+     *     Result is DF_HEX_NAN
-+     *     Invalid bit in USR is set
-+     */
-+    asm (CLEAR_FPSTATUS
-+         "%0 = dfmin(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(DF_NaN), "r"(DF_NaN)
-+         : "r2", "usr");
-+    check64(minmax, DF_HEX_NAN);
-+    check_fpstatus(usr, FPINVF);
-+
-+    asm (CLEAR_FPSTATUS
-+         "%0 = dfmax(%2, %3)\n\t"
-+         "%1 = usr\n\t"
-+         : "=r"(minmax), "=r"(usr) : "r"(DF_NaN), "r"(DF_NaN)
-+         : "r2", "usr");
-+    check64(minmax, DF_HEX_NAN);
-+    check_fpstatus(usr, FPINVF);
-+}
-+
-+static void check_canonical_NaN(void)
-+{
-+    int sf_result;
-+    unsigned long long df_result;
-+    int usr;
-+
-+    /* Check that each FP instruction properly returns SF_HEX_NAN/DF_HEX_NAN */
-+    asm(CLEAR_FPSTATUS
-+        "%0 = sfadd(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm(CLEAR_FPSTATUS
-+        "%0 = sfsub(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm(CLEAR_FPSTATUS
-+        "%0 = sfmpy(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    sf_result = SF_ZERO;
-+    asm(CLEAR_FPSTATUS
-+        "%0 += sfmpy(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "+r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    sf_result = SF_ZERO;
-+    asm(CLEAR_FPSTATUS
-+        "p0 = !cmp.eq(r0, r0)\n\t"
-+        "%0 += sfmpy(%2, %3, p0):scale\n\t"
-+        "%1 = usr\n\t"
-+        : "+r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr", "p0");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    sf_result = SF_ZERO;
-+    asm(CLEAR_FPSTATUS
-+        "%0 -= sfmpy(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "+r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    sf_result = SF_ZERO;
-+    asm(CLEAR_FPSTATUS
-+        "%0 += sfmpy(%2, %3):lib\n\t"
-+        "%1 = usr\n\t"
-+        : "+r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    sf_result = SF_ZERO;
-+    asm(CLEAR_FPSTATUS
-+        "%0 -= sfmpy(%2, %3):lib\n\t"
-+        "%1 = usr\n\t"
-+        : "+r"(sf_result), "=r"(usr) : "r"(SF_NaN), "r"(SF_ANY)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm(CLEAR_FPSTATUS
-+        "%0 = convert_df2sf(%2)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(sf_result), "=r"(usr) : "r"(DF_NaN)
-+        : "r2", "usr");
-+    check32(sf_result, SF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm(CLEAR_FPSTATUS
-+        "%0 = dfadd(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(df_result), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+        : "r2", "usr");
-+    check64(df_result, DF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm(CLEAR_FPSTATUS
-+        "%0 = dfsub(%2, %3)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(df_result), "=r"(usr) : "r"(DF_NaN), "r"(DF_ANY)
-+        : "r2", "usr");
-+    check64(df_result, DF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+
-+    asm(CLEAR_FPSTATUS
-+        "%0 = convert_sf2df(%2)\n\t"
-+        "%1 = usr\n\t"
-+        : "=r"(df_result), "=r"(usr) : "r"(SF_NaN)
-+        : "r2", "usr");
-+    check64(df_result, DF_HEX_NAN);
-+    check_fpstatus(usr, 0);
-+}
-+
-+int main()
-+{
-+    check_compare_exception();
-+    check_sfminmax();
-+    check_dfminmax();
-+    check_canonical_NaN();
-+
-+    puts(err ? "FAIL" : "PASS");
-+    return err ? 1 : 0;
-+}
-diff --git a/tests/tcg/hexagon/Makefile.target b/tests/tcg/hexagon/Makefile.target
-index a54e3c7503..616af697fe 100644
---- a/tests/tcg/hexagon/Makefile.target
-+++ b/tests/tcg/hexagon/Makefile.target
-@@ -41,5 +41,6 @@ HEX_TESTS += preg_alias
- HEX_TESTS += dual_stores
- HEX_TESTS += mem_noshuf
- HEX_TESTS += atomics
-+HEX_TESTS += fpstuff
++++ b/default-configs/targets/hexagon-linux-user.mak
+@@ -0,0 +1 @@
++TARGET_ARCH=hexagon
+diff --git a/meson.build b/meson.build
+index a923f249d8..05a67c20d9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1188,6 +1188,7 @@ disassemblers = {
+   'arm' : ['CONFIG_ARM_DIS'],
+   'avr' : ['CONFIG_AVR_DIS'],
+   'cris' : ['CONFIG_CRIS_DIS'],
++  'hexagon' : ['CONFIG_HEXAGON_DIS'],
+   'hppa' : ['CONFIG_HPPA_DIS'],
+   'i386' : ['CONFIG_I386_DIS'],
+   'x86_64' : ['CONFIG_I386_DIS'],
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 9f1580a91c..7b5d54b887 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -4,7 +4,7 @@
+ qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+ ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+-microblaze microblazeel or1k x86_64"
++microblaze microblazeel or1k x86_64 hexagon"
  
- TESTS += $(HEX_TESTS)
+ i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
+ i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+@@ -136,6 +136,10 @@ or1k_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\
+ or1k_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ or1k_family=or1k
+ 
++hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\xa4\x00'
++hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++hexagon_family=hexagon
++
+ qemu_get_family() {
+     cpu=${HOST_ARCH:-$(uname -m)}
+     case "$cpu" in
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+new file mode 100644
+index 0000000000..06f449da66
+--- /dev/null
++++ b/target/hexagon/meson.build
+@@ -0,0 +1,193 @@
++##
++##  Copyright(c) 2020-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++##
++##  This program is free software; you can redistribute it and/or modify
++##  it under the terms of the GNU General Public License as published by
++##  the Free Software Foundation; either version 2 of the License, or
++##  (at your option) any later version.
++##
++##  This program is distributed in the hope that it will be useful,
++##  but WITHOUT ANY WARRANTY; without even the implied warranty of
++##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++##  GNU General Public License for more details.
++##
++##  You should have received a copy of the GNU General Public License
++##  along with this program; if not, see <http://www.gnu.org/licenses/>.
++##
++
++hexagon_ss = ss.source_set()
++
++prog_python = import('python').find_installation('python3')
++
++hex_common_py = 'hex_common.py'
++attribs_def = meson.current_source_dir() / 'attribs_def.h.inc'
++gen_tcg_h = meson.current_source_dir() / 'gen_tcg.h'
++
++#
++#  Step 1
++#  We use a C program to create semantics_generated.pyinc
++#
++gen_semantics = executable(
++    'gen_semantics',
++    'gen_semantics.c',
++    native: true, build_by_default: false)
++
++semantics_generated = custom_target(
++    'semantics_generated.pyinc',
++    output: 'semantics_generated.pyinc',
++    input: gen_semantics,
++    command: ['@INPUT@', '@OUTPUT@'],
++)
++hexagon_ss.add(semantics_generated)
++
++#
++# Step 2
++# We use Python scripts to generate the following files
++#     shortcode_generated.h.inc
++#     helper_protos_generated.h.inc
++#     tcg_funcs_generated.c.inc
++#     tcg_func_table_generated.c.inc
++#     helper_funcs_generated.c.inc
++#     printinsn_generated.h.inc
++#     op_regs_generated.h.inc
++#     op_attribs_generated.h.inc
++#     opcodes_def_generated.h.inc
++#
++shortcode_generated = custom_target(
++    'shortcode_generated.h.inc',
++    output: 'shortcode_generated.h.inc',
++    input: 'gen_shortcode.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(shortcode_generated)
++
++helper_protos_generated = custom_target(
++    'helper_protos_generated.h.inc',
++    output: 'helper_protos_generated.h.inc',
++    input: 'gen_helper_protos.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
++)
++hexagon_ss.add(helper_protos_generated)
++
++tcg_funcs_generated = custom_target(
++    'tcg_funcs_generated.c.inc',
++    output: 'tcg_funcs_generated.c.inc',
++    input: 'gen_tcg_funcs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
++)
++hexagon_ss.add(tcg_funcs_generated)
++
++tcg_func_table_generated = custom_target(
++    'tcg_func_table_generated.c.inc',
++    output: 'tcg_func_table_generated.c.inc',
++    input: 'gen_tcg_func_table.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(tcg_func_table_generated)
++
++helper_funcs_generated = custom_target(
++    'helper_funcs_generated.c.inc',
++    output: 'helper_funcs_generated.c.inc',
++    input: 'gen_helper_funcs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
++)
++hexagon_ss.add(helper_funcs_generated)
++
++printinsn_generated = custom_target(
++    'printinsn_generated.h.inc',
++    output: 'printinsn_generated.h.inc',
++    input: 'gen_printinsn.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(printinsn_generated)
++
++op_regs_generated = custom_target(
++    'op_regs_generated.h.inc',
++    output: 'op_regs_generated.h.inc',
++    input: 'gen_op_regs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(op_regs_generated)
++
++op_attribs_generated = custom_target(
++    'op_attribs_generated.h.inc',
++    output: 'op_attribs_generated.h.inc',
++    input: 'gen_op_attribs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(op_attribs_generated)
++
++opcodes_def_generated = custom_target(
++    'opcodes_def_generated.h.inc',
++    output: 'opcodes_def_generated.h.inc',
++    input: 'gen_opcodes_def.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [prog_python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(opcodes_def_generated)
++
++#
++# Step 3
++# We use a C program to create iset.py which is imported into dectree.py
++# to create the decode tree
++#
++gen_dectree_import = executable(
++    'gen_dectree_import',
++    'gen_dectree_import.c', opcodes_def_generated, op_regs_generated,
++    native: true, build_by_default: false)
++
++iset_py = custom_target(
++    'iset.py',
++    output: 'iset.py',
++    input: gen_dectree_import,
++    command: ['@INPUT@', '@OUTPUT@'],
++)
++hexagon_ss.add(iset_py)
++
++#
++# Step 4
++# We use the dectree.py script to generate the decode tree header file
++#
++dectree_generated = custom_target(
++    'dectree_generated.h.inc',
++    output: 'dectree_generated.h.inc',
++    input: 'dectree.py',
++    depends: [iset_py],
++    command: ['PYTHONPATH=' + meson.current_build_dir(), '@INPUT@', '@OUTPUT@'],
++)
++hexagon_ss.add(dectree_generated)
++
++hexagon_ss.add(files(
++    'cpu.c',
++    'translate.c',
++    'op_helper.c',
++    'gdbstub.c',
++    'genptr.c',
++    'reg_fields.c',
++    'decode.c',
++    'iclass.c',
++    'opcodes.c',
++    'printinsn.c',
++    'arch.c',
++    'fma_emu.c',
++    'conv_emu.c',
++))
++
++target_arch += {'hexagon': hexagon_ss}
+diff --git a/target/meson.build b/target/meson.build
+index 9f0ae93b75..c35c1e9d34 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -2,6 +2,7 @@ subdir('alpha')
+ subdir('arm')
+ subdir('avr')
+ subdir('cris')
++subdir('hexagon')
+ subdir('hppa')
+ subdir('i386')
+ subdir('lm32')
 -- 
 2.25.1
 
