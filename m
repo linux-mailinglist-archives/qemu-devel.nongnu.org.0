@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52F5D31D6C3
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 09:54:51 +0100 (CET)
-Received: from localhost ([::1]:43998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A870E31D6CB
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 10:08:16 +0100 (CET)
+Received: from localhost ([::1]:47768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCIbh-0000Sy-UJ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 03:54:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57550)
+	id 1lCIoh-00034C-43
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 04:08:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1lCIaH-0008NI-9d
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 03:53:21 -0500
-Received: from mail-vk1-xa32.google.com ([2607:f8b0:4864:20::a32]:33588)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1lCIaE-0006ze-E7
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 03:53:20 -0500
-Received: by mail-vk1-xa32.google.com with SMTP id w140so2734179vkw.0
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 00:53:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=iGNOIOy2GJaYx3HOn2Z3RLtBKccx+R0p/5yVtYw9ok4=;
- b=D+1vgZDiWyROF/evG30igtWDyAjFPZhBACNTdWWzns/kgwnqMe8veh/jWWTSPEgYmZ
- i7iOuksrQPAxFuL4GNGZ/8AbPp/UR+DOW/rQGbFlErYXPIfNx33rIbGpZL+HeEK0I8/s
- obSSxS0jSqziioYDb/YwT/E17z+jgxNrAzOnI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=iGNOIOy2GJaYx3HOn2Z3RLtBKccx+R0p/5yVtYw9ok4=;
- b=DSrk9xMZsEV9a3ECXrrDj2jl5XYPPM+hAjOMHEEZepw5Qa5ciIHaAMvw6mawMrmtIR
- BTSelJuUrbasmbQ5YVn4xjgr8FbllSZM/hjQk4JXvJclVrATewkK/WM2zPij3SLx2b2l
- zrg6psAcMmutTHvdmbTZIvXSLBPz4X6Br0kEtk1OokQKWXTi+BhYThPnaHW5xEAOiG0B
- Xi+RphKMkgrcynscfkB3XXUfmJxSpcD9/QD6MwvM8GKSQHXiWRJ6xN4M7FbVoZRfW8TH
- JvqrmfmOKEF9a8DPYJA9rG4Y7Hygi5K4nVC2UO9bJB2+No5Qp2sPQXfRz7E5RaT//tNZ
- jIXQ==
-X-Gm-Message-State: AOAM5328ntZ0tXq+6s92anLj+Wkk9uG76skgSjwe7p16iWSQWm0dFei7
- 6LLlW63zRTL6hrLK6Q3zin8XM0oYdR0k5q5DPgPm8Q==
-X-Google-Smtp-Source: ABdhPJzZ44tJOMldGJaZBWeq3+YNS1iFuZmQx3ZM80ZtEgmAZXQCAhmNqTxYuL49zyFvC5d4eKWDJPOdf6m/eWmOGS8=
-X-Received: by 2002:a1f:250e:: with SMTP id l14mr552000vkl.23.1613551995995;
- Wed, 17 Feb 2021 00:53:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lCIjU-0002Ap-8u; Wed, 17 Feb 2021 04:02:52 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:56637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lCIjS-0001HL-3K; Wed, 17 Feb 2021 04:02:51 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 07185F40;
+ Wed, 17 Feb 2021 04:02:46 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 17 Feb 2021 04:02:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=2VDclYhEuuvnLyPYgOjvNf8hQ2d
+ 3Rs464TzQQLoX4/0=; b=F85io4KcSPpqmKlzbP4NjAbI7ZgqNKxJ8+wh7WPiO07
+ I0PSbz5DfsQRxIRqogn0fW9joe9nC4PvAaI5VWw7xlfROe5mFJeTdMBGJh2TJfd2
+ Dzk4R+hvkXB3wRHmoNxW2BAhT9zH1hUOVTRk9JVy2Tpve3Jd1RVvn387XBclXVwH
+ +vjGhHOb8Jz029JFUjjlWqkWml0uEB3vwve+duLB4AyacCTIG+VNrO8HRsm2MZnK
+ Yd5n+0hs4Ij8aHSaPFrpsWDtPF6OqCbXlYloye4JTmpqFQZScJ6mQ8foyckYjaA4
+ hgTUmIS61E5mo68l+qHrpztUAAEQFBHU1Egi/qhOPNg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=2VDclY
+ hEuuvnLyPYgOjvNf8hQ2d3Rs464TzQQLoX4/0=; b=rcaBOCwKa45yhLu4KN2CmO
+ cJ7DqZH5h4FzuHaiWBfDz5MD4ex548n3MB60ILooNxFyY0bpMJPOrbROFeg0m8ir
+ SQwcaWDGJNJnjel+IgRpoq25hP96NbyMQN999XxZKBuZxHg/5iNVLJiPMXW50FIt
+ +42oDxj1Je38EYI3As7TLhlapRz9uDjvF43GME9dc/G/Zv/bg3UtvGhr9ZCM5aeH
+ m1EwxLK9fRNY7SfPBDQKz+ouiU1zz5TzvpjEoPGEixCFFbf6Wm6q5wEW+6tq32c5
+ 4HUPqspuS6OV+LM54NLNJZLcSdixsv2abf1IIhcdV3P6Y2nngeCJdfNwZ55RDsJg
+ ==
+X-ME-Sender: <xms:tdssYD1yNu_wockFRGUHs8pbX6UkFePEEyABIp7FAixn9S8GVRuBAA>
+ <xme:tdssYCGOA0O9xkSBpzxPLvKljZkWVOd73nHARvHVVajYlVRRNb5K6mnTLn03kaTPE
+ d49Un5I9HOdY0Y2WMY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedugdduvdegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:tdssYD6CAVb7-vqIatapc7ljurr7H4hEht_7HS2SZlSlxWlgOxCQ5Q>
+ <xmx:tdssYI2UsxMpNHJWStj70X2nZGPClc9JcXPGnaNJ5e7iOjidH3gDWQ>
+ <xmx:tdssYGGyLC88PjwoR4x9nc40NVHgdGWpKuXSp-22BOLblcZVLmauKg>
+ <xmx:ttssYJ3iYMRu_JKtepLjKYncKNIH89710UPdh3PiyRZf4x5t-ypltw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1EC1E24005B;
+ Wed, 17 Feb 2021 04:02:43 -0500 (EST)
+Date: Wed, 17 Feb 2021 10:02:40 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH RFC v3 09/12] hw/block/nvme: add verify command
+Message-ID: <YCzbsB5ddpkopt69@apples.localdomain>
+References: <20210214230240.301275-1-its@irrelevant.dk>
+ <20210214230240.301275-10-its@irrelevant.dk>
+ <20210216231213.GE2708768@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-References: <20210216233611.33400-1-vgoyal@redhat.com>
- <20210216233611.33400-2-vgoyal@redhat.com>
-In-Reply-To: <20210216233611.33400-2-vgoyal@redhat.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Wed, 17 Feb 2021 09:53:04 +0100
-Message-ID: <CAJfpegspJGL_W+8zaXyHfuAhtB_Q7V0YyOZJEhpCd=KaL_W71A@mail.gmail.com>
-Subject: Re: [PATCH 1/3] virtiofsd: Add an option to enable/disable posix acls
-To: Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a32;
- envelope-from=miklos@szeredi.hu; helo=mail-vk1-xa32.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Rv0CtS/wVBUqPRRj"
+Content-Disposition: inline
+In-Reply-To: <20210216231213.GE2708768@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,32 +95,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>, Luis Henriques <lhenriques@suse.de>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 12:36 AM Vivek Goyal <vgoyal@redhat.com> wrote:
->
-> fuse has an option FUSE_POSIX_ACL which needs to be opted in by fuse
-> server to enable posix acls.
->
-> Add virtiofsd option "-o posix_acl/no_posix_acl" to let users enable/disable
-> posix acl support. By default it is disabled as of now.
 
-If I read the code correctly, then no_posix_acl will still result in
-system.posix_acl_* xattr ops being passed through to virtiofsd, which
-will forward them to the underlying fs, resulting in posix acls
-appearing to work, but doing so incorrectly (i.e. no change from
-previous behavior).   Possibly better would be to have three different
-modes of operation:
+--Rv0CtS/wVBUqPRRj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-1) no option: default fall back to broken acl support for backward
-compat (this could be removed in the future)
-2) no_posix_acl: really disable acl support
-3) posix_acl: enable proper acl support
+On Feb 16 15:12, Keith Busch wrote:
+> On Mon, Feb 15, 2021 at 12:02:37AM +0100, Klaus Jensen wrote:
+> > From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> >=20
+> > See NVM Express 1.4, section 6.14 ("Verify Command").
+> >=20
+> > Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> > [k.jensen: rebased, refactored for e2e]
+> > Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+>=20
+> Verify is a generic block command supported in other protocols beyond
+> nvme. If we're going to support the command in nvme, I prefer the
+> implementation had generic backing out of the qemu block API rather than
+> emulate the entirety out of the nvme device.
 
-Thanks,
-Miklos
+You mean that the block API could provide a basic "check that we can
+read this stuff without error"-call? Sounds reasonable enough, but since
+the end-to-end data protection checks are performed in the device, we
+need to pass the data buffers up anyway. If we had basic I/O (non-pi)
+verify in the block API it would defeat the purpose if it provided those
+buffers.
+
+We've actually been asked directly on the availablity of Verify support
+in QEMU, so I think this implementation as-is provides something useful
+to users.
+
+--Rv0CtS/wVBUqPRRj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAs268ACgkQTeGvMW1P
+DelA8gf/ettjjJ8nwKm1I4jnMIpUC6I10LoigOZ0Io7teR7T4BH61jDsLidzaMQG
+jCpOfDRGMyps2r7p6syFXm6GWtmQYUElJJxDKR6OmL47C5nsgDoARG4Yhq9SB02Z
+ocX4UTB1oz8etOssfE7Egy+hj2NOIP+rTlKHa2GGPGZ8rYGd9DdUO0/mp8nk4I+G
+8fUqOmR3KIOhHP6tTjmuq+y3EVkz6doS8XzT2o1U5yvXCE5wW7/Cmy2z8/WRZAmC
+UFURaroG0IoNODspFm92dGnIRfcDIFHMbgLz7W4RWPgxgFYzMDRDUmYK3zK0EJxA
+EEm4dh1Aw5cq7elP4tyOBlhNSNOv/g==
+=BO4D
+-----END PGP SIGNATURE-----
+
+--Rv0CtS/wVBUqPRRj--
 
