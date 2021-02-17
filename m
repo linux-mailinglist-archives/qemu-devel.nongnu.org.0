@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B476F31E36B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:14:27 +0100 (CET)
-Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADFB31E35C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:02:52 +0100 (CET)
+Received: from localhost ([::1]:39808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWxe-0003cb-Pm
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:14:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52232)
+	id 1lCWmR-0000iM-LQ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:02:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWYF-0000Sd-Q9
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:48:11 -0500
-Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:44705)
+ id 1lCWRR-0000S7-Lj
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:09 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:36455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWYB-0006a8-Ms
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:48:11 -0500
-Received: by mail-vs1-xe36.google.com with SMTP id 68so35859vsk.11
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:48:07 -0800 (PST)
+ id 1lCWRO-0004hW-0k
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:09 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id gx20so272058pjb.1
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:41:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=efezNXTk23kq5yUDGGYKgIOgUOkmILYRnXg+BP75n9I=;
- b=hdoJK9F8rr61AvyBGceC9Bq8I6kWXc+CMouPapVH0/ezU+ziAMnbMZx1YdXbj0tHS/
- q3Xkbgg/U7AcOoR/vHSan1JWps4A9HQaunbl/c6CChxiwd3pmnY90laWCVILppnKR8RM
- baZ4kLYhgq7RzUzMGUTx1sMas+SD4pHK/DIuaeIkceiOzZTVi1d31HScPk2J/R6+VLGd
- MkdxmJAXRKl5ZIBItPMAF91QurvnOHH1xG97XQs/h7L0VsPqJpFGC4hC/4VDzmcSSZ92
- 3mFgmQx5ECr7o0VbUr6rauyU5Z6FswPKXa5x21IzBelhy31dTPbY/yIBzX7cq40hLX5X
- 7ggw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=yxrWuJHCJz8lKt8K8c9u+iIMVOHEkTdiNJKvhZZoVh8=;
+ b=c1DoOhDjfTeqCq96VavqLEEOOGVoczNwvq4IPFDebMbf2BQyap5oef1SV7T9QpvlUX
+ eqkNr9V2+qFbaoTbX6CuWksaKlAFUgI7Ue0zzXVn2SJJpOKp/PGt1aHHz2uWROsMbrsj
+ NtrVcynMVOeIX/RqJ60wJn7fCZfNPi/E6x94JVn+XarKJAPLNhl0Z0OlK4rpvMDqrjLr
+ sTHMgIe1+DBIS5m9PCtDQubrNp8vB4PZvT48IqXDZUqe63dnNrq6EE6HMHaTBiYKQSpo
+ f/MZlBISwws26bM5/+6SFFsvC02xu9zNuVpquiRqAw5r5Mip3LunLMQpaNtWpoyRsh0C
+ x2kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=efezNXTk23kq5yUDGGYKgIOgUOkmILYRnXg+BP75n9I=;
- b=GPcaE83kjmenhSIdEW947W3JitXP75B+sMhHDre3W3QiIbplcWOo3uqWao822FdAkZ
- MhMm/9QHOYC2RukKwvE0q3ob8GO/fpSO3P7yC5rnLlmh24AHBE/RMS0JLssS/GgrfUiq
- Qq7lYowvmagHl87XX+aNh3za8HlHFvh+Bda8+BEWe1+zBEf56BpVeLQHX9/jtCSWEGIt
- M6aRZ1NfGkbZpeURSPjms2ZpST7WLoxIC+IIZSA9TL6jC7cvTuK1pM4YRwem2j6uBQhj
- Pq9gLbPxOY7h2MmxilEdTbUl+DmXLP57ANv2WEhxetu9Qt1cDl3OpPXnz8HShzokbDh3
- E7Jw==
-X-Gm-Message-State: AOAM533imFZQeyyWu3HS3YlunpzbLLB69TGOVdyu6xXtc1ZxxhqrleXJ
- DxxTJ7mpBcQG46j7mZYA4IJLBrBijqKwrg==
-X-Google-Smtp-Source: ABdhPJyrCEX7c6xUD9Di868fDNB5MlxE8UP249lqsS8j3BVKiJvUKdVubDwDSEH14zQm0SUpgz0DvQ==
-X-Received: by 2002:aa7:8ec4:0:b029:1ec:f672:f0ac with SMTP id
- b4-20020aa78ec40000b02901ecf672f0acmr1427125pfr.37.1613605227158; 
- Wed, 17 Feb 2021 15:40:27 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=yxrWuJHCJz8lKt8K8c9u+iIMVOHEkTdiNJKvhZZoVh8=;
+ b=aCo/pih9VONs6VtcjXJQ74qR4ewafKJ5sfMYUzBusr2xnKhlx7vkzv/tuNt3d3tR63
+ +Jbhm9sm1KB1FW2utrOFTVqFEmphTLFEK234ATDuPsS+adin/etHQ79yiBzB/AtEtKLc
+ 0npu4MOWoLa6Zrn+ic1uH64cS8Ad4KyuQ3238wSB3p8r9SizQE8Cp6TzptYI5XRi7f8Z
+ iMt4siDV/vy6K7kWa3P1OrhekTbnMij9l5WYcoys3mcb7AFdEB1pwIYjDDBHNrnWSQOx
+ F1qURGCb771RYGmofBToNLqaydvUARqat+WPYJhqr2tjlVmWKzp0LmaQ5IyCrA7Hap3U
+ vOWw==
+X-Gm-Message-State: AOAM532kyKgin8nW1EPNF1auX4gp3P2n9+70D7/nmxzoAhoaeqa354G+
+ SHto9sD4BB7O/546bfLZZhIXr48MeKgbNA==
+X-Google-Smtp-Source: ABdhPJx8iVqWVSl/w+sgfra2Y8ldpW9/rtLuGQ9k35sZjnO5iWFB8usqN60vH3rXtWIAmxvHuW37oQ==
+X-Received: by 2002:a17:902:8483:b029:dc:3e69:4095 with SMTP id
+ c3-20020a1709028483b02900dc3e694095mr1283258plo.66.1613605264463; 
+ Wed, 17 Feb 2021 15:41:04 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.25
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.41.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:40:26 -0800 (PST)
+ Wed, 17 Feb 2021 15:41:03 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/35] hexagon initial commit
-Date: Wed, 17 Feb 2021 15:39:48 -0800
-Message-Id: <20210217234023.1742406-1-richard.henderson@linaro.org>
+Subject: [PULL 18/35] Hexagon (target/hexagon/fma_emu.[ch]) utility functions
+Date: Wed, 17 Feb 2021 15:40:06 -0800
+Message-Id: <20210217234023.1742406-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
+References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
- envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,255 +85,775 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f0f75dc174b6c79eb78a161d1c0921f82d7f1bf0:
+From: Taylor Simpson <tsimpson@quicinc.com>
 
-  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-02-17 13:04:48 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-hex-20210217
-
-for you to fetch changes up to 91bdc01a235a0065411e29ad78859587fee85bc6:
-
-  Hexagon build infrastructure (2021-02-17 12:55:21 -0800)
-
-----------------------------------------------------------------
-Initial commit for the Qualcomm Hexagon processor.
-
-----------------------------------------------------------------
-Richard Henderson (1):
-      qemu/int128: Add int128_or
-
-Taylor Simpson (34):
-      Hexagon Update MAINTAINERS file
-      Hexagon (target/hexagon) README
-      Hexagon (include/elf.h) ELF machine definition
-      Hexagon (target/hexagon) scalar core definition
-      Hexagon (disas) disassembler
-      Hexagon (target/hexagon) register names
-      Hexagon (target/hexagon) scalar core helpers
-      Hexagon (target/hexagon) GDB Stub
-      Hexagon (target/hexagon) architecture types
-      Hexagon (target/hexagon) instruction and packet types
-      Hexagon (target/hexagon) register fields
-      Hexagon (target/hexagon) instruction attributes
-      Hexagon (target/hexagon) instruction/packet decode
-      Hexagon (target/hexagon) instruction printing
-      Hexagon (target/hexagon/arch.[ch]) utility functions
-      Hexagon (target/hexagon/conv_emu.[ch]) utility functions
-      Hexagon (target/hexagon/fma_emu.[ch]) utility functions
-      Hexagon (target/hexagon/imported) arch import
-      Hexagon (target/hexagon) generator phase 1 - C preprocessor for semantics
-      Hexagon (target/hexagon) generator phase 2 - generate header files
-      Hexagon (target/hexagon) generator phase 3 - C preprocessor for decode tree
-      Hexagon (target/hexagon) generater phase 4 - decode tree
-      Hexagon (target/hexagon) opcode data structures
-      Hexagon (target/hexagon) macros
-      Hexagon (target/hexagon) instruction classes
-      Hexagon (target/hexagon) TCG generation
-      Hexagon (target/hexagon) TCG for instructions with multiple definitions
-      Hexagon (target/hexagon) TCG for floating point instructions
-      Hexagon (target/hexagon) translation
-      Hexagon (linux-user/hexagon) Linux user emulation
-      Hexagon (tests/tcg/hexagon) TCG tests - multiarch
-      Hexagon (tests/tcg/hexagon) TCG tests - atomics/load/store/misc
-      Hexagon (tests/tcg/hexagon) TCG tests - floating point
-      Hexagon build infrastructure
-
- default-configs/targets/hexagon-linux-user.mak |    1 +
- meson.build                                    |    1 +
- include/disas/dis-asm.h                        |    1 +
- include/elf.h                                  |    1 +
- include/qemu/int128.h                          |   10 +
- linux-user/hexagon/sockbits.h                  |   18 +
- linux-user/hexagon/syscall_nr.h                |  322 ++++
- linux-user/hexagon/target_cpu.h                |   44 +
- linux-user/hexagon/target_elf.h                |   40 +
- linux-user/hexagon/target_fcntl.h              |   18 +
- linux-user/hexagon/target_signal.h             |   34 +
- linux-user/hexagon/target_structs.h            |   54 +
- linux-user/hexagon/target_syscall.h            |   36 +
- linux-user/hexagon/termbits.h                  |   18 +
- linux-user/qemu.h                              |    2 +
- linux-user/syscall_defs.h                      |   33 +
- target/hexagon/arch.h                          |   34 +
- target/hexagon/attribs.h                       |   35 +
- target/hexagon/conv_emu.h                      |   31 +
- target/hexagon/cpu-param.h                     |   29 +
- target/hexagon/cpu.h                           |  159 ++
- target/hexagon/cpu_bits.h                      |   58 +
- target/hexagon/decode.h                        |   32 +
- target/hexagon/fma_emu.h                       |   36 +
- target/hexagon/gen_tcg.h                       |  319 ++++
- target/hexagon/genptr.h                        |   25 +
- target/hexagon/helper.h                        |   88 +
- target/hexagon/hex_arch_types.h                |   38 +
- target/hexagon/hex_regs.h                      |   83 +
- target/hexagon/iclass.h                        |   50 +
- target/hexagon/insn.h                          |   74 +
- target/hexagon/internal.h                      |   37 +
- target/hexagon/macros.h                        |  592 +++++++
- target/hexagon/opcodes.h                       |   58 +
- target/hexagon/printinsn.h                     |   27 +
- target/hexagon/reg_fields.h                    |   36 +
- target/hexagon/translate.h                     |   93 ++
- target/hexagon/attribs_def.h.inc               |   97 ++
- target/hexagon/reg_fields_def.h.inc            |   41 +
- disas/hexagon.c                                |   65 +
- linux-user/elfload.c                           |   16 +
- linux-user/hexagon/cpu_loop.c                  |  100 ++
- linux-user/hexagon/signal.c                    |  276 ++++
- target/hexagon/arch.c                          |  300 ++++
- target/hexagon/conv_emu.c                      |  177 ++
- target/hexagon/cpu.c                           |  318 ++++
- target/hexagon/decode.c                        |  957 +++++++++++
- target/hexagon/fma_emu.c                       |  702 ++++++++
- target/hexagon/gdbstub.c                       |   47 +
- target/hexagon/gen_dectree_import.c            |  188 +++
- target/hexagon/gen_semantics.c                 |   88 +
- target/hexagon/genptr.c                        |  331 ++++
- target/hexagon/iclass.c                        |   73 +
- target/hexagon/op_helper.c                     | 1064 ++++++++++++
- target/hexagon/opcodes.c                       |  142 ++
- target/hexagon/printinsn.c                     |  146 ++
- target/hexagon/reg_fields.c                    |   27 +
- target/hexagon/translate.c                     |  748 +++++++++
- tests/tcg/hexagon/atomics.c                    |  139 ++
- tests/tcg/hexagon/dual_stores.c                |   60 +
- tests/tcg/hexagon/fpstuff.c                    |  370 +++++
- tests/tcg/hexagon/mem_noshuf.c                 |  328 ++++
- tests/tcg/hexagon/misc.c                       |  380 +++++
- tests/tcg/hexagon/preg_alias.c                 |  169 ++
- MAINTAINERS                                    |    9 +
- disas/meson.build                              |    1 +
- scripts/gensyscalls.sh                         |    1 +
- scripts/qemu-binfmt-conf.sh                    |    6 +-
- target/hexagon/README                          |  235 +++
- target/hexagon/dectree.py                      |  351 ++++
- target/hexagon/gen_helper_funcs.py             |  220 +++
- target/hexagon/gen_helper_protos.py            |  150 ++
- target/hexagon/gen_op_attribs.py               |   39 +
- target/hexagon/gen_op_regs.py                  |  110 ++
- target/hexagon/gen_opcodes_def.py              |   36 +
- target/hexagon/gen_printinsn.py                |  173 ++
- target/hexagon/gen_shortcode.py                |   60 +
- target/hexagon/gen_tcg_func_table.py           |   58 +
- target/hexagon/gen_tcg_funcs.py                |  485 ++++++
- target/hexagon/hex_common.py                   |  234 +++
- target/hexagon/imported/allidefs.def           |   30 +
- target/hexagon/imported/alu.idef               | 1258 ++++++++++++++
- target/hexagon/imported/branch.idef            |  326 ++++
- target/hexagon/imported/compare.idef           |  619 +++++++
- target/hexagon/imported/encode.def             |  124 ++
- target/hexagon/imported/encode_pp.def          | 2110 ++++++++++++++++++++++++
- target/hexagon/imported/encode_subinsn.def     |  149 ++
- target/hexagon/imported/float.idef             |  312 ++++
- target/hexagon/imported/iclass.def             |   51 +
- target/hexagon/imported/ldst.idef              |  286 ++++
- target/hexagon/imported/macros.def             | 1531 +++++++++++++++++
- target/hexagon/imported/mpy.idef               | 1208 ++++++++++++++
- target/hexagon/imported/shift.idef             | 1066 ++++++++++++
- target/hexagon/imported/subinsns.idef          |  149 ++
- target/hexagon/imported/system.idef            |   68 +
- target/hexagon/meson.build                     |  193 +++
- target/meson.build                             |    1 +
- tests/tcg/configure.sh                         |    4 +-
- tests/tcg/hexagon/Makefile.target              |   46 +
- tests/tcg/hexagon/first.S                      |   56 +
- tests/tcg/hexagon/float_convs.ref              |  748 +++++++++
- tests/tcg/hexagon/float_madds.ref              |  768 +++++++++
- 102 files changed, 23185 insertions(+), 2 deletions(-)
- create mode 100644 default-configs/targets/hexagon-linux-user.mak
- create mode 100644 linux-user/hexagon/sockbits.h
- create mode 100644 linux-user/hexagon/syscall_nr.h
- create mode 100644 linux-user/hexagon/target_cpu.h
- create mode 100644 linux-user/hexagon/target_elf.h
- create mode 100644 linux-user/hexagon/target_fcntl.h
- create mode 100644 linux-user/hexagon/target_signal.h
- create mode 100644 linux-user/hexagon/target_structs.h
- create mode 100644 linux-user/hexagon/target_syscall.h
- create mode 100644 linux-user/hexagon/termbits.h
- create mode 100644 target/hexagon/arch.h
- create mode 100644 target/hexagon/attribs.h
- create mode 100644 target/hexagon/conv_emu.h
- create mode 100644 target/hexagon/cpu-param.h
- create mode 100644 target/hexagon/cpu.h
- create mode 100644 target/hexagon/cpu_bits.h
- create mode 100644 target/hexagon/decode.h
+Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <1612763186-18161-18-git-send-email-tsimpson@quicinc.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/hexagon/fma_emu.h |  36 ++
+ target/hexagon/fma_emu.c | 702 +++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 738 insertions(+)
  create mode 100644 target/hexagon/fma_emu.h
- create mode 100644 target/hexagon/gen_tcg.h
- create mode 100644 target/hexagon/genptr.h
- create mode 100644 target/hexagon/helper.h
- create mode 100644 target/hexagon/hex_arch_types.h
- create mode 100644 target/hexagon/hex_regs.h
- create mode 100644 target/hexagon/iclass.h
- create mode 100644 target/hexagon/insn.h
- create mode 100644 target/hexagon/internal.h
- create mode 100644 target/hexagon/macros.h
- create mode 100644 target/hexagon/opcodes.h
- create mode 100644 target/hexagon/printinsn.h
- create mode 100644 target/hexagon/reg_fields.h
- create mode 100644 target/hexagon/translate.h
- create mode 100644 target/hexagon/attribs_def.h.inc
- create mode 100644 target/hexagon/reg_fields_def.h.inc
- create mode 100644 disas/hexagon.c
- create mode 100644 linux-user/hexagon/cpu_loop.c
- create mode 100644 linux-user/hexagon/signal.c
- create mode 100644 target/hexagon/arch.c
- create mode 100644 target/hexagon/conv_emu.c
- create mode 100644 target/hexagon/cpu.c
- create mode 100644 target/hexagon/decode.c
  create mode 100644 target/hexagon/fma_emu.c
- create mode 100644 target/hexagon/gdbstub.c
- create mode 100644 target/hexagon/gen_dectree_import.c
- create mode 100644 target/hexagon/gen_semantics.c
- create mode 100644 target/hexagon/genptr.c
- create mode 100644 target/hexagon/iclass.c
- create mode 100644 target/hexagon/op_helper.c
- create mode 100644 target/hexagon/opcodes.c
- create mode 100644 target/hexagon/printinsn.c
- create mode 100644 target/hexagon/reg_fields.c
- create mode 100644 target/hexagon/translate.c
- create mode 100644 tests/tcg/hexagon/atomics.c
- create mode 100644 tests/tcg/hexagon/dual_stores.c
- create mode 100644 tests/tcg/hexagon/fpstuff.c
- create mode 100644 tests/tcg/hexagon/mem_noshuf.c
- create mode 100644 tests/tcg/hexagon/misc.c
- create mode 100644 tests/tcg/hexagon/preg_alias.c
- create mode 100644 target/hexagon/README
- create mode 100755 target/hexagon/dectree.py
- create mode 100755 target/hexagon/gen_helper_funcs.py
- create mode 100755 target/hexagon/gen_helper_protos.py
- create mode 100755 target/hexagon/gen_op_attribs.py
- create mode 100755 target/hexagon/gen_op_regs.py
- create mode 100755 target/hexagon/gen_opcodes_def.py
- create mode 100755 target/hexagon/gen_printinsn.py
- create mode 100755 target/hexagon/gen_shortcode.py
- create mode 100755 target/hexagon/gen_tcg_func_table.py
- create mode 100755 target/hexagon/gen_tcg_funcs.py
- create mode 100755 target/hexagon/hex_common.py
- create mode 100644 target/hexagon/imported/allidefs.def
- create mode 100644 target/hexagon/imported/alu.idef
- create mode 100644 target/hexagon/imported/branch.idef
- create mode 100644 target/hexagon/imported/compare.idef
- create mode 100644 target/hexagon/imported/encode.def
- create mode 100644 target/hexagon/imported/encode_pp.def
- create mode 100644 target/hexagon/imported/encode_subinsn.def
- create mode 100644 target/hexagon/imported/float.idef
- create mode 100644 target/hexagon/imported/iclass.def
- create mode 100644 target/hexagon/imported/ldst.idef
- create mode 100755 target/hexagon/imported/macros.def
- create mode 100644 target/hexagon/imported/mpy.idef
- create mode 100644 target/hexagon/imported/shift.idef
- create mode 100644 target/hexagon/imported/subinsns.idef
- create mode 100644 target/hexagon/imported/system.idef
- create mode 100644 target/hexagon/meson.build
- create mode 100644 tests/tcg/hexagon/Makefile.target
- create mode 100644 tests/tcg/hexagon/first.S
- create mode 100644 tests/tcg/hexagon/float_convs.ref
- create mode 100644 tests/tcg/hexagon/float_madds.ref
+
+diff --git a/target/hexagon/fma_emu.h b/target/hexagon/fma_emu.h
+new file mode 100644
+index 0000000000..e3b99a8cf4
+--- /dev/null
++++ b/target/hexagon/fma_emu.h
+@@ -0,0 +1,36 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HEXAGON_FMA_EMU_H
++#define HEXAGON_FMA_EMU_H
++
++static inline bool is_finite(float64 x)
++{
++    return !float64_is_any_nan(x) && !float64_is_infinity(x);
++}
++
++int32_t float64_getexp(float64 f64);
++int32_t float32_getexp(float32 f32);
++float32 infinite_float32(uint8_t sign);
++float32 internal_fmafx(float32 a, float32 b, float32 c,
++                       int scale, float_status *fp_status);
++float32 internal_mpyf(float32 a, float32 b, float_status *fp_status);
++float64 internal_mpyhh(float64 a, float64 b,
++                       unsigned long long int accumulated,
++                       float_status *fp_status);
++
++#endif
+diff --git a/target/hexagon/fma_emu.c b/target/hexagon/fma_emu.c
+new file mode 100644
+index 0000000000..842d903710
+--- /dev/null
++++ b/target/hexagon/fma_emu.c
+@@ -0,0 +1,702 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/int128.h"
++#include "fpu/softfloat.h"
++#include "macros.h"
++#include "conv_emu.h"
++#include "fma_emu.h"
++
++#define DF_INF_EXP     0x7ff
++#define DF_BIAS        1023
++#define DF_MANTBITS    52
++#define DF_NAN         0xffffffffffffffffULL
++#define DF_INF         0x7ff0000000000000ULL
++#define DF_MINUS_INF   0xfff0000000000000ULL
++#define DF_MAXF        0x7fefffffffffffffULL
++#define DF_MINUS_MAXF  0xffefffffffffffffULL
++
++#define SF_INF_EXP     0xff
++#define SF_BIAS        127
++#define SF_MANTBITS    23
++#define SF_INF         0x7f800000
++#define SF_MINUS_INF   0xff800000
++#define SF_MAXF        0x7f7fffff
++#define SF_MINUS_MAXF  0xff7fffff
++
++#define HF_INF_EXP 0x1f
++#define HF_BIAS 15
++
++#define WAY_BIG_EXP 4096
++
++typedef union {
++    double f;
++    uint64_t i;
++    struct {
++        uint64_t mant:52;
++        uint64_t exp:11;
++        uint64_t sign:1;
++    };
++} Double;
++
++typedef union {
++    float f;
++    uint32_t i;
++    struct {
++        uint32_t mant:23;
++        uint32_t exp:8;
++        uint32_t sign:1;
++    };
++} Float;
++
++static inline uint64_t float64_getmant(float64 f64)
++{
++    Double a = { .i = f64 };
++    if (float64_is_normal(f64)) {
++        return a.mant | 1ULL << 52;
++    }
++    if (float64_is_zero(f64)) {
++        return 0;
++    }
++    if (float64_is_denormal(f64)) {
++        return a.mant;
++    }
++    return ~0ULL;
++}
++
++int32_t float64_getexp(float64 f64)
++{
++    Double a = { .i = f64 };
++    if (float64_is_normal(f64)) {
++        return a.exp;
++    }
++    if (float64_is_denormal(f64)) {
++        return a.exp + 1;
++    }
++    return -1;
++}
++
++static inline uint64_t float32_getmant(float32 f32)
++{
++    Float a = { .i = f32 };
++    if (float32_is_normal(f32)) {
++        return a.mant | 1ULL << 23;
++    }
++    if (float32_is_zero(f32)) {
++        return 0;
++    }
++    if (float32_is_denormal(f32)) {
++        return a.mant;
++    }
++    return ~0ULL;
++}
++
++int32_t float32_getexp(float32 f32)
++{
++    Float a = { .i = f32 };
++    if (float32_is_normal(f32)) {
++        return a.exp;
++    }
++    if (float32_is_denormal(f32)) {
++        return a.exp + 1;
++    }
++    return -1;
++}
++
++static inline uint32_t int128_getw0(Int128 x)
++{
++    return int128_getlo(x);
++}
++
++static inline uint32_t int128_getw1(Int128 x)
++{
++    return int128_getlo(x) >> 32;
++}
++
++static inline Int128 int128_mul_6464(uint64_t ai, uint64_t bi)
++{
++    Int128 a, b;
++    uint64_t pp0, pp1a, pp1b, pp1s, pp2;
++
++    a = int128_make64(ai);
++    b = int128_make64(bi);
++    pp0 = (uint64_t)int128_getw0(a) * (uint64_t)int128_getw0(b);
++    pp1a = (uint64_t)int128_getw1(a) * (uint64_t)int128_getw0(b);
++    pp1b = (uint64_t)int128_getw1(b) * (uint64_t)int128_getw0(a);
++    pp2 = (uint64_t)int128_getw1(a) * (uint64_t)int128_getw1(b);
++
++    pp1s = pp1a + pp1b;
++    if ((pp1s < pp1a) || (pp1s < pp1b)) {
++        pp2 += (1ULL << 32);
++    }
++    uint64_t ret_low = pp0 + (pp1s << 32);
++    if ((ret_low < pp0) || (ret_low < (pp1s << 32))) {
++        pp2 += 1;
++    }
++
++    return int128_make128(ret_low, pp2 + (pp1s >> 32));
++}
++
++static inline Int128 int128_sub_borrow(Int128 a, Int128 b, int borrow)
++{
++    Int128 ret = int128_sub(a, b);
++    if (borrow != 0) {
++        ret = int128_sub(ret, int128_one());
++    }
++    return ret;
++}
++
++typedef struct {
++    Int128 mant;
++    int32_t exp;
++    uint8_t sign;
++    uint8_t guard;
++    uint8_t round;
++    uint8_t sticky;
++} Accum;
++
++static inline void accum_init(Accum *p)
++{
++    p->mant = int128_zero();
++    p->exp = 0;
++    p->sign = 0;
++    p->guard = 0;
++    p->round = 0;
++    p->sticky = 0;
++}
++
++static inline Accum accum_norm_left(Accum a)
++{
++    a.exp--;
++    a.mant = int128_lshift(a.mant, 1);
++    a.mant = int128_or(a.mant, int128_make64(a.guard));
++    a.guard = a.round;
++    a.round = a.sticky;
++    return a;
++}
++
++static inline Accum accum_norm_right(Accum a, int amt)
++{
++    if (amt > 130) {
++        a.sticky |=
++            a.round | a.guard | int128_nz(a.mant);
++        a.guard = a.round = 0;
++        a.mant = int128_zero();
++        a.exp += amt;
++        return a;
++
++    }
++    while (amt >= 64) {
++        a.sticky |= a.round | a.guard | (int128_getlo(a.mant) != 0);
++        a.guard = (int128_getlo(a.mant) >> 63) & 1;
++        a.round = (int128_getlo(a.mant) >> 62) & 1;
++        a.mant = int128_make64(int128_gethi(a.mant));
++        a.exp += 64;
++        amt -= 64;
++    }
++    while (amt > 0) {
++        a.exp++;
++        a.sticky |= a.round;
++        a.round = a.guard;
++        a.guard = int128_getlo(a.mant) & 1;
++        a.mant = int128_rshift(a.mant, 1);
++        amt--;
++    }
++    return a;
++}
++
++/*
++ * On the add/sub, we need to be able to shift out lots of bits, but need a
++ * sticky bit for what was shifted out, I think.
++ */
++static Accum accum_add(Accum a, Accum b);
++
++static inline Accum accum_sub(Accum a, Accum b, int negate)
++{
++    Accum ret;
++    accum_init(&ret);
++    int borrow;
++
++    if (a.sign != b.sign) {
++        b.sign = !b.sign;
++        return accum_add(a, b);
++    }
++    if (b.exp > a.exp) {
++        /* small - big == - (big - small) */
++        return accum_sub(b, a, !negate);
++    }
++    if ((b.exp == a.exp) && (int128_gt(b.mant, a.mant))) {
++        /* small - big == - (big - small) */
++        return accum_sub(b, a, !negate);
++    }
++
++    while (a.exp > b.exp) {
++        /* Try to normalize exponents: shrink a exponent and grow mantissa */
++        if (int128_gethi(a.mant) & (1ULL << 62)) {
++            /* Can't grow a any more */
++            break;
++        } else {
++            a = accum_norm_left(a);
++        }
++    }
++
++    while (a.exp > b.exp) {
++        /* Try to normalize exponents: grow b exponent and shrink mantissa */
++        /* Keep around shifted out bits... we might need those later */
++        b = accum_norm_right(b, a.exp - b.exp);
++    }
++
++    if ((int128_gt(b.mant, a.mant))) {
++        return accum_sub(b, a, !negate);
++    }
++
++    /* OK, now things should be normalized! */
++    ret.sign = a.sign;
++    ret.exp = a.exp;
++    assert(!int128_gt(b.mant, a.mant));
++    borrow = (b.round << 2) | (b.guard << 1) | b.sticky;
++    ret.mant = int128_sub_borrow(a.mant, b.mant, (borrow != 0));
++    borrow = 0 - borrow;
++    ret.guard = (borrow >> 2) & 1;
++    ret.round = (borrow >> 1) & 1;
++    ret.sticky = (borrow >> 0) & 1;
++    if (negate) {
++        ret.sign = !ret.sign;
++    }
++    return ret;
++}
++
++static Accum accum_add(Accum a, Accum b)
++{
++    Accum ret;
++    accum_init(&ret);
++    if (a.sign != b.sign) {
++        b.sign = !b.sign;
++        return accum_sub(a, b, 0);
++    }
++    if (b.exp > a.exp) {
++        /* small + big ==  (big + small) */
++        return accum_add(b, a);
++    }
++    if ((b.exp == a.exp) && int128_gt(b.mant, a.mant)) {
++        /* small + big ==  (big + small) */
++        return accum_add(b, a);
++    }
++
++    while (a.exp > b.exp) {
++        /* Try to normalize exponents: shrink a exponent and grow mantissa */
++        if (int128_gethi(a.mant) & (1ULL << 62)) {
++            /* Can't grow a any more */
++            break;
++        } else {
++            a = accum_norm_left(a);
++        }
++    }
++
++    while (a.exp > b.exp) {
++        /* Try to normalize exponents: grow b exponent and shrink mantissa */
++        /* Keep around shifted out bits... we might need those later */
++        b = accum_norm_right(b, a.exp - b.exp);
++    }
++
++    /* OK, now things should be normalized! */
++    if (int128_gt(b.mant, a.mant)) {
++        return accum_add(b, a);
++    };
++    ret.sign = a.sign;
++    ret.exp = a.exp;
++    assert(!int128_gt(b.mant, a.mant));
++    ret.mant = int128_add(a.mant, b.mant);
++    ret.guard = b.guard;
++    ret.round = b.round;
++    ret.sticky = b.sticky;
++    return ret;
++}
++
++/* Return an infinity with requested sign */
++static inline float64 infinite_float64(uint8_t sign)
++{
++    if (sign) {
++        return make_float64(DF_MINUS_INF);
++    } else {
++        return make_float64(DF_INF);
++    }
++}
++
++/* Return a maximum finite value with requested sign */
++static inline float64 maxfinite_float64(uint8_t sign)
++{
++    if (sign) {
++        return make_float64(DF_MINUS_MAXF);
++    } else {
++        return make_float64(DF_MAXF);
++    }
++}
++
++/* Return a zero value with requested sign */
++static inline float64 zero_float64(uint8_t sign)
++{
++    if (sign) {
++        return make_float64(0x8000000000000000);
++    } else {
++        return float64_zero;
++    }
++}
++
++/* Return an infinity with the requested sign */
++float32 infinite_float32(uint8_t sign)
++{
++    if (sign) {
++        return make_float32(SF_MINUS_INF);
++    } else {
++        return make_float32(SF_INF);
++    }
++}
++
++/* Return a maximum finite value with the requested sign */
++static inline float32 maxfinite_float32(uint8_t sign)
++{
++    if (sign) {
++        return make_float32(SF_MINUS_MAXF);
++    } else {
++        return make_float32(SF_MAXF);
++    }
++}
++
++/* Return a zero value with requested sign */
++static inline float32 zero_float32(uint8_t sign)
++{
++    if (sign) {
++        return make_float32(0x80000000);
++    } else {
++        return float32_zero;
++    }
++}
++
++#define GEN_XF_ROUND(SUFFIX, MANTBITS, INF_EXP, INTERNAL_TYPE) \
++static inline SUFFIX accum_round_##SUFFIX(Accum a, float_status * fp_status) \
++{ \
++    if ((int128_gethi(a.mant) == 0) && (int128_getlo(a.mant) == 0) \
++        && ((a.guard | a.round | a.sticky) == 0)) { \
++        /* result zero */ \
++        switch (fp_status->float_rounding_mode) { \
++        case float_round_down: \
++            return zero_##SUFFIX(1); \
++        default: \
++            return zero_##SUFFIX(0); \
++        } \
++    } \
++    /* Normalize right */ \
++    /* We want MANTBITS bits of mantissa plus the leading one. */ \
++    /* That means that we want MANTBITS+1 bits, or 0x000000000000FF_FFFF */ \
++    /* So we need to normalize right while the high word is non-zero and \
++    * while the low word is nonzero when masked with 0xffe0_0000_0000_0000 */ \
++    while ((int128_gethi(a.mant) != 0) || \
++           ((int128_getlo(a.mant) >> (MANTBITS + 1)) != 0)) { \
++        a = accum_norm_right(a, 1); \
++    } \
++    /* \
++     * OK, now normalize left \
++     * We want to normalize left until we have a leading one in bit 24 \
++     * Theoretically, we only need to shift a maximum of one to the left if we \
++     * shifted out lots of bits from B, or if we had no shift / 1 shift sticky \
++     * shoudl be 0  \
++     */ \
++    while ((int128_getlo(a.mant) & (1ULL << MANTBITS)) == 0) { \
++        a = accum_norm_left(a); \
++    } \
++    /* \
++     * OK, now we might need to denormalize because of potential underflow. \
++     * We need to do this before rounding, and rounding might make us normal \
++     * again \
++     */ \
++    while (a.exp <= 0) { \
++        a = accum_norm_right(a, 1 - a.exp); \
++        /* \
++         * Do we have underflow? \
++         * That's when we get an inexact answer because we ran out of bits \
++         * in a denormal. \
++         */ \
++        if (a.guard || a.round || a.sticky) { \
++            float_raise(float_flag_underflow, fp_status); \
++        } \
++    } \
++    /* OK, we're relatively canonical... now we need to round */ \
++    if (a.guard || a.round || a.sticky) { \
++        float_raise(float_flag_inexact, fp_status); \
++        switch (fp_status->float_rounding_mode) { \
++        case float_round_to_zero: \
++            /* Chop and we're done */ \
++            break; \
++        case float_round_up: \
++            if (a.sign == 0) { \
++                a.mant = int128_add(a.mant, int128_one()); \
++            } \
++            break; \
++        case float_round_down: \
++            if (a.sign != 0) { \
++                a.mant = int128_add(a.mant, int128_one()); \
++            } \
++            break; \
++        default: \
++            if (a.round || a.sticky) { \
++                /* round up if guard is 1, down if guard is zero */ \
++                a.mant = int128_add(a.mant, int128_make64(a.guard)); \
++            } else if (a.guard) { \
++                /* exactly .5, round up if odd */ \
++                a.mant = int128_add(a.mant, int128_and(a.mant, int128_one())); \
++            } \
++            break; \
++        } \
++    } \
++    /* \
++     * OK, now we might have carried all the way up. \
++     * So we might need to shr once \
++     * at least we know that the lsb should be zero if we rounded and \
++     * got a carry out... \
++     */ \
++    if ((int128_getlo(a.mant) >> (MANTBITS + 1)) != 0) { \
++        a = accum_norm_right(a, 1); \
++    } \
++    /* Overflow? */ \
++    if (a.exp >= INF_EXP) { \
++        /* Yep, inf result */ \
++        float_raise(float_flag_overflow, fp_status); \
++        float_raise(float_flag_inexact, fp_status); \
++        switch (fp_status->float_rounding_mode) { \
++        case float_round_to_zero: \
++            return maxfinite_##SUFFIX(a.sign); \
++        case float_round_up: \
++            if (a.sign == 0) { \
++                return infinite_##SUFFIX(a.sign); \
++            } else { \
++                return maxfinite_##SUFFIX(a.sign); \
++            } \
++        case float_round_down: \
++            if (a.sign != 0) { \
++                return infinite_##SUFFIX(a.sign); \
++            } else { \
++                return maxfinite_##SUFFIX(a.sign); \
++            } \
++        default: \
++            return infinite_##SUFFIX(a.sign); \
++        } \
++    } \
++    /* Underflow? */ \
++    if (int128_getlo(a.mant) & (1ULL << MANTBITS)) { \
++        /* Leading one means: No, we're normal. So, we should be done... */ \
++        INTERNAL_TYPE ret; \
++        ret.i = 0; \
++        ret.sign = a.sign; \
++        ret.exp = a.exp; \
++        ret.mant = int128_getlo(a.mant); \
++        return ret.i; \
++    } \
++    assert(a.exp == 1); \
++    INTERNAL_TYPE ret; \
++    ret.i = 0; \
++    ret.sign = a.sign; \
++    ret.exp = 0; \
++    ret.mant = int128_getlo(a.mant); \
++    return ret.i; \
++}
++
++GEN_XF_ROUND(float64, DF_MANTBITS, DF_INF_EXP, Double)
++GEN_XF_ROUND(float32, SF_MANTBITS, SF_INF_EXP, Float)
++
++static bool is_inf_prod(float64 a, float64 b)
++{
++    return ((float64_is_infinity(a) && float64_is_infinity(b)) ||
++            (float64_is_infinity(a) && is_finite(b) && (!float64_is_zero(b))) ||
++            (float64_is_infinity(b) && is_finite(a) && (!float64_is_zero(a))));
++}
++
++static inline float64 special_fma(float64 a, float64 b, float64 c,
++                                  float_status *fp_status)
++{
++    float64 ret = make_float64(0);
++
++    /*
++     * If A multiplied by B is an exact infinity and C is also an infinity
++     * but with the opposite sign, FMA returns NaN and raises invalid.
++     */
++    uint8_t a_sign = float64_is_neg(a);
++    uint8_t b_sign = float64_is_neg(b);
++    uint8_t c_sign = float64_is_neg(c);
++    if (is_inf_prod(a, b) && float64_is_infinity(c)) {
++        if ((a_sign ^ b_sign) != c_sign) {
++            ret = make_float64(DF_NAN);
++            float_raise(float_flag_invalid, fp_status);
++            return ret;
++        }
++    }
++    if ((float64_is_infinity(a) && float64_is_zero(b)) ||
++        (float64_is_zero(a) && float64_is_infinity(b))) {
++        ret = make_float64(DF_NAN);
++        float_raise(float_flag_invalid, fp_status);
++        return ret;
++    }
++    /*
++     * If none of the above checks are true and C is a NaN,
++     * a NaN shall be returned
++     * If A or B are NaN, a NAN shall be returned.
++     */
++    if (float64_is_any_nan(a) ||
++        float64_is_any_nan(b) ||
++        float64_is_any_nan(c)) {
++        if (float64_is_any_nan(a) && (fGETBIT(51, a) == 0)) {
++            float_raise(float_flag_invalid, fp_status);
++        }
++        if (float64_is_any_nan(b) && (fGETBIT(51, b) == 0)) {
++            float_raise(float_flag_invalid, fp_status);
++        }
++        if (float64_is_any_nan(c) && (fGETBIT(51, c) == 0)) {
++            float_raise(float_flag_invalid, fp_status);
++        }
++        ret = make_float64(DF_NAN);
++        return ret;
++    }
++    /*
++     * We have checked for adding opposite-signed infinities.
++     * Other infinities return infinity with the correct sign
++     */
++    if (float64_is_infinity(c)) {
++        ret = infinite_float64(c_sign);
++        return ret;
++    }
++    if (float64_is_infinity(a) || float64_is_infinity(b)) {
++        ret = infinite_float64(a_sign ^ b_sign);
++        return ret;
++    }
++    g_assert_not_reached();
++}
++
++static inline float32 special_fmaf(float32 a, float32 b, float32 c,
++                                 float_status *fp_status)
++{
++    float64 aa, bb, cc;
++    aa = float32_to_float64(a, fp_status);
++    bb = float32_to_float64(b, fp_status);
++    cc = float32_to_float64(c, fp_status);
++    return float64_to_float32(special_fma(aa, bb, cc, fp_status), fp_status);
++}
++
++float32 internal_fmafx(float32 a, float32 b, float32 c, int scale,
++                       float_status *fp_status)
++{
++    Accum prod;
++    Accum acc;
++    Accum result;
++    accum_init(&prod);
++    accum_init(&acc);
++    accum_init(&result);
++
++    uint8_t a_sign = float32_is_neg(a);
++    uint8_t b_sign = float32_is_neg(b);
++    uint8_t c_sign = float32_is_neg(c);
++    if (float32_is_infinity(a) ||
++        float32_is_infinity(b) ||
++        float32_is_infinity(c)) {
++        return special_fmaf(a, b, c, fp_status);
++    }
++    if (float32_is_any_nan(a) ||
++        float32_is_any_nan(b) ||
++        float32_is_any_nan(c)) {
++        return special_fmaf(a, b, c, fp_status);
++    }
++    if ((scale == 0) && (float32_is_zero(a) || float32_is_zero(b))) {
++        float32 tmp = float32_mul(a, b, fp_status);
++        tmp = float32_add(tmp, c, fp_status);
++        return tmp;
++    }
++
++    /* (a * 2**b) * (c * 2**d) == a*c * 2**(b+d) */
++    prod.mant = int128_mul_6464(float32_getmant(a), float32_getmant(b));
++
++    /*
++     * Note: extracting the mantissa into an int is multiplying by
++     * 2**23, so adjust here
++     */
++    prod.exp = float32_getexp(a) + float32_getexp(b) - SF_BIAS - 23;
++    prod.sign = a_sign ^ b_sign;
++    if (float32_is_zero(a) || float32_is_zero(b)) {
++        prod.exp = -2 * WAY_BIG_EXP;
++    }
++    if ((scale > 0) && float32_is_denormal(c)) {
++        acc.mant = int128_mul_6464(0, 0);
++        acc.exp = -WAY_BIG_EXP;
++        acc.sign = c_sign;
++        acc.sticky = 1;
++        result = accum_add(prod, acc);
++    } else if (!float32_is_zero(c)) {
++        acc.mant = int128_mul_6464(float32_getmant(c), 1);
++        acc.exp = float32_getexp(c);
++        acc.sign = c_sign;
++        result = accum_add(prod, acc);
++    } else {
++        result = prod;
++    }
++    result.exp += scale;
++    return accum_round_float32(result, fp_status);
++}
++
++float32 internal_mpyf(float32 a, float32 b, float_status *fp_status)
++{
++    if (float32_is_zero(a) || float32_is_zero(b)) {
++        return float32_mul(a, b, fp_status);
++    }
++    return internal_fmafx(a, b, float32_zero, 0, fp_status);
++}
++
++float64 internal_mpyhh(float64 a, float64 b,
++                      unsigned long long int accumulated,
++                      float_status *fp_status)
++{
++    Accum x;
++    unsigned long long int prod;
++    unsigned int sticky;
++    uint8_t a_sign, b_sign;
++
++    sticky = accumulated & 1;
++    accumulated >>= 1;
++    accum_init(&x);
++    if (float64_is_zero(a) ||
++        float64_is_any_nan(a) ||
++        float64_is_infinity(a)) {
++        return float64_mul(a, b, fp_status);
++    }
++    if (float64_is_zero(b) ||
++        float64_is_any_nan(b) ||
++        float64_is_infinity(b)) {
++        return float64_mul(a, b, fp_status);
++    }
++    x.mant = int128_mul_6464(accumulated, 1);
++    x.sticky = sticky;
++    prod = fGETUWORD(1, float64_getmant(a)) * fGETUWORD(1, float64_getmant(b));
++    x.mant = int128_add(x.mant, int128_mul_6464(prod, 0x100000000ULL));
++    x.exp = float64_getexp(a) + float64_getexp(b) - DF_BIAS - 20;
++    if (!float64_is_normal(a) || !float64_is_normal(b)) {
++        /* crush to inexact zero */
++        x.sticky = 1;
++        x.exp = -4096;
++    }
++    a_sign = float64_is_neg(a);
++    b_sign = float64_is_neg(b);
++    x.sign = a_sign ^ b_sign;
++    return accum_round_float64(x, fp_status);
++}
+-- 
+2.25.1
+
 
