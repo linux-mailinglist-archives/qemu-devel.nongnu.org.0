@@ -2,66 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB0131D960
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:28:12 +0100 (CET)
-Received: from localhost ([::1]:57038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B629031D95C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:26:29 +0100 (CET)
+Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCLwB-0002j3-Pz
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:28:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56612)
+	id 1lCLuW-0001LP-Qn
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:26:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCLts-0001jF-2g
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:25:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCLtm-00028K-Iv
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:25:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lCLtj-0002mu-Ff
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:25:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7411F2E802B
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:25:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCLrt-0008IM-Ng
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:23:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33517)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCLrr-0001Wm-9x
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:23:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613564621;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ck7ZyuX8zuuYttT6uOY59rxz59GKxUFmJHy1jdC5BnY=;
+ b=Sy4e9CQanbPuEhyA4vJ4X24yP7NpSgbOyntByYhddCD130Bs/gFnrylaCKh/dhA1gPyf0h
+ vASUrabkK3DEpXwda22PmXRrdYIiKYf5U1PYckXw4VnRjsZf4jDn7zCcs6Tv3Zal4dkQgm
+ SMfDPl/EIFteRse5O4YiaXeX8SOfMtE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-zFajqsbRMIGaefozPBOn1w-1; Wed, 17 Feb 2021 07:23:38 -0500
+X-MC-Unique: zFajqsbRMIGaefozPBOn1w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0109080196C
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:23:36 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C655E60DA1;
+ Wed, 17 Feb 2021 12:23:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4AD83113860F; Wed, 17 Feb 2021 13:23:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 6/6] tests/qapi-schema: Test cases for aliases
+References: <20210211183118.422036-1-kwolf@redhat.com>
+ <20210211183118.422036-7-kwolf@redhat.com>
+ <87eehgrqn9.fsf@dusky.pond.sub.org>
+ <20210216153158.GB5282@merkur.fritz.box>
+ <87im6sq9ad.fsf@dusky.pond.sub.org>
+Date: Wed, 17 Feb 2021 13:23:35 +0100
+In-Reply-To: <87im6sq9ad.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+ of "Tue, 16 Feb 2021 17:14:50 +0100")
+Message-ID: <878s7mvq60.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Feb 2021 12:19:43 -0000
-From: iNvEr7 <1915925@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: semihosting
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: inver7
-X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
-X-Launchpad-Bug-Modifier: iNvEr7 (inver7)
-Message-Id: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1915925] [NEW] ARM semihosting HEAPINFO results wrote to wrong
- address
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
-X-Launchpad-Hash: 3a1f4dfc64702faf1705aeb6f968cf378108b12b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,81 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Markus Armbruster <armbru@redhat.com> writes:
 
-This affects latest development branch of QEMU.
+> Kevin Wolf <kwolf@redhat.com> writes:
+>
+>> Am 16.02.2021 um 16:14 hat Markus Armbruster geschrieben:
+>>> Kevin Wolf <kwolf@redhat.com> writes:
+>>> 
+>>> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>>> [...]
+>>> > diff --git a/tests/qapi-schema/alias-name-bad-type.err b/tests/qapi-schema/alias-name-bad-type.err
+>>> > new file mode 100644
+>>> > index 0000000000..489f45ff9b
+>>> > --- /dev/null
+>>> > +++ b/tests/qapi-schema/alias-name-bad-type.err
+>>> > @@ -0,0 +1,2 @@
+>>> > +alias-name-bad-type.json: In struct 'AliasStruct0':
+>>> > +alias-name-bad-type.json:1: alias member 'name' requires a string name
+>>> 
+>>> Would "'aliases' member 'name'..." be more consistent?
+>>
+>> 'aliases' is a list, not a single alias definition, so technically it
+>> would have to be "'aliases' member member 'name'...", which I feel is a
+>> bit too confusing.
+>
+> Indeed.
+>
+> I think glossing over the list is excusable.
+>
+>> I think I have consistently used "alias" for "'aliases' member"
+>> everywhere, though. At least, that was the intention.
+>
+> A different way of glossing over details.  Should do as well.  I'll
+> double-check consistency.
 
-According to the ARM spec of the HEAPINFO semihosting call:
+I did, and it looks okay:
 
-https://developer.arm.com/documentation/100863/0300/Semihosting-
-operations/SYS-HEAPINFO--0x16-?lang=3Den
+    $ grep "'alias" *err
+    alias-bad-type.err:alias-bad-type.json:1: 'aliases' members must be objects
 
-> the PARAMETER REGISTER contains the address of a pointer to a four-
-field data block.
+Okay; we are talking about members of array 'aliases' here.
 
-However, QEMU treated the PARAMETER REGISTER as pointing to a four-field
-data block directly.
+    alias-missing-source.err:alias-missing-source.json:1: 'aliases' member misses key 'source'
 
-Here is a simple program that can demonstrate this problem:
-https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-newlib
+Likewise.
 
-This code links with newlib with semihosting mode, which will call the
-HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
-may crash the program either because of invalid write or memory
-curruption, depending on the compiled program structure.
+    alias-unknown-key.err:alias-unknown-key.json:1: 'aliases' member has unknown key 'known'
 
-Also refer to my discussion with newlib folks:
-https://sourceware.org/pipermail/newlib/2021/018260.html
+Likewise.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+    aliases-bad-type.err:aliases-bad-type.json:1: 'aliases' must be an array
 
+Okay; we are talking about 'aliases'.
 
-** Tags: semihosting
+    double-type.err:Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
+    unknown-expr-key.err:Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
 
--- =
+Okay.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915925
-
-Title:
-  ARM semihosting HEAPINFO results wrote to wrong address
-
-Status in QEMU:
-  New
-
-Bug description:
-  This affects latest development branch of QEMU.
-
-  According to the ARM spec of the HEAPINFO semihosting call:
-
-  https://developer.arm.com/documentation/100863/0300/Semihosting-
-  operations/SYS-HEAPINFO--0x16-?lang=3Den
-
-  > the PARAMETER REGISTER contains the address of a pointer to a four-
-  field data block.
-
-  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
-  field data block directly.
-
-  Here is a simple program that can demonstrate this problem:
-  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
-  newlib
-
-  This code links with newlib with semihosting mode, which will call the
-  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
-  may crash the program either because of invalid write or memory
-  curruption, depending on the compiled program structure.
-
-  Also refer to my discussion with newlib folks:
-  https://sourceware.org/pipermail/newlib/2021/018260.html
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
