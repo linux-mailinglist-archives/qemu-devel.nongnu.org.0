@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFCE31D490
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 05:22:29 +0100 (CET)
-Received: from localhost ([::1]:43482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AF8931D49E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 05:33:08 +0100 (CET)
+Received: from localhost ([::1]:50862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCEM8-0003yb-9I
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 23:22:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41122)
+	id 1lCEWR-0007vs-0M
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 23:33:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCEKg-0003Ui-49
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 23:20:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCEKe-0006N4-Pe
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 23:20:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613535656;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VEYmfkG6L0ScrEnj79hOgxVSja+8vLKq8Y38HA+wlfA=;
- b=IttG2e88kUSw84aIjv+eIaA6jRi2vrQXl1hUYuFqEReBwErQXgFkZDp1dovU+Vp4wjf+1+
- AAD6istMrUswsmyDcEd6p6Ojs4s5XnwXvKflLXpmjBb4BX0Bsnl0b9a9WFyPhj4hYTuuJ1
- ZrdWYOQ9uZeWRD/8/sJRPx3T9+syctU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-245-0EFcvMF9NVq_T_9oS-4o9w-1; Tue, 16 Feb 2021 23:20:51 -0500
-X-MC-Unique: 0EFcvMF9NVq_T_9oS-4o9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE44A100CC87;
- Wed, 17 Feb 2021 04:20:50 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-112-29.rdu2.redhat.com
- [10.10.112.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F21D719D9F;
- Wed, 17 Feb 2021 04:20:45 +0000 (UTC)
-Date: Tue, 16 Feb 2021 23:20:44 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 13/24] python: Add flake8 to pipenv
-Message-ID: <YCyZnEfuyu8kTMjC@localhost.localdomain>
-References: <20210211185856.3975616-1-jsnow@redhat.com>
- <20210211185856.3975616-14-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lCEUr-00073H-KD
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 23:31:29 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34612)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lCEUp-0001UC-Kv
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 23:31:29 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id ba1so6777437plb.1
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 20:31:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=N6pj39nxOm/hD9wE5n5G3h5e5SA24fTi52m3/eAVafU=;
+ b=rUoOIt7SYjw9jP94xnXyYC2TohweZ4OChkpmR3JCukrrQjYglwCTKDyZLwL13dZdn3
+ eFKhKMoQQEukM9mdVDZc/qIS6VzH7hdVjpgzqFTadlio4EHap0Kh+N1+fobzRMCkK9ht
+ eMnI/0Fw/+kUVUSAm8yEAj2mdXJXpNWgAUZtqdUWRMMjhAdql4iRlOekrP/xdsUdf2IG
+ dnJ/IhNEzRbvS4K2A9avDG2dpbHWeJdM2eVWNy71tar2aBSqsDqz3KdhINfSjNQOhC5V
+ ZTCbX+NSG8U+cI0jsfI9z9Bzs7hYlG5gGL7vVRyVm+GA1A+bFs3f2Eii0pfNHL9W88Nj
+ GO0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=N6pj39nxOm/hD9wE5n5G3h5e5SA24fTi52m3/eAVafU=;
+ b=m9lp1n7Xyjkgu1YxYActSMZdF0AdRpLxQ4Du1ba1v2r/d0u1FT6hvUF9h30SOmu76q
+ lwDwu4kHvKxSDs2y87vciMs1Xmpvtj4KmHVF7TAkzhQPFwbWXgHbPIJQiPMmsgecIfZc
+ I3pvVv0KsVwb43koS3FojL4WpYb3dHt6ogCNqbr80IY47jTLpA/M2HC1oRYT7KmrIDW6
+ 3pgm6sUEVkbzGTIN9fCkyu1oPvfSDuvNNIEkZMx9TTsZSZ1PBCIcOfQm7Qq3NDNZmlpS
+ XjRGBcDmxG6FBmjzSswLBa5uhsTskIFPA5ZDwNT2X1X0q88CzFtaHr4LAPcvprDirfeQ
+ tF+A==
+X-Gm-Message-State: AOAM5311SmPHIPJqLOyMbhV/iY0V5E5DnVa3vhB7kZhR5WNduexKbCF5
+ tPuaPJJROTrul+WWt7shdP0nVg==
+X-Google-Smtp-Source: ABdhPJxdrLPeeQJNF/RG4lyEFJD4SCbUS4Dn4prmBWpnTJ4YiZoROd03J5fNXVfhhrGD/UL3h7O6kQ==
+X-Received: by 2002:a17:90a:f498:: with SMTP id
+ bx24mr1452086pjb.40.1613536286139; 
+ Tue, 16 Feb 2021 20:31:26 -0800 (PST)
+Received: from [192.168.3.43] (047-051-160-125.biz.spectrum.com.
+ [47.51.160.125])
+ by smtp.gmail.com with ESMTPSA id s5sm662307pgv.55.2021.02.16.20.31.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 16 Feb 2021 20:31:25 -0800 (PST)
+Subject: Re: [PATCH] pc-bios/s390-ccw: Use memory barriers in virtio code
+To: Thomas Huth <thuth@redhat.com>, Halil Pasic <pasic@linux.ibm.com>
+References: <20210216110056.1228582-1-thuth@redhat.com>
+ <20210216154010.3691880f.pasic@linux.ibm.com>
+ <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <5c37f1f1-5538-cd06-55a2-e266cc9a972c@linaro.org>
+Date: Tue, 16 Feb 2021 20:31:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210211185856.3975616-14-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NBVmSVMBJNKEps0c"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <72e9a5b3-dd88-85de-e4a8-88a6a9c45099@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,59 +90,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---NBVmSVMBJNKEps0c
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/16/21 8:15 AM, Thomas Huth wrote:
+> On 16/02/2021 15.40, Halil Pasic wrote:
+>> On Tue, 16 Feb 2021 12:00:56 +0100
+>> Thomas Huth <thuth@redhat.com> wrote:
+>>
+>>> According to the virtio specification, a memory barrier should be
+>>> used before incrementing the idx field in the "available" ring.
+>>> So far, we did not do this in the s390-ccw bios yet, but recently
+>>> Peter Maydell saw problems with the s390-ccw bios when running
+>>> the qtests on an aarch64 host (the bios panic'ed with the message:
+>>> "SCSI cannot report LUNs: response VS RESP=09"), which could
+>>> maybe be related to the missing memory barriers. Thus let's add
+>>> those barriers now. Since we've only seen the problem on TCG so far,
+>>> a "bcr 14,0" should be sufficient here to trigger the tcg_gen_mb()
+>>> in the TCG translate code.
+>>>
+>>> (Note: The virtio spec also talks about using a memory barrier
+>>> *after* incrementing the idx field, but if I understood correctly
+>>> this is only required when using notification suppression - which
+>>> we don't use in the s390-ccw bios here)
+>>
+>> I suggest to the barrier after incrementing the idx field for two
+>> reasons. First: If the device were to see the notification, but
+>> not see the incremented idx field, it would effectively loose
+>> initiative. That is pretty straight forward, because the
+>> notification just says 'check out that queue', and if we don't
+>> see the incremented index, miss the buffer that was made available
+>> by incrementing idx.
+> 
+> I was just about to reply that this is certainly not necessary, since
+> the DIAGNOSE instruction that we use for the notification hypercall
+> should be serializing anyway ... but after looking at the PoP, it
+> actually is not marked as a serializing instruction! (while e.g.
+> SVC - supervisor call - is explicitly marked as serializing)
+> 
+> So maybe that's worth a try: Peter, could you please apply this patch
+> on top an see whether it makes a difference?
+> 
+> diff --git a/pc-bios/s390-ccw/virtio.c b/pc-bios/s390-ccw/virtio.c
+> --- a/pc-bios/s390-ccw/virtio.c
+> +++ b/pc-bios/s390-ccw/virtio.c
+> @@ -54,6 +54,7 @@ static long kvm_hypercall(unsigned long nr, unsigned long
+> param1,
+>      register ulong r_param3 asm("4") = param3;
+>      register long retval asm("2");
+>  
+> +    virtio_mb();
+>      asm volatile ("diag 2,4,0x500"
+>                    : "=d" (retval)
+>                    : "d" (r_nr), "0" (r_param1), "r"(r_param2), "d"(r_param3)
 
-On Thu, Feb 11, 2021 at 01:58:45PM -0500, John Snow wrote:
-> flake8 3.5.x does not support the --extend-ignore syntax used in the
-> .flake8 file to gracefully extend default ignores, so 3.6.x is our
-> minimum requirement. There is no known upper bound.
->=20
-> flake8 can be run from the python/ directory with no arguments.
->=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  python/Pipfile      |  1 +
->  python/Pipfile.lock | 51 ++++++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 51 insertions(+), 1 deletion(-)
->=20
+This is patching the wrong thing, IMO.  You're adding barriers to the guest
+that I think ought not be architecturally required -- memory accesses on s390x
+are strongly ordered, with or without diag/svc/whatever.
 
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
+With
 
---NBVmSVMBJNKEps0c
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+index 1376cdc404..3c5f38be62 100644
+--- a/tcg/aarch64/tcg-target.c.inc
++++ b/tcg/aarch64/tcg-target.c.inc
+@@ -1622,6 +1622,8 @@ static void tcg_out_tlb_read
+     TCGType mask_type;
+     uint64_t compare_mask;
 
------BEGIN PGP SIGNATURE-----
++    tcg_out_mb(s, TCG_MO_ALL);
++
+     mask_type = (TARGET_PAGE_BITS + CPU_TLB_DYN_MAX_BITS > 32
+                  ? TCG_TYPE_I64 : TCG_TYPE_I32);
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAsmZsACgkQZX6NM6Xy
-CfNxdhAAip/aN5Usg8LJxxuDPgy33ocTNjsWOW2wHKKbfKJQxaEohXoiYiqyjNaC
-CRwvJ6p3u8E2+ZCdGkDzDLqlwUkPN2sTRMmUmnDknsz7R3FXJDjAYdNMdbTHcpqG
-Fk+3T/X0RrN6uCnC352xYghuq3ynAonCLypHwBl26xU4lnCv2LebFaOX4SESKJRx
-dtIiytCLZf8X70i+b11h01X0SmWCIT5KUlvg+NtmWUdM68L3VERI52oh2MVwJdlT
-KGtgko1WBRNp5gWK+yPKeCVuajbFZ6CgZGthOy+i+fWXGyJxM756mH7keK/GGBoa
-Q4q1SoU2yS6CWjJ1wsCmNMMw+eXL7j1WyZOt9D8jRwQ3P0hHkv5El6GTUaogqovj
-eKuow/jAjPvvH3xdKrYEpqVGnhxbJe7sbd4AfdPOn29iww6swLqFtfA6oDZ4NeRd
-k/p7VwUVhpUllm140er5PFmo6JBOu1XrVgkh42IWx63J0lqYY9iXN97mdw/G5EDY
-qaAE++A6AoJcw9v3JyxOx5dmmj675VQXCF4suQiltTrAYdWkvKsVbJK1kkpijXWY
-VlyXjorAc4hLTiC75BBoxmT2EIFehteQggC9oBM0Lhl9NORnp2+nPAOfvvB4FKDJ
-C9ZDPJz1NHj6cp45Y4WCZR1SfAx9A5iv2OZ5Ye50OpMqQJd5vEA=
-=C+qt
------END PGP SIGNATURE-----
+which is a gigantic hammer, adding a host barrier before every qemu guest
+access, I can no longer provoke a failure (previously visible 1 in 4, now no
+failures in 100).
 
---NBVmSVMBJNKEps0c--
+With that as a data point for success, I'm going to try to use host
+load-acquire / store-release instructions, and then apply TCG_GUEST_DEFAULT_MO
+and see if I can find something that works reasonably.
 
+
+r~
 
