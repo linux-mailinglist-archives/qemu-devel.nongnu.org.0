@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DFB31DE2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 18:31:24 +0100 (CET)
-Received: from localhost ([::1]:45908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5A7031DE5D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 18:36:41 +0100 (CET)
+Received: from localhost ([::1]:54226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCQfc-0003zU-2Q
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 12:31:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45584)
+	id 1lCQki-00080K-Cn
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 12:36:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCQcu-0003Cq-0m
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 12:28:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCQcs-00074N-Ej
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 12:28:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613582913;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a5kiugJdZjN7IHaOTdWgbArRXXPjuUAm9Q77yfKF66I=;
- b=WqtbyP7cJaUb9+tPFhNRsu5X19L/RoZAInjZ6Bpzm+kKAMUdqlnb5c91fdxITHi+3bCZVU
- f4CrK2ysWjy/mcQxcJlIyBzUckL/xowhnfNdJHdygFgmmBm7HCXgjzJI49Mv4pM5rEzhLl
- nT2UT+4J6kE5aKYJpY0R7R9+qvk/npw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-wvdxsOusOvWSEufMPFZDag-1; Wed, 17 Feb 2021 12:28:28 -0500
-X-MC-Unique: wvdxsOusOvWSEufMPFZDag-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8E8AA801975;
- Wed, 17 Feb 2021 17:28:27 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C03AB6727A;
- Wed, 17 Feb 2021 17:28:22 +0000 (UTC)
-Subject: Re: [PATCH v4 08/24] python: Add pipenv support
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210211185856.3975616-1-jsnow@redhat.com>
- <20210211185856.3975616-9-jsnow@redhat.com>
- <YCyGnK3DQXkVnsx+@localhost.localdomain>
- <YCyHVvhDRp+qf4cJ@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <41b213f5-8102-63e3-86d2-68a42f60aa05@redhat.com>
-Date: Wed, 17 Feb 2021 12:28:22 -0500
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCQi7-0006Nv-Vh
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 12:34:00 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44459)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCQi6-0000NM-8O
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 12:33:59 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id g6so18225016wrs.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 09:33:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=X7Q2iyrGS6rJZKBKgylzu0YFXHPiTqV0v0vOiOr6SaM=;
+ b=IOBZNrKOJTF6rMEIJUYI2eQjyXTtbF4DuvSRUzbuIoMCTEkOds0oCZic6uR0n4aQ3T
+ rXvvZZTNUvWO8tPUip32tvh0R1Yo15ZZmAUEp7Town/x9ZkZrz3hLmd/aArAg5gWQd2r
+ DfSw/pf0KaXqhmBZimitwOwEh9zbgWnhKIS/AfwwjQwvjDheScUBJCRDEzAgJzTMmRkM
+ KSyYm06k2QffYthegjQbY9OUlzheExh01LQ0AtbsTsXJ++P4TlZhT/BuZHjhr1RCVyr1
+ 2KVBa6aC0ntnm67mEU6NgHR4W4vgJrptSlwQN4syUK48M3tkOHjq+VHSaI+FeIw4bMuh
+ jq/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X7Q2iyrGS6rJZKBKgylzu0YFXHPiTqV0v0vOiOr6SaM=;
+ b=OIyrYzSkgMIFz7DlLEu2wiN48qCxYq3r3HSrVgZbNz2vxh/HD8hJWdPLDvw5mx+agE
+ vLyRU+dFY/XrRog79XChyak6hUGf0guJYd+R5OX47X3jum8T0aDLOHnNY4t/scPdk+zG
+ os8R1RJHxMIc4xu+dY9BtMq+SAS78q17St56e0xxxzE3QyGfUQuCEAGAFLibU+5HkC8t
+ ZTXh5bg6WDZgXGkZ6ky6MCOCiSuviW+fmeOMvgIpjo+sLUG0jkQSWUcp478wfa0AjUR5
+ Gw42es2OQMTh6iJaNh/iFx9izOpR+VgA6G6thTHnM511sKbL73Mh37/qhunkJLa3qzvW
+ BPDA==
+X-Gm-Message-State: AOAM533rsx9FvXNTekxQftw/I52qH5Olnj6NsequyMFRx0ZjAr97cRpA
+ Fk0grKkGpTTgVltWkDjwQOU=
+X-Google-Smtp-Source: ABdhPJwXdoFLF5NXF0RCDmmqFTv4onoSIxTjAmG2gN3pm5uQgCYeipzIiwlaDUHnoo6u8R8ZtAlmIg==
+X-Received: by 2002:a05:6000:1816:: with SMTP id
+ m22mr267373wrh.91.1613583236175; 
+ Wed, 17 Feb 2021 09:33:56 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id x13sm3701321wmc.27.2021.02.17.09.33.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Feb 2021 09:33:55 -0800 (PST)
+Subject: Re: [PATCH v8 35/35] Add Dockerfile for hexagon
+To: Alessandro Di Federico <ale.qemu@rev.ng>
+References: <1612763186-18161-1-git-send-email-tsimpson@quicinc.com>
+ <1612763186-18161-36-git-send-email-tsimpson@quicinc.com>
+ <6a5411a3-3d48-d30e-df70-4c73328c5fed@amsat.org>
+ <20210217182334.0fb3b75e@orange>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <7ebc9316-2e55-e370-4efa-e58586790474@amsat.org>
+Date: Wed, 17 Feb 2021 18:33:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YCyHVvhDRp+qf4cJ@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
+In-Reply-To: <20210217182334.0fb3b75e@orange>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,93 +92,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, bcain@quicinc.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, laurent@vivier.eu,
+ Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 10:02 PM, Cleber Rosa wrote:
-> On Tue, Feb 16, 2021 at 09:59:47PM -0500, Cleber Rosa wrote:
->> On Thu, Feb 11, 2021 at 01:58:40PM -0500, John Snow wrote:
->>> pipenv is a tool used for managing virtual environments with pinned,
->>> explicit dependencies. It is used for precisely recreating python
->>> virtual environments.
->>>
->>> pipenv uses two files to do this:
->>>
->>> (1) Pipfile, which is similar in purpose and scope to what setup.py
->>> lists. It specifies the requisite minimum to get a functional
->>> environment for using this package.
->>>
->>> (2) Pipfile.lock, which is similar in purpose to `pip freeze >
->>> requirements.txt`. It specifies a canonical virtual environment used for
->>> deployment or testing. This ensures that all users have repeatable
->>> results.
->>>
->>> The primary benefit of using this tool is to ensure repeatable CI
->>> results with a known set of packages. Although I endeavor to support as
->>> many versions as I can, the fluid nature of the Python toolchain often
->>> means tailoring code for fairly specific versions.
->>>
->>> Note that pipenv is *not* required to install or use this module; this is
->>> purely for the sake of repeatable testing by CI or developers.
->>>
->>> Here, a "blank" pipfile is added with no dependencies, but specifies
->>> Python 3.6 for the virtual environment.
->>>
->>> Pipfile will specify our version minimums, while Pipfile.lock specifies
->>> an exact loudout of packages that were known to operate correctly. This
->>
->> Layout? Loadout?
->>
->>> latter file provides the real value for easy setup of container images
->>> and CI environments.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> ---
->>>   python/Pipfile | 11 +++++++++++
->>>   1 file changed, 11 insertions(+)
->>>   create mode 100644 python/Pipfile
->>>
->>
->> Other than that,
->>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+On 2/17/21 6:23 PM, Alessandro Di Federico via wrote:
+> On Sun, 14 Feb 2021 19:50:41 +0100
+> Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
 > 
-> Actually, just one suggestion: bump the position of this patch twice.
-> It makes it easier to understand its purpose if it is placed right
-> before the "python: add pylint to pipenv" patch.
+>> Hi Alessandro!
 > 
-> Cheers,
-> - Cleber.
+> Hi Philippe!
 > 
+>> I had to add this to build your image with QEMU build system:
+>>
+>> -- >8 --  
+>>
+>> diff --git a/tests/docker/Makefile.include
+>> b/tests/docker/Makefile.include index 93b29ad823e..ba73fb4b1f0 100644
+>> --- a/tests/docker/Makefile.include
+>> +++ b/tests/docker/Makefile.include
+>> @@ -146,6 +146,8 @@ docker-image-debian-riscv64-cross:
+>> docker-image-debian10 docker-image-debian-s390x-cross:
+>> docker-image-debian10 docker-image-debian-sh4-cross:
+>> docker-image-debian10 docker-image-debian-sparc64-cross:
+>> docker-image-debian10
+>> +docker-image-debian-hexagon-cross-build-local:
+>> \
+>> +
+>> EXTRA_FILES:=$(SRC_PATH)/tests/docker/dockerfiles/debian-hexagon-cross.build-toolchain.sh
+>>
+>>  docker-image-travis: NOUSER=1
+>>
+>> ---
+> 
+> OK, I'll drop `-local` (see below).
+> 
+>>> +++ b/tests/docker/dockerfiles/debian-hexagon-cross.docker
+>>> @@ -0,0 +1 @@
+>>> +FROM revng/qemu:debian-hexagon-cross  
+>>
+>> Once this patch gets merged, the image will be available on
+>> qemu/qemu:debian-hexagon-cross.
+>>
+>> I suppose for the final merge patch we want:
+>> - rm debian-hexagon-cross.docker
+>> - mv debian-hexagon-cross-build-local.docker
+>> debian-hexagon-cross.docker
+>>
+>> Is that correct?
+> 
+> The `revng/qemu:debian-hexagon-cross` image was there only to let
+> people quickly try out a toolchain without building it from source.
 
-The way the series is laid out is:
+OK, not obvious from the commit description ;)
 
-01-02: pre-requisite fixes
-03-07: Create the package, readmes, etc.
-08:    Pipenv support
-09-11: Pylint
-12-13: flake8
-14-15: mypy
-16-17: isort
-18-20: Testing and pre-requisites
-21-23: Polish
-24: CI support
+> If building from source is OK with you, that works for us.
+> In any case, people will be able to use
+> `qemu/qemu:debian-hexagon-cross`, right?
 
-Moving the pipenv patch to just before the final pylint patch works OK, 
-but breaks up the pylint section. Should I still do it?
+If you add a job to build it (see .gitlab-ci.d/containers.yml)
+it will then be pushed to the Gitlab QEMU namespace. So Yes.
 
---js
+When we need a Docker image to build things, we first try to pull
+from QEMU namespace, then build locally if not available
+(see tests/docker/Makefile.include).
 
+>> If so, can you amend that detail after the '---'
+>> separator of the commit description so we don't merge this patch
+>> as it?
+> 
+> I'm a bit confused, do you want me to send a patch corrected by hand
+> here?
+> I'll send a new patch tomorrow.
 
-(Hm, by this layout, I should probably actually move the pylint fix in 
-#01 down to appear after the pipenv patch. I could also move the flake8 
-fixes in #21 up to be near the other flake8 patches.)
+I basically meant, "If this is the case and you want to keep it as it,
+please describe this better, so this patch doesn't get merged".
 
+>> Also, can you add a job to build your image in
+>> .gitlab-ci.d/containers.yml?
+> 
+> OK, is there a quick way for me to test changes I make to that file?
+
+Open a Gitlab account, clone QEMU, push your change :)
+
+https://wiki.qemu.org/Testing/CI/GitLabCI
+
+Regards,
+
+Phil.
 
