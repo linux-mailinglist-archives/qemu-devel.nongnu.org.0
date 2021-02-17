@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5D1831D5A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 08:17:10 +0100 (CET)
-Received: from localhost ([::1]:52206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4431431D5A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 08:18:38 +0100 (CET)
+Received: from localhost ([::1]:54412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCH5B-0008Nf-O0
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 02:17:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38596)
+	id 1lCH6b-0000us-CQ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 02:18:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38856)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lCH4A-0007xs-4v
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:16:06 -0500
-Resent-Date: Wed, 17 Feb 2021 02:16:06 -0500
-Resent-Message-Id: <E1lCH4A-0007xs-4v@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lCH46-0005KT-Nl
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:16:05 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613546149; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=OruICSyIOHiaOC/sQyzG3i49iMPU4Nh6W20xavv0qgh4ZKTEQ5VH/UnH6rWN41O7/AK5h6gQEW57DDVtgs/75TbMreHDzMZAJbSzmUsFRY7FetNccZZWHGvwYNkAhqCYfz0Hwx56xN5IgIHLtN8Eo8rZKa4B45+RRSCo7mV2A20=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613546149;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=N2DiIHB67dYOcc0RX2/yDht/0EiKm8lB1cSf1fYbJHM=; 
- b=bBdxhzYiolBgAyAbd7sXQgLbkLeYTdapp69SMlvuBcOlVnfEpFkf+9vMksC5mkacHWTFtiVBtsvMRZ1hJqitz9hZSRx7HUZbJca2S/R8qY0lrCJOaSQ8hAFX1zDHXs9182hNAW0lGvGeXf8H56rq70Ck4sGLVAkKBP8baRqBcaU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613546145000838.6403099070708;
- Tue, 16 Feb 2021 23:15:45 -0800 (PST)
-In-Reply-To: <20210217070944.2371327-1-marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v2] qga: return a more explicit error on why a command is
- disabled
-Message-ID: <161354614357.372.9583027759713506788@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lCH5T-0000Th-Fm
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:17:27 -0500
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:45536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1lCH5R-0005tv-KP
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 02:17:27 -0500
+Received: by mail-oi1-x232.google.com with SMTP id q186so10048203oig.12
+ for <qemu-devel@nongnu.org>; Tue, 16 Feb 2021 23:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=7Y4DnNAHhN8iGRerQ0BWuSiVB5Pzcfpgj3p/KD9vV3s=;
+ b=BpISVe5sfRQ/BD2KmDftPaEkpSMwJawmsdyQGpuLdVQhLW48QrYaHn4nryyN0nTee3
+ wNk7U+oC3oaHqfmvP0HqqbKYsFQAYR3+bCgk81rwkQK7eBAXo6CNG/3BoIZSkpqnjGNT
+ +bLeu6SVxmQ0u6L+M+U7QnDxt/CZ+iiCgd1pb1WVVumkx2CR2hyodygGPK9KNFG+fNOE
+ rMimAs5oXDOPloDYrejJ76M2mnkNB2iczYqImwBDPDqgRL+anvoA6wBCt//4Ze6zrmaE
+ //6mG8UnnrqLFGKVx6pyghVuv/nJ8Mg++lRFPAPiOC0ItRQ2xbpf3/uT08RUT2Z8ozxA
+ 3QnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7Y4DnNAHhN8iGRerQ0BWuSiVB5Pzcfpgj3p/KD9vV3s=;
+ b=JjMm6h7jjDVSZELceSHrSl0KAaAuRbfxHtXTNexVHSw38GSqapd6yq8J82BYRyHXEr
+ J0LQRlS+40HMSxDg8Cfau8LGDrDSHfk4EE/kRs8UNI5vgbGIf27ceGDeNP7lUvt1Mbcc
+ pKVYo+7cGkuoQ8GVtrr9tP81t/nDu32aQl4m0PYY89eTIdxdbdmghyVA40LL7336AHZ4
+ VhPIGZTgSp1h2LlMF2qCS/vOSN+sQqPSH8+/zwMn2xx4poSKF76rmhKdW/Eiv+jtChbk
+ mk3qvar7sGZvUFNqJBez8ZAHbTvu0JGu7a/bfKeg82Vl8lUvDOQ9qWKjzJXb/2WV4URW
+ HnaQ==
+X-Gm-Message-State: AOAM530NPBlNgYSx9revXxZyexIiGF7NKQ03nKDfg4EkazoLNWnfTm8D
+ ngsCpYFsKZPfUPKzHBi+EffX5G3OH1aV7Vb9RI4=
+X-Google-Smtp-Source: ABdhPJxMvqiwNZ9UuEkkAmly6V+hsD8GGwFnUkTftjgLQUMavQ0xRdnoMseU5MLMERga6v6zeznWF/A0o3mXEtiFr68=
+X-Received: by 2002:aca:1e15:: with SMTP id m21mr4544661oic.62.1613546244286; 
+ Tue, 16 Feb 2021 23:17:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Tue, 16 Feb 2021 23:15:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <CABLmASF7YP3qfcuhAQsm8J28e8omZstBf7E5Eir=8MyqnvPLRQ@mail.gmail.com>
+ <20210209151221.dxiiydxgxsqu3gmu@sirius.home.kraxel.org>
+ <CABLmASEG3FiJ--7bQzZVJ1DtdFJSZ=a41yAf1QgEBf8BoGZk_w@mail.gmail.com>
+ <CABLmASGwcpbDe3Gaj5TV5zFmFEaDaeL1-M1AmvfehzD9U=_3iw@mail.gmail.com>
+ <20210216144831.cqefndfuvlju2yli@sirius.home.kraxel.org>
+ <CABLmASF_r4E85yLQgEYSZWraBO4Uo70o28f6YZQ3-w0+wPW1XA@mail.gmail.com>
+In-Reply-To: <CABLmASF_r4E85yLQgEYSZWraBO4Uo70o28f6YZQ3-w0+wPW1XA@mail.gmail.com>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Wed, 17 Feb 2021 08:17:12 +0100
+Message-ID: <CABLmASFR5TaDSCKvzhgSnE8aGPVJx5xtWrSGv7RKE7MHMhG5eA@mail.gmail.com>
+Subject: Re: USB pass through into Mac OS 9.x with qemu-system-ppc
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x232.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -68,47 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: michael.roth@amd.com, pkrempa@redhat.com, qemu-devel@nongnu.org,
- marcandre.lureau@redhat.com, armbru@redhat.com
+Cc: qemu-devel qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxNzA3MDk0NC4yMzcx
-MzI3LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMTcw
-NzA5NDQuMjM3MTMyNy0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFU
-Q0ggdjJdIHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBvbiB3aHkgYSBjb21tYW5k
-IGlzIGRpc2FibGVkCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCBy
-ZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2tw
-YXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRp
-bmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8v
-Z2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBwYXRj
-aGV3LzIwMjEwMjExMjI1MjQ2LjE3MzE1LTEtZGFuaWVsaGI0MTNAZ21haWwuY29tIC0+IHBhdGNo
-ZXcvMjAyMTAyMTEyMjUyNDYuMTczMTUtMS1kYW5pZWxoYjQxM0BnbWFpbC5jb20KIC0gW3RhZyB1
-cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIxNjE4MTMxNi43OTQyNzYtMS1hbHhuZHJAYnUuZWR1
-IC0+IHBhdGNoZXcvMjAyMTAyMTYxODEzMTYuNzk0Mjc2LTEtYWx4bmRyQGJ1LmVkdQogLSBbdGFn
-IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjE2MjI0NTQzLjE2MTQyLTEtcmViZWNjYUBudXZp
-YWluYy5jb20gLT4gcGF0Y2hldy8yMDIxMDIxNjIyNDU0My4xNjE0Mi0xLXJlYmVjY2FAbnV2aWFp
-bmMuY29tCiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAyMTcwNzA5NDQuMjM3MTMy
-Ny0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMjE3MDcwOTQ0
-LjIzNzEzMjctMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcg
-YnJhbmNoICd0ZXN0Jwo1NmViMGM5IHFnYTogcmV0dXJuIGEgbW9yZSBleHBsaWNpdCBlcnJvciBv
-biB3aHkgYSBjb21tYW5kIGlzIGRpc2FibGVkCgo9PT0gT1VUUFVUIEJFR0lOID09PQpFUlJPUjog
-b3BlbiBicmFjZSAneycgZm9sbG93aW5nIGVudW0gZ28gb24gdGhlIHNhbWUgbGluZQojMzI6IEZJ
-TEU6IGluY2x1ZGUvcWFwaS9xbXAvZGlzcGF0Y2guaDozMjoKK3R5cGVkZWYgZW51bSBRbXBEaXNh
-YmxlZAorewoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxMjEgbGluZXMgY2hlY2tlZAoK
-Q29tbWl0IDU2ZWIwYzkwY2YyOCAocWdhOiByZXR1cm4gYSBtb3JlIGV4cGxpY2l0IGVycm9yIG9u
-IHdoeSBhIGNvbW1hbmQgaXMgZGlzYWJsZWQpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJl
-dmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQg
-dGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCj09
-PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMjE3
-MDcwOTQ0LjIzNzEzMjctMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20vdGVzdGluZy5jaGVj
-a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
-eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
-Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On Tue, Feb 16, 2021 at 4:42 PM Howard Spoelstra <hsp.cat7@gmail.com> wrote:
+>
+> On Tue, Feb 16, 2021 at 3:48 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> >
+> >   Hi,
+> >
+> > > Please find another pcap file attached. This one stems from an attempt
+> > > to pass through a midi device when running qemu-system-ppc with Mac OS
+> > > 9.2 in macOS host.
+> >
+> > Ah, yes, I remember now.  Problem is that the usb stick is plugged into
+> > a high-speed port (usb2) on the host but passed as full-speed device
+> > (usb1) to the guest.  That works in some cases, but is not guaranteed
+> > to work.  usb_host_speed_compat() tries to catch some of the
+> > incompatible cases.  The usb-storage incompatibility slips through
+> > because the incompatibility is specific to the mass storage protocol.
+> > Specifically the wMaxPacketSize is 64 for usb1 and 512 for usb2.
+> >
+> > Seems fedora deals better with the situation ...
+> >
+> > take care,
+> >   Gerd
+> >
+>
+> Hi Gerd,
+>
+> Thanks for looking into this. It looks to me that the usb storage
+> device nicely reports endpoints 1 and 2 when asked, but that the host
+> only ever communicates with endpoint 1.
+> Is that the issue you refer to, or might that be libusb related?
+>
+> Can this also explain that other (non-mass-storage) devices cannot be
+> passed through successfully ?
+>
+> Best,
+> Howard
+
+Hi Gerd,
+
+Thanks for the explanation. I've been successful in passing through an
+USB 2.0 stick into Mac OS 9.x when connected to a real USB 1.1 hub in
+a old Apple keyboard. This at least gives some perspective to connect
+other devices as well.
+
+So we can consider this quest finished ;-)
+
+Best,
+Howard
 
