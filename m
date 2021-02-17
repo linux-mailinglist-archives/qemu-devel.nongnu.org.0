@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A398131E0E7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 21:58:40 +0100 (CET)
-Received: from localhost ([::1]:48282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C51AC31E0B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 21:46:10 +0100 (CET)
+Received: from localhost ([::1]:46110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCTuB-0001Tl-N6
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 15:58:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33018)
+	id 1lCTi5-0005cn-QV
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 15:46:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCTLf-0008GA-Sl
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:22:59 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:44505)
+ id 1lCTLm-0008Ui-54
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:23:06 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCTLe-0007NQ-4t
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:22:59 -0500
-Received: by mail-pl1-x635.google.com with SMTP id a24so8019964plm.11
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:22:57 -0800 (PST)
+ id 1lCTLk-0007PE-LL
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 15:23:05 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id k13so9142882pfh.13
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:23:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=e1N26oOEBH/mKZCKJR62A/M2uXOOm6+5WQ72+nFodnM=;
- b=J7Af9yOH18dARi2PcdpBtXXYHttHlEam0mx213NtewSO5V6NGeJYi/Hf9wimR8tJ+8
- vqwu9+ujj6Ii0/zJ8QGXOcs6xpnaO7C6/JtQ4EEQEWa84VCCn36rIZUbrcmleWMPTNa0
- WbKDx0DFD9ytVc93EPvd9H9jBQ9CqZCCj+zkTLBodwlcGh0f8g+MCmlCvHPmyIytC5t2
- PWUBVXU02fjr5WWuwk07YoJbBE7Kz1fjujx1grEQf5O95jNOKBijHAusIG2AHeWUJeRs
- DwztLRqo+9vCTGINpESlLtJmXkFQ6iyiBbYTaFrFz0cbRQYjn00KwRiRMtJOYt1akAl5
- HeYA==
+ bh=7AU7AuzkprD1DzoX758oP/Mpq/Dm/wXzaoKexxvkWBk=;
+ b=LS6rtZx+4ivLf4VFVAv5uhE44x1uSydEJwQUaVSYdDG+vhvKBpPHfTypHN3WzcMTnE
+ 2DgxBIfMp6oGGoerAXvVYzQ/uMz3E/heS/gvV55zXG1mk9vcA2L7I80AGhFkxmaxeKI+
+ hzOkJ1dlvR6PgAQ81N7inMCPqnokVPGaU4AMFGUodcokwr1R4lpNlBoVVwigxreFUhPC
+ PH7x3KV0C8vwsY5rctqPqZQuxF8F8HWQNPxqKL+QECF6eg8hNAy+QwhkqAp37ios5gb/
+ hKJaECYku3iXv+2zGbM5TX8GbD+98Fjlz3LiufEXzxFgdNbWEwoQH00pFLeTIEYQVr/V
+ +OqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=e1N26oOEBH/mKZCKJR62A/M2uXOOm6+5WQ72+nFodnM=;
- b=tP+vVrSOFf743Rq+hVO83vTZlQdJtot0Dz/cmDvZGdcX2EhZnL5tMuI4Oc0JF2zsfN
- 2D7WXscdTy0hdFGR2+qAknW4PU2es+JD8LM8FgDGQHjRHBrvz6z37Zq9wZKiifkckBNW
- ZdIdIlrWkAIEciwJX3B0PyMG37gJa4n8EWpVwGF7k4CeAx//M+ZGfsCxk+2sLJibnnwk
- wVQuSfo7GD2cfetQzrPG/TKmubx/D7SyUjHrWs42o9x1r1XYQBdfGuiuQoMyIxiKW/TG
- Wo3ccj4TQI+FpnJkL+wsg56WqngJYvJKxXPsLhVgaAUdFJecYfYgqglrJplogQfG4XIu
- EVTA==
-X-Gm-Message-State: AOAM5333ZGPjcprj61e586oB0V8sQ2Jj16mbAy6UN37T2jmZMQjeBsap
- Nu1lGw425j2zh181Y+kKVeIGQ+qQefgLJQ==
-X-Google-Smtp-Source: ABdhPJxBh1QANrGY1LRuXQnGPOIpv/rpNNUy4/jrnlygjCw0q6akZL7KGGqQueLtDPNc1/H/CsuviQ==
-X-Received: by 2002:a17:903:18c:b029:e1:f4f0:dc26 with SMTP id
- z12-20020a170903018cb02900e1f4f0dc26mr768272plg.22.1613593376863; 
- Wed, 17 Feb 2021 12:22:56 -0800 (PST)
+ bh=7AU7AuzkprD1DzoX758oP/Mpq/Dm/wXzaoKexxvkWBk=;
+ b=eEqVZ26vbvaRdFvLYkAb0SNhQhCUnhZ0mFABAz7ystN7dv2xOT9BjDq8zfeh3HtDvV
+ 65QKVYUX+15FVe0rPQZov5BY3JeRbv7g+lmFz6iFBmCpKUEaUNPvCCcYGzl+zKA6uIOh
+ v5W2yD8O00zsIBwhjRWTkJeEWR+Wx1H+pMmuosWlDqWcC7Wj0nepGKf578xucAUyXPez
+ RhW3yeiilGmIb33PhQpy13ULPHFyyO1Mt2XWj0zg+G4lko2CM57M4VWER8YmmB2LAIga
+ ZYT/OhbLH/C54Kye5g15EYLePqAK3vPMYjp50TMq4XOyCtfJ7h7Punh1hJW2J+pGpd5d
+ GT7A==
+X-Gm-Message-State: AOAM530Du5NO2cZaFfO2oIVTln7vD5rAlM0TsM6SEcur7Dc8mtG9JuSd
+ XX27MFA5+yMrQAxPHSILCspLCUpw6O+aGw==
+X-Google-Smtp-Source: ABdhPJxXEIdDpbjR37NIDnkJVMnpSlaGo0x59vkfgDg+XkXwrhRJ0/GT4iXvth0hBx+uttEaPoivfA==
+X-Received: by 2002:a62:cd48:0:b029:1ec:deac:28cd with SMTP id
+ o69-20020a62cd480000b02901ecdeac28cdmr911788pfg.75.1613593383416; 
+ Wed, 17 Feb 2021 12:23:03 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id 3sm3001576pjk.26.2021.02.17.12.22.55
+ by smtp.gmail.com with ESMTPSA id 3sm3001576pjk.26.2021.02.17.12.23.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 12:22:56 -0800 (PST)
+ Wed, 17 Feb 2021 12:23:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 31/71] tcg/tci: Clean up deposit operations
-Date: Wed, 17 Feb 2021 12:19:56 -0800
-Message-Id: <20210217202036.1724901-32-richard.henderson@linaro.org>
+Subject: [PATCH v4 35/71] tcg/tci: Remove tci_disas
+Date: Wed, 17 Feb 2021 12:20:00 -0800
+Message-Id: <20210217202036.1724901-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217202036.1724901-1-richard.henderson@linaro.org>
 References: <20210217202036.1724901-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FUZZY_BITCOIN=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -88,150 +88,49 @@ Cc: sw@weilnetz.de, alex.bennee@linaro.org, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the correct set of asserts during code generation.
-We do not require the first input to overlap the output;
-the existing interpreter already supported that.
-
-Split out tci_args_rrrbb in the translator.
-Use the deposit32/64 functions rather than inline expansion.
+This function is unused.  It's not even the disassembler,
+which is print_insn_tci, located in disas/tci.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tci/tcg-target-con-set.h |  1 -
- tcg/tci.c                    | 33 ++++++++++++++++-----------------
- tcg/tci/tcg-target.c.inc     | 24 ++++++++++++++----------
- 3 files changed, 30 insertions(+), 28 deletions(-)
+ tcg/tci/tcg-target.h     |  2 --
+ tcg/tci/tcg-target.c.inc | 10 ----------
+ 2 files changed, 12 deletions(-)
 
-diff --git a/tcg/tci/tcg-target-con-set.h b/tcg/tci/tcg-target-con-set.h
-index f51b7bcb13..316730f32c 100644
---- a/tcg/tci/tcg-target-con-set.h
-+++ b/tcg/tci/tcg-target-con-set.h
-@@ -13,7 +13,6 @@ C_O0_I2(r, r)
- C_O0_I3(r, r, r)
- C_O0_I4(r, r, r, r)
- C_O1_I1(r, r)
--C_O1_I2(r, 0, r)
- C_O1_I2(r, r, r)
- C_O1_I4(r, r, r, r, r)
- C_O2_I1(r, r, r)
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 10f58e4f25..3ce2b72316 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -168,6 +168,7 @@ static tcg_target_ulong tci_read_label(const uint8_t **tb_ptr)
-  *   tci_args_<arguments>
-  * where arguments is a sequence of
-  *
-+ *   b = immediate (bit position)
-  *   i = immediate (uint32_t)
-  *   I = immediate (tcg_target_ulong)
-  *   r = register
-@@ -236,6 +237,16 @@ static void tci_args_rrrc(const uint8_t **tb_ptr,
-     *c3 = tci_read_b(tb_ptr);
- }
+diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+index 9285c930a2..52af6d8bc5 100644
+--- a/tcg/tci/tcg-target.h
++++ b/tcg/tci/tcg-target.h
+@@ -163,8 +163,6 @@ typedef enum {
+ #define TCG_TARGET_CALL_STACK_OFFSET    0
+ #define TCG_TARGET_STACK_ALIGN          16
  
-+static void tci_args_rrrbb(const uint8_t **tb_ptr, TCGReg *r0, TCGReg *r1,
-+                           TCGReg *r2, uint8_t *i3, uint8_t *i4)
-+{
-+    *r0 = tci_read_r(tb_ptr);
-+    *r1 = tci_read_r(tb_ptr);
-+    *r2 = tci_read_r(tb_ptr);
-+    *i3 = tci_read_b(tb_ptr);
-+    *i4 = tci_read_b(tb_ptr);
-+}
-+
- #if TCG_TARGET_REG_BITS == 32
- static void tci_args_rrrr(const uint8_t **tb_ptr,
-                           TCGReg *r0, TCGReg *r1, TCGReg *r2, TCGReg *r3)
-@@ -432,11 +443,9 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-         TCGReg r0, r1, r2;
-         tcg_target_ulong t0;
-         tcg_target_ulong t1;
--        tcg_target_ulong t2;
-         TCGCond condition;
-         target_ulong taddr;
--        uint8_t tmp8;
--        uint16_t tmp16;
-+        uint8_t pos, len;
-         uint32_t tmp32;
-         uint64_t tmp64;
- #if TCG_TARGET_REG_BITS == 32
-@@ -627,13 +636,8 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- #endif
- #if TCG_TARGET_HAS_deposit_i32
-         case INDEX_op_deposit_i32:
--            t0 = *tb_ptr++;
--            t1 = tci_read_rval(regs, &tb_ptr);
--            t2 = tci_read_rval(regs, &tb_ptr);
--            tmp16 = *tb_ptr++;
--            tmp8 = *tb_ptr++;
--            tmp32 = (((1 << tmp8) - 1) << tmp16);
--            tci_write_reg(regs, t0, (t1 & ~tmp32) | ((t2 << tmp16) & tmp32));
-+            tci_args_rrrbb(&tb_ptr, &r0, &r1, &r2, &pos, &len);
-+            regs[r0] = deposit32(regs[r1], pos, len, regs[r2]);
-             break;
- #endif
-         case INDEX_op_brcond_i32:
-@@ -789,13 +793,8 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
- #endif
- #if TCG_TARGET_HAS_deposit_i64
-         case INDEX_op_deposit_i64:
--            t0 = *tb_ptr++;
--            t1 = tci_read_rval(regs, &tb_ptr);
--            t2 = tci_read_rval(regs, &tb_ptr);
--            tmp16 = *tb_ptr++;
--            tmp8 = *tb_ptr++;
--            tmp64 = (((1ULL << tmp8) - 1) << tmp16);
--            tci_write_reg(regs, t0, (t1 & ~tmp64) | ((t2 << tmp16) & tmp64));
-+            tci_args_rrrbb(&tb_ptr, &r0, &r1, &r2, &pos, &len);
-+            regs[r0] = deposit64(regs[r1], pos, len, regs[r2]);
-             break;
- #endif
-         case INDEX_op_brcond_i64:
+-void tci_disas(uint8_t opc);
+-
+ #define HAVE_TCG_QEMU_TB_EXEC
+ 
+ /* We could notice __i386__ or __s390x__ and reduce the barriers depending
 diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-index 2c64b4f617..640407b4a8 100644
+index 6c187a25cc..7fb3b04eaf 100644
 --- a/tcg/tci/tcg-target.c.inc
 +++ b/tcg/tci/tcg-target.c.inc
-@@ -126,11 +126,9 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_rotr_i64:
-     case INDEX_op_setcond_i32:
-     case INDEX_op_setcond_i64:
--        return C_O1_I2(r, r, r);
+@@ -253,16 +253,6 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+     return true;
+ }
+ 
+-#if defined(CONFIG_DEBUG_TCG_INTERPRETER)
+-/* Show current bytecode. Used by tcg interpreter. */
+-void tci_disas(uint8_t opc)
+-{
+-    const TCGOpDef *def = &tcg_op_defs[opc];
+-    fprintf(stderr, "TCG %s %u, %u, %u\n",
+-            def->name, def->nb_oargs, def->nb_iargs, def->nb_cargs);
+-}
+-#endif
 -
-     case INDEX_op_deposit_i32:
-     case INDEX_op_deposit_i64:
--        return C_O1_I2(r, 0, r);
-+        return C_O1_I2(r, r, r);
- 
-     case INDEX_op_brcond_i32:
-     case INDEX_op_brcond_i64:
-@@ -480,13 +478,19 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
-         break;
- 
-     CASE_32_64(deposit)  /* Optional (TCG_TARGET_HAS_deposit_*). */
--        tcg_out_r(s, args[0]);
--        tcg_out_r(s, args[1]);
--        tcg_out_r(s, args[2]);
--        tcg_debug_assert(args[3] <= UINT8_MAX);
--        tcg_out8(s, args[3]);
--        tcg_debug_assert(args[4] <= UINT8_MAX);
--        tcg_out8(s, args[4]);
-+        {
-+            TCGArg pos = args[3], len = args[4];
-+            TCGArg max = opc == INDEX_op_deposit_i32 ? 32 : 64;
-+
-+            tcg_debug_assert(pos < max);
-+            tcg_debug_assert(pos + len <= max);
-+
-+            tcg_out_r(s, args[0]);
-+            tcg_out_r(s, args[1]);
-+            tcg_out_r(s, args[2]);
-+            tcg_out8(s, pos);
-+            tcg_out8(s, len);
-+        }
-         break;
- 
-     CASE_32_64(brcond)
+ /* Write value (native size). */
+ static void tcg_out_i(TCGContext *s, tcg_target_ulong v)
+ {
 -- 
 2.25.1
 
