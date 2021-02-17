@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2D31D791
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:33:29 +0100 (CET)
-Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73CFD31D792
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:34:34 +0100 (CET)
+Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCK9A-0000FD-BA
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:33:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
+	id 1lCKAD-0001Av-I6
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:34:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lCK7R-0008EI-Ny
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:31:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21450)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lCK9K-0000g8-8k
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:33:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lCK7P-00016B-Hg
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:31:41 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lCK9G-0001WQ-W5
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:33:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613557895;
+ s=mimecast20190719; t=1613558014;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cpVfqtK4XfZyulMskbxlfSyHn9Cdym3iuCo9H83Xr/M=;
- b=bgoLxlPST5vD/PZjjNdzta2IIoa77qzVLhW0L+3cxvuU06o74IsgPW5zdgo8FdlnbU18Kx
- BXTxM/3l2g3Qy8GryOZw2bfbV/1TkQ5ic83FcBS0kH3F2P+Twh6gyE/qU8jkkZQjLzPEEj
- I56ytx0sfaf8IlbyG+F1Fv92Gxs+Wj4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-1jyNSfpMNkeWkLjEJhoFFQ-1; Wed, 17 Feb 2021 05:31:31 -0500
-X-MC-Unique: 1jyNSfpMNkeWkLjEJhoFFQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D594CE642;
- Wed, 17 Feb 2021 10:31:30 +0000 (UTC)
-Received: from [10.36.114.178] (ovpn-114-178.ams2.redhat.com [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB0321002382;
- Wed, 17 Feb 2021 10:31:21 +0000 (UTC)
-To: Peter Xu <peterx@redhat.com>, Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-References: <20210211210549.GE157159@xz-x1>
- <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
- <20210212030621.GF157159@xz-x1>
- <79c3ebb9-82ba-4714-0cf1-9f2e08eff660@redhat.com>
- <20210212161125.GH157159@xz-x1>
- <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
- <20210216233545.GD91264@xz-x1>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <12b9487c-103c-e938-2543-2d6418517e9e@redhat.com>
-Date: Wed, 17 Feb 2021 11:31:20 +0100
+ bh=aHNn+Q7EqOd1a6SfUCtlakHzYK8ffFZRGM1W2WYZs84=;
+ b=P0jSYq7bsCh/9+XZW72zM5m4C9LVNL90mkTTztzg+kvMwiK/qvWpOzE6kjzCxEoQPKmzFK
+ pzInZE8qLEAho6uOWn3tnQyyG3nyoFPVvrO2QViGf3eOV0RpA1q6i0s5mTR1yNG+pMeGNo
+ 3hl3zT2FEVTnbpulfazI4X5JlMW8eFM=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-69-bpRTjxSEOhmag_bhL0WdIQ-1; Wed, 17 Feb 2021 05:33:32 -0500
+X-MC-Unique: bpRTjxSEOhmag_bhL0WdIQ-1
+Received: by mail-wr1-f70.google.com with SMTP id p18so14365236wrt.5
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 02:33:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aHNn+Q7EqOd1a6SfUCtlakHzYK8ffFZRGM1W2WYZs84=;
+ b=pP+XMEUkRXOUOvggzxEw4HlVGdUpkZH+ZcRtbIftCr7Ggh2le0aX/CyIQjMKEzq7Sl
+ Lwy1nFzXqbRrbqwNCu+eHYFtlniDD7wXJTQmUNukdf2nkgxQGHLotgQ0pnv5OH/BtX/y
+ RKK1aBQoH7zr7oMT9vCmr4UvhOYl6te+faTnyOsAY5ReDTIlKgz4+POaxNSeUPZ9AQn2
+ /KMlV3bVhfr08pKp5hem2t5Fv4stFh7o27u7HOoX081NSq7fADBdTuGPE+zIHHiy6crT
+ J0jRMtl32QPiO1B8wGgmvpdBh/WOjO6A/VhIoFXTq6TWuro7B8DOP+lkvHAh5RuqjZc2
+ b8uQ==
+X-Gm-Message-State: AOAM5329WY+5a3Z/omGwENcPoYpbcvGHYuXPPMDqF1SZjaUOJAbWeOyB
+ IMAODco49nXI5wyLYXZ19XsPTdsb6Wa28pHYrjIFfRIU8mxGWwMi+nY/xKGYDfVQRSWIXO0te5D
+ PtcjzLrMU6jTC5Vo=
+X-Received: by 2002:a05:600c:2351:: with SMTP id
+ 17mr6618968wmq.2.1613558011234; 
+ Wed, 17 Feb 2021 02:33:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxAP3HBtHah73P7dEzhxBrNM7i+rXQVmiN005Az4UQlG0s+ULnO1dINNrQaZG65eHFxJEPCug==
+X-Received: by 2002:a05:600c:2351:: with SMTP id
+ 17mr6618944wmq.2.1613558011005; 
+ Wed, 17 Feb 2021 02:33:31 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id n66sm2379462wmn.25.2021.02.17.02.33.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 17 Feb 2021 02:33:30 -0800 (PST)
+Subject: Re: [PATCH] travis.yml: Limit simultaneous jobs to 3
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210217102531.1441557-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <52bc71f4-cf53-0044-9c8e-ef958bdd4841@redhat.com>
+Date: Wed, 17 Feb 2021 11:33:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210216233545.GD91264@xz-x1>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210217102531.1441557-1-thuth@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -87,89 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17.02.21 00:35, Peter Xu wrote:
-> Hi, Andrey,
+On 2/17/21 11:25 AM, Thomas Huth wrote:
+> Even though the host machines that run the Travis CI jobs have
+> quite a lot of CPUs (e.g. nproc in an aarch64 job reports 32), the
+> containers on Travis are still limited to 2 vCPUs according to:
 > 
-> On Sat, Feb 13, 2021 at 12:34:07PM +0300, Andrey Gruzdev wrote:
->> On 12.02.2021 19:11, Peter Xu wrote:
->>> On Fri, Feb 12, 2021 at 09:52:52AM +0100, David Hildenbrand wrote:
->>>> On 12.02.21 04:06, Peter Xu wrote:
->>>>> On Thu, Feb 11, 2021 at 10:09:58PM +0100, David Hildenbrand wrote:
->>>>>> The issue is when the discard happened before starting the snapshot. Write-protection won‘t work and the zeroed content won‘t be retained in the snapshot.
->>>>> I see what you mean now, and iiuc it will only be a problem if init_on_free=1.
->>>>> I think CONFIG_INIT_ON_FREE_DEFAULT_ON should be off for most distros, so the
->>>> Yes, some distros seem to enable init_on_alloc instead. Looking at the
->>>> introducing commit 6471384af2a6 ("mm: security: introduce init_on_alloc=1
->>>> and init_on_free=1 boot options") there are security use cases and it might
->>>> become important with memory tagging.
->>>>
->>>> Note that in Linux, there was also the option to poison pages with 0,
->>>> removed via f289041ed4cf ("mm, page_poison: remove
->>>> CONFIG_PAGE_POISONING_ZERO"), available in some kernels that supported free
->>>> page reporting.
->>>>
->>>> It got removed and use cases got told to use init_on_free.
->>
->> I think we talk about init_on_free()/init_on_alloc() on guest side, right?
+>  https://docs.travis-ci.com/user/reference/overview/#approx-boot-time
 > 
-> Right.  IIUC it's the init_on_free() that matters.
+> So we do not gain much when compiling with a job number based on
+> the output of "getconf _NPROCESSORS_ONLN" - quite the contrary, the
+> aarch64 containers are currently aborting quite often since they
+> are running out of memory. Thus let's rather use a fixed number
+> like 3 in the jobs here, so that e.g. two threads can actively run
+> while a third one might be waiting for I/O operations to complete.
+> This should hopefully fix the out-of-memory failures in the aarch64
+> CI jobs.
 > 
-> We'll have no issue if init_on_alloc=1 && init_on_free=0, since in that case
-> all pages will be zeroed after all before the new page returned to the caller
-> to allocate the page. Then we're safe, I think.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  See also this URL for the explanation of the 32 vs 2 CPUs on aarch64:
+>  https://travis-ci.community/t/nproc-reports-32-cores-on-arm64/5851
 > 
->> Still can't get how it relates to host's unpopulated pages..
->> Try to look from hardware side. Untouched SDRAM in hardware is required to contain zeroes somehow? No.
->> These 'trash' pages in migration stream are like never written physical memory pages, they are really
->> not needed in snapshot but they don't do any harm as well as there's no harm in that never-written physical
->> page is full of garbage.
->>
->> Do these 'trash' pages in snapshot contain sensitive information not allowed to be accessed by the same VM?
->> I think no. Or we need a good example how it can be potentially exploited.
->>
->> The only issue that I see is madvise(MADV_DONTNEED) for RAM blocks during snapshotting. And free page reporting
->> or memory balloon is secondary - the point is that UFFD_WP snapshot is incompatible with madvise(MADV_DONTNEED) on
->> hypervisor side. No matter which guest functionality can induce it.
+>  .travis.yml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I think the problem is if with init_on_free=1, the kernel will assume that
-> all the pages that got freed has been zeroed before-hand so it thinks that it's
-> a waste of time to zero it again when the page is reused/reallocated.  As a
-> reference see kernel prep_new_page() where there's:
-> 
-> 	if (!free_pages_prezeroed() && want_init_on_alloc(gfp_flags))
-> 		kernel_init_free_pages(page, 1 << order);
-> 
-> In this case I believe free_pages_prezeroed() will return true, then we don't
-> even need to check want_init_on_alloc() at all. Note that it'll cover all the
-> cases where kernel allocates with __GFP_ZERO: it means it could happen that
-> even the guest kernel tries to alloc_page(__GFP_ZERO) it may got a page with
-> random data after the live snapshot is loaded.  So it's not about any hardware,
-> it's the optimization of guest kernel instead.  It is actually reasonable and
-> efficient since if we *know* that page is zero page then we shouldn't bother
-> zeroing it again.  However it brought us a bit of trouble on live snapshot that
-> the current solution might not work for all guest OS configurations.
+> diff --git a/.travis.yml b/.travis.yml
+> index fc27fd6330..cc39a447e8 100644
+> --- a/.travis.yml
+> +++ b/.travis.yml
+> @@ -88,7 +88,7 @@ git:
+>  # Common first phase for all steps
+>  before_install:
+>    - if command -v ccache ; then ccache --zero-stats ; fi
+> -  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
+> +  - export JOBS=3
 
-Adding to that, we are so far talking about how Linux *currently* 
-implements it, but that is just an instance of the problem where it 
-could happen in practice.
+Maybe worth a comment around?
 
-Free page reporting documents in the spec that with the right 
-configuration, previously reported free pages are guaranteed to retain a 
-certain value (e.g., 0) when re-accessed. So any future guest changes 
-that rely on the virtio spec (e.g., Windows support) would be 
-problematic - as these pages in the snapshot don't actually keep the value.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
--- 
-Thanks,
-
-David / dhildenb
+>    - echo "=== Using ${JOBS} simultaneous jobs ==="
+>  
+>  # Configure step - may be overridden
+> 
 
 
