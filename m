@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8926231E18A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 22:38:34 +0100 (CET)
-Received: from localhost ([::1]:46430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88A9931E18D
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 22:41:44 +0100 (CET)
+Received: from localhost ([::1]:54532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCUWn-0007iH-9S
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 16:38:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44972)
+	id 1lCUZr-0002pI-CZ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 16:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCU69-0007oZ-Mj
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 16:11:05 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42165)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCU68-0003OD-29
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 16:11:01 -0500
-Received: by mail-pf1-x429.google.com with SMTP id w18so9237656pfu.9
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 13:10:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UJh9+zsFqIfXm8HfpSKSK4P+6q/PwEQrbIp5RulXhao=;
- b=mnytdOEdaU36WAv/8ysQX/M/Aa7CDjv3f9oqUz41fgBZ6gu9rd+icEx4lQqr61ENMl
- yRLjy3ofQp3WLvJxfraV/m3lb+LJbtWA71HeNYXl7EA1g0m4q4Hy+FwQYEcAjFxRFu6l
- cy5XHMqFNWr9MK3Xhb3KqxP/3L+IhiZHFzE+vmCVGPTrk0pUhqqk9qWlxGCjZPiw2xgx
- 7/gid2C6yKj8ZODicL9bC8S6TCgT5/+hDBaRaAo5YqOUXtzTEVcBeFp8UoUaF0OYC2/K
- q0GWICIKonUOAi5NuVK30spoQ6ESFTD3mrdQv6DsqP2WZZyniHH3LsLsGmQBoBuIg+Op
- 4mOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UJh9+zsFqIfXm8HfpSKSK4P+6q/PwEQrbIp5RulXhao=;
- b=tY/f5fc2J5VOxoCHSlWO5LKN+yJcLx+qgPL4tx/gWA19vEfViYxXp18isJHYDAwe9n
- bPAGQcryD5TUuEn/447xbLKUevUMeNGsPsVj6ZevF6N7t3ZtnTc5ztnRz4fcXn9B6meR
- i0saFgsyCEX270i4htJBWZ1shdHzQJhaK0/MVs33CqoWmIvIHwak7nVEwULdGEiDJzXV
- aflWD/JHMIrurADW0E9153PnzPrKRIku9tI1ZesOzMfPZFCBw91dv92yDccfLtLo3kRb
- 2miNgta0GAatLc7uqlPD0XR7fWXdeTcsFs3DyDGQga6NKJgcCoAGaSxWz2W6fJ+/cGYI
- 58vA==
-X-Gm-Message-State: AOAM530JAjLciJtSPX/trUSkHAOzGpCRJRZfQ03tmKEphPIFH2cuPlj+
- ntuUgaTANBgfmraCMf8CkGOcjg==
-X-Google-Smtp-Source: ABdhPJyJtG19GpofsWCAe9xmC/78LKfAgfkREYJVcp29oD1PAmUFRkWRvYMsPU8dKWFSSGsyxJpTMw==
-X-Received: by 2002:a62:16cb:0:b029:1da:358c:4338 with SMTP id
- 194-20020a6216cb0000b02901da358c4338mr1104901pfw.36.1613596258679; 
- Wed, 17 Feb 2021 13:10:58 -0800 (PST)
-Received: from [192.168.3.43] (047-051-160-125.biz.spectrum.com.
- [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c22sm3269249pfc.12.2021.02.17.13.10.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Feb 2021 13:10:57 -0800 (PST)
-Subject: Re: [PATCH v7 30/35] Hexagon (linux-user/hexagon) Linux user emulation
-To: Laurent Vivier <laurent@vivier.eu>, Taylor Simpson
- <tsimpson@quicinc.com>, qemu-devel@nongnu.org
-References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
- <1611113349-24906-31-git-send-email-tsimpson@quicinc.com>
- <92ec87f8-55d6-5b5f-7a7f-e8643e49c54f@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2456d0e7-25e1-2459-1c53-7c02c5d85f1a@linaro.org>
-Date: Wed, 17 Feb 2021 13:10:53 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lCUFw-0004kM-N0
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 16:21:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57281)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lCUFu-0006Fa-Bl
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 16:21:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613596865;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PAZ7oQ/lHrDEMIQI/FD+1QZ6Ra1FLzG87Z/KafMwBuA=;
+ b=OOtBr2g5t+OskjIDdOwuLb+Dt6Wg9MnbiNjAWDD8tvRQFGKXa6VQwHcstGwHIsoZ0DCGcG
+ CfkVhNWRAZn/p1IsB0JWxR+KaT1DoC1bGMYwEIXNlVCz/YX00uHpRbcszKNhbfEonwguQ0
+ wWwnL14RmJZ8cdjPC4fSo1zbQroEwvs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-qysyVKq8PXO1MHaRbnMYgQ-1; Wed, 17 Feb 2021 16:21:01 -0500
+X-MC-Unique: qysyVKq8PXO1MHaRbnMYgQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11A45107ACE3
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 21:21:00 +0000 (UTC)
+Received: from localhost (ovpn-115-102.ams2.redhat.com [10.36.115.102])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ABE7B60C5F;
+ Wed, 17 Feb 2021 21:20:59 +0000 (UTC)
+Date: Wed, 17 Feb 2021 21:20:58 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [qemu-web PATCH] Add Outreachy and GSoC announcement
+Message-ID: <20210217212058.GA289197@stefanha-x1.localdomain>
+References: <20210217100748.269005-1-stefanha@redhat.com>
+ <10d1e37a-035b-01cc-cf34-08b0bce1e06b@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <92ec87f8-55d6-5b5f-7a7f-e8643e49c54f@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <10d1e37a-035b-01cc-cf34-08b0bce1e06b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="mP3DRpeJDSE+ciuQ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,19 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ale@rev.ng, alex.bennee@linaro.org, philmd@redhat.com, bcain@quicinc.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/21 12:15 PM, Laurent Vivier wrote:
->> +#include "../i386/termbits.h"
-> 
-> should be #include "../generic/termbits.h"
-> 
-> Acked-by: Laurent Vivier <laurent@vivier.eu>
+--mP3DRpeJDSE+ciuQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Fixed against the v8 patch set.  Thanks,
+On Wed, Feb 17, 2021 at 12:03:16PM +0100, Thomas Huth wrote:
+> On 17/02/2021 11.07, Stefan Hajnoczi wrote:
+> > QEMU is participating in Outreachy May-August and is applying for GSoC
+> > 2021. It's time to publish information on these internship programs and
+> > how to apply.
+>=20
+> Thanks, it's online now:
+>=20
+>  https://www.qemu.org/2021/02/17/gsoc-and-outreachy-2021/
 
+Nice, thank you!
 
-r~
+Stefan
+
+--mP3DRpeJDSE+ciuQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAtiLoACgkQnKSrs4Gr
+c8iB9wf/V6gS8AXiTlhBZT6wQ82kjpDiXCF+98vEvRWVqDG8MV6OWkASJpWk9FeJ
+6uAy9S3JZmMJSDGp0UzUmCRcrywB2Px39SRm3Cgp+8MytWnqr1vi7tmMUAd4EXxa
+l1itXARf5IRHVM9Uh36mODmiTm/I983pweBEfVbXPG7mjsWaWMk7G5VLN836otFc
+zs+WF1IOAzQf9GYI2bycL8FAwoYvotEx6tFwD/SXCOOygsL7y1KF3AQ/tfCKQNhL
+ttLPBxO9lFZdNcrOJUf/vNKZJR2izBRkInsUhoKM4q63V85VPGU31ei76mpPXTT7
++9JZhiHeFdiXbucJHbF+OZY7KblXeg==
+=UHcY
+-----END PGP SIGNATURE-----
+
+--mP3DRpeJDSE+ciuQ--
+
 
