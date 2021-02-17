@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0860D31DFA5
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 20:30:27 +0100 (CET)
-Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7FFA31DFBE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 20:41:58 +0100 (CET)
+Received: from localhost ([::1]:43500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCSWm-0005FS-Qb
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 14:30:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47644)
+	id 1lCShx-0004kp-GC
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 14:41:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCSUR-0003jB-Pd
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 14:28:00 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:34785)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCSUP-0000EH-3o
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 14:27:59 -0500
-Received: by mail-pg1-x532.google.com with SMTP id o7so9132324pgl.1
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 11:27:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vjNFtEC9IJoaQpaUejWUpYZb9jDCMsNfP1e62qn6I3Q=;
- b=G+S0g79T5aAnQs9i+jTbTj+PrIVSHjxbTbH2fRauSCCHGEC6PNTqj+Ygo6vsqgTi9K
- Mw8sDzF6pJytGfSKkFPLC0o3BiHzvx/JOVxiR0PiuGtRi7N8VykMxGoTWwBlljfHFKl+
- 3I3sPIi67HuOMGF9Ha+CfmHnHmnw+Zw6BB7wwZNnchbGnq646uusXn671vd/2SRdA5qe
- HAaBmd8+a3vrRyTlMsi43v280fC5EIPYKMsg0NP0JGnVht4uiEMA5XmHgbk7581vd58c
- rigyOHP/Rq4V+v5JJ7muhJuwy2A5MJDsUlbi7g6kALIT9nVcYOXqwkGXX+hWtx6ex1Kh
- Dq5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vjNFtEC9IJoaQpaUejWUpYZb9jDCMsNfP1e62qn6I3Q=;
- b=CfExTyyLm7/fRT2Xt9q/47b/1yjjwmjGp9LMWZu/9dadfcfJ8a5jkqNWnmhKIejZS6
- qQJer3iC0ApH6P/5Sml4WH32XM1QfmOJ6DlrSyqOxJUSbaP54g1PiYm6Pnz/Jp3GzSab
- x6rLC1LTVtgfFnSkVUA+l3kALjrboDvG2OyswNRSHj3yn+GySVU5dVwLB+T95DdwVsL3
- 9n54Kh2naUTlK+FFQymNMxvTUetBRGcjDamjT6P3DjKKVcnzb/x0ZeTqVa7bVQyE9ZGH
- yS8Odlpm2mHqdG1VK6hPUUZtO8hOpXHwmZUqPxHlhh4tAkgq8V5KgQMHMTsiSboXRz5J
- cOsQ==
-X-Gm-Message-State: AOAM531pDGQ7IzfjNc663giBeRr+qVMMzvUKL3RTnrdDU9B4mhb1BIdL
- ZklILFt/BfvOr1X6bzhCItEKNA==
-X-Google-Smtp-Source: ABdhPJy0SpwWpShHeQ2xR8qfwd1awuZTuQIwBj3ekV1PZ6iTUhpnDIWFijAlCWnS/0L41sBZoAiFAg==
-X-Received: by 2002:a63:4444:: with SMTP id t4mr761338pgk.329.1613590075581;
- Wed, 17 Feb 2021 11:27:55 -0800 (PST)
-Received: from [192.168.3.43] (047-051-160-125.biz.spectrum.com.
- [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id b10sm1615191pgm.76.2021.02.17.11.27.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 17 Feb 2021 11:27:54 -0800 (PST)
-Subject: Re: [PATCH] target/mips: Remove XBurst Media eXtension Unit dead code
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210217185848.1421360-1-f4bug@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <c9d92acc-af2b-ff72-7337-30f05c1a95c8@linaro.org>
-Date: Wed, 17 Feb 2021 11:27:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCSg6-00045N-GG
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 14:40:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37139)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCSg3-0003kn-RN
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 14:40:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613590797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1//YgritQNSxJUbvvbOBl9rwrHKyCX16iiRQeE3sl68=;
+ b=EG0swheUzuxKnZ5a66kw6wmViknvUY21AdXMnx7cfeoD1YbWapGf6YIC5tDnP1Qe0ZDPrs
+ VIP18XrLnZJ2qSUnfjIYAf+VRfuu57H4KCVvq0PiUevZs5PZN+F3FhI55dVzVDmwJUX3jX
+ CaTHfaWnXXuX2/X04O4tkx4OLfE2YiY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-256-sLVpy9s3NneaM9igwQJadQ-1; Wed, 17 Feb 2021 14:39:55 -0500
+X-MC-Unique: sLVpy9s3NneaM9igwQJadQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BF10BBEE2;
+ Wed, 17 Feb 2021 19:39:54 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-114-28.rdu2.redhat.com
+ [10.10.114.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 16ADA5D9C2;
+ Wed, 17 Feb 2021 19:39:46 +0000 (UTC)
+Date: Wed, 17 Feb 2021 14:39:44 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 08/24] python: Add pipenv support
+Message-ID: <20210217193944.GA349288@localhost.localdomain>
+References: <20210211185856.3975616-1-jsnow@redhat.com>
+ <20210211185856.3975616-9-jsnow@redhat.com>
+ <YCyGnK3DQXkVnsx+@localhost.localdomain>
+ <YCyHVvhDRp+qf4cJ@localhost.localdomain>
+ <41b213f5-8102-63e3-86d2-68a42f60aa05@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210217185848.1421360-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <41b213f5-8102-63e3-86d2-68a42f60aa05@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="OgqxwSJOaUobr8KG"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +81,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/21 10:58 AM, Philippe Mathieu-Daudé wrote:
-> All these unimplemented MXU opcodes end up calling
-> gen_reserved_instruction() which is the default switch
-> case in decode_opc_mxu().
-> 
-> The translate.c file is already big enough and hard to maintain,
-> remove 1k+ lines of unnecessary code and /* TODO */ comments.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Maybe better to review using 'git-diff --function-context'
-> ---
->  target/mips/translate.c | 1055 ---------------------------------------
->  1 file changed, 1055 deletions(-)
+--OgqxwSJOaUobr8KG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On Wed, Feb 17, 2021 at 12:28:22PM -0500, John Snow wrote:
+> On 2/16/21 10:02 PM, Cleber Rosa wrote:
+> > On Tue, Feb 16, 2021 at 09:59:47PM -0500, Cleber Rosa wrote:
+> > > On Thu, Feb 11, 2021 at 01:58:40PM -0500, John Snow wrote:
+> > > > pipenv is a tool used for managing virtual environments with pinned=
+,
+> > > > explicit dependencies. It is used for precisely recreating python
+> > > > virtual environments.
+> > > >=20
+> > > > pipenv uses two files to do this:
+> > > >=20
+> > > > (1) Pipfile, which is similar in purpose and scope to what setup.py
+> > > > lists. It specifies the requisite minimum to get a functional
+> > > > environment for using this package.
+> > > >=20
+> > > > (2) Pipfile.lock, which is similar in purpose to `pip freeze >
+> > > > requirements.txt`. It specifies a canonical virtual environment use=
+d for
+> > > > deployment or testing. This ensures that all users have repeatable
+> > > > results.
+> > > >=20
+> > > > The primary benefit of using this tool is to ensure repeatable CI
+> > > > results with a known set of packages. Although I endeavor to suppor=
+t as
+> > > > many versions as I can, the fluid nature of the Python toolchain of=
+ten
+> > > > means tailoring code for fairly specific versions.
+> > > >=20
+> > > > Note that pipenv is *not* required to install or use this module; t=
+his is
+> > > > purely for the sake of repeatable testing by CI or developers.
+> > > >=20
+> > > > Here, a "blank" pipfile is added with no dependencies, but specifie=
+s
+> > > > Python 3.6 for the virtual environment.
+> > > >=20
+> > > > Pipfile will specify our version minimums, while Pipfile.lock speci=
+fies
+> > > > an exact loudout of packages that were known to operate correctly. =
+This
+> > >=20
+> > > Layout? Loadout?
+> > >=20
+> > > > latter file provides the real value for easy setup of container ima=
+ges
+> > > > and CI environments.
+> > > >=20
+> > > > Signed-off-by: John Snow <jsnow@redhat.com>
+> > > > ---
+> > > >   python/Pipfile | 11 +++++++++++
+> > > >   1 file changed, 11 insertions(+)
+> > > >   create mode 100644 python/Pipfile
+> > > >=20
+> > >=20
+> > > Other than that,
+> > >=20
+> > > Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> >=20
+> > Actually, just one suggestion: bump the position of this patch twice.
+> > It makes it easier to understand its purpose if it is placed right
+> > before the "python: add pylint to pipenv" patch.
+> >=20
+> > Cheers,
+> > - Cleber.
+> >=20
+>=20
+> The way the series is laid out is:
+>=20
+> 01-02: pre-requisite fixes
+> 03-07: Create the package, readmes, etc.
+> 08:    Pipenv support
+> 09-11: Pylint
+> 12-13: flake8
+> 14-15: mypy
+> 16-17: isort
+> 18-20: Testing and pre-requisites
+> 21-23: Polish
+> 24: CI support
+>=20
+> Moving the pipenv patch to just before the final pylint patch works OK, b=
+ut
+> breaks up the pylint section. Should I still do it?
+>
 
-r~
+OK, now with that approach of groupping in min, it sounds reasonable.
+My previous point was that pipenv is not needed until right before #10,
+but that's just nitpicking and almost bikeshedding (I won't admit it
+easily).
+
+> --js
+>=20
+>=20
+> (Hm, by this layout, I should probably actually move the pylint fix in #0=
+1
+> down to appear after the pipenv patch. I could also move the flake8 fixes=
+ in
+> #21 up to be near the other flake8 patches.)
+
+Sounds more consistent.
+
+Cheers,
+- Cleber.
+
+--OgqxwSJOaUobr8KG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAtcP0ACgkQZX6NM6Xy
+CfOtjxAA05Z6xHfj20Ldln/f8VyBGGzdY6qvPVNb1yZHyKcCDeGcC1kCuMUBhoMA
+Vg9nOzd9FHIhbyuNexYzyRTuwTumSl7w9J0wStYrIgWBxfx8Ssj/3x71+levxcEP
+mzCW7E3QVfY+BsV0j//DIGC6tyKMKZSI0b1v9PVC+bncpOkVpUfWb/sIXC2zzR+7
+Pgv6oavNeHuZPnBrI2mEJePqwl/t++LcS+Nz1SPkZr8XVbj5n0bkH/mafRvZXzBh
+cLTp7WjFvPRmaNNVblRqCMwoJ9GUo95qyrFK3BtOc7jCeyVxDKNSomUKEIgrH+6q
+ar5jUFLdoUi2TvBjtl9FIxr86C1wcINwIucEiKFvG70SoAu62aYPWAwsUv3tgHq/
+g30S7x52nCzYdU+lBeaTmWA50C03Etj0MUhJFdjf5u8ZUilZmYPkwid/lVtonvFr
+p65E0YqWu76eZdJgQWLz8LrskTmW/th7+BPd499k7WBWlSXTzZ0ZqA2S92g0+PgT
+WM8o36/LEYT5Hlp4zZbvWLiTpJdBYHlfoIZxnLTR7YrYtqyuhFCwzFet6SVzvzno
+yT7Ow1BpcyWI6byJWa9TttWRdn0dFUx3nFJTQq5io08roXcVMRYQZa2yFQ8ipx3p
+hcUU5xln11hGAyJuGhG5gS/+KitnU4Vx7DEgxePaZ/NqFaDfxto=
+=e4b6
+-----END PGP SIGNATURE-----
+
+--OgqxwSJOaUobr8KG--
+
 
