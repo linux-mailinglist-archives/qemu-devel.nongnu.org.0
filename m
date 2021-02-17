@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F98E31D3CC
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:35:27 +0100 (CET)
-Received: from localhost ([::1]:58168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CF8231D3EE
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 03:24:48 +0100 (CET)
+Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCBkU-0005My-OA
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:35:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
+	id 1lCCWE-0006H0-OB
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 21:24:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCBZS-0003zS-SA; Tue, 16 Feb 2021 20:24:02 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:36501 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCBZO-00062f-Uy; Tue, 16 Feb 2021 20:24:02 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DgKqM1P1Sz9sVt; Wed, 17 Feb 2021 12:23:43 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1613525023;
- bh=nRqr8Qz2yjKqSo6vFTLMRqyJFgPv1McS4UOraBRKIdY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=YrOWSO2wAdogAfD3AUKsj4SYMNQV7716b9FG/f9wlUSleX8pouN5JBl+wiLOwYU2U
- CTRuT8VYk9Arl/puxA0hd3JHuHcfF2Y8lHDqmVPuzKPE0opR6jAt7nGyhwtqsK+3DX
- /edZ1lxFCP/PQqOLB9EaVGTvw28cA5Q64Wl7CH7c=
-Date: Wed, 17 Feb 2021 12:23:30 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 6/7] spapr_drc.c: add hotunplug timeout for CPUs
-Message-ID: <YCxwEkS7EGsLhdqI@yekko.fritz.box>
-References: <20210211225246.17315-1-danielhb413@gmail.com>
- <20210211225246.17315-7-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCCUu-0005jC-VJ
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 21:23:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22381)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCCUo-0003c2-V7
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 21:23:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613528596;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CIq8YFQMKuqdfMfVb/j/SRSGkm2mm9LFGxxlgfgMSWk=;
+ b=bL2ybsXaMf5Ry8CVLAr2cSdgtnz7oUIJVWoFX5r0zkUXZjGdSv7ATU10XnNQ02mivEeGua
+ Z49yJGFhmXSdZW2q0Zf73YnPSpx/uO7cQsV0s90OgkOKF7MafAAa+HWjP0HPupb9D/+ywG
+ UF8RMfGyIAJdiRRyAjzci4ny8+IkmE0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-196-Y71is0NqPC6Qdn55QlXJaA-1; Tue, 16 Feb 2021 21:23:13 -0500
+X-MC-Unique: Y71is0NqPC6Qdn55QlXJaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6F6A107ACF5;
+ Wed, 17 Feb 2021 02:23:11 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-29.rdu2.redhat.com
+ [10.10.112.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 261A519D6C;
+ Wed, 17 Feb 2021 02:23:07 +0000 (UTC)
+Date: Tue, 16 Feb 2021 21:23:05 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 05/24] python: add qemu package installer
+Message-ID: <YCx+CY3SPhnVtSgr@localhost.localdomain>
+References: <20210211185856.3975616-1-jsnow@redhat.com>
+ <20210211185856.3975616-6-jsnow@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210211185856.3975616-6-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5UDpDBpch/5BwQdg"
+ protocol="application/pgp-signature"; boundary="cQc5rYytWC3VvkaU"
 Content-Disposition: inline
-In-Reply-To: <20210211225246.17315-7-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,194 +78,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xujun Ma <xuma@redhat.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- groug@kaod.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---5UDpDBpch/5BwQdg
+--cQc5rYytWC3VvkaU
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 07:52:45PM -0300, Daniel Henrique Barboza wrote:
-> There is a reliable way to make a CPU hotunplug fail in the pseries
-> machine. Hotplug a CPU A, then offline all other CPUs inside the guest
-> but A. When trying to hotunplug A the guest kernel will refuse to do
-> it, because A is now the last online CPU of the guest. PAPR has no
-> 'error callback' in this situation to report back to the platform,
-> so the guest kernel will deny the unplug in silent and QEMU will never
-> know what happened. The unplug pending state of A will remain until
-> the guest is shutdown or rebooted.
->=20
-> Previous attempts of fixing it (see [1] and [2]) were aimed at trying to
-> mitigate the effects of the problem. In [1] we were trying to guess which
-> guest CPUs were online to forbid hotunplug of the last online CPU in the =
-QEMU
-> layer, avoiding the scenario described above because QEMU is now failing
-> in behalf of the guest. This is not robust because the last online CPU of
-> the guest can change while we're in the middle of the unplug process, and
-> our initial assumptions are now invalid. In [2] we were accepting that our
-> unplug process is uncertain and the user should be allowed to spam the IRQ
-> hotunplug queue of the guest in case the CPU hotunplug fails.
->=20
-> This patch presents another alternative, using the timeout infrastructure
-> introduced in the previous patch. CPU hotunplugs in the pSeries machine w=
-ill
-> now timeout after 15 seconds. This is a long time for a single CPU unplug
-> to occur, regardless of guest load - although the user is *strongly* enco=
-uraged
-> to *not* hotunplug devices from a guest under high load - and we can be s=
-ure
-> that something went wrong if it takes longer than that for the guest to r=
-elease
-> the CPU (the same can't be said about memory hotunplug - more on that in =
-the
-> next patch).
->=20
-> Timing out the unplug operation will reset the unplug state of the CPU and
-> allow the user to try it again, regardless of the error situation that
-> prevented the hotunplug to occur. Of all the not so pretty fixes/mitigati=
-ons
-> for CPU hotunplug errors in pSeries, timing out the operation is an admis=
-sion
-> that we have no control in the process, and must assume the worst case if
-> the operation doesn't succeed in a sensible time frame.
->=20
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg03353.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04400.html
->=20
-> Reported-by: Xujun Ma <xuma@redhat.com>
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=3D1911414
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+On Thu, Feb 11, 2021 at 01:58:37PM -0500, John Snow wrote:
+> Add setup.cfg and setup.py, necessary for installing a package via
+> pip. Add a rst document explaining the basics of what this package is
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Nitpick 1: setup.cfg and setup.py are indeed used by pip, your
+statement is correct.  But, it hides the fact that these can be used
+without pip.  On a source tree based install, you may want to simply
+use "python setup.py develop" to achieve what "pip install -e" would
+do (without pip ever entering the picture).
 
+Nitpick 2: while most people will understand what you mean by "rst
+document", I believe that "Add a README file in reStructuredText
+format" would be more obvious.
+
+> for and who to contact for more information. This document will be used
+> as the landing page for the package on PyPI.
+>=20
+> I am not yet using a pyproject.toml style package manifest, because
+> "editable" installs are not defined by PEP-517 and pip did not have
+> support for this for some time; I consider the feature necessary for
+> development.
+>
+
+I'm glad you kept it like this... I bet there's going to be another
+PEP out, replacing the status quo, by the time I finish this review.
+
+> Use a light-weight setup.py instead.
+>=20
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  hw/ppc/spapr.c             |  4 ++++
->  hw/ppc/spapr_drc.c         | 17 +++++++++++++++++
->  include/hw/ppc/spapr_drc.h |  3 +++
->  3 files changed, 24 insertions(+)
+>  python/PACKAGE.rst | 32 ++++++++++++++++++++++++++++++++
+>  python/setup.cfg   | 19 +++++++++++++++++++
+>  python/setup.py    | 23 +++++++++++++++++++++++
+>  3 files changed, 74 insertions(+)
+>  create mode 100644 python/PACKAGE.rst
+>  create mode 100644 python/setup.cfg
+>  create mode 100755 python/setup.py
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index b066df68cb..ecce8abf14 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3724,6 +3724,10 @@ void spapr_core_unplug_request(HotplugHandler *hot=
-plug_dev, DeviceState *dev,
->      if (!spapr_drc_unplug_requested(drc)) {
->          spapr_drc_unplug_request(drc);
->          spapr_hotplug_req_remove_by_index(drc);
-> +    } else {
-> +        error_setg(errp, "core-id %d unplug is still pending, %d seconds=
- "
-> +                   "timeout remaining",
-> +                   cc->core_id, spapr_drc_unplug_timeout_remaining_sec(d=
-rc));
-
-Reporting this information is a nice touch.
-
->      }
->  }
-> =20
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index c88bb524c5..c143bfb6d3 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -398,6 +398,12 @@ void spapr_drc_unplug_request(SpaprDrc *drc)
-> =20
->      drc->unplug_requested =3D true;
-> =20
-> +    if (drck->unplug_timeout_seconds !=3D 0) {
-> +        timer_mod(drc->unplug_timeout_timer,
-> +                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-> +                  drck->unplug_timeout_seconds * 1000);
-> +    }
+> diff --git a/python/PACKAGE.rst b/python/PACKAGE.rst
+> new file mode 100644
+> index 00000000000..0e714c87eb3
+> --- /dev/null
+> +++ b/python/PACKAGE.rst
+> @@ -0,0 +1,32 @@
+> +QEMU Python Tooling
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 > +
->      if (drc->state !=3D drck->empty_state) {
->          trace_spapr_drc_awaiting_quiesce(spapr_drc_index(drc));
->          return;
-> @@ -406,6 +412,16 @@ void spapr_drc_unplug_request(SpaprDrc *drc)
->      spapr_drc_release(drc);
->  }
-> =20
-> +int spapr_drc_unplug_timeout_remaining_sec(SpaprDrc *drc)
-> +{
-> +    if (drc->unplug_requested && timer_pending(drc->unplug_timeout_timer=
-)) {
-> +        return (qemu_timeout_ns_to_ms(drc->unplug_timeout_timer->expire_=
-time) -
-> +                qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)) / 1000;
-
-Hmm.  Reaching into the timer's internal fields isn't ideal.  I wonder
-if we should add a helper in the timer code for reporting this information.
-
-> +    }
+> +This package provides QEMU tooling used by the QEMU project to build,
+> +configure, and test QEMU. It is not a fully-fledged SDK and it is subjec=
+t
+> +to change at any time.
 > +
-> +    return 0;
-> +}
+> +Usage
+> +-----
 > +
->  bool spapr_drc_reset(SpaprDrc *drc)
->  {
->      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> @@ -706,6 +722,7 @@ static void spapr_drc_cpu_class_init(ObjectClass *k, =
-void *data)
->      drck->drc_name_prefix =3D "CPU ";
->      drck->release =3D spapr_core_release;
->      drck->dt_populate =3D spapr_core_dt_populate;
-> +    drck->unplug_timeout_seconds =3D 15;
->  }
-> =20
->  static void spapr_drc_pci_class_init(ObjectClass *k, void *data)
-> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index b2e6222d09..26599c385a 100644
-> --- a/include/hw/ppc/spapr_drc.h
-> +++ b/include/hw/ppc/spapr_drc.h
-> @@ -211,6 +211,8 @@ typedef struct SpaprDrcClass {
-> =20
->      int (*dt_populate)(SpaprDrc *drc, struct SpaprMachineState *spapr,
->                         void *fdt, int *fdt_start_offset, Error **errp);
+> +The ``qemu.qmp`` subpackage provides a library for communicating with
+> +QMP servers. The ``qemu.machine`` subpackage offers rudimentary
+> +facilities for launching and managing QEMU processes. Refer to each
+> +package's documentation
+> +(``>>> help(qemu.qmp)``, ``>>> help(qemu.machine)``)
+> +for more information.
 > +
-> +    int unplug_timeout_seconds;
->  } SpaprDrcClass;
-> =20
->  typedef struct SpaprDrcPhysical {
-> @@ -246,6 +248,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
-, uint32_t drc_type_mask);
->   */
->  void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
->  void spapr_drc_unplug_request(SpaprDrc *drc);
-> +int spapr_drc_unplug_timeout_remaining_sec(SpaprDrc *drc);
-> =20
->  /*
->   * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+This gives the impression that those are the only subpackages (and
+they were).  Better to reword it taking into account the qemu.utils
+subpackage and possibly others (leave it open so that it doesn't rot
+so quickly).
 
---5UDpDBpch/5BwQdg
+- Cleber.
+
+--cQc5rYytWC3VvkaU
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAscBIACgkQbDjKyiDZ
-s5LzdA//bRpWlULVWPiXCGgO4WqXeasB3exGaGlCAyobFLt4rgOBlOSGD/TPHxTq
-GSjDI8Y4ZctUXRXSoui4DL7bFTMm2Ki3hj9V5oy6A26H8XxSPEybXTsCBX6cSGfb
-cvdp+0wtH1p752bEoFuRMlhjR6oH3WMh5erqFoMGA8Pvg6eW8ci6vzko32Vh6QiW
-V/pv9XSEbTXUzzlJHKMYiSE0lqFpf/hxzTqsohOadZ8H7KOn0d0QMx1eUKB31EvH
-AWMDHgkxko06g/ujnKsFQXV1ILJlPzHoTNHtzg/EqWzY15rBC5hck1aHVJrRX2Vg
-A4EkQQDuqGOY0a0VA0KnShPrBL+A2AjSHOTC+9rcJHOuOrjFvCCksG728xKC76P7
-1KoFA7ul+w/5f0athWXKFRhKRnVKD7KquycZgi08LC5ise5zP6Mwxg8RcnL0ugaM
-Sl77cajBRsSZ/6BVvdWOXNVuzxyAzJ5fxJB8H312gEIR5wtX9xWSPJCbNpwsaVfp
-i8lqz44h7b+BGg6eyKZG8k6DtvJWdLs5FQgG6UdogVWtvDygjYhsTjFTuHKdKo9l
-MsLDtgS7OqwoynYqtjhDaWQPDUDYfROIHcX5gInjdCw2SCN7dBInBs7P1KHobT55
-ukPeQyEInOdqySqTTazs7ROfxx5mEmkBBrEPCPa6ThDVNZyBEA8=
-=p85b
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAsfgYACgkQZX6NM6Xy
+CfNpGw/6AtIKxgwdKnvzCyYfSiIn/t1U9BPVJVTq0FM8DSdJKY/gGy2EvzMIG2+I
+ib/oT4gbShOx2dmXXPVSSLI6YAmz3RExoYSPjf8d7HDWa3tHU3yun7xpthWPF5aR
+S+LbE0e1QlAtGiNSOR3elmr6nuzvH68ThHVO0jb2H9dSnmVOdQV4TnxfmkbzgjyA
+d2t+Q0sJXbSM7Jv95dh3WkE5PsX8ycHDOl1q217ARBWJPUW/1J8gA2rmK29vlHbe
+FA/hj6J/ARc8f9JIGhP/zFAj1sa2cvRbJUCTj27ETvvAHZEdoQRKNhX1pfjP/5PK
+X49lHpMwO5oPBmbPGBJkxh8nU2AWmdhfUMIJqWQ+G/sbxbsaEoNvhDgiX9tsW9K0
+BGe38rY7zKZ1zj2qHWMSla4arsVMrQ8TOGi3p3oK4hl9114EEqx00WB9sRtznRoA
+eS+RBk6OAhqpMyISt3ZSkEV9nKgm5huHyYzrwJS1LgB4AMVqpYLHbSI2bPcV5Ky0
+ecc813wH4OoUfioTtmI21+9AZsI73gfGsJAk+HFB2upkBInqiMRHavpW6+x6SU7W
+oUGYxLCiQWIDUz8q+P24Fxk7ZmdvotALyTtDeb0CxyzLgrMWVoiiKOe2FHMJucFc
+9O7K7diFBN0yZad3GlNmTvHmjWMVWKtgSQhOi+fn29W4BNou8Vk=
+=te6/
 -----END PGP SIGNATURE-----
 
---5UDpDBpch/5BwQdg--
+--cQc5rYytWC3VvkaU--
+
 
