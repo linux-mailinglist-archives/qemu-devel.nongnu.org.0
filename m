@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 042A331DF29
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 19:41:17 +0100 (CET)
-Received: from localhost ([::1]:58320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BCC231DF2E
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 19:42:23 +0100 (CET)
+Received: from localhost ([::1]:33660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCRlE-0004b1-0r
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 13:41:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
+	id 1lCRmI-000698-JB
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 13:42:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lCRjQ-0003vG-69
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 13:39:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35235)
+ id 1lCRkg-0004gT-Uz
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 13:40:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lCRjN-00036a-Fb
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 13:39:23 -0500
+ id 1lCRkf-0003Po-5v
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 13:40:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613587160;
+ s=mimecast20190719; t=1613587239;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6kGTupil9aGZipMmb+4/eFhsJJpSyKBS3S0l2iwlN9k=;
- b=XIjyzvdyDzSjwVRlfv6VWvXUxlfRXiRabFC4rjMFp5dOqvLbGb0AMSkn4cAxmVGo/1umAy
- J9htrMaz93EkSYTu+FQPYF3gVXrf3sFWjLLbM0lTUHQ2Ak8dmf2pRYeb+i2Mdn2bsR9Dl/
- sO90JyOGrI+C6CwtBdYdbEpVEggUyKk=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-zuVB2W0fMsS53fqnSiGLIQ-1; Wed, 17 Feb 2021 13:39:17 -0500
-X-MC-Unique: zuVB2W0fMsS53fqnSiGLIQ-1
-Received: by mail-qv1-f70.google.com with SMTP id n8so7560631qvo.18
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 10:39:17 -0800 (PST)
+ bh=uDWw0jQxUaND0XQQb+ruknf/iQkbe8UrGU4K4Aidiok=;
+ b=io5xCiLLHedb9AjUairplze8o3qUpJK0ZI8a5E/1n7YT1zN0VM6etnxQ/Zfc2C/tnyMclJ
+ 66NOGMAjU5KZeiirKQJy3NTRqqF1ai9j1FnQ6aH7gFF+kcKlzMTo0z/co2ITv7D+yQxB2b
+ lf7SxdP0LjEEKEZafxMSD43k2Ck+ZzM=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-269-yBbFOYGXPcKEWgs-IWlQ5g-1; Wed, 17 Feb 2021 13:40:37 -0500
+X-MC-Unique: yBbFOYGXPcKEWgs-IWlQ5g-1
+Received: by mail-qv1-f71.google.com with SMTP id h10so10567611qvf.19
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 10:40:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6kGTupil9aGZipMmb+4/eFhsJJpSyKBS3S0l2iwlN9k=;
- b=es8d+joyJ3Q1jWRImVIMaBbIAhYllSYYlk/QJ8LEa4tiQ0AHw7jbQ9d6RsXfa5COWM
- pRGe9vQMPdCmTxLnTDMNzE45ZZDSpzrvXKbWBUJMZ2ugwd5ROpNd+mfDNLH/fWMrMUVm
- xjcFqkgL2/pzAbJ762m8I3J1oszlpcLZhm7K6MW328YfbIVZt2Id65uPqCgUTq/XIZcJ
- lZEQ+yXDPLd6ac0ai09Jubkst9VXjDFeiQ7LUR8E1qJfJQwPTFBDULLwgRnyWBoeoIT9
- RbewQJjb4c5Lnhwssj4VQnCz7FItaryIkKprWxpZvY7v08ShcGlxa+OGs5S7EXkW6cR9
- bOkQ==
-X-Gm-Message-State: AOAM531IaNPAgl57yyT5xE/iFHzYLt5aLR2x/xW2NyKCHh/5dX7c1lxm
- xVyTKH10so6MCjL2OPwYmAKFFHJ/aTiclBXmo1296SAmlbJvY+RVQWO45aohWmTJBvWBrSPKg13
- m8klBuNBF8yWEqwyR2wVJy8NgkixL3p0=
-X-Received: by 2002:ac8:708e:: with SMTP id y14mr595977qto.203.1613587156882; 
- Wed, 17 Feb 2021 10:39:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwFNwyAbDYFB8rSH+a+EYi+8wA4CDyLf1XGhTWaO0om+BFVg/RG/d3t+GxdT95zfVMY4wa7ScbffWyiNT9X0Xo=
-X-Received: by 2002:ac8:708e:: with SMTP id y14mr595958qto.203.1613587156721; 
- Wed, 17 Feb 2021 10:39:16 -0800 (PST)
+ bh=uDWw0jQxUaND0XQQb+ruknf/iQkbe8UrGU4K4Aidiok=;
+ b=iAKhEzilh0IkWXloAwJq7Zz32g0YVBYqEBKIfgVYOXnEdhk5rBMlGWBUE2Lgs2Yfot
+ lyscX8IILGvFjHqGnXjLN9vf4/TiINHlYzACcjohp3/zgWcxEKNkdELWcQcvrsAuVmqI
+ Zdsqd51M8Gaap5Ol0rrhwQ12OO6faNudDlClSxOKh93PAsMIdA/C4ChCwjPYY/55DmvZ
+ 9MRI68bOh4BNVd0a365dNjv71hQ/ltOudKiLqpTUFz5loNV1TXqwAknYKvz+BNaNwRsw
+ OrKa4Ss75LAdNVS8Kvnb3dxWLhpYWZqSVtz4v6DrVCKsHzB14TqhidLAheVRIXCtDJVo
+ XvmA==
+X-Gm-Message-State: AOAM531gmGAdq5xkgiyaCvjpwOhjtnCRbhAFjotC0koMB4li4xd2AjmN
+ hOjqZ5/47isQtoVF7Tws/nsyuagJcruuMVR4X3wgBKfF27HdpEhLjod39hDG2BYqJhEU5aUNn9B
+ gwkNn5CYRBRnafwSyJUNTfY8B0+2OdYA=
+X-Received: by 2002:a37:2e05:: with SMTP id u5mr538560qkh.131.1613587237204;
+ Wed, 17 Feb 2021 10:40:37 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyGUDYUVA0SZApfqGc6/hfgUglNySaTDFF/HhqxPB9CKcUAmJFYRu3rpyPkpsYUWMA6H2SFMWIeD0v4RagCDqc=
+X-Received: by 2002:a37:2e05:: with SMTP id u5mr538545qkh.131.1613587237028;
+ Wed, 17 Feb 2021 10:40:37 -0800 (PST)
 MIME-Version: 1.0
 References: <20210209153757.1653598-1-eperezma@redhat.com>
- <20210209153757.1653598-3-eperezma@redhat.com>
- <20210217124134.GD269203@stefanha-x1.localdomain>
-In-Reply-To: <20210217124134.GD269203@stefanha-x1.localdomain>
+ <20210209153757.1653598-5-eperezma@redhat.com>
+ <20210217130108.GF269203@stefanha-x1.localdomain>
+In-Reply-To: <20210217130108.GF269203@stefanha-x1.localdomain>
 From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 17 Feb 2021 19:38:40 +0100
-Message-ID: <CAJaqyWcWOnva0DB=tOHwZu_=LmV-z49tNohjHqcNn=1WTQhJ8w@mail.gmail.com>
-Subject: Re: [RFC v2 2/7] virtio: Add virtio_queue_host_notifier_status
+Date: Wed, 17 Feb 2021 19:40:01 +0100
+Message-ID: <CAJaqyWdTBjZ1qXW4fc80E6fKinRtX1r0q6u=J6CGvuRqoFeQCA@mail.gmail.com>
+Subject: Re: [RFC v2 4/7] vhost: Add VhostShadowVirtqueue
 To: Stefan Hajnoczi <stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
@@ -102,62 +102,45 @@ Cc: Rob Miller <rob.miller@broadcom.com>, Parav Pandit <parav@mellanox.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 1:41 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
+On Wed, Feb 17, 2021 at 2:01 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
 :
 >
-> On Tue, Feb 09, 2021 at 04:37:52PM +0100, Eugenio P=C3=A9rez wrote:
-> > This allows shadow virtqueue code to assert the queue status before
-> > making changes.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >  include/hw/virtio/virtio.h | 1 +
-> >  hw/virtio/virtio.c         | 5 +++++
-> >  2 files changed, 6 insertions(+)
-> >
-> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > index b7ece7a6a8..227cec13a8 100644
-> > --- a/include/hw/virtio/virtio.h
-> > +++ b/include/hw/virtio/virtio.h
-> > @@ -316,6 +316,7 @@ void virtio_device_release_ioeventfd(VirtIODevice *=
-vdev);
-> >  bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
-> >  EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
-> >  void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enable=
-d);
-> > +bool virtio_queue_host_notifier_status(const VirtQueue *vq);
-> >  void virtio_queue_host_notifier_read(EventNotifier *n);
-> >  void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioCont=
-ext *ctx,
-> >                                                  VirtIOHandleAIOOutput =
-handle_output);
-> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > index 1fd1917ca0..53473ae4df 100644
-> > --- a/hw/virtio/virtio.c
-> > +++ b/hw/virtio/virtio.c
-> > @@ -3594,6 +3594,11 @@ EventNotifier *virtio_queue_get_host_notifier(Vi=
-rtQueue *vq)
-> >      return &vq->host_notifier;
-> >  }
-> >
-> > +bool virtio_queue_host_notifier_status(const VirtQueue *vq)
+> On Tue, Feb 09, 2021 at 04:37:54PM +0100, Eugenio P=C3=A9rez wrote:
+> > +/*
+> > + * Creates vhost shadow virtqueue, and instruct vhost device to use th=
+e shadow
+> > + * methods and file descriptors.
+> > + */
+> > +VhostShadowVirtqueue *vhost_shadow_vq_new(struct vhost_dev *dev, int i=
+dx)
 > > +{
-> > +    return vq->host_notifier_enabled;
-> > +}
+> > +    g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtque=
+ue, 1);
+> > +    int r;
 > > +
-> >  void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enable=
-d)
+> > +    r =3D event_notifier_init(&svq->kick_notifier, 0);
+> > +    if (r !=3D 0) {
+> > +        error_report("Couldn't create kick event notifier: %s",
+> > +                     strerror(errno));
+> > +        goto err_init_kick_notifier;
+> > +    }
+> > +
+> > +    r =3D event_notifier_init(&svq->call_notifier, 0);
+> > +    if (r !=3D 0) {
+> > +        error_report("Couldn't create call event notifier: %s",
+> > +                     strerror(errno));
+> > +        goto err_init_call_notifier;
+> > +    }
+> > +
+> > +    return svq;
 >
-> Since there is a virtio_queue_set_host_notifier_enabled() I suggest
-> calling this function virtio_queue_is_host_notifier_enabled() or
-> virtio_queue_get_host_notifier_enabled(). That way it's clear they
-> set/get the same thing.
+> Use-after-free due to g_autofree. I think this should be:
 >
+>   return g_steal_pointer(&svq)
+>
+> https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html#g-ste=
+al-pointer
 
-I agree, will change.
-
-Thanks!
-
-> Stefan
+What a miss, thanks for pointing it out!
 
 
