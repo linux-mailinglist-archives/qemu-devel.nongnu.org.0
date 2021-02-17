@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A34431E350
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:58:45 +0100 (CET)
-Received: from localhost ([::1]:57002 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B476F31E36B
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:14:27 +0100 (CET)
+Received: from localhost ([::1]:37410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWiS-0004Ln-Jx
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:58:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51100)
+	id 1lCWxe-0003cb-Pm
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:14:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWS3-0001BC-EE
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:49 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37196)
+ id 1lCWYF-0000Sd-Q9
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:48:11 -0500
+Received: from mail-vs1-xe36.google.com ([2607:f8b0:4864:20::e36]:44705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWRp-0004ps-LU
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:46 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id b145so39877pfb.4
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:41:31 -0800 (PST)
+ id 1lCWYB-0006a8-Ms
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:48:11 -0500
+Received: by mail-vs1-xe36.google.com with SMTP id 68so35859vsk.11
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:48:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=C7OXmlTY2oJFnwsCJ9njAy0mLj9unuWAipSamkyriOo=;
- b=pdPVsxzz3H5WN6S+5QSd58G9+U6JnNa3Vm4Dg7EMXeVfcVxr+AN22sqZMGi68Ox1Pe
- QkCJA8XE5QSjEyyN/ikIq2kw+r2nUVN3YXbRyFhQ0P4WjOlr2nCbnewtka/05uBGzhTz
- bWIcGOGCIjs7WjfmlsTiGq9ToZhZVZxr3rAQMo9WolqZU17dSq8+ZX9yeA3tgL+SbiWL
- YGQBlLQYjP1OtrW5ULSgcuuSewHAc0Ectb8Eibcvf9KOfEmHcJ62DC9tEiwM86CPSgzp
- 8rwYqxPziM82UHecLBK28Phu7YE3O50YMsfFEP1bvrTavXNwl7rKTsbDWcyQpb3xmlwV
- zREQ==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=efezNXTk23kq5yUDGGYKgIOgUOkmILYRnXg+BP75n9I=;
+ b=hdoJK9F8rr61AvyBGceC9Bq8I6kWXc+CMouPapVH0/ezU+ziAMnbMZx1YdXbj0tHS/
+ q3Xkbgg/U7AcOoR/vHSan1JWps4A9HQaunbl/c6CChxiwd3pmnY90laWCVILppnKR8RM
+ baZ4kLYhgq7RzUzMGUTx1sMas+SD4pHK/DIuaeIkceiOzZTVi1d31HScPk2J/R6+VLGd
+ MkdxmJAXRKl5ZIBItPMAF91QurvnOHH1xG97XQs/h7L0VsPqJpFGC4hC/4VDzmcSSZ92
+ 3mFgmQx5ECr7o0VbUr6rauyU5Z6FswPKXa5x21IzBelhy31dTPbY/yIBzX7cq40hLX5X
+ 7ggw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=C7OXmlTY2oJFnwsCJ9njAy0mLj9unuWAipSamkyriOo=;
- b=CvDKLaRaPnWyGmrvb8rogKusY0WlTyTAL943MuJwl96a9lQqjUWGGMCz6i23ua/10q
- HaZTYdzfwN9RH6/fe86A/cvdnHem7MFNFI9cvVGtpoR7oq8DxyiHr3uJfsJkwfpld5zK
- PmJbjzHZvR/jiIQB7+aoKQnYEtefOIcJpFSni7WGRN71rMl3jaBthndXqwDZE1ehWU7E
- ir1H+ctAu+2b2fUYK6A4oyTPi+1vUL7qbdkW3nEZxhDqiaglsD/Au+B8gt23nX/7921K
- GZMyDex9sxyH53Z+KwSEOPaYN2Y9oirou4EA+sKNAzcIiLM58YJQ+AMtUwZ7qaSLmHMz
- c+qQ==
-X-Gm-Message-State: AOAM5336cFp4lQaDOuv4brrdC8MNtpwT4SkGXUQsLhAD0riuy+v6hX2w
- Rf5hI6dLctugLmAEflvhyf+G+r4S942sAA==
-X-Google-Smtp-Source: ABdhPJwT1eB5ZGuminpLSRMH7Tni4VoFWhaX7u5FujkhSiajy1l586QDVtm1KjhyFG0sfTPlrrhl0w==
-X-Received: by 2002:a63:ed57:: with SMTP id m23mr1638105pgk.28.1613605290276; 
- Wed, 17 Feb 2021 15:41:30 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=efezNXTk23kq5yUDGGYKgIOgUOkmILYRnXg+BP75n9I=;
+ b=GPcaE83kjmenhSIdEW947W3JitXP75B+sMhHDre3W3QiIbplcWOo3uqWao822FdAkZ
+ MhMm/9QHOYC2RukKwvE0q3ob8GO/fpSO3P7yC5rnLlmh24AHBE/RMS0JLssS/GgrfUiq
+ Qq7lYowvmagHl87XX+aNh3za8HlHFvh+Bda8+BEWe1+zBEf56BpVeLQHX9/jtCSWEGIt
+ M6aRZ1NfGkbZpeURSPjms2ZpST7WLoxIC+IIZSA9TL6jC7cvTuK1pM4YRwem2j6uBQhj
+ Pq9gLbPxOY7h2MmxilEdTbUl+DmXLP57ANv2WEhxetu9Qt1cDl3OpPXnz8HShzokbDh3
+ E7Jw==
+X-Gm-Message-State: AOAM533imFZQeyyWu3HS3YlunpzbLLB69TGOVdyu6xXtc1ZxxhqrleXJ
+ DxxTJ7mpBcQG46j7mZYA4IJLBrBijqKwrg==
+X-Google-Smtp-Source: ABdhPJyrCEX7c6xUD9Di868fDNB5MlxE8UP249lqsS8j3BVKiJvUKdVubDwDSEH14zQm0SUpgz0DvQ==
+X-Received: by 2002:aa7:8ec4:0:b029:1ec:f672:f0ac with SMTP id
+ b4-20020aa78ec40000b02901ecf672f0acmr1427125pfr.37.1613605227158; 
+ Wed, 17 Feb 2021 15:40:27 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.41.29
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:41:29 -0800 (PST)
+ Wed, 17 Feb 2021 15:40:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/35] Hexagon (target/hexagon) TCG generation
-Date: Wed, 17 Feb 2021 15:40:15 -0800
-Message-Id: <20210217234023.1742406-28-richard.henderson@linaro.org>
+Subject: [PULL 00/35] hexagon initial commit
+Date: Wed, 17 Feb 2021 15:39:48 -0800
+Message-Id: <20210217234023.1742406-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
-References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e36;
+ envelope-from=richard.henderson@linaro.org; helo=mail-vs1-xe36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,393 +83,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Taylor Simpson <tsimpson@quicinc.com>
+The following changes since commit f0f75dc174b6c79eb78a161d1c0921f82d7f1bf0:
 
-Include the generated files and set up the data structures
+  Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-02-17 13:04:48 +0000)
 
-Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-Id: <1612763186-18161-27-git-send-email-tsimpson@quicinc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/hexagon/genptr.h |  25 +++
- target/hexagon/genptr.c | 331 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 356 insertions(+)
+are available in the Git repository at:
+
+  https://gitlab.com/rth7680/qemu.git tags/pull-hex-20210217
+
+for you to fetch changes up to 91bdc01a235a0065411e29ad78859587fee85bc6:
+
+  Hexagon build infrastructure (2021-02-17 12:55:21 -0800)
+
+----------------------------------------------------------------
+Initial commit for the Qualcomm Hexagon processor.
+
+----------------------------------------------------------------
+Richard Henderson (1):
+      qemu/int128: Add int128_or
+
+Taylor Simpson (34):
+      Hexagon Update MAINTAINERS file
+      Hexagon (target/hexagon) README
+      Hexagon (include/elf.h) ELF machine definition
+      Hexagon (target/hexagon) scalar core definition
+      Hexagon (disas) disassembler
+      Hexagon (target/hexagon) register names
+      Hexagon (target/hexagon) scalar core helpers
+      Hexagon (target/hexagon) GDB Stub
+      Hexagon (target/hexagon) architecture types
+      Hexagon (target/hexagon) instruction and packet types
+      Hexagon (target/hexagon) register fields
+      Hexagon (target/hexagon) instruction attributes
+      Hexagon (target/hexagon) instruction/packet decode
+      Hexagon (target/hexagon) instruction printing
+      Hexagon (target/hexagon/arch.[ch]) utility functions
+      Hexagon (target/hexagon/conv_emu.[ch]) utility functions
+      Hexagon (target/hexagon/fma_emu.[ch]) utility functions
+      Hexagon (target/hexagon/imported) arch import
+      Hexagon (target/hexagon) generator phase 1 - C preprocessor for semantics
+      Hexagon (target/hexagon) generator phase 2 - generate header files
+      Hexagon (target/hexagon) generator phase 3 - C preprocessor for decode tree
+      Hexagon (target/hexagon) generater phase 4 - decode tree
+      Hexagon (target/hexagon) opcode data structures
+      Hexagon (target/hexagon) macros
+      Hexagon (target/hexagon) instruction classes
+      Hexagon (target/hexagon) TCG generation
+      Hexagon (target/hexagon) TCG for instructions with multiple definitions
+      Hexagon (target/hexagon) TCG for floating point instructions
+      Hexagon (target/hexagon) translation
+      Hexagon (linux-user/hexagon) Linux user emulation
+      Hexagon (tests/tcg/hexagon) TCG tests - multiarch
+      Hexagon (tests/tcg/hexagon) TCG tests - atomics/load/store/misc
+      Hexagon (tests/tcg/hexagon) TCG tests - floating point
+      Hexagon build infrastructure
+
+ default-configs/targets/hexagon-linux-user.mak |    1 +
+ meson.build                                    |    1 +
+ include/disas/dis-asm.h                        |    1 +
+ include/elf.h                                  |    1 +
+ include/qemu/int128.h                          |   10 +
+ linux-user/hexagon/sockbits.h                  |   18 +
+ linux-user/hexagon/syscall_nr.h                |  322 ++++
+ linux-user/hexagon/target_cpu.h                |   44 +
+ linux-user/hexagon/target_elf.h                |   40 +
+ linux-user/hexagon/target_fcntl.h              |   18 +
+ linux-user/hexagon/target_signal.h             |   34 +
+ linux-user/hexagon/target_structs.h            |   54 +
+ linux-user/hexagon/target_syscall.h            |   36 +
+ linux-user/hexagon/termbits.h                  |   18 +
+ linux-user/qemu.h                              |    2 +
+ linux-user/syscall_defs.h                      |   33 +
+ target/hexagon/arch.h                          |   34 +
+ target/hexagon/attribs.h                       |   35 +
+ target/hexagon/conv_emu.h                      |   31 +
+ target/hexagon/cpu-param.h                     |   29 +
+ target/hexagon/cpu.h                           |  159 ++
+ target/hexagon/cpu_bits.h                      |   58 +
+ target/hexagon/decode.h                        |   32 +
+ target/hexagon/fma_emu.h                       |   36 +
+ target/hexagon/gen_tcg.h                       |  319 ++++
+ target/hexagon/genptr.h                        |   25 +
+ target/hexagon/helper.h                        |   88 +
+ target/hexagon/hex_arch_types.h                |   38 +
+ target/hexagon/hex_regs.h                      |   83 +
+ target/hexagon/iclass.h                        |   50 +
+ target/hexagon/insn.h                          |   74 +
+ target/hexagon/internal.h                      |   37 +
+ target/hexagon/macros.h                        |  592 +++++++
+ target/hexagon/opcodes.h                       |   58 +
+ target/hexagon/printinsn.h                     |   27 +
+ target/hexagon/reg_fields.h                    |   36 +
+ target/hexagon/translate.h                     |   93 ++
+ target/hexagon/attribs_def.h.inc               |   97 ++
+ target/hexagon/reg_fields_def.h.inc            |   41 +
+ disas/hexagon.c                                |   65 +
+ linux-user/elfload.c                           |   16 +
+ linux-user/hexagon/cpu_loop.c                  |  100 ++
+ linux-user/hexagon/signal.c                    |  276 ++++
+ target/hexagon/arch.c                          |  300 ++++
+ target/hexagon/conv_emu.c                      |  177 ++
+ target/hexagon/cpu.c                           |  318 ++++
+ target/hexagon/decode.c                        |  957 +++++++++++
+ target/hexagon/fma_emu.c                       |  702 ++++++++
+ target/hexagon/gdbstub.c                       |   47 +
+ target/hexagon/gen_dectree_import.c            |  188 +++
+ target/hexagon/gen_semantics.c                 |   88 +
+ target/hexagon/genptr.c                        |  331 ++++
+ target/hexagon/iclass.c                        |   73 +
+ target/hexagon/op_helper.c                     | 1064 ++++++++++++
+ target/hexagon/opcodes.c                       |  142 ++
+ target/hexagon/printinsn.c                     |  146 ++
+ target/hexagon/reg_fields.c                    |   27 +
+ target/hexagon/translate.c                     |  748 +++++++++
+ tests/tcg/hexagon/atomics.c                    |  139 ++
+ tests/tcg/hexagon/dual_stores.c                |   60 +
+ tests/tcg/hexagon/fpstuff.c                    |  370 +++++
+ tests/tcg/hexagon/mem_noshuf.c                 |  328 ++++
+ tests/tcg/hexagon/misc.c                       |  380 +++++
+ tests/tcg/hexagon/preg_alias.c                 |  169 ++
+ MAINTAINERS                                    |    9 +
+ disas/meson.build                              |    1 +
+ scripts/gensyscalls.sh                         |    1 +
+ scripts/qemu-binfmt-conf.sh                    |    6 +-
+ target/hexagon/README                          |  235 +++
+ target/hexagon/dectree.py                      |  351 ++++
+ target/hexagon/gen_helper_funcs.py             |  220 +++
+ target/hexagon/gen_helper_protos.py            |  150 ++
+ target/hexagon/gen_op_attribs.py               |   39 +
+ target/hexagon/gen_op_regs.py                  |  110 ++
+ target/hexagon/gen_opcodes_def.py              |   36 +
+ target/hexagon/gen_printinsn.py                |  173 ++
+ target/hexagon/gen_shortcode.py                |   60 +
+ target/hexagon/gen_tcg_func_table.py           |   58 +
+ target/hexagon/gen_tcg_funcs.py                |  485 ++++++
+ target/hexagon/hex_common.py                   |  234 +++
+ target/hexagon/imported/allidefs.def           |   30 +
+ target/hexagon/imported/alu.idef               | 1258 ++++++++++++++
+ target/hexagon/imported/branch.idef            |  326 ++++
+ target/hexagon/imported/compare.idef           |  619 +++++++
+ target/hexagon/imported/encode.def             |  124 ++
+ target/hexagon/imported/encode_pp.def          | 2110 ++++++++++++++++++++++++
+ target/hexagon/imported/encode_subinsn.def     |  149 ++
+ target/hexagon/imported/float.idef             |  312 ++++
+ target/hexagon/imported/iclass.def             |   51 +
+ target/hexagon/imported/ldst.idef              |  286 ++++
+ target/hexagon/imported/macros.def             | 1531 +++++++++++++++++
+ target/hexagon/imported/mpy.idef               | 1208 ++++++++++++++
+ target/hexagon/imported/shift.idef             | 1066 ++++++++++++
+ target/hexagon/imported/subinsns.idef          |  149 ++
+ target/hexagon/imported/system.idef            |   68 +
+ target/hexagon/meson.build                     |  193 +++
+ target/meson.build                             |    1 +
+ tests/tcg/configure.sh                         |    4 +-
+ tests/tcg/hexagon/Makefile.target              |   46 +
+ tests/tcg/hexagon/first.S                      |   56 +
+ tests/tcg/hexagon/float_convs.ref              |  748 +++++++++
+ tests/tcg/hexagon/float_madds.ref              |  768 +++++++++
+ 102 files changed, 23185 insertions(+), 2 deletions(-)
+ create mode 100644 default-configs/targets/hexagon-linux-user.mak
+ create mode 100644 linux-user/hexagon/sockbits.h
+ create mode 100644 linux-user/hexagon/syscall_nr.h
+ create mode 100644 linux-user/hexagon/target_cpu.h
+ create mode 100644 linux-user/hexagon/target_elf.h
+ create mode 100644 linux-user/hexagon/target_fcntl.h
+ create mode 100644 linux-user/hexagon/target_signal.h
+ create mode 100644 linux-user/hexagon/target_structs.h
+ create mode 100644 linux-user/hexagon/target_syscall.h
+ create mode 100644 linux-user/hexagon/termbits.h
+ create mode 100644 target/hexagon/arch.h
+ create mode 100644 target/hexagon/attribs.h
+ create mode 100644 target/hexagon/conv_emu.h
+ create mode 100644 target/hexagon/cpu-param.h
+ create mode 100644 target/hexagon/cpu.h
+ create mode 100644 target/hexagon/cpu_bits.h
+ create mode 100644 target/hexagon/decode.h
+ create mode 100644 target/hexagon/fma_emu.h
+ create mode 100644 target/hexagon/gen_tcg.h
  create mode 100644 target/hexagon/genptr.h
+ create mode 100644 target/hexagon/helper.h
+ create mode 100644 target/hexagon/hex_arch_types.h
+ create mode 100644 target/hexagon/hex_regs.h
+ create mode 100644 target/hexagon/iclass.h
+ create mode 100644 target/hexagon/insn.h
+ create mode 100644 target/hexagon/internal.h
+ create mode 100644 target/hexagon/macros.h
+ create mode 100644 target/hexagon/opcodes.h
+ create mode 100644 target/hexagon/printinsn.h
+ create mode 100644 target/hexagon/reg_fields.h
+ create mode 100644 target/hexagon/translate.h
+ create mode 100644 target/hexagon/attribs_def.h.inc
+ create mode 100644 target/hexagon/reg_fields_def.h.inc
+ create mode 100644 disas/hexagon.c
+ create mode 100644 linux-user/hexagon/cpu_loop.c
+ create mode 100644 linux-user/hexagon/signal.c
+ create mode 100644 target/hexagon/arch.c
+ create mode 100644 target/hexagon/conv_emu.c
+ create mode 100644 target/hexagon/cpu.c
+ create mode 100644 target/hexagon/decode.c
+ create mode 100644 target/hexagon/fma_emu.c
+ create mode 100644 target/hexagon/gdbstub.c
+ create mode 100644 target/hexagon/gen_dectree_import.c
+ create mode 100644 target/hexagon/gen_semantics.c
  create mode 100644 target/hexagon/genptr.c
-
-diff --git a/target/hexagon/genptr.h b/target/hexagon/genptr.h
-new file mode 100644
-index 0000000000..c158005d2a
---- /dev/null
-+++ b/target/hexagon/genptr.h
-@@ -0,0 +1,25 @@
-+/*
-+ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef HEXAGON_GENPTR_H
-+#define HEXAGON_GENPTR_H
-+
-+#include "insn.h"
-+
-+extern const SemanticInsn opcode_genptr[];
-+
-+#endif
-diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-new file mode 100644
-index 0000000000..7481f4c1dd
---- /dev/null
-+++ b/target/hexagon/genptr.c
-@@ -0,0 +1,331 @@
-+/*
-+ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#define QEMU_GENERATE
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "cpu.h"
-+#include "internal.h"
-+#include "tcg/tcg-op.h"
-+#include "insn.h"
-+#include "opcodes.h"
-+#include "translate.h"
-+#include "macros.h"
-+#include "gen_tcg.h"
-+
-+static inline TCGv gen_read_preg(TCGv pred, uint8_t num)
-+{
-+    tcg_gen_mov_tl(pred, hex_pred[num]);
-+    return pred;
-+}
-+
-+static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
-+{
-+    TCGv one = tcg_const_tl(1);
-+    TCGv zero = tcg_const_tl(0);
-+    TCGv slot_mask = tcg_temp_new();
-+
-+    tcg_gen_andi_tl(slot_mask, hex_slot_cancelled, 1 << slot);
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum], slot_mask, zero,
-+                           val, hex_new_value[rnum]);
-+#if HEX_DEBUG
-+    /* Do this so HELPER(debug_commit_end) will know */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum], slot_mask, zero,
-+                       one, hex_reg_written[rnum]);
-+#endif
-+
-+    tcg_temp_free(one);
-+    tcg_temp_free(zero);
-+    tcg_temp_free(slot_mask);
-+}
-+
-+static inline void gen_log_reg_write(int rnum, TCGv val)
-+{
-+    tcg_gen_mov_tl(hex_new_value[rnum], val);
-+#if HEX_DEBUG
-+    /* Do this so HELPER(debug_commit_end) will know */
-+    tcg_gen_movi_tl(hex_reg_written[rnum], 1);
-+#endif
-+}
-+
-+static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val, int slot)
-+{
-+    TCGv val32 = tcg_temp_new();
-+    TCGv one = tcg_const_tl(1);
-+    TCGv zero = tcg_const_tl(0);
-+    TCGv slot_mask = tcg_temp_new();
-+
-+    tcg_gen_andi_tl(slot_mask, hex_slot_cancelled, 1 << slot);
-+    /* Low word */
-+    tcg_gen_extrl_i64_i32(val32, val);
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum], slot_mask, zero,
-+                       val32, hex_new_value[rnum]);
-+#if HEX_DEBUG
-+    /* Do this so HELPER(debug_commit_end) will know */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum],
-+                       slot_mask, zero,
-+                       one, hex_reg_written[rnum]);
-+#endif
-+
-+    /* High word */
-+    tcg_gen_extrh_i64_i32(val32, val);
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_new_value[rnum + 1],
-+                       slot_mask, zero,
-+                       val32, hex_new_value[rnum + 1]);
-+#if HEX_DEBUG
-+    /* Do this so HELPER(debug_commit_end) will know */
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_reg_written[rnum + 1],
-+                       slot_mask, zero,
-+                       one, hex_reg_written[rnum + 1]);
-+#endif
-+
-+    tcg_temp_free(val32);
-+    tcg_temp_free(one);
-+    tcg_temp_free(zero);
-+    tcg_temp_free(slot_mask);
-+}
-+
-+static void gen_log_reg_write_pair(int rnum, TCGv_i64 val)
-+{
-+    /* Low word */
-+    tcg_gen_extrl_i64_i32(hex_new_value[rnum], val);
-+#if HEX_DEBUG
-+    /* Do this so HELPER(debug_commit_end) will know */
-+    tcg_gen_movi_tl(hex_reg_written[rnum], 1);
-+#endif
-+
-+    /* High word */
-+    tcg_gen_extrh_i64_i32(hex_new_value[rnum + 1], val);
-+#if HEX_DEBUG
-+    /* Do this so HELPER(debug_commit_end) will know */
-+    tcg_gen_movi_tl(hex_reg_written[rnum + 1], 1);
-+#endif
-+}
-+
-+static inline void gen_log_pred_write(int pnum, TCGv val)
-+{
-+    TCGv zero = tcg_const_tl(0);
-+    TCGv base_val = tcg_temp_new();
-+    TCGv and_val = tcg_temp_new();
-+    TCGv pred_written = tcg_temp_new();
-+
-+    /* Multiple writes to the same preg are and'ed together */
-+    tcg_gen_andi_tl(base_val, val, 0xff);
-+    tcg_gen_and_tl(and_val, base_val, hex_new_pred_value[pnum]);
-+    tcg_gen_andi_tl(pred_written, hex_pred_written, 1 << pnum);
-+    tcg_gen_movcond_tl(TCG_COND_NE, hex_new_pred_value[pnum],
-+                       pred_written, zero,
-+                       and_val, base_val);
-+    tcg_gen_ori_tl(hex_pred_written, hex_pred_written, 1 << pnum);
-+
-+    tcg_temp_free(zero);
-+    tcg_temp_free(base_val);
-+    tcg_temp_free(and_val);
-+    tcg_temp_free(pred_written);
-+}
-+
-+static inline void gen_read_p3_0(TCGv control_reg)
-+{
-+    tcg_gen_movi_tl(control_reg, 0);
-+    for (int i = 0; i < NUM_PREGS; i++) {
-+        tcg_gen_deposit_tl(control_reg, control_reg, hex_pred[i], i * 8, 8);
-+    }
-+}
-+
-+/*
-+ * Certain control registers require special handling on read
-+ *     HEX_REG_P3_0          aliased to the predicate registers
-+ *                           -> concat the 4 predicate registers together
-+ *     HEX_REG_PC            actual value stored in DisasContext
-+ *                           -> assign from ctx->base.pc_next
-+ *     HEX_REG_QEMU_*_CNT    changes in current TB in DisasContext
-+ *                           -> add current TB changes to existing reg value
-+ */
-+static inline void gen_read_ctrl_reg(DisasContext *ctx, const int reg_num,
-+                                     TCGv dest)
-+{
-+    if (reg_num == HEX_REG_P3_0) {
-+        gen_read_p3_0(dest);
-+    } else if (reg_num == HEX_REG_PC) {
-+        tcg_gen_movi_tl(dest, ctx->base.pc_next);
-+    } else if (reg_num == HEX_REG_QEMU_PKT_CNT) {
-+        tcg_gen_addi_tl(dest, hex_gpr[HEX_REG_QEMU_PKT_CNT],
-+                        ctx->num_packets);
-+    } else if (reg_num == HEX_REG_QEMU_INSN_CNT) {
-+        tcg_gen_addi_tl(dest, hex_gpr[HEX_REG_QEMU_INSN_CNT],
-+                        ctx->num_insns);
-+    } else {
-+        tcg_gen_mov_tl(dest, hex_gpr[reg_num]);
-+    }
-+}
-+
-+static inline void gen_read_ctrl_reg_pair(DisasContext *ctx, const int reg_num,
-+                                          TCGv_i64 dest)
-+{
-+    if (reg_num == HEX_REG_P3_0) {
-+        TCGv p3_0 = tcg_temp_new();
-+        gen_read_p3_0(p3_0);
-+        tcg_gen_concat_i32_i64(dest, p3_0, hex_gpr[reg_num + 1]);
-+        tcg_temp_free(p3_0);
-+    } else if (reg_num == HEX_REG_PC - 1) {
-+        TCGv pc = tcg_const_tl(ctx->base.pc_next);
-+        tcg_gen_concat_i32_i64(dest, hex_gpr[reg_num], pc);
-+        tcg_temp_free(pc);
-+    } else if (reg_num == HEX_REG_QEMU_PKT_CNT) {
-+        TCGv pkt_cnt = tcg_temp_new();
-+        TCGv insn_cnt = tcg_temp_new();
-+        tcg_gen_addi_tl(pkt_cnt, hex_gpr[HEX_REG_QEMU_PKT_CNT],
-+                        ctx->num_packets);
-+        tcg_gen_addi_tl(insn_cnt, hex_gpr[HEX_REG_QEMU_INSN_CNT],
-+                        ctx->num_insns);
-+        tcg_gen_concat_i32_i64(dest, pkt_cnt, insn_cnt);
-+        tcg_temp_free(pkt_cnt);
-+        tcg_temp_free(insn_cnt);
-+    } else {
-+        tcg_gen_concat_i32_i64(dest,
-+            hex_gpr[reg_num],
-+            hex_gpr[reg_num + 1]);
-+    }
-+}
-+
-+static inline void gen_write_p3_0(TCGv control_reg)
-+{
-+    for (int i = 0; i < NUM_PREGS; i++) {
-+        tcg_gen_extract_tl(hex_pred[i], control_reg, i * 8, 8);
-+    }
-+}
-+
-+/*
-+ * Certain control registers require special handling on write
-+ *     HEX_REG_P3_0          aliased to the predicate registers
-+ *                           -> break the value across 4 predicate registers
-+ *     HEX_REG_QEMU_*_CNT    changes in current TB in DisasContext
-+ *                            -> clear the changes
-+ */
-+static inline void gen_write_ctrl_reg(DisasContext *ctx, int reg_num,
-+                                      TCGv val)
-+{
-+    if (reg_num == HEX_REG_P3_0) {
-+        gen_write_p3_0(val);
-+    } else {
-+        gen_log_reg_write(reg_num, val);
-+        ctx_log_reg_write(ctx, reg_num);
-+        if (reg_num == HEX_REG_QEMU_PKT_CNT) {
-+            ctx->num_packets = 0;
-+        }
-+        if (reg_num == HEX_REG_QEMU_INSN_CNT) {
-+            ctx->num_insns = 0;
-+        }
-+    }
-+}
-+
-+static inline void gen_write_ctrl_reg_pair(DisasContext *ctx, int reg_num,
-+                                           TCGv_i64 val)
-+{
-+    if (reg_num == HEX_REG_P3_0) {
-+        TCGv val32 = tcg_temp_new();
-+        tcg_gen_extrl_i64_i32(val32, val);
-+        gen_write_p3_0(val32);
-+        tcg_gen_extrh_i64_i32(val32, val);
-+        gen_log_reg_write(reg_num + 1, val32);
-+        tcg_temp_free(val32);
-+        ctx_log_reg_write(ctx, reg_num + 1);
-+    } else {
-+        gen_log_reg_write_pair(reg_num, val);
-+        ctx_log_reg_write_pair(ctx, reg_num);
-+        if (reg_num == HEX_REG_QEMU_PKT_CNT) {
-+            ctx->num_packets = 0;
-+            ctx->num_insns = 0;
-+        }
-+    }
-+}
-+
-+static inline void gen_load_locked4u(TCGv dest, TCGv vaddr, int mem_index)
-+{
-+    tcg_gen_qemu_ld32u(dest, vaddr, mem_index);
-+    tcg_gen_mov_tl(hex_llsc_addr, vaddr);
-+    tcg_gen_mov_tl(hex_llsc_val, dest);
-+}
-+
-+static inline void gen_load_locked8u(TCGv_i64 dest, TCGv vaddr, int mem_index)
-+{
-+    tcg_gen_qemu_ld64(dest, vaddr, mem_index);
-+    tcg_gen_mov_tl(hex_llsc_addr, vaddr);
-+    tcg_gen_mov_i64(hex_llsc_val_i64, dest);
-+}
-+
-+static inline void gen_store_conditional4(CPUHexagonState *env,
-+                                          DisasContext *ctx, int prednum,
-+                                          TCGv pred, TCGv vaddr, TCGv src)
-+{
-+    TCGLabel *fail = gen_new_label();
-+    TCGLabel *done = gen_new_label();
-+    TCGv one, zero, tmp;
-+
-+    tcg_gen_brcond_tl(TCG_COND_NE, vaddr, hex_llsc_addr, fail);
-+
-+    one = tcg_const_tl(0xff);
-+    zero = tcg_const_tl(0);
-+    tmp = tcg_temp_new();
-+    tcg_gen_atomic_cmpxchg_tl(tmp, hex_llsc_addr, hex_llsc_val, src,
-+                              ctx->mem_idx, MO_32);
-+    tcg_gen_movcond_tl(TCG_COND_EQ, hex_pred[prednum], tmp, hex_llsc_val,
-+                       one, zero);
-+    tcg_temp_free(one);
-+    tcg_temp_free(zero);
-+    tcg_temp_free(tmp);
-+    tcg_gen_br(done);
-+
-+    gen_set_label(fail);
-+    tcg_gen_movi_tl(pred, 0);
-+
-+    gen_set_label(done);
-+    tcg_gen_movi_tl(hex_llsc_addr, ~0);
-+}
-+
-+static inline void gen_store_conditional8(CPUHexagonState *env,
-+                                          DisasContext *ctx, int prednum,
-+                                          TCGv pred, TCGv vaddr, TCGv_i64 src)
-+{
-+    TCGLabel *fail = gen_new_label();
-+    TCGLabel *done = gen_new_label();
-+    TCGv_i64 one, zero, tmp;
-+
-+    tcg_gen_brcond_tl(TCG_COND_NE, vaddr, hex_llsc_addr, fail);
-+
-+    one = tcg_const_i64(0xff);
-+    zero = tcg_const_i64(0);
-+    tmp = tcg_temp_new_i64();
-+    tcg_gen_atomic_cmpxchg_i64(tmp, hex_llsc_addr, hex_llsc_val_i64, src,
-+                               ctx->mem_idx, MO_64);
-+    tcg_gen_movcond_i64(TCG_COND_EQ, tmp, tmp, hex_llsc_val_i64,
-+                        one, zero);
-+    tcg_gen_extrl_i64_i32(hex_pred[prednum], tmp);
-+    tcg_temp_free_i64(one);
-+    tcg_temp_free_i64(zero);
-+    tcg_temp_free_i64(tmp);
-+    tcg_gen_br(done);
-+
-+    gen_set_label(fail);
-+    tcg_gen_movi_tl(pred, 0);
-+
-+    gen_set_label(done);
-+    tcg_gen_movi_tl(hex_llsc_addr, ~0);
-+}
-+
-+#include "tcg_funcs_generated.c.inc"
-+#include "tcg_func_table_generated.c.inc"
--- 
-2.25.1
-
+ create mode 100644 target/hexagon/iclass.c
+ create mode 100644 target/hexagon/op_helper.c
+ create mode 100644 target/hexagon/opcodes.c
+ create mode 100644 target/hexagon/printinsn.c
+ create mode 100644 target/hexagon/reg_fields.c
+ create mode 100644 target/hexagon/translate.c
+ create mode 100644 tests/tcg/hexagon/atomics.c
+ create mode 100644 tests/tcg/hexagon/dual_stores.c
+ create mode 100644 tests/tcg/hexagon/fpstuff.c
+ create mode 100644 tests/tcg/hexagon/mem_noshuf.c
+ create mode 100644 tests/tcg/hexagon/misc.c
+ create mode 100644 tests/tcg/hexagon/preg_alias.c
+ create mode 100644 target/hexagon/README
+ create mode 100755 target/hexagon/dectree.py
+ create mode 100755 target/hexagon/gen_helper_funcs.py
+ create mode 100755 target/hexagon/gen_helper_protos.py
+ create mode 100755 target/hexagon/gen_op_attribs.py
+ create mode 100755 target/hexagon/gen_op_regs.py
+ create mode 100755 target/hexagon/gen_opcodes_def.py
+ create mode 100755 target/hexagon/gen_printinsn.py
+ create mode 100755 target/hexagon/gen_shortcode.py
+ create mode 100755 target/hexagon/gen_tcg_func_table.py
+ create mode 100755 target/hexagon/gen_tcg_funcs.py
+ create mode 100755 target/hexagon/hex_common.py
+ create mode 100644 target/hexagon/imported/allidefs.def
+ create mode 100644 target/hexagon/imported/alu.idef
+ create mode 100644 target/hexagon/imported/branch.idef
+ create mode 100644 target/hexagon/imported/compare.idef
+ create mode 100644 target/hexagon/imported/encode.def
+ create mode 100644 target/hexagon/imported/encode_pp.def
+ create mode 100644 target/hexagon/imported/encode_subinsn.def
+ create mode 100644 target/hexagon/imported/float.idef
+ create mode 100644 target/hexagon/imported/iclass.def
+ create mode 100644 target/hexagon/imported/ldst.idef
+ create mode 100755 target/hexagon/imported/macros.def
+ create mode 100644 target/hexagon/imported/mpy.idef
+ create mode 100644 target/hexagon/imported/shift.idef
+ create mode 100644 target/hexagon/imported/subinsns.idef
+ create mode 100644 target/hexagon/imported/system.idef
+ create mode 100644 target/hexagon/meson.build
+ create mode 100644 tests/tcg/hexagon/Makefile.target
+ create mode 100644 tests/tcg/hexagon/first.S
+ create mode 100644 tests/tcg/hexagon/float_convs.ref
+ create mode 100644 tests/tcg/hexagon/float_madds.ref
 
