@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840D931D7B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:50:50 +0100 (CET)
-Received: from localhost ([::1]:46854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC6C031D7C5
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 12:00:12 +0100 (CET)
+Received: from localhost ([::1]:51160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCKPu-0006rD-6T
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:50:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53552)
+	id 1lCKZ1-0000qu-FV
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 06:00:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55536)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lCKOH-00068A-DK
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:49:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lCKOF-0005tK-8A
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:49:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613558941;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ae2Zi0IWqCWaaJjmQMrgrHoDwktDIlKwOkB6WDn7z3Q=;
- b=ADP9tyIH7hvwj0fvh6i0fafSfalgpe7rMVheVw8FPWxi0XvaL6cr4a3BmqIvJIcM6UFcuc
- DqAsaoFUAbV6853BtBs92KF5h39+sMO0wwqg1k4hSkcMlKdQqUzYKv+D0dK0QN2R7tjJTO
- 5NyEwANGYTEURnIivpiR/NWVqlL+kMk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-kcJVICfSPy2bZMx5Lj2vdg-1; Wed, 17 Feb 2021 05:48:56 -0500
-X-MC-Unique: kcJVICfSPy2bZMx5Lj2vdg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CF30107ACC7;
- Wed, 17 Feb 2021 10:48:55 +0000 (UTC)
-Received: from redhat.com (ovpn-115-175.ams2.redhat.com [10.36.115.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D8DA60C62;
- Wed, 17 Feb 2021 10:48:41 +0000 (UTC)
-Date: Wed, 17 Feb 2021 10:48:38 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: marcandre.lureau@redhat.com
-Subject: Re: [PATCH] util: fix use-after-free in module_load_one
-Message-ID: <YCz0hteZzJXwp1zM@redhat.com>
-References: <20210217082403.2414858-1-marcandre.lureau@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lCKXH-0000G8-LX
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:58:24 -0500
+Received: from 3.mo52.mail-out.ovh.net ([178.33.254.192]:40706)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lCKXF-00005z-1X
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:58:23 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.72])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 57F1324234C;
+ Wed, 17 Feb 2021 11:58:14 +0100 (CET)
+Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 17 Feb
+ 2021 11:58:13 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005383cd9ea-d368-450e-abf0-2b81501fd182,
+ B54157520C375C0FC3F4FA78C93877442EBE4A6F) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 91.175.254.3
+Date: Wed, 17 Feb 2021 11:58:11 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v3 3/7] spapr_drc.c: use spapr_drc_release() in
+ isolate_physical/set_unusable
+Message-ID: <20210217115811.3f5a6ea2@bahia>
+In-Reply-To: <20210211225246.17315-4-danielhb413@gmail.com>
+References: <20210211225246.17315-1-danielhb413@gmail.com>
+ <20210211225246.17315-4-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210217082403.2414858-1-marcandre.lureau@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 12a7d465-6ee8-4139-aaaf-6328f239c8d1
+X-Ovh-Tracer-Id: 17781900182613498336
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrjedugddugeekucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=178.33.254.192; envelope-from=groug@kaod.org;
+ helo=3.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,117 +68,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: pbonzini@redhat.com, kraxel@redhat.com, qemu-devel@nongnu.org,
- qemu-stable@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 12:24:03PM +0400, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> 
-> Spotted by ASAN:
-> 
-> ==2407186==ERROR: AddressSanitizer: heap-use-after-free on address 0x6020003ac4f0 at pc 0x7ffff766659c bp 0x7fffffffd1d0 sp 0x7fffffffc980
-> READ of size 1 at 0x6020003ac4f0 thread T0
->     #0 0x7ffff766659b  (/lib64/libasan.so.6+0x8a59b)
->     #1 0x7ffff6bfa843 in g_str_equal ../glib/ghash.c:2303
->     #2 0x7ffff6bf8167 in g_hash_table_lookup_node ../glib/ghash.c:493
->     #3 0x7ffff6bf9b78 in g_hash_table_insert_internal ../glib/ghash.c:1598
->     #4 0x7ffff6bf9c32 in g_hash_table_add ../glib/ghash.c:1689
->     #5 0x5555596caad4 in module_load_one ../util/module.c:233
->     #6 0x5555596ca949 in module_load_one ../util/module.c:225
->     #7 0x5555596ca949 in module_load_one ../util/module.c:225
->     #8 0x5555596cbdf4 in module_load_qom_all ../util/module.c:349
->     #9 0x5555593c6bbc in qmp_qom_list_types ../qom/qom-qmp-cmds.c:114
->     #10 0x5555595576df in qmp_marshal_qom_list_types qapi/qapi-commands-qom.c:194
->     #11 0x555559772868 in do_qmp_dispatch_bh ../qapi/qmp-dispatch.c:110
->     #12 0x5555596f8786 in aio_bh_call ../util/async.c:136
->     #13 0x5555596f8e9b in aio_bh_poll ../util/async.c:164
->     #14 0x555559685803 in aio_dispatch ../util/aio-posix.c:381
->     #15 0x5555596fa324 in aio_ctx_dispatch ../util/async.c:306
->     #16 0x7ffff6c0deda in g_main_dispatch ../glib/gmain.c:3337
->     #17 0x7ffff6c0edfd in g_main_context_dispatch ../glib/gmain.c:4055
->     #18 0x555559726c66 in glib_pollfds_poll ../util/main-loop.c:232
->     #19 0x555559726e43 in os_host_main_loop_wait ../util/main-loop.c:255
->     #20 0x555559727139 in main_loop_wait ../util/main-loop.c:531
->     #21 0x555558fb46fc in qemu_main_loop ../softmmu/runstate.c:722
->     #22 0x555557d45065 in main ../softmmu/main.c:50
->     #23 0x7ffff59611e1 in __libc_start_main (/lib64/libc.so.6+0x281e1)
->     #24 0x555557d44f7d in _start (/home/elmarco/src/qemu/build/qemu-system-x86_64+0x27f0f7d)
-> 
-> 0x6020003ac4f0 is located 0 bytes inside of 10-byte region [0x6020003ac4f0,0x6020003ac4fa)
-> freed by thread T0 here:
->     #0 0x7ffff76870c7 in __interceptor_free (/lib64/libasan.so.6+0xab0c7)
->     #1 0x7ffff6c16d94 in g_free ../glib/gmem.c:199
->     #2 0x5555596caae7 in module_load_one ../util/module.c:234
->     #3 0x5555596ca949 in module_load_one ../util/module.c:225
->     #4 0x5555596ca949 in module_load_one ../util/module.c:225
->     #5 0x5555596cbdf4 in module_load_qom_all ../util/module.c:349
->     #6 0x5555593c6bbc in qmp_qom_list_types ../qom/qom-qmp-cmds.c:114
->     #7 0x5555595576df in qmp_marshal_qom_list_types qapi/qapi-commands-qom.c:194
->     #8 0x555559772868 in do_qmp_dispatch_bh ../qapi/qmp-dispatch.c:110
->     #9 0x5555596f8786 in aio_bh_call ../util/async.c:136
->     #10 0x5555596f8e9b in aio_bh_poll ../util/async.c:164
->     #11 0x555559685803 in aio_dispatch ../util/aio-posix.c:381
->     #12 0x5555596fa324 in aio_ctx_dispatch ../util/async.c:306
->     #13 0x7ffff6c0deda in g_main_dispatch ../glib/gmain.c:3337
->     #14 0x7ffff6c0edfd in g_main_context_dispatch ../glib/gmain.c:4055
->     #15 0x555559726c66 in glib_pollfds_poll ../util/main-loop.c:232
->     #16 0x555559726e43 in os_host_main_loop_wait ../util/main-loop.c:255
->     #17 0x555559727139 in main_loop_wait ../util/main-loop.c:531
->     #18 0x555558fb46fc in qemu_main_loop ../softmmu/runstate.c:722
->     #19 0x555557d45065 in main ../softmmu/main.c:50
->     #20 0x7ffff59611e1 in __libc_start_main (/lib64/libc.so.6+0x281e1)
-> 
-> Typical C bug...
+On Thu, 11 Feb 2021 19:52:42 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-This commit message isn't really helping explain the problem.
-Rather than this huge trace which readers have to then debug,
-can we actually say what is wrong.
-
-After reading the docs it seems the problem is as follows:
-
-  "g_hash_table_add always retains ownership of the pointer
-   passed in as the key. Its return status merely indicates
-   whether the added entry was new, or replaced an existing
-   entry. Thus key must never be freed after this method
-   returns."
-
+> When moving a physical DRC to "Available", drc_isolate_physical() will
+> move the DRC state to STATE_PHYSICAL_POWERON and, if the DRC is marked
+> for unplug, call spapr_drc_detach(). For physical DRCs, drck->empty_state
+> is STATE_PHYSICAL_POWERON, meaning that we're sure that spapr_drc_detach()
+> will end up calling spapr_drc_release() in the end.
 > 
-> Fixes: 90629122d2e ("module: use g_hash_table_add()")
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Likewise, for logical DRCs, drc_set_unusable will move the DRC to "Unusable"
+> state, setting drc->state to STATE_LOGICAL_UNUSABLE, which is the
+> drck->empty_state for logical DRCs. spapr_drc_detach() will call
+> spapr_drc_release() in this case as well.
+> 
+> In both scenarios, spapr_drc_detach() is being used as a spapr_drc_release(),
+> wrapper, where we also set unplug_requested (which is already true, otherwise
+> spapr_drc_detach() wouldn't be called in the first place) and check if
+> drc->state == drck->empty_state, which we also know it's guaranteed to
+> be true because we just set it.
+> 
+> Just use spapr_drc_release() in these functions to be clear of our intentions
+> in both these functions.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 > ---
->  util/module.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/ppc/spapr_drc.c | 32 ++++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
 > 
-> diff --git a/util/module.c b/util/module.c
-> index c65060c167..a2ab0bcdbc 100644
-> --- a/util/module.c
-> +++ b/util/module.c
-> @@ -230,10 +230,11 @@ bool module_load_one(const char *prefix, const char *lib_name, bool mayfail)
->          }
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 84bd3c881f..555a25517d 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -50,6 +50,20 @@ uint32_t spapr_drc_index(SpaprDrc *drc)
+>          | (drc->id & DRC_INDEX_ID_MASK);
+>  }
+>  
+> +static void spapr_drc_release(SpaprDrc *drc)
+> +{
+> +    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> +
+> +    drck->release(drc->dev);
+> +
+> +    drc->unplug_requested = false;
+> +    g_free(drc->fdt);
+> +    drc->fdt = NULL;
+> +    drc->fdt_start_offset = 0;
+> +    object_property_del(OBJECT(drc), "device");
+> +    drc->dev = NULL;
+> +}
+> +
+>  static uint32_t drc_isolate_physical(SpaprDrc *drc)
+>  {
+>      switch (drc->state) {
+> @@ -68,7 +82,7 @@ static uint32_t drc_isolate_physical(SpaprDrc *drc)
+>      if (drc->unplug_requested) {
+>          uint32_t drc_index = spapr_drc_index(drc);
+>          trace_spapr_drc_set_isolation_state_finalizing(drc_index);
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_release(drc);
 >      }
 >  
-> -    if (!g_hash_table_add(loaded_modules, module_name)) {
-> +    if (g_hash_table_contains(loaded_modules, module_name)) {
->          g_free(module_name);
->          return true;
+>      return RTAS_OUT_SUCCESS;
+> @@ -209,7 +223,7 @@ static uint32_t drc_set_unusable(SpaprDrc *drc)
+>      if (drc->unplug_requested) {
+>          uint32_t drc_index = spapr_drc_index(drc);
+>          trace_spapr_drc_set_allocation_state_finalizing(drc_index);
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_release(drc);
 >      }
-> +    g_hash_table_add(loaded_modules, module_name);
 >  
->      search_dir = getenv("QEMU_MODULE_DIR");
->      if (search_dir != NULL) {
-
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>      return RTAS_OUT_SUCCESS;
+> @@ -372,20 +386,6 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+>                               NULL, 0);
+>  }
+>  
+> -static void spapr_drc_release(SpaprDrc *drc)
+> -{
+> -    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> -
+> -    drck->release(drc->dev);
+> -
+> -    drc->unplug_requested = false;
+> -    g_free(drc->fdt);
+> -    drc->fdt = NULL;
+> -    drc->fdt_start_offset = 0;
+> -    object_property_del(OBJECT(drc), "device");
+> -    drc->dev = NULL;
+> -}
+> -
+>  void spapr_drc_detach(SpaprDrc *drc)
+>  {
+>      SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
 
 
