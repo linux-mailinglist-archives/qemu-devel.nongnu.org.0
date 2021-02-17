@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B5D31E334
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:46:51 +0100 (CET)
-Received: from localhost ([::1]:49572 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4836D31E345
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:54:18 +0100 (CET)
+Received: from localhost ([::1]:42804 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWWv-0005yO-UP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:46:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50668)
+	id 1lCWe9-0006dq-Bf
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:54:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWRE-0008Nx-Pq
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:56 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:51012)
+ id 1lCWRH-0008U2-2g
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:59 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:37849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWRC-0004eT-On
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:56 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id cl8so249558pjb.0
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:40:54 -0800 (PST)
+ id 1lCWRE-0004ek-QV
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:58 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id t2so269301pjq.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:40:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=dDaFLG04fKZppE97at5lCyqt8weiRL0OebuqOGVUCiE=;
- b=OvOchk+JWy/S88KPT9Fqh8rmCYvV/QrRulm5sTiKU7R1vZPPniI73/Els63WyPFGtS
- HYeLVT6LdhaBZrQqQsyjz22dX3FsvVdG0kpNExnR7FaxDoQQIRNEI2GJ7iT8H8ezcshg
- VuZpZ+1nmwpfrQOg/905osUbb8RPf1O3HKnxmBkDrGbL25wcZzj8qY9cp4fz847EHZ2o
- hClC3nG1QF3jmcV0UyGSA6n0WdluJ1JRJzNl4afE57rgbSgTbGYt/ikMeVT8BI9bQWmU
- 4ZQ1FP4rAdH1oKBPL5xpDVV22TfKMC+KwRWL0sSWS9FhPRfCc1GcQWW4o8JZEF5MIi4i
- xcCQ==
+ bh=oGnaYxKKBgT3k2qwC/vFmzHYIKgNtQ/wsfJ4eKxQ8qk=;
+ b=BD4LmWgkWmSTY7UpudGTrM66DwiVhJLaditD9NfIaYrAZK34zawRmleVyjBlrELM3f
+ xGwNtPDfLzTTD6HGsth3BsDGU34xWGNR/GX0Gx8YeCNG+Nem7Up+gZweMp5+GIuAgzR/
+ vgxdVT2iU4zCkM96HRX44K+IFdpzo2Zfk1kwz217FY5lxzYKid/bIEAml1BtBLo9ShDO
+ i2wSlYx2wWiMfrjGoPsCHQsDCDd8giWgeKoEVj3cLlAi0Mgnor/He+Fvmc3dBWdpd/Lp
+ 5fNvHnL49BRBGCLgmbA6PveDU2RVKqz3ZG7CJv8vUebzIPNKVAC7bDj9yp2k+ZIQ3uLz
+ ayyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dDaFLG04fKZppE97at5lCyqt8weiRL0OebuqOGVUCiE=;
- b=pSVO04t33jsm0/FF1TFCjYBmlkpV2A1hMZXUXkCpVDURR6aEjS0jyNplriXOV93IRI
- zu56kilBXcowVYOhkM+72+Bp03+dxkTVZh0IpXhoXj8z8UIb9kKRf5jeOig1FncZ78ph
- oE69LfpQIxK9LA7Pp6rQogAHZxaZ4zwi1dUfihqiJ5fNiYGIbHJFhkZTksIjXCkaGGpK
- MsqOqJuoHUNSDM6Ia9QacD0lFZh4Qa56D9EH/+z2Ec3AqyuiuQZykHTEZrNwlPX3LS4B
- rArQ9DC13K5VsnVVXg3/3aFa93n79L7jZOUBbICveZCT0bIOjzOKlL0mjiEn/EClXEOV
- uU7g==
-X-Gm-Message-State: AOAM533qS82Tep7TDvuR1wXmiVudIwqFUpsdCYdT7loLmSm0L2+CpI7O
- 9gDgQHEzeWAmk8BWAZXIvylxX90qTz73tQ==
-X-Google-Smtp-Source: ABdhPJywve46N470X3mzGYxl87kr65gb2KEiy/IaaTSTpsN4onrV8YouNO6Rt2lu8yR9tgCm0cSlvA==
-X-Received: by 2002:a17:90b:e94:: with SMTP id
- fv20mr1156416pjb.207.1613605253370; 
- Wed, 17 Feb 2021 15:40:53 -0800 (PST)
+ bh=oGnaYxKKBgT3k2qwC/vFmzHYIKgNtQ/wsfJ4eKxQ8qk=;
+ b=eTnYH0VHUh569S4f7KxxbCFpOD5rhf4oMjHxWrOPN3wLv/ma6DW5PpgQy3gsDsOLV7
+ o93JV79TKwW0aXZwgpXrI+WVtGwb2FAw+DP476ulpSZkTMPNV9u3cOGf3o4g4uLjLGNc
+ PoxpHqik/wKu+N1nVjKMZiP92idm4N7oIdm+fxXJVWZ2gejteU2NBZ7cWkG8MV2M3xd7
+ YL68Lzk9lpL3ScDawsCZPv8aXALGAiIk8/whPGy93I4/ZLxzvg0g2bwV44uSVcRu2bEd
+ ITtIscl9PFvUD7mM4SWVr015gR+7uNsOgkOZD+MjjL0axrK3X+mmfjlAzqQBWwyee4VP
+ QkdA==
+X-Gm-Message-State: AOAM530hpNDRz/4k8CIayPS4t0RbOnh5D/YhurBMR+OJhe45FSRbWQps
+ Wacpc94UgzvN3y4a78QwT6G8qOTYurE2xQ==
+X-Google-Smtp-Source: ABdhPJws/qTTxlH0xGROVRzaUqKxnUiJBotQwp7FGRUKIq4/w6fDKl1IyyYF7zm+UU/lYD3pj4pC1w==
+X-Received: by 2002:a17:902:8501:b029:e2:ebb4:6e77 with SMTP id
+ bj1-20020a1709028501b02900e2ebb46e77mr1346757plb.43.1613605255386; 
+ Wed, 17 Feb 2021 15:40:55 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.51
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:40:52 -0800 (PST)
+ Wed, 17 Feb 2021 15:40:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/35] Hexagon (target/hexagon) register fields
-Date: Wed, 17 Feb 2021 15:40:00 -0800
-Message-Id: <20210217234023.1742406-13-richard.henderson@linaro.org>
+Subject: [PULL 13/35] Hexagon (target/hexagon) instruction attributes
+Date: Wed, 17 Feb 2021 15:40:01 -0800
+Message-Id: <20210217234023.1742406-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
 References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,33 +85,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-Declare bitfields within registers such as user status register (USR)
-
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <1612763186-18161-12-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1612763186-18161-13-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/reg_fields.h         | 36 +++++++++++++++++++++++++
- target/hexagon/reg_fields_def.h.inc | 41 +++++++++++++++++++++++++++++
- target/hexagon/reg_fields.c         | 27 +++++++++++++++++++
- 3 files changed, 104 insertions(+)
- create mode 100644 target/hexagon/reg_fields.h
- create mode 100644 target/hexagon/reg_fields_def.h.inc
- create mode 100644 target/hexagon/reg_fields.c
+ target/hexagon/attribs.h         | 35 ++++++++++++
+ target/hexagon/attribs_def.h.inc | 97 ++++++++++++++++++++++++++++++++
+ 2 files changed, 132 insertions(+)
+ create mode 100644 target/hexagon/attribs.h
+ create mode 100644 target/hexagon/attribs_def.h.inc
 
-diff --git a/target/hexagon/reg_fields.h b/target/hexagon/reg_fields.h
+diff --git a/target/hexagon/attribs.h b/target/hexagon/attribs.h
 new file mode 100644
-index 0000000000..d3c86c942f
+index 0000000000..54576f4143
 --- /dev/null
-+++ b/target/hexagon/reg_fields.h
-@@ -0,0 +1,36 @@
++++ b/target/hexagon/attribs.h
+@@ -0,0 +1,35 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -128,31 +127,30 @@ index 0000000000..d3c86c942f
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HEXAGON_REG_FIELDS_H
-+#define HEXAGON_REG_FIELDS_H
++#ifndef HEXAGON_ATTRIBS_H
++#define HEXAGON_ATTRIBS_H
 +
-+typedef struct {
-+    int offset;
-+    int width;
-+} RegField;
-+
-+extern const RegField reg_field_info[];
++#include "qemu/bitmap.h"
++#include "opcodes.h"
 +
 +enum {
-+#define DEF_REG_FIELD(TAG, START, WIDTH) \
-+    TAG,
-+#include "reg_fields_def.h.inc"
-+    NUM_REG_FIELDS
-+#undef DEF_REG_FIELD
++#define DEF_ATTRIB(NAME, ...) A_##NAME,
++#include "attribs_def.h.inc"
++#undef DEF_ATTRIB
 +};
 +
-+#endif
-diff --git a/target/hexagon/reg_fields_def.h.inc b/target/hexagon/reg_fields_def.h.inc
++extern DECLARE_BITMAP(opcode_attribs[XX_LAST_OPCODE], A_ZZ_LASTATTRIB);
++
++#define GET_ATTRIB(opcode, attrib) \
++    test_bit(attrib, opcode_attribs[opcode])
++
++#endif /* ATTRIBS_H */
+diff --git a/target/hexagon/attribs_def.h.inc b/target/hexagon/attribs_def.h.inc
 new file mode 100644
-index 0000000000..f2a58d486c
+index 0000000000..381550909d
 --- /dev/null
-+++ b/target/hexagon/reg_fields_def.h.inc
-@@ -0,0 +1,41 @@
++++ b/target/hexagon/attribs_def.h.inc
+@@ -0,0 +1,97 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -170,63 +168,86 @@ index 0000000000..f2a58d486c
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+/*
-+ * For registers that have individual fields, explain them here
-+ *   DEF_REG_FIELD(tag,
-+ *                 bit start offset,
-+ *                 width
-+ */
++/* Keep this as the first attribute: */
++DEF_ATTRIB(AA_DUMMY, "Dummy Zeroth Attribute", "", "")
 +
-+/* USR fields */
-+DEF_REG_FIELD(USR_OVF,            0, 1)
-+DEF_REG_FIELD(USR_FPINVF,         1, 1)
-+DEF_REG_FIELD(USR_FPDBZF,         2, 1)
-+DEF_REG_FIELD(USR_FPOVFF,         3, 1)
-+DEF_REG_FIELD(USR_FPUNFF,         4, 1)
-+DEF_REG_FIELD(USR_FPINPF,         5, 1)
++/* Misc */
++DEF_ATTRIB(EXTENSION, "Extension instruction", "", "")
 +
-+DEF_REG_FIELD(USR_LPCFG,          8, 2)
++DEF_ATTRIB(PRIV, "Not available in user or guest mode", "", "")
++DEF_ATTRIB(GUEST, "Not available in user mode", "", "")
 +
-+DEF_REG_FIELD(USR_FPRND,         22, 2)
++DEF_ATTRIB(FPOP, "Floating Point Operation", "", "")
 +
-+DEF_REG_FIELD(USR_FPINVE,        25, 1)
-+DEF_REG_FIELD(USR_FPDBZE,        26, 1)
-+DEF_REG_FIELD(USR_FPOVFE,        27, 1)
-+DEF_REG_FIELD(USR_FPUNFE,        28, 1)
-+DEF_REG_FIELD(USR_FPINPE,        29, 1)
-diff --git a/target/hexagon/reg_fields.c b/target/hexagon/reg_fields.c
-new file mode 100644
-index 0000000000..bdcab79428
---- /dev/null
-+++ b/target/hexagon/reg_fields.c
-@@ -0,0 +1,27 @@
-+/*
-+ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
++DEF_ATTRIB(EXTENDABLE, "Immediate may be extended", "", "")
 +
-+#include "qemu/osdep.h"
-+#include "reg_fields.h"
++DEF_ATTRIB(ARCHV2, "V2 architecture", "", "")
++DEF_ATTRIB(ARCHV3, "V3 architecture", "", "")
++DEF_ATTRIB(ARCHV4, "V4 architecture", "", "")
++DEF_ATTRIB(ARCHV5, "V5 architecture", "", "")
 +
-+const RegField reg_field_info[] = {
-+#define DEF_REG_FIELD(TAG, START, WIDTH)    \
-+      { START, WIDTH },
-+#include "reg_fields_def.h.inc"
-+      { 0, 0 }
-+#undef DEF_REG_FIELD
-+};
++DEF_ATTRIB(SUBINSN, "sub-instruction", "", "")
++
++/* Load and Store attributes */
++DEF_ATTRIB(LOAD, "Loads from memory", "", "")
++DEF_ATTRIB(STORE, "Stores to memory", "", "")
++DEF_ATTRIB(MEMLIKE, "Memory-like instruction", "", "")
++DEF_ATTRIB(MEMLIKE_PACKET_RULES, "follows Memory-like packet rules", "", "")
++
++
++/* Change-of-flow attributes */
++DEF_ATTRIB(JUMP, "Jump-type instruction", "", "")
++DEF_ATTRIB(INDIRECT, "Absolute register jump", "", "")
++DEF_ATTRIB(CALL, "Function call instruction", "", "")
++DEF_ATTRIB(COF, "Change-of-flow instruction", "", "")
++DEF_ATTRIB(CONDEXEC, "May be cancelled by a predicate", "", "")
++DEF_ATTRIB(DOTNEWVALUE, "Uses a register value generated in this pkt", "", "")
++DEF_ATTRIB(NEWCMPJUMP, "Compound compare and jump", "", "")
++
++/* access to implicit registers */
++DEF_ATTRIB(IMPLICIT_WRITES_LR, "Writes the link register", "", "UREG.LR")
++DEF_ATTRIB(IMPLICIT_WRITES_SP, "Writes the stack pointer", "", "UREG.SP")
++DEF_ATTRIB(IMPLICIT_WRITES_FP, "Writes the frame pointer", "", "UREG.FP")
++DEF_ATTRIB(IMPLICIT_WRITES_LC0, "Writes loop count for loop 0", "", "UREG.LC0")
++DEF_ATTRIB(IMPLICIT_WRITES_LC1, "Writes loop count for loop 1", "", "UREG.LC1")
++DEF_ATTRIB(IMPLICIT_WRITES_SA0, "Writes start addr for loop 0", "", "UREG.SA0")
++DEF_ATTRIB(IMPLICIT_WRITES_SA1, "Writes start addr for loop 1", "", "UREG.SA1")
++DEF_ATTRIB(IMPLICIT_WRITES_P0, "Writes Predicate 0", "", "UREG.P0")
++DEF_ATTRIB(IMPLICIT_WRITES_P1, "Writes Predicate 1", "", "UREG.P1")
++DEF_ATTRIB(IMPLICIT_WRITES_P2, "Writes Predicate 1", "", "UREG.P2")
++DEF_ATTRIB(IMPLICIT_WRITES_P3, "May write Predicate 3", "", "UREG.P3")
++DEF_ATTRIB(IMPLICIT_READS_PC, "Reads the PC register", "", "")
++DEF_ATTRIB(WRITES_PRED_REG, "Writes a predicate register", "", "")
++
++DEF_ATTRIB(CRSLOT23, "Can execute in slot 2 or slot 3 (CR)", "", "")
++DEF_ATTRIB(IT_NOP, "nop instruction", "", "")
++DEF_ATTRIB(IT_EXTENDER, "constant extender instruction", "", "")
++
++
++/* Restrictions to make note of */
++DEF_ATTRIB(RESTRICT_SLOT0ONLY, "Must execute on slot0", "", "")
++DEF_ATTRIB(RESTRICT_SLOT1ONLY, "Must execute on slot1", "", "")
++DEF_ATTRIB(RESTRICT_SLOT2ONLY, "Must execute on slot2", "", "")
++DEF_ATTRIB(RESTRICT_SLOT3ONLY, "Must execute on slot3", "", "")
++DEF_ATTRIB(RESTRICT_NOSLOT1, "No slot 1 instruction in parallel", "", "")
++DEF_ATTRIB(RESTRICT_PREFERSLOT0, "Try to encode into slot 0", "", "")
++
++DEF_ATTRIB(ICOP, "Instruction cache op", "", "")
++
++DEF_ATTRIB(HWLOOP0_END, "Ends HW loop0", "", "")
++DEF_ATTRIB(HWLOOP1_END, "Ends HW loop1", "", "")
++DEF_ATTRIB(DCZEROA, "dczeroa type", "", "")
++DEF_ATTRIB(ICFLUSHOP, "icflush op type", "", "")
++DEF_ATTRIB(DCFLUSHOP, "dcflush op type", "", "")
++DEF_ATTRIB(DCFETCH, "dcfetch type", "", "")
++
++DEF_ATTRIB(L2FETCH, "Instruction is l2fetch type", "", "")
++
++DEF_ATTRIB(ICINVA, "icinva", "", "")
++DEF_ATTRIB(DCCLEANINVA, "dccleaninva", "", "")
++
++/* Keep this as the last attribute: */
++DEF_ATTRIB(ZZ_LASTATTRIB, "Last attribute in the file", "", "")
 -- 
 2.25.1
 
