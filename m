@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D1431D9F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:06:29 +0100 (CET)
-Received: from localhost ([::1]:57936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E696531D9FD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:12:13 +0100 (CET)
+Received: from localhost ([::1]:34228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCMXE-0000fk-Jy
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:06:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37892)
+	id 1lCMcm-0002pC-DB
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:12:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMVY-00005e-51
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:04:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35801)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMa5-00027I-P3
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:09:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58277)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMVW-00057h-26
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:04:43 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCMa3-0006Si-EF
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:09:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613567080;
+ s=mimecast20190719; t=1613567362;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=DsYFCjrCrdnSzIPAw3UeK3sSS4FElXC0w5Wl3Ak+s0A=;
- b=IOsfsIQrg1mbqDF8WY/VLZSK0TiYgiiluzTfUbAWOSqokgwqzWZuNjbsySao2pVtJboeuj
- Hu/CIMbljNj3zNYuSNoahq9B06jZ3ixUdn+IJUCHn6yjA/YYMDC5a8w2fOsJZ8YMD7agZO
- iAcw0SpV1dLzGnRfmgmIU79Ykv5uLfc=
+ bh=wot+VZLx+lFv02YAKxdUTSRJ6j+aHYWDMyUP0jjKF5A=;
+ b=V0ahElDI+pT+tVE9JNplUfDNXSG9KY+mVd40NPzAn/Kmr9+0OfqBxPZ1Y+yMm5v1RTnfSr
+ 5hNq2/yFlmrNl2XVrD9RogEnZaszHz+2i4KwKgh4pD6JmVmIQFaZlNUsl+pcH6HuBoTorG
+ 1EPXUCwBWQuaAN3e7hMankG3po+vtCw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-429-_occ2citPGi0CFua1dfyBw-1; Wed, 17 Feb 2021 08:04:37 -0500
-X-MC-Unique: _occ2citPGi0CFua1dfyBw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-202-biBSvWIjMGKH3RoLe5xoMQ-1; Wed, 17 Feb 2021 08:09:20 -0500
+X-MC-Unique: biBSvWIjMGKH3RoLe5xoMQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E325B192CC40;
- Wed, 17 Feb 2021 13:04:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9449192D785;
+ Wed, 17 Feb 2021 13:09:19 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
  [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9FCB919C46;
- Wed, 17 Feb 2021 13:04:35 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 74A471349A;
+ Wed, 17 Feb 2021 13:09:19 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 964F01800398; Wed, 17 Feb 2021 14:04:28 +0100 (CET)
-Date: Wed, 17 Feb 2021 14:04:28 +0100
+ id 60ED31800398; Wed, 17 Feb 2021 14:09:15 +0100 (CET)
+Date: Wed, 17 Feb 2021 14:09:15 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Do not copy members of pixman image
-Message-ID: <20210217130428.ez6qc5444vqxfxc7@sirius.home.kraxel.org>
-References: <20210212000629.28551-1-akihiko.odaki@gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Remove the uses of full screen APIs
+Message-ID: <20210217130915.ihqdqxjqmbrzlvpv@sirius.home.kraxel.org>
+References: <20210212000540.28486-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210212000629.28551-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210212000540.28486-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,18 +82,26 @@ Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 12, 2021 at 09:06:29AM +0900, Akihiko Odaki wrote:
-> The old CocoaView had an idea of synchronizing the host window
-> configuration and the guest screen configuration. Here, the guest screen
-> actually means pixman image given ui/cocoa display implementation.
+On Fri, Feb 12, 2021 at 09:05:40AM +0900, Akihiko Odaki wrote:
+> The detections of full screen APIs were wrong. A detection is coded as:
+> [NSView respondsToSelector:@selector(exitFullScreenModeWithOptions:)]
+> but it should be:
+> [NSView instancesRespondToSelector:@selector(exitFullScreenModeWithOptions:)]
 > 
-> However, [CocoaView -drawRect:] directly interacts with the pixman
-> image buffer in reality. There is no such distinction of "host" and
-> "guest." This change removes the "host" configuration and let drawRect
-> consistently have the direct reference to pixman image. It allows to
-> get rid of the error-prone "sync" and reduce code size a bit.
+> The uses of full screen APIs were also incorrect, and if you fix the
+> detections, the full screen view stretches the video, changing the
+> aspect ratio, even if zooming is disabled.
+> 
+> Remove the code as it does nothing good.
 
-Added to UI patch queue.
+So, it's broken right now (and probably for quite a while without anyone
+complaining).  And the attempt to fix it didn't work out very well.
+Correct?
+
+Just dropping the code makes sense to me then.
+
+Any objections or better suggestions from the macos camp?
+If not I'll go queue it for the next UI pull request in a day or two.
 
 thanks,
   Gerd
