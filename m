@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090C231D794
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:36:33 +0100 (CET)
-Received: from localhost ([::1]:37026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DF2D31D791
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:33:29 +0100 (CET)
+Received: from localhost ([::1]:60874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCKC8-0002Dy-44
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:36:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51258)
+	id 1lCK9A-0000FD-BA
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:33:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50412)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCKBQ-0001nm-1k
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:35:48 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48840)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCKBN-0002Gp-Sx
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:35:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lCKBL-0002I2-2L
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 10:35:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 100152E8024
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 10:35:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lCK7R-0008EI-Ny
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:31:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lCK7P-00016B-Hg
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:31:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613557895;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cpVfqtK4XfZyulMskbxlfSyHn9Cdym3iuCo9H83Xr/M=;
+ b=bgoLxlPST5vD/PZjjNdzta2IIoa77qzVLhW0L+3cxvuU06o74IsgPW5zdgo8FdlnbU18Kx
+ BXTxM/3l2g3Qy8GryOZw2bfbV/1TkQ5ic83FcBS0kH3F2P+Twh6gyE/qU8jkkZQjLzPEEj
+ I56ytx0sfaf8IlbyG+F1Fv92Gxs+Wj4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-1jyNSfpMNkeWkLjEJhoFFQ-1; Wed, 17 Feb 2021 05:31:31 -0500
+X-MC-Unique: 1jyNSfpMNkeWkLjEJhoFFQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4D594CE642;
+ Wed, 17 Feb 2021 10:31:30 +0000 (UTC)
+Received: from [10.36.114.178] (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DB0321002382;
+ Wed, 17 Feb 2021 10:31:21 +0000 (UTC)
+To: Peter Xu <peterx@redhat.com>, Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+References: <20210211210549.GE157159@xz-x1>
+ <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
+ <20210212030621.GF157159@xz-x1>
+ <79c3ebb9-82ba-4714-0cf1-9f2e08eff660@redhat.com>
+ <20210212161125.GH157159@xz-x1>
+ <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
+ <20210216233545.GD91264@xz-x1>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <12b9487c-103c-e938-2543-2d6418517e9e@redhat.com>
+Date: Wed, 17 Feb 2021 11:31:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Feb 2021 10:29:21 -0000
-From: Thomas Huth <1815445@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ggardet jnsnow
-X-Launchpad-Bug-Reporter: Guillaume Gardet (ggardet)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154988507422.19358.16245527010669752237.malonedeb@soybean.canonical.com>
-Message-Id: <161355776224.5337.4735547068770662802.launchpad@gac.canonical.com>
-Subject: [Bug 1815445] Re: change and eject commands are not working on an
- overlay
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
-X-Launchpad-Hash: 34832be3ef70b5ed5617acb4037503f2bd126c1f
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210216233545.GD91264@xz-x1>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,41 +87,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815445 <1815445@bugs.launchpad.net>
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+On 17.02.21 00:35, Peter Xu wrote:
+> Hi, Andrey,
+> 
+> On Sat, Feb 13, 2021 at 12:34:07PM +0300, Andrey Gruzdev wrote:
+>> On 12.02.2021 19:11, Peter Xu wrote:
+>>> On Fri, Feb 12, 2021 at 09:52:52AM +0100, David Hildenbrand wrote:
+>>>> On 12.02.21 04:06, Peter Xu wrote:
+>>>>> On Thu, Feb 11, 2021 at 10:09:58PM +0100, David Hildenbrand wrote:
+>>>>>> The issue is when the discard happened before starting the snapshot. Write-protection won‘t work and the zeroed content won‘t be retained in the snapshot.
+>>>>> I see what you mean now, and iiuc it will only be a problem if init_on_free=1.
+>>>>> I think CONFIG_INIT_ON_FREE_DEFAULT_ON should be off for most distros, so the
+>>>> Yes, some distros seem to enable init_on_alloc instead. Looking at the
+>>>> introducing commit 6471384af2a6 ("mm: security: introduce init_on_alloc=1
+>>>> and init_on_free=1 boot options") there are security use cases and it might
+>>>> become important with memory tagging.
+>>>>
+>>>> Note that in Linux, there was also the option to poison pages with 0,
+>>>> removed via f289041ed4cf ("mm, page_poison: remove
+>>>> CONFIG_PAGE_POISONING_ZERO"), available in some kernels that supported free
+>>>> page reporting.
+>>>>
+>>>> It got removed and use cases got told to use init_on_free.
+>>
+>> I think we talk about init_on_free()/init_on_alloc() on guest side, right?
+> 
+> Right.  IIUC it's the init_on_free() that matters.
+> 
+> We'll have no issue if init_on_alloc=1 && init_on_free=0, since in that case
+> all pages will be zeroed after all before the new page returned to the caller
+> to allocate the page. Then we're safe, I think.
+> 
+>> Still can't get how it relates to host's unpopulated pages..
+>> Try to look from hardware side. Untouched SDRAM in hardware is required to contain zeroes somehow? No.
+>> These 'trash' pages in migration stream are like never written physical memory pages, they are really
+>> not needed in snapshot but they don't do any harm as well as there's no harm in that never-written physical
+>> page is full of garbage.
+>>
+>> Do these 'trash' pages in snapshot contain sensitive information not allowed to be accessed by the same VM?
+>> I think no. Or we need a good example how it can be potentially exploited.
+>>
+>> The only issue that I see is madvise(MADV_DONTNEED) for RAM blocks during snapshotting. And free page reporting
+>> or memory balloon is secondary - the point is that UFFD_WP snapshot is incompatible with madvise(MADV_DONTNEED) on
+>> hypervisor side. No matter which guest functionality can induce it.
+> 
+> I think the problem is if with init_on_free=1, the kernel will assume that
+> all the pages that got freed has been zeroed before-hand so it thinks that it's
+> a waste of time to zero it again when the page is reused/reallocated.  As a
+> reference see kernel prep_new_page() where there's:
+> 
+> 	if (!free_pages_prezeroed() && want_init_on_alloc(gfp_flags))
+> 		kernel_init_free_pages(page, 1 << order);
+> 
+> In this case I believe free_pages_prezeroed() will return true, then we don't
+> even need to check want_init_on_alloc() at all. Note that it'll cover all the
+> cases where kernel allocates with __GFP_ZERO: it means it could happen that
+> even the guest kernel tries to alloc_page(__GFP_ZERO) it may got a page with
+> random data after the live snapshot is loaded.  So it's not about any hardware,
+> it's the optimization of guest kernel instead.  It is actually reasonable and
+> efficient since if we *know* that page is zero page then we shouldn't bother
+> zeroing it again.  However it brought us a bit of trouble on live snapshot that
+> the current solution might not work for all guest OS configurations.
 
--- =
+Adding to that, we are so far talking about how Linux *currently* 
+implements it, but that is just an instance of the problem where it 
+could happen in practice.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815445
+Free page reporting documents in the spec that with the right 
+configuration, previously reported free pages are guaranteed to retain a 
+certain value (e.g., 0) when re-accessed. So any future guest changes 
+that rely on the virtio spec (e.g., Windows support) would be 
+problematic - as these pages in the snapshot don't actually keep the value.
 
-Title:
-  change and eject commands are not working on an overlay
+-- 
+Thanks,
 
-Status in QEMU:
-  Incomplete
+David / dhildenb
 
-Bug description:
-  From qemu monitor, 'change' and 'eject' commands are not working on a CD =
-overlay.
-  'info block' returns:
-    cd0-overlay0: /home/guillaume/test/cd0-overlay0 (qcow2)
-      Attached to:      cd0-device
-      Removable device: not locked, tray closed
-      Cache mode:       writeback, ignore flushes
-      Backing file:     /home/guillaume/test.iso (chain depth: 1)
-
-  But 'eject cd0-overlay0' returns:
-    Device 'cd0-overlay0' not found
-  I also tried 'cd0-device' and 'cd0'.
-
-  Same problem with 'change' command.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1815445/+subscriptions
 
