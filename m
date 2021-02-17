@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8024F31D3F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 03:35:07 +0100 (CET)
-Received: from localhost ([::1]:48702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC7D131D3F3
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 03:35:05 +0100 (CET)
+Received: from localhost ([::1]:48646 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCCgE-0000tO-K3
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 21:35:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52648)
+	id 1lCCgC-0000s6-Nd
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 21:35:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCCeZ-0008Nn-Rh; Tue, 16 Feb 2021 21:33:24 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51419 helo=ozlabs.org)
+ id 1lCCeZ-0008No-UI; Tue, 16 Feb 2021 21:33:24 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:48879 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCCeX-0004gl-2j; Tue, 16 Feb 2021 21:33:23 -0500
+ id 1lCCeW-0004gg-TG; Tue, 16 Feb 2021 21:33:23 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DgMMZ6qTTz9sRf; Wed, 17 Feb 2021 13:33:14 +1100 (AEDT)
+ id 4DgMMb0BN9z9sRR; Wed, 17 Feb 2021 13:33:14 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1613529194;
- bh=ybuP2uxZWcqgXGIdNxIAsC/Po4B22bK9vG+eVKrWJgM=;
+ d=gibson.dropbear.id.au; s=201602; t=1613529195;
+ bh=CIGN4MUEvFIVekgieEb3erHHHeOPqyQ9kfCkTb65gm4=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=JacNLUBCAsllnEmi7Pf9wu1i0gxrLu+CJRt6vVSnGSSXc+oUwaf/oXuGFnx6uK+gs
- YzwL8SezqbBTXV1Bq6Z60HHSjXoKAk6JI7jpGkN13JFaxNguT8ev+ULEx0jkfKcrbU
- nNHeKhWOPmIsntGHmZUYb64dUhrFigo3xAryQuew=
-Date: Wed, 17 Feb 2021 13:31:29 +1100
+ b=P1cAvf+Nz5LLZex1gVB4tg4GokPlz7zFDVWpbWGl4cvQoLBWDvr8IgmDO9AV8xV/J
+ oJ5JX/a1l4F/hkbZPeLGvcUB9ElsqC8vmeo5O+AP+Y/MmryR1hY/dmO9HZ3MyLj0/0
+ rrjhM9COdiNvbhTO6FnskcSO+RGIvjAN0F+0r/qo=
+Date: Wed, 17 Feb 2021 13:33:09 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 7/7] spapr_drc.c: use DRC reconfiguration to cleanup
- DIMM unplug state
-Message-ID: <YCyAAe4dJzpsgQ0x@yekko.fritz.box>
+Subject: Re: [PATCH v3 0/7] CPU unplug timeout/LMB unplug cleanup in DRC
+ reconfiguration
+Message-ID: <YCyAZVv+KB07MpeW@yekko.fritz.box>
 References: <20210211225246.17315-1-danielhb413@gmail.com>
- <20210211225246.17315-8-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="2ohOW0kNf5n6XSvz"
+ protocol="application/pgp-signature"; boundary="cNEuG/hwu3sAzWuk"
 Content-Disposition: inline
-In-Reply-To: <20210211225246.17315-8-danielhb413@gmail.com>
+In-Reply-To: <20210211225246.17315-1-danielhb413@gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,214 +63,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---2ohOW0kNf5n6XSvz
-Content-Type: text/plain; charset=utf-8
+--cNEuG/hwu3sAzWuk
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 07:52:46PM -0300, Daniel Henrique Barboza wrote:
-> Handling errors in memory hotunplug in the pSeries machine is more complex
-> than any other device type, because there are all the complications that =
-other
-> devices has, and more.
+On Thu, Feb 11, 2021 at 07:52:39PM -0300, Daniel Henrique Barboza wrote:
+> Hi,
 >=20
-> For instance, determining a timeout for a DIMM hotunplug must consider if=
- it's a
-> Hash-MMU or a Radix-MMU guest, because Hash guests takes longer to hotunp=
-lug DIMMs.
-> The size of the DIMM is also a factor, given that longer DIMMs naturally =
-takes
-> longer to be hotunplugged from the kernel. And there's also the guest mem=
-ory usage to
-> be considered: if there's a process that is consuming memory that would b=
-e lost by
-> the DIMM unplug, the kernel will postpone the unplug process until the pr=
-ocess
-> finishes, and then initiate the regular hotunplug process. The first two
-> considerations are manageable, but the last one is a deal breaker.
+> This is marked as a v3 as it started as a result of discussions that
+> followed the v2 [1].=20
 >=20
-> There is no sane way for the pSeries machine to determine the memory load=
- in the guest
-> when attempting a DIMM hotunplug - and even if there was a way, the guest=
- can start
-> using all the RAM in the middle of the unplug process and invalidate our =
-previous
-> assumptions - and in result we can't even begin to calculate a timeout fo=
-r the
-> operation. This means that we can't implement a viable timeout mechanism =
-for memory
-> unplug in pSeries.
+> The idea with this series is to add CPU hotunplug timeout to avoid the
+> situations where the kernel refuses to release the CPU. The reasoning
+> for a timeout approach is described in patch 05.
 >=20
-> Going back to why we would consider an unplug timeout, the reason is that=
- we can't
-> know if the kernel is giving up the unplug. Turns out that, sometimes, we=
- can.
-> Consider a failed memory hotunplug attempt where the kernel will error ou=
-t with
-> the following message:
+> While investigating putting a timeout in memory hotunplug, I have found
+> out that we have a way to determine, at least in some cases, when the ker=
+nel
+> refuses to release the DIMM during a memory hotunplug. This alleviate one
+> of the most common issues (at least AFAIK) with memory hotunplug and it
+> made me gave up attempting to put a timeout in memory hotunplug altogethe=
+r.
 >=20
-> 'pseries-hotplug-mem: Memory indexed-count-remove failed, adding any remo=
-ved LMBs'
+> At this point I didn't add timeouts for PCI hotunplug operations, but it
+> is trivial to do so if desirable.
 >=20
-> This happens when there is a LMB that the kernel gave up in removing, and=
- the LMBs
-> marked for removal of the same DIMM are now being added back. This proces=
-s happens
+> The series goes as follows:
+>=20
+> - Patches 1-4: DRC simplifications/cleanups. The idea with these
+>   cleanups were to trim the spapr_drc_detach use as much as possible,
+>   since the function would be used to start the timeout timer
+>=20
+> - Patch 5: timeout timer infrastructure
+>=20
+> - Patch 6: add cpu unplug timeout
+>=20
+> - Patch 7: reset DIMM unplug state when the kernel reconfigures the DRC
+>   connector
 
-We need to be a little careful about terminology here.  From the
-guest's point of view, there's no such thing as a DIMM, only LMBs.
-What the guest is doing here is essentially rejecting a single "index
-+ number" DRC unplug request, which corresponds to one DIMM on the
-qemu side.
-
-> in the pseries kernel in [1], dlpar_memory_remove_by_ic() into dlpar_add_=
-lmb(), and
-> after that update_lmb_associativity_index(). In this function, the kernel=
- is configuring
-> the LMB DRC connector again. Note that this is a valid usage in LOPAR, as=
- stated in
-> section "ibm,configure-connector RTAS Call":
->=20
-> 'A subsequent sequence of calls to ibm,configure-connector with the same =
-entry from
-> the =E2=80=9Cibm,drc-indexes=E2=80=9D or =E2=80=9Cibm,drc-info=E2=80=9D p=
-roperty will restart the configuration of
-> devices which were not completely configured.'
->=20
-> We can use this kernel behavior in our favor. If a DRC connector reconfig=
-uration
-> for a LMB that we marked as unplug pending happens, this indicates that t=
-he kernel
-> changed its mind about the unplug and is reasserting that it will keep us=
-ing the
-> DIMM. In this case, it's safe to assume that the whole DIMM unplug was ca=
-ncelled.
->=20
-> This patch hops into rtas_ibm_configure_connector() and, in the scenario =
-described
-> above, clear the unplug state for the DIMM device. This will not solve al=
-l the
-> problems we still have with memory unplug, but it will cover this case wh=
-ere the
-> kernel reconfigures LMBs after a failed unplug. We are a bit more resilie=
-nt,
-> without using an unreliable timeout, and we didn't make the remaining err=
-or cases
-> any worse.
-
-I wonder if we could use this as a beginning of a hotplug failure
-reporting mechanism.  As noted, this is explicitly allowed by PAPR and
-I think in general it makes sense that a configure-connector would
-re-assert that the guest is using the resource and we can't unplug it.
-
-Could we extend guests to do an indicative configure-connector on any
-unplug it knows it can't complete?  Or if configure-connector is too
-disruptive could we use an (extra) H_SET_INDICATOR to "UNISOLATE"
-state? If I'm reading right, that should be both permitted and a no-op
-for existing PAPR implementations, so it should be a pretty safe way
-to add that indication.
+Very nice start.  More comments throughout.
 
 >=20
-> [1] arch/powerpc/platforms/pseries/hotplug-memory.c
 >=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr.c         | 30 ++++++++++++++++++++++++++++++
->  hw/ppc/spapr_drc.c     | 14 ++++++++++++++
->  include/hw/ppc/spapr.h |  2 ++
->  3 files changed, 46 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index ecce8abf14..4bcded4a1a 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3575,6 +3575,36 @@ static SpaprDimmState *spapr_recover_pending_dimm_=
-state(SpaprMachineState *ms,
->      return spapr_pending_dimm_unplugs_add(ms, avail_lmbs, dimm);
->  }
-> =20
-> +void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
-> +                                           PCDIMMDevice *dimm)
-> +{
-> +    SpaprDimmState *ds =3D spapr_pending_dimm_unplugs_find(spapr, dimm);
-> +    SpaprDrc *drc;
-> +    uint32_t nr_lmbs;
-> +    uint64_t size, addr_start, addr;
-> +    int i;
-> +
-> +    if (ds) {
-> +        spapr_pending_dimm_unplugs_remove(spapr, ds);
-> +    }
-
-Hrm... how would !ds arise?  Could this just be an assert?
-
-> +
-> +    size =3D memory_device_get_region_size(MEMORY_DEVICE(dimm), &error_a=
-bort);
-> +    nr_lmbs =3D size / SPAPR_MEMORY_BLOCK_SIZE;
-> +
-> +    addr_start =3D object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_P=
-ROP,
-> +                                          &error_abort);
-> +
-> +    addr =3D addr_start;
-> +    for (i =3D 0; i < nr_lmbs; i++) {
-> +        drc =3D spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
-> +                              addr / SPAPR_MEMORY_BLOCK_SIZE);
-> +        g_assert(drc);
-> +
-> +        drc->unplug_requested =3D false;
-> +        addr +=3D SPAPR_MEMORY_BLOCK_SIZE;
-> +    }
-> +}
-> +
->  /* Callback to be called during DRC release. */
->  void spapr_lmb_release(DeviceState *dev)
->  {
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index c143bfb6d3..eae941233a 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -1230,6 +1230,20 @@ static void rtas_ibm_configure_connector(PowerPCCP=
-U *cpu,
-> =20
->      drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> =20
-> +    /*
-> +     * This indicates that the kernel is reconfiguring a LMB due to
-> +     * a failed hotunplug. Clear the pending unplug state for the whole
-> +     * DIMM.
-> +     */
-> +    if (spapr_drc_type(drc) =3D=3D SPAPR_DR_CONNECTOR_TYPE_LMB &&
-> +        drc->unplug_requested) {
-> +
-> +        /* This really shouldn't happen in this point, but ... */
-> +        g_assert(drc->dev);
-
-I'm a little worried that a buggy or malicious guest could trigger
-this assert.
-
-> +
-> +        spapr_clear_pending_dimm_unplug_state(spapr, PC_DIMM(drc->dev));
-> +    }
-> +
->      if (!drc->fdt) {
->          void *fdt;
->          int fdt_size;
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index ccbeeca1de..5bcc8f3bb8 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -847,6 +847,8 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
->  int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **er=
-rp);
->  void spapr_clear_pending_events(SpaprMachineState *spapr);
->  void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
-> +void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
-> +                                           PCDIMMDevice *dimm);
->  int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
+> v2 link: [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg044=
+00.html
+>=20
+>=20
+> Daniel Henrique Barboza (7):
+>   spapr_drc.c: do not call spapr_drc_detach() in drc_isolate_logical()
+>   spapr_pci.c: simplify spapr_pci_unplug_request() function handling
+>   spapr_drc.c: use spapr_drc_release() in isolate_physical/set_unusable
+>   spapr: rename spapr_drc_detach() to spapr_drc_unplug_request()
+>   spapr_drc.c: introduce unplug_timeout_timer
+>   spapr_drc.c: add hotunplug timeout for CPUs
+>   spapr_drc.c: use DRC reconfiguration to cleanup DIMM unplug state
+>=20
+>  hw/ppc/spapr.c             |  40 ++++++++++++-
+>  hw/ppc/spapr_drc.c         | 116 +++++++++++++++++++++++++++----------
+>  hw/ppc/spapr_pci.c         |  44 +++++---------
+>  hw/ppc/trace-events        |   2 +-
+>  include/hw/ppc/spapr.h     |   2 +
+>  include/hw/ppc/spapr_drc.h |   7 ++-
+>  6 files changed, 147 insertions(+), 64 deletions(-)
+>=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -279,25 +135,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---2ohOW0kNf5n6XSvz
+--cNEuG/hwu3sAzWuk
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsf/8ACgkQbDjKyiDZ
-s5Iuhw//UIs1N0GLNX9eGtcbAJQAnmh1x8W3jMWfO58Fcf/GHh6yA44cfw5bd95z
-2ioHNkqODHyC1SJ57AWzMIcQEfSsbGUEML+cILR5lwJDOHzjBl4xkSbcjN7pq2Ax
-HRPts3ke2+wVhxg9mx6addUFTKfQw6BrUGCg2ueBnN+kyDdGIEa2n9OpvAJtD5Rn
-aXp/i+prgXRVzZCFrxmCc95udQRtNTO9Lsh3y/H7qucDRerNa6+UezuaAH9KS2Th
-lk+mayEwMJwmj2MxGFMFCeRwu6Ky5HqccgOUXjwFdmJzUWamq/RStuelAwCT9oVq
-KX29T0S6A/SVP4N/PEEEzctymkTa4LQUEjwLQH4iBtFDGgyauZGuiHy3IPonlsty
-7dya1SwfjUH3DwNejUADJX1haEVtiFDk238cSsWfZtK58/ry/djMs6Qo/aeLopK3
-0OFYxsniovAQ/MNboDIUNh7qb3Moakemx+BvjPdr8p85bxUU+dUotJhpk3v+mRj0
-1cx8GEeNLFEcf1uB/pKcoUp4loPvXhNjEUC9qcoathZRRubQE9zzZWbfI9Ldlj0z
-rvyxDC7ugqyVhlTB9Y0lWsguQKvKqE9RZQgAP7leEtnJ1BHnEDlSlcuYfzTFNjLv
-FK7+XjvHudlBk4I5zQkD29HWd7IAdh6kT/948zqnYbuCeXaHly8=
-=1vbB
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsgGUACgkQbDjKyiDZ
+s5LMyw//fWcPHUxvUvQZ0ICGd1l/M2mDilQXtY10X3vaaWLdDvChRvLf7Lb1du1D
+3xl8GtkYjPPgXq6fsPHAo8bvmVw3J/icTDrnDv5/InYcgDJZvEU+lvX2p4PPE+tD
+JT0sElqbi2h9rQfjW6j9tOB32ZeunlPocXseeweVwCHn9m2FsKuNhMJPui/5TnB+
+Q0nqTi7i7IPkQzGgWTJb4wbxkOMEAVhwNKKFpf9OfyTYM4lItKJ5/rOfqqxyPgrY
+er41OgOvVUAhptGtS+ZW2h0B85QeK32lQfWlO3MBzhayjGJxWnNmc5NWDsn1G3LI
+nLAlRX4OuhCVOUr6GSz4OTq91foLtQBGRR6+nR+7fWnNa3k1iTwROG2Fq3l3AN8R
+pNr9yoL5qnF5+zdweAos1l0irTe6+W+/F0oFEJElfO4jXkuzDVND82tOB9Tq9zpd
+hxZlp+C70DEfEfCiAIBfVLc+yb8uEv7qCWm3VCIPulTRfwrKz8z7QEfUyFHnOcmM
+iXsyN7BvOv5mcbPN0IFGgiNzY9N/skKdd1SrzBddq0ZrhRzBwevlbDR66Fbo2HSA
+GFDzqGbAx2LJB+l+9rmKIyoDrLu4SU3VlEBL5Pt51NOtdoDei7/MzqDzLShxLrWW
+2U5RDbp3oNmg+xGXDicBO/ECbs28leNsd1k2lEu3yWgO+uLHiCc=
+=PZJu
 -----END PGP SIGNATURE-----
 
---2ohOW0kNf5n6XSvz--
+--cNEuG/hwu3sAzWuk--
 
