@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C9A31DCAF
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 16:51:46 +0100 (CET)
-Received: from localhost ([::1]:41456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D2C431DCE7
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 17:09:23 +0100 (CET)
+Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCP78-0003Qx-Ls
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 10:51:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49064)
+	id 1lCPOD-0003jN-Od
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 11:09:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCP5Q-0002pM-4l
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 10:49:56 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCP5O-0002MF-AF
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 10:49:55 -0500
-Received: by mail-wr1-x431.google.com with SMTP id b3so17901852wrj.5
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 07:49:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=+56YKTG2tnG1hMQoFNwPlggugsvmkQC+/nvu6PBcUVM=;
- b=Tw3KvhLqXXzXnuI4pRxnJxG7kKY79pf4XkQZYe8pppfsme8V42nGaLvZzJcy9nt4pG
- 2yNlUuKw3AnoGxUNp/uMcakjJdnO+HVYVHfi8ZkSEvaEoOqsB/s5Hn1DPK1IKp3ucRMZ
- LP9BIaHP2Sy7c5FsQa0zhS2u24tdDKv3y++xR8dSczwpPnNndoYCudCiv1aiPW8SKOlD
- Vm35WzBbEyKmeMlFASTScVa27RVQiZGiZ7oDdYlkKzVQtIIVDEexJ/21RXFYj8GDx0vs
- PXK1iUxjtb3LGVEYCkYBxJDz6kHDD7xmcitMEZbQ4dU0JFJababUZ8uNrbHzs8j8ld3E
- LCYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=+56YKTG2tnG1hMQoFNwPlggugsvmkQC+/nvu6PBcUVM=;
- b=eoOaJG0Y4SgSXdMUkveTDdL6Y2TtzbxAHEC12D8dQjDjgfk2X6WN42NPJSW+8FSIwI
- eEaKuK+LJcvgz3LVvlF24IC6vUbQf7VCPQX2MoyXUaoXvMSwva67CniEXYfJWjHXnZ8b
- tGb+9XXfi4Y65lORTE3kq0TiVDHr8ffToRmoMIvHIr5bBvo85jQI1I9WVmdj6d/dMz1r
- rg3ut5tid0BgpQeYcdKJAna3ZHljYcCsTjESuNprsBekqTIHn64i9BEpqT3uwKadd7Gr
- 0DruB8CAoS1diNMy87wR6Ye4MDqsN5FOsQJ3vNIReLJ331pMQLlpGIw342V3uSJnMouK
- aqCA==
-X-Gm-Message-State: AOAM5303MLtp3Wk86rYrDZYdOa/Fru1wn71SmBiWJZ84WYRjJ2nGJ/1u
- rTMycIzmiX508IXrn1ZG99HoDw==
-X-Google-Smtp-Source: ABdhPJxswB83Sb/KzDqS/LTLxn/3t3i0EAKjwNNIlESlQZCB7yYeX2vGLBIAWgb0EtWo8ucrYtTjxg==
-X-Received: by 2002:adf:e543:: with SMTP id z3mr8125188wrm.181.1613576992361; 
- Wed, 17 Feb 2021 07:49:52 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 16sm3355281wmi.43.2021.02.17.07.49.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 07:49:50 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 329191FF7E;
- Wed, 17 Feb 2021 15:49:49 +0000 (GMT)
-References: <87y2fmsrxw.fsf@linaro.org>
- <CAHFG_=VHqTORBGshu5CpC83h3EtFeD1pPteftC4UfSUP9OyUbQ@mail.gmail.com>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: =?utf-8?Q?Fran=C3=A7ois?= Ozog <francois.ozog@linaro.org>
-Subject: Re: Measuring the impact of buffer copy for virtio-gpu guests
-Date: Wed, 17 Feb 2021 15:48:01 +0000
-In-reply-to: <CAHFG_=VHqTORBGshu5CpC83h3EtFeD1pPteftC4UfSUP9OyUbQ@mail.gmail.com>
-Message-ID: <87v9aqsnhe.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCPMQ-0002kg-C0
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:07:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25440)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCPMN-0008Oi-Cf
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:07:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613578045;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nnvbOEgKpV0k7TMTnKJo8eVRFP3QkXXnXYdrnNeKUGY=;
+ b=CQGxB2kU3E4CbkpDKLLbbHkzV9u6gZ5AXnRYsG5TNIkczLjydgZum3nlir62R8yB0Abquf
+ D7qGgB/7tq/BckucN7rmXXLVOTKS4sLhyU7sXrN3pRKAtpaqpgn69fqrk25WlN8/LtmG1/
+ aEGLl3xb4B9BdfT29StIoH3AUZ8SQA0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-VGpyHkHXMY66o2-Uhf18hQ-1; Wed, 17 Feb 2021 11:07:21 -0500
+X-MC-Unique: VGpyHkHXMY66o2-Uhf18hQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2FCD107ACE4;
+ Wed, 17 Feb 2021 16:07:20 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1FAC45D748;
+ Wed, 17 Feb 2021 16:07:19 +0000 (UTC)
+Subject: Re: [PATCH v6 15/19] qapi/introspect.py: Add docstrings to _gen_tree
+ and _tree_to_qlit
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210216021809.134886-1-jsnow@redhat.com>
+ <20210216021809.134886-16-jsnow@redhat.com>
+ <875z2r6njn.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <377a32a9-2ace-dac2-dfd6-3db8d581f72c@redhat.com>
+Date: Wed, 17 Feb 2021 11:07:18 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <875z2r6njn.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,75 +83,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mikhail Golubev <Mikhail.Golubev@opensynergy.com>,
- Vasyl Vavrychuk <Vasyl.Vavrychuk@opensynergy.com>,
- Zhao Jiancong <chou.kensou@jp.panasonic.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Griffin <peter.griffin@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Stratos Mailing List <stratos-dev@op-lists.linaro.org>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/17/21 4:39 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/introspect.py | 18 ++++++++++++++++++
+>>   1 file changed, 18 insertions(+)
+>>
+>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+>> index 45284af1330..5d4f5e23f7e 100644
+>> --- a/scripts/qapi/introspect.py
+>> +++ b/scripts/qapi/introspect.py
+>> @@ -99,6 +99,15 @@ def __init__(self, value: _ValueT, ifcond: Iterable[str],
+>>   def _tree_to_qlit(obj: JSONValue,
+>>                     level: int = 0,
+>>                     dict_value: bool = False) -> str:
+>> +    """
+>> +    Convert the type tree into a QLIT C string, recursively.
+>> +
+>> +    :param obj: The value to convert.
+>> +                This value may not be Annotated when dict_value is True.
+>> +    :param level: The indentation level for this particular value.
+>> +    :param dict_value: True when the value being processed belongs to a
+>> +                       dict key; which suppresses the output indent.
+>> +    """
+>>   
+>>       def indent(level: int) -> str:
+>>           return level * 4 * ' '
+>> @@ -244,6 +253,15 @@ def _gen_features(features: List[QAPISchemaFeature]
+>>       def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
+>>                     ifcond: Sequence[str],
+>>                     features: Optional[List[QAPISchemaFeature]]) -> None:
+>> +        """
+>> +        Build and append a SchemaInfo object to self._trees.
+>> +
+>> +        :param name: The entity's name.
+>> +        :param mtype: The entity's meta-type.
+>> +        :param obj: Additional entity fields, as appropriate for the meta-type.
+> 
+> "Additional members", since we're talking about a JSON object.
+> 
 
-Fran=C3=A7ois Ozog <francois.ozog@linaro.org> writes:
+I thought "field" was also appropriate for JSON, but I suppose the spec 
+doesn't use that word. Over time, "field", "member" and "property" have 
+become just meaningless word-slurry to me.
 
-> On Wed, 17 Feb 2021 at 15:13, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
->> Hi Gerd,
->>
->> I was in a discussion with the AGL folks today talking about approaches
->> to achieving zero-copy when running VirGL virtio guests. AIUI (which is
->> probably not very much) the reasons for copy can be due to a number of
->> reasons:
->>
->>   - the GPA not being mapped to a HPA that is accessible to the final HW
->>   - the guest allocation of a buffer not meeting stride/alignment
->> requirements
->>   - data needing to be transformed for consumption by the real hardware?
->>
->> any others? Is there an impedance between different buffer resource
->> allocators in the guest and the guest? Is that just a problem for
->> non-FLOSS blob drivers in the kernel?
->>
->> I'm curious if it's possible to measure the effect of these extra copies
->> and where do they occur?
->
-> Making a good benchmark is going to be difficult. Copying has big impacts
-> on:
-> - L3 pressure (pure cost of evictions and loss of "sticky" cache lines
-> benefits)
-> - Memory request queue and prefetching
-> - TLB pressure
-> Conversely, as we are in VM environments the pressure that other VMs have
-> on those resources, the jitter of the bounce copies will grow.
-> (lesson learnt from high speed - > 100Gbps - user pace networking)
-> All this to say that a unitest may be wrongly give impression that copy is
-> not that costly.
+OK.
 
-No I'm not doubting that unneeded copying can be costly - I'm just
-trying to get an understanding of the scope of the problem. How often do
-buffers get copied rather than measuring the total effect which as you
-say can be very load dependant.
+"Additional members as appropriate for the meta-type."
 
->
->> Do all resources get copied from the guest buffer to
->> host or does this only occur when there is a mismatch in the buffer
->> requirements?
->>
->> Are there any functions where I could add trace points to measure this?
->> If this occurs in the kernel I wonder if I could use an eBPF probe to
->> count the number of bytes copied?
->>
->> Apologies for the wall of questions I'm still very new to the 3D side of
->> things ;-)
->>
->> --
->> Alex Benn=C3=A9e
->>
+>> +        :param ifcond: Sequence of conditionals that apply to this entity.
+>> +        :param features: Optional features field for SchemaInfo.
+> 
+> Likewise.
+> 
 
+"Optional features member for SchemaInfo" ?
 
---=20
-Alex Benn=C3=A9e
+Sure.
+
+> Sure we want to restate parts of the type ("Sequence of", "Optional") in
+> the doc string?
+> 
+
+I usually avoid it, but sometimes for non-scalars I found that it read 
+better to give a nod to the plural, as in:
+
+[ifcond is a] sequence of conditionals ...
+
+but, yes, I haven't been consistent about it. right below for @obj I 
+omit the type of the container.
+
+"Conditionals that apply to this entity" feels almost too terse in 
+isolation.
+
+I don't feel like it's a requisite to state the type, but in some cases 
+I unconsciously chose to mention the structure.
+
+With regards to "Optional", I use this word specifically to indicate 
+parameters that have default values -- distinct from a type that's 
+Optional[], which is really actually like Nullable[T] ... If it makes 
+you feel better, Guido says he regrets that naming decision. Oops!
+
+I'm probably not consistent about when I decided to write it, though.
+
+Ehm. If it's not harmful to leave it as-is, I think it'd be okay to do 
+so. If you prefer a consistency all one way or all the other, I'd have 
+to run the vacuum back over the series to check for it.
+
+>> +        """
+>>           comment: Optional[str] = None
+>>           if mtype not in ('command', 'event', 'builtin', 'array'):
+>>               if not self._unmask:
+> 
+> Also: more line-wrapping for PEP 8.
+> 
+
+I thought the 72 column limit was for things like comments and docstrings.
+
 
