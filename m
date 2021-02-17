@@ -2,68 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62AE31D74A
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:09:15 +0100 (CET)
-Received: from localhost ([::1]:48336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FACF31D74B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 11:12:21 +0100 (CET)
+Received: from localhost ([::1]:50548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCJli-0001w5-BX
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:09:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45912)
+	id 1lCJoi-00038K-KL
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 05:12:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lCJkY-0001U3-Ee
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:08:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30127)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lCJnb-0002gd-Gm
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:11:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lCJkU-00033R-N5
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:08:01 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lCJnV-0003na-1T
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 05:11:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613556476;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=n6bEzNZRc20F+zz33x2LsSqcue5lQvIFOcg6aVrlsKw=;
- b=GIva7MRxhyxtYiNuK6akApgno2yB392YR0oPfdy7zja7xm3ojkKjKdhE4QmiD7uzVAzs2V
- UhDLGRE8xc6Zne9SXMcetfF3pdQKwfW6WFcy9JEqOum9dBSQvtpPQ7SqLzuyjIxwVd0h16
- 1zq31ZRGU6gQq9EMmUJIRdXsrXL0Cao=
+ s=mimecast20190719; t=1613556664;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=nGCARYHuqeK1GNAJ740oM3RPb5pbPTzxRtLvNV6oGEU=;
+ b=GXvlXvnwq4JS+t/XWJ4G1IFFUzqnHy976hnrIB75k7Opm1R7K/JCs1BpHK5wNpF7NMnZgf
+ eT7VYE3k8+JgZzLG71Z3xKpdOORURsdaAVmDP+3T+tN3qCzTQ2CoattNvXK04NqNV0s9PE
+ 5u6wXbgRg/5/9U5snpWCrnQsLVexnAo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-391-t_WOBO-MNPOpaaxNMVT1SA-1; Wed, 17 Feb 2021 05:07:53 -0500
-X-MC-Unique: t_WOBO-MNPOpaaxNMVT1SA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-331-whju3sFcMZSpFYYwHwRL8Q-1; Wed, 17 Feb 2021 05:11:02 -0500
+X-MC-Unique: whju3sFcMZSpFYYwHwRL8Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 94593801AAF
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 10:07:52 +0000 (UTC)
-Received: from localhost (ovpn-115-102.ams2.redhat.com [10.36.115.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BF8C6362A;
- Wed, 17 Feb 2021 10:07:48 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [qemu-web PATCH] Add Outreachy and GSoC announcement
-Date: Wed, 17 Feb 2021 10:07:48 +0000
-Message-Id: <20210217100748.269005-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77ED58799EC;
+ Wed, 17 Feb 2021 10:11:01 +0000 (UTC)
+Received: from redhat.com (ovpn-115-175.ams2.redhat.com [10.36.115.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6977060C5F;
+ Wed, 17 Feb 2021 10:11:00 +0000 (UTC)
+Date: Wed, 17 Feb 2021 10:10:57 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 02/10] qemu-options: update to show preferred boolean
+ syntax for -chardev
+Message-ID: <YCzrsWuxoXXolo8U@redhat.com>
+References: <20210216191027.595031-1-berrange@redhat.com>
+ <20210216191027.595031-3-berrange@redhat.com>
+ <CAFEAcA8Pjz8SuzuZVKNGCmS-QkewD-0MLSu+coOOvG88jKJq5Q@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <CAFEAcA8Pjz8SuzuZVKNGCmS-QkewD-0MLSu+coOOvG88jKJq5Q@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,56 +84,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UUVNVSBpcyBwYXJ0aWNpcGF0aW5nIGluIE91dHJlYWNoeSBNYXktQXVndXN0IGFuZCBpcyBhcHBs
-eWluZyBmb3IgR1NvQwoyMDIxLiBJdCdzIHRpbWUgdG8gcHVibGlzaCBpbmZvcm1hdGlvbiBvbiB0
-aGVzZSBpbnRlcm5zaGlwIHByb2dyYW1zIGFuZApob3cgdG8gYXBwbHkuCgpTaWduZWQtb2ZmLWJ5
-OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0tLQogX3Bvc3RzLzIwMjEt
-MDItMTctZ3NvYy1hbmQtb3V0cmVhY2h5LTIwMjEubWQgfCA0MyArKysrKysrKysrKysrKysrKysr
-KwogMSBmaWxlIGNoYW5nZWQsIDQzIGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBf
-cG9zdHMvMjAyMS0wMi0xNy1nc29jLWFuZC1vdXRyZWFjaHktMjAyMS5tZAoKZGlmZiAtLWdpdCBh
-L19wb3N0cy8yMDIxLTAyLTE3LWdzb2MtYW5kLW91dHJlYWNoeS0yMDIxLm1kIGIvX3Bvc3RzLzIw
-MjEtMDItMTctZ3NvYy1hbmQtb3V0cmVhY2h5LTIwMjEubWQKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
-aW5kZXggMDAwMDAwMC4uZTQxYjk5OQotLS0gL2Rldi9udWxsCisrKyBiL19wb3N0cy8yMDIxLTAy
-LTE3LWdzb2MtYW5kLW91dHJlYWNoeS0yMDIxLm1kCkBAIC0wLDAgKzEsNDMgQEAKKy0tLQorbGF5
-b3V0OiBwb3N0Cit0aXRsZTogICJRRU1VIGlzIGFwcGx5aW5nIHRvIEdvb2dsZSBTdW1tZXIgb2Yg
-Q29kZSBhbmQgT3V0cmVhY2h5IDIwMjEiCitkYXRlOiAgIDIwMjEtMDItMTcgMDc6MDA6MDAgKzAw
-MDAKK2F1dGhvcjogU3RlZmFuIEhham5vY3ppCitjYXRlZ29yaWVzOiBbZ3NvYywgaW50ZXJuc2hp
-cHMsIG91dHJlYWNoeV0KKy0tLQorUUVNVSBpcyBhcHBseWluZyB0byBHb29nbGUgU3VtbWVyIG9m
-IENvZGUgMjAyMSBhbmQgaXMgcGFydGljaXBhdGluZyBpbgorT3V0cmVhY2h5IE1heS1BdWd1c3Qg
-MjAyMS4gQm90aCBvZiB0aGVzZSBvcGVuIHNvdXJjZSBpbnRlcm5zaGlwIHByb2dyYW1zIG9mZmVy
-CityZW1vdGUgd29yayBvcHBvcnR1bml0aWVzIGZvciBuZXcgZGV2ZWxvcGVycyB3aXNoaW5nIHRv
-IGdldCBpbnZvbHZlZCBpbiBvdXIKK2NvbW11bml0eS4KKworSW50ZXJucyB3b3JrIHdpdGggbWVu
-dG9ycyB3aG8gc3VwcG9ydCB0aGVtIGluIHRoZWlyIHByb2plY3QuIFRoZSBjb2RlIGRldmVsb3Bl
-ZAorZHVyaW5nIHRoZSBwcm9qZWN0IGlzIHN1Ym1pdHRlZCB2aWEgdGhlIHNhbWUgb3BlbiBzb3Vy
-Y2UgZGV2ZWxvcG1lbnQgcHJvY2VzcwordGhhdCBhbGwgUUVNVSBjb2RlIGZvbGxvd3MuIFRoaXMg
-Z2l2ZXMgaW50ZXJucyBleHBlcmllbmNlIHdpdGggY29udHJpYnV0aW5nIHRvCitvcGVuIHNvdXJj
-ZSBzb2Z0d2FyZS4KKworUUVNVSdzIG1lbnRvcnMgYXJlIGV4cGVyaWVuY2VkIGNvbnRyaWJ1dG9y
-cyB3aG8gZW5qb3kgd29ya2luZyB3aXRoIHRhbGVudGVkCitpbmRpdmlkdWFscyB3aG8gYXJlIGdl
-dHRpbmcgc3RhcnRlZCBpbiBvcGVuIHNvdXJjZS4gWW91IGNhbiBmaW5kIGEgbGlzdCBvZgorcHJv
-amVjdCBpZGVhcyB0aGF0IG1lbnRvcnMgYXJlIHByb3Bvc2luZworW2hlcmVdKGh0dHBzOi8vd2lr
-aS5xZW11Lm9yZy9Hb29nbGVfU3VtbWVyX29mX0NvZGVfMjAyMSkuCisKKyMjIE91dHJlYWNoeQor
-SW5pdGlhbCBhcHBsaWNhdGlvbnMgYXJlIG9wZW4gdW50aWwgRmVicnVhcnkgMjJuZCBhdCAxNjow
-MCBVVEMuIE91dHJlYWNoeSdzCitnb2FsIGlzIHRvIGluY3JlYXNlIGRpdmVyc2l0eSBpbiBvcGVu
-IHNvdXJjZSBhbmQgaXMgb3BlbiB0byBhbnlvbmUgd2hvIGZhY2VzCit1bmRlci1yZXByZXNlbnRh
-dGlvbiwgc3lzdGVtaWMgYmlhcywgb3IgZGlzY3JpbWluYXRpb24gaW4gdGhlIHRlY2hub2xvZ3kK
-K2luZHVzdHJ5IG9mIHRoZWlyIGNvdW50cnkuCisKK1lvdSBjYW4gbGVhcm4gbW9yZSBhYm91dCBP
-dXRyZWFjaHkgTWF5LUF1Z3VzdCBhbmQgaG93IHRvIGFwcGx5IGF0IHRoZQorW091dHJlYWNoeSB3
-ZWJzaXRlXShodHRwczovL3d3dy5vdXRyZWFjaHkub3JnLykuCisKKyMjIEdvb2dsZSBTdW1tZXIg
-b2YgQ29kZQorR29vZ2xlIFN1bW1lciBvZiBDb2RlIChHU09DKSBpcyBhIDEwLXdlZWsgaW50ZXJu
-c2hpcCBmb3Igc3R1ZGVudHMuIEFwcGxpY2F0aW9ucworYXJlIG9wZW4gZnJvbSBNYXJjaCAyOXRo
-IHRvIEFwcmlsIDEzdGguIFlvdSBjYW4gZmluZCB0aGUgZGV0YWlscyBvZiBob3cgdG8KK2FwcGx5
-IGF0IHRoZSBbR29vZ2xlIFN1bW1lciBvZiBDb2RlCit3ZWJzaXRlXShodHRwczovL3N1bW1lcm9m
-Y29kZS53aXRoZ29vZ2xlLmNvbS8pLgorCitHb29nbGUgd2lsbCBhbm5vdW5jZWQgYWNjZXB0ZWQg
-b3JnYW5pemF0aW9ucyBvbiBNYXJjaCA5dGguIFFFTVUgaXMgYXBwbHlpbmcgYW5kCit3ZSBob3Bl
-IHRvIG1lbnRvcnMgR1NvQyBpbnRlcm5zIGFnYWluIHRoaXMgeWVhciEKKworUGxlYXNlIHJldmll
-dyB0aGUgW2VsaWdpYmlsaXR5IGNyaXRlcmlhIGZvcgorR1NvQ10oaHR0cHM6Ly9kZXZlbG9wZXJz
-Lmdvb2dsZS5jb20vb3Blbi1zb3VyY2UvZ3NvYy9mYXEjd2hhdF9hcmVfdGhlX2VsaWdpYmlsaXR5
-X3JlcXVpcmVtZW50c19mb3JfcGFydGljaXBhdGlvbikKK2JlZm9yZSBhcHBseWluZy4KLS0gCjIu
-MjkuMgoK
+On Tue, Feb 16, 2021 at 09:08:39PM +0000, Peter Maydell wrote:
+> On Tue, 16 Feb 2021 at 19:10, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> >
+> > The preferred syntax is to use "foo=on|off", rather than a bare
+> > "foo" or "nofoo".
+> >
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> > -    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4][,ipv6][,nodelay][,reconnect=seconds]\n"
+> > -    "         [,server][,nowait][,telnet][,websocket][,reconnect=seconds][,mux=on|off]\n"
+> > +    "-chardev socket,id=id[,host=host],port=port[,to=to][,ipv4=on|off][,ipv6=on|off][,delay=on|off][,reconnect=seconds]\n"
+> 
+> Watch out, 'nodelay' is a special case, where the option name itself
+> starts with 'no':
+> 
+> { 'struct': 'ChardevSocket',
+>   'data': { 'addr': 'SocketAddressLegacy',
+>             '*tls-creds': 'str',
+>             '*tls-authz'  : 'str',
+>             '*server': 'bool',
+>             '*wait': 'bool',
+>             '*nodelay': 'bool',
+>             '*telnet': 'bool',
+>             '*tn3270': 'bool',
+>             '*websocket': 'bool',
+>             '*reconnect': 'int' },
+>   'base': 'ChardevCommon' }
+> 
+> (because it's setting the TCP_NODELAY option).
+> 
+> This probably applies elsewhere, eg I suspect the 'nodelay' in
+> patch 1 also should remain.
+
+For added fun that's not what we call it in QemuOpts though !
+
+In qemu_chr_parse_socket we do:
+
+    sock->has_nodelay = qemu_opt_get(opts, "delay");
+    sock->nodelay = !qemu_opt_get_bool(opts, "delay", true);
+
+So we really were relying on the "no$FOO" syntax here
+
+Arguably it would be saner if we really did call it "nodelay" at the
+QemuOpts level. I guess we trying to avoid having "nonodelay".
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
