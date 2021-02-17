@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D57C31D3C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:31:02 +0100 (CET)
-Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C35631D3CA
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:35:21 +0100 (CET)
+Received: from localhost ([::1]:57692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCBgD-0001KA-GY
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:31:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42900)
+	id 1lCBkO-00059w-E9
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:35:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCBZO-0003qi-9Y; Tue, 16 Feb 2021 20:23:58 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:39821 helo=ozlabs.org)
+ id 1lCBZR-0003vS-6H; Tue, 16 Feb 2021 20:24:01 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:58439 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCBZK-00061U-8h; Tue, 16 Feb 2021 20:23:58 -0500
+ id 1lCBZO-00062b-SY; Tue, 16 Feb 2021 20:24:00 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DgKqL6HfPz9sVF; Wed, 17 Feb 2021 12:23:42 +1100 (AEDT)
+ id 4DgKqM0ht1z9sVm; Wed, 17 Feb 2021 12:23:43 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1613525022;
- bh=bnpI/JdvromNodQU8PwSNaacfqkdNQ9fz76UNwr2Wnc=;
+ d=gibson.dropbear.id.au; s=201602; t=1613525023;
+ bh=w+aL1qBmwbIc0q/yt8cbfimkl+cbtGbSGDTroE1Gf/o=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BqoWSChS6ahKSbAf1LeA/YcVaNGsCqUweJGQ0+RIkJeZbZCv9pL02PgOPSB0SAS6f
- vpQG3akJnjZ4trNPqScCk2atoOGOhrG1jjp51UVGuC5Jq7QJaBd4QBsp4lph9S1lu2
- 5nhvHVDNP3mM4CKX9pFNyGbyk2z/cdF7eJfL9IEo=
-Date: Wed, 17 Feb 2021 11:58:46 +1100
+ b=SGcXMpowA3nYSIXB+Hy9druxUmX8EvIHdoTPO1CR51hjWozJ5Qu7IEwIP5okwaGpO
+ keYv6s81jmPyc4Peaj2Lr91zyy8/kv6Ml/FBmKcMc1uB/d5YMablzsVY9d72eJTH62
+ tUD3foh8nEbWree1fpCmYRzxEAdy/O3jdgH07d3M=
+Date: Wed, 17 Feb 2021 12:20:54 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 4/7] spapr: rename spapr_drc_detach() to
- spapr_drc_unplug_request()
-Message-ID: <YCxqRvigvKj8Cb7p@yekko.fritz.box>
+Subject: Re: [PATCH v3 5/7] spapr_drc.c: introduce unplug_timeout_timer
+Message-ID: <YCxvdnbD+8N6EuRs@yekko.fritz.box>
 References: <20210211225246.17315-1-danielhb413@gmail.com>
- <20210211225246.17315-5-danielhb413@gmail.com>
+ <20210211225246.17315-6-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="DmqrORgae6S2UYS+"
+ protocol="application/pgp-signature"; boundary="vEHN2AUECqIQ2UHK"
 Content-Disposition: inline
-In-Reply-To: <20210211225246.17315-5-danielhb413@gmail.com>
+In-Reply-To: <20210211225246.17315-6-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,145 +63,195 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---DmqrORgae6S2UYS+
+--vEHN2AUECqIQ2UHK
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 07:52:43PM -0300, Daniel Henrique Barboza wrote:
-> spapr_drc_detach() is not the best name for what the function does.
-> The function does not detach the DRC, it makes an uncommited attempt
-> to do it. It'll mark the DRC as pending unplug, via the 'unplug_request'
-> flag, and only if the DRC state is drck->empty_state it will detach the
-> DRC, via spapr_drc_release().
+On Thu, Feb 11, 2021 at 07:52:44PM -0300, Daniel Henrique Barboza wrote:
+> The LoPAR spec provides no way for the guest kernel to report failure of
+> hotplug/hotunplug events. This wouldn't be bad if those operations were
+> granted to always succeed, but that's far for the reality.
 >=20
-> This is a contrast with its pair spapr_drc_attach(), where the function is
-> indeed creating the DRC QOM object. If you know what spapr_drc_attach()
-> does, you can be misled into thinking that spapr_drc_detach() is removing
-> the DRC from QEMU internal state, which isn't true.
+> What ends up happening is that, in the case of a failed hotunplug,
+> regardless of whether it was a QEMU error or a guest misbehavior, the pSe=
+ries
+> machine is retaining the unplug state of the device in the running guest.
+> This state is cleanup in machine reset, where it is assumed that this sta=
+te
+> represents a device that is pending unplug, and the device is hotunpluged
+> from the board. Until the reset occurs, any hotunplug operation of the sa=
+me
+> device is forbid because there is a pending unplug state.
 >=20
-> The current role of this function is better described as a request for
-> detach, since there's no guarantee that we're going to detach the DRC in
-> the end. Rename the function to spapr_drc_unplug_request to reflect what =
-is is
-> doing.
+> This behavior has at least one undesirable side effect. A long standing p=
+ending
+> unplug state is, more often than not, the result of a hotunplug error. Th=
+e user
+> had to dealt with it, since retrying to unplug the device is noy allowed,=
+ and then
+> in the machine reset we're removing the device from the guest. This means=
+ that
+> we're failing the user twice - failed to hotunplug when asked, then hotun=
+plugged
+> without notice.
 >=20
-> The initial idea was to change the name to spapr_drc_detach_request(), and
-> later on change the unplug_request flag to detach_request. However,
-> unplug_request is a migratable boolean for a long time now and renaming it
-> is not worth the trouble. spapr_drc_unplug_request() setting drc->unplug_=
-request
-> is more natural than spapr_drc_detach_request setting drc->unplug_request.
+> Solutions to this problem range between trying to predict when the hotunp=
+lug will
+> fail and forbid the operation from the QEMU layer, from opening up the IR=
+Q queue
+> to allow for multiple hotunplug attempts, from telling the users to 'rebo=
+ot the
+> machine if something goes wrong'. The first solution is flawed because we=
+ can't
+> fully predict guest behavior from QEMU, the second solution is a trial an=
+d error
+> remediation that counts on a hope that the unplug will eventually succeed=
+, and the
+> third is ... well.
+>=20
+> This patch introduces a crude, but effective solution to hotunplug errors=
+ in
+> the pSeries machine. For each unplug done, we'll timeout after some time.=
+ If
+> a certain amount of time passes, we'll cleanup the hotunplug state from t=
+he machine.
+> During the timeout period, any unplug operations in the same device will =
+still
+> be blocked. After that, we'll assume that the guest failed the operation,=
+ and
+> allow the user to try again. If the timeout is too short we'll prevent le=
+gitimate
+> hotunplug situations to occur, so we'll need to overestimate the regular =
+time
+> an unplug operation takes to succeed to account that.
+>=20
+> The true solution for the hotunplug errors in the pSeries machines is a P=
+APR change
+> to allow for the guest to warn the platform about it. For now, the work d=
+one in this
+> timeout design can be used for the new PAPR 'abort hcall' in the future, =
+given that
+> for both cases we'll need code to cleanup the existing unplug states of t=
+he DRCs.
+>=20
+> At this moment we're adding the basic wiring of the timer into the DRC. N=
+ext patch
+> will use the timer to timeout failed CPU hotunplugs.
 >=20
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-Good reasoning.
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
 > ---
->  hw/ppc/spapr.c             | 6 +++---
->  hw/ppc/spapr_drc.c         | 4 ++--
->  hw/ppc/spapr_pci.c         | 2 +-
->  hw/ppc/trace-events        | 2 +-
->  include/hw/ppc/spapr_drc.h | 2 +-
->  5 files changed, 8 insertions(+), 8 deletions(-)
+>  hw/ppc/spapr_drc.c         | 36 ++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr_drc.h |  2 ++
+>  2 files changed, 38 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 85fe65f894..b066df68cb 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3654,7 +3654,7 @@ static void spapr_memory_unplug_request(HotplugHand=
-ler *hotplug_dev,
->                                addr / SPAPR_MEMORY_BLOCK_SIZE);
->          g_assert(drc);
-> =20
-> -        spapr_drc_detach(drc);
-> +        spapr_drc_unplug_request(drc);
->          addr +=3D SPAPR_MEMORY_BLOCK_SIZE;
->      }
-> =20
-> @@ -3722,7 +3722,7 @@ void spapr_core_unplug_request(HotplugHandler *hotp=
-lug_dev, DeviceState *dev,
->      g_assert(drc);
-> =20
->      if (!spapr_drc_unplug_requested(drc)) {
-> -        spapr_drc_detach(drc);
-> +        spapr_drc_unplug_request(drc);
->          spapr_hotplug_req_remove_by_index(drc);
->      }
->  }
-> @@ -3985,7 +3985,7 @@ static void spapr_phb_unplug_request(HotplugHandler=
- *hotplug_dev,
->      assert(drc);
-> =20
->      if (!spapr_drc_unplug_requested(drc)) {
-> -        spapr_drc_detach(drc);
-> +        spapr_drc_unplug_request(drc);
->          spapr_hotplug_req_remove_by_index(drc);
->      }
->  }
 > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 555a25517d..67041fb212 100644
+> index 67041fb212..c88bb524c5 100644
 > --- a/hw/ppc/spapr_drc.c
 > +++ b/hw/ppc/spapr_drc.c
-> @@ -386,11 +386,11 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
->                               NULL, 0);
+> @@ -57,6 +57,8 @@ static void spapr_drc_release(SpaprDrc *drc)
+>      drck->release(drc->dev);
+> =20
+>      drc->unplug_requested =3D false;
+> +    timer_del(drc->unplug_timeout_timer);
+> +
+>      g_free(drc->fdt);
+>      drc->fdt =3D NULL;
+>      drc->fdt_start_offset =3D 0;
+> @@ -453,6 +455,24 @@ static const VMStateDescription vmstate_spapr_drc_un=
+plug_requested =3D {
+>      }
+>  };
+> =20
+> +static bool spapr_drc_unplug_timeout_timer_needed(void *opaque)
+> +{
+> +    SpaprDrc *drc =3D opaque;
+> +
+> +    return timer_pending(drc->unplug_timeout_timer);
+> +}
+> +
+> +static const VMStateDescription vmstate_spapr_drc_unplug_timeout_timer =
+=3D {
+> +    .name =3D "DRC unplug timeout timer",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .needed =3D spapr_drc_unplug_timeout_timer_needed,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_TIMER_PTR(unplug_timeout_timer, SpaprDrc),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+>  static bool spapr_drc_needed(void *opaque)
+>  {
+>      SpaprDrc *drc =3D opaque;
+> @@ -486,10 +506,20 @@ static const VMStateDescription vmstate_spapr_drc =
+=3D {
+>      },
+>      .subsections =3D (const VMStateDescription * []) {
+>          &vmstate_spapr_drc_unplug_requested,
+> +        &vmstate_spapr_drc_unplug_timeout_timer,
+>          NULL
+>      }
+>  };
+> =20
+> +static void drc_unplug_timeout_cb(void *opaque)
+> +{
+> +    SpaprDrc *drc =3D opaque;
+> +
+> +    if (drc->unplug_requested) {
+> +        drc->unplug_requested =3D false;
+> +    }
+
+Sorry, forgot to mention in first pass - I think we want some kind of
+reporting here.  At least a trace, and maybe also a warn_report() or
+the like.
+
+Hrm.. looking wider, I wonder if we should add a DEVICE_DELETE_FAILED
+message to QAPI to mirror the DEVICE_DELETED message.  Fixing PAPR is
+pretty tedious, but fixing at least qemu's own interfaces is a bit
+more approachable.  That could certainly be a follow up enhancement,
+though.
+
+> +}
+> +
+>  static void drc_realize(DeviceState *d, Error **errp)
+>  {
+>      SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(d);
+> @@ -512,6 +542,11 @@ static void drc_realize(DeviceState *d, Error **errp)
+>      object_property_add_alias(root_container, link_name,
+>                                drc->owner, child_name);
+>      g_free(link_name);
+> +
+> +    drc->unplug_timeout_timer =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
+> +                                             drc_unplug_timeout_cb,
+> +                                             drc);
+> +
+>      vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spa=
+pr_drc,
+>                       drc);
+>      trace_spapr_drc_realize_complete(spapr_drc_index(drc));
+> @@ -529,6 +564,7 @@ static void drc_unrealize(DeviceState *d)
+>      name =3D g_strdup_printf("%x", spapr_drc_index(drc));
+>      object_property_del(root_container, name);
+>      g_free(name);
+> +    timer_free(drc->unplug_timeout_timer);
 >  }
 > =20
-> -void spapr_drc_detach(SpaprDrc *drc)
-> +void spapr_drc_unplug_request(SpaprDrc *drc)
->  {
->      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> =20
-> -    trace_spapr_drc_detach(spapr_drc_index(drc));
-> +    trace_spapr_drc_unplug_request(spapr_drc_index(drc));
-> =20
->      g_assert(drc->dev);
-> =20
-> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-> index 1791d98a49..9334ba5dbb 100644
-> --- a/hw/ppc/spapr_pci.c
-> +++ b/hw/ppc/spapr_pci.c
-> @@ -1726,7 +1726,7 @@ static void spapr_pci_unplug_request(HotplugHandler=
- *plug_handler,
->              if (state =3D=3D SPAPR_DR_ENTITY_SENSE_PRESENT) {
->                  /* Mark the DRC as requested unplug if needed. */
->                  if (!spapr_drc_unplug_requested(func_drc)) {
-> -                    spapr_drc_detach(func_drc);
-> +                    spapr_drc_unplug_request(func_drc);
->                  }
->                  spapr_hotplug_req_remove_by_index(func_drc);
->              }
-> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
-> index 1e91984526..b4bbfbb013 100644
-> --- a/hw/ppc/trace-events
-> +++ b/hw/ppc/trace-events
-> @@ -50,7 +50,7 @@ spapr_drc_set_allocation_state(uint32_t index, int stat=
-e) "drc: 0x%"PRIx32", sta
->  spapr_drc_set_allocation_state_finalizing(uint32_t index) "drc: 0x%"PRIx=
-32
->  spapr_drc_set_configured(uint32_t index) "drc: 0x%"PRIx32
->  spapr_drc_attach(uint32_t index) "drc: 0x%"PRIx32
-> -spapr_drc_detach(uint32_t index) "drc: 0x%"PRIx32
-> +spapr_drc_unplug_request(uint32_t index) "drc: 0x%"PRIx32
->  spapr_drc_awaiting_quiesce(uint32_t index) "drc: 0x%"PRIx32
->  spapr_drc_reset(uint32_t index) "drc: 0x%"PRIx32
->  spapr_drc_realize(uint32_t index) "drc: 0x%"PRIx32
+>  SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
 > diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index 8982927d5c..02a63b3666 100644
+> index 02a63b3666..b2e6222d09 100644
 > --- a/include/hw/ppc/spapr_drc.h
 > +++ b/include/hw/ppc/spapr_drc.h
-> @@ -243,7 +243,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
-, uint32_t drc_type_mask);
->   * beforehand (eg. check drc->dev at pre-plug).
->   */
->  void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
-> -void spapr_drc_detach(SpaprDrc *drc);
-> +void spapr_drc_unplug_request(SpaprDrc *drc);
+> @@ -187,6 +187,8 @@ typedef struct SpaprDrc {
+>      bool unplug_requested;
+>      void *fdt;
+>      int fdt_start_offset;
+> +
+> +    QEMUTimer *unplug_timeout_timer;
+>  } SpaprDrc;
 > =20
->  /*
->   * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
+>  struct SpaprMachineState;
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -210,25 +259,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---DmqrORgae6S2UYS+
+--vEHN2AUECqIQ2UHK
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsakYACgkQbDjKyiDZ
-s5KQtw/+P6MeKDxmacCgTP9bDc8CxUFeoJLz5uJWyMSMzfRxzFfZulH5RYRcYzSl
-wz87e/X9SKskSlaUoMjWjn/q+KCVzV6PvcOHEqCHP7ktx3cu6mKrxDR4msts7KMe
-XNcMB22+EW58wm+iXOaNpfLSjn5pIk9abgS7INhqA1p+3GblQ4v2/X4ck7EPHoKk
-HxLScRQkWcak1NbY+bt/at7K3MJcMGQ/urFLCrC+Z2Lw8qOT0+n/XvEL4eRk+Gxp
-YnDSSQ/zzBmTrVX9gLTCvbsjKuELM047govNNE9D4B1srT9TD9ij/HtjcojYB2uY
-JXdwXaz8gY76cHHI7EHX4ZNkFn7RX0kB2ECqlu4JCFEwtfo/iIH9BW/YJsULFykU
-mCXZyIGQTuPBm0+HTtKiNlv1oZ2j0I0YKAgsvP4eKv8YQyhKfwNwJh8b7GdIwqz/
-1GtW4d+Ub3U/+V1rw3PxklVC/6t8PQJI7BT/CTh43VVvjF18CKTRvBFQsmrTSel1
-sFKReibazLXlwDv69f5+ugMZlo8WwkvJOYzbACjjMKbQcDv3bX6q0eg5Wdnn5bKO
-2EsR8usoUB3FTXto+jEeVjcKUtG80x7UIV8B7ArA+CouTRFg1BVM7QDNMcz1EITH
-dyK68TBthpyaW02HEc9g3h2A82T13XsF62TSApJ1sN8RLnota/s=
-=xaSj
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsb3YACgkQbDjKyiDZ
+s5KfJRAAwuecE99aoqbLGCfaWLkxLVMbuGRKhIUSKHcICiHaB0LBBWZBQdz5N1rt
+/dPp3qjDFNRNwh8mP0qndOR0GAWycMHhjlQ9GCfEpFwbC7Itsf7YEgkk2tqkCiEk
+Tg/L7iSz+Q3abong9U7tHz+XcWpJ50F9u44R1lA6L0It874clKmwzW/ZmY+WMoFm
+gql59BiMCUOfS2U/Yz4Iz5nALr73w9fOyBU5QO672Sth9yICuzJeeO3XSL15gsG/
+Zn+uka4ZopakR0eZ8ib6zQuLf6T3ZjOFxikChwN1n8rvoeyQtrbVgnQ3nyoRf+R7
+4rAE0+IZotum2UjJoJfuT7/K9Vr0bb5Mqz5s3n/UrFfayw73mPF6/LehU2BkDMr2
+ngeZRwVY/KkEykV04vd6gcuf6s9SJ7Iy/HvFDR86eEPrroCz5IIwEkmm93ARcF/P
+3KXQXLqv4Zgf6RrQs3vRPUEPn1K8FEjzAYYfP8KY7MQG/9F6VxnpIwX3H3WE4OC4
+n9GZDQaRwXW89lbHV2A7JsC6pjNn3xoJH9Mso5V1lsNT5Zu1pFWRjU3s9QHziVR/
+tAdeDFXqGYJ0SSQzREmiuN1ff2mMa3JONo7u9bL5aXd+PO6fKwOkshBOI9hqO3P2
+Z1u46bdJd+/cOHA1mcABMNozCMZ/onJCN6FCWoMlEB3+Sn6uGqo=
+=uVPV
 -----END PGP SIGNATURE-----
 
---DmqrORgae6S2UYS+--
+--vEHN2AUECqIQ2UHK--
 
