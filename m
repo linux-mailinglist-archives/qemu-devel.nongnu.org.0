@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290C031E32D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:45:29 +0100 (CET)
-Received: from localhost ([::1]:46554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA2031E336
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:48:24 +0100 (CET)
+Received: from localhost ([::1]:54620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWVa-0004d4-Ns
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:45:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50574)
+	id 1lCWYS-00087d-05
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWR4-0007zS-JA
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:46 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:42141)
+ id 1lCWR8-0008AF-Sn
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:50 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:43521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWR2-0004bZ-Hq
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:46 -0500
-Received: by mail-pf1-x430.google.com with SMTP id w18so23441pfu.9
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:40:44 -0800 (PST)
+ id 1lCWR7-0004cb-1x
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:50 -0500
+Received: by mail-pg1-x536.google.com with SMTP id n10so9499995pgl.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:40:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=efU7ifq9UHagxlnOIXBK9C1qiS3Jd4xMBPPTZVTIbDY=;
- b=gC3TM2taN0e8jDaoxIN53fP4wOhxMGx7BstzVcAv82Ckc+cHsM9trud6XtuDwyCOy8
- 4u0RrjMGBpR0oPV2pkw7llQBPmD5S2rdTY+l77gxB5wqeB0DyfSBk6ChJ9bKBbqfJKdi
- Sa7J8Zll5V8nuwmg4iuRt9OWwjR6XufW4gzgTbDLQGTGhybbmuIa4kGynWI4khMxPGel
- w+VHt0YVsg3VgtXwqyKOLUFQKzhiMz0KLht/H708NJ9Wt15euYZhbGQd3Fi0XBXgqu08
- aQ4dqDNIbs7zSjTYOy+U96G+rSfQbwfwWvsf/rkrZN8bdqLbwm3xeKht0p7nxRUzmWEd
- Aiug==
+ bh=EINIkezDIaTxIfm6JRFuokpw0tpVlajjKW14u+Tuwr4=;
+ b=UL22G+uacbAQZiYrod/7HHWTsT22Ws2mjoKpLd07TptLmWHFkmU4gy7utxmVBLAUnG
+ 7J20Ut/bIYQzVL8GWsAPqqF+haFz9RMewl2N4ehaqmJtKNyr1jgmASit8BFTBCDIwQQC
+ FAoiNv1nAjFLzvOhR1wOmJdqY6fjN/SxKXMuL6rGWz4o8FPF1qh140zFn2pN0TVyZOjj
+ zmxHl6WHV45pUVjjYYBkFwQM4SWpkOvavFQQMXgJobj25wnJlklM158oeMWzGkDaz7Ex
+ /zZJlwFIYI+RCgiuvN7k0IjvQOsKfqO9AoGjC+o8vDXshL/dWE/ucUjZV4pYxTYz6+3X
+ crhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=efU7ifq9UHagxlnOIXBK9C1qiS3Jd4xMBPPTZVTIbDY=;
- b=JC0QA318fvoJngvq22KeVsijosM5ntOpZBbIMq5ubfGNgE28LVsJI0nVlYmu7N7nh4
- i/ihLDoRRfsnv3+l4B5mceRrO1k5Eb3GqFvqYkzjkgwuBhKxKzYG42+A91pHcZnBX+kn
- k1Z928DxjE9n11gprtefgasCcBW2b/zGih2JOS+OqTTzW8vFiGmmUpG40oMfTbGsA6FR
- fZgTeuOnsjvPe6tJGf2mdPS1W/aETM6hn+qX7EReyRnmIRpPTxS1HznX7ZFhs3Cy2pxx
- j8Ih92H+FFHPMurx5ZTu8EWQkTCOTg6nys/gvrLwUNOz0YlvE5W1QV9uTVkhX5OXAPwj
- 2D9g==
-X-Gm-Message-State: AOAM533/hD8qsqiWG6vk0q/J+Ul0m/JKH0kNJNlHnPx3z+05RmWlK++6
- Fo1iKAKS9BsGdf0uW9Fdg0cY56UpptGOFg==
-X-Google-Smtp-Source: ABdhPJxhywzBWgRBOz+LiJOhGYhMbPxb9bMdBDnZOJdOkh+RDyZ4zTQ8G8e43TWoS+5KZ+GyreEiaQ==
-X-Received: by 2002:a62:dd48:0:b029:1d5:e29c:621c with SMTP id
- w69-20020a62dd480000b02901d5e29c621cmr1534670pff.31.1613605240182; 
- Wed, 17 Feb 2021 15:40:40 -0800 (PST)
+ bh=EINIkezDIaTxIfm6JRFuokpw0tpVlajjKW14u+Tuwr4=;
+ b=JygTV9ciJa8WyQWFtFUO02XX89kwTwt+FMYY74zLORaDUjHdREY7GgQ2N1R+B9c8g+
+ kmDNPfGzQgl9qaWzyMr18SovtDzNNcmn2i+o1QWQASPtE9GUcIAjdDg0afG169ZYiE3J
+ Tn5B4siVoEKSiZ9YrP5cAISqZe8zitgjSUF8ASKek/YDF428PKeJf0WLx5JIkoZ4rFbj
+ TZnw8Zk8qLC9Gh6tuXyuNUpORAgwC8GmWcB83ARf3bxlR/+y84oj9vZqynfie9hHAuGQ
+ +oIZsFR0TCjPVJO9i2QJuG6WV6JXykeAtetSZf/gdqEgsTowlVUCgqrLDnn743Pjp0/N
+ 2+zQ==
+X-Gm-Message-State: AOAM533nrdl7PgEzACNyCp/P9Q/k50W909B0oIZsgKv/JkVdeUpQ1rkY
+ rFVkEvPthMbEqpzkSm50tRyE2Sw4j2VH7g==
+X-Google-Smtp-Source: ABdhPJydeU8YMk3Qu7Kk4wuaQCoKMVUWrsLqVKWZ/eGqoEEFDpPyiaEPJaI201sB41f4UCDlBKMOTw==
+X-Received: by 2002:a05:6a00:15cc:b029:1ba:5282:3ab8 with SMTP id
+ o12-20020a056a0015ccb02901ba52823ab8mr1515610pfu.77.1613605241572; 
+ Wed, 17 Feb 2021 15:40:41 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.38
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:40:39 -0800 (PST)
+ Wed, 17 Feb 2021 15:40:41 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/35] Hexagon (disas) disassembler
-Date: Wed, 17 Feb 2021 15:39:54 -0800
-Message-Id: <20210217234023.1742406-7-richard.henderson@linaro.org>
+Subject: [PULL 07/35] Hexagon (target/hexagon) register names
+Date: Wed, 17 Feb 2021 15:39:55 -0800
+Message-Id: <20210217234023.1742406-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
 References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,40 +92,22 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-Add hexagon to disas/meson.build
-Add disas/hexagon.c
-Add hexagon to include/disas/dis-asm.h
-
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <1612763186-18161-6-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1612763186-18161-7-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/disas/dis-asm.h |  1 +
- disas/hexagon.c         | 65 +++++++++++++++++++++++++++++++++++++++++
- disas/meson.build       |  1 +
- 3 files changed, 67 insertions(+)
- create mode 100644 disas/hexagon.c
+ target/hexagon/hex_regs.h | 83 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 83 insertions(+)
+ create mode 100644 target/hexagon/hex_regs.h
 
-diff --git a/include/disas/dis-asm.h b/include/disas/dis-asm.h
-index d1133a4e04..13fa1edd41 100644
---- a/include/disas/dis-asm.h
-+++ b/include/disas/dis-asm.h
-@@ -459,6 +459,7 @@ int print_insn_xtensa           (bfd_vma, disassemble_info*);
- int print_insn_riscv32          (bfd_vma, disassemble_info*);
- int print_insn_riscv64          (bfd_vma, disassemble_info*);
- int print_insn_rx(bfd_vma, disassemble_info *);
-+int print_insn_hexagon(bfd_vma, disassemble_info *);
- 
- #ifdef CONFIG_CAPSTONE
- bool cap_disas_target(disassemble_info *info, uint64_t pc, size_t size);
-diff --git a/disas/hexagon.c b/disas/hexagon.c
+diff --git a/target/hexagon/hex_regs.h b/target/hexagon/hex_regs.h
 new file mode 100644
-index 0000000000..3c24e2a94a
+index 0000000000..f291911eef
 --- /dev/null
-+++ b/disas/hexagon.c
-@@ -0,0 +1,65 @@
++++ b/target/hexagon/hex_regs.h
+@@ -0,0 +1,83 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -143,66 +125,72 @@ index 0000000000..3c24e2a94a
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+/*
-+ * QEMU Hexagon Disassembler
-+ */
++#ifndef HEXAGON_REGS_H
++#define HEXAGON_REGS_H
 +
-+#include "qemu/osdep.h"
-+#include "disas/dis-asm.h"
-+#include "target/hexagon/cpu_bits.h"
++enum {
++    HEX_REG_R00              = 0,
++    HEX_REG_R01              = 1,
++    HEX_REG_R02              = 2,
++    HEX_REG_R03              = 3,
++    HEX_REG_R04              = 4,
++    HEX_REG_R05              = 5,
++    HEX_REG_R06              = 6,
++    HEX_REG_R07              = 7,
++    HEX_REG_R08              = 8,
++    HEX_REG_R09              = 9,
++    HEX_REG_R10              = 10,
++    HEX_REG_R11              = 11,
++    HEX_REG_R12              = 12,
++    HEX_REG_R13              = 13,
++    HEX_REG_R14              = 14,
++    HEX_REG_R15              = 15,
++    HEX_REG_R16              = 16,
++    HEX_REG_R17              = 17,
++    HEX_REG_R18              = 18,
++    HEX_REG_R19              = 19,
++    HEX_REG_R20              = 20,
++    HEX_REG_R21              = 21,
++    HEX_REG_R22              = 22,
++    HEX_REG_R23              = 23,
++    HEX_REG_R24              = 24,
++    HEX_REG_R25              = 25,
++    HEX_REG_R26              = 26,
++    HEX_REG_R27              = 27,
++    HEX_REG_R28              = 28,
++    HEX_REG_R29              = 29,
++    HEX_REG_SP               = 29,
++    HEX_REG_FP               = 30,
++    HEX_REG_R30              = 30,
++    HEX_REG_LR               = 31,
++    HEX_REG_R31              = 31,
++    HEX_REG_SA0              = 32,
++    HEX_REG_LC0              = 33,
++    HEX_REG_SA1              = 34,
++    HEX_REG_LC1              = 35,
++    HEX_REG_P3_0             = 36,
++    HEX_REG_M0               = 38,
++    HEX_REG_M1               = 39,
++    HEX_REG_USR              = 40,
++    HEX_REG_PC               = 41,
++    HEX_REG_UGP              = 42,
++    HEX_REG_GP               = 43,
++    HEX_REG_CS0              = 44,
++    HEX_REG_CS1              = 45,
++    HEX_REG_UPCYCLELO        = 46,
++    HEX_REG_UPCYCLEHI        = 47,
++    HEX_REG_FRAMELIMIT       = 48,
++    HEX_REG_FRAMEKEY         = 49,
++    HEX_REG_PKTCNTLO         = 50,
++    HEX_REG_PKTCNTHI         = 51,
++    /* Use reserved control registers for qemu execution counts */
++    HEX_REG_QEMU_PKT_CNT      = 52,
++    HEX_REG_QEMU_INSN_CNT     = 53,
++    HEX_REG_UTIMERLO          = 62,
++    HEX_REG_UTIMERHI          = 63,
++};
 +
-+/*
-+ * We will disassemble a packet with up to 4 instructions, so we need
-+ * a hefty size buffer.
-+ */
-+#define PACKET_BUFFER_LEN                   1028
-+
-+int print_insn_hexagon(bfd_vma memaddr, struct disassemble_info *info)
-+{
-+    uint32_t words[PACKET_WORDS_MAX];
-+    bool found_end = false;
-+    GString *buf = g_string_sized_new(PACKET_BUFFER_LEN);
-+    int i, len;
-+
-+    for (i = 0; i < PACKET_WORDS_MAX && !found_end; i++) {
-+        int status = (*info->read_memory_func)(memaddr + i * sizeof(uint32_t),
-+                                               (bfd_byte *)&words[i],
-+                                               sizeof(uint32_t), info);
-+        if (status) {
-+            if (i > 0) {
-+                break;
-+            }
-+            (*info->memory_error_func)(status, memaddr, info);
-+            return status;
-+        }
-+        if (is_packet_end(words[i])) {
-+            found_end = true;
-+        }
-+    }
-+
-+    if (!found_end) {
-+        (*info->fprintf_func)(info->stream, "<invalid>");
-+        return PACKET_WORDS_MAX * sizeof(uint32_t);
-+    }
-+
-+    len = disassemble_hexagon(words, i, memaddr, buf);
-+    (*info->fprintf_func)(info->stream, "%s", buf->str);
-+    g_string_free(buf, true);
-+
-+    return len;
-+}
-diff --git a/disas/meson.build b/disas/meson.build
-index da341a511e..4c8da01877 100644
---- a/disas/meson.build
-+++ b/disas/meson.build
-@@ -6,6 +6,7 @@ common_ss.add(when: 'CONFIG_ARM_A64_DIS', if_true: files('arm-a64.cc'))
- common_ss.add_all(when: 'CONFIG_ARM_A64_DIS', if_true: libvixl_ss)
- common_ss.add(when: 'CONFIG_ARM_DIS', if_true: files('arm.c'))
- common_ss.add(when: 'CONFIG_CRIS_DIS', if_true: files('cris.c'))
-+common_ss.add(when: 'CONFIG_HEXAGON_DIS', if_true: files('hexagon.c'))
- common_ss.add(when: 'CONFIG_HPPA_DIS', if_true: files('hppa.c'))
- common_ss.add(when: 'CONFIG_I386_DIS', if_true: files('i386.c'))
- common_ss.add(when: 'CONFIG_LM32_DIS', if_true: files('lm32.c'))
++#endif
 -- 
 2.25.1
 
