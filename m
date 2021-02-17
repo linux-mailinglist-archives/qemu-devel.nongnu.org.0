@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B53A31E364
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:07:36 +0100 (CET)
-Received: from localhost ([::1]:55272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2749131E35D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 01:03:42 +0100 (CET)
+Received: from localhost ([::1]:43402 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWr1-0007SZ-80
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:07:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51180)
+	id 1lCWnF-0002CX-1V
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 19:03:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWS9-0001C9-Qh
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:56 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435]:42150)
+ id 1lCWSE-0001Dv-J3
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:58 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:43147)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWS2-0004uS-BB
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:53 -0500
-Received: by mail-pf1-x435.google.com with SMTP id w18so24602pfu.9
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:41:36 -0800 (PST)
+ id 1lCWRy-0004uf-2j
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:41:58 -0500
+Received: by mail-pf1-x432.google.com with SMTP id c11so22277pfp.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:41:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=oJ9LzM24hLl++wL7kv83KW5bFTZqSpuQemA3fET9se8=;
- b=DXblEJVzSH8OXe2oRPAVMP4dXdLpfZg3EZIya8PEzaAbO97V2QN4bJVeYpUJOswlHu
- mkP63V+Ux4BLb5rN3s0gDnz2eiymRPSAW3QSgVfKw/Pc8SDxGhEcF8WPausmf4UTxM6j
- Cm4ecuVUUWSVK+PKYjmbzCILLaQ0BGCa5SL19jZNYCQYPkz5S5tIMNyXH7XwrkF3QB/G
- iTFe+ihpnK+pArnzzfP61T3si7PsiGwS8wSaeT5gNOshHdNqgjLw3n3zi7YX4Mw0b2Rr
- 4gj0dz70c2aLv7eeHwbCphq6jt8MvI8HEhnifktP5YitToocvITG772JL9CrTqw1Q7FD
- v85Q==
+ bh=4EPmjuaGE7ZBBXtu7+OR7f/4m7lqfO4FggB5/JvTrYU=;
+ b=Igk+HgTnTVA4GfQIt5CeReajT8e5RmsH18Ejm96CRwDrznNarsdPIPbd0+pCq43hr+
+ m3q9UwBP+/SywDkA1zgmLIslAZv/nQWeEDfaXIYf7eNB8fWzgIlOkCwJ353nABPNb7bc
+ /6O4vpnyfhFSqO2MOLjOvo4GqLma8xrUNvVSdHoqfYvnnddPQdo8eYYM7uJ7iD9IhKhR
+ PATa24lWYwDxiyLVdXHycofj98Locyf7Pv9K8NsEZgdZkT9bzJnDQYnFjVXwLfWGr2LV
+ 87C7EC/ee+4jtdXsUxdXp5OAzTKjnwdaVZbBTsO9iQOEq9zeX1ZsFGy45Qe1ZB7isW5q
+ 05Kg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=oJ9LzM24hLl++wL7kv83KW5bFTZqSpuQemA3fET9se8=;
- b=NGQ03be+vbkLaXe4SuwEwdcZSzr7NESIZSNrsrqFS6GW2Aij+rJyZKU8b87QmeHu1C
- 5n+ZaLsrjm2nxmISoiR0U7NOblojtTNCDOZ4zJPCZdMR9cxx/EegNbhbZPowO07fAPfn
- fsF7g2EodjBMTFZSKkGISYQo/H5sWTvxnKtt2nn5f9eLlRtpA4Eir3ItoNY0dpn43wJE
- NO/oizli3Dp6AgRS5oVxS0kNCjhlf0+9toY0sJ+5UBcwmhg1Omw+SAjQYcsQoJhAfgM/
- 4JMWIivZcOTHs4Ap878MsEtEzVTpsFAs8y1B0Z4DZRjHvH3xsvla9KJXeg3VleGPWHfg
- Ufpw==
-X-Gm-Message-State: AOAM532ETom29EvSz3QjiOjp05IattR2wEqrZiuuheJHIXIGNUZhsgrB
- V01vU0+ueUJs/DRgSugebdZsBkvgBitQHg==
-X-Google-Smtp-Source: ABdhPJzNqkUAdZ1BKMbw0TCil9ZhCdRVg5BuOe3LCvOCnu7ZNxTn9qc5xTXxZehEg7oEU4TlMIbP3Q==
-X-Received: by 2002:a62:5b44:0:b029:1ec:da08:ca54 with SMTP id
- p65-20020a625b440000b02901ecda08ca54mr1577720pfb.47.1613605295090; 
- Wed, 17 Feb 2021 15:41:35 -0800 (PST)
+ bh=4EPmjuaGE7ZBBXtu7+OR7f/4m7lqfO4FggB5/JvTrYU=;
+ b=DT9unz55dFeM2KuzFl6Qp+Ff+uzbW9bC0tZ6iF3GnWJuuL0n7xpaPEt2Poo9lAQ3TP
+ G/DZlk2QhUXqIX2+/qW3iSXDGHKRBPy6P/beUxlDs5FTzIb7n5wslazSTWEmHd859pOa
+ SYND+Wk3+zLOFKCRN09CK+Y+LFyRg9jCORauxYrTxb89NDJZaj7JtBoXV6mkh0W8Qdvc
+ ynqEWZW1JSlN9gYNsdik7CSj3AR85uWIwmz/eojhGmL9owN3QVBwQGiYGsaSEBjajgsB
+ 4dA1n+mX8aRn53hParYwrGewsfPFtYzJLVOmUtNr3/4366x+zW3zgYpoxvU+LQB6fCwz
+ s2mg==
+X-Gm-Message-State: AOAM5307XZsqqFly7z5RPScuwyRMhwWwvC91c2ogM5MQAxv/8uaylLyo
+ 5HAzOM3UgNVqHcNqIvk62KgAfZWZi805yA==
+X-Google-Smtp-Source: ABdhPJwxZkcpi3RNEpKw+ouZnG4wYxwgLxbIPFLVYdz/h7Kkbb2AFA0fL18I2B4Vdvg+athot6VROA==
+X-Received: by 2002:aa7:991c:0:b029:1e8:b29:cd69 with SMTP id
+ z28-20020aa7991c0000b02901e80b29cd69mr1619827pff.50.1613605297067; 
+ Wed, 17 Feb 2021 15:41:37 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.41.33
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.41.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:41:34 -0800 (PST)
+ Wed, 17 Feb 2021 15:41:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/35] Hexagon (target/hexagon) translation
-Date: Wed, 17 Feb 2021 15:40:18 -0800
-Message-Id: <20210217234023.1742406-31-richard.henderson@linaro.org>
+Subject: [PULL 31/35] Hexagon (linux-user/hexagon) Linux user emulation
+Date: Wed, 17 Feb 2021 15:40:19 -0800
+Message-Id: <20210217234023.1742406-32-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
 References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,34 +84,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-Read the instruction memory
-Create a packet data structure
-Generate TCG code for the start of the packet
-Invoke the generate function for each instruction
-Generate TCG code for the end of the packet
+Implementation of Linux user emulation for Hexagon
+Some common files modified in addition to new files in linux-user/hexagon
 
+Acked-by: Laurent Vivier <laurent@vivier.eu>
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-Message-Id: <1612763186-18161-30-git-send-email-tsimpson@quicinc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <1612763186-18161-31-git-send-email-tsimpson@quicinc.com>
+[rth: Fix termbits.h on review by Laurent]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/translate.h |  93 +++++
- target/hexagon/translate.c | 748 +++++++++++++++++++++++++++++++++++++
- 2 files changed, 841 insertions(+)
- create mode 100644 target/hexagon/translate.h
- create mode 100644 target/hexagon/translate.c
+ linux-user/hexagon/sockbits.h       |  18 ++
+ linux-user/hexagon/syscall_nr.h     | 322 ++++++++++++++++++++++++++++
+ linux-user/hexagon/target_cpu.h     |  44 ++++
+ linux-user/hexagon/target_elf.h     |  40 ++++
+ linux-user/hexagon/target_fcntl.h   |  18 ++
+ linux-user/hexagon/target_signal.h  |  34 +++
+ linux-user/hexagon/target_structs.h |  54 +++++
+ linux-user/hexagon/target_syscall.h |  36 ++++
+ linux-user/hexagon/termbits.h       |  18 ++
+ linux-user/qemu.h                   |   2 +
+ linux-user/syscall_defs.h           |  33 +++
+ linux-user/elfload.c                |  16 ++
+ linux-user/hexagon/cpu_loop.c       | 100 +++++++++
+ linux-user/hexagon/signal.c         | 276 ++++++++++++++++++++++++
+ scripts/gensyscalls.sh              |   1 +
+ 15 files changed, 1012 insertions(+)
+ create mode 100644 linux-user/hexagon/sockbits.h
+ create mode 100644 linux-user/hexagon/syscall_nr.h
+ create mode 100644 linux-user/hexagon/target_cpu.h
+ create mode 100644 linux-user/hexagon/target_elf.h
+ create mode 100644 linux-user/hexagon/target_fcntl.h
+ create mode 100644 linux-user/hexagon/target_signal.h
+ create mode 100644 linux-user/hexagon/target_structs.h
+ create mode 100644 linux-user/hexagon/target_syscall.h
+ create mode 100644 linux-user/hexagon/termbits.h
+ create mode 100644 linux-user/hexagon/cpu_loop.c
+ create mode 100644 linux-user/hexagon/signal.c
 
-diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
+diff --git a/linux-user/hexagon/sockbits.h b/linux-user/hexagon/sockbits.h
 new file mode 100644
-index 0000000000..938f7fbb9f
+index 0000000000..b7ad5dc60e
 --- /dev/null
-+++ b/target/hexagon/translate.h
-@@ -0,0 +1,93 @@
++++ b/linux-user/hexagon/sockbits.h
+@@ -0,0 +1,18 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -129,88 +152,391 @@ index 0000000000..938f7fbb9f
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#ifndef HEXAGON_TRANSLATE_H
-+#define HEXAGON_TRANSLATE_H
++#include "../generic/sockbits.h"
+diff --git a/linux-user/hexagon/syscall_nr.h b/linux-user/hexagon/syscall_nr.h
+new file mode 100644
+index 0000000000..da1314f713
+--- /dev/null
++++ b/linux-user/hexagon/syscall_nr.h
+@@ -0,0 +1,322 @@
++/*
++ * This file contains the system call numbers.
++ * Do not modify.
++ * This file is generated by scripts/gensyscalls.sh
++ */
++#ifndef LINUX_USER_HEXAGON_SYSCALL_NR_H
++#define LINUX_USER_HEXAGON_SYSCALL_NR_H
 +
-+#include "qemu/bitmap.h"
-+#include "cpu.h"
-+#include "exec/translator.h"
-+#include "tcg/tcg-op.h"
-+#include "internal.h"
++#define TARGET_NR_io_setup 0
++#define TARGET_NR_io_destroy 1
++#define TARGET_NR_io_submit 2
++#define TARGET_NR_io_cancel 3
++#define TARGET_NR_io_getevents 4
++#define TARGET_NR_setxattr 5
++#define TARGET_NR_lsetxattr 6
++#define TARGET_NR_fsetxattr 7
++#define TARGET_NR_getxattr 8
++#define TARGET_NR_lgetxattr 9
++#define TARGET_NR_fgetxattr 10
++#define TARGET_NR_listxattr 11
++#define TARGET_NR_llistxattr 12
++#define TARGET_NR_flistxattr 13
++#define TARGET_NR_removexattr 14
++#define TARGET_NR_lremovexattr 15
++#define TARGET_NR_fremovexattr 16
++#define TARGET_NR_getcwd 17
++#define TARGET_NR_lookup_dcookie 18
++#define TARGET_NR_eventfd2 19
++#define TARGET_NR_epoll_create1 20
++#define TARGET_NR_epoll_ctl 21
++#define TARGET_NR_epoll_pwait 22
++#define TARGET_NR_dup 23
++#define TARGET_NR_dup3 24
++#define TARGET_NR_fcntl64 25
++#define TARGET_NR_inotify_init1 26
++#define TARGET_NR_inotify_add_watch 27
++#define TARGET_NR_inotify_rm_watch 28
++#define TARGET_NR_ioctl 29
++#define TARGET_NR_ioprio_set 30
++#define TARGET_NR_ioprio_get 31
++#define TARGET_NR_flock 32
++#define TARGET_NR_mknodat 33
++#define TARGET_NR_mkdirat 34
++#define TARGET_NR_unlinkat 35
++#define TARGET_NR_symlinkat 36
++#define TARGET_NR_linkat 37
++#define TARGET_NR_renameat 38
++#define TARGET_NR_umount2 39
++#define TARGET_NR_mount 40
++#define TARGET_NR_pivot_root 41
++#define TARGET_NR_nfsservctl 42
++#define TARGET_NR_statfs64 43
++#define TARGET_NR_fstatfs64 44
++#define TARGET_NR_truncate64 45
++#define TARGET_NR_ftruncate64 46
++#define TARGET_NR_fallocate 47
++#define TARGET_NR_faccessat 48
++#define TARGET_NR_chdir 49
++#define TARGET_NR_fchdir 50
++#define TARGET_NR_chroot 51
++#define TARGET_NR_fchmod 52
++#define TARGET_NR_fchmodat 53
++#define TARGET_NR_fchownat 54
++#define TARGET_NR_fchown 55
++#define TARGET_NR_openat 56
++#define TARGET_NR_close 57
++#define TARGET_NR_vhangup 58
++#define TARGET_NR_pipe2 59
++#define TARGET_NR_quotactl 60
++#define TARGET_NR_getdents64 61
++#define TARGET_NR_llseek 62
++#define TARGET_NR_read 63
++#define TARGET_NR_write 64
++#define TARGET_NR_readv 65
++#define TARGET_NR_writev 66
++#define TARGET_NR_pread64 67
++#define TARGET_NR_pwrite64 68
++#define TARGET_NR_preadv 69
++#define TARGET_NR_pwritev 70
++#define TARGET_NR_sendfile64 71
++#define TARGET_NR_pselect6 72
++#define TARGET_NR_ppoll 73
++#define TARGET_NR_signalfd4 74
++#define TARGET_NR_vmsplice 75
++#define TARGET_NR_splice 76
++#define TARGET_NR_tee 77
++#define TARGET_NR_readlinkat 78
++#define TARGET_NR_fstatat64 79
++#define TARGET_NR_fstat64 80
++#define TARGET_NR_sync 81
++#define TARGET_NR_fsync 82
++#define TARGET_NR_fdatasync 83
++#define TARGET_NR_sync_file_range 84
++#define TARGET_NR_timerfd_create 85
++#define TARGET_NR_timerfd_settime 86
++#define TARGET_NR_timerfd_gettime 87
++#define TARGET_NR_utimensat 88
++#define TARGET_NR_acct 89
++#define TARGET_NR_capget 90
++#define TARGET_NR_capset 91
++#define TARGET_NR_personality 92
++#define TARGET_NR_exit 93
++#define TARGET_NR_exit_group 94
++#define TARGET_NR_waitid 95
++#define TARGET_NR_set_tid_address 96
++#define TARGET_NR_unshare 97
++#define TARGET_NR_futex 98
++#define TARGET_NR_set_robust_list 99
++#define TARGET_NR_get_robust_list 100
++#define TARGET_NR_nanosleep 101
++#define TARGET_NR_getitimer 102
++#define TARGET_NR_setitimer 103
++#define TARGET_NR_kexec_load 104
++#define TARGET_NR_init_module 105
++#define TARGET_NR_delete_module 106
++#define TARGET_NR_timer_create 107
++#define TARGET_NR_timer_gettime 108
++#define TARGET_NR_timer_getoverrun 109
++#define TARGET_NR_timer_settime 110
++#define TARGET_NR_timer_delete 111
++#define TARGET_NR_clock_settime 112
++#define TARGET_NR_clock_gettime 113
++#define TARGET_NR_clock_getres 114
++#define TARGET_NR_clock_nanosleep 115
++#define TARGET_NR_syslog 116
++#define TARGET_NR_ptrace 117
++#define TARGET_NR_sched_setparam 118
++#define TARGET_NR_sched_setscheduler 119
++#define TARGET_NR_sched_getscheduler 120
++#define TARGET_NR_sched_getparam 121
++#define TARGET_NR_sched_setaffinity 122
++#define TARGET_NR_sched_getaffinity 123
++#define TARGET_NR_sched_yield 124
++#define TARGET_NR_sched_get_priority_max 125
++#define TARGET_NR_sched_get_priority_min 126
++#define TARGET_NR_sched_rr_get_interval 127
++#define TARGET_NR_restart_syscall 128
++#define TARGET_NR_kill 129
++#define TARGET_NR_tkill 130
++#define TARGET_NR_tgkill 131
++#define TARGET_NR_sigaltstack 132
++#define TARGET_NR_rt_sigsuspend 133
++#define TARGET_NR_rt_sigaction 134
++#define TARGET_NR_rt_sigprocmask 135
++#define TARGET_NR_rt_sigpending 136
++#define TARGET_NR_rt_sigtimedwait 137
++#define TARGET_NR_rt_sigqueueinfo 138
++#define TARGET_NR_rt_sigreturn 139
++#define TARGET_NR_setpriority 140
++#define TARGET_NR_getpriority 141
++#define TARGET_NR_reboot 142
++#define TARGET_NR_setregid 143
++#define TARGET_NR_setgid 144
++#define TARGET_NR_setreuid 145
++#define TARGET_NR_setuid 146
++#define TARGET_NR_setresuid 147
++#define TARGET_NR_getresuid 148
++#define TARGET_NR_setresgid 149
++#define TARGET_NR_getresgid 150
++#define TARGET_NR_setfsuid 151
++#define TARGET_NR_setfsgid 152
++#define TARGET_NR_times 153
++#define TARGET_NR_setpgid 154
++#define TARGET_NR_getpgid 155
++#define TARGET_NR_getsid 156
++#define TARGET_NR_setsid 157
++#define TARGET_NR_getgroups 158
++#define TARGET_NR_setgroups 159
++#define TARGET_NR_uname 160
++#define TARGET_NR_sethostname 161
++#define TARGET_NR_setdomainname 162
++#define TARGET_NR_getrlimit 163
++#define TARGET_NR_setrlimit 164
++#define TARGET_NR_getrusage 165
++#define TARGET_NR_umask 166
++#define TARGET_NR_prctl 167
++#define TARGET_NR_getcpu 168
++#define TARGET_NR_gettimeofday 169
++#define TARGET_NR_settimeofday 170
++#define TARGET_NR_adjtimex 171
++#define TARGET_NR_getpid 172
++#define TARGET_NR_getppid 173
++#define TARGET_NR_getuid 174
++#define TARGET_NR_geteuid 175
++#define TARGET_NR_getgid 176
++#define TARGET_NR_getegid 177
++#define TARGET_NR_gettid 178
++#define TARGET_NR_sysinfo 179
++#define TARGET_NR_mq_open 180
++#define TARGET_NR_mq_unlink 181
++#define TARGET_NR_mq_timedsend 182
++#define TARGET_NR_mq_timedreceive 183
++#define TARGET_NR_mq_notify 184
++#define TARGET_NR_mq_getsetattr 185
++#define TARGET_NR_msgget 186
++#define TARGET_NR_msgctl 187
++#define TARGET_NR_msgrcv 188
++#define TARGET_NR_msgsnd 189
++#define TARGET_NR_semget 190
++#define TARGET_NR_semctl 191
++#define TARGET_NR_semtimedop 192
++#define TARGET_NR_semop 193
++#define TARGET_NR_shmget 194
++#define TARGET_NR_shmctl 195
++#define TARGET_NR_shmat 196
++#define TARGET_NR_shmdt 197
++#define TARGET_NR_socket 198
++#define TARGET_NR_socketpair 199
++#define TARGET_NR_bind 200
++#define TARGET_NR_listen 201
++#define TARGET_NR_accept 202
++#define TARGET_NR_connect 203
++#define TARGET_NR_getsockname 204
++#define TARGET_NR_getpeername 205
++#define TARGET_NR_sendto 206
++#define TARGET_NR_recvfrom 207
++#define TARGET_NR_setsockopt 208
++#define TARGET_NR_getsockopt 209
++#define TARGET_NR_shutdown 210
++#define TARGET_NR_sendmsg 211
++#define TARGET_NR_recvmsg 212
++#define TARGET_NR_readahead 213
++#define TARGET_NR_brk 214
++#define TARGET_NR_munmap 215
++#define TARGET_NR_mremap 216
++#define TARGET_NR_add_key 217
++#define TARGET_NR_request_key 218
++#define TARGET_NR_keyctl 219
++#define TARGET_NR_clone 220
++#define TARGET_NR_execve 221
++#define TARGET_NR_mmap2 222
++#define TARGET_NR_fadvise64_64 223
++#define TARGET_NR_swapon 224
++#define TARGET_NR_swapoff 225
++#define TARGET_NR_mprotect 226
++#define TARGET_NR_msync 227
++#define TARGET_NR_mlock 228
++#define TARGET_NR_munlock 229
++#define TARGET_NR_mlockall 230
++#define TARGET_NR_munlockall 231
++#define TARGET_NR_mincore 232
++#define TARGET_NR_madvise 233
++#define TARGET_NR_remap_file_pages 234
++#define TARGET_NR_mbind 235
++#define TARGET_NR_get_mempolicy 236
++#define TARGET_NR_set_mempolicy 237
++#define TARGET_NR_migrate_pages 238
++#define TARGET_NR_move_pages 239
++#define TARGET_NR_rt_tgsigqueueinfo 240
++#define TARGET_NR_perf_event_open 241
++#define TARGET_NR_accept4 242
++#define TARGET_NR_recvmmsg 243
++#define TARGET_NR_arch_specific_syscall 244
++#define TARGET_NR_wait4 260
++#define TARGET_NR_prlimit64 261
++#define TARGET_NR_fanotify_init 262
++#define TARGET_NR_fanotify_mark 263
++#define TARGET_NR_name_to_handle_at 264
++#define TARGET_NR_open_by_handle_at 265
++#define TARGET_NR_clock_adjtime 266
++#define TARGET_NR_syncfs 267
++#define TARGET_NR_setns 268
++#define TARGET_NR_sendmmsg 269
++#define TARGET_NR_process_vm_readv 270
++#define TARGET_NR_process_vm_writev 271
++#define TARGET_NR_kcmp 272
++#define TARGET_NR_finit_module 273
++#define TARGET_NR_sched_setattr 274
++#define TARGET_NR_sched_getattr 275
++#define TARGET_NR_renameat2 276
++#define TARGET_NR_seccomp 277
++#define TARGET_NR_getrandom 278
++#define TARGET_NR_memfd_create 279
++#define TARGET_NR_bpf 280
++#define TARGET_NR_execveat 281
++#define TARGET_NR_userfaultfd 282
++#define TARGET_NR_membarrier 283
++#define TARGET_NR_mlock2 284
++#define TARGET_NR_copy_file_range 285
++#define TARGET_NR_preadv2 286
++#define TARGET_NR_pwritev2 287
++#define TARGET_NR_pkey_mprotect 288
++#define TARGET_NR_pkey_alloc 289
++#define TARGET_NR_pkey_free 290
++#define TARGET_NR_statx 291
++#define TARGET_NR_io_pgetevents 292
++#define TARGET_NR_rseq 293
++#define TARGET_NR_kexec_file_load 294
++#define TARGET_NR_clock_gettime64 403
++#define TARGET_NR_clock_settime64 404
++#define TARGET_NR_clock_adjtime64 405
++#define TARGET_NR_clock_getres_time64 406
++#define TARGET_NR_clock_nanosleep_time64 407
++#define TARGET_NR_timer_gettime64 408
++#define TARGET_NR_timer_settime64 409
++#define TARGET_NR_timerfd_gettime64 410
++#define TARGET_NR_timerfd_settime64 411
++#define TARGET_NR_utimensat_time64 412
++#define TARGET_NR_pselect6_time64 413
++#define TARGET_NR_ppoll_time64 414
++#define TARGET_NR_io_pgetevents_time64 416
++#define TARGET_NR_recvmmsg_time64 417
++#define TARGET_NR_mq_timedsend_time64 418
++#define TARGET_NR_mq_timedreceive_time64 419
++#define TARGET_NR_semtimedop_time64 420
++#define TARGET_NR_rt_sigtimedwait_time64 421
++#define TARGET_NR_futex_time64 422
++#define TARGET_NR_sched_rr_get_interval_time64 423
++#define TARGET_NR_pidfd_send_signal 424
++#define TARGET_NR_io_uring_setup 425
++#define TARGET_NR_io_uring_enter 426
++#define TARGET_NR_io_uring_register 427
++#define TARGET_NR_open_tree 428
++#define TARGET_NR_move_mount 429
++#define TARGET_NR_fsopen 430
++#define TARGET_NR_fsconfig 431
++#define TARGET_NR_fsmount 432
++#define TARGET_NR_fspick 433
++#define TARGET_NR_pidfd_open 434
++#define TARGET_NR_syscalls 436
 +
-+typedef struct DisasContext {
-+    DisasContextBase base;
-+    uint32_t mem_idx;
-+    uint32_t num_packets;
-+    uint32_t num_insns;
-+    int reg_log[REG_WRITES_MAX];
-+    int reg_log_idx;
-+    DECLARE_BITMAP(regs_written, TOTAL_PER_THREAD_REGS);
-+    int preg_log[PRED_WRITES_MAX];
-+    int preg_log_idx;
-+    uint8_t store_width[STORES_MAX];
-+    uint8_t s1_store_processed;
-+} DisasContext;
++#endif /* LINUX_USER_HEXAGON_SYSCALL_NR_H */
+diff --git a/linux-user/hexagon/target_cpu.h b/linux-user/hexagon/target_cpu.h
+new file mode 100644
+index 0000000000..ecb76e9268
+--- /dev/null
++++ b/linux-user/hexagon/target_cpu.h
+@@ -0,0 +1,44 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
++#ifndef HEXAGON_TARGET_CPU_H
++#define HEXAGON_TARGET_CPU_H
++
++static inline void cpu_clone_regs_child(CPUHexagonState *env,
++                                        target_ulong newsp, unsigned flags)
 +{
-+#if HEX_DEBUG
-+    if (test_bit(rnum, ctx->regs_written)) {
-+        HEX_DEBUG_LOG("WARNING: Multiple writes to r%d\n", rnum);
++    if (newsp) {
++        env->gpr[HEX_REG_SP] = newsp;
 +    }
++    env->gpr[0] = 0;
++}
++
++static inline void cpu_clone_regs_parent(CPUHexagonState *env, unsigned flags)
++{
++}
++
++static inline void cpu_set_tls(CPUHexagonState *env, target_ulong newtls)
++{
++    env->gpr[HEX_REG_UGP] = newtls;
++}
++
++static inline abi_ulong get_sp_from_cpustate(CPUHexagonState *state)
++{
++    return state->gpr[HEX_REG_SP];
++}
++
 +#endif
-+    ctx->reg_log[ctx->reg_log_idx] = rnum;
-+    ctx->reg_log_idx++;
-+    set_bit(rnum, ctx->regs_written);
-+}
-+
-+static inline void ctx_log_reg_write_pair(DisasContext *ctx, int rnum)
-+{
-+    ctx_log_reg_write(ctx, rnum);
-+    ctx_log_reg_write(ctx, rnum + 1);
-+}
-+
-+static inline void ctx_log_pred_write(DisasContext *ctx, int pnum)
-+{
-+    ctx->preg_log[ctx->preg_log_idx] = pnum;
-+    ctx->preg_log_idx++;
-+}
-+
-+static inline bool is_preloaded(DisasContext *ctx, int num)
-+{
-+    return test_bit(num, ctx->regs_written);
-+}
-+
-+extern TCGv hex_gpr[TOTAL_PER_THREAD_REGS];
-+extern TCGv hex_pred[NUM_PREGS];
-+extern TCGv hex_next_PC;
-+extern TCGv hex_this_PC;
-+extern TCGv hex_slot_cancelled;
-+extern TCGv hex_branch_taken;
-+extern TCGv hex_new_value[TOTAL_PER_THREAD_REGS];
-+extern TCGv hex_reg_written[TOTAL_PER_THREAD_REGS];
-+extern TCGv hex_new_pred_value[NUM_PREGS];
-+extern TCGv hex_pred_written;
-+extern TCGv hex_store_addr[STORES_MAX];
-+extern TCGv hex_store_width[STORES_MAX];
-+extern TCGv hex_store_val32[STORES_MAX];
-+extern TCGv_i64 hex_store_val64[STORES_MAX];
-+extern TCGv hex_dczero_addr;
-+extern TCGv hex_llsc_addr;
-+extern TCGv hex_llsc_val;
-+extern TCGv_i64 hex_llsc_val_i64;
-+
-+void gen_exception(int excp);
-+void gen_exception_debug(void);
-+
-+void process_store(DisasContext *ctx, Packet *pkt, int slot_num);
-+#endif
-diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
+diff --git a/linux-user/hexagon/target_elf.h b/linux-user/hexagon/target_elf.h
 new file mode 100644
-index 0000000000..eeaad5f8ba
+index 0000000000..b4e9f40527
 --- /dev/null
-+++ b/target/hexagon/translate.c
-@@ -0,0 +1,748 @@
++++ b/linux-user/hexagon/target_elf.h
+@@ -0,0 +1,40 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -228,737 +554,708 @@ index 0000000000..eeaad5f8ba
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#define QEMU_GENERATE
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "tcg/tcg-op.h"
-+#include "exec/cpu_ldst.h"
-+#include "exec/log.h"
-+#include "internal.h"
-+#include "attribs.h"
-+#include "insn.h"
-+#include "decode.h"
-+#include "translate.h"
-+#include "printinsn.h"
++#ifndef HEXAGON_TARGET_ELF_H
++#define HEXAGON_TARGET_ELF_H
 +
-+TCGv hex_gpr[TOTAL_PER_THREAD_REGS];
-+TCGv hex_pred[NUM_PREGS];
-+TCGv hex_next_PC;
-+TCGv hex_this_PC;
-+TCGv hex_slot_cancelled;
-+TCGv hex_branch_taken;
-+TCGv hex_new_value[TOTAL_PER_THREAD_REGS];
-+#if HEX_DEBUG
-+TCGv hex_reg_written[TOTAL_PER_THREAD_REGS];
++static inline const char *cpu_get_model(uint32_t eflags)
++{
++    /* For now, treat anything newer than v5 as a v67 */
++    /* FIXME - Disable instructions that are newer than the specified arch */
++    if (eflags == 0x04 ||    /* v5  */
++        eflags == 0x05 ||    /* v55 */
++        eflags == 0x60 ||    /* v60 */
++        eflags == 0x61 ||    /* v61 */
++        eflags == 0x62 ||    /* v62 */
++        eflags == 0x65 ||    /* v65 */
++        eflags == 0x66 ||    /* v66 */
++        eflags == 0x67 ||    /* v67 */
++        eflags == 0x8067     /* v67t */
++       ) {
++        return "v67";
++    }
++    return "unknown";
++}
++
 +#endif
-+TCGv hex_new_pred_value[NUM_PREGS];
-+TCGv hex_pred_written;
-+TCGv hex_store_addr[STORES_MAX];
-+TCGv hex_store_width[STORES_MAX];
-+TCGv hex_store_val32[STORES_MAX];
-+TCGv_i64 hex_store_val64[STORES_MAX];
-+TCGv hex_pkt_has_store_s1;
-+TCGv hex_dczero_addr;
-+TCGv hex_llsc_addr;
-+TCGv hex_llsc_val;
-+TCGv_i64 hex_llsc_val_i64;
+diff --git a/linux-user/hexagon/target_fcntl.h b/linux-user/hexagon/target_fcntl.h
+new file mode 100644
+index 0000000000..2892db8098
+--- /dev/null
++++ b/linux-user/hexagon/target_fcntl.h
+@@ -0,0 +1,18 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+static const char * const hexagon_prednames[] = {
-+  "p0", "p1", "p2", "p3"
++#include "../generic/fcntl.h"
+diff --git a/linux-user/hexagon/target_signal.h b/linux-user/hexagon/target_signal.h
+new file mode 100644
+index 0000000000..345cf1cbb8
+--- /dev/null
++++ b/linux-user/hexagon/target_signal.h
+@@ -0,0 +1,34 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef HEXAGON_TARGET_SIGNAL_H
++#define HEXAGON_TARGET_SIGNAL_H
++
++typedef struct target_sigaltstack {
++    abi_ulong ss_sp;
++    abi_int ss_flags;
++    abi_ulong ss_size;
++} target_stack_t;
++
++#define TARGET_SS_ONSTACK 1
++#define TARGET_SS_DISABLE 2
++
++#define TARGET_MINSIGSTKSZ 2048
++
++#include "../generic/signal.h"
++
++#endif /* TARGET_SIGNAL_H */
+diff --git a/linux-user/hexagon/target_structs.h b/linux-user/hexagon/target_structs.h
+new file mode 100644
+index 0000000000..c217d9442a
+--- /dev/null
++++ b/linux-user/hexagon/target_structs.h
+@@ -0,0 +1,54 @@
++/*
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++/*
++ * Hexagon specific structures for linux-user
++ */
++#ifndef HEXAGON_TARGET_STRUCTS_H
++#define HEXAGON_TARGET_STRUCTS_H
++
++struct target_ipc_perm {
++    abi_int __key;                      /* Key.  */
++    abi_uint uid;                       /* Owner's user ID.  */
++    abi_uint gid;                       /* Owner's group ID.  */
++    abi_uint cuid;                      /* Creator's user ID.  */
++    abi_uint cgid;                      /* Creator's group ID.  */
++    abi_ushort mode;                    /* Read/write permission.  */
++    abi_ushort __pad1;
++    abi_ushort __seq;                   /* Sequence number.  */
++    abi_ushort __pad2;
++    abi_ulong __unused1;
++    abi_ulong __unused2;
 +};
 +
-+void gen_exception(int excp)
-+{
-+    TCGv_i32 helper_tmp = tcg_const_i32(excp);
-+    gen_helper_raise_exception(cpu_env, helper_tmp);
-+    tcg_temp_free_i32(helper_tmp);
-+}
++struct target_shmid_ds {
++    struct target_ipc_perm shm_perm;    /* operation permission struct */
++    abi_long shm_segsz;                 /* size of segment in bytes */
++    abi_ulong shm_atime;                /* time of last shmat() */
++    abi_ulong __unused1;
++    abi_ulong shm_dtime;                /* time of last shmdt() */
++    abi_ulong __unused2;
++    abi_ulong shm_ctime;                /* time of last change by shmctl() */
++    abi_ulong __unused3;
++    abi_int shm_cpid;                   /* pid of creator */
++    abi_int shm_lpid;                   /* pid of last shmop */
++    abi_ulong shm_nattch;               /* number of current attaches */
++    abi_ulong __unused4;
++    abi_ulong __unused5;
++};
 +
-+void gen_exception_debug(void)
-+{
-+    gen_exception(EXCP_DEBUG);
-+}
-+
-+#if HEX_DEBUG
-+#define PACKET_BUFFER_LEN              1028
-+static void print_pkt(Packet *pkt)
-+{
-+    GString *buf = g_string_sized_new(PACKET_BUFFER_LEN);
-+    snprint_a_pkt_debug(buf, pkt);
-+    HEX_DEBUG_LOG("%s", buf->str);
-+    g_string_free(buf, true);
-+}
-+#define HEX_DEBUG_PRINT_PKT(pkt)  print_pkt(pkt)
-+#else
-+#define HEX_DEBUG_PRINT_PKT(pkt)  /* nothing */
 +#endif
-+
-+static int read_packet_words(CPUHexagonState *env, DisasContext *ctx,
-+                             uint32_t words[])
-+{
-+    bool found_end = false;
-+    int nwords, max_words;
-+
-+    memset(words, 0, PACKET_WORDS_MAX * sizeof(uint32_t));
-+    for (nwords = 0; !found_end && nwords < PACKET_WORDS_MAX; nwords++) {
-+        words[nwords] = cpu_ldl_code(env,
-+                                ctx->base.pc_next + nwords * sizeof(uint32_t));
-+        found_end = is_packet_end(words[nwords]);
-+    }
-+    if (!found_end) {
-+        /* Read too many words without finding the end */
-+        return 0;
-+    }
-+
-+    /* Check for page boundary crossing */
-+    max_words = -(ctx->base.pc_next | TARGET_PAGE_MASK) / sizeof(uint32_t);
-+    if (nwords > max_words) {
-+        /* We can only cross a page boundary at the beginning of a TB */
-+        g_assert(ctx->base.num_insns == 1);
-+    }
-+
-+    HEX_DEBUG_LOG("decode_packet: pc = 0x%x\n", ctx->base.pc_next);
-+    HEX_DEBUG_LOG("    words = { ");
-+    for (int i = 0; i < nwords; i++) {
-+        HEX_DEBUG_LOG("0x%x, ", words[i]);
-+    }
-+    HEX_DEBUG_LOG("}\n");
-+
-+    return nwords;
-+}
-+
-+static bool check_for_attrib(Packet *pkt, int attrib)
-+{
-+    for (int i = 0; i < pkt->num_insns; i++) {
-+        if (GET_ATTRIB(pkt->insn[i].opcode, attrib)) {
-+            return true;
-+        }
-+    }
-+    return false;
-+}
-+
-+static bool need_pc(Packet *pkt)
-+{
-+    return check_for_attrib(pkt, A_IMPLICIT_READS_PC);
-+}
-+
-+static bool need_slot_cancelled(Packet *pkt)
-+{
-+    return check_for_attrib(pkt, A_CONDEXEC);
-+}
-+
-+static bool need_pred_written(Packet *pkt)
-+{
-+    return check_for_attrib(pkt, A_WRITES_PRED_REG);
-+}
-+
-+static void gen_start_packet(DisasContext *ctx, Packet *pkt)
-+{
-+    target_ulong next_PC = ctx->base.pc_next + pkt->encod_pkt_size_in_bytes;
-+    int i;
-+
-+    /* Clear out the disassembly context */
-+    ctx->reg_log_idx = 0;
-+    bitmap_zero(ctx->regs_written, TOTAL_PER_THREAD_REGS);
-+    ctx->preg_log_idx = 0;
-+    for (i = 0; i < STORES_MAX; i++) {
-+        ctx->store_width[i] = 0;
-+    }
-+    tcg_gen_movi_tl(hex_pkt_has_store_s1, pkt->pkt_has_store_s1);
-+    ctx->s1_store_processed = 0;
-+
-+#if HEX_DEBUG
-+    /* Handy place to set a breakpoint before the packet executes */
-+    gen_helper_debug_start_packet(cpu_env);
-+    tcg_gen_movi_tl(hex_this_PC, ctx->base.pc_next);
-+#endif
-+
-+    /* Initialize the runtime state for packet semantics */
-+    if (need_pc(pkt)) {
-+        tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
-+    }
-+    if (need_slot_cancelled(pkt)) {
-+        tcg_gen_movi_tl(hex_slot_cancelled, 0);
-+    }
-+    if (pkt->pkt_has_cof) {
-+        tcg_gen_movi_tl(hex_branch_taken, 0);
-+        tcg_gen_movi_tl(hex_next_PC, next_PC);
-+    }
-+    if (need_pred_written(pkt)) {
-+        tcg_gen_movi_tl(hex_pred_written, 0);
-+    }
-+}
-+
+diff --git a/linux-user/hexagon/target_syscall.h b/linux-user/hexagon/target_syscall.h
+new file mode 100644
+index 0000000000..7f91a4abc7
+--- /dev/null
++++ b/linux-user/hexagon/target_syscall.h
+@@ -0,0 +1,36 @@
 +/*
-+ * The LOG_*_WRITE macros mark most of the writes in a packet
-+ * However, there are some implicit writes marked as attributes
-+ * of the applicable instructions.
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+static void mark_implicit_reg_write(DisasContext *ctx, Insn *insn,
-+                                    int attrib, int rnum)
-+{
-+    if (GET_ATTRIB(insn->opcode, attrib)) {
-+        int is_predicated = GET_ATTRIB(insn->opcode, A_CONDEXEC);
-+        if (is_predicated && !is_preloaded(ctx, rnum)) {
-+            tcg_gen_mov_tl(hex_new_value[rnum], hex_gpr[rnum]);
-+        }
 +
-+        ctx_log_reg_write(ctx, rnum);
-+    }
-+}
++#ifndef HEXAGON_TARGET_SYSCALL_H
++#define HEXAGON_TARGET_SYSCALL_H
 +
-+static void mark_implicit_pred_write(DisasContext *ctx, Insn *insn,
-+                                     int attrib, int pnum)
-+{
-+    if (GET_ATTRIB(insn->opcode, attrib)) {
-+        ctx_log_pred_write(ctx, pnum);
-+    }
-+}
++struct target_pt_regs {
++    abi_long sepc;
++    abi_long sp;
++};
 +
-+static void mark_implicit_writes(DisasContext *ctx, Insn *insn)
-+{
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_FP,  HEX_REG_FP);
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SP,  HEX_REG_SP);
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_LR,  HEX_REG_LR);
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_LC0, HEX_REG_LC0);
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SA0, HEX_REG_SA0);
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_LC1, HEX_REG_LC1);
-+    mark_implicit_reg_write(ctx, insn, A_IMPLICIT_WRITES_SA1, HEX_REG_SA1);
++#define UNAME_MACHINE "hexagon"
++#define UNAME_MINIMUM_RELEASE "4.15.0"
 +
-+    mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P0, 0);
-+    mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P1, 1);
-+    mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P2, 2);
-+    mark_implicit_pred_write(ctx, insn, A_IMPLICIT_WRITES_P3, 3);
-+}
++#define TARGET_MLOCKALL_MCL_CURRENT 1
++#define TARGET_MLOCKALL_MCL_FUTURE  2
 +
-+static void gen_insn(CPUHexagonState *env, DisasContext *ctx,
-+                     Insn *insn, Packet *pkt)
-+{
-+    if (insn->generate) {
-+        mark_implicit_writes(ctx, insn);
-+        insn->generate(env, ctx, insn, pkt);
-+    } else {
-+        gen_exception(HEX_EXCP_INVALID_OPCODE);
-+        ctx->base.is_jmp = DISAS_NORETURN;
-+    }
-+}
++#define TARGET_MCL_CURRENT  1
++#define TARGET_MCL_FUTURE   2
++#define TARGET_MCL_ONFAULT  4
 +
++#endif
+diff --git a/linux-user/hexagon/termbits.h b/linux-user/hexagon/termbits.h
+new file mode 100644
+index 0000000000..49f974cdde
+--- /dev/null
++++ b/linux-user/hexagon/termbits.h
+@@ -0,0 +1,18 @@
 +/*
-+ * Helpers for generating the packet commit
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+static void gen_reg_writes(DisasContext *ctx)
++
++#include "../generic/termbits.h"
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index d25a5dafc0..52c981710b 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -718,6 +718,8 @@ static inline int regpairs_aligned(void *cpu_env, int num)
+ }
+ #elif defined(TARGET_XTENSA)
+ static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
++#elif defined(TARGET_HEXAGON)
++static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
+ #else
+ static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
+ #endif
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 46a960fccb..6823d8646c 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -104,6 +104,14 @@
+ #define TARGET_IOC_WRITE  2U
+ #define TARGET_IOC_READ   1U
+ 
++#elif defined(TARGET_HEXAGON)
++
++#define TARGET_IOC_SIZEBITS     14
++
++#define TARGET_IOC_NONE   0U
++#define TARGET_IOC_WRITE  1U
++#define TARGET_IOC_READ          2U
++
+ #else
+ #error unsupported CPU
+ #endif
+@@ -2253,6 +2261,31 @@ struct target_stat64 {
+     uint64_t   st_ino;
+ };
+ 
++#elif defined(TARGET_HEXAGON)
++
++struct target_stat {
++    unsigned long long st_dev;
++    unsigned long long st_ino;
++    unsigned int st_mode;
++    unsigned int st_nlink;
++    unsigned int st_uid;
++    unsigned int st_gid;
++    unsigned long long st_rdev;
++    target_ulong __pad1;
++    long long st_size;
++    target_long st_blksize;
++    int __pad2;
++    long long st_blocks;
++
++    target_long target_st_atime;
++    target_long target_st_atime_nsec;
++    target_long target_st_mtime;
++    target_long target_st_mtime_nsec;
++    target_long target_st_ctime;
++    target_long target_st_ctime_nsec;
++    int __unused[2];
++};
++
+ #else
+ #error unsupported CPU
+ #endif
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index 73d750c809..bab4237e90 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -1514,6 +1514,22 @@ static void elf_core_copy_regs(target_elf_gregset_t *regs,
+ 
+ #endif /* TARGET_XTENSA */
+ 
++#ifdef TARGET_HEXAGON
++
++#define ELF_START_MMAP 0x20000000
++
++#define ELF_CLASS       ELFCLASS32
++#define ELF_ARCH        EM_HEXAGON
++
++static inline void init_thread(struct target_pt_regs *regs,
++                               struct image_info *infop)
 +{
-+    int i;
-+
-+    for (i = 0; i < ctx->reg_log_idx; i++) {
-+        int reg_num = ctx->reg_log[i];
-+
-+        tcg_gen_mov_tl(hex_gpr[reg_num], hex_new_value[reg_num]);
-+    }
++    regs->sepc = infop->entry;
++    regs->sp = infop->start_stack;
 +}
 +
-+static void gen_pred_writes(DisasContext *ctx, Packet *pkt)
++#endif /* TARGET_HEXAGON */
++
+ #ifndef ELF_PLATFORM
+ #define ELF_PLATFORM (NULL)
+ #endif
+diff --git a/linux-user/hexagon/cpu_loop.c b/linux-user/hexagon/cpu_loop.c
+new file mode 100644
+index 0000000000..9a68ca05c3
+--- /dev/null
++++ b/linux-user/hexagon/cpu_loop.c
+@@ -0,0 +1,100 @@
++/*
++ *  qemu user cpu loop
++ *
++ *  Copyright (c) 2003-2008 Fabrice Bellard
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu.h"
++#include "cpu_loop-common.h"
++#include "internal.h"
++
++void cpu_loop(CPUHexagonState *env)
 +{
-+    TCGv zero, control_reg, pval;
-+    int i;
++    CPUState *cs = CPU(hexagon_env_get_cpu(env));
++    int trapnr, signum, sigcode;
++    target_ulong sigaddr;
++    target_ulong syscallnum;
++    target_ulong ret;
 +
-+    /* Early exit if the log is empty */
-+    if (!ctx->preg_log_idx) {
-+        return;
-+    }
++    for (;;) {
++        cpu_exec_start(cs);
++        trapnr = cpu_exec(cs);
++        cpu_exec_end(cs);
++        process_queued_cpu_work(cs);
 +
-+    zero = tcg_const_tl(0);
-+    control_reg = tcg_temp_new();
-+    pval = tcg_temp_new();
++        signum = 0;
++        sigcode = 0;
++        sigaddr = 0;
 +
-+    /*
-+     * Only endloop instructions will conditionally
-+     * write a predicate.  If there are no endloop
-+     * instructions, we can use the non-conditional
-+     * write of the predicates.
-+     */
-+    if (pkt->pkt_has_endloop) {
-+        TCGv pred_written = tcg_temp_new();
-+        for (i = 0; i < ctx->preg_log_idx; i++) {
-+            int pred_num = ctx->preg_log[i];
-+
-+            tcg_gen_andi_tl(pred_written, hex_pred_written, 1 << pred_num);
-+            tcg_gen_movcond_tl(TCG_COND_NE, hex_pred[pred_num],
-+                               pred_written, zero,
-+                               hex_new_pred_value[pred_num],
-+                               hex_pred[pred_num]);
-+        }
-+        tcg_temp_free(pred_written);
-+    } else {
-+        for (i = 0; i < ctx->preg_log_idx; i++) {
-+            int pred_num = ctx->preg_log[i];
-+            tcg_gen_mov_tl(hex_pred[pred_num], hex_new_pred_value[pred_num]);
-+#if HEX_DEBUG
-+            /* Do this so HELPER(debug_commit_end) will know */
-+            tcg_gen_ori_tl(hex_pred_written, hex_pred_written, 1 << pred_num);
-+#endif
-+        }
-+    }
-+
-+    tcg_temp_free(zero);
-+    tcg_temp_free(control_reg);
-+    tcg_temp_free(pval);
-+}
-+
-+#if HEX_DEBUG
-+static inline void gen_check_store_width(DisasContext *ctx, int slot_num)
-+{
-+    TCGv slot = tcg_const_tl(slot_num);
-+    TCGv check = tcg_const_tl(ctx->store_width[slot_num]);
-+    gen_helper_debug_check_store_width(cpu_env, slot, check);
-+    tcg_temp_free(slot);
-+    tcg_temp_free(check);
-+}
-+#define HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num) \
-+    gen_check_store_width(ctx, slot_num)
-+#else
-+#define HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num)  /* nothing */
-+#endif
-+
-+static bool slot_is_predicated(Packet *pkt, int slot_num)
-+{
-+    for (int i = 0; i < pkt->num_insns; i++) {
-+        if (pkt->insn[i].slot == slot_num) {
-+            return GET_ATTRIB(pkt->insn[i].opcode, A_CONDEXEC);
-+        }
-+    }
-+    /* If we get to here, we didn't find an instruction in the requested slot */
-+    g_assert_not_reached();
-+}
-+
-+void process_store(DisasContext *ctx, Packet *pkt, int slot_num)
-+{
-+    bool is_predicated = slot_is_predicated(pkt, slot_num);
-+    TCGLabel *label_end = NULL;
-+
-+    /*
-+     * We may have already processed this store
-+     * See CHECK_NOSHUF in macros.h
-+     */
-+    if (slot_num == 1 && ctx->s1_store_processed) {
-+        return;
-+    }
-+    ctx->s1_store_processed = 1;
-+
-+    if (is_predicated) {
-+        TCGv cancelled = tcg_temp_new();
-+        label_end = gen_new_label();
-+
-+        /* Don't do anything if the slot was cancelled */
-+        tcg_gen_extract_tl(cancelled, hex_slot_cancelled, slot_num, 1);
-+        tcg_gen_brcondi_tl(TCG_COND_NE, cancelled, 0, label_end);
-+        tcg_temp_free(cancelled);
-+    }
-+    {
-+        TCGv address = tcg_temp_local_new();
-+        tcg_gen_mov_tl(address, hex_store_addr[slot_num]);
-+
-+        /*
-+         * If we know the width from the DisasContext, we can
-+         * generate much cleaner code.
-+         * Unfortunately, not all instructions execute the fSTORE
-+         * macro during code generation.  Anything that uses the
-+         * generic helper will have this problem.  Instructions
-+         * that use fWRAP to generate proper TCG code will be OK.
-+         */
-+        switch (ctx->store_width[slot_num]) {
-+        case 1:
-+            HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num);
-+            tcg_gen_qemu_st8(hex_store_val32[slot_num],
-+                             hex_store_addr[slot_num],
-+                             ctx->mem_idx);
++        switch (trapnr) {
++        case EXCP_INTERRUPT:
++            /* just indicate that signals should be handled asap */
 +            break;
-+        case 2:
-+            HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num);
-+            tcg_gen_qemu_st16(hex_store_val32[slot_num],
-+                              hex_store_addr[slot_num],
-+                              ctx->mem_idx);
++        case HEX_EXCP_TRAP0:
++            syscallnum = env->gpr[6];
++            env->gpr[HEX_REG_PC] += 4;
++            ret = do_syscall(env,
++                             syscallnum,
++                             env->gpr[0],
++                             env->gpr[1],
++                             env->gpr[2],
++                             env->gpr[3],
++                             env->gpr[4],
++                             env->gpr[5],
++                             0, 0);
++            if (ret == -TARGET_ERESTARTSYS) {
++                env->gpr[HEX_REG_PC] -= 4;
++            } else if (ret != -TARGET_QEMU_ESIGRETURN) {
++                env->gpr[0] = ret;
++            }
 +            break;
-+        case 4:
-+            HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num);
-+            tcg_gen_qemu_st32(hex_store_val32[slot_num],
-+                              hex_store_addr[slot_num],
-+                              ctx->mem_idx);
++        case HEX_EXCP_FETCH_NO_UPAGE:
++        case HEX_EXCP_PRIV_NO_UREAD:
++        case HEX_EXCP_PRIV_NO_UWRITE:
++            signum = TARGET_SIGSEGV;
++            sigcode = TARGET_SEGV_MAPERR;
 +            break;
-+        case 8:
-+            HEX_DEBUG_GEN_CHECK_STORE_WIDTH(ctx, slot_num);
-+            tcg_gen_qemu_st64(hex_store_val64[slot_num],
-+                              hex_store_addr[slot_num],
-+                              ctx->mem_idx);
++        case EXCP_ATOMIC:
++            cpu_exec_step_atomic(cs);
 +            break;
 +        default:
-+            {
-+                /*
-+                 * If we get to here, we don't know the width at
-+                 * TCG generation time, we'll use a helper to
-+                 * avoid branching based on the width at runtime.
-+                 */
-+                TCGv slot = tcg_const_tl(slot_num);
-+                gen_helper_commit_store(cpu_env, slot);
-+                tcg_temp_free(slot);
-+            }
-+        }
-+        tcg_temp_free(address);
-+    }
-+    if (is_predicated) {
-+        gen_set_label(label_end);
-+    }
-+}
-+
-+static void process_store_log(DisasContext *ctx, Packet *pkt)
-+{
-+    /*
-+     *  When a packet has two stores, the hardware processes
-+     *  slot 1 and then slot 2.  This will be important when
-+     *  the memory accesses overlap.
-+     */
-+    if (pkt->pkt_has_store_s1 && !pkt->pkt_has_dczeroa) {
-+        process_store(ctx, pkt, 1);
-+    }
-+    if (pkt->pkt_has_store_s0 && !pkt->pkt_has_dczeroa) {
-+        process_store(ctx, pkt, 0);
-+    }
-+}
-+
-+/* Zero out a 32-bit cache line */
-+static void process_dczeroa(DisasContext *ctx, Packet *pkt)
-+{
-+    if (pkt->pkt_has_dczeroa) {
-+        /* Store 32 bytes of zero starting at (addr & ~0x1f) */
-+        TCGv addr = tcg_temp_new();
-+        TCGv_i64 zero = tcg_const_i64(0);
-+
-+        tcg_gen_andi_tl(addr, hex_dczero_addr, ~0x1f);
-+        tcg_gen_qemu_st64(zero, addr, ctx->mem_idx);
-+        tcg_gen_addi_tl(addr, addr, 8);
-+        tcg_gen_qemu_st64(zero, addr, ctx->mem_idx);
-+        tcg_gen_addi_tl(addr, addr, 8);
-+        tcg_gen_qemu_st64(zero, addr, ctx->mem_idx);
-+        tcg_gen_addi_tl(addr, addr, 8);
-+        tcg_gen_qemu_st64(zero, addr, ctx->mem_idx);
-+
-+        tcg_temp_free(addr);
-+        tcg_temp_free_i64(zero);
-+    }
-+}
-+
-+static void update_exec_counters(DisasContext *ctx, Packet *pkt)
-+{
-+    int num_insns = pkt->num_insns;
-+    int num_real_insns = 0;
-+
-+    for (int i = 0; i < num_insns; i++) {
-+        if (!pkt->insn[i].is_endloop &&
-+            !pkt->insn[i].part1 &&
-+            !GET_ATTRIB(pkt->insn[i].opcode, A_IT_NOP)) {
-+            num_real_insns++;
-+        }
-+    }
-+
-+    ctx->num_packets++;
-+    ctx->num_insns += num_real_insns;
-+}
-+
-+static void gen_exec_counters(DisasContext *ctx)
-+{
-+    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_PKT_CNT],
-+                    hex_gpr[HEX_REG_QEMU_PKT_CNT], ctx->num_packets);
-+    tcg_gen_addi_tl(hex_gpr[HEX_REG_QEMU_INSN_CNT],
-+                    hex_gpr[HEX_REG_QEMU_INSN_CNT], ctx->num_insns);
-+}
-+
-+static void gen_commit_packet(DisasContext *ctx, Packet *pkt)
-+{
-+    gen_reg_writes(ctx);
-+    gen_pred_writes(ctx, pkt);
-+    process_store_log(ctx, pkt);
-+    process_dczeroa(ctx, pkt);
-+    update_exec_counters(ctx, pkt);
-+#if HEX_DEBUG
-+    {
-+        TCGv has_st0 =
-+            tcg_const_tl(pkt->pkt_has_store_s0 && !pkt->pkt_has_dczeroa);
-+        TCGv has_st1 =
-+            tcg_const_tl(pkt->pkt_has_store_s1 && !pkt->pkt_has_dczeroa);
-+
-+        /* Handy place to set a breakpoint at the end of execution */
-+        gen_helper_debug_commit_end(cpu_env, has_st0, has_st1);
-+
-+        tcg_temp_free(has_st0);
-+        tcg_temp_free(has_st1);
-+    }
-+#endif
-+
-+    if (pkt->pkt_has_cof) {
-+        ctx->base.is_jmp = DISAS_NORETURN;
-+    }
-+}
-+
-+static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
-+{
-+    uint32_t words[PACKET_WORDS_MAX];
-+    int nwords;
-+    Packet pkt;
-+    int i;
-+
-+    nwords = read_packet_words(env, ctx, words);
-+    if (!nwords) {
-+        gen_exception(HEX_EXCP_INVALID_PACKET);
-+        ctx->base.is_jmp = DISAS_NORETURN;
-+        return;
-+    }
-+
-+    if (decode_packet(nwords, words, &pkt, false) > 0) {
-+        HEX_DEBUG_PRINT_PKT(&pkt);
-+        gen_start_packet(ctx, &pkt);
-+        for (i = 0; i < pkt.num_insns; i++) {
-+            gen_insn(env, ctx, &pkt.insn[i], &pkt);
-+        }
-+        gen_commit_packet(ctx, &pkt);
-+        ctx->base.pc_next += pkt.encod_pkt_size_in_bytes;
-+    } else {
-+        gen_exception(HEX_EXCP_INVALID_PACKET);
-+        ctx->base.is_jmp = DISAS_NORETURN;
-+    }
-+}
-+
-+static void hexagon_tr_init_disas_context(DisasContextBase *dcbase,
-+                                          CPUState *cs)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    ctx->mem_idx = MMU_USER_IDX;
-+    ctx->num_packets = 0;
-+    ctx->num_insns = 0;
-+}
-+
-+static void hexagon_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-+{
-+}
-+
-+static void hexagon_tr_insn_start(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    tcg_gen_insn_start(ctx->base.pc_next);
-+}
-+
-+static bool hexagon_tr_breakpoint_check(DisasContextBase *dcbase, CPUState *cpu,
-+                                        const CPUBreakpoint *bp)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
-+    ctx->base.is_jmp = DISAS_NORETURN;
-+    gen_exception_debug();
-+    /*
-+     * The address covered by the breakpoint must be included in
-+     * [tb->pc, tb->pc + tb->size) in order to for it to be
-+     * properly cleared -- thus we increment the PC here so that
-+     * the logic setting tb->size below does the right thing.
-+     */
-+    ctx->base.pc_next += 4;
-+    return true;
-+}
-+
-+static bool pkt_crosses_page(CPUHexagonState *env, DisasContext *ctx)
-+{
-+    target_ulong page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
-+    bool found_end = false;
-+    int nwords;
-+
-+    for (nwords = 0; !found_end && nwords < PACKET_WORDS_MAX; nwords++) {
-+        uint32_t word = cpu_ldl_code(env,
-+                            ctx->base.pc_next + nwords * sizeof(uint32_t));
-+        found_end = is_packet_end(word);
-+    }
-+    uint32_t next_ptr =  ctx->base.pc_next + nwords * sizeof(uint32_t);
-+    return found_end && next_ptr - page_start >= TARGET_PAGE_SIZE;
-+}
-+
-+static void hexagon_tr_translate_packet(DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+    CPUHexagonState *env = cpu->env_ptr;
-+
-+    decode_and_translate_packet(env, ctx);
-+
-+    if (ctx->base.is_jmp == DISAS_NEXT) {
-+        target_ulong page_start = ctx->base.pc_first & TARGET_PAGE_MASK;
-+        target_ulong bytes_max = PACKET_WORDS_MAX * sizeof(target_ulong);
-+
-+        if (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE ||
-+            (ctx->base.pc_next - page_start >= TARGET_PAGE_SIZE - bytes_max &&
-+             pkt_crosses_page(env, ctx))) {
-+            ctx->base.is_jmp = DISAS_TOO_MANY;
++            EXCP_DUMP(env, "\nqemu: unhandled CPU exception %#x - aborting\n",
++                     trapnr);
++            exit(EXIT_FAILURE);
 +        }
 +
-+        /*
-+         * The CPU log is used to compare against LLDB single stepping,
-+         * so end the TLB after every packet.
-+         */
-+        HexagonCPU *hex_cpu = container_of(env, HexagonCPU, env);
-+        if (hex_cpu->lldb_compat && qemu_loglevel_mask(CPU_LOG_TB_CPU)) {
-+            ctx->base.is_jmp = DISAS_TOO_MANY;
++        if (signum) {
++            target_siginfo_t info = {
++                .si_signo = signum,
++                .si_errno = 0,
++                .si_code = sigcode,
++                ._sifields._sigfault._addr = sigaddr
++            };
++            queue_signal(env, info.si_signo, QEMU_SI_KILL, &info);
 +        }
-+#if HEX_DEBUG
-+        /* When debugging, only put one packet per TB */
-+        ctx->base.is_jmp = DISAS_TOO_MANY;
-+#endif
++
++        process_pending_signals(env);
 +    }
 +}
 +
-+static void hexagon_tr_tb_stop(DisasContextBase *dcbase, CPUState *cpu)
++void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
 +{
-+    DisasContext *ctx = container_of(dcbase, DisasContext, base);
-+
-+    switch (ctx->base.is_jmp) {
-+    case DISAS_TOO_MANY:
-+        gen_exec_counters(ctx);
-+        tcg_gen_movi_tl(hex_gpr[HEX_REG_PC], ctx->base.pc_next);
-+        if (ctx->base.singlestep_enabled) {
-+            gen_exception_debug();
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-+        }
-+        break;
-+    case DISAS_NORETURN:
-+        gen_exec_counters(ctx);
-+        tcg_gen_mov_tl(hex_gpr[HEX_REG_PC], hex_next_PC);
-+        if (ctx->base.singlestep_enabled) {
-+            gen_exception_debug();
-+        } else {
-+            tcg_gen_exit_tb(NULL, 0);
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
++    env->gpr[HEX_REG_PC] = regs->sepc;
++    env->gpr[HEX_REG_SP] = regs->sp;
++    env->gpr[HEX_REG_USR] = 0x56000;
 +}
+diff --git a/linux-user/hexagon/signal.c b/linux-user/hexagon/signal.c
+new file mode 100644
+index 0000000000..fde8dc93b7
+--- /dev/null
++++ b/linux-user/hexagon/signal.c
+@@ -0,0 +1,276 @@
++/*
++ *  Emulation of Linux signals
++ *
++ *  Copyright (c) 2003 Fabrice Bellard
++ *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
++#include "qemu/osdep.h"
++#include "qemu.h"
++#include "signal-common.h"
++#include "linux-user/trace.h"
 +
-+static void hexagon_tr_disas_log(const DisasContextBase *dcbase, CPUState *cpu)
-+{
-+    qemu_log("IN: %s\n", lookup_symbol(dcbase->pc_first));
-+    log_target_disas(cpu, dcbase->pc_first, dcbase->tb->size);
-+}
-+
-+
-+static const TranslatorOps hexagon_tr_ops = {
-+    .init_disas_context = hexagon_tr_init_disas_context,
-+    .tb_start           = hexagon_tr_tb_start,
-+    .insn_start         = hexagon_tr_insn_start,
-+    .breakpoint_check   = hexagon_tr_breakpoint_check,
-+    .translate_insn     = hexagon_tr_translate_packet,
-+    .tb_stop            = hexagon_tr_tb_stop,
-+    .disas_log          = hexagon_tr_disas_log,
++struct target_sigcontext {
++    target_ulong r0,  r1,  r2,  r3;
++    target_ulong r4,  r5,  r6,  r7;
++    target_ulong r8,  r9, r10, r11;
++    target_ulong r12, r13, r14, r15;
++    target_ulong r16, r17, r18, r19;
++    target_ulong r20, r21, r22, r23;
++    target_ulong r24, r25, r26, r27;
++    target_ulong r28, r29, r30, r31;
++    target_ulong sa0;
++    target_ulong lc0;
++    target_ulong sa1;
++    target_ulong lc1;
++    target_ulong m0;
++    target_ulong m1;
++    target_ulong usr;
++    target_ulong p3_0;
++    target_ulong gp;
++    target_ulong ugp;
++    target_ulong pc;
++    target_ulong cause;
++    target_ulong badva;
++    target_ulong pad1;
++    target_ulong pad2;
++    target_ulong pad3;
 +};
 +
-+void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
-+{
-+    DisasContext ctx;
++struct target_ucontext {
++    unsigned long uc_flags;
++    target_ulong uc_link; /* target pointer */
++    target_stack_t uc_stack;
++    struct target_sigcontext uc_mcontext;
++    target_sigset_t uc_sigmask;
++};
 +
-+    translator_loop(&hexagon_tr_ops, &ctx.base, cs, tb, max_insns);
++struct target_rt_sigframe {
++    uint32_t tramp[2];
++    struct target_siginfo info;
++    struct target_ucontext uc;
++};
++
++static abi_ulong get_sigframe(struct target_sigaction *ka,
++                              CPUHexagonState *regs, size_t framesize)
++{
++    abi_ulong sp = get_sp_from_cpustate(regs);
++
++    /* This is the X/Open sanctioned signal stack switching.  */
++    sp = target_sigsp(sp, ka) - framesize;
++
++    sp = QEMU_ALIGN_DOWN(sp, 8);
++
++    return sp;
 +}
 +
-+#define NAME_LEN               64
-+static char new_value_names[TOTAL_PER_THREAD_REGS][NAME_LEN];
-+#if HEX_DEBUG
-+static char reg_written_names[TOTAL_PER_THREAD_REGS][NAME_LEN];
-+#endif
-+static char new_pred_value_names[NUM_PREGS][NAME_LEN];
-+static char store_addr_names[STORES_MAX][NAME_LEN];
-+static char store_width_names[STORES_MAX][NAME_LEN];
-+static char store_val32_names[STORES_MAX][NAME_LEN];
-+static char store_val64_names[STORES_MAX][NAME_LEN];
-+
-+void hexagon_translate_init(void)
++static void setup_sigcontext(struct target_sigcontext *sc, CPUHexagonState *env)
 +{
++    __put_user(env->gpr[HEX_REG_R00], &sc->r0);
++    __put_user(env->gpr[HEX_REG_R01], &sc->r1);
++    __put_user(env->gpr[HEX_REG_R02], &sc->r2);
++    __put_user(env->gpr[HEX_REG_R03], &sc->r3);
++    __put_user(env->gpr[HEX_REG_R04], &sc->r4);
++    __put_user(env->gpr[HEX_REG_R05], &sc->r5);
++    __put_user(env->gpr[HEX_REG_R06], &sc->r6);
++    __put_user(env->gpr[HEX_REG_R07], &sc->r7);
++    __put_user(env->gpr[HEX_REG_R08], &sc->r8);
++    __put_user(env->gpr[HEX_REG_R09], &sc->r9);
++    __put_user(env->gpr[HEX_REG_R10], &sc->r10);
++    __put_user(env->gpr[HEX_REG_R11], &sc->r11);
++    __put_user(env->gpr[HEX_REG_R12], &sc->r12);
++    __put_user(env->gpr[HEX_REG_R13], &sc->r13);
++    __put_user(env->gpr[HEX_REG_R14], &sc->r14);
++    __put_user(env->gpr[HEX_REG_R15], &sc->r15);
++    __put_user(env->gpr[HEX_REG_R16], &sc->r16);
++    __put_user(env->gpr[HEX_REG_R17], &sc->r17);
++    __put_user(env->gpr[HEX_REG_R18], &sc->r18);
++    __put_user(env->gpr[HEX_REG_R19], &sc->r19);
++    __put_user(env->gpr[HEX_REG_R20], &sc->r20);
++    __put_user(env->gpr[HEX_REG_R21], &sc->r21);
++    __put_user(env->gpr[HEX_REG_R22], &sc->r22);
++    __put_user(env->gpr[HEX_REG_R23], &sc->r23);
++    __put_user(env->gpr[HEX_REG_R24], &sc->r24);
++    __put_user(env->gpr[HEX_REG_R25], &sc->r25);
++    __put_user(env->gpr[HEX_REG_R26], &sc->r26);
++    __put_user(env->gpr[HEX_REG_R27], &sc->r27);
++    __put_user(env->gpr[HEX_REG_R28], &sc->r28);
++    __put_user(env->gpr[HEX_REG_R29], &sc->r29);
++    __put_user(env->gpr[HEX_REG_R30], &sc->r30);
++    __put_user(env->gpr[HEX_REG_R31], &sc->r31);
++    __put_user(env->gpr[HEX_REG_SA0], &sc->sa0);
++    __put_user(env->gpr[HEX_REG_LC0], &sc->lc0);
++    __put_user(env->gpr[HEX_REG_SA1], &sc->sa1);
++    __put_user(env->gpr[HEX_REG_LC1], &sc->lc1);
++    __put_user(env->gpr[HEX_REG_M0], &sc->m0);
++    __put_user(env->gpr[HEX_REG_M1], &sc->m1);
++    __put_user(env->gpr[HEX_REG_USR], &sc->usr);
++    __put_user(env->gpr[HEX_REG_P3_0], &sc->p3_0);
++    __put_user(env->gpr[HEX_REG_GP], &sc->gp);
++    __put_user(env->gpr[HEX_REG_UGP], &sc->ugp);
++    __put_user(env->gpr[HEX_REG_PC], &sc->pc);
++}
++
++static void setup_ucontext(struct target_ucontext *uc,
++                           CPUHexagonState *env, target_sigset_t *set)
++{
++    __put_user(0,    &(uc->uc_flags));
++    __put_user(0,    &(uc->uc_link));
++
++    target_save_altstack(&uc->uc_stack, env);
++
++    int i;
++    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
++        __put_user(set->sig[i], &(uc->uc_sigmask.sig[i]));
++    }
++
++    setup_sigcontext(&uc->uc_mcontext, env);
++}
++
++static inline void install_sigtramp(uint32_t *tramp)
++{
++    __put_user(0x7800d166, tramp + 0); /*  { r6=#__NR_rt_sigreturn } */
++    __put_user(0x5400c004, tramp + 1); /*  { trap0(#1) } */
++}
++
++void setup_rt_frame(int sig, struct target_sigaction *ka,
++                    target_siginfo_t *info,
++                    target_sigset_t *set, CPUHexagonState *env)
++{
++    abi_ulong frame_addr;
++    struct target_rt_sigframe *frame;
++
++    frame_addr = get_sigframe(ka, env, sizeof(*frame));
++    trace_user_setup_rt_frame(env, frame_addr);
++
++    if (!lock_user_struct(VERIFY_WRITE, frame, frame_addr, 0)) {
++        goto badframe;
++    }
++
++    setup_ucontext(&frame->uc, env, set);
++    tswap_siginfo(&frame->info, info);
++    install_sigtramp(frame->tramp);
++
++    env->gpr[HEX_REG_PC] = ka->_sa_handler;
++    env->gpr[HEX_REG_SP] = frame_addr;
++    env->gpr[HEX_REG_R00] = sig;
++    env->gpr[HEX_REG_R01] =
++        frame_addr + offsetof(struct target_rt_sigframe, info);
++    env->gpr[HEX_REG_R02] =
++        frame_addr + offsetof(struct target_rt_sigframe, uc);
++    env->gpr[HEX_REG_LR] =
++        frame_addr + offsetof(struct target_rt_sigframe, tramp);
++
++    return;
++
++badframe:
++    unlock_user_struct(frame, frame_addr, 1);
++    if (sig == TARGET_SIGSEGV) {
++        ka->_sa_handler = TARGET_SIG_DFL;
++    }
++    force_sig(TARGET_SIGSEGV);
++}
++
++static void restore_sigcontext(CPUHexagonState *env,
++                               struct target_sigcontext *sc)
++{
++    __get_user(env->gpr[HEX_REG_R00], &sc->r0);
++    __get_user(env->gpr[HEX_REG_R01], &sc->r1);
++    __get_user(env->gpr[HEX_REG_R02], &sc->r2);
++    __get_user(env->gpr[HEX_REG_R03], &sc->r3);
++    __get_user(env->gpr[HEX_REG_R04], &sc->r4);
++    __get_user(env->gpr[HEX_REG_R05], &sc->r5);
++    __get_user(env->gpr[HEX_REG_R06], &sc->r6);
++    __get_user(env->gpr[HEX_REG_R07], &sc->r7);
++    __get_user(env->gpr[HEX_REG_R08], &sc->r8);
++    __get_user(env->gpr[HEX_REG_R09], &sc->r9);
++    __get_user(env->gpr[HEX_REG_R10], &sc->r10);
++    __get_user(env->gpr[HEX_REG_R11], &sc->r11);
++    __get_user(env->gpr[HEX_REG_R12], &sc->r12);
++    __get_user(env->gpr[HEX_REG_R13], &sc->r13);
++    __get_user(env->gpr[HEX_REG_R14], &sc->r14);
++    __get_user(env->gpr[HEX_REG_R15], &sc->r15);
++    __get_user(env->gpr[HEX_REG_R16], &sc->r16);
++    __get_user(env->gpr[HEX_REG_R17], &sc->r17);
++    __get_user(env->gpr[HEX_REG_R18], &sc->r18);
++    __get_user(env->gpr[HEX_REG_R19], &sc->r19);
++    __get_user(env->gpr[HEX_REG_R20], &sc->r20);
++    __get_user(env->gpr[HEX_REG_R21], &sc->r21);
++    __get_user(env->gpr[HEX_REG_R22], &sc->r22);
++    __get_user(env->gpr[HEX_REG_R23], &sc->r23);
++    __get_user(env->gpr[HEX_REG_R24], &sc->r24);
++    __get_user(env->gpr[HEX_REG_R25], &sc->r25);
++    __get_user(env->gpr[HEX_REG_R26], &sc->r26);
++    __get_user(env->gpr[HEX_REG_R27], &sc->r27);
++    __get_user(env->gpr[HEX_REG_R28], &sc->r28);
++    __get_user(env->gpr[HEX_REG_R29], &sc->r29);
++    __get_user(env->gpr[HEX_REG_R30], &sc->r30);
++    __get_user(env->gpr[HEX_REG_R31], &sc->r31);
++    __get_user(env->gpr[HEX_REG_SA0], &sc->sa0);
++    __get_user(env->gpr[HEX_REG_LC0], &sc->lc0);
++    __get_user(env->gpr[HEX_REG_SA1], &sc->sa1);
++    __get_user(env->gpr[HEX_REG_LC1], &sc->lc1);
++    __get_user(env->gpr[HEX_REG_M0], &sc->m0);
++    __get_user(env->gpr[HEX_REG_M1], &sc->m1);
++    __get_user(env->gpr[HEX_REG_USR], &sc->usr);
++    __get_user(env->gpr[HEX_REG_P3_0], &sc->p3_0);
++    __get_user(env->gpr[HEX_REG_GP], &sc->gp);
++    __get_user(env->gpr[HEX_REG_UGP], &sc->ugp);
++    __get_user(env->gpr[HEX_REG_PC], &sc->pc);
++}
++
++static void restore_ucontext(CPUHexagonState *env, struct target_ucontext *uc)
++{
++    sigset_t blocked;
++    target_sigset_t target_set;
 +    int i;
 +
-+    opcode_init();
-+
-+#if HEX_DEBUG
-+    if (!qemu_logfile) {
-+        qemu_set_log(qemu_loglevel);
++    target_sigemptyset(&target_set);
++    for (i = 0; i < TARGET_NSIG_WORDS; i++) {
++        __get_user(target_set.sig[i], &(uc->uc_sigmask.sig[i]));
 +    }
-+#endif
 +
-+    for (i = 0; i < TOTAL_PER_THREAD_REGS; i++) {
-+        hex_gpr[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, gpr[i]),
-+            hexagon_regnames[i]);
++    target_to_host_sigset_internal(&blocked, &target_set);
++    set_sigmask(&blocked);
 +
-+        snprintf(new_value_names[i], NAME_LEN, "new_%s", hexagon_regnames[i]);
-+        hex_new_value[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, new_value[i]),
-+            new_value_names[i]);
-+
-+#if HEX_DEBUG
-+        snprintf(reg_written_names[i], NAME_LEN, "reg_written_%s",
-+                 hexagon_regnames[i]);
-+        hex_reg_written[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, reg_written[i]),
-+            reg_written_names[i]);
-+#endif
-+    }
-+    for (i = 0; i < NUM_PREGS; i++) {
-+        hex_pred[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, pred[i]),
-+            hexagon_prednames[i]);
-+
-+        snprintf(new_pred_value_names[i], NAME_LEN, "new_pred_%s",
-+                 hexagon_prednames[i]);
-+        hex_new_pred_value[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, new_pred_value[i]),
-+            new_pred_value_names[i]);
-+    }
-+    hex_pred_written = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, pred_written), "pred_written");
-+    hex_next_PC = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, next_PC), "next_PC");
-+    hex_this_PC = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, this_PC), "this_PC");
-+    hex_slot_cancelled = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, slot_cancelled), "slot_cancelled");
-+    hex_branch_taken = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, branch_taken), "branch_taken");
-+    hex_pkt_has_store_s1 = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, pkt_has_store_s1), "pkt_has_store_s1");
-+    hex_dczero_addr = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, dczero_addr), "dczero_addr");
-+    hex_llsc_addr = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, llsc_addr), "llsc_addr");
-+    hex_llsc_val = tcg_global_mem_new(cpu_env,
-+        offsetof(CPUHexagonState, llsc_val), "llsc_val");
-+    hex_llsc_val_i64 = tcg_global_mem_new_i64(cpu_env,
-+        offsetof(CPUHexagonState, llsc_val_i64), "llsc_val_i64");
-+    for (i = 0; i < STORES_MAX; i++) {
-+        snprintf(store_addr_names[i], NAME_LEN, "store_addr_%d", i);
-+        hex_store_addr[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, mem_log_stores[i].va),
-+            store_addr_names[i]);
-+
-+        snprintf(store_width_names[i], NAME_LEN, "store_width_%d", i);
-+        hex_store_width[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, mem_log_stores[i].width),
-+            store_width_names[i]);
-+
-+        snprintf(store_val32_names[i], NAME_LEN, "store_val32_%d", i);
-+        hex_store_val32[i] = tcg_global_mem_new(cpu_env,
-+            offsetof(CPUHexagonState, mem_log_stores[i].data32),
-+            store_val32_names[i]);
-+
-+        snprintf(store_val64_names[i], NAME_LEN, "store_val64_%d", i);
-+        hex_store_val64[i] = tcg_global_mem_new_i64(cpu_env,
-+            offsetof(CPUHexagonState, mem_log_stores[i].data64),
-+            store_val64_names[i]);
-+    }
++    restore_sigcontext(env, &uc->uc_mcontext);
 +}
++
++long do_rt_sigreturn(CPUHexagonState *env)
++{
++    struct target_rt_sigframe *frame;
++    abi_ulong frame_addr;
++
++    frame_addr = env->gpr[HEX_REG_SP];
++    trace_user_do_sigreturn(env, frame_addr);
++    if (!lock_user_struct(VERIFY_READ, frame, frame_addr, 1)) {
++        goto badframe;
++    }
++
++    restore_ucontext(env, &frame->uc);
++
++    if (do_sigaltstack(frame_addr + offsetof(struct target_rt_sigframe,
++            uc.uc_stack), 0, get_sp_from_cpustate(env)) == -EFAULT) {
++        goto badframe;
++    }
++
++    unlock_user_struct(frame, frame_addr, 0);
++    return -TARGET_QEMU_ESIGRETURN;
++
++badframe:
++    unlock_user_struct(frame, frame_addr, 0);
++    force_sig(TARGET_SIGSEGV);
++    return 0;
++}
+diff --git a/scripts/gensyscalls.sh b/scripts/gensyscalls.sh
+index bba9fb052c..8fb450e3c9 100755
+--- a/scripts/gensyscalls.sh
++++ b/scripts/gensyscalls.sh
+@@ -98,4 +98,5 @@ generate_syscall_nr openrisc 32 "$output/linux-user/openrisc/syscall_nr.h"
+ 
+ generate_syscall_nr riscv 32 "$output/linux-user/riscv/syscall32_nr.h"
+ generate_syscall_nr riscv 64 "$output/linux-user/riscv/syscall64_nr.h"
++generate_syscall_nr hexagon 32 "$output/linux-user/hexagon/syscall_nr.h"
+ rm -fr "$TMP"
 -- 
 2.25.1
 
