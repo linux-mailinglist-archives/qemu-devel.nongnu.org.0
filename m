@@ -2,83 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC49131D94B
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:21:51 +0100 (CET)
-Received: from localhost ([::1]:41524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADB0131D960
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:28:12 +0100 (CET)
+Received: from localhost ([::1]:57038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCLq2-0004K4-Mv
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:21:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54752)
+	id 1lCLwB-0002j3-Pz
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:28:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCLo8-0002U5-CT
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:19:52 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:55234)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCLts-0001jF-2g
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:25:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60780)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCLo3-0000Kq-8G
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:19:52 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id w4so1952870wmi.4
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 04:19:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=OqAjlZdVetE4v7d7JppPQVOHmx3wwh9lYwKIF6G6NII=;
- b=xuYtj/eaHOGzDiEwbbkymqnnUu/sA/mPqyvrNsnVtdHTJyglPQuLJobgfA9/juOr5H
- ddYfL3Z1sI1q5MAoHioFudBokrfRSaW9sV6AyaiRJL6NmyLRFeOnkvx1dbS+ZlOgygm7
- VCxANzgh6LJE0j+0l4JAmj6ufqYEVsPvQtJorNsC68AW9XVvWYph3u7eA313xpnZazYf
- IqZ2yMshMaLqn1SWBdnLSPxjoTr57zrlYBMFccBKmkaFWQCnlBGNbVOuVaKuXiJT0+JR
- o/0vsgj23luTpGXPbRjDiWsNQqXFkcS9dOTQymk5gwlg0WmdLy/mA1KOyR93H+xwbP2v
- MoxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=OqAjlZdVetE4v7d7JppPQVOHmx3wwh9lYwKIF6G6NII=;
- b=e81UgN/+jsSs6NyTTTBfuNo0Pdgb1VfAJ67DGW9ElsMXyOaP1DPwf4vJazzT4EnTW5
- T1GreuVxZrYSbSUQZgOngSRhZaGAWGA/Tu/BsK49VgIaUwJ3YSRF7Z91h7CHYw57C7pC
- 0zGzn0exI96vnzPazdpZ7/HtDJZdXkCJxx+GHwXUIss4dOvmW3pzlulWD5TYUVODLHhM
- hpGHdihmdA8OHjsyrSbWO1j+slgwo2go73x4WOu2ikWs8psDIjMhQOyGTk2HkTouricR
- msx6+ls6pYyCPJmztXZvV2kJ6cfFS4RtbPiezgypyH6SOSCCub6rmeot0mkd81xpAD/+
- 5JsQ==
-X-Gm-Message-State: AOAM530b5kp8yNWu7H7ViulYqPRBBW/CCQNseRR+IwXfKnMAONzp13Yv
- l7hP+0iuKDo9e7X6tHo82LbJ1A==
-X-Google-Smtp-Source: ABdhPJzP3pbVoRuIyNBQrpwVwo4004a2b0w5XVdYzyYrGhtoPbiuSiTwtLWlNMLruPPxvZbJ/LUwaA==
-X-Received: by 2002:a1c:7e4e:: with SMTP id z75mr7050260wmc.168.1613564380402; 
- Wed, 17 Feb 2021 04:19:40 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id w4sm2578107wmc.13.2021.02.17.04.19.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 04:19:37 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 101251FF92;
- Wed, 17 Feb 2021 12:19:33 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 6/6] tests/acceptance: allow a "graceful" failing for
- virtio-gpu test
-Date: Wed, 17 Feb 2021 12:19:32 +0000
-Message-Id: <20210217121932.19986-7-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210217121932.19986-1-alex.bennee@linaro.org>
-References: <20210217121932.19986-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCLtm-00028K-Iv
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:25:47 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lCLtj-0002mu-Ff
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:25:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 7411F2E802B
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:25:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Feb 2021 12:19:43 -0000
+From: iNvEr7 <1915925@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: semihosting
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: inver7
+X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
+X-Launchpad-Bug-Modifier: iNvEr7 (inver7)
+Message-Id: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1915925] [NEW] ARM semihosting HEAPINFO results wrote to wrong
+ address
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 3a1f4dfc64702faf1705aeb6f968cf378108b12b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,45 +70,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- aurelien@aurel32.net
+Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a band-aid with a TODO for cases when QEMU doesn't start due
-to missing VirGL. Longer term we could do with some proper feature
-probing.
+Public bug reported:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
----
- tests/acceptance/virtio-gpu.py | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+This affects latest development branch of QEMU.
 
-diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
-index ab1a4c1a71..ab18cddbb7 100644
---- a/tests/acceptance/virtio-gpu.py
-+++ b/tests/acceptance/virtio-gpu.py
-@@ -85,7 +85,12 @@ def test_virtio_vga_virgl(self):
-             "-append",
-             kernel_command_line,
-         )
--        self.vm.launch()
-+        try:
-+            self.vm.launch()
-+        except:
-+            # TODO: probably fails because we are missing the VirGL features
-+            self.cancel("VirGL not enabled?")
-+
-         self.wait_for_console_pattern("as init process")
-         exec_command_and_wait_for_pattern(
-             self, "/usr/sbin/modprobe virtio_gpu", ""
--- 
-2.20.1
+According to the ARM spec of the HEAPINFO semihosting call:
 
+https://developer.arm.com/documentation/100863/0300/Semihosting-
+operations/SYS-HEAPINFO--0x16-?lang=3Den
+
+> the PARAMETER REGISTER contains the address of a pointer to a four-
+field data block.
+
+However, QEMU treated the PARAMETER REGISTER as pointing to a four-field
+data block directly.
+
+Here is a simple program that can demonstrate this problem:
+https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-newlib
+
+This code links with newlib with semihosting mode, which will call the
+HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
+may crash the program either because of invalid write or memory
+curruption, depending on the compiled program structure.
+
+Also refer to my discussion with newlib folks:
+https://sourceware.org/pipermail/newlib/2021/018260.html
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: semihosting
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915925
+
+Title:
+  ARM semihosting HEAPINFO results wrote to wrong address
+
+Status in QEMU:
+  New
+
+Bug description:
+  This affects latest development branch of QEMU.
+
+  According to the ARM spec of the HEAPINFO semihosting call:
+
+  https://developer.arm.com/documentation/100863/0300/Semihosting-
+  operations/SYS-HEAPINFO--0x16-?lang=3Den
+
+  > the PARAMETER REGISTER contains the address of a pointer to a four-
+  field data block.
+
+  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
+  field data block directly.
+
+  Here is a simple program that can demonstrate this problem:
+  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
+  newlib
+
+  This code links with newlib with semihosting mode, which will call the
+  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
+  may crash the program either because of invalid write or memory
+  curruption, depending on the compiled program structure.
+
+  Also refer to my discussion with newlib folks:
+  https://sourceware.org/pipermail/newlib/2021/018260.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
