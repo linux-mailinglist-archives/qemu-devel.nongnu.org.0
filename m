@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D2C431DCE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 17:09:23 +0100 (CET)
-Received: from localhost ([::1]:57550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7657431DD46
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 17:26:20 +0100 (CET)
+Received: from localhost ([::1]:49278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCPOD-0003jN-Od
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 11:09:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
+	id 1lCPed-0004t9-4k
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 11:26:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCPMQ-0002kg-C0
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:07:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25440)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCPMN-0008Oi-Cf
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:07:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613578045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nnvbOEgKpV0k7TMTnKJo8eVRFP3QkXXnXYdrnNeKUGY=;
- b=CQGxB2kU3E4CbkpDKLLbbHkzV9u6gZ5AXnRYsG5TNIkczLjydgZum3nlir62R8yB0Abquf
- D7qGgB/7tq/BckucN7rmXXLVOTKS4sLhyU7sXrN3pRKAtpaqpgn69fqrk25WlN8/LtmG1/
- aEGLl3xb4B9BdfT29StIoH3AUZ8SQA0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-VGpyHkHXMY66o2-Uhf18hQ-1; Wed, 17 Feb 2021 11:07:21 -0500
-X-MC-Unique: VGpyHkHXMY66o2-Uhf18hQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E2FCD107ACE4;
- Wed, 17 Feb 2021 16:07:20 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FAC45D748;
- Wed, 17 Feb 2021 16:07:19 +0000 (UTC)
-Subject: Re: [PATCH v6 15/19] qapi/introspect.py: Add docstrings to _gen_tree
- and _tree_to_qlit
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210216021809.134886-1-jsnow@redhat.com>
- <20210216021809.134886-16-jsnow@redhat.com>
- <875z2r6njn.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <377a32a9-2ace-dac2-dfd6-3db8d581f72c@redhat.com>
-Date: Wed, 17 Feb 2021 11:07:18 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCPZD-0001O8-UV
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:20:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:42536)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCPZB-0002kR-Sd
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:20:43 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lCPZA-0007ni-2y
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 16:20:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1508C2E804B
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 16:20:40 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <875z2r6njn.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 17 Feb 2021 16:13:54 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1915925@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: semihosting testcase
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: inver7 pmaydell
+X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161357843515.23674.5405596866349274935.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1915925] Re: ARM semihosting HEAPINFO results wrote to wrong
+ address
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 5dc308b7e172701e798eedfa91582170d3c4ac90
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,108 +73,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/21 4:39 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/introspect.py | 18 ++++++++++++++++++
->>   1 file changed, 18 insertions(+)
->>
->> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->> index 45284af1330..5d4f5e23f7e 100644
->> --- a/scripts/qapi/introspect.py
->> +++ b/scripts/qapi/introspect.py
->> @@ -99,6 +99,15 @@ def __init__(self, value: _ValueT, ifcond: Iterable[str],
->>   def _tree_to_qlit(obj: JSONValue,
->>                     level: int = 0,
->>                     dict_value: bool = False) -> str:
->> +    """
->> +    Convert the type tree into a QLIT C string, recursively.
->> +
->> +    :param obj: The value to convert.
->> +                This value may not be Annotated when dict_value is True.
->> +    :param level: The indentation level for this particular value.
->> +    :param dict_value: True when the value being processed belongs to a
->> +                       dict key; which suppresses the output indent.
->> +    """
->>   
->>       def indent(level: int) -> str:
->>           return level * 4 * ' '
->> @@ -244,6 +253,15 @@ def _gen_features(features: List[QAPISchemaFeature]
->>       def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
->>                     ifcond: Sequence[str],
->>                     features: Optional[List[QAPISchemaFeature]]) -> None:
->> +        """
->> +        Build and append a SchemaInfo object to self._trees.
->> +
->> +        :param name: The entity's name.
->> +        :param mtype: The entity's meta-type.
->> +        :param obj: Additional entity fields, as appropriate for the meta-type.
-> 
-> "Additional members", since we're talking about a JSON object.
-> 
+** Tags added: testcase
 
-I thought "field" was also appropriate for JSON, but I suppose the spec 
-doesn't use that word. Over time, "field", "member" and "property" have 
-become just meaningless word-slurry to me.
+-- =
 
-OK.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915925
 
-"Additional members as appropriate for the meta-type."
+Title:
+  ARM semihosting HEAPINFO results wrote to wrong address
 
->> +        :param ifcond: Sequence of conditionals that apply to this entity.
->> +        :param features: Optional features field for SchemaInfo.
-> 
-> Likewise.
-> 
+Status in QEMU:
+  Confirmed
 
-"Optional features member for SchemaInfo" ?
+Bug description:
+  This affects latest development branch of QEMU.
 
-Sure.
+  According to the ARM spec of the HEAPINFO semihosting call:
 
-> Sure we want to restate parts of the type ("Sequence of", "Optional") in
-> the doc string?
-> 
+  https://developer.arm.com/documentation/100863/0300/Semihosting-
+  operations/SYS-HEAPINFO--0x16-?lang=3Den
 
-I usually avoid it, but sometimes for non-scalars I found that it read 
-better to give a nod to the plural, as in:
+  > the PARAMETER REGISTER contains the address of a pointer to a four-
+  field data block.
 
-[ifcond is a] sequence of conditionals ...
+  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
+  field data block directly.
 
-but, yes, I haven't been consistent about it. right below for @obj I 
-omit the type of the container.
+  Here is a simple program that can demonstrate this problem:
+  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
+  newlib
 
-"Conditionals that apply to this entity" feels almost too terse in 
-isolation.
+  This code links with newlib with semihosting mode, which will call the
+  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
+  may crash the program either because of invalid write or memory
+  curruption, depending on the compiled program structure.
 
-I don't feel like it's a requisite to state the type, but in some cases 
-I unconsciously chose to mention the structure.
+  Also refer to my discussion with newlib folks:
+  https://sourceware.org/pipermail/newlib/2021/018260.html
 
-With regards to "Optional", I use this word specifically to indicate 
-parameters that have default values -- distinct from a type that's 
-Optional[], which is really actually like Nullable[T] ... If it makes 
-you feel better, Guido says he regrets that naming decision. Oops!
-
-I'm probably not consistent about when I decided to write it, though.
-
-Ehm. If it's not harmful to leave it as-is, I think it'd be okay to do 
-so. If you prefer a consistency all one way or all the other, I'd have 
-to run the vacuum back over the series to check for it.
-
->> +        """
->>           comment: Optional[str] = None
->>           if mtype not in ('command', 'event', 'builtin', 'array'):
->>               if not self._unmask:
-> 
-> Also: more line-wrapping for PEP 8.
-> 
-
-I thought the 72 column limit was for things like comments and docstrings.
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
