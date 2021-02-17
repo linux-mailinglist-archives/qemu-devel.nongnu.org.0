@@ -2,68 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 794BF31D68C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 09:27:17 +0100 (CET)
-Received: from localhost ([::1]:49368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 093B231D689
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 09:25:49 +0100 (CET)
+Received: from localhost ([::1]:43994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCIB2-0005ur-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 03:27:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
+	id 1lCI9b-0003Xg-UA
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 03:25:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCI9j-00055g-Qm
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 03:25:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCI9h-0007EW-Ox
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 03:25:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lCI9f-00062H-PB
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 08:25:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BCBBD2E80FA
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 08:25:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lCI5s-0002vo-Aq; Wed, 17 Feb 2021 03:21:56 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:59637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lCI5q-0006Ac-0h; Wed, 17 Feb 2021 03:21:56 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 6E35621E;
+ Wed, 17 Feb 2021 03:21:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Wed, 17 Feb 2021 03:21:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=0aa62KftTi/S1y1uwdbd7A2vyNy
+ 13C7qd7LhFxlMfHs=; b=kwHGBjw5r6+YPeAcOHrohClaewStW7I0EBhU6eqinmU
+ /T47g3MKb1uwAYnQ2YkxODj+b7sQrnr9PR4TiXVNEz5BJ07DZfB+425u2TNgK1TO
+ zXqkep3RiCNW/wVDOFFv+aUFzpVRGg5aWhG1znjpCEH18q/cliPpvrHKG80l6TMf
+ yiM/+w1Bqdlk5Y7IK22bp+DxRSJ9NrK2RAEIumRv91Y6XA28KK9OfKg6dvRrOELP
+ F23LxgnVopSL4wTyBOxNFR4CDZ2Oq+PZUaHKCouub8c6i/zy78WCScNTg77QIQNs
+ EH7qpOxwVCxrloHufOgZXEmJeCLdFBbxh3YmjnPRzsQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=0aa62K
+ ftTi/S1y1uwdbd7A2vyNy13C7qd7LhFxlMfHs=; b=efbgci3pAzK4H5mU81RNxP
+ b02QRjQ7SP2sjIjVaFoTfjgJmMNCsLBH0klTsDkK+fzsCQnSzC/vviCd4NASc534
+ 44HgAdnuwAQn/H7Vqyoqx3GT4tuh7clSawMKX4TNsH9JqD8dmM9HwRPdD43Ock41
+ UF+yA5GaCCqfwZzZO6A3di5MtoKqnUA0Dca1xXS81Mc8fyot4LRsX5vQ7vE069Er
+ 8ovFKwwo9YthjJwC2yQq3KhvkrixDEmtl3FKuskSt+wt07UAecEwcQVvA6GVP4r3
+ 8gnVRI/8C7YRZtYIUDXM2/lKUSOJg3Wp1FbFRfqpdJM3WPk3eNo6FJEqCJn2HA8A
+ ==
+X-ME-Sender: <xms:GtIsYB97rDFLVHPoGuX4wZKeh8Cf4Cc2qQi53jvkJLzowGQKs2V3CQ>
+ <xme:GtIsYFtimMeUFtIXVsrxUJEU3L2HqIcyCITwqiy-3DdGmjVtx9LCnS9oT2lfRZF2J
+ Jq2Ls5DYhYVrof1YRk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedugdduudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:GtIsYPD6g3GXXkawsbijHd-MWz49KBfihyWeW6MtRFNVvXASs_DCCg>
+ <xmx:GtIsYFfkyKK-qVWNo9eMiWRpbhKAkgZsTeeBdh3VoBA4gWyGP4nQjw>
+ <xmx:GtIsYGMnJ_uDbLdAbljAznvAYzcinLdg1Ni8PfZKLaeqWIkWozQPAQ>
+ <xmx:HNIsYFc5G4IlSibN0TeFmXbkRLX1GpnHkOD0RiZMC9E5tu7x30PF2Q>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 575821080064;
+ Wed, 17 Feb 2021 03:21:44 -0500 (EST)
+Date: Wed, 17 Feb 2021 09:21:41 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH RFC v3 08/12] hw/block/nvme: end-to-end data protection
+Message-ID: <YCzSFV08fMVeGU2S@apples.localdomain>
+References: <20210214230240.301275-1-its@irrelevant.dk>
+ <20210214230240.301275-9-its@irrelevant.dk>
+ <20210216230839.GD2708768@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 17 Feb 2021 08:20:15 -0000
-From: Thomas Huth <1816189@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: nest nested nested-virt nesting qemu snap snapshots
- virtulazation
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: larry-j-dewey th-huth
-X-Launchpad-Bug-Reporter: Larry Dewey (larry-j-dewey)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155026463486.6528.17912471655076346086.malonedeb@soybean.canonical.com>
-Message-Id: <161355001518.5011.565752906065191348.malone@gac.canonical.com>
-Subject: [Bug 1816189] Re: Unable to create or revert snapshots
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
-X-Launchpad-Hash: 0b88753e36cd135bdeb936f5dff25604b717e0ea
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="n2IPHhc5AhcEEQO6"
+Content-Disposition: inline
+In-Reply-To: <20210216230839.GD2708768@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,75 +95,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1816189 <1816189@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Can you still reproduce this issue with the latest version of QEMU and
-libvirt? Anyway, since the problem occurs with libvirt, have you already
-tried to report this issue to the libvirt project instead?
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+--n2IPHhc5AhcEEQO6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
--- =
+On Feb 16 15:08, Keith Busch wrote:
+> On Mon, Feb 15, 2021 at 12:02:36AM +0100, Klaus Jensen wrote:
+> > From: Klaus Jensen <k.jensen@samsung.com>
+> >=20
+> > Add support for namespaces formatted with protection information. The
+> > type of end-to-end data protection (i.e. Type 1, Type 2 or Type 3) is
+> > selected with the `pi` nvme-ns device parameter. If the number of
+> > metadata bytes is larger than 8, the `pil` nvme-ns device parameter may
+> > be used to control the location of the 8-byte DIF tuple. The default
+> > `pil` value of '0', causes the DIF tuple to be transferred as the last
+> > 8 bytes of the metadata. Set to 1 to store this in the first eight bytes
+> > instead.
+>=20
+>=20
+> This file is getting quite large. I think this feature can have the bulk
+> of the implementation in a separate file. For ex, nvme-dif.c.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1816189
+Yes, makes sense to split it off. I think moving[1] the device to hw/nvme
+first would be good.
 
-Title:
-  Unable to create or revert snapshots
+> But like the linux implementation this is based on, it isn't really
+> nvme specific, so even better if t10 dif is implemented in a generic
+> location with an API for nvme and others.
 
-Status in QEMU:
-  Incomplete
+That is true, but in the absence of any interest from other subsystems
+to implement this, I think we can keep it local for now? I keep a pretty
+close eye on qemu-block, so if other subsystems should care about this,
+I promise that I will pitch in :)
 
-Bug description:
-  With an update to Qemu (3.1.x) I am unable to revert snapshots using
-  virt-manager or virsh. Virtual Machines existing before the update
-  seem to function properly. It is only after creating a new machine
-  that snapshots are misbehaving. I tested spinning up vms of
-  tumbleweed, leap15, and ubuntu 18.04. Each of them had the following
-  issues:
 
-  - With the machine running, live reversions act like they apply, but no c=
-hanges are actually made.
-  - With the machine paused, reversion also does not apply.
-  - With the machine turned off, reversion is not possible. Virsh is unable=
- to find the snapshot, and virt-manager errors out with:
+  [1]: <20210209110826.585987-1-its@irrelevant.dk>
 
-  Error running snapshot 'FreshInstall': internal error: qemu
-  unexpectedly closed the monitor: 2019-01-15T19:19:46.020247Z qemu-
-  system-x86_64: Device 'drive-virtio-disk0' does not have the requested
-  snapshot 'FreshInstall'
+--n2IPHhc5AhcEEQO6
+Content-Type: application/pgp-signature; name="signature.asc"
 
-  Traceback (most recent call last):
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 75, in cb_=
-wrapper
-      callback(asyncjob, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/asyncjob.py", line 111, in tm=
-pcb
-      callback(*args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/libvirtobject.py", line 66, i=
-n newfn
-      ret =3D fn(self, *args, **kwargs)
-    File "/usr/share/virt-manager/virtManager/domain.py", line 1105, in rev=
-ert_to_snapshot
-      self._backend.revertToSnapshot(snap.get_backend())
-    File "/usr/lib64/python3.6/site-packages/libvirt.py", line 2024, in rev=
-ertToSnapshot
-      if ret =3D=3D -1: raise libvirtError ('virDomainRevertToSnapshot() fa=
-iled', dom=3Dself)
+-----BEGIN PGP SIGNATURE-----
 
-  libvirt.libvirtError: internal error: qemu unexpectedly closed the
-  monitor: 2019-01-15T19:19:46.020247Z qemu-system-x86_64: Device
-  'drive-virtio-disk0' does not have the requested snapshot
-  'FreshInstall'
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAs0hEACgkQTeGvMW1P
+Deki5wgAgo2od04ySMbNoNuAnt0EkFY9s9kSLqhnTed7xjtP+oFXLkGHDAoupvE4
++pgyatlgetCU0V/IB2PidXNh+PGrxp+tOkIEaiVngxyUCJ71XiW+6VwfPhTJTLoJ
+QAvWSvb9b75L/pHbAY53Ud/H2iWTBkCebPbtkOaHl+LB9VlREA3kdsh9q/x9kqtT
+rrjoGVYSBgCWx1bRmnZG1e7NbOX9Em5lVdpmum6PhFR9IH+wDL281ClggFYpKOHd
+fc4YeCm7RPtktxsfWIBsuNZ4wRM65sRjiCasCSUaW7wER9gfwcrVjZKy7ui2x16M
+SGjWFEmKUWNcLqj1X5OSHCkPBURIpg==
+=MRQB
+-----END PGP SIGNATURE-----
 
-  After doing some digging, the error occurs because of the following commi=
-t:
-  d98f26073bebddcd3da0ba1b86c3a34e840c0fb8
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1816189/+subscriptions
+--n2IPHhc5AhcEEQO6--
 
