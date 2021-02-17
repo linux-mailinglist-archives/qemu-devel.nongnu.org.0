@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 380E031D693
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 09:29:58 +0100 (CET)
-Received: from localhost ([::1]:53842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A84B731D69A
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 09:31:48 +0100 (CET)
+Received: from localhost ([::1]:55368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCIDd-0007nm-AJ
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 03:29:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50254)
+	id 1lCIFP-0008SS-KV
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 03:31:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lCIBh-0006nj-PR
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 03:27:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1lCIBf-0007mu-Q1
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 03:27:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613550474;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=u/sSB4R2yxQuyVzxDtMW3GmkV46mvkHl3to0/65/cdI=;
- b=HQN4jvXpQ/FDV1tCJOcW4rvXZc3Ol+HBeN6gNmKv7pkLv7vp1WkL7JgQxIWjLcHJjKFIBp
- h4kBB2obiRt0k84BGbiqYnYZ6/NLfw+mdxOImFjUV/3rIcUNM6pjNr5T/y71S5diPd57l8
- dyRPieGL5UQpdVUsmrwUgpLNo3Nt8jI=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-338-myncUeWoOQWA81mxQQd7eQ-1; Wed, 17 Feb 2021 03:27:52 -0500
-X-MC-Unique: myncUeWoOQWA81mxQQd7eQ-1
-Received: by mail-il1-f197.google.com with SMTP id y12so9831625ilu.14
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 00:27:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=u/sSB4R2yxQuyVzxDtMW3GmkV46mvkHl3to0/65/cdI=;
- b=BizYuDwKZk/yKX0cHQhnsZZ/6xRlHGS8iOxPVqgOVdFMRwSlKTVaT4s69Otgpqu0XY
- F5jmDlhL3nceEbByfP2jcWMVM+noiIOJZCLZVN9PviBsykSL5x+bhmMNTjoLG/uc1Sg9
- 3d4E7cPkt+l7F7yw0ID4RNOptpiznIBvCISpZU42y/ZIauhquUZBPGa4ACjaPENCGiao
- bP6jMYMAqygb81YmxXfzDyWZWoFFZ9YFeZOjM3H+Zz26pss+kRwojAvilwRj4GyVaHjt
- mxwOAJB2BbM6SYtHRMLTP99schYc/KJvZhDBH6zlQXldfGf+KpyV8dp2f7mUw/by0TWS
- d4iQ==
-X-Gm-Message-State: AOAM533n6ukK1yT66Ca0Gimgwqq50FYdEquV+S1OaHsOXYa/XNBWt1Zb
- sffFee0pszd353O9xkjH055qq2ylyU5jqFe3iTSr6NldG9XmP1JDacYZ94FLer6aE/lGZHh6AFo
- m82R/bnchLLUV5UTInOAElkq3zT8VeRE=
-X-Received: by 2002:a02:1ac5:: with SMTP id 188mr14039360jai.71.1613550471658; 
- Wed, 17 Feb 2021 00:27:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxPp2t2AcyLIeQAFWps0UGQDHdJ8ckOdaEB3Turnwm9lHVvpuTcU0O5sD2tkSG1LA8VcPxY6XUvTPquG4KRoqw=
-X-Received: by 2002:a02:1ac5:: with SMTP id 188mr14039351jai.71.1613550471445; 
- Wed, 17 Feb 2021 00:27:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lCIAa-0005xn-Cm; Wed, 17 Feb 2021 03:26:48 -0500
+Received: from wnew1-smtp.messagingengine.com ([64.147.123.26]:35847)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lCIAY-0007WO-SK; Wed, 17 Feb 2021 03:26:48 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 6B60ED0F;
+ Wed, 17 Feb 2021 03:26:44 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 17 Feb 2021 03:26:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=WTM4VsRfc6aySzUt1/mI/OFN0mo
+ c7EzJTWQgvWhbx2Y=; b=UZmM+QlzvbVAaYEgCaQlTtz/fCL9ci6PgllwoibRCVK
+ DXdGxN06M2JEkH/GHXcJDNdJ7N0XCqtDyr3eYsKnveZ5+fPX/i9Gm4JbTwYq0ik2
+ TGYTKr/vssXtggjf+/RKSmrSuci4XvXBDFLd+8JOR5yBsUmOHA9yGZE+qaGaBioK
+ kS0nVpv9HCxIDgOQ3EbG3TDByH04iDzxw5SCIUIxQVcu30N4t0oVXryFkR89kmWc
+ DnEfXxKjYI4lt1f1VulXe0hYbdeQmbYtXAL1NJ5XNIFwKvf+z6v4vi29rIDKbrGL
+ VSpv/NqDfh1xD0Gv9jYpcsrNnuSjw2UKWGiLfiUqnjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=WTM4Vs
+ Rfc6aySzUt1/mI/OFN0moc7EzJTWQgvWhbx2Y=; b=mFOuJSCaRQA5GXHWRS5/pR
+ hzrpTFSUTTWBq89/Z0LRqELZ/rA21/W8KneV0U7tvcjb+AgzWjAa44MDHETPX3nj
+ /Cwv+qrXHo2y529jkSLYN/yApvOloJ/kGpIDaFrrCbn+SLAk+IQr0W9pcwNYaBDG
+ AqWY9SgyfcSklMZElb3094yD9RkkTUJ744uctWJr9H2ogv2/hX9RNiMjJQ7WaxdX
+ IC8xl3eIwgwBddp6q0yVNYhB/2zlX4dSUb+dQXvdcIbB1W+O93TdyT7KceOcJpjk
+ YacvAfFNgJEs+sZSFuKlxiGOPdZ3/ZUmjV0aT5ojkonRKCXUNlAd7C6mTsEbM9Kw
+ ==
+X-ME-Sender: <xms:QtMsYFgOmAy3S1vqlK9e__X_AN_G28wPuqPFjkQSTE7fBmdydY5kgA>
+ <xme:QtMsYJ-sNus7SBg1lhKiezOHQTAoy7L9slJB077zSRb3BqMhtPRZkddD2-JNXAJeB
+ u7IBgur5NHu8rR9Pag>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrjedugdduudeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:Q9MsYB9PF-tE_k3wzASAj16VvBXYmYVd7rNE6uDBjpXbPx1RZpHtHA>
+ <xmx:Q9MsYCB3QZ5m4Gq4hlqwJAWKBIbBzAoSrr7-kYl_MU72Mqj6Matrqw>
+ <xmx:Q9MsYByCZdPKTR-fUF1K2vkoHOCYjbiR__4UESOJA0xYgS3KB7KYjA>
+ <xmx:RNMsYM55wCujDbKuz2FaAyW55qLHtxpko3xMpIY2HdNbjYKpkSEiAVopTKw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id ACF0124005A;
+ Wed, 17 Feb 2021 03:26:40 -0500 (EST)
+Date: Wed, 17 Feb 2021 09:26:37 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH RFC v3 12/12] hw/block/nvme: add support for the format
+ nvm command
+Message-ID: <YCzTPdmLgQywAtf0@apples.localdomain>
+References: <20210214230240.301275-1-its@irrelevant.dk>
+ <20210214230240.301275-13-its@irrelevant.dk>
+ <20210216231632.GG2708768@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-References: <20210204105232.834642-1-marcandre.lureau@redhat.com>
- <20210204105232.834642-21-marcandre.lureau@redhat.com>
- <87ft1wt1dv.fsf@linaro.org>
- <20210216174319.GA168121@localhost.localdomain>
-In-Reply-To: <20210216174319.GA168121@localhost.localdomain>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Wed, 17 Feb 2021 12:27:40 +0400
-Message-ID: <CAMxuvayaijdaS_Ba8N+w02Q3xV5JZJ=hG1TysuPOLtyuZ2Cyrw@mail.gmail.com>
-Subject: Re: [PATCH v2 20/20] tests: add some virtio-gpu & vhost-user-gpu
- acceptance test
-To: Cleber Rosa <crosa@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="000000000000ad994405bb83fe7b"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="WoEHkBq4mxlXztF7"
+Content-Disposition: inline
+In-Reply-To: <20210216231632.GG2708768@dhcp-10-100-145-180.wdc.com>
+Received-SPF: pass client-ip=64.147.123.26; envelope-from=its@irrelevant.dk;
+ helo=wnew1-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,216 +96,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, "Hoffmann,
- Gerd" <kraxel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Minwoo Im <minwoo.im@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000ad994405bb83fe7b
-Content-Type: text/plain; charset="UTF-8"
+
+--WoEHkBq4mxlXztF7
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Feb 16 15:16, Keith Busch wrote:
+> On Mon, Feb 15, 2021 at 12:02:40AM +0100, Klaus Jensen wrote:
+> > From: Minwoo Im <minwoo.im@samsung.com>
+> >=20
+> > Format NVM admin command can make a namespace or namespaces to be
+> > with different LBA size and metadata size with protection information
+> > types.
+> >=20
+> > This patch introduces Format NVM command with LBA format, Metadata, and
+> > Protection Information for the device. The secure erase operation things
+> > are yet to be added.
+> >=20
+> > The parameter checks inside of this patch has been referred from
+> > Keith's old branch.
+>=20
+> Oh, and here's the format command now, so my previous comment on patch
+> 11 doesn't matter.
+>=20
+> > +struct nvme_aio_format_ctx {
+> > +    NvmeRequest   *req;
+> > +    NvmeNamespace *ns;
+> > +
+> > +    /* number of outstanding write zeroes for this namespace */
+> > +    int *count;
+>=20
+> Shouldn't this count be the NvmeRequest's opaque value?
 
-On Tue, Feb 16, 2021 at 9:43 PM Cleber Rosa <crosa@redhat.com> wrote:
+That is already occupied by `num_formats` which tracks formats of
+individual namespaces. `count` is for outstanding write zeroes on one
+particular namespace.
 
-> On Tue, Feb 16, 2021 at 04:34:06PM +0000, Alex Benn=C3=A9e wrote:
-> >
-> > marcandre.lureau@redhat.com writes:
-> >
-> > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > >
-> > > This will check virtio/vhost-user-vga & virgl are correctly initializ=
-ed
-> > > by the Linux kernel on an egl-headless display.
-> > >
-> > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> > > ---
-> > >  tests/acceptance/virtio-gpu.py | 161 +++++++++++++++++++++++++++++++=
-++
-> > >  1 file changed, 161 insertions(+)
-> > >  create mode 100644 tests/acceptance/virtio-gpu.py
-> >
-> > This failed when I got to master:
-> >
-> >   2021-02-16 14:33:46,266 qmp              L0255 DEBUG| >>> {'execute':
-> 'qmp_capabilities'}
-> >   2021-02-16 14:33:46,441 machine          L0385 DEBUG| Error launching
-> VM
-> >   2021-02-16 14:33:46,441 machine          L0387 DEBUG| Command:
-> './qemu-system-x86_64 -display none -vga none -chardev
-> socket,id=3Dmon,path=3D/var/tmp/avo_qemu_sock_xy9ndjnm/qemu
-> >   -29492-monitor.sock -mon chardev=3Dmon,mode=3Dcontrol -chardev
-> socket,id=3Dconsole,path=3D/var/tmp/avo_qemu_sock_xy9ndjnm/qemu-29492-con=
-sole.sock,server=3Don,wait=3Doff
-> -serial chardev:
-> >   console -cpu host -m 2G -machine pc,accel=3Dkvm -device
-> virtio-vga,virgl=3Don -display egl-headless -kernel
-> /home/alex.bennee/avocado/data/cache/by_location/892ae21f3ae7d04994d8
-> >   1e1c0bf204ecebe555bb/vmlinuz -initrd
-> /home/alex.bennee/avocado/data/cache/by_location/892ae21f3ae7d04994d81e1c=
-0bf204ecebe555bb/initrd.img
-> -append printk.time=3D0 console=3DttyS0
-> >    rdinit=3D/bin/bash'
-> >   2021-02-16 14:33:46,441 machine          L0389 DEBUG| Output:
-> "qemu-system-x86_64: -device virtio-vga,virgl=3Don: Property
-> 'virtio-vga.virgl' not found\n"
-> >   2021-02-16 14:33:46,441 stacktrace       L0039 ERROR|
-> >
-> > I'm going to assume this is because the beefy server I was building on
-> > didn't have the VirGL headers to enable this feature. In lieu of featur=
-e
-> > probing you might have to do what I did for the plugins test:
-> >
-> >         try:
-> >             vm.launch()
-> >         except:
-> >             # TODO: probably fails because plugins not enabled but we
-> >             # can't currently probe for the feature.
-> >             self.cancel("TCG Plugins not enabled?")
-> >
-> >
->
-> While this pattern is indeed an improvement over test errors, checking
-> for "build time features" is far from a new testing requirement, and
-> its still not properly solved.  A long time ago I proposed a way to
-> look at the Makefile variables during test time, but it had a number
-> of shortcomings.  I guess it's now time to revisit this issue.
->
-> First, I'm a strong believer in limiting the *probing* that the test itse=
-lf
-> does with regards to build time features.  The probing and authoritative
-> information should already be with the build system.  I'm pretty sure tha=
-t
-> meson makes it easy to grab that kind of information.
->
-> Once it's understood and agreed that the build system will provide
-> that information, the question becomes whether tests will get that
-> information from the build system (and thus require a build tree) or
-> if that information will be persisted in the QEMU binary and be
-> available for introspection.
->
-> Thoughts? Does this sound like something other people would be
-> interested in?
->
+--WoEHkBq4mxlXztF7
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It would be more reliable and flexible to do runtime introspection. It
-would allow installed tests, and some runtime checks for example.
+-----BEGIN PGP SIGNATURE-----
 
-Given the variability of builds, is there something that does introspection
-in avocado-vt already?  I think we could rely on qmp introspection,
-qom-list-types etc.
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAs0zsACgkQTeGvMW1P
+Deny0AgAtvN/ZOR8X//58HIiNA4Ck8m9RwHPfvfXil96KSWN/Jt1FxmeYnhLhD5v
+hz1kgKWBDjSalwWo+ItjAAYCjyVjnwevS/8rhdHJF/Hj8iyGkvJOsSnynn7iiQym
+gRjO0SEh5Q/TSOTPfUI9u9rQSqJjFl1GXs55I1N7z+WuXbExQBuiu9ZtrXBjcEgO
+s+rS1wk4RX46MDsfTHaFJjdic94lnpQpemb7HTKIcn4QwYI+Y2G2lgaGX02RyCeY
+mv4pR1BecPTesbHmcUn1ViXMBl9MS5WDsXbBpkqDhyD2Mdr8YMiGHG4L0w/uM3Cc
+A4SaXWSW1Etu5/QpCs/6Xbi0h5XUlw==
+=TP8i
+-----END PGP SIGNATURE-----
 
-In the meantime Alex, could you send a patch to ignore the test the way you
-propose?
-
---000000000000ad994405bb83fe7b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 16, 2021 at 9:43 PM Cle=
-ber Rosa &lt;<a href=3D"mailto:crosa@redhat.com">crosa@redhat.com</a>&gt; w=
-rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
-x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Tue, Fe=
-b 16, 2021 at 04:34:06PM +0000, Alex Benn=C3=A9e wrote:<br>
-&gt; <br>
-&gt; <a href=3D"mailto:marcandre.lureau@redhat.com" target=3D"_blank">marca=
-ndre.lureau@redhat.com</a> writes:<br>
-&gt; <br>
-&gt; &gt; From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lure=
-au@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; This will check virtio/vhost-user-vga &amp; virgl are correctly i=
-nitialized<br>
-&gt; &gt; by the Linux kernel on an egl-headless display.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marca=
-ndre.lureau@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&g=
-t;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 tests/acceptance/virtio-gpu.py | 161 ++++++++++++++++++++++=
-+++++++++++<br>
-&gt; &gt;=C2=A0 1 file changed, 161 insertions(+)<br>
-&gt; &gt;=C2=A0 create mode 100644 tests/acceptance/virtio-gpu.py<br>
-&gt; <br>
-&gt; This failed when I got to master:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A02021-02-16 14:33:46,266 qmp=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 L0255 DEBUG| &gt;&gt;&gt; {&#39;execute&#39;: &#39;qmp_ca=
-pabilities&#39;}<br>
-&gt;=C2=A0 =C2=A02021-02-16 14:33:46,441 machine=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 L0385 DEBUG| Error launching VM<br>
-&gt;=C2=A0 =C2=A02021-02-16 14:33:46,441 machine=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 L0387 DEBUG| Command: &#39;./qemu-system-x86_64 -display none -vga =
-none -chardev socket,id=3Dmon,path=3D/var/tmp/avo_qemu_sock_xy9ndjnm/qemu<b=
-r>
-&gt;=C2=A0 =C2=A0-29492-monitor.sock -mon chardev=3Dmon,mode=3Dcontrol -cha=
-rdev socket,id=3Dconsole,path=3D/var/tmp/avo_qemu_sock_xy9ndjnm/qemu-29492-=
-console.sock,server=3Don,wait=3Doff -serial chardev:<br>
-&gt;=C2=A0 =C2=A0console -cpu host -m 2G -machine pc,accel=3Dkvm -device vi=
-rtio-vga,virgl=3Don -display egl-headless -kernel /home/alex.bennee/avocado=
-/data/cache/by_location/892ae21f3ae7d04994d8<br>
-&gt;=C2=A0 =C2=A01e1c0bf204ecebe555bb/vmlinuz -initrd /home/alex.bennee/avo=
-cado/data/cache/by_location/892ae21f3ae7d04994d81e1c0bf204ecebe555bb/initrd=
-.img -append printk.time=3D0 console=3DttyS0<br>
-&gt;=C2=A0 =C2=A0 rdinit=3D/bin/bash&#39;<br>
-&gt;=C2=A0 =C2=A02021-02-16 14:33:46,441 machine=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 L0389 DEBUG| Output: &quot;qemu-system-x86_64: -device virtio-vga,v=
-irgl=3Don: Property &#39;virtio-vga.virgl&#39; not found\n&quot;<br>
-&gt;=C2=A0 =C2=A02021-02-16 14:33:46,441 stacktrace=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0L0039 ERROR|<br>
-&gt; <br>
-&gt; I&#39;m going to assume this is because the beefy server I was buildin=
-g on<br>
-&gt; didn&#39;t have the VirGL headers to enable this feature. In lieu of f=
-eature<br>
-&gt; probing you might have to do what I did for the plugins test:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0vm.launch()<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# TODO: probably fails =
-because plugins not enabled but we<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# can&#39;t currently p=
-robe for the feature.<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.cancel(&quot;TCG P=
-lugins not enabled?&quot;)<br>
-&gt; <br>
-&gt;<br>
-<br>
-While this pattern is indeed an improvement over test errors, checking<br>
-for &quot;build time features&quot; is far from a new testing requirement, =
-and<br>
-its still not properly solved.=C2=A0 A long time ago I proposed a way to<br=
->
-look at the Makefile variables during test time, but it had a number<br>
-of shortcomings.=C2=A0 I guess it&#39;s now time to revisit this issue.<br>
-<br>
-First, I&#39;m a strong believer in limiting the *probing* that the test it=
-self<br>
-does with regards to build time features.=C2=A0 The probing and authoritati=
-ve<br>
-information should already be with the build system.=C2=A0 I&#39;m pretty s=
-ure that<br>
-meson makes it easy to grab that kind of information.<br>
-<br>
-Once it&#39;s understood and agreed that the build system will provide<br>
-that information, the question becomes whether tests will get that<br>
-information from the build system (and thus require a build tree) or<br>
-if that information will be persisted in the QEMU binary and be<br>
-available for introspection.<br>
-<br>
-Thoughts? Does this sound like something other people would be<br>
-interested in?<br></blockquote><div><br></div><div>It would be more reliabl=
-e and flexible to do runtime introspection. It would allow installed tests,=
- and some runtime checks for example.</div><div><br></div><div>Given the va=
-riability of builds, is there something that does introspection in avocado-=
-vt already?=C2=A0 I think we could rely on qmp introspection, qom-list-type=
-s etc.<br></div></div><div class=3D"gmail_quote"><br></div><div class=3D"gm=
-ail_quote">In the meantime Alex, could you send a patch to ignore the test =
-the way you propose?<br></div></div>
-
---000000000000ad994405bb83fe7b--
-
+--WoEHkBq4mxlXztF7--
 
