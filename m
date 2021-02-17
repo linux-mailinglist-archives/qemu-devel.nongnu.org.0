@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAEF31D3C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:30:53 +0100 (CET)
-Received: from localhost ([::1]:48828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEE2331D3BD
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:22:33 +0100 (CET)
+Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCBg4-00011u-EN
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:30:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42926)
+	id 1lCBY0-0003Cr-DI
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:22:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCBZR-0003vV-5a; Tue, 16 Feb 2021 20:24:01 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:56513 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lCBZO-00062c-TP; Tue, 16 Feb 2021 20:24:00 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DgKqM00jpz9sVX; Wed, 17 Feb 2021 12:23:42 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1613525023;
- bh=gCt9FoU0o53Xkt4pt5/SnMlzmXRn+h7HK2zE/nz0la0=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mp0p+qsCrA0NHbD/ULnQ2ld4/5+llR7fS16lh52CaN3VTVs+XQXjl/8J//1YrRY8F
- snkQasEbDwzWt7ezPdrUGGUevcYUBXt47DKoVCJuJbiPbNgjXq7lGVFlhuy69krJPJ
- uw50c2T9yoixEJPRsxvYQpltT/Vn9Ojsz0G10mO4=
-Date: Wed, 17 Feb 2021 12:14:09 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v3 5/7] spapr_drc.c: introduce unplug_timeout_timer
-Message-ID: <YCxt4VVYe5FBQX42@yekko.fritz.box>
-References: <20210211225246.17315-1-danielhb413@gmail.com>
- <20210211225246.17315-6-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCBWm-0002gb-Mi
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 20:21:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56770)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCBWj-0005pr-MT
+ for qemu-devel@nongnu.org; Tue, 16 Feb 2021 20:21:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613524871;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K0vANPDDWd4WoHw8a4u1q0xzcFZUfC6L+RMY7qr2bAk=;
+ b=Z9WDk0ZY4VUSMcpRQz5XigifEeiF9JlxkvBTRHcVFlb360bzt19VoQgXlXEYckSFlCzPJY
+ cMlTAwWH/Yae8O0itVtJeYy2lSkCVQM81oOPorsujnIHk9YEEEGyln59js2ENPPAWt+ZEH
+ j4D7uNPqn0b+qD/wDNQRr+y/ORQbwAs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-wrqBHb-VNfKujoaFKhqcLw-1; Tue, 16 Feb 2021 20:21:09 -0500
+X-MC-Unique: wrqBHb-VNfKujoaFKhqcLw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45D031E564;
+ Wed, 17 Feb 2021 01:21:08 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-29.rdu2.redhat.com
+ [10.10.112.29])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 22EF260C15;
+ Wed, 17 Feb 2021 01:21:01 +0000 (UTC)
+Date: Tue, 16 Feb 2021 20:20:59 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v4 04/24] python: create utils sub-package
+Message-ID: <YCxve8e5KpN0mOfv@localhost.localdomain>
+References: <20210211185856.3975616-1-jsnow@redhat.com>
+ <20210211185856.3975616-5-jsnow@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210211185856.3975616-5-jsnow@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="VU5lw5bbOBAC1TIq"
+ protocol="application/pgp-signature"; boundary="/dPj2vVLyn8QAEPo"
 Content-Disposition: inline
-In-Reply-To: <20210211225246.17315-6-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,222 +78,149 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---VU5lw5bbOBAC1TIq
+--/dPj2vVLyn8QAEPo
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 07:52:44PM -0300, Daniel Henrique Barboza wrote:
-> The LoPAR spec provides no way for the guest kernel to report failure of
-> hotplug/hotunplug events. This wouldn't be bad if those operations were
-> granted to always succeed, but that's far for the reality.
+On Thu, Feb 11, 2021 at 01:58:36PM -0500, John Snow wrote:
+> Create a space for miscellaneous things that don't belong strictly in
+> "qemu.machine" nor "qemu.qmp" packages.
 >=20
-> What ends up happening is that, in the case of a failed hotunplug,
-> regardless of whether it was a QEMU error or a guest misbehavior, the pSe=
-ries
-> machine is retaining the unplug state of the device in the running guest.
-> This state is cleanup in machine reset, where it is assumed that this sta=
-te
-> represents a device that is pending unplug, and the device is hotunpluged
-> from the board. Until the reset occurs, any hotunplug operation of the sa=
-me
-> device is forbid because there is a pending unplug state.
->=20
-> This behavior has at least one undesirable side effect. A long standing p=
-ending
-> unplug state is, more often than not, the result of a hotunplug error. Th=
-e user
-> had to dealt with it, since retrying to unplug the device is noy allowed,=
- and then
-> in the machine reset we're removing the device from the guest. This means=
- that
-> we're failing the user twice - failed to hotunplug when asked, then hotun=
-plugged
-> without notice.
->=20
-> Solutions to this problem range between trying to predict when the hotunp=
-lug will
-> fail and forbid the operation from the QEMU layer, from opening up the IR=
-Q queue
-> to allow for multiple hotunplug attempts, from telling the users to 'rebo=
-ot the
-> machine if something goes wrong'. The first solution is flawed because we=
- can't
-> fully predict guest behavior from QEMU, the second solution is a trial an=
-d error
-> remediation that counts on a hope that the unplug will eventually succeed=
-, and the
-> third is ... well.
->=20
-> This patch introduces a crude, but effective solution to hotunplug errors=
- in
-> the pSeries machine. For each unplug done, we'll timeout after some time.=
- If
-> a certain amount of time passes, we'll cleanup the hotunplug state from t=
-he machine.
-> During the timeout period, any unplug operations in the same device will =
-still
-> be blocked. After that, we'll assume that the guest failed the operation,=
- and
-> allow the user to try again. If the timeout is too short we'll prevent le=
-gitimate
-> hotunplug situations to occur, so we'll need to overestimate the regular =
-time
-> an unplug operation takes to succeed to account that.
->=20
-> The true solution for the hotunplug errors in the pSeries machines is a P=
-APR change
-> to allow for the guest to warn the platform about it. For now, the work d=
-one in this
-> timeout design can be used for the new PAPR 'abort hcall' in the future, =
-given that
-> for both cases we'll need code to cleanup the existing unplug states of t=
-he DRCs.
->=20
-> At this moment we're adding the basic wiring of the timer into the DRC. N=
-ext patch
-> will use the timer to timeout failed CPU hotunplugs.
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: John Snow <jsnow@redhat.com>
 > ---
->  hw/ppc/spapr_drc.c         | 36 ++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/spapr_drc.h |  2 ++
->  2 files changed, 38 insertions(+)
+>  python/qemu/machine/__init__.py         |  8 --------
+>  python/qemu/utils/__init__.py           | 23 +++++++++++++++++++++++
+>  python/qemu/{machine =3D> utils}/accel.py |  0
+>  tests/acceptance/boot_linux.py          |  2 +-
+>  tests/acceptance/virtio-gpu.py          |  2 +-
+>  tests/acceptance/virtiofs_submounts.py  |  2 +-
+>  tests/vm/aarch64vm.py                   |  2 +-
+>  tests/vm/basevm.py                      |  3 ++-
+>  8 files changed, 29 insertions(+), 13 deletions(-)
+>  create mode 100644 python/qemu/utils/__init__.py
+>  rename python/qemu/{machine =3D> utils}/accel.py (100%)
 >=20
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 67041fb212..c88bb524c5 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -57,6 +57,8 @@ static void spapr_drc_release(SpaprDrc *drc)
->      drck->release(drc->dev);
+> diff --git a/python/qemu/machine/__init__.py b/python/qemu/machine/__init=
+__.py
+> index 27b0b19abd3..891a8f784b5 100644
+> --- a/python/qemu/machine/__init__.py
+> +++ b/python/qemu/machine/__init__.py
+> @@ -8,10 +8,6 @@
+>   - QEMUQtestMachine: VM class, with a qtest socket.
 > =20
->      drc->unplug_requested =3D false;
-> +    timer_del(drc->unplug_timeout_timer);
-> +
->      g_free(drc->fdt);
->      drc->fdt =3D NULL;
->      drc->fdt_start_offset =3D 0;
-> @@ -453,6 +455,24 @@ static const VMStateDescription vmstate_spapr_drc_un=
-plug_requested =3D {
->      }
->  };
+>  - QEMUQtestProtocol: Connect to, send/receive qtest messages.
+> -
+> -- list_accel: List available accelerators
+> -- kvm_available: Probe for KVM support
+> -- tcg_available: Probe for TCG support
+>  """
 > =20
-> +static bool spapr_drc_unplug_timeout_timer_needed(void *opaque)
-> +{
-> +    SpaprDrc *drc =3D opaque;
+>  # Copyright (C) 2020 John Snow for Red Hat Inc.
+> @@ -26,15 +22,11 @@
+>  # the COPYING file in the top-level directory.
+>  #
+> =20
+> -from .accel import kvm_available, list_accel, tcg_available
+>  from .machine import QEMUMachine
+>  from .qtest import QEMUQtestMachine, QEMUQtestProtocol
+> =20
+> =20
+>  __all__ =3D (
+> -    'list_accel',
+> -    'kvm_available',
+> -    'tcg_available',
+>      'QEMUMachine',
+>      'QEMUQtestProtocol',
+>      'QEMUQtestMachine',
+> diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__.p=
+y
+> new file mode 100644
+> index 00000000000..edf807a93e5
+> --- /dev/null
+> +++ b/python/qemu/utils/__init__.py
+> @@ -0,0 +1,23 @@
+> +"""
+> +QEMU development and testing utilities
 > +
-> +    return timer_pending(drc->unplug_timeout_timer);
-> +}
+> +This library provides a small handful of utilities for performing variou=
+s tasks
+> +not directly related to the launching of a VM.
 > +
-> +static const VMStateDescription vmstate_spapr_drc_unplug_timeout_timer =
-=3D {
-> +    .name =3D "DRC unplug timeout timer",
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 1,
-> +    .needed =3D spapr_drc_unplug_timeout_timer_needed,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_TIMER_PTR(unplug_timeout_timer, SpaprDrc),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
+> +The only module included at present is accel; its public functions are
+> +repeated here for your convenience:
+> +
+> +- list_accel: List available accelerators
+> +- kvm_available: Probe for KVM support
+> +- tcg_available: Prove for TCG support
+> +"""
+> +
+> +# pylint: disable=3Dimport-error
+> +from .accel import kvm_available, list_accel, tcg_available
+> +
+> +
+> +__all__ =3D (
+> +    'list_accel',
+> +    'kvm_available',
+> +    'tcg_available',
+> +)
+> diff --git a/python/qemu/machine/accel.py b/python/qemu/utils/accel.py
+> similarity index 100%
+> rename from python/qemu/machine/accel.py
+> rename to python/qemu/utils/accel.py
+> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux=
+.py
+> index 212365fd185..824cf03d5f4 100644
+> --- a/tests/acceptance/boot_linux.py
+> +++ b/tests/acceptance/boot_linux.py
+> @@ -12,7 +12,7 @@
+> =20
+>  from avocado_qemu import Test, BUILD_DIR
+> =20
+> -from qemu.machine import kvm_available, tcg_available
+> +from qemu.utils import kvm_available, tcg_available
+> =20
 
-I think we can probably avoid adding extra data to the migration
-stream.  Because the exact length of the timeout isn't super
-important, so long as it's "long enough" I think it's acceptable if we
-restart the timeout period after a migration.  That can be
-accomplished with a post-load hook that just restarts the timer at the
-initial duration if the DRC is in the unplug_requested state.
+With the latest changes merged earlier Today, this won't be necessary
+anymore on boot_linux.py, but the equivalent change will be necessary
+on tests/acceptance/avocado_qemu/__init__.py.
 
->  static bool spapr_drc_needed(void *opaque)
->  {
->      SpaprDrc *drc =3D opaque;
-> @@ -486,10 +506,20 @@ static const VMStateDescription vmstate_spapr_drc =
-=3D {
->      },
->      .subsections =3D (const VMStateDescription * []) {
->          &vmstate_spapr_drc_unplug_requested,
-> +        &vmstate_spapr_drc_unplug_timeout_timer,
->          NULL
->      }
->  };
-> =20
-> +static void drc_unplug_timeout_cb(void *opaque)
-> +{
-> +    SpaprDrc *drc =3D opaque;
-> +
-> +    if (drc->unplug_requested) {
-> +        drc->unplug_requested =3D false;
-> +    }
-> +}
-> +
->  static void drc_realize(DeviceState *d, Error **errp)
->  {
->      SpaprDrc *drc =3D SPAPR_DR_CONNECTOR(d);
-> @@ -512,6 +542,11 @@ static void drc_realize(DeviceState *d, Error **errp)
->      object_property_add_alias(root_container, link_name,
->                                drc->owner, child_name);
->      g_free(link_name);
-> +
-> +    drc->unplug_timeout_timer =3D timer_new_ms(QEMU_CLOCK_VIRTUAL,
-> +                                             drc_unplug_timeout_cb,
-> +                                             drc);
-> +
->      vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spa=
-pr_drc,
->                       drc);
->      trace_spapr_drc_realize_complete(spapr_drc_index(drc));
-> @@ -529,6 +564,7 @@ static void drc_unrealize(DeviceState *d)
->      name =3D g_strdup_printf("%x", spapr_drc_index(drc));
->      object_property_del(root_container, name);
->      g_free(name);
-> +    timer_free(drc->unplug_timeout_timer);
->  }
-> =20
->  SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
-> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-> index 02a63b3666..b2e6222d09 100644
-> --- a/include/hw/ppc/spapr_drc.h
-> +++ b/include/hw/ppc/spapr_drc.h
-> @@ -187,6 +187,8 @@ typedef struct SpaprDrc {
->      bool unplug_requested;
->      void *fdt;
->      int fdt_start_offset;
-> +
-> +    QEMUTimer *unplug_timeout_timer;
->  } SpaprDrc;
-> =20
->  struct SpaprMachineState;
+With the change mentioned above (which you would catch on a rebase):
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 
---VU5lw5bbOBAC1TIq
+--/dPj2vVLyn8QAEPo
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsbd8ACgkQbDjKyiDZ
-s5KgdA//YBsOlrrChn61eRVMVEOSUBC06UA2xuuEM/64/p5X9ehWa+uJ8wLq08qy
-UI0XZy3Cyrh7Qil913QSHNUIjJZJVdhac6B2uLgi0Gu/0FVyDJSeUHU9CylgVDWQ
-wOtIkf8SbGvJHg6jKfPyt3dC2mT8jDb8jKbQY+VXYxIAXCh1jAV9JZXTP0cAZCPZ
-LWre+rfgNQUp3rYhUg4f53m8FYjRnSv8RSVTVzADS3uimKq6GMJ9mU5c7gvYaU+K
-YHOGdQvnZZtc5Iup7NPQbj/Fe81UjzpK6e8na9wlREFO/Y+9jN8GcNjYsIyLxqRS
-5CUc3gmoVb+ptmyFiqUQyqzhnOOzrBwt8F2pp+YF228YuW9TYyeSPGLW4ZJEIX+B
-mINpmHbHG0+XiKQlPpm6ZHQhau6847JNzIJ0hBCoAW142NOFIaJ/Je/hTWYyC5m+
-dA7JwldzOEG5r8Ppqiwn12OUpVkrRGL5CzsUJyqZ/ZprOo4FRH3JwqVaBf5C3ZKH
-zk2TwmirJcD+RTDhisKcFQAczOmnMW3bYZZQZufdHwx1Qy2oxxj8fvfU5GDTCxne
-dVybR4RHEMrmbsAHNONb9lOw5IVv0ShC+ulxl7zQsf+MPPoJ7P13dEPpcxDs6SCb
-4viXx6ATtImASAZHQaKZoQNaSfmGLsI6UaAFahPOrqD8niXXR3U=
-=uiSx
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAsb3gACgkQZX6NM6Xy
+CfN03w/7BQn+KPvZ5QKB/JvJfX8DOHwFa1rA90yA5ha2KfKlkWltOcGznSRs96aX
+OXwptuh7XvwCQQRCYTPT/c2C0apCabFXscReqC8CtYtmYHZ9oe2Kes8EPTY3QvLE
+2D619TyNwx16sJLitdg8gt3GAimiQ6DQiw0aycBU8BBby91JVS/8XJ43gYqOS5Rj
+0pau0fYkIhOETrxck/aeMrqzU120XfXjQcwV9OHLlhYC/vdKJm4ji+MS/DTQPPSO
+i3LSq3/Ofu4H+8vTJAL6deXGWmIMW+U6PfH3zjcy655EqPZY6DDapP0DEuMVKbF5
+zoOt8vauPJUrGrXzlY9QAsdR4WwuImOgtScyGQ9eRJaQJByJIiJUH4vs4Rvkib6B
+mN1TuN2t7pHBUG/NiFrVt8aYG50+lBrNGovrheHxFH++4atr6QQBGxrLmk8RVYDh
+OV6mtj+OoT3aI4Cytbp8Jsn6CmJvR0QDsPOWGuMILIeMqUK4WFjyR4NThxNYc4k7
+YmxBmLpTh3fHV1e/yJWgnK09N+1thDQ0gFTfnI7OJj+kJwRvndY47Wl6zkRIniwB
+suDjy8sbRcnktEr3TT7hZiDFsaHzDKe8zaF/pLLsMG1xeeDIlOwFzvzwZ70W2AN1
+38Z5RjE4hvk7V5Qj9r2zYJeZq3xjFFpoCCwtGFso5ueDZH7eMmw=
+=rkF3
 -----END PGP SIGNATURE-----
 
---VU5lw5bbOBAC1TIq--
+--/dPj2vVLyn8QAEPo--
+
 
