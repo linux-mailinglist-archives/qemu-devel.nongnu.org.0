@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F4A931D94F
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:23:55 +0100 (CET)
-Received: from localhost ([::1]:48870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DDD331D94C
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:21:59 +0100 (CET)
+Received: from localhost ([::1]:42244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCLs2-0007Po-KS
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:23:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
+	id 1lCLqA-0004dA-2W
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:21:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCLo6-0002TH-FO
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:19:52 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:42987)
+ id 1lCLoI-0002nB-E1
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:20:02 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52515)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCLny-0000Jy-NJ
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:19:50 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id r21so17135415wrr.9
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 04:19:39 -0800 (PST)
+ id 1lCLoG-0000QX-N5
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:20:02 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id l17so1965463wmq.2
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 04:20:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z7xvEMHCAPUwYe789c1mfBls6VgPCLJJofS5unRcGOk=;
- b=CW0uoIIY1/EXmRPSDiWjrOU5/6WETRgGy6B2uJql5oW9rtGGZkiaUiP2ZA4/rjH7g/
- +ek9zPMJeh3X16ljmMt60y+aS/UrxylAdkvWIELGX9RfCb17f32HBmla1/sPoXI3I1F8
- ZLEOeR3BFUh7ontvlt5kawfPmo8NnDPe6Pfa6QrSgFoa/vSkEeakt7ZLmoiDd8A1qgWs
- 2ITf/Uw5n0L1QBUFvmytPLJEPinBpfx+/WBD40ipbe8AJX5EA/M9RD/rQfmTA6Med8ez
- V6I67C09Xx/PzgSvodzg5Cq07Uv8egDGK5jDDAROhAg3AiLxmYfLhjQjRwhrDa552133
- OFBg==
+ bh=qV5waBAMdWO3qnrnlPn9ZalPBhAFNnkmRpjSD/pQcHQ=;
+ b=jHu82T4jI+IN7ZMMKtBmJUv7mJqpGkgyAfCthwMieDOyedwKate0CryRRjO8vF29Vx
+ x6grVfSGH+IMo0rJsVAOSdkdBKGEgJCwu7z3ZCqV3HnpwIVjmr4IISUBwZNHEHK3SZTe
+ mW4G5rd4UfxaQ+TwtRIGheZQfrDbmGQ9ggfiwWFYqYXS9GB5X6TZyrp5pvPQgwu5A5u0
+ 57vYKLDGLbNQKPkllpqwWlRQ6HSfBUfAK7UjuDlx1yJOCwn2YaA5cM9T1HfA7hZuj0QH
+ 7ystz/nKvTGiIuJ3DqTAcjr135tbtPk8T3ZkYCWZnfa58ZAfj/FH3dMTeq0Fr1jBpUFk
+ Pkhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z7xvEMHCAPUwYe789c1mfBls6VgPCLJJofS5unRcGOk=;
- b=nfOQbxOYpbz14ghs3ZMrbgOeZhFXxE82sLzuxwwYQPRLSBJzzms32FP7vsu2RUuGSN
- s2gse/LQeb/Ej1rsXFc4PmvlOZORqDQ3GJQQNUbTkKBsA8+k3GAHX1tzIFkWcQluANOu
- ZbrSffLgSBiwX2dkhRbLV/dw9MTkEikxQOCZULWZsjMmLzjoRWM1Aektl8yMyO7nsUlC
- 7L1KjyaQnD6CndtOq/2yzHfOToR9xxTVMUDb40lcEZ7STfdHIdxFzxaCpKXWA6q3QcJE
- EaEAwvaqHED9Ksm7JqOkMg3tI/W0HO7EK9NV1op2gqr41O+d7qqZxnBylSrm/m8LfXwJ
- R8GQ==
-X-Gm-Message-State: AOAM531RTss5HcRSxInPxORcS9nYeAreTDxoMwcf5YAYRHrlEucNkbqZ
- PieeRMAq461ooV+oLPEm6hr60A==
-X-Google-Smtp-Source: ABdhPJxgRsoK1aSDjRN0O8a9jWfy5Dy4kNGhgxE2UT/s/UOZn+R5vEDx2JkqjQMbcx/zDAYFQe7ZkQ==
-X-Received: by 2002:adf:f542:: with SMTP id j2mr21475801wrp.46.1613564378780; 
- Wed, 17 Feb 2021 04:19:38 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id o129sm2847535wme.21.2021.02.17.04.19.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ bh=qV5waBAMdWO3qnrnlPn9ZalPBhAFNnkmRpjSD/pQcHQ=;
+ b=sSe0T4sreuyeG1JTulqnIWWoPCljp+F14HhQWUF0e8aXlabEypu0KWdvmcxUuGAwY6
+ qqrK5nXyIaSV5ae0wK85TPaMZIRLUac8ucyPGdpTGOMTuX145Wg/c9nD03gX+EOTb//z
+ kI9W9pmByb4/ul4Ds+lKyVa0CciqVZfVlg9poiawONxUucIcwZdrMDQNeLpfQUfuobEy
+ 4UusAp6Q6CEUmgcBiRy+3AiTniaQtuCILSVqW8uv/1nXlebWohU6E8SlVV1lk57A4xGu
+ RL2aemJaqCRMAARFQ+DdBo0BF/Bj19mYOuqN68wPrE3nroYqiD54YN6MZxe+Sx6AjUIQ
+ G/2w==
+X-Gm-Message-State: AOAM530vtzc3fY1Vrh5+1vZE6hr67hsVEvrWr0Qr4mVO697F6rFWJgh2
+ PDyJQuxT1O0DCCa1hk86dMF2Cg==
+X-Google-Smtp-Source: ABdhPJybSFw9CcP13WnzEyN2EiGXVY2FuCAn9+9URFXH//BvHudCTclg2VYUBbh7Vrhm1rkQwir0aQ==
+X-Received: by 2002:a1c:545d:: with SMTP id p29mr6831187wmi.54.1613564377972; 
  Wed, 17 Feb 2021 04:19:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id k81sm2752534wmf.10.2021.02.17.04.19.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 17 Feb 2021 04:19:33 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A46071FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id BAC1C1FF8F;
  Wed, 17 Feb 2021 12:19:32 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/6] gitlab-ci: Display Avocado log content when tests
- timeout
-Date: Wed, 17 Feb 2021 12:19:28 +0000
-Message-Id: <20210217121932.19986-3-alex.bennee@linaro.org>
+Subject: [PATCH  v1 3/6] gitlab-ci.yml: Run check-tcg with TCI
+Date: Wed, 17 Feb 2021 12:19:29 +0000
+Message-Id: <20210217121932.19986-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210217121932.19986-1-alex.bennee@linaro.org>
 References: <20210217121932.19986-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,48 +87,53 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com,
- pbonzini@redhat.com,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>, f4bug@amsat.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, stefanha@redhat.com,
+ pbonzini@redhat.com, =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
 
-Since commit ba2232bae6d ("gitlab-ci: Refactor code that show logs
-of failed acceptances") we display the log content of failing tests
-(Avocado "FAIL" event).
+It's now possible to also run the non-x86 TCG tests with TCI.
 
-Since we are also interested in tests timeouting, update our global
-Avocado config to display log content for the "INTERRUPT" event,
-"possible when the timeout is reached" (See [*]).
-
-[*] https://avocado-framework.readthedocs.io/en/latest/guides/writer/chapters/writing.html#test-statuses
-
-Suggested-by: Willian Rampazzo <willianr@redhat.com>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210215171438.935665-1-philmd@redhat.com>
+Message-Id: <20210127055903.40148-1-thuth@redhat.com>
 ---
- .gitlab-ci.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .gitlab-ci.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 7adb9a4cef..234cead60c 100644
+index 234cead60c..ec327d0a85 100644
 --- a/.gitlab-ci.yml
 +++ b/.gitlab-ci.yml
-@@ -64,7 +64,7 @@ include:
-     - echo "[datadir.paths]" > ~/.config/avocado/avocado.conf
-     - echo "cache_dirs = ['${CI_PROJECT_DIR}/avocado-cache']"
-            >> ~/.config/avocado/avocado.conf
--    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL"]'
-+    - echo -e '[job.output.testlogs]\nstatuses = ["FAIL", "INTERRUPT"]'
-            >> ~/.config/avocado/avocado.conf
-     - if [ -d ${CI_PROJECT_DIR}/avocado-cache ]; then
-         du -chs ${CI_PROJECT_DIR}/avocado-cache ;
+@@ -520,7 +520,7 @@ build-oss-fuzz:
+ build-tci:
+   <<: *native_build_job_definition
+   variables:
+-    IMAGE: fedora
++    IMAGE: debian-all-test-cross
+   script:
+     - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
+     - mkdir build
+@@ -528,7 +528,6 @@ build-tci:
+     - ../configure --enable-tcg-interpreter
+         --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)" || { cat config.log meson-logs/meson-log.txt && exit 1; }
+     - make -j"$JOBS"
+-    - make run-tcg-tests-x86_64-softmmu
+     - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
+     - for tg in $TARGETS ; do
+         export QTEST_QEMU_BINARY="./qemu-system-${tg}" ;
+@@ -537,6 +536,7 @@ build-tci:
+       done
+     - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
+     - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
++    - make check-tcg
+ 
+ # Alternate coroutines implementations are only really of interest to KVM users
+ # However we can't test against KVM on Gitlab-CI so we can only run unit tests
 -- 
 2.20.1
 
