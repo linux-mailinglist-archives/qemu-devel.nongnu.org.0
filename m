@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59E131DBE7
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 16:04:56 +0100 (CET)
-Received: from localhost ([::1]:51162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3E0331DBEF
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 16:12:30 +0100 (CET)
+Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCONr-0006Hv-OP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 10:04:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37568)
+	id 1lCOVB-0001aV-QL
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 10:12:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCOM7-0005L9-RN
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 10:03:07 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:36276)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCOTa-00014T-Al
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 10:10:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCOM5-000568-Uc
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 10:03:07 -0500
-Received: by mail-ej1-x636.google.com with SMTP id do6so12285533ejc.3
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 07:03:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=lH5BBz20oUxl3m8mixschhVdp0a3sV6gwRpko6r8EG4=;
- b=CHrek05rmM3p4QYyxTpKeUslqQwTAEnxEHT5gAz4Bv9+QjNAPigidO6NbaLWXncJ0L
- VhJGL/kxZ1i8nlXhnLL+jPUoNowY4dQsKcW0vxXtJeRvWOU4SZMMWaQoec0KQ8tirlKB
- ICPk6bWZVGLKZCMMO9CDwOMZR7hM7K9JFvQdpWRAaOCj7xVBeyS3ng5iwn3IUZEIzpdz
- KrLLs+hLqHgkoDL4GvmsZhpp4AM7ZPnI0D4nm/LSDonLwP4sIwBzBXxFveOmNiTU/8H6
- 2d4Ga54Pzpmjqayvl5I0DdbcvQHX7VTsp3Rmr1tXhgtqApVPd9gyXOSJieY4n+qGJxQn
- P/UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=lH5BBz20oUxl3m8mixschhVdp0a3sV6gwRpko6r8EG4=;
- b=Oi25lxOZn5Om7K9Hc0fiQtsHNt1UYkiTzM45yfD+H9HVwshOGd1Kz8wQWjgvoxYyk0
- 6CcRFzPUthUSaAaHuJs7VGmREAEhxB+iQqD/ohXywXKyJF6y1ce1pJGMR9ftBEl1wpM/
- ZO5mdx5ahx0WqkH+OchmIA5QYlq20RCjnhPrOAVzUHI9o3LcQITpERax4CzztpSFic73
- m5iUsFoTCWLs/18blteE4eC1dA2f9X7EJUsf+NYG2ZYBjygvW9oGkRW8b9vrm/1kDs0H
- U0U9f/hH8TglUSqCIslC6YFAZOTduPM/sluKX4/7sk9u/E7tYhF/AGxFcZ5uPVna1egv
- 1BVg==
-X-Gm-Message-State: AOAM532qJYBrzYlUycUATIcEZoDbP6qmHHN+zT0+XjiFZULn53rY1d6U
- y6Yv2LNEYkW4iv5dH5WCaeMZ/mdtDmRYAXh3Vd+AgQ==
-X-Google-Smtp-Source: ABdhPJzGWA4UojaIvZRYXVcW1yAbhDazHFRhUlnzzxrhK81PtLb6OizffVKo2Ddza2MJbv6SMMvZORr3VPxEVcjE09A=
-X-Received: by 2002:a17:906:b4a:: with SMTP id
- v10mr25263369ejg.382.1613574184255; 
- Wed, 17 Feb 2021 07:03:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCOTV-000799-Sz
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 10:10:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lCOTT-0006ST-RH
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:10:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A6DD22E8005
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:10:43 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210115130828.23968-1-alex.bennee@linaro.org>
- <20210115130828.23968-25-alex.bennee@linaro.org>
-In-Reply-To: <20210115130828.23968-25-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Feb 2021 15:02:53 +0000
-Message-ID: <CAFEAcA_+iLxp9mdmX9SKUcTxcc6At7OGL4Lo9EpaXZpYjQSvtQ@mail.gmail.com>
-Subject: Re: [PULL 24/30] semihosting: Change internal common-semi interfaces
- to use CPUState *
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Date: Wed, 17 Feb 2021 15:03:05 -0000
+From: Peter Maydell <1915925@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: semihosting
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: inver7 pmaydell
+X-Launchpad-Bug-Reporter: iNvEr7 (inver7)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161356438332.24036.4652954745285513495.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161357418593.22954.62079886499451112.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1915925] Re: ARM semihosting HEAPINFO results wrote to wrong
+ address
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="b3a93345a124168b715ec9ae0945884caa15f58f"; Instance="production"
+X-Launchpad-Hash: 6f66e6280dc8b3d9439eecc527264937bf810752
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,62 +72,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Packard <keithp@keithp.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1915925 <1915925@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 13:33, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> From: Keith Packard <keithp@keithp.com>
->
-> This makes all of the internal interfaces architecture-independent and
-> renames the internal functions to use the 'common_semi' prefix instead
-> of 'arm' or 'arm_semi'.
+** Changed in: qemu
+       Status: New =3D> Confirmed
 
-Hi; it looks like this commit broke the implementation of
-the SYS_HEAPINFO call (see https://bugs.launchpad.net/qemu/+bug/1915925).
+-- =
 
-Specifically:
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1915925
 
-> @@ -1064,23 +1089,19 @@ target_ulong do_common_semihosting(CPUState *cs)
->              for (i =3D 0; i < ARRAY_SIZE(retvals); i++) {
->                  bool fail;
->
-> -                if (is_a64(env)) {
-> -                    fail =3D put_user_u64(retvals[i], arg0 + i * 8);
-> -                } else {
-> -                    fail =3D put_user_u32(retvals[i], arg0 + i * 4);
-> -                }
-> +                fail =3D SET_ARG(i, retvals[i]);
+Title:
+  ARM semihosting HEAPINFO results wrote to wrong address
 
-this code which is writing the heap info into guest memory
-should not be using SET_ARG(). The SYS_HEAPINFO API says:
-# On entry, the PARAMETER REGISTER contains the address of a pointer
-# to a four-field data block.
+Status in QEMU:
+  Confirmed
 
-which is to say that the parameter register points to a 1-word
-argument block, whose single constituent is a value giving the
-address of the (heapbase, heaplimit, stackbase, stacklimit)
-structure we need to fill in.
+Bug description:
+  This affects latest development branch of QEMU.
 
-The change here to use SET_ARG() is making us write the
-retvals to the argument block, when we should be writing them
-to the memory pointed to by arg0. (This is why the original
-code wasn't using SET_ARG...)
+  According to the ARM spec of the HEAPINFO semihosting call:
 
-Could you look at a fix for this, please?
+  https://developer.arm.com/documentation/100863/0300/Semihosting-
+  operations/SYS-HEAPINFO--0x16-?lang=3Den
 
-I think you probably need to abstract out "figure out the
-size of a 'field' for this target", which for Arm is "is_a64() ? 8 : 4",
-and for riscv seems to be "sizeof(target_ulong)" [*]. That
-then as a followup would let you have a common code implementation
-of GET_ARG() and SET_ARG().
+  > the PARAMETER REGISTER contains the address of a pointer to a four-
+  field data block.
 
-[*] side note -- shouldn't this be checking riscv_cpu_is_32bit() now ?
+  However, QEMU treated the PARAMETER REGISTER as pointing to a four-
+  field data block directly.
 
-thanks
--- PMM
+  Here is a simple program that can demonstrate this problem:
+  https://github.com/iNvEr7/qemu-learn/tree/newlib-bug/semihosting-
+  newlib
+
+  This code links with newlib with semihosting mode, which will call the
+  HEAPINFO SVC during crt0 routine. When running in QEMU (make run), it
+  may crash the program either because of invalid write or memory
+  curruption, depending on the compiled program structure.
+
+  Also refer to my discussion with newlib folks:
+  https://sourceware.org/pipermail/newlib/2021/018260.html
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1915925/+subscriptions
 
