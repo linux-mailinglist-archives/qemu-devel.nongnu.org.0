@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 939A331D7CE
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 12:03:20 +0100 (CET)
-Received: from localhost ([::1]:55520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB69131D7D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 12:04:49 +0100 (CET)
+Received: from localhost ([::1]:59042 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCKc3-00030e-NN
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 06:03:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56646)
+	id 1lCKdU-0004WC-SZ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 06:04:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCKaR-0001rA-Tj
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 06:01:39 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCKaQ-00017o-46
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 06:01:39 -0500
-Received: by mail-ej1-x634.google.com with SMTP id do6so10927259ejc.3
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 03:01:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OHycQnPt+4r0eUQpR9pBEIaQWco/NSKLSg6/EVvUmNQ=;
- b=bkJoR5ZQoxzczOgXxytjJ7TaQt1BRiQaBiqtZUQAV+YjHRCKuV3s8V+V9gjA1+jHj4
- EOyoQj95wTjqg4OS8O2LOuJp5fPVCrhUPNveOeaCeKHEXvC8kVR+kx1AjrA60QHRuuNo
- VWpEG8bEJ7dYpLhbg58vmZ6mx4NvYU/2KTrNrXzNcdyGsj+ILvUKWUQZ1YUIvnHffRgZ
- CdgjMPoP0c42acbhqbU+W9fDh1nGlS9n8jkrotBHQeyUMrYl1XCKDBvhQ7b0IPpPvZzQ
- 382wHPzqcp9c1XCj+l6/tQPV28yg8Zuo1+8T4BxMcPVJeF3EqYEJf+5NknNRZ4sz9A27
- crIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OHycQnPt+4r0eUQpR9pBEIaQWco/NSKLSg6/EVvUmNQ=;
- b=Ayj7kfcXVTunR4tScWKfZ7jZFgdhWIfx2N8XmJrvzWcSiOk4w8lOmkQ2dBUjttIq0t
- wq9ekwsccJYMLdp9NGVR7sxA4x/Hs+2jvNF67R4Uv5ipqqLWWwqxqnYY0ApaH+V+cMaY
- E9/3A8AtYJ0YqJW9tUPeF9F7RvIHOJLXT8f+pkYVnXsnGYZBwwpBd+EgGOhQRuXWmfKK
- Qs7MlMKrjPFiOcIzxU2yT7QKOy/ZCg7sATRB8U4vxMf/EC9YT/hvJOdO+83zQh+diHUT
- PMzqsl/JJQC5BLPbz1kH87Cxy/oR+kIOYm6tDboyS8q/3moVdRfyqHk/VX+o/2MJXgrb
- 2PKw==
-X-Gm-Message-State: AOAM5317TNrfiUrK97Nyw1MShaOEtKnYZCSZTLRQSpOFQN/avA6Nmsva
- FpCNCdV9Q31bV0nxq67jNZS46+umUkOlp2UGv2XnZQ==
-X-Google-Smtp-Source: ABdhPJwDAW8p6EI3+JtKZ2jQpRtmklQMpb1+nq3YFH0qctimaHPSuwuqtu2vY+0sDrVNJNJVlF8RlZZphUVGOb31kNM=
-X-Received: by 2002:a17:906:1d51:: with SMTP id
- o17mr25146396ejh.85.1613559695850; 
- Wed, 17 Feb 2021 03:01:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCKcF-0003dl-OA
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 06:03:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCKcB-0001aZ-6h
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 06:03:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613559804;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DdWxqWs0MGw2lP4zr2nDdaDj8XIhRcGTrZ5RO0ha5DM=;
+ b=BEPe7yN2/PVXCSBTvFoYGhnC6Cjl9OS4PkoK3yXnPxkgz4PUcQ/JqUnViIRTqH6NaH/FmB
+ 6KWaxubY5sHlL8EPE8sw2HQxMb3dTAE+5C6RNpUiQF44G8fkYoX2qTogkNVAcma9DWtwen
+ TVP7yALHvJMVt1V7Jq5HOZdsNuMd+x4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-63-W33cNscWNEG1y8Vs1jUdSw-1; Wed, 17 Feb 2021 06:03:22 -0500
+X-MC-Unique: W33cNscWNEG1y8Vs1jUdSw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D406801983
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 11:03:21 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-116.ams2.redhat.com [10.36.112.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 32C856267A;
+ Wed, 17 Feb 2021 11:03:16 +0000 (UTC)
+Subject: Re: [qemu-web PATCH] Add Outreachy and GSoC announcement
+To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
+References: <20210217100748.269005-1-stefanha@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <10d1e37a-035b-01cc-cf34-08b0bce1e06b@redhat.com>
+Date: Wed, 17 Feb 2021 12:03:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210213002520.1374134-1-dje@google.com>
- <CAFEAcA-5LdAO+m8enMxxUc7TczrKV407VGCt4vS5PS3jdDr2XQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-5LdAO+m8enMxxUc7TczrKV407VGCt4vS5PS3jdDr2XQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Feb 2021 11:01:24 +0000
-Message-ID: <CAFEAcA_jUD6u1hn-mmmekE0nzgWSCO-uR=rWemt2dYsjcGUYUA@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] Add npcm7xx emc model
-To: Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210217100748.269005-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,30 +80,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 14:28, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Sat, 13 Feb 2021 at 00:25, Doug Evans <dje@google.com> wrote:
-> >
-> > This is a 10/100 ethernet device that has several features.
-> > Only the ones needed by the Linux driver have been implemented.
-> > See npcm7xx_emc.c for a list of unimplemented features.
-> >
-> > Doug Evans (3):
-> >   hw/net: Add npcm7xx emc model
-> >   hw/arm: Add npcm7xx emc model
-> >   tests/qtests: Add npcm7xx emc model test
-> >
->
->
-> Applied to target-arm.next, thanks.
+On 17/02/2021 11.07, Stefan Hajnoczi wrote:
+> QEMU is participating in Outreachy May-August and is applying for GSoC
+> 2021. It's time to publish information on these internship programs and
+> how to apply.
 
-Dropped again: it failed some oddball config in the gitlab CI:
-https://gitlab.com/qemu-project/qemu/-/jobs/1034174731#L12
+Thanks, it's online now:
 
--- PMM
+  https://www.qemu.org/2021/02/17/gsoc-and-outreachy-2021/
+
+  Thomas
+
 
