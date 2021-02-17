@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C993F31DBB0
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 15:46:26 +0100 (CET)
-Received: from localhost ([::1]:37354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 907E031DBB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 15:49:57 +0100 (CET)
+Received: from localhost ([::1]:39610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCO5x-00084c-U8
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 09:46:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33160)
+	id 1lCO9M-0000nP-LY
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 09:49:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCO3y-0007ab-BC
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:44:22 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:41121)
+ (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
+ id 1lCO8F-0000MH-Q5
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:48:49 -0500
+Received: from mail-lj1-x22f.google.com ([2a00:1450:4864:20::22f]:43775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCO3v-0008Ja-IT
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:44:22 -0500
-Received: by mail-ej1-x633.google.com with SMTP id f14so22584296ejc.8
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 06:44:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <francois.ozog@linaro.org>)
+ id 1lCO8B-00017M-R2
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 09:48:47 -0500
+Received: by mail-lj1-x22f.google.com with SMTP id a22so16435337ljp.10
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 06:48:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xNOEAGBoMqexvgDEp6zDoVEuYvs6L1zxrJTTgHkwEy0=;
- b=IQCN6dSKhTlh+9jzS7ePSPSUq1ARC9nzuCFfwR17ZdV164VnjSyf+DbNWthP4lVSPz
- gxN7ah7ILgcx7Mzfpk8PA8/ZX+nNhtIEEjI2DyBAc2smTKIftu23E0dSjoVlXvGPPvZ7
- y5mTvtjUR6RaLnEPgib8JlOyJ9OW4WpECysP/zYFad9x79dFS+vRCge6O5AMDt6Q4wdz
- zxVY7CrUX3fn0BvCUqiVKidkpmcBzBiOxQ6kbn/VfRiVMotMaORITVQDWO8JBTaBEOXJ
- tGN3QBIlD0qNHHdD5v0VdaQFqYZhgyqdshuRg9taRJEanSlrOhKwTXr8ubMlYIZBKA88
- xTRQ==
+ :cc; bh=+WSOlerGpzCB9ffw2y1mCePwEzSxrlScYXH3gG+BwZ8=;
+ b=wGnLkpYHFAJWrOYmvFH1PNhNr03AthIcJ9zM6GWBZF4IbxGPh6DSwGz8Oa36mjPZXk
+ GyzPce5LTFbtzJr3aIEH57WwWPPqMw+yIhI918jI/xGL1BDQgYROXquJ/5uATv5gPEwJ
+ VKboMa1M2o9Urc7QpDcEgofwBh2WH+EImE1XU4PG5eJ2po1X51U1CFpAiH+oVTHpDTy3
+ /SNzvKUkENJ77vSZHdsXSkqydMEdkiclJ5/S1kd6mQxkCI4RVr3297n8+yE4o5mW8vn4
+ W6m4kccCBk3523ooWfeJq5abOpeJnsK1wf4QZGwdLqfHrFM915yCbFoSVGtJOo1K6ZMP
+ Exlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=xNOEAGBoMqexvgDEp6zDoVEuYvs6L1zxrJTTgHkwEy0=;
- b=X0gSsjbw4qjfco1mCN1xQW07Si5VZJasnQ+c3AUjqTMUp/PxMEcs6YKYon9MzCLR6S
- rYq3FkshQvykwXyFp/s61boYo0ZbqWgkOPkWMOJgzDiP+UmWvHEbtbzysrxEMic+kQLb
- HczmhvI6S6hqneYlhLtXyrpNEfoT7ak6XN+E5d2glPWDg+AI0sr6z/VNvuEJhuohy1k6
- ojqems1FiPTiwSCEZ3r7ltBwMa3HCZn+6tmRslLLcaDpAAHeE+gylJOUJF0fnEqeoU6J
- KAucOEVhKzOR6QJJIbUQMYIaUkc1MUW1v46G2D6dNqmla8dP5abaxxp+Z5Ao0kgr0GnH
- Ki/g==
-X-Gm-Message-State: AOAM5331+bEgj/eucMXv1B4Qe/J/rg6jmGMQ8agooqbxeHRpNqOqv978
- MrNjHgwTGSz/UeqGbvLe8H/Y6febuD/eSHHBrWOj8A==
-X-Google-Smtp-Source: ABdhPJz2KfbPb22XcSw2Br6AMJoka9uulB7WHsoV3dIvK9JK+yeZp8DxzmboFeEs7leyHc8i73lejZObqSXu/GvHxSk=
-X-Received: by 2002:a17:907:98c3:: with SMTP id
- kd3mr26128809ejc.482.1613573056767; 
- Wed, 17 Feb 2021 06:44:16 -0800 (PST)
+ bh=+WSOlerGpzCB9ffw2y1mCePwEzSxrlScYXH3gG+BwZ8=;
+ b=E5xHdSgXRvEfUJQbZFS2opUEVPPkGSsPnmQYhICoSut3fsv05ZC7O9lo1jNBRsGL2F
+ nKyFg/pDZkSyCT5fiULWq1ChgV94Pn2h3x4zxZ89ZNKbQYeOd9DaDWmzvI63VarFd9M+
+ A5pvO3qeYTiP/8X5r7ccwfrth0x07YKg57xExVpTzsZ7EoE+V8dbBEj1bKi6OYghBwvY
+ AT4F9/SE1DyC27dPCd+JD8+kuY5sF6hI6XUjyHLxWIadpRzu1dGc5itcI8T3MnjhFFF2
+ hE3Wn10UJRApcMOUUsxYqKQKMFEWbaQb4LztiIFlQpdDuGK1kz7lSXgPknZQhgGNi2ZD
+ wREQ==
+X-Gm-Message-State: AOAM533wlq1fM5Tq1xxlrNoDy3Mxr+pb8FkGSO15A0+jwmCNJS4LRayd
+ PPPNMLGtuN3mIC8e9/oLBBirDsQ19TLYL5LpPuMI6g==
+X-Google-Smtp-Source: ABdhPJzqsiw+tERgcFSn67Q+dAGDgBajHNhJJ2dd3sIePcZcUhdDXVAUZ/AlVfY82cC0KYWnoM4lB5JxMh1OucBOyVE=
+X-Received: by 2002:a2e:720a:: with SMTP id n10mr1906760ljc.215.1613573317585; 
+ Wed, 17 Feb 2021 06:48:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20210216182611.139813-1-pbonzini@redhat.com>
-In-Reply-To: <20210216182611.139813-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 17 Feb 2021 14:44:05 +0000
-Message-ID: <CAFEAcA95E7YWJwZT_+amt-fuhpr3XW5mjbTKKk4oFE7ND=1JZw@mail.gmail.com>
-Subject: Re: [PULL v2 00/21] i386, qgraph patches for 2020-02-15
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+References: <87y2fmsrxw.fsf@linaro.org>
+In-Reply-To: <87y2fmsrxw.fsf@linaro.org>
+From: =?UTF-8?Q?Fran=C3=A7ois_Ozog?= <francois.ozog@linaro.org>
+Date: Wed, 17 Feb 2021 15:48:26 +0100
+Message-ID: <CAHFG_=VHqTORBGshu5CpC83h3EtFeD1pPteftC4UfSUP9OyUbQ@mail.gmail.com>
+Subject: Re: Measuring the impact of buffer copy for virtio-gpu guests
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000006a034a05bb895032"
+Received-SPF: pass client-ip=2a00:1450:4864:20::22f;
+ envelope-from=francois.ozog@linaro.org; helo=mail-lj1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -77,38 +76,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mikhail Golubev <Mikhail.Golubev@opensynergy.com>,
+ Vasyl Vavrychuk <Vasyl.Vavrychuk@opensynergy.com>,
+ Zhao Jiancong <chou.kensou@jp.panasonic.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Griffin <peter.griffin@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Stratos Mailing List <stratos-dev@op-lists.linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 16 Feb 2021 at 18:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
+--0000000000006a034a05bb895032
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, 17 Feb 2021 at 15:13, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+
+> Hi Gerd,
 >
-> The following changes since commit 8ba4bca570ace1e60614a0808631a517cf5df67a:
+> I was in a discussion with the AGL folks today talking about approaches
+> to achieving zero-copy when running VirGL virtio guests. AIUI (which is
+> probably not very much) the reasons for copy can be due to a number of
+> reasons:
 >
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-02-15 17:13:57 +0000)
+>   - the GPA not being mapped to a HPA that is accessible to the final HW
+>   - the guest allocation of a buffer not meeting stride/alignment
+> requirements
+>   - data needing to be transformed for consumption by the real hardware?
 >
-> are available in the Git repository at:
+> any others? Is there an impedance between different buffer resource
+> allocators in the guest and the guest? Is that just a problem for
+> non-FLOSS blob drivers in the kernel?
 >
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+> I'm curious if it's possible to measure the effect of these extra copies
+> and where do they occur?
+
+Making a good benchmark is going to be difficult. Copying has big impacts
+on:
+- L3 pressure (pure cost of evictions and loss of "sticky" cache lines
+benefits)
+- Memory request queue and prefetching
+- TLB pressure
+Conversely, as we are in VM environments the pressure that other VMs have
+on those resources, the jitter of the bounce copies will grow.
+(lesson learnt from high speed - > 100Gbps - user pace networking)
+All this to say that a unitest may be wrongly give impression that copy is
+not that costly.
+
+> Do all resources get copied from the guest buffer to
+> host or does this only occur when there is a mismatch in the buffer
+> requirements?
 >
-> for you to fetch changes up to 366a85e4bb748794b1ae0ca0ccc2d95f316679a0:
+> Are there any functions where I could add trace points to measure this?
+> If this occurs in the kernel I wonder if I could use an eBPF probe to
+> count the number of bytes copied?
 >
->   replay: fix icount request when replaying clock access (2021-02-16 17:15:39 +0100)
+> Apologies for the wall of questions I'm still very new to the 3D side of
+> things ;-)
 >
-> ----------------------------------------------------------------
-> * HVF fixes
-> * Extra qos-test debugging output (Christian)
-> * SEV secret address autodetection (James)
-> * SEV-ES support (Thomas)
-> * Relocatable paths bugfix (Stefan)
-> * RR fix (Pavel)
-> * EventNotifier fix (Greg)
+> --
+> Alex Benn=C3=A9e
+>
 
 
-Applied, thanks.
+--=20
+Fran=C3=A7ois-Fr=C3=A9d=C3=A9ric Ozog | *Director Linaro Edge & Fog Computi=
+ng Group*
+T: +33.67221.6485
+francois.ozog@linaro.org | Skype: ffozog
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+--0000000000006a034a05bb895032
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
--- PMM
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 17 Feb 2021 at 15:13, Alex Be=
+nn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.=
+org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border-l=
+eft-color:rgb(204,204,204);padding-left:1ex">Hi Gerd,<br>
+<br>
+I was in a discussion with the AGL folks today talking about approaches<br>
+to achieving zero-copy when running VirGL virtio guests. AIUI (which is<br>
+probably not very much) the reasons for copy can be due to a number of<br>
+reasons:<br>
+<br>
+=C2=A0 - the GPA not being mapped to a HPA that is accessible to the final =
+HW<br>
+=C2=A0 - the guest allocation of a buffer not meeting stride/alignment requ=
+irements<br>
+=C2=A0 - data needing to be transformed for consumption by the real hardwar=
+e?<br>
+<br>
+any others? Is there an impedance between different buffer resource<br>
+allocators in the guest and the guest? Is that just a problem for<br>
+non-FLOSS blob drivers in the kernel?<br>
+<br>
+I&#39;m curious if it&#39;s possible to measure the effect of these extra c=
+opies<br>
+and where do they occur? </blockquote><div>Making a good benchmark is going=
+ to be difficult. Copying has big impacts on:</div><div>- L3 pressure (pure=
+ cost of evictions and loss of &quot;sticky&quot; cache lines benefits)</di=
+v><div>- Memory request queue and prefetching</div><div>- TLB pressure</div=
+><div>Conversely, as we are in VM environments the pressure that other VMs =
+have on those resources, the jitter of the bounce copies will grow.</div><d=
+iv>(lesson learnt from high speed - &gt; 100Gbps - user pace networking)</d=
+iv><div>All this to say that a unitest may be wrongly give impression that =
+copy is not that costly.</div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;border=
+-left-color:rgb(204,204,204);padding-left:1ex">Do all resources get copied =
+from the guest buffer to<br>
+host or does this only occur when there is a mismatch in the buffer<br>
+requirements?<br>
+<br>
+Are there any functions where I could add trace points to measure this?<br>
+If this occurs in the kernel I wonder if I could use an eBPF probe to<br>
+count the number of bytes copied?<br>
+<br>
+Apologies for the wall of questions I&#39;m still very new to the 3D side o=
+f<br>
+things ;-)<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature"><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div=
+ dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"ltr"><div><div dir=3D"l=
+tr"><div><div dir=3D"ltr"><div><div><div><div dir=3D"ltr"><div dir=3D"ltr">=
+<div dir=3D"ltr"><table style=3D"font-size:small" border=3D"0" cellpadding=
+=3D"0" cellspacing=3D"0"><tbody><tr><td style=3D"padding-right:10px" valign=
+=3D"top"><img src=3D"https://drive.google.com/a/linaro.org/uc?id=3D0BxTAygk=
+us3RgQVhuNHMwUi1mYWc&amp;export=3Ddownload" width=3D"96" height=3D"53"></td=
+><td valign=3D"top"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0"=
+><tbody><tr><td style=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;=
+;white-space:nowrap;font-size:9pt;padding-top:0px;color:rgb(87,87,87)" vali=
+gn=3D"top"><span style=3D"font-weight:bold">Fran=C3=A7ois-Fr=C3=A9d=C3=A9ri=
+c Ozog</span>=C2=A0<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0<i>=
+Director Linaro Edge &amp; Fog Computing Group</i></td></tr><tr><td style=
+=3D"font-family:Arial,Helvetica,&quot;Sans Serif&quot;;white-space:nowrap;f=
+ont-size:9pt;padding-top:2px;color:rgb(87,87,87)" valign=3D"top">T:=C2=A0<a=
+ value=3D"+393384075993" style=3D"color:rgb(17,85,204)">+33.67221.6485</a><=
+br><a href=3D"mailto:francois.ozog@linaro.org" style=3D"color:rgb(87,87,87)=
+;text-decoration:none" target=3D"_blank">francois.ozog@linaro.org</a>=C2=A0=
+<span style=3D"color:rgb(161,161,161)">|</span>=C2=A0Skype:=C2=A0ffozog</td=
+></tr></tbody></table></td></tr></tbody></table></div></div></div></div></d=
+iv><div><div><br style=3D"font-size:small"></div></div></div></div></div></=
+div></div></div></div></div></div></div></div></div></div></div></div></div=
+>
+
+--0000000000006a034a05bb895032--
 
