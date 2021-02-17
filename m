@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2CF431E33B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:51:03 +0100 (CET)
-Received: from localhost ([::1]:34516 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86CD831E337
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:48:26 +0100 (CET)
+Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWb0-00034v-Ty
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:51:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50628)
+	id 1lCWYT-0008Cl-IV
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:48:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWRA-0008Ds-ES
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:52 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:42627)
+ id 1lCWRB-0008HF-MW
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:53 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:42136)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCWR7-0004ch-Rk
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:52 -0500
-Received: by mail-pg1-x531.google.com with SMTP id o38so9502133pgm.9
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:40:49 -0800 (PST)
+ id 1lCWR9-0004dQ-5c
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:40:53 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id w18so23604pfu.9
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 15:40:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=rT3fdfxLOBUZePBBIZU0/yFNFGueWion3u26dnymBfY=;
- b=OQYuTL8isULqJrBXjgnJVlNqgNrk0eKil7Vjvhiq1Op/OM3W5pRGihovrKl1p22zVd
- 61APAvQhsOjnqWkKcjP/ZWPGzG//XaOFlB3NWuJiOQz9yYKffwKRhuxpZB9IwjikxDRv
- qBdSi5IwssUGT5BQFSQBs4nwu5tn76HH+sRo+dAUnwpw07urlfBvTw788GN/8uB81wzg
- m8X7qIfmRD/KZXz25QoARpN/7ySpJK3BiOUD6Q5Hq6vtt9Nl/rk4MDch60UFow77GvLY
- QnewiY42gVHGS9yoUmO1Pdr3J8yjtYwjwfQKoUd+qecWgZtRWjCtrCJGMTYUzTpYOKWu
- gn3A==
+ bh=syEff87HhmL4pp5l8qJFx/wNBs45tn+PDuAIuUBTe6o=;
+ b=wVf25JmoVmwPwxn2dbzD53J63oqAeHHh1HjMCoM2wOTomO5v9e0npCxFvtGqbet/vg
+ 8FepejFrfpD6rSajKOCDchLI56yQTZlnqIHJkb435N4inXclmlYSm1qqvCqyl0AVW+7M
+ ZfE8drTY93SVQJQwAzgwMltNrxpWSnXKl6pr/3zy59fnUUUUsFnbtUQYUhArtPyGuqeJ
+ V3PUxO59KlQbFboVD7+oy+m0dFi/cabngjdSHvRIW9GxbXKL4uqkHosnPhruFhK8+nfU
+ 0j2Oc1HayuBU22L5VgGvvZjR50coJMwOjsFUmchufSWz6Ycw1QAqBy3K1nNjOVSaYZWF
+ qrgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=rT3fdfxLOBUZePBBIZU0/yFNFGueWion3u26dnymBfY=;
- b=k7Wj0HtqPx5DGGWaheO6fW/n1MQsuVDXswD/E2q+wUpJqs0hcnuB1CZcyO8b3kWcIP
- hJuhuqdeJP+sRRsXs66b8As4Kcf5Lp8KEt5isJdnGecINZYleT3tIcH3AEgguy1buHwm
- dI5+pJk/2l/cgaIMQEFs2H6jgI3upwTx+OI6YebKNnHyde9nzSTrYoM7/vWlVWevG+em
- d+zglp6+C0zreRawM1TLHOsBecS8g5OHglkaXjkHYVA26Jm7Rvaa6RaDnCvvefzapMOE
- 7Hc9VTuBNjwd4xU3RVBVv2BC5WENOIZI0Jqjc5WtzpigRY2S9F6u9rFD6A87vateBAeu
- 2j7A==
-X-Gm-Message-State: AOAM530/yXGFfHK6EgnuoXY7I3E0Bb9JSSIgiYzI2QCDCPzTkmKlYOZs
- 2UzQzMlEFG/4qOLG+bwq4V55pINECRKGAg==
-X-Google-Smtp-Source: ABdhPJy00T6nb1KPiVkGZkBZo02g3NvddI6TPx9RMqR1X5naE8tluCNtyU93IEyTkP78BpqAMLawrA==
-X-Received: by 2002:a62:2c50:0:b029:1b9:1846:b490 with SMTP id
- s77-20020a622c500000b02901b91846b490mr1551788pfs.76.1613605248196; 
- Wed, 17 Feb 2021 15:40:48 -0800 (PST)
+ bh=syEff87HhmL4pp5l8qJFx/wNBs45tn+PDuAIuUBTe6o=;
+ b=oMzw2j9gUaBOdB/nNMDSdyJ3onS+9jkgoqvMLu2XfftMPjAfGtNPn24x5bDGAdtM+T
+ R1hV8ze+i6u3TigfKDeoiE9hkFCxw3WMoW3D21XQeJtarV22/MON7V4fRiTgqd68lLSj
+ FHzuUwXu83mRmjttNS1hUu7D6yw1OZ1MXi7NxJ8gUl7cUzCPSNSKQWmq8z+g6156dlnO
+ yqeKFEcdleVFNLsi1wwEWlPiRX9+hQjA4PmS98Sgono2hyhRf/+LjlMav4qJSvZVM0gX
+ Yf588prCGu8/lV95d5vzNNdIsd1SbLYqemfHKPTzMd2RQtoR2Ky3EY7cphjAb5rJefm8
+ RR1w==
+X-Gm-Message-State: AOAM532cDxG8tLRiIwzF6D3hbgZKLh3pr9bzjITaJdTLamP5bKvy6Pjh
+ x3/vaauxnC75QszOEtqiybHW25jXDSluEQ==
+X-Google-Smtp-Source: ABdhPJwddW8bv1DNnWmUoXt8nkHFwKa+QSE//yf0s0tmMWkVE7IAqvTh9x8N6TsSIW2TM6b8FgY4SA==
+X-Received: by 2002:a62:bd05:0:b029:1ab:6d2:5edf with SMTP id
+ a5-20020a62bd050000b02901ab06d25edfmr1467574pff.32.1613605249782; 
+ Wed, 17 Feb 2021 15:40:49 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.46
+ by smtp.gmail.com with ESMTPSA id c21sm3950355pgh.0.2021.02.17.15.40.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 17 Feb 2021 15:40:47 -0800 (PST)
+ Wed, 17 Feb 2021 15:40:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/35] Hexagon (target/hexagon) GDB Stub
-Date: Wed, 17 Feb 2021 15:39:57 -0800
-Message-Id: <20210217234023.1742406-10-richard.henderson@linaro.org>
+Subject: [PULL 10/35] Hexagon (target/hexagon) architecture types
+Date: Wed, 17 Feb 2021 15:39:58 -0800
+Message-Id: <20210217234023.1742406-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
 References: <20210217234023.1742406-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,38 +92,24 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Taylor Simpson <tsimpson@quicinc.com>
 
-GDB register read and write routines
+Define types used in files imported from the Hexagon architecture library
 
 Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <1612763186-18161-9-git-send-email-tsimpson@quicinc.com>
+Message-Id: <1612763186-18161-10-git-send-email-tsimpson@quicinc.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/hexagon/internal.h |  2 ++
- target/hexagon/gdbstub.c  | 47 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 49 insertions(+)
- create mode 100644 target/hexagon/gdbstub.c
+ target/hexagon/hex_arch_types.h | 38 +++++++++++++++++++++++++++++++++
+ 1 file changed, 38 insertions(+)
+ create mode 100644 target/hexagon/hex_arch_types.h
 
-diff --git a/target/hexagon/internal.h b/target/hexagon/internal.h
-index c839796cd1..2da85c8606 100644
---- a/target/hexagon/internal.h
-+++ b/target/hexagon/internal.h
-@@ -28,6 +28,8 @@
- #define HEX_DEBUG_LOG(...) do { } while (0)
- #endif
- 
-+int hexagon_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
-+int hexagon_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void hexagon_debug(CPUHexagonState *env);
- 
- extern const char * const hexagon_regnames[TOTAL_PER_THREAD_REGS];
-diff --git a/target/hexagon/gdbstub.c b/target/hexagon/gdbstub.c
+diff --git a/target/hexagon/hex_arch_types.h b/target/hexagon/hex_arch_types.h
 new file mode 100644
-index 0000000000..9c8c04c961
+index 0000000000..d721e1f934
 --- /dev/null
-+++ b/target/hexagon/gdbstub.c
-@@ -0,0 +1,47 @@
++++ b/target/hexagon/hex_arch_types.h
+@@ -0,0 +1,38 @@
 +/*
 + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
 + *
@@ -141,36 +127,27 @@ index 0000000000..9c8c04c961
 + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
++#ifndef HEXAGON_ARCH_TYPES_H
++#define HEXAGON_ARCH_TYPES_H
++
 +#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "exec/gdbstub.h"
-+#include "cpu.h"
-+#include "internal.h"
++#include "qemu/int128.h"
 +
-+int hexagon_gdb_read_register(CPUState *cs, GByteArray *mem_buf, int n)
-+{
-+    HexagonCPU *cpu = HEXAGON_CPU(cs);
-+    CPUHexagonState *env = &cpu->env;
++/*
++ * These types are used by the code imported from the Hexagon
++ * architecture library.
++ */
++typedef uint8_t     size1u_t;
++typedef int8_t      size1s_t;
++typedef uint16_t    size2u_t;
++typedef int16_t     size2s_t;
++typedef uint32_t    size4u_t;
++typedef int32_t     size4s_t;
++typedef uint64_t    size8u_t;
++typedef int64_t     size8s_t;
++typedef Int128      size16s_t;
 +
-+    if (n < TOTAL_PER_THREAD_REGS) {
-+        return gdb_get_regl(mem_buf, env->gpr[n]);
-+    }
-+
-+    g_assert_not_reached();
-+}
-+
-+int hexagon_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
-+{
-+    HexagonCPU *cpu = HEXAGON_CPU(cs);
-+    CPUHexagonState *env = &cpu->env;
-+
-+    if (n < TOTAL_PER_THREAD_REGS) {
-+        env->gpr[n] = ldtul_p(mem_buf);
-+        return sizeof(target_ulong);
-+    }
-+
-+    g_assert_not_reached();
-+}
++#endif
 -- 
 2.25.1
 
