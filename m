@@ -2,70 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEE2331D3BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:22:33 +0100 (CET)
-Received: from localhost ([::1]:34970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D57C31D3C9
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 02:31:02 +0100 (CET)
+Received: from localhost ([::1]:49490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCBY0-0003Cr-DI
-	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:22:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42530)
+	id 1lCBgD-0001KA-GY
+	for lists+qemu-devel@lfdr.de; Tue, 16 Feb 2021 20:31:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCBWm-0002gb-Mi
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 20:21:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56770)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lCBWj-0005pr-MT
- for qemu-devel@nongnu.org; Tue, 16 Feb 2021 20:21:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613524871;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=K0vANPDDWd4WoHw8a4u1q0xzcFZUfC6L+RMY7qr2bAk=;
- b=Z9WDk0ZY4VUSMcpRQz5XigifEeiF9JlxkvBTRHcVFlb360bzt19VoQgXlXEYckSFlCzPJY
- cMlTAwWH/Yae8O0itVtJeYy2lSkCVQM81oOPorsujnIHk9YEEEGyln59js2ENPPAWt+ZEH
- j4D7uNPqn0b+qD/wDNQRr+y/ORQbwAs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-459-wrqBHb-VNfKujoaFKhqcLw-1; Tue, 16 Feb 2021 20:21:09 -0500
-X-MC-Unique: wrqBHb-VNfKujoaFKhqcLw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45D031E564;
- Wed, 17 Feb 2021 01:21:08 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-112-29.rdu2.redhat.com
- [10.10.112.29])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 22EF260C15;
- Wed, 17 Feb 2021 01:21:01 +0000 (UTC)
-Date: Tue, 16 Feb 2021 20:20:59 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v4 04/24] python: create utils sub-package
-Message-ID: <YCxve8e5KpN0mOfv@localhost.localdomain>
-References: <20210211185856.3975616-1-jsnow@redhat.com>
- <20210211185856.3975616-5-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lCBZO-0003qi-9Y; Tue, 16 Feb 2021 20:23:58 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:39821 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lCBZK-00061U-8h; Tue, 16 Feb 2021 20:23:58 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DgKqL6HfPz9sVF; Wed, 17 Feb 2021 12:23:42 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1613525022;
+ bh=bnpI/JdvromNodQU8PwSNaacfqkdNQ9fz76UNwr2Wnc=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=BqoWSChS6ahKSbAf1LeA/YcVaNGsCqUweJGQ0+RIkJeZbZCv9pL02PgOPSB0SAS6f
+ vpQG3akJnjZ4trNPqScCk2atoOGOhrG1jjp51UVGuC5Jq7QJaBd4QBsp4lph9S1lu2
+ 5nhvHVDNP3mM4CKX9pFNyGbyk2z/cdF7eJfL9IEo=
+Date: Wed, 17 Feb 2021 11:58:46 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v3 4/7] spapr: rename spapr_drc_detach() to
+ spapr_drc_unplug_request()
+Message-ID: <YCxqRvigvKj8Cb7p@yekko.fritz.box>
+References: <20210211225246.17315-1-danielhb413@gmail.com>
+ <20210211225246.17315-5-danielhb413@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210211185856.3975616-5-jsnow@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="/dPj2vVLyn8QAEPo"
+ protocol="application/pgp-signature"; boundary="DmqrORgae6S2UYS+"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210211225246.17315-5-danielhb413@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,149 +59,176 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---/dPj2vVLyn8QAEPo
+
+--DmqrORgae6S2UYS+
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Feb 11, 2021 at 01:58:36PM -0500, John Snow wrote:
-> Create a space for miscellaneous things that don't belong strictly in
-> "qemu.machine" nor "qemu.qmp" packages.
+On Thu, Feb 11, 2021 at 07:52:43PM -0300, Daniel Henrique Barboza wrote:
+> spapr_drc_detach() is not the best name for what the function does.
+> The function does not detach the DRC, it makes an uncommited attempt
+> to do it. It'll mark the DRC as pending unplug, via the 'unplug_request'
+> flag, and only if the DRC state is drck->empty_state it will detach the
+> DRC, via spapr_drc_release().
 >=20
-> Signed-off-by: John Snow <jsnow@redhat.com>
+> This is a contrast with its pair spapr_drc_attach(), where the function is
+> indeed creating the DRC QOM object. If you know what spapr_drc_attach()
+> does, you can be misled into thinking that spapr_drc_detach() is removing
+> the DRC from QEMU internal state, which isn't true.
+>=20
+> The current role of this function is better described as a request for
+> detach, since there's no guarantee that we're going to detach the DRC in
+> the end. Rename the function to spapr_drc_unplug_request to reflect what =
+is is
+> doing.
+>=20
+> The initial idea was to change the name to spapr_drc_detach_request(), and
+> later on change the unplug_request flag to detach_request. However,
+> unplug_request is a migratable boolean for a long time now and renaming it
+> is not worth the trouble. spapr_drc_unplug_request() setting drc->unplug_=
+request
+> is more natural than spapr_drc_detach_request setting drc->unplug_request.
+>=20
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+Good reasoning.
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
 > ---
->  python/qemu/machine/__init__.py         |  8 --------
->  python/qemu/utils/__init__.py           | 23 +++++++++++++++++++++++
->  python/qemu/{machine =3D> utils}/accel.py |  0
->  tests/acceptance/boot_linux.py          |  2 +-
->  tests/acceptance/virtio-gpu.py          |  2 +-
->  tests/acceptance/virtiofs_submounts.py  |  2 +-
->  tests/vm/aarch64vm.py                   |  2 +-
->  tests/vm/basevm.py                      |  3 ++-
->  8 files changed, 29 insertions(+), 13 deletions(-)
->  create mode 100644 python/qemu/utils/__init__.py
->  rename python/qemu/{machine =3D> utils}/accel.py (100%)
+>  hw/ppc/spapr.c             | 6 +++---
+>  hw/ppc/spapr_drc.c         | 4 ++--
+>  hw/ppc/spapr_pci.c         | 2 +-
+>  hw/ppc/trace-events        | 2 +-
+>  include/hw/ppc/spapr_drc.h | 2 +-
+>  5 files changed, 8 insertions(+), 8 deletions(-)
 >=20
-> diff --git a/python/qemu/machine/__init__.py b/python/qemu/machine/__init=
-__.py
-> index 27b0b19abd3..891a8f784b5 100644
-> --- a/python/qemu/machine/__init__.py
-> +++ b/python/qemu/machine/__init__.py
-> @@ -8,10 +8,6 @@
->   - QEMUQtestMachine: VM class, with a qtest socket.
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 85fe65f894..b066df68cb 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3654,7 +3654,7 @@ static void spapr_memory_unplug_request(HotplugHand=
+ler *hotplug_dev,
+>                                addr / SPAPR_MEMORY_BLOCK_SIZE);
+>          g_assert(drc);
 > =20
->  - QEMUQtestProtocol: Connect to, send/receive qtest messages.
-> -
-> -- list_accel: List available accelerators
-> -- kvm_available: Probe for KVM support
-> -- tcg_available: Probe for TCG support
->  """
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+>          addr +=3D SPAPR_MEMORY_BLOCK_SIZE;
+>      }
 > =20
->  # Copyright (C) 2020 John Snow for Red Hat Inc.
-> @@ -26,15 +22,11 @@
->  # the COPYING file in the top-level directory.
->  #
+> @@ -3722,7 +3722,7 @@ void spapr_core_unplug_request(HotplugHandler *hotp=
+lug_dev, DeviceState *dev,
+>      g_assert(drc);
 > =20
-> -from .accel import kvm_available, list_accel, tcg_available
->  from .machine import QEMUMachine
->  from .qtest import QEMUQtestMachine, QEMUQtestProtocol
+>      if (!spapr_drc_unplug_requested(drc)) {
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+>          spapr_hotplug_req_remove_by_index(drc);
+>      }
+>  }
+> @@ -3985,7 +3985,7 @@ static void spapr_phb_unplug_request(HotplugHandler=
+ *hotplug_dev,
+>      assert(drc);
 > =20
+>      if (!spapr_drc_unplug_requested(drc)) {
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+>          spapr_hotplug_req_remove_by_index(drc);
+>      }
+>  }
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 555a25517d..67041fb212 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -386,11 +386,11 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+>                               NULL, 0);
+>  }
 > =20
->  __all__ =3D (
-> -    'list_accel',
-> -    'kvm_available',
-> -    'tcg_available',
->      'QEMUMachine',
->      'QEMUQtestProtocol',
->      'QEMUQtestMachine',
-> diff --git a/python/qemu/utils/__init__.py b/python/qemu/utils/__init__.p=
-y
-> new file mode 100644
-> index 00000000000..edf807a93e5
-> --- /dev/null
-> +++ b/python/qemu/utils/__init__.py
-> @@ -0,0 +1,23 @@
-> +"""
-> +QEMU development and testing utilities
-> +
-> +This library provides a small handful of utilities for performing variou=
-s tasks
-> +not directly related to the launching of a VM.
-> +
-> +The only module included at present is accel; its public functions are
-> +repeated here for your convenience:
-> +
-> +- list_accel: List available accelerators
-> +- kvm_available: Probe for KVM support
-> +- tcg_available: Prove for TCG support
-> +"""
-> +
-> +# pylint: disable=3Dimport-error
-> +from .accel import kvm_available, list_accel, tcg_available
-> +
-> +
-> +__all__ =3D (
-> +    'list_accel',
-> +    'kvm_available',
-> +    'tcg_available',
-> +)
-> diff --git a/python/qemu/machine/accel.py b/python/qemu/utils/accel.py
-> similarity index 100%
-> rename from python/qemu/machine/accel.py
-> rename to python/qemu/utils/accel.py
-> diff --git a/tests/acceptance/boot_linux.py b/tests/acceptance/boot_linux=
-.py
-> index 212365fd185..824cf03d5f4 100644
-> --- a/tests/acceptance/boot_linux.py
-> +++ b/tests/acceptance/boot_linux.py
-> @@ -12,7 +12,7 @@
+> -void spapr_drc_detach(SpaprDrc *drc)
+> +void spapr_drc_unplug_request(SpaprDrc *drc)
+>  {
+>      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
 > =20
->  from avocado_qemu import Test, BUILD_DIR
+> -    trace_spapr_drc_detach(spapr_drc_index(drc));
+> +    trace_spapr_drc_unplug_request(spapr_drc_index(drc));
 > =20
-> -from qemu.machine import kvm_available, tcg_available
-> +from qemu.utils import kvm_available, tcg_available
+>      g_assert(drc->dev);
 > =20
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index 1791d98a49..9334ba5dbb 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1726,7 +1726,7 @@ static void spapr_pci_unplug_request(HotplugHandler=
+ *plug_handler,
+>              if (state =3D=3D SPAPR_DR_ENTITY_SENSE_PRESENT) {
+>                  /* Mark the DRC as requested unplug if needed. */
+>                  if (!spapr_drc_unplug_requested(func_drc)) {
+> -                    spapr_drc_detach(func_drc);
+> +                    spapr_drc_unplug_request(func_drc);
+>                  }
+>                  spapr_hotplug_req_remove_by_index(func_drc);
+>              }
+> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+> index 1e91984526..b4bbfbb013 100644
+> --- a/hw/ppc/trace-events
+> +++ b/hw/ppc/trace-events
+> @@ -50,7 +50,7 @@ spapr_drc_set_allocation_state(uint32_t index, int stat=
+e) "drc: 0x%"PRIx32", sta
+>  spapr_drc_set_allocation_state_finalizing(uint32_t index) "drc: 0x%"PRIx=
+32
+>  spapr_drc_set_configured(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_attach(uint32_t index) "drc: 0x%"PRIx32
+> -spapr_drc_detach(uint32_t index) "drc: 0x%"PRIx32
+> +spapr_drc_unplug_request(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_awaiting_quiesce(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_reset(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_realize(uint32_t index) "drc: 0x%"PRIx32
+> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> index 8982927d5c..02a63b3666 100644
+> --- a/include/hw/ppc/spapr_drc.h
+> +++ b/include/hw/ppc/spapr_drc.h
+> @@ -243,7 +243,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask);
+>   * beforehand (eg. check drc->dev at pre-plug).
+>   */
+>  void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
+> -void spapr_drc_detach(SpaprDrc *drc);
+> +void spapr_drc_unplug_request(SpaprDrc *drc);
+> =20
+>  /*
+>   * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
 
-With the latest changes merged earlier Today, this won't be necessary
-anymore on boot_linux.py, but the equivalent change will be necessary
-on tests/acceptance/avocado_qemu/__init__.py.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-With the change mentioned above (which you would catch on a rebase):
-
-Reviewed-by: Cleber Rosa <crosa@redhat.com>
-Tested-by: Cleber Rosa <crosa@redhat.com>
-
---/dPj2vVLyn8QAEPo
+--DmqrORgae6S2UYS+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAsb3gACgkQZX6NM6Xy
-CfN03w/7BQn+KPvZ5QKB/JvJfX8DOHwFa1rA90yA5ha2KfKlkWltOcGznSRs96aX
-OXwptuh7XvwCQQRCYTPT/c2C0apCabFXscReqC8CtYtmYHZ9oe2Kes8EPTY3QvLE
-2D619TyNwx16sJLitdg8gt3GAimiQ6DQiw0aycBU8BBby91JVS/8XJ43gYqOS5Rj
-0pau0fYkIhOETrxck/aeMrqzU120XfXjQcwV9OHLlhYC/vdKJm4ji+MS/DTQPPSO
-i3LSq3/Ofu4H+8vTJAL6deXGWmIMW+U6PfH3zjcy655EqPZY6DDapP0DEuMVKbF5
-zoOt8vauPJUrGrXzlY9QAsdR4WwuImOgtScyGQ9eRJaQJByJIiJUH4vs4Rvkib6B
-mN1TuN2t7pHBUG/NiFrVt8aYG50+lBrNGovrheHxFH++4atr6QQBGxrLmk8RVYDh
-OV6mtj+OoT3aI4Cytbp8Jsn6CmJvR0QDsPOWGuMILIeMqUK4WFjyR4NThxNYc4k7
-YmxBmLpTh3fHV1e/yJWgnK09N+1thDQ0gFTfnI7OJj+kJwRvndY47Wl6zkRIniwB
-suDjy8sbRcnktEr3TT7hZiDFsaHzDKe8zaF/pLLsMG1xeeDIlOwFzvzwZ70W2AN1
-38Z5RjE4hvk7V5Qj9r2zYJeZq3xjFFpoCCwtGFso5ueDZH7eMmw=
-=rkF3
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAsakYACgkQbDjKyiDZ
+s5KQtw/+P6MeKDxmacCgTP9bDc8CxUFeoJLz5uJWyMSMzfRxzFfZulH5RYRcYzSl
+wz87e/X9SKskSlaUoMjWjn/q+KCVzV6PvcOHEqCHP7ktx3cu6mKrxDR4msts7KMe
+XNcMB22+EW58wm+iXOaNpfLSjn5pIk9abgS7INhqA1p+3GblQ4v2/X4ck7EPHoKk
+HxLScRQkWcak1NbY+bt/at7K3MJcMGQ/urFLCrC+Z2Lw8qOT0+n/XvEL4eRk+Gxp
+YnDSSQ/zzBmTrVX9gLTCvbsjKuELM047govNNE9D4B1srT9TD9ij/HtjcojYB2uY
+JXdwXaz8gY76cHHI7EHX4ZNkFn7RX0kB2ECqlu4JCFEwtfo/iIH9BW/YJsULFykU
+mCXZyIGQTuPBm0+HTtKiNlv1oZ2j0I0YKAgsvP4eKv8YQyhKfwNwJh8b7GdIwqz/
+1GtW4d+Ub3U/+V1rw3PxklVC/6t8PQJI7BT/CTh43VVvjF18CKTRvBFQsmrTSel1
+sFKReibazLXlwDv69f5+ugMZlo8WwkvJOYzbACjjMKbQcDv3bX6q0eg5Wdnn5bKO
+2EsR8usoUB3FTXto+jEeVjcKUtG80x7UIV8B7ArA+CouTRFg1BVM7QDNMcz1EITH
+dyK68TBthpyaW02HEc9g3h2A82T13XsF62TSApJ1sN8RLnota/s=
+=xaSj
 -----END PGP SIGNATURE-----
 
---/dPj2vVLyn8QAEPo--
-
+--DmqrORgae6S2UYS+--
 
