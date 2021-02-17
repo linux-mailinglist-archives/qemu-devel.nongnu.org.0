@@ -2,52 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3CD31DD94
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 17:46:10 +0100 (CET)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ADCB31DD89
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 17:44:45 +0100 (CET)
+Received: from localhost ([::1]:42376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCPxp-0000U4-OH
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 11:46:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33060)
+	id 1lCPwS-0007QB-Av
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 11:44:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lCPsf-0005Sv-NX
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:40:49 -0500
-Received: from zangief.bwidawsk.net ([107.170.211.233]:52508
- helo=mail.bwidawsk.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1lCPsd-0000n9-9l
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:40:49 -0500
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id D137A1257BD; Wed, 17 Feb 2021 08:40:44 -0800 (PST)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id 5D6AD1257B9;
- Wed, 17 Feb 2021 08:40:34 -0800 (PST)
-Date: Wed, 17 Feb 2021 08:40:32 -0800
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH v3 02/31] hw/cxl/component: Introduce CXL components
- (8.1.x, 8.2.5)
-Message-ID: <20210217164032.5vttw23k76743vxh@mail.bwidawsk.net>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210202005948.241655-3-ben.widawsky@intel.com>
- <20210211170845.0000451d@Huawei.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCPu4-0006BE-HE
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:42:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34439)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCPu2-0001Ln-77
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 11:42:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613580133;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8jwG3HhqRofAoDRkYDZT9y9mj58pFYD6sbMtJA1HemU=;
+ b=YPK5sOkYMnXtwoubTdH9XaFhEVA5PxLqiX4gyTtKOIPgxi0rVf7Gfjx8I5UvsbmY8G6kAk
+ jF94F02kKmtPM4m4/gh9pYRxvlxgWIx30xtfIXvpVmC/J3s/FKtgYPmtd05u4+kBDJ3DQc
+ CUQXJ6YxoCpg3a5VXeQWCWoCzw1jA8c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-fwWAFlERMcGd5Zi0YZaW7A-1; Wed, 17 Feb 2021 11:42:11 -0500
+X-MC-Unique: fwWAFlERMcGd5Zi0YZaW7A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE872801978;
+ Wed, 17 Feb 2021 16:42:09 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F3F065D9C2;
+ Wed, 17 Feb 2021 16:42:04 +0000 (UTC)
+Subject: Re: [PATCH v4 18/24] python/qemu: add qemu package itself to pipenv
+To: Cleber Rosa <crosa@redhat.com>
+References: <20210211185856.3975616-1-jsnow@redhat.com>
+ <20210211185856.3975616-19-jsnow@redhat.com>
+ <YCyf6YQ72ZGxP8Gv@localhost.localdomain>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <eaa2c2f6-1d47-f1c9-5eba-48c754a3a3d4@redhat.com>
+Date: Wed, 17 Feb 2021 11:42:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210211170845.0000451d@Huawei.com>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YCyf6YQ72ZGxP8Gv@localhost.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,299 +82,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-11 17:08:45, Jonathan Cameron wrote:
-> On Mon, 1 Feb 2021 16:59:19 -0800
-> Ben Widawsky <ben.widawsky@intel.com> wrote:
+On 2/16/21 11:47 PM, Cleber Rosa wrote:
+> On Thu, Feb 11, 2021 at 01:58:50PM -0500, John Snow wrote:
+>> This adds the python qemu packages themselves to the pipenv manifest.
+>> 'pipenv sync' will create a virtual environment sufficient to use the SDK.
+>> 'pipenv sync --dev' will create a virtual environment sufficient to use
+>> and test the SDK (with pylint, mypy, isort, flake8, etc.)
+>>
+>> The qemu packages are installed in 'editable' mode; all changes made to
+>> the python package inside the git tree will be reflected in the
+>> installed package without reinstallation. This includes changes made
+>> via git pull and so on.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   python/Pipfile      | 1 +
+>>   python/Pipfile.lock | 9 +++++++--
+>>   2 files changed, 8 insertions(+), 2 deletions(-)
+>>
 > 
-> > A CXL 2.0 component is any entity in the CXL topology. All components
-> > have a analogous function in PCIe. Except for the CXL host bridge, all
-> > have a PCIe config space that is accessible via the common PCIe
-> > mechanisms. CXL components are enumerated via DVSEC fields in the
-> > extended PCIe header space. CXL components will minimally implement some
-> > subset of CXL.mem and CXL.cache registers defined in 8.2.5 of the CXL
-> > 2.0 specification. Two headers and a utility library are introduced to
-> > support the minimum functionality needed to enumerate components.
-> > 
-> > The cxl_pci header manages bits associated with PCI, specifically the
-> > DVSEC and related fields. The cxl_component.h variant has data
-> > structures and APIs that are useful for drivers implementing any of the
-> > CXL 2.0 components. The library takes care of making use of the DVSEC
-> > bits and the CXL.[mem|cache] registers. Per spec, the registers are
-> > little endian.
-> > 
-> > None of the mechanisms required to enumerate a CXL capable hostbridge
-> > are introduced at this point.
-> > 
-> > Note that the CXL.mem and CXL.cache registers used are always 4B wide.
-> > It's possible in the future that this constraint will not hold.
-> > 
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> A few additions to previous comments.
-
-Thanks for continuing to look.
-
-> 
-> > ---
-> >  MAINTAINERS                    |   6 +
-> >  hw/Kconfig                     |   1 +
-> >  hw/cxl/Kconfig                 |   3 +
-> >  hw/cxl/cxl-component-utils.c   | 208 +++++++++++++++++++++++++++++++++
-> >  hw/cxl/meson.build             |   3 +
-> >  hw/meson.build                 |   1 +
-> >  include/hw/cxl/cxl.h           |  17 +++
-> >  include/hw/cxl/cxl_component.h | 187 +++++++++++++++++++++++++++++
-> >  include/hw/cxl/cxl_pci.h       | 138 ++++++++++++++++++++++
-> >  9 files changed, 564 insertions(+)
-> >  create mode 100644 hw/cxl/Kconfig
-> >  create mode 100644 hw/cxl/cxl-component-utils.c
-> >  create mode 100644 hw/cxl/meson.build
-> >  create mode 100644 include/hw/cxl/cxl.h
-> >  create mode 100644 include/hw/cxl/cxl_component.h
-> >  create mode 100644 include/hw/cxl/cxl_pci.h
-> > 
-> 
-> 
-> > diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-> > new file mode 100644
-> > index 0000000000..8d56ad5c7d
-> > --- /dev/null
-> > +++ b/hw/cxl/cxl-component-utils.c
-> > @@ -0,0 +1,208 @@
-> > +/*
-> > + * CXL Utility library for components
-> > + *
-> > + * Copyright(C) 2020 Intel Corporation.
-> > + *
-> > + * This work is licensed under the terms of the GNU GPL, version 2. See the
-> > + * COPYING file in the top-level directory.
-> > + */
-> > +
-> > +#include "qemu/osdep.h"
-> > +#include "qemu/log.h"
-> > +#include "hw/pci/pci.h"
-> > +#include "hw/cxl/cxl.h"
-> > +
-> > +static uint64_t cxl_cache_mem_read_reg(void *opaque, hwaddr offset,
-> > +                                       unsigned size)
-> > +{
-> > +    CXLComponentState *cxl_cstate = opaque;
-> > +    ComponentRegisters *cregs = &cxl_cstate->crb;
-> > +
-> > +    assert(size == 4);
-> > +
-> > +    if (cregs->special_ops && cregs->special_ops->read) {
-> > +        return cregs->special_ops->read(cxl_cstate, offset, size);
-> > +    } else {
-> > +        return cregs->cache_mem_registers[offset / 4];
-> > +    }
-> > +}
-> > +
-> > +static void cxl_cache_mem_write_reg(void *opaque, hwaddr offset, uint64_t value,
-> > +                                    unsigned size)
-> > +{
-> > +    CXLComponentState *cxl_cstate = opaque;
-> > +    ComponentRegisters *cregs = &cxl_cstate->crb;
-> > +
-> > +    assert(size == 4);
-> > +
-> > +    if (cregs->special_ops && cregs->special_ops->write) {
-> > +        cregs->special_ops->write(cxl_cstate, offset, value, size);
-> > +    } else {
-> > +        cregs->cache_mem_registers[offset / 4] = value;
-> > +    }
-> > +}
-> > +
-> > +/*
-> > + * 8.2.3
-> > + *   The access restrictions specified in Section 8.2.2 also apply to CXL 2.0
-> > + *   Component Registers.
-> > + *
-> > + * 8.2.2
-> > + *   • A 32 bit register shall be accessed as a 4 Bytes quantity. Partial
-> > + *   reads are not permitted.
-> > + *   • A 64 bit register shall be accessed as a 8 Bytes quantity. Partial
-> > + *   reads are not permitted.
-> > + *
-> > + * As of the spec defined today, only 4 byte registers exist.
-> 
-> The exciting exception to this is the RAS header log which is
-> defined as 512 bits.  Will seek clarification but I think the spec should
-> probably say that is a set of 32 bit registers.
-> 
-> A bunch of the other elements that we probably want to block in plausible
-> values for also seem to use 64 bit registers.
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+> Tested-by: Cleber Rosa <crosa@redhat.com>
 > 
 
-IIRC, it was only the link caps, but I can look again. (I don't ever intend to
-emulate link caps). The RAS log was a mistake...
+Thanks for the reviews so far!
 
-FWIW, I bunch of feedback about a few of register mixups in this vein and I
-think there's been errata published but it was before I was sitting in on the
-consortium calls, so I'm not sure.
-
-> > + */
-> > +static const MemoryRegionOps cache_mem_ops = {
-> > +    .read = cxl_cache_mem_read_reg,
-> > +    .write = cxl_cache_mem_write_reg,
-> > +    .endianness = DEVICE_LITTLE_ENDIAN,
-> > +    .valid = {
-> > +        .min_access_size = 4,
-> > +        .max_access_size = 4,
-> > +        .unaligned = false,
-> > +    },
-> > +    .impl = {
-> > +        .min_access_size = 4,
-> > +        .max_access_size = 4,
-> > +    },
-> > +};
-> > +
-> 
-> ..
-> > +
-> > +void cxl_component_register_init_common(uint32_t *reg_state, enum reg_type type)
-> > +{
-> > +    int caps = 0;
-> > +    switch (type) {
-> > +    case CXL2_DOWNSTREAM_PORT:
-> > +    case CXL2_DEVICE:
-> > +        /* CAP, RAS, Link */
-> > +        caps = 2;
-> > +        break;
-> > +    case CXL2_UPSTREAM_PORT:
-> > +    case CXL2_TYPE3_DEVICE:
-> > +    case CXL2_LOGICAL_DEVICE:
-> > +        /* + HDM */
-> > +        caps = 3;
-> > +        break;
-> > +    case CXL2_ROOT_PORT:
-> > +        /* + Extended Security, + Snoop */
-> > +        caps = 5;
-> > +        break;
-> > +    default:
-> > +        abort();
-> > +    }
-> > +
-> > +    memset(reg_state, 0, 0x1000);
-> > +
-> > +    /* CXL Capability Header Register */
-> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ID, 1);
-> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, VERSION, 1);
-> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, CACHE_MEM_VERSION, 1);
-> > +    ARRAY_FIELD_DP32(reg_state, CXL_CAPABILITY_HEADER, ARRAY_SIZE, caps);
-> > +
-> > +
-> > +#define init_cap_reg(reg, id, version)                                        \
-> > +    _Static_assert(CXL_##reg##_REGISTERS_OFFSET != 0, "Invalid cap offset\n");\
-> > +    do {                                                                      \
-> > +        int which = R_CXL_##reg##_CAPABILITY_HEADER;                          \
-> > +        reg_state[which] = FIELD_DP32(reg_state[which],                       \
-> > +                                      CXL_##reg##_CAPABILITY_HEADER, ID, id); \
-> > +        reg_state[which] =                                                    \
-> > +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER,       \
-> > +                       VERSION, version);                                     \
-> > +        reg_state[which] =                                                    \
-> > +            FIELD_DP32(reg_state[which], CXL_##reg##_CAPABILITY_HEADER, PTR,  \
-> > +                       CXL_##reg##_REGISTERS_OFFSET);                         \
-> > +    } while (0)
-> 
-> Seems like this would be cleaner using ARRAY_FIELD_DP32 as you did for the header.
-> 
->     #define init_cap_reg(reg, id, version)                                        \
->         _Static_assert(CXL_##reg##_REGISTERS_OFFSET != 0, "Invalid cap offset\n");\
->         do {                                                                    \
->             ARRAY_FIELD_DP32(reg_state, CXL_##reg##_CAPABILITY_HEADER, ID, id); \
->             ARRAY_FIELD_DP32(reg_state, CXL_##reg##_CAPABILITY_HEADER,          \
->                              VERSION, version);                                 \
->             ARRAY_FIELD_DP32(reg_state, CXL_##reg##_CAPABILITY_HEADER,          \
->                              PTR, CXL_##reg##_REGISTRS_OFFSET);                 \
-> 	} while (0)
-> I think gives the same result.
-> 
-
-I think it looks better too. I don't remember why I didn't do this.
-
-Could I entice you to send a tested patch to change it? I'll gladly put it on
-top. I'm trying to not mess with the original patches at this point and do
-everything on top, until someone yells to squash it in.
-
-> > +
-> > +    init_cap_reg(RAS, 2, 1);
-> > +    ras_init_common(reg_state);
-> > +
-> > +    init_cap_reg(LINK, 4, 2);
-> 
-> Feels like we'll want to block some values for the rest of these to at least
-> ensure whatever is read isn't crazy.
-> 
-
-Yep. I've pretty much left everything as a TODO in the component register block.
-I only did RAS as an example on how one would add things, but then I ended up
-adding HDM as a better example.
-
-Would be good as part of the "project plan" to identify what registers are
-interesting to implement.
-
-> > +
-> > +    if (caps < 3) {
-> > +        return;
-> > +    }
-> > +
-> > +    init_cap_reg(HDM, 5, 1);
-> > +    hdm_init_common(reg_state);
-> > +
-> > +    if (caps < 5) {
-> > +        return;
-> > +    }
-> > +
-> > +    init_cap_reg(EXTSEC, 6, 1);
-> > +    init_cap_reg(SNOOP, 8, 1);
-> > +
-> > +#undef init_cap_reg
-> > +}
-> > +
-> > +/*
-> > + * Helper to creates a DVSEC header for a CXL entity. The caller is responsible
-> > + * for tracking the valid offset.
-> > + *
-> > + * This function will build the DVSEC header on behalf of the caller and then
-> > + * copy in the remaining data for the vendor specific bits.
-> > + */
-> > +void cxl_component_create_dvsec(CXLComponentState *cxl, uint16_t length,
-> > +                                uint16_t type, uint8_t rev, uint8_t *body)
-> > +{
-> > +    PCIDevice *pdev = cxl->pdev;
-> > +    uint16_t offset = cxl->dvsec_offset;
-> > +
-> > +    assert(offset >= PCI_CFG_SPACE_SIZE &&
-> > +           ((offset + length) < PCI_CFG_SPACE_EXP_SIZE));
-> > +    assert((length & 0xf000) == 0);
-> > +    assert((rev & ~0xf) == 0);
-> > +
-> > +    /* Create the DVSEC in the MCFG space */
-> > +    pcie_add_capability(pdev, PCI_EXT_CAP_ID_DVSEC, 1, offset, length);
-> > +    pci_set_long(pdev->config + offset + PCIE_DVSEC_HEADER1_OFFSET,
-> > +                 (length << 20) | (rev << 16) | CXL_VENDOR_ID);
-> > +    pci_set_word(pdev->config + offset + PCIE_DVSEC_ID_OFFSET, type);
-> > +    memcpy(pdev->config + offset + sizeof(struct dvsec_header),
-> > +           body + sizeof(struct dvsec_header),
-> > +           length - sizeof(struct dvsec_header));
-> > +
-> > +    /* Update state for future DVSEC additions */
-> > +    range_init_nofail(&cxl->dvsecs[type], cxl->dvsec_offset, length);
-> > +    cxl->dvsec_offset += length;
-> > +}
-> ...
-> 
-> 
 
