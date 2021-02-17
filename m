@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B629031D95C
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:26:29 +0100 (CET)
-Received: from localhost ([::1]:54378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE99A31D99B
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 13:39:50 +0100 (CET)
+Received: from localhost ([::1]:34062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCLuW-0001LP-Qn
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:26:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56044)
+	id 1lCM7J-0005mt-AQ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 07:39:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCLrt-0008IM-Ng
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:23:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33517)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCM5V-0005NP-Da
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:37:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCLrr-0001Wm-9x
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:23:44 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCM5T-0005VS-5p
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 07:37:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613564621;
+ s=mimecast20190719; t=1613565465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ck7ZyuX8zuuYttT6uOY59rxz59GKxUFmJHy1jdC5BnY=;
- b=Sy4e9CQanbPuEhyA4vJ4X24yP7NpSgbOyntByYhddCD130Bs/gFnrylaCKh/dhA1gPyf0h
- vASUrabkK3DEpXwda22PmXRrdYIiKYf5U1PYckXw4VnRjsZf4jDn7zCcs6Tv3Zal4dkQgm
- SMfDPl/EIFteRse5O4YiaXeX8SOfMtE=
+ bh=sJam4jX2YLcS5UIs+M/34JjdEp7cYluV/0Adss19Es0=;
+ b=XmnigZdMM5/u6Mbs1ehL7RfITqkHfE+bWixQIADZqVYPnKDSFwtaL2rU72Ag1HVIWPbZqP
+ J3QQYDWVRSj7LOyxtyu5pA0lONBsHPUVT4c3H0FG4nfJy85GwcEN8RTJKvofAqfniIQ4tP
+ lmreZ6q1HuYDV0X6C+Svhxi/ZdHz0Vg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-149-zFajqsbRMIGaefozPBOn1w-1; Wed, 17 Feb 2021 07:23:38 -0500
-X-MC-Unique: zFajqsbRMIGaefozPBOn1w-1
+ us-mta-141-miSaR6TRP66-vLgX8XHpNA-1; Wed, 17 Feb 2021 07:37:43 -0500
+X-MC-Unique: miSaR6TRP66-vLgX8XHpNA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0109080196C
- for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:23:36 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C655E60DA1;
- Wed, 17 Feb 2021 12:23:36 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4AD83113860F; Wed, 17 Feb 2021 13:23:35 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH v2 6/6] tests/qapi-schema: Test cases for aliases
-References: <20210211183118.422036-1-kwolf@redhat.com>
- <20210211183118.422036-7-kwolf@redhat.com>
- <87eehgrqn9.fsf@dusky.pond.sub.org>
- <20210216153158.GB5282@merkur.fritz.box>
- <87im6sq9ad.fsf@dusky.pond.sub.org>
-Date: Wed, 17 Feb 2021 13:23:35 +0100
-In-Reply-To: <87im6sq9ad.fsf@dusky.pond.sub.org> (Markus Armbruster's message
- of "Tue, 16 Feb 2021 17:14:50 +0100")
-Message-ID: <878s7mvq60.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84397107ACED
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 12:37:42 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 575046F968;
+ Wed, 17 Feb 2021 12:37:39 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 9DF6A18000A2; Wed, 17 Feb 2021 13:37:37 +0100 (CET)
+Date: Wed, 17 Feb 2021 13:37:37 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: marcandre.lureau@redhat.com
+Subject: Re: [PATCH 1/2] spice: flush on GL update before notifying client
+Message-ID: <20210217123737.wvs3vtlr4f3j4ty4@sirius.home.kraxel.org>
+References: <20210216092056.2301293-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
+In-Reply-To: <20210216092056.2301293-1-marcandre.lureau@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -83,66 +80,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+On Tue, Feb 16, 2021 at 01:20:55PM +0400, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> Since the introduction of spice/virgl support in commit
+> 474114b7 ("spice: add opengl/virgl/dmabuf support"), the drawing isn't
+> being flushed before notifying the client. This results in
+> outdated/sluggish drawing on client side, in particular when using the
+> Linux console.
 
-> Kevin Wolf <kwolf@redhat.com> writes:
->
->> Am 16.02.2021 um 16:14 hat Markus Armbruster geschrieben:
->>> Kevin Wolf <kwolf@redhat.com> writes:
->>> 
->>> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
->>> [...]
->>> > diff --git a/tests/qapi-schema/alias-name-bad-type.err b/tests/qapi-schema/alias-name-bad-type.err
->>> > new file mode 100644
->>> > index 0000000000..489f45ff9b
->>> > --- /dev/null
->>> > +++ b/tests/qapi-schema/alias-name-bad-type.err
->>> > @@ -0,0 +1,2 @@
->>> > +alias-name-bad-type.json: In struct 'AliasStruct0':
->>> > +alias-name-bad-type.json:1: alias member 'name' requires a string name
->>> 
->>> Would "'aliases' member 'name'..." be more consistent?
->>
->> 'aliases' is a list, not a single alias definition, so technically it
->> would have to be "'aliases' member member 'name'...", which I feel is a
->> bit too confusing.
->
-> Indeed.
->
-> I think glossing over the list is excusable.
->
->> I think I have consistently used "alias" for "'aliases' member"
->> everywhere, though. At least, that was the intention.
->
-> A different way of glossing over details.  Should do as well.  I'll
-> double-check consistency.
+> +    glFlush();
 
-I did, and it looks okay:
+Nice catch.  Older mesa versions must have been less picky on correct
+flushing, it used to work fine a while ago.
 
-    $ grep "'alias" *err
-    alias-bad-type.err:alias-bad-type.json:1: 'aliases' members must be objects
+Both patches queued up for UI.
 
-Okay; we are talking about members of array 'aliases' here.
-
-    alias-missing-source.err:alias-missing-source.json:1: 'aliases' member misses key 'source'
-
-Likewise.
-
-    alias-unknown-key.err:alias-unknown-key.json:1: 'aliases' member has unknown key 'known'
-
-Likewise.
-
-    aliases-bad-type.err:aliases-bad-type.json:1: 'aliases' must be an array
-
-Okay; we are talking about 'aliases'.
-
-    double-type.err:Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
-    unknown-expr-key.err:Valid keys are 'aliases', 'base', 'data', 'features', 'if', 'struct'.
-
-Okay.
+thanks,
+  Gerd
 
 
