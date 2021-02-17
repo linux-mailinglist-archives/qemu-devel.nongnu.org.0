@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF06031E305
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:33:26 +0100 (CET)
-Received: from localhost ([::1]:55110 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CBC531E30E
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 00:36:13 +0100 (CET)
+Received: from localhost ([::1]:60528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCWJx-0004GW-9n
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:33:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49066)
+	id 1lCWMe-0006cT-Cd
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 18:36:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCWHp-0003Jj-9d
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:31:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27603)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCWHr-0003KC-Hg
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:31:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:58071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCWHn-0001wh-0U
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:31:12 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCWHn-0001x9-GR
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 18:31:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613604669;
+ s=mimecast20190719; t=1613604670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=RUywOC7zU1QlvKAYnLafPlRD1ZeRDXLN1fTwdcZuU7M=;
- b=bjzzZ41S7eDPNSdgpKkm0t6acLqega6v2jfnXs1cfPH0q9CivbtvXW07QDFrh8B3V6im4n
- VRCzJDBvPMGcJVjgAW5FVBxNYaz0DfAXfw+Le32ArPgUb/k0LIxscXkH683sWpgEiVj37w
- t4s3c2vkVH0ckwl1M3/1o/YIs9YYItA=
+ bh=dS6KKlQKUACxELoYCB2A8lFqSJBsp/YYMoDG2Dxbw2c=;
+ b=cCRVa0DheE47rwxkbz5Ws+FIi0XyU8qfu6Uqxrp1l9cH3s8YHFvu/qdy1UTDzojn0b2qSr
+ AkT1D/R4noqJK+wOxOjuTiNxauGyW3wmT30Z65An79SxAbzRdnV93NTdAOrRotvHFFSFXS
+ PzkMihPyDFRZfUDvZiK6gWU3cKS/PTY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-422-UZlayPIBP8y7QLfnCMfbhA-1; Wed, 17 Feb 2021 18:31:07 -0500
-X-MC-Unique: UZlayPIBP8y7QLfnCMfbhA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-36-ExK7csTDO3KeMD03zffcug-1; Wed, 17 Feb 2021 18:31:06 -0500
+X-MC-Unique: ExK7csTDO3KeMD03zffcug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE721107ACE3;
- Wed, 17 Feb 2021 23:31:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92370107ACC7;
+ Wed, 17 Feb 2021 23:31:04 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-114-123.rdu2.redhat.com [10.10.114.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6EF2510023AC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6EBF519C46;
  Wed, 17 Feb 2021 23:30:58 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id EE32E223D99; Wed, 17 Feb 2021 18:30:57 -0500 (EST)
+ id F3065225FCD; Wed, 17 Feb 2021 18:30:57 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH v2 2/3] virtiofsd: Add umask to seccom allow list
-Date: Wed, 17 Feb 2021 18:30:45 -0500
-Message-Id: <20210217233046.81418-3-vgoyal@redhat.com>
+Subject: [PATCH v2 3/3] virtiofsd: Change umask if posix acls are enabled
+Date: Wed, 17 Feb 2021 18:30:46 -0500
+Message-Id: <20210217233046.81418-4-vgoyal@redhat.com>
 In-Reply-To: <20210217233046.81418-1-vgoyal@redhat.com>
 References: <20210217233046.81418-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,25 +84,151 @@ Cc: lhenriques@suse.de, stefanha@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Next patch is going to make use of "umask" syscall. So allow it.
+When parent directory has default acl and a file is created in that
+directory, then umask is ignored and final file permissions are
+determined using default acl instead. (man 2 umask).
 
+Currently, fuse applies the umask and sends modified mode in create
+request accordingly. fuse server can set FUSE_DONT_MASK and tell
+fuse client to not apply umask and fuse server will take care of
+it as needed.
+
+With posix acls enabled, requirement will be that we want umask
+to determine final file mode if parent directory does not have
+default acl.
+
+So if posix acls are enabled, opt in for FUSE_DONT_MASK. virtiofsd
+will set umask of the thread doing file creation. And host kernel
+should use that umask if parent directory does not have default
+acls, otherwise umask does not take affect.
+
+Miklos mentioned that we already call unshare(CLONE_FS) for
+every thread. That means umask has now become property of per
+thread and it should be ok to manipulate it in file creation path.
+
+So this patch opts in for FUSE_DONT_MASK if posix acls are enabled
+and changes umask to caller umask before file creation and restores
+original umask after file creation is done.
+
+This should fix fstest generic/099.
+
+Reported-by: Luis Henriques <lhenriques@suse.de>
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/passthrough_seccomp.c | 1 +
- 1 file changed, 1 insertion(+)
+ tools/virtiofsd/passthrough_ll.c | 26 +++++++++++++++++++-------
+ 1 file changed, 19 insertions(+), 7 deletions(-)
 
-diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-index 62441cfcdb..f49ed94b5e 100644
---- a/tools/virtiofsd/passthrough_seccomp.c
-+++ b/tools/virtiofsd/passthrough_seccomp.c
-@@ -114,6 +114,7 @@ static const int syscall_allowlist[] = {
-     SCMP_SYS(utimensat),
-     SCMP_SYS(write),
-     SCMP_SYS(writev),
-+    SCMP_SYS(umask),
+diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+index 26cdfbd1f0..f92737b7bb 100644
+--- a/tools/virtiofsd/passthrough_ll.c
++++ b/tools/virtiofsd/passthrough_ll.c
+@@ -120,6 +120,7 @@ struct lo_inode {
+ struct lo_cred {
+     uid_t euid;
+     gid_t egid;
++    mode_t umask;
  };
  
- /* Syscalls used when --syslog is enabled */
+ enum {
+@@ -170,6 +171,8 @@ struct lo_data {
+     int proc_self_fd;
+     int user_killpriv_v2, killpriv_v2;
+     int user_posix_acl;
++    /* If set, virtiofsd is responsible for setting umask during creation */
++    bool change_umask;
+ };
+ 
+ static const struct fuse_opt lo_opts[] = {
+@@ -672,7 +675,8 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+          * in fuse_lowlevel.c
+          */
+         fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
+-        conn->want |= FUSE_CAP_POSIX_ACL;
++        conn->want |= FUSE_CAP_POSIX_ACL | FUSE_CAP_DONT_MASK;
++        lo->change_umask = true;
+     } else {
+         /*
+          * Either user specified to disable posix_acl, or did not specify
+@@ -680,6 +684,7 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
+          */
+         fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
+         conn->want &= ~FUSE_CAP_POSIX_ACL;
++        lo->change_umask = false;
+     }
+ }
+ 
+@@ -1095,7 +1100,8 @@ static void lo_lookup(fuse_req_t req, fuse_ino_t parent, const char *name)
+  * ownership of caller.
+  * TODO: What about selinux context?
+  */
+-static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
++static int lo_change_cred(fuse_req_t req, struct lo_cred *old,
++                          bool change_umask)
+ {
+     int res;
+ 
+@@ -1115,11 +1121,14 @@ static int lo_change_cred(fuse_req_t req, struct lo_cred *old)
+         return errno_save;
+     }
+ 
++    if (change_umask) {
++        old->umask = umask(req->ctx.umask);
++    }
+     return 0;
+ }
+ 
+ /* Regain Privileges */
+-static void lo_restore_cred(struct lo_cred *old)
++static void lo_restore_cred(struct lo_cred *old, bool restore_umask)
+ {
+     int res;
+ 
+@@ -1134,6 +1143,9 @@ static void lo_restore_cred(struct lo_cred *old)
+         fuse_log(FUSE_LOG_ERR, "setegid(%u): %m\n", old->egid);
+         exit(1);
+     }
++
++    if (restore_umask)
++        umask(old->umask);
+ }
+ 
+ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+@@ -1158,7 +1170,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+         return;
+     }
+ 
+-    saverr = lo_change_cred(req, &old);
++    saverr = lo_change_cred(req, &old, lo->change_umask && !S_ISLNK(mode));
+     if (saverr) {
+         goto out;
+     }
+@@ -1167,7 +1179,7 @@ static void lo_mknod_symlink(fuse_req_t req, fuse_ino_t parent,
+ 
+     saverr = errno;
+ 
+-    lo_restore_cred(&old);
++    lo_restore_cred(&old, lo->change_umask && !S_ISLNK(mode));
+ 
+     if (res == -1) {
+         goto out;
+@@ -1848,7 +1860,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+         return;
+     }
+ 
+-    err = lo_change_cred(req, &old);
++    err = lo_change_cred(req, &old, lo->change_umask);
+     if (err) {
+         goto out;
+     }
+@@ -1859,7 +1871,7 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+     fd = openat(parent_inode->fd, name, fi->flags | O_CREAT | O_EXCL, mode);
+     err = fd == -1 ? errno : 0;
+ 
+-    lo_restore_cred(&old);
++    lo_restore_cred(&old, lo->change_umask);
+ 
+     /* Ignore the error if file exists and O_EXCL was not given */
+     if (err && (err != EEXIST || (fi->flags & O_EXCL))) {
 -- 
 2.25.4
 
