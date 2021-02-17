@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA7F31D9EB
-	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:03:32 +0100 (CET)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A819A31D9EC
+	for <lists+qemu-devel@lfdr.de>; Wed, 17 Feb 2021 14:04:28 +0100 (CET)
+Received: from localhost ([::1]:55668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCMUN-0006r3-J6
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:03:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36944)
+	id 1lCMVH-00081z-PQ
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 08:04:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lCMSg-0005wZ-59
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:01:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lCMSd-0004N4-Kk
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:01:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613566902;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XIThSsbUjDdWjx/9SU7T/XKx8itj2Smth98HnG4qOis=;
- b=Ab9OZCNqjrROd6ghdKEANsX0hLiTB9++QzvA3DcIc6MYB7uCM6E/8cNxQTnE7aI/S5rmZm
- hthXm7OvOaifblWd0D0QWZDutGAEZT4mmEqNelADez/k5yyDgXjGwOTnAneiDUKmc2lxqn
- 2T87Eyynv1omDYJSyL7o4pCyL9kIY1A=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-eMe8E2DTOMCdqLF5J46xQg-1; Wed, 17 Feb 2021 08:01:38 -0500
-X-MC-Unique: eMe8E2DTOMCdqLF5J46xQg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C10D41005501;
- Wed, 17 Feb 2021 13:01:36 +0000 (UTC)
-Received: from localhost (ovpn-115-102.ams2.redhat.com [10.36.115.102])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E0F36A8ED;
- Wed, 17 Feb 2021 13:01:09 +0000 (UTC)
-Date: Wed, 17 Feb 2021 13:01:08 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Subject: Re: [RFC v2 4/7] vhost: Add VhostShadowVirtqueue
-Message-ID: <20210217130108.GF269203@stefanha-x1.localdomain>
-References: <20210209153757.1653598-1-eperezma@redhat.com>
- <20210209153757.1653598-5-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lCMU5-0007Ic-46
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:03:13 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:41627)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lCMU3-0004js-Fp
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 08:03:12 -0500
+Received: by mail-ed1-x535.google.com with SMTP id v9so11933866edw.8
+ for <qemu-devel@nongnu.org>; Wed, 17 Feb 2021 05:03:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=3Gja1lz4OIKYwjL5oE3m8cmoQ42c6eTohbfvDfM8i4A=;
+ b=uq4pFNhSEkY/CrDnB4TLbk/NV/4I+TbloxKUvEqBfwKBVP7Is8tbNfjtkcPX9yE+NA
+ LVaJMT6Wzw291Ak66v/e6dLrP8cWlaQqe3Eyh76HXe+PwdiimCuoS9ilqM1f0ilhDlPq
+ oCNlJEDA1mC6ixrNcHwKxTlDfhrXgGGxjRRDqLEXMygClZtaaO52iQkAe+b6a8emFDqt
+ O3/4sPNJ8SvJcIU1/0r2eJir9KQVvScNRAG9ixCrzo4d/PZRNGH5l5uvL2X3rQXUzk9V
+ hXjMSmBhIWClHzKO0i9ZHge8m3Zm4n4juMS6oWCvotmbp1xhZ3N4p+4tLhHwGXMaXxux
+ SKFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=3Gja1lz4OIKYwjL5oE3m8cmoQ42c6eTohbfvDfM8i4A=;
+ b=s/5DxAGKXt5gesnJe73Pa1Tali+LyC9tYUGbStu93XE6M77p8p69BLrrNeo0Rneqx/
+ vmD9v5oqYiYWZeGp4liVYfdBLtCZLRnzdXMsmjAcozQe/J2/3rGqGPVlgWDmlwX8hElc
+ Hbx5je0aCr3IQehJ7B1GeIoLk65yRJaCFEpyk/FccM4u8/7XDbw1rkUm3t9VZZyhh2UP
+ kyLkxVcT6igtWqqLJ4DaCoMxBkXZWERhE8ic1CyBhFgNo364Ni9X0XeMG1aVwe+BIxWe
+ E5a1reQGMmpXU3Qe4rrd/Kt0yN1K78w7OXpbmbsZorB1p3jXbUdA+C7Yq7I6rVbvJuML
+ ugLw==
+X-Gm-Message-State: AOAM5301WcU1Xm2uZc2nVYHpyLaliwW1TJlYiHRbvDE35N0E8uyy3uAN
+ 6K7vI0Nb437pbLJH+c1OuO9u2G7UlTgr1choGfvE/sG0fW8=
+X-Google-Smtp-Source: ABdhPJysQw+1nhCcDkYxpCx3BHRjbzWsZ3rRwGxYQC83i1JYLTlQpHitFSE/FcRwfSrRHmXFAqEXq+l5re3mrJ1STa0=
+X-Received: by 2002:a05:6402:3514:: with SMTP id
+ b20mr25657296edd.100.1613566989514; 
+ Wed, 17 Feb 2021 05:03:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210209153757.1653598-5-eperezma@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="f61P+fpdnY2FZS1u"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210217110341.2243-1-peter.maydell@linaro.org>
+In-Reply-To: <20210217110341.2243-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 17 Feb 2021 13:02:58 +0000
+Message-ID: <CAFEAcA-h4V7VBsn_d3UZqDgjrUF2CuWqEr3LFVtJKT_cMzx+1g@mail.gmail.com>
+Subject: Re: [PULL v2 00/37] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,73 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rob Miller <rob.miller@broadcom.com>, Parav Pandit <parav@mellanox.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Jim Harford <jim.harford@broadcom.com>,
- Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---f61P+fpdnY2FZS1u
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 17 Feb 2021 at 11:03, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> v2: dropped the npcm7xx ethernet device, whose test case
+> fails weirdly on the 'build-disabled' gitlab CI job:
+> https://gitlab.com/qemu-project/qemu/-/jobs/1034174731#L12
+>
+> The following changes since commit 8ba4bca570ace1e60614a0808631a517cf5df67a:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-02-15 17:13:57 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210217
+>
+> for you to fetch changes up to 59c7a187dd8bd8ef675768dd8af9de11528ea7e2:
+>
+>   MAINTAINERS: add myself maintainer for the clock framework (2021-02-16 14:16:17 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Support ARMv8.5-MemTag for linux-user
+>  * ncpm7xx: Support SMBus
+>  * MAINTAINERS: add section for Clock framework
 
-On Tue, Feb 09, 2021 at 04:37:54PM +0100, Eugenio P=E9rez wrote:
-> +/*
-> + * Creates vhost shadow virtqueue, and instruct vhost device to use the =
-shadow
-> + * methods and file descriptors.
-> + */
-> +VhostShadowVirtqueue *vhost_shadow_vq_new(struct vhost_dev *dev, int idx=
-)
-> +{
-> +    g_autofree VhostShadowVirtqueue *svq =3D g_new0(VhostShadowVirtqueue=
-, 1);
-> +    int r;
-> +
-> +    r =3D event_notifier_init(&svq->kick_notifier, 0);
-> +    if (r !=3D 0) {
-> +        error_report("Couldn't create kick event notifier: %s",
-> +                     strerror(errno));
-> +        goto err_init_kick_notifier;
-> +    }
-> +
-> +    r =3D event_notifier_init(&svq->call_notifier, 0);
-> +    if (r !=3D 0) {
-> +        error_report("Couldn't create call event notifier: %s",
-> +                     strerror(errno));
-> +        goto err_init_call_notifier;
-> +    }
-> +
-> +    return svq;
+Applied, thanks.
 
-Use-after-free due to g_autofree. I think this should be:
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-  return g_steal_pointer(&svq)
-
-https://developer.gnome.org/glib/stable/glib-Memory-Allocation.html#g-steal=
--pointer
-
---f61P+fpdnY2FZS1u
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAtE5QACgkQnKSrs4Gr
-c8iPKwgAsqpgBXufqRLw/6AgkmS4Uw1bCJru2OzwGNmr8nHE73Fy+Nn4+Ck+4V3D
-PIPomdEyA+GDcDoI6m820D85cBQJLaJosu7u5bgQirHJM5fPsRQfy2P20SAK1FWF
-b6LnpEFF0a9ZHz26LtQZDQ4GYZ2eMwuwFzyky+JWd/LF//A9FOFP3OH+PM9wYNHA
-aXFShfY9mFPDFIstEcVyAx2d/uFt+lah5S0zLJANUVAwZWdxNzarDeYspJ3gYUZ5
-3C4++2ApTDQY9bF3XJZfEei78HRnz1mHNTVnpxPnRy6KZ/AKgjwRrvRi16WfkHx8
-pwlbJIdEXaH6+ss6KE1aEhPDpjcPhQ==
-=N1Yp
------END PGP SIGNATURE-----
-
---f61P+fpdnY2FZS1u--
-
+-- PMM
 
