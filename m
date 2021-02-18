@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 911C131E428
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F47231E427
 	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:02:28 +0100 (CET)
-Received: from localhost ([::1]:35926 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:35864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCYeB-0007vH-JQ
+	id 1lCYeB-0007tj-1f
 	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:02:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbp-0006Hp-F3
+ id 1lCYbp-0006Hq-F4
  for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:01 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40586)
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbl-0008Jj-MK
+ id 1lCYbn-0008KW-1p
  for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613613598; x=1645149598;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=s+YX4f6k0w0A0f9/Et+7nZl3oCy3oU4STUShijCDatw=;
- b=NHeO2/f9OTvKsKeCqXXLZ1LN8FtRbednGURhiJTUIUCn4f88WHnIgTpo
- r07H84Nylxxa1tFMyf6kISclAcAGctSbns0P7g/GhQoLV0Fomqs/aDZDm
- 4ZsXAyXn2CcWWzlwAMWy43f9pH/qE71fkqH2Wb70I90DDF4DwQzXXmsRI
- GrKFsN9ylErLXOen78MwrneCXAKzkD1VKiu282FDm4yn1nsFodaXlbFFV
- uS4CPMV2vgmwlZQgt76qptixYavLQwMOEn7Q7W1h2jPjuxQaz0iubOGMz
- IUZVFJmRw1IQ8wvn3gfVhoVvDZjnRvxE9jRrA93hDDT0IvbJP6vsvhVsq g==;
-IronPort-SDR: rQI0rT/hUJJReTGI+L0MHq+JqUdEy1rmqkduHxytvwu1T6//wt7ueQclzjgTjEajww59HEF+T9
- zVfUH+DAnhBnN3aWe+jSAzCGfX18hYtx4oDNVm4kzJb0QkiKqXhX+wAa9/ffScCza0L3AWrDH8
- OHFV6tn+jQrg/+9Ud+oUZqy3xrd+9fZQdaRkF4NQ5rVBunaacjIEHFHXHxEe20yrK/bi5OYdzF
- ipVxPDh2SBN5wKZLVCJAQ1B8IKfsc4eMKq4RYo2SHvEGcZalVSwo3+SPl2V/SsZ48JrdpBOxcY
- Vwo=
-X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392109"
+ t=1613613599; x=1645149599;
+ h=from:to:cc:subject:date:message-id:in-reply-to:
+ references:mime-version:content-transfer-encoding;
+ bh=ucyFmcAoZY4qSh6YXvyciZzfAblmO8rXrb8Y5SqFG7s=;
+ b=OYk45VSAnfaWQhpxh/mPEQEeCNwxsZEjG3vAdyoHqcKUq36VRQ2cBVR9
+ 3czPOHv8xS2eOZooXxvM/0zBWL83EIwFFA7Lz1Y/TzIigD/219br+B2OF
+ LQupfleZtG/RP6TbUNsoJl84w9paCXWi9TNn4+P6eXl/wH6RaMd4s4RVw
+ J3xiARcDcxR9o2kc2FqnvGboudl0tF0Vs++JoRgUxXcupE1i5nq5mTWBz
+ cs3sO5sFVJnPwVgGIilRFTLSG7UQC4l86CuHFD5mVfySCiPtWl1nRLsmk
+ BzMjdjkZrCZXof0XjjJIcUzxN0jl7PCbcuz6MyCTcFBgrGzwLYo81eBz3 g==;
+IronPort-SDR: DC9HnQ9gYdzAWhcYcEvJszGTKRvIVWp4u/wYHOEHjMQaSbEnkBbIzoGLpZOe7LhedS7CSM/SRl
+ fzrv4U8pl4UFdn64cTSpjqY+hOTf3DShScG7rDnIwsVXmN4Rf+ZneizHJ9JdnJy4ja7SubOb9a
+ if2vqGB6rXBjyOP3LCCGkcGdaD6YnZaml4OCgCxWfZ6xYJIoPTn2UBzlTW3Avs7E/BAGx6kLx9
+ 6sQ5/yBAex313nfMcGrq9SO9iFCoaZ9RZYM27T0tR0mtb3FD59HJ2LepodN5fjhVbQoKSMMTkD
+ CRc=
+X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392110"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 09:59:54 +0800
-IronPort-SDR: zktlvqXx8QlEu1wbKvCIwsNRBFXBaNuYmJ0cWnl2LrFDO+0urAxXCres8pXZgGlQ+glKPKYnOm
- 8w7TZcJSGD6b7wbR0aZSL2x0WRE9/WudM7UVyD4WKhkGSiCV2CufXbocuZBg+OsiIzXs/rta3y
- GdOzaduaZoesdBF+R0ulzM4difu/2moqsdbsBF/5sl37P+TBqeKQXnF14MAk5RZc/h+dEiS1fQ
- 4qbMZGIOeedKHCBulXeUvTf8ejO8Dd2luJja18EExks6U1YeiDkw5esDL5HDfLF8LSevgMvVTm
- nziuwdmGFzr+bZvFIsAsMmbM
+ by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 09:59:55 +0800
+IronPort-SDR: cNKqwwlhbxV+X6Vx/fZ5KXqe88puaJXm5VMTAhhRxZdC+F3fiKQIV+x7FUZZ8NUx/SlFjn3JnJ
+ oSX9MpCRowRbVqLE0k3TBhflTdMCqgozlllWfDGkvf2fGCXL5CJ5gJUxA6f2rmuO5b1p5It86m
+ cdmXi6RG/l0ChEY8mWLTWb2fNhqdk0bL2GZ25NoF5TuRvH2fUzFjXL4vIF1oI9p3DOjBlVvWjN
+ RAPn/DGcg/TTAqb0GrappoPUSU/DRJirE3flkkY8k1Py1HnSOrrD8jG4aIFveGOlBz/96VgcBj
+ DIZFwXu4mIkujwju4WRDPCNQ
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 17:43:24 -0800
-IronPort-SDR: ZC1XztvrKDp3xB0s3+vyYQOcwum7yYzjGJ7QBUTPk+0NWWXvn8xZf1cl5N9pII1vPQSox8XvMr
- IRMQxxuIjFHNemJCynooHCKWewQSh5N/PGwWC/ZppYWuV+EK8qq6Bn6w2MfUg7SgSoPGqwKBvD
- mQpwS9kn0aDtkhfuIGoZpaPx4mAsMC7H0ZBtM2GCY/dEu15OpESGUmHqh7EbQzgxnzYSP9PmlS
- /KtPzIVWducZl5IEZMNPHwUPeCpvCp3D7SNwTIsPlim6ZgcnVAurgCU2HebehOe0M8DQ8QsqgQ
- ZRU=
+IronPort-SDR: V4eri6z4RKNkq511zm4Sch8QRyQCo+ATaeLZuLHMN/ISpUnHrirbv1nduOYk0mj+dQM8LTBn6m
+ sqYtyx/EthqVNln0HVxzKql39dHQ/PCZRYGUM76DI3GahJ8BLVKIomyCGyxA1TdWWXRD5FyGsV
+ 2iBp6pM2te6RKM2yHnui6Jrx0IadoQO4QE6EXVRHn22R/PLpmgpu9fSvkOgJxlyjAYd5aBUJog
+ BFi6iaqRuyacax7DnTCq2RyVgaMHO4QWMtu/atCcVqVG3bZ636wpNJ0YTRA3YhRJQtpavoPjI1
+ Dm4=
 WDCIronportException: Internal
 Received: from cn57xfd72.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.43])
  by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 17:59:54 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/19] riscv-to-apply queue
-Date: Wed, 17 Feb 2021 17:59:15 -0800
-Message-Id: <20210218015934.1623959-1-alistair.francis@wdc.com>
+Subject: [PULL 01/19] target/riscv: Declare csr_ops[] with a known size
+Date: Wed, 17 Feb 2021 17:59:16 -0800
+Message-Id: <20210218015934.1623959-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210218015934.1623959-1-alistair.francis@wdc.com>
+References: <20210218015934.1623959-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -90,97 +92,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair23@gmail.com, Alistair Francis <alistair.francis@wdc.com>,
- qemu-devel@nongnu.org
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1af5629673bb5c1592d993f9fb6119a62845f576:
+From: Bin Meng <bin.meng@windriver.com>
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210216' into staging (2021-02-17 14:44:18 +0000)
+csr_ops[] is currently declared with an unknown size in cpu.h.
+Since the array size is known, let's do a complete declaration.
 
-are available in the Git repository at:
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 1611024723-14293-1-git-send-email-bmeng.cn@gmail.com
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/cpu.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210217-1
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index 02758ae0eb..419a21478c 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -487,7 +487,7 @@ enum {
+ };
+ 
+ /* CSR function table */
+-extern riscv_csr_operations csr_ops[];
++extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
+ 
+ void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
+ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
+-- 
+2.30.0
 
-for you to fetch changes up to d0867d2dad4125d2295b28d6f91fa49cf034ffd2:
-
-  hw/riscv: virt: Map high mmio for PCIe (2021-02-17 17:47:19 -0800)
-
-----------------------------------------------------------------
-RISC-V PR for 6.0
-
-This PR is a collection of RISC-V patches:
- - Improvements to SiFive U OTP
- - Upgrade OpenSBI to v0.9
- - Support the QMP dump-guest-memory
- - Add support for the SiFive SPI controller (sifive_u)
- - Initial RISC-V system documentation
- - A fix for the Goldfish RTC
- - MAINTAINERS updates
- - Support for high PCIe memory in the virt machine
-
-----------------------------------------------------------------
-Alistair Francis (1):
-      MAINTAINERS: Add a SiFive machine section
-
-Bin Meng (16):
-      target/riscv: Declare csr_ops[] with a known size
-      hw/misc: sifive_u_otp: Use error_report() when block operation fails
-      roms/opensbi: Upgrade from v0.8 to v0.9
-      hw/block: m25p80: Add ISSI SPI flash support
-      hw/block: m25p80: Add various ISSI flash information
-      hw/ssi: Add SiFive SPI controller support
-      hw/riscv: sifive_u: Add QSPI0 controller and connect a flash
-      hw/riscv: sifive_u: Add QSPI2 controller and connect an SD card
-      hw/riscv: sifive_u: Change SIFIVE_U_GEM_IRQ to decimal value
-      docs/system: Sort targets in alphabetical order
-      docs/system: Add RISC-V documentation
-      docs/system: riscv: Add documentation for sifive_u machine
-      hw/riscv: Drop 'struct MemmapEntry'
-      hw/riscv: virt: Drop the 'link_up' parameter of gpex_pcie_init()
-      hw/riscv: virt: Limit RAM size in a 32-bit system
-      hw/riscv: virt: Map high mmio for PCIe
-
-Laurent Vivier (1):
-      goldfish_rtc: re-arm the alarm after migration
-
-Yifei Jiang (1):
-      target-riscv: support QMP dump-guest-memory
-
- docs/system/riscv/sifive_u.rst                 | 336 +++++++++++++++++++++++
- docs/system/target-riscv.rst                   |  72 +++++
- docs/system/targets.rst                        |  20 +-
- include/hw/riscv/sifive_u.h                    |   9 +-
- include/hw/ssi/sifive_spi.h                    |  47 ++++
- target/riscv/cpu.h                             |   6 +-
- target/riscv/cpu_bits.h                        |   1 +
- hw/block/m25p80.c                              |  57 +++-
- hw/misc/sifive_u_otp.c                         |  13 +-
- hw/riscv/microchip_pfsoc.c                     |   9 +-
- hw/riscv/opentitan.c                           |   9 +-
- hw/riscv/sifive_e.c                            |   9 +-
- hw/riscv/sifive_u.c                            | 102 ++++++-
- hw/riscv/spike.c                               |   9 +-
- hw/riscv/virt.c                                |  72 +++--
- hw/rtc/goldfish_rtc.c                          |   2 +
- hw/ssi/sifive_spi.c                            | 358 +++++++++++++++++++++++++
- target/riscv/arch_dump.c                       | 202 ++++++++++++++
- target/riscv/cpu.c                             |   2 +
- MAINTAINERS                                    |   9 +
- hw/riscv/Kconfig                               |   3 +
- hw/ssi/Kconfig                                 |   4 +
- hw/ssi/meson.build                             |   1 +
- pc-bios/opensbi-riscv32-generic-fw_dynamic.bin | Bin 62144 -> 78680 bytes
- pc-bios/opensbi-riscv32-generic-fw_dynamic.elf | Bin 558668 -> 727464 bytes
- pc-bios/opensbi-riscv64-generic-fw_dynamic.bin | Bin 70792 -> 75096 bytes
- pc-bios/opensbi-riscv64-generic-fw_dynamic.elf | Bin 620424 -> 781264 bytes
- roms/opensbi                                   |   2 +-
- target/riscv/meson.build                       |   1 +
- 29 files changed, 1290 insertions(+), 65 deletions(-)
- create mode 100644 docs/system/riscv/sifive_u.rst
- create mode 100644 docs/system/target-riscv.rst
- create mode 100644 include/hw/ssi/sifive_spi.h
- create mode 100644 hw/ssi/sifive_spi.c
- create mode 100644 target/riscv/arch_dump.c
 
