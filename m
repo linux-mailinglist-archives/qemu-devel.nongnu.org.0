@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F06831EB0D
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:43:04 +0100 (CET)
-Received: from localhost ([::1]:53006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952B931EB0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:44:37 +0100 (CET)
+Received: from localhost ([::1]:57142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCkWE-0000Kp-9O
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:43:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59980)
+	id 1lCkXk-000266-Lp
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:44:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCkUc-0008E4-1j
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:41:22 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34110)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCkUa-0001Jw-5z
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:41:21 -0500
-Received: by mail-ej1-x629.google.com with SMTP id hs11so6068269ejc.1
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 06:41:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=wImHOUOF05rhEmadJ/N1IrMSOrMt95O5c6FQ3Gp5v/w=;
- b=uPwzJy+JhkrG9cfLT367R2AXv5AuF+RKPmyhAFjs3wv7nxDNK3nEBvCbRI3nNkWo8J
- 3gimviJJkYOH8sY6lvKlmU3kVXH6c+cCDSupiee4OpOpr+2/hU8WL6YbSi+VU0/wCIK8
- /44UGVxO8192g7Q2PzvbR/0w7IyAtU26dEyK36OH7j9RHkRkmKNXEAEEycOs1Koj1lrW
- BeBM/7AJiG639O6bdM/vcw4OF3TPcGnK0giXvlNgubHhRw6g9r6LBz+qtleAOK2RWK3t
- RrL90UGnaHtg8I//1nqss4hmAmjt8goC410K8OAxXk82+ztRl1k5MC6C8WCQqik9TQVS
- SQEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wImHOUOF05rhEmadJ/N1IrMSOrMt95O5c6FQ3Gp5v/w=;
- b=Hswd8O/pFcpJffARACUI+MM4lxmF6y4WiWt3OemPC7Oo0KDJU6jCGrXUDOrgvoo34n
- oPTPfCSofD4ze9u/QzEBTlwF9UwjVW3EwZZ60QU00AlyhY4izFKHUZ7xpeb5AjRRvpL3
- u8owMLicGrOjC5FdDsStX8l9if6wgaz9g+AHmnoiToWDFPY6N68s8QWKzYP2Gq96Lg+1
- MikSKcSWEKUl1GYBN8900qsnOvhYdW2+jsxaslxt77IpM7Ypt21g9+lF+Rqyo6EmJmR5
- +NQWWNWdq51cxv4heB3krgBIQe8RjaJ/OUVq+oZBSQjv4Qx1rJcYEBu43Rsin6x2FKyq
- 2kJQ==
-X-Gm-Message-State: AOAM530e3tik1zIUhG4Ws4BmOx4MJ/XkH4DbBNjkPJw5KxXzMnkRVCJM
- yCWoEQT4+9u4Kn5a0Asa4teAXu6CYEBtcGBqP8Z2Vg==
-X-Google-Smtp-Source: ABdhPJwvzKd+J8wmbkAt1tdN8wR1I0HkIiNmYkd+OZJzZ474aYUZsyD5tvXG8P77AHCAoFaswPpHtqbTJInM2XkchG4=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr4467832ejd.250.1613659278338; 
- Thu, 18 Feb 2021 06:41:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1lCkVd-0000eU-FA; Thu, 18 Feb 2021 09:42:25 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3105)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
+ id 1lCkVb-0001gu-6m; Thu, 18 Feb 2021 09:42:25 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
+ hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+ id <B602e7cc80001>; Thu, 18 Feb 2021 06:42:16 -0800
+Received: from [10.40.100.105] (172.20.145.6) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 18 Feb
+ 2021 14:42:05 +0000
+Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
+ the right place in VFIO migration
+To: Shenming Lu <lushenming@huawei.com>, Alex Williamson
+ <alex.williamson@redhat.com>, Cornelia Huck <cohuck@redhat.com>, "Dr . David
+ Alan Gilbert" <dgilbert@redhat.com>, Eric Auger <eric.auger@redhat.com>,
+ <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-2-lushenming@huawei.com>
+X-Nvconfidentiality: public
+From: Kirti Wankhede <kwankhede@nvidia.com>
+Message-ID: <b51b7282-ad47-01d1-7b83-834aead08d76@nvidia.com>
+Date: Thu, 18 Feb 2021 20:12:01 +0530
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20210218140629.373646-1-ppandit@redhat.com>
-In-Reply-To: <20210218140629.373646-1-ppandit@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Feb 2021 14:41:07 +0000
-Message-ID: <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
-Subject: Re: [PATCH] net: eepro100: validate various address values
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201209080919.156-2-lushenming@huawei.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [172.20.145.6]
+X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+ t=1613659336; bh=pg46Rr6LdjUm3aq1jDKH3b7YebqljsxDTsVTky19sdA=;
+ h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
+ User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
+ Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+ b=PKqqZqPh/bILddOyHWdR9HNQH75Rk2omOT+oD3czLb+zVUtHNjUB+7aLjCByZSCNJ
+ dcMmuh4+YZ4RVcefnfPPRXoy5+h8/UO3qr7L+iyLGaJONkLWhODmhgqWw/yqsebG0B
+ QqFEzIIIye/UrxMoqjLOpYGgukBPiTT3MwaMM3KmMqO6lfJw0WgQWEI2kl7YQZBRsO
+ 6ctHQx5BvaR6HfCY/7ARmdCCsq8CGx5Znt6NoyqZMSN3sUjDQoBCrL//PFdHlNBs3t
+ 8Img1IoV1n/DMyE9HDmk7GH+bqkdRKwioqTGIYVw/53Q/macGlQuaDH7lVlcYaKcv7
+ Ca+s2rUdIutUg==
+Received-SPF: pass client-ip=216.228.121.64; envelope-from=kwankhede@nvidia.com;
+ helo=hqnvemgate25.nvidia.com
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,56 +77,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
- Ruhr-University Bochum <bugs-syssec@rub.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Prasad J Pandit <pjp@fedoraproject.org>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ Marc Zyngier <maz@kernel.org>, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 at 14:13, P J P <ppandit@redhat.com> wrote:
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> While processing controller commands, eepro100 emulator gets
-> command unit(CU) base address OR receive unit (RU) base address
-> OR command block (CB) address from guest. If these values are not
-> checked, it may lead to an infinite loop kind of issues. Add checks
-> to avoid it.
->
-> Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+
+
+On 12/9/2020 1:39 PM, Shenming Lu wrote:
+> On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
+> setup, if the restoring of the VFIO PCI device config space is
+> before the VGIC, an error might occur in the kernel.
+> 
+> So we move the saving of the config space to the non-iterable
+> process, so that it will be called after the VGIC according to
+> their priorities.
+> 
+> As for the possible dependence of the device specific migration
+> data on it's config space, we can let the vendor driver to
+> include any config info it needs in its own data stream.
+> (Should we note this in the header file linux-headers/linux/vfio.h?)
+> 
+> Signed-off-by: Shenming Lu <lushenming@huawei.com>
 > ---
->  hw/net/eepro100.c | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-> index 16e95ef9cc..afa1c9b2aa 100644
-> --- a/hw/net/eepro100.c
-> +++ b/hw/net/eepro100.c
-> @@ -843,7 +843,8 @@ static void action_command(EEPRO100State *s)
->          bool bit_i;
->          bool bit_nc;
->          uint16_t ok_status = STATUS_OK;
-> -        s->cb_address = s->cu_base + s->cu_offset;
-> +        s->cb_address = s->cu_base + s->cu_offset;  /* uint32_t overflow */
-> +        assert (s->cb_address >= s->cu_base);
+>   hw/vfio/migration.c | 25 +++++++++++++++----------
+>   1 file changed, 15 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 00daa50ed8..3b9de1353a 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -575,11 +575,6 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>           return ret;
+>       }
+>   
+> -    ret = vfio_save_device_config_state(f, opaque);
+> -    if (ret) {
+> -        return ret;
+> -    }
+> -
+>       ret = vfio_update_pending(vbasedev);
+>       if (ret) {
+>           return ret;
+> @@ -620,6 +615,19 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>       return ret;
+>   }
+>   
+> +static void vfio_save_state(QEMUFile *f, void *opaque)
+> +{
+> +    VFIODevice *vbasedev = opaque;
+> +    int ret;
+> +
+> +    /* The device specific data is migrated in the iterable process. */
+> +    ret = vfio_save_device_config_state(f, opaque);
+> +    if (ret) {
+> +        error_report("%s: Failed to save device config space",
+> +                     vbasedev->name);
+> +    }
+> +}
+> +
 
-We get these values from the guest; you can't just assert() on them.
-You need to do something else.
+Since error is not propagated, set error in migration stream for 
+migration to fail, use qemu_file_set_error() on error.
 
-My reading of the 8255x data sheet is that there is nothing
-in the hardware that forbids the guest from programming the
-device such that the cu_base + cu_offset wraps around:
-http://www.intel.com/content/dam/doc/manual/8255x-10-100-mbps-ethernet-controller-software-dev-manual.pdf
--- page 30 says that this is all doing 32-bit arithmetic
-on addresses and doesn't say that there is any special case
-handling by the device of overflow of that addition.
+Thanks,
+Kirti
 
-Your commit message isn't very clear about what the failure
-case is here, but I think the fix has to be something
-different from this.
-
-thanks
--- PMM
+>   static int vfio_load_setup(QEMUFile *f, void *opaque)
+>   {
+>       VFIODevice *vbasedev = opaque;
+> @@ -670,11 +678,7 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+>           switch (data) {
+>           case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+>           {
+> -            ret = vfio_load_device_config_state(f, opaque);
+> -            if (ret) {
+> -                return ret;
+> -            }
+> -            break;
+> +            return vfio_load_device_config_state(f, opaque);
+>           }
+>           case VFIO_MIG_FLAG_DEV_SETUP_STATE:
+>           {
+> @@ -720,6 +724,7 @@ static SaveVMHandlers savevm_vfio_handlers = {
+>       .save_live_pending = vfio_save_pending,
+>       .save_live_iterate = vfio_save_iterate,
+>       .save_live_complete_precopy = vfio_save_complete_precopy,
+> +    .save_state = vfio_save_state,
+>       .load_setup = vfio_load_setup,
+>       .load_cleanup = vfio_load_cleanup,
+>       .load_state = vfio_load_state,
+> 
 
