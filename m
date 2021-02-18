@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EC631E85F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:07:27 +0100 (CET)
-Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CDB731E85D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:04:56 +0100 (CET)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCgDW-0004Xi-G3
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:07:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
+	id 1lCgB5-0000ve-2U
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:04:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfzO-0004Rq-Bq
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:50 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33987)
+ id 1lCfzW-0004UU-Fy
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:58 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39717)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfzM-0000yd-FF
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:49 -0500
-Received: by mail-wm1-x331.google.com with SMTP id o10so2466909wmc.1
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:52:47 -0800 (PST)
+ id 1lCfzQ-000104-3F
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:57 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v1so2206744wrd.6
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:52:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=by4E5jCVC9bx2TQqGdZFWQRpu+EpcHBR3WGdgm6ocCw=;
- b=YXsB03vaUE3SBea0f2cktWvK++/AlwnJeKe3jGNVb1npz5Zgvl2IN42JczNO31qzf5
- ItcIcrfwuEQwVxffptZM8FiATCKExWZgL782s4rwELwHGFkSemktiHH4DOeRne6xzQAN
- h9RY30VL/wz5kDDRq657VhKXA6wJnIVDs/RzvIzKebkJ7BorPcUtV7i7zeylgS7V0Uk/
- aAKHtwTXblLDRk9GGRBkBUxMSvu2r5r77+uVtw9uQ6BhRaIw/3W3s/AnBpW/yQ8zyJmg
- fbrJh5hf7zfihr1VbbLdKlowF1Jt0fu9l9QST8awPEElGzhRdtr/F9+osYgYK0j8umPR
- cd0Q==
+ bh=URgrKoscFh5SeIM+x771X4c87xx5ce4C6s1fpPI8uTg=;
+ b=OT13xFdQNme59mP1u1TAAGN7q60WNwp1Mcp/lBtDPS0+p/vTEcM6aBW7+LIrBV0HyM
+ 8c5isV2P09mchje6vLoUy+lmHqIJ9NkhUmcvnN1nueuw61warvJORkAYzVaCUXlqKLzW
+ bXcGTD6CFTx79VmL7mJoFulFjmAAMI9fazrx25jb6VSYYyJIgSwrD+RDzWFHEDYpoCGv
+ q9UIr6PRZxrhV19Bz5Q/1Huqi/DsOE3dn9CC06NyX4Sph8NVZiKEb2KAJq2Qyt1gJkZm
+ obK+vQhephyDkRyDj2WzbDS8v0HTS0NzsI/WVvw6jcpCbdd7oiMH1JO3QNL7eBZjMsCE
+ q1Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=by4E5jCVC9bx2TQqGdZFWQRpu+EpcHBR3WGdgm6ocCw=;
- b=llbdBtD08XxgaDmuN0OVi+gFeRNhCkvja1x/9CSfhQUAzCEPzo8uVafI7vXvgV/Ynr
- t3LKJvkOfaycex1K/Vfeo2Zw9SmTj1H/GoFQNVe6XAV03k3tqRrdXhsf6iDujrAsmN/K
- kQIuKkKvyZT+gX2VuY8GxyiBRRUH1KJUe3xU+/c6G01jH+2CHHeg/8n2wyjC5RZhOeb8
- jEiEEeuB2LMW+VfCeIftfASZgpQJtdbJKSAzsfcKTqVUBIBwzHEElAs9/s3DoAKKydgW
- 5MjJCTem5KxLhfw6mWythKl+gPspKAVRi7R6mwq5SIHzwG0BAGitFVX1vuNBOKrWMlw2
- eFqg==
-X-Gm-Message-State: AOAM533ilKu83S+oXea1k6Kg3wH2CP9Wd2EM4mmLzgjleRjGhZIxI8Oj
- NpAt5LCMx9/B1uwc56by05K5ZQ==
-X-Google-Smtp-Source: ABdhPJzpIBOsZBEBUvNpBesddmTuzC5mmhJC3MREw994T/rCxiL7WOv/zHbJ/Kha0qdIB6QLLE1FnQ==
-X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr2779724wmk.63.1613641966989;
- Thu, 18 Feb 2021 01:52:46 -0800 (PST)
+ bh=URgrKoscFh5SeIM+x771X4c87xx5ce4C6s1fpPI8uTg=;
+ b=QisFgiOzr/xeqm51rw/OHYR7PKDlpTWDlzgVZw7A3d742mJBEf7toEVDV424VZbZu2
+ IjLETjdTvxPjNv5HEtxZfNEbz5UOcZKYlDyR3MrJ1IsLVf1N3A2lvvEmL4GHPwUI12te
+ mdX+ClF/nFg5p64vOnd85K55bnG8g3RuojuhW7OI8ftePq4tmraqykgQ7RRKAW3SM+Cg
+ KLxboZ16k1JqmvnUKS5/kaeN9O+wS82JlZNEUEjI8kxllPlFgZH09uCYvEVQsWisJfFW
+ 1U84JaTHFQodv+yd3urUqnTQXYCdycEmoxJMogbd5xaS/jZu6dvVV2zNDXgvC2S5C72y
+ NOgA==
+X-Gm-Message-State: AOAM5304Xa9iTzDOuUKqxGcJUV0xgWNMwDc9X31PUIRuIGlDxOJ5ix7U
+ Xy2bPLTIEgM2QzrwEs4UOrb5pQ==
+X-Google-Smtp-Source: ABdhPJx0ilfzlpsfwY6ludOD8pEEtCHAhIowCIwKp8a8+01X5tgNh66czF/tz/diWPEglPwNRv11aA==
+X-Received: by 2002:a5d:6b42:: with SMTP id x2mr3386128wrw.117.1613641970805; 
+ Thu, 18 Feb 2021 01:52:50 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g15sm8080303wrx.1.2021.02.18.01.52.45
+ by smtp.gmail.com with ESMTPSA id p12sm6242489wmq.1.2021.02.18.01.52.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 18 Feb 2021 01:52:46 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 395661FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 542831FF9D;
  Thu, 18 Feb 2021 09:47:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 13/23] target/sh4: Create superh_io_recompile_replay_branch
-Date: Thu, 18 Feb 2021 09:46:56 +0000
-Message-Id: <20210218094706.23038-14-alex.bennee@linaro.org>
+Subject: [PULL 14/23] tests/plugin: expand insn test to detect duplicate
+ instructions
+Date: Thu, 18 Feb 2021 09:46:57 +0000
+Message-Id: <20210218094706.23038-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
 References: <20210218094706.23038-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,91 +87,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+A duplicate insn is one that is appears to be executed twice in a row.
+This is currently possible due to -icount and cpu_io_recompile()
+causing a re-translation of a block. On it's own this won't trigger
+any tests though.
 
-Move the code from accel/tcg/translate-all.c to target/sh4/cpu.c.
+The heuristics that the plugin use can't deal with the x86 rep
+instruction which (validly) will look like executing the same
+instruction several times. To avoid problems later we tweak the rules
+for x86 to run the "inline" version of the plugin. This also has the
+advantage of increasing coverage of the plugin code (see bugfix in
+previous commit).
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210208233906.479571-5-richard.henderson@linaro.org>
-Message-Id: <20210213130325.14781-14-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210213130325.14781-15-alex.bennee@linaro.org>
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 9fea5c0e59..c0b98e76b9 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -2418,9 +2418,6 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
-  */
- void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
- {
--#if defined(TARGET_SH4)
--    CPUArchState *env = cpu->env_ptr;
--#endif
-     TranslationBlock *tb;
-     CPUClass *cc;
-     uint32_t n;
-@@ -2444,15 +2441,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-         cpu_neg(cpu)->icount_decr.u16.low++;
-         n = 2;
-     }
--#if defined(TARGET_SH4)
--    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
--        && env->pc != tb->pc) {
--        env->pc -= 2;
--        cpu_neg(cpu)->icount_decr.u16.low++;
--        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
--        n = 2;
--    }
--#endif
+diff --git a/tests/plugin/insn.c b/tests/plugin/insn.c
+index a9a6e41237..c253980ec8 100644
+--- a/tests/plugin/insn.c
++++ b/tests/plugin/insn.c
+@@ -21,6 +21,14 @@ static bool do_inline;
  
-     /* Generate a new TB executing the I/O insn.  */
-     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index a78d283bc8..ac65c88f1f 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -43,6 +43,23 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
-     cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
+ static void vcpu_insn_exec_before(unsigned int cpu_index, void *udata)
+ {
++    static uint64_t last_pc;
++    uint64_t this_pc = GPOINTER_TO_UINT(udata);
++    if (this_pc == last_pc) {
++        g_autofree gchar *out = g_strdup_printf("detected repeat execution @ 0x%"
++                                                PRIx64 "\n", this_pc);
++        qemu_plugin_outs(out);
++    }
++    last_pc = this_pc;
+     insn_count++;
  }
  
-+#ifndef CONFIG_USER_ONLY
-+static bool superh_io_recompile_replay_branch(CPUState *cs,
-+                                              const TranslationBlock *tb)
-+{
-+    SuperHCPU *cpu = SUPERH_CPU(cs);
-+    CPUSH4State *env = &cpu->env;
-+
-+    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
-+        && env->pc != tb->pc) {
-+        env->pc -= 2;
-+        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
-+        return true;
-+    }
-+    return false;
-+}
-+#endif
-+
- static bool superh_cpu_has_work(CPUState *cs)
- {
-     return cs->interrupt_request & CPU_INTERRUPT_HARD;
-@@ -217,6 +234,7 @@ static struct TCGCPUOps superh_tcg_ops = {
- #ifndef CONFIG_USER_ONLY
-     .do_interrupt = superh_cpu_do_interrupt,
-     .do_unaligned_access = superh_cpu_do_unaligned_access,
-+    .io_recompile_replay_branch = superh_io_recompile_replay_branch,
- #endif /* !CONFIG_USER_ONLY */
- };
+@@ -36,8 +44,10 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+             qemu_plugin_register_vcpu_insn_exec_inline(
+                 insn, QEMU_PLUGIN_INLINE_ADD_U64, &insn_count, 1);
+         } else {
++            uint64_t vaddr = qemu_plugin_insn_vaddr(insn);
+             qemu_plugin_register_vcpu_insn_exec_cb(
+-                insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS, NULL);
++                insn, vcpu_insn_exec_before, QEMU_PLUGIN_CB_NO_REGS,
++                GUINT_TO_POINTER(vaddr));
+         }
+     }
+ }
+diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
+index 5266f2335a..fa9b1b9f90 100644
+--- a/tests/tcg/i386/Makefile.softmmu-target
++++ b/tests/tcg/i386/Makefile.softmmu-target
+@@ -33,5 +33,15 @@ EXTRA_RUNS+=$(MULTIARCH_RUNS)
  
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
++# non-inline runs will trigger the duplicate instruction heuristics in libinsn.so
++run-plugin-%-with-libinsn.so:
++	$(call run-test, $@, \
++	  $(QEMU) -monitor none -display none \
++		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
++                  -plugin ../../plugin/libinsn.so$(COMMA)arg=inline \
++	    	  -d plugin -D $*-with-libinsn.so.pout \
++	   	  $(QEMU_OPTS) $*, \
++		  "$* on $(TARGET_NAME)")
++
+ # Running
+ QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
+diff --git a/tests/tcg/i386/Makefile.target b/tests/tcg/i386/Makefile.target
+index ad187cb2c9..c4a6f91966 100644
+--- a/tests/tcg/i386/Makefile.target
++++ b/tests/tcg/i386/Makefile.target
+@@ -48,6 +48,13 @@ else
+ SKIP_I386_TESTS+=test-i386-fprem
+ endif
+ 
++# non-inline runs will trigger the duplicate instruction heuristics in libinsn.so
++run-plugin-%-with-libinsn.so:
++	$(call run-test, $@, $(QEMU) $(QEMU_OPTS) \
++	       -plugin ../../plugin/libinsn.so$(COMMA)arg=inline \
++	       -d plugin -D $*-with-libinsn.so.pout $*, \
++		"$* (inline) on $(TARGET_NAME)")
++
+ # Update TESTS
+ I386_TESTS:=$(filter-out $(SKIP_I386_TESTS), $(ALL_X86_TESTS))
+ TESTS=$(MULTIARCH_TESTS) $(I386_TESTS)
+diff --git a/tests/tcg/x86_64/Makefile.softmmu-target b/tests/tcg/x86_64/Makefile.softmmu-target
+index 1bd763f2e6..9896319f0e 100644
+--- a/tests/tcg/x86_64/Makefile.softmmu-target
++++ b/tests/tcg/x86_64/Makefile.softmmu-target
+@@ -33,5 +33,15 @@ EXTRA_RUNS+=$(MULTIARCH_RUNS)
+ 
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
+ 
++# non-inline runs will trigger the duplicate instruction heuristics in libinsn.so
++run-plugin-%-with-libinsn.so:
++	$(call run-test, $@, \
++	  $(QEMU) -monitor none -display none \
++		  -chardev file$(COMMA)path=$@.out$(COMMA)id=output \
++                  -plugin ../../plugin/libinsn.so$(COMMA)arg=inline \
++	    	  -d plugin -D $*-with-libinsn.so.pout \
++	   	  $(QEMU_OPTS) $*, \
++		  "$* on $(TARGET_NAME)")
++
+ # Running
+ QEMU_OPTS+=-device isa-debugcon,chardev=output -device isa-debug-exit,iobase=0xf4,iosize=0x4 -kernel
 -- 
 2.20.1
 
