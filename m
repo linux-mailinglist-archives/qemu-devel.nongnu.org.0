@@ -2,57 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67A8431ED92
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 18:47:57 +0100 (CET)
-Received: from localhost ([::1]:52880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF47831EDBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 18:56:56 +0100 (CET)
+Received: from localhost ([::1]:43798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCnP5-00059E-8j
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 12:47:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58682)
+	id 1lCnXr-0004xa-Jr
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 12:56:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lCn3R-0001yz-Vt
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:25:30 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:42428
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lCn3P-0000CC-D8
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:25:29 -0500
-Received: from host86-131-243-177.range86-131.btcentralplus.com
- ([86.131.243.177] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lCn3d-0003qw-SZ; Thu, 18 Feb 2021 17:25:46 +0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net,
- laurent@vivier.eu
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-34-mark.cave-ayland@ilande.co.uk>
-Message-ID: <6cc4e1c8-5a3b-2d2f-5a64-5d2bf3cb3a69@ilande.co.uk>
-Date: Thu, 18 Feb 2021 17:25:12 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lCnBJ-0002lK-Ms
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:33:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lCnBF-0003iR-Rw
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:33:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613669611;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1hckwWT4YVx4Gv07irXPEgZ0i4d/P5ogi2ZUMW1KwPw=;
+ b=ZFpwu1BLTZNGQ7VnPeGDiwzgUdQqHe9ptxyhWA3JKk27Z6mmQXYgSW2+/FCAqNPx7tmray
+ Y8cwobfl7CExkW9Uzy0WDWAA2lAixWq6s9duFhUCfK+5s7rQJf75WJQS/V3s7LA8Wo0oK2
+ xR4BhHc+ak22qVXIvckzHKit0UpuktA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-353-rLgZ_WD_MWyA-NB0wCqZ_g-1; Thu, 18 Feb 2021 12:33:28 -0500
+X-MC-Unique: rLgZ_WD_MWyA-NB0wCqZ_g-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92C2E804039
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 17:33:27 +0000 (UTC)
+Received: from work-vm (ovpn-115-17.ams2.redhat.com [10.36.115.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD395100164C;
+ Thu, 18 Feb 2021 17:33:13 +0000 (UTC)
+Date: Thu, 18 Feb 2021 17:33:11 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 06/24] DAX: virtio-fs: Add cache BAR
+Message-ID: <YC6k156oLZt9fx5T@work-vm>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-7-dgilbert@redhat.com>
+ <20210211102555.GG247031@stefanha-x1.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-34-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 86.131.243.177
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v2 33/42] esp: defer command completion interrupt on
- incoming data transfers
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20210211102555.GG247031@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,183 +80,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/02/2021 19:30, Mark Cave-Ayland wrote:
-
-> The MacOS toolbox ROM issues a command to the ESP controller as part of its
-> "FAST" SCSI routines and then proceeds to read the incoming data soon after
-> receiving the command completion interrupt.
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Tue, Feb 09, 2021 at 07:02:06PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > @@ -46,6 +51,26 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+> >      }
+> >  
+> >      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+> > +    cachesize = dev->vdev.conf.cache_size;
+> > +
+> > +    /*
+> > +     * The bar starts with the data/DAX cache
+> > +     * Others will be added later.
+> > +     */
+> > +    memory_region_init(&dev->cachebar, OBJECT(vpci_dev),
+> > +                       "vhost-fs-pci-cachebar", cachesize);
 > 
-> Unfortunately due to SCSI block transfers being asynchronous the incoming data
-> may not yet be present causing an underflow error. Resolve this by waiting for
-> the SCSI subsystem transfer_data callback before raising the command completion
-> interrupt.
+> s/vhost-fs/vhost-user-fs/ for consistency. Only worth changing if you
+> respin.
+
+Done.
+
+> > +    if (cachesize) {
+> > +        memory_region_add_subregion(&dev->cachebar, 0, &dev->vdev.cache);
+> > +        virtio_pci_add_shm_cap(vpci_dev, VIRTIO_FS_PCI_CACHE_BAR, 0, cachesize,
+> > +                               VIRTIO_FS_SHMCAP_ID_CACHE);
+> > +    }
+> > +
+> > +    /* After 'realized' so the memory region exists */
+> > +    pci_register_bar(&vpci_dev->pci_dev, VIRTIO_FS_PCI_CACHE_BAR,
+> > +                     PCI_BASE_ADDRESS_SPACE_MEMORY |
+> > +                     PCI_BASE_ADDRESS_MEM_PREFETCH |
+> > +                     PCI_BASE_ADDRESS_MEM_TYPE_64,
+> > +                     &dev->cachebar);
 > 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->   hw/scsi/esp.c         | 54 +++++++++++++++++++++++++++++++++++++++----
->   include/hw/scsi/esp.h |  1 +
->   2 files changed, 51 insertions(+), 4 deletions(-)
+> Please include a comment explainig why it's okay to use BAR 2, which is
+> already used for the virtio-pci modern io bar (off by default):
 > 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 728d4ddf99..ce6a7a1ed0 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -183,6 +183,14 @@ static int esp_select(ESPState *s)
->           esp_raise_irq(s);
->           return -1;
->       }
-> +
-> +    /*
-> +     * Note that we deliberately don't raise the IRQ here: this will be done
-> +     * either in do_busid_cmd() for DATA OUT transfers or by the deferred
-> +     * IRQ mechanism in esp_transfer_data() for DATA IN transfers
-> +     */
-> +    s->rregs[ESP_RINTR] |= INTR_FC;
-> +    s->rregs[ESP_RSEQ] = SEQ_CD;
->       return 0;
->   }
->   
-> @@ -237,18 +245,24 @@ static void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)
->       s->ti_size = datalen;
->       if (datalen != 0) {
->           s->rregs[ESP_RSTAT] = STAT_TC;
-> +        s->rregs[ESP_RSEQ] = SEQ_CD;
->           esp_set_tc(s, 0);
->           if (datalen > 0) {
-> +            /*
-> +             * Switch to DATA IN phase but wait until initial data xfer is
-> +             * complete before raising the command completion interrupt
-> +             */
-> +            s->data_in_ready = false;
->               s->rregs[ESP_RSTAT] |= STAT_DI;
->           } else {
->               s->rregs[ESP_RSTAT] |= STAT_DO;
-> +            s->rregs[ESP_RINTR] |= INTR_BS | INTR_FC;
-> +            esp_raise_irq(s);
-> +            esp_lower_drq(s);
->           }
->           scsi_req_continue(s->current_req);
-> +        return;
->       }
-> -    s->rregs[ESP_RINTR] |= INTR_BS | INTR_FC;
-> -    s->rregs[ESP_RSEQ] = SEQ_CD;
-> -    esp_raise_irq(s);
-> -    esp_lower_drq(s);
->   }
->   
->   static void do_cmd(ESPState *s)
-> @@ -603,12 +617,35 @@ void esp_command_complete(SCSIRequest *req, uint32_t status,
->   void esp_transfer_data(SCSIRequest *req, uint32_t len)
->   {
->       ESPState *s = req->hba_private;
-> +    int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
->       uint32_t dmalen = esp_get_tc(s);
->   
->       assert(!s->do_cmd);
->       trace_esp_transfer_data(dmalen, s->ti_size);
->       s->async_len = len;
->       s->async_buf = scsi_req_get_buf(req);
-> +
-> +    if (!to_device && !s->data_in_ready) {
-> +        /*
-> +         * Initial incoming data xfer is complete so raise command
-> +         * completion interrupt
-> +         */
-> +        s->data_in_ready = true;
-> +        s->rregs[ESP_RSTAT] |= STAT_TC;
-> +        s->rregs[ESP_RINTR] |= INTR_BS;
-> +        esp_raise_irq(s);
-> +
-> +        /*
-> +         * If data is ready to transfer and the TI command has already
-> +         * been executed, start DMA immediately. Otherwise DMA will start
-> +         * when host sends the TI command
-> +         */
-> +        if (s->ti_size && (s->rregs[ESP_CMD] == (CMD_TI | CMD_DMA))) {
-> +            esp_do_dma(s);
-> +        }
-> +        return;
-> +    }
-> +
->       if (dmalen) {
->           esp_do_dma(s);
->       } else if (s->ti_size <= 0) {
-> @@ -870,6 +907,14 @@ static bool esp_is_before_version_5(void *opaque, int version_id)
->       return version_id < 5;
->   }
->   
-> +static bool esp_is_version_5(void *opaque, int version_id)
-> +{
-> +    ESPState *s = ESP(opaque);
-> +
-> +    version_id = MIN(version_id, s->mig_version_id);
-> +    return version_id == 5;
-> +}
-> +
->   static int esp_pre_save(void *opaque)
->   {
->       ESPState *s = ESP(opaque);
-> @@ -914,6 +959,7 @@ const VMStateDescription vmstate_esp = {
->           VMSTATE_UINT32(cmdlen, ESPState),
->           VMSTATE_UINT32(do_cmd, ESPState),
->           VMSTATE_UINT32_TEST(mig_dma_left, ESPState, esp_is_before_version_5),
-> +        VMSTATE_BOOL_TEST(data_in_ready, ESPState, esp_is_version_5),
->           VMSTATE_END_OF_LIST()
->       },
->   };
-> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-> index 6618f4e091..3b69aedebe 100644
-> --- a/include/hw/scsi/esp.h
-> +++ b/include/hw/scsi/esp.h
-> @@ -41,6 +41,7 @@ struct ESPState {
->       uint32_t cmdlen;
->       uint32_t do_cmd;
->   
-> +    bool data_in_ready;
->       int dma_enabled;
->   
->       uint32_t async_len;
+>     /*
+>      * virtio pci bar layout used by default.
+>      * subclasses can re-arrange things if needed.
+>      *
+>      *   region 0   --  virtio legacy io bar
+>      *   region 1   --  msi-x bar
+>      *   region 2   --  virtio modern io bar (off by default)
+>      *   region 4+5 --  virtio modern memory (64bit) bar
+>      *
+>      */
+> 
+> I guess the idea is that the io bar is available since it's off by
+> default. What happens if the io bar is enabled?
 
-Whilst doing some testing earlier, I discovered that the same change is required in 
-do_dma_pdma_cb(): it seems during boot the ROM attempts several 128k DMA requests in 
-a row, and with heavy debugging enabled it's enough to trigger the same underflow 
-problem.
+We don't have many choices; the only other option would be to extend
+the modern memory bar at 4/5.
 
-Fortunately the fix is easy, and I'll squash this into the v3 series:
+For now, I've added a check:
 
-diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-index a175191718..248c1ce27a 100644
---- a/hw/scsi/esp.c
-+++ b/hw/scsi/esp.c
-@@ -453,17 +453,13 @@ static void do_dma_pdma_cb(ESPState *s)
-      } else {
-          if (s->async_len == 0) {
-              if (s->current_req) {
-+               /*
-+                * Defer until the scsi layer has completed.
-+                */
-                  scsi_req_continue(s->current_req);
-+                s->data_in_ready = false;
-              }
--
--            /*
--             * If there is still data to be read from the device then
--             * complete the DMA operation immediately.  Otherwise defer
--             * until the scsi layer has completed.
--             */
--            if (esp_get_tc(s) != 0 || s->ti_size == 0) {
--                return;
--            }
-+            return;
-          }
+qemu-system-x86_64: -device vhost-user-fs-pci,queue-size=1024,chardev=char0,tag=myfs,cache-size=4G,modern-pio-notify=true: Cache can not be used together with modern_pio
 
-          if (esp_get_tc(s) != 0) {
+> Should this bar registration should be conditional (only when cache size
+> is greater than 0)?
+
+Yes, added.
+
+Dave
 
 
-ATB,
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Mark.
 
