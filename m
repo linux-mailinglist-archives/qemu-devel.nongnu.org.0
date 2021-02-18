@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA1731E429
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:02:33 +0100 (CET)
-Received: from localhost ([::1]:36454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D1131E42F
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:05:05 +0100 (CET)
+Received: from localhost ([::1]:44466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCYeG-000888-Sn
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:02:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43404)
+	id 1lCYgi-0003Ay-O4
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:05:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbt-0006N7-Sg
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:05 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40586)
+ id 1lCYbs-0006L8-M1
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:04 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbo-0008Jj-Oq
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:05 -0500
+ id 1lCYbp-0008KW-1a
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1613613601; x=1645149601;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=MxxErviSFL4sQLlXwiV0nJ9t4fyQKIFMVx6LDbNqKbA=;
- b=UH0P0qPNHBmbG56mF4+WwosqUPaFFENsSZbYUhWC/6JRMc0h8teZyLVD
- qCJPb3yCNkl+SBs0fs1HK3ALmlPuYN3mnVsS9778BfiuwwKvgxiGT3qDu
- tkJOY8idAi08fvwJrn/IsFh7zm+n1576zNRc0rSi6+e0BTxKwqKr+j95Q
- sb31T9YfSFqV6lu6L6zrJaKL5o3dK2GxWPlAZvgXXiymSTkTDp8/L1V0i
- XBbxr+hJ+/PIqkP8KQvaXiAX7G/PSiV1ioph1ElQuIdTtVl2dUOtPJtdQ
- CdNQ3DicAjsiflyzGnlZ4q2SNRSmqH6TAm/xuEMx8fTDuaFdFpDgYtKOF A==;
-IronPort-SDR: PITcWSiTO2ltfDCjBbgmioqMsjQ8rjqbU3jwKmx+4wfsyEDArUxDdpYhurUFROz4W3bCQ88zpD
- Lim+59VippI1VjTAnLl+95aqF0TmhiKdDMiNOq7YFeZax3895peUnCIB9LJ+KGZh+hBswi9FD+
- vDNYW5LfDcaB+6nI+ettHg5x13WLsVw3En6kJYM8YTVURXrbGtDxcWR0u4JR/d4l57fyIYZzm3
- jIDVsKZBewOQ7X56e2tq8V9iaWgU/kZj6ZzC60RmPFWDmVY/6UoEH4mk+188O+EfhIVR6aUqJe
- 9pg=
-X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392118"
+ bh=+7XcHpHqtDRB6mwY33HBJZywMabN7LjmembEnoLJVNE=;
+ b=WfySrywxRq8F3sHmDr2rcbNIHqhIMuLxEvyBSHZkSA5vdsY1mvlL+muC
+ jkcGkWfh0ygTy6ebRXG5/XX14JLwIObG3GkT4p9vuwrSJahjGLIzvEs9L
+ 8SAB0pKklzVf7enpNzcFWwiA0j2+TdwgGlBb2zmw6NKa6v0m//wtKSfBq
+ HuiMcMZK64zkjuh5NObYv3O9/E7C0jCFCn1xitD72U92sQTozcurKIMI/
+ ppN9LlbH/7hCFkqYtfTBW7xxr1A0A15lvEbOrdIxGyO5DFiS3HQPdXOfp
+ CqKdidF5JZkjc+jmwjEJEetYf4qahMmur7tuDnpi6KCmyKpZl9Ru57/mD w==;
+IronPort-SDR: 0oLgv+8jTZRM0dDLolk1XfUcnpKuk3s+QGt/WU4IqVHw8wcWwrn3tbtkDTMcYBgxJtrWJ1XSvF
+ 7STQAEX93a3kIhE9lxl9uC1RjuHsC1lIhGkOpy00szPRDt/8Z+8v/oWftOm+Xl3z2DjHcUQIHo
+ Gb4eYDNmeM+SM9Jyyn4pM3OdY6tCp+8TK6TFh0HPQ3m5hYqMHWyepJfeoVuc8VJIGNi4xVlRnx
+ wvr7v+5t01OCnt4zOZ1CnrAOtJ3R2CgjYokXOlTsUYzNLszXskr9KUNkJ3sTnGS1H/KTfpLVl7
+ p7I=
+X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392121"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 09:59:58 +0800
-IronPort-SDR: s/NZeSar+cxwx5L7WloXbdqyb15PftzbTGMusSKoZYo3MUcXK5cB5oHAkGR43VryLluWRBzN4c
- sDch9zKXkD73cO9CzA+kJ0+MyQ1LIyVlsMhzkSKxbHO88ehKU51KzkOYRDeWKsajBE+mqN0nLJ
- zCzxTuZrtXyhq8mhTtbEneqCMmBZlETCl2RW8XcuHLpyogOtmy14MgUsDxtPLV9IxP0lcrSEiV
- /bl/Kmc8tcxc7AKIckusp1mdMitOL5anf2Ov9MkouJ+yyx6nFhZ7mtgk5GBKiqPyx65+MFKCBI
- byugDQMPHEVHe9BHec+Zwc2y
+IronPort-SDR: X1arh2kF6pqgbvMNZB3jq0vvIWP7Bam9ClrHsmlScfygleUGkTjUX0szilrFSBOrP6vG6tfRaC
+ qAfVC/Eaw4naA8T72dmDD3nYPDzvfu/XwzVmvM9GJc3OMyxYNXGn+fGllojKUTa4R5L74U5Whz
+ oTonnbZJTpz4tCeGHoenQAUfjimntfjpl0Jn5+HIcD6W62+iFnlPO0GXXEonhkP7yGJkaaxmLm
+ eg3Qy3/b5ZjxEwO/+UzX4zIz3+bBPtEuGsLnRPXneVGhMwiXTSQB2bZqJ3oYW7cm2Q0P4VSYfz
+ P0Rp+5UacX5vPbBYVa03iOfR
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 17:43:28 -0800
-IronPort-SDR: PxvXyEswN2BIEkAUCkDUF60yg6r/r/J+3wHXaA+0y2Vtzk3/h5R0oJE1dH0tGHX7DDEzTaGuAM
- /ZdH+pa+YY4NdRU4gvvlv2bkiw6tbNxK6P6a4aghG2faPt4XH1tiwG9Gl35FXu2ILhtRNuXyuV
- Qx+vANd6THU9WoOOBNF/UijkNdgz2jlz80LEsOUm9x4VY0HPgk5zIISG5X3QTJVPip3sBIZpZp
- 94uroXZAwUl+sGLmTWHdpgl3BUcwOzKBsa59CsqGchyw3jYmjg5dCpohlEYtrJ72lbjmjvc+r7
- DVM=
+IronPort-SDR: fU96+siqwjovTmVcVXh+k8GJpdKdG75T6AeGJzqs/EpB0UCPOW08qKo2zMXBDJlfhW75w7lmJB
+ z3unZ6mxAL14eAnlfB5pGt4tAvYDchdMCaG682fNhaokuzGe0JCgL/+L/3l5VKwtN7B59ha9e2
+ RyG2y8Qt9GHuZjnke6XwbTnEZVOL0E/9xFs8+FRpllVmL8i1L6vdIzNuWqxyHWsWgJjfCwbMy1
+ DswGrPAJNL044JsCbSv1Kfmrao6S+pV8kz6KM+4Ptp5dKT1kRzrIznWFhZfbwSlelgji9JvZhi
+ 4G8=
 WDCIronportException: Internal
 Received: from cn57xfd72.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.43])
  by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 17:59:58 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 04/19] target-riscv: support QMP dump-guest-memory
-Date: Wed, 17 Feb 2021 17:59:19 -0800
-Message-Id: <20210218015934.1623959-5-alistair.francis@wdc.com>
+Subject: [PULL 05/19] hw/block: m25p80: Add ISSI SPI flash support
+Date: Wed, 17 Feb 2021 17:59:20 -0800
+Message-Id: <20210218015934.1623959-6-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210218015934.1623959-1-alistair.francis@wdc.com>
 References: <20210218015934.1623959-1-alistair.francis@wdc.com>
@@ -91,296 +91,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Mingwang Li <limingwang@huawei.com>,
- Palmer Dabbelt <palmerdabbelt@google.com>, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com,
- Yifei Jiang <jiangyifei@huawei.com>
+Cc: alistair23@gmail.com, Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yifei Jiang <jiangyifei@huawei.com>
+From: Bin Meng <bin.meng@windriver.com>
 
-Add the support needed for creating prstatus elf notes. This allows
-us to use QMP dump-guest-memory.
+This adds the ISSI SPI flash support. The number of dummy cycles in
+fast read, fast read dual output and fast read quad output commands
+is currently using the default 8. Likewise, the same default value
+is used for fast read dual/quad I/O command. Per the datasheet [1],
+the number of dummy cycles is configurable, but this is not modeled
+at present.
 
-Now ELF notes of RISC-V only contain prstatus elf notes.
+For flash whose size is larger than 16 MiB, the sequence of 3-byte
+address along with EXTADD bit in the bank address register (BAR) is
+not supported. We assume that guest software always uses op codes
+with 4-byte address sequence. Fortunately, this is the case for both
+U-Boot and Linux spi-nor drivers.
 
-Signed-off-by: Yifei Jiang <jiangyifei@huawei.com>
-Signed-off-by: Mingwang Li <limingwang@huawei.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-Message-id: 20210201124458.1248-2-jiangyifei@huawei.com
+QPI (Quad Peripheral Interface) that supports 2-cycle instruction
+has different default values for dummy cycles of fast read family
+commands, and is unsupported at the time being.
+
+[1] http://www.issi.com/WW/pdf/25LP-WP256.pdf
+
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-id: 20210126060007.12904-2-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.h       |   4 +
- target/riscv/cpu_bits.h  |   1 +
- target/riscv/arch_dump.c | 202 +++++++++++++++++++++++++++++++++++++++
- target/riscv/cpu.c       |   2 +
- target/riscv/meson.build |   1 +
- 5 files changed, 210 insertions(+)
- create mode 100644 target/riscv/arch_dump.c
+ hw/block/m25p80.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 43 insertions(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 419a21478c..0edb2826a2 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -323,6 +323,10 @@ extern const char * const riscv_intr_names[];
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 0412d3e7f4..ad4456b74e 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -412,6 +412,7 @@ typedef enum {
+     MAN_NUMONYX,
+     MAN_WINBOND,
+     MAN_SST,
++    MAN_ISSI,
+     MAN_GENERIC,
+ } Manufacturer;
  
- const char *riscv_cpu_get_trap_name(target_ulong cause, bool async);
- void riscv_cpu_do_interrupt(CPUState *cpu);
-+int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-+                               int cpuid, void *opaque);
-+int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-+                               int cpuid, void *opaque);
- int riscv_cpu_gdb_read_register(CPUState *cpu, GByteArray *buf, int reg);
- int riscv_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- bool riscv_cpu_exec_interrupt(CPUState *cs, int interrupt_request);
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index 4196ef8b69..caf4599207 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -368,6 +368,7 @@
- #define MSTATUS_MIE         0x00000008
- #define MSTATUS_UPIE        0x00000010
- #define MSTATUS_SPIE        0x00000020
-+#define MSTATUS_UBE         0x00000040
- #define MSTATUS_MPIE        0x00000080
- #define MSTATUS_SPP         0x00000100
- #define MSTATUS_MPP         0x00001800
-diff --git a/target/riscv/arch_dump.c b/target/riscv/arch_dump.c
-new file mode 100644
-index 0000000000..709f621d82
---- /dev/null
-+++ b/target/riscv/arch_dump.c
-@@ -0,0 +1,202 @@
-+/* Support for writing ELF notes for RISC-V architectures
-+ *
-+ * Copyright (C) 2021 Huawei Technologies Co., Ltd
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "elf.h"
-+#include "sysemu/dump.h"
-+
-+/* struct user_regs_struct from arch/riscv/include/uapi/asm/ptrace.h */
-+struct riscv64_user_regs {
-+    uint64_t pc;
-+    uint64_t regs[31];
-+} QEMU_PACKED;
-+
-+QEMU_BUILD_BUG_ON(sizeof(struct riscv64_user_regs) != 256);
-+
-+/* struct elf_prstatus from include/linux/elfcore.h */
-+struct riscv64_elf_prstatus {
-+    char pad1[32]; /* 32 == offsetof(struct elf_prstatus, pr_pid) */
-+    uint32_t pr_pid;
-+    char pad2[76]; /* 76 == offsetof(struct elf_prstatus, pr_reg) -
-+                            offsetof(struct elf_prstatus, pr_ppid) */
-+    struct riscv64_user_regs pr_reg;
-+    char pad3[8];
-+} QEMU_PACKED;
-+
-+QEMU_BUILD_BUG_ON(sizeof(struct riscv64_elf_prstatus) != 376);
-+
-+struct riscv64_note {
-+    Elf64_Nhdr hdr;
-+    char name[8]; /* align_up(sizeof("CORE"), 4) */
-+    struct riscv64_elf_prstatus prstatus;
-+} QEMU_PACKED;
-+
-+#define RISCV64_NOTE_HEADER_SIZE offsetof(struct riscv64_note, prstatus)
-+#define RISCV64_PRSTATUS_NOTE_SIZE \
-+            (RISCV64_NOTE_HEADER_SIZE + sizeof(struct riscv64_elf_prstatus))
-+
-+static void riscv64_note_init(struct riscv64_note *note, DumpState *s,
-+                              const char *name, Elf64_Word namesz,
-+                              Elf64_Word type, Elf64_Word descsz)
-+{
-+    memset(note, 0, sizeof(*note));
-+
-+    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
-+    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
-+    note->hdr.n_type = cpu_to_dump32(s, type);
-+
-+    memcpy(note->name, name, namesz);
-+}
-+
-+int riscv_cpu_write_elf64_note(WriteCoreDumpFunction f, CPUState *cs,
-+                               int cpuid, void *opaque)
-+{
-+    struct riscv64_note note;
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    CPURISCVState *env = &cpu->env;
-+    DumpState *s = opaque;
-+    int ret, i = 0;
-+    const char name[] = "CORE";
-+
-+    riscv64_note_init(&note, s, name, sizeof(name),
-+                      NT_PRSTATUS, sizeof(note.prstatus));
-+
-+    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
-+
-+    note.prstatus.pr_reg.pc = cpu_to_dump64(s, env->pc);
-+
-+    for (i = 0; i < 31; i++) {
-+        note.prstatus.pr_reg.regs[i] = cpu_to_dump64(s, env->gpr[i + 1]);
-+    }
-+
-+    ret = f(&note, RISCV64_PRSTATUS_NOTE_SIZE, s);
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    return ret;
-+}
-+
-+struct riscv32_user_regs {
-+    uint32_t pc;
-+    uint32_t regs[31];
-+} QEMU_PACKED;
-+
-+QEMU_BUILD_BUG_ON(sizeof(struct riscv32_user_regs) != 128);
-+
-+struct riscv32_elf_prstatus {
-+    char pad1[24]; /* 24 == offsetof(struct elf_prstatus, pr_pid) */
-+    uint32_t pr_pid;
-+    char pad2[44]; /* 44 == offsetof(struct elf_prstatus, pr_reg) -
-+                            offsetof(struct elf_prstatus, pr_ppid) */
-+    struct riscv32_user_regs pr_reg;
-+    char pad3[4];
-+} QEMU_PACKED;
-+
-+QEMU_BUILD_BUG_ON(sizeof(struct riscv32_elf_prstatus) != 204);
-+
-+struct riscv32_note {
-+    Elf32_Nhdr hdr;
-+    char name[8]; /* align_up(sizeof("CORE"), 4) */
-+    struct riscv32_elf_prstatus prstatus;
-+} QEMU_PACKED;
-+
-+#define RISCV32_NOTE_HEADER_SIZE offsetof(struct riscv32_note, prstatus)
-+#define RISCV32_PRSTATUS_NOTE_SIZE \
-+            (RISCV32_NOTE_HEADER_SIZE + sizeof(struct riscv32_elf_prstatus))
-+
-+static void riscv32_note_init(struct riscv32_note *note, DumpState *s,
-+                              const char *name, Elf32_Word namesz,
-+                              Elf32_Word type, Elf32_Word descsz)
-+{
-+    memset(note, 0, sizeof(*note));
-+
-+    note->hdr.n_namesz = cpu_to_dump32(s, namesz);
-+    note->hdr.n_descsz = cpu_to_dump32(s, descsz);
-+    note->hdr.n_type = cpu_to_dump32(s, type);
-+
-+    memcpy(note->name, name, namesz);
-+}
-+
-+int riscv_cpu_write_elf32_note(WriteCoreDumpFunction f, CPUState *cs,
-+                               int cpuid, void *opaque)
-+{
-+    struct riscv32_note note;
-+    RISCVCPU *cpu = RISCV_CPU(cs);
-+    CPURISCVState *env = &cpu->env;
-+    DumpState *s = opaque;
-+    int ret, i;
-+    const char name[] = "CORE";
-+
-+    riscv32_note_init(&note, s, name, sizeof(name),
-+                      NT_PRSTATUS, sizeof(note.prstatus));
-+
-+    note.prstatus.pr_pid = cpu_to_dump32(s, cpuid);
-+
-+    note.prstatus.pr_reg.pc = cpu_to_dump32(s, env->pc);
-+
-+    for (i = 0; i < 31; i++) {
-+        note.prstatus.pr_reg.regs[i] = cpu_to_dump32(s, env->gpr[i + 1]);
-+    }
-+
-+    ret = f(&note, RISCV32_PRSTATUS_NOTE_SIZE, s);
-+    if (ret < 0) {
-+        return -1;
-+    }
-+
-+    return ret;
-+}
-+
-+int cpu_get_dump_info(ArchDumpInfo *info,
-+                      const GuestPhysBlockList *guest_phys_blocks)
-+{
-+    RISCVCPU *cpu;
-+    CPURISCVState *env;
-+
-+    if (first_cpu == NULL) {
-+        return -1;
-+    }
-+    cpu = RISCV_CPU(first_cpu);
-+    env = &cpu->env;
-+
-+    info->d_machine = EM_RISCV;
-+
-+#if defined(TARGET_RISCV64)
-+    info->d_class = ELFCLASS64;
-+#else
-+    info->d_class = ELFCLASS32;
-+#endif
-+
-+    info->d_endian = (env->mstatus & MSTATUS_UBE) != 0
-+                     ? ELFDATA2MSB : ELFDATA2LSB;
-+
-+    return 0;
-+}
-+
-+ssize_t cpu_get_note_size(int class, int machine, int nr_cpus)
-+{
-+    size_t note_size;
-+
-+    if (class == ELFCLASS64) {
-+        note_size = RISCV64_PRSTATUS_NOTE_SIZE;
-+    } else {
-+        note_size = RISCV32_PRSTATUS_NOTE_SIZE;
-+    }
-+
-+    return note_size * nr_cpus;
-+}
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 16f1a34238..ddea8fbeeb 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -624,6 +624,8 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
-     /* For now, mark unmigratable: */
-     cc->vmsd = &vmstate_riscv_cpu;
-+    cc->write_elf64_note = riscv_cpu_write_elf64_note;
-+    cc->write_elf32_note = riscv_cpu_write_elf32_note;
- #endif
-     cc->gdb_arch_name = riscv_gdb_arch_name;
-     cc->gdb_get_dynamic_xml = riscv_gdb_get_dynamic_xml;
-diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-index 14a5c62dac..88ab850682 100644
---- a/target/riscv/meson.build
-+++ b/target/riscv/meson.build
-@@ -26,6 +26,7 @@ riscv_ss.add(files(
+@@ -487,6 +488,8 @@ static inline Manufacturer get_man(Flash *s)
+         return MAN_MACRONIX;
+     case 0xBF:
+         return MAN_SST;
++    case 0x9D:
++        return MAN_ISSI;
+     default:
+         return MAN_GENERIC;
+     }
+@@ -706,6 +709,9 @@ static void complete_collecting_data(Flash *s)
+         case MAN_SPANSION:
+             s->quad_enable = !!(s->data[1] & 0x02);
+             break;
++        case MAN_ISSI:
++            s->quad_enable = extract32(s->data[0], 6, 1);
++            break;
+         case MAN_MACRONIX:
+             s->quad_enable = extract32(s->data[0], 6, 1);
+             if (s->len > 1) {
+@@ -895,6 +901,19 @@ static void decode_fast_read_cmd(Flash *s)
+                                     SPANSION_DUMMY_CLK_LEN
+                                     );
+         break;
++    case MAN_ISSI:
++        /*
++         * The Fast Read instruction code is followed by address bytes and
++         * dummy cycles, transmitted via the SI line.
++         *
++         * The number of dummy cycles is configurable but this is currently
++         * unmodeled, hence the default value 8 is used.
++         *
++         * QPI (Quad Peripheral Interface) mode has different default value
++         * of dummy cycles, but this is unsupported at the time being.
++         */
++        s->needed_bytes += 1;
++        break;
+     default:
+         break;
+     }
+@@ -934,6 +953,16 @@ static void decode_dio_read_cmd(Flash *s)
+             break;
+         }
+         break;
++    case MAN_ISSI:
++        /*
++         * The Fast Read Dual I/O instruction code is followed by address bytes
++         * and dummy cycles, transmitted via the IO1 and IO0 line.
++         *
++         * The number of dummy cycles is configurable but this is currently
++         * unmodeled, hence the default value 4 is used.
++         */
++        s->needed_bytes += 1;
++        break;
+     default:
+         break;
+     }
+@@ -974,6 +1003,19 @@ static void decode_qio_read_cmd(Flash *s)
+             break;
+         }
+         break;
++    case MAN_ISSI:
++        /*
++         * The Fast Read Quad I/O instruction code is followed by address bytes
++         * and dummy cycles, transmitted via the IO3, IO2, IO1 and IO0 line.
++         *
++         * The number of dummy cycles is configurable but this is currently
++         * unmodeled, hence the default value 6 is used.
++         *
++         * QPI (Quad Peripheral Interface) mode has different default value
++         * of dummy cycles, but this is unsupported at the time being.
++         */
++        s->needed_bytes += 3;
++        break;
+     default:
+         break;
+     }
+@@ -1132,7 +1174,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
  
- riscv_softmmu_ss = ss.source_set()
- riscv_softmmu_ss.add(files(
-+  'arch_dump.c',
-   'pmp.c',
-   'monitor.c',
-   'machine.c'
+     case RDSR:
+         s->data[0] = (!!s->write_enable) << 1;
+-        if (get_man(s) == MAN_MACRONIX) {
++        if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+             s->data[0] |= (!!s->quad_enable) << 6;
+         }
+         if (get_man(s) == MAN_SST) {
 -- 
 2.30.0
 
