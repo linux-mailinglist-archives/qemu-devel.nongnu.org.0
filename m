@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3718131EF2E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 20:06:53 +0100 (CET)
-Received: from localhost ([::1]:38938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2A5031EF68
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 20:15:45 +0100 (CET)
+Received: from localhost ([::1]:45622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCodY-0001ZT-96
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 14:06:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57186)
+	id 1lCom8-00053M-Ay
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 14:15:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCobn-0000z0-1j
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:05:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22752)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCobj-0001OE-SV
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:05:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613675099;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=kl4l5N4ensWe/8pmMW15r4zF4cSA7K60X2krykUNSWs=;
- b=JBfdxtXU0qwgkuvhqBHS9G60N/6ORkNOu+zgfmEI/uDVpiH6LB2wgpiT8Gb/2CA7pdiR3W
- LgGfgKo4V1sBVFhl+gCI/1EDzjOKdIeRS5quij2boDZAx2o7n4MOTGPpJ8kVP7gACxWha+
- s7tAcEiUEua/sdyc1Gl7XZBsqkkB3RU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-Mke5rI0AOTKLokqd54QIxQ-1; Thu, 18 Feb 2021 14:04:53 -0500
-X-MC-Unique: Mke5rI0AOTKLokqd54QIxQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1735804023;
- Thu, 18 Feb 2021 19:04:52 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-117-5.rdu2.redhat.com [10.10.117.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D39895C1C4;
- Thu, 18 Feb 2021 19:04:46 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 7455922054F; Thu, 18 Feb 2021 14:04:46 -0500 (EST)
-Date: Thu, 18 Feb 2021 14:04:46 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs@redhat.com
-Subject: Re: [PATCH v2.1 1/3] virtiofsd: Add an option to enable/disable
- posix acls
-Message-ID: <20210218190446.GC92815@redhat.com>
-References: <20210217233046.81418-1-vgoyal@redhat.com>
- <20210217233046.81418-2-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lCojW-00044B-Vc
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:13:03 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2118)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lCojR-000523-Ag
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:13:02 -0500
+Received: from fraeml739-chm.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DhPNR00G3z67nfQ;
+ Fri, 19 Feb 2021 03:07:34 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml739-chm.china.huawei.com (10.206.15.220) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Thu, 18 Feb 2021 20:12:48 +0100
+Received: from localhost (10.47.67.19) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 18 Feb
+ 2021 19:12:47 +0000
+Date: Thu, 18 Feb 2021 19:11:43 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Chris Browy <cbrowy@avery-design.com>
+Subject: Re: [RFC PATCH v2 1/2] Basic PCIe DOE support
+Message-ID: <20210218191143.00000cdf@Huawei.com>
+In-Reply-To: <8A5C244A-DF9A-4EB5-8C24-568A606E75B0@avery-design.com>
+References: <1612900760-7361-1-git-send-email-cbrowy@avery-design.com>
+ <1612902949-9992-1-git-send-email-cbrowy@avery-design.com>
+ <20210212162442.00007c1d@Huawei.com>
+ <8A5C244A-DF9A-4EB5-8C24-568A606E75B0@avery-design.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20210217233046.81418-2-vgoyal@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- T_FILL_THIS_FORM_SHORT=0.01 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.47.67.19]
+X-ClientProxiedBy: lhreml732-chm.china.huawei.com (10.201.108.83) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,213 +69,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lhenriques@suse.de, dgilbert@redhat.com, stefanha@redhat.com,
- miklos@szeredi.hu
+Cc: Ben Widawsky <ben.widawsky@intel.com>, david@redhat.com,
+ qemu-devel@nongnu.org, vishal.l.verma@intel.com, jgroves@micron.com,
+ armbru@redhat.com, linux-cxl@vger.kernel.org, f4bug@amsat.org,
+ "20210212162442.00007c1d@huawei.com" <20210212162442.00007c1d@Huawei.com>,
+ mst@redhat.com, imammedo@redhat.com, dan.j.williams@intel.com,
+ ira.weiny@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fuse has an option FUSE_POSIX_ACL which needs to be opted in by fuse
-server to enable posix acls. 
+On Fri, 12 Feb 2021 16:58:21 -0500
+Chris Browy <cbrowy@avery-design.com> wrote:
 
-Add virtiofsd option "-o posix_acl/no_posix_acl" to let users enable/disable
-posix acl support. By default it is disabled as of now.
+> > On Feb 12, 2021, at 11:24 AM, Jonathan Cameron <Jonathan.Cameron@Huawei=
+.com> wrote:
+> >=20
+> > On Tue, 9 Feb 2021 15:35:49 -0500
+> > Chris Browy <cbrowy@avery-design.com> wrote:
+> >=20
+> > Run ./scripts/checkpatch.pl over the patches and fix all the warnings b=
+efore
+> > posting.  It will save time by clearing out most of the minor formattin=
+g issues
+> > and similar that inevitably sneak in during development.
+> >  =20
+> Excellent suggestion.  We=E2=80=99re still newbies!
+>=20
+> > The biggest issue I'm seeing in here is that the abstraction of
+> > multiple DOE capabiltiies accessing same protocols doesn't make sense.
+> >=20
+> > Each DOE ecap region and hence mailbox can have it's own set of
+> > (possibly  overlapping) protocols.
+> >=20
+> > From the ECN:
+> > "It is permitted for a protocol using data object exchanges to require
+> > that a Function implement a unique instance of DOE for that specific
+> > protocol, and/or to allow sharing of a DOE instance to only a specific
+> > set of protocols using data object exchange, and/or to allow a Function
+> > to implement multiple instances of DOE supporting the specific protocol=
+."
+> >=20
+> > Tightly couple the ECAP and DOE.  If we are in the multiple instances
+> > of DOE supporting a specific protocol case, then register it separately
+> > for each one.  The individual device emulation then needs to deal with
+> > any possible clashes etc. =20
+>=20
+> Not sure how configurable we want to make the device.  It is a simple typ=
+e 3
+> device after all.=20
 
-Currently even if file server has not opted in for FUSE_POSIX_ACL, user can
-still query acl and set acl, and system.posix_acl_access and
-system.posix_acl_default xattrs show up listxattr response. 
+Agreed, but what I (or someone else) really doesn't want to have to do
+in the future is reimplement DOE because we made design decisions that make
+this version hard to reuse.  Unless it is particularly nasty to do we should
+try to design something that is generally useful rather than targeted to
+closely at the specific case we are dealing with.
 
-Miklos said this is confusing. So he said lets block and filter
-system.posix_acl_access and system.posix_acl_default xattrs in
-getxattr/setxattr/listxattr if user has explicitly disabled
-posix acls using -o no_posix_acl.
+I'd argue the ECAP and the DOE mailbox are always tightly coupled 1-to-1.
+Whether the device wants to implement multiple protocols on each DOE mailbox
+or indeed run individual protocols on multiple DOE mailboxes is a design
+decision, but the actual mechanics of DOE match up with the config
+space structures anything else is impdef on the device.
 
-As of now continuing to keeping the existing behavior if user did not
-specify any option to disable acl support due to concerns about backward
-compatibility. 
-
-v2.1: Fixed lo_removexattr()
-
-v2: block system.posix_acl_access and system.posix_acl_default xattrs
-    if user explicitly disabled acls. (Miklos)
-
-Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
----
- tools/virtiofsd/passthrough_ll.c |  100 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 99 insertions(+), 1 deletion(-)
-
-Index: rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c
-===================================================================
---- rhvgoyal-qemu.orig/tools/virtiofsd/passthrough_ll.c	2021-02-18 13:12:26.839770339 -0500
-+++ rhvgoyal-qemu/tools/virtiofsd/passthrough_ll.c	2021-02-18 13:38:22.344930118 -0500
-@@ -169,6 +169,7 @@ struct lo_data {
-     /* An O_PATH file descriptor to /proc/self/fd/ */
-     int proc_self_fd;
-     int user_killpriv_v2, killpriv_v2;
-+    int user_posix_acl;
- };
- 
- static const struct fuse_opt lo_opts[] = {
-@@ -201,6 +202,8 @@ static const struct fuse_opt lo_opts[] =
-     { "announce_submounts", offsetof(struct lo_data, announce_submounts), 1 },
-     { "killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 1 },
-     { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-+    { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-+    { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
-     FUSE_OPT_END
- };
- static bool use_syslog = false;
-@@ -661,6 +664,23 @@ static void lo_init(void *userdata, stru
-         conn->want &= ~FUSE_CAP_HANDLE_KILLPRIV_V2;
-         lo->killpriv_v2 = 0;
-     }
-+
-+    if (lo->user_posix_acl == 1) {
-+        /*
-+         * User explicitly asked for this option. Enable it unconditionally.
-+         * If connection does not have this capability, it should fail
-+         * in fuse_lowlevel.c
-+         */
-+        fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-+        conn->want |= FUSE_CAP_POSIX_ACL;
-+    } else {
-+        /*
-+         * Either user specified to disable posix_acl, or did not specify
-+         * anything. In both the cases do not enable posix acl.
-+         */
-+        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-+        conn->want &= ~FUSE_CAP_POSIX_ACL;
-+    }
- }
- 
- static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-@@ -2612,6 +2632,63 @@ static int xattr_map_server(const struct
-     return -ENODATA;
- }
- 
-+static bool block_xattr(struct lo_data *lo, const char *name)
-+{
-+    /*
-+     * If user explicitly enabled posix_acl or did not provide any option,
-+     * do not block acl. Otherwise block system.posix_acl_access and
-+     * system.posix_acl_default xattrs.
-+     */
-+    if (lo->user_posix_acl) {
-+        return false;
-+    }
-+    if (!strcmp(name, "system.posix_acl_access") ||
-+        !strcmp(name, "system.posix_acl_default"))
-+            return true;
-+
-+    return false;
-+}
-+
-+/*
-+ * Returns number of bytes in xattr_list after filtering on success. This
-+ * could be zero as well if nothing is left after filtering.
-+ *
-+ * Returns negative error code on failure.
-+ * xattr_list is modified in place.
-+ */
-+static int remove_blocked_xattrs(struct lo_data *lo, char *xattr_list,
-+                                 unsigned in_size)
-+{
-+    size_t out_index, in_index;
-+
-+    /*
-+     * As of now we only filter out acl xattrs. If acls are enabled or
-+     * they have not been explicitly disabled, there is nothing to
-+     * filter.
-+     */
-+    if (lo->user_posix_acl) {
-+        return in_size;
-+    }
-+
-+    out_index = 0;
-+    in_index = 0;
-+    while (in_index < in_size) {
-+        char *in_ptr = xattr_list + in_index;
-+
-+        /* Length of current attribute name */
-+        size_t in_len = strlen(xattr_list + in_index) + 1;
-+
-+        if (!block_xattr(lo, in_ptr)) {
-+            if (in_index != out_index) {
-+                memmove(xattr_list + out_index, xattr_list + in_index, in_len);
-+            }
-+            out_index += in_len;
-+        }
-+        in_index += in_len;
-+     }
-+    return out_index;
-+}
-+
- static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
-                         size_t size)
- {
-@@ -2625,6 +2702,11 @@ static void lo_getxattr(fuse_req_t req,
-     int saverr;
-     int fd = -1;
- 
-+    if (block_xattr(lo, in_name)) {
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     mapped_name = NULL;
-     name = in_name;
-     if (lo->xattrmap) {
-@@ -2766,7 +2848,6 @@ static void lo_listxattr(fuse_req_t req,
-         if (ret == 0) {
-             goto out;
-         }
--
-         if (lo->xattr_map_list) {
-             /*
-              * Map the names back, some attributes might be dropped,
-@@ -2813,6 +2894,12 @@ static void lo_listxattr(fuse_req_t req,
-                 goto out;
-             }
-         }
-+
-+        ret = remove_blocked_xattrs(lo, value, ret);
-+        if (ret <= 0) {
-+            saverr = -ret;
-+            goto out;
-+        }
-         fuse_reply_buf(req, value, ret);
-     } else {
-         /*
-@@ -2851,6 +2938,11 @@ static void lo_setxattr(fuse_req_t req,
-     int saverr;
-     int fd = -1;
- 
-+    if (block_xattr(lo, in_name)) {
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     mapped_name = NULL;
-     name = in_name;
-     if (lo->xattrmap) {
-@@ -2917,6 +3009,11 @@ static void lo_removexattr(fuse_req_t re
-     int saverr;
-     int fd = -1;
- 
-+    if (block_xattr(lo, in_name)) {
-+        fuse_reply_err(req, EOPNOTSUPP);
-+        return;
-+    }
-+
-     mapped_name = NULL;
-     name = in_name;
-     if (lo->xattrmap) {
-@@ -3604,6 +3701,7 @@ int main(int argc, char *argv[])
-         .allow_direct_io = 0,
-         .proc_self_fd = -1,
-         .user_killpriv_v2 = -1,
-+        .user_posix_acl = -1,
-     };
-     struct lo_map_elem *root_elem;
-     struct lo_map_elem *reserve_elem;
+>=20
+> The DOE spec does leave it pretty arbitrary regarding N DOE instances (DO=
+E=20
+> Extended Cap entry points) for M protocols, including where N>1 and M=3D1=
+. =20
+> Currently we implement N=3D2 DOE caps (instances), one for CDAT, one for=
+=20
+> Compliance Mode.[
+>=20
+> Maybe a more complex MLD device might have one or more DOE instances=20
+> for the CDAT protocol alone to define each HDM but currently we only have=
+=20
+> one pmem (SLD) so we can=E2=80=99t really do much more than what=E2=80=99=
+s supported.
+>=20
+> Open to further suggestion though.  Based on answer to above we=E2=80=99l=
+l follow=20
+> the suggestion lower in the code review regarding=20
+>=20
+...
 
 
