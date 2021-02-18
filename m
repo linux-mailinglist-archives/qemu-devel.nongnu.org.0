@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83E2531F106
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 21:32:17 +0100 (CET)
-Received: from localhost ([::1]:46662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D51931F111
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 21:34:47 +0100 (CET)
+Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCpyB-0002Wi-Ji
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 15:32:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46402)
+	id 1lCq0a-0005Il-AG
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 15:34:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3-8ouYAMKClQz502AA270.yA8C08G-z0H079A929G.AD2@flex--dje.bounces.google.com>)
- id 1lCpia-0005Wu-Pz
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:16:08 -0500
-Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:56840)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lCpx9-0003Gm-5e
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:31:11 -0500
+Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:37161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3-8ouYAMKClQz502AA270.yA8C08G-z0H079A929G.AD2@flex--dje.bounces.google.com>)
- id 1lCpiW-0000MH-Fk
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:16:08 -0500
-Received: by mail-pg1-x549.google.com with SMTP id v16so1887481pgl.23
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 12:15:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lCpwz-0007FB-Ci
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:31:07 -0500
+Received: by mail-ua1-x929.google.com with SMTP id d3so1131043uap.4
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 12:30:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc; bh=SNmCVV9YeJbGR714hAl1IWGl9Ws3fdkgHjDDepNCxLo=;
- b=s+zWs6jOjrQG83C0Ek3AWFJEJhL/TuVBKsoW0i8wLdambbgZWksPqNHnukZEFcLB2c
- Rw534787flMhbyvhDBWJa4xKNvjfo5PEE/FHrQnqfo1fHInISnEF3gFmAC/djDaa1KTC
- 80W+HlBw2d+Ahsm0+nugbibxPt898ABc15Yc1Q+9mZpEJ9uKdzXtrdKQhFM4QHhmkG2S
- irFS4QTq1Vj7HTkTG+FW06ly4Yrhy6OeGKkuRODAxJN7dx+y1coLo1NmYYms3azct27+
- LYGZjV/I2UeUF6LQ/SomH9WSMHqJjTFOfzXnUDhPKIRQCToFFHxQorO8TQ425M2BxmFE
- peLQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=3o/G8wgAJYj+Jg4CZh331qOWl8qL8RRRCmLJS/2qRSs=;
+ b=MuRQqo9TibTDU3gG+8Au3+gWAlsQ+lnTOyhkdWqPlJjblYr42x8eKg0tY92roW60id
+ QZYIJZz3v2M/FB/YcJTjVNsc9i7CFBQwmInr8zh8QePL0EUstG1dxY2poHmg6yTT6DpH
+ LEE+pJFFVgEjIPg+N2Y2CxAiGdxkNeyJW+fTgTH0JZMKn/ABkzr371TMMIpUSLa9BTQS
+ +qoGGxh+KKntIVRiFk40QQ5mXMdgaBAT0/5dqTI7QNXf3cY8BQx8N0TNxA5agx9eS9ho
+ 9/CBQPxrrX2VETOv1PgqAI7qFQJuXB1J+ZX8FagFSES065V+o79VUagKfHsiivB8e+qL
+ 4+WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=SNmCVV9YeJbGR714hAl1IWGl9Ws3fdkgHjDDepNCxLo=;
- b=YUOFJtRKCQUAKzGTpBUs5eF46VwKWa8PISZUfNx6aNragebi7hycUAtVIBbnzsr0HT
- lhwy9EIRtBZr/FtTFlUHdbNxQ3Zu8UgD/LHplCpNtuoiihEQ7XfU/jEdfe3AEuh4awdV
- IgZRs3twdNQ5N0hq0enu5MqPav2BOwbQ6mCGCRJzYmpPQx08WenIrMcMP52cD8bfbQX5
- kO6Zg25cUBfxP7iu2xQ4ynUXm0hJdKtXBxmnVR3jXStHl+CuC2yP9D6uHRGFS8lErF/k
- JTMiyq56379IQ3QlXNyu+eSMOOMezaodnXam5aMgPrMUdqKOheqlKK6GM8F3d/DObfU8
- +vaw==
-X-Gm-Message-State: AOAM533s0ZNdpKEShEFRjUNBIPJIIZlMMNJ2XmtAX+8P2E4ewioUwJ12
- 4Jqx3LHa9jrnM+lMFmwWDqgeLp57vYTEtttqX9m7LlTyXE0cqkKo4pWbigehkrL5FossHEEw99+
- YD5SBy2rsttm3pW0CCfHhUwDOmMEU9d2UB16SYg8gVM4myUbbmV0C
-X-Google-Smtp-Source: ABdhPJyJOkM9FDmcN5hUr/O68oMS0OMPEjaBaHIhSBz2ugVV9nBqPmL6h9uQ6vGyTfGToZ+wM2vNwBk=
-X-Received: from ruffy.mtv.corp.google.com
- ([2620:0:1000:1412:4cc1:c5e:b49d:b16f])
- (user=dje job=sendgmr) by 2002:a17:90a:5303:: with SMTP id
- x3mr5642354pjh.54.1613679355186; Thu, 18 Feb 2021 12:15:55 -0800 (PST)
-Date: Thu, 18 Feb 2021 12:15:38 -0800
-In-Reply-To: <20210218201538.701509-1-dje@google.com>
-Message-Id: <20210218201538.701509-5-dje@google.com>
-Mime-Version: 1.0
-References: <20210218201538.701509-1-dje@google.com>
-X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
-Subject: [PATCH v4 4/4] net: Extend host forwarding to support IPv6
-To: qemu-devel@nongnu.org
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
- "=?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
- Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
- envelope-from=3-8ouYAMKClQz502AA270.yA8C08G-z0H079A929G.AD2@flex--dje.bounces.google.com;
- helo=mail-pg1-x549.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=3o/G8wgAJYj+Jg4CZh331qOWl8qL8RRRCmLJS/2qRSs=;
+ b=VTUyee7gR/hfqm4SZwpvnGr9Ksp9xnh1lPCs8WA20W/fwfVkQJxpL0dU2cEclmQ1Cq
+ rDSwEnz6WLwg2Fi7lfvgbwu7iND57Lb7mrxHk8HkIFHyJrJPd4RQ2inLld4qKaU8Ae68
+ vD9Qr3Un61NhhXwLGFydv0lHXpmT4DoIchYPCjZCwgo6dgwOKz6SXR6M9YnC2xSlHlqV
+ 493T5e8XQTy/nWGXyZdVdhMAlGOn9h4Ripnle+YhcPs/AetlGAXbCwuvC1wvhXQGPOdU
+ xDFMbkzcMoRjDhKDPTkO9VYA+m7afUl9GVYlCt1KLW2pb6D3aN5IGS7SLM6h3LGK9qy2
+ eqvw==
+X-Gm-Message-State: AOAM531HtoZc1yOtCUvb4+eMyVwbk72nAKIHAOrviAoaGb2v5E7YcKvT
+ pJ8PffHvcIRP6fIQ1rrYJkUTJ6cENFxW1oH+QQPGdQ==
+X-Google-Smtp-Source: ABdhPJzlkZg9YLYiKfpeqq+7pWfZlYLDTmNX1F3OddAw+qEXmm2bCPMz/lJqU6kuzO/EBpcI5muUyNmtsZS2ZJEZgi8=
+X-Received: by 2002:a9f:24b6:: with SMTP id 51mr5124624uar.91.1613680258194;
+ Thu, 18 Feb 2021 12:30:58 -0800 (PST)
+MIME-Version: 1.0
+References: <20210203233539.1990032-1-dje@google.com>
+ <20210204100349.GF549438@redhat.com>
+ <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
+ <CADPb22Q2k0EpEG6=h=Riswitpha0okeEeoP9Use3yfYtV7t6ZA@mail.gmail.com>
+ <20210210093102.GB1240644@redhat.com>
+ <CADPb22QzGYw3z9tgVgcZv3vywVN_ejt_PjUrHmB4O-DLkAeT=Q@mail.gmail.com>
+ <20210210164919.GL1240644@redhat.com>
+ <CADPb22Sdk1Ao5wGFBEiJ2mNqeRfo81vp1U1gXYA9caf9Ht1n4g@mail.gmail.com>
+ <20210211091203.GA1302824@redhat.com>
+In-Reply-To: <20210211091203.GA1302824@redhat.com>
+From: Doug Evans <dje@google.com>
+Date: Thu, 18 Feb 2021 12:30:21 -0800
+Message-ID: <CADPb22Qme+CSggwn194i+HZJYkz0COm2J=roSbjgP-DoGF3JPQ@mail.gmail.com>
+Subject: Re: [PATCH v3 0/3]
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Samuel Thibault <samuel.thibault@ens-lyon.org>
+Content-Type: multipart/alternative; boundary="00000000000092805805bba2367b"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
+ envelope-from=dje@google.com; helo=mail-ua1-x929.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,300 +87,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Doug Evans <dje@google.com>
-From:  Doug Evans via <qemu-devel@nongnu.org>
 
-Net option "-hostfwd" now supports IPv6 addresses.
-Commands hostfwd_add, hostfwd_remove now support IPv6 addresses.
+--00000000000092805805bba2367b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Doug Evans <dje@google.com>
----
+On Thu, Feb 11, 2021 at 1:12 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m>
+wrote:
 
-Differences from v3:
-- this patch renamed from 3/3 to 4/4
-- ipv6 support added to existing hostfwd option, commands
-  - instead of creating new ipv6 option, commands
-- added tests to tests/acceptance/hostfwd.py
+> [...]
+>
+> I think the key useful part to keep common impl for is the handling
+> of the [] brackets for IPv6 raw addrs. I'd suggest we try to pull the
+> "address:port" part out into a new inet_addr_parse() helper that can be
+> called from inet_pase and from slirp.
+>
+> inet_parse() can split on the first ",", and then call inet_addr_parse
+> on the first segment.
+>
+> slirp can split on "-", and call inet_addr_parse with both segments.
+>
 
-Differences from v2:
-- clarify spelling of ipv6 addresses in docs
-- tighten parsing of ipv6 addresses
 
-Differences from v1:
-- parsing refactor split out into separate patch (2/3)
+v4 here:
+https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg06011.html
 
- hmp-commands.hx             | 15 +++++++
- net/slirp.c                 | 78 ++++++++++++++++++++++++++-----------
- tests/acceptance/hostfwd.py | 66 +++++++++++++++++++++++++++++++
- 3 files changed, 136 insertions(+), 23 deletions(-)
+--00000000000092805805bba2367b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index d4001f9c5d..4de4e4979d 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1375,6 +1375,16 @@ ERST
- SRST
- ``hostfwd_add``
-   Redirect TCP or UDP connections from host to guest (requires -net user).
-+  IPV6 addresses are wrapped in square brackes, IPV4 addresses are not.
-+
-+  Examples:
-+  hostfwd_add net0 tcp:127.0.0.1:10022-:22
-+  hostfwd_add net0 tcp:[::1]:10022-[fe80::1:2:3:4]:22
-+
-+  Note that Libslirp currently only provides a "stateless" DHCPv6 server, a
-+  consequence of which is that it cannot do the "addr-any" translation to the
-+  guest address that is done for IPv4. In other words, the following is
-+  currently not supported: hostfwd_add net0 tcp:[::1]:10022-:22
- ERST
- 
- #ifdef CONFIG_SLIRP
-@@ -1390,6 +1400,11 @@ ERST
- SRST
- ``hostfwd_remove``
-   Remove host-to-guest TCP or UDP redirection.
-+  IPV6 addresses are wrapped in square brackes, IPV4 addresses are not.
-+
-+  Examples:
-+  hostfwd_remove net0 tcp:127.0.0.1:10022
-+  hostfwd_remove net0 tcp:[::1]:10022
- ERST
- 
-     {
-diff --git a/net/slirp.c b/net/slirp.c
-index ee39014a71..d8c675a2e8 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -96,6 +96,11 @@ typedef struct SlirpState {
-     GSList *fwd;
- } SlirpState;
- 
-+union in4or6_addr {
-+    struct in_addr addr4;
-+    struct in6_addr addr6;
-+};
-+
- static struct slirp_config_str *slirp_configs;
- static QTAILQ_HEAD(, SlirpState) slirp_stacks =
-     QTAILQ_HEAD_INITIALIZER(slirp_stacks);
-@@ -663,31 +668,38 @@ static const char *parse_protocol(const char *str, int sep, bool *is_udp,
- 
- /*
-  * Parse an ip address/port of the form "address:port<terminator>".
-- * An empty address means INADDR_ANY.
-- * Returns a pointer to the end of the parsed string on success, and stores
-- * the results in *addr, *port.
-+ * An empty address means INADDR_ANY/in6addr_any.
-+ * Returns a pointer to after the terminator, unless it was '\0', and stores
-+ * the results in *addr, *port, *is_v6.
-  * Otherwise returns NULL and stores the error in *errp.
-  */
- static const char *parse_ip_addr_and_port(const char *str, int terminator,
--                                          struct in_addr *addr, int *port,
--                                          Error **errp)
-+                                          union in4or6_addr *addr, int *port,
-+                                          bool *is_v6, Error **errp)
- {
-     g_autofree char *addr_str = NULL;
-     g_autofree char *port_str = NULL;
--    bool is_v6;
-     const char *p = inet_parse_host_and_port(str, terminator, &addr_str,
--                                             &port_str, &is_v6, errp);
-+                                             &port_str, is_v6, errp);
- 
-     if (p == NULL) {
-         return NULL;
-     }
- 
--    /* Ignore is_v6 for the moment, if inet_aton fails let it. */
--    if (addr_str[0] == '\0') {
--        addr->s_addr = INADDR_ANY;
--    } else if (!inet_aton(addr_str, addr)) {
--        error_setg(errp, "Bad address");
--        return NULL;
-+    if (*is_v6) {
-+        if (addr_str[0] == '\0') {
-+            addr->addr6 = in6addr_any;
-+        } else if (!inet_pton(AF_INET6, addr_str, &addr->addr6)) {
-+            error_setg(errp, "Bad address");
-+            return NULL;
-+        }
-+    } else {
-+        if (addr_str[0] == '\0') {
-+            addr->addr4.s_addr = INADDR_ANY;
-+        } else if (!inet_pton(AF_INET, addr_str, &addr->addr4)) {
-+            error_setg(errp, "Bad address");
-+            return NULL;
-+        }
-     }
- 
-     if (qemu_strtoi(port_str, NULL, 10, port) < 0 ||
-@@ -708,11 +720,11 @@ static const char *parse_ip_addr_and_port(const char *str, int terminator,
- 
- void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
- {
--    struct in_addr host_addr;
-+    union in4or6_addr host_addr;
-     int host_port;
-     const char *src_str, *p;
-     SlirpState *s;
--    bool is_udp;
-+    bool is_udp, is_v6;
-     int err;
-     Error *error = NULL;
-     const char *arg1 = qdict_get_str(qdict, "arg1");
-@@ -737,11 +749,18 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-         goto fail_syntax;
-     }
- 
--    if (parse_ip_addr_and_port(p, '\0', &host_addr, &host_port,
-+    if (parse_ip_addr_and_port(p, '\0', &host_addr, &host_port, &is_v6,
-                                &error) == NULL) {
-         goto fail_syntax;
-     }
--    err = slirp_remove_hostfwd(s->slirp, is_udp, host_addr, host_port);
-+
-+    if (is_v6) {
-+        err = slirp_remove_ipv6_hostfwd(s->slirp, is_udp, host_addr.addr6,
-+                                        host_port);
-+    } else {
-+        err = slirp_remove_hostfwd(s->slirp, is_udp, host_addr.addr4,
-+                                   host_port);
-+    }
- 
-     monitor_printf(mon, "host forwarding rule for %s %s\n", src_str,
-                    err ? "not found" : "removed");
-@@ -754,11 +773,12 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
- 
- static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
- {
--    struct in_addr host_addr, guest_addr;
-+    union in4or6_addr host_addr, guest_addr;
-     int host_port, guest_port;
-     const char *p;
--    bool is_udp;
-+    bool is_udp, host_is_v6, guest_is_v6;
-     Error *error = NULL;
-+    int err;
- 
-     g_assert(redir_str != NULL);
-     p = redir_str;
-@@ -768,24 +788,36 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-         goto fail_syntax;
-     }
- 
--    p = parse_ip_addr_and_port(p, '-', &host_addr, &host_port, &error);
-+    p = parse_ip_addr_and_port(p, '-', &host_addr, &host_port, &host_is_v6,
-+                               &error);
-     if (p == NULL) {
-         error_prepend(&error, "For host address: ");
-         goto fail_syntax;
-     }
- 
--    if (parse_ip_addr_and_port(p, '\0', &guest_addr, &guest_port,
-+    if (parse_ip_addr_and_port(p, '\0', &guest_addr, &guest_port, &guest_is_v6,
-                                &error) == NULL) {
-         error_prepend(&error, "For guest address: ");
-         goto fail_syntax;
-     }
-+    if (host_is_v6 != guest_is_v6) {
-+        /* TODO: Can libslirp support this? */
-+        error_setg(&error, "Both host,guest must be one of ipv4 or ipv6");
-+        goto fail_syntax;
-+    }
-     if (guest_port == 0) {
-         error_setg(&error, "For guest address: Bad port");
-         goto fail_syntax;
-     }
- 
--    if (slirp_add_hostfwd(s->slirp, is_udp, host_addr, host_port, guest_addr,
--                          guest_port) < 0) {
-+    if (host_is_v6) {
-+        err = slirp_add_ipv6_hostfwd(s->slirp, is_udp, host_addr.addr6,
-+                                     host_port, guest_addr.addr6, guest_port);
-+    } else {
-+        err = slirp_add_hostfwd(s->slirp, is_udp, host_addr.addr4, host_port,
-+                                guest_addr.addr4, guest_port);
-+    }
-+    if (err < 0) {
-         error_setg(errp, "Could not set up host forwarding rule '%s'",
-                    redir_str);
-         return -1;
-diff --git a/tests/acceptance/hostfwd.py b/tests/acceptance/hostfwd.py
-index 1eaa0371ba..4368d557c9 100644
---- a/tests/acceptance/hostfwd.py
-+++ b/tests/acceptance/hostfwd.py
-@@ -82,3 +82,69 @@ def test_qmp_hostfwd_ipv4_parsing_errors(self):
-                           "Invalid host forwarding rule '::66-:-1' (For guest address: Bad port)\r\n")
-         self.assertEquals(self.hmc('hostfwd_add ::66-:0'),
-                           "Invalid host forwarding rule '::66-:0' (For guest address: Bad port)\r\n")
-+
-+    def test_qmp_hostfwd_ipv6(self):
-+        self.vm.add_args('-nodefaults',
-+                         '-netdev', 'user,id=vnet',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.launch()
-+        self.assertEquals(self.hmc('hostfwd_add vnet tcp:[::1]:65022-[fe80::1]:22'),
-+                          '')
-+        self.assertEquals(self.hmc('hostfwd_remove vnet tcp:[::1]:65022'),
-+                          'host forwarding rule for tcp:[::1]:65022 removed\r\n')
-+        self.assertEquals(self.hmc('hostfwd_add tcp:[]:65042-[fe80::1]:42'),
-+                          '')
-+        self.assertEquals(self.hmc('hostfwd_remove tcp:[]:65042'),
-+                          'host forwarding rule for tcp:[]:65042 removed\r\n')
-+        self.assertEquals(self.hmc('hostfwd_add udp:[::1]:65042-[fe80::1]:42'),
-+                          '')
-+        self.assertEquals(self.hmc('hostfwd_remove udp:[::1]:65042'),
-+                          'host forwarding rule for udp:[::1]:65042 removed\r\n')
-+
-+    def test_qmp_hostfwd_ipv6_functional_errors(self):
-+        """Verify handling of various kinds of errors given valid addresses."""
-+        self.vm.add_args('-nodefaults',
-+                         '-netdev', 'user,id=vnet',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.launch()
-+        self.assertEquals(self.hmc('hostfwd_remove :[::1]:65022'),
-+                          'host forwarding rule for :[::1]:65022 not found\r\n')
-+        self.assertEquals(self.hmc('hostfwd_add udp:[::1]:65042-[fe80::1]:42'),
-+                          '')
-+        self.assertEquals(self.hmc('hostfwd_add udp:[::1]:65042-[fe80::1]:42'),
-+                          "Could not set up host forwarding rule 'udp:[::1]:65042-[fe80::1]:42'\r\n")
-+        self.assertEquals(self.hmc('hostfwd_remove :[::1]:65042'),
-+                          'host forwarding rule for :[::1]:65042 not found\r\n')
-+        self.assertEquals(self.hmc('hostfwd_remove udp:[::1]:65042'),
-+                          'host forwarding rule for udp:[::1]:65042 removed\r\n')
-+        self.assertEquals(self.hmc('hostfwd_remove udp:[::1]:65042'),
-+                          'host forwarding rule for udp:[::1]:65042 not found\r\n')
-+
-+    def test_qmp_hostfwd_ipv6_errors(self):
-+        """Verify handling of various kinds of errors."""
-+        self.vm.add_args('-nodefaults',
-+                         '-netdev', 'user,id=vnet',
-+                         '-device', 'virtio-net,netdev=vnet')
-+        self.vm.launch()
-+        self.assertEquals(self.hmc('hostfwd_add :[::1-'),
-+                          "Invalid host forwarding rule ':[::1-' (For host address: error parsing IPv6 host:port '[::1')\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66-[fe80::1'),
-+                          "Invalid host forwarding rule ':[::1]:66-[fe80::1' (For guest address: error parsing IPv6 host:port '[fe80::1')\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[:::]:66-foo'),
-+                          "Invalid host forwarding rule ':[:::]:66-foo' (For host address: Bad address)\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]-foo'),
-+                          "Invalid host forwarding rule ':[::1]-foo' (For host address: error parsing IPv6 host:port '[::1]')\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66-[foo]'),
-+                          "Invalid host forwarding rule ':[::1]:66-[foo]' (For guest address: error parsing IPv6 host:port '[foo]')\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66666-foo'),
-+                          "Invalid host forwarding rule ':[::1]:66666-foo' (For host address: Bad port)\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66-[fe80::1]:-1'),
-+                          "Invalid host forwarding rule ':[::1]:66-[fe80::1]:-1' (For guest address: Bad port)\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66-[fe80::1]:66666'),
-+                          "Invalid host forwarding rule ':[::1]:66-[fe80::1]:66666' (For guest address: Bad port)\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66-[fe80::1]:0'),
-+                          "Invalid host forwarding rule ':[::1]:66-[fe80::1]:0' (For guest address: Bad port)\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :[::1]:66-1.2.3.4:66'),
-+                          "Invalid host forwarding rule ':[::1]:66-1.2.3.4:66' (Both host,guest must be one of ipv4 or ipv6)\r\n")
-+        self.assertEquals(self.hmc('hostfwd_add :1.2.3.4:66-[fe80::1]:66'),
-+                          "Invalid host forwarding rule ':1.2.3.4:66-[fe80::1]:66' (Both host,guest must be one of ipv4 or ipv6)\r\n")
--- 
-2.30.0.617.g56c4b15f3c-goog
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Thu, Feb 11, 2021 at 1:12 AM Daniel P. Berrang=C3=A9 &lt;<=
+a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br=
+></div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex"><span class=3D"gmail_default" style=3D"font-size:small">[...=
+]</span><br>
+<br>
+I think the key useful part to keep common impl for is the handling<br>
+of the [] brackets for IPv6 raw addrs. I&#39;d suggest we try to pull the<b=
+r>
+&quot;address:port&quot; part out into a new inet_addr_parse() helper that =
+can be<br>
+called from inet_pase and from slirp.<br>
+<br>
+inet_parse() can split on the first &quot;,&quot;, and then call inet_addr_=
+parse<br>
+on the first segment.<br>
+<br>
+slirp can split on &quot;-&quot;, and call inet_addr_parse with both segmen=
+ts.<br></blockquote><div><br></div><div><br></div><div class=3D"gmail_defau=
+lt" style=3D"font-size:small">v4 here: <a href=3D"https://lists.nongnu.org/=
+archive/html/qemu-devel/2021-02/msg06011.html">https://lists.nongnu.org/arc=
+hive/html/qemu-devel/2021-02/msg06011.html</a></div></div></div>
 
+--00000000000092805805bba2367b--
 
