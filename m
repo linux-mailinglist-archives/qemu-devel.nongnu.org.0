@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D749631EC22
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 17:17:38 +0100 (CET)
-Received: from localhost ([::1]:42008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2763531EC32
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 17:24:06 +0100 (CET)
+Received: from localhost ([::1]:47130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lClzl-0008O1-TW
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 11:17:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52464)
+	id 1lCm61-0003NX-7e
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 11:24:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lClww-0007AM-9k
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:14:42 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:38269)
+ id 1lCm30-00022y-8F
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:20:59 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:41401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lClwu-000127-9T
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:14:41 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id l18so1770801pji.3
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 08:14:37 -0800 (PST)
+ id 1lCm2w-00046V-NH
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:20:57 -0500
+Received: by mail-pl1-x633.google.com with SMTP id a9so1509708plh.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 08:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Slr0gelwZw4Oh/4gWPELyOhNHNARtPxmQ7R/a3ryU4Y=;
- b=uEbsRei2VioZWi4PSjLZL91I2Exd6C+ScYU2Ebna7MsScM9GVOBzwVqCNy51CsDl2k
- m9nJQNcw8fxpUvEwVF695eTTxwivfk2o4gnLCMvkq8DjbZyuFcTt3k19vq1awgvFfRpm
- Fyg1Y2ahKfq6qviJKUkD53lCuHk1k3zKVpR/Pwsji1uOLzyjVJZWglMeqQv0osl1YZHc
- Md/9/H4YgprYDx75zAzik5qDEZ6otQO7m0aFEoYMiQ1H3XzUHPrUN1fRUn8Yg3NRHaVZ
- 0IIZMDK+jpCPKs3u/EzUI2DPJsThbJdN+n4MYgYzjVkMTCXVw49sAl+h+rtIwwGiUxs+
- 0LyA==
+ bh=P77YELK87BOgcPoZEZy/x9GQK5K1mig6M7xaV4MFRko=;
+ b=uxstqCll+DnakMWzFWBOZQ3hlG4G8uDfykxF824UGdCo1fTTTmxShwgZz+9hybppCt
+ uPRCL9NAoTg9NvFppWgHWNkwSlmwWXTjnmYBjfTM6FlJcOLqf3D2u0ECdFcqbXkf9NE0
+ T3myYzf3M5GNtmDYkYp+/O+xJ7i5TsZY70iq4ARtdcN91DsDcYLQMttdBFQVCHxR0Ml4
+ a0DjZO14UfYOaUsJtKTD2eL7GxlKBjZ2xWRjC4o5+IgH3ToXu0TJdaD/A0cIGLnDa2Dg
+ rXRYau07O/3y7nzMUbbqkv6YoCXr5lZdeDF915pxURwCc/raBVOcOsxScTOicWigONKH
+ 3ztw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Slr0gelwZw4Oh/4gWPELyOhNHNARtPxmQ7R/a3ryU4Y=;
- b=YHFuONqQiJJlW/kvbzDOHW+i9fCXpicV1upIQEV3mlLvsRpd3r7ioATkemdYho8aSN
- 0AyGB9dWXq1zDLctJvs0xdecjY1ozjUu/A7NTEvSVhxYBk9k4D/PqG04R8HsWiyqkYcR
- NYIELi5A3Su9wVbT+C0kBzLdzGvWIV3VjpXDWaXISavHPjiL3OZHHvLL75wKQ//q6XsS
- d5C/iFcmFHCYGq3sP6BdPxkbhHCVVLlCsBRTOjLlDriSOXKK7QkQbaS0NQ76dJO5Zwmz
- nr0UCbXczxe+RLnCHb1l9T0t1zhpw00AW59WrpwEGjF5EMx3SRh4j7jFtyAC/We5y95P
- ElLg==
-X-Gm-Message-State: AOAM530snkLgTn6GJf8q03if6RNAj3I1gZM3VCQfxJTk/RnPkK1I7QCn
- l10pBE4oqFvwtoHymxAX5KTNdQ==
-X-Google-Smtp-Source: ABdhPJwsWI8SoVETCwIonGggGecOnyp490EvWrp+UftmkY7oTrGlCLUE5Xf6jiT0DG7/HUzSJHVvqg==
-X-Received: by 2002:a17:90b:14cf:: with SMTP id
- jz15mr4617761pjb.180.1613664876288; 
- Thu, 18 Feb 2021 08:14:36 -0800 (PST)
+ bh=P77YELK87BOgcPoZEZy/x9GQK5K1mig6M7xaV4MFRko=;
+ b=icATeFQOFqtsYnJXLghtSUUyw7tN0reSZASCIra0TWjVBOS9VUuO7/p8oAkTJsRWad
+ FTYH1ilqx91NQkCq3GS5wav6k+F1omRd71jVtsLUmArEKetsLVtigEq45yUKDEaxhfHv
+ q0X5h7yYR8WJr4g4Ii0Wl7tgFmaHKzt2465uQyMOoZeZPlKPavXxOTsa5eHfdt6xP315
+ ZV634xVIAepFaoTopyJrmufkZLIXXIn26qejbxJtdpgCBAHn0nnS1BHTj0sgwxYCbrWQ
+ yTNwE3EnsQF2j4eJ3v7QV1tryG5ihIEn5sxV48TLxaVGexIujLntRaQPI8kcb4rmSCXS
+ lXzw==
+X-Gm-Message-State: AOAM531E52+RqMvnQsa/DXvqnp6PMJdZUUapkIkttNEPOcTZv4pqw2dl
+ iUb6NEBQH7J+ZwtceBKuvGuvTw==
+X-Google-Smtp-Source: ABdhPJxn7HhS5puj4NbhQXGBWj4jXbYi8ZWA1MjwWMVtztzx3/w6GmsFTh1w/prlECVcfSaRQcFrbA==
+X-Received: by 2002:a17:90a:654a:: with SMTP id
+ f10mr4666488pjs.202.1613665252029; 
+ Thu, 18 Feb 2021 08:20:52 -0800 (PST)
 Received: from [192.168.3.43] (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id y13sm6714024pfc.28.2021.02.18.08.14.34
+ by smtp.gmail.com with ESMTPSA id 203sm499407pfy.105.2021.02.18.08.20.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Feb 2021 08:14:35 -0800 (PST)
-Subject: Re: [PATCH] Correct CRIS TCG register lifetime management
-To: =?UTF-8?Q?Stefan_Sandstr=c3=b6m?= <Stefan.Sandstrom@axis.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
-References: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
+ Thu, 18 Feb 2021 08:20:49 -0800 (PST)
+Subject: Re: [PATCH 04/38] target/riscv: 16-bit Addition & Subtraction
+ Instructions
+To: LIU Zhiwei <zhiwei_liu@c-sky.com>, qemu-devel@nongnu.org
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <20210212150256.885-5-zhiwei_liu@c-sky.com>
+ <d9715335-51a3-eb08-c04f-7a7ce6858ac7@linaro.org>
+ <2144374b-8101-f307-6109-3775378226de@c-sky.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <8b458c5d-9f96-b693-d203-a0d60bbc0603@linaro.org>
-Date: Thu, 18 Feb 2021 08:14:32 -0800
+Message-ID: <2192352c-be78-f8e0-df27-e2c25e937160@linaro.org>
+Date: Thu, 18 Feb 2021 08:20:46 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
+In-Reply-To: <2144374b-8101-f307-6109-3775378226de@c-sky.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,89 +92,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: alistair23@gmail.com, qemu-riscv@nongnu.org, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/21 12:56 AM, Stefan Sandström wrote:
-> From: Stefan Sandstrom <stefans@axis.com>
+On 2/18/21 12:39 AM, LIU Zhiwei wrote:
+> On 2021/2/13 2:03, Richard Henderson wrote:
+>> On 2/12/21 7:02 AM, LIU Zhiwei wrote:
+>>> +    if (a->rd && a->rs1 && a->rs2) {
+>>> +#ifdef TARGET_RISCV64
+>>> +        f64(vece, offsetof(CPURISCVState, gpr[a->rd]),
+>>> +            offsetof(CPURISCVState, gpr[a->rs1]),
+>>> +            offsetof(CPURISCVState, gpr[a->rs2]),
+>>> +            8, 8);
+>>> +#else
+>> This is not legal tcg.
+>>
+>> You cannot reference as memory anything which has an associated tcg_global_mem.
+> Thanks.
 > 
-> Add and fix deallocation of temporary TCG registers in CRIS code
-> generation.
-> 
-> Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
-> Signed-off-by: Stefan Sandstrom <stefans@axis.com>
-> ---
-> target/cris/translate.c         | 146 ++++++++++++++++++++++++++++++----------
-> target/cris/translate_v10.c.inc |  70 ++++++++++++-------
-> 2 files changed, 156 insertions(+), 60 deletions(-)
-> 
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index c893f87..ae903a5 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -177,9 +177,13 @@ static inline void t_gen_mov_TN_preg(TCGv tn, int r)
-> {
->     assert(r >= 0 && r <= 15);
->     if (r == PR_BZ || r == PR_WZ || r == PR_DZ) {
-> -        tcg_gen_mov_tl(tn, tcg_const_tl(0));
-> +        TCGv c0 = tcg_const_tl(0);
-> +        tcg_gen_mov_tl(tn, c0);
-> +        tcg_temp_free(c0);
+> Do you mean referring  a global TCGTemp as memory will cause not consistent
+> between TCGContext::temps and
+> CPUArchState field?
 
-In cases like this, you should just use tcg_gen_movi_tl(tn, 0).
-
->     } else if (r == PR_VR) {
-> -        tcg_gen_mov_tl(tn, tcg_const_tl(32));
-> +        TCGv c32 = tcg_const_tl(32);
-> +        tcg_gen_mov_tl(tn, c32);
-> +        tcg_temp_free(c32);
-
-movi
-
-> static void cris_lock_irq(DisasContext *dc)
-> {
-> +    TCGv c1 = tcg_const_tl(1);
->     dc->clear_locked_irq = 0;
-> -    t_gen_mov_env_TN(locked_irq, tcg_const_tl(1));
-> +    t_gen_mov_env_TN(locked_irq, c1);
-> +    tcg_temp_free(c1);
-> }
-
-good.
-
-> @@ -885,8 +891,10 @@ static void gen_tst_cc (DisasContext *dc, TCGv cc, int cond)
->     case CC_EQ:
->         if ((arith_opt || move_opt)
->                 && dc->cc_x_uptodate != (2 | X_FLAG)) {
-> +            TCGv c0 = tcg_const_tl(0);
->             tcg_gen_setcond_tl(TCG_COND_EQ, cc,
-> -                    cc_result, tcg_const_tl(0));
-> +                    cc_result, c0);
-> +            tcg_temp_free(c0);
-
-setcondi
-
-> -    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
-> +    c = tcg_const_tl(dc->zzsize);
-> +    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
-
-shli
-
-> @@ -3023,14 +3083,16 @@ static unsigned int crisv32_decoder(CPUCRISState *env, DisasContext *dc)
->     /* Single-stepping ?  */
->     if (dc->tb_flags & S_FLAG) {
->         TCGLabel *l1 = gen_new_label();
-> +        TCGv c = tcg_const_tl(3);
->         tcg_gen_brcondi_tl(TCG_COND_NE, cpu_PR[PR_SPC], dc->pc, l1);
->         /* We treat SPC as a break with an odd trap vector.  */
->         cris_evaluate_flags(dc);
-> -        t_gen_mov_env_TN(trap_vector, tcg_const_tl(3));
-> +        t_gen_mov_env_TN(trap_vector, c);
-
-Here, you cannot lift the const allocation above the branch.
-There are enough uses of t_gen_mov_env_TN with a constant that it would be
-worthwhile creating a new function that takes the constant.
+Yes, there is nothing that will keep them in sync.
 
 
 r~
