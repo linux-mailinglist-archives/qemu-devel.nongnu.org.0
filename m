@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288B931E61B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 07:03:55 +0100 (CET)
-Received: from localhost ([::1]:60030 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1B231E622
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 07:11:14 +0100 (CET)
+Received: from localhost ([::1]:46594 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCcPq-0004tm-4m
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 01:03:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53422)
+	id 1lCcWv-0003Sg-Au
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 01:11:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lCcNm-00036h-Hk
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 01:01:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55785)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCcVZ-0002v1-Ot
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 01:09:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41167)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lCcNi-0008Kv-KK
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 01:01:46 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCcVV-0003lP-EN
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 01:09:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613628099;
+ s=mimecast20190719; t=1613628584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8INPDyffZKUTlNdxYrYWOxncMtyXJuLhDjD8DmHtbrk=;
- b=eBnF9a8/Y/cN6y82W1hpPI9Tb8+SSnSUbg3/4y0y5YbGvZs7op43tZYRNfKZ7D01xNnuC4
- sMwZtkhGA7Gsf25Hd+w08cSvdY+utjKnCGEpObj0gDYu92xpLWFgYCp9mvCVyFk2E+rrUr
- rNfo8hmqruzQiBoIVPE3nIWXMkA2Q4o=
+ bh=WzQUNgBnvSwTS74oCcMh6UtxDn1SYetUmW6T6o6tRBA=;
+ b=Dh+CRKa1dYHmmanpeHtqNsdMYVcfd/63nzMQkSPqfHjXa1/Io903m4Q4BQBO3v6GZTiql0
+ 8NoSMOWDn6mWNycvEmidquNYt9+o2L9bBvXMeBYXg479/wLKIwDkwrO947GqBtEh4lUTqg
+ BycfMOHzjSyqsm2abDsuDMVM3W2l6E0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-dxc9iknhOlq6oXYaI3ZWWA-1; Thu, 18 Feb 2021 01:01:37 -0500
-X-MC-Unique: dxc9iknhOlq6oXYaI3ZWWA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-477-2daW3xwJM-eJZ-3pHCY6Ag-1; Thu, 18 Feb 2021 01:09:41 -0500
+X-MC-Unique: 2daW3xwJM-eJZ-3pHCY6Ag-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E878D192AB79;
- Thu, 18 Feb 2021 06:01:35 +0000 (UTC)
-Received: from [10.72.13.28] (ovpn-13-28.pek2.redhat.com [10.72.13.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BFD655D9C2;
- Thu, 18 Feb 2021 06:01:26 +0000 (UTC)
-Subject: Re: [PATCH v2 3/3] failover: really display a warning when the
- primary device is not found
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20210210174518.2493928-1-lvivier@redhat.com>
- <20210210174518.2493928-4-lvivier@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <2eb9122a-700c-ed7f-c0c5-829dad009a85@redhat.com>
-Date: Thu, 18 Feb 2021 14:01:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CD6C38030C1;
+ Thu, 18 Feb 2021 06:09:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-83.ams2.redhat.com [10.36.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3146210016FF;
+ Thu, 18 Feb 2021 06:09:39 +0000 (UTC)
+Subject: Re: [PATCH v4 70/71] tests/tcg: Increase timeout for TCI
+To: qemu-devel@nongnu.org, Richard Henderson <richard.henderson@linaro.org>
+References: <20210217202036.1724901-1-richard.henderson@linaro.org>
+ <20210217202036.1724901-71-richard.henderson@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <a8fa5191-e387-b759-fa16-ebe969d4a020@redhat.com>
+Date: Thu, 18 Feb 2021 07:09:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210210174518.2493928-4-lvivier@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210217202036.1724901-71-richard.henderson@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -84,74 +81,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- quintela@redhat.com, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, jfreimann@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/2/11 上午1:45, Laurent Vivier wrote:
-> In failover_add_primary(), we search the id of the failover device by
-> scanning the list of the devices in the opts list to find a device with
-> a failover_pair_id equals to the id of the virtio-net device.
->
-> If the failover_pair_id is not found, QEMU ignores the primary
-> device silently (which also means it will not be hidden and
-> it will be enabled directly at boot).
->
-> After that, we search the id in the opts list to do a qdev_device_add()
-> with it. The device will be always found as otherwise we had exited
-> before, and thus the warning is never displayed.
->
-> Fix that by moving the error report to the first exit condition.
-> Also add a g_assert() to be sure the compiler will not complain
-> about a possibly NULL pointer.
->
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-
-
-Acked-by: Jason Wang <jasowang@redhat.com>
-
-
+On 17/02/2021 21.20, Richard Henderson wrote:
+> The longest test at the moment seems to be a (slower)
+> aarch64 host, for which test-mmap takes 64 seconds.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   hw/net/virtio-net.c | 20 +++++++++-----------
->   1 file changed, 9 insertions(+), 11 deletions(-)
->
-> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> index 1c5af08dc556..439f823b190c 100644
-> --- a/hw/net/virtio-net.c
-> +++ b/hw/net/virtio-net.c
-> @@ -855,21 +855,19 @@ static void failover_add_primary(VirtIONet *n, Error **errp)
+>   configure                 | 3 +++
+>   tests/tcg/Makefile.target | 6 ++++--
+>   2 files changed, 7 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index a79b3746d4..b8924276bc 100755
+> --- a/configure
+> +++ b/configure
+> @@ -5797,6 +5797,9 @@ fi
+>   if test "$optreset" = "yes" ; then
+>     echo "HAVE_OPTRESET=y" >> $config_host_mak
+>   fi
+> +if test "$tcg" = "enabled" -a "$tcg_interpreter" = "true" ; then
+> +  echo "CONFIG_TCG_INTERPRETER=y" >> $config_host_mak
+> +fi
+>   if test "$fdatasync" = "yes" ; then
+>     echo "CONFIG_FDATASYNC=y" >> $config_host_mak
+>   fi
+> diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+> index 24d75a5801..fa5813192a 100644
+> --- a/tests/tcg/Makefile.target
+> +++ b/tests/tcg/Makefile.target
+> @@ -77,8 +77,10 @@ LDFLAGS=
+>   QEMU_OPTS=
 >   
->       id = failover_find_primary_device_id(n);
->       if (!id) {
-> +        error_setg(errp, "Primary device not found");
-> +        error_append_hint(errp, "Virtio-net failover will not work. Make "
-> +                          "sure primary device has parameter"
-> +                          " failover_pair_id=%s\n", n->netclient_name);
->           return;
->       }
->       opts = qemu_opts_find(qemu_find_opts("device"), id);
-> -    if (opts) {
-> -        dev = qdev_device_add(opts, &err);
-> -        if (err) {
-> -            qemu_opts_del(opts);
-> -        } else {
-> -            object_unref(OBJECT(dev));
-> -        }
-> +    g_assert(opts); /* cannot be NULL because id was found using opts list */
-> +    dev = qdev_device_add(opts, &err);
-> +    if (err) {
-> +        qemu_opts_del(opts);
->       } else {
-> -        error_setg(errp, "Primary device not found");
-> -        error_append_hint(errp, "Virtio-net failover will not work. Make "
-> -                          "sure primary device has parameter"
-> -                          " failover_pair_id=<virtio-net-id>\n");
-> +        object_unref(OBJECT(dev));
->       }
->       error_propagate(errp, err);
->   }
+>   
+> -# If TCG debugging is enabled things are a lot slower
+> -ifeq ($(CONFIG_DEBUG_TCG),y)
+> +# If TCG debugging, or TCI is enabled things are a lot slower
+> +ifneq ($(CONFIG_TCG_INTERPRETER),)
+> +TIMEOUT=90
+> +else ifneq ($(CONFIG_DEBUG_TCG),)
+>   TIMEOUT=60
+>   else
+>   TIMEOUT=15
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Does it even get slower if you enable both at the same time, TCG debugging 
+and TCI?
 
 
