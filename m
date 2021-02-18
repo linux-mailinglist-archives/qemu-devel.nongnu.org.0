@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D4CB31EB3F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 16:07:50 +0100 (CET)
-Received: from localhost ([::1]:35650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FABC31EB5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 16:15:58 +0100 (CET)
+Received: from localhost ([::1]:42434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCkuD-0001wS-DX
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 10:07:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36888)
+	id 1lCl24-0005Lj-Qy
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 10:15:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCkrO-0008SN-9l
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 10:04:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lCkrL-0002xG-Hq
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 10:04:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613660690;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+3Xc6Ry9oRCOEQMxmcKPUDDkxSOgcK8HVTjgb8rEUWI=;
- b=aOz8NpTFLZcAJ2V4nPeNrEGrcIb1Aj7a2/Swzjy6vJEujaqcpSi3irAKN4RdFcwLYwFYNB
- ugdLBCN0JMnPlD3K9nBK7sH+FQySZcGowsA0YzNJIe6BilYaBUiBcdTdIDr/Vkj9ebShPd
- 0BhqnHPx30ZUD2WEFeTSSfvakWKt7RM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-165-Ta5t4GKqMAyj5QqWHtMVPQ-1; Thu, 18 Feb 2021 10:04:48 -0500
-X-MC-Unique: Ta5t4GKqMAyj5QqWHtMVPQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A81C100CCCB;
- Thu, 18 Feb 2021 15:04:46 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-117-5.rdu2.redhat.com [10.10.117.5])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C40985D9C2;
- Thu, 18 Feb 2021 15:04:36 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 5C54C22054F; Thu, 18 Feb 2021 10:04:36 -0500 (EST)
-Date: Thu, 18 Feb 2021 10:04:36 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs@redhat.com
-Subject: Re: [PATCH v2 1/3] virtiofsd: Add an option to enable/disable posix
- acls
-Message-ID: <20210218150436.GA92815@redhat.com>
-References: <20210217233046.81418-1-vgoyal@redhat.com>
- <20210217233046.81418-2-vgoyal@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lCl0P-0004p3-RS
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 10:14:18 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42534)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lCl0L-0006zY-Py
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 10:14:12 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id z22so4763381edb.9
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 07:14:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=a7kBSFDriKNRoZ7V+PFPNfVf/TdIU8WXWDfzdBbBAFA=;
+ b=oxdXavauPNKo53qaWC9XpsI3gR6CV+Yd4RG/W30sjXfH+mbDyK7f2l7bcbx5etJG39
+ Qshatp9PZ/mEnUexrKKdY9coYK/1xOT0+QpzuSUFXcK4QhUOMVvbMj/E9K6uMNG+1xzU
+ mV9Ize6YmdmkNMQ19fN3qdwjJmdtc23s2aowhFpCvEzXUtf20hK611YZMDuvdLEruDoZ
+ 8UDKdghwjR4yJfP2CabY+BP0+3IGGYSfqT08ZgzdY2jc9KiTHpjjMWGe4vyYunqAo9XP
+ COcBObnxBZhrZ1OA5Bxi11REw8NROi2Gjybm0IoDwYSyWzlY/tpbXZD46uMhiOOM7jhs
+ S4rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=a7kBSFDriKNRoZ7V+PFPNfVf/TdIU8WXWDfzdBbBAFA=;
+ b=Nbqg13rshX498isdTeG6BqGTdkXkpmMYhLd8lVhLB0wSW2W4rvTfJ7PC0Np+dY1vi+
+ mSwv0RM8izeKtE8z9y1xo+3zW9hHg6qvJFODEpzvOLzqtVxbNJxD5kpsex2mOM5BDBjh
+ shCiDJP6PpVu0WgHVCYdUzgO3n3TjXpU/tWHCNMm1JELYxyrI7qy2yrGZDD88DRSryIK
+ 6hBajhMzLlBoByibnLJgSwhVD7RsurlQOV06er1wovuHiff1B9UM6dwVijk/RuQ+wPjN
+ RJG7R+0MovNggFag5CpafcO68Xd5AnIuEPD0D5tO19pkPlWfUR79eEeYH6TvDM6JTTiP
+ CytA==
+X-Gm-Message-State: AOAM532lAidk6ZPhOELFdaQwBxEYogidFsACFOwO9b2EDqzNTxC7z9kc
+ XkMBQK/Krs9KUa2ykIi9Oio/5g6QDPkbA9yrcVI9kA==
+X-Google-Smtp-Source: ABdhPJyrXl62OnObsJIUO1QRz0UVPAAuwNIAyeHz9hh/RB19xBQdbrrdUkM2M8Q2E9Pu1pmnktSlOnjFcjPNY8X0OCY=
+X-Received: by 2002:a05:6402:545:: with SMTP id
+ i5mr1127495edx.44.1613661247894; 
+ Thu, 18 Feb 2021 07:14:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210217233046.81418-2-vgoyal@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210218094706.23038-1-alex.bennee@linaro.org>
+In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 18 Feb 2021 15:13:56 +0000
+Message-ID: <CAFEAcA9+t8WOZoVe1bSersxCp-8phh-4K_Xe00yBrfOou3tPjQ@mail.gmail.com>
+Subject: Re: [PULL 00/23] plugin updates (hwprofile, CF_NOCACHE, io_recompile)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,208 +79,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lhenriques@suse.de, dgilbert@redhat.com, stefanha@redhat.com,
- miklos@szeredi.hu
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 06:30:44PM -0500, Vivek Goyal wrote:
-> fuse has an option FUSE_POSIX_ACL which needs to be opted in by fuse
-> server to enable posix acls.
-> 
-> Add virtiofsd option "-o posix_acl/no_posix_acl" to let users enable/disable
-> posix acl support. By default it is disabled as of now.
-> 
-> Currently even if file server has not opted in for FUSE_POSIX_ACL, user can
-> still query acl and set acl, and system.posix_acl_access and
-> system.posix_acl_default xattrs show up listxattr response.
-> 
-> Miklos said this is confusing. So he said lets block and filter
-> system.posix_acl_access and system.posix_acl_default xattrs in
-> getxattr/setxattr/listxattr if user has explicitly disabled
-> posix acls using -o no_posix_acl.
+On Thu, 18 Feb 2021 at 09:47, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The following changes since commit 1af5629673bb5c1592d993f9fb6119a62845f5=
+76:
+>
+>   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiof=
+s-20210216' into staging (2021-02-17 14:44:18 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-plugin-updates-180221-1
+>
+> for you to fetch changes up to df55e2a701d02bc01b9425843c667fd0cb4cdfa9:
+>
+>   tests/acceptance: add a memory callback check (2021-02-18 08:19:23 +000=
+0)
+>
+> ----------------------------------------------------------------
+> Plugin updates:
+>
+>   - expose vdev name in PCI memory registration
+>   - new hwprofile plugin
+>   - bunch of style cleanups to contrib/plugins
+>   - fix call signature of inline instrumentation
+>   - re-factor the io_recompile code to push specialisation into hooks
+>   - add some acceptance tests for the plugins
+>   - clean-up and remove CF_NOCACHE handling from TCG
+>   - fix instrumentation of cpu_io_recompile sections
+>   - expand tests to check inline and cb count the same
+>
 
-I forgot to block acl xattrs in lo_removexattr(). Will respin this patch.
 
-Vivek
+Applied, thanks.
 
-> 
-> As of now continuing to keeping the existing behavior if user did not
-> specify any option to disable acl support due to concerns about backward
-> compatibility.
-> 
-> v2: block system.posix_acl_access and system.posix_acl_default xattrs
->     if user explicitly disabled acls. (Miklos)
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> ---
->  tools/virtiofsd/passthrough_ll.c | 95 +++++++++++++++++++++++++++++++-
->  1 file changed, 94 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> index 58d24c0010..26cdfbd1f0 100644
-> --- a/tools/virtiofsd/passthrough_ll.c
-> +++ b/tools/virtiofsd/passthrough_ll.c
-> @@ -169,6 +169,7 @@ struct lo_data {
->      /* An O_PATH file descriptor to /proc/self/fd/ */
->      int proc_self_fd;
->      int user_killpriv_v2, killpriv_v2;
-> +    int user_posix_acl;
->  };
->  
->  static const struct fuse_opt lo_opts[] = {
-> @@ -201,6 +202,8 @@ static const struct fuse_opt lo_opts[] = {
->      { "announce_submounts", offsetof(struct lo_data, announce_submounts), 1 },
->      { "killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 1 },
->      { "no_killpriv_v2", offsetof(struct lo_data, user_killpriv_v2), 0 },
-> +    { "posix_acl", offsetof(struct lo_data, user_posix_acl), 1 },
-> +    { "no_posix_acl", offsetof(struct lo_data, user_posix_acl), 0 },
->      FUSE_OPT_END
->  };
->  static bool use_syslog = false;
-> @@ -661,6 +664,23 @@ static void lo_init(void *userdata, struct fuse_conn_info *conn)
->          conn->want &= ~FUSE_CAP_HANDLE_KILLPRIV_V2;
->          lo->killpriv_v2 = 0;
->      }
-> +
-> +    if (lo->user_posix_acl == 1) {
-> +        /*
-> +         * User explicitly asked for this option. Enable it unconditionally.
-> +         * If connection does not have this capability, it should fail
-> +         * in fuse_lowlevel.c
-> +         */
-> +        fuse_log(FUSE_LOG_DEBUG, "lo_init: enabling posix acl\n");
-> +        conn->want |= FUSE_CAP_POSIX_ACL;
-> +    } else {
-> +        /*
-> +         * Either user specified to disable posix_acl, or did not specify
-> +         * anything. In both the cases do not enable posix acl.
-> +         */
-> +        fuse_log(FUSE_LOG_DEBUG, "lo_init: disabling posix_acl\n");
-> +        conn->want &= ~FUSE_CAP_POSIX_ACL;
-> +    }
->  }
->  
->  static void lo_getattr(fuse_req_t req, fuse_ino_t ino,
-> @@ -2612,6 +2632,63 @@ static int xattr_map_server(const struct lo_data *lo, const char *server_name,
->      return -ENODATA;
->  }
->  
-> +static bool block_xattr(struct lo_data *lo, const char *name)
-> +{
-> +    /*
-> +     * If user explicitly enabled posix_acl or did not provide any option,
-> +     * do not block acl. Otherwise block system.posix_acl_access and
-> +     * system.posix_acl_default xattrs.
-> +     */
-> +    if (lo->user_posix_acl) {
-> +        return false;
-> +    }
-> +    if (!strcmp(name, "system.posix_acl_access") ||
-> +        !strcmp(name, "system.posix_acl_default"))
-> +            return true;
-> +
-> +    return false;
-> +}
-> +
-> +/*
-> + * Returns number of bytes in xattr_list after filtering on success. This
-> + * could be zero as well if nothing is left after filtering.
-> + *
-> + * Returns negative error code on failure.
-> + * xattr_list is modified in place.
-> + */
-> +static int remove_blocked_xattrs(struct lo_data *lo, char *xattr_list,
-> +                                 unsigned in_size)
-> +{
-> +    size_t out_index, in_index;
-> +
-> +    /*
-> +     * As of now we only filter out acl xattrs. If acls are enabled or
-> +     * they have not been explicitly disabled, there is nothing to
-> +     * filter.
-> +     */
-> +    if (lo->user_posix_acl) {
-> +        return in_size;
-> +    }
-> +
-> +    out_index = 0;
-> +    in_index = 0;
-> +    while (in_index < in_size) {
-> +        char *in_ptr = xattr_list + in_index;
-> +
-> +        /* Length of current attribute name */
-> +        size_t in_len = strlen(xattr_list + in_index) + 1;
-> +
-> +        if (!block_xattr(lo, in_ptr)) {
-> +            if (in_index != out_index) {
-> +                memmove(xattr_list + out_index, xattr_list + in_index, in_len);
-> +            }
-> +            out_index += in_len;
-> +        }
-> +        in_index += in_len;
-> +     }
-> +    return out_index;
-> +}
-> +
->  static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->                          size_t size)
->  {
-> @@ -2625,6 +2702,11 @@ static void lo_getxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->      int saverr;
->      int fd = -1;
->  
-> +    if (block_xattr(lo, in_name)) {
-> +        fuse_reply_err(req, EOPNOTSUPP);
-> +        return;
-> +    }
-> +
->      mapped_name = NULL;
->      name = in_name;
->      if (lo->xattrmap) {
-> @@ -2766,7 +2848,6 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
->          if (ret == 0) {
->              goto out;
->          }
-> -
->          if (lo->xattr_map_list) {
->              /*
->               * Map the names back, some attributes might be dropped,
-> @@ -2813,6 +2894,12 @@ static void lo_listxattr(fuse_req_t req, fuse_ino_t ino, size_t size)
->                  goto out;
->              }
->          }
-> +
-> +        ret = remove_blocked_xattrs(lo, value, ret);
-> +        if (ret <= 0) {
-> +            saverr = -ret;
-> +            goto out;
-> +        }
->          fuse_reply_buf(req, value, ret);
->      } else {
->          /*
-> @@ -2851,6 +2938,11 @@ static void lo_setxattr(fuse_req_t req, fuse_ino_t ino, const char *in_name,
->      int saverr;
->      int fd = -1;
->  
-> +    if (block_xattr(lo, in_name)) {
-> +        fuse_reply_err(req, EOPNOTSUPP);
-> +        return;
-> +    }
-> +
->      mapped_name = NULL;
->      name = in_name;
->      if (lo->xattrmap) {
-> @@ -3604,6 +3696,7 @@ int main(int argc, char *argv[])
->          .allow_direct_io = 0,
->          .proc_self_fd = -1,
->          .user_killpriv_v2 = -1,
-> +        .user_posix_acl = -1,
->      };
->      struct lo_map_elem *root_elem;
->      struct lo_map_elem *reserve_elem;
-> -- 
-> 2.25.4
-> 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
+-- PMM
 
