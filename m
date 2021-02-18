@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D97431EA66
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 14:27:16 +0100 (CET)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C0DA31EA7C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 14:35:09 +0100 (CET)
+Received: from localhost ([::1]:33232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCjKt-0003P6-BE
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 08:27:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44544)
+	id 1lCjSV-00058Z-W6
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 08:35:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCjJf-0002s3-JV
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:25:59 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:33881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCjJb-0003YQ-Ta
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:25:59 -0500
-Received: by mail-ej1-x630.google.com with SMTP id hs11so5616819ejc.1
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 05:25:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=66Xe0wdwLOiVtijoNDlVQjMluxGkv1icNodP8oBBia8=;
- b=lwyn0TMuTMHWOLqrTQ+Z4jyYAF8w8jaFLoe6zmfk2OK2VYlw237fopIZKjVdrSQhVp
- CbIIYYTh2vTOZxwsMyLYGM1NYSJPsWepfBUttZ6bmEbddCYxcyrBK4YK8uyxJaFvFwRT
- 5CrgloWqsCaf8oNMKqQMtBsgtC1Eq+H3GK9YRvtRoyIRq2wIkzeixUrHKm13ar6NAAU8
- QKQMkMPQqq9EM1GmIRkdjxVY5+h8xBBqtTjqqfaKgkpWTQGCLvhBh2uRS4vQBDI69bGj
- WF/h3WdCH3mKMEBaVTYXOpr85sYZcaaBJ3MoaAW+Ev6UuUYcLovRkZYj0i9k9zKm1+6q
- hIxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=66Xe0wdwLOiVtijoNDlVQjMluxGkv1icNodP8oBBia8=;
- b=IrnN0Hia/1EzfhjXSX+3aDC8Gt/r/hTSLI2jPXAbLQAz4nMVHNnlmaTx6EPmJ0gPqz
- SbUpxy3Btc8ZYYzP4rBgO4wj5B8T4NtRnYnXpgm3Cbb40o9R7FmXs5emPAfPSNwnmgS6
- 0/Oot3PCT6GvTYZ3zpBu6u41LEz1rW07Yb/W/6zng0iiUJQGa5cOUNAV3j5KUEdkKpKU
- zSV1b0tbX7xk39DrVw5IWuQ6tSg4QZWUcw58zDeadpZC4eGybha+PDZBlp5sbEzVkyRU
- TQSN12R3Oy5zZ7YyhCBncN8opJQOrXkTFyx1inFvMYOjs1zuYG7h6x0Kwh+C4JLKhV6x
- YrQQ==
-X-Gm-Message-State: AOAM532LWFmZgdAvzLa7oWpWDsM/Kzy7TSJqCgZZMDFajelll0+6An1M
- 07tioLWBOA3fb3050vSQpElNcJg4Zg+OATXUxUnIdg==
-X-Google-Smtp-Source: ABdhPJyyJFcGmdDaO1LERAjsqpOvW3dGgjWuy55CjqVOBF+BblNAD+64fUaM2XCePaLyUiU4hJjuPVspz1iN3MlX0bo=
-X-Received: by 2002:a17:906:4003:: with SMTP id
- v3mr442786ejj.382.1613654754328; 
- Thu, 18 Feb 2021 05:25:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lCjQd-0004TP-Qe
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:33:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lCjQa-0006Yd-BV
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:33:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613655186;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oIqM+1Y3C+7K/AyI2+LtiRPKxNzed9FDsMA4LcbKJaM=;
+ b=hS7JkVRXegoqG87NOrDlModD8YmcRm28JLw3FAiy5rHXe31+hOSlyJJcagjrGh/6Qq9tg6
+ c+ZjPBvOdXv8ZKKjgoLK5yxu7DcZatGmd87gFSGuRQ7YUKYnPm/4SdjqykD40/g5ZfRRuI
+ sSN0RCWFUHFdOFCc6Yng/BTzYYtSEt8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-572-whpZ8bfuPa6lhQZLqWkg4A-1; Thu, 18 Feb 2021 08:33:03 -0500
+X-MC-Unique: whpZ8bfuPa6lhQZLqWkg4A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A9F21020C20;
+ Thu, 18 Feb 2021 13:33:01 +0000 (UTC)
+Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EFFD67CC0;
+ Thu, 18 Feb 2021 13:32:50 +0000 (UTC)
+Subject: Re: [RFC v7 26/26] vfio/pci: Implement return_page_response page
+ response callback
+To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>
+References: <20201116181349.11908-1-eric.auger@redhat.com>
+ <20201116181349.11908-27-eric.auger@redhat.com>
+ <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
+ <f11ef533-da64-3d6a-24f5-79d5e7a205da@redhat.com>
+ <5f85d8999c0c40a29c32ac63b8730fa8@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <679c5696-c73f-517d-f555-90ec2c767fbb@redhat.com>
+Date: Thu, 18 Feb 2021 14:32:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210218015934.1623959-1-alistair.francis@wdc.com>
-In-Reply-To: <20210218015934.1623959-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Feb 2021 13:25:43 +0000
-Message-ID: <CAFEAcA_aEtpfMScS3uzrpbBqAgqGWsWjeisUXCSpqdJJ7=uCYw@mail.gmail.com>
-Subject: Re: [PULL 00/19] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <5f85d8999c0c40a29c32ac63b8730fa8@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,50 +91,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "tn@semihalf.com" <tn@semihalf.com>, "peterx@redhat.com" <peterx@redhat.com>,
+ "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
+ "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
+ "yi.l.liu@intel.com" <yi.l.liu@intel.com>,
+ "zhangfei.gao@gmail.com" <zhangfei.gao@gmail.com>,
+ yuzenghui <yuzenghui@huawei.com>, qubingbing <qubingbing@hisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 at 01:59, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit 1af5629673bb5c1592d993f9fb6119a62845f576:
->
->   Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210216' into staging (2021-02-17 14:44:18 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210217-1
->
-> for you to fetch changes up to d0867d2dad4125d2295b28d6f91fa49cf034ffd2:
->
->   hw/riscv: virt: Map high mmio for PCIe (2021-02-17 17:47:19 -0800)
->
-> ----------------------------------------------------------------
-> RISC-V PR for 6.0
->
-> This PR is a collection of RISC-V patches:
->  - Improvements to SiFive U OTP
->  - Upgrade OpenSBI to v0.9
->  - Support the QMP dump-guest-memory
->  - Add support for the SiFive SPI controller (sifive_u)
->  - Initial RISC-V system documentation
->  - A fix for the Goldfish RTC
->  - MAINTAINERS updates
->  - Support for high PCIe memory in the virt machine
+Hi Shameer,
 
-Fails to compile, 32 bit hosts:
+On 2/18/21 12:46 PM, Shameerali Kolothum Thodi wrote:
+> 
+> Hi Eric,
+> 
+>> -----Original Message-----
+>> From: Auger Eric [mailto:eric.auger@redhat.com]
+>> Sent: 18 February 2021 10:42
+>> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>;
+>> eric.auger.pro@gmail.com; qemu-devel@nongnu.org; qemu-arm@nongnu.org;
+>> alex.williamson@redhat.com
+>> Cc: peter.maydell@linaro.org; jacob.jun.pan@linux.intel.com; Zengtao (B)
+>> <prime.zeng@hisilicon.com>; jean-philippe@linaro.org; tn@semihalf.com;
+>> peterx@redhat.com; nicoleotsuka@gmail.com; vivek.gautam@arm.com;
+>> yi.l.liu@intel.com; zhangfei.gao@gmail.com; yuzenghui
+>> <yuzenghui@huawei.com>; qubingbing <qubingbing@hisilicon.com>
+>> Subject: Re: [RFC v7 26/26] vfio/pci: Implement return_page_response page
+>> response callback
+>>
+> [...]
+> 
+>>> Also, I just noted that this patch breaks the dev hot add/del functionality.
+>>> device_add works fine but device_del is not removing the dev cleanly.Thank
+>> you for reporting this!
+>>
+>> The test matrix becomes bigger and bigger :-( I Need to write some
+>> avocado-vt tests or alike.
+>>
+>> I am currently working on the respin. At the moment I investigate the
+>> DPDK issue that you reported and I was able to reproduce.
+> 
+> Ok. Good to know that it is reproducible.
+> 
+>> I intend to rebase on top of Jean-Philippe's
+>> [PATCH v12 00/10] iommu: I/O page faults for SMMUv3
+>>
+>> Is that good enough for your SVA integration or do you want I prepare a
+>> rebase on some extended code?
+> 
+> Could you please try to base it on https://jpbrucker.net/git/linux/log/?h=sva/current
 
-../../hw/riscv/virt.c: In function 'virt_machine_init':
-../../hw/riscv/virt.c:621:43: error: comparison is always false due to
-limited range of data type [-Werror=type-limits]
-         if ((uint64_t)(machine->ram_size) > 10 * GiB) {
-                                           ^
-../../hw/riscv/virt.c:623:33: error: large integer implicitly
-truncated to unsigned type [-Werror=overflow]
-             machine->ram_size = 10 * GiB;
-                                 ^~
+OK. At least I will provide a branch.
 
+Eric
+> 
+> I think that has the latest from Jean-Philippe and will be easy to add
+> uacce/zip specific patches to test SVA/vSVA.
+> 
+> Thanks,
+> Shameer
+> 
+>  
+>> Thanks
+>>
+>> Eric
+>>>
+>>> The below one fixes it. Please check.
+>>>
+>>> Thanks,
+>>> Shameer
+>>>
+>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>>> index 797acd9c73..92c1d48316 100644
+>>> --- a/hw/vfio/pci.c
+>>> +++ b/hw/vfio/pci.c
+>>> @@ -3470,6 +3470,7 @@ static void vfio_instance_finalize(Object *obj)
+>>>      vfio_display_finalize(vdev);
+>>>      vfio_bars_finalize(vdev);
+>>>      vfio_region_finalize(&vdev->dma_fault_region);
+>>> +    vfio_region_finalize(&vdev->dma_fault_response_region);
+>>>      g_free(vdev->emulated_config_bits);
+>>>      g_free(vdev->rom);
+>>>      /*
+>>> @@ -3491,6 +3492,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+>>>      vfio_unregister_err_notifier(vdev);
+>>>      vfio_unregister_ext_irq_notifiers(vdev);
+>>>      vfio_region_exit(&vdev->dma_fault_region);
+>>> +    vfio_region_exit(&vdev->dma_fault_response_region);
+>>>      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+>>>      if (vdev->irqchip_change_notifier.notify) {
+>>>
+>> kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_not
+>>>
+>>>
+>>>
+> 
 
--- PMM
 
