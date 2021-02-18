@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DCF431E875
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:25:32 +0100 (CET)
-Received: from localhost ([::1]:53620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2844931E876
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:27:47 +0100 (CET)
+Received: from localhost ([::1]:55906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCgV1-0007rp-2k
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:25:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36580)
+	id 1lCgXC-0000Z3-5P
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:27:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lCgTg-0007Ra-M1
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:24:08 -0500
-Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:37426)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lCgTd-00072z-Dm
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:24:08 -0500
-Received: by mail-lf1-x12f.google.com with SMTP id w36so5708924lfu.4
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 02:24:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=bqdwgFevJp2gC4eHw/KjnoFjlEhpZvAVk5ywJewWpmg=;
- b=Rkpn4MM4X1gRczMnvnLIGL1vJXYM8fCh9JAvXARktXAFEePZSeUHHmdVeAVK45SE6z
- nyKaBSOx611z7U3mfvCEi8EjuLwey2gRjT+kRKOwnRyybKfbbFeznZ5e8D7VHlOoC97h
- N2WGuirOHKFFiDxCQAC9PD0EwgashyEcimGl7yRv7bEnFmKdE7CPUYI8YYcsT06huIVO
- zak1Nv/OhLeNljwAFboWCi6OnDaoprkRr+ZDLIeSLLCnH8GcM4xccHMaXFodihGGjksx
- 1SDthrU5dU6ZdlgbCeqbuFZYNHp0hNTd/YrnUdYIJlwP22lMdOj5xvSfBOWyr5xCPYur
- 16YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=bqdwgFevJp2gC4eHw/KjnoFjlEhpZvAVk5ywJewWpmg=;
- b=ddti8Fid10UE9zoT+MAvjEApYOEXyALLso2tX4vSlPRFGdu/g/64F6r8VmR0+TvhJe
- 4DRW9+Vu3I0LK2WZG/JcrUt1DNToC9s4SZcSGQYMJqmb/XKz8qKA96q1fMe811A5qnHR
- 6wqRmIembGVT0jC0AVI036g4qghqg1BfTPMvHTrIdobNGxZJGuY7K8owBt9YjGvL2tFk
- d4d1FbwAN89ML7BE/gIj02LBWWzVkWGMXWrTi1fxDPnEvU943ijBrgUD+g5TfqY2gcxu
- f931z6xnsCUv2vz5iXy3zAdR5QbCtMo+U+bR2x/RDdvhaFXmEOn6VJ9w+vEjuIxlht2K
- 5Psw==
-X-Gm-Message-State: AOAM533nb5EDQOQ+IyMXY6t2bLn2GhlcODWIYwC9JyGmVHd1dISdfTHF
- Rvsz+ekuzAzA0JXf/EjUowk=
-X-Google-Smtp-Source: ABdhPJy/4TvInhsmLm08763TCjLn1KLLGWUSj9boW6nBT8j2duXYfurhAIQybZh+wHeGwO+3QgSetA==
-X-Received: by 2002:a05:6512:332a:: with SMTP id
- l10mr2125626lfe.165.1613643842343; 
- Thu, 18 Feb 2021 02:24:02 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id l15sm556307lfg.272.2021.02.18.02.24.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 02:24:01 -0800 (PST)
-Date: Thu, 18 Feb 2021 11:24:00 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Stefan =?iso-8859-1?Q?Sandstr=F6m?= <Stefan.Sandstrom@axis.com>
-Subject: Re: [PATCH] Correct CRIS TCG register lifetime management
-Message-ID: <20210218102400.GP477672@toto>
-References: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCgWI-00006w-JY
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46120)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCgWG-0008Md-Im
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:26:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613644007;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LLW89Jy+BVfpdLK/3y2RKDLyb3961SkAUDDucmIbLAA=;
+ b=bLAIjrLEPVUHEEE4PhPEgYSiWhikOyJxpc8bSA0Bohv65cQ+Ac6vizvYuSgQ3xApdW9HVB
+ eEDoLEMHTsd7VqReWdvPTDvWEiAe6Z+5znXlQextuKCLNTvTZ9oCjaQXkwp6uLyqLKuoeK
+ c2IgqFR9rJUR/D4W6GgtIOamZyIu0J4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-274-G__HgqN6ML24ZwmP2easjA-1; Thu, 18 Feb 2021 05:26:45 -0500
+X-MC-Unique: G__HgqN6ML24ZwmP2easjA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E9B3107ACF4
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 10:26:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CD8177046C;
+ Thu, 18 Feb 2021 10:26:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 2E547113860F; Thu, 18 Feb 2021 11:26:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 5/6] qapi: Add support for aliases
+References: <20210211183118.422036-1-kwolf@redhat.com>
+ <20210211183118.422036-6-kwolf@redhat.com>
+ <87ft1ura4g.fsf@dusky.pond.sub.org>
+ <20210217161725.GB5662@merkur.fritz.box>
+Date: Thu, 18 Feb 2021 11:26:42 +0100
+In-Reply-To: <20210217161725.GB5662@merkur.fritz.box> (Kevin Wolf's message of
+ "Wed, 17 Feb 2021 17:17:25 +0100")
+Message-ID: <875z2pisd9.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x12f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,734 +82,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 18, 2021 at 08:56:43AM +0000, Stefan Sandström wrote:
-> From: Stefan Sandstrom <stefans@axis.com>
-> 
-> Add and fix deallocation of temporary TCG registers in CRIS code
-> generation.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-Thanks Stefan,
+> Am 17.02.2021 um 16:23 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>> 
+>> > Introduce alias definitions for object types (structs and unions). This
+>> > allows using the same QAPI type and visitor for many syntax variations
+>> > that exist in the external representation, like between QMP and the
+>> > command line. It also provides a new tool for evolving the schema while
+>> > maintaining backwards compatibility during a deprecation period.
+>> >
+>> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> [...]
+>> > diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+>> > index 22e62df901..e370485f6e 100644
+>> > --- a/scripts/qapi/visit.py
+>> > +++ b/scripts/qapi/visit.py
+>> > @@ -26,6 +26,7 @@ from .common import (
+>> >  from .gen import QAPISchemaModularCVisitor, ifcontext
+>> >  from .schema import (
+>> >      QAPISchema,
+>> > +    QAPISchemaAlias,
+>> >      QAPISchemaEnumMember,
+>> >      QAPISchemaEnumType,
+>> >      QAPISchemaFeature,
+>> > @@ -60,7 +61,8 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp);
+>> >  def gen_visit_object_members(name: str,
+>> >                               base: Optional[QAPISchemaObjectType],
+>> >                               members: List[QAPISchemaObjectTypeMember],
+>> > -                             variants: Optional[QAPISchemaVariants]) -> str:
+>> > +                             variants: Optional[QAPISchemaVariants],
+>> > +                             aliases: List[QAPISchemaAlias]) -> str:
+>> >      ret = mcgen('''
+>> >  
+>> >  bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+>> > @@ -68,6 +70,24 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+>> >  ''',
+>> >                  c_name=c_name(name))
+>> >  
+>> > +    if aliases:
+>> > +        ret += mcgen('''
+>> > +    visit_start_alias_scope(v);
+>> > +''')
+>> > +
+>> > +    for a in aliases:
+>> > +        if a.name:
+>> > +            name = '"%s"' % a.name
+>> > +        else:
+>> > +            name = "NULL"
+>> > +
+>> > +        source = ", ".join('"%s"' % x for x in a.source)
+>> > +
+>> > +        ret += mcgen('''
+>> > +    visit_define_alias(v, %(name)s, (const char * []) { %(source)s, NULL });
+>> > +''',
+>> > +                     name=name, source=source)
+>> > +
+>> >      if base:
+>> >          ret += mcgen('''
+>> >      if (!visit_type_%(c_type)s_members(v, (%(c_type)s *)obj, errp)) {
+>> > @@ -133,6 +153,11 @@ bool visit_type_%(c_name)s_members(Visitor *v, %(c_name)s *obj, Error **errp)
+>> >      }
+>> >  ''')
+>> >  
+>> > +    if aliases:
+>> > +        ret += mcgen('''
+>> > +    visit_end_alias_scope(v);
+>> > +''')
+>> > +
+>> >      ret += mcgen('''
+>> >      return true;
+>> >  }
+>> 
+>> The visit_type_FOO_members() are primarily helpers for the
+>> visit_type_FOO().  But they also get called
+>> 
+>> * by visit_type_BAR_members() when
+>> 
+>>   - struct or union BAR has 'base': 'FOO'
+>>   - union or alternate BAR a variant 'FOO'
+>> 
+>> * by qmp_marshal_CMD() when
+>> 
+>>   - CMD has 'boxed': true, 'data': 'FOO'
+>> 
+>> Have you considered these cases?
+>> 
+>> How's the test coverage?
+>
+> What is the difference between these cases? The visiting should work the
+> same, no matter from where it was started.
+>
+> I did consider the struct base/union variant case and this is why I
+> introduced visit_start/end_alias_scope so that aliases wouldn't leak to
+> the outer level.
 
-Unfortunately, this patch does not apply. I'm not sure why.
-Perhaps it got corrupted by the email systems along the way.
+Good!
 
-git am -s ~/Mail/stefan.sandstrom
-Applying: Correct CRIS TCG register lifetime management
-error: corrupt patch at line 11
-Patch failed at 0001 Correct CRIS TCG register lifetime management
-hint: Use 'git am --show-current-patch' to see the failed patch
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
+The qmp_marshal_CMD()'s code around visit_type_FOO_members() is fairly
+close to visit_type_FOO()'s code: it avoids allocation and drops cases
+that can't happen with the visitor at hand.  Can't see why aliases would
+not work.
 
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-mailer: Apple Mail (2.3654.40.0.2.32)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
+"Can't see why it would not work" is of course a sensible precondition
+for testing, not an excuse for not testing.
 
-How did you send out the patch? Can you try git-send-email?
+> Now that I'm trying to think of a test case, this probably only protects
+> against weird corner cases: The input object is the same anyway, so I
+> guess the only way for this to make a difference is when the base struct
+> defines an alias for a member that it doesn't even have (so the alias
+> would remain unused when applied to the base struct independently), but
+> that exists in the struct in which it is embedded.
 
-Best regards,
-Edgar
+It's best to strangle such weird corner cases in the crib, before they
+can conspire with other weird corner cases to make a real mess.
 
+> I hope adding a test case that checks that this is an error should be
+> easy. Would the right place be tests/test-qobject-input-visitor.c?
 
+Sounds good to me.
 
-> 
-> Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
-> Signed-off-by: Stefan Sandstrom <stefans@axis.com>
-> ---
-> target/cris/translate.c         | 146 ++++++++++++++++++++++++++++++----------
-> target/cris/translate_v10.c.inc |  70 ++++++++++++-------
-> 2 files changed, 156 insertions(+), 60 deletions(-)
-> 
-> diff --git a/target/cris/translate.c b/target/cris/translate.c
-> index c893f87..ae903a5 100644
-> --- a/target/cris/translate.c
-> +++ b/target/cris/translate.c
-> @@ -177,9 +177,13 @@ static inline void t_gen_mov_TN_preg(TCGv tn, int r)
-> {
->     assert(r >= 0 && r <= 15);
->     if (r == PR_BZ || r == PR_WZ || r == PR_DZ) {
-> -        tcg_gen_mov_tl(tn, tcg_const_tl(0));
-> +        TCGv c0 = tcg_const_tl(0);
-> +        tcg_gen_mov_tl(tn, c0);
-> +        tcg_temp_free(c0);
->     } else if (r == PR_VR) {
-> -        tcg_gen_mov_tl(tn, tcg_const_tl(32));
-> +        TCGv c32 = tcg_const_tl(32);
-> +        tcg_gen_mov_tl(tn, c32);
-> +        tcg_temp_free(c32);
->     } else {
->         tcg_gen_mov_tl(tn, cpu_PR[r]);
->     }
-> @@ -255,8 +259,10 @@ static int cris_fetch(CPUCRISState *env, DisasContext *dc, uint32_t addr,
-> 
-> static void cris_lock_irq(DisasContext *dc)
-> {
-> +    TCGv c1 = tcg_const_tl(1);
->     dc->clear_locked_irq = 0;
-> -    t_gen_mov_env_TN(locked_irq, tcg_const_tl(1));
-> +    t_gen_mov_env_TN(locked_irq, c1);
-> +    tcg_temp_free(c1);
-> }
-> 
-> static inline void t_gen_raise_exception(uint32_t index)
-> @@ -885,8 +891,10 @@ static void gen_tst_cc (DisasContext *dc, TCGv cc, int cond)
->     case CC_EQ:
->         if ((arith_opt || move_opt)
->                 && dc->cc_x_uptodate != (2 | X_FLAG)) {
-> +            TCGv c0 = tcg_const_tl(0);
->             tcg_gen_setcond_tl(TCG_COND_EQ, cc,
-> -                    cc_result, tcg_const_tl(0));
-> +                    cc_result, c0);
-> +            tcg_temp_free(c0);
->         } else {
->             cris_evaluate_flags(dc);
->             tcg_gen_andi_tl(cc,
-> @@ -1330,14 +1338,17 @@ static int dec_addoq(CPUCRISState *env, DisasContext *dc)
-> }
-> static int dec_addq(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c;
->     LOG_DIS("addq %u, $r%u\n", dc->op1, dc->op2);
-> 
->     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
-> 
->     cris_cc_mask(dc, CC_MASK_NZVC);
-> 
-> +    c = tcg_const_tl(dc->op1);
->     cris_alu(dc, CC_OP_ADD,
-> -            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
-> +            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> static int dec_moveq(CPUCRISState *env, DisasContext *dc)
-> @@ -1353,62 +1364,77 @@ static int dec_moveq(CPUCRISState *env, DisasContext *dc)
-> }
-> static int dec_subq(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c;
->     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
-> 
->     LOG_DIS("subq %u, $r%u\n", dc->op1, dc->op2);
-> 
->     cris_cc_mask(dc, CC_MASK_NZVC);
-> +    c = tcg_const_tl(dc->op1);
->     cris_alu(dc, CC_OP_SUB,
-> -            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
-> +            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> static int dec_cmpq(CPUCRISState *env, DisasContext *dc)
-> {
->     uint32_t imm;
-> +    TCGv c;
->     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
->     imm = sign_extend(dc->op1, 5);
-> 
->     LOG_DIS("cmpq %d, $r%d\n", imm, dc->op2);
->     cris_cc_mask(dc, CC_MASK_NZVC);
-> 
-> +    c = tcg_const_tl(imm);
->     cris_alu(dc, CC_OP_CMP,
-> -            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
-> +            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> static int dec_andq(CPUCRISState *env, DisasContext *dc)
-> {
->     uint32_t imm;
-> +    TCGv c;
->     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
->     imm = sign_extend(dc->op1, 5);
-> 
->     LOG_DIS("andq %d, $r%d\n", imm, dc->op2);
->     cris_cc_mask(dc, CC_MASK_NZ);
-> 
-> +    c = tcg_const_tl(imm);
->     cris_alu(dc, CC_OP_AND,
-> -            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
-> +            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> static int dec_orq(CPUCRISState *env, DisasContext *dc)
-> {
->     uint32_t imm;
-> +    TCGv c;
->     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
->     imm = sign_extend(dc->op1, 5);
->     LOG_DIS("orq %d, $r%d\n", imm, dc->op2);
->     cris_cc_mask(dc, CC_MASK_NZ);
-> 
-> +    c = tcg_const_tl(imm);
->     cris_alu(dc, CC_OP_OR,
-> -            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
-> +            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> static int dec_btstq(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c;
->     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 4);
->     LOG_DIS("btstq %u, $r%d\n", dc->op1, dc->op2);
-> 
->     cris_cc_mask(dc, CC_MASK_NZ);
-> +    c = tcg_const_tl(dc->op1);
->     cris_evaluate_flags(dc);
-> -        gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
-> -            tcg_const_tl(dc->op1), cpu_PR[PR_CCS]);
-> +    gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
-> +            c, cpu_PR[PR_CCS]);
-> +    tcg_temp_free(c);
->     cris_alu(dc, CC_OP_MOVE,
->          cpu_R[dc->op2], cpu_R[dc->op2], cpu_R[dc->op2], 4);
->     cris_update_cc_op(dc, CC_OP_FLAGS, 4);
-> @@ -1558,7 +1584,7 @@ static int dec_lsl_r(CPUCRISState *env, DisasContext *dc)
->     dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
->     tcg_gen_andi_tl(t[1], t[1], 63);
->     cris_alu(dc, CC_OP_LSL, cpu_R[dc->op2], t[0], t[1], size);
-> -    cris_alu_alloc_temps(dc, size, t);
-> +    cris_alu_free_temps(dc, size, t);
->     return 2;
-> }
-> 
-> @@ -1624,7 +1650,7 @@ static int dec_mulu_r(CPUCRISState *env, DisasContext *dc)
->     dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
-> 
->     cris_alu(dc, CC_OP_MULU, cpu_R[dc->op2], t[0], t[1], 4);
-> -    cris_alu_alloc_temps(dc, size, t);
-> +    cris_alu_free_temps(dc, size, t);
->     return 2;
-> }
-> 
-> @@ -1801,27 +1827,31 @@ static int dec_or_r(CPUCRISState *env, DisasContext *dc)
-> 
-> static int dec_addi_r(CPUCRISState *env, DisasContext *dc)
-> {
-> -    TCGv t0;
-> +    TCGv t0, c;
->     LOG_DIS("addi.%c $r%u, $r%u\n",
->             memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
->     cris_cc_mask(dc, 0);
->     t0 = tcg_temp_new();
-> -    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
-> +    c = tcg_const_tl(dc->zzsize);
-> +    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
->     tcg_gen_add_tl(cpu_R[dc->op1], cpu_R[dc->op1], t0);
->     tcg_temp_free(t0);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> 
-> static int dec_addi_acr(CPUCRISState *env, DisasContext *dc)
-> {
-> -    TCGv t0;
-> +    TCGv t0, c;
->     LOG_DIS("addi.%c $r%u, $r%u, $acr\n",
->           memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
->     cris_cc_mask(dc, 0);
->     t0 = tcg_temp_new();
-> -    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
-> +    c = tcg_const_tl(dc->zzsize);
-> +    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
->     tcg_gen_add_tl(cpu_R[R_ACR], cpu_R[dc->op1], t0);
->     tcg_temp_free(t0);
-> +    tcg_temp_free(c);
->     return 2;
-> }
-> 
-> @@ -2051,18 +2081,26 @@ static int dec_setclrf(CPUCRISState *env, DisasContext *dc)
-> 
-> static int dec_move_rs(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c2, c1;
->     LOG_DIS("move $r%u, $s%u\n", dc->op1, dc->op2);
-> +    c1 = tcg_const_tl(dc->op1);
-> +    c2 = tcg_const_tl(dc->op2);
->     cris_cc_mask(dc, 0);
-> -        gen_helper_movl_sreg_reg(cpu_env, tcg_const_tl(dc->op2),
-> -                                 tcg_const_tl(dc->op1));
-> +    gen_helper_movl_sreg_reg(cpu_env, c2, c1);
-> +    tcg_temp_free(c1);
-> +    tcg_temp_free(c2);
->     return 2;
-> }
-> static int dec_move_sr(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c2, c1;
->     LOG_DIS("move $s%u, $r%u\n", dc->op2, dc->op1);
-> +    c1 = tcg_const_tl(dc->op1);
-> +    c2 = tcg_const_tl(dc->op2);
->     cris_cc_mask(dc, 0);
-> -        gen_helper_movl_reg_sreg(cpu_env, tcg_const_tl(dc->op1),
-> -                                 tcg_const_tl(dc->op2));
-> +    gen_helper_movl_reg_sreg(cpu_env, c1, c2);
-> +    tcg_temp_free(c1);
-> +    tcg_temp_free(c2);
->     return 2;
-> }
-> 
-> @@ -2345,7 +2383,7 @@ static int dec_cmp_m(CPUCRISState *env, DisasContext *dc)
-> 
-> static int dec_test_m(CPUCRISState *env, DisasContext *dc)
-> {
-> -    TCGv t[2];
-> +    TCGv t[2], c;
->     int memsize = memsize_zz(dc);
->     int insn_len;
->     LOG_DIS("test.%c [$r%u%s] op2=%x\n",
-> @@ -2360,8 +2398,10 @@ static int dec_test_m(CPUCRISState *env, DisasContext *dc)
->     cris_cc_mask(dc, CC_MASK_NZ);
->     tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
-> 
-> +    c = tcg_const_tl(0);
->     cris_alu(dc, CC_OP_CMP,
-> -         cpu_R[dc->op2], t[1], tcg_const_tl(0), memsize_zz(dc));
-> +         cpu_R[dc->op2], t[1], c, memsize_zz(dc));
-> +    tcg_temp_free(c);
->     do_postinc(dc, memsize);
->     cris_alu_m_free_temps(t);
->     return insn_len;
-> @@ -2713,6 +2753,7 @@ static int dec_jump_p(CPUCRISState *env, DisasContext *dc)
-> /* Jump and save.  */
-> static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c;
->     LOG_DIS("jas $r%u, $p%u\n", dc->op1, dc->op2);
->     cris_cc_mask(dc, 0);
->     /* Store the return address in Pd.  */
-> @@ -2720,7 +2761,9 @@ static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
->     if (dc->op2 > 15) {
->         abort();
->     }
-> -    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4));
-> +    c = tcg_const_tl(dc->pc + 4);
-> +    t_gen_mov_preg_TN(dc, dc->op2, c);
-> +    tcg_temp_free(c);
-> 
->     cris_prepare_jmp(dc, JMP_INDIRECT);
->     return 2;
-> @@ -2729,13 +2772,16 @@ static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
-> static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
-> {
->     uint32_t imm;
-> +    TCGv c;
-> 
->     imm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
-> 
->     LOG_DIS("jas 0x%x\n", imm);
->     cris_cc_mask(dc, 0);
-> +    c = tcg_const_tl(dc->pc + 8);
->     /* Store the return address in Pd.  */
-> -    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
-> +    t_gen_mov_preg_TN(dc, dc->op2, c);
-> +    tcg_temp_free(c);
-> 
->     dc->jmp_pc = imm;
->     cris_prepare_jmp(dc, JMP_DIRECT);
-> @@ -2745,13 +2791,16 @@ static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
-> static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
-> {
->     uint32_t imm;
-> +    TCGv c;
-> 
->     imm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
-> 
->     LOG_DIS("jasc 0x%x\n", imm);
->     cris_cc_mask(dc, 0);
-> +    c = tcg_const_tl(dc->pc + 8 + 4);
->     /* Store the return address in Pd.  */
-> -    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8 + 4));
-> +    t_gen_mov_preg_TN(dc, dc->op2, c);
-> +    tcg_temp_free(c);
-> 
->     dc->jmp_pc = imm;
->     cris_prepare_jmp(dc, JMP_DIRECT);
-> @@ -2760,11 +2809,14 @@ static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
-> 
-> static int dec_jasc_r(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c;
->     LOG_DIS("jasc_r $r%u, $p%u\n", dc->op1, dc->op2);
->     cris_cc_mask(dc, 0);
->     /* Store the return address in Pd.  */
->     tcg_gen_mov_tl(env_btarget, cpu_R[dc->op1]);
-> -    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4 + 4));
-> +    c = tcg_const_tl(dc->pc + 4 + 4);
-> +    t_gen_mov_preg_TN(dc, dc->op2, c);
-> +    tcg_temp_free(c);
->     cris_prepare_jmp(dc, JMP_INDIRECT);
->     return 2;
-> }
-> @@ -2789,13 +2841,16 @@ static int dec_bcc_im(CPUCRISState *env, DisasContext *dc)
-> static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
-> {
->     int32_t simm;
-> +    TCGv c;
-> 
->     simm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
-> 
->     LOG_DIS("bas 0x%x, $p%u\n", dc->pc + simm, dc->op2);
->     cris_cc_mask(dc, 0);
-> +    c = tcg_const_tl(dc->pc + 8);
->     /* Store the return address in Pd.  */
-> -    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
-> +    t_gen_mov_preg_TN(dc, dc->op2, c);
-> +    tcg_temp_free(c);
-> 
->     dc->jmp_pc = dc->pc + simm;
->     cris_prepare_jmp(dc, JMP_DIRECT);
-> @@ -2805,12 +2860,15 @@ static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
-> static int dec_basc_im(CPUCRISState *env, DisasContext *dc)
-> {
->     int32_t simm;
-> +    TCGv c;
->     simm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
-> 
->     LOG_DIS("basc 0x%x, $p%u\n", dc->pc + simm, dc->op2);
->     cris_cc_mask(dc, 0);
-> +    c = tcg_const_tl(dc->pc + 12);
->     /* Store the return address in Pd.  */
-> -    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 12));
-> +    t_gen_mov_preg_TN(dc, dc->op2, c);
-> +    tcg_temp_free(c);
-> 
->     dc->jmp_pc = dc->pc + simm;
->     cris_prepare_jmp(dc, JMP_DIRECT);
-> @@ -2819,6 +2877,7 @@ static int dec_basc_im(CPUCRISState *env, DisasContext *dc)
-> 
-> static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
-> {
-> +    TCGv c;
->     cris_cc_mask(dc, 0);
-> 
->     if (dc->op2 == 15) {
-> @@ -2851,8 +2910,9 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
->         tcg_gen_movi_tl(env_pc, dc->pc + 2);
-> 
->         /* Breaks start at 16 in the exception vector.  */
-> -        t_gen_mov_env_TN(trap_vector,
-> -                tcg_const_tl(dc->op1 + 16));
-> +        c = tcg_const_tl(dc->op1 + 16);
-> +        t_gen_mov_env_TN(trap_vector, c);
-> +        tcg_temp_free(c);
->         t_gen_raise_exception(EXCP_BREAK);
->         dc->is_jmp = DISAS_UPDATE;
->         break;
-> @@ -3023,14 +3083,16 @@ static unsigned int crisv32_decoder(CPUCRISState *env, DisasContext *dc)
->     /* Single-stepping ?  */
->     if (dc->tb_flags & S_FLAG) {
->         TCGLabel *l1 = gen_new_label();
-> +        TCGv c = tcg_const_tl(3);
->         tcg_gen_brcondi_tl(TCG_COND_NE, cpu_PR[PR_SPC], dc->pc, l1);
->         /* We treat SPC as a break with an odd trap vector.  */
->         cris_evaluate_flags(dc);
-> -        t_gen_mov_env_TN(trap_vector, tcg_const_tl(3));
-> +        t_gen_mov_env_TN(trap_vector, c);
->         tcg_gen_movi_tl(env_pc, dc->pc + insn_len);
->         tcg_gen_movi_tl(cpu_PR[PR_SPC], dc->pc + insn_len);
->         t_gen_raise_exception(EXCP_BREAK);
->         gen_set_label(l1);
-> +        tcg_temp_free(c);
->     }
-> #endif
->     return insn_len;
-> @@ -3170,7 +3232,9 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
->             dc->delayed_branch--;
->             if (dc->delayed_branch == 0) {
->                 if (tb->flags & 7) {
-> -                    t_gen_mov_env_TN(dslot, tcg_const_tl(0));
-> +                    TCGv c = tcg_const_tl(0);
-> +                    t_gen_mov_env_TN(dslot, c);
-> +                    tcg_temp_free(c);
->                 }
->                 if (dc->cpustate_changed || !dc->flagx_known
->                     || (dc->flags_x != (tb->flags & X_FLAG))) {
-> @@ -3178,8 +3242,10 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
->                 }
-> 
->                 if (dc->clear_locked_irq) {
-> +                    TCGv c = tcg_const_tl(0);
->                     dc->clear_locked_irq = 0;
-> -                    t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
-> +                    t_gen_mov_env_TN(locked_irq, c);
-> +                    tcg_temp_free(c);
->                 }
-> 
->                 if (dc->jmp == JMP_DIRECT_CC) {
-> @@ -3200,7 +3266,9 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
->                     dc->is_jmp = DISAS_TB_JUMP;
->                     dc->jmp = JMP_NOJMP;
->                 } else {
-> -                    t_gen_cc_jmp(env_btarget, tcg_const_tl(dc->pc));
-> +                    TCGv c = tcg_const_tl(dc->pc);
-> +                    t_gen_cc_jmp(env_btarget, c);
-> +                    tcg_temp_free(c);
->                     dc->is_jmp = DISAS_JUMP;
->                 }
->                 break;
-> @@ -3219,7 +3287,9 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
->             && num_insns < max_insns);
-> 
->     if (dc->clear_locked_irq) {
-> -        t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
-> +        TCGv c = tcg_const_tl(0);
-> +        t_gen_mov_env_TN(locked_irq, c);
-> +        tcg_temp_free(c);
->     }
-> 
->     npc = dc->pc;
-> @@ -3233,8 +3303,10 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
->     }
->     /* Broken branch+delayslot sequence.  */
->     if (dc->delayed_branch == 1) {
-> +        TCGv c = tcg_const_tl(dc->pc - dc->ppc);
->         /* Set env->dslot to the size of the branch insn.  */
-> -        t_gen_mov_env_TN(dslot, tcg_const_tl(dc->pc - dc->ppc));
-> +        t_gen_mov_env_TN(dslot, c);
-> +        tcg_temp_free(c);
->         cris_store_direct_jmp(dc);
->     }
-> 
-> diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
-> index 86d78a8..f7cd67b 100644
-> --- a/target/cris/translate_v10.c.inc
-> +++ b/target/cris/translate_v10.c.inc
-> @@ -228,6 +228,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-> {
->     int32_t imm, simm;
->     int op;
-> +    TCGv c;
-> 
->     /* sign extend.  */
->     imm = dc->ir & ((1 << 6) - 1);
-> @@ -254,29 +255,37 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
->             LOG_DIS("moveq %d, $r%d\n", simm, dc->dst);
-> 
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(simm);
->             cris_alu(dc, CC_OP_MOVE, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_CMPQ:
->             LOG_DIS("cmpq %d, $r%d\n", simm, dc->dst);
-> 
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(simm);
->             cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_ADDQ:
->             LOG_DIS("addq %d, $r%d\n", imm, dc->dst);
-> 
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(imm);
->             cris_alu(dc, CC_OP_ADD, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_ANDQ:
->             LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
-> 
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(simm);
->             cris_alu(dc, CC_OP_AND, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_ASHQ:
->             LOG_DIS("ashq %d, $r%d\n", simm, dc->dst);
-> @@ -284,15 +293,17 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
->             cris_cc_mask(dc, CC_MASK_NZVC);
->             op = imm & (1 << 5);
->             imm &= 0x1f;
-> +            c = tcg_const_tl(imm);
->             if (op) {
->                 cris_alu(dc, CC_OP_ASR, cpu_R[dc->dst],
-> -                          cpu_R[dc->dst], tcg_const_tl(imm), 4);
-> +                          cpu_R[dc->dst], c, 4);
->             } else {
->                 /* BTST */
->                 cris_update_cc_op(dc, CC_OP_FLAGS, 4);
->                 gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->dst],
-> -                           tcg_const_tl(imm), cpu_PR[PR_CCS]);
-> +                           c, cpu_PR[PR_CCS]);
->             }
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_LSHQ:
->             LOG_DIS("lshq %d, $r%d\n", simm, dc->dst);
-> @@ -303,22 +314,28 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
->             }
->             imm &= 0x1f;
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(imm);
->             cris_alu(dc, op, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_SUBQ:
->             LOG_DIS("subq %d, $r%d\n", imm, dc->dst);
-> 
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(imm);
->             cris_alu(dc, CC_OP_SUB, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
->         case CRISV10_QIMM_ORQ:
->             LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
-> 
->             cris_cc_mask(dc, CC_MASK_NZVC);
-> +            c = tcg_const_tl(simm);
->             cris_alu(dc, CC_OP_OR, cpu_R[dc->dst],
-> -                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-> +                     cpu_R[dc->dst], c, 4);
-> +            tcg_temp_free(c);
->             break;
-> 
->         case CRISV10_QIMM_BCC_R0:
-> @@ -760,7 +777,6 @@ static unsigned int dec10_ind_move_m_r(CPUCRISState *env, DisasContext *dc,
->         tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
->         cris_prepare_jmp(dc, JMP_INDIRECT);
->         dc->delayed_branch = 1;
-> -        return insn_len;
->     }
-> 
->     tcg_temp_free(t);
-> @@ -777,6 +793,7 @@ static unsigned int dec10_ind_move_r_m(DisasContext *dc, unsigned int size)
->     crisv10_prepare_memaddr(dc, addr, size);
->     gen_store_v10(dc, addr, cpu_R[dc->dst], size);
->     insn_len += crisv10_post_memaddr(dc, size);
-> +    tcg_temp_free(addr);
-> 
->     return insn_len;
-> }
-> @@ -796,11 +813,10 @@ static unsigned int dec10_ind_move_m_pr(CPUCRISState *env, DisasContext *dc)
->         tcg_gen_mov_tl(env_btarget, t);
->         cris_prepare_jmp(dc, JMP_INDIRECT);
->         dc->delayed_branch = 1;
-> -        return insn_len;
-> +    } else {
-> +        tcg_gen_mov_tl(cpu_PR[rd], t);
-> +        dc->cpustate_changed = 1;
->     }
-> -
-> -    tcg_gen_mov_tl(cpu_PR[rd], t);
-> -    dc->cpustate_changed = 1;
->     tcg_temp_free(addr);
->     tcg_temp_free(t);
->     return insn_len;
-> @@ -824,8 +840,8 @@ static unsigned int dec10_ind_move_pr_m(DisasContext *dc)
->     } else {
->         gen_store_v10(dc, addr, cpu_PR[dc->dst], size);
->     }
-> -    t0 = tcg_temp_new();
->     insn_len += crisv10_post_memaddr(dc, size);
-> +    tcg_temp_free(addr);
->     cris_lock_irq(dc);
-> 
->     return insn_len;
-> @@ -927,7 +943,6 @@ static int dec10_ind_bound(CPUCRISState *env, DisasContext *dc,
->         tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
->         cris_prepare_jmp(dc, JMP_INDIRECT);
->         dc->delayed_branch = 1;
-> -        return insn_len;
->     }
-> 
->     tcg_temp_free(t);
-> @@ -953,7 +968,6 @@ static int dec10_alux_m(CPUCRISState *env, DisasContext *dc, int op)
->         tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
->         cris_prepare_jmp(dc, JMP_INDIRECT);
->         dc->delayed_branch = 1;
-> -        return insn_len;
->     }
-> 
->     tcg_temp_free(t);
-> @@ -1020,7 +1034,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
->     unsigned int size = dec10_size(dc->size);
->     uint32_t imm;
->     int32_t simm;
-> -    TCGv t[2];
-> +    TCGv t[2], c;
-> 
->     if (dc->size != 3) {
->         switch (dc->opcode) {
-> @@ -1041,8 +1055,10 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
->                 cris_alu_m_alloc_temps(t);
->                 insn_len += dec10_prep_move_m(env, dc, 0, size, t[0]);
->                 tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
-> +                c = tcg_const_tl(0);
->                 cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
-> -                         t[0], tcg_const_tl(0), size);
-> +                         t[0], c, size);
-> +                tcg_temp_free(c);
->                 cris_alu_m_free_temps(t);
->                 break;
->             case CRISV10_IND_ADD:
-> @@ -1138,7 +1154,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
->                 if (dc->mode == CRISV10_MODE_AUTOINC)
->                     insn_len += size;
-> 
-> -                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len));
-> +                c = tcg_const_tl(dc->pc + insn_len);
-> +                t_gen_mov_preg_TN(dc, dc->dst, c);
-> +                tcg_temp_free(c);
->                 dc->jmp_pc = imm;
->                 cris_prepare_jmp(dc, JMP_DIRECT);
->                 dc->delayed_branch--; /* v10 has no dslot here.  */
-> @@ -1147,7 +1165,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
->                     LOG_DIS("break %d\n", dc->src);
->                     cris_evaluate_flags(dc);
->                     tcg_gen_movi_tl(env_pc, dc->pc + 2);
-> -                    t_gen_mov_env_TN(trap_vector, tcg_const_tl(dc->src + 2));
-> +                    c = tcg_const_tl(dc->src + 2);
-> +                    t_gen_mov_env_TN(trap_vector, c);
-> +                    tcg_temp_free(c);
->                     t_gen_raise_exception(EXCP_BREAK);
->                     dc->is_jmp = DISAS_UPDATE;
->                     return insn_len;
-> @@ -1155,7 +1175,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
->                 LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
->                          dc->opcode, dc->src, dc->dst);
->                 t[0] = tcg_temp_new();
-> -                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len));
-> +                c = tcg_const_tl(dc->pc + insn_len);
-> +                t_gen_mov_preg_TN(dc, dc->dst, c);
-> +                tcg_temp_free(c);
->                 crisv10_prepare_memaddr(dc, t[0], size);
->                 gen_load(dc, env_btarget, t[0], 4, 0);
->                 insn_len += crisv10_post_memaddr(dc, size);
-> @@ -1178,7 +1200,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
->             LOG_DIS("jmp pc=%x opcode=%d r%d r%d\n",
->                         dc->pc, dc->opcode, dc->dst, dc->src);
->             tcg_gen_mov_tl(env_btarget, cpu_R[dc->src]);
-> -            t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len));
-> +            c = tcg_const_tl(dc->pc + insn_len);
-> +            t_gen_mov_preg_TN(dc, dc->dst, c);
-> +            tcg_temp_free(c);
->             cris_prepare_jmp(dc, JMP_INDIRECT);
->             dc->delayed_branch--; /* v10 has no dslot here.  */
->             break;
-> -- 
-> 1.8.3.1
-> 
+> Can you think of any other specific differences that need to be tested?
+
+I think you nailed the negative tests.
+
+The positive tests are limited to frontend tests now, i.e. put some
+valid use into qapi-schema-test.json, then check the resulting
+qapi-schema-test.out looks sane.  Covered there, I think:
+
+* empty 'aliases' have no effect: AliasStruct0
+
+  Aside: we could choose to outlaw instead.
+
+* alias a struct member: AliasStruct1
+
+* alias a member of a struct member: AliasStruct2
+
+* alias all members of a struct member: AliasStruct3
+
+* alias a member of a flat union variant: AliasFlatUnion
+
+* alias all members of all simple union variants: AliasSimpleUnion
+
+Missing, I think:
+
+* alias a member of the base struct
+
+* alias a member of a member of a struct member
+
+I figure both are relatively uninteresting as front-end tests, but unit
+tests (below) will need them.
+
+Possibly:
+
+* alias a member of a simple union variant
+
+* alias all members of a simple union variant
+
+Not sure how much these buy us over the other tests.  Perhaps we should
+spend our limited time on killing simple unions instead (I hope aliases
+will help us get there).
+
+Aside: we could add aliases to alternates, for rewriting a non-object
+variant into an object variant.  Not now, and later only if we find
+sufficiently compelling uses.
+
+Unit tests go further than frontend tests: they test the generated
+code.  And the hand-written code, of course.
+
+We should cover the various paths through
+qobject_input_try_get_object().
+
+I'd like us to cover its use in the various contexts, i.e. from all
+kinds of callers of visit_type_BAR_members().  See above for a list.
+
+I don't think we need to do the full test matrix.  The inner workings of
+qobject_input_try_get_object() look independent enough from the contexts
+to justify risking a short cut.  So, cover the paths, and also cover the
+contexts, but don't cover the paths for each context.
+
+What do you think?
+
+Feel free to suggest more tests, or more shortcuts.
+
 
