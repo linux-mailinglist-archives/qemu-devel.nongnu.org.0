@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C83DA31E619
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 07:02:14 +0100 (CET)
-Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B31C31E61A
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 07:02:18 +0100 (CET)
+Received: from localhost ([::1]:55414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCcOD-0002da-QJ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 01:02:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47702)
+	id 1lCcOH-0002ie-48
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 01:02:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lCcFW-000122-38
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:14 -0500
-Received: from mga05.intel.com ([192.55.52.43]:7037)
+ id 1lCcFX-00015i-Hu
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:15 -0500
+Received: from mga05.intel.com ([192.55.52.43]:7021)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lCcFU-0003nI-7X
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:13 -0500
-IronPort-SDR: pdqVrEsWnrEWJ6EpS+FevfiUb3FowIa2iwcF0+Dnbgr/FnzYP11eF6pT6ifPNshwVilyNMlrTk
- kO/0DBSetSqg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268260190"
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="268260190"
+ id 1lCcFV-0003hi-0Z
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:15 -0500
+IronPort-SDR: GvwKM12FsqPhesWS5ZZwTrTod32LoA3jVVu6s/Aip/TQBdmkKLROijOGzut4ueZK9VgACnwG9O
+ DbP9fR3HOdAA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268260192"
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="268260192"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 21:53:00 -0800
-IronPort-SDR: CEBtS+Dmt4VbLNg5EfbHrYk5v0qa1ctFqqgpcR46jN+vM24xHUzj7PY5YJ1XyVDbC+a5TlyHL+
- WGc7wGm8yyOg==
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="589940930"
+ 17 Feb 2021 21:53:01 -0800
+IronPort-SDR: zT2JPyR/IkKlx716efxXq2gWO1BquPu5HIWF6ncSrro3TpfDvF1+O4Lv6q+3apjpdE900EqR1h
+ xEyL1kCs9N1A==
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="589940936"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 21:53:00 -0800
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com
-Subject: [PATCH v5 05/10] acpi: set fadt.smi_cmd to zero when SMM is not
- supported
-Date: Wed, 17 Feb 2021 21:51:13 -0800
-Message-Id: <09ed791ef77fda2b194100669cbc690865c9eb52.1613615732.git.isaku.yamahata@intel.com>
+Subject: [PATCH v5 07/10] hw/i386: declare ACPI mother board resource for
+ MMCONFIG region
+Date: Wed, 17 Feb 2021 21:51:15 -0800
+Message-Id: <6f686b45ce7bc43048c56dbb46e72e1fe51927e6.1613615732.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613615732.git.isaku.yamahata@intel.com>
 References: <cover.1613615732.git.isaku.yamahata@intel.com>
@@ -72,111 +72,170 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-From table 5.9 SMI_CMD of ACPI spec
-> This field is reserved and must be zero on system
-> that does not support System Management mode.
+Declare PNP0C01 device to reserve MMCONFIG region to conform to the
+spec better and play nice with guest BIOSes/OSes.
 
-When smm is not enabled, set it to zero to comform to the spec.
-When -machine smm=off is passed, the change to FACP is as follows.
+According to PCI Firmware Specification[0], MMCONFIG region must be
+reserved by declaring a motherboard resource. It's optional to reserve
+the region in memory map by Int 15 E820h or EFIGetMemoryMap.
+Guest Linux checks if the MMCFG region is reserved by bios memory map
+or ACPI resource. If it's not reserved, Linux falls back to legacy PCI
+configuration access.
 
-@@ -1,46 +1,46 @@
- /*
-  * Intel ACPI Component Architecture
-  * AML/ASL+ Disassembler version 20180105 (64-bit version)
-  * Copyright (c) 2000 - 2018 Intel Corporation
-  *
-- * Disassembly of tests/data/acpi/q35/FACP, Fri Feb  5 16:57:04 2021
-+ * Disassembly of /tmp/aml-1OQYX0, Fri Feb  5 16:57:04 2021
-  *
-  * ACPI Data Table [FACP]
-  *
-  * Format: [HexOffset DecimalOffset ByteLength]  FieldName : FieldValue
-  */
+TDVF [1] [2] doesn't reserve MMCONFIG the region in memory map.
+On the other hand OVMF reserves it in memory map without declaring a
+motherboard resource. With memory map reservation, linux guest uses
+MMCONFIG region. However it doesn't comply to PCI Firmware
+specification.
 
- [000h 0000   4]                    Signature : "FACP"    [Fixed ACPI Description Table (FADT)]
- [004h 0004   4]                 Table Length : 000000F4
- [008h 0008   1]                     Revision : 03
--[009h 0009   1]                     Checksum : 1F
-+[009h 0009   1]                     Checksum : D6
- [00Ah 0010   6]                       Oem ID : "BOCHS "
- [010h 0016   8]                 Oem Table ID : "BXPCFACP"
- [018h 0024   4]                 Oem Revision : 00000001
- [01Ch 0028   4]              Asl Compiler ID : "BXPC"
- [020h 0032   4]        Asl Compiler Revision : 00000001
+[0] PCI Firmware specification Revision 3.2
+  4.1.2 MCFG Table Description table 4-2 NOTE 2
+  If the operating system does not natively comprehend reserving the
+  MMCFG region, The MMCFG region must e reserved by firmware. ...
+  For most systems, the mortheroard resource would appear at the root
+  of the ACPI namespace (under \_SB)...
+  The resource can optionally be returned in Int15 E820h or
+  EFIGetMemoryMap as reserved memory but must always be reported
+  through ACPI as a motherboard resource
 
- [024h 0036   4]                 FACS Address : 00000000
- [028h 0040   4]                 DSDT Address : 00000000
- [02Ch 0044   1]                        Model : 01
- [02Dh 0045   1]                   PM Profile : 00 [Unspecified]
- [02Eh 0046   2]                SCI Interrupt : 0009
--[030h 0048   4]             SMI Command Port : 000000B2
--[034h 0052   1]            ACPI Enable Value : 02
--[035h 0053   1]           ACPI Disable Value : 03
-+[030h 0048   4]             SMI Command Port : 00000000
-+[034h 0052   1]            ACPI Enable Value : 00
-+[035h 0053   1]           ACPI Disable Value : 00
- [036h 0054   1]               S4BIOS Command : 00
- [037h 0055   1]              P-State Control : 00
- [038h 0056   4]     PM1A Event Block Address : 00000600
- [03Ch 0060   4]     PM1B Event Block Address : 00000000
- [040h 0064   4]   PM1A Control Block Address : 00000604
- [044h 0068   4]   PM1B Control Block Address : 00000000
- [048h 0072   4]    PM2 Control Block Address : 00000000
- [04Ch 0076   4]       PM Timer Block Address : 00000608
- [050h 0080   4]           GPE0 Block Address : 00000620
- [054h 0084   4]           GPE1 Block Address : 00000000
- [058h 0088   1]       PM1 Event Block Length : 04
- [059h 0089   1]     PM1 Control Block Length : 02
- [05Ah 0090   1]     PM2 Control Block Length : 00
- [05Bh 0091   1]        PM Timer Block Length : 04
- [05Ch 0092   1]            GPE0 Block Length : 10
- [05Dh 0093   1]            GPE1 Block Length : 00
+[1] TDX: Intel Trust Domain Extension
+    https://software.intel.com/content/www/us/en/develop/articles/intel-trust-domain-extensions.html
+[2] TDX Virtual Firmware
+    https://github.com/tianocore/edk2-staging/tree/TDVF
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+The change to DSDT is as follows.
+@@ -68,32 +68,47 @@
+
+                     If ((CDW3 != Local0))
+                     {
+                         CDW1 |= 0x10
+                     }
+
+                     CDW3 = Local0
+                 }
+                 Else
+                 {
+                     CDW1 |= 0x04
+                 }
+
+                 Return (Arg3)
+             }
+         }
++
++        Device (DRAC)
++        {
++            Name (_HID, "PNP0C01" /* System Board */)  // _HID: Hardware ID
++            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
++            {
++                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
++                    0x00000000,         // Granularity
++                    0xB0000000,         // Range Minimum
++                    0xBFFFFFFF,         // Range Maximum
++                    0x00000000,         // Translation Offset
++                    0x10000000,         // Length
++                    ,, , AddressRangeMemory, TypeStatic)
++            })
++        }
+     }
+
+     Scope (_SB)
+     {
+         Device (HPET)
+         {
+             Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
+             Name (_UID, Zero)  // _UID: Unique ID
+             OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
+             Field (HPTM, DWordAcc, Lock, Preserve)
+             {
+                 VEND,   32,
+                 PRD,    32
+             }
+
+             Method (_STA, 0, NotSerialized)  // _STA: Status
+
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/i386/acpi-build.c | 18 +++++++++++++++---
- 1 file changed, 15 insertions(+), 3 deletions(-)
+ hw/i386/acpi-build.c | 46 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 45 insertions(+), 1 deletion(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index b9190b924a..49aef4ebd1 100644
+index 49aef4ebd1..96497475d1 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -139,6 +139,14 @@ const struct AcpiGenericAddress x86_nvdimm_acpi_dsmio = {
- static void init_common_fadt_data(MachineState *ms, Object *o,
-                                   AcpiFadtData *data)
+@@ -1072,6 +1072,46 @@ static void build_q35_pci0_int(Aml *table)
+     aml_append(table, sb_scope);
+ }
+ 
++static Aml *build_q35_dram_controller(const AcpiMcfgInfo *mcfg)
++{
++    Aml *dev;
++    Aml *resource_template;
++
++    /* DRAM controller */
++    dev = aml_device("DRAC");
++    aml_append(dev, aml_name_decl("_HID", aml_string("PNP0C01")));
++
++    resource_template = aml_resource_template();
++    if (mcfg->base + mcfg->size - 1 >= (1ULL << 32)) {
++        aml_append(resource_template,
++                   aml_qword_memory(AML_POS_DECODE,
++                                    AML_MIN_FIXED,
++                                    AML_MAX_FIXED,
++                                    AML_NON_CACHEABLE,
++                                    AML_READ_WRITE,
++                                    0x0000000000000000,
++                                    mcfg->base,
++                                    mcfg->base + mcfg->size - 1,
++                                    0x0000000000000000,
++                                    mcfg->size));
++    } else {
++        aml_append(resource_template,
++                   aml_dword_memory(AML_POS_DECODE,
++                                    AML_MIN_FIXED,
++                                    AML_MAX_FIXED,
++                                    AML_NON_CACHEABLE,
++                                    AML_READ_WRITE,
++                                    0x0000000000000000,
++                                    mcfg->base,
++                                    mcfg->base + mcfg->size - 1,
++                                    0x0000000000000000,
++                                    mcfg->size));
++    }
++    aml_append(dev, aml_name_decl("_CRS", resource_template));
++
++    return dev;
++}
++
+ static void build_q35_isa_bridge(Aml *table)
  {
-+    X86MachineState *x86ms = X86_MACHINE(ms);
-+    /*
-+     * "ICH9-LPC" or "PIIX4_PM" has "smm-compat" property to keep the old
-+     * behavior for compatibility irrelevant to smm_enabled, which doesn't
-+     * comforms to ACPI spec.
-+     */
-+    bool smm_enabled = object_property_get_bool(o, "smm-compat", NULL) ?
-+        true : x86_machine_is_smm_enabled(x86ms);
-     uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
-     AmlAddressSpace as = AML_AS_SYSTEM_IO;
-     AcpiFadtData fadt = {
-@@ -159,12 +167,16 @@ static void init_common_fadt_data(MachineState *ms, Object *o,
-         .rtc_century = RTC_CENTURY,
-         .plvl2_lat = 0xfff /* C2 state not supported */,
-         .plvl3_lat = 0xfff /* C3 state not supported */,
--        .smi_cmd = ACPI_PORT_SMI_CMD,
-+        .smi_cmd = smm_enabled ? ACPI_PORT_SMI_CMD : 0,
-         .sci_int = object_property_get_uint(o, ACPI_PM_PROP_SCI_INT, NULL),
-         .acpi_enable_cmd =
--            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL),
-+            smm_enabled ?
-+            object_property_get_uint(o, ACPI_PM_PROP_ACPI_ENABLE_CMD, NULL) :
-+            0,
-         .acpi_disable_cmd =
--            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL),
-+            smm_enabled ?
-+            object_property_get_uint(o, ACPI_PM_PROP_ACPI_DISABLE_CMD, NULL) :
-+            0,
-         .pm1a_evt = { .space_id = as, .bit_width = 4 * 8, .address = io },
-         .pm1a_cnt = { .space_id = as, .bit_width = 2 * 8,
-                       .address = io + 0x04 },
+     Aml *dev;
+@@ -1218,6 +1258,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(machine);
+     X86MachineState *x86ms = X86_MACHINE(machine);
+     AcpiMcfgInfo mcfg;
++    bool mcfg_valid = !!acpi_get_mcfg(&mcfg);
+     uint32_t nr_mem = machine->ram_slots;
+     int root_bus_limit = 0xFF;
+     PCIBus *bus = NULL;
+@@ -1256,6 +1297,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+         aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+         aml_append(dev, build_q35_osc_method());
+         aml_append(sb_scope, dev);
++        if (mcfg_valid) {
++            aml_append(sb_scope, build_q35_dram_controller(&mcfg));
++        }
+ 
+         if (pm->smi_on_cpuhp) {
+             /* reserve SMI block resources, IO ports 0xB2, 0xB3 */
+@@ -1386,7 +1430,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+      * the PCI0._CRS.  Add mmconfig to the set so it will be excluded
+      * too.
+      */
+-    if (acpi_get_mcfg(&mcfg)) {
++    if (mcfg_valid) {
+         crs_range_insert(crs_range_set.mem_ranges,
+                          mcfg.base, mcfg.base + mcfg.size - 1);
+     }
 -- 
 2.17.1
 
