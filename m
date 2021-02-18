@@ -2,101 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4920331E880
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:37:02 +0100 (CET)
-Received: from localhost ([::1]:34786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A820631E885
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:43:51 +0100 (CET)
+Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCgg9-00044L-AW
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38964)
+	id 1lCgmk-0000Fy-55
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:43:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lCge4-000312-QG; Thu, 18 Feb 2021 05:34:52 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17074
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lCge2-0003hq-D8; Thu, 18 Feb 2021 05:34:52 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11IAWfgd126776; Thu, 18 Feb 2021 05:34:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=4yFPC66zcFBQVWcKC0bmFCDlt1PLrJNYlrFO6v/vWnI=;
- b=nH1sskTQxnRUugj6udbVXBYiXk81DcG5qgg9RarJXOkq4NpZcYLXcQ5xJADSYAb8U6e1
- qaH+04zjd9A5r5Kj4GYIFQwqBchU46wmSDqtqBr9+WeMF1W3JmVHrSLTBD0gs7EO+H5m
- waxcWMmlPZEpClqnGO4ACYpFWvKkY9veJ3kHtMH3tYY81RJNIxmuKDX161us2LqJaX8N
- 5pcBbfxE4X3RLrMFtFqLs9l7980v1dkaXPVsl71Ow1SDUjIpFhGV+GnJRzLDllryFFcH
- 8tcEUxbVw5FzLdvsEMzjuaUw4szWKKGpkTLPftp1C6slaMEgPNHRGbdbQXtfXvqiAS7X kw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36sp9d8mch-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 05:34:48 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11IAXDKN129008;
- Thu, 18 Feb 2021 05:34:48 -0500
-Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.72])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36sp9d8mag-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 05:34:47 -0500
-Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
- by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11IAS0aP004090;
- Thu, 18 Feb 2021 10:34:45 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06fra.de.ibm.com with ESMTP id 36p61hac66-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 10:34:45 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11IAYgjt46006660
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Feb 2021 10:34:42 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 91152A4053;
- Thu, 18 Feb 2021 10:34:42 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CBDB7A4055;
- Thu, 18 Feb 2021 10:34:41 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 18 Feb 2021 10:34:41 +0000 (GMT)
-Date: Thu, 18 Feb 2021 11:34:38 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210218113438.3fe80078.pasic@linux.ibm.com>
-In-Reply-To: <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
-References: <20210218022227.979741-1-pasic@linux.ibm.com>
- <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lCglG-0008Aw-Ew
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:42:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35726)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lCglB-00077S-GX
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:42:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613644929;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lw5nI2YYkzixxyPiTOdtX0qBSRimPY8Nhyb6Tao+aew=;
+ b=Gg4jHN/5erpPegg/k7Zq7Z5YNK8j1vEcnNGFRQ1qPhMUdy7STMshF8pfYy8d34FVENmj7u
+ jiJddaZbgo06XhjABgFyYv59EcAJohE5RSzpZFUKa69/RuT+9zE3MOSTCpe0xZsc4YEgdN
+ uvvNzJbKGNbjk4lL9weNIggkfduWecY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-SiGbLEuUN6OAz-0Tu7MZAA-1; Thu, 18 Feb 2021 05:42:07 -0500
+X-MC-Unique: SiGbLEuUN6OAz-0Tu7MZAA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 922671005501;
+ Thu, 18 Feb 2021 10:42:03 +0000 (UTC)
+Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CA6F6267A;
+ Thu, 18 Feb 2021 10:41:52 +0000 (UTC)
+Subject: Re: [RFC v7 26/26] vfio/pci: Implement return_page_response page
+ response callback
+To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+ "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "alex.williamson@redhat.com" <alex.williamson@redhat.com>
+References: <20201116181349.11908-1-eric.auger@redhat.com>
+ <20201116181349.11908-27-eric.auger@redhat.com>
+ <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <f11ef533-da64-3d6a-24f5-79d5e7a205da@redhat.com>
+Date: Thu, 18 Feb 2021 11:41:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-18_04:2021-02-18,
- 2021-02-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 malwarescore=0 priorityscore=1501 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102180087
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,93 +89,277 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
+ "zhangfei.gao@gmail.com" <zhangfei.gao@gmail.com>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "tn@semihalf.com" <tn@semihalf.com>, "peterx@redhat.com" <peterx@redhat.com>,
+ "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
+ "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
+ "yi.l.liu@intel.com" <yi.l.liu@intel.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yuzenghui <yuzenghui@huawei.com>,
+ qubingbing <qubingbing@hisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 10:23:16 +0100
-Thomas Huth <thuth@redhat.com> wrote:
+Hi Shameer,
 
-> > Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
-> > module, which provides the type virtio-gpu-device, packaging the
-> > hw-display-virtio-gpu module as a separate package that may or may not
-> > be installed along with the qemu package leads to problems. Namely if
-> > the hw-display-virtio-gpu is absent, qemu continues to advertise
-> > virtio-gpu-ccw, but it aborts not only when one attempts using
-> > virtio-gpu-ccw, but also when libvirtd's capability probing tries
-> > to instantiate the type to introspect it.
-> > 
-> > Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
-> > is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
-> > was chosen because it is not a portable device.
-> > 
-> > With virtio-gpu-ccw built as a module, the correct way to package a
-> > modularized qemu is to require that hw-display-virtio-gpu must be
-> > installed whenever the module hw-s390x-virtio-gpu-ccw.
-> > 
-> > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > ---
-> >   hw/s390x/meson.build | 17 ++++++++++++++++-
-> >   util/module.c        |  1 +
-> >   2 files changed, 17 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> > index 2a7818d94b..153b1309fb 100644
-> > --- a/hw/s390x/meson.build
-> > +++ b/hw/s390x/meson.build
-> > @@ -34,7 +34,6 @@ virtio_ss.add(files('virtio-ccw.c'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
-> > -virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
-> >   virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
-> > @@ -46,3 +45,19 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'
-> >   s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
-> >   
-> >   hw_arch += {'s390x': s390x_ss}
-> > +
-> > +if target.startswith('s390x')
-> > +  hw_s390x_modules = {}
-> > +
-> > +  hw_s390x_modules_c_args = ['-DNEED_CPU_H',
-> > +	      '-DCONFIG_TARGET="@0@-config-target.h"'.format(target)]
-> > +  hw_s390x_modules_inc = [include_directories('../../target' / config_target['TARGET_BASE_ARCH'])]
-> > +  hw_s390x_modules_dependencies = declare_dependency(
-> > +	       include_directories: hw_s390x_modules_inc, compile_args: hw_s390x_modules_c_args)  
+On 2/18/21 11:19 AM, Shameerali Kolothum Thodi wrote:
+> Hi Eric,
 > 
-> Basically the patch looks fine to me, but I wonder why all that above lines 
-> (related to hw_s390x_modules_dependencies) are requred at all? The other 
-> display modules in hw/display/meson.build also do not need to re-define 
-> c_args for example?
+>> -----Original Message-----
+>> From: Eric Auger [mailto:eric.auger@redhat.com]
+>> Sent: 16 November 2020 18:14
+>> To: eric.auger.pro@gmail.com; eric.auger@redhat.com;
+>> qemu-devel@nongnu.org; qemu-arm@nongnu.org;
+>> alex.williamson@redhat.com
+>> Cc: peter.maydell@linaro.org; jean-philippe@linaro.org; peterx@redhat.com;
+>> jacob.jun.pan@linux.intel.com; yi.l.liu@intel.com; Shameerali Kolothum Thodi
+>> <shameerali.kolothum.thodi@huawei.com>; tn@semihalf.com;
+>> nicoleotsuka@gmail.com; yuzenghui <yuzenghui@huawei.com>;
+>> zhangfei.gao@gmail.com; vivek.gautam@arm.com
+>> Subject: [RFC v7 26/26] vfio/pci: Implement return_page_response page
+>> response callback
+>>
+>> This patch implements the page response path. The
+>> response s written into the page response ring buffer and then
+>> update header's head index is updated. This path is not used
+>> by this series. It is introduced here as a POC for vSVA/ARM
+>> integration.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  hw/vfio/pci.h |   2 +
+>>  hw/vfio/pci.c | 121
+>> ++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  2 files changed, 123 insertions(+)
+>>
+>> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
+>> index 350e9e9005..ce0472611e 100644
+>> --- a/hw/vfio/pci.h
+>> +++ b/hw/vfio/pci.h
+>> @@ -147,6 +147,8 @@ struct VFIOPCIDevice {
+>>      VFIOPCIExtIRQ *ext_irqs;
+>>      VFIORegion dma_fault_region;
+>>      uint32_t fault_tail_index;
+>> +    VFIORegion dma_fault_response_region;
+>> +    uint32_t fault_response_head_index;
+>>      int (*resetfn)(struct VFIOPCIDevice *);
+>>      uint32_t vendor_id;
+>>      uint32_t device_id;
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index 4e3495bb60..797acd9c73 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -2631,6 +2631,61 @@ out:
+>>      g_free(fault_region_info);
+>>  }
+>>
+>> +static void vfio_init_fault_response_regions(VFIOPCIDevice *vdev, Error
+>> **errp)
+>> +{
+>> +    struct vfio_region_info *fault_region_info = NULL;
+>> +    struct vfio_region_info_cap_fault *cap_fault;
+>> +    VFIODevice *vbasedev = &vdev->vbasedev;
+>> +    struct vfio_info_cap_header *hdr;
+>> +    char *fault_region_name;
+>> +    int ret;
+>> +
+>> +    ret = vfio_get_dev_region_info(&vdev->vbasedev,
+>> +                                   VFIO_REGION_TYPE_NESTED,
+>> +
+>> VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT_RESPONSE,
+>> +                                   &fault_region_info);
+>> +    if (ret) {
+>> +        goto out;
+>> +    }
+>> +
+>> +    hdr = vfio_get_region_info_cap(fault_region_info,
+>> +
+>> VFIO_REGION_INFO_CAP_DMA_FAULT);
+> 
+> VFIO_REGION_INFO_CAP_DMA_FAULT_RESPONSE ? 
+yes!
+> 
+>> +    if (!hdr) {
+>> +        error_setg(errp, "failed to retrieve DMA FAULT RESPONSE
+>> capability");
+>> +        goto out;
+>> +    }
+>> +    cap_fault = container_of(hdr, struct vfio_region_info_cap_fault,
+>> +                             header);
+>> +    if (cap_fault->version != 1) {
+>> +        error_setg(errp, "Unsupported DMA FAULT RESPONSE API
+>> version %d",
+>> +                   cap_fault->version);
+>> +        goto out;
+>> +    }
+>> +
+>> +    fault_region_name = g_strdup_printf("%s DMA FAULT RESPONSE %d",
+>> +                                        vbasedev->name,
+>> +                                        fault_region_info->index);
+>> +
+>> +    ret = vfio_region_setup(OBJECT(vdev), vbasedev,
+>> +                            &vdev->dma_fault_response_region,
+>> +                            fault_region_info->index,
+>> +                            fault_region_name);
+>> +    g_free(fault_region_name);
+>> +    if (ret) {
+>> +        error_setg_errno(errp, -ret,
+>> +                         "failed to set up the DMA FAULT RESPONSE
+>> region %d",
+>> +                         fault_region_info->index);
+>> +        goto out;
+>> +    }
+>> +
+>> +    ret = vfio_region_mmap(&vdev->dma_fault_response_region);
+>> +    if (ret) {
+>> +        error_setg_errno(errp, -ret, "Failed to mmap the DMA FAULT
+>> RESPONSE queue");
+>> +    }
+>> +out:
+>> +    g_free(fault_region_info);
+>> +}
+>> +
+>>  static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
+>>  {
+>>      VFIODevice *vbasedev = &vdev->vbasedev;
+>> @@ -2706,6 +2761,12 @@ static void vfio_populate_device(VFIOPCIDevice
+>> *vdev, Error **errp)
+>>          return;
+>>      }
+>>
+>> +    vfio_init_fault_response_regions(vdev, &err);
+>> +    if (err) {
+>> +        error_propagate(errp, err);
+>> +        return;
+>> +    }
+>> +
+>>      irq_info.index = VFIO_PCI_ERR_IRQ_INDEX;
+>>
+>>      ret = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_GET_IRQ_INFO, &irq_info);
+>> @@ -2884,8 +2945,68 @@ static int vfio_iommu_set_pasid_table(PCIBus
+>> *bus, int32_t devfn,
+>>      return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
+>>  }
+>>
+>> +static int vfio_iommu_return_page_response(PCIBus *bus, int32_t devfn,
+>> +                                           IOMMUPageResponse
+>> *resp)
+>> +{
+>> +    PCIDevice *pdev = bus->devices[devfn];
+>> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
+>> +    struct iommu_page_response *response = &resp->resp;
+>> +    struct vfio_region_dma_fault_response header;
+>> +    struct iommu_page_response *queue;
+>> +    char *queue_buffer = NULL;
+>> +    ssize_t bytes;
+>> +
+>> +    if (!vdev->dma_fault_response_region.mem) {
+>> +        return -EINVAL;
+>> +    }
+>> +
+>> +    /* read the header */
+>> +    bytes = pread(vdev->vbasedev.fd, &header, sizeof(header),
+>> +                  vdev->dma_fault_response_region.fd_offset);
+>> +    if (bytes != sizeof(header)) {
+>> +        error_report("%s unable to read the fault region header (0x%lx)",
+>> +                     __func__, bytes);
+>> +        return -1;
+>> +    }
+>> +
+>> +    /* Normally the fault queue is mmapped */
+>> +    queue = (struct iommu_page_response
+>> *)vdev->dma_fault_response_region.mmaps[0].mmap;
+>> +    if (!queue) {
+>> +        size_t queue_size = header.nb_entries * header.entry_size;
+>> +
+>> +        error_report("%s: fault queue not mmapped: slower fault handling",
+>> +                     vdev->vbasedev.name);
+>> +
+>> +        queue_buffer = g_malloc(queue_size);
+>> +        bytes = pread(vdev->vbasedev.fd, queue_buffer, queue_size,
+>> +                      vdev->dma_fault_response_region.fd_offset +
+>> header.offset);
+>> +        if (bytes != queue_size) {
+>> +            error_report("%s unable to read the fault queue (0x%lx)",
+>> +                         __func__, bytes);
+>> +            return -1;
+>> +        }
+>> +
+>> +        queue = (struct iommu_page_response *)queue_buffer;
+>> +    }
+>> +    /* deposit the new response in the queue and increment the head */
+>> +    memcpy(queue + header.head, response, header.entry_size);
+>> +
+>> +    vdev->fault_response_head_index =
+>> +        (vdev->fault_response_head_index + 1) % header.nb_entries;
+>> +    bytes = pwrite(vdev->vbasedev.fd, &vdev->fault_response_head_index,
+>> 4,
+>> +                   vdev->dma_fault_response_region.fd_offset);
+>> +    if (bytes != 4) {
+>> +        error_report("%s unable to write the fault response region head
+>> index (0x%lx)",
+>> +                     __func__, bytes);
+>> +    }
+>> +    g_free(queue_buffer);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>  static PCIPASIDOps vfio_pci_pasid_ops = {
+>>      .set_pasid_table = vfio_iommu_set_pasid_table,
+>> +    .return_page_response = vfio_iommu_return_page_response,
+>>  };
+>>
+>>  static void vfio_dma_fault_notifier_handler(void *opaque)
+> 
+> Also, I just noted that this patch breaks the dev hot add/del functionality.
+> device_add works fine but device_del is not removing the dev cleanly.Thank you for reporting this!
 
-The explanation is simple. Unlike most devices, the ccw devices aren't
-portable. In particular both css.c and css.h includes "cpu.h", and
-virtio-ccw-gpu.c includes "qemu/osdep.h". Furthermore osdep.h contains:
-#ifdef NEED_CPU_H
-#include CONFIG_TARGET
-#else
-#include "exec/poison.h"
-#endif
-so if we don't have NEED_CPU_H, among others CONFIG_KVM is poisoned, and
-CONFIG_KVM is used in "css.h". Frankly, I can't tell under what circumstances
-does css need "cpu.h". I managed to build the s390x-softmmu target
-without it, but decided to put it back. Regarding "osdep.h", I just
-assumed includes are done the way they are done for a good reason. Maybe
-the includes can be changed in a way that the things you ask about become
-unnecessary, but with the code as is they are necessary. Try to drop them
-and check out what happens.
+The test matrix becomes bigger and bigger :-( I Need to write some
+avocado-vt tests or alike.
 
-Regards,
-Halil
+I am currently working on the respin. At the moment I investigate the
+DPDK issue that you reported and I was able to reproduce.
+
+I intend to rebase on top of Jean-Philippe's
+[PATCH v12 00/10] iommu: I/O page faults for SMMUv3
+
+Is that good enough for your SVA integration or do you want I prepare a
+rebase on some extended code?
+
+Thanks
+
+Eric
+> 
+> The below one fixes it. Please check.
+> 
+> Thanks,
+> Shameer
+> 
+> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+> index 797acd9c73..92c1d48316 100644
+> --- a/hw/vfio/pci.c
+> +++ b/hw/vfio/pci.c
+> @@ -3470,6 +3470,7 @@ static void vfio_instance_finalize(Object *obj)
+>      vfio_display_finalize(vdev);
+>      vfio_bars_finalize(vdev);
+>      vfio_region_finalize(&vdev->dma_fault_region);
+> +    vfio_region_finalize(&vdev->dma_fault_response_region);
+>      g_free(vdev->emulated_config_bits);
+>      g_free(vdev->rom);
+>      /*
+> @@ -3491,6 +3492,7 @@ static void vfio_exitfn(PCIDevice *pdev)
+>      vfio_unregister_err_notifier(vdev);
+>      vfio_unregister_ext_irq_notifiers(vdev);
+>      vfio_region_exit(&vdev->dma_fault_region);
+> +    vfio_region_exit(&vdev->dma_fault_response_region);
+>      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
+>      if (vdev->irqchip_change_notifier.notify) {
+>          kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_not
+> 
+> 
+> 
+
 
