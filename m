@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8FF31E613
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 06:57:40 +0100 (CET)
-Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1519631E615
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 06:59:45 +0100 (CET)
+Received: from localhost ([::1]:49562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCcJn-00066D-RL
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 00:57:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47610)
+	id 1lCcLo-0000H1-1B
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 00:59:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lCcFS-0000t1-3Q
+ id 1lCcFS-0000uL-NI
  for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:10 -0500
-Received: from mga05.intel.com ([192.55.52.43]:7021)
+Received: from mga05.intel.com ([192.55.52.43]:7032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lCcFO-0003hi-Je
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:09 -0500
-IronPort-SDR: vujncXsiifhLK4HH4blbUNkPbx58I+3kJYBnGK/9zvjToWyVno9+NroKTx9SaJgvBlHJstJO6R
- gvfOwO77zOCw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268260187"
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="268260187"
+ id 1lCcFP-0003ku-Ch
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:10 -0500
+IronPort-SDR: +Zm5sZ2ZojqI6ndF+7m9Mf552okGESzUwCxcAjr09mYFj1+hQODN20yW1cxZXqkplaudx8wZAv
+ 6nYg9MJvbzwg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268260188"
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="268260188"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 21:53:00 -0800
-IronPort-SDR: YR+pTTkPm1UlC15aZI/J7/BB5jJs/Af5IZQv6qNWLa87RX2rKDRHm7YDxSJFsB/x2p1KQYC9S4
- i/iUgYgMiYVA==
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="589940921"
+IronPort-SDR: AjaFRu0MMhJg6R0lQ1/N3Ex9cnNl0CmjN3FMlPXe5k9PCYW3a3WsDnr8rmhyrzEDnhbDCv1Tb1
+ gdta/Ze80gWA==
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="589940924"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 21:53:00 -0800
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com
-Subject: [PATCH v5 02/10] qtest: update
- tests/qtest/bios-tables-test-allowed-diff.h
-Date: Wed, 17 Feb 2021 21:51:10 -0800
-Message-Id: <c8285f54deab362ed839d31f0fb5bb590ab71fdd.1613615732.git.isaku.yamahata@intel.com>
+Subject: [PATCH v5 03/10] ich9, piix4: add properoty, smm-compat,
+ to keep compatibility of SMM
+Date: Wed, 17 Feb 2021 21:51:11 -0800
+Message-Id: <47254ae0b8c6cc6945422978b6b2af2d213ef891.1613615732.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613615732.git.isaku.yamahata@intel.com>
 References: <cover.1613615732.git.isaku.yamahata@intel.com>
@@ -72,60 +72,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-The following tests will modify acpi tables.
-prepare qtests to allow acpi table change.
-add new tables for new tests.
-- tests/data/acpi/pc/DSDT.nohpet
-- tests/data/acpi/pc/FACP.nosmm
-- tests/data/acpi/q35/DSDT.nohpet
-- tests/data/acpi/q35/FACP.nosmm
+The following patch will introduce incompatible behavior of SMM.
+Introduce a property to keep the old behavior for compatibility.
+To enable smm compat, use "-global ICH9-LPC.smm-compat=on" or
+"-global PIIX4_PM.smm-compat=on"
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- tests/data/acpi/pc/DSDT.nohpet              |  0
- tests/data/acpi/pc/FACP.nosmm               |  0
- tests/data/acpi/q35/DSDT.nohpet             |  0
- tests/data/acpi/q35/FACP.nosmm              |  0
- tests/qtest/bios-tables-test-allowed-diff.h | 14 ++++++++++++++
- 5 files changed, 14 insertions(+)
- create mode 100644 tests/data/acpi/pc/DSDT.nohpet
- create mode 100644 tests/data/acpi/pc/FACP.nosmm
- create mode 100644 tests/data/acpi/q35/DSDT.nohpet
- create mode 100644 tests/data/acpi/q35/FACP.nosmm
+ hw/acpi/piix4.c        | 2 ++
+ hw/isa/lpc_ich9.c      | 1 +
+ include/hw/acpi/ich9.h | 1 +
+ 3 files changed, 4 insertions(+)
 
-diff --git a/tests/data/acpi/pc/DSDT.nohpet b/tests/data/acpi/pc/DSDT.nohpet
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/pc/FACP.nosmm b/tests/data/acpi/pc/FACP.nosmm
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/DSDT.nohpet b/tests/data/acpi/q35/DSDT.nohpet
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/data/acpi/q35/FACP.nosmm b/tests/data/acpi/q35/FACP.nosmm
-new file mode 100644
-index 0000000000..e69de29bb2
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index dfb8523c8b..95592459c5 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1 +1,15 @@
- /* List of comma-separated changed AML files to ignore */
-+"tests/data/acpi/pc/FACP.nosmm",
-+"tests/data/acpi/pc/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT",
-+"tests/data/acpi/q35/DSDT.tis",
-+"tests/data/acpi/q35/DSDT.bridge",
-+"tests/data/acpi/q35/DSDT.mmio64",
-+"tests/data/acpi/q35/DSDT.ipmibt",
-+"tests/data/acpi/q35/DSDT.cphp",
-+"tests/data/acpi/q35/DSDT.memhp",
-+"tests/data/acpi/q35/DSDT.numamem",
-+"tests/data/acpi/q35/FACP.nosmm",
-+"tests/data/acpi/q35/DSDT.nohpet",
-+"tests/data/acpi/q35/DSDT.dimmpxm",
-+"tests/data/acpi/q35/DSDT.acpihmat",
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 669be5bbf6..30dd9b2309 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -74,6 +74,7 @@ struct PIIX4PMState {
+     qemu_irq irq;
+     qemu_irq smi_irq;
+     int smm_enabled;
++    bool smm_compat;
+     Notifier machine_ready;
+     Notifier powerdown_notifier;
+ 
+@@ -642,6 +643,7 @@ static Property piix4_pm_properties[] = {
+                      use_acpi_root_pci_hotplug, true),
+     DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+                      acpi_memory_hotplug.is_enabled, true),
++    DEFINE_PROP_BOOL("smm-compat", PIIX4PMState, smm_compat, false),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index d3145bf014..3963b73520 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -775,6 +775,7 @@ static const VMStateDescription vmstate_ich9_lpc = {
+ 
+ static Property ich9_lpc_properties[] = {
+     DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
++    DEFINE_PROP_BOOL("smm-compat", ICH9LPCState, pm.smm_compat, false),
+     DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
+                       ICH9_LPC_SMI_F_BROADCAST_BIT, true),
+     DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
+diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+index 54571c77e0..df519e40b5 100644
+--- a/include/hw/acpi/ich9.h
++++ b/include/hw/acpi/ich9.h
+@@ -59,6 +59,7 @@ typedef struct ICH9LPCPMRegs {
+     uint8_t disable_s4;
+     uint8_t s4_val;
+     uint8_t smm_enabled;
++    bool smm_compat;
+     bool enable_tco;
+     TCOIORegs tco_regs;
+ } ICH9LPCPMRegs;
 -- 
 2.17.1
 
