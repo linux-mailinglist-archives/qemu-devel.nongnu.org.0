@@ -2,93 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5674B31E7C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:16:11 +0100 (CET)
-Received: from localhost ([::1]:33486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BE231E7E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:25:17 +0100 (CET)
+Received: from localhost ([::1]:38770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCfPu-0003XG-B2
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:16:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42848)
+	id 1lCfYi-000662-AH
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:25:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lCfOC-0002zi-Cc
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:14:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56333)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCfXE-0005c1-FM
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:23:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lCfO7-0000Rv-Tz
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:14:23 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCfX9-0004ym-BF
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:23:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613639658;
+ s=mimecast20190719; t=1613640216;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=A6UvkdITz89SoHuKYlzaXYn3dc9Pc16KJAMyutExhaY=;
- b=RjM+J8WVz+hckl7Fgb0donNPy8Jp4No/ZTySzfN5mcTeYXCd0JiuUAfDlvSFKK0ajxovH8
- OHrj2wO/Y2dLwqAXh3/0cPfgD1bNNv3+R1QOv/qttELdWKE4RU09/aQWJG189RTgR9Iz6I
- 8oz3/KgWMEpPVQNpp9S3j3JywxOaEys=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-142-4xQ2t2e5OcyXMax01CEhHA-1; Thu, 18 Feb 2021 04:14:16 -0500
-X-MC-Unique: 4xQ2t2e5OcyXMax01CEhHA-1
-Received: by mail-wr1-f70.google.com with SMTP id e12so725457wrw.14
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:14:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=A6UvkdITz89SoHuKYlzaXYn3dc9Pc16KJAMyutExhaY=;
- b=crDsH88kx+9ny2lIrl+9OVqEAWc93p6297kPk0pI0R+RokVKZwM3czBy+rAXaMdYKa
- dg72Flqgndd7G9YqcGAhmHVTU9qsKauQkvBiW+Cz/hAchW21ZFmmINYLgF4bJrlRV8Qz
- aYo6F6RE2xWU1ksTcI/H/K5eGRZ4JSiXcJBUXxT8Vbpm9xw6NyqI4UyuSnN0DPnItlXr
- e5H9LsXXnqsN8KFag1GsuJ/LeI5I02q4fdkNcB6cKdvGAeVxXtyDV+7ta+pT+37TsCQM
- HiCiC3PEodg7KemCzdwTI45YA15dPKyRBi04494H8A+s0ULmCp4bYnr7wQ04WoLrg3fB
- Wh3g==
-X-Gm-Message-State: AOAM5319GHS6+b8Ud/5WZMoqcjduQvLL5nAPsyN//+/21DdX/U5IwN/w
- /goxG6R0cGYB4ZFFYJC5l5Q5tZCvorAeDt1cmSv2FLQTi2ecgIb8G5YOsiTJ4X0xGZG1HuTCZKe
- hWXj4VdK+SiWVd6o/LFwlHoENqdpHJp2QlNyUsH0Wi508irKoLirqEhgpw/bEfwpEQ3U=
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr3357068wrq.51.1613639655055; 
- Thu, 18 Feb 2021 01:14:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyN1hCBlo2PZjA/B849yvP9hznnVjKbagWUTHAngtchSQ+I6D1kdedNIkHzzI0dp5sp1JQSCQ==
-X-Received: by 2002:a5d:4a0b:: with SMTP id m11mr3357042wrq.51.1613639654792; 
- Thu, 18 Feb 2021 01:14:14 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id z15sm9702942wrs.72.2021.02.18.01.14.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Feb 2021 01:14:13 -0800 (PST)
-Subject: Re: [PULL 09/19] libqos/qgraph: add qos_node_create_driver_named()
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
-References: <20210215131626.65640-1-pbonzini@redhat.com>
- <20210215131626.65640-10-pbonzini@redhat.com> <2293527.6E2vuH6pv7@silver>
- <2503182.7bSAqF82In@silver>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c7872ca9-4eb9-805c-2fdc-ceda65b89e5a@redhat.com>
-Date: Thu, 18 Feb 2021 10:14:12 +0100
+ bh=dm5262ToJR1qWsIl1/cPT9dWa2UqOCNDSJ+gmjx9xB8=;
+ b=QmZTLNNLq4YoLj1Y/9g9VgvfrqBk4gvvD2I6GKWAyp5D3aRSGaYmjbP/sv09GRKOXsTZ6w
+ 5aGUL/nPoOSdPJ8rMH+dc+EVhE/gWIj6bJPDmjg3BC1po89qb/ljY86Qx6csrPh3DqME3y
+ 4wbpPL+FzXlyDefesjj2761jis2DZWY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-TN-ZwWlGOtmGC9Gac-ltjg-1; Thu, 18 Feb 2021 04:23:34 -0500
+X-MC-Unique: TN-ZwWlGOtmGC9Gac-ltjg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 39179CC622;
+ Thu, 18 Feb 2021 09:23:33 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-83.ams2.redhat.com [10.36.112.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A86995D9C2;
+ Thu, 18 Feb 2021 09:23:17 +0000 (UTC)
+Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
+To: Halil Pasic <pasic@linux.ibm.com>, Cornelia Huck <cohuck@redhat.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210218022227.979741-1-pasic@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
+Date: Thu, 18 Feb 2021 10:23:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <2503182.7bSAqF82In@silver>
+In-Reply-To: <20210218022227.979741-1-pasic@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,50 +88,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/02/21 10:10, Christian Schoenebeck wrote:
-> On Montag, 15. Februar 2021 15:06:41 CET Christian Schoenebeck wrote:
->> On Montag, 15. Februar 2021 14:16:16 CET Paolo Bonzini wrote:
->>> From: qemu_oss--- via <qemu-devel@nongnu.org>
->>>
->>> So far the qos subsystem of the qtest framework had the limitation
->>> that only one instance of the same official QEMU (QMP) driver name
->>> could be created for qtests. That's because a) the created qos
->>> node names must always be unique, b) the node name must match the
->>> official QEMU driver name being instantiated and c) all nodes are
->>> in a global space shared by all tests.
->>>
->>> This patch removes this limitation by introducing a new function
->>> qos_node_create_driver_named() which allows test case authors to
->>> specify a node name being different from the actual associated
->>> QEMU driver name. It fills the new 'qemu_name' field of
->>> QOSGraphNode for that purpose.
->>>
->>> Adjust build_driver_cmd_line() and qos_graph_node_set_availability()
->>> to correctly deal with either accessing node name vs. node's
->>> qemu_name correctly.
->>>
->>> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
->>> Message-Id:
->>> <3be962ff38f3396f8040deaa5ffdab525c4e0b16.1611704181.git.qemu_oss@crudebyt
->>> e
->>> .com> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->>
->> Just a side note: The odd "From:" line was because of a temporary issue with
->> the mailman version running GNU lists, which caused mailman to rewrite
->> certain sender addresses. The problem with mailman had been fixed in the
->> meantime.
->>
->> I personally don't care about it, but just that you know that this did not
->> happen by purpose or something.
+On 18/02/2021 03.22, Halil Pasic wrote:
+> Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
+> module, which provides the type virtio-gpu-device, packaging the
+> hw-display-virtio-gpu module as a separate package that may or may not
+> be installed along with the qemu package leads to problems. Namely if
+> the hw-display-virtio-gpu is absent, qemu continues to advertise
+> virtio-gpu-ccw, but it aborts not only when one attempts using
+> virtio-gpu-ccw, but also when libvirtd's capability probing tries
+> to instantiate the type to introspect it.
 > 
-> Paolo, do you want me to resend these patches as v2 for fixing the author
-> rewrite issue?
+> Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
+> is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
+> was chosen because it is not a portable device.
+> 
+> With virtio-gpu-ccw built as a module, the correct way to package a
+> modularized qemu is to require that hw-display-virtio-gpu must be
+> installed whenever the module hw-s390x-virtio-gpu-ccw.
+> 
+> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+> ---
+>   hw/s390x/meson.build | 17 ++++++++++++++++-
+>   util/module.c        |  1 +
+>   2 files changed, 17 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+> index 2a7818d94b..153b1309fb 100644
+> --- a/hw/s390x/meson.build
+> +++ b/hw/s390x/meson.build
+> @@ -34,7 +34,6 @@ virtio_ss.add(files('virtio-ccw.c'))
+>   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
+>   virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
+>   virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
+> -virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
+>   virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
+>   virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
+>   virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
+> @@ -46,3 +45,19 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'
+>   s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
+>   
+>   hw_arch += {'s390x': s390x_ss}
+> +
+> +if target.startswith('s390x')
+> +  hw_s390x_modules = {}
+> +
+> +  hw_s390x_modules_c_args = ['-DNEED_CPU_H',
+> +	      '-DCONFIG_TARGET="@0@-config-target.h"'.format(target)]
+> +  hw_s390x_modules_inc = [include_directories('../../target' / config_target['TARGET_BASE_ARCH'])]
+> +  hw_s390x_modules_dependencies = declare_dependency(
+> +	       include_directories: hw_s390x_modules_inc, compile_args: hw_s390x_modules_c_args)
 
-The patches already in and with the right author.
+Basically the patch looks fine to me, but I wonder why all that above lines 
+(related to hw_s390x_modules_dependencies) are requred at all? The other 
+display modules in hw/display/meson.build also do not need to re-define 
+c_args for example?
 
-Paolo
+  Thomas
+
+
+> +  virtio_gpu_ccw_ss = ss.source_set()
+> +  virtio_gpu_ccw_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: [files('virtio-ccw-gpu.c'), pixman, hw_s390x_modules_dependencies])
+> +  hw_s390x_modules += {'virtio-gpu-ccw': virtio_gpu_ccw_ss}
+> +
+> +  modules += {'hw-s390x': hw_s390x_modules}
+> +endif
+> diff --git a/util/module.c b/util/module.c
+> index c65060c167..cbe89fede6 100644
+> --- a/util/module.c
+> +++ b/util/module.c
+> @@ -304,6 +304,7 @@ static struct {
+>       { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
+>       { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
+>       { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
+> +    { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
+>       { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
+>       { "virtio-vga",            "hw-", "display-virtio-vga"    },
+>       { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
+> 
+> base-commit: 1af5629673bb5c1592d993f9fb6119a62845f576
+> 
 
 
