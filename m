@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D4131EA5B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 14:17:54 +0100 (CET)
-Received: from localhost ([::1]:53580 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CF931EA64
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 14:25:28 +0100 (CET)
+Received: from localhost ([::1]:56198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCjBp-0000eD-NK
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 08:17:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42518)
+	id 1lCjJ9-0002Aq-Qw
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 08:25:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1lCjAX-0000Bh-Ft; Thu, 18 Feb 2021 08:16:33 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1964)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1lCjAV-0007oS-JQ; Thu, 18 Feb 2021 08:16:33 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11ID2oRS108412; Thu, 18 Feb 2021 08:16:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : reply-to : message-id : date : mime-version : content-type :
- content-transfer-encoding; s=pp1;
- bh=1LRf0qnMQ3q755tzS3IRorBTpzu7X3I1rSTAGzVIotU=;
- b=YwoYf/NhfbwiNv8ctYihtkWBKzEDr303mEH4KCYnfpAIqMjIT1WnDSIuOJawwGsorcJg
- q9NTY2z83+6TLV5RXqNBesiJggFookTooccxTQAjNUVayBnEFMonmiB8VFg43QU95AsC
- /mgNFh45DQAb8KSFMu6Dny0F5t8S7rVp9J4S49iDKH1Tmw1E07PSU/Yx+ogrA+m2lluc
- xkj33zaaSXMfQBRIy1Orip5il5lw9BzjFOy6AKLyqyp5p+9QxXJa95kl5yagFcNak+o4
- 7lfuSWfmwwttzD3H8wSmvhVsWrizkHTQ/oYFn/JwMH4ZF7uZE00GMlD85vLa1qbOjMEz hw== 
-Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
- [169.55.91.170])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36sqnqat03-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 08:16:29 -0500
-Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
- by ppma02wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11IDFwG2029745;
- Thu, 18 Feb 2021 13:16:28 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma02wdc.us.ibm.com with ESMTP id 36p6d9p10h-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 13:16:28 +0000
-Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
- [9.57.199.111])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11IDGRJY37028192
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Feb 2021 13:16:27 GMT
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 97FE8AC062;
- Thu, 18 Feb 2021 13:16:27 +0000 (GMT)
-Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id D8B58AC05B;
- Thu, 18 Feb 2021 13:16:26 +0000 (GMT)
-Received: from lagarcia.br.ibm.com (unknown [9.80.219.153])
- by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTP;
- Thu, 18 Feb 2021 13:16:26 +0000 (GMT)
-From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?=
- <lagarcia@linux.ibm.com>
-Organization: IBM
-To: QEMU devel list <qemu-devel@nongnu.org>
-Subject: Editing QEMU POWER Platform wiki page
-Message-ID: <91874f1e-4b14-5fb1-f1ae-1225938df759@linux.ibm.com>
-Date: Thu, 18 Feb 2021 10:16:25 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <rosbrookn@gmail.com>)
+ id 1lCjHV-0001he-5z
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:23:45 -0500
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:46204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rosbrookn@gmail.com>)
+ id 1lCjHT-0002V7-HN
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:23:44 -0500
+Received: by mail-qk1-x733.google.com with SMTP id w19so1932753qki.13
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 05:23:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=mTaKbUCPMI8pEmpUH7xFKnqYvEUHTTNlJ1sBAW5ap6A=;
+ b=f00lXv5nHIEhSTZCyygrk0AbfHar9O41wXUMdLOZWcI04YbtmfVYCQhxl+qPnW+Yd6
+ 9dKvovPBmw9STO/PVAvDp+jEoVsAjWnnStJjvSBeZS2vsfLow7oK8XRkeXwONw8qZltE
+ iUFDanKgNzrOsuEjfDZbrxcIG/FvY4IKcb2T6wgTBgVIJ6Gk54zMWh3j0xGHH7bHHv2C
+ sn3aMQSAoHshGksYO2tghKKnxcCeg2R+W12e3R+3MTrkds2M8jYH10ep/KyBICzII93p
+ eOtX8YL1cKVnFzGwW6o/LpZaCe6I4rXXpIrk2mW50dClaF3Zol9Gjc2kXt1Gj4wgEtQe
+ ZwKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=mTaKbUCPMI8pEmpUH7xFKnqYvEUHTTNlJ1sBAW5ap6A=;
+ b=dtZv+TkV0cfFKEGasDNNPobhfPsNqj4Yr35yVjgrkS7UTnluZw1XknO0V/AKtqzxU7
+ P1pRFx0+L/4sU7H99kKOhoLq09pFrmIi+R6fEMlwOSYdIrWY5q8+ciz8lz8SVKgfOoFI
+ Lt7CMGSOR3PgnFJdNz5ksLgT4B6xdW3KI0mVz+Y9iWxFxpPHhk2fAo9fQT1q3XCBKQwM
+ QVIxf2vwZjBE2zMmYC8xMfde9lAe2077WUPRNByX8h0EMTeJNgV3meA6/57HWpqCvSNz
+ nuNmgbVdw5O+7JDxCB7U91TSR5KIeV0ImbEh8piBaJNuz8DwOWSnEsg9Xj1q+tiY96vV
+ GVng==
+X-Gm-Message-State: AOAM5306/FuKsdkTjqqS118ib5CNnXHpqCRUSF49KqflpKnkxxNQ93m8
+ n8U7aPV41yH11bVmyzyNizU=
+X-Google-Smtp-Source: ABdhPJxOVVvBCpxQitZyGdfXBIR4HCJUCD1MlgbGEsyf76IAaZ4L6NOoSzqc+WVyZLdrGPDNz7xZLQ==
+X-Received: by 2002:a37:9b07:: with SMTP id d7mr3957677qke.497.1613654622194; 
+ Thu, 18 Feb 2021 05:23:42 -0800 (PST)
+Received: from FED-nrosbr-BE.crux.rad.ainfosec.com
+ (209-217-208-226.northland.net. [209.217.208.226])
+ by smtp.gmail.com with ESMTPSA id c191sm942079qke.1.2021.02.18.05.23.41
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Feb 2021 05:23:41 -0800 (PST)
+Date: Thu, 18 Feb 2021 08:23:39 -0500
+From: Nick Rosbrook <rosbrookn@gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH] usb-host: use correct altsetting in usb_host_ep_update
+Message-ID: <YC5qW21CDU38YtZ5@FED-nrosbr-BE.crux.rad.ainfosec.com>
+References: <20210201213021.500277-1-rosbrookn@ainfosec.com>
+ <CAEBZRScKAU3PdbiZQvXou41J+5cFXcOj=KUB0dYnC2y1BCbH-w@mail.gmail.com>
+ <20210218115251.c7lgkkcu2hsngvkz@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-18_05:2021-02-18,
- 2021-02-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1011
- mlxscore=0 lowpriorityscore=0 phishscore=0 adultscore=0 suspectscore=0
- malwarescore=0 mlxlogscore=783 spamscore=0 bulkscore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102180110
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210218115251.c7lgkkcu2hsngvkz@sirius.home.kraxel.org>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=rosbrookn@gmail.com; helo=mail-qk1-x733.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,21 +85,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: lagarcia@br.ibm.com
-Cc: QEMU PPC devel list <qemu-ppc@nongnu.org>
+Cc: Nick Rosbrook <rosbrookn@ainfosec.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi there,
+On Thu, Feb 18, 2021 at 12:52:51PM +0100, Gerd Hoffmann wrote:
+> On Thu, Feb 11, 2021 at 11:05:41AM -0500, Nick Rosbrook wrote:
+> > Hi,
+> > 
+> > Just wanted to ping this. Patchwork link is here:
+> > https://patchwork.kernel.org/project/qemu-devel/patch/20210201213021.500277-1-rosbrookn@ainfosec.com/.
+> 
+> Pull request sent now.
+> Not much usb activity these days ...
 
-I would like to edit the wiki page at [0] as it contains some outdated 
-information. Could anyone that has access to the wiki please help me 
-create a user so that I can edit it?
+Thanks!
 
-0. https://wiki.qemu.org/Documentation/Platforms/POWER
-
-Cheers,
-
-Leo
-
+NR
 
