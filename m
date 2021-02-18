@@ -2,90 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13BC31EBB6
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 16:50:15 +0100 (CET)
-Received: from localhost ([::1]:45976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8BC231EBEB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 16:59:34 +0100 (CET)
+Received: from localhost ([::1]:53372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lClZG-0003Uo-9J
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 10:50:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45978)
+	id 1lCliH-00077w-Ez
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 10:59:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lClXi-00034g-4W
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 10:48:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29195)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lClXf-0005S5-9l
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 10:48:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613663312;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4UtRqgMDL+pPW2Ml6iKWneOkuTSLpesxC/RkqekWocA=;
- b=D+W4+AZxkIYeXAU0JYIJgFmG0qMKanEMhigW0DQZp/qKjjbVyev0eg8H8fxvEhzByUFQ38
- y+j3VshcYtU/E7CbmzQ++DXfvKYnRWzO7idP+jVRWPf9Bd1bA/P6ERI4StqCbju/igo29Y
- cb1E5r3vnmve9THtW4bffSDWppS/Oyw=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-lj4zpRyqP7qPilrLvAvl6A-1; Thu, 18 Feb 2021 10:48:30 -0500
-X-MC-Unique: lj4zpRyqP7qPilrLvAvl6A-1
-Received: by mail-wr1-f69.google.com with SMTP id r5so1158775wrw.10
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 07:48:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lClh7-0006a9-V8; Thu, 18 Feb 2021 10:58:21 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lClh4-0001Aj-Ko; Thu, 18 Feb 2021 10:58:21 -0500
+Received: by mail-ed1-x529.google.com with SMTP id d2so4941704edq.10;
+ Thu, 18 Feb 2021 07:58:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=UMVNODeIUOO/im9coGW0vH+kgBa9skpyUNc8bYEhZkk=;
+ b=sfOmRPhZ1LRz6mTJK5+MWDDnrdg0H7Ohs/Nr4pJMiRBXtmCUeLAvl6CeUJTyhi8ep8
+ ISQVohMfUWnrjk51IDqejG/p407ai6jz+PuP81CrkQIdOiAflZq2GiTwNbmGH8cSyEhU
+ Bjcr3bZUFYAqDBJEvaKqSKyrdnm/2pw8Bf9e1rjkwWbZ7fHIMl6yGjtcU87nz8U0uW/A
+ UOa5hN8xk7FaAe6eZ/+/nTVMO4I4YfMdboAumE+xA4qBMgS8NS5bnvLOtyZXvuWCLWh8
+ G79zLYORNk0/Bth3iI4yVgtn4PV83hcqI90YbHPPRXoc6f36E6Gjyit4jtbwZ/m3XR1W
+ KLCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4UtRqgMDL+pPW2Ml6iKWneOkuTSLpesxC/RkqekWocA=;
- b=oLw/rKIYkzZesLusxKNYSCRPVixd/IXVZVDfmDZdStPrawNFopGI/ZNqAmSmrTzJvC
- 0dn9HCYX9eoDcHWZ7EEZHDE07JqG2pmhugNcPysAACQCavCq0M4nYlAhOSQJU3Qq1ihS
- J6JYac43W7qRoZg4SzxIT8VhAI/UdiGwytwU+i/h1SyWZh6KZou8L5AgZbb8RJrc3ZJE
- Ta9ShWLBaCZAQ8iJJ+y1fElGzHRxXvbj8jXC0e5VnPc4GtW2O7Mamv47qrrZ7E/Wp3sp
- NmBSKaiEPu2mavtaRhH/SrC5CHI/duPVdDRifDCODo6Eiw+m3lH3fdot9Toy6pECGn2L
- cCMQ==
-X-Gm-Message-State: AOAM533EumkboYqRHqCPaiP52Avzn7TDYpApSrxSGl7CvLx9Djbu3ElB
- wx7U/PR6hHfydoD7/5RRSDnsC6YpdSYy/craWm38c4jTGRQXcFF5NTQEMxtcryIeUg8U4Ic++6w
- DAbCLnOreNLZ8yfM=
-X-Received: by 2002:a05:600c:2155:: with SMTP id
- v21mr4141441wml.23.1613663309793; 
- Thu, 18 Feb 2021 07:48:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx/aefQL9UoQXH56gMXnDiaHsI6jEY19W1euGmS/WqoNt2DzaOejrtWcYNgYTDeu402milTUg==
-X-Received: by 2002:a05:600c:2155:: with SMTP id
- v21mr4141426wml.23.1613663309623; 
- Thu, 18 Feb 2021 07:48:29 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f17sm9265979wrx.57.2021.02.18.07.48.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Feb 2021 07:48:28 -0800 (PST)
-Subject: Re: [PATCH 0/2] SEV firmware error list touchups
-To: Connor Kuehl <ckuehl@redhat.com>, qemu-devel@nongnu.org
-References: <20210218151633.215374-1-ckuehl@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5ab9738d-b5c2-a580-47f1-9ebd289903f4@redhat.com>
-Date: Thu, 18 Feb 2021 16:48:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <20210218151633.215374-1-ckuehl@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=UMVNODeIUOO/im9coGW0vH+kgBa9skpyUNc8bYEhZkk=;
+ b=s+IKL8I6EFhKhVaBAGDOQCmNHX7UXRGcwP1YpKtUdPI0ikyucHQ52LIl1CA+fOA/5E
+ q1HbxMWvjIb9zYK+3iXZNW/nRtOl+OJpyk6rUhLgDDAKxfEdQCsSadXJPXQcGjIR9SMD
+ sd9ZKj5ALqkzm13w5uisAZlKKm/U2EkiwhS0tGDj1NXSWEeGABxNMl3YosLPKUmZowDB
+ kle710nlE0fCw+EgCBoYLlrfnh9FZTfsz4PC0iHn5rHvrimOKayZ5q5aaMFmAnbAYzRL
+ jMrwXK/lb5W37NyckIpU2MjmPv57k1UPqTvlZNfFoRuUl8Iub362cr0toB5QDdaj5TbW
+ 659g==
+X-Gm-Message-State: AOAM531rp26FJcoSmV8octYYxSfXofKNieWaBo5d6tkH/GXlNcIHHdKX
+ DxhtpDO2P/80SWE1DPCam00=
+X-Google-Smtp-Source: ABdhPJwh4AOLkLH5/sxf2ogi206JSyzZh71cE46sRz1MaoLJ/8SEJjoh0HxbcT69Zg5QDBFk1RraUQ==
+X-Received: by 2002:aa7:c0d4:: with SMTP id j20mr4799477edp.318.1613663896425; 
+ Thu, 18 Feb 2021 07:58:16 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id q20sm2825674ejs.17.2021.02.18.07.58.11
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Feb 2021 07:58:16 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Simon Glass <sjg@chromium.org>, Alexander Graf <agraf@csgraf.de>,
+ Priyanka Jain <priyanka.jain@nxp.com>
+Subject: [PATCH v2 00/38] ppc: qemu: Convert qemu-ppce500 to driver model and
+ enable additional driver support
+Date: Thu, 18 Feb 2021 23:57:28 +0800
+Message-Id: <1613663886-83811-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,47 +77,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com,
- brijesh.singh@amd.com, thomas.lendacky@amd.com
+Cc: Tom Rini <trini@konsulko.com>, Matthias Brugger <mbrugger@suse.com>,
+ qemu-devel@nongnu.org, U-Boot Mailing List <u-boot@lists.denx.de>,
+ qemu-ppc@nongnu.org, Heiko Schocher <hs@denx.de>,
+ Marek Szyprowski <m.szyprowski@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/21 4:16 PM, Connor Kuehl wrote:
-> Connor Kuehl (2):
->   sev: use explicit indices for mapping firmware error codes to strings
->   sev: add missing firmware error conditions
-> 
->  target/i386/sev.c | 48 ++++++++++++++++++++++++-----------------------
->  1 file changed, 25 insertions(+), 23 deletions(-)
+At present when building qemu-ppce500 the following warnings are seen:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+===================== WARNING ======================
+This board does not use CONFIG_DM. CONFIG_DM will be
+compulsory starting with the v2020.01 release.
+Failure to update may result in board removal.
+  UPD     include/generated/timestamp_autogenerated.h
+See doc/driver-model/migration.rst for more info.
+====================================================
+===================== WARNING ======================
+This board does not use CONFIG_DM_PCI Please update
+the board to use CONFIG_DM_PCI before the v2019.07 release.
+Failure to update by the deadline may result in board removal.
+See doc/driver-model/migration.rst for more info.
+====================================================
+===================== WARNING ======================
+This board does not use CONFIG_DM_ETH (Driver Model
+for Ethernet drivers). Please update the board to use
+CONFIG_DM_ETH before the v2020.07 release. Failure to
+update by the deadline may result in board removal.
+See doc/driver-model/migration.rst for more info.
+====================================================
 
+The conversion of qemu-ppce500 board to driver model is long overdue.
 
-To avoid this problem in future (new error code added on the Linux
-kernel side) would it be acceptable to add a 3rd patch as:
+When testing the exisitng qemu-ppce500 support, PCI was found broken.
+This is caused by 2 separate issues:
 
--- >8 --
-diff --git a/target/i386/sev.c b/target/i386/sev.c
-index 0f414df02f3..e086d3198e8 100644
---- a/target/i386/sev.c
-+++ b/target/i386/sev.c
-@@ -155,9 +155,12 @@ sev_platform_ioctl(int fd, int cmd, void *data, int
-*error)
- static const char *
- fw_error_to_str(int code)
- {
-+    QEMU_BUILD_BUG_ON(SEV_RET_SECURE_DATA_INVALID + 1 == SEV_RET_MAX);
-+
-     if (code < 0 || code >= SEV_FW_MAX_ERROR) {
-         return "unknown error";
-     }
-+    assert(sev_fw_errlist[code]);
+- One issue was caused by U-Boot:
+  Commit e002474158d1 ("pci: pci-uclass: Dynamically allocate the PCI regions")
+  Patch #1 updated the non-DM fsl_pci_init driver to dynamically allocate the
+  PCI regions, to keep in sync with the pci uclass driver
+- One issue was caused by QEMU:
+  commit e6b4e5f4795b ("PPC: e500: Move CCSR and MMIO space to upper end of address space")
+  commit cb3778a0455a ("PPC: e500 pci host: Add support for ATMUs")
+  Patch #3-4 fixed this issue to keep in sync with latest QEMU upstream
 
-     return sev_fw_errlist[code];
- }
----
+Patch #5-8, #34-36 are minor fixes and clean-ups.
 
-which triggers a build error if scripts/update-linux-headers.sh
-added another sev_ret_code entry?
+Starting from patch#9, these are driver model conversion patches.
+
+Patch #11-17 are mainly related to CONFIG_ADDR_MAP, a library to support targets
+that have non-identity virtual-physical address mappings. A new command 'addrmap'
+is introduced to aid debugging, and a fix to arch/powerpc/asm/include/io.h is
+made to correct the usage of CONFIG_ADDR_MAP as it can only be used in the post-
+relocation phase. Also the initialization of this library is moved a bit earlier
+in the post-relocation phase otherwise device drivers won't work.
+
+Patch #19-21 are 85xx PCI driver fixes. It adds support to controller register
+physical address beyond 32-bit, as well as support to 64-bit bus and cpu address
+as current upstream QEMU uses 64-bit cpu address.
+
+Starting from patch#24, these are additional driver support patches.
+
+Patch #24, #26 are minor fix to the 'virtio' command and BLK driver dependency.
+
+Patch #25 enables the VirtIO NET support as by default a VirtIO standard PCI
+networking device is connected as an ethernet interface at PCI address 0.1.0.
+
+Patch #27 enables the VirtIO BLK driver support.
+
+Patch #28-30 enables the GPIO support.
+
+Patch #31-32 enables poweroff via GPIO.
+
+Patch #33 enables RTC over the I2C bus.
+
+Patch #37 moves the qemu-ppce500 boards codes to board/emulation as that is the
+place for other QEMU targets like x86, arm, riscv.
+
+Patch #38 adds a reST document to describe how to build and run U-Boot for the
+QEMU ppce500 machine.
+
+I hope we can make this series to U-Boot v2021.04 release.
+
+This series is available at u-boot-x86/qemu-ppc for testing.
+
+This cover letter is cc'ed to QEMU mailing list for a heads-up.
+A future patch will be sent to QEMU mailing list to bring its in-tree
+U-Boot source codes up-to-date.
+
+Changes in v2:
+- drop the revert patch of commit e002474158d1
+- new patch: pci: fsl_pci_init: Dynamically allocate the PCI regions
+- add more details in the commit message, and put some comments
+  in the codes to explain why
+- add doc/usage/addrmap.rst
+- new patch: test: cmd: Add a basic test for 'addrmap' command
+- new patch: virtio: Fix VirtIO BLK driver dependency
+- new patch: ppc: qemu: Enable VirtIO BLK support
+- new patch: ppc: mpc85xx: Add 'gpibe' register to 'struct ccsr_gpio'
+- new patch: gpio: mpc8xxx: Support controller register physical address beyond 32-bit
+- new patch: ppc: qemu: Enable GPIO support
+- new patch: dm: sysreset: Add a Kconfig option for the 'reset' command
+- new patch: ppc: qemu: Enable support for power off via GPIO
+- new patch: ppc: qemu: Enable RTC support via I2C
+- new patch: ppc: qemu: Delete the temporary FDT virtual-physical mapping after U-Boot is relocated
+- new patch: ppc: qemu: Drop a custom env variable 'fdt_addr_r'
+- new patch: ppc: qemu: Drop fixed_sdram()
+- add descriptions for VirtIO BLK, RTC and power off
+
+Bin Meng (38):
+  pci: fsl_pci_init: Dynamically allocate the PCI regions
+  ppc: qemu: Update MAINTAINERS for correct email address
+  common: fdt_support: Support special case of PCI address in
+    fdt_read_prop()
+  ppc: qemu: Support non-identity PCI bus address
+  ppc: qemu: Fix CONFIG_SYS_PCI_MAP_END
+  ppc: mpc85xx: Wrap LAW related codes with CONFIG_FSL_LAW
+  ppc: qemu: Drop init_laws() and print_laws()
+  ppc: qemu: Drop board_early_init_f()
+  ppc: qemu: Enable OF_CONTROL
+  ppc: qemu: Enable driver model
+  include: Remove extern from addr_map.h
+  lib: addr_map: Move address_map[] type to the header file
+  cmd: Add a command to display the address map
+  test: cmd: Add a basic test for 'addrmap' command
+  lib: kconfig: Mention CONFIG_ADDR_MAP limitation in the help
+  ppc: io.h: Use addrmap_ translation APIs only in post-relocation phase
+  common: Move initr_addr_map() to a bit earlier
+  ppc: qemu: Switch over to use DM serial
+  pci: mpc85xx: Wrap LAW programming with CONFIG_FSL_LAW
+  pci: mpc85xx: Support controller register physical address beyond
+    32-bit
+  pci: mpc85xx: Support 64-bit bus and cpu address
+  ppc: qemu: Switch over to use DM ETH and PCI
+  ppc: qemu: Drop CONFIG_OF_BOARD_SETUP
+  cmd: Fix virtio command dependency
+  ppc: qemu: Enable VirtIO NET support
+  virtio: Fix VirtIO BLK driver dependency
+  ppc: qemu: Enable VirtIO BLK support
+  ppc: mpc85xx: Add 'gpibe' register to 'struct ccsr_gpio'
+  gpio: mpc8xxx: Support controller register physical address beyond
+    32-bit
+  ppc: qemu: Enable GPIO support
+  dm: sysreset: Add a Kconfig option for the 'reset' command
+  ppc: qemu: Enable support for power off via GPIO
+  ppc: qemu: Enable RTC support via I2C
+  ppc: qemu: Delete the temporary FDT virtual-physical mapping after
+    U-Boot is relocated
+  ppc: qemu: Drop a custom env variable 'fdt_addr_r'
+  ppc: qemu: Drop fixed_sdram()
+  ppc: qemu: Move board directory from board/freescale to
+    board/emulation
+  doc: Add a reST document for qemu-ppce500
+
+ arch/powerpc/cpu/mpc85xx/Kconfig                   |   2 +-
+ arch/powerpc/cpu/mpc85xx/cpu.c                     |   2 +
+ arch/powerpc/cpu/mpc85xx/cpu_init_early.c          |   2 +
+ arch/powerpc/include/asm/arch-mpc85xx/gpio.h       |   2 +-
+ arch/powerpc/include/asm/immap_85xx.h              |   1 +
+ arch/powerpc/include/asm/io.h                      |  15 +-
+ .../{freescale => emulation}/qemu-ppce500/Kconfig  |   2 +-
+ board/emulation/qemu-ppce500/MAINTAINERS           |   7 +
+ .../{freescale => emulation}/qemu-ppce500/Makefile |   0
+ .../qemu-ppce500/qemu-ppce500.c                    | 178 +++++++--------------
+ board/freescale/qemu-ppce500/MAINTAINERS           |   6 -
+ cmd/Kconfig                                        |   8 +
+ cmd/Makefile                                       |   1 +
+ cmd/addrmap.c                                      |  35 ++++
+ common/board_r.c                                   |   6 +-
+ common/fdt_support.c                               |  20 ++-
+ configs/qemu-ppce500_defconfig                     |  27 +++-
+ doc/board/emulation/index.rst                      |   1 +
+ doc/board/emulation/qemu-ppce500.rst               |  88 ++++++++++
+ doc/usage/addrmap.rst                              |  41 +++++
+ doc/usage/index.rst                                |   1 +
+ drivers/gpio/mpc8xxx_gpio.c                        |   7 +-
+ drivers/pci/fsl_pci_init.c                         |   5 +
+ drivers/pci/pci_mpc85xx.c                          |  25 +--
+ drivers/sysreset/Kconfig                           |   6 +
+ drivers/sysreset/sysreset-uclass.c                 |   2 +
+ drivers/virtio/Kconfig                             |   1 +
+ include/addr_map.h                                 |  16 +-
+ include/configs/qemu-ppce500.h                     |  30 +---
+ include/test/suites.h                              |   2 +
+ lib/Kconfig                                        |   2 +
+ lib/addr_map.c                                     |   6 +-
+ test/cmd/Makefile                                  |   1 +
+ test/cmd/addrmap.c                                 |  38 +++++
+ test/cmd_ut.c                                      |   6 +
+ 35 files changed, 397 insertions(+), 195 deletions(-)
+ rename board/{freescale => emulation}/qemu-ppce500/Kconfig (86%)
+ create mode 100644 board/emulation/qemu-ppce500/MAINTAINERS
+ rename board/{freescale => emulation}/qemu-ppce500/Makefile (100%)
+ rename board/{freescale => emulation}/qemu-ppce500/qemu-ppce500.c (65%)
+ delete mode 100644 board/freescale/qemu-ppce500/MAINTAINERS
+ create mode 100644 cmd/addrmap.c
+ create mode 100644 doc/board/emulation/qemu-ppce500.rst
+ create mode 100644 doc/usage/addrmap.rst
+ create mode 100644 test/cmd/addrmap.c
+
+-- 
+2.7.4
 
 
