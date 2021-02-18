@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6D5431E8F8
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 12:08:30 +0100 (CET)
-Received: from localhost ([::1]:34678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 779D331E902
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 12:21:51 +0100 (CET)
+Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lChAb-0001LH-7A
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 06:08:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46266)
+	id 1lChNU-0005Mn-5y
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 06:21:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCh97-0000uF-EV
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:06:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lCh95-0001OT-Jv
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:06:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613646413;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dzv880PDLoM4Nl0Jsrs8Q59FPgJzFjQU4OoP2GeARJI=;
- b=LREorQ5tTrraRLL4U5MSWQRyikoXwvxd763lCVTrxmql/IL6SsQyIbIy6gUizG0bSpuTFZ
- Nhc1KpWj0+EqWbXTzh9QHH+rlX8WGPnaZkdhoJydRdCzOuGZ8sJOVpyVd2bL/ghctA8D/5
- Trmzzv5fSaJXgnC6D4ix07H+OWxbWEE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-TwYNMFDLMT2tpnVQbyYPbA-1; Thu, 18 Feb 2021 06:06:52 -0500
-X-MC-Unique: TwYNMFDLMT2tpnVQbyYPbA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4264F80196E;
- Thu, 18 Feb 2021 11:06:50 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EBD5C60BE5;
- Thu, 18 Feb 2021 11:06:46 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id AADB218000BB; Thu, 18 Feb 2021 12:06:44 +0100 (CET)
-Date: Thu, 18 Feb 2021 12:06:44 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: Measuring the impact of buffer copy for virtio-gpu guests
-Message-ID: <20210218110644.dpxfu3adpko4nsbn@sirius.home.kraxel.org>
-References: <87y2fmsrxw.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lChM3-0004n1-99
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:20:20 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:38690)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lChLy-00076U-J0
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:20:18 -0500
+Received: by mail-ed1-x530.google.com with SMTP id s11so3885222edd.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 03:20:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=gk8i1iZpFpYAt2wLRN90+560lQ7D7xWVk/HACfhe9YM=;
+ b=IP54cEZ/vfhdoNAmiDEJ9KiDZ0zT5zpjfipKs+rmdd0e3Lu3gbaKe7nxQJtJKvxWPM
+ XK6Id+g99Yxu98DXnLhBKB4vGj+Ac5WHFviu/E5C8m5yyrvJ22/tmiQ3xEUq4GLk//0t
+ v4L8AZjJOwnOu4SUgHpI10U7SvSTp89fdyaxGnhdT3jx4LLWpm6RnTFmHsJRMg5ejiqZ
+ jEkOVpS3AlHPljR83nOQEi6asdv+cGjeX4PH7kuiPVZ7rt2cX6U3wr+a7N4+2jCj9P3Z
+ dDgTdRT5yO7uO21M9e97QOkha7qX+q11iLTpgKHWqkg8AXN/uC70GAo4T1gGE1oyqSiq
+ ksoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=gk8i1iZpFpYAt2wLRN90+560lQ7D7xWVk/HACfhe9YM=;
+ b=bhbQs3ptY4RmbGpgMVGlNBbAZDFQiZOVfmUSdE/NFnOFO4P/c/tSiun6xlDW8z2tM0
+ itD5EAlLip/3wDxx7rw4K3DR3IrjgRku9wlWUOfpgAcd84gYKESeenKbzV1Qi26b3eGl
+ L4SmV12DIW5vO8dGILwCZkoKB/IhnaeAPtiIaIgd33CeV3FhzUgQOrg2XijKdd+xqGZd
+ jrcSJZgBPvEzlCCJpah3Lb9hNEv+10MvRJ4J4bJEXR3neVipZzWkzHbnI+wAPVW95d69
+ f6VKCgNUzuRqdEU7Mt34M1h3kn205PUXd8YRGX+VvsiUy2rwnq5hDwkf8SvI6boaiIM/
+ 655g==
+X-Gm-Message-State: AOAM533VKX/l+I67EwoMw0YiCaZXQcYaoIoROWFQ6I1s9lujcDbSKk1e
+ c1kP3fAtKOtso6y2ZqMzMgIrbi51f/69C22kTIMqsQ==
+X-Google-Smtp-Source: ABdhPJy5xsV2EQ/Us7MiIgtihMpJJqM32Paq7o/flOCHxTQqEy2IUj1wTg2gimCgdBz42qbwYOsIhaysEhNZdzmAoMc=
+X-Received: by 2002:a05:6402:541:: with SMTP id
+ i1mr3693751edx.36.1613647211906; 
+ Thu, 18 Feb 2021 03:20:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87y2fmsrxw.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210217234023.1742406-1-richard.henderson@linaro.org>
+In-Reply-To: <20210217234023.1742406-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 18 Feb 2021 11:20:00 +0000
+Message-ID: <CAFEAcA90TARuGKPLkONWEto5Pdf8aXjhd24qdjq_-hs93=B2BQ@mail.gmail.com>
+Subject: Re: [PULL 00/35] hexagon initial commit
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,65 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Francois Ozog <francois.ozog@linaro.org>,
- Mikhail Golubev <Mikhail.Golubev@opensynergy.com>,
- Vasyl Vavrychuk <Vasyl.Vavrychuk@opensynergy.com>,
- Zhao Jiancong <chou.kensou@jp.panasonic.com>, qemu-devel@nongnu.org,
- Peter Griffin <peter.griffin@linaro.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Stratos Mailing List <stratos-dev@op-lists.linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 01:46:28PM +0000, Alex Bennée wrote:
-> Hi Gerd,
-> 
-> I was in a discussion with the AGL folks today talking about approaches
-> to achieving zero-copy when running VirGL virtio guests. AIUI (which is
-> probably not very much) the reasons for copy can be due to a number of
-> reasons:
-> 
->   - the GPA not being mapped to a HPA that is accessible to the final HW
->   - the guest allocation of a buffer not meeting stride/alignment requirements
->   - data needing to be transformed for consumption by the real hardware?
+On Wed, 17 Feb 2021 at 23:40, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit f0f75dc174b6c79eb78a161d1c0921f82d7f1bf0:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-02-17 13:04:48 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/rth7680/qemu.git tags/pull-hex-20210217
+>
+> for you to fetch changes up to 91bdc01a235a0065411e29ad78859587fee85bc6:
+>
+>   Hexagon build infrastructure (2021-02-17 12:55:21 -0800)
+>
+> ----------------------------------------------------------------
+> Initial commit for the Qualcomm Hexagon processor.
+>
+> ----------------------------------------------------------------
 
-With the current qemu code base each ressource has both a guest and host
-buffer and the data is copied over when the guest asks for it.
 
-virtio-gpu got a new feature (VIRTIO_GPU_F_RESOURCE_BLOB) to improve
-that.  For blob resources we have stride/alignment negotiation, and they
-can also be allocated by the host and mapped into the guest address
-space instead of living in guest ram.
+Fails to build on the FreeBSD and NetBSD VMs:
 
-linux guest support is there in the kernel and mesa, host side is
-supported by crosvm.  qemu doesn't support blob resources though.
+Configuring config-host.h using configuration
+Program scripts/hxtool found: YES
+Program scripts/shaderinclude.pl found: YES
+Program scripts/qapi-gen.py found: YES
+Program scripts/qemu-version.sh found: YES
+Run-time dependency threads found: YES
+Program keycodemapdb/tools/keymap-gen found: YES
+Program scripts/decodetree.py found: YES
+Program python found: NO
 
-> I'm curious if it's possible to measure the effect of these extra copies
-> and where do they occur? Do all resources get copied from the guest buffer to
-> host or does this only occur when there is a mismatch in the buffer
-> requirements?
+../src/target/hexagon/meson.build:20:0: ERROR: python3 not found
 
-Without blob resources a copy is required whenever the guest cpu wants
-access to the resource (i.e.  glWritePixels / glReadPixels + simliar).
-For resources which are a gpu render target and never touched by the cpu
-this is not needed.  For these you wouldn't even need guest ram backing
-storage (VIRTIO_GPU_CMD_RESOURCE_ATTACH_BACKING), linux doesn't
-implement that optimization though.
+A full log can be found at
+/usr/home/qemu/qemu-test.FAG4lS/build/meson-logs/meson-log.txt
 
-> Are there any functions where I could add trace points to measure this?
-> If this occurs in the kernel I wonder if I could use an eBPF probe to
-> count the number of bytes copied?
+ERROR: meson setup failed
 
-Copy happens in qemu or virglrenderer, in response to
-VIRTIO_GPU_CMD_TRANSFER_* commands from the guest.
+Something isn't honouring the configure --python option.
+(On these BSDs, python3 isn't "python3", it's eg "python3.7".)
 
-There are tracepoint already in qemu (trace_virtio_gpu_cmd_res_xfer_*),
-they log only the resource id though, not the amount of data transfered.
+The top level meson.build does get this right:
 
-Tracing on the guest side by adding trace points to the kernel shouldn't
-be hard too.
+Program sh found: YES
+Program python3 found: YES (/usr/local/bin/python3.7)
+Program bzip2 found: YES
 
-take care,
-  Gerd
+I think target/hexagon/meson.build should be using the python
+that the top level meson.build found, not going out and
+trying to find its own one.
 
+thanks
+-- PMM
 
