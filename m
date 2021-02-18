@@ -2,74 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A4DD31EDCB
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 18:59:48 +0100 (CET)
-Received: from localhost ([::1]:54864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1275231EDBD
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 18:56:34 +0100 (CET)
+Received: from localhost ([::1]:42670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCnad-0001MK-EX
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 12:59:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36400)
+	id 1lCnXS-0004Ra-56
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 12:56:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCnNQ-0004mG-VB
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:46:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52732)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lCnPU-0006VG-Lu
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:48:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53870)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCnNM-0000lv-WA
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:46:07 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lCnPP-0001hQ-NX
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:48:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613670363;
+ s=mimecast20190719; t=1613670491;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TSApLS8AX+fyXTJFwJGfODKTLplEReyRvfxvzW1pDBA=;
- b=Agz7EVDD9cGe2Xklm9jPVJMNROKC6r5mq0rRhuOeJvs/UffnbFAkVVU4zZdABevNIMvAll
- QWX8uO8JdGHp+r0o/1qMt5Ilz5qTnflyWpoWO9CbghGfRMS5NcixF1XiNiN+esA+8pko3p
- EZxM43B9CXq7BlpZbgxXVyPq8xgoMYw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-JlUndUqIPiaVUpItyG-IIg-1; Thu, 18 Feb 2021 12:45:59 -0500
-X-MC-Unique: JlUndUqIPiaVUpItyG-IIg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B1F480197A;
- Thu, 18 Feb 2021 17:45:58 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3762C60BE5;
- Thu, 18 Feb 2021 17:45:53 +0000 (UTC)
-Subject: Re: [PATCH v4 07/24] python: add directory structure README.rst files
-To: Cleber Rosa <crosa@redhat.com>
-References: <20210211185856.3975616-1-jsnow@redhat.com>
- <20210211185856.3975616-8-jsnow@redhat.com>
- <YCyDwYYhpYEz2onl@localhost.localdomain>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <69a11981-8db5-a47e-74a9-8c47fac16270@redhat.com>
-Date: Thu, 18 Feb 2021 12:45:52 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=vaLcHI81bsZGD/eLOp6GXk4o4+/iVT8dFQ95ievPE78=;
+ b=YeeJggAw7pQQWIPd7o0QpVclT7zIV6N146TFW6XM7lKC6dvP4KyXL9PXeZNUMJrkbgbP1/
+ VGLpOQCIP3J4pUMfE6VF6wT4oILFzyht+kx/bQTLN947E/bXSNluNt2yFALflUZRYuC9Ce
+ LOdL3DS6rM4eqUh6x9fdTEGKs4tPqFc=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-Y7xB8AqNMUmYogwNXm8aeA-1; Thu, 18 Feb 2021 12:48:07 -0500
+X-MC-Unique: Y7xB8AqNMUmYogwNXm8aeA-1
+Received: by mail-qk1-f200.google.com with SMTP id r15so1781168qke.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 09:48:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=vaLcHI81bsZGD/eLOp6GXk4o4+/iVT8dFQ95ievPE78=;
+ b=TPSvBKg7Wr3f7ZJ2b1ljMhk5v7e8t9o8spJfPfEf98KvES1Xmu0eN4i9+8tLMPpa0u
+ BC+7RnaYsINfiMFamGn+2FhQYq+zwRQ1M4mUAlGsE3AZPcOeuAf7D6xJBT2or7w/Dksv
+ i/PpjPUZ0Itrq6PZCZX1dMlcMmYCaTQsbGY8hVKaomxYAAnv2c2Dm9CEaSZrDAgxvWaU
+ JOWf/uAplS1CAiXw4tnhUJBnkS+y+Hvc4Yy5Rcb4UD1g0hUl6MVTls06+1H1b/fT4AfS
+ VAJ/QXgL3fKmQq0RrvtxM4Qe/Ib2BdDiEqN5/lPKrbE9YSeAl3xGZj5Wkh1Xi7G9hy1M
+ J8nA==
+X-Gm-Message-State: AOAM531WqMSnMUaOjtZ5pQvTBDP9+/YqSSzxJ6QCzcyyJ0G+4ayamyyQ
+ F4QCqxlPIX1NuzeNcLwfcEBH3JqLxm5ODnOiOdZWmO5OFc4R8QfFNXpbAJBORE2Dw7330UKzj1z
+ YCtnrs0QYBjYPOgg=
+X-Received: by 2002:a37:4ecd:: with SMTP id c196mr5327074qkb.264.1613670486556; 
+ Thu, 18 Feb 2021 09:48:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyd27zMBWXue2vsafxmHsbjxXHGUFoHVZxU89rY6WgYZSmv1Rdn2w48d733AXaxZBLgZHJfVw==
+X-Received: by 2002:a37:4ecd:: with SMTP id c196mr5327056qkb.264.1613670486289; 
+ Thu, 18 Feb 2021 09:48:06 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-20-174-93-89-182.dsl.bell.ca. [174.93.89.182])
+ by smtp.gmail.com with ESMTPSA id 90sm3841235qtc.86.2021.02.18.09.48.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Feb 2021 09:48:05 -0800 (PST)
+Date: Thu, 18 Feb 2021 12:48:04 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Auger Eric <eric.auger@redhat.com>
+Subject: Re: [PATCH] virtio-iommu: Handle non power of 2 range invalidations
+Message-ID: <20210218174804.GB108961@xz-x1>
+References: <20210218141650.424967-1-eric.auger@redhat.com>
+ <20210218164203.GA108961@xz-x1>
+ <b2781e6b-d3db-8d89-4ae2-f81f12251793@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YCyDwYYhpYEz2onl@localhost.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <b2781e6b-d3db-8d89-4ae2-f81f12251793@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,231 +93,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-block@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, jasowang@redhat.com,
+ qemu-devel@nongnu.org, vivek.gautam@arm.com, qemu-arm@nongnu.org,
+ eric.auger.pro@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/16/21 9:47 PM, Cleber Rosa wrote:
-> On Thu, Feb 11, 2021 at 01:58:39PM -0500, John Snow wrote:
->> Add short readmes to python/, python/qemu/, python/qemu/machine,
->> python/qemu/qmp, and python/qemu/utils that explain the directory
->> hierarchy. These readmes are visible when browsing the source on
->> e.g. gitlab/github and are designed to help new developers/users quickly
->> make sense of the source tree.
->>
->> They are not designed for inclusion in a published manual.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   python/README.rst              | 41 ++++++++++++++++++++++++++++++++++
->>   python/qemu/README.rst         |  8 +++++++
->>   python/qemu/machine/README.rst |  9 ++++++++
->>   python/qemu/qmp/README.rst     |  9 ++++++++
->>   python/qemu/utils/README.rst   |  9 ++++++++
->>   5 files changed, 76 insertions(+)
->>   create mode 100644 python/README.rst
->>   create mode 100644 python/qemu/README.rst
->>   create mode 100644 python/qemu/machine/README.rst
->>   create mode 100644 python/qemu/qmp/README.rst
->>   create mode 100644 python/qemu/utils/README.rst
->>
+On Thu, Feb 18, 2021 at 06:18:22PM +0100, Auger Eric wrote:
+> Hi Peter,
 > 
-> It's not often I complain about too much documentation, but I honestly
-> think this will not scale.  I understand that the intention is to help
-> users browsing through the directory structure it has a huge potential
-> for bit rot.
+> On 2/18/21 5:42 PM, Peter Xu wrote:
+> > Eric,
+> > 
+> > On Thu, Feb 18, 2021 at 03:16:50PM +0100, Eric Auger wrote:
+> >> @@ -164,12 +166,27 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
+> >>  
+> >>      event.type = IOMMU_NOTIFIER_UNMAP;
+> >>      event.entry.target_as = &address_space_memory;
+> >> -    event.entry.addr_mask = virt_end - virt_start;
+> >> -    event.entry.iova = virt_start;
+> >>      event.entry.perm = IOMMU_NONE;
+> >>      event.entry.translated_addr = 0;
+> >> +    event.entry.addr_mask = mask;
+> >> +    event.entry.iova = virt_start;
+> >>  
+> >> -    memory_region_notify_iommu(mr, 0, event);
+> >> +    if (mask == UINT64_MAX) {
+> >> +        memory_region_notify_iommu(mr, 0, event);
+> >> +    }
+> >> +
+> >> +    size = mask + 1;
+> >> +
+> >> +    while (size) {
+> >> +        uint8_t highest_bit = 64 - clz64(size) - 1;
+> > 
+> > I'm not sure fetching highest bit would work right. E.g., with start=0x11000
+> > and size=0x11000 (then we need to unmap 0x11000-0x22000), current code will
+> > first try to invalidate range (0x11000, 0x10000), that seems still invalid
+> > since 0x11000 is not aligned to 0x10000 page mask.
 > 
+> Hum I thought aligning the size was sufficient. Where is it checked exactly?
 
-Always a nice problem to have too much instead of too little. ;)
+I don't remember all the context either.. :)
 
-> The READMEs at the first two levels seem OK, but the ones at the
-> subpackages level will be a maintainance nightmare.  I would *very
-> much* move those (subpackage ones) documentation into the Python file
-> themselves.
-> 
+Firstly - It makes sense to do that since hardware does it, and emulation code
+would make sense to follow that.
 
-I don't think there's much, if anything, to move into those files. There 
-are some details about how the module relates to the rest of the QEMU 
-tree, but I think those details aren't appropriate to have "in" the 
-python package itself -- they won't apply to whatever environment they 
-get installed in.
+There's some more info where I looked into the src of when vt-d got introduced
+with the similar change:
 
->> diff --git a/python/README.rst b/python/README.rst
->> new file mode 100644
->> index 00000000000..6a14b99e104
->> --- /dev/null
->> +++ b/python/README.rst
->> @@ -0,0 +1,41 @@
->> +QEMU Python Tooling
->> +===================
->> +
->> +This directory houses Python tooling used by the QEMU project to build,
->> +configure, and test QEMU. It is organized by namespace (``qemu``), and
->> +then by package (``qemu/machine``, ``qemu/qmp``).
->> +
->> +``setup.py`` is used by ``pip`` to install this tooling to the current
->> +environment. ``setup.cfg`` provides the packaging configuration used by
->> +setup.py in a setuptools specific format. You will generally invoke it
->> +by doing one of the following:
->> +
->> +1. ``pip3 install .`` will install these packages to your current
->> +   environment. If you are inside a virtual environment, they will
->> +   install there. If you are not, it will attempt to install to the
->> +   global environment, which is not recommended.
->> +
->> +2. ``pip3 install --user .`` will install these packages to your user's
->> +   local python packages. If you are inside of a virtual environment,
->> +   this will fail.
->> +
->> +If you amend the ``-e`` argument, pip will install in "editable" mode;
->> +which installs a version of the package that installs a forwarder
->> +pointing to these files, such that the package always reflects the
->> +latest version in your git tree.
->> +
->> +See `Installing packages using pip and virtual environments
->> +<https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/>`_
->> +for more information.
->> +
->> +
->> +Files in this directory
->> +-----------------------
->> +
->> +- ``qemu/`` Python package source directory.
->> +- ``PACKAGE.rst`` is used as the README file that is visible on PyPI.org.
->> +- ``README.rst`` you are here!
->> +- ``VERSION`` contains the PEP-440 compliant version used to describe
->> +  this package; it is referenced by ``setup.cfg``.
->> +- ``setup.cfg`` houses setuptools package configuration.
->> +- ``setup.py`` is the setuptools installer used by pip; See above.
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg625340.html
 
-Top-level doc seems fine to you though? I expect this directory to be 
-reasonably low-traffic in terms of file additions/removals. If/when we 
-start using sphinx to generate documentation for the qemu packages, we 
-can probably link to e.g. readthedocs from here.
+I'm not 100% certain anything will break if we don't use page mask but
+arbitrary length as vhost did in iotlb msg.  However what Yan Zhao reported is
+definitely worse than that since we (vt-d) used to unmap outside the range of
+the range just for page mask alignment.
 
-Not ready yet, of course.
+Thanks,
 
->> diff --git a/python/qemu/README.rst b/python/qemu/README.rst
->> new file mode 100644
->> index 00000000000..d04943f526c
->> --- /dev/null
->> +++ b/python/qemu/README.rst
->> @@ -0,0 +1,8 @@
->> +QEMU Python Namespace
->> +=====================
->> +
->> +This directory serves as the root of a `Python PEP 420 implicit
->> +namespace package <https://www.python.org/dev/peps/pep-0420/>`_.
->> +
->> +Each directory below is assumed to be an installable Python package that
->> +is available under the ``qemu.<package>`` namespace.
-
-This one is short and sweet. Not at risk of rotting. See below for a 
-suggestion that might appease both of us WRT per-subpackage READMEs.
-
->> diff --git a/python/qemu/machine/README.rst b/python/qemu/machine/README.rst
->> new file mode 100644
->> index 00000000000..ac2b4fffb42
->> --- /dev/null
->> +++ b/python/qemu/machine/README.rst
->> @@ -0,0 +1,9 @@
->> +qemu.machine package
->> +====================
->> +
->> +This package provides core utilities used for testing and debugging
->> +QEMU. It is used by the iotests, vm tests, acceptance tests, and several
->> +other utilities in the ./scripts directory. It is not a fully-fledged
->> +SDK and it is subject to change at any time.
->> + >> +See the documentation in ``__init__.py`` for more information.
-
-This is actually *pretty* brief, and I didn't intend for it to be 
-exhaustively complete. I am trying to say "Please look at the python 
-docstrings in __init__.py for real details!" because I was also worried 
-about bitrot and duplicating docs.
-
-Though, sure, it does duplicate at least some of the basic information. 
-We have three-ish choices:
-
-(1) Eh, fine, leave it here.
-(2) Update it to be a simple pointer to __init__.py only; i.e. just the 
-title heading and the "Please see __init__.py for details" hint.
-(3) Just remove it. It should be common knowledge to investigate 
-__init__.py for package-level documentation.
-   (3b) Remove it, but update the PEP420-level document to contain an
-        extra blurb that says "See each subpackage's __init__.py for more
-        information."
-
-Your preference?
-
->> diff --git a/python/qemu/qmp/README.rst b/python/qemu/qmp/README.rst
->> new file mode 100644
->> index 00000000000..c21951491cf
->> --- /dev/null
->> +++ b/python/qemu/qmp/README.rst
->> @@ -0,0 +1,9 @@
->> +qemu.qmp package
->> +================
->> +
->> +This package provides a library used for connecting to and communicating
->> +with QMP servers. It is used extensively by iotests, vm tests,
->> +acceptance tests, and other utilities in the ./scripts directory. It is
->> +not a fully-fledged SDK and is subject to change at any time.
->> +
->> +See the documentation in ``__init__.py`` for more information.
-
-Same story as above. This is a pretty brief explanation that explains 
-its role in the QEMU source tree, but doesn't explain much about the 
-package itself. The same three options as above make sense to me here.
-
->> diff --git a/python/qemu/utils/README.rst b/python/qemu/utils/README.rst
->> new file mode 100644
->> index 00000000000..4b33c1f27e1
->> --- /dev/null
->> +++ b/python/qemu/utils/README.rst
->> @@ -0,0 +1,9 @@
->> +qemu.utils package
->> +==================
->> +
->> +This package provides misc utilities used for testing and debugging
->> +QEMU. It is used most directly by the qemu.machine package, but has some
->> +uses by the vm and acceptance tests for determining accelerator support.
->> +
->> +See the documentation in ``__init__.py`` and ``accel.py`` for more
->> +information.
-> 
-
-I broke my own convention here and mentioned something beside 
-__init__.py. I will remove that.
-
-> And example of the bit rot and the huge maintainance cost is when a
-> new file is added here, let's say, "qemu/utils/network.py".  I think
-> your good intentions would quickly backfire.
-> 
-
-As you point out, that little slip-up of mine gave you room to attack 
-the bitrot :) I avoided it in two other places, but the utils package is 
-sooooo tiny I gave in to trying to be helpful and pointed out the real 
-implementation file.
-
-> Regards,
-> - Cleber.
-> 
-
-I'm still somewhat on the fence. I was trying to make the python 
-directories accessible to outside contributors as much as was humanly 
-possible, but the bitrot concern is a good point. I think it can be 
-alleviated by making clear that these files are just little "see also" 
-pointers that should quite likely not rot very quickly.
-
-Lemme know your final thoughts here and I'll adjust accordingly.
-
---js
+-- 
+Peter Xu
 
 
