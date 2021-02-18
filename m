@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEE1C31E81B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:50:11 +0100 (CET)
-Received: from localhost ([::1]:33554 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 978A631E81C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:50:13 +0100 (CET)
+Received: from localhost ([::1]:33516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCfwo-0008Lh-MG
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:50:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53206)
+	id 1lCfwq-0008Kl-EE
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:50:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfu3-0006fn-Pz
+ id 1lCfu3-0006fl-Jp
  for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:19 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52210)
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52207)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCftv-0007Bu-No
+ id 1lCftu-0007BB-PP
  for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:19 -0500
-Received: by mail-wm1-x330.google.com with SMTP id o82so2316025wme.1
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:11 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id o82so2315983wme.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L5hZIHgHciIDykoIep90Im4vKtmmkQHcJFC85HItB8Q=;
- b=gvSkxfnLcAtBC/wVI40wi/Qf2Ly6kn8ZV+c5vj2D5xBpVxSWSPdHwONZLTNygp80S8
- iuZ2cbRQxQhXxBF71TE44JVvXoiN4/j9vzmMsTRQizc/c0dkYwICE9ZYaeNfDWh/y2sD
- sq9ap6lVQSU0cnm/tjNvfCjdzvR3W2hmOIx3eMtXwfYYZalIvuU9HqlhCoF2RAhvlHrG
- EMXcAk4t5nQMq2SoWW5/9NhAdbbDlGDHIOo9FYpsqQzbfDGxiywrZ4+yan3wA1BITCZ8
- hoKutTSCh3hyPReUspkIe5ZNPZcQSKGQdHKHhjA4ib1G0CE7oaZBlAPPbX2dqu5E2Q4r
- 4cZA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=t/CPTE/CDznZTD1WlBNg2STeH1CsnSCKnog1Lk63Lyg=;
+ b=pCIRah91814QnDanVJeQlwWs77okqTntoCd9ZPyAedo4pkoESiHHTqf6ubHJUBkw7H
+ ef3e310DFf7zwG/lGeqPHSn+GfFOke36U3pjDppNsfT3BiyIh8k9AK/oYMwC3o0Knkka
+ iFqkyqxhx7S+BVuMZRg89FQLxlrVWR5ALEu3CqAsegczjjjhSC2InuPULK7Khc4Sfn9l
+ iVqBFBd8Fe/02h/2wj5eoHDKezlFPhsY9q+K13m1xhSO5iGi/Xj5KovRgi3e29U3VzK3
+ mpZVpTGhoK1NIOTT1pOoAbQbv77WPGy+vzx04im12GY0fd8KPgLwBSJaBt9UslTZlMjj
+ c66A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=L5hZIHgHciIDykoIep90Im4vKtmmkQHcJFC85HItB8Q=;
- b=pJ58IsL+XU1lpB9yGqRCO+Dd13LA+nAzZKRjOZPxX62/4hIpDVVCamH+RtCl+LoEWb
- 8oRTVdZdfuD9SFfaJRoHFj1DU5hAbjq8PT7j+16u0gxcnzfHazm6dDPzzJEkuq6u+jqb
- MuSYOObtboqwYnpzTinmwAQzGllxQQ2l7SpSAr37nPFUue6asrynysgU10gygv+BBQKO
- PoSj5jPuIpEGLHZFebnjoLw9W/NZoGhb5XVdXXxFUcVg4PWd3jg5Fw/bgtGZ3F6ZAgfW
- GYr2jyFPOzUpKmq6L2hE4NpqhHhBSfqRbYxjtbN4HNpU5JJy3vUTdcTT0IcmM1VFPKFW
- ALDA==
-X-Gm-Message-State: AOAM530DpKOMMSQRtzpUCBOoObGj6OkFLje7x0ayO+d8Ywg/n+zmcxX/
- EgCE11PT4UU/DmLMSmvVRlkVFg==
-X-Google-Smtp-Source: ABdhPJxl06GkwZTdI/cJfx4Heg+gkeMXZZK9QI0wwv0DaoYzacyxR9qvujeEWyi88vdCRpW+/8Km8Q==
-X-Received: by 2002:a1c:1982:: with SMTP id 124mr2843588wmz.84.1613641630067; 
- Thu, 18 Feb 2021 01:47:10 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=t/CPTE/CDznZTD1WlBNg2STeH1CsnSCKnog1Lk63Lyg=;
+ b=D947eQ6II2c6Ozozz8UOXtJ0SKXfpG1YsFd3npKsj6mf+pwSR34IwSNPYWrYOmWjg6
+ k+/2Jn7vAXiDWhSeImtMdzy/5V0kfIOR6gD18r35Yck276cwLCE6PzuZ5CDAWOAZJ5wg
+ uXbKd6Ir3CoYklfuWsrMNiWfN5bUgS1IIzBCm62OsrmzlwWbDQ6NBZjnWkxQFNU+bBB9
+ m0WsXOvyS37TsSRtkDvWNmH5BpdERj6kc3+ruzpFd6sg3hUK/cUpeoG4vNhnQ3ryPdgS
+ EpmtEjU2Yv+wHZoXHXj/FwoB7K4QxrJESvCLS/H04SHqR7zT1fGvM2P1bHY01cvza+Ap
+ AtGQ==
+X-Gm-Message-State: AOAM530IJVVtVZn2OumuBX6ncYdQ73P0i3dKv1DqsUxSwC/Nk/ercFxJ
+ xrMDHlfLO6VgnL91jYJuuFeUzw==
+X-Google-Smtp-Source: ABdhPJyHkpkWjwhScTRQU3rCIuDhDWtznZuJv8GyPDMYubeggvWBbD6A1FasF6xNLVERQnyLFmdQuw==
+X-Received: by 2002:a05:600c:204e:: with SMTP id
+ p14mr2783475wmg.157.1613641629179; 
+ Thu, 18 Feb 2021 01:47:09 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id z15sm9882281wrs.72.2021.02.18.01.47.07
+ by smtp.gmail.com with ESMTPSA id y15sm8004938wrm.93.2021.02.18.01.47.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 18 Feb 2021 01:47:07 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E22891FF7E;
- Thu, 18 Feb 2021 09:47:06 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 02F661FF87;
+ Thu, 18 Feb 2021 09:47:07 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 00/23] plugin updates (hwprofile, CF_NOCACHE, io_recompile)
-Date: Thu, 18 Feb 2021 09:46:43 +0000
-Message-Id: <20210218094706.23038-1-alex.bennee@linaro.org>
+Subject: [PULL 01/23] hw/virtio/pci: include vdev name in registered PCI
+ sections
+Date: Thu, 18 Feb 2021 09:46:44 +0000
+Message-Id: <20210218094706.23038-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
+References: <20210218094706.23038-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,107 +88,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 1af5629673bb5c1592d993f9fb6119a62845f576:
+When viewing/debugging memory regions it is sometimes hard to figure
+out which PCI device something belongs to. Make the names unique by
+including the vdev name in the name string.
 
-  Merge remote-tracking branch 'remotes/dgilbert-gitlab/tags/pull-virtiofs-20210216' into staging (2021-02-17 14:44:18 +0000)
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20210213130325.14781-2-alex.bennee@linaro.org>
 
-are available in the Git repository at:
-
-  https://github.com/stsquad/qemu.git tags/pull-plugin-updates-180221-1
-
-for you to fetch changes up to df55e2a701d02bc01b9425843c667fd0cb4cdfa9:
-
-  tests/acceptance: add a memory callback check (2021-02-18 08:19:23 +0000)
-
-----------------------------------------------------------------
-Plugin updates:
-
-  - expose vdev name in PCI memory registration
-  - new hwprofile plugin
-  - bunch of style cleanups to contrib/plugins
-  - fix call signature of inline instrumentation
-  - re-factor the io_recompile code to push specialisation into hooks
-  - add some acceptance tests for the plugins
-  - clean-up and remove CF_NOCACHE handling from TCG
-  - fix instrumentation of cpu_io_recompile sections
-  - expand tests to check inline and cb count the same
-
-----------------------------------------------------------------
-Alex Bennée (14):
-      hw/virtio/pci: include vdev name in registered PCI sections
-      plugins: add API to return a name for a IO device
-      plugins: new hwprofile plugin
-      accel/tcg/plugin-gen: fix the call signature for inline callbacks
-      tests/plugin: expand insn test to detect duplicate instructions
-      tests/acceptance: add a new set of tests to exercise plugins
-      accel/tcg: actually cache our partial icount TB
-      accel/tcg: cache single instruction TB on pending replay exception
-      accel/tcg: re-factor non-RAM execution code
-      accel/tcg: remove CF_NOCACHE and special cases
-      accel/tcg: allow plugin instrumentation to be disable via cflags
-      tests/acceptance: add a new tests to detect counting errors
-      tests/plugin: allow memory plugin to do both inline and callbacks
-      tests/acceptance: add a memory callback check
-
-Richard Henderson (4):
-      exec: Move TranslationBlock typedef to qemu/typedefs.h
-      accel/tcg: Create io_recompile_replay_branch hook
-      target/mips: Create mips_io_recompile_replay_branch
-      target/sh4: Create superh_io_recompile_replay_branch
-
-zhouyang (5):
-      contrib: Don't use '#' flag of printf format
-      contrib: Fix some code style problems, ERROR: "foo * bar" should be "foo *bar"
-      contrib: Add spaces around operator
-      contrib: space required after that ','
-      contrib: Open brace '{' following struct go on the same line
-
- docs/devel/tcg-plugins.rst               |  34 ++++
- include/exec/exec-all.h                  |   9 +-
- include/exec/plugin-gen.h                |   4 +-
- include/exec/tb-context.h                |   1 -
- include/hw/core/cpu.h                    |   4 +-
- include/hw/core/tcg-cpu-ops.h            |  13 +-
- include/qemu/plugin.h                    |   4 +
- include/qemu/qemu-plugin.h               |   6 +
- include/qemu/typedefs.h                  |   1 +
- target/arm/internals.h                   |   3 +-
- accel/tcg/cpu-exec.c                     |  61 ++-----
- accel/tcg/plugin-gen.c                   |  35 ++--
- accel/tcg/translate-all.c                | 130 +++++--------
- accel/tcg/translator.c                   |   5 +-
- contrib/ivshmem-server/main.c            |   2 +-
- contrib/plugins/hotblocks.c              |   2 +-
- contrib/plugins/hotpages.c               |   2 +-
- contrib/plugins/howvec.c                 |  19 +-
- contrib/plugins/hwprofile.c              | 305 +++++++++++++++++++++++++++++++
- contrib/plugins/lockstep.c               |   6 +-
- hw/virtio/virtio-pci.c                   |  22 ++-
- plugins/api.c                            |  56 ++++--
- target/cris/translate.c                  |   2 +-
- target/lm32/translate.c                  |   2 +-
- target/mips/cpu.c                        |  18 ++
- target/moxie/translate.c                 |   2 +-
- target/sh4/cpu.c                         |  18 ++
- target/unicore32/translate.c             |   2 +-
- tests/plugin/insn.c                      |  12 +-
- tests/plugin/mem.c                       |  27 ++-
- MAINTAINERS                              |   1 +
- contrib/plugins/Makefile                 |   1 +
- tests/acceptance/tcg_plugins.py          | 148 +++++++++++++++
- tests/tcg/i386/Makefile.softmmu-target   |  10 +
- tests/tcg/i386/Makefile.target           |   7 +
- tests/tcg/x86_64/Makefile.softmmu-target |  10 +
- 36 files changed, 769 insertions(+), 215 deletions(-)
- create mode 100644 contrib/plugins/hwprofile.c
- create mode 100644 tests/acceptance/tcg_plugins.py
-
-
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 094c36aa3e..883045a223 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -1423,7 +1423,8 @@ static void virtio_pci_device_write(void *opaque, hwaddr addr,
+     }
+ }
+ 
+-static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
++static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy,
++                                           const char *vdev_name)
+ {
+     static const MemoryRegionOps common_ops = {
+         .read = virtio_pci_common_read,
+@@ -1470,36 +1471,41 @@ static void virtio_pci_modern_regions_init(VirtIOPCIProxy *proxy)
+         },
+         .endianness = DEVICE_LITTLE_ENDIAN,
+     };
++    g_autoptr(GString) name = g_string_new(NULL);
+ 
+-
++    g_string_printf(name, "virtio-pci-common-%s", vdev_name);
+     memory_region_init_io(&proxy->common.mr, OBJECT(proxy),
+                           &common_ops,
+                           proxy,
+-                          "virtio-pci-common",
++                          name->str,
+                           proxy->common.size);
+ 
++    g_string_printf(name, "virtio-pci-isr-%s", vdev_name);
+     memory_region_init_io(&proxy->isr.mr, OBJECT(proxy),
+                           &isr_ops,
+                           proxy,
+-                          "virtio-pci-isr",
++                          name->str,
+                           proxy->isr.size);
+ 
++    g_string_printf(name, "virtio-pci-device-%s", vdev_name);
+     memory_region_init_io(&proxy->device.mr, OBJECT(proxy),
+                           &device_ops,
+                           proxy,
+-                          "virtio-pci-device",
++                          name->str,
+                           proxy->device.size);
+ 
++    g_string_printf(name, "virtio-pci-notify-%s", vdev_name);
+     memory_region_init_io(&proxy->notify.mr, OBJECT(proxy),
+                           &notify_ops,
+                           proxy,
+-                          "virtio-pci-notify",
++                          name->str,
+                           proxy->notify.size);
+ 
++    g_string_printf(name, "virtio-pci-notify-pio-%s", vdev_name);
+     memory_region_init_io(&proxy->notify_pio.mr, OBJECT(proxy),
+                           &notify_pio_ops,
+                           proxy,
+-                          "virtio-pci-notify-pio",
++                          name->str,
+                           proxy->notify_pio.size);
+ }
+ 
+@@ -1654,7 +1660,7 @@ static void virtio_pci_device_plugged(DeviceState *d, Error **errp)
+ 
+         struct virtio_pci_cfg_cap *cfg_mask;
+ 
+-        virtio_pci_modern_regions_init(proxy);
++        virtio_pci_modern_regions_init(proxy, vdev->name);
+ 
+         virtio_pci_modern_mem_region_map(proxy, &proxy->common, &cap);
+         virtio_pci_modern_mem_region_map(proxy, &proxy->isr, &cap);
 -- 
 2.20.1
 
