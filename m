@@ -2,124 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5660E31F1C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 22:34:31 +0100 (CET)
-Received: from localhost ([::1]:51484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 237C831F1BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 22:31:31 +0100 (CET)
+Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCqwQ-0007Rw-Dp
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 16:34:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34880)
+	id 1lCqtW-0005PF-4N
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 16:31:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lCqpu-0003SI-21
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:27:46 -0500
-Received: from mail-dm6nam12on2112.outbound.protection.outlook.com
- ([40.107.243.112]:20673 helo=NAM12-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lCqpr-0002Ai-02
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:27:44 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YCKxjofOSYD0Vha9RHDqWME2a+JqygtYB9mW3YTxDTLHeL2+6gFpRtn3g8MeZnIDtmG07FIvvq2GGeWfE7UuQERxkf+O9n7yJH7ia6EzN5q4z4s2YA6pwYoyv05Rsh11NFINY0b9hXf7MnJv6w8VPFkW4mEkktwUERZZWALdvIuLD/aG8dfYKpK5RM3oxzR73dehB0aeeur7tmGCYzmWdOfzBXVSA7/9tDlsEPldlfyoAJuMImP97jOO9j8CqnVKd0YJyBTc611031BQ90eJW9uCkPeT/fVAis0n8vCczjtvpxbhexIXqlFqSkN/3znXbJ5anE01DrkzZo7vFI4qUg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aKAKaVzYiN0SaACDVk8cOC220taFFF8+YEtQCfyXTgM=;
- b=Zgp6k0f3qxXAxxxyJM7fDySpBekxua5CpEh48mOosea1p7XtusHoYXFKWrsbLaf0fbAyNqjK00SS0rWJRwfPlSs3UvV8y4uyNYnqjpav8Vqzz/PsBBmtUuWH69mB4wEzjWJ6xNHJCHxuPnZyz1qq8m3Up47A1y+Tna8GlCc1Z9ib02Lhxz9c2xJChfE3DuDej7r9ResP3zYjWHCkzxnWJB5H2kRS3k3zJ3u5sbS1peFWzz7oE7ivY5lHEH0m9UOMIyHCG6lJaO+cKhsYv++Z5E2/3gt9D2yszloHDK9uClJRQfR6sIkKU1H7ek+C2jmIWcJouhcW6pgy8sLbLPGWqg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aKAKaVzYiN0SaACDVk8cOC220taFFF8+YEtQCfyXTgM=;
- b=fUYEjPNNIIdXHhswqu1CAEkUuVHaOnHvehKv0iiyfGaR4CE/HMAUgYVBlugIRADtMtnj7Xl5W3OYL5VG5KTAZPw8yLeGxx4OnTLIft4/unJhHnvM1n5vWbQzSAR4dOdFZsSdnBeyNWbna62NpiHq9c0ufu7lXCMlxVR8dsDndSo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA2PR03MB5724.namprd03.prod.outlook.com (2603:10b6:806:113::21)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.29; Thu, 18 Feb
- 2021 21:12:39 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::e828:cd84:e00c:6310]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::e828:cd84:e00c:6310%6]) with mapi id 15.20.3846.041; Thu, 18 Feb 2021
- 21:12:39 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from
+ <3KdsuYAMKCqIFLGIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--dje.bounces.google.com>)
+ id 1lCqnJ-0001bz-Or
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:25:07 -0500
+Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:41193)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3KdsuYAMKCqIFLGIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--dje.bounces.google.com>)
+ id 1lCqnF-0000tO-BN
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:25:05 -0500
+Received: by mail-pf1-x44a.google.com with SMTP id u67so2265305pfc.8
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 13:24:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=hi/P8TpdmKKaXgtKNlkuqelvabgJNEYJrozUFErAwJg=;
+ b=jRZytNepxhyXYOWJOAFoCdnPgpjlriQYCwVzwUFQJVOzhNyes4RrChqiIsAwRwa/9C
+ AsjS+GjQgBI+rZtV5VzZ9mDd5l0F0f6RtjBIlveIw0M0osI0unOcxEhid1RcoyM+ayhV
+ dnI9O6BXA2w3ae/C6PGJpyr16pM3/9Q42OcOsBb/xhUgaKJU7GwA6bKYYFK6IRLE7+cQ
+ whGqbt3A0lUagfqhuCkMliV2uBzK6Nlp0m2qJwbR97MG2BD7N/ozlv/d39dm4RndUal9
+ NwvC+vNW7RM/bnMEQO7SenRITlyHVHn58FbUGVXWAmSf3GvWBgG0u7SuSMKo+V2REM5n
+ NZew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=hi/P8TpdmKKaXgtKNlkuqelvabgJNEYJrozUFErAwJg=;
+ b=CZljZvdS7XZCDiU5BZdxm1lUcVHTATrh/HORtjH9sGoGZ2n8EKgK+Zb05bt0MPNymF
+ ELSrSF+gVVDNxN7CYSDTe5NFNkevUZstair7Z+vlyWU97MN7XQF+m0y5pJXZHV5zlfRA
+ ZxHBpCqCZNX2Y3oYIcinPsj+Bj8GdQlh8XjrpoSH4a5tDzx6RnNIMWVrxzErVKbtphI8
+ xpt99wtoKwowtY4kJSJbyBy0t331d3Dme7p4vPwsWrGvuteoeLfPQgEz3e6riyNYd8e8
+ HvrgcJhjkiI1aR9WCSzq/VZ0d+3ZyULiaZ6JA6Ju6AsUjc638GvPC+pzwYH/zSzBthfe
+ ZS5g==
+X-Gm-Message-State: AOAM533lkbhH6cREckOBTeBvHbk9t6oA+fEfP46SWhB7OrB1dvAaUAJG
+ EHdvigXckfKLKQfKCMGo25t7o+aiyV/MPDbh7huhw6YXZ7tC8Hwae5lAW+J3kg2iFznhMQvoNPS
+ 6O9cicJuQq3e4RsGDSbFk2wZWQcbE6g+Z/Yn3QYTaOMchAjX+g2zn
+X-Google-Smtp-Source: ABdhPJx+RXCg3NDrf8W9StSaZo7WTeFq0QNsCcc5MM0Cz8cEPY2jAph8paX7TY0aZusA2xtstborbKo=
+X-Received: from ruffy.mtv.corp.google.com
+ ([2620:0:1000:1412:4cc1:c5e:b49d:b16f])
+ (user=dje job=sendgmr) by 2002:a17:90a:c695:: with SMTP id
+ n21mr5923270pjt.207.1613683497452; Thu, 18 Feb 2021 13:24:57 -0800 (PST)
+Date: Thu, 18 Feb 2021 13:24:50 -0800
+Message-Id: <20210218212453.831406-1-dje@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
+Subject: [PATCH v5 0/3] Add npcm7xx emc model
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/5] fuzz: add instructions for building reproducers
-Date: Thu, 18 Feb 2021 16:12:20 -0500
-Message-Id: <20210218211224.2513413-3-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20210218211224.2513413-1-alxndr@bu.edu>
-References: <20210218211224.2513413-1-alxndr@bu.edu>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.74.210.193]
-X-ClientProxiedBy: BL0PR02CA0066.namprd02.prod.outlook.com
- (2603:10b6:207:3d::43) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.74.210.193) by
- BL0PR02CA0066.namprd02.prod.outlook.com (2603:10b6:207:3d::43) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.28 via Frontend Transport; Thu, 18 Feb 2021 21:12:38 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 314f5af7-f559-4e35-77c5-08d8d451ebea
-X-MS-TrafficTypeDiagnostic: SA2PR03MB5724:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA2PR03MB57248E5D7F600FD7C47723D0BA859@SA2PR03MB5724.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Mr2SEx1nLAni+7V7L76rfIn/Sa+6M1g0MrIfuwg5XYpz79hPmFlFY9uW2GZTjqfDWyY5LYSZdRD4lxxBs75ebYxD1NkfPJla6UV42sSMmf437KwXfMW6yALKD/odbFHwl6zWzEUm+xclXc9tsYMHdVAWXPaQRbwwfJA/Fy2nnzNsjB28RRQK4tS6+1YaPxhxCCJHFfsV9lOq2JyJv1qZe3+mmGOAX/7kR6l8+TK0eWTEXoAlf85dnflhq2kKaD0enG1zIcqSEV4Jlxb/cLGsPtU6SPuv4MvVIK61fu5eYXVnxKtoYEVIGni2C+6GlS0J8ONv2+Blj/QsGdXCOtbgtVBDz4GQt5+RSq+h3J/cFTEhGAnvydY5iTiHBta756Qsbcgi1VqluMEmz9tc9QrjOtMVcAvAbtjqEGzGL+S1EYhRqDvd7SdOwSKxx2QcQ7MYZXgsQtBneucmznF5WYtuglShaj4h93fUkuzDfbxooRwIaruu8WQjfg8O07f9Jp70j7DyvFXmrLWkJCdOdgFMFA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(396003)(39860400002)(376002)(136003)(6916009)(54906003)(2906002)(316002)(66476007)(52116002)(86362001)(16526019)(83380400001)(6486002)(1076003)(956004)(6506007)(186003)(66946007)(478600001)(786003)(75432002)(6512007)(2616005)(6666004)(8676002)(8936002)(5660300002)(66556008)(4326008)(26005)(36756003);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?SRZERcUKtWr6khkrXIbg96bG3YoQeB3TDx0DW3qFFENDa6tZjFE5JRRvZ4lu?=
- =?us-ascii?Q?6jTUeTHJiPQwq9RfyT1whcATtxyRpeEjH1S2EdjFIpxHVBrgrV2Iw26JwXUL?=
- =?us-ascii?Q?T/wuan9WCwWgajMfMXuoCDDkC4kMKxhL1ETe1g439iFD3m6Ni7Jgi1bFC20q?=
- =?us-ascii?Q?TKuouZc5FPQp4N5KNmVtfjR8RyX0kkKZ7zRAh+pG8bmaaMrk/fsMuD5X7mYF?=
- =?us-ascii?Q?p6qPXvDqDO0/6NZQb964mYQWJvOGUyOXoDJBFVQCjlgHzCrMq09t09/z+sfg?=
- =?us-ascii?Q?ZBlfa5BGVFeDNuy5a2I8wyDU10xyWDlx1LwvhQaFsY7lhQhZrLhPdsPKQs2W?=
- =?us-ascii?Q?sKE2l7iRFWweEfnWoRnQuOFnM8da/SZI2Ysql3zDuKnMpjjADN070POi1pQR?=
- =?us-ascii?Q?VuF/N5uDxePStBQyF50uPdlAKUv+23uAWeThpWX1eTjo+N5Z5/FWlAD4mVhV?=
- =?us-ascii?Q?w7Rp2B6R+qf9DJ+CuXUnc8PUQbKblE8R2Nxyc2THGzZ/qZe2PhcelQImTL6r?=
- =?us-ascii?Q?KPYHAKeYXmpsNcaOdBFgDErJqZYDu/9ZC7mJgIst5ajKKhHVySFYLiTz2Hjk?=
- =?us-ascii?Q?XD3ecS9QI9Y2ndKEf06wcB36cLqW9xKdocQ56wDSGKNDn9tP2MHcPs/wft+C?=
- =?us-ascii?Q?1qE2/9e2ouVGFKaQKvKVYX0xKSc0FS5ug5kS8lW8m2WVwWcZ/xp/+UArFz9j?=
- =?us-ascii?Q?U42SGuQkP25+pqgygTRFtYUr/MBul1oL16l5fQ11DSXMk655OzP2k0P1QPlO?=
- =?us-ascii?Q?Aj+yQZvj3lUqEWm0JaukgtwZ9HwnOtY4dAow74LZylfbkUYxg1OVqQvV8g2J?=
- =?us-ascii?Q?v2B7XgyYeKQodZoGQcS8sexjcai/Qtr9C3R2MOpe6Pb7nvgnonPM0xuwEaNB?=
- =?us-ascii?Q?tU0EVAB+TRengu5xc2BWWSGLChDmkBPmnnK6F5KIhVckMacXBcg3l8Jy+Mnm?=
- =?us-ascii?Q?Khggh2rOuak8VYHAy+VaHc0dq1SlUNetRdXxSTXYffBMc43zfdaA/g/jbDpC?=
- =?us-ascii?Q?c4xO64mFSFiwW2zcgu/2QyU0dlS44e3M2X4fa+t5fRsN6sc9MZDUuZRy/12T?=
- =?us-ascii?Q?fXvQMCd/5vwKINcdAuCJoy9mvbHZR+3u1KvXRibzaBUknlRXuuMdjj8rCyQz?=
- =?us-ascii?Q?+x1UI31+kGl5iv9sxHDWueyCTwsFs0MrbEAPrP0FkLoTgaYr+nN2mTgLGYzs?=
- =?us-ascii?Q?E5Kqyvtx9RDMcbkZzFDgkRAnpEl2zHQu2roqjkeaKRm847PFJHCLpd6fQLH0?=
- =?us-ascii?Q?ZtY2lERnZOh6eYRfG38BPIKOhY1HrCpLVuNYoQF+GePhk2HCw1lQ6zcvQhrD?=
- =?us-ascii?Q?ZODTHvSuQUkg4MPGaBb38KV1?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 314f5af7-f559-4e35-77c5-08d8d451ebea
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2021 21:12:39.0155 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yHJ0cXzr7WL9QebY12Mf4qDGbN/YGRHJelTYr9GeIBcUMTsXbt3DMJ7HVLIbIb7v
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5724
-Received-SPF: pass client-ip=40.107.243.112; envelope-from=alxndr@bu.edu;
- helo=NAM12-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Cc: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Hao Wu <wuhaotsh@google.com>, Avi Fishman <avi.fishman@nuvoton.com>, 
+ Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
+ envelope-from=3KdsuYAMKCqIFLGIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--dje.bounces.google.com;
+ helo=mail-pf1-x44a.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,79 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Doug Evans <dje@google.com>
+From:  Doug Evans via <qemu-devel@nongnu.org>
 
-We have several scripts that help build reproducers, but no
-documentation for how they should be used. Add some documentation
+This is a 10/100 ethernet device that has several features.
+Only the ones needed by the Linux driver have been implemented.
+See npcm7xx_emc.c for a list of unimplemented features.
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- docs/devel/fuzzing.rst | 45 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
+Doug Evans (3):
+  hw/net: Add npcm7xx emc model
+  hw/arm: Add npcm7xx emc model
+  tests/qtests: Add npcm7xx emc model test
 
-diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
-index 97797c4f8c..025fb0c19b 100644
---- a/docs/devel/fuzzing.rst
-+++ b/docs/devel/fuzzing.rst
-@@ -210,6 +210,51 @@ Build details:
- - The script responsible for building the fuzzers can be found in the
-   QEMU source tree at ``scripts/oss-fuzz/build.sh``
- 
-+Building Crash Reproducers
-+-----------------------------------------
-+When we find a crash, we should try to create an independent reproducer, that
-+can be used on a non-fuzzer build of QEMU. This filters out any potential
-+false-positives, and improves the debugging experience for developers.
-+Here are the steps for building a reproducer for a crash found by the
-+generic-fuzz target.
-+ - Ensure the crash reproduces::
-+   qemu-fuzz-i386 --fuzz-target... ./crash-...
-+
-+ - Gather the QTest output for the crash::
-+   QEMU_FUZZ_TIMEOUT=0 QTEST_LOG=1 FUZZ_SERIALIZE_QTEST=1 \
-+   qemu-fuzz-i386 --fuzz-target... ./crash-... &> /tmp/trace
-+
-+ - Reorder and clean-up the resulting trace::
-+   scripts/oss-fuzz/reorder_fuzzer_qtest_trace.py /tmp/trace > /tmp/reproducer
-+
-+ - Get the arguments needed to start qemu, and provide a path to qemu::
-+   less /tmp/trace # The args should be logged at the top of this file
-+   export QEMU_ARGS="-machine ..."
-+   export QEMU_PATH="path/to/qemu-system"
-+
-+ - Ensure the crash reproduces in qemu-system::
-+   $QEMU_PATH $QEMU_ARGS -qtest stdio < /tmp/reproducer
-+
-+ - From the crash output, obtain some string that identifies the crash. This
-+   can be a line in the stack-trace, for example::
-+   export CRASH_TOKEN="hw/usb/hcd-xhci.c:1865"
-+
-+ - Minimize the reproducer::
-+   scripts/oss-fuzz/minimize_qtest_trace.py -M1 -M2 \
-+   /tmp/reproducer /tmp/reproducer-minimized
-+
-+ - Confirm that the minimized reproducer still crashes::
-+   $QEMU_PATH $QEMU_ARGS -qtest stdio < /tmp/reproducer-minimized
-+
-+ - Create a one-liner reproducer that can be sent over email::
-+   ./scripts/oss-fuzz/output_reproducer.py -bash /tmp/reproducer-minimized
-+
-+ - Output the C source code for a test case that will reproduce the bug ::
-+   ./scripts/oss-fuzz/output_reproducer.py -owner "John Smith <john@smith.com>"\
-+    -name "test_function_name" /tmp/reproducer-minimized
-+
-+ - Report the bug and send a patch with the C reproducer upstream
-+
- Implementation Details / Fuzzer Lifecycle
- -----------------------------------------
- 
+ docs/system/arm/nuvoton.rst    |   3 +-
+ hw/arm/npcm7xx.c               |  50 +-
+ hw/net/meson.build             |   1 +
+ hw/net/npcm7xx_emc.c           | 857 ++++++++++++++++++++++++++++++++
+ hw/net/trace-events            |  17 +
+ include/hw/arm/npcm7xx.h       |   2 +
+ include/hw/net/npcm7xx_emc.h   | 286 +++++++++++
+ tests/qtest/meson.build        |   3 +-
+ tests/qtest/npcm7xx_emc-test.c | 862 +++++++++++++++++++++++++++++++++
+ 9 files changed, 2077 insertions(+), 4 deletions(-)
+ create mode 100644 hw/net/npcm7xx_emc.c
+ create mode 100644 include/hw/net/npcm7xx_emc.h
+ create mode 100644 tests/qtest/npcm7xx_emc-test.c
+
 -- 
-2.28.0
+2.30.0.617.g56c4b15f3c-goog
 
+Differences from v4:
+
+1/3 hw/net: Add npcm7xx emc model
+- no change
+
+2/3 hw/arm: Add npcm7xx emc model
+- no change
+
+3/3 tests/qtests: Add npcm7xx emc model test
+- handle --disable-slirp
+
+Differences from v3:
+
+1/3 hw/net: Add npcm7xx emc model
+- no change
+
+2/3 hw/arm: Add npcm7xx emc model
+- no change
+
+3/3 tests/qtests: Add npcm7xx emc model test
+- handle big endian hosts, tested on sparc64
+
+Differences from v2:
+
+1/3 hw/net: Add npcm7xx emc model
+- move call to qemu_set_irq
+- remove use of C99 mixed decls/statements
+- add use of g_autofree
+
+2/3 hw/arm: Add npcm7xx emc model
+- none, patch ok as is
+
+3/3 tests/qtests: Add npcm7xx emc model test
+- remove use of C99 mixed decls/statements
 
