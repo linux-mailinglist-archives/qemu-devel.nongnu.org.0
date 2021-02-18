@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 237C831F1BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 22:31:31 +0100 (CET)
-Received: from localhost ([::1]:47236 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 761C931F1D1
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 22:49:16 +0100 (CET)
+Received: from localhost ([::1]:56286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCqtW-0005PF-4N
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 16:31:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34096)
+	id 1lCrAh-0002Is-2Q
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 16:49:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3KdsuYAMKCqIFLGIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--dje.bounces.google.com>)
- id 1lCqnJ-0001bz-Or
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:25:07 -0500
-Received: from mail-pf1-x44a.google.com ([2607:f8b0:4864:20::44a]:41193)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lCr8u-0001po-EG
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:47:24 -0500
+Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b]:38662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3KdsuYAMKCqIFLGIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--dje.bounces.google.com>)
- id 1lCqnF-0000tO-BN
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:25:05 -0500
-Received: by mail-pf1-x44a.google.com with SMTP id u67so2265305pfc.8
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 13:24:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lCr8s-0002du-LX
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 16:47:24 -0500
+Received: by mail-vk1-xa2b.google.com with SMTP id k76so786374vka.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 13:47:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:message-id:mime-version:subject:from:to:cc;
- bh=hi/P8TpdmKKaXgtKNlkuqelvabgJNEYJrozUFErAwJg=;
- b=jRZytNepxhyXYOWJOAFoCdnPgpjlriQYCwVzwUFQJVOzhNyes4RrChqiIsAwRwa/9C
- AsjS+GjQgBI+rZtV5VzZ9mDd5l0F0f6RtjBIlveIw0M0osI0unOcxEhid1RcoyM+ayhV
- dnI9O6BXA2w3ae/C6PGJpyr16pM3/9Q42OcOsBb/xhUgaKJU7GwA6bKYYFK6IRLE7+cQ
- whGqbt3A0lUagfqhuCkMliV2uBzK6Nlp0m2qJwbR97MG2BD7N/ozlv/d39dm4RndUal9
- NwvC+vNW7RM/bnMEQO7SenRITlyHVHn58FbUGVXWAmSf3GvWBgG0u7SuSMKo+V2REM5n
- NZew==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=0GNhoZxGeW1KGoFGrM+126qT88U8JlWJhl98cIPkPzQ=;
+ b=W4B1cm2UJ3p44NjT8urUVlnnp4yZG+TYF/2eQv8/Q4mnvpCnk08gbkCUIbehv22YSt
+ FykE2LFPsSOyje7ThaYDujyn6y7mFjQRyuwzlrHUufOm5yeQglo7k3nJpwUM2nCgyYPe
+ apuWPm2Tyn1QNwuN5vIvo3rqqHfTAYVt/aJJlHliVM+/kYLgBBQjDvMDl4/gIadBuS3T
+ sF6MkwGyxg5VEI+48JMZVI/wpZAtcHLqMo12T8QyChEYtlLZQptsybQ29DC5IgOAgtwm
+ Rdn5v6ZvuxkrZEXE5Jxpmc07ldFT3iNVyQcE0s+B8+xe0ESyZFoOk90ef5ApHtXn+ZbJ
+ Oh/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
- :to:cc;
- bh=hi/P8TpdmKKaXgtKNlkuqelvabgJNEYJrozUFErAwJg=;
- b=CZljZvdS7XZCDiU5BZdxm1lUcVHTATrh/HORtjH9sGoGZ2n8EKgK+Zb05bt0MPNymF
- ELSrSF+gVVDNxN7CYSDTe5NFNkevUZstair7Z+vlyWU97MN7XQF+m0y5pJXZHV5zlfRA
- ZxHBpCqCZNX2Y3oYIcinPsj+Bj8GdQlh8XjrpoSH4a5tDzx6RnNIMWVrxzErVKbtphI8
- xpt99wtoKwowtY4kJSJbyBy0t331d3Dme7p4vPwsWrGvuteoeLfPQgEz3e6riyNYd8e8
- HvrgcJhjkiI1aR9WCSzq/VZ0d+3ZyULiaZ6JA6Ju6AsUjc638GvPC+pzwYH/zSzBthfe
- ZS5g==
-X-Gm-Message-State: AOAM533lkbhH6cREckOBTeBvHbk9t6oA+fEfP46SWhB7OrB1dvAaUAJG
- EHdvigXckfKLKQfKCMGo25t7o+aiyV/MPDbh7huhw6YXZ7tC8Hwae5lAW+J3kg2iFznhMQvoNPS
- 6O9cicJuQq3e4RsGDSbFk2wZWQcbE6g+Z/Yn3QYTaOMchAjX+g2zn
-X-Google-Smtp-Source: ABdhPJx+RXCg3NDrf8W9StSaZo7WTeFq0QNsCcc5MM0Cz8cEPY2jAph8paX7TY0aZusA2xtstborbKo=
-X-Received: from ruffy.mtv.corp.google.com
- ([2620:0:1000:1412:4cc1:c5e:b49d:b16f])
- (user=dje job=sendgmr) by 2002:a17:90a:c695:: with SMTP id
- n21mr5923270pjt.207.1613683497452; Thu, 18 Feb 2021 13:24:57 -0800 (PST)
-Date: Thu, 18 Feb 2021 13:24:50 -0800
-Message-Id: <20210218212453.831406-1-dje@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
-Subject: [PATCH v5 0/3] Add npcm7xx emc model
-To: qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Hao Wu <wuhaotsh@google.com>, Avi Fishman <avi.fishman@nuvoton.com>, 
- Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::44a;
- envelope-from=3KdsuYAMKCqIFLGIQQING.EQOSGOW-FGXGNPQPIPW.QTI@flex--dje.bounces.google.com;
- helo=mail-pf1-x44a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0GNhoZxGeW1KGoFGrM+126qT88U8JlWJhl98cIPkPzQ=;
+ b=rM+Hg1QU1fWO5wmmtm85tmewoLdy4Hh70kyR9CyHbCUz8V8eeGqTz2D1bhnWDzgYSC
+ /OgJnVmB6+n8C/v2siO3cuvGz/1Y8qYpx9l5jVBqd15W7YZ37CjlsInpydpbQM75KCPc
+ 2e+138J2idmlj4A0YNSVy87Yr5m9IBB944VkgFJeY4rxweSdix0ZFID4RRRXH9jw62YS
+ 9hAtnG1QpbzjJc3Xkh6JrybQJCfN5GeH22Gj8mmjaFaLEFP1xUQhnuk7drfm/qrpLV01
+ LwiK76WBKtNB4n70+pHnx6BQMR8KJmWcPd6fQ67i/n7avT08IQkAnLvZLCPKSeUNH257
+ UuXQ==
+X-Gm-Message-State: AOAM533bttMmwTPftLU8JTwklrljOOAL7YG40R2wd2PNuwT5vEXEjVrS
+ 79cjVepKwlkHbzPF4sPVlXTHy3BIkQhjV3z5/F8fhA==
+X-Google-Smtp-Source: ABdhPJzYWqM81GwxMDhSSuUsucxAa0RuXcNhPNbhOj6dCc/aVfTQvRkkcUdtuMbpWsRTpCbyWUQTinPnMBCAGVQP33U=
+X-Received: by 2002:a1f:9855:: with SMTP id a82mr4901446vke.13.1613684841199; 
+ Thu, 18 Feb 2021 13:47:21 -0800 (PST)
+MIME-Version: 1.0
+References: <20210213002520.1374134-1-dje@google.com>
+ <CAFEAcA-5LdAO+m8enMxxUc7TczrKV407VGCt4vS5PS3jdDr2XQ@mail.gmail.com>
+ <CAFEAcA_jUD6u1hn-mmmekE0nzgWSCO-uR=rWemt2dYsjcGUYUA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_jUD6u1hn-mmmekE0nzgWSCO-uR=rWemt2dYsjcGUYUA@mail.gmail.com>
+From: Doug Evans <dje@google.com>
+Date: Thu, 18 Feb 2021 13:46:44 -0800
+Message-ID: <CADPb22RncvjApb_DC3E00Jmx2113YjxJYSmO0CnpG4EZTfF3SQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] Add npcm7xx emc model
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Jason Wang <jasowang@redhat.com>, 
+ Hao Wu <wuhaotsh@google.com>, Avi Fishman <avi.fishman@nuvoton.com>
+Content-Type: multipart/alternative; boundary="000000000000bda2dd05bba34750"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
+ envelope-from=dje@google.com; helo=mail-vk1-xa2b.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,67 +81,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Doug Evans <dje@google.com>
-From:  Doug Evans via <qemu-devel@nongnu.org>
 
-This is a 10/100 ethernet device that has several features.
-Only the ones needed by the Linux driver have been implemented.
-See npcm7xx_emc.c for a list of unimplemented features.
+--000000000000bda2dd05bba34750
+Content-Type: text/plain; charset="UTF-8"
 
-Doug Evans (3):
-  hw/net: Add npcm7xx emc model
-  hw/arm: Add npcm7xx emc model
-  tests/qtests: Add npcm7xx emc model test
+On Wed, Feb 17, 2021 at 3:01 AM Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
- docs/system/arm/nuvoton.rst    |   3 +-
- hw/arm/npcm7xx.c               |  50 +-
- hw/net/meson.build             |   1 +
- hw/net/npcm7xx_emc.c           | 857 ++++++++++++++++++++++++++++++++
- hw/net/trace-events            |  17 +
- include/hw/arm/npcm7xx.h       |   2 +
- include/hw/net/npcm7xx_emc.h   | 286 +++++++++++
- tests/qtest/meson.build        |   3 +-
- tests/qtest/npcm7xx_emc-test.c | 862 +++++++++++++++++++++++++++++++++
- 9 files changed, 2077 insertions(+), 4 deletions(-)
- create mode 100644 hw/net/npcm7xx_emc.c
- create mode 100644 include/hw/net/npcm7xx_emc.h
- create mode 100644 tests/qtest/npcm7xx_emc-test.c
+> On Tue, 16 Feb 2021 at 14:28, Peter Maydell <peter.maydell@linaro.org>
+> wrote:
+> >
+> > On Sat, 13 Feb 2021 at 00:25, Doug Evans <dje@google.com> wrote:
+> > >
+> > > This is a 10/100 ethernet device that has several features.
+> > > Only the ones needed by the Linux driver have been implemented.
+> > > See npcm7xx_emc.c for a list of unimplemented features.
+> > >
+> > > Doug Evans (3):
+> > >   hw/net: Add npcm7xx emc model
+> > >   hw/arm: Add npcm7xx emc model
+> > >   tests/qtests: Add npcm7xx emc model test
+> > >
+> >
+> >
+> > Applied to target-arm.next, thanks.
+>
+> Dropped again: it failed some oddball config in the gitlab CI:
+> https://gitlab.com/qemu-project/qemu/-/jobs/1034174731#L12
+>
+> -- PMM
+>
 
--- 
-2.30.0.617.g56c4b15f3c-goog
 
-Differences from v4:
+Yeah, the test needs to watch for --disable-slirp.
+Fixed in v5:
+https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg06030.html
 
-1/3 hw/net: Add npcm7xx emc model
-- no change
+--000000000000bda2dd05bba34750
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-2/3 hw/arm: Add npcm7xx emc model
-- no change
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small">On Wed, Feb 17, 2021 at 3:01 AM Peter Maydell &lt;<a href=3D"=
+mailto:peter.maydell@linaro.org">peter.maydell@linaro.org</a>&gt; wrote:<br=
+></div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">On Tue, 16 Feb 2021 at 14:28, Peter Maydell &lt;<a href=3D"m=
+ailto:peter.maydell@linaro.org" target=3D"_blank">peter.maydell@linaro.org<=
+/a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Sat, 13 Feb 2021 at 00:25, Doug Evans &lt;<a href=3D"mailto:dje@goo=
+gle.com" target=3D"_blank">dje@google.com</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; This is a 10/100 ethernet device that has several features.<br>
+&gt; &gt; Only the ones needed by the Linux driver have been implemented.<b=
+r>
+&gt; &gt; See npcm7xx_emc.c for a list of unimplemented features.<br>
+&gt; &gt;<br>
+&gt; &gt; Doug Evans (3):<br>
+&gt; &gt;=C2=A0 =C2=A0hw/net: Add npcm7xx emc model<br>
+&gt; &gt;=C2=A0 =C2=A0hw/arm: Add npcm7xx emc model<br>
+&gt; &gt;=C2=A0 =C2=A0tests/qtests: Add npcm7xx emc model test<br>
+&gt; &gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; Applied to target-arm.next, thanks.<br>
+<br>
+Dropped again: it failed some oddball config in the gitlab CI:<br>
+<a href=3D"https://gitlab.com/qemu-project/qemu/-/jobs/1034174731#L12" rel=
+=3D"noreferrer" target=3D"_blank">https://gitlab.com/qemu-project/qemu/-/jo=
+bs/1034174731#L12</a><br>
+<br>
+-- PMM<br></blockquote><div><br></div><div><br></div><div class=3D"gmail_de=
+fault" style=3D"font-size:small">Yeah, the test needs to watch for --disabl=
+e-slirp.</div><div class=3D"gmail_default" style=3D"font-size:small">Fixed =
+in v5: <a href=3D"https://lists.nongnu.org/archive/html/qemu-devel/2021-02/=
+msg06030.html">https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg=
+06030.html</a></div></div></div>
 
-3/3 tests/qtests: Add npcm7xx emc model test
-- handle --disable-slirp
-
-Differences from v3:
-
-1/3 hw/net: Add npcm7xx emc model
-- no change
-
-2/3 hw/arm: Add npcm7xx emc model
-- no change
-
-3/3 tests/qtests: Add npcm7xx emc model test
-- handle big endian hosts, tested on sparc64
-
-Differences from v2:
-
-1/3 hw/net: Add npcm7xx emc model
-- move call to qemu_set_irq
-- remove use of C99 mixed decls/statements
-- add use of g_autofree
-
-2/3 hw/arm: Add npcm7xx emc model
-- none, patch ok as is
-
-3/3 tests/qtests: Add npcm7xx emc model test
-- remove use of C99 mixed decls/statements
+--000000000000bda2dd05bba34750--
 
