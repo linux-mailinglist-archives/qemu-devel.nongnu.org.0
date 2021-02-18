@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A36A31E827
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:55:30 +0100 (CET)
-Received: from localhost ([::1]:50950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0BE031E82D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:59:10 +0100 (CET)
+Received: from localhost ([::1]:34314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCg1x-00075X-1I
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:55:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53382)
+	id 1lCg5V-0003Y0-Tg
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:59:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfuD-0006zK-PY
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:29 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:41153)
+ id 1lCfuK-00075e-F1
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:36 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:33789)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfuB-0007Gu-P8
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:29 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id n6so2177430wrv.8
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:27 -0800 (PST)
+ id 1lCfuF-0007If-Ko
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:36 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id 7so2223434wrz.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=zkerjIOSR1VBpLEavyIzaruBjnEooIufy3pN/kRsj3g=;
- b=gjafs3ONJf4x+OzJzIMuDlw2tuYuaYQxHbFvsmFoPfLxfrlQPqrqARkoGrL2vCCzI0
- Yw/WVKvQ+JeYx8QYwbG/l4BIuOX3YYiZZfMMVX2K2PZ7JE4ZZiIvAopkhq2LoDX2b49F
- HGKV4u4V/PjioLsoY9SneevvgfRBY63/sveCgcStkC9HgnizrPHXRwHggOLpXKPOxAwR
- iA5yaJSj+xKBFhIIXoQye83KEgD9+MdZOd+AzYyN/7O40H+agTfEijLv7Zrrd6fIzW5Z
- ZcGIEREo7tPAVIBY9pY1vBisHWUYasHGE9ijh2EYfCmVZy7vDh0GL7R7amfOHuhqoxOg
- JqCQ==
+ bh=cfDw5C6zvUmFdQECRjitQbGFP3IAXxbCAzqXHPWLjR0=;
+ b=tJNa3xcpbF/wfS3dZoq1UjDb4tqq4g5CYyFftQJNjLwOSEtKgtp7mDzJAiETHHEdTa
+ WMX/WrK4W+lYikTxtgQzrwsG2Kir9Of3oI2/jW96F8enXr7y2TduwoTE0pmCZJwbpXnr
+ NyMEClPinG+Argfwxtaqxo1rtbY+ce8VZOeTvcQw44796OekiA4XwwXa83SUanDp6J/B
+ C1cqQzMRhhfoO1xxYzKH2mULd2vj+ETmkDIxIrxo3Fd64HgaP3zeQskODgtOfpRBHcAt
+ Kn5pXcN8mfO3pS2JITlasA4fPqehIJZC+zxV+uLsfEjQxXlDBXCAFub4PA0ViH7gtzP4
+ uB1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zkerjIOSR1VBpLEavyIzaruBjnEooIufy3pN/kRsj3g=;
- b=N4hrS+ZPQeO40junO9AkmFIyGi4gGTOvA3cf5N0URrlNr0PxwUWOe2CZjPrS24S5Av
- vKo9ztPGqlz9v5y9bBi+WZUgPEvrUEtVDVg+uH1OQ813W6aXVQvJdhS7+3x5XLCdpu7g
- Wc15kF2RYHo7Yd2aZyOQca3wQCNIGHMuCMuUSqMj4NHo0Q2DCrT1sjROgq8rEk6Hdto3
- LWPZ2DH40fUhYBvSy0wHwsC+QdmG62cPd4E6fDKVJSS1U+qdeNGrjy5gaVDgMXKufGsl
- 7mvygdf9O6gq0xGASNWXYxgoft01bpJy5zMlplN1TvCF9ubHncJ5qr5UGAW6FIGjqIpz
- mlUw==
-X-Gm-Message-State: AOAM532GXSuSNtYH1QkMXWQZTkNBgxmD1P+KOMd2W1Ts5gs5N9w2sKeM
- 9awFmFqyfuwEhOaeBMqEQTGUUQ==
-X-Google-Smtp-Source: ABdhPJwnyCXZU7u6NOYEZzTiZgvDdXj6ceTeSdv/cR7lRUGY42OJImTD0ssF6G1ecCrUHt3+8FPejA==
-X-Received: by 2002:a05:6000:1816:: with SMTP id
- m22mr3454193wrh.91.1613641646410; 
- Thu, 18 Feb 2021 01:47:26 -0800 (PST)
+ bh=cfDw5C6zvUmFdQECRjitQbGFP3IAXxbCAzqXHPWLjR0=;
+ b=OtpOdsHijf5SpJn4XCde3RmbTqCXQFuohICHW1MQXCt4nkPAJ5tiTgFxBl5D4otjgT
+ pgESiY3w30bhtjv8J5vn92T58NzDRiL4Qu5gGONiw8Mc0XtLf6JcELTkS9K37A+zDIgY
+ qtPlghv7P1tU3ctKL89pwtBCf8GlqT/OAVVnhM7cEqLwejsiLYjh8rjvArsTW34ju2Kv
+ AsAoK3vICagHB2k2ITRciODHLP2ChfNk5paaUdDh6P+tUDJfoW1rdJ62qDSK+O9sL5Tg
+ MTcKB3MFklNGiC7jpNe+tajy1MdSUMnptfCiyVFF/L5m2nBOQvzutNEaI83jaQnFTLCB
+ MCpQ==
+X-Gm-Message-State: AOAM532imSDD0YTKsgO1Rmro0BwF+BBeV50qzmbh48fKB01sKfWJ7HEq
+ m6Y/E9PZjjLRUstMkvmhg656MA==
+X-Google-Smtp-Source: ABdhPJzMXOkjnIR7JWzXGS9NPKiu5GpsYsMVovHz1k9ddNe07+jXCsOMbnqVWXnP8YovFcGiTlWi4Q==
+X-Received: by 2002:a05:6000:1788:: with SMTP id
+ e8mr3471481wrg.171.1613641650314; 
+ Thu, 18 Feb 2021 01:47:30 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id s23sm7062441wmc.29.2021.02.18.01.47.15
+ by smtp.gmail.com with ESMTPSA id m11sm6690599wmi.25.2021.02.18.01.47.15
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 01:47:21 -0800 (PST)
+ Thu, 18 Feb 2021 01:47:23 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6BC841FF9E;
+ by zen.linaroharston (Postfix) with ESMTP id A9CB41FFA6;
  Thu, 18 Feb 2021 09:47:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 15/23] tests/acceptance: add a new set of tests to exercise
- plugins
-Date: Thu, 18 Feb 2021 09:46:58 +0000
-Message-Id: <20210218094706.23038-16-alex.bennee@linaro.org>
+Subject: [PULL 18/23] accel/tcg: re-factor non-RAM execution code
+Date: Thu, 18 Feb 2021 09:47:01 +0000
+Message-Id: <20210218094706.23038-19-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
 References: <20210218094706.23038-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,132 +87,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is just a simple test to count the instructions executed by a
-kernel. However a later test will detect a failure condition when
-icount is enabled.
+There is no real need to use CF_NOCACHE here. As long as the TB isn't
+linked to other TBs or included in the QHT or jump cache then it will
+only get executed once.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210213130325.14781-16-alex.bennee@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20210213130325.14781-19-alex.bennee@linaro.org>
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 68ee271792..1d711e0cb8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2903,6 +2903,7 @@ S: Maintained
- F: docs/devel/tcg-plugins.rst
- F: plugins/
- F: tests/plugin/
-+F: tests/acceptance/tcg_plugins.py
- F: contrib/plugins/
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index c0b98e76b9..72b3c663c5 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1779,7 +1779,8 @@ static inline void tb_page_add(PageDesc *p, TranslationBlock *tb,
+ #endif
+ }
  
- AArch64 TCG target
-diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
-new file mode 100644
-index 0000000000..adec40d3a5
---- /dev/null
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -0,0 +1,91 @@
-+# TCG Plugins tests
-+#
-+# These are a little more involved than the basic tests run by check-tcg.
-+#
-+# Copyright (c) 2021 Linaro
-+#
-+# Author:
-+#  Alex Bennée <alex.bennee@linaro.org>
-+#
-+# SPDX-License-Identifier: GPL-2.0-or-later
+-/* add a new TB and link it to the physical page tables. phys_page2 is
++/*
++ * Add a new TB and link it to the physical page tables. phys_page2 is
+  * (-1) to indicate that only one page contains the TB.
+  *
+  * Called with mmap_lock held for user-mode emulation.
+@@ -1798,17 +1799,6 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+ 
+     assert_memory_lock();
+ 
+-    if (phys_pc == -1) {
+-        /*
+-         * If the TB is not associated with a physical RAM page then
+-         * it must be a temporary one-insn TB, and we have nothing to do
+-         * except fill in the page_addr[] fields.
+-         */
+-        assert(tb->cflags & CF_NOCACHE);
+-        tb->page_addr[0] = tb->page_addr[1] = -1;
+-        return tb;
+-    }
+-
+     /*
+      * Add the TB to the page list, acquiring first the pages's locks.
+      * We keep the locks held until after inserting the TB in the hash table,
+@@ -1881,9 +1871,8 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     phys_pc = get_page_addr_code(env, pc);
+ 
+     if (phys_pc == -1) {
+-        /* Generate a temporary TB with 1 insn in it */
+-        cflags &= ~CF_COUNT_MASK;
+-        cflags |= CF_NOCACHE | 1;
++        /* Generate a one-shot TB with 1 insn in it */
++        cflags = (cflags & ~CF_COUNT_MASK) | 1;
+     }
+ 
+     cflags &= ~CF_CLUSTER_MASK;
+@@ -2097,6 +2086,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+         tb_reset_jump(tb, 1);
+     }
+ 
++    /*
++     * If the TB is not associated with a physical RAM page then
++     * it must be a temporary one-insn TB, and we have nothing to do
++     * except fill in the page_addr[] fields. Return early before
++     * attempting to link to other TBs or add to the lookup table.
++     */
++    if (phys_pc == -1) {
++        tb->page_addr[0] = tb->page_addr[1] = -1;
++        return tb;
++    }
 +
-+import tempfile
-+import mmap
-+import re
-+
-+from boot_linux_console import LinuxKernelTest
-+
-+
-+class PluginKernelBase(LinuxKernelTest):
-+    """
-+    Boots a Linux kernel with a TCG plugin enabled.
-+    """
-+
-+    timeout = 120
-+    KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
-+
-+    def run_vm(self, kernel_path, kernel_command_line,
-+               plugin, plugin_log, console_pattern, args):
-+
-+        vm = self.get_vm()
-+        vm.set_console()
-+        vm.add_args('-kernel', kernel_path,
-+                    '-append', kernel_command_line,
-+                    '-plugin', plugin,
-+                    '-d', 'plugin',
-+                    '-D', plugin_log,
-+                    '-net', 'none',
-+                    '-no-reboot')
-+        if args:
-+            vm.add_args(*args)
-+
-+        try:
-+            vm.launch()
-+        except:
-+            # TODO: probably fails because plugins not enabled but we
-+            # can't currently probe for the feature.
-+            self.cancel("TCG Plugins not enabled?")
-+
-+        self.wait_for_console_pattern(console_pattern, vm)
-+        # ensure logs are flushed
-+        vm.shutdown()
-+
-+
-+class PluginKernelNormal(PluginKernelBase):
-+
-+    def _grab_aarch64_kernel(self):
-+        kernel_url = ('http://security.debian.org/'
-+                      'debian-security/pool/updates/main/l/linux-signed-arm64/'
-+                      'linux-image-4.19.0-12-arm64_4.19.152-1_arm64.deb')
-+        kernel_sha1 = '2036c2792f80ac9c4ccaae742b2e0a28385b6010'
-+        kernel_deb = self.fetch_asset(kernel_url, asset_hash=kernel_sha1)
-+        kernel_path = self.extract_from_deb(kernel_deb,
-+                                            "/boot/vmlinuz-4.19.0-12-arm64")
-+        return kernel_path
-+
-+    def test_aarch64_virt_insn(self):
-+        """
-+        :avocado: tags=accel:tcg
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:virt
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        kernel_path = self._grab_aarch64_kernel()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
-+        console_pattern = 'Kernel panic - not syncing: VFS:'
-+
-+        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
-+                                                 suffix=".log")
-+
-+        self.run_vm(kernel_path, kernel_command_line,
-+                    "tests/plugin/libinsn.so", plugin_log.name,
-+                    console_pattern,
-+                    args=('-cpu', 'cortex-a53'))
-+
-+        with plugin_log as lf, \
-+             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-+
-+            m = re.search(br"insns: (?P<count>\d+)", s)
-+            if "count" not in m.groupdict():
-+                self.fail("Failed to find instruction count")
+     /* check next page if needed */
+     virt_page2 = (pc + tb->size - 1) & TARGET_PAGE_MASK;
+     phys_page2 = -1;
 -- 
 2.20.1
 
