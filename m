@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB2F231E825
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:55:25 +0100 (CET)
-Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA4431E854
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:01:22 +0100 (CET)
+Received: from localhost ([::1]:40702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCg1s-0006v5-S3
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:55:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53458)
+	id 1lCg7c-0006Cg-V8
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:01:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfuN-0007Bp-6x
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:39 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:32775)
+ id 1lCfu8-0006n9-Qh
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:24 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:36715)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfuJ-0007JA-P5
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:38 -0500
-Received: by mail-wr1-x435.google.com with SMTP id 7so2223659wrz.0
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:35 -0800 (PST)
+ id 1lCfu4-0007E9-7q
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:24 -0500
+Received: by mail-wr1-x430.google.com with SMTP id u14so2198169wri.3
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NGFgZyHCr3fksW5dEZw0mEN72Dlgf8OF7X/v8VpUACc=;
- b=HQ+RDiMUEMcu+tAe8zS6ItqdlX0PXgjO9Tr8r6zH/Bvwp2ah57ltg5XECWAr0ww3Hk
- 5VnpRzV4LFsS+Yr6j782Ht/9+MzgYA28dsAP3gm+VzYpevzsjg/mv2MH9PvKyAjMRoru
- T93Q+JtqF8n1mdiCgnVf9FmtidsGFLqivOr6XnhkO+xnRq+E85ClB07pHpdy9RdRyyNN
- AmmMgjBgZ8sifgfVpUTg7OVeBIZAQ7gK3Mac3tDqWrpxlOT/gqI2FgAsWnXD8MoHqYbV
- 6qYuMdNOLbK30eKaFu0TaneyVpZwc14eUPkg6oOjAZ67L0Zzr8b7fi7vODDcDobnauxS
- ewbg==
+ bh=EsPslm2y1fhMEDTOk9iiKfQlaLZSzr5r3t20sdQT3kc=;
+ b=Y96TePjJ/MPimbCeVxACEY6qRJDwHzfjco0TkqxoBZL5MPShJ3WCzdadluR9N28ivT
+ Q6A9Q8Y+YTU7RBh0HHfzW7rXWOHh7dRmcjSA9CNQaw/VF8ApB5lNiV99M4D4knEks7dm
+ XHYP+0NdvPmp4+SgOnPMHZwLUzLqgqZD4+7IB+JcPrWMTkZ5CZw265170HmdcPTw7mYB
+ agWyjNYNpPQy+Odgb3uljytjojCsIVRdHVUtbVtqCingWgoT6u9Yrp/ZX5rMGSaeVH9P
+ cQPzykJwSsjA6tcZl2wx++IgWfytiU3+EKANmYS/8brEukrvedkuqi0uQ6EIGSAWVsyF
+ YWUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NGFgZyHCr3fksW5dEZw0mEN72Dlgf8OF7X/v8VpUACc=;
- b=VMv22M1t0rwCTyamoZnedkX5J4o12QgItf+twH9wmuYJ+3QGNMgzOlp1FXRAZesmYq
- p0iJLmK1auUYVuZEMRLE85EBDfd/XD6ZpdPt0d65lEUqm/W4Et+LV3E2G2Euy1z5h1mV
- QC8mw0sXTMiXIwF7zbcZlt1zqGaSKQ0ET046TUcPjgsNPZXdKk0JJa72bcPLyh0186+w
- NS8OGyF5KO999z3jrOksKYIGult7XFrTPETKR1lRaLzHzRwBONcHKfyV1scmno3AWD3f
- r7s2Rwe6HKnz3kS28uEIhamxbItYPnopWZXszhNC26siMpaxIjMEunfRa/inYnzsOuM0
- +Ksg==
-X-Gm-Message-State: AOAM532gkx/IodUeO+Fn1iCZAUrLjtl5X7D5fSYXT009HMkQiBb28PVu
- C6tkog8wscHaYmEOIKv81eEVcg==
-X-Google-Smtp-Source: ABdhPJx3CvzbyxvTy1arrDS0Dey/n0LkQNsrt6P3/xwz98519ekEopG3Q32qSmeysZC/0H+lgcpVcQ==
-X-Received: by 2002:a5d:680e:: with SMTP id w14mr3420339wru.322.1613641654194; 
- Thu, 18 Feb 2021 01:47:34 -0800 (PST)
+ bh=EsPslm2y1fhMEDTOk9iiKfQlaLZSzr5r3t20sdQT3kc=;
+ b=mV/zGkuHzZ41ZBTpBcReeXViVXDiQYrSFiRAx8AamEA9y+Aq2bAGW6N5ojlgvYVIpI
+ zX7qevyZwCtUxNUCpwmEgDiR4+glKj8azXcCsRvQBiI2Vq8SwtHYElV8I3M1M+PkBKwE
+ zQsWHXhB4FIoI6du/6KuN86Ygt2oMk6MNck9mYzduvSGmG9p4GdCVBnv+sb8oJHicDMl
+ e1joyK68UDpFQsYSS6dMWYowY2Bl8OxLNTUXt+EEy08D8C4M7uUONw7TJgkzEE0xjKYU
+ /gAWF8DEbguPscjjMR7mhlvOuf05PnRrolnjsx9JWmIU2xoRgRHoKqFDiyp+Rz5/1IZE
+ y/Vg==
+X-Gm-Message-State: AOAM531E9qEHAnyJamdQOhSaj1H7fU6jZBxp/lrwpFjHqnm+xBQrHkCb
+ 3HWx8/AwnBtk273vifkgADen/w==
+X-Google-Smtp-Source: ABdhPJxeVaGJYP2/ZD1F8XcxsM8A8WpK6cn9LWWOtHpbQZCl/ZUm8UalTKLhD9jf1FFox7XZG+dTqw==
+X-Received: by 2002:adf:fdd0:: with SMTP id i16mr3427762wrs.215.1613641638999; 
+ Thu, 18 Feb 2021 01:47:18 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f17sm7893560wru.31.2021.02.18.01.47.16
+ by smtp.gmail.com with ESMTPSA id e12sm7584672wrv.59.2021.02.18.01.47.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 01:47:23 -0800 (PST)
+ Thu, 18 Feb 2021 01:47:15 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 186861FFAC;
- Thu, 18 Feb 2021 09:47:09 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id A54841FF96;
+ Thu, 18 Feb 2021 09:47:07 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 22/23] tests/plugin: allow memory plugin to do both inline and
- callbacks
-Date: Thu, 18 Feb 2021 09:47:05 +0000
-Message-Id: <20210218094706.23038-23-alex.bennee@linaro.org>
+Subject: [PULL 08/23] contrib: Open brace '{' following struct go on the same
+ line
+Date: Thu, 18 Feb 2021 09:46:51 +0000
+Message-Id: <20210218094706.23038-9-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
 References: <20210218094706.23038-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,90 +87,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, zhouyang <zhouyang789@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is going to be useful for acceptance tests that check both types
-are being called the same number of times, especially when icount is
-enabled.
+From: zhouyang <zhouyang789@huawei.com>
 
+I found some style problems whil check the code using checkpatch.pl.
+This commit fixs the issue below:
+ERROR: that open brace { should be on the previous line
+
+Signed-off-by: zhouyang <zhouyang789@huawei.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210213130325.14781-23-alex.bennee@linaro.org>
+Message-Id: <20210118031004.1662363-6-zhouyang789@huawei.com>
+Message-Id: <20210213130325.14781-9-alex.bennee@linaro.org>
 
-diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
-index 4725bd851d..afd1d27e5c 100644
---- a/tests/plugin/mem.c
-+++ b/tests/plugin/mem.c
-@@ -16,9 +16,10 @@
+diff --git a/contrib/plugins/howvec.c b/contrib/plugins/howvec.c
+index 9d6fa33297..600f7facc1 100644
+--- a/contrib/plugins/howvec.c
++++ b/contrib/plugins/howvec.c
+@@ -145,8 +145,7 @@ typedef struct {
+     int table_sz;
+ } ClassSelector;
  
- QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
- 
--static uint64_t mem_count;
-+static uint64_t inline_mem_count;
-+static uint64_t cb_mem_count;
- static uint64_t io_count;
--static bool do_inline;
-+static bool do_inline, do_callback;
- static bool do_haddr;
- static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
- 
-@@ -26,7 +27,12 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
- {
-     g_autoptr(GString) out = g_string_new("");
- 
--    g_string_printf(out, "mem accesses: %" PRIu64 "\n", mem_count);
-+    if (do_inline) {
-+        g_string_printf(out, "inline mem accesses: %" PRIu64 "\n", inline_mem_count);
-+    }
-+    if (do_callback) {
-+        g_string_append_printf(out, "callback mem accesses: %" PRIu64 "\n", cb_mem_count);
-+    }
-     if (do_haddr) {
-         g_string_append_printf(out, "io accesses: %" PRIu64 "\n", io_count);
-     }
-@@ -42,10 +48,10 @@ static void vcpu_mem(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
-         if (qemu_plugin_hwaddr_is_io(hwaddr)) {
-             io_count++;
-         } else {
--            mem_count++;
-+            cb_mem_count++;
-         }
-     } else {
--        mem_count++;
-+        cb_mem_count++;
-     }
- }
- 
-@@ -60,8 +66,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
-         if (do_inline) {
-             qemu_plugin_register_vcpu_mem_inline(insn, rw,
-                                                  QEMU_PLUGIN_INLINE_ADD_U64,
--                                                 &mem_count, 1);
--        } else {
-+                                                 &inline_mem_count, 1);
-+        }
-+        if (do_callback) {
-             qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
-                                              QEMU_PLUGIN_CB_NO_REGS,
-                                              rw, NULL);
-@@ -90,6 +97,12 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
-         }
-         if (!strcmp(argv[0], "inline")) {
-             do_inline = true;
-+            do_callback = false;
-+        } else if (!strcmp(argv[0], "both")) {
-+            do_inline = true;
-+            do_callback = true;
-+        } else {
-+            do_callback = true;
-         }
-     }
- 
+-static ClassSelector class_tables[] =
+-{
++static ClassSelector class_tables[] = {
+     { "aarch64", aarch64_insn_classes, ARRAY_SIZE(aarch64_insn_classes) },
+     { "sparc",   sparc32_insn_classes, ARRAY_SIZE(sparc32_insn_classes) },
+     { "sparc64", sparc64_insn_classes, ARRAY_SIZE(sparc64_insn_classes) },
 -- 
 2.20.1
 
