@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F58C31EB2F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:59:11 +0100 (CET)
-Received: from localhost ([::1]:54108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E330131EB34
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 16:01:40 +0100 (CET)
+Received: from localhost ([::1]:56852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCklq-00056r-9o
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:59:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34988)
+	id 1lCkoF-0006OZ-W0
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 10:01:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35334)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lCkka-0004P9-VZ
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:57:53 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46174)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lCkli-0005LM-Qz; Thu, 18 Feb 2021 09:59:02 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:40721)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lCkkY-0008Ja-MP
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:57:52 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t15so3246943wrx.13
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 06:57:49 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lCklh-0000SL-5a; Thu, 18 Feb 2021 09:59:02 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id u20so5387329ejb.7;
+ Thu, 18 Feb 2021 06:59:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=8Ux0GjB7BxHsG/qKS/EBUL4qVz63Yeqpz7zkqx6+7DU=;
- b=KGeyxTohZUpTPqnGpAbVjzqHw1nD3oxWngrVRRtiaK3qAj4iITetUsmy3akixoS1By
- Y1RdeQ+AWIH2eWjJEWnxMf1gnw8kGeIDtOB1WJBqOUaGvr+B8/lKKF5yw2OQFIyhO526
- 5Zwm2csj6lW++dzDFss1PsRF20HhmucgprYxpQSR/eKwzuMzrEcYUZzHqjpUi/ocXzBz
- IbKEX9Zt6Leak29PnN096QpprmL5mh1nkVrJGwqWWL1GAInP/hZm0EhnSyhOeDTH8F5R
- 4zlr8jBJgA6Dd/sGv/bgt7mWKwInpxgtmm0hCSG2xSbK/VNM8EDSZWkKrT9Kvprq39lm
- pdtw==
+ h=from:to:cc:subject:date:message-id;
+ bh=Ard5aUZvPYdrVwjnl97zMqw9C8R67bjTWkOwIgpPJKE=;
+ b=Ruuz+8TGPVdnsOhI9f2OQvy+LcKPjFhgFdErI4+KzdanaI8g7q74XElWbqpEQ/ogBw
+ 8ScLsrcFITa7im6TwV2iY4XlQZrbGTZeLxRZPBPzTCBZLHAFcL03WteVxkVFeFl9Rf5/
+ Oh1GZ5h2BnGjhe0JSRcmfnUBxoxoO7QsvbWLuO4EF/XOhHnnt1623NA1UdQE8RXk/GVG
+ S7CD12+QcARopyn+4w2rBIuL8fY6hLeeIVT4p3HPRbmnqEvy3UV9xXNu53CRP4qMZGwH
+ F8kbtsHvUwLN2qMmVKncIQZjw66b+enwtX7wigWOxJuJ6YfHibJopBxbMMqAJRst3I9g
+ sbFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8Ux0GjB7BxHsG/qKS/EBUL4qVz63Yeqpz7zkqx6+7DU=;
- b=YyJYwolz4v05o+L68vb5AmdXHyk35WMvN+G/EzCjK/pFiFWk/IEaj3c3JBQcGAMkBA
- vCX7jvkjK2hN/+rMQcxkA4pIohY0Br3h5sCkYx5pxIJaBwZCzlTfc6x3TWqohV17WiCZ
- wgm7JRhYzBjQ1MVWOF5ZZ3q2ZVbkAROipX/nK/FYqSyzsYzuq+0oIdMYZhehNPIxH3/c
- xyG6zzql5tj3t2zguLz5sJDKTFDNTofX4RLEQ2UBqil0iIGoJ06pHpJ/T7OFHj2SyfWk
- K1SJeI/vJkdxwnxvy2EVJSU4lzYRaJzER3rY0/989YfP6rLAocY2je32aNO39MAmr5vg
- k1cA==
-X-Gm-Message-State: AOAM532AT81c9iltWz4Z/Uxp9ehptEZIXR/hCEl63kLrV+zz6u0DrjrV
- FNp+MGvePUpcunlWrZb2jGIKiw4NtlM=
-X-Google-Smtp-Source: ABdhPJwMvcP/DD1pNbkSYU0bpy1qsz7vl8TDYWsCPSAJvwfnb+fnXHftRFSBPst6IB6ChuPiuTu5Aw==
-X-Received: by 2002:adf:d4d0:: with SMTP id w16mr4737623wrk.262.1613660268705; 
- Thu, 18 Feb 2021 06:57:48 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id 6sm12348119wra.63.2021.02.18.06.57.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Feb 2021 06:57:48 -0800 (PST)
-Subject: Re: [PATCH] Correct CRIS TCG register lifetime management
-To: =?UTF-8?Q?Stefan_Sandstr=c3=b6m?= <Stefan.Sandstrom@axis.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
- <20210218102400.GP477672@toto>
- <94BD91ED-EFD4-4576-97CA-3BEECE85E904@axis.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4129485c-d626-a60f-c6fe-ae5312da1686@amsat.org>
-Date: Thu, 18 Feb 2021 15:57:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <94BD91ED-EFD4-4576-97CA-3BEECE85E904@axis.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Ard5aUZvPYdrVwjnl97zMqw9C8R67bjTWkOwIgpPJKE=;
+ b=ALXEFuwbOdXmnW17RW6JajmwLjehCuA6HcaU3jrnPvUdRS4W2A/3022vLc84JFUm9b
+ dhB3uVwa6ehh24teoTrUOG6RkvI/cRv7LzZJYKtF0caGjye2RvCsFdnDT/8Q1aTqIT3F
+ lm1rtDz2DKD7ynLITzDSFkgWOjsUXGbQhpWL9bNDAsRaoEXpG0lcHXkArCBCmjYHuPJv
+ IVRV8KCRjFHhtzySU37aomOYrdxvp+jWNCj3XYECQcqLGJQ5z6KG8IJdalJneamsLMIR
+ jP2wuYdciixNVqYYQ1DMpkpPjbUa+QH/eHtLarCBLMeD3c5EKAC9dWf65pjr6klzV6Gf
+ zXyA==
+X-Gm-Message-State: AOAM530IxZgUKQG7M9F1XOTnQ1cbkni36aawoTMRu/Yox86eNVDSwX20
+ CIGM3K5q0Z5TFI6qz+NhGIQ=
+X-Google-Smtp-Source: ABdhPJxhyhZSptZFOgg74uErUsj3eWzSjln8OWmAymZuMJvPGLTKgUM/kFyAdOOWy5WHpuYnmoK6tw==
+X-Received: by 2002:a17:906:4cd3:: with SMTP id
+ q19mr4271545ejt.78.1613660339412; 
+ Thu, 18 Feb 2021 06:58:59 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id i13sm2621040ejj.2.2021.02.18.06.58.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 18 Feb 2021 06:58:58 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: [PATCH] hw/ppc: e500: Add missing #address-cells and #size-cells in
+ the eTSEC node
+Date: Thu, 18 Feb 2021 22:58:39 +0800
+Message-Id: <1613660319-76960-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,51 +78,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
+From: Bin Meng <bin.meng@windriver.com>
 
-On 2/18/21 1:16 PM, Stefan Sandström wrote:
-> Hi Edgar,
-> 
-> Yes, it seems like our mail-server messed it up.
-> 
-> I’ve tried to resend it, but I’m not sure if mails directly from sendmail are let through to outside addresses.  Please let me know if you’ve got the last mail (sent a few minutes ago).
+Per devicetree spec v0.3 [1] chapter 2.3.5:
 
-You might try adding:
+The #address-cells and #size-cells properties are not inherited
+from ancestors in the devicetree. They shall be explicitly defined.
+If missing, a client program should assume a default value of 2
+for #address-cells, and a value of 1 for #size-cells.
 
-[format]
-    headers = "Content-Transfer-Encoding: 8bit\n"
+These properties are currently missing, causing the <reg> property
+to be incorrectly parsed using the default values.
 
-or:
+[1] https://github.com/devicetree-org/devicetree-specification/releases/download/v0.3/devicetree-specification-v0.3.pdf
 
-[format]
-    headers = "Content-Type: text/plain;
-charset=\"utf-8\"\nContent-Transfer-Encoding: 8bit\n"
+Fixes: fdfb7f2cdb2d ("e500: Add support for eTSEC in device tree")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-in your ~/.gitconfig
+ hw/ppc/e500.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Then you can check if your patch can be applied properly checking
-on patchew: https://patchew.org/QEMU/
+diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
+index 01517a6..c84a021 100644
+--- a/hw/ppc/e500.c
++++ b/hw/ppc/e500.c
+@@ -236,6 +236,8 @@ static int create_devtree_etsec(SysBusDevice *sbdev, PlatformDevtreeData *data)
+     qemu_fdt_setprop_string(fdt, node, "model", "eTSEC");
+     qemu_fdt_setprop(fdt, node, "local-mac-address", etsec->conf.macaddr.a, 6);
+     qemu_fdt_setprop_cells(fdt, node, "fixed-link", 0, 1, 1000, 0, 0);
++    qemu_fdt_setprop_cells(fdt, node, "#size-cells", 1);
++    qemu_fdt_setprop_cells(fdt, node, "#address-cells", 1);
+ 
+     qemu_fdt_add_subnode(fdt, group);
+     qemu_fdt_setprop_cells(fdt, group, "reg", mmio0, 0x1000);
+-- 
+2.7.4
 
-For example for this post, as Edgar mentioned:
-https://patchew.org/QEMU/A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com/
-
-Switched to a new branch 'A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com'
-Applying: Correct CRIS TCG register lifetime management
-error: corrupt patch at line 11
-error: could not build fake ancestor
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-Patch failed at 0001 Correct CRIS TCG register lifetime management
-When you have resolved this problem, run "git am --continue".
-If you prefer to skip this patch, run "git am --skip" instead.
-To restore the original branch and stop patching, run "git am --abort".
-Failed to apply patch:
-[PATCH] Correct CRIS TCG register lifetime management
-
-Regards,
-
-Phil.
 
