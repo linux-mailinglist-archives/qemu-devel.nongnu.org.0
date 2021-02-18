@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0628831F325
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:36:36 +0100 (CET)
-Received: from localhost ([::1]:44044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A3CC31F32A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:43:07 +0100 (CET)
+Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCsqZ-0007UJ-1K
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:36:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
+	id 1lCsws-0003a5-NT
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:43:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCsnq-0004hA-Id
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:33:46 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35939)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCsno-0005af-GP
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:33:46 -0500
-Received: by mail-pg1-x531.google.com with SMTP id t26so2296986pgv.3
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 15:33:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=E/s6I513YNp9eKROBrdkysLgVkCt/eFWxoyeqvMogIk=;
- b=heMx6FxC8CVFVrcME8h69J4N3s3rxz5LuRe4cA3C14tVBvUT4lZBmBSY4jrJCrh512
- adMje/Y2jNTt6YBfm4y6Wq9apGiU3ULsgOe8x3YGnjS2OdCeBDTtiltnuaiZB8qv7AVA
- cBzWGW7IKPLuy4Rcxzx4t6O5ceNtZRVF2NgbeECJ1faOU31nW9iyIWYvaq2zIZTN9J1S
- gVM3RZllOBpWWoNtEbb0xZxxzpzIcW/bI3oy5kOlkX3S+e2DqWUukBbrcb2v4dUjGbq+
- ZjnJ+AuuWj/DMWWLL+kxpYOcoz9mNx4xtEWqolpm+ZB4cY1vRmeUf+DCb8S9o9W7V8yw
- B5/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=E/s6I513YNp9eKROBrdkysLgVkCt/eFWxoyeqvMogIk=;
- b=nVvuKbVsnmjbk1P9akSpmFBi0O4S/GQloacFJTMhQ/IfaUbY0YLF3Y1fK0MZ4jogWz
- aNTCilN8bDPm0sIgEeA/JUQJOeO1r5Mw2dq1SyOKnSY5Frhw84q9aicRlAnZ5L3GV1Ka
- LuH88X6KoyVFJVB/cbi4su0qX2dzVCzUKI8FDUivTsvk1AroEe/kkf1SC/fNLBqWFTE8
- gxpBMg4SpetNBRJcBcYvoINa80ZvNMN7a9z/r/cQKa0PjR8VWoNu6nP3m0GbHK/K6BWC
- oeHJQ8+eGnNkxcfjsMgmmdsV8bP10KOF6Xo72Dr1gaOAVt/56TAxZP95Sq7Auqkm5uk6
- sVlg==
-X-Gm-Message-State: AOAM531kmPHPmQOx+ZCNVSg8OkkK1PfZ4XpiYP7+khcRNR1LojRgNkpm
- r4R6HyArF8oM+BkvdreWYmPytQ==
-X-Google-Smtp-Source: ABdhPJwvcpYf7CMiM79T+e6LqDe9CCCxR6gMiaAuisHpqsocwfPPk0opXBAK2G0LfnMDHvzsgGYvFA==
-X-Received: by 2002:a63:c90a:: with SMTP id o10mr6055333pgg.172.1613691222868; 
- Thu, 18 Feb 2021 15:33:42 -0800 (PST)
-Received: from [192.168.3.43] (047-051-160-125.biz.spectrum.com.
- [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id 6sm6828989pgv.70.2021.02.18.15.33.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Feb 2021 15:33:42 -0800 (PST)
-Subject: Re: [PATCH v4 05/71] tcg/tci: Remove tci_read_r8
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210217202036.1724901-1-richard.henderson@linaro.org>
- <20210217202036.1724901-6-richard.henderson@linaro.org>
- <7f634553-3e1c-2cd6-a712-31c335e79508@amsat.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4e95c957-4e06-a6c5-280b-c6ea7829bece@linaro.org>
-Date: Thu, 18 Feb 2021 15:33:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lCssG-0000wK-Au
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:38:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53859)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1lCssD-0007i9-Dm
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:38:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613691495;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=g1duESPJuXAd2GLbBDBNUgnHjCsFzUYqGhToeWkTzx8=;
+ b=RkYFZFOiWYXScrekv9ahXUePcrK/tBlSCPp1QGwFKnn+NQZIyiOuph7bJ5DXtrnq0S4Dia
+ Xex6fkTebnTc2HuDftpwSe5aTnUkXaHwrMiHu482/WPgXzet5RQecF6el2GWaHaJBZzdRL
+ JJeCVYhyg3BI2agOEHaQagken1gBdh8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-3pqCk56DNCOnQIBRt8ETIQ-1; Thu, 18 Feb 2021 18:38:11 -0500
+X-MC-Unique: 3pqCk56DNCOnQIBRt8ETIQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D14B107ACE3;
+ Thu, 18 Feb 2021 23:38:10 +0000 (UTC)
+Received: from localhost (ovpn-3-246.rdu2.redhat.com [10.22.3.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F081C10016F6;
+ Thu, 18 Feb 2021 23:38:09 +0000 (UTC)
+Date: Thu, 18 Feb 2021 18:38:07 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PULL 0/3] Machine and x86 queue, 2021-02-18
+Message-ID: <20210218233807.GI760746@habkost.net>
+References: <20210218232415.1001078-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <7f634553-3e1c-2cd6-a712-31c335e79508@amsat.org>
+In-Reply-To: <20210218232415.1001078-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,22 +77,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, alex.bennee@linaro.org
+Cc: Igor Mammedov <imammedo@redhat.com>, "Moger, Babu" <Babu.Moger@amd.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/21 3:11 PM, Philippe Mathieu-Daudé wrote:
->> @@ -533,7 +520,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
->>              tci_write_reg(regs, t0, *(uint32_t *)(t1 + t2));
->>              break;
->>          CASE_32_64(st8)
->> -            t0 = tci_read_r8(regs, &tb_ptr);
->> +            t0 = tci_read_r(regs, &tb_ptr);
+On Thu, Feb 18, 2021 at 06:24:12PM -0500, Eduardo Habkost wrote:
+> I'm hugely behind in backlog of qemu-devel messages and patches
+> to queue/review (my apologies to all waiting for something from
+> me).  I'm flushing the few patches I had queued so they don't get
+> stale.
 > 
-> No need for tb_ptr++ here?
+> The following changes since commit c79f01c9450bcf90c08a77f13fbf67bdba59a316:
+> 
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-hex-20210218' into staging (2021-02-18 16:33:36 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
+> 
+> for you to fetch changes up to bf475162d70a16a6cef478272aa32be1025aa72a:
+> 
+>   hostmem: Don't report pmem attribute if unsupported (2021-02-18 16:43:17 -0500)
 
-Done in tcg_read_b, called by tci_read_r.
+My apologies, a corrected version of the pull request tag was
+pushed, with the correct version of the EPYC-Milan patch:
 
+The following changes since commit c79f01c9450bcf90c08a77f13fbf67bdba59a316:
 
-r~
+  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-hex-20210218' into staging (2021-02-18 16:33:36 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
+
+for you to fetch changes up to def835f0da0d153b397071e6bb8f2b46f51f96b4:
+
+  hostmem: Don't report pmem attribute if unsupported (2021-02-18 18:34:47 -0500)
+
+----------------------------------------------------------------
+Machine and x86 queue, 2021-02-18
+
+Feature:
+* i386: Add the support for AMD EPYC 3rd generation processors
+  (Babu Moger)
+
+Bug fix:
+* hostmem: Don't report pmem attribute if unsupported
+  (Michal Privoznik)
+
+Cleanup:
+* device-crash-test: Remove problematic language
+  (Eduardo Habkost)
+
+----------------------------------------------------------------
+
+Babu Moger (1):
+  i386: Add the support for AMD EPYC 3rd generation processors
+
+Eduardo Habkost (1):
+  device-crash-test: Remove problematic language
+
+Michal Privoznik (1):
+  hostmem: Don't report pmem attribute if unsupported
+
+ target/i386/cpu.h         |   4 ++
+ backends/hostmem-file.c   |  13 ++---
+ scripts/device-crash-test |  96 +++++++++++++++++-----------------
+ target/i386/cpu.c         | 107 +++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 162 insertions(+), 58 deletions(-)
+
+-- 
+Eduardo
+
 
