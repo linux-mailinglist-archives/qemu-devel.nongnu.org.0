@@ -2,77 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D51931F111
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 21:34:47 +0100 (CET)
-Received: from localhost ([::1]:51158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D64831F125
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 21:39:15 +0100 (CET)
+Received: from localhost ([::1]:60330 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCq0a-0005Il-AG
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 15:34:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49840)
+	id 1lCq4w-0000nF-44
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 15:39:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lCpx9-0003Gm-5e
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:31:11 -0500
-Received: from mail-ua1-x929.google.com ([2607:f8b0:4864:20::929]:37161)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCpxQ-0003RK-HD; Thu, 18 Feb 2021 15:31:28 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lCpwz-0007FB-Ci
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:31:07 -0500
-Received: by mail-ua1-x929.google.com with SMTP id d3so1131043uap.4
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 12:30:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3o/G8wgAJYj+Jg4CZh331qOWl8qL8RRRCmLJS/2qRSs=;
- b=MuRQqo9TibTDU3gG+8Au3+gWAlsQ+lnTOyhkdWqPlJjblYr42x8eKg0tY92roW60id
- QZYIJZz3v2M/FB/YcJTjVNsc9i7CFBQwmInr8zh8QePL0EUstG1dxY2poHmg6yTT6DpH
- LEE+pJFFVgEjIPg+N2Y2CxAiGdxkNeyJW+fTgTH0JZMKn/ABkzr371TMMIpUSLa9BTQS
- +qoGGxh+KKntIVRiFk40QQ5mXMdgaBAT0/5dqTI7QNXf3cY8BQx8N0TNxA5agx9eS9ho
- 9/CBQPxrrX2VETOv1PgqAI7qFQJuXB1J+ZX8FagFSES065V+o79VUagKfHsiivB8e+qL
- 4+WA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCpxN-0007La-6x; Thu, 18 Feb 2021 15:31:28 -0500
+Received: by mail-wr1-x431.google.com with SMTP id v14so4382377wro.7;
+ Thu, 18 Feb 2021 12:31:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=4pWzLGq04lI0t6m/qR6Gzis7yBlbynG7tk/b8IxkwBA=;
+ b=f+klUkXZMbM5KpsG9qGhQWLRgx5yaR60TCrrg+Fa0dSm7a9pnpJ3r1WBaEjYqzaO4v
+ jJFlkof9+CgueXqcbZoAibcukBRWeM/HV6m1Ym5zf+YYxgSagiubm5ld6KDApZ/5FQMo
+ gUdJb+Zm87QI9ZcEh3hPd6U99iDwlcaMUSiOEOm1c0pkQ6drqmESbidVYlHlGpfkpo75
+ KlOJ3Sla/SxghIX6bhJHDIfV+lGO6c7PCXwwejaUE2r2E3bHktRoGxNydwYjZO6tWddA
+ mbh7zWWvSYoLOktXyoWcdtsnUseA2McJZLsGXWBjzbCHZNgGCL3vHQBujw/OYI3W1vEm
+ LSoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3o/G8wgAJYj+Jg4CZh331qOWl8qL8RRRCmLJS/2qRSs=;
- b=VTUyee7gR/hfqm4SZwpvnGr9Ksp9xnh1lPCs8WA20W/fwfVkQJxpL0dU2cEclmQ1Cq
- rDSwEnz6WLwg2Fi7lfvgbwu7iND57Lb7mrxHk8HkIFHyJrJPd4RQ2inLld4qKaU8Ae68
- vD9Qr3Un61NhhXwLGFydv0lHXpmT4DoIchYPCjZCwgo6dgwOKz6SXR6M9YnC2xSlHlqV
- 493T5e8XQTy/nWGXyZdVdhMAlGOn9h4Ripnle+YhcPs/AetlGAXbCwuvC1wvhXQGPOdU
- xDFMbkzcMoRjDhKDPTkO9VYA+m7afUl9GVYlCt1KLW2pb6D3aN5IGS7SLM6h3LGK9qy2
- eqvw==
-X-Gm-Message-State: AOAM531HtoZc1yOtCUvb4+eMyVwbk72nAKIHAOrviAoaGb2v5E7YcKvT
- pJ8PffHvcIRP6fIQ1rrYJkUTJ6cENFxW1oH+QQPGdQ==
-X-Google-Smtp-Source: ABdhPJzlkZg9YLYiKfpeqq+7pWfZlYLDTmNX1F3OddAw+qEXmm2bCPMz/lJqU6kuzO/EBpcI5muUyNmtsZS2ZJEZgi8=
-X-Received: by 2002:a9f:24b6:: with SMTP id 51mr5124624uar.91.1613680258194;
- Thu, 18 Feb 2021 12:30:58 -0800 (PST)
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=4pWzLGq04lI0t6m/qR6Gzis7yBlbynG7tk/b8IxkwBA=;
+ b=RN7XJVbBB6zsDyVjsK4ky0zkmkFck0LTO7JLB0r+/9+X4UFEzev8eE/dg8W9xnAg55
+ 2QY3mYN3lPV5aNg+a4q1ufSk9jRUoMRDnqZbfabtHbOCC1k4JrnH7fzwCVgqQskqbnnl
+ o+w7+Hvpa8EbhB8uqcs124StO0nqSRJE5XEW7YvjE+K5kkxDzDjhD8+q6pOvo44dY9SW
+ qBer0DUcVeCWcPnllYoiAqkqiJwcjcmHO97jmhHBGQQFQCABJgP6Fpb8Zp0MQPQoYBlW
+ SMf5u+mJCZBxh8n5QgSeZ58tNszNurHzAvhgFza0ZNRqN576R/dgl4M1fMselFL3ixpv
+ VGow==
+X-Gm-Message-State: AOAM53218Gl3rXqFOEn32P8h482bUpekxpXOMS1sSy0fAY+SvcB2GzUP
+ w11n6P5P2fXdPb+HsBcnFWTZtFuyXs8=
+X-Google-Smtp-Source: ABdhPJxipXxeub20bIohmtbxDYdsSzkDUu6LHh1IevDzvplqt8r65b+172rjlYbUH6FF3LjSOz4yZQ==
+X-Received: by 2002:a5d:654d:: with SMTP id z13mr6271539wrv.62.1613680270446; 
+ Thu, 18 Feb 2021 12:31:10 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id h11sm8228278wmq.26.2021.02.18.12.31.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Feb 2021 12:31:10 -0800 (PST)
+Subject: Re: [PATCH v2 2/6] hw/sd: sdhci: Don't write to SDHC_SYSAD register
+ when transfer is in progress
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Bin Meng <bmeng.cn@gmail.com>, Mauro Matteo Cascella
+ <mcascell@redhat.com>, Li Qiang <liq3ea@163.com>,
+ Alexander Bulekov <alxndr@bu.edu>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Prasad J Pandit <ppandit@redhat.com>, Bandan Das <bsd@redhat.com>
+References: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
+ <1613447214-81951-3-git-send-email-bmeng.cn@gmail.com>
+ <277459ba-f35c-31fb-c088-def282c841d4@amsat.org>
+Message-ID: <2d5c862c-6000-723e-5cb7-7ce141612446@amsat.org>
+Date: Thu, 18 Feb 2021 21:31:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210203233539.1990032-1-dje@google.com>
- <20210204100349.GF549438@redhat.com>
- <CADPb22THtnaRgz3MAa+=U+dgZeZR4+FDO_SvpfsqKbnSJRnOmA@mail.gmail.com>
- <CADPb22Q2k0EpEG6=h=Riswitpha0okeEeoP9Use3yfYtV7t6ZA@mail.gmail.com>
- <20210210093102.GB1240644@redhat.com>
- <CADPb22QzGYw3z9tgVgcZv3vywVN_ejt_PjUrHmB4O-DLkAeT=Q@mail.gmail.com>
- <20210210164919.GL1240644@redhat.com>
- <CADPb22Sdk1Ao5wGFBEiJ2mNqeRfo81vp1U1gXYA9caf9Ht1n4g@mail.gmail.com>
- <20210211091203.GA1302824@redhat.com>
-In-Reply-To: <20210211091203.GA1302824@redhat.com>
-From: Doug Evans <dje@google.com>
-Date: Thu, 18 Feb 2021 12:30:21 -0800
-Message-ID: <CADPb22Qme+CSggwn194i+HZJYkz0COm2J=roSbjgP-DoGF3JPQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/3]
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: multipart/alternative; boundary="00000000000092805805bba2367b"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::929;
- envelope-from=dje@google.com; helo=mail-ua1-x929.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+In-Reply-To: <277459ba-f35c-31fb-c088-def282c841d4@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,62 +93,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000092805805bba2367b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2/18/21 7:23 PM, Philippe Mathieu-Daudé wrote:
+> On 2/16/21 4:46 AM, Bin Meng wrote:
+>> Per "SD Host Controller Standard Specification Version 7.00"
+>> chapter 2.2.1 SDMA System Address Register:
+>>
+>> This register can be accessed only if no transaction is executing
+>> (i.e., after a transaction has stopped).
+>>
+>> With this fix, the following reproducer:
+>>
+>> https://paste.debian.net/plain/1185137
+>>
+>> cannot be reproduced with the following QEMU command line:
+>>
+>> $ qemu-system-x86_64 -nographic -machine accel=qtest -m 512M \
+>>        -nodefaults -device sdhci-pci,sd-spec-version=3 \
+>>        -drive if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+>>        -device sd-card,drive=mydrive -qtest stdio
+> 
+> Without the rest applied, I still can :(
+> 
+> AddressSanitizer: heap-buffer-overflow
 
-On Thu, Feb 11, 2021 at 1:12 AM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
-m>
-wrote:
-
-> [...]
->
-> I think the key useful part to keep common impl for is the handling
-> of the [] brackets for IPv6 raw addrs. I'd suggest we try to pull the
-> "address:port" part out into a new inet_addr_parse() helper that can be
-> called from inet_pase and from slirp.
->
-> inet_parse() can split on the first ",", and then call inet_addr_parse
-> on the first segment.
->
-> slirp can split on "-", and call inet_addr_parse with both segments.
->
-
-
-v4 here:
-https://lists.nongnu.org/archive/html/qemu-devel/2021-02/msg06011.html
-
---00000000000092805805bba2367b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Thu, Feb 11, 2021 at 1:12 AM Daniel P. Berrang=C3=A9 &lt;<=
-a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br=
-></div></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex"><span class=3D"gmail_default" style=3D"font-size:small">[...=
-]</span><br>
-<br>
-I think the key useful part to keep common impl for is the handling<br>
-of the [] brackets for IPv6 raw addrs. I&#39;d suggest we try to pull the<b=
-r>
-&quot;address:port&quot; part out into a new inet_addr_parse() helper that =
-can be<br>
-called from inet_pase and from slirp.<br>
-<br>
-inet_parse() can split on the first &quot;,&quot;, and then call inet_addr_=
-parse<br>
-on the first segment.<br>
-<br>
-slirp can split on &quot;-&quot;, and call inet_addr_parse with both segmen=
-ts.<br></blockquote><div><br></div><div><br></div><div class=3D"gmail_defau=
-lt" style=3D"font-size:small">v4 here: <a href=3D"https://lists.nongnu.org/=
-archive/html/qemu-devel/2021-02/msg06011.html">https://lists.nongnu.org/arc=
-hive/html/qemu-devel/2021-02/msg06011.html</a></div></div></div>
-
---00000000000092805805bba2367b--
+Err, I used an old build for this test, sorry...
 
