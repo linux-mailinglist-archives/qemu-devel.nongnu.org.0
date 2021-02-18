@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B87F31E43C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:14:37 +0100 (CET)
-Received: from localhost ([::1]:60884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5936131E442
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:16:46 +0100 (CET)
+Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCYpw-0002F2-DP
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:14:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
+	id 1lCYs1-0004cc-Da
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:16:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYc1-0006Zs-KH
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:13 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40590)
+ id 1lCYcG-0006eY-Vy
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:30 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40597)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbz-0008KW-TU
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:13 -0500
+ id 1lCYcA-0008Kh-Pt
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613613612; x=1645149612;
+ t=1613613623; x=1645149623;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ydw6Pj9MuImavJe/k1p7sgoEroop5J0cgSgSSKjwk+Y=;
- b=V9h1R+HD7gNMMEdZm4PGrogR4Utj4Hlk/1DXmYbZ+YfXBe5DpLqAaUIu
- jb51M5yn4LWCkCn5bI7ylzcw9RPaigzRUwqG65paN9WJ9Ey5JTTWKHSY2
- 37HESZR3k7dHogGSFA04oIoM8RQzH2WX2/1KIE9Pq8RYN7BQTPfB3qZqF
- bsfA11OlkRi0iH5lBtvlA9CrbgzE5Moq4A4nAG0Mk2xe/hLfuLfvgZj+C
- ufLxfl/hwUI2h3jY0tkbrukF+1AdSf9i1TjZn1z9R92rnMQXeM7ls+beK
- 7anWwiCt6HkQv89PVEFm2JHtL+FkJd/+ibN9Kt0KPY4aaz8YTzE6S+/HT Q==;
-IronPort-SDR: +eDfqAkjbhkMs2MNniWMP0ZXlj4cKqhq0O4s+YOkEOxcR9ku+5aZ/+IuaBTOTXPDZ2AjIE0hAw
- gB9Nxgp2cuSaLodojtqpFBgvwc5cieZjmut2baxlEFpeQ/qpzqOQ37Xi+urLlH88HPswHZupMI
- ZZgT0mPd3RT63pLfn85mOafklC7fLJxQow+EHzoPfjtNNHk6UrPX+rWTUKNxGTSuwd8+ZaqEVO
- r42GG+OKmTErR2DB634n09UYgAJ4lgmuEnJ8W9rT4fdv8/r6c3ud++K2ujLlQEv764lMumTVQW
- 6FQ=
-X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392133"
+ bh=SGHCQo7Z5JaZpYTAO99ArClzyLM+uE7juTXLMNllOu0=;
+ b=PWAs4ootlGIFd3iat3MLZDhhwPkjeBsRoaTtL9eFoadupNE+y/Ny0HNF
+ phUv4X+TB/Y2kACc/0WPgbS0kOD4MFdmprUSvzMqVpfSRC31kLaIAnJPE
+ pHXYmu/pKdMIiFYl0jFRfr8Dzq8e0ffFEhdXC8+BuZE3H9m0hEr41AzAO
+ RNSOrkELN2ejVOla/K2KTOCTryxGJC75nvhQgldEfbTtjE4kpEneYTvhr
+ UxkPOFKMwLiSZ3krAi9ILds/eUmxDGTT8IKrsaCeXy5YMWV/zQKUYhQMA
+ F5GKJc0ge67buTeeDo9fK3GPo1z24smoxQ99UmGqnO5aEy4RrqHblLnmv g==;
+IronPort-SDR: EoVjKh7YA312/0aGmPl8cuKQ7HWLhwvXpYjiw5gXLxupimuv2tT5g1SkZj0NCh1fY0hCHyBHy0
+ OCDi9E2unMoSg6/WNim5WnbLQSenD5ZCm3K21CA8fkZJuZ71CkzINbeO+QOBXFyoqdio7PCYcM
+ 6z+u+j8nJ96EO0agjitJpyg9iP4SwyWyPt0bt3Dag94UGGUq3xcvgbxEopiSgJtC5xAI1iPikj
+ xomVh+VTUcHr1Zx9qOBh4uQME0X5RmvzRRgl6ar9pgM1VktIQ4sm5aG1MgTQrL0l05eiOe2Bkn
+ c2I=
+X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392135"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 09:59:59 +0800
-IronPort-SDR: 3MWY9MB8dlVze4a4CSe9ixSQ400Q5K/FvhrkqVBM9DgTG159m0NS0U86+JFsNvG6GFG7k2k5OT
- 6S6x7tLS45540nmIrRoydIScRNo+XaF/quy3CkG2+lBpcxz1L0Vq25Ps1tdtOWD5E3P8mThHxQ
- O+eG/E38JyLvwdXRjHVHR/QkVdHHQsfqezwngaee++BnI7HFVYR0Vr/wxCHmI/n7Ppbe+/bZZD
- /HsQ1dSSFuFzwwtfD3rIfaoGW2JfuKeDIzwkO/m1HDGJ0Zzodk2n27YBEukPcfXVLsh+pUwu+3
- Uo3E44pDmyzAf/rXBHdswSoK
+ by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 10:00:00 +0800
+IronPort-SDR: 2v2XNbj79ZYI1nVzxhsWK7Y0EprCScCi3XiXIBzdVksOtikrKNuBxWolquo5eEC03/mivIXYj7
+ jiTbdCtKk9CmGlC89uZq3jECb8kpih2wnF85Mj9iZzCdsGUJv/5vcA4MR4pmGz7FJhaX6HGy8H
+ ZWksVmsuPeEV56yVx3lx0npNPx33FkK8eT+wbgDpA5k7hh7ID6T52WhUtH1s0qYeCqCoWNdsUx
+ GkbmRzZFQdo1CG10PnUTvZ8k2v9WPw3SyAtrwAJn4nADrX3X3sA1/Kjf1UmLo0+GaqC/a8G2Ei
+ 9fVqgRl9s5yLznuEJx18d5t6
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 17:43:29 -0800
-IronPort-SDR: 3U8MF3bf9x3TFghyu0eg/XSIbrV4+z9plnRsThK/wl508nHmwrIlw+QjpDdMw9NLxurTNxXzSc
- gI6p+V7cnTgFceS6UstFsH5EDgYVl4744YfJMUaDgjFaeZm9NtzK/H0alQ4Odn3CzkV5ZJPUeO
- phtA4evs4p6PP0p0v3ZnNHrXdC4Kf5Q7WzYTDXl+5dPaNHD5sE5uMtcw70MsCV9KqSk3Nu1/Zu
- y5yOrkrCpgDJKDawTA5ukxlE0EjF10q3Dn5tdbBlV8nd5VQSiczfeTT/rZ6nabVDDeY+WvQiY0
- 0Ac=
+IronPort-SDR: Xo2SLeikcG0A18qXyhiqJvyI/5lcp1e9ekZswJGGJl9eHCvHtaiQJoTWEgahKS5+EgV+jyadF0
+ aQBFUPE5qewhwYxwYrf77A1Pr7lzWENrw7ljM8k0H12Zz3B2JZykw756Sji8YLlH8Xbr1tuajJ
+ 4Ch1q1mgIgjg5Vjnr024utWpnxkmtTxtZoVe/DKrpKI7VYNQ4nVpWq36cSbJPFLLp1iu2S07J3
+ t+hMMDt/1zcYSwNGEccmZhrOxC49omZhY/8m1f3oKYEgPnqXIlcyZIbcEVuRBLsp+8I3w7OYqT
+ u9I=
 WDCIronportException: Internal
 Received: from cn57xfd72.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.43])
  by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 17:59:59 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 10/19] hw/riscv: sifive_u: Change SIFIVE_U_GEM_IRQ to decimal
- value
-Date: Wed, 17 Feb 2021 17:59:25 -0800
-Message-Id: <20210218015934.1623959-11-alistair.francis@wdc.com>
+Subject: [PULL 11/19] docs/system: Sort targets in alphabetical order
+Date: Wed, 17 Feb 2021 17:59:26 -0800
+Message-Id: <20210218015934.1623959-12-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210218015934.1623959-1-alistair.francis@wdc.com>
 References: <20210218015934.1623959-1-alistair.francis@wdc.com>
@@ -99,30 +98,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-All other peripherals' IRQs are in the format of decimal value.
-Change SIFIVE_U_GEM_IRQ to be consistent.
-
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210126060007.12904-7-bmeng.cn@gmail.com
+Message-id: 20210126060007.12904-8-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/sifive_u.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/targets.rst | 19 ++++++++++++-------
+ 1 file changed, 12 insertions(+), 7 deletions(-)
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index de1464a2ce..2656b39808 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -127,7 +127,7 @@ enum {
-     SIFIVE_U_PDMA_IRQ6 = 29,
-     SIFIVE_U_PDMA_IRQ7 = 30,
-     SIFIVE_U_QSPI0_IRQ = 51,
--    SIFIVE_U_GEM_IRQ = 0x35
-+    SIFIVE_U_GEM_IRQ = 53
- };
+diff --git a/docs/system/targets.rst b/docs/system/targets.rst
+index 560783644d..564cea9a9b 100644
+--- a/docs/system/targets.rst
++++ b/docs/system/targets.rst
+@@ -7,16 +7,21 @@ various targets are mentioned in the following sections.
  
- enum {
+ Contents:
+ 
++..
++   This table of contents should be kept sorted alphabetically
++   by the title text of each file, which isn't the same ordering
++   as an alphabetical sort by filename.
++
+ .. toctree::
+ 
+-   target-i386
++   target-arm
++   target-avr
++   target-m68k
++   target-mips
+    target-ppc
++   target-rx
++   target-s390x
+    target-sparc
+    target-sparc64
+-   target-mips
+-   target-arm
+-   target-m68k
++   target-i386
+    target-xtensa
+-   target-s390x
+-   target-rx
+-   target-avr
 -- 
 2.30.0
 
