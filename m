@@ -2,74 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4A7E31E8F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 12:09:44 +0100 (CET)
-Received: from localhost ([::1]:36836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7BA31E8DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 12:02:08 +0100 (CET)
+Received: from localhost ([::1]:56624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lChBn-0002IV-U8
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 06:09:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
+	id 1lCh4Q-0006b0-RX
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 06:02:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1lChAr-0001s0-NJ
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:08:45 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38435)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1lChAp-00026w-Nl
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:08:45 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id x4so2673090wmi.3
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 03:08:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CXQSQo7Hc/L1KqnxrJ70hCx+zeK9zsPCAZ6m/8RQUh4=;
- b=U/JKzeOJ8e838ZV3Thg/eHlC9H8Gl/+HhVNT7v2eu6mkWDcEM+gxZnZBA7odMLc5Xc
- XaZASG+Moxzt97vHWowpbNVHT8PAiQrhiWAgidqsFWDQKH7lWPfRVeEM6VYfmcg47dES
- 3/uJSK0Ctqjk4Yl+sxPd4rFgBsD4zhQe9QJ5le2QxwLzlZy1jrr76bIQbokr+vAKuLFa
- SEuc1iclRIOuzw7F6rJZCLODI2UDrmp+bhKqNNepDPuYBujZkIcbYO2RKJUA5OOjq272
- klW76pdmZONn/2R+J4ZRAcUz6dhI5fWwi/2+trZW1sCU+NMjkyFwH7POW89rzhWOE2MF
- iRXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CXQSQo7Hc/L1KqnxrJ70hCx+zeK9zsPCAZ6m/8RQUh4=;
- b=WAuBjAmH8XU4hJa8uGxlFQ6Ig2qyc6+M8rzpAq3kUS4CdAkeynlvQpnF9ihkC+gIa/
- qMeVGscP7P+hoCpkZmjZh9Easj6SFBluBtvHr1ArewwBsHrURU5fHf1YQ2ahOqRojAzS
- hWFDZkpQmcCyiGted0mtYkd47i25sA2debb6U/WzBN0V0yKRtcNQQedMfpC/K/X63o5V
- ldJW411eMuf9FG043xcfp4HARahQxbv+/E6POuFPuwXGtjQnQ3MAGt0CvZek3Nd5qVKc
- KD9JkT9sc/qZJT33ebrketwIhaHxmmYTrMKyCTUbtn3Xn2I4IyXnjG4YMpaTenJxguOG
- qPtA==
-X-Gm-Message-State: AOAM530jXhH1O6R0cEnCA1TSKl3S6qprIxokhzZuhu0L99DktVOBTqDj
- 2FcOQuBkzB8IdsDa8tfuUPNQEg==
-X-Google-Smtp-Source: ABdhPJysJx2xiU3G0HpaKV4lMHn0APjr7vonhx3XBQysTFMCq4fv0sTNlvuZ2t1wIpA+ZSs6/qOT0Q==
-X-Received: by 2002:a05:600c:4ec6:: with SMTP id
- g6mr2993114wmq.72.1613646521709; 
- Thu, 18 Feb 2021 03:08:41 -0800 (PST)
-Received: from localhost.localdomain
- ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
- by smtp.gmail.com with ESMTPSA id o25sm18113717wmh.1.2021.02.18.03.08.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 03:08:41 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: eric.auger@redhat.com
-Subject: [PATCH] virtio-iommu: Default to bypass during boot
-Date: Thu, 18 Feb 2021 11:59:30 +0100
-Message-Id: <20210218105929.1433230-1-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lCh2r-00066U-Ol
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:00:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42476)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1lCh2n-0006ov-6v
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:00:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613646022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pVNu3+kbd+9vu25mqmY94cdq2vTn9bjYLXG3/4cmr0Y=;
+ b=EZ/JwRlTP9TAzcTsPdVjZ5tid1ghEzZMyNlmhpauhGqJ05B9coyfob9mYTaqlwHGmd6Rdg
+ pSsrzN0bvi6eKPqJc6aIFS6mCltq1EEBcFNPvZjB2Mg+EQ8C1dXZtofWfFOlJ4J80H1xO8
+ DfzqlqYLDQbFR9evwrLQeBGKY3/VDtc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-grxkwTOfM5aOomleGD4D4g-1; Thu, 18 Feb 2021 06:00:20 -0500
+X-MC-Unique: grxkwTOfM5aOomleGD4D4g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE5EE100A8E8
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 11:00:19 +0000 (UTC)
+Received: from work-vm (ovpn-115-17.ams2.redhat.com [10.36.115.17])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 650C82C01F;
+ Thu, 18 Feb 2021 10:59:55 +0000 (UTC)
+Date: Thu, 18 Feb 2021 10:59:52 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 08/24] DAX: virtio-fs: Fill in slave commands for mapping
+Message-ID: <YC5IqMK+6UUjaE04@work-vm>
+References: <20210209190224.62827-1-dgilbert@redhat.com>
+ <20210209190224.62827-9-dgilbert@redhat.com>
+ <20210211105755.GI247031@stefanha-x1.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210211105755.GI247031@stefanha-x1.localdomain>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,87 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org,
- mst@redhat.com
+Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
+ vgoyal@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the virtio-iommu device must be programmed before it allows
-DMA from any PCI device. This can make the VM entirely unusable when a
-virtio-iommu driver isn't present, for example in a bootloader that
-loads the OS from storage.
+* Stefan Hajnoczi (stefanha@redhat.com) wrote:
+> On Tue, Feb 09, 2021 at 07:02:08PM +0000, Dr. David Alan Gilbert (git) wrote:
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Fill in definitions for map, unmap and sync commands.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > with fix by misono.tomohiro@fujitsu.com
+> > ---
+> >  hw/virtio/vhost-user-fs.c | 115 ++++++++++++++++++++++++++++++++++++--
+> >  1 file changed, 111 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> > index 78401d2ff1..5f2fca4d82 100644
+> > --- a/hw/virtio/vhost-user-fs.c
+> > +++ b/hw/virtio/vhost-user-fs.c
+> > @@ -37,15 +37,122 @@
+> >  uint64_t vhost_user_fs_slave_map(struct vhost_dev *dev, VhostUserFSSlaveMsg *sm,
+> >                                   int fd)
+> >  {
+> > -    /* TODO */
+> > -    return (uint64_t)-1;
+> > +    VHostUserFS *fs = VHOST_USER_FS(dev->vdev);
+> > +    if (!fs) {
+> > +        /* Shouldn't happen - but seen on error path */
+> > +        error_report("Bad fs ptr");
+> > +        return (uint64_t)-1;
+> > +    }
+> 
+> If a non-vhost-user-fs vhost-user device backend sends this message
+> VHOST_USER_FS() -> object_dynamic_cast_assert() there will either be an
+> assertion failure (CONFIG_QOM_CAST_DEBUG) or the pointer will be
+> silently cast to the wrong type (!CONFIG_QOM_CAST_DEBUG).
+> 
+> Both of these outcomes are not suitable for input validation. We need to
+> fail cleanly here:
+> 
+>   VhostUserFS *fs = (VHostUserFS *)object_dynamic_cast(OBJECT(dev->vdev),
+>                                                        TYPE_VHOST_USER_FS);
+>   if (!fs) {
+>       ...handle failure...
+>   }
+> 
+> >  uint64_t vhost_user_fs_slave_unmap(struct vhost_dev *dev,
+> >                                     VhostUserFSSlaveMsg *sm)
+> >  {
+> > -    /* TODO */
+> > -    return (uint64_t)-1;
+> > +    VHostUserFS *fs = VHOST_USER_FS(dev->vdev);
+> > +    if (!fs) {
+> > +        /* Shouldn't happen - but seen on error path */
+> > +        error_report("Bad fs ptr");
+> > +        return (uint64_t)-1;
+> > +    }
+> 
+> Same here.
 
-Similarly to the other vIOMMU implementations, default to DMA bypassing
-the IOMMU during boot. Add a "boot-bypass" option that lets users change
-this behavior.
+Thanks, fixed.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- include/hw/virtio/virtio-iommu.h |  1 +
- hw/virtio/virtio-iommu.c         | 23 +++++++++++++++++++++--
- 2 files changed, 22 insertions(+), 2 deletions(-)
-
-diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
-index 273e35c04bc..4c66989ca4e 100644
---- a/include/hw/virtio/virtio-iommu.h
-+++ b/include/hw/virtio/virtio-iommu.h
-@@ -58,6 +58,7 @@ struct VirtIOIOMMU {
-     GTree *domains;
-     QemuMutex mutex;
-     GTree *endpoints;
-+    bool boot_bypass;
- };
- 
- #endif
-diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
-index c2883a2f6c8..cd08dc39eca 100644
---- a/hw/virtio/virtio-iommu.c
-+++ b/hw/virtio/virtio-iommu.c
-@@ -689,6 +689,25 @@ static void virtio_iommu_report_fault(VirtIOIOMMU *viommu, uint8_t reason,
- 
- }
- 
-+static bool virtio_iommu_bypass_is_allowed(VirtIOIOMMU *s)
-+{
-+    VirtIODevice *vdev = &s->parent_obj;
-+
-+    /*
-+     * Allow bypass if:
-+     * - boot_bypass is enabled and the BYPASS feature hasn't yet been
-+     *   acknowledged.
-+     * - the BYPASS feature has been negotiated.
-+     */
-+    if (s->boot_bypass && !(vdev->status & VIRTIO_CONFIG_S_FEATURES_OK)) {
-+        return true;
-+    }
-+    if (virtio_vdev_has_feature(vdev, VIRTIO_IOMMU_F_BYPASS)) {
-+        return true;
-+    }
-+    return false;
-+}
-+
- static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-                                             IOMMUAccessFlags flag,
-                                             int iommu_idx)
-@@ -715,8 +734,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
-         .perm = IOMMU_NONE,
-     };
- 
--    bypass_allowed = virtio_vdev_has_feature(&s->parent_obj,
--                                             VIRTIO_IOMMU_F_BYPASS);
-+    bypass_allowed = virtio_iommu_bypass_is_allowed(s);
- 
-     sid = virtio_iommu_get_bdf(sdev);
- 
-@@ -1156,6 +1174,7 @@ static const VMStateDescription vmstate_virtio_iommu = {
- 
- static Property virtio_iommu_properties[] = {
-     DEFINE_PROP_LINK("primary-bus", VirtIOIOMMU, primary_bus, "PCI", PCIBus *),
-+    DEFINE_PROP_BOOL("boot-bypass", VirtIOIOMMU, boot_bypass, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
 -- 
-2.30.0
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
