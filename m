@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F6AA31E861
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:07:47 +0100 (CET)
-Received: from localhost ([::1]:56652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83EC631E85F
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:07:27 +0100 (CET)
+Received: from localhost ([::1]:55496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCgDq-00052F-Fm
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:07:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54268)
+	id 1lCgDW-0004Xi-G3
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:07:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54254)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfzP-0004TT-OG
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:53 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:32819)
+ id 1lCfzO-0004Rq-Bq
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:50 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33987)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfzN-0000yh-MY
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:51 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id 7so2242379wrz.0
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:52:49 -0800 (PST)
+ id 1lCfzM-0000yd-FF
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:52:49 -0500
+Received: by mail-wm1-x331.google.com with SMTP id o10so2466909wmc.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:52:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=F+StAOu3qxmsqdNHe7+WWm/s4oEdZe+M8dtFdhw4Ux0=;
- b=EGLehANvZVsBQm4hPQacFnA76oHvnmNtigYjR/HNt4UQnkJ4z1KCrpaRk8zYGm0XEN
- RP+1ISPuUgfOktAfJLRFNn/At1CXSKGdghQkR5djZnyiNR6nWGx4ChrAqAC3lvvgQ2+J
- aaRF7u3bGZj8AN+pso7kgfwENlNNyctawK2sX+O23JXihz8WW64XS6PAiivT51AjWtOj
- WghQF5DAxNvUs50jCDQiF6xhiiC1OLaGOLBmmfCiP74Yu7i+Bx1bQDUClcgMFPwtTJs8
- mGqdOOw1hm6cY8ac0WyWpXYybm/0OCyuk7sLRdsuuPDBrEnDsRnoHvAxvHzRr6tiWpZm
- OmcA==
+ bh=by4E5jCVC9bx2TQqGdZFWQRpu+EpcHBR3WGdgm6ocCw=;
+ b=YXsB03vaUE3SBea0f2cktWvK++/AlwnJeKe3jGNVb1npz5Zgvl2IN42JczNO31qzf5
+ ItcIcrfwuEQwVxffptZM8FiATCKExWZgL782s4rwELwHGFkSemktiHH4DOeRne6xzQAN
+ h9RY30VL/wz5kDDRq657VhKXA6wJnIVDs/RzvIzKebkJ7BorPcUtV7i7zeylgS7V0Uk/
+ aAKHtwTXblLDRk9GGRBkBUxMSvu2r5r77+uVtw9uQ6BhRaIw/3W3s/AnBpW/yQ8zyJmg
+ fbrJh5hf7zfihr1VbbLdKlowF1Jt0fu9l9QST8awPEElGzhRdtr/F9+osYgYK0j8umPR
+ cd0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=F+StAOu3qxmsqdNHe7+WWm/s4oEdZe+M8dtFdhw4Ux0=;
- b=IGjTZMte7hECMhIEH+eaCbebAQdtU05vUrRl75irG/0qmphUrYTOrpqFu/fct4kS6x
- QpqtQpFNSymEnt12hp9vPoAgRPBC9i0S+o2OcQbmp1UfraZgk+EES0+RaZxNwATxfk4D
- bHOdi5Jx6HplTr1fcZVRlf+rx+5NPeD9n3v7Xh+GrJntnB/YVbarlXtx//Ism2clLma1
- CK8Bg+SvRVvuecMDon0/K4K0oNMiqGc41R/2ABMjf0lFxSd9RcT4H5Rr6f4CWh0MRJwc
- rjMKl5jAYYVlW39/noKuU7NvC/GLLjWmqhRHtivWSOvqoVCIiqNXXavhP94aqz3iJtNs
- Q1xQ==
-X-Gm-Message-State: AOAM5339Holf1ynefjfxHpPPz+pUPKaOO6YwN0Sm2byXdNQWJPShHRAu
- buXvipevbxcYVRqZQgeDxLoMFg==
-X-Google-Smtp-Source: ABdhPJyTlGM6mhL9QqWgTJ1LFNupcsV30Wr+5IkA+TeJzlT9AA3ezvATTEqe7IGaFlYhNDr/cS3e6Q==
-X-Received: by 2002:adf:dcc2:: with SMTP id x2mr3331994wrm.178.1613641968028; 
- Thu, 18 Feb 2021 01:52:48 -0800 (PST)
+ bh=by4E5jCVC9bx2TQqGdZFWQRpu+EpcHBR3WGdgm6ocCw=;
+ b=llbdBtD08XxgaDmuN0OVi+gFeRNhCkvja1x/9CSfhQUAzCEPzo8uVafI7vXvgV/Ynr
+ t3LKJvkOfaycex1K/Vfeo2Zw9SmTj1H/GoFQNVe6XAV03k3tqRrdXhsf6iDujrAsmN/K
+ kQIuKkKvyZT+gX2VuY8GxyiBRRUH1KJUe3xU+/c6G01jH+2CHHeg/8n2wyjC5RZhOeb8
+ jEiEEeuB2LMW+VfCeIftfASZgpQJtdbJKSAzsfcKTqVUBIBwzHEElAs9/s3DoAKKydgW
+ 5MjJCTem5KxLhfw6mWythKl+gPspKAVRi7R6mwq5SIHzwG0BAGitFVX1vuNBOKrWMlw2
+ eFqg==
+X-Gm-Message-State: AOAM533ilKu83S+oXea1k6Kg3wH2CP9Wd2EM4mmLzgjleRjGhZIxI8Oj
+ NpAt5LCMx9/B1uwc56by05K5ZQ==
+X-Google-Smtp-Source: ABdhPJzpIBOsZBEBUvNpBesddmTuzC5mmhJC3MREw994T/rCxiL7WOv/zHbJ/Kha0qdIB6QLLE1FnQ==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr2779724wmk.63.1613641966989;
+ Thu, 18 Feb 2021 01:52:46 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y16sm7809783wrw.46.2021.02.18.01.52.45
+ by smtp.gmail.com with ESMTPSA id g15sm8080303wrx.1.2021.02.18.01.52.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 18 Feb 2021 01:52:46 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BA52C1FF98;
- Thu, 18 Feb 2021 09:47:07 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 395661FF9C;
+ Thu, 18 Feb 2021 09:47:08 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 09/23] accel/tcg/plugin-gen: fix the call signature for inline
- callbacks
-Date: Thu, 18 Feb 2021 09:46:52 +0000
-Message-Id: <20210218094706.23038-10-alex.bennee@linaro.org>
+Subject: [PULL 13/23] target/sh4: Create superh_io_recompile_replay_branch
+Date: Thu, 18 Feb 2021 09:46:56 +0000
+Message-Id: <20210218094706.23038-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
 References: <20210218094706.23038-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,98 +86,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- "Emilio G . Cota" <cota@braap.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A recent change to the handling of constants in TCG changed the
-pattern of ops emitted for a constant add. We no longer emit a mov and
-the constant can be applied directly to the TCG_op_add arguments. This
-was causing SEGVs when running the insn plugin with arg=inline. Fix
-this by updating copy_add_i64 to do the right thing while also adding
-a comment at the top of the append section as an aide memoir if
-something like this happens again.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+Move the code from accel/tcg/translate-all.c to target/sh4/cpu.c.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Cc: Emilio G. Cota <cota@braap.org>
-Message-Id: <20210213130325.14781-10-alex.bennee@linaro.org>
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210208233906.479571-5-richard.henderson@linaro.org>
+Message-Id: <20210213130325.14781-14-alex.bennee@linaro.org>
 
-diff --git a/accel/tcg/plugin-gen.c b/accel/tcg/plugin-gen.c
-index e5dc9d0ca9..8a1bb801e0 100644
---- a/accel/tcg/plugin-gen.c
-+++ b/accel/tcg/plugin-gen.c
-@@ -320,22 +320,6 @@ static TCGOp *copy_const_ptr(TCGOp **begin_op, TCGOp *op, void *ptr)
-     return op;
- }
- 
--static TCGOp *copy_const_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
--{
--    if (TCG_TARGET_REG_BITS == 32) {
--        /* 2x mov_i32 */
--        op = copy_op(begin_op, op, INDEX_op_mov_i32);
--        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v));
--        op = copy_op(begin_op, op, INDEX_op_mov_i32);
--        op->args[1] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
--    } else {
--        /* mov_i64 */
--        op = copy_op(begin_op, op, INDEX_op_mov_i64);
--        op->args[1] = tcgv_i64_arg(tcg_constant_i64(v));
--    }
--    return op;
--}
--
- static TCGOp *copy_extu_tl_i64(TCGOp **begin_op, TCGOp *op)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index 9fea5c0e59..c0b98e76b9 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -2418,9 +2418,6 @@ void tb_check_watchpoint(CPUState *cpu, uintptr_t retaddr)
+  */
+ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
  {
-     if (TARGET_LONG_BITS == 32) {
-@@ -374,14 +358,17 @@ static TCGOp *copy_st_i64(TCGOp **begin_op, TCGOp *op)
-     return op;
- }
- 
--static TCGOp *copy_add_i64(TCGOp **begin_op, TCGOp *op)
-+static TCGOp *copy_add_i64(TCGOp **begin_op, TCGOp *op, uint64_t v)
- {
-     if (TCG_TARGET_REG_BITS == 32) {
-         /* all 32-bit backends must implement add2_i32 */
-         g_assert(TCG_TARGET_HAS_add2_i32);
-         op = copy_op(begin_op, op, INDEX_op_add2_i32);
-+        op->args[4] = tcgv_i32_arg(tcg_constant_i32(v));
-+        op->args[5] = tcgv_i32_arg(tcg_constant_i32(v >> 32));
-     } else {
-         op = copy_op(begin_op, op, INDEX_op_add_i64);
-+        op->args[2] = tcgv_i64_arg(tcg_constant_i64(v));
+-#if defined(TARGET_SH4)
+-    CPUArchState *env = cpu->env_ptr;
+-#endif
+     TranslationBlock *tb;
+     CPUClass *cc;
+     uint32_t n;
+@@ -2444,15 +2441,6 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
+         cpu_neg(cpu)->icount_decr.u16.low++;
+         n = 2;
      }
-     return op;
- }
-@@ -431,6 +418,12 @@ static TCGOp *copy_call(TCGOp **begin_op, TCGOp *op, void *empty_func,
-     return op;
+-#if defined(TARGET_SH4)
+-    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
+-        && env->pc != tb->pc) {
+-        env->pc -= 2;
+-        cpu_neg(cpu)->icount_decr.u16.low++;
+-        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
+-        n = 2;
+-    }
+-#endif
+ 
+     /* Generate a new TB executing the I/O insn.  */
+     cpu->cflags_next_tb = curr_cflags() | CF_LAST_IO | n;
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index a78d283bc8..ac65c88f1f 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -43,6 +43,23 @@ static void superh_cpu_synchronize_from_tb(CPUState *cs,
+     cpu->env.flags = tb->flags & TB_FLAG_ENVFLAGS_MASK;
  }
  
-+/*
-+ * When we append/replace ops here we are sensitive to changing patterns of
-+ * TCGOps generated by the tcg_gen_FOO calls when we generated the
-+ * empty callbacks. This will assert very quickly in a debug build as
-+ * we assert the ops we are replacing are the correct ones.
-+ */
- static TCGOp *append_udata_cb(const struct qemu_plugin_dyn_cb *cb,
-                               TCGOp *begin_op, TCGOp *op, int *cb_idx)
++#ifndef CONFIG_USER_ONLY
++static bool superh_io_recompile_replay_branch(CPUState *cs,
++                                              const TranslationBlock *tb)
++{
++    SuperHCPU *cpu = SUPERH_CPU(cs);
++    CPUSH4State *env = &cpu->env;
++
++    if ((env->flags & ((DELAY_SLOT | DELAY_SLOT_CONDITIONAL))) != 0
++        && env->pc != tb->pc) {
++        env->pc -= 2;
++        env->flags &= ~(DELAY_SLOT | DELAY_SLOT_CONDITIONAL);
++        return true;
++    }
++    return false;
++}
++#endif
++
+ static bool superh_cpu_has_work(CPUState *cs)
  {
-@@ -462,11 +455,8 @@ static TCGOp *append_inline_cb(const struct qemu_plugin_dyn_cb *cb,
-     /* ld_i64 */
-     op = copy_ld_i64(&begin_op, op);
+     return cs->interrupt_request & CPU_INTERRUPT_HARD;
+@@ -217,6 +234,7 @@ static struct TCGCPUOps superh_tcg_ops = {
+ #ifndef CONFIG_USER_ONLY
+     .do_interrupt = superh_cpu_do_interrupt,
+     .do_unaligned_access = superh_cpu_do_unaligned_access,
++    .io_recompile_replay_branch = superh_io_recompile_replay_branch,
+ #endif /* !CONFIG_USER_ONLY */
+ };
  
--    /* const_i64 */
--    op = copy_const_i64(&begin_op, op, cb->inline_insn.imm);
--
-     /* add_i64 */
--    op = copy_add_i64(&begin_op, op);
-+    op = copy_add_i64(&begin_op, op, cb->inline_insn.imm);
- 
-     /* st_i64 */
-     op = copy_st_i64(&begin_op, op);
 -- 
 2.20.1
 
