@@ -2,74 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6615731ED27
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 18:20:03 +0100 (CET)
-Received: from localhost ([::1]:54056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1607D31ED42
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 18:27:56 +0100 (CET)
+Received: from localhost ([::1]:40926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCmyA-0005Bx-0V
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 12:20:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56684)
+	id 1lCn5n-0003SJ-41
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 12:27:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lCmwn-0004cs-67
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:18:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58033)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lCmwk-0005tb-AP
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:18:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613668711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/urTllQP7ZzBq8vC8BIrabxflxf2X9DUfFCov0Q3AkE=;
- b=di5TvwzoPodiz0ysrVQ1qJqJy/mABLpm9Lt59Vw3W9untvm14AShqlMZ4fORgvTv/2vm9C
- nqSCy1057T1wOv3RlIibKUcpgAF3Zz4gbxBAFP2rbTHQZgShq3iUV+SjjQrmL25cdtPmWh
- wnquO1RXitO9H5HRfDCx0GTsDYiHhZs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-152-k5MlK_LSOrqiEs9TzSvdUA-1; Thu, 18 Feb 2021 12:18:30 -0500
-X-MC-Unique: k5MlK_LSOrqiEs9TzSvdUA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EA7D7107ACF4;
- Thu, 18 Feb 2021 17:18:28 +0000 (UTC)
-Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EB0C60877;
- Thu, 18 Feb 2021 17:18:23 +0000 (UTC)
-Subject: Re: [PATCH] virtio-iommu: Handle non power of 2 range invalidations
-To: Peter Xu <peterx@redhat.com>
-References: <20210218141650.424967-1-eric.auger@redhat.com>
- <20210218164203.GA108961@xz-x1>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <b2781e6b-d3db-8d89-4ae2-f81f12251793@redhat.com>
-Date: Thu, 18 Feb 2021 18:18:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lCn0L-0006rN-BV
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:22:17 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38616)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lCn08-0007Jq-JW
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 12:22:17 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 92A29AD29;
+ Thu, 18 Feb 2021 17:21:58 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v20 00/17] i386 cleanup PART 2
+Date: Thu, 18 Feb 2021 18:21:39 +0100
+Message-Id: <20210218172156.25520-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210218164203.GA108961@xz-x1>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,57 +55,452 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, jean-philippe@linaro.org, jasowang@redhat.com,
- qemu-devel@nongnu.org, vivek.gautam@arm.com, qemu-arm@nongnu.org,
- eric.auger.pro@gmail.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+Hi, just a respin with the latest state,
 
-On 2/18/21 5:42 PM, Peter Xu wrote:
-> Eric,
-> 
-> On Thu, Feb 18, 2021 at 03:16:50PM +0100, Eric Auger wrote:
->> @@ -164,12 +166,27 @@ static void virtio_iommu_notify_unmap(IOMMUMemoryRegion *mr, hwaddr virt_start,
->>  
->>      event.type = IOMMU_NOTIFIER_UNMAP;
->>      event.entry.target_as = &address_space_memory;
->> -    event.entry.addr_mask = virt_end - virt_start;
->> -    event.entry.iova = virt_start;
->>      event.entry.perm = IOMMU_NONE;
->>      event.entry.translated_addr = 0;
->> +    event.entry.addr_mask = mask;
->> +    event.entry.iova = virt_start;
->>  
->> -    memory_region_notify_iommu(mr, 0, event);
->> +    if (mask == UINT64_MAX) {
->> +        memory_region_notify_iommu(mr, 0, event);
->> +    }
->> +
->> +    size = mask + 1;
->> +
->> +    while (size) {
->> +        uint8_t highest_bit = 64 - clz64(size) - 1;
-> 
-> I'm not sure fetching highest bit would work right. E.g., with start=0x11000
-> and size=0x11000 (then we need to unmap 0x11000-0x22000), current code will
-> first try to invalidate range (0x11000, 0x10000), that seems still invalid
-> since 0x11000 is not aligned to 0x10000 page mask.
+a few improvements after the discussion with Paolo,
+and a rebase to latest master.
 
-Hum I thought aligning the size was sufficient. Where is it checked exactly?
-> 
-> I think the same trick in vtd_address_space_unmap() would work.  If you agree,
-> maybe we can generalize that get_naturally_aligned_size() out, but maybe with a
-> better name as a helper?
+Thanks,
 
-Yep I need to read the code again ;-)
+C.
 
-Thank you!
+v19 -> v20:
 
-Eric
-> 
-> Thanks,
-> 
+* add new patch to make gdbstub only write certain registers for softmmu.
+  In particular, CR0, CR2, CR3 and EFER should not be changed under
+  CONFIG_USER_ONLY. (Paolo)
+
+* add new patch to make cpu_load_efer softmmu-only (Paolo)
+
+* i386: split svm_helper into softmmu and stub-only user
+
+  - fixed commit message spelling (Eric)
+
+  - mention in commit message that this reproduces the existing stubs,
+    but really everything that requires s->cpl == 0 should be impossible
+    to trigger from user-mode, and we could find a way to assert that
+    more consistently.
+
+v18 -> v19:
+
+* i386: split smm helper (softmmu)
+  - add g_assert_not_reached and cpu_abort for invalid states in
+    CONFIG_USER_ONLY (Paolo)
+
+* i386: move TCG btp_helper into softmmu/
+  - for CONFIG_USER_ONLY, assert that the hidden IOBPT flags are not set
+    while attempting to generate io_bpt helpers.
+    Theory to verify (Paolo)
+
+* i386: slit svm_helper into softmmu and stub-only user
+  - added XXX in the commit message to highlight the question about
+    whether the same check should be done controlling access to
+    cpu_load_efer() and state of the hidden SVME flag. (Paolo)
+
+v17 -> v18:
+
+* meson: add target_user_arch
+
+ - add target_user_arch to all targets which build user.
+   Otherwise meson complains about missing key for archs without it.
+   (Paolo)
+
+* wrap a few gen_helper_ calls around ifndef CONFIG_USER_ONLY.
+  This would need a look from someone like Alex or Richard I think,
+  as potentially we could remove even more code I think around the
+  gen_helper_ calls for CONFIG_USER_ONLY.
+
+  In the current master code, we have empty helpers for user mode,
+  but still we generate the preamble code, temporary variables etc,
+  just to then call a helper_() function that does nothing.
+
+  In particular I am referring to patches:
+
+  i386: split tcg btp_helper into softmmu and user parts
+        DEF_HELPER_FLAGS_3(set_dr, TCG_CALL_NO_WG, void, env, int, tl)
+        DEF_HELPER_FLAGS_4(bpt_io, TCG_CALL_NO_WG, void, env, i32, i32, tl)
+        gen_bpt_io
+        gen_helper_set_dr(cpu_env, s->tmp2_i32, s->T0);
+
+  i386: split smm helper (softmmu)
+        DEF_HELPER_1(rsm, void, env)
+	gen_helper_rsm(cpu_env);
+
+  (Alex, Richard?)
+
+* removed suffixes from user/ and softmmu/ modules
+  (Alex, Philippe).
+  Where possible, removed user stubs entirely.
+  Renamed the leftover svm_helper stubs to user/svm_stubs.c
+
+* cleaned up lefover unnecessary header files and squashed them.
+ 
+
+v16 -> v17: changed to RFC
+
+* tcg_ops are already in master, removed from the series
+
+* i386: split cpu accelerators from cpu.c, using AccelCPUClass:
+  removed spurious ; and added spacing before/after functions (Richard)
+
+* added new patches as RFC for the next steps, introducing target-specific
+  user-mode specific meson variables, and applied to i386/tcg as an
+  example, in order to gather feedback.
+
+v15 -> v16:
+
+* cpu: Move synchronize_from_tb() to tcg_ops:
+  - adjusted comments (Alex)
+
+* cpu: tcg_ops: move to tcg-cpu-ops.h, keep a pointer in CPUClass:
+  - remove forward decl. of AccelCPUClass, should be in a later patch. (Alex)
+  - simplified comment about tcg_ops in struct CPUClass (Alex)
+  - remove obsolete comment about ARM blocking TCGCPUOps from being const.
+    (Alex)
+
+* accel: replace struct CpusAccel with AccelOpsClass:
+  - reworded commit message to be clearer about the objective (Alex)
+
+* accel: introduce AccelCPUClass extending CPUClass
+  - reworded commit message to be clearer about the objective (Alex)
+
+* hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn:
+  - dropped this patch (Alex, Philippe)
+
+  will try again later, also in the context of:
+  https://www.mail-archive.com/qemu-devel@nongnu.org/msg686480.html
+
+* accel: introduce new accessor functions
+  - squashed comments in previous patch introducing accel-cpu.h. (Philippe)
+
+* accel-cpu: make cpu_realizefn return a bool
+  - split in two patches, separating the change to the phys_bits check
+    (Philippe)
+
+v14 -> v15:
+
+* change the TcgCpuOperations so that all fields of the struct are
+  defined unconditionally, as per original patch by Eduardo,
+  before moving them to a separate struct referenced by a pointer
+  (Richard, Eduardo).
+
+* changed (c) year to 2021
+
+* added a patch to make accel_cpu->cpu_realizefn return bool, and
+  adapt host_cpu, kvm_cpu, hvf_cpu and tcg_cpu in i386 accordingly.
+  Ultimately, consistently moving to a pattern of realize functions
+  returning bool will require a rework of all devices.
+
+v13 -> v14: rebased on latest master.
+v12 -> v13: rebased on latest master.
+
+v11 -> v12: reordered patches and improved tcg_ops
+
+* reordered all TcgCpuOperations stuff so it is at the beginning
+
+* added patches for ARM-specific tcg ops
+  debug_check_watchpoint and adjust_watchpoint_address
+
+* added a patch that puts a forward declared pointer in the struct,
+  so as to reduce the change of misuse between common_ss and specific_ss code,
+  and tidy up as a consequence all targets, by defining dedicated structs.
+
+v10 -> v11: split off PART 2,
+
+no further changes to PART 2 other than the split.
+
+v9 -> v10: minor tweaks and fixes
+
+* in "i386: split cpu accelerators from cpu.c",
+
+use kvm/kvm-cpu.c, hvf/hvf-cpu.c, tcg/tcg-cpu.c.
+Easier to understand compared to editing multiple cpu.c files,
+and matches the header files if needed (kvm-cpu.h).
+
+* in "accel: replace struct CpusAccel with AccelOpsClass",
+
+make it a bit more consistent, by naming the files defining
+the AccelOpsClass types "...-accel-ops.c" instead of the old
+naming "...-cpus.c".
+
+* in "cpu: move cc->transaction_failed to tcg_ops",
+
+protect with CONFIG_TCG the use of tcg_ops for hw/misc/jazz.c,
+
+ #include "exec/memattrs.h" (Philippe, Eduardo)
+
+* in "cpu: Move synchronize_from_tb() to tcg_ops",
+
+ #include "hw/core/cpu.h" (Philippe, Eduardo)
+
+do not remove the comment about struct TcgCpuOperations (Philippe)
+
+* in "accel/tcg: split TCG-only code from cpu_exec_realizefn",
+
+invert tcg_target_initialized set order (Alex)
+
+* in "i386: move TCG cpu class initialization out of helper.c",
+
+extract helper-tcg.h, tcg-cpu.c, and tcg-cpu.h directly into
+tcg/, avoiding the extra move later to tcg/ (Alex)
+
+
+
+v8 -> v9: move additional methods to CPUClass->tcg_ops
+
+do_unaligned_access, transaction_failed and do_interrupt.
+
+do_interrupt is a bit tricky, as the same code is reused
+(albeit not usually directly) for KVM under certain odd conditions.
+
+Change arm, as the only user of do_interrupt callback for KVM,
+to instead call the target function directly arm_do_interrupt.
+
+v7 -> v8: add missing CONFIG_TCGs, fix bugs
+
+* add the prerequisite patches for "3 tcg" at the beginning of the
+  series for convenience (already reviewed, queued by RH).
+
+* add CONFIG_TCG to TCGCpuOperations and tcg_ops variable use
+
+* reduce the scope of the realizefn refactoring, do not
+  introduce a separate cpu_accel_realize, and instead use the
+  existing cpu_exec_realizefn, there is not enough benefit
+  to introduce a new function.
+
+* fix bugs in user mode due to attempt to move the tcg_region_init()
+  early, so it could be done just once in tcg_init() for both
+  softmmu and user mode. Unfortunately it needs to remain deferred
+  for user mode, as it needs to be done after prologue init and
+  after the GUEST_BASE has been set.
+
+v6 -> v7: integrate TCGCpuOperations, refactored cpu_exec_realizefn
+
+* integrate TCGCpuOperations (Eduardo)
+
+Taken some refactoring from Eduardo for Tcg-only operations on
+CPUClass.
+
+* refactored cpu_exec_realizefn
+
+The other main change is a refactoring of cpu_exec_realizefn,
+directly linked to the effort of making many cpu_exec operations
+TCG-only (Eduardo series above):
+
+cpu_exec_realizefn is actually a TCG-only thing, with the
+exception of a couple things that can be done in base cpu code.
+
+This changes all targets realizefn, so I guess I have to Cc:
+the Multiverse? (Universe was already CCed for all accelerators).
+
+
+v5 -> v6: remove MODULE_INIT_ACCEL_CPU
+
+
+instead, use a call to accel_init_interfaces().
+
+* The class lookups are now general and performed in accel/
+
+  new AccelCPUClass for new archs are supported as new
+  ones appear in the class hierarchy, no need for stubs.
+
+* Split the code a bit better
+
+
+v4 -> v5: centralized and simplified initializations
+
+I put in Cc: Emilio G. Cota, specifically because in patch 8
+I (re)moved for user-mode the call to tcg_regions_init().
+
+The call happens now inside the tcg AccelClass machine_init,
+(so earlier). This seems to work fine, but thought to get the
+author opinion on this.
+
+Rebased on "tcg-cpus: split into 3 tcg variants" series
+(queued by Richard), to avoid some code churn:
+
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04356.html
+
+
+* Extended AccelClass to user-mode.
+
+user-mode now does not call tcg_exec_init directly,
+instead it uses the tcg accel class, and its init_machine method.
+
+Since user-mode does not define or use a machine state,
+the machine is just passed as NULL.
+
+The immediate advantage is that now we can call current_accel()
+from both user mode and softmmu, so we can work out the correct
+class to use for accelerator initializations.
+
+* QOMification of CpusAccelOps
+
+simple QOMification of CpusAccelOps abstract class.
+
+* Centralized all accel_cpu_init, so only one per cpu-arch,
+  plus one for all accels will remain.
+
+  So we can expect accel_cpu_init() to be limited to:
+  
+  softmmu/cpus.c - initializes the chosen softmmu accel ops for the cpus module.
+  target/ARCH/cpu.c - initializes the chosen arch-specific cpu accelerator.
+  
+These changes are meant to address concerns/issues (Paolo):
+
+1) the use of if (tcg_enabled()) and similar in the module_init call path
+
+2) the excessive number of accel_cpu_init() to hunt down in the codebase.
+
+
+* Fixed wrong use of host_cpu_class_init (Eduardo)
+
+
+v3 -> v4: QOMification of X86CPUAccelClass
+
+
+In this version I basically QOMified X86CPUAccel, taking the
+suggestions from Eduardo as the starting point,
+but stopping just short of making it an actual QOM interface,
+using a plain abstract class, and then subclasses for the
+actual objects.
+
+Initialization is still using the existing qemu initialization
+framework (module_call_init), which is I still think is better
+than the alternatives proposed, in the current state.
+
+Possibly some improvements could be developed in the future here.
+In this case, effort should be put in keeping things extendible,
+in order not to be blocked once accelerators also become modules.
+
+Motivation and higher level steps:
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+
+Looking forward to your comments on this proposal,
+
+Ciao,
+
+Claudio
+
+
+Claudio Fontana (17):
+  i386: split cpu accelerators from cpu.c, using AccelCPUClass
+  cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
+  accel: introduce new accessor functions
+  target/i386: fix host_cpu_adjust_phys_bits error handling
+  accel-cpu: make cpu_realizefn return a bool
+  meson: add target_user_arch
+  i386: split off softmmu-only functionality in tcg-cpu
+  i386: split smm helper (softmmu)
+  i386: split tcg excp_helper into softmmu and user parts
+  i386: move TCG btp_helper into softmmu/
+  i386: split misc helper into user and softmmu parts
+  i386: separate fpu_helper into user and softmmu parts
+  i386: split svm_helper into softmmu and stub-only user
+  i386: split seg_helper into user-only and softmmu parts
+  i386: split off softmmu part of cpu.c
+  i386: gdbstub: only write CR0/CR2/CR3/EFER for SOFTMMU
+  i386: move cpu_load_efer into SOFTMMU-only section of cpu.h
+
+ meson.build                                |   5 +
+ include/hw/core/accel-cpu.h                |   2 +-
+ include/qemu/accel.h                       |  13 +
+ target/i386/cpu-internal.h                 |  70 ++
+ target/i386/cpu.h                          |  54 +-
+ target/i386/helper.h                       |  11 +
+ target/i386/host-cpu.h                     |  19 +
+ target/i386/kvm/kvm-cpu.h                  |  41 ++
+ target/i386/tcg/helper-tcg.h               |   8 +
+ target/i386/tcg/seg_helper.h               |  66 ++
+ target/i386/tcg/tcg-cpu.h                  |  21 +-
+ accel/accel-common.c                       |  19 +
+ cpu.c                                      |   5 +-
+ hw/i386/pc_piix.c                          |   1 +
+ target/i386/cpu-softmmu.c                  | 352 ++++++++++
+ target/i386/cpu.c                          | 780 ++-------------------
+ target/i386/gdbstub.c                      |  16 +
+ target/i386/host-cpu.c                     | 204 ++++++
+ target/i386/hvf/hvf-cpu.c                  |  68 ++
+ target/i386/kvm/kvm-cpu.c                  | 151 ++++
+ target/i386/kvm/kvm.c                      |   3 +-
+ target/i386/tcg/bpt_helper.c               | 276 --------
+ target/i386/tcg/excp_helper.c              | 572 ---------------
+ target/i386/tcg/fpu_helper.c               |  65 +-
+ target/i386/tcg/misc_helper.c              | 463 ------------
+ target/i386/tcg/seg_helper.c               | 237 +------
+ target/i386/tcg/softmmu/bpt_helper.c       | 293 ++++++++
+ target/i386/tcg/softmmu/excp_helper.c      | 562 +++++++++++++++
+ target/i386/tcg/softmmu/fpu_helper.c       |  58 ++
+ target/i386/tcg/softmmu/misc_helper.c      | 438 ++++++++++++
+ target/i386/tcg/softmmu/seg_helper.c       | 125 ++++
+ target/i386/tcg/{ => softmmu}/smm_helper.c |  19 +-
+ target/i386/tcg/{ => softmmu}/svm_helper.c |  62 +-
+ target/i386/tcg/softmmu/tcg-cpu.c          |  83 +++
+ target/i386/tcg/tcg-cpu.c                  |  50 +-
+ target/i386/tcg/translate.c                |  13 +-
+ target/i386/tcg/user/excp_helper.c         |  39 ++
+ target/i386/tcg/user/fpu_helper.c          |  42 ++
+ target/i386/tcg/user/misc_helper.c         |  72 ++
+ target/i386/tcg/user/seg_helper.c          | 109 +++
+ target/i386/tcg/user/svm_stubs.c           |  76 ++
+ MAINTAINERS                                |   2 +-
+ target/alpha/meson.build                   |   3 +
+ target/arm/meson.build                     |   2 +
+ target/cris/meson.build                    |   3 +
+ target/hppa/meson.build                    |   3 +
+ target/i386/hvf/meson.build                |   1 +
+ target/i386/kvm/meson.build                |   7 +-
+ target/i386/meson.build                    |   9 +-
+ target/i386/tcg/meson.build                |   5 +-
+ target/i386/tcg/softmmu/meson.build        |  10 +
+ target/i386/tcg/user/meson.build           |   7 +
+ target/m68k/meson.build                    |   3 +
+ target/microblaze/meson.build              |   3 +
+ target/mips/meson.build                    |   3 +
+ target/nios2/meson.build                   |   3 +
+ target/openrisc/meson.build                |   3 +
+ target/ppc/meson.build                     |   3 +
+ target/riscv/meson.build                   |   3 +
+ target/s390x/meson.build                   |   3 +
+ target/sh4/meson.build                     |   3 +
+ target/sparc/meson.build                   |   3 +
+ target/tilegx/meson.build                  |   3 +
+ target/tricore/meson.build                 |   3 +
+ target/xtensa/meson.build                  |   3 +
+ 65 files changed, 3188 insertions(+), 2466 deletions(-)
+ create mode 100644 target/i386/cpu-internal.h
+ create mode 100644 target/i386/host-cpu.h
+ create mode 100644 target/i386/kvm/kvm-cpu.h
+ create mode 100644 target/i386/tcg/seg_helper.h
+ create mode 100644 target/i386/cpu-softmmu.c
+ create mode 100644 target/i386/host-cpu.c
+ create mode 100644 target/i386/hvf/hvf-cpu.c
+ create mode 100644 target/i386/kvm/kvm-cpu.c
+ create mode 100644 target/i386/tcg/softmmu/bpt_helper.c
+ create mode 100644 target/i386/tcg/softmmu/excp_helper.c
+ create mode 100644 target/i386/tcg/softmmu/fpu_helper.c
+ create mode 100644 target/i386/tcg/softmmu/misc_helper.c
+ create mode 100644 target/i386/tcg/softmmu/seg_helper.c
+ rename target/i386/tcg/{ => softmmu}/smm_helper.c (98%)
+ rename target/i386/tcg/{ => softmmu}/svm_helper.c (96%)
+ create mode 100644 target/i386/tcg/softmmu/tcg-cpu.c
+ create mode 100644 target/i386/tcg/user/excp_helper.c
+ create mode 100644 target/i386/tcg/user/fpu_helper.c
+ create mode 100644 target/i386/tcg/user/misc_helper.c
+ create mode 100644 target/i386/tcg/user/seg_helper.c
+ create mode 100644 target/i386/tcg/user/svm_stubs.c
+ create mode 100644 target/i386/tcg/softmmu/meson.build
+ create mode 100644 target/i386/tcg/user/meson.build
+
+-- 
+2.26.2
 
 
