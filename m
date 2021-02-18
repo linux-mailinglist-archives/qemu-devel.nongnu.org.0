@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5936131E442
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:16:46 +0100 (CET)
-Received: from localhost ([::1]:37974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6B731E448
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:19:17 +0100 (CET)
+Received: from localhost ([::1]:42112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCYs1-0004cc-Da
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:16:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43552)
+	id 1lCYuS-0006Ql-S5
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:19:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYcG-0006eY-Vy
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:30 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40597)
+ id 1lCYcK-0006f9-Bg
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:32 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40586)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYcA-0008Kh-Pt
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:26 -0500
+ id 1lCYcB-0008Jj-1h
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
  t=1613613623; x=1645149623;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=SGHCQo7Z5JaZpYTAO99ArClzyLM+uE7juTXLMNllOu0=;
- b=PWAs4ootlGIFd3iat3MLZDhhwPkjeBsRoaTtL9eFoadupNE+y/Ny0HNF
- phUv4X+TB/Y2kACc/0WPgbS0kOD4MFdmprUSvzMqVpfSRC31kLaIAnJPE
- pHXYmu/pKdMIiFYl0jFRfr8Dzq8e0ffFEhdXC8+BuZE3H9m0hEr41AzAO
- RNSOrkELN2ejVOla/K2KTOCTryxGJC75nvhQgldEfbTtjE4kpEneYTvhr
- UxkPOFKMwLiSZ3krAi9ILds/eUmxDGTT8IKrsaCeXy5YMWV/zQKUYhQMA
- F5GKJc0ge67buTeeDo9fK3GPo1z24smoxQ99UmGqnO5aEy4RrqHblLnmv g==;
-IronPort-SDR: EoVjKh7YA312/0aGmPl8cuKQ7HWLhwvXpYjiw5gXLxupimuv2tT5g1SkZj0NCh1fY0hCHyBHy0
- OCDi9E2unMoSg6/WNim5WnbLQSenD5ZCm3K21CA8fkZJuZ71CkzINbeO+QOBXFyoqdio7PCYcM
- 6z+u+j8nJ96EO0agjitJpyg9iP4SwyWyPt0bt3Dag94UGGUq3xcvgbxEopiSgJtC5xAI1iPikj
- xomVh+VTUcHr1Zx9qOBh4uQME0X5RmvzRRgl6ar9pgM1VktIQ4sm5aG1MgTQrL0l05eiOe2Bkn
- c2I=
-X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392135"
+ bh=BlpwmgkXtMFrmL08A60KC0RIvvU6TgqAb/HDpgaDEOw=;
+ b=ATVmPLguklNKsbtWbkXIAmOt+A7nR0HrG/tJVGVegyGLuuzt31rm0yyB
+ o5XoKdBQgfim8PsHmi7rmA8l2SQg920CcJsvXk9Bzh8ZfKnVh48UqI9cP
+ zrGqUuxi29WR2MeZaiB9axD4NgAwW5KPdiHxDsB1mdPbYMw0M3niRUzWT
+ ANFXAWzkJ+LeWCYoJK6Lirb+raI6rdg/aVyApm0eLZsRyhAiBIoR/1EE2
+ MD83olsj8yl6/87J6O94eNlO2Mj7INkv0S91fW1oOy3AmE2102Gj7FdX6
+ tq8Eb50JqJ+3NZsmrObSWvvvW1ZtV5qIaxnqHiZCE41uP5Fryq0qc4d4P g==;
+IronPort-SDR: 7tcTPnOtvqYvOKDzK8/YWHw80SUdM5lhaQomiklzQmZGbDEUdVYcbbp3eSDeAyu63cxQujI3ME
+ BfYwd7QmSiYiXrewqZbgQ5GYlmJumZJtQg08zSkxPlWamDHHtbx4u+fYHMWgGqLwuxw8eGAJ5I
+ BZvEFNi9SSxePCQWMUtrR2ITDYJuMErH9Mx+DZfl9OzqlfoIXxd+NyCb0qokIwmtKCqIPeysfZ
+ KSRW/AsuWE/9fQPIB0mdEAqXhazSW95mjAf73GJH9CnabK+u/MQGiEYlpqh65apTxdDMNE1oxH
+ ywc=
+X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392138"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 10:00:00 +0800
-IronPort-SDR: 2v2XNbj79ZYI1nVzxhsWK7Y0EprCScCi3XiXIBzdVksOtikrKNuBxWolquo5eEC03/mivIXYj7
- jiTbdCtKk9CmGlC89uZq3jECb8kpih2wnF85Mj9iZzCdsGUJv/5vcA4MR4pmGz7FJhaX6HGy8H
- ZWksVmsuPeEV56yVx3lx0npNPx33FkK8eT+wbgDpA5k7hh7ID6T52WhUtH1s0qYeCqCoWNdsUx
- GkbmRzZFQdo1CG10PnUTvZ8k2v9WPw3SyAtrwAJn4nADrX3X3sA1/Kjf1UmLo0+GaqC/a8G2Ei
- 9fVqgRl9s5yLznuEJx18d5t6
+IronPort-SDR: 3Hp0B6Ln5HeAkOeG9SJVnvDIX1H2Mvjb8bGAM6AWU4cGkiw6sbVmzO4E6K7zqaakJll4pyxWMC
+ G8bvh5rWu0F6us7510QASTXoKHIBUXnYQ+6RcdWpPYgI8IdL1Vyw3jdEL9nAsqgJcJWnjrVWfi
+ gtyMfM5s5YKAxz2k7qKtMta6+ksHoufQKSiwh0tNlQ8H2DdUE224nL3eJc+9Yb6kVjLYdIHxUy
+ CpSbJXb5EshqPw7D8YXfr4jqJlgIGB4UHY92ePC4WKbp5x7/SfBoU2NDs3KV9CfktI6d9wWzaX
+ vlQLfCC08gT3oamCcd4KDFom
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 17:43:29 -0800
-IronPort-SDR: Xo2SLeikcG0A18qXyhiqJvyI/5lcp1e9ekZswJGGJl9eHCvHtaiQJoTWEgahKS5+EgV+jyadF0
- aQBFUPE5qewhwYxwYrf77A1Pr7lzWENrw7ljM8k0H12Zz3B2JZykw756Sji8YLlH8Xbr1tuajJ
- 4Ch1q1mgIgjg5Vjnr024utWpnxkmtTxtZoVe/DKrpKI7VYNQ4nVpWq36cSbJPFLLp1iu2S07J3
- t+hMMDt/1zcYSwNGEccmZhrOxC49omZhY/8m1f3oKYEgPnqXIlcyZIbcEVuRBLsp+8I3w7OYqT
- u9I=
+ 17 Feb 2021 17:43:30 -0800
+IronPort-SDR: nwjRMX5x2sTzqiX/ShEzmIT9b6f4aQnNNGWvbNK7ZTHDoBVhuul5W/zuP07dwHN7wGTCQ0HKdl
+ SsDMUp/ReaDC+BHX7Uui6J+EN1hWMu0SJWmz4kFEYxMRyX4pths+NGlcnw1hakRt9HF+NLH3SX
+ PGxVAQy14+WjeE5Yhs4DBs8f3VVaCaj0zo5qzE5wabUa9TT3cLUusZ6WPBhIVqfrkyiPd5bm3g
+ eC9vSjr5q1vvQHSH2RpZWSz3MZILNgfQKuMvGGVVweNFYp+eSmdH9mAZqT8UPqTnCE3K16TRYN
+ bo8=
 WDCIronportException: Internal
 Received: from cn57xfd72.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.43])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 17:59:59 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 18:00:00 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 11/19] docs/system: Sort targets in alphabetical order
-Date: Wed, 17 Feb 2021 17:59:26 -0800
-Message-Id: <20210218015934.1623959-12-alistair.francis@wdc.com>
+Subject: [PULL 12/19] docs/system: Add RISC-V documentation
+Date: Wed, 17 Feb 2021 17:59:27 -0800
+Message-Id: <20210218015934.1623959-13-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210218015934.1623959-1-alistair.francis@wdc.com>
 References: <20210218015934.1623959-1-alistair.francis@wdc.com>
@@ -98,47 +98,100 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
+Add RISC-V system emulator documentation for generic information.
+`Board-specific documentation` and `RISC-V CPU features` are only
+a placeholder and will be added in the future.
+
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210126060007.12904-8-bmeng.cn@gmail.com
+Message-id: 20210126060007.12904-9-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- docs/system/targets.rst | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ docs/system/target-riscv.rst | 62 ++++++++++++++++++++++++++++++++++++
+ docs/system/targets.rst      |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 docs/system/target-riscv.rst
 
+diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
+new file mode 100644
+index 0000000000..9f4b7586e5
+--- /dev/null
++++ b/docs/system/target-riscv.rst
+@@ -0,0 +1,62 @@
++.. _RISC-V-System-emulator:
++
++RISC-V System emulator
++======================
++
++QEMU can emulate both 32-bit and 64-bit RISC-V CPUs. Use the
++``qemu-system-riscv64`` executable to simulate a 64-bit RISC-V machine,
++``qemu-system-riscv32`` executable to simulate a 32-bit RISC-V machine.
++
++QEMU has generally good support for RISC-V guests. It has support for
++several different machines. The reason we support so many is that
++RISC-V hardware is much more widely varying than x86 hardware. RISC-V
++CPUs are generally built into "system-on-chip" (SoC) designs created by
++many different companies with different devices, and these SoCs are
++then built into machines which can vary still further even if they use
++the same SoC.
++
++For most boards the CPU type is fixed (matching what the hardware has),
++so typically you don't need to specify the CPU type by hand, except for
++special cases like the ``virt`` board.
++
++Choosing a board model
++----------------------
++
++For QEMU's RISC-V system emulation, you must specify which board
++model you want to use with the ``-M`` or ``--machine`` option;
++there is no default.
++
++Because RISC-V systems differ so much and in fundamental ways, typically
++operating system or firmware images intended to run on one machine
++will not run at all on any other. This is often surprising for new
++users who are used to the x86 world where every system looks like a
++standard PC. (Once the kernel has booted, most user space software
++cares much less about the detail of the hardware.)
++
++If you already have a system image or a kernel that works on hardware
++and you want to boot with QEMU, check whether QEMU lists that machine
++in its ``-machine help`` output. If it is listed, then you can probably
++use that board model. If it is not listed, then unfortunately your image
++will almost certainly not boot on QEMU. (You might be able to
++extract the file system and use that with a different kernel which
++boots on a system that QEMU does emulate.)
++
++If you don't care about reproducing the idiosyncrasies of a particular
++bit of hardware, such as small amount of RAM, no PCI or other hard
++disk, etc., and just want to run Linux, the best option is to use the
++``virt`` board. This is a platform which doesn't correspond to any
++real hardware and is designed for use in virtual machines. You'll
++need to compile Linux with a suitable configuration for running on
++the ``virt`` board. ``virt`` supports PCI, virtio, recent CPUs and
++large amounts of RAM. It also supports 64-bit CPUs.
++
++Board-specific documentation
++----------------------------
++
++Unfortunately many of the RISC-V boards QEMU supports are currently
++undocumented; you can get a complete list by running
++``qemu-system-riscv64 --machine help``, or
++``qemu-system-riscv32 --machine help``.
++
++RISC-V CPU features
++-------------------
 diff --git a/docs/system/targets.rst b/docs/system/targets.rst
-index 560783644d..564cea9a9b 100644
+index 564cea9a9b..75ed1087fd 100644
 --- a/docs/system/targets.rst
 +++ b/docs/system/targets.rst
-@@ -7,16 +7,21 @@ various targets are mentioned in the following sections.
- 
- Contents:
- 
-+..
-+   This table of contents should be kept sorted alphabetically
-+   by the title text of each file, which isn't the same ordering
-+   as an alphabetical sort by filename.
-+
- .. toctree::
- 
--   target-i386
-+   target-arm
-+   target-avr
-+   target-m68k
-+   target-mips
+@@ -19,6 +19,7 @@ Contents:
+    target-m68k
+    target-mips
     target-ppc
-+   target-rx
-+   target-s390x
++   target-riscv
+    target-rx
+    target-s390x
     target-sparc
-    target-sparc64
--   target-mips
--   target-arm
--   target-m68k
-+   target-i386
-    target-xtensa
--   target-s390x
--   target-rx
--   target-avr
 -- 
 2.30.0
 
