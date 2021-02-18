@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEC731EA8F
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 14:53:27 +0100 (CET)
-Received: from localhost ([::1]:50834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 032CC31EAD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:20:54 +0100 (CET)
+Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCjkE-0005LT-6s
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 08:53:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49596)
+	id 1lCkAm-0007gG-UV
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:20:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lCjiH-0004FU-PM
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:51:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lCjiF-00063D-AU
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 08:51:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613656282;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7TndG4h9hda5zNlRGGTtKbhH2gfYIbutfyGXxYAl2qY=;
- b=DS5qRoW1hFE2mKapI+stMFotrisik0pPZKXfXNbuBeSwXQlzYoxxdQXfq3z+d8N6OihyHQ
- bRUFSMKYlCwPIs8nka4OFBQXwBukpz1o2EnwZVQZwutRV50AeTWxcKtRZ0FdNMEW+Tjr4Y
- VfUKUyJsgMLfYIv/oV9O2nxDsrf89h0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-Y_onBX4mO8qN3u5NUfqOug-1; Thu, 18 Feb 2021 08:51:18 -0500
-X-MC-Unique: Y_onBX4mO8qN3u5NUfqOug-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BACC801965;
- Thu, 18 Feb 2021 13:51:17 +0000 (UTC)
-Received: from gondolin (ovpn-113-63.ams2.redhat.com [10.36.113.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0CC48100AE2B;
- Thu, 18 Feb 2021 13:51:11 +0000 (UTC)
-Date: Thu, 18 Feb 2021 14:51:09 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH] virtio-ccw: commands on revision-less devices
-Message-ID: <20210218145109.0c9ce9f6.cohuck@redhat.com>
-In-Reply-To: <20210217153936.5e041c21.pasic@linux.ibm.com>
-References: <20210216111830.1087847-1-cohuck@redhat.com>
- <20210216151945.736eb6c7.pasic@linux.ibm.com>
- <20210216165405.57599fe8.cohuck@redhat.com>
- <20210217153936.5e041c21.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lCf7G-0006u6-G7
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 03:56:54 -0500
+Received: from smtp2.axis.com ([195.60.68.18]:12241)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lCf79-0007z7-UD
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 03:56:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1613638608;
+ x=1645174608; h=from:to:cc:subject:date:message-id:content-id:
+ content-transfer-encoding:mime-version;
+ bh=gFTLMlIFqgTc1RRodK606zkVmOE7UAos9894lkLUyaA=;
+ b=L41edmy1c60J5+WbxdW8rLQ3bU9b3CH3TcOjwjYHNZVSvX1JWsceVrJk
+ J2CSkpYV73SQ7XPo/BcT6T8KvmOCLJuX8+Y2ySYdZQXi0LN3d0bOdcYZQ
+ xA0FGJXkvUCB4ui2FtQTKD2v/BidMVycXAcs33jcXDxPuDabpSzWFR53I
+ 7Upp7cJ/0CBYzIc0x1SJ3rVpScD94Q5U74G+zy8v/WDdACtdSoBWqndo3
+ s91vwBph3lpwa9bTx6neNtnfthJdZKckWRrDWzNO6a2U6S2Sm2woytJr7
+ cpgnhx9WtSfizljrRMWTrr30sNzBtUGIKcWCh6FpSX+Gd2IAbkTBdKZKI Q==;
+From: =?iso-8859-1?Q?Stefan_Sandstr=F6m?= <Stefan.Sandstrom@axis.com>
+To: "open list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: [PATCH] Correct CRIS TCG register lifetime management
+Thread-Topic: [PATCH] Correct CRIS TCG register lifetime management
+Thread-Index: AQHXBdP6F73V10o9tUK379pkgoBD1g==
+Date: Thu, 18 Feb 2021 08:56:43 +0000
+Message-ID: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.32)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="iso-8859-1"
+Content-ID: <23DC47612085D146898255CF5E81C3DF@exhub.se.axis.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=195.60.68.18;
+ envelope-from=Stefan.Sandstrom@axis.com; helo=smtp2.axis.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 18 Feb 2021 09:15:48 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,150 +71,749 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ =?iso-8859-1?Q?Stefan_Sandstr=F6m?= <Stefan.Sandstrom@axis.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 17 Feb 2021 15:39:36 +0100
-Halil Pasic <pasic@linux.ibm.com> wrote:
+From: Stefan Sandstrom <stefans@axis.com>
 
-> On Tue, 16 Feb 2021 16:54:05 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
-> 
-> > On Tue, 16 Feb 2021 15:19:45 +0100
-> > Halil Pasic <pasic@linux.ibm.com> wrote:
-> >   
-> > > On Tue, 16 Feb 2021 12:18:30 +0100
-> > > Cornelia Huck <cohuck@redhat.com> wrote:
-> > >     
-> > > > The virtio standard specifies that any non-transitional device must
-> > > > reject commands prior to revision setting (which we do) and else
-> > > > assume revision 0 (legacy) if the driver sends a non-revision-setting
-> > > > command first. We neglected to do the latter.      
-> > > 
-> > > Huh, I my opinion, it ain't very clear what is specified by the virtio
-> > > standard (which starts with version 1.0) for the described situation.
-> > > 
-> > > The corresponding device normative section (4.3.2.1.1 Device
-> > > Requirements: Setting the Virtio Revision) says that: "A device MUST
-> > > treat the revision as unset from the time the associated subchannel has
-> > > been enabled until a revision has been successfully set by the driver.
-> > > This implies that revisions are not persistent across disabling and
-> > > enabling of the associated subchannel.". It doesn't say anything more
-> > > about the situation where the first command is not SET_VIRTIO_REV.
-> > > 
-> > > The section "4.3.2.1.3 Legacy Interfaces: A Note on Setting the Virtio
-> > > Revision" which is to my best knowledge not normative, as none of the
-> > > legacy-interface stuff is normative, but a mere advice on how to deal
-> > > with legacy then says: "A legacy driver will not issue the
-> > > CCW_CMD_SET_VIRTIO_REV prior to issuing other virtio-ccw specific
-> > > channel commands." ... "A transitional device MUST assume
-> > > in this case that the driver is a legacy driver and continue as if the
-> > > driver selected revision 0. This implies that the device MUST reject any
-> > > command not valid for revision 0, including a subsequent
-> > > CCW_CMD_SET_VIRTIO_REV."
-> > > 
-> > > Do we agree that the legacy interface sections in general, and 4.3.2.1.3
-> > > in particular is non-normative?    
-> > 
-> > IMHO, normative and non-normative are not something that applies to the
-> > legacy sections. The legacy sections are supposed to give guidance on
-> > how to write transitional devices/drivers that can deal with legacy
-> > implementations. If you want to write something that strictly only
-> > adheres to normative statements, you have to write a non-transitional
-> > device/driver. Legacy support was never an official standard, so
-> > 'normative' is meaningless in that context.  
-> 
-> Exactly, so the legacy stuff is not normative, and strictly speaking not
-> included in the standard (i.e. standardized).
-> 
-> But then I find usage of keywords like MUST in legacy interface sections
-> misreading. I believe some Oasis guy complained about keyword usage
-> outside of normative sections before.
+Add and fix deallocation of temporary TCG registers in CRIS code
+generation.
 
-We can certainly discuss whether we want to change something in the
-legacy sections in the spec -- but that's outside the scope of this
-patch.
+Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
+Signed-off-by: Stefan Sandstrom <stefans@axis.com>
+---
+target/cris/translate.c         | 146 ++++++++++++++++++++++++++++++-------=
+---
+target/cris/translate_v10.c.inc |  70 ++++++++++++-------
+2 files changed, 156 insertions(+), 60 deletions(-)
 
-> 
-> >   
-> > > 
-> > > In my opinion the normative 'must threat as unset until set by driver'
-> > > and 'if first cmd is not _REV, must continue as if the driver selected
-> > > revision 0' is in a slight collision.    
-> > 
-> > I don't think there's a collision. If we want to accommodate legacy
-> > drivers, we have to deal with their lack of revision handling, and
-> > therefore treat non-_REV commands as implicitly selecting revision 0.
-> > 
-> > If we want to implement a non-transitional device, the implicit
-> > selection of revision 0 goes away, of course. In fact, I'm currently
-> > trying to make legacy support optional for virtio-ccw, so that's why I
-> > had been looking at the revision handling :)  
-> 
-> Do you mean optional like build time configurable in QEMU? I think the
-> legacy support is already optional when it comes to the spec.
-> 
-> Let me explain how do I interpret device compliance with respect to
-> virtio revisions and first command is a non-_REV.
-> 
-> 1) If the first virtio command after the virtio-ccw device is enabled is
-> a non-_REV command, the virtio-ccw device not answering it with a
-> command reject does not preclude the device form being virtio 1.0
-> conform. I.e. this behavior is conform, because does not violate
-> any of the sections linked in "7.3.3 Clause 17: Channel I/O Device
-> Conformance" in general, and thus does not violate "4.3.2.1.1 Device
-> Requirements: Setting the Virtio Revision" in particular. If you disagree,
-> please point me to the corresponding device normative section.
-> 
-> 2) Rejecting the first command which which happens to be a non-_REV
-> however does not preclude virtio (1.0) conformance either. The device
-> is free to do whatever, because in my reading it ain't specified what
-> needs to be done.
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index c893f87..ae903a5 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -177,9 +177,13 @@ static inline void t_gen_mov_TN_preg(TCGv tn, int r)
+{
+    assert(r >=3D 0 && r <=3D 15);
+    if (r =3D=3D PR_BZ || r =3D=3D PR_WZ || r =3D=3D PR_DZ) {
+-        tcg_gen_mov_tl(tn, tcg_const_tl(0));
++        TCGv c0 =3D tcg_const_tl(0);
++        tcg_gen_mov_tl(tn, c0);
++        tcg_temp_free(c0);
+    } else if (r =3D=3D PR_VR) {
+-        tcg_gen_mov_tl(tn, tcg_const_tl(32));
++        TCGv c32 =3D tcg_const_tl(32);
++        tcg_gen_mov_tl(tn, c32);
++        tcg_temp_free(c32);
+    } else {
+        tcg_gen_mov_tl(tn, cpu_PR[r]);
+    }
+@@ -255,8 +259,10 @@ static int cris_fetch(CPUCRISState *env, DisasContext =
+*dc, uint32_t addr,
 
-If it does that, however, it would be a pretty useless transitional
-device, as a legacy driver won't be able to work.
+static void cris_lock_irq(DisasContext *dc)
+{
++    TCGv c1 =3D tcg_const_tl(1);
+    dc->clear_locked_irq =3D 0;
+-    t_gen_mov_env_TN(locked_irq, tcg_const_tl(1));
++    t_gen_mov_env_TN(locked_irq, c1);
++    tcg_temp_free(c1);
+}
 
-> 
-> 3) It is OK-ish, that the device is free to do anything there, because
-> a virtio 1.0 conform driver will never put the device in this situation. 
-> 
-> 4) The following, non-normative section recommends what a transitional,
-> and a non-transitional device should do. There fore I think it would have
-> been wiser to use should instead of MUST in that section.
-> 
-> >   
-> > > 
-> > >     
-> > > > 
-> > > > Fortunately, nearly everything worked as intended anyway; the only
-> > > > problem was not properly rejecting revision setting after some other
-> > > > command had been issued. Easy to fix by setting revision to 0 if
-> > > > we see a non-revision command on a legacy-capable revision-less
-> > > > device.
-> > > > 
-> > > > Signed-off-by: Cornelia Huck <cohuck@redhat.com>      
-> > > 
-> > > The change won't hurt so with a toned down commit message:
-> > > Acked-by: Halil Pasic <pasic@linux.ibm.com>    
-> > 
-> > Replace 'and else' with 'a transitional device needs to'?  
-> 
-> Sounds good but, I would also replace 'The virtio standard specifies'
-> with 'The non-normative part of the virtio specification recommends'
-> and probably also replace 'MUST' with 'SHOULD'.
-> 
-> The current patch description sounds like, we are in violation of the
-> spec, and the change is necessary to have a spec conform device, but it
-> is not.
+static inline void t_gen_raise_exception(uint32_t index)
+@@ -885,8 +891,10 @@ static void gen_tst_cc (DisasContext *dc, TCGv cc, int=
+ cond)
+    case CC_EQ:
+        if ((arith_opt || move_opt)
+                && dc->cc_x_uptodate !=3D (2 | X_FLAG)) {
++            TCGv c0 =3D tcg_const_tl(0);
+            tcg_gen_setcond_tl(TCG_COND_EQ, cc,
+-                    cc_result, tcg_const_tl(0));
++                    cc_result, c0);
++            tcg_temp_free(c0);
+        } else {
+            cris_evaluate_flags(dc);
+            tcg_gen_andi_tl(cc,
+@@ -1330,14 +1338,17 @@ static int dec_addoq(CPUCRISState *env, DisasContex=
+t *dc)
+}
+static int dec_addq(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c;
+    LOG_DIS("addq %u, $r%u\n", dc->op1, dc->op2);
 
-I think you're reading too much into this patch description. The point
-of the legacy sections in the spec is to lay down what a device/driver
-needs to do if it also wants to support legacy drivers/devices. If we
-want to present a useful transitional device, we need (regardless of
-any MUST, or SHOULD) to operate in a way that a legacy driver can use
-it.
+    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
+
+    cris_cc_mask(dc, CC_MASK_NZVC);
+
++    c =3D tcg_const_tl(dc->op1);
+    cris_alu(dc, CC_OP_ADD,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+    return 2;
+}
+static int dec_moveq(CPUCRISState *env, DisasContext *dc)
+@@ -1353,62 +1364,77 @@ static int dec_moveq(CPUCRISState *env, DisasContex=
+t *dc)
+}
+static int dec_subq(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c;
+    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
+
+    LOG_DIS("subq %u, $r%u\n", dc->op1, dc->op2);
+
+    cris_cc_mask(dc, CC_MASK_NZVC);
++    c =3D tcg_const_tl(dc->op1);
+    cris_alu(dc, CC_OP_SUB,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+    return 2;
+}
+static int dec_cmpq(CPUCRISState *env, DisasContext *dc)
+{
+    uint32_t imm;
++    TCGv c;
+    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
+    imm =3D sign_extend(dc->op1, 5);
+
+    LOG_DIS("cmpq %d, $r%d\n", imm, dc->op2);
+    cris_cc_mask(dc, CC_MASK_NZVC);
+
++    c =3D tcg_const_tl(imm);
+    cris_alu(dc, CC_OP_CMP,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+    return 2;
+}
+static int dec_andq(CPUCRISState *env, DisasContext *dc)
+{
+    uint32_t imm;
++    TCGv c;
+    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
+    imm =3D sign_extend(dc->op1, 5);
+
+    LOG_DIS("andq %d, $r%d\n", imm, dc->op2);
+    cris_cc_mask(dc, CC_MASK_NZ);
+
++    c =3D tcg_const_tl(imm);
+    cris_alu(dc, CC_OP_AND,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+    return 2;
+}
+static int dec_orq(CPUCRISState *env, DisasContext *dc)
+{
+    uint32_t imm;
++    TCGv c;
+    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
+    imm =3D sign_extend(dc->op1, 5);
+    LOG_DIS("orq %d, $r%d\n", imm, dc->op2);
+    cris_cc_mask(dc, CC_MASK_NZ);
+
++    c =3D tcg_const_tl(imm);
+    cris_alu(dc, CC_OP_OR,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+    return 2;
+}
+static int dec_btstq(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c;
+    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 4);
+    LOG_DIS("btstq %u, $r%d\n", dc->op1, dc->op2);
+
+    cris_cc_mask(dc, CC_MASK_NZ);
++    c =3D tcg_const_tl(dc->op1);
+    cris_evaluate_flags(dc);
+-        gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
+-            tcg_const_tl(dc->op1), cpu_PR[PR_CCS]);
++    gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
++            c, cpu_PR[PR_CCS]);
++    tcg_temp_free(c);
+    cris_alu(dc, CC_OP_MOVE,
+         cpu_R[dc->op2], cpu_R[dc->op2], cpu_R[dc->op2], 4);
+    cris_update_cc_op(dc, CC_OP_FLAGS, 4);
+@@ -1558,7 +1584,7 @@ static int dec_lsl_r(CPUCRISState *env, DisasContext =
+*dc)
+    dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
+    tcg_gen_andi_tl(t[1], t[1], 63);
+    cris_alu(dc, CC_OP_LSL, cpu_R[dc->op2], t[0], t[1], size);
+-    cris_alu_alloc_temps(dc, size, t);
++    cris_alu_free_temps(dc, size, t);
+    return 2;
+}
+
+@@ -1624,7 +1650,7 @@ static int dec_mulu_r(CPUCRISState *env, DisasContext=
+ *dc)
+    dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
+
+    cris_alu(dc, CC_OP_MULU, cpu_R[dc->op2], t[0], t[1], 4);
+-    cris_alu_alloc_temps(dc, size, t);
++    cris_alu_free_temps(dc, size, t);
+    return 2;
+}
+
+@@ -1801,27 +1827,31 @@ static int dec_or_r(CPUCRISState *env, DisasContext=
+ *dc)
+
+static int dec_addi_r(CPUCRISState *env, DisasContext *dc)
+{
+-    TCGv t0;
++    TCGv t0, c;
+    LOG_DIS("addi.%c $r%u, $r%u\n",
+            memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
+    cris_cc_mask(dc, 0);
+    t0 =3D tcg_temp_new();
+-    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
++    c =3D tcg_const_tl(dc->zzsize);
++    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
+    tcg_gen_add_tl(cpu_R[dc->op1], cpu_R[dc->op1], t0);
+    tcg_temp_free(t0);
++    tcg_temp_free(c);
+    return 2;
+}
+
+static int dec_addi_acr(CPUCRISState *env, DisasContext *dc)
+{
+-    TCGv t0;
++    TCGv t0, c;
+    LOG_DIS("addi.%c $r%u, $r%u, $acr\n",
+          memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
+    cris_cc_mask(dc, 0);
+    t0 =3D tcg_temp_new();
+-    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
++    c =3D tcg_const_tl(dc->zzsize);
++    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
+    tcg_gen_add_tl(cpu_R[R_ACR], cpu_R[dc->op1], t0);
+    tcg_temp_free(t0);
++    tcg_temp_free(c);
+    return 2;
+}
+
+@@ -2051,18 +2081,26 @@ static int dec_setclrf(CPUCRISState *env, DisasCont=
+ext *dc)
+
+static int dec_move_rs(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c2, c1;
+    LOG_DIS("move $r%u, $s%u\n", dc->op1, dc->op2);
++    c1 =3D tcg_const_tl(dc->op1);
++    c2 =3D tcg_const_tl(dc->op2);
+    cris_cc_mask(dc, 0);
+-        gen_helper_movl_sreg_reg(cpu_env, tcg_const_tl(dc->op2),
+-                                 tcg_const_tl(dc->op1));
++    gen_helper_movl_sreg_reg(cpu_env, c2, c1);
++    tcg_temp_free(c1);
++    tcg_temp_free(c2);
+    return 2;
+}
+static int dec_move_sr(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c2, c1;
+    LOG_DIS("move $s%u, $r%u\n", dc->op2, dc->op1);
++    c1 =3D tcg_const_tl(dc->op1);
++    c2 =3D tcg_const_tl(dc->op2);
+    cris_cc_mask(dc, 0);
+-        gen_helper_movl_reg_sreg(cpu_env, tcg_const_tl(dc->op1),
+-                                 tcg_const_tl(dc->op2));
++    gen_helper_movl_reg_sreg(cpu_env, c1, c2);
++    tcg_temp_free(c1);
++    tcg_temp_free(c2);
+    return 2;
+}
+
+@@ -2345,7 +2383,7 @@ static int dec_cmp_m(CPUCRISState *env, DisasContext =
+*dc)
+
+static int dec_test_m(CPUCRISState *env, DisasContext *dc)
+{
+-    TCGv t[2];
++    TCGv t[2], c;
+    int memsize =3D memsize_zz(dc);
+    int insn_len;
+    LOG_DIS("test.%c [$r%u%s] op2=3D%x\n",
+@@ -2360,8 +2398,10 @@ static int dec_test_m(CPUCRISState *env, DisasContex=
+t *dc)
+    cris_cc_mask(dc, CC_MASK_NZ);
+    tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
+
++    c =3D tcg_const_tl(0);
+    cris_alu(dc, CC_OP_CMP,
+-         cpu_R[dc->op2], t[1], tcg_const_tl(0), memsize_zz(dc));
++         cpu_R[dc->op2], t[1], c, memsize_zz(dc));
++    tcg_temp_free(c);
+    do_postinc(dc, memsize);
+    cris_alu_m_free_temps(t);
+    return insn_len;
+@@ -2713,6 +2753,7 @@ static int dec_jump_p(CPUCRISState *env, DisasContext=
+ *dc)
+/* Jump and save.  */
+static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c;
+    LOG_DIS("jas $r%u, $p%u\n", dc->op1, dc->op2);
+    cris_cc_mask(dc, 0);
+    /* Store the return address in Pd.  */
+@@ -2720,7 +2761,9 @@ static int dec_jas_r(CPUCRISState *env, DisasContext =
+*dc)
+    if (dc->op2 > 15) {
+        abort();
+    }
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4));
++    c =3D tcg_const_tl(dc->pc + 4);
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+
+    cris_prepare_jmp(dc, JMP_INDIRECT);
+    return 2;
+@@ -2729,13 +2772,16 @@ static int dec_jas_r(CPUCRISState *env, DisasContex=
+t *dc)
+static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
+{
+    uint32_t imm;
++    TCGv c;
+
+    imm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
+
+    LOG_DIS("jas 0x%x\n", imm);
+    cris_cc_mask(dc, 0);
++    c =3D tcg_const_tl(dc->pc + 8);
+    /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+
+    dc->jmp_pc =3D imm;
+    cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2745,13 +2791,16 @@ static int dec_jas_im(CPUCRISState *env, DisasConte=
+xt *dc)
+static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
+{
+    uint32_t imm;
++    TCGv c;
+
+    imm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
+
+    LOG_DIS("jasc 0x%x\n", imm);
+    cris_cc_mask(dc, 0);
++    c =3D tcg_const_tl(dc->pc + 8 + 4);
+    /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8 + 4));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+
+    dc->jmp_pc =3D imm;
+    cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2760,11 +2809,14 @@ static int dec_jasc_im(CPUCRISState *env, DisasCont=
+ext *dc)
+
+static int dec_jasc_r(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c;
+    LOG_DIS("jasc_r $r%u, $p%u\n", dc->op1, dc->op2);
+    cris_cc_mask(dc, 0);
+    /* Store the return address in Pd.  */
+    tcg_gen_mov_tl(env_btarget, cpu_R[dc->op1]);
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4 + 4));
++    c =3D tcg_const_tl(dc->pc + 4 + 4);
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+    cris_prepare_jmp(dc, JMP_INDIRECT);
+    return 2;
+}
+@@ -2789,13 +2841,16 @@ static int dec_bcc_im(CPUCRISState *env, DisasConte=
+xt *dc)
+static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
+{
+    int32_t simm;
++    TCGv c;
+
+    simm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
+
+    LOG_DIS("bas 0x%x, $p%u\n", dc->pc + simm, dc->op2);
+    cris_cc_mask(dc, 0);
++    c =3D tcg_const_tl(dc->pc + 8);
+    /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+
+    dc->jmp_pc =3D dc->pc + simm;
+    cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2805,12 +2860,15 @@ static int dec_bas_im(CPUCRISState *env, DisasConte=
+xt *dc)
+static int dec_basc_im(CPUCRISState *env, DisasContext *dc)
+{
+    int32_t simm;
++    TCGv c;
+    simm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
+
+    LOG_DIS("basc 0x%x, $p%u\n", dc->pc + simm, dc->op2);
+    cris_cc_mask(dc, 0);
++    c =3D tcg_const_tl(dc->pc + 12);
+    /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 12));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+
+    dc->jmp_pc =3D dc->pc + simm;
+    cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2819,6 +2877,7 @@ static int dec_basc_im(CPUCRISState *env, DisasContex=
+t *dc)
+
+static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
+{
++    TCGv c;
+    cris_cc_mask(dc, 0);
+
+    if (dc->op2 =3D=3D 15) {
+@@ -2851,8 +2910,9 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContex=
+t *dc)
+        tcg_gen_movi_tl(env_pc, dc->pc + 2);
+
+        /* Breaks start at 16 in the exception vector.  */
+-        t_gen_mov_env_TN(trap_vector,
+-                tcg_const_tl(dc->op1 + 16));
++        c =3D tcg_const_tl(dc->op1 + 16);
++        t_gen_mov_env_TN(trap_vector, c);
++        tcg_temp_free(c);
+        t_gen_raise_exception(EXCP_BREAK);
+        dc->is_jmp =3D DISAS_UPDATE;
+        break;
+@@ -3023,14 +3083,16 @@ static unsigned int crisv32_decoder(CPUCRISState *e=
+nv, DisasContext *dc)
+    /* Single-stepping ?  */
+    if (dc->tb_flags & S_FLAG) {
+        TCGLabel *l1 =3D gen_new_label();
++        TCGv c =3D tcg_const_tl(3);
+        tcg_gen_brcondi_tl(TCG_COND_NE, cpu_PR[PR_SPC], dc->pc, l1);
+        /* We treat SPC as a break with an odd trap vector.  */
+        cris_evaluate_flags(dc);
+-        t_gen_mov_env_TN(trap_vector, tcg_const_tl(3));
++        t_gen_mov_env_TN(trap_vector, c);
+        tcg_gen_movi_tl(env_pc, dc->pc + insn_len);
+        tcg_gen_movi_tl(cpu_PR[PR_SPC], dc->pc + insn_len);
+        t_gen_raise_exception(EXCP_BREAK);
+        gen_set_label(l1);
++        tcg_temp_free(c);
+    }
+#endif
+    return insn_len;
+@@ -3170,7 +3232,9 @@ void gen_intermediate_code(CPUState *cs, TranslationB=
+lock *tb, int max_insns)
+            dc->delayed_branch--;
+            if (dc->delayed_branch =3D=3D 0) {
+                if (tb->flags & 7) {
+-                    t_gen_mov_env_TN(dslot, tcg_const_tl(0));
++                    TCGv c =3D tcg_const_tl(0);
++                    t_gen_mov_env_TN(dslot, c);
++                    tcg_temp_free(c);
+                }
+                if (dc->cpustate_changed || !dc->flagx_known
+                    || (dc->flags_x !=3D (tb->flags & X_FLAG))) {
+@@ -3178,8 +3242,10 @@ void gen_intermediate_code(CPUState *cs, Translation=
+Block *tb, int max_insns)
+                }
+
+                if (dc->clear_locked_irq) {
++                    TCGv c =3D tcg_const_tl(0);
+                    dc->clear_locked_irq =3D 0;
+-                    t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
++                    t_gen_mov_env_TN(locked_irq, c);
++                    tcg_temp_free(c);
+                }
+
+                if (dc->jmp =3D=3D JMP_DIRECT_CC) {
+@@ -3200,7 +3266,9 @@ void gen_intermediate_code(CPUState *cs, TranslationB=
+lock *tb, int max_insns)
+                    dc->is_jmp =3D DISAS_TB_JUMP;
+                    dc->jmp =3D JMP_NOJMP;
+                } else {
+-                    t_gen_cc_jmp(env_btarget, tcg_const_tl(dc->pc));
++                    TCGv c =3D tcg_const_tl(dc->pc);
++                    t_gen_cc_jmp(env_btarget, c);
++                    tcg_temp_free(c);
+                    dc->is_jmp =3D DISAS_JUMP;
+                }
+                break;
+@@ -3219,7 +3287,9 @@ void gen_intermediate_code(CPUState *cs, TranslationB=
+lock *tb, int max_insns)
+            && num_insns < max_insns);
+
+    if (dc->clear_locked_irq) {
+-        t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
++        TCGv c =3D tcg_const_tl(0);
++        t_gen_mov_env_TN(locked_irq, c);
++        tcg_temp_free(c);
+    }
+
+    npc =3D dc->pc;
+@@ -3233,8 +3303,10 @@ void gen_intermediate_code(CPUState *cs, Translation=
+Block *tb, int max_insns)
+    }
+    /* Broken branch+delayslot sequence.  */
+    if (dc->delayed_branch =3D=3D 1) {
++        TCGv c =3D tcg_const_tl(dc->pc - dc->ppc);
+        /* Set env->dslot to the size of the branch insn.  */
+-        t_gen_mov_env_TN(dslot, tcg_const_tl(dc->pc - dc->ppc));
++        t_gen_mov_env_TN(dslot, c);
++        tcg_temp_free(c);
+        cris_store_direct_jmp(dc);
+    }
+
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.=
+inc
+index 86d78a8..f7cd67b 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -228,6 +228,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+{
+    int32_t imm, simm;
+    int op;
++    TCGv c;
+
+    /* sign extend.  */
+    imm =3D dc->ir & ((1 << 6) - 1);
+@@ -254,29 +255,37 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+            LOG_DIS("moveq %d, $r%d\n", simm, dc->dst);
+
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(simm);
+            cris_alu(dc, CC_OP_MOVE, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_CMPQ:
+            LOG_DIS("cmpq %d, $r%d\n", simm, dc->dst);
+
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(simm);
+            cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_ADDQ:
+            LOG_DIS("addq %d, $r%d\n", imm, dc->dst);
+
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(imm);
+            cris_alu(dc, CC_OP_ADD, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_ANDQ:
+            LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
+
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(simm);
+            cris_alu(dc, CC_OP_AND, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_ASHQ:
+            LOG_DIS("ashq %d, $r%d\n", simm, dc->dst);
+@@ -284,15 +293,17 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+            cris_cc_mask(dc, CC_MASK_NZVC);
+            op =3D imm & (1 << 5);
+            imm &=3D 0x1f;
++            c =3D tcg_const_tl(imm);
+            if (op) {
+                cris_alu(dc, CC_OP_ASR, cpu_R[dc->dst],
+-                          cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                          cpu_R[dc->dst], c, 4);
+            } else {
+                /* BTST */
+                cris_update_cc_op(dc, CC_OP_FLAGS, 4);
+                gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->dst],
+-                           tcg_const_tl(imm), cpu_PR[PR_CCS]);
++                           c, cpu_PR[PR_CCS]);
+            }
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_LSHQ:
+            LOG_DIS("lshq %d, $r%d\n", simm, dc->dst);
+@@ -303,22 +314,28 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+            }
+            imm &=3D 0x1f;
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(imm);
+            cris_alu(dc, op, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_SUBQ:
+            LOG_DIS("subq %d, $r%d\n", imm, dc->dst);
+
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(imm);
+            cris_alu(dc, CC_OP_SUB, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+        case CRISV10_QIMM_ORQ:
+            LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
+
+            cris_cc_mask(dc, CC_MASK_NZVC);
++            c =3D tcg_const_tl(simm);
+            cris_alu(dc, CC_OP_OR, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+            break;
+
+        case CRISV10_QIMM_BCC_R0:
+@@ -760,7 +777,6 @@ static unsigned int dec10_ind_move_m_r(CPUCRISState *en=
+v, DisasContext *dc,
+        tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
+        cris_prepare_jmp(dc, JMP_INDIRECT);
+        dc->delayed_branch =3D 1;
+-        return insn_len;
+    }
+
+    tcg_temp_free(t);
+@@ -777,6 +793,7 @@ static unsigned int dec10_ind_move_r_m(DisasContext *dc=
+, unsigned int size)
+    crisv10_prepare_memaddr(dc, addr, size);
+    gen_store_v10(dc, addr, cpu_R[dc->dst], size);
+    insn_len +=3D crisv10_post_memaddr(dc, size);
++    tcg_temp_free(addr);
+
+    return insn_len;
+}
+@@ -796,11 +813,10 @@ static unsigned int dec10_ind_move_m_pr(CPUCRISState =
+*env, DisasContext *dc)
+        tcg_gen_mov_tl(env_btarget, t);
+        cris_prepare_jmp(dc, JMP_INDIRECT);
+        dc->delayed_branch =3D 1;
+-        return insn_len;
++    } else {
++        tcg_gen_mov_tl(cpu_PR[rd], t);
++        dc->cpustate_changed =3D 1;
+    }
+-
+-    tcg_gen_mov_tl(cpu_PR[rd], t);
+-    dc->cpustate_changed =3D 1;
+    tcg_temp_free(addr);
+    tcg_temp_free(t);
+    return insn_len;
+@@ -824,8 +840,8 @@ static unsigned int dec10_ind_move_pr_m(DisasContext *d=
+c)
+    } else {
+        gen_store_v10(dc, addr, cpu_PR[dc->dst], size);
+    }
+-    t0 =3D tcg_temp_new();
+    insn_len +=3D crisv10_post_memaddr(dc, size);
++    tcg_temp_free(addr);
+    cris_lock_irq(dc);
+
+    return insn_len;
+@@ -927,7 +943,6 @@ static int dec10_ind_bound(CPUCRISState *env, DisasCont=
+ext *dc,
+        tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
+        cris_prepare_jmp(dc, JMP_INDIRECT);
+        dc->delayed_branch =3D 1;
+-        return insn_len;
+    }
+
+    tcg_temp_free(t);
+@@ -953,7 +968,6 @@ static int dec10_alux_m(CPUCRISState *env, DisasContext=
+ *dc, int op)
+        tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
+        cris_prepare_jmp(dc, JMP_INDIRECT);
+        dc->delayed_branch =3D 1;
+-        return insn_len;
+    }
+
+    tcg_temp_free(t);
+@@ -1020,7 +1034,7 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
+sContext *dc)
+    unsigned int size =3D dec10_size(dc->size);
+    uint32_t imm;
+    int32_t simm;
+-    TCGv t[2];
++    TCGv t[2], c;
+
+    if (dc->size !=3D 3) {
+        switch (dc->opcode) {
+@@ -1041,8 +1055,10 @@ static unsigned int dec10_ind(CPUCRISState *env, Dis=
+asContext *dc)
+                cris_alu_m_alloc_temps(t);
+                insn_len +=3D dec10_prep_move_m(env, dc, 0, size, t[0]);
+                tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
++                c =3D tcg_const_tl(0);
+                cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
+-                         t[0], tcg_const_tl(0), size);
++                         t[0], c, size);
++                tcg_temp_free(c);
+                cris_alu_m_free_temps(t);
+                break;
+            case CRISV10_IND_ADD:
+@@ -1138,7 +1154,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
+sContext *dc)
+                if (dc->mode =3D=3D CRISV10_MODE_AUTOINC)
+                    insn_len +=3D size;
+
+-                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_=
+len));
++                c =3D tcg_const_tl(dc->pc + insn_len);
++                t_gen_mov_preg_TN(dc, dc->dst, c);
++                tcg_temp_free(c);
+                dc->jmp_pc =3D imm;
+                cris_prepare_jmp(dc, JMP_DIRECT);
+                dc->delayed_branch--; /* v10 has no dslot here.  */
+@@ -1147,7 +1165,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
+sContext *dc)
+                    LOG_DIS("break %d\n", dc->src);
+                    cris_evaluate_flags(dc);
+                    tcg_gen_movi_tl(env_pc, dc->pc + 2);
+-                    t_gen_mov_env_TN(trap_vector, tcg_const_tl(dc->src + 2=
+));
++                    c =3D tcg_const_tl(dc->src + 2);
++                    t_gen_mov_env_TN(trap_vector, c);
++                    tcg_temp_free(c);
+                    t_gen_raise_exception(EXCP_BREAK);
+                    dc->is_jmp =3D DISAS_UPDATE;
+                    return insn_len;
+@@ -1155,7 +1175,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
+sContext *dc)
+                LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
+                         dc->opcode, dc->src, dc->dst);
+                t[0] =3D tcg_temp_new();
+-                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_=
+len));
++                c =3D tcg_const_tl(dc->pc + insn_len);
++                t_gen_mov_preg_TN(dc, dc->dst, c);
++                tcg_temp_free(c);
+                crisv10_prepare_memaddr(dc, t[0], size);
+                gen_load(dc, env_btarget, t[0], 4, 0);
+                insn_len +=3D crisv10_post_memaddr(dc, size);
+@@ -1178,7 +1200,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
+sContext *dc)
+            LOG_DIS("jmp pc=3D%x opcode=3D%d r%d r%d\n",
+                        dc->pc, dc->opcode, dc->dst, dc->src);
+            tcg_gen_mov_tl(env_btarget, cpu_R[dc->src]);
+-            t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len)=
+);
++            c =3D tcg_const_tl(dc->pc + insn_len);
++            t_gen_mov_preg_TN(dc, dc->dst, c);
++            tcg_temp_free(c);
+            cris_prepare_jmp(dc, JMP_INDIRECT);
+            dc->delayed_branch--; /* v10 has no dslot here.  */
+            break;
+--=20
+1.8.3.1
 
 
