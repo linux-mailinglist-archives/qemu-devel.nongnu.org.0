@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C5731EC4C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 17:37:12 +0100 (CET)
-Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F79E31EC49
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 17:35:52 +0100 (CET)
+Received: from localhost ([::1]:42304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCmIh-0006cW-MK
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 11:37:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35650)
+	id 1lCmHO-0005AE-PW
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 11:35:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCmBc-0000qK-6Q
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:29:52 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:37541)
+ id 1lCmBd-0000u5-Uf
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:29:53 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38297)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lCmBZ-00086j-7I
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:29:51 -0500
-Received: by mail-pf1-x429.google.com with SMTP id b145so1641899pfb.4
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 08:29:48 -0800 (PST)
+ id 1lCmBa-00087E-ED
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 11:29:53 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id y25so1642409pfp.5
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 08:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ntVZJ1xQtoh4BFJFPHcEVRj7WQYyZFRRdOmVIIVyMb8=;
- b=lzLRR3tHAhNDiuMXq2oXDkFg3nSwhLqlXtVwtmZRSF5I8d1z2cW3GPHXTpeheU46rc
- pz9HgAj6mjvPtSiAswmmo4+Si+8e25Vd41ObqxMSiwcHvO7PrSASnoIAz/oG4PypgOky
- 8aRzIOcAk7zrHxylfjEnMIld6vJxrrXu33d40TqJPsfPyYysGfOEXXBNQAoJyIKC1hZf
- 8gVrRD8OxuCZtQsbZYZVaSNqB0IkEyKR0OkwhXtHBmPFbXej4WOCZzhh+16mstMLvEig
- 2EoediBDzfIhc25CnSZ2OqgbB7N036CPOI8cFvLLL6hy7aSNVv2zWIfVBRY5eEkNPuht
- /MGQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=N4WhFq1g4P7jzKsCdmUsv7PzW5rtG8RoG1FZG8QTvuE=;
+ b=NHJZkIw1PB2aAmVwRf7FLwOR5uQTMDMDyb7LBP+Fk2DV7/DoHRbEEcYSclisy5f4hf
+ +LJ0HC33QSO5bjPeld8/yVJBOmQzfqP1/SRL5AUQLdFpLxeUVaR4GMDAOUhM5mPd3wWh
+ FMbVtdkeSDswl5k0q+Or/BMpPAka9Tdo8PFI3mb8IrVynCKEDWjrK2u6JoiIX2zmzOni
+ nk5rdktCZiMZW+uG1L6MXwzGUZVHcDF9CE/n6gN2YCpJroIc09MhkmXvweoGXTQHkhNY
+ 3xOd5yRwLI/d4wvc6hIqjNFrg+6MzuVxNtM+4cQbtEsWd/HdMLIhWRN3jvGNMsMuyWNS
+ XxUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ntVZJ1xQtoh4BFJFPHcEVRj7WQYyZFRRdOmVIIVyMb8=;
- b=SwJ9kVdnFl5LB0SIZiFqhbeuPdVbNgKu4Srrb5cgUoguY1BhWNlXbVQrQ5xKjcjI/p
- 1kcbME1RMfhLKQReDIL7Lj5AXeAShyVxnqFvM8J23lxpZycxf34p+V1FW4RhXaZJ4kdW
- SXqvsInr+EvKc+aiACJ07F2jHHR8Kwh172fFn6OcsuNqpRVp4BcnhW4k7BZ9CUUtmnit
- htlcwp2bDNI729R67vzvfHDvHY+gXv+4BlZC1Gl2HoiGY13ZI04euToVRUEo950G9v2a
- BiV55aLn0rWz6v8EgJ+HusulLMDIx959AYa1Ma+w9qre6imAM8d+/wOXBawrPDdJlZN4
- ROMQ==
-X-Gm-Message-State: AOAM532SBw8sAQ9UhbTuZ+XA2/UCgPjHl9CGNh7OJEmorz0IM4lUY9uw
- PB6SQitZsGD/Ut+300BOLw6WVRjS7F7SvA==
-X-Google-Smtp-Source: ABdhPJyXVvg+k3xA2IYoGf3Eb4re+VZBhg4n/u+9nuftjvsQlLEhmDXESZmLmyh5ekXkvwsIvQOpuw==
-X-Received: by 2002:a63:1843:: with SMTP id 3mr4665969pgy.253.1613665787464;
- Thu, 18 Feb 2021 08:29:47 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=N4WhFq1g4P7jzKsCdmUsv7PzW5rtG8RoG1FZG8QTvuE=;
+ b=Ntm2hEUoyCJpzVdUPRkIinS8mXr7ZrqBZOewuuAiVQzHQO6UxE5k/6oyX453Ygsd0R
+ gzeYOZzPR7l2/65aaLLY8yWy0folz94ID8SfZR7nZ56yRlp0oKaE0jrO7iC62VDYodvt
+ DFo2aJkTy5sbKt8xShyDOK12j1EtppXXx2bz4NWHoIn+8CfWX2dY7ZJ/igHSR6iG1cVV
+ R1e61Kl2H0o2a0uYHsW8mNaBRpPfaiPJNKoA6IrQkCqfhhf2hZavuM1Ti0s62/Szt6bB
+ qK5QK6wDZeVQrjkVa+ZTHsJZEsfGEZHVgyHVcyYmkDo2T83hLVgiwzRC688CWXaTX/6m
+ 8D6w==
+X-Gm-Message-State: AOAM533LdeETn0S0L1ulQCI2edBLtOyMZpU4QVWAifEa1fV/MGwJkKbu
+ fbnsVx3awMVDLR6I5GeysEPuSkEiUMfwhg==
+X-Google-Smtp-Source: ABdhPJw/zxb/kBBRgvtn+9DMWySlVO+b3bX2aPkAiHp2luQB0YErvDPM4ZHlHfeZj2nMQe6odhhs1g==
+X-Received: by 2002:aa7:93ac:0:b029:1e5:b52e:314f with SMTP id
+ x12-20020aa793ac0000b02901e5b52e314fmr4961098pff.45.1613665788868; 
+ Thu, 18 Feb 2021 08:29:48 -0800 (PST)
 Received: from localhost.localdomain (047-051-160-125.biz.spectrum.com.
  [47.51.160.125])
- by smtp.gmail.com with ESMTPSA id k128sm6637956pfd.137.2021.02.18.08.29.45
+ by smtp.gmail.com with ESMTPSA id k128sm6637956pfd.137.2021.02.18.08.29.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 08:29:46 -0800 (PST)
+ Thu, 18 Feb 2021 08:29:48 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/35] hexagon initial commit
-Date: Thu, 18 Feb 2021 08:29:43 -0800
-Message-Id: <20210218162944.1756160-1-richard.henderson@linaro.org>
+Subject: [PULL v2 35/35] Hexagon build infrastructure
+Date: Thu, 18 Feb 2021 08:29:44 -0800
+Message-Id: <20210218162944.1756160-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210218162944.1756160-1-richard.henderson@linaro.org>
+References: <20210218162944.1756160-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,260 +85,292 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Taylor Simpson <tsimpson@quicinc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-V2: Patch 35: do not re-find the python executable to use.
+From: Taylor Simpson <tsimpson@quicinc.com>
 
-r~
+Add file to default-configs
+Add hexagon to meson.build
+Add hexagon to target/meson.build
+Add target/hexagon/meson.build
+Change scripts/qemu-binfmt-conf.sh
 
+We can build a hexagon-linux-user target and run programs on
+the Hexagon scalar core.  With hexagon-linux-clang installed,
+"make check-tcg" will pass.
 
-The following changes since commit 91416a4254015e1e3f602f2b241b9ddb7879c10b:
-
-  Merge remote-tracking branch 'remotes/stsquad/tags/pull-plugin-updates-180221-1' into staging (2021-02-18 13:27:03 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-hex-20210218
-
-for you to fetch changes up to 3e7a84eeccc3b3a9b43c6dfb52bd98ea5acebf0a:
-
-  Hexagon build infrastructure (2021-02-18 08:25:06 -0800)
-
-----------------------------------------------------------------
-Initial commit for the Qualcomm Hexagon processor.
-
-----------------------------------------------------------------
-Richard Henderson (1):
-      qemu/int128: Add int128_or
-
-Taylor Simpson (34):
-      Hexagon Update MAINTAINERS file
-      Hexagon (target/hexagon) README
-      Hexagon (include/elf.h) ELF machine definition
-      Hexagon (target/hexagon) scalar core definition
-      Hexagon (disas) disassembler
-      Hexagon (target/hexagon) register names
-      Hexagon (target/hexagon) scalar core helpers
-      Hexagon (target/hexagon) GDB Stub
-      Hexagon (target/hexagon) architecture types
-      Hexagon (target/hexagon) instruction and packet types
-      Hexagon (target/hexagon) register fields
-      Hexagon (target/hexagon) instruction attributes
-      Hexagon (target/hexagon) instruction/packet decode
-      Hexagon (target/hexagon) instruction printing
-      Hexagon (target/hexagon/arch.[ch]) utility functions
-      Hexagon (target/hexagon/conv_emu.[ch]) utility functions
-      Hexagon (target/hexagon/fma_emu.[ch]) utility functions
-      Hexagon (target/hexagon/imported) arch import
-      Hexagon (target/hexagon) generator phase 1 - C preprocessor for semantics
-      Hexagon (target/hexagon) generator phase 2 - generate header files
-      Hexagon (target/hexagon) generator phase 3 - C preprocessor for decode tree
-      Hexagon (target/hexagon) generater phase 4 - decode tree
-      Hexagon (target/hexagon) opcode data structures
-      Hexagon (target/hexagon) macros
-      Hexagon (target/hexagon) instruction classes
-      Hexagon (target/hexagon) TCG generation
-      Hexagon (target/hexagon) TCG for instructions with multiple definitions
-      Hexagon (target/hexagon) TCG for floating point instructions
-      Hexagon (target/hexagon) translation
-      Hexagon (linux-user/hexagon) Linux user emulation
-      Hexagon (tests/tcg/hexagon) TCG tests - multiarch
-      Hexagon (tests/tcg/hexagon) TCG tests - atomics/load/store/misc
-      Hexagon (tests/tcg/hexagon) TCG tests - floating point
-      Hexagon build infrastructure
-
- default-configs/targets/hexagon-linux-user.mak |    1 +
- meson.build                                    |    1 +
- include/disas/dis-asm.h                        |    1 +
- include/elf.h                                  |    1 +
- include/qemu/int128.h                          |   10 +
- linux-user/hexagon/sockbits.h                  |   18 +
- linux-user/hexagon/syscall_nr.h                |  322 ++++
- linux-user/hexagon/target_cpu.h                |   44 +
- linux-user/hexagon/target_elf.h                |   40 +
- linux-user/hexagon/target_fcntl.h              |   18 +
- linux-user/hexagon/target_signal.h             |   34 +
- linux-user/hexagon/target_structs.h            |   54 +
- linux-user/hexagon/target_syscall.h            |   36 +
- linux-user/hexagon/termbits.h                  |   18 +
- linux-user/qemu.h                              |    2 +
- linux-user/syscall_defs.h                      |   33 +
- target/hexagon/arch.h                          |   34 +
- target/hexagon/attribs.h                       |   35 +
- target/hexagon/conv_emu.h                      |   31 +
- target/hexagon/cpu-param.h                     |   29 +
- target/hexagon/cpu.h                           |  159 ++
- target/hexagon/cpu_bits.h                      |   58 +
- target/hexagon/decode.h                        |   32 +
- target/hexagon/fma_emu.h                       |   36 +
- target/hexagon/gen_tcg.h                       |  319 ++++
- target/hexagon/genptr.h                        |   25 +
- target/hexagon/helper.h                        |   88 +
- target/hexagon/hex_arch_types.h                |   38 +
- target/hexagon/hex_regs.h                      |   83 +
- target/hexagon/iclass.h                        |   50 +
- target/hexagon/insn.h                          |   74 +
- target/hexagon/internal.h                      |   37 +
- target/hexagon/macros.h                        |  592 +++++++
- target/hexagon/opcodes.h                       |   58 +
- target/hexagon/printinsn.h                     |   27 +
- target/hexagon/reg_fields.h                    |   36 +
- target/hexagon/translate.h                     |   93 ++
- target/hexagon/attribs_def.h.inc               |   97 ++
- target/hexagon/reg_fields_def.h.inc            |   41 +
- disas/hexagon.c                                |   65 +
- linux-user/elfload.c                           |   16 +
- linux-user/hexagon/cpu_loop.c                  |  100 ++
- linux-user/hexagon/signal.c                    |  276 ++++
- target/hexagon/arch.c                          |  300 ++++
- target/hexagon/conv_emu.c                      |  177 ++
- target/hexagon/cpu.c                           |  318 ++++
- target/hexagon/decode.c                        |  957 +++++++++++
- target/hexagon/fma_emu.c                       |  702 ++++++++
- target/hexagon/gdbstub.c                       |   47 +
- target/hexagon/gen_dectree_import.c            |  188 +++
- target/hexagon/gen_semantics.c                 |   88 +
- target/hexagon/genptr.c                        |  331 ++++
- target/hexagon/iclass.c                        |   73 +
- target/hexagon/op_helper.c                     | 1064 ++++++++++++
- target/hexagon/opcodes.c                       |  142 ++
- target/hexagon/printinsn.c                     |  146 ++
- target/hexagon/reg_fields.c                    |   27 +
- target/hexagon/translate.c                     |  748 +++++++++
- tests/tcg/hexagon/atomics.c                    |  139 ++
- tests/tcg/hexagon/dual_stores.c                |   60 +
- tests/tcg/hexagon/fpstuff.c                    |  370 +++++
- tests/tcg/hexagon/mem_noshuf.c                 |  328 ++++
- tests/tcg/hexagon/misc.c                       |  380 +++++
- tests/tcg/hexagon/preg_alias.c                 |  169 ++
- MAINTAINERS                                    |    9 +
- disas/meson.build                              |    1 +
- scripts/gensyscalls.sh                         |    1 +
- scripts/qemu-binfmt-conf.sh                    |    6 +-
- target/hexagon/README                          |  235 +++
- target/hexagon/dectree.py                      |  351 ++++
- target/hexagon/gen_helper_funcs.py             |  220 +++
- target/hexagon/gen_helper_protos.py            |  150 ++
- target/hexagon/gen_op_attribs.py               |   39 +
- target/hexagon/gen_op_regs.py                  |  110 ++
- target/hexagon/gen_opcodes_def.py              |   36 +
- target/hexagon/gen_printinsn.py                |  173 ++
- target/hexagon/gen_shortcode.py                |   60 +
- target/hexagon/gen_tcg_func_table.py           |   58 +
- target/hexagon/gen_tcg_funcs.py                |  485 ++++++
- target/hexagon/hex_common.py                   |  234 +++
- target/hexagon/imported/allidefs.def           |   30 +
- target/hexagon/imported/alu.idef               | 1258 ++++++++++++++
- target/hexagon/imported/branch.idef            |  326 ++++
- target/hexagon/imported/compare.idef           |  619 +++++++
- target/hexagon/imported/encode.def             |  124 ++
- target/hexagon/imported/encode_pp.def          | 2110 ++++++++++++++++++++++++
- target/hexagon/imported/encode_subinsn.def     |  149 ++
- target/hexagon/imported/float.idef             |  312 ++++
- target/hexagon/imported/iclass.def             |   51 +
- target/hexagon/imported/ldst.idef              |  286 ++++
- target/hexagon/imported/macros.def             | 1531 +++++++++++++++++
- target/hexagon/imported/mpy.idef               | 1208 ++++++++++++++
- target/hexagon/imported/shift.idef             | 1066 ++++++++++++
- target/hexagon/imported/subinsns.idef          |  149 ++
- target/hexagon/imported/system.idef            |   68 +
- target/hexagon/meson.build                     |  191 +++
- target/meson.build                             |    1 +
- tests/tcg/configure.sh                         |    4 +-
- tests/tcg/hexagon/Makefile.target              |   46 +
- tests/tcg/hexagon/first.S                      |   56 +
- tests/tcg/hexagon/float_convs.ref              |  748 +++++++++
- tests/tcg/hexagon/float_madds.ref              |  768 +++++++++
- 102 files changed, 23183 insertions(+), 2 deletions(-)
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <1612763186-18161-35-git-send-email-tsimpson@quicinc.com>
+[rth: Use top-level python variable]
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ .../targets/hexagon-linux-user.mak            |   1 +
+ meson.build                                   |   1 +
+ scripts/qemu-binfmt-conf.sh                   |   6 +-
+ target/hexagon/meson.build                    | 191 ++++++++++++++++++
+ target/meson.build                            |   1 +
+ 5 files changed, 199 insertions(+), 1 deletion(-)
  create mode 100644 default-configs/targets/hexagon-linux-user.mak
- create mode 100644 linux-user/hexagon/sockbits.h
- create mode 100644 linux-user/hexagon/syscall_nr.h
- create mode 100644 linux-user/hexagon/target_cpu.h
- create mode 100644 linux-user/hexagon/target_elf.h
- create mode 100644 linux-user/hexagon/target_fcntl.h
- create mode 100644 linux-user/hexagon/target_signal.h
- create mode 100644 linux-user/hexagon/target_structs.h
- create mode 100644 linux-user/hexagon/target_syscall.h
- create mode 100644 linux-user/hexagon/termbits.h
- create mode 100644 target/hexagon/arch.h
- create mode 100644 target/hexagon/attribs.h
- create mode 100644 target/hexagon/conv_emu.h
- create mode 100644 target/hexagon/cpu-param.h
- create mode 100644 target/hexagon/cpu.h
- create mode 100644 target/hexagon/cpu_bits.h
- create mode 100644 target/hexagon/decode.h
- create mode 100644 target/hexagon/fma_emu.h
- create mode 100644 target/hexagon/gen_tcg.h
- create mode 100644 target/hexagon/genptr.h
- create mode 100644 target/hexagon/helper.h
- create mode 100644 target/hexagon/hex_arch_types.h
- create mode 100644 target/hexagon/hex_regs.h
- create mode 100644 target/hexagon/iclass.h
- create mode 100644 target/hexagon/insn.h
- create mode 100644 target/hexagon/internal.h
- create mode 100644 target/hexagon/macros.h
- create mode 100644 target/hexagon/opcodes.h
- create mode 100644 target/hexagon/printinsn.h
- create mode 100644 target/hexagon/reg_fields.h
- create mode 100644 target/hexagon/translate.h
- create mode 100644 target/hexagon/attribs_def.h.inc
- create mode 100644 target/hexagon/reg_fields_def.h.inc
- create mode 100644 disas/hexagon.c
- create mode 100644 linux-user/hexagon/cpu_loop.c
- create mode 100644 linux-user/hexagon/signal.c
- create mode 100644 target/hexagon/arch.c
- create mode 100644 target/hexagon/conv_emu.c
- create mode 100644 target/hexagon/cpu.c
- create mode 100644 target/hexagon/decode.c
- create mode 100644 target/hexagon/fma_emu.c
- create mode 100644 target/hexagon/gdbstub.c
- create mode 100644 target/hexagon/gen_dectree_import.c
- create mode 100644 target/hexagon/gen_semantics.c
- create mode 100644 target/hexagon/genptr.c
- create mode 100644 target/hexagon/iclass.c
- create mode 100644 target/hexagon/op_helper.c
- create mode 100644 target/hexagon/opcodes.c
- create mode 100644 target/hexagon/printinsn.c
- create mode 100644 target/hexagon/reg_fields.c
- create mode 100644 target/hexagon/translate.c
- create mode 100644 tests/tcg/hexagon/atomics.c
- create mode 100644 tests/tcg/hexagon/dual_stores.c
- create mode 100644 tests/tcg/hexagon/fpstuff.c
- create mode 100644 tests/tcg/hexagon/mem_noshuf.c
- create mode 100644 tests/tcg/hexagon/misc.c
- create mode 100644 tests/tcg/hexagon/preg_alias.c
- create mode 100644 target/hexagon/README
- create mode 100755 target/hexagon/dectree.py
- create mode 100755 target/hexagon/gen_helper_funcs.py
- create mode 100755 target/hexagon/gen_helper_protos.py
- create mode 100755 target/hexagon/gen_op_attribs.py
- create mode 100755 target/hexagon/gen_op_regs.py
- create mode 100755 target/hexagon/gen_opcodes_def.py
- create mode 100755 target/hexagon/gen_printinsn.py
- create mode 100755 target/hexagon/gen_shortcode.py
- create mode 100755 target/hexagon/gen_tcg_func_table.py
- create mode 100755 target/hexagon/gen_tcg_funcs.py
- create mode 100755 target/hexagon/hex_common.py
- create mode 100644 target/hexagon/imported/allidefs.def
- create mode 100644 target/hexagon/imported/alu.idef
- create mode 100644 target/hexagon/imported/branch.idef
- create mode 100644 target/hexagon/imported/compare.idef
- create mode 100644 target/hexagon/imported/encode.def
- create mode 100644 target/hexagon/imported/encode_pp.def
- create mode 100644 target/hexagon/imported/encode_subinsn.def
- create mode 100644 target/hexagon/imported/float.idef
- create mode 100644 target/hexagon/imported/iclass.def
- create mode 100644 target/hexagon/imported/ldst.idef
- create mode 100755 target/hexagon/imported/macros.def
- create mode 100644 target/hexagon/imported/mpy.idef
- create mode 100644 target/hexagon/imported/shift.idef
- create mode 100644 target/hexagon/imported/subinsns.idef
- create mode 100644 target/hexagon/imported/system.idef
  create mode 100644 target/hexagon/meson.build
- create mode 100644 tests/tcg/hexagon/Makefile.target
- create mode 100644 tests/tcg/hexagon/first.S
- create mode 100644 tests/tcg/hexagon/float_convs.ref
- create mode 100644 tests/tcg/hexagon/float_madds.ref
+
+diff --git a/default-configs/targets/hexagon-linux-user.mak b/default-configs/targets/hexagon-linux-user.mak
+new file mode 100644
+index 0000000000..003ed0a408
+--- /dev/null
++++ b/default-configs/targets/hexagon-linux-user.mak
+@@ -0,0 +1 @@
++TARGET_ARCH=hexagon
+diff --git a/meson.build b/meson.build
+index a923f249d8..05a67c20d9 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1188,6 +1188,7 @@ disassemblers = {
+   'arm' : ['CONFIG_ARM_DIS'],
+   'avr' : ['CONFIG_AVR_DIS'],
+   'cris' : ['CONFIG_CRIS_DIS'],
++  'hexagon' : ['CONFIG_HEXAGON_DIS'],
+   'hppa' : ['CONFIG_HPPA_DIS'],
+   'i386' : ['CONFIG_I386_DIS'],
+   'x86_64' : ['CONFIG_I386_DIS'],
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index 9f1580a91c..7b5d54b887 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -4,7 +4,7 @@
+ qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
+ ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+-microblaze microblazeel or1k x86_64"
++microblaze microblazeel or1k x86_64 hexagon"
+ 
+ i386_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x03\x00'
+ i386_mask='\xff\xff\xff\xff\xff\xfe\xfe\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
+@@ -136,6 +136,10 @@ or1k_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\
+ or1k_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ or1k_family=or1k
+ 
++hexagon_magic='\x7fELF\x01\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\xa4\x00'
++hexagon_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff\xff'
++hexagon_family=hexagon
++
+ qemu_get_family() {
+     cpu=${HOST_ARCH:-$(uname -m)}
+     case "$cpu" in
+diff --git a/target/hexagon/meson.build b/target/hexagon/meson.build
+new file mode 100644
+index 0000000000..15318a6fa7
+--- /dev/null
++++ b/target/hexagon/meson.build
+@@ -0,0 +1,191 @@
++##
++##  Copyright(c) 2020-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
++##
++##  This program is free software; you can redistribute it and/or modify
++##  it under the terms of the GNU General Public License as published by
++##  the Free Software Foundation; either version 2 of the License, or
++##  (at your option) any later version.
++##
++##  This program is distributed in the hope that it will be useful,
++##  but WITHOUT ANY WARRANTY; without even the implied warranty of
++##  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++##  GNU General Public License for more details.
++##
++##  You should have received a copy of the GNU General Public License
++##  along with this program; if not, see <http://www.gnu.org/licenses/>.
++##
++
++hexagon_ss = ss.source_set()
++
++hex_common_py = 'hex_common.py'
++attribs_def = meson.current_source_dir() / 'attribs_def.h.inc'
++gen_tcg_h = meson.current_source_dir() / 'gen_tcg.h'
++
++#
++#  Step 1
++#  We use a C program to create semantics_generated.pyinc
++#
++gen_semantics = executable(
++    'gen_semantics',
++    'gen_semantics.c',
++    native: true, build_by_default: false)
++
++semantics_generated = custom_target(
++    'semantics_generated.pyinc',
++    output: 'semantics_generated.pyinc',
++    input: gen_semantics,
++    command: ['@INPUT@', '@OUTPUT@'],
++)
++hexagon_ss.add(semantics_generated)
++
++#
++# Step 2
++# We use Python scripts to generate the following files
++#     shortcode_generated.h.inc
++#     helper_protos_generated.h.inc
++#     tcg_funcs_generated.c.inc
++#     tcg_func_table_generated.c.inc
++#     helper_funcs_generated.c.inc
++#     printinsn_generated.h.inc
++#     op_regs_generated.h.inc
++#     op_attribs_generated.h.inc
++#     opcodes_def_generated.h.inc
++#
++shortcode_generated = custom_target(
++    'shortcode_generated.h.inc',
++    output: 'shortcode_generated.h.inc',
++    input: 'gen_shortcode.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(shortcode_generated)
++
++helper_protos_generated = custom_target(
++    'helper_protos_generated.h.inc',
++    output: 'helper_protos_generated.h.inc',
++    input: 'gen_helper_protos.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
++)
++hexagon_ss.add(helper_protos_generated)
++
++tcg_funcs_generated = custom_target(
++    'tcg_funcs_generated.c.inc',
++    output: 'tcg_funcs_generated.c.inc',
++    input: 'gen_tcg_funcs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
++)
++hexagon_ss.add(tcg_funcs_generated)
++
++tcg_func_table_generated = custom_target(
++    'tcg_func_table_generated.c.inc',
++    output: 'tcg_func_table_generated.c.inc',
++    input: 'gen_tcg_func_table.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(tcg_func_table_generated)
++
++helper_funcs_generated = custom_target(
++    'helper_funcs_generated.c.inc',
++    output: 'helper_funcs_generated.c.inc',
++    input: 'gen_helper_funcs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def, gen_tcg_h],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, gen_tcg_h, '@OUTPUT@'],
++)
++hexagon_ss.add(helper_funcs_generated)
++
++printinsn_generated = custom_target(
++    'printinsn_generated.h.inc',
++    output: 'printinsn_generated.h.inc',
++    input: 'gen_printinsn.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(printinsn_generated)
++
++op_regs_generated = custom_target(
++    'op_regs_generated.h.inc',
++    output: 'op_regs_generated.h.inc',
++    input: 'gen_op_regs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(op_regs_generated)
++
++op_attribs_generated = custom_target(
++    'op_attribs_generated.h.inc',
++    output: 'op_attribs_generated.h.inc',
++    input: 'gen_op_attribs.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(op_attribs_generated)
++
++opcodes_def_generated = custom_target(
++    'opcodes_def_generated.h.inc',
++    output: 'opcodes_def_generated.h.inc',
++    input: 'gen_opcodes_def.py',
++    depends: [semantics_generated],
++    depend_files: [hex_common_py, attribs_def],
++    command: [python, '@INPUT@', semantics_generated, attribs_def, '@OUTPUT@'],
++)
++hexagon_ss.add(opcodes_def_generated)
++
++#
++# Step 3
++# We use a C program to create iset.py which is imported into dectree.py
++# to create the decode tree
++#
++gen_dectree_import = executable(
++    'gen_dectree_import',
++    'gen_dectree_import.c', opcodes_def_generated, op_regs_generated,
++    native: true, build_by_default: false)
++
++iset_py = custom_target(
++    'iset.py',
++    output: 'iset.py',
++    input: gen_dectree_import,
++    command: ['@INPUT@', '@OUTPUT@'],
++)
++hexagon_ss.add(iset_py)
++
++#
++# Step 4
++# We use the dectree.py script to generate the decode tree header file
++#
++dectree_generated = custom_target(
++    'dectree_generated.h.inc',
++    output: 'dectree_generated.h.inc',
++    input: 'dectree.py',
++    depends: [iset_py],
++    command: ['PYTHONPATH=' + meson.current_build_dir(), '@INPUT@', '@OUTPUT@'],
++)
++hexagon_ss.add(dectree_generated)
++
++hexagon_ss.add(files(
++    'cpu.c',
++    'translate.c',
++    'op_helper.c',
++    'gdbstub.c',
++    'genptr.c',
++    'reg_fields.c',
++    'decode.c',
++    'iclass.c',
++    'opcodes.c',
++    'printinsn.c',
++    'arch.c',
++    'fma_emu.c',
++    'conv_emu.c',
++))
++
++target_arch += {'hexagon': hexagon_ss}
+diff --git a/target/meson.build b/target/meson.build
+index 9f0ae93b75..c35c1e9d34 100644
+--- a/target/meson.build
++++ b/target/meson.build
+@@ -2,6 +2,7 @@ subdir('alpha')
+ subdir('arm')
+ subdir('avr')
+ subdir('cris')
++subdir('hexagon')
+ subdir('hppa')
+ subdir('i386')
+ subdir('lm32')
+-- 
+2.25.1
+
 
