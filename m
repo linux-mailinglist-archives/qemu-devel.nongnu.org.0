@@ -2,69 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A3CC31F32A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:43:07 +0100 (CET)
-Received: from localhost ([::1]:54488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E5431F332
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:58:13 +0100 (CET)
+Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCsws-0003a5-NT
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:43:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34226)
+	id 1lCtBT-0005ry-QB
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:58:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lCssG-0000wK-Au
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:38:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lCssD-0007i9-Dm
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:38:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613691495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=g1duESPJuXAd2GLbBDBNUgnHjCsFzUYqGhToeWkTzx8=;
- b=RkYFZFOiWYXScrekv9ahXUePcrK/tBlSCPp1QGwFKnn+NQZIyiOuph7bJ5DXtrnq0S4Dia
- Xex6fkTebnTc2HuDftpwSe5aTnUkXaHwrMiHu482/WPgXzet5RQecF6el2GWaHaJBZzdRL
- JJeCVYhyg3BI2agOEHaQagken1gBdh8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-3pqCk56DNCOnQIBRt8ETIQ-1; Thu, 18 Feb 2021 18:38:11 -0500
-X-MC-Unique: 3pqCk56DNCOnQIBRt8ETIQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D14B107ACE3;
- Thu, 18 Feb 2021 23:38:10 +0000 (UTC)
-Received: from localhost (ovpn-3-246.rdu2.redhat.com [10.22.3.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F081C10016F6;
- Thu, 18 Feb 2021 23:38:09 +0000 (UTC)
-Date: Thu, 18 Feb 2021 18:38:07 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PULL 0/3] Machine and x86 queue, 2021-02-18
-Message-ID: <20210218233807.GI760746@habkost.net>
-References: <20210218232415.1001078-1-ehabkost@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCt9w-0005Pt-6P
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:56:36 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44453)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lCt9u-00086T-Lu
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:56:35 -0500
+Received: by mail-wr1-x430.google.com with SMTP id h98so24931wrh.11
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 15:56:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=7c+XCiUq72hc/DKK3r8KdpN46jOotTEXNDz6WP+D4MY=;
+ b=bgzxiVXcyLT/fJQ6eS6lviVeRH22QVTccfTavNrn+JQ0BAOtdzp2MvX9h2pvv+v29r
+ RYP+5WkS0QSG8u/iO3hyci99tADRzULpJzKufx4+MbQ1nMfx770aQiXyrnw+h3ME43bj
+ PyeOsAKpK5l+BWGiWoVfQsUzEizZtc9qfomqT9N0Y0mNvCVN6vX8RxEKU5lRN60x29KI
+ ne/1PQEfxVCQWznqyy1mvFuuCecwzcx10fcux5Sa6Bb++AiERBuNs+DO80GCQo7EIAg3
+ ZKl7KiNpqHPDcakN9ahpxokITS3plxWYnYc0zJGXT8JO/QlIXVVTKEPqZRAmrB5hIRgf
+ eykA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=7c+XCiUq72hc/DKK3r8KdpN46jOotTEXNDz6WP+D4MY=;
+ b=uW+QEJvd86wIikC0A/OUYqnUcPXv7Y4Xn/a/pbIW0hy24LKCollknucY6GM3Tu/DGM
+ 61nh8vyFwK/d+zAPmTUiGb9VNQZGKJUt/4XkawWiE5GscmXepzgTbQCqh5KzhRaWR6wy
+ wx6dYJEBL98BxGHJmNDfyufUa8rtPmxx77PfvpKd0sZMwa6j6V9xK2BHzFX5s7msRnzf
+ yxi82IGAEMV8kFHNV1asSUQUMnFPBfsPL4JY1+8IMbXT5m49ZhmYG4QrTSPTLklDHyKy
+ I2mxBfq1yrmcLCXisal+N8iWIaQ4Iv4LakIiqiAkMvpDNGky2r9oOd9qQSXtdiaPqsR1
+ NgEw==
+X-Gm-Message-State: AOAM532ub2aj0HBEqWhqJYG7oNfrqjLrfx7seJ06oiM6kPjPORMD0YOG
+ hwvKfJA4bjsyThQYilRzcvfTGvd9Cqk=
+X-Google-Smtp-Source: ABdhPJzE/+giX9+5unVkteF9kg54izpkgly7ZyX/jG2ngFrUAmrGuwbJ4N5UewpIj6C2x4Avp3ZbjA==
+X-Received: by 2002:adf:d20c:: with SMTP id j12mr6507661wrh.76.1613692592853; 
+ Thu, 18 Feb 2021 15:56:32 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id 4sm9609303wma.0.2021.02.18.15.56.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 18 Feb 2021 15:56:32 -0800 (PST)
+Subject: Re: How to get a wiki account?
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <BYAPR02MB488605CFFBDA686B2E00640BDE859@BYAPR02MB4886.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <aa48784f-4cf9-b300-5715-752662a5be89@amsat.org>
+Date: Fri, 19 Feb 2021 00:56:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210218232415.1001078-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <BYAPR02MB488605CFFBDA686B2E00640BDE859@BYAPR02MB4886.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,78 +89,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, "Moger, Babu" <Babu.Moger@amd.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 18, 2021 at 06:24:12PM -0500, Eduardo Habkost wrote:
-> I'm hugely behind in backlog of qemu-devel messages and patches
-> to queue/review (my apologies to all waiting for something from
-> me).  I'm flushing the few patches I had queued so they don't get
-> stale.
-> 
-> The following changes since commit c79f01c9450bcf90c08a77f13fbf67bdba59a316:
-> 
->   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-hex-20210218' into staging (2021-02-18 16:33:36 +0000)
-> 
-> are available in the Git repository at:
-> 
->   https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
-> 
-> for you to fetch changes up to bf475162d70a16a6cef478272aa32be1025aa72a:
-> 
->   hostmem: Don't report pmem attribute if unsupported (2021-02-18 16:43:17 -0500)
+On 2/19/21 12:23 AM, Taylor Simpson wrote:
+> How do I get a wiki account for wiki.qemu.org?  Going forward, I’d like
+> to be able to add information about the Hexagon target.
 
-My apologies, a corrected version of the pull request tag was
-pushed, with the correct version of the EPYC-Milan patch:
+As any user with access to the wiki can create user accounts,
+I created yours and will send you your information off-list.
 
-The following changes since commit c79f01c9450bcf90c08a77f13fbf67bdba59a316:
+Regards,
 
-  Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-hex-20210218' into staging (2021-02-18 16:33:36 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/ehabkost/qemu.git tags/machine-next-pull-request
-
-for you to fetch changes up to def835f0da0d153b397071e6bb8f2b46f51f96b4:
-
-  hostmem: Don't report pmem attribute if unsupported (2021-02-18 18:34:47 -0500)
-
-----------------------------------------------------------------
-Machine and x86 queue, 2021-02-18
-
-Feature:
-* i386: Add the support for AMD EPYC 3rd generation processors
-  (Babu Moger)
-
-Bug fix:
-* hostmem: Don't report pmem attribute if unsupported
-  (Michal Privoznik)
-
-Cleanup:
-* device-crash-test: Remove problematic language
-  (Eduardo Habkost)
-
-----------------------------------------------------------------
-
-Babu Moger (1):
-  i386: Add the support for AMD EPYC 3rd generation processors
-
-Eduardo Habkost (1):
-  device-crash-test: Remove problematic language
-
-Michal Privoznik (1):
-  hostmem: Don't report pmem attribute if unsupported
-
- target/i386/cpu.h         |   4 ++
- backends/hostmem-file.c   |  13 ++---
- scripts/device-crash-test |  96 +++++++++++++++++-----------------
- target/i386/cpu.c         | 107 +++++++++++++++++++++++++++++++++++++-
- 4 files changed, 162 insertions(+), 58 deletions(-)
-
--- 
-Eduardo
-
+Phil.
 
