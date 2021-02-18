@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA43E31F06E
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 20:51:27 +0100 (CET)
-Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7ACE131EFE1
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 20:32:39 +0100 (CET)
+Received: from localhost ([::1]:34040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCpKg-0006EG-KQ
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 14:51:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
+	id 1lCp2U-0005SQ-5P
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 14:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCoyG-0002zE-Eg
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:28:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38040)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCoyF-0002xW-Ii
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:28:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCoyD-0003c8-Tw
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:28:16 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCoyD-0003bq-D9
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 14:28:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613676493;
+ s=mimecast20190719; t=1613676492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=D7BiXHLkxadzDPwCgV1hzUxbrB99XWjmyQpbFSDezk4=;
- b=cv7LGVBD9+H/Aqw2jgCSNO+Q9EMrwy/IMQhr1q6LvR46We+XsZpuKblayYWxPzNyUK9/Cl
- CfbHV3Hd2BoAPWbuQdCxE5L0aWVWZnsoLApEk+e0qIMVnQDjC3tQ5CI9hHQqXZFM4UyykF
- lJ5NBAAkJa9WAFD/tox6ygsKSpg9GK8=
+ bh=u78hVotkjG5VOuLO6zQ5VzsMpxYa3Y39PlJgjHPdLvk=;
+ b=WpuZTQig+Meh5QgFsf4TtbCRd3jWueU4hGO5zz47QNEQcwDz/01b3WSSeoq2To9YeLWyO+
+ XblQJDlQw8DW/5g39h0rJe70q8SD7A8yUCwqxMok5uAtegyyjHgz7rVQFfGTBCbXvzXNw/
+ v3wAn2TJ10Y38rCDQ5VpSUUm1bRNq1c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-ssBECl0mOlejJHumprmWVA-1; Thu, 18 Feb 2021 14:28:09 -0500
-X-MC-Unique: ssBECl0mOlejJHumprmWVA-1
+ us-mta-402-JJO4SvxMMa67iLjwHZQBoA-1; Thu, 18 Feb 2021 14:28:10 -0500
+X-MC-Unique: JJO4SvxMMa67iLjwHZQBoA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 311EE801965;
- Thu, 18 Feb 2021 19:28:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F4371005501;
+ Thu, 18 Feb 2021 19:28:09 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E23FA60BE5;
- Thu, 18 Feb 2021 19:28:06 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 525D160BE5;
+ Thu, 18 Feb 2021 19:28:08 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 13/25] python: add excluded dirs to flake8 config
-Date: Thu, 18 Feb 2021 14:27:21 -0500
-Message-Id: <20210218192733.370968-14-jsnow@redhat.com>
+Subject: [PATCH v5 14/25] python: Add flake8 to pipenv
+Date: Thu, 18 Feb 2021 14:27:22 -0500
+Message-Id: <20210218192733.370968-15-jsnow@redhat.com>
 In-Reply-To: <20210218192733.370968-1-jsnow@redhat.com>
 References: <20210218192733.370968-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,32 +87,120 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instruct flake8 to avoid certain well-known directories created by
-python tooling that it ought not check.
+flake8 3.5.x does not support the --extend-ignore syntax used in the
+.flake8 file to gracefully extend default ignores, so 3.6.x is our
+minimum requirement. There is no known upper bound.
 
-Note that at-present, nothing actually creates a ".venv" directory; but
-it is in such widespread usage as a de-facto location for a developer's
-virtual environment that it should be excluded anyway. A forthcoming
-commit canonizes this with a "make venv" command.
+flake8 can be run from the python/ directory with no arguments.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
+Reviewed-by: Cleber Rosa <crosa@redhat.com>
+Tested-by: Cleber Rosa <crosa@redhat.com>
 ---
- python/setup.cfg | 2 ++
- 1 file changed, 2 insertions(+)
+ python/Pipfile      |  1 +
+ python/Pipfile.lock | 51 ++++++++++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 51 insertions(+), 1 deletion(-)
 
-diff --git a/python/setup.cfg b/python/setup.cfg
-index 9ecb2902006..f21a1c42fc0 100644
---- a/python/setup.cfg
-+++ b/python/setup.cfg
-@@ -21,6 +21,8 @@ packages = find_namespace:
+diff --git a/python/Pipfile b/python/Pipfile
+index 1e58986c895..d1f7045f680 100644
+--- a/python/Pipfile
++++ b/python/Pipfile
+@@ -4,6 +4,7 @@ url = "https://pypi.org/simple"
+ verify_ssl = true
  
- [flake8]
- extend-ignore = E722  # Prefer pylint's bare-except checks to flake8's
-+exclude = __pycache__,
-+          .venv,
+ [dev-packages]
++flake8 = ">=3.6.0"
+ pylint = ">=2.6.0"
  
- [pylint.messages control]
- # Disable the message, report, category or checker with the given id(s). You
+ [packages]
+diff --git a/python/Pipfile.lock b/python/Pipfile.lock
+index 4506335b7d9..869b0bdf67f 100644
+--- a/python/Pipfile.lock
++++ b/python/Pipfile.lock
+@@ -1,7 +1,7 @@
+ {
+     "_meta": {
+         "hash": {
+-            "sha256": "b7ac1f2ad73bc166244c0378298afba64951a16bb749b81a9668dc41f40f941c"
++            "sha256": "9f6d4857a6c72ad40fc1ec1e58cdb76f187a2986ac4156f0027e5eb798ec69a9"
+         },
+         "pipfile-spec": 6,
+         "requires": {
+@@ -25,6 +25,22 @@
+             "markers": "python_version >= '3.5'",
+             "version": "==2.4.2"
+         },
++        "flake8": {
++            "hashes": [
++                "sha256:749dbbd6bfd0cf1318af27bf97a14e28e5ff548ef8e5b1566ccfb25a11e7c839",
++                "sha256:aadae8761ec651813c24be05c6f7b4680857ef6afaae4651a4eccaef97ce6c3b"
++            ],
++            "index": "pypi",
++            "version": "==3.8.4"
++        },
++        "importlib-metadata": {
++            "hashes": [
++                "sha256:ace61d5fc652dc280e7b6b4ff732a9c2d40db2c0f92bc6cb74e07b73d53a1771",
++                "sha256:fa5daa4477a7414ae34e95942e4dd07f62adf589143c875c133c1e53c4eff38d"
++            ],
++            "markers": "python_version < '3.8'",
++            "version": "==3.4.0"
++        },
+         "isort": {
+             "hashes": [
+                 "sha256:c729845434366216d320e936b8ad6f9d681aab72dc7cbc2d51bedc3582f3ad1e",
+@@ -67,6 +83,22 @@
+             ],
+             "version": "==0.6.1"
+         },
++        "pycodestyle": {
++            "hashes": [
++                "sha256:2295e7b2f6b5bd100585ebcb1f616591b652db8a741695b3d8f5d28bdc934367",
++                "sha256:c58a7d2815e0e8d7972bf1803331fb0152f867bd89adf8a01dfd55085434192e"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==2.6.0"
++        },
++        "pyflakes": {
++            "hashes": [
++                "sha256:0d94e0e05a19e57a99444b6ddcf9a6eb2e5c68d3ca1e98e90707af8152c90a92",
++                "sha256:35b2d75ee967ea93b55750aa9edbbf72813e06a66ba54438df2cfac9e3c27fc8"
++            ],
++            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
++            "version": "==2.2.0"
++        },
+         "pylint": {
+             "hashes": [
+                 "sha256:bb4a908c9dadbc3aac18860550e870f58e1a02c9f2c204fdf5693d73be061210",
+@@ -127,11 +159,28 @@
+             "markers": "implementation_name == 'cpython' and python_version < '3.8'",
+             "version": "==1.4.2"
+         },
++        "typing-extensions": {
++            "hashes": [
++                "sha256:7cb407020f00f7bfc3cb3e7881628838e69d8f3fcab2f64742a5e76b2f841918",
++                "sha256:99d4073b617d30288f569d3f13d2bd7548c3a7e4c8de87db09a9d29bb3a4a60c",
++                "sha256:dafc7639cde7f1b6e1acc0f457842a83e722ccca8eef5270af2d74792619a89f"
++            ],
++            "markers": "python_version < '3.8'",
++            "version": "==3.7.4.3"
++        },
+         "wrapt": {
+             "hashes": [
+                 "sha256:b62ffa81fb85f4332a4f609cab4ac40709470da05643a082ec1eb88e6d9b97d7"
+             ],
+             "version": "==1.12.1"
++        },
++        "zipp": {
++            "hashes": [
++                "sha256:102c24ef8f171fd729d46599845e95c7ab894a4cf45f5de11a44cc7444fb1108",
++                "sha256:ed5eee1974372595f9e416cc7bbeeb12335201d8081ca8a0743c954d4446e5cb"
++            ],
++            "markers": "python_version >= '3.6'",
++            "version": "==3.4.0"
+         }
+     }
+ }
 -- 
 2.29.2
 
