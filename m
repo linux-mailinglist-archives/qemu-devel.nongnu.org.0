@@ -2,71 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 799A431EA18
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 13:58:43 +0100 (CET)
-Received: from localhost ([::1]:43498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5688331EA3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 14:10:08 +0100 (CET)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCitG-0002y0-03
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 07:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38832)
+	id 1lCj4I-0007YO-Pl
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 08:10:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lCirY-00025e-Ua
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 07:56:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44190)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lCirT-0007jM-Qk
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 07:56:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613653008;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l1VbTbq7RE7QflOTgfWAj5S/o8+kZqaQBuc8WmXPl0s=;
- b=OVvFgg+CXpz9G+SBRh6aqeqlucpIMVsi3T/EBBwMOPycoFqrNmAUHYeRGMDA2HL/ao3ucJ
- 3XhpE+ykGmXXIUsYJytkXWrkO4Q3w03zCgY49iKFyEQQxUfu+21p62sPDBfq9mKaBfEkoK
- ZCussxBgaowaaAoDY1j5TpNaToAjq9k=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-203-lLnMvLxzMnGAT-cksitYfA-1; Thu, 18 Feb 2021 07:56:46 -0500
-X-MC-Unique: lLnMvLxzMnGAT-cksitYfA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8EB266D4E6;
- Thu, 18 Feb 2021 12:56:44 +0000 (UTC)
-Received: from gondolin (ovpn-113-63.ams2.redhat.com [10.36.113.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DB085D6A1;
- Thu, 18 Feb 2021 12:56:21 +0000 (UTC)
-Date: Thu, 18 Feb 2021 13:56:18 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210218135618.06532573.cohuck@redhat.com>
-In-Reply-To: <20210218113438.3fe80078.pasic@linux.ibm.com>
-References: <20210218022227.979741-1-pasic@linux.ibm.com>
- <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
- <20210218113438.3fe80078.pasic@linux.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1lCj2Z-00070f-9j; Thu, 18 Feb 2021 08:08:19 -0500
+Received: from mail-eopbgr40099.outbound.protection.outlook.com
+ ([40.107.4.99]:11115 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1lCj2W-0004Tp-1m; Thu, 18 Feb 2021 08:08:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=MhnsZ6rvf/IydSMkJ/5dMIs5UoYNiW8N+KT0IlvwzyQv+Hao+NwLl9qeXw++2mrNuz/4HRS0LmRCEeLGol05Aw0OeexiR2rfLjbkLr/KOyu07evpxGMyKlQavGzoA/0kAnbRIx8vqOx2N4NrsHUHLyvfbL2XCwNBYsLAMznFyN5SwKQjbOgHYGupdVSItgdmuDG0KT5PhwLd1WD4WLpSAQyvzcr9V/lqWWFfhe8OHv5UHY4ZO83W30qwekq7RVVahRmoW9vd+7NWZahwuEo9JDQmoEltvc3c4UYO6xpvanx+lD1rWDw96cJ1NCbtndlDvTnIDEVgJYzpYZYQb/WmsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=17VrufJyr5jMtrUXJi4GFdp9aVFiBN+PRHdMfUXc34s=;
+ b=JWYxyyTSt7EDeHaEBGSEx8zJ0xUJiI8ZUB11MQx2POHx0rrnOurm6R8vJ2L7QF/wCwWxWrR6BvsPXg114TC8WR9WpVnjmCsE3189YynuDBnPsiYaOgx4lMfXKAiG1FA0K4bH2apSU1DTXpF2kPJfh6g4xL4iMWhJ7ulC2sM2aWO+7f3TgC7zmFEUPy/08s70oLo/KVXRdJNA36Drp9L8ts1YjHFzbEHBQsKBcYaAj82FUEn9BM5LFtdSEfygSprhz1sEPcIb9lY2clhu2RGuyfWEfmWVn83z+/aQMZpihiuh93w4cpcGi4IV+mbx7fiSQb+Tu/sQTq/lOqfQxbDJKg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none header.from=openvz.org;
+ dkim=pass header.d=openvz.org; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=openvz.org;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=17VrufJyr5jMtrUXJi4GFdp9aVFiBN+PRHdMfUXc34s=;
+ b=tCfmGT0RVj/RqIOxxtF/SxdeDd5yyqQfJbOTc/S3l8h0bkI1UczIgqTHmTJx7CjB4lZGAClm3waALv5d7ZoebKusntenr2ukgJUrQn0EJGWT5+y25P2FT2uTgg14A46YV+tLgvTVCTqHwV22ta8+4tAzzKHtWsFEx52jIsHxo8o=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=openvz.org;
+Received: from AM6PR08MB4214.eurprd08.prod.outlook.com (2603:10a6:20b:8d::30)
+ by AS8PR08MB6374.eurprd08.prod.outlook.com (2603:10a6:20b:338::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.29; Thu, 18 Feb
+ 2021 13:08:09 +0000
+Received: from AM6PR08MB4214.eurprd08.prod.outlook.com
+ ([fe80::b583:d143:8b9a:83fb]) by AM6PR08MB4214.eurprd08.prod.outlook.com
+ ([fe80::b583:d143:8b9a:83fb%6]) with mapi id 15.20.3846.041; Thu, 18 Feb 2021
+ 13:08:09 +0000
+Subject: Re: [PATCH 1/5] qcow2-bitmap: make bytes_covered_by_bitmap_cluster()
+ public
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210216164527.37745-1-vsementsov@virtuozzo.com>
+ <20210216164527.37745-2-vsementsov@virtuozzo.com>
+From: "Denis V. Lunev" <den@openvz.org>
+Message-ID: <b2f72c5f-d474-d99b-b90b-6fd1b32a3e82@openvz.org>
+Date: Thu, 18 Feb 2021 16:08:06 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210216164527.37745-2-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Language: en-US
+X-Originating-IP: [31.148.204.195]
+X-ClientProxiedBy: AM0PR02CA0126.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28c::23) To AM6PR08MB4214.eurprd08.prod.outlook.com
+ (2603:10a6:20b:8d::30)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.1.81] (31.148.204.195) by
+ AM0PR02CA0126.eurprd02.prod.outlook.com (2603:10a6:20b:28c::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.28 via Frontend
+ Transport; Thu, 18 Feb 2021 13:08:07 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: a3489ec4-1384-41a5-a075-08d8d40e3c7d
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6374:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6374B68CBA0984D7F8042D71B6859@AS8PR08MB6374.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:14;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cAHZaYAZ30Cm2f2pOjo17d6QxPCXsUU9J/dKS9SDWEZ+6Z+CyX3fGuhRvvjaI/iUjaZ/X+rfrDHC7Di5Rn/bbyrO54Gj45QzuOiDsB2JjTjjJCIXdmL6Ds+WB/cfnmlygDIPIHWU72sbwtmH5T5ohIR5B9UFIxqbek5C2YgDz0HsRFfYvD83NeBErUBEWKRUmR1eKBwyC0YGuufi4UmUfQlOkNOXxThnuA8h/xBU3YZAYdkB1Mpkigvf78inZlplojDzizE5vtOfe7f1YbE7RpFo0/nTeVapdkcb/uGk80roLDH7LsN3trRVP2wEs69O0WpchZ6QItxmpbjfCZUt/Gg6zifL8A6EUv0i76AI/McK4UmB9rJG8EybIGse+625Tej2FeC2N5wRO4mvkEAyQPRRWmLFBjwQBZF1ZbE8I94xjf1qUZH/k2OliK2zRrpfd4slBw27SYDACks2eIE/mXxGMakn08j1QPe3qWR8oraUh757fFRhkg5bcN/7682fNemDme5FPKoUUTH9D0XBS++EY2kHmEiQBmm1/dMEEkQ/woAizvt5ObRbAFdL7qUYEbMrW31Wct8EhdW5Ek2Ts5wxnN/igwpmjBBUfmGB2iI=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM6PR08MB4214.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(396003)(346002)(376002)(39840400004)(2906002)(6486002)(8676002)(4326008)(8936002)(31686004)(16526019)(42882007)(26005)(186003)(478600001)(16576012)(36756003)(66946007)(52116002)(2616005)(956004)(66476007)(31696002)(53546011)(83170400001)(66556008)(83380400001)(5660300002)(316002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Q2p6R0FCWFZtU1BadGJLN0FlRGJicGlnR3NTRG5MMXpyYjBCQlRaRTBZUTEx?=
+ =?utf-8?B?Nzg5bCt5MGJVa2tQb2hXR0VoY2RLbFRlMTBtaU8yYktBWGhLUGN3dTFoMVky?=
+ =?utf-8?B?M3JJaHltQXZ5Zlh4WC9uQk9SM3BBbmpIUitQd3VuRDJvSXZjMGdaLzFwbTZr?=
+ =?utf-8?B?bHltTEtSRVAwMndpRk5taDZIQUhIc0xFWmVubTFETjRuUVBEdWVYemw0aW5j?=
+ =?utf-8?B?Ti9XbGNCSWh2dHhFSm1La1I5WkE1QXZmSmxLTS9FQS9lbTJ2NHQ3VzNsT2NT?=
+ =?utf-8?B?cGY1VUNiRVN4SUxST3ZOR2ZzQnFSTTA4enVRZ0Y1N2pjNzgyVmE2WkVzMUVm?=
+ =?utf-8?B?MFltdzQvbUlLcWRVWEI5OGJ6VC8zS3locnhHRHk1MDEvZHgzTWc5alRNT1pq?=
+ =?utf-8?B?WitxaEV4VlJLQXJIOHl6NFQ0NHhPWnVwcW8vcnlSaTZkOVdLSVdTdHdsV1Iv?=
+ =?utf-8?B?UFJycGpmNkFQYmMxc0lDcEN4bFBDWEN1UjNtb1Z4UHY4dXFESVNHUlg1R21z?=
+ =?utf-8?B?MDlZOVVlei8vZDBkU2V3TU4zamNzcUI2TUU5U3FEalk4RDZnZmlNUVhGSjZ4?=
+ =?utf-8?B?cVdWQjdYWDM1SXZydlNpZnBMdlJrU1RiSS96TFVsUm50NG9jUlRTV3U5U3J6?=
+ =?utf-8?B?QUZQMUtndUEwRmxOakh6VmlabmFlQVhyTStHOVBmUU9GZU4zYUEzalFqdWYy?=
+ =?utf-8?B?YStHQ0hmMVoxZFFtWXJlNzRwWHo2WUJOVUFLYlYzdVhzWDJzaU1iZ1N2N2RG?=
+ =?utf-8?B?MVAxRWtuQzlwd0o5alB4ZURMRjVhWTdqVmk3b1JtNU9YZ0VSc2s4MXFvTk1P?=
+ =?utf-8?B?cHRDenVSU0VJeGZFWFVzQUMyV0F5NFJPeEUyVWxpYm9sMUhhZllXalRYQjl2?=
+ =?utf-8?B?TStrZkVTYnE2c2huWXVrUG5CNlJWNVVXOEg0NDYwR0lZc0VMYkx4akZUc3lI?=
+ =?utf-8?B?MUo1enJoaVA0b3RWSkZwbWxhOWV2ZXE4WWJkak9KZ3RSNWFNU3diaGVTenBv?=
+ =?utf-8?B?VGEwaXpDYk1TRUZVK2lKMkVLeW5KRWxCMVl3WGpGQ2dTZVJsOHVITng5Mm1K?=
+ =?utf-8?B?UHU4eHJWaHBJRVp1SjdjRUNNQjFnQVd2bEdPVVc3cjBoR09MZlZmTDREZitY?=
+ =?utf-8?B?UUFReE5xeExXTGxzeC9kVHQ2TEZNUktyNWEzM1praFNTVXFiUnBsNVlxeHpE?=
+ =?utf-8?B?NjlpZXE5bG4wKzJ0QnRCZTRxOVptSGhYSXJzWFFWWStyMHNWWm11WVYyb0Ry?=
+ =?utf-8?B?b2tNWlNxV1JvMVBqMDRLRVN0dnB5WHZ5Nm45OWRjdlNSUTZ6RkVhOHJla1E3?=
+ =?utf-8?B?djZKNXRjdjE5QTRsWUJWSkV4aUV6ZWdtZjlKRkxhOFhjQ1grL0IvSUhtWUNn?=
+ =?utf-8?B?WW5uUExFOVl2bDdEUUNyWUdJaWdYY0tTL1pKU2RyOU9ZTzhaT1ZKeE9wZHI1?=
+ =?utf-8?B?K21vR2pXSHpWWkg3TVNBd1BTUEdzMlRnT2owSnNjUUZ1VDRrZUZmZ2M5KzB5?=
+ =?utf-8?B?YU55b0VFY3R5eUd1WmNTWUtxU1hDK1M1ZUZEQ3FxRG1ucGxLZ1kvT3Y0Y21E?=
+ =?utf-8?B?NFZmWWVaK1FnRGw0RFp0YWUvOHlJUTF6VGdJVGNVSDI1K041djB2U0xyK3cx?=
+ =?utf-8?B?cGlabmQ4VmdDcUg3dWV3eFh1VlJnaXlVT1QvRC9IOGZVcHkwV1ZDK3lvbTBK?=
+ =?utf-8?B?MFpxeXZjOTUyVVNoNHhMUDZpeGI2Nmd1MlRYbktUc0RYS3E3VGdFeGFiR1VB?=
+ =?utf-8?Q?s5EC+og4c1/dJeGMha3XK24ZhB/OQzERIJaKb/p?=
+X-OriginatorOrg: openvz.org
+X-MS-Exchange-CrossTenant-Network-Message-Id: a3489ec4-1384-41a5-a075-08d8d40e3c7d
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR08MB4214.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Feb 2021 13:08:09.1746 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QyUkX8XlGwt4Smym/Z3K6qGq91wHv5AQF17uerVwR5LLU1FZBeF5bYtnraFr7Hbod+rCeiqZwR6B5iU6veI56Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6374
+Received-SPF: pass client-ip=40.107.4.99; envelope-from=den@virtuozzo.com;
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,108 +145,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 11:34:38 +0100
-Halil Pasic <pasic@linux.ibm.com> wrote:
-
-> On Thu, 18 Feb 2021 10:23:16 +0100
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
-> > > Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
-> > > module, which provides the type virtio-gpu-device, packaging the
-> > > hw-display-virtio-gpu module as a separate package that may or may not
-> > > be installed along with the qemu package leads to problems. Namely if
-> > > the hw-display-virtio-gpu is absent, qemu continues to advertise
-> > > virtio-gpu-ccw, but it aborts not only when one attempts using
-> > > virtio-gpu-ccw, but also when libvirtd's capability probing tries
-> > > to instantiate the type to introspect it.
-> > > 
-> > > Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
-> > > is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
-> > > was chosen because it is not a portable device.
-> > > 
-> > > With virtio-gpu-ccw built as a module, the correct way to package a
-> > > modularized qemu is to require that hw-display-virtio-gpu must be
-> > > installed whenever the module hw-s390x-virtio-gpu-ccw.
-> > > 
-> > > Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> > > ---
-> > >   hw/s390x/meson.build | 17 ++++++++++++++++-
-> > >   util/module.c        |  1 +
-> > >   2 files changed, 17 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> > > index 2a7818d94b..153b1309fb 100644
-> > > --- a/hw/s390x/meson.build
-> > > +++ b/hw/s390x/meson.build
-> > > @@ -34,7 +34,6 @@ virtio_ss.add(files('virtio-ccw.c'))
-> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
-> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
-> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
-> > > -virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
-> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
-> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
-> > >   virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
-> > > @@ -46,3 +45,19 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'
-> > >   s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
-> > >   
-> > >   hw_arch += {'s390x': s390x_ss}
-> > > +
-> > > +if target.startswith('s390x')
-> > > +  hw_s390x_modules = {}
-> > > +
-> > > +  hw_s390x_modules_c_args = ['-DNEED_CPU_H',
-> > > +	      '-DCONFIG_TARGET="@0@-config-target.h"'.format(target)]
-> > > +  hw_s390x_modules_inc = [include_directories('../../target' / config_target['TARGET_BASE_ARCH'])]
-> > > +  hw_s390x_modules_dependencies = declare_dependency(
-> > > +	       include_directories: hw_s390x_modules_inc, compile_args: hw_s390x_modules_c_args)    
-> > 
-> > Basically the patch looks fine to me, but I wonder why all that above lines 
-> > (related to hw_s390x_modules_dependencies) are requred at all? The other 
-> > display modules in hw/display/meson.build also do not need to re-define 
-> > c_args for example?  
-> 
-> The explanation is simple. Unlike most devices, the ccw devices aren't
-> portable. In particular both css.c and css.h includes "cpu.h", and
-> virtio-ccw-gpu.c includes "qemu/osdep.h". Furthermore osdep.h contains:
-> #ifdef NEED_CPU_H
-> #include CONFIG_TARGET
-> #else
-> #include "exec/poison.h"
-> #endif
-> so if we don't have NEED_CPU_H, among others CONFIG_KVM is poisoned, and
-> CONFIG_KVM is used in "css.h". Frankly, I can't tell under what circumstances
-> does css need "cpu.h". 
-
-s390_crw_mchk() and s390_io_interrupt() are in cpu.h. Nowadays, they
-use the flic to inject interrupts; but their earlier implementations
-had a dummy cpu state.
-
-I'm wondering whether s390_flic.h is a better place for functions
-injecting floating interrupts, now that we don't have the non-flic
-support anymore.
-
-> I managed to build the s390x-softmmu target
-> without it, but decided to put it back. Regarding "osdep.h", I just
-> assumed includes are done the way they are done for a good reason. Maybe
-> the includes can be changed in a way that the things you ask about become
-> unnecessary, but with the code as is they are necessary. Try to drop them
-> and check out what happens.
-> 
-> Regards,
-> Halil
-> 
-
+On 2/16/21 7:45 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Rename bytes_covered_by_bitmap_cluster() to
+> bdrv_dirty_bitmap_serialization_coverage() and make it public. It is
+> needed as we are going to make load_bitmap_data() public in the next
+> commit.
+>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/dirty-bitmap.h |  2 ++
+>  block/dirty-bitmap.c         | 13 +++++++++++++
+>  block/qcow2-bitmap.c         | 16 ++--------------
+>  3 files changed, 17 insertions(+), 14 deletions(-)
+>
+> diff --git a/include/block/dirty-bitmap.h b/include/block/dirty-bitmap.h
+> index 36e8da4fc2..f581cf9fd7 100644
+> --- a/include/block/dirty-bitmap.h
+> +++ b/include/block/dirty-bitmap.h
+> @@ -57,6 +57,8 @@ void bdrv_dirty_iter_free(BdrvDirtyBitmapIter *iter);
+>  uint64_t bdrv_dirty_bitmap_serialization_size(const BdrvDirtyBitmap *bitmap,
+>                                                uint64_t offset, uint64_t bytes);
+>  uint64_t bdrv_dirty_bitmap_serialization_align(const BdrvDirtyBitmap *bitmap);
+> +uint64_t bdrv_dirty_bitmap_serialization_coverage(int serialized_chunk_size,
+> +        const BdrvDirtyBitmap *bitmap);
+>  void bdrv_dirty_bitmap_serialize_part(const BdrvDirtyBitmap *bitmap,
+>                                        uint8_t *buf, uint64_t offset,
+>                                        uint64_t bytes);
+> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+> index 9b9cd71238..a0eaa28785 100644
+> --- a/block/dirty-bitmap.c
+> +++ b/block/dirty-bitmap.c
+> @@ -726,6 +726,19 @@ uint64_t bdrv_dirty_bitmap_serialization_align(const BdrvDirtyBitmap *bitmap)
+>      return hbitmap_serialization_align(bitmap->bitmap);
+>  }
+>  
+> +/* Return the disk size covered by a chunk of serialized bitmap data. */
+> +uint64_t bdrv_dirty_bitmap_serialization_coverage(int serialized_chunk_size,
+> +                                                  const BdrvDirtyBitmap *bitmap)
+> +{
+> +    uint64_t granularity = bdrv_dirty_bitmap_granularity(bitmap);
+> +    uint64_t limit = granularity * (serialized_chunk_size << 3);
+> +
+> +    assert(QEMU_IS_ALIGNED(limit,
+> +                           bdrv_dirty_bitmap_serialization_align(bitmap)));
+> +    return limit;
+> +}
+> +
+> +
+>  void bdrv_dirty_bitmap_serialize_part(const BdrvDirtyBitmap *bitmap,
+>                                        uint8_t *buf, uint64_t offset,
+>                                        uint64_t bytes)
+> diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+> index 5eef82fa55..42d81c44cd 100644
+> --- a/block/qcow2-bitmap.c
+> +++ b/block/qcow2-bitmap.c
+> @@ -278,18 +278,6 @@ static int free_bitmap_clusters(BlockDriverState *bs, Qcow2BitmapTable *tb)
+>      return 0;
+>  }
+>  
+> -/* Return the disk size covered by a single qcow2 cluster of bitmap data. */
+> -static uint64_t bytes_covered_by_bitmap_cluster(const BDRVQcow2State *s,
+> -                                                const BdrvDirtyBitmap *bitmap)
+> -{
+> -    uint64_t granularity = bdrv_dirty_bitmap_granularity(bitmap);
+> -    uint64_t limit = granularity * (s->cluster_size << 3);
+> -
+> -    assert(QEMU_IS_ALIGNED(limit,
+> -                           bdrv_dirty_bitmap_serialization_align(bitmap)));
+> -    return limit;
+> -}
+> -
+>  /* load_bitmap_data
+>   * @bitmap_table entries must satisfy specification constraints.
+>   * @bitmap must be cleared */
+> @@ -312,7 +300,7 @@ static int load_bitmap_data(BlockDriverState *bs,
+>      }
+>  
+>      buf = g_malloc(s->cluster_size);
+> -    limit = bytes_covered_by_bitmap_cluster(s, bitmap);
+> +    limit = bdrv_dirty_bitmap_serialization_coverage(s->cluster_size, bitmap);
+>      for (i = 0, offset = 0; i < tab_size; ++i, offset += limit) {
+>          uint64_t count = MIN(bm_size - offset, limit);
+>          uint64_t entry = bitmap_table[i];
+> @@ -1303,7 +1291,7 @@ static uint64_t *store_bitmap_data(BlockDriverState *bs,
+>      }
+>  
+>      buf = g_malloc(s->cluster_size);
+> -    limit = bytes_covered_by_bitmap_cluster(s, bitmap);
+> +    limit = bdrv_dirty_bitmap_serialization_coverage(s->cluster_size, bitmap);
+>      assert(DIV_ROUND_UP(bm_size, limit) == tb_size);
+>  
+>      offset = 0;
+Reviewed-by: Denis V. Lunev <den@openvz.org>
 
