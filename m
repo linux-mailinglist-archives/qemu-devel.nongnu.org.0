@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B847D31EAE3
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:24:05 +0100 (CET)
-Received: from localhost ([::1]:43520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F06831EB0D
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:43:04 +0100 (CET)
+Received: from localhost ([::1]:53006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCkDs-0003LG-Qo
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:24:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
+	id 1lCkWE-0000Kp-9O
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:43:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59980)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCkCH-0001tq-8x
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:22:25 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:38353)
+ id 1lCkUc-0008E4-1j
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:41:22 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34110)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lCkCF-0001kj-Ca
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:22:24 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id bl23so5871553ejb.5
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 06:22:22 -0800 (PST)
+ id 1lCkUa-0001Jw-5z
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:41:21 -0500
+Received: by mail-ej1-x629.google.com with SMTP id hs11so6068269ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 06:41:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IpyF3SJBHsTItgY7d3EK8qKgXKGGVRXn2lXATYZskX8=;
- b=Uqd3dqTsnRexufHaGUmmyn68UloelKX9PjFQekwQ8aioYax1SnHYwVrNOp2pds4VHg
- AhyiQK/7i2iHckYa88W/ISsQznBjPf/eIsGQiQ13xPcXK6wSsebBUVIVKCzzXj7no+PW
- uX+ZIJsRS4UIABfug/ZUlk3XGT7neYFPlXgxFo63VFiZpCcnFQ1V5GW+y0RLxjdQ+FQY
- PtB1Zkfzg6UHfIiRIyLxwGXUSJlIqfBNFNNCESV+D9KNIkV4OJpSrK7sUhg8Qz1nhPmT
- tWMJgfsGxW/sVDsdszsr4D3t0hoK5joC7r99WX3MXD+LwMunOUgApzPTiKsiPS8a2o35
- /d0w==
+ :cc; bh=wImHOUOF05rhEmadJ/N1IrMSOrMt95O5c6FQ3Gp5v/w=;
+ b=uPwzJy+JhkrG9cfLT367R2AXv5AuF+RKPmyhAFjs3wv7nxDNK3nEBvCbRI3nNkWo8J
+ 3gimviJJkYOH8sY6lvKlmU3kVXH6c+cCDSupiee4OpOpr+2/hU8WL6YbSi+VU0/wCIK8
+ /44UGVxO8192g7Q2PzvbR/0w7IyAtU26dEyK36OH7j9RHkRkmKNXEAEEycOs1Koj1lrW
+ BeBM/7AJiG639O6bdM/vcw4OF3TPcGnK0giXvlNgubHhRw6g9r6LBz+qtleAOK2RWK3t
+ RrL90UGnaHtg8I//1nqss4hmAmjt8goC410K8OAxXk82+ztRl1k5MC6C8WCQqik9TQVS
+ SQEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=IpyF3SJBHsTItgY7d3EK8qKgXKGGVRXn2lXATYZskX8=;
- b=ddXaYBGqx9x+/u4C4HW53kX9QKOw/FyV3UNitxcSwIxBPoqK9q3SFCR5e3e1iPeXTt
- v0Va4rUfIBVNI4B7OKSCcAonhqSpR2FeHwGbAyTsGt0pStah5be/sqrBeooIBE7IRpM4
- YmZcKhNrglyryj7UWck9CVN8ZLeTPlgkmvdvwKlsJpw0+OV1fOU77S5mlzCWUh7hkll/
- z9rJoBMUUdbodnnmGGT4sIWS5ziJs3Y2GlaWKiwCNDoWDahpCSvMPc9qW6DFgFiykvXa
- 6yPiUf2+O2E/fE4S3dmq8eG095GR4NYkv6LJujWEwLaTZ2+pw4C9c88P2eswiKQWx/RQ
- 7NDQ==
-X-Gm-Message-State: AOAM533sldVzyO1W+rzif4220R6AN1nJxisUDLCKicp7hTW0usop/BrT
- RwgUUKLITB4Q1n/nSSoCzbWrJhTWrjYc5JVyQseWvg==
-X-Google-Smtp-Source: ABdhPJzWeH+RFB6+XJI0S7ktqg5NPsqZWLHaTkiIFSKK3BaIHFQcB5W+2SvYaCR8iEvbR92eQ28XalO56tzImJbbvv8=
+ bh=wImHOUOF05rhEmadJ/N1IrMSOrMt95O5c6FQ3Gp5v/w=;
+ b=Hswd8O/pFcpJffARACUI+MM4lxmF6y4WiWt3OemPC7Oo0KDJU6jCGrXUDOrgvoo34n
+ oPTPfCSofD4ze9u/QzEBTlwF9UwjVW3EwZZ60QU00AlyhY4izFKHUZ7xpeb5AjRRvpL3
+ u8owMLicGrOjC5FdDsStX8l9if6wgaz9g+AHmnoiToWDFPY6N68s8QWKzYP2Gq96Lg+1
+ MikSKcSWEKUl1GYBN8900qsnOvhYdW2+jsxaslxt77IpM7Ypt21g9+lF+Rqyo6EmJmR5
+ +NQWWNWdq51cxv4heB3krgBIQe8RjaJ/OUVq+oZBSQjv4Qx1rJcYEBu43Rsin6x2FKyq
+ 2kJQ==
+X-Gm-Message-State: AOAM530e3tik1zIUhG4Ws4BmOx4MJ/XkH4DbBNjkPJw5KxXzMnkRVCJM
+ yCWoEQT4+9u4Kn5a0Asa4teAXu6CYEBtcGBqP8Z2Vg==
+X-Google-Smtp-Source: ABdhPJwvzKd+J8wmbkAt1tdN8wR1I0HkIiNmYkd+OZJzZ474aYUZsyD5tvXG8P77AHCAoFaswPpHtqbTJInM2XkchG4=
 X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr4389535ejd.250.1613658141510; 
- Thu, 18 Feb 2021 06:22:21 -0800 (PST)
+ a7mr4467832ejd.250.1613659278338; 
+ Thu, 18 Feb 2021 06:41:18 -0800 (PST)
 MIME-Version: 1.0
-References: <20210218015934.1623959-1-alistair.francis@wdc.com>
- <CAFEAcA_aEtpfMScS3uzrpbBqAgqGWsWjeisUXCSpqdJJ7=uCYw@mail.gmail.com>
- <CAEUhbmXeYDkKiNnkffRoE8dZc_=-vByoQfr6gdSSUNubkCaB8Q@mail.gmail.com>
-In-Reply-To: <CAEUhbmXeYDkKiNnkffRoE8dZc_=-vByoQfr6gdSSUNubkCaB8Q@mail.gmail.com>
+References: <20210218140629.373646-1-ppandit@redhat.com>
+In-Reply-To: <20210218140629.373646-1-ppandit@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 18 Feb 2021 14:22:10 +0000
-Message-ID: <CAFEAcA8BwTO7OT91B=d1tZrk9+PMiSLTmKtiv_Yd2BNdb1syRQ@mail.gmail.com>
-Subject: Re: [PULL 00/19] riscv-to-apply queue
-To: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 18 Feb 2021 14:41:07 +0000
+Message-ID: <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
+Subject: Re: [PATCH] net: eepro100: validate various address values
+To: P J P <ppandit@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,44 +77,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Stefan Weil <sw@weilnetz.de>, Jason Wang <jasowang@redhat.com>,
+ Ruhr-University Bochum <bugs-syssec@rub.de>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 at 14:07, Bin Meng <bmeng.cn@gmail.com> wrote:
-> On Thu, Feb 18, 2021 at 9:26 PM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > Fails to compile, 32 bit hosts:
-> >
-> > ../../hw/riscv/virt.c: In function 'virt_machine_init':
-> > ../../hw/riscv/virt.c:621:43: error: comparison is always false due to
-> > limited range of data type [-Werror=type-limits]
-> >          if ((uint64_t)(machine->ram_size) > 10 * GiB) {
-> >                                            ^
-> > ../../hw/riscv/virt.c:623:33: error: large integer implicitly
-> > truncated to unsigned type [-Werror=overflow]
-> >              machine->ram_size = 10 * GiB;
-> >                                  ^~
+On Thu, 18 Feb 2021 at 14:13, P J P <ppandit@redhat.com> wrote:
 >
-> This kind of error is tricky. I wonder whether we should deprecate
-> 32-bit host support though.
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+>
+> While processing controller commands, eepro100 emulator gets
+> command unit(CU) base address OR receive unit (RU) base address
+> OR command block (CB) address from guest. If these values are not
+> checked, it may lead to an infinite loop kind of issues. Add checks
+> to avoid it.
+>
+> Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> ---
+>  hw/net/eepro100.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+> index 16e95ef9cc..afa1c9b2aa 100644
+> --- a/hw/net/eepro100.c
+> +++ b/hw/net/eepro100.c
+> @@ -843,7 +843,8 @@ static void action_command(EEPRO100State *s)
+>          bool bit_i;
+>          bool bit_nc;
+>          uint16_t ok_status = STATUS_OK;
+> -        s->cb_address = s->cu_base + s->cu_offset;
+> +        s->cb_address = s->cu_base + s->cu_offset;  /* uint32_t overflow */
+> +        assert (s->cb_address >= s->cu_base);
 
-32-bit host is still not uncommon outside the x86 world...
+We get these values from the guest; you can't just assert() on them.
+You need to do something else.
 
-The thing that makes this particular check awkward is that
-machine->ram_size is a ram_addr_t, whose size is 64 bits if
-either (a) the host is 64 bits or (b) CONFIG_XEN_BACKEND is
-enabled, so it's effectively only 32-bits on 32-bit-not-x86.
+My reading of the 8255x data sheet is that there is nothing
+in the hardware that forbids the guest from programming the
+device such that the cu_base + cu_offset wraps around:
+http://www.intel.com/content/dam/doc/manual/8255x-10-100-mbps-ethernet-controller-software-dev-manual.pdf
+-- page 30 says that this is all doing 32-bit arithmetic
+on addresses and doesn't say that there is any special case
+handling by the device of overflow of that addition.
 
-It might be a good idea if we decided that we would just make
-ram_addr_t 64-bits everywhere, to avoid this kind of "we
-have an unusual config only on some more-obscure hosts" issue.
-(We did that for hwaddr back in commit 4be403c8158e1 in 2012,
-when it was still called target_phys_addr_t.) This change
-would probably be a performance hit for 32-bit-non-x86 hosts;
-it would be interesting to see whether it was measurably
-significant.
+Your commit message isn't very clear about what the failure
+case is here, but I think the fix has to be something
+different from this.
 
+thanks
 -- PMM
 
