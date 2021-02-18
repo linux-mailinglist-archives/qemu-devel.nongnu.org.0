@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A57F531F30B
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:26:50 +0100 (CET)
-Received: from localhost ([::1]:45466 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC0231F311
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:28:32 +0100 (CET)
+Received: from localhost ([::1]:51534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCsh7-0003hQ-Mj
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:26:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59484)
+	id 1lCsil-0006AP-8Y
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:28:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lCsep-00020S-DW
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:24:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43800)
+ id 1lCsf1-0002Ld-Pf
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:24:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1lCsel-00012M-Py
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:24:27 -0500
+ id 1lCsez-00018d-AU
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:24:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613690660;
+ s=mimecast20190719; t=1613690675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KikE65RpCh0xiPveF6HVoS/0p0vfVKKLIW1+OxrtMNI=;
- b=MJ4/P0bfJnFqkpDAlL4r8TyhWisSzwKmGqWNbF3S5ffgUoqAdiTjXjyO4fZdRof1Gp4+zt
- BlntNT6DPSsvbKtbmy5LNiFtHKbXRhx8R/2hdk9+MvJF2SAe7wUOu6z9BegS+IDpo836+5
- EuWqEJ+kNUIFkVAZ6lLP2CsAPB7ZvrU=
+ bh=WzcHn8IFaowWlLeeV2bO7vmuWqeQBs9RLapoyJ6fIdA=;
+ b=Sa7tomMW6Bo5Qaw8MO9QqULXZShSPuNQXP5l1Y4hT2LtwW/+sHorRSA+ePmbr7fPE8prp8
+ KCnkhpfnq+OGpmmxxGX2FcXCgd3T5wBPsJQooWJS9E6A6l25IhIAZrAP43qZgWkGU16gu7
+ emZyaniy3mTKmhYjnp3JKFFbF7mNXFY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-222-1UbObTBXMgKTWrAPBdtskA-1; Thu, 18 Feb 2021 18:24:18 -0500
-X-MC-Unique: 1UbObTBXMgKTWrAPBdtskA-1
+ us-mta-369-Ay60_yvJPKuUSXMB9Pp0Ag-1; Thu, 18 Feb 2021 18:24:19 -0500
+X-MC-Unique: Ay60_yvJPKuUSXMB9Pp0Ag-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1383C18449E7;
- Thu, 18 Feb 2021 23:24:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 37B441005501;
+ Thu, 18 Feb 2021 23:24:18 +0000 (UTC)
 Received: from localhost (ovpn-3-246.rdu2.redhat.com [10.22.3.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC1EF60BE5;
- Thu, 18 Feb 2021 23:24:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D4FFC60BE5;
+ Thu, 18 Feb 2021 23:24:17 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 1/3] i386: Add the support for AMD EPYC 3rd generation
- processors
-Date: Thu, 18 Feb 2021 18:24:13 -0500
-Message-Id: <20210218232415.1001078-2-ehabkost@redhat.com>
+Subject: [PULL 2/3] device-crash-test: Remove problematic language
+Date: Thu, 18 Feb 2021 18:24:14 -0500
+Message-Id: <20210218232415.1001078-3-ehabkost@redhat.com>
 In-Reply-To: <20210218232415.1001078-1-ehabkost@redhat.com>
 References: <20210218232415.1001078-1-ehabkost@redhat.com>
 MIME-Version: 1.0
@@ -59,14 +58,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,189 +79,199 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Babu Moger <babu.moger@amd.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Babu Moger <babu.moger@amd.com>
+Replace "whitelist" in the device-crash-test script with
+"rule list".
 
-Adds the support for AMD 3rd generation processors. The model
-display for the new processor will be EPYC-Milan.
+I'm using "rule list" instead of "allow list" or "pass list"
+because the list is not used only for expected/allowed errors.
+It also contain rules specifying which errors shouldn't be
+ignored and/or should be fatal.
 
-Adds the following new feature bits on top of the feature bits from
-the first and second generation EPYC models.
-
-pcid    : Process context identifiers support
-ibrs    : Indirect Branch Restricted Speculation
-ssbd    : Speculative Store Bypass Disable
-erms    : Enhanced REP MOVSB/STOSB support
-fsrm    : Fast Short REP MOVSB support
-invpcid : Invalidate processor context ID
-pku     : Protection keys support
-
-[ehabkost: added "ibrs" to
- feature_word_info[CPUID_8000_0008_EBX_IBRS].feat_names[14]]
-
-Signed-off-by: Babu Moger <babu.moger@amd.com>
-Message-Id: <161133338780.27536.17735339269843944966.stgit@bmoger-ubuntu>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: John Snow <jsnow@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210202191207.4103973-1-ehabkost@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.h |   4 ++
- target/i386/cpu.c | 107 +++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 110 insertions(+), 1 deletion(-)
+ scripts/device-crash-test | 96 +++++++++++++++++++--------------------
+ 1 file changed, 48 insertions(+), 48 deletions(-)
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 82c1ac00efa..8be39cfb62e 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -817,8 +817,12 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_8000_0008_EBX_WBNOINVD    (1U << 9)
- /* Indirect Branch Prediction Barrier */
- #define CPUID_8000_0008_EBX_IBPB        (1U << 12)
-+/* Indirect Branch Restricted Speculation */
-+#define CPUID_8000_0008_EBX_IBRS        (1U << 14)
- /* Single Thread Indirect Branch Predictors */
- #define CPUID_8000_0008_EBX_STIBP       (1U << 15)
-+/* Speculative Store Bypass Disable */
-+#define CPUID_8000_0008_EBX_AMD_SSBD    (1U << 24)
+diff --git a/scripts/device-crash-test b/scripts/device-crash-test
+index 04118669ba7..ef1412ca590 100755
+--- a/scripts/device-crash-test
++++ b/scripts/device-crash-test
+@@ -41,18 +41,18 @@ logger = logging.getLogger('device-crash-test')
+ dbg = logger.debug
  
- #define CPUID_XSAVE_XSAVEOPT   (1U << 0)
- #define CPUID_XSAVE_XSAVEC     (1U << 1)
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 20c3a5af3f8..e9c11b60510 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1033,7 +1033,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "clzero", NULL, "xsaveerptr", NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, "wbnoinvd", NULL, NULL,
--            "ibpb", NULL, NULL, "amd-stibp",
-+            "ibpb", NULL, "ibrs", "amd-stibp",
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             "amd-ssbd", "virt-ssbd", "amd-no-ssb", NULL,
-@@ -1798,6 +1798,56 @@ static CPUCaches epyc_rome_cache_info = {
-     },
- };
  
-+static CPUCaches epyc_milan_cache_info = {
-+    .l1d_cache = &(CPUCacheInfo) {
-+        .type = DATA_CACHE,
-+        .level = 1,
-+        .size = 32 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 64,
-+        .lines_per_tag = 1,
-+        .self_init = 1,
-+        .no_invd_sharing = true,
-+    },
-+    .l1i_cache = &(CPUCacheInfo) {
-+        .type = INSTRUCTION_CACHE,
-+        .level = 1,
-+        .size = 32 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 64,
-+        .lines_per_tag = 1,
-+        .self_init = 1,
-+        .no_invd_sharing = true,
-+    },
-+    .l2_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 2,
-+        .size = 512 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 1024,
-+        .lines_per_tag = 1,
-+    },
-+    .l3_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 3,
-+        .size = 32 * MiB,
-+        .line_size = 64,
-+        .associativity = 16,
-+        .partitions = 1,
-+        .sets = 32768,
-+        .lines_per_tag = 1,
-+        .self_init = true,
-+        .inclusive = true,
-+        .complex_indexing = true,
-+    },
-+};
-+
- /* The following VMX features are not supported by KVM and are left out in the
-  * CPU definitions:
-  *
-@@ -4130,6 +4180,61 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .model_id = "AMD EPYC-Rome Processor",
-         .cache_info = &epyc_rome_cache_info,
-     },
-+    {
-+        .name = "EPYC-Milan",
-+        .level = 0xd,
-+        .vendor = CPUID_VENDOR_AMD,
-+        .family = 25,
-+        .model = 1,
-+        .stepping = 1,
-+        .features[FEAT_1_EDX] =
-+            CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX | CPUID_CLFLUSH |
-+            CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA | CPUID_PGE |
-+            CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 | CPUID_MCE |
-+            CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE | CPUID_DE |
-+            CPUID_VME | CPUID_FP87,
-+        .features[FEAT_1_ECX] =
-+            CPUID_EXT_RDRAND | CPUID_EXT_F16C | CPUID_EXT_AVX |
-+            CPUID_EXT_XSAVE | CPUID_EXT_AES |  CPUID_EXT_POPCNT |
-+            CPUID_EXT_MOVBE | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
-+            CPUID_EXT_CX16 | CPUID_EXT_FMA | CPUID_EXT_SSSE3 |
-+            CPUID_EXT_MONITOR | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
-+            CPUID_EXT_PCID,
-+        .features[FEAT_8000_0001_EDX] =
-+            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_PDPE1GB |
-+            CPUID_EXT2_FFXSR | CPUID_EXT2_MMXEXT | CPUID_EXT2_NX |
-+            CPUID_EXT2_SYSCALL,
-+        .features[FEAT_8000_0001_ECX] =
-+            CPUID_EXT3_OSVW | CPUID_EXT3_3DNOWPREFETCH |
-+            CPUID_EXT3_MISALIGNSSE | CPUID_EXT3_SSE4A | CPUID_EXT3_ABM |
-+            CPUID_EXT3_CR8LEG | CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM |
-+            CPUID_EXT3_TOPOEXT | CPUID_EXT3_PERFCORE,
-+        .features[FEAT_8000_0008_EBX] =
-+            CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR |
-+            CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
-+            CPUID_8000_0008_EBX_IBRS | CPUID_8000_0008_EBX_STIBP |
-+            CPUID_8000_0008_EBX_AMD_SSBD,
-+        .features[FEAT_7_0_EBX] =
-+            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
-+            CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
-+            CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
-+            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_ERMS |
-+            CPUID_7_0_EBX_INVPCID,
-+        .features[FEAT_7_0_ECX] =
-+            CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_PKU,
-+        .features[FEAT_7_0_EDX] =
-+            CPUID_7_0_EDX_FSRM,
-+        .features[FEAT_XSAVE] =
-+            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-+            CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES,
-+        .features[FEAT_6_EAX] =
-+            CPUID_6_EAX_ARAT,
-+        .features[FEAT_SVM] =
-+            CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE,
-+        .xlevel = 0x8000001E,
-+        .model_id = "AMD EPYC-Milan Processor",
-+        .cache_info = &epyc_milan_cache_info,
-+    },
- };
+-# Purposes of the following whitelist:
++# Purposes of the following rule list:
+ # * Avoiding verbose log messages when we find known non-fatal
+ #   (exitcode=1) errors
+ # * Avoiding fatal errors when we find known crashes
+ # * Skipping machines/devices that are known not to work out of
+ #   the box, when running in --quick mode
+ #
+-# Keeping the whitelist updated is desirable, but not required,
++# Keeping the rule list updated is desirable, but not required,
+ # because unexpected cases where QEMU exits with exitcode=1 will
+ # just trigger a INFO message.
  
- /* KVM-specific features that are automatically added/removed
+-# Valid whitelist entry keys:
++# Valid error rule keys:
+ # * accel: regexp, full match only
+ # * machine: regexp, full match only
+ # * device: regexp, full match only
+@@ -62,7 +62,7 @@ dbg = logger.debug
+ # * expected: if True, QEMU is expected to always fail every time
+ #   when testing the corresponding test case
+ # * loglevel: log level of log output when there's a match.
+-ERROR_WHITELIST = [
++ERROR_RULE_LIST = [
+     # Machines that won't work out of the box:
+     #             MACHINE                         | ERROR MESSAGE
+     {'machine':'niagara', 'expected':True},       # Unable to load a firmware for -M niagara
+@@ -186,65 +186,65 @@ ERROR_WHITELIST = [
+ ]
+ 
+ 
+-def whitelistTestCaseMatch(wl, t):
+-    """Check if a test case specification can match a whitelist entry
++def errorRuleTestCaseMatch(rule, t):
++    """Check if a test case specification can match a error rule
+ 
+-    This only checks if a whitelist entry is a candidate match
++    This only checks if a error rule is a candidate match
+     for a given test case, it won't check if the test case
+-    results/output match the entry.  See whitelistResultMatch().
++    results/output match the rule.  See ruleListResultMatch().
+     """
+-    return (('machine' not in wl or
++    return (('machine' not in rule or
+              'machine' not in t or
+-             re.match(wl['machine'] + '$', t['machine'])) and
+-            ('accel' not in wl or
++             re.match(rule['machine'] + '$', t['machine'])) and
++            ('accel' not in rule or
+              'accel' not in t or
+-             re.match(wl['accel'] + '$', t['accel'])) and
+-            ('device' not in wl or
++             re.match(rule['accel'] + '$', t['accel'])) and
++            ('device' not in rule or
+              'device' not in t or
+-             re.match(wl['device'] + '$', t['device'])))
++             re.match(rule['device'] + '$', t['device'])))
+ 
+ 
+-def whitelistCandidates(t):
++def ruleListCandidates(t):
+     """Generate the list of candidates that can match a test case"""
+-    for i, wl in enumerate(ERROR_WHITELIST):
+-        if whitelistTestCaseMatch(wl, t):
+-            yield (i, wl)
++    for i, rule in enumerate(ERROR_RULE_LIST):
++        if errorRuleTestCaseMatch(rule, t):
++            yield (i, rule)
+ 
+ 
+ def findExpectedResult(t):
+-    """Check if there's an expected=True whitelist entry for a test case
++    """Check if there's an expected=True error rule for a test case
+ 
+-    Returns (i, wl) tuple, where i is the index in
+-    ERROR_WHITELIST and wl is the whitelist entry itself.
++    Returns (i, rule) tuple, where i is the index in
++    ERROR_RULE_LIST and rule is the error rule itself.
+     """
+-    for i, wl in whitelistCandidates(t):
+-        if wl.get('expected'):
+-            return (i, wl)
++    for i, rule in ruleListCandidates(t):
++        if rule.get('expected'):
++            return (i, rule)
+ 
+ 
+-def whitelistResultMatch(wl, r):
+-    """Check if test case results/output match a whitelist entry
++def ruleListResultMatch(rule, r):
++    """Check if test case results/output match a error rule
+ 
+     It is valid to call this function only if
+-    whitelistTestCaseMatch() is True for the entry (e.g. on
+-    entries returned by whitelistCandidates())
++    errorRuleTestCaseMatch() is True for the rule (e.g. on
++    rules returned by ruleListCandidates())
+     """
+-    assert whitelistTestCaseMatch(wl, r['testcase'])
+-    return ((wl.get('exitcode', 1) is None or
+-             r['exitcode'] == wl.get('exitcode', 1)) and
+-            ('log' not in wl or
+-             re.search(wl['log'], r['log'], re.MULTILINE)))
++    assert errorRuleTestCaseMatch(rule, r['testcase'])
++    return ((rule.get('exitcode', 1) is None or
++             r['exitcode'] == rule.get('exitcode', 1)) and
++            ('log' not in rule or
++             re.search(rule['log'], r['log'], re.MULTILINE)))
+ 
+ 
+-def checkResultWhitelist(r):
+-    """Look up whitelist entry for a given test case result
++def checkResultRuleList(r):
++    """Look up error rule for a given test case result
+ 
+-    Returns (i, wl) tuple, where i is the index in
+-    ERROR_WHITELIST and wl is the whitelist entry itself.
++    Returns (i, rule) tuple, where i is the index in
++    ERROR_RULE_LIST and rule is the error rule itself.
+     """
+-    for i, wl in whitelistCandidates(r['testcase']):
+-        if whitelistResultMatch(wl, r):
+-            return i, wl
++    for i, rule in ruleListCandidates(r['testcase']):
++        if ruleListResultMatch(rule, r):
++            return i, rule
+ 
+     raise Exception("this should never happen")
+ 
+@@ -543,12 +543,12 @@ def main():
+             break
+ 
+         if f:
+-            i, wl = checkResultWhitelist(f)
+-            dbg("testcase: %r, whitelist match: %r", t, wl)
++            i, rule = checkResultRuleList(f)
++            dbg("testcase: %r, rule list match: %r", t, rule)
+             wl_stats.setdefault(i, []).append(f)
+-            level = wl.get('loglevel', logging.DEBUG)
++            level = rule.get('loglevel', logging.DEBUG)
+             logFailure(f, level)
+-            if wl.get('fatal') or (args.strict and level >= logging.WARN):
++            if rule.get('fatal') or (args.strict and level >= logging.WARN):
+                 fatal_failures.append(f)
+         else:
+             dbg("success: %s", formatTestCase(t))
+@@ -560,10 +560,10 @@ def main():
+         logger.info("Skipped %d test cases", skipped)
+ 
+     if args.debug:
+-        stats = sorted([(len(wl_stats.get(i, [])), wl) for i, wl in
+-                         enumerate(ERROR_WHITELIST)], key=lambda x: x[0])
+-        for count, wl in stats:
+-            dbg("whitelist entry stats: %d: %r", count, wl)
++        stats = sorted([(len(wl_stats.get(i, [])), rule) for i, rule in
++                         enumerate(ERROR_RULE_LIST)], key=lambda x: x[0])
++        for count, rule in stats:
++            dbg("error rule stats: %d: %r", count, rule)
+ 
+     if fatal_failures:
+         for f in fatal_failures:
 -- 
 2.28.0
 
