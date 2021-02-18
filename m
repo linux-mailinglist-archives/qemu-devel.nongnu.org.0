@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4813D31E614
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 06:57:42 +0100 (CET)
-Received: from localhost ([::1]:43686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D97EE31E616
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 06:59:46 +0100 (CET)
+Received: from localhost ([::1]:49744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCcJp-0006Aw-CO
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 00:57:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47662)
+	id 1lCcLp-0000Lz-VR
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 00:59:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lCcFU-0000yh-M6
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:12 -0500
-Received: from mga05.intel.com ([192.55.52.43]:7021)
+ id 1lCcFV-00011s-VY
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:13 -0500
+Received: from mga05.intel.com ([192.55.52.43]:7032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <isaku.yamahata@intel.com>)
- id 1lCcFS-0003hi-F6
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:12 -0500
-IronPort-SDR: jf2S47wh9vY60n2kduFfXiC17R3WdeAx2sTG3yQBrX8biR54MRJXpTn/1KJksSWVa9RUIt/Iio
- bwEankRKVelA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268260189"
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="268260189"
+ id 1lCcFU-0003ku-7h
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 00:53:13 -0500
+IronPort-SDR: 5piqcbip1iE8n7yryxihoZPEPEhIl5SjhZt9qmc9jItxk5L5JvSL1BTTgdzKvtkbuHK40dFwG1
+ Mj8Ozufvz0hg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9898"; a="268260191"
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="268260191"
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 21:53:00 -0800
-IronPort-SDR: x48txkMFW4JKztLSn1ewxhlWSRZfzk7XSCvLl/vDj1ozakQonB3sYkbmq0BVrJoH/3WaVGx74E
- jLwO+O2/r+Dg==
-X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="589940927"
+IronPort-SDR: DBA9EcgaQ1IXN8I9ge5S9QWpKb6bi3QcO9qGFq29ImqYBn+tlY71b9hXD9oQhJ7CLuPjHb0u82
+ 8TLKfQqxcipw==
+X-IronPort-AV: E=Sophos;i="5.81,186,1610438400"; d="scan'208";a="589940933"
 Received: from ls.sc.intel.com (HELO localhost) ([143.183.96.54])
  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
  17 Feb 2021 21:53:00 -0800
 From: isaku.yamahata@gmail.com
 To: qemu-devel@nongnu.org, imammedo@redhat.com, mst@redhat.com,
  marcel.apfelbaum@gmail.com
-Subject: [PATCH v5 04/10] acpi/core: always set SCI_EN when SMM isn't supported
-Date: Wed, 17 Feb 2021 21:51:12 -0800
-Message-Id: <500f62081626997e46f96377393d3662211763a8.1613615732.git.isaku.yamahata@intel.com>
+Subject: [PATCH v5 06/10] acpi: add test case for smm unsupported -machine
+ smm=off
+Date: Wed, 17 Feb 2021 21:51:14 -0800
+Message-Id: <22f774a51255af1608b07b00b257af426adcf4ab.1613615732.git.isaku.yamahata@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <cover.1613615732.git.isaku.yamahata@intel.com>
 References: <cover.1613615732.git.isaku.yamahata@intel.com>
@@ -71,152 +72,113 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-If SMM is not supported, ACPI fixed hardware doesn't support
-legacy-mode. ACPI-only platform. Where SCI_EN in PM1_CNT register is
-always set.
-The bit tells OS legacy mode(SCI_EN cleared) or ACPI mode(SCI_EN set).
-
-With the next patch (setting fadt.smi_cmd = 0 when smm isn't enabled),
-guest Linux tries to switch to ACPI mode, finds smi_cmd = 0, and then
-fails to initialize acpi subsystem. This patch proactively fixes it.
-
-This patch changes guest ABI. To keep compatibility, use
-"smm-compat" introduced by earlier patch. If the property is true,
-disable new behavior.
-
-ACPI spec 4.8.10.1 PM1 Event Grouping
-PM1 Eanble Registers
-> For ACPI-only platforms (where SCI_EN is always set)
-
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
 ---
- hw/acpi/core.c         | 11 ++++++++++-
- hw/acpi/ich9.c         |  2 +-
- hw/acpi/piix4.c        |  3 ++-
- hw/core/machine.c      |  5 ++++-
- hw/isa/vt82c686.c      |  2 +-
- include/hw/acpi/acpi.h |  4 +++-
- 6 files changed, 21 insertions(+), 6 deletions(-)
+ tests/qtest/bios-tables-test.c | 76 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 76 insertions(+)
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 7170bff657..1e004d0078 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -579,6 +579,10 @@ void acpi_pm1_cnt_update(ACPIREGS *ar,
-                          bool sci_enable, bool sci_disable)
- {
-     /* ACPI specs 3.0, 4.7.2.5 */
-+    if (ar->pm1.cnt.acpi_only) {
-+        return;
-+    }
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 77053975aa..93d037c29d 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -973,6 +973,39 @@ static void test_acpi_piix4_tcg_memhp(void)
+     free_test_data(&data);
+ }
+ 
++static void test_acpi_piix4_tcg_nosmm(void)
++{
++    test_data data;
 +
-     if (sci_enable) {
-         ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-     } else if (sci_disable) {
-@@ -608,11 +612,13 @@ static const MemoryRegionOps acpi_pm_cnt_ops = {
- };
- 
- void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
--                       bool disable_s3, bool disable_s4, uint8_t s4_val)
-+                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-+                       bool acpi_only)
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".nosmm";
++    test_acpi_one("-machine smm=off", &data);
++    free_test_data(&data);
++}
++
++static void test_acpi_piix4_tcg_smm_compat(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".smm-compat";
++    test_acpi_one("-global PIIX4_PM.smm-compat=on", &data);
++    free_test_data(&data);
++}
++
++static void test_acpi_piix4_tcg_smm_compat_nosmm(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".smm-compat-nosmm";
++    test_acpi_one("-global PIIX4_PM.smm-compat=on -machine smm=off", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg_numamem(void)
  {
-     FWCfgState *fw_cfg;
- 
-     ar->pm1.cnt.s4_val = s4_val;
-+    ar->pm1.cnt.acpi_only = acpi_only;
-     ar->wakeup.notify = acpi_notify_wakeup;
-     qemu_register_wakeup_notifier(&ar->wakeup);
- 
-@@ -638,6 +644,9 @@ void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
- void acpi_pm1_cnt_reset(ACPIREGS *ar)
- {
-     ar->pm1.cnt.cnt = 0;
-+    if (ar->pm1.cnt.acpi_only) {
-+        ar->pm1.cnt.cnt |= ACPI_BITMASK_SCI_ENABLE;
-+    }
+     test_data data;
+@@ -985,6 +1018,39 @@ static void test_acpi_q35_tcg_numamem(void)
+     free_test_data(&data);
  }
  
- /* ACPI GPE */
-diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-index 5ff4e01c36..853447cf9d 100644
---- a/hw/acpi/ich9.c
-+++ b/hw/acpi/ich9.c
-@@ -282,7 +282,7 @@ void ich9_pm_init(PCIDevice *lpc_pci, ICH9LPCPMRegs *pm,
-     acpi_pm_tmr_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
-     acpi_pm1_evt_init(&pm->acpi_regs, ich9_pm_update_sci_fn, &pm->io);
-     acpi_pm1_cnt_init(&pm->acpi_regs, &pm->io, pm->disable_s3, pm->disable_s4,
--                      pm->s4_val);
-+                      pm->s4_val, !pm->smm_compat && !smm_enabled);
- 
-     acpi_gpe_init(&pm->acpi_regs, ICH9_PMIO_GPE0_LEN);
-     memory_region_init_io(&pm->io_gpe, OBJECT(lpc_pci), &ich9_gpe_ops, pm,
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 30dd9b2309..1efc0ded9f 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -497,7 +497,8 @@ static void piix4_pm_realize(PCIDevice *dev, Error **errp)
- 
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
--    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val);
-+    acpi_pm1_cnt_init(&s->ar, &s->io, s->disable_s3, s->disable_s4, s->s4_val,
-+                      !s->smm_compat && !s->smm_enabled);
-     acpi_gpe_init(&s->ar, GPE_LEN);
- 
-     s->powerdown_notifier.notify = piix4_pm_powerdown_req;
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 970046f438..4386f57b5c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -36,7 +36,10 @@
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
- 
--GlobalProperty hw_compat_5_2[] = {};
-+GlobalProperty hw_compat_5_2[] = {
-+    { "ICH9-LPC", "smm-compat", "on"},
-+    { "PIIX4_PM", "smm-compat", "on"},
-+};
- const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
- 
- GlobalProperty hw_compat_5_1[] = {
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d..071b64b497 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -240,7 +240,7 @@ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
- 
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
--    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2);
-+    acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
- }
- 
- static Property via_pm_properties[] = {
-diff --git a/include/hw/acpi/acpi.h b/include/hw/acpi/acpi.h
-index 22b0b65bb2..9e8a76f2e2 100644
---- a/include/hw/acpi/acpi.h
-+++ b/include/hw/acpi/acpi.h
-@@ -128,6 +128,7 @@ struct ACPIPM1CNT {
-     MemoryRegion io;
-     uint16_t cnt;
-     uint8_t s4_val;
-+    bool acpi_only;
- };
- 
- struct ACPIGPE {
-@@ -163,7 +164,8 @@ void acpi_pm1_evt_init(ACPIREGS *ar, acpi_update_sci_fn update_sci,
- 
- /* PM1a_CNT: piix and ich9 don't implement PM1b CNT. */
- void acpi_pm1_cnt_init(ACPIREGS *ar, MemoryRegion *parent,
--                       bool disable_s3, bool disable_s4, uint8_t s4_val);
-+                       bool disable_s3, bool disable_s4, uint8_t s4_val,
-+                       bool acpi_only);
- void acpi_pm1_cnt_update(ACPIREGS *ar,
-                          bool sci_enable, bool sci_disable);
- void acpi_pm1_cnt_reset(ACPIREGS *ar);
++static void test_acpi_q35_tcg_nosmm(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".nosmm";
++    test_acpi_one("-machine smm=off", &data);
++    free_test_data(&data);
++}
++
++static void test_acpi_q35_tcg_smm_compat(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".smm-compat";
++    test_acpi_one("-global ICH9-LPC.smm-compat=on", &data);
++    free_test_data(&data);
++}
++
++static void test_acpi_q35_tcg_smm_compat_nosmm(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".smm-compat-nosmm";
++    test_acpi_one("-global ICH9-LPC.smm-compat=on -machine smm=off", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_piix4_tcg_numamem(void)
+ {
+     test_data data;
+@@ -1445,6 +1511,16 @@ int main(int argc, char *argv[])
+         qtest_add_func("acpi/q35/memhp", test_acpi_q35_tcg_memhp);
+         qtest_add_func("acpi/piix4/numamem", test_acpi_piix4_tcg_numamem);
+         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
++        qtest_add_func("acpi/piix4/nosmm", test_acpi_piix4_tcg_nosmm);
++        qtest_add_func("acpi/piix4/smm-compat",
++                       test_acpi_piix4_tcg_smm_compat);
++        qtest_add_func("acpi/piix4/smm-compat-nosmm",
++                       test_acpi_piix4_tcg_smm_compat_nosmm);
++        qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
++        qtest_add_func("acpi/q35/smm-compat",
++                       test_acpi_q35_tcg_smm_compat);
++        qtest_add_func("acpi/q35/smm-compat-nosmm",
++                       test_acpi_q35_tcg_smm_compat_nosmm);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
 -- 
 2.17.1
 
