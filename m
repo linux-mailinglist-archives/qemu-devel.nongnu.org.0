@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B9031E431
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:05:13 +0100 (CET)
-Received: from localhost ([::1]:45136 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA4D31E438
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 03:08:33 +0100 (CET)
+Received: from localhost ([::1]:52362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCYgq-0003RW-47
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:05:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43444)
+	id 1lCYk4-0006jv-6z
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 21:08:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbx-0006Sf-10
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:09 -0500
-Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40586)
+ id 1lCYbz-0006WQ-Ip
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:11 -0500
+Received: from esa6.hgst.iphmx.com ([216.71.154.45]:40590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=6763bdb70=alistair.francis@wdc.com>)
- id 1lCYbu-0008Jj-7u
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:08 -0500
+ id 1lCYbv-0008KW-Ai
+ for qemu-devel@nongnu.org; Wed, 17 Feb 2021 21:00:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1613613607; x=1645149607;
+ t=1613613608; x=1645149608;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ywvjDYEGcrVa5+fKbmg0mLcfOL+8048jp95acFk7qQk=;
- b=NmE2IeITrZNM1v90gnVC5JrV/Nf32BNy+yVkvN3eRdvh1Dt9LHvbw5SS
- /qgX1h0LTbBBUsws3uF/M45jQHkhNtv/2E6426OWj1kmbWbTXvMMfieW8
- HRHEDBrwyqd2BLPUwg2jnRiqY1x/BbseJYM8KGF3eeWD8imneV7Q7epKa
- vAoAlTltIbl8paDBYFhNOZI4HxeWPSsfj7hltuSqeY/Dqa7YYXgH6rpxF
- EDIXpmhBhbjqZ6CEU4IeRq8IFuV5KMCdHyi4VNh3vZ/yedOPgCG7bNdDm
- sYWTqO/+9Ub6+eYnsUjQF90S0HQ1KFC0FiRkxEC8nkaU6xF9Zv4x62rQc Q==;
-IronPort-SDR: so0CnJHTwHKd3px8cKbBcKczVkhkn4s2zfOI9Px8hi8CvYuMQTsL4l7dqFJS09Xns/uMbZOlIA
- 6q+5w6HWROKhuxOTCwSOR3WVtJXj0mxUwmdPwFcqVH/IVHt4xpywD4UQIeRkLqugSet8cx5Vc+
- J6+CmFhVimIBHBTqD64v0zid3WNFnomcL2hRjcF0jwKQRIyJnIEntoJ0Yyue8bwUcgqSJTPRYo
- QUKWCMpGdGJnAhNuxdNcptILWDOiCWvqiZQE67H9DitO8RMxGIAEt2yeLYEg0EcZ2siq/F8UW4
- QfA=
-X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392125"
+ bh=Nf3encxrLUYOC83jW2+99MqD6SE1AQ3VJwRyApkOp9o=;
+ b=kNcoRaAB6sH2TnARWi6snd4sypQdiIP5yu++kVNbxadR1V95d3sKzjaj
+ M+a9XcRuq6mcGmv3cmS0mSAFYhgLdS+4smo9tAMJrhb3/u4VbswyqdJ9/
+ 8+fY3WGQJowCJ8hmexMiTafeKTfs6/ld3MoJe+puoeAZV9QbiiQ5jDlAk
+ WqqchuZmxTDTTSggZOvTXqi41pzEnzfjK3RTDgDXZ9BFyKgDFBIw61A1b
+ CXdJxAJsEfvWqh0hH//lob8PCMKUo2Bsi2E50Y/b/1/f0YpN8Uzr97Oc5
+ 3Zu9wWlSYddpnH6HEKFeFZA+0Sa1JxPav75lxCVmBYfmo83sYQiFbA//I w==;
+IronPort-SDR: q2TyJuPw58BA+HP+v19bMBiWVeWpC0SZKSVXgO7q5oqluQ8JWDAXFt3KK0GIyerefGEzGoXulY
+ UZYUb1oCYUzzwE6GkNoERenu1ByMGBfuU7uUSTo2nzmyCdYrt0qLHqd93fszRa5b9FwsmZtnwQ
+ VRyR4hy5peIf584RAUX7mOUxWXPjJS68LQjqnl9bPUo8Fo51AJUMyKUlYc7G/ytZy1eLyL/lyz
+ 1gqcKPJHQDvDEQ+YIpZAuaxyWaEAFXqqC8Knb6WB/ZsoN1t1NUUKGt25+E5t0oe6IOXiFVAjIf
+ /Rc=
+X-IronPort-AV: E=Sophos;i="5.81,185,1610380800"; d="scan'208";a="161392127"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
  by ob1.hgst.iphmx.com with ESMTP; 18 Feb 2021 09:59:59 +0800
-IronPort-SDR: YEiQSeOY34lZT5j88sjO2bvFobVMHYV5N8OBe+hZ+YHxLMSiRkRW8jbWErjbMrXxBx+LAwkscD
- N2DVRfn3ZSqnCO439JGdnJGT2MK4YTh+aI6kS9998mSDNM5puGfQ0cu1KjOl4j42J9HY/m0mrv
- u69+x2wvLsby1FUAN43uN5FOKvp0YmJwUKwav4l10zzEdLMlA2XHznxvK4c3tAKuLBilvUYRjH
- E+TmFTUpDAmOt+QBKgZW/IZgF8TBi2o7xA8XT21CTR+MfISmuydgX7Zo8tqxCYlGj7KkwKFNOK
- 5PojQ1MqIv9w3V/e5OJMbwl+
+IronPort-SDR: Se01Ku9wQXj7JqbhxFHBRE/28jJVmMXPfBr6tWTtsWjEl7GwOqC9WjMkuXyRbluezZqi/35tn0
+ PEvhuVCSFEWxjVMqBE0PVUOybvRZhrv/Q/T3uwJFmZ1XfF6ql9rjjfxLlDNmcDAKPHxUtE6Y3n
+ DOphxZrflgsntj2RVTmW35X0Mnen0jhRVSJ2xFsP+kp1KA13D9oFX7+/3GHosS6e5xWsmhQQA3
+ ceiNv3x5Ki9H63JImSYg3nxhI/utcJNZqiHtYkMvwZiSnXh1Vw/fsVLOh9bQCtZZ3jS5R7dO+d
+ U77SuAn23AQl6Iltg6L7ICb/
 Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 17 Feb 2021 17:43:28 -0800
-IronPort-SDR: Mi/KphZ5zH2ShybeV5pM/bV8PSTtw8/exArfx52keVB9ibZMAr5vOp0B8piIXqSljVkaF2F256
- SzA4v2z1aWHPlzkSwY7fjPC1xEmczFZOCYzmntXOr8yTtXAbgSELiC8dfp1GLXtqKphK+pZ/B1
- B4FkDpHktVomGUTiiOqMjREYzJk2lnNN78Vscn1BKeTrBcwAo5Kt2YbX4u+u8pARngoGZfz5wP
- eKP8F155qLwVfs2VgZyVOfG5q6q16fm3gLqszHxAEqiuGT//8VKZ0ZuF62+cZUMoEyehceghsH
- AlQ=
+ 17 Feb 2021 17:43:29 -0800
+IronPort-SDR: gqad62vyFBfZHQsZHmdg/JyUxCuhkI04z1zlLE02x404wdb/NNP+S0MYvAmB6qAroxlE0mDEDg
+ +yKGTX4SXhCiANh8xF6GSvKOBTGmlGl7eL7ILtXX7UfY+iZ6QBQwWeEBxWeeDvcza4W6Z1HGki
+ Tey/XetW3GXn8a4nIulkfvrbyrdcP4MNchiJ6F0D1kO0X5MmAtA9b0w751TUFAdtdKEqhbwVgz
+ Un3n49A3tVGgtSBIy8nCTRAys0LHA1cjeIARI7nZglJ50yQobCXsc5HwUiQyPUYexf0FIGCcp8
+ nJ8=
 WDCIronportException: Internal
 Received: from cn57xfd72.ad.shared (HELO alistair-risc6-laptop.hgst.com)
  ([10.86.48.43])
- by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 17:59:58 -0800
+ by uls-op-cesaip02.wdc.com with ESMTP; 17 Feb 2021 17:59:59 -0800
 From: Alistair Francis <alistair.francis@wdc.com>
 To: peter.maydell@linaro.org
-Subject: [PULL 07/19] hw/ssi: Add SiFive SPI controller support
-Date: Wed, 17 Feb 2021 17:59:22 -0800
-Message-Id: <20210218015934.1623959-8-alistair.francis@wdc.com>
+Subject: [PULL 08/19] hw/riscv: sifive_u: Add QSPI0 controller and connect a
+ flash
+Date: Wed, 17 Feb 2021 17:59:23 -0800
+Message-Id: <20210218015934.1623959-9-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210218015934.1623959-1-alistair.francis@wdc.com>
 References: <20210218015934.1623959-1-alistair.francis@wdc.com>
@@ -98,466 +99,202 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This adds the SiFive SPI controller model for the FU540 SoC.
-The direct memory-mapped SPI flash mode is unsupported.
+This adds the QSPI0 controller to the SoC, and connects an ISSI
+25WP256 flash to it. The generation of corresponding device tree
+source fragment is also added.
+
+Since the direct memory-mapped mode is not supported by the SiFive
+SPI model, the <reg> property does not populate the second group
+which represents the memory mapped address of the SPI flash.
+
+With this commit, upstream U-Boot for the SiFive HiFive Unleashed
+board can boot on QEMU 'sifive_u' out of the box. This allows users
+to develop and test the recommended RISC-V boot flow with a real
+world use case: ZSBL (in QEMU) loads U-Boot SPL from SPI flash to
+L2LIM, then U-Boot SPL loads the payload from SPI flash that is
+combined with OpenSBI fw_dynamic firmware and U-Boot proper.
+
+Specify machine property `msel` to 6 to allow booting from the SPI
+flash. U-Boot spl is directly loaded via `-bios`, and subsequent
+payload is stored in the SPI flash image. Example command line:
+
+$ qemu-system-riscv64 -nographic -M sifive_u,msel=6 -smp 5 -m 8G \
+    -bios u-boot-spl.bin -drive file=spi-nor.img,if=mtd
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210126060007.12904-4-bmeng.cn@gmail.com
+Message-id: 20210126060007.12904-5-bmeng.cn@gmail.com
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/ssi/sifive_spi.h |  47 +++++
- hw/ssi/sifive_spi.c         | 358 ++++++++++++++++++++++++++++++++++++
- hw/ssi/Kconfig              |   4 +
- hw/ssi/meson.build          |   1 +
- 4 files changed, 410 insertions(+)
- create mode 100644 include/hw/ssi/sifive_spi.h
- create mode 100644 hw/ssi/sifive_spi.c
+ include/hw/riscv/sifive_u.h |  4 +++
+ hw/riscv/sifive_u.c         | 52 +++++++++++++++++++++++++++++++++++++
+ hw/riscv/Kconfig            |  2 ++
+ 3 files changed, 58 insertions(+)
 
-diff --git a/include/hw/ssi/sifive_spi.h b/include/hw/ssi/sifive_spi.h
-new file mode 100644
-index 0000000000..47d0d6a47c
---- /dev/null
-+++ b/include/hw/ssi/sifive_spi.h
-@@ -0,0 +1,47 @@
-+/*
-+ * QEMU model of the SiFive SPI Controller
-+ *
-+ * Copyright (c) 2021 Wind River Systems, Inc.
-+ *
-+ * Author:
-+ *   Bin Meng <bin.meng@windriver.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifndef HW_SIFIVE_SPI_H
-+#define HW_SIFIVE_SPI_H
-+
-+#define SIFIVE_SPI_REG_NUM  (0x78 / 4)
-+
-+#define TYPE_SIFIVE_SPI "sifive.spi"
-+#define SIFIVE_SPI(obj) OBJECT_CHECK(SiFiveSPIState, (obj), TYPE_SIFIVE_SPI)
-+
-+typedef struct SiFiveSPIState {
-+    SysBusDevice parent_obj;
-+
-+    MemoryRegion mmio;
-+    qemu_irq irq;
-+
-+    uint32_t num_cs;
-+    qemu_irq *cs_lines;
-+
-+    SSIBus *spi;
-+
-+    Fifo8 tx_fifo;
-+    Fifo8 rx_fifo;
-+
-+    uint32_t regs[SIFIVE_SPI_REG_NUM];
-+} SiFiveSPIState;
-+
-+#endif /* HW_SIFIVE_SPI_H */
-diff --git a/hw/ssi/sifive_spi.c b/hw/ssi/sifive_spi.c
-new file mode 100644
-index 0000000000..0c9ebca3c8
---- /dev/null
-+++ b/hw/ssi/sifive_spi.c
-@@ -0,0 +1,358 @@
-+/*
-+ * QEMU model of the SiFive SPI Controller
-+ *
-+ * Copyright (c) 2021 Wind River Systems, Inc.
-+ *
-+ * Author:
-+ *   Bin Meng <bin.meng@windriver.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2 or later, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ *
-+ * You should have received a copy of the GNU General Public License along with
-+ * this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/irq.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/sysbus.h"
-+#include "hw/ssi/ssi.h"
-+#include "sysemu/sysemu.h"
-+#include "qemu/fifo8.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index a9f7b4a084..8824b7c031 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -26,6 +26,7 @@
+ #include "hw/gpio/sifive_gpio.h"
+ #include "hw/misc/sifive_u_otp.h"
+ #include "hw/misc/sifive_u_prci.h"
 +#include "hw/ssi/sifive_spi.h"
-+
-+#define R_SCKDIV        (0x00 / 4)
-+#define R_SCKMODE       (0x04 / 4)
-+#define R_CSID          (0x10 / 4)
-+#define R_CSDEF         (0x14 / 4)
-+#define R_CSMODE        (0x18 / 4)
-+#define R_DELAY0        (0x28 / 4)
-+#define R_DELAY1        (0x2C / 4)
-+#define R_FMT           (0x40 / 4)
-+#define R_TXDATA        (0x48 / 4)
-+#define R_RXDATA        (0x4C / 4)
-+#define R_TXMARK        (0x50 / 4)
-+#define R_RXMARK        (0x54 / 4)
-+#define R_FCTRL         (0x60 / 4)
-+#define R_FFMT          (0x64 / 4)
-+#define R_IE            (0x70 / 4)
-+#define R_IP            (0x74 / 4)
-+
-+#define FMT_DIR         (1 << 3)
-+
-+#define TXDATA_FULL     (1 << 31)
-+#define RXDATA_EMPTY    (1 << 31)
-+
-+#define IE_TXWM         (1 << 0)
-+#define IE_RXWM         (1 << 1)
-+
-+#define IP_TXWM         (1 << 0)
-+#define IP_RXWM         (1 << 1)
-+
-+#define FIFO_CAPACITY   8
-+
-+static void sifive_spi_txfifo_reset(SiFiveSPIState *s)
-+{
-+    fifo8_reset(&s->tx_fifo);
-+
-+    s->regs[R_TXDATA] &= ~TXDATA_FULL;
-+    s->regs[R_IP] &= ~IP_TXWM;
-+}
-+
-+static void sifive_spi_rxfifo_reset(SiFiveSPIState *s)
-+{
-+    fifo8_reset(&s->rx_fifo);
-+
-+    s->regs[R_RXDATA] |= RXDATA_EMPTY;
-+    s->regs[R_IP] &= ~IP_RXWM;
-+}
-+
-+static void sifive_spi_update_cs(SiFiveSPIState *s)
-+{
-+    int i;
-+
-+    for (i = 0; i < s->num_cs; i++) {
-+        if (s->regs[R_CSDEF] & (1 << i)) {
-+            qemu_set_irq(s->cs_lines[i], !(s->regs[R_CSMODE]));
-+        }
-+    }
-+}
-+
-+static void sifive_spi_update_irq(SiFiveSPIState *s)
-+{
-+    int level;
-+
-+    if (fifo8_num_used(&s->tx_fifo) < s->regs[R_TXMARK]) {
-+        s->regs[R_IP] |= IP_TXWM;
-+    } else {
-+        s->regs[R_IP] &= ~IP_TXWM;
-+    }
-+
-+    if (fifo8_num_used(&s->rx_fifo) > s->regs[R_RXMARK]) {
-+        s->regs[R_IP] |= IP_RXWM;
-+    } else {
-+        s->regs[R_IP] &= ~IP_RXWM;
-+    }
-+
-+    level = s->regs[R_IP] & s->regs[R_IE] ? 1 : 0;
-+    qemu_set_irq(s->irq, level);
-+}
-+
-+static void sifive_spi_reset(DeviceState *d)
-+{
-+    SiFiveSPIState *s = SIFIVE_SPI(d);
-+
-+    memset(s->regs, 0, sizeof(s->regs));
-+
-+    /* The reset value is high for all implemented CS pins */
-+    s->regs[R_CSDEF] = (1 << s->num_cs) - 1;
-+
-+    /* Populate register with their default value */
-+    s->regs[R_SCKDIV] = 0x03;
-+    s->regs[R_DELAY0] = 0x1001;
-+    s->regs[R_DELAY1] = 0x01;
-+
-+    sifive_spi_txfifo_reset(s);
-+    sifive_spi_rxfifo_reset(s);
-+
-+    sifive_spi_update_cs(s);
-+    sifive_spi_update_irq(s);
-+}
-+
-+static void sifive_spi_flush_txfifo(SiFiveSPIState *s)
-+{
-+    uint8_t tx;
-+    uint8_t rx;
-+
-+    while (!fifo8_is_empty(&s->tx_fifo)) {
-+        tx = fifo8_pop(&s->tx_fifo);
-+        rx = ssi_transfer(s->spi, tx);
-+
-+        if (!fifo8_is_full(&s->rx_fifo)) {
-+            if (!(s->regs[R_FMT] & FMT_DIR)) {
-+                fifo8_push(&s->rx_fifo, rx);
-+            }
-+        }
-+    }
-+}
-+
-+static bool sifive_spi_is_bad_reg(hwaddr addr, bool allow_reserved)
-+{
-+    bool bad;
-+
-+    switch (addr) {
-+    /* reserved offsets */
-+    case 0x08:
-+    case 0x0C:
-+    case 0x1C:
-+    case 0x20:
-+    case 0x24:
-+    case 0x30:
-+    case 0x34:
-+    case 0x38:
-+    case 0x3C:
-+    case 0x44:
-+    case 0x58:
-+    case 0x5C:
-+    case 0x68:
-+    case 0x6C:
-+        bad = allow_reserved ? false : true;
-+        break;
-+    default:
-+        bad = false;
-+    }
-+
-+    if (addr >= (SIFIVE_SPI_REG_NUM << 2)) {
-+        bad = true;
-+    }
-+
-+    return bad;
-+}
-+
-+static uint64_t sifive_spi_read(void *opaque, hwaddr addr, unsigned int size)
-+{
-+    SiFiveSPIState *s = opaque;
-+    uint32_t r;
-+
-+    if (sifive_spi_is_bad_reg(addr, true)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad read at address 0x%"
-+                      HWADDR_PRIx "\n", __func__, addr);
-+        return 0;
-+    }
-+
-+    addr >>= 2;
-+    switch (addr) {
-+    case R_TXDATA:
-+        if (fifo8_is_full(&s->tx_fifo)) {
-+            return TXDATA_FULL;
-+        }
-+        r = 0;
-+        break;
-+
-+    case R_RXDATA:
-+        if (fifo8_is_empty(&s->rx_fifo)) {
-+            return RXDATA_EMPTY;
-+        }
-+        r = fifo8_pop(&s->rx_fifo);
-+        break;
-+
-+    default:
-+        r = s->regs[addr];
-+        break;
-+    }
-+
-+    sifive_spi_update_irq(s);
-+
-+    return r;
-+}
-+
-+static void sifive_spi_write(void *opaque, hwaddr addr,
-+                             uint64_t val64, unsigned int size)
-+{
-+    SiFiveSPIState *s = opaque;
-+    uint32_t value = val64;
-+
-+    if (sifive_spi_is_bad_reg(addr, false)) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad write at addr=0x%"
-+                      HWADDR_PRIx " value=0x%x\n", __func__, addr, value);
-+        return;
-+    }
-+
-+    addr >>= 2;
-+    switch (addr) {
-+    case R_CSID:
-+        if (value >= s->num_cs) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid csid %d\n",
-+                          __func__, value);
-+        } else {
-+            s->regs[R_CSID] = value;
-+            sifive_spi_update_cs(s);
-+        }
-+        break;
-+
-+    case R_CSDEF:
-+        if (value >= (1 << s->num_cs)) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid csdef %x\n",
-+                          __func__, value);
-+        } else {
-+            s->regs[R_CSDEF] = value;
-+        }
-+        break;
-+
-+    case R_CSMODE:
-+        if (value > 3) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid csmode %x\n",
-+                          __func__, value);
-+        } else {
-+            s->regs[R_CSMODE] = value;
-+            sifive_spi_update_cs(s);
-+        }
-+        break;
-+
-+    case R_TXDATA:
-+        if (!fifo8_is_full(&s->tx_fifo)) {
-+            fifo8_push(&s->tx_fifo, (uint8_t)value);
-+            sifive_spi_flush_txfifo(s);
-+        }
-+        break;
-+
-+    case R_RXDATA:
-+    case R_IP:
-+        qemu_log_mask(LOG_GUEST_ERROR,
-+                      "%s: invalid write to read-only reigster 0x%"
-+                      HWADDR_PRIx " with 0x%x\n", __func__, addr << 2, value);
-+        break;
-+
-+    case R_TXMARK:
-+    case R_RXMARK:
-+        if (value >= FIFO_CAPACITY) {
-+            qemu_log_mask(LOG_GUEST_ERROR, "%s: invalid watermark %d\n",
-+                          __func__, value);
-+        } else {
-+            s->regs[addr] = value;
-+        }
-+        break;
-+
-+    case R_FCTRL:
-+    case R_FFMT:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "%s: direct-map flash interface unimplemented\n",
-+                      __func__);
-+        break;
-+
-+    default:
-+        s->regs[addr] = value;
-+        break;
-+    }
-+
-+    sifive_spi_update_irq(s);
-+}
-+
-+static const MemoryRegionOps sifive_spi_ops = {
-+    .read = sifive_spi_read,
-+    .write = sifive_spi_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4
-+    }
-+};
-+
-+static void sifive_spi_realize(DeviceState *dev, Error **errp)
-+{
-+    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-+    SiFiveSPIState *s = SIFIVE_SPI(dev);
-+    int i;
-+
-+    s->spi = ssi_create_bus(dev, "spi");
-+    sysbus_init_irq(sbd, &s->irq);
-+
-+    s->cs_lines = g_new0(qemu_irq, s->num_cs);
-+    for (i = 0; i < s->num_cs; i++) {
-+        sysbus_init_irq(sbd, &s->cs_lines[i]);
-+    }
-+
-+    memory_region_init_io(&s->mmio, OBJECT(s), &sifive_spi_ops, s,
-+                          TYPE_SIFIVE_SPI, 0x1000);
-+    sysbus_init_mmio(sbd, &s->mmio);
-+
-+    fifo8_create(&s->tx_fifo, FIFO_CAPACITY);
-+    fifo8_create(&s->rx_fifo, FIFO_CAPACITY);
-+}
-+
-+static Property sifive_spi_properties[] = {
-+    DEFINE_PROP_UINT32("num-cs", SiFiveSPIState, num_cs, 1),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void sifive_spi_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, sifive_spi_properties);
-+    dc->reset = sifive_spi_reset;
-+    dc->realize = sifive_spi_realize;
-+}
-+
-+static const TypeInfo sifive_spi_info = {
-+    .name           = TYPE_SIFIVE_SPI,
-+    .parent         = TYPE_SYS_BUS_DEVICE,
-+    .instance_size  = sizeof(SiFiveSPIState),
-+    .class_init     = sifive_spi_class_init,
-+};
-+
-+static void sifive_spi_register_types(void)
-+{
-+    type_register_static(&sifive_spi_info);
-+}
-+
-+type_init(sifive_spi_register_types)
-diff --git a/hw/ssi/Kconfig b/hw/ssi/Kconfig
-index 9e54a0c8dd..7d90a02181 100644
---- a/hw/ssi/Kconfig
-+++ b/hw/ssi/Kconfig
-@@ -2,6 +2,10 @@ config PL022
-     bool
-     select SSI
  
-+config SIFIVE_SPI
-+    bool
-+    select SSI
-+
- config SSI
-     bool
+ #define TYPE_RISCV_U_SOC "riscv.sifive.u.soc"
+ #define RISCV_U_SOC(obj) \
+@@ -45,6 +46,7 @@ typedef struct SiFiveUSoCState {
+     SIFIVEGPIOState gpio;
+     SiFiveUOTPState otp;
+     SiFivePDMAState dma;
++    SiFiveSPIState spi0;
+     CadenceGEMState gem;
  
-diff --git a/hw/ssi/meson.build b/hw/ssi/meson.build
-index dee00c0da6..3d6bc82ab1 100644
---- a/hw/ssi/meson.build
-+++ b/hw/ssi/meson.build
-@@ -2,6 +2,7 @@ softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_smc.c'))
- softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('mss-spi.c'))
- softmmu_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_fiu.c'))
- softmmu_ss.add(when: 'CONFIG_PL022', if_true: files('pl022.c'))
-+softmmu_ss.add(when: 'CONFIG_SIFIVE_SPI', if_true: files('sifive_spi.c'))
- softmmu_ss.add(when: 'CONFIG_SSI', if_true: files('ssi.c'))
- softmmu_ss.add(when: 'CONFIG_STM32F2XX_SPI', if_true: files('stm32f2xx_spi.c'))
- softmmu_ss.add(when: 'CONFIG_XILINX_SPI', if_true: files('xilinx_spi.c'))
+     uint32_t serial;
+@@ -82,6 +84,7 @@ enum {
+     SIFIVE_U_DEV_UART0,
+     SIFIVE_U_DEV_UART1,
+     SIFIVE_U_DEV_GPIO,
++    SIFIVE_U_DEV_QSPI0,
+     SIFIVE_U_DEV_OTP,
+     SIFIVE_U_DEV_DMC,
+     SIFIVE_U_DEV_FLASH0,
+@@ -120,6 +123,7 @@ enum {
+     SIFIVE_U_PDMA_IRQ5 = 28,
+     SIFIVE_U_PDMA_IRQ6 = 29,
+     SIFIVE_U_PDMA_IRQ7 = 30,
++    SIFIVE_U_QSPI0_IRQ = 51,
+     SIFIVE_U_GEM_IRQ = 0x35
+ };
+ 
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 59b61cea01..43a0e983d2 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -15,6 +15,7 @@
+  * 5) OTP (One-Time Programmable) memory with stored serial number
+  * 6) GEM (Gigabit Ethernet Controller) and management block
+  * 7) DMA (Direct Memory Access Controller)
++ * 8) SPI0 connected to an SPI flash
+  *
+  * This board currently generates devicetree dynamically that indicates at least
+  * two harts and up to five harts.
+@@ -44,6 +45,7 @@
+ #include "hw/char/serial.h"
+ #include "hw/cpu/cluster.h"
+ #include "hw/misc/unimp.h"
++#include "hw/ssi/ssi.h"
+ #include "target/riscv/cpu.h"
+ #include "hw/riscv/riscv_hart.h"
+ #include "hw/riscv/sifive_u.h"
+@@ -74,6 +76,7 @@ static const struct MemmapEntry {
+     [SIFIVE_U_DEV_PRCI] =     { 0x10000000,     0x1000 },
+     [SIFIVE_U_DEV_UART0] =    { 0x10010000,     0x1000 },
+     [SIFIVE_U_DEV_UART1] =    { 0x10011000,     0x1000 },
++    [SIFIVE_U_DEV_QSPI0] =    { 0x10040000,     0x1000 },
+     [SIFIVE_U_DEV_GPIO] =     { 0x10060000,     0x1000 },
+     [SIFIVE_U_DEV_OTP] =      { 0x10070000,     0x1000 },
+     [SIFIVE_U_DEV_GEM] =      { 0x10090000,     0x2000 },
+@@ -342,6 +345,32 @@ static void create_fdt(SiFiveUState *s, const struct MemmapEntry *memmap,
+                             "sifive,fu540-c000-ccache");
+     g_free(nodename);
+ 
++    nodename = g_strdup_printf("/soc/spi@%lx",
++        (long)memmap[SIFIVE_U_DEV_QSPI0].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "#size-cells", 0);
++    qemu_fdt_setprop_cell(fdt, nodename, "#address-cells", 1);
++    qemu_fdt_setprop_cells(fdt, nodename, "clocks",
++        prci_phandle, PRCI_CLK_TLCLK);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupts", SIFIVE_U_QSPI0_IRQ);
++    qemu_fdt_setprop_cell(fdt, nodename, "interrupt-parent", plic_phandle);
++    qemu_fdt_setprop_cells(fdt, nodename, "reg",
++        0x0, memmap[SIFIVE_U_DEV_QSPI0].base,
++        0x0, memmap[SIFIVE_U_DEV_QSPI0].size);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "sifive,spi0");
++    g_free(nodename);
++
++    nodename = g_strdup_printf("/soc/spi@%lx/flash@0",
++        (long)memmap[SIFIVE_U_DEV_QSPI0].base);
++    qemu_fdt_add_subnode(fdt, nodename);
++    qemu_fdt_setprop_cell(fdt, nodename, "spi-rx-bus-width", 4);
++    qemu_fdt_setprop_cell(fdt, nodename, "spi-tx-bus-width", 4);
++    qemu_fdt_setprop(fdt, nodename, "m25p,fast-read", NULL, 0);
++    qemu_fdt_setprop_cell(fdt, nodename, "spi-max-frequency", 50000000);
++    qemu_fdt_setprop_cell(fdt, nodename, "reg", 0);
++    qemu_fdt_setprop_string(fdt, nodename, "compatible", "jedec,spi-nor");
++    g_free(nodename);
++
+     phy_phandle = phandle++;
+     nodename = g_strdup_printf("/soc/ethernet@%lx",
+         (long)memmap[SIFIVE_U_DEV_GEM].base);
+@@ -439,6 +468,9 @@ static void sifive_u_machine_init(MachineState *machine)
+     int i;
+     uint32_t fdt_load_addr;
+     uint64_t kernel_entry;
++    DriveInfo *dinfo;
++    DeviceState *flash_dev;
++    qemu_irq flash_cs;
+ 
+     /* Initialize SoC */
+     object_initialize_child(OBJECT(machine), "soc", &s->soc, TYPE_RISCV_U_SOC);
+@@ -571,6 +603,19 @@ static void sifive_u_machine_init(MachineState *machine)
+     riscv_rom_copy_firmware_info(machine, memmap[SIFIVE_U_DEV_MROM].base,
+                                  memmap[SIFIVE_U_DEV_MROM].size,
+                                  sizeof(reset_vec), kernel_entry);
++
++    /* Connect an SPI flash to SPI0 */
++    flash_dev = qdev_new("is25wp256");
++    dinfo = drive_get_next(IF_MTD);
++    if (dinfo) {
++        qdev_prop_set_drive_err(flash_dev, "drive",
++                                blk_by_legacy_dinfo(dinfo),
++                                &error_fatal);
++    }
++    qdev_realize_and_unref(flash_dev, BUS(s->soc.spi0.spi), &error_fatal);
++
++    flash_cs = qdev_get_gpio_in_named(flash_dev, SSI_GPIO_CS, 0);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->soc.spi0), 1, flash_cs);
+ }
+ 
+ static bool sifive_u_machine_get_start_in_flash(Object *obj, Error **errp)
+@@ -680,6 +725,7 @@ static void sifive_u_soc_instance_init(Object *obj)
+     object_initialize_child(obj, "gem", &s->gem, TYPE_CADENCE_GEM);
+     object_initialize_child(obj, "gpio", &s->gpio, TYPE_SIFIVE_GPIO);
+     object_initialize_child(obj, "pdma", &s->dma, TYPE_SIFIVE_PDMA);
++    object_initialize_child(obj, "spi0", &s->spi0, TYPE_SIFIVE_SPI);
+ }
+ 
+ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+@@ -827,6 +873,12 @@ static void sifive_u_soc_realize(DeviceState *dev, Error **errp)
+ 
+     create_unimplemented_device("riscv.sifive.u.l2cc",
+         memmap[SIFIVE_U_DEV_L2CC].base, memmap[SIFIVE_U_DEV_L2CC].size);
++
++    sysbus_realize(SYS_BUS_DEVICE(&s->spi0), errp);
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->spi0), 0,
++                    memmap[SIFIVE_U_DEV_QSPI0].base);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->spi0), 0,
++                       qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_QSPI0_IRQ));
+ }
+ 
+ static Property sifive_u_soc_props[] = {
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index facb0cbacc..6330297b4e 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -52,9 +52,11 @@ config SIFIVE_U
+     select SIFIVE_GPIO
+     select SIFIVE_PDMA
+     select SIFIVE_PLIC
++    select SIFIVE_SPI
+     select SIFIVE_UART
+     select SIFIVE_U_OTP
+     select SIFIVE_U_PRCI
++    select SSI_M25P80
+     select UNIMP
+ 
+ config SPIKE
 -- 
 2.30.0
 
