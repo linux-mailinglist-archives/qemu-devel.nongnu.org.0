@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A820631E885
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 11:43:51 +0100 (CET)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4A7E31E8F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 12:09:44 +0100 (CET)
+Received: from localhost ([::1]:36836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCgmk-0000Fy-55
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 05:43:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
+	id 1lChBn-0002IV-U8
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 06:09:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lCglG-0008Aw-Ew
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:42:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35726)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lCglB-00077S-GX
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 05:42:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613644929;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lw5nI2YYkzixxyPiTOdtX0qBSRimPY8Nhyb6Tao+aew=;
- b=Gg4jHN/5erpPegg/k7Zq7Z5YNK8j1vEcnNGFRQ1qPhMUdy7STMshF8pfYy8d34FVENmj7u
- jiJddaZbgo06XhjABgFyYv59EcAJohE5RSzpZFUKa69/RuT+9zE3MOSTCpe0xZsc4YEgdN
- uvvNzJbKGNbjk4lL9weNIggkfduWecY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-564-SiGbLEuUN6OAz-0Tu7MZAA-1; Thu, 18 Feb 2021 05:42:07 -0500
-X-MC-Unique: SiGbLEuUN6OAz-0Tu7MZAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 922671005501;
- Thu, 18 Feb 2021 10:42:03 +0000 (UTC)
-Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CA6F6267A;
- Thu, 18 Feb 2021 10:41:52 +0000 (UTC)
-Subject: Re: [RFC v7 26/26] vfio/pci: Implement return_page_response page
- response callback
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>
-References: <20201116181349.11908-1-eric.auger@redhat.com>
- <20201116181349.11908-27-eric.auger@redhat.com>
- <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <f11ef533-da64-3d6a-24f5-79d5e7a205da@redhat.com>
-Date: Thu, 18 Feb 2021 11:41:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lChAr-0001s0-NJ
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:08:45 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38435)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lChAp-00026w-Nl
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 06:08:45 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id x4so2673090wmi.3
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 03:08:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CXQSQo7Hc/L1KqnxrJ70hCx+zeK9zsPCAZ6m/8RQUh4=;
+ b=U/JKzeOJ8e838ZV3Thg/eHlC9H8Gl/+HhVNT7v2eu6mkWDcEM+gxZnZBA7odMLc5Xc
+ XaZASG+Moxzt97vHWowpbNVHT8PAiQrhiWAgidqsFWDQKH7lWPfRVeEM6VYfmcg47dES
+ 3/uJSK0Ctqjk4Yl+sxPd4rFgBsD4zhQe9QJ5le2QxwLzlZy1jrr76bIQbokr+vAKuLFa
+ SEuc1iclRIOuzw7F6rJZCLODI2UDrmp+bhKqNNepDPuYBujZkIcbYO2RKJUA5OOjq272
+ klW76pdmZONn/2R+J4ZRAcUz6dhI5fWwi/2+trZW1sCU+NMjkyFwH7POW89rzhWOE2MF
+ iRXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CXQSQo7Hc/L1KqnxrJ70hCx+zeK9zsPCAZ6m/8RQUh4=;
+ b=WAuBjAmH8XU4hJa8uGxlFQ6Ig2qyc6+M8rzpAq3kUS4CdAkeynlvQpnF9ihkC+gIa/
+ qMeVGscP7P+hoCpkZmjZh9Easj6SFBluBtvHr1ArewwBsHrURU5fHf1YQ2ahOqRojAzS
+ hWFDZkpQmcCyiGted0mtYkd47i25sA2debb6U/WzBN0V0yKRtcNQQedMfpC/K/X63o5V
+ ldJW411eMuf9FG043xcfp4HARahQxbv+/E6POuFPuwXGtjQnQ3MAGt0CvZek3Nd5qVKc
+ KD9JkT9sc/qZJT33ebrketwIhaHxmmYTrMKyCTUbtn3Xn2I4IyXnjG4YMpaTenJxguOG
+ qPtA==
+X-Gm-Message-State: AOAM530jXhH1O6R0cEnCA1TSKl3S6qprIxokhzZuhu0L99DktVOBTqDj
+ 2FcOQuBkzB8IdsDa8tfuUPNQEg==
+X-Google-Smtp-Source: ABdhPJysJx2xiU3G0HpaKV4lMHn0APjr7vonhx3XBQysTFMCq4fv0sTNlvuZ2t1wIpA+ZSs6/qOT0Q==
+X-Received: by 2002:a05:600c:4ec6:: with SMTP id
+ g6mr2993114wmq.72.1613646521709; 
+ Thu, 18 Feb 2021 03:08:41 -0800 (PST)
+Received: from localhost.localdomain
+ ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id o25sm18113717wmh.1.2021.02.18.03.08.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 18 Feb 2021 03:08:41 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: eric.auger@redhat.com
+Subject: [PATCH] virtio-iommu: Default to bypass during boot
+Date: Thu, 18 Feb 2021 11:59:30 +0100
+Message-Id: <20210218105929.1433230-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,277 +82,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
- "zhangfei.gao@gmail.com" <zhangfei.gao@gmail.com>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "tn@semihalf.com" <tn@semihalf.com>, "peterx@redhat.com" <peterx@redhat.com>,
- "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
- "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
- "yi.l.liu@intel.com" <yi.l.liu@intel.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>, yuzenghui <yuzenghui@huawei.com>,
- qubingbing <qubingbing@hisilicon.com>
+Cc: Jean-Philippe Brucker <jean-philippe@linaro.org>, qemu-devel@nongnu.org,
+ mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shameer,
+Currently the virtio-iommu device must be programmed before it allows
+DMA from any PCI device. This can make the VM entirely unusable when a
+virtio-iommu driver isn't present, for example in a bootloader that
+loads the OS from storage.
 
-On 2/18/21 11:19 AM, Shameerali Kolothum Thodi wrote:
-> Hi Eric,
-> 
->> -----Original Message-----
->> From: Eric Auger [mailto:eric.auger@redhat.com]
->> Sent: 16 November 2020 18:14
->> To: eric.auger.pro@gmail.com; eric.auger@redhat.com;
->> qemu-devel@nongnu.org; qemu-arm@nongnu.org;
->> alex.williamson@redhat.com
->> Cc: peter.maydell@linaro.org; jean-philippe@linaro.org; peterx@redhat.com;
->> jacob.jun.pan@linux.intel.com; yi.l.liu@intel.com; Shameerali Kolothum Thodi
->> <shameerali.kolothum.thodi@huawei.com>; tn@semihalf.com;
->> nicoleotsuka@gmail.com; yuzenghui <yuzenghui@huawei.com>;
->> zhangfei.gao@gmail.com; vivek.gautam@arm.com
->> Subject: [RFC v7 26/26] vfio/pci: Implement return_page_response page
->> response callback
->>
->> This patch implements the page response path. The
->> response s written into the page response ring buffer and then
->> update header's head index is updated. This path is not used
->> by this series. It is introduced here as a POC for vSVA/ARM
->> integration.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> ---
->>  hw/vfio/pci.h |   2 +
->>  hw/vfio/pci.c | 121
->> ++++++++++++++++++++++++++++++++++++++++++++++++++
->>  2 files changed, 123 insertions(+)
->>
->> diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
->> index 350e9e9005..ce0472611e 100644
->> --- a/hw/vfio/pci.h
->> +++ b/hw/vfio/pci.h
->> @@ -147,6 +147,8 @@ struct VFIOPCIDevice {
->>      VFIOPCIExtIRQ *ext_irqs;
->>      VFIORegion dma_fault_region;
->>      uint32_t fault_tail_index;
->> +    VFIORegion dma_fault_response_region;
->> +    uint32_t fault_response_head_index;
->>      int (*resetfn)(struct VFIOPCIDevice *);
->>      uint32_t vendor_id;
->>      uint32_t device_id;
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index 4e3495bb60..797acd9c73 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -2631,6 +2631,61 @@ out:
->>      g_free(fault_region_info);
->>  }
->>
->> +static void vfio_init_fault_response_regions(VFIOPCIDevice *vdev, Error
->> **errp)
->> +{
->> +    struct vfio_region_info *fault_region_info = NULL;
->> +    struct vfio_region_info_cap_fault *cap_fault;
->> +    VFIODevice *vbasedev = &vdev->vbasedev;
->> +    struct vfio_info_cap_header *hdr;
->> +    char *fault_region_name;
->> +    int ret;
->> +
->> +    ret = vfio_get_dev_region_info(&vdev->vbasedev,
->> +                                   VFIO_REGION_TYPE_NESTED,
->> +
->> VFIO_REGION_SUBTYPE_NESTED_DMA_FAULT_RESPONSE,
->> +                                   &fault_region_info);
->> +    if (ret) {
->> +        goto out;
->> +    }
->> +
->> +    hdr = vfio_get_region_info_cap(fault_region_info,
->> +
->> VFIO_REGION_INFO_CAP_DMA_FAULT);
-> 
-> VFIO_REGION_INFO_CAP_DMA_FAULT_RESPONSE ? 
-yes!
-> 
->> +    if (!hdr) {
->> +        error_setg(errp, "failed to retrieve DMA FAULT RESPONSE
->> capability");
->> +        goto out;
->> +    }
->> +    cap_fault = container_of(hdr, struct vfio_region_info_cap_fault,
->> +                             header);
->> +    if (cap_fault->version != 1) {
->> +        error_setg(errp, "Unsupported DMA FAULT RESPONSE API
->> version %d",
->> +                   cap_fault->version);
->> +        goto out;
->> +    }
->> +
->> +    fault_region_name = g_strdup_printf("%s DMA FAULT RESPONSE %d",
->> +                                        vbasedev->name,
->> +                                        fault_region_info->index);
->> +
->> +    ret = vfio_region_setup(OBJECT(vdev), vbasedev,
->> +                            &vdev->dma_fault_response_region,
->> +                            fault_region_info->index,
->> +                            fault_region_name);
->> +    g_free(fault_region_name);
->> +    if (ret) {
->> +        error_setg_errno(errp, -ret,
->> +                         "failed to set up the DMA FAULT RESPONSE
->> region %d",
->> +                         fault_region_info->index);
->> +        goto out;
->> +    }
->> +
->> +    ret = vfio_region_mmap(&vdev->dma_fault_response_region);
->> +    if (ret) {
->> +        error_setg_errno(errp, -ret, "Failed to mmap the DMA FAULT
->> RESPONSE queue");
->> +    }
->> +out:
->> +    g_free(fault_region_info);
->> +}
->> +
->>  static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
->>  {
->>      VFIODevice *vbasedev = &vdev->vbasedev;
->> @@ -2706,6 +2761,12 @@ static void vfio_populate_device(VFIOPCIDevice
->> *vdev, Error **errp)
->>          return;
->>      }
->>
->> +    vfio_init_fault_response_regions(vdev, &err);
->> +    if (err) {
->> +        error_propagate(errp, err);
->> +        return;
->> +    }
->> +
->>      irq_info.index = VFIO_PCI_ERR_IRQ_INDEX;
->>
->>      ret = ioctl(vdev->vbasedev.fd, VFIO_DEVICE_GET_IRQ_INFO, &irq_info);
->> @@ -2884,8 +2945,68 @@ static int vfio_iommu_set_pasid_table(PCIBus
->> *bus, int32_t devfn,
->>      return ioctl(container->fd, VFIO_IOMMU_SET_PASID_TABLE, &info);
->>  }
->>
->> +static int vfio_iommu_return_page_response(PCIBus *bus, int32_t devfn,
->> +                                           IOMMUPageResponse
->> *resp)
->> +{
->> +    PCIDevice *pdev = bus->devices[devfn];
->> +    VFIOPCIDevice *vdev = DO_UPCAST(VFIOPCIDevice, pdev, pdev);
->> +    struct iommu_page_response *response = &resp->resp;
->> +    struct vfio_region_dma_fault_response header;
->> +    struct iommu_page_response *queue;
->> +    char *queue_buffer = NULL;
->> +    ssize_t bytes;
->> +
->> +    if (!vdev->dma_fault_response_region.mem) {
->> +        return -EINVAL;
->> +    }
->> +
->> +    /* read the header */
->> +    bytes = pread(vdev->vbasedev.fd, &header, sizeof(header),
->> +                  vdev->dma_fault_response_region.fd_offset);
->> +    if (bytes != sizeof(header)) {
->> +        error_report("%s unable to read the fault region header (0x%lx)",
->> +                     __func__, bytes);
->> +        return -1;
->> +    }
->> +
->> +    /* Normally the fault queue is mmapped */
->> +    queue = (struct iommu_page_response
->> *)vdev->dma_fault_response_region.mmaps[0].mmap;
->> +    if (!queue) {
->> +        size_t queue_size = header.nb_entries * header.entry_size;
->> +
->> +        error_report("%s: fault queue not mmapped: slower fault handling",
->> +                     vdev->vbasedev.name);
->> +
->> +        queue_buffer = g_malloc(queue_size);
->> +        bytes = pread(vdev->vbasedev.fd, queue_buffer, queue_size,
->> +                      vdev->dma_fault_response_region.fd_offset +
->> header.offset);
->> +        if (bytes != queue_size) {
->> +            error_report("%s unable to read the fault queue (0x%lx)",
->> +                         __func__, bytes);
->> +            return -1;
->> +        }
->> +
->> +        queue = (struct iommu_page_response *)queue_buffer;
->> +    }
->> +    /* deposit the new response in the queue and increment the head */
->> +    memcpy(queue + header.head, response, header.entry_size);
->> +
->> +    vdev->fault_response_head_index =
->> +        (vdev->fault_response_head_index + 1) % header.nb_entries;
->> +    bytes = pwrite(vdev->vbasedev.fd, &vdev->fault_response_head_index,
->> 4,
->> +                   vdev->dma_fault_response_region.fd_offset);
->> +    if (bytes != 4) {
->> +        error_report("%s unable to write the fault response region head
->> index (0x%lx)",
->> +                     __func__, bytes);
->> +    }
->> +    g_free(queue_buffer);
->> +
->> +    return 0;
->> +}
->> +
->>  static PCIPASIDOps vfio_pci_pasid_ops = {
->>      .set_pasid_table = vfio_iommu_set_pasid_table,
->> +    .return_page_response = vfio_iommu_return_page_response,
->>  };
->>
->>  static void vfio_dma_fault_notifier_handler(void *opaque)
-> 
-> Also, I just noted that this patch breaks the dev hot add/del functionality.
-> device_add works fine but device_del is not removing the dev cleanly.Thank you for reporting this!
+Similarly to the other vIOMMU implementations, default to DMA bypassing
+the IOMMU during boot. Add a "boot-bypass" option that lets users change
+this behavior.
 
-The test matrix becomes bigger and bigger :-( I Need to write some
-avocado-vt tests or alike.
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ include/hw/virtio/virtio-iommu.h |  1 +
+ hw/virtio/virtio-iommu.c         | 23 +++++++++++++++++++++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-I am currently working on the respin. At the moment I investigate the
-DPDK issue that you reported and I was able to reproduce.
-
-I intend to rebase on top of Jean-Philippe's
-[PATCH v12 00/10] iommu: I/O page faults for SMMUv3
-
-Is that good enough for your SVA integration or do you want I prepare a
-rebase on some extended code?
-
-Thanks
-
-Eric
-> 
-> The below one fixes it. Please check.
-> 
-> Thanks,
-> Shameer
-> 
-> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-> index 797acd9c73..92c1d48316 100644
-> --- a/hw/vfio/pci.c
-> +++ b/hw/vfio/pci.c
-> @@ -3470,6 +3470,7 @@ static void vfio_instance_finalize(Object *obj)
->      vfio_display_finalize(vdev);
->      vfio_bars_finalize(vdev);
->      vfio_region_finalize(&vdev->dma_fault_region);
-> +    vfio_region_finalize(&vdev->dma_fault_response_region);
->      g_free(vdev->emulated_config_bits);
->      g_free(vdev->rom);
->      /*
-> @@ -3491,6 +3492,7 @@ static void vfio_exitfn(PCIDevice *pdev)
->      vfio_unregister_err_notifier(vdev);
->      vfio_unregister_ext_irq_notifiers(vdev);
->      vfio_region_exit(&vdev->dma_fault_region);
-> +    vfio_region_exit(&vdev->dma_fault_response_region);
->      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
->      if (vdev->irqchip_change_notifier.notify) {
->          kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_not
-> 
-> 
-> 
+diff --git a/include/hw/virtio/virtio-iommu.h b/include/hw/virtio/virtio-iommu.h
+index 273e35c04bc..4c66989ca4e 100644
+--- a/include/hw/virtio/virtio-iommu.h
++++ b/include/hw/virtio/virtio-iommu.h
+@@ -58,6 +58,7 @@ struct VirtIOIOMMU {
+     GTree *domains;
+     QemuMutex mutex;
+     GTree *endpoints;
++    bool boot_bypass;
+ };
+ 
+ #endif
+diff --git a/hw/virtio/virtio-iommu.c b/hw/virtio/virtio-iommu.c
+index c2883a2f6c8..cd08dc39eca 100644
+--- a/hw/virtio/virtio-iommu.c
++++ b/hw/virtio/virtio-iommu.c
+@@ -689,6 +689,25 @@ static void virtio_iommu_report_fault(VirtIOIOMMU *viommu, uint8_t reason,
+ 
+ }
+ 
++static bool virtio_iommu_bypass_is_allowed(VirtIOIOMMU *s)
++{
++    VirtIODevice *vdev = &s->parent_obj;
++
++    /*
++     * Allow bypass if:
++     * - boot_bypass is enabled and the BYPASS feature hasn't yet been
++     *   acknowledged.
++     * - the BYPASS feature has been negotiated.
++     */
++    if (s->boot_bypass && !(vdev->status & VIRTIO_CONFIG_S_FEATURES_OK)) {
++        return true;
++    }
++    if (virtio_vdev_has_feature(vdev, VIRTIO_IOMMU_F_BYPASS)) {
++        return true;
++    }
++    return false;
++}
++
+ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+                                             IOMMUAccessFlags flag,
+                                             int iommu_idx)
+@@ -715,8 +734,7 @@ static IOMMUTLBEntry virtio_iommu_translate(IOMMUMemoryRegion *mr, hwaddr addr,
+         .perm = IOMMU_NONE,
+     };
+ 
+-    bypass_allowed = virtio_vdev_has_feature(&s->parent_obj,
+-                                             VIRTIO_IOMMU_F_BYPASS);
++    bypass_allowed = virtio_iommu_bypass_is_allowed(s);
+ 
+     sid = virtio_iommu_get_bdf(sdev);
+ 
+@@ -1156,6 +1174,7 @@ static const VMStateDescription vmstate_virtio_iommu = {
+ 
+ static Property virtio_iommu_properties[] = {
+     DEFINE_PROP_LINK("primary-bus", VirtIOIOMMU, primary_bus, "PCI", PCIBus *),
++    DEFINE_PROP_BOOL("boot-bypass", VirtIOIOMMU, boot_bypass, true),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+-- 
+2.30.0
 
 
