@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0FD31F0E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 21:19:48 +0100 (CET)
-Received: from localhost ([::1]:47260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23B8631F0EA
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 21:23:24 +0100 (CET)
+Received: from localhost ([::1]:56954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCpm7-00076z-VF
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 15:19:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46216)
+	id 1lCppb-0002nP-5z
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 15:23:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lCpi9-0005BV-M2
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:15:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47036)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lCpiD-0005HR-BW
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:15:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51291)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lCpi6-0000Ex-Jf
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:15:41 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lCpiA-0000HN-UT
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 15:15:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613679337;
+ s=mimecast20190719; t=1613679342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+M4YMKl+P7NllAPbt944VL6IzDLVPLHmcKIYqeBHbN4=;
- b=YOP5NWcZid7ml6nLFU+hevZqG1VvgZjIzJiLhvvnkJ3eodoylmlTKPDDWHP5xMJIW33MY+
- LiFajk2JLH/l4GjOIqv9uODCin5cPSDSwKP6kS/SkACXzTbD5x7zSTD7XjNIPo/jl7+h9R
- +6YfMwr5t/bTGMsMwumCntMYte6kZvc=
+ bh=pbxOVseHrBBO3iTKLsPMDeo7I0onuR+B2h9y93y/HgE=;
+ b=APRzaypP+Ovn7mGnW3Kk9FkxLsXZ8rZvkKDD9KBgJS4GOzWhOjiRxKw9cViYkTwvJP3BJD
+ sCczav66AhHDpOqkrvL7pDJFUKkHRuCU4xqFIDEOkGMrROp0T9mk7e5ZL03rtekwrdzx2d
+ Qv+YizHiHsPsMWqp52iaM3VAGAQEy5s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-ncKaCDrLN2eI2Oj3cQ3TFg-1; Thu, 18 Feb 2021 15:15:35 -0500
-X-MC-Unique: ncKaCDrLN2eI2Oj3cQ3TFg-1
+ us-mta-365-NvoyDVBKPoWJQAtUhkIcwQ-1; Thu, 18 Feb 2021 15:15:38 -0500
+X-MC-Unique: NvoyDVBKPoWJQAtUhkIcwQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CAA63107ACE4;
- Thu, 18 Feb 2021 20:15:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A36A3427E3;
+ Thu, 18 Feb 2021 20:15:36 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-113-156.phx2.redhat.com [10.3.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5F8B650C0E;
- Thu, 18 Feb 2021 20:15:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1489950C0E;
+ Thu, 18 Feb 2021 20:15:35 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] block: Fix BDRV_BLOCK_RAW status to honor alignment
-Date: Thu, 18 Feb 2021 14:15:25 -0600
-Message-Id: <20210218201528.127099-3-eblake@redhat.com>
+Subject: [PATCH 3/5] nbd/server: Avoid unaligned read/block_status from backing
+Date: Thu, 18 Feb 2021 14:15:26 -0600
+Message-Id: <20210218201528.127099-4-eblake@redhat.com>
 In-Reply-To: <20210218201528.127099-1-eblake@redhat.com>
 References: <20210218201528.127099-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,15 +55,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,316 +76,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- vsementsov@virtuozzo.com, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ vsementsov@virtuozzo.com, Alberto Garcia <berto@igalia.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>,
  Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previous patches mentioned how the blkdebug filter driver demonstrates
-a bug present in our NBD server (for example, commit b0245d64); the
-bug is also present with the raw format driver when probing
-occurs. Basically, if we specify a particular alignment > 1, but defer
-the actual block status to the underlying file, and the underlying
-file has a smaller alignment, then the use of BDRV_BLOCK_RAW to defer
-to the underlying file can end up with status split at an alignment
-unacceptable to our layer.  Many callers don't care, but NBD does - it
-is a violation of the NBD protocol to send status or read results
-split on an unaligned boundary (in 737d3f5244, we taught our 4.0
-client to be tolerant of such violations because the problem was even
-more pronounced with qemu 3.1 as server; but we still need to fix our
-server for the sake of other stricter clients).
+The NBD server code used bdrv_block_status_above() to determine where
+to fragment structured read and block status replies, and similarly
+used bdrv_is_allocated_above() for the qemu:allocation-depth context.
+However, the protocol can only advertise the active layer's minimum
+block size; if the active layer is backed by another file with smaller
+alignment, then we can end up leaking unaligned results back through
+to the client, in violation of the spec.
 
-This patch lays the groundwork - it adjusts bdrv_block_status to
-ensure that any time one layer defers to another via BDRV_BLOCK_RAW,
-the deferral is either truncated down to an aligned boundary, or
-multiple sub-aligned requests are coalesced into a single
-representative answer (using an implicit hole beyond EOF as
-needed). Iotest 241 exposes the effect (when format probing occurred,
-we don't want block status to subdivide the initial sector, and thus
-not any other sector either). Similarly, iotest 221 is a good
-candidate to amend to specifically track the effects; a change to a
-hole at EOF is not visible if an upper layer does not want alignment
-smaller than 512. However, this patch alone is not a complete fix - it
-is still possible to have an active layer with large alignment
-constraints backed by another layer with smaller constraints; so the
-next patch will complete the task.
+Fix this by exposing a new bdrv_block_status_aligned() function around
+the recently-added internal bdrv_co_block_status_aligned, to guarantee
+that all block status answers from backing layers are rounded up to
+the alignment of the current layer.  Note that the underlying function
+still requires aligned boundaries, but the public function copes with
+unaligned inputs.
 
-In particular, the next patch will introduce some mutual recursion
-(bdrv_co_common_block_status_above will call this new function rather
-than directly into bdrv_co_block_status), so some conditions added
-here (such as a NULL pointer for map or handling a length-0 request)
-are not reachable until that point.
+The portion of iotest 241 using an encrypted qcow2 file does not
+change in output, but running it manually with traces shows the
+improved behavior; furthermore, reverting 737d3f5244 but leaving this
+patch in place lets the test pass (whereas before the test would fail
+because the client had to work around the server's non-compliance).
+Meanwhile, the portion running with blkdebug shows that
+qemu:allocation-depth now shows the desired output.
 
-There is one interesting corner case: prior to this patch, ALLOCATED
-was never returned without either DATA or ZERO also set. But now, if
-we have two subregions where the first reports status 0 (not
-allocated), and the second reports ZERO|ALLOCATED but not DATA
-(preallocated, read sees zero but underlying file has indeterminate
-contents), then we can end up with a result of just
-ALLOCATED. However, looking at callers of bdrv_is_allocated does not
-find any problem with this new return value. What's more, this
-situation doesn't really happen until the next patch adds support for
-getting aligned status from backing files (as the use of aligned
-status in this patch tends to be limited to just the protocol child of
-a format driver, yet protocol drivers tend to report fully allocated,
-and only format drivers have unallocated clusters that defer to a
-backing file in the first place).
+Note that while this fixes NBD_CMD_READ and NBD_CMD_BLOCK_STATUS for
+base:allocation and qemu:allocation-depth (because those rely on
+bdrv_block_status*), we still have a compliance problem with
+NBD_CMD_BLOCK_STATUS for qemu:dirty-bitmap:NN when visiting a bitmap
+created at a smaller granularity than what we advertised. That will be
+addressed in the next patch.
 
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- block/io.c                 | 142 +++++++++++++++++++++++++++++++++++--
- tests/qemu-iotests/221     |  13 ++++
- tests/qemu-iotests/221.out |   9 +++
- tests/qemu-iotests/241.out |   3 +-
- 4 files changed, 161 insertions(+), 6 deletions(-)
+ block/coroutines.h         |  2 ++
+ include/block/block.h      |  2 ++
+ block/io.c                 | 68 +++++++++++++++++++++++++++++++++-----
+ block/quorum.c             |  7 ++--
+ nbd/server.c               | 12 +++----
+ tests/qemu-iotests/241     |  9 +++--
+ tests/qemu-iotests/241.out |  2 +-
+ 7 files changed, 77 insertions(+), 25 deletions(-)
 
+diff --git a/block/coroutines.h b/block/coroutines.h
+index 4cfb4946e65e..1c0d761c669e 100644
+--- a/block/coroutines.h
++++ b/block/coroutines.h
+@@ -41,6 +41,7 @@ bdrv_pwritev(BdrvChild *child, int64_t offset, unsigned int bytes,
+ int coroutine_fn
+ bdrv_co_common_block_status_above(BlockDriverState *bs,
+                                   BlockDriverState *base,
++                                  uint32_t align,
+                                   bool include_base,
+                                   bool want_zero,
+                                   int64_t offset,
+@@ -52,6 +53,7 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+ int generated_co_wrapper
+ bdrv_common_block_status_above(BlockDriverState *bs,
+                                BlockDriverState *base,
++                               uint32_t align,
+                                bool include_base,
+                                bool want_zero,
+                                int64_t offset,
+diff --git a/include/block/block.h b/include/block/block.h
+index b3f6e509d49d..fcfd3514701e 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -517,6 +517,8 @@ int bdrv_block_status(BlockDriverState *bs, int64_t offset,
+ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+                             int64_t offset, int64_t bytes, int64_t *pnum,
+                             int64_t *map, BlockDriverState **file);
++int bdrv_block_status_aligned(BlockDriverState *bs, int64_t offset,
++                              int64_t bytes, int64_t *pnum);
+ int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                       int64_t *pnum);
+ int bdrv_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
 diff --git a/block/io.c b/block/io.c
-index ca2dca30070e..4bca775c96b4 100644
+index 4bca775c96b4..d239282b4763 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -2325,6 +2325,132 @@ int bdrv_flush_all(void)
-     return result;
+@@ -2656,6 +2656,7 @@ early_out:
+ int coroutine_fn
+ bdrv_co_common_block_status_above(BlockDriverState *bs,
+                                   BlockDriverState *base,
++                                  uint32_t align,
+                                   bool include_base,
+                                   bool want_zero,
+                                   int64_t offset,
+@@ -2698,8 +2699,8 @@ bdrv_co_common_block_status_above(BlockDriverState *bs,
+     for (p = bdrv_filter_or_cow_bs(bs); include_base || p != base;
+          p = bdrv_filter_or_cow_bs(p))
+     {
+-        ret = bdrv_co_block_status(p, want_zero, offset, bytes, pnum, map,
+-                                   file);
++        ret = bdrv_co_block_status_aligned(p, align, want_zero, offset, bytes,
++                                           pnum, map, file);
+         ++*depth;
+         if (ret < 0) {
+             return ret;
+@@ -2758,8 +2759,8 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+                             int64_t offset, int64_t bytes, int64_t *pnum,
+                             int64_t *map, BlockDriverState **file)
+ {
+-    return bdrv_common_block_status_above(bs, base, false, true, offset, bytes,
+-                                          pnum, map, file, NULL);
++    return bdrv_common_block_status_above(bs, base, 1, false, true, offset,
++                                          bytes, pnum, map, file, NULL);
  }
 
-+static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
-+                                             bool want_zero,
-+                                             int64_t offset, int64_t bytes,
-+                                             int64_t *pnum, int64_t *map,
-+                                             BlockDriverState **file);
-+
+ int bdrv_block_status(BlockDriverState *bs, int64_t offset, int64_t bytes,
+@@ -2786,7 +2787,7 @@ int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
+         return 1;
+     }
+
+-    ret = bdrv_common_block_status_above(bs, NULL, false, false, offset,
++    ret = bdrv_common_block_status_above(bs, NULL, 1, false, false, offset,
+                                          bytes, &pnum, NULL, NULL, NULL);
+
+     if (ret < 0) {
+@@ -2796,13 +2797,47 @@ int coroutine_fn bdrv_co_is_zero_fast(BlockDriverState *bs, int64_t offset,
+     return (pnum == bytes) && (ret & BDRV_BLOCK_ZERO);
+ }
+
 +/*
-+ * Returns an aligned allocation status of the specified disk region.
-+ *
-+ * Wrapper around bdrv_co_block_status() which requires the initial
-+ * @offset and @count to be aligned to @align (must be power of 2),
-+ * and guarantees the resulting @pnum will also be aligned; this may
-+ * require piecing together multiple sub-aligned queries into an
-+ * appropriate coalesced answer, as follows:
-+ *
-+ * - BDRV_BLOCK_DATA is set if the flag is set for at least one subregion
-+ * - BDRV_BLOCK_ZERO is set only if the flag is set for all subregions
-+ * - BDRV_BLOCK_OFFSET_VALID is set only if all subregions are contiguous
-+ *   from the same file (@map and @file are then from the first subregion)
-+ * - BDRV_BLOCK_ALLOCATED is set if the flag is set for at least one subregion
-+ * - BDRV_BLOCK_EOF is set if the last subregion queried set it (any
-+ *   remaining bytes to reach alignment are treated as an implicit hole)
-+ * - BDRV_BLOCK_RAW is never set
++ * Similar to bdrv_block_status_above(bs, NULL, ...), but ensures that
++ * the answer matches the minimum alignment of bs (smaller alignments
++ * in layers above will not leak through to the active layer). It is
++ * assumed that callers do not care about the resulting mapping of
++ * offsets to an underlying BDS.
 + */
-+static int coroutine_fn bdrv_co_block_status_aligned(BlockDriverState *bs,
-+                                                     uint32_t align,
-+                                                     bool want_zero,
-+                                                     int64_t offset,
-+                                                     int64_t bytes,
-+                                                     int64_t *pnum,
-+                                                     int64_t *map,
-+                                                     BlockDriverState **file)
++int bdrv_block_status_aligned(BlockDriverState *bs, int64_t offset,
++                              int64_t bytes, int64_t *pnum)
 +{
++    /* Widen the request to aligned boundaries */
++    int64_t aligned_offset, aligned_bytes;
++    uint32_t align = bs->bl.request_alignment;
 +    int ret;
 +
-+    assert(is_power_of_2(align) && QEMU_IS_ALIGNED(offset | bytes, align));
-+    ret = bdrv_co_block_status(bs, want_zero, offset, bytes, pnum, map, file);
++    assert(pnum);
++    aligned_offset = QEMU_ALIGN_DOWN(offset, align);
++    aligned_bytes = ROUND_UP(offset + bytes, align) - aligned_offset;
++    ret = bdrv_common_block_status_above(bs, NULL, align, false, true,
++                                         aligned_offset, aligned_bytes,
++                                         pnum, NULL, NULL, NULL);
 +    if (ret < 0) {
++        *pnum = 0;
 +        return ret;
 +    }
-+    /* 0-length return only possible for 0-length query or beyond EOF */
-+    if (!*pnum) {
-+        assert(!bytes || ret & BDRV_BLOCK_EOF);
-+        return ret;
-+    }
-+    assert(!(ret & BDRV_BLOCK_RAW));
-+
-+    /*
-+     * If initial query ended at EOF, round up to align: the post-EOF
-+     * tail is an implicit hole, but our rules say we can treat that
-+     * like the initial subregion.
-+     */
-+    if (ret & BDRV_BLOCK_EOF) {
-+        *pnum = QEMU_ALIGN_UP(*pnum, align);
-+        assert(*pnum <= bytes);
-+        return ret;
-+    }
-+
-+    /*
-+     * If result is unaligned but not at EOF, it's easier to return
-+     * the aligned subset and then compute the coalesced version over
-+     * just align bytes.
-+     */
-+    if (*pnum >= align) {
-+        *pnum = QEMU_ALIGN_DOWN(*pnum, align);
-+        return ret;
-+    }
-+
-+    /*
-+     * If we got here, we have to merge status for multiple
-+     * subregions. We can't detect if offsets are contiguous unless
-+     * map and file are non-NULL.
-+     */
-+    if (!map || !file) {
-+        ret &= ~BDRV_BLOCK_OFFSET_VALID;
-+    }
-+    while (*pnum < align) {
-+        int ret2;
-+        int64_t pnum2;
-+        int64_t map2;
-+        BlockDriverState *file2;
-+
-+        ret2 = bdrv_co_block_status(bs, want_zero, offset + *pnum,
-+                                    align - *pnum, &pnum2, &map2, &file2);
-+        if (ret2 < 0) {
-+            return ret2;
-+        }
-+        assert(!(ret2 & BDRV_BLOCK_RAW));
-+        /*
-+         * A 0-length answer here is a bug - we should not be querying
-+         * beyond EOF. Our rules allow any further bytes in implicit
-+         * hole past EOF to have same treatment as the subregion just
-+         * before EOF.
-+         */
-+        assert(pnum2 && pnum2 <= align - *pnum);
-+        if (ret2 & BDRV_BLOCK_EOF) {
-+            ret |= BDRV_BLOCK_EOF;
-+            pnum2 = align - *pnum;
-+        }
-+
-+        /* Now merge the status */
-+        if (ret2 & BDRV_BLOCK_DATA) {
-+            ret |= BDRV_BLOCK_DATA;
-+        }
-+        if (!(ret2 & BDRV_BLOCK_ZERO)) {
-+            ret &= ~BDRV_BLOCK_ZERO;
-+        }
-+        if ((ret & BDRV_BLOCK_OFFSET_VALID) &&
-+            (!(ret2 & BDRV_BLOCK_OFFSET_VALID) ||
-+             *map + *pnum != map2 || *file != file2)) {
-+            ret &= ~BDRV_BLOCK_OFFSET_VALID;
-+            if (map) {
-+                *map = 0;
-+            }
-+            if (file) {
-+                *file = NULL;
-+            }
-+        }
-+        if (ret2 & BDRV_BLOCK_ALLOCATED) {
-+            ret |= BDRV_BLOCK_ALLOCATED;
-+        }
-+        *pnum += pnum2;
++    assert(*pnum && QEMU_IS_ALIGNED(*pnum, align) &&
++           align > offset - aligned_offset);
++    *pnum -= offset - aligned_offset;
++    if (*pnum > bytes) {
++        *pnum = bytes;
 +    }
 +    return ret;
 +}
 +
- /*
-  * Returns the allocation status of the specified sectors.
-  * Drivers not implementing the functionality are assumed to not support
-@@ -2438,7 +2564,17 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
-      */
-     assert(*pnum && QEMU_IS_ALIGNED(*pnum, align) &&
-            align > offset - aligned_offset);
--    if (ret & BDRV_BLOCK_RECURSE) {
-+    if (ret & BDRV_BLOCK_RAW) {
-+        assert(local_file);
-+        ret = bdrv_co_block_status_aligned(local_file, align, want_zero,
-+                                           local_map, *pnum, pnum, &local_map,
-+                                           &local_file);
-+        if (ret < 0) {
-+            goto out;
-+        }
-+        assert(!(ret & BDRV_BLOCK_RAW));
-+        ret |= BDRV_BLOCK_RAW;
-+    } else if (ret & BDRV_BLOCK_RECURSE) {
-         assert(ret & BDRV_BLOCK_DATA);
-         assert(ret & BDRV_BLOCK_OFFSET_VALID);
-         assert(!(ret & BDRV_BLOCK_ZERO));
-@@ -2453,9 +2589,7 @@ static int coroutine_fn bdrv_co_block_status(BlockDriverState *bs,
+ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+                                    int64_t bytes, int64_t *pnum)
+ {
+     int ret;
+     int64_t dummy;
+
+-    ret = bdrv_common_block_status_above(bs, bs, true, false, offset,
++    ret = bdrv_common_block_status_above(bs, bs, 1, true, false, offset,
+                                          bytes, pnum ? pnum : &dummy, NULL,
+                                          NULL, NULL);
+     if (ret < 0) {
+@@ -2833,13 +2868,28 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+                             bool include_base, int64_t offset,
+                             int64_t bytes, int64_t *pnum)
+ {
++    /* Widen the request to aligned boundaries */
++    int64_t aligned_offset, aligned_bytes;
++    uint32_t align = top->bl.request_alignment;
+     int depth;
+-    int ret = bdrv_common_block_status_above(top, base, include_base, false,
+-                                             offset, bytes, pnum, NULL, NULL,
+-                                             &depth);
++    int ret;
++
++    assert(pnum);
++    aligned_offset = QEMU_ALIGN_DOWN(offset, align);
++    aligned_bytes = ROUND_UP(offset + bytes, align) - aligned_offset;
++    ret = bdrv_common_block_status_above(top, base, align, include_base, false,
++                                         aligned_offset, aligned_bytes, pnum,
++                                         NULL, NULL, &depth);
+     if (ret < 0) {
++        *pnum = 0;
+         return ret;
      }
++    assert(*pnum && QEMU_IS_ALIGNED(*pnum, align) &&
++           align > offset - aligned_offset);
++    *pnum -= offset - aligned_offset;
++    if (*pnum > bytes) {
++        *pnum = bytes;
++    }
 
-     if (ret & BDRV_BLOCK_RAW) {
--        assert(ret & BDRV_BLOCK_OFFSET_VALID && local_file);
--        ret = bdrv_co_block_status(local_file, want_zero, local_map,
--                                   *pnum, pnum, &local_map, &local_file);
-+        ret &= ~BDRV_BLOCK_RAW;
-         goto out;
-     }
+     if (ret & BDRV_BLOCK_ALLOCATED) {
+         return depth;
+diff --git a/block/quorum.c b/block/quorum.c
+index 0bd75450de97..feea9ad8fa87 100644
+--- a/block/quorum.c
++++ b/block/quorum.c
+@@ -1230,9 +1230,10 @@ static int coroutine_fn quorum_co_block_status(BlockDriverState *bs,
 
-diff --git a/tests/qemu-iotests/221 b/tests/qemu-iotests/221
-index c463fd4b113e..6a15e0160b24 100755
---- a/tests/qemu-iotests/221
-+++ b/tests/qemu-iotests/221
-@@ -46,6 +46,12 @@ echo
- echo "=== Check mapping of unaligned raw image ==="
- echo
+     for (i = 0; i < s->num_children; i++) {
+         int64_t bytes;
+-        ret = bdrv_co_common_block_status_above(s->children[i]->bs, NULL, false,
+-                                                want_zero, offset, count,
+-                                                &bytes, NULL, NULL, NULL);
++        ret = bdrv_co_common_block_status_above(s->children[i]->bs, NULL, 1,
++                                                false, want_zero, offset,
++                                                count, &bytes, NULL, NULL,
++                                                NULL);
+         if (ret < 0) {
+             quorum_report_bad(QUORUM_OP_TYPE_READ, offset, count,
+                               s->children[i]->bs->node_name, ret);
+diff --git a/nbd/server.c b/nbd/server.c
+index 7229f487d296..40847276ca64 100644
+--- a/nbd/server.c
++++ b/nbd/server.c
+@@ -1923,7 +1923,7 @@ static int coroutine_fn nbd_co_send_structured_error(NBDClient *client,
+ }
 
-+# Note that when we enable format probing by omitting -f, the raw
-+# layer forces 512-byte alignment and the bytes past EOF take on the
-+# same status as the rest of the sector; otherwise, we can see the
-+# implicit hole visible past EOF thanks to the block layer rounding
-+# sizes up.
-+
- _make_test_img 65537 # qemu-img create rounds size up
+ /* Do a sparse read and send the structured reply to the client.
+- * Returns -errno if sending fails. bdrv_block_status_above() failure is
++ * Returns -errno if sending fails. bdrv_block_status_aligned() failure is
+  * reported to the client, at which point this function succeeds.
+  */
+ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
+@@ -1939,10 +1939,9 @@ static int coroutine_fn nbd_co_send_sparse_read(NBDClient *client,
 
- # file-posix allocates the first block of any images when it is created;
-@@ -55,15 +61,22 @@ _make_test_img 65537 # qemu-img create rounds size up
- $QEMU_IO -c 'discard 0 65537' "$TEST_IMG" | _filter_qemu_io
+     while (progress < size) {
+         int64_t pnum;
+-        int status = bdrv_block_status_above(blk_bs(exp->common.blk), NULL,
+-                                             offset + progress,
+-                                             size - progress, &pnum, NULL,
+-                                             NULL);
++        int status = bdrv_block_status_aligned(blk_bs(exp->common.blk),
++                                               offset + progress,
++                                               size - progress, &pnum);
+         bool final;
 
- $QEMU_IMG map --output=json "$TEST_IMG" | _filter_qemu_img_map
-+$QEMU_IMG map -f $IMGFMT --output=json "$TEST_IMG" | _filter_qemu_img_map
-+echo
+         if (status < 0) {
+@@ -2080,8 +2079,7 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
+     while (bytes) {
+         uint32_t flags;
+         int64_t num;
+-        int ret = bdrv_block_status_above(bs, NULL, offset, bytes, &num,
+-                                          NULL, NULL);
++        int ret = bdrv_block_status_aligned(bs, offset, bytes, &num);
 
- truncate --size=65537 "$TEST_IMG" # so we resize it and check again
- $QEMU_IMG map --output=json "$TEST_IMG" | _filter_qemu_img_map
-+$QEMU_IMG map -f $IMGFMT --output=json "$TEST_IMG" | _filter_qemu_img_map
-+echo
-
- $QEMU_IO -c 'w 65536 1' "$TEST_IMG" | _filter_qemu_io # writing also rounds up
- $QEMU_IMG map --output=json "$TEST_IMG" | _filter_qemu_img_map
-+$QEMU_IMG map -f $IMGFMT --output=json "$TEST_IMG" | _filter_qemu_img_map
-+echo
-
- truncate --size=65537 "$TEST_IMG" # so we resize it and check again
- $QEMU_IMG map --output=json "$TEST_IMG" | _filter_qemu_img_map
-+$QEMU_IMG map -f $IMGFMT --output=json "$TEST_IMG" | _filter_qemu_img_map
-
- # success, all done
- echo '*** done'
-diff --git a/tests/qemu-iotests/221.out b/tests/qemu-iotests/221.out
-index 93846c7dabb6..d22b5e00d4f8 100644
---- a/tests/qemu-iotests/221.out
-+++ b/tests/qemu-iotests/221.out
-@@ -7,11 +7,20 @@ discard 65537/65537 bytes at offset 0
- 64.001 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- [{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- [{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+
-+[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+
- wrote 1/1 bytes at offset 65536
- 1 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
- [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+{ "start": 65536, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
-+
-+[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
-+{ "start": 65536, "length": 512, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- [{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false, "offset": OFFSET},
- { "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
- { "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
+         if (ret < 0) {
+             return ret;
+diff --git a/tests/qemu-iotests/241 b/tests/qemu-iotests/241
+index 5217af82dc65..49e2bc09e5bc 100755
+--- a/tests/qemu-iotests/241
++++ b/tests/qemu-iotests/241
+@@ -129,11 +129,10 @@ $QEMU_NBD_PROG --list -k $nbd_unix_socket | grep '\(size\|min\)'
+ # is wrong unless the entire 4k is clean.
+ $QEMU_IMG map --output=json --image-opts \
+ 	  "$TEST_IMG",x-dirty-bitmap=qemu:dirty-bitmap:b0 | _filter_qemu_img_map
+-
+-# FIXME: this should report a single 4k block of "zero":true,"data":true,
+-# meaning allocated from the backing chain.  Using "zero":false,"data":false
+-# (allocated in active layer) or "zero":false,"data":true (entire region
+-# unallocated) is wrong.
++# Reports a single 4k block of "zero":true,"data":true, meaning allocated
++# from the backing chain.  Reporting "zero":false,"data":false would be wrong
++# (nothing is allocated in the active layer), and as would reporting
++# "zero":false,"data":true (the entire region is not unallocated).
+ $QEMU_IMG map --output=json --image-opts \
+   "$TEST_IMG",x-dirty-bitmap=qemu:allocation-depth | _filter_qemu_img_map
+ nbd_server_stop
 diff --git a/tests/qemu-iotests/241.out b/tests/qemu-iotests/241.out
-index 67aaeed34f50..56d3796cf3ac 100644
+index 56d3796cf3ac..12a899ba9181 100644
 --- a/tests/qemu-iotests/241.out
 +++ b/tests/qemu-iotests/241.out
-@@ -22,8 +22,7 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
-
-   size:  1024
-   min block: 1
--[{ "start": 0, "length": 1000, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 1000, "length": 24, "depth": 0, "zero": true, "data": true, "offset": OFFSET}]
-+[{ "start": 0, "length": 1024, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- 1 KiB (0x400) bytes     allocated at offset 0 bytes (0x0)
-
- === Encrypted qcow2 file backed by unaligned raw image ===
+@@ -44,5 +44,5 @@ Formatting 'TEST_DIR/t.IMGFMT.qcow2', fmt=qcow2 size=4096 backing_file=TEST_DIR/
+   size:  4096
+   min block: 4096
+ [{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
+-[{ "start": 0, "length": 4096, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
++[{ "start": 0, "length": 4096, "depth": 0, "zero": true, "data": true, "offset": OFFSET}]
+ *** done
 -- 
 2.30.1
 
