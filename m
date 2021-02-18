@@ -2,84 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1396931EE6B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 19:38:27 +0100 (CET)
-Received: from localhost ([::1]:52874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB4A31EEC4
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 19:49:10 +0100 (CET)
+Received: from localhost ([::1]:56456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCoC1-0002By-Ev
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 13:38:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51310)
+	id 1lCoMO-0004Lh-SR
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 13:49:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lCoAN-0001dL-RC
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 13:36:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1lCoAH-00069J-6w
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 13:36:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613673394;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wN27AbIc5xGpY54lrdd7J668q+yocmeBUt4SBn3DU3o=;
- b=gB+L04LC8aaoDrl085xP3ULl5V/znUUE/4ESkfM4dgAwQLi/TGav5FmSyF8mzsFlS742mY
- LdUueixPDgpivjyjNnjZ2PRWcWz5+LFSNWlyyIZQ9IYr/fWAVvZ4YNDQ8jOJugFnOU/tPG
- T5lFFjH99eU4JU3JWefYtKekXODPva0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-289-xQqQ7OKtPje6CDJSEnWOqQ-1; Thu, 18 Feb 2021 13:36:33 -0500
-X-MC-Unique: xQqQ7OKtPje6CDJSEnWOqQ-1
-Received: by mail-qt1-f199.google.com with SMTP id p20so1729414qtn.23
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 10:36:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=wN27AbIc5xGpY54lrdd7J668q+yocmeBUt4SBn3DU3o=;
- b=cMp34EcJ+LLj3/n+dk4ElHHpwvMYQTfXARdukqoyOYpdQlF98ucov2HHENEe8icbS1
- Q1iMmWoIOjCTBbE7QBhJF23gS4LYVQsbNTPWi6h3yxNZA6WhI94A8eVEbueDHGdW5yha
- tHr3UyXCLPxXFmC1socKj07cpEGOBKPMYAHpZL1TXtSglssIgHEBsS1Nrm6Cq6kT3J5Z
- jMVzzxkJLws3n701w+qj7qoSu5n9c4DCU/r6uXSgsXRGLqIVZsM+6ryums7dHpK234nu
- pMvyeKgCGBHaRjJ3tuzl0UQXrGNIkSp0k9uUZmoOnEPTaZ5o2V2EJYInEnsSZf7l3RdJ
- 1qkQ==
-X-Gm-Message-State: AOAM533K0CTsGzUONhpVaTI7gB2QtvX0rBgaT7JnTAKJqgRLa1/rxGUN
- FnbPpf4Ss5vKxYH7EBO0p9iZ73Ai3zRIqJ+YprQDdiYS8dBUsEVzP3jBOBS4HZQFTzUDVn39Kfd
- BbSaPLDhGaADp7qBSL8YRRx/KxowU7KM=
-X-Received: by 2002:a37:af83:: with SMTP id y125mr5628990qke.210.1613673392585; 
- Thu, 18 Feb 2021 10:36:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzvVq7+DYbZL3EEEP5zbq3u44dMxVZ3n4hia8JN3JWoByaDUK8Y27mrd//RvB4w30xceV0uE/uMvgISYWrMSso=
-X-Received: by 2002:a37:af83:: with SMTP id y125mr5628965qke.210.1613673392321; 
- Thu, 18 Feb 2021 10:36:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lCoLG-0003vH-Eu
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 13:47:58 -0500
+Received: from smtp1.axis.com ([195.60.68.17]:4610)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lCoLD-0002TP-OR
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 13:47:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1613674075;
+ x=1645210075; h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=5vJuWMfNIpfFWVVrvF/qk/J5RRVIprAEZAQwkoUuMns=;
+ b=BXM64dXEwx4fQZKayVVViAxM9f1lpZ+9LPSq8a5L/WjdDTUZnd4eZqS8
+ EyvEXFGRt/moeTnDfcqxfU8aW7lS4AkRooshKxEgminDrPl37l6Aavp51
+ eSI+TcAjtg4stGIINg8VXg6fEDMBAierO64Re9jGu58d3uuDucmqOHrlI
+ Uaa7ow7zTJXw/qDiaBxffnDdmG69GvS8r/8RriVL//WUXP60BuiKYLvLG
+ lUHMPWV7flqGv3MSwE4veSnaZ7FKAXaGfn+vaPU3rv4mZa3rGCMG33rmk
+ TDxtWzr9Kp0UjERbuesKQeQThYryhIYcXMsS2ZJW//0mQp5fc0x0geJ9c g==;
+From: =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
+To: =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
+Subject: Re: [PATCH v2] Correct CRIS TCG register lifetime management
+Thread-Topic: [PATCH v2] Correct CRIS TCG register lifetime management
+Thread-Index: AQHXBiXsaEPzzLR6yUiER3hr5a8RBqpeMBAA
+Date: Thu, 18 Feb 2021 18:47:53 +0000
+Message-ID: <1E42B894-8A30-4B2A-ACF7-2A5643CE0778@axis.com>
+References: <20210218184302.34984-1-stefans@axis.com>
+In-Reply-To: <20210218184302.34984-1-stefans@axis.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.32)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9CBB96C4D527BD49A206F810490A80CD@exhub.se.axis.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210209153757.1653598-1-eperezma@redhat.com>
- <20210209153757.1653598-6-eperezma@redhat.com>
- <20210217152633.GG269203@stefanha-x1.localdomain>
- <CAJaqyWd2St=CYbOCzqhW5WKktAG5zfzEjEpFuEXRoUU4dk_w0A@mail.gmail.com>
-In-Reply-To: <CAJaqyWd2St=CYbOCzqhW5WKktAG5zfzEjEpFuEXRoUU4dk_w0A@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 18 Feb 2021 19:35:56 +0100
-Message-ID: <CAJaqyWe+cc=ddG4cEkqObMTdzuO3pyTMqqOqtMfPKgMK-2Pm+A@mail.gmail.com>
-Subject: Re: [RFC v2 5/7] vhost: Add x-vhost-enable-shadow-vq qmp
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.60.68.17;
+ envelope-from=Stefan.Sandstrom@axis.com; helo=smtp1.axis.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,81 +72,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Rob Miller <rob.miller@broadcom.com>, Parav Pandit <parav@mellanox.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Eli Cohen <eli@mellanox.com>, virtualization@lists.linux-foundation.org,
- Michael Lilja <ml@napatech.com>, Jim Harford <jim.harford@broadcom.com>,
- Stefano Garzarella <sgarzare@redhat.com>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "open list:All patches CC
+ here" <qemu-devel@nongnu.org>, "f4bug@amsat.org" <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 7:47 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> On Wed, Feb 17, 2021 at 4:26 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
-> >
-> > On Tue, Feb 09, 2021 at 04:37:55PM +0100, Eugenio P=C3=A9rez wrote:
-> > > diff --git a/qapi/net.json b/qapi/net.json
-> > > index c31748c87f..a1cdffb0f9 100644
-> > > --- a/qapi/net.json
-> > > +++ b/qapi/net.json
-> > > @@ -77,6 +77,28 @@
-> > >  ##
-> > >  { 'command': 'netdev_del', 'data': {'id': 'str'} }
-> > >
-> > > +##
-> > > +# @x-vhost-enable-shadow-vq:
-> > > +#
-> > > +# Use vhost shadow virtqueue.
-> >
-> > Is this command for testing only or do you expect it to be invoked by
-> > libvirt in production? I think the shadow virtqueue can be an internal
-> > QEMU feature that is hidden from management tools.
-> >
->
-> I think shadow virtqueue should kick in automatically when live
-> migration is triggered and the vhost device does not have _F_LOG too.
->
-> Maybe something like "prefer shadow vq to vhost logging" could be
-> exposed, but it is not a thing we have to figure now.
->
-> > > +#
-> > > +# @name: the device name of the virtual network adapter
-> > > +#
-> > > +# @enable: true to use he alternate shadow VQ notification path
-> > > +#
-> > > +# Returns: Error if failure, or 'no error' for success
-> > > +#
-> > > +# Since: 6.0
-> >
-> > Is this a generic feature for any vhost or vDPA device? If yes, please
-> > replace "virtual network adapter" in the doc comment.
-> >
-> > Does this only apply to vhost-net devices? If so, please put "vhost-net=
-"
-> > in the name since there are other non-net vhost devices.
->
-> Right, thanks for the catch!
->
-
-Moreover, the command should not be in net.json. However, I don't see
-a generic virtio/vhost file to add the command.
-
-> >
-> > > +#
-> > > +# Example:
-> > > +#
-> > > +# -> { "execute": "x-vhost-enable-shadow-vq", "arguments": {"enable"=
-: true} }
-> >
-> > Missing "name" field?
->
-> Yes, I will fix the example in future revisions.
->
-> Thanks!
-
+SGksDQoNClRoYW5rcyBmb3IgdGhlIGZlZWRiYWNrISAgSSd2ZSBwb3N0ZWQgYSBuZXcgcGF0Y2gg
+d2hpY2ggc2hvdWxkIGFkZHJlc3MgdGhpcyBmZWVkYmFjay4NCkFuZCwgaXQgc2VlbXMgbGlrZSBJ
+J3ZlIG1hbmFnZWQgdG8gZ2V0IHRoZSBwYXRjaCBtYWlsaW5nIHJpZ2h0IGF0IGxhc3QuDQoNClRo
+YW5rcywNCi1zdGVmYW4NCg0KPiBPbiAxOCBGZWIgMjAyMSwgYXQgMTk6NDMsIFN0ZWZhbiBTYW5k
+c3Ryw7ZtIDxTdGVmYW4uU2FuZHN0cm9tQGF4aXMuY29tPiB3cm90ZToNCj4gDQo+IEZyb206IFN0
+ZWZhbiBTYW5kc3Ryb20gPHN0ZWZhbnNAYXhpcy5jb20+DQo+IA0KPiBBZGQgYW5kIGZpeCBkZWFs
+bG9jYXRpb24gb2YgdGVtcG9yYXJ5IFRDRyByZWdpc3RlcnMgaW4gQ1JJUyBjb2RlDQo+IGdlbmVy
+YXRpb24uDQo+IA0KDQo=
 
