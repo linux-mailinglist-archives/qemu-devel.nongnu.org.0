@@ -2,41 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032CC31EAD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:20:54 +0100 (CET)
-Received: from localhost ([::1]:34284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E6631EAD5
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:19:18 +0100 (CET)
+Received: from localhost ([::1]:59652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCkAm-0007gG-UV
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:20:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33136)
+	id 1lCk9F-0006Od-0Z
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:19:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
- id 1lCf7G-0006u6-G7
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 03:56:54 -0500
-Received: from smtp2.axis.com ([195.60.68.18]:12241)
+ id 1lCiEE-0002DV-UZ
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 07:16:19 -0500
+Received: from smtp1.axis.com ([195.60.68.17]:59858)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
- id 1lCf79-0007z7-UD
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 03:56:53 -0500
+ id 1lCiE8-00074Z-Cl
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 07:16:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=axis.com; q=dns/txt; s=axis-central1; t=1613638608;
- x=1645174608; h=from:to:cc:subject:date:message-id:content-id:
- content-transfer-encoding:mime-version;
- bh=gFTLMlIFqgTc1RRodK606zkVmOE7UAos9894lkLUyaA=;
- b=L41edmy1c60J5+WbxdW8rLQ3bU9b3CH3TcOjwjYHNZVSvX1JWsceVrJk
- J2CSkpYV73SQ7XPo/BcT6T8KvmOCLJuX8+Y2ySYdZQXi0LN3d0bOdcYZQ
- xA0FGJXkvUCB4ui2FtQTKD2v/BidMVycXAcs33jcXDxPuDabpSzWFR53I
- 7Upp7cJ/0CBYzIc0x1SJ3rVpScD94Q5U74G+zy8v/WDdACtdSoBWqndo3
- s91vwBph3lpwa9bTx6neNtnfthJdZKckWRrDWzNO6a2U6S2Sm2woytJr7
- cpgnhx9WtSfizljrRMWTrr30sNzBtUGIKcWCh6FpSX+Gd2IAbkTBdKZKI Q==;
-From: =?iso-8859-1?Q?Stefan_Sandstr=F6m?= <Stefan.Sandstrom@axis.com>
-To: "open list:All patches CC here" <qemu-devel@nongnu.org>
-Subject: [PATCH] Correct CRIS TCG register lifetime management
+ d=axis.com; q=dns/txt; s=axis-central1; t=1613650572;
+ x=1645186572; h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=nxB4cu1SAm7Z+MnecqFRyu8gzRbqnvvzAdab65QILA8=;
+ b=EumVJXmL0eBY9/IxTQlKupUrGrSrKofo0GFyH8d4aVt1qckU0pM9xYWA
+ DO862LlbE5GtMT42EW17n3IA1KQpDNnLNmaaCRTYMMgat19c1314BTqnT
+ aqZam6kpKikoWI3hTloKk7eift7jrz2jS7b2Q7y2sQOLFF9IIw/j0Pfwq
+ GZzkJXBUuQF4VcobCoJpYMI4AwIX3fFXvPrP6H8P/mJilR1Afrx1E1T8o
+ 8N4kVkMc3J4gkS8jJUR4H6ncUEAnRxVyxbvPcYdyWVJn6gcW7yFCmqIsS
+ pcVRrgBX6ZwuHexQqjOIFev07uasxa5Z9ZutTnGu5c5ZvudAFn5aP5Yjz w==;
+From: =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Subject: Re: [PATCH] Correct CRIS TCG register lifetime management
 Thread-Topic: [PATCH] Correct CRIS TCG register lifetime management
-Thread-Index: AQHXBdP6F73V10o9tUK379pkgoBD1g==
-Date: Thu, 18 Feb 2021 08:56:43 +0000
-Message-ID: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
+Thread-Index: AQHXBdP6/0bFnrLNokm0BbfdMTFl/apdo+wAgAAfVAA=
+Date: Thu, 18 Feb 2021 12:16:08 +0000
+Message-ID: <94BD91ED-EFD4-4576-97CA-3BEECE85E904@axis.com>
+References: <A13A6E43-EEAF-4781-87E1-3295F698A85C@axis.com>
+ <20210218102400.GP477672@toto>
+In-Reply-To: <20210218102400.GP477672@toto>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -45,12 +48,12 @@ x-mailer: Apple Mail (2.3654.40.0.2.32)
 x-ms-exchange-messagesentrepresentingtype: 1
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.0.5.60]
-Content-Type: text/plain; charset="iso-8859-1"
-Content-ID: <23DC47612085D146898255CF5E81C3DF@exhub.se.axis.com>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <63322EF506E3B14A85495ABBC3FD3315@exhub.se.axis.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Received-SPF: pass client-ip=195.60.68.18;
- envelope-from=Stefan.Sandstrom@axis.com; helo=smtp2.axis.com
+Received-SPF: pass client-ip=195.60.68.17;
+ envelope-from=Stefan.Sandstrom@axis.com; helo=smtp1.axis.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -71,749 +74,516 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?iso-8859-1?Q?Stefan_Sandstr=F6m?= <Stefan.Sandstrom@axis.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Sandstrom <stefans@axis.com>
-
-Add and fix deallocation of temporary TCG registers in CRIS code
-generation.
-
-Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
-Signed-off-by: Stefan Sandstrom <stefans@axis.com>
----
-target/cris/translate.c         | 146 ++++++++++++++++++++++++++++++-------=
----
-target/cris/translate_v10.c.inc |  70 ++++++++++++-------
-2 files changed, 156 insertions(+), 60 deletions(-)
-
-diff --git a/target/cris/translate.c b/target/cris/translate.c
-index c893f87..ae903a5 100644
---- a/target/cris/translate.c
-+++ b/target/cris/translate.c
-@@ -177,9 +177,13 @@ static inline void t_gen_mov_TN_preg(TCGv tn, int r)
-{
-    assert(r >=3D 0 && r <=3D 15);
-    if (r =3D=3D PR_BZ || r =3D=3D PR_WZ || r =3D=3D PR_DZ) {
--        tcg_gen_mov_tl(tn, tcg_const_tl(0));
-+        TCGv c0 =3D tcg_const_tl(0);
-+        tcg_gen_mov_tl(tn, c0);
-+        tcg_temp_free(c0);
-    } else if (r =3D=3D PR_VR) {
--        tcg_gen_mov_tl(tn, tcg_const_tl(32));
-+        TCGv c32 =3D tcg_const_tl(32);
-+        tcg_gen_mov_tl(tn, c32);
-+        tcg_temp_free(c32);
-    } else {
-        tcg_gen_mov_tl(tn, cpu_PR[r]);
-    }
-@@ -255,8 +259,10 @@ static int cris_fetch(CPUCRISState *env, DisasContext =
-*dc, uint32_t addr,
-
-static void cris_lock_irq(DisasContext *dc)
-{
-+    TCGv c1 =3D tcg_const_tl(1);
-    dc->clear_locked_irq =3D 0;
--    t_gen_mov_env_TN(locked_irq, tcg_const_tl(1));
-+    t_gen_mov_env_TN(locked_irq, c1);
-+    tcg_temp_free(c1);
-}
-
-static inline void t_gen_raise_exception(uint32_t index)
-@@ -885,8 +891,10 @@ static void gen_tst_cc (DisasContext *dc, TCGv cc, int=
- cond)
-    case CC_EQ:
-        if ((arith_opt || move_opt)
-                && dc->cc_x_uptodate !=3D (2 | X_FLAG)) {
-+            TCGv c0 =3D tcg_const_tl(0);
-            tcg_gen_setcond_tl(TCG_COND_EQ, cc,
--                    cc_result, tcg_const_tl(0));
-+                    cc_result, c0);
-+            tcg_temp_free(c0);
-        } else {
-            cris_evaluate_flags(dc);
-            tcg_gen_andi_tl(cc,
-@@ -1330,14 +1338,17 @@ static int dec_addoq(CPUCRISState *env, DisasContex=
-t *dc)
-}
-static int dec_addq(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c;
-    LOG_DIS("addq %u, $r%u\n", dc->op1, dc->op2);
-
-    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
-
-    cris_cc_mask(dc, CC_MASK_NZVC);
-
-+    c =3D tcg_const_tl(dc->op1);
-    cris_alu(dc, CC_OP_ADD,
--            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
-+            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-+    tcg_temp_free(c);
-    return 2;
-}
-static int dec_moveq(CPUCRISState *env, DisasContext *dc)
-@@ -1353,62 +1364,77 @@ static int dec_moveq(CPUCRISState *env, DisasContex=
-t *dc)
-}
-static int dec_subq(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c;
-    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
-
-    LOG_DIS("subq %u, $r%u\n", dc->op1, dc->op2);
-
-    cris_cc_mask(dc, CC_MASK_NZVC);
-+    c =3D tcg_const_tl(dc->op1);
-    cris_alu(dc, CC_OP_SUB,
--            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
-+            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-+    tcg_temp_free(c);
-    return 2;
-}
-static int dec_cmpq(CPUCRISState *env, DisasContext *dc)
-{
-    uint32_t imm;
-+    TCGv c;
-    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
-    imm =3D sign_extend(dc->op1, 5);
-
-    LOG_DIS("cmpq %d, $r%d\n", imm, dc->op2);
-    cris_cc_mask(dc, CC_MASK_NZVC);
-
-+    c =3D tcg_const_tl(imm);
-    cris_alu(dc, CC_OP_CMP,
--            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
-+            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-+    tcg_temp_free(c);
-    return 2;
-}
-static int dec_andq(CPUCRISState *env, DisasContext *dc)
-{
-    uint32_t imm;
-+    TCGv c;
-    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
-    imm =3D sign_extend(dc->op1, 5);
-
-    LOG_DIS("andq %d, $r%d\n", imm, dc->op2);
-    cris_cc_mask(dc, CC_MASK_NZ);
-
-+    c =3D tcg_const_tl(imm);
-    cris_alu(dc, CC_OP_AND,
--            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
-+            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-+    tcg_temp_free(c);
-    return 2;
-}
-static int dec_orq(CPUCRISState *env, DisasContext *dc)
-{
-    uint32_t imm;
-+    TCGv c;
-    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 5);
-    imm =3D sign_extend(dc->op1, 5);
-    LOG_DIS("orq %d, $r%d\n", imm, dc->op2);
-    cris_cc_mask(dc, CC_MASK_NZ);
-
-+    c =3D tcg_const_tl(imm);
-    cris_alu(dc, CC_OP_OR,
--            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
-+            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
-+    tcg_temp_free(c);
-    return 2;
-}
-static int dec_btstq(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c;
-    dc->op1 =3D EXTRACT_FIELD(dc->ir, 0, 4);
-    LOG_DIS("btstq %u, $r%d\n", dc->op1, dc->op2);
-
-    cris_cc_mask(dc, CC_MASK_NZ);
-+    c =3D tcg_const_tl(dc->op1);
-    cris_evaluate_flags(dc);
--        gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
--            tcg_const_tl(dc->op1), cpu_PR[PR_CCS]);
-+    gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
-+            c, cpu_PR[PR_CCS]);
-+    tcg_temp_free(c);
-    cris_alu(dc, CC_OP_MOVE,
-         cpu_R[dc->op2], cpu_R[dc->op2], cpu_R[dc->op2], 4);
-    cris_update_cc_op(dc, CC_OP_FLAGS, 4);
-@@ -1558,7 +1584,7 @@ static int dec_lsl_r(CPUCRISState *env, DisasContext =
-*dc)
-    dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
-    tcg_gen_andi_tl(t[1], t[1], 63);
-    cris_alu(dc, CC_OP_LSL, cpu_R[dc->op2], t[0], t[1], size);
--    cris_alu_alloc_temps(dc, size, t);
-+    cris_alu_free_temps(dc, size, t);
-    return 2;
-}
-
-@@ -1624,7 +1650,7 @@ static int dec_mulu_r(CPUCRISState *env, DisasContext=
- *dc)
-    dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
-
-    cris_alu(dc, CC_OP_MULU, cpu_R[dc->op2], t[0], t[1], 4);
--    cris_alu_alloc_temps(dc, size, t);
-+    cris_alu_free_temps(dc, size, t);
-    return 2;
-}
-
-@@ -1801,27 +1827,31 @@ static int dec_or_r(CPUCRISState *env, DisasContext=
- *dc)
-
-static int dec_addi_r(CPUCRISState *env, DisasContext *dc)
-{
--    TCGv t0;
-+    TCGv t0, c;
-    LOG_DIS("addi.%c $r%u, $r%u\n",
-            memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
-    cris_cc_mask(dc, 0);
-    t0 =3D tcg_temp_new();
--    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
-+    c =3D tcg_const_tl(dc->zzsize);
-+    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
-    tcg_gen_add_tl(cpu_R[dc->op1], cpu_R[dc->op1], t0);
-    tcg_temp_free(t0);
-+    tcg_temp_free(c);
-    return 2;
-}
-
-static int dec_addi_acr(CPUCRISState *env, DisasContext *dc)
-{
--    TCGv t0;
-+    TCGv t0, c;
-    LOG_DIS("addi.%c $r%u, $r%u, $acr\n",
-          memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
-    cris_cc_mask(dc, 0);
-    t0 =3D tcg_temp_new();
--    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
-+    c =3D tcg_const_tl(dc->zzsize);
-+    tcg_gen_shl_tl(t0, cpu_R[dc->op2], c);
-    tcg_gen_add_tl(cpu_R[R_ACR], cpu_R[dc->op1], t0);
-    tcg_temp_free(t0);
-+    tcg_temp_free(c);
-    return 2;
-}
-
-@@ -2051,18 +2081,26 @@ static int dec_setclrf(CPUCRISState *env, DisasCont=
-ext *dc)
-
-static int dec_move_rs(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c2, c1;
-    LOG_DIS("move $r%u, $s%u\n", dc->op1, dc->op2);
-+    c1 =3D tcg_const_tl(dc->op1);
-+    c2 =3D tcg_const_tl(dc->op2);
-    cris_cc_mask(dc, 0);
--        gen_helper_movl_sreg_reg(cpu_env, tcg_const_tl(dc->op2),
--                                 tcg_const_tl(dc->op1));
-+    gen_helper_movl_sreg_reg(cpu_env, c2, c1);
-+    tcg_temp_free(c1);
-+    tcg_temp_free(c2);
-    return 2;
-}
-static int dec_move_sr(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c2, c1;
-    LOG_DIS("move $s%u, $r%u\n", dc->op2, dc->op1);
-+    c1 =3D tcg_const_tl(dc->op1);
-+    c2 =3D tcg_const_tl(dc->op2);
-    cris_cc_mask(dc, 0);
--        gen_helper_movl_reg_sreg(cpu_env, tcg_const_tl(dc->op1),
--                                 tcg_const_tl(dc->op2));
-+    gen_helper_movl_reg_sreg(cpu_env, c1, c2);
-+    tcg_temp_free(c1);
-+    tcg_temp_free(c2);
-    return 2;
-}
-
-@@ -2345,7 +2383,7 @@ static int dec_cmp_m(CPUCRISState *env, DisasContext =
-*dc)
-
-static int dec_test_m(CPUCRISState *env, DisasContext *dc)
-{
--    TCGv t[2];
-+    TCGv t[2], c;
-    int memsize =3D memsize_zz(dc);
-    int insn_len;
-    LOG_DIS("test.%c [$r%u%s] op2=3D%x\n",
-@@ -2360,8 +2398,10 @@ static int dec_test_m(CPUCRISState *env, DisasContex=
-t *dc)
-    cris_cc_mask(dc, CC_MASK_NZ);
-    tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
-
-+    c =3D tcg_const_tl(0);
-    cris_alu(dc, CC_OP_CMP,
--         cpu_R[dc->op2], t[1], tcg_const_tl(0), memsize_zz(dc));
-+         cpu_R[dc->op2], t[1], c, memsize_zz(dc));
-+    tcg_temp_free(c);
-    do_postinc(dc, memsize);
-    cris_alu_m_free_temps(t);
-    return insn_len;
-@@ -2713,6 +2753,7 @@ static int dec_jump_p(CPUCRISState *env, DisasContext=
- *dc)
-/* Jump and save.  */
-static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c;
-    LOG_DIS("jas $r%u, $p%u\n", dc->op1, dc->op2);
-    cris_cc_mask(dc, 0);
-    /* Store the return address in Pd.  */
-@@ -2720,7 +2761,9 @@ static int dec_jas_r(CPUCRISState *env, DisasContext =
-*dc)
-    if (dc->op2 > 15) {
-        abort();
-    }
--    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4));
-+    c =3D tcg_const_tl(dc->pc + 4);
-+    t_gen_mov_preg_TN(dc, dc->op2, c);
-+    tcg_temp_free(c);
-
-    cris_prepare_jmp(dc, JMP_INDIRECT);
-    return 2;
-@@ -2729,13 +2772,16 @@ static int dec_jas_r(CPUCRISState *env, DisasContex=
-t *dc)
-static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
-{
-    uint32_t imm;
-+    TCGv c;
-
-    imm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
-
-    LOG_DIS("jas 0x%x\n", imm);
-    cris_cc_mask(dc, 0);
-+    c =3D tcg_const_tl(dc->pc + 8);
-    /* Store the return address in Pd.  */
--    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
-+    t_gen_mov_preg_TN(dc, dc->op2, c);
-+    tcg_temp_free(c);
-
-    dc->jmp_pc =3D imm;
-    cris_prepare_jmp(dc, JMP_DIRECT);
-@@ -2745,13 +2791,16 @@ static int dec_jas_im(CPUCRISState *env, DisasConte=
-xt *dc)
-static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
-{
-    uint32_t imm;
-+    TCGv c;
-
-    imm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
-
-    LOG_DIS("jasc 0x%x\n", imm);
-    cris_cc_mask(dc, 0);
-+    c =3D tcg_const_tl(dc->pc + 8 + 4);
-    /* Store the return address in Pd.  */
--    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8 + 4));
-+    t_gen_mov_preg_TN(dc, dc->op2, c);
-+    tcg_temp_free(c);
-
-    dc->jmp_pc =3D imm;
-    cris_prepare_jmp(dc, JMP_DIRECT);
-@@ -2760,11 +2809,14 @@ static int dec_jasc_im(CPUCRISState *env, DisasCont=
-ext *dc)
-
-static int dec_jasc_r(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c;
-    LOG_DIS("jasc_r $r%u, $p%u\n", dc->op1, dc->op2);
-    cris_cc_mask(dc, 0);
-    /* Store the return address in Pd.  */
-    tcg_gen_mov_tl(env_btarget, cpu_R[dc->op1]);
--    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4 + 4));
-+    c =3D tcg_const_tl(dc->pc + 4 + 4);
-+    t_gen_mov_preg_TN(dc, dc->op2, c);
-+    tcg_temp_free(c);
-    cris_prepare_jmp(dc, JMP_INDIRECT);
-    return 2;
-}
-@@ -2789,13 +2841,16 @@ static int dec_bcc_im(CPUCRISState *env, DisasConte=
-xt *dc)
-static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
-{
-    int32_t simm;
-+    TCGv c;
-
-    simm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
-
-    LOG_DIS("bas 0x%x, $p%u\n", dc->pc + simm, dc->op2);
-    cris_cc_mask(dc, 0);
-+    c =3D tcg_const_tl(dc->pc + 8);
-    /* Store the return address in Pd.  */
--    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
-+    t_gen_mov_preg_TN(dc, dc->op2, c);
-+    tcg_temp_free(c);
-
-    dc->jmp_pc =3D dc->pc + simm;
-    cris_prepare_jmp(dc, JMP_DIRECT);
-@@ -2805,12 +2860,15 @@ static int dec_bas_im(CPUCRISState *env, DisasConte=
-xt *dc)
-static int dec_basc_im(CPUCRISState *env, DisasContext *dc)
-{
-    int32_t simm;
-+    TCGv c;
-    simm =3D cris_fetch(env, dc, dc->pc + 2, 4, 0);
-
-    LOG_DIS("basc 0x%x, $p%u\n", dc->pc + simm, dc->op2);
-    cris_cc_mask(dc, 0);
-+    c =3D tcg_const_tl(dc->pc + 12);
-    /* Store the return address in Pd.  */
--    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 12));
-+    t_gen_mov_preg_TN(dc, dc->op2, c);
-+    tcg_temp_free(c);
-
-    dc->jmp_pc =3D dc->pc + simm;
-    cris_prepare_jmp(dc, JMP_DIRECT);
-@@ -2819,6 +2877,7 @@ static int dec_basc_im(CPUCRISState *env, DisasContex=
-t *dc)
-
-static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
-{
-+    TCGv c;
-    cris_cc_mask(dc, 0);
-
-    if (dc->op2 =3D=3D 15) {
-@@ -2851,8 +2910,9 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContex=
-t *dc)
-        tcg_gen_movi_tl(env_pc, dc->pc + 2);
-
-        /* Breaks start at 16 in the exception vector.  */
--        t_gen_mov_env_TN(trap_vector,
--                tcg_const_tl(dc->op1 + 16));
-+        c =3D tcg_const_tl(dc->op1 + 16);
-+        t_gen_mov_env_TN(trap_vector, c);
-+        tcg_temp_free(c);
-        t_gen_raise_exception(EXCP_BREAK);
-        dc->is_jmp =3D DISAS_UPDATE;
-        break;
-@@ -3023,14 +3083,16 @@ static unsigned int crisv32_decoder(CPUCRISState *e=
-nv, DisasContext *dc)
-    /* Single-stepping ?  */
-    if (dc->tb_flags & S_FLAG) {
-        TCGLabel *l1 =3D gen_new_label();
-+        TCGv c =3D tcg_const_tl(3);
-        tcg_gen_brcondi_tl(TCG_COND_NE, cpu_PR[PR_SPC], dc->pc, l1);
-        /* We treat SPC as a break with an odd trap vector.  */
-        cris_evaluate_flags(dc);
--        t_gen_mov_env_TN(trap_vector, tcg_const_tl(3));
-+        t_gen_mov_env_TN(trap_vector, c);
-        tcg_gen_movi_tl(env_pc, dc->pc + insn_len);
-        tcg_gen_movi_tl(cpu_PR[PR_SPC], dc->pc + insn_len);
-        t_gen_raise_exception(EXCP_BREAK);
-        gen_set_label(l1);
-+        tcg_temp_free(c);
-    }
-#endif
-    return insn_len;
-@@ -3170,7 +3232,9 @@ void gen_intermediate_code(CPUState *cs, TranslationB=
-lock *tb, int max_insns)
-            dc->delayed_branch--;
-            if (dc->delayed_branch =3D=3D 0) {
-                if (tb->flags & 7) {
--                    t_gen_mov_env_TN(dslot, tcg_const_tl(0));
-+                    TCGv c =3D tcg_const_tl(0);
-+                    t_gen_mov_env_TN(dslot, c);
-+                    tcg_temp_free(c);
-                }
-                if (dc->cpustate_changed || !dc->flagx_known
-                    || (dc->flags_x !=3D (tb->flags & X_FLAG))) {
-@@ -3178,8 +3242,10 @@ void gen_intermediate_code(CPUState *cs, Translation=
-Block *tb, int max_insns)
-                }
-
-                if (dc->clear_locked_irq) {
-+                    TCGv c =3D tcg_const_tl(0);
-                    dc->clear_locked_irq =3D 0;
--                    t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
-+                    t_gen_mov_env_TN(locked_irq, c);
-+                    tcg_temp_free(c);
-                }
-
-                if (dc->jmp =3D=3D JMP_DIRECT_CC) {
-@@ -3200,7 +3266,9 @@ void gen_intermediate_code(CPUState *cs, TranslationB=
-lock *tb, int max_insns)
-                    dc->is_jmp =3D DISAS_TB_JUMP;
-                    dc->jmp =3D JMP_NOJMP;
-                } else {
--                    t_gen_cc_jmp(env_btarget, tcg_const_tl(dc->pc));
-+                    TCGv c =3D tcg_const_tl(dc->pc);
-+                    t_gen_cc_jmp(env_btarget, c);
-+                    tcg_temp_free(c);
-                    dc->is_jmp =3D DISAS_JUMP;
-                }
-                break;
-@@ -3219,7 +3287,9 @@ void gen_intermediate_code(CPUState *cs, TranslationB=
-lock *tb, int max_insns)
-            && num_insns < max_insns);
-
-    if (dc->clear_locked_irq) {
--        t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
-+        TCGv c =3D tcg_const_tl(0);
-+        t_gen_mov_env_TN(locked_irq, c);
-+        tcg_temp_free(c);
-    }
-
-    npc =3D dc->pc;
-@@ -3233,8 +3303,10 @@ void gen_intermediate_code(CPUState *cs, Translation=
-Block *tb, int max_insns)
-    }
-    /* Broken branch+delayslot sequence.  */
-    if (dc->delayed_branch =3D=3D 1) {
-+        TCGv c =3D tcg_const_tl(dc->pc - dc->ppc);
-        /* Set env->dslot to the size of the branch insn.  */
--        t_gen_mov_env_TN(dslot, tcg_const_tl(dc->pc - dc->ppc));
-+        t_gen_mov_env_TN(dslot, c);
-+        tcg_temp_free(c);
-        cris_store_direct_jmp(dc);
-    }
-
-diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.=
-inc
-index 86d78a8..f7cd67b 100644
---- a/target/cris/translate_v10.c.inc
-+++ b/target/cris/translate_v10.c.inc
-@@ -228,6 +228,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-{
-    int32_t imm, simm;
-    int op;
-+    TCGv c;
-
-    /* sign extend.  */
-    imm =3D dc->ir & ((1 << 6) - 1);
-@@ -254,29 +255,37 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-            LOG_DIS("moveq %d, $r%d\n", simm, dc->dst);
-
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(simm);
-            cris_alu(dc, CC_OP_MOVE, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_CMPQ:
-            LOG_DIS("cmpq %d, $r%d\n", simm, dc->dst);
-
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(simm);
-            cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_ADDQ:
-            LOG_DIS("addq %d, $r%d\n", imm, dc->dst);
-
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(imm);
-            cris_alu(dc, CC_OP_ADD, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_ANDQ:
-            LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
-
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(simm);
-            cris_alu(dc, CC_OP_AND, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_ASHQ:
-            LOG_DIS("ashq %d, $r%d\n", simm, dc->dst);
-@@ -284,15 +293,17 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-            cris_cc_mask(dc, CC_MASK_NZVC);
-            op =3D imm & (1 << 5);
-            imm &=3D 0x1f;
-+            c =3D tcg_const_tl(imm);
-            if (op) {
-                cris_alu(dc, CC_OP_ASR, cpu_R[dc->dst],
--                          cpu_R[dc->dst], tcg_const_tl(imm), 4);
-+                          cpu_R[dc->dst], c, 4);
-            } else {
-                /* BTST */
-                cris_update_cc_op(dc, CC_OP_FLAGS, 4);
-                gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->dst],
--                           tcg_const_tl(imm), cpu_PR[PR_CCS]);
-+                           c, cpu_PR[PR_CCS]);
-            }
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_LSHQ:
-            LOG_DIS("lshq %d, $r%d\n", simm, dc->dst);
-@@ -303,22 +314,28 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
-            }
-            imm &=3D 0x1f;
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(imm);
-            cris_alu(dc, op, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_SUBQ:
-            LOG_DIS("subq %d, $r%d\n", imm, dc->dst);
-
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(imm);
-            cris_alu(dc, CC_OP_SUB, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-        case CRISV10_QIMM_ORQ:
-            LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
-
-            cris_cc_mask(dc, CC_MASK_NZVC);
-+            c =3D tcg_const_tl(simm);
-            cris_alu(dc, CC_OP_OR, cpu_R[dc->dst],
--                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
-+                     cpu_R[dc->dst], c, 4);
-+            tcg_temp_free(c);
-            break;
-
-        case CRISV10_QIMM_BCC_R0:
-@@ -760,7 +777,6 @@ static unsigned int dec10_ind_move_m_r(CPUCRISState *en=
-v, DisasContext *dc,
-        tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
-        cris_prepare_jmp(dc, JMP_INDIRECT);
-        dc->delayed_branch =3D 1;
--        return insn_len;
-    }
-
-    tcg_temp_free(t);
-@@ -777,6 +793,7 @@ static unsigned int dec10_ind_move_r_m(DisasContext *dc=
-, unsigned int size)
-    crisv10_prepare_memaddr(dc, addr, size);
-    gen_store_v10(dc, addr, cpu_R[dc->dst], size);
-    insn_len +=3D crisv10_post_memaddr(dc, size);
-+    tcg_temp_free(addr);
-
-    return insn_len;
-}
-@@ -796,11 +813,10 @@ static unsigned int dec10_ind_move_m_pr(CPUCRISState =
-*env, DisasContext *dc)
-        tcg_gen_mov_tl(env_btarget, t);
-        cris_prepare_jmp(dc, JMP_INDIRECT);
-        dc->delayed_branch =3D 1;
--        return insn_len;
-+    } else {
-+        tcg_gen_mov_tl(cpu_PR[rd], t);
-+        dc->cpustate_changed =3D 1;
-    }
--
--    tcg_gen_mov_tl(cpu_PR[rd], t);
--    dc->cpustate_changed =3D 1;
-    tcg_temp_free(addr);
-    tcg_temp_free(t);
-    return insn_len;
-@@ -824,8 +840,8 @@ static unsigned int dec10_ind_move_pr_m(DisasContext *d=
-c)
-    } else {
-        gen_store_v10(dc, addr, cpu_PR[dc->dst], size);
-    }
--    t0 =3D tcg_temp_new();
-    insn_len +=3D crisv10_post_memaddr(dc, size);
-+    tcg_temp_free(addr);
-    cris_lock_irq(dc);
-
-    return insn_len;
-@@ -927,7 +943,6 @@ static int dec10_ind_bound(CPUCRISState *env, DisasCont=
-ext *dc,
-        tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
-        cris_prepare_jmp(dc, JMP_INDIRECT);
-        dc->delayed_branch =3D 1;
--        return insn_len;
-    }
-
-    tcg_temp_free(t);
-@@ -953,7 +968,6 @@ static int dec10_alux_m(CPUCRISState *env, DisasContext=
- *dc, int op)
-        tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
-        cris_prepare_jmp(dc, JMP_INDIRECT);
-        dc->delayed_branch =3D 1;
--        return insn_len;
-    }
-
-    tcg_temp_free(t);
-@@ -1020,7 +1034,7 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
-sContext *dc)
-    unsigned int size =3D dec10_size(dc->size);
-    uint32_t imm;
-    int32_t simm;
--    TCGv t[2];
-+    TCGv t[2], c;
-
-    if (dc->size !=3D 3) {
-        switch (dc->opcode) {
-@@ -1041,8 +1055,10 @@ static unsigned int dec10_ind(CPUCRISState *env, Dis=
-asContext *dc)
-                cris_alu_m_alloc_temps(t);
-                insn_len +=3D dec10_prep_move_m(env, dc, 0, size, t[0]);
-                tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
-+                c =3D tcg_const_tl(0);
-                cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
--                         t[0], tcg_const_tl(0), size);
-+                         t[0], c, size);
-+                tcg_temp_free(c);
-                cris_alu_m_free_temps(t);
-                break;
-            case CRISV10_IND_ADD:
-@@ -1138,7 +1154,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
-sContext *dc)
-                if (dc->mode =3D=3D CRISV10_MODE_AUTOINC)
-                    insn_len +=3D size;
-
--                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_=
-len));
-+                c =3D tcg_const_tl(dc->pc + insn_len);
-+                t_gen_mov_preg_TN(dc, dc->dst, c);
-+                tcg_temp_free(c);
-                dc->jmp_pc =3D imm;
-                cris_prepare_jmp(dc, JMP_DIRECT);
-                dc->delayed_branch--; /* v10 has no dslot here.  */
-@@ -1147,7 +1165,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
-sContext *dc)
-                    LOG_DIS("break %d\n", dc->src);
-                    cris_evaluate_flags(dc);
-                    tcg_gen_movi_tl(env_pc, dc->pc + 2);
--                    t_gen_mov_env_TN(trap_vector, tcg_const_tl(dc->src + 2=
-));
-+                    c =3D tcg_const_tl(dc->src + 2);
-+                    t_gen_mov_env_TN(trap_vector, c);
-+                    tcg_temp_free(c);
-                    t_gen_raise_exception(EXCP_BREAK);
-                    dc->is_jmp =3D DISAS_UPDATE;
-                    return insn_len;
-@@ -1155,7 +1175,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
-sContext *dc)
-                LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
-                         dc->opcode, dc->src, dc->dst);
-                t[0] =3D tcg_temp_new();
--                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_=
-len));
-+                c =3D tcg_const_tl(dc->pc + insn_len);
-+                t_gen_mov_preg_TN(dc, dc->dst, c);
-+                tcg_temp_free(c);
-                crisv10_prepare_memaddr(dc, t[0], size);
-                gen_load(dc, env_btarget, t[0], 4, 0);
-                insn_len +=3D crisv10_post_memaddr(dc, size);
-@@ -1178,7 +1200,9 @@ static unsigned int dec10_ind(CPUCRISState *env, Disa=
-sContext *dc)
-            LOG_DIS("jmp pc=3D%x opcode=3D%d r%d r%d\n",
-                        dc->pc, dc->opcode, dc->dst, dc->src);
-            tcg_gen_mov_tl(env_btarget, cpu_R[dc->src]);
--            t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len)=
-);
-+            c =3D tcg_const_tl(dc->pc + insn_len);
-+            t_gen_mov_preg_TN(dc, dc->dst, c);
-+            tcg_temp_free(c);
-            cris_prepare_jmp(dc, JMP_INDIRECT);
-            dc->delayed_branch--; /* v10 has no dslot here.  */
-            break;
---=20
-1.8.3.1
-
+SGkgRWRnYXIsDQoNClllcywgaXQgc2VlbXMgbGlrZSBvdXIgbWFpbC1zZXJ2ZXIgbWVzc2VkIGl0
+IHVwLg0KDQpJ4oCZdmUgdHJpZWQgdG8gcmVzZW5kIGl0LCBidXQgSeKAmW0gbm90IHN1cmUgaWYg
+bWFpbHMgZGlyZWN0bHkgZnJvbSBzZW5kbWFpbCBhcmUgbGV0IHRocm91Z2ggdG8gb3V0c2lkZSBh
+ZGRyZXNzZXMuICBQbGVhc2UgbGV0IG1lIGtub3cgaWYgeW914oCZdmUgZ290IHRoZSBsYXN0IG1h
+aWwgKHNlbnQgYSBmZXcgbWludXRlcyBhZ28pLg0KDQpCZXN0IHJlZ2FyZHMsDQotc3RlZmFuDQoN
+Cg0KPiBPbiAxOCBGZWIgMjAyMSwgYXQgMTE6MjQsIEVkZ2FyIEUuIElnbGVzaWFzIDxlZGdhci5p
+Z2xlc2lhc0BnbWFpbC5jb20+IHdyb3RlOg0KPiANCj4gT24gVGh1LCBGZWIgMTgsIDIwMjEgYXQg
+MDg6NTY6NDNBTSArMDAwMCwgU3RlZmFuIFNhbmRzdHLDtm0gd3JvdGU6DQo+PiBGcm9tOiBTdGVm
+YW4gU2FuZHN0cm9tIDxzdGVmYW5zQGF4aXMuY29tPg0KPj4gDQo+PiBBZGQgYW5kIGZpeCBkZWFs
+bG9jYXRpb24gb2YgdGVtcG9yYXJ5IFRDRyByZWdpc3RlcnMgaW4gQ1JJUyBjb2RlDQo+PiBnZW5l
+cmF0aW9uLg0KPiANCj4gVGhhbmtzIFN0ZWZhbiwNCj4gDQo+IFVuZm9ydHVuYXRlbHksIHRoaXMg
+cGF0Y2ggZG9lcyBub3QgYXBwbHkuIEknbSBub3Qgc3VyZSB3aHkuDQo+IFBlcmhhcHMgaXQgZ290
+IGNvcnJ1cHRlZCBieSB0aGUgZW1haWwgc3lzdGVtcyBhbG9uZyB0aGUgd2F5Lg0KPiANCj4gZ2l0
+IGFtIC1zIH4vTWFpbC9zdGVmYW4uc2FuZHN0cm9tDQo+IEFwcGx5aW5nOiBDb3JyZWN0IENSSVMg
+VENHIHJlZ2lzdGVyIGxpZmV0aW1lIG1hbmFnZW1lbnQNCj4gZXJyb3I6IGNvcnJ1cHQgcGF0Y2gg
+YXQgbGluZSAxMQ0KPiBQYXRjaCBmYWlsZWQgYXQgMDAwMSBDb3JyZWN0IENSSVMgVENHIHJlZ2lz
+dGVyIGxpZmV0aW1lIG1hbmFnZW1lbnQNCj4gaGludDogVXNlICdnaXQgYW0gLS1zaG93LWN1cnJl
+bnQtcGF0Y2gnIHRvIHNlZSB0aGUgZmFpbGVkIHBhdGNoDQo+IFdoZW4geW91IGhhdmUgcmVzb2x2
+ZWQgdGhpcyBwcm9ibGVtLCBydW4gImdpdCBhbSAtLWNvbnRpbnVlIi4NCj4gSWYgeW91IHByZWZl
+ciB0byBza2lwIHRoaXMgcGF0Y2gsIHJ1biAiZ2l0IGFtIC0tc2tpcCIgaW5zdGVhZC4NCj4gVG8g
+cmVzdG9yZSB0aGUgb3JpZ2luYWwgYnJhbmNoIGFuZCBzdG9wIHBhdGNoaW5nLCBydW4gImdpdCBh
+bSAtLWFib3J0Ii4NCj4gDQo+IFgtTVMtSGFzLUF0dGFjaDoNCj4gWC1NUy1UTkVGLUNvcnJlbGF0
+b3I6DQo+IHgtbWFpbGVyOiBBcHBsZSBNYWlsICgyLjM2NTQuNDAuMC4yLjMyKQ0KPiB4LW1zLWV4
+Y2hhbmdlLW1lc3NhZ2VzZW50cmVwcmVzZW50aW5ndHlwZTogMQ0KPiB4LW1zLWV4Y2hhbmdlLXRy
+YW5zcG9ydC1mcm9tZW50aXR5aGVhZGVyOiBIb3N0ZWQNCj4gDQo+IEhvdyBkaWQgeW91IHNlbmQg
+b3V0IHRoZSBwYXRjaD8gQ2FuIHlvdSB0cnkgZ2l0LXNlbmQtZW1haWw/DQo+IA0KPiBCZXN0IHJl
+Z2FyZHMsDQo+IEVkZ2FyDQo+IA0KPiANCj4gDQo+PiANCj4+IENoYW5nZS1JZDogSTE3ZmNlNWQ5
+NWJkYzQ0MTgzMzdiYTg4NWQ1M2JhOTdhZmIxYmFmY2MNCj4+IFNpZ25lZC1vZmYtYnk6IFN0ZWZh
+biBTYW5kc3Ryb20gPHN0ZWZhbnNAYXhpcy5jb20+DQo+PiAtLS0NCj4+IHRhcmdldC9jcmlzL3Ry
+YW5zbGF0ZS5jICAgICAgICAgfCAxNDYgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0t
+LS0tLS0tLQ0KPj4gdGFyZ2V0L2NyaXMvdHJhbnNsYXRlX3YxMC5jLmluYyB8ICA3MCArKysrKysr
+KysrKystLS0tLS0tDQo+PiAyIGZpbGVzIGNoYW5nZWQsIDE1NiBpbnNlcnRpb25zKCspLCA2MCBk
+ZWxldGlvbnMoLSkNCj4+IA0KPj4gZGlmZiAtLWdpdCBhL3RhcmdldC9jcmlzL3RyYW5zbGF0ZS5j
+IGIvdGFyZ2V0L2NyaXMvdHJhbnNsYXRlLmMNCj4+IGluZGV4IGM4OTNmODcuLmFlOTAzYTUgMTAw
+NjQ0DQo+PiAtLS0gYS90YXJnZXQvY3Jpcy90cmFuc2xhdGUuYw0KPj4gKysrIGIvdGFyZ2V0L2Ny
+aXMvdHJhbnNsYXRlLmMNCj4+IEBAIC0xNzcsOSArMTc3LDEzIEBAIHN0YXRpYyBpbmxpbmUgdm9p
+ZCB0X2dlbl9tb3ZfVE5fcHJlZyhUQ0d2IHRuLCBpbnQgcikNCj4+IHsNCj4+ICAgIGFzc2VydChy
+ID49IDAgJiYgciA8PSAxNSk7DQo+PiAgICBpZiAociA9PSBQUl9CWiB8fCByID09IFBSX1daIHx8
+IHIgPT0gUFJfRFopIHsNCj4+IC0gICAgICAgIHRjZ19nZW5fbW92X3RsKHRuLCB0Y2dfY29uc3Rf
+dGwoMCkpOw0KPj4gKyAgICAgICAgVENHdiBjMCA9IHRjZ19jb25zdF90bCgwKTsNCj4+ICsgICAg
+ICAgIHRjZ19nZW5fbW92X3RsKHRuLCBjMCk7DQo+PiArICAgICAgICB0Y2dfdGVtcF9mcmVlKGMw
+KTsNCj4+ICAgIH0gZWxzZSBpZiAociA9PSBQUl9WUikgew0KPj4gLSAgICAgICAgdGNnX2dlbl9t
+b3ZfdGwodG4sIHRjZ19jb25zdF90bCgzMikpOw0KPj4gKyAgICAgICAgVENHdiBjMzIgPSB0Y2df
+Y29uc3RfdGwoMzIpOw0KPj4gKyAgICAgICAgdGNnX2dlbl9tb3ZfdGwodG4sIGMzMik7DQo+PiAr
+ICAgICAgICB0Y2dfdGVtcF9mcmVlKGMzMik7DQo+PiAgICB9IGVsc2Ugew0KPj4gICAgICAgIHRj
+Z19nZW5fbW92X3RsKHRuLCBjcHVfUFJbcl0pOw0KPj4gICAgfQ0KPj4gQEAgLTI1NSw4ICsyNTks
+MTAgQEAgc3RhdGljIGludCBjcmlzX2ZldGNoKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRl
+eHQgKmRjLCB1aW50MzJfdCBhZGRyLA0KPj4gDQo+PiBzdGF0aWMgdm9pZCBjcmlzX2xvY2tfaXJx
+KERpc2FzQ29udGV4dCAqZGMpDQo+PiB7DQo+PiArICAgIFRDR3YgYzEgPSB0Y2dfY29uc3RfdGwo
+MSk7DQo+PiAgICBkYy0+Y2xlYXJfbG9ja2VkX2lycSA9IDA7DQo+PiAtICAgIHRfZ2VuX21vdl9l
+bnZfVE4obG9ja2VkX2lycSwgdGNnX2NvbnN0X3RsKDEpKTsNCj4+ICsgICAgdF9nZW5fbW92X2Vu
+dl9UTihsb2NrZWRfaXJxLCBjMSk7DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUoYzEpOw0KPj4gfQ0K
+Pj4gDQo+PiBzdGF0aWMgaW5saW5lIHZvaWQgdF9nZW5fcmFpc2VfZXhjZXB0aW9uKHVpbnQzMl90
+IGluZGV4KQ0KPj4gQEAgLTg4NSw4ICs4OTEsMTAgQEAgc3RhdGljIHZvaWQgZ2VuX3RzdF9jYyAo
+RGlzYXNDb250ZXh0ICpkYywgVENHdiBjYywgaW50IGNvbmQpDQo+PiAgICBjYXNlIENDX0VROg0K
+Pj4gICAgICAgIGlmICgoYXJpdGhfb3B0IHx8IG1vdmVfb3B0KQ0KPj4gICAgICAgICAgICAgICAg
+JiYgZGMtPmNjX3hfdXB0b2RhdGUgIT0gKDIgfCBYX0ZMQUcpKSB7DQo+PiArICAgICAgICAgICAg
+VENHdiBjMCA9IHRjZ19jb25zdF90bCgwKTsNCj4+ICAgICAgICAgICAgdGNnX2dlbl9zZXRjb25k
+X3RsKFRDR19DT05EX0VRLCBjYywNCj4+IC0gICAgICAgICAgICAgICAgICAgIGNjX3Jlc3VsdCwg
+dGNnX2NvbnN0X3RsKDApKTsNCj4+ICsgICAgICAgICAgICAgICAgICAgIGNjX3Jlc3VsdCwgYzAp
+Ow0KPj4gKyAgICAgICAgICAgIHRjZ190ZW1wX2ZyZWUoYzApOw0KPj4gICAgICAgIH0gZWxzZSB7
+DQo+PiAgICAgICAgICAgIGNyaXNfZXZhbHVhdGVfZmxhZ3MoZGMpOw0KPj4gICAgICAgICAgICB0
+Y2dfZ2VuX2FuZGlfdGwoY2MsDQo+PiBAQCAtMTMzMCwxNCArMTMzOCwxNyBAQCBzdGF0aWMgaW50
+IGRlY19hZGRvcShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IH0NCj4+
+IHN0YXRpYyBpbnQgZGVjX2FkZHEoQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29udGV4dCAqZGMp
+DQo+PiB7DQo+PiArICAgIFRDR3YgYzsNCj4+ICAgIExPR19ESVMoImFkZHEgJXUsICRyJXVcbiIs
+IGRjLT5vcDEsIGRjLT5vcDIpOw0KPj4gDQo+PiAgICBkYy0+b3AxID0gRVhUUkFDVF9GSUVMRChk
+Yy0+aXIsIDAsIDUpOw0KPj4gDQo+PiAgICBjcmlzX2NjX21hc2soZGMsIENDX01BU0tfTlpWQyk7
+DQo+PiANCj4+ICsgICAgYyA9IHRjZ19jb25zdF90bChkYy0+b3AxKTsNCj4+ICAgIGNyaXNfYWx1
+KGRjLCBDQ19PUF9BREQsDQo+PiAtICAgICAgICAgICAgY3B1X1JbZGMtPm9wMl0sIGNwdV9SW2Rj
+LT5vcDJdLCB0Y2dfY29uc3RfdGwoZGMtPm9wMSksIDQpOw0KPj4gKyAgICAgICAgICAgIGNwdV9S
+W2RjLT5vcDJdLCBjcHVfUltkYy0+b3AyXSwgYywgNCk7DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUo
+Yyk7DQo+PiAgICByZXR1cm4gMjsNCj4+IH0NCj4+IHN0YXRpYyBpbnQgZGVjX21vdmVxKENQVUNS
+SVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gQEAgLTEzNTMsNjIgKzEzNjQsNzcg
+QEAgc3RhdGljIGludCBkZWNfbW92ZXEoQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29udGV4dCAq
+ZGMpDQo+PiB9DQo+PiBzdGF0aWMgaW50IGRlY19zdWJxKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNh
+c0NvbnRleHQgKmRjKQ0KPj4gew0KPj4gKyAgICBUQ0d2IGM7DQo+PiAgICBkYy0+b3AxID0gRVhU
+UkFDVF9GSUVMRChkYy0+aXIsIDAsIDUpOw0KPj4gDQo+PiAgICBMT0dfRElTKCJzdWJxICV1LCAk
+ciV1XG4iLCBkYy0+b3AxLCBkYy0+b3AyKTsNCj4+IA0KPj4gICAgY3Jpc19jY19tYXNrKGRjLCBD
+Q19NQVNLX05aVkMpOw0KPj4gKyAgICBjID0gdGNnX2NvbnN0X3RsKGRjLT5vcDEpOw0KPj4gICAg
+Y3Jpc19hbHUoZGMsIENDX09QX1NVQiwNCj4+IC0gICAgICAgICAgICBjcHVfUltkYy0+b3AyXSwg
+Y3B1X1JbZGMtPm9wMl0sIHRjZ19jb25zdF90bChkYy0+b3AxKSwgNCk7DQo+PiArICAgICAgICAg
+ICAgY3B1X1JbZGMtPm9wMl0sIGNwdV9SW2RjLT5vcDJdLCBjLCA0KTsNCj4+ICsgICAgdGNnX3Rl
+bXBfZnJlZShjKTsNCj4+ICAgIHJldHVybiAyOw0KPj4gfQ0KPj4gc3RhdGljIGludCBkZWNfY21w
+cShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IHsNCj4+ICAgIHVpbnQz
+Ml90IGltbTsNCj4+ICsgICAgVENHdiBjOw0KPj4gICAgZGMtPm9wMSA9IEVYVFJBQ1RfRklFTEQo
+ZGMtPmlyLCAwLCA1KTsNCj4+ICAgIGltbSA9IHNpZ25fZXh0ZW5kKGRjLT5vcDEsIDUpOw0KPj4g
+DQo+PiAgICBMT0dfRElTKCJjbXBxICVkLCAkciVkXG4iLCBpbW0sIGRjLT5vcDIpOw0KPj4gICAg
+Y3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aVkMpOw0KPj4gDQo+PiArICAgIGMgPSB0Y2dfY29u
+c3RfdGwoaW1tKTsNCj4+ICAgIGNyaXNfYWx1KGRjLCBDQ19PUF9DTVAsDQo+PiAtICAgICAgICAg
+ICAgY3B1X1JbZGMtPm9wMl0sIGNwdV9SW2RjLT5vcDJdLCB0Y2dfY29uc3RfdGwoaW1tKSwgNCk7
+DQo+PiArICAgICAgICAgICAgY3B1X1JbZGMtPm9wMl0sIGNwdV9SW2RjLT5vcDJdLCBjLCA0KTsN
+Cj4+ICsgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgIHJldHVybiAyOw0KPj4gfQ0KPj4gc3Rh
+dGljIGludCBkZWNfYW5kcShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+
+IHsNCj4+ICAgIHVpbnQzMl90IGltbTsNCj4+ICsgICAgVENHdiBjOw0KPj4gICAgZGMtPm9wMSA9
+IEVYVFJBQ1RfRklFTEQoZGMtPmlyLCAwLCA1KTsNCj4+ICAgIGltbSA9IHNpZ25fZXh0ZW5kKGRj
+LT5vcDEsIDUpOw0KPj4gDQo+PiAgICBMT0dfRElTKCJhbmRxICVkLCAkciVkXG4iLCBpbW0sIGRj
+LT5vcDIpOw0KPj4gICAgY3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aKTsNCj4+IA0KPj4gKyAg
+ICBjID0gdGNnX2NvbnN0X3RsKGltbSk7DQo+PiAgICBjcmlzX2FsdShkYywgQ0NfT1BfQU5ELA0K
+Pj4gLSAgICAgICAgICAgIGNwdV9SW2RjLT5vcDJdLCBjcHVfUltkYy0+b3AyXSwgdGNnX2NvbnN0
+X3RsKGltbSksIDQpOw0KPj4gKyAgICAgICAgICAgIGNwdV9SW2RjLT5vcDJdLCBjcHVfUltkYy0+
+b3AyXSwgYywgNCk7DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAgICByZXR1cm4gMjsN
+Cj4+IH0NCj4+IHN0YXRpYyBpbnQgZGVjX29ycShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250
+ZXh0ICpkYykNCj4+IHsNCj4+ICAgIHVpbnQzMl90IGltbTsNCj4+ICsgICAgVENHdiBjOw0KPj4g
+ICAgZGMtPm9wMSA9IEVYVFJBQ1RfRklFTEQoZGMtPmlyLCAwLCA1KTsNCj4+ICAgIGltbSA9IHNp
+Z25fZXh0ZW5kKGRjLT5vcDEsIDUpOw0KPj4gICAgTE9HX0RJUygib3JxICVkLCAkciVkXG4iLCBp
+bW0sIGRjLT5vcDIpOw0KPj4gICAgY3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aKTsNCj4+IA0K
+Pj4gKyAgICBjID0gdGNnX2NvbnN0X3RsKGltbSk7DQo+PiAgICBjcmlzX2FsdShkYywgQ0NfT1Bf
+T1IsDQo+PiAtICAgICAgICAgICAgY3B1X1JbZGMtPm9wMl0sIGNwdV9SW2RjLT5vcDJdLCB0Y2df
+Y29uc3RfdGwoaW1tKSwgNCk7DQo+PiArICAgICAgICAgICAgY3B1X1JbZGMtPm9wMl0sIGNwdV9S
+W2RjLT5vcDJdLCBjLCA0KTsNCj4+ICsgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgIHJldHVy
+biAyOw0KPj4gfQ0KPj4gc3RhdGljIGludCBkZWNfYnRzdHEoQ1BVQ1JJU1N0YXRlICplbnYsIERp
+c2FzQ29udGV4dCAqZGMpDQo+PiB7DQo+PiArICAgIFRDR3YgYzsNCj4+ICAgIGRjLT5vcDEgPSBF
+WFRSQUNUX0ZJRUxEKGRjLT5pciwgMCwgNCk7DQo+PiAgICBMT0dfRElTKCJidHN0cSAldSwgJHIl
+ZFxuIiwgZGMtPm9wMSwgZGMtPm9wMik7DQo+PiANCj4+ICAgIGNyaXNfY2NfbWFzayhkYywgQ0Nf
+TUFTS19OWik7DQo+PiArICAgIGMgPSB0Y2dfY29uc3RfdGwoZGMtPm9wMSk7DQo+PiAgICBjcmlz
+X2V2YWx1YXRlX2ZsYWdzKGRjKTsNCj4+IC0gICAgICAgIGdlbl9oZWxwZXJfYnRzdChjcHVfUFJb
+UFJfQ0NTXSwgY3B1X2VudiwgY3B1X1JbZGMtPm9wMl0sDQo+PiAtICAgICAgICAgICAgdGNnX2Nv
+bnN0X3RsKGRjLT5vcDEpLCBjcHVfUFJbUFJfQ0NTXSk7DQo+PiArICAgIGdlbl9oZWxwZXJfYnRz
+dChjcHVfUFJbUFJfQ0NTXSwgY3B1X2VudiwgY3B1X1JbZGMtPm9wMl0sDQo+PiArICAgICAgICAg
+ICAgYywgY3B1X1BSW1BSX0NDU10pOw0KPj4gKyAgICB0Y2dfdGVtcF9mcmVlKGMpOw0KPj4gICAg
+Y3Jpc19hbHUoZGMsIENDX09QX01PVkUsDQo+PiAgICAgICAgIGNwdV9SW2RjLT5vcDJdLCBjcHVf
+UltkYy0+b3AyXSwgY3B1X1JbZGMtPm9wMl0sIDQpOw0KPj4gICAgY3Jpc191cGRhdGVfY2Nfb3Ao
+ZGMsIENDX09QX0ZMQUdTLCA0KTsNCj4+IEBAIC0xNTU4LDcgKzE1ODQsNyBAQCBzdGF0aWMgaW50
+IGRlY19sc2xfcihDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgIGRl
+Y19wcmVwX2FsdV9yKGRjLCBkYy0+b3AxLCBkYy0+b3AyLCBzaXplLCAwLCB0WzBdLCB0WzFdKTsN
+Cj4+ICAgIHRjZ19nZW5fYW5kaV90bCh0WzFdLCB0WzFdLCA2Myk7DQo+PiAgICBjcmlzX2FsdShk
+YywgQ0NfT1BfTFNMLCBjcHVfUltkYy0+b3AyXSwgdFswXSwgdFsxXSwgc2l6ZSk7DQo+PiAtICAg
+IGNyaXNfYWx1X2FsbG9jX3RlbXBzKGRjLCBzaXplLCB0KTsNCj4+ICsgICAgY3Jpc19hbHVfZnJl
+ZV90ZW1wcyhkYywgc2l6ZSwgdCk7DQo+PiAgICByZXR1cm4gMjsNCj4+IH0NCj4+IA0KPj4gQEAg
+LTE2MjQsNyArMTY1MCw3IEBAIHN0YXRpYyBpbnQgZGVjX211bHVfcihDUFVDUklTU3RhdGUgKmVu
+diwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgIGRlY19wcmVwX2FsdV9yKGRjLCBkYy0+b3AxLCBk
+Yy0+b3AyLCBzaXplLCAwLCB0WzBdLCB0WzFdKTsNCj4+IA0KPj4gICAgY3Jpc19hbHUoZGMsIEND
+X09QX01VTFUsIGNwdV9SW2RjLT5vcDJdLCB0WzBdLCB0WzFdLCA0KTsNCj4+IC0gICAgY3Jpc19h
+bHVfYWxsb2NfdGVtcHMoZGMsIHNpemUsIHQpOw0KPj4gKyAgICBjcmlzX2FsdV9mcmVlX3RlbXBz
+KGRjLCBzaXplLCB0KTsNCj4+ICAgIHJldHVybiAyOw0KPj4gfQ0KPj4gDQo+PiBAQCAtMTgwMSwy
+NyArMTgyNywzMSBAQCBzdGF0aWMgaW50IGRlY19vcl9yKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNh
+c0NvbnRleHQgKmRjKQ0KPj4gDQo+PiBzdGF0aWMgaW50IGRlY19hZGRpX3IoQ1BVQ1JJU1N0YXRl
+ICplbnYsIERpc2FzQ29udGV4dCAqZGMpDQo+PiB7DQo+PiAtICAgIFRDR3YgdDA7DQo+PiArICAg
+IFRDR3YgdDAsIGM7DQo+PiAgICBMT0dfRElTKCJhZGRpLiVjICRyJXUsICRyJXVcbiIsDQo+PiAg
+ICAgICAgICAgIG1lbXNpemVfY2hhcihtZW1zaXplX3p6KGRjKSksIGRjLT5vcDIsIGRjLT5vcDEp
+Ow0KPj4gICAgY3Jpc19jY19tYXNrKGRjLCAwKTsNCj4+ICAgIHQwID0gdGNnX3RlbXBfbmV3KCk7
+DQo+PiAtICAgIHRjZ19nZW5fc2hsX3RsKHQwLCBjcHVfUltkYy0+b3AyXSwgdGNnX2NvbnN0X3Rs
+KGRjLT56enNpemUpKTsNCj4+ICsgICAgYyA9IHRjZ19jb25zdF90bChkYy0+enpzaXplKTsNCj4+
+ICsgICAgdGNnX2dlbl9zaGxfdGwodDAsIGNwdV9SW2RjLT5vcDJdLCBjKTsNCj4+ICAgIHRjZ19n
+ZW5fYWRkX3RsKGNwdV9SW2RjLT5vcDFdLCBjcHVfUltkYy0+b3AxXSwgdDApOw0KPj4gICAgdGNn
+X3RlbXBfZnJlZSh0MCk7DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAgICByZXR1cm4g
+MjsNCj4+IH0NCj4+IA0KPj4gc3RhdGljIGludCBkZWNfYWRkaV9hY3IoQ1BVQ1JJU1N0YXRlICpl
+bnYsIERpc2FzQ29udGV4dCAqZGMpDQo+PiB7DQo+PiAtICAgIFRDR3YgdDA7DQo+PiArICAgIFRD
+R3YgdDAsIGM7DQo+PiAgICBMT0dfRElTKCJhZGRpLiVjICRyJXUsICRyJXUsICRhY3JcbiIsDQo+
+PiAgICAgICAgICBtZW1zaXplX2NoYXIobWVtc2l6ZV96eihkYykpLCBkYy0+b3AyLCBkYy0+b3Ax
+KTsNCj4+ICAgIGNyaXNfY2NfbWFzayhkYywgMCk7DQo+PiAgICB0MCA9IHRjZ190ZW1wX25ldygp
+Ow0KPj4gLSAgICB0Y2dfZ2VuX3NobF90bCh0MCwgY3B1X1JbZGMtPm9wMl0sIHRjZ19jb25zdF90
+bChkYy0+enpzaXplKSk7DQo+PiArICAgIGMgPSB0Y2dfY29uc3RfdGwoZGMtPnp6c2l6ZSk7DQo+
+PiArICAgIHRjZ19nZW5fc2hsX3RsKHQwLCBjcHVfUltkYy0+b3AyXSwgYyk7DQo+PiAgICB0Y2df
+Z2VuX2FkZF90bChjcHVfUltSX0FDUl0sIGNwdV9SW2RjLT5vcDFdLCB0MCk7DQo+PiAgICB0Y2df
+dGVtcF9mcmVlKHQwKTsNCj4+ICsgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgIHJldHVybiAy
+Ow0KPj4gfQ0KPj4gDQo+PiBAQCAtMjA1MSwxOCArMjA4MSwyNiBAQCBzdGF0aWMgaW50IGRlY19z
+ZXRjbHJmKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gDQo+PiBzdGF0
+aWMgaW50IGRlY19tb3ZlX3JzKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0K
+Pj4gew0KPj4gKyAgICBUQ0d2IGMyLCBjMTsNCj4+ICAgIExPR19ESVMoIm1vdmUgJHIldSwgJHMl
+dVxuIiwgZGMtPm9wMSwgZGMtPm9wMik7DQo+PiArICAgIGMxID0gdGNnX2NvbnN0X3RsKGRjLT5v
+cDEpOw0KPj4gKyAgICBjMiA9IHRjZ19jb25zdF90bChkYy0+b3AyKTsNCj4+ICAgIGNyaXNfY2Nf
+bWFzayhkYywgMCk7DQo+PiAtICAgICAgICBnZW5faGVscGVyX21vdmxfc3JlZ19yZWcoY3B1X2Vu
+diwgdGNnX2NvbnN0X3RsKGRjLT5vcDIpLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHRjZ19jb25zdF90bChkYy0+b3AxKSk7DQo+PiArICAgIGdlbl9oZWxwZXJfbW92bF9z
+cmVnX3JlZyhjcHVfZW52LCBjMiwgYzEpOw0KPj4gKyAgICB0Y2dfdGVtcF9mcmVlKGMxKTsNCj4+
+ICsgICAgdGNnX3RlbXBfZnJlZShjMik7DQo+PiAgICByZXR1cm4gMjsNCj4+IH0NCj4+IHN0YXRp
+YyBpbnQgZGVjX21vdmVfc3IoQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29udGV4dCAqZGMpDQo+
+PiB7DQo+PiArICAgIFRDR3YgYzIsIGMxOw0KPj4gICAgTE9HX0RJUygibW92ZSAkcyV1LCAkciV1
+XG4iLCBkYy0+b3AyLCBkYy0+b3AxKTsNCj4+ICsgICAgYzEgPSB0Y2dfY29uc3RfdGwoZGMtPm9w
+MSk7DQo+PiArICAgIGMyID0gdGNnX2NvbnN0X3RsKGRjLT5vcDIpOw0KPj4gICAgY3Jpc19jY19t
+YXNrKGRjLCAwKTsNCj4+IC0gICAgICAgIGdlbl9oZWxwZXJfbW92bF9yZWdfc3JlZyhjcHVfZW52
+LCB0Y2dfY29uc3RfdGwoZGMtPm9wMSksDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgdGNnX2NvbnN0X3RsKGRjLT5vcDIpKTsNCj4+ICsgICAgZ2VuX2hlbHBlcl9tb3ZsX3Jl
+Z19zcmVnKGNwdV9lbnYsIGMxLCBjMik7DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUoYzEpOw0KPj4g
+KyAgICB0Y2dfdGVtcF9mcmVlKGMyKTsNCj4+ICAgIHJldHVybiAyOw0KPj4gfQ0KPj4gDQo+PiBA
+QCAtMjM0NSw3ICsyMzgzLDcgQEAgc3RhdGljIGludCBkZWNfY21wX20oQ1BVQ1JJU1N0YXRlICpl
+bnYsIERpc2FzQ29udGV4dCAqZGMpDQo+PiANCj4+IHN0YXRpYyBpbnQgZGVjX3Rlc3RfbShDUFVD
+UklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IHsNCj4+IC0gICAgVENHdiB0WzJd
+Ow0KPj4gKyAgICBUQ0d2IHRbMl0sIGM7DQo+PiAgICBpbnQgbWVtc2l6ZSA9IG1lbXNpemVfenoo
+ZGMpOw0KPj4gICAgaW50IGluc25fbGVuOw0KPj4gICAgTE9HX0RJUygidGVzdC4lYyBbJHIldSVz
+XSBvcDI9JXhcbiIsDQo+PiBAQCAtMjM2MCw4ICsyMzk4LDEwIEBAIHN0YXRpYyBpbnQgZGVjX3Rl
+c3RfbShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgIGNyaXNfY2Nf
+bWFzayhkYywgQ0NfTUFTS19OWik7DQo+PiAgICB0Y2dfZ2VuX2FuZGlfdGwoY3B1X1BSW1BSX0ND
+U10sIGNwdV9QUltQUl9DQ1NdLCB+Myk7DQo+PiANCj4+ICsgICAgYyA9IHRjZ19jb25zdF90bCgw
+KTsNCj4+ICAgIGNyaXNfYWx1KGRjLCBDQ19PUF9DTVAsDQo+PiAtICAgICAgICAgY3B1X1JbZGMt
+Pm9wMl0sIHRbMV0sIHRjZ19jb25zdF90bCgwKSwgbWVtc2l6ZV96eihkYykpOw0KPj4gKyAgICAg
+ICAgIGNwdV9SW2RjLT5vcDJdLCB0WzFdLCBjLCBtZW1zaXplX3p6KGRjKSk7DQo+PiArICAgIHRj
+Z190ZW1wX2ZyZWUoYyk7DQo+PiAgICBkb19wb3N0aW5jKGRjLCBtZW1zaXplKTsNCj4+ICAgIGNy
+aXNfYWx1X21fZnJlZV90ZW1wcyh0KTsNCj4+ICAgIHJldHVybiBpbnNuX2xlbjsNCj4+IEBAIC0y
+NzEzLDYgKzI3NTMsNyBAQCBzdGF0aWMgaW50IGRlY19qdW1wX3AoQ1BVQ1JJU1N0YXRlICplbnYs
+IERpc2FzQ29udGV4dCAqZGMpDQo+PiAvKiBKdW1wIGFuZCBzYXZlLiAgKi8NCj4+IHN0YXRpYyBp
+bnQgZGVjX2phc19yKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gew0K
+Pj4gKyAgICBUQ0d2IGM7DQo+PiAgICBMT0dfRElTKCJqYXMgJHIldSwgJHAldVxuIiwgZGMtPm9w
+MSwgZGMtPm9wMik7DQo+PiAgICBjcmlzX2NjX21hc2soZGMsIDApOw0KPj4gICAgLyogU3RvcmUg
+dGhlIHJldHVybiBhZGRyZXNzIGluIFBkLiAgKi8NCj4+IEBAIC0yNzIwLDcgKzI3NjEsOSBAQCBz
+dGF0aWMgaW50IGRlY19qYXNfcihDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykN
+Cj4+ICAgIGlmIChkYy0+b3AyID4gMTUpIHsNCj4+ICAgICAgICBhYm9ydCgpOw0KPj4gICAgfQ0K
+Pj4gLSAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMtPm9wMiwgdGNnX2NvbnN0X3RsKGRjLT5w
+YyArIDQpKTsNCj4+ICsgICAgYyA9IHRjZ19jb25zdF90bChkYy0+cGMgKyA0KTsNCj4+ICsgICAg
+dF9nZW5fbW92X3ByZWdfVE4oZGMsIGRjLT5vcDIsIGMpOw0KPj4gKyAgICB0Y2dfdGVtcF9mcmVl
+KGMpOw0KPj4gDQo+PiAgICBjcmlzX3ByZXBhcmVfam1wKGRjLCBKTVBfSU5ESVJFQ1QpOw0KPj4g
+ICAgcmV0dXJuIDI7DQo+PiBAQCAtMjcyOSwxMyArMjc3MiwxNiBAQCBzdGF0aWMgaW50IGRlY19q
+YXNfcihDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IHN0YXRpYyBpbnQg
+ZGVjX2phc19pbShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IHsNCj4+
+ICAgIHVpbnQzMl90IGltbTsNCj4+ICsgICAgVENHdiBjOw0KPj4gDQo+PiAgICBpbW0gPSBjcmlz
+X2ZldGNoKGVudiwgZGMsIGRjLT5wYyArIDIsIDQsIDApOw0KPj4gDQo+PiAgICBMT0dfRElTKCJq
+YXMgMHgleFxuIiwgaW1tKTsNCj4+ICAgIGNyaXNfY2NfbWFzayhkYywgMCk7DQo+PiArICAgIGMg
+PSB0Y2dfY29uc3RfdGwoZGMtPnBjICsgOCk7DQo+PiAgICAvKiBTdG9yZSB0aGUgcmV0dXJuIGFk
+ZHJlc3MgaW4gUGQuICAqLw0KPj4gLSAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMtPm9wMiwg
+dGNnX2NvbnN0X3RsKGRjLT5wYyArIDgpKTsNCj4+ICsgICAgdF9nZW5fbW92X3ByZWdfVE4oZGMs
+IGRjLT5vcDIsIGMpOw0KPj4gKyAgICB0Y2dfdGVtcF9mcmVlKGMpOw0KPj4gDQo+PiAgICBkYy0+
+am1wX3BjID0gaW1tOw0KPj4gICAgY3Jpc19wcmVwYXJlX2ptcChkYywgSk1QX0RJUkVDVCk7DQo+
+PiBAQCAtMjc0NSwxMyArMjc5MSwxNiBAQCBzdGF0aWMgaW50IGRlY19qYXNfaW0oQ1BVQ1JJU1N0
+YXRlICplbnYsIERpc2FzQ29udGV4dCAqZGMpDQo+PiBzdGF0aWMgaW50IGRlY19qYXNjX2ltKENQ
+VUNSSVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gew0KPj4gICAgdWludDMyX3Qg
+aW1tOw0KPj4gKyAgICBUQ0d2IGM7DQo+PiANCj4+ICAgIGltbSA9IGNyaXNfZmV0Y2goZW52LCBk
+YywgZGMtPnBjICsgMiwgNCwgMCk7DQo+PiANCj4+ICAgIExPR19ESVMoImphc2MgMHgleFxuIiwg
+aW1tKTsNCj4+ICAgIGNyaXNfY2NfbWFzayhkYywgMCk7DQo+PiArICAgIGMgPSB0Y2dfY29uc3Rf
+dGwoZGMtPnBjICsgOCArIDQpOw0KPj4gICAgLyogU3RvcmUgdGhlIHJldHVybiBhZGRyZXNzIGlu
+IFBkLiAgKi8NCj4+IC0gICAgdF9nZW5fbW92X3ByZWdfVE4oZGMsIGRjLT5vcDIsIHRjZ19jb25z
+dF90bChkYy0+cGMgKyA4ICsgNCkpOw0KPj4gKyAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMt
+Pm9wMiwgYyk7DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiANCj4+ICAgIGRjLT5qbXBf
+cGMgPSBpbW07DQo+PiAgICBjcmlzX3ByZXBhcmVfam1wKGRjLCBKTVBfRElSRUNUKTsNCj4+IEBA
+IC0yNzYwLDExICsyODA5LDE0IEBAIHN0YXRpYyBpbnQgZGVjX2phc2NfaW0oQ1BVQ1JJU1N0YXRl
+ICplbnYsIERpc2FzQ29udGV4dCAqZGMpDQo+PiANCj4+IHN0YXRpYyBpbnQgZGVjX2phc2NfcihD
+UFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IHsNCj4+ICsgICAgVENHdiBj
+Ow0KPj4gICAgTE9HX0RJUygiamFzY19yICRyJXUsICRwJXVcbiIsIGRjLT5vcDEsIGRjLT5vcDIp
+Ow0KPj4gICAgY3Jpc19jY19tYXNrKGRjLCAwKTsNCj4+ICAgIC8qIFN0b3JlIHRoZSByZXR1cm4g
+YWRkcmVzcyBpbiBQZC4gICovDQo+PiAgICB0Y2dfZ2VuX21vdl90bChlbnZfYnRhcmdldCwgY3B1
+X1JbZGMtPm9wMV0pOw0KPj4gLSAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMtPm9wMiwgdGNn
+X2NvbnN0X3RsKGRjLT5wYyArIDQgKyA0KSk7DQo+PiArICAgIGMgPSB0Y2dfY29uc3RfdGwoZGMt
+PnBjICsgNCArIDQpOw0KPj4gKyAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMtPm9wMiwgYyk7
+DQo+PiArICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAgICBjcmlzX3ByZXBhcmVfam1wKGRjLCBK
+TVBfSU5ESVJFQ1QpOw0KPj4gICAgcmV0dXJuIDI7DQo+PiB9DQo+PiBAQCAtMjc4OSwxMyArMjg0
+MSwxNiBAQCBzdGF0aWMgaW50IGRlY19iY2NfaW0oQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29u
+dGV4dCAqZGMpDQo+PiBzdGF0aWMgaW50IGRlY19iYXNfaW0oQ1BVQ1JJU1N0YXRlICplbnYsIERp
+c2FzQ29udGV4dCAqZGMpDQo+PiB7DQo+PiAgICBpbnQzMl90IHNpbW07DQo+PiArICAgIFRDR3Yg
+YzsNCj4+IA0KPj4gICAgc2ltbSA9IGNyaXNfZmV0Y2goZW52LCBkYywgZGMtPnBjICsgMiwgNCwg
+MCk7DQo+PiANCj4+ICAgIExPR19ESVMoImJhcyAweCV4LCAkcCV1XG4iLCBkYy0+cGMgKyBzaW1t
+LCBkYy0+b3AyKTsNCj4+ICAgIGNyaXNfY2NfbWFzayhkYywgMCk7DQo+PiArICAgIGMgPSB0Y2df
+Y29uc3RfdGwoZGMtPnBjICsgOCk7DQo+PiAgICAvKiBTdG9yZSB0aGUgcmV0dXJuIGFkZHJlc3Mg
+aW4gUGQuICAqLw0KPj4gLSAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMtPm9wMiwgdGNnX2Nv
+bnN0X3RsKGRjLT5wYyArIDgpKTsNCj4+ICsgICAgdF9nZW5fbW92X3ByZWdfVE4oZGMsIGRjLT5v
+cDIsIGMpOw0KPj4gKyAgICB0Y2dfdGVtcF9mcmVlKGMpOw0KPj4gDQo+PiAgICBkYy0+am1wX3Bj
+ID0gZGMtPnBjICsgc2ltbTsNCj4+ICAgIGNyaXNfcHJlcGFyZV9qbXAoZGMsIEpNUF9ESVJFQ1Qp
+Ow0KPj4gQEAgLTI4MDUsMTIgKzI4NjAsMTUgQEAgc3RhdGljIGludCBkZWNfYmFzX2ltKENQVUNS
+SVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gc3RhdGljIGludCBkZWNfYmFzY19p
+bShDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+IHsNCj4+ICAgIGludDMy
+X3Qgc2ltbTsNCj4+ICsgICAgVENHdiBjOw0KPj4gICAgc2ltbSA9IGNyaXNfZmV0Y2goZW52LCBk
+YywgZGMtPnBjICsgMiwgNCwgMCk7DQo+PiANCj4+ICAgIExPR19ESVMoImJhc2MgMHgleCwgJHAl
+dVxuIiwgZGMtPnBjICsgc2ltbSwgZGMtPm9wMik7DQo+PiAgICBjcmlzX2NjX21hc2soZGMsIDAp
+Ow0KPj4gKyAgICBjID0gdGNnX2NvbnN0X3RsKGRjLT5wYyArIDEyKTsNCj4+ICAgIC8qIFN0b3Jl
+IHRoZSByZXR1cm4gYWRkcmVzcyBpbiBQZC4gICovDQo+PiAtICAgIHRfZ2VuX21vdl9wcmVnX1RO
+KGRjLCBkYy0+b3AyLCB0Y2dfY29uc3RfdGwoZGMtPnBjICsgMTIpKTsNCj4+ICsgICAgdF9nZW5f
+bW92X3ByZWdfVE4oZGMsIGRjLT5vcDIsIGMpOw0KPj4gKyAgICB0Y2dfdGVtcF9mcmVlKGMpOw0K
+Pj4gDQo+PiAgICBkYy0+am1wX3BjID0gZGMtPnBjICsgc2ltbTsNCj4+ICAgIGNyaXNfcHJlcGFy
+ZV9qbXAoZGMsIEpNUF9ESVJFQ1QpOw0KPj4gQEAgLTI4MTksNiArMjg3Nyw3IEBAIHN0YXRpYyBp
+bnQgZGVjX2Jhc2NfaW0oQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29udGV4dCAqZGMpDQo+PiAN
+Cj4+IHN0YXRpYyBpbnQgZGVjX3JmZV9ldGMoQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29udGV4
+dCAqZGMpDQo+PiB7DQo+PiArICAgIFRDR3YgYzsNCj4+ICAgIGNyaXNfY2NfbWFzayhkYywgMCk7
+DQo+PiANCj4+ICAgIGlmIChkYy0+b3AyID09IDE1KSB7DQo+PiBAQCAtMjg1MSw4ICsyOTEwLDkg
+QEAgc3RhdGljIGludCBkZWNfcmZlX2V0YyhDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0
+ICpkYykNCj4+ICAgICAgICB0Y2dfZ2VuX21vdmlfdGwoZW52X3BjLCBkYy0+cGMgKyAyKTsNCj4+
+IA0KPj4gICAgICAgIC8qIEJyZWFrcyBzdGFydCBhdCAxNiBpbiB0aGUgZXhjZXB0aW9uIHZlY3Rv
+ci4gICovDQo+PiAtICAgICAgICB0X2dlbl9tb3ZfZW52X1ROKHRyYXBfdmVjdG9yLA0KPj4gLSAg
+ICAgICAgICAgICAgICB0Y2dfY29uc3RfdGwoZGMtPm9wMSArIDE2KSk7DQo+PiArICAgICAgICBj
+ID0gdGNnX2NvbnN0X3RsKGRjLT5vcDEgKyAxNik7DQo+PiArICAgICAgICB0X2dlbl9tb3ZfZW52
+X1ROKHRyYXBfdmVjdG9yLCBjKTsNCj4+ICsgICAgICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAg
+ICAgICAgdF9nZW5fcmFpc2VfZXhjZXB0aW9uKEVYQ1BfQlJFQUspOw0KPj4gICAgICAgIGRjLT5p
+c19qbXAgPSBESVNBU19VUERBVEU7DQo+PiAgICAgICAgYnJlYWs7DQo+PiBAQCAtMzAyMywxNCAr
+MzA4MywxNiBAQCBzdGF0aWMgdW5zaWduZWQgaW50IGNyaXN2MzJfZGVjb2RlcihDUFVDUklTU3Rh
+dGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgIC8qIFNpbmdsZS1zdGVwcGluZyA/ICAq
+Lw0KPj4gICAgaWYgKGRjLT50Yl9mbGFncyAmIFNfRkxBRykgew0KPj4gICAgICAgIFRDR0xhYmVs
+ICpsMSA9IGdlbl9uZXdfbGFiZWwoKTsNCj4+ICsgICAgICAgIFRDR3YgYyA9IHRjZ19jb25zdF90
+bCgzKTsNCj4+ICAgICAgICB0Y2dfZ2VuX2JyY29uZGlfdGwoVENHX0NPTkRfTkUsIGNwdV9QUltQ
+Ul9TUENdLCBkYy0+cGMsIGwxKTsNCj4+ICAgICAgICAvKiBXZSB0cmVhdCBTUEMgYXMgYSBicmVh
+ayB3aXRoIGFuIG9kZCB0cmFwIHZlY3Rvci4gICovDQo+PiAgICAgICAgY3Jpc19ldmFsdWF0ZV9m
+bGFncyhkYyk7DQo+PiAtICAgICAgICB0X2dlbl9tb3ZfZW52X1ROKHRyYXBfdmVjdG9yLCB0Y2df
+Y29uc3RfdGwoMykpOw0KPj4gKyAgICAgICAgdF9nZW5fbW92X2Vudl9UTih0cmFwX3ZlY3Rvciwg
+Yyk7DQo+PiAgICAgICAgdGNnX2dlbl9tb3ZpX3RsKGVudl9wYywgZGMtPnBjICsgaW5zbl9sZW4p
+Ow0KPj4gICAgICAgIHRjZ19nZW5fbW92aV90bChjcHVfUFJbUFJfU1BDXSwgZGMtPnBjICsgaW5z
+bl9sZW4pOw0KPj4gICAgICAgIHRfZ2VuX3JhaXNlX2V4Y2VwdGlvbihFWENQX0JSRUFLKTsNCj4+
+ICAgICAgICBnZW5fc2V0X2xhYmVsKGwxKTsNCj4+ICsgICAgICAgIHRjZ190ZW1wX2ZyZWUoYyk7
+DQo+PiAgICB9DQo+PiAjZW5kaWYNCj4+ICAgIHJldHVybiBpbnNuX2xlbjsNCj4+IEBAIC0zMTcw
+LDcgKzMyMzIsOSBAQCB2b2lkIGdlbl9pbnRlcm1lZGlhdGVfY29kZShDUFVTdGF0ZSAqY3MsIFRy
+YW5zbGF0aW9uQmxvY2sgKnRiLCBpbnQgbWF4X2luc25zKQ0KPj4gICAgICAgICAgICBkYy0+ZGVs
+YXllZF9icmFuY2gtLTsNCj4+ICAgICAgICAgICAgaWYgKGRjLT5kZWxheWVkX2JyYW5jaCA9PSAw
+KSB7DQo+PiAgICAgICAgICAgICAgICBpZiAodGItPmZsYWdzICYgNykgew0KPj4gLSAgICAgICAg
+ICAgICAgICAgICAgdF9nZW5fbW92X2Vudl9UTihkc2xvdCwgdGNnX2NvbnN0X3RsKDApKTsNCj4+
+ICsgICAgICAgICAgICAgICAgICAgIFRDR3YgYyA9IHRjZ19jb25zdF90bCgwKTsNCj4+ICsgICAg
+ICAgICAgICAgICAgICAgIHRfZ2VuX21vdl9lbnZfVE4oZHNsb3QsIGMpOw0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgICAgICAgICAgICAgIH0NCj4+ICAg
+ICAgICAgICAgICAgIGlmIChkYy0+Y3B1c3RhdGVfY2hhbmdlZCB8fCAhZGMtPmZsYWd4X2tub3du
+DQo+PiAgICAgICAgICAgICAgICAgICAgfHwgKGRjLT5mbGFnc194ICE9ICh0Yi0+ZmxhZ3MgJiBY
+X0ZMQUcpKSkgew0KPj4gQEAgLTMxNzgsOCArMzI0MiwxMCBAQCB2b2lkIGdlbl9pbnRlcm1lZGlh
+dGVfY29kZShDUFVTdGF0ZSAqY3MsIFRyYW5zbGF0aW9uQmxvY2sgKnRiLCBpbnQgbWF4X2luc25z
+KQ0KPj4gICAgICAgICAgICAgICAgfQ0KPj4gDQo+PiAgICAgICAgICAgICAgICBpZiAoZGMtPmNs
+ZWFyX2xvY2tlZF9pcnEpIHsNCj4+ICsgICAgICAgICAgICAgICAgICAgIFRDR3YgYyA9IHRjZ19j
+b25zdF90bCgwKTsNCj4+ICAgICAgICAgICAgICAgICAgICBkYy0+Y2xlYXJfbG9ja2VkX2lycSA9
+IDA7DQo+PiAtICAgICAgICAgICAgICAgICAgICB0X2dlbl9tb3ZfZW52X1ROKGxvY2tlZF9pcnEs
+IHRjZ19jb25zdF90bCgwKSk7DQo+PiArICAgICAgICAgICAgICAgICAgICB0X2dlbl9tb3ZfZW52
+X1ROKGxvY2tlZF9pcnEsIGMpOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgdGNnX3RlbXBfZnJl
+ZShjKTsNCj4+ICAgICAgICAgICAgICAgIH0NCj4+IA0KPj4gICAgICAgICAgICAgICAgaWYgKGRj
+LT5qbXAgPT0gSk1QX0RJUkVDVF9DQykgew0KPj4gQEAgLTMyMDAsNyArMzI2Niw5IEBAIHZvaWQg
+Z2VuX2ludGVybWVkaWF0ZV9jb2RlKENQVVN0YXRlICpjcywgVHJhbnNsYXRpb25CbG9jayAqdGIs
+IGludCBtYXhfaW5zbnMpDQo+PiAgICAgICAgICAgICAgICAgICAgZGMtPmlzX2ptcCA9IERJU0FT
+X1RCX0pVTVA7DQo+PiAgICAgICAgICAgICAgICAgICAgZGMtPmptcCA9IEpNUF9OT0pNUDsNCj4+
+ICAgICAgICAgICAgICAgIH0gZWxzZSB7DQo+PiAtICAgICAgICAgICAgICAgICAgICB0X2dlbl9j
+Y19qbXAoZW52X2J0YXJnZXQsIHRjZ19jb25zdF90bChkYy0+cGMpKTsNCj4+ICsgICAgICAgICAg
+ICAgICAgICAgIFRDR3YgYyA9IHRjZ19jb25zdF90bChkYy0+cGMpOw0KPj4gKyAgICAgICAgICAg
+ICAgICAgICAgdF9nZW5fY2Nfam1wKGVudl9idGFyZ2V0LCBjKTsNCj4+ICsgICAgICAgICAgICAg
+ICAgICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAgICAgICAgICAgICAgICAgICAgZGMtPmlzX2pt
+cCA9IERJU0FTX0pVTVA7DQo+PiAgICAgICAgICAgICAgICB9DQo+PiAgICAgICAgICAgICAgICBi
+cmVhazsNCj4+IEBAIC0zMjE5LDcgKzMyODcsOSBAQCB2b2lkIGdlbl9pbnRlcm1lZGlhdGVfY29k
+ZShDUFVTdGF0ZSAqY3MsIFRyYW5zbGF0aW9uQmxvY2sgKnRiLCBpbnQgbWF4X2luc25zKQ0KPj4g
+ICAgICAgICAgICAmJiBudW1faW5zbnMgPCBtYXhfaW5zbnMpOw0KPj4gDQo+PiAgICBpZiAoZGMt
+PmNsZWFyX2xvY2tlZF9pcnEpIHsNCj4+IC0gICAgICAgIHRfZ2VuX21vdl9lbnZfVE4obG9ja2Vk
+X2lycSwgdGNnX2NvbnN0X3RsKDApKTsNCj4+ICsgICAgICAgIFRDR3YgYyA9IHRjZ19jb25zdF90
+bCgwKTsNCj4+ICsgICAgICAgIHRfZ2VuX21vdl9lbnZfVE4obG9ja2VkX2lycSwgYyk7DQo+PiAr
+ICAgICAgICB0Y2dfdGVtcF9mcmVlKGMpOw0KPj4gICAgfQ0KPj4gDQo+PiAgICBucGMgPSBkYy0+
+cGM7DQo+PiBAQCAtMzIzMyw4ICszMzAzLDEwIEBAIHZvaWQgZ2VuX2ludGVybWVkaWF0ZV9jb2Rl
+KENQVVN0YXRlICpjcywgVHJhbnNsYXRpb25CbG9jayAqdGIsIGludCBtYXhfaW5zbnMpDQo+PiAg
+ICB9DQo+PiAgICAvKiBCcm9rZW4gYnJhbmNoK2RlbGF5c2xvdCBzZXF1ZW5jZS4gICovDQo+PiAg
+ICBpZiAoZGMtPmRlbGF5ZWRfYnJhbmNoID09IDEpIHsNCj4+ICsgICAgICAgIFRDR3YgYyA9IHRj
+Z19jb25zdF90bChkYy0+cGMgLSBkYy0+cHBjKTsNCj4+ICAgICAgICAvKiBTZXQgZW52LT5kc2xv
+dCB0byB0aGUgc2l6ZSBvZiB0aGUgYnJhbmNoIGluc24uICAqLw0KPj4gLSAgICAgICAgdF9nZW5f
+bW92X2Vudl9UTihkc2xvdCwgdGNnX2NvbnN0X3RsKGRjLT5wYyAtIGRjLT5wcGMpKTsNCj4+ICsg
+ICAgICAgIHRfZ2VuX21vdl9lbnZfVE4oZHNsb3QsIGMpOw0KPj4gKyAgICAgICAgdGNnX3RlbXBf
+ZnJlZShjKTsNCj4+ICAgICAgICBjcmlzX3N0b3JlX2RpcmVjdF9qbXAoZGMpOw0KPj4gICAgfQ0K
+Pj4gDQo+PiBkaWZmIC0tZ2l0IGEvdGFyZ2V0L2NyaXMvdHJhbnNsYXRlX3YxMC5jLmluYyBiL3Rh
+cmdldC9jcmlzL3RyYW5zbGF0ZV92MTAuYy5pbmMNCj4+IGluZGV4IDg2ZDc4YTguLmY3Y2Q2N2Ig
+MTAwNjQ0DQo+PiAtLS0gYS90YXJnZXQvY3Jpcy90cmFuc2xhdGVfdjEwLmMuaW5jDQo+PiArKysg
+Yi90YXJnZXQvY3Jpcy90cmFuc2xhdGVfdjEwLmMuaW5jDQo+PiBAQCAtMjI4LDYgKzIyOCw3IEBA
+IHN0YXRpYyB1bnNpZ25lZCBpbnQgZGVjMTBfcXVpY2tfaW1tKERpc2FzQ29udGV4dCAqZGMpDQo+
+PiB7DQo+PiAgICBpbnQzMl90IGltbSwgc2ltbTsNCj4+ICAgIGludCBvcDsNCj4+ICsgICAgVENH
+diBjOw0KPj4gDQo+PiAgICAvKiBzaWduIGV4dGVuZC4gICovDQo+PiAgICBpbW0gPSBkYy0+aXIg
+JiAoKDEgPDwgNikgLSAxKTsNCj4+IEBAIC0yNTQsMjkgKzI1NSwzNyBAQCBzdGF0aWMgdW5zaWdu
+ZWQgaW50IGRlYzEwX3F1aWNrX2ltbShEaXNhc0NvbnRleHQgKmRjKQ0KPj4gICAgICAgICAgICBM
+T0dfRElTKCJtb3ZlcSAlZCwgJHIlZFxuIiwgc2ltbSwgZGMtPmRzdCk7DQo+PiANCj4+ICAgICAg
+ICAgICAgY3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aVkMpOw0KPj4gKyAgICAgICAgICAgIGMg
+PSB0Y2dfY29uc3RfdGwoc2ltbSk7DQo+PiAgICAgICAgICAgIGNyaXNfYWx1KGRjLCBDQ19PUF9N
+T1ZFLCBjcHVfUltkYy0+ZHN0XSwNCj4+IC0gICAgICAgICAgICAgICAgICAgICBjcHVfUltkYy0+
+ZHN0XSwgdGNnX2NvbnN0X3RsKHNpbW0pLCA0KTsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBj
+cHVfUltkYy0+ZHN0XSwgYywgNCk7DQo+PiArICAgICAgICAgICAgdGNnX3RlbXBfZnJlZShjKTsN
+Cj4+ICAgICAgICAgICAgYnJlYWs7DQo+PiAgICAgICAgY2FzZSBDUklTVjEwX1FJTU1fQ01QUToN
+Cj4+ICAgICAgICAgICAgTE9HX0RJUygiY21wcSAlZCwgJHIlZFxuIiwgc2ltbSwgZGMtPmRzdCk7
+DQo+PiANCj4+ICAgICAgICAgICAgY3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aVkMpOw0KPj4g
+KyAgICAgICAgICAgIGMgPSB0Y2dfY29uc3RfdGwoc2ltbSk7DQo+PiAgICAgICAgICAgIGNyaXNf
+YWx1KGRjLCBDQ19PUF9DTVAsIGNwdV9SW2RjLT5kc3RdLA0KPj4gLSAgICAgICAgICAgICAgICAg
+ICAgIGNwdV9SW2RjLT5kc3RdLCB0Y2dfY29uc3RfdGwoc2ltbSksIDQpOw0KPj4gKyAgICAgICAg
+ICAgICAgICAgICAgIGNwdV9SW2RjLT5kc3RdLCBjLCA0KTsNCj4+ICsgICAgICAgICAgICB0Y2df
+dGVtcF9mcmVlKGMpOw0KPj4gICAgICAgICAgICBicmVhazsNCj4+ICAgICAgICBjYXNlIENSSVNW
+MTBfUUlNTV9BRERROg0KPj4gICAgICAgICAgICBMT0dfRElTKCJhZGRxICVkLCAkciVkXG4iLCBp
+bW0sIGRjLT5kc3QpOw0KPj4gDQo+PiAgICAgICAgICAgIGNyaXNfY2NfbWFzayhkYywgQ0NfTUFT
+S19OWlZDKTsNCj4+ICsgICAgICAgICAgICBjID0gdGNnX2NvbnN0X3RsKGltbSk7DQo+PiAgICAg
+ICAgICAgIGNyaXNfYWx1KGRjLCBDQ19PUF9BREQsIGNwdV9SW2RjLT5kc3RdLA0KPj4gLSAgICAg
+ICAgICAgICAgICAgICAgIGNwdV9SW2RjLT5kc3RdLCB0Y2dfY29uc3RfdGwoaW1tKSwgNCk7DQo+
+PiArICAgICAgICAgICAgICAgICAgICAgY3B1X1JbZGMtPmRzdF0sIGMsIDQpOw0KPj4gKyAgICAg
+ICAgICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAgICAgICAgICAgIGJyZWFrOw0KPj4gICAgICAg
+IGNhc2UgQ1JJU1YxMF9RSU1NX0FORFE6DQo+PiAgICAgICAgICAgIExPR19ESVMoImFuZHEgJWQs
+ICRyJWRcbiIsIHNpbW0sIGRjLT5kc3QpOw0KPj4gDQo+PiAgICAgICAgICAgIGNyaXNfY2NfbWFz
+ayhkYywgQ0NfTUFTS19OWlZDKTsNCj4+ICsgICAgICAgICAgICBjID0gdGNnX2NvbnN0X3RsKHNp
+bW0pOw0KPj4gICAgICAgICAgICBjcmlzX2FsdShkYywgQ0NfT1BfQU5ELCBjcHVfUltkYy0+ZHN0
+XSwNCj4+IC0gICAgICAgICAgICAgICAgICAgICBjcHVfUltkYy0+ZHN0XSwgdGNnX2NvbnN0X3Rs
+KHNpbW0pLCA0KTsNCj4+ICsgICAgICAgICAgICAgICAgICAgICBjcHVfUltkYy0+ZHN0XSwgYywg
+NCk7DQo+PiArICAgICAgICAgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgICAgICAgICAgYnJl
+YWs7DQo+PiAgICAgICAgY2FzZSBDUklTVjEwX1FJTU1fQVNIUToNCj4+ICAgICAgICAgICAgTE9H
+X0RJUygiYXNocSAlZCwgJHIlZFxuIiwgc2ltbSwgZGMtPmRzdCk7DQo+PiBAQCAtMjg0LDE1ICsy
+OTMsMTcgQEAgc3RhdGljIHVuc2lnbmVkIGludCBkZWMxMF9xdWlja19pbW0oRGlzYXNDb250ZXh0
+ICpkYykNCj4+ICAgICAgICAgICAgY3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aVkMpOw0KPj4g
+ICAgICAgICAgICBvcCA9IGltbSAmICgxIDw8IDUpOw0KPj4gICAgICAgICAgICBpbW0gJj0gMHgx
+ZjsNCj4+ICsgICAgICAgICAgICBjID0gdGNnX2NvbnN0X3RsKGltbSk7DQo+PiAgICAgICAgICAg
+IGlmIChvcCkgew0KPj4gICAgICAgICAgICAgICAgY3Jpc19hbHUoZGMsIENDX09QX0FTUiwgY3B1
+X1JbZGMtPmRzdF0sDQo+PiAtICAgICAgICAgICAgICAgICAgICAgICAgICBjcHVfUltkYy0+ZHN0
+XSwgdGNnX2NvbnN0X3RsKGltbSksIDQpOw0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+Y3B1X1JbZGMtPmRzdF0sIGMsIDQpOw0KPj4gICAgICAgICAgICB9IGVsc2Ugew0KPj4gICAgICAg
+ICAgICAgICAgLyogQlRTVCAqLw0KPj4gICAgICAgICAgICAgICAgY3Jpc191cGRhdGVfY2Nfb3Ao
+ZGMsIENDX09QX0ZMQUdTLCA0KTsNCj4+ICAgICAgICAgICAgICAgIGdlbl9oZWxwZXJfYnRzdChj
+cHVfUFJbUFJfQ0NTXSwgY3B1X2VudiwgY3B1X1JbZGMtPmRzdF0sDQo+PiAtICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgdGNnX2NvbnN0X3RsKGltbSksIGNwdV9QUltQUl9DQ1NdKTsNCj4+ICsg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBjLCBjcHVfUFJbUFJfQ0NTXSk7DQo+PiAgICAgICAg
+ICAgIH0NCj4+ICsgICAgICAgICAgICB0Y2dfdGVtcF9mcmVlKGMpOw0KPj4gICAgICAgICAgICBi
+cmVhazsNCj4+ICAgICAgICBjYXNlIENSSVNWMTBfUUlNTV9MU0hROg0KPj4gICAgICAgICAgICBM
+T0dfRElTKCJsc2hxICVkLCAkciVkXG4iLCBzaW1tLCBkYy0+ZHN0KTsNCj4+IEBAIC0zMDMsMjIg
+KzMxNCwyOCBAQCBzdGF0aWMgdW5zaWduZWQgaW50IGRlYzEwX3F1aWNrX2ltbShEaXNhc0NvbnRl
+eHQgKmRjKQ0KPj4gICAgICAgICAgICB9DQo+PiAgICAgICAgICAgIGltbSAmPSAweDFmOw0KPj4g
+ICAgICAgICAgICBjcmlzX2NjX21hc2soZGMsIENDX01BU0tfTlpWQyk7DQo+PiArICAgICAgICAg
+ICAgYyA9IHRjZ19jb25zdF90bChpbW0pOw0KPj4gICAgICAgICAgICBjcmlzX2FsdShkYywgb3As
+IGNwdV9SW2RjLT5kc3RdLA0KPj4gLSAgICAgICAgICAgICAgICAgICAgIGNwdV9SW2RjLT5kc3Rd
+LCB0Y2dfY29uc3RfdGwoaW1tKSwgNCk7DQo+PiArICAgICAgICAgICAgICAgICAgICAgY3B1X1Jb
+ZGMtPmRzdF0sIGMsIDQpOw0KPj4gKyAgICAgICAgICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAg
+ICAgICAgICAgIGJyZWFrOw0KPj4gICAgICAgIGNhc2UgQ1JJU1YxMF9RSU1NX1NVQlE6DQo+PiAg
+ICAgICAgICAgIExPR19ESVMoInN1YnEgJWQsICRyJWRcbiIsIGltbSwgZGMtPmRzdCk7DQo+PiAN
+Cj4+ICAgICAgICAgICAgY3Jpc19jY19tYXNrKGRjLCBDQ19NQVNLX05aVkMpOw0KPj4gKyAgICAg
+ICAgICAgIGMgPSB0Y2dfY29uc3RfdGwoaW1tKTsNCj4+ICAgICAgICAgICAgY3Jpc19hbHUoZGMs
+IENDX09QX1NVQiwgY3B1X1JbZGMtPmRzdF0sDQo+PiAtICAgICAgICAgICAgICAgICAgICAgY3B1
+X1JbZGMtPmRzdF0sIHRjZ19jb25zdF90bChpbW0pLCA0KTsNCj4+ICsgICAgICAgICAgICAgICAg
+ICAgICBjcHVfUltkYy0+ZHN0XSwgYywgNCk7DQo+PiArICAgICAgICAgICAgdGNnX3RlbXBfZnJl
+ZShjKTsNCj4+ICAgICAgICAgICAgYnJlYWs7DQo+PiAgICAgICAgY2FzZSBDUklTVjEwX1FJTU1f
+T1JROg0KPj4gICAgICAgICAgICBMT0dfRElTKCJhbmRxICVkLCAkciVkXG4iLCBzaW1tLCBkYy0+
+ZHN0KTsNCj4+IA0KPj4gICAgICAgICAgICBjcmlzX2NjX21hc2soZGMsIENDX01BU0tfTlpWQyk7
+DQo+PiArICAgICAgICAgICAgYyA9IHRjZ19jb25zdF90bChzaW1tKTsNCj4+ICAgICAgICAgICAg
+Y3Jpc19hbHUoZGMsIENDX09QX09SLCBjcHVfUltkYy0+ZHN0XSwNCj4+IC0gICAgICAgICAgICAg
+ICAgICAgICBjcHVfUltkYy0+ZHN0XSwgdGNnX2NvbnN0X3RsKHNpbW0pLCA0KTsNCj4+ICsgICAg
+ICAgICAgICAgICAgICAgICBjcHVfUltkYy0+ZHN0XSwgYywgNCk7DQo+PiArICAgICAgICAgICAg
+dGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgICAgICAgICAgYnJlYWs7DQo+PiANCj4+ICAgICAgICBj
+YXNlIENSSVNWMTBfUUlNTV9CQ0NfUjA6DQo+PiBAQCAtNzYwLDcgKzc3Nyw2IEBAIHN0YXRpYyB1
+bnNpZ25lZCBpbnQgZGVjMTBfaW5kX21vdmVfbV9yKENQVUNSSVNTdGF0ZSAqZW52LCBEaXNhc0Nv
+bnRleHQgKmRjLA0KPj4gICAgICAgIHRjZ19nZW5fbW92X3RsKGVudl9idGFyZ2V0LCBjcHVfUltk
+Yy0+ZHN0XSk7DQo+PiAgICAgICAgY3Jpc19wcmVwYXJlX2ptcChkYywgSk1QX0lORElSRUNUKTsN
+Cj4+ICAgICAgICBkYy0+ZGVsYXllZF9icmFuY2ggPSAxOw0KPj4gLSAgICAgICAgcmV0dXJuIGlu
+c25fbGVuOw0KPj4gICAgfQ0KPj4gDQo+PiAgICB0Y2dfdGVtcF9mcmVlKHQpOw0KPj4gQEAgLTc3
+Nyw2ICs3OTMsNyBAQCBzdGF0aWMgdW5zaWduZWQgaW50IGRlYzEwX2luZF9tb3ZlX3JfbShEaXNh
+c0NvbnRleHQgKmRjLCB1bnNpZ25lZCBpbnQgc2l6ZSkNCj4+ICAgIGNyaXN2MTBfcHJlcGFyZV9t
+ZW1hZGRyKGRjLCBhZGRyLCBzaXplKTsNCj4+ICAgIGdlbl9zdG9yZV92MTAoZGMsIGFkZHIsIGNw
+dV9SW2RjLT5kc3RdLCBzaXplKTsNCj4+ICAgIGluc25fbGVuICs9IGNyaXN2MTBfcG9zdF9tZW1h
+ZGRyKGRjLCBzaXplKTsNCj4+ICsgICAgdGNnX3RlbXBfZnJlZShhZGRyKTsNCj4+IA0KPj4gICAg
+cmV0dXJuIGluc25fbGVuOw0KPj4gfQ0KPj4gQEAgLTc5NiwxMSArODEzLDEwIEBAIHN0YXRpYyB1
+bnNpZ25lZCBpbnQgZGVjMTBfaW5kX21vdmVfbV9wcihDUFVDUklTU3RhdGUgKmVudiwgRGlzYXND
+b250ZXh0ICpkYykNCj4+ICAgICAgICB0Y2dfZ2VuX21vdl90bChlbnZfYnRhcmdldCwgdCk7DQo+
+PiAgICAgICAgY3Jpc19wcmVwYXJlX2ptcChkYywgSk1QX0lORElSRUNUKTsNCj4+ICAgICAgICBk
+Yy0+ZGVsYXllZF9icmFuY2ggPSAxOw0KPj4gLSAgICAgICAgcmV0dXJuIGluc25fbGVuOw0KPj4g
+KyAgICB9IGVsc2Ugew0KPj4gKyAgICAgICAgdGNnX2dlbl9tb3ZfdGwoY3B1X1BSW3JkXSwgdCk7
+DQo+PiArICAgICAgICBkYy0+Y3B1c3RhdGVfY2hhbmdlZCA9IDE7DQo+PiAgICB9DQo+PiAtDQo+
+PiAtICAgIHRjZ19nZW5fbW92X3RsKGNwdV9QUltyZF0sIHQpOw0KPj4gLSAgICBkYy0+Y3B1c3Rh
+dGVfY2hhbmdlZCA9IDE7DQo+PiAgICB0Y2dfdGVtcF9mcmVlKGFkZHIpOw0KPj4gICAgdGNnX3Rl
+bXBfZnJlZSh0KTsNCj4+ICAgIHJldHVybiBpbnNuX2xlbjsNCj4+IEBAIC04MjQsOCArODQwLDgg
+QEAgc3RhdGljIHVuc2lnbmVkIGludCBkZWMxMF9pbmRfbW92ZV9wcl9tKERpc2FzQ29udGV4dCAq
+ZGMpDQo+PiAgICB9IGVsc2Ugew0KPj4gICAgICAgIGdlbl9zdG9yZV92MTAoZGMsIGFkZHIsIGNw
+dV9QUltkYy0+ZHN0XSwgc2l6ZSk7DQo+PiAgICB9DQo+PiAtICAgIHQwID0gdGNnX3RlbXBfbmV3
+KCk7DQo+PiAgICBpbnNuX2xlbiArPSBjcmlzdjEwX3Bvc3RfbWVtYWRkcihkYywgc2l6ZSk7DQo+
+PiArICAgIHRjZ190ZW1wX2ZyZWUoYWRkcik7DQo+PiAgICBjcmlzX2xvY2tfaXJxKGRjKTsNCj4+
+IA0KPj4gICAgcmV0dXJuIGluc25fbGVuOw0KPj4gQEAgLTkyNyw3ICs5NDMsNiBAQCBzdGF0aWMg
+aW50IGRlYzEwX2luZF9ib3VuZChDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYywN
+Cj4+ICAgICAgICB0Y2dfZ2VuX21vdl90bChlbnZfYnRhcmdldCwgY3B1X1JbZGMtPmRzdF0pOw0K
+Pj4gICAgICAgIGNyaXNfcHJlcGFyZV9qbXAoZGMsIEpNUF9JTkRJUkVDVCk7DQo+PiAgICAgICAg
+ZGMtPmRlbGF5ZWRfYnJhbmNoID0gMTsNCj4+IC0gICAgICAgIHJldHVybiBpbnNuX2xlbjsNCj4+
+ICAgIH0NCj4+IA0KPj4gICAgdGNnX3RlbXBfZnJlZSh0KTsNCj4+IEBAIC05NTMsNyArOTY4LDYg
+QEAgc3RhdGljIGludCBkZWMxMF9hbHV4X20oQ1BVQ1JJU1N0YXRlICplbnYsIERpc2FzQ29udGV4
+dCAqZGMsIGludCBvcCkNCj4+ICAgICAgICB0Y2dfZ2VuX21vdl90bChlbnZfYnRhcmdldCwgY3B1
+X1JbZGMtPmRzdF0pOw0KPj4gICAgICAgIGNyaXNfcHJlcGFyZV9qbXAoZGMsIEpNUF9JTkRJUkVD
+VCk7DQo+PiAgICAgICAgZGMtPmRlbGF5ZWRfYnJhbmNoID0gMTsNCj4+IC0gICAgICAgIHJldHVy
+biBpbnNuX2xlbjsNCj4+ICAgIH0NCj4+IA0KPj4gICAgdGNnX3RlbXBfZnJlZSh0KTsNCj4+IEBA
+IC0xMDIwLDcgKzEwMzQsNyBAQCBzdGF0aWMgdW5zaWduZWQgaW50IGRlYzEwX2luZChDUFVDUklT
+U3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgIHVuc2lnbmVkIGludCBzaXplID0g
+ZGVjMTBfc2l6ZShkYy0+c2l6ZSk7DQo+PiAgICB1aW50MzJfdCBpbW07DQo+PiAgICBpbnQzMl90
+IHNpbW07DQo+PiAtICAgIFRDR3YgdFsyXTsNCj4+ICsgICAgVENHdiB0WzJdLCBjOw0KPj4gDQo+
+PiAgICBpZiAoZGMtPnNpemUgIT0gMykgew0KPj4gICAgICAgIHN3aXRjaCAoZGMtPm9wY29kZSkg
+ew0KPj4gQEAgLTEwNDEsOCArMTA1NSwxMCBAQCBzdGF0aWMgdW5zaWduZWQgaW50IGRlYzEwX2lu
+ZChDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgICAgICAgICAgICAg
+IGNyaXNfYWx1X21fYWxsb2NfdGVtcHModCk7DQo+PiAgICAgICAgICAgICAgICBpbnNuX2xlbiAr
+PSBkZWMxMF9wcmVwX21vdmVfbShlbnYsIGRjLCAwLCBzaXplLCB0WzBdKTsNCj4+ICAgICAgICAg
+ICAgICAgIHRjZ19nZW5fYW5kaV90bChjcHVfUFJbUFJfQ0NTXSwgY3B1X1BSW1BSX0NDU10sIH4z
+KTsNCj4+ICsgICAgICAgICAgICAgICAgYyA9IHRjZ19jb25zdF90bCgwKTsNCj4+ICAgICAgICAg
+ICAgICAgIGNyaXNfYWx1KGRjLCBDQ19PUF9DTVAsIGNwdV9SW2RjLT5kc3RdLA0KPj4gLSAgICAg
+ICAgICAgICAgICAgICAgICAgICB0WzBdLCB0Y2dfY29uc3RfdGwoMCksIHNpemUpOw0KPj4gKyAg
+ICAgICAgICAgICAgICAgICAgICAgICB0WzBdLCBjLCBzaXplKTsNCj4+ICsgICAgICAgICAgICAg
+ICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgICAgICAgICAgICAgIGNyaXNfYWx1X21fZnJlZV90
+ZW1wcyh0KTsNCj4+ICAgICAgICAgICAgICAgIGJyZWFrOw0KPj4gICAgICAgICAgICBjYXNlIENS
+SVNWMTBfSU5EX0FERDoNCj4+IEBAIC0xMTM4LDcgKzExNTQsOSBAQCBzdGF0aWMgdW5zaWduZWQg
+aW50IGRlYzEwX2luZChDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAg
+ICAgICAgICAgICAgIGlmIChkYy0+bW9kZSA9PSBDUklTVjEwX01PREVfQVVUT0lOQykNCj4+ICAg
+ICAgICAgICAgICAgICAgICBpbnNuX2xlbiArPSBzaXplOw0KPj4gDQo+PiAtICAgICAgICAgICAg
+ICAgIHRfZ2VuX21vdl9wcmVnX1ROKGRjLCBkYy0+ZHN0LCB0Y2dfY29uc3RfdGwoZGMtPnBjICsg
+aW5zbl9sZW4pKTsNCj4+ICsgICAgICAgICAgICAgICAgYyA9IHRjZ19jb25zdF90bChkYy0+cGMg
+KyBpbnNuX2xlbik7DQo+PiArICAgICAgICAgICAgICAgIHRfZ2VuX21vdl9wcmVnX1ROKGRjLCBk
+Yy0+ZHN0LCBjKTsNCj4+ICsgICAgICAgICAgICAgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAg
+ICAgICAgICAgICAgIGRjLT5qbXBfcGMgPSBpbW07DQo+PiAgICAgICAgICAgICAgICBjcmlzX3By
+ZXBhcmVfam1wKGRjLCBKTVBfRElSRUNUKTsNCj4+ICAgICAgICAgICAgICAgIGRjLT5kZWxheWVk
+X2JyYW5jaC0tOyAvKiB2MTAgaGFzIG5vIGRzbG90IGhlcmUuICAqLw0KPj4gQEAgLTExNDcsNyAr
+MTE2NSw5IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgZGVjMTBfaW5kKENQVUNSSVNTdGF0ZSAqZW52
+LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gICAgICAgICAgICAgICAgICAgIExPR19ESVMoImJyZWFr
+ICVkXG4iLCBkYy0+c3JjKTsNCj4+ICAgICAgICAgICAgICAgICAgICBjcmlzX2V2YWx1YXRlX2Zs
+YWdzKGRjKTsNCj4+ICAgICAgICAgICAgICAgICAgICB0Y2dfZ2VuX21vdmlfdGwoZW52X3BjLCBk
+Yy0+cGMgKyAyKTsNCj4+IC0gICAgICAgICAgICAgICAgICAgIHRfZ2VuX21vdl9lbnZfVE4odHJh
+cF92ZWN0b3IsIHRjZ19jb25zdF90bChkYy0+c3JjICsgMikpOw0KPj4gKyAgICAgICAgICAgICAg
+ICAgICAgYyA9IHRjZ19jb25zdF90bChkYy0+c3JjICsgMik7DQo+PiArICAgICAgICAgICAgICAg
+ICAgICB0X2dlbl9tb3ZfZW52X1ROKHRyYXBfdmVjdG9yLCBjKTsNCj4+ICsgICAgICAgICAgICAg
+ICAgICAgIHRjZ190ZW1wX2ZyZWUoYyk7DQo+PiAgICAgICAgICAgICAgICAgICAgdF9nZW5fcmFp
+c2VfZXhjZXB0aW9uKEVYQ1BfQlJFQUspOw0KPj4gICAgICAgICAgICAgICAgICAgIGRjLT5pc19q
+bXAgPSBESVNBU19VUERBVEU7DQo+PiAgICAgICAgICAgICAgICAgICAgcmV0dXJuIGluc25fbGVu
+Ow0KPj4gQEAgLTExNTUsNyArMTE3NSw5IEBAIHN0YXRpYyB1bnNpZ25lZCBpbnQgZGVjMTBfaW5k
+KENQVUNSSVNTdGF0ZSAqZW52LCBEaXNhc0NvbnRleHQgKmRjKQ0KPj4gICAgICAgICAgICAgICAg
+TE9HX0RJUygiJWQ6IGp1bXAuJWQgJWQgciVkIHIlZFxuIiwgX19MSU5FX18sIHNpemUsDQo+PiAg
+ICAgICAgICAgICAgICAgICAgICAgICBkYy0+b3Bjb2RlLCBkYy0+c3JjLCBkYy0+ZHN0KTsNCj4+
+ICAgICAgICAgICAgICAgIHRbMF0gPSB0Y2dfdGVtcF9uZXcoKTsNCj4+IC0gICAgICAgICAgICAg
+ICAgdF9nZW5fbW92X3ByZWdfVE4oZGMsIGRjLT5kc3QsIHRjZ19jb25zdF90bChkYy0+cGMgKyBp
+bnNuX2xlbikpOw0KPj4gKyAgICAgICAgICAgICAgICBjID0gdGNnX2NvbnN0X3RsKGRjLT5wYyAr
+IGluc25fbGVuKTsNCj4+ICsgICAgICAgICAgICAgICAgdF9nZW5fbW92X3ByZWdfVE4oZGMsIGRj
+LT5kc3QsIGMpOw0KPj4gKyAgICAgICAgICAgICAgICB0Y2dfdGVtcF9mcmVlKGMpOw0KPj4gICAg
+ICAgICAgICAgICAgY3Jpc3YxMF9wcmVwYXJlX21lbWFkZHIoZGMsIHRbMF0sIHNpemUpOw0KPj4g
+ICAgICAgICAgICAgICAgZ2VuX2xvYWQoZGMsIGVudl9idGFyZ2V0LCB0WzBdLCA0LCAwKTsNCj4+
+ICAgICAgICAgICAgICAgIGluc25fbGVuICs9IGNyaXN2MTBfcG9zdF9tZW1hZGRyKGRjLCBzaXpl
+KTsNCj4+IEBAIC0xMTc4LDcgKzEyMDAsOSBAQCBzdGF0aWMgdW5zaWduZWQgaW50IGRlYzEwX2lu
+ZChDUFVDUklTU3RhdGUgKmVudiwgRGlzYXNDb250ZXh0ICpkYykNCj4+ICAgICAgICAgICAgTE9H
+X0RJUygiam1wIHBjPSV4IG9wY29kZT0lZCByJWQgciVkXG4iLA0KPj4gICAgICAgICAgICAgICAg
+ICAgICAgICBkYy0+cGMsIGRjLT5vcGNvZGUsIGRjLT5kc3QsIGRjLT5zcmMpOw0KPj4gICAgICAg
+ICAgICB0Y2dfZ2VuX21vdl90bChlbnZfYnRhcmdldCwgY3B1X1JbZGMtPnNyY10pOw0KPj4gLSAg
+ICAgICAgICAgIHRfZ2VuX21vdl9wcmVnX1ROKGRjLCBkYy0+ZHN0LCB0Y2dfY29uc3RfdGwoZGMt
+PnBjICsgaW5zbl9sZW4pKTsNCj4+ICsgICAgICAgICAgICBjID0gdGNnX2NvbnN0X3RsKGRjLT5w
+YyArIGluc25fbGVuKTsNCj4+ICsgICAgICAgICAgICB0X2dlbl9tb3ZfcHJlZ19UTihkYywgZGMt
+PmRzdCwgYyk7DQo+PiArICAgICAgICAgICAgdGNnX3RlbXBfZnJlZShjKTsNCj4+ICAgICAgICAg
+ICAgY3Jpc19wcmVwYXJlX2ptcChkYywgSk1QX0lORElSRUNUKTsNCj4+ICAgICAgICAgICAgZGMt
+PmRlbGF5ZWRfYnJhbmNoLS07IC8qIHYxMCBoYXMgbm8gZHNsb3QgaGVyZS4gICovDQo+PiAgICAg
+ICAgICAgIGJyZWFrOw0KPj4gLS0gDQo+PiAxLjguMy4xDQo+PiANCg0K
 
