@@ -2,77 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DF6131E718
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 08:55:27 +0100 (CET)
-Received: from localhost ([::1]:36402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C89D31E78C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 09:40:50 +0100 (CET)
+Received: from localhost ([::1]:45660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCe9m-00035l-9X
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 02:55:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49406)
+	id 1lCerg-0002MY-5Z
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 03:40:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCe8H-0002eS-7p
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 02:53:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22384)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lCe8E-00068r-V6
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 02:53:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613634830;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ED2G0Rryr/bi+ZX3G0BeXfoIDlkscLCX0HbJzbKAH+Q=;
- b=hw7pmKoXMGsYhLY3RUKk0SkCs0nZ0B8sUwKY1HQurhohJQSW17Vf39q9Ol2XAhnUqu++PP
- EdMAK9JYsySdJPRWe7MBkKXT0DQBjNsn+7igTkvtAYQj7BxH+61Vo9eDB+kWCXiNaVQotB
- SnEmSB82LgNw/sJ+HiM+GYyVJKK9JiQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-FVjhqdOzMy25V-Jordp61w-1; Thu, 18 Feb 2021 02:53:47 -0500
-X-MC-Unique: FVjhqdOzMy25V-Jordp61w-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4AA0E80364F;
- Thu, 18 Feb 2021 07:53:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E51EF77701;
- Thu, 18 Feb 2021 07:53:45 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 755BD113860F; Thu, 18 Feb 2021 08:53:44 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v6 15/19] qapi/introspect.py: Add docstrings to
- _gen_tree and _tree_to_qlit
-References: <20210216021809.134886-1-jsnow@redhat.com>
- <20210216021809.134886-16-jsnow@redhat.com>
- <875z2r6njn.fsf@dusky.pond.sub.org>
- <377a32a9-2ace-dac2-dfd6-3db8d581f72c@redhat.com>
- <87eeheodna.fsf@dusky.pond.sub.org>
- <5024aa7f-0b60-0bcb-35ed-1d37bb9ab7a5@redhat.com>
-Date: Thu, 18 Feb 2021 08:53:44 +0100
-In-Reply-To: <5024aa7f-0b60-0bcb-35ed-1d37bb9ab7a5@redhat.com> (John Snow's
- message of "Wed, 17 Feb 2021 11:55:45 -0500")
-Message-ID: <87lfblizg7.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lCeqa-0001qh-W7; Thu, 18 Feb 2021 03:39:41 -0500
+Received: from smtp2200-217.mail.aliyun.com ([121.197.200.217]:34408)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <zhiwei_liu@c-sky.com>)
+ id 1lCeqT-0007wr-W1; Thu, 18 Feb 2021 03:39:39 -0500
+X-Alimail-AntiSpam: AC=CONTINUE; BC=0.1301226|-1; CH=green; DM=|CONTINUE|false|;
+ DS=CONTINUE|ham_regular_dialog|0.00959936-0.00175322-0.988647;
+ FP=0|0|0|0|0|-1|-1|-1; HT=ay29a033018047211; MF=zhiwei_liu@c-sky.com; NM=1;
+ PH=DS; RN=5; RT=5; SR=0; TI=SMTPD_---.Ja7B.r-_1613637558; 
+Received: from 30.225.208.61(mailfrom:zhiwei_liu@c-sky.com
+ fp:SMTPD_---.Ja7B.r-_1613637558)
+ by smtp.aliyun-inc.com(10.147.41.178);
+ Thu, 18 Feb 2021 16:39:18 +0800
+Subject: Re: [PATCH 04/38] target/riscv: 16-bit Addition & Subtraction
+ Instructions
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210212150256.885-1-zhiwei_liu@c-sky.com>
+ <20210212150256.885-5-zhiwei_liu@c-sky.com>
+ <d9715335-51a3-eb08-c04f-7a7ce6858ac7@linaro.org>
+From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Message-ID: <2144374b-8101-f307-6109-3775378226de@c-sky.com>
+Date: Thu, 18 Feb 2021 16:39:16 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d9715335-51a3-eb08-c04f-7a7ce6858ac7@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: none client-ip=121.197.200.217;
+ envelope-from=zhiwei_liu@c-sky.com; helo=smtp2200-217.mail.aliyun.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001,
+ UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,258 +61,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: alistair23@gmail.com, qemu-riscv@nongnu.org, palmer@dabbelt.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 2021/2/13 2:03, Richard Henderson wrote:
+> On 2/12/21 7:02 AM, LIU Zhiwei wrote:
+>> +    if (a->rd && a->rs1 && a->rs2) {
+>> +#ifdef TARGET_RISCV64
+>> +        f64(vece, offsetof(CPURISCVState, gpr[a->rd]),
+>> +            offsetof(CPURISCVState, gpr[a->rs1]),
+>> +            offsetof(CPURISCVState, gpr[a->rs2]),
+>> +            8, 8);
+>> +#else
+> This is not legal tcg.
+>
+> You cannot reference as memory anything which has an associated tcg_global_mem.
+Thanks.
 
-> On 2/17/21 11:35 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> On 2/17/21 4:39 AM, Markus Armbruster wrote:
->>>> John Snow <jsnow@redhat.com> writes:
->>>>
->>>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>>> ---
->>>>>    scripts/qapi/introspect.py | 18 ++++++++++++++++++
->>>>>    1 file changed, 18 insertions(+)
->>>>>
->>>>> diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
->>>>> index 45284af1330..5d4f5e23f7e 100644
->>>>> --- a/scripts/qapi/introspect.py
->>>>> +++ b/scripts/qapi/introspect.py
->>>>> @@ -99,6 +99,15 @@ def __init__(self, value: _ValueT, ifcond: Iterable[str],
->>>>>    def _tree_to_qlit(obj: JSONValue,
->>>>>                      level: int = 0,
->>>>>                      dict_value: bool = False) -> str:
->>>>> +    """
->>>>> +    Convert the type tree into a QLIT C string, recursively.
->>>>> +
->>>>> +    :param obj: The value to convert.
->>>>> +                This value may not be Annotated when dict_value is True.
->>>>> +    :param level: The indentation level for this particular value.
->>>>> +    :param dict_value: True when the value being processed belongs to a
->>>>> +                       dict key; which suppresses the output indent.
->>>>> +    """
->>>>>    
->>>>>        def indent(level: int) -> str:
->>>>>            return level * 4 * ' '
->>>>> @@ -244,6 +253,15 @@ def _gen_features(features: List[QAPISchemaFeature]
->>>>>        def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
->>>>>                      ifcond: Sequence[str],
->>>>>                      features: Optional[List[QAPISchemaFeature]]) -> None:
->>>>> +        """
->>>>> +        Build and append a SchemaInfo object to self._trees.
->>>>> +
->>>>> +        :param name: The entity's name.
->>>>> +        :param mtype: The entity's meta-type.
->>>>> +        :param obj: Additional entity fields, as appropriate for the meta-type.
->>>>
->>>> "Additional members", since we're talking about a JSON object.
->>>>
->>>
->>> I thought "field" was also appropriate for JSON, but I suppose the spec
->>> doesn't use that word.
->> 
->> Correct.
->> 
->>>                         Over time, "field", "member" and "property" have
->>> become just meaningless word-slurry to me.
->> 
->> Perfectly understandable.
->> 
->>> OK.
->>>
->>> "Additional members as appropriate for the meta-type."
->> 
->> Let's stick in a SchemaInfo for clarity:
->> 
->>          :param obj: Additional SchemaInfo members, as appropriate for
->>                      the meta-type.
->> 
->
-> Sure, why not?
->
->>>>> +        :param ifcond: Sequence of conditionals that apply to this entity.
->>>>> +        :param features: Optional features field for SchemaInfo.
->>>>
->>>> Likewise.
->>>>
->>>
->>> "Optional features member for SchemaInfo" ?
->>>
->>> Sure.
->> 
->> What about
->> 
->>          :param features: The SchemaInfo's features.
->> 
->
-> Sure, why not? x2
->
->>>> Sure we want to restate parts of the type ("Sequence of", "Optional") in
->>>> the doc string?
->>>>
->>>
->>> I usually avoid it, but sometimes for non-scalars I found that it read
->>> better to give a nod to the plural, as in:
->>>
->>> [ifcond is a] sequence of conditionals ...
->>>
->>> but, yes, I haven't been consistent about it. right below for @obj I
->>> omit the type of the container.
->>>
->>> "Conditionals that apply to this entity" feels almost too terse in
->>> isolation.
->> 
->> Similarly terse, just with SchemaInfo:
->> 
->>          :param ifcond: Conditionals to apply to the SchemaInfo.
->> 
->
-> Sure, why not! x3
->
->> Or "Conditionals to guard the SchemaInfo with".  Doesn't read any
->> better, I fear.  Ideas?
->> 
->>> I don't feel like it's a requisite to state the type, but in some cases
->>> I unconsciously chose to mention the structure.
->> 
->> Then let's work with the informal rule not to repeat types, unless where
->> repeating them makes the text easier to read.  Makes sense to you?
->
-> Subjectively I was doing this. Maybe half-heartedly. :~)
+Do you mean referring  a global TCGTemp as memory will cause not 
+consistent between TCGContext::temps and
+CPUArchState field?
 
-I'm not criticizing any half-heartedness here.  I just want to get to a
-common understanding of how we want to do doc strings.  Preliminary and
-somewhat vague is fine; it's *understanding*, not *law*.  "In John's
-head" is not fine :)
-
->> I suspect the answer we'll give in the long term depends on tooling.
->> When all the tools can show you is the doc string, the doc string better
->> includes type information.  But if the tools show you the types,
->> repeating them wastes precious reader bandwidth.
->> 
+Zhiwei
+>   Which is true for all of the gprs -- see riscv_translate_init.
 >
-> Yep. Sphinx shows type in the signature, but it doesn't necessarily 
-> repeat it for the :param list: entries; So you can correlate it with 
-> your eyeballs, but it isn't done for you.
 >
-> Maybe that'll change. Maybe I'll change it with my own Sphinx plugin 
-> eventually that does the cool stuff I dream about.
->
-> Maybe Maybe Maybe. I need to study the docutils API and learn how to 
-> make even a simple plugin... There are definitely a few ideas that I 
-> have that I want to bring to life that I think will help people like me 
-> adhere to a more consistent style.
->
->>> With regards to "Optional", I use this word specifically to indicate
->>> parameters that have default values -- distinct from a type that's
->>> Optional[], which is really actually like Nullable[T] ... If it makes
->>> you feel better, Guido says he regrets that naming decision. Oops!
->> 
->> He's right.
->> 
->> The "has default value" kind of optional is not part of the type, thus
->> not covered by the proposed informal rule.  Similar, if separate
->> question: sure we want to restate the (presence of a) default value in
->> the doc string?
->> 
->
-> I tend to state what a default is if the default is a special value that 
-> implies something else. Like: "The default is to not add this member." I 
-> have generally avoided "The default is 3."
->
-> I do sometimes say "Defaults to true/false" for boolean options just to 
-> add emphasis on "which way" the boolean leans, in case the name doesn't 
-> make that clear in isolation.
-
-Documentation should explain defaults.  But what exactly counts as
-documentation today?  Just the doc string?  The doc string plus the type
-hints?  Plus the default values?
-
-> I haven't been consistent, but I will try to be a bit more conscious 
-> about it going forward.
->
-> (the expr.py series, up next, is gonna be a playground for docstring 
-> style reviews, because I added a ton.)
-
-I feel we should to pick some rules that work for us with the tooling we
-have.  Even imperfect rules that aren't enforced automatically should
-help us maintain a useful level of consistency.  Also liberate us from
-debating the same doc questions over and over.  Liberate *me* from
-debating them in my head.
-
->> Again, the long-term answer will likely depend on tooling.
->> 
->
-> If it reads better to you to remove the "Optional, " then go ahead and 
-> make those cuts for the time-being, and I can try to hit things with a 
-> docstring beautifying beam later when we actually try to develop and 
-> publish a manual.
->
-> (After my python packaging series and after this QAPI cleanup series.)
-
-Here's what I have in my tree now:
-
-    def _gen_tree(self, name: str, mtype: str, obj: Dict[str, object],
-                  ifcond: Sequence[str] = (),
-                  features: Sequence[QAPISchemaFeature] = ()) -> None:
-        """
-        Build and append a SchemaInfo object to self._trees.
-
-        :param name: The SchemaInfo's name.
-        :param mtype: The SchemaInfo's meta-type.
-        :param obj: Additional SchemaInfo members, as appropriate for
-                    the meta-type.
-        :param ifcond: Conditionals to apply to the SchemaInfo.
-        :param features: The SchemaInfo's features.
-        """
-
-PATCH 17 adds
-
-                         Will be omitted from the output if empty.
-
-Hmm, I think that should actually go right into this patch instead.
-
->>> I'm probably not consistent about when I decided to write it, though.
->>>
->>> Ehm. If it's not harmful to leave it as-is, I think it'd be okay to do
->>> so. If you prefer a consistency all one way or all the other, I'd have
->>> to run the vacuum back over the series to check for it.
->> 
->> Just five patches add comments, and just two doc strings.  I had a look
->> at all of them, and found nothing else in need of vacuuming.
->> 
->
-> Go with whatcha feel, but I'll try to write that "style guide" we 
-> discussed during part 1 and we can hem and haw over the guidelines for 
-> ourselves.
->
-> I will want to apply it to all of ./scripts/qapi and ./python/qemu both.
-
-Makes sense.
-
-Perhaps we can steal from existing style guide(s).  Sadly, PEP 257 is
-next to useless.
-
->>>>> +        """
->>>>>            comment: Optional[str] = None
->>>>>            if mtype not in ('command', 'event', 'builtin', 'array'):
->>>>>                if not self._unmask:
->>>>
->>>> Also: more line-wrapping for PEP 8.
->>>>
->>>
->>> I thought the 72 column limit was for things like comments and docstrings.
->> 
->> I put this in the wrong spot, I meant the doc string, not the code.
->> sorry for the confusion!
->> 
->
-> Ah, phew. OK, yes, I've already capitulated on the comment line lengths, 
-> have at those :)
+> r~
 
 
