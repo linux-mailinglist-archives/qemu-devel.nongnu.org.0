@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B816B31EB2A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:56:04 +0100 (CET)
-Received: from localhost ([::1]:47258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D9B731EB2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 15:57:20 +0100 (CET)
+Received: from localhost ([::1]:51156 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCkip-00024m-S0
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:56:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33798)
+	id 1lCkk3-0003o8-Eo
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 09:57:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lCkeR-0006qH-Vg
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:51:32 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35722)
+ id 1lCkeX-0006rs-La
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:51:39 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:39670)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lCkeP-0005aq-OE
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:51:31 -0500
-Received: by mail-wm1-x329.google.com with SMTP id n10so4224414wmq.0
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 06:51:29 -0800 (PST)
+ id 1lCkeV-0005cK-G8
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 09:51:36 -0500
+Received: by mail-wr1-x434.google.com with SMTP id v1so3288333wrd.6
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 06:51:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Vrr/db47Qzv03uQ5HOCzDgMN9bgsfLjuAFvS1PFLBqU=;
- b=HwGfHuZKK+JqnORjAiDUI7FprIQVhz+MET9ho9AE9PFTIjATULL9HJgp+jgTy3Q+Cz
- 9L/WOocKYPcuYv7s25iEpvDBaXQo1waTnIRHWV0XUywqgxZZcAEU9M/40H9qkp1kypEV
- z13OibB8+HKx3zQsgTV5dA6BkazBjdpvQfxPfhroFuzYey7EI+AUCR/3IGmDfgQ77ZrI
- 1yFhWQ/JcePLLt/EuWvMiDiAcCxQuC1vBu4MBQFGnIVk8av1mqau4rsBMplci4tMIJGb
- kwtQdp+Q3LYRa+qXBBnNE++VM7ygclHijOuFGDaunCfrEx7q04K/nlIiAXQON0z9KyU6
- 7yoQ==
+ bh=Wn8jQ1F6vZGAxx2sZR3p9sh3ZA1iePVwsZxGykv2HiE=;
+ b=psnzdD+9KOe32QKMbDX00d3r5haUFApT6RZnz4LepftEMRf83jvJ8Km1ZVEc9t3UvF
+ s8vmpZUZqJjc4PEKakNxRQ7jBdXcYRNIkFuEf3IS5+WxmD5nZFi0qGt7uN8pj7oJ2vS5
+ zbEOEIAYAaUP/dYYMoTtxZqWDjmiWL6MlzEvJzWFSmhF7AQ1fj4SgLlwGfu2ZAs0yUwx
+ bVDje+4KmmlJMFNlB6pSApVt/d2Ukc+XMeduYuN8KEh2SHNoHdeYaknHW8UzJ4KeCEXr
+ IkfRyd3pzTASDcSro/ASEFiExK8xAA9JpdQZl2QFdFrnwPQ22ZQGzKImylbQRk8sfRJF
+ Xoqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Vrr/db47Qzv03uQ5HOCzDgMN9bgsfLjuAFvS1PFLBqU=;
- b=RtbGO6mERm+O5bZWwLCYn/lYGM2QIi12cfeQbq+7KH/6GHwrcxTy/LXinw1doJOOWv
- CO01vzWG9cI47G/JqtabxH34LajKl20m14aKmGbuDcLqVlWHUFmf/dnZh6Tlxlx3c38F
- jNonsudt6w0PeaLWaMmqqVuG7nfovZNlRZ9ETVSzzohkp9TWtKqhxRDXSvBnWNOwFgYW
- btN7RjFbtoQtzJz28q80QNHC+rqlECLw93Vrg89o4Mv6nrWQjtgcl4ItybyheEIagsKF
- gB7xm9Qd0KrnnhDS1+/Tzh7yqLrVwLTgDlMSp2bSLWjicz+hNO3mDgQf2Y0VkZyOLtf/
- uUMw==
-X-Gm-Message-State: AOAM532NeIQnZAWNTsqRXmLF3AP7zH6Bq8Ygfaipzy8ZhCUz0IaCABD0
- xf44C/INUfcVev4/Kq96rS7Ry8qUZRc=
-X-Google-Smtp-Source: ABdhPJxWrufPQ3GlgGe9I1zxJzIb1uFEvuyZewJjcRhxQ0M31M4qyq6fooWdBsSpgMYVD2MBwv85Gw==
-X-Received: by 2002:a1c:1f4d:: with SMTP id f74mr4161072wmf.12.1613659888135; 
- Thu, 18 Feb 2021 06:51:28 -0800 (PST)
+ bh=Wn8jQ1F6vZGAxx2sZR3p9sh3ZA1iePVwsZxGykv2HiE=;
+ b=AnvZevrE3QYfaNlVx9wJM2aQcL16ZCdV76KJu1HKOyydnvi+KW5cMq8d2zSR9QLWAt
+ djrNDG53DIOXRA+KfIYgpPRPFTOWVWja+lJ3s6Wobzshz8A7fTAF9I7TBQ/bZFLRdiA0
+ ANVV9OlsMofQt2BmSeARGMixJsPR2wO8VEfRBU63sW6j7Sq3bCI0HMTNmET/FEHl8Ftw
+ 8JWMZzJ0e3TzHr2E0Xd8E120hmyE/0eNXihJEcurENZAtZIgEzt3VuWK7Eps5pNEoqNx
+ SScxe2cerpes2AyTEuFJ4+40L7+4SKgM2Chvg/UuiFxKI/Q9PA3hBj0TGk1+IOU5HsxX
+ eAdw==
+X-Gm-Message-State: AOAM533MCNL3LEgkhEQrxhbgyKes0UpZCX5Iah1lpe8KQ2tNA/R2i3p3
+ O7kTyH3Zb7y675ujrU0JYxMyPkBx/I4=
+X-Google-Smtp-Source: ABdhPJzyBm+rNhngB0AfWRlomcP3MH/3vYkkWW0AsGZzCwKWC2SGKnNb0CE7BCLaMBBnGs+RNg3t8A==
+X-Received: by 2002:a05:6000:229:: with SMTP id
+ l9mr4676765wrz.337.1613659892715; 
+ Thu, 18 Feb 2021 06:51:32 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i3sm8559259wrr.19.2021.02.18.06.51.27
+ by smtp.gmail.com with ESMTPSA id z15sm11310896wrs.72.2021.02.18.06.51.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 18 Feb 2021 06:51:27 -0800 (PST)
+ Thu, 18 Feb 2021 06:51:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/5] target/sh4: Remove unused 'int access_type' argument
-Date: Thu, 18 Feb 2021 15:51:09 +0100
-Message-Id: <20210218145111.1591763-4-f4bug@amsat.org>
+Subject: [PATCH v2 4/5] target/sh4: Let get_physical_address() use
+ MMUAccessType access_type
+Date: Thu, 18 Feb 2021 15:51:10 +0100
+Message-Id: <20210218145111.1591763-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210218145111.1591763-1-f4bug@amsat.org>
 References: <20210218145111.1591763-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,71 +93,92 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-get_mmu_address() and get_physical_address() don't use their
-'int access_type' argument: remove it along with ACCESS_INT
-in superh_cpu_tlb_fill().
+superh_cpu_tlb_fill() already provides a access_type variable of
+type MMUAccessType, and it is passed along, but casted as integer
+and renamed 'rw'.
+Simply replace 'int rw' by 'MMUAccessType access_type'.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/helper.c | 15 +++++++--------
- 1 file changed, 7 insertions(+), 8 deletions(-)
+ target/sh4/helper.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index 4303ebf018b..b49efe84916 100644
+index b49efe84916..bd8e034f174 100644
 --- a/target/sh4/helper.c
 +++ b/target/sh4/helper.c
-@@ -331,7 +331,7 @@ static int find_utlb_entry(CPUSH4State * env, target_ulong address, int use_asid
+@@ -331,14 +331,14 @@ static int find_utlb_entry(CPUSH4State * env, target_ulong address, int use_asid
  */
  static int get_mmu_address(CPUSH4State * env, target_ulong * physical,
                             int *prot, target_ulong address,
--                           int rw, int access_type)
-+                           int rw)
+-                           int rw)
++                           MMUAccessType access_type)
  {
      int use_asid, n;
      tlb_t *matching = NULL;
+ 
+     use_asid = !(env->mmucr & MMUCR_SV) || !(env->sr & (1u << SR_MD));
+ 
+-    if (rw == MMU_INST_FETCH) {
++    if (access_type == MMU_INST_FETCH) {
+         n = find_itlb_entry(env, address, use_asid);
+         if (n >= 0) {
+             matching = &env->itlb[n];
+@@ -371,11 +371,11 @@ static int get_mmu_address(CPUSH4State * env, target_ulong * physical,
+         if (n >= 0) {
+             matching = &env->utlb[n];
+             if (!(env->sr & (1u << SR_MD)) && !(matching->pr & 2)) {
+-                n = (rw == MMU_DATA_STORE)
++                n = (access_type == MMU_DATA_STORE)
+                     ? MMU_DTLB_VIOLATION_WRITE : MMU_DTLB_VIOLATION_READ;
+-            } else if ((rw == MMU_DATA_STORE) && !(matching->pr & 1)) {
++            } else if ((access_type == MMU_DATA_STORE) && !(matching->pr & 1)) {
+                 n = MMU_DTLB_VIOLATION_WRITE;
+-            } else if ((rw == MMU_DATA_STORE) && !matching->d) {
++            } else if ((access_type == MMU_DATA_STORE) && !matching->d) {
+                 n = MMU_DTLB_INITIAL_WRITE;
+             } else {
+                 *prot = PAGE_READ;
+@@ -384,7 +384,7 @@ static int get_mmu_address(CPUSH4State * env, target_ulong * physical,
+                 }
+             }
+         } else if (n == MMU_DTLB_MISS) {
+-            n = (rw == MMU_DATA_STORE)
++            n = (access_type == MMU_DATA_STORE)
+                 ? MMU_DTLB_MISS_WRITE : MMU_DTLB_MISS_READ;
+         }
+     }
 @@ -398,7 +398,7 @@ static int get_mmu_address(CPUSH4State * env, target_ulong * physical,
  
  static int get_physical_address(CPUSH4State * env, target_ulong * physical,
                                  int *prot, target_ulong address,
--                                int rw, int access_type)
-+                                int rw)
+-                                int rw)
++                                MMUAccessType access_type)
  {
      /* P1, P2 and P4 areas do not use translation */
      if ((address >= 0x80000000 && address < 0xc0000000) || address >= 0xe0000000) {
+@@ -406,9 +406,9 @@ static int get_physical_address(CPUSH4State * env, target_ulong * physical,
+                 && (address < 0xe0000000 || address >= 0xe4000000)) {
+             /* Unauthorized access in user mode (only store queues are available) */
+             qemu_log_mask(LOG_GUEST_ERROR, "Unauthorized access\n");
+-            if (rw == MMU_DATA_LOAD) {
++            if (access_type == MMU_DATA_LOAD) {
+                 return MMU_DADDR_ERROR_READ;
+-            } else if (rw == MMU_DATA_STORE) {
++            } else if (access_type == MMU_DATA_STORE) {
+                 return MMU_DADDR_ERROR_WRITE;
+             } else {
+                 return MMU_IADDR_ERROR;
 @@ -432,7 +432,7 @@ static int get_physical_address(CPUSH4State * env, target_ulong * physical,
      }
  
      /* We need to resort to the MMU */
--    return get_mmu_address(env, physical, prot, address, rw, access_type);
-+    return get_mmu_address(env, physical, prot, address, rw);
+-    return get_mmu_address(env, physical, prot, address, rw);
++    return get_mmu_address(env, physical, prot, address, access_type);
  }
  
  hwaddr superh_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-@@ -441,7 +441,8 @@ hwaddr superh_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     target_ulong physical;
-     int prot;
- 
--    get_physical_address(&cpu->env, &physical, &prot, addr, MMU_DATA_LOAD, 0);
-+    get_physical_address(&cpu->env, &physical, &prot, addr, MMU_DATA_LOAD);
-+
-     return physical;
- }
- 
-@@ -813,11 +814,9 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-            MMU_DTLB_VIOLATION_READ);
- #else
-     target_ulong physical;
--    int prot, sh_access_type;
-+    int prot;
- 
--    sh_access_type = ACCESS_INT;
--    ret = get_physical_address(env, &physical, &prot, address,
--                               access_type, sh_access_type);
-+    ret = get_physical_address(env, &physical, &prot, address, access_type);
- 
-     if (ret == MMU_OK) {
-         address &= TARGET_PAGE_MASK;
 -- 
 2.26.2
 
