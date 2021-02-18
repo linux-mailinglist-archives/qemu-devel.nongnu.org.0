@@ -2,78 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 508CE31E46C
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 04:03:38 +0100 (CET)
-Received: from localhost ([::1]:56230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D0C531E494
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 04:42:38 +0100 (CET)
+Received: from localhost ([::1]:38374 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCZbN-0007qV-02
-	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 22:03:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50874)
+	id 1lCaD6-00071v-Qw
+	for lists+qemu-devel@lfdr.de; Wed, 17 Feb 2021 22:42:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lCZaP-0007Ln-M3
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 22:02:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22340)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lCZaM-00087U-IJ
- for qemu-devel@nongnu.org; Wed, 17 Feb 2021 22:02:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613617352;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UGitgLoUPO1aTSQLHzQBVWsQAWx5jYTf6sf2l805IyA=;
- b=Rju+/LRd5tkLZuHw1l1dHhwkSCpJq4cDBKiL7raJ6Py6G3syDuOH4bZOgv3kKjBalEt1H2
- SuvKEHqinRWLXKeGGFQ14mTdqMsSOY2G+9gNJRsosRif87craMPxQIqLiQxTxts/DgHCxk
- JYmnfRW/Gc22kq9ufRMdErIOVCR7jro=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-394-y2BkVAy3Oxia3kgKswNJTA-1; Wed, 17 Feb 2021 22:02:25 -0500
-X-MC-Unique: y2BkVAy3Oxia3kgKswNJTA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C628D80402C;
- Thu, 18 Feb 2021 03:02:24 +0000 (UTC)
-Received: from [10.72.13.28] (ovpn-13-28.pek2.redhat.com [10.72.13.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 909FE19C46;
- Thu, 18 Feb 2021 03:02:19 +0000 (UTC)
-Subject: Re: [PATCH 0/3] virtio-net: graceful drop of vhost for TAP
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210204202915.15925-1-yuri.benditovich@daynix.com>
- <20210209093201-mutt-send-email-mst@kernel.org>
- <20210209145105.GP1166421@redhat.com>
- <20210209095553-mutt-send-email-mst@kernel.org>
- <0890bb17-9677-ff1d-bd08-c9be791e1c81@redhat.com>
- <20210210033236-mutt-send-email-mst@kernel.org>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a517c0b1-87e3-c36b-ef9e-3d851f98cd29@redhat.com>
-Date: Thu, 18 Feb 2021 11:02:17 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lCaBq-0006Qk-LQ; Wed, 17 Feb 2021 22:41:18 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38898
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lCaBn-0002vy-RA; Wed, 17 Feb 2021 22:41:18 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 11I3W913129623; Wed, 17 Feb 2021 22:41:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=ZzXAqty98pDwySIbi8ovVD3+2Zl0v5xXWLrgdmPFF+w=;
+ b=GX04oZmWzYxMwB47+L7Z+GmdDWgS8o8WJB1h2B5D3EbeZAvIWTDVlnMzA5C5+/Bkj1Oa
+ t7Tdgrtz8f3rp5RBuYexNRvq7Ztr3+sxJEHOtL7AWF8uZIYNmcgFGxziCo7nOT/rWcPX
+ AjMU3SZCt9njTArqZ3pNYx/qNU3lXWnJJOGnPIgaZXIC3BNauLZTSGFOSxWHL/Ljfhe0
+ 8+U4gW+iA405CPsMJZN8IMCr0l98LwS/k7gjg0RUOx9JvXEamwqTjkOm0cWlraPnUN6S
+ 1Dyoz6zPfv4dFOO6m2SaxNreAGNTAnkYKGd0TefA/DRat9KZPCWmc6RwQfzfvGi9Dcy6 wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36sftss181-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Feb 2021 22:41:13 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11I3XLB3132339;
+ Wed, 17 Feb 2021 22:41:12 -0500
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36sftss17f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 17 Feb 2021 22:41:12 -0500
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11I3RQQq010438;
+ Thu, 18 Feb 2021 03:41:10 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma02fra.de.ibm.com with ESMTP id 36p6d8j764-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 18 Feb 2021 03:41:10 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11I3f7Pi41681178
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 18 Feb 2021 03:41:07 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7B2F111C058;
+ Thu, 18 Feb 2021 03:41:07 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2676D11C05B;
+ Thu, 18 Feb 2021 03:41:07 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 18 Feb 2021 03:41:07 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH 1/1] hw/s390x: fix build for virtio-9p-ccw
+Date: Thu, 18 Feb 2021 04:40:59 +0100
+Message-Id: <20210218034059.1096078-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210210033236-mutt-send-email-mst@kernel.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-18_01:2021-02-16,
+ 2021-02-18 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0
+ phishscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1011 spamscore=0
+ adultscore=0 mlxlogscore=999 mlxscore=0 priorityscore=1501 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102180025
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,124 +109,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yan@daynix.com, Yuri Benditovich <yuri.benditovich@daynix.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Jakob Naucke <jakob.naucke@ibm.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Commit  2c44220d05 ("meson: convert hw/arch*"), which migrated the old
+Makefile.objs to meson.build  accidentally excluded virtio-ccw-9p.c and
+thus the virtio-9p-ccw device from the build (and potentially also
+included the file virtio-ccw-blk.c twice in the source set). And since
+CONFIG_VIRTFS can't be used the way it was used here (see commit
+2c9dce0196 ("meson: do not use CONFIG_VIRTFS")), the preconditions have
+to be written differently.
 
-On 2021/2/10 下午4:38, Michael S. Tsirkin wrote:
-> On Wed, Feb 10, 2021 at 02:19:59PM +0800, Jason Wang wrote:
->> On 2021/2/9 下午11:04, Michael S. Tsirkin wrote:
->>> On Tue, Feb 09, 2021 at 02:51:05PM +0000, Daniel P. Berrangé wrote:
->>>> On Tue, Feb 09, 2021 at 09:34:20AM -0500, Michael S. Tsirkin wrote:
->>>>> On Thu, Feb 04, 2021 at 10:29:12PM +0200, Yuri Benditovich wrote:
->>>>>> This set of patches introduces graceful switch from tap-vhost to
->>>>>> tap-no-vhost depending on guest features. Before that the features
->>>>>> that vhost does not support were silently cleared in get_features.
->>>>>> This creates potential problem of migration from the machine where
->>>>>> some of virtio-net features are supported by the vhost kernel to the
->>>>>> machine where they are not supported (packed ring as an example).
->>>>> I still worry that adding new features will silently disable vhost for people.
->>>>> Can we limit the change to when a VM is migrated in?
->>>> Some management applications expect bi-directional live migration to
->>>> work, so taking specific actions on incoming migration only feels
->>>> dangerous.
->>> Could you be more specific?
->>>
->>> Bi-directional migration is currently broken
->>> when migrating new kernel->old kernel.
->>>
->>> This seems to be the motivation for this patch, though I wish
->>> it was spelled out more explicitly.
->>>
->>> People don't complain much, but I'm fine with fixing that
->>> with a userspace fallback.
->>>
->>>
->>> I'd rather not force the fallback on others though: vhost is generally
->>> specified explicitly by user while features are generally set
->>> automatically, so this patch will make us override what user specified,
->>> not nice.
->>>
->>>
->>>> IMHO if the features we're adding cannot be expected to exist in
->>>> host kernels in general, then the feature should defualt to off
->>>> and require explicit user config to enable.
->>>> Downstream distros which can guarantee newer kernels can flip the
->>>> default in their custom machine types if they desire.
->>>>
->>>> Regards,
->>>> Daniel
->>> Unfortunately that will basically mean we are stuck with no new features
->>> for years. We did what this patch is trying to change for years now, in
->>> particular KVM also seems to happily disable CPU features not supported
->>> by kernel so I wonder why we can't keep doing it, with tweaks for some
->>> corner cases.
->>
->> It's probably not the corner case.
->>
->> So my understanding is when a feature is turned on via command line,
->
-> Most people do not play with these flags on command line, the
-> main path to turn features on if when they default to on.
+Let's fix this!
 
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+Fixes: 2c44220d05 ("meson: convert hw/arch*")
+Reported-by: Jakob Naucke <jakob.naucke@ibm.com>
+Cc: qemu-stable@nongnu.org
+---
+ hw/s390x/meson.build | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-The problem is qemu may choose to clear feature whose default are on.
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index 2a7818d94b..91495b5631 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -40,7 +40,9 @@ virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_SCSI', if_true: files('virtio-ccw-scsi.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_SERIAL', if_true: files('virtio-ccw-serial.c'))
+-virtio_ss.add(when: ['CONFIG_VIRTIO_9P', 'CONFIG_VIRTFS'], if_true: files('virtio-ccw-blk.c'))
++if have_virtfs
++  virtio_ss.add(when: 'CONFIG_VIRTIO_9P', if_true: files('virtio-ccw-9p.c'))
++endif
+ virtio_ss.add(when: 'CONFIG_VHOST_VSOCK', if_true: files('vhost-vsock-ccw.c'))
+ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'))
+ s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
 
-
->
->> it
->> should not be cleared silently otherwise we may break migration for sure.
-> Not if we are careful. Setting flags is more dangerous.
-
-
-The problem is that user is expected to enable the feature for the 
-device. If Qemu fail to do that, shouldn't we fail the device 
-initialization?
-
-
-> Clearing is
-> generally ok.
->
->> E.g when packed=on is specified, we should disable vhost instead of clear it
->> from the device.
->>
->> Thanks
->  From usability POV, consider packed as an example, people only enable it
-> to get better performance. libvirt says:
->
->
-> 		The attribute packed controls if QEMU should try to use packed
-> 	virtqueues. Compared to regular split queues, packed queues consist of
-> 	only a single descriptor ring replacing available and used ring, index
-> 	and descriptor buffer. This can result in better cache utilization and
-> 	performance. If packed virtqueues are actually used depends on the
-> 	feature negotiation between QEMU, vhost backends and guest drivers.
-> 	Possible values are on or off.
->
-> Switching to a completely different backend clearly isn't what user intended.
-
-
-If we don't do migration, all should be fine. But the problem is the 
-migration compatibility. My understanding is that libvirt will assume 
-the compatibility if the same user-visible feature were set through 
-cli.  So if any feature were cleared the migration compatibility will 
-break. This will also be a burden to support cross vendor live migration 
-in the future for vDPA.
-
-Thanks
-
-
->
->>> userspace and kernel not being in 100% sync wrt features is not
->>> a corner case though, and switching backends seems like too big
->>> a hammer.
->>>
->>>> -- 
->>>> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
->>>> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
->>>> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+base-commit: 1af5629673bb5c1592d993f9fb6119a62845f576
+-- 
+2.25.1
 
 
