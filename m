@@ -2,102 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CBC31EE3B
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 19:29:25 +0100 (CET)
-Received: from localhost ([::1]:46598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB5531EE3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 19:29:28 +0100 (CET)
+Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCo3I-00071z-Iw
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 13:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48790)
+	id 1lCo3L-00077v-VK
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 13:29:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lCo1G-00064N-7z; Thu, 18 Feb 2021 13:27:19 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:25960)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lCo19-0001sQ-9Q; Thu, 18 Feb 2021 13:27:17 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11IICpqg140427; Thu, 18 Feb 2021 13:27:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=WeYxnzFDMynGwWznhO2NU04oRhQNhGy1Gvs0bmaD0P8=;
- b=k75PfiKbDtSoBwPzdHy9hAINhNBxj17VSI7Uu3uNkrCiZAbnpJkWFWljK91XkRrEtPN/
- UD9nIZlN007eZ2tbizNh3iG3uPwI8cuLU/bdTleCFkoex/vl6LkypgSA4MYCeSvT0RJs
- 21QQkEq8Z4/Za/pkpBbtCn+u6ZgnJCh0uaP4X+N8IoOnnDpZdoPHIg4bPUjA5la8bHbX
- bMeuZNsKXkIjBf2V6Msga5YroJbyMbdWVahDIRpUPsHLtPzp4o4aIB/FoSNTtU6v2qtx
- myLSXP7QpUQtWvrIfK4892UUM4bK35T4EkIDmygb/6BuqObd7KPbfnmMxen3G586wUAk sg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36swap8dfm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 13:27:07 -0500
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11IID2Bh141621;
- Thu, 18 Feb 2021 13:27:07 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36swap8det-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 13:27:06 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11IIC6W6000890;
- Thu, 18 Feb 2021 18:27:04 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma03ams.nl.ibm.com with ESMTP id 36rw3u9hak-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 18 Feb 2021 18:27:04 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 11IIQn9234865558
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 18 Feb 2021 18:26:49 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5071FA4040;
- Thu, 18 Feb 2021 18:27:01 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0D8F0A4053;
- Thu, 18 Feb 2021 18:27:00 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Thu, 18 Feb 2021 18:26:59 +0000 (GMT)
-Date: Thu, 18 Feb 2021 19:26:54 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210218192654.2f71f12f.pasic@linux.ibm.com>
-In-Reply-To: <877e9bb4-cb18-334b-020f-a4857b07c420@redhat.com>
-References: <20210218022227.979741-1-pasic@linux.ibm.com>
- <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
- <20210218113438.3fe80078.pasic@linux.ibm.com>
- <877e9bb4-cb18-334b-020f-a4857b07c420@redhat.com>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCo1V-0006B5-Rp
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 13:27:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50789)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lCo1R-0001wV-GX
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 13:27:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613672845;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qyLQgooh6E8vH1bWDBSfUECKFuMHud3xtLUsxTi2NYI=;
+ b=dcR0YApLZU4xxT848+/mHy7LsKB7+Kl8sKkAFZIImQuAw5KJlj7n+RRiG9kS2H+qwfivaP
+ ARxpJagPHTZDSexlb1emAPaLVaBIeu2AdQ1UO02Ivoew8AI0TOCY4RXy10zJxnihFHYlda
+ ymv52agl/8HljyudiCmPkIjBuXTfVUk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-230-1rkJjhR-MwOC_Fou1gfsvA-1; Thu, 18 Feb 2021 13:27:23 -0500
+X-MC-Unique: 1rkJjhR-MwOC_Fou1gfsvA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6992C19611C5
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 18:27:22 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DBDD15D9C2;
+ Thu, 18 Feb 2021 18:27:21 +0000 (UTC)
+Subject: Re: [PATCH RESEND] hostmem: Don't report pmem attribute if unsupported
+To: Michal Privoznik <mprivozn@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
+References: <dfcc5dc7e2efc0283bc38e3036da2c0323621cdb.1611647111.git.mprivozn@redhat.com>
+ <20210216222357.GL4070@habkost.net>
+ <6ecacba7-5a7b-a5ce-efac-e24dd65eb5ea@redhat.com>
+ <50884d4d-b6f4-b588-de75-d703ce31638b@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <09add98c-82a8-355c-2a54-cf13e9e51e5a@redhat.com>
+Date: Thu, 18 Feb 2021 13:27:21 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-18_09:2021-02-18,
- 2021-02-18 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- spamscore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 malwarescore=0 phishscore=0 clxscore=1015 mlxlogscore=999
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102180146
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <50884d4d-b6f4-b588-de75-d703ce31638b@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -111,99 +84,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 15:44:47 +0100
-Thomas Huth <thuth@redhat.com> wrote:
-
-> On 18/02/2021 11.34, Halil Pasic wrote:
-> > On Thu, 18 Feb 2021 10:23:16 +0100
-> > Thomas Huth <thuth@redhat.com> wrote:
-> >   
-> >>> Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
-> >>> module, which provides the type virtio-gpu-device, packaging the
-> >>> hw-display-virtio-gpu module as a separate package that may or may not
-> >>> be installed along with the qemu package leads to problems. Namely if
-> >>> the hw-display-virtio-gpu is absent, qemu continues to advertise
-> >>> virtio-gpu-ccw, but it aborts not only when one attempts using
-> >>> virtio-gpu-ccw, but also when libvirtd's capability probing tries
-> >>> to instantiate the type to introspect it.
-> >>>
-> >>> Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
-> >>> is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
-> >>> was chosen because it is not a portable device.
-> >>>
-> >>> With virtio-gpu-ccw built as a module, the correct way to package a
-> >>> modularized qemu is to require that hw-display-virtio-gpu must be
-> >>> installed whenever the module hw-s390x-virtio-gpu-ccw.
-> >>>
-> >>> Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
-> >>> ---
-> >>>    hw/s390x/meson.build | 17 ++++++++++++++++-
-> >>>    util/module.c        |  1 +
-> >>>    2 files changed, 17 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> >>> index 2a7818d94b..153b1309fb 100644
-> >>> --- a/hw/s390x/meson.build
-> >>> +++ b/hw/s390x/meson.build
-> >>> @@ -34,7 +34,6 @@ virtio_ss.add(files('virtio-ccw.c'))
-> >>>    virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
-> >>>    virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
-> >>>    virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
-> >>> -virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
-> >>>    virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
-> >>>    virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
-> >>>    virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
-> >>> @@ -46,3 +45,19 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'
-> >>>    s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
-> >>>    
-> >>>    hw_arch += {'s390x': s390x_ss}
-> >>> +
-> >>> +if target.startswith('s390x')
-> >>> +  hw_s390x_modules = {}
-> >>> +
-> >>> +  hw_s390x_modules_c_args = ['-DNEED_CPU_H',
-> >>> +	      '-DCONFIG_TARGET="@0@-config-target.h"'.format(target)]
-> >>> +  hw_s390x_modules_inc = [include_directories('../../target' / config_target['TARGET_BASE_ARCH'])]
-> >>> +  hw_s390x_modules_dependencies = declare_dependency(
-> >>> +	       include_directories: hw_s390x_modules_inc, compile_args: hw_s390x_modules_c_args)  
-> >>
-> >> Basically the patch looks fine to me, but I wonder why all that above lines
-> >> (related to hw_s390x_modules_dependencies) are requred at all? The other
-> >> display modules in hw/display/meson.build also do not need to re-define
-> >> c_args for example?  
-> > 
-> > The explanation is simple. Unlike most devices, the ccw devices aren't
-> > portable. In particular both css.c and css.h includes "cpu.h", and
-> > virtio-ccw-gpu.c includes "qemu/osdep.h". Furthermore osdep.h contains:
-> > #ifdef NEED_CPU_H
-> > #include CONFIG_TARGET
-> > #else
-> > #include "exec/poison.h"
-> > #endif
-> > so if we don't have NEED_CPU_H, among others CONFIG_KVM is poisoned, and
-> > CONFIG_KVM is used in "css.h". Frankly, I can't tell under what circumstances
-> > does css need "cpu.h".  
-> As far as I can see, the only real reason right now is the CONFIG_KVM 
-> section in css.h. I think you could simply move that into another header 
-> file instead (cpu.h ?)
+On 2/17/21 2:31 AM, Michal Privoznik wrote:
+> On 2/17/21 12:07 AM, John Snow wrote:
+>> On 2/16/21 5:23 PM, Eduardo Habkost wrote:
+>>> On Tue, Jan 26, 2021 at 08:48:25AM +0100, Michal Privoznik wrote:
+>>>> When management applications (like Libvirt) want to check whether
+>>>> memory-backend-file.pmem is supported they can list object
+>>>> properties using 'qom-list-properties'. However, 'pmem' is
+>>>> declared always (and thus reported always) and only at runtime
+>>>> QEMU errors out if it was built without libpmem (and thus can not
+>>>> guarantee write persistence). This is suboptimal since we have
+>>>> ability to declare attributes at compile time.
+>>>>
+>>>> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1915216
+>>>> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+>>>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>> Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+>>>> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>>>
+>>> I'm not a fan of making availability of properties conditional
+>>> (even if at compile time), but if this helps libvirt I guess it
+>>> makes sense.
+>>>
+>>
+>> Compile time might be OK, but if we want to describe everything via 
+>> QAPI eventually, we just need to be able to describe that compile-time 
+>> requisite appropriately.
+>>
+>> Conditional at run-time is I think the thing that absolutely has to go 
+>> wherever it surfaces.
 > 
+> I'm open for discussion. How do you think libvirt (or any other mgmt 
+> tool/user) should inspect whether given feature is available?
+> What libvirt currently does it issues 'qom-list-properties' with 
+> 'typename=memory-backend-file' and inspects whether pmem attribute is 
+> available. Is 'qom-list' preferred?
+> 
+> 
+>>
+>>> CCing John, who has been thinking a lot about these questions.
+>>>
+>>
+>> Thanks for the heads up. Good reminder that libvirt uses the existence 
+>> of properties as a bellwether for feature support. I don't think I 
+>> like that idea, but I like breaking libvirt even less.
+> 
+> That was at hand solution. If libvirt's not doing it right, I'm happy to 
+> make things better.
+> 
+> Michal
 
-Since everybody seems to agree, that that is the right way to move
-forward, I can try moving things around like you and Connie suggested.
+No, libvirt is doing it exactly correct. QAPI/QMP was designed exactly 
+in this way with exactly this use-case in mind.
 
-Regards,
-Halil
+(So far as I understand it.)
+
+My concerns that may have guided some patches by Eduardo that might have 
+caused problems for you relate to my ability to publish an SDK for 
+generic builds of QEMU, where if-conditionals that actually compile 
+fields out of certain data structures can be difficult to deal with at 
+static analysis time.
+
+Until we connect to the server, we don't know if type FooStruct has 
+field XYZ or not. Generally the way you handle this is by always having 
+that field in the SDK and erroring out at runtime if for some reason it 
+is not supportable.
+
+In the long term, we want to (I think) bridge the data gap between QOM 
+and QAPI and provide a unified set of types that we can use to construct 
+a "QEMU Config File" that can be validated statically against, say, 
+"qemu 6.0."
+
+In this scenario, I have some nebulous but not necessarily meticulously 
+reasoned out concerns about compile-time conditional fields. In this 
+scenario, using the presence or absence of a field in a data type 
+becomes a poor way to do feature detection.
+
+QMP offers the "features" flag for certain commands where we use the 
+presence or absence of that flag as the introspection data in order to 
+determine behavior. Going forward, I suspect I will push for 
+representing formerly-compile-time flags as runtime introspection 
+feature flags instead.
+
+...But that's stuff that isn't here now, so just keep doing what you've 
+been doing, and I will take careful notice not to break that kind of 
+introspection without a well-advertised alternative.
+
+Especially right now, QOM stuff isn't in QAPI, so we don't have those 
+kind of feature flags at all, so I think there really isn't another way 
+at all, short of adding more capabilities and complexity to the existing 
+introspection stuff, which I don't think we'd do.
+
+--js
+
 
