@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53CDF31E82A
-	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:58:09 +0100 (CET)
-Received: from localhost ([::1]:59528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB2F231E825
+	for <lists+qemu-devel@lfdr.de>; Thu, 18 Feb 2021 10:55:25 +0100 (CET)
+Received: from localhost ([::1]:50520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCg4W-0002JR-A1
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:58:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53446)
+	id 1lCg1s-0006v5-S3
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 04:55:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfuL-00078Z-UM
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:37 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:40049)
+ id 1lCfuN-0007Bp-6x
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:39 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:32775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lCfuE-0007IH-T4
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:37 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id v14so2183321wro.7
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:30 -0800 (PST)
+ id 1lCfuJ-0007JA-P5
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 04:47:38 -0500
+Received: by mail-wr1-x435.google.com with SMTP id 7so2223659wrz.0
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 01:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5rHH5POPbuYAq0YUi5h3icjOV2z6ayt8RsNYkhPgywI=;
- b=JRIu0Q8b0SW4GfxGiaw6/sHNFqj/lFNVIV+YXe+wewONsWwevOm64mU2pRyeDuul+6
- B5DAuphar1fzmIjAvpR3Ks87oS+4YS7PYk5h3lyIiE1nVh9dJTkrFzhl/lLSBEzMZW9E
- vg5sHvniW2pcTt72wXftNpIzPSg/ASEkaANFdLcZkdBE+8k5RPfhog36EhFdfvZi+r3w
- UUo13d2OszGto+k4rjE0T6KcjyBpG/Cy4kcjlB8SN7VWbC9hBhyc2qmDxqv14fiq5MQi
- 7TyEr2HZVZnK1EwfYYCs5mP7Im9sDqUcQ7olyiddzHj2+oLxG4oCc2c8v5mcsDacQUKn
- pSYQ==
+ bh=NGFgZyHCr3fksW5dEZw0mEN72Dlgf8OF7X/v8VpUACc=;
+ b=HQ+RDiMUEMcu+tAe8zS6ItqdlX0PXgjO9Tr8r6zH/Bvwp2ah57ltg5XECWAr0ww3Hk
+ 5VnpRzV4LFsS+Yr6j782Ht/9+MzgYA28dsAP3gm+VzYpevzsjg/mv2MH9PvKyAjMRoru
+ T93Q+JtqF8n1mdiCgnVf9FmtidsGFLqivOr6XnhkO+xnRq+E85ClB07pHpdy9RdRyyNN
+ AmmMgjBgZ8sifgfVpUTg7OVeBIZAQ7gK3Mac3tDqWrpxlOT/gqI2FgAsWnXD8MoHqYbV
+ 6qYuMdNOLbK30eKaFu0TaneyVpZwc14eUPkg6oOjAZ67L0Zzr8b7fi7vODDcDobnauxS
+ ewbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5rHH5POPbuYAq0YUi5h3icjOV2z6ayt8RsNYkhPgywI=;
- b=afWF82FJSfiojwJgqklkm9lGESNQ/t7f6S9U8jcEJjz9FIIfADD227AybzJtS9RMKb
- NA+O3m97VZc51mo3FAIEevgKZibOv5z2YtPSMIrqxOH15SoSSKRCFHwWHDI0d7PHl8zh
- O4qZpDEfKGilD/XGAPk9Ty1O8TSZnuEITiIZqbJb0fbLRmfWxasf3BWfhlmBtVSeoKVZ
- LQvQl94TvfPdcideBjmo4tM3oD81OpmcDelYG+M5m9XOOa530HRIt4lja9ItboG6fnFD
- SdZikDyVLUfZFsupgcPDPr6wcZfEXj88vfDr8beTcVXP7eXRq3StGbG3CBPnpi/EHZE7
- 87vw==
-X-Gm-Message-State: AOAM531azktT/auUDnKqfDQ+bxFuQWwsFO+f8zbbqPzjNRwRa2xQa1x5
- 3PT8rxt45kuCodnSwFT6SqmPuA==
-X-Google-Smtp-Source: ABdhPJxHlEZdY20EEnNXtoSGQx+NS2+Wh1GhBBHkGWRNArTrmKUkM6qQYm4QlLp+di8h7msU0Eeirg==
-X-Received: by 2002:adf:e5d1:: with SMTP id a17mr3583259wrn.260.1613641649512; 
- Thu, 18 Feb 2021 01:47:29 -0800 (PST)
+ bh=NGFgZyHCr3fksW5dEZw0mEN72Dlgf8OF7X/v8VpUACc=;
+ b=VMv22M1t0rwCTyamoZnedkX5J4o12QgItf+twH9wmuYJ+3QGNMgzOlp1FXRAZesmYq
+ p0iJLmK1auUYVuZEMRLE85EBDfd/XD6ZpdPt0d65lEUqm/W4Et+LV3E2G2Euy1z5h1mV
+ QC8mw0sXTMiXIwF7zbcZlt1zqGaSKQ0ET046TUcPjgsNPZXdKk0JJa72bcPLyh0186+w
+ NS8OGyF5KO999z3jrOksKYIGult7XFrTPETKR1lRaLzHzRwBONcHKfyV1scmno3AWD3f
+ r7s2Rwe6HKnz3kS28uEIhamxbItYPnopWZXszhNC26siMpaxIjMEunfRa/inYnzsOuM0
+ +Ksg==
+X-Gm-Message-State: AOAM532gkx/IodUeO+Fn1iCZAUrLjtl5X7D5fSYXT009HMkQiBb28PVu
+ C6tkog8wscHaYmEOIKv81eEVcg==
+X-Google-Smtp-Source: ABdhPJx3CvzbyxvTy1arrDS0Dey/n0LkQNsrt6P3/xwz98519ekEopG3Q32qSmeysZC/0H+lgcpVcQ==
+X-Received: by 2002:a5d:680e:: with SMTP id w14mr3420339wru.322.1613641654194; 
+ Thu, 18 Feb 2021 01:47:34 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l7sm8319898wrn.11.2021.02.18.01.47.15
+ by smtp.gmail.com with ESMTPSA id f17sm7893560wru.31.2021.02.18.01.47.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 18 Feb 2021 01:47:23 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 031BD1FFAB;
+ by zen.linaroharston (Postfix) with ESMTP id 186861FFAC;
  Thu, 18 Feb 2021 09:47:09 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: peter.maydell@linaro.org
-Subject: [PULL 21/23] tests/acceptance: add a new tests to detect counting
- errors
-Date: Thu, 18 Feb 2021 09:47:04 +0000
-Message-Id: <20210218094706.23038-22-alex.bennee@linaro.org>
+Subject: [PULL 22/23] tests/plugin: allow memory plugin to do both inline and
+ callbacks
+Date: Thu, 18 Feb 2021 09:47:05 +0000
+Message-Id: <20210218094706.23038-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210218094706.23038-1-alex.bennee@linaro.org>
 References: <20210218094706.23038-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,57 +87,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The insn plugin has a simple heuristic to detect if an instruction is
-detected running twice in a row. Check the plugin log after the run
-and pass accordingly.
+This is going to be useful for acceptance tests that check both types
+are being called the same number of times, especially when icount is
+enabled.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210213130325.14781-22-alex.bennee@linaro.org>
+Message-Id: <20210213130325.14781-23-alex.bennee@linaro.org>
 
-diff --git a/tests/acceptance/tcg_plugins.py b/tests/acceptance/tcg_plugins.py
-index adec40d3a5..b1ba10498f 100644
---- a/tests/acceptance/tcg_plugins.py
-+++ b/tests/acceptance/tcg_plugins.py
-@@ -89,3 +89,29 @@ def test_aarch64_virt_insn(self):
-             m = re.search(br"insns: (?P<count>\d+)", s)
-             if "count" not in m.groupdict():
-                 self.fail("Failed to find instruction count")
-+
-+    def test_aarch64_virt_insn_icount(self):
-+        """
-+        :avocado: tags=accel:tcg
-+        :avocado: tags=arch:aarch64
-+        :avocado: tags=machine:virt
-+        :avocado: tags=cpu:cortex-a57
-+        """
-+        kernel_path = self._grab_aarch64_kernel()
-+        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE +
-+                               'console=ttyAMA0')
-+        console_pattern = 'Kernel panic - not syncing: VFS:'
-+
-+        plugin_log = tempfile.NamedTemporaryFile(mode="r+t", prefix="plugin",
-+                                                 suffix=".log")
-+
-+        self.run_vm(kernel_path, kernel_command_line,
-+                    "tests/plugin/libinsn.so", plugin_log.name,
-+                    console_pattern,
-+                    args=('-cpu', 'cortex-a53', '-icount', 'shift=1'))
-+
-+        with plugin_log as lf, \
-+             mmap.mmap(lf.fileno(), 0, access=mmap.ACCESS_READ) as s:
-+            m = re.search(br"detected repeat execution @ (?P<addr>0x[0-9A-Fa-f]+)", s)
-+            if m is not None and "addr" in m.groupdict():
-+                self.fail("detected repeated instructions")
+diff --git a/tests/plugin/mem.c b/tests/plugin/mem.c
+index 4725bd851d..afd1d27e5c 100644
+--- a/tests/plugin/mem.c
++++ b/tests/plugin/mem.c
+@@ -16,9 +16,10 @@
+ 
+ QEMU_PLUGIN_EXPORT int qemu_plugin_version = QEMU_PLUGIN_VERSION;
+ 
+-static uint64_t mem_count;
++static uint64_t inline_mem_count;
++static uint64_t cb_mem_count;
+ static uint64_t io_count;
+-static bool do_inline;
++static bool do_inline, do_callback;
+ static bool do_haddr;
+ static enum qemu_plugin_mem_rw rw = QEMU_PLUGIN_MEM_RW;
+ 
+@@ -26,7 +27,12 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+ {
+     g_autoptr(GString) out = g_string_new("");
+ 
+-    g_string_printf(out, "mem accesses: %" PRIu64 "\n", mem_count);
++    if (do_inline) {
++        g_string_printf(out, "inline mem accesses: %" PRIu64 "\n", inline_mem_count);
++    }
++    if (do_callback) {
++        g_string_append_printf(out, "callback mem accesses: %" PRIu64 "\n", cb_mem_count);
++    }
+     if (do_haddr) {
+         g_string_append_printf(out, "io accesses: %" PRIu64 "\n", io_count);
+     }
+@@ -42,10 +48,10 @@ static void vcpu_mem(unsigned int cpu_index, qemu_plugin_meminfo_t meminfo,
+         if (qemu_plugin_hwaddr_is_io(hwaddr)) {
+             io_count++;
+         } else {
+-            mem_count++;
++            cb_mem_count++;
+         }
+     } else {
+-        mem_count++;
++        cb_mem_count++;
+     }
+ }
+ 
+@@ -60,8 +66,9 @@ static void vcpu_tb_trans(qemu_plugin_id_t id, struct qemu_plugin_tb *tb)
+         if (do_inline) {
+             qemu_plugin_register_vcpu_mem_inline(insn, rw,
+                                                  QEMU_PLUGIN_INLINE_ADD_U64,
+-                                                 &mem_count, 1);
+-        } else {
++                                                 &inline_mem_count, 1);
++        }
++        if (do_callback) {
+             qemu_plugin_register_vcpu_mem_cb(insn, vcpu_mem,
+                                              QEMU_PLUGIN_CB_NO_REGS,
+                                              rw, NULL);
+@@ -90,6 +97,12 @@ QEMU_PLUGIN_EXPORT int qemu_plugin_install(qemu_plugin_id_t id,
+         }
+         if (!strcmp(argv[0], "inline")) {
+             do_inline = true;
++            do_callback = false;
++        } else if (!strcmp(argv[0], "both")) {
++            do_inline = true;
++            do_callback = true;
++        } else {
++            do_callback = true;
+         }
+     }
+ 
 -- 
 2.20.1
 
