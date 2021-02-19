@@ -2,75 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B70331FA10
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:45:34 +0100 (CET)
-Received: from localhost ([::1]:36436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A69031FA17
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:47:36 +0100 (CET)
+Received: from localhost ([::1]:40618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD669-0007gl-7C
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:45:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
+	id 1lD687-00017c-Hk
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:47:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD619-00045p-7C
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:40:23 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:40551)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lD62N-0005EB-NF
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:41:39 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:43038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD617-0000NW-11
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:40:22 -0500
-Received: by mail-ej1-x632.google.com with SMTP id u20so12605009ejb.7
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 05:40:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=GXS+Sn9iwX6HIZ5fjFEn06VJ/kc6QolvQEbDNPs628o=;
- b=FMhGF1t/QFlh0n9nNKyT6mawRGkwrPnBg0Nw/8dziY9KcrOkCdnFKlGZbMFRtu08kU
- H5wtWbXqJJ6aIGFJXhbYKmBzOd3r6x/MNBt8lYkjNWPwqaqyH8RLhZe72lvLuK/Xi2TT
- GzkM3wvoYOsTLGsEz11v1qQDwXDS3Rje/sc/d2359CoHmSCidzCnMEsgQx/a03R1tA5C
- 1Aqjo75iWjbuS9F21VOb2rsMHj1Ce1aAfD0LJ+lBgU9oFs3lPa30uawa6hXPW++2euKJ
- IdExYyty8y/hlQMUH2D6pyufits5Tb6fNaZsq5X3mmTZOyt8iHTapwLkhtCRpr37kRCc
- XpKg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lD62J-0000yZ-CI
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:41:36 -0500
+Received: by mail-wr1-x429.google.com with SMTP id n8so8510940wrm.10
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 05:41:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=lh4sInbGvd+c5/Szi0pGU5rJbwedoNnTS/uhx2DB/TQ=;
+ b=bRRl202ilViOai1DehdiNXI8p0EMWo8FXgCKmLPhckHcYazenYSJ0/eFCgkzf/nbAb
+ dTkxalXGA7k1DCvIURAvO0BM/S4BvtJLyGQfVkDtfpQm8ssiGoEskncr/fxuo8wSegeQ
+ CQf2DdxcX861XQzZraeQxThgQBZAXnDVBvoMIcNH9Q7Fw4UUwMZTWeqO6w58NEmZCBzN
+ Rlx+3AaEc1oqOHIvCf/wiUkT2Vzdk+wkM/lHlLUUoUYSlUxaO9lJkoKUvQoAUrjGEku4
+ SErVX7xPa2wnttFRKflXTJGc6Q2w8tDnvl4IZMJnyme1xH0oPvv3c8j5yVLEffOKxCca
+ swkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=GXS+Sn9iwX6HIZ5fjFEn06VJ/kc6QolvQEbDNPs628o=;
- b=NmL+mk+dm5jXxTAmsBDBpgbeXXMcIR7y0KMYFFfIsEUM9yHH/sR6Tf5ECJU3qlkAJZ
- r0M3vR3KJlm4ADe8YIcgjklPYDkgxqEPNbYHPvxpVdPKBp2LJm+cE1GLCa30LlUoYsyO
- FFCXH6QHOiAYCmiXyS3bapNIw9KzYg+HLJVlh0TFz/TSCryRA8uzI8ch+JwcYyyL4CNk
- Cdpo39qGbXXQhrAPT2W6o6zdjz6RyH4wPLWDlHjbS1fTkC6iY6YukBv7ENhICg2oqX/x
- EMDB6m0NV0HlD4Dwky2Rgu4inJ6lx3fSaaTAB7Mz3Uc9pCzOPIobpVYcO7AWPn+LpckV
- rUUQ==
-X-Gm-Message-State: AOAM5321dodKi5dmhYGzU1iUt2miSVE7Fbwg5xsomro0fBanhef1q8VE
- qaGCDLIPZ8QvSDGHVYVrTQe2qrBktl0N1VhmA4Dy/A==
-X-Google-Smtp-Source: ABdhPJwfCTvhOK0wInNtMm3quQ/kxozLxeHvMNHaIzb7iaHwtZipnjsQdvWik4g9C1kxVhMCnnscjx3Qo30HSMBbmI0=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr9101795ejd.250.1613742018577; 
- Fri, 19 Feb 2021 05:40:18 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lh4sInbGvd+c5/Szi0pGU5rJbwedoNnTS/uhx2DB/TQ=;
+ b=cYE7fGVhZnp8hcYXYt40beqix/TonY5C69iIxGWVMvtaX7Is0EGKdesp9r6cjr2r9e
+ 63tku7sOK3YRQ0KTCjxY5IFrAh2m34deaMRYjFhV2aWNi9Gz6Bfk3MSKmP8tFGBaOtzx
+ pIEXCkYoYmKvHedbGH0yvNf0eo1xtE21Qhe0WSninNzTWUm5jrM5aDqUrPXBYlScuTOu
+ 2b6DhUsr4CPskq8g5/42VW3JCcPrqQzKO1qaq0OfOB7ZorkQnKePYfLr6dWOVbQRlcvs
+ Oz8aJzJfIZXxQRi1sGaIDxOPSx1pPkxe/5VydFpRSsS5NLq0afjCmQLEqjGssfHD6dSE
+ 1hcg==
+X-Gm-Message-State: AOAM5333vu68rDYAx0CrbofUR7pA3TtjqhKOuzY7eH8mX0D/j8SoR+LV
+ c2/hHk1w1U8UrcFC0eikWnw=
+X-Google-Smtp-Source: ABdhPJwyV8S5Fx1rGlOWzuk1WQ2UtjuGZoHH5iDSYCtbr+L/EZnpCluaVVygKV2c3mSGrrUvtf58cg==
+X-Received: by 2002:a5d:5047:: with SMTP id h7mr9111677wrt.67.1613742093847;
+ Fri, 19 Feb 2021 05:41:33 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id q24sm11252753wmq.24.2021.02.19.05.41.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 05:41:33 -0800 (PST)
+Subject: Re: [PATCH] gitlab-ci: Remove unused container images
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210219110950.2308025-1-thuth@redhat.com>
+ <ca4a7cf3-c0b8-2074-d288-d402e5900cf9@amsat.org>
+ <c429f806-ae37-9939-d215-fe98bffb84dd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <181952df-c036-f1c0-9edc-72b635ce7fac@amsat.org>
+Date: Fri, 19 Feb 2021 14:41:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210218015934.1623959-1-alistair.francis@wdc.com>
- <CAFEAcA_aEtpfMScS3uzrpbBqAgqGWsWjeisUXCSpqdJJ7=uCYw@mail.gmail.com>
- <CAEUhbmXeYDkKiNnkffRoE8dZc_=-vByoQfr6gdSSUNubkCaB8Q@mail.gmail.com>
- <CAFEAcA8BwTO7OT91B=d1tZrk9+PMiSLTmKtiv_Yd2BNdb1syRQ@mail.gmail.com>
- <2bd4745b-03f2-220c-619f-2298d99038cc@amsat.org>
-In-Reply-To: <2bd4745b-03f2-220c-619f-2298d99038cc@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Feb 2021 13:40:07 +0000
-Message-ID: <CAFEAcA_X-P21_LfAfF9rjibbFN2jwjQMs+ESAN=BJvuYRTJ5rw@mail.gmail.com>
-Subject: Re: [PULL 00/19] riscv-to-apply queue
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <c429f806-ae37-9939-d215-fe98bffb84dd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,91 +90,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "Richard W.M. Jones" <rjones@redhat.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Alistair Francis <alistair23@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, Guenter Roeck <linux@roeck-us.net>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Feb 2021 at 13:31, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Hi Peter,
->
-> [+John/Richards/Paolo/Gueunter]
->
-> On 2/18/21 3:22 PM, Peter Maydell wrote:
-> > On Thu, 18 Feb 2021 at 14:07, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >> On Thu, Feb 18, 2021 at 9:26 PM Peter Maydell <peter.maydell@linaro.or=
-g> wrote:
-> >>> Fails to compile, 32 bit hosts:
-> >>>
-> >>> ../../hw/riscv/virt.c: In function 'virt_machine_init':
-> >>> ../../hw/riscv/virt.c:621:43: error: comparison is always false due t=
-o
-> >>> limited range of data type [-Werror=3Dtype-limits]
-> >>>          if ((uint64_t)(machine->ram_size) > 10 * GiB) {
-> >>>                                            ^
-> >>> ../../hw/riscv/virt.c:623:33: error: large integer implicitly
-> >>> truncated to unsigned type [-Werror=3Doverflow]
-> >>>              machine->ram_size =3D 10 * GiB;
-> >>>                                  ^~
-> >>
-> >> This kind of error is tricky. I wonder whether we should deprecate
-> >> 32-bit host support though.
-> >
-> > 32-bit host is still not uncommon outside the x86 world...
-> >
-> > The thing that makes this particular check awkward is that
-> > machine->ram_size is a ram_addr_t, whose size is 64 bits if
-> > either (a) the host is 64 bits or (b) CONFIG_XEN_BACKEND is
-> > enabled, so it's effectively only 32-bits on 32-bit-not-x86.
-> >
-> > It might be a good idea if we decided that we would just make
-> > ram_addr_t 64-bits everywhere, to avoid this kind of "we
-> > have an unusual config only on some more-obscure hosts" issue.
-> > (We did that for hwaddr back in commit 4be403c8158e1 in 2012,
-> > when it was still called target_phys_addr_t.) This change
-> > would probably be a performance hit for 32-bit-non-x86 hosts;
-> > it would be interesting to see whether it was measurably
-> > significant.
->
-> You once explained me we have 'hwaddr' (physical address)
-> of 64-bit because we can 64-bit buses on 32-bit targets.
-> hwaddr is available in all emulation modes.
+On 2/19/21 2:10 PM, Thomas Huth wrote:
+> On 19/02/2021 13.00, Philippe Mathieu-Daudé wrote:
+>> On 2/19/21 12:09 PM, Thomas Huth wrote:
+>>> We're building a lot of containers in the gitlab-CI that we never use.
+>>> This takes away network bandwidth and CPU time from other jobs for no
+>>> use, so let's remove them for now. The individual containers could be
+>>> re-added later when we really need them.
+>>>
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>   .gitlab-ci.d/containers.yml | 92 -------------------------------------
+>>>   1 file changed, 92 deletions(-)
+>>
+>> I'm not enthusiast with this patch because I use various in this list
+>> from time to time for testing or cross build/disas binaries.
+> 
+> When I look at our current huge list of containers, I wonder how do we
+> know which containers still get used (in the sense of not only build),
+> and which ones are likely already bit-rotten? And why do we need that
+> many containers? Why both, debian-arm64-test-cross.docker and
+> debian-arm64-cross.docker and not combine them? And why do we need that
+> many individual cross-compiler docker files if we already have
+> debian-all-test-cross.docker that can be used to test most of them? ...
+> for me, as a docker ignorant, this is all very opaque and some clean up
+> IMHO could really help here.
 
-Yes, but also we have 64-bit hwaddr everywhere because trying
-to deal with different build configs having different sizes
-of this type is just painful for development compared to its
-benefit.
+debian-arm64-cross.docker is to cross-build QEMU, while
+debian-arm64-test-cross.docker to cross-build the TCG tests.
 
-> ram_addr_t is restricted to system emulation. I understand
-> it as the limit addressable by a CPU.
+debian-arm64-test-cross.docker could probably now be replaced
+by debian-all-test-cross.docker.
 
-It's the type used internally to QEMU to represent an address
-within guest RAM in a unique way. CODING_STYLE.rst describes it as:
-# ram_addr_t is a QEMU internal address space that maps
-# guest RAM physical addresses into an intermediate address
-# space that can map to host virtual address spaces.
-It doesn't correspond to anything in particular in the guest.
+IIRC the problem we had was on aarch64 hosts many cross-build
+packages were broken, so we had to restrict them to the bare
+minimal to be able to cross-build the TCG tests there.
 
-> Back to your comment, we only have 32-bit ram_addr_t on
-> system-emulation on 32-bit (non-x86) hosts.
->
-> Question I asked yesterday on IRC, do you know if there
-> is still interest in having system-emulation on 32-bit
-> hosts?
->
-> It is important to keep user-mode emulation on 32-bit hosts,
-> but I doubt there are many uses of system-emulation on them
-> (even less non non-x86 archs).
+>> Not having
+>> these containers used mainstream probably show the failure of the
+>> project to add good testing coverage on these targets. Most of them are
+>> for hobbyist with little time. Removing them will make it even harder
+>> to add tests.
+> 
+> Do you really use the docker files from the gitlab registry? I'd rather
+> expected that people build those locally in case they need them...?
 
-I'm sure you can find some people who are using it...
+TBH I pull from registry 99% of the time. I only build locally if I the
+mainstream image is missing something, and I want to add what is missing
+in a patch. But even there once finished I pull from my namespace
+registry and test with that image, as this is what other will use too.
+I want to use the same images from our registry, not my local ones.
 
-thanks
--- PMM
+>> Can't we keep them disabled? Or put them in manual mode?
+> 
+> Well, I guess manual mode is fine, too, as long as they don't waste CPU
+> cycles and network bandwidth anymore for most people who don't need them.
+> 
+>  Thomas
+> 
+> 
 
