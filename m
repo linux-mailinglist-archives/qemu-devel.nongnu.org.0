@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D5231F902
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:06:52 +0100 (CET)
-Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A324D31F903
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:06:54 +0100 (CET)
+Received: from localhost ([::1]:57930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4Yd-0000bY-K2
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:06:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
+	id 1lD4Yf-0000fF-Kz
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:06:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lD4SR-00031q-OP
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:00:28 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56029)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lD4SO-0000Xz-RI
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:00:26 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id o15so6817646wmq.5
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 04:00:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1RTAy2sG164bBmthOpXL+Un99QPPb/V8q2L6sjByIoY=;
- b=lpM1eLq36BIZE6WcAc3ngve/b444W2HzZg98qTFJD8yHz5gsKno1FIOfXWuvY4BSGH
- HycgIJZ9lTif+9TVMy7rJFmAMGMs7HtMB9kT5JzLOQUnAUzJO3e5XCJDq9Fi9PTfM9eZ
- LIk3QJIwe6FOWxZBnhkLl53MTnDgA3MKe7T28xASTmYowmWewVC3VRT814/OEKGdzu0I
- 3spLRw+cB3rlup1RH88RmYOdFVq/O4I6aHEpjuaqqtEOd71NIoYFttZJ/rrQoWDQ/Ivm
- PfSUWfkqI6ZvU2Ou7yQqJDsb8RRJPEw1cIoxwHq2qO325N2C8UdveruNViwfCBCCKCLk
- BWtw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1RTAy2sG164bBmthOpXL+Un99QPPb/V8q2L6sjByIoY=;
- b=HaN0gkt87DpCmU484oGCoQCcwMDS9lCzqdDk5yp/ygeD69qwmSfhtSJoe+1/KKhLGO
- j7jksTeyKyJLmgnx0oeKT8tke0mSQx6v9IdLVIfK0M2cZUcuqri7Vs9OWoCNfODkrK9p
- eC98mQxtIExse3pyhRujUAqQM2MM9BH060f1aRbyD9uJVlm7tjEOlVioU2tq4dkF1bA8
- KWW9MVeOTaJlnBUGJEkuXC25Cy+HWJxGL7g8wKLew8d/17kuq3p+xO/VzJJKIGRT6n4e
- YbXFoKH0kJem2mpnEU7KozWiMRFa9EshpSejhnBoBJGKUT19dIF1x2hAXJR+iFNy/7Gu
- TEcA==
-X-Gm-Message-State: AOAM531zW/UVRs4mgIHjpWi8Ll099ioSLwMCbyrRmXy1niWxksfYzzeK
- ddn3UwmMs65RQTmVAkO5khI=
-X-Google-Smtp-Source: ABdhPJxIaFmKecLHTWLWUbNlHpxgyz2wyUiNBv4yiCsP0QJM/FXqd6e/JNwhFSNbx69WhnTSIhLx4A==
-X-Received: by 2002:a1c:dd09:: with SMTP id u9mr6150909wmg.183.1613736022826; 
- Fri, 19 Feb 2021 04:00:22 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id u7sm12614049wrt.67.2021.02.19.04.00.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Feb 2021 04:00:22 -0800 (PST)
-Subject: Re: [PATCH] gitlab-ci: Remove unused container images
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210219110950.2308025-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ca4a7cf3-c0b8-2074-d288-d402e5900cf9@amsat.org>
-Date: Fri, 19 Feb 2021 13:00:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lD4TP-0004Ke-F7
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:01:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56325)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lD4TJ-0000xg-Lw
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:01:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613736081;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fWLnHPiFIN233EMx/9zN13PG+fjuD+081yp+85rEGDg=;
+ b=WLraNenUcojuxzu1CqduLZ9T08sJpN+aUbyyWg1AI66dNLKXNr6yGO3E5/rMKxoHgh89Gr
+ yILtJSW/kbGzpFbLnShWMsGh780PeAgHIT5M1g18FkxZpfuESAAnH4gmPh0TtNqZjVGa9A
+ VcvzAj8XkfNUWtGT98bnRnZ18v0DJb4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-68-9adYdHpkOCaGhZODEykq9g-1; Fri, 19 Feb 2021 07:01:16 -0500
+X-MC-Unique: 9adYdHpkOCaGhZODEykq9g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3CE5846208;
+ Fri, 19 Feb 2021 12:00:52 +0000 (UTC)
+Received: from redhat.com (ovpn-113-184.ams2.redhat.com [10.36.113.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FCEA19C71;
+ Fri, 19 Feb 2021 12:00:46 +0000 (UTC)
+Date: Fri, 19 Feb 2021 12:00:43 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/7] hw/kvm: Exit gracefully when KVM is not supported
+Message-ID: <YC+oZWDs3PnWHPQo@redhat.com>
+References: <20210219114428.1936109-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210219110950.2308025-1-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210219114428.1936109-1-philmd@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,36 +77,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Leif Lindholm <leif@nuviainc.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 12:09 PM, Thomas Huth wrote:
-> We're building a lot of containers in the gitlab-CI that we never use.
-> This takes away network bandwidth and CPU time from other jobs for no
-> use, so let's remove them for now. The individual containers could be
-> re-added later when we really need them.
+On Fri, Feb 19, 2021 at 12:44:21PM +0100, Philippe Mathieu-Daudé wrote:
+> Hi,
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.d/containers.yml | 92 -------------------------------------
->  1 file changed, 92 deletions(-)
+> This series aims to improve user experience by providing
+> a better error message when the user tries to enable KVM
+> on machines not supporting it.
 
-I'm not enthusiast with this patch because I use various in this list
-from time to time for testing or cross build/disas binaries. Not having
-these containers used mainstream probably show the failure of the
-project to add good testing coverage on these targets. Most of them are
-for hobbyist with little time. Removing them will make it even harder
-to add tests. Can't we keep them disabled? Or put them in manual mode?
+Improved error message is good, but it is better if the mgmt apps knows
+not to try this in the first place.
 
-Why is the CI rebuilding them, shouldn't them be cached or pulled from
-the registry?
-Maybe this show having all them in the same containers.yml file is not
-good enough? Any suggestion for splitting it, so lowly used containers
-don't get rebuild every time another often used one change the YAML
-file?
+IOW, I think we want "query-machines" to filter out machines
+which are not available with the currently configured accelerator.
 
-Thanks,
+libvirt will probe separately with both TCG and KVM enabled, so if
+query-machines can give the right answer in these cases, libvirt
+will probably "just work" and not offer to even start such a VM.
 
-Phil.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
