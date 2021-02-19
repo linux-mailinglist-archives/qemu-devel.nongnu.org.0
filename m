@@ -2,61 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CF7431F9E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:29:48 +0100 (CET)
-Received: from localhost ([::1]:58678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1023631F9EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:31:21 +0100 (CET)
+Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD5qt-0007fS-3N
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43670)
+	id 1lD5sO-0000tz-3q
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:31:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lD5oJ-0006K7-1C
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:27:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20369)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD5br-0004Lz-Fv
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:14:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lD5oF-0003LR-DS
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:27:06 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD5bm-0006UX-Pk
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:14:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613741221;
+ s=mimecast20190719; t=1613740450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=aMXK0t7aAQwvehRpVPdXrlhytDUssMd6tUcQfNZNVFM=;
- b=NONS8o1nYvjuYnyrWY3kTmqQAXe3bhuOdk0i0XETJLoiDVhF5REEULsL0fbWRbKpdcvibd
- NfpwZp9SUrxG7swlVtvPouveX4DDYuX5S57coC/QAW8IYbBVPtepcYOAuWgDV6tVOI/lg7
- eM5GEUFEfyRMY1BlipnzBKw6GHt9tKQ=
+ bh=rSYWFZxdl+9isG5CaaoD/68Nd7QqhBD+6rAUC7xwL8Q=;
+ b=KoDrXm3j4rXDJegq8b0ghmOwkAyZhxv3UcoJdGcn47Upr6RXJiLPP9G9qxjdibbdcKcVWE
+ 8E8dUvTAOU989pxL03crFhOTCExs0Qc5ngUwz4yUcZ+idauqs/uNPFaJC6RJfJAwpx6x87
+ aQ/Jz6/BuP/HhdnMXWY8rtfrYRUGq1U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-tmvxv4i3OiuIdicwO3GpPQ-1; Fri, 19 Feb 2021 08:26:59 -0500
-X-MC-Unique: tmvxv4i3OiuIdicwO3GpPQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-362-yyQIY20nMLCsi8DPjLj49w-1; Fri, 19 Feb 2021 08:14:07 -0500
+X-MC-Unique: yyQIY20nMLCsi8DPjLj49w-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 184F7187CC6B;
- Fri, 19 Feb 2021 13:26:58 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-88.ams2.redhat.com [10.36.114.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F0085D9D5;
- Fri, 19 Feb 2021 13:26:56 +0000 (UTC)
-Date: Fri, 19 Feb 2021 14:26:55 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [PATCH] iotests: Drop deprecated 'props' from object-add
-Message-ID: <20210219132655.GD5750@merkur.fritz.box>
-References: <20210216171653.6543-1-berto@igalia.com>
- <20210219122149.GC5750@merkur.fritz.box>
- <w51pn0wql96.fsf@maestria.local.igalia.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92AB0801976
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 13:14:06 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 00AEA60BE5;
+ Fri, 19 Feb 2021 13:13:59 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 604BD1800866; Fri, 19 Feb 2021 14:13:50 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 7/7] ui/gtk: add clipboard support
+Date: Fri, 19 Feb 2021 14:13:49 +0100
+Message-Id: <20210219131349.3993192-8-kraxel@redhat.com>
+In-Reply-To: <20210219131349.3993192-1-kraxel@redhat.com>
+References: <20210219131349.3993192-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <w51pn0wql96.fsf@maestria.local.igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -64,7 +66,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,30 +79,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.02.2021 um 13:45 hat Alberto Garcia geschrieben:
-> On Fri 19 Feb 2021 01:21:49 PM CET, Kevin Wolf <kwolf@redhat.com> wrote:
-> >>  log(vm.qmp('object-add', qom_type='throttle-group', id='tg0',
-> >> -           props={ 'x-bps-total': size }))
-> >> +           x_bps_total=size))
-> >
-> > x-bps-total isn't a stable interface, I'd prefer to use limits.
-> >
-> > My patch from November [1] had this:
-> 
-> Do you want me to resend mine, or wait for yours, or what then? :)
+This patch adds clipboard support to the qemu gtk ui.
 
-It's your patch, you decide. :-)
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ include/ui/gtk.h   |   9 ++++
+ ui/gtk-clipboard.c | 124 +++++++++++++++++++++++++++++++++++++++++++++
+ ui/gtk.c           |   1 +
+ ui/meson.build     |   2 +-
+ 4 files changed, 135 insertions(+), 1 deletion(-)
+ create mode 100644 ui/gtk-clipboard.c
 
-I haven't compared the patches in detail yet, so if you think merging my
-patch has the same result and is less work, I can do that. If not and
-you send a v2, I'll take that. Or you see differences and post review
-comments to my patch instead of a v2 of yours. I'm fine with any of
-these options.
-
-Kevin
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 55319843758d..08999f8835e6 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -18,6 +18,7 @@
+ #include <gdk/gdkwayland.h>
+ #endif
+ 
++#include "ui/clipboard.h"
+ #include "ui/console.h"
+ #include "ui/kbd-state.h"
+ #if defined(CONFIG_OPENGL)
+@@ -137,6 +138,11 @@ struct GtkDisplayState {
+ 
+     bool external_pause_update;
+ 
++    QemuClipboardPeer cbpeer;
++    QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
++    uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
++    GtkClipboard *gtkcb[QEMU_CLIPBOARD_SELECTION__COUNT];
++
+     DisplayOptions *opts;
+ };
+ 
+@@ -208,4 +214,7 @@ QEMUGLContext gd_gl_area_get_current_context(DisplayChangeListener *dcl);
+ int gd_gl_area_make_current(DisplayChangeListener *dcl,
+                             QEMUGLContext ctx);
+ 
++/* gtk-clipboard.c */
++void gd_clipboard_init(GtkDisplayState *gd);
++
+ #endif /* UI_GTK_H */
+diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
+new file mode 100644
+index 000000000000..4a7f44b25818
+--- /dev/null
++++ b/ui/gtk-clipboard.c
+@@ -0,0 +1,124 @@
++/*
++ * GTK UI -- clipboard support
++ *
++ * Copyright (C) 2021 Gerd Hoffmann <kraxel@redhat.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see <http://www.gnu.org/licenses/>.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "qemu-common.h"
++
++#include "ui/gtk.h"
++
++static void gd_clipboard_notify(Notifier *notifier, void *data)
++{
++    GtkDisplayState *gd = container_of(notifier, GtkDisplayState, cbpeer.update);
++    QemuClipboardInfo *info = data;
++    QemuClipboardSelection s = info->selection;
++    bool self_update = info->owner == &gd->cbpeer;
++
++    if (info != gd->cbinfo[s]) {
++        qemu_clipboard_info_put(gd->cbinfo[s]);
++        gd->cbinfo[s] = qemu_clipboard_info_get(info);
++        gd->cbpending[s] = 0;
++        if (!self_update) {
++            if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
++                qemu_clipboard_request(info, QEMU_CLIPBOARD_TYPE_TEXT);
++            }
++        }
++        return;
++    }
++
++    if (self_update) {
++        return;
++    }
++
++    if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available &&
++        info->types[QEMU_CLIPBOARD_TYPE_TEXT].data) {
++        gtk_clipboard_set_text(gd->gtkcb[s],
++                               info->types[QEMU_CLIPBOARD_TYPE_TEXT].data,
++                               info->types[QEMU_CLIPBOARD_TYPE_TEXT].size);
++    }
++}
++
++static void gd_clipboard_request(QemuClipboardInfo *info,
++                                 QemuClipboardType type)
++{
++    GtkDisplayState *gd = container_of(info->owner, GtkDisplayState, cbpeer);
++    char *text;
++
++    switch (type) {
++    case QEMU_CLIPBOARD_TYPE_TEXT:
++        text = gtk_clipboard_wait_for_text(gd->gtkcb[info->selection]);
++        qemu_clipboard_set_data(&gd->cbpeer, info, type,
++                                strlen(text), text, true);
++        break;
++    default:
++        break;
++    }
++}
++
++static QemuClipboardSelection gd_find_selection(GtkDisplayState *gd,
++                                                GtkClipboard *clipboard)
++{
++    QemuClipboardSelection s;
++
++    for (s = 0; s < QEMU_CLIPBOARD_SELECTION__COUNT; s++) {
++        if (gd->gtkcb[s] == clipboard) {
++            return s;
++        }
++    }
++    return QEMU_CLIPBOARD_SELECTION_CLIPBOARD;
++}
++
++static void gd_owner_change(GtkClipboard *clipboard,
++                            GdkEvent *event,
++                            gpointer data)
++{
++    GtkDisplayState *gd = data;
++    QemuClipboardSelection s = gd_find_selection(gd, clipboard);
++    QemuClipboardInfo *info;
++
++    info = qemu_clipboard_info_new(&gd->cbpeer, s);
++    if (gtk_clipboard_wait_is_text_available(clipboard)) {
++        info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
++    }
++
++    qemu_clipboard_update(info);
++    qemu_clipboard_info_put(info);
++}
++
++void gd_clipboard_init(GtkDisplayState *gd)
++{
++    gd->cbpeer.name = "gtk";
++    gd->cbpeer.update.notify = gd_clipboard_notify;
++    gd->cbpeer.request = gd_clipboard_request;
++    qemu_clipboard_peer_register(&gd->cbpeer);
++
++    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =
++        gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE));
++    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY] =
++        gtk_clipboard_get(gdk_atom_intern("PRIMARY", FALSE));
++    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY] =
++        gtk_clipboard_get(gdk_atom_intern("SECONDARY", FALSE));
++
++    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD],
++                     "owner-change", G_CALLBACK(gd_owner_change), gd);
++    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY],
++                     "owner-change", G_CALLBACK(gd_owner_change), gd);
++    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY],
++                     "owner-change", G_CALLBACK(gd_owner_change), gd);
++}
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 7b412dd4fe0b..0ae3ec20f594 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -2252,6 +2252,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
+         opts->u.gtk.grab_on_hover) {
+         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+     }
++    gd_clipboard_init(s);
+ }
+ 
+ static void early_gtk_display_init(DisplayOptions *opts)
+diff --git a/ui/meson.build b/ui/meson.build
+index a98f89b48978..3ea969a6210b 100644
+--- a/ui/meson.build
++++ b/ui/meson.build
+@@ -64,7 +64,7 @@ if gtk.found()
+   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
+ 
+   gtk_ss = ss.source_set()
+-  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
++  gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
+   gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
+   gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c', 'gtk-gl-area.c'))
+   ui_modules += {'gtk' : gtk_ss}
+-- 
+2.29.2
 
 
