@@ -2,89 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9499320176
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 23:48:39 +0100 (CET)
-Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A84A320189
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 00:08:52 +0100 (CET)
+Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDEZi-0001Og-Rt
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 17:48:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52010)
+	id 1lDEtG-0007hb-Ti
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 18:08:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lDEYb-0000xO-JI
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:47:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40587)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lDEYY-0000oT-1e
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:47:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613774843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CiPR5lHFh6P9NfLQ2/1gesua0t/cbRcNILO1ltZgUc0=;
- b=N8WY9pqTwIhWXfq/UGqOaQWp2oJ7ltuvw1rDh5Lp7dfZ0nRbKNxbgbYf/c6fB4sYLUZ0a/
- sKNeFYRhov9y+NDYKjYRH6skBF86HDfkKidgB731tpzks2a+WUa7DLV32nfg/GB6PfqCcR
- SZ67NLEmohcSf0ysa4KOPOOQxA42518=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-490-5NKe9oTUPcSoEwm1VD1LuA-1; Fri, 19 Feb 2021 17:47:22 -0500
-X-MC-Unique: 5NKe9oTUPcSoEwm1VD1LuA-1
-Received: by mail-qv1-f70.google.com with SMTP id e9so4114157qvf.21
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 14:47:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDErg-0006iE-FV; Fri, 19 Feb 2021 18:07:12 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45371)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDEre-0001gl-OV; Fri, 19 Feb 2021 18:07:12 -0500
+Received: by mail-ej1-x633.google.com with SMTP id n13so16502861ejx.12;
+ Fri, 19 Feb 2021 15:07:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=9Fg/UcFR8UCdkcXxit5fDiDKjU63VthQVYRAp3FKt7o=;
+ b=WH+PYexKk1DslYk2OMkesOj9gc7vT19ZWkg6PjYR5ox5VsbfY3avPz4gfgAQXn5sgV
+ 2q1JktuV8DcgWho6AWJYtm0WLtvKdsCFLodQ3atSzZe6GvSxLduc09Yr5AzRHkMawn1X
+ J9Pv/eY3E7x5JDmrnjiFfM8KNcwgt/AU6OedMSU75KG8Cf6jsVwYnU6tOg3TTyjMGTRc
+ 6fCPn1iWzAyzgAadYvDmbfDAMJjyoFE5IT1RG0Bd/Sam3j5pUfrJJjhw4BEhQAtVcP6A
+ B0LnjGbLbnjFy5WY/L49jloMg2vrpSMDGnRHozHT84aRjJgBS3i1kDKwMDLYd45NRW0K
+ yXug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=CiPR5lHFh6P9NfLQ2/1gesua0t/cbRcNILO1ltZgUc0=;
- b=OsWzCVqMOzh9XJE17BJaFjotp6M3IYCjd1pABFnFoAcXTbe9HsGfDQ6M5BzOkwzuxu
- 2pAbGTzRyS18bKyZAcfg2fpEfO5hoIQQ9/9fyEzO9rVNrdnGhnvTcy3OoSW7rG1XHoDg
- nx5Xxfw1nUhvfSYkZJJN4G0Buvyz0ZK5Oe/5WO49+TeZgHEfX/vphR7ylZZTbYQ4QFWC
- Z5kDlEh/rV18CZnYZYJGU8XPbRWHej9zdFlACtOxKqHbQd2I+kflfOaqTBlN/I3puSdW
- xgh8n1Pu5ErpEpg1ZVEnxWQjZ+Q/IdSPbhxmR199A6rI4fFPIoemug+BCztzmxpunQVi
- yK0Q==
-X-Gm-Message-State: AOAM532muetBnh28dvYg+h3YImsVCj6XrceVwDN8obzDEyOT8lnUZz2R
- wtFRxDtrCW1x7UC0Cy+wQeqIVQCNlg0xR75vbgAzAruyicOOi6UEo9F2Pp4fEGX/xQeD4ervFxg
- GlcUBUOwm0TBv6j0=
-X-Received: by 2002:a05:620a:9c6:: with SMTP id
- y6mr11937769qky.389.1613774841814; 
- Fri, 19 Feb 2021 14:47:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJydM98ZH0bcf/AlJiG6X8IVHVOZqBuQ+auP8PkZR/eyd1VCVp3ddlbG6bxfPfJ0+027x1+UyQ==
-X-Received: by 2002:a05:620a:9c6:: with SMTP id
- y6mr11937750qky.389.1613774841587; 
- Fri, 19 Feb 2021 14:47:21 -0800 (PST)
-Received: from xz-x1
- (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
- by smtp.gmail.com with ESMTPSA id x14sm5035883qtq.47.2021.02.19.14.47.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 14:47:21 -0800 (PST)
-Date: Fri, 19 Feb 2021 17:47:19 -0500
-From: Peter Xu <peterx@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <20210219224719.GN6669@xz-x1>
-References: <B2724848-DDA8-442B-A252-E84C56752D7E@redhat.com>
- <3D93AD71-A570-481C-BFE9-0DFA8C30F148@redhat.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=9Fg/UcFR8UCdkcXxit5fDiDKjU63VthQVYRAp3FKt7o=;
+ b=pPY0hgAuRfl6oNw8wro6zE02uxY3gemBlJxXaehIuYofKQtHFmKLFJyK9sziMYkg9g
+ x2+B8ICQd5OQvuwUPGvqd4PLPpjJa8ldH9IZ9ddxed80AZy7ChQR8nBmYu6iTWH2M9kJ
+ rhuzvpB08KcXeAt7HLOCA+QLypOIwATj3iYDEha40bt4FCNFlpdzno0y5qnjJvNXdTl1
+ DRAZspkbG8bFc3cdotI9wnBt/AUoxseD4tOUDHVGsA+uiobTD7P79oobKN5Rsu2JWTc4
+ ZmC1rtBmzmzHR5pd+Nrn59SX2KMA/8O3wZPKFAuWQyIZsFnaz4n9/YCaGS84RUedCB+z
+ 0Nfg==
+X-Gm-Message-State: AOAM531MEYGoIDoFNwl5/gBNDl70AYFDh1oDdcfZXN1XBXRus0eFrkIu
+ 5ClbSNHdItV/U1iBVZJ52AU5vXh1P0c=
+X-Google-Smtp-Source: ABdhPJxMhV2yg5JbkYoifuCWYROcreE5SrDQFKlCL1fVeR4e1o6dcre+rb48KiDSS4iOgPZcmxl2cA==
+X-Received: by 2002:a17:907:20bb:: with SMTP id
+ pw27mr10826321ejb.71.1613776028542; 
+ Fri, 19 Feb 2021 15:07:08 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id ia17sm363008ejc.55.2021.02.19.15.07.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 15:07:08 -0800 (PST)
+Subject: Re: problema compilation
+To: nerus <fhuvu30@gmail.com>,
+ Ottavio Caruso <ottavio2006-usenet2012@yahoo.com>
+References: <05BD61C1-9771-4EF9-AD1B-8DAB8DFD127A@hxcore.ol>
+ <CAFEAcA8Xuf3WfPiNPqSVLz+tMgvO+6OzKTRQpJ_9Z7MqeO6pCw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b0bb2b4e-4ebe-f4c4-d8ef-191c19c876bb@amsat.org>
+Date: Sat, 20 Feb 2021 00:07:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <3D93AD71-A570-481C-BFE9-0DFA8C30F148@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <CAFEAcA8Xuf3WfPiNPqSVLz+tMgvO+6OzKTRQpJ_9Z7MqeO6pCw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,30 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Den Lunev <den@openvz.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-discuss <qemu-discuss@nongnu.org>,
+ Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 10:20:42PM +0100, David Hildenbrand wrote:
-> > A shiver just went down my spine. Please don‘t just for the sake of creating a snapshot.
-> > 
-> > (Just imagine you don‘t have a shared zeropage...)
+Cc'ing Stefan / Yonggang / Paolo.
+
+On 2/20/21 12:03 AM, Peter Maydell wrote:
+> On Fri, 19 Feb 2021 at 22:54, nerus <fhuvu30@gmail.com> wrote:
+>>
+>> Good evening, I turn to you because I have a problem that does not appear in the official documentation, nor in the different blogs or irc channels.
+>>
+>> I need to do a cross compilation but it is impossible from version 5.2, when I use msys2 an error occurs indicating that symbolic links cannot be created even though the windows user has permissions to create symbolic links, I configured this through gpedit.msc.
+>>
+>> when I use cygwin with the mingw64-w64 tool chain an error occurs whereby meson says that it cannot find any compiler even though the compiler path is specified in the configuration script, mingw cannot be used from linux either due to There are many missing components that cannot be compiled by hand because the proper versions are no longer available, how could you solve these problems without using already compiled binaries? Thank you
 > 
-> ... and I just remembered we read all memory either way. Gah.
+> Cross compilation works in general -- our CI testing setup
+> includes various cross-compile configurations, including
+> building Windows executables from a Linux host
+> (eg https://gitlab.com/qemu-project/qemu/-/jobs/1042844159).
 > 
-> I have some patches to make snapshots fly with virtio-mem so exactly that won‘t happen. But they depend on vfio support, so it might take a while.
-
-Sorry I can't really follow.
-
-It'll be great if virtio-mem won't have similar problem with live snapshot
-finally.  Is that idea applicable to balloon too, then?
-
--- 
-Peter Xu
+> You'll need to be more specific about exactly what you're
+> trying to do and failing (eg quoting exact commands,
+> setups, error messages).
+> 
+> thanks
+> -- PMM
+> 
 
 
