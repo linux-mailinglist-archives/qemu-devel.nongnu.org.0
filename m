@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE46931F8AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:53:59 +0100 (CET)
-Received: from localhost ([::1]:32870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB83331F8A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:50:52 +0100 (CET)
+Received: from localhost ([::1]:51782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4MA-0005Ga-O7
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:53:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48816)
+	id 1lD4J9-0001Pq-Pq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:50:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD4Dg-00033z-PG
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:45:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57435)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD4Dn-0003Hd-08
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:45:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD4Dd-00029G-SZ
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:45:12 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD4Dk-0002CV-4a
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:45:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613735108;
+ s=mimecast20190719; t=1613735115;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FSOzp7uQzDcR4IYxMZ7wQ2qt5GIWM3B9STvSPsjq1vc=;
- b=jDJnAOBUx7N5Fd4agAeW1xMiYwaEjCmtUM0dsRV1+mYT47aB3Dvchwr1uKORrJG6LkVq0/
- y/mGo/sWSO8xybwhApA/j0Z6QcElQ3+N5/2yBokO4HSYKc0HLuJgqxILyuW5/YwTFXnROB
- OpUcmEkaA+jk1bTOApabjAaklz4y2II=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278-7V9O2vwoOn2usVLuXiQA9A-1; Fri, 19 Feb 2021 06:45:07 -0500
-X-MC-Unique: 7V9O2vwoOn2usVLuXiQA9A-1
-Received: by mail-wr1-f69.google.com with SMTP id x1so2292844wrg.22
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 03:45:07 -0800 (PST)
+ bh=YJlwy/QOkf0QIlTzPZ6przivK3+kqukDr5TR8oal+wM=;
+ b=dJVP5+S1tMVic0IRKW2XmEswBeQV8YIS+t1d3w+xxw75aN4BbJft5z8j8elVX8zlG4mtrd
+ Hxf3OlSMIAAt/ID4rqLcfJ5RVBSqodb3LTI7giRjJUA7Wx6XtpUk/s4cW6n636kO983pzl
+ KnNPLkMRPtJaobU1I3E+gpVgVo19sz8=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-61-wiawy9e3OhKB6rua8u2G3Q-1; Fri, 19 Feb 2021 06:45:13 -0500
+X-MC-Unique: wiawy9e3OhKB6rua8u2G3Q-1
+Received: by mail-wr1-f70.google.com with SMTP id q5so2313315wrs.20
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 03:45:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=FSOzp7uQzDcR4IYxMZ7wQ2qt5GIWM3B9STvSPsjq1vc=;
- b=MT53B7MhVQycZtzoVbuWAYc3IJFTJ6Z1/7/pxiQ3x6lwWV0G7Kmd+A1eRQxu7M/k2z
- 4xku5s6/mhfOR6ENZdiBayW3mSnZ/IozkU6feHM9APf9aFhmwZUKTbmcAZbfnXYcq034
- OQK84w7VQLAHGnsnm7wJMO6SkNjB42gSu2t6BAvBQhqeGXBhoaOHfFHPLxEfpK6LmqrR
- AJaBIT2ZFX3JyT6dH6TmaSvpqvmznBpXzarSXbJkxGJkpHSDAqv0UPWjqgSzgI18twCz
- C6NNH3uQzWhtyubR2H6fX0SsqW8VJxxtdNVIQ2PK6knkY1iI5gQAIOiRKBdZQcKClyCJ
- j5HA==
-X-Gm-Message-State: AOAM531yqdaz2sDH2xlFE/2lAMAIvyc10DFWgi2S5rUYcF9Dp6L3CtjS
- YTCYBpbxdcRW7UxKAQVnwNqzSB20a6B54f0TeUD89qZ4FvT6jIFQ5S3FkemV0yYYQrvrmULM98Z
- zfgiBkan5vJk+AlfcSK4MP2vxYPZvxFdesDRRXwLZrg+vT8lK6S2pMwzUlXDGFkGr
-X-Received: by 2002:a1c:9d52:: with SMTP id g79mr1792878wme.144.1613735106340; 
- Fri, 19 Feb 2021 03:45:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy5NDROWWBmKNQhqQPWK1fZiiO56f2O6/VVl8Y9duIpMUqxZOlYU2Hbr0aPfnX0v4HquetdhQ==
-X-Received: by 2002:a1c:9d52:: with SMTP id g79mr1792832wme.144.1613735106189; 
- Fri, 19 Feb 2021 03:45:06 -0800 (PST)
+ bh=YJlwy/QOkf0QIlTzPZ6przivK3+kqukDr5TR8oal+wM=;
+ b=LR1DbNF8b7QfZlWteydGL4Lij/N7pVNBy4YySf5kkYHB9z1ZyMkt7QOb6Mmr3N70xn
+ kbyeMntvbdpzNku/xB45qTakSddSjMJJs9AGIC6t1bLauyEpDSCJ/SKsIUnl3WYc1NG9
+ ParV/leDfGdc77ZRYatibqCloPqE4wc3oBszGiIx1JbeK+9K3Bjk/UphjUkm1N+6H9Ai
+ dhrAXsEYNF9OVQMTBu1fPrCswwKgGuzSsV0/Riuqg14r+Ki+7nJiDlp9rFnO7apeE3q+
+ n2+/qTXNrDfhuRkkoUEXHqgjEnaGxsiIWce5w3RpPd2ElZkR/yCeKhb4ikC1Ih5aihJB
+ lWsw==
+X-Gm-Message-State: AOAM530dlW7aCB5VbZNyvpCkeTMoYMfjF9quZ7y0GiMYva0hTAxI1g8D
+ QN1xW6xx7xrefldTYjZeDz6FrnJJrnfLcidR653GnBxOueuf4TI/VW+Ja2muvIUvI/flTFGqlRi
+ /knNntyYTq2Y3/CH7sIFakitdbUAGuXxHmgiDoKHTXXUU18P9CiNibyJ1h6ogMKwm
+X-Received: by 2002:adf:bbca:: with SMTP id z10mr8877285wrg.168.1613735112200; 
+ Fri, 19 Feb 2021 03:45:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxZHhoZ2Wy0Wkb5v1FsmoSovOJoQjV0ghbc4hAJ/cIFmfZspDESkeyO+OZmJZh6DupK3/KHUQ==
+X-Received: by 2002:adf:bbca:: with SMTP id z10mr8877239wrg.168.1613735111985; 
+ Fri, 19 Feb 2021 03:45:11 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a11sm3917199wmh.25.2021.02.19.03.45.04
+ by smtp.gmail.com with ESMTPSA id z17sm15710920wrv.9.2021.02.19.03.45.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 03:45:05 -0800 (PST)
+ Fri, 19 Feb 2021 03:45:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 6/7] hw/s390x: Set kvm_supported to s390-ccw-virtio machines
-Date: Fri, 19 Feb 2021 12:44:27 +0100
-Message-Id: <20210219114428.1936109-7-philmd@redhat.com>
+Subject: [PATCH 7/7] accel/kvm: Exit gracefully when KVM is not supported
+Date: Fri, 19 Feb 2021 12:44:28 +0100
+Message-Id: <20210219114428.1936109-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210219114428.1936109-1-philmd@redhat.com>
 References: <20210219114428.1936109-1-philmd@redhat.com>
@@ -72,14 +72,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,25 +115,50 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All s390-ccw-virtio machines support KVM.
+Now that we added the 'kvm_supported' field to MachineClass
+and all our machines able to use KVM have this field set,
+we can check it in kvm_init() and exit gracefully with
+a friendly error message.
+
+Before:
+
+  $ qemu-system-aarch64 -M raspi3b -enable-kvm
+  qemu-system-aarch64: /build/qemu-ETIdrs/qemu-4.2/exec.c:865: cpu_address_space_init: Assertion `asidx == 0 || !kvm_enabled()' failed.
+  Aborted
+
+  $ qemu-system-aarch64 -M xlnx-zcu102 -enable-kvm -smp 6
+  qemu-system-aarch64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
+
+After:
+
+  $ qemu-system-aarch64 -M raspi3b -enable-kvm
+  Machine 'raspi3b' does not support KVM
+
+  $ qemu-system-aarch64 -M xlnx-zcu102 -enable-kvm -smp 6
+  Machine 'xlnx-zcu102' does not support KVM
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 1 +
- 1 file changed, 1 insertion(+)
+ accel/kvm/kvm-all.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index 2972b607f36..259b4b4397e 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -612,6 +612,7 @@ static void ccw_machine_class_init(ObjectClass *oc, void *data)
-     mc->possible_cpu_arch_ids = s390_possible_cpu_arch_ids;
-     /* it is overridden with 'host' cpu *in kvm_arch_init* */
-     mc->default_cpu_type = S390_CPU_TYPE_NAME("qemu");
-+    mc->kvm_supported = true;
-     hc->plug = s390_machine_device_plug;
-     hc->unplug_request = s390_machine_device_unplug_request;
-     nc->nmi_monitor_handler = s390_nmi;
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index b069938d881..8a8d3f64248 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2001,6 +2001,12 @@ static int kvm_init(MachineState *ms)
+ 
+     s = KVM_STATE(ms->accelerator);
+ 
++    if (!mc->kvm_supported) {
++        ret = -EINVAL;
++        fprintf(stderr, "Machine '%s' does not support KVM\n", mc->name);
++        exit(1);
++    }
++
+     /*
+      * On systems where the kernel can support different base page
+      * sizes, host page size may be different from TARGET_PAGE_SIZE,
 -- 
 2.26.2
 
