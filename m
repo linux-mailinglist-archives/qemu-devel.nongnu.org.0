@@ -2,68 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5336031F5A4
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:08:18 +0100 (CET)
-Received: from localhost ([::1]:37942 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD7731F5AD
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:11:15 +0100 (CET)
+Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD0pl-0004nQ-BP
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:08:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52470)
+	id 1lD0sc-0007Nz-8q
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:11:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD0g1-0003pr-EQ
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:58:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32894)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD0fy-0002if-A2
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:58:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613721489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wp2svbEEDHhSeglw+7bOTY0zVFdBhAbTtJQOeuQC8JE=;
- b=ODylpuiZ7f4SOskqAJZQrCq+Kzt+xVA/Qii3jhYBOycQsAr1L9uYyAGGmqCVCBVfdQaCYA
- ludBoO67pTsUeuD9fRwLMyO8jKLiZl1/O7KYFgKPPYyqyhwLNklN686pWdaDa1qN2N2RVU
- wNdyzK8y1893dntz/S6HITiJtwYftuQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-NrkdN6jUNIu-4PhmnG32Qw-1; Fri, 19 Feb 2021 02:58:06 -0500
-X-MC-Unique: NrkdN6jUNIu-4PhmnG32Qw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lD0q6-0005tJ-ET
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:08:38 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:42342
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lD0q2-00071g-S6
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:08:37 -0500
+Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
+ [91.21.17.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43CEB1E567;
- Fri, 19 Feb 2021 07:58:05 +0000 (UTC)
-Received: from thuth.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E51175D9C2;
- Fri, 19 Feb 2021 07:58:03 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 10/10] travis.yml: Limit simultaneous jobs to 3
-Date: Fri, 19 Feb 2021 08:57:38 +0100
-Message-Id: <20210219075738.2261103-11-thuth@redhat.com>
-In-Reply-To: <20210219075738.2261103-1-thuth@redhat.com>
-References: <20210219075738.2261103-1-thuth@redhat.com>
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 6E1F4DA0BCD;
+ Fri, 19 Feb 2021 09:08:32 +0100 (CET)
+To: P J P <ppandit@redhat.com>, Alexander Bulekov <alxndr@bu.edu>
+References: <20210218140629.373646-1-ppandit@redhat.com>
+ <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
+ <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
+ <6qo84891-7or2-7p58-rr4-n2n46o5730rq@erqung.pbz>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH] net: eepro100: validate various address values
+Message-ID: <00338810-b72e-6a9c-eef0-3c0adc764695@weilnetz.de>
+Date: Fri, 19 Feb 2021 09:08:31 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <6qo84891-7or2-7p58-rr4-n2n46o5730rq@erqung.pbz>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,55 +59,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Ruhr-University Bochum <bugs-syssec@rub.de>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Even though the host machines that run the Travis CI jobs have
-quite a lot of CPUs (e.g. nproc in an aarch64 job reports 32), the
-containers on Travis are still limited to 2 vCPUs according to:
+Am 19.02.21 um 07:11 schrieb P J P:
 
- https://docs.travis-ci.com/user/reference/overview/#approx-boot-time
+>    Hello Alex, Stefan, all
+>
+> +-- On Thu, 18 Feb 2021, Alexander Bulekov wrote --+
+> | Maybe the infinite loop mentioned in the commit message is actually a=
+ DMA
+> | recursion issue? I'm providing a reproducer for a DMA re-entracy issu=
+e
+> | below. With this patch applied, the reproducer triggers the assert(),=
+ rather
+> | than overflowing the stack, so maybe it is the same issue? -Alex
+> |
+> | cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest,=
+ -m \
+> | 512M -device i82559er,netdev=3Dnet0 -netdev user,id=3Dnet0 -nodefault=
+s \
+> | -qtest stdio
+> | outl 0xcf8 0x80001014
+> | outl 0xcfc 0xc000
+> | outl 0xcf8 0x80001010
+> | outl 0xcfc 0xe0020000
+> | outl 0xcf8 0x80001004
+> | outw 0xcfc 0x7
+> | write 0x1ffffc0b 0x1 0x55
+> | write 0x1ffffc0c 0x1 0xfc
+> | write 0x1ffffc0d 0x1 0x46
+> | write 0x1ffffc0e 0x1 0x07
+> | write 0x746fc59 0x1 0x02
+> | write 0x746fc5b 0x1 0x02
+> | write 0x746fc5c 0x1 0xe0
+> | write 0x4 0x1 0x07
+> | write 0x5 0x1 0xfc
+> | write 0x6 0x1 0xff
+> | write 0x7 0x1 0x1f
+> | outw 0xc002 0x20
+> | EOF
+> |
+>
+> * Yes, it is an infinite recursion induced stack overflow. I should've =
+said
+>    recursion instead of loop.
+>
+>    Thank you for sharing a reproducer and the stack trace.
 
-So we do not gain much when compiling with a job number based on
-the output of "getconf _NPROCESSORS_ONLN" - quite the contrary, the
-aarch64 containers are currently aborting quite often since they
-are running out of memory. Thus let's rather use a fixed number
-like 3 in the jobs here, so that e.g. two threads can actively run
-while a third one might be waiting for I/O operations to complete.
-This should hopefully fix the out-of-memory failures in the aarch64
-CI jobs.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210217102531.1441557-1-thuth@redhat.com>
-[AJB: add comment]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210217121932.19986-6-alex.bennee@linaro.org>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .travis.yml | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Okay, I can confirm the infinite recursion now.
 
-diff --git a/.travis.yml b/.travis.yml
-index fc27fd6330..4609240b5a 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -86,9 +86,11 @@ git:
-   submodules: false
- 
- # Common first phase for all steps
-+# We no longer use nproc to calculate jobs:
-+# https://travis-ci.community/t/nproc-reports-32-cores-on-arm64/5851
- before_install:
-   - if command -v ccache ; then ccache --zero-stats ; fi
--  - export JOBS=$(($(getconf _NPROCESSORS_ONLN) + 1))
-+  - export JOBS=3
-   - echo "=== Using ${JOBS} simultaneous jobs ==="
- 
- # Configure step - may be overridden
--- 
-2.27.0
+The test case triggers memory writes by the hardware which cause new=20
+actions of the same hardware and so on.
+
+I don't know how the real hardware would handle that case.
+
+For QEMU we can extend the current code which tries to prevent endless=20
+loops: the device status EEPRO100State can be extended by a recursion=20
+counter to limit the number of recursions, or maybe a boolean flag could =
+
+be used to stop any recursion of action_command(). I prefer the second=20
+variant (no recursion at all) and suggest to add a diagnostic message as =
+
+well like it is done for the endless loop case.
+
+Stefan
+
+
 
 
