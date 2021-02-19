@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0710231F6F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:02:51 +0100 (CET)
-Received: from localhost ([::1]:52856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35E4731F704
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:06:21 +0100 (CET)
+Received: from localhost ([::1]:56080 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD2cc-0004jm-1W
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:02:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54742)
+	id 1lD2g0-0006On-7W
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:06:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lD2ao-0004CH-4G
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:00:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34498)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lD2ak-0006SP-54
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:00:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613728852;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=AtBS3K1LOXmai6oGlHletsE3tHWzwTDmTbdRBtsBxfM=;
- b=MIAkwOYDO9g+3nOzACnvnRtHhJ7gkjaGM1pdDOFweMzGHwv6tGav+rUClXo489CpSnQNRR
- 5PjJiuR0PUrObUtXrmI2EI8EA3hc+xJJcJFETs4ZZQ/ADnMRApOD8w874bXl5pI8YPkdl3
- Cm5iyfAXbn3Jmcn2TNiYzhurmvp7iN4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-SDnxKOEVM1GSCgMmHxJXSw-1; Fri, 19 Feb 2021 05:00:50 -0500
-X-MC-Unique: SDnxKOEVM1GSCgMmHxJXSw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9856B801965;
- Fri, 19 Feb 2021 10:00:49 +0000 (UTC)
-Received: from redhat.com (ovpn-113-184.ams2.redhat.com [10.36.113.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EA3166267C;
- Fri, 19 Feb 2021 10:00:47 +0000 (UTC)
-Date: Fri, 19 Feb 2021 10:00:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Doug Evans <dje@google.com>
-Subject: Re: [PATCH v4 2/4] util/qemu-sockets.c: Split host:port parsing out
- of inet_parse
-Message-ID: <YC+MTYWe4HYpcAIk@redhat.com>
-References: <20210218201538.701509-1-dje@google.com>
- <20210218201538.701509-3-dje@google.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD2eK-0005bu-3C
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:04:36 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:36166)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD2eI-00081l-49
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:04:35 -0500
+Received: by mail-ed1-x531.google.com with SMTP id l12so8845326edt.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 02:04:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=koh23eCvV3ZF67V21kukd2L1vk4m9X/66kmz0I5bE4g=;
+ b=yjfqdfJ0am69K6LgZJe9d9IctiNb9dmXgBrGFAnv6S9wXktUqL3WLNB5iflJvpjOoq
+ 7qux700ljw1TJjDxbXmTJyB9ejVHmMuygSqTaOASDuyJwG61ZROsjaDi1lvlhvYAReFO
+ cq4WG4WA9RDSKjCc47cQ3J6Maux4cMF4y3cXMMTj4K8G/U0WcgnWm8kWMao4RW1MOClv
+ t/0SkJXUq5qz16qLqvWAQKd5syp7ndj/VH+YdrZAU3+ugC7fDHnBZtqi8TCKDfJzkxTu
+ fAR911GHqajTF1NYUiTdWrnWqPMlB/nVvMERNZJe+tropepBNd70qpWAVU5wjmHCtOuH
+ L3TA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=koh23eCvV3ZF67V21kukd2L1vk4m9X/66kmz0I5bE4g=;
+ b=Sh/bZacHcMmV7nDyIRJhi735vVhggwLatZQyXIjMIzc2L19HgJ10wLEaDdP2rWqbC2
+ OnP2THcRXL49auBpsGBlRvbY8cbku5K/8Isdte/eTJAP+Up35QMQsmn/EdnQpZpSmirJ
+ Y1KBzfEfLhTot1Tk9oPOiNuvyhIJEaVPri0lgDf6BptT3Z/cSSoq8wXmm7ioMoA7B7Oq
+ lt1hKMXk9oJwT4d7vSW7mcSO33pkSVWXl2t2b0zalQ8gr2tJBr3J9tOJJKnTjn+lwB4P
+ 6tqJ/qnraoRMxcwie/I2R6y1oDcOcayZIN5ilE2FleFQJhdItolT88AsUEBID0ej4TEa
+ 1pfw==
+X-Gm-Message-State: AOAM532oH0k/q3IAScaB3mU+A5N5dPra3hamnXuHaHKRFdGe1/DZ5ZJE
+ GdIxhzhybAqHnzXMBnYfpDRDBLuTK16iXOc9AWINKQ==
+X-Google-Smtp-Source: ABdhPJyWekLvfdSUUcAD2Ejm8sjnpL1GKO9wj07OFXib/flHir0GfefQOlIqrUSsC8+uzs7b6RkfZRPGA9H90uOR+/0=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr8388139edd.52.1613729072342; 
+ Fri, 19 Feb 2021 02:04:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210218201538.701509-3-dje@google.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <027101d7035b$2e94a600$8bbdf200$@etri.re.kr>
+ <57e74877-84a4-0157-1407-a67156dc2b6e@redhat.com>
+ <023201d70695$72b7a250$5826e6f0$@etri.re.kr>
+In-Reply-To: <023201d70695$72b7a250$5826e6f0$@etri.re.kr>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Feb 2021 10:04:21 +0000
+Message-ID: <CAFEAcA9GJLr_GX3fHgssE2E=-q6waeN5ZKgWfCrdGAyK0e3C_g@mail.gmail.com>
+Subject: Re: supported machines for aarch64
+To: Chan Kim <ckim@etri.re.kr>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,208 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ qemu-discuss <qemu-discuss@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 18, 2021 at 12:15:36PM -0800, Doug Evans wrote:
-> The parsing is moved into new function inet_parse_host_and_port.
-> This is done in preparation for using the function in net/slirp.c.
-> 
-> Signed-off-by: Doug Evans <dje@google.com>
-> ---
-> 
-> Changes from v3:
-> - this patch is new in v4
->   - provides new utility: inet_parse_host_and_port, updates inet_parse
->     to use it
-> 
->  include/qemu/sockets.h |  3 ++
->  util/qemu-sockets.c    | 94 +++++++++++++++++++++++++++++++-----------
->  2 files changed, 72 insertions(+), 25 deletions(-)
-> 
-> diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-> index 7d1f813576..f720378a6b 100644
-> --- a/include/qemu/sockets.h
-> +++ b/include/qemu/sockets.h
-> @@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);
->  
->  int inet_ai_family_from_address(InetSocketAddress *addr,
->                                  Error **errp);
-> +const char* inet_parse_host_and_port(const char* str, int terminator,
-> +                                     char **addr, char **port, bool *is_v6,
-> +                                     Error **errp);
->  int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
->  int inet_connect(const char *str, Error **errp);
->  int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
-> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-> index 8af0278f15..9fca7d9212 100644
-> --- a/util/qemu-sockets.c
-> +++ b/util/qemu-sockets.c
-> @@ -615,44 +615,88 @@ static int inet_parse_flag(const char *flagname, const char *optstr, bool *val,
->      return 0;
->  }
->  
-> -int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-> +/*
-> + * Parse an inet host and port as "host:port<terminator>".
-> + * Terminator may be '\0'.
-> + * The syntax for ipv4 addresses is: address:port.
-> + * The syntax for ipv6 addresses is: [address]:port.
+On Fri, 19 Feb 2021 at 08:05, <ckim@etri.re.kr> wrote:
+> These are the machine lists that included cortex-a72 when I gave
+> qemu-system-aarch64 --machine xxx --cpu help.
 
-It also supports
+Adding '--machine whatever' to your command line does not change
+the output of '--cpu help'. As Philippe says, it happens that
+QEMU processes --cpu before --machine, so it handles '--cpu help',
+prints the fixed list of supported CPUs, and ignores whether you
+passed a valid --machine option or not.
 
-   "The syntax for hostnames is hostname:port
+There is no automated way to get QEMU to tell you which CPUs
+a particular board model supports.
 
-> + * On success, returns a pointer to the terminator. Space for the address and
-> + * port is malloced and stored in *host, *port, the caller must free.
-> + * *is_v6 indicates whether the address is ipv4 or ipv6. If ipv6 then the
-> + * surrounding [] brackets are removed.
+I recommend that you follow the advice given here
+https://qemu.readthedocs.io/en/latest/system/target-arm.html#choosing-a-board-model
+for how to choose a board model. (Short answer: if you know
+you want to run guest code for a specific board type, use that
+board type. Otherwise, use 'virt'.) Then, you should stick with
+the default CPU type (ie, do not pass --cpu) for that board,
+for all board types *except* 'virt'. For 'virt' you can pass
+in the CPU type you want (and the documentation lists which
+types it supports).
 
-When is_v6 is true, it indicates that a numeric ipv6 address was given.
-When false either a numberic ipv4 address or hostname was given.
-
-> + * On failure NULL is returned with the error stored in *errp.
-> + */
-> +const char* inet_parse_host_and_port(const char* str, int terminator,
-> +                                     char **hostp, char **portp, bool *is_v6,
-> +                                     Error **errp)
->  {
-> -    const char *optstr, *h;
-> +    const char *terminator_ptr = strchr(str, terminator);
-> +    g_autofree char *buf = NULL;
->      char host[65];
->      char port[33];
-> -    int to;
-> -    int pos;
-> -    char *begin;
->  
-> -    memset(addr, 0, sizeof(*addr));
-> +    if (terminator_ptr == NULL) {
-> +        /* If the terminator isn't found then use the entire string. */
-> +        terminator_ptr = str + strlen(str);
-> +    }
-> +    buf = g_strndup(str, terminator_ptr - str);
->  
-> -    /* parse address */
-> -    if (str[0] == ':') {
-> -        /* no host given */
-> -        host[0] = '\0';
-> -        if (sscanf(str, ":%32[^,]%n", port, &pos) != 1) {
-> -            error_setg(errp, "error parsing port in address '%s'", str);
-> -            return -1;
-> -        }
-
-
-> -    } else if (str[0] == '[') {
-> +    if (buf[0] == '[') {
->          /* IPv6 addr */
-> -        if (sscanf(str, "[%64[^]]]:%32[^,]%n", host, port, &pos) != 2) {
-> -            error_setg(errp, "error parsing IPv6 address '%s'", str);
-> -            return -1;
-> +        if (buf[1] == ']') {
-> +            /* sscanf %[ doesn't recognize empty contents. */
-> +            host[0] = '\0';
-> +            if (sscanf(buf, "[]:%32s", port) != 1) {
-> +                error_setg(errp, "error parsing IPv6 host:port '%s'", buf);
-> +                return NULL;
-> +            }
-
-This is introducing new functionality to the parser. Current callers
-let empty string ":port" be used for both ipv4 and ipv6, based
-on whether the flags ",ipv4[=on|off],ipv6[=on|off]" later follow.
-
-I presume you want an explicit way to represent an empty ipv6 hostname
-to avoid changing semantics for existing slirp CLI args, where the
-existing ":port" exclusively means ipv4. IIC, this is also why you
-needed to introduce the "is_v6" flag, because any non-empty address
-can be reliably parsed without needing this flag.
-
-This is reasonable, but any such functional change should be in a 
-separate commit from refactoring.
-
-IOW, remove this and the is_v6 flag, and add them in a separate
-patch to explain to the need for new functionality in the parsing.
-
-Given that existing callers don't need to support "[]", we should
-not let that be parsed, unless the caller passing a "is_v6" pointer
-which is not NULL.
-
-> +        } else {
-> +            if (sscanf(buf, "[%64[^]]]:%32s", host, port) != 2) {
-> +                error_setg(errp, "error parsing IPv6 host:port '%s'", buf);
-> +                return NULL;
-> +            }
->          }
->      } else {
-> -        /* hostname or IPv4 addr */
-> -        if (sscanf(str, "%64[^:]:%32[^,]%n", host, port, &pos) != 2) {
-> -            error_setg(errp, "error parsing address '%s'", str);
-> -            return -1;
-> +        if (buf[0] == ':') {
-> +            /* no host given */
-> +            host[0] = '\0';
-> +            if (sscanf(buf, ":%32s", port) != 1) {
-> +                error_setg(errp, "error parsing host:port '%s'", buf);
-> +                return NULL;
-> +            }
-
-It would be preferreable if the parsing code was not re-ordered when
-extracting it. It doesn't look like a functional change, but I'm unsure
-why you moved it ?
-
-> +        } else {
-> +            /* hostname or IPv4 addr */
-> +            if (sscanf(buf, "%64[^:]:%32s", host, port) != 2) {
-> +                error_setg(errp, "error parsing host:port '%s'", buf);
-> +                return NULL;
-> +            }
->          }
->      }
->  
-> -    addr->host = g_strdup(host);
-> -    addr->port = g_strdup(port);
-> +    *hostp = g_strdup(host);
-> +    *portp = g_strdup(port);
-> +    *is_v6 = buf[0] == '[';
-> +
-> +    return terminator_ptr;
-> +}
-> +
-> +int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-> +{
-> +    const char *optstr, *h;
-> +    bool is_v6;
-> +    int to;
-> +    int pos;
-> +    char *begin;
-> +
-> +    memset(addr, 0, sizeof(*addr));
-> +
-> +    optstr = inet_parse_host_and_port(str, ',', &addr->host, &addr->port,
-> +                                      &is_v6, errp);
-
-Just pass NULL since we don't need is_v6
-
-> +    if (optstr == NULL) {
-> +        return -1;
-> +    }
->  
->      /* parse options */
-> -    optstr = str + pos;
->      h = strstr(optstr, ",to=");
->      if (h) {
->          h += 4;
-> -- 
-> 2.30.0.617.g56c4b15f3c-goog
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
