@@ -2,54 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11F1A31F6D2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:53:57 +0100 (CET)
-Received: from localhost ([::1]:46062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA4931F6D3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:55:00 +0100 (CET)
+Received: from localhost ([::1]:48144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD2Ty-0000fk-8j
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:53:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52430)
+	id 1lD2V1-0001Zr-1q
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:54:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lD2SP-0008DF-Vu
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:52:17 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:42896
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lD2SH-0002DK-9g
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:52:17 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lD2T6-0000Y7-95
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:53:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24977)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lD2T1-0002UR-9x
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:52:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613728373;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KM07xwfnFsNdj4DhgsdzZyKu4D10/3U87C+DF89Z7to=;
+ b=O0ZjY9P58yUoDwu7CWuMmdAbuRxPXAKWIh05jAPHCKR+CKh793r+npAskhaoiT9x9zYCl7
+ AkciPQBpSLRPbGNPgeGpuYPGZ0zUfiMDquDzcVTvEH+YxHETcbIAh38BO/5FPzR1kKeJfV
+ I2Gp8v5+ZsuUdt4jWysHD6pkmNSpros=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-D7iP5eFAOVqzmoacZabqcw-1; Fri, 19 Feb 2021 04:52:51 -0500
+X-MC-Unique: D7iP5eFAOVqzmoacZabqcw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id B2654DA0BCD;
- Fri, 19 Feb 2021 10:52:06 +0100 (CET)
-Subject: Re: [PATCH] net: eepro100: validate various address values
-To: P J P <ppandit@redhat.com>
-References: <20210218140629.373646-1-ppandit@redhat.com>
- <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
- <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
- <6qo84891-7or2-7p58-rr4-n2n46o5730rq@erqung.pbz>
- <00338810-b72e-6a9c-eef0-3c0adc764695@weilnetz.de>
- <43340d92-55da-61f2-5ad1-c8e3d6679f6d@weilnetz.de>
- <n62s8q1-4ns8-pq39-7r2o-p483n3555o1p@erqung.pbz>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <89da11b8-cecf-d161-2dfc-d62a7edd0356@weilnetz.de>
-Date: Fri, 19 Feb 2021 10:52:05 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A68A6D517;
+ Fri, 19 Feb 2021 09:52:50 +0000 (UTC)
+Received: from gondolin (ovpn-113-92.ams2.redhat.com [10.36.113.92])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B03419D80;
+ Fri, 19 Feb 2021 09:52:45 +0000 (UTC)
+Date: Fri, 19 Feb 2021 10:52:42 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Matthew Rosato <mjrosato@linux.ibm.com>
+Subject: Re: [PATCH] s390x/pci: restore missing Query PCI Function CLP data
+Message-ID: <20210219105242.3f011b51.cohuck@redhat.com>
+In-Reply-To: <1613681609-9349-1-git-send-email-mjrosato@linux.ibm.com>
+References: <1613681609-9349-1-git-send-email-mjrosato@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <n62s8q1-4ns8-pq39-7r2o-p483n3555o1p@erqung.pbz>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,67 +77,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
- Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, Ruhr-University Bochum <bugs-syssec@rub.de>
+Cc: thuth@redhat.com, david@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ qemu-s390x@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 19.02.21 um 10:26 schrieb P J P:
+On Thu, 18 Feb 2021 15:53:29 -0500
+Matthew Rosato <mjrosato@linux.ibm.com> wrote:
 
->    Hello Stefan,
->
-> +-- On Fri, 19 Feb 2021, Stefan Weil wrote --+
-> | If there are no recursions in normal use, the following patch should work:
-> |
-> | diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-> | index 16e95ef9cc..2474cf3dc2 100644
-> | --- a/hw/net/eepro100.c
-> | +++ b/hw/net/eepro100.c
-> | @@ -279,6 +279,9 @@ typedef struct {
-> |      /* Quasi static device properties (no need to save them). */
-> |      uint16_t stats_size;
-> |      bool has_extended_tcb_support;
-> | +
-> | +    /* Flag to avoid recursions. */
-> | +    bool busy;
-> |  } EEPRO100State;
-> |
-> |  /* Word indices in EEPROM. */
-> | @@ -837,6 +840,14 @@ static void action_command(EEPRO100State *s)
-> |         Therefore we limit the number of iterations. */
-> |      unsigned max_loop_count = 16;
-> |
-> | +    if (s->busy) {
-> | +        /* Prevent recursions. */
-> | +        logout("recursion in %s:%u\n", __FILE__, __LINE__);
-> | +        return;
-> | +    }
-> | +
-> | +    s->busy = true;
-> | +
-> |      for (;;) {
-> |          bool bit_el;
-> |          bool bit_s;
-> | @@ -933,6 +944,7 @@ static void action_command(EEPRO100State *s)
-> |      }
-> |      TRACE(OTHER, logout("CU list empty\n"));
-> |      /* List is empty. Now CU is idle or suspended. */
-> | +    s->busy = false;
-> |  }
-> |
-> |  static void eepro100_cu_command(EEPRO100State * s, uint8_t val)
->
-> Please see:
->    -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Feepro100_stackoverflow1
->
-> * It does not seem to address above case.
+> Some CLP response data was accidentally dropped when fixing endianness
+> issues with the Query PCI Function CLP response.  All of these values are
+> sent as 0s to the guest for emulated devices, so the impact is only
+> observed on passthrough devices.
+> 
+> Fixes: a4e2fff1b104 ("s390x/pci: fix endianness issues")
+> Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
+> ---
+>  hw/s390x/s390-pci-inst.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 
+Whoops.
 
-My suggested patch fixes that test case: it no longer crashes because of 
-an endless recursion.
-
-Stefan
-
+Thanks, applied.
 
 
