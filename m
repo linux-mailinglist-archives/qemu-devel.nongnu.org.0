@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0E0031F6A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:40:39 +0100 (CET)
-Received: from localhost ([::1]:51872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7663C31F6BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:48:52 +0100 (CET)
+Received: from localhost ([::1]:36470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD2H8-0007ji-MC
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:40:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41348)
+	id 1lD2P5-0004xs-Cm
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:48:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lD2FV-0006VM-HK
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:38:59 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:34719)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lD2FT-0004dv-Fq
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:38:57 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id hs11so11601900ejc.1
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 01:38:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=aEPbEvft6xXr4m6JTrl/ei9DivA9iX50k2wzTuRzQok=;
- b=XWZvJ8cgHDWYUxtYOAABxkUyXkL9rJwczkLLMU+vZtCmUnOM7dYbKR6NfD83YtUxGX
- 4lcQpI8zP3CribFmLBalYpydMl9ixmAPG1nkI15r9i28+cpks4MAnfS4coNo8PXkj+Zc
- 1mCvZvGSsSqN529cPRdSdHiS7f8y9d13oEB7fMMZULKTrABbRfQIx6KPIsxNDuA5kdF/
- RW+q6igINE6ePrn4lw7zq+J1+jkDoBEdvk4jwhOjNebaanN++/YdNQa8aoIBOOz3DX1P
- Sd0fy544qMQgI8nCjfwZBb6uLzomiABLb6TowkdCa0fEAkEIGje/ehku+mnydYQwVSK4
- 65rA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=aEPbEvft6xXr4m6JTrl/ei9DivA9iX50k2wzTuRzQok=;
- b=Uu/iViSgaSUWwF248rOJGq7AQCAb7A9xClKrw0p29b9okgAuNRmLlrW2ut4rzwTPX4
- qnLIDiVOEnmoHx4Lo47GnRt5EpRec3h3tr7nMUPy39MJGzfeRDpoGwr2I3CHhRWnxQNA
- DmQ3m7dfTYADOF+2TecS1XneO5WcjDJQb6Tcck4QzhXHf0AlhRsDPncG1r/AqXQWER2c
- /UFiISWBnFUSFhT/AC67TgEVDWkToTwN8kbFZi/JcZJdlPRP/+Ufu70zdTFWunHJfn4d
- 5HhEmjzbPuQx0MDGrWt753uFqgngfB+KZuVCT7yXNCzUcIswLO1LZnUhZBXpWxs7WRyJ
- IC5g==
-X-Gm-Message-State: AOAM530OINUAiOI8yMVhKoSei14P6xShMkLlm/m6luCwckZ92btL9YIp
- hJrwWnFI7f2bOcPHfGPJYaKv3DQftQea4kVZgGs=
-X-Google-Smtp-Source: ABdhPJw7JDFv24Uwu71OHVDVWLKcQEX8EwLD9wjOAuU8YxohdS29b3JI+GzEm+On880hUMD1c7GPa2Kwomo0SLDymN0=
-X-Received: by 2002:a17:906:31c1:: with SMTP id
- f1mr7866031ejf.263.1613727533026; 
- Fri, 19 Feb 2021 01:38:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lD2KQ-0000vE-Ra; Fri, 19 Feb 2021 04:44:03 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3482)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
+ id 1lD2K8-0006XQ-Tp; Fri, 19 Feb 2021 04:44:02 -0500
+Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DhmnC5HLCzjPyN;
+ Fri, 19 Feb 2021 17:41:51 +0800 (CST)
+Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
+ DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 19 Feb 2021 17:43:13 +0800
+From: Kunkun Jiang <jiangkunkun@huawei.com>
+To: Eric Auger <eric.auger@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Alex Williamson <alex.williamson@redhat.com>,
+ "open list:ARM SMMU" <qemu-arm@nongnu.org>, "open list:All patches CC here"
+ <qemu-devel@nongnu.org>
+Subject: [RFC PATCH 0/3] Add migration support for VFIO PCI devices in SMMUv3
+ nested stage mode
+Date: Fri, 19 Feb 2021 17:42:27 +0800
+Message-ID: <20210219094230.231-1-jiangkunkun@huawei.com>
+X-Mailer: git-send-email 2.26.2.windows.1
 MIME-Version: 1.0
-References: <20210212000540.28486-1-akihiko.odaki@gmail.com>
- <20210217130915.ihqdqxjqmbrzlvpv@sirius.home.kraxel.org>
-In-Reply-To: <20210217130915.ihqdqxjqmbrzlvpv@sirius.home.kraxel.org>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Fri, 19 Feb 2021 18:38:42 +0900
-Message-ID: <CAMVc7JXvAt6neB2H1Bmp-HKachc3di8FpDWy3=vP2x-PDE+xxA@mail.gmail.com>
-Subject: Re: [PATCH] ui/cocoa: Remove the uses of full screen APIs
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [10.174.185.210]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=jiangkunkun@huawei.com; helo=szxga05-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,51 +58,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu Developers <qemu-devel@nongnu.org>
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>, shameerali.kolothum.thodi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B42=E6=9C=8817=E6=97=A5(=E6=B0=B4) 22:09 Gerd Hoffmann <kraxel@r=
-edhat.com>:
->
-> On Fri, Feb 12, 2021 at 09:05:40AM +0900, Akihiko Odaki wrote:
-> > The detections of full screen APIs were wrong. A detection is coded as:
-> > [NSView respondsToSelector:@selector(exitFullScreenModeWithOptions:)]
-> > but it should be:
-> > [NSView instancesRespondToSelector:@selector(exitFullScreenModeWithOpti=
-ons:)]
-> >
-> > The uses of full screen APIs were also incorrect, and if you fix the
-> > detections, the full screen view stretches the video, changing the
-> > aspect ratio, even if zooming is disabled.
-> >
-> > Remove the code as it does nothing good.
->
-> So, it's broken right now (and probably for quite a while without anyone
-> complaining).  And the attempt to fix it didn't work out very well.
-> Correct?
+Hi all,
 
-Because the detections of APIs are wrong, the code using those APIs
-were never executed and nobody realized it was broken.
+Since the SMMUv3's nested translation stages[1] has been introduced by Eric, we
+need to pay attention to the migration of VFIO PCI devices in SMMUv3 nested stage
+mode. At present, it is not yet supported in QEMU. There are two problems in the
+existing framework.
 
-I did not seriously attempt to fix it because the APIs are no longer
-the best ways to implement fullscreen. ([NSWindow -toggleFullScreen:]
-is more favorable today.) There is not much to reuse even if
-implementing fullscreen with [NSView -enterFullScreenModeWithOptions:]
-since the code is so small.
+First, the current way to get dirty pages is not applicable to nested stage mode.
+Because of the "Caching Mode", VTD can map the RAM through the host single stage
+(giova->hpa). "vfio_listener_log_sync" gets dirty pages by transferring "giova"
+to the kernel for the RAM block section of mapped MMIO region. In nested stage
+mode, we setup the stage 2 (gpa->hpa) and the stage 1(giova->gpa) separately. So
+it is inapplicable to get dirty pages by the current way in nested stage mode.
 
->
-> Just dropping the code makes sense to me then.
->
-> Any objections or better suggestions from the macos camp?
-> If not I'll go queue it for the next UI pull request in a day or two.
->
-> thanks,
->   Gerd
->
+Second, it also need to pass stage 1 configurations to the destination host after
+the migration. In Eric's patch, it passes the stage 1 configuration to the host on
+each STE update for the devices set the PASID PciOps. The configuration will be
+applied at physical level. But the data of physical level will not be sent to the
+destination host. So we have to pass stage 1 configurations to the destination
+host after the migration.
 
-Thank you for responding to my patches.
+This Patch set includes patches as below:
+Patch 1-2:
+- Refactor the vfio_listener_log_sync and added a new function to get dirty pages
+in nested stage mode.
 
-Akihiko Odaki
+Patch 3:
+- Added the post_load function to vmstate_smmuv3 for passing stage 1 configuration
+to the destination host after the migration.
+
+@Eric, Could you please add this Patch set to your future version of
+"vSMMUv3/pSMMUv3 2 stage VFIO integration", if you think this Patch set makes sense? :)
+
+Best Regards
+Kunkun Jiang
+
+[1] [RFC,v7,00/26] vSMMUv3/pSMMUv3 2 stage VFIO integration
+http://patchwork.ozlabs.org/project/qemu-devel/cover/20201116181349.11908-1-eric.auger@redhat.com/
+
+Kunkun Jiang (3):
+  vfio: Introduce helpers to mark dirty pages of a RAM section
+  vfio: Add vfio_prereg_listener_log_sync in nested stage
+  hw/arm/smmuv3: Post-load stage 1 configurations to the host
+
+ hw/arm/smmuv3.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++
+ hw/arm/trace-events |  1 +
+ hw/vfio/common.c    | 47 +++++++++++++++++++++++++++++------
+ 3 files changed, 100 insertions(+), 8 deletions(-)
+
+-- 
+2.23.0
+
 
