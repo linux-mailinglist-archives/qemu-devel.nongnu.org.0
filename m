@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 512DE31F5E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:30:15 +0100 (CET)
-Received: from localhost ([::1]:55068 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2167131F5F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:36:10 +0100 (CET)
+Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD1B0-0004Ux-BL
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:30:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57550)
+	id 1lD1Gj-0007Zh-5w
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:36:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lD19U-00041o-8a
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:28:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46783)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD1Fr-00073z-SF
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:35:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1lD19Q-00076D-Ew
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:28:39 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD1Fq-0001UT-8r
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:35:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613723314;
+ s=mimecast20190719; t=1613723713;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=WlzPDhsWyYmVpgt4p8xIle34xbaBixq/waUzAbD/t8E=;
- b=VCMFm4JUcKrFyCoo75LuFoGEu6HpLbs2ZJsc06nLneQNJmWsqDLUx4Fy3NfsGwq9FCYQOx
- UEu+WBA/UnrZ+zIBJk/3KozeBp2JW93rb53G89pPFVkCJXz9lh9P9IrrXsw1gC051Jyxje
- BvZlnrEQ49OoqLLSIoQRfeYwJM319dk=
+ in-reply-to:in-reply-to:references:references;
+ bh=LDNHS5KW4F1R1w0mo3m6THOA4bF73chIEY6dWI6cylo=;
+ b=YL+3Z/GBc8f82e7OoXTdTAw/l8C0Ni1CM0xFACrYPSgb+md1/Xmr+/igcbaSa7jdmvQo8m
+ EfACC2QpGKfG1Rv5TLZjsB6nhlD+I7FL1RcTkbWcGdtofZb4t2PQCAXwPZNgTJgSSem1So
+ 4BzUsqGIFTXGAxUweJ5wXscgbr9vtUE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-255-s6NgRdLyNo6wkOJEcww3zg-1; Fri, 19 Feb 2021 03:28:32 -0500
-X-MC-Unique: s6NgRdLyNo6wkOJEcww3zg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-262-GxnQb-r7PbWk2bd_IMApVA-1; Fri, 19 Feb 2021 03:35:09 -0500
+X-MC-Unique: GxnQb-r7PbWk2bd_IMApVA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3CD6C804041;
- Fri, 19 Feb 2021 08:28:31 +0000 (UTC)
-Received: from localhost (unknown [10.36.110.12])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E82BA171FE;
- Fri, 19 Feb 2021 08:28:17 +0000 (UTC)
-From: marcandre.lureau@redhat.com
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] qga: return a more explicit error on why a command is
- disabled
-Date: Fri, 19 Feb 2021 12:28:14 +0400
-Message-Id: <20210219082814.2661979-1-marcandre.lureau@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C411009627;
+ Fri, 19 Feb 2021 08:35:08 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D1F8119D9D;
+ Fri, 19 Feb 2021 08:34:58 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 4986918003B0; Fri, 19 Feb 2021 09:34:56 +0100 (CET)
+Date: Fri, 19 Feb 2021 09:34:56 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
+Message-ID: <20210219083456.pd7s2cxg2bwp6w6p@sirius.home.kraxel.org>
+References: <20210218022227.979741-1-pasic@linux.ibm.com>
+ <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
+ <20210218113438.3fe80078.pasic@linux.ibm.com>
+ <20210218135618.06532573.cohuck@redhat.com>
+ <20210218133820.cflf455nj44mxzja@sirius.home.kraxel.org>
+ <20210218191739.71bf8800.pasic@linux.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210218191739.71bf8800.pasic@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=marcandre.lureau@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,128 +83,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com, pkrempa@redhat.com, armbru@redhat.com,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bruce Rogers <brogers@suse.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+  Hi,
 
-qmp_disable_command() now takes an optional error string to return a
-more explicit error message.
+> I'm not against cleaning up the includes for virtio-ccw devices, but I
+> tend to see that as a separate, less pressing issue.
 
-Fixes:
-https://bugzilla.redhat.com/show_bug.cgi?id=1928806
+Well, it would allow to build virtio-ccw as common code (i.e. move from
+specific_ss to softmmu_ss).
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
----
-v3:
- - back to passing an error string, but appended to the error message.
+> > Alternatively add support for
+> > target-specific modules (which we don't really have right now).
+> 
+> I think a target-specific module is what I did in this patch.
 
- include/qapi/qmp/dispatch.h |  3 ++-
- qapi/qmp-dispatch.c         |  6 ++++--
- qapi/qmp-registry.c         | 10 ++++++----
- qga/main.c                  |  4 ++--
- 4 files changed, 14 insertions(+), 9 deletions(-)
+Nope.
 
-diff --git a/include/qapi/qmp/dispatch.h b/include/qapi/qmp/dispatch.h
-index 1486cac3ef..bd15d9c35a 100644
---- a/include/qapi/qmp/dispatch.h
-+++ b/include/qapi/qmp/dispatch.h
-@@ -36,6 +36,7 @@ typedef struct QmpCommand
-     QmpCommandOptions options;
-     QTAILQ_ENTRY(QmpCommand) node;
-     bool enabled;
-+    const char *disable_reason;
- } QmpCommand;
- 
- typedef QTAILQ_HEAD(QmpCommandList, QmpCommand) QmpCommandList;
-@@ -44,7 +45,7 @@ void qmp_register_command(QmpCommandList *cmds, const char *name,
-                           QmpCommandFunc *fn, QmpCommandOptions options);
- const QmpCommand *qmp_find_command(const QmpCommandList *cmds,
-                                    const char *name);
--void qmp_disable_command(QmpCommandList *cmds, const char *name);
-+void qmp_disable_command(QmpCommandList *cmds, const char *name, const char *err_msg);
- void qmp_enable_command(QmpCommandList *cmds, const char *name);
- 
- bool qmp_command_is_enabled(const QmpCommand *cmd);
-diff --git a/qapi/qmp-dispatch.c b/qapi/qmp-dispatch.c
-index 0a2b20a4e4..5e597c76f7 100644
---- a/qapi/qmp-dispatch.c
-+++ b/qapi/qmp-dispatch.c
-@@ -157,8 +157,10 @@ QDict *qmp_dispatch(const QmpCommandList *cmds, QObject *request,
-     }
-     if (!cmd->enabled) {
-         error_set(&err, ERROR_CLASS_COMMAND_NOT_FOUND,
--                  "The command %s has been disabled for this instance",
--                  command);
-+                  "Command %s has been disabled%s%s",
-+                  command,
-+                  cmd->disable_reason ? ": " : "",
-+                  cmd->disable_reason ?: "");
-         goto out;
-     }
-     if (oob && !(cmd->options & QCO_ALLOW_OOB)) {
-diff --git a/qapi/qmp-registry.c b/qapi/qmp-registry.c
-index 58c65b5052..f78c064aae 100644
---- a/qapi/qmp-registry.c
-+++ b/qapi/qmp-registry.c
-@@ -43,26 +43,28 @@ const QmpCommand *qmp_find_command(const QmpCommandList *cmds, const char *name)
- }
- 
- static void qmp_toggle_command(QmpCommandList *cmds, const char *name,
--                               bool enabled)
-+                               bool enabled, const char *disable_reason)
- {
-     QmpCommand *cmd;
- 
-     QTAILQ_FOREACH(cmd, cmds, node) {
-         if (strcmp(cmd->name, name) == 0) {
-             cmd->enabled = enabled;
-+            cmd->disable_reason = disable_reason;
-             return;
-         }
-     }
- }
- 
--void qmp_disable_command(QmpCommandList *cmds, const char *name)
-+void qmp_disable_command(QmpCommandList *cmds, const char *name,
-+                         const char *disable_reason)
- {
--    qmp_toggle_command(cmds, name, false);
-+    qmp_toggle_command(cmds, name, false, disable_reason);
- }
- 
- void qmp_enable_command(QmpCommandList *cmds, const char *name)
- {
--    qmp_toggle_command(cmds, name, true);
-+    qmp_toggle_command(cmds, name, true, NULL);
- }
- 
- bool qmp_command_is_enabled(const QmpCommand *cmd)
-diff --git a/qga/main.c b/qga/main.c
-index e7f8f3b161..f2cc8e89a3 100644
---- a/qga/main.c
-+++ b/qga/main.c
-@@ -375,7 +375,7 @@ static void ga_disable_non_whitelisted(const QmpCommand *cmd, void *opaque)
-     }
-     if (!whitelisted) {
-         g_debug("disabling command: %s", name);
--        qmp_disable_command(&ga_commands, name);
-+        qmp_disable_command(&ga_commands, name, "the agent is in frozen state");
-     }
- }
- 
-@@ -1329,7 +1329,7 @@ static GAState *initialize_agent(GAConfig *config, int socket_activation)
-         s->blacklist = config->blacklist;
-         do {
-             g_debug("disabling command: %s", (char *)l->data);
--            qmp_disable_command(&ga_commands, l->data);
-+            qmp_disable_command(&ga_commands, l->data, NULL);
-             l = g_list_next(l);
-         } while (l);
-     }
--- 
-2.29.0
+Specifically target-specific modules must be built once for each
+target and have a target-specific name (prefix or subdir).   So
+when modularizing -- for example -- vga you'll get modules such as
+x86_64/hw-display-vga.so, ppc64/hw-display-vga.so, ...
+
+Qemu needs support for loading the correct version.
+
+What you did is a rather incomplete version of that which happens to
+work for ccw because ccw is used by s390x only so you can shortcut
+the "build once for each target" part of the problem.
+
+> Furthermore, I think any virtio-ccw device that is about to be built as
+> a module, must be built as a target-specific module. If the realized
+> (guest) architecture is not s390x, then there are no s390 IO instructions
+> and ccw won't fly.
+
+Well, it can happen that generic modules don't load into some qemu
+versions.  Devices which need PCI can't be loaded by qemu-system-avr
+for example because the avr target lacks PCI bus support.
+
+ccw modules only loading into qemu-system-s390x because that is the
+only target providing the bus needed is pretty much the same.
+
+take care,
+  Gerd
 
 
