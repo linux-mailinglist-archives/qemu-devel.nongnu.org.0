@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F7CA31F995
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:54:22 +0100 (CET)
-Received: from localhost ([::1]:32824 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B53E931F996
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:55:40 +0100 (CET)
+Received: from localhost ([::1]:36790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD5Ib-0000Hr-C2
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:54:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33842)
+	id 1lD5Jr-0001ts-O8
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:55:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lD5A5-0001lS-Vo; Fri, 19 Feb 2021 07:45:35 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:36367)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lD5Gf-00076T-Og
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:52:21 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lD5A3-00026X-AV; Fri, 19 Feb 2021 07:45:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=kRa6LCd0eqFl/58S4asQwW2sm8LalNBWsUMX+6VAteo=; 
- b=nlyaDNJHEYn9UmxoOMCKsHt+kkUdmXjW90FGyRgqboGy5iDMGNlTiEYravWjK5hNWGDVHa5Uj/AoB8aJDZF8jDLDEX+XYTw716/BPb0OWAL0s9vFlhw6nbz/J1CA/TVQUM8AXZW8Y3tjoY/dlfzOFX2bXxc3IH9A/j8mUXuZlenBPboHveFcjqARMuW9UAWbqNX+PbkI5jlU1p0MRw4d+cnEjGqXD0pJsxWNb4teKnd6VABymaIIw7ImTHxFiMJI0MvfYU9cxwl7fGrhuBPq44oBmxrekQITVC6ZjMIEcqmhpBXYCzW4ph7z8YjLq/dvcmMrrz1FoQSosmmB/bRIOQ==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1lD59x-0007IV-Tj; Fri, 19 Feb 2021 13:45:25 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1lD59x-00072x-Ip; Fri, 19 Feb 2021 13:45:25 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] iotests: Drop deprecated 'props' from object-add
-In-Reply-To: <20210219122149.GC5750@merkur.fritz.box>
-References: <20210216171653.6543-1-berto@igalia.com>
- <20210219122149.GC5750@merkur.fritz.box>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 19 Feb 2021 13:45:25 +0100
-Message-ID: <w51pn0wql96.fsf@maestria.local.igalia.com>
-MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lD5Gd-0005JB-TL
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:52:21 -0500
+Received: by mail-ej1-x633.google.com with SMTP id g5so13024150ejt.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 04:52:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=Z+ujaY5G6ANAB5vsaZONUI2TvJ3IqsElgwHR18lrlxE=;
+ b=pBeFKsD/2ne+UGkb4ECb5LhfL1SoIsQPZLz45EI+lOSGGPqVp6uESK3g10Cf5aE/Av
+ 5DXJ8pXHrgL/hgoPrcU1n6hwMHlCqmf65BGEj1kWDYb2vZekCzkkPhPCLd8YDAPQ+roe
+ afK8Hkd7eDhD4BfhDwrnctGr/xnZsUoxGDsJ3MIs6xMBPyooI0s1rlG9EiQ/HQABQHt+
+ B/G0zOFrQqXE7eIlqO+Jv8K0o61AYhIzWKhSokb1lhNVAXCW8kT35+mcFlykk9NNYZ10
+ CfQU3hbNnfzbwkeKvee1vaY3+oL3alqGYFshklXukRHRhwcg74cSNgue1DU6Q9QJkd/1
+ mgVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=Z+ujaY5G6ANAB5vsaZONUI2TvJ3IqsElgwHR18lrlxE=;
+ b=jCHMJTy/SPXkwXA8x7gHKN6jwYviicWUvVUH/Y4xc0LQMwiQHAu6mvgUYATLeZ1bU2
+ moIMR0JOMoiMaESBy99rdtXZU91vVOuBmfmIq4WSS8/2rvf4ofuHutiz4talcKPkGcze
+ 081eD+V+2CIXwn3mj3wOss6sLU6fDQ2K+alLrH5pgR62g8VnH9UHx08EJlnMqDBuEpro
+ 8gTdD9xXJamnYB2esQFfB236U6w6OySa0qHjrQL6vX37naLSOwCUJau5uD7o2LvjFfEI
+ +OXii+RNv5LDuZLMOUPp5yXuXyDf3ACPYPktjdKL1BT63/g4z+2l4lP1pBK2nrs0CSOO
+ 5Flg==
+X-Gm-Message-State: AOAM5326cXBvNCxZ7yfHKNLY/Pvq/qTVAtnRYgzFIChfLpqzWZm1Besg
+ TUTXoA0IxU7X6jxTOUPpOm8=
+X-Google-Smtp-Source: ABdhPJyh1u9ArWO9Q3nY3QuNaOL6CwJgRNq/6L5avJ3lNsvuwQYhz7Mqh7/z4oehVKYBeqbMDfku/A==
+X-Received: by 2002:a17:906:a48:: with SMTP id
+ x8mr8591052ejf.444.1613739138405; 
+ Fri, 19 Feb 2021 04:52:18 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id b6sm4277242ejb.8.2021.02.19.04.52.15
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Feb 2021 04:52:18 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-devel@nongnu.org
+Subject: [PATCH] Make ram_addr_t 64 bits unconditionally
+Date: Fri, 19 Feb 2021 20:52:07 +0800
+Message-Id: <1613739127-61825-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,20 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 19 Feb 2021 01:21:49 PM CET, Kevin Wolf <kwolf@redhat.com> wrote:
->>  log(vm.qmp('object-add', qom_type='throttle-group', id='tg0',
->> -           props={ 'x-bps-total': size }))
->> +           x_bps_total=size))
->
-> x-bps-total isn't a stable interface, I'd prefer to use limits.
->
-> My patch from November [1] had this:
+From: Bin Meng <bin.meng@windriver.com>
 
-Do you want me to resend mine, or wait for yours, or what then? :)
+Currently machine->ram_size is a ram_addr_t, whose size is 64 bits
+if either (a) the host is 64 bits or (b) CONFIG_XEN_BACKEND is
+enabled, so it's effectively only 32 bits on 32-bit-not-x86.
 
-Berto
+commit 4be403c8158e ("Make target_phys_addr_t 64 bits unconditionally")
+did the change for target_phys_addr_t which is now hwaddr to be 64 bits
+unconditionally. Let's do the same to ram_addr_t.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+ include/exec/cpu-common.h | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+index 5a0a2d9..c36904d 100644
+--- a/include/exec/cpu-common.h
++++ b/include/exec/cpu-common.h
+@@ -32,15 +32,9 @@ enum device_endian {
+ #endif
+ 
+ /* address in the RAM (different from a physical address) */
+-#if defined(CONFIG_XEN_BACKEND)
+ typedef uint64_t ram_addr_t;
+ #  define RAM_ADDR_MAX UINT64_MAX
+ #  define RAM_ADDR_FMT "%" PRIx64
+-#else
+-typedef uintptr_t ram_addr_t;
+-#  define RAM_ADDR_MAX UINTPTR_MAX
+-#  define RAM_ADDR_FMT "%" PRIxPTR
+-#endif
+ 
+ /* memory API */
+ 
+-- 
+2.7.4
+
 
