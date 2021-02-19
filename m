@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA39731FC3C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:41:51 +0100 (CET)
-Received: from localhost ([::1]:56996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17EAD31FC01
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:33:43 +0100 (CET)
+Received: from localhost ([::1]:60264 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD7uf-0001uz-Ck
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:41:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35672)
+	id 1lD7mo-0006bS-40
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:33:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD77f-0006H7-7O
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:51:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49770)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76N-0004hy-TF
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD77d-0005Gw-8m
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:51:10 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76L-0004hY-7d
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613746268;
+ s=mimecast20190719; t=1613746185;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H4iGPlygXsWFDu+3pe20e9H86zjZ6x8sPPEUJPlXGFo=;
- b=LfacbP+8R4IYgGxy/Qn1tz+V1B5WndPLMqTZpaxvYgYzH4/bkQI/tsEC+mYnZBO4Qrk4rS
- QzaST4bW8lnmBPAMyZ4sx3pQW6xSDYdac2cWitDVuNX9Zai+HHQOsTWsGy4toGjgz0dY4G
- wZuAKfriYx8xQOB17QtjEhWEISfmkx4=
+ bh=sKvSCrWJgDaM1XL5Ydgj2XX97p/M7blbQpYX0fUnAWA=;
+ b=cz+XQFBkLhN23crCfz3MbVRYR//POY1tPFOgt0eKb31e9nW/F0gXhQQymnMOoxwLfWXnCk
+ fr+g2YgEdKh0vMs40zRAfIr6DC7blZ/nrQI/PXoaMdAGyou3OenZ8ss0HEZhsGAQhH7fEw
+ TH11EPt2M9b/5wntzGq2Zva9LSryHxg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-215-y1sGrziVOlmPvWjdcWO4Gg-1; Fri, 19 Feb 2021 09:49:42 -0500
-X-MC-Unique: y1sGrziVOlmPvWjdcWO4Gg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-277-QiJq0ZqPMK-6_koEY3p5Fg-1; Fri, 19 Feb 2021 09:49:43 -0500
+X-MC-Unique: QiJq0ZqPMK-6_koEY3p5Fg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0089A193578F;
- Fri, 19 Feb 2021 14:49:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 612791005501;
+ Fri, 19 Feb 2021 14:49:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
  [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C5A9160918;
- Fri, 19 Feb 2021 14:49:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 31E3D60BFA;
+ Fri, 19 Feb 2021 14:49:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 56BE11132C27; Fri, 19 Feb 2021 15:49:39 +0100 (CET)
+ id 5D3681132C29; Fri, 19 Feb 2021 15:49:39 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/18] qapi/introspect.py: use _make_tree for features nodes
-Date: Fri, 19 Feb 2021 15:49:24 +0100
-Message-Id: <20210219144939.604488-4-armbru@redhat.com>
+Subject: [PULL 05/18] qapi/introspect.py: guard against ifcond/comment misuse
+Date: Fri, 19 Feb 2021 15:49:26 +0100
+Message-Id: <20210219144939.604488-6-armbru@redhat.com>
 In-Reply-To: <20210219144939.604488-1-armbru@redhat.com>
 References: <20210219144939.604488-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,39 +85,61 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-At present, we open-code this in _make_tree itself; but if the structure
-of the tree changes, this is brittle. Use an explicit recursive call to
-_make_tree when appropriate to help keep the interior node typing
-consistent.
+_tree_to_qlit is called recursively on dict values (isolated from their
+keys); at such a point in generating output it is too late to apply an
+ifcond. Similarly, comments do not necessarily have a "tidy" place they
+can be printed in such a circumstance.
 
-A consequence of doing this is that the 'ifcond' key of the features
-dict will be omitted when ifcond is false-ish, just like it is omitted
-in top-level calls to _make_tree. This also increases consistency in our
-handling of this property.
+Forbid this usage by renaming "suppress_first_indent" to "dict_value" to
+emphasize that indents are suppressed only for the benefit of dict
+values; then add an assertion assuring we do not pass ifcond/comments
+in this case.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210216021809.134886-4-jsnow@redhat.com>
+Message-Id: <20210216021809.134886-6-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
+[Comment wrapped to conform to PEP 8]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/introspect.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/qapi/introspect.py | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 43ab4be1f7..3295a15c98 100644
+index 4749f65ea3..a111cec725 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -30,7 +30,9 @@ def _make_tree(obj, ifcond, features, extra=None):
-     if ifcond:
-         extra['if'] = ifcond
-     if features:
--        obj['features'] = [(f.name, {'if': f.ifcond}) for f in features]
-+        obj['features'] = [
-+            _make_tree(f.name, f.ifcond, None) for f in features
-+        ]
-     if extra:
-         return (obj, extra)
+@@ -34,7 +34,7 @@ def _make_tree(obj, ifcond, extra=None):
      return obj
+ 
+ 
+-def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
++def _tree_to_qlit(obj, level=0, dict_value=False):
+ 
+     def indent(level):
+         return level * 4 * ' '
+@@ -43,6 +43,13 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+         ifobj, extra = obj
+         ifcond = extra.get('if')
+         comment = extra.get('comment')
++
++        # NB: _tree_to_qlit is called recursively on the values of a
++        # key:value pair; those values can't be decorated with
++        # comments or conditionals.
++        msg = "dict values cannot have attached comments or if-conditionals."
++        assert not dict_value, msg
++
+         ret = ''
+         if comment:
+             ret += indent(level) + '/* %s */\n' % comment
+@@ -54,7 +61,7 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
+         return ret
+ 
+     ret = ''
+-    if not suppress_first_indent:
++    if not dict_value:
+         ret += indent(level)
+     if obj is None:
+         ret += 'QLIT_QNULL'
 -- 
 2.26.2
 
