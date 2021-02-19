@@ -2,45 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA92D31F9B5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:17:32 +0100 (CET)
-Received: from localhost ([::1]:34646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C00231F9DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:24:57 +0100 (CET)
+Received: from localhost ([::1]:49838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD5f1-0005NG-Tf
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41272)
+	id 1lD5mC-0003l7-Ks
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:24:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lD5bG-0003nn-Ja
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:13:38 -0500
-Received: from mx2.suse.de ([195.135.220.15]:52896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lD5bE-0006F3-PV
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:13:38 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AC5CAABAE;
- Fri, 19 Feb 2021 13:13:34 +0000 (UTC)
-Subject: Re: meson, NEED_CPU_H, CONFIG_TCG and tests/
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <eb7d8eca-13ef-07cf-41b4-d7276399fff1@suse.de>
-Message-ID: <fe900b5b-3987-e9e7-345c-8df77d430292@suse.de>
-Date: Fri, 19 Feb 2021 14:13:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD5bh-0004Cp-Ln
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:14:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD5bf-0006Oo-D9
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:14:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613740442;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=zQ2hJwfYBzzfkQXu+muAOvP35Q/ovmW8b86tbNjeq80=;
+ b=Tt0varUJCYKMNiuwpjH53Sb5JVgju0imxVxNWGHFlfVr1vUsuoDSezhfDeFHksPGPy9Cgx
+ 1XbRmTViJ3OVDdK2rDhIZtB0PkpPYBEfhULm3aYZwpIeOBe0WvieR/f391Zq/TeBv6EHw/
+ HcnWBwNXtw80hmAxUHQvPflT+Vtm4ms=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-228-5uNk6P_LPhmdzGEnkZbxWg-1; Fri, 19 Feb 2021 08:14:00 -0500
+X-MC-Unique: 5uNk6P_LPhmdzGEnkZbxWg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E50A0801991
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 13:13:59 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7CFF119D9B;
+ Fri, 19 Feb 2021 13:13:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id E2EC618000A2; Fri, 19 Feb 2021 14:13:49 +0100 (CET)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/7] ui: add vdagent implementation and clipboard support.
+Date: Fri, 19 Feb 2021 14:13:42 +0100
+Message-Id: <20210219131349.3993192-1-kraxel@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <eb7d8eca-13ef-07cf-41b4-d7276399fff1@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,67 +76,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 2:04 PM, Claudio Fontana wrote:
-> Hi Paolo,
-> 
-> currently we have use of CONFIG_TCG in tests/,
-> 
-> but is that variable available at all in there?
-> 
-> I have to adapt some qemu/tests/qtest/* to work also without tcg for ARM,
-> 
-> but I think I am not seeing CONFIG_TCG filtering through, and I wonder whether all the checks in there are actually "wrong".
-> 
-> Looking at meson.build it would seem to me that only stuff in target/ would be able to see CONFIG_TCG,
-> as a result of
-> 
-> foreach target : target_dirs
->   config_target = config_target_mak[target]
->   target_name = config_target['TARGET_NAME']
->   arch = config_target['TARGET_BASE_ARCH']
->   arch_srcs = [config_target_h[target]]
->   arch_deps = []
->   c_args = ['-DNEED_CPU_H',
->             '-DCONFIG_TARGET="@0@-config-target.h"'.format(target),
->             '-DCONFIG_DEVICES="@0@-config-devices.h"'.format(target)]
-> 
-> But how could tests see this?
-> 
-> Thanks,
-> 
-> Claudio
-> 
-
-By the way, I think Alex is working around this in the TCG tests in the tests/tcg/Makefile.target:
-
-all:
--include ../../../config-host.mak
--include ../config-$(TARGET).mak
-
-..
-
-
-In my view we need some solution for at least:
-
-tests/qtest/qmp-cmd-test.c
-tests/qtest/boot-serial-test.c
-tests/qtest/bios-tables-test.c
-
-which need to behave differently according to whether TCG is available or not (--disable-tcg):
-
-For the specific case at hand that I encountered, reopening the issue, 
-
-I need to make tests/qtest/boot-serial-test.c pass different cpu options for TCG and KVM,
-ie "cortex-a57" for TCG, and "host" for KVM.
-
-Wdyt?
-
-Ciao,
-
-Claudio
+Fist sketch of cut+paste support for vnc.  On the guest side we are=0D
+going to reuse the spice vdagent, so things should work out-of-the-box=0D
+with guests in the wild.  So this patch set brings a qemu implemenation=0D
+of the vdagent protocol.=0D
+=0D
+Beside that there is the clipboard infrastructure of course.  For now=0D
+only text support is there.  The design allows adding more data types,=0D
+so we can add image support and maybe more later on.  So far vdagent,=0D
+vnc server and gtk ui are hooked up.=0D
+=0D
+Usage: qemu \=0D
+  -chardev vdagent,id=3Dvdagent,clipboard=3Don \=0D
+  -device virtio-serial-pci \=0D
+  -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0=0D
+=0D
+Enjoy!=0D
+=0D
+Gerd Hoffmann (7):=0D
+  ui: add clipboard infrastructure=0D
+  ui/vdagent: core infrastructure=0D
+  ui/vdagent: add mouse support=0D
+  ui/vdagent: add clipboard support=0D
+  ui/vnc: clipboard support=0D
+  ui/gtk: move struct GtkDisplayState to ui/gtk.h=0D
+  ui/gtk: add clipboard support=0D
+=0D
+ include/ui/clipboard.h |  68 +++++=0D
+ include/ui/gtk.h       |  66 +++++=0D
+ ui/vnc.h               |  24 ++=0D
+ chardev/char.c         |   6 +=0D
+ ui/clipboard.c         |  92 ++++++=0D
+ ui/gtk-clipboard.c     | 124 ++++++++=0D
+ ui/gtk.c               |  56 +---=0D
+ ui/vdagent.c           | 624 +++++++++++++++++++++++++++++++++++++++++=0D
+ ui/vnc-clipboard.c     | 326 +++++++++++++++++++++=0D
+ ui/vnc.c               |  20 +-=0D
+ qapi/char.json         |  17 ++=0D
+ ui/meson.build         |   5 +-=0D
+ ui/trace-events        |   9 +=0D
+ 13 files changed, 1375 insertions(+), 62 deletions(-)=0D
+ create mode 100644 include/ui/clipboard.h=0D
+ create mode 100644 ui/clipboard.c=0D
+ create mode 100644 ui/gtk-clipboard.c=0D
+ create mode 100644 ui/vdagent.c=0D
+ create mode 100644 ui/vnc-clipboard.c=0D
+=0D
+--=20=0D
+2.29.2=0D
+=0D
 
 
