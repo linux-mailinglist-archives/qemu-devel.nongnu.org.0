@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 231B131FC24
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:40:38 +0100 (CET)
-Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9AEE31FC0E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:36:05 +0100 (CET)
+Received: from localhost ([::1]:38742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD7tV-0000bx-0r
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:40:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
+	id 1lD7p6-0002SZ-TS
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:36:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76R-0004rf-WA
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58018)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76a-00053Z-RC
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:50:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47030)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76L-0004hi-E1
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:55 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76U-0004mG-KU
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:50:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613746186;
+ s=mimecast20190719; t=1613746197;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Tz1BoVgdyudwnalNO9Lnr8YzIE3ksFbBSc9cpe2j8WU=;
- b=A5RQPqSK+yzFC+kQTiAEgKhvymw/wWW0dw+xqXWhafh1167EW9zDPP2t8Y6SEiemQPUv6M
- ilWWBKExS8sw8usl+ZO/TB2J+Ign3+ZTC/uoKCK8Rv1NyqdTxDVayR6oviklvZ0VXzSgRS
- 5RurH5blP1a7GiE8NkYvCNlEvoqbG/M=
+ bh=udx7BRgtU4reuY5BaNoVk9odBuwqVgSNpOhXbpa/k6I=;
+ b=K6hSJQI0swImtsB2t8a1gBfJNKGObHR2vqtMhn5euv8+wnkuO29/GAmTK5IxF/ksVvbcxA
+ cxVpO8lXNvncsTAm/d8z+6A9R20oI05P4KSr/yJj2Fx7plAYLDir1bSJOG0/Eei9x5/u9H
+ zQ0hRp+y2xzLoQnZjFro5eT2zzTXY2c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-PY6Z6HpaMsq-dOwszA33DA-1; Fri, 19 Feb 2021 09:49:43 -0500
-X-MC-Unique: PY6Z6HpaMsq-dOwszA33DA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-468-_uXCTNM3NT2xj4uDvk1b3g-1; Fri, 19 Feb 2021 09:49:43 -0500
+X-MC-Unique: _uXCTNM3NT2xj4uDvk1b3g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C08256C95;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6BDE1107ACE6;
  Fri, 19 Feb 2021 14:49:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
  [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C8011970D;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D64F5C1BB;
  Fri, 19 Feb 2021 14:49:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 66E431132BCE; Fri, 19 Feb 2021 15:49:39 +0100 (CET)
+ id 6A18A1132A01; Fri, 19 Feb 2021 15:49:39 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] qapi/introspect.py: Always define all 'extra' dict keys
-Date: Fri, 19 Feb 2021 15:49:29 +0100
-Message-Id: <20210219144939.604488-9-armbru@redhat.com>
+Subject: [PULL 09/18] qapi/introspect.py: Introduce preliminary tree typing
+Date: Fri, 19 Feb 2021 15:49:30 +0100
+Message-Id: <20210219144939.604488-10-armbru@redhat.com>
 In-Reply-To: <20210219144939.604488-1-armbru@redhat.com>
 References: <20210219144939.604488-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,42 +85,68 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-This mimics how a typed object works, where 'if' and 'comment' are
-always set, regardless of if they have a value set or not.
-
-It is safe to do this because of the way that _tree_to_qlit processes
-these values (using dict.get with a default of None), resulting in no
-change of output from _tree_to_qlit. There are no other users of this
-data.
+The types will be used in forthcoming patches to add typing. These types
+describe the layout and structure of the objects passed to
+_tree_to_qlit, but lack the power to describe annotations until the next
+commit.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210216021809.134886-9-jsnow@redhat.com>
+Message-Id: <20210216021809.134886-10-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/introspect.py | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ scripts/qapi/introspect.py | 31 ++++++++++++++++++++++++++++++-
+ 1 file changed, 30 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index c4326d42cb..88af5383d5 100644
+index 88af5383d5..c271006100 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -27,11 +27,10 @@ from .schema import (
+@@ -10,7 +10,13 @@ This work is licensed under the terms of the GNU GPL, version 2.
+ See the COPYING file in the top-level directory.
+ """
+ 
+-from typing import Optional
++from typing import (
++    Any,
++    Dict,
++    List,
++    Optional,
++    Union,
++)
+ 
+ from .common import (
+     c_name,
+@@ -26,6 +32,29 @@ from .schema import (
+ )
  
  
++# This module constructs a tree data structure that is used to
++# generate the introspection information for QEMU. It is shaped
++# like a JSON value.
++#
++# A complexity over JSON is that our values may or may not be annotated.
++#
++# Un-annotated values may be:
++#     Scalar: str, bool, None.
++#     Non-scalar: List, Dict
++# _value = Union[str, bool, None, Dict[str, JSONValue], List[JSONValue]]
++#
++# With optional annotations, the type of all values is:
++# JSONValue = Union[_Value, Annotated[_Value]]
++#
++# Sadly, mypy does not support recursive types; so the _Stub alias is used to
++# mark the imprecision in the type model where we'd otherwise use JSONValue.
++_Stub = Any
++_Scalar = Union[str, bool, None]
++_NonScalar = Union[Dict[str, _Stub], List[_Stub]]
++_Value = Union[_Scalar, _NonScalar]
++# JSONValue = TODO, in a forthcoming commit.
++
++
  def _make_tree(obj, ifcond, comment=None):
--    extra = {}
--    if ifcond:
--        extra['if'] = ifcond
--    if comment:
--        extra['comment'] = comment
-+    extra = {
-+        'if': ifcond,
-+        'comment': comment
-+    }
-     return (obj, extra)
- 
- 
+     extra = {
+         'if': ifcond,
 -- 
 2.26.2
 
