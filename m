@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2525532012D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 23:08:30 +0100 (CET)
-Received: from localhost ([::1]:57664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96046320131
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 23:10:04 +0100 (CET)
+Received: from localhost ([::1]:34672 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDDwr-00059E-6C
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 17:08:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43012)
+	id 1lDDyN-0007G9-KX
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 17:10:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lDDpW-0003Xk-1A
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:00:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lDDpT-0005ew-Of
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:00:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613772050;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zk2DiMd8W+yzUdKnzi0fyYFv+METDCNspMTRwQ4oyG0=;
- b=cCjTbtH9CQPeyZZVqryG01ax1MmjkP1IrpCgaNEhXzBx+7qTePwgQaqaKry1tx+HgjyvKf
- I9VoM40FJM5/Ytd1TQ3dFgM7iI+Pe7cZhZStxajbdNwBPtVqPrmODRuEZP80qbVwPvq25K
- E9RkXN2GaCwmR/mQRtrapuM4j2IqVJU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351-tmz7IY9oNb2l_z-8iMvY-w-1; Fri, 19 Feb 2021 17:00:48 -0500
-X-MC-Unique: tmz7IY9oNb2l_z-8iMvY-w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6B4C1005501;
- Fri, 19 Feb 2021 22:00:46 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 61E46100239F;
- Fri, 19 Feb 2021 22:00:43 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3B8E91800867; Fri, 19 Feb 2021 23:00:37 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 8/8] ui/console: Remove dpy_gl_ctx_get_current
-Date: Fri, 19 Feb 2021 23:00:36 +0100
-Message-Id: <20210219220036.100654-9-kraxel@redhat.com>
-In-Reply-To: <20210219220036.100654-1-kraxel@redhat.com>
-References: <20210219220036.100654-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDDup-0004Ig-0e
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:06:23 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:35121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDDum-0007sp-9Q
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:06:22 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id n1so12353245edv.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 14:06:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=OcbhwhPBpERF6ZKdYyuJ1XSsBu/RsexZ84p8zsfYwQ8=;
+ b=sXVwIj+Dcbub+PAj2pe/olrBMVTsTvRiBwgIiq5ITsmyOEzIahHDPQEE2zcv4i1uzg
+ 2MbEyusxZYDzzA1nYGhIXiEvsUeJOFJaGpnk/9AFpy00gr+9EWTsI7OfKfwVpuVE1GsM
+ Qt1g4adbn2VwTQlwmHGkOE7YtC0csTei1T6yzxj9VkAeUok5mGszPDT7v5685Yo6k1gI
+ BFbBagF3Rj++SUAJFF0bjJiugJHpqjcaQhQ8N10sNhUnXQEye9OzNHxwBwmRFqKLDEoO
+ Mbp17CITnxyuFLuxOsGGBrVRjRJxQggFwQeaTto+QcM5Rw3eM1bAJfa4ldpqANEW5Vww
+ TvYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=OcbhwhPBpERF6ZKdYyuJ1XSsBu/RsexZ84p8zsfYwQ8=;
+ b=DdgfT5q2HcSbr29/Ap1lzK1Pr8vkgs8er7zWNvMNucIlNnqZAlBr+eHWXa6fHmCx9n
+ RrZDcwdKuKwaZwKfbEfVjPA+Mo4DM30nSgU49nReenJbSs1MvkDMw34T4/z/8zhqg1zr
+ LIQsk1amttYBlf6Af3VRu8bXi0aHPINGWv+iYXAH/qvZn+sVAVF6IrX9KMPc4XOqJWJn
+ TEM6z/D/O4sN/HLV4dzsEtfwulQ/8IZ7bfoOZPj3OyRKTrwgabz9gseuFHKIznxCLajn
+ VxDZmLMQON3i9DnWmCqeMx/UQPPaQlvACjhrVc5qx2ZPC5aZVV88XwRCfl0CcdftOEhy
+ 5kHA==
+X-Gm-Message-State: AOAM531/9oX6LCXxA7O9PPs+FochuJAytaPNZtvRjUM9tOKF5c2R0rrZ
+ FXnUG3hiTtxnuTUyNyX0/Vo=
+X-Google-Smtp-Source: ABdhPJzfzocCb4uo6ZFPWCDSLcLd1+1oC7G1CigjaC00S4yc/SsKoa808FKrDlC5lJwPw63JhDgJug==
+X-Received: by 2002:a50:d90a:: with SMTP id t10mr11597630edj.162.1613772378724; 
+ Fri, 19 Feb 2021 14:06:18 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id qx17sm5180779ejb.85.2021.02.19.14.06.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 14:06:18 -0800 (PST)
+Subject: Re: [RFC PATCH 3/5] tests: add a sdhci reproducer
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20210218211224.2513413-1-alxndr@bu.edu>
+ <20210218211224.2513413-4-alxndr@bu.edu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <79517851-a131-14bc-3947-629fa3e098fa@amsat.org>
+Date: Fri, 19 Feb 2021 23:06:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210218211224.2513413-4-alxndr@bu.edu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,57 +89,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Bin Meng <bmeng.cn@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
+On 2/18/21 10:12 PM, Alexander Bulekov wrote:
+> This patch serves as an example of a file generated with the
+> ./scripts/oss-fuzz/output_reproducer.py script:
+> The source file in this patch was generated like this:
+> 
+> $ wget https://paste.debian.net/plain/118513 -O /tmp/trace
+> $ export QEMU_ARGS="-nographic -machine accel=qtest -m 512M \
+> -nodefaults -device sdhci-pci,sd-spec-version=3 -drive \
+> if=sd,index=0,file=null-co://,format=raw,id=mydrive \
+> -device sd-card,drive=mydrive -qtest stdio"
+> $ export QEMU_PATH=./qemu-system-i386
+> $ ./scripts/oss-fuzz/output_reproducer.py \
+> -owner "Alexander Bulekov <alxndr@bu.edu>" /tmp/trace | \
+> clang-format -style="{BasedOnStyle: llvm, IndentWidth: 4, \
+> ColumnLimit: 90, BreakBeforeBraces: Linux}" > ../tests/qtest/fuzz-sdhci.c
+> 
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  tests/qtest/fuzz-sdhci.c | 90 ++++++++++++++++++++++++++++++++++++++++
+>  tests/qtest/meson.build  |  2 +
+>  2 files changed, 92 insertions(+)
+>  create mode 100644 tests/qtest/fuzz-sdhci.c
+...
 
-It is not used, and it is unlikely that a new use case will emerge
-anytime soon because the scope of OpenGL contexts are limited due to
-the nature of the frontend, VirGL, processing simple commands from the
-guest.
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index c83bc211b6..97caf84443 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -56,6 +56,8 @@ qtests_i386 = \
+>     'rtc-test',
+>     'i440fx-test',
+>     'fuzz-test',
+> +   'fuzz-sdhci',
+> +   'sdhci-test',
 
-Remove the function and ease implementing a new OpenGL backend a little.
+This line ^ belongs to the next patch.
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-Id: <20210219094702.90789-1-akihiko.odaki@gmail.com>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/ui/gtk.h | 1 -
- ui/gtk-gl-area.c | 5 -----
- 2 files changed, 6 deletions(-)
-
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 3c1cd98db8b1..5ae0ad60a600 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -147,7 +147,6 @@ void gd_gl_area_scanout_disable(DisplayChangeListener *dcl);
- void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
-                               uint32_t x, uint32_t y, uint32_t w, uint32_t h);
- void gtk_gl_area_init(void);
--QEMUGLContext gd_gl_area_get_current_context(DisplayChangeListener *dcl);
- int gd_gl_area_make_current(DisplayChangeListener *dcl,
-                             QEMUGLContext ctx);
- 
-diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
-index e7ca73c7b1b3..4e8ee88b9b39 100644
---- a/ui/gtk-gl-area.c
-+++ b/ui/gtk-gl-area.c
-@@ -239,11 +239,6 @@ void gtk_gl_area_init(void)
-     display_opengl = 1;
- }
- 
--QEMUGLContext gd_gl_area_get_current_context(DisplayChangeListener *dcl)
--{
--    return gdk_gl_context_get_current();
--}
--
- int gd_gl_area_make_current(DisplayChangeListener *dcl,
-                             QEMUGLContext ctx)
- {
--- 
-2.29.2
-
+>     'fw_cfg-test',
+>     'device-plug-test',
+>     'drive_del-test',
+> 
 
