@@ -2,103 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239BA31FEF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:51:39 +0100 (CET)
-Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CAAE31FF17
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 20:00:29 +0100 (CET)
+Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDAsM-0003kl-7E
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:51:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36090)
+	id 1lDB0u-0005dx-64
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 14:00:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1lDAqs-00033A-8v; Fri, 19 Feb 2021 13:50:06 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1lDAqn-00004r-H9; Fri, 19 Feb 2021 13:50:05 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11JIhvkI038560; Fri, 19 Feb 2021 13:49:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=F1uq8sX5ZXgduYVRLM+Lk7rBYXpmr1mFEW+JLi9ILkg=;
- b=Ol+jxA71Lr44HeJCPYaEs8ZILzO0dapticp3XmyJRrcF/3aEC3bivNuAV7hyP4E20D0X
- Wkz5gfsKr5S7AqIFpFbzeCG5HuPiKvURW+B1cgm+KZJ70uUrOJrxkYZ4tpkk2Pvbh68q
- HuEU+Ed9wUL5dKt7ejZpE67eHS4DfAe/PwPV7OVi78RRccgy12yklRWoNncSI7sYoE0m
- XjDypSQZzD1eg6mhoRiJBvrAEE9RqAwcS4i8Pyvh58YVZt0vRcFfKfU0RptGFfChaoMs
- fpN1x0wdJFYdCxHj+QxesbCZdeKj4VIiY/HeCGNjuD6ZiC/lvmsdxmwa+4fOqr+H4JLX bA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36tjv5g4p2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 13:49:57 -0500
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11JIjI1a042503;
- Fri, 19 Feb 2021 13:49:56 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36tjv5g4my-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 13:49:56 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11JIm69V031616;
- Fri, 19 Feb 2021 18:49:54 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma04ams.nl.ibm.com with ESMTP id 36p6d8dtdp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 18:49:54 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11JInpYY42795510
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Feb 2021 18:49:51 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71444A4051;
- Fri, 19 Feb 2021 18:49:51 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 15DA9A4040;
- Fri, 19 Feb 2021 18:49:51 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.23.206])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Fri, 19 Feb 2021 18:49:51 +0000 (GMT)
-Subject: Re: [PATCH v2 1/1] css: SCHIB measurement block origin must be aligned
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <1613741973-3711-1-git-send-email-pmorel@linux.ibm.com>
- <1613741973-3711-2-git-send-email-pmorel@linux.ibm.com>
- <c5d8de0c-9dab-ec80-3ac7-cd180baed81a@redhat.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <4887200d-bdaf-42dc-176d-439efef4de45@linux.ibm.com>
-Date: Fri, 19 Feb 2021 19:49:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lDAzc-00055T-GS
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:59:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lDAzZ-0002UA-3V
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:59:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613761143;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=mrtLKwySMOFm14Rd5nOFINDtx5JqFBLBgMJ4Heu3Gpc=;
+ b=Y0NC4leBdsPDOq237MgK/Z7MFZ1OTxutpbKIVv8dtVwm1uLGwj+bK0rYnn/EGqlduQko2P
+ TokycBu/wfLYPzhDBtJFRXCI8ipm7kWKpLav9EMiG9J59fO7q1EH8tA6d3Z56htq4SsrTD
+ DAiFl7QnAHnbopZ+TGbae1U3cwWRPTI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-595-j5bB5UguP_ecZTCWaZDlUg-1; Fri, 19 Feb 2021 13:59:01 -0500
+X-MC-Unique: j5bB5UguP_ecZTCWaZDlUg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEDC3107ACFE;
+ Fri, 19 Feb 2021 18:58:58 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-114-28.rdu2.redhat.com
+ [10.10.114.28])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3BF405C1BB;
+ Fri, 19 Feb 2021 18:58:57 +0000 (UTC)
+Date: Fri, 19 Feb 2021 13:58:55 -0500
+From: Cleber Rosa <crosa@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/2] Allwinner H3 fixes for EMAC and acceptance tests
+Message-ID: <20210219185855.GA619233@localhost.localdomain>
+References: <20210211220055.19047-1-nieklinnenbank@gmail.com>
+ <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
+ <YCuVC4T+TFjuskhF@redhat.com>
+ <CAPan3Wo+c+4F82cM+UDQu+JH9eQdqL2gjnikXmg3PZKTXCP_jg@mail.gmail.com>
+ <cc5f65a8-204b-17ad-3bba-61a3919ef798@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <c5d8de0c-9dab-ec80-3ac7-cd180baed81a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-19_08:2021-02-18,
- 2021-02-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0
- lowpriorityscore=0 spamscore=0 impostorscore=0 mlxscore=0 phishscore=0
- clxscore=1015 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2102190144
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+In-Reply-To: <cc5f65a8-204b-17ad-3bba-61a3919ef798@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,49 +81,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, cohuck@redhat.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Pavel.Dovgaluk@ispras.ru, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ b.galvani@gmail.com, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qemu-arm@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Feb 19, 2021 at 07:24:01PM +0100, Philippe Mathieu-Daud=E9 wrote:
+>=20
+> I hope you understand the concern I have is not with you in particular,
+> and I used your case to start a discussion with the QEMU community.
+>=20
+> FWIW I missed the URL change because I still have the image cached in
+> Avocado so my testing ran fine. Which makes me wonder...
+>=20
+> Cleber, Willian, should Avocado display information about cached
+> artifacts? Such "Using artifact downloaded 7 months ago".
+>
 
-On 2/19/21 2:41 PM, Thomas Huth wrote:
-> On 19/02/2021 14.39, Pierre Morel wrote:
->> The Measurement Block Origin inside the SCHIB is used when
->> Measurement Block format 1 is in used and must be aligned
->> on 64 bytes otherwise an operand exception is recognized
->> when issuing the Modify Sub CHannel (MSCH) instruction.
->>
->> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->> ---
->>   target/s390x/ioinst.c | 6 ++++++
->>   1 file changed, 6 insertions(+)
->>
->> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
->> index a412926d27..1ee11522e1 100644
->> --- a/target/s390x/ioinst.c
->> +++ b/target/s390x/ioinst.c
->> @@ -121,6 +121,12 @@ static int ioinst_schib_valid(SCHIB *schib)
->>       if (be32_to_cpu(schib->pmcw.chars) & PMCW_CHARS_MASK_XMWME) {
->>           return 0;
->>       }
->> +    /* for MB format 1 bits 26-31 of word 11 must be 0 */
->> +    /* MBA uses words 10 and 11, it means align on 2**6 */
->> +    if ((be16_to_cpu(schib->pmcw.chars) & PMCW_CHARS_MASK_MBFC) &&
->> +        (be64_to_cpu(schib->mba) & 0x03fUL)) {
->> +        return 0;
->> +    }
->>       return 1;
->>   }
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
+As of Avocado 85.0 (currently used in QEMU), it's possible to set the
+"expire" parameter to "fetch_asset", see:
 
-Thanks,
-Pierre
+  https://avocado-framework.readthedocs.io/en/85.0/api/test/avocado.html#av=
+ocado.Test.fetch_asset
 
--- 
-Pierre Morel
-IBM Lab Boeblingen
+In this case, if we want assets to not be used if they're are 30 days
+or older, that could be set to 86400.  The expired asset not being used,
+and then not being able to be fetched again, would cause a test to be
+canceled.
+
+Cache browsing/listing/manipulation using the "avocado assets" command
+is planned for Avocado 86.0, see:
+
+  https://github.com/avocado-framework/avocado/issues/4311
+
+> > So what I can do
+> > instead is:
+> >=20
+> > =A0 - update the patch to use github to store the artifacts, and their
+> > licenses (other tests also use github)
+>=20
+> Until there is better solutions, this is the option I prefer.
+>
+
++1.
+
+Regards,
+- Cleber.
+
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmAwCm0ACgkQZX6NM6Xy
+CfOqXg/+OedAWfYGLoW0Ff6Cs2CXBP3yLGWZHKCy0k1/jwghzV9Ve/LEsW6+oXeA
+FKNQ6VIc6pultpz6VXeb7jxcUPezn4JmOhcY2OrRfJqJLs18g9+iYMNlMBdaVOAY
+fU0R9Ou1IhpflJTTO3mE/ruCtiM5MS1swnfr9xbVNmimJ9v+i9Y7526RTtcLRrOE
+zEBjvK/I27mOfSUKNC3kWBlGjG5FuL6ZZMoDDQcc79wxxCtjaqlrsCO0WxY/+BOv
+kyza8Lqm/DniYMpys996Bm7fqsYgElfrqHTKLkQn5yIifFu8B8ZB3OKL/LZLwBTM
+pJrn9N3J/ZVQVYzK+TB1f3JwDVlHac6f0YtzWiTOvoQuAkV+vBnTVAjSWsHowOST
+mRIZlRQB2k6QHvaeExRWWSUykXDYdxd4w+PgTsrCHei7CBrOLwMeuprdYUQ8D0/K
+KAAbbf+wkLC0PHRBIYpxeK6/rndSO3tl8KvidilgPdik8p6+lzf2LtcKI/AC5ajL
+OxVj9flUdIdTnfvi3ciVIwH9L/YuzKDjfXc6N/BaTvcRsQ1YaHhE95WQgyLVNTnT
+523Q7wMK9ZDKg5WSR8SAYM9nN0LaeV4e97NXRSqnTPnwg6k1Oafnft4e3OVb6VIK
+LLpMpBTNrSEHEueK7PJpnd0WeCQxqANcQX+a2dZycRYBmVoqmP4=
+=i7jE
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
+
 
