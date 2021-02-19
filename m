@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BCD31F5A8
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:10:23 +0100 (CET)
-Received: from localhost ([::1]:42568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D68631F59E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:06:00 +0100 (CET)
+Received: from localhost ([::1]:33556 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD0rm-0006h9-Ev
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:10:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52476)
+	id 1lD0nX-0002rB-A5
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:05:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD0g2-0003sn-5t
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:58:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57848)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD0fy-0003kj-GT
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:58:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD0fu-0002hB-Tt
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:58:13 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD0fu-0002h0-BJ
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:58:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613721486;
+ s=mimecast20190719; t=1613721485;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gKovzP+Uj4KLVWb+WShiRrDw242HZzboAbW5KWNwhUU=;
- b=NL8krZd4/u9XQgWyw6Xv86B6NxbXMOZQ0JWhU0xZXrovZcr6nIVBtO1kRK2m4X295x5rHx
- ZxaGFs0bJpe88FxqYhgfnSVqIfuqFxLG0kXtR+EP8h1rSnOW1yHp11aAGPJT0BLl4EK2E+
- K7XzL8/od6u5Cz4wFPkAq6AyoKz6TvI=
+ bh=sF4OvBRaCKyZiZNQtHF0fcavVVosMolQKp8hmq1eOIE=;
+ b=ZEiE44KM7ExQGrb6WJlZNlDpjQ7uhI3dHCA+NUksYlbj3sRTUoYjZLlP8ffDY1qELo+1RP
+ ftfnaqiJJt3GwedkqNWAchhKOCDGsQ++cqWxdD+vMxCMv3jVr8aUMBrCcf9I2O5x1e7Y+W
+ yGy/EH5PlHJFBgNdxVOqU72uJNzBAP0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-jMQtYdydO_S3JegxEB7zZw-1; Fri, 19 Feb 2021 02:58:01 -0500
-X-MC-Unique: jMQtYdydO_S3JegxEB7zZw-1
+ us-mta-35-1McItZAHOqS8aDw1Wci8dQ-1; Fri, 19 Feb 2021 02:58:03 -0500
+X-MC-Unique: 1McItZAHOqS8aDw1Wci8dQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4E18804038;
- Fri, 19 Feb 2021 07:58:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 198ED1005501;
+ Fri, 19 Feb 2021 07:58:02 +0000 (UTC)
 Received: from thuth.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA405D9C2;
- Fri, 19 Feb 2021 07:57:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 116BA5D9C2;
+ Fri, 19 Feb 2021 07:58:00 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 07/10] gitlab-ci: Disable vhost-kernel in build-disable job
-Date: Fri, 19 Feb 2021 08:57:35 +0100
-Message-Id: <20210219075738.2261103-8-thuth@redhat.com>
+Subject: [PULL 08/10] tests/qtest/boot-sector: Check that the guest did not
+ panic
+Date: Fri, 19 Feb 2021 08:57:36 +0100
+Message-Id: <20210219075738.2261103-9-thuth@redhat.com>
 In-Reply-To: <20210219075738.2261103-1-thuth@redhat.com>
 References: <20210219075738.2261103-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +55,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -77,38 +78,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+The s390-ccw bios code panics if it can not boot successfully. In
+this case, it does not make sense that we wait the full 600 seconds
+for the boot sector test to finish and can signal the failure
+immediately, thus let's check the status of the guest with the
+"query-status" QMP command here, too.
 
-Commit 299e6f19b3e ("vhost-net: revamp configure logic") added
-the --enable-vhost-kernel option.
-Disable it in the build-disable job.
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-Id: <20210131104621.221602-1-f4bug@amsat.org>
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210212113141.854871-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.yml | 1 +
- 1 file changed, 1 insertion(+)
+ tests/qtest/boot-sector.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index fcbec77a91..c06c20be6c 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -358,6 +358,7 @@ build-disabled:
-       --disable-vhost-crypto
-       --disable-vhost-net
-       --disable-vhost-scsi
-+      --disable-vhost-kernel
-       --disable-vhost-user
-       --disable-vhost-vdpa
-       --disable-vhost-vsock
+diff --git a/tests/qtest/boot-sector.c b/tests/qtest/boot-sector.c
+index 24df5c4734..ea8f264661 100644
+--- a/tests/qtest/boot-sector.c
++++ b/tests/qtest/boot-sector.c
+@@ -138,6 +138,7 @@ void boot_sector_test(QTestState *qts)
+     uint8_t signature_low;
+     uint8_t signature_high;
+     uint16_t signature;
++    QDict *qrsp, *qret;
+     int i;
+ 
+     /* Wait at most 600 seconds (test is slow with TCI and --enable-debug) */
+@@ -155,6 +156,14 @@ void boot_sector_test(QTestState *qts)
+         if (signature == SIGNATURE) {
+             break;
+         }
++
++        /* check that guest is still in "running" state and did not panic */
++        qrsp = qtest_qmp(qts, "{ 'execute': 'query-status' }");
++        qret = qdict_get_qdict(qrsp, "return");
++        g_assert_nonnull(qret);
++        g_assert_cmpstr(qdict_get_try_str(qret, "status"), ==, "running");
++        qobject_unref(qrsp);
++
+         g_usleep(TEST_DELAY);
+     }
+ 
 -- 
 2.27.0
 
