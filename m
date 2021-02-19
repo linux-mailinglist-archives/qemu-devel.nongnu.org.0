@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2CD31FE11
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:42:47 +0100 (CET)
-Received: from localhost ([::1]:40040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2679931FE1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:43:23 +0100 (CET)
+Received: from localhost ([::1]:41532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD9nh-0004sU-R2
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:42:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49022)
+	id 1lD9oH-0005Vi-Q1
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:43:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9k2-00026c-5J
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:38:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45319)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9k7-0002GD-Cw
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9jz-0005Mt-Hc
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:38:57 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9k4-0005Pd-Kd
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613756334;
+ s=mimecast20190719; t=1613756339;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=4SOncT9Fo54yUG54/z2tFe4UG2s+CTajIRyeydICZjo=;
- b=YZFlL6hfULqIyWQb/z3hlSqI+0d7XDhxI+UD3ulqt3+SsPKHXd9ZhttbYlzjjwfEjvDr+0
- OS5dhGRn9X+jz+YmEHCxkkIgo9z0nNb9Eg1yRcKHJMK2DgeYY39auP1HBisnrvlIVyWzM6
- wOVfVEafosJYWkb6t+gRvciSL9Ml7Vg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-401-j_TV_XhiPMaW4uo1nGbhPw-1; Fri, 19 Feb 2021 12:38:52 -0500
-X-MC-Unique: j_TV_XhiPMaW4uo1nGbhPw-1
-Received: by mail-wr1-f72.google.com with SMTP id u15so2773051wrn.3
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:38:52 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=98X4DsBNdk1BN09KWcHx0mE3/gzzTZdKxOLSGajyIeI=;
+ b=Q9/iEHjDqTF80Mo33cOYrt6p2Mpt3KYt2U3Ws869lT0OTof6ZPlwvl5CIILLX0q5dD0TsJ
+ GREqXguURm4OuiYckfiL8llnByBBclUng2Ga0xYg7sctKg9dbGPCq2yoHwHUfwCC5Ta4Ih
+ L4BjB9lWVIOwISa+z4fduSomV3HSW/o=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-T9xLyIzUMjOy7UZ1BigUcw-1; Fri, 19 Feb 2021 12:38:58 -0500
+X-MC-Unique: T9xLyIzUMjOy7UZ1BigUcw-1
+Received: by mail-wm1-f72.google.com with SMTP id z67so2789285wme.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:38:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=lykBUd6DAhrahT8nCJAC5FU9Ql8oesKH07nupx8xYdk=;
- b=rihIkBEocFVFaIqNptYLDhKkmEKuhbutmRBT/Ckwcs4cbPWewRCpOvKN8h3EbBfzbV
- 4KYyb7HS78fItVgVFwryGtCikirIX4rEK0IAzcLlHMpyFbaVjSy/2QULOvtNu4IrAi0V
- juODaBHW4v7v8Yzpb9D5mYpvpbfQ/djxmy8vaK1WtLAShkvcJnCEvcrCKh9amvnKhzj9
- pa1dHvvDCErHC3/ESVtUxfXBitVQeWTNcbQL1YReyFcLGOCA68ozdz+q7YibZk/He6pp
- M9D5yBm5TTxJPCZ3wuh16k5NJ/gNCOMZa1wBTabNRc5R+AXIDxF1BudlAnKemyM2xntm
- orrA==
-X-Gm-Message-State: AOAM5310R27WuHYEi/134VX7QmO3XYgCJJVR/eF+CpaiDNR8+cKR4PvF
- qvr5WR+sSEUTzcpEPXLN5jTmH1XgKh44D2AxES81d5C8JplyvvJOKcCVdySepA3HBuFRmGFHgNN
- GVvc3Yl/d0Cxt5XzMOzKJKagvDfYDbvSOvv4XxfewTR5a57PZ72R5KoFXBdiXelk1
-X-Received: by 2002:adf:e4c3:: with SMTP id v3mr10542060wrm.210.1613756331142; 
- Fri, 19 Feb 2021 09:38:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwI/byrZ/GWSkkhxlUrl1Omb6LyZ4OFFS/CSa2qXI7tP50C7ZajzgipQ5EfU9sygOtDbt6r2g==
-X-Received: by 2002:adf:e4c3:: with SMTP id v3mr10542005wrm.210.1613756330876; 
- Fri, 19 Feb 2021 09:38:50 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=98X4DsBNdk1BN09KWcHx0mE3/gzzTZdKxOLSGajyIeI=;
+ b=CTv/+Mb+Tl5GLhRMkVfTPgu/hP4v7C9SboOduXu+EvLwbnV7l/eMRm8+2ldFNFu610
+ PEvCEgWUUOUDCNbAnCQucdBxwfhmfQW+57kjtkBC/6LKzlWjndFyB5ME3ROJSj4TNemO
+ QtgpxPmW8UdhAvy27dBIU1FORA7Mj+ut3/TM0zsTidDVPb6jSGeUzg49wSvmmVO2iM80
+ 4EUMDVjNIKJFAQMm6Z0764Gvn2hrV66NSy1VN4oBss7zkRalk618m5fpK9YV0S2qgx8j
+ npuoo3QkYXu+NoWSO4cfy7kkSToOOrpYYIAkanuUvYzkD5M+Da+SNpQp1B267odMdBFw
+ xEVA==
+X-Gm-Message-State: AOAM530aMEySpM9qjJAKrPcAvnFfrORmSto2s1QT/EpZT/q0VtBknPks
+ PHGdd7t71A8A9JMulP0xhK6fr7wZwdQkJwAQz/DkrROvwDcY2gMV1yGpctUFUXqeW59dpqvtkus
+ 0U4ZXSDzYcL3fpD02XigxhJUuwM7twegoAxGeMwAfQkVtAqyRDI+PYPjrL61vS86w
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr10395992wre.83.1613756336913; 
+ Fri, 19 Feb 2021 09:38:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzk+AP79F8l3TWLxyR5RU8SmferiSbz3yhDIC5dQKM04uA2QaqDVPRO6H3UVoBxcUQFmDZVKw==
+X-Received: by 2002:adf:b60f:: with SMTP id f15mr10395942wre.83.1613756336683; 
+ Fri, 19 Feb 2021 09:38:56 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id l2sm13785629wrm.6.2021.02.19.09.38.48
+ by smtp.gmail.com with ESMTPSA id i7sm23525949wmq.2.2021.02.19.09.38.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 09:38:50 -0800 (PST)
+ Fri, 19 Feb 2021 09:38:56 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 00/11] hw/accel: Exit gracefully when accelerator is invalid
-Date: Fri, 19 Feb 2021 18:38:36 +0100
-Message-Id: <20210219173847.2054123-1-philmd@redhat.com>
+Subject: [PATCH v2 01/11] accel/kvm: Check MachineClass kvm_type() return value
+Date: Fri, 19 Feb 2021 18:38:37 +0100
+Message-Id: <20210219173847.2054123-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210219173847.2054123-1-philmd@redhat.com>
+References: <20210219173847.2054123-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -115,58 +118,47 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This series aims to improve user experience by providing=0D
-a better error message when the user tries to enable KVM=0D
-on machines not supporting it.=0D
-=0D
-Since v1:=0D
-- added missing x86 arch (Peter)=0D
-- consider all accelerators (Daniel and Peter)=0D
-- do not enable KVM on sbsa-ref (Leif)=0D
-- updated 'query-machines' (Daniel)=0D
-- new patch for XenPV=0D
-=0D
-Supersedes: <20210219114428.1936109-1-philmd@redhat.com>=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (11):=0D
-  accel/kvm: Check MachineClass kvm_type() return value=0D
-  hw/boards: Introduce machine_class_valid_for_accelerator()=0D
-  hw/core: Restrict 'query-machines' to those supported by current accel=0D
-  hw/arm: Restrit KVM to the virt & versal machines=0D
-  hw/mips: Restrict KVM to the malta & virt machines=0D
-  hw/ppc: Restrict KVM to various PPC machines=0D
-  hw/s390x: Explicit the s390-ccw-virtio machines support TCG and KVM=0D
-  hw/i386: Explicit x86 machines support all current accelerators=0D
-  hw/xenpv: Restrict Xen Para-virtualized machine to Xen accelerator=0D
-  hw/board: Only allow TCG accelerator by default=0D
-  softmmu/vl: Exit gracefully when accelerator is not supported=0D
-=0D
- include/hw/boards.h        | 27 ++++++++++++++++++++++++++-=0D
- accel/kvm/kvm-all.c        |  6 ++++++=0D
- hw/arm/virt.c              |  5 +++++=0D
- hw/arm/xlnx-versal-virt.c  |  5 +++++=0D
- hw/core/machine-qmp-cmds.c |  4 ++++=0D
- hw/core/machine.c          | 26 ++++++++++++++++++++++++++=0D
- hw/i386/x86.c              |  5 +++++=0D
- hw/mips/loongson3_virt.c   |  5 +++++=0D
- hw/mips/malta.c            |  5 +++++=0D
- hw/ppc/e500plat.c          |  5 +++++=0D
- hw/ppc/mac_newworld.c      |  6 ++++++=0D
- hw/ppc/mac_oldworld.c      |  5 +++++=0D
- hw/ppc/mpc8544ds.c         |  5 +++++=0D
- hw/ppc/ppc440_bamboo.c     |  5 +++++=0D
- hw/ppc/prep.c              |  5 +++++=0D
- hw/ppc/sam460ex.c          |  5 +++++=0D
- hw/ppc/spapr.c             |  5 +++++=0D
- hw/s390x/s390-virtio-ccw.c |  5 +++++=0D
- hw/xenpv/xen_machine_pv.c  |  5 +++++=0D
- softmmu/vl.c               |  7 +++++++=0D
- 20 files changed, 145 insertions(+), 1 deletion(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+MachineClass::kvm_type() can return -1 on failure.
+Document it, and add a check in kvm_init().
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/hw/boards.h | 3 ++-
+ accel/kvm/kvm-all.c | 6 ++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/include/hw/boards.h b/include/hw/boards.h
+index a46dfe5d1a6..68d3d10f6b0 100644
+--- a/include/hw/boards.h
++++ b/include/hw/boards.h
+@@ -127,7 +127,8 @@ typedef struct {
+  *    implement and a stub device is required.
+  * @kvm_type:
+  *    Return the type of KVM corresponding to the kvm-type string option or
+- *    computed based on other criteria such as the host kernel capabilities.
++ *    computed based on other criteria such as the host kernel capabilities
++ *    (which can't be negative), or -1 on error.
+  * @numa_mem_supported:
+  *    true if '--numa node.mem' option is supported and false otherwise
+  * @smp_parse:
+diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+index 84c943fcdb2..b069938d881 100644
+--- a/accel/kvm/kvm-all.c
++++ b/accel/kvm/kvm-all.c
+@@ -2057,6 +2057,12 @@ static int kvm_init(MachineState *ms)
+                                                             "kvm-type",
+                                                             &error_abort);
+         type = mc->kvm_type(ms, kvm_type);
++        if (type < 0) {
++            ret = -EINVAL;
++            fprintf(stderr, "Failed to detect kvm-type for machine '%s'\n",
++                    mc->name);
++            goto err;
++        }
+     }
+ 
+     do {
+-- 
+2.26.2
 
 
