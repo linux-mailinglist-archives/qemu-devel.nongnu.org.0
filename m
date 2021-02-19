@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B1E31F96A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:30:17 +0100 (CET)
-Received: from localhost ([::1]:37266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA76731F96C
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:32:33 +0100 (CET)
+Received: from localhost ([::1]:40758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4vH-0002hr-Vu
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:30:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56478)
+	id 1lD4xU-0004vz-Gi
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:32:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lD4nH-0001o2-HM
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:21:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40005)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lD4nF-0000cL-O5
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:21:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613737317;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=r7CXdrejAtkHy27sK0oAIRGSNED677Xx660c2FLVOeI=;
- b=VU9brPIcA26c2+0NENUKmiRVuUbg681boAbwHNxk01I8FRfvrbDynebgvIhaK4DVKnWVRA
- h///tDDIhu4Xr/xkLlv05hlUu0o+Ez8pJ3rhVMMawE1EWtnY+FN81wV+0GVZqCoxw2n3gC
- h8qDKVkYavN6lehplOcd8OY856ub9j0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-iwl985c-P4i3Ui4xMBh-DQ-1; Fri, 19 Feb 2021 07:21:53 -0500
-X-MC-Unique: iwl985c-P4i3Ui4xMBh-DQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B0E0107ACE3;
- Fri, 19 Feb 2021 12:21:52 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-88.ams2.redhat.com [10.36.114.88])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 11B6A5D743;
- Fri, 19 Feb 2021 12:21:50 +0000 (UTC)
-Date: Fri, 19 Feb 2021 13:21:49 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Subject: Re: [PATCH] iotests: Drop deprecated 'props' from object-add
-Message-ID: <20210219122149.GC5750@merkur.fritz.box>
-References: <20210216171653.6543-1-berto@igalia.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD4a6-0003d1-6I
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:08:23 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:45161)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD4a2-0003WH-TJ
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:08:21 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id p2so9456551edm.12
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 04:08:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Rnkn7mbM56SteQutXvRxji6jtVMYcThd8dUUo2XhtOE=;
+ b=ELXA41CKlOXTN1/9N7Ts9CcJHRq/Kx13l/8BE4BziuJKhXr1/wWwWFHmFyUqcfwNqs
+ hG7c2ic8cC+Q5l8dCzvH2ioxtvIbxgG85e1aFkXUS/NCcVpIo+1F9Ygkxrt36CeLFqkZ
+ 5r+542tbF2ZxAjnV2bLBL6aHXOgPZXTQqEWDTM9qeiDe+GA9Xh7CakA+SJfGSSB0cbNZ
+ UBk8LVUgT8suW7aa/Fsv8LWB9ciPWNDrV0biKm1PCeOmr0KoZ2kkkfslUnL+oE3lk+1a
+ wJN7v/S3daAyHONr0dvfgAGgA80LcjPaMCVAdG4d7+cJZ6vxcIuF0Z1BVL13tpsM8jbz
+ bG8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Rnkn7mbM56SteQutXvRxji6jtVMYcThd8dUUo2XhtOE=;
+ b=fsBZUXQLdzvotmbM/RUw0SnpE11TNwRVsCeLp/Lh125rCynFq/NLObQuFM50eOukAj
+ 2JzETKG1fDBMeiWe1P3ur8zX9bhQOWHxByvGEiqJSRAcEPmHhwKtlhTJefeCgOV6byz8
+ oV54mD6AYAMYigOAtsVux+COPpsj/YeS4QSh5sY5cY19DZruBlC7MvyMOZnGewajpoYd
+ eFKZ0umoNvm6Pq/akjV/LsX8nIL87IvpUA6vF5H/eS/m9VcKXk4k8M/RFH9mMzMvA5+2
+ IlP7hzS/QXTF0hgZMJQwymQwg6HA9r2Ov0QQRb3X4BypCjdULCBdTjkLmb7+HNX6jy4A
+ J9Yw==
+X-Gm-Message-State: AOAM531/J+PyWAUcXIEbRQ4HmPPZsPTpZhMggEE6fiz7rvUfevD+UfJv
+ 48FZCvK6+jFmVS8zuL0PiBLdMzsyqBJT0ZYmbLKrsg==
+X-Google-Smtp-Source: ABdhPJx5PDdFuTeJWwNR+YNIQtZ7qwv2WTUigwRfVG4qQBVImGyqqTnw7XwIshfI5fI8sFOL12fb2yxRS1qvjUU5KfM=
+X-Received: by 2002:a05:6402:545:: with SMTP id
+ i5mr5364744edx.44.1613736496919; 
+ Fri, 19 Feb 2021 04:08:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210216171653.6543-1-berto@igalia.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210219114428.1936109-1-philmd@redhat.com>
+ <20210219114428.1936109-3-philmd@redhat.com>
+ <YC+nxWnB+eaiq736@redhat.com>
+In-Reply-To: <YC+nxWnB+eaiq736@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Feb 2021 12:08:05 +0000
+Message-ID: <CAFEAcA-A=TG43w2yNfrDwCgYYNZBEa25cM_yYgREfQyKa=PZEQ@mail.gmail.com>
+Subject: Re: [PATCH 2/7] hw/boards: Introduce 'kvm_supported' field to
+ MachineClass
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,50 +82,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Cornelia Huck <cohuck@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
+ qemu-arm <qemu-arm@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.02.2021 um 18:16 hat Alberto Garcia geschrieben:
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
+On Fri, 19 Feb 2021 at 11:58, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+> Is the behaviour reported really related to KVM specifically, as opposed
+> to all hardware based virt backends ?
+>
+> eg is it actually a case of some machine types being  "tcg_only" ?
 
-> diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
-> index 20d16dbf38..f5c73b9c17 100755
-> --- a/tests/qemu-iotests/235
-> +++ b/tests/qemu-iotests/235
-> @@ -57,7 +57,7 @@ vm.add_args('-drive', 'id=src,file=' + disk)
->  vm.launch()
->  
->  log(vm.qmp('object-add', qom_type='throttle-group', id='tg0',
-> -           props={ 'x-bps-total': size }))
-> +           x_bps_total=size))
+Interesting question. At least for Arm the major items are:
+ * does the accelerator support emulation of EL3/TrustZone?
+   (KVM doesn't; this is the proximate cause of the assertion
+   failure if you try to enable KVM for the raspi boards.)
+ * does the board type require a particular CPU type which
+   KVM doesn't/can't support?
+Non-KVM accelerators could at least in theory have different answers
+to those questions, though in practice I think they do not.
 
-x-bps-total isn't a stable interface, I'd prefer to use limits.
+I think my take is that we probably should mark the boards
+as 'tcg-only' vs 'not-tcg-only', because in practice that's
+the interesting distinction. Specifically, our security policy
+https://qemu.readthedocs.io/en/latest/system/security.html
+draws a boundary between "virtualization use case" and
+"emulated", so it's really helpful to be able to say clearly
+"this board model does not support virtualization, and therefore
+any bugs in it or its devices are simply outside the realm of
+being security issues" when doing analysis of the codebase or
+when writing or reviewing new code.
 
-My patch from November [1] had this:
+If we ever have support for some new accelerator type where there's
+a board type distinction between KVM and that new accelerator and
+it makes sense to try to say "this board is supported by the new
+thing even though it won't work with KVM", the folks interested in
+adding that new accelerator will have the motivation to look
+into exactly which boards they want to enable support for and
+can add a funky_accelerator_supported flag or whatever at that time.
 
-diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
-index d1b10ac36b..2765561ada 100755
---- a/tests/qemu-iotests/235
-+++ b/tests/qemu-iotests/235
-@@ -56,7 +56,7 @@ vm.add_args('-drive', 'id=src,file=' + disk)
- vm.launch()
+Summary: we should name this machine class field
+"virtualization_supported" and check it in all the virtualization
+accelerators (kvm, hvf, whpx, xen).
 
- log(vm.qmp('object-add', qom_type='throttle-group', id='tg0',
--           props={ 'x-bps-total': size }))
-+           limits={ 'bps-total': size }))
-
- log(vm.qmp('blockdev-add',
-            **{ 'node-name': 'target',
-
-The same happens in other hunks in the patch.
-
-Actually, I believe I can even merge my patch to drop 'props' while
-the rest of the object-add QAPIfication series isn't ready yet. Maybe I
-should just do that.
-
-Kevin
-
-[1] https://lists.gnu.org/archive/html/qemu-block/2020-11/msg00802.html
-
+thanks
+-- PMM
 
