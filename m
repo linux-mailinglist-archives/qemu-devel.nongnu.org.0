@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01A131F945
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:17:13 +0100 (CET)
-Received: from localhost ([::1]:55078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A3A031F959
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:21:54 +0100 (CET)
+Received: from localhost ([::1]:42406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4ie-0002lM-KZ
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:17:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53022)
+	id 1lD4nB-0000lr-CE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:21:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD4WQ-0007OA-7t
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:04:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29792)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD4WU-0007QJ-R0
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:04:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50701)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD4WM-0001zk-PC
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:04:33 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD4WN-000208-5B
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:04:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613736269;
+ s=mimecast20190719; t=1613736270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hEXkpIgb0lYrQE4+ahdxaq0PtYLPBL/1MX51VuMeUww=;
- b=T5gtZtd9zgXV2UTqJzEo3vmfD/gu53RR2zj2PcGZhwsmU7h4k2RouKzbPLp8Q8hHd9MQnT
- g561FrE+rseQmqTRAk86oSyeOpqhT70bVczksy1c2r7Bet0Qqr7kNgPq+Gth7Sx5dOwFVy
- CFP4kmrWz+cdsrUYiRNRIZ4N9sxIumc=
+ bh=LgTOc7jJu9Ixl4Y7gVHOfJoeXCTt4ZAhiCVBMo+tZoU=;
+ b=YXybQ58p4K+oiSCweRkAPMCgsk5UG5I6WDwKnoBmhcgsXMTSyudzFALWfSSTZBUlz0IS4Z
+ IXVkwBEa64i5pRNwRUSPeSk9gv6xiitGqXjXTfwTAkUBfM1sxkEZ3BmITih54HSJxdrkqU
+ xpdJjIqsP8V65bS4Z24ARWn5WPAkUmo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-494-RqGaZkiBNb2cwqqOeb70ug-1; Fri, 19 Feb 2021 07:04:27 -0500
-X-MC-Unique: RqGaZkiBNb2cwqqOeb70ug-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-78-W1qemW2LNueH9kp9qpyXmw-1; Fri, 19 Feb 2021 07:04:27 -0500
+X-MC-Unique: W1qemW2LNueH9kp9qpyXmw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73705192AB79;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 752A0100A8EA;
  Fri, 19 Feb 2021 12:04:26 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
  [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4347110016F5;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43C8419C71;
  Fri, 19 Feb 2021 12:04:26 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 2C58B11329A3; Fri, 19 Feb 2021 13:04:23 +0100 (CET)
+ id 3014011329A9; Fri, 19 Feb 2021 13:04:23 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/18] qapi/introspect.py: improve readability of _tree_to_qlit
-Date: Fri, 19 Feb 2021 13:04:16 +0100
-Message-Id: <20210219120422.600850-13-armbru@redhat.com>
+Subject: [PATCH 13/18] qapi/introspect.py: remove _gen_variants helper
+Date: Fri, 19 Feb 2021 13:04:17 +0100
+Message-Id: <20210219120422.600850-14-armbru@redhat.com>
 In-Reply-To: <20210219120422.600850-1-armbru@redhat.com>
 References: <20210219120422.600850-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,82 +85,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-Subjective, but I find getting rid of the comprehensions helps. Also,
-divide the sections into scalar and non-scalar sections, and remove
-old-style string formatting.
+It is easier to give a name to all of the dictly-typed objects we pass
+around in introspect.py by removing this helper, as it does not return
+an object that has any knowable type by itself.
+
+Inline it into its only caller instead.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210216021809.134886-13-jsnow@redhat.com>
+Message-Id: <20210216021809.134886-14-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/introspect.py | 33 ++++++++++++++++++---------------
- 1 file changed, 18 insertions(+), 15 deletions(-)
+ scripts/qapi/introspect.py | 9 ++-------
+ 1 file changed, 2 insertions(+), 7 deletions(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 96dfbb4cef..26e6f73e5d 100644
+index 26e6f73e5d..da7bc8883c 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -91,7 +91,7 @@ def indent(level):
+@@ -242,10 +242,6 @@ def _gen_member(self, member):
+             obj['features'] = self._gen_features(member.features)
+         return Annotated(obj, member.ifcond)
  
-         ret = ''
-         if obj.comment:
--            ret += indent(level) + '/* %s */\n' % obj.comment
-+            ret += indent(level) + f"/* {obj.comment} */\n"
-         if obj.ifcond:
-             ret += gen_if(obj.ifcond)
-         ret += _tree_to_qlit(obj.value, level)
-@@ -102,33 +102,36 @@ def indent(level):
-     ret = ''
-     if not dict_value:
-         ret += indent(level)
-+
-+    # Scalars:
-     if obj is None:
-         ret += 'QLIT_QNULL'
-     elif isinstance(obj, str):
--        ret += 'QLIT_QSTR(' + to_c_string(obj) + ')'
-+        ret += f"QLIT_QSTR({to_c_string(obj)})"
-+    elif isinstance(obj, bool):
-+        ret += f"QLIT_QBOOL({str(obj).lower()})"
-+
-+    # Non-scalars:
-     elif isinstance(obj, list):
--        elts = [_tree_to_qlit(elt, level + 1).strip('\n')
--                for elt in obj]
--        elts.append(indent(level + 1) + "{}")
-         ret += 'QLIT_QLIST(((QLitObject[]) {\n'
--        ret += '\n'.join(elts) + '\n'
-+        for value in obj:
-+            ret += _tree_to_qlit(value, level + 1).strip('\n') + '\n'
-+        ret += indent(level + 1) + '{}\n'
-         ret += indent(level) + '}))'
-     elif isinstance(obj, dict):
--        elts = []
--        for key, value in sorted(obj.items()):
--            elts.append(indent(level + 1) + '{ %s, %s }' %
--                        (to_c_string(key),
--                         _tree_to_qlit(value, level + 1, True)))
--        elts.append(indent(level + 1) + '{}')
-         ret += 'QLIT_QDICT(((QLitDictEntry[]) {\n'
--        ret += ',\n'.join(elts) + '\n'
-+        for key, value in sorted(obj.items()):
-+            ret += indent(level + 1) + "{{ {:s}, {:s} }},\n".format(
-+                to_c_string(key),
-+                _tree_to_qlit(value, level + 1, dict_value=True)
-+            )
-+        ret += indent(level + 1) + '{}\n'
-         ret += indent(level) + '}))'
--    elif isinstance(obj, bool):
--        ret += 'QLIT_QBOOL(%s)' % ('true' if obj else 'false')
-     else:
-         raise NotImplementedError(
-             f"type '{type(obj).__name__}' not implemented"
-         )
-+
-     if level > 0:
-         ret += ','
-     return ret
+-    def _gen_variants(self, tag_name, variants):
+-        return {'tag': tag_name,
+-                'variants': [self._gen_variant(v) for v in variants]}
+-
+     def _gen_variant(self, variant):
+         obj = {'case': variant.name, 'type': self._use_type(variant.type)}
+         return Annotated(obj, variant.ifcond)
+@@ -269,9 +265,8 @@ def visit_object_type_flat(self, name, info, ifcond, features,
+                                members, variants):
+         obj = {'members': [self._gen_member(m) for m in members]}
+         if variants:
+-            obj.update(self._gen_variants(variants.tag_member.name,
+-                                          variants.variants))
+-
++            obj['tag'] = variants.tag_member.name
++            obj['variants'] = [self._gen_variant(v) for v in variants.variants]
+         self._gen_tree(name, 'object', obj, ifcond, features)
+ 
+     def visit_alternate_type(self, name, info, ifcond, features, variants):
 -- 
 2.26.2
 
