@@ -2,74 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F29231FDBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:16:15 +0100 (CET)
-Received: from localhost ([::1]:35158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8380731FDCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:24:08 +0100 (CET)
+Received: from localhost ([::1]:46000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD9O2-00034G-MR
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:16:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
+	id 1lD9Vf-0002LS-Kq
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:24:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44250)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lD9A7-0007eu-M2
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:01:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23950)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lD9A3-0002i4-He
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:01:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613754106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yjwwtAsVD/JnN2nQ/Si6tomWGTx+UGpsB+TxSF2edSE=;
- b=ig/nav5DhRtWRDUWZsfkxIDbrNIew6NOtCgjapm6Xl2eBbRgi5GkSiKAL89ALLS7SGWlsJ
- 2oPxbs/bdEkoAPGC8zdwJiVwL3eT7h9h//Pmc/PBhHvvWNAm18FXCktFijY8uC7eXZ/Gk+
- P3m65L7fCgGgmRoxJNv44G9gCrQqC2g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-341-ETymYVXeMtmbNndrU_wLiw-1; Fri, 19 Feb 2021 12:01:37 -0500
-X-MC-Unique: ETymYVXeMtmbNndrU_wLiw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 756F4814279;
- Fri, 19 Feb 2021 17:01:36 +0000 (UTC)
-Received: from gondolin (ovpn-113-92.ams2.redhat.com [10.36.113.92])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0DDDA5C1BB;
- Fri, 19 Feb 2021 17:01:31 +0000 (UTC)
-Date: Fri, 19 Feb 2021 18:01:29 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH] virtio-ccw: commands on revision-less devices
-Message-ID: <20210219180129.00350816.cohuck@redhat.com>
-In-Reply-To: <20210219122136.5d97e0bf.cohuck@redhat.com>
-References: <20210216111830.1087847-1-cohuck@redhat.com>
- <20210219122136.5d97e0bf.cohuck@redhat.com>
-Organization: Red Hat GmbH
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lD9SN-0007dd-6g
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:20:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40132)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lD9SJ-0008Ty-Ir
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:20:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lD9SH-0008PY-OB
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 17:20:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id AA26F2E8100
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 17:20:37 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Feb 2021 17:09:52 -0000
+From: Alexander Richardson <1916269@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: arichardson
+X-Launchpad-Bug-Reporter: Alexander Richardson (arichardson)
+X-Launchpad-Bug-Modifier: Alexander Richardson (arichardson)
+Message-Id: <161375459275.29060.15778429539023668893.malonedeb@soybean.canonical.com>
+Subject: [Bug 1916269] [NEW] TCG: QEMU raises exception on SSE4.2 CRC32
+ instruction in kernel
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: c1a14d56da8125a886524203b5683f4e32d1fbf2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -78,63 +69,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>
+Reply-To: Bug 1916269 <1916269@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Feb 2021 12:21:36 +0100
-Cornelia Huck <cohuck@redhat.com> wrote:
+Public bug reported:
 
-> On Tue, 16 Feb 2021 12:18:30 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
-> 
-> > The virtio standard specifies that any non-transitional device must
-> > reject commands prior to revision setting (which we do) and else
-> > assume revision 0 (legacy) if the driver sends a non-revision-setting
-> > command first. We neglected to do the latter.
-> > 
-> > Fortunately, nearly everything worked as intended anyway; the only
-> > problem was not properly rejecting revision setting after some other
-> > command had been issued. Easy to fix by setting revision to 0 if
-> > we see a non-revision command on a legacy-capable revision-less
-> > device.
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> >  hw/s390x/virtio-ccw.c | 21 ++++++++++++++-------
-> >  1 file changed, 14 insertions(+), 7 deletions(-)  
-> 
-> I now have:
-> 
-> Author: Cornelia Huck <cohuck@redhat.com>
-> Date:   Tue Feb 16 12:18:30 2021 +0100
-> 
->     virtio-ccw: commands on revision-less devices
->     
->     The virtio standard specifies that any non-transitional device must
->     reject commands prior to revision setting (which we do). Devices
->     that are transitional need to assume revision 0 (legacy) if the
->     driver sends a non-revision-setting command first in order to
->     support legacy drivers. We neglected to do the latter.
->     
->     Fortunately, nearly everything worked as intended anyway; the only
->     problem was not properly rejecting revision setting after some other
->     command had been issued. Easy to fix by setting revision to 0 if
->     we see a non-revision command on a legacy-capable revision-less
->     device.
->     
->     Found by code inspection, not observed in the wild.
->     
->     Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->     Reviewed-by: Thomas Huth <thuth@redhat.com>
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->     Acked-by: Halil Pasic <pasic@linux.ibm.com>
->     Message-Id: <20210216111830.1087847-1-cohuck@redhat.com>
-> 
-> Any objections?
+If I run FreeBSD on QEMU 5.2 with TCG acceleration -cpu Nehalem, I get a
+FPU exception when executing crc32
+(https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=3D253617). This is not
+a problem with the default CPU (or KVM) since that does not support SSE
+4.2.
 
-Queued now with this description.
+Attaching GDB shows this is triggered in
+target/i386/tcg/translate.c:3067
 
+    /* simple MMX/SSE operation */
+    if (s->flags & HF_TS_MASK) {
+        gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+        return;
+    }
+
+However, according to
+https://software.intel.com/sites/default/files/m/8/b/8/D9156103.pdf,
+page 61 the CRC32 instruction works no matter what the value of the TS
+bit.
+
+The code sequence in question is:
+0xffffffff8105a4de <+126>:	f2 48 0f 38 f1 de	crc32q %rsi,%rbx
+0xffffffff8105a4e4 <+132>:	f2 48 0f 38 f1 ca	crc32q %rdx,%rcx.
+
+This should work even with the FPU disabled.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916269
+
+Title:
+  TCG: QEMU raises exception on SSE4.2 CRC32 instruction in kernel
+
+Status in QEMU:
+  New
+
+Bug description:
+  If I run FreeBSD on QEMU 5.2 with TCG acceleration -cpu Nehalem, I get
+  a FPU exception when executing crc32
+  (https://bugs.freebsd.org/bugzilla/show_bug.cgi?id=3D253617). This is
+  not a problem with the default CPU (or KVM) since that does not
+  support SSE 4.2.
+
+  Attaching GDB shows this is triggered in
+  target/i386/tcg/translate.c:3067
+
+      /* simple MMX/SSE operation */
+      if (s->flags & HF_TS_MASK) {
+          gen_exception(s, EXCP07_PREX, pc_start - s->cs_base);
+          return;
+      }
+
+  However, according to
+  https://software.intel.com/sites/default/files/m/8/b/8/D9156103.pdf,
+  page 61 the CRC32 instruction works no matter what the value of the TS
+  bit.
+
+  The code sequence in question is:
+  0xffffffff8105a4de <+126>:	f2 48 0f 38 f1 de	crc32q %rsi,%rbx
+  0xffffffff8105a4e4 <+132>:	f2 48 0f 38 f1 ca	crc32q %rdx,%rcx.
+
+  This should work even with the FPU disabled.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916269/+subscriptions
 
