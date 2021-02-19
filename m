@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 522D331FD0E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:23:40 +0100 (CET)
-Received: from localhost ([::1]:42950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0795531FCF1
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:16:38 +0100 (CET)
+Received: from localhost ([::1]:58736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD8Z9-0004kr-BY
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:23:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54228)
+	id 1lD8SL-00074R-1T
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:16:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1lD8K7-0007RN-KI; Fri, 19 Feb 2021 11:08:07 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:46506)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lD8KZ-0008Ml-Nm
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:08:35 -0500
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:35412)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nirsof@gmail.com>)
- id 1lD8K1-0004Hm-FI; Fri, 19 Feb 2021 11:08:07 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id v22so10755107edx.13;
- Fri, 19 Feb 2021 08:08:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fyt+CBqBxQoPWXG1Aq4FUCSxDW9F55kFppO9VvGybUw=;
- b=rFlHzm4jq1LyCR4PiLkLfp9nQJ8aHpLGAgGepmdHnoxDs9FSIAgpI/f4M2PSE3BAeL
- Mn604U6g0I2XB4e7oy2FTJfavmBu3GH9zaP9o8ho8YeDew66YrjYOnqWZVo6P6OBxrqc
- aulTqZckLzQOWz51iPRmbzuioLOPrMxX6ubIb9X7jxXV0/SW1YXQjN3kK9UH2tJb4/IL
- G46TKZSHmTeMQNJnep0hqdtO3YJMIV39kHToV1QKcslhxO+xg8vVuWBPzIE+ontTAEHl
- ybZUSTknw6l3cktZPSh/RRg+W2STHtMJROKlmo97TyuZbWBIUgaB8QXH3BVwyeXkmrxn
- q+Og==
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lD8KW-0004Uy-L7
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:08:35 -0500
+Received: by mail-qk1-x736.google.com with SMTP id x14so6009347qkm.2
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 08:08:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=mD6HBq/stT5yMnTZtFIqhMi71T/KDXTbdG2oSedVas4=;
+ b=LMc1iyIiD7Gdp7Mm+IiOAx2jXpa0/6XL9zZ4vvuK2mMd+YrdZSSMDJa0+b7EU3/wkx
+ NKGzDIcVMBmQfQgkUIA8jGidS+UrzZ3E26ZsWmHuNqi0jbfTyPjKsbBumMipRbZG5jU0
+ uGyu/M4G6otZMX7PSQM6Kb0v0TI/8opJcj2U3E53+KkuWwqzNc6SucX3t6EdvSsmwv4w
+ H6Ah+TNz9jRv9BqaZHSa6BF9xUkzc7CWTfFhr4pHnR3aNaNJ3ykrNUOGFpbHhyXsV92t
+ 3Ddz2Eo3aafCvgZUGGAQ+2pwKMlt8X+rVx3SqdAKghVcF3XqtyRc1POd5tgdbiHl88Ia
+ xZoA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=fyt+CBqBxQoPWXG1Aq4FUCSxDW9F55kFppO9VvGybUw=;
- b=BDeKN7onNiPK3K9FNo1Z1RdQdRtuzLX0y3sle0Cw7v0LUouM5+IoHaCUYKOx1uLb4V
- xjJv3o61zfd0LoqYdQp/z5F+WK3JirnkZRnG0Oc5TUiSfk2O1rRl3jb5mweZDUvE7b6u
- nYY+s+r5MHD5WsfaEBBkDwSyyxF5dHp84uf4xlA68aRhUcSujLfL/+yDtldG88zau5lb
- x2dPeOQyT0wdGGngJrF8xqbaBPyv5cvDeByETLCfajkq5Z9PwxMSsHn+gd0eiC0vxVs1
- RlRDa75V9OzsKd1A6dEFdrdXZMU1DiSZCdI1ApSxWFOTPw5ACZ5gQDyKvh4TUOWzIZIX
- KQLw==
-X-Gm-Message-State: AOAM530Zb8KTI/4gpwWRsjyq9sk51a0lhGBWrDixJUcGuQGze2HayF/Z
- uMpkZFZN7BHWohxAZBSm6zhc42sX/q2+YA==
-X-Google-Smtp-Source: ABdhPJycc2H9IcqX623KxBngBQW+4X24TN9ZTSfRrVHudY+rTyw7JTig14Na1pR1UvcIC9rFGXWh9Q==
-X-Received: by 2002:a05:6402:1c0a:: with SMTP id
- ck10mr2104899edb.318.1613750878614; 
- Fri, 19 Feb 2021 08:07:58 -0800 (PST)
-Received: from localhost.localdomain ([147.161.14.87])
- by smtp.gmail.com with ESMTPSA id t13sm2965141edr.17.2021.02.19.08.07.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 08:07:57 -0800 (PST)
-From: Nir Soffer <nirsof@gmail.com>
-X-Google-Original-From: Nir Soffer <nsoffer@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] nbd: server: Report holes for raw images
-Date: Fri, 19 Feb 2021 18:07:52 +0200
-Message-Id: <20210219160752.1826830-1-nsoffer@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=mD6HBq/stT5yMnTZtFIqhMi71T/KDXTbdG2oSedVas4=;
+ b=DESnyBNFXYMwfXDwflhtw3lvnqOBSIEMupOYVcKPXZ+ZOsSMbiK8r+z4BfyxnHy7fH
+ N47tbJExSaFuD94bPv6T7CfjqGilNeTTcIiUlDDpqjEBPI3pHDrq4Ztf3tfxRUc5Praz
+ AYh+UJYd52NqxOdoJhX4bVHZDvPnogIP74lupx/ab1OiWjk0/7QufleMuYcPYuduap6Z
+ 0EQGMGAMBkD1+rYPtR9G9FgpJpxJVhSspP0XJlCfOhqmMm+R1gjXo4Sn6yJhWQM2EDzh
+ Uk1rBvpumJYjIP299ao/3Ow/gAYlP+KLf6GTtTZYaW+Uvr42j+tJzxtz3CuqtBwg/a3f
+ BWtw==
+X-Gm-Message-State: AOAM533kecOkEH556VErDwIKAN6392rOhbqLrO0imILMVig4EZazm/GL
+ 3grjG5G53H2/RobdVLJyFo3XDOhxzYtJxfJmY3I1hQ==
+X-Google-Smtp-Source: ABdhPJwK8aFG91M9RfZA8abW2WsBOOxlboZJy+j6Wh9PnlIXsTIqMhJ/kzf8wLrkLINVkoZEcdX4AJpmLicJeuN1qZQ=
+X-Received: by 2002:a37:6cc6:: with SMTP id
+ h189mr10412009qkc.195.1613750908914; 
+ Fri, 19 Feb 2021 08:08:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=nirsof@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <8735xss5q3.fsf@linaro.org>
+ <CAFEAcA_24bo+9CjeoVL8Ke5PzCwmBw_z4H8nbOQbOGg=1HxUxA@mail.gmail.com>
+ <20210219152408.34ibwagyqzgye4yd@sirius.home.kraxel.org>
+In-Reply-To: <20210219152408.34ibwagyqzgye4yd@sirius.home.kraxel.org>
+From: Warner Losh <imp@bsdimp.com>
+Date: Fri, 19 Feb 2021 09:08:18 -0700
+Message-ID: <CANCZdfqx+kCTkkw3jbDUwJB77DH0Qm3q8BpOY6-YJzKdY1eJeQ@mail.gmail.com>
+Subject: Re: FreeBSD build regressions
+To: Gerd Hoffmann <gerd@kraxel.org>
+Content-Type: multipart/alternative; boundary="000000000000aea3d605bbb2a905"
+Received-SPF: none client-ip=2607:f8b0:4864:20::736;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x736.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,91 +77,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nsoffer@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>, Ed Maste <emaste@freebsd.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When querying image extents for raw image, qemu-nbd reports holes as
-zero:
+--000000000000aea3d605bbb2a905
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ qemu-nbd -t -r -f raw empty-6g.raw
+First off, sorry for the hassles this caused... The problem is a failure to
+upgrade for reasons explained below... While the reasons make sense, it's
+still a bit of a hassle, for which I apologize.
 
-$ qemu-img map --output json nbd://localhost
-[{ "start": 0, "length": 6442450944, "depth": 0, "zero": true, "data": true, "offset": 0}]
+On Fri, Feb 19, 2021 at 8:51 AM Gerd Hoffmann <gerd@kraxel.org> wrote:
 
-$ qemu-img map --output json empty-6g.raw
-[{ "start": 0, "length": 6442450944, "depth": 0, "zero": true, "data": false, "offset": 0}]
+> On Fri, Feb 19, 2021 at 10:41:44AM +0000, Peter Maydell wrote:
+> > On Fri, 19 Feb 2021 at 10:39, Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> wrote:
+> > >
+> > >
+> > > Hi,
+> > >
+> > > It looks like the build has been broken on Cirrus since at least
+> 7b2c4c:
+> > >
+> > >   https://cirrus-ci.com/github/qemu/qemu
+> > >
+> > > I did attempt to have a look but "vm-build-freebsd" seems to be faili=
+ng
+> > > with a different error
+> >
+> > FWIW the vm-build-freebsd build-and-test works for me, as I
+> > continue to run it as part of the merge tests. Is this something
+> > to do with whether you already have a freebsd image cached
+> > as opposed to it getting re-built from scratch (perhaps with
+> > a newer FreeBSD)?
+>
+> The base image should be the same no matter what (updating that needs a
+> tests/vm/freebsd update which in turn triggers a rebuild).  The addon
+> package versions may differ though, so in case a broken package enters
+> the freebsd package repos it may happen that old, existing vm images
+> continue to work whereas newly created images don't ...
+>
+> Trying to rebuild the freebsd image here results in this:
+>
+> [ ... ]
+> ### Installing packages ...
+> Bootstrapping pkg from pkg+
+> http://pkg.FreeBSD.org/FreeBSD:12:amd64/quarterly, please wait...
+> Verifying signature with trusted certificate pkg.freebsd.org.2013102301..=
+.
+> done
+> Installing pkg-1.16.1...
+> Newer FreeBSD version for package pkg:
+> To ignore this error set IGNORE_OSVERSION=3Dyes
+> - package: 1202000                          <- freebsd 12.2 expected ?
+> - running kernel: 1201000                   <- freebsd 12.1 running ?
+> Ignore the mismatch and continue? [y/N]:
+>
+> So it seems the freebsd 12.1 images tries to fetch 12.2 packages when
+> running "pkg install -y <list>", which would explain why they don't
+> work.
+>
 
-Turns out that qemu-img map reports a hole based on BDRV_BLOCK_DATA, but
-nbd server reports a hole based on BDRV_BLOCK_ALLOCATED.
+FreeBSD 12.1 images fetch the FreeBSD 12 packages. This works until FreeBSD
+12.1 hits end of life and the packages are built on newer versions. There's
+no long-term support for releases once a new minor release happens. The
+economics of this quickly get out of hand as the testing matrix explodes
+and the number of machines needed to support all old versions (even on
+supported branches) would be prohibitively expensive.
 
-The NBD protocol says:
 
-    NBD_STATE_HOLE (bit 0): if set, the block represents a hole (and
-    future writes to that area may cause fragmentation or encounter an
-    NBD_ENOSPC error); if clear, the block is allocated or the server
-    could not otherwise determine its status.
+> Switching to freebsd 12.2 should solve this, at least until 12.3 is
+> released, but I'm wondering why the freebsd pkg utility fetches
+> incompatible packages in the first place and whenever there is any
+> way to avoid this ...
+>
 
-qemu-img manual says:
+FreeBSD builds packages on the oldest supported version in the stable
+branch. Due to forward compatibility, that means all supported versions of
+FreeBSD 12.x will work. Recently, FreeBSD 12.1 became unsupported, so the
+build machines clicked forward to 12.2. Since there's no 'forward
+compatibility' guarantees, this problem was hit. While you can run binaries
+compiled on old versions of the software on new versions of the system, you
+can't necessarily do the inverse because new symbols are introduced (in
+this case close_range).
 
-    whether the sectors contain actual data or not (boolean field data;
-    if false, the sectors are either unallocated or stored as
-    optimized all-zero clusters);
+The base FreeBSD image should be rolled when new versions are released to
+avoid this issue. tests/vm/freebsd should be updated. I have a full
+morning, but if nobody has beat me to it, I'll submit a patch this
+afternoon to fix this and add it to my list of things to do when FreeBSD
+creates a new release.
 
-To me, data=false looks compatible with NBD_STATE_HOLE. From user point
-of view, getting same results from qemu-nbd and qemu-img is more
-important than being more correct about allocation status.
+Warner
 
-Changing nbd server to report holes using BDRV_BLOCK_DATA makes qemu-nbd
-results compatible with qemu-img map:
+--000000000000aea3d605bbb2a905
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-$ qemu-img map --output json nbd://localhost
-[{ "start": 0, "length": 6442450944, "depth": 0, "zero": true, "data": false, "offset": 0}]
+<div dir=3D"ltr"><div>First off, sorry for the hassles this caused... The p=
+roblem is a failure to upgrade for reasons explained below... While the rea=
+sons make sense, it&#39;s still a bit of a hassle, for which I apologize.</=
+div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
+ Fri, Feb 19, 2021 at 8:51 AM Gerd Hoffmann &lt;<a href=3D"mailto:gerd@krax=
+el.org">gerd@kraxel.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">On Fri, Feb 19, 2021 at 10:41:44AM +0000, Peter Mayd=
+ell wrote:<br>
+&gt; On Fri, 19 Feb 2021 at 10:39, Alex Benn=C3=A9e &lt;<a href=3D"mailto:a=
+lex.bennee@linaro.org" target=3D"_blank">alex.bennee@linaro.org</a>&gt; wro=
+te:<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Hi,<br>
+&gt; &gt;<br>
+&gt; &gt; It looks like the build has been broken on Cirrus since at least =
+7b2c4c:<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 =C2=A0<a href=3D"https://cirrus-ci.com/github/qemu/qemu" re=
+l=3D"noreferrer" target=3D"_blank">https://cirrus-ci.com/github/qemu/qemu</=
+a><br>
+&gt; &gt;<br>
+&gt; &gt; I did attempt to have a look but &quot;vm-build-freebsd&quot; see=
+ms to be failing<br>
+&gt; &gt; with a different error<br>
+&gt; <br>
+&gt; FWIW the vm-build-freebsd build-and-test works for me, as I<br>
+&gt; continue to run it as part of the merge tests. Is this something<br>
+&gt; to do with whether you already have a freebsd image cached<br>
+&gt; as opposed to it getting re-built from scratch (perhaps with<br>
+&gt; a newer FreeBSD)?<br>
+<br>
+The base image should be the same no matter what (updating that needs a<br>
+tests/vm/freebsd update which in turn triggers a rebuild).=C2=A0 The addon<=
+br>
+package versions may differ though, so in case a broken package enters<br>
+the freebsd package repos it may happen that old, existing vm images<br>
+continue to work whereas newly created images don&#39;t ...<br>
+<br>
+Trying to rebuild the freebsd image here results in this:<br>
+<br>
+[ ... ]<br>
+### Installing packages ...<br>
+Bootstrapping pkg from pkg+<a href=3D"http://pkg.FreeBSD.org/FreeBSD:12:amd=
+64/quarterly" rel=3D"noreferrer" target=3D"_blank">http://pkg.FreeBSD.org/F=
+reeBSD:12:amd64/quarterly</a>, please wait...<br>
+Verifying signature with trusted certificate pkg.freebsd.org.2013102301... =
+done<br>
+Installing pkg-1.16.1...<br>
+Newer FreeBSD version for package pkg:<br>
+To ignore this error set IGNORE_OSVERSION=3Dyes<br>
+- package: 1202000=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &lt;- freebsd 12.2 expected ?<br>
+- running kernel: 1201000=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0&lt;- freebsd 12.1 running ?<br>
+Ignore the mismatch and continue? [y/N]: <br>
+<br>
+So it seems the freebsd 12.1 images tries to fetch 12.2 packages when<br>
+running &quot;pkg install -y &lt;list&gt;&quot;, which would explain why th=
+ey don&#39;t<br>
+work.<br></blockquote><div><br></div><div>FreeBSD 12.1 images fetch the Fre=
+eBSD 12 packages. This works until FreeBSD 12.1 hits end of life and the pa=
+ckages are built on newer versions. There&#39;s no long-term support for re=
+leases once a new minor release happens. The economics of this quickly get =
+out of hand as the testing matrix explodes and the number of machines neede=
+d to support all old versions (even on supported branches) would be prohibi=
+tively expensive.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+Switching to freebsd 12.2 should solve this, at least until 12.3 is<br>
+released, but I&#39;m wondering why the freebsd pkg utility fetches<br>
+incompatible packages in the first place and whenever there is any<br>
+way to avoid this ...<br></blockquote><div><br></div><div>FreeBSD builds pa=
+ckages on the oldest supported version in the stable branch. Due to forward=
+ compatibility, that means all supported versions of FreeBSD 12.x will work=
+. Recently, FreeBSD 12.1 became unsupported, so the build machines clicked =
+forward to 12.2. Since there&#39;s no &#39;forward compatibility&#39; guara=
+ntees, this problem was hit. While you can run binaries compiled on old ver=
+sions of the software on new versions of the system, you can&#39;t necessar=
+ily do the inverse because new symbols are introduced (in this case close_r=
+ange).</div><div><br></div><div>The base FreeBSD image should be rolled whe=
+n new versions are released to avoid this issue. tests/vm/freebsd should be=
+ updated. I have a full morning, but if nobody has beat me to it, I&#39;ll =
+submit a patch this afternoon to fix this and add it to my list of things t=
+o do when FreeBSD creates a new release.</div><div><br></div><div>Warner</d=
+iv></div></div>
 
-Signed-off-by: Nir Soffer <nsoffer@redhat.com>
----
- nbd/server.c               | 4 ++--
- tests/qemu-iotests/241.out | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/nbd/server.c b/nbd/server.c
-index 7229f487d2..86a44a9b41 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -2087,8 +2087,8 @@ static int blockstatus_to_extents(BlockDriverState *bs, uint64_t offset,
-             return ret;
-         }
- 
--        flags = (ret & BDRV_BLOCK_ALLOCATED ? 0 : NBD_STATE_HOLE) |
--                (ret & BDRV_BLOCK_ZERO      ? NBD_STATE_ZERO : 0);
-+        flags = (ret & BDRV_BLOCK_DATA ? 0 : NBD_STATE_HOLE) |
-+                (ret & BDRV_BLOCK_ZERO ? NBD_STATE_ZERO : 0);
- 
-         if (nbd_extent_array_add(ea, num, flags) < 0) {
-             return 0;
-diff --git a/tests/qemu-iotests/241.out b/tests/qemu-iotests/241.out
-index 75f9f465e5..3f8c173cc8 100644
---- a/tests/qemu-iotests/241.out
-+++ b/tests/qemu-iotests/241.out
-@@ -5,7 +5,7 @@ QA output created by 241
-   size:  1024
-   min block: 1
- [{ "start": 0, "length": 1000, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 1000, "length": 24, "depth": 0, "zero": true, "data": true, "offset": OFFSET}]
-+{ "start": 1000, "length": 24, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- 1 KiB (0x400) bytes     allocated at offset 0 bytes (0x0)
- 
- === Exporting unaligned raw image, forced server sector alignment ===
-@@ -23,6 +23,6 @@ WARNING: Image format was not specified for 'TEST_DIR/t.raw' and probing guessed
-   size:  1024
-   min block: 1
- [{ "start": 0, "length": 1000, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
--{ "start": 1000, "length": 24, "depth": 0, "zero": true, "data": true, "offset": OFFSET}]
-+{ "start": 1000, "length": 24, "depth": 0, "zero": true, "data": false, "offset": OFFSET}]
- 1 KiB (0x400) bytes     allocated at offset 0 bytes (0x0)
- *** done
--- 
-2.26.2
-
+--000000000000aea3d605bbb2a905--
 
