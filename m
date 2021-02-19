@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620D532018B
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 00:10:10 +0100 (CET)
-Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AECB9320192
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 00:12:05 +0100 (CET)
+Received: from localhost ([::1]:33182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDEuX-00009C-FE
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 18:10:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
+	id 1lDEwO-0001Wo-PO
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 18:12:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDEtT-0008AW-9n
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 18:09:03 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:38554)
+ id 1lDEv8-00010X-CZ
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 18:10:46 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:37538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDEtR-0002TH-Tz
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 18:09:03 -0500
-Received: by mail-ej1-x631.google.com with SMTP id bl23so16636486ejb.5
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 15:09:01 -0800 (PST)
+ id 1lDEv6-0003DL-Vb
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 18:10:46 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id o3so12541575edv.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 15:10:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0+R3QelqYkfb2RGkXNPgIrGql30rgvy3ClXwOy9+rUM=;
- b=KQJ+/JsUk4vZmXPJwAayqVcrRpNeD4uxujRFPraczRrKHwhEoy3fUDk3+4/n8AKGQm
- YncBFsX6xYbQBS0SaVRdlvse7pgEeE6Cko+dto5eRgPOO/Vnvmb7mpgAzFsp+YLidX1e
- lhh9KH3bn4qDscblmjrXneI/i5HLqTklS4etdehnWHfOUQY871m/AqP4B8L+36JT2XBs
- p7UzrSicVWdBEpM0CigDxEMTnzxtm7eCIC9vX63XQawIH2uZaKdZwH3Mycf7CWmEgvO7
- us7Ye1kRSUktnDwb8QtnoIBD/HEHlfXfsXyqakgH4Qc1BTVBkIFhKri+xp55qHTeuZEW
- GQxQ==
+ bh=vSd7SWusbpD8k9zSZ3Veet1TpmzxQkPofOkBX3FwOuA=;
+ b=rb6/lU8gRzg6bwxp2B7CH2M8+5gm3omoEUep5DwSI/LNuTzMivFZmLT2TjDwA/7WBQ
+ 56snFGtthW5pmLZ/n3B/GLvE3k9Gp0O1ijI7ZKDQl4ND/uJfCZZU9+VkYQa1V68HmW8g
+ ESjQQSi1cPVs04m4SNnA9Sh5K2w+LW1mHeiE1iCOl9/mqB4ReYndpSZQf8gVxoC87CJ2
+ Al69JhP8R96qk9UfcgVppIDXFgBsAJu5rhhev4nzwufmPGWLC2ZsM2ueX4JghIwFUPHX
+ uHr4oYIeDt3BC0pETva/02dzMmC46yZtdr2qHle4lULuUaodci0SUeTTg6L/5eJLORop
+ AiGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=0+R3QelqYkfb2RGkXNPgIrGql30rgvy3ClXwOy9+rUM=;
- b=WyfgekdGL69TiCo5MlzsgDPJezFtkifXcnZlt/cV3+VdE2bqN+5WqjQ7WWAe4zeMhS
- pix7xJHWVl+caFbFbMn3SkHmmkTKy/7RphWaVtf5dhmdmcKRqSK9kB/HZNjFlxJIZ6jA
- b+HcjxPLM0zISUnpuT3wwWMzrgbyT03ZzqxBgaamWA2GH0GiA5wKe3ndx1fJxxxudXDQ
- UJTisjxaVqCGldNJzQ2ep5T1NHjsCd/XVbrE+KXHDBInlg5BP8bs0GEwwsFbQh2MxNIm
- Iznc10IS3ow6jo5gBhKxEm+oHKAPlN24gNdSFX6oay8LIPYD28LK5AqeXNGlAyJgLXoA
- 5KGA==
-X-Gm-Message-State: AOAM531cI5yYPCxxQfTucTU0nGmFxs+G91fHsBw1P09XEAyVhyhAHI7V
- XDEgUkwZOJFT20E6dosnKvGi1KNoSaA=
-X-Google-Smtp-Source: ABdhPJwoOQowty9lAB85QUVz2R2mdKO7QowHML+prgYg9rWV5IgwowP9jyT4FG/kZOIUZ4F3y7XJEA==
-X-Received: by 2002:a17:907:7781:: with SMTP id
- ky1mr10523016ejc.255.1613776140198; 
- Fri, 19 Feb 2021 15:09:00 -0800 (PST)
+ bh=vSd7SWusbpD8k9zSZ3Veet1TpmzxQkPofOkBX3FwOuA=;
+ b=aE0BRdAToPxQlw/o101luZ55eenv3smqsD/RKsZfM6vbkzhtOIN7mUOoTe2U8UBOE1
+ 15o24hTq2DWb5AqTtBXJf8p7Jy4riPj+ev97NQ68l9Kvo0tUhnO85PVAE1PFBASoSRzi
+ K5VYtwrpHgunDjHIZ+HsV5Cf1FzlbumMfbSxc2LyL2GGPrmm+t9EZevJ9f1QjDV+4NdZ
+ ZiIDLvxQq8W7D8KsHgaF3E9y7RshN+Si+ULEtP9ILgJubA9oWXAxwpSUpkoIQxJZKmuK
+ ai+xrkK6XCKAI9VLC446kcXnTWkG+dFNAUUF7OtvryWddayQE+PXabK66sIu3scVgNCp
+ bZPw==
+X-Gm-Message-State: AOAM533J2KnA91J+Rlx8a7MpmTpPWG05nwGRjnRhY+O8poE5+fw2g/XP
+ PEbI1oHa0aWSDJ7cggfN1vk=
+X-Google-Smtp-Source: ABdhPJzColtI7pt4cB2K1wHPzG6qHilfOLs1takg7GdsGxXt8SvlRafjFodKq7oWzM6fLnlE83Qp7g==
+X-Received: by 2002:a50:fe02:: with SMTP id f2mr11564947edt.173.1613776243617; 
+ Fri, 19 Feb 2021 15:10:43 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id u3sm5117890eje.63.2021.02.19.15.08.59
+ by smtp.gmail.com with ESMTPSA id u23sm6127317edt.87.2021.02.19.15.10.42
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Feb 2021 15:08:59 -0800 (PST)
-Subject: Re: [PATCH] hw/intc/loongson_liointc: Fix per core ISR handling
-To: Peter Maydell <peter.maydell@linaro.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
- <CAFEAcA9npBhN4mGT5wmPfjAX_qXObduRNW8ohPjy4dq9wO-2Rg@mail.gmail.com>
+ Fri, 19 Feb 2021 15:10:43 -0800 (PST)
+Subject: Re: [PATCH 1/2] hw/timer/renesas_tmr: Prefix constants for CSS values
+ with CSS_
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210219223241.16344-1-peter.maydell@linaro.org>
+ <20210219223241.16344-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <d0dd44ac-8312-60d8-32a6-1fdc80a4159e@amsat.org>
-Date: Sat, 20 Feb 2021 00:08:58 +0100
+Message-ID: <3376e7d7-bcf4-8fc4-bec4-0179bfb71aef@amsat.org>
+Date: Sat, 20 Feb 2021 00:10:42 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9npBhN4mGT5wmPfjAX_qXObduRNW8ohPjy4dq9wO-2Rg@mail.gmail.com>
+In-Reply-To: <20210219223241.16344-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,78 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Magnus Damm <magnus.damm@gmail.com>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 11:35 PM, Peter Maydell wrote:
-> This patch has been reviewed and fixes a Coverity issue;
-> Philippe, are you planning to take it through your MIPS tree?
-
-Sorry felt through the crack, now applied to mips-next (I'll send
-a pull request next week).
-
-Thanks!
-
+On 2/19/21 11:32 PM, Peter Maydell wrote:
+> The #defines INTERNAL and CASCADING represent different possible
+> values for the TCCR.CSS register field; prefix them with CSS_ to make
+> this more obvious, before we add more defines to represent the
+> other possible values of the field in the next commit.
 > 
-> -- PMM
-> 
-> On Tue, 12 Jan 2021 at 01:28, Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
->>
->> Per core ISR is a set of 32-bit registers spaced by 8 bytes.
->> This patch fixed calculation of it's size and also added check
->> of alignment at reading & writing.
->>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>  hw/intc/loongson_liointc.c | 16 +++++++++++++---
->>  1 file changed, 13 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
->> index f823d484e0..cc11b544cb 100644
->> --- a/hw/intc/loongson_liointc.c
->> +++ b/hw/intc/loongson_liointc.c
->> @@ -41,7 +41,7 @@
->>  #define R_IEN_CLR               0x2c
->>  #define R_ISR_SIZE              0x8
->>  #define R_START                 0x40
->> -#define R_END                   0x64
->> +#define R_END                   (R_START + R_ISR_SIZE * NUM_CORES)
->>
->>  struct loongson_liointc {
->>      SysBusDevice parent_obj;
->> @@ -125,7 +125,12 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
->>      }
->>
->>      if (addr >= R_START && addr < R_END) {
->> -        int core = (addr - R_START) / R_ISR_SIZE;
->> +        hwaddr offset = addr - R_START;
->> +        int core = offset / R_ISR_SIZE;
->> +
->> +        if (offset % R_ISR_SIZE) {
->> +            goto out;
->> +        }
->>          r = p->per_core_isr[core];
->>          goto out;
->>      }
->> @@ -169,7 +174,12 @@ liointc_write(void *opaque, hwaddr addr,
->>      }
->>
->>      if (addr >= R_START && addr < R_END) {
->> -        int core = (addr - R_START) / R_ISR_SIZE;
->> +        hwaddr offset = addr - R_START;
->> +        int core = offset / R_ISR_SIZE;
->> +
->> +        if (offset % R_ISR_SIZE) {
->> +            goto out;
->> +        }
->>          p->per_core_isr[core] = value;
->>          goto out;
->>      }
->> --
->> 2.30.0
->>
->>
-> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  hw/timer/renesas_tmr.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
