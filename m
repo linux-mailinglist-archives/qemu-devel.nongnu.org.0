@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B0231FBB5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:12:42 +0100 (CET)
-Received: from localhost ([::1]:45050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F7C031FBEB
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:24:16 +0100 (CET)
+Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD7ST-0000tr-ML
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:12:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34362)
+	id 1lD7df-0001Fr-Ak
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:24:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD73u-0002nk-OS
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:18 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:36958)
+ id 1lD740-0002qg-Ph
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:24 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD73S-0003f9-Hx
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:18 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v15so8902609wrx.4
+ id 1lD73T-0003fo-Ag
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:20 -0500
+Received: by mail-wr1-x434.google.com with SMTP id v15so8902662wrx.4
  for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 06:46:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zKYWvcFtzDPV4Ks85TZ4B/LPAikGy0iTqTLoenNGpWQ=;
- b=LnSyDFfrmunbU0hI1erWmjP714qjEU9EnpBFLSDkWqWs65rA/R/0LEgElqBdpxwVHU
- ZdLx6NZTN3mDfBWsaJMQP8hp0TqP8sFkFfed8a02qnb0n845MZOAhY+FtIZn4VQverEs
- kohVDGqTO37qp4bOFJ1j27ouzOcSgX2qKFVMeEaKIlym9mzLjTjiUfXLdUA4Y+HJl2v9
- aXPiXRZ9I49qrSALK4UPbf/gDrqbrsTyszuK1apaUK0SG0rQkfYeUMNa87Wzy8UpZu1j
- 3YL+vspCgSEFCLZEq41a9kuCCr5SN/X21zB4M/+p/F/cwb9p5mZgg+Oo5y/Bv2upEFmG
- 33cA==
+ bh=i7J3nfprRkZYSN+DG8dR9uLCK+arEP02h3GtQa9f38U=;
+ b=KN+GuYvbSVfjKtJ59vt/QUmxJzcvbYYkvhX6ODBeZlARXSfS1GHsRVbfy9G7lIqlml
+ GdGYjIXIdZdxwVsQWMpzwmTReQ/dOD2/c/aXVolIqQeBpY53KT63S4+oiKANEyofpHnp
+ oWIT5K5xUobV3r+Q0W2qFjd5GoQ/6ro7O5TCklw7nXm9zAkREAtdSftsT6U0xnMBi903
+ WvOPSLsB+Y8feyK0ZuMOXCKo3SBpZRa/RfWMbEOI7RSHj6LX1/JpZDSihFzQugAXuL4R
+ qmGOkkrI/oZspSEKjiNa1+uGQtFl7ME7LzQL2D1qg4wuMlLqAxWxysblgtlHxayKUKNb
+ MhRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zKYWvcFtzDPV4Ks85TZ4B/LPAikGy0iTqTLoenNGpWQ=;
- b=sf26ODiDi9Sk7T8f2Dhgx6Vv0E7pxJiE9fKxbgyIvMdklxt/YOJZ/OQVUFBb1Z2pIn
- 7gW4nhX1OiHw8lmwMJCpaY0jilPoVer6jMsUsDg+PmHzQa8yOi4c6p3RxrsOF5T6MN1V
- D9NXsuk3hFo32e8pOdtjsixC/74z57gHjhljg0vHSHIZCgolw/ONRDbG3hkc17nHH3Sz
- O6JRo4ZCQ8ScuKqTyBVGnKT0NH7ZrZ3HlJcnfHC1KS8SIz9Nhvc85FNKVre1x+qWLd9u
- E9jq7RcPXm3JMjhrgSH3m5hfHuKTxx/GWf+wuGsMkS9JIHKbi8UKFgDRXq5mgxzqv/2I
- q69A==
-X-Gm-Message-State: AOAM533gDaEpMs/vk6vnXDVA3m6KL2rNwDQk7He4O/coxvGy9K38DKvI
- VWhF/LmOjbIOfwV05pkF0BhwvJ+Gy3P6bw==
-X-Google-Smtp-Source: ABdhPJzHGOopwb3g6ljuU2FgaZepkbBMi2WRp6SCG+k82F+HPD1evO6ySRoej9pn35HwQsLhVzW2LQ==
-X-Received: by 2002:adf:b60e:: with SMTP id f14mr9588342wre.99.1613746009194; 
+ bh=i7J3nfprRkZYSN+DG8dR9uLCK+arEP02h3GtQa9f38U=;
+ b=hamkWYW1wDIo4K2u/90vZJSfYAiawhgqHAB2TFOyechNmA7FYr7iXg6fqLjGOViJxp
+ HZH4f+fMAxcjLvUcVZ+2AwZl2Srethu/jY47gltZ2sYA6jOVMz7tp0fhE1jxlRFZExw1
+ 9F45KtFvbo2L+ht8MyAT2Lrj6dKyGfMjrxEuLhRuZA6PQeFaGNRAuzAaDZRz8AkwMKYK
+ pGlwqtJKuccTAmzUPY4ikbqZgo48il3Ill0bMb6cy4MYk6NyZredVsk+c8t4dIAbAEaD
+ nYHmxvYYK+aHIuS2+15nHB3st2+2BbrepjmqQ6NybcY1qrevScAmDGT3SRjd7SM3gyeH
+ 0FiQ==
+X-Gm-Message-State: AOAM531zlh7dfA6TvzA79AdiU5G66fsGRF3MSua1YDl+2HLcswCPwbRA
+ aOK2PzNZWjATG2hJt4NXITKlUcDg+1MJuw==
+X-Google-Smtp-Source: ABdhPJz7ERyBoNjWmZcFmITkwyQcmz6ztIyAu2LPVksYnNQznWWM/B0w/s5Nf/eWeELBcDZYd3MCpA==
+X-Received: by 2002:a5d:5109:: with SMTP id s9mr8161240wrt.325.1613746009958; 
  Fri, 19 Feb 2021 06:46:49 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q18sm2263628wrw.91.2021.02.19.06.46.48
+ by smtp.gmail.com with ESMTPSA id q18sm2263628wrw.91.2021.02.19.06.46.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 06:46:48 -0800 (PST)
+ Fri, 19 Feb 2021 06:46:49 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 39/44] hw/misc/mps2-scc: Implement changes for AN547
-Date: Fri, 19 Feb 2021 14:46:12 +0000
-Message-Id: <20210219144617.4782-40-peter.maydell@linaro.org>
+Subject: [PATCH 40/44] hw/arm/mps2-tz: Support running APB peripherals on
+ different clock
+Date: Fri, 19 Feb 2021 14:46:13 +0000
+Message-Id: <20210219144617.4782-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210219144617.4782-1-peter.maydell@linaro.org>
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,77 +87,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the minor changes required to the SCC block for AN547 images:
- * CFG2 and CFG5 exist (like AN524)
- * CFG3 is reserved (like AN524)
- * CFG0 bit 1 is CPU_WAIT; we don't implement it, but note this
-   in the TODO comment
+The AN547 runs the APB peripherals outside the SSE-300 on a different
+and slightly slower clock than it runs the SSE-300 with.  Support
+making the APB peripheral clock frequency board-specific.  (For our
+implementation only the UARTs actually take a clock.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/misc/mps2-scc.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ hw/arm/mps2-tz.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/hw/misc/mps2-scc.c b/hw/misc/mps2-scc.c
-index 140a4b9ceba..c56aca86ad5 100644
---- a/hw/misc/mps2-scc.c
-+++ b/hw/misc/mps2-scc.c
-@@ -110,14 +110,14 @@ static uint64_t mps2_scc_read(void *opaque, hwaddr offset, unsigned size)
-         r = s->cfg1;
-         break;
-     case A_CFG2:
--        if (scc_partno(s) != 0x524) {
-+        if (scc_partno(s) != 0x524 && scc_partno(s) != 0x547) {
-             /* CFG2 reserved on other boards */
-             goto bad_offset;
-         }
-         r = s->cfg2;
-         break;
-     case A_CFG3:
--        if (scc_partno(s) == 0x524) {
-+        if (scc_partno(s) == 0x524 && scc_partno(s) == 0x547) {
-             /* CFG3 reserved on AN524 */
-             goto bad_offset;
-         }
-@@ -130,7 +130,7 @@ static uint64_t mps2_scc_read(void *opaque, hwaddr offset, unsigned size)
-         r = s->cfg4;
-         break;
-     case A_CFG5:
--        if (scc_partno(s) != 0x524) {
-+        if (scc_partno(s) != 0x524 && scc_partno(s) != 0x547) {
-             /* CFG5 reserved on other boards */
-             goto bad_offset;
-         }
-@@ -185,7 +185,10 @@ static void mps2_scc_write(void *opaque, hwaddr offset, uint64_t value,
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index fe324e86b3d..47215f1b97c 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -106,6 +106,7 @@ struct MPS2TZMachineClass {
+     MPS2TZFPGAType fpga_type;
+     uint32_t scc_id;
+     uint32_t sysclk_frq; /* Main SYSCLK frequency in Hz */
++    uint32_t apb_periph_frq; /* APB peripheral frequency in Hz */
+     uint32_t len_oscclk;
+     const uint32_t *oscclk;
+     uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
+@@ -369,7 +370,7 @@ static MemoryRegion *make_uart(MPS2TZMachineState *mms, void *opaque,
  
-     switch (offset) {
-     case A_CFG0:
--        /* TODO on some boards bit 0 controls RAM remapping */
-+        /*
-+         * TODO on some boards bit 0 controls RAM remapping;
-+         * on others bit 1 is CPU_WAIT.
-+         */
-         s->cfg0 = value;
-         break;
-     case A_CFG1:
-@@ -195,7 +198,7 @@ static void mps2_scc_write(void *opaque, hwaddr offset, uint64_t value,
-         }
-         break;
-     case A_CFG2:
--        if (scc_partno(s) != 0x524) {
-+        if (scc_partno(s) != 0x524 && scc_partno(s) != 0x547) {
-             /* CFG2 reserved on other boards */
-             goto bad_offset;
-         }
-@@ -203,7 +206,7 @@ static void mps2_scc_write(void *opaque, hwaddr offset, uint64_t value,
-         s->cfg2 = value;
-         break;
-     case A_CFG5:
--        if (scc_partno(s) != 0x524) {
-+        if (scc_partno(s) != 0x524 && scc_partno(s) != 0x547) {
-             /* CFG5 reserved on other boards */
-             goto bad_offset;
-         }
+     object_initialize_child(OBJECT(mms), name, uart, TYPE_CMSDK_APB_UART);
+     qdev_prop_set_chr(DEVICE(uart), "chardev", serial_hd(i));
+-    qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", mmc->sysclk_frq);
++    qdev_prop_set_uint32(DEVICE(uart), "pclk-frq", mmc->apb_periph_frq);
+     sysbus_realize(SYS_BUS_DEVICE(uart), &error_fatal);
+     s = SYS_BUS_DEVICE(uart);
+     sysbus_connect_irq(s, 0, get_sse_irq_in(mms, irqs[0]));
+@@ -1034,6 +1035,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
+     mmc->scc_id = 0x41045050;
+     mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
++    mmc->apb_periph_frq = mmc->sysclk_frq;
+     mmc->oscclk = an505_oscclk;
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->fpgaio_num_leds = 2;
+@@ -1059,6 +1061,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
+     mmc->scc_id = 0x41045210;
+     mmc->sysclk_frq = 20 * 1000 * 1000; /* 20MHz */
++    mmc->apb_periph_frq = mmc->sysclk_frq;
+     mmc->oscclk = an505_oscclk; /* AN521 is the same as AN505 here */
+     mmc->len_oscclk = ARRAY_SIZE(an505_oscclk);
+     mmc->fpgaio_num_leds = 2;
+@@ -1084,6 +1087,7 @@ static void mps3tz_an524_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m33");
+     mmc->scc_id = 0x41045240;
+     mmc->sysclk_frq = 32 * 1000 * 1000; /* 32MHz */
++    mmc->apb_periph_frq = mmc->sysclk_frq;
+     mmc->oscclk = an524_oscclk;
+     mmc->len_oscclk = ARRAY_SIZE(an524_oscclk);
+     mmc->fpgaio_num_leds = 10;
 -- 
 2.20.1
 
