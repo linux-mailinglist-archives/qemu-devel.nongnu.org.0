@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE7131F512
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 07:24:29 +0100 (CET)
-Received: from localhost ([::1]:59424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A359A31F545
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 08:02:06 +0100 (CET)
+Received: from localhost ([::1]:36630 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCzDI-0005FB-EG
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 01:24:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41238)
+	id 1lCznh-0003ah-53
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 02:02:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCzCS-0004oc-Ga
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 01:23:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26156)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lCzCQ-0003kd-CN
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 01:23:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613715813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wpGs3mneNuxlm+8YRkUqFz4EPcyzPz4jcAygpLznT+I=;
- b=ZY0Mnuf4xhGukVXvc99FBWwhFFkkAauZju9P9+gYwU5wAhQ1+EUaEV4Y3+1IJ5WO8JBf+y
- CJiF9C/HlJeLXvoSBiMAyZdmtVAVrNRbV3QnRfl6pqJF212HVRfe1wNhBd+QqFTmySVIqA
- iuR0gqvt9Of4A9RR+TXwXFKYen60ra8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-75bPfRf3PS2yZ8VfK7i-cA-1; Fri, 19 Feb 2021 01:23:28 -0500
-X-MC-Unique: 75bPfRf3PS2yZ8VfK7i-cA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7051418449E5;
- Fri, 19 Feb 2021 06:23:27 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F2F010023AC;
- Fri, 19 Feb 2021 06:23:21 +0000 (UTC)
-Subject: Re: [PATCH 1/1] css: SCHIB measurement block origin must be aligned
-To: Pierre Morel <pmorel@linux.ibm.com>, cohuck@redhat.com
-References: <1613670059-8406-1-git-send-email-pmorel@linux.ibm.com>
- <1613670059-8406-2-git-send-email-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <23380d4e-39d0-0c49-e734-c0611ecc9a6e@redhat.com>
-Date: Fri, 19 Feb 2021 07:23:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCzmb-00033W-C6
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:00:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lCzmZ-00032s-9S
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 02:00:57 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lCzmX-0005go-04
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 07:00:53 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id F358C2E8054
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 07:00:52 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1613670059-8406-2-git-send-email-pmorel@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Feb 2021 06:55:07 -0000
+From: Thierry Briot <1862619@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: imapotato2 laurent-vivier pmaydell tebounet
+X-Launchpad-Bug-Reporter: Thierry Briot (tebounet)
+X-Launchpad-Bug-Modifier: Thierry Briot (tebounet)
+References: <158133547000.19789.14380673630783179726.malonedeb@wampee.canonical.com>
+Message-Id: <161371770792.11558.10575100013369363651.malone@chaenomeles.canonical.com>
+Subject: [Bug 1862619] Re: "-serial telnet::xxxx,
+ server" causes "Device 'serial0' is in use"
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: f73f18eb101bd158d0da44f08fdebb309a07fa75
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,50 +70,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, qemu-s390x@nongnu.org, imbrenda@linux.ibm.com,
- rth@twiddle.net
+Reply-To: Bug 1862619 <1862619@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/02/2021 18.40, Pierre Morel wrote:
-> The Measurement Block Origin inside the SCHIB is used when
-> Mesurement Block format 1 is in used and must be aligned
-> on 128bits.
+I'm now using qemu-system-hppa version 5.2.50, and I can put "-serial
+mon: stdio" before or after "-serial telnet :: 4441, server" without a
+problem.
 
-128 bits = 16 bytes ...
+#qemu-system-hppa --version
+QEMU emulator version 5.2.50 (v5.2.0-1300-g0e32462630)
+Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->   target/s390x/ioinst.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> 
-> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
-> index a412926d27..1ee11522e1 100644
-> --- a/target/s390x/ioinst.c
-> +++ b/target/s390x/ioinst.c
-> @@ -121,6 +121,12 @@ static int ioinst_schib_valid(SCHIB *schib)
->       if (be32_to_cpu(schib->pmcw.chars) & PMCW_CHARS_MASK_XMWME) {
->           return 0;
->       }
-> +    /* for MB format 1 bits 26-31 of word 11 must be 0 */
-> +    /* MBA uses words 10 and 11, it means align on 2**6 */
-> +    if ((be16_to_cpu(schib->pmcw.chars) & PMCW_CHARS_MASK_MBFC) &&
-> +        (be64_to_cpu(schib->mba) & 0x03fUL)) {
+For me, no more bug.
 
-... but that checks for a 64 byte alignment...
+-- =
 
-And looking at the PoP, I also see some talk about 64 byte alignment there, 
-so I guess you meant 64 byte insteas of 128 bit in the patch description?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1862619
 
-  Thomas
+Title:
+  "-serial telnet::xxxx,server" causes "Device 'serial0' is in use"
 
+Status in QEMU:
+  New
 
-> +        return 0;
-> +    }
->       return 1;
->   }
->   
-> 
+Bug description:
+  I start qemu version 4.2.50 in a first terminal :
 
+  $ sudo ./qemu-system-hppa -boot d -serial telnet::4441,server -drive
+  if=3Dscsi,bus=3D0,index=3D6,file=3D./hpux.img,format=3Draw -serial mon:st=
+dio -D
+  /tmp/foo -nographic -m 512 -d nochain -cdrom
+  ./HPUX_9.05_Installation_Disc_S700.iso -D /tmp/foo -net
+  nic,model=3Dtulip  -net tap
+
+  qemu-system-hppa: -serial telnet::4441,server: info: QEMU waiting for
+  connection on: disconnected:telnet:0.0.0.0:4441,server
+
+  In another terminal, I launch "telnet localhost 4441"
+
+  And in the qemu window I have the following error:
+
+  Unexpected error in qemu_chr_fe_init() at chardev/char-fe.c:220:
+  qemu-system-hppa: Device 'serial0' is in use
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1862619/+subscriptions
 
