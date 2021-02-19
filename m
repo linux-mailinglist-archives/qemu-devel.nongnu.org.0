@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 798E431FC6A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:52:43 +0100 (CET)
-Received: from localhost ([::1]:60298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE2B31FC7D
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:59:16 +0100 (CET)
+Received: from localhost ([::1]:50716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD85C-0006xf-Go
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:52:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46596)
+	id 1lD8BX-0006ZV-B5
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:59:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lD7sa-0000IP-VD; Fri, 19 Feb 2021 10:39:42 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:40333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lD7sW-0008Oc-Cp; Fri, 19 Feb 2021 10:39:40 -0500
-Received: by mail-ej1-x636.google.com with SMTP id u20so13474251ejb.7;
- Fri, 19 Feb 2021 07:39:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=sWVSQN365y4RrwajNe3ilvA3SGaPN96YcYwIQ7DCO9k=;
- b=orfUTAaAHV/l+d5pCEp0F4a+d/sndvF/WAjPKlj9DMqAoOaZ9XgYGAsvnZUpguRUFL
- RaggNViwAceiSGNhaTp6iGIGzdn2YPhAY4EPieJV04z13Nx9BO6O+qV4okTkkg5JBRkE
- IP0WzO+NXT8JZrlv9Dtr6iuZwqf8Zugf/UYlnPXmEC85+nkwyCRqocuN2Rt8A+zdxWD7
- 02eddxZM50zgwmxM1ajepcrALitVvj+Ki75d5nCdZvTm6sCXQaHXIKrZcnCuefuYAlW1
- 3GsFpTPXR9m2JyNHMrys1JrlPwX5BNRfQcnYIwKsfbv+lE6evCEa1vDJ5c12Q3wlqF4b
- uK9Q==
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lD7xJ-0006ci-Ee
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:44:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59730)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wrampazz@redhat.com>)
+ id 1lD7xE-00020m-Fo
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:44:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613749466;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=bWqmIuToc+73q+0CDWZNJmjuD6l9bfkpKkp1kD1NzWc=;
+ b=Z5y45X8OKf/oGxuR9nfVJC6KO4faPa0xO6fW/EmxPO1yVetDUJxFHTaOKJZNMCmbCL+9dT
+ 5OWniofQuJW1UlriycBDmAdKiCjGsPCUhzxAxXUs4tPJd3tAYc5ZFj3sbFdW9JWAIp0quW
+ AQ22j2Qcg2HzVoX/AwlJTFVAeeChcxA=
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com
+ [209.85.217.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-oKaNUOrjOuKlTSEZ1uEGxQ-1; Fri, 19 Feb 2021 10:44:25 -0500
+X-MC-Unique: oKaNUOrjOuKlTSEZ1uEGxQ-1
+Received: by mail-vs1-f71.google.com with SMTP id b4so353201vsb.22
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 07:44:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=sWVSQN365y4RrwajNe3ilvA3SGaPN96YcYwIQ7DCO9k=;
- b=CozK5SDtmb3334D/sfGab/zo5fr0cUMFBD9AI8wdEKhj6yvtSkILmfxl/I2OJNXqw3
- qvLfjpU6G+3G1/7ybdZvQYGof3ms3PddZL4CsfGl9zVfe5Xo3DTnDV6bjZ3N5lTbtJTJ
- tMDN/+dqAWgWU/ecGEPDsYbi9PrMwSWmmGN5oDrDA/BM6YfSGUYOVsBbGVR1UIM/xFY1
- fQDLWq1/+7r43sx4VWP1FSaCJwqJB+jVqxkbUrjjxhlyXK+Vvh3UyT/HNGl5OnRZ/fQ2
- LtJ435ibsgKkMKS7AAOWQSDnU6J06jEDoYufOaYvcloArpvKjqD7L3mdBwWXZYk8pgnT
- puRw==
-X-Gm-Message-State: AOAM530gDvQCrFZo912YXYaXnM6jxHfKs+n4pediDrVbObcG4HMlcslB
- 6qvUc/j4Ppm3QhllAmM5vgw=
-X-Google-Smtp-Source: ABdhPJwdDp8QkLJtuqYk/soiHIV31Dpw8/vR2aNld9kKe8utJXFvNJqYLiChSsp5sHDjMqFVjMYQdw==
-X-Received: by 2002:a17:906:9147:: with SMTP id
- y7mr7982366ejw.243.1613749174795; 
- Fri, 19 Feb 2021 07:39:34 -0800 (PST)
-Received: from pek-vx-bsp2.wrs.com
- (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
- by smtp.gmail.com with ESMTPSA id t9sm4580314ejc.51.2021.02.19.07.39.31
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Feb 2021 07:39:34 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v2 2/4] hw/riscv: virt: Drop the 'link_up' parameter of
- gpex_pcie_init()
-Date: Fri, 19 Feb 2021 23:39:13 +0800
-Message-Id: <1613749155-84250-3-git-send-email-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1613749155-84250-1-git-send-email-bmeng.cn@gmail.com>
-References: <1613749155-84250-1-git-send-email-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=bWqmIuToc+73q+0CDWZNJmjuD6l9bfkpKkp1kD1NzWc=;
+ b=fx5EAfqFwVf+y2tBHDN7IdnMbRJmijBBYWPuAKBOHxIDY8EL+cRWBICgZcJ4Vwdxqk
+ Y0WTE7bnWxMmHletJLTOQWxfsQrjZIlFdmhMcozs2ETssitdtUgFmerETv0TeFoQwgDA
+ mYcOxl8WdD9ro7EDvg/3kDoAlXjdWwlsJ0wnxLtXoVQq9cv18ZBbvI5YTo3qutnzdVSS
+ 2XNgZOtIu7P54YDR3uxdu45y66jphaeiRvdjgGaADEYCfh5jEpfbbbgHz08S/9/5rbfz
+ 3mhFEnJZgm71m4LibG0fTcxzrAZ9LyCK+8P4HqRFyAktFJVMRg82NB2ywA0krehhLbNp
+ /9mw==
+X-Gm-Message-State: AOAM533BHADahe/JHfldG5lCeIcgujc2wmp9njijDB7MCfwJoFvCMDPn
+ ehtq9i+N3u9I/VRpFjH5763OHc1ztn5amCfyrI8vHiXsKZXyAJOdKKhQLcag+ZTg61qzcDC9rBx
+ eBsupic/BKrVGoBVf1PnZE/OwMmCjEyU=
+X-Received: by 2002:a67:fa96:: with SMTP id f22mr6786888vsq.45.1613749464448; 
+ Fri, 19 Feb 2021 07:44:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzHdHnAXhkfJ1JqrZvmEQuma4zqulr6yTdsUaoyMcB/FiKPvVvOcHsaElJNN+AYZuUvnoVOkCFeqmSZKw45d9Y=
+X-Received: by 2002:a05:6102:822:: with SMTP id
+ k2mr6411344vsb.50.1613749464048; 
+ Fri, 19 Feb 2021 07:44:24 -0800 (PST)
+MIME-Version: 1.0
+References: <161373266228.1608713.7614311331725780044.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <161373266228.1608713.7614311331725780044.stgit@pasha-ThinkPad-X280>
+From: Willian Rampazzo <wrampazz@redhat.com>
+Date: Fri, 19 Feb 2021 12:43:58 -0300
+Message-ID: <CAKJDGDY2NQ_EKu=Zf6eCv6PcbtTjv7NAVRT30r=MAzPBUpw9pg@mail.gmail.com>
+Subject: Re: [PATCH] tests/acceptance: linux-related tests fix
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wrampazz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wrampazz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,56 +88,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe Mathieu Daude <philmd@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Cleber Rosa Junior <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Fri, Feb 19, 2021 at 8:07 AM Pavel Dovgalyuk
+<pavel.dovgalyuk@ispras.ru> wrote:
+>
+> This patch allows cloudinit images download when ssh
+> key is not specified.
+>
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>  tests/acceptance/avocado_qemu/__init__.py |    6 ++++--
+>  1 file changed, 4 insertions(+), 2 deletions(-)
+>
 
-`link_up` is never used in gpex_pcie_init(). Drop it.
-
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
-
-(no changes since v1)
-
- hw/riscv/virt.c | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index cfd52bc..1d05bb3 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -449,7 +449,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                                           hwaddr ecam_base, hwaddr ecam_size,
-                                           hwaddr mmio_base, hwaddr mmio_size,
-                                           hwaddr pio_base,
--                                          DeviceState *plic, bool link_up)
-+                                          DeviceState *plic)
- {
-     DeviceState *dev;
-     MemoryRegion *ecam_alias, *ecam_reg;
-@@ -669,12 +669,12 @@ static void virt_machine_init(MachineState *machine)
-     }
- 
-     gpex_pcie_init(system_memory,
--                         memmap[VIRT_PCIE_ECAM].base,
--                         memmap[VIRT_PCIE_ECAM].size,
--                         memmap[VIRT_PCIE_MMIO].base,
--                         memmap[VIRT_PCIE_MMIO].size,
--                         memmap[VIRT_PCIE_PIO].base,
--                         DEVICE(pcie_plic), true);
-+                   memmap[VIRT_PCIE_ECAM].base,
-+                   memmap[VIRT_PCIE_ECAM].size,
-+                   memmap[VIRT_PCIE_MMIO].base,
-+                   memmap[VIRT_PCIE_MMIO].size,
-+                   memmap[VIRT_PCIE_PIO].base,
-+                   DEVICE(pcie_plic));
- 
-     serial_mm_init(system_memory, memmap[VIRT_UART0].base,
-         0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
--- 
-2.7.4
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 
 
