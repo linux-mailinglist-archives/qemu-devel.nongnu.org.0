@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A84A320189
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 00:08:52 +0100 (CET)
-Received: from localhost ([::1]:56290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 620D532018B
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 00:10:10 +0100 (CET)
+Received: from localhost ([::1]:58462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDEtG-0007hb-Ti
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 18:08:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55448)
+	id 1lDEuX-00009C-FE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 18:10:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDErg-0006iE-FV; Fri, 19 Feb 2021 18:07:12 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:45371)
+ id 1lDEtT-0008AW-9n
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 18:09:03 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:38554)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDEre-0001gl-OV; Fri, 19 Feb 2021 18:07:12 -0500
-Received: by mail-ej1-x633.google.com with SMTP id n13so16502861ejx.12;
- Fri, 19 Feb 2021 15:07:10 -0800 (PST)
+ id 1lDEtR-0002TH-Tz
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 18:09:03 -0500
+Received: by mail-ej1-x631.google.com with SMTP id bl23so16636486ejb.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 15:09:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=9Fg/UcFR8UCdkcXxit5fDiDKjU63VthQVYRAp3FKt7o=;
- b=WH+PYexKk1DslYk2OMkesOj9gc7vT19ZWkg6PjYR5ox5VsbfY3avPz4gfgAQXn5sgV
- 2q1JktuV8DcgWho6AWJYtm0WLtvKdsCFLodQ3atSzZe6GvSxLduc09Yr5AzRHkMawn1X
- J9Pv/eY3E7x5JDmrnjiFfM8KNcwgt/AU6OedMSU75KG8Cf6jsVwYnU6tOg3TTyjMGTRc
- 6fCPn1iWzAyzgAadYvDmbfDAMJjyoFE5IT1RG0Bd/Sam3j5pUfrJJjhw4BEhQAtVcP6A
- B0LnjGbLbnjFy5WY/L49jloMg2vrpSMDGnRHozHT84aRjJgBS3i1kDKwMDLYd45NRW0K
- yXug==
+ bh=0+R3QelqYkfb2RGkXNPgIrGql30rgvy3ClXwOy9+rUM=;
+ b=KQJ+/JsUk4vZmXPJwAayqVcrRpNeD4uxujRFPraczRrKHwhEoy3fUDk3+4/n8AKGQm
+ YncBFsX6xYbQBS0SaVRdlvse7pgEeE6Cko+dto5eRgPOO/Vnvmb7mpgAzFsp+YLidX1e
+ lhh9KH3bn4qDscblmjrXneI/i5HLqTklS4etdehnWHfOUQY871m/AqP4B8L+36JT2XBs
+ p7UzrSicVWdBEpM0CigDxEMTnzxtm7eCIC9vX63XQawIH2uZaKdZwH3Mycf7CWmEgvO7
+ us7Ye1kRSUktnDwb8QtnoIBD/HEHlfXfsXyqakgH4Qc1BTVBkIFhKri+xp55qHTeuZEW
+ GQxQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=9Fg/UcFR8UCdkcXxit5fDiDKjU63VthQVYRAp3FKt7o=;
- b=pPY0hgAuRfl6oNw8wro6zE02uxY3gemBlJxXaehIuYofKQtHFmKLFJyK9sziMYkg9g
- x2+B8ICQd5OQvuwUPGvqd4PLPpjJa8ldH9IZ9ddxed80AZy7ChQR8nBmYu6iTWH2M9kJ
- rhuzvpB08KcXeAt7HLOCA+QLypOIwATj3iYDEha40bt4FCNFlpdzno0y5qnjJvNXdTl1
- DRAZspkbG8bFc3cdotI9wnBt/AUoxseD4tOUDHVGsA+uiobTD7P79oobKN5Rsu2JWTc4
- ZmC1rtBmzmzHR5pd+Nrn59SX2KMA/8O3wZPKFAuWQyIZsFnaz4n9/YCaGS84RUedCB+z
- 0Nfg==
-X-Gm-Message-State: AOAM531MEYGoIDoFNwl5/gBNDl70AYFDh1oDdcfZXN1XBXRus0eFrkIu
- 5ClbSNHdItV/U1iBVZJ52AU5vXh1P0c=
-X-Google-Smtp-Source: ABdhPJxMhV2yg5JbkYoifuCWYROcreE5SrDQFKlCL1fVeR4e1o6dcre+rb48KiDSS4iOgPZcmxl2cA==
-X-Received: by 2002:a17:907:20bb:: with SMTP id
- pw27mr10826321ejb.71.1613776028542; 
- Fri, 19 Feb 2021 15:07:08 -0800 (PST)
+ bh=0+R3QelqYkfb2RGkXNPgIrGql30rgvy3ClXwOy9+rUM=;
+ b=WyfgekdGL69TiCo5MlzsgDPJezFtkifXcnZlt/cV3+VdE2bqN+5WqjQ7WWAe4zeMhS
+ pix7xJHWVl+caFbFbMn3SkHmmkTKy/7RphWaVtf5dhmdmcKRqSK9kB/HZNjFlxJIZ6jA
+ b+HcjxPLM0zISUnpuT3wwWMzrgbyT03ZzqxBgaamWA2GH0GiA5wKe3ndx1fJxxxudXDQ
+ UJTisjxaVqCGldNJzQ2ep5T1NHjsCd/XVbrE+KXHDBInlg5BP8bs0GEwwsFbQh2MxNIm
+ Iznc10IS3ow6jo5gBhKxEm+oHKAPlN24gNdSFX6oay8LIPYD28LK5AqeXNGlAyJgLXoA
+ 5KGA==
+X-Gm-Message-State: AOAM531cI5yYPCxxQfTucTU0nGmFxs+G91fHsBw1P09XEAyVhyhAHI7V
+ XDEgUkwZOJFT20E6dosnKvGi1KNoSaA=
+X-Google-Smtp-Source: ABdhPJwoOQowty9lAB85QUVz2R2mdKO7QowHML+prgYg9rWV5IgwowP9jyT4FG/kZOIUZ4F3y7XJEA==
+X-Received: by 2002:a17:907:7781:: with SMTP id
+ ky1mr10523016ejc.255.1613776140198; 
+ Fri, 19 Feb 2021 15:09:00 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id ia17sm363008ejc.55.2021.02.19.15.07.07
+ by smtp.gmail.com with ESMTPSA id u3sm5117890eje.63.2021.02.19.15.08.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Feb 2021 15:07:08 -0800 (PST)
-Subject: Re: problema compilation
-To: nerus <fhuvu30@gmail.com>,
- Ottavio Caruso <ottavio2006-usenet2012@yahoo.com>
-References: <05BD61C1-9771-4EF9-AD1B-8DAB8DFD127A@hxcore.ol>
- <CAFEAcA8Xuf3WfPiNPqSVLz+tMgvO+6OzKTRQpJ_9Z7MqeO6pCw@mail.gmail.com>
+ Fri, 19 Feb 2021 15:08:59 -0800 (PST)
+Subject: Re: [PATCH] hw/intc/loongson_liointc: Fix per core ISR handling
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210112012527.28927-1-jiaxun.yang@flygoat.com>
+ <CAFEAcA9npBhN4mGT5wmPfjAX_qXObduRNW8ohPjy4dq9wO-2Rg@mail.gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b0bb2b4e-4ebe-f4c4-d8ef-191c19c876bb@amsat.org>
-Date: Sat, 20 Feb 2021 00:07:06 +0100
+Message-ID: <d0dd44ac-8312-60d8-32a6-1fdc80a4159e@amsat.org>
+Date: Sat, 20 Feb 2021 00:08:58 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8Xuf3WfPiNPqSVLz+tMgvO+6OzKTRQpJ_9Z7MqeO6pCw@mail.gmail.com>
+In-Reply-To: <CAFEAcA9npBhN4mGT5wmPfjAX_qXObduRNW8ohPjy4dq9wO-2Rg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,34 +91,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-discuss <qemu-discuss@nongnu.org>,
- Yonggang Luo <luoyonggang@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Huacai Chen <chenhuacai@kernel.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Stefan / Yonggang / Paolo.
+On 2/19/21 11:35 PM, Peter Maydell wrote:
+> This patch has been reviewed and fixes a Coverity issue;
+> Philippe, are you planning to take it through your MIPS tree?
 
-On 2/20/21 12:03 AM, Peter Maydell wrote:
-> On Fri, 19 Feb 2021 at 22:54, nerus <fhuvu30@gmail.com> wrote:
->>
->> Good evening, I turn to you because I have a problem that does not appear in the official documentation, nor in the different blogs or irc channels.
->>
->> I need to do a cross compilation but it is impossible from version 5.2, when I use msys2 an error occurs indicating that symbolic links cannot be created even though the windows user has permissions to create symbolic links, I configured this through gpedit.msc.
->>
->> when I use cygwin with the mingw64-w64 tool chain an error occurs whereby meson says that it cannot find any compiler even though the compiler path is specified in the configuration script, mingw cannot be used from linux either due to There are many missing components that cannot be compiled by hand because the proper versions are no longer available, how could you solve these problems without using already compiled binaries? Thank you
+Sorry felt through the crack, now applied to mips-next (I'll send
+a pull request next week).
+
+Thanks!
+
 > 
-> Cross compilation works in general -- our CI testing setup
-> includes various cross-compile configurations, including
-> building Windows executables from a Linux host
-> (eg https://gitlab.com/qemu-project/qemu/-/jobs/1042844159).
-> 
-> You'll need to be more specific about exactly what you're
-> trying to do and failing (eg quoting exact commands,
-> setups, error messages).
-> 
-> thanks
 > -- PMM
 > 
-
+> On Tue, 12 Jan 2021 at 01:28, Jiaxun Yang <jiaxun.yang@flygoat.com> wrote:
+>>
+>> Per core ISR is a set of 32-bit registers spaced by 8 bytes.
+>> This patch fixed calculation of it's size and also added check
+>> of alignment at reading & writing.
+>>
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> ---
+>>  hw/intc/loongson_liointc.c | 16 +++++++++++++---
+>>  1 file changed, 13 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/hw/intc/loongson_liointc.c b/hw/intc/loongson_liointc.c
+>> index f823d484e0..cc11b544cb 100644
+>> --- a/hw/intc/loongson_liointc.c
+>> +++ b/hw/intc/loongson_liointc.c
+>> @@ -41,7 +41,7 @@
+>>  #define R_IEN_CLR               0x2c
+>>  #define R_ISR_SIZE              0x8
+>>  #define R_START                 0x40
+>> -#define R_END                   0x64
+>> +#define R_END                   (R_START + R_ISR_SIZE * NUM_CORES)
+>>
+>>  struct loongson_liointc {
+>>      SysBusDevice parent_obj;
+>> @@ -125,7 +125,12 @@ liointc_read(void *opaque, hwaddr addr, unsigned int size)
+>>      }
+>>
+>>      if (addr >= R_START && addr < R_END) {
+>> -        int core = (addr - R_START) / R_ISR_SIZE;
+>> +        hwaddr offset = addr - R_START;
+>> +        int core = offset / R_ISR_SIZE;
+>> +
+>> +        if (offset % R_ISR_SIZE) {
+>> +            goto out;
+>> +        }
+>>          r = p->per_core_isr[core];
+>>          goto out;
+>>      }
+>> @@ -169,7 +174,12 @@ liointc_write(void *opaque, hwaddr addr,
+>>      }
+>>
+>>      if (addr >= R_START && addr < R_END) {
+>> -        int core = (addr - R_START) / R_ISR_SIZE;
+>> +        hwaddr offset = addr - R_START;
+>> +        int core = offset / R_ISR_SIZE;
+>> +
+>> +        if (offset % R_ISR_SIZE) {
+>> +            goto out;
+>> +        }
+>>          p->per_core_isr[core] = value;
+>>          goto out;
+>>      }
+>> --
+>> 2.30.0
+>>
+>>
+> 
 
