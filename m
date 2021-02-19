@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DE5320046
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 22:22:34 +0100 (CET)
-Received: from localhost ([::1]:43836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F55A32005E
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 22:39:48 +0100 (CET)
+Received: from localhost ([::1]:51178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDDEP-0007Ki-LI
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 16:22:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35076)
+	id 1lDDV5-0003rA-DB
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 16:39:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35530)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lDDCn-0006sF-4B
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 16:20:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41412)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lDDCj-0004HB-W3
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 16:20:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613769649;
+ (Exim 4.90_1) (envelope-from <imp@freebsd.org>) id 1lDDF9-0007tA-U0
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 16:23:19 -0500
+Received: from mx2.freebsd.org ([96.47.72.81]:32416)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imp@freebsd.org>) id 1lDDF8-0005KG-75
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 16:23:19 -0500
+Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits)
+ client-signature RSA-PSS (4096 bits))
+ (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
+ by mx2.freebsd.org (Postfix) with ESMTPS id C0F1F82373;
+ Fri, 19 Feb 2021 21:23:16 +0000 (UTC) (envelope-from imp@freebsd.org)
+Received: from freefall.freebsd.org (freefall.freebsd.org [96.47.72.132])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
+ client-signature RSA-PSS (4096 bits) client-digest SHA256)
+ (Client CN "freefall.freebsd.org", Issuer "R3" (verified OK))
+ by mx1.freebsd.org (Postfix) with ESMTPS id 4Dj4LX4rmnz3Lh3;
+ Fri, 19 Feb 2021 21:23:16 +0000 (UTC) (envelope-from imp@freebsd.org)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
+ t=1613769796;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=PrBgzWPGzFad5ELDBkCrKEzQSGF/ANViKafPs8JG40k=;
- b=abeDgxj2HN5OYHrZCfSp04Qwe9wLioJHstKl4Ig8xsO2sw/zHY6VmZTW3Yalok4pIX/+Fp
- SqXr7YXS7EVr+2NYwvhFw/oDDTGXGoyngs5LgLMhSHCDFNv3iqUgy52SovABe1q/P/OqEG
- 3SB21VdkmIpDqiTrKbgCaEmFV8ZiI1c=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-YvS04AZIMCW2lCMgDaATHw-1; Fri, 19 Feb 2021 16:20:47 -0500
-X-MC-Unique: YvS04AZIMCW2lCMgDaATHw-1
-Received: by mail-ed1-f72.google.com with SMTP id p12so3414490edw.9
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 13:20:47 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:content-transfer-encoding:from:mime-version
- :subject:date:message-id:references:cc:in-reply-to:to;
- bh=qKo6v6/kaIIOTfZBlclAszZDB//+NMlF+bNES9g8Jm4=;
- b=i0p/QmLc2CqyPmH4VocbCsnBxydRi0gFABWZXs5hmEWP4PVKxQjwh2olNEpYBur8Mr
- paltthHQvfk/nalZXE9POAEajkAjl+niHKSb+XsHaMmklGkcAZyjCbGgiGnsG428J5CT
- dCicYaprZaMPY8YJQaD6K4lj8b8XYJuSLi+h0hdH8JoPWXJ7xKaaBr/JDicKML4aPoqO
- /RPuB7c6BmLSShm2NHSQ0ZjtaRwMVhLephHjdImGCxJ++apltQ3WXnr01PBson2Xh54l
- FkdAwXnGwaITCNcfYLQEPkae9urHF3vakiARMhnZJC02JXl/wdUyW4kOLRZnTQBJuR2a
- kKGA==
-X-Gm-Message-State: AOAM530kXdthPGMz6qN8UzjkCFP6wCA6L64r5LwHDpR1MjAvhEDVV6kG
- Sqvp2w8AiMJjJ6GsNcQZZwEQFJr3c6H7ozwymSflLPu2gYEUCaf1Vbi806y6Ju/zGFAeKgdrgQ/
- ES9csKgEtZxULpeU=
-X-Received: by 2002:a17:906:3881:: with SMTP id
- q1mr10509758ejd.490.1613769646129; 
- Fri, 19 Feb 2021 13:20:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyyJYXc1ZdKF2XJjdZNsep6pZhAkjGQ1QnHBrqH1tjw0+5GUZ3HWNOKlXUwrH2LCdzKKxGIIw==
-X-Received: by 2002:a17:906:3881:: with SMTP id
- q1mr10509740ejd.490.1613769645936; 
- Fri, 19 Feb 2021 13:20:45 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c6c93.dip0.t-ipconnect.de. [91.12.108.147])
- by smtp.gmail.com with ESMTPSA id r9sm5159468eju.74.2021.02.19.13.20.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Feb 2021 13:20:45 -0800 (PST)
-From: David Hildenbrand <david@redhat.com>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-Date: Fri, 19 Feb 2021 22:20:42 +0100
-Message-Id: <3D93AD71-A570-481C-BFE9-0DFA8C30F148@redhat.com>
-References: <B2724848-DDA8-442B-A252-E84C56752D7E@redhat.com>
-In-Reply-To: <B2724848-DDA8-442B-A252-E84C56752D7E@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-X-Mailer: iPhone Mail (18D52)
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oYAHW+M9PCYJ3x9te++hH9CEX3u0ukbpuj8cm48rojs=;
+ b=JO3FrGtapBObegnuCFPzvaKUYn/CqDRnFz6FrchQi/SYNJzHfNqiMDC6MT4AZ6E6R1NjOV
+ X7PGK6egT3mf3qLEVTy4Z/vD9+xmPynyq/pQ7tExziXjwq/+sw2RKkYoqR4ztq93dFUxAn
+ rBuHpkMzNjORwh6deqhgBZ18vg8R5kaB3WLGZmlC957AAXUNuebT9RomsP6h5g4sjtjOHG
+ jd423/GwnXjNnvPyKFo4SGpdAiZYE7mTHaNaxYiAYXBX11efkiVnxvc3uN9EJLUbCTGWWj
+ poohDV49IKP9bCxNx1/pnDaCUhxxk/G3cbbY41XnjFuBc5JsfbOLRxlXngHsiA==
+Received: by freefall.freebsd.org (Postfix, from userid 547)
+ id 8A24784FD; Fri, 19 Feb 2021 21:23:16 +0000 (UTC)
+From: Warner Losh <imp@freefall.freebsd.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] bsd-user: Add new maintainers
+Date: Fri, 19 Feb 2021 14:23:08 -0700
+Message-Id: <20210219212308.74079-1-imp@freefall.freebsd.org>
+X-Mailer: git-send-email 2.28.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
+ s=dkim; t=1613769796;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=oYAHW+M9PCYJ3x9te++hH9CEX3u0ukbpuj8cm48rojs=;
+ b=SKnqyEnJodGf6A2bNZCZ4tPXm9SqBA7JtKO4RJ5Eo7heohMGRf9ROGuuZEfabhycWbKvs0
+ /c4Gcj/+c5+3qUfdnECDlu9eixQrcZcNHf2kSy9u1xdAIukdwcZbpvtd85YLHdRPdssKb4
+ uUQHramrD+ijzAw+rAYywt0wINsNI6YBO/ohbmP+QDM3QFjrBK8/nKMpza/JvKHs6q3vo0
+ Hh4YwsjjWfQfAfHSaFB4iP8GW6JPfEFNfLSX9T7cwkSbfD73FyzCPVPFor/G9mCiL45tv6
+ acEAz0gV6djfflYypoFXR1uE3xefdZ7Wl4Hcy+6Ia/r7GqqPeVJaPJl20UaBbQ==
+ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1613769796; a=rsa-sha256; cv=none;
+ b=OvSuuv64VrNxC5nRBT7eBy1rbXcjzavvJaFok7UfVUa+bcqQoOmsa4t5rv6Z+NOm9pF+uX
+ w8TuvI7Uh4KVvN3c6wNc/4nTdofqOSL+4bSqWm2OC2vO0YX+US79ATRQL3SJe/hpsP9Zna
+ mP+IE1HhBsa6ID6gRLDI8OUkAnAWj1fcaPR/O01cLHOaqPyH08evAbbOwZuHWyF2Gf9IX8
+ 9mAiYncm/iF3sLXepd2Ek4WSHVllSoYWRfUhpyx/iR2V+NK6rTfvXUJPdRdJslkN1jusOf
+ InNHxEbHCQNEAQTOimN8dRNkgBFgDg/z7Uv7+YY7PdKN38E1OhJzcibXhWdJ1A==
+ARC-Authentication-Results: i=1;
+	mx1.freebsd.org;
+	none
+Received-SPF: pass client-ip=96.47.72.81; envelope-from=imp@freebsd.org;
+ helo=mx2.freebsd.org
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 19 Feb 2021 16:37:54 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -94,110 +93,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Alexander Duyck <alexander.duyck@gmail.com>,
- Markus Armbruster <armbru@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Den Lunev <den@openvz.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>, emaste@freebsd.org,
+ Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Warner Losh <imp@FreeBSD.org>
 
-> Am 19.02.2021 um 22:14 schrieb David Hildenbrand <dhildenb@redhat.com>:
->=20
-> =EF=BB=BF
->>> Am 19.02.2021 um 22:10 schrieb Peter Xu <peterx@redhat.com>:
->>>=20
->>> =EF=BB=BFOn Fri, Feb 19, 2021 at 03:50:52PM -0500, Peter Xu wrote:
->>> Andrey,
->>>=20
->>>> On Fri, Feb 19, 2021 at 09:57:37AM +0300, Andrey Gruzdev wrote:
->>>> For the discards that happen before snapshot is started, I need to dig=
- into Linux and QEMU virtio-baloon
->>>> code more to get clear with it.
->>>=20
->>> Yes it's very tricky on how the error could trigger.
->>>=20
->>> Let's think of below sequence:
->>>=20
->>> - Start a guest with init_on_free=3D1 set and also a virtio-balloon dev=
-ice
->>>=20
->>> - Guest frees a page P and zeroed it (since init_on_free=3D1). Now P co=
-ntains
->>>   all zeros.
->>>=20
->>> - Virtio-balloon reports this page to host, MADV_DONTNEED sent, then th=
-is
->>>   page is dropped on the host.
->>>=20
->>> - Start live snapshot, wr-protect all pages (but not including page P b=
-ecause
->>>   it's currently missing).  Let's call it $SNAPSHOT1.
->>>=20
->>> - Guest does alloc_page(__GFP_ZERO), accidentally fetching this page P =
-and
->>>   returned
->>>=20
->>> - So far, page P is still all zero (which is good!), then guest uses pa=
-ge P
->>>   and writes data to it (say, now P has data P1 rather than all zeros).
->>>=20
->>> - Live snapshot saves page P, which content P1 rather than all zeros.
->>>=20
->>> - Live snapshot completed.  Saved as $SNAPSHOT1.
->>>=20
->>> Then when load snapshot $SNAPSHOT1, we'll have P contains data P1.  Aft=
-er
->>> snapshot loaded, when guest allocate again with alloc_page(__GFP_ZERO) =
-on this
->>> page P, since guest kernel "thought" this page is all-zero already so m=
-emzero()
->>> is skipped even if __GFP_ZERO is provided.  Then this page P (with cont=
-ent P1)
->>> got returned for the alloc_page(__GFP_ZERO) even if __GFP_ZERO set.  Th=
-at could
->>> break the caller of alloc_page().
->>>=20
->>>> Anyhow I'm quite sure that adding global MISSING handler for snapshott=
-ing
->>>> is too heavy and not really needed.
->>>=20
->>> UFFDIO_ZEROCOPY installs a zero pfn and that should be all of it.  Ther=
-e'll
->>> definitely be overhead, but it may not be that huge as imagined.  Live =
-snapshot
->>> is great in that we have point-in-time image of guest without stopping =
-the
->>> guest, so taking slightly longer time won't be a huge loss to us too.
->>>=20
->>> Actually we can also think of other ways to work around it.  One way is=
- we can
->>> pre-fault all guest pages before wr-protect.  Note that we don't need t=
-o write
->>> to the guest page because read would suffice, since uffd-wp would also =
-work
->>> with zero pfn.  It's just that this workaround won't help on saving sna=
-pshot
->>> disk space, but it seems working.  It would be great if you have other
->>> workarounds, maybe as you said UFFDIO_ZEROCOPY is not the only route.
->>=20
->> Wait.. it actually seems to also solve the disk usage issue.. :)
->>=20
->> We should just need to make sure to prohibit balloon before staring to
->> pre-fault read on all guest ram.  Seems awkward, but also seems working.=
-. Hmm..
->=20
-> A shiver just went down my spine. Please don=E2=80=98t just for the sake =
-of creating a snapshot.
->=20
-> (Just imagine you don=E2=80=98t have a shared zeropage...)
+The FreeBSD project has a number of enhancements to bsd-user. Add myself
+as maintainer and Kyle Evans as a reviewer. Also add our github repo.
 
-... and I just remembered we read all memory either way. Gah.
+Signed-off-by: Warner Losh <imp@FreeBSD.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ MAINTAINERS | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-I have some patches to make snapshots fly with virtio-mem so exactly that w=
-on=E2=80=98t happen. But they depend on vfio support, so it might take a wh=
-ile.
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 66354e6e49..141e01075b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2884,9 +2884,12 @@ F: thunk.c
+ F: accel/tcg/user-exec*.c
+ 
+ BSD user
+-S: Orphan
++M: Warner Losh <imp@bsdimp.com>
++R: Kyle Evans <kevans@freebsd.org>
++S: Maintained
+ F: bsd-user/
+-F: default-configs/*-bsd-user.mak
++F: default-configs/targets/*-bsd-user.mak
++T: git https://github.com/qemu-bsd-user/qemu-bsd-user bsd-user-rebase-3.1
+ 
+ Linux user
+ M: Laurent Vivier <laurent@vivier.eu>
+-- 
+2.30.0
 
 
