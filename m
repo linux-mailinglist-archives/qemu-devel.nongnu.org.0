@@ -2,88 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A97EA32005D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 22:39:47 +0100 (CET)
-Received: from localhost ([::1]:51168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5D95320053
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 22:33:10 +0100 (CET)
+Received: from localhost ([::1]:46560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDDV4-0003qx-FV
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 16:39:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35590)
+	id 1lDDOf-0001cL-7M
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 16:33:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@freebsd.org>) id 1lDDFk-00080k-Dw
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 16:23:56 -0500
-Received: from mx2.freebsd.org ([2610:1c1:1:606c::19:2]:32550)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imp@freebsd.org>) id 1lDDFi-0005ZZ-Ns
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 16:23:56 -0500
-Received: from mx1.freebsd.org (mx1.freebsd.org [96.47.72.80])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits)
- client-signature RSA-PSS (4096 bits))
- (Client CN "mx1.freebsd.org", Issuer "R3" (verified OK))
- by mx2.freebsd.org (Postfix) with ESMTPS id A50188252D
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 21:23:53 +0000 (UTC)
- (envelope-from imp@freebsd.org)
-Received: from freefall.freebsd.org (freefall.freebsd.org
- [IPv6:2610:1c1:1:6074::16:84])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
- client-signature RSA-PSS (4096 bits) client-digest SHA256)
- (Client CN "freefall.freebsd.org", Issuer "R3" (verified OK))
- by mx1.freebsd.org (Postfix) with ESMTPS id 4Dj4MF43ylz3LQl;
- Fri, 19 Feb 2021 21:23:53 +0000 (UTC) (envelope-from imp@freebsd.org)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org; s=dkim;
- t=1613769833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=rmpLpkOXZyDLnSFfOlDHE2GvSknfVJ87wZv0+M4Co3o=;
- b=NhnDJ8Y+l+k2DNYyczEMAFu8mKsHl8CWEkOiptfG/9WFrLKYJVXhmwUj+Uj1ZufDv5kE95
- dcf5UEhJqi6HLYxg9YWV08+/WFRIElKl/yA3VvtemnJ9BBS8SdT9wMVoNSeI6G8konOO3j
- ZV2wFczF2CfkRVaCA7vKZM3fWbFHK/8np8vaASIeMivhDMR4wnPNyR4zSrFiqpIfdVslS2
- C9stu2xFChvaEQBPqiN7nOUeWACYRN+AQBm5fVnGw+q6/DqXQh4JrleIkc9Ami3ge7BKBR
- b6VDgk6UfqMwkWgeEAgtyeZdC3FNSX4bb6J0orUSqJOc0p053nczHxZ20GOFLA==
-Received: by freefall.freebsd.org (Postfix, from userid 547)
- id 8470686AE; Fri, 19 Feb 2021 21:23:53 +0000 (UTC)
-From: Warner Losh <imp@freefall.freebsd.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] FreeBSD: Upgrade to 12.2 release
-Date: Fri, 19 Feb 2021 14:23:52 -0700
-Message-Id: <20210219212352.74172-1-imp@freefall.freebsd.org>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lDDNS-0000zS-1g; Fri, 19 Feb 2021 16:31:54 -0500
+Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831]:34703)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lDDNP-00011a-Ve; Fri, 19 Feb 2021 16:31:53 -0500
+Received: by mail-qt1-x831.google.com with SMTP id c1so5039305qtc.1;
+ Fri, 19 Feb 2021 13:31:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LfmGvOZWbzJbfpPnBOiuqjkrl9ZnCrg+ORba6NQIfhE=;
+ b=RZXOKzUiMOxu8hN0Anb/5A1+Y0qsMyT5cYW+q/vYj5S0m9SwahWAp3w1jBFFlj835a
+ UI6PAac0XC8ty8DuGpxOb1LkxRcUqiKtaoxXVHIEaWcG4ZWAqRK+eWKhMoqcUQSvS7Zj
+ hV195KLlWy5KHKqLmmgKEwlXZWGRp9D+1eO+EuBZzLwbEMIekj6rJ2i4TXtr38HXnw/U
+ GDC1AxBQiYdrjH7oagCHtNBKyS3LYqM6LM+qsuWNzpFJppiHB+aGImoHUsOJYs5vw3tO
+ 6QU3oxLQRVCPZteqbgsATE6PmrFYJUhpZTtSpHzGn5o4Ocsjdi0bDbbQSQnBX81J0S+m
+ ES9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LfmGvOZWbzJbfpPnBOiuqjkrl9ZnCrg+ORba6NQIfhE=;
+ b=d07gPGgtAYk99Pws6Sm4jSyVxO4Xa+8QJKMPtV0iNOXTwJBfrt1eVOeYNw9AsutI5s
+ V2vFpnl+xkS5gzPMj2lLQZQb9O0ym97ZDzcYLAvggrACk6aSYoFQfVb9NBMiNRJ5RmvI
+ EjR7pEi27UxuvblhwtuGWKamAVnpp6nqt5FX2kmkkJ78hisz5ypZZnfa+Thj7YIrcbQD
+ uCf4Vi9AYIgYDKr+OTT8SkknqJhlvwbQPjCuPiAzbXv/BJ772BmI2RqVHqw8+rmR36rG
+ 8BnE15fiyVvBwZ4SCIg831wuI61Me0oma+e/8y2znVdjyVEu0csVddnneuSS6azf+drv
+ dAuw==
+X-Gm-Message-State: AOAM533VITrfHMHiOlfh2+OV+vekEXvLywXUaW2D8EcuPgBk242MWcAl
+ K4/keksdE2f7dkvy/FL39gk=
+X-Google-Smtp-Source: ABdhPJxH0BUSrqC6NdigALM9dmpzLA7QTr6szNUsgGvol44jkJoYoi1wHPlbMuKtC+ydWoHXxpTnSw==
+X-Received: by 2002:a05:622a:2c4:: with SMTP id
+ a4mr10993541qtx.201.1613770310312; 
+ Fri, 19 Feb 2021 13:31:50 -0800 (PST)
+Received: from [192.168.15.40] (201-26-97-119.dsl.telesp.net.br.
+ [201.26.97.119])
+ by smtp.gmail.com with ESMTPSA id 16sm6022369qtz.17.2021.02.19.13.31.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 13:31:50 -0800 (PST)
+Subject: Re: [PATCH v3 7/7] spapr_drc.c: use DRC reconfiguration to cleanup
+ DIMM unplug state
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210211225246.17315-1-danielhb413@gmail.com>
+ <20210211225246.17315-8-danielhb413@gmail.com>
+ <YCyAAe4dJzpsgQ0x@yekko.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <5026c1ed-ebbc-99fc-ac7e-146fe6c9d32b@gmail.com>
+Date: Fri, 19 Feb 2021 18:31:46 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=freebsd.org;
- s=dkim; t=1613769833;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=rmpLpkOXZyDLnSFfOlDHE2GvSknfVJ87wZv0+M4Co3o=;
- b=Z1PZvFhYy2FZLS3HzxHDR/NWewHtQADuCJaaJnBvKnPoOW5EVleaBUl1ayFFGh3pmMUp+h
- vhmgwTob/BfKH1ynHbliJZzJlnVJ3f68CtbCzq5l1SPwUXXlri6JJdGj5FoT4ZvNZ2jEPY
- SYzHDIfUDL7ahvIyiPTH0HCDS7OdD3xwxUGEYH7rXGOmbISsPc9nLtlOwHlTL8Bq44MC1b
- 09JvFMB4ZOr0VU6Y3bbtWDSXN9/6LmP5EX7i/nlNS/nICMTecShE0MbaEJTF6gZ/KTzH+u
- PBZ6coB12ProZElwXE1BbB2vxnuucayFzvGwkvHJKi+Nez2tnkfCyCzcfwpFDg==
-ARC-Seal: i=1; s=dkim; d=freebsd.org; t=1613769833; a=rsa-sha256; cv=none;
- b=c0jk5qsk1jYbAHQs6zvbZxgGUdhQ2J9i7bb1R3+5nkEO8wWrJ5CrHboPTErZoBbsuR+Qnv
- f+XeQMB0Vn83WxAmwyGgg5lp6nDjD2bg328+uzCl+oAXx/lCDfRt1lCphBc8NhkmH7iFhZ
- ROxqoToL/aATmUhwZHA5SaQ54AyAsBI4jAY7tHG7z+1CdX9UmPUYxvI+3G7UKd+VbB1XXQ
- QDwFuOKQv8yQQTUNGnMBlo6FNBrViDalTo1Bi4OQKKUvKpw1igieGIJaDE+WysGs7iUeHk
- vORVLKEsgMDVHtMHyDyqQKqWkDOg+sMKN50lL5fHwa9t4M6PiWauXcXxOQijtQ==
-ARC-Authentication-Results: i=1;
-	mx1.freebsd.org;
-	none
-Received-SPF: pass client-ip=2610:1c1:1:606c::19:2;
- envelope-from=imp@freebsd.org; helo=mx2.freebsd.org
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YCyAAe4dJzpsgQ0x@yekko.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x831.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Fri, 19 Feb 2021 16:37:54 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -95,36 +90,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kevans@freebsd.org, Warner Losh <imp@FreeBSD.org>, emaste@freebsd.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Warner Losh <imp@FreeBSD.org>
 
-FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD's
-project's packages will work.
 
-Signed-off-by: Warner Losh <imp@FreeBSD.org>
----
- tests/vm/freebsd | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 2/16/21 11:31 PM, David Gibson wrote:
+> On Thu, Feb 11, 2021 at 07:52:46PM -0300, Daniel Henrique Barboza wrote:
+>> Handling errors in memory hotunplug in the pSeries machine is more complex
+>> than any other device type, because there are all the complications that other
+>> devices has, and more.
 
-diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-index 09f3ee6cb8..c5886f6500 100755
---- a/tests/vm/freebsd
-+++ b/tests/vm/freebsd
-@@ -24,8 +24,8 @@ class FreeBSDVM(basevm.BaseVM):
-     name = "freebsd"
-     arch = "x86_64"
- 
--    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.1/FreeBSD-12.1-RELEASE-amd64-disc1.iso.xz"
--    csum = "7394c3f60a1e236e7bd3a05809cf43ae39a3b8e5d42d782004cf2f26b1cfcd88"
-+    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.2/FreeBSD-12.2-RELEASE-amd64-disc1.iso.xz"
-+    csum = "a4530246cafbf1dd42a9bd3ea441ca9a78a6a0cd070278cbdf63f3a6f803ecae"
-     size = "20G"
-     pkgs = [
-         # build tools
--- 
-2.30.0
+[...]
 
+>>
+>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+>> index ecce8abf14..4bcded4a1a 100644
+>> --- a/hw/ppc/spapr.c
+>> +++ b/hw/ppc/spapr.c
+>> @@ -3575,6 +3575,36 @@ static SpaprDimmState *spapr_recover_pending_dimm_state(SpaprMachineState *ms,
+>>       return spapr_pending_dimm_unplugs_add(ms, avail_lmbs, dimm);
+>>   }
+>>   
+>> +void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+>> +                                           PCDIMMDevice *dimm)
+>> +{
+>> +    SpaprDimmState *ds = spapr_pending_dimm_unplugs_find(spapr, dimm);
+>> +    SpaprDrc *drc;
+>> +    uint32_t nr_lmbs;
+>> +    uint64_t size, addr_start, addr;
+>> +    int i;
+>> +
+>> +    if (ds) {
+>> +        spapr_pending_dimm_unplugs_remove(spapr, ds);
+>> +    }
+> 
+> Hrm... how would !ds arise?  Could this just be an assert?
+
+!ds would appear if we do not assert g_assert(drc->dev) down there, where you
+suggested down below that a malicious/buggy code would trigger it, for example.
+With that assert in place then this less likely to occcur.
+
+I guess what I can do here is:
+
+- remove the g_assert(drc->dev) from down below, since it's more related to the
+logic of this function;
+
+- here, check if drc->dev is NULL. Return doing nothing if that's the case (all the
+function relies on drc->dev being valid);
+
+- if drc->dev is not NULL, then we can g_assert(ds) and proceed with the rest of
+the function
+
+This way we become a little more tolerant on drc->dev being NULL, but if drc->dev
+is valid we will expect a unplug dimm state to always exist and assert it.
+
+
+Thanks,
+
+
+DHB
+
+> 
+>> +
+>> +    size = memory_device_get_region_size(MEMORY_DEVICE(dimm), &error_abort);
+>> +    nr_lmbs = size / SPAPR_MEMORY_BLOCK_SIZE;
+>> +
+>> +    addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
+>> +                                          &error_abort);
+>> +
+>> +    addr = addr_start;
+>> +    for (i = 0; i < nr_lmbs; i++) {
+>> +        drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+>> +                              addr / SPAPR_MEMORY_BLOCK_SIZE);
+>> +        g_assert(drc);
+>> +
+>> +        drc->unplug_requested = false;
+>> +        addr += SPAPR_MEMORY_BLOCK_SIZE;
+>> +    }
+>> +}
+>> +
+>>   /* Callback to be called during DRC release. */
+>>   void spapr_lmb_release(DeviceState *dev)
+>>   {
+>> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+>> index c143bfb6d3..eae941233a 100644
+>> --- a/hw/ppc/spapr_drc.c
+>> +++ b/hw/ppc/spapr_drc.c
+>> @@ -1230,6 +1230,20 @@ static void rtas_ibm_configure_connector(PowerPCCPU *cpu,
+>>   
+>>       drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+>>   
+>> +    /*
+>> +     * This indicates that the kernel is reconfiguring a LMB due to
+>> +     * a failed hotunplug. Clear the pending unplug state for the whole
+>> +     * DIMM.
+>> +     */
+>> +    if (spapr_drc_type(drc) == SPAPR_DR_CONNECTOR_TYPE_LMB &&
+>> +        drc->unplug_requested) {
+>> +
+>> +        /* This really shouldn't happen in this point, but ... */
+>> +        g_assert(drc->dev);
+> 
+> I'm a little worried that a buggy or malicious guest could trigger
+> this assert.
+> 
+>> +
+>> +        spapr_clear_pending_dimm_unplug_state(spapr, PC_DIMM(drc->dev));
+>> +    }
+>> +
+>>       if (!drc->fdt) {
+>>           void *fdt;
+>>           int fdt_size;
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index ccbeeca1de..5bcc8f3bb8 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -847,6 +847,8 @@ int spapr_hpt_shift_for_ramsize(uint64_t ramsize);
+>>   int spapr_reallocate_hpt(SpaprMachineState *spapr, int shift, Error **errp);
+>>   void spapr_clear_pending_events(SpaprMachineState *spapr);
+>>   void spapr_clear_pending_hotplug_events(SpaprMachineState *spapr);
+>> +void spapr_clear_pending_dimm_unplug_state(SpaprMachineState *spapr,
+>> +                                           PCDIMMDevice *dimm);
+>>   int spapr_max_server_number(SpaprMachineState *spapr);
+>>   void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>>                         uint64_t pte0, uint64_t pte1);
+> 
 
