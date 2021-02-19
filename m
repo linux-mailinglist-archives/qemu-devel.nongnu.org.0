@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42E5431F332
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 00:58:13 +0100 (CET)
-Received: from localhost ([::1]:58214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A9F31F338
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 01:05:27 +0100 (CET)
+Received: from localhost ([::1]:34726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCtBT-0005ry-QB
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 18:58:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37062)
+	id 1lCtIT-0000BK-QP
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 19:05:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lCt9w-0005Pt-6P
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:56:36 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:44453)
+ id 1lCtGK-00080l-EL
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 19:03:12 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35976)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lCt9u-00086T-Lu
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 18:56:35 -0500
-Received: by mail-wr1-x430.google.com with SMTP id h98so24931wrh.11
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 15:56:34 -0800 (PST)
+ id 1lCtGI-0002nV-UI
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 19:03:12 -0500
+Received: by mail-wm1-x334.google.com with SMTP id a207so5433036wmd.1
+ for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 16:03:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:references:from:message-id:date:user-agent
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=7c+XCiUq72hc/DKK3r8KdpN46jOotTEXNDz6WP+D4MY=;
- b=bgzxiVXcyLT/fJQ6eS6lviVeRH22QVTccfTavNrn+JQ0BAOtdzp2MvX9h2pvv+v29r
- RYP+5WkS0QSG8u/iO3hyci99tADRzULpJzKufx4+MbQ1nMfx770aQiXyrnw+h3ME43bj
- PyeOsAKpK5l+BWGiWoVfQsUzEizZtc9qfomqT9N0Y0mNvCVN6vX8RxEKU5lRN60x29KI
- ne/1PQEfxVCQWznqyy1mvFuuCecwzcx10fcux5Sa6Bb++AiERBuNs+DO80GCQo7EIAg3
- ZKl7KiNpqHPDcakN9ahpxokITS3plxWYnYc0zJGXT8JO/QlIXVVTKEPqZRAmrB5hIRgf
- eykA==
+ bh=PbFZ328eo5XeUkX51JoJ7FZSxC6rew0M8K8i36lsPFc=;
+ b=UKQeDvsY6TyjCnbqI8A/uTanWBh3GrltAJHmR2MNOlKPtp6jPc3M3i2nCtlqMqzKs+
+ eKwGjjAB3y9qqJC/AETumdcocsEyDKZ2uRwJfb7Y3qYxOuKc97vsO4u1xMQ5XXu8wten
+ 17NmEFTgJ7G1e3LUN0yeJKI2dBosnEjF16q8bwykS+OjA6pgTWEQ1cpeTdf2R0T0ipLL
+ lUP8LYd3bOJlWvlxHc+khyoalbAf+b9vd/3JGoEtiD3OiOVZ2KjUu5ebqj1s1kWCIOpJ
+ wb8e3+XGZyAPj08R2mGpvf37yQw2qiGxboktm38JbnuLfeQ+KYd9PQ+HdzCxrzkk9/ik
+ FM4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:references:from:message-id
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=7c+XCiUq72hc/DKK3r8KdpN46jOotTEXNDz6WP+D4MY=;
- b=uW+QEJvd86wIikC0A/OUYqnUcPXv7Y4Xn/a/pbIW0hy24LKCollknucY6GM3Tu/DGM
- 61nh8vyFwK/d+zAPmTUiGb9VNQZGKJUt/4XkawWiE5GscmXepzgTbQCqh5KzhRaWR6wy
- wx6dYJEBL98BxGHJmNDfyufUa8rtPmxx77PfvpKd0sZMwa6j6V9xK2BHzFX5s7msRnzf
- yxi82IGAEMV8kFHNV1asSUQUMnFPBfsPL4JY1+8IMbXT5m49ZhmYG4QrTSPTLklDHyKy
- I2mxBfq1yrmcLCXisal+N8iWIaQ4Iv4LakIiqiAkMvpDNGky2r9oOd9qQSXtdiaPqsR1
- NgEw==
-X-Gm-Message-State: AOAM532ub2aj0HBEqWhqJYG7oNfrqjLrfx7seJ06oiM6kPjPORMD0YOG
- hwvKfJA4bjsyThQYilRzcvfTGvd9Cqk=
-X-Google-Smtp-Source: ABdhPJzE/+giX9+5unVkteF9kg54izpkgly7ZyX/jG2ngFrUAmrGuwbJ4N5UewpIj6C2x4Avp3ZbjA==
-X-Received: by 2002:adf:d20c:: with SMTP id j12mr6507661wrh.76.1613692592853; 
- Thu, 18 Feb 2021 15:56:32 -0800 (PST)
+ bh=PbFZ328eo5XeUkX51JoJ7FZSxC6rew0M8K8i36lsPFc=;
+ b=GoeYYaImmtGgpBhF5HQtmKSkhFybwb2v5sR+v9acwEnIrjgGOTm/Qw8ISN33unWvDh
+ fYN3peil87RTS/7YZYffxEv/qD4com83KxoNa9FEiPEs0Q0MWYTVv5dLdDh7WkDTiwEr
+ ImrENCgkj5hHJalwfe7purTDRAY89U2Z1zbLwqHMuMT5sE5qS8uc+4zvjE2Xc+NbnRGe
+ dTtQeSWyV77rmKuIMxrL37r7QrjQHNnplCoQBVlRYvN5chuNPbQxZQIzOJEkOZ7pJjDO
+ /kULCB7rT2T/6nCU7KjyehFzeUhAKtE4M4DsPag143vbvy3Fq3B8jrEU1ypyWlxxB8OK
+ QdeA==
+X-Gm-Message-State: AOAM530sgE05/qeXJYNoH8KofXPnuIQxizH6YdaErjedFvFhTGurBXJg
+ wlPvHoXjdBB7dyB5Qsepujg=
+X-Google-Smtp-Source: ABdhPJw4BdatFrwhOOwQ86qRjvX3TPw0mDOcDkVrs5+EpyjDlHvYHfDJ5lGJd92yO2H5o6e8HV4nZQ==
+X-Received: by 2002:a1c:105:: with SMTP id 5mr5690330wmb.89.1613692988510;
+ Thu, 18 Feb 2021 16:03:08 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id 4sm9609303wma.0.2021.02.18.15.56.31
+ by smtp.gmail.com with ESMTPSA id o13sm12188014wro.15.2021.02.18.16.03.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 18 Feb 2021 15:56:32 -0800 (PST)
-Subject: Re: How to get a wiki account?
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <BYAPR02MB488605CFFBDA686B2E00640BDE859@BYAPR02MB4886.namprd02.prod.outlook.com>
+ Thu, 18 Feb 2021 16:03:08 -0800 (PST)
+Subject: Re: [PATCH v4 05/71] tcg/tci: Remove tci_read_r8
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210217202036.1724901-1-richard.henderson@linaro.org>
+ <20210217202036.1724901-6-richard.henderson@linaro.org>
+ <7f634553-3e1c-2cd6-a712-31c335e79508@amsat.org>
+ <4e95c957-4e06-a6c5-280b-c6ea7829bece@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <aa48784f-4cf9-b300-5715-752662a5be89@amsat.org>
-Date: Fri, 19 Feb 2021 00:56:31 +0100
+Message-ID: <37a1ef84-cc95-e362-d8a9-8c4bdf98682c@amsat.org>
+Date: Fri, 19 Feb 2021 01:03:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB488605CFFBDA686B2E00640BDE859@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <4e95c957-4e06-a6c5-280b-c6ea7829bece@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,17 +91,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: sw@weilnetz.de, alex.bennee@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/19/21 12:23 AM, Taylor Simpson wrote:
-> How do I get a wiki account for wiki.qemu.org?† Going forward, Iíd like
-> to be able to add information about the Hexagon target.
+On 2/19/21 12:33 AM, Richard Henderson wrote:
+> On 2/18/21 3:11 PM, Philippe Mathieu-Daud√© wrote:
+>>> @@ -533,7 +520,7 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
+>>>              tci_write_reg(regs, t0, *(uint32_t *)(t1 + t2));
+>>>              break;
+>>>          CASE_32_64(st8)
+>>> -            t0 = tci_read_r8(regs, &tb_ptr);
+>>> +            t0 = tci_read_r(regs, &tb_ptr);
+>>
+>> No need for tb_ptr++ here?
+> 
+> Done in tcg_read_b, called by tci_read_r.
 
-As any user with access to the wiki can create user accounts,
-I created yours and will send you your information off-list.
+Doh I missed it is done in tci_read_r() indeed.
 
-Regards,
-
-Phil.
+Reviewed-by: Philippe Mathieu-Daud√© <f4bug@amsat.org>
 
