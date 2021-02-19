@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1023631F9EB
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:31:21 +0100 (CET)
-Received: from localhost ([::1]:34070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7521231F9EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 14:32:31 +0100 (CET)
+Received: from localhost ([::1]:35190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD5sO-0000tz-3q
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:31:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41492)
+	id 1lD5tW-0001e9-Gn
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 08:32:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD5br-0004Lz-Fv
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:14:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55978)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD5bm-0006UX-Pk
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:14:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613740450;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rSYWFZxdl+9isG5CaaoD/68Nd7QqhBD+6rAUC7xwL8Q=;
- b=KoDrXm3j4rXDJegq8b0ghmOwkAyZhxv3UcoJdGcn47Upr6RXJiLPP9G9qxjdibbdcKcVWE
- 8E8dUvTAOU989pxL03crFhOTCExs0Qc5ngUwz4yUcZ+idauqs/uNPFaJC6RJfJAwpx6x87
- aQ/Jz6/BuP/HhdnMXWY8rtfrYRUGq1U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-362-yyQIY20nMLCsi8DPjLj49w-1; Fri, 19 Feb 2021 08:14:07 -0500
-X-MC-Unique: yyQIY20nMLCsi8DPjLj49w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92AB0801976
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 13:14:06 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00AEA60BE5;
- Fri, 19 Feb 2021 13:13:59 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 604BD1800866; Fri, 19 Feb 2021 14:13:50 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 7/7] ui/gtk: add clipboard support
-Date: Fri, 19 Feb 2021 14:13:49 +0100
-Message-Id: <20210219131349.3993192-8-kraxel@redhat.com>
-In-Reply-To: <20210219131349.3993192-1-kraxel@redhat.com>
-References: <20210219131349.3993192-1-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lD5ex-0006jj-SH
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:17:29 -0500
+Received: from smtp1.axis.com ([195.60.68.17]:23853)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lD5eu-0007rh-1v
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 08:17:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1613740644;
+ x=1645276644; h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=x0A5uLhNfzE2PV+NQbYLM+6w3mpYzcv8ADAqPOHSkFw=;
+ b=ECEJSzXYln/HzpQ6vemYYLuYXO8ML0UDUux0Xk24WA/o0KuJiKOMNMUS
+ GI0/0dFqdwt7uiBWg2sMBdM3181Kj/jhc4Kt6xQVwe65sP/mM+rSUBbeI
+ c3chc5TlS6rYZ2Xy8hnbSNMzFtHsHD8CwJlePO64zLx92bAS2NM/CINPt
+ HUMrgFFNKIYFcBaNVnLYpMbdtan+qi0vpHoTa4dbRU1tDP4MeMGS+sz3N
+ O/BAbRHRu2oDLdH3x+wDS6OJLROXp1Ii8MHkQn//sMWL8MBtBgBgn0hwE
+ FAfACq/T2BJsBcQUjkKX5fZvU6UoH18QeAvZe73T89/YiBoFsw3VEPARz Q==;
+From: =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Subject: Re: [PATCH v3] Correct CRIS TCG register lifetime management
+Thread-Topic: [PATCH v3] Correct CRIS TCG register lifetime management
+Thread-Index: AQHXBq2DxXJ7jOW0ZkyXnteGzLL7GapfRAqAgAAg8IA=
+Date: Fri, 19 Feb 2021 13:17:21 +0000
+Message-ID: <3E5348BB-6E59-4E6B-8626-EFDCA6CFED1B@axis.com>
+References: <20210219105349.11582-1-stefans@axis.com>
+ <20210219111925.GQ477672@toto>
+In-Reply-To: <20210219111925.GQ477672@toto>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.32)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <151BEB5AD3E57F49A2E216FFFC861B3B@exhub.se.axis.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.60.68.17;
+ envelope-from=Stefan.Sandstrom@axis.com; helo=smtp1.axis.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,211 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds clipboard support to the qemu gtk ui.
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/ui/gtk.h   |   9 ++++
- ui/gtk-clipboard.c | 124 +++++++++++++++++++++++++++++++++++++++++++++
- ui/gtk.c           |   1 +
- ui/meson.build     |   2 +-
- 4 files changed, 135 insertions(+), 1 deletion(-)
- create mode 100644 ui/gtk-clipboard.c
-
-diff --git a/include/ui/gtk.h b/include/ui/gtk.h
-index 55319843758d..08999f8835e6 100644
---- a/include/ui/gtk.h
-+++ b/include/ui/gtk.h
-@@ -18,6 +18,7 @@
- #include <gdk/gdkwayland.h>
- #endif
- 
-+#include "ui/clipboard.h"
- #include "ui/console.h"
- #include "ui/kbd-state.h"
- #if defined(CONFIG_OPENGL)
-@@ -137,6 +138,11 @@ struct GtkDisplayState {
- 
-     bool external_pause_update;
- 
-+    QemuClipboardPeer cbpeer;
-+    QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
-+    uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
-+    GtkClipboard *gtkcb[QEMU_CLIPBOARD_SELECTION__COUNT];
-+
-     DisplayOptions *opts;
- };
- 
-@@ -208,4 +214,7 @@ QEMUGLContext gd_gl_area_get_current_context(DisplayChangeListener *dcl);
- int gd_gl_area_make_current(DisplayChangeListener *dcl,
-                             QEMUGLContext ctx);
- 
-+/* gtk-clipboard.c */
-+void gd_clipboard_init(GtkDisplayState *gd);
-+
- #endif /* UI_GTK_H */
-diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
-new file mode 100644
-index 000000000000..4a7f44b25818
---- /dev/null
-+++ b/ui/gtk-clipboard.c
-@@ -0,0 +1,124 @@
-+/*
-+ * GTK UI -- clipboard support
-+ *
-+ * Copyright (C) 2021 Gerd Hoffmann <kraxel@redhat.com>
-+ *
-+ * This program is free software; you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "ui/gtk.h"
-+
-+static void gd_clipboard_notify(Notifier *notifier, void *data)
-+{
-+    GtkDisplayState *gd = container_of(notifier, GtkDisplayState, cbpeer.update);
-+    QemuClipboardInfo *info = data;
-+    QemuClipboardSelection s = info->selection;
-+    bool self_update = info->owner == &gd->cbpeer;
-+
-+    if (info != gd->cbinfo[s]) {
-+        qemu_clipboard_info_put(gd->cbinfo[s]);
-+        gd->cbinfo[s] = qemu_clipboard_info_get(info);
-+        gd->cbpending[s] = 0;
-+        if (!self_update) {
-+            if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
-+                qemu_clipboard_request(info, QEMU_CLIPBOARD_TYPE_TEXT);
-+            }
-+        }
-+        return;
-+    }
-+
-+    if (self_update) {
-+        return;
-+    }
-+
-+    if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available &&
-+        info->types[QEMU_CLIPBOARD_TYPE_TEXT].data) {
-+        gtk_clipboard_set_text(gd->gtkcb[s],
-+                               info->types[QEMU_CLIPBOARD_TYPE_TEXT].data,
-+                               info->types[QEMU_CLIPBOARD_TYPE_TEXT].size);
-+    }
-+}
-+
-+static void gd_clipboard_request(QemuClipboardInfo *info,
-+                                 QemuClipboardType type)
-+{
-+    GtkDisplayState *gd = container_of(info->owner, GtkDisplayState, cbpeer);
-+    char *text;
-+
-+    switch (type) {
-+    case QEMU_CLIPBOARD_TYPE_TEXT:
-+        text = gtk_clipboard_wait_for_text(gd->gtkcb[info->selection]);
-+        qemu_clipboard_set_data(&gd->cbpeer, info, type,
-+                                strlen(text), text, true);
-+        break;
-+    default:
-+        break;
-+    }
-+}
-+
-+static QemuClipboardSelection gd_find_selection(GtkDisplayState *gd,
-+                                                GtkClipboard *clipboard)
-+{
-+    QemuClipboardSelection s;
-+
-+    for (s = 0; s < QEMU_CLIPBOARD_SELECTION__COUNT; s++) {
-+        if (gd->gtkcb[s] == clipboard) {
-+            return s;
-+        }
-+    }
-+    return QEMU_CLIPBOARD_SELECTION_CLIPBOARD;
-+}
-+
-+static void gd_owner_change(GtkClipboard *clipboard,
-+                            GdkEvent *event,
-+                            gpointer data)
-+{
-+    GtkDisplayState *gd = data;
-+    QemuClipboardSelection s = gd_find_selection(gd, clipboard);
-+    QemuClipboardInfo *info;
-+
-+    info = qemu_clipboard_info_new(&gd->cbpeer, s);
-+    if (gtk_clipboard_wait_is_text_available(clipboard)) {
-+        info->types[QEMU_CLIPBOARD_TYPE_TEXT].available = true;
-+    }
-+
-+    qemu_clipboard_update(info);
-+    qemu_clipboard_info_put(info);
-+}
-+
-+void gd_clipboard_init(GtkDisplayState *gd)
-+{
-+    gd->cbpeer.name = "gtk";
-+    gd->cbpeer.update.notify = gd_clipboard_notify;
-+    gd->cbpeer.request = gd_clipboard_request;
-+    qemu_clipboard_peer_register(&gd->cbpeer);
-+
-+    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =
-+        gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE));
-+    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY] =
-+        gtk_clipboard_get(gdk_atom_intern("PRIMARY", FALSE));
-+    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY] =
-+        gtk_clipboard_get(gdk_atom_intern("SECONDARY", FALSE));
-+
-+    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD],
-+                     "owner-change", G_CALLBACK(gd_owner_change), gd);
-+    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY],
-+                     "owner-change", G_CALLBACK(gd_owner_change), gd);
-+    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY],
-+                     "owner-change", G_CALLBACK(gd_owner_change), gd);
-+}
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 7b412dd4fe0b..0ae3ec20f594 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -2252,6 +2252,7 @@ static void gtk_display_init(DisplayState *ds, DisplayOptions *opts)
-         opts->u.gtk.grab_on_hover) {
-         gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
-     }
-+    gd_clipboard_init(s);
- }
- 
- static void early_gtk_display_init(DisplayOptions *opts)
-diff --git a/ui/meson.build b/ui/meson.build
-index a98f89b48978..3ea969a6210b 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -64,7 +64,7 @@ if gtk.found()
-   softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'))
- 
-   gtk_ss = ss.source_set()
--  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
-+  gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
-   gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
-   gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c', 'gtk-gl-area.c'))
-   ui_modules += {'gtk' : gtk_ss}
--- 
-2.29.2
-
+SGkgRWRnYXIsDQoNCj4gT24gMTkgRmViIDIwMjEsIGF0IDEyOjE5LCBFZGdhciBFLiBJZ2xlc2lh
+cyA8ZWRnYXIuaWdsZXNpYXNAZ21haWwuY29tPiB3cm90ZToNCj4gDQo+IE9uIEZyaSwgRmViIDE5
+LCAyMDIxIGF0IDExOjUzOjQ4QU0gKzAxMDAsIFN0ZWZhbiBTYW5kc3Ryw7ZtIHdyb3RlOg0KPj4g
+RnJvbTogU3RlZmFuIFNhbmRzdHJvbSA8c3RlZmFuc0BheGlzLmNvbT4NCj4+IA0KPj4gQWRkIGFu
+ZCBmaXggZGVhbGxvY2F0aW9uIG9mIHRlbXBvcmFyeSBUQ0cgcmVnaXN0ZXJzIGluIENSSVMgY29k
+ZQ0KPj4gZ2VuZXJhdGlvbi4NCj4gDQo+IFRoYW5rcyBTdGVmYW4sDQo+IA0KPiBUaGVyZSdzIHN0
+aWxsIGEgY291cGxlIG9mIG1pbm9yIHN0eWxpc3RpYyBpc3N1ZXMuDQo+IA0KPiBUaGUgU3ViamVj
+dC9TdW1tYXJ5IHNob3VsZCBiZSBwcmVmaXhlZCB3aXRoIHRoZSBjb2RlIGFyZWEgeW91J3JlDQo+
+IGNoYW5naW5nLiBJJ2Qgc3VnZ2VzdCBjaGFuZ2luZyBpdA0KPiANCj4gZnJvbToNCj4gQ29ycmVj
+dCBDUklTIFRDRyByZWdpc3RlciBsaWZldGltZSBtYW5hZ2VtZW50DQo+IHRvOg0KPiB0YXJnZXQv
+Y3JpczogUGx1ZyBsZWFrYWdlIG9mIFRDRyB0ZW1wb3Jhcmllcw0KDQpPSywgbWFrZXMgc2Vuc2Uu
+DQoNCj4gDQo+IFdlIGFsc28gdHJ5IHRvIGF2b2lkIHVucmVsYXRlZCB3aGl0ZXNwYWNlIGNoYW5n
+ZXMuDQo+IEkndmUgY29tbWVudGVkIG9uIHRoZSAyIEkgZm91bmQgaW5saW5lLg0KPiBXb3VsZCBi
+ZSBnb29kIGlmIHlvdSBjb3VsZCByZW1vdmUgdGhvc2UgaW4gdGhlIG5leHQgdmVyc2lvbi4NCg0K
+T29wcywgc29ycnkgYWJvdXQgdGhhdC4NCkkndmUgcG9zdGVkIHY0IG9mIHRoZSBwYXRjaCB0aGF0
+IGZpeGVzIHRoZSBzdWJqZWN0IGFuZCB3aGl0ZS1zcGFjZXMuDQoNClRoYW5rcywNCi1zdGVmYW4N
+Cg0KPiANCj4gT3RoZXIgdGhhbiB0aGF0LCB0aGUgcGF0Y2ggbG9va3MgZ29vZCB0byBtZS4NCj4g
+U28sIHdpdGggdGhvc2UgaXNzdWVzIGZpeGVkLCBmZWVsIGZyZWUgdG8gYWRkIHRoZSBmb2xsb3dp
+bmcgdGFnczoNCj4gDQo+IFRlc3RlZC1ieTogRWRnYXIgRS4gSWdsZXNpYXMgPGVkZ2FyLmlnbGVz
+aWFzQHhpbGlueC5jb20+DQo+IFJldmlld2VkLWJ5OiBFZGdhciBFLiBJZ2xlc2lhcyA8ZWRnYXIu
+aWdsZXNpYXNAeGlsaW54LmNvbT4NCj4gDQo+IEJlc3QgcmVnYXJkcywNCj4gRWRnYXINCj4gDQo+
+PiANCj4+IENoYW5nZS1JZDogSTE3ZmNlNWQ5NWJkYzQ0MTgzMzdiYTg4NWQ1M2JhOTdhZmIxYmFm
+Y2MNCj4+IFNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBTYW5kc3Ryw7ZtIDxzdGVmYW5zQGF4aXMuY29t
+Pg0KPj4gLS0tDQo+PiB0YXJnZXQvY3Jpcy90cmFuc2xhdGUuYyAgICAgICAgIHwgMTI3ICsrKysr
+KysrKysrKysrKysrKysrKysrLS0tLS0tLS0tDQo+PiB0YXJnZXQvY3Jpcy90cmFuc2xhdGVfdjEw
+LmMuaW5jIHwgIDcwICsrKysrKysrKysrKy0tLS0tLQ0KPj4gMiBmaWxlcyBjaGFuZ2VkLCAxMzgg
+aW5zZXJ0aW9ucygrKSwgNTkgZGVsZXRpb25zKC0pDQo+PiANCj4+IGRpZmYgLS1naXQgYS90YXJn
+ZXQvY3Jpcy90cmFuc2xhdGUuYyBiL3RhcmdldC9jcmlzL3RyYW5zbGF0ZS5jDQo+PiBpbmRleCBj
+ODkzZjg3N2FiLi4yYjM1ZDgxOGRkIDEwMDY0NA0KPj4gLS0tIGEvdGFyZ2V0L2NyaXMvdHJhbnNs
+YXRlLmMNCj4+ICsrKyBiL3RhcmdldC9jcmlzL3RyYW5zbGF0ZS5jDQo+PiBAQCAtMTcyLDE0ICsx
+NzIsMjEgQEAgc3RhdGljIGludCBwcmVnX3NpemVzW10gPSB7DQo+PiAgICAgdGNnX2dlbl9sZF90
+bCh0biwgY3B1X2Vudiwgb2Zmc2V0b2YoQ1BVQ1JJU1N0YXRlLCBtZW1iZXIpKQ0KPj4gI2RlZmlu
+ZSB0X2dlbl9tb3ZfZW52X1ROKG1lbWJlciwgdG4pIFwNCj4+ICAgICB0Y2dfZ2VuX3N0X3RsKHRu
+LCBjcHVfZW52LCBvZmZzZXRvZihDUFVDUklTU3RhdGUsIG1lbWJlcikpDQo+PiArI2RlZmluZSB0
+X2dlbl9tb3ZpX2Vudl9UTihtZW1iZXIsIGMpIFwNCj4+ICsgICAgZG8geyBcDQo+PiArICAgICAg
+ICBUQ0d2IHRjID0gdGNnX2NvbnN0X3RsKGMpOyBcDQo+PiArICAgICAgICB0X2dlbl9tb3ZfZW52
+X1ROKG1lbWJlciwgdGMpOyBcDQo+PiArICAgICAgICB0Y2dfdGVtcF9mcmVlKHRjKTsgXA0KPj4g
+KyAgICB9IHdoaWxlICgwKQ0KPj4gKw0KPiANCj4gUmVtb3ZlIHRoaXMgZXh0cmEgYmxhbmsgbGlu
+ZS4NCj4gDQo+IA0KPj4gDQo+PiBzdGF0aWMgaW5saW5lIHZvaWQgdF9nZW5fbW92X1ROX3ByZWco
+VENHdiB0biwgaW50IHIpDQo+PiB7DQo+PiAgICAgYXNzZXJ0KHIgPj0gMCAmJiByIDw9IDE1KTsN
+Cj4+ICAgICBpZiAociA9PSBQUl9CWiB8fCByID09IFBSX1daIHx8IHIgPT0gUFJfRFopIHsNCj4+
+IC0gICAgICAgIHRjZ19nZW5fbW92X3RsKHRuLCB0Y2dfY29uc3RfdGwoMCkpOw0KPj4gKyAgICAg
+ICAgdGNnX2dlbl9tb3ZpX3RsKHRuLCAwKTsNCj4+ICAgICB9IGVsc2UgaWYgKHIgPT0gUFJfVlIp
+IHsNCj4+IC0gICAgICAgIHRjZ19nZW5fbW92X3RsKHRuLCB0Y2dfY29uc3RfdGwoMzIpKTsNCj4+
+ICsgICAgICAgIHRjZ19nZW5fbW92aV90bCh0biwgMzIpOw0KPj4gICAgIH0gZWxzZSB7DQo+PiAg
+ICAgICAgIHRjZ19nZW5fbW92X3RsKHRuLCBjcHVfUFJbcl0pOw0KPj4gICAgIH0NCj4+IEBAIC0y
+MDQsNiArMjExLDggQEAgc3RhdGljIGlubGluZSB2b2lkIHRfZ2VuX21vdl9wcmVnX1ROKERpc2Fz
+Q29udGV4dCAqZGMsIGludCByLCBUQ0d2IHRuKQ0KPj4gICAgIH0NCj4+IH0NCj4+IA0KPj4gKw0K
+Pj4gKw0KPiANCj4gUmVtb3ZlIHRoaXMgdW5yZWxhdGVkIGJsYW5rIGxpbmVzLg0KPiANCj4gQ2hl
+ZXJzLA0KPiBFZGdhcg0KDQo=
 
