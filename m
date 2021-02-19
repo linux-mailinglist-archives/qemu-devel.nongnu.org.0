@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 720C031F8B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:00:01 +0100 (CET)
-Received: from localhost ([::1]:43866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D5231F902
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:06:52 +0100 (CET)
+Received: from localhost ([::1]:57786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4S0-0001ve-E9
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:00:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51188)
+	id 1lD4Yd-0000bY-K2
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:06:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD4QW-00009l-Jo
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:58:28 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:33643)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lD4SR-00031q-OP
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:00:28 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:56029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD4QT-0008AD-0N
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:58:28 -0500
-Received: by mail-ed1-x530.google.com with SMTP id c6so9535889ede.0
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 03:58:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xHaDW7wT168LocZWMMhdbYT9YI6SMJn2It6tA9XuCxA=;
- b=z52qYzaCUFH/xrItP18F+r1k8sC1CpGa7/ZwFw1TD742qzvBahNB/nyyobJenrN3bZ
- GMoCxkwJUZc6nXEjydfusV3CctVpBzlpa5O8P08p4gQmNbdABCM5Jy0d3t+0lnWTx4Pg
- 975ai7PbaXvoscM3YoCe8dwUeOV5e9Uj/RYYFqNu/JEzwomS2iyccQJ7S3EDdK7ZWlLP
- az6QsHEASTUBXxw10aLrezlSG+VWjRXYrkEwR0CtFTIyRjs1UkGQNJlAtrQqYhydoLP4
- UAW8enZiNAozktdmHKM6aE7fdl+XZqWbavJB204xM/vZDe7zbTQkgZTXhwpt+/uf/h/r
- T7LA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lD4SO-0000Xz-RI
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:00:26 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id o15so6817646wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 04:00:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=1RTAy2sG164bBmthOpXL+Un99QPPb/V8q2L6sjByIoY=;
+ b=lpM1eLq36BIZE6WcAc3ngve/b444W2HzZg98qTFJD8yHz5gsKno1FIOfXWuvY4BSGH
+ HycgIJZ9lTif+9TVMy7rJFmAMGMs7HtMB9kT5JzLOQUnAUzJO3e5XCJDq9Fi9PTfM9eZ
+ LIk3QJIwe6FOWxZBnhkLl53MTnDgA3MKe7T28xASTmYowmWewVC3VRT814/OEKGdzu0I
+ 3spLRw+cB3rlup1RH88RmYOdFVq/O4I6aHEpjuaqqtEOd71NIoYFttZJ/rrQoWDQ/Ivm
+ PfSUWfkqI6ZvU2Ou7yQqJDsb8RRJPEw1cIoxwHq2qO325N2C8UdveruNViwfCBCCKCLk
+ BWtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xHaDW7wT168LocZWMMhdbYT9YI6SMJn2It6tA9XuCxA=;
- b=h3tZ2OhY7bxbv5E2JzYh6DfJW63WPpPgc9EakEobLiJ6MTYvq9HwszDf8kDBU4rFpo
- xwm+Cvx+8ZTneiAxa2FiImme+o7F8v2XPTL2WY+585Vcf9fBvtwAAY5iTsdi0DihiX+D
- zWZnQtrAY1U9zazVunONaMlHSMRCBFp6DFBKK+uvMfj/Ugllh3AXx2+800S2PtBcxhQC
- SAOVzP+qSkhTb10gurU9OKvk5sply4aNO80KeAQqZ5COC9fLkqKVLnuNqd8SmV8n1v5i
- A6exgeepm2lv16TagrDux3lvkYj5RauW3/azKa3Zpxs+gISPIsv3TgfDtAu2+PdneY1j
- Al3Q==
-X-Gm-Message-State: AOAM531wGwFKxtah6NNoyWdNA4+dojydrCx6vL3v9i5PEbc2YMgSgFSv
- EHzEzWgN1YvYZcVlDDMOIwNTo4wQl0tsBELRlr44/A==
-X-Google-Smtp-Source: ABdhPJz+hHaCLzLORhz2bMxSjQPynCZybPlAf31zD7NikTneJCwl06706WhBnBhGqXXiDJrDLZPjBwYeAF0QXkUQGFc=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr8586919edd.100.1613735903486; 
- Fri, 19 Feb 2021 03:58:23 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1RTAy2sG164bBmthOpXL+Un99QPPb/V8q2L6sjByIoY=;
+ b=HaN0gkt87DpCmU484oGCoQCcwMDS9lCzqdDk5yp/ygeD69qwmSfhtSJoe+1/KKhLGO
+ j7jksTeyKyJLmgnx0oeKT8tke0mSQx6v9IdLVIfK0M2cZUcuqri7Vs9OWoCNfODkrK9p
+ eC98mQxtIExse3pyhRujUAqQM2MM9BH060f1aRbyD9uJVlm7tjEOlVioU2tq4dkF1bA8
+ KWW9MVeOTaJlnBUGJEkuXC25Cy+HWJxGL7g8wKLew8d/17kuq3p+xO/VzJJKIGRT6n4e
+ YbXFoKH0kJem2mpnEU7KozWiMRFa9EshpSejhnBoBJGKUT19dIF1x2hAXJR+iFNy/7Gu
+ TEcA==
+X-Gm-Message-State: AOAM531zW/UVRs4mgIHjpWi8Ll099ioSLwMCbyrRmXy1niWxksfYzzeK
+ ddn3UwmMs65RQTmVAkO5khI=
+X-Google-Smtp-Source: ABdhPJxIaFmKecLHTWLWUbNlHpxgyz2wyUiNBv4yiCsP0QJM/FXqd6e/JNwhFSNbx69WhnTSIhLx4A==
+X-Received: by 2002:a1c:dd09:: with SMTP id u9mr6150909wmg.183.1613736022826; 
+ Fri, 19 Feb 2021 04:00:22 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id u7sm12614049wrt.67.2021.02.19.04.00.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 04:00:22 -0800 (PST)
+Subject: Re: [PATCH] gitlab-ci: Remove unused container images
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210219110950.2308025-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ca4a7cf3-c0b8-2074-d288-d402e5900cf9@amsat.org>
+Date: Fri, 19 Feb 2021 13:00:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210219115123.1938686-1-f4bug@amsat.org>
-In-Reply-To: <20210219115123.1938686-1-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Feb 2021 11:58:12 +0000
-Message-ID: <CAFEAcA_9nuCvVrhDZo=RQoFngpY=ZrJCOw9NQx9A9GF_BmgN+w@mail.gmail.com>
-Subject: Re: [PATCH] hw/arm/xlnx-zynqmp: Remove obsolete 'has_rpu' property
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210219110950.2308025-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,31 +88,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Feb 2021 at 11:51, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> We hint the 'has_rpu' property is no longer required since commit
-> 6908ec448b4 ("xlnx-zynqmp: Properly support the smp command line
-> option") which was released in QEMU v2.11.0.
->
-> 3 years later we feel safe enough to remove it without using the
-> usual deprecation policy.
+On 2/19/21 12:09 PM, Thomas Huth wrote:
+> We're building a lot of containers in the gitlab-CI that we never use.
+> This takes away network bandwidth and CPU time from other jobs for no
+> use, so let's remove them for now. The individual containers could be
+> re-added later when we really need them.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.d/containers.yml | 92 -------------------------------------
+>  1 file changed, 92 deletions(-)
 
-This device is marked user_creatable =3D false, so the only thing
-that could be setting the property is the board code that creates
-the device. So the property is not user-facing and we can remove it
-without going through the deprecation process.
+I'm not enthusiast with this patch because I use various in this list
+from time to time for testing or cross build/disas binaries. Not having
+these containers used mainstream probably show the failure of the
+project to add good testing coverage on these targets. Most of them are
+for hobbyist with little time. Removing them will make it even harder
+to add tests. Can't we keep them disabled? Or put them in manual mode?
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-(maybe noting the above in the commit message).
+Why is the CI rebuilding them, shouldn't them be cached or pulled from
+the registry?
+Maybe this show having all them in the same containers.yml file is not
+good enough? Any suggestion for splitting it, so lowly used containers
+don't get rebuild every time another often used one change the YAML
+file?
 
-thanks
--- PMM
+Thanks,
+
+Phil.
 
