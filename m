@@ -2,54 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41F2831FD17
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:27:51 +0100 (CET)
-Received: from localhost ([::1]:52708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B01531FD35
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:37:11 +0100 (CET)
+Received: from localhost ([::1]:41204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD8dC-0000sa-7d
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:27:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55702)
+	id 1lD8mE-0000au-8L
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:37:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lhenriques@suse.de>)
- id 1lD8QS-0006Xc-UB
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:14:41 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40548)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lhenriques@suse.de>)
- id 1lD8QQ-0006YG-2n
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:14:40 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B40BCAC6E;
- Fri, 19 Feb 2021 16:14:34 +0000 (UTC)
-Received: from localhost (brahms [local])
- by brahms (OpenSMTPD) with ESMTPA id 66cfb798;
- Fri, 19 Feb 2021 16:15:39 +0000 (UTC)
-From: Luis Henriques <lhenriques@suse.de>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Subject: Re: [PATCH v2 0/3] virtiofsd: Add options to enable/disable posix acl
-References: <20210217233046.81418-1-vgoyal@redhat.com>
- <87pn0wgtsx.fsf@suse.de> <20210219143403.GA3270@redhat.com>
- <CAJfpeguanq6PEf7jd9Ur_JO7aJ0eoojs65LXb6ukhoGGb_Ccdw@mail.gmail.com>
-Date: Fri, 19 Feb 2021 16:15:38 +0000
-In-Reply-To: <CAJfpeguanq6PEf7jd9Ur_JO7aJ0eoojs65LXb6ukhoGGb_Ccdw@mail.gmail.com>
- (Miklos Szeredi's message of "Fri, 19 Feb 2021 16:55:06 +0100")
-Message-ID: <87im6oghjp.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lD8gG-0004Og-VC
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:31:06 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lD8gD-0005uz-Ov
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:31:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lD8gB-0002GC-Eh
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 16:30:55 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 463552E8101
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 16:30:55 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=lhenriques@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 19 Feb 2021 16:17:49 -0000
+From: Peter Maydell <1916112@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell rreddy78
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
+Message-Id: <161375146995.11416.11914653020122716477.malone@chaenomeles.canonical.com>
+Subject: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: 95f23d21e69f66d85de88f99e2d291d297173ac6
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,70 +70,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Vivek Goyal <vgoyal@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Miklos Szeredi <miklos@szeredi.hu> writes:
+Can you use gdb to display what the instruction that provoked the SIGILL
+is ? ("disas $pc-32,$pc+32" or similar should do it).
 
-> On Fri, Feb 19, 2021 at 3:34 PM Vivek Goyal <vgoyal@redhat.com> wrote:
->>
->> On Fri, Feb 19, 2021 at 11:50:54AM +0000, Luis Henriques wrote:
->> > Vivek Goyal <vgoyal@redhat.com> writes:
->> >
->> > > Hi,
->> > >
->> > > This is V2 of the patches. Changes since v1 are.
->> > >
->> > > - Rebased on top of latest master.
->> > > - Took care of Miklos's comments to block acl xattrs if user
->> > >   explicitly disabled posix acl.
->> > >
->> > > Luis Henriques reported that fstest generic/099 fails with virtiofs.
->> > > Little debugging showed that we don't enable acl support. So this
->> > > patch series provides option to enable/disable posix acl support. By
->> > > default it is disabled.
->> > >
->> > > I have run blogbench and pjdfstests with posix acl enabled and
->> > > things work fine.
->> > >
->> > > Luis, can you please apply these patches, and run virtiofsd with
->> > > "-o posix_acl" and see if it fixes the failure you are seeing. I
->> > > ran the steps you provided manually and it fixes the issue for
->> > > me.
->> >
->> > Sorry for the delay.  I've finally tested these patches and they indeed
->> > fix the problem I reported.  My only question about this fix is why is
->> > this option not enabled by default, since this is the documented behavior
->> > in acl(5) and umask(2)?  In fact, why is this an option at all?
->>
->> You mean why to not enable acl by default?
->>
->> I am concerned about performance drop this can lead to because extra
->> GETXATTR(system.posix_acl_*) messages which will trigger if acls are enabled.
->> And not all users might require these. That's why I preferred to not enable
->> acl by default. Those who need it can enable it explicitly.
->>
->> Another example is xattr support. Due to performance concerns, we don't
->> enable xattrs by default either.
->
-> Actually generic xattr is much worse, since there's no caching for
-> them currently, as opposed to posix acls, which are cached both when
-> positive and negative.
->
-> If we enable ACL by default in case xattrs are enabled, we should be
-> safe, I think.  Having an option to disable acls still makes sense,
-> but it's an optional plus.
+Re "Why is TCG used as the accelerator when KVM is present?", the answer
+is that only certain board types and CPU types work with KVM. The simple
+answer is "only the 'virt' board works with KVM". Other boards generally
+use a CPU type or CPU features which KVM does not support and so TCG is
+the only choice. It's a QEMU bug that we assert() rather than printing a
+helpful error message (which we will probably fix for 6.0.)
 
-Great, thanks for clarifying that the reason for having these options is
-really for performance.
+-- =
 
-Anyway, thanks a lot for looking at this and fixing it.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916112
 
-Cheers,
--- 
-Luis
+Title:
+  Illegal instruction crash of QEMU on Jetson Nano
+
+Status in QEMU:
+  New
+
+Bug description:
+  I have a jetson nano (arm64 SBC) and I want to check the native
+  emulation performance of Raspbian Buster. I used the info available
+  here:
+
+  https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
+  emuation
+
+  I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson
+  Nano
+
+  However QEMU crashes with "Illegal Instruction" during kernel boot. I
+  have a built latest QEMU from sources with following configuration
+
+  ./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
+  softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg
+  --enable-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk
+  --enable-virglrenderer --enable-opengl
+
+  qemu-system-aarch64 --version
+  QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
+
+  When I run as follows:
+
+  ../build/qemu-system-aarch64 -M raspi3
+  -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm=
+_enable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
+  -dtb ./bcm2710-rpi-3-b-plus.dtb
+  -sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-fu=
+ll.qcow2
+  -kernel ./kernel8.img
+  -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
+
+  I get :
+  [ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Sy=
+stem being skipped.
+  [ 76.281274] systemd[1]: Starting Apply Kernel Variables...
+  Starting Apply Kernel Variables...
+  Illegal instruction (core dumped)
+
+  When I use GDB I see this:
+
+  Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
+  [Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
+  0x0000007f888ac690 in code_gen_buffer ()
+  (gdb) bt
+  #0 0x0000007f888ac690 in code_gen_buffer ()
+  #1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502=
+c40)
+  at ../accel/tcg/cpu-exec.c:191
+  #2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
+  at ../accel/tcg/cpu-exec.c:708
+  #3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:8=
+19
+  ..
+
+  I have just two questions:
+
+  Is this a problem with QEMU or is there anything specific build or
+  options I need to use. Any specific version of QEMU should be used ?
+
+  Why is TCG used as the accelerator when KVM is present. Is it possible
+  and how to use KVM ?
+
+  If I enabled the KVM then I get this error:
+
+  ../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprint=
+k loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/=
+mmcblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D2=
+1747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./k=
+ernel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
+  WARNING: Image format was not specified for '/media/96747D21747D0571/Jets=
+onNano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
+           Automatically detecting the format is dangerous for raw images, =
+write operations on block 0 will be restricted.
+           Specify the 'raw' format explicitly to remove the restrictions.
+  qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: As=
+sertion `asidx =3D=3D 0 || !kvm_enabled()' failed.
+
+  Thanks a lot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916112/+subscriptions
 
