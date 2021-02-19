@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E68A31FBD5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:18:20 +0100 (CET)
-Received: from localhost ([::1]:38880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D2031FBE6
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:23:14 +0100 (CET)
+Received: from localhost ([::1]:54086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD7Xv-0001ik-6X
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:18:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34302)
+	id 1lD7cf-0008AQ-1m
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:23:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD73s-0002lX-JH
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:16 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41242)
+ id 1lD73u-0002nT-Ly
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:18 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD73Q-0003eQ-Av
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:16 -0500
-Received: by mail-wr1-x435.google.com with SMTP id a4so6663388wro.8
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 06:46:47 -0800 (PST)
+ id 1lD73R-0003ej-4V
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:47:17 -0500
+Received: by mail-wr1-x430.google.com with SMTP id n4so8913036wrx.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 06:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=hW6NWM9nxIp2NHn3uTePVNYECZHKfxs/17qf7kFubg4=;
- b=Ob1xp9NU47jaz+Y0lDxQFURRxnJNpi1p1aB6YNv+/6WyCobBxScM5nz2IOlC/b4dqi
- WXQ+bZdmyTav3zS1Lh7rK4QfQd03HJXBNJMHWni1jiA6SojfKa/PE7tnC3PvmcqRpQTu
- xODucm0HA9oCKXGseDNKl3zsQYi9zRYWW3fNQjkvtsYv7Vw13AmlzxWzIKN5N/xlXf7y
- befj7SpttiPS3aKYIUGUa4vwgaRAKeGqmt8OGtkGN7+1gN7sW9+vyMTr9mw6Tsy5UMD9
- rmFlPD3l+30Kx/yAUSvuRXwbj2Lk3WDoeLPpa5zGEoOqBOZo0SrpAnb1VlAqBkQFjRTi
- 7+LQ==
+ bh=6R2H7Db1FqG+TCsnIWopGNIyqmv4t5RlxdvA/d2HL4A=;
+ b=nTqc9AfgNxxUsn9fG5s84VIFprLWXCgd7o8kxyNuo+ptpRLrwHJLo5OaLBBB1PUBde
+ l/94HMAeMzm//VJsiPR00g5S4vBk6sw9Yjmz1x6el7oqtlNpA/otZDNm49BcDx4DnQZo
+ CTmbWFOBddFOb0tQpXhBGhXOe0ZrcSCQ7jDRUaQQpENuYxpDzeFZ9RJyO+DfmztpoJ0x
+ cTrW0sBifEW2wSUaDt3xwyPRAPs/qIj+5sHmaTFa2lQT+4vqppwEFc8PgSdqPJWZudcg
+ ALsJpEUsSLBH9AbM2OSvz7GJsRM91M6ZoG0SiLXy75Zd9bK1LeevqURusthd2WEZtrFA
+ bs1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=hW6NWM9nxIp2NHn3uTePVNYECZHKfxs/17qf7kFubg4=;
- b=gT/hOq3L3Ll3HQFFoA38fjEYip1qK/E8B23gBJKIRyRhen/rnbjaPl11J32OJ2P+no
- Hg1LxB7luz+GDHsMKk7AJwxPQZB4HLL53fmOGAP0VmysOwLMwU3jWpuQGu3+KEHbyo3v
- dVdDNkFPa+cgrO10IKpvF9Riew+f7SSFffdYGPqFiyhzqasTvE/cxvvheAcVIsimeZY8
- 6maIC3E5Vwu2h8xpXzWEAAgzMjB3cnQP67w38jZRv55GNcB6cwpRqzbJFt0QlyFcXy4w
- UvdXXKjgLVQU5t8JVaVY8Cd+84osmXxLS9g4376ALXHQJtwB1k4c10cklWwo9kffZueW
- frdQ==
-X-Gm-Message-State: AOAM530qWEUj5Pc2JsXqsKs3CYD2jczrbdbdBDjKtPGvr/2kQGO+I0RA
- aTz4wzlqJb46N8p9OkZIzN8RO5Dd8NaZNw==
-X-Google-Smtp-Source: ABdhPJwNgCxfaoG5gq2K/ECRqsfFaQ7ckgu2A5WQTEgW6hfj+LVS3ArdKsqfoyrnd5IzfXshHMjTsw==
-X-Received: by 2002:adf:fb51:: with SMTP id c17mr9774726wrs.145.1613746006899; 
- Fri, 19 Feb 2021 06:46:46 -0800 (PST)
+ bh=6R2H7Db1FqG+TCsnIWopGNIyqmv4t5RlxdvA/d2HL4A=;
+ b=dJDKA42JxnSNTRwz6qYe9bvjmT3ouBH7aR25atSZJevWwm4uf0qJ1ZsJ4Ydh5qxTYi
+ GC8oo99twKvr7tTJVHUydRKCIL+PhrOPzQMy87d2v65exA7o4AeabZThMvRhquwvQiQp
+ jZ1L8zxG/iaDqyGeetD0WAm/I2xds7JuMUia7CvEAJPmfGr3OO8+fVdwX3lvp+rvwLzH
+ aIucCoocTKMhHn19KYc6Bz+lqDnNolBWHb11QguKGutHrNWtx/9Mqkx4zde5+Rdbu3kf
+ fZIFVz2lVa/8v+Je3mgpfeSMTnX+C+k43evMuI5QrICEhNRtWw81LPs3yUh6/NkSLbqc
+ 0XVw==
+X-Gm-Message-State: AOAM533T/jYPzP4OSg8fQbTdBWksqVwOupxvQUvjTHD4eapDxQZ266Yx
+ 9wxTW164i973dc9xwXxIoPifeQ==
+X-Google-Smtp-Source: ABdhPJwo+bXazC6RrAeyLeF95NELByqHKy54pm9GZKjk5uSixw93wgsObIYBwPc27YeEcgx9EB9Odg==
+X-Received: by 2002:adf:82b3:: with SMTP id 48mr9255686wrc.22.1613746007635;
+ Fri, 19 Feb 2021 06:46:47 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q18sm2263628wrw.91.2021.02.19.06.46.46
+ by smtp.gmail.com with ESMTPSA id q18sm2263628wrw.91.2021.02.19.06.46.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 06:46:46 -0800 (PST)
+ Fri, 19 Feb 2021 06:46:47 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 36/44] hw/arm/mps2-tz: Make UART overflow IRQ board-specific
-Date: Fri, 19 Feb 2021 14:46:09 +0000
-Message-Id: <20210219144617.4782-37-peter.maydell@linaro.org>
+Subject: [PATCH 37/44] hw/misc/mps2-fpgaio: Fold counters subsection into main
+ vmstate
+Date: Fri, 19 Feb 2021 14:46:10 +0000
+Message-Id: <20210219144617.4782-38-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210219144617.4782-1-peter.maydell@linaro.org>
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,59 +87,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AN547 puts the combined UART overflow IRQ at 48, not 47 like the
-other images. Make this setting board-specific.
+We've already broken migration compatibility for all the MPS
+boards, so we might as well take advantage of this to simplify
+the vmstate for the FPGAIO device by folding the counters
+subsection into the main vmstate description.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/mps2-tz.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ hw/misc/mps2-fpgaio.c | 30 +++++-------------------------
+ 1 file changed, 5 insertions(+), 25 deletions(-)
 
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index aca8efba6cf..779fdb9a544 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -111,6 +111,7 @@ struct MPS2TZMachineClass {
-     uint32_t fpgaio_num_leds; /* Number of LEDs in FPGAIO LED0 register */
-     bool fpgaio_has_switches; /* Does FPGAIO have SWITCH register? */
-     int numirq; /* Number of external interrupts */
-+    int uart_overflow_irq; /* number of the combined UART overflow IRQ */
-     const RAMInfo *raminfo;
-     const char *armsse_type;
- };
-@@ -760,7 +761,7 @@ static void mps2tz_common_init(MachineState *machine)
-                             &error_fatal);
-     qdev_realize(DEVICE(&mms->uart_irq_orgate), NULL, &error_fatal);
-     qdev_connect_gpio_out(DEVICE(&mms->uart_irq_orgate), 0,
--                          get_sse_irq_in(mms, 47));
-+                          get_sse_irq_in(mms, mmc->uart_overflow_irq));
+diff --git a/hw/misc/mps2-fpgaio.c b/hw/misc/mps2-fpgaio.c
+index 76308543fcb..e3fabd58b7b 100644
+--- a/hw/misc/mps2-fpgaio.c
++++ b/hw/misc/mps2-fpgaio.c
+@@ -285,41 +285,21 @@ static void mps2_fpgaio_realize(DeviceState *dev, Error **errp)
+     }
+ }
  
-     /* Most of the devices in the FPGA are behind Peripheral Protection
-      * Controllers. The required order for initializing things is:
-@@ -1036,6 +1037,7 @@ static void mps2tz_an505_class_init(ObjectClass *oc, void *data)
-     mmc->fpgaio_num_leds = 2;
-     mmc->fpgaio_has_switches = false;
-     mmc->numirq = 92;
-+    mmc->uart_overflow_irq = 47;
-     mmc->raminfo = an505_raminfo;
-     mmc->armsse_type = TYPE_IOTKIT;
-     mps2tz_set_default_ram_info(mmc);
-@@ -1059,6 +1061,7 @@ static void mps2tz_an521_class_init(ObjectClass *oc, void *data)
-     mmc->fpgaio_num_leds = 2;
-     mmc->fpgaio_has_switches = false;
-     mmc->numirq = 92;
-+    mmc->uart_overflow_irq = 47;
-     mmc->raminfo = an505_raminfo; /* AN521 is the same as AN505 here */
-     mmc->armsse_type = TYPE_SSE200;
-     mps2tz_set_default_ram_info(mmc);
-@@ -1082,6 +1085,7 @@ static void mps3tz_an524_class_init(ObjectClass *oc, void *data)
-     mmc->fpgaio_num_leds = 10;
-     mmc->fpgaio_has_switches = true;
-     mmc->numirq = 95;
-+    mmc->uart_overflow_irq = 47;
-     mmc->raminfo = an524_raminfo;
-     mmc->armsse_type = TYPE_SSE200;
-     mps2tz_set_default_ram_info(mmc);
+-static bool mps2_fpgaio_counters_needed(void *opaque)
+-{
+-    /* Currently vmstate.c insists all subsections have a 'needed' function */
+-    return true;
+-}
+-
+-static const VMStateDescription mps2_fpgaio_counters_vmstate = {
+-    .name = "mps2-fpgaio/counters",
++static const VMStateDescription mps2_fpgaio_vmstate = {
++    .name = "mps2-fpgaio",
+     .version_id = 2,
+     .minimum_version_id = 2,
+-    .needed = mps2_fpgaio_counters_needed,
+     .fields = (VMStateField[]) {
++        VMSTATE_UINT32(led0, MPS2FPGAIO),
++        VMSTATE_UINT32(prescale, MPS2FPGAIO),
++        VMSTATE_UINT32(misc, MPS2FPGAIO),
+         VMSTATE_INT64(clk1hz_tick_offset, MPS2FPGAIO),
+         VMSTATE_INT64(clk100hz_tick_offset, MPS2FPGAIO),
+         VMSTATE_UINT32(counter, MPS2FPGAIO),
+         VMSTATE_UINT32(pscntr, MPS2FPGAIO),
+         VMSTATE_INT64(pscntr_sync_ticks, MPS2FPGAIO),
+         VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+-static const VMStateDescription mps2_fpgaio_vmstate = {
+-    .name = "mps2-fpgaio",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_UINT32(led0, MPS2FPGAIO),
+-        VMSTATE_UINT32(prescale, MPS2FPGAIO),
+-        VMSTATE_UINT32(misc, MPS2FPGAIO),
+-        VMSTATE_END_OF_LIST()
+     },
+-    .subsections = (const VMStateDescription*[]) {
+-        &mps2_fpgaio_counters_vmstate,
+-        NULL
+-    }
+ };
+ 
+ static Property mps2_fpgaio_properties[] = {
 -- 
 2.20.1
 
