@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9BE031FE6E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:57:57 +0100 (CET)
-Received: from localhost ([::1]:49012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD83131FE68
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:55:57 +0100 (CET)
+Received: from localhost ([::1]:44638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDA2O-00052q-O8
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:57:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49652)
+	id 1lDA0S-00031J-Tk
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:55:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9kv-0003C3-Mx
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48632)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9l1-0003P8-5e
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59833)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9kt-0005ji-TA
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:53 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9kz-0005mW-8w
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613756391;
+ s=mimecast20190719; t=1613756396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=23DXGFBg27YE0s/hCFn43oTEX31jOtnU+ISUArv5+bE=;
- b=EKjm6U6bY70wuhb3vqQGR0Dvq4DkQm+EDbhBjkhqCZglaKi2kBY4U0AWXtIJSVUuX/58Yn
- RQgzII0JbRNuCnwWXWwtBHEN+Ws0ecKeDdCLOQgu5FUVD7Xck0TGAroIx+0v6u28C2D/JD
- eI07p4PyhgiGh74tN4QNTrtPlgrCQ0k=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-sw-QugbvOCiLU9DgZJM50Q-1; Fri, 19 Feb 2021 12:39:49 -0500
-X-MC-Unique: sw-QugbvOCiLU9DgZJM50Q-1
-Received: by mail-wr1-f71.google.com with SMTP id l3so1135889wrx.15
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:39:49 -0800 (PST)
+ bh=LKRfXZiJfNSqbVRL/SaOx1v+Z64xt5w41cSycQqYFFE=;
+ b=GTGuLyHKA7H+YnH3Uu3iTtQ+U1LQZZw8r8pYOHnpZIL03nQP/p49zvNtTr6DDEs+FfO339
+ MlUeC5k7DORyMQkrLc5Ffofic0/gm+cTparvBsgSG96kk7xy4dAxk/7soqzmcnKrFr6BRW
+ FxV1xpM60TxLOKkb6qZSbqJXVYTiFtQ=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-576-gk_WQwzePlSdcLjKBZH8bg-1; Fri, 19 Feb 2021 12:39:55 -0500
+X-MC-Unique: gk_WQwzePlSdcLjKBZH8bg-1
+Received: by mail-wr1-f69.google.com with SMTP id d10so2748662wrq.17
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:39:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=23DXGFBg27YE0s/hCFn43oTEX31jOtnU+ISUArv5+bE=;
- b=ma/ZmOhfZNCOfB2GTbuPw0WhxsDp73SsTorjfLlhQ4SqvtyO1To26MgBRJn8IAv72l
- yzm1/S+/fHuhiezK2T4yNIcV1ytfFgS43+YCdLV+ozfSwOJDghHDQlxeja3H/kJNAcLg
- AKbLUSszX9ZDdbO24VHWziN/5Y2UHT66zda9QoSApJJCmniLQjEpNElgNbKOPGT90iqe
- DsMBhdBxsERQQAflMy5K3t6kmR3DOBugYEDKiWMwebnQGY8YQB1wVfDMML3AYCrEJOtY
- DTuqAIxe7LInHUiaRsWX+O399c4wwjQns2eeV3gPW7eeBAO7cPoESkb4J77KZym6WMd+
- ECAg==
-X-Gm-Message-State: AOAM533NH6dsXrvMeK1ueF/qQ5lW/WUjXGfm1wXmYGVALbq9gEUR3lPG
- fLfBxWlA86ar3TIS+C7T8o3gT0uZXV4FBI8kFmZnh6hKPwMcRMkuaTB6f0R8r/vB0AVbL03cBeA
- LdeERuqQTw3KnlZDu4+2H16Bj2X3A+CID0zVHetTxkeAdv+wWBKS2RJj3uyB1n5Xq
-X-Received: by 2002:a7b:c095:: with SMTP id r21mr3049575wmh.48.1613756387978; 
- Fri, 19 Feb 2021 09:39:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxiAWfgHRpHyAW3kKe8U38bgrZikJVMduVGw3sP0TrSilsr1/3Kg29a0ZDcfjt7MheizWAw2g==
-X-Received: by 2002:a7b:c095:: with SMTP id r21mr3049522wmh.48.1613756387730; 
- Fri, 19 Feb 2021 09:39:47 -0800 (PST)
+ bh=LKRfXZiJfNSqbVRL/SaOx1v+Z64xt5w41cSycQqYFFE=;
+ b=duSr9eEx3Zj9ndd6Ul45AK1fLJzHshfFka+NK1L4VL4QsbvviJoyM9e3/htHcib88F
+ csVfMhc4WtiTpfYPZzF61dvrqbNkpgQdLoGsA776GYv7r89GR08j0afW7wzNp+0lZyfP
+ bwO2XJlcBRppnhxsczSi70zDxWQCj7lEow2sn+jY+PRfT1pbcZPIlV88inCoSLxxGDSA
+ 3HPSdCSV96yzuhPm1N4gc3oLVfyY1l+CJCF8J1Qw1TghLWTkOpzw+pXV75SbRwCBMe6t
+ pLgZONxYzJK3+T1Sp6/QaFajFcs3blwdMo/MOcN4Qf+az/Rr17eiQ8fXxYDL8/YulJlK
+ OwVg==
+X-Gm-Message-State: AOAM530b/rqjBrc7C9nblhimoGR5R8FuUlj9xItXQmAUQC/MJ3roYP2E
+ lQ0i/mvUsY+USYRkx/Pts6h9z3SzCq82fDdMbs/TGs0lWwPU7OuyorC/D88Kjy/NQZgpf+WqqTJ
+ LnEfOWbiNSgtaSZBsUnOObEQ0tqyyTqWdh4dmiN030wR+iWNHBLmHXrOWTqmVveIU
+X-Received: by 2002:a1c:4c03:: with SMTP id z3mr9342140wmf.82.1613756393712;
+ Fri, 19 Feb 2021 09:39:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2yrJUDqwa1ymG/2RErXjJWx3WIzkQzNQF90+7ijmcN7yAwa2G2hjcHhwa/T8ilbMl1bPCyw==
+X-Received: by 2002:a1c:4c03:: with SMTP id z3mr9342087wmf.82.1613756393314;
+ Fri, 19 Feb 2021 09:39:53 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v9sm9098392wrn.86.2021.02.19.09.39.46
+ by smtp.gmail.com with ESMTPSA id r7sm15304999wre.25.2021.02.19.09.39.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 09:39:47 -0800 (PST)
+ Fri, 19 Feb 2021 09:39:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/11] hw/board: Only allow TCG accelerator by default
-Date: Fri, 19 Feb 2021 18:38:46 +0100
-Message-Id: <20210219173847.2054123-11-philmd@redhat.com>
+Subject: [PATCH v2 11/11] softmmu/vl: Exit gracefully when accelerator is not
+ supported
+Date: Fri, 19 Feb 2021 18:38:47 +0100
+Message-Id: <20210219173847.2054123-12-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210219173847.2054123-1-philmd@redhat.com>
 References: <20210219173847.2054123-1-philmd@redhat.com>
@@ -118,52 +119,57 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-By default machines can only use the TCG and QTest accelerators.
+Before configuring an accelerator, check it is valid for
+the current machine. Doing so we can return a simple error
+message instead of criptic one.
 
-If a machine can use another accelerator, it has to explicitly
-list it in its MachineClass valid_accelerators[].
+Before:
+
+  $ qemu-system-arm -M raspi2b -enable-kvm
+  qemu-system-arm: /build/qemu-ETIdrs/qemu-4.2/exec.c:865: cpu_address_space_init: Assertion `asidx == 0 || !kvm_enabled()' failed.
+  Aborted
+
+  $ qemu-system-aarch64 -M xlnx-zcu102 -enable-kvm -smp 6
+  qemu-system-aarch64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0): Invalid argument
+
+After:
+
+  $ qemu-system-arm -M raspi2b -enable-kvm
+  qemu-system-aarch64: invalid accelerator 'kvm' for machine raspi2b
+
+  $ qemu-system-aarch64 -M xlnx-zcu102 -enable-kvm -smp 6
+  qemu-system-aarch64: -accel kvm: invalid accelerator 'kvm' for machine xlnx-zcu102
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- include/hw/boards.h | 4 ++--
- hw/core/machine.c   | 8 ++++----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ softmmu/vl.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 4d08bc12093..b93d290b348 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -146,8 +146,8 @@ typedef struct {
-  * @valid_accelerators:
-  *    If this machine supports a specific set of virtualization accelerators,
-  *    this contains a NULL-terminated list of the accelerators that can be
-- *    used. If this field is not set, any accelerator is valid. The QTest
-- *    accelerator is always valid.
-+ *    used. If this field is not set, a default list containing only the TCG
-+ *    accelerator is used. The QTest accelerator is always valid.
-  * @kvm_type:
-  *    Return the type of KVM corresponding to the kvm-type string option or
-  *    computed based on other criteria such as the host kernel capabilities
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index c42d8e382b1..ca7c9ee2a0c 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -520,11 +520,11 @@ static void machine_set_nvdimm_persistence(Object *obj, const char *value,
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b219ce1f357..f2c4074310b 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -2133,6 +2133,7 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+     const char *acc = qemu_opt_get(opts, "accel");
+     AccelClass *ac = accel_find(acc);
+     AccelState *accel;
++    MachineClass *mc;
+     int ret;
+     bool qtest_with_kvm;
  
- bool machine_class_valid_for_accelerator(MachineClass *mc, const char *acc_name)
- {
--    const char *const *name = mc->valid_accelerators;
-+    static const char *const default_accels[] = {
-+        "tcg", NULL
-+    };
-+    const char *const *name = mc->valid_accelerators ? : default_accels;
- 
--    if (!name) {
--        return true;
--    }
-     if (strcmp(acc_name, "qtest") == 0) {
-         return true;
+@@ -2145,6 +2146,12 @@ static int do_configure_accelerator(void *opaque, QemuOpts *opts, Error **errp)
+         }
+         return 0;
      }
++    mc = MACHINE_GET_CLASS(current_machine);
++    if (!qtest_chrdev && !machine_class_valid_for_accelerator(mc, ac->name)) {
++        *p_init_failed = true;
++        error_report("invalid accelerator '%s' for machine %s", acc, mc->name);
++        return 0;
++    }
+     accel = ACCEL(object_new_with_class(OBJECT_CLASS(ac)));
+     object_apply_compat_props(OBJECT(accel));
+     qemu_opt_foreach(opts, accelerator_set_property,
 -- 
 2.26.2
 
