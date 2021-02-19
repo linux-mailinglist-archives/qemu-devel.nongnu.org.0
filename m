@@ -2,97 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7315D31F990
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:47:13 +0100 (CET)
-Received: from localhost ([::1]:46724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D68531F978
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:37:32 +0100 (CET)
+Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD5Bg-0002jE-Gg
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:47:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
+	id 1lD52J-0000i2-97
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:37:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1lD4qt-0005tY-Vb
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:25:44 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53560)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lD50F-0007OI-SP
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:35:23 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2120)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
- id 1lD4qq-000262-RM
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:25:43 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11JCOnwP113889; Fri, 19 Feb 2021 07:25:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to :
- references : from : cc : reply-to : message-id : date : mime-version :
- in-reply-to : content-type : content-transfer-encoding; s=pp1;
- bh=M8dAMPjq+VPFEki7Yl0975ZPBWk6mWTH0oy6jBr2abc=;
- b=TTl8TFBYHHs1q5OMwZrIwbdg9WXbRCnB7fla2j6ztQioXLSdlQYQzz1YjoqYCmoGetm9
- kylcfegF4AjBxlqi1HnyJYrhPMnAHGHZe53uWvmoywb3lcmVoocx/Y39wvGLE7uIMgGG
- +1J8l/H3/avfXcmahb6Da3B3daPjo1///Gwf06+hbtOzrfbVMWbWqehRm9AhIHZR6yYO
- 6ImIVhQZekFqL3QRnc32TDg6e+rt2sN7F5uaUJqLmZVra+Hq31s1wPCHxXsRN70DDPPq
- FOHs9KVBPYQjedP2WuTrYslYKqN5cyIimWRZ88/8Kr/dyrmwIbuPqW52irR9GnRCBbt2 9g== 
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36tdaj80a0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 07:25:29 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11JCFxIR003742;
- Fri, 19 Feb 2021 12:25:28 GMT
-Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
- [9.57.198.29]) by ppma01wdc.us.ibm.com with ESMTP id 36p6d9dccw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 12:25:28 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
- [9.57.199.110])
- by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11JCPRMp26083776
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Feb 2021 12:25:28 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id DFBA1AE060;
- Fri, 19 Feb 2021 12:25:27 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0A299AE05C;
- Fri, 19 Feb 2021 12:25:27 +0000 (GMT)
-Received: from lagarcia.br.ibm.com (unknown [9.80.202.220])
- by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
- Fri, 19 Feb 2021 12:25:26 +0000 (GMT)
-Subject: Re: How to get a wiki account?
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-References: <BYAPR02MB488605CFFBDA686B2E00640BDE859@BYAPR02MB4886.namprd02.prod.outlook.com>
- <aa48784f-4cf9-b300-5715-752662a5be89@amsat.org>
-From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?=
- <lagarcia@linux.ibm.com>
-Organization: IBM
-Message-ID: <483d301f-74c0-549d-ed67-a73938e01ca9@linux.ibm.com>
-Date: Fri, 19 Feb 2021 09:25:25 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1lD502-0006Hd-UA
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:35:18 -0500
+Received: from fraeml714-chm.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DhrVy0H5Xz67nNQ;
+ Fri, 19 Feb 2021 20:29:46 +0800 (CST)
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ fraeml714-chm.china.huawei.com (10.206.15.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Fri, 19 Feb 2021 13:35:01 +0100
+Received: from localhost (10.47.77.222) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 19 Feb
+ 2021 12:35:00 +0000
+Date: Fri, 19 Feb 2021 12:33:56 +0000
+From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To: Chris Browy <cbrowy@avery-design.com>
+Subject: Re: [RFC PATCH v2 1/2] Basic PCIe DOE support
+Message-ID: <20210219123356.000046de@Huawei.com>
+In-Reply-To: <DDBDE314-FA91-4E43-9484-F83E446B6EE4@avery-design.com>
+References: <1612900760-7361-1-git-send-email-cbrowy@avery-design.com>
+ <1612902949-9992-1-git-send-email-cbrowy@avery-design.com>
+ <20210212162442.00007c1d@Huawei.com>
+ <8A5C244A-DF9A-4EB5-8C24-568A606E75B0@avery-design.com>
+ <20210218191143.00000cdf@Huawei.com>
+ <DDBDE314-FA91-4E43-9484-F83E446B6EE4@avery-design.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <aa48784f-4cf9-b300-5715-752662a5be89@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-19_05:2021-02-18,
- 2021-02-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 bulkscore=0
- adultscore=0 malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
- phishscore=0 lowpriorityscore=0 clxscore=1011 priorityscore=1501
- mlxlogscore=987 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102190099
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.47.77.222]
+X-ClientProxiedBy: lhreml742-chm.china.huawei.com (10.201.108.192) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,30 +71,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: lagarcia@br.ibm.com
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Ben Widawsky <ben.widawsky@intel.com>, david@redhat.com,
+ qemu-devel@nongnu.org, vishal.l.verma@intel.com, jgroves@micron.com,
+ "20210212162442.00007c1d@huawei.com" <20210212162442.00007c1d@Huawei.com>,
+ linux-cxl@vger.kernel.org, armbru@redhat.com,
+ "20210218191143.00000cdf@huawei.com" <20210218191143.00000cdf@Huawei.com>,
+ mst@redhat.com, imammedo@redhat.com, dan.j.williams@intel.com,
+ ira.weiny@intel.com, f4bug@amsat.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/18/21 8:56 PM, Philippe Mathieu-Daudé wrote:
-> On 2/19/21 12:23 AM, Taylor Simpson wrote:
->> How do I get a wiki account for wiki.qemu.org?  Going forward, I’d like
->> to be able to add information about the Hexagon target.
-> As any user with access to the wiki can create user accounts,
-> I created yours and will send you your information off-list.
+On Thu, 18 Feb 2021 19:46:54 -0500
+Chris Browy <cbrowy@avery-design.com> wrote:
+
+> > On Feb 18, 2021, at 2:11 PM, Jonathan Cameron <jonathan.cameron@huawei.=
+com> wrote:
+> >=20
+> > On Fri, 12 Feb 2021 16:58:21 -0500
+> > Chris Browy <cbrowy@avery-design.com> wrote:
+> >  =20
+> >>> On Feb 12, 2021, at 11:24 AM, Jonathan Cameron <Jonathan.Cameron@Huaw=
+ei.com> wrote:
+> >>>=20
+> >>> On Tue, 9 Feb 2021 15:35:49 -0500
+> >>> Chris Browy <cbrowy@avery-design.com> wrote:
+> >>>=20
+> >>> Run ./scripts/checkpatch.pl over the patches and fix all the warnings=
+ before
+> >>> posting.  It will save time by clearing out most of the minor formatt=
+ing issues
+> >>> and similar that inevitably sneak in during development.
+> >>>  =20
+> >> Excellent suggestion.  We=E2=80=99re still newbies!
+> >>  =20
+> >>> The biggest issue I'm seeing in here is that the abstraction of
+> >>> multiple DOE capabiltiies accessing same protocols doesn't make sense.
+> >>>=20
+> >>> Each DOE ecap region and hence mailbox can have it's own set of
+> >>> (possibly  overlapping) protocols.
+> >>>=20
+> >>> From the ECN:
+> >>> "It is permitted for a protocol using data object exchanges to require
+> >>> that a Function implement a unique instance of DOE for that specific
+> >>> protocol, and/or to allow sharing of a DOE instance to only a specific
+> >>> set of protocols using data object exchange, and/or to allow a Functi=
+on
+> >>> to implement multiple instances of DOE supporting the specific protoc=
+ol."
+> >>>=20
+> >>> Tightly couple the ECAP and DOE.  If we are in the multiple instances
+> >>> of DOE supporting a specific protocol case, then register it separate=
+ly
+> >>> for each one.  The individual device emulation then needs to deal with
+> >>> any possible clashes etc.   =20
+> >>=20
+> >> Not sure how configurable we want to make the device.  It is a simple =
+type 3
+> >> device after all.  =20
+> >=20
+> > Agreed, but what I (or someone else) really doesn't want to have to do
+> > in the future is reimplement DOE because we made design decisions that =
+make
+> > this version hard to reuse.  Unless it is particularly nasty to do we s=
+hould
+> > try to design something that is generally useful rather than targeted to
+> > closely at the specific case we are dealing with.
+> >=20
+> > I'd argue the ECAP and the DOE mailbox are always tightly coupled 1-to-=
+1.
+> > Whether the device wants to implement multiple protocols on each DOE ma=
+ilbox
+> > or indeed run individual protocols on multiple DOE mailboxes is a design
+> > decision, but the actual mechanics of DOE match up with the config
+> > space structures anything else is impdef on the device. =20
+>=20
+> Yes I agree that there is 1-to-1 between DOE extended cap (ECAP) and DOE
+> Mailbox.  If we want to provide complete flexibility we should let the us=
+er pass=20
+> device property arrays to QEMU command for how many DOE ECAP=E2=80=99s to=
+ build=20
+> out and how to assign protocol(s) to each of them.  Array index is the DO=
+E=20
+> instance #.
+>=20
+> Also we can provide a property for cdat binary (blob) filename to initial=
+ize=20
+> the CDAT structure[entries].  This just reads in whatever mix of CDAT str=
+ucture
+> types are in the blob.
+>=20
+> -device cxl-type3,bus=3Drp0,memdev=3Dcxl-mem1,id=3Dcxl-pmem0,size=3D256M \
+>     doe-ecap-instances=3D2 \
+>     doe-ecap[0]=3D5 // bitwise OR for protocols shared
+>     doe-ecap[1]=3D2 //bitwise OR for protocols shared
+>     doe-ecap-cdat[1]=3Dmycdat.bin
+>=20
+> where let=E2=80=99s say protocols bitvector
+> bit [0]=3DCMA
+> bit [1]=3DCDAT
+> bit [2}=3DCompliance
+>=20
+> Let me know if you some better alternatives and we=E2=80=99ll implement i=
+t.
+>=20
+
+Gut feeling for DOE is that the particular combination of protocol and
+ECAP/DOE is device dependent. As such...
+
+I'm not sure we actually want to expose it as command line controllable at =
+all.
+If we do, I'd suggest a small number of sane choices that exercise cases
+we want to check.
+
+=46rom a testing point of view, 2 DOE, one of which supports multiple
+protocols and we will have enough to test likely failure modes in the code.
+
+The one protocol running on multiple mailboxes is already covered by the
+discovery protocol which they all support.  That might not exercise
+all the potential problems on the emulator side (as no need to do
+locking etc) but it will proabbly exercise those in the OS and firmware.
+
+Almost all users of DOE functionality in QEMU in the long run are likely
+to be emulating a particular device so will hard code the DOE instances pre=
+sent
+on that device in their emulation of whatever PCIe device they are
+emulating.
+
+This is no different to picking a particular layout for config space.
+We could make it fully flexible, but it's rarely useful to do so.
+
+If anyone wants to check something unusual, they can hack it into
+QEMU.
+
+As a side note, a protocol bit vector is going to unmaintainable as
+there will be lots of protocols and last thing we want is that vector
+to mean different things on different emulated PCI devices.
+
+Jonathan
 
 
-I submitted a similar request yesterday to this list. Could you please 
-help me creating an account as well, Phi?
 
-Cheers,
+>=20
+> >  =20
+> >>=20
+> >> The DOE spec does leave it pretty arbitrary regarding N DOE instances =
+(DOE=20
+> >> Extended Cap entry points) for M protocols, including where N>1 and M=
+=3D1. =20
+> >> Currently we implement N=3D2 DOE caps (instances), one for CDAT, one f=
+or=20
+> >> Compliance Mode.[
+> >>=20
+> >> Maybe a more complex MLD device might have one or more DOE instances=20
+> >> for the CDAT protocol alone to define each HDM but currently we only h=
+ave=20
+> >> one pmem (SLD) so we can=E2=80=99t really do much more than what=E2=80=
+=99s supported.
+> >>=20
+> >> Open to further suggestion though.  Based on answer to above we=E2=80=
+=99ll follow=20
+> >> the suggestion lower in the code review regarding=20
+> >>  =20
+> > ...
+> >  =20
+>=20
 
-Leo
-
-
->
-> Regards,
->
-> Phil.
->
 
