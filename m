@@ -2,63 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 960E431FD01
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:19:32 +0100 (CET)
-Received: from localhost ([::1]:33892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1628931FD0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:21:59 +0100 (CET)
+Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD8V9-0000bs-K5
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:19:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50690)
+	id 1lD8XW-0002f9-64
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:21:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1lD87o-0003cr-Ez
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:55:24 -0500
-Received: from mail-vs1-xe2a.google.com ([2607:f8b0:4864:20::e2a]:38546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <miklos@szeredi.hu>) id 1lD87j-0006y0-3D
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:55:23 -0500
-Received: by mail-vs1-xe2a.google.com with SMTP id l192so2919347vsd.5
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 07:55:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=szeredi.hu; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=3f9/KIEhjHz/f5OUekOg8TjqaaRrTrdZ6lRHNlW+PSo=;
- b=RntPNxbOG6X4yw1b7H+R0BWmIh7+RPkWgQbBP8NBkV0EmJuCBByb++ZENv9FYF8ytY
- m4fUWCsHqE3GymRJTPPx5RfilxAzbcxj0Kp2lpS/i/azbX4YrGcZ7E5/TZY/DzLtLSdo
- Q1q1+AnGC1+tmcc8tr/SzJRAeEq43PaKX30Rk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=3f9/KIEhjHz/f5OUekOg8TjqaaRrTrdZ6lRHNlW+PSo=;
- b=LATMmIRF660FR4iD6z8EweCtUg+Myfts6a19XdCZmKUxFhw9tjmbC9w0NoNoJtX8Kw
- zLQa4Rw1wRvCYfLmTuHLcnhkcWi6LybsNhqItXbFJ7AvTPWQAvAE6ALOz6l2HFGkdt1B
- au4TX3van7IbV57R6kbr+Wf+k4z+HXl2IKYVXfRnIz1ICD8cCXvxheT9IDD1qst4jyM0
- cAyblJJpqR8NQisn/yFUHhUxDr9yxlJ6D/Gm6Uc7vbMrBboSD2JySnlTBZgnOA+pfmaa
- VofaLSgoxD3yo+I/W2tXN7lET0dL2HXqNNScI/69PWUSFR1F3VXbO4mLbeIhKbmi7s7W
- xDvg==
-X-Gm-Message-State: AOAM533t7L7ox+8IB6qxP2KwB6+pL4/eXR4TCS1jG5QAil6dr0xbq8WY
- HGe86ztXE54E8R/kh5OAKFryqdCCeFqUa5serv7lgw==
-X-Google-Smtp-Source: ABdhPJz6ex1qA5UfTOrZR9X2DkDKimoq5lgM3XcZgFwq2xBO18DDlI/EUd6rk2YhP+uq/ioKEG7F0OvbV+zH5xhYa7s=
-X-Received: by 2002:a67:ea05:: with SMTP id g5mr6592695vso.47.1613750116768;
- Fri, 19 Feb 2021 07:55:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lD8BW-0007OD-Gf
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:59:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lD8BT-0008V8-CE
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:59:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613750349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=eprC0FrttsR8xqK/fwkUtztmqMWDfrhqX5A+9PblutA=;
+ b=bjHW1N+tr0d2OV94OpsJ499AKYivUNWeFqZNm3VtMsQP6tpk2yCWcBoNL0rJtpa66D0ntm
+ 4LfXcITwWe9ypa0ovdiGiT37c6YgVmA1SCmtQw3Qej/Cqmkri6nKwBjxcNgwjf6jyJAlNj
+ 1lNKGl41ZafPWzzm5ZdWtzsYQ9H8ZKY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-HsUC2VlPNx-jTzW6sfmUHg-1; Fri, 19 Feb 2021 10:59:07 -0500
+X-MC-Unique: HsUC2VlPNx-jTzW6sfmUHg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B349D106BC6A;
+ Fri, 19 Feb 2021 15:59:06 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-112-191.ams2.redhat.com
+ [10.36.112.191])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 14AC65D9C2;
+ Fri, 19 Feb 2021 15:59:03 +0000 (UTC)
+Subject: Re: [PATCH 3/3] iotests/283: Check that finalize drops backup-top
+To: qemu-block@nongnu.org
+References: <20210219153348.41861-1-mreitz@redhat.com>
+ <20210219153348.41861-4-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <244e3b6f-591c-2e5b-64a8-b0f7eb295220@redhat.com>
+Date: Fri, 19 Feb 2021 16:59:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210217233046.81418-1-vgoyal@redhat.com> <87pn0wgtsx.fsf@suse.de>
- <20210219143403.GA3270@redhat.com>
-In-Reply-To: <20210219143403.GA3270@redhat.com>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Fri, 19 Feb 2021 16:55:06 +0100
-Message-ID: <CAJfpeguanq6PEf7jd9Ur_JO7aJ0eoojs65LXb6ukhoGGb_Ccdw@mail.gmail.com>
-Subject: Re: [PATCH v2 0/3] virtiofsd: Add options to enable/disable posix acl
-To: Vivek Goyal <vgoyal@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2a;
- envelope-from=miklos@szeredi.hu; helo=mail-vs1-xe2a.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210219153348.41861-4-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,61 +82,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs-list <virtio-fs@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Luis Henriques <lhenriques@suse.de>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 3:34 PM Vivek Goyal <vgoyal@redhat.com> wrote:
->
-> On Fri, Feb 19, 2021 at 11:50:54AM +0000, Luis Henriques wrote:
-> > Vivek Goyal <vgoyal@redhat.com> writes:
-> >
-> > > Hi,
-> > >
-> > > This is V2 of the patches. Changes since v1 are.
-> > >
-> > > - Rebased on top of latest master.
-> > > - Took care of Miklos's comments to block acl xattrs if user
-> > >   explicitly disabled posix acl.
-> > >
-> > > Luis Henriques reported that fstest generic/099 fails with virtiofs.
-> > > Little debugging showed that we don't enable acl support. So this
-> > > patch series provides option to enable/disable posix acl support. By
-> > > default it is disabled.
-> > >
-> > > I have run blogbench and pjdfstests with posix acl enabled and
-> > > things work fine.
-> > >
-> > > Luis, can you please apply these patches, and run virtiofsd with
-> > > "-o posix_acl" and see if it fixes the failure you are seeing. I
-> > > ran the steps you provided manually and it fixes the issue for
-> > > me.
-> >
-> > Sorry for the delay.  I've finally tested these patches and they indeed
-> > fix the problem I reported.  My only question about this fix is why is
-> > this option not enabled by default, since this is the documented behavior
-> > in acl(5) and umask(2)?  In fact, why is this an option at all?
->
-> You mean why to not enable acl by default?
->
-> I am concerned about performance drop this can lead to because extra
-> GETXATTR(system.posix_acl_*) messages which will trigger if acls are enabled.
-> And not all users might require these. That's why I preferred to not enable
-> acl by default. Those who need it can enable it explicitly.
->
-> Another example is xattr support. Due to performance concerns, we don't
-> enable xattrs by default either.
+On 19.02.21 16:33, Max Reitz wrote:
+> Without any of HEAD^ or HEAD^^ applied, qemu will most likely crash on
+> the qemu-io invocation, for a variety of immediate reasons.  The
+> underlying problem is generally a use-after-free access into
+> backup-top's BlockCopyState.
+> 
+> With only HEAD^ applied, qemu-io will run into an EIO (which is not
+> capture by the output, but you can see that the qemu-io invocation will
+> be accepted (i.e., qemu-io will run) in contrast to the reference
+> output, where the node name cannot be found), and qemu will then crash
+> in query-named-block-nodes: bdrv_get_allocated_file_size() detects
+> backup-top to be a filter and passes the request through to its child.
+> However, after bdrv_backup_top_drop(), that child is NULL, so the
+> recursive call crashes.
+> 
+> With HEAD^^ applied, this test should pass.
+> 
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>   tests/qemu-iotests/283     | 55 ++++++++++++++++++++++++++++++++++++++
+>   tests/qemu-iotests/283.out | 15 +++++++++++
+>   2 files changed, 70 insertions(+)
+> 
+> diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
+> index 79643e375b..509dcbbcf4 100755
+> --- a/tests/qemu-iotests/283
+> +++ b/tests/qemu-iotests/283
+> @@ -97,3 +97,58 @@ vm.qmp_log('blockdev-add', **{
+>   vm.qmp_log('blockdev-backup', sync='full', device='source', target='target')
+>   
+>   vm.shutdown()
+> +
+> +
+> +"""
+> +Check that the backup-top node is gone after job-finalize.
+> +
+> +During finalization, the node becomes inactive and can no longer
+> +function.  If it is still present, new parents might be attached, and
+> +there would be no meaningful way to handle their I/O requests.
+> +"""
 
-Actually generic xattr is much worse, since there's no caching for
-them currently, as opposed to posix acls, which are cached both when
-positive and negative.
+Oh no, 297/pylint complains that this “string statement has no effect”. 
+  Guess it should be a normal comment under the following print() then...
 
-If we enable ACL by default in case xattrs are enabled, we should be
-safe, I think.  Having an option to disable acls still makes sense,
-but it's an optional plus.
+Max
 
-Thanks,
-Miklos
+> +print('\n=== backup-top should be gone after job-finalize ===\n')
+
 
