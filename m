@@ -2,73 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EC2031F973
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:37:02 +0100 (CET)
-Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7315D31F990
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:47:13 +0100 (CET)
+Received: from localhost ([::1]:46724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD51p-0000EY-HN
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54544)
+	id 1lD5Bg-0002jE-Gg
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:47:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lD4ci-0006Se-CV
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:11:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lD4ce-0004aR-JI
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:11:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613736659;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=45Dm/mZfrJbWzizoN9wLVx4pShqBQ+9iMXBHgbG5TR0=;
- b=VIcFCYwwxZkaEh9FI7T3JH5HW0ogcVtMvS+Wvssi+66HaS5X2mizXEwZV/tQUMLi+YSNql
- fO24TCnW+MG1GPHHSW/G7cPjtW0awyoyfgsENRgbU08yQBXihWkUBOQp0Ck9kesZsXcUaI
- yNBJQ8Jb+oFqz3zQPWLTIfyBBafK4gI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-AFE5aQfpPteMhmzp8Pa9qA-1; Fri, 19 Feb 2021 07:10:43 -0500
-X-MC-Unique: AFE5aQfpPteMhmzp8Pa9qA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDEB1100A8E9;
- Fri, 19 Feb 2021 12:10:40 +0000 (UTC)
-Received: from redhat.com (ovpn-113-184.ams2.redhat.com [10.36.113.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 653155C1BB;
- Fri, 19 Feb 2021 12:10:30 +0000 (UTC)
-Date: Fri, 19 Feb 2021 12:10:27 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 2/7] hw/boards: Introduce 'kvm_supported' field to
- MachineClass
-Message-ID: <YC+qs7R140qAWnJY@redhat.com>
-References: <20210219114428.1936109-1-philmd@redhat.com>
- <20210219114428.1936109-3-philmd@redhat.com>
- <YC+nxWnB+eaiq736@redhat.com>
- <CAFEAcA-A=TG43w2yNfrDwCgYYNZBEa25cM_yYgREfQyKa=PZEQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1lD4qt-0005tY-Vb
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:25:44 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:53560)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1lD4qq-000262-RM
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:25:43 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 11JCOnwP113889; Fri, 19 Feb 2021 07:25:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to :
+ references : from : cc : reply-to : message-id : date : mime-version :
+ in-reply-to : content-type : content-transfer-encoding; s=pp1;
+ bh=M8dAMPjq+VPFEki7Yl0975ZPBWk6mWTH0oy6jBr2abc=;
+ b=TTl8TFBYHHs1q5OMwZrIwbdg9WXbRCnB7fla2j6ztQioXLSdlQYQzz1YjoqYCmoGetm9
+ kylcfegF4AjBxlqi1HnyJYrhPMnAHGHZe53uWvmoywb3lcmVoocx/Y39wvGLE7uIMgGG
+ +1J8l/H3/avfXcmahb6Da3B3daPjo1///Gwf06+hbtOzrfbVMWbWqehRm9AhIHZR6yYO
+ 6ImIVhQZekFqL3QRnc32TDg6e+rt2sN7F5uaUJqLmZVra+Hq31s1wPCHxXsRN70DDPPq
+ FOHs9KVBPYQjedP2WuTrYslYKqN5cyIimWRZ88/8Kr/dyrmwIbuPqW52irR9GnRCBbt2 9g== 
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36tdaj80a0-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 07:25:29 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11JCFxIR003742;
+ Fri, 19 Feb 2021 12:25:28 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma01wdc.us.ibm.com with ESMTP id 36p6d9dccw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 12:25:28 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11JCPRMp26083776
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Feb 2021 12:25:28 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DFBA1AE060;
+ Fri, 19 Feb 2021 12:25:27 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A299AE05C;
+ Fri, 19 Feb 2021 12:25:27 +0000 (GMT)
+Received: from lagarcia.br.ibm.com (unknown [9.80.202.220])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Fri, 19 Feb 2021 12:25:26 +0000 (GMT)
+Subject: Re: How to get a wiki account?
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <BYAPR02MB488605CFFBDA686B2E00640BDE859@BYAPR02MB4886.namprd02.prod.outlook.com>
+ <aa48784f-4cf9-b300-5715-752662a5be89@amsat.org>
+From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?=
+ <lagarcia@linux.ibm.com>
+Organization: IBM
+Message-ID: <483d301f-74c0-549d-ed67-a73938e01ca9@linux.ibm.com>
+Date: Fri, 19 Feb 2021 09:25:25 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <aa48784f-4cf9-b300-5715-752662a5be89@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAFEAcA-A=TG43w2yNfrDwCgYYNZBEa25cM_yYgREfQyKa=PZEQ@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-19_05:2021-02-18,
+ 2021-02-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 bulkscore=0
+ adultscore=0 malwarescore=0 suspectscore=0 spamscore=0 impostorscore=0
+ phishscore=0 lowpriorityscore=0 clxscore=1011 priorityscore=1501
+ mlxlogscore=987 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102190099
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,77 +106,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
- David Hildenbrand <david@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?utf-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
- Leif Lindholm <leif@nuviainc.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-s390x <qemu-s390x@nongnu.org>,
- qemu-arm <qemu-arm@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>,
- Radoslaw Biernacki <rad@semihalf.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: lagarcia@br.ibm.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 12:08:05PM +0000, Peter Maydell wrote:
-> On Fri, 19 Feb 2021 at 11:58, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > Is the behaviour reported really related to KVM specifically, as opposed
-> > to all hardware based virt backends ?
-> >
-> > eg is it actually a case of some machine types being  "tcg_only" ?
-> 
-> Interesting question. At least for Arm the major items are:
->  * does the accelerator support emulation of EL3/TrustZone?
->    (KVM doesn't; this is the proximate cause of the assertion
->    failure if you try to enable KVM for the raspi boards.)
->  * does the board type require a particular CPU type which
->    KVM doesn't/can't support?
-> Non-KVM accelerators could at least in theory have different answers
-> to those questions, though in practice I think they do not.
-> 
-> I think my take is that we probably should mark the boards
-> as 'tcg-only' vs 'not-tcg-only', because in practice that's
-> the interesting distinction. Specifically, our security policy
-> https://qemu.readthedocs.io/en/latest/system/security.html
-> draws a boundary between "virtualization use case" and
-> "emulated", so it's really helpful to be able to say clearly
-> "this board model does not support virtualization, and therefore
-> any bugs in it or its devices are simply outside the realm of
-> being security issues" when doing analysis of the codebase or
-> when writing or reviewing new code.
+On 2/18/21 8:56 PM, Philippe Mathieu-Daudé wrote:
+> On 2/19/21 12:23 AM, Taylor Simpson wrote:
+>> How do I get a wiki account for wiki.qemu.org?  Going forward, I’d like
+>> to be able to add information about the Hexagon target.
+> As any user with access to the wiki can create user accounts,
+> I created yours and will send you your information off-list.
 
-Oh, yes, that is useful to correlate with.
 
-> If we ever have support for some new accelerator type where there's
-> a board type distinction between KVM and that new accelerator and
-> it makes sense to try to say "this board is supported by the new
-> thing even though it won't work with KVM", the folks interested in
-> adding that new accelerator will have the motivation to look
-> into exactly which boards they want to enable support for and
-> can add a funky_accelerator_supported flag or whatever at that time.
-> 
-> Summary: we should name this machine class field
-> "virtualization_supported" and check it in all the virtualization
-> accelerators (kvm, hvf, whpx, xen).
+I submitted a similar request yesterday to this list. Could you please 
+help me creating an account as well, Phi?
 
-Agreed.
+Cheers,
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Leo
 
+
+>
+> Regards,
+>
+> Phil.
+>
 
