@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309A331FAF7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 15:36:05 +0100 (CET)
-Received: from localhost ([::1]:42078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C91E31FB17
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 15:42:00 +0100 (CET)
+Received: from localhost ([::1]:48368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD6t1-0003J6-OD
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 09:36:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58934)
+	id 1lD6yk-0006NF-VE
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 09:41:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lD6rx-0002mX-Sc
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:34:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lD6rJ-0006x1-BF
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:34:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613745253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9lRtb4GZBsaBb6qyCheAhQ6LJILooOThp3v+RkjG7LQ=;
- b=SB6UY92d5HnOhwStwvRjIL1UIRTfSZixIB2ZSTXELghw//W0hqxp0DhvgUPU0+8Q1FP18i
- 9oWw6WKAnSYcS8DehPNPK5BYoBMMvfBgv1SgnOGb3GuBEy/mu+Iuy2biXXSbcubT6JHvMc
- M4zq0U/Tj++AbJWu9r+Ig7vw/TXAe4I=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-2I_U3I-MM0SeuISaQIZieA-1; Fri, 19 Feb 2021 09:34:11 -0500
-X-MC-Unique: 2I_U3I-MM0SeuISaQIZieA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88C0A801975;
- Fri, 19 Feb 2021 14:34:10 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-220.rdu2.redhat.com [10.10.115.220])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 063B91971D;
- Fri, 19 Feb 2021 14:34:03 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 78BED22054F; Fri, 19 Feb 2021 09:34:03 -0500 (EST)
-Date: Fri, 19 Feb 2021 09:34:03 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Luis Henriques <lhenriques@suse.de>
-Subject: Re: [PATCH v2 0/3] virtiofsd: Add options to enable/disable posix acl
-Message-ID: <20210219143403.GA3270@redhat.com>
-References: <20210217233046.81418-1-vgoyal@redhat.com> <87pn0wgtsx.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lD6x8-0005K1-R9; Fri, 19 Feb 2021 09:40:20 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:39253)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lD6x6-0000fJ-LB; Fri, 19 Feb 2021 09:40:18 -0500
+Received: by mail-wr1-x435.google.com with SMTP id v1so8844701wrd.6;
+ Fri, 19 Feb 2021 06:40:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sQSovEap1XDFOcCJ1za5jK1eSide1/hIMA4nxDtTl/I=;
+ b=cRHPQqFahXp2WpRboDwVjk0ID57GvmZgSKxPSwlfBqMLBBLfN1CjXNXIWGmOD2pW77
+ YlZainpv3K+PSg6TpYk0YSpN/4K7mnDLuV0LYJQknvS3Xs33R+wFwpbF+J8lU1uzslBe
+ Ce0Rutra5JMy8rK3zqSYlaM48yVW6wHfsUlQ7M/O4+t7IwgSLnGjLd8OqjStuT24HMnj
+ WmL6xANCzz380lyoXQcZlgYrCRl6TLNbYBobg6JCIkLH0JpzxZpCVdao976Hg4+XBkFG
+ dd5Jx/GtnrKZOaKVLy5VJ2duPIqylPF98HZmUhYWwfHoAF/A3UeCGpl0ob1pBAYij5IQ
+ cP2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sQSovEap1XDFOcCJ1za5jK1eSide1/hIMA4nxDtTl/I=;
+ b=JJaA6nXx6mwtYgwjAfIzc+kOcwljKMt1xVgJpGAdcemmIxu9YT1yPiF+pBAAOKQzRm
+ XJQS+wVntStp9Yls8dwnAkUEBAeT9Snfa0hFTsygVQZyVNp3Zo8c8nXgETzvMy+Vmo5U
+ KbxTP8JC9xGvD2WGjSglwMkMhNuIitQkVeE1kEJyK6rxWvBpNjvMDFn7r4slZlyECvRj
+ bWqYfVRhpXYtmFLDOmneLu8+kw3ppl5cOwnOQCZaaQPNJQoPLudB9X1hi1GgC569GXfw
+ kSt62aWXdtmZj0QpU+HzqIVzZ8O0Ixy3QegqzeIXKS8Vi+3HkEcQz9+O8H3YUnveTS0/
+ +DDA==
+X-Gm-Message-State: AOAM5329Hn6OYKUQGJs8p+F4ieTYJo4Jgi02skSkSIHEpYEirpb1VIBB
+ QqeozRbhau7yE30AC1chD7Y=
+X-Google-Smtp-Source: ABdhPJw9O6eEsB1oEnlWnI+T8lkuGyquP5iyNJfLbGPqghheZVhi8K+vZlyUGDsXscCZRT9DKSUsag==
+X-Received: by 2002:adf:f285:: with SMTP id k5mr9425752wro.285.1613745613575; 
+ Fri, 19 Feb 2021 06:40:13 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id l7sm13934230wrn.11.2021.02.19.06.40.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 06:40:13 -0800 (PST)
+Subject: Re: [PATCH] hw/arm/xlnx-zynqmp: Remove obsolete 'has_rpu' property
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210219115123.1938686-1-f4bug@amsat.org>
+ <CAFEAcA_9nuCvVrhDZo=RQoFngpY=ZrJCOw9NQx9A9GF_BmgN+w@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <10aaa327-e24c-0707-16fb-faa37779fef3@amsat.org>
+Date: Fri, 19 Feb 2021 15:40:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <87pn0wgtsx.fsf@suse.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <CAFEAcA_9nuCvVrhDZo=RQoFngpY=ZrJCOw9NQx9A9GF_BmgN+w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,51 +87,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, miklos@szeredi.hu, qemu-devel@nongnu.org,
- stefanha@redhat.com, dgilbert@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 11:50:54AM +0000, Luis Henriques wrote:
-> Vivek Goyal <vgoyal@redhat.com> writes:
+On 2/19/21 12:58 PM, Peter Maydell wrote:
+> On Fri, 19 Feb 2021 at 11:51, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> We hint the 'has_rpu' property is no longer required since commit
+>> 6908ec448b4 ("xlnx-zynqmp: Properly support the smp command line
+>> option") which was released in QEMU v2.11.0.
+>>
+>> 3 years later we feel safe enough to remove it without using the
+>> usual deprecation policy.
 > 
-> > Hi,
-> >
-> > This is V2 of the patches. Changes since v1 are.
-> >
-> > - Rebased on top of latest master.
-> > - Took care of Miklos's comments to block acl xattrs if user
-> >   explicitly disabled posix acl.
-> >
-> > Luis Henriques reported that fstest generic/099 fails with virtiofs.
-> > Little debugging showed that we don't enable acl support. So this
-> > patch series provides option to enable/disable posix acl support. By
-> > default it is disabled.
-> >
-> > I have run blogbench and pjdfstests with posix acl enabled and
-> > things work fine.
-> >
-> > Luis, can you please apply these patches, and run virtiofsd with
-> > "-o posix_acl" and see if it fixes the failure you are seeing. I
-> > ran the steps you provided manually and it fixes the issue for
-> > me.
+> This device is marked user_creatable = false, so the only thing
+> that could be setting the property is the board code that creates
+> the device. So the property is not user-facing and we can remove it
+> without going through the deprecation process.
 > 
-> Sorry for the delay.  I've finally tested these patches and they indeed
-> fix the problem I reported.  My only question about this fix is why is
-> this option not enabled by default, since this is the documented behavior
-> in acl(5) and umask(2)?  In fact, why is this an option at all? 
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> (maybe noting the above in the commit message).
 
-You mean why to not enable acl by default?
-
-I am concerned about performance drop this can lead to because extra
-GETXATTR(system.posix_acl_*) messages which will trigger if acls are enabled.
-And not all users might require these. That's why I preferred to not enable
-acl by default. Those who need it can enable it explicitly.
-
-Another example is xattr support. Due to performance concerns, we don't
-enable xattrs by default either.
-
-Thanks
-Vivek
-
+OK I'll update, thanks!
 
