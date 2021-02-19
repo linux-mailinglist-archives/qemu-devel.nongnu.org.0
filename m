@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A544F31F7F2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:11:26 +0100 (CET)
-Received: from localhost ([::1]:36322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6928F31F816
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:19:09 +0100 (CET)
+Received: from localhost ([::1]:42584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD3gz-0005GB-MG
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:11:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41334)
+	id 1lD3oR-0008Mo-TL
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:19:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD3fb-0004jt-7q
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:09:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lD3fZ-0003Ge-HU
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:09:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613732996;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3PPpTPyyjTX0r+E4KSZ0MFQF1WkXUpxRQwOY438LlVc=;
- b=aQX6GnZxB6NVp2pLjqocyToatlQ2tPEdbPL7UYknaLDqNdbcNVgY2+POruIqWUpnbaEsL7
- c3ROhray0TBWpAZG111yZvFgZrirqtW88Qy0H9swHauK/etzbWkkvEwPCNc2lfGd7q2DnG
- gkLU0YI0m5aescA0TtnWUCl3EM9TvX0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-364-3qRNcBVSOGquKENtm_LgFA-1; Fri, 19 Feb 2021 06:09:54 -0500
-X-MC-Unique: 3qRNcBVSOGquKENtm_LgFA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E198018449E9;
- Fri, 19 Feb 2021 11:09:53 +0000 (UTC)
-Received: from thuth.com (ovpn-112-63.ams2.redhat.com [10.36.112.63])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F207E46E64;
- Fri, 19 Feb 2021 11:09:52 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci: Remove unused container images
-Date: Fri, 19 Feb 2021 12:09:50 +0100
-Message-Id: <20210219110950.2308025-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lD3mX-0007rO-Gq
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:17:09 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:42402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lD3mV-0006jO-Jh
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:17:09 -0500
+Received: by mail-pl1-x635.google.com with SMTP id s16so3179931plr.9
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 03:17:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=M9oDkfej678wUz8QTuCnY7792PBW2W7sesrMhNOqn90=;
+ b=GKSzpB1NAO1Q4xDwThaO7YQRAaC8CXoglA9z075tdXqW5omafNtDiOMDY7SOITz9YB
+ flma0xXc/Ztyq4AXHOucSxhyjbRpMB5s0wQ8oz64rtKrMb+tq34OJZikbBV0QaoGRouP
+ sl6Ut571TDwh3WSMeAGNFwzxKXsJ/b46xotBDvxU6GQK5tDhSqlLWMPRAyKMpbFTrnXh
+ y4SexMoM1EQiS8jU0DjfyDYYEXXMBupl2taP9uY6gq66xs7DUBE0/MUuz//f4a1IHXaz
+ KSHR2aMHVhNp2jALAapmrnL1h3+f4exHGkctDuVcd8dE+Ksd/CaNipRmHniJk2V8KT9J
+ +wJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=M9oDkfej678wUz8QTuCnY7792PBW2W7sesrMhNOqn90=;
+ b=FOC88yI6oFZicT/E5GGBHspg4+RnhbZNFTwyiTFt9Z3AtAngc7fPHPraswlei6ujLH
+ rfSJCKmDIYJagqbkMvrUgY5FrLw4wGHdofYq85hrAthJk0xqC2fqS4C7urhukQwVLdh6
+ PYQ/BKcpIozVDBmmiEGdzY3EcTbmUFJVDtVALrnwNl12YKmV0E/Yg9enozA1D2lF1M/I
+ ATYIkBtDPJImwNL5jxJMQ3n1JEFLuBGpLDsNMz4kPLbrg2wYpvZGhosN4/DVuGmZDJYF
+ 9CJAekFmyG0ZnTyGwyV71VopT01MJ6xzEZIkdnSZA759Yn7bYMd+HMywDaHW9OCfDNJo
+ wehg==
+X-Gm-Message-State: AOAM530Y50KxFrUVXnzDWxILfKY6XnXhQ+7RIQZFt2u7F04BVuXXxNPI
+ ZOQs8ueQfnSMDXOzeme5b/d8Hp/9Xfzv9Q==
+X-Google-Smtp-Source: ABdhPJyFVtmkJxmwUjsZIM5CQtShZhdB0QO4mXL1mB6tC/WgHkLHoM4m1fyBGYgvrSKejWxiF3r76g==
+X-Received: by 2002:a17:90b:718:: with SMTP id
+ s24mr7743154pjz.160.1613733425895; 
+ Fri, 19 Feb 2021 03:17:05 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:d8f0:71c1:3d6a:4f53])
+ by smtp.gmail.com with ESMTPSA id s23sm9026861pfc.211.2021.02.19.03.17.04
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Feb 2021 03:17:05 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v2] ui/cocoa: Do not exit immediately after shutdown
+Date: Fri, 19 Feb 2021 20:16:52 +0900
+Message-Id: <20210219111652.20623-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <CAFEAcA_eKtZ--p=S9P7_9cEDxfvBVsb_aP4p6Luc+9XutGDxYA@mail.gmail.com>
+References: <CAFEAcA_eKtZ--p=S9P7_9cEDxfvBVsb_aP4p6Luc+9XutGDxYA@mail.gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,167 +84,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We're building a lot of containers in the gitlab-CI that we never use.
-This takes away network bandwidth and CPU time from other jobs for no
-use, so let's remove them for now. The individual containers could be
-re-added later when we really need them.
+ui/cocoa used to call exit immediately after calling
+qemu_system_shutdown_request, which prevents QEMU from actually
+perfoming system shutdown. Just sleep forever, and wait QEMU to call
+exit and kill the Cocoa thread.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- .gitlab-ci.d/containers.yml | 92 -------------------------------------
- 1 file changed, 92 deletions(-)
+ ui/cocoa.m | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
-index 90fac85ce4..233d34c59b 100644
---- a/.gitlab-ci.d/containers.yml
-+++ b/.gitlab-ci.d/containers.yml
-@@ -53,13 +53,6 @@ amd64-debian11-container:
-   variables:
-     NAME: debian11
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 13fba8103e1..cbd03667bd8 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -1121,7 +1121,13 @@ - (void)applicationWillTerminate:(NSNotification *)aNotification
+     COCOA_DEBUG("QemuCocoaAppController: applicationWillTerminate\n");
  
--alpha-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-alpha-cross
--
- amd64-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-@@ -88,13 +81,6 @@ arm64-debian-cross-container:
-   variables:
-     NAME: debian-arm64-cross
+     qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_UI);
+-    exit(0);
++
++    /*
++     * Sleep here, because returning will cause OSX to kill us
++     * immediately; the QEMU main loop will handle the shutdown
++     * request and terminate the process.
++     */
++    [NSThread sleepForTimeInterval:INFINITY];
+ }
  
--arm64-test-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian11-container']
--  variables:
--    NAME: debian-arm64-test-cross
--
- armel-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-@@ -109,27 +95,6 @@ armhf-debian-cross-container:
-   variables:
-     NAME: debian-armhf-cross
- 
--hppa-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-hppa-cross
--
--m68k-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-m68k-cross
--
--mips64-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-mips64-cross
--
- mips64el-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-@@ -151,20 +116,6 @@ mipsel-debian-cross-container:
-   variables:
-     NAME: debian-mipsel-cross
- 
--powerpc-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-powerpc-cross
--
--ppc64-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-ppc64-cross
--
- ppc64el-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-@@ -172,13 +123,6 @@ ppc64el-debian-cross-container:
-   variables:
-     NAME: debian-ppc64el-cross
- 
--riscv64-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-riscv64-cross
--
- s390x-debian-cross-container:
-   <<: *container_job_definition
-   stage: containers-layer2
-@@ -186,37 +130,6 @@ s390x-debian-cross-container:
-   variables:
-     NAME: debian-s390x-cross
- 
--sh4-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-sh4-cross
--
--sparc64-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-sparc64-cross
--
--tricore-debian-cross-container:
--  <<: *container_job_definition
--  stage: containers-layer2
--  needs: ['amd64-debian10-container']
--  variables:
--    NAME: debian-tricore-cross
--
--xtensa-debian-cross-container:
--  <<: *container_job_definition
--  variables:
--    NAME: debian-xtensa-cross
--
--cris-fedora-cross-container:
--  <<: *container_job_definition
--  variables:
--    NAME: fedora-cris-cross
--
- amd64-fedora-container:
-   <<: *container_job_definition
-   variables:
-@@ -237,11 +150,6 @@ win64-fedora-cross-container:
-   variables:
-     NAME: fedora-win64-cross
- 
--amd64-ubuntu1804-container:
--  <<: *container_job_definition
--  variables:
--    NAME: ubuntu1804
--
- amd64-ubuntu2004-container:
-   <<: *container_job_definition
-   variables:
+ - (BOOL)applicationShouldTerminateAfterLastWindowClosed:(NSApplication *)theApplication
 -- 
-2.27.0
+2.24.3 (Apple Git-128)
 
 
