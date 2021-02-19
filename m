@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A767E31F607
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:47:35 +0100 (CET)
-Received: from localhost ([::1]:38534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C6131F608
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:49:33 +0100 (CET)
+Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD1Rm-0002fy-Mm
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:47:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59968)
+	id 1lD1Tg-0003fm-Pu
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:49:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60062)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lD1Pi-0001tc-LE
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:45:26 -0500
-Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:43668)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lD1Ph-00067K-2D
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:45:26 -0500
-Received: by mail-pg1-x529.google.com with SMTP id n10so3393511pgl.10
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 00:45:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ufy+iOhuKKrdzU0OG+n8uVDY7T3yMNBsfV5nYATH0O4=;
- b=JgkpCXhsd7t3Ey6XINlyyn+RZknDUnVUGhp3bWhoKAyu+xwaomAzt4rLItAQ7ytUlo
- B/snRPZxh34SEsOoyDZFCpv4cS0sYzcK5N9ItxwVz5zmbdenD2kwyvj1NC4gX6lfZ5z0
- MhCL9/2TVzoH+UjreNLJfYQzsAfPoJlTXmNnkOJrAq1P52eyLxCt1++R8HF5t1EhYRhZ
- vQvQnWIPk07BzP66GL5Tq2wjNEWG5nYG1WrsEm5mD9YMsWQfwBRcDwMrGZcrAxdjHwg4
- BElzNtgupa5FQVavfrdwjsUNiqylE1paf/hEjgbtEXZe2s8o0VJvqm28+Bxx51BRKRtb
- e7jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Ufy+iOhuKKrdzU0OG+n8uVDY7T3yMNBsfV5nYATH0O4=;
- b=P5Fe2KnnTHf6Lg2KvCROdOagez0DOUqPQIVR0IVCaTy2dieDEphO6n7MxQ7taHQFzw
- +5jIhO0sAqTeN8Q5J5WRKcDyXfVa+3LmOe0rxewHBL+egVI/0QJLB9Uc22W6dgmeuWtn
- olnrQZnpN748NH/MgC8ROeZ67figEPJ0/bLv0RZnhs1r4IGfJ6SJantJtP3jDCL6YYVN
- PmtmgeuDQg/bZ59Z4OXLuPmztGo5B8C1oPDYWrJCCmzr/qh+ju/FkD/5JOVezOlkxXOg
- xZlcmt6+lzwfLs7k8LScYCCOx+QtlkmtNbuU+aP8GAVegjWipxvZBx9duYHC+VIc3GMo
- uMxw==
-X-Gm-Message-State: AOAM530ovhckbNyzP//otUQ2gXR4YO3nSdulWV9IftO5fFxj5uQCSpcQ
- N+tlO2uXeQ3PU0h+KKfaS74DCvimYxe2Ag==
-X-Google-Smtp-Source: ABdhPJz0vORB5oyTiOneS4KevdLHJMb0SRxRJOJ4ZDvQCi63+tkl0eS/FEDNfxuo1rHPcLex+CivXg==
-X-Received: by 2002:a63:4b21:: with SMTP id y33mr7605217pga.73.1613724323551; 
- Fri, 19 Feb 2021 00:45:23 -0800 (PST)
-Received: from localhost.localdomain
- ([2400:4050:c360:8200:d8f0:71c1:3d6a:4f53])
- by smtp.gmail.com with ESMTPSA id z125sm9285129pgz.45.2021.02.19.00.45.22
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 19 Feb 2021 00:45:23 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH] ui/cocoa: Use kCGColorSpaceSRGB
-Date: Fri, 19 Feb 2021 17:45:18 +0900
-Message-Id: <20210219084518.90246-1-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD1QN-0002Uj-FE
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:46:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25950)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD1QJ-0006YG-5C
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:46:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613724361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=dLbFV8JW+4+i8XnusMK1V7QBorV8dsNkPJGp3IwvmUM=;
+ b=N0i0l4OW8+QJnpP12UQ5Nlhvw9gPfNbjnMOvXqNcVk7/5NNRZmeEleM3435UcLjIv9WzbM
+ tTiZD5bStsnMeEj9ybEOETDZCGN3BTbUGsPXEcawKElCyo/rvc+cy1r+ie38RgQ/kXuul6
+ 2CK16gbtZakAK76SeCxnK1eFcQ+sVb4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-A_dJzR8wNKekpiisT_OuqQ-1; Fri, 19 Feb 2021 03:46:00 -0500
+X-MC-Unique: A_dJzR8wNKekpiisT_OuqQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2E71100CCC0;
+ Fri, 19 Feb 2021 08:45:58 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 707625D9C6;
+ Fri, 19 Feb 2021 08:45:47 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B993718003B0; Fri, 19 Feb 2021 09:45:45 +0100 (CET)
+Date: Fri, 19 Feb 2021 09:45:45 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
+Message-ID: <20210219084545.stb4wjn6ggwent4g@sirius.home.kraxel.org>
+References: <20210218022227.979741-1-pasic@linux.ibm.com>
+ <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
+ <20210218113438.3fe80078.pasic@linux.ibm.com>
+ <20210218135618.06532573.cohuck@redhat.com>
+ <20210218133820.cflf455nj44mxzja@sirius.home.kraxel.org>
+ <20210219035206.730f145e.pasic@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210219035206.730f145e.pasic@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,35 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bruce Rogers <brogers@suse.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kCGColorSpaceGenericRGB | Apple Developer Documentation
-https://developer.apple.com/documentation/coregraphics/kcgcolorspacegenericrgb
-> Deprecated
-> Use kCGColorSpaceSRGB instead.
+  Hi,
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- ui/cocoa.m | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> I don't see way around target-specific modules. With the modifications
+> suggested by Thomas and Connie, I was able to get the new module to
+> compile regardless of the target,
 
-diff --git a/ui/cocoa.m b/ui/cocoa.m
-index 13fba8103e1..686fbb1b457 100644
---- a/ui/cocoa.m
-+++ b/ui/cocoa.m
-@@ -437,7 +437,7 @@ - (void) drawRect:(NSRect) rect
-             screen.bitsPerPixel, //bitsPerPixel
-             (screen.width * (screen.bitsPerComponent/2)), //bytesPerRow
- #ifdef __LITTLE_ENDIAN__
--            CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB), //colorspace for OS X >= 10.4
-+            CGColorSpaceCreateWithName(kCGColorSpaceSRGB), //colorspace for OS X >= 10.5
-             kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipFirst,
- #else
-             CGColorSpaceCreateDeviceRGB(), //colorspace for OS X < 10.4 (actually ppc)
--- 
-2.24.3 (Apple Git-128)
+Cool (should have checked all mails before sending replies ...).
+
+> but that "fixes" s390x at the expense
+> of breaking all the other targets. For example:
+> ./qemu-system-x86_64 -device help
+> Type 'virtio-gpu-ccw' is missing its parent 'virtio-ccw-device'
+> Aborted
+
+Hmm, this is a new failure variant.  In the PCI case (see other mail)
+the module doesn't load in the first place due to missing symbols.
+
+Maybe we need a type_register_mayfail() variant which doesn't abort in
+case the parent isn't found (see also commit
+501093207eb1ed4845e0a65ee1ce7db7b9676e0b).
+
+HTH,
+  Gerd
 
 
