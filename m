@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8657F31FDD7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:27:26 +0100 (CET)
-Received: from localhost ([::1]:53114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A570E31FDCC
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:24:37 +0100 (CET)
+Received: from localhost ([::1]:47948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD9Yr-0005S8-Jh
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:27:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45212)
+	id 1lD9W8-00039j-P2
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:24:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lD9XC-0004Ap-Dc
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:25:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41450)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD9UG-0000vH-8v
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:22:40 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38815)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lD9X9-0001UA-Tz
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:25:42 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lD9X8-0000jf-5s
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 17:25:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 295BC2E80FC
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 17:25:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD9UE-0000hC-Hm
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:22:39 -0500
+Received: by mail-ed1-x529.google.com with SMTP id s11so11193626edd.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:22:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=DxhdRwM5zhpKE+OzA+0Qyf80Q9I0gcmFXMxJmiN1j2w=;
+ b=PzX90BC6EcZQzztPM6ixQEvao5X9i93JVvOoBliJzK7AkwjtTxvK+S+rWoR83o9RPq
+ LVg0qGFISsSOUHnYcy1KOiz0Xc+4+zznuvWqbb734FPych7m8pmk6CPg55P8HBfQcwYJ
+ b9Ze2ctM7F+gKg70EeY1kESEXdY3y208MHru58WeB4aQpExaip/U5qUL1cdYQhKj1e6X
+ 8mm0yqHGeBgSyAW5GA8xH37fHZrDTQUqVxUoPKnk25L42KCbOtBjYwk1cKhF0YLLSwad
+ d/t68PaVgvo0wgr5PMDU59qFSC7+jxAdQ/r7epfXJMlqOjMSBOnK8cXE7WwGDkeEtujC
+ nvnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=DxhdRwM5zhpKE+OzA+0Qyf80Q9I0gcmFXMxJmiN1j2w=;
+ b=nNMS39duntj9Y3/R4beya3RlF4+hsa3QTwWQZKFa3bYGMgfoBwM/jK80RrWIduLQjN
+ H74AbBSTtvlBima+FgFHIggP9J3X6wUm92malnLoliavLHSzygB6VxEAfAbWk/x5ssf5
+ 7bag9s6ER2QZH6NnY/u9qoL1evdAcSOH9oTyFWBna0bGbEP8yfQo7en6DlUOk8ejmUlm
+ Cfz5OybI+MHIACo+eQ4eAmmhomvr/vjEn2w+pEIouyjxYBq+sfKPyqXAx2YTX88RI2Aa
+ DJdZDE9yMfTM7g6FQNEGWW+w0OMqCGWp3XX+zPg2qbCpq0GqzsOzTcJKm9lNhuT4dGxT
+ MJGQ==
+X-Gm-Message-State: AOAM533Bu8933lYsgDJXAUKOhtyY8xkAOj72v4+OlTmFCj7S5DkKp9J/
+ Kn2cbjnZz/dHs1n6D+fPHBI4ArZhyfpQ9QTeKD3J3ApAXbk=
+X-Google-Smtp-Source: ABdhPJxsVxDB5c65ckSgNVFF9uLBIO+cIrXX5odt8BJSQ9GK3FR60IEAnKe31+dTFXGwJOSVY3vKQ0L0FUw9xddFWqQ=
+X-Received: by 2002:a05:6402:541:: with SMTP id
+ i1mr10236620edx.36.1613755356914; 
+ Fri, 19 Feb 2021 09:22:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Feb 2021 17:18:32 -0000
-From: Peter Maydell <1914535@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: avevad pmaydell
-X-Launchpad-Bug-Reporter: Vadim Averin (avevad)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161241593716.24579.2543593740941156934.malonedeb@wampee.canonical.com>
-Message-Id: <161375511284.10946.9838968545913659339.malone@chaenomeles.canonical.com>
-Subject: [Bug 1914535] Re: PL110 8-bit mode is not emulated correctly
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 697e90d3c71d7957e5c273d32de0ef2144c7e9ab
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210219075738.2261103-1-thuth@redhat.com>
+In-Reply-To: <20210219075738.2261103-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Feb 2021 17:22:25 +0000
+Message-ID: <CAFEAcA8CDVU-0_b3fUHPrMmUNa+7Vz9J-oazPgQA+OU5kSH1iA@mail.gmail.com>
+Subject: Re: [PULL 00/10] gitlab and qtest patches
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,48 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914535 <1914535@bugs.launchpad.net>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Anyway, on first investigation I'm not sure what QEMU's pl11x model is doin=
-g wrong. The 8-bit mode is a palette-based setup, where the guest must prog=
-ram in the RGB values it wants to use into the palatte registers as RGB555 =
-data:
- https://developer.arm.com/documentation/ddi0293/c/programmer-s-model/regis=
-ter-descriptions/256x16-bit-color-palette-registers?lang=3Den
-and if you add some debug printing to QEMU you can see the guest writing in =
+On Fri, 19 Feb 2021 at 07:57, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter!
+>
+> The following changes since commit c79f01c9450bcf90c08a77f13fbf67bdba59a316:
+>
+>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-hex-20210218' into staging (2021-02-18 16:33:36 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2021-02-19
+>
+> for you to fetch changes up to fc4241827fffc761f0ca41536c1c7d88b1b1d0c4:
+>
+>   travis.yml: Limit simultaneous jobs to 3 (2021-02-19 06:31:40 +0100)
+>
+> ----------------------------------------------------------------
+> * Always build the container images in the gitlab-CI
+> * Some other small gitlab-CI improvements
+> * Some qtest fixes
+> * One patch to (hopefully) silence the failing Travis jobs
+> ----------------------------------------------------------------
 
-a variety of definitely-not-shades-of-grey values to the palette, so it's n=
-ot surprising that it comes back as not-grey.
 
-I think
-https://elixir.bootlin.com/linux/latest/source/drivers/video/fbdev/amba-clc=
-d.c#L343
-is where the driver is writing to the palette and it definitely thinks the =
-display is pseudocolor, not greyscale.
+Applied, thanks.
 
--- =
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914535
-
-Title:
-  PL110 8-bit mode is not emulated correctly
-
-Status in QEMU:
-  New
-
-Bug description:
-  When the emulated pl110/pl111 is switched programmatically to 8-bit
-  color depth mode, the display is drawn green and blue, but the real
-  PL110 displays grayscale in 8-bit mode.
-
-  The bug appears in qemu-system-arm version 3.1.0 (Debian
-  1:3.1+dfsg-8+deb10u8) and qemu-system-arm version 5.2.50
-  (v5.2.0-1579-g99ae0cd90d).
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914535/+subscriptions
+-- PMM
 
