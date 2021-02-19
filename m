@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEB4031F993
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:52:16 +0100 (CET)
-Received: from localhost ([::1]:56130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D7731F979
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 13:40:49 +0100 (CET)
+Received: from localhost ([::1]:57430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD5GZ-0006gf-BK
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:52:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59478)
+	id 1lD55U-0003es-J3
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 07:40:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lD50i-0007yI-Le; Fri, 19 Feb 2021 07:35:55 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:35959)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lD51Y-00013p-Vd
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:36:44 -0500
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:44452)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lD50f-0006Ny-Ph; Fri, 19 Feb 2021 07:35:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
- bh=JonN1NCS652XOiO8Xm86mXISF9cE2EBohtuScQOMD0M=; 
- b=gSTm7aODhguErVS4vlgF+v8e2Cmx/fbu6J9GT9nSSCEN7NnFr1MlNucnMqCK/x1HgL7vYSS/wYTXj3ScskY0jWsBPIoLgellzJQoxNcQh7TN7KHD9/q1MRWHJFBitzqIg6AUZaJy0wwEb8LFpxItjvAzAGikuUo6JDDWa6jt/LX5tjN45giisHKgNBN0Xo+48a3Q8ZvnhBIfK8R1W14l+E3DfXSOB68Hvl81LvouHySWTBUX6My72C8EaD7xP4loc22gM+SoUemCXvhIC+UIZB0ftmd9S0E8rit7+IDf1nIj2parwV0t9GQuDXW70HDIaSJJtkLbapxPJlTVXefm1Q==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1lD50J-0005YA-Ig; Fri, 19 Feb 2021 13:35:27 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1lD50J-0006Rp-8w; Fri, 19 Feb 2021 13:35:27 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Subject: Re: [PATCH] iotests: Drop deprecated 'props' from object-add
-In-Reply-To: <ff22d21d-ccd8-77e5-1b4c-786e3df79400@redhat.com>
-References: <20210216171653.6543-1-berto@igalia.com>
- <ff22d21d-ccd8-77e5-1b4c-786e3df79400@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 19 Feb 2021 13:35:27 +0100
-Message-ID: <w51sg5sqlps.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lD51W-0006yL-Fj
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 07:36:44 -0500
+Received: by mail-yb1-xb29.google.com with SMTP id f4so5368725ybk.11
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 04:36:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=x0Y8xLSTs49Zb1R18/ULJ1tew/YZ++kCHEHYHW4YFq4=;
+ b=Svfb4wVrh3Mvawi9iGpPXvLAEAHt/LCjML7l/ib28Xh9F8vncCFtXNJBB+19Gh0M/K
+ c+BloOBP6hTH/A8glMwj9ppFGXdSYN812JI3XGKiI1sg4RJvgbWNLilqbnqozXLLkk1/
+ wHpgEFAvpUte6jkNpaCqRjJxwT0cQU1fV922+kRhUwv08+AJFTB6iUukM7swfr/oQ+35
+ Y0Ppxo1ZRFbbQUMpmG9wC53KOF4tqbnAXrkMUdAEwJdUeEzOzvahVaLQ12jBRvoOXMVp
+ +mrr6whRg6LgUC5SEUPIoZwl8SEcUVYZqePQSF3Jhcx+iymck1NqoekesKRYb+wUOf+5
+ AfIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=x0Y8xLSTs49Zb1R18/ULJ1tew/YZ++kCHEHYHW4YFq4=;
+ b=LY+79H1ZRCnVQ5BAMhXB1SlDpTamILYwJt7nyYjbrHm59sAtwzXARGYotZF6KkdGwo
+ aDgNm/8a6iLJ+hH4BoUONFDNSDtxQ5UkzGHPvlevB9MCfsRZdMAE3o0DKppH/S3kxqrc
+ sN0BIxeAiTq4e/xJ60ZDUaswQKztJaAp7Yfd+lx1ie0yb8+1UMSofMoZFfxalpHhZERy
+ M/OZdSZr8XjlP+5ZyOZVpeD5pZqBOw0IEIPBerRKp4gtC3dKlXYBdfONwiIjV9uUrFyj
+ 06qB2twBMaIxBB4ZeqDJWQ+gKTZra4OlDaZ7hUUeJr/ZQpWPmggd+5/xuQ/fDhF/amPx
+ LT5Q==
+X-Gm-Message-State: AOAM531gX6P6ZhCbI4lAbbI7Gvgn3O0g3ozI6aKxwLemyhYebiZDCvGC
+ QhK6rxYRUBQS7RV8RRoYWsIorREeM9k7owxxgQ0=
+X-Google-Smtp-Source: ABdhPJwzt1TsX6uggm6RRsUut225RoF9qyBJznEd4SEhPD5INDv1bF7pAb3QC0h9UeJRcAHWhI6f3qL+Bzf8pZaiEjg=
+X-Received: by 2002:a25:d28b:: with SMTP id
+ j133mr12609154ybg.517.1613738201274; 
+ Fri, 19 Feb 2021 04:36:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
+References: <20210218015934.1623959-1-alistair.francis@wdc.com>
+ <CAFEAcA_aEtpfMScS3uzrpbBqAgqGWsWjeisUXCSpqdJJ7=uCYw@mail.gmail.com>
+ <CAEUhbmXeYDkKiNnkffRoE8dZc_=-vByoQfr6gdSSUNubkCaB8Q@mail.gmail.com>
+ <CAFEAcA8BwTO7OT91B=d1tZrk9+PMiSLTmKtiv_Yd2BNdb1syRQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA8BwTO7OT91B=d1tZrk9+PMiSLTmKtiv_Yd2BNdb1syRQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 19 Feb 2021 20:36:29 +0800
+Message-ID: <CAEUhbmWRVVhn=NCQjvnbhUF0x8RgPiX-EC7JnpCN4=a4vo3aZg@mail.gmail.com>
+Subject: Re: [PULL 00/19] riscv-to-apply queue
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,41 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri 19 Feb 2021 01:04:00 PM CET, Max Reitz <mreitz@redhat.com> wrote:
-> Two Python syntax nit picks below.
-
->>       ret =3D vm.qmp('object-add', qom_type=3D'throttle-group', id=3D'tg=
-',
->> -                 props=3D{'x-bps-read': 4096})
->> +                 x_bps_read =3D 4096)
+On Thu, Feb 18, 2021 at 10:22 PM Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> To stay consistent, I think there shouldn=E2=80=99t be spaces around '=3D=
-' here.
-
-Right, I didn't notice that.
-
->> @@ -103,10 +103,9 @@ def test_concurrent_finish(write_to_stream_node):
->>           vm.qmp_log('object-add',
->>                      qom_type=3D'throttle-group',
->>                      id=3D'tg',
->> -                   props=3D{
->> -                       'x-iops-write': 1,
->> -                       'x-iops-write-max': 1
->> -                   })
->> +                   x_iops_write=3D1,
->> +                   x_iops_write_max=3D1
->> +                   )
+> On Thu, 18 Feb 2021 at 14:07, Bin Meng <bmeng.cn@gmail.com> wrote:
+> > On Thu, Feb 18, 2021 at 9:26 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> > > Fails to compile, 32 bit hosts:
+> > >
+> > > ../../hw/riscv/virt.c: In function 'virt_machine_init':
+> > > ../../hw/riscv/virt.c:621:43: error: comparison is always false due to
+> > > limited range of data type [-Werror=type-limits]
+> > >          if ((uint64_t)(machine->ram_size) > 10 * GiB) {
+> > >                                            ^
+> > > ../../hw/riscv/virt.c:623:33: error: large integer implicitly
+> > > truncated to unsigned type [-Werror=overflow]
+> > >              machine->ram_size = 10 * GiB;
+> > >                                  ^~
+> >
+> > This kind of error is tricky. I wonder whether we should deprecate
+> > 32-bit host support though.
 >
-> This indentation looks weird to me now.  Unfortunately, flake8 finds
-> this is the only correct indentation, so I have no reason to complain.
+> 32-bit host is still not uncommon outside the x86 world...
 >
-> Perhaps putting it on the preceding line would be better?
+> The thing that makes this particular check awkward is that
+> machine->ram_size is a ram_addr_t, whose size is 64 bits if
+> either (a) the host is 64 bits or (b) CONFIG_XEN_BACKEND is
+> enabled, so it's effectively only 32-bits on 32-bit-not-x86.
+>
+> It might be a good idea if we decided that we would just make
+> ram_addr_t 64-bits everywhere, to avoid this kind of "we
+> have an unusual config only on some more-obscure hosts" issue.
+> (We did that for hwaddr back in commit 4be403c8158e1 in 2012,
+> when it was still called target_phys_addr_t.) This change
+> would probably be a performance hit for 32-bit-non-x86 hosts;
+> it would be interesting to see whether it was measurably
+> significant.
 
-I'm fine either way, I can resend the patch with Kevin's suggestions.
+Okay, will send a patch to change ram_addr_t to 64-bit.
 
-Berto
+Regards,
+Bin
 
