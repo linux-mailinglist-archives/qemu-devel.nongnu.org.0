@@ -2,105 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8974831F6AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:45:36 +0100 (CET)
-Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 103CC31F6C9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:50:58 +0100 (CET)
+Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD2Lv-0001T1-Fx
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:45:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
+	id 1lD2R7-0007J8-2v
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:50:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lD2Jf-0000c9-HY; Fri, 19 Feb 2021 04:43:15 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lD2JW-0006Nl-Qt; Fri, 19 Feb 2021 04:43:13 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 11J9X9KO004202; Fri, 19 Feb 2021 04:43:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=XOalQFU+Uh9HXxT1LRHF5JdlDG6D69yiRwIKIIGF374=;
- b=TeJW5WhDAnx9VYO/WZp0VJBPOJQslreS1wZ50GMaSgelkNry1vSoDCMAaNd5GiKDummx
- 08PJzYvDPrMqLokTLE2uCfM7b84wDDhbTRXOXX+PecYtDQiEsWwNWe3DfTYCBVDVXYbp
- r0l5fUIAV8MHqZLr6IWz55Y8WNgqHaEODHmUhcPey6a9c+2WVhid0HETEij6l6DVfGdj
- L31HvdxBPMCIzQIFgPcbIS3jdbGiT+0lAjpBXcS3kj4V3HemVntV/OL2Ovef6SH76YBT
- 72i6VVz77I3ok5z1BVkGtyXbwA9zeVrxexu9KiH6pYztN9fk2ZdU4Xo3f1JOT6QNfu1G Mw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36ta2t9u2r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 04:43:02 -0500
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11J9b0Qs020326;
- Fri, 19 Feb 2021 04:43:02 -0500
-Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.108])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36ta2t9u1r-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 04:43:02 -0500
-Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
- by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11J9gcOj008732;
- Fri, 19 Feb 2021 09:42:59 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma05fra.de.ibm.com with ESMTP id 36p6d8juer-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 19 Feb 2021 09:42:59 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11J9gu9459638264
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 19 Feb 2021 09:42:56 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 71AE6A4051;
- Fri, 19 Feb 2021 09:42:56 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A88B2A4040;
- Fri, 19 Feb 2021 09:42:55 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Fri, 19 Feb 2021 09:42:55 +0000 (GMT)
-Date: Fri, 19 Feb 2021 10:42:52 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210219104252.38feac7c.pasic@linux.ibm.com>
-In-Reply-To: <20210219084545.stb4wjn6ggwent4g@sirius.home.kraxel.org>
-References: <20210218022227.979741-1-pasic@linux.ibm.com>
- <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
- <20210218113438.3fe80078.pasic@linux.ibm.com>
- <20210218135618.06532573.cohuck@redhat.com>
- <20210218133820.cflf455nj44mxzja@sirius.home.kraxel.org>
- <20210219035206.730f145e.pasic@linux.ibm.com>
- <20210219084545.stb4wjn6ggwent4g@sirius.home.kraxel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lD2NW-00042U-Ja
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:47:14 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:33099)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lD2NU-0008S0-7D
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:47:14 -0500
+Received: by mail-pl1-x630.google.com with SMTP id d13so3088658plg.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 01:47:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ex5kmAen+OVpKYF+AlPg+DNhxWVi0qpCDvMpTmugDSo=;
+ b=aKOUQMxLSMJ5PNRx4a38231j6ofe+opZ6tKvd657lQtXVnxewidCKpOt9GU6xpFgJa
+ tLoaPc4WtgGTVjDaajQhfyfbbvGQWMj8+yY0GmmDlWcds7x9I7M2KzMTAKq057LMjnbB
+ nFMzAGcyB/d85vu7Qz0VxLTNX8MpjTiB2bikRdP3U3NtvtqYSSGQLIITJNKk868JdXwX
+ BuGWf4pHjQ/jQr8ItNLTkiEhHM7NckWXMRI+5p3EorerF/IWcfkW+6q1+uau52bFXHgZ
+ KXtW8YlcosjVg9IaKtG/JxbmlimWurSXbqvR3BHN933USkln2YkA9hutDDwUEjGKGcHg
+ I6Sw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ex5kmAen+OVpKYF+AlPg+DNhxWVi0qpCDvMpTmugDSo=;
+ b=MBASVzKSLX+86jAmX0WTSo37smtNi5B4X0/NGDHGaQipnB/G32gqd+eHGUj22RaeNC
+ iwabqeYiIVaLgsYUyhD4BcPH+NlVXCxfqllRhPQ2ayXgadQI2cS1MVwLFYKDozwAf5aw
+ XDP91rWypY7tPSsOHfEsTbOFRSQRm5svZukDjam0OUCqaWHclE+XHbnlzh7Fu/LdYQ+d
+ TyNaUuZn35FxtdopuPPFSFCZde2Iy/F5FZotpVOtQpOqp3NyBb+buf6Tv1wCsO0pZMyU
+ gNvF94w7OMK51JhJiPSNEIbiEYZCKyGXZptxlvEgtN3jSHdwmRdpy19gt+Hr2+2Hxy1+
+ 7tpQ==
+X-Gm-Message-State: AOAM530Y3TMLJBIBgEattb0D0lutmpBo1rKrdkLjzhFUDg9B9O+pjwNm
+ Ey6iiuth7kQLANoPb4SaXai6GLU3WyCfUA==
+X-Google-Smtp-Source: ABdhPJzMEP8Zm8Kr0w7oujcQGWRNnlMGV0h6LG07G197FE/RzfLhq4J0Tl0wKY3UifYuXyEgG7Di4Q==
+X-Received: by 2002:a17:902:7782:b029:e3:2881:9eeb with SMTP id
+ o2-20020a1709027782b02900e328819eebmr8144439pll.29.1613728029376; 
+ Fri, 19 Feb 2021 01:47:09 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:d8f0:71c1:3d6a:4f53])
+ by smtp.gmail.com with ESMTPSA id g3sm9017068pfq.42.2021.02.19.01.47.07
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Feb 2021 01:47:09 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH] ui/console: Remove dpy_gl_ctx_get_current
+Date: Fri, 19 Feb 2021 18:47:02 +0900
+Message-Id: <20210219094702.90789-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-19_04:2021-02-18,
- 2021-02-19 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 mlxscore=0
- bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 phishscore=0
- malwarescore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102190073
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -114,67 +82,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Feb 2021 09:45:45 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+It is not used, and it is unlikely that a new use case will emerge
+anytime soon because the scope of OpenGL contexts are limited due to
+the nature of the frontend, VirGL, processing simple commands from the
+guest.
 
-> > but that "fixes" s390x at the expense
-> > of breaking all the other targets. For example:
-> > ./qemu-system-x86_64 -device help
-> > Type 'virtio-gpu-ccw' is missing its parent 'virtio-ccw-device'
-> > Aborted  
-> 
-> Hmm, this is a new failure variant.  In the PCI case (see other mail)
-> the module doesn't load in the first place due to missing symbols.
-> 
-> Maybe we need a type_register_mayfail() variant which doesn't abort in
-> case the parent isn't found (see also commit
-> 501093207eb1ed4845e0a65ee1ce7db7b9676e0b).
+Remove the function and ease implementing a new OpenGL backend a little.
 
-I was also thinking along the same lines last night, and came up with
-this workaround:
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ include/ui/console.h     | 2 --
+ include/ui/egl-context.h | 1 -
+ include/ui/gtk.h         | 1 -
+ include/ui/sdl2.h        | 1 -
+ ui/console.c             | 6 ------
+ ui/egl-context.c         | 5 -----
+ ui/egl-headless.c        | 1 -
+ ui/gtk-gl-area.c         | 5 -----
+ ui/gtk.c                 | 2 --
+ ui/sdl2-gl.c             | 8 --------
+ ui/sdl2.c                | 1 -
+ ui/spice-display.c       | 1 -
+ 12 files changed, 34 deletions(-)
 
-diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
-index c301e2586b..bbe591cd62 100644
---- a/hw/s390x/virtio-ccw-gpu.c
-+++ b/hw/s390x/virtio-ccw-gpu.c
-@@ -62,7 +62,16 @@ static const TypeInfo virtio_ccw_gpu = {
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 5dd21976a37..f81ad1c5693 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -201,7 +201,6 @@ typedef struct DisplayChangeListenerOps {
+                                QEMUGLContext ctx);
+     int (*dpy_gl_ctx_make_current)(DisplayChangeListener *dcl,
+                                    QEMUGLContext ctx);
+-    QEMUGLContext (*dpy_gl_ctx_get_current)(DisplayChangeListener *dcl);
  
- static void virtio_ccw_gpu_register(void)
- {
-+#ifdef CONFIG_MODULES
-+    /*
-+     * Ugly hack: Avoid targets that don't have it aborting when this module
-+     * is loaded.
-+    if (object_class_by_name(TYPE_VIRTIO_CCW_DEVICE)) {
-+        type_register_static(&virtio_ccw_gpu);
-+    }
-+#else
-     type_register_static(&virtio_ccw_gpu);
-+#endif
+     void (*dpy_gl_scanout_disable)(DisplayChangeListener *dcl);
+     void (*dpy_gl_scanout_texture)(DisplayChangeListener *dcl,
+@@ -303,7 +302,6 @@ QEMUGLContext dpy_gl_ctx_create(QemuConsole *con,
+                                 QEMUGLParams *params);
+ void dpy_gl_ctx_destroy(QemuConsole *con, QEMUGLContext ctx);
+ int dpy_gl_ctx_make_current(QemuConsole *con, QEMUGLContext ctx);
+-QEMUGLContext dpy_gl_ctx_get_current(QemuConsole *con);
+ 
+ bool console_has_gl(QemuConsole *con);
+ bool console_has_gl_dmabuf(QemuConsole *con);
+diff --git a/include/ui/egl-context.h b/include/ui/egl-context.h
+index f004ce11a7b..9374fe41e32 100644
+--- a/include/ui/egl-context.h
++++ b/include/ui/egl-context.h
+@@ -9,6 +9,5 @@ QEMUGLContext qemu_egl_create_context(DisplayChangeListener *dcl,
+ void qemu_egl_destroy_context(DisplayChangeListener *dcl, QEMUGLContext ctx);
+ int qemu_egl_make_context_current(DisplayChangeListener *dcl,
+                                   QEMUGLContext ctx);
+-QEMUGLContext qemu_egl_get_current_context(DisplayChangeListener *dcl);
+ 
+ #endif /* EGL_CONTEXT_H */
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+index 3f395d7f943..c82c4a569a6 100644
+--- a/include/ui/gtk.h
++++ b/include/ui/gtk.h
+@@ -143,7 +143,6 @@ void gd_gl_area_scanout_texture(DisplayChangeListener *dcl,
+ void gd_gl_area_scanout_flush(DisplayChangeListener *dcl,
+                               uint32_t x, uint32_t y, uint32_t w, uint32_t h);
+ void gtk_gl_area_init(void);
+-QEMUGLContext gd_gl_area_get_current_context(DisplayChangeListener *dcl);
+ int gd_gl_area_make_current(DisplayChangeListener *dcl,
+                             QEMUGLContext ctx);
+ 
+diff --git a/include/ui/sdl2.h b/include/ui/sdl2.h
+index 0875b8d56b7..f85c117a78f 100644
+--- a/include/ui/sdl2.h
++++ b/include/ui/sdl2.h
+@@ -70,7 +70,6 @@ QEMUGLContext sdl2_gl_create_context(DisplayChangeListener *dcl,
+ void sdl2_gl_destroy_context(DisplayChangeListener *dcl, QEMUGLContext ctx);
+ int sdl2_gl_make_context_current(DisplayChangeListener *dcl,
+                                  QEMUGLContext ctx);
+-QEMUGLContext sdl2_gl_get_current_context(DisplayChangeListener *dcl);
+ 
+ void sdl2_gl_scanout_disable(DisplayChangeListener *dcl);
+ void sdl2_gl_scanout_texture(DisplayChangeListener *dcl,
+diff --git a/ui/console.c b/ui/console.c
+index d80ce7037c3..c0b1a3689c3 100644
+--- a/ui/console.c
++++ b/ui/console.c
+@@ -1803,12 +1803,6 @@ int dpy_gl_ctx_make_current(QemuConsole *con, QEMUGLContext ctx)
+     return con->gl->ops->dpy_gl_ctx_make_current(con->gl, ctx);
  }
  
- type_init(virtio_ccw_gpu_register)
+-QEMUGLContext dpy_gl_ctx_get_current(QemuConsole *con)
+-{
+-    assert(con->gl);
+-    return con->gl->ops->dpy_gl_ctx_get_current(con->gl);
+-}
+-
+ void dpy_gl_scanout_disable(QemuConsole *con)
+ {
+     assert(con->gl);
+diff --git a/ui/egl-context.c b/ui/egl-context.c
+index 4aa1cbb50c2..368ffa49d82 100644
+--- a/ui/egl-context.c
++++ b/ui/egl-context.c
+@@ -35,8 +35,3 @@ int qemu_egl_make_context_current(DisplayChangeListener *dcl,
+    return eglMakeCurrent(qemu_egl_display,
+                          EGL_NO_SURFACE, EGL_NO_SURFACE, ctx);
+ }
+-
+-QEMUGLContext qemu_egl_get_current_context(DisplayChangeListener *dcl)
+-{
+-    return eglGetCurrentContext();
+-}
+diff --git a/ui/egl-headless.c b/ui/egl-headless.c
+index fe2a0d1eab9..da377a74af6 100644
+--- a/ui/egl-headless.c
++++ b/ui/egl-headless.c
+@@ -160,7 +160,6 @@ static const DisplayChangeListenerOps egl_ops = {
+     .dpy_gl_ctx_create       = egl_create_context,
+     .dpy_gl_ctx_destroy      = qemu_egl_destroy_context,
+     .dpy_gl_ctx_make_current = qemu_egl_make_context_current,
+-    .dpy_gl_ctx_get_current  = qemu_egl_get_current_context,
+ 
+     .dpy_gl_scanout_disable  = egl_scanout_disable,
+     .dpy_gl_scanout_texture  = egl_scanout_texture,
+diff --git a/ui/gtk-gl-area.c b/ui/gtk-gl-area.c
+index 98c22d23f50..169a06f828a 100644
+--- a/ui/gtk-gl-area.c
++++ b/ui/gtk-gl-area.c
+@@ -211,11 +211,6 @@ void gtk_gl_area_init(void)
+     display_opengl = 1;
+ }
+ 
+-QEMUGLContext gd_gl_area_get_current_context(DisplayChangeListener *dcl)
+-{
+-    return gdk_gl_context_get_current();
+-}
+-
+ int gd_gl_area_make_current(DisplayChangeListener *dcl,
+                             QEMUGLContext ctx)
+ {
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 26665cd2e65..96629c3085a 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -639,7 +639,6 @@ static const DisplayChangeListenerOps dcl_gl_area_ops = {
+     .dpy_gl_ctx_create       = gd_gl_area_create_context,
+     .dpy_gl_ctx_destroy      = gd_gl_area_destroy_context,
+     .dpy_gl_ctx_make_current = gd_gl_area_make_current,
+-    .dpy_gl_ctx_get_current  = gd_gl_area_get_current_context,
+     .dpy_gl_scanout_texture  = gd_gl_area_scanout_texture,
+     .dpy_gl_update           = gd_gl_area_scanout_flush,
+ };
+@@ -658,7 +657,6 @@ static const DisplayChangeListenerOps dcl_egl_ops = {
+     .dpy_gl_ctx_create       = gd_egl_create_context,
+     .dpy_gl_ctx_destroy      = qemu_egl_destroy_context,
+     .dpy_gl_ctx_make_current = gd_egl_make_current,
+-    .dpy_gl_ctx_get_current  = qemu_egl_get_current_context,
+     .dpy_gl_scanout_disable  = gd_egl_scanout_disable,
+     .dpy_gl_scanout_texture  = gd_egl_scanout_texture,
+     .dpy_gl_scanout_dmabuf   = gd_egl_scanout_dmabuf,
+diff --git a/ui/sdl2-gl.c b/ui/sdl2-gl.c
+index c73d273bf80..82139ba49e8 100644
+--- a/ui/sdl2-gl.c
++++ b/ui/sdl2-gl.c
+@@ -185,14 +185,6 @@ int sdl2_gl_make_context_current(DisplayChangeListener *dcl,
+     return SDL_GL_MakeCurrent(scon->real_window, sdlctx);
+ }
+ 
+-QEMUGLContext sdl2_gl_get_current_context(DisplayChangeListener *dcl)
+-{
+-    SDL_GLContext sdlctx;
+-
+-    sdlctx = SDL_GL_GetCurrentContext();
+-    return (QEMUGLContext)sdlctx;
+-}
+-
+ void sdl2_gl_scanout_disable(DisplayChangeListener *dcl)
+ {
+     struct sdl2_console *scon = container_of(dcl, struct sdl2_console, dcl);
+diff --git a/ui/sdl2.c b/ui/sdl2.c
+index 5e49709283e..a203cb0239e 100644
+--- a/ui/sdl2.c
++++ b/ui/sdl2.c
+@@ -781,7 +781,6 @@ static const DisplayChangeListenerOps dcl_gl_ops = {
+     .dpy_gl_ctx_create       = sdl2_gl_create_context,
+     .dpy_gl_ctx_destroy      = sdl2_gl_destroy_context,
+     .dpy_gl_ctx_make_current = sdl2_gl_make_context_current,
+-    .dpy_gl_ctx_get_current  = sdl2_gl_get_current_context,
+     .dpy_gl_scanout_disable  = sdl2_gl_scanout_disable,
+     .dpy_gl_scanout_texture  = sdl2_gl_scanout_texture,
+     .dpy_gl_update           = sdl2_gl_scanout_flush,
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index 0178d5766d2..6a5e189a672 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -1102,7 +1102,6 @@ static const DisplayChangeListenerOps display_listener_gl_ops = {
+     .dpy_gl_ctx_create       = qemu_spice_gl_create_context,
+     .dpy_gl_ctx_destroy      = qemu_egl_destroy_context,
+     .dpy_gl_ctx_make_current = qemu_egl_make_context_current,
+-    .dpy_gl_ctx_get_current  = qemu_egl_get_current_context,
+ 
+     .dpy_gl_scanout_disable  = qemu_spice_gl_scanout_disable,
+     .dpy_gl_scanout_texture  = qemu_spice_gl_scanout_texture,
+-- 
+2.24.3 (Apple Git-128)
 
-but then I decided it is too ugly to post. Something like
-type_register_mayfail() would be certainly nicer, although I would still
-prefer the failing type register if the device ain't built as a module.
-
-Today I'm on a vacation so I will pick this up again next week. I will
-also think some more of how the situation with virtio-ccw compares to pci
-with respect to modularization.
-
-Regards,
-Halil
 
