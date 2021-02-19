@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE8C031F74D
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:29:12 +0100 (CET)
-Received: from localhost ([::1]:54902 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B1731F74F
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:31:27 +0100 (CET)
+Received: from localhost ([::1]:58666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD327-00020C-NN
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:29:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60622)
+	id 1lD34I-0004Er-Jd
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:31:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD30j-0001Nz-PB
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:27:45 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:38040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lD30f-0001LN-Hq
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:27:45 -0500
-Received: by mail-ed1-x529.google.com with SMTP id s11so8954221edd.5
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 02:27:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xxf1QKe3ut3tzPuvp0w26lLXcC+ptqKFYk/h6SOZdDo=;
- b=drX/Zw0+77ap47Flp2MEITk30s4+U4OhVo4/c2rhRbjJMoG9eYQjLj4kaRrAdQStWW
- eDVP0pSkRul8ijnFsBu5PaFFd18CZWTTXAAZ2wrXAz9WL2wGB8nNycc4s0C6Z0vNal+P
- T1Yl6deXA+HC4O9KPg6iJBB5WxwV+3dPNcW5dtqPQcPQqDdyHdjFqymcr1Atv7vQWH9M
- JzyHRO3N8INIH4iGXl92/lLuN/2SFsO87fhSW6VOY2sWq/v4yQMTKn2NnnyzeEYPVgC3
- n6HLj3un5/fY7j9CpSh5SOl4aLpfUJA6jFoQgeFBoyq9tv1NR4oXKfVINOyxW24iKr59
- dTLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xxf1QKe3ut3tzPuvp0w26lLXcC+ptqKFYk/h6SOZdDo=;
- b=H183lyLPz4WPAEyI+caGa3f/E4GyMWDlycKh0v9zyJubHK8XK9CufxP8vfZkls3o0E
- q6tpXqCVtkOZ/sdCKrElV8i7h/9vuHmtwP4pW3S0xHSEr8XgxDKZwO/MJK2QfZf9v7og
- nsr1Ssvxt4VhSMDG+JZ/kgi5YmO2qqxHO6SyTNreBch1HoigPOQ2MRlt1BWjp5Z0zxgH
- 1NH63FRdW2b8FvAaDFXnqcfAmtKYs3GvqWJNk8ZlN207XWDzzO68dNoFC6ahFzCQM94g
- IDUcxaZAamgfz277lbieJRaGlXtbMmIjWtdwcK43bMl1g8qGO6jl/AhwC2Cyf6/qup6h
- /2/g==
-X-Gm-Message-State: AOAM530GROBvXRSuhLZo5pCw3o+qouD5VFFmqdQi3YTuXDTlZC9ohsJ6
- tCx2gQki/acOBbt2jvXmfJ4nsWltUW/UAhdEnmn/cA==
-X-Google-Smtp-Source: ABdhPJxJPygLE6ErtkJyHGajf6INP5JyYMde8x1F1PM3o2EXWjnhHcyK+xBWVoHLrls0UC4XkOf55D4ooQiYOFej0/0=
-X-Received: by 2002:a05:6402:545:: with SMTP id
- i5mr4984618edx.44.1613730459992; 
- Fri, 19 Feb 2021 02:27:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lD324-0002xd-Mm
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:29:08 -0500
+Received: from smtp1.axis.com ([195.60.68.17]:11625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Stefan.Sandstrom@axis.com>)
+ id 1lD322-0001p2-3y
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:29:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=axis.com; q=dns/txt; s=axis-central1; t=1613730546;
+ x=1645266546; h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-id:content-transfer-encoding: mime-version;
+ bh=4HnrX9rotgj1JDbcrY06lCrX1rgTp7xh8juSZMjOMks=;
+ b=OcZjhjA/wbAy8E6RhymSbnDm8rk/rTawu6m7sc+GsQvA7fY6+zEJsn5/
+ 1ar+2KhctafUncQ4UUqDgw9Dq/7YSeGzlWsFyWjYaz81hmCg9ncj2ZGFv
+ m+8+J6Rz74UtoOSoxV/wvUkcUxeYpnx5xSfk4g4H7uDYJ5eoXLey2lZAu
+ qgSkWSs3a+9iqwPIqqElP+UVfUQTyPBuDr/a3AXq6bx4iKSaLmzdtbLQX
+ k8FuuadycDRscUUVO/S/l1Uby6NhboQZCzlmNTkHs+MFY1jBULgxKNyAl
+ mcORt3KEO8VeUFHWe7McL75YAXRNvTKNggGCmRXPiXC0hohd8qYxdT//J Q==;
+From: =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2] Correct CRIS TCG register lifetime management
+Thread-Topic: [PATCH v2] Correct CRIS TCG register lifetime management
+Thread-Index: AQHXBiXsaEPzzLR6yUiER3hr5a8RBqpeQ/GAgAAUDkf///OPAIAA63UA
+Date: Fri, 19 Feb 2021 10:29:01 +0000
+Message-ID: <B798800B-873D-4FA3-908E-2A5F30C0FD05@axis.com>
+References: <20210218184302.34984-1-stefans@axis.com>
+ <2fe233c0-dfa8-763d-b122-fdef8145ea06@amsat.org>
+ <1BD4E981-C339-495D-ABC1-74B0112CBC3E@axis.com>
+ <e8099123-2640-69b6-45ab-070f6c04b960@amsat.org>
+In-Reply-To: <e8099123-2640-69b6-45ab-070f6c04b960@amsat.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3654.40.0.2.32)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <DA5759425DDFD442B1C5439750D350B4@exhub.se.axis.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210210145258.143131-1-ppandit@redhat.com>
- <20210219030449.x25yxp4x6myblm2y@mozz.bu.edu>
-In-Reply-To: <20210219030449.x25yxp4x6myblm2y@mozz.bu.edu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Feb 2021 10:27:29 +0000
-Message-ID: <CAFEAcA91BGArmMQcgS4rbhWgPBkU5K=K7bfxYL35AY+bjTKNUQ@mail.gmail.com>
-Subject: Re: [PATCH] net: e1000: check transmit descriptor field values
-To: Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=195.60.68.17;
+ envelope-from=Stefan.Sandstrom@axis.com; helo=smtp1.axis.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,32 +75,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>, Cheolwoo Myung <cwmyung@snu.ac.kr>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- Ruhr-University Bochum <bugs-syssec@rub.de>, Jason Wang <jasowang@redhat.com>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ =?utf-8?B?U3RlZmFuIFNhbmRzdHLDtm0=?= <Stefan.Sandstrom@axis.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 19 Feb 2021 at 03:06, Alexander Bulekov <alxndr@bu.edu> wrote:
->
-> On 210210 2022, P J P wrote:
-> > From: Prasad J Pandit <pjp@fedoraproject.org>
-> >
-> > While processing transmit (tx) descriptors in process_tx_desc()
-> > various descriptor fields are not checked properly. This may lead
-> > to infinite loop like issue. Add checks to avoid them.
-> >
->
-> +CC Peter Maydell
->
-> Is this a DMA re-entracy/stack-overflow issue? IIRC the plan was to have
-> some sort of wider fix for these issues. There are bunch of these
-> reports floating around at this point, I believe.
-
-I have no idea, because the commit message for this patch does
-not describe the failure in any detail at all and has no
-links to any bug report or test case for the failures it
-claims to be fixing...
-
--- PMM
+DQoNCj4gT24gMTggRmViIDIwMjEsIGF0IDIxOjI2LCBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8
+ZjRidWdAYW1zYXQub3JnPiB3cm90ZToNCj4gDQo+IE9uIDIvMTgvMjEgOToxMCBQTSwgU3RlZmFu
+IFNhbmRzdHLDtm0gd3JvdGU6DQo+Pj4gT24gMTggRmViIDIwMjEsIGF0IDIwOjU5LCBQaGlsaXBw
+ZSBNYXRoaWV1LURhdWTDqSA8ZjRidWdAYW1zYXQub3JnPiB3cm90ZToNCj4+PiANCj4+PiDvu79I
+aSBTdGVmYW4sDQo+Pj4gDQo+Pj4+IE9uIDIvMTgvMjEgNzo0MyBQTSwgU3RlZmFuIFNhbmRzdHLD
+tm0gd3JvdGU6DQo+Pj4+IEZyb206IFN0ZWZhbiBTYW5kc3Ryb20gPHN0ZWZhbnNAYXhpcy5jb20+
+DQo+Pj4+IA0KPj4+PiBBZGQgYW5kIGZpeCBkZWFsbG9jYXRpb24gb2YgdGVtcG9yYXJ5IFRDRyBy
+ZWdpc3RlcnMgaW4gQ1JJUyBjb2RlDQo+Pj4+IGdlbmVyYXRpb24uDQo+Pj4gDQo+Pj4gV2hhdCBk
+aWQgeW91IHJ1biB0byBmaWd1cmUgdGhpcyBvdXQ/DQo+PiANCj4+IEhpIFBoaWxpcHBlLA0KPj4g
+DQo+PiBXZSB3ZXJlIGxvb2tpbmcgYXQgdGhlIGNvZGUgaW4gc2VhcmNoIGZvciBhbiBpc3N1ZSB0
+aGF0IHNob3dlZCB1cCB3aGVuIHN3aXRjaGluZyB0byBhIG5ldyB2ZXJzaW9uIG9mIEdDQy4gDQo+
+PiBJdCBsb29rZWQgbGlrZSBRRU1VIGV4ZWN1dGVkIHRoZSBDUklTIGNvZGUgd3JvbmcsIHNvIHdl
+IHRvb2sgYSBsb29rIGF0IHRoZSBjb2RlLiBUaGUgcHJvYmxlbSB0dXJuZWQgb3V0IHRvIGJlIG91
+dHNpZGUgUUVNVS4gVGhlc2UgcG90ZW50aWFsIGlzc3VlcyB3ZXJlIHNwb3R0ZWQgaW4gdGhlIHBy
+b2Nlc3MuDQo+IA0KPiBHb29kIHRvIGtub3cuIERvIHlvdSBtaW5kIHNoYXJpbmcgeW91ciBHQ0Mg
+dGVzdHMsIHNvIHdlIGNhbiBoYXZlIG1vcmUNCj4gQ1JJUyB0ZXN0aW5nPw0KDQpVbmZvcnR1bmF0
+ZWx5LCB3ZSBkbyBub3QgaGF2ZSBzdWNoIHRlc3RzLg0KQnV0IGlmIHdlIGVuZCB1cCB3cml0aW5n
+IHN1Y2ggdGVzdHMsIHdlJ2xsIGJlIGhhcHB5IHRvIHNoYXJlIHRoZW0uDQoNCkluIHRoaXMgY2Fz
+ZSwgdHQgd2FzIHRoZSBHQ0MgdXNlZCBmb3IgYnVpbGRpbmcgUUVNVSB0aGF0IHdhcyB1cGdyYWRl
+ZCwNCmFuZCBzb21lIHByb2R1Y3Rpb24gZmlybXdhcmUgdGhhdCB3YXMgdGVzdGVkIGluIFFFTVUg
+dGhhdCBzdG9wcGVkIHdvcmtpbmcuDQoNCkJlc3QgcmVnYXJkcywNCi1zdGVmYW4NCg0KPiANCj4g
+UmVnYXJkcywNCj4gDQo+IFBoaWwuDQoNCg==
 
