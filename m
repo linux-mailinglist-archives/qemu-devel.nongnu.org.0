@@ -2,58 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FE6731F79E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:53:28 +0100 (CET)
-Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3939031F7A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:54:08 +0100 (CET)
+Received: from localhost ([::1]:49094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD3Pb-0004UU-8Q
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:53:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37570)
+	id 1lD3QF-00055w-8O
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:54:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37692)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lD3OF-0003uT-Kg
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:52:03 -0500
-Resent-Date: Fri, 19 Feb 2021 05:52:03 -0500
-Resent-Message-Id: <E1lD3OF-0003uT-Kg@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lD3OB-00043R-Dz
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:52:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613731907; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=LeaA4ZLyM29L4bNdx0KjuIA8TyyLI9tTVtuoBcZGKb4NR5R4nXwbSoXURMLlA1MG/Uojdu+r1j201L84/KCe106VnJmpK25sptQEAmU9ZPk4tnUR7K1ZTcKw5hHzrVZK+wXeay64GH6svaQw/MTAgasHRSIjYP1NSBNo8Z8uvmg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613731907;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=10xgMw5b0SZrhMyN1fM4lYo9jzi7SFzKMT4kpWoXL80=; 
- b=IeSExGBtJPRav+z3BBh73rppikxhi2XGgbQ3VsMNBI8Hb50ibwhgp20XVHN3xfaQWmwNXAMIMIh8nl4oqnfgxflJmu6dhlaDZz6nmZRp1NFOYd/KuqbxXtTmc81B/dijNxhKRy5P3p/UpNWKgP2fNbM6fTNx12GtwarBnLQceNY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613731905336104.61105292387117;
- Fri, 19 Feb 2021 02:51:45 -0800 (PST)
-In-Reply-To: <20210219104548.4675-1-stefans@axis.com>
-Subject: Re: [PATCH v3] Correct CRIS TCG register lifetime management
-Message-ID: <161373190421.28087.10757638169318408155@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD3Om-0004F1-Tq
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:52:38 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:34294)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD3Oj-0004HN-7p
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:52:36 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id j9so9130836edp.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 02:52:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=z1qO9I00sS43ctEJU/jUF0nu6Bmc5j6HTlLASEQJo94=;
+ b=lStgWbGQOkYcqHUVWQ9Cu2M90q8hhz2VbSgEpkubZLY4NxkNQGV7yt18WrR30FS0ta
+ 10qJ7v8bTKsEYlXhZXq75H5/nPfcNyX2GrZ5tus/hx81uT389wewcbs6fzZpNl7kIluU
+ 8kOufjJzJrg3UxwuJa65T/iNGi2SQI6ICvKRTV+yB7QcJ9WMcKTTynUYjSfh5NDV5mzy
+ yRREUdeRy1WGV4d2vui45FlB+sXkUnrQ7bWRMeKkLwW/oEd+7BRzCrbFAtpY4bEPhK4s
+ AU7Hj5ia0Wo7lvV9e9SWgAjaj6eT2pTnlcARlHIWWisBZcQXEPiA3Xxxo5OfnNdjgFe+
+ view==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=z1qO9I00sS43ctEJU/jUF0nu6Bmc5j6HTlLASEQJo94=;
+ b=bBvj00jUHU5G9HEQVENimOs8Lxhx54IqLAC9QW8lsY4yvn+mZsSy2YnQ9nT6in3wah
+ 2nPjQQQmUcRxLoNtGG62XXFDIrM0Jj9Dbeu5p5x8fh14h80vFzdqHJidL9fZMvZrpYuF
+ 0fL89gCorFVIGLQpvM0O5mF+HeynC7xh/VKFzUqGe6IFetH3QKRfY/3SBLCnUX84vu8A
+ 88oSZUGIMm4qop2mgTEWD0sDKv0wN18ttLLSkn1JAb1OWmpJ+jBMvl1qjMNnRz1CL8Ns
+ /urQro6MALJre53W7ePJes5mosA9JBdOE5O+G6fbfnimc/xnxT1E94bze4n8rXVkyE1M
+ TouQ==
+X-Gm-Message-State: AOAM53248BSAQ5CdaEBMZ9zHX50QDfQPsWXjhCJq14ctkOb5QOnsrSpl
+ WHVQS51ZirPXb6RAonaziRrDl6VoQ8RxK4cdE8V77Q==
+X-Google-Smtp-Source: ABdhPJzaGZE2TsWx+K9aIi4AEITnxEzD2Jy+ZsVk+NVDyGb14KPm/aHnAlj667vLSx0E2autTIq8vK7ERRui6NwS5Yc=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr8556448edd.52.1613731951429; 
+ Fri, 19 Feb 2021 02:52:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: stefans@axis.com
-Date: Fri, 19 Feb 2021 02:51:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210218162944.1756160-1-richard.henderson@linaro.org>
+In-Reply-To: <20210218162944.1756160-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Feb 2021 10:52:20 +0000
+Message-ID: <CAFEAcA_G_d8VF1U=WdBvFmUQCR3YFzQu1WqUqHFQRKsF2q6yeg@mail.gmail.com>
+Subject: Re: [PULL v2 00/35] hexagon initial commit
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,36 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: edgar.iglesias@gmail.com, qemu-devel@nongnu.org, stefans@axis.com
+Cc: Taylor Simpson <tsimpson@quicinc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxOTEwNDU0OC40Njc1
-LTEtc3RlZmFuc0BheGlzLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
-bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
-bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMjE5MTA0NTQ4LjQ2NzUtMS1z
-dGVmYW5zQGF4aXMuY29tClN1YmplY3Q6IFtQQVRDSCB2M10gQ29ycmVjdCBDUklTIFRDRyByZWdp
-c3RlciBsaWZldGltZSBtYW5hZ2VtZW50Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jp
-bi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZp
-ZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Nj
-cmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5E
-ID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApG
-cm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10g
-ICAgICAgICBwYXRjaGV3LzIwMjEwMjE5MTA0NTQ4LjQ2NzUtMS1zdGVmYW5zQGF4aXMuY29tIC0+
-IHBhdGNoZXcvMjAyMTAyMTkxMDQ1NDguNDY3NS0xLXN0ZWZhbnNAYXhpcy5jb20KU3dpdGNoZWQg
-dG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpkZTAzNGI1IENvcnJlY3QgQ1JJUyBUQ0cgcmVnaXN0ZXIg
-bGlmZXRpbWUgbWFuYWdlbWVudAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IE1pc3Npbmcg
-U2lnbmVkLW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCA1OTYg
-bGluZXMgY2hlY2tlZAoKQ29tbWl0IGRlMDM0YjVjZWQ0MiAoQ29ycmVjdCBDUklTIFRDRyByZWdp
-c3RlciBsaWZldGltZSBtYW5hZ2VtZW50KSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZp
-ZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRo
-ZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0g
-T1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1
-bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDIxOTEw
-NDU0OC40Njc1LTEtc3RlZmFuc0BheGlzLmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVz
-c2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBz
-Oi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRl
-dmVsQHJlZGhhdC5jb20=
+On Thu, 18 Feb 2021 at 16:29, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> ----------------------------------------------------------------
+> Initial commit for the Qualcomm Hexagon processor.
+>
+> ----------------------------------------------------------------
+
+Hi; Coverity Scan reports a pile of new issues in the Hexagon
+code; could one of you go through them and confirm whether they
+are either false positives or else provide fixes for them, please?
+
+thanks
+-- PMM
 
