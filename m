@@ -2,72 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0726E31FEF6
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:49:53 +0100 (CET)
-Received: from localhost ([::1]:48230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239BA31FEF9
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:51:39 +0100 (CET)
+Received: from localhost ([::1]:51512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDAqe-0002Gk-2W
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:49:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35606)
+	id 1lDAsM-0003kl-7E
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:51:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36090)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lDAnF-0007Cl-Oe
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:46:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lDAnD-0007fj-1m
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:46:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613760378;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zCNcaEZloCKhIAzc4ZFSyCKe7zpwyMqkRQbG6RkVakQ=;
- b=Y9Az1wSMWDktVCU0dEGMj8hgmh1fycB4wpH8NyBoMmDglMJ1gsag0QyxsCp86V8H9o4kan
- gymiQRODhLOZh7KRvm4XYDBPlODhCXaFTSxU0xbTT8j5OFo8oMrC07tFIr3VR35P6QbvVs
- iMVrh44aMCMzwHILC7kP9ChhsJNGxQk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-321-0EdVHyLnPyaYVhndNgvaAg-1; Fri, 19 Feb 2021 13:46:16 -0500
-X-MC-Unique: 0EdVHyLnPyaYVhndNgvaAg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3E6918449E0
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 18:46:14 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-112-33.ams2.redhat.com
- [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F5051970A;
- Fri, 19 Feb 2021 18:46:13 +0000 (UTC)
-From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 4/4] ui,
- monitor: remove deprecated VNC ACL option and HMP commands
-Date: Fri, 19 Feb 2021 18:45:56 +0000
-Message-Id: <20210219184556.154972-5-berrange@redhat.com>
-In-Reply-To: <20210219184556.154972-1-berrange@redhat.com>
-References: <20210219184556.154972-1-berrange@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1lDAqs-00033A-8v; Fri, 19 Feb 2021 13:50:06 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:5832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1lDAqn-00004r-H9; Fri, 19 Feb 2021 13:50:05 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 11JIhvkI038560; Fri, 19 Feb 2021 13:49:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=F1uq8sX5ZXgduYVRLM+Lk7rBYXpmr1mFEW+JLi9ILkg=;
+ b=Ol+jxA71Lr44HeJCPYaEs8ZILzO0dapticp3XmyJRrcF/3aEC3bivNuAV7hyP4E20D0X
+ Wkz5gfsKr5S7AqIFpFbzeCG5HuPiKvURW+B1cgm+KZJ70uUrOJrxkYZ4tpkk2Pvbh68q
+ HuEU+Ed9wUL5dKt7ejZpE67eHS4DfAe/PwPV7OVi78RRccgy12yklRWoNncSI7sYoE0m
+ XjDypSQZzD1eg6mhoRiJBvrAEE9RqAwcS4i8Pyvh58YVZt0vRcFfKfU0RptGFfChaoMs
+ fpN1x0wdJFYdCxHj+QxesbCZdeKj4VIiY/HeCGNjuD6ZiC/lvmsdxmwa+4fOqr+H4JLX bA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36tjv5g4p2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 13:49:57 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11JIjI1a042503;
+ Fri, 19 Feb 2021 13:49:56 -0500
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36tjv5g4my-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 13:49:56 -0500
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11JIm69V031616;
+ Fri, 19 Feb 2021 18:49:54 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma04ams.nl.ibm.com with ESMTP id 36p6d8dtdp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 18:49:54 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11JInpYY42795510
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Feb 2021 18:49:51 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 71444A4051;
+ Fri, 19 Feb 2021 18:49:51 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 15DA9A4040;
+ Fri, 19 Feb 2021 18:49:51 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.23.206])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Fri, 19 Feb 2021 18:49:51 +0000 (GMT)
+Subject: Re: [PATCH v2 1/1] css: SCHIB measurement block origin must be aligned
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <1613741973-3711-1-git-send-email-pmorel@linux.ibm.com>
+ <1613741973-3711-2-git-send-email-pmorel@linux.ibm.com>
+ <c5d8de0c-9dab-ec80-3ac7-cd180baed81a@redhat.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <4887200d-bdaf-42dc-176d-439efef4de45@linux.ibm.com>
+Date: Fri, 19 Feb 2021 19:49:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <c5d8de0c-9dab-ec80-3ac7-cd180baed81a@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-19_08:2021-02-18,
+ 2021-02-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 adultscore=0
+ lowpriorityscore=0 spamscore=0 impostorscore=0 mlxscore=0 phishscore=0
+ clxscore=1015 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2102190144
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,458 +111,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: david@redhat.com, cohuck@redhat.com, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, qemu-s390x@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VNC ACL concept has been replaced by the pluggable "authz" framework
-which does not use monitor commands.
 
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
----
- docs/system/deprecated.rst       |  16 ---
- docs/system/removed-features.rst |  13 +++
- hmp-commands.hx                  |  76 -------------
- monitor/misc.c                   | 187 -------------------------------
- ui/vnc.c                         |  38 -------
- 5 files changed, 13 insertions(+), 317 deletions(-)
 
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 57ff9f47cc..beed4b4f02 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -37,12 +37,6 @@ The 'file' driver for drives is no longer appropriate for character or host
- devices and will only accept regular files (S_IFREG). The correct driver
- for these file types is 'host_cdrom' or 'host_device' as appropriate.
- 
--``-vnc acl`` (since 4.0.0)
--''''''''''''''''''''''''''
--
--The ``acl`` option to the ``-vnc`` argument has been replaced
--by the ``tls-authz`` and ``sasl-authz`` options.
--
- ``QEMU_AUDIO_`` environment variables and ``-audio-help`` (since 4.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
- 
-@@ -262,16 +256,6 @@ Use the more generic commands ``block-export-add`` and ``block-export-del``
- instead.  As part of this deprecation, where ``nbd-server-add`` used a
- single ``bitmap``, the new ``block-export-add`` uses a list of ``bitmaps``.
- 
--Human Monitor Protocol (HMP) commands
---------------------------------------
--
--``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, ``acl_remove`` (since 4.0.0)
--''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
--
--The ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, and
--``acl_remove`` commands are deprecated with no replacement. Authorization
--for VNC should be performed using the pluggable QAuthZ objects.
--
- System emulator CPUS
- --------------------
- 
-diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index c8481cafbd..0424b9a89d 100644
---- a/docs/system/removed-features.rst
-+++ b/docs/system/removed-features.rst
-@@ -38,6 +38,12 @@ or ``-display default,show-cursor=on`` instead.
- QEMU 5.0 introduced an alternative syntax to specify the size of the translation
- block cache, ``-accel tcg,tb-size=``.
- 
-+``-vnc acl`` (removed in 6.0)
-+'''''''''''''''''''''''''''''
-+
-+The ``acl`` option to the ``-vnc`` argument has been replaced
-+by the ``tls-authz`` and ``sasl-authz`` options.
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
-@@ -79,6 +85,13 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
- No replacement.  The ``change vnc password`` and ``change DEVICE MEDIUM``
- commands are not affected.
- 
-+``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, ``acl_remove`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, and
-+``acl_remove`` commands were removed with no replacement. Authorization
-+for VNC should be performed using the pluggable QAuthZ objects.
-+
- Guest Emulator ISAs
- -------------------
- 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index d4001f9c5d..b500b8526d 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1433,82 +1433,6 @@ SRST
-   Change watchdog action.
- ERST
- 
--    {
--        .name       = "acl_show",
--        .args_type  = "aclname:s",
--        .params     = "aclname",
--        .help       = "list rules in the access control list",
--        .cmd        = hmp_acl_show,
--    },
--
--SRST
--``acl_show`` *aclname*
--  List all the matching rules in the access control list, and the default
--  policy. There are currently two named access control lists,
--  *vnc.x509dname* and *vnc.username* matching on the x509 client
--  certificate distinguished name, and SASL username respectively.
--ERST
--
--    {
--        .name       = "acl_policy",
--        .args_type  = "aclname:s,policy:s",
--        .params     = "aclname allow|deny",
--        .help       = "set default access control list policy",
--        .cmd        = hmp_acl_policy,
--    },
--
--SRST
--``acl_policy`` *aclname* ``allow|deny``
--  Set the default access control list policy, used in the event that
--  none of the explicit rules match. The default policy at startup is
--  always ``deny``.
--ERST
--
--    {
--        .name       = "acl_add",
--        .args_type  = "aclname:s,match:s,policy:s,index:i?",
--        .params     = "aclname match allow|deny [index]",
--        .help       = "add a match rule to the access control list",
--        .cmd        = hmp_acl_add,
--    },
--
--SRST
--``acl_add`` *aclname* *match* ``allow|deny`` [*index*]
--  Add a match rule to the access control list, allowing or denying access.
--  The match will normally be an exact username or x509 distinguished name,
--  but can optionally include wildcard globs. eg ``*@EXAMPLE.COM`` to
--  allow all users in the ``EXAMPLE.COM`` kerberos realm. The match will
--  normally be appended to the end of the ACL, but can be inserted
--  earlier in the list if the optional *index* parameter is supplied.
--ERST
--
--    {
--        .name       = "acl_remove",
--        .args_type  = "aclname:s,match:s",
--        .params     = "aclname match",
--        .help       = "remove a match rule from the access control list",
--        .cmd        = hmp_acl_remove,
--    },
--
--SRST
--``acl_remove`` *aclname* *match*
--  Remove the specified match rule from the access control list.
--ERST
--
--    {
--        .name       = "acl_reset",
--        .args_type  = "aclname:s",
--        .params     = "aclname",
--        .help       = "reset the access control list",
--        .cmd        = hmp_acl_reset,
--    },
--
--SRST
--``acl_reset`` *aclname*
--  Remove all matches from the access control list, and set the default
--  policy back to ``deny``.
--ERST
--
-     {
-         .name       = "nbd_server_start",
-         .args_type  = "all:-a,writable:-w,uri:s",
-diff --git a/monitor/misc.c b/monitor/misc.c
-index a7650ed747..d9ed2bacef 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -1045,193 +1045,6 @@ static void hmp_wavcapture(Monitor *mon, const QDict *qdict)
-     QLIST_INSERT_HEAD (&capture_head, s, entries);
- }
- 
--static QAuthZList *find_auth(Monitor *mon, const char *name)
--{
--    Object *obj;
--    Object *container;
--
--    container = object_get_objects_root();
--    obj = object_resolve_path_component(container, name);
--    if (!obj) {
--        monitor_printf(mon, "acl: unknown list '%s'\n", name);
--        return NULL;
--    }
--
--    return QAUTHZ_LIST(obj);
--}
--
--static bool warn_acl;
--static void hmp_warn_acl(void)
--{
--    if (warn_acl) {
--        return;
--    }
--    error_report("The acl_show, acl_reset, acl_policy, acl_add, acl_remove "
--                 "commands are deprecated with no replacement. Authorization "
--                 "for VNC should be performed using the pluggable QAuthZ "
--                 "objects");
--    warn_acl = true;
--}
--
--static void hmp_acl_show(Monitor *mon, const QDict *qdict)
--{
--    const char *aclname = qdict_get_str(qdict, "aclname");
--    QAuthZList *auth = find_auth(mon, aclname);
--    QAuthZListRuleList *rules;
--    size_t i = 0;
--
--    hmp_warn_acl();
--
--    if (!auth) {
--        return;
--    }
--
--    monitor_printf(mon, "policy: %s\n",
--                   QAuthZListPolicy_str(auth->policy));
--
--    rules = auth->rules;
--    while (rules) {
--        QAuthZListRule *rule = rules->value;
--        i++;
--        monitor_printf(mon, "%zu: %s %s\n", i,
--                       QAuthZListPolicy_str(rule->policy),
--                       rule->match);
--        rules = rules->next;
--    }
--}
--
--static void hmp_acl_reset(Monitor *mon, const QDict *qdict)
--{
--    const char *aclname = qdict_get_str(qdict, "aclname");
--    QAuthZList *auth = find_auth(mon, aclname);
--
--    hmp_warn_acl();
--
--    if (!auth) {
--        return;
--    }
--
--    auth->policy = QAUTHZ_LIST_POLICY_DENY;
--    qapi_free_QAuthZListRuleList(auth->rules);
--    auth->rules = NULL;
--    monitor_printf(mon, "acl: removed all rules\n");
--}
--
--static void hmp_acl_policy(Monitor *mon, const QDict *qdict)
--{
--    const char *aclname = qdict_get_str(qdict, "aclname");
--    const char *policy = qdict_get_str(qdict, "policy");
--    QAuthZList *auth = find_auth(mon, aclname);
--    int val;
--    Error *err = NULL;
--
--    hmp_warn_acl();
--
--    if (!auth) {
--        return;
--    }
--
--    val = qapi_enum_parse(&QAuthZListPolicy_lookup,
--                          policy,
--                          QAUTHZ_LIST_POLICY_DENY,
--                          &err);
--    if (err) {
--        error_free(err);
--        monitor_printf(mon, "acl: unknown policy '%s', "
--                       "expected 'deny' or 'allow'\n", policy);
--    } else {
--        auth->policy = val;
--        if (auth->policy == QAUTHZ_LIST_POLICY_ALLOW) {
--            monitor_printf(mon, "acl: policy set to 'allow'\n");
--        } else {
--            monitor_printf(mon, "acl: policy set to 'deny'\n");
--        }
--    }
--}
--
--static QAuthZListFormat hmp_acl_get_format(const char *match)
--{
--    if (strchr(match, '*')) {
--        return QAUTHZ_LIST_FORMAT_GLOB;
--    } else {
--        return QAUTHZ_LIST_FORMAT_EXACT;
--    }
--}
--
--static void hmp_acl_add(Monitor *mon, const QDict *qdict)
--{
--    const char *aclname = qdict_get_str(qdict, "aclname");
--    const char *match = qdict_get_str(qdict, "match");
--    const char *policystr = qdict_get_str(qdict, "policy");
--    int has_index = qdict_haskey(qdict, "index");
--    int index = qdict_get_try_int(qdict, "index", -1);
--    QAuthZList *auth = find_auth(mon, aclname);
--    Error *err = NULL;
--    QAuthZListPolicy policy;
--    QAuthZListFormat format;
--    size_t i = 0;
--
--    hmp_warn_acl();
--
--    if (!auth) {
--        return;
--    }
--
--    policy = qapi_enum_parse(&QAuthZListPolicy_lookup,
--                             policystr,
--                             QAUTHZ_LIST_POLICY_DENY,
--                             &err);
--    if (err) {
--        error_free(err);
--        monitor_printf(mon, "acl: unknown policy '%s', "
--                       "expected 'deny' or 'allow'\n", policystr);
--        return;
--    }
--
--    format = hmp_acl_get_format(match);
--
--    if (has_index && index == 0) {
--        monitor_printf(mon, "acl: unable to add acl entry\n");
--        return;
--    }
--
--    if (has_index) {
--        i = qauthz_list_insert_rule(auth, match, policy,
--                                    format, index - 1, &err);
--    } else {
--        i = qauthz_list_append_rule(auth, match, policy,
--                                    format, &err);
--    }
--    if (err) {
--        monitor_printf(mon, "acl: unable to add rule: %s",
--                       error_get_pretty(err));
--        error_free(err);
--    } else {
--        monitor_printf(mon, "acl: added rule at position %zu\n", i + 1);
--    }
--}
--
--static void hmp_acl_remove(Monitor *mon, const QDict *qdict)
--{
--    const char *aclname = qdict_get_str(qdict, "aclname");
--    const char *match = qdict_get_str(qdict, "match");
--    QAuthZList *auth = find_auth(mon, aclname);
--    ssize_t i = 0;
--
--    hmp_warn_acl();
--
--    if (!auth) {
--        return;
--    }
--
--    i = qauthz_list_delete_rule(auth, match);
--    if (i >= 0) {
--        monitor_printf(mon, "acl: removed rule at position %zu\n", i + 1);
--    } else {
--        monitor_printf(mon, "acl: no matching acl entry\n");
--    }
--}
--
- void qmp_getfd(const char *fdname, Error **errp)
- {
-     Monitor *cur_mon = monitor_cur();
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 77e07ac351..5aea2652d4 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -3485,9 +3485,6 @@ static QemuOptsList qemu_vnc_opts = {
-         },{
-             .name = "sasl",
-             .type = QEMU_OPT_BOOL,
--        },{
--            .name = "acl",
--            .type = QEMU_OPT_BOOL,
-         },{
-             .name = "tls-authz",
-             .type = QEMU_OPT_STRING,
-@@ -3939,7 +3936,6 @@ void vnc_display_open(const char *id, Error **errp)
-     bool reverse = false;
-     const char *credid;
-     bool sasl = false;
--    int acl = 0;
-     const char *tlsauthz;
-     const char *saslauthz;
-     int lock_key_sync = 1;
-@@ -4031,29 +4027,13 @@ void vnc_display_open(const char *id, Error **errp)
-             goto fail;
-         }
-     }
--    if (qemu_opt_get(opts, "acl")) {
--        error_report("The 'acl' option to -vnc is deprecated. "
--                     "Please use the 'tls-authz' and 'sasl-authz' "
--                     "options instead");
--    }
--    acl = qemu_opt_get_bool(opts, "acl", false);
-     tlsauthz = qemu_opt_get(opts, "tls-authz");
--    if (acl && tlsauthz) {
--        error_setg(errp, "'acl' option is mutually exclusive with the "
--                   "'tls-authz' option");
--        goto fail;
--    }
-     if (tlsauthz && !vd->tlscreds) {
-         error_setg(errp, "'tls-authz' provided but TLS is not enabled");
-         goto fail;
-     }
- 
-     saslauthz = qemu_opt_get(opts, "sasl-authz");
--    if (acl && saslauthz) {
--        error_setg(errp, "'acl' option is mutually exclusive with the "
--                   "'sasl-authz' option");
--        goto fail;
--    }
-     if (saslauthz && !sasl) {
-         error_setg(errp, "'sasl-authz' provided but SASL auth is not enabled");
-         goto fail;
-@@ -4091,29 +4071,11 @@ void vnc_display_open(const char *id, Error **errp)
- 
-     if (tlsauthz) {
-         vd->tlsauthzid = g_strdup(tlsauthz);
--    } else if (acl) {
--        if (strcmp(vd->id, "default") == 0) {
--            vd->tlsauthzid = g_strdup("vnc.x509dname");
--        } else {
--            vd->tlsauthzid = g_strdup_printf("vnc.%s.x509dname", vd->id);
--        }
--        vd->tlsauthz = QAUTHZ(qauthz_list_new(vd->tlsauthzid,
--                                              QAUTHZ_LIST_POLICY_DENY,
--                                              &error_abort));
-     }
- #ifdef CONFIG_VNC_SASL
-     if (sasl) {
-         if (saslauthz) {
-             vd->sasl.authzid = g_strdup(saslauthz);
--        } else if (acl) {
--            if (strcmp(vd->id, "default") == 0) {
--                vd->sasl.authzid = g_strdup("vnc.username");
--            } else {
--                vd->sasl.authzid = g_strdup_printf("vnc.%s.username", vd->id);
--            }
--            vd->sasl.authz = QAUTHZ(qauthz_list_new(vd->sasl.authzid,
--                                                    QAUTHZ_LIST_POLICY_DENY,
--                                                    &error_abort));
-         }
-     }
- #endif
+On 2/19/21 2:41 PM, Thomas Huth wrote:
+> On 19/02/2021 14.39, Pierre Morel wrote:
+>> The Measurement Block Origin inside the SCHIB is used when
+>> Measurement Block format 1 is in used and must be aligned
+>> on 64 bytes otherwise an operand exception is recognized
+>> when issuing the Modify Sub CHannel (MSCH) instruction.
+>>
+>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+>> ---
+>>   target/s390x/ioinst.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/target/s390x/ioinst.c b/target/s390x/ioinst.c
+>> index a412926d27..1ee11522e1 100644
+>> --- a/target/s390x/ioinst.c
+>> +++ b/target/s390x/ioinst.c
+>> @@ -121,6 +121,12 @@ static int ioinst_schib_valid(SCHIB *schib)
+>>       if (be32_to_cpu(schib->pmcw.chars) & PMCW_CHARS_MASK_XMWME) {
+>>           return 0;
+>>       }
+>> +    /* for MB format 1 bits 26-31 of word 11 must be 0 */
+>> +    /* MBA uses words 10 and 11, it means align on 2**6 */
+>> +    if ((be16_to_cpu(schib->pmcw.chars) & PMCW_CHARS_MASK_MBFC) &&
+>> +        (be64_to_cpu(schib->mba) & 0x03fUL)) {
+>> +        return 0;
+>> +    }
+>>       return 1;
+>>   }
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+
+Thanks,
+Pierre
+
 -- 
-2.29.2
-
+Pierre Morel
+IBM Lab Boeblingen
 
