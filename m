@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2167131F5F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:36:10 +0100 (CET)
-Received: from localhost ([::1]:59316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635BB31F601
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 09:45:32 +0100 (CET)
+Received: from localhost ([::1]:36212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD1Gj-0007Zh-5w
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:36:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58318)
+	id 1lD1Pn-0001ce-3d
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 03:45:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD1Fr-00073z-SF
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:35:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27168)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lD1Fq-0001UT-8r
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:35:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613723713;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=LDNHS5KW4F1R1w0mo3m6THOA4bF73chIEY6dWI6cylo=;
- b=YL+3Z/GBc8f82e7OoXTdTAw/l8C0Ni1CM0xFACrYPSgb+md1/Xmr+/igcbaSa7jdmvQo8m
- EfACC2QpGKfG1Rv5TLZjsB6nhlD+I7FL1RcTkbWcGdtofZb4t2PQCAXwPZNgTJgSSem1So
- 4BzUsqGIFTXGAxUweJ5wXscgbr9vtUE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-GxnQb-r7PbWk2bd_IMApVA-1; Fri, 19 Feb 2021 03:35:09 -0500
-X-MC-Unique: GxnQb-r7PbWk2bd_IMApVA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11C411009627;
- Fri, 19 Feb 2021 08:35:08 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
- [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D1F8119D9D;
- Fri, 19 Feb 2021 08:34:58 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 4986918003B0; Fri, 19 Feb 2021 09:34:56 +0100 (CET)
-Date: Fri, 19 Feb 2021 09:34:56 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Halil Pasic <pasic@linux.ibm.com>
-Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210219083456.pd7s2cxg2bwp6w6p@sirius.home.kraxel.org>
-References: <20210218022227.979741-1-pasic@linux.ibm.com>
- <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
- <20210218113438.3fe80078.pasic@linux.ibm.com>
- <20210218135618.06532573.cohuck@redhat.com>
- <20210218133820.cflf455nj44mxzja@sirius.home.kraxel.org>
- <20210218191739.71bf8800.pasic@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lD1Ov-0001Bd-Md
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:44:37 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:46398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lD1Os-0005hF-55
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 03:44:37 -0500
+Received: by mail-pg1-x530.google.com with SMTP id 75so3375590pgf.13
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 00:44:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kPw/d9i5So0JhIzxUwWRGTIJqmg8QZtaKJRE8e/fz24=;
+ b=FMll0WmlRxMuvP2W1/kghqf4Et8Cpny+BcQfY10YbM7FKE7Z7XILQMK4PKQOz9WlGI
+ Y4oDPm2y7t+XV6gUmfEYTO+KQUhpxJjbAvzhaBSzeY/PEU7KXd4xH3uK1Q0NAAlixla9
+ 03SvUL+5iaRUasfS89coKLnIrIhEpeXANp8tKkM9eqCg/e7H318+Vm59oe/L9/SXNKl5
+ rr9rcuxynlK81/qkd7z4EW7ZNiFuhSKbHYFO7kOU//CN6XiV+0BnZUkZ4NbKOySG6GwK
+ KoOoE9BjvqLoMnj6jSkk12Yx7EYcTnXxjsyOW6qkhifCiF//Dsaq0JRtwBp/7qK0rOhV
+ MW4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=kPw/d9i5So0JhIzxUwWRGTIJqmg8QZtaKJRE8e/fz24=;
+ b=SYA0YPOqfWJI/Ovcusf8pM79B/MB3IL492lcbf/PVrpghccHgWw2Zm23UG6EavZo6k
+ NOQDjOOQ16QIZ/YHCFP75IPTWgPKb31a3zC+vqGAuCUUSPgPR+nzfATtNlsf9cifx7LZ
+ 8JG7Qv8tzd2ZiAORHBwDiOF1LQTYgvMF+wSDeWkegMqFjOg3Tam+AJALIlTCNFafB8Eh
+ yHIEwonDDvQld1WoAVOy/oSljzPw1TRA9pt28h+WlSOiuwyTresC5wPJFeKax5CcXhjc
+ Xe11SNDY6Wz7SVDIwqcenCZxo/n22MR4le5XUmgw6SfMjVtkgDmpAQYf9RM5+zKYCDkT
+ 1pFA==
+X-Gm-Message-State: AOAM531hP08C1JkqsD5QOKcbKkZ9ORFlYG/jPEdg6vBh/EWcEEGDvDiK
+ xX/S1CsdCqej95q8VdREtdN62UpLvPM1hg==
+X-Google-Smtp-Source: ABdhPJwDt76Jj3INNCl7lZqqHnBeD3lHnPx5kMcK7sdj2nUM9D2Ppbfm0q+dqwdZ4VkMtFuA2YHG2A==
+X-Received: by 2002:a63:c1d:: with SMTP id b29mr7744638pgl.9.1613724270990;
+ Fri, 19 Feb 2021 00:44:30 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:d8f0:71c1:3d6a:4f53])
+ by smtp.gmail.com with ESMTPSA id 2sm3296781pfi.116.2021.02.19.00.44.29
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Feb 2021 00:44:30 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH] ui/cocoa: Statically allocate dcl
+Date: Fri, 19 Feb 2021 17:44:19 +0900
+Message-Id: <20210219084419.90181-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <20210218191739.71bf8800.pasic@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,58 +81,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+There is no need of dynamic allocation as dcl is a small singleton.
+Static allocation reduces code size and makes hacking with ui/cocoa a
+bit easier.
 
-> I'm not against cleaning up the includes for virtio-ccw devices, but I
-> tend to see that as a separate, less pressing issue.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 65 ++++++++++++++++++++++++++----------------------------
+ 1 file changed, 31 insertions(+), 34 deletions(-)
 
-Well, it would allow to build virtio-ccw as common code (i.e. move from
-specific_ss to softmmu_ss).
-
-> > Alternatively add support for
-> > target-specific modules (which we don't really have right now).
-> 
-> I think a target-specific module is what I did in this patch.
-
-Nope.
-
-Specifically target-specific modules must be built once for each
-target and have a target-specific name (prefix or subdir).   So
-when modularizing -- for example -- vga you'll get modules such as
-x86_64/hw-display-vga.so, ppc64/hw-display-vga.so, ...
-
-Qemu needs support for loading the correct version.
-
-What you did is a rather incomplete version of that which happens to
-work for ccw because ccw is used by s390x only so you can shortcut
-the "build once for each target" part of the problem.
-
-> Furthermore, I think any virtio-ccw device that is about to be built as
-> a module, must be built as a target-specific module. If the realized
-> (guest) architecture is not s390x, then there are no s390 IO instructions
-> and ccw won't fly.
-
-Well, it can happen that generic modules don't load into some qemu
-versions.  Devices which need PCI can't be loaded by qemu-system-avr
-for example because the avr target lacks PCI bus support.
-
-ccw modules only loading into qemu-system-s390x because that is the
-only target providing the bus needed is pretty much the same.
-
-take care,
-  Gerd
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 13fba8103e1..efa3bea8f5f 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -74,8 +74,24 @@
+     int bitsPerPixel;
+ } QEMUScreen;
+ 
++static void cocoa_update(DisplayChangeListener *dcl,
++                         int x, int y, int w, int h);
++
++static void cocoa_switch(DisplayChangeListener *dcl,
++                         DisplaySurface *surface);
++
++static void cocoa_refresh(DisplayChangeListener *dcl);
++
+ NSWindow *normalWindow, *about_window;
+-static DisplayChangeListener *dcl;
++static const DisplayChangeListenerOps dcl_ops = {
++    .dpy_name          = "cocoa",
++    .dpy_gfx_update = cocoa_update,
++    .dpy_gfx_switch = cocoa_switch,
++    .dpy_refresh = cocoa_refresh,
++};
++static DisplayChangeListener dcl = {
++    .ops = &dcl_ops,
++};
+ static int last_buttons;
+ static int cursor_hide = 1;
+ 
+@@ -602,15 +618,15 @@ - (void) toggleModifier: (int)keycode {
+     // Toggle the stored state.
+     modifiers_state[keycode] = !modifiers_state[keycode];
+     // Send a keyup or keydown depending on the state.
+-    qemu_input_event_send_key_qcode(dcl->con, keycode, modifiers_state[keycode]);
++    qemu_input_event_send_key_qcode(dcl.con, keycode, modifiers_state[keycode]);
+ }
+ 
+ - (void) toggleStatefulModifier: (int)keycode {
+     // Toggle the stored state.
+     modifiers_state[keycode] = !modifiers_state[keycode];
+     // Generate keydown and keyup.
+-    qemu_input_event_send_key_qcode(dcl->con, keycode, true);
+-    qemu_input_event_send_key_qcode(dcl->con, keycode, false);
++    qemu_input_event_send_key_qcode(dcl.con, keycode, true);
++    qemu_input_event_send_key_qcode(dcl.con, keycode, false);
+ }
+ 
+ // Does the work of sending input to the monitor
+@@ -794,7 +810,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+             }
+ 
+             if (qemu_console_is_graphic(NULL)) {
+-                qemu_input_event_send_key_qcode(dcl->con, keycode, true);
++                qemu_input_event_send_key_qcode(dcl.con, keycode, true);
+             } else {
+                 [self handleMonitorInput: event];
+             }
+@@ -809,7 +825,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+             }
+ 
+             if (qemu_console_is_graphic(NULL)) {
+-                qemu_input_event_send_key_qcode(dcl->con, keycode, false);
++                qemu_input_event_send_key_qcode(dcl.con, keycode, false);
+             }
+             break;
+         case NSEventTypeMouseMoved:
+@@ -895,9 +911,9 @@ - (bool) handleEventLocked:(NSEvent *)event
+             /* Determine if this is a scroll up or scroll down event */
+                 buttons = ([event deltaY] > 0) ?
+                     INPUT_BUTTON_WHEEL_UP : INPUT_BUTTON_WHEEL_DOWN;
+-                qemu_input_queue_btn(dcl->con, buttons, true);
++                qemu_input_queue_btn(dcl.con, buttons, true);
+                 qemu_input_event_sync();
+-                qemu_input_queue_btn(dcl->con, buttons, false);
++                qemu_input_queue_btn(dcl.con, buttons, false);
+                 qemu_input_event_sync();
+             }
+             /*
+@@ -925,7 +941,7 @@ - (bool) handleEventLocked:(NSEvent *)event
+                 [INPUT_BUTTON_MIDDLE]     = MOUSE_EVENT_MBUTTON,
+                 [INPUT_BUTTON_RIGHT]      = MOUSE_EVENT_RBUTTON
+             };
+-            qemu_input_update_buttons(dcl->con, bmap, last_buttons, buttons);
++            qemu_input_update_buttons(dcl.con, bmap, last_buttons, buttons);
+             last_buttons = buttons;
+         }
+         if (isMouseGrabbed) {
+@@ -935,12 +951,12 @@ - (bool) handleEventLocked:(NSEvent *)event
+                  * clicks in the titlebar.
+                  */
+                 if ([self screenContainsPoint:p]) {
+-                    qemu_input_queue_abs(dcl->con, INPUT_AXIS_X, p.x, 0, screen.width);
+-                    qemu_input_queue_abs(dcl->con, INPUT_AXIS_Y, screen.height - p.y, 0, screen.height);
++                    qemu_input_queue_abs(dcl.con, INPUT_AXIS_X, p.x, 0, screen.width);
++                    qemu_input_queue_abs(dcl.con, INPUT_AXIS_Y, screen.height - p.y, 0, screen.height);
+                 }
+             } else {
+-                qemu_input_queue_rel(dcl->con, INPUT_AXIS_X, (int)[event deltaX]);
+-                qemu_input_queue_rel(dcl->con, INPUT_AXIS_Y, (int)[event deltaY]);
++                qemu_input_queue_rel(dcl.con, INPUT_AXIS_X, (int)[event deltaX]);
++                qemu_input_queue_rel(dcl.con, INPUT_AXIS_Y, (int)[event deltaY]);
+             }
+         } else {
+             return false;
+@@ -1009,7 +1025,7 @@ - (void) raiseAllKeys
+         for (index = 0; index < max_index; index++) {
+             if (modifiers_state[index]) {
+                 modifiers_state[index] = 0;
+-                qemu_input_event_send_key_qcode(dcl->con, index, false);
++                qemu_input_event_send_key_qcode(dcl.con, index, false);
+             }
+         }
+     });
+@@ -1836,19 +1852,6 @@ static void cocoa_refresh(DisplayChangeListener *dcl)
+     [pool release];
+ }
+ 
+-static void cocoa_cleanup(void)
+-{
+-    COCOA_DEBUG("qemu_cocoa: cocoa_cleanup\n");
+-    g_free(dcl);
+-}
+-
+-static const DisplayChangeListenerOps dcl_ops = {
+-    .dpy_name          = "cocoa",
+-    .dpy_gfx_update = cocoa_update,
+-    .dpy_gfx_switch = cocoa_switch,
+-    .dpy_refresh = cocoa_refresh,
+-};
+-
+ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+ {
+     COCOA_DEBUG("qemu_cocoa: cocoa_display_init\n");
+@@ -1869,14 +1872,8 @@ static void cocoa_display_init(DisplayState *ds, DisplayOptions *opts)
+         cursor_hide = 0;
+     }
+ 
+-    dcl = g_malloc0(sizeof(DisplayChangeListener));
+-
+     // register vga output callbacks
+-    dcl->ops = &dcl_ops;
+-    register_displaychangelistener(dcl);
+-
+-    // register cleanup function
+-    atexit(cocoa_cleanup);
++    register_displaychangelistener(&dcl);
+ }
+ 
+ static QemuDisplay qemu_display_cocoa = {
+-- 
+2.24.3 (Apple Git-128)
 
 
