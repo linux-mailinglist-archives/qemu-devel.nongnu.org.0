@@ -2,51 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F351F31F6B3
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:46:50 +0100 (CET)
-Received: from localhost ([::1]:59078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8974831F6AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:45:36 +0100 (CET)
+Received: from localhost ([::1]:56424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD2N7-0002ce-UU
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:46:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44638)
+	id 1lD2Lv-0001T1-Fx
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:45:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lD2KP-0000v6-Sk; Fri, 19 Feb 2021 04:44:02 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:3045)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lD2Jf-0000c9-HY; Fri, 19 Feb 2021 04:43:15 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lD2K8-0006Yc-UU; Fri, 19 Feb 2021 04:44:01 -0500
-Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Dhmnf0H0DzjNqR;
- Fri, 19 Feb 2021 17:42:14 +0800 (CST)
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
- DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 19 Feb 2021 17:43:21 +0800
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Eric Auger <eric.auger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Alex Williamson <alex.williamson@redhat.com>,
- "open list:ARM SMMU" <qemu-arm@nongnu.org>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 3/3] hw/arm/smmuv3: Post-load stage 1 configurations to
- the host
-Date: Fri, 19 Feb 2021 17:42:30 +0800
-Message-ID: <20210219094230.231-4-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20210219094230.231-1-jiangkunkun@huawei.com>
-References: <20210219094230.231-1-jiangkunkun@huawei.com>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lD2JW-0006Nl-Qt; Fri, 19 Feb 2021 04:43:13 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 11J9X9KO004202; Fri, 19 Feb 2021 04:43:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=XOalQFU+Uh9HXxT1LRHF5JdlDG6D69yiRwIKIIGF374=;
+ b=TeJW5WhDAnx9VYO/WZp0VJBPOJQslreS1wZ50GMaSgelkNry1vSoDCMAaNd5GiKDummx
+ 08PJzYvDPrMqLokTLE2uCfM7b84wDDhbTRXOXX+PecYtDQiEsWwNWe3DfTYCBVDVXYbp
+ r0l5fUIAV8MHqZLr6IWz55Y8WNgqHaEODHmUhcPey6a9c+2WVhid0HETEij6l6DVfGdj
+ L31HvdxBPMCIzQIFgPcbIS3jdbGiT+0lAjpBXcS3kj4V3HemVntV/OL2Ovef6SH76YBT
+ 72i6VVz77I3ok5z1BVkGtyXbwA9zeVrxexu9KiH6pYztN9fk2ZdU4Xo3f1JOT6QNfu1G Mw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36ta2t9u2r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 04:43:02 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 11J9b0Qs020326;
+ Fri, 19 Feb 2021 04:43:02 -0500
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36ta2t9u1r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 04:43:02 -0500
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11J9gcOj008732;
+ Fri, 19 Feb 2021 09:42:59 GMT
+Received: from b06cxnps4075.portsmouth.uk.ibm.com
+ (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
+ by ppma05fra.de.ibm.com with ESMTP id 36p6d8juer-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 19 Feb 2021 09:42:59 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11J9gu9459638264
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 19 Feb 2021 09:42:56 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 71AE6A4051;
+ Fri, 19 Feb 2021 09:42:56 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A88B2A4040;
+ Fri, 19 Feb 2021 09:42:55 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.71.158])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 19 Feb 2021 09:42:55 +0000 (GMT)
+Date: Fri, 19 Feb 2021 10:42:52 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH 1/1] hw/s390x: modularize virtio-gpu-ccw
+Message-ID: <20210219104252.38feac7c.pasic@linux.ibm.com>
+In-Reply-To: <20210219084545.stb4wjn6ggwent4g@sirius.home.kraxel.org>
+References: <20210218022227.979741-1-pasic@linux.ibm.com>
+ <6c0f5acf-9ebb-ba04-1389-c6690796a6ad@redhat.com>
+ <20210218113438.3fe80078.pasic@linux.ibm.com>
+ <20210218135618.06532573.cohuck@redhat.com>
+ <20210218133820.cflf455nj44mxzja@sirius.home.kraxel.org>
+ <20210219035206.730f145e.pasic@linux.ibm.com>
+ <20210219084545.stb4wjn6ggwent4g@sirius.home.kraxel.org>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.174.185.210]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32;
- envelope-from=jiangkunkun@huawei.com; helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-19_04:2021-02-18,
+ 2021-02-19 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ bulkscore=0 clxscore=1015 lowpriorityscore=0 suspectscore=0 phishscore=0
+ malwarescore=0 priorityscore=1501 mlxlogscore=999 spamscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102190073
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,114 +114,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>, shameerali.kolothum.thodi@huawei.com
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bruce Rogers <brogers@suse.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In nested mode, we call the set_pasid_table() callback on each STE
-update to pass the guest stage 1 configuration to the host and
-apply it at physical level.
+On Fri, 19 Feb 2021 09:45:45 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-In the case of live migration, we need to manual call the
-set_pasid_table() to load the guest stage 1 configurations to the
-host. If this operation is fail, the migration is fail.
+> > but that "fixes" s390x at the expense
+> > of breaking all the other targets. For example:
+> > ./qemu-system-x86_64 -device help
+> > Type 'virtio-gpu-ccw' is missing its parent 'virtio-ccw-device'
+> > Aborted  
+> 
+> Hmm, this is a new failure variant.  In the PCI case (see other mail)
+> the module doesn't load in the first place due to missing symbols.
+> 
+> Maybe we need a type_register_mayfail() variant which doesn't abort in
+> case the parent isn't found (see also commit
+> 501093207eb1ed4845e0a65ee1ce7db7b9676e0b).
 
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- hw/arm/smmuv3.c     | 60 +++++++++++++++++++++++++++++++++++++++++++++
- hw/arm/trace-events |  1 +
- 2 files changed, 61 insertions(+)
+I was also thinking along the same lines last night, and came up with
+this workaround:
 
-diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 6c6ed84e78..94ca15375c 100644
---- a/hw/arm/smmuv3.c
-+++ b/hw/arm/smmuv3.c
-@@ -1473,6 +1473,65 @@ static void smmu_realize(DeviceState *d, Error **errp)
-     smmu_init_irq(s, dev);
+diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
+index c301e2586b..bbe591cd62 100644
+--- a/hw/s390x/virtio-ccw-gpu.c
++++ b/hw/s390x/virtio-ccw-gpu.c
+@@ -62,7 +62,16 @@ static const TypeInfo virtio_ccw_gpu = {
+ 
+ static void virtio_ccw_gpu_register(void)
+ {
++#ifdef CONFIG_MODULES
++    /*
++     * Ugly hack: Avoid targets that don't have it aborting when this module
++     * is loaded.
++    if (object_class_by_name(TYPE_VIRTIO_CCW_DEVICE)) {
++        type_register_static(&virtio_ccw_gpu);
++    }
++#else
+     type_register_static(&virtio_ccw_gpu);
++#endif
  }
  
-+static int smmuv3_manual_set_pci_device_pasid_table(SMMUDevice *sdev)
-+{
-+#ifdef __linux__
-+    IOMMUMemoryRegion *mr = &(sdev->iommu);
-+    int sid = smmu_get_sid(sdev);
-+    SMMUEventInfo event = {.type = SMMU_EVT_NONE, .sid = sid,
-+                           .inval_ste_allowed = true};
-+    IOMMUConfig iommu_config = {};
-+    SMMUTransCfg *cfg;
-+    int ret = -1;
-+
-+    cfg = smmuv3_get_config(sdev, &event);
-+    if (!cfg) {
-+        return ret;
-+    }
-+
-+    iommu_config.pasid_cfg.argsz = sizeof(struct iommu_pasid_table_config);
-+    iommu_config.pasid_cfg.version = PASID_TABLE_CFG_VERSION_1;
-+    iommu_config.pasid_cfg.format = IOMMU_PASID_FORMAT_SMMUV3;
-+    iommu_config.pasid_cfg.base_ptr = cfg->s1ctxptr;
-+    iommu_config.pasid_cfg.pasid_bits = 0;
-+    iommu_config.pasid_cfg.vendor_data.smmuv3.version = PASID_TABLE_SMMUV3_CFG_VERSION_1;
-+
-+    if (cfg->disabled || cfg->bypassed) {
-+        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_BYPASS;
-+    } else if (cfg->aborted) {
-+        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_ABORT;
-+    } else {
-+        iommu_config.pasid_cfg.config = IOMMU_PASID_CONFIG_TRANSLATE;
-+    }
-+
-+    ret = pci_device_set_pasid_table(sdev->bus, sdev->devfn, &iommu_config);
-+    if (ret) {
-+        error_report("Failed to pass PASID table to host for iommu mr %s (%m)",
-+                     mr->parent_obj.name);
-+    }
-+
-+    return ret;
-+#endif
-+}
-+
-+static int smmuv3_post_load(void *opaque, int version_id)
-+{
-+    SMMUv3State *s3 = opaque;
-+    SMMUState *s = &(s3->smmu_state);
-+    SMMUDevice *sdev;
-+    int ret = 0;
-+
-+    QLIST_FOREACH(sdev, &s->devices_with_notifiers, next) {
-+        trace_smmuv3_post_load_sdev(sdev->devfn, sdev->iommu.parent_obj.name);
-+        ret = smmuv3_manual_set_pci_device_pasid_table(sdev);
-+        if (ret) {
-+            break;
-+        }
-+    }
-+
-+    return ret;
-+}
-+
- static const VMStateDescription vmstate_smmuv3_queue = {
-     .name = "smmuv3_queue",
-     .version_id = 1,
-@@ -1491,6 +1550,7 @@ static const VMStateDescription vmstate_smmuv3 = {
-     .version_id = 1,
-     .minimum_version_id = 1,
-     .priority = MIG_PRI_IOMMU,
-+    .post_load = smmuv3_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(features, SMMUv3State),
-         VMSTATE_UINT8(sid_size, SMMUv3State),
-diff --git a/hw/arm/trace-events b/hw/arm/trace-events
-index 35e562ab74..caa864dd72 100644
---- a/hw/arm/trace-events
-+++ b/hw/arm/trace-events
-@@ -53,4 +53,5 @@ smmuv3_notify_flag_add(const char *iommu) "ADD SMMUNotifier node for iommu mr=%s
- smmuv3_notify_flag_del(const char *iommu) "DEL SMMUNotifier node for iommu mr=%s"
- smmuv3_inv_notifiers_iova(const char *name, uint16_t asid, uint64_t iova, uint8_t tg, uint64_t num_pages) "iommu mr=%s asid=%d iova=0x%"PRIx64" tg=%d num_pages=0x%"PRIx64
- smmuv3_notify_config_change(const char *name, uint8_t config, uint64_t s1ctxptr) "iommu mr=%s config=%d s1ctxptr=0x%"PRIx64
-+smmuv3_post_load_sdev(int devfn, const char *name) "sdev devfn=%d iommu mr=%s"PRIx64
- 
--- 
-2.23.0
+ type_init(virtio_ccw_gpu_register)
 
+but then I decided it is too ugly to post. Something like
+type_register_mayfail() would be certainly nicer, although I would still
+prefer the failing type register if the device ain't built as a module.
+
+Today I'm on a vacation so I will pick this up again next week. I will
+also think some more of how the situation with virtio-ccw compares to pci
+with respect to modularization.
+
+Regards,
+Halil
 
