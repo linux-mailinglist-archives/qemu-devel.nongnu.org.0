@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEA4331F502
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 07:12:44 +0100 (CET)
-Received: from localhost ([::1]:54408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29BD131F503
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 07:13:32 +0100 (CET)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCz1v-0002Yd-4Y
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 01:12:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39866)
+	id 1lCz2h-0003HH-8v
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 01:13:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCz0G-0001q9-N6
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 01:11:00 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38026)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lCz0C-0006fI-5C
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 01:11:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lCz06-0002Qe-Hf
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 06:10:50 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B69F2E805B
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 06:10:50 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1lCz0s-0002Qc-Ey
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 01:11:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42891)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1lCz0n-00072H-2z
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 01:11:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613715091;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=LVovE5F8C/ZzWe7wQKo4RCtu+PNaWHZm/EEVqmtEV3E=;
+ b=RW7/NmKht0e1mCIm7jLJxdKgib2C7nrXmpKi+JT8U15Dv2FXmmBr0JCj0YiUbee57zwwNi
+ IODwr+Lw6UIZ3o+gF2jigxvoQKVwi3vKu/0esb5vLcY+YoEeBdsAVHyKUhnvcNLqFtiJVR
+ Pn+0bAv9bl76zw1+5zPQBgljf0sCslo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-129-R8U3iFt0PJaJ9FQdc-0cSg-1; Fri, 19 Feb 2021 01:11:28 -0500
+X-MC-Unique: R8U3iFt0PJaJ9FQdc-0cSg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4783D100A61E;
+ Fri, 19 Feb 2021 06:11:27 +0000 (UTC)
+Received: from kaapi (vpn2-54-200.bne.redhat.com [10.64.54.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E0755171FE;
+ Fri, 19 Feb 2021 06:11:21 +0000 (UTC)
+Date: Fri, 19 Feb 2021 11:41:11 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH] net: eepro100: validate various address values
+In-Reply-To: <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
+Message-ID: <6qo84891-7or2-7p58-rr4-n2n46o5730rq@erqung.pbz>
+References: <20210218140629.373646-1-ppandit@redhat.com>
+ <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
+ <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 19 Feb 2021 05:55:58 -0000
-From: Ravishankar <1916112@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: rreddy78
-X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
-X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
-Message-Id: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
-Subject: [Bug 1916112] [NEW] Illegal instruction crash of QEMU on Jetson Nano
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 3756184d2b46aef564c15524fe168f8e6f240844
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,190 +78,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Stefan Weil <sw@weilnetz.de>,
+ Jason Wang <jasowang@redhat.com>, Li Qiang <liq3ea@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Ruhr-University Bochum <bugs-syssec@rub.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+  Hello Alex, Stefan, all
 
-I have a jetson nano (arm64 SBC) and I want to check the native
-emulation performance of Raspbian Buster. I used the info available
-here:
++-- On Thu, 18 Feb 2021, Alexander Bulekov wrote --+
+| Maybe the infinite loop mentioned in the commit message is actually a DMA 
+| recursion issue? I'm providing a reproducer for a DMA re-entracy issue 
+| below. With this patch applied, the reproducer triggers the assert(), rather 
+| than overflowing the stack, so maybe it is the same issue? -Alex
+| 
+| cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+| 512M -device i82559er,netdev=net0 -netdev user,id=net0 -nodefaults \
+| -qtest stdio
+| outl 0xcf8 0x80001014
+| outl 0xcfc 0xc000
+| outl 0xcf8 0x80001010
+| outl 0xcfc 0xe0020000
+| outl 0xcf8 0x80001004
+| outw 0xcfc 0x7
+| write 0x1ffffc0b 0x1 0x55
+| write 0x1ffffc0c 0x1 0xfc
+| write 0x1ffffc0d 0x1 0x46
+| write 0x1ffffc0e 0x1 0x07
+| write 0x746fc59 0x1 0x02
+| write 0x746fc5b 0x1 0x02
+| write 0x746fc5c 0x1 0xe0
+| write 0x4 0x1 0x07
+| write 0x5 0x1 0xfc
+| write 0x6 0x1 0xff
+| write 0x7 0x1 0x1f
+| outw 0xc002 0x20
+| EOF
+| 
 
-https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
-emuation
+* Yes, it is an infinite recursion induced stack overflow. I should've said 
+  recursion instead of loop.
 
-I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson Nano
-
-However QEMU crashes with "Illegal Instruction" during kernel boot. I
-have a built latest QEMU from sources with following configuration
-
-./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
-softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg --enable-
-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk --enable-
-virglrenderer --enable-opengl
-
-qemu-system-aarch64 --version
-QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
-
-When I run as follows:
-
-../build/qemu-system-aarch64 -M raspi3
--append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_e=
-nable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
--dtb ./bcm2710-rpi-3-b-plus.dtb
--sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full=
-.qcow2
--kernel ./kernel8.img
--m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-
-I get :
-[ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Syst=
-em being skipped.
-[ 76.281274] systemd[1]: Starting Apply Kernel Variables...
-Starting Apply Kernel Variables...
-Illegal instruction (core dumped)
-
-When I use GDB I see this:
-
-Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
-[Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
-0x0000007f888ac690 in code_gen_buffer ()
-(gdb) bt
-#0 0x0000007f888ac690 in code_gen_buffer ()
-#1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502c4=
-0)
-at ../accel/tcg/cpu-exec.c:191
-#2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
-at ../accel/tcg/cpu-exec.c:708
-#3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:819
-..
-
-I have just two questions:
-
-Is this a problem with QEMU or is there anything specific build or
-options I need to use. Any specific version of QEMU should be used ?
-
-Why is TCG used as the accelerator when KVM is present. Is it possible
-and how to use KVM ?
-
-If I enabled the KVM then I get this error:
-
-../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprintk =
-loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/mm=
-cblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D217=
-47D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./ker=
-nel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-WARNING: Image format was not specified for '/media/96747D21747D0571/Jetson=
-Nano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
-         Automatically detecting the format is dangerous for raw images, wr=
-ite operations on block 0 will be restricted.
-         Specify the 'raw' format explicitly to remove the restrictions.
-qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: Asse=
-rtion `asidx =3D=3D 0 || !kvm_enabled()' failed.
-
-Thanks a lot.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+  Thank you for sharing a reproducer and the stack trace.
 
 
-** Tags: tcg
++-- On Thu, 18 Feb 2021, Stefan Weil wrote --+
+| Am 18.02.21 um 15:41 schrieb Peter Maydell:
+||  +        assert (s->cb_address >= s->cu_base);
+| > We get these values from the guest; you can't just assert() on them. You 
+| > need to do something else.
+| > http://www.intel.com/content/dam/doc/manual/8255x-10-100-mbps-ethernet-controller-software-dev-manual.pdf
+|
+| I agree with Peter. The hardware emulation in QEMU should try to do the same 
+| as the real hardware.
 
--- =
+* Agreed.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916112
+* While the manual does not say how to handle uint32_t overflow in above 
+  'cb_address' calculation, I doubt if overflow is expected.
 
-Title:
-  Illegal instruction crash of QEMU on Jetson Nano
+  +    if (s->cb_address < s->cu_base) {
+  +        logout ("invalid cb_address: %s: %u\n", __func__, s->cb_address);
+  +        break;
+  +    }
 
-Status in QEMU:
-  New
+  I tried above fix first, it does not seem to arrest the recurssion induced 
+  stack overflow. Hence assert(3).
 
-Bug description:
-  I have a jetson nano (arm64 SBC) and I want to check the native
-  emulation performance of Raspbian Buster. I used the info available
-  here:
+* I also tried to find out if there's any cap on the 'cu_offset' value OR 
+  number of command units (cu) that can be addressed.
 
-  https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
-  emuation
+  But in linear addressing mode offset is a 32bit value with base address set 
+  to zero(0).
 
-  I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson
-  Nano
+  And in 32bit segmented addressing mode 'offset' is 16bit value with 
+  non-zero(0) base address. ie. maximum offset could be about ~4K for 16byte 
+  command block IIUC. I'm not sure if segmented addressing mode is supported.
 
-  However QEMU crashes with "Illegal Instruction" during kernel boot. I
-  have a built latest QEMU from sources with following configuration
+* I'd appreciate if you could suggest a right way to fix it OR propose/post 
+  another patch. I'm okay either way.
 
-  ./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
-  softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg
-  --enable-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk
-  --enable-virglrenderer --enable-opengl
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
-  qemu-system-aarch64 --version
-  QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
-
-  When I run as follows:
-
-  ../build/qemu-system-aarch64 -M raspi3
-  -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm=
-_enable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
-  -dtb ./bcm2710-rpi-3-b-plus.dtb
-  -sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-fu=
-ll.qcow2
-  -kernel ./kernel8.img
-  -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-
-  I get :
-  [ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Sy=
-stem being skipped.
-  [ 76.281274] systemd[1]: Starting Apply Kernel Variables...
-  Starting Apply Kernel Variables...
-  Illegal instruction (core dumped)
-
-  When I use GDB I see this:
-
-  Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
-  [Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
-  0x0000007f888ac690 in code_gen_buffer ()
-  (gdb) bt
-  #0 0x0000007f888ac690 in code_gen_buffer ()
-  #1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502=
-c40)
-  at ../accel/tcg/cpu-exec.c:191
-  #2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
-  at ../accel/tcg/cpu-exec.c:708
-  #3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:8=
-19
-  ..
-
-  I have just two questions:
-
-  Is this a problem with QEMU or is there anything specific build or
-  options I need to use. Any specific version of QEMU should be used ?
-
-  Why is TCG used as the accelerator when KVM is present. Is it possible
-  and how to use KVM ?
-
-  If I enabled the KVM then I get this error:
-
-  ../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprint=
-k loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/=
-mmcblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D2=
-1747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./k=
-ernel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-  WARNING: Image format was not specified for '/media/96747D21747D0571/Jets=
-onNano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
-           Automatically detecting the format is dangerous for raw images, =
-write operations on block 0 will be restricted.
-           Specify the 'raw' format explicitly to remove the restrictions.
-  qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: As=
-sertion `asidx =3D=3D 0 || !kvm_enabled()' failed.
-
-  Thanks a lot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916112/+subscriptions
 
