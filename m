@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D085A31FEC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:26:42 +0100 (CET)
-Received: from localhost ([::1]:44716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5D031FEC8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:28:37 +0100 (CET)
+Received: from localhost ([::1]:48032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDAUD-00030F-L0
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:26:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59070)
+	id 1lDAW4-0004Ww-A0
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:28:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lDARo-00024T-RV
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:24:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30706)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lDARk-0001g3-Cm
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:24:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613759047;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d2uFgV2BmmAQeV0YgKzt3/vyJSjl0E7vZmtWpAFx1Rg=;
- b=XEf0EM/nvm5yHqt53Ex8HQgJqlsayIZIj5veDYiee7rp6KrAiT6BAMZIqjPONgDRFajHNz
- 3V7KtGxglYW7jyydSosvSygI7L2QbFwYPP7ht5mW92LR875nJhleGZqBSoapvPMCTHVfFb
- pUlhmZGYerljH+zMoeS99SvstVOSYC8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-pdPZlVz4NjyDKM3T1a2LjA-1; Fri, 19 Feb 2021 13:24:04 -0500
-X-MC-Unique: pdPZlVz4NjyDKM3T1a2LjA-1
-Received: by mail-wm1-f70.google.com with SMTP id q24so2867024wmc.1
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 10:24:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDAUw-0003ks-AW
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:27:26 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33339)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDAUu-0002YV-LH
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:27:26 -0500
+Received: by mail-wr1-x435.google.com with SMTP id 7so9852289wrz.0
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 10:27:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6w0ZesKv1INOQ2nMQqY9/+WTZODZL86LyiI0NSUR9JU=;
+ b=DcY2bjnkXWK3TPqqFXZWm7lHUj+EDOIuHV9mYhSt7yBMK9gGZ8zLceG4VYljeM71Lh
+ 1FXewvOJYgxj7uPlVmLHDRT8wuWp04T4qbxt/y2W7R7NOY5upDYLoLi4vzHa7xqFLA22
+ NGzSQHU/b40v3cZTIGffBsoFJKkfERe0pq2g+mRPGaprvMFRFWDKbGG1acoMxwDfzRHG
+ 67bJkYWvB5OKpuLCPL9SehgIwBzTIy8DG63Y5S3DQXwpeauonmQLSwOl7Kz0Xr/aqyHc
+ LHaHTYtMLbfi5gO2TCC5I02FKaB8Ryc7UaZRJOtmIKKPiUXVWo/c357EE+VTdmpfIMeb
+ zfhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=d2uFgV2BmmAQeV0YgKzt3/vyJSjl0E7vZmtWpAFx1Rg=;
- b=VrR/4HyDijToZbbYZb4piVW60zbAX7qdzxMgCqfRpVBAFC6hziV53jJIVST8tN7IWY
- rYQh9weYzrSEijIa03Xn5QTErpEMtpP5zY2vJOG4LWdcTzucbR9zJz3zV5BtXRKytL5C
- qFl9sdnO8RRp80qr7zshl18j+C7h+VSDIPyoAEfkzfcV4ZQ43BGkoz6wbMC3Ld8YpaeK
- uKSoda1Rmi7dm4K6TyonQcvE5OM2QW7FWVII/5Ct+KDndfQ3nftDNF5xlKRGCL+uqoxx
- h2nEk6DmJLC3qcHhA/nL2NH0WGvKhPTHxmyZ9jHyScl6sDQUd1cBa4P7NwX6JB3loig4
- rW1w==
-X-Gm-Message-State: AOAM533O6o0oRaVR7aYTszuso6xWVFpDDbW/fb+ENHWDXTK7ei0sb9Gb
- OwzP67zjEG9p9fsa2d9zpQ1CyuJuxpxgx0KeNSCbFj68pL+R0n5N4UHWZiT5fOVKPwAY4zjtdPA
- I1RG2T30wRJ+7HWw=
-X-Received: by 2002:a7b:c353:: with SMTP id l19mr9506584wmj.147.1613759043326; 
- Fri, 19 Feb 2021 10:24:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvZPTMYfF2dVovIS7xpCbfbL2EXfY16hjnikVSfVnYYQ5rYKo39e09dRk+evTVlMWxnk7G6Q==
-X-Received: by 2002:a7b:c353:: with SMTP id l19mr9506558wmj.147.1613759042878; 
- Fri, 19 Feb 2021 10:24:02 -0800 (PST)
+ bh=6w0ZesKv1INOQ2nMQqY9/+WTZODZL86LyiI0NSUR9JU=;
+ b=TaCTdJGkBws6CeNXZWdvJDPbnX+yDWLHAX/+e6WxW+NuvbyMPal9kHWyp9cDf0PPvO
+ NxWa1cx/m7s9rmXX/UOfJyWI784kT3xcdhS6L4V5rN8MUtJ26R3UjYt4GUENXTxGfRHf
+ 2duoCLTRNwJqU6T8mZafU1+BkEZgA821yuKHpFH6AvBhRb1p48eocM8peQhPJSXDZSw4
+ 2r88ncZnIilUSg2Mh8aJqXRnyCwYL4hs2RG+nQuVPu6QH+WpOByQpX9YFJksbeeBzUHW
+ tBYHHqMYkQbWZH7FCUHre/NWWMqc41TIbmCeOZCeeA2RskW22XoiFxDosgLIOGa/ROs2
+ x0Xw==
+X-Gm-Message-State: AOAM530W+o8OXfbGp6TzAlksLoApyCiYwSk38M7fmy+8IhUckxRbZsbh
+ B15l02ed+KZBPS9ROarGAUs=
+X-Google-Smtp-Source: ABdhPJwn9eGo5EWNzBnkkkY48L0R9w0eetbd7EI9QqFk3nVUVHEFQ2exG6xJ6sEUwhV3cQ87NnkWww==
+X-Received: by 2002:a05:6000:1565:: with SMTP id
+ 5mr10630776wrz.109.1613759242476; 
+ Fri, 19 Feb 2021 10:27:22 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t30sm15359550wra.56.2021.02.19.10.24.01
+ by smtp.gmail.com with ESMTPSA id d15sm14508497wru.80.2021.02.19.10.27.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 19 Feb 2021 10:24:02 -0800 (PST)
-Subject: Re: [PATCH 0/2] Allwinner H3 fixes for EMAC and acceptance tests
-To: Niek Linnenbank <nieklinnenbank@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210211220055.19047-1-nieklinnenbank@gmail.com>
- <e2b0052c-7dd3-36a2-64b7-3d56c23d0a2d@redhat.com>
- <YCuVC4T+TFjuskhF@redhat.com>
- <CAPan3Wo+c+4F82cM+UDQu+JH9eQdqL2gjnikXmg3PZKTXCP_jg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <cc5f65a8-204b-17ad-3bba-61a3919ef798@redhat.com>
-Date: Fri, 19 Feb 2021 19:24:01 +0100
+ Fri, 19 Feb 2021 10:27:21 -0800 (PST)
+Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
+To: BALATON Zoltan <balaton@eik.bme.hu>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
+ <efff5920-3fd7-581d-d92-42b1b21ae66a@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6213ed02-5dae-20b1-7c4d-d28824d433e3@amsat.org>
+Date: Fri, 19 Feb 2021 19:27:21 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAPan3Wo+c+4F82cM+UDQu+JH9eQdqL2gjnikXmg3PZKTXCP_jg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <efff5920-3fd7-581d-d92-42b1b21ae66a@eik.bme.hu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,154 +91,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- Pavel.Dovgaluk@ispras.ru, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- b.galvani@gmail.com, qemu-arm@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>, crosa@redhat.com,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Niek,
+On 2/19/21 7:07 PM, BALATON Zoltan wrote:
+> On Fri, 19 Feb 2021, Peter Maydell wrote:
+>> Does anybody use the ozlabs patchwork install for QEMU patches,
+>> either occasionally or on a regular basis ?
+>> http://patchwork.ozlabs.org/project/qemu-devel/list/
+>> The admins for that system are trying to identify which of
+>> the various projects are really using their patchwork instances,
+>> so I figured I'd do a quick survey here. We don't use it
+>> as an official project tool but it's certainly possible to
+>> use it as an individual developer in one way or another.
+> 
+> The "How to submit a patch" page at
+> https://wiki.qemu.org/Contribute/SubmitAPatch#If_your_patch_seems_to_have_been_ignored
+> 
+> says to send patchew URL with pings. Does that make it "official"?
 
-On 2/17/21 9:57 PM, Niek Linnenbank wrote:
-> Hi Daniel, Philippe,
-> 
-> Op di 16 feb. 2021 10:49 schreef Daniel P. Berrangé <berrange@redhat.com
-> <mailto:berrange@redhat.com>>:
-> 
->     On Fri, Feb 12, 2021 at 03:10:00PM +0100, Philippe Mathieu-Daudé wrote:
->     > Hi Niek and QEMU community,
->     >
->     > On 2/11/21 11:00 PM, Niek Linnenbank wrote:
->     > > The following are maintenance patches for the Allwinner H3. The
->     first patch
->     > > is a proposal to relocate the binary artifacts of the acceptance
->     tests away
->     > > from the apt.armbian.com <http://apt.armbian.com> domain. In the
->     past we had problems with artifacts being
->     > > removed, and now the recently added Armbian 20.08.1 image has
->     been removed as well:
->     > >
->     > > $ wget
->     https://dl.armbian.com/orangepipc/archive/Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz
->     <https://dl.armbian.com/orangepipc/archive/Armbian_20.08.1_Orangepipc_bionic_current_5.8.5.img.xz>
->     > > Connecting to dl.armbian.com <http://dl.armbian.com>
->     (dl.armbian.com <http://dl.armbian.com>)|2605:7900:20::5|:443...
->     connected.
->     > > ...
->     > > HTTP request sent, awaiting response... 404 Not Found
->     > > 2021-02-11 22:34:45 ERROR 404: Not Found.
->     > >
->     > > I've now added the artifacts to a server maintained by me. The
->     machine has a stable
->     > > uptime of several years, ~100Mbit bandwidth and plenty of
->     available storage.
->     > > Also for other artifacts if needed. I'm open to discuss if there
->     is a proposal
->     > > for a better location for these artifacts or a more generic qemu
->     location.
->     >
->     > Thanks for trying to fix this long standing problem.
->     >
->     > While this works in your case, this doesn't scale to the community,
->     > as not all contributors have access to such hardware and bandwidth /
->     > storage.
->     >
->     > While your first patch is useful in showing where the artifacts are
->     > stored doesn't matter - as long as we use cryptographic hashes - I
->     > think it is a step in the wrong direction, so I am not keen on
->     > accepting it.
->     >
->     > My personal view is that any contributor should have the same
->     > possibilities to add tests to the project. Now I am also open to
->     > discuss with the others :) I might be proven wrong, and it could
->     > be better to rely on good willing contributors rather than having
->     > nothing useful at all.
-> 
->     There aren't many options here
-> 
->      1. Rely on a vendor to provide stable download URLs for images
-> 
->      2. QEMU host all images we use in testing
-> 
->      3. Contributor finds some site to upload images to
-> 
-> 
->     For the armbian images we rely on (1), but the URLs didn't turn out
->     to be
->     stable. In fact no OS vendor seems to have guaranteed stable URLs
->     forever,
->     regardless of distro, though most eventually do have an archive site
->     that
->     has good life. Armbian was an exception in this respect IIUC.
-> 
->     (2) would solve the long term stability problem as QEMU would be in full
->     control, and could open it up for any images we need. The big challenge
->     there is that QEMU now owns the license compliance problem. Merely
->     uploading
->     binary images/packages without the corresponding source is generally
->     a license
->     violation. QEMU could provide hosting, but we need to be clear about
->     the fact
->     that we now own the license compliance problem ourselves. Many sites
->     hosting
->     images simply ignore this problem, but that doesn't make it right.
-> 
-> 
->     This series is proposing (3), with a site the contributor happens to
->     control
->     themselves, but using a free 3rd party hosting site is no different
->     really.
->     Again there is a the same need for license compliance, but it is now the
->     responsibility of the user, not QEMU project.
-> 
->     In this http://www.freenos.org/pub/qemu/cubieboard/
->     <http://www.freenos.org/pub/qemu/cubieboard/> site I can't even see a
->     directory listing, so even if corresponding source does exist in
->     this server,
->     I can't find it.
-> 
->     The isn't really a problem for QEMU CI to consume the images, but as
->     a free
->     software developer I don't like encouraging practices that are not
->     compliant
->     with licensing reuqirement.
-> 
->     It is an open question whether the (3) is really better than (1) in
->     terms
->     of URL stability long term, especially if running off a user's personal
->     server.
-> 
-> 
-> I understand your concerns. My goal here was to be able to re-activate
-> the orangepi tests, so we can capture bugs early on.
-
-I hope you understand the concern I have is not with you in particular,
-and I used your case to start a discussion with the QEMU community.
-
-FWIW I missed the URL change because I still have the image cached in
-Avocado so my testing ran fine. Which makes me wonder...
-
-Cleber, Willian, should Avocado display information about cached
-artifacts? Such "Using artifact downloaded 7 months ago".
-
-> So what I can do
-> instead is:
-> 
->   - update the patch to use github to store the artifacts, and their
-> licenses (other tests also use github)
-
-Until there is better solutions, this is the option I prefer.
-
->   - or change the patch to use updated armbian links that work (for now)
-> 
-> If we can agree on either of these solutions, so the orangepi tests can
-> be re-activated, that would be great. 
-> 
-> Kind regards,
-> Niek
-
+Thanks for the reminder, I updated the patchwork URL to patchew :)
 
