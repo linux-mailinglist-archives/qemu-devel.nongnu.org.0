@@ -2,57 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C4A31F678
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:23:16 +0100 (CET)
-Received: from localhost ([::1]:39886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9615831F68B
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 10:28:00 +0100 (CET)
+Received: from localhost ([::1]:42288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD20J-0000tn-2Y
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:23:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38694)
+	id 1lD24t-00029T-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 04:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lD1z4-0000T6-TZ
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:21:58 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:42975)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lD1z1-0005d3-SB
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:21:58 -0500
-Received: from [192.168.100.1] ([82.252.134.158]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MIxJq-1lRxIj06g6-00KODt; Fri, 19 Feb 2021 10:21:43 +0100
-To: Richard Henderson <richard.henderson@linaro.org>
-References: <20210216161658.29881-1-peter.maydell@linaro.org>
- <20210216161658.29881-19-peter.maydell@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PULL 18/40] linux-user: Fix types in uaccess.c
-Message-ID: <ec051472-7511-62da-d485-17f7573aa460@vivier.eu>
-Date: Fri, 19 Feb 2021 10:21:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1lD23V-0001cE-Rb
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:26:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55406)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1lD23T-0007el-9X
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 04:26:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613726790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=s1IS/ZfyP37wEnHDBk2LIws5xHu0wnJwnf20ESCFET0=;
+ b=DAFeVjHaTk82LNHXS+023DJVtL0PtR4h8KCx0lrz13QbjECwFvDnSaJ9zt+mFA0pqGl7Rf
+ mx9qFmyx9IYH+8r3qhUw4dcK0+I2T++eT9rgnqKgQvyKvy3qwrpxB6VM5yoBzDEnrCPCXr
+ liVfubD/BDeGq43QT70QgrZnJ0V9sXk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-3-wiKAdn-TN2yZ1fjxaX7X9w-1; Fri, 19 Feb 2021 04:26:26 -0500
+X-MC-Unique: wiKAdn-TN2yZ1fjxaX7X9w-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 647911083E8F;
+ Fri, 19 Feb 2021 09:26:25 +0000 (UTC)
+Received: from kaapi (vpn2-54-200.bne.redhat.com [10.64.54.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B80DD6267C;
+ Fri, 19 Feb 2021 09:26:20 +0000 (UTC)
+Date: Fri, 19 Feb 2021 14:56:11 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH] net: eepro100: validate various address values
+In-Reply-To: <43340d92-55da-61f2-5ad1-c8e3d6679f6d@weilnetz.de>
+Message-ID: <n62s8q1-4ns8-pq39-7r2o-p483n3555o1p@erqung.pbz>
+References: <20210218140629.373646-1-ppandit@redhat.com>
+ <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
+ <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
+ <6qo84891-7or2-7p58-rr4-n2n46o5730rq@erqung.pbz>
+ <00338810-b72e-6a9c-eef0-3c0adc764695@weilnetz.de>
+ <43340d92-55da-61f2-5ad1-c8e3d6679f6d@weilnetz.de>
 MIME-Version: 1.0
-In-Reply-To: <20210216161658.29881-19-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:j3twMP8G7WBWgwOZvs7F9Z5yT69VTyvLPgOCzFoAM3ipr0cyQhn
- TgIegRbfJ60RLlnYBPOoPW1qpvI7fgmz0UrZ/0cgVqv9U6ubibeVsN9/M89j6zAGl7a4B/6
- 1gRdJT0kwFQ51Yd5zsx598Zy+EaTxXiiVtt6oDTt+nSiRJ1hCF4XqZAg1VKkjWIGlrvDq2I
- CWkPKFqGqKj/oOCgPZd5g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ItBpCzCQ2uU=:C+FDptd/s74+lk+jn+9pa6
- cVhcpRu/hDy0bZ9ueSdIHGkMEH2Dbj7EoIrcTTaD2pRvZIh7be+7f9ObpYUIL+fZWQABSbE08
- SAAOdrgJMSVLK66c2DGJ0fF80dUVbog2sRONRY5rHfk6HKyhyJA59r5BhUiHmgqauwbITHS1M
- Kl9WcRFsuQB7rU6AscUxwryZmHJRvg+SHLNwpS3VumsR1bozspsihVdji5T18hZ7A/8stB9wB
- K5fnUc8qgEZs95ugysAHLt3A7R6fHAVZ7BTCT5f/lrmGCVHG5ddgTpz+YSRhs15usi2wAB6aj
- xthz94e4nkqopvGjSt349JnCAVTx58wNnaagNHv1rYeGR7ShG0LnLMVMZfOyVicv7LKjVA39L
- NmYhc01bIoktzZd0Xyph6wVZxBw3TS/0iXtpxY36PwNlq42ZSnhltK1UtDG8k
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed;
+ boundary="-1463810559-1665963969-1613726784=:396166"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,229 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Alexander Bulekov <alxndr@bu.edu>, Ruhr-University Bochum <bugs-syssec@rub.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810559-1665963969-1613726784=:396166
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
 
-I think this commit is the cause of CID 1446711.
+  Hello Stefan,
 
-There is no concistancy between the various declarations of unlock_user():
++-- On Fri, 19 Feb 2021, Stefan Weil wrote --+
+| If there are no recursions in normal use, the following patch should work:
+| 
+| diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+| index 16e95ef9cc..2474cf3dc2 100644
+| --- a/hw/net/eepro100.c
+| +++ b/hw/net/eepro100.c
+| @@ -279,6 +279,9 @@ typedef struct {
+|      /* Quasi static device properties (no need to save them). */
+|      uint16_t stats_size;
+|      bool has_extended_tcb_support;
+| +
+| +    /* Flag to avoid recursions. */
+| +    bool busy;
+|  } EEPRO100State;
+| 
+|  /* Word indices in EEPROM. */
+| @@ -837,6 +840,14 @@ static void action_command(EEPRO100State *s)
+|         Therefore we limit the number of iterations. */
+|      unsigned max_loop_count = 16;
+| 
+| +    if (s->busy) {
+| +        /* Prevent recursions. */
+| +        logout("recursion in %s:%u\n", __FILE__, __LINE__);
+| +        return;
+| +    }
+| +
+| +    s->busy = true;
+| +
+|      for (;;) {
+|          bool bit_el;
+|          bool bit_s;
+| @@ -933,6 +944,7 @@ static void action_command(EEPRO100State *s)
+|      }
+|      TRACE(OTHER, logout("CU list empty\n"));
+|      /* List is empty. Now CU is idle or suspended. */
+| +    s->busy = false;
+|  }
+| 
+|  static void eepro100_cu_command(EEPRO100State * s, uint8_t val)
 
-bsd-user/qemu.h
+Please see:
+  -> https://ruhr-uni-bochum.sciebo.de/s/NNWP2GfwzYKeKwE?path=%2Feepro100_stackoverflow1
 
-static inline void unlock_user(void *host_ptr, abi_ulong guest_addr,
-                               long len)
+* It does not seem to address above case.
 
-include/exec/softmmu-semi.h
-
-static void softmmu_unlock_user(CPUArchState *env, void *p, target_ulong addr,
-                                target_ulong len)
-...
-#define unlock_user(s, args, len) softmmu_unlock_user(env, s, args, len)
-
-linux-user/qemu.h
-
-#ifndef DEBUG_REMAP
-static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
-{ }
-#else
-void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
-#endif
-
-To take a signed long here allows to unconditionnaly call the unlock_user() function after the
-syscall and not to copy the buffer if the value is negative.
-
-Thanks,
-Laurent
-
-Le 16/02/2021 à 17:16, Peter Maydell a écrit :
-> From: Richard Henderson <richard.henderson@linaro.org>
-> 
-> For copy_*_user, only 0 and -TARGET_EFAULT are returned; no need
-> to involve abi_long.  Use size_t for lengths.  Use bool for the
-> lock_user copy argument.  Use ssize_t for target_strlen, because
-> we can't overflow the host memory space.
-> 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> Message-id: 20210212184902.1251044-19-richard.henderson@linaro.org
-> [PMM: moved fix for ifdef error to previous commit]
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  linux-user/qemu.h    | 12 +++++-------
->  linux-user/uaccess.c | 45 ++++++++++++++++++++++----------------------
->  2 files changed, 28 insertions(+), 29 deletions(-)
-> 
-> diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-> index 971af97a2fb..d25a5dafc0f 100644
-> --- a/linux-user/qemu.h
-> +++ b/linux-user/qemu.h
-> @@ -7,8 +7,6 @@
->  #include "exec/cpu_ldst.h"
->  
->  #undef DEBUG_REMAP
-> -#ifdef DEBUG_REMAP
-> -#endif /* DEBUG_REMAP */
->  
->  #include "exec/user/abitypes.h"
->  
-> @@ -629,8 +627,8 @@ static inline bool access_ok(CPUState *cpu, int type,
->   * buffers between the target and host.  These internally perform
->   * locking/unlocking of the memory.
->   */
-> -abi_long copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
-> -abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
-> +int copy_from_user(void *hptr, abi_ulong gaddr, size_t len);
-> +int copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
->  
->  /* Functions for accessing guest memory.  The tget and tput functions
->     read/write single values, byteswapping as necessary.  The lock_user function
-> @@ -640,13 +638,13 @@ abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len);
->  
->  /* Lock an area of guest memory into the host.  If copy is true then the
->     host area will have the same contents as the guest.  */
-> -void *lock_user(int type, abi_ulong guest_addr, long len, int copy);
-> +void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy);
->  
->  /* Unlock an area of guest memory.  The first LEN bytes must be
->     flushed back to guest memory. host_ptr = NULL is explicitly
->     allowed and does nothing. */
->  #ifndef DEBUG_REMAP
-> -static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, long len)
-> +static inline void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len)
->  { }
->  #else
->  void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
-> @@ -654,7 +652,7 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
->  
->  /* Return the length of a string in target memory or -TARGET_EFAULT if
->     access error. */
-> -abi_long target_strlen(abi_ulong gaddr);
-> +ssize_t target_strlen(abi_ulong gaddr);
->  
->  /* Like lock_user but for null terminated strings.  */
->  void *lock_user_string(abi_ulong guest_addr);
-> diff --git a/linux-user/uaccess.c b/linux-user/uaccess.c
-> index bba012ed159..76af6a92b11 100644
-> --- a/linux-user/uaccess.c
-> +++ b/linux-user/uaccess.c
-> @@ -4,7 +4,7 @@
->  
->  #include "qemu.h"
->  
-> -void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
-> +void *lock_user(int type, abi_ulong guest_addr, size_t len, bool copy)
->  {
->      if (!access_ok_untagged(type, guest_addr, len)) {
->          return NULL;
-> @@ -26,7 +26,7 @@ void *lock_user(int type, abi_ulong guest_addr, long len, int copy)
->  }
->  
->  #ifdef DEBUG_REMAP
-> -void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
-> +void unlock_user(void *host_ptr, abi_ulong guest_addr, size_t len);
->  {
->      if (!host_ptr) {
->          return;
-> @@ -34,7 +34,7 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
->      if (host_ptr == g2h_untagged(guest_addr)) {
->          return;
->      }
-> -    if (len > 0) {
-> +    if (len != 0) {
->          memcpy(g2h_untagged(guest_addr), host_ptr, len);
->      }
->      g_free(host_ptr);
-> @@ -43,53 +43,53 @@ void unlock_user(void *host_ptr, abi_ulong guest_addr, long len);
->  
->  void *lock_user_string(abi_ulong guest_addr)
->  {
-> -    abi_long len = target_strlen(guest_addr);
-> +    ssize_t len = target_strlen(guest_addr);
->      if (len < 0) {
->          return NULL;
->      }
-> -    return lock_user(VERIFY_READ, guest_addr, (long)(len + 1), 1);
-> +    return lock_user(VERIFY_READ, guest_addr, (size_t)len + 1, 1);
->  }
->  
->  /* copy_from_user() and copy_to_user() are usually used to copy data
->   * buffers between the target and host.  These internally perform
->   * locking/unlocking of the memory.
->   */
-> -abi_long copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
-> +int copy_from_user(void *hptr, abi_ulong gaddr, size_t len)
->  {
-> -    abi_long ret = 0;
-> -    void *ghptr;
-> +    int ret = 0;
-> +    void *ghptr = lock_user(VERIFY_READ, gaddr, len, 1);
->  
-> -    if ((ghptr = lock_user(VERIFY_READ, gaddr, len, 1))) {
-> +    if (ghptr) {
->          memcpy(hptr, ghptr, len);
->          unlock_user(ghptr, gaddr, 0);
-> -    } else
-> +    } else {
->          ret = -TARGET_EFAULT;
-> -
-> +    }
->      return ret;
->  }
->  
-> -
-> -abi_long copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
-> +int copy_to_user(abi_ulong gaddr, void *hptr, size_t len)
->  {
-> -    abi_long ret = 0;
-> -    void *ghptr;
-> +    int ret = 0;
-> +    void *ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0);
->  
-> -    if ((ghptr = lock_user(VERIFY_WRITE, gaddr, len, 0))) {
-> +    if (ghptr) {
->          memcpy(ghptr, hptr, len);
->          unlock_user(ghptr, gaddr, len);
-> -    } else
-> +    } else {
->          ret = -TARGET_EFAULT;
-> +    }
->  
->      return ret;
->  }
->  
->  /* Return the length of a string in target memory or -TARGET_EFAULT if
->     access error  */
-> -abi_long target_strlen(abi_ulong guest_addr1)
-> +ssize_t target_strlen(abi_ulong guest_addr1)
->  {
->      uint8_t *ptr;
->      abi_ulong guest_addr;
-> -    int max_len, len;
-> +    size_t max_len, len;
->  
->      guest_addr = guest_addr1;
->      for(;;) {
-> @@ -101,11 +101,12 @@ abi_long target_strlen(abi_ulong guest_addr1)
->          unlock_user(ptr, guest_addr, 0);
->          guest_addr += len;
->          /* we don't allow wrapping or integer overflow */
-> -        if (guest_addr == 0 || 
-> -            (guest_addr - guest_addr1) > 0x7fffffff)
-> +        if (guest_addr == 0 || (guest_addr - guest_addr1) > 0x7fffffff) {
->              return -TARGET_EFAULT;
-> -        if (len != max_len)
-> +        }
-> +        if (len != max_len) {
->              break;
-> +        }
->      }
->      return guest_addr - guest_addr1;
->  }
-> 
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810559-1665963969-1613726784=:396166--
 
 
