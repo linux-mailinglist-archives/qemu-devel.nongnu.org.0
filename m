@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EAD31FC01
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:33:43 +0100 (CET)
-Received: from localhost ([::1]:60264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 231B131FC24
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:40:38 +0100 (CET)
+Received: from localhost ([::1]:53972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD7mo-0006bS-40
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:33:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35214)
+	id 1lD7tV-0000bx-0r
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:40:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76N-0004hy-TF
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21146)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76R-0004rf-WA
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58018)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76L-0004hY-7d
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lD76L-0004hi-E1
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 09:49:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613746185;
+ s=mimecast20190719; t=1613746186;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sKvSCrWJgDaM1XL5Ydgj2XX97p/M7blbQpYX0fUnAWA=;
- b=cz+XQFBkLhN23crCfz3MbVRYR//POY1tPFOgt0eKb31e9nW/F0gXhQQymnMOoxwLfWXnCk
- fr+g2YgEdKh0vMs40zRAfIr6DC7blZ/nrQI/PXoaMdAGyou3OenZ8ss0HEZhsGAQhH7fEw
- TH11EPt2M9b/5wntzGq2Zva9LSryHxg=
+ bh=Tz1BoVgdyudwnalNO9Lnr8YzIE3ksFbBSc9cpe2j8WU=;
+ b=A5RQPqSK+yzFC+kQTiAEgKhvymw/wWW0dw+xqXWhafh1167EW9zDPP2t8Y6SEiemQPUv6M
+ ilWWBKExS8sw8usl+ZO/TB2J+Ign3+ZTC/uoKCK8Rv1NyqdTxDVayR6oviklvZ0VXzSgRS
+ 5RurH5blP1a7GiE8NkYvCNlEvoqbG/M=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-277-QiJq0ZqPMK-6_koEY3p5Fg-1; Fri, 19 Feb 2021 09:49:43 -0500
-X-MC-Unique: QiJq0ZqPMK-6_koEY3p5Fg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-544-PY6Z6HpaMsq-dOwszA33DA-1; Fri, 19 Feb 2021 09:49:43 -0500
+X-MC-Unique: PY6Z6HpaMsq-dOwszA33DA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 612791005501;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C08256C95;
  Fri, 19 Feb 2021 14:49:42 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
  [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 31E3D60BFA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C8011970D;
  Fri, 19 Feb 2021 14:49:42 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 5D3681132C29; Fri, 19 Feb 2021 15:49:39 +0100 (CET)
+ id 66E431132BCE; Fri, 19 Feb 2021 15:49:39 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/18] qapi/introspect.py: guard against ifcond/comment misuse
-Date: Fri, 19 Feb 2021 15:49:26 +0100
-Message-Id: <20210219144939.604488-6-armbru@redhat.com>
+Subject: [PULL 08/18] qapi/introspect.py: Always define all 'extra' dict keys
+Date: Fri, 19 Feb 2021 15:49:29 +0100
+Message-Id: <20210219144939.604488-9-armbru@redhat.com>
 In-Reply-To: <20210219144939.604488-1-armbru@redhat.com>
 References: <20210219144939.604488-1-armbru@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,61 +85,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: John Snow <jsnow@redhat.com>
 
-_tree_to_qlit is called recursively on dict values (isolated from their
-keys); at such a point in generating output it is too late to apply an
-ifcond. Similarly, comments do not necessarily have a "tidy" place they
-can be printed in such a circumstance.
+This mimics how a typed object works, where 'if' and 'comment' are
+always set, regardless of if they have a value set or not.
 
-Forbid this usage by renaming "suppress_first_indent" to "dict_value" to
-emphasize that indents are suppressed only for the benefit of dict
-values; then add an assertion assuring we do not pass ifcond/comments
-in this case.
+It is safe to do this because of the way that _tree_to_qlit processes
+these values (using dict.get with a default of None), resulting in no
+change of output from _tree_to_qlit. There are no other users of this
+data.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
-Message-Id: <20210216021809.134886-6-jsnow@redhat.com>
+Message-Id: <20210216021809.134886-9-jsnow@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Comment wrapped to conform to PEP 8]
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/qapi/introspect.py | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ scripts/qapi/introspect.py | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
-index 4749f65ea3..a111cec725 100644
+index c4326d42cb..88af5383d5 100644
 --- a/scripts/qapi/introspect.py
 +++ b/scripts/qapi/introspect.py
-@@ -34,7 +34,7 @@ def _make_tree(obj, ifcond, extra=None):
-     return obj
+@@ -27,11 +27,10 @@ from .schema import (
  
  
--def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
-+def _tree_to_qlit(obj, level=0, dict_value=False):
+ def _make_tree(obj, ifcond, comment=None):
+-    extra = {}
+-    if ifcond:
+-        extra['if'] = ifcond
+-    if comment:
+-        extra['comment'] = comment
++    extra = {
++        'if': ifcond,
++        'comment': comment
++    }
+     return (obj, extra)
  
-     def indent(level):
-         return level * 4 * ' '
-@@ -43,6 +43,13 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
-         ifobj, extra = obj
-         ifcond = extra.get('if')
-         comment = extra.get('comment')
-+
-+        # NB: _tree_to_qlit is called recursively on the values of a
-+        # key:value pair; those values can't be decorated with
-+        # comments or conditionals.
-+        msg = "dict values cannot have attached comments or if-conditionals."
-+        assert not dict_value, msg
-+
-         ret = ''
-         if comment:
-             ret += indent(level) + '/* %s */\n' % comment
-@@ -54,7 +61,7 @@ def _tree_to_qlit(obj, level=0, suppress_first_indent=False):
-         return ret
  
-     ret = ''
--    if not suppress_first_indent:
-+    if not dict_value:
-         ret += indent(level)
-     if obj is None:
-         ret += 'QLIT_QNULL'
 -- 
 2.26.2
 
