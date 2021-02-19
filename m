@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5103731FEF2
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:48:20 +0100 (CET)
-Received: from localhost ([::1]:42604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87FA631FEF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 19:48:21 +0100 (CET)
+Received: from localhost ([::1]:42700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDAp8-0008Ob-Pq
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:48:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35558)
+	id 1lDApA-0008RE-Iy
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 13:48:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lDAn9-000748-P5
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:46:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36210)
+ id 1lDAnA-00074y-Qe
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:46:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lDAn6-0007dF-9r
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:46:14 -0500
+ id 1lDAn6-0007di-Ek
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 13:46:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613760369;
+ s=mimecast20190719; t=1613760371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=gpO5sZV2dTD7IJxz7FwMTFtjbvi46CccfGCjvtjkRWU=;
- b=cwE43FRRKdQZOzKzTeydmg1XvzQsYRY1gcnsQcW3Ht6ZSLnuBC06CZOsC4+Flp5vwKEZgu
- E0ab3oMOM1Q1rm/ODdH5yUybGD5n5cDJnzLJPiqIuZvXgiRLU9EX/KVCSbUbclpnrjdmJs
- TD7OIJ87JsEc9oAfEKsrupYXVUvuE/o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BtXOAq6it1BcF5yzBIOic/BpRKe8WNEUHKw406Fxt4M=;
+ b=N9TQfItHx8+Q6c2SIdLYmuAADr7ghmFsTkns8iKIo8Bsxw67lufCJRdx1aEiwePqByvArN
+ OU5k8pKtJBpf2QChcYvyQaDfpM1z+4gfeqXdMhU7uFn7GGx3QnlP0NRyIS+IS6BnYxmBHh
+ qtUjf/TDW5dor7MdKqruuG94z/t35qU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-T3qaU9ZiPR2WCK44hVgBtQ-1; Fri, 19 Feb 2021 13:46:07 -0500
-X-MC-Unique: T3qaU9ZiPR2WCK44hVgBtQ-1
+ us-mta-278-_rWxJG7BNd6avcGKF56-Qw-1; Fri, 19 Feb 2021 13:46:09 -0500
+X-MC-Unique: _rWxJG7BNd6avcGKF56-Qw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62D50804023
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 18:46:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD23D804023
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 18:46:08 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-112-33.ams2.redhat.com
  [10.36.112.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5981419D9B;
- Fri, 19 Feb 2021 18:45:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B087019D9B;
+ Fri, 19 Feb 2021 18:46:06 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/4] ui: add support for 'secret' object to provide VNC/SPICE
- passwords
-Date: Fri, 19 Feb 2021 18:45:52 +0000
-Message-Id: <20210219184556.154972-1-berrange@redhat.com>
+Subject: [PATCH 1/4] ui: introduce "password-secret" option for VNC servers
+Date: Fri, 19 Feb 2021 18:45:53 +0000
+Message-Id: <20210219184556.154972-2-berrange@redhat.com>
+In-Reply-To: <20210219184556.154972-1-berrange@redhat.com>
+References: <20210219184556.154972-1-berrange@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -84,30 +86,94 @@ Cc: libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes a long standing limitation of the VNC/SPICE code which was=0D
-unable to securely accept passswords on the CLI, instead requiring use=0D
-of separate monitor commands after startup.=0D
-=0D
-This takes the opportunity to also remove previously deprecated ACL=0D
-functionality from VNC.=0D
-=0D
-Daniel P. Berrang=C3=A9 (4):=0D
-  ui: introduce "password-secret" option for VNC servers=0D
-  ui: introduce "password-secret" option for SPICE server=0D
-  ui: deprecate "password" option for SPICE server=0D
-  ui, monitor: remove deprecated VNC ACL option and HMP commands=0D
-=0D
- docs/system/deprecated.rst       |  24 ++--=0D
- docs/system/removed-features.rst |  13 +++=0D
- hmp-commands.hx                  |  76 -------------=0D
- monitor/misc.c                   | 187 -------------------------------=0D
- qemu-options.hx                  |  17 ++-=0D
- ui/spice-core.c                  |  32 +++++-=0D
- ui/vnc.c                         |  61 ++++------=0D
- 7 files changed, 88 insertions(+), 322 deletions(-)=0D
-=0D
---=20=0D
-2.29.2=0D
-=0D
+Currently when using VNC the "password" flag turns on password based
+authentication. The actual password has to be provided separately via
+the monitor.
+
+This introduces a "password-secret" option which lets the password be
+provided up front.
+
+  $QEMU --object secret,id=vncsec0,file=passwd.txt \
+        --vnc localhost:0,password-secret=vncsec0
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+---
+ qemu-options.hx |  5 +++++
+ ui/vnc.c        | 23 ++++++++++++++++++++++-
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 6c34c7050f..893d0f500b 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2164,6 +2164,11 @@ SRST
+         time to allow <protocol> password to expire immediately or never
+         expire.
+ 
++    ``password-secret=<secret-id>``
++        Require that password based authentication is used for client
++        connections, using the password provided by the ``secret``
++        object identified by ``secret-id``.
++
+     ``tls-creds=ID``
+         Provides the ID of a set of TLS credentials to use to secure the
+         VNC server. They will apply to both the normal VNC server socket
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 16bb3be770..77e07ac351 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -48,6 +48,7 @@
+ #include "crypto/tlscredsanon.h"
+ #include "crypto/tlscredsx509.h"
+ #include "crypto/random.h"
++#include "crypto/secret_common.h"
+ #include "qom/object_interfaces.h"
+ #include "qemu/cutils.h"
+ #include "qemu/help_option.h"
+@@ -3469,6 +3470,9 @@ static QemuOptsList qemu_vnc_opts = {
+         },{
+             .name = "password",
+             .type = QEMU_OPT_BOOL,
++        },{
++            .name = "password-secret",
++            .type = QEMU_OPT_STRING,
+         },{
+             .name = "reverse",
+             .type = QEMU_OPT_BOOL,
+@@ -3941,6 +3945,7 @@ void vnc_display_open(const char *id, Error **errp)
+     int lock_key_sync = 1;
+     int key_delay_ms;
+     const char *audiodev;
++    const char *passwordSecret;
+ 
+     if (!vd) {
+         error_setg(errp, "VNC display not active");
+@@ -3958,7 +3963,23 @@ void vnc_display_open(const char *id, Error **errp)
+         goto fail;
+     }
+ 
+-    password = qemu_opt_get_bool(opts, "password", false);
++
++    passwordSecret = qemu_opt_get(opts, "password-secret");
++    if (passwordSecret) {
++        if (qemu_opt_get(opts, "password")) {
++            error_setg(errp,
++                       "'password' flag is redundant with 'password-secret'");
++            goto fail;
++        }
++        vd->password = qcrypto_secret_lookup_as_utf8(passwordSecret,
++                                                     errp);
++        if (!vd->password) {
++            goto fail;
++        }
++        password = true;
++    } else {
++        password = qemu_opt_get_bool(opts, "password", false);
++    }
+     if (password) {
+         if (fips_get_state()) {
+             error_setg(errp,
+-- 
+2.29.2
 
 
