@@ -2,77 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3650431F76C
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:39:30 +0100 (CET)
-Received: from localhost ([::1]:37566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D8C31F756
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 11:34:52 +0100 (CET)
+Received: from localhost ([::1]:35260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD3C5-00082o-8Y
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:39:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34752)
+	id 1lD37b-0006Ty-V5
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 05:34:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lD3Ag-0007bC-Ey
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:38:02 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:46451)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lD3Ae-0005xE-Lr
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 05:38:02 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t15so7508413wrx.13
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 02:37:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=user-agent:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vvdgJt/nkBPYMXRndp/zFdn7IRVDnZOb6OItyOVC9Uk=;
- b=QLEiJ2pIj3Dmn9mKnjbDan6lp3bhmoflVj9ZdGfctdfAPmPiw5ia5pZo0YF7HTE2Ik
- rILMwpI2XXg+XPJ6+Q2hEle2OkWa1RpBup7wj0/meH71N3Mvc//pkErAVg4PgQV+rNqu
- 17YqP5lvgVNnmI4m/3yYX2ZDME/4P4uCMoGjP72/CRI5j5EVNKXK3obPQRkrnKSXXvLa
- EOL2sdAg1qLpitO/sZypSn95gGE4o7A0j99V+tahm7YqO1QNOKYnv9p4jN0W+6aUP68a
- ySgZMdfDAdp2fUyIhAB75kVAo0eTkzxZzQ2d76TIUFIdLSj4RJV6YEigQ7jbyg2uFPnj
- 35ew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:user-agent:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=vvdgJt/nkBPYMXRndp/zFdn7IRVDnZOb6OItyOVC9Uk=;
- b=JP0z/97aEwNuxB7gOc2/bQIFQ4D6tjSiWzYNH5NV7+w19OCAWDxDxL8OAYzTq5g0Yt
- tW2plGw7UrZLMqgJRDp3ou9/3OVW5At+RKxqE+ROCJaofeVAr8h/L7zDCeAx5h+n3nDg
- vykX5qpG56/ESWlXgj1pEZiFAgOq0CbkeA65h2xvaEbUgQXsjX9HD3XarI9dURIC9Yb3
- 0Ad+ZYKAz0eSKMLMUFDLlZCYIIe8AWRCASJn5toRqUKWoqKGKtYgyooeuiSXYjYxysyx
- 6KUq4zwK9mGL2wc3cfmkRPqCIr4hSl4XjnSFzS5GhvuiadnKmelouDSBwo9mhmiUDQBH
- lpog==
-X-Gm-Message-State: AOAM5335cyzNjoY2Q76Cq4GDJjBrykCad+zhr/kxdBgVEBv/obXZb1XL
- 2GdBEvfwyRiSDykQ7/DSRx/qPg==
-X-Google-Smtp-Source: ABdhPJykXyyo7ZLTHUOLC2A8T9VzvDmkqM90U1A/NcvRMGdBwBj5RXgj2kTiKwftYJRKvmSnRmHTRQ==
-X-Received: by 2002:a5d:4282:: with SMTP id k2mr8405543wrq.315.1613731078668; 
- Fri, 19 Feb 2021 02:37:58 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id r7sm10861920wmh.38.2021.02.19.02.37.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 02:37:57 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0207C1FF7E;
- Fri, 19 Feb 2021 10:37:57 +0000 (GMT)
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org, Ed Maste <emaste@freebsd.org>, Li-Wen Hsu
- <lwhsu@freebsd.org>
-Subject: FreeBSD build regressions
-Date: Fri, 19 Feb 2021 10:29:50 +0000
-Message-ID: <8735xss5q3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1lD36O-0005cp-DI; Fri, 19 Feb 2021 05:33:36 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3311)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1lD36L-0003n8-DN; Fri, 19 Feb 2021 05:33:36 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DhntP4Cv8zlMkd;
+ Fri, 19 Feb 2021 18:31:25 +0800 (CST)
+Received: from [10.174.184.135] (10.174.184.135) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Fri, 19 Feb 2021 18:33:14 +0800
+Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
+ the right place in VFIO migration
+To: Kirti Wankhede <kwankhede@nvidia.com>, Alex Williamson
+ <alex.williamson@redhat.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-2-lushenming@huawei.com>
+ <b51b7282-ad47-01d1-7b83-834aead08d76@nvidia.com>
+From: Shenming Lu <lushenming@huawei.com>
+Message-ID: <e7c3c94d-82ef-a6d4-e6ba-13e67bf125dd@huawei.com>
+Date: Fri, 19 Feb 2021 18:33:03 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <b51b7282-ad47-01d1-7b83-834aead08d76@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.174.184.135]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.190;
+ envelope-from=lushenming@huawei.com; helo=szxga04-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,63 +62,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <gerd@kraxel.org>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, yuzenghui@huawei.com,
+ wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2021/2/18 22:42, Kirti Wankhede wrote:
+> 
+> 
+> On 12/9/2020 1:39 PM, Shenming Lu wrote:
+>> On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
+>> setup, if the restoring of the VFIO PCI device config space is
+>> before the VGIC, an error might occur in the kernel.
+>>
+>> So we move the saving of the config space to the non-iterable
+>> process, so that it will be called after the VGIC according to
+>> their priorities.
+>>
+>> As for the possible dependence of the device specific migration
+>> data on it's config space, we can let the vendor driver to
+>> include any config info it needs in its own data stream.
+>> (Should we note this in the header file linux-headers/linux/vfio.h?)
+>>
+>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+>> ---
+>>   hw/vfio/migration.c | 25 +++++++++++++++----------
+>>   1 file changed, 15 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+>> index 00daa50ed8..3b9de1353a 100644
+>> --- a/hw/vfio/migration.c
+>> +++ b/hw/vfio/migration.c
+>> @@ -575,11 +575,6 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>>           return ret;
+>>       }
+>>   -    ret = vfio_save_device_config_state(f, opaque);
+>> -    if (ret) {
+>> -        return ret;
+>> -    }
+>> -
+>>       ret = vfio_update_pending(vbasedev);
+>>       if (ret) {
+>>           return ret;
+>> @@ -620,6 +615,19 @@ static int vfio_save_complete_precopy(QEMUFile *f, void *opaque)
+>>       return ret;
+>>   }
+>>   +static void vfio_save_state(QEMUFile *f, void *opaque)
+>> +{
+>> +    VFIODevice *vbasedev = opaque;
+>> +    int ret;
+>> +
+>> +    /* The device specific data is migrated in the iterable process. */
+>> +    ret = vfio_save_device_config_state(f, opaque);
+>> +    if (ret) {
+>> +        error_report("%s: Failed to save device config space",
+>> +                     vbasedev->name);
+>> +    }
+>> +}
+>> +
+> 
+> Since error is not propagated, set error in migration stream for migration to fail, use qemu_file_set_error() on error.
 
-Hi,
+Makes sense. I will send a v3 soon.	Thanks,
 
-It looks like the build has been broken on Cirrus since at least 7b2c4c:
+Shenming
 
-  https://cirrus-ci.com/github/qemu/qemu
-
-I did attempt to have a look but "vm-build-freebsd" seems to be failing
-with a different error:
-
-  10:31:47  [alex.bennee@hackbox2:~/l/q/b/all] master|=E2=9C=94 + make vm-b=
-uild-freebsd
-    GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3 tests/fp/berkeley=
--softfloat-3 meson dtc capstone slirp
-      VM-BUILD freebsd
-  cross containers  no
-
-  NOTE: guest cross-compilers enabled: cc cc
-  ld-elf.so.1: /usr/local/lib/libpython3.7m.so.1.0: Undefined symbol "close=
-_range@FBSD_1.6"
-  ld-elf.so.1: /usr/local/lib/libpython3.7m.so.1.0: Undefined symbol "close=
-_range@FBSD_1.6"
-  The Meson build system
-  Version: 0.55.3
-  Source dir: /usr/home/qemu/qemu-test.egp8wG/src
-  Build dir: /usr/home/qemu/qemu-test.egp8wG/build
-  Build type: native build
-  Project name: qemu
-  Project version: 5.2.50
-  ld-elf.so.1: /usr/local/lib/libpython3.7m.so.1.0: Undefined symbol "close=
-_range@FBSD_1.6"
-
-  ../src/meson.build:1:0: ERROR: Executables created by c compiler cc are n=
-ot runnable.
-
-  A full log can be found at /usr/home/qemu/qemu-test.egp8wG/build/meson-lo=
-gs/meson-log.txt
-
-  ERROR: meson setup failed
-
-  /home/alex.bennee/lsrc/qemu.git/tests/vm/Makefile.include:95: recipe for =
-target 'vm-build-freebsd' failed
-  make: *** [vm-build-freebsd] Error 3
-
-Tracking back to before the previously mentioned commit it was still
-failing which makes me think something has happened to the BSD image (or
-something is missing since the build changes). I'd appreciate it if
-someone with more FreeBSD knowledge can look into both regressions
-because frankly I find it exhausting enough tracking down Linux
-regressions when they occur.
-
-Thanks,
-
---=20
-Alex Benn=C3=A9e
+> 
+> Thanks,
+> Kirti
+> 
+>>   static int vfio_load_setup(QEMUFile *f, void *opaque)
+>>   {
+>>       VFIODevice *vbasedev = opaque;
+>> @@ -670,11 +678,7 @@ static int vfio_load_state(QEMUFile *f, void *opaque, int version_id)
+>>           switch (data) {
+>>           case VFIO_MIG_FLAG_DEV_CONFIG_STATE:
+>>           {
+>> -            ret = vfio_load_device_config_state(f, opaque);
+>> -            if (ret) {
+>> -                return ret;
+>> -            }
+>> -            break;
+>> +            return vfio_load_device_config_state(f, opaque);
+>>           }
+>>           case VFIO_MIG_FLAG_DEV_SETUP_STATE:
+>>           {
+>> @@ -720,6 +724,7 @@ static SaveVMHandlers savevm_vfio_handlers = {
+>>       .save_live_pending = vfio_save_pending,
+>>       .save_live_iterate = vfio_save_iterate,
+>>       .save_live_complete_precopy = vfio_save_complete_precopy,
+>> +    .save_state = vfio_save_state,
+>>       .load_setup = vfio_load_setup,
+>>       .load_cleanup = vfio_load_cleanup,
+>>       .load_state = vfio_load_state,
+>>
+> .
 
