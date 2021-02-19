@@ -2,68 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364FF31FE4E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:49:53 +0100 (CET)
-Received: from localhost ([::1]:56748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E9031FE25
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 18:47:03 +0100 (CET)
+Received: from localhost ([::1]:49462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD9ua-0004AU-9W
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:49:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
+	id 1lD9rp-0000WZ-MF
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 12:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9kP-0002le-7b
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54619)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9ki-0002nd-Jp
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9kM-0005WE-CU
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:20 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lD9kR-0005XC-84
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 12:39:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613756357;
+ s=mimecast20190719; t=1613756361;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CHXCPuc7uWQdwucv7FWJOUQ8ceg9IO3ZY73rXU3+wF0=;
- b=Q//+IvXATgpteRyAb5zA5a1N4Jbhh7Y/VARQF41rbKKoehBpCZYfXiN3A6qzJk5otpfWBT
- uw5m8qoBe1OPLYjujE3N/rS37CPpwruk1TvjrUAZsP+GZaWmypi55xt1xrlg28tmuTKSY9
- cEK7Zj28mrsA6D3UfjtmIdRRfrUfZo0=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-N4p_Rgt6NoGgGtrbyufGfA-1; Fri, 19 Feb 2021 12:39:14 -0500
-X-MC-Unique: N4p_Rgt6NoGgGtrbyufGfA-1
-Received: by mail-wr1-f70.google.com with SMTP id c16so934547wro.21
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:39:14 -0800 (PST)
+ bh=ltjnESlJDd3H5QR2j8eiWOyKx9h8jJk2C0jWkjeNUew=;
+ b=L3a9lXk5OZuki7MzffNLSQ0fbMjU1HoI4yglxA8NcJcptlEqqOKr1rmQp+FnIr3PKmabmt
+ pzIPClFZ1iS9xuFt3rE8LcdYaS2Fg4Oc5NPDFhcJfsjXKYukXWzBSA3ufseQc32aDtyiKH
+ d0FsvA9cyINzUlfjpvg3TPi6zf9GMtA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-539-kzz0O2JUPRWity-TzV0ezA-1; Fri, 19 Feb 2021 12:39:20 -0500
+X-MC-Unique: kzz0O2JUPRWity-TzV0ezA-1
+Received: by mail-wr1-f72.google.com with SMTP id l3so1135409wrx.15
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 09:39:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=CHXCPuc7uWQdwucv7FWJOUQ8ceg9IO3ZY73rXU3+wF0=;
- b=DRy1kqCKFgafyFFTox3v2awUNYBkiZwQQBQYIz0qgmnJ8hmmVwvk+ubs0+QAxVu7lo
- 7Gm/jGqfNn7+zAXNkwyjPRmxJMqPenYqpSccDd4cpWr3QHMAtJFc5WCr8jGEBpZUHTVj
- VZLtjqtxwK4kdro+tok0qDWmNX+m9cij+WsZcFGrapJGqXWh+ghAhl1DEa8lJTs866fF
- rgjxukYRUysxeinfyQ067Q4wXICgJP8Sod7zALm9sTIMeoTb9EtP4yWSv3pqWjWhpplc
- yPMCYhProPMuQs73LOyIOsAriHrIvbdNYEqm4gJmxy/vxE6Q94awelfH1YFw3ZzkbItC
- JLvA==
-X-Gm-Message-State: AOAM532NhbrbEJccP579757ji4ezEzqpcSf5XFbs7vMfE6NWF4W56ZOY
- Ho47yrzR8fP99g7POfRc1+TJVLy3YA/jlkFqvcOwSPZkoY37x9D5Mt4PA5jgxzBluNlgDTNO/Z9
- sKFCzcFF4DTf5f1s+p2pXp1kIzr6T93BvglV3dX9H13CuDHWSINgbnpAZCzdfComS
-X-Received: by 2002:a05:6000:188c:: with SMTP id
- a12mr10610963wri.105.1613756353547; 
- Fri, 19 Feb 2021 09:39:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrzSzq1o4kGieINb1Q744LtUd4TVffu+lfi/YVrFtocFVQ1Ale5KqgmXk7Upte5EwmyzFbHA==
-X-Received: by 2002:a05:6000:188c:: with SMTP id
- a12mr10610915wri.105.1613756353383; 
- Fri, 19 Feb 2021 09:39:13 -0800 (PST)
+ bh=ltjnESlJDd3H5QR2j8eiWOyKx9h8jJk2C0jWkjeNUew=;
+ b=CUpWSxLgRf4REoyNXtCNnRTMPf8eNhjEfQwvkJIGqX+yszhGWVquxVpsD1Gtpntnhi
+ nEhtDYhv64YTZ9M09WPxzfKJlbk+OWtlKb+J8C4f0vr/zFjD2CbVOtFg3jt8mtUAqIzF
+ 8UO8qSq+X/Es1TNAKbKK+SPVkNLk5siLIkqTY/YBD8QHw0g84JeadUw5+lUKqWBp51EH
+ OPpDhZVzpr1vjmbj620IPUmW22inbWXby0cYFErcpQKDopzQwaoucwXdgV2LiuoEqWIC
+ lVFc5cDzj/BPTjblOx7nOut6HuleaihE9OHaNebbAACLVjElfdUU87tCdXMOAyAjwV8Q
+ YNOQ==
+X-Gm-Message-State: AOAM532xRKSl37NTocKz2YcA3rcBUxdLxmmDk6vylfGZ7U9nTexlR5ZC
+ 8IH+rEUeY1+XsHzTIhOQtPIv+69D2CdSvw0w5URAAvPBWZ0mN5NLgWwRkytP9ifH+6KfTs3xCWg
+ rFzO7jR+OJCY5JEO0iF2CHYOnwJb46rgx2sHs7akZQJcH6JNFt5vt79FY5tlGbw/G
+X-Received: by 2002:a5d:558b:: with SMTP id i11mr10341354wrv.125.1613756359057; 
+ Fri, 19 Feb 2021 09:39:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyksADAECUrKIFfE8NXfSBq0p9Yv0QU1jPKKdp6ensUX0SFo+MEZzOE/tMgXW9KlqBOatRsLw==
+X-Received: by 2002:a5d:558b:: with SMTP id i11mr10341310wrv.125.1613756358861; 
+ Fri, 19 Feb 2021 09:39:18 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id q20sm12010000wmc.14.2021.02.19.09.39.11
+ by smtp.gmail.com with ESMTPSA id f7sm14534967wre.78.2021.02.19.09.39.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 09:39:12 -0800 (PST)
+ Fri, 19 Feb 2021 09:39:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 04/11] hw/arm: Restrit KVM to the virt & versal machines
-Date: Fri, 19 Feb 2021 18:38:40 +0100
-Message-Id: <20210219173847.2054123-5-philmd@redhat.com>
+Subject: [PATCH v2 05/11] hw/mips: Restrict KVM to the malta & virt machines
+Date: Fri, 19 Feb 2021 18:38:41 +0100
+Message-Id: <20210219173847.2054123-6-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210219173847.2054123-1-philmd@redhat.com>
 References: <20210219173847.2054123-1-philmd@redhat.com>
@@ -74,15 +72,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -120,62 +118,62 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrit KVM to the following ARM machines:
-- virt
-- xlnx-versal-virt
+Restrit KVM to the following MIPS machines:
+- malta
+- loongson3-virt
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/arm/virt.c             | 5 +++++
- hw/arm/xlnx-versal-virt.c | 5 +++++
+ hw/mips/loongson3_virt.c | 5 +++++
+ hw/mips/malta.c          | 5 +++++
  2 files changed, 10 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 371147f3ae9..8e9861b61a9 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2527,6 +2527,10 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
-     return NULL;
- }
- 
-+static const char *const valid_accels[] = {
-+    "tcg", "kvm", "hvf", NULL
-+};
-+
- /*
-  * for arm64 kvm_type [7-0] encodes the requested number of bits
-  * in the IPA address space
-@@ -2582,6 +2586,7 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->cpu_index_to_instance_props = virt_cpu_index_to_props;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-a15");
-     mc->get_default_cpu_node_id = virt_get_default_cpu_node_id;
-+    mc->valid_accelerators = valid_accels;
-     mc->kvm_type = virt_kvm_type;
-     assert(!mc->get_hotplug_handler);
-     mc->get_hotplug_handler = virt_machine_get_hotplug_handler;
-diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
-index 8482cd61960..d424813cae1 100644
---- a/hw/arm/xlnx-versal-virt.c
-+++ b/hw/arm/xlnx-versal-virt.c
-@@ -610,6 +610,10 @@ static void versal_virt_machine_instance_init(Object *obj)
- {
+diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
+index d4a82fa5367..c3679dff043 100644
+--- a/hw/mips/loongson3_virt.c
++++ b/hw/mips/loongson3_virt.c
+@@ -612,6 +612,10 @@ static void mips_loongson3_virt_init(MachineState *machine)
+     loongson3_virt_devices_init(machine, liointc);
  }
  
 +static const char *const valid_accels[] = {
 +    "tcg", "kvm", NULL
 +};
 +
- static void versal_virt_machine_class_init(ObjectClass *oc, void *data)
+ static void loongson3v_machine_class_init(ObjectClass *oc, void *data)
  {
      MachineClass *mc = MACHINE_CLASS(oc);
-@@ -621,6 +625,7 @@ static void versal_virt_machine_class_init(ObjectClass *oc, void *data)
-     mc->default_cpus = XLNX_VERSAL_NR_ACPUS;
-     mc->no_cdrom = true;
-     mc->default_ram_id = "ddr";
+@@ -622,6 +626,7 @@ static void loongson3v_machine_class_init(ObjectClass *oc, void *data)
+     mc->max_cpus = LOONGSON_MAX_VCPUS;
+     mc->default_ram_id = "loongson3.highram";
+     mc->default_ram_size = 1600 * MiB;
++    mc->valid_accelerators = valid_accels;
+     mc->kvm_type = mips_kvm_type;
+     mc->minimum_page_bits = 14;
+ }
+diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+index 9afc0b427bf..0212048dc63 100644
+--- a/hw/mips/malta.c
++++ b/hw/mips/malta.c
+@@ -1443,6 +1443,10 @@ static const TypeInfo mips_malta_device = {
+     .instance_init = mips_malta_instance_init,
+ };
+ 
++static const char *const valid_accels[] = {
++    "tcg", "kvm", NULL
++};
++
+ static void mips_malta_machine_init(MachineClass *mc)
+ {
+     mc->desc = "MIPS Malta Core LV";
+@@ -1456,6 +1460,7 @@ static void mips_malta_machine_init(MachineClass *mc)
+     mc->default_cpu_type = MIPS_CPU_TYPE_NAME("24Kf");
+ #endif
+     mc->default_ram_id = "mips_malta.ram";
 +    mc->valid_accelerators = valid_accels;
  }
  
- static const TypeInfo versal_virt_machine_init_typeinfo = {
+ DEFINE_MACHINE("malta", mips_malta_machine_init)
 -- 
 2.26.2
 
