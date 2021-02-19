@@ -2,71 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61249320169
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 23:40:15 +0100 (CET)
-Received: from localhost ([::1]:42310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9499320176
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 23:48:39 +0100 (CET)
+Received: from localhost ([::1]:44806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDERa-0008Gz-GC
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 17:40:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50438)
+	id 1lDEZi-0001Og-Rt
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 17:48:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lDEPr-0007hA-6Y
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:38:29 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:45025)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lDEPn-000564-Jv
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:38:26 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id g3so12366665edb.11
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 14:38:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=dyfgopjqfT91z7O9/P5prtYgCXA1n+93Hxr4CbLe6GU=;
- b=xveZLory7FTeU0Myj+oFWRnLt715v9NXKwGaZMdDqKz3Jb4Oinkp/+6rChGjoRAAXr
- 9nsvlkOO/D7JM/4oGFe+UmV1laKG262LCn0V4HrBFgCtSsm5i99UiMcQ2pEtKDgCJJSi
- YO13xzRi/NXd9jdWa6zLBz0t2laR5b3jJLsxebGeT5tX4F1gI9fgN+kLHx6D0TYNANnv
- NztQXSC0EUZB/Na50HMZxAch85lzDUfuVR7DbbX0GA3WyhKd7A+/iJBoTHIqp2yrJ173
- v4Ea91F2p29ZXn2ZC0mAUgrItCRGGxfqviyk+K4+tCmzbuQXV+2+fNyApBtVQfZMru9s
- oyAQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lDEYb-0000xO-JI
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:47:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40587)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lDEYY-0000oT-1e
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 17:47:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613774843;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CiPR5lHFh6P9NfLQ2/1gesua0t/cbRcNILO1ltZgUc0=;
+ b=N8WY9pqTwIhWXfq/UGqOaQWp2oJ7ltuvw1rDh5Lp7dfZ0nRbKNxbgbYf/c6fB4sYLUZ0a/
+ sKNeFYRhov9y+NDYKjYRH6skBF86HDfkKidgB731tpzks2a+WUa7DLV32nfg/GB6PfqCcR
+ SZ67NLEmohcSf0ysa4KOPOOQxA42518=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-5NKe9oTUPcSoEwm1VD1LuA-1; Fri, 19 Feb 2021 17:47:22 -0500
+X-MC-Unique: 5NKe9oTUPcSoEwm1VD1LuA-1
+Received: by mail-qv1-f70.google.com with SMTP id e9so4114157qvf.21
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 14:47:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=dyfgopjqfT91z7O9/P5prtYgCXA1n+93Hxr4CbLe6GU=;
- b=RwVyt3Tuj+58cCmtkMIhQqV/CEPEj8ReZ5RH3RMkB1cghIXLSEmsFyaOdgbNzfD5c/
- CcRrH87sBIz6fC3PoAVGnPZ6ZPnrU+mHm8Gx8UxQdWx0NBQIpRXa5cPQDat+A1vsIgkw
- JgoFXa4pHoIsesg7xrdPUNh/UEEz+Slzcdishcac/dqkbrSNZsdePhvIYNyf2kOiW2jG
- fumQtTFDh3DbI3rK+Fg6tqqmY1xoQAUN95Z18tjk0nhf3gsPtE1IKL7Lkqd79/kYDdU5
- qZK0cNM5bwXA31o9OVXeDl+QXZN4uhH+Jy3Rj0dJBY5f+BpjBgAa5G8NrCyPmomwHcvj
- VKfg==
-X-Gm-Message-State: AOAM531nA/2iQuZd7wZatQ1HxPkIDvKduwiU/oR+I/X7UlgridnK9NOD
- gnNedeqtr+Gbh2z8cWUHpC4qQ9qLpajoTQI8wlSFsA==
-X-Google-Smtp-Source: ABdhPJwihnNRIYT0XuRmT1jl6divib6OAGAUBdRZiKfT8OoMI43Q7GrJOrah5bsLtjh2BgoCDuQqmVxyD9Q6ZMvLiFE=
-X-Received: by 2002:a05:6402:541:: with SMTP id
- i1mr11374028edx.36.1613774302131; 
- Fri, 19 Feb 2021 14:38:22 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=CiPR5lHFh6P9NfLQ2/1gesua0t/cbRcNILO1ltZgUc0=;
+ b=OsWzCVqMOzh9XJE17BJaFjotp6M3IYCjd1pABFnFoAcXTbe9HsGfDQ6M5BzOkwzuxu
+ 2pAbGTzRyS18bKyZAcfg2fpEfO5hoIQQ9/9fyEzO9rVNrdnGhnvTcy3OoSW7rG1XHoDg
+ nx5Xxfw1nUhvfSYkZJJN4G0Buvyz0ZK5Oe/5WO49+TeZgHEfX/vphR7ylZZTbYQ4QFWC
+ Z5kDlEh/rV18CZnYZYJGU8XPbRWHej9zdFlACtOxKqHbQd2I+kflfOaqTBlN/I3puSdW
+ xgh8n1Pu5ErpEpg1ZVEnxWQjZ+Q/IdSPbhxmR199A6rI4fFPIoemug+BCztzmxpunQVi
+ yK0Q==
+X-Gm-Message-State: AOAM532muetBnh28dvYg+h3YImsVCj6XrceVwDN8obzDEyOT8lnUZz2R
+ wtFRxDtrCW1x7UC0Cy+wQeqIVQCNlg0xR75vbgAzAruyicOOi6UEo9F2Pp4fEGX/xQeD4ervFxg
+ GlcUBUOwm0TBv6j0=
+X-Received: by 2002:a05:620a:9c6:: with SMTP id
+ y6mr11937769qky.389.1613774841814; 
+ Fri, 19 Feb 2021 14:47:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJydM98ZH0bcf/AlJiG6X8IVHVOZqBuQ+auP8PkZR/eyd1VCVp3ddlbG6bxfPfJ0+027x1+UyQ==
+X-Received: by 2002:a05:620a:9c6:: with SMTP id
+ y6mr11937750qky.389.1613774841587; 
+ Fri, 19 Feb 2021 14:47:21 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
+ by smtp.gmail.com with ESMTPSA id x14sm5035883qtq.47.2021.02.19.14.47.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Feb 2021 14:47:21 -0800 (PST)
+Date: Fri, 19 Feb 2021 17:47:19 -0500
+From: Peter Xu <peterx@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20210219224719.GN6669@xz-x1>
+References: <B2724848-DDA8-442B-A252-E84C56752D7E@redhat.com>
+ <3D93AD71-A570-481C-BFE9-0DFA8C30F148@redhat.com>
 MIME-Version: 1.0
-References: <20201207172030.251905-1-stefanha@redhat.com>
- <20210215104120.GE7226@merkur.fritz.box>
-In-Reply-To: <20210215104120.GE7226@merkur.fritz.box>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 19 Feb 2021 22:38:10 +0000
-Message-ID: <CAFEAcA-Urs8JYHmAC1mbtbSNWhTsKyer=8i9zdSpnsa2eH4i2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 00/12] block/export: vhost-user-blk server tests and
- input validation
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <3D93AD71-A570-481C-BFE9-0DFA8C30F148@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,45 +97,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, "Michael S . Tsirkin" <mst@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Coiby Xu <coiby.xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Den Lunev <den@openvz.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 15 Feb 2021 at 10:41, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> Am 07.12.2020 um 18:20 hat Stefan Hajnoczi geschrieben:
-> > v2:
-> >  * Add abrt handler that terminates qemu-storage-daemon to
-> >    vhost-user-blk-test. No more orphaned processes on test failure. [Peter]
-> >  * Fix sector number calculation in vhost-user-blk-server.c
-> >  * Introduce VIRTIO_BLK_SECTOR_BITS/SIZE to make code clearer [Max]
-> >  * Fix vhost-user-blk-server.c blk_size double byteswap
-> >  * Fix vhost-user-blk blkcfg->num_queues endianness [Peter]
-> >  * Squashed cleanups into Coiby vhost-user-blk-test commit so the code is
-> >    easier to review
-> >
-> > The vhost-user-blk server test was already in Michael Tsirkin's recent vhost
-> > pull request, but was dropped because it exposed vhost-user regressions
-> > (b7c1bd9d7848 and the Based-on tag below). Now that the vhost-user regressions
-> > are fixed we can re-introduce the test case.
-> >
-> > This series adds missing input validation that led to a Coverity report. The
-> > virtio-blk read, write, discard, and write zeroes commands need to check
-> > sector/byte ranges and other inputs. This solves the issue Peter Maydell raised
-> > in "[PATCH for-5.2] block/export/vhost-user-blk-server.c: Avoid potential
-> > integer overflow".
-> >
-> > Merging just the input validation patches would be possible too, but I prefer
-> > to merge the corresponding tests so the code is exercised by the CI.
->
-> Is this series still open? I don't see it in master.
+On Fri, Feb 19, 2021 at 10:20:42PM +0100, David Hildenbrand wrote:
+> > A shiver just went down my spine. Please don‘t just for the sake of creating a snapshot.
+> > 
+> > (Just imagine you don‘t have a shared zeropage...)
+> 
+> ... and I just remembered we read all memory either way. Gah.
+> 
+> I have some patches to make snapshots fly with virtio-mem so exactly that won‘t happen. But they depend on vfio support, so it might take a while.
 
-The Coverity issue is still unfixed, at any rate...
+Sorry I can't really follow.
 
--- PMM
+It'll be great if virtio-mem won't have similar problem with live snapshot
+finally.  Is that idea applicable to balloon too, then?
+
+-- 
+Peter Xu
+
 
