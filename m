@@ -2,74 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1628931FD0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:21:59 +0100 (CET)
-Received: from localhost ([::1]:38256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E03331FCD5
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 17:11:16 +0100 (CET)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD8XW-0002f9-64
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:21:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51806)
+	id 1lD8N9-0001zZ-H4
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 11:11:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lD8BW-0007OD-Gf
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:59:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54032)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lD8HC-000484-6m
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:05:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55994)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lD8BT-0008V8-CE
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:59:14 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lD8H5-0002jc-Lk
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 11:05:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613750349;
+ s=mimecast20190719; t=1613750698;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eprC0FrttsR8xqK/fwkUtztmqMWDfrhqX5A+9PblutA=;
- b=bjHW1N+tr0d2OV94OpsJ499AKYivUNWeFqZNm3VtMsQP6tpk2yCWcBoNL0rJtpa66D0ntm
- 4LfXcITwWe9ypa0ovdiGiT37c6YgVmA1SCmtQw3Qej/Cqmkri6nKwBjxcNgwjf6jyJAlNj
- 1lNKGl41ZafPWzzm5ZdWtzsYQ9H8ZKY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-405-HsUC2VlPNx-jTzW6sfmUHg-1; Fri, 19 Feb 2021 10:59:07 -0500
-X-MC-Unique: HsUC2VlPNx-jTzW6sfmUHg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B349D106BC6A;
- Fri, 19 Feb 2021 15:59:06 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-112-191.ams2.redhat.com
- [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 14AC65D9C2;
- Fri, 19 Feb 2021 15:59:03 +0000 (UTC)
-Subject: Re: [PATCH 3/3] iotests/283: Check that finalize drops backup-top
-To: qemu-block@nongnu.org
-References: <20210219153348.41861-1-mreitz@redhat.com>
- <20210219153348.41861-4-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <244e3b6f-591c-2e5b-64a8-b0f7eb295220@redhat.com>
-Date: Fri, 19 Feb 2021 16:59:02 +0100
+ bh=EsB5A35zT6J0mETctHokfVJP+26epQc//8l5Kt/F45c=;
+ b=ii7RRyvk7cf/JyAdF4go+LNOS3/xSerkz9bh3ocHtEmuuW0kTI7sVya3d+cn8u2c4Y2US3
+ oGc1NTSb7mFYTIvRqo8kXT3cdW2/f9gsRbo34+Frzfe9kEi5ybjxaY6Habl49VKrDc4P4l
+ Rx5r3KC1s6/Su0idD6CmKFmO85QBt7Q=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-IfsZsDRUOw6RU51WUryMDA-1; Fri, 19 Feb 2021 11:04:55 -0500
+X-MC-Unique: IfsZsDRUOw6RU51WUryMDA-1
+Received: by mail-wm1-f72.google.com with SMTP id s192so2665748wme.6
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 08:04:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=EsB5A35zT6J0mETctHokfVJP+26epQc//8l5Kt/F45c=;
+ b=WdYuUR7KVjsaGw7lu8tqRAmww+chbKLe+CD8ZXqWoGQTMzW64J+olQ2XITPvzn1AbB
+ 4UPMLSGzSw5K/kWyjyIFddLTI7fMiSpRc7TJHraHRmrmtR05R8hA4e+kq8q15sqlt1cb
+ AFmZve6k0bz9jyJYDhEcRgdU1T3ySSczLxdLegfWILYjbBCbO0KIIaaYlKRA2l0rA2lE
+ nechS6ts+CgxwYrEkdsPy6O32huw9RjrT+BR+hiOc3kzDJwAohIbPWD8jQKwC/lcKQnv
+ ZHDiJW3Mh3EEH08QE40DDTRwz04F7sy4Y1AY5KbInjYXJRDvDD5jWe/+x7TMZRhMcC2W
+ AgsA==
+X-Gm-Message-State: AOAM532ec3bGMExG6qxc+5gzo/qw+pwfduDJfOb8BTBWUkHDlNexyVxA
+ Y3DnmLcryXKG4f0LrQHposYUgOnjvi+kmo6VouYUkr26OX3UTSXoZR9kul447wrOOAcOSJgZmjE
+ WzlD2zoGSYRMbvBeWvm2zdiU+vapnOu9WIz9OXryWvpUabmSQH9mCwDstQkNyhoK3edg=
+X-Received: by 2002:adf:fd51:: with SMTP id h17mr2665815wrs.420.1613750694201; 
+ Fri, 19 Feb 2021 08:04:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw8dl3ZubedKzbEw/EwEb2AXT0Tgjj9NjgxDQOczzWmOk2rKDvGcAqGq43q5aM1RPW1nLB83g==
+X-Received: by 2002:adf:fd51:: with SMTP id h17mr2665780wrs.420.1613750693964; 
+ Fri, 19 Feb 2021 08:04:53 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p17sm2587680wmq.27.2021.02.19.08.04.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 19 Feb 2021 08:04:53 -0800 (PST)
+Subject: Re: meson, NEED_CPU_H, CONFIG_TCG and tests/
+To: Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>
+References: <eb7d8eca-13ef-07cf-41b4-d7276399fff1@suse.de>
+ <a9f6fbf7-fb29-eca6-44f0-91381e8b3084@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ad889877-fc1c-9346-3cc5-4d177295f076@redhat.com>
+Date: Fri, 19 Feb 2021 17:04:52 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210219153348.41861-4-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <a9f6fbf7-fb29-eca6-44f0-91381e8b3084@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,58 +100,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.02.21 16:33, Max Reitz wrote:
-> Without any of HEAD^ or HEAD^^ applied, qemu will most likely crash on
-> the qemu-io invocation, for a variety of immediate reasons.  The
-> underlying problem is generally a use-after-free access into
-> backup-top's BlockCopyState.
+On 19/02/21 14:30, Thomas Huth wrote:
+>> But how could tests see this?
 > 
-> With only HEAD^ applied, qemu-io will run into an EIO (which is not
-> capture by the output, but you can see that the qemu-io invocation will
-> be accepted (i.e., qemu-io will run) in contrast to the reference
-> output, where the node name cannot be found), and qemu will then crash
-> in query-named-block-nodes: bdrv_get_allocated_file_size() detects
-> backup-top to be a filter and passes the request through to its child.
-> However, after bdrv_backup_top_drop(), that child is NULL, so the
-> recursive call crashes.
+> The test are generic, not target-specific code, so they can not see 
+> things like NEED_CPU_H, of course.
 > 
-> With HEAD^^ applied, this test should pass.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   tests/qemu-iotests/283     | 55 ++++++++++++++++++++++++++++++++++++++
->   tests/qemu-iotests/283.out | 15 +++++++++++
->   2 files changed, 70 insertions(+)
-> 
-> diff --git a/tests/qemu-iotests/283 b/tests/qemu-iotests/283
-> index 79643e375b..509dcbbcf4 100755
-> --- a/tests/qemu-iotests/283
-> +++ b/tests/qemu-iotests/283
-> @@ -97,3 +97,58 @@ vm.qmp_log('blockdev-add', **{
->   vm.qmp_log('blockdev-backup', sync='full', device='source', target='target')
->   
->   vm.shutdown()
-> +
-> +
-> +"""
-> +Check that the backup-top node is gone after job-finalize.
-> +
-> +During finalization, the node becomes inactive and can no longer
-> +function.  If it is still present, new parents might be attached, and
-> +there would be no meaningful way to handle their I/O requests.
-> +"""
+> But CONFIG_TCG seems to be defined in config-host.h, so you should be 
+> able to use that define, shouldn't you?
 
-Oh no, 297/pylint complains that this “string statement has no effect”. 
-  Guess it should be a normal comment under the following print() then...
+Yes, CONFIG_TCG is defined in config_hsot just for that reason:
 
-Max
+tcg_arch = config_host['ARCH']
+if not get_option('tcg').disabled()
+   ...
+   accelerators += 'CONFIG_TCG'
+   config_host += { 'CONFIG_TCG': 'y' }
+endif
 
-> +print('\n=== backup-top should be gone after job-finalize ===\n')
+It's ugly, but I kept it that way when moving accelerator configuration 
+to Meson.
+
+Paolo
 
 
