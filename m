@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1BF731F886
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:42:37 +0100 (CET)
-Received: from localhost ([::1]:59512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3F131F887
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:42:49 +0100 (CET)
+Received: from localhost ([::1]:60272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4B9-0001Fj-I6
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:42:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47730)
+	id 1lD4BM-0001Zu-R0
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:42:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lD49O-0000Yt-Oj
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:40:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lD49L-0000M7-Qf
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:40:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613734841;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=1WQl61OtKGwUEYG0r8nMHFeRkzXvg0nCt/68JAsXLvw=;
- b=QM0uNaHQoxxXBwAKOTHixtn286j4dxAseV9mVEK0/+H0yrECyzIgxNlMz7jyHwggDLGEVi
- O1siKCElQHiw7mw8eDYf4vJydMukIC0rmgEMMu74iccRycCOGdV2MmN5Vt9AS+zhuEHPaw
- g5SC4EaJbRFzzGIpQz9BkG/rXgMZwVw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-438-V8l7D_cdO3yTTsf2NsuQgQ-1; Fri, 19 Feb 2021 06:40:36 -0500
-X-MC-Unique: V8l7D_cdO3yTTsf2NsuQgQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1933107ACE6;
- Fri, 19 Feb 2021 11:40:35 +0000 (UTC)
-Received: from redhat.com (ovpn-113-184.ams2.redhat.com [10.36.113.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7EA3E10016DB;
- Fri, 19 Feb 2021 11:40:34 +0000 (UTC)
-Date: Fri, 19 Feb 2021 11:40:31 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci: Remove unused container images
-Message-ID: <YC+jr0I/TcaSrBvR@redhat.com>
-References: <20210219110950.2308025-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD49w-0000kI-Bj
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:41:20 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:36208)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD49s-0000Yf-Lb
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:41:19 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id do6so12469789ejc.3
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 03:41:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=/fxbtANUSsT+blvkorjzE7rMm+HflTK8q+PkK3WQKBU=;
+ b=NFLZfewfO0tTSRw5YrzLXtqrntS7Z1tRe7gp9/F4+QZ1Hq9efz8ej9rJ1gzJKsjiiz
+ z0vDGQGXIglG6VgFjwmWoLYEO67FQkd9b1UEvUu12+YIzrZYA5zJDYxzudWiUAIxiPzU
+ ELSlpoSEaZtQ6KUnyLAGuswFj6NtDaj/RM8vEzM/gKDiUFpYEEvo4Oa/nLiArcCnA6tG
+ 33lGpRSqqqp0RPBgiyPzhEB1YX0yEt9NTFMHER9RQ+HfLUvJVCu32rYKZIr9FpHknsjr
+ Y2jfASZui3oA2DfsfaYZwHqAVKrp0SqfnmfngHIVsTz7T5hLiFj4KrHMrEoYVcGzJX5V
+ 7GMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=/fxbtANUSsT+blvkorjzE7rMm+HflTK8q+PkK3WQKBU=;
+ b=mQwbqBfrOXFMC5a7Ms5FxS00JVEme9xYLxYEHThGYQ2ApP6BYeZYrt/P5l3uu4cJBW
+ ERkHSg9arbuDNMNJL5crIG+7OOy8BdXTpekRsSxUz3ej3ekYUacYt3dsaiwfNwwL2PaP
+ AB7Le+Z2vnNwkI8o+ha8yySQoRiPTiiKSaWMRDOqzpszZXgHSzkxd8qM2AHxEEPDKuZo
+ NWE8pb8XF6zDH/H4xcz7nm4TSp98cu2IK55m/nBlhHzM+Obt9eMSh4Qo0Q73mh4euxic
+ QhpCvNNailPv145EJ7qZxbTJNSwAThj6hh+1e8TZ6jdKSA1mJvKFZsDbGaydkQh6s5P/
+ gxzQ==
+X-Gm-Message-State: AOAM53192wcIlaCG34TBp/CeLZTt66ctsFevzXJi1dfMtO3ODcHdTUPe
+ HKP+w9RTg7ha+LOHIF1XqlYUN5mqYYtawV628I6jrw==
+X-Google-Smtp-Source: ABdhPJzous3uJ7UpSuDDqDIz4yn2veoYkm09U1mlXTezBm93qB86wK2xlJw8UOlrMYp+8gTSrlmQ8QVJGOjGG8B67As=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr8672045ejd.250.1613734874265; 
+ Fri, 19 Feb 2021 03:41:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210219110950.2308025-1-thuth@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <CAFEAcA9VGhEV=7YAEZQUdtukY=5Kfax9fmX_wj-UtjLN6JOfog@mail.gmail.com>
+ <20210219112841.35246-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20210219112841.35246-1-akihiko.odaki@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Feb 2021 11:41:02 +0000
+Message-ID: <CAFEAcA-fFsO5FzDfcsbFJGbMGtA-zJOC6N1EEdZ+gXnxjgSpGw@mail.gmail.com>
+Subject: Re: [PATCH v2] ui/cocoa: Use kCGColorSpaceSRGB
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,32 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 12:09:50PM +0100, Thomas Huth wrote:
-> We're building a lot of containers in the gitlab-CI that we never use.
-> This takes away network bandwidth and CPU time from other jobs for no
-> use, so let's remove them for now. The individual containers could be
-> re-added later when we really need them.
+On Fri, 19 Feb 2021 at 11:28, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
+>
+> kCGColorSpaceGenericRGB | Apple Developer Documentation
+> https://developer.apple.com/documentation/coregraphics/kcgcolorspacegenericrgb
+> > Deprecated
+> > Use kCGColorSpaceSRGB instead.
+>
+> This change also removes the legacy color space specification for
+> PowerPC.
+>
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-Rather than removing the jobs, how about just setting
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-  "when: manual"
-
-that way users can trigger the creation of the images to populate
-their gitlab registry for convenient usage
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
