@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5421631F8A9
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:53:24 +0100 (CET)
-Received: from localhost ([::1]:60294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA58C31F8B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 12:57:33 +0100 (CET)
+Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD4Lb-0004wk-9J
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:53:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
+	id 1lD4Pc-0007CR-Pw
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 06:57:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lD4Jm-0003kl-QI; Fri, 19 Feb 2021 06:51:30 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:32770)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD4OK-0006dT-82
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:56:12 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:37226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lD4Jl-00051E-0e; Fri, 19 Feb 2021 06:51:30 -0500
-Received: by mail-wr1-x433.google.com with SMTP id 7so8031481wrz.0;
- Fri, 19 Feb 2021 03:51:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ehU3rFuRVd4QZVwHIfWveB91vZLKzZIejCbnvo8QfBg=;
- b=bINQD5hvj0P81p6E1UpMuB8p0R4+IHraVebKu0VlGnCqp4OZPTJKxQzVbLLtKEkoNU
- PB79Ed3vdKCJFk56uMk5DObvWIMAA/DMvavKdW5cBZyCNElRnazsw+WbLiZxTShyZP7C
- MxMFebi0q8YJo+1V6uoSGVinEFYCHrkQnO2mP9VZfORwCrHKNqg8BaUPjCV4WiuDl4R2
- 03I2xLL2EyoyYgCbeY9iy2AoO3HX7+S3j09JYxCg/+yqwkmSODi/e9CELXCUiQWj185y
- 9Eq5UMbB1FjFZbmRxocwDjpxOvD4HI9U89lMxI+Y3paHojmBloooVEXTLXMmfsEYHVyi
- d3EA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lD4OH-0007Ip-7G
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 06:56:12 -0500
+Received: by mail-ej1-x634.google.com with SMTP id d8so12580699ejc.4
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 03:56:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=RCReoUqVm5VrIgFdBYFHKJpOABQVppR771o1a5NHp3Q=;
+ b=kHxpJna0WvF58KRzQ5LVezQqDSSRhYFCs3R6UJBRT/lnCHOijMmxgTr+ixjrGlUkll
+ szoQSEibrREs9z3uKY1Cs6Bqmvgmh3wezUHb855L6UUMcWQaGbO3nIX+nuPUMWutzoue
+ ldW+OYxruT3+nGWoHMbpZxPnJqt4i0sMnhARPUwsHutuXB/JJrDxUOc4ILfCXOWS2whN
+ tX2sD61BzJ3GXUCXE8jaG/3v3H6V/4KSz0qUIMlM6nmjMWWGK2Ytrrn7zaTS0QHNGoSw
+ FuGMcs1P/7o2ne313C3mHEfx5Cmuz4Y6GUV95tW3a5/OvYlRvrcSwu0dXYmeR0oCJXmC
+ RT6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=ehU3rFuRVd4QZVwHIfWveB91vZLKzZIejCbnvo8QfBg=;
- b=SI8jhNCuIgDyICrtkt8hISrTSjoJRCFjh9mqVP3VsuOG8KWHAtkQ0aq5XSbBAcD0md
- N7wWOtPJAyX4GKLzM8JpgnnlGuKp8eBHb8paZqmTI7z72XK2KbjHv+ZDdeT1BY7C6++H
- jc+H1OQWafkNL/e4Sk8sb/Yv7V/6wd+tKhUKmWAFdR4FseC5WP11H6Lbt3KCspLy5tlr
- +M+cOvFF877NJPUKd5s7tUYJh3K9qtn1EyBX2rkn3jgXZ4SB9DFZGIXgSjGv9ooYWKnr
- UgKrAZ2qjZsMlzUxRatuvucVqGvwviyouRCFOOXabtmgVYqTnFN7CW8b6WC2TUNi3+3U
- 3bYQ==
-X-Gm-Message-State: AOAM532jW8nqyabwafOVfzIngSwHnFDb9sZs8clkFH31Hb0RhqLtUIzc
- ZRaF7ClnkQAqDpsGOTOs07kiWy9pE+w=
-X-Google-Smtp-Source: ABdhPJxZXR5Cm87tqS1BnUvBazH0NhCC3y/jJbEhUe/kcFQJmsBQ94NE7vEmpHgrSi2boBkJV5WPPA==
-X-Received: by 2002:adf:de91:: with SMTP id w17mr346705wrl.341.1613735486298; 
- Fri, 19 Feb 2021 03:51:26 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id b72sm11934542wmd.4.2021.02.19.03.51.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 03:51:25 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/arm/xlnx-zynqmp: Remove obsolete 'has_rpu' property
-Date: Fri, 19 Feb 2021 12:51:23 +0100
-Message-Id: <20210219115123.1938686-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=RCReoUqVm5VrIgFdBYFHKJpOABQVppR771o1a5NHp3Q=;
+ b=DJRUsCwCFwoPOikJIE4CC2JhvMavsxy3frREPiKLxxEqZk+2ujwhxQyuHMaGJrcJaB
+ F8eO+GK2e52ZylByWUUXzXB4Sj9MM+BI1tUKIrDwWGBjBKVJVHl4VL43m/kQUsiaA0ZR
+ NEUs2Y8hcq4aTD4No1Vv1JQyv0+Ea6ZmdCWttv9HACFv8mvoLEUKM98HfjmHlhyLY9Aw
+ Zk+wDojamQ9AHpihrgiUNqHBDVjrCZwcozERMcNCHjjqT0iuR1PboPPYZh+gKyAeBvv0
+ /e+9OC7sNcGizUY2HValGwMC/C7UPoHcT4qjTNI7fWFwijeFqYB6x5ShWuHnPK+xmiWC
+ EX9Q==
+X-Gm-Message-State: AOAM531ZKeYVhdgaCNJu31MuS8A6PD+NMHKB++3qpeRZdJLdAmuKYZrl
+ akYlQ4VfnCqQp2OwZkCGJkw3SqvKm8GZk1lGRcMq5Q==
+X-Google-Smtp-Source: ABdhPJyY7rOmAS8HlYaPJjFtH0dM7qx91u1P7MknXc550biwIHD9TpOrNw/CC9jk0EUM4klLZM05EvK6bDkG2owGsMI=
+X-Received: by 2002:a17:906:5357:: with SMTP id
+ j23mr8276999ejo.407.1613735767468; 
+ Fri, 19 Feb 2021 03:56:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+References: <20210219114428.1936109-1-philmd@redhat.com>
+In-Reply-To: <20210219114428.1936109-1-philmd@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 19 Feb 2021 11:55:56 +0000
+Message-ID: <CAFEAcA_66DuWfrftpaodqBZwBhS-VOD9uH=KwvGYC_VcksVFAA@mail.gmail.com>
+Subject: Re: [PATCH 0/7] hw/kvm: Exit gracefully when KVM is not supported
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,64 +79,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+Cc: Radoslaw Biernacki <rad@semihalf.com>, kvm-devel <kvm@vger.kernel.org>,
+ David Hildenbrand <david@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Thomas Huth <thuth@redhat.com>, Leif Lindholm <leif@nuviainc.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
  Alistair Francis <alistair@alistair23.me>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-arm@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Cornelia Huck <cohuck@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc <qemu-ppc@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We hint the 'has_rpu' property is no longer required since commit
-6908ec448b4 ("xlnx-zynqmp: Properly support the smp command line
-option") which was released in QEMU v2.11.0.
+On Fri, 19 Feb 2021 at 11:44, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
+> This series aims to improve user experience by providing
+> a better error message when the user tries to enable KVM
+> on machines not supporting it.
 
-3 years later we feel safe enough to remove it without using the
-usual deprecation policy.
+Thanks for having a look at this; fixing the ugly assertion
+failure if you try to enable KVM for the raspi boards has
+been vaguely on my todo list but never made it up to the top...
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- include/hw/arm/xlnx-zynqmp.h | 2 --
- hw/arm/xlnx-zynqmp.c         | 6 ------
- 2 files changed, 8 deletions(-)
+> Philippe Mathieu-Daud=C3=A9 (7):
+>   accel/kvm: Check MachineClass kvm_type() return value
+>   hw/boards: Introduce 'kvm_supported' field to MachineClass
+>   hw/arm: Set kvm_supported for KVM-compatible machines
+>   hw/mips: Set kvm_supported for KVM-compatible machines
+>   hw/ppc: Set kvm_supported for KVM-compatible machines
+>   hw/s390x: Set kvm_supported to s390-ccw-virtio machines
+>   accel/kvm: Exit gracefully when KVM is not supported
 
-diff --git a/include/hw/arm/xlnx-zynqmp.h b/include/hw/arm/xlnx-zynqmp.h
-index 6f45387a173..0678b419a23 100644
---- a/include/hw/arm/xlnx-zynqmp.h
-+++ b/include/hw/arm/xlnx-zynqmp.h
-@@ -115,8 +115,6 @@ struct XlnxZynqMPState {
-     bool secure;
-     /* Has the ARM Virtualization extensions?  */
-     bool virt;
--    /* Has the RPU subsystem?  */
--    bool has_rpu;
- 
-     /* CAN bus. */
-     CanBusState *canbus[XLNX_ZYNQMP_NUM_CAN];
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 881847255b4..46030c1ef81 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -443,11 +443,6 @@ static void xlnx_zynqmp_realize(DeviceState *dev, Error **errp)
-         }
-     }
- 
--    if (s->has_rpu) {
--        info_report("The 'has_rpu' property is no longer required, to use the "
--                    "RPUs just use -smp 6.");
--    }
--
-     xlnx_zynqmp_create_rpu(ms, s, boot_cpu, &err);
-     if (err) {
-         error_propagate(errp, err);
-@@ -646,7 +641,6 @@ static Property xlnx_zynqmp_props[] = {
-     DEFINE_PROP_STRING("boot-cpu", XlnxZynqMPState, boot_cpu),
-     DEFINE_PROP_BOOL("secure", XlnxZynqMPState, secure, false),
-     DEFINE_PROP_BOOL("virtualization", XlnxZynqMPState, virt, false),
--    DEFINE_PROP_BOOL("has_rpu", XlnxZynqMPState, has_rpu, false),
-     DEFINE_PROP_LINK("ddr-ram", XlnxZynqMPState, ddr_ram, TYPE_MEMORY_REGION,
-                      MemoryRegion *),
-     DEFINE_PROP_LINK("canbus0", XlnxZynqMPState, canbus[0], TYPE_CAN_BUS,
--- 
-2.26.2
+Don't we also need to set kvm_supported for the relevant
+machine types in hw/i386 ?
 
+thanks
+-- PMM
 
