@@ -2,60 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38B1631FFC6
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 21:26:17 +0100 (CET)
-Received: from localhost ([::1]:56888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AFA0320004
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 21:52:04 +0100 (CET)
+Received: from localhost ([::1]:35712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDCLw-0002yg-B9
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 15:26:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53738)
+	id 1lDCkt-0000r1-68
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 15:52:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lDCKn-0002X3-Rg
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 15:25:05 -0500
-Resent-Date: Fri, 19 Feb 2021 15:25:05 -0500
-Resent-Message-Id: <E1lDCKn-0002X3-Rg@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21389)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lDCKl-0004fT-A9
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 15:25:05 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613766288; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=KDzSBYqRmKUecZYYPQuYCEKCqCTOuGuuZii+dKr9t1mOn4xk4rxj3J5/twsSSZPF3P3u8aWpNmKdSz3XiwekG8VBnzX26Rj5/ZrcKu84tJZmb/DWlagB/fp7iNI58R1isbACrIPlptwyFlmP43dBBw3MXkrIAYDw28ud1vcBnNg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613766288;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=+XoIXNrNVRwnvZc/zzS9RJqfZ9920ZK6Aci0bUZdN+Q=; 
- b=EhTDzrqkmVVPlvbPgx/H0tirz+jFk//3nsAbcW+UQM69TCkqmrpTZytCbTy6NRMxXl2JiPbLAW4bGsTw1HG3vtZXQ9PfldZdwnlvYGxc1bEYSI/CoPKAUHE1VofhOZTrJvudr/pntAXRPr4An28h7J2mJJhDl2JVW+iMdUbgvgo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613766285029820.1323165488304;
- Fri, 19 Feb 2021 12:24:45 -0800 (PST)
-In-Reply-To: <20210219201820.2672077-1-pcc@google.com>
-Subject: Re: [PATCH] target/arm: Use TCF0 and TFSRE0 for unprivileged tag
- checks
-Message-ID: <161376628332.6409.6467539725050962698@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lDCjv-0000QD-UR
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 15:51:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1lDCjs-00087C-8t
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 15:51:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613767857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9aNciGXUzu/xAmHkX7vDy52xKyx3L0nLWZyDhT7lISc=;
+ b=NUpAeOaRvE+DtUOcOKpxeFLkzjDdTviuvlOp7oYPvso36g9yT7cm2niIYpaOHpHkg/XUep
+ HBouM+W5VtdQ8hd/D3IV2fMBfYqVIwiKAaDN9iZDrtawfNH/fXlh60fSZaZJXufmEB8fXd
+ UE905Uz3xQsoEKMNiB6YPmmrBaLsj84=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-301-TtMjpcUMNz62yL9nrWXn_g-1; Fri, 19 Feb 2021 15:50:55 -0500
+X-MC-Unique: TtMjpcUMNz62yL9nrWXn_g-1
+Received: by mail-qt1-f199.google.com with SMTP id x14so1365693qtv.1
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 12:50:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=9aNciGXUzu/xAmHkX7vDy52xKyx3L0nLWZyDhT7lISc=;
+ b=SF2JQ8/kNDrAHOgD1TiTAghp3+Y1JHnsQkJFcxCD1Zcgee3neAkV5+fPGjkN2yvhdn
+ RTKqxClQi2i3Tmy6n7/e9Bd2/vPQKYabLfJt7XA334tckObZKfNa7k9btxNGeu2g4oGW
+ fu+cVDd1nMzBB7hWgj4GK74+uBtarkf8xkUp4AiRFg+h8RK8v1I9Tle/voNp8SZIbN3I
+ uTbTnccdvIm42QolYaLUy5V1x2vPPe6ZqPbiNbcMi0+i0NwKcWMaFmeavO1Hoo7597Nh
+ klO148d7HlNjv+dkofUzEuyJ7cVMQ6bopuu2Q3aK6ezLVqMtdOO8NC4y4vD+6Zao9CeU
+ RKlA==
+X-Gm-Message-State: AOAM533zMnnjIysyOL+dAN5gzJGbgQv2ErkP2+fKvLzLOhIh1nk3p6M+
+ 6Oapeai4ODsfo0wzWAV5HVjA3dEi6YcPT/FkkGyvzv4JSt4a8ovrmmD33beVcrXxRdjDP6lszpv
+ spSpYlqXR3tg/OwM=
+X-Received: by 2002:a0c:dd93:: with SMTP id v19mr3271946qvk.40.1613767854646; 
+ Fri, 19 Feb 2021 12:50:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyWXB0oSk/iL0r6O9CL2wgfbasdj2wtnHdVgVD2zXMIyg13Q0ia9aluCAXIFSz+MqdOaHed0Q==
+X-Received: by 2002:a0c:dd93:: with SMTP id v19mr3271922qvk.40.1613767854370; 
+ Fri, 19 Feb 2021 12:50:54 -0800 (PST)
+Received: from xz-x1
+ (bras-vprn-toroon474qw-lp130-25-174-95-95-253.dsl.bell.ca. [174.95.95.253])
+ by smtp.gmail.com with ESMTPSA id q6sm7045675qkd.41.2021.02.19.12.50.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 19 Feb 2021 12:50:53 -0800 (PST)
+Date: Fri, 19 Feb 2021 15:50:52 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <20210219205052.GK6669@xz-x1>
+References: <20210211210549.GE157159@xz-x1>
+ <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
+ <20210212030621.GF157159@xz-x1>
+ <79c3ebb9-82ba-4714-0cf1-9f2e08eff660@redhat.com>
+ <20210212161125.GH157159@xz-x1>
+ <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
+ <20210216233545.GD91264@xz-x1>
+ <add9a7f7-9e02-5024-4bfd-2597a8920ec5@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Fri, 19 Feb 2021 12:24:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <add9a7f7-9e02-5024-4bfd-2597a8920ec5@virtuozzo.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,40 +98,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, mitchp@google.com, richard.henderson@linaro.org,
- qemu-devel@nongnu.org, serbanc@google.com, vincenzo.frascino@arm.com,
- pcc@google.com, eugenis@google.com
+Cc: Juan Quintela <quintela@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Den Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIxOTIwMTgyMC4yNjcy
-MDc3LTEtcGNjQGdvb2dsZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIxOTIwMTgyMC4yNjcyMDc3
-LTEtcGNjQGdvb2dsZS5jb20KU3ViamVjdDogW1BBVENIXSB0YXJnZXQvYXJtOiBVc2UgVENGMCBh
-bmQgVEZTUkUwIGZvciB1bnByaXZpbGVnZWQgdGFnIGNoZWNrcwoKPT09IFRFU1QgU0NSSVBUIEJF
-R0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhp
-dCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxv
-Y2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBo
-aXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRF
-U1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0
-YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUK
-ICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDIxOTIwMTgyMC4yNjcyMDc3LTEtcGNj
-QGdvb2dsZS5jb20gLT4gcGF0Y2hldy8yMDIxMDIxOTIwMTgyMC4yNjcyMDc3LTEtcGNjQGdvb2ds
-ZS5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0Jwo4YjMzNWMyIHRhcmdldC9hcm06
-IFVzZSBUQ0YwIGFuZCBURlNSRTAgZm9yIHVucHJpdmlsZWdlZCB0YWcgY2hlY2tzCgo9PT0gT1VU
-UFVUIEJFR0lOID09PQpFUlJPUjogQXV0aG9yIGVtYWlsIGFkZHJlc3MgaXMgbWFuZ2xlZCBieSB0
-aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBQZXRlciBDb2xsaW5nYm91cm5lIHZpYSA8cWVt
-dS1kZXZlbEBub25nbnUub3JnPgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAzNCBsaW5l
-cyBjaGVja2VkCgpDb21taXQgOGIzMzVjMjUxYzAwICh0YXJnZXQvYXJtOiBVc2UgVENGMCBhbmQg
-VEZTUkUwIGZvciB1bnByaXZpbGVnZWQgdGFnIGNoZWNrcykgaGFzIHN0eWxlIHByb2JsZW1zLCBw
-bGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVz
-IHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJ
-TkVSUy4KPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTog
-MQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3Mv
-MjAyMTAyMTkyMDE4MjAuMjY3MjA3Ny0xLXBjY0Bnb29nbGUuY29tL3Rlc3RpbmcuY2hlY2twYXRj
-aC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0
-Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRv
-IHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+Andrey,
+
+On Fri, Feb 19, 2021 at 09:57:37AM +0300, Andrey Gruzdev wrote:
+> For the discards that happen before snapshot is started, I need to dig into Linux and QEMU virtio-baloon
+> code more to get clear with it.
+
+Yes it's very tricky on how the error could trigger.
+
+Let's think of below sequence:
+
+  - Start a guest with init_on_free=1 set and also a virtio-balloon device
+
+  - Guest frees a page P and zeroed it (since init_on_free=1). Now P contains
+    all zeros.
+
+  - Virtio-balloon reports this page to host, MADV_DONTNEED sent, then this
+    page is dropped on the host.
+
+  - Start live snapshot, wr-protect all pages (but not including page P because
+    it's currently missing).  Let's call it $SNAPSHOT1.
+
+  - Guest does alloc_page(__GFP_ZERO), accidentally fetching this page P and
+    returned
+
+  - So far, page P is still all zero (which is good!), then guest uses page P
+    and writes data to it (say, now P has data P1 rather than all zeros).
+
+  - Live snapshot saves page P, which content P1 rather than all zeros.
+
+  - Live snapshot completed.  Saved as $SNAPSHOT1.
+
+Then when load snapshot $SNAPSHOT1, we'll have P contains data P1.  After
+snapshot loaded, when guest allocate again with alloc_page(__GFP_ZERO) on this
+page P, since guest kernel "thought" this page is all-zero already so memzero()
+is skipped even if __GFP_ZERO is provided.  Then this page P (with content P1)
+got returned for the alloc_page(__GFP_ZERO) even if __GFP_ZERO set.  That could
+break the caller of alloc_page().
+
+> Anyhow I'm quite sure that adding global MISSING handler for snapshotting
+> is too heavy and not really needed.
+
+UFFDIO_ZEROCOPY installs a zero pfn and that should be all of it.  There'll
+definitely be overhead, but it may not be that huge as imagined.  Live snapshot
+is great in that we have point-in-time image of guest without stopping the
+guest, so taking slightly longer time won't be a huge loss to us too.
+
+Actually we can also think of other ways to work around it.  One way is we can
+pre-fault all guest pages before wr-protect.  Note that we don't need to write
+to the guest page because read would suffice, since uffd-wp would also work
+with zero pfn.  It's just that this workaround won't help on saving snapshot
+disk space, but it seems working.  It would be great if you have other
+workarounds, maybe as you said UFFDIO_ZEROCOPY is not the only route.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
