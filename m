@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAE3F31FC1E
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:36:44 +0100 (CET)
-Received: from localhost ([::1]:41890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF0031FC35
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 16:41:45 +0100 (CET)
+Received: from localhost ([::1]:56848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lD7pj-0003xn-NU
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:36:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45236)
+	id 1lD7uZ-0001r4-QH
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 10:41:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lD7nW-0000jy-HU
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:34:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1lD7nQ-0006AB-J6
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 10:34:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613748859;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jWrH+Pder/mK6sQSG6o0NdAqsT2RDmV3RSZzGujPIgQ=;
- b=N0TD9uOe+Q7xVGiZDbAln6ZVPmifTw/YTSHrMuugAKk904ICCc16vJwG7/9Dnr3mWAHE86
- gcrLM6Hn4N5u3Eh7Zf2445v5rdgMxnVe3NdYjcUxpZRvQc072J41OgnNqfdfK/EuT3KPh9
- DZT0RpzTbuzxNQ7p6dvlOU67g7uLL7o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-198-99xXD8DLOJu5v18wsYRaCA-1; Fri, 19 Feb 2021 10:33:55 -0500
-X-MC-Unique: 99xXD8DLOJu5v18wsYRaCA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D867510082F6;
- Fri, 19 Feb 2021 15:33:54 +0000 (UTC)
-Received: from localhost (ovpn-112-191.ams2.redhat.com [10.36.112.191])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7C5E26A035;
- Fri, 19 Feb 2021 15:33:54 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/3] backup-top: Refuse I/O in inactive state
-Date: Fri, 19 Feb 2021 16:33:47 +0100
-Message-Id: <20210219153348.41861-3-mreitz@redhat.com>
-In-Reply-To: <20210219153348.41861-1-mreitz@redhat.com>
-References: <20210219153348.41861-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lD7sR-0008V4-8j; Fri, 19 Feb 2021 10:39:31 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lD7sP-0008Lh-Kb; Fri, 19 Feb 2021 10:39:30 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id lu16so14130531ejb.9;
+ Fri, 19 Feb 2021 07:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3oqvCS0GH7OR1zvxo227jB2azAu3DvssVHwHbd4r70w=;
+ b=DwFaVwJEBrtL4Tkb02sIivOnGu65X2BW0MkMAsMHpRSAL3Qib6L2ZbAwYKfOu9YBJa
+ u6E2Fg160BOlhy+orv5Ui9i4ElG7fBc45Ey0DVveoaZHMwYh5p911O5zdVrD4LqFxdas
+ Cjj53FH4cEJV9b2laUezpQR6Ckmm5WmLlMEQO/iEIiqj8tWr8EjJjonHhvlauU8d/LFO
+ XEvITfsmQ7/GRf8Kobg2gDqEKc1ol7shfqdfvt8c6zXA0PbJ+9E2bm9ptbrhEpAnd04u
+ B+OYQow5YZI7iK6SQJn1d1TbKNu82E0mFyjLKAN1cPaxR+/Q2LUWA5XLrffNIMPcbERC
+ YhzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3oqvCS0GH7OR1zvxo227jB2azAu3DvssVHwHbd4r70w=;
+ b=pklD2Y+65lRDV9c3n+qu+Xry6vv9lHG7NJXexUWCmJkSqjxjPnxD8HOn1fmtsckEnE
+ rzpe+45G/oa70Pf44+153cZ+TnUoa/WDk+j6T47vanRsBArXHEY9R508DtlIjP/Iry+K
+ kF4tMCaONv3NBUOWL+WiInobpDLj8az/eoxKxPSl2vpd5i4Y+DZIOksd1w+HJihVkjLi
+ xkNE/mfPUlj7JwAIlk7cPlW9Z1uwBWt4E7R4VRtMYJAmp9j8t+JKDN2Xuwe2ACy12Uow
+ pzKvCfMwGYgGFvFou7XtWyMEHkCLQieD4xM+PZGNwegmAmqPHz+0CMNuftqtYqGnnGTg
+ 4OVg==
+X-Gm-Message-State: AOAM530vu+BfxnmFNQLub4+zN7o1zZ85tcgLbx2EE1K2GQ5Ra0yp2H1L
+ oNmqVABiETcUA8R1YcJGB0o=
+X-Google-Smtp-Source: ABdhPJy8zrR3HzPEowj+dS44+Kw9nz73CzW/NFHTJVDYCpjoODJLtpzvZJHgJUhLBKvOn4FxvWajVg==
+X-Received: by 2002:a17:906:2bd7:: with SMTP id
+ n23mr9384752ejg.502.1613749167457; 
+ Fri, 19 Feb 2021 07:39:27 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id t9sm4580314ejc.51.2021.02.19.07.39.24
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Feb 2021 07:39:27 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v2 0/4] hw/riscv: Clean-ups and map high mmio for PCIe of
+ 'virt' machine
+Date: Fri, 19 Feb 2021 23:39:11 +0800
+Message-Id: <1613749155-84250-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,60 +83,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When the backup-top node transitions from active to inactive in
-bdrv_backup_top_drop(), the BlockCopyState is freed and the filtered
-child is removed, so the node effectively becomes unusable.
+From: Bin Meng <bin.meng@windriver.com>
 
-However, noone told its I/O functions this, so they will happily
-continue accessing bs->backing and s->bcs.  Prevent that by aborting
-early when s->active is false.
+This series does the following clean-ups:
+- Drop 'struct MemmapEntry'
+- virt: Drop the 'link_up' parameter of gpex_pcie_init()
 
-(After the preceding patch, the node should be gone after
-bdrv_backup_top_drop(), so this should largely be a theoretical problem.
-But still, better to be safe than sorry, and also I think it just makes
-sense to check s->active in the I/O functions.)
+It also adds the following small enhancement to 'virt' machine:
+- Limit RAM size in a 32-bit system
+- Map high mmio for PCIe
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block/backup-top.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+Changes in v2:
+- Use a #if size test to only do the size limitation for the 64-bit host
 
-diff --git a/block/backup-top.c b/block/backup-top.c
-index d1253e1aa6..589e8b651d 100644
---- a/block/backup-top.c
-+++ b/block/backup-top.c
-@@ -45,6 +45,12 @@ static coroutine_fn int backup_top_co_preadv(
-         BlockDriverState *bs, uint64_t offset, uint64_t bytes,
-         QEMUIOVector *qiov, int flags)
- {
-+    BDRVBackupTopState *s = bs->opaque;
-+
-+    if (!s->active) {
-+        return -EIO;
-+    }
-+
-     return bdrv_co_preadv(bs->backing, offset, bytes, qiov, flags);
- }
- 
-@@ -54,6 +60,10 @@ static coroutine_fn int backup_top_cbw(BlockDriverState *bs, uint64_t offset,
-     BDRVBackupTopState *s = bs->opaque;
-     uint64_t off, end;
- 
-+    if (!s->active) {
-+        return -EIO;
-+    }
-+
-     if (flags & BDRV_REQ_WRITE_UNCHANGED) {
-         return 0;
-     }
+Bin Meng (4):
+  hw/riscv: Drop 'struct MemmapEntry'
+  hw/riscv: virt: Drop the 'link_up' parameter of gpex_pcie_init()
+  hw/riscv: virt: Limit RAM size in a 32-bit system
+  hw/riscv: virt: Map high mmio for PCIe
+
+ hw/riscv/microchip_pfsoc.c |  9 ++----
+ hw/riscv/opentitan.c       |  9 ++----
+ hw/riscv/sifive_e.c        |  9 ++----
+ hw/riscv/sifive_u.c        | 11 +++-----
+ hw/riscv/spike.c           |  9 ++----
+ hw/riscv/virt.c            | 68 ++++++++++++++++++++++++++++++++++++----------
+ 6 files changed, 69 insertions(+), 46 deletions(-)
+
 -- 
-2.29.2
+2.7.4
 
 
