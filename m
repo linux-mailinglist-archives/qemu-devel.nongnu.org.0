@@ -2,71 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89E7531F3CC
-	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 03:07:51 +0100 (CET)
-Received: from localhost ([::1]:41312 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174C631F3E8
+	for <lists+qemu-devel@lfdr.de>; Fri, 19 Feb 2021 03:16:22 +0100 (CET)
+Received: from localhost ([::1]:43642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lCvCw-0001Ka-22
-	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 21:07:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57292)
+	id 1lCvLB-0002e8-5U
+	for lists+qemu-devel@lfdr.de; Thu, 18 Feb 2021 21:16:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lCvC1-0000cJ-6A
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 21:06:53 -0500
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:46318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <liq3ea@gmail.com>) id 1lCvBz-0007Da-8W
- for qemu-devel@nongnu.org; Thu, 18 Feb 2021 21:06:52 -0500
-Received: by mail-ot1-x32c.google.com with SMTP id o10so3768003ote.13
- for <qemu-devel@nongnu.org>; Thu, 18 Feb 2021 18:06:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=xq4QJgNLGRiNqTuy7bRtqOha/7gxNZFFZQCsJEnsezk=;
- b=l1OReFMpOxkFelBxv7B/m8hsImuKN97OBSwIDaqcUZRMnMyqyvLAXjTvJJTK4oz1DW
- AKsDxtVK4guxtGwo2D5nFEUmm8nXKhjJZ2aXzH35skfVyJAEvDbaS9yjdoKqTM4PWbsO
- C6mni9TFmIl11DVXbgXMid1bIqt6uYppH6OZV5ggYRycYXvYydUtVmpCdv4ETxv1cau8
- EuGctscKNjJ0TTpBawxs35Sm1Lh403gky4ghhFkZREBM1zwvmthpgvZA2l7WvrOehaXY
- kjgFprSZL4sdCrKOlq068bUJT8HiSJxmjpTPiRlQXSNZ7EjoR9hz0z80BYXePWf+OFq3
- FdsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=xq4QJgNLGRiNqTuy7bRtqOha/7gxNZFFZQCsJEnsezk=;
- b=duWjOMstZgvCOMWJj83ME1GzBRejnQ95DabDxknZtf6u/+3p+Z05xrCNoYXBjLjuOt
- D6mj69CVv21VX+F9fxhTtycCYysRJZY0wBW6jEk0Kbg5isSRVpLvfgZSQgXycbfpCJ1J
- TG6+ygu3NEx6EBcL5NFMndYC2TJdWVT5OwXFrt00PDJ2Z2/2nSP8jVQZxvkKeXgDjrMU
- y5X9ZJDOLFw17or5E44eylJqIEGzfpJ+CHtyJBLanAqwB52GCInNcmhbK6yfvYd6stau
- 6U7gdQ1Tz2B64LtNkUoijJKU50N3I6EJKljCsBiYf6QMHqf+2+jy6v8XsWG1WGeIK1Gw
- Uhrg==
-X-Gm-Message-State: AOAM530I2N7gLcAOBiEfEtao+Se2JmV/7mXvK4egLBwBjKXY6hMQIp4S
- QF8ym5xZRXNFlj01EOxeqaNwvv6PVS7Kq7QtmZc=
-X-Google-Smtp-Source: ABdhPJxARU8ZNnyqUWFIT6R1lfkh5bD6FGE4oNmUQDYaoGPXxREvMJJXElXWYwjZNbN9tSJxfxf3jO/BIxspv1FEGKI=
-X-Received: by 2002:a05:6830:1557:: with SMTP id
- l23mr5279778otp.181.1613700409498; 
- Thu, 18 Feb 2021 18:06:49 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lCvKA-00029v-KX
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 21:15:18 -0500
+Received: from relay68.bu.edu ([128.197.228.73]:56261)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lCvK8-0002Vi-6a
+ for qemu-devel@nongnu.org; Thu, 18 Feb 2021 21:15:17 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay68.bu.edu (8.14.3/8.14.3) with ESMTP id 11J2Eexn024225
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Thu, 18 Feb 2021 21:14:43 -0500
+Date: Thu, 18 Feb 2021 21:14:40 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Li Qiang <liq3ea@gmail.com>
+Subject: Re: [PATCH] net: eepro100: validate various address values
+Message-ID: <20210219021440.ub4qh3cnyv4cgswy@mozz.bu.edu>
 References: <20210218140629.373646-1-ppandit@redhat.com>
  <CAFEAcA_8sUX5nbg5+DR8Z6F3t1Y3o=tgZY56dFTKLgA7XVWOcw@mail.gmail.com>
  <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
-In-Reply-To: <20210219015403.tl5upltt3d2bnmw5@mozz.bu.edu>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Fri, 19 Feb 2021 10:06:13 +0800
-Message-ID: <CAKXe6SKrU_2zgw5YtcNw9uXd2gHFTSsLkDHyqqg=Z2uZj+e2AA@mail.gmail.com>
-Subject: Re: [PATCH] net: eepro100: validate various address values
-To: Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=liq3ea@gmail.com; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <CAKXe6SKrU_2zgw5YtcNw9uXd2gHFTSsLkDHyqqg=Z2uZj+e2AA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKXe6SKrU_2zgw5YtcNw9uXd2gHFTSsLkDHyqqg=Z2uZj+e2AA@mail.gmail.com>
+Received-SPF: pass client-ip=128.197.228.73; envelope-from=alxndr@bu.edu;
+ helo=relay68.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,127 +65,162 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alexander Bulekov <alxndr@bu.edu> =E4=BA=8E2021=E5=B9=B42=E6=9C=8819=E6=97=
-=A5=E5=91=A8=E4=BA=94 =E4=B8=8A=E5=8D=889:56=E5=86=99=E9=81=93=EF=BC=9A
+On 210219 1006, Li Qiang wrote:
+> Alexander Bulekov <alxndr@bu.edu> 于2021年2月19日周五 上午9:56写道：
+> >
+> > On 210218 1441, Peter Maydell wrote:
+> > > On Thu, 18 Feb 2021 at 14:13, P J P <ppandit@redhat.com> wrote:
+> > > >
+> > > > From: Prasad J Pandit <pjp@fedoraproject.org>
+> > > >
+> > > > While processing controller commands, eepro100 emulator gets
+> > > > command unit(CU) base address OR receive unit (RU) base address
+> > > > OR command block (CB) address from guest. If these values are not
+> > > > checked, it may lead to an infinite loop kind of issues. Add checks
+> > > > to avoid it.
+> 
+> 
+> So could you please provide a backtrack?
 >
-> On 210218 1441, Peter Maydell wrote:
-> > On Thu, 18 Feb 2021 at 14:13, P J P <ppandit@redhat.com> wrote:
+
+I don't know if you are asking me or Prasad, but here is the stacktrace
+for the one I provided:
+==2715275==ERROR: AddressSanitizer: stack-overflow on address
+0x7ffc5262ba28 (pc 0x55d83b103ac6 bp 0x7ffc5262c270 sp 0x7ffc5262ba30
+T0)
+#0 in __asan_memcpy (qemu-system-i386+0x2aa3ac6)
+#1 in flatview_do_translate ../softmmu/physmem.c:518:12
+#2 in flatview_translate ../softmmu/physmem.c:568:15
+#3 in flatview_read ../softmmu/physmem.c:2878:10
+#4 in address_space_read_full ../softmmu/physmem.c:2892:18
+#5 in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
+#6 in dma_memory_rw include/sysemu/dma.h:127:12
+#7 in pci_dma_rw include/hw/pci/pci.h:803:12
+#8 in pci_dma_read include/hw/pci/pci.h:821:12
+#9 in read_cb ../hw/net/eepro100.c:726:5
+#10 in action_command ../hw/net/eepro100.c:847:9
+#11 in eepro100_cu_command ../hw/net/eepro100.c:969:13
+#12 in eepro100_write_command ../hw/net/eepro100.c:1063:5
+#13 in eepro100_write2 ../hw/net/eepro100.c:1510:9
+#14 in eepro100_write ../hw/net/eepro100.c:1593:9
+#15 in memory_region_write_accessor ../softmmu/memory.c:491:5
+#16 in access_with_adjusted_size ../softmmu/memory.c:552:18
+#17 in memory_region_dispatch_write ../softmmu/memory.c
+#18 in flatview_write_continue ../softmmu/physmem.c:2776:23
+#19 in flatview_write ../softmmu/physmem.c:2816:14
+#20 in address_space_write ../softmmu/physmem.c:2908:18
+#21 in dma_memory_rw_relaxed include/sysemu/dma.h:88:12
+#22 in dma_memory_rw include/sysemu/dma.h:127:12
+#23 in dma_memory_write include/sysemu/dma.h:163:12
+#24 in stw_le_dma include/sysemu/dma.h:259:1
+#25 in stw_le_pci_dma include/hw/pci/pci.h:855:1
+#26 in action_command ../hw/net/eepro100.c:913:9
+#27 in eepro100_cu_command ../hw/net/eepro100.c:969:13
+#28 in eepro100_write_command ../hw/net/eepro100.c:1063:5
+#29 in eepro100_write2 ../hw/net/eepro100.c:1510:9
+#30 in eepro100_write ../hw/net/eepro100.c:1593:9
+... till there's no more stack ...
+
+> 
+> Thanks,
+> Li Qiang
+> 
+> > > >
+> > > > Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
+> > > > Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+> > > > ---
+> > > >  hw/net/eepro100.c | 8 +++++++-
+> > > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
+> > > > index 16e95ef9cc..afa1c9b2aa 100644
+> > > > --- a/hw/net/eepro100.c
+> > > > +++ b/hw/net/eepro100.c
+> > > > @@ -843,7 +843,8 @@ static void action_command(EEPRO100State *s)
+> > > >          bool bit_i;
+> > > >          bool bit_nc;
+> > > >          uint16_t ok_status = STATUS_OK;
+> > > > -        s->cb_address = s->cu_base + s->cu_offset;
+> > > > +        s->cb_address = s->cu_base + s->cu_offset;  /* uint32_t overflow */
+> > > > +        assert (s->cb_address >= s->cu_base);
 > > >
-> > > From: Prasad J Pandit <pjp@fedoraproject.org>
+> > > We get these values from the guest; you can't just assert() on them.
+> > > You need to do something else.
 > > >
-> > > While processing controller commands, eepro100 emulator gets
-> > > command unit(CU) base address OR receive unit (RU) base address
-> > > OR command block (CB) address from guest. If these values are not
-> > > checked, it may lead to an infinite loop kind of issues. Add checks
-> > > to avoid it.
-
-
-So could you please provide a backtrack?
-
-
-Thanks,
-Li Qiang
-
+> > > My reading of the 8255x data sheet is that there is nothing
+> > > in the hardware that forbids the guest from programming the
+> > > device such that the cu_base + cu_offset wraps around:
+> > > http://www.intel.com/content/dam/doc/manual/8255x-10-100-mbps-ethernet-controller-software-dev-manual.pdf
+> > > -- page 30 says that this is all doing 32-bit arithmetic
+> > > on addresses and doesn't say that there is any special case
+> > > handling by the device of overflow of that addition.
 > > >
-> > > Reported-by: Ruhr-University Bochum <bugs-syssec@rub.de>
-> > > Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-> > > ---
-> > >  hw/net/eepro100.c | 8 +++++++-
-> > >  1 file changed, 7 insertions(+), 1 deletion(-)
+> > > Your commit message isn't very clear about what the failure
+> > > case is here, but I think the fix has to be something
+> > > different from this.
+> >
+> > Maybe the infinite loop mentioned in the commit message is actually a
+> > DMA recursion issue? I'm providing a reproducer for a DMA re-entracy
+> > issue below. With this patch applied, the reproducer triggers the
+> > assert(), rather than overflowing the stack, so maybe it is the same
+> > issue?
+> > -Alex
+> >
+> > cat << EOF | ./qemu-system-i386 -display none -machine accel=qtest, -m \
+> > 512M -device i82559er,netdev=net0 -netdev user,id=net0 -nodefaults \
+> > -qtest stdio
+> > outl 0xcf8 0x80001014
+> > outl 0xcfc 0xc000
+> > outl 0xcf8 0x80001010
+> > outl 0xcfc 0xe0020000
+> > outl 0xcf8 0x80001004
+> > outw 0xcfc 0x7
+> > write 0x1ffffc0b 0x1 0x55
+> > write 0x1ffffc0c 0x1 0xfc
+> > write 0x1ffffc0d 0x1 0x46
+> > write 0x1ffffc0e 0x1 0x07
+> > write 0x746fc59 0x1 0x02
+> > write 0x746fc5b 0x1 0x02
+> > write 0x746fc5c 0x1 0xe0
+> > write 0x4 0x1 0x07
+> > write 0x5 0x1 0xfc
+> > write 0x6 0x1 0xff
+> > write 0x7 0x1 0x1f
+> > outw 0xc002 0x20
+> > EOF
+> >
+> > Formatted for committing a regression-test:
+> >
+> > static void test_fuzz(void)
+> > {
+> >     QTestState *s =
+> >         qtest_init("-display none , -m 512M -device i82559er,netdev=net0 "
+> >                    "-netdev user,id=net0 -nodefaults");
+> >     qtest_outl(s, 0xcf8, 0x80001014);
+> >     qtest_outl(s, 0xcfc, 0xc000);
+> >     qtest_outl(s, 0xcf8, 0x80001010);
+> >     qtest_outl(s, 0xcfc, 0xe0020000);
+> >     qtest_outl(s, 0xcf8, 0x80001004);
+> >     qtest_outw(s, 0xcfc, 0x7);
+> >     qtest_bufwrite(s, 0x1ffffc0b, "\x55", 0x1);
+> >     qtest_bufwrite(s, 0x1ffffc0c, "\xfc", 0x1);
+> >     qtest_bufwrite(s, 0x1ffffc0d, "\x46", 0x1);
+> >     qtest_bufwrite(s, 0x1ffffc0e, "\x07", 0x1);
+> >     qtest_bufwrite(s, 0x746fc59, "\x02", 0x1);
+> >     qtest_bufwrite(s, 0x746fc5b, "\x02", 0x1);
+> >     qtest_bufwrite(s, 0x746fc5c, "\xe0", 0x1);
+> >     qtest_bufwrite(s, 0x4, "\x07", 0x1);
+> >     qtest_bufwrite(s, 0x5, "\xfc", 0x1);
+> >     qtest_bufwrite(s, 0x6, "\xff", 0x1);
+> >     qtest_bufwrite(s, 0x7, "\x1f", 0x1);
+> >     qtest_outw(s, 0xc002, 0x20);
+> >     qtest_quit(s);
+> > }
+> >
+> >
 > > >
-> > > diff --git a/hw/net/eepro100.c b/hw/net/eepro100.c
-> > > index 16e95ef9cc..afa1c9b2aa 100644
-> > > --- a/hw/net/eepro100.c
-> > > +++ b/hw/net/eepro100.c
-> > > @@ -843,7 +843,8 @@ static void action_command(EEPRO100State *s)
-> > >          bool bit_i;
-> > >          bool bit_nc;
-> > >          uint16_t ok_status =3D STATUS_OK;
-> > > -        s->cb_address =3D s->cu_base + s->cu_offset;
-> > > +        s->cb_address =3D s->cu_base + s->cu_offset;  /* uint32_t ov=
-erflow */
-> > > +        assert (s->cb_address >=3D s->cu_base);
+> > > thanks
+> > > -- PMM
+> > >
 > >
-> > We get these values from the guest; you can't just assert() on them.
-> > You need to do something else.
-> >
-> > My reading of the 8255x data sheet is that there is nothing
-> > in the hardware that forbids the guest from programming the
-> > device such that the cu_base + cu_offset wraps around:
-> > http://www.intel.com/content/dam/doc/manual/8255x-10-100-mbps-ethernet-=
-controller-software-dev-manual.pdf
-> > -- page 30 says that this is all doing 32-bit arithmetic
-> > on addresses and doesn't say that there is any special case
-> > handling by the device of overflow of that addition.
-> >
-> > Your commit message isn't very clear about what the failure
-> > case is here, but I think the fix has to be something
-> > different from this.
->
-> Maybe the infinite loop mentioned in the commit message is actually a
-> DMA recursion issue? I'm providing a reproducer for a DMA re-entracy
-> issue below. With this patch applied, the reproducer triggers the
-> assert(), rather than overflowing the stack, so maybe it is the same
-> issue?
-> -Alex
->
-> cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m =
-\
-> 512M -device i82559er,netdev=3Dnet0 -netdev user,id=3Dnet0 -nodefaults \
-> -qtest stdio
-> outl 0xcf8 0x80001014
-> outl 0xcfc 0xc000
-> outl 0xcf8 0x80001010
-> outl 0xcfc 0xe0020000
-> outl 0xcf8 0x80001004
-> outw 0xcfc 0x7
-> write 0x1ffffc0b 0x1 0x55
-> write 0x1ffffc0c 0x1 0xfc
-> write 0x1ffffc0d 0x1 0x46
-> write 0x1ffffc0e 0x1 0x07
-> write 0x746fc59 0x1 0x02
-> write 0x746fc5b 0x1 0x02
-> write 0x746fc5c 0x1 0xe0
-> write 0x4 0x1 0x07
-> write 0x5 0x1 0xfc
-> write 0x6 0x1 0xff
-> write 0x7 0x1 0x1f
-> outw 0xc002 0x20
-> EOF
->
-> Formatted for committing a regression-test:
->
-> static void test_fuzz(void)
-> {
->     QTestState *s =3D
->         qtest_init("-display none , -m 512M -device i82559er,netdev=3Dnet=
-0 "
->                    "-netdev user,id=3Dnet0 -nodefaults");
->     qtest_outl(s, 0xcf8, 0x80001014);
->     qtest_outl(s, 0xcfc, 0xc000);
->     qtest_outl(s, 0xcf8, 0x80001010);
->     qtest_outl(s, 0xcfc, 0xe0020000);
->     qtest_outl(s, 0xcf8, 0x80001004);
->     qtest_outw(s, 0xcfc, 0x7);
->     qtest_bufwrite(s, 0x1ffffc0b, "\x55", 0x1);
->     qtest_bufwrite(s, 0x1ffffc0c, "\xfc", 0x1);
->     qtest_bufwrite(s, 0x1ffffc0d, "\x46", 0x1);
->     qtest_bufwrite(s, 0x1ffffc0e, "\x07", 0x1);
->     qtest_bufwrite(s, 0x746fc59, "\x02", 0x1);
->     qtest_bufwrite(s, 0x746fc5b, "\x02", 0x1);
->     qtest_bufwrite(s, 0x746fc5c, "\xe0", 0x1);
->     qtest_bufwrite(s, 0x4, "\x07", 0x1);
->     qtest_bufwrite(s, 0x5, "\xfc", 0x1);
->     qtest_bufwrite(s, 0x6, "\xff", 0x1);
->     qtest_bufwrite(s, 0x7, "\x1f", 0x1);
->     qtest_outw(s, 0xc002, 0x20);
->     qtest_quit(s);
-> }
->
->
-> >
-> > thanks
-> > -- PMM
-> >
->
 
