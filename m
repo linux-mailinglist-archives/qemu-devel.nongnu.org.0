@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 074E932022E
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:23:10 +0100 (CET)
-Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2A1320228
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:20:24 +0100 (CET)
+Received: from localhost ([::1]:46384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDG3B-0004pU-2M
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:23:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37238)
+	id 1lDG0V-0000Oh-4g
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:20:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <3KlQwYAMKCps8E9BJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--dje.bounces.google.com>)
- id 1lDFtu-0000WJ-8q
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 19:13:34 -0500
-Received: from mail-ua1-x949.google.com ([2607:f8b0:4864:20::949]:53014)
+ <3LFQwYAMKCp0AGBDLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--dje.bounces.google.com>)
+ id 1lDFtx-0000Xa-6x
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 19:13:37 -0500
+Received: from mail-pl1-x64a.google.com ([2607:f8b0:4864:20::64a]:43090)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from
- <3KlQwYAMKCps8E9BJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--dje.bounces.google.com>)
- id 1lDFts-0005RD-A4
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 19:13:34 -0500
-Received: by mail-ua1-x949.google.com with SMTP id e15so3269758ual.19
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 16:13:31 -0800 (PST)
+ <3LFQwYAMKCp0AGBDLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--dje.bounces.google.com>)
+ id 1lDFtu-0005Rj-TO
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 19:13:36 -0500
+Received: by mail-pl1-x64a.google.com with SMTP id 42so4625740plb.10
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 16:13:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
  h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc; bh=GcAFtjhbn9QPq1uf+qCU9C7hm0q4Mf37g1dQhxyj2vo=;
- b=En5Yv9sgOBuU73z1U6B9Em3AWKyTYTNIVxc0Fs6oZYK6kVs517LU8WBGDCawAewGED
- +N16s8KtHz3FLsoV+BIPuzGdH8TImI1XrGr0LWVVNB47bUzl/mmZrJFrF/V3/ZkEMU0W
- FzmLONNxtX6ZQqU5Q5LWx1oWqzDE8GM6lHngkkxwbpHxm0v3ya9ZQZu3KhBsBm+3RC6U
- 2njUp6tegpqoNc19CSs83B2bLv44Ka9GKaa0uRpXmL1Tl7AdUU7SWzuXr3AgdQBnb4td
- HlIpKgDpSlFf1fIKHDinMXQqqURU4AMVPfZoaOQn6N5jLUiEZK4YJfJTKBIHRNJJxs17
- lhKQ==
+ :from:to:cc; bh=iWai+KPSZ1OZ7yfodHOcvAbIn7VnVw8PFEon7KOtbLs=;
+ b=hL7R97jHeq1eOo3yWX4KZfVb86gmwbDYYGXpGb/2kkLd7X7f/cNSuJYSLsZ4T4QANu
+ c4VC4VCZXwq4tSkXQMJl6p+TjSuiy4yLDUURrUMEpzpKnd2VT0uySI3KuC5HWQ2IxbsP
+ 1fmukBbQ/Y0mKU1Qaiwpd0iKB+pv8GW1zDTXQWTFBDH2KIdnB6WORKcSVUclL62ou1hI
+ K7G9GfFypKxfclA0YjaU8dZyeW6+v+U/EuzOXVO17sSaMKnbhiscXMWwXFvgtbeWlagR
+ 4CHnbbk2j3HPbXgBSQBCIXe8+WAthz0FOepCS3qne9fEJCyImxWXG+1P2z9q9N/oERO7
+ RWBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
  :references:subject:from:to:cc;
- bh=GcAFtjhbn9QPq1uf+qCU9C7hm0q4Mf37g1dQhxyj2vo=;
- b=aw+h6b1/k3Z5XRrRUvXAv3bYwzyKIJLvV+i1kySXjtVLvEjh5zisEbKdE1xrLDuUxE
- 0Y9SjcECO4bPE8L5gxRWwonv9L4874tmjIugpTWsKuU9mUb70qN8ImI278jHrnlipNcq
- L89GrzW7zt5e6R8XgoVUKgvuh83zQjOxpk7hn2vXN0hOZ6JFUx/Yflg8U65VN82VzbFW
- kvh5JXhLkp6Wz+rWAHQFtTWAIgVaomnxjis/WN6gPktACuGkzl4XuD5uRi+/eEVItEDS
- duSAeDH3g/ga6LLKv6h2zH+eJ9lHk1jG5B80L3mLYJB+FrsHfbeG5NhGxxKBKHRYWjji
- yuRg==
-X-Gm-Message-State: AOAM533+1wCWd253O+wZSyf8SCS339O8Jzk3qcaEHPMi/Utk/gJfF0s6
- ea8iB9QF6kvNnW7Vop5CTodfb2ClhBmb3aNelTMd1e7NxhIOadn6uX48nooRH4dxKupf5nfAvCw
- CYxn2rQXa0g3RHm8qmUqlE3DPQph7MRdHOdxV8qBuICHNw/WHP9kd
-X-Google-Smtp-Source: ABdhPJwSNPJEN9ZAN2wQ25YqmoY6k5SWFJaRYo4H2CDMrRWLDHJ9JSaLSKsgTqig8ltIdiUV1GQwTdo=
+ bh=iWai+KPSZ1OZ7yfodHOcvAbIn7VnVw8PFEon7KOtbLs=;
+ b=ZZI0z4yckkMSrvvcrfRXaRMtKU5T76QKbR8Zn71rG0nHV1g25kc/snQVMjoxElpI63
+ H0BHNxKF38FuLifQkyzMP93qNUAYxc9HoaKghrxKkTf/SXTIl5eA20Z0mvGLSMwdFpAW
+ dBhSX6FdpDie1Lc7NSD4/hs5a2reKYxxKeSnxCz2FWcloKtoNZy2xVlcgfr9uO8uagrT
+ kv2fm9tUnblv7Dpe8GoRJdlBvP7H5B6Fthb4gOeNkE7EBfqJBdKrvYeEGWwruyy4hsnA
+ 8mFj7SF7Y5KPBB/kGk80FbhndFwGdhgexmJs20j/MS+beDW04jx+2UIdnw23vZRqKzu9
+ VM9w==
+X-Gm-Message-State: AOAM532xYiDMfNtMdxL3WGXy7+v7y2BcRl2qjHEkQLvRFuXdtYHkrDKd
+ 57UJe2Dpka60V+Lkf/+82iDhnUmW/I/f828/YqNgXmhkBWFSPhxrenmk5KLeTB/9x8SDerTKoW7
+ wNKgWpcBvnIrjY612ZONCj4RhzChJXS+4CKHocp+lS9JreqTRlAVN
+X-Google-Smtp-Source: ABdhPJzNUX1J6EwqZLJlLvoLD0Y+Po9MNIzCynsPJ58AUp7RPz0Gd9FUZ/w2vYPHMX9qgw3uqYMRvas=
 X-Received: from ruffy.mtv.corp.google.com
  ([2620:0:1000:1412:7d06:9b98:ec95:3f70])
- (user=dje job=sendgmr) by 2002:a67:2b84:: with SMTP id
- r126mr8456242vsr.14.1613780010521; 
- Fri, 19 Feb 2021 16:13:30 -0800 (PST)
-Date: Fri, 19 Feb 2021 16:13:19 -0800
+ (user=dje job=sendgmr) by 2002:a17:90a:4dc1:: with SMTP id
+ r1mr11668818pjl.12.1613780012934; Fri, 19 Feb 2021 16:13:32 -0800 (PST)
+Date: Fri, 19 Feb 2021 16:13:20 -0800
 In-Reply-To: <20210220001322.1311139-1-dje@google.com>
-Message-Id: <20210220001322.1311139-3-dje@google.com>
+Message-Id: <20210220001322.1311139-4-dje@google.com>
 Mime-Version: 1.0
 References: <20210220001322.1311139-1-dje@google.com>
 X-Mailer: git-send-email 2.30.0.617.g56c4b15f3c-goog
-Subject: [PATCH v5 2/5] util/qemu-sockets.c: Split host:port parsing out of
- inet_parse
+Subject: [PATCH v5 3/5] inet_parse_host_and_addr: Recognize []:port (empty
+ ipv6 address)
 To: qemu-devel@nongnu.org
 Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, 
  "=?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?=" <berrange@redhat.com>,
  Doug Evans <dje@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::949;
- envelope-from=3KlQwYAMKCps8E9BJJBG9.7JHL9HP-89Q9GIJIBIP.JMB@flex--dje.bounces.google.com;
- helo=mail-ua1-x949.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::64a;
+ envelope-from=3LFQwYAMKCp0AGBDLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--dje.bounces.google.com;
+ helo=mail-pl1-x64a.google.com
 X-Spam_score_int: -95
 X-Spam_score: -9.6
 X-Spam_bar: ---------
@@ -92,148 +91,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Doug Evans <dje@google.com>
 From:  Doug Evans via <qemu-devel@nongnu.org>
 
-The parsing is moved into new function inet_parse_host_and_port.
-This is done in preparation for using the function in net/slirp.c.
+Some callers need to distinguish empty ipv4 addresses from ipv6.
 
 Signed-off-by: Doug Evans <dje@google.com>
 ---
 
 Changes from v4:
-- move recognition of "[]:port" to separate patch
-- allow passing NULL for ip_v6
-- fix some formatting issues
+- new in this patchset revision
 
-Changes from v3:
-- this patch is new in v4
-  - provides new utility: inet_parse_host_and_port, updates inet_parse
-    to use it
+ util/qemu-sockets.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
- include/qemu/sockets.h |  3 ++
- util/qemu-sockets.c    | 80 +++++++++++++++++++++++++++++++-----------
- 2 files changed, 62 insertions(+), 21 deletions(-)
-
-diff --git a/include/qemu/sockets.h b/include/qemu/sockets.h
-index 7d1f813576..b1448cfa24 100644
---- a/include/qemu/sockets.h
-+++ b/include/qemu/sockets.h
-@@ -31,6 +31,9 @@ int socket_set_fast_reuse(int fd);
- 
- int inet_ai_family_from_address(InetSocketAddress *addr,
-                                 Error **errp);
-+const char *inet_parse_host_and_port(const char *str, int terminator,
-+                                     char **hostp, char **portp, bool *is_v6,
-+                                     Error **errp);
- int inet_parse(InetSocketAddress *addr, const char *str, Error **errp);
- int inet_connect(const char *str, Error **errp);
- int inet_connect_saddr(InetSocketAddress *saddr, Error **errp);
 diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index 8af0278f15..3ca6a6fb3d 100644
+index 3ca6a6fb3d..062f0eb074 100644
 --- a/util/qemu-sockets.c
 +++ b/util/qemu-sockets.c
-@@ -615,44 +615,82 @@ static int inet_parse_flag(const char *flagname, const char *optstr, bool *val,
-     return 0;
- }
- 
--int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-+/*
-+ * Parse an inet host and port as "host:port<terminator>".
-+ * Terminator may be '\0'.
-+ * The syntax for IPv4 addresses is: address:port. "address" is optional,
-+ * and may be empty (i.e., str is ":port").
-+ * The syntax for IPv6 addresses is: [address]:port. Upon return the wrapping
-+ * [] brackets are removed.
-+ * Host names are also supported as hostname:port. It is up to the caller to
-+ * distinguish host names from numeric IPv4 addresses.
-+ * On success, returns a pointer to the terminator. Space for the address and
-+ * port is malloced and stored in *host, *port, the caller must free.
-+ * If is_v6 is non-NULL, then it is set to true if the address is an IPv6
-+ * address (i.e., [address]), otherwise it is set to false.
-+ * On failure NULL is returned with the error stored in *errp.
-+ */
-+const char *inet_parse_host_and_port(const char *str, int terminator,
-+                                     char **hostp, char **portp, bool *is_v6,
-+                                     Error **errp)
- {
--    const char *optstr, *h;
-+    const char *terminator_ptr = strchr(str, terminator);
-+    g_autofree char *buf = NULL;
-     char host[65];
-     char port[33];
--    int to;
--    int pos;
--    char *begin;
- 
--    memset(addr, 0, sizeof(*addr));
-+    if (terminator_ptr == NULL) {
-+        /* If the terminator isn't found then use the entire string. */
-+        terminator_ptr = str + strlen(str);
-+    }
-+    buf = g_strndup(str, terminator_ptr - str);
- 
--    /* parse address */
--    if (str[0] == ':') {
-+    if (buf[0] == ':') {
-         /* no host given */
-         host[0] = '\0';
--        if (sscanf(str, ":%32[^,]%n", port, &pos) != 1) {
--            error_setg(errp, "error parsing port in address '%s'", str);
--            return -1;
-+        if (sscanf(buf, ":%32s", port) != 1) {
-+            error_setg(errp, "error parsing port in address '%s'", buf);
-+            return NULL;
+@@ -620,7 +620,8 @@ static int inet_parse_flag(const char *flagname, const char *optstr, bool *val,
+  * Terminator may be '\0'.
+  * The syntax for IPv4 addresses is: address:port. "address" is optional,
+  * and may be empty (i.e., str is ":port").
+- * The syntax for IPv6 addresses is: [address]:port. Upon return the wrapping
++ * The syntax for IPv6 addresses is: [address]:port. "address" is optional,
++ * and may be empty (i.e., str is "[]:port"). Upon return the wrapping
+  * [] brackets are removed.
+  * Host names are also supported as hostname:port. It is up to the caller to
+  * distinguish host names from numeric IPv4 addresses.
+@@ -654,7 +655,10 @@ const char *inet_parse_host_and_port(const char *str, int terminator,
          }
--    } else if (str[0] == '[') {
-+    } else if (buf[0] == '[') {
+     } else if (buf[0] == '[') {
          /* IPv6 addr */
--        if (sscanf(str, "[%64[^]]]:%32[^,]%n", host, port, &pos) != 2) {
--            error_setg(errp, "error parsing IPv6 address '%s'", str);
--            return -1;
-+        if (sscanf(buf, "[%64[^]]]:%32s", host, port) != 2) {
-+            error_setg(errp, "error parsing IPv6 address '%s'", buf);
-+            return NULL;
+-        if (sscanf(buf, "[%64[^]]]:%32s", host, port) != 2) {
++        /* Note: sscanf %[ doesn't recognize empty contents. */
++        if (sscanf(buf, "[]:%32s", port) == 1) {
++            host[0] = '\0';
++        } else if (sscanf(buf, "[%64[^]]]:%32s", host, port) != 2) {
+             error_setg(errp, "error parsing IPv6 address '%s'", buf);
+             return NULL;
          }
-     } else {
-         /* hostname or IPv4 addr */
--        if (sscanf(str, "%64[^:]:%32[^,]%n", host, port, &pos) != 2) {
--            error_setg(errp, "error parsing address '%s'", str);
--            return -1;
-+        if (sscanf(buf, "%64[^:]:%32s", host, port) != 2) {
-+            error_setg(errp, "error parsing address '%s'", buf);
-+            return NULL;
-         }
-     }
- 
--    addr->host = g_strdup(host);
--    addr->port = g_strdup(port);
-+    *hostp = g_strdup(host);
-+    *portp = g_strdup(port);
-+    if (is_v6 != NULL) {
-+        *is_v6 = buf[0] == '[';
-+    }
-+
-+    return terminator_ptr;
-+}
-+
-+int inet_parse(InetSocketAddress *addr, const char *str, Error **errp)
-+{
-+    const char *optstr, *h;
-+    int to;
-+    int pos;
-+    char *begin;
-+
-+    memset(addr, 0, sizeof(*addr));
-+
-+    optstr = inet_parse_host_and_port(str, ',', &addr->host, &addr->port,
-+                                      NULL, errp);
-+    if (optstr == NULL) {
-+        return -1;
-+    }
- 
-     /* parse options */
--    optstr = str + pos;
-     h = strstr(optstr, ",to=");
-     if (h) {
-         h += 4;
 -- 
 2.30.0.617.g56c4b15f3c-goog
 
