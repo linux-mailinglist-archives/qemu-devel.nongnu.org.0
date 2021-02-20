@@ -2,59 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2007632055B
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 13:38:10 +0100 (CET)
-Received: from localhost ([::1]:41114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 460ED320586
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 14:18:36 +0100 (CET)
+Received: from localhost ([::1]:53252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDRWT-0001GT-6T
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 07:38:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58856)
+	id 1lDS9a-00056t-SH
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 08:18:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lDRUH-00074O-6S; Sat, 20 Feb 2021 07:35:53 -0500
-Received: from mout.kundenserver.de ([212.227.17.10]:54909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lDRUF-0003Om-1Q; Sat, 20 Feb 2021 07:35:52 -0500
-Received: from localhost.localdomain ([82.252.134.158]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1N18MG-1lyRAk0IuI-012UgL; Sat, 20 Feb 2021 13:35:40 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 12/12] MAINTAINERS: Fix default-configs/ entries
-Date: Sat, 20 Feb 2021 13:35:25 +0100
-Message-Id: <20210220123525.1353731-13-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210220123525.1353731-1-laurent@vivier.eu>
-References: <20210220123525.1353731-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lDS6o-00046m-Fg
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 08:15:43 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lDS6m-0004bU-24
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 08:15:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lDS6j-0001nZ-2W
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 13:15:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0E0662E8101
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 13:15:37 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GMWVN9p4E1Ugcqb1732RUQMkEhfsk47oEwSLOiRrDPpZhxPPVvQ
- LHNy2TnRQIvY4SR7n6pdRnmJwzNpHpPoFdnW+IcilBY5BfGacSktZmMybD/bnXvEQY6z2lo
- NTPjqC0iabx5Uv2PXb7FnRZLcU8YTeETO9ePGyMIo2ELQRt4M+SIbuG9PteypcY7BoIv2Jc
- fYW7LyBiCezMkMJfDbblQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:pq7tLwybG5o=:LeUFuyW6haQ6fkaY0MRVP2
- xEiPzZXYZzmUdL6FO99rbab40QNTy430nfyxwOdGBPLfANc3QfHsNeSW/wnxwoa/9+ylUxyjY
- /w7qcdeX2jXwLIGIgSCEj+HPb6RyFCbzc8D5TmtynbB7dpmutfGLfouClY1RIEZy3BCrJld2u
- JHI6Jy+2CJwl1NPS8nBFs0ZI4OgNQJi+UI7ak1OLzKn6WJUwKL2xywn7fOexc0PdANV5lFqEG
- PsMR9DbIUu56BLoLsucnEr56hpdLR72zazfpnm/zc+N2gRlNAWaMy1EPWa6Gjvc72hiPcTN2p
- 3kp4cGlPjepm2lddd48omQ0rLUdiXJVdw0B2vdHtEk3sbR7CXFhW0AE6delQHolF/0R/3dsG/
- k+eknfsbEWviKEZ6uzkppdTr6LCANUmigxB1aESYS2OwFfvNZXicitqHlhzgxi/XBqnxB+AON
- 4mFy9afpcQ==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 20 Feb 2021 13:08:35 -0000
+From: Stefan Weil <1916112@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell rreddy78 ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Stefan Weil (ubuntu-weilnetz)
+References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
+Message-Id: <161382651573.11034.207144221811822878.malone@chaenomeles.canonical.com>
+Subject: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: 34f04f278cb75967e2dd361f24853597ee102573
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,118 +71,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I can confirm the issue (tested with Jetson Nano and Xavier running
+Ubuntu bionic).
 
-Update the F: line after the Meson refactor.
+Linux starts booting, shows "Welcome to Raspbian GNU/Linux 10 (buster)!"
+after 33 s on Nano, but QEMU crashes after showing "Mounted Kernel Debug
+File System" about 77 s after start.
 
-Fixes: 1bb4cb1c338..73362fc0b0c ("default-configs: ...")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201117114656.1222555-1-f4bug@amsat.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- MAINTAINERS | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+Debugging is difficult because the failing address in code_gen_buffer
+changes for each new run, so setting a hardware watchpoint does not
+work. The disassembly is always the same, only the address of the code
+changes.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f3d22d32d3de..c6f83ecd35d5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -87,7 +87,7 @@ S390 general architecture support
- M: Cornelia Huck <cohuck@redhat.com>
- M: Thomas Huth <thuth@redhat.com>
- S: Supported
--F: default-configs/s390x-softmmu.mak
-+F: default-configs/*/s390x-softmmu.mak
- F: gdb-xml/s390*.xml
- F: hw/char/sclp*.[hc]
- F: hw/char/terminal3270.c
-@@ -239,7 +239,7 @@ R: Jiaxun Yang <jiaxun.yang@flygoat.com>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
- S: Odd Fixes
- F: target/mips/
--F: default-configs/*mips*
-+F: default-configs/*/*mips*
- F: disas/mips.c
- F: docs/system/cpu-models-mips.rst.inc
- F: hw/intc/mips_gic.c
-@@ -263,7 +263,7 @@ S: Maintained
- F: target/moxie/
- F: disas/moxie.c
- F: hw/moxie/
--F: default-configs/moxie-softmmu.mak
-+F: default-configs/*/moxie-softmmu.mak
- 
- NiosII TCG CPUs
- M: Chris Wulff <crwulff@gmail.com>
-@@ -272,7 +272,7 @@ S: Maintained
- F: target/nios2/
- F: hw/nios2/
- F: disas/nios2.c
--F: default-configs/nios2-softmmu.mak
-+F: default-configs/*/nios2-softmmu.mak
- 
- OpenRISC TCG CPUs
- M: Stafford Horne <shorne@gmail.com>
-@@ -367,7 +367,7 @@ F: hw/xtensa/
- F: tests/tcg/xtensa/
- F: disas/xtensa.c
- F: include/hw/xtensa/xtensa-isa.h
--F: default-configs/xtensa*.mak
-+F: default-configs/*/xtensa*.mak
- 
- TriCore TCG CPUs
- M: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-@@ -1038,7 +1038,7 @@ AVR MCUs
- M: Michael Rolnik <mrolnik@gmail.com>
- R: Sarah Harris <S.E.Harris@kent.ac.uk>
- S: Maintained
--F: default-configs/avr-softmmu.mak
-+F: default-configs/*/avr-softmmu.mak
- F: hw/avr/
- F: include/hw/char/avr_usart.h
- F: hw/char/avr_usart.c
-@@ -1067,7 +1067,7 @@ HP B160L
- M: Richard Henderson <richard.henderson@linaro.org>
- R: Helge Deller <deller@gmx.de>
- S: Odd Fixes
--F: default-configs/hppa-softmmu.mak
-+F: default-configs/*/hppa-softmmu.mak
- F: hw/hppa/
- F: pc-bios/hppa-firmware.img
- 
-@@ -1458,7 +1458,7 @@ F: hw/s390x/
- F: include/hw/s390x/
- F: hw/watchdog/wdt_diag288.c
- F: include/hw/watchdog/wdt_diag288.h
--F: default-configs/s390x-softmmu.mak
-+F: default-configs/*/s390x-softmmu.mak
- F: tests/acceptance/machine_s390_ccw_virtio.py
- T: git https://gitlab.com/cohuck/qemu.git s390-next
- T: git https://github.com/borntraeger/qemu.git s390-next
-@@ -2887,13 +2887,13 @@ F: accel/tcg/user-exec*.c
- BSD user
- S: Orphan
- F: bsd-user/
--F: default-configs/*-bsd-user.mak
-+F: default-configs/targets/*-bsd-user.mak
- 
- Linux user
- M: Laurent Vivier <laurent@vivier.eu>
- S: Maintained
- F: linux-user/
--F: default-configs/*-linux-user.mak
-+F: default-configs/targets/*linux-user.mak
- F: scripts/qemu-binfmt-conf.sh
- F: scripts/update-syscalltbl.sh
- F: scripts/update-mips-syscall-args.sh
--- 
-2.29.2
+The same test works better when I use the TCG interpreter (./configure
+[...] --enable-tcg-interpreter) although a warning says that TCI has
+less reliability and that it is strongly recommended to remove the
+--enable-tcg-interpreter configuration option. It reaches "Welcome"
+after 205 s on Xavier, "Mounted" after 420 s and finally goes into
+emergency mode because of "Dependency failed for /boot". Linux shows
+"Press Enter to continue.", but I don't get a command line after doing
+so.
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916112
+
+Title:
+  Illegal instruction crash of QEMU on Jetson Nano
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  I have a jetson nano (arm64 SBC) and I want to check the native
+  emulation performance of Raspbian Buster. I used the info available
+  here:
+
+  https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
+  emuation
+
+  I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson
+  Nano
+
+  However QEMU crashes with "Illegal Instruction" during kernel boot. I
+  have a built latest QEMU from sources with following configuration
+
+  ./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
+  softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg
+  --enable-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk
+  --enable-virglrenderer --enable-opengl
+
+  qemu-system-aarch64 --version
+  QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
+
+  When I run as follows:
+
+  ../build/qemu-system-aarch64 -M raspi3
+  -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm=
+_enable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
+  -dtb ./bcm2710-rpi-3-b-plus.dtb
+  -sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-fu=
+ll.qcow2
+  -kernel ./kernel8.img
+  -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
+
+  I get :
+  [ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Sy=
+stem being skipped.
+  [ 76.281274] systemd[1]: Starting Apply Kernel Variables...
+  Starting Apply Kernel Variables...
+  Illegal instruction (core dumped)
+
+  When I use GDB I see this:
+
+  Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
+  [Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
+  0x0000007f888ac690 in code_gen_buffer ()
+  (gdb) bt
+  #0 0x0000007f888ac690 in code_gen_buffer ()
+  #1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502=
+c40)
+  at ../accel/tcg/cpu-exec.c:191
+  #2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
+  at ../accel/tcg/cpu-exec.c:708
+  #3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:8=
+19
+  ..
+
+  I have just two questions:
+
+  Is this a problem with QEMU or is there anything specific build or
+  options I need to use. Any specific version of QEMU should be used ?
+
+  Why is TCG used as the accelerator when KVM is present. Is it possible
+  and how to use KVM ?
+
+  If I enabled the KVM then I get this error:
+
+  ../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprint=
+k loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/=
+mmcblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D2=
+1747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./k=
+ernel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
+  WARNING: Image format was not specified for '/media/96747D21747D0571/Jets=
+onNano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
+           Automatically detecting the format is dangerous for raw images, =
+write operations on block 0 will be restricted.
+           Specify the 'raw' format explicitly to remove the restrictions.
+  qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: As=
+sertion `asidx =3D=3D 0 || !kvm_enabled()' failed.
+
+  Thanks a lot.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916112/+subscriptions
 
