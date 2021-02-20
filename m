@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44F3832043C
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 07:40:58 +0100 (CET)
-Received: from localhost ([::1]:49838 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E737432043D
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 07:57:25 +0100 (CET)
+Received: from localhost ([::1]:53226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDLwm-0007d0-Ow
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 01:40:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60620)
+	id 1lDMCi-0002uc-Ei
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 01:57:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lDLvf-0006ts-Mq
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 01:39:47 -0500
-Received: from mail-oi1-x22d.google.com ([2607:f8b0:4864:20::22d]:42007)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lDMBa-0002D2-Pc; Sat, 20 Feb 2021 01:56:15 -0500
+Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:36865)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
- id 1lDLvc-0005mF-Lj
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 01:39:47 -0500
-Received: by mail-oi1-x22d.google.com with SMTP id 6so8362968ois.9
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 22:39:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lDMBW-0004TU-Ju; Sat, 20 Feb 2021 01:56:14 -0500
+Received: by mail-yb1-xb2e.google.com with SMTP id p193so7782174yba.4;
+ Fri, 19 Feb 2021 22:56:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=eNR4qff0YIT/ZZTUh8HT4sj9AMm9AWp3CnqJbnKlAlU=;
- b=Epk3A9/fVJ+bup/0iiafjQmCj9y/nh7jdZygDSz4rErYAtOrgBHBGI69PkUgPnJXq4
- jImq1WZQRKaWq+AX5rMZjlFIlfEBz1skAb8YErKezZDraII4yrrmw+g1zhc5mwwL/nwq
- +fIYsrmfxgxA1GhYv4ET6ADL7P3DSU4ROsVmGx+BVwNS3tnPE03HPcBaUR6hdhu8Te20
- k/DsBjFoDPzYEwFaxmZdakTRhoFuFGsADaBVHOweU8F80zG7CQ8t300jfdV4SFrI7s3/
- IRWidQXVC5jSyK7rZKYIPVQ0sHphYcIZe8DW8ZPSYcd0O8cNE+GavdqQUN/QXKqtp9N8
- TqjQ==
+ bh=z/N96ttijeiYHVy4W3NYjRPVjLRmizzrpgnTFATmkE4=;
+ b=gQoXtvKzy7qVGKm6xf8/1t0mlaL/zTD/5uUiVgICr7g8grwkodYgg26myB2abvZSfi
+ XagkfbGM6QtYU9OK6xCNli8I6fKnL92VW+P9a1NNFsuuLDlaTonuwjhM7TWE+6fTOqf5
+ soswovbPDjiENsCy72ag3S6X2npbbeogYB/MkLZI8DEbjIAf/R94x0tzBtO4QpaPiYon
+ iFx9/xysOBHbp7XasPRhy+/eyFZLP0fl+5FzLwol6WqKz76j/NhV+PTixo0psjjyWmFs
+ 3ONsU8qWuuCBCDkG2KVEC8LsWhmglE3lL3Z/HLu7Y3DvFakNJXTt5Nt541DFRKqb7/VB
+ cFKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=eNR4qff0YIT/ZZTUh8HT4sj9AMm9AWp3CnqJbnKlAlU=;
- b=q147sz7wOVGsHBS6fjWrRK40Qa9B1Rw3QVZqz1j+8k/vxI7e99g0k4idzcAZLhvzEH
- L9HzplsmbTVSm66/fyrxAfBzMrY/5HYLyUvcgAAqrS81cL+yPJIl5uqwhyxJXhoWcupP
- t4T9EH9v4gsRqwcoag69DaAfPVIX0HWyYwK9cxY7MMrOIDWt9qVNKwkTcTy/4I2t0CxN
- ln+ovXUQH1ixHe5akiVbf0hy61HwJ6Bz1IE9YPFH7hqxbXik21iUOQwkQmwLEV1IFB16
- 6YRG2dnZOaV42s7HeSb0bvUku4sO4Yi9hjzPdIT8hFvf7dZnZeIHA9K6PAC8DBV1KjvB
- 76Vw==
-X-Gm-Message-State: AOAM533cP5D7Sm+6z5LSBIA20PcToUamaIXp/IEBLDBjDvkW8Sq6ezXB
- QH96Bh9hHieXuE73q34J39lSDhbIeMsUiiCECpI=
-X-Google-Smtp-Source: ABdhPJyFeK1/qCX0AAntCrJUR3fpXBHeFjFUwdncvgqFrH712E8gu2eANg18AhvLToJdiXyBT4KEic813JuJ3A2JF2w=
-X-Received: by 2002:a05:6808:14ce:: with SMTP id
- f14mr8982467oiw.59.1613803182718; 
- Fri, 19 Feb 2021 22:39:42 -0800 (PST)
+ bh=z/N96ttijeiYHVy4W3NYjRPVjLRmizzrpgnTFATmkE4=;
+ b=ANNi7GsLS4cDPhMAyRHi8bI/5eP3atRCn7E3IXLKMM3WrhyQXjh5WuzO9nRdRTpkua
+ GUbTUmHqAasCzsIJKxQh9MtCbxWG3vmTwqrhwg/coqGdE0minmIR+tfzi1AhzRLmftX5
+ JB9DOOa2MoxNREnPuLtA3vGnfxyK5fpMKUMUDAmoj1y9xn1RKaFwFvEt45QMKejKOhZv
+ G07YFaTDPnaMuhRN0kHqa7y/Lzk4PtID4wnEzt0fYuJUSbg02HwVmx2FtakJZvYtoTeh
+ anqakRz6JBYbLeTDbF40jKKUNWsQrhsEbmtA5GnwnigcM5pEcTZOrMf+tU0zcwneQM7f
+ ObaA==
+X-Gm-Message-State: AOAM533TiY6t0WvtDhUWIXIeHNHyYNU5mpTP/pRJmlWhWq1446PAQpiK
+ 3PozoY0DCvXWpfefTGJdQbMGix0uAAZ5rHEjlhI=
+X-Google-Smtp-Source: ABdhPJzmCQMuPc14KKuxfgB/pCLt0I2RrjxOai+Xa0pxNCHsDM28Zl4ynwOuREsrS9AMOoCY14ZGeQuOmFuwN/4/dq8=
+X-Received: by 2002:a25:3387:: with SMTP id
+ z129mr20407310ybz.239.1613804168567; 
+ Fri, 19 Feb 2021 22:56:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20210218134947.1860-1-phillip.ennen@gmail.com>
-In-Reply-To: <20210218134947.1860-1-phillip.ennen@gmail.com>
-From: Howard Spoelstra <hsp.cat7@gmail.com>
-Date: Sat, 20 Feb 2021 07:39:31 +0100
-Message-ID: <CABLmASG8=A0SQeEtjg_s9-aj6uupe_eYgAupGxYSx+n6=kVeeA@mail.gmail.com>
-Subject: Re: [PATCH v4] net/macos: implement vmnet-based netdev
-To: phillip.ennen@gmail.com
+References: <1613447214-81951-1-git-send-email-bmeng.cn@gmail.com>
+ <1613447214-81951-6-git-send-email-bmeng.cn@gmail.com>
+ <9d73ef0b-2d58-6c5b-8a14-590eaddd4a3c@amsat.org>
+ <53f50f67-90c9-4c6c-c42a-d2eab7bccecb@amsat.org>
+In-Reply-To: <53f50f67-90c9-4c6c-c42a-d2eab7bccecb@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 20 Feb 2021 14:55:57 +0800
+Message-ID: <CAEUhbmXLTUNzHqHgvsmPKaWMVbRvJZk2-kgd0Ph0+C0o0Nf2zw@mail.gmail.com>
+Subject: Re: [PATCH v2 5/6] hw/sd: sdhci: Limit block size only when
+ SDHC_BLKSIZE register is writable
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22d;
- envelope-from=hsp.cat7@gmail.com; helo=mail-oi1-x22d.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -80,93 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- jasowang@redhat.com, qemu-devel qemu-devel <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, phillip@axleos.com
+Cc: Mauro Matteo Cascella <mcascell@redhat.com>,
+ Qemu-block <qemu-block@nongnu.org>, qemu-stable@nongnu.org,
+ Li Qiang <liq3ea@163.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Prasad J Pandit <ppandit@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Bandan Das <bsd@redhat.com>, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 18, 2021 at 2:49 PM <phillip.ennen@gmail.com> wrote:
->
-> From: Phillip Tennen <phillip@axleos.com>
->
-> This patch implements a new netdev device, reachable via -netdev
-> vmnet-macos, that=E2=80=99s backed by macOS=E2=80=99s vmnet framework.
->
-> The vmnet framework provides native bridging support, and its usage in
-> this patch is intended as a replacement for attempts to use a tap device
-> via the tuntaposx kernel extension. Notably, the tap/tuntaposx approach
-> never would have worked in the first place, as QEMU interacts with the
-> tap device via poll(), and macOS does not support polling device files.
->
-> vmnet requires either a special entitlement, granted via a provisioning
-> profile, or root access. Otherwise attempts to create the virtual
-> interface will fail with a =E2=80=9Cgeneric error=E2=80=9D status code. Q=
-EMU may not
-> currently be signed with an entitlement granted in a provisioning
-> profile, as this would necessitate pre-signed binary build distribution,
-> rather than source-code distribution. As such, using this netdev
-> currently requires that qemu be run with root access. I=E2=80=99ve opened=
- a
-> feedback report with Apple to allow the use of the relevant entitlement
-> with this use case:
-> https://openradar.appspot.com/radar?id=3D5007417364447232
->
-> vmnet offers three operating modes, all of which are supported by this
-> patch via the =E2=80=9Cmode=3Dhost|shared|bridge=E2=80=9D option:
->
-> * "Host" mode: Allows the vmnet interface to communicate with other
-> * vmnet
-> interfaces that are in host mode and also with the native host.
-> * "Shared" mode: Allows traffic originating from the vmnet interface to
-> reach the Internet through a NAT. The vmnet interface can also
-> communicate with the native host.
-> * "Bridged" mode: Bridges the vmnet interface with a physical network
-> interface.
->
-> Each of these modes also provide some extra configuration that=E2=80=99s
-> supported by this patch:
->
-> * "Bridged" mode: The user may specify the physical interface to bridge
-> with. Defaults to en0.
-> * "Host" mode / "Shared" mode: The user may specify the DHCP range and
-> subnet. Allocated by vmnet if not provided.
->
-> vmnet also offers some extra configuration options that are not
-> supported by this patch:
->
-> * Enable isolation from other VMs using vmnet
-> * Port forwarding rules
-> * Enabling TCP segmentation offload
-> * Only applicable in "shared" mode: specifying the NAT IPv6 prefix
-> * Only available in "host" mode: specifying the IP address for the VM
-> within an isolated network
->
-> Note that this patch requires macOS 10.15 as a minimum, as this is when
-> bridging support was implemented in vmnet.framework.
->
-> Signed-off-by: Phillip Tennen <phillip@axleos.com>
+Hi Philippe,
 
-Hi Phillip,
+On Fri, Feb 19, 2021 at 2:03 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 2/18/21 6:09 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 2/16/21 4:46 AM, Bin Meng wrote:
+> >> The codes to limit the maximum block size is only necessary when
+> >> SDHC_BLKSIZE register is writable.
+>
+> Per "SD Command Generation":
+>
+>   The Host Driver should not read the SDMA System Address, Block Size
+>   and Block Count registers during a data transaction unless the
+>   transfer is stopped because the value is changing and not stable.
+>   To prevent destruction of registers using data transfer when issuing
+>   command, the 32-bit Block Count, Block Size, 16-bit Block Count and
+>   Transfer Mode registers shall be write protected by the Host
+>   Controller while Command Inhibit (DAT) is set to 1 in the Present
+>   State register.
+>
+> Shouldn't we check for !(s->prnsts & SDHC_DATA_INHIBIT) instead?
 
-Thanks for the updated patch.
-I have a small problem applying it with either git am or patch. I have
-to manually fix configure. This has been the case from v1 up to now:
+Yes, for accurate emulation I think we should.
 
-hsp@hsps-Catalina-VB
-qemu-master % patch -p1 <
-../patches/qemu/v4-net-macos-implement-vmnet-based-netdev.patch
-patching file configure
-Hunk #1 FAILED at 778.
-1 out of 1 hunk FAILED -- saving rejects to file configure.rej
-patching file net/clients.h
-patching file net/meson.build
-patching file net/net.c
-patching file net/vmnet-macos.c
-patching file qapi/net.json
-patching file qemu-options.hx
-Hunk #1 succeeded at 2507 (offset 24 lines).
+Current implementation uses !(s->prnsts & (SDHC_DOING_READ |
+SDHC_DOING_WRITE)) which eventually is correct, because:
 
-Best,
-Howard
+SDHC_DATA_INHIBIT bit is set if either SDHC_DAT_LINE_ACTIVE or
+SDHC_DOING_READ is set (SD Host Controller Spec v7.00 chapter 2.2.9
+Present State Register)
+
+SDHC_DAT_LINE_ACTIVE bit is set after the end bit of read or write
+command, and after end bit of read or write command will generate
+SDHC_DOING_READ or SDHC_DOING_WRITE (SD Host Controller Spec v7.00
+chapter 2.2.9 Present State Register)
+
+Regards,
+Bin
 
