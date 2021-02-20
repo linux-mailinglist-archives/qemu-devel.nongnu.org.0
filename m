@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D97D3206BF
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:02:29 +0100 (CET)
-Received: from localhost ([::1]:53394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3F503206C0
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:07:14 +0100 (CET)
+Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDXWO-00041E-Ht
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:02:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46398)
+	id 1lDXaz-0005ew-Ux
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXUs-0003Tb-HM
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:00:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55846)
+ id 1lDXZQ-00056H-28
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:05:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXUo-0006F1-Vt
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:00:54 -0500
+ id 1lDXZO-0008P8-5X
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:05:35 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lDXUn-00026u-4P
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:00:49 +0000
+ id 1lDXZN-0002UT-4x
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:05:33 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 166F62E80FA
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:00:49 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 0E08B2E8100
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:05:33 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Feb 2021 18:51:45 -0000
+Date: Sat, 20 Feb 2021 18:57:29 -0000
 From: Ven Karri <1916344@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,7 +42,7 @@ X-Launchpad-Bug-Commenters: imperialguy
 X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
 X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
 References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
-Message-Id: <161384710575.28872.17241044722983503582.launchpad@soybean.canonical.com>
+Message-Id: <161384745030.12105.8859107143224148357.launchpad@chaenomeles.canonical.com>
 Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
  on Mac OS X host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 92584b5d1835f249e8083a9f05b55c9c98db164a
+X-Launchpad-Hash: 3284178e8b776009e7fc1fa09f4e6fbb648ab06c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -81,7 +81,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
   =
 
   1. Install QEMU using homebrew on Mac OS X (I used Big Sur)
-  2. Spin up a guest VM (say) Cent OS8 using user mode networking.
+- 2. Spin up a guest VM (say) Cent OS8 using user mode networking.
++ 2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
   3. Install podman inside the guest
   4. Run podman pull alpine
   =
@@ -97,8 +98,7 @@ es.conf)
   Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
 iB / 2.7MiB
--   unexpected EOF
-+ =C2=A0=C2=A0unexpected EOF
+  =C2=A0=C2=A0unexpected EOF
   Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
 1171596/1": error happened during read: unexpected EOF
   =
@@ -113,11 +113,12 @@ iB / 2.7MiB
   =
 
   This could be a slirp related issue. So, QEMU/slirp may need to work
-- together on fixing this.
-+ together on fixing this. Here's the link to the libslirp issue:
-+ =
+  together on fixing this. Here's the link to the libslirp issue:
+  =
 
-+ https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+
+** Tags added: libslirp
 
 -- =
 
