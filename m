@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1ADA320239
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:28:20 +0100 (CET)
-Received: from localhost ([::1]:48240 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D888320234
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:26:46 +0100 (CET)
+Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDG8B-0004Me-UL
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:28:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37530)
+	id 1lDG6f-0001qB-9E
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:26:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFuc-0001gl-O0; Fri, 19 Feb 2021 19:14:18 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:38053)
+ id 1lDFul-0001p3-2K; Fri, 19 Feb 2021 19:14:27 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFub-0005kM-4A; Fri, 19 Feb 2021 19:14:18 -0500
-Received: by mail-ej1-x633.google.com with SMTP id bl23so16896498ejb.5;
- Fri, 19 Feb 2021 16:14:16 -0800 (PST)
+ id 1lDFug-0005mU-Dz; Fri, 19 Feb 2021 19:14:25 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id t11so16891546ejx.6;
+ Fri, 19 Feb 2021 16:14:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=WfAeaZD4Lxq8Mt+nPn3DFWL5VGya9TqmT4FCeMLnel4=;
- b=IDcT8I0iJh/mbv5qDAO3Mz4jsG1rn7uJMLtl3YPUcVvKyNyRubNoMCzVLrKOwt9hcl
- +OcraU3bS3oDTZeUnkRLjHshDvQ0Pa09R2SwtkujTqsxSkA+NsBRHbkBSGanlyLVYbA6
- lszzuVpFDjUHmzHDTOe+7x9imO6FUGePqDGznXwvLSOF8t4LQxlgPiMjET/md2ccmvSp
- v0gv2p7Z4NL2KqnGjdJRzHuL/ErZ4Qo5zB1RZv5ANg4pLe6icAUK7/ZY727IX4Hg7EbI
- xOcFj457cgv+gpaZ7XGoTSIZHd1xhsANFWEk8vib4OOZsCUyxwRc/9hksS76pHN91KEw
- X14g==
+ bh=NJIy2EJfrINu02Sg+2eUk6Okwf2LkLc7DBM1ywf5Bzo=;
+ b=TVvq9asvbgtAELHTheyMr63pRqdnve88MbaaRJRkQw0ijE1h2mzmgYpFSM4CXm7vKp
+ wDok1vfj0ET9aEO+YATaSSzvA5yhwApMR0+rO1QAWaHKOicNmeYfQtaR4UWKYgvsnv/L
+ i37Iff0MEJUGswTQQgZALhMqjD2WnrstdcJ/Wp3mACRi8XvQraypKsRMw68I04GsdXqS
+ sKeuuxDTsZnjt7IChm3ghT8O8fjhMk+fUL+xIfQleEBKUhSG2Os+Opy7P7l2Tz9ylFPk
+ kQoSyF6wPosPvxw7GXJQALvLcbEVpQ7OWgVcYkg3iwxz3lotT3impAQtES0R9ax/9OgW
+ htVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=WfAeaZD4Lxq8Mt+nPn3DFWL5VGya9TqmT4FCeMLnel4=;
- b=ZWW3XAksSokOOalMrCcWKYkwxZzC8Nv7qNzs7SgJJOcWcQ2N3McfL0PnB3VvKmggOm
- QKeoDZMoQuOlGNUSHE8E4zMPfxQM9NXgRNYhnPZETFEML4sFE86McrnTS86Jwlzz8YlU
- jX4TY/LFqnWZTmR8gtWKPcc2HFyZ8++QTThYQOBbLiMTBJSEX72kiqrdk3tlZI9Gk60t
- n9zAzBJUOD7UGTQc74gVFx1ACrhOoVKCa5fGtmx5JTBWGVERSRIc6pKqgvHmqvVduO4N
- Iy18iWS7nowxZHsBv4yojNUZ9MKPD1Pr4FOBDxGFs6oQhEk55vEXIPj/G27XocGdbK+J
- nTtg==
-X-Gm-Message-State: AOAM532o1GWwdk7F1n5mPzCxZAT5XrkoEu3mN3E5tiaHnkIWq2Gvl6Vg
- AsItvPGG98SgyJlu6mJtR8cieCrjzbU=
-X-Google-Smtp-Source: ABdhPJx1kQErFR7zoVMKjsSLXbdAEUhFxXcpmrhMjtMuNVgIwkNm5fXiPzoM9lfe0HbnhqOy6vfAhw==
-X-Received: by 2002:a17:906:a4c:: with SMTP id
- x12mr10736604ejf.159.1613780055202; 
- Fri, 19 Feb 2021 16:14:15 -0800 (PST)
+ bh=NJIy2EJfrINu02Sg+2eUk6Okwf2LkLc7DBM1ywf5Bzo=;
+ b=XcEyPjwJ8dNXjZnayKdLr5lmZF7rkhJPTLYsEE1ihbYMgH9m21REzHm//cpRxnv4/j
+ kMHnSEvrGa2PgitiwA4hoOK+aPEj/j65pye9HwPRPZS2bE+tf9AKOuieo5LoGMWvdrE/
+ NcR8sBskqP3mwJlA8EMJjjlcGPoCfj+56HLlr4fkUGAX5pJu/1+tVUWyswUEtzWQvCui
+ R50JZruJQNEHDJ1LdVXJ+lOvLZ9wm2D0pPERZt2wS0rLYRAZacSGDIYFD1xb7GXADn/5
+ 9SSLbsQLuZWOzaQh/PfhWTfkTjSJtpyAR6c9dgk3wke54tf/9lq4DoddlkM/bBkjWiNm
+ zSPQ==
+X-Gm-Message-State: AOAM530bOnf3LzqY9Yr+jkZs4jAM9eaX3cvOJ13Zxgvl6p4WpKVgwQ1s
+ TTmw8G7+aKqpsHUFbN82W00CILenDVM=
+X-Google-Smtp-Source: ABdhPJwKMrlK7iVWHMtIw5QZJN7Nc1a8nJrnRH51nKAPJBT0OoCSS9a9c7IMsnOn2Ma8Bb625enIJg==
+X-Received: by 2002:a17:907:20a8:: with SMTP id
+ pw8mr11200757ejb.9.1613780060512; 
+ Fri, 19 Feb 2021 16:14:20 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id bm2sm5377644ejb.87.2021.02.19.16.14.14
+ by smtp.gmail.com with ESMTPSA id t13sm3690861edr.17.2021.02.19.16.14.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 16:14:14 -0800 (PST)
+ Fri, 19 Feb 2021 16:14:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/18] hw/sd: sd: Fix CMD30 response type
-Date: Sat, 20 Feb 2021 01:13:03 +0100
-Message-Id: <20210220001309.2225022-13-f4bug@amsat.org>
+Subject: [PULL 13/18] hw/sd: sd: Move the sd_block_{read,
+ write} and macros ahead
+Date: Sat, 20 Feb 2021 01:13:04 +0100
+Message-Id: <20210220001309.2225022-14-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210220001309.2225022-1-f4bug@amsat.org>
 References: <20210220001309.2225022-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,32 +93,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Per the "Physical Layer Specification Version 8.00", table 4-26
-(SD mode) and table 7-3 (SPI mode) command descriptions, CMD30
-response type is R1, not R1b.
+These APIs and macros may be referenced by functions that are
+currently before them. Move them ahead a little bit.
 
-Fixes: a1bb27b1e98a ("SD card emulation initial implementation")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210216150225.27996-4-bmeng.cn@gmail.com>
+Message-Id: <20210216150225.27996-5-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sd/sd.c | 42 +++++++++++++++++++++---------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index dd1ce0bdae4..47ac0c51a8e 100644
+index 47ac0c51a8e..4c6e7c2a33e 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1340,7 +1340,7 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-             *(uint32_t *) sd->data = sd_wpbits(sd, req.arg);
-             sd->data_start = addr;
-             sd->data_offset = 0;
--            return sd_r1b;
-+            return sd_r1;
+@@ -739,6 +739,27 @@ void sd_set_cb(SDState *sd, qemu_irq readonly, qemu_irq insert)
+     qemu_set_irq(insert, sd->blk ? blk_is_inserted(sd->blk) : 0);
+ }
  
-         default:
-             break;
++static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
++{
++    trace_sdcard_read_block(addr, len);
++    if (!sd->blk || blk_pread(sd->blk, addr, sd->data, len) < 0) {
++        fprintf(stderr, "sd_blk_read: read error on host side\n");
++    }
++}
++
++static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
++{
++    trace_sdcard_write_block(addr, len);
++    if (!sd->blk || blk_pwrite(sd->blk, addr, sd->data, len, 0) < 0) {
++        fprintf(stderr, "sd_blk_write: write error on host side\n");
++    }
++}
++
++#define BLK_READ_BLOCK(a, len)  sd_blk_read(sd, a, len)
++#define BLK_WRITE_BLOCK(a, len) sd_blk_write(sd, a, len)
++#define APP_READ_BLOCK(a, len)  memset(sd->data, 0xec, len)
++#define APP_WRITE_BLOCK(a, len)
++
+ static void sd_erase(SDState *sd)
+ {
+     int i;
+@@ -1754,27 +1775,6 @@ send_response:
+     return rsplen;
+ }
+ 
+-static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
+-{
+-    trace_sdcard_read_block(addr, len);
+-    if (!sd->blk || blk_pread(sd->blk, addr, sd->data, len) < 0) {
+-        fprintf(stderr, "sd_blk_read: read error on host side\n");
+-    }
+-}
+-
+-static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
+-{
+-    trace_sdcard_write_block(addr, len);
+-    if (!sd->blk || blk_pwrite(sd->blk, addr, sd->data, len, 0) < 0) {
+-        fprintf(stderr, "sd_blk_write: write error on host side\n");
+-    }
+-}
+-
+-#define BLK_READ_BLOCK(a, len)	sd_blk_read(sd, a, len)
+-#define BLK_WRITE_BLOCK(a, len)	sd_blk_write(sd, a, len)
+-#define APP_READ_BLOCK(a, len)	memset(sd->data, 0xec, len)
+-#define APP_WRITE_BLOCK(a, len)
+-
+ void sd_write_byte(SDState *sd, uint8_t value)
+ {
+     int i;
 -- 
 2.26.2
 
