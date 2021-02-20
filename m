@@ -2,58 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF29320243
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:33:06 +0100 (CET)
-Received: from localhost ([::1]:34208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D75232027E
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 02:33:44 +0100 (CET)
+Received: from localhost ([::1]:50246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDGCn-00021M-RT
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:33:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39870)
+	id 1lDH9S-00079P-QU
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 20:33:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lDG80-0005Ap-0r
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 19:28:08 -0500
-Resent-Date: Fri, 19 Feb 2021 19:28:08 -0500
-Resent-Message-Id: <E1lDG80-0005Ap-0r@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21387)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lDG7v-0003Eq-GN
- for qemu-devel@nongnu.org; Fri, 19 Feb 2021 19:28:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613780868; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=k3bxqLPdYhfU9p7KJXygkdQ6foIzMgTOn52LCsfaG9m26jQXAopvSKlREe9Tij6YScs/cA6mql84MbrplrUtwZAk9+TULXMQRTKOcIzCWDUiFJhVTvj/9opX4YdxWKl2Ry9bWp3hWl+e63Vp4qtTQb4k6xZlnr05cyjFH1LZJnY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613780868;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Qxgxh1wJmjPnfGkSPuHNZEg5dgg0Y0W6O9D3jtTgmBM=; 
- b=bsXAHquyWhHFN4IdCjbBueRmwvdoRwGNuvANLb08xXTpAHl/3CaY+7IWm+OF8xW9KffVV6Ea0HBsQ/k6mK3YlcykEMYHFlwxG37F63AvVWEzXPuHIwrpgAcWbUPg5Ge8chaxgur3ryb6UWTjfUVnvYHrfhYY96qi5r0ISC1mEk8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 161378086637181.04519470249261;
- Fri, 19 Feb 2021 16:27:46 -0800 (PST)
-In-Reply-To: <20210220001322.1311139-1-dje@google.com>
-Subject: Re: [PATCH v5 0/5] Add support for ipv6 host forwarding
-Message-ID: <161378086513.9167.15058398201890096756@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lDH7q-0006Ks-2u
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 20:32:02 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:37960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lDH7n-0007Vi-HC
+ for qemu-devel@nongnu.org; Fri, 19 Feb 2021 20:32:01 -0500
+Received: by mail-pg1-x532.google.com with SMTP id m2so6390613pgq.5
+ for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 17:31:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=s8uQrK7bptFQh/WCg5K/qLxuoWQq9CQI9b7nlXjt/Go=;
+ b=LBRw+p3ZII39YcAmxGgOBdZcFbCVxAgxOLbCKar4QizJYFkoRX3Av913K/xDb6jvhA
+ zG5I0ZMTfEgK58tsanXKEHvmzBPfR4Z82D9osy8dONGGk7HT5tmexh6+e9IszQMxoTPu
+ Niw5DKspAThIoFCMAaQJt7+7B+Vqlm53DjxJhqP44pkOlGieaUi70LPuFMjjw1ApxH+2
+ 71EVqsKEVFAn4o6LmetscDf+CEFXdACWhUvkAOVhbD0YO5udcbDnpA5I/Bgjysvp0Vq7
+ oUX1TViNifP447AAF8umqoaFH/1M2iM6dpL3hBeptkP1iZnKXL95LPNm35sBP4ozJdOi
+ 5mlQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=s8uQrK7bptFQh/WCg5K/qLxuoWQq9CQI9b7nlXjt/Go=;
+ b=YdOwF/mEvrxFHOM5Ii5f76gZ3FGS7lWWC6p51CSeNfIxilQB6cm2wS3EvJ2mEYroZe
+ IsAorhv6R+Kqt3HbSTWB6w76NKyZCSYPIVWInbjyiOWFwI5CAdGhOhMf+au2UL0QQh3B
+ muyD5UVQHmwa77ZgcVt7gldrkHAAI2uH2BnaEKjuo2lZxjslGb8win1N9URY/YHtUQOm
+ FvPrtP22SNpP7aiJKUnaTEL+eHse6BlDEJuuwL+l8zxo21t+3ufc8yan7PxTW2IjVvDK
+ DKEAW/maj63R3oMbMAx4ljyyH81lZnMvMD56BDOgALv72t0rANZj1aW6F3WPfKwYn9UE
+ d58A==
+X-Gm-Message-State: AOAM530j3x3llpaXtmKkyFvf+40sbFIWateIROmssKZgymiV5ljjTVy1
+ lIy83sUEvJ+nth/l7y//aDdm9hyguAOsDA==
+X-Google-Smtp-Source: ABdhPJzfE7Z6fYd4xHaj6U8/PJXJU0HJG7bnPte2O68eDNOlxg6mQnMackkf0zt+26WEPjJJq9ts0A==
+X-Received: by 2002:a63:e305:: with SMTP id f5mr9774499pgh.411.1613784717802; 
+ Fri, 19 Feb 2021 17:31:57 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:d8f0:71c1:3d6a:4f53])
+ by smtp.gmail.com with ESMTPSA id w196sm11118783pfd.23.2021.02.19.17.31.55
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Fri, 19 Feb 2021 17:31:57 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v2] ui/cocoa: Remove the uses of full screen APIs
+Date: Sat, 20 Feb 2021 10:31:38 +0900
+Message-Id: <20210220013138.51437-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20210219135534.clmpknifhvgn7vde@sirius.home.kraxel.org>
+References: <20210219135534.clmpknifhvgn7vde@sirius.home.kraxel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: qemu-devel@nongnu.org
-Date: Fri, 19 Feb 2021 16:27:46 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,108 +83,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: samuel.thibault@ens-lyon.org, berrange@redhat.com, qemu-devel@nongnu.org,
- dje@google.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIyMDAwMTMyMi4xMzEx
-MTM5LTEtZGplQGdvb2dsZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
-b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
-cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIyMDAwMTMyMi4xMzExMTM5
-LTEtZGplQGdvb2dsZS5jb20KU3ViamVjdDogW1BBVENIIHY1IDAvNV0gQWRkIHN1cHBvcnQgZm9y
-IGlwdjYgaG9zdCBmb3J3YXJkaW5nCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
-YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
-IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
-dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
-PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
-IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAg
-ICAgICBwYXRjaGV3LzIwMjEwMjIwMDAxMzIyLjEzMTExMzktMS1kamVAZ29vZ2xlLmNvbSAtPiBw
-YXRjaGV3LzIwMjEwMjIwMDAxMzIyLjEzMTExMzktMS1kamVAZ29vZ2xlLmNvbQpTd2l0Y2hlZCB0
-byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjlkMzM4MzEgbmV0OiBFeHRlbmQgaG9zdCBmb3J3YXJkaW5n
-IHRvIHN1cHBvcnQgSVB2NgoyYjc5OTMzIG5ldC9zbGlycC5jOiBSZWZhY3RvciBhZGRyZXNzIHBh
-cnNpbmcKNTA5MDAwOCBpbmV0X3BhcnNlX2hvc3RfYW5kX2FkZHI6IFJlY29nbml6ZSBbXTpwb3J0
-IChlbXB0eSBpcHY2IGFkZHJlc3MpCjVjMmRjYWQgdXRpbC9xZW11LXNvY2tldHMuYzogU3BsaXQg
-aG9zdDpwb3J0IHBhcnNpbmcgb3V0IG9mIGluZXRfcGFyc2UKNzliNzdjNCBzbGlycDogQWR2YW5j
-ZSBsaWJzbGlycCBzdWJtb2R1bGUgdG8gYWRkIGlwdjYgaG9zdC1mb3J3YXJkIHN1cHBvcnQKCj09
-PSBPVVRQVVQgQkVHSU4gPT09CjEvNSBDaGVja2luZyBjb21taXQgNzliNzdjNDMxYjMwIChzbGly
-cDogQWR2YW5jZSBsaWJzbGlycCBzdWJtb2R1bGUgdG8gYWRkIGlwdjYgaG9zdC1mb3J3YXJkIHN1
-cHBvcnQpCkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5IHRoZSBtYWls
-aW5nIGxpc3QKIzI6IApBdXRob3I6IERvdWcgRXZhbnMgdmlhIDxxZW11LWRldmVsQG5vbmdudS5v
-cmc+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDIgbGluZXMgY2hlY2tlZAoKUGF0Y2gg
-MS81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBl
-cnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwg
-c2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoyLzUgQ2hlY2tpbmcgY29tbWl0IDVjMmRj
-YWQyOTkwYyAodXRpbC9xZW11LXNvY2tldHMuYzogU3BsaXQgaG9zdDpwb3J0IHBhcnNpbmcgb3V0
-IG9mIGluZXRfcGFyc2UpCkVSUk9SOiBBdXRob3IgZW1haWwgYWRkcmVzcyBpcyBtYW5nbGVkIGJ5
-IHRoZSBtYWlsaW5nIGxpc3QKIzI6IApBdXRob3I6IERvdWcgRXZhbnMgdmlhIDxxZW11LWRldmVs
-QG5vbmdudS5vcmc+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDExNyBsaW5lcyBjaGVj
-a2VkCgpQYXRjaCAyLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55
-IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBt
-YWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjMvNSBDaGVja2luZyBj
-b21taXQgNTA5MDAwODgzZmJkIChpbmV0X3BhcnNlX2hvc3RfYW5kX2FkZHI6IFJlY29nbml6ZSBb
-XTpwb3J0IChlbXB0eSBpcHY2IGFkZHJlc3MpKQpFUlJPUjogQXV0aG9yIGVtYWlsIGFkZHJlc3Mg
-aXMgbWFuZ2xlZCBieSB0aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBEb3VnIEV2YW5zIHZp
-YSA8cWVtdS1kZXZlbEBub25nbnUub3JnPgoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAy
-MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAzLzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjQv
-NSBDaGVja2luZyBjb21taXQgMmI3OTkzMzU0NTE4IChuZXQvc2xpcnAuYzogUmVmYWN0b3IgYWRk
-cmVzcyBwYXJzaW5nKQpFUlJPUjogQXV0aG9yIGVtYWlsIGFkZHJlc3MgaXMgbWFuZ2xlZCBieSB0
-aGUgbWFpbGluZyBsaXN0CiMyOiAKQXV0aG9yOiBEb3VnIEV2YW5zIHZpYSA8cWVtdS1kZXZlbEBu
-b25nbnUub3JnPgoKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9l
-cyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMjQ4OiAKbmV3IGZpbGUgbW9kZSAxMDA2NDQK
-CldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMzMzQ6IEZJTEU6IHRlc3RzL2FjY2Vw
-dGFuY2UvaG9zdGZ3ZC5weTo4MjoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgImhvc3QgYWRk
-cmVzczogZXJyb3IgcGFyc2luZyBwb3J0IGluIGFkZHJlc3MgJzonKVxyXG4iKQoKdG90YWw6IDEg
-ZXJyb3JzLCAyIHdhcm5pbmdzLCAzMTUgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC81IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCgo1LzUgQ2hlY2tpbmcgY29tbWl0IDlkMzM4MzE3MGUzMiAobmV0
-OiBFeHRlbmQgaG9zdCBmb3J3YXJkaW5nIHRvIHN1cHBvcnQgSVB2NikKRVJST1I6IEF1dGhvciBl
-bWFpbCBhZGRyZXNzIGlzIG1hbmdsZWQgYnkgdGhlIG1haWxpbmcgbGlzdAojMjogCkF1dGhvcjog
-RG91ZyBFdmFucyB2aWEgPHFlbXUtZGV2ZWxAbm9uZ251Lm9yZz4KCldBUk5JTkc6IGxpbmUgb3Zl
-ciA4MCBjaGFyYWN0ZXJzCiMyMjU6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UvaG9zdGZ3ZC5weTox
-MDE6CisgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWxzKHNlbGYuaG1jKCdob3N0ZndkX2FkZCB2bmV0
-IHRjcDpbOjoxXTo2NTAyMi1bZmU4MDo6MV06MjInKSwKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBj
-aGFyYWN0ZXJzCiMyMjg6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UvaG9zdGZ3ZC5weToxMDQ6Cisg
-ICAgICAgICAgICAgICAgICAgICAgICAgICdob3N0IGZvcndhcmRpbmcgcnVsZSBmb3IgdGNwOls6
-OjFdOjY1MDIyIHJlbW92ZWRcclxuJykKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJz
-CiMyMzY6IEZJTEU6IHRlc3RzL2FjY2VwdGFuY2UvaG9zdGZ3ZC5weToxMTI6CisgICAgICAgICAg
-ICAgICAgICAgICAgICAgICdob3N0IGZvcndhcmRpbmcgcnVsZSBmb3IgdWRwOls6OjFdOjY1MDQy
-IHJlbW92ZWRcclxuJykKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyNTQ6IEZJ
-TEU6IHRlc3RzL2FjY2VwdGFuY2UvaG9zdGZ3ZC5weToxMzA6CisgICAgICAgICAgICAgICAgICAg
-ICAgICAgICdob3N0IGZvcndhcmRpbmcgcnVsZSBmb3IgdWRwOls6OjFdOjY1MDQyIHJlbW92ZWRc
-clxuJykKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMyNTY6IEZJTEU6IHRlc3Rz
-L2FjY2VwdGFuY2UvaG9zdGZ3ZC5weToxMzI6CisgICAgICAgICAgICAgICAgICAgICAgICAgICdo
-b3N0IGZvcndhcmRpbmcgcnVsZSBmb3IgdWRwOls6OjFdOjY1MDQyIG5vdCBmb3VuZFxyXG4nKQoK
-V0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI2NjogRklMRTogdGVzdHMvYWNjZXB0
-YW5jZS9ob3N0ZndkLnB5OjE0MjoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIihGb3IgaG9z
-dCBhZGRyZXNzOiBlcnJvciBwYXJzaW5nIElQdjYgYWRkcmVzcyAnWzo6MScpXHJcbiIpCgpXQVJO
-SU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjc2OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNl
-L2hvc3Rmd2QucHk6MTUyOgorICAgICAgICAgICAgICAgICAgICAgICAgICAiKEZvciBob3N0IGFk
-ZHJlc3M6IGVycm9yIHBhcnNpbmcgSVB2NiBhZGRyZXNzICdbOjoxXScpXHJcbiIpCgpXQVJOSU5H
-OiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjc5OiBGSUxFOiB0ZXN0cy9hY2NlcHRhbmNlL2hv
-c3Rmd2QucHk6MTU1OgorICAgICAgICAgICAgICAgICAgICAgICAgICAiKEZvciBndWVzdCBhZGRy
-ZXNzOiBlcnJvciBwYXJzaW5nIElQdjYgYWRkcmVzcyAnW2Zvb10nKVxyXG4iKQoKV0FSTklORzog
-bGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI4NTogRklMRTogdGVzdHMvYWNjZXB0YW5jZS9ob3N0
-ZndkLnB5OjE2MToKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIic6Wzo6MV06NjYtW2ZlODA6
-OjFdOi0xJyAoRm9yIGd1ZXN0IGFkZHJlc3M6IEJhZCBwb3J0KVxyXG4iKQoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI4ODogRklMRTogdGVzdHMvYWNjZXB0YW5jZS9ob3N0Zndk
-LnB5OjE2NDoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIic6Wzo6MV06NjYtW2ZlODA6OjFd
-OjY2NjY2JyAoRm9yIGd1ZXN0IGFkZHJlc3M6IEJhZCBwb3J0KVxyXG4iKQoKV0FSTklORzogbGlu
-ZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzI5MTogRklMRTogdGVzdHMvYWNjZXB0YW5jZS9ob3N0Zndk
-LnB5OjE2NzoKKyAgICAgICAgICAgICAgICAgICAgICAgICAgIic6Wzo6MV06NjYtW2ZlODA6OjFd
-OjAnIChGb3IgZ3Vlc3QgYWRkcmVzczogQmFkIHBvcnQpXHJcbiIpCgp0b3RhbDogMSBlcnJvcnMs
-IDExIHdhcm5pbmdzLCAyNjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNS81IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0
-aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8yMDIxMDIyMDAwMTMyMi4xMzExMTM5LTEtZGplQGdvb2dsZS5jb20vdGVzdGluZy5j
-aGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxs
-eSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVl
-ZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+The detections of [NSView -enterFullScreen:] and
+[NSView -exitFullScreen:] were wrong. A detection is coded as:
+[NSView respondsToSelector:@selector(exitFullScreenModeWithOptions:)]
+but it should be:
+[NSView instancesRespondToSelector:@selector(exitFullScreenModeWithOptions:)]
+
+Because of those APIs were not detected, ui/cocoa always falled
+back to a borderless window whose frame matches the screen to
+implement fullscreen behavior.
+
+The code using [NSView -enterFullScreen:] and
+[NSView -exitFullScreen:] will be used if you fix the detections,
+but its behavior is undesirable; the full screen view stretches
+the video, changing the aspect ratio, even if zooming is disabled.
+
+This change removes the code as it does nothing good.
+
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 41 +++++++++++++++--------------------------
+ 1 file changed, 15 insertions(+), 26 deletions(-)
+
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 13fba8103e1..36e45cd98b4 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -564,37 +564,26 @@ - (void) toggleFullScreen:(id)sender
+         isFullscreen = FALSE;
+         [self ungrabMouse];
+         [self setContentDimensions];
+-        if ([NSView respondsToSelector:@selector(exitFullScreenModeWithOptions:)]) { // test if "exitFullScreenModeWithOptions" is supported on host at runtime
+-            [self exitFullScreenModeWithOptions:nil];
+-        } else {
+-            [fullScreenWindow close];
+-            [normalWindow setContentView: self];
+-            [normalWindow makeKeyAndOrderFront: self];
+-            [NSMenu setMenuBarVisible:YES];
+-        }
++        [fullScreenWindow close];
++        [normalWindow setContentView: self];
++        [normalWindow makeKeyAndOrderFront: self];
++        [NSMenu setMenuBarVisible:YES];
+     } else { // switch from desktop to fullscreen
+         isFullscreen = TRUE;
+         [normalWindow orderOut: nil]; /* Hide the window */
+         [self grabMouse];
+         [self setContentDimensions];
+-        if ([NSView respondsToSelector:@selector(enterFullScreenMode:withOptions:)]) { // test if "enterFullScreenMode:withOptions" is supported on host at runtime
+-            [self enterFullScreenMode:[NSScreen mainScreen] withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
+-                [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
+-                [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO], kCGDisplayModeIsStretched, nil], NSFullScreenModeSetting,
+-                 nil]];
+-        } else {
+-            [NSMenu setMenuBarVisible:NO];
+-            fullScreenWindow = [[NSWindow alloc] initWithContentRect:[[NSScreen mainScreen] frame]
+-                styleMask:NSWindowStyleMaskBorderless
+-                backing:NSBackingStoreBuffered
+-                defer:NO];
+-            [fullScreenWindow setAcceptsMouseMovedEvents: YES];
+-            [fullScreenWindow setHasShadow:NO];
+-            [fullScreenWindow setBackgroundColor: [NSColor blackColor]];
+-            [self setFrame:NSMakeRect(cx, cy, cw, ch)];
+-            [[fullScreenWindow contentView] addSubview: self];
+-            [fullScreenWindow makeKeyAndOrderFront:self];
+-        }
++        [NSMenu setMenuBarVisible:NO];
++        fullScreenWindow = [[NSWindow alloc] initWithContentRect:[[NSScreen mainScreen] frame]
++            styleMask:NSWindowStyleMaskBorderless
++            backing:NSBackingStoreBuffered
++            defer:NO];
++        [fullScreenWindow setAcceptsMouseMovedEvents: YES];
++        [fullScreenWindow setHasShadow:NO];
++        [fullScreenWindow setBackgroundColor: [NSColor blackColor]];
++        [self setFrame:NSMakeRect(cx, cy, cw, ch)];
++        [[fullScreenWindow contentView] addSubview: self];
++        [fullScreenWindow makeKeyAndOrderFront:self];
+     }
+ }
+ 
+-- 
+2.24.3 (Apple Git-128)
+
 
