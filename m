@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F0932047B
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 09:44:00 +0100 (CET)
-Received: from localhost ([::1]:50804 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC4AE320483
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 09:59:47 +0100 (CET)
+Received: from localhost ([::1]:57032 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDNrq-00015N-Nc
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 03:43:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50234)
+	id 1lDO78-0004Yo-D5
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 03:59:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1lDNqe-00009I-9E; Sat, 20 Feb 2021 03:42:44 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:49258
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1lDNqb-00007t-Dj; Sat, 20 Feb 2021 03:42:43 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id EBEF2DA0153;
- Sat, 20 Feb 2021 09:42:36 +0100 (CET)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- nerus <fhuvu30@gmail.com>, Ottavio Caruso <ottavio2006-usenet2012@yahoo.com>
-References: <05BD61C1-9771-4EF9-AD1B-8DAB8DFD127A@hxcore.ol>
- <CAFEAcA8Xuf3WfPiNPqSVLz+tMgvO+6OzKTRQpJ_9Z7MqeO6pCw@mail.gmail.com>
- <b0bb2b4e-4ebe-f4c4-d8ef-191c19c876bb@amsat.org>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: problema compilation
-Message-ID: <1025252d-41cd-9d30-983f-1db6c770b063@weilnetz.de>
-Date: Sat, 20 Feb 2021 09:42:36 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
-MIME-Version: 1.0
-In-Reply-To: <b0bb2b4e-4ebe-f4c4-d8ef-191c19c876bb@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lDO5u-00043e-Mz; Sat, 20 Feb 2021 03:58:30 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:43691)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lDO5r-0007GO-HB; Sat, 20 Feb 2021 03:58:30 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id d2so14619641edq.10;
+ Sat, 20 Feb 2021 00:58:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=10SQjvq05st27/nX5N7/KLZqTBX2ZldzzJuVKpUXvYU=;
+ b=Z6VUHhzmL/6Wv/XrSEjVPy18cPEP+p/z0ISdWPcOQIC/f6nLxlo2fhBxhDjF16lAf7
+ QfvITk8hyG8fWBeqko/ui8nYWGetdpUfeEVO3zKCTZWCs/8Qw/FqAcufhgNrTpKBHBSw
+ 9svPtAR+vB65KKgMr9fS+/fT3zbFMVKGHFb9yvnbK0GCzVgIegmzrFrgl6DF7anVhNRt
+ opTGQrEzKZ+ZZh8U4LGaEIEhz7i0TO5m+MnK0iqOoOoEMHErwe5ERtMxCRXC2tNLDBMT
+ TuLu6LI8XTYp54ckhkEKOzWSZvWDiM8vm7ByS5NIWkUWpsS2iA5yCf2o/68+rJekzz1y
+ m7Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=10SQjvq05st27/nX5N7/KLZqTBX2ZldzzJuVKpUXvYU=;
+ b=kml10FMsJH9gubWm66nyVgDidzFzuU8jFYn/uSi4uggvOJQnZq2XJ7aboqBytEiwjX
+ OuVgvsrdZA5Aiu3R3UN0mGhQCGizupshCRhE4xI7+KcnKP4ev4B+bdf01E0GhsGYpcdq
+ /SOsLi9Z2+lsleB42CEQrRkRGWS8XE42nzTi4YxVtQvuKQyH0Jb7MdRD0mDn9+8kfQHw
+ h1sb0qwhj7pbXtIhK06WAwtgPlBHfkWWP98ekCyjfxbgP7GgRanskqa31CZcGDTVGJ5r
+ iXSORjdthceHtxAP0uIK4PaWxkL5OPRWZf1ZXHU0RqL5ysu1SFuMN9mfRqhUCBaNDIE+
+ Y7OQ==
+X-Gm-Message-State: AOAM531vY6CwVLeaByVlfpeDeOHps8A2cWNHTalTAW6LlMRWgijnb0nL
+ Pb7Li8RR84dT2heXhFov4/A=
+X-Google-Smtp-Source: ABdhPJwyFtN9Ycwonx6ASIToNl2XaPTuATaxSpeqhZRrE5gaoAqEh6RjoBObcrbTc5daAv/SO5fg0A==
+X-Received: by 2002:a05:6402:617:: with SMTP id
+ n23mr13375560edv.257.1613811505778; 
+ Sat, 20 Feb 2021 00:58:25 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id cd8sm843857ejb.0.2021.02.20.00.58.22
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Sat, 20 Feb 2021 00:58:25 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v3] hw/sd: sd: Actually perform the erase operation
+Date: Sat, 20 Feb 2021 16:58:13 +0800
+Message-Id: <1613811493-58815-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,76 +77,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Yonggang Luo <luoyonggang@gmail.com>, qemu-discuss <qemu-discuss@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20.02.21 um 00:07 schrieb Philippe Mathieu-Daud=C3=A9:
+From: Bin Meng <bin.meng@windriver.com>
 
-> Cc'ing Stefan / Yonggang / Paolo.
->
-> On 2/20/21 12:03 AM, Peter Maydell wrote:
->> On Fri, 19 Feb 2021 at 22:54, nerus <fhuvu30@gmail.com> wrote:
->>> Good evening, I turn to you because I have a problem that does not ap=
-pear in the official documentation, nor in the different blogs or irc cha=
-nnels.
->>>
->>> I need to do a cross compilation but it is impossible from version 5.=
-2, when I use msys2 an error occurs indicating that symbolic links cannot=
- be created even though the windows user has permissions to create symbol=
-ic links, I configured this through gpedit.msc.
->>>
->>> when I use cygwin with the mingw64-w64 tool chain an error occurs whe=
-reby meson says that it cannot find any compiler even though the compiler=
- path is specified in the configuration script, mingw cannot be used from=
- linux either due to There are many missing components that cannot be com=
-piled by hand because the proper versions are no longer available, how co=
-uld you solve these problems without using already compiled binaries? Tha=
-nk you
+At present the sd_erase() does not erase the requested range of card
+data to 0xFFs. Let's make the erase operation actually happen.
 
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-The only tested build settings for producing 5.2 and newer Windows=20
-binaries use Mingw-w64 cross tools on Linux. Up to now I did not try=20
-building 5.2 on Windows.
+---
 
-Depending on the Linux distribution there are more or less missing=20
-components.
+Changes in v3:
+- fix the skip erase logic for SDSC cards
 
-As far as I know Fedora provides a rather complete list of cross=20
-packages which not only covers the cross tools but also the required=20
-other components (libraries).
+Changes in v2:
+- honor the write protection bits for SDSC cards
 
-Debian based distributions only provide the cross tools (compiler,=20
-linker, nsis). It should be possible to compile all required libraries=20
-by hand, but of course that is a lot of work. I recently did that for=20
-the braille library, and it took me about a day to get 32 and 64 bit=20
-binaries. Therefore I use Debian with the Mingw-w64 library cross=20
-packages from Cygwin. My GitHub repository includes a GitHub action=20
-which runs the cross builds:=20
-https://github.com/stweil/qemu/blob/master/.github/workflows/build.sh.=20
-That should also work on Windows with the Windows Subsystem for Linux (WS=
-L).
+ hw/sd/sd.c | 22 +++++++++++++---------
+ 1 file changed, 13 insertions(+), 9 deletions(-)
 
-Recently (with bullseye and later) Debian changed the exception handling =
-
-for the 64 bit C++ cross compiler. Therefore Debian bullseye and similar =
-
-distributions can no longer be used with the Cygwin libraries. I still=20
-have no solution for that.
-
-Stefan
-
-
->> Cross compilation works in general -- our CI testing setup
->> includes various cross-compile configurations, including
->> building Windows executables from a Linux host
->> (eg https://gitlab.com/qemu-project/qemu/-/jobs/1042844159).
->>
->> You'll need to be more specific about exactly what you're
->> trying to do and failing (eg quoting exact commands,
->> setups, error messages).
-
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 8b397ef..f52028c 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -762,10 +762,12 @@ static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
+ 
+ static void sd_erase(SDState *sd)
+ {
+-    int i;
+     uint64_t erase_start = sd->erase_start;
+     uint64_t erase_end = sd->erase_end;
+     bool sdsc = true;
++    uint64_t wpnum;
++    uint64_t erase_addr;
++    int erase_len = 1 << HWBLOCK_SHIFT;
+ 
+     trace_sdcard_erase(sd->erase_start, sd->erase_end);
+     if (sd->erase_start == INVALID_ADDRESS
+@@ -794,17 +796,19 @@ static void sd_erase(SDState *sd)
+     sd->erase_end = INVALID_ADDRESS;
+     sd->csd[14] |= 0x40;
+ 
+-    /* Only SDSC cards support write protect groups */
+-    if (sdsc) {
+-        erase_start = sd_addr_to_wpnum(erase_start);
+-        erase_end = sd_addr_to_wpnum(erase_end);
+-
+-        for (i = erase_start; i <= erase_end; i++) {
+-            assert(i < sd->wpgrps_size);
+-            if (test_bit(i, sd->wp_groups)) {
++    memset(sd->data, 0xff, erase_len);
++    for (erase_addr = erase_start; erase_addr <= erase_end;
++         erase_addr += erase_len) {
++        if (sdsc) {
++            /* Only SDSC cards support write protect groups */
++            wpnum = sd_addr_to_wpnum(erase_addr);
++            assert(wpnum < sd->wpgrps_size);
++            if (test_bit(wpnum, sd->wp_groups)) {
+                 sd->card_status |= WP_ERASE_SKIP;
++                continue;
+             }
+         }
++        BLK_WRITE_BLOCK(erase_addr, erase_len);
+     }
+ }
+ 
+-- 
+2.7.4
 
 
