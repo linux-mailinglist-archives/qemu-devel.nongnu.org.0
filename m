@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B96320223
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:17:47 +0100 (CET)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB9E332021F
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:15:23 +0100 (CET)
+Received: from localhost ([::1]:58858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDFxy-0005NL-3D
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:17:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37142)
+	id 1lDFve-0002M4-P0
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:15:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37168)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFth-0000Fd-AP; Fri, 19 Feb 2021 19:13:21 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:36270)
+ id 1lDFtm-0000PL-8F; Fri, 19 Feb 2021 19:13:26 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:39474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFtf-0005KF-J6; Fri, 19 Feb 2021 19:13:21 -0500
-Received: by mail-ej1-x633.google.com with SMTP id do6so16929453ejc.3;
- Fri, 19 Feb 2021 16:13:18 -0800 (PST)
+ id 1lDFtk-0005MP-Jz; Fri, 19 Feb 2021 19:13:25 -0500
+Received: by mail-ej1-x633.google.com with SMTP id t11so16887586ejx.6;
+ Fri, 19 Feb 2021 16:13:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=/u/xjf4UYFb69kyu3yFPBKnJe5Gy0CQG9X8dWyHsftQ=;
- b=VIzQS8y+ecHm3uvQeKJVueeuStSdzbRKyYrXRQqvX0q12Yjf2HoyHbhhGaw+o6CQGG
- nbvLtHxLA1WMIYO0CZcXVf4ncGWXTX3Sr7JZMjOP9BlEy51/sibKusyYTPaZopb+oGQf
- +DTslNjynxk78V2NLehCRBdI8UcsThNt1xfc+HzrikV4JRPa9fxUXWeoG5rHo0mPR+gs
- ps3P8a//pVDfS+BovAlQcFM5AlTeK2xZzyvBJvPE07hYLiSHNEj6ojJ4NmHJTPDOLOh1
- DHtI/Fo5W9T2BrGHM0u48SgyqIuIfh+LTHKZK/NntmwbHWNcw2adYSUauzZPlQ2FXsZd
- C46Q==
+ bh=nrlOa5uEAXGuJkLltzQnPowCn7sKixIFglrfWbQ5DbM=;
+ b=QAD6ACOIlM/KBAnKRsx6IA7sa+qDc0jKWXbKf7a1gioSTHTybKlQZwcPkc3h7AZqPE
+ YMifDlRa9c1DTp0h2mQgtC8eQ1lnPbRx3qP96dz6OgwfdxJ/8kK1MaD2oEIb69G6eH1f
+ n6Eu4JlWuDrDFCzMBqrGkMdKzaRq92+M2Dg9GWnstVRLMS2MOCdxPf32iOnX7w3zuG/W
+ WI65/1hzEgAb6zKbCp78wNPuCc4ep2wH8CZ5FRrowWZOOkSr3ZD1uUmJZWsmN9Sqc2t5
+ 4N9lWfCW1qKY7HD40OpgV0oaq71ifIXvOBbELaPXkHGAggPg1saZRCP+HArsk2YmKBJP
+ JroQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=/u/xjf4UYFb69kyu3yFPBKnJe5Gy0CQG9X8dWyHsftQ=;
- b=izsqMP0ZyQq2W+UeQOQyHe94fUH8YDcYjrY01DHzqZrDnoQ5gpbVNglKXgsBlfiM1K
- MTeofSGRCZJJQpevtqht4UmTA3r7pR+tH6WkBE61HigG5nIJusKr8JzRdFJKedPV+fDE
- 4CY7r624AneefDbx23CQaAaXT5R7kF+lUoiNxiBlD7RlpsOpA0HMJ63gipyz/4FZDLio
- Ep3fb4XQ+gigetrc0fYVxNrOoWDWSY9DDZF7og+us+bnUnTv1oZP85I9dnGmAAjYStil
- cEboKTRFQ5tY7W4k/N9caXjXzmwktE03xWvR+qQFYQSCyrcjzmowx+BwARvc0BmED6Xj
- pyNw==
-X-Gm-Message-State: AOAM532D9YYjnFQ6ZN6tPlGUF1nt8wJaMa3rzCeSF+kGB+bQx1i5XekC
- 2oLyS6/SbpYS8vIZAGv4ZJLsFRtmrTQ=
-X-Google-Smtp-Source: ABdhPJwkT4QxH8ZRDePCzdamCNx+78ChKXQiAknGagchqWQdrRVF8eWanV0n5x2M/vTMkX8Y0uYrbw==
-X-Received: by 2002:a17:906:9259:: with SMTP id
- c25mr10982020ejx.37.1613779997553; 
- Fri, 19 Feb 2021 16:13:17 -0800 (PST)
+ bh=nrlOa5uEAXGuJkLltzQnPowCn7sKixIFglrfWbQ5DbM=;
+ b=Cg8h64Z2MVswUjMaK5TK9mJBrBGy2Vxn8TUbs9I/Jk6Bgswb1B0B1OYmF/P/EK88de
+ LHEzxAPyGkoaR8pXFd2JzmJVYUOW/1cX2gZ+C8t8kbkda2TPgFGDUzGv5rmZPva0RD7d
+ djvEhRj8VjB0vBQ6n6CCb39KS5D/7BYNgqISm4deBhDvw2T+S7Hr7THkJ0VSbrQUijeY
+ TS+0ZZ+LhVZBND8TgXNFK+eBS97qUOZDRSwSmoj8BsZsARTZI0lS+s7Zq2ACW1k5cd2v
+ VeRcLsQBXuqj5CWi3SkdnOsAuVXYUE3vEMug5x8yMU9NUnTRRKh+cWFW6Ri14bLkvXed
+ Ko3w==
+X-Gm-Message-State: AOAM530loVP+hpRxnX1T4tlvIwbilLppqnmupFHCjOZYSjG8g3ED9J1P
+ Xude9q45sTodmcbS0DQiISUsVSqoCgA=
+X-Google-Smtp-Source: ABdhPJw3VH+7yNQ6NrAnDw7jATmQ3stVlfUY7cC4HbKWONnshGWdjfJLz5KWx+6bKc3eMjq6gghFKw==
+X-Received: by 2002:a17:906:4f96:: with SMTP id
+ o22mr10634328eju.511.1613780002800; 
+ Fri, 19 Feb 2021 16:13:22 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id kz4sm5357871ejc.38.2021.02.19.16.13.16
+ by smtp.gmail.com with ESMTPSA id t19sm5303919ejc.62.2021.02.19.16.13.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 16:13:16 -0800 (PST)
+ Fri, 19 Feb 2021 16:13:22 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/18] hw/sd: ssi-sd: Support multiple block read
-Date: Sat, 20 Feb 2021 01:12:52 +0100
-Message-Id: <20210220001309.2225022-2-f4bug@amsat.org>
+Subject: [PULL 02/18] hw/sd: sd: Remove duplicated codes in single/multiple
+ block read/write
+Date: Sat, 20 Feb 2021 01:12:53 +0100
+Message-Id: <20210220001309.2225022-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210220001309.2225022-1-f4bug@amsat.org>
 References: <20210220001309.2225022-1-f4bug@amsat.org>
@@ -93,117 +94,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-In the case of a multiple block read operation every transferred
-block has its suffix of CRC16. Update the state machine logic to
-handle multiple block read.
+The single block read (CMD17) codes are the same as the multiple
+block read (CMD18). Merge them into one. The same applies to single
+block write (CMD24) and multiple block write (CMD25).
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-[PMD: Change VMState version id 5 -> 6]
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210128063035.15674-2-bmeng.cn@gmail.com>
+Message-Id: <20210128063035.15674-3-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/ssi-sd.c | 42 +++++++++++++++++++++++++++++++++---------
- 1 file changed, 33 insertions(+), 9 deletions(-)
+ hw/sd/sd.c | 47 -----------------------------------------------
+ 1 file changed, 47 deletions(-)
 
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index be1bb101645..6d20a240c69 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -52,6 +52,7 @@ struct ssi_sd_state {
-     uint8_t cmdarg[4];
-     uint8_t response[5];
-     uint16_t crc16;
-+    int32_t read_bytes;
-     int32_t arglen;
-     int32_t response_pos;
-     int32_t stopping;
-@@ -88,11 +89,26 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
- {
-     ssi_sd_state *s = SSI_SD(dev);
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 8517dbce8ba..a85a821abbe 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1181,24 +1181,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+         break;
  
--    /* Special case: allow CMD12 (STOP TRANSMISSION) while reading data.  */
--    if (s->mode == SSI_SD_DATA_READ && val == 0x4c) {
--        s->mode = SSI_SD_CMD;
--        /* There must be at least one byte delay before the card responds.  */
--        s->stopping = 1;
-+    /*
-+     * Special case: allow CMD12 (STOP TRANSMISSION) while reading data.
-+     *
-+     * See "Physical Layer Specification Version 8.00" chapter 7.5.2.2,
-+     * to avoid conflict between CMD12 response and next data block,
-+     * timing of CMD12 should be controlled as follows:
-+     *
-+     * - CMD12 issued at the timing that end bit of CMD12 and end bit of
-+     *   data block is overlapped
-+     * - CMD12 issued after one clock cycle after host receives a token
-+     *   (either Start Block token or Data Error token)
-+     *
-+     * We need to catch CMD12 in all of the data read states.
-+     */
-+    if (s->mode >= SSI_SD_PREP_DATA && s->mode <= SSI_SD_DATA_CRC16) {
-+        if (val == 0x4c) {
-+            s->mode = SSI_SD_CMD;
-+            /* There must be at least one byte delay before the card responds */
-+            s->stopping = 1;
-+        }
-     }
+     case 17:	/* CMD17:  READ_SINGLE_BLOCK */
+-        switch (sd->state) {
+-        case sd_transfer_state:
+-
+-            if (addr + sd->blk_len > sd->size) {
+-                sd->card_status |= ADDRESS_ERROR;
+-                return sd_r1;
+-            }
+-
+-            sd->state = sd_sendingdata_state;
+-            sd->data_start = addr;
+-            sd->data_offset = 0;
+-            return sd_r1;
+-
+-        default:
+-            break;
+-        }
+-        break;
+-
+     case 18:	/* CMD18:  READ_MULTIPLE_BLOCK */
+         switch (sd->state) {
+         case sd_transfer_state:
+@@ -1245,35 +1227,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
  
-     switch (s->mode) {
-@@ -212,8 +228,9 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-         return SSI_TOKEN_SINGLE;
-     case SSI_SD_DATA_READ:
-         val = sdbus_read_byte(&s->sdbus);
-+        s->read_bytes++;
-         s->crc16 = crc_ccitt_false(s->crc16, (uint8_t *)&val, 1);
--        if (!sdbus_data_ready(&s->sdbus)) {
-+        if (!sdbus_data_ready(&s->sdbus) || s->read_bytes == 512) {
-             DPRINTF("Data read end\n");
-             s->mode = SSI_SD_DATA_CRC16;
-         }
-@@ -224,7 +241,12 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-         s->response_pos++;
-         if (s->response_pos == 2) {
-             DPRINTF("CRC16 read end\n");
--            s->mode = SSI_SD_CMD;
-+            if (s->read_bytes == 512 && s->cmd != 17) {
-+                s->mode = SSI_SD_PREP_DATA;
-+            } else {
-+                s->mode = SSI_SD_CMD;
-+            }
-+            s->read_bytes = 0;
-             s->response_pos = 0;
-         }
-         return val;
-@@ -255,8 +277,8 @@ static int ssi_sd_post_load(void *opaque, int version_id)
- 
- static const VMStateDescription vmstate_ssi_sd = {
-     .name = "ssi_sd",
--    .version_id = 5,
--    .minimum_version_id = 5,
-+    .version_id = 6,
-+    .minimum_version_id = 6,
-     .post_load = ssi_sd_post_load,
-     .fields = (VMStateField []) {
-         VMSTATE_UINT32(mode, ssi_sd_state),
-@@ -264,6 +286,7 @@ static const VMStateDescription vmstate_ssi_sd = {
-         VMSTATE_UINT8_ARRAY(cmdarg, ssi_sd_state, 4),
-         VMSTATE_UINT8_ARRAY(response, ssi_sd_state, 5),
-         VMSTATE_UINT16(crc16, ssi_sd_state),
-+        VMSTATE_INT32(read_bytes, ssi_sd_state),
-         VMSTATE_INT32(arglen, ssi_sd_state),
-         VMSTATE_INT32(response_pos, ssi_sd_state),
-         VMSTATE_INT32(stopping, ssi_sd_state),
-@@ -316,6 +339,7 @@ static void ssi_sd_reset(DeviceState *dev)
-     memset(s->cmdarg, 0, sizeof(s->cmdarg));
-     memset(s->response, 0, sizeof(s->response));
-     s->crc16 = 0;
-+    s->read_bytes = 0;
-     s->arglen = 0;
-     s->response_pos = 0;
-     s->stopping = 0;
+     /* Block write commands (Class 4) */
+     case 24:	/* CMD24:  WRITE_SINGLE_BLOCK */
+-        switch (sd->state) {
+-        case sd_transfer_state:
+-            /* Writing in SPI mode not implemented.  */
+-            if (sd->spi)
+-                break;
+-
+-            if (addr + sd->blk_len > sd->size) {
+-                sd->card_status |= ADDRESS_ERROR;
+-                return sd_r1;
+-            }
+-
+-            sd->state = sd_receivingdata_state;
+-            sd->data_start = addr;
+-            sd->data_offset = 0;
+-            sd->blk_written = 0;
+-
+-            if (sd_wp_addr(sd, sd->data_start)) {
+-                sd->card_status |= WP_VIOLATION;
+-            }
+-            if (sd->csd[14] & 0x30) {
+-                sd->card_status |= WP_VIOLATION;
+-            }
+-            return sd_r1;
+-
+-        default:
+-            break;
+-        }
+-        break;
+-
+     case 25:	/* CMD25:  WRITE_MULTIPLE_BLOCK */
+         switch (sd->state) {
+         case sd_transfer_state:
 -- 
 2.26.2
 
