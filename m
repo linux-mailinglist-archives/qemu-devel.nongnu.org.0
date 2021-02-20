@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 500043205C9
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 15:47:16 +0100 (CET)
-Received: from localhost ([::1]:44308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DD43205CA
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 15:50:21 +0100 (CET)
+Received: from localhost ([::1]:48522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDTXO-0006Og-RU
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 09:47:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56904)
+	id 1lDTaO-0008Ej-LH
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 09:50:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1lDTVj-0005lA-UT; Sat, 20 Feb 2021 09:45:31 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:50872
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1lDTVh-0002FC-20; Sat, 20 Feb 2021 09:45:31 -0500
-Received: from mini.fritz.box (p5b1511bf.dip0.t-ipconnect.de [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id A029DDA06BD;
- Sat, 20 Feb 2021 15:45:25 +0100 (CET)
-Subject: Re: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
-To: Bug 1916112 <1916112@bugs.launchpad.net>, qemu-devel@nongnu.org
-References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
- <161382791482.29356.5013965818751172438.malone@soybean.canonical.com>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <acab5bae-b354-2266-c9db-d1f83782c598@weilnetz.de>
-Date: Sat, 20 Feb 2021 15:45:25 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lDTYX-0006uw-AA; Sat, 20 Feb 2021 09:48:25 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54098)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lDTYU-0003VS-Qw; Sat, 20 Feb 2021 09:48:25 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id c19so5454308pjq.3;
+ Sat, 20 Feb 2021 06:48:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X6ktkXRzVhkYKPUfSXpY2YX92Wz+LwKUKzZGW6ksM74=;
+ b=mb0SBiGNwHcZcE+EEF4MEMPjPt491/xygHOn54yyTkjHSTBP8fCEzrQ8F9o7se+D3h
+ OgzWXej64VIgbshjgWslqojwbvmf32a+r98l3/9CF8V97qSfFxfkH9OLv5egUMXnNLTm
+ 5HR2hma2HadvefGJD4bAGALZZLqCeMeedEHWRik5mJNliaAgV5AUumHLZMzAi84sid8Y
+ ymTjMV1DpE5tRF9L9NNZGw+yFiToi6Ya04zsR9jEjoByBDppmYevP2GOlfIh2q1Qw5i/
+ 5UVTbFROOVR28QtQ/lN5f+DRFwt5SbnCvxyYKiOoW/VFKda/bW7KftGc7sTEhlD1BVWV
+ U7UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=X6ktkXRzVhkYKPUfSXpY2YX92Wz+LwKUKzZGW6ksM74=;
+ b=jHm4zyeY3wLu7aAJgNDHsLoAwfhVB0q/z2DjTWJJiCWfPaf+BLlivkF/5p60Ny9SYw
+ hnOiMC9nsT1tcQjVZJFjGu8ekEhBbxfw41Miwqyr0lxTdtcBOeijhWxpFZZHRnaVNcl2
+ 1wURH9p95E5IxOUq1Be2unpbfzN15DGAWBWmfpYQEPlwq/OIKI5z5hh6tZMe/z2Cnbg9
+ h7A2SFSTLEhl69eFUyjYz+C/kmWhWGeofnb4P4N7u/pKT0p7YLYBfMsVEJ5s2+NkDU7s
+ C1Ca7/0gmVMMUq+JLEFb9QyBDbTW1d6eMYq0JTnyNdpv+fV4B/3JhMs4ppFOZsZGDuM/
+ LKpA==
+X-Gm-Message-State: AOAM533huJTa9U0ASwCGAc2YI7BhaqWCrfT3LbPUc0iOGqh03+qQwUP4
+ Xhi24HOzxSwNxsJG1BGu43c=
+X-Google-Smtp-Source: ABdhPJwhJvb9M8t0pRae9AW35D+QHJAvkTvQ8cnkBsY4+jotUs+vDai6iOG4wG14gSClNqgq2gu/ww==
+X-Received: by 2002:a17:902:e750:b029:e3:a720:f4c with SMTP id
+ p16-20020a170902e750b02900e3a7200f4cmr6870404plf.31.1613832497614; 
+ Sat, 20 Feb 2021 06:48:17 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id d16sm3100480pgb.12.2021.02.20.06.48.13
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 20 Feb 2021 06:48:17 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH v3 0/4] hw/riscv: Clean-ups and map high mmio for PCIe of
+ 'virt' machine
+Date: Sat, 20 Feb 2021 22:48:03 +0800
+Message-Id: <20210220144807.819-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <161382791482.29356.5013965818751172438.malone@soybean.canonical.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,46 +83,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 20.02.21 um 14:31 schrieb Stefan Weil:
+From: Bin Meng <bin.meng@windriver.com>
 
-> TCG works and I get a Linux boot prompt in the guest Raspbian when
-> vector instructions for TCG are disabled, so obviously the undefined
-> instruction is simply unsupported for Jetson Nano and Xavier.
->
-> Patch used to disable it:
->
-> diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-> index 5ec30dba25..2240adad1e 100644
-> --- a/tcg/aarch64/tcg-target.h
-> +++ b/tcg/aarch64/tcg-target.h
-> @@ -125,8 +125,8 @@ typedef enum {
->   #define TCG_TARGET_HAS_mulsh_i64        1
->   #define TCG_TARGET_HAS_direct_jump      1
->   
-> -#define TCG_TARGET_HAS_v64              1
-> -#define TCG_TARGET_HAS_v128             1
-> +#define TCG_TARGET_HAS_v64              0
-> +#define TCG_TARGET_HAS_v128             0
->   #define TCG_TARGET_HAS_v256             0
->   
->   #define TCG_TARGET_HAS_andc_vec         1
+This series does the following clean-ups:
+- Drop 'struct MemmapEntry'
+- virt: Drop the 'link_up' parameter of gpex_pcie_init()
 
+It also adds the following small enhancement to 'virt' machine:
+- Limit RAM size in a 32-bit system
+- Map high mmio for PCIe
 
+Changes in v3:
+- Fix the typo (limit) in the commit message and codes
 
-cc'ing qemu-arm@nongnu.org
+Changes in v2:
+- Use a #if size test to only do the size limitation for the 64-bit host
 
-I think QEMU TCG for AARCH64 hosts needs a runtime check to decide which 
-vector instructions are supported by the host (like it is done for 
-AMD64). It currently fails because it generates instructions which are 
-unknown for NVIDIA Jetson Nano and Xavier (Tegra CPU).
+Bin Meng (4):
+  hw/riscv: Drop 'struct MemmapEntry'
+  hw/riscv: virt: Drop the 'link_up' parameter of gpex_pcie_init()
+  hw/riscv: virt: Limit RAM size in a 32-bit system
+  hw/riscv: virt: Map high mmio for PCIe
 
-TCI works (now tested on Apple M1), too.
+ hw/riscv/microchip_pfsoc.c |  9 ++---
+ hw/riscv/opentitan.c       |  9 ++---
+ hw/riscv/sifive_e.c        |  9 ++---
+ hw/riscv/sifive_u.c        | 11 +++---
+ hw/riscv/spike.c           |  9 ++---
+ hw/riscv/virt.c            | 68 +++++++++++++++++++++++++++++---------
+ 6 files changed, 69 insertions(+), 46 deletions(-)
 
-Stefan
-
+-- 
+2.25.1
 
 
