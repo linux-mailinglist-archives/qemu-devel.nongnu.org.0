@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D138232055A
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 13:37:39 +0100 (CET)
-Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00A65320567
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 13:44:59 +0100 (CET)
+Received: from localhost ([::1]:55868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDRVy-0000LZ-SR
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 07:37:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
+	id 1lDRd4-0007JU-32
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 07:44:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lDRUF-00070D-E1; Sat, 20 Feb 2021 07:35:51 -0500
-Received: from mout.kundenserver.de ([212.227.17.13]:41305)
+ id 1lDRUH-000761-L3; Sat, 20 Feb 2021 07:35:53 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:50935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lDRUC-0003MJ-MS; Sat, 20 Feb 2021 07:35:50 -0500
+ id 1lDRUD-0003MT-8P; Sat, 20 Feb 2021 07:35:53 -0500
 Received: from localhost.localdomain ([82.252.134.158]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1Miqzy-1ljV2i1uqa-00exXT; Sat, 20 Feb 2021 13:35:36 +0100
+ id 1MKszj-1lY9IK0OKL-00LDlm; Sat, 20 Feb 2021 13:35:37 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 06/12] vmmouse: put it into the 'input' category
-Date: Sat, 20 Feb 2021 13:35:19 +0100
-Message-Id: <20210220123525.1353731-7-laurent@vivier.eu>
+Subject: [PULL 07/12] nvdimm: put it into the 'storage' category
+Date: Sat, 20 Feb 2021 13:35:20 +0100
+Message-Id: <20210220123525.1353731-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210220123525.1353731-1-laurent@vivier.eu>
 References: <20210220123525.1353731-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:H9EDVWpnCSs9ecR5x1Mujxt7elTnnL0JEQC7iBh9BT50gruihej
- gwRhWCuqMcpQlGA2HW1+DBEGWlkSKEhDdCpXbyE7IBw/Beja4XKxd7mm9ZhlOCU7MMfQfO8
- rAVU9WbU+DNzzYAgWyAbZhhJqd391uy9vYulwMMaCEav8Sic+PqMd6NkAmPBCa0euDpymyd
- qY50o0AVjvuKYROMdgUGQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:7r2APxRwze0=:IUyXa5Du5zAmD9m6/CGi51
- 3eECKbJt56Iha56Uc+zxeB8rX1oBFLZj+830WDMO9g7KEvJMBulrxOcZeOtDx7M6ry4TYBPIY
- Vm9Jnhfubzgv3H2RsAyYIs3V+q2JegcURw6Re6735ndW0N4fmBwZNXEwBN5XjwCZL60SINtsj
- zjPFpIaVwYBnuDRYiETPR2WP+Scu/qgGwt62/90AgTWO+KSEJfcgkm6Fij+05J9eoEfdP5mJP
- iwEufB9bI3fHxE0jpIRX4dCVQ6D29Jtp7N5/6Y/7I5wJgMgetBK2tUd2O6hONmgVd62S1IziQ
- RgUGhazoK6SwhH2D/FLP48+FvFViI02yumcAoLr33Woy/zSz7ahMPKDQvTKrBHq8J4d4aE6Cl
- FMVKiG2PaVN6NWGDJtVbrX7RH5OJh62YSSLx9y9nPcv+2CuGvXAw1Q+E5jfIp
-Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:WqdCScj5/hMZfWRJJscnfbcoHTtWeP/35q5p1Sr+B3O9zc4Ah64
+ N4v1hSQfXzbGmko8t5kEqqutCKL5rvZB81G+DrwWt0yxYfxt23j44+l2Efg+v3t4VSeX/+/
+ 6w0wtqueOW8NdFToimg6Xhf/y9EHyw7x0uK2q/5jzcPRnwNcWI74DfeCGlFkznmGZiycNqY
+ a7VhoZ2n5MSd7AhYyW2EQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EMPt7JR3gf0=:S8AqI1XqtLnnFZX8OG7Yuz
+ NkWZtKuxqZ1sYuBpJppi3g+wf5lyOmQ+UW4xZAJqaw29JNemPHhLkL1dYwddWxZvLUhHZdwrM
+ t88xU0FwyZw8XykjVXr6EmaK5+7ibhola49CqUijDy8uqjiWZIhZe1nOgv2/BYGnSBzZ2x+W4
+ N5AQCGHUTg/3Fkkt043eUCGVANAJYw28gKjvuRysEeG/NhtURLsbBBfPBE67AyDyUJ74p7zTE
+ rqx5BNGhOGSRCh2cWTMigNZ0SGBUQWiRoytYX8ccpaWC0Dk7Xk8t6sTtQ73fd1fdrsE2VNOSo
+ FHYikLIkte9gWDxKXKpfJVHFFgL6i6wSrYe4yIHWMIqF7mTZLeCn2XqTNlK+EYczrFM69pDGj
+ hjbFBsF0INuDFz6wbTtK7+uay0OwF7Co5cBx91a4aCPQJ4VC8GFIEJI0OAUmK
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,37 +63,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Gan Qixin <ganqixin@huawei.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>, Gan Qixin <ganqixin@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gan Qixin <ganqixin@huawei.com>
 
-The category of the vmmouse device is not set, put it into the 'input'
+The category of the nvdimm device is not set, put it into the 'storage'
 category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20201130083630.2520597-4-ganqixin@huawei.com>
+Message-Id: <20201130083630.2520597-5-ganqixin@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/i386/vmmouse.c | 1 +
+ hw/mem/nvdimm.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
-index a3556438f0ff..df4798f50284 100644
---- a/hw/i386/vmmouse.c
-+++ b/hw/i386/vmmouse.c
-@@ -308,6 +308,7 @@ static void vmmouse_class_initfn(ObjectClass *klass, void *data)
-     dc->reset = vmmouse_reset;
-     dc->vmsd = &vmstate_vmmouse;
-     device_class_set_props(dc, vmmouse_properties);
-+    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
+diff --git a/hw/mem/nvdimm.c b/hw/mem/nvdimm.c
+index e0a9d606e1bc..7397b6715652 100644
+--- a/hw/mem/nvdimm.c
++++ b/hw/mem/nvdimm.c
+@@ -245,6 +245,7 @@ static void nvdimm_class_init(ObjectClass *oc, void *data)
+ 
+     nvc->read_label_data = nvdimm_read_label_data;
+     nvc->write_label_data = nvdimm_write_label_data;
++    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
  }
  
- static const TypeInfo vmmouse_info = {
+ static TypeInfo nvdimm_info = {
 -- 
 2.29.2
 
