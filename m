@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3F503206C0
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:07:14 +0100 (CET)
-Received: from localhost ([::1]:56728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 842093206EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:28:16 +0100 (CET)
+Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDXaz-0005ew-Ux
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:07:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47086)
+	id 1lDXvL-0002US-KN
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:28:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXZQ-00056H-28
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:05:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56094)
+ id 1lDXsx-0001i8-Ge
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:25:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXZO-0008P8-5X
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:05:35 -0500
+ id 1lDXsv-0000R0-4O
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:25:47 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lDXZN-0002UT-4x
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:05:33 +0000
+ id 1lDXst-0004mL-ON
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:25:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0E08B2E8100
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:05:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B3A562E8101
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:25:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Feb 2021 18:57:29 -0000
-From: Ven Karri <1916344@bugs.launchpad.net>
+Date: Sat, 20 Feb 2021 19:19:28 -0000
+From: Richard Henderson <1916112@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: libslirp mac networking osx podman qemu slirp user-mode
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Tags: tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: imperialguy
-X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
-X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
-References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
-Message-Id: <161384745030.12105.8859107143224148357.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
- on Mac OS X host
+X-Launchpad-Bug-Commenters: pmaydell rreddy78 rth ubuntu-weilnetz
+X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
+Message-Id: <161384876883.7789.9195134771839219047.malone@gac.canonical.com>
+Subject: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 3284178e8b776009e7fc1fa09f4e6fbb648ab06c
+X-Launchpad-Hash: 8c19339eaa20c420f6b8e35da3fd6c25793f1caf
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,101 +71,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
+Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+The sigill is for the code generated for the aa32 instruction
 
-  Steps to reproduce:
-  =
+0xf7ca0820:  f3780407  vshl.u64 d16, d7, d8
 
-  1. Install QEMU using homebrew on Mac OS X (I used Big Sur)
-- 2. Spin up a guest VM (say) Cent OS8 using user mode networking.
-+ 2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
-  3. Install podman inside the guest
-  4. Run podman pull alpine
-  =
+ ---- 00000000f7ca0820 0000000000000000 0000000000000000
+ ld_vec v64,e8,tmp9,env,$0xf68            pref=3D0xffffffff00000000
+ ld_vec v64,e8,tmp10,env,$0x1060          pref=3D0xffffffff00000000
+ neg_vec v64,e64,tmp15,tmp10              pref=3D0xffffffff00000000
+ ...
 
-  The result is:
-  =
+  -- guest addr 0x00000000f7ca0820
+0xffff2a790d88:  fd47b660  ldr      d0, [x19, #0xf68]
+0xffff2a790d8c:  fd483261  ldr      d1, [x19, #0x1060]
+0xffff2a790d90:  2ee0b822  .byte    0x22, 0xb8, 0xe0, 0x2e
 
-  [root@localhost ~]# podman pull alpine
-  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
-es.conf)
-  Trying to pull docker.io/library/alpine:latest...
-  Getting image source signatures
-  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
-iB / 2.7MiB
-  =C2=A0=C2=A0unexpected EOF
-  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
-1171596/1": error happened during read: unexpected EOF
-  =
+The illegal instruction is attempting neg (vector) with v1.1d,
+but that runs afoul of the isa constraint
 
-  This is happening because QEMU is telling the guest that the TCP
-  connection is closed even before reading all the data from the host
-  socket and forwarding it to the guest.
-  =
+  if size:Q =3D=3D '110' then UNDEFINED;
 
-  This issue doesn't happen on a Linux host. So, that tells me that this
-  has something to do with QEMU installation on Mac OS X.
-  =
+We should have used neg (scalar) instead.
 
-  This could be a slirp related issue. So, QEMU/slirp may need to work
-  together on fixing this. Here's the link to the libslirp issue:
-  =
-
-  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
-
-** Tags added: libslirp
+I can replicate the sigill with RISU.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916344
+https://bugs.launchpad.net/bugs/1916112
 
 Title:
-  User mode networking not working properly on QEMU on Mac OS X host
+  Illegal instruction crash of QEMU on Jetson Nano
 
 Status in QEMU:
-  New
+  Confirmed
 
 Bug description:
-  Steps to reproduce:
+  I have a jetson nano (arm64 SBC) and I want to check the native
+  emulation performance of Raspbian Buster. I used the info available
+  here:
 
-  1. Install QEMU using homebrew on Mac OS X (I used Big Sur)
-  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
-  3. Install podman inside the guest
-  4. Run podman pull alpine
+  https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
+  emuation
 
-  The result is:
+  I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson
+  Nano
 
-  [root@localhost ~]# podman pull alpine
-  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
-es.conf)
-  Trying to pull docker.io/library/alpine:latest...
-  Getting image source signatures
-  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
-iB / 2.7MiB
-  =C2=A0=C2=A0unexpected EOF
-  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
-1171596/1": error happened during read: unexpected EOF
+  However QEMU crashes with "Illegal Instruction" during kernel boot. I
+  have a built latest QEMU from sources with following configuration
 
-  This is happening because QEMU is telling the guest that the TCP
-  connection is closed even before reading all the data from the host
-  socket and forwarding it to the guest.
+  ./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
+  softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg
+  --enable-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk
+  --enable-virglrenderer --enable-opengl
 
-  This issue doesn't happen on a Linux host. So, that tells me that this
-  has something to do with QEMU installation on Mac OS X.
+  qemu-system-aarch64 --version
+  QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
 
-  This could be a slirp related issue. So, QEMU/slirp may need to work
-  together on fixing this. Here's the link to the libslirp issue:
+  When I run as follows:
 
-  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+  ../build/qemu-system-aarch64 -M raspi3
+  -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm=
+_enable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
+  -dtb ./bcm2710-rpi-3-b-plus.dtb
+  -sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-fu=
+ll.qcow2
+  -kernel ./kernel8.img
+  -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
+
+  I get :
+  [ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Sy=
+stem being skipped.
+  [ 76.281274] systemd[1]: Starting Apply Kernel Variables...
+  Starting Apply Kernel Variables...
+  Illegal instruction (core dumped)
+
+  When I use GDB I see this:
+
+  Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
+  [Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
+  0x0000007f888ac690 in code_gen_buffer ()
+  (gdb) bt
+  #0 0x0000007f888ac690 in code_gen_buffer ()
+  #1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502=
+c40)
+  at ../accel/tcg/cpu-exec.c:191
+  #2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
+  at ../accel/tcg/cpu-exec.c:708
+  #3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:8=
+19
+  ..
+
+  I have just two questions:
+
+  Is this a problem with QEMU or is there anything specific build or
+  options I need to use. Any specific version of QEMU should be used ?
+
+  Why is TCG used as the accelerator when KVM is present. Is it possible
+  and how to use KVM ?
+
+  If I enabled the KVM then I get this error:
+
+  ../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprint=
+k loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/=
+mmcblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D2=
+1747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./k=
+ernel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
+  WARNING: Image format was not specified for '/media/96747D21747D0571/Jets=
+onNano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
+           Automatically detecting the format is dangerous for raw images, =
+write operations on block 0 will be restricted.
+           Specify the 'raw' format explicitly to remove the restrictions.
+  qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: As=
+sertion `asidx =3D=3D 0 || !kvm_enabled()' failed.
+
+  Thanks a lot.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916112/+subscriptions
 
