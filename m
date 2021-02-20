@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D888320234
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:26:46 +0100 (CET)
-Received: from localhost ([::1]:42442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B29332023B
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:29:56 +0100 (CET)
+Received: from localhost ([::1]:55206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDG6f-0001qB-9E
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:26:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37542)
+	id 1lDG9j-0007DO-7k
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:29:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFul-0001p3-2K; Fri, 19 Feb 2021 19:14:27 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39478)
+ id 1lDFup-0001q3-FO; Fri, 19 Feb 2021 19:14:31 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:39483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFug-0005mU-Dz; Fri, 19 Feb 2021 19:14:25 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id t11so16891546ejx.6;
- Fri, 19 Feb 2021 16:14:21 -0800 (PST)
+ id 1lDFul-0005oc-Ki; Fri, 19 Feb 2021 19:14:29 -0500
+Received: by mail-ej1-x633.google.com with SMTP id t11so16891903ejx.6;
+ Fri, 19 Feb 2021 16:14:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NJIy2EJfrINu02Sg+2eUk6Okwf2LkLc7DBM1ywf5Bzo=;
- b=TVvq9asvbgtAELHTheyMr63pRqdnve88MbaaRJRkQw0ijE1h2mzmgYpFSM4CXm7vKp
- wDok1vfj0ET9aEO+YATaSSzvA5yhwApMR0+rO1QAWaHKOicNmeYfQtaR4UWKYgvsnv/L
- i37Iff0MEJUGswTQQgZALhMqjD2WnrstdcJ/Wp3mACRi8XvQraypKsRMw68I04GsdXqS
- sKeuuxDTsZnjt7IChm3ghT8O8fjhMk+fUL+xIfQleEBKUhSG2Os+Opy7P7l2Tz9ylFPk
- kQoSyF6wPosPvxw7GXJQALvLcbEVpQ7OWgVcYkg3iwxz3lotT3impAQtES0R9ax/9OgW
- htVA==
+ bh=ZKECDGuoD/V2A2ROIUImwftJIuRHFRhmDb/rtg2wL20=;
+ b=jwW3noLDelBIw/fDDFmd2mf0phG00bXjsaks5W+OrEXgaOMMwzB1SIE40FdDR1dhQS
+ Bpeum4ADezWKUeOfcGBxCbM14V8FRuJ2OvgTW5D/aRK8xH9Xswu1pOPvkhF7jXrAxUHD
+ gVDRJaCG2ZDS4v8DyhcVT5ZhEBpgH9hvT8zIXp/bGXANJbIf4t6CpZjcX1Q0mFqFv7SK
+ 8l0m2A6yEeiQ+2WDt13miwjmA/kBQgjAZ1xwkIur7+wvX1D4K9HykTdRJ8Zz1mW71kgO
+ 2ipxNS1K/mF+uwBttIjY9BQEMgRaUedpXuQBV6okOScoLyRcBNYek2v0uo8MX49dia3q
+ JPmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NJIy2EJfrINu02Sg+2eUk6Okwf2LkLc7DBM1ywf5Bzo=;
- b=XcEyPjwJ8dNXjZnayKdLr5lmZF7rkhJPTLYsEE1ihbYMgH9m21REzHm//cpRxnv4/j
- kMHnSEvrGa2PgitiwA4hoOK+aPEj/j65pye9HwPRPZS2bE+tf9AKOuieo5LoGMWvdrE/
- NcR8sBskqP3mwJlA8EMJjjlcGPoCfj+56HLlr4fkUGAX5pJu/1+tVUWyswUEtzWQvCui
- R50JZruJQNEHDJ1LdVXJ+lOvLZ9wm2D0pPERZt2wS0rLYRAZacSGDIYFD1xb7GXADn/5
- 9SSLbsQLuZWOzaQh/PfhWTfkTjSJtpyAR6c9dgk3wke54tf/9lq4DoddlkM/bBkjWiNm
- zSPQ==
-X-Gm-Message-State: AOAM530bOnf3LzqY9Yr+jkZs4jAM9eaX3cvOJ13Zxgvl6p4WpKVgwQ1s
- TTmw8G7+aKqpsHUFbN82W00CILenDVM=
-X-Google-Smtp-Source: ABdhPJwKMrlK7iVWHMtIw5QZJN7Nc1a8nJrnRH51nKAPJBT0OoCSS9a9c7IMsnOn2Ma8Bb625enIJg==
-X-Received: by 2002:a17:907:20a8:: with SMTP id
- pw8mr11200757ejb.9.1613780060512; 
- Fri, 19 Feb 2021 16:14:20 -0800 (PST)
+ bh=ZKECDGuoD/V2A2ROIUImwftJIuRHFRhmDb/rtg2wL20=;
+ b=s2oQ8ZqDF/Q7+K0262Sxr/athcjViiTX6Okpu5MGKLFLlvatVxG1L4iwU9LpHeX4aY
+ yy3ZMLU6t2ITiX0Z54ySRf1FucOA4t12ySN/1BhOh+RloGOxqUgjk3z3th8tL1Yb4wAT
+ wSwoMBgF/YwJLGjCSN/4u2hI9CG1Dwz9uADtyxqfYUiD8hFWJ5dojqA3bpX6cEIdWnRE
+ vpunkOm7KrrpIheW0fQB4SK2OqABTVnHBDZHHfXBolfELxAuhkYAiQNLmfsWG2VJ6L0M
+ hvmd1w586q5c5t14y5p8vqxX1bjD9lII615YneoHJHNb6A0P2VnS3VdClewxkssBolG+
+ nbig==
+X-Gm-Message-State: AOAM533WgasoSdly/CfFGBGd7JpT6vvHH3R7qWYIGgFHrHrIuoPZfZbr
+ +i69jQ0fekSf0JHcxxjvYQ9att6xsBc=
+X-Google-Smtp-Source: ABdhPJxtdOH5+1gh/pFBI0OCF1v4k7V2Ngd/24ja72SttqcQxg5nmM3HXxKSbvEt2r02sWbjRDNVjg==
+X-Received: by 2002:a17:907:3e04:: with SMTP id
+ hp4mr11201787ejc.188.1613780065825; 
+ Fri, 19 Feb 2021 16:14:25 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t13sm3690861edr.17.2021.02.19.16.14.19
+ by smtp.gmail.com with ESMTPSA id hd39sm5044795ejc.116.2021.02.19.16.14.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 16:14:20 -0800 (PST)
+ Fri, 19 Feb 2021 16:14:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/18] hw/sd: sd: Move the sd_block_{read,
- write} and macros ahead
-Date: Sat, 20 Feb 2021 01:13:04 +0100
-Message-Id: <20210220001309.2225022-14-f4bug@amsat.org>
+Subject: [PULL 14/18] hw/sd: sd: Skip write protect groups check in sd_erase()
+ for high capacity cards
+Date: Sat, 20 Feb 2021 01:13:05 +0100
+Message-Id: <20210220001309.2225022-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210220001309.2225022-1-f4bug@amsat.org>
 References: <20210220001309.2225022-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,77 +93,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-These APIs and macros may be referenced by functions that are
-currently before them. Move them ahead a little bit.
+High capacity cards don't support write protection hence we should
+not perform the write protect groups check in sd_erase() for them.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210216150225.27996-5-bmeng.cn@gmail.com>
+Message-Id: <20210216150225.27996-6-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 42 +++++++++++++++++++++---------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+ hw/sd/sd.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 47ac0c51a8e..4c6e7c2a33e 100644
+index 4c6e7c2a33e..883c04de028 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -739,6 +739,27 @@ void sd_set_cb(SDState *sd, qemu_irq readonly, qemu_irq insert)
-     qemu_set_irq(insert, sd->blk ? blk_is_inserted(sd->blk) : 0);
- }
- 
-+static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
-+{
-+    trace_sdcard_read_block(addr, len);
-+    if (!sd->blk || blk_pread(sd->blk, addr, sd->data, len) < 0) {
-+        fprintf(stderr, "sd_blk_read: read error on host side\n");
-+    }
-+}
-+
-+static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
-+{
-+    trace_sdcard_write_block(addr, len);
-+    if (!sd->blk || blk_pwrite(sd->blk, addr, sd->data, len, 0) < 0) {
-+        fprintf(stderr, "sd_blk_write: write error on host side\n");
-+    }
-+}
-+
-+#define BLK_READ_BLOCK(a, len)  sd_blk_read(sd, a, len)
-+#define BLK_WRITE_BLOCK(a, len) sd_blk_write(sd, a, len)
-+#define APP_READ_BLOCK(a, len)  memset(sd->data, 0xec, len)
-+#define APP_WRITE_BLOCK(a, len)
-+
- static void sd_erase(SDState *sd)
- {
+@@ -765,6 +765,7 @@ static void sd_erase(SDState *sd)
      int i;
-@@ -1754,27 +1775,6 @@ send_response:
-     return rsplen;
- }
+     uint64_t erase_start = sd->erase_start;
+     uint64_t erase_end = sd->erase_end;
++    bool sdsc = true;
  
--static void sd_blk_read(SDState *sd, uint64_t addr, uint32_t len)
--{
--    trace_sdcard_read_block(addr, len);
--    if (!sd->blk || blk_pread(sd->blk, addr, sd->data, len) < 0) {
--        fprintf(stderr, "sd_blk_read: read error on host side\n");
--    }
--}
--
--static void sd_blk_write(SDState *sd, uint64_t addr, uint32_t len)
--{
--    trace_sdcard_write_block(addr, len);
--    if (!sd->blk || blk_pwrite(sd->blk, addr, sd->data, len, 0) < 0) {
--        fprintf(stderr, "sd_blk_write: write error on host side\n");
--    }
--}
--
--#define BLK_READ_BLOCK(a, len)	sd_blk_read(sd, a, len)
--#define BLK_WRITE_BLOCK(a, len)	sd_blk_write(sd, a, len)
--#define APP_READ_BLOCK(a, len)	memset(sd->data, 0xec, len)
--#define APP_WRITE_BLOCK(a, len)
--
- void sd_write_byte(SDState *sd, uint8_t value)
- {
-     int i;
+     trace_sdcard_erase(sd->erase_start, sd->erase_end);
+     if (sd->erase_start == INVALID_ADDRESS
+@@ -779,6 +780,7 @@ static void sd_erase(SDState *sd)
+         /* High capacity memory card: erase units are 512 byte blocks */
+         erase_start *= 512;
+         erase_end *= 512;
++        sdsc = false;
+     }
+ 
+     if (erase_start > sd->size || erase_end > sd->size) {
+@@ -788,16 +790,20 @@ static void sd_erase(SDState *sd)
+         return;
+     }
+ 
+-    erase_start = sd_addr_to_wpnum(erase_start);
+-    erase_end = sd_addr_to_wpnum(erase_end);
+     sd->erase_start = INVALID_ADDRESS;
+     sd->erase_end = INVALID_ADDRESS;
+     sd->csd[14] |= 0x40;
+ 
+-    for (i = erase_start; i <= erase_end; i++) {
+-        assert(i < sd->wpgrps_size);
+-        if (test_bit(i, sd->wp_groups)) {
+-            sd->card_status |= WP_ERASE_SKIP;
++    /* Only SDSC cards support write protect groups */
++    if (sdsc) {
++        erase_start = sd_addr_to_wpnum(erase_start);
++        erase_end = sd_addr_to_wpnum(erase_end);
++
++        for (i = erase_start; i <= erase_end; i++) {
++            assert(i < sd->wpgrps_size);
++            if (test_bit(i, sd->wp_groups)) {
++                sd->card_status |= WP_ERASE_SKIP;
++            }
+         }
+     }
+ }
 -- 
 2.26.2
 
