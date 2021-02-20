@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6878432056D
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 13:48:59 +0100 (CET)
-Received: from localhost ([::1]:37008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D138232055A
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 13:37:39 +0100 (CET)
+Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDRgw-0002nx-Gi
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 07:48:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58912)
+	id 1lDRVy-0000LZ-SR
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 07:37:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lDRUI-00079B-SB; Sat, 20 Feb 2021 07:35:54 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:38557)
+ id 1lDRUF-00070D-E1; Sat, 20 Feb 2021 07:35:51 -0500
+Received: from mout.kundenserver.de ([212.227.17.13]:41305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1lDRUF-0003Op-Fy; Sat, 20 Feb 2021 07:35:54 -0500
+ id 1lDRUC-0003MJ-MS; Sat, 20 Feb 2021 07:35:50 -0500
 Received: from localhost.localdomain ([82.252.134.158]) by
  mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MXpQA-1lLH8F3QoG-00Y7wN; Sat, 20 Feb 2021 13:35:36 +0100
+ id 1Miqzy-1ljV2i1uqa-00exXT; Sat, 20 Feb 2021 13:35:36 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/12] virtio-pmem: put it into the 'storage' category
-Date: Sat, 20 Feb 2021 13:35:18 +0100
-Message-Id: <20210220123525.1353731-6-laurent@vivier.eu>
+Subject: [PULL 06/12] vmmouse: put it into the 'input' category
+Date: Sat, 20 Feb 2021 13:35:19 +0100
+Message-Id: <20210220123525.1353731-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210220123525.1353731-1-laurent@vivier.eu>
 References: <20210220123525.1353731-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GpFRtxIXeQJlu0VxI2izQDOY4JZLNGVAHQuadfLk9EOjpRZRXlU
- 5Q3JXQN+RMnawQNUV4FuomM/dtMwuJ+K0TTTKREtp4zKBCR6A4SbvsFIFhLD/DKGmTWe1hc
- 3+ztpFyuWMa/D1OXQwk7o32sFBc4S8jC4M+KtX6dazK6hW0drJDKrG+8J45/MYQ80wdHg3Q
- 2EGqOXeDmTBn6HDctmtKw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ZxY6uF1c8FE=:mDBi2Z90HMLM1J9DSFpYrd
- UMx3GIZBIjg2gQDxKLqroUQSEW6ydzG85djNYclurA9AYHVycgrhKNEzYV6842VGhQSGLFTK4
- 9FozRtjn0T7Si2PIAw3ZBfl0D/34APsUI5Sg0WkGOB41aIH5lJyHR7UvXuy65HK38PFued6+5
- FvHzH0kGNa0aoTrEES45IXb7wxBtXDaDFCut9IRWrRuKqgr5TTOxf6c1IaqlL/Xh0uyM1cMHH
- igcGSmKqmE/sbUjrmNaV/MjEalaDQmr3cYXXbX+5+MBmdpRwKw6c/52eU6PF0VPoRWjXagQ5b
- HYHXuOakNdym8YyVGsvceaf0hbauw7Z+g6RoRlf2Hu/xwQ6mCN6Q2Epk4drgRfmLWdF1ERJUf
- TaAqOPoGgr6k4RKEvK1BTJMNVAtFEBnkW6L8lgI2cDHKMhNUGVB44q4RTtjXf
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:H9EDVWpnCSs9ecR5x1Mujxt7elTnnL0JEQC7iBh9BT50gruihej
+ gwRhWCuqMcpQlGA2HW1+DBEGWlkSKEhDdCpXbyE7IBw/Beja4XKxd7mm9ZhlOCU7MMfQfO8
+ rAVU9WbU+DNzzYAgWyAbZhhJqd391uy9vYulwMMaCEav8Sic+PqMd6NkAmPBCa0euDpymyd
+ qY50o0AVjvuKYROMdgUGQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7r2APxRwze0=:IUyXa5Du5zAmD9m6/CGi51
+ 3eECKbJt56Iha56Uc+zxeB8rX1oBFLZj+830WDMO9g7KEvJMBulrxOcZeOtDx7M6ry4TYBPIY
+ Vm9Jnhfubzgv3H2RsAyYIs3V+q2JegcURw6Re6735ndW0N4fmBwZNXEwBN5XjwCZL60SINtsj
+ zjPFpIaVwYBnuDRYiETPR2WP+Scu/qgGwt62/90AgTWO+KSEJfcgkm6Fij+05J9eoEfdP5mJP
+ iwEufB9bI3fHxE0jpIRX4dCVQ6D29Jtp7N5/6Y/7I5wJgMgetBK2tUd2O6hONmgVd62S1IziQ
+ RgUGhazoK6SwhH2D/FLP48+FvFViI02yumcAoLr33Woy/zSz7ahMPKDQvTKrBHq8J4d4aE6Cl
+ FMVKiG2PaVN6NWGDJtVbrX7RH5OJh62YSSLx9y9nPcv+2CuGvXAw1Q+E5jfIp
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,37 +62,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
  Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- Gan Qixin <ganqixin@huawei.com>
+ Gan Qixin <ganqixin@huawei.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gan Qixin <ganqixin@huawei.com>
 
-The category of the virtio-pmem device is not set, put it into the 'storage'
+The category of the vmmouse device is not set, put it into the 'input'
 category.
 
 Signed-off-by: Gan Qixin <ganqixin@huawei.com>
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Message-Id: <20201130083630.2520597-3-ganqixin@huawei.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20201130083630.2520597-4-ganqixin@huawei.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/virtio/virtio-pmem.c | 1 +
+ hw/i386/vmmouse.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/hw/virtio/virtio-pmem.c b/hw/virtio/virtio-pmem.c
-index d83e973bf299..a3e0688a891b 100644
---- a/hw/virtio/virtio-pmem.c
-+++ b/hw/virtio/virtio-pmem.c
-@@ -179,6 +179,7 @@ static void virtio_pmem_class_init(ObjectClass *klass, void *data)
- 
-     vpc->fill_device_info = virtio_pmem_fill_device_info;
-     vpc->get_memory_region = virtio_pmem_get_memory_region;
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+diff --git a/hw/i386/vmmouse.c b/hw/i386/vmmouse.c
+index a3556438f0ff..df4798f50284 100644
+--- a/hw/i386/vmmouse.c
++++ b/hw/i386/vmmouse.c
+@@ -308,6 +308,7 @@ static void vmmouse_class_initfn(ObjectClass *klass, void *data)
+     dc->reset = vmmouse_reset;
+     dc->vmsd = &vmstate_vmmouse;
+     device_class_set_props(dc, vmmouse_properties);
++    set_bit(DEVICE_CATEGORY_INPUT, dc->categories);
  }
  
- static TypeInfo virtio_pmem_info = {
+ static const TypeInfo vmmouse_info = {
 -- 
 2.29.2
 
