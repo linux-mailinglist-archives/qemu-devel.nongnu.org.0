@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF93320231
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:24:42 +0100 (CET)
-Received: from localhost ([::1]:36086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F6832022F
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 01:23:54 +0100 (CET)
+Received: from localhost ([::1]:33230 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDG4f-0007iS-So
-	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:24:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37396)
+	id 1lDG3t-0006Zd-1g
+	for lists+qemu-devel@lfdr.de; Fri, 19 Feb 2021 19:23:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFuI-0000u4-LT; Fri, 19 Feb 2021 19:13:58 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43114)
+ id 1lDFuN-00014m-8P; Fri, 19 Feb 2021 19:14:03 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:38044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDFuG-0005ap-8h; Fri, 19 Feb 2021 19:13:58 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id k13so15043399ejs.10;
- Fri, 19 Feb 2021 16:13:55 -0800 (PST)
+ id 1lDFuL-0005cF-L4; Fri, 19 Feb 2021 19:14:02 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id bl23so16895479ejb.5;
+ Fri, 19 Feb 2021 16:14:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5r9uQjDLFi6eLClRWOICufpqmGktPWbrOwAV+KCU7UQ=;
- b=jFyGipKfEkAY+qNILhK+Jyn4icVAI2JYBEKwE9bTp9U4iMje2z5/D2af0hnFhM4EaD
- C9vkFu40kdNzz4ft579mb4kzMxhmjnVzGsoQjABeJCdgtSzR0nvp8jN1FP8SHyDeovCl
- Q6axue5dhYMZ5y2100K9FO6+hkY54lkFfAKA3qltmdsxULUjdJOfYMSIl89FyPzSAM3b
- T6y/Cjalg+WE8ULSe3+MzmpqYPNtQY+vxH1eU8T+jRxGMa7d6gi4gflKQDKpuAdDNNAk
- thKXISIEyPA8huqQhN7yMFu6fBguEn/p7d9+ORLcptzt7SoMRDrlMnhRQ9+Wa/kdnpti
- +uLg==
+ bh=vPmCWOVmMcnYs3uJ2Qo8t7odEjhCuWrigA7WBPRKGjg=;
+ b=UfVfOcPfF6WVwbY0VnsklQoRws/Ik3rKG8o868iTYQo/6hSRTtcbkK49oYjeKFHFTx
+ dF05iUI27A9t2w1SRGD8WKR2SMf1LjB8p9fEhNsRNutl7GgAAEAyMTqXCwIGlTfA4mAt
+ 2b9O/oh2A/+bKMIX0bM7gKq2O+KL9QvLQ9qzqVWQLXXU/UxUmB/iocJjGH9rdbJrbVxD
+ uB0u+ZCQf+vTqIKi4J8B9MM3F+H4DO6uPu3qQe2KaefYugGG1KlKMSEU5H42doSdJurs
+ LoIUlFhhkqYNYUnpMbw/VBx3+2k8EQT9JBAbJa5OXDe/gHa/UB/KvQcaS3sNugTPeRWE
+ yyRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=5r9uQjDLFi6eLClRWOICufpqmGktPWbrOwAV+KCU7UQ=;
- b=ctUfRITkpFFl5qUoDWGK7R+pyPX/ryZQKAKWGmzfgUTu3rw/U0kVwxzireQYxvd+BC
- wKgnkAzsMfwuBXJ9tineYN2PcvOXeMixtpuUbZRAW72K87A+xc5MkJJB5pWotW0erWxw
- AGK0ug2oeqpI7eZlX9g4lGfUkl0UfJjZj9quN8/42XfI7ooiFzzGSEq3pghctoHGYZGd
- pazxIkBMqtTtQ1MN/Ge5bCpoBgvLFN5xW4kqK5Rv8ezTdzlkWG5rZ2n4NZh3Z2hRikXS
- UZ4dNuuqIDwRfQrkmTiRv79s+CPHAKKpbC/ku3LApja57EZH1t/ddSNJo0TgK6GlrlD2
- dfTQ==
-X-Gm-Message-State: AOAM531QFpswLzPXEuv+PguRJjJfcF1WiFP0+TfqGPXbB3BUhPQkTvfn
- Cd3j9uLYmhbddSX9ShVMyOMORkSbJjY=
-X-Google-Smtp-Source: ABdhPJy46SGoUfvFAn7rDMoOmhEDDtH27zsPNiMiEsSSuhPUh2Yv3lZK3O1aSDZu8LQQbZZsf/ASew==
-X-Received: by 2002:a17:906:5d15:: with SMTP id
- g21mr11358902ejt.373.1613780034488; 
- Fri, 19 Feb 2021 16:13:54 -0800 (PST)
+ bh=vPmCWOVmMcnYs3uJ2Qo8t7odEjhCuWrigA7WBPRKGjg=;
+ b=kb0xMa+Ge5nHhLsqzu9ptVhONRyQ84Gk09W9iyLLhZPzb58qseRAnl2sR09WuaWzPX
+ bBpIdNFO7OOr8Kco1Ok5OUxqnllnX5ebBcP8XH5CqIGkHvHJaUP6j4r/pDjrFNEDXR8v
+ OyN+qhdS9rBvihiG3rvj7IAl1s2Xw9bGsgM2TDlpnFfeuzvpMYI2raZsDWRfAKEGq7rm
+ m8SBMQBiPqvCdjKtBDUidgiQ80d0xRf1tFvYJEoppmdjYfG1WxMQMQ4Z/pvC6Qo3dZue
+ eB8CM3Lmwgvq88U7yRiVcZQvk1USYA0/9+wtOpgOiFNY1VP0ALvpqftN7qZDoSBX/9y9
+ XNnw==
+X-Gm-Message-State: AOAM533i4RetsK+eWWKvl1Ow5+PyQrqCrjKfeS4XmmeOs+78BOsAArZX
+ WwwFam31VtOq7CQ52NNXXTwnCzGBQx8=
+X-Google-Smtp-Source: ABdhPJwZ2UgRcgXgros8aRHO7r+TB+voXjrFB07eFUHMBBRT9BouPGj1hv11p5ozLpZtlvqQ5ivzQg==
+X-Received: by 2002:a17:906:69c2:: with SMTP id
+ g2mr10688143ejs.249.1613780039841; 
+ Fri, 19 Feb 2021 16:13:59 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y29sm6410223edl.91.2021.02.19.16.13.53
+ by smtp.gmail.com with ESMTPSA id x17sm6426136edq.42.2021.02.19.16.13.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 19 Feb 2021 16:13:53 -0800 (PST)
+ Fri, 19 Feb 2021 16:13:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/18] hw/sd: ssi-sd: Fix STOP_TRANSMISSION (CMD12) response
-Date: Sat, 20 Feb 2021 01:12:59 +0100
-Message-Id: <20210220001309.2225022-9-f4bug@amsat.org>
+Subject: [PULL 09/18] hw/sd: ssi-sd: Handle the rest commands with R1b
+ response type
+Date: Sat, 20 Feb 2021 01:13:00 +0100
+Message-Id: <20210220001309.2225022-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210220001309.2225022-1-f4bug@amsat.org>
 References: <20210220001309.2225022-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,52 +93,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-CMD12's response type is R1b, which is basically a R1 plus optional
-addition of the busy signal token that can be any number of bytes.
-A zero value indicates card is busy and a non-zero value indicates
-the card is ready for the next command.
+Besides CMD12, the following command's reponse type is R1b:
 
-Current implementation sends the busy signal token without sending
-the R1 first. This does not break the U-Boot/Linux mmc_spi driver,
-but it does not make the VxWorks driver happy.
+- SET_WRITE_PROT (CMD28)
+- CLR_WRITE_PROT (CMD29)
+- ERASE (CMD38)
 
-Move the testing logic of s->stopping in the SSI_SD_RESPONSE state
-a bit later, after the first byte of the card reponse is sent out,
-to conform with the spec. After the busy signal token is sent, the
-state should be transferred to SSI_SD_CMD.
+Reuse the same s->stopping to indicate a R1b reponse is needed.
 
-Fixes: 775616c3ae8c ("Partial SD card SPI mode support")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Message-Id: <20210128063035.15674-9-bmeng.cn@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210128063035.15674-10-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/ssi-sd.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ hw/sd/ssi-sd.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 84c873b3fd4..907d681d19e 100644
+index 907d681d19e..97ee58e20cf 100644
 --- a/hw/sd/ssi-sd.c
 +++ b/hw/sd/ssi-sd.c
-@@ -243,14 +243,15 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-         s->mode = SSI_SD_RESPONSE;
-         return SSI_DUMMY;
-     case SSI_SD_RESPONSE:
--        if (s->stopping) {
--            s->stopping = 0;
--            return SSI_DUMMY;
--        }
-         if (s->response_pos < s->arglen) {
-             DPRINTF("Response 0x%02x\n", s->response[s->response_pos]);
-             return s->response[s->response_pos++];
-         }
-+        if (s->stopping) {
-+            s->stopping = 0;
-+            s->mode = SSI_SD_CMD;
-+            return SSI_DUMMY;
-+        }
-         if (sdbus_data_ready(&s->sdbus)) {
-             DPRINTF("Data read\n");
-             s->mode = SSI_SD_DATA_START;
+@@ -194,6 +194,12 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+                 /* CMD13 returns a 2-byte statuse work. Other commands
+                    only return the first byte.  */
+                 s->arglen = (s->cmd == 13) ? 2 : 1;
++
++                /* handle R1b */
++                if (s->cmd == 28 || s->cmd == 29 || s->cmd == 38) {
++                    s->stopping = 1;
++                }
++
+                 cardstatus = ldl_be_p(longresp);
+                 status = 0;
+                 if (((cardstatus >> 9) & 0xf) < 4)
 -- 
 2.26.2
 
