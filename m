@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 360913206BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 19:51:47 +0100 (CET)
-Received: from localhost ([::1]:44546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7031B3206BB
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 19:56:41 +0100 (CET)
+Received: from localhost ([::1]:46746 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDXM1-0008I7-RJ
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 13:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44764)
+	id 1lDXQm-0000zU-FU
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 13:56:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXKv-0007gg-Uf
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 13:50:37 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55352)
+ id 1lDXPs-0000Ut-3Z
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 13:55:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55608)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXKt-0001gD-Fu
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 13:50:37 -0500
+ id 1lDXPq-0003rj-Bw
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 13:55:43 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lDXKr-0001e9-EE
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 18:50:33 +0000
+ id 1lDXPo-0001q7-GN
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 18:55:40 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 61C7E2E8100
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 18:50:33 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 77BCC2E8101
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 18:55:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Feb 2021 18:40:59 -0000
-From: Dirk A Niggemann <1915682@bugs.launchpad.net>
+Date: Sat, 20 Feb 2021 18:45:20 -0000
+From: Ven Karri <1916344@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: mac networking osx podman qemu slirp user-mode
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dniggema
-X-Launchpad-Bug-Reporter: Dirk A Niggemann (dniggema)
-X-Launchpad-Bug-Modifier: Dirk A Niggemann (dniggema)
-References: <161335852512.21767.9269376658096381420.malonedeb@wampee.canonical.com>
-Message-Id: <161384645908.11511.11882631048149147133.malone@chaenomeles.canonical.com>
-Subject: [Bug 1915682] Re: i386-linux-user wine exception regression tests fail
+X-Launchpad-Bug-Commenters: imperialguy
+X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
+X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
+Message-Id: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
+Subject: [Bug 1916344] [NEW] User mode networking not working properly on QEMU
+ on Mac OS X host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: c301eb26e635ae11c97e2c4b5983ca903f9886e6
+X-Launchpad-Hash: d694513c9e91a3506b1ce74c872334122684013c
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -69,160 +70,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1915682 <1915682@bugs.launchpad.net>
+Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Be aware that most of the regression test failures are caused by lack of
-ptrace() support.
+Public bug reported:
 
-The wine traces above show one of these cases. I will provide traces of
-an actual relevant failure.
+Steps to reproduce:
 
-However the failure to restart the correct thread is in some way related
-to the use of iret in set_full_cpu_context().
+1. Install QEMU using homebrew on Mac OS X (I used Big Sur)
+2. Spin up a guest VM (say) Cent OS8 using user mode networking.
+3. Install podman inside the guest
+4. Run podman pull alpine
+
+The result is:
+
+[root@localhost ~]# podman pull alpine
+Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnames=
+.conf)
+Trying to pull docker.io/library/alpine:latest...
+Getting image source signatures
+Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7MiB =
+/ 2.7MiB
+=C2=A0=C2=A0unexpected EOF
+Error: Error writing blob: error storing blob to file "/var/tmp/storage8511=
+71596/1": error happened during read: unexpected EOF
+
+This is happening because QEMU is telling the guest that the TCP
+connection is closed even before reading all the data from the host
+socket and forwarding it to the guest.
+
+This issue doesn't happen on a Linux host. So, that tells me that this
+has something to do with QEMU installation on Mac OS X.
+
+This could be a slirp related issue. So, QEMU/slirp may need to work
+together on fixing this. Here's the link to the libslirp issue:
+
+https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: mac networking osx podman qemu slirp user-mode
+
+** Information type changed from Private Security to Public
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1915682
+https://bugs.launchpad.net/bugs/1916344
 
 Title:
-  i386-linux-user wine exception regression tests fail
+  User mode networking not working properly on QEMU on Mac OS X host
 
 Status in QEMU:
   New
 
 Bug description:
-  When trying to run wine (latest devel from git) regression tests for
-  ntdll in a statically linked qemu-i386 (commit
-  392b9a74b9b621c52d05e37bc6f41f1bbab5c6f8) on arm32 (raspberry pi 4) in
-  a debian buster chroot, the exception tests fail at the first test
-  with an infinite exception loop.
+  Steps to reproduce:
 
-  WINEDEBUG=3D+seh wine wine/dlls/ntdll/tests/ntdll_test.exe exception
+  1. Install QEMU using homebrew on Mac OS X (I used Big Sur)
+  2. Spin up a guest VM (say) Cent OS8 using user mode networking.
+  3. Install podman inside the guest
+  4. Run podman pull alpine
 
-  =
+  The result is:
 
-  Working x86_64 system running 32-bit code
+  [root@localhost ~]# podman pull alpine
+  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
+es.conf)
+  Trying to pull docker.io/library/alpine:latest...
+  Getting image source signatures
+  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
+iB / 2.7MiB
+  =C2=A0=C2=A0unexpected EOF
+  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
+1171596/1": error happened during read: unexpected EOF
 
-  0024:warn:seh:dispatch_exception EXCEPTION_ACCESS_VIOLATION exception (co=
-de=3Dc0000005) raised
-  0024:trace:seh:dispatch_exception  eax=3D00000000 ebx=3D7ffc2000 ecx=3D00=
-4e0ef4 edx=3D003c0004 esi=3D003c0000 edi=3D00000000
-  0024:trace:seh:dispatch_exception  ebp=3D0085fa08 esp=3D0085f9ac cs=3D002=
-3 ds=3D002b es=3D002b fs=3D0063 gs=3D006b flags=3D00010246
-  0024:trace:seh:call_vectored_handlers calling handler at 7B00B460 code=3D=
-c0000005 flags=3D0
-  0024:trace:seh:call_vectored_handlers handler at 7B00B460 returned 0
-  0024:trace:seh:call_stack_handlers calling handler at 004178B0 code=3Dc00=
-00005 flags=3D0
-  0024:trace:seh:call_stack_handlers handler at 004178B0 returned 0
-  0024:trace:seh:dispatch_exception  call_stack_handlers continuing
-  0024:trace:seh:NtGetContextThread 0xfffffffe: dr0=3D42424240 dr1=3D000000=
-00 dr2=3D126bb070 dr3=3D0badbad0 dr6=3D00000000 dr7=3Dffff0115
+  This is happening because QEMU is telling the guest that the TCP
+  connection is closed even before reading all the data from the host
+  socket and forwarding it to the guest.
 
-  =
+  This issue doesn't happen on a Linux host. So, that tells me that this
+  has something to do with QEMU installation on Mac OS X.
 
-  Non-working qemu
+  This could be a slirp related issue. So, QEMU/slirp may need to work
+  together on fixing this. Here's the link to the libslirp issue:
 
-  0024:warn:seh:dispatch_exception EXCEPTION_ACCESS_VIOLATION exception (co=
-de=3Dc0000005) raised
-  0024:trace:seh:dispatch_exception  eax=3D00000000 ebx=3D3ffe2000 ecx=3D00=
-4e0ef4 edx=3D003c0004 esi=3D003c0000 edi=3D00000000
-  0024:trace:seh:dispatch_exception  ebp=3D0085fa08 esp=3D0085f9ac cs=3D002=
-3 ds=3D002b es=3D002b fs=3D003b gs=3D0033 flags=3D00000246
-  0024:trace:seh:call_vectored_handlers calling handler at 7B00B460 code=3D=
-c0000005 flags=3D0
-  0024:trace:seh:call_vectored_handlers handler at 7B00B460 returned 0
-  0024:trace:seh:call_stack_handlers calling handler at 004178B0 code=3Dc00=
-00005 flags=3D0
-  0024:trace:seh:call_stack_handlers handler at 004178B0 returned 0
-  0024:trace:seh:dispatch_exception  call_stack_handlers continuing
-  0024:trace:seh:dispatch_exception  call_stack_handlers ret status =3D 0
-  0024:trace:seh:dispatch_exception code=3D0 flags=3D1 addr=3D7BC2389C ip=
-=3D7bc2389c tid=3D0024
-
-  The non-working verion is never managing to set the CPU context using
-  NtContinue/SetContextThread back to the correct running thread stack
-  and IP. It executes as if the context restore just returns to the
-  function that called NtContinue() (dispatch_exception(), not the
-  function that raised the exception or one of its parent exception
-  handlers).
-
-  It looks like NtSetContextThread(), specifically the asm function
-  set_full_cpu_context() is being handled incorrectly.
-
-  wine code below. note interesting use of iret with no previous
-  interrupt call. The exception handler is called with a jmp.
-
-  /***********************************************************************
-   *           set_full_cpu_context
-   *
-   * Set the new CPU context.
-   */
-  extern void set_full_cpu_context( const CONTEXT *context );
-  __ASM_GLOBAL_FUNC( set_full_cpu_context,
-                     "movl $0,%fs:0x1f8\n\t"     /* x86_thread_data()->sysc=
-all_frame =3D NULL */
-                     "movl 4(%esp),%ecx\n\t"
-                     "movw 0x8c(%ecx),%gs\n\t"  /* SegGs */
-                     "movw 0x90(%ecx),%fs\n\t"  /* SegFs */
-                     "movw 0x94(%ecx),%es\n\t"  /* SegEs */
-                     "movl 0x9c(%ecx),%edi\n\t" /* Edi */
-                     "movl 0xa0(%ecx),%esi\n\t" /* Esi */
-                     "movl 0xa4(%ecx),%ebx\n\t" /* Ebx */
-                     "movl 0xb4(%ecx),%ebp\n\t" /* Ebp */
-                     "movw %ss,%ax\n\t"
-                     "cmpw 0xc8(%ecx),%ax\n\t"  /* SegSs */
-                     "jne 1f\n\t"
-                     /* As soon as we have switched stacks the context stru=
-cture could
-                      * be invalid (when signal handlers are executed for e=
-xample). Copy
-                      * values on the target stack before changing ESP. */
-                     "movl 0xc4(%ecx),%eax\n\t" /* Esp */
-                     "leal -4*4(%eax),%eax\n\t"
-                     "movl 0xc0(%ecx),%edx\n\t" /* EFlags */
-                     ".byte 0x36\n\t"
-                     "movl %edx,3*4(%eax)\n\t"
-                     "movl 0xbc(%ecx),%edx\n\t" /* SegCs */
-                     ".byte 0x36\n\t"
-                     "movl %edx,2*4(%eax)\n\t"
-                     "movl 0xb8(%ecx),%edx\n\t" /* Eip */
-                     ".byte 0x36\n\t"
-                     "movl %edx,1*4(%eax)\n\t"
-                     "movl 0xb0(%ecx),%edx\n\t" /* Eax */
-                     ".byte 0x36\n\t"
-                     "movl %edx,0*4(%eax)\n\t"
-                     "pushl 0x98(%ecx)\n\t"     /* SegDs */
-                     "movl 0xa8(%ecx),%edx\n\t" /* Edx */
-                     "movl 0xac(%ecx),%ecx\n\t" /* Ecx */
-                     "popl %ds\n\t"
-                     "movl %eax,%esp\n\t"
-                     "popl %eax\n\t"
-                     "iret\n"
-                     /* Restore the context when the stack segment changes.=
- We can't use
-                      * the same code as above because we do not know if th=
-e stack segment
-                      * is 16 or 32 bit, and 'movl' will throw an exception=
- when we try to
-                      * access memory above the limit. */
-                     "1:\n\t"
-                     "movl 0xa8(%ecx),%edx\n\t" /* Edx */
-                     "movl 0xb0(%ecx),%eax\n\t" /* Eax */
-                     "movw 0xc8(%ecx),%ss\n\t"  /* SegSs */
-                     "movl 0xc4(%ecx),%esp\n\t" /* Esp */
-                     "pushl 0xc0(%ecx)\n\t"     /* EFlags */
-                     "pushl 0xbc(%ecx)\n\t"     /* SegCs */
-                     "pushl 0xb8(%ecx)\n\t"     /* Eip */
-                     "pushl 0x98(%ecx)\n\t"     /* SegDs */
-                     "movl 0xac(%ecx),%ecx\n\t" /* Ecx */
-                     "popl %ds\n\t"
-                     "iret" )
+  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1915682/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
 
