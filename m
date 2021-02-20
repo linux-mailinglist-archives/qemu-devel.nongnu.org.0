@@ -2,67 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 842093206EA
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:28:16 +0100 (CET)
-Received: from localhost ([::1]:38092 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3712E3206E6
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:25:57 +0100 (CET)
+Received: from localhost ([::1]:35910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDXvL-0002US-KN
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:28:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49912)
+	id 1lDXt5-0001Oi-P2
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:25:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXsx-0001i8-Ge
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:25:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59558)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDXrR-0000vk-FW
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:24:13 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:52787)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDXsv-0000R0-4O
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:25:47 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lDXst-0004mL-ON
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:25:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B3A562E8101
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 19:25:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDXrP-00086G-Um
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:24:13 -0500
+Received: by mail-wm1-x329.google.com with SMTP id l17so9915007wmq.2
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 11:24:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=d3ii6l5pcAQ3njlAAX339d840Og6DIyf0M6e26qHthk=;
+ b=VVMkTeJxi2b6ff8Pot+cwNUGh8taqRvAds07dXpXeIcQhAETQ3eQ9hWKW6gcbcm+lv
+ njBDSNKvELlhGEp7kfTy7Mb3pTy5MDxP7mvvHF6BzWzMTH0K65ZqHiRg+O6nz9D1TUo/
+ b/r7rJrchM3IDlNN1pz+h8Gl/wQJNmhEbO1/VQZiA56FFtX87/tSrXJFW56JhQGftqiU
+ PF+/3Jb9OEk3Xs/YddIW9fmGgMY1r5MLPWOd89tlHg/dyoGNE2QqRW4vD+0BPS2wC+p0
+ WYOzOyuEeVoYXL8BNg2SgrRmGRUlC86bfJvnPg+jK6Pfw9Tq33mFJTtwLR1GAo7wJxQU
+ fkSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=d3ii6l5pcAQ3njlAAX339d840Og6DIyf0M6e26qHthk=;
+ b=prqRsTT9AvlFFxOX4FJn2O14W3fWnC7dkcYWEDtV4mFrss2mU6EvPrb9ZYpx8UoS8p
+ zRqE+leHdItcwauflbznKp6BFthiKZuKKioV4DNHi90zgcoQ3wWYbCC/Lsn7zN561XOb
+ okhsAMT6qS0fXXKz0n6qpsULBvfGOtucqY990XWGbx/wVza486xylEBN7yklQC62Zmv2
+ Zo5Ox3Gt+M/GxtEDWdK76LdZHgZcvrGmrUaxivkz0fjZ8huG/SfFDnnne8d4NvuW2SLF
+ uPY8yuEZJSDXbWUcnJIFCc98yg1TXiFT6ybhoxttGaCsXzEEP6nP0QbX7kXJcK1Jy6Rw
+ Ogug==
+X-Gm-Message-State: AOAM533+VNct0w386nssDpTLISm5YbIjSVRap4aNtBPnhKpQ6UaeVgV7
+ XRbuoQAWNThJoYfJm3wtxOA=
+X-Google-Smtp-Source: ABdhPJyZA46G+80ZGWsCiMGvPWnJjH6gVQ4627vAq15ctkKd1ytXrkx+4YtfS/y9FR0McprgBLbXEg==
+X-Received: by 2002:a05:600c:35c9:: with SMTP id
+ r9mr13463082wmq.92.1613849050244; 
+ Sat, 20 Feb 2021 11:24:10 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id h19sm16790955wmq.47.2021.02.20.11.24.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 Feb 2021 11:24:09 -0800 (PST)
+Subject: Re: [PATCH v2 09/13] vt82c686: Fix superio_cfg_{read,write}()
+ functions
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
+References: <cover.1610223396.git.balaton@eik.bme.hu>
+ <15b2968fd300a12d06b42368d084f6f80d3c3be5.1610223397.git.balaton@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c2d5607d-29b1-a702-1268-dfbe59b1f687@amsat.org>
+Date: Sat, 20 Feb 2021 20:24:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Feb 2021 19:19:28 -0000
-From: Richard Henderson <1916112@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell rreddy78 rth ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
-Message-Id: <161384876883.7789.9195134771839219047.malone@gac.canonical.com>
-Subject: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 8c19339eaa20c420f6b8e35da3fd6c25793f1caf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <15b2968fd300a12d06b42368d084f6f80d3c3be5.1610223397.git.balaton@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,127 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
+Cc: Huacai Chen <chenhuacai@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The sigill is for the code generated for the aa32 instruction
+On 1/9/21 9:16 PM, BALATON Zoltan wrote:
+> These functions are memory region callbacks so we have to check
+> against relative address not the mapped address. Also reduce
+> indentation by returning early and log unimplemented accesses.
+> Additionally we remove separate index value from SuperIOConfig and
+> store the index at reg 0 which is reserved and returns 0 on read. This
+> simplifies object state.
 
-0xf7ca0820:  f3780407  vshl.u64 d16, d7, d8
+Again... Why are you putting so many changes in the same patch?
 
- ---- 00000000f7ca0820 0000000000000000 0000000000000000
- ld_vec v64,e8,tmp9,env,$0xf68            pref=3D0xffffffff00000000
- ld_vec v64,e8,tmp10,env,$0x1060          pref=3D0xffffffff00000000
- neg_vec v64,e64,tmp15,tmp10              pref=3D0xffffffff00000000
- ...
+I split it in 5 distinct patches trivial to review. I probably
+shouldn't spend that amount of maintainer time with your series,
+but this time I did it, my bad.
 
-  -- guest addr 0x00000000f7ca0820
-0xffff2a790d88:  fd47b660  ldr      d0, [x19, #0xf68]
-0xffff2a790d8c:  fd483261  ldr      d1, [x19, #0x1060]
-0xffff2a790d90:  2ee0b822  .byte    0x22, 0xb8, 0xe0, 0x2e
-
-The illegal instruction is attempting neg (vector) with v1.1d,
-but that runs afoul of the isa constraint
-
-  if size:Q =3D=3D '110' then UNDEFINED;
-
-We should have used neg (scalar) instead.
-
-I can replicate the sigill with RISU.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916112
-
-Title:
-  Illegal instruction crash of QEMU on Jetson Nano
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  I have a jetson nano (arm64 SBC) and I want to check the native
-  emulation performance of Raspbian Buster. I used the info available
-  here:
-
-  https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
-  emuation
-
-  I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson
-  Nano
-
-  However QEMU crashes with "Illegal Instruction" during kernel boot. I
-  have a built latest QEMU from sources with following configuration
-
-  ./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
-  softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg
-  --enable-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk
-  --enable-virglrenderer --enable-opengl
-
-  qemu-system-aarch64 --version
-  QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
-
-  When I run as follows:
-
-  ../build/qemu-system-aarch64 -M raspi3
-  -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm=
-_enable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
-  -dtb ./bcm2710-rpi-3-b-plus.dtb
-  -sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-fu=
-ll.qcow2
-  -kernel ./kernel8.img
-  -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-
-  I get :
-  [ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Sy=
-stem being skipped.
-  [ 76.281274] systemd[1]: Starting Apply Kernel Variables...
-  Starting Apply Kernel Variables...
-  Illegal instruction (core dumped)
-
-  When I use GDB I see this:
-
-  Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
-  [Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
-  0x0000007f888ac690 in code_gen_buffer ()
-  (gdb) bt
-  #0 0x0000007f888ac690 in code_gen_buffer ()
-  #1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502=
-c40)
-  at ../accel/tcg/cpu-exec.c:191
-  #2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
-  at ../accel/tcg/cpu-exec.c:708
-  #3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:8=
-19
-  ..
-
-  I have just two questions:
-
-  Is this a problem with QEMU or is there anything specific build or
-  options I need to use. Any specific version of QEMU should be used ?
-
-  Why is TCG used as the accelerator when KVM is present. Is it possible
-  and how to use KVM ?
-
-  If I enabled the KVM then I get this error:
-
-  ../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprint=
-k loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/=
-mmcblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D2=
-1747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./k=
-ernel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-  WARNING: Image format was not specified for '/media/96747D21747D0571/Jets=
-onNano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
-           Automatically detecting the format is dangerous for raw images, =
-write operations on block 0 will be restricted.
-           Specify the 'raw' format explicitly to remove the restrictions.
-  qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: As=
-sertion `asidx =3D=3D 0 || !kvm_enabled()' failed.
-
-  Thanks a lot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916112/+subscriptions
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>  hw/isa/vt82c686.c | 63 ++++++++++++++++++++++++++---------------------
+>  1 file changed, 35 insertions(+), 28 deletions(-)
 
