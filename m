@@ -2,72 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9869320413
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 06:51:19 +0100 (CET)
-Received: from localhost ([::1]:43272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59584320418
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 07:03:43 +0100 (CET)
+Received: from localhost ([::1]:45530 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDLAk-00079A-Cy
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 00:51:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56158)
+	id 1lDLMk-0001T9-Ev
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 01:03:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lDL9v-0006cb-OP
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 00:50:27 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:46896)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lDL9u-0003JX-3C
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 00:50:27 -0500
-Received: by mail-ej1-x631.google.com with SMTP id gg8so7231004ejb.13
- for <qemu-devel@nongnu.org>; Fri, 19 Feb 2021 21:50:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=/IikMz0EjZa9HHTxfwo0r7gqMnuKG+sAk1Wx36+NbcM=;
- b=L1HTxrvDYsBSsAoUDklgfrzh/ROeRu6I9VHhd7s9MajHxcdHu3LyA6zdPU8PhOi2Rs
- w34+3WrYCm8J0vk8nD9gLXO0We2mLTdhQVyXKID812wZnLsdNX8QihvungszXYTFKaCS
- 3nFHkzHuc5l/PAIPIduRY8xSSZdciHayfLzr2Fl7IFZl/WGzrknnQJi1RMOf9B0dWmY5
- qcPRXUbcIZC1UCnFqAUqv47w6dWmUy0CgTqZz9qYLNEKEWAo9wNMleUiilni27n67K7F
- lIh3LaNIRQreXWYhjU9QB5k57FkCusHpnDRNqr8olbV9rMwDhnbIef1o/d/Pq66TAfrb
- hSHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=/IikMz0EjZa9HHTxfwo0r7gqMnuKG+sAk1Wx36+NbcM=;
- b=gcwStJT+9Ki00BXe9ZggIHCas6w69Y2jNIWOYsRkZ+x8owr1/l+ma3zaHRvNHTD5nB
- eMi67ANdR6gYeBFj+rVzDEqVBjHxradYhlQS0VU2SJqHGjADxzjoX0CQgyxjxAllnsIW
- kxweYLp04z+FMUEA7+dA7LhjvGH6nmfD6SKMDeoSakO1YdJ5B9EJQNqZEMzRTMFRJ2RV
- QOZ+o8U+tA7gPTUiXXskJDiTvZSP6+fz0AH12uYUQYu2ZzZwqFPXDAcoLZRLVqcj+KP1
- SOjxfcr+jVzIdklZmL9IzLcDmOVwV/r6nSktzmZZfDS8d3si24WLB8rWRkXy4EvCc39F
- foaw==
-X-Gm-Message-State: AOAM533KC9J6MeaBGkG2As1D88+rCNmQpeG/vg4j8lqy4FxpZ5Opf8zk
- rbZuRzO8MsxvvNwPDVzLPR65EjUssoNpencCdec=
-X-Google-Smtp-Source: ABdhPJxYMWgPLKz1+E8HitC/0TDclETyVqcj1eUYJvB2mz2o66pJMZicSuc7M4P0+o/eW6gOdBEAJBDYD8ciHT5iDUg=
-X-Received: by 2002:a17:906:b6cc:: with SMTP id
- ec12mr11988887ejb.520.1613800224551; 
- Fri, 19 Feb 2021 21:50:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1lDLLY-0000yb-L0; Sat, 20 Feb 2021 01:02:28 -0500
+Received: from mail.kernel.org ([198.145.29.99]:38162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <chenhuacai@kernel.org>)
+ id 1lDLLW-0001p4-Ej; Sat, 20 Feb 2021 01:02:28 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C83B864EE4;
+ Sat, 20 Feb 2021 06:02:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1613800941;
+ bh=ShcGVisZXSeMg1DM1Ug/ltlAeszRZetvwkkEgFVlNas=;
+ h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+ b=YSQAOBZjx77Ns4trHoOsngxkQa38xVjltXBABkfbX425KuGX5umsxwyesIcw3M9m0
+ E1CBeP+KT/7ktq3qJsK+8ztsAyUo1Y+szBDMXVBUy0LssKWNWODnxjYIHb7kwI0p/U
+ OMtv1pX83FzJa09GTTmNeee7rrVKV5Rx57K2tgRQUkoBozsoihRJj5tAd3g/guoNFq
+ 6dYliAq0igKoimsq0gG8LbZNbMgmQ/dhvUaUHgPv0ypgHnSvTgIePgQyXuaLXydf1z
+ grZ/lAFZ3Vje1rb1fjKjkE0NPbbhKxxJZc4dBaGoIP5s/mLVrydINYb/OD9SVtUKPj
+ TNTNGsBRQIZHA==
+Received: by mail-il1-f180.google.com with SMTP id m20so6341516ilj.13;
+ Fri, 19 Feb 2021 22:02:21 -0800 (PST)
+X-Gm-Message-State: AOAM531A/qujD8gDWX6GxDv9qF8ALPBvfuH+RMsv04QZmEKb3e3VMwAh
+ 3xVZ8v497OWumrstV6xKrM/nHkKoPqKhEf2v9hY=
+X-Google-Smtp-Source: ABdhPJyCLmvlLlMWilIXNLMyuqYrduB90HoBtfugKMuSdQ5Su7DwyI7kL8H7jWSAUPeMHbmo5K5tjSLHJRZ+MPDkFwE=
+X-Received: by 2002:a92:6907:: with SMTP id e7mr6713495ilc.134.1613800941002; 
+ Fri, 19 Feb 2021 22:02:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20210219094803.90860-1-akihiko.odaki@gmail.com>
- <20210219141446.ne2mutkfa5pa2dhu@sirius.home.kraxel.org>
-In-Reply-To: <20210219141446.ne2mutkfa5pa2dhu@sirius.home.kraxel.org>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Sat, 20 Feb 2021 14:50:14 +0900
-Message-ID: <CAMVc7JV5Q-Ms=oy1-4897_u9haW2hZj67aA0UAfbkvbofzB1vg@mail.gmail.com>
-Subject: Re: [PATCH] opengl: Do not convert format with glTexImage2D on OpenGL
- ES
-To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210219173847.2054123-1-philmd@redhat.com>
+ <20210219173847.2054123-6-philmd@redhat.com>
+ <31a32613-2a61-7cd2-582a-4e6d10949436@flygoat.com>
+In-Reply-To: <31a32613-2a61-7cd2-582a-4e6d10949436@flygoat.com>
+From: Huacai Chen <chenhuacai@kernel.org>
+Date: Sat, 20 Feb 2021 14:02:08 +0800
+X-Gmail-Original-Message-ID: <CAAhV-H6TJyP8diBUu4EsSWSNrVP7YxxPaMNnm2uuZJfdGY40Jg@mail.gmail.com>
+Message-ID: <CAAhV-H6TJyP8diBUu4EsSWSNrVP7YxxPaMNnm2uuZJfdGY40Jg@mail.gmail.com>
+Subject: Re: [PATCH v2 05/11] hw/mips: Restrict KVM to the malta & virt
+ machines
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=chenhuacai@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,31 +71,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cornelia Huck <cohuck@redhat.com>,
+ kvm <kvm@vger.kernel.org>, Paul Durrant <paul@xen.org>,
+ David Hildenbrand <david@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Leif Lindholm <leif@nuviainc.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B42=E6=9C=8819=E6=97=A5(=E9=87=91) 23:14 Gerd Hoffmann <kraxel@r=
-edhat.com>:
+Reviewed-by: Huacai Chen <chenhuacai@kernel.org>
+
+On Sat, Feb 20, 2021 at 12:56 PM Jiaxun Yang <jiaxun.yang@flygoat.com> wrot=
+e:
 >
-> On Fri, Feb 19, 2021 at 06:48:03PM +0900, Akihiko Odaki wrote:
-> > OpenGL ES does not support conversion from the given data format
-> > to the internal format with glTexImage2D.
+> =E5=9C=A8 2021/2/20 =E4=B8=8A=E5=8D=881:38, Philippe Mathieu-Daud=C3=A9 =
+=E5=86=99=E9=81=93:
+> > Restrit KVM to the following MIPS machines:
+> > - malta
+> > - loongson3-virt
 > >
-> > Use the given data format as the internal format, and ignore
-> > the given alpha channels with GL_TEXTURE_SWIZZLE_A in case the
-> > format contains alpha channels.
+> > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 >
-> Hmm.  Do you know what effect this has performance-wise?
-> Is it maybe useful to not convert for desktop gl too?
-
-I have no idea about performance, but I am concerned about
-compatibility. OpenGL 4.6 core profile does not support GL_BGRA, which
-is aliased as GL_BGRA_EXT by epoxy, as internalformat. I also tested
-with Intel HD Graphics 3000/Mesa 20.3.4 but it didn't work.
-
+> Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 >
-> take care,
->   Gerd
+> > ---
+> >   hw/mips/loongson3_virt.c | 5 +++++
+> >   hw/mips/malta.c          | 5 +++++
+> >   2 files changed, 10 insertions(+)
+> >
+> > diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
+> > index d4a82fa5367..c3679dff043 100644
+> > --- a/hw/mips/loongson3_virt.c
+> > +++ b/hw/mips/loongson3_virt.c
+> > @@ -612,6 +612,10 @@ static void mips_loongson3_virt_init(MachineState =
+*machine)
+> >       loongson3_virt_devices_init(machine, liointc);
+> >   }
+> >
+> > +static const char *const valid_accels[] =3D {
+> > +    "tcg", "kvm", NULL
+> > +};
+> > +
+> >   static void loongson3v_machine_class_init(ObjectClass *oc, void *data=
+)
+> >   {
+> >       MachineClass *mc =3D MACHINE_CLASS(oc);
+> > @@ -622,6 +626,7 @@ static void loongson3v_machine_class_init(ObjectCla=
+ss *oc, void *data)
+> >       mc->max_cpus =3D LOONGSON_MAX_VCPUS;
+> >       mc->default_ram_id =3D "loongson3.highram";
+> >       mc->default_ram_size =3D 1600 * MiB;
+> > +    mc->valid_accelerators =3D valid_accels;
+> >       mc->kvm_type =3D mips_kvm_type;
+> >       mc->minimum_page_bits =3D 14;
+> >   }
+> > diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> > index 9afc0b427bf..0212048dc63 100644
+> > --- a/hw/mips/malta.c
+> > +++ b/hw/mips/malta.c
+> > @@ -1443,6 +1443,10 @@ static const TypeInfo mips_malta_device =3D {
+> >       .instance_init =3D mips_malta_instance_init,
+> >   };
+> >
+> > +static const char *const valid_accels[] =3D {
+> > +    "tcg", "kvm", NULL
+> > +};
+> > +
+> >   static void mips_malta_machine_init(MachineClass *mc)
+> >   {
+> >       mc->desc =3D "MIPS Malta Core LV";
+> > @@ -1456,6 +1460,7 @@ static void mips_malta_machine_init(MachineClass =
+*mc)
+> >       mc->default_cpu_type =3D MIPS_CPU_TYPE_NAME("24Kf");
+> >   #endif
+> >       mc->default_ram_id =3D "mips_malta.ram";
+> > +    mc->valid_accelerators =3D valid_accels;
+> >   }
+> >
+> >   DEFINE_MACHINE("malta", mips_malta_machine_init)
 >
 
