@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430B83205D4
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 15:53:02 +0100 (CET)
-Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B64D3205F7
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 16:39:58 +0100 (CET)
+Received: from localhost ([::1]:43634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDTcz-0002sb-9b
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 09:53:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57484)
+	id 1lDUMP-0006Qg-3Q
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 10:39:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lDTYk-0007CO-Sc; Sat, 20 Feb 2021 09:48:38 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:33948)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lDTYj-0003cR-1m; Sat, 20 Feb 2021 09:48:38 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id my11so5174810pjb.1;
- Sat, 20 Feb 2021 06:48:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=PhZTMUwjoq80zLn5T9J9Vyn2H21mn4uZhhWc8FpCttQ=;
- b=bXf5u/Yzo67BYVbTkuhFAzmRhCXsEN+DshFeeX0q3NEUUm1WesY1ry3ifYAO1uOWI9
- CFqWbEuSbELBOUzDMOQ5HCo3Ezqg1Rx2KxTvTAt8W8Trcco6kg1QaQdq1ALkBRtlv5ug
- sTf01JLjdPPluNSFZOozDV8Lsgwg3jCxzWkS5tMqrWQtDblH77dApqLlj3xlIBzALltK
- 83qAkmZuO37MNx8pII6aUatxT2PG+KnIdHJDHz8ZESo8upHbTzSlhCEiHCjz1Q7TvjBw
- 6j6J86cr4ihpe+9sbfgEFp/hLyoU1scR7nb0WNq0KQZdLyu/pV4NyFbg+trkVBikTI28
- mTBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=PhZTMUwjoq80zLn5T9J9Vyn2H21mn4uZhhWc8FpCttQ=;
- b=Dd33O1+DX+9k0AZC6nVNBlvUEh8FfTkbPfWzNIe/aO9WVlZ2dZNaKh15jGghlgGhW0
- ybipkz9D1PJgrrlwResedRC9PHNqEbxAVmlj/qX7MgUSmmGkUzC4W3vUlWczD+2jMxEJ
- cpY5XDtl4Lq7uuqLs29C7ZP1+Iwnz2SHLIG9AVJQgzR/IaVGbq/VNAQyhsuD+RxYgUKk
- H9qZUHx5d1xV3Zmr2kZXkkHDuLVYob3YQITWgNglN/J1WJDSIP1DuJTtz4KqHz1IYsDJ
- bix8GLkhiIoeR8vlFYLOlKd+lL52YVMBO7W5CXmvukPtvBpJNXcuzpGY3HubbkmkYDCL
- sRvw==
-X-Gm-Message-State: AOAM53354dznzStadLygzV1hjVXufc4rKsftZTOgUntKJJgYxdDD1AQ0
- uV6JAtVuliQdUG0uNvJa0cM=
-X-Google-Smtp-Source: ABdhPJwQAgOMlKvOCJoQaBlaUjgxDqdnxj83a3eY2zxIdCgExCPAk8Q1toLza/BNvHhPjsgoC1tyWQ==
-X-Received: by 2002:a17:90a:420c:: with SMTP id
- o12mr14512685pjg.193.1613832513368; 
- Sat, 20 Feb 2021 06:48:33 -0800 (PST)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id d16sm3100480pgb.12.2021.02.20.06.48.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 20 Feb 2021 06:48:33 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v3 4/4] hw/riscv: virt: Map high mmio for PCIe
-Date: Sat, 20 Feb 2021 22:48:07 +0800
-Message-Id: <20210220144807.819-5-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210220144807.819-1-bmeng.cn@gmail.com>
-References: <20210220144807.819-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lDULY-0005yg-5v
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 10:39:04 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:48347)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lDULV-0001Sj-Mc
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 10:39:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=qgF4p9o9bWi4rh7lgbhXkq3ftTbSLR/UJniF++kdCf4=; b=bDpkHjww1lT1V6hwOTnION5nNy
+ ZR0To6UTdZa3NRStyCHPVPYy/mdPOpWPJzaTXk4Zhlfriw1BIKIJEG6i5eWlNYirem/9KP4plNmyn
+ UBqzkQ2TM7nUdHhHpEpbXh3T6fdzQwoFhjNooXr7yu5yJciqbODWdLVPZcESurinwrX9njJGNjI1K
+ 7bLi+8uxQ9afqcL42U6j1DK4FyENQ+2W27aECBsoLa/8pZ+CAwJPZn/0HOoUYPA3kzUG1sGloVFbj
+ onAFyUg5yxpiyD099n74U4tXJn1WnWbPTAyKbAkGwGBMVOzzIK/PwPp4zNLwRiH3aKq8v2kZSlMn8
+ jAA3ZsxaerPg2yCHrboO6uUg/AQKIl0uTUajhCEsCM6IQGrcKO3TIh+0J9WrJgiPYqOzN9Ms4Njbe
+ ZgvsOG3LVxbUNxEIOC3MxiHyTlKKL44AHxnh5hBGQUeBzhXhNXt9+QqbUP4Ry0W8SG4i/haNXyfHN
+ Wxeh5mfMZ9t+fBQh0y/OqYXn1OKPXOIdyuiQBhBQruhMUd46tKyNLptflZypCf0+ZKcJuN2GOgPAD
+ 4no8S2VuZBKnivSnH1xFVNSZBpzC1BilJlidCNmxLLUJAsVt61yJu1GLNU/2sszW9lnX+FPW1FJlo
+ kIZxvq51oKyK5zMrm0sYigY2y27AT9Qw4ak+G1d20=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: Vivek Goyal <vgoyal@redhat.com>,
+ "cdupontd@redhat.com" <cdupontd@redhat.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>, Greg Kurz <groug@kaod.org>,
+ virtio-fs-list <virtio-fs@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "Shinde, Archana M" <archana.m.shinde@intel.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Can not set high msize with virtio-9p (Was: Re: virtiofs vs 9p
+ performance)
+Date: Sat, 20 Feb 2021 16:38:35 +0100
+Message-ID: <2337260.PURPEL5hZR@silver>
+In-Reply-To: <20210219190112.GC3270@redhat.com>
+References: <20200918213436.GA3520@redhat.com> <2709384.cAWMFGR5kF@silver>
+ <20210219190112.GC3270@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1033.google.com
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,117 +71,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+On Freitag, 19. Februar 2021 20:01:12 CET Vivek Goyal wrote:
+> On Fri, Feb 19, 2021 at 06:33:46PM +0100, Christian Schoenebeck wrote:
+> > On Freitag, 19. Februar 2021 17:08:48 CET Vivek Goyal wrote:
+> > > On Fri, Sep 25, 2020 at 10:06:41AM +0200, Christian Schoenebeck wrote:
+> > > > On Freitag, 25. September 2020 00:10:23 CEST Vivek Goyal wrote:
+> > > > > In my testing, with cache=none, virtiofs performed better than 9p in
+> > > > > all the fio jobs I was running. For the case of cache=auto  for
+> > > > > virtiofs
+> > > > > (with xattr enabled), 9p performed better in certain write
+> > > > > workloads. I
+> > > > > have identified root cause of that problem and working on
+> > > > > HANDLE_KILLPRIV_V2 patches to improve WRITE performance of virtiofs
+> > > > > with cache=auto and xattr enabled.
+> > > > 
+> > > > Please note, when it comes to performance aspects, you should set a
+> > > > reasonable high value for 'msize' on 9p client side:
+> > > > https://wiki.qemu.org/Documentation/9psetup#msize
+> > > 
+> > > Hi Christian,
+> > > 
+> > > I am not able to set msize to a higher value. If I try to specify msize
+> > > 16MB, and then read back msize from /proc/mounts, it sees to cap it
+> > > at 512000. Is that intended?
+> > 
+> > 9p server side in QEMU does not perform any msize capping. The code in
+> > this
+> > case is very simple, it's just what you see in function v9fs_version():
+> > 
+> > https://github.com/qemu/qemu/blob/6de76c5f324904c93e69f9a1e8e4fd0bd6f6b57a
+> > /hw/9pfs/9p.c#L1332> 
+> > > $ mount -t 9p -o trans=virtio,version=9p2000.L,cache=none,msize=16777216
+> > > hostShared /mnt/virtio-9p
+> > > 
+> > > $ cat /proc/mounts | grep 9p
+> > > hostShared /mnt/virtio-9p 9p
+> > > rw,sync,dirsync,relatime,access=client,msize=512000,trans=virtio 0 0
+> > > 
+> > > I am using 5.11 kernel.
+> > 
+> > Must be something on client (guest kernel) side. I don't see this here
+> > with
+> > guest kernel 4.9.0 happening with my setup in a quick test:
+> > 
+> > $ cat /etc/mtab | grep 9p
+> > svnRoot / 9p
+> > rw,dirsync,relatime,trans=virtio,version=9p2000.L,msize=104857600,cache=m
+> > map 0 0 $
+> > 
+> > Looks like the root cause of your issue is this:
+> > 
+> > struct p9_client *p9_client_create(const char *dev_name, char *options)
+> > {
+> > 
+> > 	...
+> > 	if (clnt->msize > clnt->trans_mod->maxsize)
+> > 	
+> > 		clnt->msize = clnt->trans_mod->maxsize;
+> > 
+> > https://github.com/torvalds/linux/blob/f40ddce88593482919761f74910f42f4b84
+> > c004b/net/9p/client.c#L1045
+> That was introduced by a patch 2011.
+> 
+> commit c9ffb05ca5b5098d6ea468c909dd384d90da7d54
+> Author: Venkateswararao Jujjuri (JV) <jvrao@linux.vnet.ibm.com>
+> Date:   Wed Jun 29 18:06:33 2011 -0700
+> 
+>     net/9p: Fix the msize calculation.
+> 
+>     msize represents the maximum PDU size that includes P9_IOHDRSZ.
+> 
+> 
+> You kernel 4.9 is newer than this. So most likely you have this commit
+> too. I will spend some time later trying to debug this.
+> 
+> Vivek
 
-Some peripherals require 64-bit PCI address, so let's map the high
-mmio space for PCIe.
+As the kernel code sais trans_mod->maxsize, maybe its something in virtio on
+qemu side that does an automatic step back for some reason. I don't see
+something in the 9pfs virtio transport driver (hw/9pfs/virtio-9p-device.c on
+QEMU side) that would do this, so I would also need to dig deeper.
 
-For RV32, the address is hardcoded to below 4 GiB from the highest
-accessible physical address. For RV64, the base address depends on
-top of RAM and is aligned to its size which is using 16 GiB for now.
+Do you have some RAM limitation in your setup somewhere?
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+For comparison, this is how I started the VM:
 
----
+~/git/qemu/build/qemu-system-x86_64 \
+-machine pc,accel=kvm,usb=off,dump-guest-core=off -m 2048 \
+-smp 4,sockets=4,cores=1,threads=1 -rtc base=utc \
+-boot strict=on -kernel /home/bee/vm/stretch/boot/vmlinuz-4.9.0-13-amd64 \
+-initrd /home/bee/vm/stretch/boot/initrd.img-4.9.0-13-amd64 \
+-append 'root=svnRoot rw rootfstype=9p rootflags=trans=virtio,version=9p2000.L,msize=104857600,cache=mmap console=ttyS0' \
+-fsdev local,security_model=mapped,multidevs=remap,id=fsdev-fs0,path=/home/bee/vm/stretch/ \
+-device virtio-9p-pci,id=fs0,fsdev=fsdev-fs0,mount_tag=svnRoot \
+-sandbox on,obsolete=deny,elevateprivileges=deny,spawn=deny,resourcecontrol=deny \
+-nographic
 
-(no changes since v1)
+So the guest system is running entirely and solely on top of 9pfs (as root fs)
+and hence it's mounted by above's CL i.e. immediately when the guest is
+booted, and RAM size is set to 2 GB.
 
- hw/riscv/virt.c | 35 +++++++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+Best regards,
+Christian Schoenebeck
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index c4b8f455f8..4f0c2fbca0 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -59,6 +59,15 @@ static const MemMapEntry virt_memmap[] = {
-     [VIRT_DRAM] =        { 0x80000000,           0x0 },
- };
- 
-+/* PCIe high mmio is fixed for RV32 */
-+#define VIRT32_HIGH_PCIE_MMIO_BASE  0x300000000ULL
-+#define VIRT32_HIGH_PCIE_MMIO_SIZE  (4 * GiB)
-+
-+/* PCIe high mmio for RV64, size is fixed but base depends on top of RAM */
-+#define VIRT64_HIGH_PCIE_MMIO_SIZE  (16 * GiB)
-+
-+static MemMapEntry virt_high_pcie_memmap;
-+
- #define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
- 
- static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
-@@ -371,7 +380,11 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-         2, memmap[VIRT_PCIE_PIO].base, 2, memmap[VIRT_PCIE_PIO].size,
-         1, FDT_PCI_RANGE_MMIO,
-         2, memmap[VIRT_PCIE_MMIO].base,
--        2, memmap[VIRT_PCIE_MMIO].base, 2, memmap[VIRT_PCIE_MMIO].size);
-+        2, memmap[VIRT_PCIE_MMIO].base, 2, memmap[VIRT_PCIE_MMIO].size,
-+        1, FDT_PCI_RANGE_MMIO_64BIT,
-+        2, virt_high_pcie_memmap.base,
-+        2, virt_high_pcie_memmap.base, 2, virt_high_pcie_memmap.size);
-+
-     create_pcie_irq_map(fdt, name, plic_pcie_phandle);
-     g_free(name);
- 
-@@ -448,12 +461,14 @@ update_bootargs:
- static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                                           hwaddr ecam_base, hwaddr ecam_size,
-                                           hwaddr mmio_base, hwaddr mmio_size,
-+                                          hwaddr high_mmio_base,
-+                                          hwaddr high_mmio_size,
-                                           hwaddr pio_base,
-                                           DeviceState *plic)
- {
-     DeviceState *dev;
-     MemoryRegion *ecam_alias, *ecam_reg;
--    MemoryRegion *mmio_alias, *mmio_reg;
-+    MemoryRegion *mmio_alias, *high_mmio_alias, *mmio_reg;
-     qemu_irq irq;
-     int i;
- 
-@@ -473,6 +488,13 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                              mmio_reg, mmio_base, mmio_size);
-     memory_region_add_subregion(get_system_memory(), mmio_base, mmio_alias);
- 
-+    /* Map high MMIO space */
-+    high_mmio_alias = g_new0(MemoryRegion, 1);
-+    memory_region_init_alias(high_mmio_alias, OBJECT(dev), "pcie-mmio-high",
-+                             mmio_reg, high_mmio_base, high_mmio_size);
-+    memory_region_add_subregion(get_system_memory(), high_mmio_base,
-+                                high_mmio_alias);
-+
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, pio_base);
- 
-     for (i = 0; i < GPEX_NUM_IRQS; i++) {
-@@ -598,6 +620,13 @@ static void virt_machine_init(MachineState *machine)
-             error_report("Limiting RAM size to 10 GiB");
-         }
- #endif
-+        virt_high_pcie_memmap.base = VIRT32_HIGH_PCIE_MMIO_BASE;
-+        virt_high_pcie_memmap.size = VIRT32_HIGH_PCIE_MMIO_SIZE;
-+    } else {
-+        virt_high_pcie_memmap.size = VIRT64_HIGH_PCIE_MMIO_SIZE;
-+        virt_high_pcie_memmap.base = memmap[VIRT_DRAM].base + machine->ram_size;
-+        virt_high_pcie_memmap.base =
-+            ROUND_UP(virt_high_pcie_memmap.base, virt_high_pcie_memmap.size);
-     }
- 
-     /* register system main memory (actual RAM) */
-@@ -683,6 +712,8 @@ static void virt_machine_init(MachineState *machine)
-                    memmap[VIRT_PCIE_ECAM].size,
-                    memmap[VIRT_PCIE_MMIO].base,
-                    memmap[VIRT_PCIE_MMIO].size,
-+                   virt_high_pcie_memmap.base,
-+                   virt_high_pcie_memmap.size,
-                    memmap[VIRT_PCIE_PIO].base,
-                    DEVICE(pcie_plic));
- 
--- 
-2.25.1
 
 
