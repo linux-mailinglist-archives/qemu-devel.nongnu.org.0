@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D013B32061A
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 17:07:12 +0100 (CET)
-Received: from localhost ([::1]:52606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34F48320618
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 17:05:48 +0100 (CET)
+Received: from localhost ([::1]:49690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDUml-0003YV-QT
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 11:07:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44436)
+	id 1lDUlO-00026G-Pp
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 11:05:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDUlK-0002iA-2Q
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 11:05:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43000)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lDUjX-0001YS-Sw
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 11:03:51 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:37942)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDUlH-0005E0-S1
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 11:05:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lDUlF-00069j-TA
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 16:05:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id AFCDF2E8101
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 16:05:37 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lDUjW-0004GZ-7C
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 11:03:51 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id 201so767445pfw.5
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 08:03:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=49x56GGIdcxQ86P5vvffrgipXEOOm0tvwa51Jx+dMuE=;
+ b=JJgOfinWAwvqJfiG2dGgHgSUGHtDcbpkjK3c9HhlQBzqsA2jek3nBq5WN1OSjXVKOp
+ Y/jpzib1cXCRQNCfpmLj10BwvGyWkOwrpcZB5Oz6RyGe5r8/q2i3hIuwtKI3++VcvG00
+ /jyOPixUIjO594Q3JDt623MdjFkjIMZMQ/m71HRhg/e2VU9c4PTBZe1fk49oLoUsVe0J
+ NCT5lVOKUe2wpmAHXsSHMf+NDwP+qdk9Bo+v/Vt9b/Cf2yZd/cbA8KQchyZvbbbk1cjM
+ Vn8/JLlx7j4D4YHRueBUZQ7KJqva+Yek6F3uwFD8Hll0g05Md1oUnwVtXgsNeH5Wr5gU
+ EBEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=49x56GGIdcxQ86P5vvffrgipXEOOm0tvwa51Jx+dMuE=;
+ b=RPNx8XlHipNMgXciInNmeqjXDJwIVOwCRNTg+uTIT8lpSTvbASkrViuFg8D11vXFeV
+ IXdrdJDMUo1cKo770p6dScowKfbqpl69ThuxRffiRsbaEDttYBrnxzcMlW364FPU5JVN
+ XGgZBwYttX7ZXg9KNwv7NdI0EcGWmPC0b0l5BzU11+nrBN0vlIaWrXjTaVeRnRsXuTQM
+ YYNqVNLZnpTq9UIyFpPJSVT3BEBs+HuEHjDAg+rEfgrfxSbnjAZ18LuksKbXgkkjIcRr
+ G5LP3UIhbmeYIJxBeI/oDYCYv95qVXx7WsMKgI8HjV2IXaepSRJQGyXGiddj10fmeGM4
+ PjPQ==
+X-Gm-Message-State: AOAM531W5zpMrBK4t7SGFTCjIu0Kf0JQT9RIBhZg8xEqI2Gdbesg0N0Z
+ CUMCM+ZvVwt8ScWyFOUGPrJWudLJzMjhiw==
+X-Google-Smtp-Source: ABdhPJxwUzAAO629NIIfkPB/HzFe6azBbo3hQiGouqpwwYIoLO0mohrHiqcRXd+mDPLgO4fIQu7Rgg==
+X-Received: by 2002:a65:4bc3:: with SMTP id p3mr12813944pgr.318.1613837028519; 
+ Sat, 20 Feb 2021 08:03:48 -0800 (PST)
+Received: from [192.168.7.36] (24-113-145-216.wavecable.com. [24.113.145.216])
+ by smtp.gmail.com with ESMTPSA id
+ e12sm12717540pjj.23.2021.02.20.08.03.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 20 Feb 2021 08:03:47 -0800 (PST)
+Subject: Re: [PATCH v4] target/cris: Plug leakage of TCG temporaries
+To: =?UTF-8?Q?Stefan_Sandstr=c3=b6m?= <stefans@axis.com>
+References: <20210219124416.28178-1-stefans@axis.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <deaf8faa-9e84-71c4-ddac-914a198af21f@linaro.org>
+Date: Sat, 20 Feb 2021 08:03:45 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Feb 2021 16:00:02 -0000
-From: Richard Henderson <1916112@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell rreddy78 rth ubuntu-weilnetz
-X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
-X-Launchpad-Bug-Modifier: Richard Henderson (rth)
-References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
-Message-Id: <161383680236.11703.13652995324767265437.malone@chaenomeles.canonical.com>
-Subject: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 7213c660965b76405965f7e6ecfac7fe54681b69
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210219124416.28178-1-stefans@axis.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,111 +87,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has nothing to do with the Jetson Nano, which
-uses a very standard Arm cortex-a57.
+On 2/19/21 4:44 AM, Stefan Sandström wrote:
+> From: Stefan Sandstrom <stefans@axis.com>
+> 
+> Add and fix deallocation of temporary TCG registers in CRIS code
+> generation.
+> 
+> Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
+> Signed-off-by: Stefan Sandström <stefans@axis.com>
+> ---
+>  target/cris/translate.c         | 124 ++++++++++++++++++++++----------
+>  target/cris/translate_v10.c.inc |  70 ++++++++++++------
+>  2 files changed, 135 insertions(+), 59 deletions(-)
 
-I can reproduce this on any arm64 host.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Richard Henderson (rth)
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916112
-
-Title:
-  Illegal instruction crash of QEMU on Jetson Nano
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  I have a jetson nano (arm64 SBC) and I want to check the native
-  emulation performance of Raspbian Buster. I used the info available
-  here:
-
-  https://github.com/dhruvvyas90/qemu-rpi-kernel/tree/master/native-
-  emuation
-
-  I have Xubuntut 20.04 with KVM enabled kernel running on the Jetson
-  Nano
-
-  However QEMU crashes with "Illegal Instruction" during kernel boot. I
-  have a built latest QEMU from sources with following configuration
-
-  ./configure --prefix=3D/usr/local --target-list=3Daarch64-softmmu,arm-
-  softmmu  --enable-guest-agent --enable-vnc  --enable-vnc-jpeg
-  --enable-vnc-png --enable-kvm --enable-spice --enable-sdl --enable-gtk
-  --enable-virglrenderer --enable-opengl
-
-  qemu-system-aarch64 --version
-  QEMU emulator version 5.2.50 (v5.2.0-1731-g5b19cb63d9)
-
-  When I run as follows:
-
-  ../build/qemu-system-aarch64 -M raspi3
-  -append "rw earlyprintk loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm=
-_enable=3D0 root=3D/dev/mmcblk0p2 rootdelay=3D1"
-  -dtb ./bcm2710-rpi-3-b-plus.dtb
-  -sd /media/96747D21747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-fu=
-ll.qcow2
-  -kernel ./kernel8.img
-  -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-
-  I get :
-  [ 74.994834] systemd[1]: Condition check resulted in FUSE Control File Sy=
-stem being skipped.
-  [ 76.281274] systemd[1]: Starting Apply Kernel Variables...
-  Starting Apply Kernel Variables...
-  Illegal instruction (core dumped)
-
-  When I use GDB I see this:
-
-  Thread 8 "qemu-system-aar" received signal SIGILL, Illegal instruction.
-  [Switching to Thread 0x7fad7f9ba0 (LWP 28037)]
-  0x0000007f888ac690 in code_gen_buffer ()
-  (gdb) bt
-  #0 0x0000007f888ac690 in code_gen_buffer ()
-  #1 0x0000005555d7c038 in cpu_tb_exec (tb_exit=3D, itb=3D, cpu=3D0x7fb4502=
-c40)
-  at ../accel/tcg/cpu-exec.c:191
-  #2 cpu_loop_exec_tb (tb_exit=3D, last_tb=3D, tb=3D, cpu=3D0x7fb4502c40)
-  at ../accel/tcg/cpu-exec.c:708
-  #3 cpu_exec (cpu=3Dcpu@entry=3D0x7fb4502c40) at ../accel/tcg/cpu-exec.c:8=
-19
-  ..
-
-  I have just two questions:
-
-  Is this a problem with QEMU or is there anything specific build or
-  options I need to use. Any specific version of QEMU should be used ?
-
-  Why is TCG used as the accelerator when KVM is present. Is it possible
-  and how to use KVM ?
-
-  If I enabled the KVM then I get this error:
-
-  ../build/qemu-system-aarch64 -M raspi3 -enable-kvm -append "rw earlyprint=
-k loglevel=3D8 console=3DttyAMA0,115200 dwc_otg.lpm_enable=3D0 root=3D/dev/=
-mmcblk0p2 rootdelay=3D1" -dtb ./bcm2710-rpi-3-b-plus.dtb -sd /media/96747D2=
-1747D0571/JetsonNano/2020-08-20-raspios-buster-armhf-full.qcow2 -kernel ./k=
-ernel8.img -m 1G -smp 4 -serial stdio -usb -device usb-mouse -device usb-kbd
-  WARNING: Image format was not specified for '/media/96747D21747D0571/Jets=
-onNano/2020-08-20-raspios-buster-armhf-full.img' and probing guessed raw.
-           Automatically detecting the format is dangerous for raw images, =
-write operations on block 0 will be restricted.
-           Specify the 'raw' format explicitly to remove the restrictions.
-  qemu-system-aarch64: ../softmmu/physmem.c:750: cpu_address_space_init: As=
-sertion `asidx =3D=3D 0 || !kvm_enabled()' failed.
-
-  Thanks a lot.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916112/+subscriptions
+r~
 
