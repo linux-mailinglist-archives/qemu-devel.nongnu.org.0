@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460ED320586
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 14:18:36 +0100 (CET)
-Received: from localhost ([::1]:53252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EB4320592
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 14:42:08 +0100 (CET)
+Received: from localhost ([::1]:33398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDS9a-00056t-SH
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 08:18:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40492)
+	id 1lDSWN-0001Ty-7p
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 08:42:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDS6o-00046m-Fg
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 08:15:43 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58582)
+ id 1lDSVC-00012q-Pu
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 08:40:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:32906)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lDS6m-0004bU-24
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 08:15:42 -0500
+ id 1lDSV9-0006cl-I9
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 08:40:54 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lDS6j-0001nZ-2W
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 13:15:37 +0000
+ id 1lDSV7-0004Di-6a
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 13:40:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 0E0662E8101
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 13:15:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 287392E80FA
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 13:40:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 20 Feb 2021 13:08:35 -0000
+Date: Sat, 20 Feb 2021 13:31:54 -0000
 From: Stefan Weil <1916112@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -43,14 +43,14 @@ X-Launchpad-Bug-Commenters: pmaydell rreddy78 ubuntu-weilnetz
 X-Launchpad-Bug-Reporter: Ravishankar (rreddy78)
 X-Launchpad-Bug-Modifier: Stefan Weil (ubuntu-weilnetz)
 References: <161371415849.8154.11815373638536869361.malonedeb@gac.canonical.com>
-Message-Id: <161382651573.11034.207144221811822878.malone@chaenomeles.canonical.com>
+Message-Id: <161382791482.29356.5013965818751172438.malone@soybean.canonical.com>
 Subject: [Bug 1916112] Re: Illegal instruction crash of QEMU on Jetson Nano
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 34f04f278cb75967e2dd361f24853597ee102573
+X-Launchpad-Hash: 3a66ac45d8a25596952bdd3b4f049f93d3ebc54d
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -75,26 +75,29 @@ Reply-To: Bug 1916112 <1916112@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can confirm the issue (tested with Jetson Nano and Xavier running
-Ubuntu bionic).
+TCG works and I get a Linux boot prompt in the guest Raspbian when
+vector instructions for TCG are disabled, so obviously the undefined
+instruction is simply unsupported for Jetson Nano and Xavier.
 
-Linux starts booting, shows "Welcome to Raspbian GNU/Linux 10 (buster)!"
-after 33 s on Nano, but QEMU crashes after showing "Mounted Kernel Debug
-File System" about 77 s after start.
+Patch used to disable it:
 
-Debugging is difficult because the failing address in code_gen_buffer
-changes for each new run, so setting a hardware watchpoint does not
-work. The disassembly is always the same, only the address of the code
-changes.
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index 5ec30dba25..2240adad1e 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -125,8 +125,8 @@ typedef enum {
+ #define TCG_TARGET_HAS_mulsh_i64        1
+ #define TCG_TARGET_HAS_direct_jump      1
+ =
 
-The same test works better when I use the TCG interpreter (./configure
-[...] --enable-tcg-interpreter) although a warning says that TCI has
-less reliability and that it is strongly recommended to remove the
---enable-tcg-interpreter configuration option. It reaches "Welcome"
-after 205 s on Xavier, "Mounted" after 420 s and finally goes into
-emergency mode because of "Dependency failed for /boot". Linux shows
-"Press Enter to continue.", but I don't get a command line after doing
-so.
+-#define TCG_TARGET_HAS_v64              1
+-#define TCG_TARGET_HAS_v128             1
++#define TCG_TARGET_HAS_v64              0
++#define TCG_TARGET_HAS_v128             0
+ #define TCG_TARGET_HAS_v256             0
+ =
+
+ #define TCG_TARGET_HAS_andc_vec         1
 
 -- =
 
