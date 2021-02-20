@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91B683206EF
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 20:33:45 +0100 (CET)
-Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8125E320701
+	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 21:02:56 +0100 (CET)
+Received: from localhost ([::1]:55302 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDY0e-00050S-LP
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 14:33:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50384)
+	id 1lDYSt-0003NW-4N
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 15:02:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDXy0-00049E-5M
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:31:02 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:47011)
+ id 1lDYRI-0002ss-R2
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 15:01:16 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41782)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDXxy-0002UO-Cn
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 14:30:59 -0500
-Received: by mail-wr1-x435.google.com with SMTP id t15so14523321wrx.13
- for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 11:30:58 -0800 (PST)
+ id 1lDYRF-0007J6-RB
+ for qemu-devel@nongnu.org; Sat, 20 Feb 2021 15:01:15 -0500
+Received: by mail-wr1-x436.google.com with SMTP id a4so12413593wro.8
+ for <qemu-devel@nongnu.org>; Sat, 20 Feb 2021 12:01:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uSdNUIs76LgVmd8LJVYdfRrm6kvfif97NrTi+smiaRg=;
- b=KWwK2I8KyxQOlEPAEk537m5smULGevJAXtGBp7Vd3LoSUw5X2/e4LYAD5y64pTQUoX
- 2Kt6H0gOoixe7b5szSzNUEsEuJ+08bLt96bR2pFuJR1ipfeEDcLDRb0AF31UT2UbEM36
- Q8tFXRg/E/v65L261bLB2EKjs8HGuBHae0hVYnmIiL4sz5z5fDUCXamyg5cRbYxN+usw
- 7mzd+nIIAh+YqeO9IEwLOxQuLKXeaiLYxTJyykYHPRxqe96m1s6nhEVPSSREKBWtE2DT
- BgPLLYUIeOjgbXF86Xg6GSADNur+kjMNwR1ex6DrznFFsVsNY+ZOxDRA3MvawUCJKEKM
- Y10A==
+ bh=7hXfgK0E8khvJzksS41rdLJf1zwuSCsge+8eCW4yOdg=;
+ b=UEJf4HzDdfBKWbzqHFNFDcwEWN/lNYWalQ1UCZO/TtV1kkz/3bgQXlpyzkZfI3gBLG
+ VYE6nUnHIt/X8842mKf/Onbhl/Ex+lYXENJzq5WjD1xhPOVQ4lg5hIIbhDIUPktd2/Qh
+ DSrGX2K8UJo7GyINDzo2bweLAaFzjR80s67eqK0sWesZeB0+QLGvouc2SV5YVCjhU8Y1
+ S3mi8RlTByUDAUWS8+GPV9kh8uspwfQfELLLm0j1/X/P++mhMxPaJA7jabeMIWK/YQ9C
+ 6lmlTxh+N0ErizN55nJnAr3GgxPOP3YkxiNa6q3jDna1593+lo0QrvouFtufUwcqL+Oe
+ w0uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=uSdNUIs76LgVmd8LJVYdfRrm6kvfif97NrTi+smiaRg=;
- b=XljeCS+yny3XdL/AkfWZNSXUoEFFfLmZcebtCEiZemm3yWC64/Hpu/hUnZsJVGnCQr
- B02LyoYo6zYf1yxNBi+Eb+amx8a0l4vFsJthdf27DbOJw0C0yRwTBK/rXYSCdMjeupCi
- jwjObLyhP4tn5OHDSVojLdDP1Z98A5xCx2HAhMn/d2xgaq/rKoy3KipkDL3yVjaGdGw8
- oo+1o30izZ5R9hsl8/mZ6bV4yQcwn4IBuwuhpDekPW0C/jHDHsreZgoUDtKUMxTHtFc6
- J0YYSCyuTJhSripXIyykj6EhE4V/oLEK1bKjAy764rYg5dfrlGBksIlBYdLvUvT85IhJ
- Z/8A==
-X-Gm-Message-State: AOAM5332i2GTUQLOISuBO+x/4CdeDbzkaLevarvCkz+h+8maZIVN06n6
- mvM5weLUDIDi82PrRUJ0+tU=
-X-Google-Smtp-Source: ABdhPJw8isX73eFWYgZf+xbUULgk5uztBgUxhLaDy/rQ52wLC+bPC2KiDerWrS281bj95UCVOnV7TA==
-X-Received: by 2002:adf:f6ce:: with SMTP id y14mr14725678wrp.294.1613849456899; 
- Sat, 20 Feb 2021 11:30:56 -0800 (PST)
+ bh=7hXfgK0E8khvJzksS41rdLJf1zwuSCsge+8eCW4yOdg=;
+ b=mQkRvr8tpiRToU29AxJ2FoMPPedqsxr5eJucw9Sb8OvDsvTn/jhcXhMIhS34EfeWD7
+ DDmjGpibaXGKGTvVeQ8iLDxuYAd9BNu6oCb4P4u3Lafb8hDDo5AZsHav0kuZ3/mBWrip
+ QXG/xxCQQwWnUQYDIjNKEIlfngzaHJR0KrV6BGMQm6upgmBbVLyqCOher92Re/4Y1xXj
+ ZX504BJgeW0E5WzfjZcmcGysG/dRgLTvUGPs35ZfHd7knlDDlxhuqezG6hfpeo+Ou5em
+ q4T+6p0yiGovlXyIy4FVwB21znY7MBLiYByFZr+7AXOSRiY/vsQ2Aq9D6BuixrpqmBDe
+ bqKA==
+X-Gm-Message-State: AOAM531HqhUNnBz+JQP1eTCWpgE5rf7ngpIe1V5TwKovG1s4R2ykVIhD
+ P1h37BpdN+lkBO3lmQ8DeOM=
+X-Google-Smtp-Source: ABdhPJxObrjLvtlE0L9UXrd3c8stKz1qpdzqhlrGz4YCcHPfkNY9rFv//1V3yFwjR6e3FqSGU1EiRQ==
+X-Received: by 2002:adf:de86:: with SMTP id w6mr14603830wrl.32.1613851271614; 
+ Sat, 20 Feb 2021 12:01:11 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id x18sm19915373wrs.16.2021.02.20.11.30.55
+ by smtp.gmail.com with ESMTPSA id j23sm16715756wmo.18.2021.02.20.12.01.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 20 Feb 2021 11:30:56 -0800 (PST)
-Subject: Re: [PATCH v2 10/13] vt82c686: Implement control of serial port io
- ranges via config regs
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <3e07fafd50db50f965be877409a420c2693d7b29.1610223397.git.balaton@eik.bme.hu>
+ Sat, 20 Feb 2021 12:01:10 -0800 (PST)
+Subject: Re: [RFC PATCH 32/42] docker: Add gentoo-mipsr5900el-cross image
+To: Fredrik Noring <noring@nocrew.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210214175912.732946-1-f4bug@amsat.org>
+ <20210214175912.732946-33-f4bug@amsat.org>
+ <20210215115957.GG1542881@redhat.com> <YCp7Ce6ELbLFvRXZ@sx9>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <19d2d420-722f-9212-0a19-3f7ad99398f7@amsat.org>
-Date: Sat, 20 Feb 2021 20:30:55 +0100
+Message-ID: <ebbdecd9-e599-1a4b-60e8-3464afa4a20e@amsat.org>
+Date: Sat, 20 Feb 2021 21:01:08 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <3e07fafd50db50f965be877409a420c2693d7b29.1610223397.git.balaton@eik.bme.hu>
+In-Reply-To: <YCp7Ce6ELbLFvRXZ@sx9>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,167 +91,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, "Maciej W. Rozycki" <macro@orcam.me.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc'ing Paolo (Memory API maintainer).
+On 2/15/21 2:45 PM, Fredrik Noring wrote:
+> On Mon, Feb 15, 2021 at 11:59:57AM +0000, Daniel P. Berrangé wrote:
+>> On Sun, Feb 14, 2021 at 06:59:02PM +0100, Philippe Mathieu-Daudé wrote:
+>>> Add a Docker image providing cross toolchain for the MIPS R5900 CPU
+>>> (used on the Sony PS2).
+>>>
+>>> This image is based on Gentoo and the toolchain is built using crossdev.
+>>
+>> Is there any way we can do this with a distro that isn't Gentoo
+>> so that we can get a container build that is fast enough to be
+>> useful for CI ?
+> 
+> Is it necessary to rebuild the toolchain every time?
 
-On 1/9/21 9:16 PM, BALATON Zoltan wrote:
-> In VIA super south bridge the io ranges of superio components
-> (parallel and serial ports and FDC) can be controlled by superio
-> config registers to set their base address and enable/disable them.
-> This is not easy to implement in QEMU because ISA emulation is only
-> designed to set io base address once on creating the device and io
-> ranges are registered at creation and cannot easily be disabled or
-> moved later.
-> 
-> In this patch we hack around that but only for serial ports because
-> those have a single io range at port base that's relatively easy to
-> handle and it's what guests actually use and set address different
-> than the default.
-> 
-> We do not attempt to handle controlling the parallel and FDC regions
-> because those have multiple io ranges so handling them would be messy
-> and guests either don't change their deafult or don't care. We could
-> even get away with disabling and not emulating them, but since they
-> are already there, this patch leaves them mapped at their default
-> address just in case this could be useful for a guest in the future.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
->  hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 82 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-> index 2921d5c55c..18bd86285b 100644
-> --- a/hw/isa/vt82c686.c
-> +++ b/hw/isa/vt82c686.c
-> @@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
->  typedef struct SuperIOConfig {
->      uint8_t regs[0x100];
->      MemoryRegion io;
-> +    ISASuperIODevice *superio;
-> +    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
->  } SuperIOConfig;
->  
-> +static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
-> +                                    int offs)
-> +{
-> +    MemoryRegion *subregion, *mr = NULL;
-> +
-> +    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
-> +        if (subregion->addr == offs) {
-> +            mr = subregion;
+No.
 
-Shouldn't we use memory_region_find() here?
+> Also, perhaps a
+> generic MIPS suite can be used; it shouldn't to necessary to have one
+> specifically made for the R5900 (except libc, if needed, I guess).
 
-Also, why not have a proper helper in "hw/isa/isa.h"?
+We want it to build TCG tests. If we can link them, that should be OK.
 
-> +            break;
-> +        }
-> +    }
-> +    return mr;
-> +}
-> +
->  static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->                                unsigned size)
->  {
-> @@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->      case 0xfd ... 0xff:
->          /* ignore write to read only registers */
->          return;
-> -    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-> +    case 0xe2:
-> +    {
-> +        data &= 0x1f;
-> +        if (data & BIT(2)) { /* Serial port 1 enable */
-> +            ISADevice *dev = sc->superio->serial[0];
-> +            if (!memory_region_is_mapped(sc->serial_io[0])) {
-> +                memory_region_add_subregion(isa_address_space_io(dev),
-> +                                            dev->ioport_id, sc->serial_io[0]);
-> +            }
-> +        } else {
-> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
-> +            if (memory_region_is_mapped(sc->serial_io[0])) {
-> +                memory_region_del_subregion(io, sc->serial_io[0]);
-> +            }
-> +        }
-> +        if (data & BIT(3)) { /* Serial port 2 enable */
-> +            ISADevice *dev = sc->superio->serial[1];
-> +            if (!memory_region_is_mapped(sc->serial_io[1])) {
-> +                memory_region_add_subregion(isa_address_space_io(dev),
-> +                                            dev->ioport_id, sc->serial_io[1]);
-> +            }
-> +        } else {
-> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
-> +            if (memory_region_is_mapped(sc->serial_io[1])) {
-> +                memory_region_del_subregion(io, sc->serial_io[1]);
-> +            }
-> +        }
-> +        break;
-> +    }
-> +    case 0xe7: /* Serial port 1 io base address */
-> +    {
-> +        data &= 0xfe;
-> +        sc->superio->serial[0]->ioport_id = data << 2;
-> +        if (memory_region_is_mapped(sc->serial_io[0])) {
-> +            memory_region_set_address(sc->serial_io[0], data << 2);
-> +        }
-> +        break;
-> +    }
-> +    case 0xe8: /* Serial port 2 io base address */
-> +    {
-> +        data &= 0xfe;
-> +        sc->superio->serial[1]->ioport_id = data << 2;
-> +        if (memory_region_is_mapped(sc->serial_io[1])) {
-> +            memory_region_set_address(sc->serial_io[1], data << 2);
-> +        }
-> +        break;
-> +    }
->      default:
->          qemu_log_mask(LOG_UNIMP,
->                        "via_superio_cfg: unimplemented register 0x%x\n", idx);
-> @@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->      DeviceState *dev = DEVICE(d);
->      ISABus *isa_bus;
->      qemu_irq *isa_irq;
-> +    ISASuperIOClass *ic;
->      int i;
->  
->      qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-> @@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->      isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
->      i8254_pit_init(isa_bus, 0x40, 0, NULL);
->      i8257_dma_init(isa_bus, 0);
-> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-> +    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
-> +                                                      TYPE_VT82C686B_SUPERIO));
-> +    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
->      mc146818_rtc_init(isa_bus, 2000, NULL);
->  
->      for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-> @@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->       */
->      memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
->                                  &s->superio_cfg.io);
-> +
-> +    /* Grab io regions of serial devices so we can control them */
-> +    for (i = 0; i < ic->serial.count; i++) {
-> +        ISADevice *sd = s->superio_cfg.superio->serial[i];
-> +        MemoryRegion *io = isa_address_space_io(sd);
-> +        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
-> +        if (!mr) {
-> +            error_setg(errp, "Could not get io region for serial %d", i);
-> +            return;
-> +        }
-> +        s->superio_cfg.serial_io[i] = mr;
-> +        if (memory_region_is_mapped(mr)) {
-> +            memory_region_del_subregion(io, mr);
-> +        }
-> +    }
->  }
->  
->  static void via_class_init(ObjectClass *klass, void *data)
-> 
+> As an alternative, TobiX at Github made an R5900 Docker image last year
+> <https://github.com/frno7/linux/issues/33#issuecomment-632284209>,
+> perhaps it could be useful somehow?
+
+Thanks, I'll have a look.
+
+Regards,
+
+Phil.
 
