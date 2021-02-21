@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C1E320AF7
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:38:27 +0100 (CET)
-Received: from localhost ([::1]:57604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B43AC320B00
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:41:16 +0100 (CET)
+Received: from localhost ([::1]:37832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDpsQ-0000Am-H6
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:38:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33466)
+	id 1lDpv9-0003ow-6p
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:41:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpq1-0006ov-7i
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:35:57 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38707)
+ id 1lDpq5-0006sY-Go
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:01 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:52808)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDppz-0002z7-Gw
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:35:56 -0500
-Received: by mail-wm1-x336.google.com with SMTP id m25so2579341wmi.3
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:35:55 -0800 (PST)
+ id 1lDpq4-000311-1z
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:01 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id p3so1047708wmc.2
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tPkF9LN3MCz1YIoG8cZ34rc1Sah2fHk5nIfuBciZdSU=;
- b=kVTHHJUBDVtUidxrAzcFp44lszCy/6gk5SYk8NCc1O3Zzc9+sXluPSniI7PXtWt4Xj
- h/UW7IVz5a97Es8sMRZF7C+Diw5gVdPqdWrDRCbx0PvdqhGdJ1jB4BbgVG1a7oJhVZYq
- MxWFslp7TrHSNbsuPXLmzmQdXXvoLeeAmsIEZBg3aSvhAaq3EUXi1Bf3RxX9VqXTBxA4
- dqSdpd/YEaqKw2ymXVh8xn+qLcQesjZxJ5g4ContxRcu0J5XHAVtcNXgOajN5aj0cikV
- IHirvX/2UJn80DR5xc5VcycSAwm5cneplNPoSMVO8u9+U/jRANCHckpIL0wonup5IZD1
- y0Mw==
+ bh=A0/ujJTeBMNKa2bOzyTsl8jur83d23ulbZmLvhVWOXE=;
+ b=duvzXNJ48QDW9hlzkMFxS+nwJtQYqaQY3K57JeT6iaIqQWIrxgxUkqvBefo6VPGYyh
+ bGleEsPHvtDUMfhfeu8NXuT2HAtpeeTRMHSgeAJcx+s0KYwEfTnBNxyUa/o0Ssg0i1dW
+ 8lrVHTc1A+c0mxnckabgfhM8FySH9tTFS9IUzuTTjqpfoVdY29Ww5xBjRlWRI7gxEQJ3
+ 3/Qt4TTpTwQLMBEg1lhUHTGmw0X1dElbSSbxaxoG+NBp8qIg6KFWCijBwscNnM8pKOja
+ EdSzk+RbFzzbxO/ExHplolq1s6kryzH9yXgs99YG4b/DnJ4DF1ls1hqPIGUPEQHAoVna
+ OVdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tPkF9LN3MCz1YIoG8cZ34rc1Sah2fHk5nIfuBciZdSU=;
- b=k+DS+wTWAO4TIzvfEf4PxXqvOg0gtfKwVlX817l1T8UDpRMvs3q/Q7kOrfRwzrlXHK
- JNyi9Gq+SEeyC0ZGyPd9iHxs6tZhOHHJuW9Elh4SfHpWxsxOrU5dJ3yKT5Gxg3VeiDM4
- y/xgQL4q9K/JUAd44SrRz5qv/meiKAJklV5l4P0jPl3ueWGi8OVGJjxqXecYab8p9KEn
- c93pQ0QkoB+3bxnfA/qpmHgauiyj8L6QItaC4cZZBmDGu5GZUOk6+XqEPwQFaK3HCWGn
- G0n6sNRutalEj0fx5nOgv5YSj52XVNxVCbNcJI0F3GZyJc8n9Yoq0YjtbXO58uQlF5mc
- WSFQ==
-X-Gm-Message-State: AOAM532clPsH8s5F67kBdj0BtWMg4yoKtTOuXdPHUkpOQ5/hXF+OQI+X
- Z0WH8Sj2fBOggeRWf8CkK1hvRdsYBos=
-X-Google-Smtp-Source: ABdhPJyt/T8eun1LPzCiVwQWBPEyYVHYU4Mbj4FjnITCS3wOrckY2GLOcDmmI8jQq/lqamawd4PptA==
-X-Received: by 2002:a1c:5419:: with SMTP id i25mr16878734wmb.166.1613918153815; 
- Sun, 21 Feb 2021 06:35:53 -0800 (PST)
+ bh=A0/ujJTeBMNKa2bOzyTsl8jur83d23ulbZmLvhVWOXE=;
+ b=g0ymxBL8NFlthB31dmoyv8L8WyrKNuUoQ1kCp6A+MbpHQISiPuWxTqblNNqyM3iZg9
+ 4UCCqiBqgLxqI1cWqMjKx1sirEgZ4AUq5tLrehf/YZphxhTfj7HQRXnfWuj6ZrGGMQ+i
+ 5SCNjij1FboX7rxHLsbNkf48xdsYfmg6/JCMOyEKJipCxbnFs9uZaGJlBwgYeAH3PWT3
+ nX2OfSwXJPJd/KQ/dWyB0mKjDUe0kU9hGajI/wjuDeAVe4PZPRlC+hE3T48wjH6qgK6A
+ nfIyq98cPkfl6hE4RYmUnE/mCRmja75e4cb2QiFvbUxN0xJeccFhcRcfXyhDNkYoO5J2
+ xbQw==
+X-Gm-Message-State: AOAM532lo+0V26GjOSfH55mi/mBzctLukqM+Dox0S48FsIAbBUZB2nbS
+ vo1XMKcoiosG7srDAXZbVsaOEdE0GNM=
+X-Google-Smtp-Source: ABdhPJybQ2IL8sgBHY5alJHiietVAA3el1eZDu43P2Ybe7uQk7W/N+xpze9hwEL+4SFhE1Ejnmsu8A==
+X-Received: by 2002:a1c:7f46:: with SMTP id a67mr16129407wmd.94.1613918158661; 
+ Sun, 21 Feb 2021 06:35:58 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id e1sm24940417wrd.44.2021.02.21.06.35.52
+ by smtp.gmail.com with ESMTPSA id h13sm24926189wrv.20.2021.02.21.06.35.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 06:35:53 -0800 (PST)
+ Sun, 21 Feb 2021 06:35:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 16/43] target/mips: Let cpu_mips_translate_address() take
- MMUAccessType arg
-Date: Sun, 21 Feb 2021 15:34:05 +0100
-Message-Id: <20210221143432.2468220-17-f4bug@amsat.org>
+Subject: [PULL 17/43] target/mips: Let raise_mmu_exception() take
+ MMUAccessType argument
+Date: Sun, 21 Feb 2021 15:34:06 +0100
+Message-Id: <20210221143432.2468220-18-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221143432.2468220-1-f4bug@amsat.org>
 References: <20210221143432.2468220-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,57 +98,64 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The single caller, do_translate_address(), passes MMUAccessType
-to cpu_mips_translate_address(). Let the prototype use it as
-argument, as it is stricter than an integer.
+Both mips_cpu_tlb_fill() and cpu_mips_translate_address() pass
+MMUAccessType to raise_mmu_exception(). Let the prototype use it
+as argument, as it is stricter than an integer.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <20210128144125.3696119-10-f4bug@amsat.org>
+Message-Id: <20210128144125.3696119-11-f4bug@amsat.org>
 ---
- target/mips/internal.h   | 2 +-
- target/mips/tlb_helper.c | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ target/mips/tlb_helper.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index d09afded5ea..34915c275c4 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -146,7 +146,7 @@ void mips_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-                                     int mmu_idx, MemTxAttrs attrs,
-                                     MemTxResult response, uintptr_t retaddr);
- hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
--                                  int rw);
-+                                  MMUAccessType access_type);
- #endif
- 
- #define cpu_signal_handler cpu_mips_signal_handler
 diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index 9216c7a91b3..9bb635885dd 100644
+index 9bb635885dd..0ad2d51b11c 100644
 --- a/target/mips/tlb_helper.c
 +++ b/target/mips/tlb_helper.c
-@@ -903,17 +903,17 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+@@ -405,12 +405,12 @@ void cpu_mips_tlb_flush(CPUMIPSState *env)
+ #endif /* !CONFIG_USER_ONLY */
  
- #ifndef CONFIG_USER_ONLY
- hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address,
--                                  int rw)
-+                                  MMUAccessType access_type)
+ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+-                                int rw, int tlb_error)
++                                MMUAccessType access_type, int tlb_error)
  {
-     hwaddr physical;
-     int prot;
-     int ret = 0;
+     CPUState *cs = env_cpu(env);
+     int exception = 0, error_code = 0;
  
-     /* data access */
--    ret = get_physical_address(env, &physical, &prot, address, rw,
-+    ret = get_physical_address(env, &physical, &prot, address, access_type,
-                                cpu_mmu_index(env, false));
-     if (ret != TLBRET_MATCH) {
--        raise_mmu_exception(env, address, rw, ret);
-+        raise_mmu_exception(env, address, access_type, ret);
-         return -1LL;
-     } else {
-         return physical;
+-    if (rw == MMU_INST_FETCH) {
++    if (access_type == MMU_INST_FETCH) {
+         error_code |= EXCP_INST_NOTAVAIL;
+     }
+ 
+@@ -419,7 +419,7 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+     case TLBRET_BADADDR:
+         /* Reference to kernel address from user mode or supervisor mode */
+         /* Reference to supervisor address from user mode */
+-        if (rw == MMU_DATA_STORE) {
++        if (access_type == MMU_DATA_STORE) {
+             exception = EXCP_AdES;
+         } else {
+             exception = EXCP_AdEL;
+@@ -427,7 +427,7 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+         break;
+     case TLBRET_NOMATCH:
+         /* No TLB match for a mapped address */
+-        if (rw == MMU_DATA_STORE) {
++        if (access_type == MMU_DATA_STORE) {
+             exception = EXCP_TLBS;
+         } else {
+             exception = EXCP_TLBL;
+@@ -436,7 +436,7 @@ static void raise_mmu_exception(CPUMIPSState *env, target_ulong address,
+         break;
+     case TLBRET_INVALID:
+         /* TLB match with no valid bit */
+-        if (rw == MMU_DATA_STORE) {
++        if (access_type == MMU_DATA_STORE) {
+             exception = EXCP_TLBS;
+         } else {
+             exception = EXCP_TLBL;
 -- 
 2.26.2
 
