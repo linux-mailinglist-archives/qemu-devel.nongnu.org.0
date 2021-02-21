@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24458320E79
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 00:04:47 +0100 (CET)
-Received: from localhost ([::1]:42098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 913D8320E87
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 00:24:34 +0100 (CET)
+Received: from localhost ([::1]:49158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDxmQ-0008Lb-68
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 18:04:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38606)
+	id 1lDy5Z-0005B4-3X
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 18:24:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDxin-0005eZ-QH
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 18:01:01 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50501)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDxim-0002UP-9S
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 18:01:01 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id a132so11897918wmc.0
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 15:00:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5FWG/urwdv1fRBT4ZrY/IBsT6V5Yo2f7C85sD61dDjQ=;
- b=Bzt/nPOHDGRBe75A/Lq/cDpc0PKfdW1KT8JPk94Zdf8z8GtvlJqvLh8edm5y/gm/6e
- hSdjY7typPr90NyZCrO293djMhjFgARly4A3nCAdcF8AuTi2hCQI9dbknFlcdhIpBuh9
- IWNLDCYfzcCN6nnRi0fmU58MzWda2Qk/cNa9xxjtbA3UmOrBSGPP3V3sej4vBaKCsmry
- K0SVxDfX3fNfh1wqpS7Q4tyPNnjhjGCosheS/HkL7j+kSDTG/RJmIPZgcEgo7Z8sn0jg
- AwrJp676iB7EDJO4aAmMshh32uNJF3zolp0LMfOQcIo3Q6DT2kvKeEXuLkzbi1x1g4IH
- F0SA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lDy4W-0004c7-4q
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 18:23:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lDy4T-0004uS-Ch
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 18:23:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613949802;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8255LiaqyaaXISOnL/MUQmckRLZztvftKm4uWNUfkx4=;
+ b=iKmKEjw9uQHXc+tiMH5TsTZlH6vKOAYUS7FsLYZ0QFpgnE74ww6BA0bsji61HGJ96XJ2+K
+ OHIV/hEN9U0bd0K95fbAjvUEm6bxg0okgp+qO0zJTe7N+Y2ZugFt00bNhvDVVR7kDn9H58
+ drbipa8tOowRLDN6dsUyvh0hy2d+EfA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-598-40ixYRyPMi6XibQyRmT_vA-1; Sun, 21 Feb 2021 18:23:21 -0500
+X-MC-Unique: 40ixYRyPMi6XibQyRmT_vA-1
+Received: by mail-wr1-f70.google.com with SMTP id v1so5384525wru.2
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 15:23:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5FWG/urwdv1fRBT4ZrY/IBsT6V5Yo2f7C85sD61dDjQ=;
- b=A1kFvVqcrf0GvvIGKgGV0pMdTI+nL4KKDTH40uAfEqUTcb8Bj7QB95F76GTBl1OEzq
- kv+CM4JBBmF2frbvf0y44CQd6aqWuKeadmeENi6cEjoy/RQAsOTluBxHDAPdIkmtonRB
- EaUWJVdFBK6JU74galeGZn3KGvW3PV3IDq5+soOCQ1/CUXO9aqVfzt3BoG/swGVludn6
- BopJogwqTlxFtPw/JFMupuDj12PE/Zxyha+en5JxXIqHbynwX4+fL5FDLsbSKW+tcC2y
- KAj2NGftajKbN/IMSE/fyJCma4sU14rwFRF0WX6Lc9DV72G3891jKvNrx+TVGs1ptznA
- RmyA==
-X-Gm-Message-State: AOAM531dIqFPYaZ1Xb5Yyw9Jin97yi7xJ7zwTCqz7uV4N6EJyYQmYX6X
- nztKewQcxzVQauG8FTMkiOBFaCwNCvU=
-X-Google-Smtp-Source: ABdhPJyzwPpuTAsn4Z2sEnqKmWkV17weW2U9jWPN3jOI1IMDXRnHgjg0TLmysK1fZapDkMt5Z0GpsQ==
-X-Received: by 2002:a1c:8005:: with SMTP id b5mr17848945wmd.130.1613948458949; 
- Sun, 21 Feb 2021 15:00:58 -0800 (PST)
+ h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
+ :mime-version:content-language:content-transfer-encoding;
+ bh=8255LiaqyaaXISOnL/MUQmckRLZztvftKm4uWNUfkx4=;
+ b=VjxHpLu761n2Ia3ehlCtvGVlJupJPVae8+bRJV3u4LSbljQ6MxH5qNRRGpPmILTjH6
+ sL2yARftJUgDc+SA6kkOWis0cvsy7Ux7/tR6Dy9myKqCZGflV/ibsT97/Ubexyd1QKNY
+ Mvhi9Ulz00geGb93jnGw2wjw7rx1SGkCS3/hdLaTwEyE8FhNM5IRwAouoqL5XeKarbVN
+ CZjD+bAA/0T9dBEapOLq9W8/w63eluo1k5ywyUHAO7hvpUYptpVgw/Q/fZKNO+3e9Bk5
+ BwzNoaQdoh0Am2x96S4wT4YPhB5WMce8X/xu6ZRUrw5xAcZxylQm4ZapM1//1wBfeuEu
+ y3fQ==
+X-Gm-Message-State: AOAM532L4/oUgBkcNwEKpEiTL4LDO2bjkcgq+005nfZb/XJW5ZUhZwLs
+ fGaNongy2nIHAENpvkak/39Be248nUAvY7KTmVlkCPUbNScDHKq6xN6WTqoLulUmBknHUAgt3Ba
+ r0rghfMZXtD0/XNg=
+X-Received: by 2002:a5d:4d0f:: with SMTP id z15mr11230263wrt.41.1613949799970; 
+ Sun, 21 Feb 2021 15:23:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJznNLK4eUebr08h0Z+SURfMdn8fP5NMgvwx7ZNO+ByZCAMxk65RidStDAiG1pF/rWkMIdVx8w==
+X-Received: by 2002:a5d:4d0f:: with SMTP id z15mr11230250wrt.41.1613949799804; 
+ Sun, 21 Feb 2021 15:23:19 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id j125sm24242458wmb.44.2021.02.21.15.00.57
+ by smtp.gmail.com with ESMTPSA id k1sm25766047wrx.77.2021.02.21.15.23.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 15:00:58 -0800 (PST)
-Subject: Re: [PATCH v4 01/71] tcg/tci: Use exec/cpu_ldst.h interfaces
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210217202036.1724901-1-richard.henderson@linaro.org>
- <20210217202036.1724901-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a1793c46-500d-89f7-2b85-f5b320be05b8@amsat.org>
-Date: Mon, 22 Feb 2021 00:00:57 +0100
+ Sun, 21 Feb 2021 15:23:19 -0800 (PST)
+To: Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Subject: Can we run QEMU Avocado tests without root access?
+Message-ID: <04391605-1413-f944-6e17-8a4bc50608b5@redhat.com>
+Date: Mon, 22 Feb 2021 00:23:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210217202036.1724901-2-richard.henderson@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,46 +94,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, alex.bennee@linaro.org
+Cc: avocado-devel <avocado-devel@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/21 9:19 PM, Richard Henderson wrote:
-> Use the provided cpu_ldst.h interfaces.  This fixes the build vs
-> the unconverted uses of g2h(), adds missed memory trace events,
-> and correctly recognizes when a SIGSEGV belongs to the guest via
-> set_helper_retaddr().
-> 
-> Fixes: 3e8f1628e864
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/tci.c | 73 +++++++++++++++++++++----------------------------------
->  1 file changed, 28 insertions(+), 45 deletions(-)
+Hi,
 
-Hit that today:
+On a system I want to run the QEMU integration tests I got:
 
-../tcg/tci.c: In function ‘tcg_qemu_tb_exec’:
-../tcg/tci.c:379:37: error: passing argument 1 of ‘g2h’ makes pointer
-from integer without a cast [-Werror=int-conversion]
-  379 | # define qemu_ld_ub      ldub_p(g2h(taddr))
-      |                                     ^~~~~
-      |                                     |
-      |                                     target_ulong {aka unsigned int}
-../tcg/tci.c:1034:25: note: in expansion of macro ‘qemu_ld_ub’
- 1034 |                 tmp32 = qemu_ld_ub;
-      |                         ^~~~~~~~~~
-In file included from ../tcg/tci.c:32:
-include/exec/cpu_ldst.h:85:35: note: expected ‘CPUState *’ but argument
-is of type ‘target_ulong’ {aka ‘unsigned int’}
-   85 | static inline void *g2h(CPUState *cs, abi_ptr x)
-      |                         ~~~~~~~~~~^~
-../tcg/tci.c:379:33: error: too few arguments to function ‘g2h’
-  379 | # define qemu_ld_ub      ldub_p(g2h(taddr))
-      |                                 ^~~
-../tcg/tci.c:1034:25: note: in expansion of macro ‘qemu_ld_ub’
- 1034 |                 tmp32 = qemu_ld_ub;
-      |                         ^~~~~~~~~~
+$ make check-venv
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+  VENV    build/tests/venv
+The virtual environment was not created successfully because ensurepip
+is not
+available.  On Debian/Ubuntu systems, you need to install the python3-venv
+package using the following command.
 
-So:
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+    apt-get install python3-venv
+
+You may need to use sudo with that command.  After installing the
+python3-venv
+package, recreate your virtual environment.
+
+Failing command: ['build/tests/venv/bin/python3', '-Im', 'ensurepip',
+'--upgrade', '--default-pip']
+
+make: *** [/home/philmd/qemu/tests/Makefile.include:98:
+build/tests/venv] Error 1
+
+However I could do:
+
+$ python3 -m pip install --user virtualenv
+Collecting virtualenv
+  Downloading virtualenv-20.4.2-py2.py3-none-any.whl (7.2 MB)
+     |████████████████████████████████| 7.2 MB 6.4 MB/s
+Collecting distlib<1,>=0.3.1
+  Downloading distlib-0.3.1-py2.py3-none-any.whl (335 kB)
+     |████████████████████████████████| 335 kB 6.4 MB/s
+Collecting appdirs<2,>=1.4.3
+  Downloading appdirs-1.4.4-py2.py3-none-any.whl (9.6 kB)
+Requirement already satisfied: six<2,>=1.9.0 in
+/usr/lib/python3/dist-packages (from virtualenv) (1.15.0)
+Collecting filelock<4,>=3.0.0
+  Downloading filelock-3.0.12-py3-none-any.whl (7.6 kB)
+Installing collected packages: distlib, appdirs, filelock, virtualenv
+Successfully installed appdirs-1.4.4 distlib-0.3.1 filelock-3.0.12
+virtualenv-20.4.2
+
+$ virtualenv --version
+virtualenv 20.4.2 from
+/home/philmd/.local/lib/python3.9/site-packages/virtualenv/__init__.py
+
+Note, there is still the old tests/venv/ dir created bug:
+
+$ make check-venv
+  GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+tests/fp/berkeley-softfloat-3 dtc capstone slirp
+make: Nothing to be done for 'check-venv'.
+
+Although it might be true... If I don't have root access, there is
+nothing to be done ¯\_(ツ)_/¯
+
+Thanks,
+
+Phil.
+
 
