@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B091532098D
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 10:55:14 +0100 (CET)
-Received: from localhost ([::1]:36552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4430D32098E
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 10:56:21 +0100 (CET)
+Received: from localhost ([::1]:38726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDlSL-00089b-Q2
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 04:55:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
+	id 1lDlTQ-0000i2-BX
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 04:56:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDlR9-0007hu-4k
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 04:53:59 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35611)
+ id 1lDlSa-0000BT-75
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 04:55:28 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDlR7-0008By-J8
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 04:53:58 -0500
-Received: by mail-wm1-x333.google.com with SMTP id n10so11678491wmq.0
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 01:53:57 -0800 (PST)
+ id 1lDlSY-0000Lg-Ra
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 04:55:27 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v1so15807279wrd.6
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 01:55:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=DkgzDClQESOvVgfZAIsa50g+k6kDPib0kchRuXUJZaI=;
- b=rldz6AOMLQSayB+uKtZxvFXvRuA/bXcM/xVWaAO4YDZkHWKn7XxKL6MUlt/FomF0UP
- MraR89TpugX13bNlXoTs0mkMVMadDUR3MYmqQkGvI4vgRbS6UUdoGoCt5W7+lvjEAKXD
- bK/tLeQ4D9AhSinjCygvFWoTMGiKiC+BubkRylQg1FYSLab6ITLg+2Msc3XP0BgDkXol
- 43FrET+oDH0hllgrNtzsPzzM5D7Cblx9bFfjN9P4IQIP+BJlDMUgd77IxgZxb4OjNMm1
- a532aaCqIXneSVok8VVXV4lEWqvNAwycyuEu5jshPSOzCgQE2GTRvzb6hy0WhG9gAPPm
- mWYw==
+ bh=6xY2Y9Nidda4HhEhqxim7OqNWFI6oCVfAdWFToH0kxY=;
+ b=hnnRov5FBbA6Cx6HL66KyJVvgLL5KJILaw8E5yKL3nEZXofb2BmVgTjek7bHPT3Pde
+ xCVh5u7hAyWj1PRLOBxf4i1iEUsH7YzBjkaM9x3Gpp6oth1b6vU4fJox3pfg1ZdiM12c
+ 2EeW3m/BDPzBgDlm0PNSYITo1aU8wECG4rkwLm8w6yhr/jPWIyEjmDwmfb1bd1rvxnbr
+ 56FyBK18ttfuXzROrM738xdL8EgY23YjnqJ3DTtXMeQzuu/9TsEBH4PYCGBy7XTSfQz5
+ nVc9oUpsIoTeeW+LAnUYBT+QzTQVjTi1WeID2zvGa5ukIablkIIJMdbfoWvoPClADkEl
+ Redw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DkgzDClQESOvVgfZAIsa50g+k6kDPib0kchRuXUJZaI=;
- b=MNplo3I/crsdUszVF3hg8w5SP7yLjk3YOs4+NCVsFwfaeEbwRsc5xKZodO7CO9ABtN
- KybMJzoQZgmQudgXQH/W1qyPBHzvEgygvLDEpbTzI3vdgwOV2Bvt+0daObKVBjx3RBnX
- lKvzMjrdYaRZrG+B2TlAPERHcEJ9YnksgSU9QjwEfBFZkWFDHsLfc4JAJw8O3ejDaeds
- fCd6juzpjYb2zD4X8I7UmV3/Lv75S55qc2MvZf/4//T1d1x0AS02Q/BMU0ENpI6gExLD
- Fpex+FnQ9cyaUbnrUm5rFUJl8nrRfvilSnIbVz8cCUp4Ywu4I1JIpQnEZTrZgesCsUwJ
- Ud2g==
-X-Gm-Message-State: AOAM531WBkIPnfvbd7y8V+KyqWJVp2yqTcXqVmoscKPInyaH9FcQGnun
- ZN7ItGDfODv9weYVYs5u557f/aOwE7M=
-X-Google-Smtp-Source: ABdhPJwVQtz6jghMYZ2vSd0H9EXjmFts8lSti0RdRdkDrWf8YgdAodpN7A9Qp/YXgxKvhr75+jBU+A==
-X-Received: by 2002:a1c:9d82:: with SMTP id g124mr9119661wme.115.1613901235223; 
- Sun, 21 Feb 2021 01:53:55 -0800 (PST)
+ bh=6xY2Y9Nidda4HhEhqxim7OqNWFI6oCVfAdWFToH0kxY=;
+ b=rufbsLj50oU+T+Jx5+oE50f3vcxvXvhXeLbQIXU+OnHg2BQFwT0dBSN8WaBZ5WOB89
+ FbB+XDv5ylZBFJakP/YWgkRb1E1upljsXNrbzNgxZ0TyZ0R9Ef6X85bpXNEjmqRg5ej7
+ 50rhPiO9H6tga7u4ma/QRgYCg/b2S0iJKLcvIPwM8ADEh0wXENoevnDzl/DDx8MHJy2V
+ ySj+DYdz6E2/skbYHWBBmHwruVPWK6OCfpeQZmlNpF0w3iShbV37Tl0q3YkGjtCMFXG7
+ Lrg2b7JNKy1m1pOldKtekFyvB6g0LXm2nyMOloaO7h19fLeGeR7ig0BTLW2rkcF3bWsI
+ r9xw==
+X-Gm-Message-State: AOAM530WUvJ6mhXmOFJ+m6IEoik6G5hvt9ak1z4QZgwR1/+uxbPn2Bj1
+ 8hWm2e/L9XljffjH61kQFbB4UXpqOg0=
+X-Google-Smtp-Source: ABdhPJxVUUsaaMaOZoUkufab98K/gOyJFpDmSh0gPwGj1McaV0aZVLR7tayHKOVdZHwMtRfvJ+otoA==
+X-Received: by 2002:a5d:5601:: with SMTP id l1mr5572740wrv.178.1613901325262; 
+ Sun, 21 Feb 2021 01:55:25 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t2sm7390141wrx.23.2021.02.21.01.53.53
+ by smtp.gmail.com with ESMTPSA id y12sm11915678wrm.33.2021.02.21.01.55.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 01:53:54 -0800 (PST)
-Subject: Re: [RFC v1 32/38] target/arm: cpu: do not initialize TCG PMU for KVM
+ Sun, 21 Feb 2021 01:55:24 -0800 (PST)
+Subject: Re: [RFC v1 34/38] target/arm: cpu: only initialize TCG gt timers
+ under CONFIG_TCG
 To: Claudio Fontana <cfontana@suse.de>,
  Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-33-cfontana@suse.de>
+ <20210221092449.7545-35-cfontana@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ea91e888-10db-8abe-7a62-bc4532ba99eb@amsat.org>
-Date: Sun, 21 Feb 2021 10:53:53 +0100
+Message-ID: <ef926947-1073-4d7e-0b59-c47fbbfb44a2@amsat.org>
+Date: Sun, 21 Feb 2021 10:55:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210221092449.7545-33-cfontana@suse.de>
+In-Reply-To: <20210221092449.7545-35-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -102,39 +103,60 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 2/21/21 10:24 AM, Claudio Fontana wrote:
 > From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 > 
-> KVM uses its own PMU initialization.
+> KVM has its own cpu->kvm_vtime.
+> 
+> Adjust cpu vmstate by putting unused fields instead of the
+> VMSTATE_TIMER_PTR when TCG is not available.
 > 
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  target/arm/cpu.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  target/arm/cpu.c     | 4 +++-
+>  target/arm/machine.c | 5 +++++
+>  2 files changed, 8 insertions(+), 1 deletion(-)
 > 
 > diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index a8321fecf8..d334987cad 100644
+> index 1d81a1e7ac..b929109054 100644
 > --- a/target/arm/cpu.c
 > +++ b/target/arm/cpu.c
-> @@ -1648,6 +1648,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          unset_feature(env, ARM_FEATURE_PMU);
+> @@ -1322,6 +1322,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          }
 >      }
->      if (arm_feature(env, ARM_FEATURE_PMU)) {
-> +#ifdef CONFIG_TCG
-
-Shouldn't this be #if !defined(CONFIG_KVM) ?
-
->          pmu_init(cpu);
 >  
->          if (!kvm_enabled()) {
+> +#ifdef CONFIG_TCG
+>      {
+>          uint64_t scale;
+>  
+> @@ -1347,7 +1348,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>          cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+>                                                    arm_gt_hvtimer_cb, cpu);
 
-And remove this ^
+What about Xen?
 
-> @@ -1659,6 +1660,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, arm_pmu_timer_cb,
->                  cpu);
->  #endif
+>      }
+> -#endif
 > +#endif /* CONFIG_TCG */
->      } else {
->          cpu->isar.id_aa64dfr0 =
->              FIELD_DP64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
+> +#endif /* !CONFIG_USER_ONLY */
+>  
+>      cpu_exec_realizefn(cs, &local_err);
+>      if (local_err != NULL) {
+> diff --git a/target/arm/machine.c b/target/arm/machine.c
+> index 666ef329ef..13d7c6d930 100644
+> --- a/target/arm/machine.c
+> +++ b/target/arm/machine.c
+> @@ -822,8 +822,13 @@ const VMStateDescription vmstate_arm_cpu = {
+>          VMSTATE_UINT32(env.exception.syndrome, ARMCPU),
+>          VMSTATE_UINT32(env.exception.fsr, ARMCPU),
+>          VMSTATE_UINT64(env.exception.vaddress, ARMCPU),
+> +#ifdef CONFIG_TCG
+>          VMSTATE_TIMER_PTR(gt_timer[GTIMER_PHYS], ARMCPU),
+>          VMSTATE_TIMER_PTR(gt_timer[GTIMER_VIRT], ARMCPU),
+> +#else
+> +        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
+> +        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
+> +#endif /* CONFIG_TCG */
+>          {
+>              .name = "power_state",
+>              .version_id = 0,
 > 
 
 
