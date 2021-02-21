@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 880E3320E4D
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:30:55 +0100 (CET)
-Received: from localhost ([::1]:40668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAFC320E5E
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:51:54 +0100 (CET)
+Received: from localhost ([::1]:51278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDxFe-0002JH-Kp
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:30:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60604)
+	id 1lDxZx-0008En-91
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:51:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDxBZ-0006P9-7l; Sun, 21 Feb 2021 17:26:41 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55535)
+ id 1lDxZC-0007pQ-15
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 17:51:06 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50468)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDxBV-0004NI-G9; Sun, 21 Feb 2021 17:26:40 -0500
-Received: by mail-wm1-x333.google.com with SMTP id i9so1876265wml.5;
- Sun, 21 Feb 2021 14:26:36 -0800 (PST)
+ id 1lDxZA-0006Xl-Jb
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 17:51:05 -0500
+Received: by mail-wm1-x334.google.com with SMTP id a132so11886468wmc.0
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 14:51:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=abvYlgbxp+qnt7oGypu6kSIUTyAzh4XUcm0yaEcwfBM=;
- b=Do39XBpiaCjdx4o3acLIlsdzRldWXhgMtR2yQg9FD963XM0tMo/n9Oq+CoLzHxQbXG
- c9QDNu05tB11IirmGU2xvKEUeIvOpK846DvRU66vZEA9FETswV/qK0Icf3VeIh5htJmY
- 8jfwm166sCNBuYj6tc4fTeOciLTIdv4IsLwjkANH6DYVDV7c6euxD06TpoWDeQz+iKsW
- Z1eR/C5+Pcr0q81ZRBkV4ACL4broZlpfmkFqFVotnahggwpAkFITBRcDH0/2EC01cXfW
- GrfUMG4OvMcoK2COLMDHxxKVYRZCxOeH4fD14+J93BK5spndJln+U6FfJseXEQ9MoYME
- Wp5Q==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=+2Xib/L209zeQYbdM0hnWJHpSfvay2lIYvKTxCkmQ4Y=;
+ b=NPcvVVuYtB5cOwuDm2HhVwkOd5NEmxXOcGEa2VYOzvgIgWXGbV1Xpw8e2hHl0m8xwO
+ mJ8Fa8m0CspkwD/CREdpM4Qgbetwr9nc1M1gsDN2NR88akRGAQK1rVKAzVZbMFsi3OnE
+ GR9ddm3EOwkkHwOetleYRjXKGnBxVGe0SvUH8YZ2GRAgygbWe3OkY89+nRcZ3JAT1L7c
+ 3HT+Ev/KnzV194jvOHcOsNKErAasUdxQ6wrR0meiO355/xmNybLThsl2mnn+ZpUcLzrt
+ /A+9ug2J+wELTWb8EWtiYMbaQr4yYNA2x5P2DNuaLj5KgoARHdTlm+AH9RlaiPt2x3VF
+ WaDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=abvYlgbxp+qnt7oGypu6kSIUTyAzh4XUcm0yaEcwfBM=;
- b=dQOCHiueyWIlJxjdPh2ti+S2+oAaMBKQJNu9gsMTRcZocKAn6s+Ylbg8YsMpqJHAf2
- uCPH83b0pxNRlh1B2IvKwaWjApHzKfocIlrldu6L+He6nw27zaIGgAsoasLn6GH1aoK6
- SNjxwzlz4SciWZtwsxVvKqe406yxSOo88PgLPGluGRfROsfIs0NgDwnc2W2MVwHdZ6aF
- XN+hyvuTU8ZLWGjXk/ALRyoinwUp6U2U20GDV/qBQ9rwW8Z9Oko5AI0XT0cfqkkV5JAr
- /1wQtYOLkXTjYilPXZQRUy96soAz20RSK6PktcWVlGs44VqSJxiYTPLzWT7tfXYIb6dA
- hzIw==
-X-Gm-Message-State: AOAM533cpNvmHVewbwGQTuQmqrBXiwfxuN78fGsVZklvfJEMbT98nRj4
- /EgXhin+JVZdi6qStCBDmWqSHK0wozs=
-X-Google-Smtp-Source: ABdhPJyHP94q30yxiCEuYjfa9h4+nYyHehwbFYqmGqDJX0e9EUZgygdcessSIchwnj+9HpcdvypoQA==
-X-Received: by 2002:a7b:c40c:: with SMTP id k12mr8094446wmi.66.1613946394619; 
- Sun, 21 Feb 2021 14:26:34 -0800 (PST)
-Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=+2Xib/L209zeQYbdM0hnWJHpSfvay2lIYvKTxCkmQ4Y=;
+ b=f3gsRRiAnfFwBUO1oYk4Wd9TAdkJ6apyEs4/pJ0gM0tNScCNsAnFr88uosBu9voKAq
+ uWRAt4rhTlL7BgKf9rl/wjAJf62cCcAg/6wiWla7Z45BjKX7cdRD4gcChzpl+PdsZaj/
+ vbB0qZdj2lrsnMH1H9UNoUXHA8smTGwSD+jmwAbjl/EQvEG+APMjVdxWEf1WMmtKergZ
+ MimttKQEUfLYVJV042qeuNybhilQunDu1JF0L7VCl3quPuElc83n5D5XRa9eCmYBkGU2
+ D6gPAYs8AlOy7kzl2EQ1mJc32K+7qdj091Vp8pOK0Lm7+ydOjRLVdZxJVKturFLgcBOm
+ UZCA==
+X-Gm-Message-State: AOAM533P76yYL/wsOf3YKfTBWCfGzc3ludjFQ1vKhkRL+7snMYaFntuz
+ 15ubJsb70uSGrVu33Wrb5as=
+X-Google-Smtp-Source: ABdhPJyuMqDlR0Q3oqsjMrlGmw6B8GIEuQiAQ077cq1tx7/RwNJ5sLxI0qL88URVNwvp7pp3Y9Ug7A==
+X-Received: by 2002:a1c:f30a:: with SMTP id q10mr17950366wmq.159.1613947862418; 
+ Sun, 21 Feb 2021 14:51:02 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y12sm14379006wrm.33.2021.02.21.14.26.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 14:26:34 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] target/arm: Restrict v7A TCG cpus to TCG accel
-Date: Sun, 21 Feb 2021 23:26:17 +0100
-Message-Id: <20210221222617.2579610-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210221222617.2579610-1-f4bug@amsat.org>
-References: <20210221222617.2579610-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id f20sm25720348wrd.96.2021.02.21.14.51.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Feb 2021 14:51:01 -0800 (PST)
+Subject: Re: [RFC PATCH] target/mips/cp0_timer: Use new clock_ns_to_ticks()
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210210234334.3750022-1-f4bug@amsat.org>
+ <b2c64763-f341-60ff-0467-d95a4daab968@amsat.org>
+ <CAFEAcA_K0hgEi-YerHTYAJ8B-PV0t=Z_=Faiob_+9J4DDi0BtQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a873f8d4-bfbd-ea57-3144-71ba54b5cd9e@amsat.org>
+Date: Sun, 21 Feb 2021 23:51:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAFEAcA_K0hgEi-YerHTYAJ8B-PV0t=Z_=Faiob_+9J4DDi0BtQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,734 +90,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Hao Wu <wuhaotsh@google.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, Luc Michel <luc@lmichel.fr>,
+ QEMU Developers <qemu-devel@nongnu.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM requires the target cpu to be at least ARMv8 architecture
-(support on ARMv7 has been dropped in commit 82bf7ae84ce:
-"target/arm: Remove KVM support for 32-bit Arm hosts").
+On 2/21/21 9:12 PM, Peter Maydell wrote:
+> On Sun, 21 Feb 2021 at 20:07, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> On 2/11/21 12:43 AM, Philippe Mathieu-Daudé wrote:
+>>> Use the new clock_ns_to_ticks() function in cp0_timer where
+>>> appropriate. This allows us to remove CPUMIPSState::cp0_count_ns
+>>> and mips_cp0_period_set().
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> Based-on: <20210209132040.5091-1-peter.maydell@linaro.org>
+>>>
+>>> RFC because this is just a starter patch to test Peter's series
+>>> providing a handy function which "tells me how many times this
+>>> clock would tick in this length of time".
+>>>
+>>> Also because we could rethink the MIPS CP0 timer logic to avoid
+>>> too frequent divu128 calls (painful on 32-bit hosts).
+>>>
+>>> The style should be updated, using more variables for easier
+>>> review. env_archcpu() could eventually be dropped (by passing
+>>> MIPSCPU* instead of CPUMIPSState*).
+>>
+>> I guess it is better to wait for Peter patches to get merged
+>> before posting the updated patches (not much, just one previous
+>> patch MIPSCPU* instead of CPUMIPSState*).
+> 
+> This patch is still on my to-review queue, fwiw (though I am
+> taking a week off work next week, so I probably won't get to
+> it til March.)
 
-A KVM-only build won't be able to run TCG cpus, move the
-v7A CPU definitions to cpu_tcg.c.
+Thanks for the update, I'll repost during the first day of March
+then :) Also I'll try to rebase my "hw/char/serial: Use the Clock
+API to feed the UART reference clock" too.
 
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/arm/cpu.c     | 331 -------------------------------------------
- target/arm/cpu_tcg.c | 314 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 314 insertions(+), 331 deletions(-)
+Regards,
 
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 6865ea76466..ae04884408c 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1922,327 +1922,6 @@ static ObjectClass *arm_cpu_class_by_name(const char *cpu_model)
-     return oc;
- }
- 
--/* CPU models. These are not needed for the AArch64 linux-user build. */
--#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
--
--static const ARMCPRegInfo cortexa8_cp_reginfo[] = {
--    { .name = "L2LOCKDOWN", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 0,
--      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    { .name = "L2AUXCR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
--      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
--};
--
--static void cortex_a8_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a8";
--    set_feature(&cpu->env, ARM_FEATURE_V7);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
--    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    cpu->midr = 0x410fc080;
--    cpu->reset_fpsid = 0x410330c0;
--    cpu->isar.mvfr0 = 0x11110222;
--    cpu->isar.mvfr1 = 0x00011111;
--    cpu->ctr = 0x82048004;
--    cpu->reset_sctlr = 0x00c50078;
--    cpu->isar.id_pfr0 = 0x1031;
--    cpu->isar.id_pfr1 = 0x11;
--    cpu->isar.id_dfr0 = 0x400;
--    cpu->id_afr0 = 0;
--    cpu->isar.id_mmfr0 = 0x31100003;
--    cpu->isar.id_mmfr1 = 0x20000000;
--    cpu->isar.id_mmfr2 = 0x01202000;
--    cpu->isar.id_mmfr3 = 0x11;
--    cpu->isar.id_isar0 = 0x00101111;
--    cpu->isar.id_isar1 = 0x12112111;
--    cpu->isar.id_isar2 = 0x21232031;
--    cpu->isar.id_isar3 = 0x11112131;
--    cpu->isar.id_isar4 = 0x00111142;
--    cpu->isar.dbgdidr = 0x15141000;
--    cpu->clidr = (1 << 27) | (2 << 24) | 3;
--    cpu->ccsidr[0] = 0xe007e01a; /* 16k L1 dcache. */
--    cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
--    cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
--    cpu->reset_auxcr = 2;
--    define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
--}
--
--static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
--    /*
--     * power_control should be set to maximum latency. Again,
--     * default to 0 and set by private hook
--     */
--    { .name = "A9_PWRCTL", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 0,
--      .access = PL1_RW, .resetvalue = 0,
--      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_control) },
--    { .name = "A9_DIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 1,
--      .access = PL1_RW, .resetvalue = 0,
--      .fieldoffset = offsetof(CPUARMState, cp15.c15_diagnostic) },
--    { .name = "A9_PWRDIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 2,
--      .access = PL1_RW, .resetvalue = 0,
--      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_diagnostic) },
--    { .name = "NEONBUSY", .cp = 15, .crn = 15, .crm = 1, .opc1 = 0, .opc2 = 0,
--      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
--    /* TLB lockdown control */
--    { .name = "TLB_LOCKR", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 2,
--      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
--    { .name = "TLB_LOCKW", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 4,
--      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
--    { .name = "TLB_VA", .cp = 15, .crn = 15, .crm = 5, .opc1 = 5, .opc2 = 2,
--      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
--    { .name = "TLB_PA", .cp = 15, .crn = 15, .crm = 6, .opc1 = 5, .opc2 = 2,
--      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
--    { .name = "TLB_ATTR", .cp = 15, .crn = 15, .crm = 7, .opc1 = 5, .opc2 = 2,
--      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
--    REGINFO_SENTINEL
--};
--
--static void cortex_a9_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a9";
--    set_feature(&cpu->env, ARM_FEATURE_V7);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    /*
--     * Note that A9 supports the MP extensions even for
--     * A9UP and single-core A9MP (which are both different
--     * and valid configurations; we don't model A9UP).
--     */
--    set_feature(&cpu->env, ARM_FEATURE_V7MP);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR);
--    cpu->midr = 0x410fc090;
--    cpu->reset_fpsid = 0x41033090;
--    cpu->isar.mvfr0 = 0x11110222;
--    cpu->isar.mvfr1 = 0x01111111;
--    cpu->ctr = 0x80038003;
--    cpu->reset_sctlr = 0x00c50078;
--    cpu->isar.id_pfr0 = 0x1031;
--    cpu->isar.id_pfr1 = 0x11;
--    cpu->isar.id_dfr0 = 0x000;
--    cpu->id_afr0 = 0;
--    cpu->isar.id_mmfr0 = 0x00100103;
--    cpu->isar.id_mmfr1 = 0x20000000;
--    cpu->isar.id_mmfr2 = 0x01230000;
--    cpu->isar.id_mmfr3 = 0x00002111;
--    cpu->isar.id_isar0 = 0x00101111;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232041;
--    cpu->isar.id_isar3 = 0x11112131;
--    cpu->isar.id_isar4 = 0x00111142;
--    cpu->isar.dbgdidr = 0x35141000;
--    cpu->clidr = (1 << 27) | (1 << 24) | 3;
--    cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
--    cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
--    define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
--}
--
--#ifndef CONFIG_USER_ONLY
--static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
--{
--    MachineState *ms = MACHINE(qdev_get_machine());
--
--    /*
--     * Linux wants the number of processors from here.
--     * Might as well set the interrupt-controller bit too.
--     */
--    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
--}
--#endif
--
--static const ARMCPRegInfo cortexa15_cp_reginfo[] = {
--#ifndef CONFIG_USER_ONLY
--    { .name = "L2CTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
--      .access = PL1_RW, .resetvalue = 0, .readfn = a15_l2ctlr_read,
--      .writefn = arm_cp_write_ignore, },
--#endif
--    { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
--      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
--    REGINFO_SENTINEL
--};
--
--static void cortex_a7_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a7";
--    set_feature(&cpu->env, ARM_FEATURE_V7VE);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A7;
--    cpu->midr = 0x410fc075;
--    cpu->reset_fpsid = 0x41023075;
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x11111111;
--    cpu->ctr = 0x84448003;
--    cpu->reset_sctlr = 0x00c50078;
--    cpu->isar.id_pfr0 = 0x00001131;
--    cpu->isar.id_pfr1 = 0x00011011;
--    cpu->isar.id_dfr0 = 0x02010555;
--    cpu->id_afr0 = 0x00000000;
--    cpu->isar.id_mmfr0 = 0x10101105;
--    cpu->isar.id_mmfr1 = 0x40000000;
--    cpu->isar.id_mmfr2 = 0x01240000;
--    cpu->isar.id_mmfr3 = 0x02102211;
--    /*
--     * a7_mpcore_r0p5_trm, page 4-4 gives 0x01101110; but
--     * table 4-41 gives 0x02101110, which includes the arm div insns.
--     */
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232041;
--    cpu->isar.id_isar3 = 0x11112131;
--    cpu->isar.id_isar4 = 0x10011142;
--    cpu->isar.dbgdidr = 0x3515f005;
--    cpu->clidr = 0x0a200023;
--    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
--    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
--    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
--    define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
--}
--
--static void cortex_a15_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cpu->dtb_compatible = "arm,cortex-a15";
--    set_feature(&cpu->env, ARM_FEATURE_V7VE);
--    set_feature(&cpu->env, ARM_FEATURE_NEON);
--    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
--    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
--    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
--    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
--    set_feature(&cpu->env, ARM_FEATURE_EL2);
--    set_feature(&cpu->env, ARM_FEATURE_EL3);
--    set_feature(&cpu->env, ARM_FEATURE_PMU);
--    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
--    cpu->midr = 0x412fc0f1;
--    cpu->reset_fpsid = 0x410430f0;
--    cpu->isar.mvfr0 = 0x10110222;
--    cpu->isar.mvfr1 = 0x11111111;
--    cpu->ctr = 0x8444c004;
--    cpu->reset_sctlr = 0x00c50078;
--    cpu->isar.id_pfr0 = 0x00001131;
--    cpu->isar.id_pfr1 = 0x00011011;
--    cpu->isar.id_dfr0 = 0x02010555;
--    cpu->id_afr0 = 0x00000000;
--    cpu->isar.id_mmfr0 = 0x10201105;
--    cpu->isar.id_mmfr1 = 0x20000000;
--    cpu->isar.id_mmfr2 = 0x01240000;
--    cpu->isar.id_mmfr3 = 0x02102211;
--    cpu->isar.id_isar0 = 0x02101110;
--    cpu->isar.id_isar1 = 0x13112111;
--    cpu->isar.id_isar2 = 0x21232041;
--    cpu->isar.id_isar3 = 0x11112131;
--    cpu->isar.id_isar4 = 0x10011142;
--    cpu->isar.dbgdidr = 0x3515f021;
--    cpu->clidr = 0x0a200023;
--    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
--    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
--    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
--    define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
--}
--
--#ifndef TARGET_AARCH64
--/*
-- * -cpu max: a CPU with as many features enabled as our emulation supports.
-- * The version of '-cpu max' for qemu-system-aarch64 is defined in cpu64.c;
-- * this only needs to handle 32 bits, and need not care about KVM.
-- */
--static void arm_max_initfn(Object *obj)
--{
--    ARMCPU *cpu = ARM_CPU(obj);
--
--    cortex_a15_initfn(obj);
--
--    /* old-style VFP short-vector support */
--    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
--
--#ifdef CONFIG_USER_ONLY
--    /*
--     * We don't set these in system emulation mode for the moment,
--     * since we don't correctly set (all of) the ID registers to
--     * advertise them.
--     */
--    set_feature(&cpu->env, ARM_FEATURE_V8);
--    {
--        uint32_t t;
--
--        t = cpu->isar.id_isar5;
--        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
--        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
--        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
--        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
--        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
--        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
--        cpu->isar.id_isar5 = t;
--
--        t = cpu->isar.id_isar6;
--        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
--        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
--        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
--        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
--        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
--        cpu->isar.id_isar6 = t;
--
--        t = cpu->isar.mvfr1;
--        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
--        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
--        cpu->isar.mvfr1 = t;
--
--        t = cpu->isar.mvfr2;
--        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
--        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
--        cpu->isar.mvfr2 = t;
--
--        t = cpu->isar.id_mmfr3;
--        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
--        cpu->isar.id_mmfr3 = t;
--
--        t = cpu->isar.id_mmfr4;
--        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
--        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
--        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
--        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
--        cpu->isar.id_mmfr4 = t;
--
--        t = cpu->isar.id_pfr0;
--        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
--        cpu->isar.id_pfr0 = t;
--    }
--#endif
--}
--#endif
--
--#endif /* !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64) */
--
--static const ARMCPUInfo arm_cpus[] = {
--#if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
--    { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
--    { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
--    { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
--    { .name = "cortex-a15",  .initfn = cortex_a15_initfn },
--#ifndef TARGET_AARCH64
--    { .name = "max",         .initfn = arm_max_initfn },
--#endif
--#ifdef CONFIG_USER_ONLY
--    { .name = "any",         .initfn = arm_max_initfn },
--#endif
--#endif
--};
--
- static Property arm_cpu_properties[] = {
-     DEFINE_PROP_UINT32("psci-conduit", ARMCPU, psci_conduit, 0),
-     DEFINE_PROP_UINT64("midr", ARMCPU, midr, 0),
-@@ -2386,21 +2065,11 @@ static const TypeInfo arm_cpu_type_info = {
- 
- static void arm_cpu_register_types(void)
- {
--    const size_t cpu_count = ARRAY_SIZE(arm_cpus);
--
-     type_register_static(&arm_cpu_type_info);
- 
- #ifdef CONFIG_KVM
-     type_register_static(&host_arm_cpu_type_info);
- #endif
--
--    if (cpu_count) {
--        size_t i;
--
--        for (i = 0; i < cpu_count; ++i) {
--            arm_cpu_register(&arm_cpus[i]);
--        }
--    }
- }
- 
- type_init(arm_cpu_register_types)
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index fb07a336939..b420c8c555c 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -15,6 +15,9 @@
- #endif /* CONFIG_TCG */
- #include "internals.h"
- #include "target/arm/idau.h"
-+#if !defined(CONFIG_USER_ONLY)
-+#include "hw/boards.h"
-+#endif
- 
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-@@ -255,6 +258,236 @@ static void arm11mpcore_initfn(Object *obj)
-     cpu->reset_auxcr = 1;
- }
- 
-+static const ARMCPRegInfo cortexa8_cp_reginfo[] = {
-+    { .name = "L2LOCKDOWN", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 0,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    { .name = "L2AUXCR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    REGINFO_SENTINEL
-+};
-+
-+static void cortex_a8_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a8";
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-+    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    cpu->midr = 0x410fc080;
-+    cpu->reset_fpsid = 0x410330c0;
-+    cpu->isar.mvfr0 = 0x11110222;
-+    cpu->isar.mvfr1 = 0x00011111;
-+    cpu->ctr = 0x82048004;
-+    cpu->reset_sctlr = 0x00c50078;
-+    cpu->isar.id_pfr0 = 0x1031;
-+    cpu->isar.id_pfr1 = 0x11;
-+    cpu->isar.id_dfr0 = 0x400;
-+    cpu->id_afr0 = 0;
-+    cpu->isar.id_mmfr0 = 0x31100003;
-+    cpu->isar.id_mmfr1 = 0x20000000;
-+    cpu->isar.id_mmfr2 = 0x01202000;
-+    cpu->isar.id_mmfr3 = 0x11;
-+    cpu->isar.id_isar0 = 0x00101111;
-+    cpu->isar.id_isar1 = 0x12112111;
-+    cpu->isar.id_isar2 = 0x21232031;
-+    cpu->isar.id_isar3 = 0x11112131;
-+    cpu->isar.id_isar4 = 0x00111142;
-+    cpu->isar.dbgdidr = 0x15141000;
-+    cpu->clidr = (1 << 27) | (2 << 24) | 3;
-+    cpu->ccsidr[0] = 0xe007e01a; /* 16k L1 dcache. */
-+    cpu->ccsidr[1] = 0x2007e01a; /* 16k L1 icache. */
-+    cpu->ccsidr[2] = 0xf0000000; /* No L2 icache. */
-+    cpu->reset_auxcr = 2;
-+    define_arm_cp_regs(cpu, cortexa8_cp_reginfo);
-+}
-+
-+static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
-+    /*
-+     * power_control should be set to maximum latency. Again,
-+     * default to 0 and set by private hook
-+     */
-+    { .name = "A9_PWRCTL", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 0,
-+      .access = PL1_RW, .resetvalue = 0,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_control) },
-+    { .name = "A9_DIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 1,
-+      .access = PL1_RW, .resetvalue = 0,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c15_diagnostic) },
-+    { .name = "A9_PWRDIAG", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 2,
-+      .access = PL1_RW, .resetvalue = 0,
-+      .fieldoffset = offsetof(CPUARMState, cp15.c15_power_diagnostic) },
-+    { .name = "NEONBUSY", .cp = 15, .crn = 15, .crm = 1, .opc1 = 0, .opc2 = 0,
-+      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
-+    /* TLB lockdown control */
-+    { .name = "TLB_LOCKR", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 2,
-+      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
-+    { .name = "TLB_LOCKW", .cp = 15, .crn = 15, .crm = 4, .opc1 = 5, .opc2 = 4,
-+      .access = PL1_W, .resetvalue = 0, .type = ARM_CP_NOP },
-+    { .name = "TLB_VA", .cp = 15, .crn = 15, .crm = 5, .opc1 = 5, .opc2 = 2,
-+      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
-+    { .name = "TLB_PA", .cp = 15, .crn = 15, .crm = 6, .opc1 = 5, .opc2 = 2,
-+      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
-+    { .name = "TLB_ATTR", .cp = 15, .crn = 15, .crm = 7, .opc1 = 5, .opc2 = 2,
-+      .access = PL1_RW, .resetvalue = 0, .type = ARM_CP_CONST },
-+    REGINFO_SENTINEL
-+};
-+
-+static void cortex_a9_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a9";
-+    set_feature(&cpu->env, ARM_FEATURE_V7);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    /*
-+     * Note that A9 supports the MP extensions even for
-+     * A9UP and single-core A9MP (which are both different
-+     * and valid configurations; we don't model A9UP).
-+     */
-+    set_feature(&cpu->env, ARM_FEATURE_V7MP);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR);
-+    cpu->midr = 0x410fc090;
-+    cpu->reset_fpsid = 0x41033090;
-+    cpu->isar.mvfr0 = 0x11110222;
-+    cpu->isar.mvfr1 = 0x01111111;
-+    cpu->ctr = 0x80038003;
-+    cpu->reset_sctlr = 0x00c50078;
-+    cpu->isar.id_pfr0 = 0x1031;
-+    cpu->isar.id_pfr1 = 0x11;
-+    cpu->isar.id_dfr0 = 0x000;
-+    cpu->id_afr0 = 0;
-+    cpu->isar.id_mmfr0 = 0x00100103;
-+    cpu->isar.id_mmfr1 = 0x20000000;
-+    cpu->isar.id_mmfr2 = 0x01230000;
-+    cpu->isar.id_mmfr3 = 0x00002111;
-+    cpu->isar.id_isar0 = 0x00101111;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232041;
-+    cpu->isar.id_isar3 = 0x11112131;
-+    cpu->isar.id_isar4 = 0x00111142;
-+    cpu->isar.dbgdidr = 0x35141000;
-+    cpu->clidr = (1 << 27) | (1 << 24) | 3;
-+    cpu->ccsidr[0] = 0xe00fe019; /* 16k L1 dcache. */
-+    cpu->ccsidr[1] = 0x200fe019; /* 16k L1 icache. */
-+    define_arm_cp_regs(cpu, cortexa9_cp_reginfo);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+
-+    /*
-+     * Linux wants the number of processors from here.
-+     * Might as well set the interrupt-controller bit too.
-+     */
-+    return ((ms->smp.cpus - 1) << 24) | (1 << 23);
-+}
-+#endif
-+
-+static const ARMCPRegInfo cortexa15_cp_reginfo[] = {
-+#ifndef CONFIG_USER_ONLY
-+    { .name = "L2CTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 2,
-+      .access = PL1_RW, .resetvalue = 0, .readfn = a15_l2ctlr_read,
-+      .writefn = arm_cp_write_ignore, },
-+#endif
-+    { .name = "L2ECTLR", .cp = 15, .crn = 9, .crm = 0, .opc1 = 1, .opc2 = 3,
-+      .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0 },
-+    REGINFO_SENTINEL
-+};
-+
-+static void cortex_a7_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a7";
-+    set_feature(&cpu->env, ARM_FEATURE_V7VE);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A7;
-+    cpu->midr = 0x410fc075;
-+    cpu->reset_fpsid = 0x41023075;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x11111111;
-+    cpu->ctr = 0x84448003;
-+    cpu->reset_sctlr = 0x00c50078;
-+    cpu->isar.id_pfr0 = 0x00001131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x02010555;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10101105;
-+    cpu->isar.id_mmfr1 = 0x40000000;
-+    cpu->isar.id_mmfr2 = 0x01240000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    /*
-+     * a7_mpcore_r0p5_trm, page 4-4 gives 0x01101110; but
-+     * table 4-41 gives 0x02101110, which includes the arm div insns.
-+     */
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232041;
-+    cpu->isar.id_isar3 = 0x11112131;
-+    cpu->isar.id_isar4 = 0x10011142;
-+    cpu->isar.dbgdidr = 0x3515f005;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
-+    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
-+    define_arm_cp_regs(cpu, cortexa15_cp_reginfo); /* Same as A15 */
-+}
-+
-+static void cortex_a15_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cpu->dtb_compatible = "arm,cortex-a15";
-+    set_feature(&cpu->env, ARM_FEATURE_V7VE);
-+    set_feature(&cpu->env, ARM_FEATURE_NEON);
-+    set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
-+    set_feature(&cpu->env, ARM_FEATURE_GENERIC_TIMER);
-+    set_feature(&cpu->env, ARM_FEATURE_DUMMY_C15_REGS);
-+    set_feature(&cpu->env, ARM_FEATURE_CBAR_RO);
-+    set_feature(&cpu->env, ARM_FEATURE_EL2);
-+    set_feature(&cpu->env, ARM_FEATURE_EL3);
-+    set_feature(&cpu->env, ARM_FEATURE_PMU);
-+    cpu->kvm_target = QEMU_KVM_ARM_TARGET_CORTEX_A15;
-+    cpu->midr = 0x412fc0f1;
-+    cpu->reset_fpsid = 0x410430f0;
-+    cpu->isar.mvfr0 = 0x10110222;
-+    cpu->isar.mvfr1 = 0x11111111;
-+    cpu->ctr = 0x8444c004;
-+    cpu->reset_sctlr = 0x00c50078;
-+    cpu->isar.id_pfr0 = 0x00001131;
-+    cpu->isar.id_pfr1 = 0x00011011;
-+    cpu->isar.id_dfr0 = 0x02010555;
-+    cpu->id_afr0 = 0x00000000;
-+    cpu->isar.id_mmfr0 = 0x10201105;
-+    cpu->isar.id_mmfr1 = 0x20000000;
-+    cpu->isar.id_mmfr2 = 0x01240000;
-+    cpu->isar.id_mmfr3 = 0x02102211;
-+    cpu->isar.id_isar0 = 0x02101110;
-+    cpu->isar.id_isar1 = 0x13112111;
-+    cpu->isar.id_isar2 = 0x21232041;
-+    cpu->isar.id_isar3 = 0x11112131;
-+    cpu->isar.id_isar4 = 0x10011142;
-+    cpu->isar.dbgdidr = 0x3515f021;
-+    cpu->clidr = 0x0a200023;
-+    cpu->ccsidr[0] = 0x701fe00a; /* 32K L1 dcache */
-+    cpu->ccsidr[1] = 0x201fe00a; /* 32K L1 icache */
-+    cpu->ccsidr[2] = 0x711fe07a; /* 4096K L2 unified cache */
-+    define_arm_cp_regs(cpu, cortexa15_cp_reginfo);
-+}
-+
- static void cortex_m0_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
-@@ -695,6 +928,77 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
-     cc->gdb_core_xml_file = "arm-m-profile.xml";
- }
- 
-+#ifndef TARGET_AARCH64
-+/*
-+ * -cpu max: a CPU with as many features enabled as our emulation supports.
-+ * The version of '-cpu max' for qemu-system-aarch64 is defined in cpu64.c;
-+ * this only needs to handle 32 bits, and need not care about KVM.
-+ */
-+static void arm_max_initfn(Object *obj)
-+{
-+    ARMCPU *cpu = ARM_CPU(obj);
-+
-+    cortex_a15_initfn(obj);
-+
-+    /* old-style VFP short-vector support */
-+    cpu->isar.mvfr0 = FIELD_DP32(cpu->isar.mvfr0, MVFR0, FPSHVEC, 1);
-+
-+#ifdef CONFIG_USER_ONLY
-+    /*
-+     * We don't set these in system emulation mode for the moment,
-+     * since we don't correctly set (all of) the ID registers to
-+     * advertise them.
-+     */
-+    set_feature(&cpu->env, ARM_FEATURE_V8);
-+    {
-+        uint32_t t;
-+
-+        t = cpu->isar.id_isar5;
-+        t = FIELD_DP32(t, ID_ISAR5, AES, 2);
-+        t = FIELD_DP32(t, ID_ISAR5, SHA1, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, SHA2, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, CRC32, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, RDM, 1);
-+        t = FIELD_DP32(t, ID_ISAR5, VCMA, 1);
-+        cpu->isar.id_isar5 = t;
-+
-+        t = cpu->isar.id_isar6;
-+        t = FIELD_DP32(t, ID_ISAR6, JSCVT, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, DP, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, FHM, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, SB, 1);
-+        t = FIELD_DP32(t, ID_ISAR6, SPECRES, 1);
-+        cpu->isar.id_isar6 = t;
-+
-+        t = cpu->isar.mvfr1;
-+        t = FIELD_DP32(t, MVFR1, FPHP, 3);     /* v8.2-FP16 */
-+        t = FIELD_DP32(t, MVFR1, SIMDHP, 2);   /* v8.2-FP16 */
-+        cpu->isar.mvfr1 = t;
-+
-+        t = cpu->isar.mvfr2;
-+        t = FIELD_DP32(t, MVFR2, SIMDMISC, 3); /* SIMD MaxNum */
-+        t = FIELD_DP32(t, MVFR2, FPMISC, 4);   /* FP MaxNum */
-+        cpu->isar.mvfr2 = t;
-+
-+        t = cpu->isar.id_mmfr3;
-+        t = FIELD_DP32(t, ID_MMFR3, PAN, 2); /* ATS1E1 */
-+        cpu->isar.id_mmfr3 = t;
-+
-+        t = cpu->isar.id_mmfr4;
-+        t = FIELD_DP32(t, ID_MMFR4, HPDS, 1); /* AA32HPD */
-+        t = FIELD_DP32(t, ID_MMFR4, AC2, 1); /* ACTLR2, HACTLR2 */
-+        t = FIELD_DP32(t, ID_MMFR4, CNP, 1); /* TTCNP */
-+        t = FIELD_DP32(t, ID_MMFR4, XNX, 1); /* TTS2UXN */
-+        cpu->isar.id_mmfr4 = t;
-+
-+        t = cpu->isar.id_pfr0;
-+        t = FIELD_DP32(t, ID_PFR0, DIT, 1);
-+        cpu->isar.id_pfr0 = t;
-+    }
-+#endif /* CONFIG_USER_ONLY */
-+}
-+#endif /* !TARGET_AARCH64 */
-+
- static const ARMCPUInfo arm_tcg_cpus[] = {
-     { .name = "arm926",      .initfn = arm926_initfn },
-     { .name = "arm946",      .initfn = arm946_initfn },
-@@ -708,6 +1012,10 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-     { .name = "arm1136",     .initfn = arm1136_initfn },
-     { .name = "arm1176",     .initfn = arm1176_initfn },
-     { .name = "arm11mpcore", .initfn = arm11mpcore_initfn },
-+    { .name = "cortex-a7",   .initfn = cortex_a7_initfn },
-+    { .name = "cortex-a8",   .initfn = cortex_a8_initfn },
-+    { .name = "cortex-a9",   .initfn = cortex_a9_initfn },
-+    { .name = "cortex-a15",  .initfn = cortex_a15_initfn },
-     { .name = "cortex-m0",   .initfn = cortex_m0_initfn,
-                              .class_init = arm_v7m_class_init },
-     { .name = "cortex-m3",   .initfn = cortex_m3_initfn,
-@@ -738,6 +1046,12 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-     { .name = "pxa270-b1",   .initfn = pxa270b1_initfn },
-     { .name = "pxa270-c0",   .initfn = pxa270c0_initfn },
-     { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
-+#ifndef TARGET_AARCH64
-+    { .name = "max",         .initfn = arm_max_initfn },
-+#endif
-+#ifdef CONFIG_USER_ONLY
-+    { .name = "any",         .initfn = arm_max_initfn },
-+#endif
- };
- 
- static const TypeInfo idau_interface_type_info = {
--- 
-2.26.2
-
+Phil.
 
