@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DC1320D3A
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 20:44:09 +0100 (CET)
-Received: from localhost ([::1]:33720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA707320D3B
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 20:44:10 +0100 (CET)
+Received: from localhost ([::1]:33774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDueG-00045H-TG
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 14:44:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59690)
+	id 1lDueH-00046c-TC
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 14:44:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDucb-0002mz-Q2
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:27 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36317)
+ id 1lDuch-0002no-DV
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:33 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38049)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDucZ-0006rO-WE
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:25 -0500
-Received: by mail-wr1-x429.google.com with SMTP id u14so16900806wri.3
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 11:42:23 -0800 (PST)
+ id 1lDuce-0006tT-TH
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:30 -0500
+Received: by mail-wm1-x329.google.com with SMTP id m25so3007949wmi.3
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 11:42:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=PyQMOMNhhxXlbAGygC8fclmlT+1xFyR1Yi/RxjHfm2I=;
- b=T4zfUnAv04o6N6ZN5mqigXzqhnZWg4LqBSj0AwendtT90bjOFCbyj8PXrKOHeSmvnu
- npU4Y+7gOHF/adILPmGWTeLXssPi9GpMRyoBZxVBvyriyOWkXNpu7kKhvuxk8lv1foLG
- o0uQWuP6lsQOa665oB50FPYnzm+P/yAdCUFoxDmx9w12u9xyT6UgoL9fK2nL9rFYNF9H
- tf4d/9Br9Pf/ZgAjm9YOQzJuuTy/PjZG0dLIigYLjz2kRwEJ9hNWYOc3hgMnlbzgMf82
- VXt/hoRddfcSm6mGiZdPS3Aun8xc76h5qXRvpMSn26Uh8vpN+OOPXIfu5x8QlXp4AbbV
- OgJQ==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=CfIgBdFjssnMHa3mkwHM1/bRnpOU7pZnN0fWXKus9GM=;
+ b=deMzOCcFGbgK5AQnSfmlRzLmqxJRYpAKrK0QiajKXrUsdBf9hxFjJdMSYO/L+acszF
+ R3AmIYe1BTbosVvoiilubCrGxI4G6+GelDh6kyXkc23Yc6BWnSDKljddUrxRF06Q6GQ0
+ HKV0SQE2s2fKzozYIXdILsmMghmNm6l8Hpd5O8thG4iQWrklrvyL5qW6QsZ7QRaJ7+Ku
+ A9WLolrIVTuYQFMFalO/8ccaNakNBYZTlo5y6Ruh/GdXalZUsrL8a3qTjB2YTL/q6wow
+ zpfgpm98INe9W2ajcB1ru6pfnmYzNWGaYUwTxOhi/kNgpJ0mnkS11PWowu/VJaXOepGh
+ 3vlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=PyQMOMNhhxXlbAGygC8fclmlT+1xFyR1Yi/RxjHfm2I=;
- b=OlrsjebxUQV9U3VKqS3H5btYjsjraDMOqPPwKjC5B/9og+HCLq30U8wxQ3mAG2hWMb
- GxfCYVWbQHXSkQJut945MbtphcwuAJIEceqsD7V2Bhxtf1I5P3aHt+fMO5YGn/1z81yD
- 3xmMnkF9IkcFLljQX3gN1PEQAO/rVrMfThY1iNjfzk0kU9a8K6CpUxwdQJA4H2F4ugU/
- DT8J4D07pH+lDdDW7SBkqLmiEWY9/I+JvsGpdraVvDld5KlaWawviWQ8PCK/FWD8t0y8
- tR87a1MqafweiQLC92TwDqcKKyOK2sPJyazsBvRmj/g8i9yS3Gx3/KNPfYsohKBd/m86
- JUZA==
-X-Gm-Message-State: AOAM533s8A20aoe4g0+CIOuQiB08dWdbvNIa1tGIS9/TDUFCCAOW6W+T
- ANuPd49DpO4WUKLki1+W5qg9yKE0IW8=
-X-Google-Smtp-Source: ABdhPJzUDbHigdeeRHQ+HyLALmlMbwRrDU6W7iQC1o+kpRsiokgBVAntrmseVb+hNir2vW+PVE1M7A==
-X-Received: by 2002:adf:dd42:: with SMTP id u2mr18512916wrm.309.1613936542336; 
- Sun, 21 Feb 2021 11:42:22 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=CfIgBdFjssnMHa3mkwHM1/bRnpOU7pZnN0fWXKus9GM=;
+ b=fQYNZzdJLraVPQLiWjP+e9g49Zm2scjujtR7gFjhs84rVIjgD+ZUdlQ9RdAMIJloOa
+ OGdqVP18t0FM6vCCzuJM3Jiokce2dovm6YVcNrFkSk3b2WxbGlvJOvWUbGyJZ32nJs+C
+ 9B6j0bmwE+P8uy6Os+1Lejo+OzWLB5fgo6vDmlFTOi2SlmwY3GG/+MrrazRFPDD+yGvv
+ 7FcxzWJcDPaosMe1HS6hH1D782dHfQqUI7Tg8BvpuLil0fXPwK8HLwfawdkyC0FZhlwP
+ Fn1luWkFSLkfvgDJDQNlXUNbV+cUvZVUrdnyo7YLGATU1Q9XoaMW7CuUnx6RPkcofBIe
+ 1hlw==
+X-Gm-Message-State: AOAM533Ml2XEZ7ioOb+zyfd+gF+Nz7nq3L0mQuzq+qsFrhRk3mUEzZWA
+ kQrePthBEEfivh9PFcBb2Ku+EO2q1VU=
+X-Google-Smtp-Source: ABdhPJxsfIyxI+Q+wxD9R0TrKtciYb1xQeRRdo2LOXD2Zi0XmZa7rPkotSb3Le1AFXKiOpynhtfkYA==
+X-Received: by 2002:a05:600c:2291:: with SMTP id
+ 17mr9363987wmf.169.1613936547251; 
+ Sun, 21 Feb 2021 11:42:27 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i8sm30293864wry.90.2021.02.21.11.42.21
+ by smtp.gmail.com with ESMTPSA id v18sm22739074wrf.75.2021.02.21.11.42.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 11:42:21 -0800 (PST)
+ Sun, 21 Feb 2021 11:42:26 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/43] MIPS patches for 2021-02-21
-Date: Sun, 21 Feb 2021 20:38:49 +0100
-Message-Id: <20210221193851.2528045-1-f4bug@amsat.org>
+Subject: [PULL v2 02/43] hw/mips: Add a bootloader helper
+Date: Sun, 21 Feb 2021 20:38:50 +0100
+Message-Id: <20210221193851.2528045-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210221193851.2528045-1-f4bug@amsat.org>
+References: <20210221193851.2528045-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,116 +93,273 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a528b8c4c638d60cc474c2f80952ff0f2e60521a=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sdmmc-20210220' =
-into staging (2021-02-20 19:28:27 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/philmd/qemu.git tags/mips-20210221=0D
-=0D
-for you to fetch changes up to cc2b4550115baf77d556341f17eb464d18953cee:=0D
-=0D
-  vt82c686: Fix superio_cfg_{read,write}() functions (2021-02-21 19:42:34 +=
-0100)=0D
-=0D
-Since v1: Add missing license in include/hw/mips/bootloader.h.=0D
-=0D
-----------------------------------------------------------------=0D
-MIPS patches queue=0D
-=0D
-- Drop redundant struct MemmapEntry (Bin)=0D
-- Fix for Coverity CID 1438965 and 1438967 (Jiaxun)=0D
-- Add MIPS bootloader API (Jiaxun)=0D
-- Use MIPS bootloader API on fuloong2e and boston machines (Jiaxun)=0D
-- Add PMON test for Loongson-3A1000 CPU (Jiaxun)=0D
-- Convert to translator API (Philippe)=0D
-- MMU cleanups (Philippe)=0D
-- Promote 128-bit multimedia registers as global ones (Philippe)=0D
-- Various cleanups/fixes on the VT82C686B southbridge (Zoltan)=0D
-----------------------------------------------------------------=0D
-=0D
-BALATON Zoltan (16):=0D
-  vt82c686: Move superio memory region to SuperIOConfig struct=0D
-  vt82c686: Reorganise code=0D
-  vt82c686: Fix SMBus IO base and configuration registers=0D
-  vt82c686: Make vt82c686-pm an I/O tracing region=0D
-  vt82c686: Correct vt82c686-pm I/O size=0D
-  vt82c686: Correctly reset all registers to default values on reset=0D
-  vt82c686: Fix up power management io base and config=0D
-  vt82c686: Set user_creatable=3Dfalse for VT82C686B_PM=0D
-  vt82c686: Make vt82c686b-pm an abstract base class and add vt8231-pm=0D
-    based on it=0D
-  vt82c686: Simplify vt82c686b_realize()=0D
-  vt82c686: Move creation of ISA devices to the ISA bridge=0D
-  vt82c686: Remove index field of SuperIOConfig=0D
-  vt82c686: Reduce indentation by returning early=0D
-  vt82c686: Simplify by returning earlier=0D
-  vt82c686: Log superio_cfg unimplemented accesses=0D
-  vt82c686: Fix superio_cfg_{read,write}() functions=0D
-=0D
-Bin Meng (1):=0D
-  hw/mips: loongson3: Drop 'struct MemmapEntry'=0D
-=0D
-Jiaxun Yang (6):=0D
-  hw/mips: Add a bootloader helper=0D
-  hw/mips/fuloong2e: Use bl_gen_kernel_jump to generate bootloaders=0D
-  hw/mips/boston: Use bl_gen_kernel_jump to generate bootloaders=0D
-  hw/mips/boston: Use bootloader helper to set GCRs=0D
-  hw/intc/loongson_liointc: Fix per core ISR handling=0D
-  tests/acceptance: Test PMON with Loongson-3A1000 CPU=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (20):=0D
-  target/mips: fetch code with translator_ld=0D
-  target/mips: Remove access_type argument from map_address() handler=0D
-  target/mips: Remove access_type argument from get_seg_physical_address=0D
-  target/mips: Remove access_type arg from get_segctl_physical_address()=0D
-  target/mips: Remove access_type argument from get_physical_address()=0D
-  target/mips: Remove unused MMU definitions=0D
-  target/mips: Replace magic value by MMU_DATA_LOAD definition=0D
-  target/mips: Let do_translate_address() take MMUAccessType argument=0D
-  target/mips: Let cpu_mips_translate_address() take MMUAccessType arg=0D
-  target/mips: Let raise_mmu_exception() take MMUAccessType argument=0D
-  target/mips: Let get_physical_address() take MMUAccessType argument=0D
-  target/mips: Let get_seg*_physical_address() take MMUAccessType arg=0D
-  target/mips: Let CPUMIPSTLBContext::map_address() take MMUAccessType=0D
-  target/mips: Remove unused 'rw' argument from page_table_walk_refill()=0D
-  target/mips: Include missing "tcg/tcg.h" header=0D
-  target/mips: Make cpu_HI/LO registers public=0D
-  target/mips: Promote 128-bit multimedia registers as global ones=0D
-  target/mips: Rename 128-bit upper halve GPR registers=0D
-  target/mips: Introduce gen_load_gpr_hi() / gen_store_gpr_hi() helpers=0D
-  target/mips: Use GPR move functions in gen_HILO1_tx79()=0D
-=0D
- hw/mips/loongson3_bootp.h                   |   7 +-=0D
- include/hw/isa/vt82c686.h                   |   1 +=0D
- include/hw/mips/bootloader.h                |  22 +=0D
- include/hw/pci/pci_ids.h                    |   3 +-=0D
- target/mips/cpu.h                           |  26 +-=0D
- target/mips/internal.h                      |  10 +-=0D
- target/mips/translate.h                     |   8 +=0D
- hw/intc/loongson_liointc.c                  |  16 +-=0D
- hw/isa/vt82c686.c                           | 542 ++++++++++++--------=0D
- hw/mips/bootloader.c                        | 200 ++++++++=0D
- hw/mips/boston.c                            |  62 +--=0D
- hw/mips/fuloong2e.c                         |  60 +--=0D
- hw/mips/loongson3_virt.c                    |   6 +-=0D
- target/mips/msa_helper.c                    |   1 +=0D
- target/mips/op_helper.c                     |   9 +-=0D
- target/mips/tlb_helper.c                    |  80 ++-=0D
- target/mips/translate.c                     | 111 ++--=0D
- MAINTAINERS                                 |   1 +=0D
- hw/isa/trace-events                         |   2 +=0D
- hw/mips/meson.build                         |   2 +-=0D
- tests/acceptance/machine_mips_loongson3v.py |  39 ++=0D
- 21 files changed, 749 insertions(+), 459 deletions(-)=0D
- create mode 100644 include/hw/mips/bootloader.h=0D
- create mode 100644 hw/mips/bootloader.c=0D
- create mode 100644 tests/acceptance/machine_mips_loongson3v.py=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+
+Add a bootloader helper to generate simple bootloaders for kernel.
+It can help us reduce inline hex hack and also keep MIPS release 6
+compatibility easier.
+
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210127065424.114125-2-jiaxun.yang@flygoat.com>
+[PMD: Restricted bl_reg enum to C source,
+      inverted bl_gen_write() args,
+      added license in hw/mips/bootloader.h]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/mips/bootloader.h |  22 ++++
+ hw/mips/bootloader.c         | 200 +++++++++++++++++++++++++++++++++++
+ hw/mips/meson.build          |   2 +-
+ 3 files changed, 223 insertions(+), 1 deletion(-)
+ create mode 100644 include/hw/mips/bootloader.h
+ create mode 100644 hw/mips/bootloader.c
+
+diff --git a/include/hw/mips/bootloader.h b/include/hw/mips/bootloader.h
+new file mode 100644
+index 00000000000..b5f48d71bba
+--- /dev/null
++++ b/include/hw/mips/bootloader.h
+@@ -0,0 +1,22 @@
++/*
++ * Utility for QEMU MIPS to generate it's simple bootloader
++ *
++ * Copyright (C) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#ifndef HW_MIPS_BOOTLOADER_H
++#define HW_MIPS_BOOTLOADER_H
++
++#include "exec/cpu-defs.h"
++
++void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr);
++void bl_gen_jump_kernel(uint32_t **p, target_ulong sp, target_ulong a0,
++                        target_ulong a1, target_ulong a2, target_ulong a3,
++                        target_ulong kernel_addr);
++void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val);
++void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val);
++void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val);
++
++#endif
+diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
+new file mode 100644
+index 00000000000..6ec83144909
+--- /dev/null
++++ b/hw/mips/bootloader.c
+@@ -0,0 +1,200 @@
++/*
++ * Utility for QEMU MIPS to generate it's simple bootloader
++ *
++ * Instructions used here are carefully selected to keep compatibility with
++ * MIPS Release 6.
++ *
++ * Copyright (C) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/bitops.h"
++#include "cpu.h"
++#include "hw/mips/bootloader.h"
++
++typedef enum bl_reg {
++    BL_REG_ZERO = 0,
++    BL_REG_AT = 1,
++    BL_REG_V0 = 2,
++    BL_REG_V1 = 3,
++    BL_REG_A0 = 4,
++    BL_REG_A1 = 5,
++    BL_REG_A2 = 6,
++    BL_REG_A3 = 7,
++    BL_REG_T0 = 8,
++    BL_REG_T1 = 9,
++    BL_REG_T2 = 10,
++    BL_REG_T3 = 11,
++    BL_REG_T4 = 12,
++    BL_REG_T5 = 13,
++    BL_REG_T6 = 14,
++    BL_REG_T7 = 15,
++    BL_REG_S0 = 16,
++    BL_REG_S1 = 17,
++    BL_REG_S2 = 18,
++    BL_REG_S3 = 19,
++    BL_REG_S4 = 20,
++    BL_REG_S5 = 21,
++    BL_REG_S6 = 22,
++    BL_REG_S7 = 23,
++    BL_REG_T8 = 24,
++    BL_REG_T9 = 25,
++    BL_REG_K0 = 26,
++    BL_REG_K1 = 27,
++    BL_REG_GP = 28,
++    BL_REG_SP = 29,
++    BL_REG_FP = 30,
++    BL_REG_RA = 31,
++} bl_reg;
++
++static bool bootcpu_supports_isa(uint64_t isa_mask)
++{
++    return cpu_supports_isa(&MIPS_CPU(first_cpu)->env, isa_mask);
++}
++
++/* Base types */
++static void bl_gen_nop(uint32_t **p)
++{
++    stl_p(*p, 0);
++    *p = *p + 1;
++}
++
++static void bl_gen_r_type(uint32_t **p, uint8_t opcode,
++                          bl_reg rs, bl_reg rt, bl_reg rd,
++                          uint8_t shift, uint8_t funct)
++{
++    uint32_t insn = 0;
++
++    insn = deposit32(insn, 26, 6, opcode);
++    insn = deposit32(insn, 21, 5, rs);
++    insn = deposit32(insn, 16, 5, rt);
++    insn = deposit32(insn, 11, 5, rd);
++    insn = deposit32(insn, 6, 5, shift);
++    insn = deposit32(insn, 0, 6, funct);
++
++    stl_p(*p, insn);
++    *p = *p + 1;
++}
++
++static void bl_gen_i_type(uint32_t **p, uint8_t opcode,
++                          bl_reg rs, bl_reg rt, uint16_t imm)
++{
++    uint32_t insn = 0;
++
++    insn = deposit32(insn, 26, 6, opcode);
++    insn = deposit32(insn, 21, 5, rs);
++    insn = deposit32(insn, 16, 5, rt);
++    insn = deposit32(insn, 0, 16, imm);
++
++    stl_p(*p, insn);
++    *p = *p + 1;
++}
++
++/* Single instructions */
++static void bl_gen_dsll(uint32_t **p, bl_reg rd, bl_reg rt, uint8_t sa)
++{
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_r_type(p, 0, 0, rt, rd, sa, 0x38);
++    } else {
++        g_assert_not_reached(); /* unsupported */
++    }
++}
++
++static void bl_gen_jalr(uint32_t **p, bl_reg rs)
++{
++    bl_gen_r_type(p, 0, rs, 0, BL_REG_RA, 0, 0x09);
++}
++
++static void bl_gen_lui(uint32_t **p, bl_reg rt, uint16_t imm)
++{
++    /* R6: It's a alias of AUI with RS = 0 */
++    bl_gen_i_type(p, 0x0f, 0, rt, imm);
++}
++
++static void bl_gen_ori(uint32_t **p, bl_reg rt, bl_reg rs, uint16_t imm)
++{
++    bl_gen_i_type(p, 0x0d, rs, rt, imm);
++}
++
++static void bl_gen_sw(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
++{
++    bl_gen_i_type(p, 0x2b, base, rt, offset);
++}
++
++static void bl_gen_sd(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
++{
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_i_type(p, 0x3f, base, rt, offset);
++    } else {
++        g_assert_not_reached(); /* unsupported */
++    }
++}
++
++/* Pseudo instructions */
++static void bl_gen_li(uint32_t **p, bl_reg rt, uint32_t imm)
++{
++    bl_gen_lui(p, rt, extract32(imm, 16, 16));
++    bl_gen_ori(p, rt, rt, extract32(imm, 0, 16));
++}
++
++static void bl_gen_dli(uint32_t **p, bl_reg rt, uint64_t imm)
++{
++    bl_gen_li(p, rt, extract64(imm, 32, 32));
++    bl_gen_dsll(p, rt, rt, 16);
++    bl_gen_ori(p, rt, rt, extract64(imm, 16, 16));
++    bl_gen_dsll(p, rt, rt, 16);
++    bl_gen_ori(p, rt, rt, extract64(imm, 0, 16));
++}
++
++static void bl_gen_load_ulong(uint32_t **p, bl_reg rt, target_ulong imm)
++{
++    if (bootcpu_supports_isa(ISA_MIPS3)) {
++        bl_gen_dli(p, rt, imm); /* 64bit */
++    } else {
++        bl_gen_li(p, rt, imm); /* 32bit */
++    }
++}
++
++/* Helpers */
++void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr)
++{
++    bl_gen_load_ulong(p, BL_REG_T9, jump_addr);
++    bl_gen_jalr(p, BL_REG_T9);
++    bl_gen_nop(p); /* delay slot */
++}
++
++void bl_gen_jump_kernel(uint32_t **p, target_ulong sp, target_ulong a0,
++                        target_ulong a1, target_ulong a2, target_ulong a3,
++                        target_ulong kernel_addr)
++{
++    bl_gen_load_ulong(p, BL_REG_SP, sp);
++    bl_gen_load_ulong(p, BL_REG_A0, a0);
++    bl_gen_load_ulong(p, BL_REG_A1, a1);
++    bl_gen_load_ulong(p, BL_REG_A2, a2);
++    bl_gen_load_ulong(p, BL_REG_A3, a3);
++
++    bl_gen_jump_to(p, kernel_addr);
++}
++
++void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val)
++{
++    bl_gen_load_ulong(p, BL_REG_K0, val);
++    bl_gen_load_ulong(p, BL_REG_K1, addr);
++    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
++}
++
++void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val)
++{
++    bl_gen_li(p, BL_REG_K0, val);
++    bl_gen_load_ulong(p, BL_REG_K1, addr);
++    bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
++}
++
++void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val)
++{
++    bl_gen_dli(p, BL_REG_K0, val);
++    bl_gen_load_ulong(p, BL_REG_K1, addr);
++    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
++}
+diff --git a/hw/mips/meson.build b/hw/mips/meson.build
+index ee19cc204dc..1195716dc73 100644
+--- a/hw/mips/meson.build
++++ b/hw/mips/meson.build
+@@ -1,5 +1,5 @@
+ mips_ss = ss.source_set()
+-mips_ss.add(files('mips_int.c'))
++mips_ss.add(files('bootloader.c', 'mips_int.c'))
+ mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
+ mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
+ mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
+-- 
+2.26.2
+
 
