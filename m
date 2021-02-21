@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D5ED320B42
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 16:09:03 +0100 (CET)
-Received: from localhost ([::1]:36596 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 124C3320B46
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 16:10:22 +0100 (CET)
+Received: from localhost ([::1]:40806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDqM2-00066t-Ae
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 10:09:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34048)
+	id 1lDqNJ-0007vV-4m
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 10:10:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDps6-0001A7-Hr
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:38:08 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50333)
+ id 1lDpsC-0001Ax-5D
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:38:12 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDps5-0003iI-8A
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:38:06 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id a132so11247583wmc.0
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:38:04 -0800 (PST)
+ id 1lDpsA-0003jc-TD
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:38:11 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id l30so658086wrb.12
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:38:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sPGBK2Ez9fB1ht+wPhXTOH6TvXvQPmXNorVWD5i/OwQ=;
- b=f30QLnFJWosTRNZiXmCtIOCKic6mcVqqpJLZ4oSBi4S31H6uzVobn3/tLyyxnXhlHz
- swWZN65hejGsAjhImpHedtREBxhcTxc3MqQdp6IenKE7m5N5fJEnIXNHxF+WDuFQcL+5
- PUOxDRI1F9dlW7+A/ZXxjZeNG6Q2SDvkQIQzfYCx4xX1hitRjqg8po4wJztNQ4z34Z1/
- iftDupnP9BaROeQPq8DUpGiuWdBJrHct1GKFvuvX198UvmwJFdlLon8pJvpW5+T6/Id9
- sTwCOWmvlZBLeG92bjqYsf7UBTxYKkyC+M4sP9sjKOJekJONDZfAvouOLAZxzqrXK8kR
- ZHtg==
+ bh=zw4iTXqwCfmL83vCtQL4WiNjLhPBYSVn760ReNY3gcU=;
+ b=KfzZeD4dTJh9SvhGBrddSTUkMr9pLjmbd6mWrRnFp+W8JyYJVqcK9EG+w45hkZaIQZ
+ yfvsAp/VaWQUdGZg2BMzvpQFZKsBhbgFbVqthuFGeQLxzUIhaAIm9Lwrv4JH6BSgetJn
+ gDEacxYtvEg3yo+MHnP6MVzQ0Wt/GfLi6yEoRlAm1CJP1gdHeuFIuzLoGaDaQWmRkTOm
+ mx8gPNGd8qgxMLBKXdV2xe8vJ+XiUQx5M6rbuAZZcsre8IhJx+d4eaU/h+RHXt3iAf7b
+ KKRlBLl+PiKaqLNDPi88GvzdN1GIrE9NkaIp9lSJCR0PMumnIzNdsHyexE/43EoaycC8
+ ZtUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sPGBK2Ez9fB1ht+wPhXTOH6TvXvQPmXNorVWD5i/OwQ=;
- b=o2mxpV4aA7mCbxC79k25shmH0zDrTZ3cSNMbnfD2sh6eW0RMwHHvZAJgaTSbFMNh21
- g2g1eo4P2o3a7CYfis8dc6yHwKqXsAsOrVyVUPVMPqFfYzliJn0kg8sES0LhLUSJVLvZ
- K1Nxeg2+fFCUzAYjZFDJdE/sE9padb6mbxN/7xfEdB5GxITOBFZa3i5Tq9fu3S6stauZ
- JRkEhMHjdk5IOU18jCxeO/F0BNcojVXskEYF712OX8J/LWDZP5EQszssr3B8fj1fKHa5
- hpTCLb+HrfQURgjq48iMIa2eALDueacpL4PZkWsuOztvnKs7WbpJbrNrQMSLMrhasFX8
- 4r8Q==
-X-Gm-Message-State: AOAM532RFBH2MJ/EkhwmWjm0FUQpGGRzUrnQydFz6PObC/gHoXv3daX7
- i+lYz7leYDGX6rimUm/RT9fdaF8Pudo=
-X-Google-Smtp-Source: ABdhPJxzawfWYjTFPO+q8UmS53/kZER4aD19JXKzYOPoYp+AAsFLtlnC9nOSXDIYBF9SjZNufwVzFA==
-X-Received: by 2002:a7b:c1c4:: with SMTP id a4mr5977951wmj.123.1613918283895; 
- Sun, 21 Feb 2021 06:38:03 -0800 (PST)
+ bh=zw4iTXqwCfmL83vCtQL4WiNjLhPBYSVn760ReNY3gcU=;
+ b=bG27uHUeL/kXPy7kbOpyhX8X9vsrt7JztDqbYJVtTAmy19YH40h4uWpBtuSp6hqz+B
+ QG/QvVQkZ4vteyVcHuFoeYRxLxHA16pdtFEvy7Alj3foxjiBNbaEBODq39DyVBXR31Ij
+ I+m1aO26WGcUX3AXnLEHVjsa8fhEQlIb52TB8xPmNt+ht+KXQuTCG42TpTIcCDwafaQ4
+ s2MkKCstRy3KLxFWA9XSJTu/eBKOqmTwtiWQpBLvqYAl8RJ+v00GWpmiN4G8gLAjs0rP
+ QyxE4oDkuolP00GL+CTz/z41pyv8COIvE03S9tDVjRh9R5w3YZFxb467QAHEMxhVOWeS
+ z74A==
+X-Gm-Message-State: AOAM5304nhvJTqQ2vRwQPbYUA+f98cMrUJgy/1M8oGdao4pJGHcLppIp
+ fGYKXdtBNvYWnzwkQAmvh6Nmm3nw0yc=
+X-Google-Smtp-Source: ABdhPJzo4kuxSgDrnorUsaeLvfyCIQFxVqaqeyXZKzLkz6MISUhVuRiCU56M5fh7uMAbpksTIHiZlw==
+X-Received: by 2002:adf:fe09:: with SMTP id n9mr6659141wrr.104.1613918288998; 
+ Sun, 21 Feb 2021 06:38:08 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c18sm76371238wmk.0.2021.02.21.06.38.02
+ by smtp.gmail.com with ESMTPSA id z5sm25577308wrn.8.2021.02.21.06.38.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 06:38:03 -0800 (PST)
+ Sun, 21 Feb 2021 06:38:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 42/43] vt82c686: Log superio_cfg unimplemented accesses
-Date: Sun, 21 Feb 2021 15:34:31 +0100
-Message-Id: <20210221143432.2468220-43-f4bug@amsat.org>
+Subject: [PULL 43/43] vt82c686: Fix superio_cfg_{read,write}() functions
+Date: Sun, 21 Feb 2021 15:34:32 +0100
+Message-Id: <20210221143432.2468220-44-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221143432.2468220-1-f4bug@amsat.org>
 References: <20210221143432.2468220-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -98,36 +98,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
+These functions are memory region callbacks so we have to check
+against relative address not the mapped address.
+
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Message-Id: <15b2968fd300a12d06b42368d084f6f80d3c3be5.1610223397.git.balaton@eik.bme.hu>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-[PMD: Split original patch in 5, this is part 4/5]
+[PMD: Split original patch in 5, this is part 5/5]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/isa/vt82c686.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 2bd10d91013..766584cabd0 100644
+index 766584cabd0..5db9b1706c8 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -26,6 +26,7 @@
- #include "hw/acpi/acpi.h"
- #include "hw/i2c/pm_smbus.h"
- #include "qapi/error.h"
-+#include "qemu/log.h"
- #include "qemu/module.h"
- #include "qemu/range.h"
- #include "qemu/timer.h"
-@@ -279,6 +280,8 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+@@ -260,12 +260,13 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+     SuperIOConfig *sc = opaque;
+     uint8_t idx = sc->regs[0];
+ 
+-    if (addr == 0x3f0) { /* config index register */
+-        idx = data & 0xff;
++    if (addr == 0) { /* config index register */
++        sc->regs[0] = data;
          return;
-     /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-     default:
-+        qemu_log_mask(LOG_UNIMP,
-+                      "via_superio_cfg: unimplemented register 0x%x\n", idx);
+     }
+-    /* 0x3f1, config data register */
+-    trace_via_superio_write(idx, data & 0xff);
++
++    /* config data register */
++    trace_via_superio_write(idx, data);
+     switch (idx) {
+     case 0x00 ... 0xdf:
+     case 0xe4:
+@@ -284,7 +285,7 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
          break;
      }
-     sc->regs[idx] = data & 0xff;
+-    sc->regs[idx] = data & 0xff;
++    sc->regs[idx] = data;
+ }
+ 
+ static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
 -- 
 2.26.2
 
