@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6698320B67
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 16:31:57 +0100 (CET)
-Received: from localhost ([::1]:33722 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5608A320B73
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 16:34:46 +0100 (CET)
+Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDqiC-0001u8-AG
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 10:31:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
+	id 1lDqkv-00056r-Er
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 10:34:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cwshu@andestech.com>)
- id 1lDosv-0003KV-2o; Sun, 21 Feb 2021 08:34:53 -0500
-Received: from atcsqr.andestech.com ([60.248.187.195]:45101)
+ id 1lDpJo-0005m0-4q; Sun, 21 Feb 2021 09:02:40 -0500
+Received: from exmail.andestech.com ([60.248.187.195]:10475
+ helo=ATCSQR.andestech.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cwshu@andestech.com>)
- id 1lDosk-0001Zl-On; Sun, 21 Feb 2021 08:34:52 -0500
+ id 1lDpJl-00057W-5Q; Sun, 21 Feb 2021 09:02:39 -0500
 Received: from mail.andestech.com (atcpcs16.andestech.com [10.0.1.222])
- by ATCSQR.andestech.com with ESMTP id 11LDSYJU059381;
- Sun, 21 Feb 2021 21:28:34 +0800 (GMT-8)
+ by ATCSQR.andestech.com with ESMTP id 11LDuh6R062668;
+ Sun, 21 Feb 2021 21:56:43 +0800 (GMT-8)
  (envelope-from cwshu@andestech.com)
 Received: from ubuntu1604.andestech.com (10.0.12.177) by
  ATCPCS16.andestech.com (10.0.1.222) with Microsoft SMTP Server id 14.3.487.0; 
- Sun, 21 Feb 2021 21:34:03 +0800
+ Sun, 21 Feb 2021 22:02:12 +0800
 From: Jim Shu <cwshu@andestech.com>
-To: 
-Subject: [PATCH 3/3] target/riscv: flush TLB pages if PMP permission has been
- changed
-Date: Sun, 21 Feb 2021 21:32:50 +0800
-Message-ID: <1613914370-17285-4-git-send-email-cwshu@andestech.com>
+To: <qemu-riscv@nongnu.org>, <qemu-devel@nongnu.org>
+Subject: [PATCH 0/3] target/riscv: fix PMP permission checking when softmmu's
+ TLB hits
+Date: Sun, 21 Feb 2021 22:01:19 +0800
+Message-ID: <1613916082-19528-1-git-send-email-cwshu@andestech.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1613914370-17285-1-git-send-email-cwshu@andestech.com>
-References: <1613914370-17285-1-git-send-email-cwshu@andestech.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.0.12.177]
 X-DNSRBL: 
-X-MAIL: ATCSQR.andestech.com 11LDSYJU059381
+X-MAIL: ATCSQR.andestech.com 11LDuh6R062668
 Received-SPF: pass client-ip=60.248.187.195; envelope-from=cwshu@andestech.com;
  helo=ATCSQR.andestech.com
 X-Spam_score_int: -18
@@ -58,45 +57,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Jim Shu <cwshu@andestech.com>
+Cc: listair.Francis@wdc.com, palmer@dabbelt.com, Jim Shu <cwshu@andestech.com>,
+ sagark@eecs.berkeley.edu, kbastian@mail.uni-paderborn.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If PMP permission of any address has been changed by updating PMP entry,
-flush all TLB pages to prevent from getting old permission.
-
-Signed-off-by: Jim Shu <cwshu@andestech.com>
+Sorry for sending this patch set again. 
+The cover letter of my previous mail doesn't add cc list.
 ---
- target/riscv/pmp.c | 4 ++++
- 1 file changed, 4 insertions(+)
 
-diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
-index ebd874cde3..cff020122a 100644
---- a/target/riscv/pmp.c
-+++ b/target/riscv/pmp.c
-@@ -28,6 +28,7 @@
- #include "qapi/error.h"
- #include "cpu.h"
- #include "trace.h"
-+#include "exec/exec-all.h"
- 
- static void pmp_write_cfg(CPURISCVState *env, uint32_t addr_index,
-     uint8_t val);
-@@ -347,6 +348,9 @@ void pmpcfg_csr_write(CPURISCVState *env, uint32_t reg_index,
-         cfg_val = (val >> 8 * i)  & 0xff;
-         pmp_write_cfg(env, (reg_index * 4) + i, cfg_val);
-     }
-+
-+    /* If PMP permission of any addr has been changed, flush TLB pages. */
-+    tlb_flush(env_cpu(env));
- }
- 
- 
+Current implementation of PMP permission checking only has effect when
+softmmu's TLB miss. PMP checking is bypassed when TLB hits because TLB page
+permission isn't affected by PMP permission.
+
+To fix this issue, this patch set addes the feature to propagate PMP
+permission to the TLB page and flush TLB pages if PMP permission has
+been changed.
+
+The patch set is tested on Zephyr RTOS userspace testsuite on QEMU riscv32
+virt machine.
+
+Jim Shu (3):
+  target/riscv: propagate PMP permission to TLB page
+  target/riscv: add log of PMP permission checking
+  target/riscv: flush TLB pages if PMP permission has been changed
+
+ target/riscv/cpu_helper.c | 96 ++++++++++++++++++++++++++++++---------
+ target/riscv/pmp.c        | 84 +++++++++++++++++++++++++---------
+ target/riscv/pmp.h        |  4 +-
+ 3 files changed, 141 insertions(+), 43 deletions(-)
+
 -- 
 2.30.1
 
