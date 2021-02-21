@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6144320DB6
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 21:50:55 +0100 (CET)
-Received: from localhost ([::1]:55760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7229E320DB7
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 21:51:23 +0100 (CET)
+Received: from localhost ([::1]:58188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDvgs-0007gi-Uv
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 15:50:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44880)
+	id 1lDvhK-0000LP-HE
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 15:51:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lDvfN-0006fX-0Y
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 15:49:21 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40049)
+ id 1lDvfs-0007MX-47
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 15:49:52 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35624)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lDvfK-0003HQ-9m
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 15:49:20 -0500
-Received: by mail-ej1-x633.google.com with SMTP id u20so25283296ejb.7
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 12:49:17 -0800 (PST)
+ id 1lDvfo-0003Wv-SH
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 15:49:51 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id g5so26033866ejt.2
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 12:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=Pju0vZkKOIsuTdvnuZzQpVZJICXYt3+e/BMtV78P5yI=;
- b=atbEzvh9SOPpT8oJmKWqdmNCvzzT9wRiklUgHmRhYkBj4VrofnsuzyZHDWs+8r1Q4q
- NjQeGuxCYmsMUNgjjzLm2VPd2W4Pf2jpTdZVPHnDnK0qzR9HCB2+pEd+gQ7E51XxKw0U
- 6SdxBVM0x3Rc8eyRpsUX7xURaFhsm97uwZkaAW14khBIzKtj51EaoqvV0smJ3hYBmn10
- BxgG24V7A5Py2XXyv8gcCmwcoDf8XcKJZ6N7CCpvNIm9L568loAMU1iaB9kTH05tQjsQ
- 3qsC77LPqgkenz7zPQF3JdY7P9eNttR1v9PMS8ePMh1EKlOnDrzjQaO0Q405LdYkrZ+M
- kzXw==
+ bh=nYApXIseD6Sx0sZQ8+wG4lWWqK3yOVOitlFEEmUx94w=;
+ b=mZg1iyQ/vCmYnj9e0gEEzP3MoZ+ouYnc5lZ/pH6Mnx5nU+4Z/6nBlJApHXrqruMrLy
+ 1j7DBoXMZHUJM0GTafZMIwGDdZY8qRHd/5PZOoOCi8H2v9bLpzOv7vlh+4aSF+l2dkSY
+ /+c+m1sGhEaAGrsQFPRBlHFskobkcvTO2k7g3Di55t7tE6LYbv9t6qsNSEKoPYh9E0mG
+ VKfjdNv9XgA6SixuryCZz9M9lQWX8p0cX+cBHzRsBg3vSTwyhNcz9DtJMIS+gM0HLFbo
+ H/26AsV1V09ZPwiJziRpzqP6blJb+bO3wxC9oy8EHShK2zSgyQ2XJYhrDgiPvMfWxJ7u
+ lpHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=Pju0vZkKOIsuTdvnuZzQpVZJICXYt3+e/BMtV78P5yI=;
- b=JKid01CmBw19E9nbIHKh9SgL7QcfRc/JSVAofUbwkFo9QzQfqYrgJ7EqmvbGu34R0l
- Wogq+KDcTj+Z2h9A/tpZXMGXpoC8+Z3NlzoudLY/oRfpVL8oxG+cjG4D6AANnxvKyYoq
- AAsUBYpwtLX+/OMDSBFL4jSKfWwZkNZEkjqMJdUqUC0CbouB8/ZfoEui7SKQ6CzwxDHk
- bLIaavYwvOOw7wWqv0Dceg4tdLjdl4ayvZ492ss61ASGt82SxOHjkNOnUouAnfb6mSB9
- d1aGJDPQ2HEqbX5YL80bHIBcNS2NKIHhl+4MxSktBC8XJigR4HXNO//5IRYdUH+UFcW7
- Dn3A==
-X-Gm-Message-State: AOAM531ipG9tf2dQxlSaEKGGD5AasPXJdNmlPGRKk6h9PwZT5VOoBPso
- mB8B6TiN9pncFQ110mXzxheQeEeKC85o8Q1F3xxUoA==
-X-Google-Smtp-Source: ABdhPJxsM7jAW1oadmeswlbX4oPRk/10htkJECvG874LJSzxK1K/2kWNDGKlitmnGQ+EzPcH7yK8waW5klIf9/ZmODc=
-X-Received: by 2002:a17:906:66cc:: with SMTP id
- k12mr1825334ejp.382.1613940556920; 
- Sun, 21 Feb 2021 12:49:16 -0800 (PST)
+ bh=nYApXIseD6Sx0sZQ8+wG4lWWqK3yOVOitlFEEmUx94w=;
+ b=OU51VZzlrEnd2Tqvm4Rw76rGruc0CSAdbpOgbyZLzlsJDO39vU/GtCVTsbC8cbS6D5
+ bYR1uOk0rEceBgmd5rparZ+l1HQCaFflQXoXd7cenq5KyR45zPj5S5G7o9TEjyEvSp0Z
+ XZhCWS7M0DYqC5S5v3b4l8hiufxHZ4SEqNR4L1eh8lfYfqfJiwG+8FbsPEMfTdjNlgJA
+ i6DffrgbcUF8W8dTASQ6Zv/iTpGs6bDk7h/Wtu9cso9xXBtx6SV4OuyC4N19gswKBNI8
+ 6U54hzPWcEqGEBuZm7HerE613xT6170J4OAv6XceiStPynF/4IjfqIhbR05TemSv53WG
+ vX9Q==
+X-Gm-Message-State: AOAM530V0ejBOjwwDRlPvCPQia6NhT6C2hyfaKDECnSQVp/DaBgEoyiA
+ 2T4DC8QVNvYT6h2YmMiDMwjKOySGeEpWvkc4lCvtZg==
+X-Google-Smtp-Source: ABdhPJwbIG4T5C8fLJrxdc7Ab7XvDd9XlsxlZLB1fU4DkDGxDtrKxWV/O9Mli7V6JVmb+PitL9k5RlibAJSkzLvb8iA=
+X-Received: by 2002:a17:906:3556:: with SMTP id
+ s22mr17241527eja.85.1613940587424; 
+ Sun, 21 Feb 2021 12:49:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20210221200249.2536247-1-f4bug@amsat.org>
- <20210221200249.2536247-8-f4bug@amsat.org>
-In-Reply-To: <20210221200249.2536247-8-f4bug@amsat.org>
+ <20210221200249.2536247-9-f4bug@amsat.org>
+In-Reply-To: <20210221200249.2536247-9-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 21 Feb 2021 20:49:05 +0000
-Message-ID: <CAFEAcA-2z7uVVyes4v76DvoG9ZjOzngZMt96obpNo9xAHKOzEQ@mail.gmail.com>
-Subject: Re: [PATCH v2 7/8] hw/pci-host: Introduce SH_PCI Kconfig entry
+Date: Sun, 21 Feb 2021 20:49:36 +0000
+Message-ID: <CAFEAcA8UQW01zELwVo9vifKm6k+qp-nT5Xw3NHi-hrEH03eKUQ@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] hw/sh4: Remove now unused CONFIG_SH4 from Kconfig
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,25 +92,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On Sun, 21 Feb 2021 at 20:03, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
  wrote:
 >
-> We want to be able to use the 'SH4' config for architecture
-> specific features. Add more fine-grained selection by adding
-> a CONFIG_SH_PCI selector for the SH4 PCI controller.
-> Move the file with the other PCI host devices in hw/pci-host
-> and add its missing MAINTAINERS entries.
+> As replaced the generic CONFIG_SH4 by more fine-grained
+> selectors, we can remove this now unused config variable.
 >
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
->  hw/{sh4 =3D> pci-host}/sh_pci.c | 0
->  MAINTAINERS                   | 1 +
->  hw/pci-host/meson.build       | 1 +
->  hw/sh4/Kconfig                | 1 +
->  hw/sh4/meson.build            | 1 -
->  5 files changed, 3 insertions(+), 1 deletion(-)
->  rename hw/{sh4 =3D> pci-host}/sh_pci.c (100%)
+>  hw/sh4/Kconfig | 5 -----
+>  1 file changed, 5 deletions(-)
 
-Don't we need a hw/pci-host/Kconfig change to add
-the "config SH_PCI" section ?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
 -- PMM
