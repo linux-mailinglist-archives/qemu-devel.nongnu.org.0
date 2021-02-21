@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DB25320B24
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:54:04 +0100 (CET)
-Received: from localhost ([::1]:51010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A3A1320B29
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:56:51 +0100 (CET)
+Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDq7W-0004Wt-NY
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:54:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33490)
+	id 1lDqAD-0008Ko-W5
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpqB-0006wB-Q3
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:07 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38702)
+ id 1lDpqF-00073i-KO
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:11 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:50324)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpqA-000331-3a
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:07 -0500
-Received: by mail-wm1-x330.google.com with SMTP id m25so2579558wmi.3
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:36:05 -0800 (PST)
+ id 1lDpqE-00034x-2y
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:11 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id a132so11245054wmc.0
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:36:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=qiY3Lxu/BW+EniHEYptriDgJF2WkErM7WKpxb8HLVBM=;
- b=u/kcG6OkhUxDPYbhrrr8jPC3RTHtfxYoAFX1HKGBgTD9RdYWV6Gzq4/4Y+rWulk7Y0
- 0VraqMS9p+DoOWSiKnP1+oZZISWSdD8XCIrC7hcruWofqYMKIsmPKV1e6gBIS9+XqQAI
- 5iCVr0ZMzJe8KF8lc8NKc5+oZkzMCBrgBo9G7sEvjKr+8GGlmlgmTby8rhwmUucJaP7+
- UFRUQnWZELLAOfr9wMpoIawkhH33X0UszoZAuNSHdM+C5Y1mlVsis9Y26DbcDhFB7+uc
- xhzKlDnkVsgtbwOUOv1TV/+BgH9AXPN6ZJXzc9DScRBYYUSOBSyebZFVJjSYgkTYV8+R
- Aogw==
+ bh=wfNdRFst6LfLn0VNAb4bbFY7EBizJDIkL87O+WLW55E=;
+ b=YGx1C8/Lgapx6r+HfbjwLjKjnunq1C8sJnKv23a/u4LgnsqNPsqCO+y0kCjL/ZvkcV
+ 1FWiblsbq1eRp042IJ2g+9LBciVH1QupZvYU9Xgkcx91zMWwbGOfV3BH76+UmeYBWVm7
+ L8JHgPqK5r3wC7+TSBuy9oc7us2cNLCQzLvqfrbczV1Rp2FBDs58bW1hOtHBZGaXXGrb
+ 5LUV3LHe3qeFJyEVvLbrDyIHtUaVFxg6dGBbusC3+5baSbhGc9LHI47BSqRu7/zuev8z
+ zIhhb4MbmCH5L3R3dOi4jVU+nNoVtT6UCmjuB5T7nFSfArYCsJ+1TsxfB4x6dS0+yu63
+ QqWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=qiY3Lxu/BW+EniHEYptriDgJF2WkErM7WKpxb8HLVBM=;
- b=GBRYSkeyCAumkcpHytyVUFxn5HY4Yz2O25taNISo3avsCavql5j+Zbt1/nnjHZd4pb
- FqEmTOm3aoeHoQmYvzdeBhLQN/zWkEnLxULuGNst8Zd1B7iaYHnE+rVEOiZMMxwysKLO
- no1SsKerp6MlciRMApIVBvIeIAGG5nqRHn6esC+IoYSLFnd1jFLiX5BcZHY9uLE9POqc
- iYjeNTp2ceEWWmCDAybEC8unqv7TLjISO+GC9JEe/DrtJ4Y37Ykbf2W/+UZqbXbbcgA7
- /GQf9HjFvgOmsHblxUMzG24TZm7EK6Hpq7alUaAByGku2iXV9S/D4XS/Hx73fFWuyGEl
- 7SGQ==
-X-Gm-Message-State: AOAM532v+/uqZQP1sHES1Di6OWmVDdP15qIPsMfKsmGCtDSN5aLG4ziq
- l4/udLjw7gX/GECmTZ+QHpyxDz41gfo=
-X-Google-Smtp-Source: ABdhPJxCZihkeyILZWEazvn7ExUU7qadoQ52NwqlPmMgSg01AsU3yp1Pe07R3stv9nkp+y+NVBC2vQ==
-X-Received: by 2002:a05:600c:3551:: with SMTP id
- i17mr16382748wmq.92.1613918163586; 
- Sun, 21 Feb 2021 06:36:03 -0800 (PST)
+ bh=wfNdRFst6LfLn0VNAb4bbFY7EBizJDIkL87O+WLW55E=;
+ b=RABP4XcQrcCbKKF0LqNWO2wzXb6labeFwOIln0TG/9AWzIAm+vpgkEjJiEny2MMN+0
+ WLv4zmNN3L7+gnVq25ZcQr3IZmYjEeR/muA8ziHsIwv3OWU3l7UkGrweWv9yHh4vAIOl
+ hSH3LfvEf9w0yqOkjxpujz8RnAnOu//tcJD8PPKwJA1UeMMhDfVPel7UpFiisvp98KMh
+ XBE1dbHnhyrWIqtH86grFcnHoKVgBs2DVVo1xjtkY3/aEBdvC/w3xoATVL3b+kXT600u
+ wUzzuy2lEIZ28OZXE5BvMXrdTGDPFJLK5Hus4erjnskosD5L9Y7ncPAof3Z9NpMPLz/m
+ NVGQ==
+X-Gm-Message-State: AOAM530KncfKwzskP/U7r/rEkqLLMWFaW+mWX8OYEl0GoUG9I5h9qHgp
+ /3pclsnZ856PFmBt8gzAsX+L0Ds/ZuQ=
+X-Google-Smtp-Source: ABdhPJxxcilPx80bgWpMFNgWWdKQx05Oy036cMxEsnAeg2jynAzK7FFxmGorOR7ILMQ58CuSFtTNIg==
+X-Received: by 2002:a1c:4386:: with SMTP id
+ q128mr16402247wma.184.1613918168555; 
+ Sun, 21 Feb 2021 06:36:08 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a21sm25684358wmb.5.2021.02.21.06.36.02
+ by smtp.gmail.com with ESMTPSA id s11sm21388671wme.22.2021.02.21.06.36.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 06:36:03 -0800 (PST)
+ Sun, 21 Feb 2021 06:36:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/43] target/mips: Let get_physical_address() take
- MMUAccessType argument
-Date: Sun, 21 Feb 2021 15:34:07 +0100
-Message-Id: <20210221143432.2468220-19-f4bug@amsat.org>
+Subject: [PULL 19/43] target/mips: Let get_seg*_physical_address() take
+ MMUAccessType arg
+Date: Sun, 21 Feb 2021 15:34:08 +0100
+Message-Id: <20210221143432.2468220-20-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221143432.2468220-1-f4bug@amsat.org>
 References: <20210221143432.2468220-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -99,110 +99,61 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All these functions:
-- mips_cpu_get_phys_page_debug()
-- cpu_mips_translate_address()
-- mips_cpu_tlb_fill()
-- page_table_walk_refill()
-- walk_directory()
-call get_physical_address() passing a MMUAccessType type. Let the
-prototype use it as argument, as it is stricter than an integer.
+get_physical_address() calls get_seg_physical_address() and
+get_segctl_physical_address() passing a MMUAccessType type.
+Let the prototypes use it as argument, as it is stricter than
+an integer.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <20210128144125.3696119-12-f4bug@amsat.org>
+Message-Id: <20210128144125.3696119-13-f4bug@amsat.org>
 ---
- target/mips/tlb_helper.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ target/mips/tlb_helper.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index 0ad2d51b11c..f15cc48a062 100644
+index f15cc48a062..4db8a7582d4 100644
 --- a/target/mips/tlb_helper.c
 +++ b/target/mips/tlb_helper.c
-@@ -259,7 +259,7 @@ static int get_segctl_physical_address(CPUMIPSState *env, hwaddr *physical,
+@@ -222,7 +222,7 @@ static int is_seg_am_mapped(unsigned int am, bool eu, int mmu_idx)
  
- static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-                                 int *prot, target_ulong real_address,
--                                int rw, int mmu_idx)
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     /* User mode can only access useg/xuseg */
- #if defined(TARGET_MIPS64)
-@@ -306,14 +306,14 @@ static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-             segctl = env->CP0_SegCtl2 >> 16;
-         }
-         ret = get_segctl_physical_address(env, physical, prot,
--                                          real_address, rw,
-+                                          real_address, access_type,
-                                           mmu_idx, segctl, 0x3FFFFFFF);
- #if defined(TARGET_MIPS64)
-     } else if (address < 0x4000000000000000ULL) {
-         /* xuseg */
-         if (UX && address <= (0x3FFFFFFFFFFFFFFFULL & env->SEGMask)) {
-             ret = env->tlb->map_address(env, physical, prot,
--                                        real_address, rw);
-+                                        real_address, access_type);
-         } else {
-             ret = TLBRET_BADADDR;
-         }
-@@ -322,7 +322,7 @@ static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-         if ((supervisor_mode || kernel_mode) &&
-             SX && address <= (0x7FFFFFFFFFFFFFFFULL & env->SEGMask)) {
-             ret = env->tlb->map_address(env, physical, prot,
--                                        real_address, rw);
-+                                        real_address, access_type);
-         } else {
-             ret = TLBRET_BADADDR;
-         }
-@@ -349,7 +349,7 @@ static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-             /* Does CP0_Status.KX/SX/UX permit the access mode (am) */
-             if (env->CP0_Status & am_ksux[am]) {
-                 ret = get_seg_physical_address(env, physical, prot,
--                                               real_address, rw,
-+                                               real_address, access_type,
-                                                mmu_idx, am, false, env->PAMask,
-                                                0);
-             } else {
-@@ -363,7 +363,7 @@ static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-         if (kernel_mode && KX &&
-             address <= (0xFFFFFFFF7FFFFFFFULL & env->SEGMask)) {
-             ret = env->tlb->map_address(env, physical, prot,
--                                        real_address, rw);
-+                                        real_address, access_type);
-         } else {
-             ret = TLBRET_BADADDR;
-         }
-@@ -371,17 +371,17 @@ static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-     } else if (address < KSEG1_BASE) {
-         /* kseg0 */
-         ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          rw, mmu_idx,
-+                                          access_type, mmu_idx,
-                                           env->CP0_SegCtl1 >> 16, 0x1FFFFFFF);
-     } else if (address < KSEG2_BASE) {
-         /* kseg1 */
-         ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          rw, mmu_idx,
-+                                          access_type, mmu_idx,
-                                           env->CP0_SegCtl1, 0x1FFFFFFF);
-     } else if (address < KSEG3_BASE) {
-         /* sseg (kseg2) */
-         ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          rw, mmu_idx,
-+                                          access_type, mmu_idx,
-                                           env->CP0_SegCtl0 >> 16, 0x1FFFFFFF);
+ static int get_seg_physical_address(CPUMIPSState *env, hwaddr *physical,
+                                     int *prot, target_ulong real_address,
+-                                    int rw, int mmu_idx,
++                                    MMUAccessType access_type, int mmu_idx,
+                                     unsigned int am, bool eu,
+                                     target_ulong segmask,
+                                     hwaddr physical_base)
+@@ -234,7 +234,8 @@ static int get_seg_physical_address(CPUMIPSState *env, hwaddr *physical,
+         return mapped;
+     } else if (mapped) {
+         /* The segment is TLB mapped */
+-        return env->tlb->map_address(env, physical, prot, real_address, rw);
++        return env->tlb->map_address(env, physical, prot, real_address,
++                                     access_type);
      } else {
-         /*
-@@ -389,7 +389,7 @@ static int get_physical_address(CPUMIPSState *env, hwaddr *physical,
-          * XXX: debug segment is not emulated
-          */
-         ret = get_segctl_physical_address(env, physical, prot, real_address,
--                                          rw, mmu_idx,
-+                                          access_type, mmu_idx,
-                                           env->CP0_SegCtl0, 0x1FFFFFFF);
-     }
-     return ret;
+         /* The segment is unmapped */
+         *physical = physical_base | (real_address & segmask);
+@@ -245,15 +246,15 @@ static int get_seg_physical_address(CPUMIPSState *env, hwaddr *physical,
+ 
+ static int get_segctl_physical_address(CPUMIPSState *env, hwaddr *physical,
+                                        int *prot, target_ulong real_address,
+-                                       int rw, int mmu_idx,
++                                       MMUAccessType access_type, int mmu_idx,
+                                        uint16_t segctl, target_ulong segmask)
+ {
+     unsigned int am = (segctl & CP0SC_AM_MASK) >> CP0SC_AM;
+     bool eu = (segctl >> CP0SC_EU) & 1;
+     hwaddr pa = ((hwaddr)segctl & CP0SC_PA_MASK) << 20;
+ 
+-    return get_seg_physical_address(env, physical, prot, real_address, rw,
+-                                    mmu_idx, am, eu, segmask,
++    return get_seg_physical_address(env, physical, prot, real_address,
++                                    access_type, mmu_idx, am, eu, segmask,
+                                     pa & ~(hwaddr)segmask);
+ }
+ 
 -- 
 2.26.2
 
