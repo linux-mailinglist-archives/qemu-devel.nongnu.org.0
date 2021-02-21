@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82B32320B04
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:43:49 +0100 (CET)
-Received: from localhost ([::1]:46230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F26C320B27
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:56:29 +0100 (CET)
+Received: from localhost ([::1]:57754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDpxc-0007UZ-Gw
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:43:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33570)
+	id 1lDq9r-0007KO-Tw
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:56:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpqP-0007GE-IV
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:22 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:38837)
+ id 1lDpqp-0007lO-KI
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:47 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:36813)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpqO-00038b-7e
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:21 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id b3so16335546wrj.5
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:36:19 -0800 (PST)
+ id 1lDpqT-0003Ag-ES
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:36:47 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id u14so16355669wri.3
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:36:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MC5oi9TPKAczNKXq5Uj4eOA8fenPPAC5Jz7BQ2K2UHA=;
- b=G5MwtcUasLf6Auc4IBP/XfCNv8xWuerft2SMqxGjOnKwf+uJF1DqXol81+0jIAHWcy
- b7HBqq9+fDEnZGjSKnHhAakNr7ChFRPNYrfsYPW9es7cJDlyfK+57fPqUnnbdy8Ypm/s
- OuvAe45F8doPAdByra16Ct6NyyTPNjS8u46GhkLfHfBC/+FJ70yKwJ3AV4DpLq+KfWov
- 7txSYbkHIsZY10hfzMWaZxVPQ7WDCdsO7wxCgq0GcMwGhx65v79SwhiLIXTRxMBhAe6P
- 7YDRYkvHcfbBtVcQFEcRX34ZnW9M9mNq9+6dHHbT/Ql4Y5aFwyCM3uDYzkkbHpPxA1q4
- MyCQ==
+ bh=mTEXW5LTfQRgc4V4bZmD0GoSDNu+cidmCKPRdeIGV08=;
+ b=TnzcuOE1b81LtnLzK1sU+dvhOL97LY4FhYz5yljj7nDTcYZTqiWUkaaHXve2+TK6un
+ yjE7xpVItCCo4anRS+YB/eRQPu8ls1D93DcvjEHUDudAnILeFXCFlOzqqJ8iz9uleZX5
+ EIzrcS2gWOtrTWyX1k1PYJKeivKihVS5yBggs/RevPXsgVibPYgx7hvbbrCw8zcrKGwP
+ J5ee1Di5slxGXa/hsqingnrYcQhZi9ZZ6ISuYM9aJAW05zc6c2vUZJ1/bCiju0lNm1IN
+ MMeOKmBMjPFmhS2txAi78I3VdqzaKox/Q1n9bgW9dHfiwLd9KEljxAZG98lZNhvK7AY2
+ qz7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=MC5oi9TPKAczNKXq5Uj4eOA8fenPPAC5Jz7BQ2K2UHA=;
- b=b3En0hZu9pNphR3ygm/5LRQBFw6wYN/z/SidebbGMVbPpGgD7xJ4MWp5Yk4MjdZ7eI
- 2Y3doXlz+rWXTR4+PLLYLWkfp37mtE/CGUZgdn00W6+PYXWKbPNXf+hmRf1rLyPmEHda
- 8MvD690Idvzi/r16+8yFh+BO6rMxxBd+1eSrX9Z9cvGmZCJLtjsaAPpGFPzc4++Wwz9s
- y4Qswh3ZNFi1m6zH/vLkzMdxdHWN/q/AdIxUYFLwAP4EthPbsmNQuHReXPVGolBnZ0K/
- 9HCYj9lNsRS5SgCvBiPVtGZBC+szcpv3lq0X0ZR2MAWspXX4eFJ955JE8KjiMyFUfilk
- UqEA==
-X-Gm-Message-State: AOAM531qCak9aBRGqR2eSBS0+dC9ZuNtuIFNKXge936lVZEhwe617WgI
- H/fjQHYxYtdOJ689/MJWd+CYQERvzsw=
-X-Google-Smtp-Source: ABdhPJxQPzndsGHkSrSwqpqWvZs3tHHrsuC7VMdlBOrbZREdzEgziDQ426ui0a8XjFsNYXEH468Czg==
-X-Received: by 2002:a5d:4848:: with SMTP id n8mr1015337wrs.241.1613918178483; 
- Sun, 21 Feb 2021 06:36:18 -0800 (PST)
+ bh=mTEXW5LTfQRgc4V4bZmD0GoSDNu+cidmCKPRdeIGV08=;
+ b=LxBwC6xaS6Z7YEDacQRGw7v3qONXmzbWhP71yAVlPb9wCDSIG6/nPmE4syc044/A/l
+ glOr1EM2mmuKf7Yag2xstLP9aAkLKvhngDekUZBPSkA/GAZOSj12ca1Ry+wZhhN8w3Bb
+ MVFLTNN8ITwrGz/8bNjeVJupUBKhltkeqRXQu8ZKyEad3bWH7ls+AW6kBi9CQs+oYF8y
+ 3bnL2gw/5h3RMwvktXdkEovmLYSRzbFrS92KulphdFCVjP8mrcubmHTtBMXO9prjGRYB
+ XN+yr6taFZc7X3WN0v6EeRUtNRVhhsbD2NZ+cjTVUgmIbZ0Dk/oJquQvRw2W7yj0vRTI
+ piJQ==
+X-Gm-Message-State: AOAM530jIeS0go9Wj/A7FtkxibGzGkBiyq57UrinM4hc+ddlTps5+QRD
+ DxlBcgIfgPeaw7YffT2kYEkejudtIbg=
+X-Google-Smtp-Source: ABdhPJxwbIIBDKT9Dlr1h05GaMkVlm59OycVz8htDJPwwAZX2o3Pnjzu5H4zIygUl6HPqQRoto2XWQ==
+X-Received: by 2002:a5d:5441:: with SMTP id w1mr17587242wrv.366.1613918183462; 
+ Sun, 21 Feb 2021 06:36:23 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id x13sm7695051wrt.21.2021.02.21.06.36.17
+ by smtp.gmail.com with ESMTPSA id t74sm26718292wmt.45.2021.02.21.06.36.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 06:36:17 -0800 (PST)
+ Sun, 21 Feb 2021 06:36:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 21/43] target/mips: Remove unused 'rw' argument from
- page_table_walk_refill()
-Date: Sun, 21 Feb 2021 15:34:10 +0100
-Message-Id: <20210221143432.2468220-22-f4bug@amsat.org>
+Subject: [PULL 22/43] target/mips: Include missing "tcg/tcg.h" header
+Date: Sun, 21 Feb 2021 15:34:11 +0100
+Message-Id: <20210221143432.2468220-23-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221143432.2468220-1-f4bug@amsat.org>
 References: <20210221143432.2468220-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,7 +88,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
  Paul Burton <paulburton@kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
  Huacai Chen <chenhuacai@kernel.org>,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Cleber Rosa <crosa@redhat.com>,
@@ -98,40 +96,46 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the 'rw' argument is unused, remove it.
+Commit 83be6b54123 ("Fix MSA instructions LD.<B|H|W|D> on big endian
+host") introduced use of typedef/prototypes declared in "tcg/tcg.h"
+without including it. This was not a problem because "tcg/tcg.h" is
+pulled in by "exec/cpu_ldst.h". To be able to remove this header
+there, we first need to include it here in op_helper.c, else we get:
 
-Reported-by: Richard Henderson <richard.henderson@linaro.org>
+  [222/337] Compiling C object libqemu-mips-softmmu.fa.p/target_mips_msa_helper.c.o
+  target/mips/msa_helper.c: In function ‘helper_msa_ld_b’:
+  target/mips/msa_helper.c:8214:9: error: unknown type name ‘TCGMemOpIdx’
+   8214 |         TCGMemOpIdx oi = make_memop_idx(MO_TE | DF | MO_UNALN,  \
+        |         ^~~~~~~~~~~
+  target/mips/msa_helper.c:8224:5: note: in expansion of macro ‘MEMOP_IDX’
+   8224 |     MEMOP_IDX(DF_BYTE)
+        |     ^~~~~~~~~
+  target/mips/msa_helper.c:8214:26: error: implicit declaration of function ‘make_memop_idx’ [-Werror=implicit-function-declaration]
+   8214 |         TCGMemOpIdx oi = make_memop_idx(MO_TE | DF | MO_UNALN,  \
+        |                          ^~~~~~~~~~~~~~
+  target/mips/msa_helper.c:8227:18: error: implicit declaration of function ‘helper_ret_ldub_mmu’ [-Werror=implicit-function-declaration]
+   8227 |     pwd->b[0]  = helper_ret_ldub_mmu(env, addr + (0  << DF_BYTE), oi, GETPC());
+        |                  ^~~~~~~~~~~~~~~~~~~
+  cc1: all warnings being treated as errors
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20210220202026.2305667-1-f4bug@amsat.org>
+Message-Id: <20210207232310.2505283-4-f4bug@amsat.org>
 ---
- target/mips/tlb_helper.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ target/mips/msa_helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/mips/tlb_helper.c b/target/mips/tlb_helper.c
-index b48f892a513..8d3ea497803 100644
---- a/target/mips/tlb_helper.c
-+++ b/target/mips/tlb_helper.c
-@@ -622,8 +622,8 @@ static int walk_directory(CPUMIPSState *env, uint64_t *vaddr,
-     }
- }
- 
--static bool page_table_walk_refill(CPUMIPSState *env, vaddr address, int rw,
--        int mmu_idx)
-+static bool page_table_walk_refill(CPUMIPSState *env, vaddr address,
-+                                   int mmu_idx)
- {
-     int gdw = (env->CP0_PWSize >> CP0PS_GDW) & 0x3F;
-     int udw = (env->CP0_PWSize >> CP0PS_UDW) & 0x3F;
-@@ -879,7 +879,7 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-         int mode = (env->hflags & MIPS_HFLAG_KSU);
-         bool ret_walker;
-         env->hflags &= ~MIPS_HFLAG_KSU;
--        ret_walker = page_table_walk_refill(env, address, access_type, mmu_idx);
-+        ret_walker = page_table_walk_refill(env, address, mmu_idx);
-         env->hflags |= mode;
-         if (ret_walker) {
-             ret = get_physical_address(env, &physical, &prot, address,
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index 1298a1917ce..4caefe29ad7 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -20,6 +20,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "internal.h"
++#include "tcg/tcg.h"
+ #include "exec/exec-all.h"
+ #include "exec/helper-proto.h"
+ #include "exec/memop.h"
 -- 
 2.26.2
 
