@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA707320D3B
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 20:44:10 +0100 (CET)
-Received: from localhost ([::1]:33774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00796320D47
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 20:46:27 +0100 (CET)
+Received: from localhost ([::1]:39844 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDueH-00046c-TC
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 14:44:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59726)
+	id 1lDugU-0006i8-2T
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 14:46:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDuch-0002no-DV
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:33 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:38049)
+ id 1lDucm-0002oO-W0
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:38 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:35259)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDuce-0006tT-TH
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:30 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m25so3007949wmi.3
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 11:42:28 -0800 (PST)
+ id 1lDuck-0006v4-93
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:42:36 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id n10so12502443wmq.0
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 11:42:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CfIgBdFjssnMHa3mkwHM1/bRnpOU7pZnN0fWXKus9GM=;
- b=deMzOCcFGbgK5AQnSfmlRzLmqxJRYpAKrK0QiajKXrUsdBf9hxFjJdMSYO/L+acszF
- R3AmIYe1BTbosVvoiilubCrGxI4G6+GelDh6kyXkc23Yc6BWnSDKljddUrxRF06Q6GQ0
- HKV0SQE2s2fKzozYIXdILsmMghmNm6l8Hpd5O8thG4iQWrklrvyL5qW6QsZ7QRaJ7+Ku
- A9WLolrIVTuYQFMFalO/8ccaNakNBYZTlo5y6Ruh/GdXalZUsrL8a3qTjB2YTL/q6wow
- zpfgpm98INe9W2ajcB1ru6pfnmYzNWGaYUwTxOhi/kNgpJ0mnkS11PWowu/VJaXOepGh
- 3vlg==
+ bh=Mz2JvmknQ3dcMHeKvY6Ttas9KYnc1Ho2yP2kBlQDSJ8=;
+ b=t7pRm7XLFR3vjLjBmJ3VmWSSt49tj+sfgsBEyVgItTOlnzuDtwYPe4zg9miBcn9fjA
+ +24/wN1nPn7y/QJoK3fhBfAVc9mEqFqrT/wBY3jYPUfwsVdNVpzHe15EpCmnD74qJ/I6
+ VtY/vYqhMNglxRJuEQtrPAP2JJ80dF9w0v5T9fgYZnfaobz0a0WJP2AZC22e9XdY4hVm
+ GFshAp41r5NBwCXCYu7N1YeDvpbSipVic5p6+2y3WDE73vS3E0pOOiLQnPpuFddR5apA
+ 9YjYtwR4Ercsd3B9N72V6OMFY+T6AjDasJpvnS9LpJsjPMOZUbbUavU/3kOTRB2R0X/H
+ 9D6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CfIgBdFjssnMHa3mkwHM1/bRnpOU7pZnN0fWXKus9GM=;
- b=fQYNZzdJLraVPQLiWjP+e9g49Zm2scjujtR7gFjhs84rVIjgD+ZUdlQ9RdAMIJloOa
- OGdqVP18t0FM6vCCzuJM3Jiokce2dovm6YVcNrFkSk3b2WxbGlvJOvWUbGyJZ32nJs+C
- 9B6j0bmwE+P8uy6Os+1Lejo+OzWLB5fgo6vDmlFTOi2SlmwY3GG/+MrrazRFPDD+yGvv
- 7FcxzWJcDPaosMe1HS6hH1D782dHfQqUI7Tg8BvpuLil0fXPwK8HLwfawdkyC0FZhlwP
- Fn1luWkFSLkfvgDJDQNlXUNbV+cUvZVUrdnyo7YLGATU1Q9XoaMW7CuUnx6RPkcofBIe
- 1hlw==
-X-Gm-Message-State: AOAM533Ml2XEZ7ioOb+zyfd+gF+Nz7nq3L0mQuzq+qsFrhRk3mUEzZWA
- kQrePthBEEfivh9PFcBb2Ku+EO2q1VU=
-X-Google-Smtp-Source: ABdhPJxsfIyxI+Q+wxD9R0TrKtciYb1xQeRRdo2LOXD2Zi0XmZa7rPkotSb3Le1AFXKiOpynhtfkYA==
-X-Received: by 2002:a05:600c:2291:: with SMTP id
- 17mr9363987wmf.169.1613936547251; 
- Sun, 21 Feb 2021 11:42:27 -0800 (PST)
+ bh=Mz2JvmknQ3dcMHeKvY6Ttas9KYnc1Ho2yP2kBlQDSJ8=;
+ b=mvk7uAtnXhdf57IuL13zlbj3yW31AhzmDBy+43ux8ogLNdBGvhcMl06BwDZiUDbPBh
+ 4osawwp/NH92jfnUQpjIkbKfMV0oKB8dxpPcE7HEfKPn2kznIy2ucY0h7KJchOMayHNc
+ EyRCVStcytoWhJ+5udCZOamQtr0SardQW0u3nkhhrRFDVXhalTEuoeP/9Xuie4HM6A9C
+ niWrB1IGzCYPx7jWJZ+k/mywC3qdpPNFhnz0Vh0QfUj4n+yK9lQVwSDgp3t1alp/NDLU
+ RcgvXRjnvlVpp2IPGg+JzRQ0Io2UyeSBdKIXdrCXSX/6Fq2ALESuiJPzAPG5TIlyeZlT
+ HoqQ==
+X-Gm-Message-State: AOAM530pcA1jRBVGmG5Jpsxq8Gto1lm2JVgHIoZP080DU/uatNbsvbns
+ ACGbrJRfpjYNCZY32XCbUSLabzLb47M=
+X-Google-Smtp-Source: ABdhPJza39cHYpw86X7FELRXhwuoRsx2csXWKxoOQ+6NZZItthSF5z5KSqIzubgVlprIUJ7ajK2t5g==
+X-Received: by 2002:a1c:c388:: with SMTP id
+ t130mr17211658wmf.107.1613936552545; 
+ Sun, 21 Feb 2021 11:42:32 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v18sm22739074wrf.75.2021.02.21.11.42.26
+ by smtp.gmail.com with ESMTPSA id j2sm2966848wrt.81.2021.02.21.11.42.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 11:42:26 -0800 (PST)
+ Sun, 21 Feb 2021 11:42:32 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL v2 02/43] hw/mips: Add a bootloader helper
-Date: Sun, 21 Feb 2021 20:38:50 +0100
-Message-Id: <20210221193851.2528045-2-f4bug@amsat.org>
+Subject: [PULL v2 07/43] tests/acceptance: Test PMON with Loongson-3A1000 CPU
+Date: Sun, 21 Feb 2021 20:38:51 +0100
+Message-Id: <20210221193851.2528045-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221193851.2528045-1-f4bug@amsat.org>
 References: <20210221193851.2528045-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,279 +86,376 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Bin Meng <bin.meng@windriver.com>,
+Cc: Bin Meng <bin.meng@windriver.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-Add a bootloader helper to generate simple bootloaders for kernel.
-It can help us reduce inline hex hack and also keep MIPS release 6
-compatibility easier.
+Test booting of PMON bootloader on loongson3-virt platform.
+
+$ (venv) AVOCADO_ALLOW_UNTRUSTED_CODE=1 \
+    avocado --show=app,console \
+      run -t machine:loongson3-virt tests/acceptance
+Fetching asset from tests/acceptance/machine_mips_loongson3v.py:MipsLoongson3v.test_pmon_serial_console
+JOB ID     : 8e202b3727847c9104d0d3d6546ed225d35f6706
+JOB LOG    : /home/flygoat/avocado/job-results/job-2021-01-12T10.02-8e202b3/job.log
+ (1/1) tests/acceptance/machine_mips_loongson3v.py:MipsLoongson3v.test_pmon_serial_console:
+console: PMON2000 MIPS Initializing. Standby...
+console: 00000000Jump to 9fc
+console: Init Memory done.
+console: The uncache data is:
+console: 00000000:  5555555555555555
+console: 00000008:  aaaaaaaaaaaaaaaa
+console: 00000010:  3333333333333333
+console: 00000018:  cccccccccccccccc
+console: 00000020:  7777777777777777
+console: 00000028:  8888888888888888
+console: 00000030:  1111111111111111
+console: 00000038:  eeeeeeeeeeeeeeee
+console: The cached  data is:
+console: 00000000:  5555555555555555
+console: 00000008:  aaaaaaaaaaaaaaaa
+console: 00000010:  3333333333333333
+console: 00000018:  cccccccccccccccc
+console: 00000020:  7777777777777777
+console: 00000028:  8888888888888888
+console: 00000030:  1111111111111111
+console: 00000038:  eeeeeeeeeeeeeeee
+console: Copy PMON to execute location...
+console: start = 0x8f900000
+console: s0 = 0x30300000
+console: _edata = 0x8f989010
+console: _end = 0x8f98a028copy text section done.
+console: Copy PMON to execute location done.
+console: sp=8f8fc000
+console: Uncompressing Bios............................................................................OK,Booting Bios
+console: FREQ
+console: DONE
+console: DEVI
+console: ENVI
+console: MAPV
+console: NVRAM@8f7ff898
+console: STDV
+console: 80100000:  memory between 8f7ff400-8f800000  is already been allocated,heap is already above this point
+console: SBDD
+console: P12PCIH
+console: PCIH
+console: PCID
+console: setting up 1 bus
+console: PCI bus 0 slot 1: probe...completed
+console: PCI bus 0 slot 1/0: vendor/product: 0x106b/0x003f (serialbus, USB, interface: 0x10, revision: 0x00)
+console: PCI bus 0 slot 1/0: reg 0x10 = 0xffffff00
+console: PCI bus 0 slot 2: probe...completed
+console: PCI bus 0 slot 2/0: vendor/product: 0x1af4/0x1000 (network, ethernet, interface: 0x00, revision: 0x00)
+console: PCI bus 0 slot 2/0: reg 0x10 = 0xffffffe1
+console: PCI bus 0 slot 2/0: reg 0x14 = 0xfffff000
+console: PCI bus 0 slot 2/0: reg 0x20 = 0xffffc00c
+console: PCI bus 0 slot 2/0: reg 0x30 = 0xfffc0000
+console: PCI bus 0 slot 3: probe...completed
+console: PCI bus 0 slot 4: probe...completed
+console: PCI bus 0 slot 5: probe...completed
+console: PCI bus 0 slot 6: probe...completed
+console: PCI bus 0 slot 7: probe...completed
+console: PCI bus 0 slot 8: probe...completed
+console: PCI bus 0 slot 9: probe...completed
+console: PCI bus 0 slot 10: probe...completed
+console: PCI bus 0 slot 11: probe...completed
+console: PCI bus 0 slot 12: probe...completed
+console: PCI bus 0 slot 13: probe...completed
+console: PCI bus 0 slot 14: probe...completed
+console: PCI bus 0 slot 15: probe...completed
+console: PCI bus 0 slot 16: probe...completed
+console: PCI bus 0 slot 17: probe...completed
+console: PCI bus 0 slot 18: probe...completed
+console: PCI bus 0 slot 19: probe...completed
+console: PCI bus 0 slot 20: probe...completed
+console: PCI bus 0 slot 21: probe...completed
+console: PCI bus 0 slot 22: probe...completed
+console: PCI bus 0 slot 23: probe...completed
+console: PCI bus 0 slot 24: probe...completed
+console: PCI bus 0 slot 25: probe...completed
+console: PCI bus 0 slot 26: probe...completed
+console: PCI bus 0 slot 27: probe...completed
+console: PCI bus 0 slot 28: probe...completed
+console: PCI bus 0 slot 29: probe...completed
+console: PCI bus 0 slot 30: probe...completed
+console: PCI bus 0 slot 31: probe...completed
+console: PCIS
+console: PCIR
+console: PCIW
+console: PCI bus 0 slot 2/0: mem @0x40000000, reg 0x30 262144 bytes
+console: PCI bus 0 slot 2/0: mem @0x40040000, reg 0x20 16384 bytes
+console: PCI bus 0 slot 2/0: mem @0x40044000, reg 0x14 4096 bytes
+console: PCI bus 0 slot 1/0: mem @0x40045000, reg 0x10 256 bytes
+console: PCI bus 0 slot 2/0: exp @0x40000000, 262144 bytes
+console: PCI bus 0 slot 2/0: i/o @0x00004000, reg 0x10 32 bytes
+console: NETI
+console: RTCL
+console: PCID
+console: VGAI
+console: memorysize=c000000,base=8f6ff508,sysMem=8f6ef500
+console: in setup_int_vect!done!VESA
+console: vga bios init failed, rc=-1
+console: in configure
+console: mainbus0 (root)
+console: localbus0 at mainbus0
+console: loopdev0 at mainbus0pcibr0 at mainbus0
+console: pci0 at pcibr0 bus 0
+console: ohci0 at pci0 dev 1 function 0 vendor/product: 0x106b/0x003f (serialbus, USB, interface: 0x10, revision: 0x00)usb base addr : 0xc0045000, bus_base is : 0xc0000000
+console: OHCI revision: 0x00000010
+console: RH: a: 0x00000203 b: 0x00000000
+console: early period(0x0)
+console: OHCI 8c01ec00 initialized ok
+console: New Device 0
+console: usb_get_descriptor
+console: bLength = 12
+console: bDescriptorType =1
+console: bcdUSB =  110
+console: bDeviceClass =9
+console: bDeviceSubClass =0
+console: bDeviceProtocol =0
+console: bMaxPacketSize0 =8
+console: set address 1
+console: usb_get_descriptor
+console: bLength = 12
+console: bDescriptorType =1
+console: bcdUSB =  110
+console: bDeviceClass =9
+console: bDeviceSubClass =0
+console: bDeviceProtocol =0
+console: bMaxPacketSize0 =8
+console: idVendor =0
+console: idProduct =0
+console: bcdDevice =0
+console: iManufacturer=0
+console: iProduct =1
+console: iSerialNumber=0
+console: bNumConfigurations=1
+console: usb_get_descriptor
+console: usb_get_descriptor
+console: get_conf_no 0 Result 25, wLength 25
+console: if 0, ep 0
+console: bLength=9
+console: bDescriptorType=2
+console: wTotalLength=19
+console: bNumInterfaces=1
+console: bConfigurationValue=1
+console: iConfiguration=0
+console: bmAttributes=40
+console: MaxPower=0
+console: 09 04 00 00 01 09 00 00 00 07 05 81 03 02 00 ff
+console: ##EP epmaxpacketin[1] = 2
+console: set configuration 1
+console: new device strings: Mfr=0, Product=1, SerialNumber=0
+console: USB device number 1 default language ID 0x409
+console: Manufacturer
+console: Product      OHCI Root Hub
+console: SerialNumber
+console: New Device 1
+console: usb_get_descriptor
+console: bLength = 12
+console: bDescriptorType =1
+console: bcdUSB =  200
+console: bDeviceClass =0
+console: bDeviceSubClass =0
+console: bDeviceProtocol =0
+console: bMaxPacketSize0 =8
+console: set address 2
+console: usb_get_descriptor
+console: bLength = 12
+console: bDescriptorType =1
+console: bcdUSB =  200
+console: bDeviceClass =0
+console: bDeviceSubClass =0
+console: bDeviceProtocol =0
+console: bMaxPacketSize0 =8
+console: idVendor =627
+console: idProduct =1
+console: bcdDevice =0
+console: iManufacturer=1
+console: iProduct =4
+console: iSerialNumber=b
+console: bNumConfigurations=1
+console: usb_get_descriptor
+console: usb_get_descriptor
+console: get_conf_no 0 Result 34, wLength 34
+console: unknown Description Type : 21
+console: 09 21 11 01 00 01 22 3F 00
+console: if 0, ep 0
+console: bLength=9
+console: bDescriptorType=2
+console: wTotalLength=22
+console: bNumInterfaces=1
+console: bConfigurationValue=1
+console: iConfiguration=8
+console: bmAttributes=a0
+console: MaxPower=32
+console: 09 04 00 00 01 03 01 01 00 09 21 11 01 00 01 22 3f 00 07 05 81 03 08 00 0a
+console: ##EP epmaxpacketin[1] = 8
+console: set configuration 1
+console: new device strings: Mfr=1, Product=4, SerialNumber=11
+console: USB device number 2 default language ID 0x409
+console: Manufacturer QEMU
+console: Product      QEMU USB Keyboard
+console: SerialNumber 68284-0000:00:01.0-1
+console: drive at ohci0 devnum 2, Product QEMU USB Keyboard
+console: not configured
+console: New Device 2
+console: usb_get_descriptor
+console: bLength = 12
+console: bDescriptorType =1
+console: bcdUSB =  200
+console: bDeviceClass =0
+console: bDeviceSubClass =0
+console: bDeviceProtocol =0
+console: bMaxPacketSize0 =8
+console: set address 3
+console: usb_get_descriptor
+console: bLength = 12
+console: bDescriptorType =1
+console: bcdUSB =  200
+console: bDeviceClass =0
+console: bDeviceSubClass =0
+console: bDeviceProtocol =0
+console: bMaxPacketSize0 =8
+console: idVendor =627
+console: idProduct =1
+console: bcdDevice =0
+console: iManufacturer=1
+console: iProduct =3
+console: iSerialNumber=a
+console: bNumConfigurations=1
+console: usb_get_descriptor
+console: usb_get_descriptor
+console: get_conf_no 0 Result 34, wLength 34
+console: unknown Description Type : 21
+console: 09 21 01 00 00 01 22 4A 00
+console: if 0, ep 0
+console: bLength=9
+console: bDescriptorType=2
+console: wTotalLength=22
+console: bNumInterfaces=1
+console: bConfigurationValue=1
+console: iConfiguration=7
+console: bmAttributes=a0
+console: MaxPower=32
+console: 09 04 00 00 01 03 00 00 00 09 21 01 00 00 01 22 4a 00 07 05 81 03 08 00 0a
+console: ##EP epmaxpacketin[1] = 8
+console: set configuration 1
+console: new device strings: Mfr=1, Product=3, SerialNumber=10
+console: USB device number 3 default language ID 0x409
+console: Manufacturer QEMU
+console: Product      QEMU USB Tablet
+console: SerialNumber 28754-0000:00:01.0-2
+console: drive at ohci0 devnum 3, Product QEMU USB Tablet
+console: not configured
+console: drive at ohci0 devnum 1, Product OHCI Root Hub
+console: not configured
+console: vendor/product: 0x1af4/0x1000 (network, ethernet, interface: 0x00, revision: 0x00) at pci0 dev 2 function 0 not configured
+console: out configure
+console: Press <Del> to set BIOS,waiting for 3 seconds here.....
+console: devconfig done.
+console: ifinit done.
+console: domaininit done.
+console: init_proc....
+console: HSTI
+console: SYMI
+console: SBDE
+console: [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[
+console: [[  [[[[[[[[[       [[[[[       [[[[   [[[[[  [[[[[      [[[[[       [[[[[       [[[[   [[[[[  [[
+console: [[  [[[[[[[[   [[[[  [[[   [[[[  [[[    [[[[  [[[[  [[[[  [[[   [[[[  [[[   [[[[  [[[    [[[[  [[
+console: [[  [[[[[[[[  [[[[[[ [[[  [[[[[[ [[[  [  [[[  [[[  [[[[[[[[[[[[   [[[[[[[  [[[[[[ [[[  [  [[[  [[
+console: [[  [[[[[[[[  [[[[[[ [[[  [[[[[[ [[[  [[  [[  [[[  [[[    [[[[[[[    [[[[  [[[[[[ [[[  [[  [[  [[
+console: [[  [[[[[[[[  [[[[[[ [[[  [[[[[[ [[[  [[[  [  [[[  [[[[[  [[[[[[[[[[  [[[  [[[[[[ [[[  [[[  [  [[
+console: [[  [[[[[[[[   [[[[  [[[   [[[[  [[[  [[[[    [[[   [[[[  [[[   [[[  [[[[   [[[[  [[[  [[[[    [[
+console: [[       [[[[       [[[[[       [[[[  [[[[[   [[[[       [[[[[      [[[[[[       [[[[  [[[[[   [[
+console: [[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[2011 Loongson][[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[
+console: Configuration [Bonito,EL,NET,SCSI,IDE]
+console: Version: PMON2000 3.3 (Bonito) #0: Tue Dec 22 01:58:09 UTC 2020 commit b3ece66234adbf7d4e453f0ba4f326c099ac2a76 Author: Jiaxun Yang <jiaxun.yang@flygoat.com> Date:   Tue Dec 22 09:51:10 2020 +0800 .
+console: Supported loaders [txt, srec, elf, bin]
+console: Supported filesystems [net, fat, fs, disk, iso9660, socket, tty, ram]
+console: This software may be redistributed under the BSD copyright.
+console: Copyright 2000-2002, Opsycon AB, Sweden.
+console: Copyright 2005, ICT CAS.
+console: CPU GODSON3 BogoMIPS: 1327
+PASS (3.89 s)
+RESULTS    : PASS 1 | ERROR 0 | FAIL 0 | SKIP 0 | WARN 0 | INTERRUPT 0 | CANCEL 0
+JOB TIME   : 4.38 s
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210127065424.114125-2-jiaxun.yang@flygoat.com>
-[PMD: Restricted bl_reg enum to C source,
-      inverted bl_gen_write() args,
-      added license in hw/mips/bootloader.h]
+Message-Id: <20210112020708.62922-1-jiaxun.yang@flygoat.com>
+[PMD: Set timeout to 60sec, simply test for ''CPU GODSON3 BogoMIPS']
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/mips/bootloader.h |  22 ++++
- hw/mips/bootloader.c         | 200 +++++++++++++++++++++++++++++++++++
- hw/mips/meson.build          |   2 +-
- 3 files changed, 223 insertions(+), 1 deletion(-)
- create mode 100644 include/hw/mips/bootloader.h
- create mode 100644 hw/mips/bootloader.c
+ MAINTAINERS                                 |  1 +
+ tests/acceptance/machine_mips_loongson3v.py | 39 +++++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+ create mode 100644 tests/acceptance/machine_mips_loongson3v.py
 
-diff --git a/include/hw/mips/bootloader.h b/include/hw/mips/bootloader.h
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 5eeba79c5a3..ac411c27f93 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1183,6 +1183,7 @@ F: hw/intc/loongson_liointc.c
+ F: hw/mips/loongson3_bootp.c
+ F: hw/mips/loongson3_bootp.h
+ F: hw/mips/loongson3_virt.c
++F: tests/acceptance/machine_mips_loongson3v.py
+ 
+ Boston
+ M: Paul Burton <paulburton@kernel.org>
+diff --git a/tests/acceptance/machine_mips_loongson3v.py b/tests/acceptance/machine_mips_loongson3v.py
 new file mode 100644
-index 00000000000..b5f48d71bba
+index 00000000000..85b131a40f0
 --- /dev/null
-+++ b/include/hw/mips/bootloader.h
-@@ -0,0 +1,22 @@
-+/*
-+ * Utility for QEMU MIPS to generate it's simple bootloader
-+ *
-+ * Copyright (C) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
++++ b/tests/acceptance/machine_mips_loongson3v.py
+@@ -0,0 +1,39 @@
++# Functional tests for the Generic Loongson-3 Platform.
++#
++# Copyright (c) 2021 Jiaxun Yang <jiaxun.yang@flygoat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or later.
++# See the COPYING file in the top-level directory.
++#
++# SPDX-License-Identifier: GPL-2.0-or-later
 +
-+#ifndef HW_MIPS_BOOTLOADER_H
-+#define HW_MIPS_BOOTLOADER_H
++import os
++import time
 +
-+#include "exec/cpu-defs.h"
++from avocado import skipUnless
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
 +
-+void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr);
-+void bl_gen_jump_kernel(uint32_t **p, target_ulong sp, target_ulong a0,
-+                        target_ulong a1, target_ulong a2, target_ulong a3,
-+                        target_ulong kernel_addr);
-+void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val);
-+void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val);
-+void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val);
++class MipsLoongson3v(Test):
++    timeout = 60
 +
-+#endif
-diff --git a/hw/mips/bootloader.c b/hw/mips/bootloader.c
-new file mode 100644
-index 00000000000..6ec83144909
---- /dev/null
-+++ b/hw/mips/bootloader.c
-@@ -0,0 +1,200 @@
-+/*
-+ * Utility for QEMU MIPS to generate it's simple bootloader
-+ *
-+ * Instructions used here are carefully selected to keep compatibility with
-+ * MIPS Release 6.
-+ *
-+ * Copyright (C) 2020 Jiaxun Yang <jiaxun.yang@flygoat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ */
++    @skipUnless(os.getenv('AVOCADO_ALLOW_UNTRUSTED_CODE'), 'untrusted code')
++    def test_pmon_serial_console(self):
++        """
++        :avocado: tags=arch:mips64el
++        :avocado: tags=endian:little
++        :avocado: tags=machine:loongson3-virt
++        :avocado: tags=cpu:Loongson-3A1000
++        :avocado: tags=device:liointc
++        :avocado: tags=device:goldfish_rtc
++        """
 +
-+#include "qemu/osdep.h"
-+#include "qemu/bitops.h"
-+#include "cpu.h"
-+#include "hw/mips/bootloader.h"
++        pmon_hash = '7c8b45dd81ccfc55ff28f5aa267a41c3'
++        pmon_path = self.fetch_asset('https://github.com/loongson-community/pmon/'
++                                    'releases/download/20210112/pmon-3avirt.bin',
++                                     asset_hash=pmon_hash, algorithm='md5')
 +
-+typedef enum bl_reg {
-+    BL_REG_ZERO = 0,
-+    BL_REG_AT = 1,
-+    BL_REG_V0 = 2,
-+    BL_REG_V1 = 3,
-+    BL_REG_A0 = 4,
-+    BL_REG_A1 = 5,
-+    BL_REG_A2 = 6,
-+    BL_REG_A3 = 7,
-+    BL_REG_T0 = 8,
-+    BL_REG_T1 = 9,
-+    BL_REG_T2 = 10,
-+    BL_REG_T3 = 11,
-+    BL_REG_T4 = 12,
-+    BL_REG_T5 = 13,
-+    BL_REG_T6 = 14,
-+    BL_REG_T7 = 15,
-+    BL_REG_S0 = 16,
-+    BL_REG_S1 = 17,
-+    BL_REG_S2 = 18,
-+    BL_REG_S3 = 19,
-+    BL_REG_S4 = 20,
-+    BL_REG_S5 = 21,
-+    BL_REG_S6 = 22,
-+    BL_REG_S7 = 23,
-+    BL_REG_T8 = 24,
-+    BL_REG_T9 = 25,
-+    BL_REG_K0 = 26,
-+    BL_REG_K1 = 27,
-+    BL_REG_GP = 28,
-+    BL_REG_SP = 29,
-+    BL_REG_FP = 30,
-+    BL_REG_RA = 31,
-+} bl_reg;
-+
-+static bool bootcpu_supports_isa(uint64_t isa_mask)
-+{
-+    return cpu_supports_isa(&MIPS_CPU(first_cpu)->env, isa_mask);
-+}
-+
-+/* Base types */
-+static void bl_gen_nop(uint32_t **p)
-+{
-+    stl_p(*p, 0);
-+    *p = *p + 1;
-+}
-+
-+static void bl_gen_r_type(uint32_t **p, uint8_t opcode,
-+                          bl_reg rs, bl_reg rt, bl_reg rd,
-+                          uint8_t shift, uint8_t funct)
-+{
-+    uint32_t insn = 0;
-+
-+    insn = deposit32(insn, 26, 6, opcode);
-+    insn = deposit32(insn, 21, 5, rs);
-+    insn = deposit32(insn, 16, 5, rt);
-+    insn = deposit32(insn, 11, 5, rd);
-+    insn = deposit32(insn, 6, 5, shift);
-+    insn = deposit32(insn, 0, 6, funct);
-+
-+    stl_p(*p, insn);
-+    *p = *p + 1;
-+}
-+
-+static void bl_gen_i_type(uint32_t **p, uint8_t opcode,
-+                          bl_reg rs, bl_reg rt, uint16_t imm)
-+{
-+    uint32_t insn = 0;
-+
-+    insn = deposit32(insn, 26, 6, opcode);
-+    insn = deposit32(insn, 21, 5, rs);
-+    insn = deposit32(insn, 16, 5, rt);
-+    insn = deposit32(insn, 0, 16, imm);
-+
-+    stl_p(*p, insn);
-+    *p = *p + 1;
-+}
-+
-+/* Single instructions */
-+static void bl_gen_dsll(uint32_t **p, bl_reg rd, bl_reg rt, uint8_t sa)
-+{
-+    if (bootcpu_supports_isa(ISA_MIPS3)) {
-+        bl_gen_r_type(p, 0, 0, rt, rd, sa, 0x38);
-+    } else {
-+        g_assert_not_reached(); /* unsupported */
-+    }
-+}
-+
-+static void bl_gen_jalr(uint32_t **p, bl_reg rs)
-+{
-+    bl_gen_r_type(p, 0, rs, 0, BL_REG_RA, 0, 0x09);
-+}
-+
-+static void bl_gen_lui(uint32_t **p, bl_reg rt, uint16_t imm)
-+{
-+    /* R6: It's a alias of AUI with RS = 0 */
-+    bl_gen_i_type(p, 0x0f, 0, rt, imm);
-+}
-+
-+static void bl_gen_ori(uint32_t **p, bl_reg rt, bl_reg rs, uint16_t imm)
-+{
-+    bl_gen_i_type(p, 0x0d, rs, rt, imm);
-+}
-+
-+static void bl_gen_sw(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
-+{
-+    bl_gen_i_type(p, 0x2b, base, rt, offset);
-+}
-+
-+static void bl_gen_sd(uint32_t **p, bl_reg rt, uint8_t base, uint16_t offset)
-+{
-+    if (bootcpu_supports_isa(ISA_MIPS3)) {
-+        bl_gen_i_type(p, 0x3f, base, rt, offset);
-+    } else {
-+        g_assert_not_reached(); /* unsupported */
-+    }
-+}
-+
-+/* Pseudo instructions */
-+static void bl_gen_li(uint32_t **p, bl_reg rt, uint32_t imm)
-+{
-+    bl_gen_lui(p, rt, extract32(imm, 16, 16));
-+    bl_gen_ori(p, rt, rt, extract32(imm, 0, 16));
-+}
-+
-+static void bl_gen_dli(uint32_t **p, bl_reg rt, uint64_t imm)
-+{
-+    bl_gen_li(p, rt, extract64(imm, 32, 32));
-+    bl_gen_dsll(p, rt, rt, 16);
-+    bl_gen_ori(p, rt, rt, extract64(imm, 16, 16));
-+    bl_gen_dsll(p, rt, rt, 16);
-+    bl_gen_ori(p, rt, rt, extract64(imm, 0, 16));
-+}
-+
-+static void bl_gen_load_ulong(uint32_t **p, bl_reg rt, target_ulong imm)
-+{
-+    if (bootcpu_supports_isa(ISA_MIPS3)) {
-+        bl_gen_dli(p, rt, imm); /* 64bit */
-+    } else {
-+        bl_gen_li(p, rt, imm); /* 32bit */
-+    }
-+}
-+
-+/* Helpers */
-+void bl_gen_jump_to(uint32_t **p, target_ulong jump_addr)
-+{
-+    bl_gen_load_ulong(p, BL_REG_T9, jump_addr);
-+    bl_gen_jalr(p, BL_REG_T9);
-+    bl_gen_nop(p); /* delay slot */
-+}
-+
-+void bl_gen_jump_kernel(uint32_t **p, target_ulong sp, target_ulong a0,
-+                        target_ulong a1, target_ulong a2, target_ulong a3,
-+                        target_ulong kernel_addr)
-+{
-+    bl_gen_load_ulong(p, BL_REG_SP, sp);
-+    bl_gen_load_ulong(p, BL_REG_A0, a0);
-+    bl_gen_load_ulong(p, BL_REG_A1, a1);
-+    bl_gen_load_ulong(p, BL_REG_A2, a2);
-+    bl_gen_load_ulong(p, BL_REG_A3, a3);
-+
-+    bl_gen_jump_to(p, kernel_addr);
-+}
-+
-+void bl_gen_write_ulong(uint32_t **p, target_ulong addr, target_ulong val)
-+{
-+    bl_gen_load_ulong(p, BL_REG_K0, val);
-+    bl_gen_load_ulong(p, BL_REG_K1, addr);
-+    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
-+}
-+
-+void bl_gen_write_u32(uint32_t **p, target_ulong addr, uint32_t val)
-+{
-+    bl_gen_li(p, BL_REG_K0, val);
-+    bl_gen_load_ulong(p, BL_REG_K1, addr);
-+    bl_gen_sw(p, BL_REG_K0, BL_REG_K1, 0x0);
-+}
-+
-+void bl_gen_write_u64(uint32_t **p, target_ulong addr, uint64_t val)
-+{
-+    bl_gen_dli(p, BL_REG_K0, val);
-+    bl_gen_load_ulong(p, BL_REG_K1, addr);
-+    bl_gen_sd(p, BL_REG_K0, BL_REG_K1, 0x0);
-+}
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index ee19cc204dc..1195716dc73 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -1,5 +1,5 @@
- mips_ss = ss.source_set()
--mips_ss.add(files('mips_int.c'))
-+mips_ss.add(files('bootloader.c', 'mips_int.c'))
- mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
- mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
- mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
++        self.vm.set_console()
++        self.vm.add_args('-bios', pmon_path)
++        self.vm.launch()
++        wait_for_console_pattern(self, 'CPU GODSON3 BogoMIPS:')
 -- 
 2.26.2
 
