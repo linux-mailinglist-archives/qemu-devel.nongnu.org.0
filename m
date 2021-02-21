@@ -2,76 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 634A6320B75
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 16:36:50 +0100 (CET)
-Received: from localhost ([::1]:47862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D52B3320B7E
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 16:40:31 +0100 (CET)
+Received: from localhost ([::1]:53862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDqmv-0007zx-0Q
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 10:36:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38350)
+	id 1lDqqU-0002Gz-M0
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 10:40:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zpmarvel@gmail.com>)
- id 1lDqHp-0001Fe-70; Sun, 21 Feb 2021 10:04:41 -0500
-Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:36052)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <zpmarvel@gmail.com>)
- id 1lDqHl-0006Fz-4m; Sun, 21 Feb 2021 10:04:40 -0500
-Received: by mail-io1-xd2f.google.com with SMTP id n14so10644880iog.3;
- Sun, 21 Feb 2021 07:04:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=C6z2cTHx/CdvWfBU2fviDIPD/Eoc+hYJ1XRwM47VC4Q=;
- b=N8yXj/qBrJ+1AAQwPn+XAbvKp0ccEVJ3JrmG7K06JN1dEQNL886omeo0tmhc399XO0
- srCM9BJw5ZadxE+Kklw0fYy4gHlcg2nTUmfmNFxoNw7DaWuI/SbaY3NKPkdBlQ5j+YPv
- hTn/BDzpzfntOMwfutLOqhBjD69dg4AQm0T1eujXkZEvGJupO5maZBIult41pFtTeATM
- oIvHod+DR6KMRCDK3hVd+QS6lTj6XIbxW4GQSFtnPVbKNu2Vy3HiJSeEwmEmwtjTjQql
- jMG4BQlkggmhY8ODd4uRKkZXi0PZ1/yO8g5WaangkqOjl5NBqa9tSDfUoO+yl9yDfqgs
- OjZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=C6z2cTHx/CdvWfBU2fviDIPD/Eoc+hYJ1XRwM47VC4Q=;
- b=bzFNjhCVcPEpBEEgi8y60g2/gVQEnzDZF4ETY1wWItnGwN8l5B4JBMoz99JfedMKQ1
- NRYyQu/0Zg2mZjKPtzdPik3dtGhXyMJxcUlDdTZJkL6MNvs89CBMxgGBEE3MaWIhGEym
- z40qsCDZGG8LvLEy9q2SgWotHTuvhP4OJqeCU+10qp0uFfblg8aMeZZl01WU2w376/v+
- 2MGgeMVXh/H1+k9oMZFs8l2JFV6rTFub5+qeH+MH27IXmAPBAbYSUWzKKPdvtBcOzquZ
- vsAdzNYhFoklKl9xgLvtsKeTVApc2wogWTmAqX14FjpIiCOBaf8U75RypN7abokyRTuQ
- 26qQ==
-X-Gm-Message-State: AOAM530EU8J7X7TFbTt7McZxGIQ6bRB9pSnSZ6mWczh2E9UPpLLqeICW
- hvdd6ukKf/SKo5d1wso6TQE=
-X-Google-Smtp-Source: ABdhPJxzYTZuEn0mjg4ERRDbssY/5yqXboor5W2rz9eXPbjIwPkqXW8/nYEvjR7tn1vMVezRWo8jnA==
-X-Received: by 2002:a02:866d:: with SMTP id
- e100mr17934515jai.139.1613919873425; 
- Sun, 21 Feb 2021 07:04:33 -0800 (PST)
-Received: from gastly (c-67-177-215-41.hsd1.co.comcast.net. [67.177.215.41])
- by smtp.gmail.com with ESMTPSA id n23sm11226275iog.3.2021.02.21.07.04.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 07:04:32 -0800 (PST)
-Received: from zack by gastly with local (Exim 4.92)
- (envelope-from <zpmarvel@gmail.com>)
- id 1lDqHg-0001d8-3w; Sun, 21 Feb 2021 08:04:32 -0700
-From: Zack Marvel <zpmarvel@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/char/pl011: fix receiving multiple chars
-Date: Sun, 21 Feb 2021 08:04:30 -0700
-Message-Id: <20210221150430.6223-1-zpmarvel@gmail.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lDqpB-0001bp-Qe
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 10:39:09 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:50024)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lDqp9-0004MR-TW
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 10:39:09 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11LFbkA7027226
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sun, 21 Feb 2021 10:37:49 -0500
+Date: Sun, 21 Feb 2021 10:37:46 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Li Qiang <liq3ea@163.com>
+Subject: Re: [PATCH] configure: force enable-sanitizers together with
+ enable-fuzzing
+Message-ID: <20210221153746.2spv2b5fw6w5ztq5@mozz.bu.edu>
+References: <20210221125900.425495-1-liq3ea@163.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
- envelope-from=zpmarvel@gmail.com; helo=mail-io1-xd2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210221125900.425495-1-liq3ea@163.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Sun, 21 Feb 2021 10:29:58 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -83,39 +55,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Zack Marvel <zpmarvel@gmail.com>, qemu-arm@nongnu.org
+Cc: pbonzini@redhat.com, thuth@redhat.com, liq3ea@gmail.com, f4bug@amsat.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When using the GTK UI with libvte, multicharacter keystrokes are not
-sent correctly (such as arrow keys). This is not an issue for e.g. the
-SDL UI because qemu_chr_be_write is called with len=1 for each character
-(SDL sends more than once keystroke).
+On 210221 0459, Li Qiang wrote:
+> If we execute configure with --enable-fuzzing but without
+> --enable-sanitizers, we will have a lot of 'undefined reference'
+> build error such as following:
+> 
+> clang-10  -o subprojects/libvhost-user/link-test subprojects/libvhost-user/link-test.p/link-test.c.o -Wl,--as-needed -Wl,--no-undefined -pie -Wl,--whole-archive -Wl,--start-group subprojects/libvhost-user/libvhost-user.a -Wl,--end-group -Wl,--no-whole-archive -Wl,--warn-common -Wl,-z,relro -Wl,-z,now -m64 -fstack-protector-strong -pthread
+> /usr/bin/ld: subprojects/libvhost-user/link-test.p/link-test.c.o: in function `main':
+> /home/test/qemu/build/../subprojects/libvhost-user/link-test.c:34: undefined reference to `__sancov_lowest_stack'
+> /usr/bin/ld: /home/test/qemu/build/../subprojects/libvhost-user/link-test.c:(.text.main[main]+0x55): undefined reference to `__sancov_lowest_stack'
+> /usr/bin/ld: /home/test/qemu/build/../subprojects/libvhost-user/link-test.c:41: undefined reference to `__sanitizer_cov_trace_const_cmp4'
+> /usr/bin/ld: subprojects/libvhost-user/link-test.p/link-test.c.o: in function `sancov.module_ctor_8bit_counters':
+> link-test.c:(.text.sancov.module_ctor_8bit_counters[sancov.module_ctor_8bit_counters]+0x16): undefined reference to `__sanitizer_cov_8bit_counters_init'
+> /usr/bin/ld: link-test.c:(.text.sancov.module_ctor_8bit_counters[sancov.module_ctor_8bit_counters]+0x2f): undefined reference to `__sanitizer_cov_pcs_init'
+> /usr/bin/ld: subprojects/libvhost-user/libvhost-user.a(libvhost-user.c.o): in function `vu_gpa_to_va':
+> /home/test/qemu/build/../subprojects/libvhost-user/libvhost-user.c:182: undefined reference to `__sanitizer_cov_trace_const_cmp8'
+> /usr/bin/ld: /home/test/qemu/build/../subprojects/libvhost-user/libvhost-user.c:187: undefined reference to `__sanitizer_cov_trace_cmp4'
+> /usr/bin/ld: /home/test/qemu/build/../subprojects/libvhost-user/libvhost-user.c:190: undefined reference to `__sanitizer_cov_trace_cmp8'
+> /usr/bin/ld: /home/test/qemu/build/../subprojects/libvhost-user/libvhost-user.c:190: undefined reference to `__sanitizer_cov_trace_cmp8'
+> /usr/bin/ld: /home/test/qemu/build/../subprojects/libvhost-user/libvhost-user.c:191: undefined reference to `__sanitizer_cov_trace_cmp8'
+> 
+> Let's avoid this error by enforcing fuzzing and sanitizers together.
+> 
+> Signed-off-by: Li Qiang <liq3ea@163.com>
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1407808
+I usually build using something like "ninja qemu-fuzz-i386", so I missed
+this failure. CI missed it because we only build-test --enable-fuzzing
+--enable-sanitizers.
 
-Signed-off-by: Zack Marvel <zpmarvel@gmail.com>
----
- hw/char/pl011.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index ea4a4e5235..2ea8fd2685 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -300,7 +300,9 @@ static void pl011_put_fifo(void *opaque, uint32_t value)
- 
- static void pl011_receive(void *opaque, const uint8_t *buf, int size)
- {
--    pl011_put_fifo(opaque, *buf);
-+    for (int i = 0; i < size; i++) {
-+        pl011_put_fifo(opaque, buf[i]);
-+    }
- }
- 
- static void pl011_event(void *opaque, QEMUChrEvent event)
--- 
-2.20.1
-
+I'll send an alternate patch, which should hopefully fix the failure,
+without requiring enable-sanitizers. ASAN can add 5-10x overhead to
+fuzzing, so it is often useful to fuzz without ASAN for a while, before
+switching it on.
 
