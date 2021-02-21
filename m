@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0A82320E25
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:05:48 +0100 (CET)
-Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98357320E4C
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:30:42 +0100 (CET)
+Received: from localhost ([::1]:40024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDwrL-0006LS-Vk
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:05:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56628)
+	id 1lDxFR-000209-M0
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:30:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwlo-000187-Jt; Sun, 21 Feb 2021 17:00:05 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:34046)
+ id 1lDxBN-0006Kc-Hi; Sun, 21 Feb 2021 17:26:31 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:45470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwlm-0000xy-SI; Sun, 21 Feb 2021 17:00:04 -0500
-Received: by mail-wr1-x429.google.com with SMTP id n4so17119885wrx.1;
- Sun, 21 Feb 2021 14:00:01 -0800 (PST)
+ id 1lDxBI-0004Ix-Vx; Sun, 21 Feb 2021 17:26:27 -0500
+Received: by mail-wr1-x435.google.com with SMTP id l30so1435875wrb.12;
+ Sun, 21 Feb 2021 14:26:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9ZV5S5F2neJfYXLNqhFnjIwvv5gWALmpaBVemsuVGEY=;
- b=k5kyBff+11ezJ1iKl0tj45LC7qYPEHNwkMxzgmx4TQmaT5zKhE4g00zr1pVsN7amxN
- HnrQIEnU9oUcofAGKuct5UaGdEIr/6yqAmz2cMrPnvTQZdZY+Nt8kCX9IuKoBdI0+Mvv
- 9Rr4N0/6C7hWp9SB0hDNqZrdy5A20ISOMX089ROazopicVF/hkLmiYBqiAnbWXH/MTkF
- 3ZbIvbvfWDBZ+T6hioETvzaA+BL77tbyFpyLk9ncX4e6suMnBWkbWfuZ4lsSM9HtdwDE
- ss711Z40dv7H9Hoz2SE7r03XiEOcFRMYVhD334Gi/+VPbFdKW4AOXAUg6JFnHA6csugs
- H3bg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l7kGV8BCSlV/22uKIKSaj5ga01T9HW6SOkPfs1f0tT8=;
+ b=qewQNxzl73gtCogP0xSm52S0nm1u/PgocBmaQV4WLIwzXKFHsgpvlz5sfyA8/49H49
+ 44CWgTlUx8mx6ltTdi3Lz1YywcCwn/LpmVlmy8dmfmQgn/MTCPgh76yCFzTNqsCB9dxx
+ lZpRfuA27s6X+1pFxIoheUVVnsNzXbYeg6qkC5TeuZ+1aQBIxJbYtLWvB1DvQ93ERrmA
+ w2nwUNn0x58KiLZIdTdjqG3r83+2yH+FeiTcczcgEkjpGd/T1tqp/CMXjj0N3ZCo4skW
+ KR1YntGBknG4AJgbHHDj1cPo8T8Uho8n1OaNV3WXUg5V7dNHG8QiJrvzCJuujJewKE2b
+ Gk5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9ZV5S5F2neJfYXLNqhFnjIwvv5gWALmpaBVemsuVGEY=;
- b=t5nCn4r7bwxId+zThJjV+Zw0DJ2LNf99PAf/CrKVMNFH7RGi0leQjJ7EEuy35xUj1t
- 4QfTtBEuFGMnRPuzAmwqRREJnehiQ8AfmqYkRALk0oC+UmPv4uQpFsxiF/Hmml3C/Qc6
- zSqamtaPP/GQSxRTl7hyZ8GEBfn0Pz8Yq8tP4CMLCz7rQ+NnrJm2gt1pnoJbDOpR/OpP
- 2d+G3fwyLpoEkBvBDUM5Zjys+wpoetAAq24jXu7EbxzyJan2P7BemTNwCteYbI5oCRzI
- tNMXDbrrcGp6jbgZtJVQtjPJ1YxWlDL/RVCfN/53stV3cadFL3hTE2BoRIDLMVVCe9GZ
- xTZw==
-X-Gm-Message-State: AOAM531zSuUYHQK0OtAFFZEtst83wh/Wt7+EHNvxGzc+CPL010YZxWm6
- OoNfenQR8JYh0ANPnoKNCj15K3KrWbY=
-X-Google-Smtp-Source: ABdhPJxEvIz5wtWRhW9r/ihIo/4YilzKgBMhA/SSBfhhTmHgg+e/srtm1AVVVCBMsWT7dx3y1ODJ+A==
-X-Received: by 2002:a05:6000:1373:: with SMTP id
- q19mr18302861wrz.371.1613944800140; 
- Sun, 21 Feb 2021 14:00:00 -0800 (PST)
+ :mime-version:content-transfer-encoding;
+ bh=l7kGV8BCSlV/22uKIKSaj5ga01T9HW6SOkPfs1f0tT8=;
+ b=sS67fx4jQG2IUpqU7suPgkCPy1fos0DBacX9NMg18Mrwjq7t/pODBNvVZmHTmnzaTX
+ rFuqxuw2h40QF5vjOFQPeKzpVUnpfiEoKVB80f1wmImez2YOZHzJYMGGEFGrBqfbkxon
+ 5MLmeBI+myG1wIOk7JwGXN9+a3vWokrlIbAnD5qjuXDTZhUz6WoOTf7f5VtV02DO2S2w
+ YHRfszyEsdypCI+JpEp6NPWauJqJR+E0bI7fVXn5UB94EsO5nvkTTIaF2INm7IVj+zS5
+ EHPYBWBu2hefHrTmtcCGqvA8P1kWiGieZYRU+r/5oeYzoqXhq+TXxtDg4M5JNLL05uNk
+ 6l8g==
+X-Gm-Message-State: AOAM530/UAXXLB0j4gL88B6aHa5uKvkAg3q3kU3iMeYA+mJPBm6E7gbs
+ yIT0gOHkXrkc2B5TXdjkVIwgnHpSaSU=
+X-Google-Smtp-Source: ABdhPJz5VyQzjwor1cxFhR/udEiNhjCz9W3EJrgeGTTv6xCoA6fbTbjw4MSWlNahc/dib6/qI5CirA==
+X-Received: by 2002:adf:9f54:: with SMTP id f20mr18703165wrg.362.1613946379525; 
+ Sun, 21 Feb 2021 14:26:19 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t15sm23546900wmi.48.2021.02.21.13.59.59
+ by smtp.gmail.com with ESMTPSA id y1sm26297302wrr.41.2021.02.21.14.26.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 13:59:59 -0800 (PST)
+ Sun, 21 Feb 2021 14:26:18 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 8/8] hw/sh4: Remove now unused CONFIG_SH4 from Kconfig
-Date: Sun, 21 Feb 2021 22:59:15 +0100
-Message-Id: <20210221215915.2568943-9-f4bug@amsat.org>
+Subject: [PATCH v2 0/3] target/arm: Restrict v7A TCG cpus to TCG accel
+Date: Sun, 21 Feb 2021 23:26:14 +0100
+Message-Id: <20210221222617.2579610-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210221215915.2568943-1-f4bug@amsat.org>
-References: <20210221215915.2568943-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,53 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-block@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As replaced the generic CONFIG_SH4 by more fine-grained
-selectors, we can remove this now unused config variable.
-
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sh4/Kconfig | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-index b9f0538d57f..ab733a3f760 100644
---- a/hw/sh4/Kconfig
-+++ b/hw/sh4/Kconfig
-@@ -9,14 +9,12 @@ config R2D
-     select USB_OHCI_PCI
-     select PCI
-     select SM501
--    select SH4
-     select SH7750
-     select SH_PCI
- 
- config SHIX
-     bool
-     select SH7750
--    select SH4
-     select TC58128
- 
- config SH7750
-@@ -24,6 +22,3 @@ config SH7750
-     select SH_INTC
-     select SH_SCI
-     select SH_TIMER
--
--config SH4
--    bool
--- 
-2.26.2
-
+KVM requires the target cpu to be at least ARMv8 architecture.=0D
+=0D
+Restrict the last ARMv7 CPUs (A-profile) to TCG.=0D
+=0D
+Series almost fully reviewed (missing review is trivial code style).=0D
+=0D
+Since v1: Only include patches which don't depends on  previous series=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  target/arm: Restrict v8M IDAU to TCG=0D
+  target/arm/cpu: Update coding style to make checkpatch.pl happy=0D
+  target/arm: Restrict v7A TCG cpus to TCG accel=0D
+=0D
+ target/arm/cpu.c     | 334 -------------------------------------------=0D
+ target/arm/cpu_tcg.c | 322 +++++++++++++++++++++++++++++++++++++++++=0D
+ 2 files changed, 322 insertions(+), 334 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
