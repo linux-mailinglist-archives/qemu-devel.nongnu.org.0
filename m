@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225A9320BEA
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 18:03:25 +0100 (CET)
-Received: from localhost ([::1]:59070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A56320BF2
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 18:12:39 +0100 (CET)
+Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDs8h-0002uk-BI
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 12:03:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58236)
+	id 1lDsHd-00037E-LT
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 12:12:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lDs3U-0001H7-NR; Sun, 21 Feb 2021 11:58:01 -0500
-Resent-Date: Sun, 21 Feb 2021 11:58:00 -0500
-Resent-Message-Id: <E1lDs3U-0001H7-NR@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21347)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lDs3S-0008SP-Lp; Sun, 21 Feb 2021 11:58:00 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1613926668; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=SyicYV4OIxERQ7FuVydaca5fv6PA0HhXSYZfp+zoKsJ/1AcBl1lBjC/lNLAi48X/oXmyNQvIR5xZVcs00zhke4Icav9i36ySgyh54s64LekgZronfWapwIV5jgjMwVp56ZCi8+I7uXSSU9uiuImJ9CjLy0wnb0bNllkRF8nqLMY=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1613926668;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=wVq8BlhMLtTVsuMgLrpKwsHUIJ5zAjanFoVIw9YAvYA=; 
- b=lC71q8RITKjri6EPT6/q5Ty5oN4BxBaFsrE5bnQnvaActWpLJcbh/PFtJXCpNd4bHei08+Smf28bq4vF7yolrRzVMxVrnZw9OV6OxnKjd8kianpBngiOeHyCx1KtBy7BwJziSkl201mUXsj/cOCVpvkBUNMeUeN8HGmEcsKHuNE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1613926665639952.625148546582;
- Sun, 21 Feb 2021 08:57:45 -0800 (PST)
-In-Reply-To: <20210221165219.12744-1-zpmarvel@gmail.com>
-Subject: Re: [PATCH] ui/gtk: vte: fix sending multiple characeters
-Message-ID: <161392666438.21706.4757518764617915041@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDs6i-0003Mn-RW
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 12:01:21 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDs6f-0001N1-OM
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 12:01:19 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id h98so11802688wrh.11
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 09:01:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=TT4Wncnw06XDjsXFw74tF5V7rmNVukXa85wt+vOconc=;
+ b=R4mQ/7UmGSxJPDZKTEXCMKA72AuwpEVDsgFHWzxGVu8oeKJBF1Qx5ZYHXk+9eE2FPF
+ KpznUQDwfMg8vLyQZWxnqnWp4pbpaYOk2dU/Ku+pO1h4BrkeZsBx3SDBd8Ba527VaDlh
+ bp6m9Bzpf/7H3gbp1SwGIJZCDOPqoYnVAh3yh6FTHkLC3EVmDWi1NJZyf4Fi7vWUQgoM
+ slC2KbhFobLA2GPshKFS/nTTtt87WckC6+6icmLJAgr7YIQuxLg5naeSXi2OPlHqOSDM
+ 3K2pgKbIxRw0MNNH7soVpKljrpvc1qhCwxAssDgJFZ/5DFmAhyGlaNBD/M8VkbV0Jkl6
+ h8Ug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=TT4Wncnw06XDjsXFw74tF5V7rmNVukXa85wt+vOconc=;
+ b=Ng1jSGCPCRuiGwgkYvasMuIFFfquJDwvf2r7Le2mI/WvqSDfLiX5qMxQpZd2wKIdbZ
+ gQxpKd4Qqe+z9WrijiQ7fD8MRT8cshgEVDTmcmJrpol2CEAXOA0F4N0V2hR42lCteb5v
+ EGWNvVyptT9h1V+rVtXco9ZRHJLNzdN2zeyP4QJrTPSduk+QDLdUSPV7cNHBHLhQIgXA
+ dXZP/A8evgt0YEAK/rh113fmyXwn1OE7kqsAS484c0eiLnL/GnBi9sSuxMK63dGR0VmY
+ 0Q/Z8x+DhfUidn2X2akmcH79EGmwTYd5sYDfG7esUjOcRcE6pHWabUyDpGNlPtoMl9ce
+ Xb0w==
+X-Gm-Message-State: AOAM530ep2ZwMbUNkXv2OKtIPrh3le2XdoojawfLAvZm3B2b7hZbUVC+
+ GLSOVEmlP52m+brba4A+lgU=
+X-Google-Smtp-Source: ABdhPJwgAseAn2HWoqgvAiNX4FAsohDk/f1Ly3/IeVRcDEwevokX6G30LvukqlrhL/pBmp0TvlEcjg==
+X-Received: by 2002:adf:dd41:: with SMTP id u1mr7326540wrm.190.1613926873486; 
+ Sun, 21 Feb 2021 09:01:13 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id f7sm22215807wmh.39.2021.02.21.09.01.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Feb 2021 09:01:12 -0800 (PST)
+Subject: Re: [PATCH] target/mips: Remove unused 'rw' argument from
+ page_table_walk_refill()
+To: qemu-devel@nongnu.org
+References: <20210220202026.2305667-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <85bc9e97-3d7e-e71d-0fd8-73f3c7a0df5a@amsat.org>
+Date: Sun, 21 Feb 2021 18:01:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: zpmarvel@gmail.com
-Date: Sun, 21 Feb 2021 08:57:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+In-Reply-To: <20210220202026.2305667-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,38 +89,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, zpmarvel@gmail.com, qemu-devel@nongnu.org,
- kraxel@redhat.com
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIyMTE2NTIxOS4xMjc0
-NC0xLXpwbWFydmVsQGdtYWlsLmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZl
-IHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGlu
-Zm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMjIxMTY1MjE5LjEyNzQ0
-LTEtenBtYXJ2ZWxAZ21haWwuY29tClN1YmplY3Q6IFtQQVRDSF0gdWkvZ3RrOiB2dGU6IGZpeCBz
-ZW5kaW5nIG11bHRpcGxlIGNoYXJhY2V0ZXJzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMh
-L2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNv
-bmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5y
-ZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQou
-L3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQg
-RU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4
-NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRh
-Z10gICAgICAgICBwYXRjaGV3LzIwMjEwMjIxMTY1MjE5LjEyNzQ0LTEtenBtYXJ2ZWxAZ21haWwu
-Y29tIC0+IHBhdGNoZXcvMjAyMTAyMjExNjUyMTkuMTI3NDQtMS16cG1hcnZlbEBnbWFpbC5jb20K
-U3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwowMzNlM2RlIHVpL2d0azogdnRlOiBmaXgg
-c2VuZGluZyBtdWx0aXBsZSBjaGFyYWNldGVycwoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6
-ICIoZm9vKikiIHNob3VsZCBiZSAiKGZvbyAqKSIKIzMyOiBGSUxFOiB1aS9ndGsuYzoxNzkwOgor
-ICAgIHVpbnQ4X3QqIHAgPSAodWludDhfdCopdGV4dDsKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJu
-aW5ncywgMTcgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDAzM2UzZGUzNzlhNyAodWkvZ3RrOiB2dGU6
-IGZpeCBzZW5kaW5nIG11bHRpcGxlIGNoYXJhY2V0ZXJzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBs
-ZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMg
-cmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlO
-RVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAx
-CgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8y
-MDIxMDIyMTE2NTIxOS4xMjc0NC0xLXpwbWFydmVsQGdtYWlsLmNvbS90ZXN0aW5nLmNoZWNrcGF0
-Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBh
-dGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0
-byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 2/20/21 9:20 PM, Philippe Mathieu-Daudé wrote:
+> As the 'rw' argument is unused, remove it.
+> 
+> Reported-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  target/mips/tlb_helper.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+
+Thanks, applied to mips-next.
 
