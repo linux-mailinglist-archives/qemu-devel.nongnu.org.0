@@ -2,64 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6119320D31
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 20:35:58 +0100 (CET)
-Received: from localhost ([::1]:48736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70629320D33
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 20:37:03 +0100 (CET)
+Received: from localhost ([::1]:51704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDuWL-0006FC-Cl
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 14:35:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57748)
+	id 1lDuXO-0007fj-I1
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 14:37:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lDuUY-000517-L8
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:34:06 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44661)
+ id 1lDuVk-0006c0-HF
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:35:20 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44681)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lDuUX-0002wM-0Q
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:34:06 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id w1so25687186ejf.11
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 11:34:04 -0800 (PST)
+ id 1lDuVi-0003ZG-Uj
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 14:35:20 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id g3so19222804edb.11
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 11:35:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=zBEwbRQZqPnJXRYP2FP1goznLCE+yrtMu47gx1HCXa4=;
- b=J/2OUPcihfNJ4FCDRe8Qigzz5UuX9PqUmQOg1A15JFALO0iihdrRjdaIfHpTjonkk+
- 3adVsLFrZCZSMo6g0hhDh4tIXRWIXgMWn/Hz5hE8KYLX6of3ZM1RcbAJl5f3ippktWkG
- hf7ZLAkZkKFt5iWkFzdp0eUi5qnoiDRNPc10VhMqsTf8rLi+QHNNfbygPgXjWaW7lNro
- /QCQ/x7vWrsDOV5LL6DcU55ApQEuPzM+VtYiVYUALOtzLLCCl44M6hgHOzYzN0SCn5H6
- jvmk1SALCMNgjOGkTv5+IaGnxhuZHkhikNC9El8JUW4Bw/NJFCaArcIaAWkvUtL3EFd9
- 8vuA==
+ :cc; bh=NsfVXJPHjYVcjYBoQx7Un3Z+oQFrsFn1tzRzBLdjfpE=;
+ b=rkcqHaSLNj/eUiWmbvnzwxfoqE1A4exNxFwbvHtdm8iEGwFQXbJZbtKx1YXkm1n/vc
+ E1T0lMeYHJGeCGQBs/+JzdESkf17fPH3+gi0PnFCP//kk+gzXNfDMP28fjks9vH1NWx3
+ iOIBZtUeMrZaR5h3uA2IRVR3BJi7pE1tKvxktV934fB4joq416eiePUSuBh7YrZ2EHaO
+ Oniyzp3VcAQNZWH1g7kfxlaEuNNClrl4rjm4eZgjUBFvDIwJyhBOKGzBAueM/vj0v7lt
+ 0AndJ9qZ1xTtXKFmo5syuRo9JBfl5U46i5a3/IiCdKp3wWPznRnPrj3InpoGIe/h+dTi
+ guCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=zBEwbRQZqPnJXRYP2FP1goznLCE+yrtMu47gx1HCXa4=;
- b=OqrNrkXVITyJTe8gMaTDMTAaoJf76s46mmj26vhmNNW+4hMZfkvvQ9v9whaU3eRwuo
- HKBkl+9XdosFZaGNKGxrS5+YN3qRK6gXHtht/CAR3P5NVbAZj+OpUl9cNunTmvuWVZpR
- 1Uytlk06ogJL519RGiW7h+nxw/iI4culyVKui4Eov7azZpItWc9pH0slpMStQ5bz3m1b
- yqDoqunB0FGDnX12oqrhzcaTNMoHt9w/Vea2Pp7acE11D394tUH89WLbZrgx1iW5ze4R
- 8D0oGe2eP4NX2ApTfVZTTSbEBLhTOzQjPxljkGbfDmJQ2LaIffIMQNUr5JMrWV2GCjtZ
- YimA==
-X-Gm-Message-State: AOAM532Xb47L7y8njBbXRU/xjyW9WXlQEgNxS3QLby4ubuk26G1XT6Ca
- Ky5MoSFpWMJCK2XghZqpQejYieEajBx5cv1khq6iVQ==
-X-Google-Smtp-Source: ABdhPJx0nusow2zAbE1Do+Uf9EJH8RTbfH97UWPpv3QAaeNvvJY6aLBYiFFVy9aVJ+o0uFXHcx4bzNnz4R9i8VHaWOo=
-X-Received: by 2002:a17:906:66cc:: with SMTP id
- k12mr1658746ejp.382.1613936042667; 
- Sun, 21 Feb 2021 11:34:02 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=NsfVXJPHjYVcjYBoQx7Un3Z+oQFrsFn1tzRzBLdjfpE=;
+ b=hDf2zLP2nEOqXMMHu7O+mYMyxhNjMsRiMq/AfboST6YH2DdbmBw2YnP8WeV2/1TlXl
+ +L2bg24jUHXBxMIu6rRTsk+2Qt7fh+/1OOUkeyybSuTjxFf/sjNblzbJshZ1FzdzqliJ
+ xg9PeWbmbE7YLXE0L/ZZ0PatLKybP9+jJvp/rTHqxHLVpkDOoDR7AjKXU7wGcxr2cto7
+ JoPc5TTikhyZORU2PlY75SNiHCBIdP1uSBTVght+K5t1N1kp3uw8j4n4gzHz7mBmmx3G
+ CIPfkbQ8inId2FuqeQ8zwPfOIMPm6/cPtde26fB/OvIaw3Jkn/I6Bw79sUbIKrXvG7lq
+ K6Ag==
+X-Gm-Message-State: AOAM533fhjz1Sbl69TXnEZcMyTS5KZ9eSmUYscWVqxH06qz97woHy8GZ
+ FbHZtlzvB+n010I6nflYkQCa+EirFxaJC/hvZDXqDA==
+X-Google-Smtp-Source: ABdhPJzOoCuAAKSamd7k+U/rSAeyNzsc94lYHvKthXVGfLuHJzLRYpOBkIDBa8KTlGopipZtk7rcuksh5NhlPCIVu5U=
+X-Received: by 2002:a05:6402:3514:: with SMTP id
+ b20mr18802404edd.100.1613936117509; 
+ Sun, 21 Feb 2021 11:35:17 -0800 (PST)
 MIME-Version: 1.0
-References: <cef2f119-3612-65a0-d828-b480179dc3a9@amsat.org>
-In-Reply-To: <cef2f119-3612-65a0-d828-b480179dc3a9@amsat.org>
+References: <20210221173059.43498-1-akihiko.odaki@gmail.com>
+In-Reply-To: <20210221173059.43498-1-akihiko.odaki@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sun, 21 Feb 2021 19:33:51 +0000
-Message-ID: <CAFEAcA-yLQNLVUPZPRnTTNupkUrgcTRHVR=SW1Yb6KEUeQjkoQ@mail.gmail.com>
-Subject: Re: tests: n810 arm failing
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Sun, 21 Feb 2021 19:35:06 +0000
+Message-ID: <CAFEAcA9E73_a0hEMV+jFm6YbcOz=hFR-NyYKa_Roisw_MR_cNg@mail.gmail.com>
+Subject: Re: [PATCH] ui/cocoa: Fix stride resolution of pixman image
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,25 +77,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 21 Feb 2021 at 17:26, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Sun, 21 Feb 2021 at 17:31, Akihiko Odaki <akihiko.odaki@gmail.com> wrote:
 >
-> Hi,
->
-> The n810 arm test failed on latest master:
->
-> https://gitlab.com/qemu-project/qemu/-/jobs/1045015424/artifacts/browse/b=
-uild/tests/results/latest/test-results/26-tests_acceptance_machine_arm_n8x0=
-.py_N8x0Machine.test_n810/
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-It passed on the gitlab CI run on the exact same commit hash
-as 'staging' before I pushed the merge, though...
+In what situations does this change make a difference?
+Obviously most of the time it works fine, or we'd have noticed
+before now.
 
+(This is the kind of detail that it's useful to provide in
+the commit message.)
+
+thanks
 -- PMM
 
