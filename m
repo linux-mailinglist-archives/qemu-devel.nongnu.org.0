@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38C37320E18
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:03:09 +0100 (CET)
-Received: from localhost ([::1]:35070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02016320E26
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:06:01 +0100 (CET)
+Received: from localhost ([::1]:43648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDwom-0002t2-89
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:03:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56476)
+	id 1lDwrY-0006gG-1y
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:06:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwlI-0000ei-JR; Sun, 21 Feb 2021 16:59:33 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44444)
+ id 1lDwlN-0000mB-U5; Sun, 21 Feb 2021 16:59:37 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39905)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwlG-0000ho-Ok; Sun, 21 Feb 2021 16:59:32 -0500
-Received: by mail-wr1-x429.google.com with SMTP id h98so12275686wrh.11;
- Sun, 21 Feb 2021 13:59:29 -0800 (PST)
+ id 1lDwlM-0000lF-8w; Sun, 21 Feb 2021 16:59:37 -0500
+Received: by mail-wr1-x433.google.com with SMTP id v1so17077129wrd.6;
+ Sun, 21 Feb 2021 13:59:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=9hmeNcCuV50+4mklzG6lWCfHgecZ1fCI3uUrwmRLWxc=;
- b=n/u74VdUmIIk9teEtnzJp5y3ItL99aBWszYRAs1+UuxyIqjBYUn4wK/tchSMypp1t6
- 6vSns8T4vP4Hy/3wVwAtA2hOZ0V/4pVopg4LJoEJW5vb2ttXe7od4L7UPk0v/End/AiQ
- yrb+7cJskGNYn4xv0t3ciNg4HHsQDzEej6dBZsuv/CGTdrjdVsZDJi9+l2WwjPbzne0v
- A46p817PHgEV2bQaoPmMCzF41vMyhZPSvlLXCXs5pjuB1zt+rTLEhum1lAlV6fyle5in
- O81Wj+D1m0EtZ+n5OpQEEEf8QwaM/78EvVy9NeTsR+4D94T+R41AywWytLZkvDRLxlwV
- rdwg==
+ bh=AhAmFnOhivCLWQNmcu5zh+TK35CPBEArBmFuQg4srh8=;
+ b=R28aeY9iGQ5Uc0rqjSe1NgPPgPWUs/C8rXuQ7pHNcAg1a8ZF4h0933Cw+evCfIhYtd
+ KWGbj+4sDWEnWEx4vphUf8FhwGUODB/j+Zsf/4oMX3BSIqz7K3TbKJVcfeimShjlGJfM
+ 6FCxgIgvNsMzWbWQVVmS2/Sq5OP8+/3apRtUSKm6xZynd4eA+Bl1WenuE3uogDJ5V/a0
+ LW0w2a3Rm3A6jlSdCpQw5MQZJF9AOvKm7cmHPR9dx2MNRo2NnrBwkR3UDpWfUH1ci0C/
+ cJ7vmL6tLYF4uwtvG1otY+bDdskpGNfhTodfA8/2I5rjKHybd2Ue6/IXwRI57jIjLa4U
+ bbDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=9hmeNcCuV50+4mklzG6lWCfHgecZ1fCI3uUrwmRLWxc=;
- b=OT6+M6attUgMtUFvFZPqvVIeyz2916kX5Zz1+2Jo3m0Fa4zu9oYFWcxB64hpXou30i
- fbaSjW80t0eRKlG+UYXmzHM4HRLL8UJmWok/bU/pvntQh3HNYMu/Thj9I+Ql+lIIxnOX
- Q9VYv1yTqslFtm3SGa8IhK2KeX4Isgm9ZXD6MhsvyCby5w0FPPF5u9UGhJrlJBw9MY9+
- T+QxATVSIHlNcuj0AUDnaCMtyCuKmkIKlo3ApMMdAPoQqrgduGe0RbWG4C12fFE+e1PI
- WMHHupPsiawN4wfYLTGkA9HctyYFGkPvRTtM8VnVwwZPW2OhyjZav+4jPPdm68wR1Kkp
- /PNw==
-X-Gm-Message-State: AOAM531U1ozGGs8HvenVMhha5EdJE0Z2+Pdm7sxc/ew4Au9tVhYgS3I1
- WpKOqOt8gBX148kNqcu/z7jNLYqPtfY=
-X-Google-Smtp-Source: ABdhPJzIGklA+jTs/HD1QByV8qt56ycGsMPIqlKBAt1fVxSlwrPG7KR/4kIaR8wU3Zows/BW2qvV8A==
-X-Received: by 2002:a5d:4850:: with SMTP id n16mr19032104wrs.296.1613944768654; 
- Sun, 21 Feb 2021 13:59:28 -0800 (PST)
+ bh=AhAmFnOhivCLWQNmcu5zh+TK35CPBEArBmFuQg4srh8=;
+ b=Mlw3FbMcFyIMCwPJ8BALZSK9b1gy1OpyVgLSlHQ9FoLf0MJI+k2O38wYprsH6eMzLU
+ L3IcVzClg9Ihm9AdHTsWoofIoFcSCPP4CA5lCXcv4O2s6Hf8gNYbchNSeE8cl9EW5bmG
+ FGOtjcubONV4ewGreVb2fU47ciM5Nb2BgMusxjKld0ch6fk74ukqV66e2okSPQ4hizks
+ cpzcwLl+V+3qItzylCQdfLFUyHMQG0WuUGSXdC53QsObKBl/D2gfk5Y+TgR2TgEsSiIc
+ 826lGIY9mpgc7nc8q9Roec/g6nE9zVW3w2+3HXOIiI8pHMlJi22lKCP+75RynQb1g8QF
+ xBjg==
+X-Gm-Message-State: AOAM531/KB6d4xhg1H07Jb/BKF8MXThGHGao+wtp1ofG79G2SKPIeAeA
+ RewLR3JjJ+3x2TZ3Uzu7g/Rnq638Er8=
+X-Google-Smtp-Source: ABdhPJwLXWRJCkNvpxPjI6OUs7w2qd8KbimHAiQk+BWfUUl1oguioDtW+9BxeaX1rAHgorGrlGvhSQ==
+X-Received: by 2002:adf:f90d:: with SMTP id b13mr19713620wrr.198.1613944773923; 
+ Sun, 21 Feb 2021 13:59:33 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o13sm31414547wrs.45.2021.02.21.13.59.27
+ by smtp.gmail.com with ESMTPSA id i15sm20920548wmq.26.2021.02.21.13.59.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 13:59:28 -0800 (PST)
+ Sun, 21 Feb 2021 13:59:33 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 2/8] hw/sh4: Add missing Kconfig dependency on SH7750 for
- the R2D board
-Date: Sun, 21 Feb 2021 22:59:09 +0100
-Message-Id: <20210221215915.2568943-3-f4bug@amsat.org>
+Subject: [PATCH v3 3/8] hw/intc: Introduce SH_INTC Kconfig entry
+Date: Sun, 21 Feb 2021 22:59:10 +0100
+Message-Id: <20210221215915.2568943-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221215915.2568943-1-f4bug@amsat.org>
 References: <20210221215915.2568943-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,30 +94,57 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-r2d_init() calls sh7750_init() so depends on SH7750.Harmless
-at the moment because nothing actually uses CONFIG_SH7750
-(hw/sh4/meson.build always compiles sh7750.c and sh7750_regnames.c
-unconditionally).
+We want to be able to use the 'SH4' config for architecture
+specific features. Add more fine-grained selection by adding
+a CONFIG_SH_INTC selector for the SH4 interrupt controller.
 
-Fixes: 7ab58d4c841 ("sh4-softmmu.mak: express dependencies with Kconfig")
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sh4/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/intc/Kconfig     | 3 +++
+ hw/intc/meson.build | 2 +-
+ hw/sh4/Kconfig      | 1 +
+ 3 files changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
+index c18d11142a8..66bf0b90b47 100644
+--- a/hw/intc/Kconfig
++++ b/hw/intc/Kconfig
+@@ -53,6 +53,9 @@ config OMPIC
+ config PPC_UIC
+     bool
+ 
++config SH_INTC
++    bool
++
+ config RX_ICU
+     bool
+ 
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index 53cba115690..b3d9345a0d2 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -47,7 +47,7 @@
+ specific_ss.add(when: 'CONFIG_RX_ICU', if_true: files('rx_icu.c'))
+ specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
+ specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
+-specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
++specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
+ specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
+ specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
 diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-index 4cbce3a0ed5..0452b4624ae 100644
+index 0452b4624ae..c2008c6a0d2 100644
 --- a/hw/sh4/Kconfig
 +++ b/hw/sh4/Kconfig
-@@ -10,6 +10,7 @@ config R2D
-     select PCI
-     select SM501
-     select SH4
-+    select SH7750
+@@ -19,6 +19,7 @@ config SHIX
  
- config SHIX
+ config SH7750
+     bool
++    select SH_INTC
+ 
+ config SH4
      bool
 -- 
 2.26.2
