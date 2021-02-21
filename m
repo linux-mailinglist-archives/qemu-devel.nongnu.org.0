@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03659320A95
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 14:34:54 +0100 (CET)
-Received: from localhost ([::1]:42208 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABBBD320A97
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 14:36:59 +0100 (CET)
+Received: from localhost ([::1]:47334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDosv-0002Hd-AO
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 08:34:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50714)
+	id 1lDouw-0004bK-Ng
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 08:36:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDope-0000vk-KE; Sun, 21 Feb 2021 08:31:34 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40035)
+ id 1lDosE-0002wx-Gl; Sun, 21 Feb 2021 08:34:10 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37028)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDopa-0000Nf-5Y; Sun, 21 Feb 2021 08:31:28 -0500
-Received: by mail-wm1-x330.google.com with SMTP id l13so2418368wmg.5;
- Sun, 21 Feb 2021 05:31:25 -0800 (PST)
+ id 1lDosC-0001PN-DA; Sun, 21 Feb 2021 08:34:10 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id v15so16222348wrx.4;
+ Sun, 21 Feb 2021 05:34:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Wclj/zji4w48rTO6WNBPw0DfPt1Rg8n6t44ZMHbxqlE=;
- b=P3jrZlj7Tfc2mmbSt1hHo9NZaqUr9oMxL9sfDgUBgNs3ePH/Zf0oc5pAZRhJeYrnyz
- s8DMWDlZFyxr1MFc4sFhdx4yX3mwH0AeRNHWrGrYJmVv9NRY+N45kkCkLB3NkXsj4x41
- kflcXXj05UFXVVMK1TSyJXCjNO0JTZO6Mz8yWPCbOCrM1Rxv6exly58lIRnVlI04aCY7
- yTli2c/2enfUJd3QxpUGIPJvvjyW9h5FD4221ppLvUbg5sZGfuhYtN4HBGXIoWyYXGpt
- zIISolE1g2xYzmWfoyscn51E7m17DoZhkzPMa3UuhCoAfW+4ZpTwlUEO6ny8Sl4IswQx
- r1zQ==
+ bh=W3Tdmuul5Cs4K1EGUI7N/Ng/a7QaIyQ3aVKntq5AeHo=;
+ b=L6/6SD+KDtRW1C9LqSn2KBQj8Lsa9PHnWz6fD+42OxRgwYeI4+mnquKlwYL4MtNthz
+ t2RobbgXNy2KD0aF2oOGwb1S4llZJmucG/0kt32M4COiLF5Fa7KAfw/jRRx4hZt28vHQ
+ o1AGfaNsHKGOTKas7Y/tHNP42a+DIqXAE0skHGhJgVu/W81HrAfJefJaXZcdLWyjRZ2z
+ lKmwPOL0k+8zWopKYb2M42ea+byMKqoBb2/kNpIER2wjJIX6chkmBw5igmcXLi9FiqYq
+ W1bd4HpYqGGywkMPShA47AaSQxwKqHzPkqgLABEMNk4Tm34fFBhLRdugg579ZZ6r7K4H
+ rDKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=Wclj/zji4w48rTO6WNBPw0DfPt1Rg8n6t44ZMHbxqlE=;
- b=R6R1yAtOVrR/DyhA0okf1tJqj6l4jlnoXw8fQk2UnVOzqR8Xt6Kfoj+Nntq/gbb3Po
- Kw+0RtUsNKaAr/CPUkXRWdPzxQHeaB7TPn35GXPJS+aQkXMsJEvOUsJeqe5pO0JYL6hq
- Bt4IWo1gzQptWs9y7FTnIy//ZelxKr6WjFnFtP5GtXbqYHk2UdpNiRtrvUqVTjMS9i8c
- L8ZSnV1zUHHyQ7heIy/4oaO8R7Z1XewZovNI48adBOj1BiBUZDMhF5V+4PZjZozQuj/p
- njcVd0MA9QoQo8/+y3//3AEg2/TUmUS6MzT4SjsHfSDokkbRzzNune7qMfYqWWlNp18H
- 8mlw==
-X-Gm-Message-State: AOAM531DJGLUwIHJ1fMJ3hY8mcskwvIyim/T3UqV1IwON9gPHKcj9Qif
- DhAArrUAvNCDBDGIXnSJRa7QtzYrcec=
-X-Google-Smtp-Source: ABdhPJxf9cAt6yNYa00Vq3YP24I++vPuoGyEoH7M9yLCRQOlhSQ9Hdrtzx8bWoXFmP24Peid8Zmzxw==
-X-Received: by 2002:a1c:e142:: with SMTP id y63mr16267605wmg.163.1613914284235; 
- Sun, 21 Feb 2021 05:31:24 -0800 (PST)
+ bh=W3Tdmuul5Cs4K1EGUI7N/Ng/a7QaIyQ3aVKntq5AeHo=;
+ b=in7wMjcAPH5MEN/+BQQizAevXvjdYtGQQG9cSYWBtNWKxYv4tS5TjHPn+q5qpK7ixm
+ J6kRDmd8zHJce3PGZ/XWoi/cOsouVuD6iobjjrAvPe37YZnntRONEoaWxgRtWbHDBxvZ
+ iNp1ugwcI39xe+a8i48W6l+ZKTVz5MEn2yvt7j7V0MY4BcHzmALeAbY2FYyflnOtbNkH
+ uueEuoFLWiQFq09rqGkEWQDMGEnavdA7O8Jn4urP301PZ08Ansyrvs9RjmgsBF7dIPGz
+ 4uym4QxifJlG7Zm9gkKLzB9ksUPjt1wAH+L+j42uNSbbe7LIxnkHMbzlL6EiRpIEQd5v
+ jsfQ==
+X-Gm-Message-State: AOAM533TScdfy7cFDG1WwtMS6mXzzKp2Hrlqj1X41COaBnZ2oQZ/wWaa
+ I2gBQZgZmb8sRSrST72DcGhrlMnqP7o=
+X-Google-Smtp-Source: ABdhPJz8LrfCtmFZ/e/csxxh4IdIoY13nR+PSb4Cvcs7SLktdezuL6RM11TGhv+dbEtMwEqmUgtjvQ==
+X-Received: by 2002:adf:e884:: with SMTP id d4mr16931848wrm.275.1613914444902; 
+ Sun, 21 Feb 2021 05:34:04 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f22sm9388461wmb.31.2021.02.21.05.31.23
+ by smtp.gmail.com with ESMTPSA id r17sm25272677wrx.82.2021.02.21.05.34.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 05:31:23 -0800 (PST)
-Subject: Re: [PATCH 19/44] hw/arm/Kconfig: Move ARMSSE_CPUID and ARMSSE_MHU
- stanzas to hw/misc
+ Sun, 21 Feb 2021 05:34:04 -0800 (PST)
+Subject: Re: [PATCH 21/44] hw/arm/armsse: Use an array for apb_ppc fields in
+ the state structure
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210219144617.4782-1-peter.maydell@linaro.org>
- <20210219144617.4782-20-peter.maydell@linaro.org>
+ <20210219144617.4782-22-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ca3d4369-79ac-3679-9dbd-421700bc19ae@amsat.org>
-Date: Sun, 21 Feb 2021 14:31:22 +0100
+Message-ID: <9b0bf4b8-72d6-32f9-5e4c-1298d25dbdcc@amsat.org>
+Date: Sun, 21 Feb 2021 14:34:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210219144617.4782-20-peter.maydell@linaro.org>
+In-Reply-To: <20210219144617.4782-22-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,17 +93,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/19/21 3:45 PM, Peter Maydell wrote:
-> The ARMSSE_CPUID and ARMSSE_MHU Kconfig stanzas are for the devices
-> implmemented by hw/misc/cpuid.c and hw/misc/armsse-mhu.c.  Move them
-> to hw/misc/Kconfig where they belong.
-
-Typo "implemented", otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
+> Convert the apb_ppc0 and apb_ppc1 fields in the ARMSSE state struct
+> to use an array instead of two separate fields.  We already had one
+> place in the code that wanted to be able to refer to the PPC by
+> index, and we're about to add more code like that.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/arm/Kconfig  | 6 ------
->  hw/misc/Kconfig | 6 ++++++
->  2 files changed, 6 insertions(+), 6 deletions(-)
+>  include/hw/arm/armsse.h |  6 +++---
+>  hw/arm/armsse.c         | 32 ++++++++++++++++++--------------
+>  2 files changed, 21 insertions(+), 17 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
