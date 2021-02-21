@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F2BA320E45
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:28:53 +0100 (CET)
-Received: from localhost ([::1]:34682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7150D320E46
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:29:02 +0100 (CET)
+Received: from localhost ([::1]:35510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDxDf-0007sy-OV
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:28:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60562)
+	id 1lDxDp-0008H4-H7
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:29:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDxBN-0006Kd-I6; Sun, 21 Feb 2021 17:26:31 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36679)
+ id 1lDxBW-0006LO-UC; Sun, 21 Feb 2021 17:26:39 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34176)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDxBK-0004K2-JA; Sun, 21 Feb 2021 17:26:27 -0500
-Received: by mail-wm1-x335.google.com with SMTP id a207so12708763wmd.1;
- Sun, 21 Feb 2021 14:26:25 -0800 (PST)
+ id 1lDxBS-0004Lw-RP; Sun, 21 Feb 2021 17:26:38 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id n4so17155971wrx.1;
+ Sun, 21 Feb 2021 14:26:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wqm+61I+iUlDlEUVidXloBrgjcCcgJbWQO+9DBAAkf4=;
- b=RAIjvf6wj+GQMkzFFydJunuuKoF1dUACoCW0rsZ2oiknkKsAmavP66SHxIHHmddtUN
- HtIcA45ZH9tNX4EwVIgypQeT/ysHExVB0pli3izJ/SwU2/NPLp+YDwg5G7Ah5FGTI7e1
- biqHdvNnzzOTUoqusvZANBRmzVolA/XKcz8Ur3u0kovyKrKK57mQ2TJvm6GZUJlcU49f
- 3QDBznyHim5sJeheg5C0ptatUTLOwNYQJqVfZOT8FdV+fnhfTHrjPcI+nptETstjmKNZ
- EMhODDPmbuBLvIDwqc8raEkdk8kNwXLhBnl+An8KY6KG+9zeZLKFYfy4kp2UH1M0jsJk
- 5MKQ==
+ bh=cEXLvbn+xOMhhi0R83S9d9mv5EMrvbKx+ABzbeLQvl8=;
+ b=eSeWjLq+KyscXQ8Th017uO4fqnLfNOGj1jhqKRVZxvfslt9thLpQkdj9gAz+gV2uYS
+ nAzrsd/of2lfj/e306RaaqsmhFbkmtn5nYZ4OMbIw9fSH+FsUQWxcjwuOCKQSIEw+62h
+ WrBmGC2d+XhMJFjVON9XQ75qnFI1z/FDhohCB/oeFAE0X0iPr1eFlrJs/oPE9mgiSsW/
+ b7ka2h/tvLYtlAONyw39pLSczlMC2qQLmxZYmKFrvqo26d7d7HXkMhd2g1IVmJdNOBDU
+ UeWIZO37PZX/7Vvf6IVzHgpHkvhxiIU+MvHF2REGm9c1fktS4H1iE54/40XLfJAMLqVZ
+ pLEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=wqm+61I+iUlDlEUVidXloBrgjcCcgJbWQO+9DBAAkf4=;
- b=CwmK0HqaY3dGvv25QR3aGJTLGvda8rIwN/5Wg4Fm9jvdU7YRdtUQC8rN4sYieLhGM+
- 9ksjIsDSj7UXaD59fx7ZqY0+TuiVoOcEr4yN5IpQh9v0O472z/3qsVeUBfTRP5Z8zLYl
- zKePqHCfeQVD4huZ8gz4l4QO6B9zkQnQ+9MK63AA3i0P+ueODcDfA4T69wnS2MdIGVBl
- HLmCIXRrObzYEoa3GKVX/EQyQIRa5PaNYuCVaqT2ueIispUd+hbvG+FjbSqypGCXDegS
- Jx/eaWbi02A0H/R0Dwqrq4n1Al9Q+WNBf108NsWLza0sMF2zqYYkoxk6UFdcpIk4d1GC
- QZ4Q==
-X-Gm-Message-State: AOAM533rmKbpxcvHgp2l6SJyQ5FhKKi6bfxUpjeA+NzSi7OF4hGcMVrS
- gtJTKHG0QHyO6CQfZ1kPdLmnuzffYOI=
-X-Google-Smtp-Source: ABdhPJx8ABak7m6CJYMGXiqTDglaJuJsY6W/huvmHyDqakXDQy8CQA80xfe8hYZAOTEopynQRfVYKA==
-X-Received: by 2002:a1c:7204:: with SMTP id n4mr471586wmc.87.1613946384636;
- Sun, 21 Feb 2021 14:26:24 -0800 (PST)
+ bh=cEXLvbn+xOMhhi0R83S9d9mv5EMrvbKx+ABzbeLQvl8=;
+ b=rHRGUnTK2NRwIksi9xxYti1b9no7mfRWYnzGqxmTJXLYysPz+eDnrlmUFzYGkkw75F
+ +xDj3FZOOxJtZfzJ0WpMSLbzq927a6C6RDhOjU5/7+i61FW8lDmVBwJzU9zon6OAR1+F
+ fMhR35FbuSML9B1cBeiWlnN0sJsHYQY0t6Koz09UlGXDuojr72Ugkxbk0lUet6mzW3Gt
+ EIIyI30T/mglWT0EUwUGpyWuckubJ43kwtJiM7WLpdySr6vEx0hSdpNBlM9naGAL3VU1
+ RydwrihWDs7Pkk/ntKH2rGQYCUmab2R8I9rAraUK98a69xQpfAtUlQVwnBtoSvqfiCAy
+ 9hyg==
+X-Gm-Message-State: AOAM530c/79xw4z9aOaK9HCj2lEnyVllatuwJBs8OfP5lSWWo4fqPaAG
+ oOMyew5F57UonsLIYGkeh1alCO+ydB8=
+X-Google-Smtp-Source: ABdhPJyOMrKoQte92dYJDiRgfO2901+usjlYn5za/rvDrvWS7sh459Depdk1zlTmdwirU3j52qsWLw==
+X-Received: by 2002:adf:f4d1:: with SMTP id h17mr696657wrp.350.1613946389648; 
+ Sun, 21 Feb 2021 14:26:29 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w11sm3812320wru.3.2021.02.21.14.26.23
+ by smtp.gmail.com with ESMTPSA id 2sm26365710wre.24.2021.02.21.14.26.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 14:26:24 -0800 (PST)
+ Sun, 21 Feb 2021 14:26:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/3] target/arm: Restrict v8M IDAU to TCG
-Date: Sun, 21 Feb 2021 23:26:15 +0100
-Message-Id: <20210221222617.2579610-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/3] target/arm/cpu: Update coding style to make
+ checkpatch.pl happy
+Date: Sun, 21 Feb 2021 23:26:16 +0100
+Message-Id: <20210221222617.2579610-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221222617.2579610-1-f4bug@amsat.org>
 References: <20210221222617.2579610-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,78 +85,62 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IDAU is specific to M-profile. KVM only supports A-profile.
-Restrict this interface to TCG, as it is pointless (and
-confusing) on a KVM-only build.
+We will move this code in the next commit. Clean it up
+first to avoid checkpatch.pl errors.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/cpu.c     | 7 -------
- target/arm/cpu_tcg.c | 8 ++++++++
- 2 files changed, 8 insertions(+), 7 deletions(-)
+ target/arm/cpu.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index b8bc89e71fc..a772fd4926f 100644
+index a772fd4926f..6865ea76466 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -2380,12 +2380,6 @@ static const TypeInfo arm_cpu_type_info = {
-     .class_init = arm_cpu_class_init,
- };
+@@ -1972,7 +1972,8 @@ static void cortex_a8_initfn(Object *obj)
+ }
  
--static const TypeInfo idau_interface_type_info = {
--    .name = TYPE_IDAU_INTERFACE,
--    .parent = TYPE_INTERFACE,
--    .class_size = sizeof(IDAUInterfaceClass),
--};
--
- static void arm_cpu_register_types(void)
+ static const ARMCPRegInfo cortexa9_cp_reginfo[] = {
+-    /* power_control should be set to maximum latency. Again,
++    /*
++     * power_control should be set to maximum latency. Again,
+      * default to 0 and set by private hook
+      */
+     { .name = "A9_PWRCTL", .cp = 15, .crn = 15, .crm = 0, .opc1 = 0, .opc2 = 0,
+@@ -2009,7 +2010,8 @@ static void cortex_a9_initfn(Object *obj)
+     set_feature(&cpu->env, ARM_FEATURE_NEON);
+     set_feature(&cpu->env, ARM_FEATURE_THUMB2EE);
+     set_feature(&cpu->env, ARM_FEATURE_EL3);
+-    /* Note that A9 supports the MP extensions even for
++    /*
++     * Note that A9 supports the MP extensions even for
+      * A9UP and single-core A9MP (which are both different
+      * and valid configurations; we don't model A9UP).
+      */
+@@ -2046,7 +2048,8 @@ static uint64_t a15_l2ctlr_read(CPUARMState *env, const ARMCPRegInfo *ri)
  {
-     const size_t cpu_count = ARRAY_SIZE(arm_cpus);
-@@ -2399,7 +2393,6 @@ static void arm_cpu_register_types(void)
-     if (cpu_count) {
-         size_t i;
+     MachineState *ms = MACHINE(qdev_get_machine());
  
--        type_register_static(&idau_interface_type_info);
-         for (i = 0; i < cpu_count; ++i) {
-             arm_cpu_register(&arm_cpus[i]);
-         }
-diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
-index c29b434c60d..fb07a336939 100644
---- a/target/arm/cpu_tcg.c
-+++ b/target/arm/cpu_tcg.c
-@@ -14,6 +14,7 @@
- #include "hw/core/tcg-cpu-ops.h"
- #endif /* CONFIG_TCG */
- #include "internals.h"
-+#include "target/arm/idau.h"
- 
- /* CPU models. These are not needed for the AArch64 linux-user build. */
- #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
-@@ -739,10 +740,17 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
-     { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
- };
- 
-+static const TypeInfo idau_interface_type_info = {
-+    .name = TYPE_IDAU_INTERFACE,
-+    .parent = TYPE_INTERFACE,
-+    .class_size = sizeof(IDAUInterfaceClass),
-+};
-+
- static void arm_tcg_cpu_register_types(void)
- {
-     size_t i;
- 
-+    type_register_static(&idau_interface_type_info);
-     for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
-         arm_cpu_register(&arm_tcg_cpus[i]);
-     }
+-    /* Linux wants the number of processors from here.
++    /*
++     * Linux wants the number of processors from here.
+      * Might as well set the interrupt-controller bit too.
+      */
+     return ((ms->smp.cpus - 1) << 24) | (1 << 23);
+@@ -2093,7 +2096,8 @@ static void cortex_a7_initfn(Object *obj)
+     cpu->isar.id_mmfr1 = 0x40000000;
+     cpu->isar.id_mmfr2 = 0x01240000;
+     cpu->isar.id_mmfr3 = 0x02102211;
+-    /* a7_mpcore_r0p5_trm, page 4-4 gives 0x01101110; but
++    /*
++     * a7_mpcore_r0p5_trm, page 4-4 gives 0x01101110; but
+      * table 4-41 gives 0x02101110, which includes the arm div insns.
+      */
+     cpu->isar.id_isar0 = 0x02101110;
 -- 
 2.26.2
 
