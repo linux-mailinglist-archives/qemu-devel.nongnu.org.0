@@ -2,40 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE465320AD3
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:01:22 +0100 (CET)
-Received: from localhost ([::1]:34560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B394320AD5
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:01:28 +0100 (CET)
+Received: from localhost ([::1]:34882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDpIX-0004YZ-Eu
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:01:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55108)
+	id 1lDpId-0004gV-H8
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:01:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lDpGR-0003Tr-Qw
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 08:59:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37114)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lDpGw-0003qF-1E
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 08:59:42 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lDpGL-0003Up-SR
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 08:59:11 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lDpGu-0003oX-Em
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 08:59:41 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 0D410AB95;
- Sun, 21 Feb 2021 13:59:04 +0000 (UTC)
-Subject: Re: [RFC v1 32/38] target/arm: cpu: do not initialize TCG PMU for KVM
+ by mx2.suse.de (Postfix) with ESMTP id 0EEC3AB95;
+ Sun, 21 Feb 2021 13:59:39 +0000 (UTC)
+Subject: Re: [RFC v1 34/38] target/arm: cpu: only initialize TCG gt timers
+ under CONFIG_TCG
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  Peter Maydell <peter.maydell@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-33-cfontana@suse.de>
- <ea91e888-10db-8abe-7a62-bc4532ba99eb@amsat.org>
+ <20210221092449.7545-35-cfontana@suse.de>
+ <ef926947-1073-4d7e-0b59-c47fbbfb44a2@amsat.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <9aacf277-cf8f-ccea-0c1d-306981aa8712@suse.de>
-Date: Sun, 21 Feb 2021 14:59:02 +0100
+Message-ID: <9c82fac6-68f3-6e27-1e2a-54cb2236c1d6@suse.de>
+Date: Sun, 21 Feb 2021 14:59:38 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <ea91e888-10db-8abe-7a62-bc4532ba99eb@amsat.org>
+In-Reply-To: <ef926947-1073-4d7e-0b59-c47fbbfb44a2@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -59,69 +60,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Claudio Fontana <cfontana@centriq4.arch.suse.de>,
+Cc: Claudio Fontana <cfontana@centriq4.arch.suse.de>,
+ qemu-devel <qemu-devel@nongnu.org>, Olaf Hering <OHering@suse.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 10:53 AM, Philippe Mathieu-Daudé wrote:
+On 2/21/21 10:55 AM, Philippe Mathieu-Daudé wrote:
 > On 2/21/21 10:24 AM, Claudio Fontana wrote:
 >> From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 >>
->> KVM uses its own PMU initialization.
+>> KVM has its own cpu->kvm_vtime.
+>>
+>> Adjust cpu vmstate by putting unused fields instead of the
+>> VMSTATE_TIMER_PTR when TCG is not available.
 >>
 >> Signed-off-by: Claudio Fontana <cfontana@suse.de>
 >> ---
->>  target/arm/cpu.c | 2 ++
->>  1 file changed, 2 insertions(+)
+>>  target/arm/cpu.c     | 4 +++-
+>>  target/arm/machine.c | 5 +++++
+>>  2 files changed, 8 insertions(+), 1 deletion(-)
 >>
 >> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->> index a8321fecf8..d334987cad 100644
+>> index 1d81a1e7ac..b929109054 100644
 >> --- a/target/arm/cpu.c
 >> +++ b/target/arm/cpu.c
->> @@ -1648,6 +1648,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->>          unset_feature(env, ARM_FEATURE_PMU);
+>> @@ -1322,6 +1322,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>          }
 >>      }
->>      if (arm_feature(env, ARM_FEATURE_PMU)) {
->> +#ifdef CONFIG_TCG
-> 
-> Shouldn't this be #if !defined(CONFIG_KVM) ?
-
-In this series pmu is built only for tcg in tcg/, and assumes the current pmu software implementation is TCG-only.
-
-Should PMU instead be a separate feature, that is pulled in by TCG but not KVM?
-
-Do we for example expect other hypervisors (hvf...) to use this PMU?
-
-
-> 
->>          pmu_init(cpu);
 >>  
->>          if (!kvm_enabled()) {
+>> +#ifdef CONFIG_TCG
+>>      {
+>>          uint64_t scale;
+>>  
+>> @@ -1347,7 +1348,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>          cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+>>                                                    arm_gt_hvtimer_cb, cpu);
 > 
-> And remove this ^
+> What about Xen?
 
-Rather, maybe the check should be if (tcg_enabled()).
+Good question, what about it..
 
-I think the code quoted (also in master) handles the --enable-tcg --enable-kvm build.
-
-If you have both tcg and kvm "available" (currently controlled by what code is built, but in the future probably it will be modules),
-
-it makes sese to only initialize the software PMU if kvm is not enabled (or, expressed better, if tcg is enabled).
-
+Ccing also Olaf.
 
 
 > 
->> @@ -1659,6 +1660,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->>          cpu->pmu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, arm_pmu_timer_cb,
->>                  cpu);
->>  #endif
+>>      }
+>> -#endif
 >> +#endif /* CONFIG_TCG */
->>      } else {
->>          cpu->isar.id_aa64dfr0 =
->>              FIELD_DP64(cpu->isar.id_aa64dfr0, ID_AA64DFR0, PMUVER, 0);
+>> +#endif /* !CONFIG_USER_ONLY */
+>>  
+>>      cpu_exec_realizefn(cs, &local_err);
+>>      if (local_err != NULL) {
+>> diff --git a/target/arm/machine.c b/target/arm/machine.c
+>> index 666ef329ef..13d7c6d930 100644
+>> --- a/target/arm/machine.c
+>> +++ b/target/arm/machine.c
+>> @@ -822,8 +822,13 @@ const VMStateDescription vmstate_arm_cpu = {
+>>          VMSTATE_UINT32(env.exception.syndrome, ARMCPU),
+>>          VMSTATE_UINT32(env.exception.fsr, ARMCPU),
+>>          VMSTATE_UINT64(env.exception.vaddress, ARMCPU),
+>> +#ifdef CONFIG_TCG
+>>          VMSTATE_TIMER_PTR(gt_timer[GTIMER_PHYS], ARMCPU),
+>>          VMSTATE_TIMER_PTR(gt_timer[GTIMER_VIRT], ARMCPU),
+>> +#else
+>> +        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
+>> +        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
+>> +#endif /* CONFIG_TCG */
+>>          {
+>>              .name = "power_state",
+>>              .version_id = 0,
 >>
 > 
 
