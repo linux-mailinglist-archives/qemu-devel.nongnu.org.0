@@ -2,65 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B497320E23
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:03:33 +0100 (CET)
-Received: from localhost ([::1]:35740 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09EB6320E17
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:03:01 +0100 (CET)
+Received: from localhost ([::1]:34850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDwpA-0003As-DL
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:03:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56392)
+	id 1lDwoe-0002nM-3e
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:03:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwl9-0000Zo-Ig; Sun, 21 Feb 2021 16:59:24 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37549)
+ id 1lDwlE-0000c5-92; Sun, 21 Feb 2021 16:59:28 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwl6-0000bQ-VW; Sun, 21 Feb 2021 16:59:23 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v15so17095281wrx.4;
- Sun, 21 Feb 2021 13:59:19 -0800 (PST)
+ id 1lDwlC-0000dR-UH; Sun, 21 Feb 2021 16:59:28 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id n4so17119095wrx.1;
+ Sun, 21 Feb 2021 13:59:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=xyNZmRLpUahts1KqhBBLOjSeSr2mmMcTLRo0FRva/h0=;
- b=LPN/dMHgfLTh+6QUGnlW6wT1hhpRT44nyIGTRUz276Y5SNQ+41kl0fxsVKMks2TGWS
- yrdsPJ5pQFAhYMP17b3FbAQhTk3vis/6Kr1ZQj1RWVT13cVNmAL/ECBB1Qi1HE0jOgUc
- Ax4IW2WnNKTLlqG95WvQd8dtCOvFQkFzibW3iwr+5Lvq5d96AfxDVx+79l6Pb9pwf31u
- zIFzhcja0st4cKSpr8IdRvdJ0wn9cjqMVq+JYW+uRIUEzyScmIoBMuLOJj4/gKB+nxfV
- DMOxhC3scFSsSsMRPP/5ZlSjM8Nh7OwpUVO75nmGLjxo7kOCYmzoNmysprHz4bl+5sbW
- tB3A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1wIIiqxyo9qU4hDfl/CUSouFCDD9ilWz0hTE1uhI3Xc=;
+ b=L5/0SZNGr+ao89CjY2sDmqb+0o8YfeHrn5C5zQG6mvxHIhVqZc0tJ0UH1DU6fYgyTD
+ gv+VU0YRD82LqXBNpKDH0rTMpxXuZPVgv61DgV0lNa33q4+OHngUKHZwaPJcAmSTk1wy
+ rtPP6VFKuPyw80xLmAL3/2shJVxsk0ZE8m8DyCTa9a3ywysCR0/j3NHIWDqvOvxceSvq
+ GDeas9umFAXq7g31pVw9bUhYrMaKsHsWYK+bS/HU5LJHCW2TCr+ON+irsf+iJApBsYG0
+ 3BJYIu3hRYv4VqUPviybs7USngAQ4Fb2ih8RCWnv39+SNpBUrnB3pr8l0x6SfgnZr0jF
+ 2DbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=xyNZmRLpUahts1KqhBBLOjSeSr2mmMcTLRo0FRva/h0=;
- b=ZHo1ODpnCmxtnMzPzOMIbFj6TyVvr9smMG9IeT3IoeZArBZjphPSrFHdttz6ZtJp+y
- 5Vz38wIZTumeySDFNqUjK4jKBs8+o2XxuIx+DYI1hhAP2qwiu/e/FR60XSem+FtSg0Dv
- B6+fqyGZkk6O1pQoBj5erD6HkrUbUEB0/YKHCUxOjwP54zVpKyMTnodzLgA42tvux0IN
- mxNbrcY/5T55NWX/JVX4qHqL0UWS9vbbvEzXPAi5ToArO7IuF8gCc6edeStYJCtCVuGz
- IweOiekBAp1C0Vc0ZFfXRf53yYkHAPWCsgExiJ34wO9PZlxKLAVNvXdt5SCcgeLf/gBg
- 7upA==
-X-Gm-Message-State: AOAM530gvDRjTNhPftUoVb8mi1coGhVSgp8+Y3fuWpsMbXDaJifOpgnW
- 0n55DPcu1ZkF6XNE28WV3SXAlTgac2U=
-X-Google-Smtp-Source: ABdhPJzSCfgIU5q93GCIXXMj9+XRCDqQ8xjBksHjYSvDhYYmy2WEnd6UnrDZwvBdsihacFdQQPlyig==
-X-Received: by 2002:adf:f0ce:: with SMTP id x14mr18778093wro.252.1613944758392; 
- Sun, 21 Feb 2021 13:59:18 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=1wIIiqxyo9qU4hDfl/CUSouFCDD9ilWz0hTE1uhI3Xc=;
+ b=tsQPcn1tNF1Vbt/0gqpbZVsFTcwNvuWKZyJCcr2YzW7xvTKkYuV/fww36G8sIVwIba
+ 9wco8BW6j2uRAiBxqZoABi/iTHSMh6Sgqm/nxB8m3tDdomW54f8kapM9HRm2cyF8HuTp
+ M1oVqn6J5cgBX5rmcLHjQXht51tfYI6k76FlyAKsSQqfUreokmhbPUy0j6gUqHdd1a10
+ ljsYvx+BIdBjCoktR7AFw9seS8mLyYgk3fVCEvap9UZldOuM35tF9Ewm8Z6XoOqZ89mn
+ Tt25K167xTxf1a1/mGP915pWHB09ILsl5Aqpx18euX/qZYDtVCL+Ll2NNYBP5ww9HYYf
+ yXOg==
+X-Gm-Message-State: AOAM5323Mf8fGyPpgJnhek/cKZSyubg6SfzZ3gcT+tdEYBHlmvM/L9jJ
+ +yYbg7VJRHrv0PWrDxp08LwWl4ioP0I=
+X-Google-Smtp-Source: ABdhPJyt+QIQf6QoRWsZ2y+Nik3FQ1LqyPUmEWEBMOJo+QGxJbFnVlC0bE3jJudoJPVJiSEWDehCGQ==
+X-Received: by 2002:a05:6000:1565:: with SMTP id
+ 5mr19172769wrz.109.1613944763490; 
+ Sun, 21 Feb 2021 13:59:23 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i1sm22852977wmq.12.2021.02.21.13.59.17
+ by smtp.gmail.com with ESMTPSA id o13sm31414267wrs.45.2021.02.21.13.59.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 13:59:17 -0800 (PST)
+ Sun, 21 Feb 2021 13:59:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/8] hw/sh4: Kconfig cleanups
-Date: Sun, 21 Feb 2021 22:59:07 +0100
-Message-Id: <20210221215915.2568943-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/8] hw/sh4: Add missing license
+Date: Sun, 21 Feb 2021 22:59:08 +0100
+Message-Id: <20210221215915.2568943-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210221215915.2568943-1-f4bug@amsat.org>
+References: <20210221215915.2568943-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,52 +88,60 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  qemu-block@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
  Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Samuel Tardieu <sam@rfc1149.net>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing review: 1 (license) and 7 (pci)=0D
-=0D
-Since v2:=0D
-- Added missing TC58128/SH_PCI Kconfig entries (Peter)=0D
-=0D
-Since v1:=0D
-- Addressed Peter Maydell review comments from=0D
-https://www.mail-archive.com/qemu-block@nongnu.org/msg80599.html=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (8):=0D
-  hw/sh4: Add missing license=0D
-  hw/sh4: Add missing Kconfig dependency on SH7750 for the R2D board=0D
-  hw/intc: Introduce SH_INTC Kconfig entry=0D
-  hw/char: Introduce SH_SCI Kconfig entry=0D
-  hw/timer: Introduce SH_TIMER Kconfig entry=0D
-  hw/block: Introduce TC58128 eeprom Kconfig entry=0D
-  hw/pci-host: Introduce SH_PCI Kconfig entry=0D
-  hw/sh4: Remove now unused CONFIG_SH4 from Kconfig=0D
-=0D
- include/hw/sh4/sh.h           | 12 +++++++++---=0D
- hw/block/tc58128.c            |  7 +++++++=0D
- hw/{sh4 =3D> pci-host}/sh_pci.c |  0=0D
- MAINTAINERS                   |  6 ++++++=0D
- hw/block/Kconfig              |  3 +++=0D
- hw/block/meson.build          |  2 +-=0D
- hw/char/Kconfig               |  3 +++=0D
- hw/char/meson.build           |  2 +-=0D
- hw/intc/Kconfig               |  3 +++=0D
- hw/intc/meson.build           |  2 +-=0D
- hw/pci-host/Kconfig           |  4 ++++=0D
- hw/pci-host/meson.build       |  1 +=0D
- hw/sh4/Kconfig                | 12 ++++++------=0D
- hw/sh4/meson.build            |  1 -=0D
- hw/timer/Kconfig              |  4 ++++=0D
- hw/timer/meson.build          |  2 +-=0D
- 16 files changed, 50 insertions(+), 14 deletions(-)=0D
- rename hw/{sh4 =3D> pci-host}/sh_pci.c (100%)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+This code was introduced in commit 27c7ca7e775,
+("SHIX board emulation (Samuel Tardieu)"). Use
+the same license.
+
+Cc: Samuel Tardieu <sam@rfc1149.net>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/sh4/sh.h | 12 +++++++++---
+ hw/block/tc58128.c  |  7 +++++++
+ 2 files changed, 16 insertions(+), 3 deletions(-)
+
+diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
+index 93f464bf4cd..33dde7a56dd 100644
+--- a/include/hw/sh4/sh.h
++++ b/include/hw/sh4/sh.h
+@@ -1,6 +1,12 @@
+-#ifndef QEMU_SH_H
+-#define QEMU_SH_H
+-/* Definitions for SH board emulation.  */
++/*
++ * Definitions for SH board emulation
++ *
++ * Copyright (c) 2005 Samuel Tardieu
++ *
++ * SPDX-License-Identifier: MIT
++ */
++#ifndef QEMU_HW_SH_H
++#define QEMU_HW_SH_H
+ 
+ #include "hw/sh4/sh_intc.h"
+ #include "target/sh4/cpu-qom.h"
+diff --git a/hw/block/tc58128.c b/hw/block/tc58128.c
+index 9888f01ac60..1a0fa86d8ea 100644
+--- a/hw/block/tc58128.c
++++ b/hw/block/tc58128.c
+@@ -1,3 +1,10 @@
++/*
++ * TC58128 NAND EEPROM emulation
++ *
++ * Copyright (c) 2005 Samuel Tardieu
++ *
++ * SPDX-License-Identifier: MIT
++ */
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "hw/sh4/sh.h"
+-- 
+2.26.2
+
 
