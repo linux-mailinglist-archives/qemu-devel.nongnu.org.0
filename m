@@ -2,122 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E2E3207DB
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 01:48:39 +0100 (CET)
-Received: from localhost ([::1]:54502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E4B320933
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 09:34:53 +0100 (CET)
+Received: from localhost ([::1]:48398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDcvN-0001F7-J2
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 19:48:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36006)
+	id 1lDkCa-0004vL-07
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 03:34:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lDcuR-0000UC-QG
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 19:47:40 -0500
-Received: from mail-bn8nam12on2099.outbound.protection.outlook.com
- ([40.107.237.99]:13344 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1lDcuP-00018D-Gw
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 19:47:39 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GLYH20+zblfVfFoRiSSeKSGKNzREYMT0Uar/Pcb2hVoah+y8CgDeXJt1w1wlfvm1xrE8ngxkGGvopFaqT/bv45C8ikEcZWjAX289WTKUQ2wlHfQBI6cwFCY5GzvuQcfxeen7XPJtDs+QFXNNQtgd7bhh9/XnZgTN6kIYsF3iIYHklADy9KLvd4WNqzY2Ic4ySeUnePJaPSu1lGUTd2Noo+WklypK58zwqEuXXyoO4IymDMZSdTus4sKTp7nANnVPNy324uKj1Rx/dm5muXXcOaByvjs1JPJ8zFL5hpodP/gNkxL//YL00tpvPfd+PYv/beOnk+N9uykz+fC5C6xUVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ceuLqCvTfoz5eLfWz0bH+v4PO3LW+jEO+NLxUjHZAzk=;
- b=CendOALcIYVlON1+9xLjUvzBvqpXYP9tLFcen1XlTTTtFDair9v5N5alA2/lrM7qdTV8Mj1F5FugGjmhZlc5mH83mwFrVjmXeqz6KJv4NBX0Kx/3hX3KWeMRweRFTJfJ7I3BjooKBxlNuoDU/XE0K2O404y4CJc6gimm7Nb8avLcTkVqiRuIO6cCA0u4Djx5YWX1XA/FS71op2AX5JDJPrk0hsKYtIk+RU4B/mysouHdFa1C5C6q4MrxJ6XQY+Mf8bC0uWuJxFqHNJXfSKYK2cyWlgdL9+tsQyAey8gBX40UQG3m9fnzYhd0qlHEh7v1sgP57fTmKk+Mx2bQQQQQpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
- header.d=bu.edu; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ceuLqCvTfoz5eLfWz0bH+v4PO3LW+jEO+NLxUjHZAzk=;
- b=Qv6FG05YT0mMdNCePA5HDcRSB29qTCskSt6hTssZ0CWrcMJN8JgojhkMq9mw3MrExNxAZXtaf2Ikt4ge69LoHD01H44Y4rme62YeNp3SfcNluh0zRhRnj3vEeLGRpbsy2gFn1geV6ZdH6S8jeuqnBBB2VJ+XhZJ7ZHCrGiFPcoo=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SN6PR03MB4173.namprd03.prod.outlook.com (2603:10b6:805:c2::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.31; Sun, 21 Feb
- 2021 00:47:29 +0000
-Received: from SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::1ed:b27e:19a1:5bfc]) by SN6PR03MB3871.namprd03.prod.outlook.com
- ([fe80::1ed:b27e:19a1:5bfc%4]) with mapi id 15.20.3868.031; Sun, 21 Feb 2021
- 00:47:29 +0000
-From: Alexander Bulekov <alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDkBe-0004Wg-UL
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 03:33:54 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33045)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDkBd-0005Ox-Lu
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 03:33:54 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id 7so15716708wrz.0
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 00:33:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=iM0CGfY0nD2VubWO/NZLUOFLudJ77Vh0k2/oF8p2yT4=;
+ b=phBX7/+fQ0FnWk0AYmhl7He8mZ6SgWhXJUu4z2M/6O1515VcSyeljzpbUSSnz7TSme
+ 7vQOc0C/l6Bfh4GHlKUi7OJoRxhgcgzSteteODYo9vX9r4lyqWsMzAB6RgGaZ4mqlu+g
+ 6uLBP4TKyHfP3mGfo0MPOgxp141bK9JU5o54uKQMYeopfPq+CTCFHbiX+JcRqDRRbS8n
+ MiVTfvuua5DPz4uH8sThTGTuCfOuoSfEg3xk/0m+u2vVXjX6eUhmU106SfZLzTzFYqAO
+ Xv6OLeW0j9uDYwF2RKyYXr5Mogy0E5OkREvNf2q6OuJcKUxVxsZASHsNFqMqZ1mKvGPP
+ pAfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iM0CGfY0nD2VubWO/NZLUOFLudJ77Vh0k2/oF8p2yT4=;
+ b=alW9rBf2a40VpF+RM5HcToIiHnbE9tC2IGbfx3FMJuC6k7rUQ0dbwihcwAIaFdFGzm
+ 7OZnCpoKxns9cw7FeAAGftOAQVYxAzGEs17angoDCJ5F9tC80mDoJTUMNvxaEorQABok
+ NgVd2VKZ6wz/73oOuBKFjh8bUF51d88jOklhn0lTHdmz9qbRsT4Yh+9I5iljQ+xwQSCg
+ zKxX1a+JD+pT8cVuvv0ZydGMwI71eg3fEhUs4QlSzti+oZCysLM7Ngv8UT/plr6UOUoo
+ 0vPetPahJRdP4v2PdEZVGqV6KivD4Ylwwb7KzT5Q34VWSTClp8qGgNeKlwb1N9Tj91IF
+ sH6w==
+X-Gm-Message-State: AOAM531eDYYoDmLuJwPPssKAyYJSHIkTYGBLiNiqi6EWQcYz4Hs4ANtt
+ UF6/t4ppBeELyQc6sGH7vOI=
+X-Google-Smtp-Source: ABdhPJyKCTTiBu0oU8aMZsDS6SRX7luoM33Of5x3MEeRI9H/GrmfULwUOKxDgpy4P7ASyGoNSAtwsQ==
+X-Received: by 2002:a05:6000:104c:: with SMTP id
+ c12mr16568101wrx.261.1613896431894; 
+ Sun, 21 Feb 2021 00:33:51 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id d65sm10903386wmc.34.2021.02.21.00.33.50
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Feb 2021 00:33:51 -0800 (PST)
+Subject: Re: [PATCH 00/13] target/mips: Replace integer by MMUAccessType enum
+ when possible
 To: qemu-devel@nongnu.org
-Subject: [PATCH] fuzz: fix the pro100 generic-fuzzer config
-Date: Sat, 20 Feb 2021 19:47:17 -0500
-Message-Id: <20210221004717.426903-1-alxndr@bu.edu>
-X-Mailer: git-send-email 2.28.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [72.74.210.193]
-X-ClientProxiedBy: BL1PR13CA0426.namprd13.prod.outlook.com
- (2603:10b6:208:2c3::11) To SN6PR03MB3871.namprd03.prod.outlook.com
- (2603:10b6:805:6d::32)
+References: <20210128144125.3696119-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0f2e1c1d-4c78-5bc1-58de-4b3664e99075@amsat.org>
+Date: Sun, 21 Feb 2021 09:33:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from stormtrooper.vrmnet (72.74.210.193) by
- BL1PR13CA0426.namprd13.prod.outlook.com (2603:10b6:208:2c3::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.9 via Frontend
- Transport; Sun, 21 Feb 2021 00:47:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 35d3cbf2-d8c7-41c3-f0cf-08d8d6024402
-X-MS-TrafficTypeDiagnostic: SN6PR03MB4173:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN6PR03MB4173F2B7D217FFC2541CF9CCBA829@SN6PR03MB4173.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 54Gg9aua7HEZBOTtl3QjbWqwLx6xpfTQKssAJ4iSKwZ7mI8GkD7YTanBRxPJJdW6XExpfb9KtpHrrgDPx5wpCffPbNMNBuztVjo1ZGvhNS2XlcFsBFvDTT+5DZ8jaZZtsKWiaOQS7MUaQDq/gdt/VmaGku6TDoqvpZGhQebgLx96sq42lA+KNDZCtgRudK9Pggo6n3qfOxPWZYlA2ssf8liWwouqqXzDuPwIfZ8GaCxr7Hd9Z9Od9jsCmT9IKQFhgv8rtezOe48dVcLyGBUXeWqmkSPnNX3Hq/txU/Kxzfh33ujZVyG9mc+pCLDsSnJ8Mg9dCptbIUG3p/fBvmYC4nFXOFUf4SSKVeMmN4lfg37amaCKZlbMYn1J8NLlQ/i109c14aO5jGBUshHhIvxXRHo81I2QkrJOT6+dK53qAh58mfocgGQQrKj3+I3wTFhpu8a06bsoVXnqYWJBzNQWbzBxOvKzzyC2cSET9Yd3iiEboEPNUAfu17NU6AymnfeTgq/MoKEHkPJqNeL2cgrIoRcYTOAEbdS9mtH4aHmwgA2p4I+ilj857dOfLd5IJyvi
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(376002)(136003)(39860400002)(366004)(346002)(66556008)(66946007)(6512007)(66476007)(75432002)(6486002)(478600001)(1076003)(4744005)(52116002)(6506007)(5660300002)(2906002)(316002)(2616005)(83380400001)(8936002)(6666004)(54906003)(86362001)(786003)(16526019)(956004)(36756003)(186003)(4326008)(6916009)(8676002)(26005)(41533002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?dWZhsB8oWzPrAucZybuTjQ4EYzKv6f5wSXvxl4f5wuh3L/5TBqtvyEj24bOD?=
- =?us-ascii?Q?eYKgAlF1lDdpIxNlIGDKMQ1GSptONAYSFVVIBqndTTB64+05eYAEr3hevowL?=
- =?us-ascii?Q?g8xN+Vp76dbR3ZqyS+aOa8+Uhz/8T+MmymcYpjT8veWuI2BJTy43jn7FYp9X?=
- =?us-ascii?Q?cPhKtrvNJ5+eDxtdN9OQlBSXwYepI0fCXKUbU9yQiaq7crBqZdu/NZIv7LXg?=
- =?us-ascii?Q?FFfVocaG6NYUUGBHfu0ljJZAqRFQe53UjqljzSU1x969HnFeXDcJSiCo/dms?=
- =?us-ascii?Q?cTdWqeVjJNj6jz+uGlkwU/mCBHtMqblVkAb3L9hIY3gG7FFP86EyhkLMq70w?=
- =?us-ascii?Q?eQlhj2vn+n/qZPtf8cX1XHDG4tl5jBTwHofz6w1oXDGVtS6miO+pATWNxNj3?=
- =?us-ascii?Q?WbzHtG2c04kuyO+Mkx4VZqFBy7z4fZUNa7tyLbbmSmBgrti1dORmx/PF0TeP?=
- =?us-ascii?Q?mIsnQe+TqtsR2t02E4qp7lwPYUAkDg8K9z/s9bFBfTH1pKsS9nFDNDBQDAFY?=
- =?us-ascii?Q?uCJmaUedLtmGRVUTU/daKpxSEvEA4vOAph0M5ORYxCv/SAIiNSgGeAl53b7B?=
- =?us-ascii?Q?4PUOaSlYy8Qivble5RcECCVKcQak1aCcrC87uQsyRnZr5+Yr+Ip0LZs7nxsb?=
- =?us-ascii?Q?DoBwWYZ24Qffl/eABA+h9RX7AdBc4jbpM0o89SZVbBvbuWA1NFKbgLVA9Fe1?=
- =?us-ascii?Q?1C3vCMvpyQmEoiPkxYFsL/S22D8WI5xi1XbYhz1XqTw6SwQkvitXncd81aKH?=
- =?us-ascii?Q?ysTjyq7WbdmrmBps1tEOjjHO1dB102z0tEVg6xwwzNIMDsswCTPweYVCxzt6?=
- =?us-ascii?Q?saFR+2QtXmo5ppnTWtQjE/XXC5jT/dYYzH1XU+1iChhMGA1FGpZXxiF8U7vv?=
- =?us-ascii?Q?GfFVqOlXkHlCBLPO6LLN2b/T2IOX7YHpJSJCxB+dSRYrZbohnWYuG91BXcQS?=
- =?us-ascii?Q?nRObvKn69RfuxKnC3bJb09OSrilRnfZ8+ODEsHqqccbkeUOqAwC84G1yX4YX?=
- =?us-ascii?Q?w6Oa2vD+wgHVqLyqNVhfBsx+oml3gsbMxeeKau9j0621KdE24vgMtaUxMYhG?=
- =?us-ascii?Q?vrM9gVdGcII9zvY542aihQKCiRTM9MRcWy1tDj0KZa1QuIJj8bqqKnF1CVKy?=
- =?us-ascii?Q?Y1uaSh9s8vUFHJF7Bsg9BSETBUbsaCKdpLh5C2zy3ITR9mPyu+xTCui680fY?=
- =?us-ascii?Q?2M5v/jzzswzmdyLAvKPpoVxJvpaStvk7XtZAsC3nrPxQhhdSs9u+AFo1W3Uz?=
- =?us-ascii?Q?bwlHxmmt0rln/gqbMu33KS5eVPV4P3ulaqLou53IsIeaUPt/rc4uf8jiwjdy?=
- =?us-ascii?Q?nyykIaa82vsprjLc7PNhOpnn?=
-X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 35d3cbf2-d8c7-41c3-f0cf-08d8d6024402
-X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Feb 2021 00:47:29.5465 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LNK2ej3zpPAH8bdVZ96LIDJGTXhjyOvrCbWZJVscmLHp1xN46m2+2hCnJgJ78jc9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4173
-Received-SPF: pass client-ip=40.107.237.99; envelope-from=alxndr@bu.edu;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210128144125.3696119-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -131,36 +90,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>, Joe Komlodi <komlodi@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The device-type names for the pro100 network cards, are i8255.. We were
-matching "eepro", which catches the PCI PIO/MMIO regions for those
-devices, however misses the actual PCI device, which we use to map the
-BARs, before fuzzing. Fix that
+On 1/28/21 3:41 PM, Philippe Mathieu-Daudé wrote:
+> Taking notes while reviewing commit 671a0a1265a
+> ("use MMUAccessType instead of int in mmu_translate").
+> 
+> Philippe Mathieu-Daudé (13):
+>   target/mips: Remove access_type argument from map_address() handler
+>   target/mips: Remove access_type argument from get_seg_physical_address
+>   target/mips: Remove access_type arg from get_segctl_physical_address()
+>   target/mips: Remove access_type argument from get_physical_address()
+>   target/mips: Remove unused MMU definitions
+>   target/mips: Replace magic value by MMU_DATA_LOAD definition
+>   target/mips: Let page_table_walk_refill() take MMUAccessType argument
+>   target/mips: Let do_translate_address() take MMUAccessType argument
+>   target/mips: Let cpu_mips_translate_address() take MMUAccessType arg
+>   target/mips: Let raise_mmu_exception() take MMUAccessType argument
+>   target/mips: Let get_physical_address() take MMUAccessType argument
+>   target/mips: Let get_seg*_physical_address() take MMUAccessType arg
+>   target/mips: Let CPUMIPSTLBContext::map_address() take MMUAccessType
+> 
+>  target/mips/cpu.h        | 16 ---------
+>  target/mips/internal.h   | 10 +++---
+>  target/mips/op_helper.c  |  9 ++---
+>  target/mips/tlb_helper.c | 78 +++++++++++++++++++---------------------
+>  4 files changed, 47 insertions(+), 66 deletions(-)
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
----
- tests/qtest/fuzz/generic_fuzz_configs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index 5d599765c4..2454c627ff 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -177,7 +177,7 @@ const generic_fuzz_config predefined_configs[] = {
-         .name = "i82550",
-         .args = "-machine q35 -nodefaults "
-         "-device i82550,netdev=net0 -netdev user,id=net0",
--        .objects = "eepro*"
-+        .objects = "i8255*"
-     },{
-         .name = "sdhci-v3",
-         .args = "-nodefaults -device sdhci-pci,sd-spec-version=3 "
--- 
-2.28.0
-
+Thanks, patches 1-6 and 8-13 applied to mips-next.
 
