@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D9F732078C
-	for <lists+qemu-devel@lfdr.de>; Sat, 20 Feb 2021 23:54:26 +0100 (CET)
-Received: from localhost ([::1]:50196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB20A3207CC
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 01:20:55 +0100 (CET)
+Received: from localhost ([::1]:41942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDb8r-0005Vo-Mg
-	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 17:54:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51826)
+	id 1lDcUY-0002VO-KR
+	for lists+qemu-devel@lfdr.de; Sat, 20 Feb 2021 19:20:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lDb86-00054O-GT
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 17:53:38 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:20277)
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1lDcSl-0001j4-OF; Sat, 20 Feb 2021 19:19:03 -0500
+Received: from mail.mutex.one ([62.77.152.124]:51100)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lDb83-0008Qm-HF
- for qemu-devel@nongnu.org; Sat, 20 Feb 2021 17:53:38 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 24DF0746342;
- Sat, 20 Feb 2021 23:53:32 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id D63F67462BD; Sat, 20 Feb 2021 23:53:31 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id D45E07456E3;
- Sat, 20 Feb 2021 23:53:31 +0100 (CET)
-Date: Sat, 20 Feb 2021 23:53:31 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v2 10/13] vt82c686: Implement control of serial port io
- ranges via config regs
-In-Reply-To: <19d2d420-722f-9212-0a19-3f7ad99398f7@amsat.org>
-Message-ID: <652bf593-ac9a-3bec-43e8-516b86f1677@eik.bme.hu>
-References: <cover.1610223396.git.balaton@eik.bme.hu>
- <3e07fafd50db50f965be877409a420c2693d7b29.1610223397.git.balaton@eik.bme.hu>
- <19d2d420-722f-9212-0a19-3f7ad99398f7@amsat.org>
+ (Exim 4.90_1) (envelope-from <marian@mutex.one>)
+ id 1lDcSj-0004mh-1Y; Sat, 20 Feb 2021 19:19:03 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+ by mail.mutex.one (Postfix) with ESMTP id 29A1DBF4418C;
+ Sun, 21 Feb 2021 02:18:56 +0200 (EET)
+X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
+Received: from mail.mutex.one ([127.0.0.1])
+ by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9IX3g2YofLiI; Sun, 21 Feb 2021 02:18:54 +0200 (EET)
+Received: [127.0.0.1] (localhost [127.0.0.1])nknown [109.103.89.101])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mail.mutex.one (Postfix) with ESMTPSA id 047DDBF4417C;
+ Sun, 21 Feb 2021 02:18:53 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
+ t=1613866734; bh=3WPWotBqLZCn+wFHpFjW8Z1e/+ZITf1YaWpg/LRKpgw=;
+ h=From:To:Cc:Subject:Date:From;
+ b=grtqjDgGsJl2ZmmPo6KcntCjf01arCovRyWO6gHDYR9Y4uzBGSchm4mqEsglNa5X9
+ zhaweBphQmj2bCNJ+8XBKsRzZnX2wUAfigEjBzqE589NJK9dy7BNikoF8ToCgCKGQ4
+ hXsKoyX8jWpkNoCyHvNbI7zeXV4Ndj+S1iXndDhM=
+From: Marian Postevca <posteuca@mutex.one>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] Rework ACPI OEM fields handling to simplify code (was:
+ acpi: Remove duplicated code handling OEM ID and OEM table ID fields)
+Date: Sun, 21 Feb 2021 02:17:35 +0200
+Message-Id: <20210221001737.24499-1-posteuca@mutex.one>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-654313700-1613861611=:95909"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=62.77.152.124; envelope-from=marian@mutex.one;
+ helo=mail.mutex.one
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,210 +63,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Huacai Chen <chenhuacai@kernel.org>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>, Sergio Lopez <slp@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
+ Xiang Zheng <zhengxiang9@huawei.com>,
+ "open list : ACPI/HEST/GHES" <qemu-arm@nongnu.org>,
+ Marian Postevca <posteuca@mutex.one>, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+This patch series consolidates ACPI OEM fields handling
+by:
+- Moving common code in PC and MICROVM to X86.
+- Changes unnecessary dynamic memory allocation to static allocation
+- Uses dedicated structure to keep values of fields instead of two
+  separate strings
+- Adds helper macros to initialize the structure
 
---3866299591-654313700-1613861611=:95909
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+v2:
+- Move the setters/getters of OEM fields to X86MachineState to
+  remove duplication
+- Change commit message to make it clear the second commit is 
+  a re-factor
 
-On Sat, 20 Feb 2021, Philippe Mathieu-Daudé wrote:
-> Cc'ing Paolo (Memory API maintainer).
->
-> On 1/9/21 9:16 PM, BALATON Zoltan wrote:
->> In VIA super south bridge the io ranges of superio components
->> (parallel and serial ports and FDC) can be controlled by superio
->> config registers to set their base address and enable/disable them.
->> This is not easy to implement in QEMU because ISA emulation is only
->> designed to set io base address once on creating the device and io
->> ranges are registered at creation and cannot easily be disabled or
->> moved later.
->>
->> In this patch we hack around that but only for serial ports because
->> those have a single io range at port base that's relatively easy to
->> handle and it's what guests actually use and set address different
->> than the default.
->>
->> We do not attempt to handle controlling the parallel and FDC regions
->> because those have multiple io ranges so handling them would be messy
->> and guests either don't change their deafult or don't care. We could
->> even get away with disabling and not emulating them, but since they
->> are already there, this patch leaves them mapped at their default
->> address just in case this could be useful for a guest in the future.
->>
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>  hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 82 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
->> index 2921d5c55c..18bd86285b 100644
->> --- a/hw/isa/vt82c686.c
->> +++ b/hw/isa/vt82c686.c
->> @@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
->>  typedef struct SuperIOConfig {
->>      uint8_t regs[0x100];
->>      MemoryRegion io;
->> +    ISASuperIODevice *superio;
->> +    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
->>  } SuperIOConfig;
->>
->> +static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
->> +                                    int offs)
->> +{
->> +    MemoryRegion *subregion, *mr = NULL;
->> +
->> +    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
->> +        if (subregion->addr == offs) {
->> +            mr = subregion;
->
-> Shouldn't we use memory_region_find() here?
+Marian Postevca (2):
+  acpi: Move setters/getters of oem fields to X86MachineState
+  acpi: Consolidate the handling of OEM ID and OEM Table ID fields
 
-I think I've looked at that but it did not do what I needed (which is 
-returning the actual region at the address) but this approach was used 
-instead by some s390x code I think where I've got it from.
+ hw/acpi/hmat.h                   |  2 +-
+ hw/i386/acpi-common.h            |  2 +-
+ include/hw/acpi/acpi-build-oem.h | 55 ++++++++++++++++++++++
+ include/hw/acpi/aml-build.h      | 16 +++----
+ include/hw/acpi/ghes.h           |  2 +-
+ include/hw/acpi/pci.h            |  2 +-
+ include/hw/acpi/vmgenid.h        |  2 +-
+ include/hw/arm/virt.h            |  4 +-
+ include/hw/i386/microvm.h        |  4 --
+ include/hw/i386/pc.h             |  4 --
+ include/hw/i386/x86.h            |  4 ++
+ include/hw/mem/nvdimm.h          |  4 +-
+ hw/acpi/aml-build.c              | 27 ++++++-----
+ hw/acpi/ghes.c                   |  5 +-
+ hw/acpi/hmat.c                   |  4 +-
+ hw/acpi/nvdimm.c                 | 22 +++++----
+ hw/acpi/pci.c                    |  4 +-
+ hw/acpi/vmgenid.c                |  6 ++-
+ hw/arm/virt-acpi-build.c         | 40 ++++++----------
+ hw/arm/virt.c                    | 16 +++----
+ hw/i386/acpi-build.c             | 78 +++++++++++++++-----------------
+ hw/i386/acpi-common.c            |  4 +-
+ hw/i386/acpi-microvm.c           | 13 ++----
+ hw/i386/microvm.c                | 66 ---------------------------
+ hw/i386/pc.c                     | 63 --------------------------
+ hw/i386/x86.c                    | 61 +++++++++++++++++++++++++
+ 26 files changed, 237 insertions(+), 273 deletions(-)
+ create mode 100644 include/hw/acpi/acpi-build-oem.h
 
-> Also, why not have a proper helper in "hw/isa/isa.h"?
+-- 
+2.26.2
 
-Maybe because nothing needed it so far? Also I've tried that first but 
-some ISA devices have multiple memory regions so it's not easy to return 
-all of them so a helper would only work for ISA devices that have a single 
-region.
-
-As the patch description says this is basically a hack to be able to 
-implement this behaviour of this VIA chip without rewriting ISA emulation 
-that I'd rather not do because 1) it could break a lot of other machines 
-and 2) takes a lot of time so I went with this approach that's not so bad 
-for just this use case and could be cleaned up later if somebody would 
-want to clean up ISA emulation to support this use case as well. Currently 
-ISA seems to be designed to only handle devices that are created once at 
-the start and not changed later but these VIA superio chips have ISA 
-devices that can be enabled/disabled and their IO ranges changed by 
-writing registers. That's not easily emulated in current QEMU so this is a 
-compromise to make it work with the guests but avoid needing extensive 
-changes to QEMU ISA parts. (We only really need to change serial address 
-because VT8231 has a single serial port and pegasos2 firmware puts it at 
-0x2f8 instead of the usual default of 0x3f8 so we can't get away with just 
-mapping the serial device at the default address. It could work by putting 
-it at 0x2f8 but that may break other guests and this way we can actually 
-emulate what the chip does so it works for both 82c686b and 8231 and more 
-guests should be happy with it so I think this should be good enough for 
-now.)
-
-Regards,
-BALATON Zoltan
-
->> +            break;
->> +        }
->> +    }
->> +    return mr;
->> +}
->> +
->>  static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->>                                unsigned size)
->>  {
->> @@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
->>      case 0xfd ... 0xff:
->>          /* ignore write to read only registers */
->>          return;
->> -    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
->> +    case 0xe2:
->> +    {
->> +        data &= 0x1f;
->> +        if (data & BIT(2)) { /* Serial port 1 enable */
->> +            ISADevice *dev = sc->superio->serial[0];
->> +            if (!memory_region_is_mapped(sc->serial_io[0])) {
->> +                memory_region_add_subregion(isa_address_space_io(dev),
->> +                                            dev->ioport_id, sc->serial_io[0]);
->> +            }
->> +        } else {
->> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
->> +            if (memory_region_is_mapped(sc->serial_io[0])) {
->> +                memory_region_del_subregion(io, sc->serial_io[0]);
->> +            }
->> +        }
->> +        if (data & BIT(3)) { /* Serial port 2 enable */
->> +            ISADevice *dev = sc->superio->serial[1];
->> +            if (!memory_region_is_mapped(sc->serial_io[1])) {
->> +                memory_region_add_subregion(isa_address_space_io(dev),
->> +                                            dev->ioport_id, sc->serial_io[1]);
->> +            }
->> +        } else {
->> +            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
->> +            if (memory_region_is_mapped(sc->serial_io[1])) {
->> +                memory_region_del_subregion(io, sc->serial_io[1]);
->> +            }
->> +        }
->> +        break;
->> +    }
->> +    case 0xe7: /* Serial port 1 io base address */
->> +    {
->> +        data &= 0xfe;
->> +        sc->superio->serial[0]->ioport_id = data << 2;
->> +        if (memory_region_is_mapped(sc->serial_io[0])) {
->> +            memory_region_set_address(sc->serial_io[0], data << 2);
->> +        }
->> +        break;
->> +    }
->> +    case 0xe8: /* Serial port 2 io base address */
->> +    {
->> +        data &= 0xfe;
->> +        sc->superio->serial[1]->ioport_id = data << 2;
->> +        if (memory_region_is_mapped(sc->serial_io[1])) {
->> +            memory_region_set_address(sc->serial_io[1], data << 2);
->> +        }
->> +        break;
->> +    }
->>      default:
->>          qemu_log_mask(LOG_UNIMP,
->>                        "via_superio_cfg: unimplemented register 0x%x\n", idx);
->> @@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->>      DeviceState *dev = DEVICE(d);
->>      ISABus *isa_bus;
->>      qemu_irq *isa_irq;
->> +    ISASuperIOClass *ic;
->>      int i;
->>
->>      qdev_init_gpio_out(dev, &s->cpu_intr, 1);
->> @@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->>      isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
->>      i8254_pit_init(isa_bus, 0x40, 0, NULL);
->>      i8257_dma_init(isa_bus, 0);
->> -    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
->> +    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
->> +                                                      TYPE_VT82C686B_SUPERIO));
->> +    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
->>      mc146818_rtc_init(isa_bus, 2000, NULL);
->>
->>      for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
->> @@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
->>       */
->>      memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
->>                                  &s->superio_cfg.io);
->> +
->> +    /* Grab io regions of serial devices so we can control them */
->> +    for (i = 0; i < ic->serial.count; i++) {
->> +        ISADevice *sd = s->superio_cfg.superio->serial[i];
->> +        MemoryRegion *io = isa_address_space_io(sd);
->> +        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
->> +        if (!mr) {
->> +            error_setg(errp, "Could not get io region for serial %d", i);
->> +            return;
->> +        }
->> +        s->superio_cfg.serial_io[i] = mr;
->> +        if (memory_region_is_mapped(mr)) {
->> +            memory_region_del_subregion(io, mr);
->> +        }
->> +    }
->>  }
->>
->>  static void via_class_init(ObjectClass *klass, void *data)
->>
->
->
---3866299591-654313700-1613861611=:95909--
 
