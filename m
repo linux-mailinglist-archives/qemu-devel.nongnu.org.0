@@ -2,85 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46A56320BF2
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 18:12:39 +0100 (CET)
-Received: from localhost ([::1]:45826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F832320C0C
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 18:19:29 +0100 (CET)
+Received: from localhost ([::1]:59378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDsHd-00037E-LT
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 12:12:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58920)
+	id 1lDsOF-0001Mu-Cb
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 12:19:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDs6i-0003Mn-RW
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 12:01:21 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:44995)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lDsKg-0007oS-4J
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 12:15:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDs6f-0001N1-OM
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 12:01:19 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id h98so11802688wrh.11
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 09:01:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TT4Wncnw06XDjsXFw74tF5V7rmNVukXa85wt+vOconc=;
- b=R4mQ/7UmGSxJPDZKTEXCMKA72AuwpEVDsgFHWzxGVu8oeKJBF1Qx5ZYHXk+9eE2FPF
- KpznUQDwfMg8vLyQZWxnqnWp4pbpaYOk2dU/Ku+pO1h4BrkeZsBx3SDBd8Ba527VaDlh
- bp6m9Bzpf/7H3gbp1SwGIJZCDOPqoYnVAh3yh6FTHkLC3EVmDWi1NJZyf4Fi7vWUQgoM
- slC2KbhFobLA2GPshKFS/nTTtt87WckC6+6icmLJAgr7YIQuxLg5naeSXi2OPlHqOSDM
- 3K2pgKbIxRw0MNNH7soVpKljrpvc1qhCwxAssDgJFZ/5DFmAhyGlaNBD/M8VkbV0Jkl6
- h8Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TT4Wncnw06XDjsXFw74tF5V7rmNVukXa85wt+vOconc=;
- b=Ng1jSGCPCRuiGwgkYvasMuIFFfquJDwvf2r7Le2mI/WvqSDfLiX5qMxQpZd2wKIdbZ
- gQxpKd4Qqe+z9WrijiQ7fD8MRT8cshgEVDTmcmJrpol2CEAXOA0F4N0V2hR42lCteb5v
- EGWNvVyptT9h1V+rVtXco9ZRHJLNzdN2zeyP4QJrTPSduk+QDLdUSPV7cNHBHLhQIgXA
- dXZP/A8evgt0YEAK/rh113fmyXwn1OE7kqsAS484c0eiLnL/GnBi9sSuxMK63dGR0VmY
- 0Q/Z8x+DhfUidn2X2akmcH79EGmwTYd5sYDfG7esUjOcRcE6pHWabUyDpGNlPtoMl9ce
- Xb0w==
-X-Gm-Message-State: AOAM530ep2ZwMbUNkXv2OKtIPrh3le2XdoojawfLAvZm3B2b7hZbUVC+
- GLSOVEmlP52m+brba4A+lgU=
-X-Google-Smtp-Source: ABdhPJwgAseAn2HWoqgvAiNX4FAsohDk/f1Ly3/IeVRcDEwevokX6G30LvukqlrhL/pBmp0TvlEcjg==
-X-Received: by 2002:adf:dd41:: with SMTP id u1mr7326540wrm.190.1613926873486; 
- Sun, 21 Feb 2021 09:01:13 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f7sm22215807wmh.39.2021.02.21.09.01.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 09:01:12 -0800 (PST)
-Subject: Re: [PATCH] target/mips: Remove unused 'rw' argument from
- page_table_walk_refill()
-To: qemu-devel@nongnu.org
-References: <20210220202026.2305667-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <85bc9e97-3d7e-e71d-0fd8-73f3c7a0df5a@amsat.org>
-Date: Sun, 21 Feb 2021 18:01:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lDsKb-00083M-Av
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 12:15:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lDsKY-0004Wp-Mj
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 17:15:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A94522E8024
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 17:15:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210220202026.2305667-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 21 Feb 2021 17:05:52 -0000
+From: Frederic Bezies <1916394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fredb74
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+Message-Id: <161392715224.29500.2044106040123688461.malonedeb@soybean.canonical.com>
+Subject: [Bug 1916394] [NEW] [git] Cannot build qemu: FAILED:
+ target/hexagon/semantics_generated.pyinc 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: 041aba05abd317fbb481912eb2c19092fdfaab92
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,20 +69,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1916394 <1916394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/20/21 9:20 PM, Philippe Mathieu-Daudé wrote:
-> As the 'rw' argument is unused, remove it.
-> 
-> Reported-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->  target/mips/tlb_helper.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+Public bug reported:
 
-Thanks, applied to mips-next.
+Hello.
+
+I'm using Archlinux and I maintain qemu-git AUR package.
+
+I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+but it stops with this error message:
+
+Found ninja-1.10.2 at /usr/bin/ninja
+[632/9068] Generating semantics_generated.pyinc with a custom command
+FAILED: target/hexagon/semantics_generated.pyinc
+@INPUT@ target/hexagon/semantics_generated.pyinc
+/bin/sh: line 1: @INPUT@: command not found
+[637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-helper=
+.c.o
+ninja: build stopped: subcommand failed.
+
+ninja version: 1.10.2
+meson version: 0.57.1
+
+Downgrading meson doesn't change anything.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Description changed:
+
+  Hello.
+  =
+
+  I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+  but it stops with this error message:
+  =
+
+- [code]
++ <code>
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+- FAILED: target/hexagon/semantics_generated.pyinc =
+
++ FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+- [/code]
++ </code>
+  =
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+** Description changed:
+
+  Hello.
+  =
+
+  I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+  but it stops with this error message:
+  =
+
+- <code>
++ ```
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+- </code>
++ ```
+  =
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+** Description changed:
+
+  Hello.
+  =
+
+  I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+  but it stops with this error message:
+  =
+
+- ```
++ `
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+- ```
++ `
+  =
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+** Description changed:
+
+  Hello.
+  =
+
+  I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+  but it stops with this error message:
+  =
+
+- `
++ =
+
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+- `
+  =
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+** Description changed:
+
+  Hello.
++ =
+
++ I'm using Archlinux and I maintain qemu-git AUR package.
+  =
+
+  I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+  but it stops with this error message:
+- =
+
+  =
+
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+  =
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+** Description changed:
+
+  Hello.
+  =
+
+  I'm using Archlinux and I maintain qemu-git AUR package.
+  =
+
+  I tried to build Qemu at commit 4115aec9af2a3de5fa89a0b1daa12debcd7741ff
+  but it stops with this error message:
+  =
+
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+  =
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
++ =
+
++ Downgrading meson doesn't change anything.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916394
+
+Title:
+  [git] Cannot build qemu: FAILED:
+  target/hexagon/semantics_generated.pyinc
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+
+  I'm using Archlinux and I maintain qemu-git AUR package.
+
+  I tried to build Qemu at commit
+  4115aec9af2a3de5fa89a0b1daa12debcd7741ff but it stops with this error
+  message:
+
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+  Downgrading meson doesn't change anything.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916394/+subscriptions
 
