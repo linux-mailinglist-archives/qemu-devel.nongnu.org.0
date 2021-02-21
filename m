@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA208320B21
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:51:45 +0100 (CET)
-Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3DF7320B14
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 15:48:46 +0100 (CET)
+Received: from localhost ([::1]:60752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDq5I-0001O7-RT
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:51:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33752)
+	id 1lDq2P-0005Ib-Fz
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 09:48:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpr6-0007yA-AD
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:37:04 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53580)
+ id 1lDpr6-0007yW-FT
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:37:05 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDpqx-0003Gp-5c
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:37:03 -0500
-Received: by mail-wm1-x332.google.com with SMTP id x16so11168481wmk.3
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:36:54 -0800 (PST)
+ id 1lDpr2-0003HY-Dy
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 09:37:04 -0500
+Received: by mail-wr1-x429.google.com with SMTP id v1so16335311wrd.6
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 06:37:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=YyNKszL48OLaM4ZNQExWphMxCaJDhi1vd5fOtm2espU=;
- b=HC/RGTL+hsGWRRRcmn7cw8NAOegAzgLc/H9Z1JZOHrFRseVuWEBaHwkJtkdP21+0OF
- V4osk0HcroAeDatkFqUG3IAYsxIBV2fwmG0qV177w5opVisCSUAil/4O3zBP6EKQ/XN3
- /HgvVFcnoOdoElpRyGXPPBhw2YYIiiM/Wdp7+Y7r+s4Ajv2eL2Pacjlw9TMtvuLsqGPJ
- m8dHcCpN+xTTChgDlC2IJFXuTMV0Umt0w37H0m8yzBem6z1nZDH9D5YQ8wMDGYN6tKfC
- HKGnwD4c3473P86We+vaDfZqYdTLekQDvPWbJFrcai02MzZNsjXT1BeuHyNz0KTo+QRw
- 5glg==
+ bh=0W6aGfZKIKjWp3v6QqcMHHh44Y6g4mIdHgaCTPn7oN8=;
+ b=icwcfoVRsVI5ttGpGg7pl0YLfKZUWdyKx+lxy392TGkLgom3f7I5UKQOD2PhzfxGaM
+ Qwn38F37J2f7zvYXWMN4sYx4v507VHM1Fze5YMvrq4jjO5TIsXK7LTKRFlXFMaf84Cy9
+ 3zDpwmZ+U106Tg0lVSDfGffGTa72Ix9vLjSet+ARzOtMefkoHjca+c8IbCdpbVOuGow7
+ FQB/nTqI0je+/k6P/tnomLGsLmfsK85tVJJhQyOdxFwnUyQMUVHuUXYDhJ2B+yAucuz9
+ XDEpRnjyjhe3Cm7wzL+HUY2mZ9ggJNZ9Vi/tijhg6Vgnf21EbiVFyQU44H27Q+5Li+a2
+ yiMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=YyNKszL48OLaM4ZNQExWphMxCaJDhi1vd5fOtm2espU=;
- b=bbP+MblDw/MQUKy+Y2eRiFYAWg/q1RRe4tohzYoZNGS3MuS44RYB2hiQQeCoBnlRfp
- bkrhpzncxxieIf238ro4UiM9HR5YTGTOol3d6aqSj6RPDzcHUggigHwYBwFpnu8rJoaf
- 0OU4sSxvzEjuglFBmiMb4BlAoPXrOcTw41LOhte7Kz//40eUKn/lTh5KUjPaEXi+jmmF
- bYq6lgpsUe5xbKZHpkL7Y8s3bd3zY1mM8ptn645TGgNCF7E2dETb+fPs2Vlka7HM/Hm3
- Sk65KImkfBVuH5JC9tVnJD1AxX3lZOtaO+OtEmKyL5aBEgzF2wnb+QJeR7iFGH3wQ1Wj
- uBqg==
-X-Gm-Message-State: AOAM533ZlDbWy/H3mfVJvrRqqa4Distb8P+IHpRppWTmH8vunVv94xLy
- sHDvwhv9XAXYlFmUWSGk0JiFUyvV10k=
-X-Google-Smtp-Source: ABdhPJxirevuMfZpwLgMNzgagX+TnOifS3lzTsN8Z8knXpQzBXraeIZ8RKPEZsWYV/SSKQ6+qtsxPg==
-X-Received: by 2002:a05:600c:3516:: with SMTP id
- h22mr16346008wmq.35.1613918213689; 
- Sun, 21 Feb 2021 06:36:53 -0800 (PST)
+ bh=0W6aGfZKIKjWp3v6QqcMHHh44Y6g4mIdHgaCTPn7oN8=;
+ b=XQOFdgFJnAub8ej4NNAf9Gc41tK1/u4qXz3dcAuWtIUlN2FMqtAe9Wcp3nYJSUdIF8
+ NiTW8061OXEGL61p7FRiHkaJRna8P+So9NJRt+Vt/SiPNb6ql2qu/o5xhziLSYGV6qIa
+ 0udk1fIewbvMpV0wa37Y60d8Mkb8hpeBYIWbQx0hhzmr1649r5A6WGuQsI7OI3U0qvtd
+ EnZ9QPA9GDu/jHwJgEYMUeQjDjJiIh5ipXS4FPCrGp0HISuGFqyHEALFJRuwsBVlUVjv
+ +FAZW/J73mwCpV3zvkyRkbFlX06ImqbdWdU0+wQIGcb4KRm2VGRF6L5Xh8huBJc8UpSI
+ ARiA==
+X-Gm-Message-State: AOAM532xxe1P8Iurh14kIRMNoUeBws279UBdfjqliZNjdxJUf8xFmPHc
+ 6gQLH93FAkxhWBQ1gK0kGEjHnw8FZgw=
+X-Google-Smtp-Source: ABdhPJw05sqNyF5aOEG69SEwIjLruYo/DJstOUqHrmlwpTMjtLXNQfU8TPLHd+EcCnU+jh+vM6QI7A==
+X-Received: by 2002:adf:aa08:: with SMTP id p8mr17208452wrd.232.1613918218735; 
+ Sun, 21 Feb 2021 06:36:58 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o13sm27300383wro.15.2021.02.21.06.36.52
+ by smtp.gmail.com with ESMTPSA id p12sm20502064wmq.1.2021.02.21.06.36.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 06:36:53 -0800 (PST)
+ Sun, 21 Feb 2021 06:36:58 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/43] vt82c686: Move superio memory region to SuperIOConfig
- struct
-Date: Sun, 21 Feb 2021 15:34:17 +0100
-Message-Id: <20210221143432.2468220-29-f4bug@amsat.org>
+Subject: [PULL 29/43] vt82c686: Reorganise code
+Date: Sun, 21 Feb 2021 15:34:18 +0100
+Message-Id: <20210221143432.2468220-30-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221143432.2468220-1-f4bug@amsat.org>
 References: <20210221143432.2468220-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,72 +98,362 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The superio memory region holds the io space index/data registers used
-to access the superio config registers that are implemented in struct
-SuperIOConfig. To keep these related things together move the memory
-region to SuperIOConfig and rename it accordingly.
-Also remove the unused "data" member of SuperIOConfig which is not
-needed as we store actual data values in the regs array.
+Move lines around so that object definitions become consecutive and
+not scattered around. This brings functions belonging to an object
+together so it's clearer what is defined and what parts belong to
+which object.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-Id: <dc3c4e7632716ca73c10506bd02ee93b39c28705.1610223397.git.balaton@eik.bme.hu>
+Message-Id: <9f942989dba46fc1c23b881f6cb135948f818c2f.1610223397.git.balaton@eik.bme.hu>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/isa/vt82c686.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ hw/isa/vt82c686.c | 279 +++++++++++++++++++++++-----------------------
+ 1 file changed, 140 insertions(+), 139 deletions(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index a6f5a0843d0..30fe02f4c60 100644
+index 30fe02f4c60..fe8961b0573 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -29,12 +29,11 @@
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     uint8_t index;
--    uint8_t data;
-+    MemoryRegion io;
- } SuperIOConfig;
+@@ -26,112 +26,7 @@
+ #include "exec/address-spaces.h"
+ #include "trace.h"
  
- struct VT82C686BISAState {
+-typedef struct SuperIOConfig {
+-    uint8_t regs[0x100];
+-    uint8_t index;
+-    MemoryRegion io;
+-} SuperIOConfig;
+-
+-struct VT82C686BISAState {
+-    PCIDevice dev;
+-    SuperIOConfig superio_cfg;
+-};
+-
+-OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
+-
+-static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+-                              unsigned size)
+-{
+-    SuperIOConfig *sc = opaque;
+-
+-    if (addr == 0x3f0) { /* config index register */
+-        sc->index = data & 0xff;
+-    } else {
+-        bool can_write = true;
+-        /* 0x3f1, config data register */
+-        trace_via_superio_write(sc->index, data & 0xff);
+-        switch (sc->index) {
+-        case 0x00 ... 0xdf:
+-        case 0xe4:
+-        case 0xe5:
+-        case 0xe9 ... 0xed:
+-        case 0xf3:
+-        case 0xf5:
+-        case 0xf7:
+-        case 0xf9 ... 0xfb:
+-        case 0xfd ... 0xff:
+-            can_write = false;
+-            break;
+-        /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
+-        default:
+-            break;
+-
+-        }
+-        if (can_write) {
+-            sc->regs[sc->index] = data & 0xff;
+-        }
+-    }
+-}
+-
+-static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
+-{
+-    SuperIOConfig *sc = opaque;
+-    uint8_t val = sc->regs[sc->index];
+-
+-    trace_via_superio_read(sc->index, val);
+-    return val;
+-}
+-
+-static const MemoryRegionOps superio_cfg_ops = {
+-    .read = superio_cfg_read,
+-    .write = superio_cfg_write,
+-    .endianness = DEVICE_NATIVE_ENDIAN,
+-    .impl = {
+-        .min_access_size = 1,
+-        .max_access_size = 1,
+-    },
+-};
+-
+-static void vt82c686b_isa_reset(DeviceState *dev)
+-{
+-    VT82C686BISAState *s = VT82C686B_ISA(dev);
+-    uint8_t *pci_conf = s->dev.config;
+-
+-    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+-    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
+-                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
+-    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
+-
+-    pci_conf[0x48] = 0x01; /* Miscellaneous Control 3 */
+-    pci_conf[0x4a] = 0x04; /* IDE interrupt Routing */
+-    pci_conf[0x4f] = 0x03; /* DMA/Master Mem Access Control 3 */
+-    pci_conf[0x50] = 0x2d; /* PnP DMA Request Control */
+-    pci_conf[0x59] = 0x04;
+-    pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
+-    pci_conf[0x5f] = 0x04;
+-    pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
+-
+-    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
+-    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
+-    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
+-    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
+-    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
+-    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
+-}
+-
+-/* write config pci function0 registers. PCI-ISA bridge */
+-static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+-                                   uint32_t val, int len)
+-{
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
+-
+-    trace_via_isa_write(addr, val, len);
+-    pci_default_write_config(d, addr, val, len);
+-    if (addr == 0x85) {
+-        /* BIT(1): enable or disable superio config io ports */
+-        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
+-    }
+-}
++OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
+ 
+ struct VT686PMState {
      PCIDevice dev;
--    MemoryRegion superio;
-     SuperIOConfig superio_cfg;
+@@ -142,30 +37,6 @@ struct VT686PMState {
+     uint32_t smb_io_base;
  };
  
-@@ -128,8 +127,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+-OBJECT_DECLARE_SIMPLE_TYPE(VT686PMState, VT82C686B_PM)
+-
+-static void pm_update_sci(VT686PMState *s)
+-{
+-    int sci_level, pmsts;
+-
+-    pmsts = acpi_pm1_evt_get_sts(&s->ar);
+-    sci_level = (((pmsts & s->ar.pm1.evt.en) &
+-                  (ACPI_BITMASK_RT_CLOCK_ENABLE |
+-                   ACPI_BITMASK_POWER_BUTTON_ENABLE |
+-                   ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
+-                   ACPI_BITMASK_TIMER_ENABLE)) != 0);
+-    pci_set_irq(&s->dev, sci_level);
+-    /* schedule a timer interruption if needed */
+-    acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
+-                       !(pmsts & ACPI_BITMASK_TIMER_STATUS));
+-}
+-
+-static void pm_tmr_timer(ACPIREGS *ar)
+-{
+-    VT686PMState *s = container_of(ar, VT686PMState, ar);
+-    pm_update_sci(s);
+-}
+-
+ static void pm_io_space_update(VT686PMState *s)
+ {
+     uint32_t pm_io_base;
+@@ -179,12 +50,6 @@ static void pm_io_space_update(VT686PMState *s)
+     memory_region_transaction_commit();
+ }
  
-     trace_via_isa_write(addr, val, len);
-     pci_default_write_config(d, addr, val, len);
--    if (addr == 0x85) {  /* enable or disable super IO configure */
--        memory_region_set_enabled(&s->superio, val & 0x2);
+-static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
+-{
+-    trace_via_pm_write(addr, val, len);
+-    pci_default_write_config(d, addr, val, len);
+-}
+-
+ static int vmstate_acpi_post_load(void *opaque, int version_id)
+ {
+     VT686PMState *s = opaque;
+@@ -210,7 +75,34 @@ static const VMStateDescription vmstate_acpi = {
+     }
+ };
+ 
+-/* vt82c686 pm init */
++static void pm_write_config(PCIDevice *d, uint32_t addr, uint32_t val, int len)
++{
++    trace_via_pm_write(addr, val, len);
++    pci_default_write_config(d, addr, val, len);
++}
++
++static void pm_update_sci(VT686PMState *s)
++{
++    int sci_level, pmsts;
++
++    pmsts = acpi_pm1_evt_get_sts(&s->ar);
++    sci_level = (((pmsts & s->ar.pm1.evt.en) &
++                  (ACPI_BITMASK_RT_CLOCK_ENABLE |
++                   ACPI_BITMASK_POWER_BUTTON_ENABLE |
++                   ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
++                   ACPI_BITMASK_TIMER_ENABLE)) != 0);
++    pci_set_irq(&s->dev, sci_level);
++    /* schedule a timer interruption if needed */
++    acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
++                       !(pmsts & ACPI_BITMASK_TIMER_STATUS));
++}
++
++static void pm_tmr_timer(ACPIREGS *ar)
++{
++    VT686PMState *s = container_of(ar, VT686PMState, ar);
++    pm_update_sci(s);
++}
++
+ static void vt82c686b_pm_realize(PCIDevice *dev, Error **errp)
+ {
+     VT686PMState *s = VT82C686B_PM(dev);
+@@ -276,6 +168,87 @@ static const TypeInfo via_pm_info = {
+     },
+ };
+ 
++
++typedef struct SuperIOConfig {
++    uint8_t regs[0x100];
++    uint8_t index;
++    MemoryRegion io;
++} SuperIOConfig;
++
++static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
++                              unsigned size)
++{
++    SuperIOConfig *sc = opaque;
++
++    if (addr == 0x3f0) { /* config index register */
++        sc->index = data & 0xff;
++    } else {
++        bool can_write = true;
++        /* 0x3f1, config data register */
++        trace_via_superio_write(sc->index, data & 0xff);
++        switch (sc->index) {
++        case 0x00 ... 0xdf:
++        case 0xe4:
++        case 0xe5:
++        case 0xe9 ... 0xed:
++        case 0xf3:
++        case 0xf5:
++        case 0xf7:
++        case 0xf9 ... 0xfb:
++        case 0xfd ... 0xff:
++            can_write = false;
++            break;
++        /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
++        default:
++            break;
++
++        }
++        if (can_write) {
++            sc->regs[sc->index] = data & 0xff;
++        }
++    }
++}
++
++static uint64_t superio_cfg_read(void *opaque, hwaddr addr, unsigned size)
++{
++    SuperIOConfig *sc = opaque;
++    uint8_t val = sc->regs[sc->index];
++
++    trace_via_superio_read(sc->index, val);
++    return val;
++}
++
++static const MemoryRegionOps superio_cfg_ops = {
++    .read = superio_cfg_read,
++    .write = superio_cfg_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 1,
++    },
++};
++
++
++OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
++
++struct VT82C686BISAState {
++    PCIDevice dev;
++    SuperIOConfig superio_cfg;
++};
++
++static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
++                                   uint32_t val, int len)
++{
++    VT82C686BISAState *s = VT82C686B_ISA(d);
++
++    trace_via_isa_write(addr, val, len);
++    pci_default_write_config(d, addr, val, len);
 +    if (addr == 0x85) {
 +        /* BIT(1): enable or disable superio config io ports */
 +        memory_region_set_enabled(&s->superio_cfg.io, val & BIT(1));
++    }
++}
++
+ static const VMStateDescription vmstate_via = {
+     .name = "vt82c686b",
+     .version_id = 1,
+@@ -286,7 +259,33 @@ static const VMStateDescription vmstate_via = {
      }
+ };
+ 
+-/* init the PCI-to-ISA bridge */
++static void vt82c686b_isa_reset(DeviceState *dev)
++{
++    VT82C686BISAState *s = VT82C686B_ISA(dev);
++    uint8_t *pci_conf = s->dev.config;
++
++    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
++    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
++                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
++    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
++
++    pci_conf[0x48] = 0x01; /* Miscellaneous Control 3 */
++    pci_conf[0x4a] = 0x04; /* IDE interrupt Routing */
++    pci_conf[0x4f] = 0x03; /* DMA/Master Mem Access Control 3 */
++    pci_conf[0x50] = 0x2d; /* PnP DMA Request Control */
++    pci_conf[0x59] = 0x04;
++    pci_conf[0x5a] = 0x04; /* KBC/RTC Control*/
++    pci_conf[0x5f] = 0x04;
++    pci_conf[0x77] = 0x10; /* GPIO Control 1/2/3/4 */
++
++    s->superio_cfg.regs[0xe0] = 0x3c; /* Device ID */
++    s->superio_cfg.regs[0xe2] = 0x03; /* Function select */
++    s->superio_cfg.regs[0xe3] = 0xfc; /* Floppy ctrl base addr */
++    s->superio_cfg.regs[0xe6] = 0xde; /* Parallel port base addr */
++    s->superio_cfg.regs[0xe7] = 0xfe; /* Serial port 1 base addr */
++    s->superio_cfg.regs[0xe8] = 0xbe; /* Serial port 2 base addr */
++}
++
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+ {
+     VT82C686BISAState *s = VT82C686B_ISA(d);
+@@ -354,6 +353,7 @@ static const TypeInfo via_info = {
+     },
+ };
+ 
++
+ static void vt82c686b_superio_class_init(ObjectClass *klass, void *data)
+ {
+     ISASuperIOClass *sc = ISA_SUPERIO_CLASS(klass);
+@@ -372,11 +372,12 @@ static const TypeInfo via_superio_info = {
+     .class_init    = vt82c686b_superio_class_init,
+ };
+ 
++
+ static void vt82c686b_register_types(void)
+ {
+     type_register_static(&via_pm_info);
+-    type_register_static(&via_superio_info);
+     type_register_static(&via_info);
++    type_register_static(&via_superio_info);
  }
  
-@@ -311,15 +311,15 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-         }
-     }
- 
--    memory_region_init_io(&s->superio, OBJECT(d), &superio_cfg_ops,
--                          &s->superio_cfg, "superio", 2);
--    memory_region_set_enabled(&s->superio, false);
-+    memory_region_init_io(&s->superio_cfg.io, OBJECT(d), &superio_cfg_ops,
-+                          &s->superio_cfg, "superio_cfg", 2);
-+    memory_region_set_enabled(&s->superio_cfg.io, false);
-     /*
-      * The floppy also uses 0x3f0 and 0x3f1.
-      * But we do not emulate a floppy, so just set it here.
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
--                                &s->superio);
-+                                &s->superio_cfg.io);
- }
- 
- static void via_class_init(ObjectClass *klass, void *data)
+ type_init(vt82c686b_register_types)
 -- 
 2.26.2
 
