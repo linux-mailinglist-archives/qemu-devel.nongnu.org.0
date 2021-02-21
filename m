@@ -2,83 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ED61320A18
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 12:53:55 +0100 (CET)
-Received: from localhost ([::1]:39550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6345A320A37
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 13:13:56 +0100 (CET)
+Received: from localhost ([::1]:46292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDnJC-0003TB-7T
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 06:53:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34042)
+	id 1lDncY-0007sc-T0
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 07:13:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lDnEN-0001qd-2P
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 06:48:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lDnEL-0000Un-Ek
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 06:48:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613908130;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rJVpzugB6MU7ENYdVpcqL9VP1vrYAnSDnNn47VbCb4A=;
- b=dINLUB8UEFn+sMhQGuBd7EWfOdE9Xp/ycY++bZm99XRbK6MK3ndGhMToLqUnS+cTtv5oPh
- Vpg//RHM31i36WTiLDwVbxxVBaA4bncSNWTjKJCESJaUYqhhB1YRoRkcE88JkysYWdUfM6
- XyoSRjsR7zAbvFMdKZDAZ4JhuP48mPQ=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-JlzPhUR4M_aHabMUKockRw-1; Sun, 21 Feb 2021 06:48:46 -0500
-X-MC-Unique: JlzPhUR4M_aHabMUKockRw-1
-Received: by mail-ed1-f69.google.com with SMTP id dk21so5434984edb.10
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 03:48:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDnaZ-00078T-LB
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 07:11:51 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:44530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lDnaX-0001bB-TA
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 07:11:51 -0500
+Received: by mail-wr1-x432.google.com with SMTP id h98so11234647wrh.11
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 04:11:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=j/1pVp9pluC4+pLIJI4x61/nabMENWKa+n+SyOzsJD8=;
+ b=YSCzoxfVzG7FWPuqEohVXJFhJlEz/Jaic/nsjiRspfot8FShHgu8e77s6HgYxUxWbS
+ jdDgeTj2x5PJLM0Y0UHKmJXQEnEA4C04z4sZX399RuNcZAP+LWHat9/ALFSQnnShUoTW
+ 4RNQXQefmWYWiYS+nhbElan98IhP35zb/6sZVICgNvno3Mpfig8Fl9hAJ48+9Yj/DCgr
+ d8+N7lZM81ojDgKAmbNQ2hI+1pAlRBKk8P71UWsKOBL0Mx1kK0YgwCoLGAPMsUa4jYTQ
+ qP1z7OUzarANj5XtqhVHu8LZP1/T1Nj+OuJKN25x/4CUjHwry+rrQFeyO/T63fuRsqOk
+ OBNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=rJVpzugB6MU7ENYdVpcqL9VP1vrYAnSDnNn47VbCb4A=;
- b=nC72cic557uG9b58A0NoOJwlfqnsgT1F0CBzUBVJzQYlosXbfM0MxpaxL6Br7J2fGU
- 2rzaogx6OMtH4UUoPu0/dOVGWpb2Xp4XNOnOivKQq27pBNHm1X3r9lc0Z3DyAPiYxmEx
- LPCcSdu7Z8O6AN1g8E+M24xzzGZcwb5x79YndmJ/N0CddNSNWjq4o9L/aCM3FxHRR+jG
- u8W9F+SEhioNrLr/X7LHcSdKwRb2fmp0dAiW9PSn9dVpFlTU1gkxKAENNCoMVbMwnsXn
- sXzVrc3R1Mu0YemPSrdUb639cp+jKDmMEI+XP3q0GpV8o++KuS/yFY+9EEyEmo7pIW59
- UKkw==
-X-Gm-Message-State: AOAM530ltVp7gpk+HXCyfKTtrFOSDowKxxzJlL3ulfglIvLvfr5nYYB3
- CiHIKcy2LvRQkU7u0LPkgKSYTvj0sG3Lj0CFwbkCxuLRwyTpVCsS6IldGODd5jILeUMFjhVYK0N
- 03vsny7s5DJ7hYtc=
-X-Received: by 2002:a50:aac8:: with SMTP id r8mr17468569edc.9.1613908125622;
- Sun, 21 Feb 2021 03:48:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwuh0K5J3Y45aeXcYH1JjrCEAZ2Off8IuP361sHPx4QeW2MajuU3KCxYAw8ylVKyjE9ltsgVA==
-X-Received: by 2002:a50:aac8:: with SMTP id r8mr17468565edc.9.1613908125515;
- Sun, 21 Feb 2021 03:48:45 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id k4sm6066288ejv.73.2021.02.21.03.48.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 03:48:45 -0800 (PST)
-Date: Sun, 21 Feb 2021 06:48:42 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH] virtio-ccw: commands on revision-less devices
-Message-ID: <20210221064835-mutt-send-email-mst@kernel.org>
-References: <20210216111830.1087847-1-cohuck@redhat.com>
- <20210219122136.5d97e0bf.cohuck@redhat.com>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=j/1pVp9pluC4+pLIJI4x61/nabMENWKa+n+SyOzsJD8=;
+ b=bNK8EJ3alk61wtlqJWtTeBhoBYGEXIuabWFSXwZvF9MwuVGkNNXYcxYvhUXurVR4Vd
+ hIALdTd01marudZac4K9CjpTlcwtjNbb7AjULcuRoVIu19Cq9IyfAIfU5weAkAr/5gpd
+ Xg2AhCySzd5+W/wLsyoj84IPK3JcLNm6x99Zz/fiuNbPdOqH5gU90OxOGx8fIRi4pcde
+ dz892eP+Bz5qTUDdyw2hcTzyGAiV4rFlYfse15bIkpdJrfNFyjUI/E0sRG0WbwaBrqMc
+ 2dCwKqg0LeBywKLxHQmS+yJMmrgT1mX75mwnxIO4FKa5qJtyGBk1D7Ra2c3BQaKM7ukp
+ IvHw==
+X-Gm-Message-State: AOAM5305U22y52qpUxhlH7lPF9Fjkce58fG6+POho3pf6FgCKjy/FSU6
+ peHDT1nqdilkjo7tvCa34b0=
+X-Google-Smtp-Source: ABdhPJwzVIf6tDgQ0SIn56BChn8GY6ehaeZOUqVx3Fwykh8vqKNgoxs4xNADKutvSuRPZN3mi9+YEg==
+X-Received: by 2002:a5d:4c82:: with SMTP id z2mr17172765wrs.220.1613909508405; 
+ Sun, 21 Feb 2021 04:11:48 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id b11sm23849794wrw.68.2021.02.21.04.11.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Feb 2021 04:11:47 -0800 (PST)
+Subject: Re: [PATCH v3 2/4] hw/mips: Use bl_gen_kernel_jump to generate
+ bootloaders
+To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20210127065424.114125-1-jiaxun.yang@flygoat.com>
+ <20210127065424.114125-3-jiaxun.yang@flygoat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <48718537-6799-74b9-0aae-6c780e23fc1c@amsat.org>
+Date: Sun, 21 Feb 2021 13:11:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210219122136.5d97e0bf.cohuck@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210127065424.114125-3-jiaxun.yang@flygoat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,61 +90,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, Thomas Huth <thuth@redhat.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>,
+ Paul Burton <paulburton@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 12:21:36PM +0100, Cornelia Huck wrote:
-> On Tue, 16 Feb 2021 12:18:30 +0100
-> Cornelia Huck <cohuck@redhat.com> wrote:
+On 1/27/21 7:54 AM, Jiaxun Yang wrote:
+> Replace embedded binary with generated code.
 > 
-> > The virtio standard specifies that any non-transitional device must
-> > reject commands prior to revision setting (which we do) and else
-> > assume revision 0 (legacy) if the driver sends a non-revision-setting
-> > command first. We neglected to do the latter.
-> > 
-> > Fortunately, nearly everything worked as intended anyway; the only
-> > problem was not properly rejecting revision setting after some other
-> > command had been issued. Easy to fix by setting revision to 0 if
-> > we see a non-revision command on a legacy-capable revision-less
-> > device.
-> > 
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > ---
-> >  hw/s390x/virtio-ccw.c | 21 ++++++++++++++-------
-> >  1 file changed, 14 insertions(+), 7 deletions(-)
+> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+> ---
+>  hw/mips/boston.c    | 17 ++---------------
+>  hw/mips/fuloong2e.c | 28 ++++------------------------
+>  hw/mips/malta.c     | 41 ++++++++++-------------------------------
+>  3 files changed, 16 insertions(+), 70 deletions(-)
 > 
-> I now have:
-> 
-> Author: Cornelia Huck <cohuck@redhat.com>
-> Date:   Tue Feb 16 12:18:30 2021 +0100
-> 
->     virtio-ccw: commands on revision-less devices
->     
->     The virtio standard specifies that any non-transitional device must
->     reject commands prior to revision setting (which we do). Devices
->     that are transitional need to assume revision 0 (legacy) if the
->     driver sends a non-revision-setting command first in order to
->     support legacy drivers. We neglected to do the latter.
->     
->     Fortunately, nearly everything worked as intended anyway; the only
->     problem was not properly rejecting revision setting after some other
->     command had been issued. Easy to fix by setting revision to 0 if
->     we see a non-revision command on a legacy-capable revision-less
->     device.
->     
->     Found by code inspection, not observed in the wild.
->     
->     Signed-off-by: Cornelia Huck <cohuck@redhat.com>
->     Reviewed-by: Thomas Huth <thuth@redhat.com>
->     Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
->     Acked-by: Halil Pasic <pasic@linux.ibm.com>
->     Message-Id: <20210216111830.1087847-1-cohuck@redhat.com>
-> 
-> Any objections?
+> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+> index 467fbc1c8b..b976c8199a 100644
+> --- a/hw/mips/boston.c
+> +++ b/hw/mips/boston.c
+> @@ -27,6 +27,7 @@
+>  #include "hw/ide/ahci.h"
+>  #include "hw/loader.h"
+>  #include "hw/loader-fit.h"
+> +#include "hw/mips/bootloader.h"
+>  #include "hw/mips/cps.h"
+>  #include "hw/pci-host/xilinx-pcie.h"
+>  #include "hw/qdev-clock.h"
+> @@ -324,21 +325,7 @@ static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr,
+>       * a2/$6 = 0
+>       * a3/$7 = 0
+>       */
+> -    stl_p(p++, 0x2404fffe);                     /* li   $4, -2 */
+> -                                                /* lui  $5, hi(fdt_addr) */
+> -    stl_p(p++, 0x3c050000 | ((fdt_addr >> 16) & 0xffff));
+> -    if (fdt_addr & 0xffff) {                    /* ori  $5, lo(fdt_addr) */
+> -        stl_p(p++, 0x34a50000 | (fdt_addr & 0xffff));
+> -    }
+> -    stl_p(p++, 0x34060000);                     /* li   $6, 0 */
+> -    stl_p(p++, 0x34070000);                     /* li   $7, 0 */
+> -
+> -    /* Load kernel entry address & jump to it */
+> -                                                /* lui  $25, hi(kernel_entry) */
+> -    stl_p(p++, 0x3c190000 | ((kernel_entry >> 16) & 0xffff));
+> -                                                /* ori  $25, lo(kernel_entry) */
+> -    stl_p(p++, 0x37390000 | (kernel_entry & 0xffff));
+> -    stl_p(p++, 0x03200009);                     /* jr   $25 */
+> +    bl_gen_jump_kernel(&p, 0, (int32_t)-2, fdt_addr, 0, 0, kernel_entry);
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+OK.
 
+>  }
+>  
+>  static const void *boston_fdt_filter(void *opaque, const void *fdt_orig,
+> diff --git a/hw/mips/fuloong2e.c b/hw/mips/fuloong2e.c
+> index bac2adbd5a..1ae84ecf92 100644
+> --- a/hw/mips/fuloong2e.c
+> +++ b/hw/mips/fuloong2e.c
+> @@ -33,6 +33,7 @@
+>  #include "hw/i2c/smbus_eeprom.h"
+>  #include "hw/block/flash.h"
+>  #include "hw/mips/mips.h"
+> +#include "hw/mips/bootloader.h"
+>  #include "hw/mips/cpudevs.h"
+>  #include "hw/pci/pci.h"
+>  #include "qemu/log.h"
+> @@ -185,30 +186,9 @@ static void write_bootloader(CPUMIPSState *env, uint8_t *base,
+>      /* Second part of the bootloader */
+>      p = (uint32_t *)(base + 0x040);
+>  
+> -    /* lui a0, 0 */
+> -    stl_p(p++, 0x3c040000);
+> -    /* ori a0, a0, 2 */
+> -    stl_p(p++, 0x34840002);
+> -    /* lui a1, high(ENVP_VADDR) */
+> -    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
+> -    /* ori a1, a0, low(ENVP_VADDR) */
+> -    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
+> -    /* lui a2, high(ENVP_VADDR + 8) */
+> -    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
+> -    /* ori a2, a2, low(ENVP_VADDR + 8) */
+> -    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
+> -    /* lui a3, high(env->ram_size) */
+> -    stl_p(p++, 0x3c070000 | (loaderparams.ram_size >> 16));
+> -    /* ori a3, a3, low(env->ram_size) */
+> -    stl_p(p++, 0x34e70000 | (loaderparams.ram_size & 0xffff));
+> -    /* lui ra, high(kernel_addr) */
+> -    stl_p(p++, 0x3c1f0000 | ((kernel_addr >> 16) & 0xffff));
+> -    /* ori ra, ra, low(kernel_addr) */
+> -    stl_p(p++, 0x37ff0000 | (kernel_addr & 0xffff));
+> -    /* jr ra */
+> -    stl_p(p++, 0x03e00008);
+> -    /* nop */
+> -    stl_p(p++, 0x00000000);
+> +    bl_gen_jump_kernel(&p, ENVP_VADDR - 64, 2, ENVP_VADDR,
+
+Where do you get $sp from?
+
+> +                       ENVP_VADDR + 8, loaderparams.ram_size,
+> +                       kernel_addr);
+>  }
+>  
+>  static void main_cpu_reset(void *opaque)
+> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+> index 9afc0b427b..ffd67b8293 100644
+> --- a/hw/mips/malta.c
+> +++ b/hw/mips/malta.c
+> @@ -37,6 +37,7 @@
+>  #include "hw/i2c/smbus_eeprom.h"
+>  #include "hw/block/flash.h"
+>  #include "hw/mips/mips.h"
+> +#include "hw/mips/bootloader.h"
+>  #include "hw/mips/cpudevs.h"
+>  #include "hw/pci/pci.h"
+>  #include "sysemu/sysemu.h"
+> @@ -844,6 +845,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+>  static void write_bootloader(uint8_t *base, uint64_t run_addr,
+>                               uint64_t kernel_entry)
+>  {
+> +    target_ulong a0;
+>      uint32_t *p;
+>  
+>      /* Small bootloader */
+> @@ -872,30 +874,6 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+>      /* Second part of the bootloader */
+>      p = (uint32_t *) (base + 0x580);
+>  
+> -    if (semihosting_get_argc()) {
+> -        /* Preserve a0 content as arguments have been passed */
+
+I'll keep that comment.
+
+> -        stl_p(p++, 0x00000000);              /* nop */
+> -    } else {
+> -        stl_p(p++, 0x24040002);              /* addiu a0, zero, 2 */
+> -    }
+> -
+> -    /* lui sp, high(ENVP_VADDR) */
+> -    stl_p(p++, 0x3c1d0000 | (((ENVP_VADDR - 64) >> 16) & 0xffff));
+> -    /* ori sp, sp, low(ENVP_VADDR) */
+> -    stl_p(p++, 0x37bd0000 | ((ENVP_VADDR - 64) & 0xffff));
+> -    /* lui a1, high(ENVP_VADDR) */
+> -    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
+> -    /* ori a1, a1, low(ENVP_VADDR) */
+> -    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
+> -    /* lui a2, high(ENVP_VADDR + 8) */
+> -    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
+> -    /* ori a2, a2, low(ENVP_VADDR + 8) */
+> -    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
+> -    /* lui a3, high(ram_low_size) */
+> -    stl_p(p++, 0x3c070000 | (loaderparams.ram_low_size >> 16));
+> -    /* ori a3, a3, low(ram_low_size) */
+> -    stl_p(p++, 0x34e70000 | (loaderparams.ram_low_size & 0xffff));
+> -
+>      /* Load BAR registers as done by YAMON */
+>      stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
+>  
+> @@ -947,13 +925,14 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+>  #endif
+>      stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
+>  
+> -    /* Jump to kernel code */
+> -    stl_p(p++, 0x3c1f0000 |
+> -          ((kernel_entry >> 16) & 0xffff));  /* lui ra, high(kernel_entry) */
+> -    stl_p(p++, 0x37ff0000 |
+> -          (kernel_entry & 0xffff));          /* ori ra, ra, low(kernel_entry) */
+> -    stl_p(p++, 0x03e00009);                  /* jalr ra */
+> -    stl_p(p++, 0x00000000);                  /* nop */
+> +    if (semihosting_get_argc()) {
+> +        a0 = 0;
+> +    } else {
+> +        a0 = 2;
+> +    }
+> +    bl_gen_jump_kernel(&p, ENVP_VADDR - 64, a0, ENVP_VADDR,
+> +                       ENVP_VADDR + 8, loaderparams.ram_low_size,
+> +                       kernel_entry);
+
+OK.
+
+>  
+>      /* YAMON subroutines */
+>      p = (uint32_t *) (base + 0x800);
+> 
 
