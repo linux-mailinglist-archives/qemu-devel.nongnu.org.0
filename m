@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02016320E26
-	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:06:01 +0100 (CET)
-Received: from localhost ([::1]:43648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CE22320E28
+	for <lists+qemu-devel@lfdr.de>; Sun, 21 Feb 2021 23:08:16 +0100 (CET)
+Received: from localhost ([::1]:49546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDwrY-0006gG-1y
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:06:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56514)
+	id 1lDwtj-0000lv-9G
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 17:08:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwlN-0000mB-U5; Sun, 21 Feb 2021 16:59:37 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:39905)
+ id 1lDwlU-0000qZ-Ro; Sun, 21 Feb 2021 16:59:44 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:33012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lDwlM-0000lF-8w; Sun, 21 Feb 2021 16:59:37 -0500
-Received: by mail-wr1-x433.google.com with SMTP id v1so17077129wrd.6;
- Sun, 21 Feb 2021 13:59:35 -0800 (PST)
+ id 1lDwlR-0000oR-LO; Sun, 21 Feb 2021 16:59:44 -0500
+Received: by mail-wr1-x436.google.com with SMTP id 7so17109122wrz.0;
+ Sun, 21 Feb 2021 13:59:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=AhAmFnOhivCLWQNmcu5zh+TK35CPBEArBmFuQg4srh8=;
- b=R28aeY9iGQ5Uc0rqjSe1NgPPgPWUs/C8rXuQ7pHNcAg1a8ZF4h0933Cw+evCfIhYtd
- KWGbj+4sDWEnWEx4vphUf8FhwGUODB/j+Zsf/4oMX3BSIqz7K3TbKJVcfeimShjlGJfM
- 6FCxgIgvNsMzWbWQVVmS2/Sq5OP8+/3apRtUSKm6xZynd4eA+Bl1WenuE3uogDJ5V/a0
- LW0w2a3Rm3A6jlSdCpQw5MQZJF9AOvKm7cmHPR9dx2MNRo2NnrBwkR3UDpWfUH1ci0C/
- cJ7vmL6tLYF4uwtvG1otY+bDdskpGNfhTodfA8/2I5rjKHybd2Ue6/IXwRI57jIjLa4U
- bbDw==
+ bh=Mxqq1fIETdh/e8tcYC6fmyKoJfUnWAtkX7IT6VSa4RM=;
+ b=pnQ6YkyCYARRx1npwueB/Opd5f77HgjPTZR+0TVZjAvBZXBudSGR8fmHU8ZSHkvm5Q
+ p4rkWydq8MF8ztWcXcYErEiZH4dgVT1kSYtpiOxJ3Ovr+dLSjOdpsE2x0JKx1Qn+uNUb
+ RID4QNDcm4XSBov0oMvkIVNV264EpqwrrjQ/LFDmuVPUa4IFR+LhzimLMLAD8OLWUasM
+ 961foLvH/LtO7dkgbU6chAe1LoRW6jZl5C46N2VO9B7D6UlozalkBptEd/aDiurOKBOP
+ crc8V26Jm4vkITG2ydZm1PfuplhfLpOHBRSQOqFCRCbgfcZ8/Ost4Bv/GJ5KCBEKTo6F
+ ZWng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=AhAmFnOhivCLWQNmcu5zh+TK35CPBEArBmFuQg4srh8=;
- b=Mlw3FbMcFyIMCwPJ8BALZSK9b1gy1OpyVgLSlHQ9FoLf0MJI+k2O38wYprsH6eMzLU
- L3IcVzClg9Ihm9AdHTsWoofIoFcSCPP4CA5lCXcv4O2s6Hf8gNYbchNSeE8cl9EW5bmG
- FGOtjcubONV4ewGreVb2fU47ciM5Nb2BgMusxjKld0ch6fk74ukqV66e2okSPQ4hizks
- cpzcwLl+V+3qItzylCQdfLFUyHMQG0WuUGSXdC53QsObKBl/D2gfk5Y+TgR2TgEsSiIc
- 826lGIY9mpgc7nc8q9Roec/g6nE9zVW3w2+3HXOIiI8pHMlJi22lKCP+75RynQb1g8QF
- xBjg==
-X-Gm-Message-State: AOAM531/KB6d4xhg1H07Jb/BKF8MXThGHGao+wtp1ofG79G2SKPIeAeA
- RewLR3JjJ+3x2TZ3Uzu7g/Rnq638Er8=
-X-Google-Smtp-Source: ABdhPJwLXWRJCkNvpxPjI6OUs7w2qd8KbimHAiQk+BWfUUl1oguioDtW+9BxeaX1rAHgorGrlGvhSQ==
-X-Received: by 2002:adf:f90d:: with SMTP id b13mr19713620wrr.198.1613944773923; 
- Sun, 21 Feb 2021 13:59:33 -0800 (PST)
+ bh=Mxqq1fIETdh/e8tcYC6fmyKoJfUnWAtkX7IT6VSa4RM=;
+ b=Pn6o//SoUXdtoZeT94pg9d37xGe+X4YtVU7iCRxqG3ZczBpSTqYcxocAaLAd/EB4eU
+ ei30092KK2WWz0WQq0CS5yFVqOPn7sSheN6SIk6gnOVuvwaCcfGxtr1KFQASsVLNMT29
+ qLURMfy+oUArohPk0Prb+b50Xnkvwf6oMMGcgQ7UgXuvDOj3PTs3ObdlBbfHggpL9XhO
+ nzWjMeUoNzZXXIrnjqKJ0EhrZqBfjklrjYoZd7+IAkhWUmZ4O5ZUU+8I6rNn2tUyXFSD
+ bF3FYs8f2H2UIRxELZsp6BoQ79iGNbT7cS6JvVO9lpy1Jp+M3GKN254oJRKIDci0HIUI
+ halw==
+X-Gm-Message-State: AOAM5312gboXcOKsK50EQ70x3C2QuHUEUUam5HpufKJIoyFVOUt5C3uD
+ /6MMTYfwlsthKXjqgSxmE/kf4netpTU=
+X-Google-Smtp-Source: ABdhPJyL1v94OS4X+WmhKknJthaJ4y49z0lhgX9FmIe/v/gXioMyt5bnp+7EOuuc1hBPBL74/7ZROQ==
+X-Received: by 2002:adf:fb03:: with SMTP id c3mr18898510wrr.395.1613944779233; 
+ Sun, 21 Feb 2021 13:59:39 -0800 (PST)
 Received: from localhost.localdomain (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i15sm20920548wmq.26.2021.02.21.13.59.32
+ by smtp.gmail.com with ESMTPSA id 36sm27599369wrj.97.2021.02.21.13.59.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 21 Feb 2021 13:59:33 -0800 (PST)
+ Sun, 21 Feb 2021 13:59:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 3/8] hw/intc: Introduce SH_INTC Kconfig entry
-Date: Sun, 21 Feb 2021 22:59:10 +0100
-Message-Id: <20210221215915.2568943-4-f4bug@amsat.org>
+Subject: [PATCH v3 4/8] hw/char: Introduce SH_SCI Kconfig entry
+Date: Sun, 21 Feb 2021 22:59:11 +0100
+Message-Id: <20210221215915.2568943-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210221215915.2568943-1-f4bug@amsat.org>
 References: <20210221215915.2568943-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,53 +96,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We want to be able to use the 'SH4' config for architecture
 specific features. Add more fine-grained selection by adding
-a CONFIG_SH_INTC selector for the SH4 interrupt controller.
+a CONFIG_SH_SCI selector for the SH4 serial controller.
+
+Add the missing MAINTAINERS entries.
 
 Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/intc/Kconfig     | 3 +++
- hw/intc/meson.build | 2 +-
+ MAINTAINERS         | 2 ++
+ hw/char/Kconfig     | 3 +++
+ hw/char/meson.build | 2 +-
  hw/sh4/Kconfig      | 1 +
- 3 files changed, 5 insertions(+), 1 deletion(-)
+ 4 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/intc/Kconfig b/hw/intc/Kconfig
-index c18d11142a8..66bf0b90b47 100644
---- a/hw/intc/Kconfig
-+++ b/hw/intc/Kconfig
-@@ -53,6 +53,9 @@ config OMPIC
- config PPC_UIC
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b2aa18e1fe..b53a937714a 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1388,6 +1388,7 @@ R2D
+ M: Yoshinori Sato <ysato@users.sourceforge.jp>
+ R: Magnus Damm <magnus.damm@gmail.com>
+ S: Odd Fixes
++F: hw/char/sh_serial.c
+ F: hw/sh4/r2d.c
+ F: hw/intc/sh_intc.c
+ F: include/hw/sh4/sh_intc.h
+@@ -1396,6 +1397,7 @@ Shix
+ M: Yoshinori Sato <ysato@users.sourceforge.jp>
+ R: Magnus Damm <magnus.damm@gmail.com>
+ S: Odd Fixes
++F: hw/char/sh_serial.c
+ F: hw/sh4/shix.c
+ F: hw/intc/sh_intc.c
+ F: include/hw/sh4/sh_intc.h
+diff --git a/hw/char/Kconfig b/hw/char/Kconfig
+index 939bc447588..f6f4fffd1b7 100644
+--- a/hw/char/Kconfig
++++ b/hw/char/Kconfig
+@@ -50,6 +50,9 @@ config SCLPCONSOLE
+ config TERMINAL3270
      bool
  
-+config SH_INTC
++config SH_SCI
 +    bool
 +
- config RX_ICU
+ config RENESAS_SCI
      bool
  
-diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-index 53cba115690..b3d9345a0d2 100644
---- a/hw/intc/meson.build
-+++ b/hw/intc/meson.build
-@@ -47,7 +47,7 @@
- specific_ss.add(when: 'CONFIG_RX_ICU', if_true: files('rx_icu.c'))
- specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
- specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
--specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
-+specific_ss.add(when: 'CONFIG_SH_INTC', if_true: files('sh_intc.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
- specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
- specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+diff --git a/hw/char/meson.build b/hw/char/meson.build
+index 196ac91fa29..afe9a0af88c 100644
+--- a/hw/char/meson.build
++++ b/hw/char/meson.build
+@@ -31,7 +31,7 @@
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
+ softmmu_ss.add(when: 'CONFIG_RENESAS_SCI', if_true: files('renesas_sci.c'))
+ softmmu_ss.add(when: 'CONFIG_SIFIVE_UART', if_true: files('sifive_uart.c'))
+-softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
++softmmu_ss.add(when: 'CONFIG_SH_SCI', if_true: files('sh_serial.c'))
+ softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
+ softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
+ 
 diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-index 0452b4624ae..c2008c6a0d2 100644
+index c2008c6a0d2..47240aa97b7 100644
 --- a/hw/sh4/Kconfig
 +++ b/hw/sh4/Kconfig
-@@ -19,6 +19,7 @@ config SHIX
- 
+@@ -20,6 +20,7 @@ config SHIX
  config SH7750
      bool
-+    select SH_INTC
+     select SH_INTC
++    select SH_SCI
  
  config SH4
      bool
