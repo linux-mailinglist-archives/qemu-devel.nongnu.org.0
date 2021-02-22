@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54EE321A02
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:17:43 +0100 (CET)
-Received: from localhost ([::1]:38558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45D5D321A1E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:21:09 +0100 (CET)
+Received: from localhost ([::1]:45376 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEC1u-0004KY-US
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:17:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44216)
+	id 1lEC5E-00077W-8r
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:21:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEBzd-00034D-3X; Mon, 22 Feb 2021 09:15:21 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:35312)
+ id 1lEBzh-00038X-FI; Mon, 22 Feb 2021 09:15:25 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:33186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEBzb-00010H-GB; Mon, 22 Feb 2021 09:15:20 -0500
-Received: by mail-ej1-x631.google.com with SMTP id g5so29658600ejt.2;
- Mon, 22 Feb 2021 06:15:17 -0800 (PST)
+ id 1lEBzf-000157-Qr; Mon, 22 Feb 2021 09:15:25 -0500
+Received: by mail-ed1-x529.google.com with SMTP id c6so22228020ede.0;
+ Mon, 22 Feb 2021 06:15:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=CurWkqOb24gRG6OQV8wEhbvAmhbnE91hDXl2lsySbYc=;
- b=pC39kpOfK2p+r1qf+1xH/S2JFFC42M3I1vSbEHYemZgLH2CW2kU+0KUFNwfZutp/aI
- 9B3t9Ewnxk3EuZqlrhMFuaDz5mOXB/O4jWg+LQj+lHhE/abrqB8vStwP/BkZ1EIw+0DA
- 5ShDNEIyfMkAtD/V6r0wBJjiTGeJxpQhgjBCXydwK7HMYUwL5JxLkH/HmSK8CB7lSP9O
- sodG53RHUtYvXkTXeiQ+2FI1qK7m+qPxAaSFie8ByQuXB+y9F3Sv331R5ZKWZ8Vs9Tyi
- bw9ilFrlwe9r0zbRB44T3jo41+tu9uCqsrySVVlYItL+pTIQXGMuxJQ62q6BZ/y2W/Op
- TY/A==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=dmBDOSPHUBsxt7wUc+IzchJdmMa5xMeP6klvWD3BkNU=;
+ b=XBlLiYxD2EJfxWNpRZBng0ZIdOp4qk33dyAzgNzZzfVW+xwAvgFt/ShlKWZi798xLh
+ VpmSVn2gPatrPrsB79AT+Av+7CGv4Gv72d+EjTtbf79kEebkjkX/EBz6hax1/DrdRELo
+ clNDnVXoX/SsvXz/Yx4a6sp4BeVMyDNqG+Lawocy5ynSppj7uLnU5VFFKFip+EwRB9XE
+ Cxlrp17NbHaesuc/Pw7/IaVAqY0R24rfBZoVJzq8o/+W1Bvny+FkwdCaIaWqqDF5khyA
+ 95Y92i3N0ODzc5QW+blNgdHzfyDAMiLKMIi7S30qGYMxX3SNML75Q89oRHX9DUoVoLl5
+ IiYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=CurWkqOb24gRG6OQV8wEhbvAmhbnE91hDXl2lsySbYc=;
- b=hrIxgiu5KiRXIzNF7yz87JVV6HlYiSipK0MLacs8ZuKSU8s6lc0tKkPigUL0aIwGtr
- EbDbyB2GxkyQa7wiRPlDJWqDt2fQPRRBBC9DcQ9UYcTUB3J4X8Mww7WCJ7XT3x34ndpt
- ejuM6IMlJEmTxUCXbOl+AWJEGIBI3kYlWTeY+f/yiyjeL8lP5E5VRXGzyMPj/MVMpG3P
- axZTNgSKXJrroBXR3QcxMdQgHlWi2sRZLi4C3lSn3bUoFeth8mBmly2knhbjsdbcDOKa
- kWW6qgkCOKvgyZ/aztTQCAqd/HvugkN/2U56RmaXbXIUc4L4gwZZzuKpfqR1zJFZhCks
- zQHw==
-X-Gm-Message-State: AOAM53353OYvxfQmhSQa4LiYHhRzCwYJ6nfhjhECH1Nf792L88Mz+XhK
- MVxjnzWj+chHrKrnd+7dyXCcQyMVdGk=
-X-Google-Smtp-Source: ABdhPJztKUmVOHkl28bMYUg9RtL2EjP+XZEzxiOOxD6xmDT7lpBc41RzgdjplOnwto1ZSJTBsSkicQ==
-X-Received: by 2002:a17:906:c30e:: with SMTP id
- s14mr5920825ejz.253.1614003316390; 
- Mon, 22 Feb 2021 06:15:16 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=dmBDOSPHUBsxt7wUc+IzchJdmMa5xMeP6klvWD3BkNU=;
+ b=NM1kihHaFXrCvx2EqnzO8OrdcYKFdjHnZS3oHtWfG+53fgVdawMwdHCGkC20VgukbE
+ Pa1WTbQ/tAe94pI1EpO8CTaTlUimSUwUBaccyq42ustxWwjYhoEArpT0OqR2eoehaxIi
+ uOjR5jdBQZw0kUE7jV1t6SxeRB5d4qS/R0kdGpcQqjV58Xdg7ytoSz9n8k1ugLJrIp1+
+ daUWIiv2KrXeol2W7HNwBHWeVTHU1qvOAxwdSn4TZ6GI8wNP2/j6vq4igYIBzX2rIZWB
+ nUiGuzEAijxOC32kRrQ+g7JL84BOoPAUM9PmIjy9c+z60KAYAxgxCAOtzdFzkdaqNUhY
+ da6Q==
+X-Gm-Message-State: AOAM530x5BOw9lQ3tDqpQa+gc2Tg9ZbwgQmgZF5+mKjnvYtZXFtpk7R5
+ Tcd1BzmN2zxi0VRp7yf5IqrYHYJ2+MM=
+X-Google-Smtp-Source: ABdhPJziDjxtZpxDg1Ril4L97/MhhjkqfjiasGnoFsCz0bpnF8pdm7CssmpTNCq10QS+YXIeVgvrbQ==
+X-Received: by 2002:a05:6402:34c1:: with SMTP id
+ w1mr22960384edc.147.1614003321656; 
+ Mon, 22 Feb 2021 06:15:21 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id h2sm12096502edw.14.2021.02.22.06.15.14
+ by smtp.gmail.com with ESMTPSA id z22sm12096586edb.88.2021.02.22.06.15.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 06:15:15 -0800 (PST)
+ Mon, 22 Feb 2021 06:15:21 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/8] hw/sh4: Kconfig cleanups
-Date: Mon, 22 Feb 2021 15:15:06 +0100
-Message-Id: <20210222141514.2646278-1-f4bug@amsat.org>
+Subject: [PATCH v4 1/8] hw/sh4: Add missing license
+Date: Mon, 22 Feb 2021 15:15:07 +0100
+Message-Id: <20210222141514.2646278-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210222141514.2646278-1-f4bug@amsat.org>
+References: <20210222141514.2646278-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,55 +88,98 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-block@nongnu.org,
  Magnus Damm <magnus.damm@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Max Reitz <mreitz@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Samuel Tardieu <sam@rfc1149.net>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Missing review: 1 (license)=0D
-=0D
-Since v3:=0D
-- Include full MIT license text (Peter)=0D
-=0D
-Since v2:=0D
-- Added missing TC58128/SH_PCI Kconfig entries (Peter)=0D
-=0D
-Since v1:=0D
-- Addressed Peter Maydell review comments from=0D
-https://www.mail-archive.com/qemu-block@nongnu.org/msg80599.html=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (8):=0D
-  hw/sh4: Add missing license=0D
-  hw/sh4: Add missing Kconfig dependency on SH7750 for the R2D board=0D
-  hw/intc: Introduce SH_INTC Kconfig entry=0D
-  hw/char: Introduce SH_SCI Kconfig entry=0D
-  hw/timer: Introduce SH_TIMER Kconfig entry=0D
-  hw/block: Introduce TC58128 eeprom Kconfig entry=0D
-  hw/pci-host: Introduce SH_PCI Kconfig entry=0D
-  hw/sh4: Remove now unused CONFIG_SH4 from Kconfig=0D
-=0D
- include/hw/sh4/sh.h           | 31 ++++++++++++++++++++++++++++---=0D
- hw/block/tc58128.c            | 26 ++++++++++++++++++++++++++=0D
- hw/{sh4 =3D> pci-host}/sh_pci.c |  0=0D
- MAINTAINERS                   |  6 ++++++=0D
- hw/block/Kconfig              |  3 +++=0D
- hw/block/meson.build          |  2 +-=0D
- hw/char/Kconfig               |  3 +++=0D
- hw/char/meson.build           |  2 +-=0D
- hw/intc/Kconfig               |  3 +++=0D
- hw/intc/meson.build           |  2 +-=0D
- hw/pci-host/Kconfig           |  4 ++++=0D
- hw/pci-host/meson.build       |  1 +=0D
- hw/sh4/Kconfig                | 12 ++++++------=0D
- hw/sh4/meson.build            |  1 -=0D
- hw/timer/Kconfig              |  4 ++++=0D
- hw/timer/meson.build          |  2 +-=0D
- 16 files changed, 88 insertions(+), 14 deletions(-)=0D
- rename hw/{sh4 =3D> pci-host}/sh_pci.c (100%)=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+This code was introduced in commit 27c7ca7e775,
+("SHIX board emulation (Samuel Tardieu)"). Use
+the same license.
+
+Cc: Samuel Tardieu <sam@rfc1149.net>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ include/hw/sh4/sh.h | 31 ++++++++++++++++++++++++++++---
+ hw/block/tc58128.c  | 26 ++++++++++++++++++++++++++
+ 2 files changed, 54 insertions(+), 3 deletions(-)
+
+diff --git a/include/hw/sh4/sh.h b/include/hw/sh4/sh.h
+index 93f464bf4cd..becb5969790 100644
+--- a/include/hw/sh4/sh.h
++++ b/include/hw/sh4/sh.h
+@@ -1,6 +1,31 @@
+-#ifndef QEMU_SH_H
+-#define QEMU_SH_H
+-/* Definitions for SH board emulation.  */
++/*
++ * Definitions for SH board emulation
++ *
++ * Copyright (c) 2005 Samuel Tardieu
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ *
++ * SPDX-License-Identifier: MIT
++ */
++#ifndef QEMU_HW_SH_H
++#define QEMU_HW_SH_H
+ 
+ #include "hw/sh4/sh_intc.h"
+ #include "target/sh4/cpu-qom.h"
+diff --git a/hw/block/tc58128.c b/hw/block/tc58128.c
+index 9888f01ac60..bfc27ad8993 100644
+--- a/hw/block/tc58128.c
++++ b/hw/block/tc58128.c
+@@ -1,3 +1,29 @@
++/*
++ * TC58128 NAND EEPROM emulation
++ *
++ * Copyright (c) 2005 Samuel Tardieu
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ *
++ * SPDX-License-Identifier: MIT
++ */
+ #include "qemu/osdep.h"
+ #include "qemu/units.h"
+ #include "hw/sh4/sh.h"
+-- 
+2.26.2
+
 
