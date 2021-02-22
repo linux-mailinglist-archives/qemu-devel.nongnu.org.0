@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 791953211DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:19:20 +0100 (CET)
-Received: from localhost ([::1]:42776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81BA13211E2
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:21:39 +0100 (CET)
+Received: from localhost ([::1]:51936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE6R5-0006vJ-BA
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:19:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47994)
+	id 1lE6TK-0002B8-I2
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:21:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lE6O8-0004ZE-O6; Mon, 22 Feb 2021 03:16:18 -0500
-Received: from mail-eopbgr700049.outbound.protection.outlook.com
- ([40.107.70.49]:4167 helo=NAM04-SN1-obe.outbound.protection.outlook.com)
+ id 1lE6OM-0004yI-0h; Mon, 22 Feb 2021 03:16:30 -0500
+Received: from mail-dm6nam11on2077.outbound.protection.outlook.com
+ ([40.107.223.77]:21217 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lE6O5-0001lB-US; Mon, 22 Feb 2021 03:16:16 -0500
+ id 1lE6OJ-0001s8-PW; Mon, 22 Feb 2021 03:16:29 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=I1xXBoA+wxBjwGTxpeuj2Ep2sNDOda2RC7GXM/9fECLS+xuZpsXBtlXjJ8WvSnxNGpg7VboQIKCUC8bSBkwH8u3Anl4FHDHbnTi7DLpN1BEWpmSnMlXEEVtuI6Sxb8OR8ODidt6CsaFVsT0zy5gtwZ7fCAgXR+NY9uax8T2NBarrwqB4j6Ruxrba2vqtqW8YvNIXYKh8nWvh1oSgMKGTqgCGNLSV4fdBCghoqFp84Rucv8Okqz+u5Wi+n/ZoQMFrrrvh2pKj81+Z5KeUGQ++IZb4ElowtE75bOlWlLpGlLKy7niwXuS1ADwY0v9kHusbbsRj+QCqWUpRUaWxQND3EA==
+ b=XVcto/r7kHU94oUb+jTRAYzpDL0NnUSUolu3+8mr6rjd8Y6wQBYYjmkYLUrQtJG99H2rbVAOP8HFj0q1VfBazy8EhHOy9BItC+RXsRue6tRXFYzvUWclxmUZ24knH9ar3etQUex24jPmd0tO/yxKd4eH/absr2TySFQC+osB/ElncCFeaafonVH4bh/SUhNdSuh6wxM4ohowpFC0Hc2K0otjbX6dFpFeLGgKOk5CHoRHwFg4Udnub/zpXNlG3InLCVRJ8PAhTS5AXHjSZjHfBxnxzEq6nxYB6R4RGLAh+zb4FWCw3FIGD9mSY6Y2xwly6sV07H1EwT9nkhXyAC3CQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FmYgjZOz2YY3wvMI+yY8F7lYFDU30x9TPh5GS6x9oA8=;
- b=bOrjCpt9l70NPTYYAgotNAE0jA/LyqvMDBX9t4Bi2h6SOsDHjBSmRJVneFb41n9CtG9hMSXnmaCRDPIVFNcs53qFIYDbDzd/rgILJnVBXI3wq2Iw9TwbijbSuwYE01jOcjacvZBoY1VsjQ3jRFRpclgqRx8pi1k0XUyYMp+FAEGWa2onTDnNLc2lg+L4Aks7pB4LQZRMkqYQmI97S89lsy+s05vZB/FuQ6h/WpurRIg2Ot1jV4cfe3689hHu4X/1YkFDxjpGlw3Qsv4C808AF/mtzlPi7i/5UCBUPx/TBZoi+9VXElpuo8QMyIzZELJQU9SIBL9tIOIlI7ZNEMBv4A==
+ bh=JMjKasmr2ykH5giV9bXHm41p3CKzSUG7LOw8eO4rVcI=;
+ b=X+mf4T75mYkaUN7bPFY2xvqVNB0XpBnXO75C/SaT4HV6ZAA/tSqqpMZ15xt/HE3ADn17VaqN9FfmsMwhPkahiXGWR2hY7qj95osSsYWXWArkErim3SZO2FXJy3+A4MSQx9hIXY5efo7+EK9AkC0MqYyy/57utzkEOpEFv9Oluq+/zg0jEY0oDs/T5YG2t03k5Kr2NoyT4gp/uMhfoAhkclCe4sHKW/pucxAWvxFBUYvpwXFLNV4cGlYtk68HQVEHdRQkha4j8vxhSH1h7LuDZ1/XjPJhjjUXyaGonbtq7NKG7RYepU+JkRx6PuECaaSiHOpdM9TirMi8aCJHqasYUg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=chromium.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -32,41 +32,41 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FmYgjZOz2YY3wvMI+yY8F7lYFDU30x9TPh5GS6x9oA8=;
- b=rGN7BwXErZJzyIBdMKXT+Guumjsxu7JM2CX/EBW4PVt90kZRraHrP5oXN3Twr8v7YQw2o+/XznhEuov2X7Azvkk6+a5EIL6hd+6fhVcLt5xKgwhsNXSsZGoBYTTM6gvnEvywSGf9gfXUpekJ0VMgkUkpYW3R+3fN0YhMUTeuJYo=
-Received: from SN4PR0501CA0081.namprd05.prod.outlook.com
- (2603:10b6:803:22::19) by DM6PR02MB6905.namprd02.prod.outlook.com
- (2603:10b6:5:252::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.29; Mon, 22 Feb
- 2021 08:16:10 +0000
-Received: from SN1NAM02FT046.eop-nam02.prod.protection.outlook.com
- (2603:10b6:803:22:cafe::97) by SN4PR0501CA0081.outlook.office365.com
- (2603:10b6:803:22::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.9 via Frontend
- Transport; Mon, 22 Feb 2021 08:16:10 +0000
+ bh=JMjKasmr2ykH5giV9bXHm41p3CKzSUG7LOw8eO4rVcI=;
+ b=BzHMzNReODrB4FgVCT8cnzceEvOsOvJzXz4v9mgHTOE/cJX4HjI4BlaTgComlPjVqUnkDgAdfJd7sEvyt1PkCws4sQRVKPhCqVbyCKWdMlxl04fFBYsT7mEN53/TP8Dm7P3G2NSwBjsGaPPJ9YoFSFnh6l7HnYSzv9lda1AyBPY=
+Received: from DS7PR03CA0268.namprd03.prod.outlook.com (2603:10b6:5:3b3::33)
+ by DM5PR02MB3194.namprd02.prod.outlook.com (2603:10b6:4:6a::29) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Mon, 22 Feb
+ 2021 08:16:23 +0000
+Received: from CY1NAM02FT053.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:5:3b3:cafe::ca) by DS7PR03CA0268.outlook.office365.com
+ (2603:10b6:5:3b3::33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend
+ Transport; Mon, 22 Feb 2021 08:16:23 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; chromium.org; dkim=none (message not signed)
  header.d=none;chromium.org; dmarc=pass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT046.mail.protection.outlook.com (10.152.72.191) with Microsoft SMTP
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT053.mail.protection.outlook.com (10.152.74.165) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3868.27 via Frontend Transport; Mon, 22 Feb 2021 08:16:10 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ 15.20.3868.27 via Frontend Transport; Mon, 22 Feb 2021 08:16:23 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.1913.5; Mon, 22 Feb 2021 00:16:01 -0800
 Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 22 Feb 2021 00:16:00 -0800
-Received: from [10.140.6.35] (port=59040 helo=xhdsaipava40.xilinx.com)
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Mon, 22 Feb 2021 00:16:01 -0800
+Received: from [10.140.6.35] (port=59056 helo=xhdsaipava40.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1lE6Ns-0004M3-Ku; Mon, 22 Feb 2021 00:16:00 -0800
+ id 1lE6Nt-0004NG-3T; Mon, 22 Feb 2021 00:16:01 -0800
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 32E2313C0ADF; Mon, 22 Feb 2021 13:50:58 +0530 (IST)
+ id 425D413C0AE6; Mon, 22 Feb 2021 13:50:58 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
  Reitz" <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
@@ -78,43 +78,42 @@ To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
  Francis" <alistair.francis@wdc.com>, "Edgar E. Iglesias"
  <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, "Paolo
  Bonzini" <pbonzini@redhat.com>
-Subject: [PATCH v2 18/22] sd: emmc: Subtract bootarea size from blk
-Date: Mon, 22 Feb 2021 13:50:35 +0530
-Message-ID: <1613982039-13861-19-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v2 20/22] arm: xlnx-versal: Add emmc to versal
+Date: Mon, 22 Feb 2021 13:50:37 +0530
+Message-ID: <1613982039-13861-21-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: a10f664b-33c7-45ef-2406-08d8d70a1cf2
-X-MS-TrafficTypeDiagnostic: DM6PR02MB6905:
-X-Microsoft-Antispam-PRVS: <DM6PR02MB69051FF78719E44B406EA12DCA819@DM6PR02MB6905.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: f4d3e4a4-a352-4bfc-fd82-08d8d70a249b
+X-MS-TrafficTypeDiagnostic: DM5PR02MB3194:
+X-Microsoft-Antispam-PRVS: <DM5PR02MB3194349B62C3ED31B1698BA4CA819@DM5PR02MB3194.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Oob-TLC-OOBClassifiers: OLM:162;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VmPJoylYM89Vu/vvacCUfjLSEEsGi7WPIR+VHY07XUtRyELH0/l+K1wyAU/D2Gu0lE5XgpuEsaDraoSQb0buhfUJ6nCGG+No5xIQTeVttjEbx8WdEkSHkYqukKXP49pUJ5oPCR+VizCCMnqonNpo7YLfYBJR4g2SwR7fBkNCsI5q8k1/8t8koiwmcXpW5YMnJt6/E/JdwNcTHDrujPrbiuf7Ji1AUfl/afPcJuwU3fkeX5C9+ratGpt42HixRTGmjer77gBw0kTTnH0Sm4vAZld1uT9gqnq9NyXYvaXi/AsDIhJau5mBvjaVjTug4lvbWaVQESPpTP1jBfIgJxHmSoP9lCkgloGmJL61FpzDQfsWv7Bdh+dXQdN06NKZcnITdjKB7cHbeVBMfXPD6PiH4okuKslWrRr78S9ZMU47jYbDv6zWAMJJ/ccu0Yc034wX2fWtne+I0czm1KCx83Q/TiQOcn+0dtiMw9ufQVMD8vbhBlWli2F8sqil4KC2TXX9y9aflY5LhEf+Hzxpxn667qtlbYUvvKTTRxMWZnACDC3kS00P6eRirKQFXjF3Lkp42yroKmywXiqyoJt+JuHpSjRb7oFsUy3gIzu6Z6g+khrFlZdlIJ2H7mKk80tVuXnsFEbh9cPU92jB9wjCFn4HeASorf1GrR5o3xbQQ/fVdKRq9D1dVEv8oq7ASqPaWgLq/e4d7yZNImheOnR5PPSGdw==
+X-Microsoft-Antispam-Message-Info: ZAMHTdTf7C477V+IQeuA6ddMRa4Xvt5ukPOvEub2SWVcAxjbZtSRKOxNWCxSjcXkfL+vUuDPnZIIhu3VC3OfTurDWH3kXWG79FZfG2ymXhTrqFzUjRTWbmOLFCMzHdc3ZEeZQJbGangNNvybh9L1MTSza399QkYnNty4U+qnp4X9f6Boryk0TCGq11t2mtj6//l5ZWfS/x5JgO+8xxOWMaFsPvcIAUKGL9G4ndKwGGQwQw5fnHRhsMDHdaSZdeeErBH4cH7oLnE34OcklMX8xdT67rHmIFbGSECXsN8wor5ftBGZiOOrAG85dDEztmnqselyozVIcMpAlo5otEym+3o0MrvbY8u12QcHoqhWmXlEOe7T3v+rah5RjPs8se8w6HE0nr6KfJtyiW9ArBnE9TqDleVeFcuJYNXVpFFLvuDICFw4yfyhDfaqkNWm64wFc/wB2itD1hLR5NyHQ45yg3BBmgViITkDHRlSBt322RAvS5azWhT1h7RfNkLwL2GF/tuqkzWLmctUIS8bXCjFRVOXYOJjOWEx7jlQ92kxDQU89timJzkajpO3Axh4DbZqEKKX5ONhuYE7wjvcK4wfOU37T6QwzxOaEbgWjSiN9i+JzjMby/B5O1etNA0EQ5bHfgDhfucyBI3YoLzapbXLVuBF8lmuBnsmbj7B/yS331clyxuQLhbQ3H3dJoHNWbxXzNHPiPAgLl12+VFNLn56pQ==
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(39850400004)(396003)(136003)(346002)(376002)(46966006)(36840700001)(921005)(426003)(2906002)(6266002)(2616005)(47076005)(336012)(186003)(8676002)(107886003)(36860700001)(478600001)(8936002)(82740400003)(26005)(5660300002)(82310400003)(4326008)(356005)(70586007)(110136005)(70206006)(7636003)(54906003)(42186006)(6666004)(316002)(36906005)(4744005)(66574015)(36756003)(7416002)(83380400001)(102446001);
+ SFS:(4636009)(346002)(39850400004)(396003)(376002)(136003)(36840700001)(46966006)(186003)(6666004)(54906003)(7636003)(110136005)(6266002)(921005)(356005)(5660300002)(82740400003)(83380400001)(36860700001)(70586007)(42186006)(2616005)(336012)(82310400003)(8936002)(7416002)(2906002)(70206006)(107886003)(4326008)(478600001)(26005)(426003)(316002)(36756003)(36906005)(8676002)(47076005)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 08:16:10.7401 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: a10f664b-33c7-45ef-2406-08d8d70a1cf2
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 08:16:23.5963 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4d3e4a4-a352-4bfc-fd82-08d8d70a249b
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT046.eop-nam02.prod.protection.outlook.com
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT053.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6905
-Received-SPF: pass client-ip=40.107.70.49; envelope-from=saipava@xilinx.com;
- helo=NAM04-SN1-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR02MB3194
+Received-SPF: pass client-ip=40.107.223.77; envelope-from=saipava@xilinx.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -137,33 +136,158 @@ Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+Configuring SDHCI-0 to act as eMMC controller.
 
-The userdata size is derived from the file the user passes on the
-command line, but we must take into account the boot areas.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
+Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 ---
- hw/sd/sd.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ include/hw/arm/xlnx-versal.h |  1 +
+ hw/arm/xlnx-versal-virt.c    | 30 +++++++++++++++++++++++++-----
+ hw/arm/xlnx-versal.c         | 13 +++++++++++--
+ 3 files changed, 37 insertions(+), 7 deletions(-)
 
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index ab29e54..a0b4507 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -653,6 +653,11 @@ static void sd_reset(DeviceState *dev)
+diff --git a/include/hw/arm/xlnx-versal.h b/include/hw/arm/xlnx-versal.h
+index 2b76885..440f3b4 100644
+--- a/include/hw/arm/xlnx-versal.h
++++ b/include/hw/arm/xlnx-versal.h
+@@ -76,6 +76,7 @@ struct Versal {
+     struct {
+         MemoryRegion *mr_ddr;
+         uint32_t psci_conduit;
++        bool has_emmc;
+     } cfg;
+ };
+ 
+diff --git a/hw/arm/xlnx-versal-virt.c b/hw/arm/xlnx-versal-virt.c
+index 8482cd6..273e0c7 100644
+--- a/hw/arm/xlnx-versal-virt.c
++++ b/hw/arm/xlnx-versal-virt.c
+@@ -46,6 +46,7 @@ struct VersalVirt {
+ 
+     struct {
+         bool secure;
++        bool has_emmc;
+     } cfg;
+ };
+ 
+@@ -333,6 +334,13 @@ static void fdt_add_sd_nodes(VersalVirt *s)
+         qemu_fdt_setprop_sized_cells(s->fdt, name, "reg",
+                                      2, addr, 2, MM_PMC_SD0_SIZE);
+         qemu_fdt_setprop(s->fdt, name, "compatible", compat, sizeof(compat));
++        /*
++         * eMMC specific properties
++         */
++        if (s->cfg.has_emmc && i == 0) {
++            qemu_fdt_setprop(s->fdt, name, "non-removable", NULL, 0);
++            qemu_fdt_setprop_sized_cells(s->fdt, name, "bus-width", 1, 8);
++        }
+         g_free(name);
      }
-     size = sect << 9;
+ }
+@@ -512,7 +520,7 @@ static void create_virtio_regions(VersalVirt *s)
+     }
+ }
  
-+    if (sd->emmc) {
-+        unsigned int boot_capacity = sd->ext_csd[EXT_CSD_BOOT_MULT] << 17;
-+        size -= boot_capacity * 2;
-+    }
+-static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
++static void sd_plugin_card(SDHCIState *sd, DriveInfo *di, bool emmc)
+ {
+     BlockBackend *blk = di ? blk_by_legacy_dinfo(di) : NULL;
+     DeviceState *card;
+@@ -520,15 +528,22 @@ static void sd_plugin_card(SDHCIState *sd, DriveInfo *di)
+     card = qdev_new(TYPE_SD_CARD);
+     object_property_add_child(OBJECT(sd), "card[*]", OBJECT(card));
+     qdev_prop_set_drive_err(card, "drive", blk, &error_fatal);
++    object_property_set_bool(OBJECT(card), "emmc", emmc, &error_fatal);
+     qdev_realize_and_unref(card, qdev_get_child_bus(DEVICE(sd), "sd-bus"),
+                            &error_fatal);
+ }
+ 
++static void versal_virt_set_emmc(Object *obj, bool value, Error **errp)
++{
++    VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(obj);
 +
-     sect = sd_addr_to_wpnum(size) + 1;
++    s->cfg.has_emmc = value;
++}
++
+ static void versal_virt_init(MachineState *machine)
+ {
+     VersalVirt *s = XLNX_VERSAL_VIRT_MACHINE(machine);
+     int psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
+-    int i;
  
-     sd->state = sd_idle_state;
+     /*
+      * If the user provides an Operating System to be loaded, we expect them
+@@ -560,6 +575,8 @@ static void versal_virt_init(MachineState *machine)
+                              &error_abort);
+     object_property_set_int(OBJECT(&s->soc), "psci-conduit", psci_conduit,
+                             &error_abort);
++    object_property_set_bool(OBJECT(&s->soc), "has-emmc", s->cfg.has_emmc,
++                             &error_abort);
+     sysbus_realize(SYS_BUS_DEVICE(&s->soc), &error_fatal);
+ 
+     fdt_create(s);
+@@ -581,10 +598,10 @@ static void versal_virt_init(MachineState *machine)
+     memory_region_add_subregion_overlap(get_system_memory(),
+                                         0, &s->soc.fpd.apu.mr, 0);
+ 
++    sd_plugin_card(&s->soc.pmc.iou.sd[0],
++        drive_get_next(s->cfg.has_emmc ? IF_EMMC : IF_SD), s->cfg.has_emmc);
+     /* Plugin SD cards.  */
+-    for (i = 0; i < ARRAY_SIZE(s->soc.pmc.iou.sd); i++) {
+-        sd_plugin_card(&s->soc.pmc.iou.sd[i], drive_get_next(IF_SD));
+-    }
++    sd_plugin_card(&s->soc.pmc.iou.sd[1], drive_get_next(IF_SD), false);
+ 
+     s->binfo.ram_size = machine->ram_size;
+     s->binfo.loader_start = 0x0;
+@@ -621,6 +638,9 @@ static void versal_virt_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpus = XLNX_VERSAL_NR_ACPUS;
+     mc->no_cdrom = true;
+     mc->default_ram_id = "ddr";
++    object_class_property_add_bool(oc, "emmc",
++        NULL, versal_virt_set_emmc);
++
+ }
+ 
+ static const TypeInfo versal_virt_machine_init_typeinfo = {
+diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+index 628e77e..67ed1af 100644
+--- a/hw/arm/xlnx-versal.c
++++ b/hw/arm/xlnx-versal.c
+@@ -230,6 +230,9 @@ static void versal_create_admas(Versal *s, qemu_irq *pic)
+ }
+ 
+ #define SDHCI_CAPABILITIES  0x280737ec6481 /* Same as on ZynqMP.  */
++#define SDHCI_EMMC_CAPS ((SDHCI_CAPABILITIES & ~(3 << 30)) | \
++                     (1 << 30))
++
+ static void versal_create_sds(Versal *s, qemu_irq *pic)
+ {
+     int i;
+@@ -244,9 +247,14 @@ static void versal_create_sds(Versal *s, qemu_irq *pic)
+ 
+         object_property_set_uint(OBJECT(dev), "sd-spec-version", 3,
+                                  &error_fatal);
+-        object_property_set_uint(OBJECT(dev), "capareg", SDHCI_CAPABILITIES,
++        object_property_set_uint(OBJECT(dev), "capareg", SDHCI_EMMC_CAPS,
+                                  &error_fatal);
+-        object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal);
++        /*
++         * UHS is not applicable for eMMC
++         */
++        if (!s->cfg.has_emmc || i == 1) {
++            object_property_set_uint(OBJECT(dev), "uhs", UHS_I, &error_fatal);
++        }
+         sysbus_realize(SYS_BUS_DEVICE(dev), &error_fatal);
+ 
+         mr = sysbus_mmio_get_region(SYS_BUS_DEVICE(dev), 0);
+@@ -386,6 +394,7 @@ static Property versal_properties[] = {
+     DEFINE_PROP_LINK("ddr", Versal, cfg.mr_ddr, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+     DEFINE_PROP_UINT32("psci-conduit", Versal, cfg.psci_conduit, 0),
++    DEFINE_PROP_BOOL("has-emmc", Versal, cfg.has_emmc, false),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 2.7.4
 
