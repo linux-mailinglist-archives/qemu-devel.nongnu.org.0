@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C92E832166B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:23:44 +0100 (CET)
-Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62CA321788
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:51:56 +0100 (CET)
+Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEAFb-0007Yn-Qk
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:23:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
+	id 1lEAgs-0000s4-E4
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lEADt-0006ih-TC
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:21:57 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:47317)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lEADs-0002So-2g
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:21:57 -0500
-Received: from [192.168.100.1] ([82.252.134.158]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MIdS1-1l1m9l2jIr-00Ecds; Mon, 22 Feb 2021 13:21:36 +0100
-Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- qemu-devel@nongnu.org
-References: <20210222105004.1642234-1-laurent@vivier.eu>
- <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <2869185a-df62-4b28-5e73-57a21c72e5ea@vivier.eu>
-Date: Mon, 22 Feb 2021 13:21:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEAfu-0000R8-V2
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:50:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEAfs-0006zc-VF
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:50:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lEAfo-0004jK-S6
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 12:50:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 454F82E8132
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 12:50:48 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:h+rGY52m57m0AtPFQwoYFQ4lAUI2gFQnXGrvh6hUVhIeydkxgRy
- JlXY1pthfh0wnVdeMT7dL0saxsQjQx304nn4UaC5bje/nXlKzmYcNesLzdEhxujMgJjA1wU
- a6AuZhfZx8ttHzyQ+zsmuojDOo5lMzlGqBeJhFQF5CXTjYWG9HGwirJyP1kJ6ZRuxhoYzgw
- VpXHWpW5fBB4CpKEB9Hgw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:MZYkTiGI1F4=:Mw7ubzTBx24rTSsj9sJAL5
- e7mv10hdVHEfoESj6+PsIm6NjjFCgC0Ii+44IuQPsOLzj4dywT3LW3T8wIaKKICAYtL2UYilt
- rMygP6i+BvJlAwyY1O8HK3STzulW9MkOhdP+Dp0LhzqVfjCtzjrM0QimQBo3Oiugz+Hc6UiVG
- B2A04Nhj/L5K8r1cxv6Vtrk7n9Juq6Fh3nvNHGcYJRTh6DmV6UomQcVvLyNXCdNReb+aA8Cwb
- 8IeeJGGD4/QEiRMLPRbdmtl7c8d5vmNcDoz+7JxNFe0P83pHXay6jphg5IxnIl6QYrmCR1Wna
- rIbNATbU05pEaDYpIwydvnm5KCFwfyCehhKapPHwyF63Tt+pT4zVathlL6lJZhnlSPjsv9TOg
- Ea5JMMXWH1XHkc0DICumcI1YVSC1Y3CdpSmBE/gyVQkYbMQ0+u9VFzg+YNArB
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Feb 2021 12:40:15 -0000
+From: Frederic Bezies <1916394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fredb74
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+References: <161392715224.29500.2044106040123688461.malonedeb@soybean.canonical.com>
+Message-Id: <161399761550.29547.9768302160756054823.malone@soybean.canonical.com>
+Subject: [Bug 1916394] Re: [git] Cannot build qemu: FAILED:
+ target/hexagon/semantics_generated.pyinc 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: e4e30ec0413aa6833c39ff8cc1dc32d6ae998292
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,36 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Michael Tokarev <mjt@tls.msk.ru>
+Reply-To: Bug 1916394 <1916394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 22/02/2021 à 11:58, John Paul Adrian Glaubitz a écrit :
-> Hi Laurent!
-> 
-> On 2/22/21 11:50 AM, Laurent Vivier wrote:
->> Add --preserve-argv0 in qemu-binfmt-conf.sh to configure the preserve-argv0
->> flag.
->>
->> This patch allows to use new flag in AT_FLAGS to detect if
->> preserve-argv0 is configured for this interpreter:
->> argv[0] (the full pathname provided by binfmt-misc) is removed and
->> replaced by argv[1] (the original argv[0] provided by binfmt-misc when
->> 'P'/preserve-arg[0] is set)
-> 
-> Would this patch finally fix the issue with the perl package in Debian? [1]
+Here is what I found to narrow the commit which breaks the build
+process.
 
-I think so. Helge can confirm that I guess.
+Last working commit: 2184bca7b17559107032ba4fd8fc6f65345276ed -> "qapi:
+Replace List[str] with Sequence[str] for ifcond"
 
-But you need the kernel support (the one merged by Helge) as described in the patch message.
+First broken commit: 3e7a84eeccc3b3a9b43c6dfb52bd98ea5acebf0a ->
+"Hexagon build infrastructure"
 
-2347961b11d4 ("binfmt_misc: pass binfmt_misc flags to the interpreter")
+-- =
 
-> Adrian
-> 
->> [1] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=974004
-> 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916394
 
-Thanks,
-Laurent
+Title:
+  [git] Cannot build qemu: FAILED:
+  target/hexagon/semantics_generated.pyinc
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+
+  I'm using Archlinux and I maintain qemu-git AUR package.
+
+  I tried to build Qemu at commit
+  4115aec9af2a3de5fa89a0b1daa12debcd7741ff but it stops with this error
+  message:
+
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+  Downgrading meson doesn't change anything.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916394/+subscriptions
 
