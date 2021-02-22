@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 591E2321089
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:49:55 +0100 (CET)
-Received: from localhost ([::1]:36654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15D232108E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:53:44 +0100 (CET)
+Received: from localhost ([::1]:38806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE46U-0005I4-EQ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:49:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43684)
+	id 1lE4AB-0006Tj-TY
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:53:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44078)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE45R-0004qy-0W
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:48:49 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:37038)
+ id 1lE48q-00061Q-7S
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:52:20 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:50763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE45P-0000x3-D1
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:48:48 -0500
-Received: by mail-pl1-x632.google.com with SMTP id p5so2183221plo.4
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 21:48:47 -0800 (PST)
+ id 1lE48o-0002Vg-5m
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:52:19 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id b15so3214162pjb.0
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 21:52:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=r+xsNwLDu1IZeFSVeV00+UItoCEk20BtH2U/ndVLeLs=;
- b=e8lNvOisC7kzl85ggdT8t9QMRYPdbC9KdcNp+lUKzr8cTgLqWrsu6wdHBIIjDT8/w7
- CI0lnXr9z9SQY4qDPxBB/KtjSzqH2Ppjn9CbK/y2JKOSdOPLIH0IazQl7reixjwOtZMX
- ebJuEDxdklP8XVWEvxls8ubOqfX5KW3trJuRnUaV5QqrJ5utJ/FYf2AdHJ3h/hZVKdgP
- JGbgAJCn6whJScl8DI50iVvMtgFmTEBGmCbs69YYwUtFJQ9GqrNa942MKVFH9KjBXqW/
- zdMnZQZOqxrARdl9ibbIebrq4+Z1oGKYnBcv95piuCV7d0rbO2yrG/mHjGa3on4kRnxf
- WTig==
+ bh=JN/H/geFmlRm4YVMe7naT9YD/uaHfJ2uG4nmn5mzalY=;
+ b=r//GT612xpfWz8431dB59QiNXZrjy5rfPaUDTdzGX1erHMk9F9vwrdvFSI1oRTD+ph
+ c6ZrSyOAy+YjpF0hhXVTy+oGzj/MI6H/IqBvMQmjCs5ji9Ln5LPTdFhg2x0UYYi9GicC
+ XAkewnbK1bm2UvA5teJmqyvVmC5WTi8JkYArXzhVWZYejQ6iKS+slucg4C2cK4G4QmNk
+ nPaJZABk/kefhSpILk3dJuhkmXTrppj+0lTaKNarhubeddNce9zA6iWwkm7+tjPjei2N
+ ThiPFsmJC0xrLpCWyDz4+TUX5ORB1YAKVNLyxsG1sw18AzJ0aOOtKwtCQy5Dz/LWi05Q
+ W99A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=r+xsNwLDu1IZeFSVeV00+UItoCEk20BtH2U/ndVLeLs=;
- b=ea8UHWA1ZAgtSf/nqU7U9olyZ+N/xkgrbh8HQZvy6+x2GCTGvHrCy5x2bLDjOrh5QY
- 8eMDoI+H0JTMhT9EUxjRxIugOdfB7lkZbiipAobpPFDy4BZ6pn76LU1vXzUofUYe7ZEP
- JMKV2OD1XDyKg/ZgnCdSxmqkFoTwTfEHTvVFnbwLl12GcaXY7I/z38temQqTFOnu3Uea
- ewKrXZEOjJfy1aDUa41Ol41PY/Vj26oAbp/th6jJA4u0M0/IiWcXdeNMQmut8h10OQQ1
- QHQZ1M3q5naTfM6Aj5geJ9q21ZvE0X+RhlI9jtryOjkMf+tMm8bzTqEJIwkR4cWCKGm2
- fHfw==
-X-Gm-Message-State: AOAM5311PBsUqWeB2+WVO71QB+ukARt0wQX5fnIKJJVVgPs9VpN6FkON
- PCZjocavE40kUrQgI+8zq+6QzXSsiIG4eg==
-X-Google-Smtp-Source: ABdhPJwLj8x1lRWKCO40YYS8jEsdQiH4A/e75YHwJO7DJGlxfsKuwJZPsdvByFFIiqi7W9eEg7wqpA==
-X-Received: by 2002:a17:903:2283:b029:e4:8a:d7cb with SMTP id
- b3-20020a1709032283b02900e4008ad7cbmr879871plh.5.1613972925726; 
- Sun, 21 Feb 2021 21:48:45 -0800 (PST)
+ bh=JN/H/geFmlRm4YVMe7naT9YD/uaHfJ2uG4nmn5mzalY=;
+ b=WoB+nS04v6NKkyGN5/xXYGswWgfVNTe1Jrwb/QS7y+rqXIp3/0//z3TtdjslkcEVXK
+ wdJrK5qp3aFN2UorB6eRDPaZSooI8VcxvmmGDp0C06/5fCES7XV4Q2r9wtCW0k3Z6P6I
+ mKf+jlXk/DGKiMdeaNBzcJ0nRhDpH0rJes8e2oSTyLdse6V3GJGhgvNDBSXJfnbDqahO
+ fKeLIanPWtZb7CPPFsd/SbGpCOEnf7yma3fZ5A0OI8BjS6elrMt5dL12MFLunoeDPTlQ
+ ZK5kpTs5EYqlTKrV3uaWE/QsDnS8jhXj4g+QOFWcZgS/RDsEojalr6IvPLKk5TabBuug
+ 9cHw==
+X-Gm-Message-State: AOAM531h6TZP+aOMkLkYTIs7CqBz+FcYxyTBmp/fvLFh4L0f2NitnoiE
+ UmMrnhVBLnqcyb3yP7VQHQACNHFBiZ8Kww==
+X-Google-Smtp-Source: ABdhPJzH4QHze4/1KT+sYWVLCyAzWh1UXLn/fjGvwkId424i2C9y2iBOCmeFYgX7b8NqiJaLAeBm3A==
+X-Received: by 2002:a17:90a:5d8a:: with SMTP id
+ t10mr21219737pji.144.1613973136662; 
+ Sun, 21 Feb 2021 21:52:16 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id 8sm18205785pfp.171.2021.02.21.21.48.44
+ by smtp.gmail.com with ESMTPSA id lw4sm16038787pjb.16.2021.02.21.21.52.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 21:48:45 -0800 (PST)
-Subject: Re: [RFC v1 20/38] target/arm: move arm_hcr_el2_eff to common_cpu
+ Sun, 21 Feb 2021 21:52:16 -0800 (PST)
+Subject: Re: [RFC v1 23/38] target/arm: move arm_mmu_idx_el to common-cpu
 To: Claudio Fontana <cfontana@suse.de>
 References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-21-cfontana@suse.de>
+ <20210221092449.7545-24-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0af4f3c0-368c-4115-44f8-8128b1696981@linaro.org>
-Date: Sun, 21 Feb 2021 21:48:43 -0800
+Message-ID: <32486388-0f63-770c-ec21-02c7df246e64@linaro.org>
+Date: Sun, 21 Feb 2021 21:52:14 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210221092449.7545-21-cfontana@suse.de>
+In-Reply-To: <20210221092449.7545-24-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,26 +95,14 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 2/21/21 1:24 AM, Claudio Fontana wrote:
 > From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
 > 
-> extract it from the tcg helpers, as functionality is needed
-> for KVM too.
-> 
 > Signed-off-by: Claudio Fontana <cfontana@suse.de>
 > ---
->  target/arm/cpu-common.c | 68 +++++++++++++++++++++++++++++++++++++++++
->  target/arm/tcg/helper.c | 68 -----------------------------------------
->  2 files changed, 68 insertions(+), 68 deletions(-)
+>  target/arm/cpu-common.c | 51 +++++++++++++++++++++++++++++++++++++++++
+>  target/arm/tcg/helper.c | 51 -----------------------------------------
+>  2 files changed, 51 insertions(+), 51 deletions(-)
 
-Hmm, not really.  The hypervisor (the linux kernel for kvm) uses EL2 itself,
-and only exposes EL1 and EL0 to the virtualized guest.  Due to how
-virtualization works on ARM, the same will be true for all hypervisors.
-
-Thus, ARM_FEATURE_EL2 will always be unset, and arm_is_el2_enabled will always
-be false.
-
-I think you want a stub for !tcg like
-
-/* EL2 is used by the hypervisor and never enabled for the guest. */
-uint64_t arm_hcr_el2_eff(CPUARMState *env) { return 0; }
+How does this escape from tcg code?  I think this is indicative of something
+else escaping first.
 
 
 r~
