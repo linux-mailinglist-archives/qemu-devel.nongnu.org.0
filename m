@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EF8F32112F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 08:11:04 +0100 (CET)
-Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73C7321143
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 08:17:30 +0100 (CET)
+Received: from localhost ([::1]:58982 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE5N0-00086W-KT
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 02:11:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58974)
+	id 1lE5TF-0002DL-P8
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 02:17:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lE5J7-0006fl-5F; Mon, 22 Feb 2021 02:07:01 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:34849)
+ id 1lE5J8-0006gA-QO; Mon, 22 Feb 2021 02:07:03 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:52115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lE5J1-00031K-Uf; Mon, 22 Feb 2021 02:07:00 -0500
+ id 1lE5J4-00032K-8q; Mon, 22 Feb 2021 02:07:02 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3020A5C00ED;
- Mon, 22 Feb 2021 02:06:55 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 7F8945C00EB;
+ Mon, 22 Feb 2021 02:06:57 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 22 Feb 2021 02:06:55 -0500
+ by compute4.internal (MEProxy); Mon, 22 Feb 2021 02:06:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=FaKz61CQe4yI+
- mSp9LjyJedEU/bcxO58+8qrQ/MKnpg=; b=RDWGmbZKUj7QsBy5wgfPv+tma5Cvv
- pqGPi7HdBHX+Yg+0dsL0s12PWhhS1TtawieT1mlbRkkKsT0J+tjGwAVoyQA1xNRf
- ONzvpjkIRifZ1c5H7Y3VYKiC+6aZtGYUUb8tnEOaqPwmvxViHaSdd+NfCDicXZfb
- mGHnHHfeLs+I7I4tRAt9t7qavG3GMVD2V0mjLw7k4Ti5PWcXQtNcUWwCpo9zP+DZ
- T9OTTgLWauCS6j/ntZh9QcdsYpxTnoJN0ZeAtECSpeypJSalC4n7l/m2atPUIH64
- p07rj/jRAx9n9uKbUFNJ4+indaBZGLWqmaR/b8RjFgY17tef32XhrPlXg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=bHymLgNytpMdh
+ 9Ay7SYMWnr1F3ZOMqveNWgqbRk2/FA=; b=NJ8Svy+g1sbzZTCs2edoS+aEwwcWH
+ q7b6Tu4cpCf6Wx3SXzl+FvbKd29LxV0inlb+C/F6gIy60o3WGWM/sEHwRDcAmHbi
+ XMg3Ej3epHG4559bbWtO5d9xA1cuycgtXhfdImABauTZ79yxYnn13nkS2/5YdE9A
+ vEmGVWzjYIDQvpRdJgiKZYKJKpdnqXKQNvddGronbZwh8P2pXCvJekglt/lCd4kW
+ wGnYuT2tjGwYxcNhwVtkmw9JxoRzPgwV/aKt6VfJ0az6DxjdcG8frqVXbUw1bbv3
+ xIGSVJ9bOW5G05bd+4823OCB6J8vhGgSYYr/bYR2YSLbMf6NGmcSohfMA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=FaKz61CQe4yI+mSp9LjyJedEU/bcxO58+8qrQ/MKnpg=; b=G1Ry0aar
- fTt9sJxCw+ouGACMf94XbQokN4g443hYHMtavLYN1kNnIBrY8ETRfvZivwEe5B76
- tyDYaoU4eAm0qe1zOLsdf4rU2toLu1DeFPV1/7Jzx6ETrJ3R2p1JA4XKCZLB6oKD
- yCJkV9T5TbnpdP6i3UdJPilZZjFWFiExYuQ1IqQ2l+Z4wcRi//acHfW6WJr1sV6b
- ATnynfbpiylvnR3VJZlNDzXJjpO5X/rbBdF3DE/ScBxS7JZLvj8FuEUqbEN0/RZU
- WdhEC5NO6v5rFmbI231S9EcE9EdKjhzutWtzd3iugtRRQIw0YC/5fWAeSJ3akI/q
- PvKk6J7ox5u2TQ==
-X-ME-Sender: <xms:D1gzYEo8gvq_qJQb27nLPUMo3QBjnNI67H39cjfnKXONuOTcpJY0lw>
- <xme:D1gzYKpDzLMqpRQxT93Pl1LH-Fz5isfUT4JJkEbVuSt3E677W0pQe1OPTRiE-k0z0
- mhGCX7z7kx5LGKMiUY>
+ fm2; bh=bHymLgNytpMdh9Ay7SYMWnr1F3ZOMqveNWgqbRk2/FA=; b=FnfLIT/5
+ 6SYpu2x40/1S0FF0PRUACCm3VYjnHxr8TsDRa+A3mCrkR2y8DvnbZnMbJZh4pz9e
+ E8WF3MPUxQBQeiEprCjO+KVJsG7INdoCbDaE9Qft5ne+fvhlcJd+0qpFPyw+xYAw
+ eMe6rkIivBFm0RMHD8oNUO96iUEIcWPuvYnDcPl6p9Bc6QjXCXsJac8nvErW0D7k
+ M4eb3MrRcMvyHfyKFBEyuOUFhkXsj6qy5CD5NVtzDF/iNnlFeEvQYLFv7gGum/BH
+ tLHWq5SOH76KA73q5b9L4wkZb7SNyjvhuE8xWT4yjqgJ4cpAXlCuOZIuGQc0OfP2
+ eHkjg0Owyk8LeA==
+X-ME-Sender: <xms:EVgzYDPR2IrMxfuZG6A_ym-qBXF7qNiNHVi0h_ScwXEXXQzayo2vyw>
+ <xme:EVgzYN8AP0eDMvQubsxxKepRGHlEn4JX7QFi-3xk0xAB9CqCP8sHwbxQEWL7xoSht
+ Jxo7Feaugdb083X_4Q>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkedvgddutddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkedvgddutddvucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:D1gzYJPj29YW1UzyFTbtSgpnj6p-GBd7k1p2Nft592RqaH8Kn5a5kA>
- <xmx:D1gzYL5jfZTnsxBOsHvNWcPXnR08-FpS-W5_aULMMtUjx0njQ9nMyA>
- <xmx:D1gzYD7wa9RFmhANC19GZBI9cmPKKsTkPCZLAhcii5t71xDY03zW4g>
- <xmx:D1gzYGYM1ppN0dA1I7JXM7Xjf4Jj802OSyMW5-z4TzuYTm7UsmSd1Q>
+X-ME-Proxy: <xmx:EVgzYCQRkBfzuOyk9K9ugrZLDK9TO-nQXnippoDwySVSu6psLwqLQg>
+ <xmx:EVgzYHsQ0cEOpNzT5H6ml7PSdv8SVJIZ9nZmPr5q1wN2WRT4BmsIsQ>
+ <xmx:EVgzYLdKenKwOhh4Lr8vrRGu2F83yi-b9Pvfst8zQ8TE45mrXwgYXg>
+ <xmx:EVgzYNuAdowk7iNBAfSCeyB5P-MRgpiYSN-LiRzZ11rj_MkCAlduGQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B1EC224005A;
- Mon, 22 Feb 2021 02:06:52 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3BC3C24005A;
+ Mon, 22 Feb 2021 02:06:55 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/block/nvme: fix potential compilation error
-Date: Mon, 22 Feb 2021 08:06:14 +0100
-Message-Id: <20210222070615.9177-3-its@irrelevant.dk>
+Subject: [PATCH 3/3] hw/block/nvme: report non-mdts command size limit for dsm
+Date: Mon, 22 Feb 2021 08:06:15 +0100
+Message-Id: <20210222070615.9177-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210222070615.9177-1-its@irrelevant.dk>
 References: <20210222070615.9177-1-its@irrelevant.dk>
@@ -102,51 +102,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-assert may be compiled to a noop and we could end up returning an
-uninitialized status.
-
-Fix this by always returning Internal Device Error as a fallback.
+Dataset Management is not subject to MDTS, but exceeded a certain size
+per range causes internal looping. Report this limit (DMRSL) in the NVM
+command set specific identify controller data structure.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ hw/block/nvme.h       |  1 +
+ include/block/nvme.h  | 11 +++++++++++
+ hw/block/nvme.c       | 30 ++++++++++++++++++++----------
+ hw/block/trace-events |  1 +
+ 4 files changed, 33 insertions(+), 10 deletions(-)
 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index cb2b5175f1a1..3046b82b3da1 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -172,6 +172,7 @@ typedef struct NvmeCtrl {
+     int         aer_queued;
+ 
+     uint8_t     zasl;
++    uint32_t    dmrsl;
+ 
+     NvmeSubsystem   *subsys;
+ 
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index b23f3ae2279f..16d8c4c90f7e 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1041,6 +1041,16 @@ typedef struct NvmeIdCtrlZoned {
+     uint8_t     rsvd1[4095];
+ } NvmeIdCtrlZoned;
+ 
++typedef struct NvmeIdCtrlNvm {
++    uint8_t     vsl;
++    uint8_t     wzsl;
++    uint8_t     wusl;
++    uint8_t     dmrl;
++    uint32_t    dmrsl;
++    uint64_t    dmsl;
++    uint8_t     rsvd16[4080];
++} NvmeIdCtrlNvm;
++
+ enum NvmeIdCtrlOacs {
+     NVME_OACS_SECURITY  = 1 << 0,
+     NVME_OACS_FORMAT    = 1 << 1,
+@@ -1396,6 +1406,7 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeEffectsLog) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrl) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrlZoned) != 4096);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeIdCtrlNvm) != 4096);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeLBAF) != 4);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeLBAFE) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdNs) != 4096);
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index ddc83f7f7a19..897b9ff0db91 100644
+index 897b9ff0db91..5d6bba5fcb0d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1232,7 +1232,7 @@ static uint16_t nvme_check_zone_write(NvmeNamespace *ns, NvmeZone *zone,
+@@ -1777,6 +1777,10 @@ static uint16_t nvme_dsm(NvmeCtrl *n, NvmeRequest *req)
+             trace_pci_nvme_dsm_deallocate(nvme_cid(req), nvme_nsid(ns), slba,
+                                           nlb);
  
- static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
++            if (nlb > n->dmrsl) {
++                trace_pci_nvme_dsm_single_range_limit_exceeded(nlb, n->dmrsl);
++            }
++
+             offset = nvme_l2b(ns, slba);
+             len = nvme_l2b(ns, nlb);
+ 
+@@ -3202,21 +3206,24 @@ static uint16_t nvme_identify_ctrl(NvmeCtrl *n, NvmeRequest *req)
+ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
  {
--    uint16_t status;
-+    uint64_t zslba = zone->d.zslba;
+     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+-    NvmeIdCtrlZoned id = {};
++    uint8_t id[NVME_IDENTIFY_DATA_SIZE] = {};
  
-     switch (nvme_get_zone_state(zone)) {
-     case NVME_ZONE_STATE_EMPTY:
-@@ -1241,16 +1241,15 @@ static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
-     case NVME_ZONE_STATE_FULL:
-     case NVME_ZONE_STATE_CLOSED:
-     case NVME_ZONE_STATE_READ_ONLY:
--        status = NVME_SUCCESS;
--        break;
-+        return NVME_SUCCESS;
-     case NVME_ZONE_STATE_OFFLINE:
--        status = NVME_ZONE_OFFLINE;
--        break;
-+        trace_pci_nvme_err_zone_is_offline(zslba);
-+        return NVME_ZONE_OFFLINE;
-     default:
-         assert(false);
+     trace_pci_nvme_identify_ctrl_csi(c->csi);
+ 
+-    if (c->csi == NVME_CSI_NVM) {
+-        return nvme_rpt_empty_id_struct(n, req);
+-    } else if (c->csi == NVME_CSI_ZONED) {
+-        if (n->params.zasl_bs) {
+-            id.zasl = n->zasl;
+-        }
+-        return nvme_dma(n, (uint8_t *)&id, sizeof(id),
+-                        DMA_DIRECTION_FROM_DEVICE, req);
++    switch (c->csi) {
++    case NVME_CSI_NVM:
++        ((NvmeIdCtrlNvm *)&id)->dmrsl = cpu_to_le32(n->dmrsl);
++        break;
++
++    case NVME_CSI_ZONED:
++        ((NvmeIdCtrlZoned *)&id)->zasl = n->zasl;
++        break;
++
++    default:
++        return NVME_INVALID_FIELD | NVME_DNR;
      }
  
--    return status;
-+    return NVME_INTERNAL_DEV_ERROR;
+-    return NVME_INVALID_FIELD | NVME_DNR;
++    return nvme_dma(n, id, sizeof(id), DMA_DIRECTION_FROM_DEVICE, req);
  }
  
- static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
+ static uint16_t nvme_identify_ns(NvmeCtrl *n, NvmeRequest *req)
+@@ -4670,6 +4677,9 @@ int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+ 
+     n->namespaces[nsid - 1] = ns;
+ 
++    n->dmrsl = MIN_NON_ZERO(n->dmrsl,
++                            BDRV_REQUEST_MAX_BYTES / nvme_l2b(ns, 1));
++
+     return 0;
+ }
+ 
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 1f958d09d2a9..27940fe2e98a 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -51,6 +51,7 @@ pci_nvme_copy_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
+ pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
+ pci_nvme_dsm_deallocate(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
++pci_nvme_dsm_single_range_limit_exceeded(uint32_t nlb, uint32_t dmrsl) "nlb %"PRIu32" dmrsl %"PRIu32""
+ pci_nvme_compare(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba 0x%"PRIx64" nlb %"PRIu32""
+ pci_nvme_compare_cb(uint16_t cid) "cid %"PRIu16""
+ pci_nvme_aio_discard_cb(uint16_t cid) "cid %"PRIu16""
 -- 
 2.30.1
 
