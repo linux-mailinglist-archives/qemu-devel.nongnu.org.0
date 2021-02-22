@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61AF321C86
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:14:17 +0100 (CET)
-Received: from localhost ([::1]:60890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B39321C9D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:18:44 +0100 (CET)
+Received: from localhost ([::1]:44540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDqi-0004In-MC
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:14:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51882)
+	id 1lEDv1-0001iT-J7
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:18:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEDnf-0002XF-Ue
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:11:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53730)
+ id 1lEDnh-0002ZY-Dg
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:11:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50829)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEDne-0002B1-C9
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:11:07 -0500
+ id 1lEDnf-0002B8-MH
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:11:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614010263;
+ s=mimecast20190719; t=1614010267;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fE2ZqW7Abd0nNn/xz8kYfaU1Kg9VPxOJrShvvATcpvw=;
- b=KJfeWeUuHMDlaQMIcXdDib5UVi7QXh2ZroDOacPnzIrTShTauj+ll9/tUpMqPj2Pf0EzZ3
- X0Z5NOop6l2ynWroyWTdgEGL2f49pFf6HI1qC9/dEBjuEsKhu6vP1cU9Z7xcYJ68QlHPTD
- sbZGFP4pU67spcIxAZgrNJ+VMwx+hY4=
+ bh=RfKyB3gUAqSG9wFlu0Z7cbVS/JqR/5j8rNgFaP0cEJw=;
+ b=Ii6lRoMbGM/ZCKY7n0TL28n0xlxn+CwafTrCs67mL65i2h4aYKCDF2A/BOuaAaj4lqzPBD
+ HZNA5b46oNJsECffoO/4eASOi23MbUIXupc7DJ8JCxuq2LxG95bS9qa5NguuJOYpqDvyh/
+ 72sBGvKev9cXJRWDaSEU0LrKF2Y5Jf0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-DcsUX2HAMUyjUV34pjH8sg-1; Mon, 22 Feb 2021 11:11:00 -0500
-X-MC-Unique: DcsUX2HAMUyjUV34pjH8sg-1
+ us-mta-467-qdD2Q4iBNzW9w6STYXwIAg-1; Mon, 22 Feb 2021 11:11:01 -0500
+X-MC-Unique: qdD2Q4iBNzW9w6STYXwIAg-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77F39801A8A
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:10:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFCEA86A060
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:11:00 +0000 (UTC)
 Received: from localhost (ovpn-112-255.ams2.redhat.com [10.36.112.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2A2F91054FDC;
- Mon, 22 Feb 2021 16:10:58 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 03FCA1024817;
+ Mon, 22 Feb 2021 16:10:59 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] tests/qtest/vhost-user-test: use share=on with memfd
-Date: Mon, 22 Feb 2021 16:10:15 +0000
-Message-Id: <20210222161017.570837-2-stefanha@redhat.com>
+Subject: [PATCH 2/3] memory: add memory_region_is_mapped_shared()
+Date: Mon, 22 Feb 2021 16:10:16 +0000
+Message-Id: <20210222161017.570837-3-stefanha@redhat.com>
 In-Reply-To: <20210222161017.570837-1-stefanha@redhat.com>
 References: <20210222161017.570837-1-stefanha@redhat.com>
 MIME-Version: 1.0
@@ -86,24 +86,35 @@ Cc: kwolf@redhat.com, Laurent Vivier <lvivier@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rm9yIHNvbWUgcmVhc29uIG1lbWZkIG5ldmVyIHVzZWQgc2hhcmU9b24uIHZob3N0LXVzZXIgcmVs
-aWVzIG9uCm1tYXAoTUFQX1NIQVJFRCkgc28gdGhpcyBzZWVtcyBsaWtlIGEgcHJvYmxlbSwgYnV0
-IHRoZSB0ZXN0cyBzdGlsbCBydW4Kd2l0aG91dCBpdC4KCkFkZCBzaGFyZT1vbiBmb3IgY29uc2lz
-dGVuY3kgYW5kIHRvIHByZXZlbnQgZnV0dXJlIGJ1Z3MgaW4gdGhlIHRlc3QuCgpTaWduZWQtb2Zm
-LWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0tLQogdGVzdHMvcXRl
-c3Qvdmhvc3QtdXNlci10ZXN0LmMgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
-KyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS90ZXN0cy9xdGVzdC92aG9zdC11c2VyLXRl
-c3QuYyBiL3Rlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdC5jCmluZGV4IDFhNWY1MzEzZmYuLjJk
-Yjk4YzQ5MjAgMTAwNjQ0Ci0tLSBhL3Rlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdC5jCisrKyBi
-L3Rlc3RzL3F0ZXN0L3Zob3N0LXVzZXItdGVzdC5jCkBAIC00MCw3ICs0MCw3IEBACiAjZGVmaW5l
-IFFFTVVfQ01EX01FTSAgICAiIC1tICVkIC1vYmplY3QgbWVtb3J5LWJhY2tlbmQtZmlsZSxpZD1t
-ZW0sc2l6ZT0lZE0sIiBcCiAgICAgICAgICAgICAgICAgICAgICAgICAibWVtLXBhdGg9JXMsc2hh
-cmU9b24gLW51bWEgbm9kZSxtZW1kZXY9bWVtIgogI2RlZmluZSBRRU1VX0NNRF9NRU1GRCAgIiAt
-bSAlZCAtb2JqZWN0IG1lbW9yeS1iYWNrZW5kLW1lbWZkLGlkPW1lbSxzaXplPSVkTSwiIFwKLSAg
-ICAgICAgICAgICAgICAgICAgICAgICIgLW51bWEgbm9kZSxtZW1kZXY9bWVtIgorICAgICAgICAg
-ICAgICAgICAgICAgICAgInNoYXJlPW9uIC1udW1hIG5vZGUsbWVtZGV2PW1lbSIKICNkZWZpbmUg
-UUVNVV9DTURfQ0hSICAgICIgLWNoYXJkZXYgc29ja2V0LGlkPSVzLHBhdGg9JXMlcyIKICNkZWZp
-bmUgUUVNVV9DTURfTkVUREVWICIgLW5ldGRldiB2aG9zdC11c2VyLGlkPWhzMCxjaGFyZGV2PSVz
-LHZob3N0Zm9yY2UiCiAKLS0gCjIuMjkuMgoK
+QWRkIGEgZnVuY3Rpb24gdG8gcXVlcnkgd2hldGhlciBhIG1lbW9yeSByZWdpb24gaXMgbW1hcChN
+QVBfU0hBUkVEKS4KVGhpcyB3aWxsIGJlIHVzZWQgdG8gY2hlY2sgdGhhdCB2aG9zdC11c2VyIG1l
+bW9yeSByZWdpb25zIGNhbiBiZSBzaGFyZWQKd2l0aCB0aGUgZGV2aWNlIGJhY2tlbmQgcHJvY2Vz
+cyBpbiB0aGUgbmV4dCBwYXRjaC4KCkFuIGlubGluZSBmdW5jdGlvbiBpbiAiZXhlYy9tZW1vcnku
+aCIgd291bGQgaGF2ZSBiZWVuIG5pY2UgYnV0IFJBTUJsb2NrCmZpZWxkcyBhcmUgb25seSBhY2Nl
+c3NpYmxlIGZyb20gbWVtb3J5LmMgKHNlZSAiZXhlYy9yYW1ibG9jay5oIikuCgpTaWduZWQtb2Zm
+LWJ5OiBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ci0tLQogaW5jbHVkZS9l
+eGVjL21lbW9yeS5oIHwgMTEgKysrKysrKysrKysKIHNvZnRtbXUvbWVtb3J5LmMgICAgICB8ICA2
+ICsrKysrKwogMiBmaWxlcyBjaGFuZ2VkLCAxNyBpbnNlcnRpb25zKCspCgpkaWZmIC0tZ2l0IGEv
+aW5jbHVkZS9leGVjL21lbW9yeS5oIGIvaW5jbHVkZS9leGVjL21lbW9yeS5oCmluZGV4IGM2ZmI3
+MTRlNDkuLjdiN2RiZTlmZDAgMTAwNjQ0Ci0tLSBhL2luY2x1ZGUvZXhlYy9tZW1vcnkuaAorKysg
+Yi9pbmNsdWRlL2V4ZWMvbWVtb3J5LmgKQEAgLTI0NTcsNiArMjQ1NywxNyBAQCBzdGF0aWMgaW5s
+aW5lIGJvb2wgbWVtb3J5X2FjY2Vzc19pc19kaXJlY3QoTWVtb3J5UmVnaW9uICptciwgYm9vbCBp
+c193cml0ZSkKICAgICB9CiB9CiAKKy8qKgorICogbWVtb3J5X3JlZ2lvbl9pc19tYXBwZWRfc2hh
+cmVkOiBjaGVjayB3aGV0aGVyIGEgbWVtb3J5IHJlZ2lvbiBpcworICogbW1hcChNQVBfU0hBUkVE
+KQorICoKKyAqIFJldHVybnMgJXRydWUgaXMgYSBtZW1vcnkgcmVnaW9uIGlzIG1tYXAoTUFQX1NI
+QVJFRCkuIFRoaXMgaXMgYWx3YXlzIGZhbHNlCisgKiBvbiBtZW1vcnkgcmVnaW9ucyB0aGF0IGRv
+IG5vdCBzdXBwb3J0IG1lbW9yeV9yZWdpb25fZ2V0X3JhbV9wdHIoKS4KKyAqCisgKiBAbXI6IHRo
+ZSBtZW1vcnkgcmVnaW9uIGJlaW5nIHF1ZXJpZWQKKyAqLworYm9vbCBtZW1vcnlfcmVnaW9uX2lz
+X21hcHBlZF9zaGFyZWQoTWVtb3J5UmVnaW9uICptcik7CisKIC8qKgogICogYWRkcmVzc19zcGFj
+ZV9yZWFkOiByZWFkIGZyb20gYW4gYWRkcmVzcyBzcGFjZS4KICAqCmRpZmYgLS1naXQgYS9zb2Z0
+bW11L21lbW9yeS5jIGIvc29mdG1tdS9tZW1vcnkuYwppbmRleCA4NzRhOGZjY2RlLi5lNjYzMWU1
+ZDRjIDEwMDY0NAotLS0gYS9zb2Z0bW11L21lbW9yeS5jCisrKyBiL3NvZnRtbXUvbWVtb3J5LmMK
+QEAgLTE4MDksNiArMTgwOSwxMiBAQCBib29sIG1lbW9yeV9yZWdpb25faXNfcmFtX2RldmljZShN
+ZW1vcnlSZWdpb24gKm1yKQogICAgIHJldHVybiBtci0+cmFtX2RldmljZTsKIH0KIAorYm9vbCBt
+ZW1vcnlfcmVnaW9uX2lzX21hcHBlZF9zaGFyZWQoTWVtb3J5UmVnaW9uICptcikKK3sKKyAgICBy
+ZXR1cm4gbWVtb3J5X2FjY2Vzc19pc19kaXJlY3QobXIsIGZhbHNlKSAmJgorICAgICAgICAgICAo
+bXItPnJhbV9ibG9jay0+ZmxhZ3MgJiBSQU1fU0hBUkVEKTsKK30KKwogdWludDhfdCBtZW1vcnlf
+cmVnaW9uX2dldF9kaXJ0eV9sb2dfbWFzayhNZW1vcnlSZWdpb24gKm1yKQogewogICAgIHVpbnQ4
+X3QgbWFzayA9IG1yLT5kaXJ0eV9sb2dfbWFzazsKLS0gCjIuMjkuMgoK
 
 
