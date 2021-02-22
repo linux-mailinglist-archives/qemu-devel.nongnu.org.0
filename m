@@ -2,174 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808AE321E81
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:51:13 +0100 (CET)
-Received: from localhost ([::1]:38212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6289321E8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:55:20 +0100 (CET)
+Received: from localhost ([::1]:46540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEFMW-0002vW-G7
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:51:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53458)
+	id 1lEFQV-0006WI-Sx
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:55:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1lEFJb-00013N-VW; Mon, 22 Feb 2021 12:48:11 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:34386)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david.edmondson@oracle.com>)
- id 1lEFJZ-0001y2-5p; Mon, 22 Feb 2021 12:48:11 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11MHk3r6104226;
- Mon, 22 Feb 2021 17:48:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=jk2R58gq0UYjjMx2VkQKAlIeZKH8PUpycv1oXRGJIC8=;
- b=lpyjrJsubpIU5OpfM/22KD4YLbZkBc6ItWcktCpXfiHatP0ii4RXo7KTXIfg252zE93u
- OnjxnV1qQFiAD6x6nosge5hnHSPOMwhkQeaCGYjf/zcnmV4Akz7OEP3eCRgvZfhiRcfb
- 7+wdFSrmHv5AooqMEgUWl5AP1sdxe7/kK+uT5kFzqLXM5ng0wd6Ihu/5kLmZqO+oBaT5
- CDwVahAIUWSAndsAw0kmPVtW23v1l1v9PtOLNSSXx+elBycWcINtcqd5trDPVlweW2bl
- E3amEtZE1yUm7Sinvzw/p127rIb5qxXUgUtFWWMbux4J+J6KkYMtQAzxgYFAD9KuarEE Sw== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 36tsuqvj2m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Feb 2021 17:48:07 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 11MHkPu8106492;
- Mon, 22 Feb 2021 17:48:07 GMT
-Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2101.outbound.protection.outlook.com [104.47.58.101])
- by userp3030.oracle.com with ESMTP id 36ucbwdp2k-2
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Feb 2021 17:48:06 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=geVJfkoYPoBz1oC0kg4ViheExqOpEAjL8tAliDaHzG9aqQlKEIZ8/SLggE4CPPYQIXZBPYdnv9FWZgVoddMJdcE1uJqYhVydxL2XbwrUn23amTq3i+PsyKrIe5Yjug5FJFlz/wBTXgalB4xzvJS2QEP97Z8Y246VhcgmZU3sult7lKVb34cH2Tnfxgzrr6C21NryPovvYH13R2o8SyTB/OVME+ew/boxfXYDGY1BhHo2SVeRGjue8VbcQ9AYhDqZ+DYdnFmUG0TCl7EwahoI4GtSvVIzXh5HO+8caVnkxQaCAvTLlV8OcNazfny+T5vstqvHXmWANNRUjFk+Q/fdjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jk2R58gq0UYjjMx2VkQKAlIeZKH8PUpycv1oXRGJIC8=;
- b=Mmyn25DL5PIFTgJMSTlUO/u7BB3Y2zXwxDj6QqZlsAiKS/vgExjvKTyVYfmbKe1m93uQgWLNdAbVwNV2+J8+aZwBn0UdocXFxUjUKEjUHWxdOfCmh+a4dElM5p8QYbHLB3HmGHjsv2P3AZ9d9LlhRDE2rPVIxOiNXMsHIMivrQF3Vyr9rwS/oDY0KHo0H3MBhGlDu21jk+SuKsljsBVnfF1NnY7CoBKjc+ap+2x5p2ouDV0vR9UqKGicOXISp5d7/OJ/XpvRVQfTjf8O9Vkq23UFRQwe0wcFHVj6hiCJd7zMpEZZMt1dx6g6eKbblOZBl8I5FVx0ab+yXdH0Kj12RA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jk2R58gq0UYjjMx2VkQKAlIeZKH8PUpycv1oXRGJIC8=;
- b=sWJj/3nsRS7PnW4BicCgUiNf/xaY1/6nGzEIIkJhWOSSpcjw9T5g1Cvwu2SG4wqpW0j0K9oNXyCT8fTr+pF6fI/v2bOW95lRhV+asH6e1mv0Y1CjmlaCLo5qaUbqS6k8fsB9sBNpH5w4iiJbSpja5t/Jb2tkhlC2ZwTR0iVC8KA=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=oracle.com;
-Received: from DM6PR10MB3148.namprd10.prod.outlook.com (2603:10b6:5:1a4::21)
- by DM6PR10MB3466.namprd10.prod.outlook.com (2603:10b6:5:17e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.31; Mon, 22 Feb
- 2021 17:48:05 +0000
-Received: from DM6PR10MB3148.namprd10.prod.outlook.com
- ([fe80::f871:5965:2081:3934]) by DM6PR10MB3148.namprd10.prod.outlook.com
- ([fe80::f871:5965:2081:3934%5]) with mapi id 15.20.3868.033; Mon, 22 Feb 2021
- 17:48:05 +0000
-From: David Edmondson <david.edmondson@oracle.com>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH v3 2/3] hw/pflash_cfi01: Correct the type of PFlashCFI01.ro
-Date: Mon, 22 Feb 2021 17:47:56 +0000
-Message-Id: <20210222174757.2329740-3-david.edmondson@oracle.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210222174757.2329740-1-david.edmondson@oracle.com>
-References: <20210222174757.2329740-1-david.edmondson@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [2001:8b0:bb71:7140:64::1]
-X-ClientProxiedBy: LO2P265CA0448.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:e::28) To DM6PR10MB3148.namprd10.prod.outlook.com
- (2603:10b6:5:1a4::21)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lEFMW-0003xc-Fw
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:51:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51557)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lEFMU-0002KY-4d
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:51:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614016269;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=O+4avbp3iRC9wzL9kQsBbVb6oEaX3FYxbdrqhd4FEnE=;
+ b=Clv4kh7GSvD2HRhUCWeK154FrGJ81/aE6f/NHvOZZzh9abzdmNU+e5P/O4f7w0Nmq9UE8J
+ 9etBYfunuKv8UCErrdW7T5exl1/8BIEfT1eP5zzCpg4VVvqdpgqAdIhvxkji/5a8mmBXMh
+ OB5G1QCz/qNuGPb4Y1BHClKZ5JwS660=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-BUheIuS7NaiFmeoxrS7BDQ-1; Mon, 22 Feb 2021 12:51:05 -0500
+X-MC-Unique: BUheIuS7NaiFmeoxrS7BDQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D0F2801965;
+ Mon, 22 Feb 2021 17:51:01 +0000 (UTC)
+Received: from gondolin (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DE0141001281;
+ Mon, 22 Feb 2021 17:50:46 +0000 (UTC)
+Date: Mon, 22 Feb 2021 18:50:44 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 01/11] accel/kvm: Check MachineClass kvm_type()
+ return value
+Message-ID: <20210222185044.23fccecc.cohuck@redhat.com>
+In-Reply-To: <bc37276d-74cc-22f0-fcc0-4ee5e62cf1df@redhat.com>
+References: <20210219173847.2054123-1-philmd@redhat.com>
+ <20210219173847.2054123-2-philmd@redhat.com>
+ <20210222182405.3e6e9a6f.cohuck@redhat.com>
+ <bc37276d-74cc-22f0-fcc0-4ee5e62cf1df@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from disaster-area.hh.sledj.net (2001:8b0:bb71:7140:64::1) by
- LO2P265CA0448.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:e::28) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.31 via Frontend Transport; Mon, 22 Feb 2021 17:48:04 +0000
-Received: from localhost (disaster-area.hh.sledj.net [local])	by
- disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id ea7c68c5;
- Mon, 22 Feb 2021 17:47:57 +0000 (UTC)
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 11dcd2ab-7edc-439c-304e-08d8d75a01c9
-X-MS-TrafficTypeDiagnostic: DM6PR10MB3466:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR10MB3466424C6FD1A43024E3BD9B88819@DM6PR10MB3466.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2582;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: HBQIlCJ26vg9b3zTUJrToBCK4yRlk4D/9uPwBkgpO3yfSP14RH8ffoEDOBX9tSDiWbfKkhc+eninjJHM+qlKiCoZ7tpYt9iA/NKx0DvxFh1LHsH8KoScYvYHcdbftvRuE1xeU1SnbXd114l0aPeeJAoxkaHkdDU9i52kn+diihlrNQjr9f0LHvPTXvPE3XqNLFi65IM6CtnlD1au+kWrDJOPVaz6FJlXjuscV5lCwvew897vF52MJVJF8IWymgw3O04cOptoN95Nxo1RZNakT6focwrzJYfB5RQ+KBaMUe4z0+XMHf5GBrb4LoTM0c5k8TKXV7IsDVE17QbUw0yknSmQi5HGrGbvoH68xmAClI+nGxHBGzaUk+72PbnTtWR6PxgronvSgZt6+9zzLpS7BEN9d83j1n6JdAWhGXO+m+bscUsleYK7vr+jlDtR0WneiXreqtok5Cg+cpaHH3+E5m6zbxwcs9eiVNUMZQBUMJESVnaqaoMHjtdVWsZzmXdHjSWY73mW9NbVj5uRwSCPig==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM6PR10MB3148.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(136003)(346002)(366004)(39860400002)(376002)(54906003)(478600001)(44832011)(316002)(83380400001)(52116002)(86362001)(186003)(66946007)(66476007)(66556008)(36756003)(8936002)(107886003)(4326008)(5660300002)(2616005)(4744005)(1076003)(8676002)(2906002)(6916009);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?M3FSNjcxdFFqQk8yYzd2VTRabEVkRkUzbEljbXdhNnNzQ0U4OEJlQ3R3cTVn?=
- =?utf-8?B?QTZZVWNndUlYdzhCZWszZCs3T0JxQ3I3RndWT1ZHUUwxWjhXUElKNjlHcVdz?=
- =?utf-8?B?WFdBSzVNUTdwYnhtdE1IZVl1c2xEWDlMV2FEdEIzeVJ2aEtzTXBsbzRvbWhS?=
- =?utf-8?B?WkoveG1HaGQ2SE1WZEtiRlEyTXJ1K2hJZk10K2FIbGlQb25kYyszVUJrOVRS?=
- =?utf-8?B?RjV0dTgreEJaeUo0eUFRWmhRNEdkTTN3eXRHTkZCbGUyMkk4ejhuRmsxSlc0?=
- =?utf-8?B?QUMxcUc3dGZWeXlhVnc5d1ptZEwrSjBJSFlCeGd3aVNtdzRxMWZyZkFzVXQ3?=
- =?utf-8?B?bWZ3WEdSeVIwZE1qVTkzSHdZK3FzS3F5UUlYR3IvTTB5cktMbzREYllQTG9T?=
- =?utf-8?B?YmVOQjZHaEd5QTdianRXZW94QmFnR09kZVppL1dSNWdhZGF1Nkg4Z2xNOGtF?=
- =?utf-8?B?Uzlpa1lpUkRTL1B1cU5UVTY1c3JweitXU2hrU2ozOFA5QVNWSXBRY2FJcEd0?=
- =?utf-8?B?Mm5qNXJjc0VwR0pGWmhKQU9UbENKODZjZjVyNVd2QUVKOThlUnI2aUVBd1pn?=
- =?utf-8?B?QUxoc1BFcHd1SThhSDVSZi9yOGZHM2dyeXJ6WVZCa0JZWHA1VzZkVHJjSkFk?=
- =?utf-8?B?YWZTYUNmTTRDU0ZONklKWjZUYjI2YnVRV0FaN0lpUzRWOVE2QUh5SHFTcVRh?=
- =?utf-8?B?akprODhtZlBkWEhLNVYzTXg0MVdGbjRIV1oxNURNVVh6T0JlWlZCV1FacGNp?=
- =?utf-8?B?U0Q3S0htb2l5TDlod1BnVUxTQzBRV0FLR3pZT1FteElET2xmMG02dWZGUEdP?=
- =?utf-8?B?TThOUHhjSitFSFNpZzMrWmdrL3dvVjJPT3NTM0FLdGFDRSsvYUs0UFJLclZ5?=
- =?utf-8?B?WE51YzdkV1ljR3h0N0FJdVRoSW1TSGcxLzlHdGs4N1ZQUUtQS3J6YmV4VU0w?=
- =?utf-8?B?OUw3QXYybUhTdVEyRndzSE5mMGtEdWk2eXhhcGpLVDRlUFNXekQ1bnhTSzZ3?=
- =?utf-8?B?RVBjM2FmbWMrbmpyVGxjNFdzaGl1ZlBZNm9JN2ZURE1EMkdCL3g3WGxzVTlv?=
- =?utf-8?B?WGtiZVFjZ2FBT000WE5qdTZmN3R5S21HZnRwM1BrR3V6djNGOE93czZLajMy?=
- =?utf-8?B?endSdXpkSE90Z1Blb0NlTEQ1emhUdG5WaVB5cDdjZkt0ZnVpbEdMeGsyWGdU?=
- =?utf-8?B?US9kbmNickd5WUpoZXcweG5LN1BJd0RGOEtsNzM0TkVobHhpV2EzTHZsbjRL?=
- =?utf-8?B?VE40RXNKSnJJem93a3BUV2dETytDYUNIdktHNld3UmlzYnZvSlp6ajQwayt4?=
- =?utf-8?B?bnh1ZW1vbUJCRU5nSEJScTJYK0p4bW1IeEU4SjljMDdkSWpKRkNaeWxValFx?=
- =?utf-8?B?Tm5QbVg1VVVIU2dSNFdlbGl1Q2NKNWlkNE8wQThNbkhBSy9wYlA2SStJb05J?=
- =?utf-8?B?SWJ5REdHdGQ1WFVadUdQL1ZqUTNibmNUSGcvdkRyNUEzNzE4WWFQSSt6S1Zu?=
- =?utf-8?B?czlmQmVQVDB4NnZnWDhWNkNhbm10SmhDMFZ0aGlaZFFrTUxvNUNCemVFMXZI?=
- =?utf-8?B?bWUwNkplSjM2NU9VZURNLzYzeVc1QXVnMitnanBUbVJncFZTQi9NcERzTTJj?=
- =?utf-8?B?dmFVcHhpYTk5YzJBYjJzQWxDUHp6Wm9UdWcxQWtzWllvWmx5akt0RGZDNk1T?=
- =?utf-8?B?L2w1YlF4aTJEc0taQ00rMHVlN2l0NkF6cmNBbWFOQWJkcUlCQWFRbkYvQlho?=
- =?utf-8?B?QjcvNU9abmxmRnAxRVpRUFdsaHR6aVRoaFk5dXh6RVdpWXB3NitIb3VNdWs5?=
- =?utf-8?B?YzRReDc2Zmo3dEt2YjdaZz09?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 11dcd2ab-7edc-439c-304e-08d8d75a01c9
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR10MB3148.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 17:48:05.2794 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AgE2s7zXSpfe2c5cdPJ70Y2W95L9XtNZG/cNUQbwn8zXwbgOgLvkYvYC34mrdw1ZOyG93sAMiUH0SCmt4RDX9K03Koo4U5AxjTT/PZ00ing=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3466
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9903
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- adultscore=0
- phishscore=0 spamscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102220158
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9903
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- spamscore=0
- priorityscore=1501 impostorscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- clxscore=1015 phishscore=0 mlxlogscore=999 lowpriorityscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2102220158
-Received-SPF: pass client-ip=156.151.31.86;
- envelope-from=david.edmondson@oracle.com; helo=userp2130.oracle.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -182,43 +77,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, David Edmondson <david.edmondson@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Leif Lindholm <leif@nuviainc.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PFlashCFI01.ro is a bool, declare it as such.
+On Mon, 22 Feb 2021 18:41:07 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Signed-off-by: David Edmondson <david.edmondson@oracle.com>
----
- hw/block/pflash_cfi01.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> On 2/22/21 6:24 PM, Cornelia Huck wrote:
+> > On Fri, 19 Feb 2021 18:38:37 +0100
+> > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+> >  =20
+> >> MachineClass::kvm_type() can return -1 on failure.
+> >> Document it, and add a check in kvm_init().
+> >>
+> >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> >> ---
+> >>  include/hw/boards.h | 3 ++-
+> >>  accel/kvm/kvm-all.c | 6 ++++++
+> >>  2 files changed, 8 insertions(+), 1 deletion(-)
+> >>
+> >> diff --git a/include/hw/boards.h b/include/hw/boards.h
+> >> index a46dfe5d1a6..68d3d10f6b0 100644
+> >> --- a/include/hw/boards.h
+> >> +++ b/include/hw/boards.h
+> >> @@ -127,7 +127,8 @@ typedef struct {
+> >>   *    implement and a stub device is required.
+> >>   * @kvm_type:
+> >>   *    Return the type of KVM corresponding to the kvm-type string opt=
+ion or
+> >> - *    computed based on other criteria such as the host kernel capabi=
+lities.
+> >> + *    computed based on other criteria such as the host kernel capabi=
+lities
+> >> + *    (which can't be negative), or -1 on error.
+> >>   * @numa_mem_supported:
+> >>   *    true if '--numa node.mem' option is supported and false otherwi=
+se
+> >>   * @smp_parse:
+> >> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
+> >> index 84c943fcdb2..b069938d881 100644
+> >> --- a/accel/kvm/kvm-all.c
+> >> +++ b/accel/kvm/kvm-all.c
+> >> @@ -2057,6 +2057,12 @@ static int kvm_init(MachineState *ms)
+> >>                                                              "kvm-type=
+",
+> >>                                                              &error_ab=
+ort);
+> >>          type =3D mc->kvm_type(ms, kvm_type);
+> >> +        if (type < 0) {
+> >> +            ret =3D -EINVAL;
+> >> +            fprintf(stderr, "Failed to detect kvm-type for machine '%=
+s'\n",
+> >> +                    mc->name);
+> >> +            goto err;
+> >> +        }
+> >>      }
+> >> =20
+> >>      do { =20
+> >=20
+> > No objection to this patch; but I'm wondering why some non-pseries
+> > machines implement the kvm_type callback, when I see the kvm-type
+> > property only for pseries? Am I holding my git grep wrong? =20
+>=20
+> Can it be what David commented here?
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg784508.html
+>=20
 
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 9e1f3b42c6..6b21b4af52 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -72,7 +72,7 @@ struct PFlashCFI01 {
-     uint8_t max_device_width;  /* max device width in bytes */
-     uint32_t features;
-     uint8_t wcycle; /* if 0, the flash is read normally */
--    int ro;
-+    bool ro;
-     uint8_t cmd;
-     uint8_t status;
-     uint16_t ident0;
-@@ -738,7 +738,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
-             return;
-         }
-     } else {
--        pfl->ro = 0;
-+        pfl->ro = false;
-     }
- 
-     if (pfl->blk) {
--- 
-2.30.0
+Ok, I might be confused about the other ppc machines; but I'm wondering
+about the kvm_type callback for mips and arm/virt. Maybe I'm just
+confused by the whole mechanism?
 
 
