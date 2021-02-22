@@ -2,81 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B13FD32225C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 23:50:02 +0100 (CET)
-Received: from localhost ([::1]:41812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 811B932227F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 00:05:11 +0100 (CET)
+Received: from localhost ([::1]:37798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEK1h-00037F-BH
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 17:50:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47264)
+	id 1lEKGM-0005Pn-KY
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 18:05:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lEJzN-00011D-F2
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:47:37 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:33710)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lEJzL-0000gm-ME
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:47:37 -0500
-Received: by mail-pg1-x530.google.com with SMTP id g4so535719pgj.0
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 14:47:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=U5n7ELO++M+VzahdFR6JSW1dMohOB0Vs4VTA+kbowmg=;
- b=EXjf5zzxFi+K09OhaznlcSr5Enn2Hc3oIWBbI/eJ82dDm2OJArEsarxqjyfZBdHOGm
- Mbb9evptlsnCsL/aybkAvK/0Aepoxyq3MOMb1CggxYst8ugfgOHrUG/ZZhPKLm4eFg/6
- UBs9u/48/uh13djYEq1Gh8hR6jBa4aY16GFvkgM/Qf/aGR4E5JB6U15SxODHrouTVMpe
- evZMf55Ima2GmggzWgRHe/Cwc6kjmt9J5diU9Qu8uB5wRHNA4DYdTsN3ntnYLnjfD6mD
- 5/YBf8epapMuGFfh/5XZ3zeaQMAONxjV0bZ3GBlPH5QpCsPZsubTJVjFHs5YP5cAk62B
- Wlqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=U5n7ELO++M+VzahdFR6JSW1dMohOB0Vs4VTA+kbowmg=;
- b=cDI8CPXiXFWTQ6VlcN+RFpwCpijCcYBV7T8T/NpGJsva1pU3eqhk04AB8hc+1gGjwu
- 4XPuXw0AeN5qyNQBZDozK8pc3sOryRf6V1WqSMrR0RC2So5sjXzT2D/0wcFshf/uHsnm
- USca5WwDtAwgpXrHwL0r1aAr40OSZLQJFFLc50M3xRJZZ7UuqD+zkeVpsA4W+bFgjTCB
- 4O3Kl8sr8VuzxYfoPI4EkhxiTfxS3noq+2WtKz3MknlsK4K7C14dTgu3S6ljIFOTZ/Kw
- Uewu3580ZiseMYIUa8A7jUTpn/I0+wFvp/ZkyrUm3CTheVWtIyph4pAic9PPyO6kNX3g
- p/4A==
-X-Gm-Message-State: AOAM530XgjFzPEohbRZZFDCyJBgzA/5VJhmsuUL22X+nlplwKnEZ3Qqd
- /Zpvp7SbcehQCY1KRQYXrazxfA==
-X-Google-Smtp-Source: ABdhPJxA+eJqRc4b61aCE14bljpwlN4IJUNkqKHU/SAcj1YJ4unUZteSnNejnSJGLdw81zLT/Ih/VA==
-X-Received: by 2002:a65:6096:: with SMTP id t22mr21455082pgu.66.1614034054100; 
- Mon, 22 Feb 2021 14:47:34 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id r13sm1741496pfh.159.2021.02.22.14.47.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 14:47:33 -0800 (PST)
-Subject: Re: [RFC PATCH 4/5] Add migration support for KVM guest with MTE
-To: Haibo Xu <haibo.xu@linaro.org>
-References: <cover.1612747873.git.haibo.xu@linaro.org>
- <25a922038d256e47f3eb99683c5e3bd9c34753ac.1612747873.git.haibo.xu@linaro.org>
- <ae0326e2-8766-803a-ef89-1155d45fdd2a@linaro.org>
- <CAJc+Z1EERnkp1QhZu0Xkrxuw3u8bFM02x0=QVfXYxCRSbXiZeA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <eaa33646-f25b-a5df-a5f7-0c0ed9fd847b@linaro.org>
-Date: Mon, 22 Feb 2021 14:47:31 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lEKCh-00030p-RE
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 18:01:23 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:51042
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lEKCb-0006oV-Kl
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 18:01:23 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11MMYJ3o029274
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 18:01:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=nIw6kT5fqcpDOcA5FHUszC+TL+0iUHnZjBrlIX9b+JM=;
+ b=mSY+S8pZZma4WZI5CaNKVzaP/i8jSMLeX6S19WrwV8Rpdfbva5siE9uBTknMADY0YBHs
+ VkG9zMrNelQIE/EQ0nGKnFm0N8kEp4H7q3wwfftDFKULaAJIh86vyiTcw6a52dOkvxjV
+ JHyuuTMmnThalro656PhfEyRFASDqG1ekf2EULw7Bn9pTHHLam7FRttJfyW7SJFhr8IB
+ roSUYbH8W0LpPa/ikd+mKNe56sphcM1QnoxLAL5IVvengiCOBADMqYo8qXLj/i/gQDV5
+ /tLH+qJWJp8rRE05e/1bVV++Zn+BqdXiPbIjwhtABOpkKAZUKpC9dwRcZC49vs54TcXc ow== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36vkn0m67x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 18:01:12 -0500
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11MMr0rH125664
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 18:01:11 -0500
+Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
+ [169.63.121.186])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36vkn0m67d-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 18:01:11 -0500
+Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
+ by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11MMw3r5019030;
+ Mon, 22 Feb 2021 23:01:11 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma03wdc.us.ibm.com with ESMTP id 36tt28tdvs-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 23:01:11 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11MN1ARX45482318
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Feb 2021 23:01:10 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7103A6A047;
+ Mon, 22 Feb 2021 23:01:10 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F118A6A051;
+ Mon, 22 Feb 2021 23:01:09 +0000 (GMT)
+Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.163.12.145])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 22 Feb 2021 23:01:09 +0000 (GMT)
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] gitlab-ci.yml: Add jobs to test CFI
+Date: Mon, 22 Feb 2021 18:01:03 -0500
+Message-Id: <20210222230106.7030-1-dbuono@linux.vnet.ibm.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <CAJc+Z1EERnkp1QhZu0Xkrxuw3u8bFM02x0=QVfXYxCRSbXiZeA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-22_07:2021-02-22,
+ 2021-02-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 phishscore=0 mlxscore=0
+ mlxlogscore=765 clxscore=1015 suspectscore=0 impostorscore=0 adultscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102220194
+Received-SPF: none client-ip=148.163.158.5;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,41 +107,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Daniele Buono <dbuono@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 1:46 AM, Haibo Xu wrote:
-> As I mentioned in the cover later, the reason to let the tag go with the
-> memory data together is to make it easier to sync with each other. I think
-> if we migratie them separately, it would be hard to keep the tags to sync
-> with the data.
-Well, maybe, maybe not.  See below.
+For a few months now QEMU has had options to enable compiler-based
+control-flow integrity if built with clang.
 
+While this feature has a low maintenance, It's probably still better to
+add tests to the CI environment to check that an update doesn't break it.
 
-> Saying if we migration all the data first, then the tags. If the data got
-> dirty during the migration of the tag memory, we may need to send the data
-> again, or freeze the source VM after data migration? What's more, the
-> KVM_GET_DIRTY_LOG API may not be able to differentiate between a tag and
-> data changes.
-I would certainly expect KVM_GET_DIRTY_LOG to only care about the normal
-memory.  That is, pages as viewed by the guest.
+As an added benefit, this also inherently tests LTO. The patch allow
+gitlab testing of:
+* --enable-cfi: forward-edge cfi (function pointers)
+* --enable-safe-stack: backward-edge cfi (return pointers)
 
-I would expect the separate tag_memory block to be private to the host.  If a
-normal page is dirty, then we would read the tags into the tag_memory and
-manually mark that dirty.  Migration would continue as normal, and eventually
-both normal and tag memory would all be clean and migrated.
+My original intention was to create a single chain of
+build -> check -> acceptance, with all the targets compiled by default.
+Unfortunately, the resulting artifact is too big and won't be uploaded.
 
-But I'll admit that it does require that we retain a buffer 1/16 the size of
-main memory, which is otherwise unused, and thus this is less than ideal.  So
-if we do it your way, we should arrange for tcg to migrate the tag data in the
-same way.
+So I split the test in two chains, that should cover all non-deprecated
+targets as of today.
 
-I'll still wait for migration experts, of which I am not one.
+I also had to add a small patch to allow a custom selection for make
+parallelism. This is because the gitlab runner nodes only have ~3.5GB of
+ram, and with the default parallelism (2), in some cases two ld
+instances will start working on two binaries and exaust the memory.
+By only forcing one make job at a time, this is avoided.
 
+Test runs of the full pipeline are here (cfi-ci branch):
+https://gitlab.com/dbuono/qemu/-/pipelines/259931154
 
-r~
+Daniele Buono (2):
+  gitlab-ci.yml: Allow custom make parallelism
+  gitlab-ci.yml: Add jobs to test CFI flags
+
+ .gitlab-ci.yml | 94 +++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 93 insertions(+), 1 deletion(-)
+
+-- 
+2.30.0
+
 
