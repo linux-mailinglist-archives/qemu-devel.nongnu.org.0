@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62CA321788
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:51:56 +0100 (CET)
-Received: from localhost ([::1]:34354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19733217FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:08:07 +0100 (CET)
+Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEAgs-0000s4-E4
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:51:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52950)
+	id 1lEAwY-0006nv-DU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:08:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEAfu-0000R8-V2
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:50:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59270)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEAu1-00059U-Us; Mon, 22 Feb 2021 08:05:29 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:55133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEAfs-0006zc-VF
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:50:54 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lEAfo-0004jK-S6
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 12:50:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 454F82E8132
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 12:50:48 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEAtz-0004s5-Ho; Mon, 22 Feb 2021 08:05:29 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id cx11so6364154pjb.4;
+ Mon, 22 Feb 2021 05:05:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DnNGWABZCAAbsEvsjfx7EeGaFKqK66Vb507BqlIKgsI=;
+ b=CHLL9t1uXzZZuIWZMXjSnSBPjw07D55meRoxqBPF0cYF+Wo4CpbU72qaoyF9AVcCq7
+ KRohYk6UPY5/fFu0BgLDXYWuOlnFHGhAzGbNcEaF/1IeqdO6cLw+0eiZw98FYV+2707d
+ 3ytyX+NFx3giQX60tpMYTfqlIHOO40m76HD5eJoOi+LG7zvM8VN3CreNE4rN4WL0gTC2
+ qcdfWUu7WQV0uzcUWnytRD9sEqrELd27/FzYDdm8VST7Dy+fP4vmikmy0po2lTIIIjVG
+ d95WWHeRxs2SjGaHTGnAepniKMEjC6p1yjiZIDQRQtn0daxoL+glSWUwoS4zh1p+/v6j
+ THIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=DnNGWABZCAAbsEvsjfx7EeGaFKqK66Vb507BqlIKgsI=;
+ b=AwdL/k/qm3bLd+FFSULyDPXXPb1mIToVzauBUUGisoJEpheLJnK8a2rGFimKf2ckGs
+ G115VN9+HUGPU7kHuDGPfLBU2wiVykPNoqZvZouozE4T3W6j06wQsOLXLO3bxT3ykr26
+ MO4Q8PC/T9R/wRVkmSik83fXYuYXbW2URgeap19nCM8DCMUC1ohR8M+HhgaQRvOLgb+Z
+ CfGGK46byOJsTjW/IR6ftOkpBFRHJ4OxntQdtRbh6HiFXz7xAYvkF4sa11Z8A5MsVaji
+ cwyWlpuw/3P/TSIF4m8PgqxV8tOcKc+1kN9nUhDhGQoUCwrjb+gM/CdXy4hYvIoPBkRq
+ U49g==
+X-Gm-Message-State: AOAM531CS7HitsVtYRnV+EUK4WKSp3mGbByWdUr1Ujx6aZyEGONPwkDG
+ hzGFW77l08KqoWbBLS8EHd4=
+X-Google-Smtp-Source: ABdhPJzY0AjhEzvKJ6c+LnGN/0lw2JpBABrfOyBSNht2jOK0wBS7WgDOBugX0yznMckQFeU2siGnlA==
+X-Received: by 2002:a17:90a:8906:: with SMTP id
+ u6mr23593119pjn.223.1613999125353; 
+ Mon, 22 Feb 2021 05:05:25 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id q126sm19170171pfb.111.2021.02.22.05.05.20
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 05:05:24 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v4 0/5] hw/arm: zynqmp: Implement a CSU DMA model and connect
+ it with GQSPI
+Date: Mon, 22 Feb 2021 21:05:09 +0800
+Message-Id: <20210222130514.2167-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Feb 2021 12:40:15 -0000
-From: Frederic Bezies <1916394@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: fredb74
-X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
-References: <161392715224.29500.2044106040123688461.malonedeb@soybean.canonical.com>
-Message-Id: <161399761550.29547.9768302160756054823.malone@soybean.canonical.com>
-Subject: [Bug 1916394] Re: [git] Cannot build qemu: FAILED:
- target/hexagon/semantics_generated.pyinc 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: e4e30ec0413aa6833c39ff8cc1dc32d6ae998292
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,55 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916394 <1916394@bugs.launchpad.net>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Here is what I found to narrow the commit which breaks the build
-process.
+From: Bin Meng <bin.meng@windriver.com>
 
-Last working commit: 2184bca7b17559107032ba4fd8fc6f65345276ed -> "qapi:
-Replace List[str] with Sequence[str] for ifcond"
+ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+crash. This is observed when testing VxWorks 7.
 
-First broken commit: 3e7a84eeccc3b3a9b43c6dfb52bd98ea5acebf0a ->
-"Hexagon build infrastructure"
+We added a Xilinx CSU DMA model and the implementation is based on
+https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+and the one in Edgar's branch.
 
--- =
+Differences with Edgar's branch:
+1. Match the registers' FIELD to UG1807.
+2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
+   must be word aligned.
+3. Make the values of int_enable and int_disable mutually exclusive
+   otherwise IRQ cannot be delivered.
+4. Clear int_status after int_disable is set.
+5. Coding convention issues clean-up
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916394
+The DST part of the model is verified along with ZynqMP GQSPI model.
 
-Title:
-  [git] Cannot build qemu: FAILED:
-  target/hexagon/semantics_generated.pyinc
+Changes in v4:
+- Add complete CSU DMA model based on Edgar's branch
+- Differences with Edgar's branch:
+  1. Match the registers' FIELD to UG1807.
+  2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
+     must be word aligned.
+  3. Make the values of int_enable and int_disable mutually exclusive
+     otherwise IRQ cannot be delivered.
+  4. Clear int_status after int_disable is set.
+  5. Coding convention issues clean-up
+- remove one change that is not a checkpatch warning
+- Rename "csu_dma" to "qspi_dma"
+- Modify XLNX_ZYNQMP_SPIPS_R_MAX
 
-Status in QEMU:
-  New
+Changes in v3:
+- Implement DMA as a separate CSU DMA model
+- new patch: xlnx-zynqmp: Add XLNX CSU DMA module
+- new patch: xilinx_spips: Remove DMA related code from zynqmp_qspips
 
-Bug description:
-  Hello.
+Changes in v2:
+- Remove unconnected TYPE_STREAM_SINK link property
+- Add a TYPE_MEMORY_REGION link property, to allow board codes to tell
+  the device what its view of the world that it is doing DMA to is
+- Replace cpu_physical_memory_write() with address_space_write()
 
-  I'm using Archlinux and I maintain qemu-git AUR package.
+Xuzhou Cheng (5):
+  hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA model
+  hw/arm: xlnx-zynqmp: Clean up coding convention issues
+  hw/arm: xlnx-zynqmp: Connect a Xilinx CSU DMA module for QSPI
+  hw/ssi: xilinx_spips: Clean up coding convention issues
+  hw/ssi: xilinx_spips: Remove DMA related dead codes from zynqmp_spips
 
-  I tried to build Qemu at commit
-  4115aec9af2a3de5fa89a0b1daa12debcd7741ff but it stops with this error
-  message:
+ include/hw/arm/xlnx-zynqmp.h  |   5 +-
+ include/hw/dma/xlnx_csu_dma.h |  52 +++
+ include/hw/ssi/xilinx_spips.h |   2 +-
+ hw/arm/xlnx-zynqmp.c          |  23 +-
+ hw/dma/xlnx_csu_dma.c         | 747 ++++++++++++++++++++++++++++++++++
+ hw/ssi/xilinx_spips.c         |  33 +-
+ hw/arm/Kconfig                |   1 +
+ hw/dma/Kconfig                |   4 +
+ hw/dma/meson.build            |   1 +
+ 9 files changed, 844 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/dma/xlnx_csu_dma.h
+ create mode 100644 hw/dma/xlnx_csu_dma.c
 
-  Found ninja-1.10.2 at /usr/bin/ninja
-  [632/9068] Generating semantics_generated.pyinc with a custom command
-  FAILED: target/hexagon/semantics_generated.pyinc
-  @INPUT@ target/hexagon/semantics_generated.pyinc
-  /bin/sh: line 1: @INPUT@: command not found
-  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
-er.c.o
-  ninja: build stopped: subcommand failed.
+-- 
+2.25.1
 
-  ninja version: 1.10.2
-  meson version: 0.57.1
-
-  Downgrading meson doesn't change anything.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916394/+subscriptions
 
