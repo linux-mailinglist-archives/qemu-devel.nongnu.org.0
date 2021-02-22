@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CCD932191E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:41:09 +0100 (CET)
-Received: from localhost ([::1]:35968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 970BD32196B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:53:25 +0100 (CET)
+Received: from localhost ([::1]:41120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEBSW-0007YS-HN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:41:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35270)
+	id 1lEBeO-0005p4-Le
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:53:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEBOa-00037Y-1T
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEBOa-00037u-VG
  for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:37:04 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54474)
+Received: from mx2.suse.de ([195.135.220.15]:54488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEBOR-0001On-2Y
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:37:03 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEBOR-0001PI-OC
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:37:04 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 36BEDAFF5;
+ by mx2.suse.de (Postfix) with ESMTP id E6196AF3E;
  Mon, 22 Feb 2021 13:36:43 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
@@ -28,10 +28,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v21 16/17] i386: gdbstub: only write CR0/CR2/CR3/EFER for
- SOFTMMU
-Date: Mon, 22 Feb 2021 14:36:33 +0100
-Message-Id: <20210222133634.2235-17-cfontana@suse.de>
+Subject: [PATCH v21 17/17] i386: move cpu_load_efer into SOFTMMU-only section
+ of cpu.h
+Date: Mon, 22 Feb 2021 14:36:34 +0100
+Message-Id: <20210222133634.2235-18-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210222133634.2235-1-cfontana@suse.de>
 References: <20210222133634.2235-1-cfontana@suse.de>
@@ -63,70 +63,65 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
----
- target/i386/gdbstub.c | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
+cpu_load_efer is now used only for softmmu code.
 
-diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
-index 41e265fc67..9f505d6ee3 100644
---- a/target/i386/gdbstub.c
-+++ b/target/i386/gdbstub.c
-@@ -383,26 +383,38 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+Therefore, make this inline function not visible anymore
+in CONFIG_USER_ONLY builds.
+
+Signed-off-by: Claudio Fontana <cfontana@suse.de>
+---
+ target/i386/cpu.h | 31 ++++++++++++++++---------------
+ 1 file changed, 16 insertions(+), 15 deletions(-)
+
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 770c833363..3ccf28b443 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1957,6 +1957,22 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
+     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
+ }
  
-         case IDX_CTL_CR0_REG:
-             if (env->hflags & HF_CS64_MASK) {
-+#ifdef CONFIG_SOFTMMU
-                 cpu_x86_update_cr0(env, ldq_p(mem_buf));
-+#endif
-                 return 8;
-             }
-+#ifdef CONFIG_SOFTMMU
-             cpu_x86_update_cr0(env, ldl_p(mem_buf));
-+#endif
-             return 4;
++/*
++ * load efer and update the corresponding hflags. XXX: do consistency
++ * checks with cpuid bits?
++ */
++static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
++{
++    env->efer = val;
++    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
++    if (env->efer & MSR_EFER_LMA) {
++        env->hflags |= HF_LMA_MASK;
++    }
++    if (env->efer & MSR_EFER_SVME) {
++        env->hflags |= HF_SVME_MASK;
++    }
++}
++
+ uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
+ uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
+ uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
+@@ -2053,21 +2069,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
+     return eflags;
+ }
  
-         case IDX_CTL_CR2_REG:
-             if (env->hflags & HF_CS64_MASK) {
-+#ifdef CONFIG_SOFTMMU
-                 env->cr[2] = ldq_p(mem_buf);
-+#endif
-                 return 8;
-             }
-+#ifdef CONFIG_SOFTMMU
-             env->cr[2] = ldl_p(mem_buf);
-+#endif
-             return 4;
- 
-         case IDX_CTL_CR3_REG:
-             if (env->hflags & HF_CS64_MASK) {
-+#ifdef CONFIG_SOFTMMU
-                 cpu_x86_update_cr3(env, ldq_p(mem_buf));
-+#endif
-                 return 8;
-             }
-+#ifdef CONFIG_SOFTMMU
-             cpu_x86_update_cr3(env, ldl_p(mem_buf));
-+#endif
-             return 4;
- 
-         case IDX_CTL_CR4_REG:
-@@ -427,10 +439,14 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
- 
-         case IDX_CTL_EFER_REG:
-             if (env->hflags & HF_CS64_MASK) {
-+#ifdef CONFIG_SOFTMMU
-                 cpu_load_efer(env, ldq_p(mem_buf));
-+#endif
-                 return 8;
-             }
-+#ifdef CONFIG_SOFTMMU
-             cpu_load_efer(env, ldl_p(mem_buf));
-+#endif
-             return 4;
- 
-         }
+-
+-/* load efer and update the corresponding hflags. XXX: do consistency
+-   checks with cpuid bits? */
+-static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
+-{
+-    env->efer = val;
+-    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
+-    if (env->efer & MSR_EFER_LMA) {
+-        env->hflags |= HF_LMA_MASK;
+-    }
+-    if (env->efer & MSR_EFER_SVME) {
+-        env->hflags |= HF_SVME_MASK;
+-    }
+-}
+-
+ static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
+ {
+     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
 -- 
 2.26.2
 
