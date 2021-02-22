@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EFDF3214BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 12:05:53 +0100 (CET)
-Received: from localhost ([::1]:35566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB56C3214D7
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 12:12:11 +0100 (CET)
+Received: from localhost ([::1]:39152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE92G-0001i7-KP
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 06:05:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57808)
+	id 1lE98M-0003vf-FM
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 06:12:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lE8yM-0007Gs-By
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:01:50 -0500
-Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:33324)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lE8yH-00010i-LI
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:01:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 97E3A268288;
- Mon, 22 Feb 2021 12:01:40 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 22 Feb
- 2021 12:01:39 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R00341a78e50-9373-4196-9071-97badd1303aa,
- 7322555201F4CCBA135B576978D07BE5564972B5) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 22 Feb 2021 12:01:38 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Leonardo Augusto =?UTF-8?B?R3VpbWFyw6Nlcw==?= Garcia
- <lagarcia@linux.ibm.com>
-Subject: Re: Editing QEMU POWER Platform wiki page
-Message-ID: <20210222120138.31f313c9@bahia.lan>
-In-Reply-To: <91874f1e-4b14-5fb1-f1ae-1225938df759@linux.ibm.com>
-References: <91874f1e-4b14-5fb1-f1ae-1225938df759@linux.ibm.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lE97W-0003TT-Bw
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:11:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53624)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lE97T-0005RK-Ae
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:11:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613992274;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fE7mnnw7gi55B/Yq2NJBK3OBE4RZmlk/I+uFKGEBExs=;
+ b=E8zZIJ4sSx1EVqfFGuN+HhNAw/NetGtfcm8byIZGo++LIc1RPqMfwZYNjXfsTEnRElLH3f
+ 1VF9ABF0ht4VoBWn/iRFqKwXMMUJmENvzXek3kx+5zpvL2PqSjOiAhbkdU9je228Mb0bUJ
+ tFps6u7gaz8w7ad8laJVLGnArkxPSUQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-342-7lXZRTIoNd6Te0ikCcPbaA-1; Mon, 22 Feb 2021 06:11:12 -0500
+X-MC-Unique: 7lXZRTIoNd6Te0ikCcPbaA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1D9E835E23;
+ Mon, 22 Feb 2021 11:11:10 +0000 (UTC)
+Received: from gondolin (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id F024E5D9CC;
+ Mon, 22 Feb 2021 11:11:05 +0000 (UTC)
+Date: Mon, 22 Feb 2021 12:11:03 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Pierre Morel <pmorel@linux.ibm.com>
+Subject: Re: [PATCH v2 0/1] css: SCHIB measurement block origin must be aligned
+Message-ID: <20210222121103.6801c004.cohuck@redhat.com>
+In-Reply-To: <1613741973-3711-1-git-send-email-pmorel@linux.ibm.com>
+References: <1613741973-3711-1-git-send-email-pmorel@linux.ibm.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: fe13f32d-bacd-40ce-8221-4c4e854fc262
-X-Ovh-Tracer-Id: 10309865447699683631
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgedvteejtedvtdfgvdejleetuefhledtveetvefgueeifeelgedvleffkeekvddunecuffhomhgrihhnpehqvghmuhdrohhrghdprhgvrgguthhhvgguohgtshdrihhonecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
- helo=7.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,74 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU devel list <qemu-devel@nongnu.org>,
- Programmingkid <programmingkidx@gmail.com>, QEMU PPC
- devel list <qemu-ppc@nongnu.org>, Cedric Le Goater <clg@kaod.org>,
- lagarcia@br.ibm.com, David Gibson <david@gibson.dropbear.id.au>
+Cc: thuth@redhat.com, david@redhat.com, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 18 Feb 2021 10:16:25 -0300
-Leonardo Augusto Guimar=C3=A3es Garcia <lagarcia@linux.ibm.com> wrote:
+On Fri, 19 Feb 2021 14:39:32 +0100
+Pierre Morel <pmorel@linux.ibm.com> wrote:
 
-> Hi there,
->=20
-> I would like to edit the wiki page at [0] as it contains some outdated=20
-> information. Could anyone that has access to the wiki please help me=20
-> create a user so that I can edit it?
->=20
-> 0. https://wiki.qemu.org/Documentation/Platforms/POWER
->=20
+> Hi,
+> 
+> By testing Measurement with KVM unit tests I fall on this:
+> we forgot to test the alignment of the MBO for measurement format 1.
+> 
+> The last 6 bits of the MBO must be null, i.e. an aligned on 64 bytes
+> of the MBO, otherwise an operand exception is recognized when issuing
+> a msch instruction.
+> 
+> Regards,
+> Pierre
+> 
+> 
+> Pierre Morel (1):
+>   css: SCHIB measurement block origin must be aligned
+> 
+>  target/s390x/ioinst.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
 
-Hi Leo,
-
-User creation isn't publicly available to avoid spam : only an existing
-user can create a new account. This being said, wiki isn't the preferred
-way to expose documentation since there's no review and things ultimately
-bitrot. Page [0] you want to update is a perfect example of the mess :
-not only it contains irrelevant data but also stuff that is definitely
-wrong (e.g. 'compat' cpu property was deprecated in QEMU 5.0 and will
-be removed in QEMU 6.0).
-
-Ideally we'd want everything to be in the main QEMU doc and don't
-even need a wiki.
-
-On the PowerPC front, the most up-to-date docs are in the QEMU tree:
-
-docs/system/ppc/embedded.rst=20
-docs/system/ppc/powermac.rst=20
-docs/system/ppc/powernv.rst =20
-docs/system/ppc/prep.rst    =20
-docs/system/ppc/pseries.rst =20
-docs/system/target-ppc.rst  =20
-
-So I don't know exactly what changes you had in mind, but maybe first
-consider to update the main documentation.
-
-On my side, I think I want do ditch all the current content and just put
-links to https://qemu.readthedocs.io/en/latest/ instead. I can take care
-of that, in which case you wouldn't need an account.
-
-Cheers,
-
---
-Greg
-
-PS:
-
-Cedric reported that we also have a page for non-pseries
-platforms:
-
-https://wiki.qemu.org/Documentation/Platforms/PowerPC
-
-I'm Cc'ing some regular contributors for those platforms so
-they can  evaluate the bitrotting status of this wiki.
-
-> Cheers,
->=20
-> Leo
->=20
->=20
+Thanks, applied.
 
 
