@@ -2,67 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9DCE321081
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:42:05 +0100 (CET)
-Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0552B32107E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:37:07 +0100 (CET)
+Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE3yu-00022q-P1
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:42:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42648)
+	id 1lE3u6-0008TR-3T
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lE3xs-0001a8-Mt
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:41:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56798)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lE3t1-00081X-PW
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:35:59 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:37263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lE3xq-0005Mx-9m
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:41:00 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lE3xo-0007Uk-3i
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:40:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1AF492E8024
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:40:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lE3sy-00034q-Tr
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:35:59 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id ds5so463038pjb.2
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 21:35:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pAfxwNtVVxVRcBTSL+PEGU54pKdiE74BAcy5JXjGMcE=;
+ b=k3Fs61eiyw+J6vSnP0FBeQECHdRmfOsp2BMb4Z6rRDmkxpXQmAMXC//MLj9MFfLwoL
+ CLZ+vqrjif57W2C9CkMQcz63vKhyrjV5pPAe1CRRiEzlzr5u0HZ04ojli1Vc45Eza154
+ eePe9liNJ/MM7WGYeVsrcBV5sh6kUIHKHDHF0p9gb8/J8EQTdD8oqEZSza63YQTGOSaF
+ OqlbVF1avYeNyejLOyceaymgxmWyFEnYKjc9NoKD99PF2Jef4LNrcpDmNc5LVBMLh8A1
+ 1DtZEQKkxrNEkgIApEh1slZ+d6fpqIBsvpFKwWyvQ04zEZ09Jh68KIWLUQWbK5nkNb/P
+ cXyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pAfxwNtVVxVRcBTSL+PEGU54pKdiE74BAcy5JXjGMcE=;
+ b=mYe3Mq4E28aaU+vCxZ/UgC803T0oemCug8uYGz4aZUyagC5COlEmcwV8t/JG4EuuMV
+ 3piiUmiB3eIDHE1bPcmZql5pst4FDEFr8uJQz8vjoAwVtiyw5x2J9zZEInxpNqsm7dx5
+ fI3JKPUpyadYthvwaJcR2wMabEssx0sdoqOSBGhHqg3f0iHqrLiX5U6PEPSnL/qJcqHL
+ 9g5KY3Xg9TesSdcuiuR+m5iaho5NaNFHOI8LvZiU0+nw6wn7Upy7AEHjBdz2xgpXwLGZ
+ JHkJdWDJHmt6CGDwl0ZbAjAwsOlIZVNXd56/Xcc7+r65/A1djfbkVnxiNSM1L8MSql9p
+ gPsg==
+X-Gm-Message-State: AOAM531A1adPNh+rLT24tRq2SrqHpLwYjQUZVFQFxqODNGD5VBFmInzx
+ x7iQCuOqywqD2XxCBsNw29r8Q5mOApj5BA==
+X-Google-Smtp-Source: ABdhPJx80672IF6XH3dsrsQr7eBe2HQj2dJpl85U1JDpk5xMsf9wEMvYWYOPD9HSgb7m7Pg+Vr/FDg==
+X-Received: by 2002:a17:90b:4acd:: with SMTP id
+ mh13mr22008253pjb.229.1613972154825; 
+ Sun, 21 Feb 2021 21:35:54 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id f13sm23107089pjj.1.2021.02.21.21.35.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 21 Feb 2021 21:35:54 -0800 (PST)
+Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
+To: Claudio Fontana <cfontana@suse.de>
+References: <20210221092449.7545-1-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <80a645c4-866c-2791-ac9c-91118018a44c@linaro.org>
+Date: Sun, 21 Feb 2021 21:35:38 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Feb 2021 05:35:10 -0000
-From: Ravishankar <1836501@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm kvm
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor pmaydell rreddy78 skandal
-X-Launchpad-Bug-Reporter: Lutz (skandal)
-X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
-References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
-Message-Id: <161397211101.17917.14422761163095427518.malone@wampee.canonical.com>
-Subject: [Bug 1836501] Re: cpu_address_space_init fails with assertion
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 9b630ee8566b829b5cb12fda5c7ee46f331e3455
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210221092449.7545-1-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,71 +87,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am having a similar problem. I want to use KVM on jetson nano and boot
-Raspbian Buster 32bit OS with native machine emulation.
+On 2/21/21 1:24 AM, Claudio Fontana wrote:
+>   target/arm: move psci.c into tcg/softmmu/
 
-Run into a similar problem. I used latest QEMU.
+Terminology: the opposite of user-only is not "softmmu" but "system".
 
--- =
+One glorious day in the far future user-only will, as an option, use softmmu.
+It will fix all sorts of problems with alignment faults and host/guest virtual
+address space mismatch.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1836501
 
-Title:
-  cpu_address_space_init fails with assertion
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
-
-    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
-  failed.
-
-  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
-  Stretch (9) or Buster (10).
-
-  Without KVM it is running fine but slow. I'm operating Debian Jessie
-  with qemu 2.1 for a long time with KVM virtualization working
-  flawlessly. When I upgraded to Stretch I ran into the trouble
-  described before. I tried Debian Stretch and Buster with all Kernels
-  provided by the Board manufacturer (Hardkernel).
-
-  It seems to be related to the feature introduced in Version 2.6:
-  https://wiki.qemu.org/ChangeLog/2.6
-  - Support for a separate EL3 address space
-
-  KVM is enabled, so I assume the adress space index asidx to be causing
-  the assert to fail.
-
-  dmesg | grep -i KVM
-  [    0.741714] kvm [1]: 8-bit VMID
-  [    0.741721] kvm [1]: IDMAP page: 40201000
-  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
-  [    0.742543] kvm [1]: Hyp mode initialized successfully
-  [    0.742600] kvm [1]: vgic-v2@10484000
-  [    0.742924] kvm [1]: vgic interrupt IRQ16
-  [    0.742943] kvm [1]: virtual timer IRQ60
-
-  Full command line is:
-  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
-el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
-blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
-e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
-
-  Is there anything to do to understand, if this is a hardware related
-  failure or probably just a missing parameter?
-
-  Regards
-
-  Lutz
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
+r~
 
