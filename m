@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0552B32107E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:37:07 +0100 (CET)
-Received: from localhost ([::1]:54606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9D6E321088
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:46:30 +0100 (CET)
+Received: from localhost ([::1]:34494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE3u6-0008TR-3T
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:37:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41920)
+	id 1lE43B-00046T-NU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:46:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE3t1-00081X-PW
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:35:59 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:37263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE3sy-00034q-Tr
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:35:59 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id ds5so463038pjb.2
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 21:35:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:cc:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=pAfxwNtVVxVRcBTSL+PEGU54pKdiE74BAcy5JXjGMcE=;
- b=k3Fs61eiyw+J6vSnP0FBeQECHdRmfOsp2BMb4Z6rRDmkxpXQmAMXC//MLj9MFfLwoL
- CLZ+vqrjif57W2C9CkMQcz63vKhyrjV5pPAe1CRRiEzlzr5u0HZ04ojli1Vc45Eza154
- eePe9liNJ/MM7WGYeVsrcBV5sh6kUIHKHDHF0p9gb8/J8EQTdD8oqEZSza63YQTGOSaF
- OqlbVF1avYeNyejLOyceaymgxmWyFEnYKjc9NoKD99PF2Jef4LNrcpDmNc5LVBMLh8A1
- 1DtZEQKkxrNEkgIApEh1slZ+d6fpqIBsvpFKwWyvQ04zEZ09Jh68KIWLUQWbK5nkNb/P
- cXyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:cc:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pAfxwNtVVxVRcBTSL+PEGU54pKdiE74BAcy5JXjGMcE=;
- b=mYe3Mq4E28aaU+vCxZ/UgC803T0oemCug8uYGz4aZUyagC5COlEmcwV8t/JG4EuuMV
- 3piiUmiB3eIDHE1bPcmZql5pst4FDEFr8uJQz8vjoAwVtiyw5x2J9zZEInxpNqsm7dx5
- fI3JKPUpyadYthvwaJcR2wMabEssx0sdoqOSBGhHqg3f0iHqrLiX5U6PEPSnL/qJcqHL
- 9g5KY3Xg9TesSdcuiuR+m5iaho5NaNFHOI8LvZiU0+nw6wn7Upy7AEHjBdz2xgpXwLGZ
- JHkJdWDJHmt6CGDwl0ZbAjAwsOlIZVNXd56/Xcc7+r65/A1djfbkVnxiNSM1L8MSql9p
- gPsg==
-X-Gm-Message-State: AOAM531A1adPNh+rLT24tRq2SrqHpLwYjQUZVFQFxqODNGD5VBFmInzx
- x7iQCuOqywqD2XxCBsNw29r8Q5mOApj5BA==
-X-Google-Smtp-Source: ABdhPJx80672IF6XH3dsrsQr7eBe2HQj2dJpl85U1JDpk5xMsf9wEMvYWYOPD9HSgb7m7Pg+Vr/FDg==
-X-Received: by 2002:a17:90b:4acd:: with SMTP id
- mh13mr22008253pjb.229.1613972154825; 
- Sun, 21 Feb 2021 21:35:54 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id f13sm23107089pjj.1.2021.02.21.21.35.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 21:35:54 -0800 (PST)
-Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: Claudio Fontana <cfontana@suse.de>
-References: <20210221092449.7545-1-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <80a645c4-866c-2791-ac9c-91118018a44c@linaro.org>
-Date: Sun, 21 Feb 2021 21:35:38 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE41S-0003WW-OE
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:44:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46276)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE41O-0007Xw-Mf
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:44:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613972677;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RX2Aelf31xy+HW9UliW4fJ9t/eHaTfCkENcb4FsWgnI=;
+ b=KsO2UxlHnjNWzkrsJ5VVvmYVcpFFedK36xAOh+rjju+M5gWPyz5d0qdusLnbwUdxLqpJWn
+ Hqh5+GtXYIsOdw8DlJ4JgUz/hUNNoHPL8fyef8JxUjHvIsGJ4IZCHE9iFDHK/CxoNZFzE7
+ TgfxXXpkkAiZRvTFhMExz604JBYeCJ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-331-EqTv944kNKKCkF79dw2wGA-1; Mon, 22 Feb 2021 00:44:34 -0500
+X-MC-Unique: EqTv944kNKKCkF79dw2wGA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B73A80197A;
+ Mon, 22 Feb 2021 05:44:33 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-97.ams2.redhat.com [10.36.112.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EF55C5D9CC;
+ Mon, 22 Feb 2021 05:44:31 +0000 (UTC)
+Subject: Re: [PATCH v2] configure: fix --enable-fuzzing linker failures
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+References: <20210221174510.22542-1-alxndr@bu.edu>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <b3395333-4939-b25f-13de-256d092f3835@redhat.com>
+Date: Mon, 22 Feb 2021 06:44:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210221092449.7545-1-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210221174510.22542-1-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,19 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, Li Qiang <liq3ea@163.com>, f4bug@amsat.org,
+ peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 1:24 AM, Claudio Fontana wrote:
->   target/arm: move psci.c into tcg/softmmu/
+On 21/02/2021 18.45, Alexander Bulekov wrote:
+> With --enable-fuzzing, QEMU_CFLAGS include -fsanitize=fuzzer-no-link.
+> This should allow us to build non-fuzzer binaries using objects
+> instrumented for fuzzing. However, to do that, we also need to link with
+> -fsanitize=fuzzer-no-link. We were not doing that.
+> 
+> Reported-by: Li Qiang <liq3ea@163.com>,
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+> v2: Fix a mistake in the added QEMU_LDFLAGS line
+> 
+>   configure | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index a79b3746d4..19f2b88589 100755
+> --- a/configure
+> +++ b/configure
+> @@ -6096,7 +6096,17 @@ if test "$fuzzing" = "yes" ; then
+>     # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
+>     # needed CFLAGS have already been provided
+>     if test -z "${LIB_FUZZING_ENGINE+xxx}" ; then
+> +    # Add CFLAGS to tell clang to add fuzzer-related instrumentation to all the
+> +    # compiled code.
+>       QEMU_CFLAGS="$QEMU_CFLAGS -fsanitize=fuzzer-no-link"
+> +    # To build non-fuzzer binaries with --enable-fuzzing, link everything with
+> +    # fsanitize=fuzzer-no-link. Otherwise, the linker will be unable to bind
+> +    # the fuzzer-related callbacks added by instrumentation.
+> +    QEMU_LDFLAGS="$QEMU_LDFLAGS -fsanitize=fuzzer-no-link"
+> +    # For the actual fuzzer binaries, we need to link against the libfuzzer
+> +    # library. Provide the flags for doing this in FUZZ_EXE_LDFLAGS. The meson
+> +    # rule for the fuzzer adds these to the link_args. They need to be
+> +    # configurable, to support OSS-Fuzz
+>       FUZZ_EXE_LDFLAGS="-fsanitize=fuzzer"
+>     else
+>       FUZZ_EXE_LDFLAGS="$LIB_FUZZING_ENGINE"
+> 
 
-Terminology: the opposite of user-only is not "softmmu" but "system".
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
-One glorious day in the far future user-only will, as an option, use softmmu.
-It will fix all sorts of problems with alignment faults and host/guest virtual
-address space mismatch.
-
-
-r~
 
