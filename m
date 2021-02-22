@@ -2,50 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A03AB321BFB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:59:09 +0100 (CET)
-Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEDA9321BD9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:51:14 +0100 (CET)
+Received: from localhost ([::1]:49514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDc3-00085y-Do
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:59:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
+	id 1lEDUP-0008Bl-RC
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:51:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lEDYa-0004Y8-OA; Mon, 22 Feb 2021 10:55:33 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:13774)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lEDYV-0003Rt-Uy; Mon, 22 Feb 2021 10:55:31 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 84E55746357;
- Mon, 22 Feb 2021 16:55:23 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4FBC8746342; Mon, 22 Feb 2021 16:55:23 +0100 (CET)
-Message-Id: <6371141da056b8b0890ca3f43221da138410374b.1614007326.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1614007326.git.balaton@eik.bme.hu>
-References: <cover.1614007326.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 1/6] vt82c686: Implement control of serial port io ranges
- via config regs
-Date: Mon, 22 Feb 2021 16:22:06 +0100
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEDKX-0007o0-Gb
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:41:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEDKR-0005De-7F
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:41:01 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lEDKO-0001E0-LK
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 15:40:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 73E462E80FC
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 15:40:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Feb 2021 15:34:39 -0000
+From: Maya <1916501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mrashish
+X-Launchpad-Bug-Reporter: Maya (mrashish)
+X-Launchpad-Bug-Modifier: Maya (mrashish)
+Message-Id: <161400808000.28728.8511381080583624216.malonedeb@soybean.canonical.com>
+Subject: [Bug 1916501] [NEW] qemu-img convert segfaults with specific URL
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: f0b407869081d031559aec045c98b023aaba2c23
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -54,163 +68,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, f4bug@amsat.org,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1916501 <1916501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In VIA super south bridge the io ranges of superio components
-(parallel and serial ports and FDC) can be controlled by superio
-config registers to set their base address and enable/disable them.
-This is not easy to implement in QEMU because ISA emulation is only
-designed to set io base address once on creating the device and io
-ranges are registered at creation and cannot easily be disabled or
-moved later.
+Public bug reported:
 
-In this patch we hack around that but only for serial ports because
-those have a single io range at port base that's relatively easy to
-handle and it's what guests actually use and set address different
-than the default.
+Using what is currently the latest git: (commit
+00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462, Date:   Sun Feb 21 19:52:58
+2021 +0000)
 
-We do not attempt to handle controlling the parallel and FDC regions
-because those have multiple io ranges so handling them would be messy
-and guests either don't change their deafult or don't care. We could
-even get away with disabling and not emulating them, but since they
-are already there, this patch leaves them mapped at their default
-address just in case this could be useful for a guest in the future.
+$ ./build/qemu-img convert -f qcow2 -O raw https://download.cirros-cloud.ne=
+t/0.4.0/cirros-0.4.0-x86_64-disk.img out.img
+Segmentation fault (core dumped)
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 2 deletions(-)
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 5db9b1706c..98bd57a074 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     MemoryRegion io;
-+    ISASuperIODevice *superio;
-+    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
- } SuperIOConfig;
- 
-+static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
-+                                    int offs)
-+{
-+    MemoryRegion *subregion, *mr = NULL;
-+
-+    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
-+        if (subregion->addr == offs) {
-+            mr = subregion;
-+            break;
-+        }
-+    }
-+    return mr;
-+}
-+
- static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-                               unsigned size)
- {
-@@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-     case 0xfd ... 0xff:
-         /* ignore write to read only registers */
-         return;
--    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-+    case 0xe2:
-+    {
-+        data &= 0x1f;
-+        if (data & BIT(2)) { /* Serial port 1 enable */
-+            ISADevice *dev = sc->superio->serial[0];
-+            if (!memory_region_is_mapped(sc->serial_io[0])) {
-+                memory_region_add_subregion(isa_address_space_io(dev),
-+                                            dev->ioport_id, sc->serial_io[0]);
-+            }
-+        } else {
-+            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
-+            if (memory_region_is_mapped(sc->serial_io[0])) {
-+                memory_region_del_subregion(io, sc->serial_io[0]);
-+            }
-+        }
-+        if (data & BIT(3)) { /* Serial port 2 enable */
-+            ISADevice *dev = sc->superio->serial[1];
-+            if (!memory_region_is_mapped(sc->serial_io[1])) {
-+                memory_region_add_subregion(isa_address_space_io(dev),
-+                                            dev->ioport_id, sc->serial_io[1]);
-+            }
-+        } else {
-+            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
-+            if (memory_region_is_mapped(sc->serial_io[1])) {
-+                memory_region_del_subregion(io, sc->serial_io[1]);
-+            }
-+        }
-+        break;
-+    }
-+    case 0xe7: /* Serial port 1 io base address */
-+    {
-+        data &= 0xfe;
-+        sc->superio->serial[0]->ioport_id = data << 2;
-+        if (memory_region_is_mapped(sc->serial_io[0])) {
-+            memory_region_set_address(sc->serial_io[0], data << 2);
-+        }
-+        break;
-+    }
-+    case 0xe8: /* Serial port 2 io base address */
-+    {
-+        data &= 0xfe;
-+        sc->superio->serial[1]->ioport_id = data << 2;
-+        if (memory_region_is_mapped(sc->serial_io[1])) {
-+            memory_region_set_address(sc->serial_io[1], data << 2);
-+        }
-+        break;
-+    }
-     default:
-         qemu_log_mask(LOG_UNIMP,
-                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
-@@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     DeviceState *dev = DEVICE(d);
-     ISABus *isa_bus;
-     qemu_irq *isa_irq;
-+    ISASuperIOClass *ic;
-     int i;
- 
-     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-@@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
--    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-+    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
-+                                                      TYPE_VT82C686B_SUPERIO));
-+    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
-     mc146818_rtc_init(isa_bus, 2000, NULL);
- 
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-@@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
-                                 &s->superio_cfg.io);
-+
-+    /* Grab io regions of serial devices so we can control them */
-+    for (i = 0; i < ic->serial.count; i++) {
-+        ISADevice *sd = s->superio_cfg.superio->serial[i];
-+        MemoryRegion *io = isa_address_space_io(sd);
-+        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
-+        if (!mr) {
-+            error_setg(errp, "Could not get io region for serial %d", i);
-+            return;
-+        }
-+        s->superio_cfg.serial_io[i] = mr;
-+        if (memory_region_is_mapped(mr)) {
-+            memory_region_del_subregion(io, mr);
-+        }
-+    }
- }
- 
- static void via_class_init(ObjectClass *klass, void *data)
--- 
-2.21.3
+Backtrace for convenience:
+qemu: qemu_mutex_lock_impl: Invalid argument
 
+Thread 1 "qemu-img" received signal SIGABRT, Aborted.
+0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+(gdb) bt
+#0  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+#1  0x00007ffff77ae8a4 in abort () from /lib64/libc.so.6
+#2  0x00005555556705b2 in error_exit (err=3D<optimized out>, msg=3Dmsg@entr=
+y=3D0x5555556b69a0 <__func__.31> "qemu_mutex_lock_impl") at ../util/qemu-th=
+read-posix.c:37
+#3  0x0000555555670945 in qemu_mutex_lock_impl (mutex=3D0x555555ae3758, fil=
+e=3D0x5555556827a2 "../block/curl.c", line=3D406) at ../util/qemu-thread-po=
+six.c:81
+#4  0x000055555559a05b in curl_multi_do (arg=3D0x555555aad2a0) at ../block/=
+curl.c:406
+#5  0x000055555566193a in aio_dispatch_handler (ctx=3Dctx@entry=3D0x5555557=
+37790, node=3D0x555555b14150) at ../util/aio-posix.c:329
+#6  0x0000555555662072 in aio_dispatch_handlers (ctx=3D0x555555737790) at .=
+./util/aio-posix.c:372
+#7  aio_dispatch (ctx=3D0x555555737790) at ../util/aio-posix.c:382
+#8  0x000055555564442e in aio_ctx_dispatch (source=3D<optimized out>, callb=
+ack=3D<optimized out>, user_data=3D<optimized out>) at ../util/async.c:306
+#9  0x00007ffff7cfda9f in g_main_context_dispatch () from /lib64/libglib-2.=
+0.so.0
+#10 0x000055555566f2c8 in glib_pollfds_poll () at ../util/main-loop.c:232
+#11 os_host_main_loop_wait (timeout=3D4397000000) at ../util/main-loop.c:255
+#12 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-lo=
+op.c:531
+#13 0x0000555555581edd in convert_do_copy (s=3D0x7fffffffd3a0) at ../qemu-i=
+mg.c:2139
+#14 img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ../qemu=
+-img.c:2738
+#15 0x00005555555783b1 in main (argc=3D7, argv=3D<optimized out>) at ../qem=
+u-img.c:5536
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916501
+
+Title:
+  qemu-img convert segfaults with specific URL
+
+Status in QEMU:
+  New
+
+Bug description:
+  Using what is currently the latest git: (commit
+  00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462, Date:   Sun Feb 21 19:52:58
+  2021 +0000)
+
+  $ ./build/qemu-img convert -f qcow2 -O raw https://download.cirros-cloud.=
+net/0.4.0/cirros-0.4.0-x86_64-disk.img out.img
+  Segmentation fault (core dumped)
+
+  =
+
+  Backtrace for convenience:
+  qemu: qemu_mutex_lock_impl: Invalid argument
+
+  Thread 1 "qemu-img" received signal SIGABRT, Aborted.
+  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+  (gdb) bt
+  #0  0x00007ffff77c59d5 in raise () from /lib64/libc.so.6
+  #1  0x00007ffff77ae8a4 in abort () from /lib64/libc.so.6
+  #2  0x00005555556705b2 in error_exit (err=3D<optimized out>, msg=3Dmsg@en=
+try=3D0x5555556b69a0 <__func__.31> "qemu_mutex_lock_impl") at ../util/qemu-=
+thread-posix.c:37
+  #3  0x0000555555670945 in qemu_mutex_lock_impl (mutex=3D0x555555ae3758, f=
+ile=3D0x5555556827a2 "../block/curl.c", line=3D406) at ../util/qemu-thread-=
+posix.c:81
+  #4  0x000055555559a05b in curl_multi_do (arg=3D0x555555aad2a0) at ../bloc=
+k/curl.c:406
+  #5  0x000055555566193a in aio_dispatch_handler (ctx=3Dctx@entry=3D0x55555=
+5737790, node=3D0x555555b14150) at ../util/aio-posix.c:329
+  #6  0x0000555555662072 in aio_dispatch_handlers (ctx=3D0x555555737790) at=
+ ../util/aio-posix.c:372
+  #7  aio_dispatch (ctx=3D0x555555737790) at ../util/aio-posix.c:382
+  #8  0x000055555564442e in aio_ctx_dispatch (source=3D<optimized out>, cal=
+lback=3D<optimized out>, user_data=3D<optimized out>) at ../util/async.c:306
+  #9  0x00007ffff7cfda9f in g_main_context_dispatch () from /lib64/libglib-=
+2.0.so.0
+  #10 0x000055555566f2c8 in glib_pollfds_poll () at ../util/main-loop.c:232
+  #11 os_host_main_loop_wait (timeout=3D4397000000) at ../util/main-loop.c:=
+255
+  #12 main_loop_wait (nonblocking=3Dnonblocking@entry=3D0) at ../util/main-=
+loop.c:531
+  #13 0x0000555555581edd in convert_do_copy (s=3D0x7fffffffd3a0) at ../qemu=
+-img.c:2139
+  #14 img_convert (argc=3D<optimized out>, argv=3D<optimized out>) at ../qe=
+mu-img.c:2738
+  #15 0x00005555555783b1 in main (argc=3D7, argv=3D<optimized out>) at ../q=
+emu-img.c:5536
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916501/+subscriptions
 
