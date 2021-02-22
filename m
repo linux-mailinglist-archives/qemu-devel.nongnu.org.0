@@ -2,99 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2708B321E5D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:43:23 +0100 (CET)
-Received: from localhost ([::1]:47222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B8E5321E62
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:44:16 +0100 (CET)
+Received: from localhost ([::1]:50580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEFEw-0002Fj-7w
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:43:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49720)
+	id 1lEFFn-0003eT-MB
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:44:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEF8w-00030E-Tm
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:37:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36282)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lEF9z-0004eM-4d
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:38:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22414)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEF8v-0000ZB-A1
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:37:10 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lEF9x-0000ff-O1
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:38:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614015428;
+ s=mimecast20190719; t=1614015493;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ispofPJQ2cI2x8CViiwAPsl/7z57cPCR5l9WLAzA8jw=;
- b=irPasKRjOjzhO6P3c8y6/5+IQRqH9QIf5O+DN04aW5CHlnZVTIMfrOSDEbdGFz3KYssI5b
- FjgwdrQn/+osGYwl2MofrCJUTYnZhun0bkRWKa+H96ZheqeWcFtHIplm05L11sL6BRe0xm
- Shy83jgAkyQqwx2DHE+Gh0pHwNQ0hv4=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-ohbqLqr0MoKLY21E_V6K1g-1; Mon, 22 Feb 2021 12:37:04 -0500
-X-MC-Unique: ohbqLqr0MoKLY21E_V6K1g-1
-Received: by mail-ej1-f71.google.com with SMTP id yh28so4291399ejb.11
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 09:37:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ispofPJQ2cI2x8CViiwAPsl/7z57cPCR5l9WLAzA8jw=;
- b=dCWYHZtbl2TiCxpSCri/8we5sO/keCbOGB0/YTmE8BWtcX3IiPm7TVmcBl7MIyrg0G
- GjXhLDBLkWGpOl3omd8aA7dp1QnY5tNRRq626b9yRsI+ngp7Rk4gdJr5rQG4dBcLf+eA
- JqQPlU4fAR2J/bxudBjYgoQ07jYONMX4bM7maGEnwOt6NdK61Ew1mR51sW1Y6OhN8LWa
- 24ACvNlsCXglWTdErAGKKEjvLuUuuwlmCmAU6YE7/JHuUrasCaE8rAufYbcDOYxGzI6S
- EQKcVWwpr1WwwBjadAlvR4R4LgwJOfOK2vk9amq07Kyyh+kwysDuaMyDpgVtPc9x5LAP
- YqoQ==
-X-Gm-Message-State: AOAM532FQT3rHQq4AglXUDfCT2FRuftStZYV8i6k4ajFIhkq89roG2wZ
- /j8NljnI4qyy/E9YSfLgtTcSC7tUbOi4aagqDa21rR1LGX79E56WnTF50bMtAP9NJutkvN+1hh3
- mUHufqwGt8MYMxcc=
-X-Received: by 2002:a05:6402:2707:: with SMTP id
- y7mr23057598edd.5.1614015423081; 
- Mon, 22 Feb 2021 09:37:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz+xiBrfezd1QHfGSD1IWlWbCCQ3KetP/YmToUb85iCEacN3tXLH3EUpg3w50V3W3//sgUJ3Q==
-X-Received: by 2002:a05:6402:2707:: with SMTP id
- y7mr23057580edd.5.1614015422862; 
- Mon, 22 Feb 2021 09:37:02 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i18sm12501224eds.19.2021.02.22.09.37.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 09:37:02 -0800 (PST)
-Subject: Re: [PATCH v6 01/12] memory: Introduce RamDiscardMgr for RAM memory
- regions
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210222115708.7623-1-david@redhat.com>
- <20210222115708.7623-2-david@redhat.com>
- <7137d1ad-2741-7536-5a3c-58d0c4f8306b@redhat.com>
- <0277759d-bb9a-6bf3-0ca4-53d3f7ec98f5@redhat.com>
- <a6f7de7a-72c3-a6c6-0a14-3e21a0cc833b@redhat.com>
- <24562156-457f-90b5-dcaf-c55fba1e881b@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <adedbbe8-cf77-7ede-1291-a1d6f6082451@redhat.com>
-Date: Mon, 22 Feb 2021 18:37:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=4lA4izgL6BmBHFfoBO0go7fPCtxFMbj7pq95MLNGllc=;
+ b=Hp/B/OeUcfKBsEHz+Ngd3FOiTmskPFgbi3sgR2FRHSAy3Fki786gn1HBx9ugYtFXdjWuif
+ brkhz+ekHEzJhSGO+uvBYFK4DOXtXK4lAB+wpUrkPhymlxGHCXAQsN6qu5L79HOn36VRaC
+ mA8Hqp2eN+VG7XDoFOedkVoD2HCouW4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-287-011n0yg1NUOpvcUU3B4QYw-1; Mon, 22 Feb 2021 12:38:10 -0500
+X-MC-Unique: 011n0yg1NUOpvcUU3B4QYw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92829195D560;
+ Mon, 22 Feb 2021 17:38:06 +0000 (UTC)
+Received: from gondolin (ovpn-113-115.ams2.redhat.com [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 11BEF5C1BD;
+ Mon, 22 Feb 2021 17:37:53 +0000 (UTC)
+Date: Mon, 22 Feb 2021 18:37:51 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 07/11] hw/s390x: Explicit the s390-ccw-virtio
+ machines support TCG and KVM
+Message-ID: <20210222183751.0a8f2d2d.cohuck@redhat.com>
+In-Reply-To: <20210219173847.2054123-8-philmd@redhat.com>
+References: <20210219173847.2054123-1-philmd@redhat.com>
+ <20210219173847.2054123-8-philmd@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <24562156-457f-90b5-dcaf-c55fba1e881b@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -107,66 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
+ Paul Durrant <paul@xen.org>, David Hildenbrand <david@redhat.com>,
+ qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ =?UTF-8?B?SGVydsOp?= Poussineau <hpoussin@reactos.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
+ Leif Lindholm <leif@nuviainc.com>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Alistair Francis <alistair@alistair23.me>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/02/21 15:53, David Hildenbrand wrote:
->> Yes, but does it behave more like the IOMMU notifier in other regards?
->> :)  The IOMMU notifier is concerned with an iova concept that doesn't
->> exist at the MemoryRegion level, while RamDiscardListener works at the
->> (MemoryRegion, offset) level that can easily be represented by a
->> MemoryRegionSection.  Using MemoryRegionSection might even simplify the
->> listener code.
-> 
-> It's similarly concerned with rather small, lightweight updates I would 
-> say.
+On Fri, 19 Feb 2021 18:38:43 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-Why does that matter?  I think if it's concerned with the MemoryRegion 
-address space it should use MemoryListener and MemoryRegionSection.
-
->>> The main motivation is to let listener decide how it wants to handle the
->>> memory region. For example, for vhost, vdpa, kvm, ... I only want a
->>> single region, not separate ones for each and every populated range,
->>> punching out discarded ranges. Note that there are cases (i.e.,
->>> anonymous memory), where it's even valid for the guest to read discarded
->>> memory.
->>
->> Yes, I agree with that.  You would still have the same
->> region-add/region_nop/region_del callbacks for KVM and friends; on top
->> of that you would have region_populate/region_discard callbacks for VFIO.
-> 
-> I think instead of region_populate/region_discard we would want 
-> individual region_add/region_del when populating/discarding for all 
-> MemoryListeners that opt-in somehow (e.g., VFIO, dump-guest-memory, 
-> ...). Similarly, we would want to call log_sync()/log_clear() then only 
-> for these parts.
-> 
-> But what happens when I populate/discard some memory? I don't want to 
-> trigger an address space transaction (begin()...region_nop()...commit()) 
-> - whenever I populate/discard memory (e.g., in 2 MB granularity). 
-> Especially not, if nothing might have changed for most other 
-> MemoryListeners.
-
-Right, that was the reason why I was suggesting different callbacks. 
-For the VFIO listener, which doesn't have begin or commit callbacks, I 
-think you could just rename region_add to region_populate, and point 
-both region_del and region_discard to the existing region_del commit.
-
-Calling log_sync/log_clear only for populated parts also makes sense. 
-log_sync and log_clear do not have to be within begin/commit, so you can 
-change the semantics to call them more than once.
+I'd lose the 'Explicit' in $SUBJECT.
 
 
+> All s390-ccw-virtio machines support TCG and KVM.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/s390x/s390-virtio-ccw.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+>=20
+> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
+> index 2972b607f36..1f168485066 100644
+> --- a/hw/s390x/s390-virtio-ccw.c
+> +++ b/hw/s390x/s390-virtio-ccw.c
+> @@ -586,6 +586,10 @@ static ram_addr_t s390_fixup_ram_size(ram_addr_t sz)
+>      return newsz;
+>  }
+> =20
+> +static const char *const valid_accels[] =3D {
+> +    "tcg", "kvm", NULL
+> +};
+> +
+>  static void ccw_machine_class_init(ObjectClass *oc, void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+> @@ -612,6 +616,7 @@ static void ccw_machine_class_init(ObjectClass *oc, v=
+oid *data)
+>      mc->possible_cpu_arch_ids =3D s390_possible_cpu_arch_ids;
+>      /* it is overridden with 'host' cpu *in kvm_arch_init* */
+>      mc->default_cpu_type =3D S390_CPU_TYPE_NAME("qemu");
+> +    mc->valid_accelerators =3D valid_accels;
+>      hc->plug =3D s390_machine_device_plug;
+>      hc->unplug_request =3D s390_machine_device_unplug_request;
+>      nc->nmi_monitor_handler =3D s390_nmi;
 
-Paolo
+Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 
 
