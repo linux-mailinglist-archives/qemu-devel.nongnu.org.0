@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB18232169B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:27:52 +0100 (CET)
-Received: from localhost ([::1]:50676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E292432169E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:28:59 +0100 (CET)
+Received: from localhost ([::1]:52828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEAJb-0001zL-SB
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:27:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45632)
+	id 1lEAKh-0002ux-1e
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:28:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEA8P-0008E9-MW
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:16:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41432)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEA94-0000Zk-Ic
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:16:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56434)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEA8L-0008Rs-Ds
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:16:16 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEA92-0000Pp-H0
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:16:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613996170;
+ s=mimecast20190719; t=1613996215;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Yc6fwO2QIH5LTTPs2eybtBe+FFsL8L/nSt8NXSA3WNw=;
- b=V5cSp0+QeZClcWOmXfpH50qDkTRtxknloniMGekM8nBMGXT3iLWTwv5QATe+xEvq1P7dJd
- tVd6uDE+SwXqu1xWAg5CZWLZ3ICX/xAoaNTORAI0+n4aX5dJf5wd+XtTp/l1sPFVcEenGL
- EUhFT/05bdU9V/sDCQgSBC+WRVE2OB4=
+ bh=533X8efQRX5Rh8xRRuMf7J31pX5bZizFSJF007QRuoE=;
+ b=W0rKcWpXVBaq3gQNhgjV86jXJ8y9MWLpR03iWzUCInl+TrvQI7gGi1ISBWs5T1YkwGY84A
+ g6M9Zwhw0ag/dYhyRS/5uODNzqUWRleP/WJ15CUNNlxu/WtAkDF3oMfwUMuxjElA6DDAv4
+ nfGiZVw9G6dB5tuJXPUpHeeD0XpULEY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-G3g9HcRBOFGU-SC0emEF0g-1; Mon, 22 Feb 2021 07:16:06 -0500
-X-MC-Unique: G3g9HcRBOFGU-SC0emEF0g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-476-hjCBN6ZzND2fq6NmwTRaEw-1; Mon, 22 Feb 2021 07:16:54 -0500
+X-MC-Unique: hjCBN6ZzND2fq6NmwTRaEw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90DE2835E2C;
- Mon, 22 Feb 2021 12:16:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C603C1936B65;
+ Mon, 22 Feb 2021 12:16:52 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-97.ams2.redhat.com [10.36.112.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2E5E960C04;
- Mon, 22 Feb 2021 12:15:59 +0000 (UTC)
-Subject: Re: [PATCH v2 5/6] docs/devel: update the container based tests
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 605435D9CC;
+ Mon, 22 Feb 2021 12:16:47 +0000 (UTC)
+Subject: Re: [PATCH v2 6/6] docs/devel: add forward reference to check-tcg
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
 References: <20210222101455.12640-1-alex.bennee@linaro.org>
- <20210222101455.12640-6-alex.bennee@linaro.org>
- <a28b2c23-418b-83f7-c045-e82a11b95ae3@redhat.com> <874ki470zp.fsf@linaro.org>
+ <20210222101455.12640-7-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <c542d84c-7add-d899-3708-1a57bee3cb6a@redhat.com>
-Date: Mon, 22 Feb 2021 13:15:58 +0100
+Message-ID: <fab653a1-37fd-50ac-70bc-90e8397f6102@redhat.com>
+Date: Mon, 22 Feb 2021 13:16:46 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <874ki470zp.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210222101455.12640-7-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,63 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org, f4bug@amsat.org,
- stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
- aurelien@aurel32.net
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org, stefanha@redhat.com,
+ crosa@redhat.com, pbonzini@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/02/2021 13.14, Alex Bennée wrote:
+On 22/02/2021 11.14, Alex Bennée wrote:
+> For completeness reference the check-tcg tests in the container
+> preamble text.
 > 
-> Thomas Huth <thuth@redhat.com> writes:
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Thomas Huth <thuth@redhat.com>
+> ---
+>   docs/devel/testing.rst | 5 +++++
+>   1 file changed, 5 insertions(+)
 > 
->> On 22/02/2021 11.14, Alex Bennée wrote:
->>> This section has grown a little stale so clean-up the language and
->>> examples for current usage:
->>>
->>>     - refer to containers at the top
->>>     - mention podman can also be used
->>>     - add podman prerequisites section
->>>     - move to using "docker-help" for online help
->>>     - mention the registry and it's purpose
->>>     - don't refer to out-of-date min-glib image
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Cc: Thomas Huth <thuth@redhat.com>
->>> ---
->>>    docs/devel/testing.rst | 61 +++++++++++++++++++++++++++++++-----------
->>>    1 file changed, 46 insertions(+), 15 deletions(-)
->> [...]
->>>    .. code::
->>>    
->>> -  make docker-test-build@min-glib
->>> +  make docker-test-build@centos7
->>>    
->>> -This will create a container instance using the ``min-glib`` image (the image
->>> +This will create a container instance using the ``centos7`` image (the image
->>>    is downloaded and initialized automatically), in which the ``test-build`` job
->>>    is executed.
->>
->> We're going to drop support for CentOS 7 in three months (May) ... so maybe
->> it makes more sense to directly use centos8 or another long-term distro here?
->>
->>> +Registry
->>> +--------
->>> +
->>> +The QEMU project has a container registry hosted by GitLab at
->>> +``registry.gitlab.com/qemu-project/qemu`` which will automatically be
->>> +used to pull in pre-built layers. This avoids unnecessary strain on
->>> +the distro archives created by multiple developers running the same
->>> +container build steps over and over again. This can be overridden
->>> +locally by using the ``NOCACHE`` build option:
->>
->> Thanks a lot for adding the information!
->>
->>    Thomas
+> diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+> index e43c992f21..3124ee2470 100644
+> --- a/docs/devel/testing.rst
+> +++ b/docs/devel/testing.rst
+> @@ -289,6 +289,9 @@ an alternative container runtime. Although the many of the target
+>   names and scripts are prefixed with "docker" the system will
+>   automatically run on whichever is configured.
+>   
+> +The container images are also used to augment the generation of tests
+> +for testing TCG. See :ref:`checktcg-ref` for more details.
+> +
+>   Docker Prerequisites
+>   --------------------
+>   
+> @@ -1011,6 +1014,8 @@ And remove any package you want with::
+>   If you've used ``make check-acceptance``, the Python virtual environment where
+>   Avocado is installed will be cleaned up as part of ``make check-clean``.
+>   
+> +.. _checktcg-ref:
+> +
+>   Testing with "make check-tcg"
+>   =============================
+>   
 > 
-> Is that a r-b if I change to centos8?
-
-At least now it is:
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
 
