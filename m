@@ -2,84 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED3C321584
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 12:57:22 +0100 (CET)
-Received: from localhost ([::1]:46074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F5C32159D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 12:59:49 +0100 (CET)
+Received: from localhost ([::1]:50274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE9q5-0005jR-Fl
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 06:57:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40684)
+	id 1lE9sS-0007aV-J1
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 06:59:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lE9oy-0005Hx-GY
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:56:12 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40258)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lE9ov-0000F9-JZ
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:56:12 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id q10so21520529edt.7
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 03:56:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=xMQsCtJf2X//p8mZJWv/bfhsq3Il+/l218fPW5GUOaY=;
- b=LcwDByYtvPbz+V+g/n1CuWwGLxdiDz3D5aNnWrJtv/nrAqJ9Wz2/NmfIsXvoPEUQTx
- chv/e+RHeggIEWl9awmbru35ceUH8blegMRFvu9Otmjfw0lGxSTAC1h7YLIRL/YwmJQu
- xo7h9DWZ0L8bsL2VxkmK0FIcbfhnA3DNUpx4OUaTwJtZQc+3MJV5cGeZHcqrUYgoBo3L
- o8psFfQfyXz1qUx24njSAXzlovJVB256XFb2AD7+v5dr9dVDfSG5JC/30Xdvq2AyhmLx
- Zk1p2OwZZr67Rf+fmthdMACbr1Xh8553YsMRuKDoRcAfONickJOygsOZKm+S3ZoZvTu9
- tKiA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xMQsCtJf2X//p8mZJWv/bfhsq3Il+/l218fPW5GUOaY=;
- b=DBSOhSyNQiENDe+H8DW9AImo9OTVIfMPglMc/HgkF3+sIWnV49bdR91qNYqm3EF44k
- 8t0Zn28UJz4Om1eNDqq1otrSxiWTGhJsTWogQsSy8/O+yA/jHXY7nvNYnt7KPn5cmw07
- ZMsmGBDLdQqCpRPwYZroDlPWoI5NiILfuII5Y/SWv4s4SO3inkWjWtEupnkQr/BNnA63
- iKTe9r+oNkQfyPrlYBteQ99umzZexdb6aKA6CKXgYR5AJlqCr46eyDO3Zjz62uAY1p1O
- ASoXGrWqJcpv32cxs2Ku6SGNo6f03ghbLjDi4JN1PMbV9JrZ3fU8OUk4Bda1vjADNn33
- 9Ngg==
-X-Gm-Message-State: AOAM533NIYTe9Rti54jTWB4oSJwPYHyXefA5uuPDWBITGeTWFh80de1T
- bB6JEwFml4j4qvekOPXNjdc=
-X-Google-Smtp-Source: ABdhPJwq4gJhGNz1QVZvUr7PSQpE0ot7TiVpA60hGZ27K4EboTisLlTn2ZEWiHmWhkmdgz6wuLR+Nw==
-X-Received: by 2002:a05:6402:899:: with SMTP id
- e25mr11007034edy.212.1613994967950; 
- Mon, 22 Feb 2021 03:56:07 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g20sm10573362ejz.54.2021.02.22.03.56.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 03:56:07 -0800 (PST)
-Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: Claudio Fontana <cfontana@suse.de>,
- Richard Henderson <richard.henderson@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <80a645c4-866c-2791-ac9c-91118018a44c@linaro.org>
- <1ae56383-7664-c2df-9402-97844cfbeade@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <84ba4ac5-f239-e3c8-47b8-25e4a81d545c@amsat.org>
-Date: Mon, 22 Feb 2021 12:56:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9qK-0006Io-F3
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:57:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42582)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9qI-0000vn-Dv
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:57:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613995052;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rBiGOHgUK9K9wCIcOcCE4QqDY1pT9YYpkoJjeRbxgDI=;
+ b=Ccqbs+Rp34obpOlmJjMGhe2AGx0wC6dGxRHzkIjQ+L5kzClTjnfmyDupLMPpZ+0DuYzHAF
+ rPJOeuOO5O7uHI44OOcDtdpYjRXY09fVSYxYkspfsL8oAGCyJLgpsDxwo9jBugzSdZFidL
+ CMnyU1C1D7Jm+3DK5bxx8NNf7p+/ErM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-355-6U1PxDZpOfel3L3UnIX2vg-1; Mon, 22 Feb 2021 06:57:30 -0500
+X-MC-Unique: 6U1PxDZpOfel3L3UnIX2vg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B0B69801965;
+ Mon, 22 Feb 2021 11:57:28 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-16.ams2.redhat.com [10.36.115.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7D8B19C45;
+ Mon, 22 Feb 2021 11:57:09 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v6 00/12] virtio-mem: vfio support
+Date: Mon, 22 Feb 2021 12:56:56 +0100
+Message-Id: <20210222115708.7623-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1ae56383-7664-c2df-9402-97844cfbeade@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,60 +73,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ teawater <teawaterz@linux.alibaba.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 9:43 AM, Claudio Fontana wrote:
-> On 2/22/21 6:35 AM, Richard Henderson wrote:
->> On 2/21/21 1:24 AM, Claudio Fontana wrote:
->>>   target/arm: move psci.c into tcg/softmmu/
->>
->> Terminology: the opposite of user-only is not "softmmu" but "system".
->>
->> One glorious day in the far future user-only will, as an option, use softmmu.
->> It will fix all sorts of problems with alignment faults and host/guest virtual
->> address space mismatch.
->>
->>
->> r~
->>
-> 
-> Hi Richard,
-> 
-> first thanks for all the useful pointers in the series.
-> 
-> Regarding terminology, I think the mismatch is throughout the code right?
-> 
-> So many of the existing "softmmu" files and directories should actually be called "system",
-> or "sysemu" to match include/sysemu right?
+@Paolo, I have acks for most things - what's missing seems to be an ack
+from you on patch #1. As I want to make use of RamDiscardMgr also to handle
+virtio-mem+guest-memory-dump/tpm [1] and properly handle all kinds of
+migration (precopy, background snapshots, postcopy), could you have a look
+at patch #1? Thanks!
 
-My understanding is there are currently 2 types of emulation:
+I think it would be best to take this via @MST.
 
-- user mode (emulation of the kernel syscall API)
+[1] https://lkml.kernel.org/r/20210210171537.32932-1-david@redhat.com
 
-  -> Linux, BSD
-  process is in unprivileged memory space, no access to I/O
+---
 
-- system mode (full machine emulated)
+A virtio-mem device manages a memory region in guest physical address
+space, represented as a single (currently large) memory region in QEMU,
+mapped into system memory address space. Before the guest is allowed to use
+memory blocks, it must coordinate with the hypervisor (plug blocks). After
+a reboot, all memory is usually unplugged - when the guest comes up, it
+detects the virtio-mem device and selects memory blocks to plug (based on
+resize requests from the hypervisor).
 
-  - MMU implementation in software: softmmu
+Memory hot(un)plug consists of (un)plugging memory blocks via a virtio-mem
+device (triggered by the guest). When unplugging blocks, we discard the
+memory - similar to memory balloon inflation. In contrast to memory
+ballooning, we always know which memory blocks a guest may actually use -
+especially during a reboot, after a crash, or after kexec (and during
+hibernation as well). Guests agreed to not access unplugged memory again,
+especially not via DMA.
 
-In that separation semihosting is borderline.
+The issue with vfio is, that it cannot deal with random discards - for this
+reason, virtio-mem and vfio can currently only run mutually exclusive.
+Especially, vfio would currently map the whole memory region (with possible
+only little/no plugged blocks), resulting in all pages getting pinned and
+therefore resulting in a higher memory consumption than expected (turning
+virtio-mem basically useless in these environments).
 
-Also FYI I have a wip branch where I am prototyping a "supervisor
-mode" emulation to run Cisco IOS images. These images run in
-supervised mode with access to I/O space, but not access to protected
-kernel space (where the firmware resides). Unlikely to hit upstream,
-but fun experiment ;)
+To make vfio work nicely with virtio-mem, we have to map only the plugged
+blocks, and map/unmap properly when plugging/unplugging blocks (including
+discarding of RAM when unplugging). We achieve that by using a new notifier
+mechanism that communicates changes.
 
-> To me these distinctions are a bit unclear.
-> Maybe it would be good to have clear documentation about this in devel/ to use as a reference and end-goal,
-> 
-> and then we could do a pass of the whole code to fix the discrepancies in the use of the terms?
-> 
-> Thanks,
-> 
-> Claudio
+It's important to map memory in the granularity in which we could see
+unmaps again (-> virtio-mem block size) - so when e.g., plugging
+consecutive 100 MB with a block size of 2 MB, we need 50 mappings. When
+unmapping, we can use a single vfio_unmap call for the applicable range.
+We expect that the block size of virtio-mem devices will be fairly large
+in the future (to not run out of mappings and to improve hot(un)plug
+performance), configured by the user, when used with vfio (e.g., 128MB,
+1G, ...), but it will depend on the setup.
+
+More info regarding virtio-mem can be found at:
+    https://virtio-mem.gitlab.io/
+
+v6 is located at:
+  git@github.com:davidhildenbrand/qemu.git virtio-mem-vfio-v6
+
+v5 -> v6:
+- "memory: Introduce RamDiscardMgr for RAM memory regions"
+-- Fix variable names in one prototype.
+- "virtio-mem: Don't report errors when ram_block_discard_range() fails"
+-- Added
+- "virtio-mem: Implement RamDiscardMgr interface"
+-- Don't report an error if discarding fails
+- Rebased and retested
+
+v4 -> v5:
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Added more assertions for granularity vs. iommu supported pagesize
+- "vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr"
+-- Fix accounting of mappings
+- "vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus"
+-- Fence off SPAPR and add some comments regarding future support.
+-- Tweak patch description
+- Rebase and retest
+
+v3 -> v4:
+- "vfio: Query and store the maximum number of DMA mappings
+-- Limit the patch to querying and storing only
+-- Renamed to "vfio: Query and store the maximum number of possible DMA
+   mappings"
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Remove sanity checks / warning the user
+- "vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr"
+-- Perform sanity checks by looking at the number of memslots and all
+   registered RamDiscardMgr sections
+- Rebase and retest
+- Reshuffled the patches slightly
+
+v2 -> v3:
+- Rebased + retested
+- Fixed some typos
+- Added RB's
+
+v1 -> v2:
+- "memory: Introduce RamDiscardMgr for RAM memory regions"
+-- Fix some errors in the documentation
+-- Make register_listener() notify about populated parts and
+   unregister_listener() notify about discarding populated parts, to
+   simplify future locking inside virtio-mem, when handling requests via a
+   separate thread.
+- "vfio: Query and store the maximum number of DMA mappings"
+-- Query number of mappings and track mappings (except for vIOMMU)
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Adapt to RamDiscardMgr changes and warn via generic DMA reservation
+- "vfio: Support for RamDiscardMgr in the vIOMMU case"
+-- Use vmstate priority to handle migration dependencies
+
+RFC - v1:
+- VFIO migration code. Due to missing kernel support, I cannot really test
+  if that part works.
+- Understand/test/document vIOMMU implications, also regarding migration
+- Nicer ram_block_discard_disable/require handling.
+- s/SparseRAMHandler/RamDiscardMgr/, refactorings, cleanups, documentation,
+  testing, ...
+
+David Hildenbrand (12):
+  memory: Introduce RamDiscardMgr for RAM memory regions
+  virtio-mem: Factor out traversing unplugged ranges
+  virtio-mem: Don't report errors when ram_block_discard_range() fails
+  virtio-mem: Implement RamDiscardMgr interface
+  vfio: Support for RamDiscardMgr in the !vIOMMU case
+  vfio: Query and store the maximum number of possible DMA mappings
+  vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr
+  vfio: Support for RamDiscardMgr in the vIOMMU case
+  softmmu/physmem: Don't use atomic operations in
+    ram_block_discard_(disable|require)
+  softmmu/physmem: Extend ram_block_discard_(require|disable) by two
+    discard types
+  virtio-mem: Require only coordinated discards
+  vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus
+
+ hw/vfio/common.c               | 348 ++++++++++++++++++++++++++++++--
+ hw/virtio/virtio-mem.c         | 350 ++++++++++++++++++++++++++++-----
+ include/exec/memory.h          | 249 ++++++++++++++++++++++-
+ include/hw/vfio/vfio-common.h  |  13 ++
+ include/hw/virtio/virtio-mem.h |   3 +
+ include/migration/vmstate.h    |   1 +
+ softmmu/memory.c               |  22 +++
+ softmmu/physmem.c              | 108 +++++++---
+ 8 files changed, 1000 insertions(+), 94 deletions(-)
+
+-- 
+2.29.2
+
 
