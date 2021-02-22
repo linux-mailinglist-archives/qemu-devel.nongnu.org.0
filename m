@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2951C321DF6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:22:24 +0100 (CET)
-Received: from localhost ([::1]:58908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AE1321E07
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:24:46 +0100 (CET)
+Received: from localhost ([::1]:35852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEEud-0001LF-64
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:22:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45694)
+	id 1lEEwv-0003wL-FV
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:24:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEEso-0000EH-E2
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:20:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57448)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEEsm-0005W3-2s
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:20:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614014427;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=quTYL0bBNZ8ordjdf/nNhCjU1BRydehHBiVfhwxY0hM=;
- b=i4453s0DUkDktmSm/6fkgh6JSuELhgISxLiMDi/BMrPj0SfxYkaekgc8ERNeK/g/kdJOIt
- CRHkjO2mOKbbA4bWwd3r8Fhzop89nZN9KDRSWwWupgd/jJ8kqPbmbgAScFS6kvcjJxVM0K
- BDjVBOzOqQvx7LMhGrhHRgsS+B2QJfw=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-45-gcVrbPIEPeyEEXXpk1DOoA-1; Mon, 22 Feb 2021 12:20:24 -0500
-X-MC-Unique: gcVrbPIEPeyEEXXpk1DOoA-1
-Received: by mail-ed1-f70.google.com with SMTP id c7so318743ede.17
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 09:20:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lEEuY-0001zx-2U
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:22:18 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:35911)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lEEuW-0005w6-GM
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:22:17 -0500
+Received: by mail-ej1-x630.google.com with SMTP id do6so30697741ejc.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 09:22:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=6K94wB4Qv8wrweioaOnQmQy4CCLWMLM8EfxfnL59HMI=;
+ b=PHCQEC1aUp90Dq8VuMRhQAwmdsaRqK4wNGNrs8kRd7RNwYTm9pRy7MRtKwtw15Oxat
+ ZZ/lzlecz2yudy6HAJRtFbZS4lHJ1ldRAYVFcT8ls8dZbx8lYrqQU0NtB5dQX/U+F1h6
+ erRnaKx67cDVq2Zx847rSNJ9diBDc1zp+wyLyg4KRkcD6syf79L0qgpo119TQsxxE1Mx
+ RILnYIm4+0wepLERiqBZPdNeNhub8lkCNtuKtyFV+9ujBJy5IOR1INbXGkofT0SFYeY0
+ uMhln2dq5MW5/q6ZW8UqjwHOxdfGPtPH30bmzlgrq1lmdVxfZFoP6ukv0sRKNjF0dTaI
+ 0dJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=quTYL0bBNZ8ordjdf/nNhCjU1BRydehHBiVfhwxY0hM=;
- b=IbKuE2J2nSBpk0Sy5dalCz2Jvw3f9Yk8f9SgdqEmgAxlQpTqLnJPNhX2k3Zy2TgC65
- aA8DXneuq+D0Y9i01GV67slXAzpxWf4L5MWPTwxzGa0fXt373NypIJo7I6FSkUGcXt1I
- IhfPTPZ2aLR3ieMrv7/Y4Nb7TCUL5wZmxJ70LhFEDBonMWxchZw65ROFi9kUbFOvuNHu
- srSSfGNVWF3gCOizZmict4E+Ij1ezZOoi5NPZ7HYq/JQI67Ekifi3eCM7HXolMhZcrg5
- weDDXhtqNvC0MH3TIOlW1tl07XLd/pXUh3CvnRxDwt36s4yJV1z4ka4mBiPHtwhkSBTc
- z6DA==
-X-Gm-Message-State: AOAM533kKH1OiOmeBO+8t1Dqa9WW1QTk47vKivdm5vpvGAY6YEJSs/pd
- J7v0C3NV4IEmiTA+uYnUAccP+AedBRvkHh8PXeGiX/XylzpLU+mwr6M3d7vTVKyXIufjdA23Qrh
- D/M6TcSq5FBau4iMvppWnGysEnaKsT6SdJAsN2n0U+3rS+qryBuWTq0uEUo/AOmZl
-X-Received: by 2002:a17:906:4e19:: with SMTP id
- z25mr21939566eju.205.1614014422801; 
- Mon, 22 Feb 2021 09:20:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxBjbeSbmCIL1aI06DYTp6jv5rqm9BYVPVlJOofSa8jpV7xTf5dnHBce0H4Sa3Gn8bTqjhwEg==
-X-Received: by 2002:a17:906:4e19:: with SMTP id
- z25mr21939544eju.205.1614014422605; 
- Mon, 22 Feb 2021 09:20:22 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f1sm1184958edz.83.2021.02.22.09.20.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 09:20:22 -0800 (PST)
-Subject: Re: [RFC v1 02/38] target/arm: move helpers to tcg/
-To: Claudio Fontana <cfontana@suse.de>,
- Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-3-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b433fc5f-a79a-c74c-1ec5-be4aa891b3bd@redhat.com>
-Date: Mon, 22 Feb 2021 18:20:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=6K94wB4Qv8wrweioaOnQmQy4CCLWMLM8EfxfnL59HMI=;
+ b=iDxNitE5e2ksGZ6tWN1jwzHabKenwchyy+zN+9dvSgBFQTmHFz9RqBPzvdqjxEEQqU
+ acuL+A7j/DMrjUGi8eiBIJiCMDQexfvBFbrhbwWfq2sH1WtTxATB3eJb+mtO76HoqRMD
+ TyoBFVhWR6Nk+LItwK6zKA+Bj/P+0I6YAmjPosgImm8xHu9PtEtFmV6dQh8T7fsnfEiv
+ v/i6VWZxP8Rh5dT+SXJ2MtY9acgyGThsxyzBibSZju+peqPIaoqjDE5S4XsfF0a8Acfx
+ DxcXWKVBoVxYkhB5JF51DGAo3zSDVZlmKzc8Fy1bei2wz2G7z2NWjU9SUYNJ2LiH64PG
+ Z1cw==
+X-Gm-Message-State: AOAM531o5AIpMoeX7RaA5uHtdaYCObeLDxrIpNYB59gdKSXsvhMuYpHf
+ +HOqn5TQ7osfAOVpvc+tefLjFDSr4xErWTBlf0+WFw==
+X-Google-Smtp-Source: ABdhPJzOpUirDCGI2oEm1L19m4y6M7wTkCVaXCtacHTPWs5xMUzFFBhV3bTpzTaezz9tjkPYfNZQYrdWEg+K568G4Xk=
+X-Received: by 2002:a17:906:184e:: with SMTP id
+ w14mr22339894eje.56.1614014534586; 
+ Mon, 22 Feb 2021 09:22:14 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210221092449.7545-3-cfontana@suse.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <6E9673F8-73FA-4AF9-9BDB-75143B4DD57C@icloud.com>
+ <20210222171102.GP6669@xz-x1>
+In-Reply-To: <20210222171102.GP6669@xz-x1>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Feb 2021 17:22:03 +0000
+Message-ID: <CAFEAcA882=On9mXVRNhTm6pQydbqU_+7H9y0PwU5P4KbuecDQw@mail.gmail.com>
+Subject: Re: Any reason we need memoryregionsection
+To: Peter Xu <peterx@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,75 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Eduardo Habkost <ehabkost@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-discuss <qemu-discuss@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?B?5rKI5qKm5aej?= <shen.mengjiao3@icloud.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 10:24 AM, Claudio Fontana wrote:
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> ---
->  meson.build                          |  1 +
->  target/arm/tcg/trace.h               |  1 +
->  target/arm/{ => tcg}/crypto_helper.c |  0
->  target/arm/{ => tcg}/debug_helper.c  |  0
->  target/arm/{ => tcg}/helper-a64.c    |  0
->  target/arm/{ => tcg}/helper.c        |  0
->  target/arm/{ => tcg}/iwmmxt_helper.c |  0
->  target/arm/{ => tcg}/m_helper.c      |  0
->  target/arm/{ => tcg}/mte_helper.c    |  0
->  target/arm/{ => tcg}/neon_helper.c   |  0
->  target/arm/{ => tcg}/op_helper.c     |  0
->  target/arm/{ => tcg}/pauth_helper.c  |  0
->  target/arm/{ => tcg}/sve_helper.c    |  0
->  target/arm/{ => tcg}/tlb_helper.c    |  0
->  target/arm/{ => tcg}/vec_helper.c    |  0
->  target/arm/{ => tcg}/vfp_helper.c    |  0
->  target/arm/meson.build               | 14 --------------
->  target/arm/tcg/meson.build           | 14 ++++++++++++++
->  target/arm/tcg/trace-events          | 10 ++++++++++
->  target/arm/trace-events              |  9 ---------
->  20 files changed, 26 insertions(+), 23 deletions(-)
->  create mode 100644 target/arm/tcg/trace.h
->  rename target/arm/{ => tcg}/crypto_helper.c (100%)
->  rename target/arm/{ => tcg}/debug_helper.c (100%)
->  rename target/arm/{ => tcg}/helper-a64.c (100%)
->  rename target/arm/{ => tcg}/helper.c (100%)
->  rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
->  rename target/arm/{ => tcg}/m_helper.c (100%)
->  rename target/arm/{ => tcg}/mte_helper.c (100%)
->  rename target/arm/{ => tcg}/neon_helper.c (100%)
->  rename target/arm/{ => tcg}/op_helper.c (100%)
->  rename target/arm/{ => tcg}/pauth_helper.c (100%)
->  rename target/arm/{ => tcg}/sve_helper.c (100%)
->  rename target/arm/{ => tcg}/tlb_helper.c (100%)
->  rename target/arm/{ => tcg}/vec_helper.c (100%)
->  rename target/arm/{ => tcg}/vfp_helper.c (100%)
->  create mode 100644 target/arm/tcg/trace-events
-> 
-> diff --git a/meson.build b/meson.build
-> index 5be4e5f38c..86b07f1a1a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1828,6 +1828,7 @@ if have_system or have_user
->      'accel/tcg',
->      'hw/core',
->      'target/arm',
-> +    'target/arm/tcg',
->      'target/hppa',
->      'target/i386',
->      'target/i386/kvm',
+On Mon, 22 Feb 2021 at 17:19, Peter Xu <peterx@redhat.com> wrote:
+>
+> On Mon, Feb 22, 2021 at 10:55:15PM +0800, =E6=B2=88=E6=A2=A6=E5=A7=A3 wro=
+te:
+> > Usually when we add memory region in the platform init process, the cor=
+responding address range in address space will not overlap with others, I=
+=E2=80=99m not sure in which case we should use MemoryRegionSection? Thanks
+> >
+>
+> Memory regions can overlap, see memory_region_add_subregion_overlap() and=
+ the
+> comment above its definition.  memory_region_add_subregion() is actually
+> similar to that, but just set the MR priority to zero as default.
+>
+> IMHO MemoryRegion is the major abstraction layer of the address range in =
+QEMU
+> along with the bigger AddressSpace idea, while MemoryRegionSection is mos=
+tly
+> used as a temporarly variable to describe part of a MemoryRegion in many
+> contexts, so that this partial range information can be further consumed =
+by
+> callers of a lot of memory APIs.
 
-Why add unconditionally and not such:
+Yes. You only really need to care about MemoryRegionSections if you're
+using an API that deals with them (notably if you're working with a
+MemoryListener, or if you're using memory_region_find()). Most code,
+and in particular almost all device and board code, works with
+MemoryRegions.
 
-if config_all.has_key('CONFIG_TCG')
-  trace_events_subdirs += ['target/arm/tcg']
-endif
-if config_all.has_key('CONFIG_KVM')
-  trace_events_subdirs += ['target/i386/kvm']
-endif
-
-?
-
+-- PMM
 
