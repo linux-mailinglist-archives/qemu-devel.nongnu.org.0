@@ -2,49 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36B8E3215A1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:01:09 +0100 (CET)
-Received: from localhost ([::1]:53004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FF593215E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:14:17 +0100 (CET)
+Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE9tk-0000Ix-7R
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:01:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41296)
+	id 1lEA6S-0005Og-AK
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:14:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lE9r3-00071O-4q; Mon, 22 Feb 2021 06:58:22 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:35446)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE9sP-0000IQ-Ij; Mon, 22 Feb 2021 06:59:45 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40762)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lE9qy-00012Z-2C; Mon, 22 Feb 2021 06:58:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
- bh=f7rZxpVrEI693W65i3CVl2YFMDLGAAAHabiRPDHtTuE=; 
- b=WRY58ELg+lz3xdUfVVW+/C6iJ2yoYFSdxTMzyGHmmcIDKDTzePlvJl601+pJvEjL4qMCRueg0YpoKVp0CMaDnuto7cV8SjlBgVcnovmqAjD6ca5+4HpTY9WTJmJhMZl8ceEkl0DMKWBwkCAe0vWPXieEA1audIZBHx/yaXm8bWpxfM28LxMlrqZfiDINzL4G5KUJZXPYJEzLjsAN5yowanCqp8FAI9lI3iWdqehObQghwHJ4qTW5E9Iu6xSj2DAvDNEzOyJhS9TsL78FLLPHGszjVj2JFW4EjsbdBXZ5DNPL2DXT7XthdOhV56+qaRZ1TG1wBop1TwQaya5XJx5qzw==;
-Received: from [213.94.25.37] (helo=perseus.local)
- by fanzine.igalia.com with esmtpsa 
- (Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
- id 1lE9qZ-0003YZ-RA; Mon, 22 Feb 2021 12:57:51 +0100
-Received: from berto by perseus.local with local (Exim 4.92)
- (envelope-from <berto@igalia.com>)
- id 1lE9qM-0000n1-SE; Mon, 22 Feb 2021 12:57:38 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] iotests: Drop deprecated 'props' from object-add
-Date: Mon, 22 Feb 2021 12:57:37 +0100
-Message-Id: <20210222115737.2993-1-berto@igalia.com>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE9sN-0001mx-W4; Mon, 22 Feb 2021 06:59:45 -0500
+Received: by mail-ej1-x633.google.com with SMTP id u20so28175541ejb.7;
+ Mon, 22 Feb 2021 03:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=D10oiACM2komBsN84imp7nqMEot4crO5/u+2IXth9lw=;
+ b=Pc6+3ndGxy7QQjVaM8fgkMJA4ZvisnaNwmq1Rpmqv9hZGhNsginF3mdoingsGmT8xX
+ YKydek0Mhr6z2j8m1+OXi4HLMpaRO3L9qb7d1KN3j4P2g6Sq0D0pvS7eZGDb2t2wxO90
+ cs+LH4mQ4rji6iudZL7taLFQPCj30rgGrXK2mgLIS019rk4zp2x3VMoGlWf10JVLx7cQ
+ azZHP1DaASk/WWooIbOkAy1q9+wjpQ09l4orRVoamkXRFXSBODgHb2GvSWCmJzispZkc
+ Fila0qaSbq/oqYeBl8zAdf2ov75uYXgGxU/jP31vxAsWXmNxxZC+mQ91OoKSiD1+8uVG
+ Mgsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=D10oiACM2komBsN84imp7nqMEot4crO5/u+2IXth9lw=;
+ b=q7unJPq79DylfZAEymk/ZR/3lWijhSfrNk6eXhfmd/z99rK4s5phpc1XDecfKDyNzW
+ ED/eYnLNJBLHn3D302NpjGmtbETQpseMiX27dedTrXoelxaqoxeo/YHpF3D7g1n5aJfc
+ 758uUTp50sOvx9UYV280Tud5C4aKN16Rb9xOT+1EonO6B1J56O7Mau7zvuW2Si7L9IEj
+ /IzLXT1iS4QWKfr9bcMG+9zUPPuA8XfCL50EN+SzgbBSWwZeuTj6rfqKVYv0GaXXPzIf
+ PDmiAOtouSMquf8kRBIeJTIlLaSqLU07UYVGixAXmdFh3IzMRe3AbDAx2Mw0uwGR8osw
+ y9jg==
+X-Gm-Message-State: AOAM532kyb30zTJ8oA0zE2F0MprbabeReMx8AyvD3DFY+BySPzFz8sY9
+ YbE6oFHpAUAbWNSnDAvrxmAJ5+OSSPE=
+X-Google-Smtp-Source: ABdhPJy/LIMe5+fd/ao/b27ipRpP3H8tgWkY6l9/M86+x2rkjEtSZGZADi+NLCkS9XTg9xCPxgRgtQ==
+X-Received: by 2002:a17:906:fa01:: with SMTP id
+ lo1mr16794179ejb.268.1613995181500; 
+ Mon, 22 Feb 2021 03:59:41 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id r23sm11393834edp.34.2021.02.22.03.59.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 03:59:40 -0800 (PST)
+Subject: Re: [PATCH v2 04/22] sd: emmc: update OCR fields for eMMC
+To: Sai Pavan Boddu <saipava@xilinx.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
+ <clg@kaod.org>, Markus Armbruster <armbru@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ Vincent Palatin <vpalatin@chromium.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Edgar Iglesias <edgari@xilinx.com>, Luc Michel <luc.michel@greensocs.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613982039-13861-5-git-send-email-sai.pavan.boddu@xilinx.com>
+ <ccaf04a2-0eb7-69fa-5431-3c5401d267a4@kaod.org>
+ <BY5PR02MB6772C9D63BF057B28E981EEDCA819@BY5PR02MB6772.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <f1386fca-7f12-b5af-a699-2ed5f13f9d84@amsat.org>
+Date: Mon, 22 Feb 2021 12:59:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <BY5PR02MB6772C9D63BF057B28E981EEDCA819@BY5PR02MB6772.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,206 +101,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
- qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
-v2: Don't use the x-* interface to specify limits [Kevin]
+On 2/22/21 10:55 AM, Sai Pavan Boddu wrote:
+> Hi Cedric
+> 
+>> -----Original Message-----
+>> From: Cédric Le Goater <clg@kaod.org>
+>> Sent: Monday, February 22, 2021 3:22 PM
+>> To: Sai Pavan Boddu <saipava@xilinx.com>; Markus Armbruster
+>> <armbru@redhat.com>; Kevin Wolf <kwolf@redhat.com>; Max Reitz
+>> <mreitz@redhat.com>; Vladimir Sementsov-Ogievskiy
+>> <vsementsov@virtuozzo.com>; Eric Blake <eblake@redhat.com>; Joel Stanley
+>> <joel@jms.id.au>; Vincent Palatin <vpalatin@chromium.org>; Dr. David Alan
+>> Gilbert <dgilbert@redhat.com>; Thomas Huth <thuth@redhat.com>; Stefan
+>> Hajnoczi <stefanha@redhat.com>; Peter Maydell <peter.maydell@linaro.org>;
+>> Alistair Francis <alistair.francis@wdc.com>; Edgar Iglesias <edgari@xilinx.com>;
+>> Luc Michel <luc.michel@greensocs.com>; Paolo Bonzini
+>> <pbonzini@redhat.com>
+>> Cc: qemu-block@nongnu.org; qemu-devel@nongnu.org; Sai Pavan Boddu
+>> <saipava@xilinx.com>
+>> Subject: Re: [PATCH v2 04/22] sd: emmc: update OCR fields for eMMC
+>>
+>> On 2/22/21 9:20 AM, Sai Pavan Boddu wrote:
+>>> From: Vincent Palatin <vpalatin@chromium.org>
+>>>
+>>> eMMC OCR register doesn't has UHS-II field and voltage fields are
+>>> different.
+>>
+>> Can a patch be "From" a person without a "Signed-off-by" of the same person ?
+> [Sai Pavan Boddu] No I should not be like this. My mistake, I would respin the series with corrections. Few other patches may have this after the split I did.
 
- tests/qemu-iotests/087     |  8 ++------
- tests/qemu-iotests/184     | 18 ++++++------------
- tests/qemu-iotests/218     |  2 +-
- tests/qemu-iotests/235     |  2 +-
- tests/qemu-iotests/245     |  4 ++--
- tests/qemu-iotests/258     |  6 +++---
- tests/qemu-iotests/258.out |  4 ++--
- tests/qemu-iotests/295     |  2 +-
- tests/qemu-iotests/296     |  2 +-
- 9 files changed, 19 insertions(+), 29 deletions(-)
-
-diff --git a/tests/qemu-iotests/087 b/tests/qemu-iotests/087
-index edd43f1a28..d8e0e384cd 100755
---- a/tests/qemu-iotests/087
-+++ b/tests/qemu-iotests/087
-@@ -143,9 +143,7 @@ run_qemu <<EOF
-   "arguments": {
-       "qom-type": "secret",
-       "id": "sec0",
--      "props": {
--          "data": "123456"
--      }
-+      "data": "123456"
-   }
- }
- { "execute": "blockdev-add",
-@@ -176,9 +174,7 @@ run_qemu <<EOF
-   "arguments": {
-       "qom-type": "secret",
-       "id": "sec0",
--      "props": {
--          "data": "123456"
--      }
-+      "data": "123456"
-   }
- }
- { "execute": "blockdev-add",
-diff --git a/tests/qemu-iotests/184 b/tests/qemu-iotests/184
-index 513d167098..e4cbcd8634 100755
---- a/tests/qemu-iotests/184
-+++ b/tests/qemu-iotests/184
-@@ -67,10 +67,8 @@ run_qemu <<EOF
-   "arguments": {
-     "qom-type": "throttle-group",
-     "id": "group0",
--    "props": {
--      "limits" : {
--        "iops-total": 1000
--      }
-+    "limits" : {
-+      "iops-total": 1000
-     }
-   }
- }
-@@ -96,10 +94,8 @@ run_qemu <<EOF
-   "arguments": {
-     "qom-type": "throttle-group",
-     "id": "group0",
--    "props" : {
--      "limits": {
--          "iops-total": 1000
--      }
-+    "limits": {
-+        "iops-total": 1000
-     }
-   }
- }
-@@ -136,10 +132,8 @@ run_qemu <<EOF
-   "arguments": {
-     "qom-type": "throttle-group",
-     "id": "group0",
--    "props" : {
--      "limits": {
--          "iops-total": 1000
--      }
-+    "limits": {
-+        "iops-total": 1000
-     }
-   }
- }
-diff --git a/tests/qemu-iotests/218 b/tests/qemu-iotests/218
-index ae7c4fb187..325d8244fb 100755
---- a/tests/qemu-iotests/218
-+++ b/tests/qemu-iotests/218
-@@ -152,7 +152,7 @@ with iotests.VM() as vm, \
-     vm.launch()
- 
-     ret = vm.qmp('object-add', qom_type='throttle-group', id='tg',
--                 props={'x-bps-read': 4096})
-+                 limits={'bps-read': 4096})
-     assert ret['return'] == {}
- 
-     ret = vm.qmp('blockdev-add',
-diff --git a/tests/qemu-iotests/235 b/tests/qemu-iotests/235
-index 20d16dbf38..8aed45f9a7 100755
---- a/tests/qemu-iotests/235
-+++ b/tests/qemu-iotests/235
-@@ -57,7 +57,7 @@ vm.add_args('-drive', 'id=src,file=' + disk)
- vm.launch()
- 
- log(vm.qmp('object-add', qom_type='throttle-group', id='tg0',
--           props={ 'x-bps-total': size }))
-+           limits={'bps-total': size}))
- 
- log(vm.qmp('blockdev-add',
-            **{ 'node-name': 'target',
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index cfdeb902be..30b1d7b22d 100755
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -644,12 +644,12 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         ###### throttle ######
-         ######################
-         opts = { 'qom-type': 'throttle-group', 'id': 'group0',
--                 'props': { 'limits': { 'iops-total': 1000 } } }
-+                 'limits': { 'iops-total': 1000 } }
-         result = self.vm.qmp('object-add', conv_keys = False, **opts)
-         self.assert_qmp(result, 'return', {})
- 
-         opts = { 'qom-type': 'throttle-group', 'id': 'group1',
--                 'props': { 'limits': { 'iops-total': 2000 } } }
-+                 'limits': { 'iops-total': 2000 } }
-         result = self.vm.qmp('object-add', conv_keys = False, **opts)
-         self.assert_qmp(result, 'return', {})
- 
-diff --git a/tests/qemu-iotests/258 b/tests/qemu-iotests/258
-index 9a2d33ae5e..a6618208a8 100755
---- a/tests/qemu-iotests/258
-+++ b/tests/qemu-iotests/258
-@@ -103,9 +103,9 @@ def test_concurrent_finish(write_to_stream_node):
-         vm.qmp_log('object-add',
-                    qom_type='throttle-group',
-                    id='tg',
--                   props={
--                       'x-iops-write': 1,
--                       'x-iops-write-max': 1
-+                   limits={
-+                       'iops-write': 1,
-+                       'iops-write-max': 1
-                    })
- 
-         vm.qmp_log('blockdev-add',
-diff --git a/tests/qemu-iotests/258.out b/tests/qemu-iotests/258.out
-index ce6e9ba3e5..c3a003d3e3 100644
---- a/tests/qemu-iotests/258.out
-+++ b/tests/qemu-iotests/258.out
-@@ -2,7 +2,7 @@ Running tests:
- 
- === Commit and stream finish concurrently (letting stream write) ===
- 
--{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-write": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
-+{"execute": "object-add", "arguments": {"id": "tg", "limits": {"iops-write": 1, "iops-write-max": 1}, "qom-type": "throttle-group"}}
- {"return": {}}
- {"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backing": {"backing": {"driver": "raw", "file": {"driver": "file", "filename": "TEST_DIR/PID-node0.img"}, "node-name": "node0"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node1.img"}, "node-name": "node1"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node3.img"}, "node-name": "node3"}, "driver": "IMGFMT", "file": {"driver": "throttle", "file": {"driver": "file", "filename": "TEST_DIR/PID-node4.img"}, "throttle-group": "tg"}, "node-name": "node4"}}
- {"return": {}}
-@@ -18,7 +18,7 @@ Running tests:
- 
- === Commit and stream finish concurrently (letting commit write) ===
- 
--{"execute": "object-add", "arguments": {"id": "tg", "props": {"x-iops-write": 1, "x-iops-write-max": 1}, "qom-type": "throttle-group"}}
-+{"execute": "object-add", "arguments": {"id": "tg", "limits": {"iops-write": 1, "iops-write-max": 1}, "qom-type": "throttle-group"}}
- {"return": {}}
- {"execute": "blockdev-add", "arguments": {"backing": {"backing": {"backing": {"backing": {"driver": "raw", "file": {"driver": "throttle", "file": {"driver": "file", "filename": "TEST_DIR/PID-node0.img"}, "throttle-group": "tg"}, "node-name": "node0"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node1.img"}, "node-name": "node1"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node2.img"}, "node-name": "node2"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node3.img"}, "node-name": "node3"}, "driver": "IMGFMT", "file": {"driver": "file", "filename": "TEST_DIR/PID-node4.img"}, "node-name": "node4"}}
- {"return": {}}
-diff --git a/tests/qemu-iotests/295 b/tests/qemu-iotests/295
-index 01a6c0b31f..270ad3999f 100755
---- a/tests/qemu-iotests/295
-+++ b/tests/qemu-iotests/295
-@@ -43,7 +43,7 @@ class Secret:
- 
-     def to_qmp_object(self):
-         return { "qom_type" : "secret", "id": self.id(),
--                 "props": { "data": self.secret() } }
-+                 "data": self.secret() }
- 
- ################################################################################
- class EncryptionSetupTestCase(iotests.QMPTestCase):
-diff --git a/tests/qemu-iotests/296 b/tests/qemu-iotests/296
-index 0bc3c6c7d7..7c65e987a1 100755
---- a/tests/qemu-iotests/296
-+++ b/tests/qemu-iotests/296
-@@ -43,7 +43,7 @@ class Secret:
- 
-     def to_qmp_object(self):
-         return { "qom_type" : "secret", "id": self.id(),
--                 "props": { "data": self.secret() } }
-+                 "data": self.secret() }
- 
- ################################################################################
- 
--- 
-2.20.1
-
+Please wait for more review before respining for this detail.
 
