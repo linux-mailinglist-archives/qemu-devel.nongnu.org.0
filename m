@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BA3432134D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 10:44:49 +0100 (CET)
-Received: from localhost ([::1]:36426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD4F9321361
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 10:48:30 +0100 (CET)
+Received: from localhost ([::1]:40588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE7lo-0001DN-Ne
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 04:44:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39414)
+	id 1lE7pO-0003Yc-0k
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 04:48:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=68089fb8e=acatan@amazon.com>)
- id 1lE7jd-0007lx-GE
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:42:33 -0500
-Received: from smtp-fw-4101.amazon.com ([72.21.198.25]:41140)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=68089fb8e=acatan@amazon.com>)
- id 1lE7ja-00079U-Tu
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:42:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1613986951; x=1645522951;
- h=from:to:cc:subject:date:message-id:in-reply-to:
- references:mime-version;
- bh=8UTpe6qmQnTzNV2cZ919RiLXlAwB3jtqeyIcXPKbGLs=;
- b=HhGLsCFAXpqOex2bmbW5XjvucFg2KfpImGYO6Y8rnUnmQ/iOpZyj6Kl6
- kbMzn7JKOAVf11Cd417myYvjpKpfsPwSv1CNmRgQ/beMyZmRuBQxAJuYK
- ef9bA+LoQ+rJTZ7XiT76PKRmbVRivXj41Lez4GkIJJfTPLj0zncyno5ed A=;
-X-IronPort-AV: E=Sophos;i="5.81,196,1610409600"; d="scan'208";a="86462655"
-Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
- email-inbound-relay-2b-baacba05.us-west-2.amazon.com) ([10.43.8.2])
- by smtp-border-fw-out-4101.iad4.amazon.com with ESMTP;
- 22 Feb 2021 09:42:27 +0000
-Received: from EX13D08EUB004.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-2b-baacba05.us-west-2.amazon.com (Postfix) with ESMTPS
- id AB903A1D25; Mon, 22 Feb 2021 09:42:23 +0000 (UTC)
-Received: from uf6ed9c851f4556.ant.amazon.com (10.43.161.87) by
- EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Mon, 22 Feb 2021 09:42:08 +0000
-From: Adrian Catangiu <acatan@amazon.com>
-To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>
-CC: <gregkh@linuxfoundation.org>, <graf@amazon.com>, <rdunlap@infradead.org>, 
- <arnd@arndb.de>, <ebiederm@xmission.com>, <rppt@kernel.org>,
- <0x7f454c46@gmail.com>, <borntraeger@de.ibm.com>, <Jason@zx2c4.com>,
- <jannh@google.com>, <w@1wt.eu>, <colmmacc@amazon.com>, <luto@kernel.org>,
- <tytso@mit.edu>, <ebiggers@kernel.org>, <dwmw@amazon.co.uk>,
- <bonzini@gnu.org>, <sblbir@amazon.com>, <raduweis@amazon.com>,
- <corbet@lwn.net>, <mst@redhat.com>, <mhocko@kernel.org>, <rafael@kernel.org>, 
- <pavel@ucw.cz>, <mpe@ellerman.id.au>, <areber@redhat.com>,
- <ovzxemul@gmail.com>, <avagin@gmail.com>, <ptikhomirov@virtuozzo.com>,
- <gil@azul.com>, <asmehra@redhat.com>, <dgunigun@redhat.com>,
- <vijaysun@ca.ibm.com>, <oridgar@gmail.com>, <ghammer@redhat.com>,
- <acatan@amazon.com>
-Subject: [PATCH v6 2/2] drivers/virt: vmgenid: add vm generation id driver
-Date: Mon, 22 Feb 2021 11:41:26 +0200
-Message-ID: <1613986886-29493-3-git-send-email-acatan@amazon.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1613986886-29493-1-git-send-email-acatan@amazon.com>
-References: <1613986886-29493-1-git-send-email-acatan@amazon.com>
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1lE7nK-0002WM-Ou
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:46:22 -0500
+Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:39507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1lE7nI-0000Up-I9
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:46:22 -0500
+Received: by mail-il1-x132.google.com with SMTP id d5so1337619iln.6
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 01:46:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=j7cf+bYfCIhYtlawS90ZxaP7rnPkhNWNjFle6ZO2xBg=;
+ b=W+Eqm46WrqcnkhF8krAJGil/AjwKTXhdyemxEltClqlTR8ZwBW/NwPG1WJ06MSLgei
+ W8EqWyLbFoUVug0Txpz4hmgm4MLBvPSdk1VIE4G1h2r4wZtQQw0ivyiforKctxF2OHU6
+ sbHLpNpM+CtnUXFcLIjiL9eSNcv8NKp4mG0g6rCAl1ag3XUbPq2GBWB/Hro523r224wj
+ kCPCKPFvPrP5rL+LUWs1wgvsfy0s9vuCIvdF5o3/PkwbWtkX8WITRa8MXZ//8DEfXRj/
+ HtONdk30+sspakJwBi77qrvack1yJPPWfSH3YXrKti+GmWfnHL+gou6uMNruL1G25x/B
+ NCdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=j7cf+bYfCIhYtlawS90ZxaP7rnPkhNWNjFle6ZO2xBg=;
+ b=OXILNeoBopvhsU+IYH5u1eHfpa2likPbp6sRbd8MkbngEyVUCIfgfi2qd4kfkDyi9n
+ 6PuSn6PssvPrCTjPB6eS79IhNa5fNy8485uIHlsgh1CtT1kLDSJbHTRUmCSAXx5hrkiE
+ PKbDj6VcOxQSHGn8XneXebQf0/c5qXSGfg0FqSmGPvcyxoInk5usTcIr6zBE+bL4syRI
+ Dqinz4zwyoxusAhPleF7PJpOiDOVEFShy2tsMwv2O37tQb/35GLZAuipwZVoL1o9AXNX
+ bTW0uhDe2SifL3IhICvOdKSOVaTGhhozI5va/P5NjBNz9GHogKrN2J97uVJMPux+jGdy
+ ALQw==
+X-Gm-Message-State: AOAM533K/Mm3+JpYR+c1n8kzKLex2jOTUExaDBNJIeuf0SU9CrWFleaI
+ Bn+44ALzw8zaNxqzK7usENisM0j+ZS6/UFtmUIzA
+X-Google-Smtp-Source: ABdhPJz2Ae4W6sisEaZ1RpeNuDxem+/+HxP4o1Y6uOVTgqOHvQPFv4D5++LmIFACqbCklShWb44l+P22iDwJ82L6r8M=
+X-Received: by 2002:a92:1312:: with SMTP id 18mr13716734ilt.92.1613987179263; 
+ Mon, 22 Feb 2021 01:46:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.43.161.87]
-X-ClientProxiedBy: EX13D41UWC004.ant.amazon.com (10.43.162.31) To
- EX13D08EUB004.ant.amazon.com (10.43.166.158)
-Precedence: Bulk
-Received-SPF: pass client-ip=72.21.198.25;
- envelope-from=prvs=68089fb8e=acatan@amazon.com; helo=smtp-fw-4101.amazon.com
-X-Spam_score_int: -121
-X-Spam_score: -12.2
-X-Spam_bar: ------------
-X-Spam_report: (-12.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+References: <cover.1612747873.git.haibo.xu@linaro.org>
+ <25a922038d256e47f3eb99683c5e3bd9c34753ac.1612747873.git.haibo.xu@linaro.org>
+ <ae0326e2-8766-803a-ef89-1155d45fdd2a@linaro.org>
+In-Reply-To: <ae0326e2-8766-803a-ef89-1155d45fdd2a@linaro.org>
+From: Haibo Xu <haibo.xu@linaro.org>
+Date: Mon, 22 Feb 2021 17:46:06 +0800
+Message-ID: <CAJc+Z1EERnkp1QhZu0Xkrxuw3u8bFM02x0=QVfXYxCRSbXiZeA@mail.gmail.com>
+Subject: Re: [RFC PATCH 4/5] Add migration support for KVM guest with MTE
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
+ envelope-from=haibo.xu@linaro.org; helo=mail-il1-x132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,311 +78,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VM Generation ID is a feature defined by Microsoft (paper:
-http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-multiple hypervisor vendors.
+On Tue, 16 Feb 2021 at 23:31, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 2/7/21 7:20 PM, Haibo Xu wrote:
+> > +    if (kvm_physical_memory_addr_from_host(kvm_state, addr, &ipa)) {
+> > +        /* Buffer for the page tags(one byte per tag) */
+> > +        tag_buf = g_try_malloc0(size);
+> > +        if (!tag_buf) {
+> > +            error_report("%s: Error allocating MTE tag_buf", __func__);
+> > +            return 0;
+> > +        }
+> > +
+> > +        if (kvm_arm_mte_get_tags(ipa, TARGET_PAGE_SIZE, tag_buf) < 0) {
+> > +            error_report("%s: Can't get MTE tags from guest", __func__);
+> > +            g_free(tag_buf);
+> > +            return 0;
+> > +        }
+> > +
+> > +        qemu_put_buffer(f, tag_buf, size);
+> > +
+> > +        g_free(tag_buf);
+> > +
+> > +        return size;
+> > +    }
+>
+> So, in patch 2 you disabled the allocation of tag-memory.  Now you're
+> allocating new memory (admittedly quite a small amount -- 1/16th of a page,
+> small enough to just be a local variable).
+>
 
-The feature can be used to drive the `sysgenid` mechanism required in
-virtualized environments by software that works with local copies and
-caches of world-unique data such as random values, uuids, monotonically
-increasing counters, etc.
+Hi Richard!
 
-The VM Generation ID is a hypervisor/hardware provided 128-bit unique
-ID that changes each time the VM is restored from a snapshot. It can be
-used to differentiate between VMs or different generations of the same
-VM.
-This VM Generation ID is exposed through an ACPI device by multiple
-hypervisor vendors.
+Thanks so much for the comments!
 
-The `vmgenid` driver acts as a backend for the `sysgenid` kernel module
-(`drivers/misc/sysgenid.c`, `Documentation/misc-devices/sysgenid.rst`)
-to drive changes to the "System Generation Id" which is further exposed
-to userspace as a monotonically increasing counter.
+Yes, the allocated memory here is for temporary tag storage. As you
+mentioned, it can be
+defined as a local variable which is reserved for temporary tag buffers.
 
-The driver uses ACPI events to be notified by hardware of changes to the
-128-bit Vm Gen Id UUID. Since the actual UUID value is not directly exposed
-to userspace, but only used to drive the System Generation Counter, the
-driver also adds it as device randomness to improve kernel entropy
-following VM snapshot events.
+> Why don't you allocate tag-memory, copy the data into it, and then let
+> migration proceed as normal.  Then you don't have to have a random data block
+> that happens to follow each ram page.
+>
 
-This patch builds on top of Or Idgar <oridgar@gmail.com>'s proposal
-https://lkml.org/lkml/2018/3/1/498
+As I mentioned in the cover later, the reason to let the tag go with
+the memory data together
+is to make it easier to sync with each other. I think if we migratie
+them separately, it would be
+hard to keep the tags to sync with the data.
 
-Signed-off-by: Adrian Catangiu <acatan@amazon.com>
----
- Documentation/virt/vmgenid.rst |  36 ++++++++++
- MAINTAINERS                    |   7 ++
- drivers/virt/Kconfig           |  13 ++++
- drivers/virt/Makefile          |   1 +
- drivers/virt/vmgenid.c         | 153 +++++++++++++++++++++++++++++++++++++++++
- 5 files changed, 210 insertions(+)
- create mode 100644 Documentation/virt/vmgenid.rst
- create mode 100644 drivers/virt/vmgenid.c
+Saying if we migration all the data first, then the tags. If the data
+got dirty during the migration
+of the tag memory, we may need to send the data again, or freeze the
+source VM after data
+migration? What's more, the KVM_GET_DIRTY_LOG API may not be able to
+differentiate
+between a tag and data changes.
 
-diff --git a/Documentation/virt/vmgenid.rst b/Documentation/virt/vmgenid.rst
-new file mode 100644
-index 0000000..a429c2a3
---- /dev/null
-+++ b/Documentation/virt/vmgenid.rst
-@@ -0,0 +1,36 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=======
-+VMGENID
-+=======
-+
-+The VM Generation ID is a feature defined by Microsoft (paper:
-+http://go.microsoft.com/fwlink/?LinkId=260709) and supported by
-+multiple hypervisor vendors.
-+
-+The feature is required in virtualized environments by applications
-+that work with local copies/caches of world-unique data such as random
-+values, UUIDs, monotonically increasing counters, etc.
-+Such applications can be negatively affected by VM snapshotting when
-+the VM is either cloned or returned to an earlier point in time.
-+
-+The VM Generation ID is a simple concept through which a hypevisor
-+notifies its guest that a snapshot has taken place. The vmgenid device
-+provides a unique ID that changes each time the VM is restored from a
-+snapshot. The hardware provided UUID value can be used to differentiate
-+between VMs or different generations of the same VM.
-+
-+The VM Generation ID is exposed through an ACPI device by multiple
-+hypervisor vendors. The driver for it lives at
-+``drivers/virt/vmgenid.c``
-+
-+The ``vmgenid`` driver acts as a backend for the ``sysgenid`` kernel module
-+(``drivers/misc/sysgenid.c``, ``Documentation/misc-devices/sysgenid.rst``)
-+to drive changes to the "System Generation Id" which is further exposed
-+to userspace as a monotonically increasing counter.
-+
-+The driver uses ACPI events to be notified by hardware of changes to the
-+128-bit Vm Gen Id UUID. Since the actual UUID value is not directly exposed
-+to userspace, but only used to drive the System Generation Counter, the
-+driver also adds it as device randomness to improve kernel entropy
-+following VM snapshot events.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 9ae62d5..e8b182d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19009,6 +19009,13 @@ F:	drivers/staging/vme/
- F:	drivers/vme/
- F:	include/linux/vme*
- 
-+VMGENID
-+M:	Adrian Catangiu <acatan@amazon.com>
-+L:	linux-kernel@vger.kernel.org
-+S:	Supported
-+F:	Documentation/virt/vmgenid.rst
-+F:	drivers/virt/vmgenid.c
-+
- VMWARE BALLOON DRIVER
- M:	Nadav Amit <namit@vmware.com>
- M:	"VMware, Inc." <pv-drivers@vmware.com>
-diff --git a/drivers/virt/Kconfig b/drivers/virt/Kconfig
-index 80c5f9c1..95d82c9 100644
---- a/drivers/virt/Kconfig
-+++ b/drivers/virt/Kconfig
-@@ -13,6 +13,19 @@ menuconfig VIRT_DRIVERS
- 
- if VIRT_DRIVERS
- 
-+config VMGENID
-+	tristate "Virtual Machine Generation ID driver"
-+	depends on ACPI && SYSGENID
-+	help
-+	  The driver uses the hypervisor provided Virtual Machine Generation ID
-+	  to drive the system generation counter mechanism exposed by sysgenid.
-+	  The vmgenid changes on VM snapshots or VM cloning. The hypervisor
-+	  provided 128-bit vmgenid is also used as device randomness to improve
-+	  kernel entropy following VM snapshot events.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called vmgenid.
-+
- config FSL_HV_MANAGER
- 	tristate "Freescale hypervisor management driver"
- 	depends on FSL_SOC
-diff --git a/drivers/virt/Makefile b/drivers/virt/Makefile
-index f28425c..889be01 100644
---- a/drivers/virt/Makefile
-+++ b/drivers/virt/Makefile
-@@ -4,6 +4,7 @@
- #
- 
- obj-$(CONFIG_FSL_HV_MANAGER)	+= fsl_hypervisor.o
-+obj-$(CONFIG_VMGENID)		+= vmgenid.o
- obj-y				+= vboxguest/
- 
- obj-$(CONFIG_NITRO_ENCLAVES)	+= nitro_enclaves/
-diff --git a/drivers/virt/vmgenid.c b/drivers/virt/vmgenid.c
-new file mode 100644
-index 0000000..d9d089a
---- /dev/null
-+++ b/drivers/virt/vmgenid.c
-@@ -0,0 +1,153 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Virtual Machine Generation ID driver
-+ *
-+ * Copyright (C) 2018 Red Hat Inc. All rights reserved.
-+ *
-+ * Copyright (C) 2020 Amazon. All rights reserved.
-+ *
-+ *	Authors:
-+ *	  Adrian Catangiu <acatan@amazon.com>
-+ *	  Or Idgar <oridgar@gmail.com>
-+ *	  Gal Hammer <ghammer@redhat.com>
-+ *
-+ */
-+#include <linux/acpi.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/random.h>
-+#include <linux/uuid.h>
-+#include <linux/sysgenid.h>
-+
-+#define DEV_NAME "vmgenid"
-+ACPI_MODULE_NAME(DEV_NAME);
-+
-+struct vmgenid_data {
-+	uuid_t uuid;
-+	void *uuid_iomap;
-+};
-+static struct vmgenid_data vmgenid_data;
-+
-+static int vmgenid_acpi_map(struct vmgenid_data *priv, acpi_handle handle)
-+{
-+	int i;
-+	phys_addr_t phys_addr;
-+	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-+	acpi_status status;
-+	union acpi_object *pss;
-+	union acpi_object *element;
-+
-+	status = acpi_evaluate_object(handle, "ADDR", NULL, &buffer);
-+	if (ACPI_FAILURE(status)) {
-+		ACPI_EXCEPTION((AE_INFO, status, "Evaluating ADDR"));
-+		return -ENODEV;
-+	}
-+	pss = buffer.pointer;
-+	if (!pss || pss->type != ACPI_TYPE_PACKAGE || pss->package.count != 2)
-+		return -EINVAL;
-+
-+	phys_addr = 0;
-+	for (i = 0; i < pss->package.count; i++) {
-+		element = &(pss->package.elements[i]);
-+		if (element->type != ACPI_TYPE_INTEGER)
-+			return -EINVAL;
-+		phys_addr |= element->integer.value << i * 32;
-+	}
-+
-+	priv->uuid_iomap = acpi_os_map_memory(phys_addr, sizeof(uuid_t));
-+	if (!priv->uuid_iomap) {
-+		pr_err("Could not map memory at 0x%llx, size %u\n",
-+			   phys_addr,
-+			   (u32) sizeof(uuid_t));
-+		return -ENOMEM;
-+	}
-+
-+	memcpy_fromio(&priv->uuid, priv->uuid_iomap, sizeof(uuid_t));
-+
-+	return 0;
-+}
-+
-+static int vmgenid_acpi_add(struct acpi_device *device)
-+{
-+	int ret;
-+
-+	if (!device)
-+		return -EINVAL;
-+	device->driver_data = &vmgenid_data;
-+
-+	ret = vmgenid_acpi_map(device->driver_data, device->handle);
-+	if (ret < 0) {
-+		pr_err("vmgenid: failed to map acpi device\n");
-+		device->driver_data = NULL;
-+	}
-+
-+	return ret;
-+}
-+
-+static int vmgenid_acpi_remove(struct acpi_device *device)
-+{
-+	if (!device || acpi_driver_data(device) != &vmgenid_data)
-+		return -EINVAL;
-+	device->driver_data = NULL;
-+
-+	if (vmgenid_data.uuid_iomap)
-+		acpi_os_unmap_memory(vmgenid_data.uuid_iomap, sizeof(uuid_t));
-+	vmgenid_data.uuid_iomap = NULL;
-+
-+	return 0;
-+}
-+
-+static void vmgenid_acpi_notify(struct acpi_device *device, u32 event)
-+{
-+	uuid_t old_uuid;
-+
-+	if (!device || acpi_driver_data(device) != &vmgenid_data) {
-+		pr_err("VMGENID notify with unexpected driver private data\n");
-+		return;
-+	}
-+
-+	/* update VM Generation UUID */
-+	old_uuid = vmgenid_data.uuid;
-+	memcpy_fromio(&vmgenid_data.uuid, vmgenid_data.uuid_iomap, sizeof(uuid_t));
-+
-+	if (memcmp(&old_uuid, &vmgenid_data.uuid, sizeof(uuid_t))) {
-+		/* HW uuid updated */
-+		sysgenid_bump_generation();
-+		add_device_randomness(&vmgenid_data.uuid, sizeof(uuid_t));
-+	}
-+}
-+
-+static const struct acpi_device_id vmgenid_ids[] = {
-+	{"VMGENID", 0},
-+	{"QEMUVGID", 0},
-+	{"", 0},
-+};
-+
-+static struct acpi_driver acpi_vmgenid_driver = {
-+	.name = "vm_generation_id",
-+	.ids = vmgenid_ids,
-+	.owner = THIS_MODULE,
-+	.ops = {
-+		.add = vmgenid_acpi_add,
-+		.remove = vmgenid_acpi_remove,
-+		.notify = vmgenid_acpi_notify,
-+	}
-+};
-+
-+static int __init vmgenid_init(void)
-+{
-+	return acpi_bus_register_driver(&acpi_vmgenid_driver);
-+}
-+
-+static void __exit vmgenid_exit(void)
-+{
-+	acpi_bus_unregister_driver(&acpi_vmgenid_driver);
-+}
-+
-+module_init(vmgenid_init);
-+module_exit(vmgenid_exit);
-+
-+MODULE_AUTHOR("Adrian Catangiu");
-+MODULE_DESCRIPTION("Virtual Machine Generation ID");
-+MODULE_LICENSE("GPL");
-+MODULE_VERSION("0.1");
--- 
-2.7.4
+I'm not sure whether the aforementioned situation does exist. Please
+correct me if something goes wrong!
 
+> I'm concerned that what you're doing here makes it impossible to migrate
+> between kvm and tcg.
+>
+>
 
+You mean to migrate from a KVM mode VM to a TCG mode VM?
 
+> r~
 
-Amazon Development Center (Romania) S.R.L. registered office: 27A Sf. Lazar Street, UBC5, floor 2, Iasi, Iasi County, 700045, Romania. Registered in Romania. Registration number J22/2621/2005.
-
+Regards,
+Haibo
 
