@@ -2,29 +2,32 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 990EB321BF7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:58:18 +0100 (CET)
-Received: from localhost ([::1]:58744 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A03AB321BFB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:59:09 +0100 (CET)
+Received: from localhost ([::1]:33906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDbF-0006SS-Kx
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:58:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46606)
+	id 1lEDc3-00085y-Do
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:59:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lEDYd-0004ZP-GM; Mon, 22 Feb 2021 10:55:36 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:13773)
+ id 1lEDYa-0004Y8-OA; Mon, 22 Feb 2021 10:55:33 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:13774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lEDYV-0003Ru-Sr; Mon, 22 Feb 2021 10:55:35 -0500
+ id 1lEDYV-0003Rt-Uy; Mon, 22 Feb 2021 10:55:31 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 79D1E746396;
+ by localhost (Postfix) with SMTP id 84E55746357;
  Mon, 22 Feb 2021 16:55:23 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4A38274634B; Mon, 22 Feb 2021 16:55:23 +0100 (CET)
-Message-Id: <cover.1614007326.git.balaton@eik.bme.hu>
+ id 4FBC8746342; Mon, 22 Feb 2021 16:55:23 +0100 (CET)
+Message-Id: <6371141da056b8b0890ca3f43221da138410374b.1614007326.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1614007326.git.balaton@eik.bme.hu>
+References: <cover.1614007326.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 0/6] Pegasos2 emulation
+Subject: [PATCH v3 1/6] vt82c686: Implement control of serial port io ranges
+ via config regs
 Date: Mon, 22 Feb 2021 16:22:06 +0100
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -57,61 +60,156 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+In VIA super south bridge the io ranges of superio components
+(parallel and serial ports and FDC) can be controlled by superio
+config registers to set their base address and enable/disable them.
+This is not easy to implement in QEMU because ISA emulation is only
+designed to set io base address once on creating the device and io
+ranges are registered at creation and cannot easily be disabled or
+moved later.
 
-This is adding a new PPC board called pegasos2. More info on it can be
-found at:
+In this patch we hack around that but only for serial ports because
+those have a single io range at port base that's relatively easy to
+handle and it's what guests actually use and set address different
+than the default.
 
-https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+We do not attempt to handle controlling the parallel and FDC regions
+because those have multiple io ranges so handling them would be messy
+and guests either don't change their deafult or don't care. We could
+even get away with disabling and not emulating them, but since they
+are already there, this patch leaves them mapped at their default
+address just in case this could be useful for a guest in the future.
 
-Currently it needs a firmware ROM image that I cannot include due to
-original copyright holder (bPlan) did not release it under a free
-licence but I have plans to write a replacement in the future. With
-the original board firmware it can boot MorphOS now as:
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 82 insertions(+), 2 deletions(-)
 
-qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile="" -serial stdio
-
-then enter "boot cd boot.img" at the firmware "ok" prompt as described
-in the MorphOS.readme. To boot Linux use same command line with e.g.
--cdrom debian-8.11.0-powerpc-netinst.iso then enter
-"boot cd install/pegasos"
-
-The last patch adds the actual board code after previous patches
-adding VT8231 and MV64361 system controller chip emulation. The
-mv643xx.h header file is taken from Linux and produces a bunch of
-checkpatch warnings due to different formatting rules it follows, I'm
-not sure we want to adopt it and change formatting or keep it as it is.
-
-Regards,
-BALATON Zoltan
-
-BALATON Zoltan (6):
-  vt82c686: Implement control of serial port io ranges via config regs
-  vt82c686: QOM-ify superio related functionality
-  vt82c686: Add VT8231_SUPERIO based on VIA_SUPERIO
-  vt82c686: Add emulation of VT8231 south bridge
-  hw/pci-host: Add emulation of Marvell MV64361 PPC system controller
-  hw/ppc: Add emulation of Genesi/bPlan Pegasos II
-
- default-configs/devices/ppc-softmmu.mak |   2 +
- hw/isa/vt82c686.c                       | 515 +++++++++++--
- hw/pci-host/Kconfig                     |   3 +
- hw/pci-host/meson.build                 |   2 +
- hw/pci-host/mv64361.c                   | 966 ++++++++++++++++++++++++
- hw/pci-host/mv643xx.h                   | 919 ++++++++++++++++++++++
- hw/pci-host/trace-events                |   6 +
- hw/ppc/Kconfig                          |  10 +
- hw/ppc/meson.build                      |   2 +
- hw/ppc/pegasos2.c                       | 144 ++++
- include/hw/isa/vt82c686.h               |   2 +-
- include/hw/pci-host/mv64361.h           |   8 +
- include/hw/pci/pci_ids.h                |   4 +-
- 13 files changed, 2500 insertions(+), 83 deletions(-)
- create mode 100644 hw/pci-host/mv64361.c
- create mode 100644 hw/pci-host/mv643xx.h
- create mode 100644 hw/ppc/pegasos2.c
- create mode 100644 include/hw/pci-host/mv64361.h
-
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 5db9b1706c..98bd57a074 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
+ typedef struct SuperIOConfig {
+     uint8_t regs[0x100];
+     MemoryRegion io;
++    ISASuperIODevice *superio;
++    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
+ } SuperIOConfig;
+ 
++static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
++                                    int offs)
++{
++    MemoryRegion *subregion, *mr = NULL;
++
++    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
++        if (subregion->addr == offs) {
++            mr = subregion;
++            break;
++        }
++    }
++    return mr;
++}
++
+ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+                               unsigned size)
+ {
+@@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
+     case 0xfd ... 0xff:
+         /* ignore write to read only registers */
+         return;
+-    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
++    case 0xe2:
++    {
++        data &= 0x1f;
++        if (data & BIT(2)) { /* Serial port 1 enable */
++            ISADevice *dev = sc->superio->serial[0];
++            if (!memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[0]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
++            if (memory_region_is_mapped(sc->serial_io[0])) {
++                memory_region_del_subregion(io, sc->serial_io[0]);
++            }
++        }
++        if (data & BIT(3)) { /* Serial port 2 enable */
++            ISADevice *dev = sc->superio->serial[1];
++            if (!memory_region_is_mapped(sc->serial_io[1])) {
++                memory_region_add_subregion(isa_address_space_io(dev),
++                                            dev->ioport_id, sc->serial_io[1]);
++            }
++        } else {
++            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
++            if (memory_region_is_mapped(sc->serial_io[1])) {
++                memory_region_del_subregion(io, sc->serial_io[1]);
++            }
++        }
++        break;
++    }
++    case 0xe7: /* Serial port 1 io base address */
++    {
++        data &= 0xfe;
++        sc->superio->serial[0]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[0])) {
++            memory_region_set_address(sc->serial_io[0], data << 2);
++        }
++        break;
++    }
++    case 0xe8: /* Serial port 2 io base address */
++    {
++        data &= 0xfe;
++        sc->superio->serial[1]->ioport_id = data << 2;
++        if (memory_region_is_mapped(sc->serial_io[1])) {
++            memory_region_set_address(sc->serial_io[1], data << 2);
++        }
++        break;
++    }
+     default:
+         qemu_log_mask(LOG_UNIMP,
+                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
+@@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+     qemu_irq *isa_irq;
++    ISASuperIOClass *ic;
+     int i;
+ 
+     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
+@@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
+     i8254_pit_init(isa_bus, 0x40, 0, NULL);
+     i8257_dma_init(isa_bus, 0);
+-    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
++    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
++                                                      TYPE_VT82C686B_SUPERIO));
++    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
+     mc146818_rtc_init(isa_bus, 2000, NULL);
+ 
+     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
+@@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+      */
+     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
+                                 &s->superio_cfg.io);
++
++    /* Grab io regions of serial devices so we can control them */
++    for (i = 0; i < ic->serial.count; i++) {
++        ISADevice *sd = s->superio_cfg.superio->serial[i];
++        MemoryRegion *io = isa_address_space_io(sd);
++        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
++        if (!mr) {
++            error_setg(errp, "Could not get io region for serial %d", i);
++            return;
++        }
++        s->superio_cfg.serial_io[i] = mr;
++        if (memory_region_is_mapped(mr)) {
++            memory_region_del_subregion(io, mr);
++        }
++    }
+ }
+ 
+ static void via_class_init(ObjectClass *klass, void *data)
 -- 
 2.21.3
 
