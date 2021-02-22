@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E10C3220E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:46:33 +0100 (CET)
-Received: from localhost ([::1]:54906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B1883220D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:34:48 +0100 (CET)
+Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEI6B-0004RC-SH
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:46:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43418)
+	id 1lEHup-0007ut-7N
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:34:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEHpk-0006AO-Ne; Mon, 22 Feb 2021 15:29:32 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41247)
+ id 1lEHpl-0006BV-7s; Mon, 22 Feb 2021 15:29:33 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:59125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEHph-0007Ig-Bs; Mon, 22 Feb 2021 15:29:32 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 8D6D35C01C8;
- Mon, 22 Feb 2021 15:29:28 -0500 (EST)
+ id 1lEHpi-0007JO-Mn; Mon, 22 Feb 2021 15:29:33 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id B698F5C01C9;
+ Mon, 22 Feb 2021 15:29:29 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 22 Feb 2021 15:29:28 -0500
+ by compute3.internal (MEProxy); Mon, 22 Feb 2021 15:29:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=HMV77hINTktkv
- RdU7FsFO6zPOvxhGdRCLWVsPRLfpck=; b=pl+umMuQVRXGzw1YP2zsu4jsiNAvw
- IngaJ8x3Hz3MUwO1+YI7r7OLZnuF/npgf4rBhwdohTqEP0maoGaZ/d/YANz1XNHT
- HgDqw4xu8sof6EbNyhgSiKkaK8+KZAg4edozGDtVzimC08TFvWc+kp0Q3IwC53+V
- Xyj5SXfPEiL1q9K3bKyLYBlmg5lOCeQcOAPFSEkV8wOIp0CxkN23pblk7Elrbru7
- ZoZRGBydFeo9JWZ1MuoiOyrjcwx42JWutAJx3GXo+WKAsAkIjiq74kgwAIZzCtG8
- Ti/8IqBPdc5MZdy9gyfZlvzQ3GHp++nI1h0gI8kCfpKLM7YFFN3NYzlVg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=Y0v696S6ADZXr
+ LR5wRJs4zl0XUpa+y3LXPTwR84oOaU=; b=MZY3CaX62zdLdRMUIpFLCYFFOPa3l
+ 4LA88jfHx4lREn8tSPiVS+bPvY4iBcUVwL2ss0zTTKEJ1gWkzep/SlMq7wlzoWQY
+ MLg48H9KwZ6/fyNgZ6Kt6dexq0ryOG5E3hR0M++4I6itGQC3/iVrMwMF4V2kTPpg
+ mFBbxDfO1HOYfA5Y9edC58RJ8+Eez/J/ZCGYR8/yqZmpqZ5d96spzdvcrvgH304F
+ I8elBbS53F0mQPvIDfJqJJ8VOe89mmuEttM78+GirMfwux1H8faK48hledq88tIB
+ yohn04s0BprOELiTUFFYblCS95rlK6EgND6YNaL5ZF/U8/dX6ZtmbeE2w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=HMV77hINTktkvRdU7FsFO6zPOvxhGdRCLWVsPRLfpck=; b=Hhp+sKPE
- f6iI6ewsmEN+ZldF219GKwxg/EF7aF2ss5Xiz5BWLerGrrNHv/iu4+x+v0Qcfuc7
- rrQs0in33WI0l3EzUCDbUFPs4OkBCvKh3Q5mhCbVUfuheTK+PMr4p7OHcSaUWFLp
- dHbdzBHkM9nQQPEK75ZXQFb9zgXNFWF83sK6hj7uQ8jE6SnP7wZRd6GlFc1Oebw6
- 1q5rTNXiI+0stTePEVZjORPpOsmT9/5o2iVQXApBd2HKjWawGTMRE1y5BKxR3gEy
- ZwY0biUWIIGujUN5ElPtz74YPIhnvdNJmI4vJAQGb2K+k1X+axPznQworW4xNu4E
- xDNTppmkS7gV7A==
-X-ME-Sender: <xms:KBQ0YO1v_HjLPxgizyvLZjmbPsqUAFXvmrr8IjNQWP5uH-RFfiWmSA>
- <xme:KBQ0YPDdv1qLivSDcN1ki3q5NoM59E03P_XsJjKL3zLdXJOIpFhRJagJiq7YTzT-r
- qGqjGYgTKKHV7Cr98g>
+ fm2; bh=Y0v696S6ADZXrLR5wRJs4zl0XUpa+y3LXPTwR84oOaU=; b=Iw8P1o5v
+ sp+XJbF8ydAAvBwX+0onr2pskP17ZDo1PgEvceHxTf07uKP65j+6J38cocy/rivt
+ uf/ndNYanB/pf9awQbJLJ7nkG8dm0o4PUcsWYZRxUiBmxV8tlWk50MRh8WLf831f
+ j4YYs0LDviCsuF+rEbRt+cWIJrEI1eytuJFWm+fob5khurEE8AkSHNxW/+ti9XHe
+ Hux43Xr9x24iReBaefVG2DR2K4XIAT/J5y12O7P+9nwscN4APlgEQ2z7PxyW74vF
+ waxgulSOf9LwJy9x2/ZGCabMOOBhsdi7C81nVYR8O2jOLWeBzeMHgFldaL59alsa
+ 0NivHM4YBVcMXA==
+X-ME-Sender: <xms:KRQ0YG8nJdwJCpJLdN60iYtteuz4VCWViPjO94ozJMY6hH2ETFf34Q>
+ <xme:KRQ0YIvvtTW7DplI4EYYjBx-PNTgDq8igOVn8JVqQIMAYORRO6sT8_5DEXzts25mX
+ ZJJInXSE-YA8vf1h5I>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeejucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:KBQ0YJNgyLWvrom2jVHGmTusjxpOUaGV-fpx43Rm7WYeg58q_DDEXw>
- <xmx:KBQ0YEaLXDe_TPmzC2j6Z8Uz46qvGHpVHhYfMiXn-2iJYVAYU4ilQA>
- <xmx:KBQ0YIug_bNXNkThYHZxh5ciRwnc3oJ4-90DezerNY8J4m19qN0KsA>
- <xmx:KBQ0YE0OJWFmViLN5eeevX0xswQ6gtgQWnRmzRdfFjj6dfvfgzSZHQ>
+X-ME-Proxy: <xmx:KRQ0YFZhRxqwKG7H1obS_gib5pUrSxzAvJ9FD0QNDg8fp3UZgTXr1Q>
+ <xmx:KRQ0YAqrREJqf7BifWxB2RSnVeOloObLreBVEfIXRn3EDcocgWxaqQ>
+ <xmx:KRQ0YC-8ygPGkvQr-M971uSQaLNv_Ve5IHJ5PYJUTmLPJobbxYC2mw>
+ <xmx:KRQ0YKo1oKzVXa5N-Xq79jBr0j8q6dhvaUeMhQaICmIgL7ovxyPl_A>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 91B7E240064;
- Mon, 22 Feb 2021 15:29:27 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B5F4E240062;
+ Mon, 22 Feb 2021 15:29:28 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] hw/block/nvme: deduplicate bad mdts trace event
-Date: Mon, 22 Feb 2021 21:29:20 +0100
-Message-Id: <20210222202921.92774-3-its@irrelevant.dk>
+Subject: [PATCH 3/3] hw/block/nvme: align zoned.zasl with mdts
+Date: Mon, 22 Feb 2021 21:29:21 +0100
+Message-Id: <20210222202921.92774-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210222202921.92774-1-its@irrelevant.dk>
 References: <20210222202921.92774-1-its@irrelevant.dk>
@@ -100,79 +100,179 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-If mdts is exceeded, trace it from a single place.
+ZASL (Zone Append Size Limit) is defined exactly like MDTS (Maximum Data
+Transfer Size), that is, it is a value in units of the minimum memory
+page size (CAP.MPSMIN) and is reported as a power of two.
+
+The 'mdts' nvme device parameter is specified as in the spec, but the
+'zoned.append_size_limit' parameter is specified in bytes. This is
+suboptimal for a number of reasons:
+
+  1. It is just plain confusing wrt. the definition of mdts.
+  2. There is a lot of complexity involved in validating the value; it
+     must be a power of two, it should be larger than 4k, if it is zero
+     we set it internally to mdts, but still report it as zero.
+  3. While "hw/block/nvme: improve invalid zasl value reporting"
+     slightly improved the handling of the parameter, the validation is
+     still wrong; it does not depend on CC.MPS, it depends on
+     CAP.MPSMIN. And we are not even checking that it is actually less
+     than or equal to MDTS, which is kinda the *one* condition it must
+     satisfy.
+
+Fix this by defining zasl exactly like mdts and checking the one thing
+that it must satisfy (that it is less than or equal to mdts). Also,
+change the default value from 128KiB to 0 (aka, whatever mdts is).
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c       | 6 +-----
- hw/block/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 6 deletions(-)
+ hw/block/nvme.h       |  4 +---
+ hw/block/nvme.c       | 55 ++++++++++++-------------------------------
+ hw/block/trace-events |  2 +-
+ 3 files changed, 17 insertions(+), 44 deletions(-)
 
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index cb2b5175f1a1..f45ace0cff5b 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -20,7 +20,7 @@ typedef struct NvmeParams {
+     uint32_t aer_max_queued;
+     uint8_t  mdts;
+     bool     use_intel_id;
+-    uint32_t zasl_bs;
++    uint8_t  zasl;
+     bool     legacy_cmb;
+ } NvmeParams;
+ 
+@@ -171,8 +171,6 @@ typedef struct NvmeCtrl {
+     QTAILQ_HEAD(, NvmeAsyncEvent) aer_queue;
+     int         aer_queued;
+ 
+-    uint8_t     zasl;
+-
+     NvmeSubsystem   *subsys;
+ 
+     NvmeNamespace   namespace;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 6a27b28f2c2d..25a7726ca05b 100644
+index 25a7726ca05b..edd0b85c10ce 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -1075,6 +1075,7 @@ static inline uint16_t nvme_check_mdts(NvmeCtrl *n, size_t len)
-     uint8_t mdts = n->params.mdts;
+@@ -69,13 +69,11 @@
+  *   as a power of two (2^n) and is in units of the minimum memory page size
+  *   (CAP.MPSMIN). The default value is 7 (i.e. 512 KiB).
+  *
+- * - `zoned.append_size_limit`
+- *   The maximum I/O size in bytes that is allowed in Zone Append command.
+- *   The default is 128KiB. Since internally this this value is maintained as
+- *   ZASL = log2(<maximum append size> / <page size>), some values assigned
+- *   to this property may be rounded down and result in a lower maximum ZA
+- *   data size being in effect. By setting this property to 0, users can make
+- *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
++ * - `zoned.zasl`
++ *   Indicates the maximum data transfer size for the Zone Append command. Like
++ *   `mdts`, the value is specified as a power of two (2^n) and is in units of
++ *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
++ *   defaulting to the value of `mdts`).
+  *
+  * nvme namespace device parameters
+  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+@@ -2135,10 +2133,9 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+                 goto invalid;
+             }
  
-     if (mdts && len > n->page_size << mdts) {
-+        trace_pci_nvme_err_mdts(len);
-         return NVME_INVALID_FIELD | NVME_DNR;
+-            if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+-                trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
+-                status = NVME_INVALID_FIELD;
+-                goto invalid;
++            if (n->params.zasl && data_size > n->page_size << n->params.zasl) {
++                trace_pci_nvme_err_zasl(data_size);
++                return NVME_INVALID_FIELD | NVME_DNR;
+             }
+ 
+             slba = zone->w_ptr;
+@@ -3212,9 +3209,8 @@ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
+     if (c->csi == NVME_CSI_NVM) {
+         return nvme_rpt_empty_id_struct(n, req);
+     } else if (c->csi == NVME_CSI_ZONED) {
+-        if (n->params.zasl_bs) {
+-            id.zasl = n->zasl;
+-        }
++        id.zasl = n->params.zasl;
++
+         return nvme_dma(n, (uint8_t *)&id, sizeof(id),
+                         DMA_DIRECTION_FROM_DEVICE, req);
+     }
+@@ -4088,19 +4084,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+     nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
+                  NVME_AQA_ASQS(n->bar.aqa) + 1);
+ 
+-    if (!n->params.zasl_bs) {
+-        n->zasl = n->params.mdts;
+-    } else {
+-        if (n->params.zasl_bs < n->page_size) {
+-            NVME_GUEST_ERR(pci_nvme_err_startfail_zasl_too_small,
+-                           "Zone Append Size Limit (ZASL) of %d bytes is too "
+-                           "small; must be at least %d bytes",
+-                           n->params.zasl_bs, n->page_size);
+-            return -1;
+-        }
+-        n->zasl = 31 - clz32(n->params.zasl_bs / n->page_size);
+-    }
+-
+     nvme_set_timestamp(n, 0ULL);
+ 
+     QTAILQ_INIT(&n->aer_queue);
+@@ -4609,17 +4592,10 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
+         host_memory_backend_set_mapped(n->pmr.dev, true);
      }
  
-@@ -1945,7 +1946,6 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_mdts(n, len);
-     if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), len);
-         return status;
+-    if (n->params.zasl_bs) {
+-        if (!is_power_of_2(n->params.zasl_bs)) {
+-            error_setg(errp, "zone append size limit has to be a power of 2");
+-            return;
+-        }
+-
+-        if (n->params.zasl_bs < 4096) {
+-            error_setg(errp, "zone append size limit must be at least "
+-                       "4096 bytes");
+-            return;
+-        }
++    if (n->params.zasl > n->params.mdts) {
++        error_setg(errp, "zoned.zasl (Zone Append Size Limit) must be less "
++                   "than or equal to mdts (Maximum Data Transfer Size)");
++        return;
      }
+ }
  
-@@ -2048,7 +2048,6 @@ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_mdts(n, data_size);
-     if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-         goto invalid;
-     }
- 
-@@ -2116,7 +2115,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-     if (!wrz) {
-         status = nvme_check_mdts(n, data_size);
-         if (status) {
--            trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-             goto invalid;
-         }
-     }
-@@ -2610,7 +2608,6 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_mdts(n, data_size);
-     if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), data_size);
-         return status;
-     }
- 
-@@ -3052,7 +3049,6 @@ static uint16_t nvme_get_log(NvmeCtrl *n, NvmeRequest *req)
- 
-     status = nvme_check_mdts(n, len);
-     if (status) {
--        trace_pci_nvme_err_mdts(nvme_cid(req), len);
-         return status;
-     }
+@@ -4988,8 +4964,7 @@ static Property nvme_props[] = {
+     DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
+     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
+     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
+-    DEFINE_PROP_SIZE32("zoned.append_size_limit", NvmeCtrl, params.zasl_bs,
+-                       NVME_DEFAULT_MAX_ZA_SIZE),
++    DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
  
 diff --git a/hw/block/trace-events b/hw/block/trace-events
-index b04f7a3e1890..e1a85661cf3f 100644
+index e1a85661cf3f..25ba51ea5405 100644
 --- a/hw/block/trace-events
 +++ b/hw/block/trace-events
-@@ -114,7 +114,7 @@ pci_nvme_clear_ns_close(uint32_t state, uint64_t slba) "zone state=%"PRIu32", sl
- pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", slba=%"PRIu64" transitioned to Empty state"
+@@ -115,6 +115,7 @@ pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", sl
  
  # nvme traces for error conditions
--pci_nvme_err_mdts(uint16_t cid, size_t len) "cid %"PRIu16" len %zu"
-+pci_nvme_err_mdts(size_t len) "len %zu"
+ pci_nvme_err_mdts(size_t len) "len %zu"
++pci_nvme_err_zasl(size_t len) "len %zu"
  pci_nvme_err_req_status(uint16_t cid, uint32_t nsid, uint16_t status, uint8_t opc) "cid %"PRIu16" nsid %"PRIu32" status 0x%"PRIx16" opc 0x%"PRIx8""
  pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
  pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
+@@ -144,7 +145,6 @@ pci_nvme_err_zone_boundary(uint64_t slba, uint32_t nlb, uint64_t zcap) "lba 0x%"
+ pci_nvme_err_zone_invalid_write(uint64_t slba, uint64_t wp) "lba 0x%"PRIx64" wp 0x%"PRIx64""
+ pci_nvme_err_zone_write_not_ok(uint64_t slba, uint32_t nlb, uint16_t status) "slba=%"PRIu64", nlb=%"PRIu32", status=0x%"PRIx16""
+ pci_nvme_err_zone_read_not_ok(uint64_t slba, uint32_t nlb, uint16_t status) "slba=%"PRIu64", nlb=%"PRIu32", status=0x%"PRIx16""
+-pci_nvme_err_append_too_large(uint64_t slba, uint32_t nlb, uint8_t zasl) "slba=%"PRIu64", nlb=%"PRIu32", zasl=%"PRIu8""
+ pci_nvme_err_insuff_active_res(uint32_t max_active) "max_active=%"PRIu32" zone limit exceeded"
+ pci_nvme_err_insuff_open_res(uint32_t max_open) "max_open=%"PRIu32" zone limit exceeded"
+ pci_nvme_err_zd_extension_map_error(uint32_t zone_idx) "can't map descriptor extension for zone_idx=%"PRIu32""
 -- 
 2.30.1
 
