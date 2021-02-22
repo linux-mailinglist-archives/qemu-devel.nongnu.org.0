@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4B5B321E28
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:33:20 +0100 (CET)
-Received: from localhost ([::1]:52720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 404B9321E34
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:37:27 +0100 (CET)
+Received: from localhost ([::1]:60710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEF5D-00050t-NT
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:33:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47006)
+	id 1lEF9C-0001ea-87
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:37:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEExb-0006bQ-32
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:25:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59794)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEExY-0006sd-2R
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:25:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614014719;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QFadlNG8jsMGTUuJQ3Aq4UzlqU7LNUy62TBUTgM/vQw=;
- b=LK6TuNDieWov6YxVdo+7qJP7qdPKlQkVfwprL5tPWkvOM8GuHl7q7+eQLcLDdcIUSKXCyP
- jOOiIA6qNR1I6WkuohYcucf/MVX7+xYP0TfBvnjAkVLKfBXfCdg1sofkrz9+CGZwnjkLGu
- VI/by3AbH1ymhKjM4j6FtCiz7z9c1hw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-9aUjDhJJPkOtDKfJSa20cA-1; Mon, 22 Feb 2021 12:25:14 -0500
-X-MC-Unique: 9aUjDhJJPkOtDKfJSa20cA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CE876107ACC7;
- Mon, 22 Feb 2021 17:25:12 +0000 (UTC)
-Received: from localhost (ovpn-112-255.ams2.redhat.com [10.36.112.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9F4C419C78;
- Mon, 22 Feb 2021 17:25:08 +0000 (UTC)
-Date: Mon, 22 Feb 2021 17:25:07 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jiahui Cen <cenjiahui@huawei.com>
-Subject: Re: [PATCH v5 0/9] block: Add retry for werror=/rerror= mechanism
-Message-ID: <YDPo80TjhDPsiEjk@stefanha-x1.localdomain>
-References: <20210205101315.13042-1-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lEExn-0006dH-LA
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:25:41 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:45842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lEExj-0006wf-O3
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:25:39 -0500
+Received: by mail-ed1-x530.google.com with SMTP id p2so22974949edm.12
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 09:25:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=txFR1sCu06rffZ4xYGpywRLWqZ1NaZwb/Mp2TigCQAQ=;
+ b=L0SBQLVwE4R23K0o8W7CsKpTJsDVdskCO22/tVws9XR5q/Xyrx6SalQfgadeSFGmDd
+ kOyOzGi+GOcNxkq866WPX6vJga6zhZhECZsnuTQ3dDc/aKirru1KJ7c0EZaJbawlwpOI
+ +qgDua2RQ5cn0o6Wnzgqhjq2frjVk19Ek1osYwO+MgPTJQNI7Pzwj01CEtz0VZwMU8rX
+ 4/9S1XMg18VoPM2WBK0u701G0BUCjtYpZpF+qejVj+3n8zSv8abYVnfiRF+4w5pKGode
+ ktS9GoZfX+inY4xZm1NpL0dXpE78CcttexyKLJtE+9Gn8+xdLKxW3sHCx+zcK+0UihC9
+ XyXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=txFR1sCu06rffZ4xYGpywRLWqZ1NaZwb/Mp2TigCQAQ=;
+ b=jcfKwHBQQFwfE9jGPX7b7uAXnuZTDcP9llVH2M5vwCivevh6DT49KeDJAK4c8wrkMi
+ 4h3oGD21ZFFX/gzSFXUBPSg5rZNP44QZ0t9RCcJLKnaqyivBOMxmwEdHo3IENPCF76CD
+ Jgj6CXlAhSb/89Vin9uw0zZxWxFIYIMf+FLrTmD2/590zHlK8s27OOw+gqS1fDY8SQu2
+ A2LcwcSlUL/szYkQIAJoC4DoviTzOu1i23wgF7D3vqwVd+waZNElutNTkB8VLi8k/FFE
+ vRbWRH4G9chHGKgSlkW8TUBIL15ahfNpE3WWPrmWaEsvK7bsD9Nql/mhOgfkr30Vrmr5
+ QjEQ==
+X-Gm-Message-State: AOAM532P85wyMQgd+Cz2Fcz5y6AXcPMVyy+7AmL54boM+X198rNr8VkQ
+ dWPXNzhBdMoFd7CRIE+XnSGPuVyrlPUPA4y18AzLCMmBwlk=
+X-Google-Smtp-Source: ABdhPJz7KFaxU96QB4FDUq2fNoN0KPlxleXTSjCNPDmanrd4P7NdY9qwyobzjJUZWnTakXs+5+TOBUskOscz22K+roU=
+X-Received: by 2002:a05:6402:541:: with SMTP id
+ i1mr23463518edx.36.1614014732114; 
+ Mon, 22 Feb 2021 09:25:32 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210205101315.13042-1-cenjiahui@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="II/Xdo/R2EZH8Khi"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210222083324.331908-1-edgar.iglesias@gmail.com>
+In-Reply-To: <20210222083324.331908-1-edgar.iglesias@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Feb 2021 17:25:21 +0000
+Message-ID: <CAFEAcA8fuO8X67yzthvyxssNAQQiXQxsdmSbnwX1XOrDcO2hvw@mail.gmail.com>
+Subject: Re: [PULL v1 0/3] CRIS queue
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,43 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- fangying1@huawei.com, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, stefans@axis.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---II/Xdo/R2EZH8Khi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Mon, 22 Feb 2021 at 08:33, Edgar E. Iglesias
+<edgar.iglesias@gmail.com> wrote:
+>
+> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+>
+> The following changes since commit 00d8ba9e0d62ea1c7459c25aeabf9c8bb7659462:
+>
+>   Merge remote-tracking branch 'remotes/philmd-gitlab/tags/mips-20210221' into staging (2021-02-21 19:52:58 +0000)
+>
+> are available in the Git repository at:
+>
+>   git@github.com:edgarigl/qemu.git tags/edgar/cris-next-2021-02-22.for-upstream
+>
+> for you to fetch changes up to fd52deea52d79192c43a1a7a0240a3cabbc55e80:
+>
+>   target/cris: Plug leakage of TCG temporaries (2021-02-22 09:04:58 +0100)
+>
+> ----------------------------------------------------------------
+> CRIS PR 2021-02-22 v1
+>
 
-On Fri, Feb 05, 2021 at 06:13:06PM +0800, Jiahui Cen wrote:
-> This patch series propose to extend the werror=/rerror= mechanism to add
-> a 'retry' feature. It can automatically retry failed I/O requests on error
-> without sending error back to guest, and guest can get back running smoothly
-> when I/O is recovred.
 
-I posted a few questions but overall this looks promising. Thanks!
+Applied, thanks.
 
-Stefan
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
---II/Xdo/R2EZH8Khi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAz6PMACgkQnKSrs4Gr
-c8heYAf9Fqs5HaZu3day1V1q0YjqTzHPaVBEzWHdQ1c0RFEdvFllBmE6c+LSro2c
-KjemrD40EEjEkO+I9KzemamKWMiZ3bKlzemW2uGBvIyoTZtaA85TlltwaRXLEQiS
-P0YmyWcKcOMw1idV7KN7B/V0RMCZ/IaNG3iePZBI9lqBPTNrxgxjCcYX2RTriTCz
-KcdoD5whUlt85KADqJGy2ITsNvMeabIzl4F6mk2lsaITkrQRSTOUh9lHhf6KQLcv
-ysITjzCeA41BRLAtpSBjZcJgnzBz0NzPa7f/6obQABdlL5PbJC9fUm2nfoe3f9LQ
-zgWu1uxq9p2OzfWliNYhhm36BnB2FQ==
-=p0Yo
------END PGP SIGNATURE-----
-
---II/Xdo/R2EZH8Khi--
-
+-- PMM
 
