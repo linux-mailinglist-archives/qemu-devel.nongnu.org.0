@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8057F321A4D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:28:45 +0100 (CET)
-Received: from localhost ([::1]:60708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD83321A24
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:22:13 +0100 (CET)
+Received: from localhost ([::1]:47760 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lECCa-0005pq-Ka
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
+	id 1lEC6G-0008BP-4g
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:22:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEC2T-0005oo-6d
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:18:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEC2Q-0002Ff-K7
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:18:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614003492;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iDGFCxjg7HsvHpH3LPTKWHzyz+SbGiW2Syjf+3bEImY=;
- b=QsUaIbHnL30wU9YaZCy2AREU2gNUQk/2su9hEV/8BIMsqBhD0xpglxsbIzdw3SODaZYK+5
- W82VNAsWWbCjjAQWHxnIk/gQ629GY7/FXGLwVeyu5QlmG6KcJoR9AKZSh9YQVvB+N9H+FA
- fJtWjIXsy/4cJyDxCBNik9HEnTTBtds=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-535-Dky8ZN46Nr-fVyvOhzDQGA-1; Mon, 22 Feb 2021 09:18:09 -0500
-X-MC-Unique: Dky8ZN46Nr-fVyvOhzDQGA-1
-Received: by mail-ed1-f69.google.com with SMTP id h1so6358012edq.1
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 06:18:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lEC4C-00076G-9s
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:20:04 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46574)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lEC47-0002kP-Pd
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:20:03 -0500
+Received: by mail-ej1-x636.google.com with SMTP id r17so3269000ejy.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 06:19:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3cwrLLT0Sx9k75ti66df7DS3UlSsbDApUDJDHCs2JTY=;
+ b=V5VwBSKZE6lmk+tMck7o6JaCovm4/VrH0ZOChaO/PbwiOFp564GqEkxqbmntq08l5J
+ olXmIoy9RrPPC+qWKGOxQBFMcw/MwNmwf0gNEtKBzEVMEcqnFeVni4EIysaj6skQrxPy
+ HwGN3tZBU5NNIx6AcQim+1FoqWCZ2qfHIPFVOjVM3fawYQDm+vMQmmTW7sVEhP0ALUw1
+ +S1opHAqFfRjosuxp5YMaYi9TQkCm7cx45G4N3zYMk8TqzYat/qXOvKyG2Pt+GzuxkAd
+ 5at8ox99mAyKmSBKUiBQ7bCPsoFxKmzBZoI2tUNu5bdMEiD9rIFxdpwYXeIeB7LTmCVt
+ MD4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iDGFCxjg7HsvHpH3LPTKWHzyz+SbGiW2Syjf+3bEImY=;
- b=lf7AsoWYZjbzrXbiVIU8rVltO7XWd+912KtVHC9q9xp99aI9co8ktvCrvekiSbL3ua
- ur4fMHRSktnHvCaYDX/5QMmDW4n9j1+kQuDyYOyrMyBYrbmZBRR2kgTLd4jIAj2ySkCd
- tOzpFnnWGWByUPS/1xhhT4PNNE4exBUPdKEeobeqnSd7/3FSwPG1w6EhUlJzZIAQnEKa
- UPKQejhbj4fFcuwW4j7T2Qs9KZG31uDzZB/jvA7GEfIro6z9he2smGIW7bQQMjN7VWoO
- +jDLOHqshHhifx55vb4sogXpqU4IMyrkTSKsGqRP+ljrKUHuLk5tNmU2SENatWIyWNlo
- EIQA==
-X-Gm-Message-State: AOAM5327ABEfTdrmOEvAhBIOUIdqCjRbgm2hCDrCAJIlPFgTyqjEqFkI
- 8uC4co8vSFHm/tTM1X3NrkVgWzlsxJQX7zFSUj1hNcQHVPvU/vxJBz48+Dqn3HTRc/JdLVZZzPe
- X4wnAHV+8mnaoH1c=
-X-Received: by 2002:a50:c00b:: with SMTP id r11mr23130874edb.35.1614003487500; 
- Mon, 22 Feb 2021 06:18:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVdgSQejg1Oyzy9Uao1kCWFW+wTAIt0d+ovjWSfXtYIh6GffUQOhgP0Gw7D2yE6YSlpGX0xA==
-X-Received: by 2002:a50:c00b:: with SMTP id r11mr23130850edb.35.1614003487348; 
- Mon, 22 Feb 2021 06:18:07 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o1sm3155256eds.26.2021.02.22.06.18.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 06:18:06 -0800 (PST)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210222115708.7623-1-david@redhat.com>
- <20210222115708.7623-2-david@redhat.com>
- <7137d1ad-2741-7536-5a3c-58d0c4f8306b@redhat.com>
- <0277759d-bb9a-6bf3-0ca4-53d3f7ec98f5@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 01/12] memory: Introduce RamDiscardMgr for RAM memory
- regions
-Message-ID: <a6f7de7a-72c3-a6c6-0a14-3e21a0cc833b@redhat.com>
-Date: Mon, 22 Feb 2021 15:18:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3cwrLLT0Sx9k75ti66df7DS3UlSsbDApUDJDHCs2JTY=;
+ b=a/CseY+kU+p0bNwms73Pmvx5nnINyik8iURB0jnroILxhSuJkB7LBH1/YXCcb2pl3o
+ RTKB1yAudWrTMy+el2mwBOyoN0ja8TMlM9JXxWf6gs0bxrD/XHFXiEttPM2rqcyjuJvH
+ 99ki9vputNY5Z7tz22bNRUM+kjF5zuEgiUT7vEDl0XNGh7auknu+hqLCfy43LPSeXmW+
+ PR5lIDyVlxZYbjlRfdhL9ZJsAFmHofECYT16QhCKE3i6i7ssYyGF5xsF/v4xEeOR7N+F
+ 7/QA8JmvHzygZ9ZxbQjikRBcODaoGx/WmH/GJIQ+Xb2CaCoNPJvKbiMZltpkQ88mzt4f
+ B3+w==
+X-Gm-Message-State: AOAM5307+cVlxRfAObsEFQjg4D134IsbWir/G/1nG92l7Pf8xHA5VGYQ
+ bkQBEKJipcHZU/pOnqNFeC5ENAs5K+Omg1JdUpp1Dw==
+X-Google-Smtp-Source: ABdhPJwGRfqzWnroS02Kl1/5JwUTc8Ui8Iemqh3OH0V0zMxdk6wgoaSE5X9441+U1GsU1Xx/YoeFKzfvdGvkIzlK2bw=
+X-Received: by 2002:a17:906:ca58:: with SMTP id
+ jx24mr18259995ejb.482.1614003569694; 
+ Mon, 22 Feb 2021 06:19:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0277759d-bb9a-6bf3-0ca4-53d3f7ec98f5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210221215915.2568943-1-f4bug@amsat.org>
+ <20210221215915.2568943-2-f4bug@amsat.org>
+ <CAFEAcA8myJg96kdcMX+aQJm=ngPdW564=b46N=knFCO-dGkiYg@mail.gmail.com>
+ <f243ee8c-39de-5b48-b329-9440594a3f2a@amsat.org>
+In-Reply-To: <f243ee8c-39de-5b48-b329-9440594a3f2a@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 22 Feb 2021 14:19:18 +0000
+Message-ID: <CAFEAcA-dqQFR+J7+aAiT3Haajc=12xQq8kSxRHqqUzLwqbRTrA@mail.gmail.com>
+Subject: Re: [PATCH v3 1/8] hw/sh4: Add missing license
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,137 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>, Samuel Tardieu <sam@rfc1149.net>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/02/21 15:03, David Hildenbrand wrote:
-> 
->>> +    /**
->>> +     * @replay_populated:
->>> +     *
->>> +     * Notify the #RamDiscardListener about all populated parts 
->>> within the
->>> +     * #MemoryRegion via the #RamDiscardMgr.
->>> +     *
->>> +     * In case any notification fails, no further notifications are 
->>> triggered.
->>> +     * The listener is not required to be registered.
->>> +     *
->>> +     * @rdm: the #RamDiscardMgr
->>> +     * @mr: the #MemoryRegion
->>> +     * @rdl: the #RamDiscardListener
->>> +     *
->>> +     * Returns 0 on success, or a negative error if any notification 
->>> failed.
->>> +     */
->>> +    int (*replay_populated)(const RamDiscardMgr *rdm, const 
->>> MemoryRegion *mr,
->>> +                            RamDiscardListener *rdl);
->>
->> If this function is only going to use a single callback, just pass it
->> (together with a void *opaque) as the argument.
->>> +};
->>> +
->>>   typedef struct CoalescedMemoryRange CoalescedMemoryRange;
->>>   typedef struct MemoryRegionIoeventfd MemoryRegionIoeventfd;
->>> @@ -487,6 +683,7 @@ struct MemoryRegion {
->>>       const char *name;
->>>       unsigned ioeventfd_nb;
->>>       MemoryRegionIoeventfd *ioeventfds;
->>> +    RamDiscardMgr *rdm; /* Only for RAM */
->>>   };
->>
->>
->> The idea of sending discard notifications is obviously good.  I have a
->> couple of questions on the design that you used for the interface; I'm
->> not saying that it should be done differently, I would only like to
->> understand the trade offs that you chose:
-> 
-> Sure!
-> 
->>
->> 1) can the RamDiscardManager (no abbreviations :)) be just the owner of
-> 
-> I used to call it "SparseRamManager", but wanted to stress the semantics 
-> - and can use RamDiscardManager ;) . Suggestions welcome.
-> 
->> the memory region (obj->parent)?  Alternatively, if you want to make it
->> separate from the owner, does it make sense for it to be a separate
->> reusable object, sitting between virtio-mem and the MemoryRegion, so
->> that the implementation can be reused?
-> 
-> virtio-mem consumes a memory backend (e.g., memory-backend-ram). That 
-> one logically "ownes" the memory region (and thereby the RAMBlock).
-> 
-> The memory backend gets assigned to virtio-mem. At that point, 
-> virtio-mem "owns" the memory backend. It will set itself as the 
-> RamDiscardsManager before mapping the memory region into system address 
-> space (whereby it will get exposed to the system).
-> 
-> This flow made sense to me. Regarding "reusable object" - I think the 
-> only stuff we could fit in there would be e.g., maintaining the lists of 
-> notifiers. I'd rather wait until we actually have a second user to see 
-> what we can factor out.
-> 
-> If you have any suggestion/preference, please let me know.
-> 
->>
->> 2) why have the new RamDiscardListener instead of just extending
->> MemoryListener? Conveniently, vfio already has a MemoryListener that can
-> 
-> It behaves more like the IOMMU notifier in that regard.
+On Mon, 22 Feb 2021 at 14:13, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> On 2/22/21 2:55 PM, Peter Maydell wrote:
+> > On Sun, 21 Feb 2021 at 21:59, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
+org> wrote:
+> >>
+> >> This code was introduced in commit 27c7ca7e775,
+> >> ("SHIX board emulation (Samuel Tardieu)"). Use
+> >> the same license.
 
-Yes, but does it behave more like the IOMMU notifier in other regards? 
-:)  The IOMMU notifier is concerned with an iova concept that doesn't 
-exist at the MemoryRegion level, while RamDiscardListener works at the 
-(MemoryRegion, offset) level that can easily be represented by a 
-MemoryRegionSection.  Using MemoryRegionSection might even simplify the 
-listener code.
+> > I thought it wasn't generally recommended to convert
+> > a license text to a single SPDX line? The sh7750.c file
+> > has a full 3-para license text.
+>
+> Yes you are right, sorry. I'll respin.
 
->> be extended, and you wouldn't need the list of RamDiscardListeners.
->> There is already a precedent of replaying the current state when a
->> listener is added (see listener_add_address_space), so this is not
->> something different between ML and RDL.
-> 
-> The main motivation is to let listener decide how it wants to handle the 
-> memory region. For example, for vhost, vdpa, kvm, ... I only want a 
-> single region, not separate ones for each and every populated range, 
-> punching out discarded ranges. Note that there are cases (i.e., 
-> anonymous memory), where it's even valid for the guest to read discarded 
-> memory.
+Also on the subject of sh4 code licenses, hw/sh4/sh7750_regs.h
+has
+ * The license and distribution terms for this file may be
+ * found in the file LICENSE in this distribution or at
+ *  http://www.rtems.com/license/LICENSE.
+because it's borrowed from RTEMS.
+(The license at the URL is gpl-2-or-later with a header exception).
 
-Yes, I agree with that.  You would still have the same 
-region-add/region_nop/region_del callbacks for KVM and friends; on top 
-of that you would have region_populate/region_discard callbacks for VFIO.
+Maybe we should expand the license in-place so we're not dependent
+on a 3rd party website to stay up to tell us what the license
+on the file is? In particular I assume the comment really
+means "the file LICENSE in the rtems distribution"
+https://git.rtems.org/rtems/tree/LICENSE (same text as web page)
+and not the file LICENSE in QEMU, which is not the same thing,
+so that part is actively misleading.
 
-Populated regions would be replayed after region_add, while I don't 
-think it makes sense to have a region_discard_all callback before 
-region_discard.
-
-Paolo
-
-> Special cases are only required in corner cases, namely whenever we 
-> unconditionally:
-> 
-> a) Read memory inside a memory region. (e.g., guest-memory-dump)
-> b) Write memory inside a memory region. (e.g., TPM, migration)
-> c) Populate memory inside a memory region. (e.g., vfio)
-> 
->>
->> Also, if you add a new interface, you should have "method call" wrappers
->> similar to user_creatable_complete or user_creatable_can_be_deleted.
-> 
-> I think I had those at some point but decided to drop them. Can readd them.
-> 
-> 
-
+-- PMM
 
