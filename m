@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5284F321AD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:09:27 +0100 (CET)
-Received: from localhost ([::1]:44314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 770AA321ACE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:09:00 +0100 (CET)
+Received: from localhost ([::1]:43460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lECpy-0005rr-CF
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:09:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54706)
+	id 1lECpX-0005WL-Hh
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:08:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1lECjc-00081n-O5
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:02:55 -0500
-Received: from mout.gmx.net ([212.227.17.20]:37607)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1lECjW-0004ug-Eg
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:02:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1614006145;
- bh=E7G8vYdSgFhiAcWn4whZpbzoBhXqlAFslgqc830M2NA=;
- h=X-UI-Sender-Class:Subject:To:References:From:Date:In-Reply-To;
- b=QkTuVqc62Y+64ltN7RI2I2uXZJBe/euYLnc7GhoDuJVCrRGEIjJkA7zRbic7Gawk9
- cVOFcEgscLhiJllG7l8TlcMTEa/a1B/E21TOsQ4a6yDIaWfxsd0b0P2BC1lo5OJ2WJ
- gcONI/qNnO7AZCR5nWtdd2whuBc7fSeavIZGhivk=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.169.144]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MVvLB-1lNn081mZp-00RqpA; Mon, 22
- Feb 2021 16:02:25 +0100
-Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
-To: Michael Tokarev <mjt@tls.msk.ru>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210222105004.1642234-1-laurent@vivier.eu>
- <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
- <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
- <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
- <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
- <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
- <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
-From: Helge Deller <deller@gmx.de>
-Message-ID: <e14413e5-af09-e101-6320-34e90811f414@gmx.de>
-Date: Mon, 22 Feb 2021 16:02:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lECo0-0004DN-Sl
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:07:24 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:37933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lECnz-0006xR-21
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:07:24 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id l18so9248720pji.3
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 07:07:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XGQmI+iOzSpbOXUMS4jcVlQFa1E428khTWTSNBL82Z0=;
+ b=PveUOb7M/ZoiRz9KurWLFMizdd/hjxqZNscB6nadH1zuzLeoQxDvuAKQ13Z2LHP/0U
+ LhmaYpnuSGmZOoPq4yUx2454jbln73hkoJ0D2Y8KWZLMlTrPIJ9rslGOP0zIfxnAwsyV
+ zI0FwUike4gZUUwVN8U85+oE+nUrDkWV2wLDa8ubmKH3rFk6ysQYtrYrcNzfSwd2E8Vn
+ uSPv3MNDslqkWQQQMqRIrBEZc5dkuyu899NZMrGrrXbLYNltQ5kc84cw+Jvg+722NPSe
+ lQz1bJ7KnMqvpg/dWpDmwDeoNqRVKHH9Iguy0V6lcjTzCEE9F338gj8dddc7hB0fo4Rq
+ VWNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XGQmI+iOzSpbOXUMS4jcVlQFa1E428khTWTSNBL82Z0=;
+ b=mustKzsUNWAbIgLp215uaeCgBgiyK+M/MII0JSHGwDZRO1IGR9ndU6M9mmaXpa6XYY
+ 4/qBVFCN8uEKwdCexPWz8FNmPUP32K8qvitX6KEAr7lLIlAQsLnsqHPU88NfXBHBnJq4
+ 8d83PCU5dU4tvHH1Rp8kYQAYBROU7VFj5sYzh+sIpGDbY55o3HD5pcw80BowmGHxTnbJ
+ 4Ro2jjw4roC2KwsUUlSYcIKca4VnjMPcWm/8QS2k0iQ5ze4nBqUi0SagnncKLsitK5zG
+ VbwtsG89xTY3PvEFrXiU47vO0DK3S2S9Y4oByp84jwyE5qlx4OuCx6Xb+tpWk08QA+Mn
+ 8xXg==
+X-Gm-Message-State: AOAM533vg7gW26Ex4zpHc5TYxsx/ACqlVTL/JgKfOdRiPeElt21Llktl
+ 9NoONRS4Fkrl0DiT5GEeYQCyud8XhG1nrw==
+X-Google-Smtp-Source: ABdhPJwy4Lf+c35tUZhdI0mVXkG1i3hxcw0IQu4JNTZtOCKUpa/lVpxAYagZGyCIOMqZUXXXH3M5zQ==
+X-Received: by 2002:a17:90a:67ca:: with SMTP id
+ g10mr24050106pjm.28.1614006441332; 
+ Mon, 22 Feb 2021 07:07:21 -0800 (PST)
+Received: from localhost.localdomain
+ ([2400:4050:c360:8200:186c:a15a:d0b6:e217])
+ by smtp.gmail.com with ESMTPSA id g19sm18903718pjv.43.2021.02.22.07.07.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 22 Feb 2021 07:07:20 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+To: 
+Subject: [PATCH v2] ui/cocoa: Fix mouse association state
+Date: Tue, 23 Feb 2021 00:07:14 +0900
+Message-Id: <20210222150714.21766-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <CAFEAcA9bP5TTroWz8k4kkB6bAj81zRBFgR4Uzi0L3BjoNd9JkA@mail.gmail.com>
+References: <CAFEAcA9bP5TTroWz8k4kkB6bAj81zRBFgR4Uzi0L3BjoNd9JkA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:5BtLYoHwLtMmugljudReXfGtYn5eqLDUjuj5j2pIZ+2FLZ698kA
- /lawNhuQcP/YFmjr+P+Ue25nuob3W8n6veAzYb/x2bxXojwRkUYQ3oCZh56AwPnbL2tgj7B
- ew+hupdjjkNiqtxqVkA2/yGeOQQRh1H6xq7jwxMs5chb5uHUl5PiCYckSczNWZkJJnShjWG
- ikvY9dqygdn6egHo7YV8Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Gi4LcaoUgvw=:NAx0ND6nsTtzCcHI6HOEr8
- UzSNvueAKjoN6zmfx298mDqrp8IpNh3GEr2ZMb4vCDrpTDoiQlZF93m3idS9aeu1UtGOL8uOm
- ulB8lX+hdWyal8on9sQpm7GLHv9uZoB9z1VX2K1GjVRG8WyNiIEEApHAekrYATn792H5baTAj
- EQy4Nx1TKhRaAP8E//RAQpeYTJGrPVE5JsDpbo0UXKajMaRsZlVOFpUtEtUjfIgr8qBGzwWhq
- 83bKJfiELpVeYzRUAkQXrqLxOEZ1tBiK44TXJjeXfFDEKuDJYg71RmSNy8zRufdzfH4TNzHJm
- BLj3Gq6lv7RpDkuH4izSFUDyj8dytgLGUftT5YYJtdaq5MJYCwJNoCJE0GylxtRjUA39b8JEN
- bsynAXHxfHrQVC6D2nswcun21s2B/JNcWOULVmMjzPZ0kONgKPqYTw3gQeheNfNUAeeTYeEvL
- qVTf+v9PFtTEFEmBWUhDXoMyUw36vrf9gA5Hwwr4sk3w1Jw8SxSqpHDjevn2KuBHbCx+onphB
- /rmaNCUE/8qctOvIoGJBE25LjHlr+erVWRQNANRqrwBUC5oak63XXMsQTuyhcAI4S0rwSSiXT
- RbWmEH39wVViaNOcf1Yn7b1oujC/QpKIXrBmCVDvmQb9YPaTsOtwdlEc2vVTqYd0jZW/wgBCg
- kHhj+FSrUs/lpe3a9ImS0oMgHMrN9xcNdHOvdQVE/0LuqBzMkNYqvlJdXxCWGYmYyBOWDiO40
- 8wYBxlQpw0wq9JqLeAeKyr8TuBUpOTwj8zWrMknEZAhSKtG4SmARvdDJJReK6VaJ0FQS2T0vQ
- wisg3ZbQjQKr9OAV4rKvyFYEaYuxSIQj3uGZyEdamKZYu9DoryiDvHHKPc4P2JdEZIrosvp8l
- tbMAbgFzfjVg+S2VB6bA==
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -25
-X-Spam_score: -2.6
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,33 +84,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 3:58 PM, Michael Tokarev wrote:
-> 22.02.2021 17:54, John Paul Adrian Glaubitz wrote:
->
->> OK, gotcha. Is it supposed to work with systemd-binfmt? It looks like i=
-t depends
->> on the old binfmt-support package.
->
-> the qemu 4-line patch does not depend on any particular system, it relie=
-s on a
-> special name of its own argv[0] when registering the binfmt entry.=C2=A0=
- In order to
-> utilize it, we create a special-named symlink to qemu-foo and register t=
-hat one
-> with the binfmt-misc subsystem, no matter if it is systemd or binfmt-sup=
-port or
-> whatever else.
+ui/cocoa deassociates the mouse input and the mouse cursor
+position only when relative movement inputs are expected. Such
+inputs may let the mouse cursor leave the view and cause undesired
+side effects if they are associated. On the other hand, the
+problem does not occur when inputting absolute points, and the
+association allows seamless cursor movement across views.
 
-... which is pretty hackish (although it apparently works; I haven't teste=
-d myself).
+However, the synchronization of the association and the expected
+input type was only done when grabbing the mouse. In reality, the
+state whether the emulated input device expects absolute pointing
+inputs or relative movement inputs can vary dynamically due to
+USB device hot-plugging, for example.
 
-The big question remains:
-Is this "hack" just a temporary workaround which should be kept, or
-is the support via the kernel-patch from Laurent the long-term and better =
-solution?
+This change adds association state updates according to input type
+expectation changes. It also removes an internal flag representing
+the association state because the state can now be determined with
+the current input type expectation and it only adds the
+complexity of the state tracking.
 
-Helge
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 24 ++++++++----------------
+ 1 file changed, 8 insertions(+), 16 deletions(-)
+
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 0ef5fdf3b7a..671af40b252 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -310,7 +310,6 @@ @interface QemuCocoaView : NSView
+     BOOL isMouseGrabbed;
+     BOOL isFullscreen;
+     BOOL isAbsoluteEnabled;
+-    BOOL isMouseDeassociated;
+ }
+ - (void) switchSurface:(pixman_image_t *)image;
+ - (void) grabMouse;
+@@ -327,14 +326,9 @@ - (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled;
+  * isMouseGrabbed tracks whether GUI events are directed to the guest;
+  *   it controls whether special keys like Cmd get sent to the guest,
+  *   and whether we capture the mouse when in non-absolute mode.
+- * isMouseDeassociated tracks whether we've told MacOSX to disassociate
+- *   the mouse and mouse cursor position by calling
+- *   CGAssociateMouseAndMouseCursorPosition(FALSE)
+- *   (which basically happens if we grab in non-absolute mode).
+  */
+ - (BOOL) isMouseGrabbed;
+ - (BOOL) isAbsoluteEnabled;
+-- (BOOL) isMouseDeassociated;
+ - (float) cdx;
+ - (float) cdy;
+ - (QEMUScreen) gscreen;
+@@ -974,10 +968,7 @@ - (void) grabMouse
+             [normalWindow setTitle:@"QEMU - (Press ctrl + alt + g to release Mouse)"];
+     }
+     [self hideCursor];
+-    if (!isAbsoluteEnabled) {
+-        isMouseDeassociated = TRUE;
+-        CGAssociateMouseAndMouseCursorPosition(FALSE);
+-    }
++    CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
+     isMouseGrabbed = TRUE; // while isMouseGrabbed = TRUE, QemuCocoaApp sends all events to [cocoaView handleEvent:]
+ }
+ 
+@@ -992,17 +983,18 @@ - (void) ungrabMouse
+             [normalWindow setTitle:@"QEMU"];
+     }
+     [self unhideCursor];
+-    if (isMouseDeassociated) {
+-        CGAssociateMouseAndMouseCursorPosition(TRUE);
+-        isMouseDeassociated = FALSE;
+-    }
++    CGAssociateMouseAndMouseCursorPosition(TRUE);
+     isMouseGrabbed = FALSE;
+ }
+ 
+-- (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {isAbsoluteEnabled = tIsAbsoluteEnabled;}
++- (void) setAbsoluteEnabled:(BOOL)tIsAbsoluteEnabled {
++    isAbsoluteEnabled = tIsAbsoluteEnabled;
++    if (isMouseGrabbed) {
++        CGAssociateMouseAndMouseCursorPosition(isAbsoluteEnabled);
++    }
++}
+ - (BOOL) isMouseGrabbed {return isMouseGrabbed;}
+ - (BOOL) isAbsoluteEnabled {return isAbsoluteEnabled;}
+-- (BOOL) isMouseDeassociated {return isMouseDeassociated;}
+ - (float) cdx {return cdx;}
+ - (float) cdy {return cdy;}
+ - (QEMUScreen) gscreen {return screen;}
+-- 
+2.24.3 (Apple Git-128)
+
 
