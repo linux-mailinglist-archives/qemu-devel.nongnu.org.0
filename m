@@ -2,77 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63055321077
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:32:29 +0100 (CET)
-Received: from localhost ([::1]:52390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DCE321081
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 06:42:05 +0100 (CET)
+Received: from localhost ([::1]:58588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE3pb-0007EN-R4
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:32:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41330)
+	id 1lE3yu-00022q-P1
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 00:42:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42648)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE3od-0006nh-I6
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:31:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE3oZ-00015d-Ax
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:31:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613971881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=cioxfuEiFAFYvUYFzUoPZO09Br6K0KwgO6galixwqGA=;
- b=LLKqV7AHoVLKW4AEJ87g/6n6NIGoUR0fbF0hZueEtHTYKVJ0zsQ18rfr/Jnfkrz5/4hD8/
- zGqcGEYO6jGkFdXGeE+G860bp0OUqF3b/DbLO9Jbo/xiIcy2effx3+H1dxl6zFUJy4Ha76
- vlqWfy4G70r/bt7qNrPChP3tsa2EspM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-0sdabb6hOcOqHS4Ivcqc8g-1; Mon, 22 Feb 2021 00:31:19 -0500
-X-MC-Unique: 0sdabb6hOcOqHS4Ivcqc8g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 34350803648;
- Mon, 22 Feb 2021 05:31:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-97.ams2.redhat.com [10.36.112.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37C3D5D9CC;
- Mon, 22 Feb 2021 05:31:17 +0000 (UTC)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210219110950.2308025-1-thuth@redhat.com>
- <87wnv2jvg3.fsf@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci: Remove unused container images
-Message-ID: <6d677b16-8e46-3b5e-385e-c482dd182a2a@redhat.com>
-Date: Mon, 22 Feb 2021 06:31:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lE3xs-0001a8-Mt
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:41:01 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56798)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lE3xq-0005Mx-9m
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 00:41:00 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lE3xo-0007Uk-3i
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:40:56 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1AF492E8024
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:40:56 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87wnv2jvg3.fsf@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Feb 2021 05:35:10 -0000
+From: Ravishankar <1836501@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm kvm
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor pmaydell rreddy78 skandal
+X-Launchpad-Bug-Reporter: Lutz (skandal)
+X-Launchpad-Bug-Modifier: Ravishankar (rreddy78)
+References: <156313770910.15255.7682693906978508241.malonedeb@soybean.canonical.com>
+Message-Id: <161397211101.17917.14422761163095427518.malone@wampee.canonical.com>
+Subject: [Bug 1836501] Re: cpu_address_space_init fails with assertion
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: 9b630ee8566b829b5cb12fda5c7ee46f331e3455
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,29 +71,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Reply-To: Bug 1836501 <1836501@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/02/2021 22.10, Alex Bennée wrote:
-> 
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> We're building a lot of containers in the gitlab-CI that we never use.
->> This takes away network bandwidth and CPU time from other jobs for no
->> use, so let's remove them for now. The individual containers could be
->> re-added later when we really need them.
-> 
-> They are used - when people run check-tcg their builds are cached via
-> gitlab.
+I am having a similar problem. I want to use KVM on jetson nano and boot
+Raspbian Buster 32bit OS with native machine emulation.
 
-Oh, I didn't know that. But where's the magic that tells the tcg tests to 
-use the registry from gitlab?
-"grep -ri gitlab tests/tcg" does not show any results?
-Also some documentation would be helpful, docs/devel/testing.rst does not 
-talk about gitlab at all...?
+Run into a similar problem. I used latest QEMU.
 
-  Thomas
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1836501
+
+Title:
+  cpu_address_space_init fails with assertion
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  qemu-system-arm does not start with version >=3D 2.6 and KVM enabled.
+
+    cpu_address_space_init: Assertion `asidx =3D=3D 0 || !kvm_enabled()'
+  failed.
+
+  Hardware is Odroid XU4 with Exynos with 4.9.61+ Tested with Debian
+  Stretch (9) or Buster (10).
+
+  Without KVM it is running fine but slow. I'm operating Debian Jessie
+  with qemu 2.1 for a long time with KVM virtualization working
+  flawlessly. When I upgraded to Stretch I ran into the trouble
+  described before. I tried Debian Stretch and Buster with all Kernels
+  provided by the Board manufacturer (Hardkernel).
+
+  It seems to be related to the feature introduced in Version 2.6:
+  https://wiki.qemu.org/ChangeLog/2.6
+  - Support for a separate EL3 address space
+
+  KVM is enabled, so I assume the adress space index asidx to be causing
+  the assert to fail.
+
+  dmesg | grep -i KVM
+  [    0.741714] kvm [1]: 8-bit VMID
+  [    0.741721] kvm [1]: IDMAP page: 40201000
+  [    0.741729] kvm [1]: HYP VA range: c0000000:ffffffff
+  [    0.742543] kvm [1]: Hyp mode initialized successfully
+  [    0.742600] kvm [1]: vgic-v2@10484000
+  [    0.742924] kvm [1]: vgic interrupt IRQ16
+  [    0.742943] kvm [1]: virtual timer IRQ60
+
+  Full command line is:
+  qemu-system-arm -M vexpress-a15 -smp 2 -m 512 -cpu host -enable-kvm -kern=
+el vmlinuz -initrd initrd.gz -dtb vexpress-v2p-ca15-tc1.dtb -device virtio-=
+blk-device,drive=3Dinst-blk -drive file=3DPATHTOFILE,id=3Dinst-blk,if=3Dnon=
+e,format=3Draw -append "vga=3Dnormal rw console=3DttyAMA0" -nographic
+
+  Is there anything to do to understand, if this is a hardware related
+  failure or probably just a missing parameter?
+
+  Regards
+
+  Lutz
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1836501/+subscriptions
 
