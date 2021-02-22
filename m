@@ -2,79 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F763220EF
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:49:30 +0100 (CET)
-Received: from localhost ([::1]:59342 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21DC3220ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:48:24 +0100 (CET)
+Received: from localhost ([::1]:56450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEI93-0006Ux-TP
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44512)
+	id 1lEI7z-0005Az-RS
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:48:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46406)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEHvY-0000PR-Ai
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 15:35:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46382)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEHvV-0001Nh-1C
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 15:35:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614026126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=z8SKsjXt1D/Pgvd2+ixyOWHwc4NFzYOFGkypV0OYE2U=;
- b=d15zBHk6N4GD6ZP+emb9k+oN898uSTqd8p0InypQR06GyylOdvsYKXArGvWUtjU+Gl9Iie
- LlFJBNW6ABMlq4pmxkCMjfuVOJ3cA1YeOB5qJvboehw8Zsi/lEFW3eFRUWIwtRe+v4nwas
- XD5tljJYM0fUs/sLJOeu/Tux2U+Si4U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-RKKM6nvdPbSQ-cQm-C-n1Q-1; Mon, 22 Feb 2021 15:35:22 -0500
-X-MC-Unique: RKKM6nvdPbSQ-cQm-C-n1Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AA3484E254;
- Mon, 22 Feb 2021 20:35:21 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D9A395C1BD;
- Mon, 22 Feb 2021 20:35:10 +0000 (UTC)
-Subject: Re: [PATCH v5 3/4] Jobs based on custom runners: docs and
- gitlab-runner setup playbook
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210219215838.752547-1-crosa@redhat.com>
- <20210219215838.752547-4-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <0b312b6d-0c1f-27ce-dd76-32ee3da9603d@redhat.com>
-Date: Mon, 22 Feb 2021 17:35:07 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lEI31-0003l9-Vw; Mon, 22 Feb 2021 15:43:16 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:48069)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lEI2z-0004zL-No; Mon, 22 Feb 2021 15:43:15 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 827E75C00F0;
+ Mon, 22 Feb 2021 15:43:12 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 22 Feb 2021 15:43:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=yPOrTrawk71tCMQzs3HobuyOMSW
+ UlwTIz11s3Rsw4Zo=; b=JnYzupo0lE+dyMXFn0XarcizFTYz9fPc0jhsqcVUkK7
+ 4etur7bWSMvbarR+EaX3BvylJlnylo+O1EQzMiAQyfgk8VLAFGSMipdO7hrXav/x
+ Jwc2aGnmBDw+5J2saAj9L3Q0ZW8iQgMO+lS5RAAvTd0dozYB2DQEo6uLxOfR2JmV
+ 0B0f/S64mHf4UPYdOj2E9bboLErtnq/pdBpqCvfXiHwdLqNo1xELd6s3YtdcYctU
+ zyht1Gd5rlRVoyi1vL8vWWOSW4acnU9RmZlz0jOHG9n8MQzuACBZ5OriDxlUS4L6
+ TASShss7+clIsB0M75BmaxpnueqzRKCgCvhsYys3FCw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=yPOrTr
+ awk71tCMQzs3HobuyOMSWUlwTIz11s3Rsw4Zo=; b=CFq4VGbWO0uIIiE2RMxzoH
+ WdlN+pETjepRxbPm+zH1ImDWfSQFa9iL1eA+1A9E2QughRMACpF7EdIQ91H/783J
+ Fm/UMGP5hmuP/HtJn432O1p1YFracHCmfJ8k3z1bzmLReuJGyEI7Am9aFizFK88B
+ MywbPxjOHoBt/cZTkKA/841hgrRdZfQgh4IqHxO22aMmFckbNkDUl+S8QiHaz6fX
+ EOwQjDqEpnEVcgSAJgBk/voFATEo1HLLrySbUdgRUbJ5mG0U7Q/C66g16sRM652q
+ nMyRGT9umVyzjvKDiAwZlLQaIhY7KFbcRNQq9u+gxBgyuH5FrebsdSHmfIRfp9lw
+ ==
+X-ME-Sender: <xms:YBc0YLLzQS0d7SFEZMvxl6p9-7od9DL01QOhxrcjFlQo1rBoE47MDQ>
+ <xme:YBc0YPLKFNKbW-sbG23qx2xtBNHtTdlTFcMsdooZbUOliqoEOWspBGV1h_78N6y6L
+ iMMcwOVHTEQbbE1vEQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeelucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:YBc0YDstqAvg8JXAVpmrTSpCLeSjDMiSBVPOPfbZhInLuZcFM9nXuQ>
+ <xmx:YBc0YEawhTDwS3H6t_nZHQuglpym7cTfQRt7SPbqnUgyFhuBJvdWcQ>
+ <xmx:YBc0YCa2FjZRknpjfDcEIFciSMCHUMhcco_dK4lV0IPqERlkKqJ-FA>
+ <xmx:YBc0YJUH24QqJH6jLGTWHJsEuU8NCtHEXLgkUAo4mJ2W2YuzChn66g>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 0F5A4240064;
+ Mon, 22 Feb 2021 15:43:10 -0500 (EST)
+Date: Mon, 22 Feb 2021 21:43:09 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH V2 6/7] hw/block/nvme: support namespace attachment command
+Message-ID: <YDQXXQU9nswxE/ip@apples.localdomain>
+References: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+ <20210210160937.1100-7-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210219215838.752547-4-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="8gxjdZN77zr+t62i"
+Content-Disposition: inline
+In-Reply-To: <20210210160937.1100-7-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,218 +94,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-On 2/19/21 6:58 PM, Cleber Rosa wrote:
-> To have the jobs dispatched to custom runners, gitlab-runner must
-> be installed, active as a service and properly configured.  The
-> variables file and playbook introduced here should help with those
-> steps.
->
-> The playbook introduced here covers a number of different Linux
-> distributions and FreeBSD, and are intended to provide a reproducible
-> environment.
->
-> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+--8gxjdZN77zr+t62i
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Feb 11 01:09, Minwoo Im wrote:
+> This patch supports Namespace Attachment command for the pre-defined
+> nvme-ns device nodes.  Of course, attach/detach namespace should only be
+> supported in case 'subsys' is given.  This is because if we detach a
+> namespace from a controller, somebody needs to manage the detached, but
+> allocated namespace in the NVMe subsystem.
+>=20
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 > ---
->   docs/devel/ci.rst                  | 58 ++++++++++++++++++++++++++
->   scripts/ci/setup/.gitignore        |  1 +
->   scripts/ci/setup/gitlab-runner.yml | 65 ++++++++++++++++++++++++++++++
->   scripts/ci/setup/vars.yml.template | 13 ++++++
->   4 files changed, 137 insertions(+)
->   create mode 100644 scripts/ci/setup/.gitignore
->   create mode 100644 scripts/ci/setup/gitlab-runner.yml
->   create mode 100644 scripts/ci/setup/vars.yml.template
->
-> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-> index a556558435..9f9c4bd3f9 100644
-> --- a/docs/devel/ci.rst
-> +++ b/docs/devel/ci.rst
-> @@ -56,3 +56,61 @@ To run the playbook, execute::
->   
->     cd scripts/ci/setup
->     ansible-playbook -i inventory build-environment.yml
+>  hw/block/nvme-subsys.h | 10 +++++++
+>  hw/block/nvme.c        | 59 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/block/nvme.h        |  5 ++++
+>  hw/block/trace-events  |  2 ++
+>  include/block/nvme.h   |  5 ++++
+>  5 files changed, 81 insertions(+)
+>=20
+> diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
+> index 14627f9ccb41..ef4bec928eae 100644
+> --- a/hw/block/nvme-subsys.h
+> +++ b/hw/block/nvme-subsys.h
+> @@ -30,6 +30,16 @@ typedef struct NvmeSubsystem {
+>  int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
+>  int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp);
+> =20
+> +static inline NvmeCtrl *nvme_subsys_ctrl(NvmeSubsystem *subsys,
+> +        uint32_t cntlid)
+> +{
+> +    if (!subsys) {
+> +        return NULL;
+> +    }
 > +
-> +gitlab-runner setup and registration
-> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +    return subsys->ctrls[cntlid];
+> +}
 > +
-> +The gitlab-runner agent needs to be installed on each machine that
-> +will run jobs.  The association between a machine and a GitLab project
-> +happens with a registration token.  To find the registration token for
-> +your repository/project, navigate on GitLab's web UI to:
+>  /*
+>   * Return allocated namespace of the specified nsid in the subsystem.
+>   */
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 697368a6ae0c..71bcd66f1956 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -183,6 +183,7 @@ static const uint32_t nvme_cse_acs[256] =3D {
+>      [NVME_ADM_CMD_SET_FEATURES]     =3D NVME_CMD_EFF_CSUPP,
+>      [NVME_ADM_CMD_GET_FEATURES]     =3D NVME_CMD_EFF_CSUPP,
+>      [NVME_ADM_CMD_ASYNC_EV_REQ]     =3D NVME_CMD_EFF_CSUPP,
+> +    [NVME_ADM_CMD_NS_ATTACHMENT]    =3D NVME_CMD_EFF_CSUPP,
+>  };
+> =20
+>  static const uint32_t nvme_cse_iocs_none[256];
+> @@ -3766,6 +3767,62 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest =
+*req)
+>      return NVME_NO_COMPLETE;
+>  }
+> =20
+> +static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
+> +static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    NvmeNamespace *ns;
+> +    NvmeCtrl *ctrl;
+> +    uint16_t list[NVME_CONTROLLER_LIST_SIZE] =3D {};
+> +    uint32_t nsid =3D le32_to_cpu(req->cmd.nsid);
+> +    uint32_t dw10 =3D le32_to_cpu(req->cmd.cdw10);
+> +    bool attach =3D !(dw10 & 0xf);
+> +    uint16_t *nr_ids =3D &list[0];
+> +    uint16_t *ids =3D &list[1];
+> +    uint16_t ret;
+> +    int i;
 > +
-> + * Settings (the gears like icon), then
-> + * CI/CD, then
-> + * Runners, and click on the "Expand" button, then
-> + * Under "Set up a specific Runner manually", look for the value under
-> +   "Use the following registration token during setup"
+> +    trace_pci_nvme_ns_attachment(nvme_cid(req), dw10 & 0xf);
 > +
-> +Copy the ``scripts/ci/setup/vars.yml.template`` file to
-> +``scripts/ci/setup/vars.yml``.  Then, set the
-> +``gitlab_runner_registration_token`` variable to the value obtained
-> +earlier.
+> +    ns =3D nvme_subsys_ns(n->subsys, nsid);
+> +    if (!ns) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
 > +
-> +.. note:: gitlab-runner is not available from the standard location
-> +          for all OS and architectures combinations.  For some systems,
-> +          a custom build may be necessary.  Some builds are avaiable
-> +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
-> +          URI may be used as a value on ``vars.yml``
-FYI the latest version (13.8.0) provides a s390x build.
+> +    ret =3D nvme_dma(n, (uint8_t *)list, 4096,
+> +                   DMA_DIRECTION_TO_DEVICE, req);
+> +    if (ret) {
+> +        return ret;
+> +    }
 > +
-> +To run the playbook, execute::
+> +    if (!*nr_ids) {
+> +        return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+> +    }
 > +
-> +  cd scripts/ci/setup
-> +  ansible-playbook -i inventory gitlab-runner.yml
+> +    for (i =3D 0; i < *nr_ids; i++) {
+> +        ctrl =3D nvme_subsys_ctrl(n->subsys, ids[i]);
+> +        if (!ctrl) {
+> +            return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+> +        }
 > +
-> +Following the registration, it's necessary to configure the runner tags,
-> +and optionally other configurations on the GitLab UI.  Navigate to:
+> +        if (attach) {
+> +            if (nvme_ns_is_attached(ctrl, ns)) {
+> +                return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
+> +            }
 > +
-> + * Settings (the gears like icon), then
-> + * CI/CD, then
-> + * Runners, and click on the "Expand" button, then
-> + * "Runners activated for this project", then
-> + * Click on the "Edit" icon (next to the "Lock" Icon)
+> +            nvme_ns_attach(ctrl, ns);
+> +            __nvme_select_ns_iocs(ctrl, ns);
+> +        } else {
+> +            if (!nvme_ns_is_attached(ctrl, ns)) {
+> +                return NVME_NS_NOT_ATTACHED | NVME_DNR;
+> +            }
 > +
-> +Under tags, add values matching the jobs a runner should run.  For a
-> +Ubuntu 20.04 aarch64 system, the tags should be set as::
+> +            nvme_ns_detach(ctrl, ns);
+> +        }
+> +    }
 > +
-> +  ubuntu_20.04,aarch64
+> +    return NVME_SUCCESS;
+> +}
 > +
-> +Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
-> +would contain::
+>  static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeRequest *req)
+>  {
+>      trace_pci_nvme_admin_cmd(nvme_cid(req), nvme_sqid(req), req->cmd.opc=
+ode,
+> @@ -3797,6 +3854,8 @@ static uint16_t nvme_admin_cmd(NvmeCtrl *n, NvmeReq=
+uest *req)
+>          return nvme_get_feature(n, req);
+>      case NVME_ADM_CMD_ASYNC_EV_REQ:
+>          return nvme_aer(n, req);
+> +    case NVME_ADM_CMD_NS_ATTACHMENT:
+> +        return nvme_ns_attachment(n, req);
+>      default:
+>          assert(false);
+>      }
+> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+> index 1c7796b20996..5a1ab857d166 100644
+> --- a/hw/block/nvme.h
+> +++ b/hw/block/nvme.h
+> @@ -222,6 +222,11 @@ static inline void nvme_ns_attach(NvmeCtrl *n, NvmeN=
+amespace *ns)
+>      n->namespaces[nvme_nsid(ns) - 1] =3D ns;
+>  }
+> =20
+> +static inline void nvme_ns_detach(NvmeCtrl *n, NvmeNamespace *ns)
+> +{
+> +    n->namespaces[nvme_nsid(ns) - 1] =3D NULL;
+> +}
 > +
-> +  ubuntu-20.04-aarch64-all:
-> +   tags:
-> +   - ubuntu_20.04
-> +   - aarch64
-> +
-> +It's also recommended to:
-> +
-> + * increase the "Maximum job timeout" to something like ``2h``
-> + * uncheck the "Run untagged jobs" check box
-> + * give it a better Description
-> diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
-> new file mode 100644
-> index 0000000000..f112d05dd0
-> --- /dev/null
-> +++ b/scripts/ci/setup/.gitignore
-> @@ -0,0 +1 @@
-> +vars.yml
-> \ No newline at end of file
-> diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
-> new file mode 100644
-> index 0000000000..ab1944965f
-> --- /dev/null
-> +++ b/scripts/ci/setup/gitlab-runner.yml
-> @@ -0,0 +1,65 @@
-> +---
-> +- name: Installation of gitlab-runner
-> +  hosts: all
-> +  vars_files:
-> +    - vars.yml
-> +  tasks:
-> +    - debug:
-> +        msg: 'Checking for a valid GitLab registration token'
-> +      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
-> +
-> +    - name: Checks the availability of official gitlab-runner builds in the archive
-> +      uri:
-> +        url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-linux-386
+>  static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
+>  {
+>      NvmeSQueue *sq =3D req->sq;
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index b6e972d733a6..bf67fe7873d2 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -80,6 +80,8 @@ pci_nvme_aer(uint16_t cid) "cid %"PRIu16""
+>  pci_nvme_aer_aerl_exceeded(void) "aerl exceeded"
+>  pci_nvme_aer_masked(uint8_t type, uint8_t mask) "type 0x%"PRIx8" mask 0x=
+%"PRIx8""
+>  pci_nvme_aer_post_cqe(uint8_t typ, uint8_t info, uint8_t log_page) "type=
+ 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
+> +pci_nvme_ns_attachment(uint16_t cid, uint8_t sel) "cid %"PRIu16", sel=3D=
+0x%"PRIx8""
+> +pci_nvme_ns_attachment_attach(uint16_t cntlid, uint32_t nsid) "cntlid=3D=
+0x%"PRIx16", nsid=3D0x%"PRIx32""
+>  pci_nvme_enqueue_event(uint8_t typ, uint8_t info, uint8_t log_page) "typ=
+e 0x%"PRIx8" info 0x%"PRIx8" lid 0x%"PRIx8""
+>  pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
+>  pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
+> diff --git a/include/block/nvme.h b/include/block/nvme.h
+> index f82b5ffc2c1d..4b016f954fee 100644
+> --- a/include/block/nvme.h
+> +++ b/include/block/nvme.h
+> @@ -566,6 +566,7 @@ enum NvmeAdminCommands {
+>      NVME_ADM_CMD_ASYNC_EV_REQ   =3D 0x0c,
+>      NVME_ADM_CMD_ACTIVATE_FW    =3D 0x10,
+>      NVME_ADM_CMD_DOWNLOAD_FW    =3D 0x11,
+> +    NVME_ADM_CMD_NS_ATTACHMENT  =3D 0x15,
+>      NVME_ADM_CMD_FORMAT_NVM     =3D 0x80,
+>      NVME_ADM_CMD_SECURITY_SEND  =3D 0x81,
+>      NVME_ADM_CMD_SECURITY_RECV  =3D 0x82,
+> @@ -836,6 +837,9 @@ enum NvmeStatusCodes {
+>      NVME_FEAT_NOT_CHANGEABLE    =3D 0x010e,
+>      NVME_FEAT_NOT_NS_SPEC       =3D 0x010f,
+>      NVME_FW_REQ_SUSYSTEM_RESET  =3D 0x0110,
+> +    NVME_NS_ALREADY_ATTACHED    =3D 0x0118,
+> +    NVME_NS_NOT_ATTACHED        =3D 0x011A,
+> +    NVME_NS_CTRL_LIST_INVALID   =3D 0x011C,
+>      NVME_CONFLICTING_ATTRS      =3D 0x0180,
+>      NVME_INVALID_PROT_INFO      =3D 0x0181,
+>      NVME_WRITE_TO_RO            =3D 0x0182,
+> @@ -951,6 +955,7 @@ typedef struct QEMU_PACKED NvmePSD {
+>      uint8_t     resv[16];
+>  } NvmePSD;
+> =20
+> +#define NVME_CONTROLLER_LIST_SIZE 2048
+>  #define NVME_IDENTIFY_DATA_SIZE 4096
+> =20
 
-Where it checks for 386 then later it uses gitlab_runner_arch (amd64 by 
-default). It is not consistent.
+I know that I'm the one to blame for NVME_IDENTIFY_DATA_SIZE being
+there, but it really doesn't belong in the shared header.
 
-Also, why not use ansible_machine + jinja2 to convert x86_64 -> amd64, 
-aarch64 -> arm64...etc?
+This can be fixed up when merged.
 
-> +        method: HEAD
-> +        status_code:
-> +          - 200
-> +          - 403
-> +      register: gitlab_runner_available_archive
-> +
-> +    - name: Update base url
-> +      set_fact:
-> +        gitlab_runner_base_url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-
-> +      when: gitlab_runner_available_archive.status == 200
-> +    - debug:
-> +        msg: Base gitlab-runner url is {{ gitlab_runner_base_url  }}
-> +
-> +    - name: Create a group for the gitlab-runner service
-> +      group:
-> +        name: gitlab-runner
-> +
-> +    - name: Create a user for the gitlab-runner service
-> +      user:
-> +        user: gitlab-runner
-> +        group: gitlab-runner
-> +        comment: GitLab Runner
-> +        home: /home/gitlab-runner
-> +        shell: /bin/bash
-> +
-> +    - name: Remove the .bash_logout file when on Ubuntu systems
-> +      file:
-> +        path: /home/gitlab-runner/.bash_logout
-> +        state: absent
-> +      when: "ansible_facts['distribution'] == 'Ubuntu'"
-> +
-> +    - name: Downloads the matching gitlab-runner
-> +      get_url:
-> +        dest: /usr/local/bin/gitlab-runner
-> +        url: "{{ gitlab_runner_base_url }}{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
+>  enum NvmeIdCns {
+> --=20
+> 2.17.1
+>=20
+>=20
 
+--8gxjdZN77zr+t62i
+Content-Type: application/pgp-signature; name="signature.asc"
 
-And here instead of gitlab_runner_os, {{ ansible_system | lower }} 
-should work out.
+-----BEGIN PGP SIGNATURE-----
 
-- Wainer
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmA0F1sACgkQTeGvMW1P
+DekbyAf/acfC525zcehgqNxrAYvfugioYSJQ3xZa5Yu1ErOi85us0ZjnVKVu6xdy
+4ZsB4WIRTIo0ZQiH8Lqb4uP7zonQVjba9+AfmBWzc3E2vm9F3bOXAh5u3sneZOIb
+ZAA4yK7PkypwmNEkiSM3NhJgI1IIJY0X6X9QHi3LTJ+AOmk/fRPUiaZOX8mKKK0z
+KhdW5wMg+0U3p+Cv3DSyidpi2CEfg6+7ATjPap+zdBtcnBHc2KOSzuzzRspUTT8S
+frsvyEWPc5yOYdqlLQAEBNjwu3+KWehHr1g9wxD9zi7QdSMI3PHo+pGkTvphupd9
+3yc9m0CJgM1bvtikoOOtmgqv0TuP+g==
+=5RBQ
+-----END PGP SIGNATURE-----
 
-> +        owner: gitlab-runner
-> +        group: gitlab-runner
-> +        mode: u=rwx,g=rwx,o=rx
-> +
-> +    - name: Register the gitlab-runner
-> +      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell  --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
-> +
-> +    - name: Install the gitlab-runner service using its own functionality
-> +      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
-> +      register: gitlab_runner_install_service_result
-> +      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
-> +
-> +    - name: Enable the gitlab-runner service
-> +      service:
-> +        name: gitlab-runner
-> +        state: started
-> +        enabled: yes
-> diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
-> new file mode 100644
-> index 0000000000..621435d030
-> --- /dev/null
-> +++ b/scripts/ci/setup/vars.yml.template
-> @@ -0,0 +1,13 @@
-> +# The version of the gitlab-runner to use
-> +gitlab_runner_version: 13.1.1
-> +# The base location of gitlab-runner binaries, this will be suffixed by $OS-$ARCH
-> +gitlab_runner_base_url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-
-> +# The URL of the gitlab server to use, usually https://gitlab.com unless you're
-> +# using a private GitLab instance
-> +gitlab_runner_server_url: https://gitlab.com
-> +# Defaults to linux, checks can be used to change this
-> +gitlab_runner_os: linux
-> +# Defaults to amd64 (x86_64), checks can be used to change this
-> +gitlab_runner_arch: amd64
-> +# A unique token made available by GitLab to your project for registering runners
-> +gitlab_runner_registration_token: PLEASE_PROVIDE_A_VALID_TOKEN
-
+--8gxjdZN77zr+t62i--
 
