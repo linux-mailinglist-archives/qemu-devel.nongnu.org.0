@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430BA321430
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:31:29 +0100 (CET)
-Received: from localhost ([::1]:37560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1105E321441
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:38:23 +0100 (CET)
+Received: from localhost ([::1]:40102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE8Uy-00041u-B9
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:31:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51476)
+	id 1lE8bd-0005hQ-RG
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:38:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8Tn-0003U5-3U
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:30:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52545)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8aV-0005H3-Mr
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:37:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52636)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8Tl-0003ff-Ij
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:30:14 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8aN-0006xP-2F
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:37:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613989813;
+ s=mimecast20190719; t=1613990221;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UQP3GfD43Qqdy8xGACe9a+LpH4Ds3WMvkZN2Jaanhco=;
- b=N84XheSXH1SyXgLTCGNRssHikpFP/RkC3uH3EU1cf7apWgQhWntAvR6Wat6U2TnNKy9flP
- Wnwj2NWcmOeEhM57Tpecenh7uTFFIKdNe4x73bmUUiiwe2Sow0pZ1RxA0Mg2iAuVgw+6zK
- kLYPGD5HoMjU4yOfhXR9ej6mX8Yuh8s=
+ bh=C/XXQpyZ7RK+sTqcYvU6UN6dyCglZ5OUK1VS6JHJa+Y=;
+ b=BfvNv8V0jf5GkWhbqIGCr56zxvPG/cVQs9a+SSgfiazaEaJE88Jra1FK2Urk6YJfYvTevO
+ 4GakWHZm/uFBWwtARL9cwo/8nQV/XCcL0NrukbXoAJB0oHn2M5VZE1W1Pjg2NXP01M/zcC
+ vrXwR3c/UsL5nGziHP7xlDWgLKl3Rbo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-169-67KqTh0rM0SjG3EFxEbPVA-1; Mon, 22 Feb 2021 05:30:08 -0500
-X-MC-Unique: 67KqTh0rM0SjG3EFxEbPVA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-583-ZphKs9MkMjW-aJu5n3_qxg-1; Mon, 22 Feb 2021 05:36:59 -0500
+X-MC-Unique: ZphKs9MkMjW-aJu5n3_qxg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A13AE107ACFA;
- Mon, 22 Feb 2021 10:30:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B04BA187DF60;
+ Mon, 22 Feb 2021 10:36:58 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
  [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 64BC760C04;
- Mon, 22 Feb 2021 10:30:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 654C967882;
+ Mon, 22 Feb 2021 10:36:58 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id A434A1800399; Mon, 22 Feb 2021 11:30:05 +0100 (CET)
-Date: Mon, 22 Feb 2021 11:30:05 +0100
+ id E39BE1800399; Mon, 22 Feb 2021 11:36:56 +0100 (CET)
+Date: Mon, 22 Feb 2021 11:36:56 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2] ui/cocoa: Remove the uses of full screen APIs
-Message-ID: <20210222103005.v6h5qpzz5y6elwh4@sirius.home.kraxel.org>
-References: <20210219135534.clmpknifhvgn7vde@sirius.home.kraxel.org>
- <20210220013138.51437-1-akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v3] ui/cocoa: Use kCGColorSpaceSRGB
+Message-ID: <20210222103656.ob37xtaqqy2rmytv@sirius.home.kraxel.org>
+References: <20210219141131.o7rlx6jzfcrf6554@sirius.home.kraxel.org>
+ <20210220042929.97163-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210220013138.51437-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210220042929.97163-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,30 +83,20 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Sat, Feb 20, 2021 at 01:29:29PM +0900, Akihiko Odaki wrote:
+> kCGColorSpaceGenericRGB | Apple Developer Documentation
+> https://developer.apple.com/documentation/coregraphics/kcgcolorspacegenericrgb
+> > Deprecated
+> > Use kCGColorSpaceSRGB instead.
+> 
+> This change also removes the legacy color space specification for
+> PowerPC.
 
-> The detections of [NSView -enterFullScreen:] and
-> [NSView -exitFullScreen:] were wrong. A detection is coded as:
-> [NSView respondsToSelector:@selector(exitFullScreenModeWithOptions:)]
-> but it should be:
-> [NSView instancesRespondToSelector:@selector(exitFullScreenModeWithOptions:)]
-> 
-> Because of those APIs were not detected, ui/cocoa always falled
-> back to a borderless window whose frame matches the screen to
-> implement fullscreen behavior.
-> 
-> The code using [NSView -enterFullScreen:] and
-> [NSView -exitFullScreen:] will be used if you fix the detections,
-> but its behavior is undesirable; the full screen view stretches
-> the video, changing the aspect ratio, even if zooming is disabled.
-> 
-> This change removes the code as it does nothing good.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+Still doesn't apply, looks like a conflict with one of your other
+(meanwhile merger) patches.  Those kind of changes are best submitted
+as patch series.
 
-Added to UI queue.
-
-thanks,
+take care,
   Gerd
 
 
