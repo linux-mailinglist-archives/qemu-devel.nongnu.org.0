@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48B11321478
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:52:47 +0100 (CET)
-Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A061D321498
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:58:59 +0100 (CET)
+Received: from localhost ([::1]:50800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE8pa-0001P5-CY
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:52:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55666)
+	id 1lE8va-0004Q0-M3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:58:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8o6-0000EM-Ic
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:51:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49651)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8uS-0003sz-Qw
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:57:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46632)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8o4-0004lq-Je
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:51:14 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8uR-0007gO-Ds
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:57:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613991071;
+ s=mimecast20190719; t=1613991466;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Dvmm0Yo1fK/A9gmEGMYvqTA8glRcRfbUDMXtyeaxGdw=;
- b=bodf7NQFP81nLj1VZ1XiqDId1iDxUBwKYPpse/BPkmS2PrYig9jGuKl63Vf9dKZlN9+FN5
- wRwfJjOJUjkQFENmEstSflToPcTF34KK8AvlLzKnumNDZ6Gq29+CWc8araCpukr0oqzPo6
- rC3V96CXkNUU3MO54koJmNl36Z52200=
+ bh=nvlkKULpwYNVPS6/mh0XmFuo5ZYky+bE+E6dQG6ewlY=;
+ b=cjq8NnG/SHqrk+mc3q8m9VwYKPx/3se55HAIkgdHDl/dLe6QENtKkwHe1AQbIg7GL85TFI
+ v1hjntuRrAWy8jsXY8IO0EMGigow2up5G29c7jy7mhe5orh/2jGgXZE9BHnRLd2M6di2Hz
+ Fa7ccqNT35nvtZZbDICBI3BznDnZ7RY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-JRwzGkC6Ndq5KZHDLJJVcQ-1; Mon, 22 Feb 2021 05:51:09 -0500
-X-MC-Unique: JRwzGkC6Ndq5KZHDLJJVcQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-457-O0U_erKjNFiOb3Hd-kM1Ng-1; Mon, 22 Feb 2021 05:57:44 -0500
+X-MC-Unique: O0U_erKjNFiOb3Hd-kM1Ng-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B8F80196E;
- Mon, 22 Feb 2021 10:51:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4BDF41020C20;
+ Mon, 22 Feb 2021 10:57:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
  [10.36.114.184])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 52E301346F;
- Mon, 22 Feb 2021 10:51:02 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4B2460C04;
+ Mon, 22 Feb 2021 10:57:39 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id B46661800399; Mon, 22 Feb 2021 11:51:00 +0100 (CET)
-Date: Mon, 22 Feb 2021 11:51:00 +0100
+ id 3EF8F1800399; Mon, 22 Feb 2021 11:57:38 +0100 (CET)
+Date: Mon, 22 Feb 2021 11:57:38 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH v2] ui/console: Pass placeholder surface to displays
-Message-ID: <20210222105100.idqhislns33etne7@sirius.home.kraxel.org>
-References: <20210219144848.wy7wmel4lixaqkyb@sirius.home.kraxel.org>
- <20210220113810.78371-1-akihiko.odaki@gmail.com>
+Subject: Re: [PATCH] virtio-gpu: Respect graphics update interval for EDID
+Message-ID: <20210222105738.w2q6vp5pi4p6bx5m@sirius.home.kraxel.org>
+References: <20210221133414.7262-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210220113810.78371-1-akihiko.odaki@gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210221133414.7262-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -79,44 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Sun, Feb 21, 2021 at 10:34:14PM +0900, Akihiko Odaki wrote:
+> This change introduces an additional member, refresh_rate to
+> qemu_edid_info in include/hw/display/edid.h.
+> 
+> This change also isolates the graphics update interval from the
+> display update interval. The guest will update the frame buffer
+> in the graphics update interval, but displays can be updated in a
+> dynamic interval, for example to save update costs aggresively
+> (vnc) or to respond to user-generated events (sdl).
+> It stabilizes the graphics update interval and prevents the guest
+> from being confused.
 
->  #define QEMU_ALLOCATED_FLAG     0x01
-> +#define QEMU_PLACEHOLDER_FLAG   0x02
+Hmm.  What problem you are trying to solve here?
 
-> +static inline int is_placeholder(DisplaySurface *surface)
-> +{
-> +    return surface->flags & QEMU_PLACEHOLDER_FLAG;
-> +}
-
-Interesting idea.  That approach makes sense too.
-
-> +        if (!placeholder) {
-> +            placeholder = qemu_create_message_surface(640, 480, placeholder_msg);
-> +            placeholder->flags |= QEMU_PLACEHOLDER_FLAG;
-
-I think we should set the placeholder flag in
-qemu_create_message_surface() because every surface created with that
-function is some kind if placeholder.
-
-Also when replacing an existing surface we should make the placeholder
-the same size, to avoid pointless ui window resizes.
-
-> -    if (!new_surface) {
-> +    if (is_placeholder(new_surface)) {
-
-We should check whenever this is the primary or a secondary window here
-and only destroy secondary windows.  qemu hiding all windows but
-continuing to run has great potential for user confusion ...
-
-> -    if (!new_surface) {
-> +    if (is_placeholder(new_surface)) {
-
-Same here.
+The update throttle being visible by the guest was done intentionally,
+so the guest can throttle the display updates too in case nobody is
+watching those display updated anyway.
 
 take care,
   Gerd
