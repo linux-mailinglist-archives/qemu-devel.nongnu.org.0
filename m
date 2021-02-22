@@ -2,88 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE9832212B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 22:16:34 +0100 (CET)
-Received: from localhost ([::1]:55302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D26B732213B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 22:20:00 +0100 (CET)
+Received: from localhost ([::1]:59456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEIZE-00009q-Ie
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 16:16:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54944)
+	id 1lEIcZ-0001w0-Uj
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 16:19:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEIVV-0007vH-K5; Mon, 22 Feb 2021 16:12:41 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:35229)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1lEIbB-0001J2-B0; Mon, 22 Feb 2021 16:18:33 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:7674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEIVK-0001Ml-IJ; Mon, 22 Feb 2021 16:12:41 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 8FE445C01F6;
- Mon, 22 Feb 2021 16:12:27 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 22 Feb 2021 16:12:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=uKEHOKGIguewwFIpGN83JpcAWUs
- M2UyKSY/2K94fBW0=; b=bc4RJHnxZin5mFxpS163CjFliqEb+7IGBhcFoqeMe6o
- 5GHXOV003+LF/5y5sxpE5k7H2we9IU+U/XnsBSRbWUu1Z977JPwNSc1VBPvdmLtM
- 6sj3vqYpgi7sAD8iPXdk4E2Oj0Il/W+D/pA8Ydcvu1fcYZ4anOuZLgFTs0E75fRB
- X49tav8e9XFTD14fZ6fosTQOFSy5xzL77ngE01RdsoEr80EYzQ358nbIHiqhyns4
- 0KfdUe5ruKk3n1YhmT6ixbHlXGtVhQ89QFUYQTX6NWg44yNJ6d9qZ9P7gk39GA70
- MbOuqUj56wKqTmbOjaxKwU0iQIWg/0Fhso3kAhlcGpQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=uKEHOK
- GIguewwFIpGN83JpcAWUsM2UyKSY/2K94fBW0=; b=WXqiUHkvexm3YZ8gEGLED9
- m3odlDWxNELrQFwcf08BB5J1E//gFOUnrPGxb5N/vO6U9+T4blXkG0y3hUaM5pQ6
- wq2hRvHXNSNIGVu5myNxvYtnWEJRRf8Z6oUcYTx9Z1spAAXjD9L2qu9mUGUd1hq3
- 6IsXcqhxoacOl95cgdbSzPnkZKz1aFTyuR3tPXLZtOI3MvZhtEIROdagMB1ukznk
- D/daeCdHudJrq4YBEciZLieM5OjUfbuPVfVocnl7IhKWIf6ODb70pHLbe2FhmCPf
- 9OtYtlPS2O5sBv5l7oWZrnm1y1dd8NzXX1QiIKhudngKsy9S1nXehXTJ5Sh4iGnQ
- ==
-X-ME-Sender: <xms:OR40YP39lulK9PrmsCAj1ttDQrt2KJHGiVkNDcrexn3JjbhB54iyrA>
- <xme:OR40YODzLBEJc65ryNpTCKXdYFLzmIKAIIUKZ1zZ60OYS0azOXXYqD4ds8e3bAArs
- 9NxcfJUzGLL6RRwOsc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddugeehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuueffiefhgffgteehjeeiveeludfhteffhfehiefgheetjeeitedvtdegvdeh
- tdenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:OR40YMwL5GZx7A1u67HXUqAhelCM_CQSHZ5ayt5LvMl4POPeHZrJWw>
- <xmx:OR40YMk6bTuZ-WxLQTSj_kJMH-itvV3X6ZsPkp1V4pjXGtXcNe1CYA>
- <xmx:OR40YBGnnf4i0GvjGMtZM5jELosHhZQ2O_-hhFTVF37nvQuRRSFTzw>
- <xmx:Ox40YFL7xZmtbF-ETrWJa7P-3oEB_Dmkn8J0w6KGXL_MDc_w1TBFGg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 49FD124005E;
- Mon, 22 Feb 2021 16:12:24 -0500 (EST)
-Date: Mon, 22 Feb 2021 22:12:22 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2 5/5] hw/block/nvme: report non-mdts command size limit
- for dsm
-Message-ID: <YDQeNpjTCvYbKhjh@apples.localdomain>
-References: <20210222184759.65041-1-its@irrelevant.dk>
- <20210222184759.65041-6-its@irrelevant.dk>
- <20210222205506.GB16253@redsun51.ssa.fujisawa.hgst.com>
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1lEIb9-00042f-CK; Mon, 22 Feb 2021 16:18:33 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11ML3fg2052930; Mon, 22 Feb 2021 16:18:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=reply-to : subject : to
+ : cc : references : from : message-id : date : mime-version : in-reply-to
+ : content-type : content-transfer-encoding; s=pp1;
+ bh=KSti3OiepDaSHUGqcUc4kMtQpd35GyDHejFJlAllEDI=;
+ b=EhC+CAzDm96DUCq4fGoBRVeEkY6XLcj7BtUM9q7SdVWy5npn0B27UoUPYcr7uUISxodQ
+ j1VJKCOt5b9mAttw+8/i0dkfGeHOjhIHlu73Akf641sWOWqlFaV1/NC+989i3sRFqZXr
+ LSGuqIHFso6nwR06oRMZnCxCJEXj42aiinOhJvcDhguPQrOHeN6p0HnUyZFIT9jfbcHZ
+ YhnvylOitT4qPsPP9vkm/cCQPKpTkY0iqqFJIWVG8Gr/TPnq7uM2fYeWx+WNnvYwlAUs
+ uPKgly1PO+6ss4AMd0zruyon1SW+y6SDrSF+5VY4nanKvXmAxJRwzFIQ4HFW2xeOx9iF hQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36vkmp9te7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 16:18:15 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11ML47Yp055403;
+ Mon, 22 Feb 2021 16:18:15 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36vkmp9tdy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 16:18:15 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11MKvc7f012162;
+ Mon, 22 Feb 2021 21:18:14 GMT
+Received: from b03cxnp08027.gho.boulder.ibm.com
+ (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
+ by ppma01wdc.us.ibm.com with ESMTP id 36tt28su6r-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 21:18:14 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11MLIEFV10879436
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Feb 2021 21:18:14 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EB48A7805F;
+ Mon, 22 Feb 2021 21:18:13 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 50FF578063;
+ Mon, 22 Feb 2021 21:18:10 +0000 (GMT)
+Received: from lagarcia.br.ibm.com (unknown [9.85.163.84])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Mon, 22 Feb 2021 21:18:09 +0000 (GMT)
+Subject: Re: Editing QEMU POWER Platform wiki page
+To: Greg Kurz <groug@kaod.org>
+References: <91874f1e-4b14-5fb1-f1ae-1225938df759@linux.ibm.com>
+ <20210222120138.31f313c9@bahia.lan>
+From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?=
+ <lagarcia@linux.ibm.com>
+Organization: IBM
+Message-ID: <3c3fc3f0-afb8-1012-eaf7-11ecbe146025@linux.ibm.com>
+Date: Mon, 22 Feb 2021 18:18:08 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="OXGLSuv3BSvo7SmI"
-Content-Disposition: inline
-In-Reply-To: <20210222205506.GB16253@redsun51.ssa.fujisawa.hgst.com>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20210222120138.31f313c9@bahia.lan>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-22_07:2021-02-22,
+ 2021-02-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 mlxscore=0
+ phishscore=0 impostorscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ clxscore=1011 malwarescore=0 bulkscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2102220185
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,57 +112,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: lagarcia@br.ibm.com
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU devel list <qemu-devel@nongnu.org>,
+ Programmingkid <programmingkidx@gmail.com>,
+ QEMU PPC devel list <qemu-ppc@nongnu.org>, Cedric Le Goater <clg@kaod.org>,
+ lagarcia@br.ibm.com, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 2/22/21 8:01 AM, Greg Kurz wrote:
+> On Thu, 18 Feb 2021 10:16:25 -0300
+> Leonardo Augusto Guimarães Garcia <lagarcia@linux.ibm.com> wrote:
+>
+>> Hi there,
+>>
+>> I would like to edit the wiki page at [0] as it contains some outdated
+>> information. Could anyone that has access to the wiki please help me
+>> create a user so that I can edit it?
+>>
+>> 0. https://wiki.qemu.org/Documentation/Platforms/POWER
+>>
+> Hi Leo,
+>
+> User creation isn't publicly available to avoid spam : only an existing
+> user can create a new account.
 
---OXGLSuv3BSvo7SmI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Feb 23 05:55, Keith Busch wrote:
-> On Mon, Feb 22, 2021 at 07:47:59PM +0100, Klaus Jensen wrote:
-> > +typedef struct NvmeIdCtrlNvm {
-> > +    uint8_t     vsl;
-> > +    uint8_t     wzsl;
-> > +    uint8_t     wusl;
-> > +    uint8_t     dmrl;
-> > +    uint32_t    dmrsl;
-> > +    uint64_t    dmsl;
-> > +    uint8_t     rsvd16[4080];
-> > +} NvmeIdCtrlNvm;
->=20
-> TP 4040a still displays these fields with preceding '...' indicating
-> something comes before this. Is that just left-over from the integration
-> for TBD offsets, or is there something that still hasn't been accounted
-> for?
+Yeah, I saw that. That's why I asked here.
 
-Good question.
 
-But since the TBDs have been assigned I believe it is just a left-over.
-I must admit that I have not cross checked this with all other TPs, but
-AFAIK this is the only ratified TP that adds something to the
-NVM-specific identify controller data structure.
+> This being said, wiki isn't the preferred
+> way to expose documentation since there's no review and things ultimately
+> bitrot. Page [0] you want to update is a perfect example of the mess :
+> not only it contains irrelevant data but also stuff that is definitely
+> wrong (e.g. 'compat' cpu property was deprecated in QEMU 5.0 and will
+> be removed in QEMU 6.0).
+>
+> Ideally we'd want everything to be in the main QEMU doc and don't
+> even need a wiki.
+>
+> On the PowerPC front, the most up-to-date docs are in the QEMU tree:
+>
+> docs/system/ppc/embedded.rst
+> docs/system/ppc/powermac.rst
+> docs/system/ppc/powernv.rst
+> docs/system/ppc/prep.rst
+> docs/system/ppc/pseries.rst
+> docs/system/target-ppc.rst
+>
+> So I don't know exactly what changes you had in mind, but maybe first
+> consider to update the main documentation.
 
---OXGLSuv3BSvo7SmI
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+I got here because someone pointed to me the wiki is saying that nested 
+virtualization is not supported on Power, which is wrong. But I saw many 
+other outdated information on the wiki as you pointed out.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmA0HjQACgkQTeGvMW1P
-DelCkwf/fTXbg9nJ3wdhZPTwH+luV2lssfEy6Zkr2K4HDvda2oT3ElD/YmVRE+4R
-w/B+yCvM4AZ3PTYth15xG+fXAx8zk0OYGj56y4Up19w+Vw9rhheZ8Qz5WAL+k9Ej
-4XwNvRaf8Sd/t0c0I8+E6cAfoXY2B7ld9QCa0tHvHcnRm9bzaYb/SNMg/DmWbMIn
-OXSEVnopA1c1ieoKEBZgvs1fakrrPjcRcOCb4DmHVTdg+MIWwXcOrFfZUCZfT/0l
-Rfas4Si4LKyB5a2FVFMeFX/yp/lu54/8Y7fe6tcbHvGTPa+x08eLMCTPbiuCK7m4
-WP9LfdE5skYHdOIpvF8Oauoh/F6n0w==
-=+1EC
------END PGP SIGNATURE-----
 
---OXGLSuv3BSvo7SmI--
+>
+> On my side, I think I want do ditch all the current content and just put
+> links to https://qemu.readthedocs.io/en/latest/ instead. I can take care
+> of that, in which case you wouldn't need an account.
+
+
+I agree this would be the preferable way. Could you go ahead and do 
+that, please, if others agree as well?
+
+Cheers,
+
+Leo
+
+
+>
+> Cheers,
+>
+> --
+> Greg
+>
+> PS:
+>
+> Cedric reported that we also have a page for non-pseries
+> platforms:
+>
+> https://wiki.qemu.org/Documentation/Platforms/PowerPC
+>
+> I'm Cc'ing some regular contributors for those platforms so
+> they can  evaluate the bitrotting status of this wiki.
+>
+>> Cheers,
+>>
+>> Leo
+>>
+>>
+>
 
