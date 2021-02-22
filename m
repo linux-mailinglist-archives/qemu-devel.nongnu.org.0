@@ -2,52 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F19D321477
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:52:26 +0100 (CET)
-Received: from localhost ([::1]:45456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B11321478
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:52:47 +0100 (CET)
+Received: from localhost ([::1]:46726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE8pF-0000hf-6K
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:52:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
+	id 1lE8pa-0001P5-CY
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:52:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lE8nW-0008G7-1X
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:50:38 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:60527)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lE8nU-0004Q1-3t
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:50:37 -0500
-Received: from localhost.localdomain ([82.252.134.158]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MqbI0-1la3P74BNI-00mdJs; Mon, 22 Feb 2021 11:50:10 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
-Date: Mon, 22 Feb 2021 11:50:04 +0100
-Message-Id: <20210222105004.1642234-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8o6-0000EM-Ic
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:51:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49651)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lE8o4-0004lq-Je
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:51:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613991071;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Dvmm0Yo1fK/A9gmEGMYvqTA8glRcRfbUDMXtyeaxGdw=;
+ b=bodf7NQFP81nLj1VZ1XiqDId1iDxUBwKYPpse/BPkmS2PrYig9jGuKl63Vf9dKZlN9+FN5
+ wRwfJjOJUjkQFENmEstSflToPcTF34KK8AvlLzKnumNDZ6Gq29+CWc8araCpukr0oqzPo6
+ rC3V96CXkNUU3MO54koJmNl36Z52200=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-JRwzGkC6Ndq5KZHDLJJVcQ-1; Mon, 22 Feb 2021 05:51:09 -0500
+X-MC-Unique: JRwzGkC6Ndq5KZHDLJJVcQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76B8F80196E;
+ Mon, 22 Feb 2021 10:51:08 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 52E301346F;
+ Mon, 22 Feb 2021 10:51:02 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id B46661800399; Mon, 22 Feb 2021 11:51:00 +0100 (CET)
+Date: Mon, 22 Feb 2021 11:51:00 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2] ui/console: Pass placeholder surface to displays
+Message-ID: <20210222105100.idqhislns33etne7@sirius.home.kraxel.org>
+References: <20210219144848.wy7wmel4lixaqkyb@sirius.home.kraxel.org>
+ <20210220113810.78371-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:TZv7kEoJDQe40LvUXR74alKlZn0uTtKde2hekSMYM4rUV5tB2DW
- 4U4yki3jeSYJE3St6vD74U+cr0TBanDE4SZ46hunbTwnRKUBxaQEgSBrb9wiqyYnUG0n2VG
- ciRp2DwO2gYha42c47PUX+UyKEaQBgqFh8HRaPiydWh1pqgkBa8OUQcC3IgNgwqYMwYTSQ/
- F1T3XSGAerPWZV+q0LLQQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fiVrzL7h6Wk=:bIxpaodAjMiJmxJq4lZmTN
- A2iJ1YVgnEoqXFXItLhULQZPTEg9qqyBtMraRM8gfpuhobdv7rts/5S3T8pxxEGniX8V0JnkM
- FazGM6qhJwOxMh5VcUonOafFVt3SVm8L0sbG5U6O1FuLu/vvwgCmZVWRdz69SqrSXjR/B0C9K
- Cdx6NcCbIfkf8YbIaj/Q/57NxasxG4ULLkN9kjC5YSpc1hJQKcanj2vQS+D1s+3A7zQq0rhtN
- G7IW58EOPapzjJzTXXRfKA7dvd11+o3Q4jQTUaZgGMHoM+6wxV4Fxy7Egq3TJxlGaFB7jjYyQ
- CqzHwKWGDnEvER/C58wKl83uyEkhts7NDRoOm9gYt/OKMuNn4f0Sc45sIg+cVbaRlcFcmbowj
- dWIsxDn07w0otCM7698wUua2Qj2n10N2Mv619cNGUekPpdWoc+ba1M+NM9twYkBfbHKYPU8+g
- BphzvRSZwIYe9nXnM2N321kogU4WEPDrpaKc2IVLIwdSzx0jQIun
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, HEXHASH_WORD=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210220113810.78371-1-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,215 +79,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add --preserve-argv0 in qemu-binfmt-conf.sh to configure the preserve-argv0
-flag.
+  Hi,
 
-This patch allows to use new flag in AT_FLAGS to detect if
-preserve-argv0 is configured for this interpreter:
-argv[0] (the full pathname provided by binfmt-misc) is removed and
-replaced by argv[1] (the original argv[0] provided by binfmt-misc when
-'P'/preserve-arg[0] is set)
+>  #define QEMU_ALLOCATED_FLAG     0x01
+> +#define QEMU_PLACEHOLDER_FLAG   0x02
 
-For instance with this patch and kernel support for AT_FLAGS:
+> +static inline int is_placeholder(DisplaySurface *surface)
+> +{
+> +    return surface->flags & QEMU_PLACEHOLDER_FLAG;
+> +}
 
-  $ sudo chroot m68k-chroot sh -c 'echo $0'
-  sh
+Interesting idea.  That approach makes sense too.
 
-without this patch:
+> +        if (!placeholder) {
+> +            placeholder = qemu_create_message_surface(640, 480, placeholder_msg);
+> +            placeholder->flags |= QEMU_PLACEHOLDER_FLAG;
 
-  $ sudo chroot m68k-chroot sh -c 'echo $0'
-  /usr/bin/sh
+I think we should set the placeholder flag in
+qemu_create_message_surface() because every surface created with that
+function is some kind if placeholder.
 
-The new flag is available in kernel (v5.12) since:
-2347961b11d4 ("binfmt_misc: pass binfmt_misc flags to the interpreter")
+Also when replacing an existing surface we should make the placeholder
+the same size, to avoid pointless ui window resizes.
 
-This can be tested with something like:
+> -    if (!new_surface) {
+> +    if (is_placeholder(new_surface)) {
 
-  # cp ..../qemu-ppc /chroot/powerpc/jessie
+We should check whenever this is the primary or a secondary window here
+and only destroy secondary windows.  qemu hiding all windows but
+continuing to run has great potential for user confusion ...
 
-  # qemu-binfmt-conf.sh --qemu-path / --systemd ppc --credential yes \
-                        --persistent no --preserve-argv0 yes
-  # systemctl restart systemd-binfmt.service
-  # cat /proc/sys/fs/binfmt_misc/qemu-ppc
-  enabled
-  interpreter //qemu-ppc
-  flags: POC
-  offset 0
-  magic 7f454c4601020100000000000000000000020014
-  mask ffffffffffffff00fffffffffffffffffffeffff
-  # chroot /chroot/powerpc/jessie  sh -c 'echo $0'
-  sh
+> -    if (!new_surface) {
+> +    if (is_placeholder(new_surface)) {
 
-  # qemu-binfmt-conf.sh --qemu-path / --systemd ppc --credential yes \
-                        --persistent no --preserve-argv0 no
-  # systemctl restart systemd-binfmt.service
-  # cat /proc/sys/fs/binfmt_misc/qemu-ppc
-  enabled
-  interpreter //qemu-ppc
-  flags: OC
-  offset 0
-  magic 7f454c4601020100000000000000000000020014
-  mask ffffffffffffff00fffffffffffffffffffeffff
-  # chroot /chroot/powerpc/jessie  sh -c 'echo $0'
-  /bin/sh
+Same here.
 
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/main.c           | 24 ++++++++++++++++++++
- scripts/qemu-binfmt-conf.sh | 44 +++++++++++++++++++++++--------------
- 2 files changed, 51 insertions(+), 17 deletions(-)
-
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 81f48ff54ed4..b9015a5dbd3e 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -26,6 +26,7 @@
- #include <sys/syscall.h>
- #include <sys/resource.h>
- #include <sys/shm.h>
-+#include <linux/binfmts.h>
- 
- #include "qapi/error.h"
- #include "qemu.h"
-@@ -49,6 +50,11 @@
- #include "cpu_loop-common.h"
- #include "crypto/init.h"
- 
-+#ifndef AT_FLAGS_PRESERVE_ARGV0
-+#define AT_FLAGS_PRESERVE_ARGV0_BIT 0
-+#define AT_FLAGS_PRESERVE_ARGV0 (1 << AT_FLAGS_PRESERVE_ARGV0_BIT)
-+#endif
-+
- char *exec_path;
- 
- int singlestep;
-@@ -631,6 +637,7 @@ int main(int argc, char **argv, char **envp)
-     int execfd;
-     int log_mask;
-     unsigned long max_reserved_va;
-+    bool preserve_argv0;
- 
-     error_init(argv[0]);
-     module_call_init(MODULE_INIT_TRACE);
-@@ -687,6 +694,9 @@ int main(int argc, char **argv, char **envp)
- 
-     init_qemu_uname_release();
- 
-+    /*
-+     * Manage binfmt-misc open-binary flag
-+     */
-     execfd = qemu_getauxval(AT_EXECFD);
-     if (execfd == 0) {
-         execfd = open(exec_path, O_RDONLY);
-@@ -696,6 +706,20 @@ int main(int argc, char **argv, char **envp)
-         }
-     }
- 
-+    /*
-+     * get binfmt_misc flags
-+     */
-+    preserve_argv0 = !!(qemu_getauxval(AT_FLAGS) & AT_FLAGS_PRESERVE_ARGV0);
-+
-+    /*
-+     * Manage binfmt-misc preserve-arg[0] flag
-+     *    argv[optind]     full path to the binary
-+     *    argv[optind + 1] original argv[0]
-+     */
-+    if (optind + 1 < argc && preserve_argv0) {
-+        optind++;
-+    }
-+
-     if (cpu_model == NULL) {
-         cpu_model = cpu_get_model(get_elf_eflags(execfd));
-     }
-diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
-index 7b5d54b88741..573b5dc6acd7 100755
---- a/scripts/qemu-binfmt-conf.sh
-+++ b/scripts/qemu-binfmt-conf.sh
-@@ -178,25 +178,27 @@ usage() {
- Usage: qemu-binfmt-conf.sh [--qemu-path PATH][--debian][--systemd CPU]
-                            [--help][--credential yes|no][--exportdir PATH]
-                            [--persistent yes|no][--qemu-suffix SUFFIX]
-+                           [--preserve-argv0 yes|no]
- 
-        Configure binfmt_misc to use qemu interpreter
- 
--       --help:        display this usage
--       --qemu-path:   set path to qemu interpreter ($QEMU_PATH)
--       --qemu-suffix: add a suffix to the default interpreter name
--       --debian:      don't write into /proc,
--                      instead generate update-binfmts templates
--       --systemd:     don't write into /proc,
--                      instead generate file for systemd-binfmt.service
--                      for the given CPU. If CPU is "ALL", generate a
--                      file for all known cpus
--       --exportdir:   define where to write configuration files
--                      (default: $SYSTEMDDIR or $DEBIANDIR)
--       --credential:  if yes, credential and security tokens are
--                      calculated according to the binary to interpret
--       --persistent:  if yes, the interpreter is loaded when binfmt is
--                      configured and remains in memory. All future uses
--                      are cloned from the open file.
-+       --help:          display this usage
-+       --qemu-path:     set path to qemu interpreter ($QEMU_PATH)
-+       --qemu-suffix:   add a suffix to the default interpreter name
-+       --debian:        don't write into /proc,
-+                        instead generate update-binfmts templates
-+       --systemd:       don't write into /proc,
-+                        instead generate file for systemd-binfmt.service
-+                        for the given CPU. If CPU is "ALL", generate a
-+                        file for all known cpus
-+       --exportdir:     define where to write configuration files
-+                        (default: $SYSTEMDDIR or $DEBIANDIR)
-+       --credential:    if yes, credential and security tokens are
-+                        calculated according to the binary to interpret
-+       --persistent:    if yes, the interpreter is loaded when binfmt is
-+                        configured and remains in memory. All future uses
-+                        are cloned from the open file.
-+       --preserve-argv0 preserve argv[0]
- 
-     To import templates with update-binfmts, use :
- 
-@@ -269,6 +271,9 @@ qemu_generate_register() {
-     if [ "$PERSISTENT" = "yes" ] ; then
-         flags="${flags}F"
-     fi
-+    if [ "$PRESERVE_ARG0" = "yes" ] ; then
-+        flags="${flags}P"
-+    fi
- 
-     echo ":qemu-$cpu:M::$magic:$mask:$qemu:$flags"
- }
-@@ -330,9 +335,10 @@ DEBIANDIR="/usr/share/binfmts"
- QEMU_PATH=/usr/local/bin
- CREDENTIAL=no
- PERSISTENT=no
-+PRESERVE_ARG0=no
- QEMU_SUFFIX=""
- 
--options=$(getopt -o ds:Q:S:e:hc:p: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent: -- "$@")
-+options=$(getopt -o ds:Q:S:e:hc:p:g: -l debian,systemd:,qemu-path:,qemu-suffix:,exportdir:,help,credential:,persistent:,preserve-argv0: -- "$@")
- eval set -- "$options"
- 
- while true ; do
-@@ -388,6 +394,10 @@ while true ; do
-         shift
-         PERSISTENT="$1"
-         ;;
-+    -g|--preserve-argv0)
-+        shift
-+        PRESERVE_ARG0="$1"
-+        ;;
-     *)
-         break
-         ;;
--- 
-2.29.2
+take care,
+  Gerd
 
 
