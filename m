@@ -2,56 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39576321B86
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:35:25 +0100 (CET)
-Received: from localhost ([::1]:51354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0467321BFD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:00:04 +0100 (CET)
+Received: from localhost ([::1]:36782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDF5-0002Eq-E8
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:35:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57760)
+	id 1lEDcx-0000ud-Sw
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:00:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lECvi-0004Gg-GT
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:15:23 -0500
-Received: from isrv.corpit.ru ([86.62.121.231]:53043)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lEDYl-0004eI-Pe; Mon, 22 Feb 2021 10:55:43 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13776)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lECvf-0001r9-Q2
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:15:22 -0500
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id E9CAE40727;
- Mon, 22 Feb 2021 18:15:17 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id 088788D;
- Mon, 22 Feb 2021 18:15:19 +0300 (MSK)
-Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210222105004.1642234-1-laurent@vivier.eu>
- <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
- <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
- <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
- <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
- <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
- <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
- <f8dfadb7-2ebc-212f-dad6-81ed5093120f@physik.fu-berlin.de>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <f66be948-5b4b-9418-b414-e76563f1a010@msgid.tls.msk.ru>
-Date: Mon, 22 Feb 2021 18:15:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lEDYV-0003Rs-SB; Mon, 22 Feb 2021 10:55:42 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C0B0B746351;
+ Mon, 22 Feb 2021 16:55:23 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 5D84A746353; Mon, 22 Feb 2021 16:55:23 +0100 (CET)
+Message-Id: <119cf5a814660621de7c3f5a72df2e7f20f716bd.1614007326.git.balaton@eik.bme.hu>
+In-Reply-To: <cover.1614007326.git.balaton@eik.bme.hu>
+References: <cover.1614007326.git.balaton@eik.bme.hu>
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH v3 4/6] vt82c686: Add emulation of VT8231 south bridge
+Date: Mon, 22 Feb 2021 16:22:06 +0100
 MIME-Version: 1.0
-In-Reply-To: <f8dfadb7-2ebc-212f-dad6-81ed5093120f@physik.fu-berlin.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org,
+    qemu-ppc@nongnu.org
+X-Spam-Probability: 10%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,27 +53,287 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, f4bug@amsat.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.02.2021 18:09, John Paul Adrian Glaubitz wrote:
+Add emulation of VT8231 south bridge ISA part based on the similar
+VT82C686B but implemented in a separate subclass that holds the
+differences while reusing parts that can be shared.
 
-> OK, I was wondering this because qemu-user-static still pulls in the binfmt-support
-> package:
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ hw/isa/vt82c686.c         | 154 ++++++++++++++++++++++++++++++--------
+ include/hw/isa/vt82c686.h |   1 +
+ include/hw/pci/pci_ids.h  |   3 +-
+ 3 files changed, 126 insertions(+), 32 deletions(-)
 
-sure. Debian does not _depend_ on systemd still (I don't want this flamewar). To me
-it is binfmt-support which should adopt to systemd-binfmt, translating its actions
-to the systemd equivalents, - this way there will be no need to implement *both*
-binfmt-support and systemd-binfmt in every package using binfmts.
+diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+index 89770936a2..37f697ad8d 100644
+--- a/hw/isa/vt82c686.c
++++ b/hw/isa/vt82c686.c
+@@ -8,6 +8,9 @@
+  *
+  * Contributions after 2012-01-13 are licensed under the terms of the
+  * GNU GPL, version 2 or (at your option) any later version.
++ *
++ * VT8231 south bridge support and general clean up to allow it
++ * Copyright (c) 2018-2020 BALATON Zoltan
+  */
+ 
+ #include "qemu/osdep.h"
+@@ -609,24 +612,48 @@ static const TypeInfo vt8231_superio_info = {
+ };
+ 
+ 
+-OBJECT_DECLARE_SIMPLE_TYPE(VT82C686BISAState, VT82C686B_ISA)
++#define TYPE_VIA_ISA "via-isa"
++OBJECT_DECLARE_SIMPLE_TYPE(ViaISAState, VIA_ISA)
+ 
+-struct VT82C686BISAState {
++struct ViaISAState {
+     PCIDevice dev;
+     qemu_irq cpu_intr;
+     ViaSuperIOState *via_sio;
+ };
+ 
++static const VMStateDescription vmstate_via = {
++    .name = "via-isa",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(dev, ViaISAState),
++        VMSTATE_END_OF_LIST()
++    }
++};
++
++static const TypeInfo via_isa_info = {
++    .name          = TYPE_VIA_ISA,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(ViaISAState),
++    .abstract      = true,
++    .interfaces    = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
+ static void via_isa_request_i8259_irq(void *opaque, int irq, int level)
+ {
+-    VT82C686BISAState *s = opaque;
++    ViaISAState *s = opaque;
+     qemu_set_irq(s->cpu_intr, level);
+ }
+ 
++/* TYPE_VT82C686B_ISA */
++
+ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+                                    uint32_t val, int len)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
++    ViaISAState *s = VIA_ISA(d);
+ 
+     trace_via_isa_write(addr, val, len);
+     pci_default_write_config(d, addr, val, len);
+@@ -636,19 +663,9 @@ static void vt82c686b_write_config(PCIDevice *d, uint32_t addr,
+     }
+ }
+ 
+-static const VMStateDescription vmstate_via = {
+-    .name = "vt82c686b",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
+-    .fields = (VMStateField[]) {
+-        VMSTATE_PCI_DEVICE(dev, VT82C686BISAState),
+-        VMSTATE_END_OF_LIST()
+-    }
+-};
+-
+ static void vt82c686b_isa_reset(DeviceState *dev)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(dev);
++    ViaISAState *s = VIA_ISA(dev);
+     uint8_t *pci_conf = s->dev.config;
+ 
+     pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
+@@ -668,7 +685,7 @@ static void vt82c686b_isa_reset(DeviceState *dev)
+ 
+ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+ {
+-    VT82C686BISAState *s = VT82C686B_ISA(d);
++    ViaISAState *s = VIA_ISA(d);
+     DeviceState *dev = DEVICE(d);
+     ISABus *isa_bus;
+     qemu_irq *isa_irq;
+@@ -692,7 +709,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
+     }
+ }
+ 
+-static void via_class_init(ObjectClass *klass, void *data)
++static void vt82c686b_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+     PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+@@ -700,28 +717,101 @@ static void via_class_init(ObjectClass *klass, void *data)
+     k->realize = vt82c686b_realize;
+     k->config_write = vt82c686b_write_config;
+     k->vendor_id = PCI_VENDOR_ID_VIA;
+-    k->device_id = PCI_DEVICE_ID_VIA_ISA_BRIDGE;
++    k->device_id = PCI_DEVICE_ID_VIA_82C686B_ISA;
+     k->class_id = PCI_CLASS_BRIDGE_ISA;
+     k->revision = 0x40;
+     dc->reset = vt82c686b_isa_reset;
+     dc->desc = "ISA bridge";
+     dc->vmsd = &vmstate_via;
+-    /*
+-     * Reason: part of VIA VT82C686 southbridge, needs to be wired up,
+-     * e.g. by mips_fuloong2e_init()
+-     */
++    /* Reason: part of VIA VT82C686 southbridge, needs to be wired up */
+     dc->user_creatable = false;
+ }
+ 
+-static const TypeInfo via_info = {
++static const TypeInfo vt82c686b_isa_info = {
+     .name          = TYPE_VT82C686B_ISA,
+-    .parent        = TYPE_PCI_DEVICE,
+-    .instance_size = sizeof(VT82C686BISAState),
+-    .class_init    = via_class_init,
+-    .interfaces = (InterfaceInfo[]) {
+-        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+-        { },
+-    },
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt82c686b_class_init,
++};
++
++/* TYPE_VT8231_ISA */
++
++static void vt8231_write_config(PCIDevice *d, uint32_t addr,
++                                uint32_t val, int len)
++{
++    ViaISAState *s = VIA_ISA(d);
++
++    trace_via_isa_write(addr, val, len);
++    pci_default_write_config(d, addr, val, len);
++    if (addr == 0x50) {
++        /* BIT(2): enable or disable superio config io ports */
++        via_superio_io_enable(s->via_sio, val & BIT(2));
++    }
++}
++
++static void vt8231_isa_reset(DeviceState *dev)
++{
++    ViaISAState *s = VIA_ISA(dev);
++    uint8_t *pci_conf = s->dev.config;
++
++    pci_set_long(pci_conf + PCI_CAPABILITY_LIST, 0x000000c0);
++    pci_set_word(pci_conf + PCI_COMMAND, PCI_COMMAND_IO | PCI_COMMAND_MEMORY |
++                 PCI_COMMAND_MASTER | PCI_COMMAND_SPECIAL);
++    pci_set_word(pci_conf + PCI_STATUS, PCI_STATUS_DEVSEL_MEDIUM);
++
++    pci_conf[0x58] = 0x40; /* Miscellaneous Control 0 */
++    pci_conf[0x67] = 0x08; /* Fast IR Config */
++    pci_conf[0x6b] = 0x01; /* Fast IR I/O Base */
++}
++
++static void vt8231_realize(PCIDevice *d, Error **errp)
++{
++    ViaISAState *s = VIA_ISA(d);
++    DeviceState *dev = DEVICE(d);
++    ISABus *isa_bus;
++    qemu_irq *isa_irq;
++    int i;
++
++    qdev_init_gpio_out(dev, &s->cpu_intr, 1);
++    isa_irq = qemu_allocate_irqs(via_isa_request_i8259_irq, s, 1);
++    isa_bus = isa_bus_new(dev, get_system_memory(), pci_address_space_io(d),
++                          &error_fatal);
++    isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
++    i8254_pit_init(isa_bus, 0x40, 0, NULL);
++    i8257_dma_init(isa_bus, 0);
++    s->via_sio = VIA_SUPERIO(isa_create_simple(isa_bus, TYPE_VT8231_SUPERIO));
++    mc146818_rtc_init(isa_bus, 2000, NULL);
++
++    for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
++        if (i < PCI_COMMAND || i >= PCI_REVISION_ID) {
++            d->wmask[i] = 0;
++        }
++    }
++}
++
++static void vt8231_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = vt8231_realize;
++    k->config_write = vt8231_write_config;
++    k->vendor_id = PCI_VENDOR_ID_VIA;
++    k->device_id = PCI_DEVICE_ID_VIA_8231_ISA;
++    k->class_id = PCI_CLASS_BRIDGE_ISA;
++    k->revision = 0x10;
++    dc->reset = vt8231_isa_reset;
++    dc->desc = "ISA bridge";
++    dc->vmsd = &vmstate_via;
++    /* Reason: part of VIA VT8231 southbridge, needs to be wired up */
++    dc->user_creatable = false;
++}
++
++static const TypeInfo vt8231_isa_info = {
++    .name          = TYPE_VT8231_ISA,
++    .parent        = TYPE_VIA_ISA,
++    .instance_size = sizeof(ViaISAState),
++    .class_init    = vt8231_class_init,
+ };
+ 
+ 
+@@ -733,7 +823,9 @@ static void vt82c686b_register_types(void)
+     type_register_static(&via_superio_info);
+     type_register_static(&vt82c686b_superio_info);
+     type_register_static(&vt8231_superio_info);
+-    type_register_static(&via_info);
++    type_register_static(&via_isa_info);
++    type_register_static(&vt82c686b_isa_info);
++    type_register_static(&vt8231_isa_info);
+ }
+ 
+ type_init(vt82c686b_register_types)
+diff --git a/include/hw/isa/vt82c686.h b/include/hw/isa/vt82c686.h
+index 0692b9a527..0f01aaa471 100644
+--- a/include/hw/isa/vt82c686.h
++++ b/include/hw/isa/vt82c686.h
+@@ -3,6 +3,7 @@
+ 
+ #define TYPE_VT82C686B_ISA "vt82c686b-isa"
+ #define TYPE_VT82C686B_PM "vt82c686b-pm"
++#define TYPE_VT8231_ISA "vt8231-isa"
+ #define TYPE_VT8231_PM "vt8231-pm"
+ #define TYPE_VIA_AC97 "via-ac97"
+ #define TYPE_VIA_MC97 "via-mc97"
+diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
+index ea28dcc850..ac0c23ebc7 100644
+--- a/include/hw/pci/pci_ids.h
++++ b/include/hw/pci/pci_ids.h
+@@ -204,12 +204,13 @@
+ #define PCI_VENDOR_ID_XILINX             0x10ee
+ 
+ #define PCI_VENDOR_ID_VIA                0x1106
+-#define PCI_DEVICE_ID_VIA_ISA_BRIDGE     0x0686
++#define PCI_DEVICE_ID_VIA_82C686B_ISA    0x0686
+ #define PCI_DEVICE_ID_VIA_IDE            0x0571
+ #define PCI_DEVICE_ID_VIA_UHCI           0x3038
+ #define PCI_DEVICE_ID_VIA_82C686B_PM     0x3057
+ #define PCI_DEVICE_ID_VIA_AC97           0x3058
+ #define PCI_DEVICE_ID_VIA_MC97           0x3068
++#define PCI_DEVICE_ID_VIA_8231_ISA       0x8231
+ #define PCI_DEVICE_ID_VIA_8231_PM        0x8235
+ 
+ #define PCI_VENDOR_ID_MARVELL            0x11ab
+-- 
+2.21.3
 
-> Other distributions such as Fedora have already switched to systemd-binfmt.
-
-This is true for distributions who completely switched to systemd. In Debian
-it is optional and Debian still can use runit or sysvinit or something else.
-At least in theory :)
-
-Thanks,
-
-/mjt
 
