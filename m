@@ -2,93 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE59321EE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 19:13:54 +0100 (CET)
-Received: from localhost ([::1]:55716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F75A321EE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 19:15:47 +0100 (CET)
+Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEFiT-0000dl-JJ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 13:13:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59430)
+	id 1lEFkI-0001pL-Kq
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 13:15:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEFbB-0002n0-42
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:06:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41383)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEFgR-0006wk-6Q
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:11:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEFb9-0004e7-Ez
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:06:20 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEFgO-0005jY-Sy
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:11:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614017178;
+ s=mimecast20190719; t=1614017503;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nOCAogmNcvmJRjZzxHyxKLo97icjS31VSnD4tVobpJs=;
- b=Fx/YueaXNln0JVhG+C3/5i2hjuXtWmJCmDVsn1cLXP1z/4X2kn01RPHjzjugyk/vd7UkFn
- MnOd49dDNF6iykoqhJ7HYS891W5oMTbf9l4R+PQQEEYjQpIVQ2CJZn6fXVF9wSFo9fkJE2
- +pJ66Zhn4qHMY6PqxeQ368dab9gdG5U=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-38-6TgVK_BSOjecy5a2CDXm6A-1; Mon, 22 Feb 2021 13:06:17 -0500
-X-MC-Unique: 6TgVK_BSOjecy5a2CDXm6A-1
-Received: by mail-ed1-f69.google.com with SMTP id h1so6739378edq.1
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 10:06:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nOCAogmNcvmJRjZzxHyxKLo97icjS31VSnD4tVobpJs=;
- b=c66c6poP4lU3cXQtPVsHBtbILF/w8LkNMF4u/9lKpTPvGnAxCMdqBb45g17NRyVx7i
- ZjI80/mHbJDq9fYtr8Uf4zfxR49pjNtaSEk2MSjwH6tCpfn+cbTD7bZ9QSGYuWsbTEh7
- MPG0eNPeLICpWPQ8xTvFktRb7h8z7FpY7kXDxjisjKUPOzyQJcsnmMCbvgH6NqH7yGSv
- VijNtKi2j/lY75ILeaBRVn3jI69Y31eNiJvQu4sd7oxFMLXj0V4rhbwFhNSkrum/fdA9
- tjEqvBBrjaL1YVIgGl0o80OnbcvfAXJuX96BGoSFmMBgCOrx3bDpKSztYJjqfFhfON+u
- TJSA==
-X-Gm-Message-State: AOAM532+7Em58LzeE/gwZsRqRg0EioZRLH2LoKe60KYpgqnfuDAUrNuR
- 9SXd50Xrvk/PEzJBnVIC46+62Ayy0DfqHuok4gEMBw08b0f83nOE02ZYPnmPCF6ym/p/Th9ecNc
- NJVcvGTkcbcjpEfs=
-X-Received: by 2002:a17:907:b16:: with SMTP id
- h22mr21412811ejl.393.1614017175581; 
- Mon, 22 Feb 2021 10:06:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx2xudRasvNP+bFXOV0NtjqWyZS1/7tbXHoDUNhCFrsm+pm/eCdjKDBLpkMw0m8HEGmREBb9w==
-X-Received: by 2002:a17:907:b16:: with SMTP id
- h22mr21412800ejl.393.1614017175463; 
- Mon, 22 Feb 2021 10:06:15 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m7sm10835563ejk.52.2021.02.22.10.06.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 10:06:14 -0800 (PST)
-Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
- <c5d13648-445d-92b9-6bff-95bd2b99d52e@redhat.com>
- <YDPv7Bk6/DNq/lCn@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <35483639-7580-f8dc-5828-66dfd535a1d1@redhat.com>
-Date: Mon, 22 Feb 2021 19:06:13 +0100
+ bh=gSeINo/MUanojeJpX4Z4MFQac/SmywpQ8NgjYOn44iw=;
+ b=QOCTvtsXusF+JDbZHgi02yRQ+7WXHSQqppvObck3z50tga3DwfQd+nih9g6y4iBj0s8SBB
+ pOWaemeMbbjKrKg0GN5gmVJ8nkiTAXkw1nhGSrTCTKBbEcIEPYsgjSYNCEj4Im+44B3qdU
+ BPB5fwE3wEK/zTn6aVLYXI5PT6hb0Fc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-209-s7iDhyMpPQSjpQgsc4yHoA-1; Mon, 22 Feb 2021 13:11:41 -0500
+X-MC-Unique: s7iDhyMpPQSjpQgsc4yHoA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EC6D680402E;
+ Mon, 22 Feb 2021 18:11:39 +0000 (UTC)
+Received: from [10.36.115.16] (ovpn-115-16.ams2.redhat.com [10.36.115.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5193619C79;
+ Mon, 22 Feb 2021 18:11:31 +0000 (UTC)
+To: Peter Xu <peterx@redhat.com>
+References: <20210219224719.GN6669@xz-x1>
+ <68564940-6276-465D-9945-A50A900B90BF@redhat.com>
+ <20210222172923.GS6669@xz-x1>
+ <79ce6a7e-c40b-b64e-757e-1ec6e4177310@redhat.com>
+ <20210222175440.GT6669@xz-x1>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Message-ID: <5471ac12-0dc5-1435-8fba-fad7b37bbcf1@redhat.com>
+Date: Mon, 22 Feb 2021 19:11:30 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YDPv7Bk6/DNq/lCn@redhat.com>
+In-Reply-To: <20210222175440.GT6669@xz-x1>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -103,32 +85,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ David Hildenbrand <dhildenb@redhat.com>, Den Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/02/21 18:54, Daniel P. Berrangé wrote:
->> These are sent to QEMU as double-quoted strings (the single-quoted JSON is
->> parsed to get interpolation and printed back; commit 563890c7c7, "libqtest:
->> escape strings in QMP commands, fix leak", 2014-07-01). However, doing the
->> interpolation requires a parser that recognizes the single-quoted strings.
->
-> IMHO this is the wrong solution to the problem.  Consider the equivalent
-> libvirt code that uses a standard JSON library underneath and has a high
-> level API to serialize args into the command
+On 22.02.21 18:54, Peter Xu wrote:
+> On Mon, Feb 22, 2021 at 06:33:27PM +0100, David Hildenbrand wrote:
+>> On 22.02.21 18:29, Peter Xu wrote:
+>>> On Sat, Feb 20, 2021 at 02:59:42AM -0500, David Hildenbrand wrote:
+>>>> Live snapshotting ends up reading all guest memory (dirty bitmap starts with all 1s), which is not what we want for virtio-mem - we don’t want to read and migrate memory that has been discarded and has no stable content.
+>>>>
+>>>> For ordinary migration we use the guest page hint API to clear bits in the dirty bitmap after dirty bitmap sync. Well, if we don‘t do bitmap syncs we‘ll never clear any dirty bits. That‘s the problem.
+>>>
+>>> Using dirty bitmap for that information is less efficient, becase it's
+>>> definitely a larger granularity information than PAGE_SIZE.  If the disgarded
+>>> ranges are always continuous and at the end of a memory region, we should have
+>>> some parameter in the ramblock showing that where we got shrinked then we don't
+>>> check dirty bitmap at all, rather than always assuming used_length is the one.
+>>
+>> They are randomly scattered across the whole RAMBlock. Shrinking/growing
+>> will be done to some degree in the future (but it won't get rid of the
+>> general sparse layout we can produce).
 > 
->        qemuMonitorJSONMakeCommand("qom-get",
->                                   "s:path", id,
-> 				 "s:property", "temperature");
+> OK. Btw I think currently live snapshot should still be reading dirty bitmap,
+> so maybe it's still fine.  It's just that it's still not very clear to hide
+> virtio-mem information into dirty bitmap, imho, since that's not how we
+> interpret dirty bitmap - which is only for the sake of tracking page changes.
+
+Well, currently it is "what do we have to migrate".
+
 > 
-> Of course this example is reasonably easy since it is a flat set of
-> arguments. Nested args get slightly more complicated, but still always
-> preferrable to doing string interpolation IMHO.
+> What's the granule of virtio-mem for this discard behavior?  Maybe we could
 
-I don't disagree. I'm just stating why I wanted a clarification from Markus.
+virtio-mem granularity is at least 1MB. This corresponds to 256 bits (32 
+bytes) in the dirty bitmap I think.
 
-Paolo
+> decouple it with dirty bitmap some day; if the unit is big enough it's also a
+> gain on efficiency so we skip in chunk rather than looping over tons of pages
+> knowing that they're discarded.
+
+Yeah, it's not optimal having to go over the dirty bitmap to cross off 
+"discarded" parts and later having to find bits to migrate.
+
+At least find_next_bit() can skip whole longs (8 bytes) and is fairly 
+efficient. There is certainly room for improvement (the current guest 
+free page hinting API is certainly a hack).
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
