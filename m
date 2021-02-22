@@ -2,93 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FF593215E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:14:17 +0100 (CET)
-Received: from localhost ([::1]:52238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4714B321615
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:18:29 +0100 (CET)
+Received: from localhost ([::1]:60178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEA6S-0005Og-AK
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:14:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41632)
+	id 1lEAAW-0001Lm-Ai
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:18:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41728)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lE9sP-0000IQ-Ij; Mon, 22 Feb 2021 06:59:45 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40762)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lE9su-0001Hq-Hu; Mon, 22 Feb 2021 07:00:16 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:52236)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lE9sN-0001mx-W4; Mon, 22 Feb 2021 06:59:45 -0500
-Received: by mail-ej1-x633.google.com with SMTP id u20so28175541ejb.7;
- Mon, 22 Feb 2021 03:59:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lE9so-0001zn-7N; Mon, 22 Feb 2021 07:00:16 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id kr16so8361281pjb.2;
+ Mon, 22 Feb 2021 04:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=D10oiACM2komBsN84imp7nqMEot4crO5/u+2IXth9lw=;
- b=Pc6+3ndGxy7QQjVaM8fgkMJA4ZvisnaNwmq1Rpmqv9hZGhNsginF3mdoingsGmT8xX
- YKydek0Mhr6z2j8m1+OXi4HLMpaRO3L9qb7d1KN3j4P2g6Sq0D0pvS7eZGDb2t2wxO90
- cs+LH4mQ4rji6iudZL7taLFQPCj30rgGrXK2mgLIS019rk4zp2x3VMoGlWf10JVLx7cQ
- azZHP1DaASk/WWooIbOkAy1q9+wjpQ09l4orRVoamkXRFXSBODgHb2GvSWCmJzispZkc
- Fila0qaSbq/oqYeBl8zAdf2ov75uYXgGxU/jP31vxAsWXmNxxZC+mQ91OoKSiD1+8uVG
- Mgsw==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=o3Gof8HuOUaCfIEfOchm3OnbNQHif5ARiNm3uD0Jmzk=;
+ b=XAR6VJhxqtulVmZgI4RHFMl5X8SD/NBT4K7GPU8QkvQmU01DIRasDh8vAZNuY4bi0x
+ 0bmVYShL4GnH36unjvHOGlSmeapL3c5uAdAzg8FMKuHcqy5vq20pmFuhjffnymMzcmlm
+ TxHwFAAGZvF9BPxVguvUGnCodfcTOZ6RffvahrckYwdX8C8tBoGdUF8g0zvmBr40PEdk
+ YKx2gkUwdLHXOmgXBOTYWeqL2TnvSMLeiXEAI9pLZHLqVq8BnZDynZvj+yw8pv1/jVBV
+ v5szsvoXW6gmUY1P8Q9HhfB4Nk7vYo59lb/I9ZZ686o9XYroryK5eivtzkFe253zmwnS
+ JKWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D10oiACM2komBsN84imp7nqMEot4crO5/u+2IXth9lw=;
- b=q7unJPq79DylfZAEymk/ZR/3lWijhSfrNk6eXhfmd/z99rK4s5phpc1XDecfKDyNzW
- ED/eYnLNJBLHn3D302NpjGmtbETQpseMiX27dedTrXoelxaqoxeo/YHpF3D7g1n5aJfc
- 758uUTp50sOvx9UYV280Tud5C4aKN16Rb9xOT+1EonO6B1J56O7Mau7zvuW2Si7L9IEj
- /IzLXT1iS4QWKfr9bcMG+9zUPPuA8XfCL50EN+SzgbBSWwZeuTj6rfqKVYv0GaXXPzIf
- PDmiAOtouSMquf8kRBIeJTIlLaSqLU07UYVGixAXmdFh3IzMRe3AbDAx2Mw0uwGR8osw
- y9jg==
-X-Gm-Message-State: AOAM532kyb30zTJ8oA0zE2F0MprbabeReMx8AyvD3DFY+BySPzFz8sY9
- YbE6oFHpAUAbWNSnDAvrxmAJ5+OSSPE=
-X-Google-Smtp-Source: ABdhPJy/LIMe5+fd/ao/b27ipRpP3H8tgWkY6l9/M86+x2rkjEtSZGZADi+NLCkS9XTg9xCPxgRgtQ==
-X-Received: by 2002:a17:906:fa01:: with SMTP id
- lo1mr16794179ejb.268.1613995181500; 
- Mon, 22 Feb 2021 03:59:41 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r23sm11393834edp.34.2021.02.22.03.59.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 03:59:40 -0800 (PST)
-Subject: Re: [PATCH v2 04/22] sd: emmc: update OCR fields for eMMC
-To: Sai Pavan Boddu <saipava@xilinx.com>, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Markus Armbruster <armbru@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>,
- Vincent Palatin <vpalatin@chromium.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- Edgar Iglesias <edgari@xilinx.com>, Luc Michel <luc.michel@greensocs.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613982039-13861-5-git-send-email-sai.pavan.boddu@xilinx.com>
- <ccaf04a2-0eb7-69fa-5431-3c5401d267a4@kaod.org>
- <BY5PR02MB6772C9D63BF057B28E981EEDCA819@BY5PR02MB6772.namprd02.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f1386fca-7f12-b5af-a699-2ed5f13f9d84@amsat.org>
-Date: Mon, 22 Feb 2021 12:59:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=o3Gof8HuOUaCfIEfOchm3OnbNQHif5ARiNm3uD0Jmzk=;
+ b=YRviOrEuUoPOodMhq8067DJtYemlrumhVzMreCwOgEbfbFlIXjyandS7Whi/PcJ2Gl
+ LkhiHw/jnZScgiU+MXglauHYtLMK+8mOal7uSNT0C7HNzLb67c0D2P2QpJ38cS3NHdzP
+ hvOrbxans9WDxzRxVywdEbFgnF9zp7UAKF/LMdzai9+5Ly3HzSvuovx7RqqbC5CvodNG
+ mAG2C6ToV6D1YT3Cs0ZNROu464ZRGO7+nNDmNeYHGoJY0ydulYq2FGj8iFOaBh2dxsjO
+ s0tb3ZnmRAr1+ZotHZyT38aV+VjtxcYfTVYMw95UBqAyJtIbTUY8mmuEiqvOXKW+vuiL
+ Ho+Q==
+X-Gm-Message-State: AOAM533T6dtxAnVj0edv+x07p0jKqbOiE/gc8PLGceeUY62raEvJBdT/
+ wigzgjv6imA/1utAe/IkjpY=
+X-Google-Smtp-Source: ABdhPJwhY7AjfvD892SJOO569RIohotPmYW2IYGZ2aB/B0f5sV2ylO+z1lZ9ZnLNl29nVfrDd63OJA==
+X-Received: by 2002:a17:903:22ce:b029:e3:c57d:aaa9 with SMTP id
+ y14-20020a17090322ceb02900e3c57daaa9mr14956878plg.7.1613995207616; 
+ Mon, 22 Feb 2021 04:00:07 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id 62sm18584309pfg.160.2021.02.22.04.00.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 04:00:07 -0800 (PST)
+Date: Mon, 22 Feb 2021 21:00:04 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 1/3] hw/block/nvme: nvme_identify fixes
+Message-ID: <20210222120004.GB2856@localhost.localdomain>
+References: <20210222070615.9177-1-its@irrelevant.dk>
+ <20210222070615.9177-2-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <BY5PR02MB6772C9D63BF057B28E981EEDCA819@BY5PR02MB6772.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+Content-Disposition: inline
+In-Reply-To: <20210222070615.9177-2-its@irrelevant.dk>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,39 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 10:55 AM, Sai Pavan Boddu wrote:
-> Hi Cedric
+On 21-02-22 08:06:13, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 > 
->> -----Original Message-----
->> From: Cédric Le Goater <clg@kaod.org>
->> Sent: Monday, February 22, 2021 3:22 PM
->> To: Sai Pavan Boddu <saipava@xilinx.com>; Markus Armbruster
->> <armbru@redhat.com>; Kevin Wolf <kwolf@redhat.com>; Max Reitz
->> <mreitz@redhat.com>; Vladimir Sementsov-Ogievskiy
->> <vsementsov@virtuozzo.com>; Eric Blake <eblake@redhat.com>; Joel Stanley
->> <joel@jms.id.au>; Vincent Palatin <vpalatin@chromium.org>; Dr. David Alan
->> Gilbert <dgilbert@redhat.com>; Thomas Huth <thuth@redhat.com>; Stefan
->> Hajnoczi <stefanha@redhat.com>; Peter Maydell <peter.maydell@linaro.org>;
->> Alistair Francis <alistair.francis@wdc.com>; Edgar Iglesias <edgari@xilinx.com>;
->> Luc Michel <luc.michel@greensocs.com>; Paolo Bonzini
->> <pbonzini@redhat.com>
->> Cc: qemu-block@nongnu.org; qemu-devel@nongnu.org; Sai Pavan Boddu
->> <saipava@xilinx.com>
->> Subject: Re: [PATCH v2 04/22] sd: emmc: update OCR fields for eMMC
->>
->> On 2/22/21 9:20 AM, Sai Pavan Boddu wrote:
->>> From: Vincent Palatin <vpalatin@chromium.org>
->>>
->>> eMMC OCR register doesn't has UHS-II field and voltage fields are
->>> different.
->>
->> Can a patch be "From" a person without a "Signed-off-by" of the same person ?
-> [Sai Pavan Boddu] No I should not be like this. My mistake, I would respin the series with corrections. Few other patches may have this after the split I did.
+> Remove an unnecessary le_to_cpu conversion and add trace event for
+> Identify.
+> 
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c       | 5 ++++-
+>  hw/block/trace-events | 1 +
+>  2 files changed, 5 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 1cd82fa3c9fe..ddc83f7f7a19 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -3415,7 +3415,10 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+>  {
+>      NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+>  
+> -    switch (le32_to_cpu(c->cns)) {
+> +    trace_pci_nvme_identify(nvme_cid(req), c->cns, le16_to_cpu(c->ctrlid),
+> +                            c->csi);
 
-Please wait for more review before respining for this detail.
+I think it would be great if it can be separated into two.
+Anyway, changes look good to me.
+
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+
+> +
+> +    switch (c->cns) {
+>      case NVME_ID_CNS_NS:
+>           /* fall through */
+>      case NVME_ID_CNS_NS_PRESENT:
+> diff --git a/hw/block/trace-events b/hw/block/trace-events
+> index b04f7a3e1890..1f958d09d2a9 100644
+> --- a/hw/block/trace-events
+> +++ b/hw/block/trace-events
+> @@ -61,6 +61,7 @@ pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize,
+>  pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
+>  pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
+>  pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
+> +pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ctrlid, uint8_t csi) "cid %"PRIu16" cns 0x%"PRIx8" ctrlid %"PRIu16" csi 0x%"PRIx8""
+>  pci_nvme_identify_ctrl(void) "identify controller"
+>  pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+>  pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+> -- 
+> 2.30.1
+> 
+> 
 
