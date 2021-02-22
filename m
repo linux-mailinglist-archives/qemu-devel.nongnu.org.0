@@ -2,80 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DD3321100
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 07:46:42 +0100 (CET)
-Received: from localhost ([::1]:42338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47393321135
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 08:12:00 +0100 (CET)
+Received: from localhost ([::1]:54500 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE4zR-0000gN-SC
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 01:46:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54296)
+	id 1lE5Nv-0008T5-8L
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 02:11:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE4xo-0000Cv-ND
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:45:00 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:38740)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE4xm-0001JE-G5
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:45:00 -0500
-Received: by mail-pf1-x432.google.com with SMTP id 201so2890279pfw.5
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 22:44:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:references:from:message-id:date:user-agent:mime-version
- :in-reply-to:content-language:content-transfer-encoding;
- bh=MpPm7CIp4WGyV/KM1aYj1tiVYZ6UXuAUrFhsq2N5Lv0=;
- b=nCU3EExgiaYHFCIe7oUOGJDLcGb9qFyFhpxVfG/R0ddApprhQvWgNUx8QOnX6iXQbO
- c7ncOfBiQ0Z/ko4U+e4sXRzIfQrtRLI8jivjW1y6nDXGU4g5Li+YcwjCaT3kZiUktt0U
- TyL3gqupcjPml83ZYiZnYkjE5emeV7rlkzY16HQhXYt4INyXarwPVOX1TYTc7LE02AgG
- D5C5AeSCeO/67PZ7GJnJJKJlrgRF0yI5Yi2FoJR/gc2/7s98SXBV2Ui5yKl3RIWyEEVL
- 9T/biP0q1N4hwXhqAwkZaE8J8algbATU1nPnr96awqk2Ih2gsXnG1Vr2NjufqnETLoT2
- RzNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=MpPm7CIp4WGyV/KM1aYj1tiVYZ6UXuAUrFhsq2N5Lv0=;
- b=hHwOgaclYTjKFm7Y61QOdafBnbVrBqTUaJzj2eK6JzuwEoLUpxovyiYr65sL77HqtD
- iIZw5ExO8znvbbbH6MNJ9ge0GFp9wPNnaH41APGWEfADxZDRgfjQ/QM9fTCfeNx0roe9
- ePAwmDftAKwuMdYD7ie2zj0UVYxAIRJXibjO1OyDrjyRX7vUuQ5LA6rRCgFbth9srz0J
- aBaW8K27NRi8oA8HSmuRf2PgiB0H5DWaBD0IZtIDqVgNCIknYzMyP84BBYR51ze2YaSo
- 8YK4FnJiHvLWvoUkf0yxlA8+PnxqvIcVcNy6SNCy2fzxr7lbAlssKanPaxXR9DTvLTNG
- 06QA==
-X-Gm-Message-State: AOAM533Vq2kXm3lUuSEnZ+qfF4j+rYBcnfeGFkrnfj6kkaHDp+2DhM5c
- QR2/6ErtJelD6V6LhM9LSOxQ2IigZFSeBQ==
-X-Google-Smtp-Source: ABdhPJwsT8dBj2hK7Sx9S0L4urLfwdU6/NvfQ8yfN/hdz6C4wvVmuvD/9sIWF9dQkCVoMM3phlqghw==
-X-Received: by 2002:a63:234f:: with SMTP id u15mr18827065pgm.360.1613976294047; 
- Sun, 21 Feb 2021 22:44:54 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id c23sm17202785pfi.47.2021.02.21.22.44.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 22:44:53 -0800 (PST)
-Subject: Re: [PATCH v4 70/71] tests/tcg: Increase timeout for TCI
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210217202036.1724901-1-richard.henderson@linaro.org>
- <20210217202036.1724901-71-richard.henderson@linaro.org>
- <a8fa5191-e387-b759-fa16-ebe969d4a020@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6035cdc7-f99a-b52f-0afa-a546acbbe599@linaro.org>
-Date: Sun, 21 Feb 2021 22:44:51 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lE5J8-0006g6-EX; Mon, 22 Feb 2021 02:07:03 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:33745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lE5J1-00030G-Pl; Mon, 22 Feb 2021 02:07:02 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id B06175C00F0;
+ Mon, 22 Feb 2021 02:06:51 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 22 Feb 2021 02:06:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=qo8lK+EodHOcW+uDvL+/3UvbPe
+ n+mba8a0FG7W+iIaU=; b=sBGhFZOoiDd+Bt9QRDWwy1xeInXp2vzblWLSk0sAyx
+ t8hmTZ26fxZldjf0vxtIQo9zxXbr/YZCeSRn/QU9SxfJzooHV/gc+TLgvVm4cfWz
+ 3yYGqnBViLb2ibDeQ3S11pE2GUKIvkUL8AdOG4C1gQVg/OdZtIvhNWx5hqLbZ/TO
+ eWFgQqNYbpgzif1MybQOJ7aJhuQvtyqDhxIgT7RqJsf2LDjsmM2ZkOUadhRBqbhw
+ biFVdlk3Beh/7h9+wO5kSqLGBsI3MxNXZ13i7d+ZdimIXzcW4RH/9Vv3D7QBG5jy
+ TCJSpB3Gb5dufqk5/kBHtrKkprvKU+7KZ9JE1NDvjOSQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=qo8lK+
+ EodHOcW+uDvL+/3UvbPen+mba8a0FG7W+iIaU=; b=ZAWEo2UuCpTJDHRpwaBU1E
+ FyeJ693ueMij4275c6CqS3jyoxj6i0RkVv10QDH19a9UFJfjhBlCw02Kb+eXguek
+ 6w99Sz5s7ocVFujtfd9hDal9/HmEkHcI9KKi0Nzg4aUkEHLzCGwGE6vyD35tKF5e
+ /rV5Pl/IpED86gb1zOkFD8IHWhGgIaNdI5u4lYcdr8bHfAdTLfzaRg/F0nzwdMYZ
+ IMJA2gNpBYT9N1kcSQLiSPiW/tKQCSbDmwo3Blm+DYTzItaPkjMoNVlZM7gw7gn3
+ MgyQtdVcau5EhToNauUPfCbPhXy60hbR5VWNGXWiX49+7/0Ne8FmEm0tBtuyHl/g
+ ==
+X-ME-Sender: <xms:ClgzYENeFABG9H3Iq8krRea-9KEq5STvYfZ8RoUPDjQsFZP7-RNvbA>
+ <xme:ClgzYK9wFp0-1C-6TpyYOVHT4EbbmWK_q-tzfcfKl-nF1jKZERZLAitaniyqkhIkn
+ C00aXp5aCIAQerEu_U>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkedvgddutddvucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:ClgzYLSMf6auGkrCPdYWCTr1pRwgLzNyh7XWG8XGUDO7RzozHmmk6Q>
+ <xmx:ClgzYMsMjI8-xPed0NSM0JpKZ5ONb8o9PgBH8_k9wAbxh1IXjV1neA>
+ <xmx:ClgzYMeYhwMP_Zi7Wi29enGAvZLphp5qEugVZKdwSztqMZKIObuvNA>
+ <xmx:C1gzYETasa8S_nsvL-oPlygzY5TcV78btz8T2xKHjYqUWvWlc8K5cg>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 1C2BA24005A;
+ Mon, 22 Feb 2021 02:06:48 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] hw/block/nvme: misc fixes
+Date: Mon, 22 Feb 2021 08:06:12 +0100
+Message-Id: <20210222070615.9177-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <a8fa5191-e387-b759-fa16-ebe969d4a020@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,27 +91,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/17/21 10:09 PM, Thomas Huth wrote:
->> -ifeq ($(CONFIG_DEBUG_TCG),y)
->> +# If TCG debugging, or TCI is enabled things are a lot slower
->> +ifneq ($(CONFIG_TCG_INTERPRETER),)
->> +TIMEOUT=90
->> +else ifneq ($(CONFIG_DEBUG_TCG),)
->>   TIMEOUT=60
->>   else
->>   TIMEOUT=15
-> 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> 
-> Does it even get slower if you enable both at the same time, TCG debugging and
-> TCI?
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-As it happens, my testing was with --enable-debug-tcg.
-So, unless you're doing --enable-debug (-O0) testing, we should be fine.
-
-
-r~
+Small set of misc fixes from Gollu.=0D
+=0D
+Gollu Appalanaidu (3):=0D
+  hw/block/nvme: nvme_identify fixes=0D
+  hw/block/nvme: fix potential compilation error=0D
+  hw/block/nvme: report non-mdts command size limit for dsm=0D
+=0D
+ hw/block/nvme.h       |  1 +=0D
+ include/block/nvme.h  | 11 +++++++++++=0D
+ hw/block/nvme.c       | 46 +++++++++++++++++++++++++++----------------=0D
+ hw/block/trace-events |  2 ++=0D
+ 4 files changed, 43 insertions(+), 17 deletions(-)=0D
+=0D
+-- =0D
+2.30.1=0D
+=0D
 
