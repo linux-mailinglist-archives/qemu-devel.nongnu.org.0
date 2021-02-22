@@ -2,79 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFF20321BA0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:37:46 +0100 (CET)
-Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FCE6321BB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:39:49 +0100 (CET)
+Received: from localhost ([::1]:57820 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDHN-0004A9-U3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:37:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37460)
+	id 1lEDJM-0005tv-C1
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:39:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38874)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEDEs-0003QD-FS; Mon, 22 Feb 2021 10:35:12 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEDEo-0002Xy-T3; Mon, 22 Feb 2021 10:35:09 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id hs11so30145524ejc.1;
- Mon, 22 Feb 2021 07:35:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:from:to:cc:references:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=wyBas48ZELzJVZiXTdRF/v2cojCIAy9JbUfyh8ucTAY=;
- b=RKvLX3DWqFvwnhGOOmzlzuTpF4Blyh9XtnlYQ/6h09/Q9zCqvRb9Ec1KeCnl7Et+AZ
- Z+uMJUz42MeXyiuqeJ4STXOQMjtM2xPLmtrFwSSwoVP/1rwULRivAWoMKw/q/OGnT/G3
- vPn8npH2AHYLND5NUyMxIm+68VZoJCDoBy0cLf+E7fWSW4XqCjI9KIe7N0a+88y6uk0D
- pn+vX0aYVvxnbqN3Im12kWVhnwyD/eYxySx5/8MMPDdlGICHBdmBOFc0OJK/DUF6vCIS
- gt3PYNoSTC8PVvE68R3mAuYPQtJhN9yyoHD1b9vqi7N1upMvwFw45P5uVewUiWxz2qLH
- 2EOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=wyBas48ZELzJVZiXTdRF/v2cojCIAy9JbUfyh8ucTAY=;
- b=kcgsv/ITlry6cABTVO90vnj8IXfOsVACQ1wm6bUrOzMc2YSAA1aQ1eJGkMsgxVJEll
- wUUqbHKGLjXJe0dWJnJoviBkjOnO4GKvSegedzk0NCxfTMPkcOiIRy/mKFmZCvVJ7y76
- BnVN2y+8AaoVbLTCfs8jRC99rcwe34ML993iZZvPX4M3Qmy/pi6qjb2K/9HrVzg+x0pX
- Dr6dYuPYKZbn0ikKNw4btdcvF2wyEBEaUQDK0kPIwcfR3/89Y8aLtH7taa7XCHFmPQsv
- AnHPL758UkYXzhhvzkzExFnURbkGQI64Bdb4fVcnzLYsEKFIW0qCIboyr1qRApcUQg24
- 3CzA==
-X-Gm-Message-State: AOAM530c/E/zT51kTOBuoSaAhZmUrxeJhqMdLp++XOk0qymmYz3ciQrk
- hy9655jp0MmZqpdETCAEzwBOKUx+rHo=
-X-Google-Smtp-Source: ABdhPJxPiY4DZvgVYg6IIdIqQZT0MIMjfYuS0KSP/z9dZ5jZloIGf/A92gBx7uWTKeIlCKey4rPBAg==
-X-Received: by 2002:a17:907:7667:: with SMTP id
- kk7mr9538172ejc.92.1614008102862; 
- Mon, 22 Feb 2021 07:35:02 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id ga5sm10801504ejb.114.2021.02.22.07.35.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 07:35:02 -0800 (PST)
-Subject: Re: tests: n810 arm failing
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <cef2f119-3612-65a0-d828-b480179dc3a9@amsat.org>
-Message-ID: <cbf28177-bf94-2452-1c66-2f99a8f3dbf0@amsat.org>
-Date: Mon, 22 Feb 2021 16:35:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEDGY-0004Pq-91
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:36:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41915)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEDGM-0003PV-1L
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:36:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614008195;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=50sJAQtnqegrqsguVq4pedKWTK/Rt4Hi81Lslvp68E4=;
+ b=g0xXJjCB4TIBujeFRqsfS+n7BK5cuGhbYoMB4NdRSdtcWhhSDMf3IeuwI/gtoxlEZAxeYd
+ t5BVVSEFsnDcz29NPeRwO1rYbG5y3pBhc5AqY0KURr0spBO0qGV6iSU77stc+RLYGSUuxg
+ UoblEgU6OYbM3ljCCYoKs/4FFUE8a18=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-10-zE11DCX1Mz-x5BkvOrdTug-1; Mon, 22 Feb 2021 10:36:34 -0500
+X-MC-Unique: zE11DCX1Mz-x5BkvOrdTug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 50F50AFA82;
+ Mon, 22 Feb 2021 15:36:33 +0000 (UTC)
+Received: from redhat.com (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F1F119C45;
+ Mon, 22 Feb 2021 15:36:28 +0000 (UTC)
+Date: Mon, 22 Feb 2021 15:36:25 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Connor Kuehl <ckuehl@redhat.com>
+Subject: Re: Interactive launch over QMP socket?
+Message-ID: <YDPPeVXzcttsJsJU@redhat.com>
+References: <47b15088-514a-8174-029d-8d9c4571960a@redhat.com>
+ <YDOhB4Db5xg52Zgv@redhat.com>
+ <d137b4ee-7dbe-6bd5-63c9-b20a80259d08@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <cef2f119-3612-65a0-d828-b480179dc3a9@amsat.org>
+In-Reply-To: <d137b4ee-7dbe-6bd5-63c9-b20a80259d08@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,35 +83,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: jejb@linux.ibm.com, npmccallum@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 6:26 PM, Philippe Mathieu-Daudé wrote:
-> Hi,
+On Mon, Feb 22, 2021 at 09:00:36AM -0600, Connor Kuehl wrote:
+> On 2/22/21 6:18 AM, Daniel P. Berrangé wrote:
+> > 
+> > ... so this doesn't actually seem to need to be done in QMP on the fly.
+> > It can be provided on the CLI, which seems to be possible wth the args
+> > shown earlier.
+> > 
 > 
-> The n810 arm test failed on latest master:
+> > 
+> > It seems like this is all doable already unless I'm missing something.
 > 
-> https://gitlab.com/qemu-project/qemu/-/jobs/1045015424/artifacts/browse/build/tests/results/latest/test-results/26-tests_acceptance_machine_arm_n8x0.py_N8x0Machine.test_n810/
-...
->     raise RuntimeError("Test interrupted by SIGTERM")
-> 16:03:49 ERROR| RuntimeError: Test interrupted by SIGTERM
-> 16:03:49 ERROR| ERROR
-> 26-tests/acceptance/machine_arm_n8x0.py:N8x0Machine.test_n810 ->
-> RuntimeError: Test interrupted by SIGTERM
-> 16:03:49 INFO |
-> Runner error occurred: Timeout reached
+> That's correct; however, I would like to make it possible for the entirety
+> of it to happen on the fly, ultimately rendering the CLI args optional.
 
-What we are missing here is we got a timeout ^
-but return an error, so the debug.log is not shown:
+There is a long term goal to make entire of QEMU CLI optional, such that
+it only contains the QMP config, and then do every thing related to VM
+setup as QMP commands. So if current CLI is functionally sufficient,
+then eventually, the same will be doable exclusively at runtime. We
+don't have a firm ETA for this though.
 
-> Original status: ERROR
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-...
-> "tests/venv/lib/python3.7/site-packages/avocado/plugins/runner.py", line
-> 77, in sigterm_handler\n    raise RuntimeError("Test interrupted by
-> SIGTERM")\nRuntimeError: Test interrupted by SIGTERM\n', 'timeout': 90,
-> 'whiteboard': '', 'phase': 'FINISHED', 'class_name': 'N8x0Machine',
-> 'job_logdir': 'tests/results/job-2021-02-21T16.00-e662b93',
-> 'job_unique_id': 'e662b936b3c04ad082359ee970534ac7ae7ec3bc', 'params': []}
 
