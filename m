@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1736C321878
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:23:25 +0100 (CET)
-Received: from localhost ([::1]:47636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BCCC32188D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:26:43 +0100 (CET)
+Received: from localhost ([::1]:54840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEBBM-0005eA-4g
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:23:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59160)
+	id 1lEBEY-0000Bf-4l
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:26:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lEB3z-0005xh-ED; Mon, 22 Feb 2021 08:15:47 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:46046)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lEB3x-00018F-KV; Mon, 22 Feb 2021 08:15:47 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id j12so6551796pfj.12;
- Mon, 22 Feb 2021 05:15:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=9KqCJQXFtWkC0eQevcf4n4m7wle4LjbIfUJE3rQ7DfE=;
- b=njbNcqqkNvLz1+K41BSyl5vwLnNZARb//O13w44NmOSqcSPBVSZpS+pvpcAHqyJmy6
- BtTelLex8kXDQ9yMM0B5G47+bp6C1Vq34fL9bgTKRSrMEeVgBrFe5rytTOtDhfpWzwET
- oDF6bWjvX8AFVg/92VZvYKsorRAtfUaUdv6djLj9c6uIYaDLjXxwJWoL7ALFNlza/u2j
- pV7OW/4nhFvxZJ2yfoySun7tmeKFSGAi2kADlSTNS6ioaTv2v6qiyyfltd7OV7pzvLIz
- 2cCm1SQc/GkE+AQqlnjwlgMfYCAn0VTy1Vo4dHIvjmQMO5p4O0kJAhZ6HwtxhcqDRcJN
- QtPw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEB4s-0006kz-4u
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:16:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42702)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEB4l-0001UW-11
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:16:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613999794;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cYAalV0d6cGh8GViaNhHQGdfNkGt7YgzzFZtwlMp4Ho=;
+ b=AXg0wFh6SfD7JJ1hn6EBUtF6dEVuOw8HnGLgUXT1rDalXK3PLBrEkKdBqqUxZsRIU3I977
+ Zh7CrZbHTb6Bt3WK40AFC++6oum9rPTFOLIMgbD3l3MykIPgBHSj85sdK4rARBSGn3MDeC
+ IYFYiA+iluo5x/8+rViU+yIX9XsdYVc=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-449-dnflicQkMt-8A23nIwutKQ-1; Mon, 22 Feb 2021 08:16:32 -0500
+X-MC-Unique: dnflicQkMt-8A23nIwutKQ-1
+Received: by mail-ed1-f69.google.com with SMTP id s26so1889872edq.18
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:16:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=9KqCJQXFtWkC0eQevcf4n4m7wle4LjbIfUJE3rQ7DfE=;
- b=P4QCxtA7s8HBwe8xIV5Mbzcnf/BlyCyMjsIi5xreqWYklxlVceSqs+txdTCpOxoaJ4
- uxlPoPUIZvQz51UTwqqApMCxHV4CBxDT1I0a9nDXUw5A2q4QU6vDnspBfKxokQQ+rSov
- bOPX159fN2ogYGNz6waT/OVhNeCZp8bG0OixHhjws7lA46zJcP1x5+m54K9DDV+fKr0+
- 8X03yReDRKsrqasK85HPgQyKgXBNq6a2eiuCuWT7OsgCsHXBg44Bq3a49NOcrtE1tN4R
- 3dJZkMV3s72J60wYJEmF33ZqOxMcA3XY4SRWdTRLFUlFZkAuvB/C9GNt/vtwV3lLMVer
- JIBg==
-X-Gm-Message-State: AOAM5327Zee4dXW1g+iYhs/bl2MzKqStEUWmhNCflloZKiRKrst2vKZ4
- u+X2aPcfTgcr0LajX9em78Q=
-X-Google-Smtp-Source: ABdhPJx4G6Yvm+P3ogv7HzesQACsaiB3FrpSBaStkRfrFp5ppB1ejjMvB3F81kxyQG8kvHmGYZts9g==
-X-Received: by 2002:aa7:9505:0:b029:1ed:98ad:81fb with SMTP id
- b5-20020aa795050000b02901ed98ad81fbmr6147140pfp.52.1613999739134; 
- Mon, 22 Feb 2021 05:15:39 -0800 (PST)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id p8sm17473190pgi.21.2021.02.22.05.15.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 05:15:38 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <alistair.francis@wdc.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [RESEND PATCH v4 5/5] hw/ssi: xilinx_spips: Remove DMA related dead
- codes from zynqmp_spips
-Date: Mon, 22 Feb 2021 21:15:02 +0800
-Message-Id: <20210222131502.3098-6-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210222131502.3098-1-bmeng.cn@gmail.com>
-References: <20210222131502.3098-1-bmeng.cn@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=cYAalV0d6cGh8GViaNhHQGdfNkGt7YgzzFZtwlMp4Ho=;
+ b=ogN/OGtOL9LbWZPmKvi5cYneJPZaPAXVx0sGkM64x3CGGed9KKzVxSlHsBq5sdpUxX
+ tT+Loe97rYRzOlMqOEVW+rP/YXUc272MJpU7bB4AQJwc7khjPHknbOgKdShr4we89Ens
+ WBgvOe5Alc2FQtdwHx/1WqTUB+hGJcYYLT3yFj+Du/FFpN/yioXUZ9DTmo+o0VEs8IqM
+ eiakUVaq00QppgsuElojzZlF0bv0DGWu75bsE24/Ler+Pnr8ZhFUOv7UxWWnCfnsURY/
+ Q4OaZHaZJlL731kyCJ3r6iPfIk+pUOR7vcS33xT+iA7YFYX2EVbx5Fq+zSUjBJk6Xthv
+ sk0Q==
+X-Gm-Message-State: AOAM533ITiJe7olhsq/sX42pb0nBMQsAadS4tCyLpZ/OTmz63sHhx+5w
+ lMN5zzImmBhAldS6eOdxU9VfARRJ/emEJKF1HwvtK/hlt/3ittU1LH+erasaRLWq1P0xb5Cmg+u
+ EYcUh3n4ZbCAe1uo=
+X-Received: by 2002:a17:907:75fa:: with SMTP id
+ jz26mr9682977ejc.457.1613999791527; 
+ Mon, 22 Feb 2021 05:16:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw19RVj/Ej2GkRgf8IH/oE3F2PncpNNsidIh5xjUgdoq5GmZanOPTCwWu+0iT+/kO5PlhBlSQ==
+X-Received: by 2002:a17:907:75fa:: with SMTP id
+ jz26mr9682959ejc.457.1613999791398; 
+ Mon, 22 Feb 2021 05:16:31 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id bw22sm10417521ejb.78.2021.02.22.05.16.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 05:16:30 -0800 (PST)
+Subject: Re: [PATCH 2/3] hw/block/nvme: fix potential compilation error
+To: Klaus Jensen <its@irrelevant.dk>, qemu-devel@nongnu.org
+References: <20210222070615.9177-1-its@irrelevant.dk>
+ <20210222070615.9177-3-its@irrelevant.dk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7a058a77-3124-bc37-1e6e-7f20e8376592@redhat.com>
+Date: Mon, 22 Feb 2021 14:16:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210222070615.9177-3-its@irrelevant.dk>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,76 +100,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, Xuzhou Cheng <xuzhou.cheng@windriver.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
+On 2/22/21 8:06 AM, Klaus Jensen wrote:
+> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> 
+> assert may be compiled to a noop and we could end up returning an
+> uninitialized status.
 
-Now that the Xilinx CSU DMA model is implemented, the existing
-DMA related dead codes in the ZynqMP QSPI are useless and should
-be removed. The maximum register number is also updated to only
-include the QSPI registers.
+Per commit 262a69f4282 ("osdep.h: Prohibit disabling assert()
+in supported builds") this shouldn't be possible. Anyhow cleanup
+is good.
 
-Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-
----
-
-Changes in v4:
-- Modify XLNX_ZYNQMP_SPIPS_R_MAX
-
-Changes in v3:
-- new patch: xilinx_spips: Remove DMA related code from zynqmp_qspips
-
- include/hw/ssi/xilinx_spips.h |  2 +-
- hw/ssi/xilinx_spips.c         | 10 ----------
- 2 files changed, 1 insertion(+), 11 deletions(-)
-
-diff --git a/include/hw/ssi/xilinx_spips.h b/include/hw/ssi/xilinx_spips.h
-index 3eae73480e..06bfd18312 100644
---- a/include/hw/ssi/xilinx_spips.h
-+++ b/include/hw/ssi/xilinx_spips.h
-@@ -34,7 +34,7 @@
- typedef struct XilinxSPIPS XilinxSPIPS;
- 
- #define XLNX_SPIPS_R_MAX        (0x100 / 4)
--#define XLNX_ZYNQMP_SPIPS_R_MAX (0x830 / 4)
-+#define XLNX_ZYNQMP_SPIPS_R_MAX (0x200 / 4)
- 
- /* Bite off 4k chunks at a time */
- #define LQSPI_CACHE_SIZE 1024
-diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-index 8a0cc22d42..1e9dba2039 100644
---- a/hw/ssi/xilinx_spips.c
-+++ b/hw/ssi/xilinx_spips.c
-@@ -195,13 +195,6 @@
- #define R_GQSPI_MOD_ID        (0x1fc / 4)
- #define R_GQSPI_MOD_ID_RESET  (0x10a0000)
- 
--#define R_QSPIDMA_DST_CTRL         (0x80c / 4)
--#define R_QSPIDMA_DST_CTRL_RESET   (0x803ffa00)
--#define R_QSPIDMA_DST_I_MASK       (0x820 / 4)
--#define R_QSPIDMA_DST_I_MASK_RESET (0xfe)
--#define R_QSPIDMA_DST_CTRL2        (0x824 / 4)
--#define R_QSPIDMA_DST_CTRL2_RESET  (0x081bfff8)
--
- /* size of TXRX FIFOs */
- #define RXFF_A          (128)
- #define TXFF_A          (128)
-@@ -417,9 +410,6 @@ static void xlnx_zynqmp_qspips_reset(DeviceState *d)
-     s->regs[R_GQSPI_GPIO] = 1;
-     s->regs[R_GQSPI_LPBK_DLY_ADJ] = R_GQSPI_LPBK_DLY_ADJ_RESET;
-     s->regs[R_GQSPI_MOD_ID] = R_GQSPI_MOD_ID_RESET;
--    s->regs[R_QSPIDMA_DST_CTRL] = R_QSPIDMA_DST_CTRL_RESET;
--    s->regs[R_QSPIDMA_DST_I_MASK] = R_QSPIDMA_DST_I_MASK_RESET;
--    s->regs[R_QSPIDMA_DST_CTRL2] = R_QSPIDMA_DST_CTRL2_RESET;
-     s->man_start_com_g = false;
-     s->gqspi_irqline = 0;
-     xlnx_zynqmp_qspips_update_ixr(s);
--- 
-2.25.1
+> 
+> Fix this by always returning Internal Device Error as a fallback.
+> 
+> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index ddc83f7f7a19..897b9ff0db91 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1232,7 +1232,7 @@ static uint16_t nvme_check_zone_write(NvmeNamespace *ns, NvmeZone *zone,
+>  
+>  static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
+>  {
+> -    uint16_t status;
+> +    uint64_t zslba = zone->d.zslba;
+>  
+>      switch (nvme_get_zone_state(zone)) {
+>      case NVME_ZONE_STATE_EMPTY:
+> @@ -1241,16 +1241,15 @@ static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
+>      case NVME_ZONE_STATE_FULL:
+>      case NVME_ZONE_STATE_CLOSED:
+>      case NVME_ZONE_STATE_READ_ONLY:
+> -        status = NVME_SUCCESS;
+> -        break;
+> +        return NVME_SUCCESS;
+>      case NVME_ZONE_STATE_OFFLINE:
+> -        status = NVME_ZONE_OFFLINE;
+> -        break;
+> +        trace_pci_nvme_err_zone_is_offline(zslba);
+> +        return NVME_ZONE_OFFLINE;
+>      default:
+>          assert(false);
+>      }
+>  
+> -    return status;
+> +    return NVME_INTERNAL_DEV_ERROR;
+>  }
+>  
+>  static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
+> 
 
 
