@@ -2,76 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12213321653
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:21:24 +0100 (CET)
-Received: from localhost ([::1]:39206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C92E832166B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:23:44 +0100 (CET)
+Received: from localhost ([::1]:44202 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEADL-0005Na-5b
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:21:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46348)
+	id 1lEAFb-0007Yn-Qk
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:23:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEABu-00049O-6S
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:19:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEABl-0001UH-NM
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:19:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613996384;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tAdubMwKbkCQ2Z1J+up1ogPBHw+moe3OBts2GALVdcw=;
- b=MMUduzw4YFjLpD0Z+fu6O5olUm8waD6DIzOevB6Wy+LEHv4zPoKWOu5YkSrneBfw08ZkOI
- twta3F4HMZqveD5aytmbP+FxllDGcsMoW+NTXONs3zpO4d5egBocP/C4vDAR8WJx2uoeMG
- sJhXWvZyuozFG1yPvfUL52MSZxCboBY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-EF9LsGbrPvSb27-oDs3M6g-1; Mon, 22 Feb 2021 07:19:43 -0500
-X-MC-Unique: EF9LsGbrPvSb27-oDs3M6g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93467107ACE8;
- Mon, 22 Feb 2021 12:19:41 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C42C95D9CC;
- Mon, 22 Feb 2021 12:19:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4C686113860F; Mon, 22 Feb 2021 13:19:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 01/22] block: add eMMC block device type
-References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613982039-13861-2-git-send-email-sai.pavan.boddu@xilinx.com>
- <3c229241-fdc5-a445-d96e-ca16a5c0106b@redhat.com>
-Date: Mon, 22 Feb 2021 13:19:35 +0100
-In-Reply-To: <3c229241-fdc5-a445-d96e-ca16a5c0106b@redhat.com> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 22 Feb 2021 13:04:01
- +0100")
-Message-ID: <87ft1opa5k.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lEADt-0006ih-TC
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:21:57 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:47317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lEADs-0002So-2g
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 07:21:57 -0500
+Received: from [192.168.100.1] ([82.252.134.158]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MIdS1-1l1m9l2jIr-00Ecds; Mon, 22 Feb 2021 13:21:36 +0100
+Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ qemu-devel@nongnu.org
+References: <20210222105004.1642234-1-laurent@vivier.eu>
+ <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <2869185a-df62-4b28-5e73-57a21c72e5ea@vivier.eu>
+Date: Mon, 22 Feb 2021 13:21:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:h+rGY52m57m0AtPFQwoYFQ4lAUI2gFQnXGrvh6hUVhIeydkxgRy
+ JlXY1pthfh0wnVdeMT7dL0saxsQjQx304nn4UaC5bje/nXlKzmYcNesLzdEhxujMgJjA1wU
+ a6AuZhfZx8ttHzyQ+zsmuojDOo5lMzlGqBeJhFQF5CXTjYWG9HGwirJyP1kJ6ZRuxhoYzgw
+ VpXHWpW5fBB4CpKEB9Hgw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:MZYkTiGI1F4=:Mw7ubzTBx24rTSsj9sJAL5
+ e7mv10hdVHEfoESj6+PsIm6NjjFCgC0Ii+44IuQPsOLzj4dywT3LW3T8wIaKKICAYtL2UYilt
+ rMygP6i+BvJlAwyY1O8HK3STzulW9MkOhdP+Dp0LhzqVfjCtzjrM0QimQBo3Oiugz+Hc6UiVG
+ B2A04Nhj/L5K8r1cxv6Vtrk7n9Juq6Fh3nvNHGcYJRTh6DmV6UomQcVvLyNXCdNReb+aA8Cwb
+ 8IeeJGGD4/QEiRMLPRbdmtl7c8d5vmNcDoz+7JxNFe0P83pHXay6jphg5IxnIl6QYrmCR1Wna
+ rIbNATbU05pEaDYpIwydvnm5KCFwfyCehhKapPHwyF63Tt+pT4zVathlL6lJZhnlSPjsv9TOg
+ Ea5JMMXWH1XHkc0DICumcI1YVSC1Y3CdpSmBE/gyVQkYbMQ0+u9VFzg+YNArB
+Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,71 +66,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Vincent Palatin <vpalatin@chromium.org>,
- "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>, qemu-block@nongnu.org,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, qemu-devel@nongnu.org,
- "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>,
- saipava@xilinx.com, Alistair Francis <alistair.francis@wdc.com>,
- Joel Stanley <joel@jms.id.au>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Luc Michel <luc.michel@greensocs.com>,
- =?utf-8?Q?C=C3=A9dr?= =?utf-8?Q?ic?= Le Goater <clg@kaod.org>
+Cc: Helge Deller <deller@gmx.de>, Michael Tokarev <mjt@tls.msk.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+Le 22/02/2021 à 11:58, John Paul Adrian Glaubitz a écrit :
+> Hi Laurent!
+> 
+> On 2/22/21 11:50 AM, Laurent Vivier wrote:
+>> Add --preserve-argv0 in qemu-binfmt-conf.sh to configure the preserve-argv0
+>> flag.
+>>
+>> This patch allows to use new flag in AT_FLAGS to detect if
+>> preserve-argv0 is configured for this interpreter:
+>> argv[0] (the full pathname provided by binfmt-misc) is removed and
+>> replaced by argv[1] (the original argv[0] provided by binfmt-misc when
+>> 'P'/preserve-arg[0] is set)
+> 
+> Would this patch finally fix the issue with the perl package in Debian? [1]
 
-> On 2/22/21 9:20 AM, Sai Pavan Boddu wrote:
->> From: Vincent Palatin <vpalatin@chromium.org>
->>=20
->> Add new block device type.
->>=20
->> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
->> [SPB: Rebased over 5.1 version]
->> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
->> Signed-off-by: Joel Stanley <joel@jms.id.au>
->> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->>  include/sysemu/blockdev.h | 1 +
->>  blockdev.c                | 1 +
->>  2 files changed, 2 insertions(+)
->>=20
->> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
->> index 3b5fcda..eefae9f 100644
->> --- a/include/sysemu/blockdev.h
->> +++ b/include/sysemu/blockdev.h
->> @@ -24,6 +24,7 @@ typedef enum {
->>       */
->>      IF_NONE =3D 0,
->>      IF_IDE, IF_SCSI, IF_FLOPPY, IF_PFLASH, IF_MTD, IF_SD, IF_VIRTIO, IF=
-_XEN,
->> +    IF_EMMC,
->>      IF_COUNT
->>  } BlockInterfaceType;
->> =20
->> diff --git a/blockdev.c b/blockdev.c
->> index cd438e6..390d43c 100644
->> --- a/blockdev.c
->> +++ b/blockdev.c
->> @@ -83,6 +83,7 @@ static const char *const if_name[IF_COUNT] =3D {
->>      [IF_SD] =3D "sd",
->>      [IF_VIRTIO] =3D "virtio",
->>      [IF_XEN] =3D "xen",
->> +    [IF_EMMC] =3D "emmc",
->>  };
->
-> We don't need to introduce support for the legacy -drive magic.
->
-> -device should be enough for this device, right?
+I think so. Helge can confirm that I guess.
 
-External interface extensions need rationale: why do we want / need it?
-The commit message neglects to provide one.
+But you need the kernel support (the one merged by Helge) as described in the patch message.
 
-Even more so when the interface in question is in a state like -drive
-is.
+2347961b11d4 ("binfmt_misc: pass binfmt_misc flags to the interpreter")
 
+> Adrian
+> 
+>> [1] https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=974004
+> 
+
+Thanks,
+Laurent
 
