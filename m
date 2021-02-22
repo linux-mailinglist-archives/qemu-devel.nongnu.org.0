@@ -2,78 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13ED4321890
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:28:18 +0100 (CET)
-Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C49DF3218BA
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:31:28 +0100 (CET)
+Received: from localhost ([::1]:36428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEBG5-0001On-5R
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:28:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
+	id 1lEBJ9-0004Jy-Qn
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:31:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEBCd-0007nR-9Q
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:24:43 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36806)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEBCa-0004jR-Hu
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:24:42 -0500
-Received: by mail-wm1-x335.google.com with SMTP id a207so14347829wmd.1
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:24:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=LPnQD5pP/iEURNGtaVBlxBG671gzwlnLFwRdqRRGlF8=;
- b=hV8I9l9wRO4e8B/hjS7qLyCJmr69cPo8+mYtLoGKATXJHiKuqp0Xd1aPi8l8Ffvau9
- jr40LN2y/0lNpkPtVlxjWJcg0zojKFxLKl4+itczIcyWBmfn6WKefIucBtdLIxivbj+Q
- UAIJMJUlK+hibLPfU9jIeBN0zb/H7GYy8NhESA1JeW19Wu6d28DqPQrQP7D6BN3BPh4C
- ukO+Ptx4vxw47U3oBHqR0g6uqzE0Qcgl18Xr7voPujz2llZ0H9weVCJ5ahaFEEAltq5k
- X0M6ENW62rds78p4GlZ0LAJPUSc5jLVN1KxN1UscN1OYkao7CXaOQbizh7a07jwlIzPc
- M9AA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=LPnQD5pP/iEURNGtaVBlxBG671gzwlnLFwRdqRRGlF8=;
- b=UfVRJMzjwBzbb9pPQWheg9NlBZNXRcJPjPF+RN5AhauaJXxToYAgH+6iX/eDkftBk+
- UuJi6erb5zHyTZ3WZ+hhIzymJcWhcdqTkX7uYBa0cJ0fn1pA+emaOe9kajG7k8m35sNY
- 2yw/L2+bzMpSL9W5a0P2vzvQJEsiMP9ORQrIIYD8+W4Jh/zQraGz91C0Us+v8VJEjJWo
- B7w8OnKkt0IbKum31F2KesLO41Fu43JP1mpvCKDjGPR4EQl5qs5RS7LmYMv3V7S0jpjS
- 1j9tm2LIhNLCBvNluEClqA2yF0lSKScbM4uE3jOe7egbKaDZQ53EkLQVyUvBoABpe0xH
- I2vA==
-X-Gm-Message-State: AOAM5309rApwJ/n1dkH4m2sMrYoTNNF/NXUkE9ta1RVG9FV53ByyrBAU
- /6h3qGAjjFAZwYsoaiibrPS/SA==
-X-Google-Smtp-Source: ABdhPJyrrJ11xs6fRaCzmptMBvx2kyL0PLmsTCRMakV2CrBQa60Fn0/YwmeFPVhKnoCdtl3cL3K5LA==
-X-Received: by 2002:a1c:5a08:: with SMTP id o8mr19947048wmb.60.1614000277905; 
- Mon, 22 Feb 2021 05:24:37 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p6sm17682155wmg.37.2021.02.22.05.24.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 05:24:36 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 148101FF7E;
- Mon, 22 Feb 2021 13:24:36 +0000 (GMT)
-References: <8735xskm7j.fsf@linaro.org> <YDOsP1pWUS+hXiBX@work-vm>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: vhost reply_ack negotiation (a.k.a differences in vhost-user
- behaviour with libvhost-user and vhost-user-backend.rs)
-Date: Mon, 22 Feb 2021 13:21:04 +0000
-In-reply-to: <YDOsP1pWUS+hXiBX@work-vm>
-Message-ID: <871rd86xrf.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lEB6G-0008AK-0z; Mon, 22 Feb 2021 08:18:08 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:43994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lEB6C-0001ch-K4; Mon, 22 Feb 2021 08:18:07 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11MCuClQ041083; Mon, 22 Feb 2021 08:00:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Mq8n7r6F6gL917qWL0TQViE5Fjyhx8oLWry544xFJZc=;
+ b=CJkyQSR9eER9i/R6Iy2L0Q5Yg2NLwTfePvRxOHkeJV33hTg7i/JN7x5t7zMl3RjPVf4L
+ 5V/pg9tHxpPJ/ylnk/DqTBXFI0+m+abzvo1UEQZG4GnWgatIQIqkKXdzXkeMG1LD4Qn9
+ pu/Vo0FadVX/l9zz+DiFcDjJkjdehoXbrD7Svo9HydFvM5L1GOO80ZJdcM2Q9cZl+EpS
+ UaNaEiIWqIbiM1aptTaAKIQmeJSATtZoVCSULwZoKVsztQl3v6beX5MQ196wIEP+GrB0
+ rSbjz9e5fzXNvQw7EStvu5O0CfkogNCbupBFLe37GABSxm8iAme1LsjanAid9IUEpCjc bw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36vd2288gx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 08:00:33 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11MCui4P055213;
+ Mon, 22 Feb 2021 07:59:03 -0500
+Received: from ppma06fra.de.ibm.com (48.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.72])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36vd2285m5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 07:58:59 -0500
+Received: from pps.filterd (ppma06fra.de.ibm.com [127.0.0.1])
+ by ppma06fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11MCqGGb013374;
+ Mon, 22 Feb 2021 12:56:33 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06fra.de.ibm.com with ESMTP id 36tsph8v00-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 22 Feb 2021 12:56:32 +0000
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+ (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11MCuU6x47710504
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 22 Feb 2021 12:56:30 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D3B7AA405C;
+ Mon, 22 Feb 2021 12:56:29 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 50406A405B;
+ Mon, 22 Feb 2021 12:56:29 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Mon, 22 Feb 2021 12:56:29 +0000 (GMT)
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ David Hildenbrand <david@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 1/1] hw/s390x: modularize virtio-gpu-ccw
+Date: Mon, 22 Feb 2021 13:55:48 +0100
+Message-Id: <20210222125548.346166-1-pasic@linux.ibm.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-22_02:2021-02-22,
+ 2021-02-22 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0
+ priorityscore=1501 mlxscore=0 suspectscore=0 clxscore=1015 phishscore=0
+ impostorscore=0 mlxlogscore=999 adultscore=0 spamscore=0 bulkscore=0
+ lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102220115
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pasic@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,105 +112,360 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "rust-vmm@lists.opendev.org" <rust-vmm@lists.opendev.org>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Cc: Boris Fiuczynski <fiuczy@linux.ibm.com>, Bruce Rogers <brogers@suse.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Since the virtio-gpu-ccw device depends on the hw-display-virtio-gpu
+module, which provides the type virtio-gpu-device, packaging the
+hw-display-virtio-gpu module as a separate package that may or may not
+be installed along with the qemu package leads to problems. Namely if
+the hw-display-virtio-gpu is absent, qemu continues to advertise
+virtio-gpu-ccw, but it aborts not only when one attempts using
+virtio-gpu-ccw, but also when libvirtd's capability probing tries
+to instantiate the type to introspect it.
 
-Dr. David Alan Gilbert <dgilbert@redhat.com> writes:
+Let us thus introduce a module named hw-s390x-virtio-gpu-ccw that
+is going to provide the virtio-gpu-ccw device. The hw-s390x prefix
+was chosen because it is not a portable device.
 
-> * Alex Benn=C3=A9e (alex.bennee@linaro.org) wrote:
->> Hi,
->>=20
->> I finally got a chance to get down into the guts of vhost-user while
->> attempting to port my original C RPMB daemon to Rust using the
->> vhost-user-backend and related crates. I ended up with this hang during
->> negotiation:
->>=20
->>   startup
->>=20
->>   vhost_user_write req:1 flags:0x1
->>   vhost_user_read_start
->>   vhost_user_read req:1 flags:0x5
->>   vhost_user_backend_init: we got 170000000
+With virtio-gpu-ccw built as a module, the correct way to package a
+modularized qemu is to require that hw-display-virtio-gpu must be
+installed whenever the module hw-s390x-virtio-gpu-ccw.
 
-GET_FEATURES
+The definition S390_ADAPTER_SUPPRESSIBLE was moved to "cpu.h", per
+suggestion of Thomas Huth. From interface design perspective, IMHO, not
+a good thing as it belongs to the public interface of
+css_register_io_adapters(). We did this because CONFIG_KVM requeires
+NEED_CPU_H and Thomas, and other commenters did not like the
+consequences of that.
 
->>   vhost_user_write req:15 flags:0x1
->>   vhost_user_read_start
->>   vhost_user_read req:15 flags:0x5
->>   vhost_user_set_protocol_features: 2008
->>   vhost_user_write req:16 flags:0x1
->>   vhost_user_write req:3 flags:0x1
->>   vhost_user_write req:1 flags:0x1
->>   vhost_user_read_start
->>   vhost_user_read req:1 flags:0x5
->>   vhost_user_write req:13 flags:0x1
->>=20
->>   kernel initialises device
->>=20
->>   virtio_rpmb virtio1: init done!
->>   vhost_user_write req:13 flags:0x1
->>   vhost_dev_set_features: 130000000
->>   vhost_user_set_features: 130000000
+Moving the interrupt related declarations to s390_flic.h was suggested
+by Cornelia Huck.
 
-SET_FEATURES
+Introducing type_register_mayfail() was suggested by Gerd Hoffmann.
 
->>   vhost_user_write req:2 flags:0x1
->>   vhost_user_write req:5 flags:0x9
->>   vhost_user_read_start
->>=20
-<snip>
->>=20
->>  - Should QEMU have preserved VhostUserVirtioFeatures::PROTOCOL_FEATURES
->>    when doing the eventual VHOST_USER_SET_FEATURES reply?
->>=20
->>  - Is vhost.rs being to strict or libvhost-user too lax in interpreting
->>    the negotiated features before processing the ``need_reply`` [Bit 3]
->>    field of the messages?
->
-> I think vhost.rs is being correctly strict - but there would be no harm
-> in it flagging that you'd hit an inconsistency if it finds a need_reply
-> without the feature.
+Signed-off-by: Halil Pasic <pasic@linux.ibm.com>
+---
+ hw/s390x/meson.build         |  7 +++++-
+ hw/s390x/virtio-ccw-gpu.c    |  4 ++++
+ include/hw/s390x/css.h       |  7 ------
+ include/hw/s390x/s390_flic.h |  3 +++
+ include/qom/object.h         | 22 +++++++++++++++++++
+ qom/object.c                 | 42 ++++++++++++++++++++++++------------
+ target/s390x/cpu.h           |  9 +++++---
+ util/module.c                |  1 +
+ 8 files changed, 70 insertions(+), 25 deletions(-)
 
-But the feature should have been negotiated. So unless the slave can
-assume it is enabled because it asked I think QEMU is in the wrong by
-not preserving the feature bits in it's SET_FEATURES reply. We just gets
-away with it with libvhostuser being willing to reply anyway.
+diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
+index 2a7818d94b..7ac972afcf 100644
+--- a/hw/s390x/meson.build
++++ b/hw/s390x/meson.build
+@@ -34,7 +34,6 @@ virtio_ss.add(files('virtio-ccw.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BALLOON', if_true: files('virtio-ccw-balloon.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-ccw-blk.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_CRYPTO', if_true: files('virtio-ccw-crypto.c'))
+-virtio_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: files('virtio-ccw-gpu.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_INPUT', if_true: files('virtio-ccw-input.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_NET', if_true: files('virtio-ccw-net.c'))
+ virtio_ss.add(when: 'CONFIG_VIRTIO_RNG', if_true: files('virtio-ccw-rng.c'))
+@@ -46,3 +45,9 @@ virtio_ss.add(when: 'CONFIG_VHOST_USER_FS', if_true: files('vhost-user-fs-ccw.c'
+ s390x_ss.add_all(when: 'CONFIG_VIRTIO_CCW', if_true: virtio_ss)
+ 
+ hw_arch += {'s390x': s390x_ss}
++
++hw_s390x_modules = {}
++virtio_gpu_ccw_ss = ss.source_set()
++virtio_gpu_ccw_ss.add(when: 'CONFIG_VIRTIO_GPU', if_true: [files('virtio-ccw-gpu.c'), pixman])
++hw_s390x_modules += {'virtio-gpu-ccw': virtio_gpu_ccw_ss}
++modules += {'hw-s390x': hw_s390x_modules}
+diff --git a/hw/s390x/virtio-ccw-gpu.c b/hw/s390x/virtio-ccw-gpu.c
+index c301e2586b..5ac9b6b2a6 100644
+--- a/hw/s390x/virtio-ccw-gpu.c
++++ b/hw/s390x/virtio-ccw-gpu.c
+@@ -62,7 +62,11 @@ static const TypeInfo virtio_ccw_gpu = {
+ 
+ static void virtio_ccw_gpu_register(void)
+ {
++#ifdef CONFIG_MODULES
++    type_register_static_mayfail(&virtio_ccw_gpu);
++#else
+     type_register_static(&virtio_ccw_gpu);
++#endif
+ }
+ 
+ type_init(virtio_ccw_gpu_register)
+diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
+index 08c869ab0a..7858666307 100644
+--- a/include/hw/s390x/css.h
++++ b/include/hw/s390x/css.h
+@@ -12,7 +12,6 @@
+ #ifndef CSS_H
+ #define CSS_H
+ 
+-#include "cpu.h"
+ #include "hw/s390x/adapter.h"
+ #include "hw/s390x/s390_flic.h"
+ #include "hw/s390x/ioinst.h"
+@@ -233,12 +232,6 @@ uint32_t css_get_adapter_id(CssIoAdapterType type, uint8_t isc);
+ void css_register_io_adapters(CssIoAdapterType type, bool swap, bool maskable,
+                               uint8_t flags, Error **errp);
+ 
+-#ifndef CONFIG_KVM
+-#define S390_ADAPTER_SUPPRESSIBLE 0x01
+-#else
+-#define S390_ADAPTER_SUPPRESSIBLE KVM_S390_ADAPTER_SUPPRESSIBLE
+-#endif
+-
+ #ifndef CONFIG_USER_ONLY
+ SubchDev *css_find_subch(uint8_t m, uint8_t cssid, uint8_t ssid,
+                          uint16_t schid);
+diff --git a/include/hw/s390x/s390_flic.h b/include/hw/s390x/s390_flic.h
+index e91b15d2d6..3907a13d07 100644
+--- a/include/hw/s390x/s390_flic.h
++++ b/include/hw/s390x/s390_flic.h
+@@ -134,6 +134,9 @@ void s390_flic_init(void);
+ S390FLICState *s390_get_flic(void);
+ QEMUS390FLICState *s390_get_qemu_flic(S390FLICState *fs);
+ S390FLICStateClass *s390_get_flic_class(S390FLICState *fs);
++void s390_crw_mchk(void);
++void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
++                       uint32_t io_int_parm, uint32_t io_int_word);
+ bool ais_needed(void *opaque);
+ 
+ #endif /* HW_S390_FLIC_H */
+diff --git a/include/qom/object.h b/include/qom/object.h
+index 6721cd312e..3428546d91 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -826,6 +826,17 @@ const char *object_get_typename(const Object *obj);
+  */
+ Type type_register_static(const TypeInfo *info);
+ 
++/**
++ * type_register_static_mayfail:
++ * @info: The #TypeInfo of the new type.
++ *
++ * @info and all of the strings it points to should exist for the life time
++ * that the type is registered.
++ *
++ * Returns: the new #Type or NULL if missing a parent type.
++ */
++Type type_register_static_mayfail(const TypeInfo *info);
++
+ /**
+  * type_register:
+  * @info: The #TypeInfo of the new type
+@@ -837,6 +848,17 @@ Type type_register_static(const TypeInfo *info);
+  */
+ Type type_register(const TypeInfo *info);
+ 
++/**
++ * type_register_mayfail:
++ * @info: The #TypeInfo of the new type
++ *
++ * Unlike type_register_static(), this call does not require @info or its
++ * string members to continue to exist after the call returns.
++ *
++ * Returns: the new #Type or NULL if missing a parent type.
++ */
++Type type_register_mayfail(const TypeInfo *info);
++
+ /**
+  * type_register_static_array:
+  * @infos: The array of the new type #TypeInfo structures.
+diff --git a/qom/object.c b/qom/object.c
+index 491823db4a..ed217cbfb0 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -135,7 +135,7 @@ static TypeImpl *type_new(const TypeInfo *info)
+     return ti;
+ }
+ 
+-static TypeImpl *type_register_internal(const TypeInfo *info)
++static TypeImpl *type_register_internal(const TypeInfo *info, bool mayfail)
+ {
+     TypeImpl *ti;
+     ti = type_new(info);
+@@ -147,7 +147,13 @@ static TypeImpl *type_register_internal(const TypeInfo *info)
+ TypeImpl *type_register(const TypeInfo *info)
+ {
+     assert(info->parent);
+-    return type_register_internal(info);
++    return type_register_internal(info, false);
++}
++
++TypeImpl *type_register_mayfail(const TypeInfo *info)
++{
++    assert(info->parent);
++    return type_register_internal(info, true);
+ }
+ 
+ TypeImpl *type_register_static(const TypeInfo *info)
+@@ -155,6 +161,11 @@ TypeImpl *type_register_static(const TypeInfo *info)
+     return type_register(info);
+ }
+ 
++TypeImpl *type_register_static_mayfail(const TypeInfo *info)
++{
++    return type_register_mayfail(info);
++}
++
+ void type_register_static_array(const TypeInfo *infos, int nr_infos)
+ {
+     int i;
+@@ -173,13 +184,16 @@ static TypeImpl *type_get_by_name(const char *name)
+     return type_table_lookup(name);
+ }
+ 
+-static TypeImpl *type_get_parent(TypeImpl *type)
++static TypeImpl *type_get_parent(TypeImpl *type, bool mayfail)
+ {
+     if (!type->parent_type && type->parent) {
+         type->parent_type = type_get_by_name(type->parent);
+         if (!type->parent_type) {
+             fprintf(stderr, "Type '%s' is missing its parent '%s'\n",
+                     type->name, type->parent);
++            if (mayfail) {
++                return NULL;
++            }
+             abort();
+         }
+     }
+@@ -199,7 +213,7 @@ static size_t type_class_get_size(TypeImpl *ti)
+     }
+ 
+     if (type_has_parent(ti)) {
+-        return type_class_get_size(type_get_parent(ti));
++        return type_class_get_size(type_get_parent(ti, false));
+     }
+ 
+     return sizeof(ObjectClass);
+@@ -212,7 +226,7 @@ static size_t type_object_get_size(TypeImpl *ti)
+     }
+ 
+     if (type_has_parent(ti)) {
+-        return type_object_get_size(type_get_parent(ti));
++        return type_object_get_size(type_get_parent(ti, false));
+     }
+ 
+     return 0;
+@@ -236,7 +250,7 @@ static bool type_is_ancestor(TypeImpl *type, TypeImpl *target_type)
+             return true;
+         }
+ 
+-        type = type_get_parent(type);
++        type = type_get_parent(type, false);
+     }
+ 
+     return false;
+@@ -307,7 +321,7 @@ static void type_initialize(TypeImpl *ti)
+     }
+     ti->class = g_malloc0(ti->class_size);
+ 
+-    parent = type_get_parent(ti);
++    parent = type_get_parent(ti, false);
+     if (parent) {
+         type_initialize(parent);
+         GSList *e;
+@@ -357,7 +371,7 @@ static void type_initialize(TypeImpl *ti)
+         if (parent->class_base_init) {
+             parent->class_base_init(ti->class, ti->class_data);
+         }
+-        parent = type_get_parent(parent);
++        parent = type_get_parent(parent, false);
+     }
+ 
+     if (ti->class_init) {
+@@ -368,7 +382,7 @@ static void type_initialize(TypeImpl *ti)
+ static void object_init_with_type(Object *obj, TypeImpl *ti)
+ {
+     if (type_has_parent(ti)) {
+-        object_init_with_type(obj, type_get_parent(ti));
++        object_init_with_type(obj, type_get_parent(ti, false));
+     }
+ 
+     if (ti->instance_init) {
+@@ -383,7 +397,7 @@ static void object_post_init_with_type(Object *obj, TypeImpl *ti)
+     }
+ 
+     if (type_has_parent(ti)) {
+-        object_post_init_with_type(obj, type_get_parent(ti));
++        object_post_init_with_type(obj, type_get_parent(ti, false));
+     }
+ }
+ 
+@@ -674,7 +688,7 @@ static void object_deinit(Object *obj, TypeImpl *type)
+     }
+ 
+     if (type_has_parent(type)) {
+-        object_deinit(obj, type_get_parent(type));
++        object_deinit(obj, type_get_parent(type, false));
+     }
+ }
+ 
+@@ -1040,7 +1054,7 @@ ObjectClass *module_object_class_by_name(const char *typename)
+ 
+ ObjectClass *object_class_get_parent(ObjectClass *class)
+ {
+-    TypeImpl *type = type_get_parent(class->type);
++    TypeImpl *type = type_get_parent(class->type, false);
+ 
+     if (!type) {
+         return NULL;
+@@ -2791,8 +2805,8 @@ static void register_types(void)
+         .abstract = true,
+     };
+ 
+-    type_interface = type_register_internal(&interface_info);
+-    type_register_internal(&object_info);
++    type_interface = type_register_internal(&interface_info, false);
++    type_register_internal(&object_info, false);
+ }
+ 
+ type_init(register_types)
+diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+index 60d434d5ed..b434b905c0 100644
+--- a/target/s390x/cpu.h
++++ b/target/s390x/cpu.h
+@@ -40,6 +40,12 @@
+ 
+ #define S390_MAX_CPUS 248
+ 
++#ifndef CONFIG_KVM
++#define S390_ADAPTER_SUPPRESSIBLE 0x01
++#else
++#define S390_ADAPTER_SUPPRESSIBLE KVM_S390_ADAPTER_SUPPRESSIBLE
++#endif
++
+ typedef struct PSW {
+     uint64_t mask;
+     uint64_t addr;
+@@ -806,9 +812,6 @@ int cpu_s390x_signal_handler(int host_signum, void *pinfo, void *puc);
+ 
+ 
+ /* interrupt.c */
+-void s390_crw_mchk(void);
+-void s390_io_interrupt(uint16_t subchannel_id, uint16_t subchannel_nr,
+-                       uint32_t io_int_parm, uint32_t io_int_word);
+ #define RA_IGNORED                  0
+ void s390_program_interrupt(CPUS390XState *env, uint32_t code, uintptr_t ra);
+ /* service interrupts are floating therefore we must not pass an cpustate */
+diff --git a/util/module.c b/util/module.c
+index c65060c167..cbe89fede6 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -304,6 +304,7 @@ static struct {
+     { "virtio-gpu-pci-base",   "hw-", "display-virtio-gpu-pci" },
+     { "virtio-gpu-pci",        "hw-", "display-virtio-gpu-pci" },
+     { "vhost-user-gpu-pci",    "hw-", "display-virtio-gpu-pci" },
++    { "virtio-gpu-ccw",        "hw-", "s390x-virtio-gpu-ccw"   },
+     { "virtio-vga-base",       "hw-", "display-virtio-vga"    },
+     { "virtio-vga",            "hw-", "display-virtio-vga"    },
+     { "vhost-user-vga",        "hw-", "display-virtio-vga"    },
 
->
->>  - are VHOST_USER_SET_MEM_TABLE to VHOST_USER_SET_INFLIGHT_FD included
->>    in the "list of the ones that do" require replies or do they only
->>    reply when REPLY_ACK has been negotiated as the ambiguous "seealso::"
->>    box out seems to imply?
->
-> set_mem_table gives a reply when postcopy is enabled (and then qemu
-> replies to the reply!) but otherwise doesn't.
-> (Note there's an issue opened for .rs to support ADD_MEM_REGION
-> since it's a lot better than SET_MEM_TABLE which has a fixed size table
-> that's small).
+base-commit: 1af5629673bb5c1592d993f9fb6119a62845f576
+-- 
+2.25.1
 
-Thanks for the heads up.
-
->
-> Dave
->
->> Currently I have some hacks in:
->>=20
->>   https://github.com/stsquad/vhost/tree/my-hacks
->>=20
->> which gets my daemon booting up to the point we actually need to do a
->> transaction. However I won't submit a PR until I've worked out exactly
->> where the problems are.
->>=20
->> --=20
->> Alex Benn=C3=A9e
->>=20
-
-
---=20
-Alex Benn=C3=A9e
 
