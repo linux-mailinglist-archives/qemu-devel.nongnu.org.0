@@ -2,124 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E981B32120A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:33:03 +0100 (CET)
-Received: from localhost ([::1]:57748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E171E321212
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:34:59 +0100 (CET)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE6eM-0008FX-VG
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:33:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
+	id 1lE6gE-0002q5-VK
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:34:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lE6OL-0004wu-D6; Mon, 22 Feb 2021 03:16:29 -0500
-Received: from mail-dm6nam08on2075.outbound.protection.outlook.com
- ([40.107.102.75]:45295 helo=NAM04-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <stefans@m-c02w82arhv2h.localdomain>)
+ id 1lE6WA-00077R-LI
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:24:35 -0500
+Received: from smtp2.axis.com ([195.60.68.18]:22125)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lE6OF-0001pe-BB; Mon, 22 Feb 2021 03:16:29 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gHSpYjYW/8fCacLZXB22bY5AjBjxeCFnUSXfdJNDt72Ql2x043ZNqsZ0/qxjVITmwrmNoOy9l98mXdsHeoZxAzauQsGc299JaxgEZEw9i/Kepi5+WQ8041rJJj+NdBgV83tHBeJGGq6CVxuXe4VE9nYJhOdMKMJG7gJOrXBXlLB97ny36CEB1435k39eeiNyXY7hM8Uh9RPmh5LPJpSK4MScNZU/pvLpt3PnR+vAe6QIb9YiYDbl8LeaNpJQvSHGs3zusM1FECO6j8xshAzwuvtfV7Eh0U/n/QvtI44pZpiempPGywMukJQwL0XnGFnvGXA2z6blvk7gpJ44pNWKdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hZCRtAFYeCGAH6jbrO1832cRDu6eTw00apG72bJmoLc=;
- b=OFiBB/q1yT0R0U3HZ/UQJc1a+rIG9ewZnbuEfoJGGovkL3k2JCrgaLeP0OdP8RPlsCbynojH/2cKDp68OM4Ja13Sfx5CnsJnldidsVvwIaI0REQO5IXgLLf00wxNn8tlHb3lUEtQXtf1esHo6aieCZRm1Jeq3uONO0lObaz3661kHEWMqc8kSpHXNuqKslhzytvrvEEpvsE2ZMY8rAJmKH94m4tcE4YMuqn5YpLL31lvOsaiUb66HFDT0cAJfHYiuopV9T8SmoFtDTp0+ye9RZEifhRQ5g0hCH+IrdDih4GPRWC1XEkeV9SNvWACBZRSRGCznq1Cd3LPhuLwuc2HQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=chromium.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
+ (Exim 4.90_1) (envelope-from <stefans@m-c02w82arhv2h.localdomain>)
+ id 1lE6W6-0005F9-Q7
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:24:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hZCRtAFYeCGAH6jbrO1832cRDu6eTw00apG72bJmoLc=;
- b=MOOddonEyv9Aj+OS0v61k9hjrycnNmjzIYDqn+apRM/vGb4yszZy8DaYZ1r0ZXOIaGfMNId99CPl8bjPSCA91zwUsH7xkSlQYEO9iv7OiPqU1evYoOezH+12BcP0SUOueeYx7w7yq6+UsyKPOrHEu/V//HsRX4DmuYoPsHcSxvA=
-Received: from DM3PR14CA0133.namprd14.prod.outlook.com (2603:10b6:0:53::17) by
- BYAPR02MB4885.namprd02.prod.outlook.com (2603:10b6:a03:49::23) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.30; Mon, 22 Feb 2021 08:16:19 +0000
-Received: from CY1NAM02FT007.eop-nam02.prod.protection.outlook.com
- (2603:10b6:0:53:cafe::49) by DM3PR14CA0133.outlook.office365.com
- (2603:10b6:0:53::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27 via Frontend
- Transport; Mon, 22 Feb 2021 08:16:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT007.mail.protection.outlook.com (10.152.75.5) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3868.27 via Frontend Transport; Mon, 22 Feb 2021 08:16:19 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 22 Feb 2021 00:16:01 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 22 Feb 2021 00:16:01 -0800
-Received: from [10.140.6.35] (port=59058 helo=xhdsaipava40.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1lE6Nt-00037M-3Z; Mon, 22 Feb 2021 00:16:01 -0800
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 4759B13C0ADD; Mon, 22 Feb 2021 13:50:58 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
- Reitz" <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@virtuozzo.com>, Eric Blake <eblake@redhat.com>, Joel Stanley
- <joel@jms.id.au>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Vincent Palatin <vpalatin@chromium.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, "Alistair
- Francis" <alistair.francis@wdc.com>, "Edgar E. Iglesias"
- <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>
-Subject: [PATCH v2 21/22] docs: devel: emmc: Add a doc for emmc card emulation
-Date: Mon, 22 Feb 2021 13:50:38 +0530
-Message-ID: <1613982039-13861-22-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ d=axis.com; q=dns/txt; s=axis-central1; t=1613982271;
+ x=1645518271;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=zL1W6Wk1IqsHVVisziJF0HdaYBfRmbH2xCDNHyQih7c=;
+ b=MBsKfTvt05s+XpDX0Kh1XKckXqQVgff+QC4XUD1uZ6pb6gdVNYiR9mg1
+ MWyVdqxe3Sy6ELCzdsRea2cx5ynOLkmC3T058uraM7o8KDbxWkhY5WLkw
+ Qeu+FAlymraL2wwswiYOg1UnqLa8CTJ2xqKfGYWpt+g+tHaU3u2hPwqGi
+ 1+i6wkjoSXINjij5gZHPTaQfvej8TughH4K0jpMmU6IqxMEv5GGfCegEd
+ cPO+P1+8qVesV38Ed/jFNeUKNGnVnxNCZX3yZG+8uSfGQNxkfH+cCXvtG
+ L8G4zRs1LivkWukWjjIkngb3Ua8c7eXH9XsJaE1T20Vtqs9dqXViMA0Iy Q==;
+From: =?UTF-8?q?Stefan=20Sandstr=C3=B6m?= <stefans@axis.com>
+To: <stefans@axis.com>
+Subject: [PATCH v5] target/cris: Plug leakage of TCG temporaries
+Date: Mon, 22 Feb 2021 09:23:37 +0100
+Message-ID: <20210222082338.6836-1-stefans@axis.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ffa14828-c6a8-4052-6e5a-08d8d70a2237
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4885:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB48855E4E857FC8985DFF2E66CA819@BYAPR02MB4885.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: lbJzgz9haCcwxP1p8Kty3gElmmR9PXcZEzswotAXt/tTohTLIyb7QkjZUHiColSfon7Bbe0qZfpCyE0eCHCuluZJE+rpwhOH9zJXpbRWRKi/FotMHnaDtFXyOoDoWdVCBp/WCwVfbjWg0nVZ3PknkUPdGpSJYe2F2Ie/1swAMwh6dZAoB/mUvsBrR618z8RXwhIFMicqjPBA49d07T265thCmIpT8/lznmw5MaJ4zcYC4NAB8hduXKFKVCKxL2xpUGXw5KEwIeqY4B7Ayj5zXqLOrcoUjyspSiQMJwwQ9AQDoQZ9O2uN9oj0DyHfIAuNj6aXZqjY55GAuV1aH1jAA+o+LHlWKDI/z/PIOx/sVl66F+t00USiKAgHN8Tpv+VBDKYfEIMULaASK5tPA1mw+RItNFpvvZTpUqVVdYGaXCBZ0kcbbwhCbFXc9dNQSgJuccbzs7hh3ZqgTCXYIU7tKT2e9Ewn1TClG5VO2gDrzFia3NHnZWRv67Ay71tBRD+T6PFqetl3uXQPozK/BMdsAvG4R1XdMiRJ4URCWVtwliJWzdOiNHiDa+9W5x7FXn8x1lFDOK3TB3B4bvVMH2PdJOPdgf3aCKe5cUEIF45mw5fkGR7uQ5J8aDsumCIKd3z+4TTGbGnlDnukgzi8KEoAEdoU7rreoCaemFYstN9tZk7HGR0lT1z5aqr3D6fnXBKBF7y0WHI5suorpANA9K085w==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(39850400004)(376002)(346002)(396003)(136003)(36840700001)(46966006)(47076005)(8936002)(26005)(8676002)(36906005)(316002)(36860700001)(70586007)(478600001)(70206006)(82310400003)(42186006)(7636003)(356005)(110136005)(336012)(83380400001)(426003)(7416002)(2906002)(54906003)(186003)(6666004)(4326008)(2616005)(6266002)(36756003)(107886003)(921005)(82740400003)(5660300002)(4744005)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Feb 2021 08:16:19.5998 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ffa14828-c6a8-4052-6e5a-08d8d70a2237
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT007.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4885
-Received-SPF: pass client-ip=40.107.102.75; envelope-from=saipava@xilinx.com;
- helo=NAM04-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=195.60.68.18;
+ envelope-from=stefans@m-c02w82arhv2h.localdomain; helo=smtp2.axis.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ NO_DNS_FOR_FROM=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001, TO_EQ_FM_DIRECT_MX=2.499 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -132,42 +61,666 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add few simple steps to create emmc card with boot and user data
-partitions.
+From: Stefan Sandstrom <stefans@axis.com>
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+Add and fix deallocation of temporary TCG registers in CRIS code
+generation.
+
+Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
+Signed-off-by: Stefan Sandström <stefans@axis.com>
 ---
- docs/devel/emmc.txt | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
- create mode 100644 docs/devel/emmc.txt
+ target/cris/translate.c         | 124 ++++++++++++++++++++++----------
+ target/cris/translate_v10.c.inc |  70 ++++++++++++------
+ 2 files changed, 135 insertions(+), 59 deletions(-)
 
-diff --git a/docs/devel/emmc.txt b/docs/devel/emmc.txt
-new file mode 100644
-index 0000000..2d098fe
---- /dev/null
-+++ b/docs/devel/emmc.txt
-@@ -0,0 +1,16 @@
-+====================
-+eMMC block emulation
-+====================
-+
-+Any eMMC devices has 3 kinds of partitions Boot, RPMB and User data. We
-+are supporting Boot and User data partitions. Boot area partitions are
-+expected to be 1MB size as hard coded in EXT_CSD register.
-+
-+Below is the example of combining two 1MB bootarea partition and
-+user data partitions.
-+
-+      cat mmc-bootarea0.bin mmc-bootarea1.bin  image.wic > mmc.img
-+      qemu-img resize mmc.img 4G
-+
-+Note: mmc-bootarea0/1 are just raw paritions. User data can have
-+partition tables.
+diff --git a/target/cris/translate.c b/target/cris/translate.c
+index c893f877ab..583bc73ccf 100644
+--- a/target/cris/translate.c
++++ b/target/cris/translate.c
+@@ -172,14 +172,20 @@ static int preg_sizes[] = {
+     tcg_gen_ld_tl(tn, cpu_env, offsetof(CPUCRISState, member))
+ #define t_gen_mov_env_TN(member, tn) \
+     tcg_gen_st_tl(tn, cpu_env, offsetof(CPUCRISState, member))
++#define t_gen_movi_env_TN(member, c) \
++    do { \
++        TCGv tc = tcg_const_tl(c); \
++        t_gen_mov_env_TN(member, tc); \
++        tcg_temp_free(tc); \
++    } while (0)
+ 
+ static inline void t_gen_mov_TN_preg(TCGv tn, int r)
+ {
+     assert(r >= 0 && r <= 15);
+     if (r == PR_BZ || r == PR_WZ || r == PR_DZ) {
+-        tcg_gen_mov_tl(tn, tcg_const_tl(0));
++        tcg_gen_movi_tl(tn, 0);
+     } else if (r == PR_VR) {
+-        tcg_gen_mov_tl(tn, tcg_const_tl(32));
++        tcg_gen_movi_tl(tn, 32);
+     } else {
+         tcg_gen_mov_tl(tn, cpu_PR[r]);
+     }
+@@ -256,7 +262,7 @@ static int cris_fetch(CPUCRISState *env, DisasContext *dc, uint32_t addr,
+ static void cris_lock_irq(DisasContext *dc)
+ {
+     dc->clear_locked_irq = 0;
+-    t_gen_mov_env_TN(locked_irq, tcg_const_tl(1));
++    t_gen_movi_env_TN(locked_irq, 1);
+ }
+ 
+ static inline void t_gen_raise_exception(uint32_t index)
+@@ -885,8 +891,7 @@ static void gen_tst_cc (DisasContext *dc, TCGv cc, int cond)
+     case CC_EQ:
+         if ((arith_opt || move_opt)
+                 && dc->cc_x_uptodate != (2 | X_FLAG)) {
+-            tcg_gen_setcond_tl(TCG_COND_EQ, cc,
+-                    cc_result, tcg_const_tl(0));
++            tcg_gen_setcondi_tl(TCG_COND_EQ, cc, cc_result, 0);
+         } else {
+             cris_evaluate_flags(dc);
+             tcg_gen_andi_tl(cc,
+@@ -1330,14 +1335,17 @@ static int dec_addoq(CPUCRISState *env, DisasContext *dc)
+ }
+ static int dec_addq(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c;
+     LOG_DIS("addq %u, $r%u\n", dc->op1, dc->op2);
+ 
+     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
+ 
+     cris_cc_mask(dc, CC_MASK_NZVC);
+ 
++    c = tcg_const_tl(dc->op1);
+     cris_alu(dc, CC_OP_ADD,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+     return 2;
+ }
+ static int dec_moveq(CPUCRISState *env, DisasContext *dc)
+@@ -1353,62 +1361,77 @@ static int dec_moveq(CPUCRISState *env, DisasContext *dc)
+ }
+ static int dec_subq(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c;
+     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
+ 
+     LOG_DIS("subq %u, $r%u\n", dc->op1, dc->op2);
+ 
+     cris_cc_mask(dc, CC_MASK_NZVC);
++    c = tcg_const_tl(dc->op1);
+     cris_alu(dc, CC_OP_SUB,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(dc->op1), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+     return 2;
+ }
+ static int dec_cmpq(CPUCRISState *env, DisasContext *dc)
+ {
+     uint32_t imm;
++    TCGv c;
+     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
+     imm = sign_extend(dc->op1, 5);
+ 
+     LOG_DIS("cmpq %d, $r%d\n", imm, dc->op2);
+     cris_cc_mask(dc, CC_MASK_NZVC);
+ 
++    c = tcg_const_tl(imm);
+     cris_alu(dc, CC_OP_CMP,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+     return 2;
+ }
+ static int dec_andq(CPUCRISState *env, DisasContext *dc)
+ {
+     uint32_t imm;
++    TCGv c;
+     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
+     imm = sign_extend(dc->op1, 5);
+ 
+     LOG_DIS("andq %d, $r%d\n", imm, dc->op2);
+     cris_cc_mask(dc, CC_MASK_NZ);
+ 
++    c = tcg_const_tl(imm);
+     cris_alu(dc, CC_OP_AND,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+     return 2;
+ }
+ static int dec_orq(CPUCRISState *env, DisasContext *dc)
+ {
+     uint32_t imm;
++    TCGv c;
+     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 5);
+     imm = sign_extend(dc->op1, 5);
+     LOG_DIS("orq %d, $r%d\n", imm, dc->op2);
+     cris_cc_mask(dc, CC_MASK_NZ);
+ 
++    c = tcg_const_tl(imm);
+     cris_alu(dc, CC_OP_OR,
+-            cpu_R[dc->op2], cpu_R[dc->op2], tcg_const_tl(imm), 4);
++            cpu_R[dc->op2], cpu_R[dc->op2], c, 4);
++    tcg_temp_free(c);
+     return 2;
+ }
+ static int dec_btstq(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c;
+     dc->op1 = EXTRACT_FIELD(dc->ir, 0, 4);
+     LOG_DIS("btstq %u, $r%d\n", dc->op1, dc->op2);
+ 
+     cris_cc_mask(dc, CC_MASK_NZ);
++    c = tcg_const_tl(dc->op1);
+     cris_evaluate_flags(dc);
+-        gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
+-            tcg_const_tl(dc->op1), cpu_PR[PR_CCS]);
++    gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->op2],
++            c, cpu_PR[PR_CCS]);
++    tcg_temp_free(c);
+     cris_alu(dc, CC_OP_MOVE,
+          cpu_R[dc->op2], cpu_R[dc->op2], cpu_R[dc->op2], 4);
+     cris_update_cc_op(dc, CC_OP_FLAGS, 4);
+@@ -1558,7 +1581,7 @@ static int dec_lsl_r(CPUCRISState *env, DisasContext *dc)
+     dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
+     tcg_gen_andi_tl(t[1], t[1], 63);
+     cris_alu(dc, CC_OP_LSL, cpu_R[dc->op2], t[0], t[1], size);
+-    cris_alu_alloc_temps(dc, size, t);
++    cris_alu_free_temps(dc, size, t);
+     return 2;
+ }
+ 
+@@ -1624,7 +1647,7 @@ static int dec_mulu_r(CPUCRISState *env, DisasContext *dc)
+     dec_prep_alu_r(dc, dc->op1, dc->op2, size, 0, t[0], t[1]);
+ 
+     cris_alu(dc, CC_OP_MULU, cpu_R[dc->op2], t[0], t[1], 4);
+-    cris_alu_alloc_temps(dc, size, t);
++    cris_alu_free_temps(dc, size, t);
+     return 2;
+ }
+ 
+@@ -1806,7 +1829,7 @@ static int dec_addi_r(CPUCRISState *env, DisasContext *dc)
+             memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
+     cris_cc_mask(dc, 0);
+     t0 = tcg_temp_new();
+-    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
++    tcg_gen_shli_tl(t0, cpu_R[dc->op2], dc->zzsize);
+     tcg_gen_add_tl(cpu_R[dc->op1], cpu_R[dc->op1], t0);
+     tcg_temp_free(t0);
+     return 2;
+@@ -1819,7 +1842,7 @@ static int dec_addi_acr(CPUCRISState *env, DisasContext *dc)
+           memsize_char(memsize_zz(dc)), dc->op2, dc->op1);
+     cris_cc_mask(dc, 0);
+     t0 = tcg_temp_new();
+-    tcg_gen_shl_tl(t0, cpu_R[dc->op2], tcg_const_tl(dc->zzsize));
++    tcg_gen_shli_tl(t0, cpu_R[dc->op2], dc->zzsize);
+     tcg_gen_add_tl(cpu_R[R_ACR], cpu_R[dc->op1], t0);
+     tcg_temp_free(t0);
+     return 2;
+@@ -2051,18 +2074,26 @@ static int dec_setclrf(CPUCRISState *env, DisasContext *dc)
+ 
+ static int dec_move_rs(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c2, c1;
+     LOG_DIS("move $r%u, $s%u\n", dc->op1, dc->op2);
++    c1 = tcg_const_tl(dc->op1);
++    c2 = tcg_const_tl(dc->op2);
+     cris_cc_mask(dc, 0);
+-        gen_helper_movl_sreg_reg(cpu_env, tcg_const_tl(dc->op2),
+-                                 tcg_const_tl(dc->op1));
++    gen_helper_movl_sreg_reg(cpu_env, c2, c1);
++    tcg_temp_free(c1);
++    tcg_temp_free(c2);
+     return 2;
+ }
+ static int dec_move_sr(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c2, c1;
+     LOG_DIS("move $s%u, $r%u\n", dc->op2, dc->op1);
++    c1 = tcg_const_tl(dc->op1);
++    c2 = tcg_const_tl(dc->op2);
+     cris_cc_mask(dc, 0);
+-        gen_helper_movl_reg_sreg(cpu_env, tcg_const_tl(dc->op1),
+-                                 tcg_const_tl(dc->op2));
++    gen_helper_movl_reg_sreg(cpu_env, c1, c2);
++    tcg_temp_free(c1);
++    tcg_temp_free(c2);
+     return 2;
+ }
+ 
+@@ -2345,7 +2376,7 @@ static int dec_cmp_m(CPUCRISState *env, DisasContext *dc)
+ 
+ static int dec_test_m(CPUCRISState *env, DisasContext *dc)
+ {
+-    TCGv t[2];
++    TCGv t[2], c;
+     int memsize = memsize_zz(dc);
+     int insn_len;
+     LOG_DIS("test.%c [$r%u%s] op2=%x\n",
+@@ -2360,8 +2391,10 @@ static int dec_test_m(CPUCRISState *env, DisasContext *dc)
+     cris_cc_mask(dc, CC_MASK_NZ);
+     tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
+ 
++    c = tcg_const_tl(0);
+     cris_alu(dc, CC_OP_CMP,
+-         cpu_R[dc->op2], t[1], tcg_const_tl(0), memsize_zz(dc));
++         cpu_R[dc->op2], t[1], c, memsize_zz(dc));
++    tcg_temp_free(c);
+     do_postinc(dc, memsize);
+     cris_alu_m_free_temps(t);
+     return insn_len;
+@@ -2713,6 +2746,7 @@ static int dec_jump_p(CPUCRISState *env, DisasContext *dc)
+ /* Jump and save.  */
+ static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c;
+     LOG_DIS("jas $r%u, $p%u\n", dc->op1, dc->op2);
+     cris_cc_mask(dc, 0);
+     /* Store the return address in Pd.  */
+@@ -2720,7 +2754,9 @@ static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
+     if (dc->op2 > 15) {
+         abort();
+     }
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4));
++    c = tcg_const_tl(dc->pc + 4);
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+ 
+     cris_prepare_jmp(dc, JMP_INDIRECT);
+     return 2;
+@@ -2729,13 +2765,16 @@ static int dec_jas_r(CPUCRISState *env, DisasContext *dc)
+ static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
+ {
+     uint32_t imm;
++    TCGv c;
+ 
+     imm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
+ 
+     LOG_DIS("jas 0x%x\n", imm);
+     cris_cc_mask(dc, 0);
++    c = tcg_const_tl(dc->pc + 8);
+     /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+ 
+     dc->jmp_pc = imm;
+     cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2745,13 +2784,16 @@ static int dec_jas_im(CPUCRISState *env, DisasContext *dc)
+ static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
+ {
+     uint32_t imm;
++    TCGv c;
+ 
+     imm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
+ 
+     LOG_DIS("jasc 0x%x\n", imm);
+     cris_cc_mask(dc, 0);
++    c = tcg_const_tl(dc->pc + 8 + 4);
+     /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8 + 4));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+ 
+     dc->jmp_pc = imm;
+     cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2760,11 +2802,14 @@ static int dec_jasc_im(CPUCRISState *env, DisasContext *dc)
+ 
+ static int dec_jasc_r(CPUCRISState *env, DisasContext *dc)
+ {
++    TCGv c;
+     LOG_DIS("jasc_r $r%u, $p%u\n", dc->op1, dc->op2);
+     cris_cc_mask(dc, 0);
+     /* Store the return address in Pd.  */
+     tcg_gen_mov_tl(env_btarget, cpu_R[dc->op1]);
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 4 + 4));
++    c = tcg_const_tl(dc->pc + 4 + 4);
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+     cris_prepare_jmp(dc, JMP_INDIRECT);
+     return 2;
+ }
+@@ -2789,13 +2834,16 @@ static int dec_bcc_im(CPUCRISState *env, DisasContext *dc)
+ static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
+ {
+     int32_t simm;
++    TCGv c;
+ 
+     simm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
+ 
+     LOG_DIS("bas 0x%x, $p%u\n", dc->pc + simm, dc->op2);
+     cris_cc_mask(dc, 0);
++    c = tcg_const_tl(dc->pc + 8);
+     /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 8));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+ 
+     dc->jmp_pc = dc->pc + simm;
+     cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2805,12 +2853,15 @@ static int dec_bas_im(CPUCRISState *env, DisasContext *dc)
+ static int dec_basc_im(CPUCRISState *env, DisasContext *dc)
+ {
+     int32_t simm;
++    TCGv c;
+     simm = cris_fetch(env, dc, dc->pc + 2, 4, 0);
+ 
+     LOG_DIS("basc 0x%x, $p%u\n", dc->pc + simm, dc->op2);
+     cris_cc_mask(dc, 0);
++    c = tcg_const_tl(dc->pc + 12);
+     /* Store the return address in Pd.  */
+-    t_gen_mov_preg_TN(dc, dc->op2, tcg_const_tl(dc->pc + 12));
++    t_gen_mov_preg_TN(dc, dc->op2, c);
++    tcg_temp_free(c);
+ 
+     dc->jmp_pc = dc->pc + simm;
+     cris_prepare_jmp(dc, JMP_DIRECT);
+@@ -2851,8 +2902,7 @@ static int dec_rfe_etc(CPUCRISState *env, DisasContext *dc)
+         tcg_gen_movi_tl(env_pc, dc->pc + 2);
+ 
+         /* Breaks start at 16 in the exception vector.  */
+-        t_gen_mov_env_TN(trap_vector,
+-                tcg_const_tl(dc->op1 + 16));
++        t_gen_movi_env_TN(trap_vector, dc->op1 + 16);
+         t_gen_raise_exception(EXCP_BREAK);
+         dc->is_jmp = DISAS_UPDATE;
+         break;
+@@ -3026,7 +3076,7 @@ static unsigned int crisv32_decoder(CPUCRISState *env, DisasContext *dc)
+         tcg_gen_brcondi_tl(TCG_COND_NE, cpu_PR[PR_SPC], dc->pc, l1);
+         /* We treat SPC as a break with an odd trap vector.  */
+         cris_evaluate_flags(dc);
+-        t_gen_mov_env_TN(trap_vector, tcg_const_tl(3));
++        t_gen_movi_env_TN(trap_vector, 3);
+         tcg_gen_movi_tl(env_pc, dc->pc + insn_len);
+         tcg_gen_movi_tl(cpu_PR[PR_SPC], dc->pc + insn_len);
+         t_gen_raise_exception(EXCP_BREAK);
+@@ -3170,7 +3220,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+             dc->delayed_branch--;
+             if (dc->delayed_branch == 0) {
+                 if (tb->flags & 7) {
+-                    t_gen_mov_env_TN(dslot, tcg_const_tl(0));
++                    t_gen_movi_env_TN(dslot, 0);
+                 }
+                 if (dc->cpustate_changed || !dc->flagx_known
+                     || (dc->flags_x != (tb->flags & X_FLAG))) {
+@@ -3179,7 +3229,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+ 
+                 if (dc->clear_locked_irq) {
+                     dc->clear_locked_irq = 0;
+-                    t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
++                    t_gen_movi_env_TN(locked_irq, 0);
+                 }
+ 
+                 if (dc->jmp == JMP_DIRECT_CC) {
+@@ -3200,7 +3250,9 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+                     dc->is_jmp = DISAS_TB_JUMP;
+                     dc->jmp = JMP_NOJMP;
+                 } else {
+-                    t_gen_cc_jmp(env_btarget, tcg_const_tl(dc->pc));
++                    TCGv c = tcg_const_tl(dc->pc);
++                    t_gen_cc_jmp(env_btarget, c);
++                    tcg_temp_free(c);
+                     dc->is_jmp = DISAS_JUMP;
+                 }
+                 break;
+@@ -3219,7 +3271,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+             && num_insns < max_insns);
+ 
+     if (dc->clear_locked_irq) {
+-        t_gen_mov_env_TN(locked_irq, tcg_const_tl(0));
++        t_gen_movi_env_TN(locked_irq, 0);
+     }
+ 
+     npc = dc->pc;
+@@ -3234,7 +3286,7 @@ void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+     /* Broken branch+delayslot sequence.  */
+     if (dc->delayed_branch == 1) {
+         /* Set env->dslot to the size of the branch insn.  */
+-        t_gen_mov_env_TN(dslot, tcg_const_tl(dc->pc - dc->ppc));
++        t_gen_movi_env_TN(dslot, dc->pc - dc->ppc);
+         cris_store_direct_jmp(dc);
+     }
+ 
+diff --git a/target/cris/translate_v10.c.inc b/target/cris/translate_v10.c.inc
+index 86d78a82aa..f7cd67be37 100644
+--- a/target/cris/translate_v10.c.inc
++++ b/target/cris/translate_v10.c.inc
+@@ -228,6 +228,7 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+ {
+     int32_t imm, simm;
+     int op;
++    TCGv c;
+ 
+     /* sign extend.  */
+     imm = dc->ir & ((1 << 6) - 1);
+@@ -254,29 +255,37 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+             LOG_DIS("moveq %d, $r%d\n", simm, dc->dst);
+ 
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(simm);
+             cris_alu(dc, CC_OP_MOVE, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_CMPQ:
+             LOG_DIS("cmpq %d, $r%d\n", simm, dc->dst);
+ 
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(simm);
+             cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_ADDQ:
+             LOG_DIS("addq %d, $r%d\n", imm, dc->dst);
+ 
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(imm);
+             cris_alu(dc, CC_OP_ADD, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_ANDQ:
+             LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
+ 
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(simm);
+             cris_alu(dc, CC_OP_AND, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_ASHQ:
+             LOG_DIS("ashq %d, $r%d\n", simm, dc->dst);
+@@ -284,15 +293,17 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+             cris_cc_mask(dc, CC_MASK_NZVC);
+             op = imm & (1 << 5);
+             imm &= 0x1f;
++            c = tcg_const_tl(imm);
+             if (op) {
+                 cris_alu(dc, CC_OP_ASR, cpu_R[dc->dst],
+-                          cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                          cpu_R[dc->dst], c, 4);
+             } else {
+                 /* BTST */
+                 cris_update_cc_op(dc, CC_OP_FLAGS, 4);
+                 gen_helper_btst(cpu_PR[PR_CCS], cpu_env, cpu_R[dc->dst],
+-                           tcg_const_tl(imm), cpu_PR[PR_CCS]);
++                           c, cpu_PR[PR_CCS]);
+             }
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_LSHQ:
+             LOG_DIS("lshq %d, $r%d\n", simm, dc->dst);
+@@ -303,22 +314,28 @@ static unsigned int dec10_quick_imm(DisasContext *dc)
+             }
+             imm &= 0x1f;
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(imm);
+             cris_alu(dc, op, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_SUBQ:
+             LOG_DIS("subq %d, $r%d\n", imm, dc->dst);
+ 
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(imm);
+             cris_alu(dc, CC_OP_SUB, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(imm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+         case CRISV10_QIMM_ORQ:
+             LOG_DIS("andq %d, $r%d\n", simm, dc->dst);
+ 
+             cris_cc_mask(dc, CC_MASK_NZVC);
++            c = tcg_const_tl(simm);
+             cris_alu(dc, CC_OP_OR, cpu_R[dc->dst],
+-                     cpu_R[dc->dst], tcg_const_tl(simm), 4);
++                     cpu_R[dc->dst], c, 4);
++            tcg_temp_free(c);
+             break;
+ 
+         case CRISV10_QIMM_BCC_R0:
+@@ -760,7 +777,6 @@ static unsigned int dec10_ind_move_m_r(CPUCRISState *env, DisasContext *dc,
+         tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
+         cris_prepare_jmp(dc, JMP_INDIRECT);
+         dc->delayed_branch = 1;
+-        return insn_len;
+     }
+ 
+     tcg_temp_free(t);
+@@ -777,6 +793,7 @@ static unsigned int dec10_ind_move_r_m(DisasContext *dc, unsigned int size)
+     crisv10_prepare_memaddr(dc, addr, size);
+     gen_store_v10(dc, addr, cpu_R[dc->dst], size);
+     insn_len += crisv10_post_memaddr(dc, size);
++    tcg_temp_free(addr);
+ 
+     return insn_len;
+ }
+@@ -796,11 +813,10 @@ static unsigned int dec10_ind_move_m_pr(CPUCRISState *env, DisasContext *dc)
+         tcg_gen_mov_tl(env_btarget, t);
+         cris_prepare_jmp(dc, JMP_INDIRECT);
+         dc->delayed_branch = 1;
+-        return insn_len;
++    } else {
++        tcg_gen_mov_tl(cpu_PR[rd], t);
++        dc->cpustate_changed = 1;
+     }
+-
+-    tcg_gen_mov_tl(cpu_PR[rd], t);
+-    dc->cpustate_changed = 1;
+     tcg_temp_free(addr);
+     tcg_temp_free(t);
+     return insn_len;
+@@ -824,8 +840,8 @@ static unsigned int dec10_ind_move_pr_m(DisasContext *dc)
+     } else {
+         gen_store_v10(dc, addr, cpu_PR[dc->dst], size);
+     }
+-    t0 = tcg_temp_new();
+     insn_len += crisv10_post_memaddr(dc, size);
++    tcg_temp_free(addr);
+     cris_lock_irq(dc);
+ 
+     return insn_len;
+@@ -927,7 +943,6 @@ static int dec10_ind_bound(CPUCRISState *env, DisasContext *dc,
+         tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
+         cris_prepare_jmp(dc, JMP_INDIRECT);
+         dc->delayed_branch = 1;
+-        return insn_len;
+     }
+ 
+     tcg_temp_free(t);
+@@ -953,7 +968,6 @@ static int dec10_alux_m(CPUCRISState *env, DisasContext *dc, int op)
+         tcg_gen_mov_tl(env_btarget, cpu_R[dc->dst]);
+         cris_prepare_jmp(dc, JMP_INDIRECT);
+         dc->delayed_branch = 1;
+-        return insn_len;
+     }
+ 
+     tcg_temp_free(t);
+@@ -1020,7 +1034,7 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+     unsigned int size = dec10_size(dc->size);
+     uint32_t imm;
+     int32_t simm;
+-    TCGv t[2];
++    TCGv t[2], c;
+ 
+     if (dc->size != 3) {
+         switch (dc->opcode) {
+@@ -1041,8 +1055,10 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+                 cris_alu_m_alloc_temps(t);
+                 insn_len += dec10_prep_move_m(env, dc, 0, size, t[0]);
+                 tcg_gen_andi_tl(cpu_PR[PR_CCS], cpu_PR[PR_CCS], ~3);
++                c = tcg_const_tl(0);
+                 cris_alu(dc, CC_OP_CMP, cpu_R[dc->dst],
+-                         t[0], tcg_const_tl(0), size);
++                         t[0], c, size);
++                tcg_temp_free(c);
+                 cris_alu_m_free_temps(t);
+                 break;
+             case CRISV10_IND_ADD:
+@@ -1138,7 +1154,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+                 if (dc->mode == CRISV10_MODE_AUTOINC)
+                     insn_len += size;
+ 
+-                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len));
++                c = tcg_const_tl(dc->pc + insn_len);
++                t_gen_mov_preg_TN(dc, dc->dst, c);
++                tcg_temp_free(c);
+                 dc->jmp_pc = imm;
+                 cris_prepare_jmp(dc, JMP_DIRECT);
+                 dc->delayed_branch--; /* v10 has no dslot here.  */
+@@ -1147,7 +1165,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+                     LOG_DIS("break %d\n", dc->src);
+                     cris_evaluate_flags(dc);
+                     tcg_gen_movi_tl(env_pc, dc->pc + 2);
+-                    t_gen_mov_env_TN(trap_vector, tcg_const_tl(dc->src + 2));
++                    c = tcg_const_tl(dc->src + 2);
++                    t_gen_mov_env_TN(trap_vector, c);
++                    tcg_temp_free(c);
+                     t_gen_raise_exception(EXCP_BREAK);
+                     dc->is_jmp = DISAS_UPDATE;
+                     return insn_len;
+@@ -1155,7 +1175,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+                 LOG_DIS("%d: jump.%d %d r%d r%d\n", __LINE__, size,
+                          dc->opcode, dc->src, dc->dst);
+                 t[0] = tcg_temp_new();
+-                t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len));
++                c = tcg_const_tl(dc->pc + insn_len);
++                t_gen_mov_preg_TN(dc, dc->dst, c);
++                tcg_temp_free(c);
+                 crisv10_prepare_memaddr(dc, t[0], size);
+                 gen_load(dc, env_btarget, t[0], 4, 0);
+                 insn_len += crisv10_post_memaddr(dc, size);
+@@ -1178,7 +1200,9 @@ static unsigned int dec10_ind(CPUCRISState *env, DisasContext *dc)
+             LOG_DIS("jmp pc=%x opcode=%d r%d r%d\n",
+                         dc->pc, dc->opcode, dc->dst, dc->src);
+             tcg_gen_mov_tl(env_btarget, cpu_R[dc->src]);
+-            t_gen_mov_preg_TN(dc, dc->dst, tcg_const_tl(dc->pc + insn_len));
++            c = tcg_const_tl(dc->pc + insn_len);
++            t_gen_mov_preg_TN(dc, dc->dst, c);
++            tcg_temp_free(c);
+             cris_prepare_jmp(dc, JMP_INDIRECT);
+             dc->delayed_branch--; /* v10 has no dslot here.  */
+             break;
 -- 
-2.7.4
+2.24.3 (Apple Git-128)
 
 
