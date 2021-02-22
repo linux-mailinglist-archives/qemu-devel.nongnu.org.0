@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44153321141
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 08:16:40 +0100 (CET)
-Received: from localhost ([::1]:58272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF8F32112F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 08:11:04 +0100 (CET)
+Received: from localhost ([::1]:53756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE5SR-0001sz-3u
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 02:16:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58986)
+	id 1lE5N0-00086W-KT
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 02:11:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lE5J7-0006fw-QO; Mon, 22 Feb 2021 02:07:01 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:37599)
+ id 1lE5J7-0006fl-5F; Mon, 22 Feb 2021 02:07:01 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:34849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lE5J1-00030d-LQ; Mon, 22 Feb 2021 02:07:01 -0500
+ id 1lE5J1-00031K-Uf; Mon, 22 Feb 2021 02:07:00 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 9F2FC5C00FB;
- Mon, 22 Feb 2021 02:06:52 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 3020A5C00ED;
+ Mon, 22 Feb 2021 02:06:55 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 22 Feb 2021 02:06:52 -0500
+ by compute4.internal (MEProxy); Mon, 22 Feb 2021 02:06:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=VI393SK7a20Uz
- pl4ceRURsxlhnDBbb01vgkiJjlgaFM=; b=dlFRG1z2OTOHWGNLhvLj/B3cb7rCZ
- p0yMtw/rC2RQdlOLmIjNUBasyX6jCQJgQFWTRTBneqKZI/08cMktHa7tddWFyU3D
- guHq9TEtw4Zlv3C8LPkbXpma2uUK0fqmCUEpCmnj4jK6SQBRECBZW7LBdytL/ge8
- 9IyTMIrX2Gkfm18dOG7FhelF86a1q4SKuvVko5Wbuw0NUBdny38MqQmCkydfglnW
- 7k+QEQuyfjjAoNS5nVgzZg4fY+oTdEjusE6YYxCXqaxENe6H7VtPa91/7ZV6kgur
- Ou58knw5yc0ZxVyUQcjAx3YqbcesWaj663C/ywiRENCc44D+4OnkS6xRA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=FaKz61CQe4yI+
+ mSp9LjyJedEU/bcxO58+8qrQ/MKnpg=; b=RDWGmbZKUj7QsBy5wgfPv+tma5Cvv
+ pqGPi7HdBHX+Yg+0dsL0s12PWhhS1TtawieT1mlbRkkKsT0J+tjGwAVoyQA1xNRf
+ ONzvpjkIRifZ1c5H7Y3VYKiC+6aZtGYUUb8tnEOaqPwmvxViHaSdd+NfCDicXZfb
+ mGHnHHfeLs+I7I4tRAt9t7qavG3GMVD2V0mjLw7k4Ti5PWcXQtNcUWwCpo9zP+DZ
+ T9OTTgLWauCS6j/ntZh9QcdsYpxTnoJN0ZeAtECSpeypJSalC4n7l/m2atPUIH64
+ p07rj/jRAx9n9uKbUFNJ4+indaBZGLWqmaR/b8RjFgY17tef32XhrPlXg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=VI393SK7a20Uzpl4ceRURsxlhnDBbb01vgkiJjlgaFM=; b=RMNsD7Mt
- gP4iFwn7c9gsaSYPthzWr8Wj7XY1uW0htvIUjhOIy1yWNvNeQS3v9FOKzXqYctId
- oUMcLJfHHVAkHnIpFPtjecTdc4YWm6YBnPUio+dFpzWOUubWuLxzyRW05/RAci+Q
- WhPRe0E0AlPDysbjNAmx76jC7hm7KXI/9s3J0tuG7x0CYguMafd9GAz8iulDcsuk
- 7cCWOOXeFGWJ0ZSxcFn+Q4CEqyQz432hL2yhjQFfV4aWJ8R0du7pkfQNWKK7slDR
- tHVvyt/Tz8KcMb/S1RYnKF7ahkKY2+f0EeCBgBN/bN/2d0HIJb/Q4Hza7R2SkUdY
- eIjh5VmTyINP+g==
-X-ME-Sender: <xms:DFgzYDleYX2_FNrliyxi_JU2pn6RKV5YiZbE3BbdSX9n-f7IbR4vgw>
- <xme:DFgzYG1wnm-EEIJOvsgl8oH6E709W1SNngXpMlehv4GDZRmjTRyUoiG9R7hgrlQ3q
- aNMwMzCXf_ZZsoX0f0>
+ fm2; bh=FaKz61CQe4yI+mSp9LjyJedEU/bcxO58+8qrQ/MKnpg=; b=G1Ry0aar
+ fTt9sJxCw+ouGACMf94XbQokN4g443hYHMtavLYN1kNnIBrY8ETRfvZivwEe5B76
+ tyDYaoU4eAm0qe1zOLsdf4rU2toLu1DeFPV1/7Jzx6ETrJ3R2p1JA4XKCZLB6oKD
+ yCJkV9T5TbnpdP6i3UdJPilZZjFWFiExYuQ1IqQ2l+Z4wcRi//acHfW6WJr1sV6b
+ ATnynfbpiylvnR3VJZlNDzXJjpO5X/rbBdF3DE/ScBxS7JZLvj8FuEUqbEN0/RZU
+ WdhEC5NO6v5rFmbI231S9EcE9EdKjhzutWtzd3iugtRRQIw0YC/5fWAeSJ3akI/q
+ PvKk6J7ox5u2TQ==
+X-ME-Sender: <xms:D1gzYEo8gvq_qJQb27nLPUMo3QBjnNI67H39cjfnKXONuOTcpJY0lw>
+ <xme:D1gzYKpDzLMqpRQxT93Pl1LH-Fz5isfUT4JJkEbVuSt3E677W0pQe1OPTRiE-k0z0
+ mhGCX7z7kx5LGKMiUY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkedvgddutddvucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
  ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedune
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:DFgzYJokVAHrWgsly6-UnzkZkW8UDn9J76dZu-FZO2VHVo2MchQbxA>
- <xmx:DFgzYLldkbg5bOx0hDJ65nSjpUCzT7uGE5XmUWLq_MP2wNnENPAn6g>
- <xmx:DFgzYB3i6EBm7tWwXuZIIUlaOMBBwU3Vb-50NtirwRXMWe82P-g36A>
- <xmx:DFgzYOnv6FcZdlQdTDuarjSTinQ1jR7ZayoAxspU6G2ahiFs5Vmo8g>
+X-ME-Proxy: <xmx:D1gzYJPj29YW1UzyFTbtSgpnj6p-GBd7k1p2Nft592RqaH8Kn5a5kA>
+ <xmx:D1gzYL5jfZTnsxBOsHvNWcPXnR08-FpS-W5_aULMMtUjx0njQ9nMyA>
+ <xmx:D1gzYD7wa9RFmhANC19GZBI9cmPKKsTkPCZLAhcii5t71xDY03zW4g>
+ <xmx:D1gzYGYM1ppN0dA1I7JXM7Xjf4Jj802OSyMW5-z4TzuYTm7UsmSd1Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 5531724005D;
- Mon, 22 Feb 2021 02:06:50 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id B1EC224005A;
+ Mon, 22 Feb 2021 02:06:52 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] hw/block/nvme: nvme_identify fixes
-Date: Mon, 22 Feb 2021 08:06:13 +0100
-Message-Id: <20210222070615.9177-2-its@irrelevant.dk>
+Subject: [PATCH 2/3] hw/block/nvme: fix potential compilation error
+Date: Mon, 22 Feb 2021 08:06:14 +0100
+Message-Id: <20210222070615.9177-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210222070615.9177-1-its@irrelevant.dk>
 References: <20210222070615.9177-1-its@irrelevant.dk>
@@ -102,44 +102,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Remove an unnecessary le_to_cpu conversion and add trace event for
-Identify.
+assert may be compiled to a noop and we could end up returning an
+uninitialized status.
+
+Fix this by always returning Internal Device Error as a fallback.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c       | 5 ++++-
- hw/block/trace-events | 1 +
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1cd82fa3c9fe..ddc83f7f7a19 100644
+index ddc83f7f7a19..897b9ff0db91 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -3415,7 +3415,10 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
+@@ -1232,7 +1232,7 @@ static uint16_t nvme_check_zone_write(NvmeNamespace *ns, NvmeZone *zone,
  
--    switch (le32_to_cpu(c->cns)) {
-+    trace_pci_nvme_identify(nvme_cid(req), c->cns, le16_to_cpu(c->ctrlid),
-+                            c->csi);
-+
-+    switch (c->cns) {
-     case NVME_ID_CNS_NS:
-          /* fall through */
-     case NVME_ID_CNS_NS_PRESENT:
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index b04f7a3e1890..1f958d09d2a9 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -61,6 +61,7 @@ pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize,
- pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
- pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
- pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
-+pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ctrlid, uint8_t csi) "cid %"PRIu16" cns 0x%"PRIx8" ctrlid %"PRIu16" csi 0x%"PRIx8""
- pci_nvme_identify_ctrl(void) "identify controller"
- pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
- pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
+ static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
+ {
+-    uint16_t status;
++    uint64_t zslba = zone->d.zslba;
+ 
+     switch (nvme_get_zone_state(zone)) {
+     case NVME_ZONE_STATE_EMPTY:
+@@ -1241,16 +1241,15 @@ static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
+     case NVME_ZONE_STATE_FULL:
+     case NVME_ZONE_STATE_CLOSED:
+     case NVME_ZONE_STATE_READ_ONLY:
+-        status = NVME_SUCCESS;
+-        break;
++        return NVME_SUCCESS;
+     case NVME_ZONE_STATE_OFFLINE:
+-        status = NVME_ZONE_OFFLINE;
+-        break;
++        trace_pci_nvme_err_zone_is_offline(zslba);
++        return NVME_ZONE_OFFLINE;
+     default:
+         assert(false);
+     }
+ 
+-    return status;
++    return NVME_INTERNAL_DEV_ERROR;
+ }
+ 
+ static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
 -- 
 2.30.1
 
