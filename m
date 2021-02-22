@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D44B3210BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 07:12:06 +0100 (CET)
-Received: from localhost ([::1]:41872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEFC3210BD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 07:13:41 +0100 (CET)
+Received: from localhost ([::1]:44052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE4Rx-0003Rt-IL
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 01:12:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46846)
+	id 1lE4TU-0004Qc-Nh
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 01:13:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE4PJ-00028L-EW
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:09:21 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:42253)
+ id 1lE4Rw-0003kf-BM
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:12:04 -0500
+Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:38975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE4PI-0001aa-0u
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:09:21 -0500
-Received: by mail-pf1-x429.google.com with SMTP id w18so5944878pfu.9
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 22:09:19 -0800 (PST)
+ id 1lE4Ru-0002rk-Rv
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:12:04 -0500
+Received: by mail-pg1-x52a.google.com with SMTP id o63so9600827pgo.6
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 22:12:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/7+aZQr7vWgZ2fyWC+t8aItLunHa8QYy864qFt8ZFqM=;
- b=b5tVp4vyoiBiyTaan7cKeZHkZb6VSvfTdnBYW56sdhUPj7UaIkO3oAz8fEb+46VMrs
- CEt77DeghPSgoVT76hwK6zCLkYInoxV2EsYqpmxfAv25Db6kP70qFKSLuQ8iIf5Fw0XA
- X9Dfg6feCFXJwyOffHocBoUUC5d/Otpu0OwWp0AO9iL5MxhcRPmHBmtTfhaWiOMzviV7
- owRfJ51TDwNwfqu+B5r4Nczrz7WRU77Ax0anWeLysipa+afqxNa0rop7cXROCAEPy35B
- uqQoxzsEHE5gNqxpku9KH7a9ynoZrnKxvnNPe2wS+QJlbWQBpJB8jB79Wpoy1tTHlh4l
- CriQ==
+ bh=o9xqAn51OtDIEgDWI77glzS6uMMMJ4GFCxZ06c7zJW0=;
+ b=RhX9QUsKgNRVPBBl7lNIgVt1bhxth1cimn+51X8AIoiNYWlXHMUuscLGztuufb6F6V
+ /PLinp98Spa/JJ85P2X1UP4EYZ3cbULSy+RKQO0tpWlsMZFTkd4U8IVi9no8jwy2t5Ux
+ uYEulkGkz0KzIEBYCVCHw8fbJ+D799iQ/1ZCa9a4QaABxYh5IJqcf6XgWIQfb0w7z8pz
+ /Trl8GuzIySc8de6OfsiUikjQKiL39K6dDGgm6SKr+PnymYY/quevqyDu+QisAGJOhcD
+ nHVcrgRMpzuTS7mCjneNaXRGdWg0RAB0e4m1xZ4APteVj0BBkRSRhCFhSPnzvoZGEQLS
+ w95A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/7+aZQr7vWgZ2fyWC+t8aItLunHa8QYy864qFt8ZFqM=;
- b=TTG1PewdgbzwyGj1wbPnOzoKXxG09fNft9MDtvwP+Fho88Xkx5l/FV8lAVVkJVtiW4
- w+cYj4ApKa9Sld2raUdGKfJQYLFErhzpms1Hr2CZxkZ50+twcfd4U+UdAcrpAULRNkCW
- d0mVkb4JGyhqV5y96ngpoZb+8CJZW6CIFfkCZGznG+PzHMN22IuaN0iascgM6d4qoPzp
- HOH2rIpFIB91tvWFFPeyDJkkeetgHCzmOgiV+srD+YkZRbBJhTxp2BfhMcXtQEQVBlGo
- /C6pmqjiPJbTyxrP0l2YWLkXRkPdISHtDbNtpIuwpwv6rAC8qPCf8wyRzMZGb3Ahq2h8
- mKnA==
-X-Gm-Message-State: AOAM5339SlKQcbltE2FrQn70lBeKZg0r9b+3a80ENr8iQCAtAeICFyoV
- JGiXhuhNM/SidjhUXgf+Z/CyVoIzAmInoA==
-X-Google-Smtp-Source: ABdhPJyM9EIlqyabHDhFIShUw7WoL3b83DxyoJsYwkhWZSP5TmL6BQZc1mX6vjRpxhfwG1quge+hkw==
-X-Received: by 2002:a63:de0d:: with SMTP id f13mr18916069pgg.194.1613974158438; 
- Sun, 21 Feb 2021 22:09:18 -0800 (PST)
+ bh=o9xqAn51OtDIEgDWI77glzS6uMMMJ4GFCxZ06c7zJW0=;
+ b=XZuE5p2Ht9CiSw4HTeolHVfDe0+6VQQpRR0u0ZVZYTBi3or+2g6eVzWCVM8Ji9JdBr
+ zUfBgiB5zEspFaTYl9+Fiff18fc+5TsIzMMuC6mLqpDjYbldAwIFM+k26IHV6UmEtAs7
+ PzrA84m0fiNt0CTCxQ2fJqK4tAmFdY6gIkvVASG29KivayxWq1bugEtTrrAs5bUF09Oj
+ b+uyCZGDUfmp/7gUsAe7QDbcXVopcmcM2DGi7vCujyiA+zeGD8TW5bEY9jc8yNtesaTd
+ y8kj7xgmaZM/kG2qY0rWDaD15+MxHAvV67fjWYhPkdMcTGZkmCZSGSAbt326Cajr10xm
+ z6VA==
+X-Gm-Message-State: AOAM532QB08R3GUTL9+6xYMb/IoiqYzjA3HENr/ftf+QXOiLHLC5rCwv
+ Pa4rt+kvtB0UpfdKtYb4o3yiCSspWo96aw==
+X-Google-Smtp-Source: ABdhPJwfE32q6ssa1zyIUSHTGmk9bnZVhLJYtsf8zeBRls16PzyD/n0nfM0Q5b+UBVfYI0CIR54seg==
+X-Received: by 2002:a62:6304:0:b029:1c0:d62d:d213 with SMTP id
+ x4-20020a6263040000b02901c0d62dd213mr20378210pfb.79.1613974319642; 
+ Sun, 21 Feb 2021 22:11:59 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id r23sm16782600pgl.42.2021.02.21.22.09.17
+ by smtp.gmail.com with ESMTPSA id o1sm16272153pgq.1.2021.02.21.22.11.58
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 22:09:18 -0800 (PST)
-Subject: Re: [RFC v1 28/38] target/arm: make arm_pmu_timer_cb TCG-only,
- starting tcg-stub
-To: Claudio Fontana <cfontana@suse.de>
+ Sun, 21 Feb 2021 22:11:59 -0800 (PST)
+Subject: Re: [RFC v1 32/38] target/arm: cpu: do not initialize TCG PMU for KVM
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Claudio Fontana <cfontana@suse.de>
 References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-29-cfontana@suse.de>
+ <20210221092449.7545-33-cfontana@suse.de>
+ <ea91e888-10db-8abe-7a62-bc4532ba99eb@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9e8a95a8-6851-6a1f-f98e-a46ca5918cb6@linaro.org>
-Date: Sun, 21 Feb 2021 22:09:16 -0800
+Message-ID: <0afa25c0-5c09-0c6c-82a3-db18f055ea06@linaro.org>
+Date: Sun, 21 Feb 2021 22:11:57 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210221092449.7545-29-cfontana@suse.de>
+In-Reply-To: <ea91e888-10db-8abe-7a62-bc4532ba99eb@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,21 +94,32 @@ Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 1:24 AM, Claudio Fontana wrote:
-> @@ -634,10 +635,11 @@ static int cpu_pre_save(void *opaque)
->  {
->      ARMCPU *cpu = opaque;
->  
-> -    if (!kvm_enabled()) {
-> +#ifdef CONFIG_TCG
-> +    if (tcg_enabled()) {
->          pmu_op_start(&cpu->env);
->      }
-> -
-> +#endif /* CONFIG_TCG */
+On 2/21/21 1:53 AM, Philippe Mathieu-Daudé wrote:
+> On 2/21/21 10:24 AM, Claudio Fontana wrote:
+>> From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
+>>
+>> KVM uses its own PMU initialization.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+>>  target/arm/cpu.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>> index a8321fecf8..d334987cad 100644
+>> --- a/target/arm/cpu.c
+>> +++ b/target/arm/cpu.c
+>> @@ -1648,6 +1648,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>          unset_feature(env, ARM_FEATURE_PMU);
+>>      }
+>>      if (arm_feature(env, ARM_FEATURE_PMU)) {
+>> +#ifdef CONFIG_TCG
+> 
+> Shouldn't this be #if !defined(CONFIG_KVM) ?
 
-Why the ifdef?  Seems like a lack of stub.
-I agree that !kvm rather than tcg is a bug.
+No, because that would break the normal build which enables both tcg and kvm.
+
+But I think there shouldn't be an ifdef at all, just a stub.
 
 
 r~
