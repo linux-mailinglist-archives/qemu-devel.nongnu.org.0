@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F1532223F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 23:40:43 +0100 (CET)
-Received: from localhost ([::1]:46692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4123532224E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 23:44:56 +0100 (CET)
+Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEJsf-0001gj-VI
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 17:40:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45216)
+	id 1lEJwl-0006fb-Aw
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 17:44:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEJrA-0000nC-FT
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:08 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:42422)
+ id 1lEJrE-0000sL-7z
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:12 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEJr8-0005KO-N6
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:08 -0500
-Received: by mail-ej1-x632.google.com with SMTP id lu16so31722034ejb.9
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 14:39:05 -0800 (PST)
+ id 1lEJrC-0005MZ-VV
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:12 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id lu16so31722265ejb.9
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 14:39:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3R7FPO2OcoA2dkjTq2P+JEFvLMsI7UDfP3DOUw+crFI=;
- b=nj2s/YMRgMCH/T6EN6a7vE/7VaEraJAE55XuWEX7Urn/zQpnA0Pa5VNNdtZKb2jFOF
- 8ZOr5zqHJtOm67PhG2fx6qXB67+W4kZonDuvDqxqZ+BhCjhGMIK9FLPgjitUoHUEyEML
- L2moUkaLhxmrj/Smii8DsT6GuhIjBZWmYZT+EMHoYeCAUTrZSBfbgWDqnRK/n2hY9efN
- QjdIclZzSpOhm2p+J28AcjuugPoLrA+3Y7v2/HFouTcvXaWls9y/O7IEC/TVg6tPYo4v
- Xy0bZFgbjUA73PqNmZCQguoD3esNjZcgGqkIbm4QvH/o7EMqQ8Vkdc6Z94PNwTVCRT0y
- jhag==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=KE7Pv3FR29RHJNt2Ewyj6WvD7fKOv1MAXLDq1W60PP8=;
+ b=A/MrfTmxZ74Y3a/v338lU+obhWjPBSWfrz5+B4FiPAATAUwRRcltfeuV4/pGwkVfy0
+ YIbw/+W8+Cx7KJOZeGRsnF7u4uOV1jupRCjO7DRMbBZNlEGKX9LMOsrKF0mSZ31zgK2d
+ j3CZB87L+rNKSgvVnoJauI7wI5jT6h6HrYpg2PGitd+FFZI8R6+jeFt9fMbeUM96zswY
+ FloL+yRY19+Wge1tQIH9AueqQ7VHQp7UM1KfqTTTEGrSrURZkYJPks2oZjRIrWetIpAL
+ +/uSzQs5UHEEe6iW7Dcv2dSM8pgi8Nm2+UzlIe+fWvVZ7zIhKwh72lC+0FU3cs3oLNQL
+ DpiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=3R7FPO2OcoA2dkjTq2P+JEFvLMsI7UDfP3DOUw+crFI=;
- b=sCMjjZ77fahvSoC9i2ZJQLfUGworhic3UHEEmoVpwYjN8uQjuebjAPHPdBTPKYqeml
- 3MuaiAIxO7Y/hZXvwQaNlPaaVcaFLlbHJ3KYcLW9reiJe+ZfzOgZf3vlvYdopAbK/C17
- EoshfCy+NIOBBONR00R2RzTb/K8kq/6jfKQJzCcc1BLBKYUM7CMPncKKzLwwy96mYXC0
- eA0caLElUndVD16gljhwRFk5FT2qJ5olIU6NdSmaTlVJ9cOn0qlhtxNNPbtqjQ/lPuYx
- UX72VWc2U0wTM7RAmSIlM0Yse8ULYcxiKorLi45isj5vln6zGZ503cMMC56Mg4pbC2jC
- 8C3w==
-X-Gm-Message-State: AOAM533lhL7kke28vKx4FLSw9tbZhOgnayAYOQ2QXp0OHuo4i2/+4OI9
- OwRmdOOwj6BTvH4czUEEoJQvFE4jkHY=
-X-Google-Smtp-Source: ABdhPJw5/xKLsBXByAKkuOza5/kd3NRIptd/6c2U8CEkLGDF50z/75oVk+FoM97mnDCP1CFC6ttC1g==
-X-Received: by 2002:a17:906:7687:: with SMTP id
- o7mr23317674ejm.209.1614033544218; 
- Mon, 22 Feb 2021 14:39:04 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=KE7Pv3FR29RHJNt2Ewyj6WvD7fKOv1MAXLDq1W60PP8=;
+ b=CEW9zyNvDFzr6ld6HUzfQo7piDlwKtpK8a2r/OllPLiGaz46218z1gLEqBplhhXOUp
+ xxPCOk2FPcjzzIeKQe3mL0pwRXvcsC8759SYQ6+IShfdh35B6777MD8ZjjTj+7DCsX5R
+ XzbC8o23GzovWZjYHpB0qC/PHLzj2YvC66C1mMkFgZ9iwIpX8Bg3RoTNfzKr8YCHxaZq
+ m+HzU4S5gOQDTY8GuRfDnjGRMo7Sa5JNqn1gMprOmmE0KraG7xtm8UhoWCtDuI2hFQQd
+ fWOkw4FsG+iXDCkNyvpj6187zxfJVSL9zpXx2KAGBYBP8HAiEuMVy7T3xaiOZm+YGSwX
+ nR2w==
+X-Gm-Message-State: AOAM530tJuQB7gPlXMuXbEYdJ/rtPPeYs/PGwlp9FuWWU0WRZjxwRoFo
+ p8SYoUIYeHsrJtedrI7KR0NZUPtQ5SI=
+X-Google-Smtp-Source: ABdhPJzChzvdS3YB8sE1fkJkzHZ/3jk0+shyqB9me3TptSd2YBkebsmNd4UOkJpCAh/lQx71EjYzag==
+X-Received: by 2002:a17:906:d8c3:: with SMTP id
+ re3mr11717768ejb.82.1614033549316; 
+ Mon, 22 Feb 2021 14:39:09 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g10sm6003235edu.63.2021.02.22.14.39.02
+ by smtp.gmail.com with ESMTPSA id g10sm10964772ejk.88.2021.02.22.14.39.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 14:39:03 -0800 (PST)
+ Mon, 22 Feb 2021 14:39:08 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/10] target/mips: Extract MXU code to new mxu_translate.c
- file
-Date: Mon, 22 Feb 2021 23:38:51 +0100
-Message-Id: <20210222223901.2792336-1-f4bug@amsat.org>
+Subject: [PATCH v3 01/10] target/mips: Rewrite complex ifdef'ry
+Date: Mon, 22 Feb 2021 23:38:52 +0100
+Message-Id: <20210222223901.2792336-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210222223901.2792336-1-f4bug@amsat.org>
+References: <20210222223901.2792336-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x632.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,43 +93,39 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,=0D
-=0D
-This is a respin of "Extract XBurst Media eXtension Unit=0D
-translation routines" v2:=0D
-https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg05889.html=0D
-=0D
-But instead of an included C file (.c.inc) we now have an=0D
-independent C unit. We gain faster recompilation time when=0D
-hacking translate.c or mxu_translate.c, and we also gain=0D
-in code maintainability.=0D
-=0D
-Review should be trivial, with almost no logical code change.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (10):=0D
-  target/mips: Rewrite complex ifdef'ry=0D
-  target/mips: Remove XBurst Media eXtension Unit dead code=0D
-  target/mips: Remove unused CPUMIPSState* from MXU functions=0D
-  target/mips: Pass instruction opcode to decode_opc_mxu()=0D
-  target/mips: Extract decode_ase_mxu() from decode_opc_mxu()=0D
-  target/mips: Use OPC_MUL instead of OPC__MXU_MUL=0D
-  target/mips: Introduce mxu_translate_init() helper=0D
-  target/mips: Make mxu_translate_init() / decode_ase_mxu() proto public=0D
-  target/mips: Simplify 64-bit ifdef'ry of MXU code=0D
-  target/mips: Extract MXU code to new mxu_translate.c file=0D
-=0D
- target/mips/translate.h     |    4 +=0D
- target/mips/mxu_translate.c | 1625 +++++++++++++++++++=0D
- target/mips/translate.c     | 2909 +----------------------------------=0D
- target/mips/meson.build     |    1 +=0D
- 4 files changed, 1645 insertions(+), 2894 deletions(-)=0D
- create mode 100644 target/mips/mxu_translate.c=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+No need for this obfuscated ifdef'ry, KISS.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ target/mips/translate.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 70891c37cdd..1f1c5f33c87 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28276,13 +28276,16 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+ #if defined(TARGET_MIPS64)
+         if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
+             decode_mmi(env, ctx);
+-#else
++            break;
++        }
++#endif
++#if !defined(TARGET_MIPS64)
+         if (ctx->insn_flags & ASE_MXU) {
+             decode_opc_mxu(env, ctx);
+-#endif
+-        } else {
+-            decode_opc_special2_legacy(env, ctx);
++            break;
+         }
++#endif
++        decode_opc_special2_legacy(env, ctx);
+         break;
+     case OPC_SPECIAL3:
+ #if defined(TARGET_MIPS64)
+-- 
+2.26.2
+
 
