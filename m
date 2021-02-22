@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E63232207B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:51:46 +0100 (CET)
-Received: from localhost ([::1]:37760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86A3A322078
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:48:58 +0100 (CET)
+Received: from localhost ([::1]:58752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEHFB-0002C2-0x
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:51:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59570)
+	id 1lEHCT-0007Yg-Hz
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:48:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lEH9X-0005QJ-93; Mon, 22 Feb 2021 14:45:56 -0500
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:40361)
+ id 1lEH9b-0005Re-C7; Mon, 22 Feb 2021 14:45:59 -0500
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:45428)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lEH9U-0004Gh-DS; Mon, 22 Feb 2021 14:45:54 -0500
-Received: by mail-qv1-xf31.google.com with SMTP id s3so4191550qvn.7;
- Mon, 22 Feb 2021 11:45:51 -0800 (PST)
+ id 1lEH9W-0004Ht-S2; Mon, 22 Feb 2021 14:45:59 -0500
+Received: by mail-qk1-x736.google.com with SMTP id z128so9337276qkc.12;
+ Mon, 22 Feb 2021 11:45:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XF0OUqJe9T0qDCkk+/FrLa/tWDB4tdwV5moqL2LYy1E=;
- b=Q/hRiJIT5vTySl+ON3YbhNId77hlsXPKJCS+lZ5rS2nnNxpch7Dp52X//nZ9clbaqY
- ldG9Q3/LBHEnrGYxJg6KUsI5SUAhE9DVl/vB7U0IFgZyiO7IH0fMDagbNawRJPdIo+6G
- 6/vUBUt+69Lfeq4y2KAGxdnLvhd52m5/tEpbwfrCnkr1H+kqtNkb/9sXA5yqMyLuAruK
- tCLt/u6nsVoh2ksEq+ozLy+418rwkbfIcSEZPMDWg9x7MU3UUUcFYJ5a43cJzucau9Bl
- d7NlNJPzFn62bkvdeDyurE1fXKk2ns/sRWamVcGzUcDPF1nV2TN3zJCO1UYscVYJ2IAg
- oILw==
+ bh=E3TJ00vly281Tr/2zGxsxCXK2O76iZf35kjarKc3T7c=;
+ b=caUN5WpPELbmZmd0fKKYYcI8kB/lta537CYHOQPsAfnjL6Ju8CWV4AcZ5TR0cOKV3b
+ cZmMI8O1UUL2HWDj2psEZ7Dyhpb8rlr/+Wh1pZU1JFsUKRU8Kns7w3yp7TyzXNAcrA9A
+ ZkJTkQmVezekQahFrGV0iqu+95Zpu3gGizGW56IDEt2DvjCZnwbDgcLKBJ7TFwEF9bSb
+ Y0CPGCUifDQtqiWBva33NR+oRb7pmhxy57tl/vAC2I9IOw1f92xW08FpWxKsQ8rNXEGg
+ XfdYoK32/I+BchwgcwpPUibtlknOEe34qXTyZG1GYO70pYDtYxCAWwrueXCCJ3xd5maZ
+ RQgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=XF0OUqJe9T0qDCkk+/FrLa/tWDB4tdwV5moqL2LYy1E=;
- b=kExwuKwF16IzatuB9qOpNHwq0ClZB4LGc8XArYc3Sga1cSgFKb5fcv8kjIk19qpJTF
- UnuDJMm9NoFpmrcgDp/7HfxgbWtyoTNq3vZnVwa8kqumvJMQvGQCcVvDnzgcDLVIETt6
- Y86wkW3mra+cviwBBs1MW5ei6Izg+TNw8fzJmx3HJufvtqapA7RGMjivkRLObh3KutHw
- 2qV8TmwCIWFnVUUWvZY688En8+IUpmEyirYHz5ej9+RaTfe2IZzb1X+dDKm4z6gHhgAn
- OPs7AP2t0VVcqyDEM4ZV/M6mQ1859IgTMj5DT11XiUlhglGhxBj/I5vOYCz+z6w3Lluy
- ++Bg==
-X-Gm-Message-State: AOAM531KzOudjmE6LuTh+b3gU16kDHWiAs4GELwDP/ymsQKQcSXnRWBl
- MThXWDO3lu7ycjePD4CngyyxB726DKSd1A==
-X-Google-Smtp-Source: ABdhPJyCTmBODM704kqe3vfLxoIk32v8p+Y/Rw8PHN5EAQn9JMy1Yv3wJJuE/8UO2nksJeel++mbSw==
-X-Received: by 2002:a0c:e58e:: with SMTP id t14mr14574806qvm.28.1614023150752; 
- Mon, 22 Feb 2021 11:45:50 -0800 (PST)
+ bh=E3TJ00vly281Tr/2zGxsxCXK2O76iZf35kjarKc3T7c=;
+ b=GZB8ZwrlVXsEBQebhnWlsLSTM8aGnWJiOQiqFBPdATG2Xigca/36jlzGTkeTmiokmU
+ vJdi3kNxv7HfWXLGFl3B8qo6zjU4TrVIqK9J3T+Ini1VKZJhSBriWOBiNBiq4CohP9Ou
+ +mjZLb0xlGurO63qs7LyXSP0nAwItsGgfVjrfj3Q5QGYP0BSPEOb1SoEswBUrTNgWTlq
+ XlG/7KlYD6yMkMl8Y2tfBfcG4CcUIDH8eGB6kzd/idLQ5pwSTqFMGvNrMf8L0DmTt0fE
+ bhniwUnsUtNEjCiq1bbuYn1wufq8Ve80Rho3ICyyAt4CTXgdOvrIyPXjrHS1GEkDlfBY
+ fbXA==
+X-Gm-Message-State: AOAM532SxWv+95MqsjHQoVJr+bk1/Qd7u95QpnNKG1dO9j/PVu5wh9xf
+ 04KtNU0kmLrs54l432si8YcurZ1rFNGKzg==
+X-Google-Smtp-Source: ABdhPJx3FN6x3tvQqZ0Ne5pjKzqqRdUQ3Fvq1deDF/N0Lto+Q7Vqmcy7nbOHyif0PAPHDIc5WY7WlQ==
+X-Received: by 2002:ae9:e208:: with SMTP id c8mr21855597qkc.414.1614023153363; 
+ Mon, 22 Feb 2021 11:45:53 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:cd1c:d722:e26f:4e76:c5c1])
- by smtp.gmail.com with ESMTPSA id 82sm13483178qkd.48.2021.02.22.11.45.48
+ by smtp.gmail.com with ESMTPSA id 82sm13483178qkd.48.2021.02.22.11.45.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 11:45:50 -0800 (PST)
+ Mon, 22 Feb 2021 11:45:52 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/5] spapr_drc.c: introduce unplug_timeout_timer
-Date: Mon, 22 Feb 2021 16:45:29 -0300
-Message-Id: <20210222194531.62717-4-danielhb413@gmail.com>
+Subject: [PATCH v4 4/5] spapr_drc.c: add hotunplug timeout for CPUs
+Date: Mon, 22 Feb 2021 16:45:30 -0300
+Message-Id: <20210222194531.62717-5-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210222194531.62717-1-danielhb413@gmail.com>
 References: <20210222194531.62717-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf31.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -81,178 +81,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Xujun Ma <xuma@redhat.com>, Daniel Henrique Barboza <danielhb413@gmail.com>,
+ qemu-ppc@nongnu.org, groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The LoPAR spec provides no way for the guest kernel to report failure of
-hotplug/hotunplug events. This wouldn't be bad if those operations were
-granted to always succeed, but that's far for the reality.
+There is a reliable way to make a CPU hotunplug fail in the pseries
+machine. Hotplug a CPU A, then offline all other CPUs inside the guest
+but A. When trying to hotunplug A the guest kernel will refuse to do it,
+because A is now the last online CPU of the guest. PAPR has no 'error
+callback' in this situation to report back to the platform, so the guest
+kernel will deny the unplug in silent and QEMU will never know what
+happened. The unplug pending state of A will remain until the guest is
+shutdown or rebooted.
 
-What ends up happening is that, in the case of a failed hotunplug,
-regardless of whether it was a QEMU error or a guest misbehavior, the
-pSeries machine is retaining the unplug state of the device in the
-running guest.  This state is cleanup in machine reset, where it is
-assumed that this state represents a device that is pending unplug, and
-the device is hotunpluged from the board. Until the reset occurs, any
-hotunplug operation of the same device is forbid because there is a
-pending unplug state.
+Previous attempts of fixing it (see [1] and [2]) were aimed at trying to
+mitigate the effects of the problem. In [1] we were trying to guess
+which guest CPUs were online to forbid hotunplug of the last online CPU
+in the QEMU layer, avoiding the scenario described above because QEMU is
+now failing in behalf of the guest. This is not robust because the last
+online CPU of the guest can change while we're in the middle of the
+unplug process, and our initial assumptions are now invalid. In [2] we
+were accepting that our unplug process is uncertain and the user should
+be allowed to spam the IRQ hotunplug queue of the guest in case the CPU
+hotunplug fails.
 
-This behavior has at least one undesirable side effect. A long standing
-pending unplug state is, more often than not, the result of a hotunplug
-error. The user had to dealt with it, since retrying to unplug the
-device is noy allowed, and then in the machine reset we're removing the
-device from the guest. This means that we're failing the user twice -
-failed to hotunplug when asked, then hotunplugged without notice.
+This patch presents another alternative, using the timeout
+infrastructure introduced in the previous patch. CPU hotunplugs in the
+pSeries machine will now timeout after 15 seconds. This is a long time
+for a single CPU unplug to occur, regardless of guest load - although
+the user is *strongly* encouraged to *not* hotunplug devices from a
+guest under high load - and we can be sure that something went wrong if
+it takes longer than that for the guest to release the CPU (the same
+can't be said about memory hotunplug - more on that in the next patch).
 
-Solutions to this problem range between trying to predict when the
-hotunplug will fail and forbid the operation from the QEMU layer, from
-opening up the IRQ queue to allow for multiple hotunplug attempts, from
-telling the users to 'reboot the machine if something goes wrong'. The
-first solution is flawed because we can't fully predict guest behavior
-from QEMU, the second solution is a trial and error remediation that
-counts on a hope that the unplug will eventually succeed, and the third
-is ... well.
+Timing out the unplug operation will reset the unplug state of the CPU
+and allow the user to try it again, regardless of the error situation
+that prevented the hotunplug to occur. Of all the not so pretty
+fixes/mitigations for CPU hotunplug errors in pSeries, timing out the
+operation is an admission that we have no control in the process, and
+must assume the worst case if the operation doesn't succeed in a
+sensible time frame.
 
-This patch introduces a crude, but effective solution to hotunplug
-errors in the pSeries machine. For each unplug done, we'll timeout after
-some time. If a certain amount of time passes, we'll cleanup the
-hotunplug state from the machine.  During the timeout period, any unplug
-operations in the same device will still be blocked. After that, we'll
-assume that the guest failed the operation, and allow the user to try
-again. If the timeout is too short we'll prevent legitimate hotunplug
-situations to occur, so we'll need to overestimate the regular time an
-unplug operation takes to succeed to account that.
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg03353.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04400.html
 
-The true solution for the hotunplug errors in the pSeries machines is a
-PAPR change to allow for the guest to warn the platform about it. For
-now, the work done in this timeout design can be used for the new PAPR
-'abort hcall' in the future, given that for both cases we'll need code
-to cleanup the existing unplug states of the DRCs.
-
-At this moment we're adding the basic wiring of the timer into the DRC.
-Next patch will use the timer to timeout failed CPU hotunplugs.
-
+Reported-by: Xujun Ma <xuma@redhat.com>
+Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1911414
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr_drc.c         | 40 ++++++++++++++++++++++++++++++++++++++
- include/hw/ppc/spapr_drc.h |  4 ++++
- 2 files changed, 44 insertions(+)
+ hw/ppc/spapr.c             |  4 ++++
+ hw/ppc/spapr_drc.c         | 13 +++++++++++++
+ include/hw/ppc/spapr_drc.h |  1 +
+ 3 files changed, 18 insertions(+)
 
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index b066df68cb..ecce8abf14 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -3724,6 +3724,10 @@ void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
+     if (!spapr_drc_unplug_requested(drc)) {
+         spapr_drc_unplug_request(drc);
+         spapr_hotplug_req_remove_by_index(drc);
++    } else {
++        error_setg(errp, "core-id %d unplug is still pending, %d seconds "
++                   "timeout remaining",
++                   cc->core_id, spapr_drc_unplug_timeout_remaining_sec(drc));
+     }
+ }
+ 
 diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 67041fb212..27adbc5c30 100644
+index 27adbc5c30..fd2e45640f 100644
 --- a/hw/ppc/spapr_drc.c
 +++ b/hw/ppc/spapr_drc.c
-@@ -57,6 +57,8 @@ static void spapr_drc_release(SpaprDrc *drc)
-     drck->release(drc->dev);
+@@ -409,6 +409,8 @@ void spapr_drc_unplug_request(SpaprDrc *drc)
  
-     drc->unplug_requested = false;
-+    timer_del(drc->unplug_timeout_timer);
+     drc->unplug_requested = true;
+ 
++    spapr_drc_start_unplug_timeout_timer(drc);
 +
-     g_free(drc->fdt);
-     drc->fdt = NULL;
-     drc->fdt_start_offset = 0;
-@@ -370,6 +372,17 @@ static void prop_get_fdt(Object *obj, Visitor *v, const char *name,
-     } while (fdt_depth != 0);
+     if (drc->state != drck->empty_state) {
+         trace_spapr_drc_awaiting_quiesce(spapr_drc_index(drc));
+         return;
+@@ -417,6 +419,16 @@ void spapr_drc_unplug_request(SpaprDrc *drc)
+     spapr_drc_release(drc);
  }
  
-+static void spapr_drc_start_unplug_timeout_timer(SpaprDrc *drc)
++int spapr_drc_unplug_timeout_remaining_sec(SpaprDrc *drc)
 +{
-+    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-+
-+    if (drck->unplug_timeout_seconds != 0) {
-+        timer_mod(drc->unplug_timeout_timer,
-+                  qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL) +
-+                  drck->unplug_timeout_seconds * 1000);
-+    }
-+}
-+
- void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
- {
-     trace_spapr_drc_attach(spapr_drc_index(drc));
-@@ -475,11 +488,23 @@ static bool spapr_drc_needed(void *opaque)
-         spapr_drc_unplug_requested(drc);
- }
- 
-+static int spapr_drc_post_load(void *opaque, int version_id)
-+{
-+    SpaprDrc *drc = opaque;
-+
-+    if (drc->unplug_requested) {
-+        spapr_drc_start_unplug_timeout_timer(drc);
++    if (drc->unplug_requested && timer_pending(drc->unplug_timeout_timer)) {
++        return (qemu_timeout_ns_to_ms(drc->unplug_timeout_timer->expire_time) -
++                qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)) / 1000;
 +    }
 +
 +    return 0;
 +}
 +
- static const VMStateDescription vmstate_spapr_drc = {
-     .name = "spapr_drc",
-     .version_id = 1,
-     .minimum_version_id = 1,
-     .needed = spapr_drc_needed,
-+    .post_load = spapr_drc_post_load,
-     .fields  = (VMStateField []) {
-         VMSTATE_UINT32(state, SpaprDrc),
-         VMSTATE_END_OF_LIST()
-@@ -490,6 +515,15 @@ static const VMStateDescription vmstate_spapr_drc = {
-     }
- };
- 
-+static void drc_unplug_timeout_cb(void *opaque)
-+{
-+    SpaprDrc *drc = opaque;
-+
-+    if (drc->unplug_requested) {
-+        drc->unplug_requested = false;
-+    }
-+}
-+
- static void drc_realize(DeviceState *d, Error **errp)
+ bool spapr_drc_reset(SpaprDrc *drc)
  {
-     SpaprDrc *drc = SPAPR_DR_CONNECTOR(d);
-@@ -512,6 +546,11 @@ static void drc_realize(DeviceState *d, Error **errp)
-     object_property_add_alias(root_container, link_name,
-                               drc->owner, child_name);
-     g_free(link_name);
-+
-+    drc->unplug_timeout_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
-+                                             drc_unplug_timeout_cb,
-+                                             drc);
-+
-     vmstate_register(VMSTATE_IF(drc), spapr_drc_index(drc), &vmstate_spapr_drc,
-                      drc);
-     trace_spapr_drc_realize_complete(spapr_drc_index(drc));
-@@ -529,6 +568,7 @@ static void drc_unrealize(DeviceState *d)
-     name = g_strdup_printf("%x", spapr_drc_index(drc));
-     object_property_del(root_container, name);
-     g_free(name);
-+    timer_free(drc->unplug_timeout_timer);
+     SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+@@ -710,6 +722,7 @@ static void spapr_drc_cpu_class_init(ObjectClass *k, void *data)
+     drck->drc_name_prefix = "CPU ";
+     drck->release = spapr_core_release;
+     drck->dt_populate = spapr_core_dt_populate;
++    drck->unplug_timeout_seconds = 15;
  }
  
- SpaprDrc *spapr_dr_connector_new(Object *owner, const char *type,
+ static void spapr_drc_pci_class_init(ObjectClass *k, void *data)
 diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
-index 02a63b3666..38ec4c8091 100644
+index 38ec4c8091..26599c385a 100644
 --- a/include/hw/ppc/spapr_drc.h
 +++ b/include/hw/ppc/spapr_drc.h
-@@ -187,6 +187,8 @@ typedef struct SpaprDrc {
-     bool unplug_requested;
-     void *fdt;
-     int fdt_start_offset;
-+
-+    QEMUTimer *unplug_timeout_timer;
- } SpaprDrc;
+@@ -248,6 +248,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner, uint32_t drc_type_mask);
+  */
+ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
+ void spapr_drc_unplug_request(SpaprDrc *drc);
++int spapr_drc_unplug_timeout_remaining_sec(SpaprDrc *drc);
  
- struct SpaprMachineState;
-@@ -209,6 +211,8 @@ typedef struct SpaprDrcClass {
- 
-     int (*dt_populate)(SpaprDrc *drc, struct SpaprMachineState *spapr,
-                        void *fdt, int *fdt_start_offset, Error **errp);
-+
-+    int unplug_timeout_seconds;
- } SpaprDrcClass;
- 
- typedef struct SpaprDrcPhysical {
+ /*
+  * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
 -- 
 2.29.2
 
