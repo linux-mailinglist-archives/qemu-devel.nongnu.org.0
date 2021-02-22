@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A73EC320F7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 03:42:15 +0100 (CET)
-Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34430320FFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 05:19:17 +0100 (CET)
+Received: from localhost ([::1]:32776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE1As-0002y9-5Y
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 21:42:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45612)
+	id 1lE2gl-000358-Qh
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 23:19:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lE19d-0002MU-4r
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 21:40:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39094)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1lE2fq-0002YP-Hk
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 23:18:18 -0500
+Received: from mail-il1-x130.google.com ([2607:f8b0:4864:20::130]:40772)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lE19Z-0000Rb-IL
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 21:40:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lE19X-0001Id-Fn
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:40:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 75E042E80FB
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:40:51 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <haibo.xu@linaro.org>)
+ id 1lE2fn-000111-Fw
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 23:18:18 -0500
+Received: by mail-il1-x130.google.com with SMTP id e7so9665584ile.7
+ for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 20:18:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=PalK0wdWgYPLF3gz0Qkedt33h46hfDnQhI162BuZA8M=;
+ b=azFVUK0u+6I3ypRDVFfAZjcCppebzaICtw55njJGpmdENqiF8NFXULPbavy3lDy0yO
+ IFGbJMmdbmDCX1vufIUIaikE1Md551s/pcMMahLSPfoLey5RG/PC0V7Za1Med2l18SE7
+ PNS4BO+JvCbdoM484BgOAHxfTYD6bOPxLDSM2qxZYGBaSY79WC0hPtzyig0PFXB+1JFb
+ kZtp8syeCghJ2iPgXV1Pbj65TRruzYG4st3NgJB2EX+Zcb4qPAXhhufpDXm8satxlAgm
+ aY7hkRe4bfvNeWuXAJvpf6tEtgLVzqTz6MI4wYlEoZO8fcC8WXZ7oqX2cCAnA8KCqTV+
+ CjRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=PalK0wdWgYPLF3gz0Qkedt33h46hfDnQhI162BuZA8M=;
+ b=A8n3YAY7AA1Q3/PgyHogtTfaLsMo+w/ZT2jjP9DqRvVLj3a4nzNSBtS4WekPa/dA83
+ I3aq+H2PkwkFbndHdEU4dV2qv3oqzeY0VF07+9ciU9yFViVPqY58biG644DSXcMlG1Rq
+ te81DELzSCG2gef7oCr0fvB4yGZ02SAJ9mslq9XhbzGpww/hDjp9XcZHpqE5lrOC+Hb7
+ E5zlvsL0yb6XoxCyiRdekJwZnbjZPFVboNClITGmBRE2XmoM0uw5FLuNYX+/a12BsLQm
+ wZprYDPnGXpLC5N0QGq/ZZ8ej0cHtV8Zqs65YzAoAtKyScmZh3Ww+PrqYIcHoG1hDFhY
+ 1Rgg==
+X-Gm-Message-State: AOAM533+w30scKBOGBkAK7URzKMfg4Awre04JLI4m+l0dz1aKTWfac+Z
+ DqgBH9Y8fpQPcFK1Zd2eWYfOvHwtOxe5+l7c0TNx
+X-Google-Smtp-Source: ABdhPJw+4LMaKP6Nf148zQBMwd9Wmsoz+FN8UkEv13ZBqx10EVBnqzJxQvZrIYmTRtOWqWZHMva2WDapQcd0CcUOawY=
+X-Received: by 2002:a92:ad09:: with SMTP id w9mr13266827ilh.23.1613967493415; 
+ Sun, 21 Feb 2021 20:18:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Feb 2021 02:32:30 -0000
-From: Ven Karri <1916344@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: libslirp mac networking osx podman qemu slirp user-mode
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: imperialguy programmingkidx
-X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
-X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
-References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
-Message-Id: <161396115097.8107.12807136919535753410.malone@gac.canonical.com>
-Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
- on Mac OS X host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 38af291c0f335a189b237950ce4458d861978046
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <cover.1612747873.git.haibo.xu@linaro.org>
+ <CAFEAcA9ex-yxv82ixBahQSuYphiasGtGB59nmpYZR3WXgSqw6g@mail.gmail.com>
+In-Reply-To: <CAFEAcA9ex-yxv82ixBahQSuYphiasGtGB59nmpYZR3WXgSqw6g@mail.gmail.com>
+From: Haibo Xu <haibo.xu@linaro.org>
+Date: Mon, 22 Feb 2021 12:18:00 +0800
+Message-ID: <CAJc+Z1ENDPcBf0ezxSpCaOV2WOVs4E1b3OSnwEapCLuDUdaWzw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/5] target/arm: Add MTE support to KVM guest
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::130;
+ envelope-from=haibo.xu@linaro.org; helo=mail-il1-x130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,67 +77,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
+Cc: Andrew Jones <drjones@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am not sure if a separate slirp installation via macports is
-necessary. When you install qemu via homebrew, it's supposed to install
-any slirp related libarries as part of qemu installation. Having said
-that, I haven't noticed a slirp package installed on my mac when I did a
-`brew list`.
+On Tue, 16 Feb 2021 at 19:20, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> Adding the migration maintainers to the cc list, because
+> the real meat of this patchset is "how should the migration
+> of MTE tags be integrated into the migration/ram.c code",
+> which is pretty well out of my area of expertise...
+>
+> thanks
+> -- PMM
+>
 
-So, I don't know how exactly is qemu packing slirp libraries within
-itself while installing on a mac. I think there's some kinda git option
-during installation. Perhaps brew uses that.
+Hi Peter,
 
--- =
+Thanks for cc-ing to the related maintainers!
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916344
+Regards,
+Haibo
 
-Title:
-  User mode networking not working properly on QEMU on Mac OS X host
-
-Status in QEMU:
-  New
-
-Bug description:
-  Steps to reproduce:
-
-  1. Install QEMU using homebrew on Mac OS X (I tried on Catalina and Big S=
-ur)
-  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
-  3. Install podman inside the guest
-  4. Run podman pull alpine
-
-  The result is:
-
-  [root@localhost ~]# podman pull alpine
-  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
-es.conf)
-  Trying to pull docker.io/library/alpine:latest...
-  Getting image source signatures
-  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
-iB / 2.7MiB
-  =C2=A0=C2=A0unexpected EOF
-  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
-1171596/1": error happened during read: unexpected EOF
-
-  This is happening because QEMU is telling the guest that the TCP
-  connection is closed even before reading all the data from the host
-  socket and forwarding it to the guest.
-
-  This issue doesn't happen on a Linux host. So, that tells me that this
-  has something to do with QEMU installation on Mac OS X.
-
-  This could be a slirp related issue. So, QEMU/slirp may need to work
-  together on fixing this. Here's the link to the libslirp issue:
-
-  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
+> On Mon, 8 Feb 2021 at 03:20, Haibo Xu <haibo.xu@linaro.org> wrote:
+> >
+> > This series add support for MTE(Memory Tagging Extension)[1]
+> > in KVM guest. It's based on Steven Price's kernel KVM patches
+> > V7[2], and has been tested to ensure that test case[3] can be
+> > passed in a KVM guest. Basic pre-copy migration test also passed
+> > between two MTE enabled kvm guest.
+> >
+> > This is a RFC patch series becuase:
+> > (1) Need to add some arm MTE specific codes to the ram migration
+> >     loop. There may be better way to do that in a more abstract way.
+> > (2) Only pre-copy migration is supported and tested currently,
+> >     post-copy as well as compress/zero page migration are still WIP.
+> >
+> > All kinds of feedbacks are very welcomed, especially for the migration
+> > support.
+> >
+> > Note:
+> > (1) To support MTE migration, tags for one page are appended to
+> >     the page data during ram save iteration which make it easier
+> >     to sync the page data and tags.
+> >
+> > [1] https://community.arm.com/developer/ip-products/processors/b/
+> >     processors-ip-blog/posts/enhancing-memory-safety
+> > [2] https://lwn.net/Articles/842827/
+> > [3] https://elixir.bootlin.com/linux/latest/source/Documentation/
+> >     arm64/memory-tagging-extension.rst
+> >
+> > Haibo Xu (5):
+> >   Update Linux headers with new MTE support
+> >   Add basic MTE support to KVM guest
+> >   Add APIs to get/set MTE tags
+> >   Add migration support for KVM guest with MTE
+> >   Enable the MTE support for KVM guest
+> >
+> >  hw/arm/virt.c             | 44 +++++++++++++-------
+> >  include/hw/arm/virt.h     |  2 +
+> >  include/migration/misc.h  |  1 +
+> >  linux-headers/linux/kvm.h | 15 +++++++
+> >  migration/ram.c           | 86 ++++++++++++++++++++++++++++++++++++++-
+> >  target/arm/cpu.c          |  2 +-
+> >  target/arm/kvm.c          |  9 ++++
+> >  target/arm/kvm64.c        | 31 ++++++++++++++
+> >  target/arm/kvm_arm.h      |  2 +
+> >  9 files changed, 176 insertions(+), 16 deletions(-)
 
