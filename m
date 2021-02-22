@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F701321374
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 10:53:04 +0100 (CET)
-Received: from localhost ([::1]:43230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07BD632137A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 10:54:15 +0100 (CET)
+Received: from localhost ([::1]:45318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE7tn-0005ex-Jq
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 04:53:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41564)
+	id 1lE7uw-0006Z5-1E
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 04:54:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lE7sq-00059B-QA
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:52:05 -0500
-Received: from 2.mo52.mail-out.ovh.net ([178.33.105.233]:45400)
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Mgfk=HY=linuxfoundation.org=gregkh@kernel.org>)
+ id 1lE7ty-00067a-1G
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:53:14 -0500
+Received: from mail.kernel.org ([198.145.29.99]:35394)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1lE7so-00033P-81
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:52:04 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.108])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 4C3E8243F39;
- Mon, 22 Feb 2021 10:51:58 +0100 (CET)
-Received: from kaod.org (37.59.142.99) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 22 Feb
- 2021 10:51:56 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-99G003d528b843-c5f0-444c-908c-2ab57576fda1,
- 22411CCD660FC3FC09311B18737C076FF65DC705) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 04/22] sd: emmc: update OCR fields for eMMC
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Markus Armbruster
- <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, Max Reitz
- <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, 
- Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>, Vincent
- Palatin <vpalatin@chromium.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Alistair
- Francis <alistair.francis@wdc.com>, "Edgar E. Iglesias"
- <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1613982039-13861-5-git-send-email-sai.pavan.boddu@xilinx.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <ccaf04a2-0eb7-69fa-5431-3c5401d267a4@kaod.org>
-Date: Mon, 22 Feb 2021 10:51:54 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Mgfk=HY=linuxfoundation.org=gregkh@kernel.org>)
+ id 1lE7tv-0003V4-Fk
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:53:13 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 5CA8864E2F;
+ Mon, 22 Feb 2021 09:53:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+ s=korg; t=1613987588;
+ bh=BBG3yknKL0hoGSOg1hNme7zrwWCbVtcVbJuDn0H9qRo=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=2va3FjJtSZQupCjTYVzMxAyUZVVUbxhp9YPh7MLb2J8qpkpWPJQkQsuAXiQgnH5CW
+ Y5PLKhfUqtCh3HifYAoGZ5ytxKRb7Wch2FiOaymmYibhqwjnJQjGZyPk4u2oZHrHeP
+ QivH9UJCqqPRIVf9GwsBgmnDCZ9JQ/cBjnUJGlW4=
+Date: Mon, 22 Feb 2021 10:53:06 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Adrian Catangiu <acatan@amazon.com>
+Subject: Re: [PATCH v6 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Message-ID: <YDN/AvsplZ7R8OTR@kroah.com>
+References: <1613986886-29493-1-git-send-email-acatan@amazon.com>
+ <1613986886-29493-2-git-send-email-acatan@amazon.com>
 MIME-Version: 1.0
-In-Reply-To: <1613982039-13861-5-git-send-email-sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.99]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3f417565-bdeb-40a5-82f6-e4d67faeef81
-X-Ovh-Tracer-Id: 9132455622225136397
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegvdeijeefvdfhudfhffeuveehledufffhvdekheelgedttddthfeigeevgefhffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehsrghirdhprghvrghnrdgsohguughuseigihhlihhngidrtghomh
-Received-SPF: pass client-ip=178.33.105.233; envelope-from=clg@kaod.org;
- helo=2.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1613986886-29493-2-git-send-email-acatan@amazon.com>
+Received-SPF: pass client-ip=198.145.29.99;
+ envelope-from=SRS0=Mgfk=HY=linuxfoundation.org=gregkh@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,79 +64,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Jason@zx2c4.com, areber@redhat.com, kvm@vger.kernel.org,
+ linux-doc@vger.kernel.org, ghammer@redhat.com, vijaysun@ca.ibm.com,
+ 0x7f454c46@gmail.com, qemu-devel@nongnu.org, mhocko@kernel.org,
+ dgunigun@redhat.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
+ linux-s390@vger.kernel.org, corbet@lwn.net, mpe@ellerman.id.au, mst@redhat.com,
+ ebiggers@kernel.org, borntraeger@de.ibm.com, sblbir@amazon.com,
+ bonzini@gnu.org, arnd@arndb.de, jannh@google.com, raduweis@amazon.com,
+ asmehra@redhat.com, graf@amazon.com, rppt@kernel.org, luto@kernel.org,
+ gil@azul.com, oridgar@gmail.com, colmmacc@amazon.com, tytso@mit.edu,
+ ovzxemul@gmail.com, rdunlap@infradead.org, linux-kernel@vger.kernel.org,
+ ebiederm@xmission.com, rafael@kernel.org, w@1wt.eu, dwmw@amazon.co.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 9:20 AM, Sai Pavan Boddu wrote:
-> From: Vincent Palatin <vpalatin@chromium.org>
-> 
-> eMMC OCR register doesn't has UHS-II field and voltage fields are
-> different.
+On Mon, Feb 22, 2021 at 11:41:25AM +0200, Adrian Catangiu wrote:
+> The driver also generates a `SYSGENID=%u` uevent containing the new
+> system generation counter/id value every time it changes. Unlike the
+> filesystem interface, the uevent has no synchronization guarantees
+> therefore it should not be used by any sensitive system components.
 
-Can a patch be "From" a person without a "Signed-off-by" of the same 
-person ? 
+No, please no.  It is not ok to start sending random uevents all the
+time to userspace for individual drivers like this.  Especially for a
+misc device.
 
-C.
- 
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
->
-> ---
->  hw/sd/sd.c | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index 42ee49c..430bea5 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -283,6 +283,15 @@ FIELD(OCR, UHS_II_CARD,                29,  1) /* Only UHS-II */
->  FIELD(OCR, CARD_CAPACITY,              30,  1) /* 0:SDSC, 1:SDHC/SDXC */
->  FIELD(OCR, CARD_POWER_UP,              31,  1)
->  
-> +/*
-> + * eMMC OCR register
-> + */
-> +FIELD(EMMC_OCR, VDD_WINDOW_0,  7, 1)
-> +FIELD(EMMC_OCR, VDD_WINDOW_1,  8, 7)
-> +FIELD(EMMC_OCR, VDD_WINDOW_2, 15, 9)
-> +FIELD(EMMC_OCR, ACCESS_MODE,  29, 2)
-> +FIELD(EMMC_OCR, POWER_UP,     31, 1)
-> +
->  #define ACMD41_ENQUIRY_MASK     0x00ffffff
->  #define ACMD41_R3_MASK          (R_OCR_VDD_VOLTAGE_WIN_HI_MASK \
->                                 | R_OCR_ACCEPT_SWITCH_1V8_MASK \
-> @@ -292,8 +301,16 @@ FIELD(OCR, CARD_POWER_UP,              31,  1)
->  
->  static void sd_set_ocr(SDState *sd)
->  {
-> -    /* All voltages OK */
-> -    sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
-> +    if (sd->emmc) {
-> +        /*
-> +         * Dual Voltage eMMC card
-> +         */
-> +        sd->ocr = R_EMMC_OCR_VDD_WINDOW_0_MASK |
-> +                  R_EMMC_OCR_VDD_WINDOW_2_MASK;
-> +    } else {
-> +        /* All voltages OK */
-> +        sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
-> +    }
->  }
->  
->  static void sd_ocr_powerup(void *opaque)
-> @@ -521,7 +538,11 @@ static void sd_response_r1_make(SDState *sd, uint8_t *response)
->  
->  static void sd_response_r3_make(SDState *sd, uint8_t *response)
->  {
-> -    stl_be_p(response, sd->ocr & ACMD41_R3_MASK);
-> +    if (sd->emmc) {
-> +        stl_be_p(response, sd->ocr);
-> +    } else {
-> +        stl_be_p(response, sd->ocr & ACMD41_R3_MASK);
-> +    }
->  }
->  
->  static void sd_response_r6_make(SDState *sd, uint8_t *response)
-> 
+As you say "has no synchromization guarantees", then why use it at all?
 
+Please drop it.
+
+thanks,
+
+greg k-h
 
