@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B1883220D8
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:34:48 +0100 (CET)
-Received: from localhost ([::1]:44496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F763220EF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:49:30 +0100 (CET)
+Received: from localhost ([::1]:59342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEHup-0007ut-7N
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:34:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43420)
+	id 1lEI93-0006Ux-TP
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEHpl-0006BV-7s; Mon, 22 Feb 2021 15:29:33 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:59125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEHpi-0007JO-Mn; Mon, 22 Feb 2021 15:29:33 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id B698F5C01C9;
- Mon, 22 Feb 2021 15:29:29 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Mon, 22 Feb 2021 15:29:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Y0v696S6ADZXr
- LR5wRJs4zl0XUpa+y3LXPTwR84oOaU=; b=MZY3CaX62zdLdRMUIpFLCYFFOPa3l
- 4LA88jfHx4lREn8tSPiVS+bPvY4iBcUVwL2ss0zTTKEJ1gWkzep/SlMq7wlzoWQY
- MLg48H9KwZ6/fyNgZ6Kt6dexq0ryOG5E3hR0M++4I6itGQC3/iVrMwMF4V2kTPpg
- mFBbxDfO1HOYfA5Y9edC58RJ8+Eez/J/ZCGYR8/yqZmpqZ5d96spzdvcrvgH304F
- I8elBbS53F0mQPvIDfJqJJ8VOe89mmuEttM78+GirMfwux1H8faK48hledq88tIB
- yohn04s0BprOELiTUFFYblCS95rlK6EgND6YNaL5ZF/U8/dX6ZtmbeE2w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Y0v696S6ADZXrLR5wRJs4zl0XUpa+y3LXPTwR84oOaU=; b=Iw8P1o5v
- sp+XJbF8ydAAvBwX+0onr2pskP17ZDo1PgEvceHxTf07uKP65j+6J38cocy/rivt
- uf/ndNYanB/pf9awQbJLJ7nkG8dm0o4PUcsWYZRxUiBmxV8tlWk50MRh8WLf831f
- j4YYs0LDviCsuF+rEbRt+cWIJrEI1eytuJFWm+fob5khurEE8AkSHNxW/+ti9XHe
- Hux43Xr9x24iReBaefVG2DR2K4XIAT/J5y12O7P+9nwscN4APlgEQ2z7PxyW74vF
- waxgulSOf9LwJy9x2/ZGCabMOOBhsdi7C81nVYR8O2jOLWeBzeMHgFldaL59alsa
- 0NivHM4YBVcMXA==
-X-ME-Sender: <xms:KRQ0YG8nJdwJCpJLdN60iYtteuz4VCWViPjO94ozJMY6hH2ETFf34Q>
- <xme:KRQ0YIvvtTW7DplI4EYYjBx-PNTgDq8igOVn8JVqQIMAYORRO6sT8_5DEXzts25mX
- ZJJInXSE-YA8vf1h5I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:KRQ0YFZhRxqwKG7H1obS_gib5pUrSxzAvJ9FD0QNDg8fp3UZgTXr1Q>
- <xmx:KRQ0YAqrREJqf7BifWxB2RSnVeOloObLreBVEfIXRn3EDcocgWxaqQ>
- <xmx:KRQ0YC-8ygPGkvQr-M971uSQaLNv_Ve5IHJ5PYJUTmLPJobbxYC2mw>
- <xmx:KRQ0YKo1oKzVXa5N-Xq79jBr0j8q6dhvaUeMhQaICmIgL7ovxyPl_A>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B5F4E240062;
- Mon, 22 Feb 2021 15:29:28 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/block/nvme: align zoned.zasl with mdts
-Date: Mon, 22 Feb 2021 21:29:21 +0100
-Message-Id: <20210222202921.92774-4-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210222202921.92774-1-its@irrelevant.dk>
-References: <20210222202921.92774-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEHvY-0000PR-Ai
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 15:35:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46382)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEHvV-0001Nh-1C
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 15:35:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614026126;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z8SKsjXt1D/Pgvd2+ixyOWHwc4NFzYOFGkypV0OYE2U=;
+ b=d15zBHk6N4GD6ZP+emb9k+oN898uSTqd8p0InypQR06GyylOdvsYKXArGvWUtjU+Gl9Iie
+ LlFJBNW6ABMlq4pmxkCMjfuVOJ3cA1YeOB5qJvboehw8Zsi/lEFW3eFRUWIwtRe+v4nwas
+ XD5tljJYM0fUs/sLJOeu/Tux2U+Si4U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-RKKM6nvdPbSQ-cQm-C-n1Q-1; Mon, 22 Feb 2021 15:35:22 -0500
+X-MC-Unique: RKKM6nvdPbSQ-cQm-C-n1Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5AA3484E254;
+ Mon, 22 Feb 2021 20:35:21 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9A395C1BD;
+ Mon, 22 Feb 2021 20:35:10 +0000 (UTC)
+Subject: Re: [PATCH v5 3/4] Jobs based on custom runners: docs and
+ gitlab-runner setup playbook
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210219215838.752547-1-crosa@redhat.com>
+ <20210219215838.752547-4-crosa@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <0b312b6d-0c1f-27ce-dd76-32ee3da9603d@redhat.com>
+Date: Mon, 22 Feb 2021 17:35:07 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210219215838.752547-4-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,188 +87,218 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+Hi,
 
-ZASL (Zone Append Size Limit) is defined exactly like MDTS (Maximum Data
-Transfer Size), that is, it is a value in units of the minimum memory
-page size (CAP.MPSMIN) and is reported as a power of two.
+On 2/19/21 6:58 PM, Cleber Rosa wrote:
+> To have the jobs dispatched to custom runners, gitlab-runner must
+> be installed, active as a service and properly configured.  The
+> variables file and playbook introduced here should help with those
+> steps.
+>
+> The playbook introduced here covers a number of different Linux
+> distributions and FreeBSD, and are intended to provide a reproducible
+> environment.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   docs/devel/ci.rst                  | 58 ++++++++++++++++++++++++++
+>   scripts/ci/setup/.gitignore        |  1 +
+>   scripts/ci/setup/gitlab-runner.yml | 65 ++++++++++++++++++++++++++++++
+>   scripts/ci/setup/vars.yml.template | 13 ++++++
+>   4 files changed, 137 insertions(+)
+>   create mode 100644 scripts/ci/setup/.gitignore
+>   create mode 100644 scripts/ci/setup/gitlab-runner.yml
+>   create mode 100644 scripts/ci/setup/vars.yml.template
+>
+> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> index a556558435..9f9c4bd3f9 100644
+> --- a/docs/devel/ci.rst
+> +++ b/docs/devel/ci.rst
+> @@ -56,3 +56,61 @@ To run the playbook, execute::
+>   
+>     cd scripts/ci/setup
+>     ansible-playbook -i inventory build-environment.yml
+> +
+> +gitlab-runner setup and registration
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The gitlab-runner agent needs to be installed on each machine that
+> +will run jobs.  The association between a machine and a GitLab project
+> +happens with a registration token.  To find the registration token for
+> +your repository/project, navigate on GitLab's web UI to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * Under "Set up a specific Runner manually", look for the value under
+> +   "Use the following registration token during setup"
+> +
+> +Copy the ``scripts/ci/setup/vars.yml.template`` file to
+> +``scripts/ci/setup/vars.yml``.  Then, set the
+> +``gitlab_runner_registration_token`` variable to the value obtained
+> +earlier.
+> +
+> +.. note:: gitlab-runner is not available from the standard location
+> +          for all OS and architectures combinations.  For some systems,
+> +          a custom build may be necessary.  Some builds are avaiable
+> +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
+> +          URI may be used as a value on ``vars.yml``
+FYI the latest version (13.8.0) provides a s390x build.
+> +
+> +To run the playbook, execute::
+> +
+> +  cd scripts/ci/setup
+> +  ansible-playbook -i inventory gitlab-runner.yml
+> +
+> +Following the registration, it's necessary to configure the runner tags,
+> +and optionally other configurations on the GitLab UI.  Navigate to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * "Runners activated for this project", then
+> + * Click on the "Edit" icon (next to the "Lock" Icon)
+> +
+> +Under tags, add values matching the jobs a runner should run.  For a
+> +Ubuntu 20.04 aarch64 system, the tags should be set as::
+> +
+> +  ubuntu_20.04,aarch64
+> +
+> +Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
+> +would contain::
+> +
+> +  ubuntu-20.04-aarch64-all:
+> +   tags:
+> +   - ubuntu_20.04
+> +   - aarch64
+> +
+> +It's also recommended to:
+> +
+> + * increase the "Maximum job timeout" to something like ``2h``
+> + * uncheck the "Run untagged jobs" check box
+> + * give it a better Description
+> diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
+> new file mode 100644
+> index 0000000000..f112d05dd0
+> --- /dev/null
+> +++ b/scripts/ci/setup/.gitignore
+> @@ -0,0 +1 @@
+> +vars.yml
+> \ No newline at end of file
+> diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+> new file mode 100644
+> index 0000000000..ab1944965f
+> --- /dev/null
+> +++ b/scripts/ci/setup/gitlab-runner.yml
+> @@ -0,0 +1,65 @@
+> +---
+> +- name: Installation of gitlab-runner
+> +  hosts: all
+> +  vars_files:
+> +    - vars.yml
+> +  tasks:
+> +    - debug:
+> +        msg: 'Checking for a valid GitLab registration token'
+> +      failed_when: "gitlab_runner_registration_token == 'PLEASE_PROVIDE_A_VALID_TOKEN'"
+> +
+> +    - name: Checks the availability of official gitlab-runner builds in the archive
+> +      uri:
+> +        url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-linux-386
 
-The 'mdts' nvme device parameter is specified as in the spec, but the
-'zoned.append_size_limit' parameter is specified in bytes. This is
-suboptimal for a number of reasons:
+Where it checks for 386 then later it uses gitlab_runner_arch (amd64 by 
+default). It is not consistent.
 
-  1. It is just plain confusing wrt. the definition of mdts.
-  2. There is a lot of complexity involved in validating the value; it
-     must be a power of two, it should be larger than 4k, if it is zero
-     we set it internally to mdts, but still report it as zero.
-  3. While "hw/block/nvme: improve invalid zasl value reporting"
-     slightly improved the handling of the parameter, the validation is
-     still wrong; it does not depend on CC.MPS, it depends on
-     CAP.MPSMIN. And we are not even checking that it is actually less
-     than or equal to MDTS, which is kinda the *one* condition it must
-     satisfy.
+Also, why not use ansible_machine + jinja2 to convert x86_64 -> amd64, 
+aarch64 -> arm64...etc?
 
-Fix this by defining zasl exactly like mdts and checking the one thing
-that it must satisfy (that it is less than or equal to mdts). Also,
-change the default value from 128KiB to 0 (aka, whatever mdts is).
+> +        method: HEAD
+> +        status_code:
+> +          - 200
+> +          - 403
+> +      register: gitlab_runner_available_archive
+> +
+> +    - name: Update base url
+> +      set_fact:
+> +        gitlab_runner_base_url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-
+> +      when: gitlab_runner_available_archive.status == 200
+> +    - debug:
+> +        msg: Base gitlab-runner url is {{ gitlab_runner_base_url  }}
+> +
+> +    - name: Create a group for the gitlab-runner service
+> +      group:
+> +        name: gitlab-runner
+> +
+> +    - name: Create a user for the gitlab-runner service
+> +      user:
+> +        user: gitlab-runner
+> +        group: gitlab-runner
+> +        comment: GitLab Runner
+> +        home: /home/gitlab-runner
+> +        shell: /bin/bash
+> +
+> +    - name: Remove the .bash_logout file when on Ubuntu systems
+> +      file:
+> +        path: /home/gitlab-runner/.bash_logout
+> +        state: absent
+> +      when: "ansible_facts['distribution'] == 'Ubuntu'"
+> +
+> +    - name: Downloads the matching gitlab-runner
+> +      get_url:
+> +        dest: /usr/local/bin/gitlab-runner
+> +        url: "{{ gitlab_runner_base_url }}{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
 
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.h       |  4 +---
- hw/block/nvme.c       | 55 ++++++++++++-------------------------------
- hw/block/trace-events |  2 +-
- 3 files changed, 17 insertions(+), 44 deletions(-)
 
-diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-index cb2b5175f1a1..f45ace0cff5b 100644
---- a/hw/block/nvme.h
-+++ b/hw/block/nvme.h
-@@ -20,7 +20,7 @@ typedef struct NvmeParams {
-     uint32_t aer_max_queued;
-     uint8_t  mdts;
-     bool     use_intel_id;
--    uint32_t zasl_bs;
-+    uint8_t  zasl;
-     bool     legacy_cmb;
- } NvmeParams;
- 
-@@ -171,8 +171,6 @@ typedef struct NvmeCtrl {
-     QTAILQ_HEAD(, NvmeAsyncEvent) aer_queue;
-     int         aer_queued;
- 
--    uint8_t     zasl;
--
-     NvmeSubsystem   *subsys;
- 
-     NvmeNamespace   namespace;
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 25a7726ca05b..edd0b85c10ce 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -69,13 +69,11 @@
-  *   as a power of two (2^n) and is in units of the minimum memory page size
-  *   (CAP.MPSMIN). The default value is 7 (i.e. 512 KiB).
-  *
-- * - `zoned.append_size_limit`
-- *   The maximum I/O size in bytes that is allowed in Zone Append command.
-- *   The default is 128KiB. Since internally this this value is maintained as
-- *   ZASL = log2(<maximum append size> / <page size>), some values assigned
-- *   to this property may be rounded down and result in a lower maximum ZA
-- *   data size being in effect. By setting this property to 0, users can make
-- *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
-+ * - `zoned.zasl`
-+ *   Indicates the maximum data transfer size for the Zone Append command. Like
-+ *   `mdts`, the value is specified as a power of two (2^n) and is in units of
-+ *   the minimum memory page size (CAP.MPSMIN). The default value is 0 (i.e.
-+ *   defaulting to the value of `mdts`).
-  *
-  * nvme namespace device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-@@ -2135,10 +2133,9 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-                 goto invalid;
-             }
- 
--            if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
--                trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
--                status = NVME_INVALID_FIELD;
--                goto invalid;
-+            if (n->params.zasl && data_size > n->page_size << n->params.zasl) {
-+                trace_pci_nvme_err_zasl(data_size);
-+                return NVME_INVALID_FIELD | NVME_DNR;
-             }
- 
-             slba = zone->w_ptr;
-@@ -3212,9 +3209,8 @@ static uint16_t nvme_identify_ctrl_csi(NvmeCtrl *n, NvmeRequest *req)
-     if (c->csi == NVME_CSI_NVM) {
-         return nvme_rpt_empty_id_struct(n, req);
-     } else if (c->csi == NVME_CSI_ZONED) {
--        if (n->params.zasl_bs) {
--            id.zasl = n->zasl;
--        }
-+        id.zasl = n->params.zasl;
-+
-         return nvme_dma(n, (uint8_t *)&id, sizeof(id),
-                         DMA_DIRECTION_FROM_DEVICE, req);
-     }
-@@ -4088,19 +4084,6 @@ static int nvme_start_ctrl(NvmeCtrl *n)
-     nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
-                  NVME_AQA_ASQS(n->bar.aqa) + 1);
- 
--    if (!n->params.zasl_bs) {
--        n->zasl = n->params.mdts;
--    } else {
--        if (n->params.zasl_bs < n->page_size) {
--            NVME_GUEST_ERR(pci_nvme_err_startfail_zasl_too_small,
--                           "Zone Append Size Limit (ZASL) of %d bytes is too "
--                           "small; must be at least %d bytes",
--                           n->params.zasl_bs, n->page_size);
--            return -1;
--        }
--        n->zasl = 31 - clz32(n->params.zasl_bs / n->page_size);
--    }
--
-     nvme_set_timestamp(n, 0ULL);
- 
-     QTAILQ_INIT(&n->aer_queue);
-@@ -4609,17 +4592,10 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-         host_memory_backend_set_mapped(n->pmr.dev, true);
-     }
- 
--    if (n->params.zasl_bs) {
--        if (!is_power_of_2(n->params.zasl_bs)) {
--            error_setg(errp, "zone append size limit has to be a power of 2");
--            return;
--        }
--
--        if (n->params.zasl_bs < 4096) {
--            error_setg(errp, "zone append size limit must be at least "
--                       "4096 bytes");
--            return;
--        }
-+    if (n->params.zasl > n->params.mdts) {
-+        error_setg(errp, "zoned.zasl (Zone Append Size Limit) must be less "
-+                   "than or equal to mdts (Maximum Data Transfer Size)");
-+        return;
-     }
- }
- 
-@@ -4988,8 +4964,7 @@ static Property nvme_props[] = {
-     DEFINE_PROP_UINT8("mdts", NvmeCtrl, params.mdts, 7),
-     DEFINE_PROP_BOOL("use-intel-id", NvmeCtrl, params.use_intel_id, false),
-     DEFINE_PROP_BOOL("legacy-cmb", NvmeCtrl, params.legacy_cmb, false),
--    DEFINE_PROP_SIZE32("zoned.append_size_limit", NvmeCtrl, params.zasl_bs,
--                       NVME_DEFAULT_MAX_ZA_SIZE),
-+    DEFINE_PROP_UINT8("zoned.zasl", NvmeCtrl, params.zasl, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index e1a85661cf3f..25ba51ea5405 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -115,6 +115,7 @@ pci_nvme_clear_ns_reset(uint32_t state, uint64_t slba) "zone state=%"PRIu32", sl
- 
- # nvme traces for error conditions
- pci_nvme_err_mdts(size_t len) "len %zu"
-+pci_nvme_err_zasl(size_t len) "len %zu"
- pci_nvme_err_req_status(uint16_t cid, uint32_t nsid, uint16_t status, uint8_t opc) "cid %"PRIu16" nsid %"PRIu32" status 0x%"PRIx16" opc 0x%"PRIx8""
- pci_nvme_err_addr_read(uint64_t addr) "addr 0x%"PRIx64""
- pci_nvme_err_addr_write(uint64_t addr) "addr 0x%"PRIx64""
-@@ -144,7 +145,6 @@ pci_nvme_err_zone_boundary(uint64_t slba, uint32_t nlb, uint64_t zcap) "lba 0x%"
- pci_nvme_err_zone_invalid_write(uint64_t slba, uint64_t wp) "lba 0x%"PRIx64" wp 0x%"PRIx64""
- pci_nvme_err_zone_write_not_ok(uint64_t slba, uint32_t nlb, uint16_t status) "slba=%"PRIu64", nlb=%"PRIu32", status=0x%"PRIx16""
- pci_nvme_err_zone_read_not_ok(uint64_t slba, uint32_t nlb, uint16_t status) "slba=%"PRIu64", nlb=%"PRIu32", status=0x%"PRIx16""
--pci_nvme_err_append_too_large(uint64_t slba, uint32_t nlb, uint8_t zasl) "slba=%"PRIu64", nlb=%"PRIu32", zasl=%"PRIu8""
- pci_nvme_err_insuff_active_res(uint32_t max_active) "max_active=%"PRIu32" zone limit exceeded"
- pci_nvme_err_insuff_open_res(uint32_t max_open) "max_open=%"PRIu32" zone limit exceeded"
- pci_nvme_err_zd_extension_map_error(uint32_t zone_idx) "can't map descriptor extension for zone_idx=%"PRIu32""
--- 
-2.30.1
+And here instead of gitlab_runner_os, {{ ansible_system | lower }} 
+should work out.
+
+- Wainer
+
+> +        owner: gitlab-runner
+> +        group: gitlab-runner
+> +        mode: u=rwx,g=rwx,o=rx
+> +
+> +    - name: Register the gitlab-runner
+> +      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell  --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+> +
+> +    - name: Install the gitlab-runner service using its own functionality
+> +      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
+> +      register: gitlab_runner_install_service_result
+> +      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
+> +
+> +    - name: Enable the gitlab-runner service
+> +      service:
+> +        name: gitlab-runner
+> +        state: started
+> +        enabled: yes
+> diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
+> new file mode 100644
+> index 0000000000..621435d030
+> --- /dev/null
+> +++ b/scripts/ci/setup/vars.yml.template
+> @@ -0,0 +1,13 @@
+> +# The version of the gitlab-runner to use
+> +gitlab_runner_version: 13.1.1
+> +# The base location of gitlab-runner binaries, this will be suffixed by $OS-$ARCH
+> +gitlab_runner_base_url: https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-
+> +# The URL of the gitlab server to use, usually https://gitlab.com unless you're
+> +# using a private GitLab instance
+> +gitlab_runner_server_url: https://gitlab.com
+> +# Defaults to linux, checks can be used to change this
+> +gitlab_runner_os: linux
+> +# Defaults to amd64 (x86_64), checks can be used to change this
+> +gitlab_runner_arch: amd64
+> +# A unique token made available by GitLab to your project for registering runners
+> +gitlab_runner_registration_token: PLEASE_PROVIDE_A_VALID_TOKEN
 
 
