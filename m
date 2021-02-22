@@ -2,54 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41A28321ABE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:06:35 +0100 (CET)
-Received: from localhost ([::1]:57990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D05A321ACD
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:07:59 +0100 (CET)
+Received: from localhost ([::1]:40382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lECnC-0007yO-3Z
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:06:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53702)
+	id 1lECoY-00042x-9M
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:07:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lECfX-0005SB-U6
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:58:39 -0500
-Received: from isrv.corpit.ru ([86.62.121.231]:49289)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lECfV-0002xp-Uv
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:58:39 -0500
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 0BF4740727;
- Mon, 22 Feb 2021 17:58:35 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id 265D68D;
- Mon, 22 Feb 2021 17:58:36 +0300 (MSK)
-Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
-To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
- Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210222105004.1642234-1-laurent@vivier.eu>
- <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
- <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
- <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
- <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
- <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Message-ID: <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
-Date: Mon, 22 Feb 2021 17:58:34 +0300
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lEChe-0007Fl-OV
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:00:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ckuehl@redhat.com>) id 1lEChY-00046Q-T9
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:00:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614006042;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tcku4CWX8EoneiyDiLe488Yi2y2LRR70K1j8Q6pZoac=;
+ b=CTNJHS+QFatbZ2oqe2YYHqz0AIwqq/1veCb0tK+ic2g9Ftz8CcgKzbFJkX4cmYo5k1H2CV
+ 8RwoevF3nFtgOaiZRfNVItWXEhgaukk5/vpnUhulv5+fQJMlVQME343h0BXf7vYjGYCQ0/
+ 1Hj29sO8hpKB7MDwJxruckJHaMdI8G8=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com
+ [209.85.167.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-1QYAq4-_NH2jy6J2j2Pu3w-1; Mon, 22 Feb 2021 10:00:40 -0500
+X-MC-Unique: 1QYAq4-_NH2jy6J2j2Pu3w-1
+Received: by mail-oi1-f197.google.com with SMTP id w79so6273813oie.7
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 07:00:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Tcku4CWX8EoneiyDiLe488Yi2y2LRR70K1j8Q6pZoac=;
+ b=rhTPbeXjW9KjVV4vwso/oBEf3WSDLs3hemsF30f3WuqHnvNjZIZAEwwonDGgdjNSQ4
+ +zN3jC9luCWXLqlDISbsrYi+psA8zK9Zbuo68kIr+NpZ2v0TxoMtIjPvc3wUycZorj1S
+ iuwRAHwauqlaRUxRtQYcxS2w0V20h2mcJ6TJcLVvDCJYljNmcpq1CFlbUb3uJgF2Huwj
+ CIca867LtjpVSn8Wa3xX7bZRh4/EKeLYFZ6Do/o9KSD2dEW82UXz99Z+X2gDHER30buw
+ prRK1slfOq1abts6HhvRqvuKtwyUjWHN3Leb9YRvEiDUoNlTcgNKUms4t4eyuBAiiPrO
+ 9bAA==
+X-Gm-Message-State: AOAM530l6glzWPChzWSmpHGXxGVm+pZoenfG8+8jO1WaRVDTekogR0uC
+ Ysg9MsKg7fVkpmyY9f3bcqQj9PtZpN1aa2HGJNNQCPIw+z93y/svLhrl4cO/uisfBgm+skVv8bT
+ J40T9o1f82/lKE2E=
+X-Received: by 2002:a4a:88a2:: with SMTP id j31mr16433954ooa.71.1614006039455; 
+ Mon, 22 Feb 2021 07:00:39 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJywrgwz1UHmXLy+425VRdsAesUht79uoJQcRcR8RPH0F/fgtYkxNrDdFiUIHvOysmI1oiXjAg==
+X-Received: by 2002:a4a:88a2:: with SMTP id j31mr16433942ooa.71.1614006039278; 
+ Mon, 22 Feb 2021 07:00:39 -0800 (PST)
+Received: from [192.168.0.173] (ip68-103-222-6.ks.ok.cox.net. [68.103.222.6])
+ by smtp.gmail.com with ESMTPSA id
+ v14sm3880888oic.54.2021.02.22.07.00.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 07:00:38 -0800 (PST)
+Subject: Re: Interactive launch over QMP socket?
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <47b15088-514a-8174-029d-8d9c4571960a@redhat.com>
+ <YDOhB4Db5xg52Zgv@redhat.com>
+From: Connor Kuehl <ckuehl@redhat.com>
+Message-ID: <d137b4ee-7dbe-6bd5-63c9-b20a80259d08@redhat.com>
+Date: Mon, 22 Feb 2021 09:00:36 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
+In-Reply-To: <YDOhB4Db5xg52Zgv@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ckuehl@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ckuehl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,20 +98,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>
+Cc: jejb@linux.ibm.com, npmccallum@redhat.com, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-22.02.2021 17:54, John Paul Adrian Glaubitz wrote:
+On 2/22/21 6:18 AM, Daniel P. Berrangé wrote:
+> 
+> ... so this doesn't actually seem to need to be done in QMP on the fly.
+> It can be provided on the CLI, which seems to be possible wth the args
+> shown earlier.
+> 
 
-> OK, gotcha. Is it supposed to work with systemd-binfmt? It looks like it depends
-> on the old binfmt-support package.
+> 
+> It seems like this is all doable already unless I'm missing something.
 
-the qemu 4-line patch does not depend on any particular system, it relies on a
-special name of its own argv[0] when registering the binfmt entry.  In order to
-utilize it, we create a special-named symlink to qemu-foo and register that one
-with the binfmt-misc subsystem, no matter if it is systemd or binfmt-support or
-whatever else.
+That's correct; however, I would like to make it possible for the 
+entirety of it to happen on the fly, ultimately rendering the CLI args 
+optional.
 
-/mjt
+Connor
+
 
