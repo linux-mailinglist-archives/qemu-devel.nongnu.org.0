@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39399321F83
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:01:21 +0100 (CET)
-Received: from localhost ([::1]:49210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E463E321FAB
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:09:53 +0100 (CET)
+Received: from localhost ([::1]:59182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEGSN-0004Rl-S2
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:01:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42298)
+	id 1lEGae-0001B6-T6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:09:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEGFr-0004wE-CI; Mon, 22 Feb 2021 13:48:23 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:43803)
+ (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
+ id 1lEGHP-0006kC-BH; Mon, 22 Feb 2021 13:50:01 -0500
+Received: from ppsw-30.csi.cam.ac.uk ([131.111.8.130]:50646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEGFh-0003k0-Ky; Mon, 22 Feb 2021 13:48:23 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 0A9295C0207;
- Mon, 22 Feb 2021 13:48:09 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 22 Feb 2021 13:48:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=Rf7n/5OW2Ypat
- jdSnPjiGbwX7Neana1YIDZg4xmL1kM=; b=dC1ro6BGl/7r+evi7kSpEUVfRiubJ
- szoqblCAqxSkp31C3uTwXKH1+xiHelOMfSHv981icDUtVomT0017GqKLrUBcjhJX
- eX4PmyEWaCWZIlkPX/D7qPptdw+jzHKOGIeXrV/y9fSC5oHovilkiXnH2ow8WRqr
- Rv9fxrb35bhkpg84tCkuYoMg6aKYbxHd2sf47CrudmaFKfUuWcMAZIY84yMgpv0u
- B96V4DFhTbJknyhlmWfAok5YTtLgNXlaQ9raCApc28iT5F2cKV4jCaXsar8DmhrJ
- jFhs8ztJOEU02/LkW7Ddr9zT7G+FFKjycM9wvz3UYPxnwLPH0ajEDyXNQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=Rf7n/5OW2YpatjdSnPjiGbwX7Neana1YIDZg4xmL1kM=; b=ebKFP+Vh
- oZnrUY1SwO0lwFar0S+39o+McCJCdYoLWcgjA6CHvTiRg9e2VB4Mv0UfFD3jpEn6
- 8VNQHxsUYlbvs8H1Me9267C1G280fPEw9Q8YnKiQdQbaK3wSz2Lw3I4CsfeGSTaB
- b4LEqg1uPthYiWQol2kFDKgd8yFyGn7AenPU4ypa3Rym/hH3QTIXTHJhpproNQ+N
- eLUP70Q46rCcPCI6S0H8aVY2nbIsmr7wJZHKeiYP9Q3gRqWELSWdq+PxRnyQ+LMZ
- uVLhCyX3uAPSSknKu5lLyYlpXq87RQxXockF4VmY5wDymc8QKCVQbQer3fl1k2ty
- xvvCLSk8hecY7A==
-X-ME-Sender: <xms:aPwzYNXsfaQfkCRjlEItlUhYwa8wJ4yPoQCMq0-IqME5gYeLR-HZxw>
- <xme:aPwzYNvFfHn_4intMs339bca1OJLQXXX8Lx2SXPYwf3zH2fAnFX6RbGPrjWBmQHCJ
- YIizFtA3bgO0KCJWqs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgdduudeiucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedvne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:afwzYA0V_Kr6G9T3cPtJwGvSVJZyka2176H27PX-Rb7OJWtMOjPh2w>
- <xmx:afwzYG5EAaNFlHgb3ajhnt8Tem1Pfa_YyfyWUchF33W5qpfWT5Csvw>
- <xmx:afwzYPUa1B-y71QKML8cdDjL05XFiZ0El-YJ-7lYe7galo2luLzE3w>
- <xmx:afwzYIchqhEVCCUDGRFdCrvb_iQDHKlQs9xouXr1djQoqjQWeo72Aw>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id AC220240068;
- Mon, 22 Feb 2021 13:48:07 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/5] hw/block/nvme: add trace event for zone read check
-Date: Mon, 22 Feb 2021 19:47:58 +0100
-Message-Id: <20210222184759.65041-5-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.1
-In-Reply-To: <20210222184759.65041-1-its@irrelevant.dk>
-References: <20210222184759.65041-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
+ id 1lEGHL-0004RK-79; Mon, 22 Feb 2021 13:49:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cam.ac.uk; 
+ s=20180806.ppsw;
+ h=Sender:Content-Transfer-Encoding:MIME-Version:Message-Id:
+ Date:Subject:Cc:To:From:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=kZ06EAQqisBaZL/oJvVGY4LaWYo6NZdCaDA5Y0JDEe4=; b=JcVPiEwwFIE3dGf4VMUA9sxikt
+ r3+m4gTdRXtuFuvqCrHHWLrH5wD81LuUl+9k3G/jC1MTTOuzA2qbS60zw0EjbmRD9EwDv2gpEb48w
+ G96dFV+cfF957kA92c6chTz5FaNyLeFMMIjc8sIGf1YoqboKWQ6q0sR9mv2CWFQWFgx0=;
+X-Cam-AntiVirus: no malware found
+X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
+Received: from host86-156-0-119.range86-156.btcentralplus.com
+ ([86.156.0.119]:53365 helo=Alexs-MBP-10.home)
+ by ppsw-30.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.156]:587)
+ with esmtpsa (LOGIN:alr48) (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+ id 1lEGHD-000pj0-di (Exim 4.94)
+ (return-path <alr48@hermes.cam.ac.uk>); Mon, 22 Feb 2021 18:49:47 +0000
+From: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
+To: 
+Subject: [PATCH v2 1/2] target/riscv: Reduce duplicated code in trans_rvh.c.inc
+Date: Mon, 22 Feb 2021 18:49:38 +0000
+Message-Id: <20210222184940.43169-1-Alexander.Richardson@cl.cam.ac.uk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=131.111.8.130;
+ envelope-from=alr48@hermes.cam.ac.uk; helo=ppsw-30.csi.cam.ac.uk
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,39 +64,302 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-
-Add a trace event for the offline zone condition when checking zone
-read.
-
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-[k.jensen: split commit]
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+I rencently merged CHERI QEMU up to 5.2, and we have to modify all
+functions that perform memory accesses. Factoring these almost-indentical
+functions into two shared helpers makes our changes a lot smaller and
+should also make this code easier to maintain.
 ---
- hw/block/nvme.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/riscv/insn_trans/trans_rvh.c.inc | 199 ++++--------------------
+ 1 file changed, 29 insertions(+), 170 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index dcd51a52951c..b641c7a45a2f 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1241,6 +1241,7 @@ static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
-     case NVME_ZONE_STATE_READ_ONLY:
-         return NVME_SUCCESS;
-     case NVME_ZONE_STATE_OFFLINE:
-+        trace_pci_nvme_err_zone_is_offline(zone->d.zslba);
-         return NVME_ZONE_OFFLINE;
-     default:
-         assert(false);
+diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+index ce7ed5affb..c66268a9b0 100644
+--- a/target/riscv/insn_trans/trans_rvh.c.inc
++++ b/target/riscv/insn_trans/trans_rvh.c.inc
+@@ -28,7 +28,7 @@ static void check_access(DisasContext *ctx) {
+ }
+ #endif
+ 
+-static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
++static bool gen_hlv(DisasContext *ctx, int rs1, int rd, MemOp memop)
+ {
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
+@@ -37,10 +37,10 @@ static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
+ 
+     check_access(ctx);
+ 
+-    gen_get_gpr(t0, a->rs1);
++    gen_get_gpr(t0, rs1);
+ 
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_SB);
+-    gen_set_gpr(a->rd, t1);
++    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, memop);
++    gen_set_gpr(rd, t1);
+ 
+     tcg_temp_free(t0);
+     tcg_temp_free(t1);
+@@ -50,224 +50,83 @@ static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
+ #endif
+ }
+ 
+-static bool trans_hlv_h(DisasContext *ctx, arg_hlv_h *a)
++
++static bool gen_hsv(DisasContext *ctx, int rs1, int rs2, MemOp memop)
+ {
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
+     TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
++    TCGv dat = tcg_temp_new();
+ 
+     check_access(ctx);
+ 
+-    gen_get_gpr(t0, a->rs1);
++    gen_get_gpr(t0, rs1);
++    gen_get_gpr(dat, rs2);
+ 
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESW);
+-    gen_set_gpr(a->rd, t1);
++    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, memop);
+ 
+     tcg_temp_free(t0);
+-    tcg_temp_free(t1);
++    tcg_temp_free(dat);
+     return true;
+ #else
+     return false;
+ #endif
+ }
+ 
+-static bool trans_hlv_w(DisasContext *ctx, arg_hlv_w *a)
++static bool trans_hlv_b(DisasContext *ctx, arg_hlv_b *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
++    return gen_hlv(ctx, a->rs1, a->rd, MO_SB);
++}
+ 
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESL);
+-    gen_set_gpr(a->rd, t1);
++static bool trans_hlv_h(DisasContext *ctx, arg_hlv_h *a)
++{
++    return gen_hlv(ctx, a->rs1, a->rd, MO_TESW);
++}
+ 
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++static bool trans_hlv_w(DisasContext *ctx, arg_hlv_w *a)
++{
++    return gen_hlv(ctx, a->rs1, a->rd, MO_TESL);
+ }
+ 
+ static bool trans_hlv_bu(DisasContext *ctx, arg_hlv_bu *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_UB);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rd, MO_UB);
+ }
+ 
+ static bool trans_hlv_hu(DisasContext *ctx, arg_hlv_hu *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEUW);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rd, MO_TEUW);
+ }
+ 
+ static bool trans_hsv_b(DisasContext *ctx, arg_hsv_b *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_SB);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rs2, MO_SB);
+ }
+ 
+ static bool trans_hsv_h(DisasContext *ctx, arg_hsv_h *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESW);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rs2, MO_TESW);
+ }
+ 
+ static bool trans_hsv_w(DisasContext *ctx, arg_hsv_w *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TESL);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rs2, MO_TESL);
+ }
+ 
+ #ifdef TARGET_RISCV64
+ static bool trans_hlv_wu(DisasContext *ctx, arg_hlv_wu *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEUL);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rd, MO_TEUL);
+ }
+ 
+ static bool trans_hlv_d(DisasContext *ctx, arg_hlv_d *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv t1 = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-
+-    tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEQ);
+-    gen_set_gpr(a->rd, t1);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(t1);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rd, MO_TEQ);
+ }
+ 
+ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
+ {
+-    REQUIRE_EXT(ctx, RVH);
+-#ifndef CONFIG_USER_ONLY
+-    TCGv t0 = tcg_temp_new();
+-    TCGv dat = tcg_temp_new();
+-
+-    check_access(ctx);
+-
+-    gen_get_gpr(t0, a->rs1);
+-    gen_get_gpr(dat, a->rs2);
+-
+-    tcg_gen_qemu_st_tl(dat, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, MO_TEQ);
+-
+-    tcg_temp_free(t0);
+-    tcg_temp_free(dat);
+-    return true;
+-#else
+-    return false;
+-#endif
++    return gen_hlv(ctx, a->rs1, a->rs2, MO_TEQ);
+ }
+ #endif
+ 
 -- 
-2.30.1
+2.30.0
 
 
