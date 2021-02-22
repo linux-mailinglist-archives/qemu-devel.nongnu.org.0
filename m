@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987683213F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:17:44 +0100 (CET)
-Received: from localhost ([::1]:41930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AEE3213FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:21:32 +0100 (CET)
+Received: from localhost ([::1]:52712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE8Hf-0001JI-Jb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:17:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
+	id 1lE8LL-0005rQ-Gq
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:21:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lE8F8-0007xW-52
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:15:06 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41036)
+ id 1lE8FB-00082q-2e
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:15:09 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lE8F6-0005ID-DK
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:15:05 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id c7so1669240wru.8
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:15:03 -0800 (PST)
+ id 1lE8F9-0005JH-0n
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:15:08 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id a207so13799284wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:15:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=aZFusUpUE78KLOYcTH3N+BBSwwTvd1bK6WCbPQhEmJo=;
- b=d3EbQ6Uq20yorzzDIp28h/72I2c6AzI8pm66HAAr+/qlwILvv1FfpxH9OaSqusEt1s
- tbYO8XQiGEZGvzaMn9JLidqzVkMcSdVopP0F1GS8Dap8b+dWmL7N+Dyw0VifPgi4N63n
- CG/yMANdLDMbGoJy8IGBFbFRsvZ6Lbnm3Y0EkjIvna2ny1ddBQXdZaes4/jAFIDg1wwG
- ExbE4R6Ka62L4WbGZPqEGSRELC5CaPbrVvLMGHphcJRbaGCpG/GSSVuTEuZYV+kQMV8g
- kqHCMTRLgV0Rl6LlKTBFOHyXWJU8WJOL874LJS5YWOlZHoGKbNhu9gY/f70/t7kkV5kP
- 4gXQ==
+ bh=bgfArHb7p3k3YdV0HiKtW1aTNXdvm5THpfAW3dQ7N4A=;
+ b=rJdfAWCgDqkrlaF80XIQy6mDujgHUFFyvQf1mhqilZuXUCZiRcsihGWuJk3Xo8+0hz
+ /rVWpbGJ4pfXnZ0RwfLBjmAKYSg9qHy4Y47pWRNrNhpZo+qcP5/32WMfdmChvuJwSSB5
+ 7DivS+zFZm5SB+euetsqlOUVUobczXZ1kx7b0Rbd0tE2Dbu5objR9eDL6ubmxGjpMx7M
+ OyRqDgcx/ekXU0TGOKBs76nYaItWjzsWVYtoq5jAO/ZFsw+TKuWHmQCCEWPGqljRwO8v
+ lqoHzCqOaVJzssjzxTiUg9x8DpDFWEfP3avW+zOaeV1AlYVsBkuaMbDduGT8wkrCDabk
+ PKLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=aZFusUpUE78KLOYcTH3N+BBSwwTvd1bK6WCbPQhEmJo=;
- b=dCzFe5OTjxcIPN79XShQ+IoOfebKmB0ZSMBzvIyO3ivP1muqTW1VDrzXS8uktQYdpo
- vdf5QV9C9FzEdhLbmMzL9gBCcOa7UD053HO8F98Zc13ydDBJqVSD6WTqgCF0ZzGnDj+E
- XEIBXW7GiVQmrx03gPSvakDmHGYOVycK2WwD6nck9QvCt2drCzrUuvGi7wQUVXXPKD6D
- tdObrAy7C0ZKguMk4jG+rZYjIHUV89izW2Wwan0BRvRXdZ33pMlLPSQkwH6CX5OssnAS
- pgKWbld9GMQS5Dt7+kVZv0P7ZCqW1ezJFAjLu6pd8bDwXmasC0chPzUYOsO7jaX+uLPk
- VeWA==
-X-Gm-Message-State: AOAM533IRJZuszLlVBqwGkOFgFl5+mMtzDiUdrQZR4/A/affo1Mws/Jt
- SniUYVqxJZzCwdt1RVaM42Wbxg==
-X-Google-Smtp-Source: ABdhPJzMnCL5U/dwm/N3dlUS7TgIktnbgBL391Y7AVVYP7u9h9OiqfYODxY6ujyRC/Wol4Fg6XO1UA==
-X-Received: by 2002:adf:dd41:: with SMTP id u1mr10075756wrm.190.1613988902946; 
- Mon, 22 Feb 2021 02:15:02 -0800 (PST)
+ bh=bgfArHb7p3k3YdV0HiKtW1aTNXdvm5THpfAW3dQ7N4A=;
+ b=tOWputQ1bytBZlIxCumQpqUzl5XgL/2r2RWCOy9EAKspPnEIjnorOcSHmGzla5F5x+
+ G2QaVkxDqc4RB4d/TQ87GBtf+/lhW+Jn7GLoBFnFMYLklL5a+xKU2VNXJk+YbpkITYn2
+ +j0lhx/lYKMq7hvZX7mmRIeeilXbxIlCL6h7HgJMQEdlLzzQJdSGWpUhvnmcgvLtzogo
+ oWm1JItgoaXLLID8uMAmHgDBAIndIGGG97xjuVqhABIw1YlyURFEEJmmSdLzY93wi0/d
+ Ja3FQSlbqLipweUN5FeQtwSo/rbAoj6dkTdBy6tLqEhKJMugt3MtA49JnuSzAkV9uwCk
+ f+Hg==
+X-Gm-Message-State: AOAM533VGBK4axW0VHjRQYunog5sfzkdQYhSl/vvq3xnLj+hmNHcho3l
+ 1qMaxYXISRniklMGWvAeiWLM2Q==
+X-Google-Smtp-Source: ABdhPJwtph261QYAD1OiIoNqelKwqqM6wbx5x8eHE7vt+NQK77g7aRasoGygJRMVAaaERm2cI4XlYA==
+X-Received: by 2002:a05:600c:47c4:: with SMTP id
+ l4mr19336965wmo.83.1613988905652; 
+ Mon, 22 Feb 2021 02:15:05 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c12sm16967453wru.71.2021.02.22.02.14.56
+ by smtp.gmail.com with ESMTPSA id t11sm17165846wmb.32.2021.02.22.02.14.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 22 Feb 2021 02:15:00 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2CDA81FF90;
+ by zen.linaroharston (Postfix) with ESMTP id 430E21FF91;
  Mon, 22 Feb 2021 10:14:56 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 4/6] docs/devel: expand on use of containers to build tests
-Date: Mon, 22 Feb 2021 10:14:53 +0000
-Message-Id: <20210222101455.12640-5-alex.bennee@linaro.org>
+Subject: [PATCH  v2 5/6] docs/devel: update the container based tests
+Date: Mon, 22 Feb 2021 10:14:54 +0000
+Message-Id: <20210222101455.12640-6-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210222101455.12640-1-alex.bennee@linaro.org>
 References: <20210222101455.12640-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,55 +93,121 @@ Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Expand on the usage of containers for building tests and why we have
-some that are not used to build QEMU itself.
+This section has grown a little stale so clean-up the language and
+examples for current usage:
+
+  - refer to containers at the top
+  - mention podman can also be used
+  - add podman prerequisites section
+  - move to using "docker-help" for online help
+  - mention the registry and it's purpose
+  - don't refer to out-of-date min-glib image
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Cc: Thomas Huth <thuth@redhat.com>
 ---
- docs/devel/testing.rst | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ docs/devel/testing.rst | 61 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 46 insertions(+), 15 deletions(-)
 
 diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 00ce16de48..488d4e3537 100644
+index 488d4e3537..e43c992f21 100644
 --- a/docs/devel/testing.rst
 +++ b/docs/devel/testing.rst
-@@ -272,10 +272,10 @@ Note that the following group names have a special meaning:
- 
- - disabled: Tests in this group are disabled and ignored by check.
- 
--.. _docker-ref:
-+.. _container-ref:
- 
--Docker based tests
--==================
-+Container based tests
-+=====================
- 
+@@ -280,13 +280,17 @@ Container based tests
  Introduction
  ------------
-@@ -1001,10 +1001,17 @@ for the architecture in question, for example::
- There is also a ``--cross-cc-flags-ARCH`` flag in case additional
- compiler flags are needed to build for a given target.
  
--If you have the ability to run containers as the user you can also
--take advantage of the build systems "Docker" support. It will then use
--containers to build any test case for an enabled guest where there is
--no system compiler available. See :ref:`docker-ref` for details.
-+If you have the ability to run containers as the user the build system
-+will automatically use them where no system compiler is available. For
-+architectures where we also support building QEMU we will generally
-+use the same container to build tests. However there are a number of
-+additional containers defined that have a minimal cross-build
-+environment that is only suitable for building test cases. Sometimes
-+we may use a bleeding edge distribution for compiler features needed
-+for test cases that aren't yet in the LTS distros we support for QEMU
-+itself.
+-The Docker testing framework in QEMU utilizes public Docker images to build and
+-test QEMU in predefined and widely accessible Linux environments.  This makes
+-it possible to expand the test coverage across distros, toolchain flavors and
+-library versions.
+-
+-Prerequisites
+--------------
++The container testing framework in QEMU utilizes public images to
++build and test QEMU in predefined and widely accessible Linux
++environments. This makes it possible to expand the test coverage
++across distros, toolchain flavors and library versions. The support
++was originally written for Docker although we also support Podman as
++an alternative container runtime. Although the many of the target
++names and scripts are prefixed with "docker" the system will
++automatically run on whichever is configured.
 +
-+See :ref:`container-ref` for more details.
++Docker Prerequisites
++--------------------
  
- Running subset of tests
- -----------------------
+ Install "docker" with the system package manager and start the Docker service
+ on your development machine, then make sure you have the privilege to run
+@@ -316,26 +320,53 @@ Note that any one of above configurations makes it possible for the user to
+ exploit the whole host with Docker bind mounting or other privileged
+ operations.  So only do it on development machines.
+ 
++Podman Prerequisites
++--------------------
++
++Install "podman" with the system package manager.
++
++.. code::
++
++  $ sudo dnf install podman
++  $ podman ps
++
++The last command should print an empty table, to verify the system is ready.
++
+ Quickstart
+ ----------
+ 
+-From source tree, type ``make docker`` to see the help. Testing can be started
+-without configuring or building QEMU (``configure`` and ``make`` are done in
+-the container, with parameters defined by the make target):
++From source tree, type ``make docker-help`` to see the help. Testing
++can be started without configuring or building QEMU (``configure`` and
++``make`` are done in the container, with parameters defined by the
++make target):
+ 
+ .. code::
+ 
+-  make docker-test-build@min-glib
++  make docker-test-build@centos7
+ 
+-This will create a container instance using the ``min-glib`` image (the image
++This will create a container instance using the ``centos7`` image (the image
+ is downloaded and initialized automatically), in which the ``test-build`` job
+ is executed.
+ 
++Registry
++--------
++
++The QEMU project has a container registry hosted by GitLab at
++``registry.gitlab.com/qemu-project/qemu`` which will automatically be
++used to pull in pre-built layers. This avoids unnecessary strain on
++the distro archives created by multiple developers running the same
++container build steps over and over again. This can be overridden
++locally by using the ``NOCACHE`` build option:
++
++.. code::
++
++   make docker-image-debian10 NOCACHE=1
++
+ Images
+ ------
+ 
+-Along with many other images, the ``min-glib`` image is defined in a Dockerfile
+-in ``tests/docker/dockerfiles/``, called ``min-glib.docker``. ``make docker``
++Along with many other images, the ``centos7`` image is defined in a Dockerfile
++in ``tests/docker/dockerfiles/``, called ``centos7.docker``. ``make docker-help``
+ command will list all the available images.
+ 
+ To add a new image, simply create a new ``.docker`` file under the
+@@ -355,7 +386,7 @@ QEMU.  Docker tests are the executables under ``tests/docker`` named
+ library, ``tests/docker/common.rc``, which provides helpers to find the QEMU
+ source and build it.
+ 
+-The full list of tests is printed in the ``make docker`` help.
++The full list of tests is printed in the ``make docker-help`` help.
+ 
+ Debugging a Docker test failure
+ -------------------------------
 -- 
 2.20.1
 
