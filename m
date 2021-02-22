@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 795DC3220BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:20:32 +0100 (CET)
-Received: from localhost ([::1]:36430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A2C23220E1
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:40:55 +0100 (CET)
+Received: from localhost ([::1]:48958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEHh1-0003fH-07
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:20:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41046)
+	id 1lEI0j-0001iC-PF
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:40:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lEHfu-00038u-Md
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 15:19:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29780)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lEHfr-0002h3-W4
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 15:19:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614025158;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NxU6lE8aetwTygtxby1V4kJylbvZulG6xQfCooLV+Lo=;
- b=MKxiFr8t3ZOYjGQhJ3wpiTsefBroHlozTQtv1ReH/UaYh/Zy03mh/LEhgU43SisyLlM9yX
- vG2AKiugyueO0qqUO/PRXd7K2hAiKn+hot9ethOONvxHJbULd0LGogJqZ6tj0wNW3T4HTl
- P61f8rmJb8zmWhEGbG1tVmhO6AOOtjg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-313-tOpFg9VlPJWrLPVlqYz9wA-1; Mon, 22 Feb 2021 15:19:14 -0500
-X-MC-Unique: tOpFg9VlPJWrLPVlqYz9wA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 089EC107ACC7;
- Mon, 22 Feb 2021 20:19:13 +0000 (UTC)
-Received: from [10.3.113.156] (ovpn-113-156.phx2.redhat.com [10.3.113.156])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4488360C4D;
- Mon, 22 Feb 2021 20:19:12 +0000 (UTC)
-Subject: Re: [PATCH v2 0/4] improve do_strtosz precision
-From: Eric Blake <eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lEHpk-00069r-B9; Mon, 22 Feb 2021 15:29:32 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1lEHph-0007IE-EC; Mon, 22 Feb 2021 15:29:32 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.nyi.internal (Postfix) with ESMTP id C912E5C01C2;
+ Mon, 22 Feb 2021 15:29:27 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 22 Feb 2021 15:29:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:content-type:mime-version
+ :content-transfer-encoding; s=fm2; bh=HTbmG4L5dimVQlEHDp46JSmo+o
+ iFWtG0aq9BZzQbH8k=; b=Am0nKJMyWofokdylEgZ6j240jvgKoxC2wVdywI3w7o
+ TXw2t5imXEIfcVyKnq3lJNdUX2KJFcE7Cino2xXdppGcEOkDUkOhIW2hcwn9JgxU
+ Au5NbMSTSgwfLmy1omaIUzfJI/0yozTI21G3/wRMdYGo3FwEAbm4V9KJa9cW7F7z
+ 2EElZcT0k3FK7xwj3Yf+NZ76HPURXoEaeujH+tSs/Cnw281zM2mJi8xddDWGDr2g
+ +OpfcNkPl0K6g214dF1nR/7ie43FaD5qxd3H60bnS6XbJB3jbTmbbm9h3J62/SkE
+ 8yysKrqB4khbMSi1WT8iHLmvjf0sdqiVUjyez21aUR5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=HTbmG4
+ L5dimVQlEHDp46JSmo+oiFWtG0aq9BZzQbH8k=; b=iGLXLqjAYCZtjJ4hl/g9Ho
+ bqA/CPQp/uL+/9fPyw9llQ+Bldd6QOioNzwdVDlCMRkcHPz53gCRTT+9lhegxGes
+ rDVnPz/GLvIe0R9d/rJwmR++VQTQG8EoHC0wczrAnEvWEyCGEdWpy+al8HI5Dsck
+ ki395+vkFwlneq10EdEYyvAKY1divuAl70zCYTh99IXEOES+bY2aZ8jasDuDicAX
+ PgyRm/Duw05ScbhqGl7uEq3RNFpgPzgIyRBExuvpV9kyA9rU07OFVsEY+xswWYKQ
+ 7DBCT3BrJcBZq/k9GP1Le9vmNrLf4xo2t+GukpSYTT7AjRrHi4EuIqSh7PzT9vtQ
+ ==
+X-ME-Sender: <xms:JhQ0YGrFOSE7EqbPy7NhSzIXgnpaP_MMtq00n_tOgHbdf-89E99BKQ>
+ <xme:JhQ0YMbNeN9BWT02FdSjpsaaeUC0eH3IY0D3ifQ81kXiMlp1pI4U-Io5kWl0vp-Ou
+ vyElQF2EAk2wv1W6FE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeejucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:JhQ0YOT8OIA5Ets7hKR2LjpNclXyxZt46KeD2inckAjw8txpAICrIA>
+ <xmx:JhQ0YD4GOrA32ydiP-QWuZOGdVN02pv-gn87SKag5yQ4QqWeRI0sFw>
+ <xmx:JhQ0YDxmSx0yqWxgoHcEdJ3jf6ed8V3QGNnrUe9iI12ssNE1DeH6VA>
+ <xmx:JxQ0YE7FgPl1YKFVuiIGucrw0MC_VM0d1_u7IzuPjJitpn_hIE4LqA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 44C5524005B;
+ Mon, 22 Feb 2021 15:29:25 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-References: <20210211204438.1184395-1-eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <0aaa18a2-eff8-1a50-209a-c03a425b86e9@redhat.com>
-Date: Mon, 22 Feb 2021 14:19:11 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+Subject: [PATCH 0/3] hw/block/nvme: mdts/zasl cleanup
+Date: Mon, 22 Feb 2021 21:29:18 +0100
+Message-Id: <20210222202921.92774-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.1
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <20210211204438.1184395-1-eblake@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +91,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com, berrange@redhat.com, qemu-block@nongnu.org,
- tao3.xu@intel.com, rjones@redhat.com, armbru@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/11/21 2:44 PM, Eric Blake wrote:
-> Parsing sizes with only 53 bits of precision is surprising; it's time
-> to fix it to use a full 64 bits of precision.
-> 
-> v1 was here:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg01800.html
-> 
-> Since then:
-> - split testsuite improvements from code changes [Vladimir]
-> - more tests for more corner cases [Vladimir, Rich, Dan]
-> - fix handling of '123-45' when endptr is non-NULL [Vladimir]
-> - fix handling of '1.k'
-> - actually enable deprecation of '0x1k' [Vladimir]
-> - include missing deprecation text for rounded fractions
-> - improved commit messages
-> 
-> I'm still not sure I like patch 4, but it's at least worth considering.
+From: Klaus Jensen <k.jensen@samsung.com>=0D
 
-Ping. I've also just realized that this series will fix:
-https://bugzilla.redhat.com/show_bug.cgi?id=1909185
-"The error message of "qemu-img convert -r" should advertise the correct
-maximum number"
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+The gist of this series is about aligning the zoned.zasl parameter with=0D
+the mdts parameter. I complained about this back when I was reviewing=0D
+the zoned series but was shot down. I relented on the size/capacity=0D
+debate (and still fully support that), but I never really liked that=0D
+ZASL is different from MDTS. Changing the definition makes the=0D
+validation code much simpler and, well, it aligns perfectly with the=0D
+existing mdts parameter, which is the goal here.=0D
+=0D
+While the current definition of zasl is in master, it has not yet been=0D
+released, so this is sort of our last chance to change this before v6.0.=0D
+=0D
+I'll repeat the commit message of [3/3] here for context:=0D
+=0D
+ZASL (Zone Append Size Limit) is defined exactly like MDTS (Maximum Data=0D
+Transfer Size), that is, it is a value in units of the minimum memory=0D
+page size (CAP.MPSMIN) and is reported as a power of two.=0D
+=0D
+The 'mdts' nvme device parameter is specified as in the spec, but the=0D
+'zoned.append_size_limit' parameter is specified in bytes. This is=0D
+suboptimal for a number of reasons:=0D
+=0D
+  1. It is just plain confusing wrt. the definition of mdts.=0D
+  2. There is a lot of complexity involved in validating the value; it=0D
+     must be a power of two, it should be larger than 4k, if it is zero=0D
+     we set it internally to mdts, but still report it as zero.=0D
+  3. While "hw/block/nvme: improve invalid zasl value reporting"=0D
+     slightly improved the handling of the parameter, the validation is=0D
+     still wrong; it does not depend on CC.MPS, it depends on=0D
+     CAP.MPSMIN. And we are not even checking that it is actually less=0D
+     than or equal to MDTS, which is kinda the *one* condition it must=0D
+     satisfy.=0D
+=0D
+Fix this by defining zasl exactly like mdts and checking the one thing=0D
+that it must satisfy (that it is less than or equal to mdts). Also,=0D
+change the default value from 128KiB to 0 (aka, whatever mdts is).=0D
+=0D
+Klaus Jensen (3):=0D
+  hw/block/nvme: document 'mdts' nvme device parameter=0D
+  hw/block/nvme: deduplicate bad mdts trace event=0D
+  hw/block/nvme: align zoned.zasl with mdts=0D
+=0D
+ hw/block/nvme.h       |  4 +--=0D
+ hw/block/nvme.c       | 67 ++++++++++++++-----------------------------=0D
+ hw/block/trace-events |  4 +--=0D
+ 3 files changed, 25 insertions(+), 50 deletions(-)=0D
+=0D
+-- =0D
+2.30.1=0D
+=0D
 
