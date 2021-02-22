@@ -2,49 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1538321C32
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:06:24 +0100 (CET)
-Received: from localhost ([::1]:47750 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC75E321C31
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:06:12 +0100 (CET)
+Received: from localhost ([::1]:47092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDj5-00068G-MD
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:06:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46644)
+	id 1lEDit-0005jw-S6
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:06:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lEDYh-0004bA-IK; Mon, 22 Feb 2021 10:55:39 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13799)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lEDYb-0003Wd-O4; Mon, 22 Feb 2021 10:55:37 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 45D0E746353;
- Mon, 22 Feb 2021 16:55:24 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 667CB746395; Mon, 22 Feb 2021 16:55:23 +0100 (CET)
-Message-Id: <9d76a2aaa15380c76c97e4ee54ae00425420e667.1614007326.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1614007326.git.balaton@eik.bme.hu>
-References: <cover.1614007326.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v3 6/6] hw/ppc: Add emulation of Genesi/bPlan Pegasos II
-Date: Mon, 22 Feb 2021 16:22:06 +0100
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEDdl-0002ub-Lh
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:00:53 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39524)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEDdh-0005kJ-0b
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:00:53 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lEDde-0003Dp-TY
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:00:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DA9382E80FB
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:00:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 22 Feb 2021 15:54:31 -0000
+From: Cleber Rosa <1916506@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: acceptance avocado tests
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cleber-gnu
+X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
+X-Launchpad-Bug-Modifier: Cleber Rosa (cleber-gnu)
+Message-Id: <161400927228.11180.7056675088982661405.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1916506] [NEW] make check-venv may leave stale and incomplete
+ tests/venv directory directory
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
+X-Launchpad-Hash: 7aa213e84805d4ed172fabc3fb54d9ccf1ee35af
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -53,226 +70,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, f4bug@amsat.org,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1916506 <1916506@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new machine called pegasos2 emulating the Genesi/bPlan Pegasos II,
-a PowerPC board based on the Marvell MV64361 system controller and the
-VIA VT8231 integrated south bridge/superio chips. It can run Linux,
-AmigaOS and a wide range of MorphOS versions. Currently a firmware ROM
-image is needed to boot and only MorphOS has a video driver to produce
-graphics output. Linux could work too but distros that supported this
-machine don't include usual video drivers so those only run with
-serial console for now.
+Public bug reported:
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- default-configs/devices/ppc-softmmu.mak |   2 +
- hw/ppc/Kconfig                          |  10 ++
- hw/ppc/meson.build                      |   2 +
- hw/ppc/pegasos2.c                       | 144 ++++++++++++++++++++++++
- 4 files changed, 158 insertions(+)
- create mode 100644 hw/ppc/pegasos2.c
+As reported by "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>, a "make
+check-venv" can be run and fail to properly create a suitable virtual
+environment, leaving the tests/venv directory which is the target for
+"make check-venv" itself.
 
-diff --git a/default-configs/devices/ppc-softmmu.mak b/default-configs/devices/ppc-softmmu.mak
-index 61b78b844d..4535993d8d 100644
---- a/default-configs/devices/ppc-softmmu.mak
-+++ b/default-configs/devices/ppc-softmmu.mak
-@@ -14,5 +14,7 @@ CONFIG_SAM460EX=y
- CONFIG_MAC_OLDWORLD=y
- CONFIG_MAC_NEWWORLD=y
- 
-+CONFIG_PEGASOS2=y
-+
- # For PReP
- CONFIG_PREP=y
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index d11dc30509..98d8dd1a84 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -68,6 +68,16 @@ config SAM460EX
-     select USB_OHCI
-     select FDT_PPC
- 
-+config PEGASOS2
-+    bool
-+    select MV64361
-+    select VT82C686
-+    select IDE_VIA
-+    select SMBUS_EEPROM
-+# These should come with VT82C686
-+    select APM
-+    select ACPI_X86
-+
- config PREP
-     bool
-     imply PCI_DEVICES
-diff --git a/hw/ppc/meson.build b/hw/ppc/meson.build
-index 218631c883..86d6f379d1 100644
---- a/hw/ppc/meson.build
-+++ b/hw/ppc/meson.build
-@@ -78,5 +78,7 @@ ppc_ss.add(when: 'CONFIG_E500', if_true: files(
- ))
- # PowerPC 440 Xilinx ML507 reference board.
- ppc_ss.add(when: 'CONFIG_VIRTEX', if_true: files('virtex_ml507.c'))
-+# Pegasos2
-+ppc_ss.add(when: 'CONFIG_PEGASOS2', if_true: files('pegasos2.c'))
- 
- hw_arch += {'ppc': ppc_ss}
-diff --git a/hw/ppc/pegasos2.c b/hw/ppc/pegasos2.c
-new file mode 100644
-index 0000000000..8b96961c90
---- /dev/null
-+++ b/hw/ppc/pegasos2.c
-@@ -0,0 +1,144 @@
-+/*
-+ * QEMU PowerPC CHRP (Genesi/bPlan Pegasos II) hardware System Emulator
-+ *
-+ * Copyright (c) 2018-2020 BALATON Zoltan
-+ *
-+ * This work is licensed under the GNU GPL license version 2 or later.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qemu/units.h"
-+#include "qapi/error.h"
-+#include "hw/hw.h"
-+#include "hw/ppc/ppc.h"
-+#include "hw/sysbus.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/irq.h"
-+#include "hw/pci-host/mv64361.h"
-+#include "hw/isa/vt82c686.h"
-+#include "hw/ide/pci.h"
-+#include "hw/i2c/smbus_eeprom.h"
-+#include "hw/qdev-properties.h"
-+#include "sysemu/reset.h"
-+#include "hw/boards.h"
-+#include "hw/loader.h"
-+#include "hw/fw-path-provider.h"
-+#include "elf.h"
-+#include "qemu/log.h"
-+#include "qemu/error-report.h"
-+#include "sysemu/kvm.h"
-+#include "kvm_ppc.h"
-+#include "exec/address-spaces.h"
-+#include "trace.h"
-+#include "qemu/datadir.h"
-+#include "sysemu/device_tree.h"
-+
-+#define PROM_FILENAME "pegasos2.rom"
-+#define PROM_ADDR     0xfff00000
-+#define PROM_SIZE     0x80000
-+
-+#define BUS_FREQ 133333333
-+
-+static void pegasos2_reset(void *opaque)
-+{
-+    PowerPCCPU *cpu = opaque;
-+
-+    cpu_reset(CPU(cpu));
-+    cpu->env.spr[SPR_HID1] = 7ULL << 28;
-+}
-+
-+static void pegasos2_init(MachineState *machine)
-+{
-+    PowerPCCPU *cpu = NULL;
-+    MemoryRegion *rom = g_new(MemoryRegion, 1);
-+    DeviceState *mv;
-+    PCIBus *pci_bus;
-+    PCIDevice *dev;
-+    I2CBus *i2c_bus;
-+    const char *fwname = machine->firmware ?: PROM_FILENAME;
-+    char *filename;
-+    int sz;
-+    uint8_t *spd_data;
-+
-+    /* init CPU */
-+    cpu = POWERPC_CPU(cpu_create(machine->cpu_type));
-+    if (PPC_INPUT(&cpu->env) != PPC_FLAGS_INPUT_6xx) {
-+        error_report("Incompatible CPU, only 6xx bus supported");
-+        exit(1);
-+    }
-+
-+    /* Set time-base frequency */
-+    cpu_ppc_tb_init(&cpu->env, BUS_FREQ / 4);
-+    qemu_register_reset(pegasos2_reset, cpu);
-+
-+    /* RAM */
-+    memory_region_add_subregion(get_system_memory(), 0, machine->ram);
-+
-+    /* allocate and load firmware */
-+    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, fwname);
-+    if (!filename) {
-+        error_report("Could not find firmware '%s'", fwname);
-+        exit(1);
-+    }
-+    memory_region_init_rom(rom, NULL, "pegasos2.rom", PROM_SIZE, &error_fatal);
-+    memory_region_add_subregion(get_system_memory(), PROM_ADDR, rom);
-+    sz = load_elf(filename, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1,
-+                  PPC_ELF_MACHINE, 0, 0);
-+    if (sz <= 0) {
-+        sz = load_image_targphys(filename, PROM_ADDR, PROM_SIZE);
-+    }
-+    if (sz <= 0 || sz > PROM_SIZE) {
-+        error_report("Could not load firmware '%s'", filename);
-+        exit(1);
-+    }
-+    g_free(filename);
-+
-+    /* Marvell Discovery II system controller */
-+    mv = DEVICE(sysbus_create_simple(TYPE_MV64361, -1,
-+                        ((qemu_irq *)cpu->env.irq_inputs)[PPC6xx_INPUT_INT]));
-+    pci_bus = mv64361_get_pci_bus(mv, 1);
-+
-+    /* VIA VT8231 South Bridge (multifunction PCI device) */
-+    /* VT8231 function 0: PCI-to-ISA Bridge */
-+    dev = pci_create_simple_multifunction(pci_bus, PCI_DEVFN(12, 0), true,
-+                                          TYPE_VT8231_ISA);
-+    qdev_connect_gpio_out(DEVICE(dev), 0,
-+                          qdev_get_gpio_in_named(mv, "gpp", 31));
-+
-+    /* VT8231 function 1: IDE Controller */
-+    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 1), "via-ide");
-+    pci_ide_create_devs(dev);
-+
-+    /* VT8231 function 2-3: USB Ports */
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 2), "vt82c686b-usb-uhci");
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 3), "vt82c686b-usb-uhci");
-+
-+    /* VT8231 function 4: Power Management Controller */
-+    dev = pci_create_simple(pci_bus, PCI_DEVFN(12, 4), TYPE_VT8231_PM);
-+    i2c_bus = I2C_BUS(qdev_get_child_bus(DEVICE(dev), "i2c"));
-+    spd_data = spd_data_generate(DDR, machine->ram_size);
-+    smbus_eeprom_init_one(i2c_bus, 0x57, spd_data);
-+
-+    /* VT8231 function 5-6: AC97 Audio & Modem */
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 5), TYPE_VIA_AC97);
-+    pci_create_simple(pci_bus, PCI_DEVFN(12, 6), TYPE_VIA_MC97);
-+
-+    /* other PC hardware */
-+    pci_vga_init(pci_bus);
-+}
-+
-+static void pegasos2_machine(MachineClass *mc)
-+{
-+    mc->desc = "Genesi/bPlan Pegasos II";
-+    mc->init = pegasos2_init;
-+    mc->block_default_type = IF_IDE;
-+    mc->default_boot_order = "cd";
-+    mc->default_display = "std";
-+    mc->default_cpu_type = POWERPC_CPU_TYPE_NAME("7400_v2.9");
-+    mc->default_ram_id = "pegasos2.ram";
-+    mc->default_ram_size = 512 * MiB;
-+}
-+
-+DEFINE_MACHINE("pegasos2", pegasos2_machine)
--- 
-2.21.3
+This means that on a subsequent run:
 
+> $ make check-venv
+>   GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+> tests/fp/berkeley-softfloat-3 dtc capstone slirp
+> make: Nothing to be done for 'check-venv'.
+
+And the venv will still be incomplete.  The causes of such failures to
+create a suitable virtual environment are too many (in the reported case
+it was because of missing *required* Python packages).  Some more
+evolved virtual environments + Python packaging systems exist that could
+probably be used here (Pipenv) but would add further core requirements.
+
+The current mitigation is to run "make check-clean" when the venv
+appears to be incomplete.
+
+The goal of this bug is to attempt to make the venv setup atomic and
+more reliable.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: acceptance avocado tests
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916506
+
+Title:
+  make check-venv may leave stale and incomplete tests/venv directory
+  directory
+
+Status in QEMU:
+  New
+
+Bug description:
+  As reported by "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>, a "make
+  check-venv" can be run and fail to properly create a suitable virtual
+  environment, leaving the tests/venv directory which is the target for
+  "make check-venv" itself.
+
+  This means that on a subsequent run:
+
+  > $ make check-venv
+  >   GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
+  > tests/fp/berkeley-softfloat-3 dtc capstone slirp
+  > make: Nothing to be done for 'check-venv'.
+
+  And the venv will still be incomplete.  The causes of such failures to
+  create a suitable virtual environment are too many (in the reported
+  case it was because of missing *required* Python packages).  Some more
+  evolved virtual environments + Python packaging systems exist that
+  could probably be used here (Pipenv) but would add further core
+  requirements.
+
+  The current mitigation is to run "make check-clean" when the venv
+  appears to be incomplete.
+
+  The goal of this bug is to attempt to make the venv setup atomic and
+  more reliable.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916506/+subscriptions
 
