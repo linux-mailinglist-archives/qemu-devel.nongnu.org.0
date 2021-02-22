@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1353F321CCD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:25:15 +0100 (CET)
-Received: from localhost ([::1]:54198 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE71A321CCC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:24:00 +0100 (CET)
+Received: from localhost ([::1]:51902 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEE1K-0006wO-3b
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:25:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53836)
+	id 1lEE07-0005iS-IY
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:23:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEDs6-0007TR-6c
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:15:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:41528)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEDs4-00031Z-2F
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:15:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lEDs2-0004jm-Ir
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:15:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8B6BD2E80FB
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:15:38 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Feb 2021 16:08:28 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1916506@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lEDnf-0002WQ-Dt
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:11:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42874)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lEDnZ-0002Ar-Jx
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:11:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614010260;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kyQVeW3SZHIzuncjSdxabt1zPE9DI3StzCwmRR6zQFY=;
+ b=cKjKUBNVwGvogTk+zw0ubVSwJKT834Nr92KwfZHyj1daJQdPhRAPcoxPxkZ7qonH11b5qe
+ 7FrgjvKOWQIbBHVqU2QLb7Zgy8pOPmdqDUf0KjCU6ybySfmtZXC3q/+b950DzyOD2ZyoBo
+ qAM8P54UW59W/+bC3vHS+GZyq8vh8WA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-109-_MSk7sTrM_qxQr99mPbwsA-1; Mon, 22 Feb 2021 11:10:59 -0500
+X-MC-Unique: _MSk7sTrM_qxQr99mPbwsA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0AAC0196633C
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 16:10:57 +0000 (UTC)
+Received: from localhost (ovpn-112-255.ams2.redhat.com [10.36.112.255])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E3D2A60CEA;
+ Mon, 22 Feb 2021 16:10:21 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: acceptance avocado tests
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161400927228.11180.7056675088982661405.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161401010933.29500.5995962563539525900.launchpad@soybean.canonical.com>
-Subject: [Bug 1916506] Re: make check-venv may leave stale and incomplete
- tests/venv directory directory
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: 782fd5e12079ca172206d5369e93f61e166aa93b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH 0/3] vhost-user: warn when guest RAM is not shared
+Date: Mon, 22 Feb 2021 16:10:14 +0000
+Message-Id: <20210222161017.570837-1-stefanha@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,52 +75,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916506 <1916506@bugs.launchpad.net>
+Cc: kwolf@redhat.com, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Confirmed
+dmhvc3QtdXNlciByZXF1aXJlcyAtb2JqZWN0IG1lbW9yeS1iYWNrZW5kLSosc2hhcmU9b24gb3B0
+aW9uIHNvIHRoYXQgUUVNVSB1c2VzDQptbWFwKE1BUF9TSEFSRUQpIG9uIGd1ZXN0IFJBTSB0aGF0
+IGlzIHNoYXJlZCB3aXRoIHRoZSB2aG9zdC11c2VyIGRldmljZSBiYWNrZW5kDQpwcm9jZXNzLiBU
+aGlzIGlzIG5lZWRlZCBzbyB0aGUgUUVNVSBwcm9jZXNzIHNlZXMgY2hhbmdlcyBtYWRlIGJ5IHRo
+ZSB2aG9zdC11c2VyDQpkZXZpY2UgYmFja2VuZCBwcm9jZXNzLCBhbmQgdmljZSB2ZXJzYS4NCg0K
+VG9kYXkgUUVNVSBhbmQgdGhlIHZob3N0LXVzZXIgZGV2aWNlIHByb2Nlc3Mgd2lsbCBzdGFydCB1
+cCBhbmQgdGhlbiBmYWlsIHdpdGggYQ0KY29uZnVzaW5nIGVycm9yIG1lc3NhZ2UgaWYgdGhlIHVz
+ZXIgZm9yZ290IHRvIHNwZWNpZnkgc2hhcmU9b24uDQoNClRoaXMgcGF0Y2ggc2VyaWVzIGFkZHMg
+YSB3YXJuaW5nIGxldHRpbmcgdGhlIHVzZXIga25vdyB0aGF0IHNoYXJlPW9uIGlzDQpyZXF1aXJl
+ZC4NCg0KU3RlZmFuIEhham5vY3ppICgzKToNCiAgdGVzdHMvcXRlc3Qvdmhvc3QtdXNlci10ZXN0
+OiB1c2Ugc2hhcmU9b24gd2l0aCBtZW1mZA0KICBtZW1vcnk6IGFkZCBtZW1vcnlfcmVnaW9uX2lz
+X21hcHBlZF9zaGFyZWQoKQ0KICB2aG9zdC11c2VyOiB3YXJuIHdoZW4gZ3Vlc3QgUkFNIGlzIG5v
+dCBzaGFyZWQNCg0KIGluY2x1ZGUvZXhlYy9tZW1vcnkuaCAgICAgICAgIHwgMTEgKysrKysrKysr
+KysNCiBody92aXJ0aW8vdmhvc3QtdXNlci5jICAgICAgICB8IDIwICsrKysrKysrKysrKysrKyst
+LS0tDQogc29mdG1tdS9tZW1vcnkuYyAgICAgICAgICAgICAgfCAgNiArKysrKysNCiB0ZXN0cy9x
+dGVzdC92aG9zdC11c2VyLXRlc3QuYyB8ICAyICstDQogNCBmaWxlcyBjaGFuZ2VkLCAzNCBpbnNl
+cnRpb25zKCspLCA1IGRlbGV0aW9ucygtKQ0KDQotLSANCjIuMjkuMg0KDQo=
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916506
-
-Title:
-  make check-venv may leave stale and incomplete tests/venv directory
-  directory
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  As reported by "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>, a "make
-  check-venv" can be run and fail to properly create a suitable virtual
-  environment, leaving the tests/venv directory which is the target for
-  "make check-venv" itself.
-
-  This means that on a subsequent run:
-
-  > $ make check-venv
-  >   GIT     ui/keycodemapdb tests/fp/berkeley-testfloat-3
-  > tests/fp/berkeley-softfloat-3 dtc capstone slirp
-  > make: Nothing to be done for 'check-venv'.
-
-  And the venv will still be incomplete.  The causes of such failures to
-  create a suitable virtual environment are too many (in the reported
-  case it was because of missing *required* Python packages).  Some more
-  evolved virtual environments + Python packaging systems exist that
-  could probably be used here (Pipenv) but would add further core
-  requirements.
-
-  The current mitigation is to run "make check-clean" when the venv
-  appears to be incomplete.
-
-  The goal of this bug is to attempt to make the venv setup atomic and
-  more reliable.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916506/+subscriptions
 
