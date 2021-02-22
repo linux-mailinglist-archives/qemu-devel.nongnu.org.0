@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA4732184F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:19:14 +0100 (CET)
-Received: from localhost ([::1]:38408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF55A32184D
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:18:59 +0100 (CET)
+Received: from localhost ([::1]:37164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEB7J-0008SL-PH
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:19:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58740)
+	id 1lEB74-0007wp-VK
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEB2T-00055l-G7
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:14:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:32128)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEB2R-0000PG-2S
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:14:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613999649;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P895Ya1Ywbp7ip5r13DcIXocHgBMEj1dlGTHdhjeJUw=;
- b=LI5QPG7390fGL0tLh6Ib7DZIgNNArzIyyCEENVv/F729vLb2nHTzovLNWCANKBZ43Kj6wv
- 8fp8C8eelPiYf/7in4LaQ0SeBldY0An5cAUzGpjZado9WMDd0XFw12QaS1XRnhmRk25IyN
- QyvwAJ0ANxXy5x4o6Vv0fbkYYFRGy3M=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-YsYg7we3Me-sD4710WubXQ-1; Mon, 22 Feb 2021 08:14:07 -0500
-X-MC-Unique: YsYg7we3Me-sD4710WubXQ-1
-Received: by mail-ed1-f69.google.com with SMTP id y90so7018522ede.8
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:14:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEB3b-0005pP-W9; Mon, 22 Feb 2021 08:15:24 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:53497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEB3Z-0000v0-R1; Mon, 22 Feb 2021 08:15:23 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id c19so8508702pjq.3;
+ Mon, 22 Feb 2021 05:15:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=fjrTbHxlyYjs/7UMBq8vtzKq3l4ynHTvCddN7vSAknM=;
+ b=Dumj7cGneGwbVppm0/62JC1DP4s5XKcvsFLRoHXtU64iDfhejHJ7yG62N2DrR1KpmR
+ YMTg0BgCx1+PtkNmUsvfRgBSCTVcU3Lu0OiPrD+sxldV9u/2TdrKgN37xGi4L8v8mKSI
+ XgCKG0UDmwhJTDDCLOu3ek6r1I0LtDv0ATC0xpEJ45F/3ah4efwRJob6loaYZnVzUIbf
+ a3lynS3ynLtcYFfZDfaPCCW/0coEiLgvzuiBlpWBZTV/GXV+u6h0cbYfXiK0EDwxANBD
+ 9DynDevWPpNO3eHG2UBZaEI7fbtAVGB+EkkdPcEI4sPm6Eyp6firMe4+V+NKk41N9Oy8
+ meOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=P895Ya1Ywbp7ip5r13DcIXocHgBMEj1dlGTHdhjeJUw=;
- b=NRPpA6Tef1SkXG+Pl6hF+3nWBiDTzlCUMaVL7WnrJ3pVWgKfapEdTKUozE+Fq66jup
- 6iEyD83Se8ZFdXZTVa3oQJvenXqM/osuWzVm2rOcCPrr+XpN9JmnFSr+ImEGHnzEZN/b
- cAYy4B4N9cdBZcXXkPqGRvTSZra91rvO/ZBKYrZaJH9TYbuZ5uWVV0MFQmkUqzcGAO78
- hxlQJnh9OfC8YhK3xqBKaxjnJOZdH0J0agsXvo2uF0JUdmx55qPPR4xPS313O0kwpR2r
- U/3F+s0exj0eIhXdh6kXGZn9+XrIooAHGxPIquGZkb9UJkJQFzbnYv7eDM3aHlUuDIN+
- Q0Fg==
-X-Gm-Message-State: AOAM532rd+BlcBviPcs2QVkwBnw98jrR823tXlEthQSkESj8F5wT5R3i
- cM/rqkhqw5x1I2Tcs/8Zy1eVRng2G91sLF4OKyFwPExYoEx0cg/7oioMokAIFpeoQ7SfQWG1BNG
- zBfXSKgDT332vzTA=
-X-Received: by 2002:aa7:c95a:: with SMTP id h26mr22617799edt.166.1613999646583; 
- Mon, 22 Feb 2021 05:14:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyev2J1VzV6vBw10O1T/gPJNqbv4i8epynwo4RIMijIl7f1dly2quMxDCaddCAC+bP9Xw4b9w==
-X-Received: by 2002:aa7:c95a:: with SMTP id h26mr22617779edt.166.1613999646445; 
- Mon, 22 Feb 2021 05:14:06 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id q27sm2530454ejc.74.2021.02.22.05.14.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 05:14:05 -0800 (PST)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20210222115708.7623-1-david@redhat.com>
- <20210222115708.7623-10-david@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v6 09/12] softmmu/physmem: Don't use atomic operations in
- ram_block_discard_(disable|require)
-Message-ID: <b5be291b-5864-4852-50bd-e75352ba8876@redhat.com>
-Date: Mon, 22 Feb 2021 14:14:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=fjrTbHxlyYjs/7UMBq8vtzKq3l4ynHTvCddN7vSAknM=;
+ b=WAyYvnAuqbRw5nVyoxQErIVe5Yko3iKYOcoN4fWErXWoQeseQ40LK4mCogG9/qspmn
+ T7CtoACMcviVu3VvvVaH5eN3TmEpc7b0dp2tHn1pl9uZt6+y9OU9acYFGZeKozKE70pS
+ 3msrQwWHx6PUnRjoVyoIPUl6ad+3qcKfDVjtWXL2GF+ToL3T9cax6CrmwryTWAkLlgVR
+ sy7eo43QxgOKE6lVJGj69ANdM1JlObI+gzXh2xic1YIOoBxuqEFT/fnOunXCf7efScpy
+ sJIaTRRhMNDCwrsZIuBKr9C4Hk0udC2YCW1Kt9AvIjNwMjLeQWiYFEoCrRP18mT6Iah+
+ Jybg==
+X-Gm-Message-State: AOAM533IXGbo1wpkokK0PnpAoo+doeX8m02Tvj5WwwFarKnvS/M2j+j3
+ mfflSyGokvJ7pxE4/yIMMDg=
+X-Google-Smtp-Source: ABdhPJzU+IkysRxch12UySAPRcvGadu0v2lP2RZUjWYwA5arJoItEwq1vG2Hpzy3iPfcnGD7eDhWKw==
+X-Received: by 2002:a17:90a:a08a:: with SMTP id
+ r10mr23272791pjp.133.1613999716224; 
+ Mon, 22 Feb 2021 05:15:16 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id p8sm17473190pgi.21.2021.02.22.05.15.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 05:15:15 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [RESEND PATCH v4 0/5] hw/arm: zynqmp: Implement a CSU DMA model and
+ connect it with GQSPI
+Date: Mon, 22 Feb 2021 21:14:57 +0800
+Message-Id: <20210222131502.3098-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210222115708.7623-10-david@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1029.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,36 +84,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/02/21 12:57, David Hildenbrand wrote:
-> 
->  
-> -/*
-> - * If positive, discarding RAM is disabled. If negative, discarding RAM is
-> - * required to work and cannot be disabled.
-> - */
-> -static int ram_block_discard_disabled;
-> +static unsigned int ram_block_discard_requirers;
-> +static unsigned int ram_block_discard_disablers;
+From: Bin Meng <bin.meng@windriver.com>
 
-Requirer is not an English word, so perhaps use required_cnt and 
-disabled_cnt?
+ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+crash. This is observed when testing VxWorks 7.
 
-Also, uncoordinated require is unused, and therefore uncoordinated 
-disable is also never going to block anything.  Does it make sense to 
-keep it in the API?
+We added a Xilinx CSU DMA model and the implementation is based on
+https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+and the one in Edgar's branch.
 
-Paolo
+Differences with Edgar's branch:
+1. Match the registers' FIELD to UG1807.
+2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
+   must be word aligned.
+3. Make the values of int_enable and int_disable mutually exclusive
+   otherwise IRQ cannot be delivered.
+4. Clear int_status after int_disable is set.
+5. Coding convention issues clean-up
+
+The DST part of the model is verified along with ZynqMP GQSPI model.
+
+Changes in v4:
+- Add complete CSU DMA model based on Edgar's branch
+- Differences with Edgar's branch:
+  1. Match the registers' FIELD to UG1807.
+  2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
+     must be word aligned.
+  3. Make the values of int_enable and int_disable mutually exclusive
+     otherwise IRQ cannot be delivered.
+  4. Clear int_status after int_disable is set.
+  5. Coding convention issues clean-up
+- remove one change that is not a checkpatch warning
+- Rename "csu_dma" to "qspi_dma"
+- Modify XLNX_ZYNQMP_SPIPS_R_MAX
+
+Changes in v3:
+- Implement DMA as a separate CSU DMA model
+- new patch: xlnx-zynqmp: Add XLNX CSU DMA module
+- new patch: xilinx_spips: Remove DMA related code from zynqmp_qspips
+
+Changes in v2:
+- Remove unconnected TYPE_STREAM_SINK link property
+- Add a TYPE_MEMORY_REGION link property, to allow board codes to tell
+  the device what its view of the world that it is doing DMA to is
+- Replace cpu_physical_memory_write() with address_space_write()
+
+Xuzhou Cheng (5):
+  hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA model
+  hw/arm: xlnx-zynqmp: Clean up coding convention issues
+  hw/arm: xlnx-zynqmp: Connect a Xilinx CSU DMA module for QSPI
+  hw/ssi: xilinx_spips: Clean up coding convention issues
+  hw/ssi: xilinx_spips: Remove DMA related dead codes from zynqmp_spips
+
+ include/hw/arm/xlnx-zynqmp.h  |   5 +-
+ include/hw/dma/xlnx_csu_dma.h |  52 +++
+ include/hw/ssi/xilinx_spips.h |   2 +-
+ hw/arm/xlnx-zynqmp.c          |  21 +-
+ hw/dma/xlnx_csu_dma.c         | 747 ++++++++++++++++++++++++++++++++++
+ hw/ssi/xilinx_spips.c         |  33 +-
+ hw/arm/Kconfig                |   1 +
+ hw/dma/Kconfig                |   4 +
+ hw/dma/meson.build            |   1 +
+ 9 files changed, 842 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/dma/xlnx_csu_dma.h
+ create mode 100644 hw/dma/xlnx_csu_dma.c
+
+-- 
+2.25.1
 
 
