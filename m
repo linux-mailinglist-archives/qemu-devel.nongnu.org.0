@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64CE3321B34
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:20:06 +0100 (CET)
-Received: from localhost ([::1]:33870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFA39321ADF
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:13:11 +0100 (CET)
+Received: from localhost ([::1]:52724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lED0G-0007zc-TJ
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:20:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56386)
+	id 1lECta-00015r-QU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:13:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1lECpp-0006T3-Ox
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:09:17 -0500
-Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:33131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1lECpn-0007ih-DR
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:09:17 -0500
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
- by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
- tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
- (envelope-from <glaubitz@zedat.fu-berlin.de>)
- id 1lECpk-001khx-Dn; Mon, 22 Feb 2021 16:09:12 +0100
-Received: from p57bd9049.dip0.t-ipconnect.de ([87.189.144.73]
- helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
- with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
- (envelope-from <glaubitz@physik.fu-berlin.de>)
- id 1lECpk-0038Zy-7O; Mon, 22 Feb 2021 16:09:12 +0100
-Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
-To: Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
- qemu-devel@nongnu.org
-References: <20210222105004.1642234-1-laurent@vivier.eu>
- <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
- <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
- <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
- <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
- <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
- <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Message-ID: <f8dfadb7-2ebc-212f-dad6-81ed5093120f@physik.fu-berlin.de>
-Date: Mon, 22 Feb 2021 16:09:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1lECrN-0008DN-Pl
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:10:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1lECrJ-0008TH-P6
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:10:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614006647;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=q1ZDZg5qXO/ovjJQEfadROd6YEF9o467CU1md96VuJ4=;
+ b=hGBhWxQH2lZ+YOEZeMekltjkqfginFGw6y7VILVai6g4IJarmr5XOIx+V2EIVsoNln9LDj
+ f71YdHW3VPnuCGm7WgRQTFlIA9Wa/3nKuJlSjnKXbEA3/FS8adH83055kaTkdBHaXqNrfR
+ mjjvnK8howJqIp4T5OjGNq2h30493Ho=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-24-LSIFhUMNM7CLdGFi8cHT0g-1; Mon, 22 Feb 2021 10:10:45 -0500
+X-MC-Unique: LSIFhUMNM7CLdGFi8cHT0g-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D13DF801965;
+ Mon, 22 Feb 2021 15:10:43 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 09F6F60C04;
+ Mon, 22 Feb 2021 15:10:38 +0000 (UTC)
+Date: Mon, 22 Feb 2021 16:10:31 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
+Message-ID: <20210222151031.GX2875719@angien.pipo.sk>
+References: <875z2knoa5.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-Originating-IP: 87.189.144.73
-Received-SPF: pass client-ip=130.133.4.66;
- envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <875z2knoa5.fsf@dusky.pond.sub.org>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pkrempa@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,43 +80,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>
+Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 3:58 PM, Michael Tokarev wrote:
-> 22.02.2021 17:54, John Paul Adrian Glaubitz wrote:
+On Mon, Feb 22, 2021 at 15:57:22 +0100, Markus Armbruster wrote:
+> We use JSON in several external interfaces:
 > 
->> OK, gotcha. Is it supposed to work with systemd-binfmt? It looks like it depends
->> on the old binfmt-support package.
+> * QMP
 > 
-> the qemu 4-line patch does not depend on any particular system, it relies on a
-> special name of its own argv[0] when registering the binfmt entry.  In order to
-> utilize it, we create a special-named symlink to qemu-foo and register that one
-> with the binfmt-misc subsystem, no matter if it is systemd or binfmt-support or
-> whatever else.
+> * The guest agent's QMP
+> 
+> * QAPIfied command line options when the option argument starts with
+>   '{'
+> 
+> * The block layer's pseudo-protocol "json:" (which can get embedded in
+>   image headers)
+> 
+> I *think* that's all.
+> 
+> The JSON parser we use for these interfaces supports extensions over RFC
+> 8259.  Quoting json-lexer.c:
+> 
+>     - Extra escape sequence in strings:
+>       0x27 (apostrophe) is recognized after escape, too
+> 
+>     - Single-quoted strings:
+>       Like double-quoted strings, except they're delimited by %x27
+>       (apostrophe) instead of %x22 (quotation mark), and can't contain
+>       unescaped apostrophe, but can contain unescaped quotation mark.
 
-OK, I was wondering this because qemu-user-static still pulls in the binfmt-support
-package:
+[...]
 
-root@epyc:~> apt install qemu-user-static 
-Reading package lists... Done
-Building dependency tree... Done
-Reading state information... Done
-The following additional packages will be installed:
-  binfmt-support
-The following NEW packages will be installed:
-  binfmt-support qemu-user-static
-0 upgraded, 2 newly installed, 0 to remove and 2 not upgraded.
+> We could certainly tidy up the tests to stick to standard JSON.
+> However, the prevalence of single-quoted strings in iotests makes me
+> suspect that they are being used in the field as well.  Deprecating the
+> extension is likely more trouble than it's worth.
+> 
+> Opinions?
 
-Other distributions such as Fedora have already switched to systemd-binfmt.
+Any user of QEMU through libvirt will not use any of the extensions even
+in cases such as QMP command pasthrough (virsh qemu-monitor-command) and
+the 'json:' pseudo-protocol, as libvirt parses the provided JSON to add
+sequencing for QMP passthrough, and for image chain detection in case of
+'json:'. Since libvirt's JSON library (yajl) doesn't support any of
+those extensions users are forced to not use them.
 
-Adrian
-
--- 
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer - glaubitz@debian.org
-`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+So on behalf of libvirt, we'd be fine with deprecation/removal of those.
 
 
