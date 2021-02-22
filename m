@@ -2,91 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2E1321406
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:23:11 +0100 (CET)
-Received: from localhost ([::1]:56608 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 542BE321415
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 11:24:57 +0100 (CET)
+Received: from localhost ([::1]:58870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE8Mw-0007Vx-76
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:23:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49442)
+	id 1lE8Oe-000064-CO
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 05:24:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lE8KY-0005Fa-Vv
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:20:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26483)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lE8KW-0007gM-0W
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:20:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613989238;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8YkQO/3xMLbYWKJdXkFZV0mc+rf7JbeFX37jy+7NyaY=;
- b=Y+MnTqUCXJAQD87p/+MVakTQJZQCWlFcjwAClu7xxABiV+/CBJ4xRZ4sU8u9K049DngqdW
- iZGyOZsOoPUzckEl56W8nwUFRTCoqtRrtsYdB8gZOXY9GRev8tkgOEP4UHARuq4fQd3jy8
- QCnglC5zxk+FGG+nub7rfwAub150BDc=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-439-37bwRsniNzGtTAIET8oR_Q-1; Mon, 22 Feb 2021 05:20:36 -0500
-X-MC-Unique: 37bwRsniNzGtTAIET8oR_Q-1
-Received: by mail-ej1-f69.google.com with SMTP id mm18so997640ejb.7
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:20:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE8Nv-000876-Dn
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:24:11 -0500
+Received: from mail-oi1-f177.google.com ([209.85.167.177]:33071)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE8Nt-0000lz-RO
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 05:24:11 -0500
+Received: by mail-oi1-f177.google.com with SMTP id w1so13487172oic.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:24:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=8YkQO/3xMLbYWKJdXkFZV0mc+rf7JbeFX37jy+7NyaY=;
- b=e+LfcnL/M5HnoMMEKiUKnrmIQtBSeHGG1i1SHXe79ygjNxSHeIhOGiXJ+/a94uxoMI
- zJ5i+sLmcmr33sdTht9HIuDnU6rNG/kOF+JDDgUht8o8VvZeZiEo+fG4xVXlK07IO6mG
- VunUgBX8ruMyvMfY6VOkw7fzi+u2Ypxk0Y7k8ktVtbhPx3WZKuDeAh/RSuvI2Nh0PZTP
- a95NMdJDx5EOLmbjbUvW7WhdNV/xPKz1+cP7/t3UsfAiR9sp7ec7BTXlSe1jdqVndg1x
- bkedslEQK+lTsuXI1O6a5LK8iPk2iCVD0YlAzaD67E1FCjfoh2r1vhx0pgfzeG9meF8W
- swzA==
-X-Gm-Message-State: AOAM531dH8QEof+XFn/OGfdB399h/D5L+6+ybBM/SyPR11qwFG81fh8B
- jDS87jBa6nXkFuVOoFsUfGTbx6VU28gKVCsIiCkFRH+a+2/ad6l2OjTjrEWGX3lmXX1FlpQSAnX
- esyn5WqG1dgYhI6U=
-X-Received: by 2002:a17:907:d21:: with SMTP id
- gn33mr20336685ejc.242.1613989235374; 
- Mon, 22 Feb 2021 02:20:35 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy/8yTmqqubcD5N6La2J13sFfv9BpZDC5gsPZyQmvt/g5cTkE6iDB4SWql91FTcm8aReuuYyg==
-X-Received: by 2002:a17:907:d21:: with SMTP id
- gn33mr20336678ejc.242.1613989235199; 
- Mon, 22 Feb 2021 02:20:35 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id f1sm213831edz.83.2021.02.22.02.20.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 02:20:34 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
- enablement/disablement
-In-Reply-To: <87sg5xjj60.fsf@vitty.brq.redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-17-vkuznets@redhat.com>
- <20210211183555.2136b5c8@redhat.com> <87tuqhllmn.fsf@vitty.brq.redhat.com>
- <20210212151259.3db7406f@redhat.com> <87k0rdl3er.fsf@vitty.brq.redhat.com>
- <20210212170113.30a902b2@redhat.com> <87eehhlnj5.fsf@vitty.brq.redhat.com>
- <20210215180106.7e573e6a@redhat.com> <87sg5xjj60.fsf@vitty.brq.redhat.com>
-Date: Mon, 22 Feb 2021 11:20:34 +0100
-Message-ID: <87mtvw4d59.fsf@vitty.brq.redhat.com>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=jS24Y8XOy/4EAOR/KwdZJstvpvONXE39gU6A0j1l9Fk=;
+ b=LYVTBjJZaL042Jf/rFhBsJvcTBUpSfyuP0q9f05R7Nn5AogK8QgrrDlfTIDDbmznpO
+ WVrmUA2+5TtNuewbQHqnDJIkm8+uUET8oYI/M2sNoK5m9RNc501G2VduCCbhbh0LQu5r
+ oxecwbZHFQL0KBRHh+HrJ8BF75vK0j+8B/ezWhJiqU8D/vS62xiFLo3JZS4R1M3fJWMW
+ t3CYINbBV3yBxWjJR+2X5NDDsAnGmhLdBc9/iMogbwBzDmfSUCWudbr4W4R4O0CPUO2M
+ FUu3vVdif2tro9hDDSsgmBIlli2o4ClUZxGv0dBayT3GNev/TMvFgRhRFj/HB3O1BbVt
+ gSrA==
+X-Gm-Message-State: AOAM532kQZRwH0epfayJxSnBSDIgUi/VaPUvm/N5Oq6XJZ9CAPS9Pc7s
+ 5PYCZIizAOyltIdQxspmd1oE/kVlvYxeVcWU3FE=
+X-Google-Smtp-Source: ABdhPJziKOTAmB7Hm/w9LBQssDZagiv0UtX0jX4kOCjowrxkRbV1eKEnNO2I/ChBTiiEuI/qW1XecSo7obwBFhs4pog=
+X-Received: by 2002:aca:1a0a:: with SMTP id a10mr15235613oia.46.1613989448435; 
+ Mon, 22 Feb 2021 02:24:08 -0800 (PST)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210222083324.331908-1-edgar.iglesias@gmail.com>
+ <20210222083324.331908-4-edgar.iglesias@gmail.com>
+ <39885acc-a692-cd6c-c0bf-46e3193a4d7b@amsat.org>
+ <022FADE0-9DE7-4DA3-B864-2CE5B97F26F4@axis.com> <20210222101912.GC22843@toto>
+In-Reply-To: <20210222101912.GC22843@toto>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Mon, 22 Feb 2021 11:23:57 +0100
+Message-ID: <CAAdtpL4WJUW4k8ML-n6q8-O7my=25H=8uCRrJv4zs3kkM=PdNA@mail.gmail.com>
+Subject: Re: [PULL v1 3/3] target/cris: Plug leakage of TCG temporaries
+To: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
+Content-Type: multipart/alternative; boundary="000000000000beca8605bbea338f"
+Received-SPF: pass client-ip=209.85.167.177;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-oi1-f177.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,65 +71,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Stefan_Sandstr=C3=B6m?= <Stefan.Sandstrom@axis.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+--000000000000beca8605bbea338f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Igor Mammedov <imammedo@redhat.com> writes:
+Le lun. 22 f=C3=A9vr. 2021 11:19, Edgar E. Iglesias <edgar.iglesias@xilinx.=
+com>
+a =C3=A9crit :
+
+> On Mon, Feb 22, 2021 at 08:50:46AM +0000, Stefan Sandstr=C3=B6m wrote:
+> > Hi,
+> >
+> > > On 22 Feb 2021, at 09:41, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>
+> wrote:
+> > >
+> > > Hi Edgar,
+> > >
+> > > On 2/22/21 9:33 AM, Edgar E. Iglesias wrote:
+> > >> From: Stefan Sandstrom <stefans@axis.com>
+> > >>
+> > >> Add and fix deallocation of temporary TCG registers in CRIS code
+> > >> generation.
+> > >>
+> > >> Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> > >> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> > >> Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
+> > > Out of curiosity, what is this Change-Id?
+> >
+> > It is used by the Gerrit Code Review tool (
+> https://gerrit-review.googlesource.com/Documentation/user-changeid.html).
+> > When using Gerrit as a git-server, you install a git hook that always
+> adds this, so it is an artifact from storing a clone of the QEMU repos on=
+ a
+> gerrit server.
 >
->>> 
->>> We need to distinguish because that would be sane.
->>> 
->>> Enlightened VMCS is an extension to VMX, it can't be used without
->>> it. Genuine Hyper-V doesn't have a knob for enabling and disabling it,
->> ...
->>> That bein said, if
->>> guest CPU lacks VMX it is counter-productive to expose EVMCS. However,
->>> there is a problem with explicit enablement: what should
->>> 
->>> 'hv-passthrough,hv-evmcs' option do? Just silently drop EVMCS? Doesn't
->>> sound sane to me.
->> based on above I'd error out is user asks for unsupported option
->> i.e. no VMX -> no hv-evmcs - if explicitly asked -> error out
+
+I see, thanks.
+
+> I'll try to remember to remove it if I end up posting more patches.
+> >
 >
-> That's what I keep telling you but you don't seem to listen. 'Scratch
-> CPU' can't possibly help with this use-case because when you parse 
 >
-> 'hv-passthrough,hv-evmcs,vmx=off' you
+> Thanks,
 >
-> 1) "hv-passthrough" -> set EVMCS bit to '1' as it is supported by the
-> host.
+> Peter, do you need an updated PR without the tag or can you handle it whe=
+n
+> merging?
 >
-> 2) 'hv-evmcs' -> keep EVMCS bit '1'
+
+I don't think this single line is important enough to justify another pull
+request ;)
+
+Best regards,
+> Edgar
 >
-> 3) 'vmx=off' -> you have no idea where EVMCS bit came from.
->
-> We have to remember which options were aquired from the host and which
-> were set explicitly by the user. 
 
-Igor,
+--000000000000beca8605bbea338f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-could you please comment on the above? In case my line of thought is
-correct, and it is impossible to distinguish between e.g.
+<div dir=3D"auto"><div><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D=
+"gmail_attr">Le lun. 22 f=C3=A9vr. 2021 11:19, Edgar E. Iglesias &lt;<a hre=
+f=3D"mailto:edgar.iglesias@xilinx.com">edgar.iglesias@xilinx.com</a>&gt; a =
+=C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon, Feb 22, 2=
+021 at 08:50:46AM +0000, Stefan Sandstr=C3=B6m wrote:<br>
+&gt; Hi,<br>
+&gt; <br>
+&gt; &gt; On 22 Feb 2021, at 09:41, Philippe Mathieu-Daud=C3=A9 &lt;<a href=
+=3D"mailto:f4bug@amsat.org" target=3D"_blank" rel=3D"noreferrer">f4bug@amsa=
+t.org</a>&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; Hi Edgar,<br>
+&gt; &gt; <br>
+&gt; &gt; On 2/22/21 9:33 AM, Edgar E. Iglesias wrote:<br>
+&gt; &gt;&gt; From: Stefan Sandstrom &lt;<a href=3D"mailto:stefans@axis.com=
+" target=3D"_blank" rel=3D"noreferrer">stefans@axis.com</a>&gt;<br>
+&gt; &gt;&gt; <br>
+&gt; &gt;&gt; Add and fix deallocation of temporary TCG registers in CRIS c=
+ode<br>
+&gt; &gt;&gt; generation.<br>
+&gt; &gt;&gt; <br>
+&gt; &gt;&gt; Tested-by: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.igle=
+sias@xilinx.com" target=3D"_blank" rel=3D"noreferrer">edgar.iglesias@xilinx=
+.com</a>&gt;<br>
+&gt; &gt;&gt; Reviewed-by: Edgar E. Iglesias &lt;<a href=3D"mailto:edgar.ig=
+lesias@xilinx.com" target=3D"_blank" rel=3D"noreferrer">edgar.iglesias@xili=
+nx.com</a>&gt;<br>
+&gt; &gt;&gt; Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc<br>
+&gt; &gt; Out of curiosity, what is this Change-Id?<br>
+&gt; <br>
+&gt; It is used by the Gerrit Code Review tool (<a href=3D"https://gerrit-r=
+eview.googlesource.com/Documentation/user-changeid.html" rel=3D"noreferrer =
+noreferrer" target=3D"_blank">https://gerrit-review.googlesource.com/Docume=
+ntation/user-changeid.html</a>).<br>
+&gt; When using Gerrit as a git-server, you install a git hook that always =
+adds this, so it is an artifact from storing a clone of the QEMU repos on a=
+ gerrit server.<br></blockquote></div></div><div dir=3D"auto"><br></div><di=
+v dir=3D"auto">I see, thanks.=C2=A0</div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+&gt; I&#39;ll try to remember to remove it if I end up posting more patches=
+.<br>
+&gt; <br>
+<br>
+<br>
+Thanks,<br>
+<br>
+Peter, do you need an updated PR without the tag or can you handle it when =
+merging?<br></blockquote></div></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">I don&#39;t think this single line is important enough to justify=
+ another pull request ;)</div><div dir=3D"auto"><br></div><div dir=3D"auto"=
+><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+Best regards,<br>
+Edgar<br>
+</blockquote></div></div></div>
 
-'hv-passthrough,hv-evmcs,-vmx'
-and
-'hv-passthrough,-vmx'
-
-without a custom parser (written just exactly the way I did in this
-version, for example) regardless of when 'hv-passthrough' is
-expanded. E.g. we have the exact same problem with
-'hv-default,hv-evmcs,-vmx'. I that case I see no point in discussing
-'scratch CPUs' idea at this point because it is not going to change
-anything at all ('hv_features_on' will stay, custom parsers will stay).
-
-Am I missing something?
-
--- 
-Vitaly
-
+--000000000000beca8605bbea338f--
 
