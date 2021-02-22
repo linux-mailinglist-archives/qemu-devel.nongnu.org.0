@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CD24321230
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:44:51 +0100 (CET)
-Received: from localhost ([::1]:43856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883E3321234
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:46:22 +0100 (CET)
+Received: from localhost ([::1]:47076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE6pm-00018o-GD
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:44:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53724)
+	id 1lE6rF-0002U9-J2
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:46:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54032)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lE6le-0005dT-PJ
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:40:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27399)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lE6lb-00046E-Lu
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:40:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613983229;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yp8Ir18XdEFq8yMY183Erx1ipE7ib8JNuVWwLD7Hc/4=;
- b=bkwT2jfBIbp0LAU/gFqKdAwxQsy4FQP/VBwQWN0EBHz596m82SzSGQtpAVt0jyc3bGXDeH
- TXsRBN3RVvC8XaHT3vl2bHDllF241nr7RhTHcd1sKIZbZjWrC7+7RZiZwbHTydiRkIlA8/
- +cm8dS3T2ClDaT3vL1O2YFQYbM0KjQ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-z9xtmn6NM6KQrnCyZSUh2w-1; Mon, 22 Feb 2021 03:40:27 -0500
-X-MC-Unique: z9xtmn6NM6KQrnCyZSUh2w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5D7A192AB79;
- Mon, 22 Feb 2021 08:40:26 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
- (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6C51001281;
- Mon, 22 Feb 2021 08:40:26 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
- (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
- by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7DD514E58D;
- Mon, 22 Feb 2021 08:40:26 +0000 (UTC)
-Date: Mon, 22 Feb 2021 03:40:06 -0500 (EST)
-From: Jason Wang <jasowang@redhat.com>
-To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <1306072831.56396199.1613983206292.JavaMail.zimbra@redhat.com>
-In-Reply-To: <CAC_L=vVoqVdetQfxDdvb=v9einKj+mhNs=p7Vybh1D6OgR1FvQ@mail.gmail.com>
-References: <20210122180029.575284-1-cohuck@redhat.com>
- <20210129162719.7438dea2.cohuck@redhat.com>
- <20210208181745.1ac08f12.cohuck@redhat.com>
- <29651c01-6e9d-c7ef-def8-96dc75b00a3a@redhat.com>
- <a8e4d6ee-cc78-75d8-d626-705477dfd134@redhat.com>
- <CAC_L=vVoqVdetQfxDdvb=v9einKj+mhNs=p7Vybh1D6OgR1FvQ@mail.gmail.com>
-Subject: Re: [PATCH RFC] pvrdma: wean code off pvrdma_ring.h kernel header
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE6mR-0006Vx-5s
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:41:24 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:54669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE6mO-0004TI-SQ
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:41:22 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id w4so12665519wmi.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 00:41:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=CZ43ua4NTg1G5XB8QP57+s0uB0pCbXWU5unu8PQvI7U=;
+ b=kxIvV/dp/KZEeMgBFWLddIgEiJlhmFtjNGtytpH9ws1anc+2L1iM3f2fKHbMTXmYas
+ vp6fbT7i8zi4JRC7UE/+/yyRc80dvX2aDr9+Apptb8AenOYIytJpcH01qc2pWKSXhf+k
+ UUHRPUdMRaIIsOm8CR2iLn7LzCfuZMwk7XN60mKQrMPs8OH8i5T38foU5DhMdk/fSUqY
+ tUGVLUYPpmlPwxWGRx+L7IoQyu6pkl8BZSFIjZhWvk5XpaiyI0G0A7+ydoGSJs2+pQ0U
+ h274LLx6VaLrSXtrS/OWhsIkDzXEGhnyIruqjzI2HZnlAOUZReWYi9gXkDWwGusd2cL7
+ w5FQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=CZ43ua4NTg1G5XB8QP57+s0uB0pCbXWU5unu8PQvI7U=;
+ b=tON2VQ4bMx4XxA/zORgeQ5gYYKIn1gJROZW3WoX57L4HW0L7aeF9vvQyHOufZmaEzZ
+ vy87ak0eKaOp+JUj4R+jWN+Gji/CJ2o6wmnddjkIMaWQJnku1GDMWXGBRcC6uRQ1+7Ul
+ +PfHIlaLu6P3aYVGCRz9tAQ/pswDx5fPURx9Pp4WWgYKwlF7YFbeXDQA2dk6PwOvfXOH
+ vo6yBUE/s4tUVhzeuI9bt7QKDPpiPp5ftxsluwJcod5lCOX42WVTeyytRNcRwmYXeoh4
+ EqQYoPeT8LDL6cKFMhPYWiQ4CkhVn1h+k+IEv+P5hBuAsGUmXS2Mi5oUu3cwr83eHPyU
+ anaw==
+X-Gm-Message-State: AOAM530fx+5RA3grTkgja8mrhGi0yTwCcFfLw+YLgZOEquCNkuEVtOC5
+ wMqEx5hMEP4/lYUYWg3eesI=
+X-Google-Smtp-Source: ABdhPJxz01ArdVjkpL52cd/iqqIijvCGb6paUOLjo9In3G+O/OWJiQDG3ktN6ua+Y53K8yirkzcLdA==
+X-Received: by 2002:a1c:f312:: with SMTP id q18mr19119727wmq.79.1613983278435; 
+ Mon, 22 Feb 2021 00:41:18 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id x66sm24799497wmg.6.2021.02.22.00.41.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 00:41:17 -0800 (PST)
+Subject: Re: [PULL v1 3/3] target/cris: Plug leakage of TCG temporaries
+To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, qemu-devel@nongnu.org
+References: <20210222083324.331908-1-edgar.iglesias@gmail.com>
+ <20210222083324.331908-4-edgar.iglesias@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <39885acc-a692-cd6c-c0bf-46e3193a4d7b@amsat.org>
+Date: Mon, 22 Feb 2021 09:41:16 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Originating-IP: [10.72.12.244, 10.4.195.26]
-Thread-Topic: pvrdma: wean code off pvrdma_ring.h kernel header
-Thread-Index: fDYjdeYciwU8egUsfP4Mv4GFbcESFw==
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210222083324.331908-4-edgar.iglesias@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,86 +89,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
- Yuval Shaia <yuval.shaia.ml@gmail.com>
+Cc: edgar.iglesias@xilinx.com, peter.maydell@linaro.org, stefans@axis.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi Edgar,
 
+On 2/22/21 9:33 AM, Edgar E. Iglesias wrote:
+> From: Stefan Sandstrom <stefans@axis.com>
+> 
+> Add and fix deallocation of temporary TCG registers in CRIS code
+> generation.
+> 
+> Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> Change-Id: I17fce5d95bdc4418337ba885d53ba97afb1bafcc
 
------ =E5=8E=9F=E5=A7=8B=E9=82=AE=E4=BB=B6 -----
-> Hi Jason.
->=20
-> On Tue, Feb 9, 2021 at 5:47 AM Jason Wang <jasowang@redhat.com> wrote:
->=20
-> >
-> > On 2021/2/9 =E4=B8=8A=E5=8D=881:28, Paolo Bonzini wrote:
-> > > On 08/02/21 18:17, Cornelia Huck wrote:
-> > >> On Fri, 29 Jan 2021 16:27:19 +0100
-> > >> Cornelia Huck <cohuck@redhat.com> wrote:
-> > >>
-> > >>> On Fri, 22 Jan 2021 19:00:29 +0100
-> > >>> Cornelia Huck <cohuck@redhat.com> wrote:
-> > >>>
-> > >>>> The pvrdma code relies on the pvrdma_ring.h kernel header for some
-> > >>>> basic ring buffer handling. The content of that header isn't very
-> > >>>> exciting, but contains some (q)atomic_*() invocations that (a)
-> > >>>> cause manual massaging when doing a headers update, and (b) are
-> > >>>> an indication that we probably should not be importing that header
-> > >>>> at all.
-> > >>>>
-> > >>>> Let's reimplement the ring buffer handling directly in the pvrdma
-> > >>>> code instead. This arguably also improves readability of the code.
-> > >>>>
-> > >>>> Importing the header can now be dropped.
-> > >>>>
-> > >>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > >>>> ---
-> > >>>>
-> > >>>> Compile-tested only, needs both testing and more eyeballs :)
-> > >>>
-> > >>> Friendly ping :)
-> > >>>
-> > >>> Suggestions for a test setup to do some sanity checks (that does no=
-t
-> > >>> require special hardware) also welcome.
-> > >>
-> > >> Can I interest anyone in this? I'd be happy doing sanity tests mysel=
-f,
-> > >> but I have a hard time figuring out even where to start...
-> > >
-> > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-> > >
-> > > Jason, Michael, are you going to pick this up?
-> > >
-> > > Paolo
-> >
-> >
-> > I will queue this.
-> >
->=20
->=20
-> Have you picked it up? It will be great so I'll not send a PR with a sing=
-le
-> patch...
-> BTW, Yuval tested and acked the patch.
+Out of curiosity, what is this Change-Id?
 
-Plan to send a pull request this Friday.
-
-It should be part of that.
-
-Thanks
-
->=20
-> Thanks,
-> Marcel
->=20
-> [...]
->=20
->=20
-> >
-> >
->=20
-
+> Signed-off-by: Stefan Sandström <stefans@axis.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> Message-Id: <20210219124416.28178-1-stefans@axis.com>
+> Signed-off-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> ---
+>  target/cris/translate.c         | 124 ++++++++++++++++++++++----------
+>  target/cris/translate_v10.c.inc |  70 ++++++++++++------
+>  2 files changed, 135 insertions(+), 59 deletions(-)
 
