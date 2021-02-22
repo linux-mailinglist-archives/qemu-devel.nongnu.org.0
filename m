@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C275D321C08
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:02:50 +0100 (CET)
-Received: from localhost ([::1]:40350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED432321C61
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 17:08:45 +0100 (CET)
+Received: from localhost ([::1]:51598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDfd-0002T7-R3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:02:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47148)
+	id 1lEDlM-0007zI-Va
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 11:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50126)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEDZz-000649-FZ
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:56:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47792)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEDin-0006X7-B0
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:06:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEDZw-0004BF-MG
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:56:58 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEDii-0008Oa-Tb
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 11:06:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614009415;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1614009959;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1t3h3w0boJDcubfiHIZv2MhsOgPTZBBsNhVoop9slg4=;
- b=dgU8zXkvaUx0BLVwiYx1qDyXreOrue+JMcNkqly1r6bWS24EvP7pXtPZBKpf0h5+8tXWQv
- yjDxYBKPJZW73w0myGrusuM70aImlA4aLKTH2CGeafk8uUu/+xN//2oxObODvXmHtyi7rA
- +ceqD41HT6JfjXv/LBjddmGdLaqb7D8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-604-uK1vpFIINaeztr-QqfMwTw-1; Mon, 22 Feb 2021 10:56:52 -0500
-X-MC-Unique: uK1vpFIINaeztr-QqfMwTw-1
-Received: by mail-ed1-f71.google.com with SMTP id m16so7203218edd.21
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 07:56:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=1t3h3w0boJDcubfiHIZv2MhsOgPTZBBsNhVoop9slg4=;
- b=sRzU40XbjJdfGNAjDGAiD8VYElz/HZKj5fBrg9KEeuXAwtOtFS4SaqXTPFsoexTZUR
- rmPm0xIEn9uN92HO4MqucDT0LCepQrTuxNOJ0sWFgJubAVFepZPSN6AT1B2/mhEKkVmd
- eDGzpNPZKKlYgfHmyN+1TPQEHBYvVTJRt89wDIXmXRXxlRQ0bhdmvjZ+F92AXYfoqRms
- jO/MwznRKoGzlX4MSbcI8BZJp37ZXL3hvzxJ2yJGOIUSI/UzG/03fkY4NPqHT1kZMdw2
- NmNzk+hfYFnTrS9jM857Am9FrUPJ64xXOv9Db3rpb3T+UHaIyoB+G4AkUhhtK2K1xTWC
- BeFQ==
-X-Gm-Message-State: AOAM530DyNiAoHqYpojypEaPDObBLQdko09HG1G+N+JzaiTzXjpflajq
- n57o0oDm6ul177ae57YayglwQwKFlCQA5IGP4vMMogzOH4z2WE5x5yurnfDnZS1fMMaA/ZabaYZ
- /981nga+98BR4XaD6BMiuc6RIZjCr1ZWMJFeQ6+mYH7OFlwB/Lf/HeYV/aXRBiqb6
-X-Received: by 2002:a05:6402:d09:: with SMTP id
- eb9mr23568550edb.285.1614009410827; 
- Mon, 22 Feb 2021 07:56:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyLG3qR33fQPnMMb2EAzjsfl2thU36RtUrkbBFla/bfIwdYPvrr+LxRcCCFL4LX7EbT4YH5Eg==
-X-Received: by 2002:a05:6402:d09:: with SMTP id
- eb9mr23568535edb.285.1614009410597; 
- Mon, 22 Feb 2021 07:56:50 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id dj9sm10102335edb.81.2021.02.22.07.56.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 07:56:49 -0800 (PST)
-Subject: Re: QEMU hosting
-To: Fosshost <admin@fosshost.org>, Stefan Hajnoczi <stefanha@gmail.com>
-References: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
- <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b803bbce-ef10-229b-eccb-b26f0e589a43@redhat.com>
-Date: Mon, 22 Feb 2021 16:56:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=nl131LCGC2fBqBE7BeJqiXZ0ht17cjG8+90AsoNLScw=;
+ b=a9emPOC5ShffsQ4FKeMZpAX0rFRVoRm1qdTyBtDmUyiIzlHZpvBALKdf8D5Rk57dwRB+2W
+ IjS77JfKw6kOz6I4mnNG93W/QyaiftUCUVgfvu6M4z4dKobUf24BnhI4tGt23nqe5VWvk6
+ /6HDeXMlpwX33XJ72hOqzTq3l95fg7k=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-60-8gWUyg8BPq6RiROFP9EkLg-1; Mon, 22 Feb 2021 11:05:55 -0500
+X-MC-Unique: 8gWUyg8BPq6RiROFP9EkLg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A9C619611DC;
+ Mon, 22 Feb 2021 16:05:41 +0000 (UTC)
+Received: from redhat.com (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 933C2101E581;
+ Mon, 22 Feb 2021 16:05:03 +0000 (UTC)
+Date: Mon, 22 Feb 2021 16:05:01 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Subject: Re: Probing Meson for build configurations (was: [PATCH v2 3/6]
+ tests/acceptance: allow a "graceful" failing for virtio-gpu test)
+Message-ID: <YDPWLXWjjVA8VS2h@redhat.com>
+References: <20210222101455.12640-1-alex.bennee@linaro.org>
+ <20210222101455.12640-4-alex.bennee@linaro.org>
+ <71dc4eca-d52e-3650-3b23-a96950ecc05e@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
+In-Reply-To: <71dc4eca-d52e-3650-3b23-a96950ecc05e@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,55 +84,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: fam@euphon.net, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, f4bug@amsat.org, Willian Rampazzo <willianr@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ stefanha@redhat.com, crosa@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas and Stefan,
-
-On 1/5/21 7:55 PM, Fosshost wrote:
-> Hi Stefan
+On Mon, Feb 22, 2021 at 12:44:37PM -0300, Wainer dos Santos Moschetta wrote:
+> Hi Paolo,
 > 
-> Thank you for your email.
-> 
->  1. We do not offer MacOS hosting
->  2. We can provide virtual machines with full KVM virt on x86
->     architecture and soon arm64 v8
->  3. We do not provide dedicated servers.
+> Last week I was chatting with Cleber about probing configured features so
+> that tests could be skipped (just like on this case). He has a
+> implementation which never landed in, and is based on the old build system.
+> Now with Meson, I am wondering if it has some sort of API for probing, or
+> parsing the JSON files in build/meson-info/ is the proper way to inspect the
+> build configuration.
 
-Would it be possible to have a dedicated VM for a git LFS server [*]?
+Probing build configuration is the wrong approach.
 
-If so, what storage is usable? Are there network traffic limits?
+We need to be querying the QEMU binary to ask if it has the logical
+feature we need.  In this case
 
-Thanks,
+{
+  "execute": "device-list-properties",
+  "arguments": {
+    "typename": "virtio-gpu-pci"
+  },
+}
 
-Phil.
 
-[*] https://docs.gitlab.com/ee/topics/git/lfs/
+the response will include "virgl" property, if QEMU was compiled
+with VirGL. This is how libvirt detects VirGL support in QEMU
+today.
 
-> ------------------------------------------------------------------------
-> *From:* Stefan Hajnoczi <stefanha@gmail.com>
-> *Sent:* 05 January 2021 14:21
-> *To:* Fosshost <admin@fosshost.org>
-> *Cc:* qemu-devel <qemu-devel@nongnu.org>
-> *Subject:* QEMU hosting
-> �
-> Hi Thomas,
-> In November you emailed qemu-devel asking if the QEMU project was
-> interested in exploring hosting with Fosshost.org. I think my reply
-> may have gotten lost so I wanted to check if you have time to discuss
-> this again.
-> 
-> The main hosting need that QEMU has is for continuous integration
-> system runners. We are particularly interested in non-x86/non-Linux
-> build machines and a dedicated server for reproducible performance
-> tests. Just today there was discussion on #qemu IRC about how to go
-> about adding a macOS build machine, for example.
-> 
-> It would be great to find out more about Fosshost.org and whether we
-> can work together.
-> 
-> Thanks,
-> Stefan
+> On 2/22/21 7:14 AM, Alex Bennée wrote:
+> > This is a band-aid with a TODO for cases when QEMU doesn't start due
+> > to missing VirGL. Longer term we could do with some proper feature
+> > probing.
+> > 
+> > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> > Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> > Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+> > Message-Id: <20210217121932.19986-7-alex.bennee@linaro.org>
+> > ---
+> >   tests/acceptance/virtio-gpu.py | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
+> > index ab1a4c1a71..ab18cddbb7 100644
+> > --- a/tests/acceptance/virtio-gpu.py
+> > +++ b/tests/acceptance/virtio-gpu.py
+> > @@ -85,7 +85,12 @@ def test_virtio_vga_virgl(self):
+> >               "-append",
+> >               kernel_command_line,
+> >           )
+> > -        self.vm.launch()
+> > +        try:
+> > +            self.vm.launch()
+> > +        except:
+> > +            # TODO: probably fails because we are missing the VirGL features
+> > +            self.cancel("VirGL not enabled?")
+> > +
+> >           self.wait_for_console_pattern("as init process")
+> >           exec_command_and_wait_for_pattern(
+> >               self, "/usr/sbin/modprobe virtio_gpu", ""
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
