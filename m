@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C303212FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 10:24:33 +0100 (CET)
-Received: from localhost ([::1]:51490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 720E732133B
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 10:39:29 +0100 (CET)
+Received: from localhost ([::1]:56116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE7SC-0002YY-3y
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 04:24:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35878)
+	id 1lE7ge-0005et-27
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 04:39:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE7RH-00029K-2t
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:23:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60516)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE7RE-0006kH-8j
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 04:23:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613985809;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jIjJXgSfPqXYEVqTR9WcIfbC03imf82z5Ib8jeXM4/M=;
- b=GMlCGLsRIv/8gL3QVaPtaS5xm4GnM78znY/QzEgmPCNp6h9a4K2V/kKE3Jym/nQfLYifbB
- Lcvh+u+eHv9sImQ15zELtHzvoQg5EO+9rBHr4uccSLFKxwKSEvaeYS8l+52PSvFX2ocvRc
- DdPdvBNbOhOHDi6nDdAkVEMG0UYEsiQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-556-afcJY53DN0Oqv_2u2LfACw-1; Mon, 22 Feb 2021 04:23:26 -0500
-X-MC-Unique: afcJY53DN0Oqv_2u2LfACw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7AB9B803F47;
- Mon, 22 Feb 2021 09:23:25 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-97.ams2.redhat.com [10.36.112.97])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8742919C79;
- Mon, 22 Feb 2021 09:23:24 +0000 (UTC)
-Subject: Re: [PATCH v2 00/15] tests/tcg: Add TriCore tests
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
-References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <29328969-9f3a-182f-4fa8-08643f4afab4@redhat.com>
-Date: Mon, 22 Feb 2021 10:23:23 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lE7ff-00059r-4n; Mon, 22 Feb 2021 04:38:27 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:33375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lE7fd-0005FS-BF; Mon, 22 Feb 2021 04:38:26 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.22])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7FA818956558;
+ Mon, 22 Feb 2021 10:38:20 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 22 Feb
+ 2021 10:38:18 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R0042e9ca779-e63c-430d-a00e-b796ffaf3387,
+ 22411CCD660FC3FC09311B18737C076FF65DC705) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [RFC PATCH 11/15] sd: emmc: Add Extended CSD register definitions
+To: Sai Pavan Boddu <saipava@xilinx.com>, Luc Michel
+ <luc.michel@greensocs.com>, Markus Armbruster <armbru@redhat.com>, Kevin Wolf
+ <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>, Vladimir
+ Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, Eric Blake
+ <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>, Vincent Palatin
+ <vpalatin@chromium.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Peter
+ Maydell <peter.maydell@linaro.org>, Alistair Francis
+ <alistair.francis@wdc.com>, Edgar Iglesias <edgari@xilinx.com>, Paolo Bonzini
+ <pbonzini@redhat.com>
+References: <1613031446-22154-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613031446-22154-12-git-send-email-sai.pavan.boddu@xilinx.com>
+ <916b1684-bed1-9eda-6362-9844910703a8@greensocs.com>
+ <BY5PR02MB677236F86FABBBEF0E3862D7CA879@BY5PR02MB6772.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <af20e7b2-cd42-c909-4bbf-eca73abd63ec@kaod.org>
+Date: Mon, 22 Feb 2021 10:38:17 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <BY5PR02MB677236F86FABBBEF0E3862D7CA879@BY5PR02MB6772.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 831c35b7-dade-4a82-9f45-98c353182501
+X-Ovh-Tracer-Id: 8902490566368136138
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepshgrihhprghvrgesgihilhhinhigrdgtohhm
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -5
+X-Spam_score: -0.6
+X-Spam_bar: /
+X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_RP_RNBL=1.31,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,50 +81,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 04/06/2020 10.54, Bastian Koppelmann wrote:
-> Hi Alex,
-> 
-> I managed to update the series to successfully run make check-tcg. This required
-> some changes to the makefiles. I tried running the riscv64 and arm tests and so
-> far I didn't break anything.
-> 
-> You can find the full tree here:
-> https://github.com/bkoppelmann/qemu/tree/tricore-tcg-tests
-> 
-> Cheers,
-> Bastian
-> 
-> Bastian Koppelmann (15):
->    docker/tricore: Use stretch-slim as a base image
->    tests/tcg: Add docker_as and docker_ld cmds
->    tests/tcg: Run timeout cmds using --foreground
->    hw/tricore: Add testdevice for tests in tests/tcg/
->    tests/tcg/tricore: Add build infrastructure
->    tests/tcg/tricore: Add macros to create tests and first test 'abs'
->    tests/tcg/tricore: Add bmerge test
->    tests/tcg/tricore: Add clz test
->    tests/tcg/tricore: Add dvstep test
->    tests/tcg/tricore: Add fadd test
->    tests/tcg/tricore: Add fmul test
->    tests/tcg/tricore: Add ftoi test
->    tests/tcg/tricore: Add madd test
->    tests/tcg/tricore: Add msub test
->    tests/tcg/tricore: Add muls test
+On 2/16/21 12:11 PM, Sai Pavan Boddu wrote:
+> Hi Luc,
+>> -----Original Message-----
+>> From: Luc Michel <luc.michel@greensocs.com>
+>> Sent: Saturday, February 13, 2021 6:26 PM
+>> To: Sai Pavan Boddu <saipava@xilinx.com>; Markus Armbruster
+>> <armbru@redhat.com>; Kevin Wolf <kwolf@redhat.com>; Max Reitz
+>> <mreitz@redhat.com>; Vladimir Sementsov-Ogievskiy
+>> <vsementsov@virtuozzo.com>; Eric Blake <eblake@redhat.com>; Joel Stanley
+>> <joel@jms.id.au>; Cédric Le Goater <clg@kaod.org>; Vincent Palatin
+>> <vpalatin@chromium.org>; Dr. David Alan Gilbert <dgilbert@redhat.com>;
+>> Thomas Huth <thuth@redhat.com>; Stefan Hajnoczi <stefanha@redhat.com>;
+>> Peter Maydell <peter.maydell@linaro.org>; Alistair Francis
+>> <alistair.francis@wdc.com>; Edgar Iglesias <edgari@xilinx.com>; Paolo Bonzini
+>> <pbonzini@redhat.com>
+>> Cc: qemu-block@nongnu.org; qemu-devel@nongnu.org; Sai Pavan Boddu
+>> <saipava@xilinx.com>
+>> Subject: Re: [RFC PATCH 11/15] sd: emmc: Add Extended CSD register
+>> definitions
+>>
+>> On 2/11/21 9:17 AM, Sai Pavan Boddu wrote:
+>>> From: Cédric Le Goater <clg@kaod.org>
+>>>
+>>> Add user friendly macros for EXT_CSD register. >
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> [spb: Rebased over versal emmc series,
+>>>        updated commit message]
+>>> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>>
+>> Hi,
+>>
+>> If Cédric agrees, maybe you can squash this commit into patch 2, and add the
+>> missing register definitions?
+> [Sai Pavan Boddu] Yeah, that would be nice. I will leave @Cédric Le Goater comment here.
 
-  Hi Bastian,
+Sure. I hope you did in v2. Sorry I was out.
 
-I'm currently looking at the containers that we build in the gitlab-CI, and 
-it seems that the "debian-tricore-cross" container is currently always built 
-though it is never used.
-So I'm wondering: Do you still plan to finish this series here and get it 
-merged, or could we remove the "debian-tricore-cross" container from the 
-gitlab-CI again?
+Thanks,
 
-  Thanks,
-   Thomas
-
+C. 
 
