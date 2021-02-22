@@ -2,58 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFEBD321F9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:05:39 +0100 (CET)
-Received: from localhost ([::1]:55546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B45321FD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:15:18 +0100 (CET)
+Received: from localhost ([::1]:42854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEGWY-0007pQ-NB
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:05:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42688)
+	id 1lEGft-00008j-1A
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:15:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
- id 1lEGHO-0006ho-9M; Mon, 22 Feb 2021 13:49:58 -0500
-Received: from ppsw-30.csi.cam.ac.uk ([131.111.8.130]:50682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alr48@hermes.cam.ac.uk>)
- id 1lEGHL-0004S8-Jt; Mon, 22 Feb 2021 13:49:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cam.ac.uk; 
- s=20180806.ppsw;
- h=Sender:Content-Transfer-Encoding:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Reply-To:Content-Type:
- Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=ljWO0P/Yk0YfnbFpLTnFBmlhW2e3XUNI56sfydYF6+w=; b=mFoMjCYqthRyn5Vvl03VopNNhC
- mjuAQlxDIJPgLA10hFmIlsvx+j04JSoKfajtFUvWqoOC72Fqx430oL/N/UI7POEhM+r7XeejwdDc+
- +NkuXblfA5TtYh59nHDkvkGhiwgGnKvDF/VkxUll6zTCj11v9C/L5koDmnB99L+fP65Q=;
-X-Cam-AntiVirus: no malware found
-X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
-Received: from host86-156-0-119.range86-156.btcentralplus.com
- ([86.156.0.119]:53365 helo=Alexs-MBP-10.home)
- by ppsw-30.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.156]:587)
- with esmtpsa (LOGIN:alr48) (TLS1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
- id 1lEGHG-000pj0-dP (Exim 4.94)
- (return-path <alr48@hermes.cam.ac.uk>); Mon, 22 Feb 2021 18:49:50 +0000
-From: Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>
-To: 
-Subject: [PATCH v2 2/2] target/riscv: Call check_access() before tcg_temp_new()
-Date: Mon, 22 Feb 2021 18:49:39 +0000
-Message-Id: <20210222184940.43169-2-Alexander.Richardson@cl.cam.ac.uk>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210222184940.43169-1-Alexander.Richardson@cl.cam.ac.uk>
-References: <20210222184940.43169-1-Alexander.Richardson@cl.cam.ac.uk>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEGNP-0003IQ-Bh
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:56:11 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEGNN-0007KA-MF
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:56:11 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id n1so23373317edv.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 10:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QgsAwOjDPamWAwOD3qkq8nIqhi+its/9w2GKo9lZ2Kg=;
+ b=sx83gNmUfK9utCtrgxSoZdx4wuJTCYid2AsZOMgjWuf++IsNr9HhGwh+r0qSZquMTH
+ YRLQloZmJx8bhwaD+iYlxVd1oKFZ7nilTeSy7IL4UPq25wbe+siA7K3dkwSjn8cxWsLt
+ ucOwVM4R30Hkre9MjnbnJX2TxmaaAf1C0T7Rcpz+xzoW0lmSrSeTctY8J4PaFW/s5tBn
+ AiZEO/5uqMSXkndpMtZ3rBB29PqQsTUw1qMOYgaM6302hVT00SqHIA/U4jYN6cHiTzct
+ I9atBgtixnnmbAyJOf1XLti5KDRbuM+uJwsDqqeFMTHSEJRoZhFnxMb9KE728zBv0ZvH
+ 5bKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=QgsAwOjDPamWAwOD3qkq8nIqhi+its/9w2GKo9lZ2Kg=;
+ b=VhsjPurCWqKPNW4snY0z7eOkdNGUhhpoFhGcuCbLF2C+sjae/mYgeEsSdpuasfc+QK
+ YEhIDE3fYJZJiXLL7X5PBwBLArZ5o1XI3EiuWPlUJIwQGcfZuRJrqV5Pd2AMNV7aryFI
+ SSw4U2BhvXiTTBL9b2D02zblNv8xCAAPTNTgbtaT9HaVgK8pNWqCKtEma/LI2Ov4bI2L
+ BRL0ee5qdu2iayG2/muLKkwwSDJqoP0QWhRhY7G0C+yTerBW+H7jUzhjQUNfBq6nKUr4
+ De26COW/IL+ByZC36cVPYP8gCX9MMuZXOYynMF74vOyKqT9yl0H3K+l5Op1i5Uh18qmR
+ 1aew==
+X-Gm-Message-State: AOAM5307MwvBkIn2YW+KgWpucyFmfqKtcJbwgzFyMtf2TSG/iq/S5o4e
+ xRa08dHAcfC74x4Jy4UHW+cesRbsCjc=
+X-Google-Smtp-Source: ABdhPJx/scagYFkFlEmw6JRvKJyx3qwI4D799SpDJfJ0qIOL3hJgCSTzwyT/YFS8Psh1ijwIDZzNaw==
+X-Received: by 2002:a05:6402:160b:: with SMTP id
+ f11mr7322731edv.225.1614020167846; 
+ Mon, 22 Feb 2021 10:56:07 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id ck9sm12043180edb.36.2021.02.22.10.56.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 10:56:07 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/sh4/sh7750_regs: Replace link to license by its full
+ content
+Date: Mon, 22 Feb 2021 19:56:05 +0100
+Message-Id: <20210222185605.2714192-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=131.111.8.130;
- envelope-from=alr48@hermes.cam.ac.uk; helo=ppsw-30.csi.cam.ac.uk
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -66,81 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V TCG CPUs" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Alex Richardson <Alexander.Richardson@cl.cam.ac.uk>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
----
- target/riscv/insn_trans/trans_rvh.c.inc | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+This file is borrowed from the RTEMS source code, which comes
+with a GPL-2.0-or-later license with a header exception.
 
-diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
-index c66268a9b0..c6bbc54d68 100644
---- a/target/riscv/insn_trans/trans_rvh.c.inc
-+++ b/target/riscv/insn_trans/trans_rvh.c.inc
-@@ -32,11 +32,11 @@ static bool gen_hlv(DisasContext *ctx, int rs1, int rd, MemOp memop)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    check_access(ctx);
-+
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
- 
--    check_access(ctx);
--
-     gen_get_gpr(t0, rs1);
- 
-     tcg_gen_qemu_ld_tl(t1, t0, ctx->mem_idx | TB_FLAGS_PRIV_HYP_ACCESS_MASK, memop);
-@@ -55,11 +55,11 @@ static bool gen_hsv(DisasContext *ctx, int rs1, int rs2, MemOp memop)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    check_access(ctx);
-+
-     TCGv t0 = tcg_temp_new();
-     TCGv dat = tcg_temp_new();
- 
--    check_access(ctx);
--
-     gen_get_gpr(t0, rs1);
-     gen_get_gpr(dat, rs2);
- 
-@@ -134,11 +134,11 @@ static bool trans_hlvx_hu(DisasContext *ctx, arg_hlvx_hu *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    check_access(ctx);
-+
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
- 
--    check_access(ctx);
--
-     gen_get_gpr(t0, a->rs1);
- 
-     gen_helper_hyp_hlvx_hu(t1, cpu_env, t0);
-@@ -156,11 +156,11 @@ static bool trans_hlvx_wu(DisasContext *ctx, arg_hlvx_wu *a)
- {
-     REQUIRE_EXT(ctx, RVH);
- #ifndef CONFIG_USER_ONLY
-+    check_access(ctx);
-+
-     TCGv t0 = tcg_temp_new();
-     TCGv t1 = tcg_temp_new();
- 
--    check_access(ctx);
--
-     gen_get_gpr(t0, a->rs1);
- 
-     gen_helper_hyp_hlvx_wu(t1, cpu_env, t0);
+Expand the GPL-2.0-or-later license in place to not be dependent
+on a 3rd party website. This also fix the misleading comment "The
+license and distribution terms for this file may be found in the
+file LICENSE in this distribution" referring to the RTEMS distribution
+and not to the QEMU one.
+
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/sh4/sh7750_regs.h | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
+
+diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
+index 3e4554af315..ab073dadc74 100644
+--- a/hw/sh4/sh7750_regs.h
++++ b/hw/sh4/sh7750_regs.h
+@@ -10,8 +10,28 @@
+  *         Victor V. Vengerov <vvv@oktet.ru>
+  *
+  * The license and distribution terms for this file may be
+- * found in the file LICENSE in this distribution or at
+- *  http://www.rtems.com/license/LICENSE.
++ * found in this file hereafter or at http://www.rtems.com/license/LICENSE.
++ *
++ *                       LICENSE INFORMATION
++ *
++ * RTEMS is free software; you can redistribute it and/or modify it under
++ * terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2, or (at your option) any
++ * later version.  RTEMS is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
++ * General Public License for more details. You should have received
++ * a copy of the GNU General Public License along with RTEMS; see
++ * file COPYING. If not, write to the Free Software Foundation, 675
++ * Mass Ave, Cambridge, MA 02139, USA.
++ *
++ * As a special exception, including RTEMS header files in a file,
++ * instantiating RTEMS generics or templates, or linking other files
++ * with RTEMS objects to produce an executable application, does not
++ * by itself cause the resulting executable application to be covered
++ * by the GNU General Public License. This exception does not
++ * however invalidate any other reasons why the executable file might be
++ * covered by the GNU Public License.
+  *
+  * @(#) sh7750_regs.h,v 1.2.4.1 2003/09/04 18:46:00 joel Exp
+  */
 -- 
-2.30.0
+2.26.2
 
 
