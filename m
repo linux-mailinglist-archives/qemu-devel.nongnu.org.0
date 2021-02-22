@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BC23320EDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 02:04:42 +0100 (CET)
-Received: from localhost ([::1]:44794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1ACE320EDE
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 02:04:50 +0100 (CET)
+Received: from localhost ([::1]:45266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDzeT-0006P7-E5
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 20:04:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35540)
+	id 1lDzeb-0006b3-M2
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 20:04:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1lDzd0-0005dx-7s; Sun, 21 Feb 2021 20:03:10 -0500
-Received: from mout.gmx.net ([212.227.15.15]:45681)
+ id 1lDzdC-0005jq-GD; Sun, 21 Feb 2021 20:03:23 -0500
+Received: from mout.gmx.net ([212.227.15.18]:56405)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <deller@gmx.de>)
- id 1lDzcy-0007dt-9p; Sun, 21 Feb 2021 20:03:09 -0500
+ id 1lDzdA-0007iY-H0; Sun, 21 Feb 2021 20:03:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
- s=badeba3b8450; t=1613955786;
- bh=k9QoPDhp6zmp2EgpNGKAmxAP6JtreYCrHtHGBeWZE2Y=;
- h=X-UI-Sender-Class:Subject:To:References:Cc:From:Date:In-Reply-To;
- b=XfRfAnkwMHjb2h1twjfA0dFXVhKD4FWwlROv6ZJFLKiobMPfrULh48Uo/eWutMpNi
- cdvh7Uk2JMQqXZfnWzHzRrRqnY0Eht+HazO9LBdFozQvOmceK/T+t8afE3ExURVY7U
- fkWl8dlt9LLG1bbBYVeeJKW323eKDDYStP90nZZg=
+ s=badeba3b8450; t=1613955797;
+ bh=qSG8HScilh30HbqPmdtVzMwzSrOesDAFb8UDFj8fL0M=;
+ h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+ b=AqMi6vzNHaRXqdn2xg+N1T+UKwc9awWJbIPJXCf8PtWRRSC+4xYhgC+e4cRDhoexk
+ new8oEHX8Nn0fGGDZFK9z+ztMO94AEP/YpyLDmdqs3x4pZc9yNi3dOMzXQ3gZxhYD3
+ 6P7/4+5gswC1e5a5swmca91345wmeCmxmwDwwR34=
 X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.20.60] ([92.116.180.210]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mr9Bk-1lajTL3qKc-00oC0g; Mon, 22
- Feb 2021 02:03:05 +0100
-Subject: Re: [PATCH v2] linux-user: fix O_NONBLOCK usage for hppa target
+Received: from [192.168.20.60] ([92.116.180.210]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mf0BM-1lkbM71G9q-00gYyM; Mon, 22
+ Feb 2021 02:03:17 +0100
+Subject: Re: [PATCH] linux-user: fix O_NONBLOCK in signalfd4() and eventfd2()
+ syscalls
 To: qemu-stable@nongnu.org
-References: <20210201220551.GA8015@ls3530.fritz.box>
- <f6c72e80-a800-1ab3-544b-337537e9cfe5@vivier.eu>
+References: <20210210061214.GA221322@ls3530.fritz.box>
+ <fb16d5fb-6e86-2723-7899-15df7a4dd659@vivier.eu>
 From: Helge Deller <deller@gmx.de>
-Message-ID: <061e9b23-48cb-5a9f-9377-f3f4ab43acca@gmx.de>
-Date: Mon, 22 Feb 2021 02:02:56 +0100
+Message-ID: <194053d3-eea4-6e6d-0be3-870136bee23b@gmx.de>
+Date: Mon, 22 Feb 2021 02:03:07 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <f6c72e80-a800-1ab3-544b-337537e9cfe5@vivier.eu>
+In-Reply-To: <fb16d5fb-6e86-2723-7899-15df7a4dd659@vivier.eu>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:WX8bqPfKNBd6bykKh5l4HAe4Wcis4w0kELlsldmV0yFqMPPFvpk
- 1CBNi+9jG8/BAUwVpO9vjcP8GGSJjIN2OS4l5VnPaVPT90YICjl9t3pzYEJk1kYmV+PDu1L
- Lt1vS9lqeTVGbrUvXPxcfpeZqsl1V7OfBeCSe1rtro5hEt/wkrjPOqQcwjyklBCxUnuzNZ0
- YDj27lIjR8SWhl5YkIXIA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:GDA0dxm1DF4=:APguX3gYp08nTVMOpJETdQ
- vOCURnU16Av8AAJs38PEX0qE5xfURDPLBh3u2LmfOTaeNP+5+dnQkuoY0FjUWZ4VOxWYGzvHd
- Bybh/hfYPxT/fyWCqJMPjCvj7FyRvkj0KxfftltQEPAIP8jkzlihLO9w/HsIyZ0YNy6ZHnj4Z
- jYHygWymHfnmcSRSIBrnOdULTeABldK99h7Zd/0neYj+OZY/RWXKlBrkurwrgaTuqeLnyEYq4
- E6U/ApBo2NL4AH9VqvAJONoAYsbZuPtODI8j4HWBVgIJAxtAm2FhLWsVxCPyBk048R0ljBc98
- En/BacWRR2z36vme+Pb18g4jk8qtMps7q44/Jmg5tqdww3FBCQwrxWrFcQZUnXaeDChvwYEjj
- Qr5UXaLDgaYv0DiQih1HbbCOfuZUTWnWzK7F23Rw/Uz6nMtN1IW4ew/jIC379ooAI08yhp2dO
- T9guHdBUC68AYZil/XD7XLUDKjMfgUMKsPY5l70Wevo1gb0nYW51zbUVUynQl3FjUNclayz06
- kdTc2Sr5TkHr8SMGqduA5GS3BlC2BzWCPV+ambQ7/YjUsfBrhuiPHvpmoScKefy4YfaTjqyf8
- 7vnMe/XMAbagj+DpHgeEJqfidVbvCRVPJA8mNiNMm8Js4ZHopJ3egquI/fP3TT4LQv8ytROEm
- 7Y2EBFfXNVe/Dnn57F3tzcjv7G6yPIt/rFa2XcEb5PspzYcOBN0OPHEw9QUlMExPSqiqW2aXF
- 4RfJgK2gnMAJdK7T37Bh/CoyCYmi/wGWybzsCwc+B9SkNg4NHu9UnL1/VRMZHpO7ZxaOCMQsE
- vA0Ya6NTZY61jBXjvxX58ZIIbW7NFAZ/BsqWNwxqBeD553rEsalg0d7vS6GioPssuXrrlRcGd
- Iad5mc6Z7fIc2CzJtM7w==
-Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
+X-Provags-ID: V03:K1:p9q/Tgg0pZP/HX5vMDzb9vWMF/azFR7tikdmvdGeSt6ZdEL4x3V
+ HvmKRMGab+NnN+CPwiUjOMqGq9avOdMw2jvPQEy1I+sp48Uuh6YagTFP8Vx70seFTPZvx4I
+ 5ih2v5J2kdB+pJzIntGHqGUnAB2++yGsg5IGsBEFzoki7t18RRTkllcDMIxtqWy7+5UMBXM
+ yrnyTHHpptsnrkUSFMN5g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dJzjq4qkK48=:FV6E7kpeOQ7vPxFO/rB9du
+ MdoXd5QDSstlCS6kbt8Ff1yNyRyb60vJXfmNgH1p5hYPZRRhT4YPBlYKKATi+THJQErgWlNrJ
+ gh/WKEOU1VTcbyhTxLF4Iha/pxvNiaZzVjAC8SqiUnz52i++PjpZa4N0ew3l4+07xdLwrBCXC
+ 6GKNCS2v01jdRg32NhUSozFSxRqpw/G1ENLfWwZzeYDdfbBpW/nnMne1X6dPBvL13cYHIby+c
+ sBQr03n9oVLCnfUM2N4Q/tihTTIBHICu65t7dJWvUSmdOMWW/fovRkSjSB0s+jcFncWbh7hqI
+ FQfJmMtlTnBLaaGPakSvoBbb/8uXLa8iHOd/98z4fhAWZcvvv5c4Mh3e4UQdNWIPNuTmKLjJv
+ dbWOJ0UfTlCOv00xjNysR3lQBqflUZUl96JzPsKAIdu6ulRnZRTEHqqM7eeMvxS59XTIqAr9r
+ PEjpThOzTt9PRDteL28UrKlUrREGT2iToYOt1QEcXYan4fpAaAf7lEfgOM2W6njspBvxE8h1W
+ 6zHaVl8d7c1VKMtMhFPFEOVnUHC8GEQn5L6dCL24plKFyGW2hw9SZjZNTrQ6uVGRtUfE+D4o+
+ 6C4pZcnCqwff9wJWRaoa8aAkn+Q2ApejpExtgY55nyHZ2IaIvCSIRw01DQFqTDhfbaq4YleIA
+ d3ECQugHhfLw03Pv986OuXsCiO0Xjr/2tm7SVi5VG6Og0rTYegIwFcL/d8/pK20ygPwue2VZt
+ GnkQ0MrWwe8PO01cPqeFUP2ftc8manLB7MyH+75l9+toO/Ma5nENA1sGpmb14POymzbO/BuD+
+ +9p05S+4K6FVXOWuVOLKnwhnh0+uMhdp+APJxFZUXpG5k+Eps1+Y0L8rbFTBDX5TcQukAuPoQ
+ E/pMB55Ak+rBDD7YpVaA==
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
 X-Spam_score_int: -25
 X-Spam_score: -2.6
@@ -88,26 +89,33 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Dear qemu-stable,
 
 can you please consider adding this patch to the qemu-stable branch.
-Upstream commit	2bdc74f3d7c4cacb65dbde910471c62992640275
-
+Upstream commit 78721301138114cf37fb179a6cf73a27c1b3a927
 Thanks,
 Helge
 
 
-On 2/13/21 5:25 PM, Laurent Vivier wrote:
-> Le 01/02/2021 =C3=A0 23:05, Helge Deller a =C3=A9crit=C2=A0:
->> Historically the parisc linux port tried to be compatible with HP-UX
->> userspace and as such defined the O_NONBLOCK constant to 0200004 to
->> emulate separate NDELAY & NONBLOCK values.
+On 2/13/21 8:16 PM, Laurent Vivier wrote:
+> Le 10/02/2021 =C3=A0 07:12, Helge Deller a =C3=A9crit=C2=A0:
+>> On the hppa target userspace binaries may call signalfd4() and
+>> eventfd2() with an old TARGET_O_NONBLOCK value of 000200004 instead of
+>> 000200000 for the "mask" syscall parameter, in which case the current
+>> emulation doesn't handle the translation to the native O_NONBLOCK value
+>> correctly.
 >>
->> Since parisc was the only Linux platform which had two bits set, this
->> produced various userspace issues. Finally it was decided to drop the
->> (never completed) HP-UX compatibilty, which is why O_NONBLOCK was
->> changed upstream to only have one bit set in future with this commit:
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3D75ae04206a4d0e4f541c1d692b7febd1c0fdb814
+>> The 0x04 bit is not masked out before the new O_NONBLOCK bit is set and
+>> as such when calling the native syscall errors out with EINVAL.
 >>
->> This patch simply adjusts the value for qemu-user too.
+>> Fix this by introducing TARGET_O_NONBLOCK_MASK which is used to mask of=
+f
+>> all possible bits. This define defaults to TARGET_O_NONBLOCK when not
+>> defined otherwise, so for all other targets the implementation will
+>> behave as before.
+>>
+>> This patch needs to be applied on top of my previous two patches.
+>>
+>> Bug was found and patch was verified by using qemu-hppa as debian build=
+d
+>> server on x86_64.
 >>
 >> Signed-off-by: Helge Deller <deller@gmx.de>
 >>
@@ -115,19 +123,58 @@ it/?id=3D75ae04206a4d0e4f541c1d692b7febd1c0fdb814
 >>
 >> diff --git a/linux-user/hppa/target_fcntl.h b/linux-user/hppa/target_fc=
 ntl.h
->> index bd966a59b8..08e3a4fcb0 100644
+>> index 08e3a4fcb0..4eb0ec98e2 100644
 >> --- a/linux-user/hppa/target_fcntl.h
 >> +++ b/linux-user/hppa/target_fcntl.h
->> @@ -8,7 +8,7 @@
->>   #ifndef HPPA_TARGET_FCNTL_H
+>> @@ -9,6 +9,7 @@
 >>   #define HPPA_TARGET_FCNTL_H
 >>
->> -#define TARGET_O_NONBLOCK    000200004 /* HPUX has separate NDELAY & N=
-ONBLOCK */
->> +#define TARGET_O_NONBLOCK    000200000
+>>   #define TARGET_O_NONBLOCK    000200000
+>> +#define TARGET_O_NONBLOCK_MASK 000200004 /* includes old HP-UX NDELAY =
+flag */
 >>   #define TARGET_O_APPEND      000000010
 >>   #define TARGET_O_CREAT       000000400 /* not fcntl */
 >>   #define TARGET_O_EXCL        000002000 /* not fcntl */
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index 27adee908e..3031aa342f 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -273,6 +273,11 @@ static type name (type1 arg1,type2 arg2,type3 arg3=
+,type4 arg4,type5 arg5,	\
+>>   #define TARGET_NR__llseek TARGET_NR_llseek
+>>   #endif
+>>
+>> +/* some platforms need to mask more bits than just TARGET_O_NONBLOCK *=
+/
+>> +#ifndef TARGET_O_NONBLOCK_MASK
+>> +#define TARGET_O_NONBLOCK_MASK TARGET_O_NONBLOCK
+>> +#endif
+>> +
+>>   #define __NR_sys_gettid __NR_gettid
+>>   _syscall0(int, sys_gettid)
+>>
+>> @@ -7719,7 +7724,7 @@ static abi_long do_signalfd4(int fd, abi_long mas=
+k, int flags)
+>>       sigset_t host_mask;
+>>       abi_long ret;
+>>
+>> -    if (flags & ~(TARGET_O_NONBLOCK | TARGET_O_CLOEXEC)) {
+>> +    if (flags & ~(TARGET_O_NONBLOCK_MASK | TARGET_O_CLOEXEC)) {
+>>           return -TARGET_EINVAL;
+>>       }
+>>       if (!lock_user_struct(VERIFY_READ, target_mask, mask, 1)) {
+>> @@ -12508,7 +12513,7 @@ static abi_long do_syscall1(void *cpu_env, int =
+num, abi_long arg1,
+>>   #if defined(TARGET_NR_eventfd2)
+>>       case TARGET_NR_eventfd2:
+>>       {
+>> -        int host_flags =3D arg2 & (~(TARGET_O_NONBLOCK | TARGET_O_CLOE=
+XEC));
+>> +        int host_flags =3D arg2 & (~(TARGET_O_NONBLOCK_MASK | TARGET_O=
+_CLOEXEC));
+>>           if (arg2 & TARGET_O_NONBLOCK) {
+>>               host_flags |=3D O_NONBLOCK;
+>>           }
 >>
 >
 > Applied to my linux-user-for-6.0 branch.
