@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F703215C0
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:08:12 +0100 (CET)
-Received: from localhost ([::1]:39094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9691F3215C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 13:08:33 +0100 (CET)
+Received: from localhost ([::1]:40754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEA0Z-0007D4-Ln
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:08:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41434)
+	id 1lEA0u-0007t1-MK
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 07:08:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9rj-0007oa-Hp
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:59:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:53134)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9rx-0008Lk-OX
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:59:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9rh-0001SW-MZ
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:59:03 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9rt-0001ag-LZ
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:59:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613995140;
+ s=mimecast20190719; t=1613995152;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z9orpjGL3CmvbVJSfSdYiLqe3CtjBJly/X2bIQHk4ks=;
- b=LMa2caowMYY+EosS5Ip+c1H2W97z04q0gDkcf4vyKIFxi21rl4ecQ0K78YYBWJesUXDg2I
- b9NKtwJTGJsH1kMX3dCZAC/4ctZn0XFFtE2LCRgvxsd9PNv+qxtKX9wambV995wV8voiTV
- izu+SaZPPnzruS2uCX7opG/qlPiHVzs=
+ bh=/dPgg0Kyv23qQF1EHHOV47SNa3sxL4Q1rt18HZe6BYI=;
+ b=hdYWszmRBTO4gdpaoPokpKxQ0pkXKM0sZgKUCefCSEfhpdBbRbnoK/W2dPhRcpfcDP6wNx
+ 9GVyCegUB8YRtKA8GGOrtfjyAWJg//93unJ6AgeUOBhRLqwdUCGQni1jb7cawwe0o6mkmo
+ 41wOSh9pwABdgBekquT72KaIau2KdWw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-22-f1vivacfMkGDpB_WVS4pPw-1; Mon, 22 Feb 2021 06:58:59 -0500
-X-MC-Unique: f1vivacfMkGDpB_WVS4pPw-1
+ us-mta-557-TL3PbZm1Oae5JzZXvVlKog-1; Mon, 22 Feb 2021 06:59:11 -0500
+X-MC-Unique: TL3PbZm1Oae5JzZXvVlKog-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E545786A061;
- Mon, 22 Feb 2021 11:58:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 531A786A061;
+ Mon, 22 Feb 2021 11:59:10 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-115-16.ams2.redhat.com [10.36.115.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3364219C79;
- Mon, 22 Feb 2021 11:58:37 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F41719C45;
+ Mon, 22 Feb 2021 11:58:58 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 07/12] vfio: Sanity check maximum number of DMA mappings
- with RamDiscardMgr
-Date: Mon, 22 Feb 2021 12:57:03 +0100
-Message-Id: <20210222115708.7623-8-david@redhat.com>
+Subject: [PATCH v6 08/12] vfio: Support for RamDiscardMgr in the vIOMMU case
+Date: Mon, 22 Feb 2021 12:57:04 +0100
+Message-Id: <20210222115708.7623-9-david@redhat.com>
 In-Reply-To: <20210222115708.7623-1-david@redhat.com>
 References: <20210222115708.7623-1-david@redhat.com>
 MIME-Version: 1.0
@@ -56,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,14 +87,29 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Although RamDiscardMgr can handle running into the maximum number of
-DMA mappings by propagating errors when creating a DMA mapping, we want
-to sanity check and warn the user early that there is a theoretical setup
-issue and that virtio-mem might not be able to provide as much memory
-towards a VM as desired.
+vIOMMU support works already with RamDiscardMgr as long as guests only
+map populated memory. Both, populated and discarded memory is mapped
+into &address_space_memory, where vfio_get_xlat_addr() will find that
+memory, to create the vfio mapping.
 
-As suggested by Alex, let's use the number of KVM memory slots to guess
-how many other mappings we might see over time.
+Sane guests will never map discarded memory (e.g., unplugged memory
+blocks in virtio-mem) into an IOMMU - or keep it mapped into an IOMMU while
+memory is getting discarded. However, there are two cases where a malicious
+guests could trigger pinning of more memory than intended.
+
+One case is easy to handle: the guest trying to map discarded memory
+into an IOMMU.
+
+The other case is harder to handle: the guest keeping memory mapped in
+the IOMMU while it is getting discarded. We would have to walk over all
+mappings when discarding memory and identify if any mapping would be a
+violation. Let's keep it simple for now and print a warning, indicating
+that setting RLIMIT_MEMLOCK can mitigate such attacks.
+
+We have to take care of incoming migration: at the point the
+IOMMUs get restored and start creating mappings in vfio, RamDiscardMgr
+implementations might not be back up and running yet: let's add runstate
+priorities to enforce the order when restoring.
 
 Acked-by: Alex Williamson <alex.williamson@redhat.com>
 Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
@@ -113,63 +127,88 @@ Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/vfio/common.c | 43 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ hw/vfio/common.c            | 35 +++++++++++++++++++++++++++++++++++
+ hw/virtio/virtio-mem.c      |  1 +
+ include/migration/vmstate.h |  1 +
+ 3 files changed, 37 insertions(+)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 78be813a53..166ec6ec62 100644
+index 166ec6ec62..15ecd05a4b 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -761,6 +761,49 @@ static void vfio_register_ram_discard_notifier(VFIOContainer *container,
-                               vfio_ram_discard_notify_discard_all);
-     rdmc->register_listener(rdm, section->mr, &vrdl->listener);
-     QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
+@@ -36,6 +36,7 @@
+ #include "qemu/range.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/reset.h"
++#include "sysemu/runstate.h"
+ #include "trace.h"
+ #include "qapi/error.h"
+ #include "migration/migration.h"
+@@ -574,6 +575,40 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+         error_report("iommu map to non memory area %"HWADDR_PRIx"",
+                      xlat);
+         return false;
++    } else if (memory_region_has_ram_discard_mgr(mr)) {
++        RamDiscardMgr *rdm = memory_region_get_ram_discard_mgr(mr);
++        RamDiscardMgrClass *rdmc = RAM_DISCARD_MGR_GET_CLASS(rdm);
 +
-+    /*
-+     * Sanity-check if we have a theoretically problematic setup where we could
-+     * exceed the maximum number of possible DMA mappings over time. We assume
-+     * that each mapped section in the same address space as a RamDiscardMgr
-+     * section consumes exactly one DMA mapping, with the exception of
-+     * RamDiscardMgr sections; i.e., we don't expect to have gIOMMU sections in
-+     * the same address space as RamDiscardMgr sections.
-+     *
-+     * We assume that each section in the address space consumes one memslot.
-+     * We take the number of KVM memory slots as a best guess for the maximum
-+     * number of sections in the address space we could have over time,
-+     * also consuming DMA mappings.
-+     */
-+    if (container->dma_max_mappings) {
-+        unsigned int vrdl_count = 0, vrdl_mappings = 0, max_memslots = 512;
-+
-+#ifdef CONFIG_KVM
-+        if (kvm_enabled()) {
-+            max_memslots = kvm_get_max_memslots();
-+        }
-+#endif
-+
-+        QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
-+            hwaddr start, end;
-+
-+            start = QEMU_ALIGN_DOWN(vrdl->offset_within_address_space,
-+                                    vrdl->granularity);
-+            end = ROUND_UP(vrdl->offset_within_address_space + vrdl->size,
-+                           vrdl->granularity);
-+            vrdl_mappings += (end - start) / vrdl->granularity;
-+            vrdl_count++;
++        /*
++         * Malicious VMs can map memory into the IOMMU, which is expected
++         * to remain discarded. vfio will pin all pages, populating memory.
++         * Disallow that. vmstate priorities make sure any RamDiscardMgr were
++         * already restored before IOMMUs are restored.
++         */
++        if (!rdmc->is_populated(rdm, mr, xlat, len)) {
++            error_report("iommu map to discarded memory (e.g., unplugged via"
++                         " virtio-mem): %"HWADDR_PRIx"",
++                         iotlb->translated_addr);
++            return false;
 +        }
 +
-+        if (vrdl_mappings + max_memslots - vrdl_count >
-+            container->dma_max_mappings) {
-+            warn_report("%s: possibly running out of DMA mappings. E.g., try"
-+                        " increasing the 'block-size' of virtio-mem devies."
-+                        " Maximum possible DMA mappings: %d, Maximum possible"
-+                        " memslots: %d", __func__, container->dma_max_mappings,
-+                        max_memslots);
-+        }
-+    }
- }
++        /*
++         * Malicious VMs might trigger discarding of IOMMU-mapped memory. The
++         * pages will remain pinned inside vfio until unmapped, resulting in a
++         * higher memory consumption than expected. If memory would get
++         * populated again later, there would be an inconsistency between pages
++         * pinned by vfio and pages seen by QEMU. This is the case until
++         * unmapped from the IOMMU (e.g., during device reset).
++         *
++         * With malicious guests, we really only care about pinning more memory
++         * than expected. RLIMIT_MEMLOCK set for the user/process can never be
++         * exceeded and can be used to mitigate this problem.
++         */
++        warn_report_once("Using vfio with vIOMMUs and coordinated discarding of"
++                         " RAM (e.g., virtio-mem) works, however, malicious"
++                         " guests can trigger pinning of more memory than"
++                         " intended via an IOMMU. It's possible to mitigate "
++                         " by setting/adjusting RLIMIT_MEMLOCK.");
+     }
  
- static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
+     /*
+diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
+index 3132e4b2b1..194fb56a9a 100644
+--- a/hw/virtio/virtio-mem.c
++++ b/hw/virtio/virtio-mem.c
+@@ -854,6 +854,7 @@ static const VMStateDescription vmstate_virtio_mem_device = {
+     .name = "virtio-mem-device",
+     .minimum_version_id = 1,
+     .version_id = 1,
++    .priority = MIG_PRI_VIRTIO_MEM,
+     .post_load = virtio_mem_post_load,
+     .fields = (VMStateField[]) {
+         VMSTATE_WITH_TMP(VirtIOMEM, VirtIOMEMMigSanityChecks,
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 075ee80096..3bf58ff043 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -153,6 +153,7 @@ typedef enum {
+     MIG_PRI_DEFAULT = 0,
+     MIG_PRI_IOMMU,              /* Must happen before PCI devices */
+     MIG_PRI_PCI_BUS,            /* Must happen before IOMMU */
++    MIG_PRI_VIRTIO_MEM,         /* Must happen before IOMMU */
+     MIG_PRI_GICV3_ITS,          /* Must happen before PCI devices */
+     MIG_PRI_GICV3,              /* Must happen before the ITS */
+     MIG_PRI_MAX,
 -- 
 2.29.2
 
