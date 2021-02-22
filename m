@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE3E322269
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 23:54:27 +0100 (CET)
-Received: from localhost ([::1]:52498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 598CC322249
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 23:42:44 +0100 (CET)
+Received: from localhost ([::1]:50642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEK5y-0007hy-Q5
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 17:54:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45466)
+	id 1lEJub-0003OB-SU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 17:42:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45498)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEJrq-0001ZS-F3
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:50 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44057)
+ id 1lEJrv-0001j0-Q3
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:55 -0500
+Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:39477)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEJro-0005ei-Vr
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:50 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id w1so31654019ejf.11
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 14:39:48 -0800 (PST)
+ id 1lEJru-0005hN-AR
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 17:39:55 -0500
+Received: by mail-ed1-x52e.google.com with SMTP id h10so23910831edl.6
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 14:39:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w42rjh8kWYW1iTxLcpjhEOnKOinsG7BggxSZMmsgS4w=;
- b=W6tgJkm0RJAwRYVBa5VhrxiAmPm0L1zm9PtXkWazVXhAWT9tF5CN9CtkW5LWJKaVbQ
- DHfCLBDBhRYjsWbYeQZRyL19uQzFf9gnVvsHrNuqB6x9P7yRhzzcd4yAp04Vzpw+cGhF
- uKwowmCwnAJYEqNW3MTFzKKFUMS5fofA4N2R0RhmOouxC97VGlzFB+ggb1mNdt+oJAuw
- Fn9Sl+gJ3ZWVbzyWFVEoSq8xt9+/zW8zw+UBcKcHAvj57QZCek48+yAjZvC3UV1WHH5P
- cKpwPrLUJUQypq8a9gexGH8uPtjw5aiOzyZ1nHktPl+Qx3vbuX96abfaRH79bRCCrGyx
- GPLA==
+ bh=GffC1GuMfIrowgrdDz3KRuGciqckVQz9nSpe3QdruD0=;
+ b=giAGhhYxLS/S/BpECU8533DwHz8MPGcYE6NU7K+6MCcRoqlzxt3WfpFxwmcuKknT6U
+ lfuCbOzmhy91G9OQQjJzy/xOKuFYU0SqOVf+MgFa2C9knrIdr+W6G7Hirqmze+R8RMuB
+ JexjdZj/cwQ0l7YFq/PWvcK1QG+Xi2VFqYiGfAraxY5geQV1EYqxyKsMWTwxXjpivoek
+ 6h7ih6y0OT5q8pxQW7oNNPhBuld7D14MqCmmhDcXVdaFfN1VpRY4rImdJDupKJgARNVd
+ I2nSdaWFnQjIO0ISoxaYWXdCsSO2sBNYMihvctPKZ20G8nbBoPy2XuC5YL3xPs+1tSaT
+ 3yrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=w42rjh8kWYW1iTxLcpjhEOnKOinsG7BggxSZMmsgS4w=;
- b=txNy5gC7vPjCsJXtU+4qtu6ARirq7m1THnq5CQ5z0xxsiubi8d2Gg39s4rMvatBohG
- 5TrKjQ5FnLnTcaAUz5PIdoI1ZsE7U3hgJGRaUjh5IP0O7yaIwuQ95+ROWBqQto9IhnWW
- eJsaVEZ0Nru6lFvfc9lfvNKCciwW8qEgAz9VQsF0S/AI8SPh2pjysKnjqhE5BOAtayUX
- 2Bjkho0jsy/XgacyUXOUyn521HJO6Y8zD0uwRn9bdLiQE2gSDGkiLw07/9CElBbJDI5r
- YNCtX/6sNrEPvJdnNVYkF8iC+j7GkA8dNn/gNZgGgyMDGAUMEKbeR0IWpSFGJ3DFRiDd
- jWXQ==
-X-Gm-Message-State: AOAM532RieONcKhnh+iBRIvOFAsYfKo4015kc7yQB72unNM+5CVWRdx7
- EIVEvjEDleiNd/1OHS+KgF1F6uwn3d8=
-X-Google-Smtp-Source: ABdhPJyTM+qFfnNHDD5/UgxzdPUcmBbxwo7hqSNmiaTcUYoo0F3VzS83rFuwImcIVOdywxA4+S+kfA==
-X-Received: by 2002:a17:907:104e:: with SMTP id
- oy14mr22571144ejb.218.1614033587407; 
- Mon, 22 Feb 2021 14:39:47 -0800 (PST)
+ bh=GffC1GuMfIrowgrdDz3KRuGciqckVQz9nSpe3QdruD0=;
+ b=gR2jkIc+zDI0J3USQgKjure0JgyA5eRsQXnkzEhoBKH5qIWEX190dD1gV6pm6v9QYu
+ 2kpMQNNs1vu7OBYrocMklUDguToDZV2y0aIhaEdato1GCSNXyC6p9KQ3T/FtuwuV2INP
+ KlP+davj+dO9SUsHQDTIvugLZ3g1WDjxZIKaholD5co37hgBzmkf+BoQbI0RxdBvGQN9
+ 4qCPkXFsIe2/I9wgrMtcQ0O0TjC1GMNcS1yXbIFIT07g37bCuiWq41uKhlLP09QSjjqC
+ lbRzlMGsI5COEx66TuuCqZxo8OL8VY7TCI51xBz7l4fKguD5afH+876HVpk3Je0Se6dG
+ MTig==
+X-Gm-Message-State: AOAM531Q3MTIGYqHMUObrgTgcnWbOKxLqEl9x7N8H6iZsXWXPcQnQesw
+ J2tpNLmRsyGcF+5kp0i3PVcvQ+silRY=
+X-Google-Smtp-Source: ABdhPJzVj8H+v7H5/dNrA0TnQIQyLe27LA4rb6k6i45bRutp0KFE+tm0Drllbw10vNBqHiC2BW/1bA==
+X-Received: by 2002:a05:6402:151:: with SMTP id
+ s17mr23862685edu.107.1614033592813; 
+ Mon, 22 Feb 2021 14:39:52 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id i18sm12889735edt.68.2021.02.22.14.39.46
+ by smtp.gmail.com with ESMTPSA id i17sm12293170ejo.25.2021.02.22.14.39.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 14:39:47 -0800 (PST)
+ Mon, 22 Feb 2021 14:39:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 08/10] target/mips: Make mxu_translate_init() /
- decode_ase_mxu() proto public
-Date: Mon, 22 Feb 2021 23:38:59 +0100
-Message-Id: <20210222223901.2792336-9-f4bug@amsat.org>
+Subject: [PATCH v3 09/10] target/mips: Simplify 64-bit ifdef'ry of MXU code
+Date: Mon, 22 Feb 2021 23:39:00 +0100
+Message-Id: <20210222223901.2792336-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210222223901.2792336-1-f4bug@amsat.org>
 References: <20210222223901.2792336-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,66 +93,83 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To be able to move these functions out of the big translate.c,
-make their prototype public.
+Check for 'TARGET_LONG_BITS == 32' and simplify 64-bit ifdef'ry.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.h | 6 ++++++
- target/mips/translate.c | 9 +++++++--
- 2 files changed, 13 insertions(+), 2 deletions(-)
+ target/mips/translate.h |  2 --
+ target/mips/translate.c | 18 ++++++++++--------
+ 2 files changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/target/mips/translate.h b/target/mips/translate.h
-index 468e29d7578..1801e7f819e 100644
+index 1801e7f819e..a807b3d2566 100644
 --- a/target/mips/translate.h
 +++ b/target/mips/translate.h
-@@ -178,6 +178,12 @@ extern TCGv bcond;
- /* MSA */
+@@ -179,10 +179,8 @@ extern TCGv bcond;
  void msa_translate_init(void);
  
-+/* MXU */
-+#if !defined(TARGET_MIPS64)
-+void mxu_translate_init(void);
-+bool decode_ase_mxu(DisasContext *ctx, uint32_t insn);
-+#endif /* !TARGET_MIPS64 */
-+
+ /* MXU */
+-#if !defined(TARGET_MIPS64)
+ void mxu_translate_init(void);
+ bool decode_ase_mxu(DisasContext *ctx, uint32_t insn);
+-#endif /* !TARGET_MIPS64 */
+ 
  /* decodetree generated */
  bool decode_isa_rel6(DisasContext *ctx, uint32_t insn);
- bool decode_ase_msa(DisasContext *ctx, uint32_t insn);
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 52a7005e18f..609798a0bee 100644
+index 609798a0bee..68b5dee4bab 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -2046,7 +2046,7 @@ static const char * const mxuregnames[] = {
-     "XR9",  "XR10", "XR11", "XR12", "XR13", "XR14", "XR15", "MXU_CR",
- };
- 
--static void mxu_translate_init(void)
-+void mxu_translate_init(void)
- {
-     for (unsigned i = 0; i < NUMBER_OF_MXU_REGISTERS - 1; i++) {
-         mxu_gpr[i] = tcg_global_mem_new(cpu_env,
-@@ -2058,6 +2058,11 @@ static void mxu_translate_init(void)
-                                 offsetof(CPUMIPSState, active_tc.mxu_cr),
-                                 mxuregnames[NUMBER_OF_MXU_REGISTERS - 1]);
+@@ -25850,6 +25850,15 @@ bool decode_ase_mxu(DisasContext *ctx, uint32_t insn)
+     return true;
  }
+ 
 +#else /* !defined(TARGET_MIPS64) */
-+void mxu_translate_init(void)
++
++bool decode_ase_mxu(DisasContext *ctx, uint32_t insn)
 +{
-+    g_assert_not_reached();
++    return false;
 +}
- #endif /* defined(TARGET_MIPS64) */
- 
- /* General purpose registers moves. */
-@@ -25789,7 +25794,7 @@ static void decode_opc_mxu__pool19(DisasContext *ctx)
-     }
++
++#endif /* defined(TARGET_MIPS64) */
++
+ /*
+  * Main MXU decoding function
+  */
+@@ -25871,9 +25880,6 @@ static void decode_opc_mxu(DisasContext *ctx, uint32_t insn)
+     decode_ase_mxu(ctx, insn);
  }
  
--static bool decode_ase_mxu(DisasContext *ctx, uint32_t insn)
-+bool decode_ase_mxu(DisasContext *ctx, uint32_t insn)
+-#endif /* !defined(TARGET_MIPS64) */
+-
+-
+ static void decode_opc_special2_legacy(CPUMIPSState *env, DisasContext *ctx)
  {
-     uint32_t opcode = extract32(insn, 0, 6);
+     int rs, rt, rd;
+@@ -27017,12 +27023,10 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+             break;
+         }
+ #endif
+-#if !defined(TARGET_MIPS64)
+-        if (ctx->insn_flags & ASE_MXU) {
++        if ((TARGET_LONG_BITS == 32) && (ctx->insn_flags & ASE_MXU)) {
+             decode_opc_mxu(ctx, ctx->opcode);
+             break;
+         }
+-#endif
+         decode_opc_special2_legacy(env, ctx);
+         break;
+     case OPC_SPECIAL3:
+@@ -28081,9 +28085,7 @@ void mips_tcg_init(void)
+     cpu_llval = tcg_global_mem_new(cpu_env, offsetof(CPUMIPSState, llval),
+                                    "llval");
  
+-#if !defined(TARGET_MIPS64)
+     mxu_translate_init();
+-#endif /* !TARGET_MIPS64 */
+ }
+ 
+ void restore_state_to_opc(CPUMIPSState *env, TranslationBlock *tb,
 -- 
 2.26.2
 
