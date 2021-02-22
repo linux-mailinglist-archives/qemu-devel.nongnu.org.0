@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 681893210CE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 07:22:33 +0100 (CET)
-Received: from localhost ([::1]:56258 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3853210D5
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 07:27:23 +0100 (CET)
+Received: from localhost ([::1]:33220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE4c4-0001l0-FN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 01:22:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49290)
+	id 1lE4gk-00049V-6W
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 01:27:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE4ak-0000Pt-7c
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:21:10 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:45739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lE4ai-0006zb-L9
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:21:09 -0500
-Received: by mail-pg1-x533.google.com with SMTP id p21so9593564pgl.12
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 22:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=nSmglpHbo/D4MGs+htu7TKpOXvv9DxKvzoz3J6Wt9UQ=;
- b=EMy6eEqIq56//GMUWDoDwXLJ9tKX4kgElzmoSkWQwA3+SO66YPJXePPDm77aSRWwRM
- nH+9/wI7sTK2OxLAwQDa2pA39BrcZkLx2WNM1Wi94GcrKaKy0JdrwHfh02thSISXZCxU
- EjVx0KJc/cuDgF+pmFuBiSPxG+dTrkgTTVOOUZ9Lz0h53+kdA7ngcv9Ql269ADPkJ1f2
- 6QJL0bd3fmJDN7TkL09zm0SWGkvSLnK4lJOtwc2luMETLRkJzDKm9JX+ujE4iuMwjA8R
- 3oU8QMFWnTYnnLH5vNaYajOaFrIcGlruYZWmLzT7NBaOK92Nh/jmGavMn2xesKlTgmQe
- baDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nSmglpHbo/D4MGs+htu7TKpOXvv9DxKvzoz3J6Wt9UQ=;
- b=fGnS0XmTkGAO1iXVyzG/m9ZCebWwvh+wOUIYybLdRofcKMK65R2H7wgemuNH4XJ49R
- 4fpZKYhZA+cnhaZOi+yuBOXpZSU6iYuRFiBvlhcexIddOSYYPpK9xx4JrwFa7s5tYhV3
- Xj3VQvd+5YDOEB7bOfDemTljJqNPMyMzkwUND5ZylZL2NhG4M36Ka/AP4voHZXJEfGAZ
- wMNwyuKYMxn4Mnuc0wZwqPyv5Zc7q8YBEoThvefKqHDkY0BMsasRC6ifUKx66AjzZxyP
- oozasrx2DOp8tL+G3qSQVvcABqqTa4AkekwTtTrm8eAIXJUEp2GOtm/zlYqJkCOHrwKt
- yRaQ==
-X-Gm-Message-State: AOAM532mDeyqKSq6sl8+0KPIW5HmpItAUwTVSRwMndE0/DN6IseJBWuz
- 89bSF9aY/DOh5sP1K3K3PEZvCaGUMEIWjw==
-X-Google-Smtp-Source: ABdhPJxmrxfsEF7qeD7+X/aGROvPY5zMzABN2r8HpnIrW7R9bNkCnNO9eHaSH59QuGoqeLOvSmjgsQ==
-X-Received: by 2002:a63:1b1b:: with SMTP id b27mr18036014pgb.377.1613974867067; 
- Sun, 21 Feb 2021 22:21:07 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id y2sm16207082pjw.36.2021.02.21.22.21.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 22:21:06 -0800 (PST)
-Subject: Re: [RFC v1 05/38] target/arm: wrap arm_cpu_exec_interrupt in
- CONFIG_TCG
-To: Claudio Fontana <cfontana@suse.de>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-6-cfontana@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <38cb9c63-1138-2081-933e-03f6997a50fe@linaro.org>
-Date: Sun, 21 Feb 2021 22:21:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE4em-0003bY-VT
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:25:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lE4ej-0000cB-DI
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 01:25:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613975115;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FrP/kX3ijmfe55YfoTdgXXt4u7STZMnDlito9XvcNpc=;
+ b=IalWu5Qd3Cx0mFnIsy1Cjj60EHIBnIr3pa2dolwwBV4V0Qu1SWOcnoilgKdxRLVZV3rXQj
+ sHdEzk9jUShGxFb7VLvN7EjdwgI8yP35a+YpOk619SkuFYabrT9jJ6mcld4bImaVJnB5O2
+ GThdzmFLioSDk47HBeSpvIxv49d1/T8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-99PIHTAMNZCVhMy7uqfdsg-1; Mon, 22 Feb 2021 01:25:13 -0500
+X-MC-Unique: 99PIHTAMNZCVhMy7uqfdsg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 02C53107ACE8;
+ Mon, 22 Feb 2021 06:25:12 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-97.ams2.redhat.com [10.36.112.97])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B55B87095B;
+ Mon, 22 Feb 2021 06:25:10 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+References: <cef2f119-3612-65a0-d828-b480179dc3a9@amsat.org>
+ <CAFEAcA-yLQNLVUPZPRnTTNupkUrgcTRHVR=SW1Yb6KEUeQjkoQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: tests: n810 arm failing
+Message-ID: <85acde21-88ac-1925-b6f8-ce12c649556b@redhat.com>
+Date: Mon, 22 Feb 2021 07:25:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210221092449.7545-6-cfontana@suse.de>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CAFEAcA-yLQNLVUPZPRnTTNupkUrgcTRHVR=SW1Yb6KEUeQjkoQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::533;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,23 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 1:24 AM, Claudio Fontana wrote:
-> +#ifdef CONFIG_TCG
->  bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->  {
->      CPUClass *cc = CPU_GET_CLASS(cs);
-> @@ -607,6 +608,7 @@ bool arm_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
->      cc->tcg_ops->do_interrupt(cs);
->      return true;
->  }
-> +#endif /* CONFIG_TCG */
+On 21/02/2021 20.33, Peter Maydell wrote:
+> On Sun, 21 Feb 2021 at 17:26, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> Hi,
+>>
+>> The n810 arm test failed on latest master:
+>>
+>> https://gitlab.com/qemu-project/qemu/-/jobs/1045015424/artifacts/browse/build/tests/results/latest/test-results/26-tests_acceptance_machine_arm_n8x0.py_N8x0Machine.test_n810/
+> 
+> It passed on the gitlab CI run on the exact same commit hash
+> as 'staging' before I pushed the merge, though...
 
-I presume this function gets moved later?  What does this aid in the interim?
+Looking at the following run, it failed with some timeouts as well:
 
+  https://gitlab.com/qemu-project/qemu/-/pipelines/259425956
 
-r~
+... but in completely different spots. So maybe it was "just" a global 
+slow-down in the CI farm? (Which sounds somewhat worrisome, too ... I hope 
+gitlab-CI is not going down the same road as travis-ci.org did during the 
+past year)
+
+  Thomas
+
 
