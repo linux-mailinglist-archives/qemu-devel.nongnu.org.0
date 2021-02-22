@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BBE9320F1C
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 02:32:37 +0100 (CET)
-Received: from localhost ([::1]:50500 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A73EC320F7F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 03:42:15 +0100 (CET)
+Received: from localhost ([::1]:34072 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE05T-00023M-Su
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 20:32:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38082)
+	id 1lE1As-0002y9-5Y
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 21:42:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lE03h-0001bL-0T
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 20:30:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60990)
+ id 1lE19d-0002MU-4r
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 21:40:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lE03e-00035z-Qn
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 20:30:44 -0500
+ id 1lE19Z-0000Rb-IL
+ for qemu-devel@nongnu.org; Sun, 21 Feb 2021 21:40:56 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lE03c-0004G3-QY
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 01:30:40 +0000
+ id 1lE19X-0001Id-Fn
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:40:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 84B152E8102
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 01:30:40 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 75E042E80FB
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 02:40:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 22 Feb 2021 01:21:16 -0000
-From: John Arbuckle <1916344@bugs.launchpad.net>
+Date: Mon, 22 Feb 2021 02:32:30 -0000
+From: Ven Karri <1916344@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -40,9 +40,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: imperialguy programmingkidx
 X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
+X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
 References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
-Message-Id: <161395687609.8374.3829128828877759052.malone@gac.canonical.com>
+Message-Id: <161396115097.8107.12807136919535753410.malone@gac.canonical.com>
 Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
  on Mac OS X host
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -50,7 +50,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="bbfee60eef9f7fd8d30b24b3f53e75656e4d5fb0"; Instance="production"
-X-Launchpad-Hash: dac480a9d49a8dd1a1e9d1f15e4c064caec5670a
+X-Launchpad-Hash: 38af291c0f335a189b237950ce4458d861978046
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -66
@@ -75,18 +75,15 @@ Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I built QEMU from the git repo. My Windows XP and Mac OS 10.4 guests
-cannot access the internet. I'm on a M1 Mac running Mac OS 11.1. I use
-qemu-system-i386 and qemu-system-ppc.
+I am not sure if a separate slirp installation via macports is
+necessary. When you install qemu via homebrew, it's supposed to install
+any slirp related libarries as part of qemu installation. Having said
+that, I haven't noticed a slirp package installed on my mac when I did a
+`brew list`.
 
-I tried installing slirp from MacPorts but it is broken. It might have
-been broken for years. See https://trac.macports.org/ticket/41875. So
-slirp networking probably isn't going to work.
-
-
-
-** Bug watch added: trac.macports.org #41875
-   http://trac.macports.org/ticket/41875
+So, I don't know how exactly is qemu packing slirp libraries within
+itself while installing on a mac. I think there's some kinda git option
+during installation. Perhaps brew uses that.
 
 -- =
 
