@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FDC9321BBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:42:06 +0100 (CET)
-Received: from localhost ([::1]:34914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC69321BC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:45:52 +0100 (CET)
+Received: from localhost ([::1]:40742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDLZ-0008J8-22
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:42:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40554)
+	id 1lEDPD-0002KO-Ax
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:45:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEDIx-00062T-Eo
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:39:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38908)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEDIv-0004KS-Ec
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:39:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614008360;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=9j62aM5H5BJGL+SjVw/6zScYbqYmc9RTg+zQdyK2LGA=;
- b=DdfyLOH9BcAnonzQgkzNDBXCH3uywkdUX7fJRjhbm8rvG7OEppWKj/JQxbOlDR3NFIoW3l
- E8sMqpEoP2xstU9Uu/eSCpUPAfhQnJqKhJWg/k0sWSoOHKJ2lT4gIoypm1KNIa4H1h0rIZ
- rEx/IOO/S5SGaCl67MVAYaHnLMBAXeg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-334-H_HoZS1kPgmFjTSuoKajIw-1; Mon, 22 Feb 2021 10:39:18 -0500
-X-MC-Unique: H_HoZS1kPgmFjTSuoKajIw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F9D6107ACF4;
- Mon, 22 Feb 2021 15:39:17 +0000 (UTC)
-Received: from redhat.com (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FFF360C17;
- Mon, 22 Feb 2021 15:39:10 +0000 (UTC)
-Date: Mon, 22 Feb 2021 15:39:06 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: Interactive launch over QMP socket?
-Message-ID: <YDPQGpo42m8nfLe0@redhat.com>
-References: <47b15088-514a-8174-029d-8d9c4571960a@redhat.com>
- <20210222114007.GB6866@merkur.fritz.box>
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lEDN7-0001QA-9A
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:43:41 -0500
+Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:35533)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lEDN1-0006MC-5w
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:43:40 -0500
+Received: by mail-lj1-x230.google.com with SMTP id a17so59228548ljq.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 07:43:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=livius-net.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OjEU41wrBAK55aLCDg2A+a4+z9DWVKbKbydzIvRGYVY=;
+ b=mPIh4UShQg2hqkAJOkZCvS4vZXhKxNfYgnShYNpo1oM769bSn+w3EmaWRsKoiP2I5S
+ mNhQKMqM8U+P/e7MZKPVwzAH/mKOB+7MRG0FngtaIMS9QxGoC5Y7SDz6rC5Xml5aB5AE
+ Mrv2rXhkjd92dMuQGxs2FfbQVjuRz5r0FUbaaBepYIxrFQKInTmsUbXzIqAZSRMAbYSD
+ 4/HFm9j0WRATh3oDZ+d4E+yNrpR0T5ITpWaVoV8QwfgWn2m7DKtZvpuISIp6kJcBGhvU
+ dP57zQ/zrMloQpwutpIwXRkf1CPmHjzdMomyrll9LmmGMlPiz91SC7hOnQqqfxUtG3sH
+ qrnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OjEU41wrBAK55aLCDg2A+a4+z9DWVKbKbydzIvRGYVY=;
+ b=KCujOAJazaONkA0azsBqYqadqQpwh7wiA+h6UKPdTiZEBSA05TK77PYXuTSRphJu0d
+ bx29dhDobHJKtEFUhLKxKTE14whR3SvntBgHLtrccKqoUrXv87RkO3m9pbm5EMm6GbJD
+ irnNUfRdIJ8Ol6F2ZqFSTKB2lvsv5/72Of55avmCo0MBlrS5cC8B3aPMrb1zWDZjb8d3
+ ZgpueJh+nQKFJK7wyypxUAwac5UxfH93g0jnJAyiyxrV8cXjm8buXmGYl8M4LQEEqEy/
+ PLcxLvNZVqs4NFts0hevHQTd/eSNFjnWhq7/Q/ocK/ZYjpRMwLKkPiwsq4eS2W5S5Lx1
+ /NJQ==
+X-Gm-Message-State: AOAM530/GbRKDtdI+4heFy9NiwVa6GaO93TdBFfBIXH+5IABnH/Blx80
+ ZQF0HuX324ps0QAXja3edoWPvJ6+T1SqdA0EFDse3w==
+X-Google-Smtp-Source: ABdhPJzNn5rw+VRGMkjrocsZeEBQFDQnazQ8NgmFmMDdYCjHbNl4hiN57VuKsEtnet4pxUOzxPjBM4ovkKwwHPAqCHM=
+X-Received: by 2002:a2e:8141:: with SMTP id t1mr1752492ljg.385.1614008611540; 
+ Mon, 22 Feb 2021 07:43:31 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210222114007.GB6866@merkur.fritz.box>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
+In-Reply-To: <YDPMs1Hu8LDRJUhX@redhat.com>
+From: Liviu Ionescu <ilg@livius.net>
+Date: Mon, 22 Feb 2021 17:43:20 +0200
+Message-ID: <CAG7hfcJsNz53uA9cg1BYpC-9FRWJp_hvOLNOrHf-L55oJ1O=KQ@mail.gmail.com>
+Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000f4a3bf05bbeea9a1"
+Received-SPF: none client-ip=2a00:1450:4864:20::230;
+ envelope-from=ilg@livius.net; helo=mail-lj1-x230.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,58 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Connor Kuehl <ckuehl@redhat.com>, jejb@linux.ibm.com, npmccallum@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 22, 2021 at 12:40:07PM +0100, Kevin Wolf wrote:
-> Am 10.02.2021 um 19:01 hat Connor Kuehl geschrieben:
-> > Hello,
-> > 
-> > Does QEMU have an internal API which would allow VM construction to wait at
-> > a *very specific point* until specific data/QMP message(s) are supplied via
-> > the QMP socket?
-> > 
-> > For some additional context: QEMU supports launching AMD SEV-protected
-> > guests; in short: encrypted virtual machines. Guest owners may participate
-> > in attestation to cryptographically verify their assumptions about the
-> > guest's initial state, the host's platform, and the host platform owner's
-> > identity. If the guest owner is satisfied with the attestation process, a
-> > secret can be safely injected into the guest's address space over a secure
-> > channel.
-> > 
-> > Attestation is an unavoidably interactive process.
-> > 
-> > It appears that QEMU already exposes most of the API required to perform
-> > this attestation remotely with a guest owner over QMP, with only one
-> > exception: starting the attestation session. It looks like the session
-> > components (policy, session-file, and dh-cert-file) are supplied via command
-> > line arguments to QEMU and don't have a message type in the QMP spec:
-> > 
-> > 	-object sev-guest,id=sev0,cbitpos=47,reduced-phys-bits=1,policy=0x1,session-file=blah.session,dh-cert-file=guest_owner.cert
-> > 
-> > I would like to add a message type to QMP which allows guest owners to
-> > supply this data over a socket and _not_ require these components a priori
-> > via command line arguments.
-> 
-> I don't think you need a new QMP command for this. If you would use
-> -object on the command line, you can use QMP object-add at runtime.
+--000000000000f4a3bf05bbeea9a1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-If the object were standalone that'd true, but 'sev-guest' object you
-create needs to be given to the '-machine' arg's 'memory-encryption'
-parameter. So there's a dependancy that means 'sev-guest' can only
-be used with -object in reality and not QMP object-add.
+On Mon, 22 Feb 2021 at 17:27, Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+wrote:
 
-This will eventually be solved when we make it possible to fully
-configure QEMU exclusively via QMP.
+>
+> IMHO we should deprecate and eventually remove single quotes....
+
+
++1
+
+If a JSON cannot be directly processed by the standard JavaScript parser,
+it should not be used.
+
 
 Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+Liviu
+
+--=20
+Sent from my iPad via Gmail.
+
+--000000000000f4a3bf05bbeea9a1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, 22 Feb 2021 at 17:27, Daniel P. Berrang=C3=A9 &lt;<=
+a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:</d=
+iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
+:1px #ccc solid;padding-left:1ex" dir=3D"auto">
+<br>
+IMHO we should deprecate and eventually remove single quotes....</blockquot=
+e><div dir=3D"auto"><br></div><div dir=3D"auto">+1</div><div dir=3D"auto"><=
+br></div><div dir=3D"auto">If a JSON cannot be directly processed by the st=
+andard JavaScript parser, it should not be used.</div><div dir=3D"auto"><br=
+></div><div dir=3D"auto"><br></div><div dir=3D"auto">Regards,</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Liviu</div><div dir=3D"auto"><br></di=
+v></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartm=
+ail=3D"gmail_signature">Sent from my iPad via Gmail.</div>
+
+--000000000000f4a3bf05bbeea9a1--
 
