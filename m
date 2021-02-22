@@ -2,80 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9102A320EB1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 01:23:13 +0100 (CET)
-Received: from localhost ([::1]:33352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C717320ED9
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 02:01:07 +0100 (CET)
+Received: from localhost ([::1]:41906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lDz0K-0006Tk-07
-	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 19:23:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58230)
+	id 1lDzb0-0004xI-8f
+	for lists+qemu-devel@lfdr.de; Sun, 21 Feb 2021 20:01:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lDyyw-0005kl-W0
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 19:21:47 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:39119)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lDyyu-0006OL-NU
- for qemu-devel@nongnu.org; Sun, 21 Feb 2021 19:21:46 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id d2so7856153pjs.4
- for <qemu-devel@nongnu.org>; Sun, 21 Feb 2021 16:21:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Trj010zDHQ4xSMLrkRdHvH6ENnGnvAFM0+aitMWz2VY=;
- b=ZUivhzG7bOsnMdoa0fA+X5Lfw7SwEZP1skRnCfE4O/lkaTobtolqlMDSCOQFgHB9mJ
- KdwzQF9W8hcQ1bDOQUH0uMS4K7/P7uyzNk2Dd1aQqbH19m1fufa4X5JVq0f1HiZLVLkU
- ylS9vX67Gih3R0UXA2Mo/8V6/Z/CxS9urprQmJP2mlbxmrmZGHF115G4dfD8+FPmZvmm
- 0RXaZFZ2iAlxu+mC7A3yh//GBoe16nVOIYKg69K6njp3UPsT/2PySyfG2/+llipj6+xn
- TmdnU6KK4/jLSPqd+gOWaNvatSpNJ4mBtqmPc9wLjw+XahW9RFKX1hTWvhE3gxUik0hj
- itgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Trj010zDHQ4xSMLrkRdHvH6ENnGnvAFM0+aitMWz2VY=;
- b=qPB6YiBfNAPF0qzaQ2KRj/k0o0wr696s2QZdcVdXf70+wA2SOQ22wPRwnA90jKHLT1
- TjdFqbJAaejmNkciAHDn2hfxngaVdIrxJ9ZWctvbMlL1Y0pSQAC/ERNFmAb+mBf9Q8zR
- nE2d09T5hHlqbOV8yae8IQy0jyh6dAxld6OZrXKTy4slaH5MMI2ZOJZuaUA/cEFWO+HG
- rgbFUKBoEr/hz21LZqhXgiM7xtszISqJwtJXbpizzL/IuLqCn76A0Rv9sHF/4a1WnJVQ
- ruq0l9aHZFaigOjGeTsgZtyuB7tPQUdLf7oeHQ7OFLcS82qvX85Y4/N8TcDkLKhaqo6A
- ZISg==
-X-Gm-Message-State: AOAM532AMbtZvXEIGuuBVrirR3NwPe4rZdZyDgexUrzphK7HE059ACGP
- cY73SQHSURp4vlkZ9RoMnln37g==
-X-Google-Smtp-Source: ABdhPJy95LxKzgbRAOpIGxNM2j1bdXO0TIDyJ5bGDsSbDXYJtX480VoVApF6yUSOH5M5TpTNcc4PtQ==
-X-Received: by 2002:a17:90b:e0d:: with SMTP id
- ge13mr20430284pjb.83.1613953302774; 
- Sun, 21 Feb 2021 16:21:42 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id x188sm15210392pfc.209.2021.02.21.16.21.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 21 Feb 2021 16:21:42 -0800 (PST)
-Subject: Re: [PATCH 0/2] tcg/aarch64: Fixes to vector ops
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210220212903.20944-1-richard.henderson@linaro.org>
- <CAFEAcA_3GUsYLY89Y62k0Rfaqu3JHdPYphueW2t04C6FgvQmTA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <1a23bd52-be7d-96db-26e9-af1da9fc116c@linaro.org>
-Date: Sun, 21 Feb 2021 16:21:39 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1lDzZj-0004Ma-T1; Sun, 21 Feb 2021 19:59:48 -0500
+Received: from mout.gmx.net ([212.227.15.18]:60091)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>)
+ id 1lDzZh-00061O-VC; Sun, 21 Feb 2021 19:59:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+ s=badeba3b8450; t=1613955582;
+ bh=NF2IV0ivZjAPjn5DsoOc8xzPFB9oes4xIXk2kC7gSeU=;
+ h=X-UI-Sender-Class:Subject:From:To:Cc:References:Date:In-Reply-To;
+ b=asM5zglB1PhRgQeKQNhijWFt+E4UeOK/LnW6HInNW9hpJZq9mlzEqN564/Ky0gIUH
+ 7EIkNufD8xjUf/jSpBo4wdZNwmtE/oi1aen+MjUJC1jlCem4yPPHIvAYmS0eXHpEKl
+ yCPLTAbSnq0Mem2vh38faNxuw9M5FR4UYOXi6ijQ=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.20.60] ([92.116.180.210]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N3bWr-1lvPB70CqR-010eda; Mon, 22
+ Feb 2021 01:59:42 +0100
+Subject: Re: [PATCH] linux-user: Add missing TARGET___O_TMPFILE for hppa and
+ alpha
+From: Helge Deller <deller@gmx.de>
+To: qemu-stable@nongnu.org
+References: <20210201155922.GA18291@ls3530.fritz.box>
+Message-ID: <6aed2a0f-2859-af4a-bd67-d0a6dbd68623@gmx.de>
+Date: Mon, 22 Feb 2021 01:59:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_3GUsYLY89Y62k0Rfaqu3JHdPYphueW2t04C6FgvQmTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210201155922.GA18291@ls3530.fritz.box>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_XBL=0.375, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:VTCCems8tK63sRIYFZQ3dWh+vCeGK/UlX7u/N5UCP+7nT8dnnbH
+ AeAuJ50wEu/r9px3o/tNIimDXqGXwnfmx5S0cWmdX/AQd+9Oiqa96/coIcCcOAyfmLBuM+8
+ vfLkiQUtTdjD40Zk/SoLsDgIdA0g9UdSx5wS9WrmxXmC3Ww0RC8yteKS3RaEO7EDOpKqe8f
+ O6/HatCkT1TUS8okNWT9w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:E7qmPpF12xk=:wX5n91WdGl/poMJh8w+G4d
+ fqwCt14BBjTf2HEOtuDuu+cKNlUV31N/RDkqXAsFKVpu5WjMCvVIL40QumSqjILb3s+t+9PSu
+ vVixtJIyFHFiwH7f6BPIRx5v3iLY1Z/LUSlXQhepFpWRn7PS7VYuAHQRW5i5aLIbky0dvfADu
+ IeX4+9RyYwGz/cosLOH5X4iETH0l6j1UojayAfb5IB5pN4X1gh96qxsRPUT8xctmjfTKpyknk
+ m6vwt36h9vcAK8sxABqzLDLKq0lACXy3HOC1h86ojAg/LKKkvAqoFiVrMGuyX8iZrSKbrF8fr
+ 35gg8sf9mZQvH9KmkZ302kcFsX/APA9Po4Kxsp2zbhAwxD24t+mb0IeM08rN0ge5r9fWqR0h3
+ kVn8JG3Pk+9eGuCpkg8/WTNnjVuEcjWQA9w9+cqTm/gaDlIKENcn8mGnt6aR9C6foiZaT36P3
+ jYXvfceIiYYGVUYrIXX4UhIqf9sLR/r7VF40PrsKCstPLY/MmJXG2GaOvpYE6FFbonJxcIBon
+ jmMxqDJj3soLXIOTsqkM9Zm81IBsTi08Kjq9LT+y/16Wt3jaav+M2MoXlgyxlUAjLevWIMlVg
+ qL33tP88XmmOw14xeN47BqhhIEqO2OsE0ccD7g9fpyGHdRh3GHY9QlGLOdPIIluWSiM7MSuWt
+ 3x6oqETdrN7QzBW95T6W3n9tWws0v9PJ6iWgJluzWQwBl4lH/4I0lWERVK+EonzkFfJ3tWvmR
+ lXcBU/jkYKC3EvN4/K7DBbD9DDu9klkH/7N6AjhZzkTrhyhWAexwFTIxzrskAINrlf6VBvDeA
+ nYtzm2FeDwV/pMMMSciJJnc500RKHcqd/mz26S/OgZOV4LAj3dU+o4Q+jVYOCRqO8MSEZ+jMe
+ 3I9u3q3K9VK42mrve7cw==
+Received-SPF: pass client-ip=212.227.15.18; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -25
+X-Spam_score: -2.6
+X-Spam_bar: --
+X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,46 +81,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/21/21 4:12 AM, Peter Maydell wrote:
-> On Sat, 20 Feb 2021 at 21:29, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> I guess it has been a while since I've run aa32 risu on aa64 host.
->>
->> The launchpad bug is something that should have been seen from the
->> beginning, but the similar aa64 operations are expanded as integer
->> code, not vector code.  The aa32 neon code has only recently been
->> converted to use gvecs.
->>
->> The cmle0 (zero) bug has been exposed by the recent constant
->> propagation improvements; previously we saw a reg/reg compare.
-> 
-> Idle thought: would it be possible to have a test framework that
-> exercised the TCG backend without being dependent on a particular
-> guest frontend?
+Dear qemu-stable,
 
-*shrug* The question has been asked before.  It might be possible, but it's not
-trivial.
+can you please consider adding this patch to the qemu-stable branch.
+Upstream commit 23b311155078bdd5bacc016ff3b3ebb5462b10c0
 
-In order to actually test something, there has to be enough board-level stuff
-to do something.  Which means we have to at least define a virt board, the "tcg
-guest" front end that can read the tcg input, etc.
+Thanks,
+Helge
 
-It's not unlike gcc, for which similar "can we 'just' test rtl" questions were
-mooted for years, to no effect.
+On 2/1/21 4:59 PM, Helge Deller wrote:
+> The hppa and alpha targets miss the #define of the TARGET___O_TMPFILE
+> and as such fail to run a trivial symlink command like
+>
+>      ln -s /bin/bash /tmp
+>
+> which results in an -EINVAL return code.
+>
+> Adding the define fixes the problem.
+>
+> Signed-off-by: Helge Deller <deller@gmx.de>
+>
+> ---
+>
+> diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_f=
+cntl.h
+> index 2617e73472..0a74807a8b 100644
+> --- a/linux-user/alpha/target_fcntl.h
+> +++ b/linux-user/alpha/target_fcntl.h
+> @@ -23,6 +23,7 @@
+>   #define TARGET_O_CLOEXEC     010000000
+>   #define TARGET___O_SYNC      020000000
+>   #define TARGET_O_PATH        040000000
+> +#define TARGET___O_TMPFILE  0100000000
+>
+>   #define TARGET_F_GETLK         7
+>   #define TARGET_F_SETLK         8
+> diff --git a/linux-user/hppa/target_fcntl.h b/linux-user/hppa/target_fcn=
+tl.h
+> index bd966a59b8..08e3a4fcb0 100644
+> --- a/linux-user/hppa/target_fcntl.h
+> +++ b/linux-user/hppa/target_fcntl.h
+> @@ -21,6 +21,7 @@
+>   #define TARGET_O_CLOEXEC     010000000
+>   #define TARGET___O_SYNC      000100000
+>   #define TARGET_O_PATH        020000000
+> +#define TARGET___O_TMPFILE   040000000
+>
+>   #define TARGET_F_RDLCK         1
+>   #define TARGET_F_WRLCK         2
+>
 
-What we haven't been doing with tcg, which did happen for gcc, is the regular
-and consistent addition of regression tests. But even that runs afoul of the
-fact that we've only got docker cross-compilers for x86_64.
-
-Also, it'd be nice to actually run risu regularly, on all of the tcg hosts,
-which I think is the main failure here.  We did all of the recent NEON testing
-on x86_64 and (apparently) none at all on aarch64.
-
-
-r~
 
