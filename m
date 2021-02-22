@@ -2,66 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC69321BC3
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:45:52 +0100 (CET)
-Received: from localhost ([::1]:40742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC0F6321BD3
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:49:10 +0100 (CET)
+Received: from localhost ([::1]:45808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEDPD-0002KO-Ax
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:45:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42560)
+	id 1lEDSQ-00051O-1X
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:49:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lEDN7-0001QA-9A
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:43:41 -0500
-Received: from mail-lj1-x230.google.com ([2a00:1450:4864:20::230]:35533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ilg@livius.net>) id 1lEDN1-0006MC-5w
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:43:40 -0500
-Received: by mail-lj1-x230.google.com with SMTP id a17so59228548ljq.2
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 07:43:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=livius-net.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OjEU41wrBAK55aLCDg2A+a4+z9DWVKbKbydzIvRGYVY=;
- b=mPIh4UShQg2hqkAJOkZCvS4vZXhKxNfYgnShYNpo1oM769bSn+w3EmaWRsKoiP2I5S
- mNhQKMqM8U+P/e7MZKPVwzAH/mKOB+7MRG0FngtaIMS9QxGoC5Y7SDz6rC5Xml5aB5AE
- Mrv2rXhkjd92dMuQGxs2FfbQVjuRz5r0FUbaaBepYIxrFQKInTmsUbXzIqAZSRMAbYSD
- 4/HFm9j0WRATh3oDZ+d4E+yNrpR0T5ITpWaVoV8QwfgWn2m7DKtZvpuISIp6kJcBGhvU
- dP57zQ/zrMloQpwutpIwXRkf1CPmHjzdMomyrll9LmmGMlPiz91SC7hOnQqqfxUtG3sH
- qrnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OjEU41wrBAK55aLCDg2A+a4+z9DWVKbKbydzIvRGYVY=;
- b=KCujOAJazaONkA0azsBqYqadqQpwh7wiA+h6UKPdTiZEBSA05TK77PYXuTSRphJu0d
- bx29dhDobHJKtEFUhLKxKTE14whR3SvntBgHLtrccKqoUrXv87RkO3m9pbm5EMm6GbJD
- irnNUfRdIJ8Ol6F2ZqFSTKB2lvsv5/72Of55avmCo0MBlrS5cC8B3aPMrb1zWDZjb8d3
- ZgpueJh+nQKFJK7wyypxUAwac5UxfH93g0jnJAyiyxrV8cXjm8buXmGYl8M4LQEEqEy/
- PLcxLvNZVqs4NFts0hevHQTd/eSNFjnWhq7/Q/ocK/ZYjpRMwLKkPiwsq4eS2W5S5Lx1
- /NJQ==
-X-Gm-Message-State: AOAM530/GbRKDtdI+4heFy9NiwVa6GaO93TdBFfBIXH+5IABnH/Blx80
- ZQF0HuX324ps0QAXja3edoWPvJ6+T1SqdA0EFDse3w==
-X-Google-Smtp-Source: ABdhPJzNn5rw+VRGMkjrocsZeEBQFDQnazQ8NgmFmMDdYCjHbNl4hiN57VuKsEtnet4pxUOzxPjBM4ovkKwwHPAqCHM=
-X-Received: by 2002:a2e:8141:: with SMTP id t1mr1752492ljg.385.1614008611540; 
- Mon, 22 Feb 2021 07:43:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEDP1-0002yq-CE
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:45:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEDOs-0007F0-S3
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:45:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614008726;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wwC18dC67dLMQNWX9tUFIYfhTn9EAgKltABnZU1RjC8=;
+ b=YcqTTIZ6r65LKdk/PDvqGwHZjpJLXUfcBmgyWhEs4bv8Q7IICcdnHDs6b4N6Px3SEMv4K/
+ /XKn5d1mwG8mlw78ipW5im8G9YKD9qtKZsX3W/KKvvUjH5PpIUOUNeelS2WGxKvMj5ltuR
+ 22r8V56CRGfGIP9C/4Dxfql1udWozVA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-334-WDaIOiv_MeGOws0s5xK8Dg-1; Mon, 22 Feb 2021 10:45:24 -0500
+X-MC-Unique: WDaIOiv_MeGOws0s5xK8Dg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC08D8D2C4B;
+ Mon, 22 Feb 2021 15:45:08 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C19BA6F998;
+ Mon, 22 Feb 2021 15:44:40 +0000 (UTC)
+Subject: Probing Meson for build configurations (was: [PATCH v2 3/6]
+ tests/acceptance: allow a "graceful" failing for virtio-gpu test)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210222101455.12640-1-alex.bennee@linaro.org>
+ <20210222101455.12640-4-alex.bennee@linaro.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <71dc4eca-d52e-3650-3b23-a96950ecc05e@redhat.com>
+Date: Mon, 22 Feb 2021 12:44:37 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
-In-Reply-To: <YDPMs1Hu8LDRJUhX@redhat.com>
-From: Liviu Ionescu <ilg@livius.net>
-Date: Mon, 22 Feb 2021 17:43:20 +0200
-Message-ID: <CAG7hfcJsNz53uA9cg1BYpC-9FRWJp_hvOLNOrHf-L55oJ1O=KQ@mail.gmail.com>
-Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000f4a3bf05bbeea9a1"
-Received-SPF: none client-ip=2a00:1450:4864:20::230;
- envelope-from=ilg@livius.net; helo=mail-lj1-x230.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210222101455.12640-4-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,54 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, libvir-list@redhat.com,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: fam@euphon.net, berrange@redhat.com, f4bug@amsat.org,
+ Willian Rampazzo <willianr@redhat.com>, stefanha@redhat.com, crosa@redhat.com,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000f4a3bf05bbeea9a1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Paolo,
 
-On Mon, 22 Feb 2021 at 17:27, Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-wrote:
+Last week I was chatting with Cleber about probing configured features 
+so that tests could be skipped (just like on this case). He has a 
+implementation which never landed in, and is based on the old build 
+system. Now with Meson, I am wondering if it has some sort of API for 
+probing, or parsing the JSON files in build/meson-info/ is the proper 
+way to inspect the build configuration.
 
+Thanks!
+
+- Wainer
+
+On 2/22/21 7:14 AM, Alex Bennée wrote:
+> This is a band-aid with a TODO for cases when QEMU doesn't start due
+> to missing VirGL. Longer term we could do with some proper feature
+> probing.
 >
-> IMHO we should deprecate and eventually remove single quotes....
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Message-Id: <20210217121932.19986-7-alex.bennee@linaro.org>
+> ---
+>   tests/acceptance/virtio-gpu.py | 7 ++++++-
+>   1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/tests/acceptance/virtio-gpu.py b/tests/acceptance/virtio-gpu.py
+> index ab1a4c1a71..ab18cddbb7 100644
+> --- a/tests/acceptance/virtio-gpu.py
+> +++ b/tests/acceptance/virtio-gpu.py
+> @@ -85,7 +85,12 @@ def test_virtio_vga_virgl(self):
+>               "-append",
+>               kernel_command_line,
+>           )
+> -        self.vm.launch()
+> +        try:
+> +            self.vm.launch()
+> +        except:
+> +            # TODO: probably fails because we are missing the VirGL features
+> +            self.cancel("VirGL not enabled?")
+> +
+>           self.wait_for_console_pattern("as init process")
+>           exec_command_and_wait_for_pattern(
+>               self, "/usr/sbin/modprobe virtio_gpu", ""
 
-
-+1
-
-If a JSON cannot be directly processed by the standard JavaScript parser,
-it should not be used.
-
-
-Regards,
-
-Liviu
-
---=20
-Sent from my iPad via Gmail.
-
---000000000000f4a3bf05bbeea9a1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, 22 Feb 2021 at 17:27, Daniel P. Berrang=C3=A9 &lt;<=
-a href=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:</d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex" dir=3D"auto">
-<br>
-IMHO we should deprecate and eventually remove single quotes....</blockquot=
-e><div dir=3D"auto"><br></div><div dir=3D"auto">+1</div><div dir=3D"auto"><=
-br></div><div dir=3D"auto">If a JSON cannot be directly processed by the st=
-andard JavaScript parser, it should not be used.</div><div dir=3D"auto"><br=
-></div><div dir=3D"auto"><br></div><div dir=3D"auto">Regards,</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Liviu</div><div dir=3D"auto"><br></di=
-v></div></div>-- <br><div dir=3D"ltr" class=3D"gmail_signature" data-smartm=
-ail=3D"gmail_signature">Sent from my iPad via Gmail.</div>
-
---000000000000f4a3bf05bbeea9a1--
 
