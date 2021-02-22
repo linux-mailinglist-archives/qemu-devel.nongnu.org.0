@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B9B4322073
+	by mail.lfdr.de (Postfix) with ESMTPS id DFBC2322074
 	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:48:31 +0100 (CET)
-Received: from localhost ([::1]:57732 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEHC2-00079x-DN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:48:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59464)
+	id 1lEHC2-0007BK-Tc
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:48:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lEH9R-0005Nz-0z; Mon, 22 Feb 2021 14:45:49 -0500
-Received: from mail-qk1-x732.google.com ([2607:f8b0:4864:20::732]:33650)
+ id 1lEH9R-0005OT-DG; Mon, 22 Feb 2021 14:45:51 -0500
+Received: from mail-qv1-xf2d.google.com ([2607:f8b0:4864:20::f2d]:33825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lEH9P-0004D7-23; Mon, 22 Feb 2021 14:45:48 -0500
-Received: by mail-qk1-x732.google.com with SMTP id b14so13902520qkk.0;
- Mon, 22 Feb 2021 11:45:45 -0800 (PST)
+ id 1lEH9P-0004Dt-Fu; Mon, 22 Feb 2021 14:45:49 -0500
+Received: by mail-qv1-xf2d.google.com with SMTP id dr7so6667241qvb.1;
+ Mon, 22 Feb 2021 11:45:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9SoM1pcAeb3j3z9cIeQrgXO5n6NWQBk3E28Xq1g124I=;
- b=gnh5dQWCQ9lZwL83kyFlJa1C6kUYLl3mMtz+i099qqEuC/vSjqaIcxTzvfs08SdSlI
- 9RIwlUXbunPzr+cotv0u9a3jA911b0FvL4RFHKixAbOXN8ENjw7aUU4cUvTCppuZtFjN
- cgnxJFo+4aigy6KNJLQIU6JVYbY9aSIEN2LVw8C89pA+nUtRDom9GaiTgnhgcsc7abC4
- uZAKtJ77gc59m90ENI+NXD6VeggsY+zb9sPBcmk2pp3M9j9vQQdImOuTkp4VtXhJfEEg
- CFi+liXwIvPnfs8kOtwSKcMF513wUvBLGZnuU5sZvtaEkxPsdYpYObkGhayf2Ivpty6O
- ACpQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=1Z4+eauGFF4oAqBj2z7fvfODM6J17DWz3NmCJRQnBYo=;
+ b=kH0LZIOGNMSKUJY7IB8H/6MO/B4tFbJv2jDRxxXRa7z2DBmh9Btum2EAGc2yUl1YYZ
+ gcIe42w5043o+d2+RlWG6MLzzQqZ1Wg1tBp+myIclM1fUm7FJW7dzRdUPf+jT4Ewvnxo
+ KbyfLu/9IFbRWcbR2o92K7Y154AOzUOFN9OiAjCzJTvKgtHmLEtW3tWUArm1TneQcmC2
+ 3otObPnoo4aDCsJRRPhVcSfXE+/bWH/p2zgaYbjPtOWTpo2dpxBg3Tfi8tfv1wvEKNN2
+ gJdOZf9QxeprwH9Q/7F9Ru5q7AFjDnaZSUSNnp/HRXA2/UUHtY9aaHBmCWFqPuf6YrLd
+ G+Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=9SoM1pcAeb3j3z9cIeQrgXO5n6NWQBk3E28Xq1g124I=;
- b=PQmUGTxvdsQ7JOuMEKefOBuSiQYi2YFKztrtieDyDlfZvVBO7NSzEPd3YqRWndpFPM
- b9hYvgofYVCkTe5mqZDdaQlW0vlZ2cPvDMC7w9h6hl2xv/OeAkNPNUJ2tar69JBUpR2T
- 1M+4iLS0dsEDzZRHtykZzPgRRKGY/ssJEkoEyzP2DpsfW/yypbEeJsc+B8yHlcGj9xS6
- PlybKcbW3Y9Ph2gAgxuVJAdF29dwCb7M51e3VKRSkkX7UTJpeNMjUMvf3Bdv+/J4fhg/
- dL//MVZ7eaQN84/fqYOdi34cH/r3GyHJNyTa0eweu6QF3CC8ouaB1NNOTegxCAUI/0hm
- h0Gg==
-X-Gm-Message-State: AOAM532zfmA1Mx6u/QGSF6YA8EbJGULM0Qyjd8uppNMQxBffreMsR190
- CMZ8f4PDpLnhMCxWmWxGcYvhQvYEq2fVvQ==
-X-Google-Smtp-Source: ABdhPJwXI5oJEuTcbb+D9ap1To4Q8D8CrSbw76uzarJyuiJBdc7QRp9t/sC8zIUvSbx6D0UWiUNOEQ==
-X-Received: by 2002:a05:620a:21da:: with SMTP id
- h26mr7224035qka.81.1614023143856; 
- Mon, 22 Feb 2021 11:45:43 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=1Z4+eauGFF4oAqBj2z7fvfODM6J17DWz3NmCJRQnBYo=;
+ b=Wr0hgk+OU8z/snbwsrnfdtql7k3lQJjOIv6Ei88BmArksmhNgh66EkaebOC9uCbCEa
+ x8+plFNGlkDdl8FSIdtQqXh/Z9zMKeazl+6mjA3SY+xmZ5TMyPMitf0+INlqHyKNAlAL
+ 4e7XHvaaVUtEFmi5NrNOdDnVnXHhr7T1exp/kaGOwA3CgO6tCPXbeAgRF133StKEuFRl
+ bbtiFKizi7bX7LIRYq1j6ax9JdNm5S4IC/GxDw4UZaSo7zXLRx8+ZGDJpZW1niLVB7AQ
+ t7H7yZxPvAH0cF89safnr6ePAXKRwouwBbD9ngCxOhUoW5FHR7GyU4QyBr5F5VsEajsH
+ ZKSA==
+X-Gm-Message-State: AOAM53003HTrsC53FZG6HBkykteeQwzJokOlZNcN7E5OyBFzdkSTwMEL
+ 70lYSWycwIttZ+uDYLQmSbnUyWrq+9RM+Q==
+X-Google-Smtp-Source: ABdhPJyPBPOVFNcFpnc+uX55/FNwWWvXJLCi09xJkxd+Rha+TTCQIYrNWVFXjqLzdUOOPgKwG2r5wA==
+X-Received: by 2002:a0c:bf12:: with SMTP id m18mr21984238qvi.40.1614023146008; 
+ Mon, 22 Feb 2021 11:45:46 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:cd1c:d722:e26f:4e76:c5c1])
- by smtp.gmail.com with ESMTPSA id 82sm13483178qkd.48.2021.02.22.11.45.41
+ by smtp.gmail.com with ESMTPSA id 82sm13483178qkd.48.2021.02.22.11.45.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 22 Feb 2021 11:45:43 -0800 (PST)
+ Mon, 22 Feb 2021 11:45:45 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 0/5] CPU unplug timeout/LMB unplug cleanup in DRC
- reconfiguration
-Date: Mon, 22 Feb 2021 16:45:26 -0300
-Message-Id: <20210222194531.62717-1-danielhb413@gmail.com>
+Subject: [PATCH v4 1/5] spapr_drc.c: use spapr_drc_release() in
+ isolate_physical/set_unusable
+Date: Mon, 22 Feb 2021 16:45:27 -0300
+Message-Id: <20210222194531.62717-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210222194531.62717-1-danielhb413@gmail.com>
+References: <20210222194531.62717-1-danielhb413@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::732;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x732.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2d;
+ envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2d.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -87,53 +87,98 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+When moving a physical DRC to "Available", drc_isolate_physical() will
+move the DRC state to STATE_PHYSICAL_POWERON and, if the DRC is marked
+for unplug, call spapr_drc_detach(). For physical DRCs,
+drck->empty_state is STATE_PHYSICAL_POWERON, meaning that we're sure
+that spapr_drc_detach() will end up calling spapr_drc_release() in the
+end.
 
-This new version contains fixes proposed during the review of v3.
-Patches were rebased on top of David's ppc-for-6.0.
+Likewise, for logical DRCs, drc_set_unusable will move the DRC to
+"Unusable" state, setting drc->state to STATE_LOGICAL_UNUSABLE, which is
+the drck->empty_state for logical DRCs. spapr_drc_detach() will call
+spapr_drc_release() in this case as well.
 
+In both scenarios, spapr_drc_detach() is being used as a
+spapr_drc_release(), wrapper, where we also set unplug_requested (which
+is already true, otherwise spapr_drc_detach() wouldn't be called in the
+first place) and check if drc->state == drck->empty_state, which we also
+know it's guaranteed to be true because we just set it.
 
-changes from v3:
-- former patch 1: already pushed to ppc-for-6.0
-- former patch 2: dropped
-- all patches: commit message trimmed to < 76 chars per line
-- all patches: added R-bs from previous review
-- patch 3:
-    * removed the migratable state of the unplug timer
-    * added a 'spapr_drc_start_unplug_timeout_timer()' helper to start the timer
-    * added a .post_load implementation to vmstate_spapr_drc, pointed to
-      a new spapr_drc_post_load() function
-    * spapr_drc_post_load() starts the DRC unplug timer from the beginning using
-      spapr_drc_start_unplug_timeout_timer()
+Just use spapr_drc_release() in these functions to be clear of our
+intentions in both these functions.
 
-- patch 4:
-    * use spapr_drc_start_unplug_timeout_timer() to start the timer in spapr_drc_unplug_request()
-    (To David: I kept your Reviewed-by in this patch despite this change - feel free
-     to review it again)
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr_drc.c | 32 ++++++++++++++++----------------
+ 1 file changed, 16 insertions(+), 16 deletions(-)
 
-- patch 5:
-    * removed the 'DIMM' wording when referring to kernel internals
-    * move the g_assert() to spapr_clear_pending_dimm_unplug_state()
-    * do not g_assert(dev), but g_assert(ds) if dev != NULL inside
-      spapr_clear_pending_dimm_unplug_state()
-
-- v3 link: https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg04196.html
-
-Daniel Henrique Barboza (5):
-  spapr_drc.c: use spapr_drc_release() in isolate_physical/set_unusable
-  spapr: rename spapr_drc_detach() to spapr_drc_unplug_request()
-  spapr_drc.c: introduce unplug_timeout_timer
-  spapr_drc.c: add hotunplug timeout for CPUs
-  spapr_drc.c: use DRC reconfiguration to cleanup DIMM unplug state
-
- hw/ppc/spapr.c             | 53 ++++++++++++++++++--
- hw/ppc/spapr_drc.c         | 99 +++++++++++++++++++++++++++++++-------
- hw/ppc/spapr_pci.c         |  4 +-
- hw/ppc/trace-events        |  2 +-
- include/hw/ppc/spapr.h     |  2 +
- include/hw/ppc/spapr_drc.h |  7 ++-
- 6 files changed, 142 insertions(+), 25 deletions(-)
-
+diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+index 84bd3c881f..555a25517d 100644
+--- a/hw/ppc/spapr_drc.c
++++ b/hw/ppc/spapr_drc.c
+@@ -50,6 +50,20 @@ uint32_t spapr_drc_index(SpaprDrc *drc)
+         | (drc->id & DRC_INDEX_ID_MASK);
+ }
+ 
++static void spapr_drc_release(SpaprDrc *drc)
++{
++    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
++
++    drck->release(drc->dev);
++
++    drc->unplug_requested = false;
++    g_free(drc->fdt);
++    drc->fdt = NULL;
++    drc->fdt_start_offset = 0;
++    object_property_del(OBJECT(drc), "device");
++    drc->dev = NULL;
++}
++
+ static uint32_t drc_isolate_physical(SpaprDrc *drc)
+ {
+     switch (drc->state) {
+@@ -68,7 +82,7 @@ static uint32_t drc_isolate_physical(SpaprDrc *drc)
+     if (drc->unplug_requested) {
+         uint32_t drc_index = spapr_drc_index(drc);
+         trace_spapr_drc_set_isolation_state_finalizing(drc_index);
+-        spapr_drc_detach(drc);
++        spapr_drc_release(drc);
+     }
+ 
+     return RTAS_OUT_SUCCESS;
+@@ -209,7 +223,7 @@ static uint32_t drc_set_unusable(SpaprDrc *drc)
+     if (drc->unplug_requested) {
+         uint32_t drc_index = spapr_drc_index(drc);
+         trace_spapr_drc_set_allocation_state_finalizing(drc_index);
+-        spapr_drc_detach(drc);
++        spapr_drc_release(drc);
+     }
+ 
+     return RTAS_OUT_SUCCESS;
+@@ -372,20 +386,6 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+                              NULL, 0);
+ }
+ 
+-static void spapr_drc_release(SpaprDrc *drc)
+-{
+-    SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+-
+-    drck->release(drc->dev);
+-
+-    drc->unplug_requested = false;
+-    g_free(drc->fdt);
+-    drc->fdt = NULL;
+-    drc->fdt_start_offset = 0;
+-    object_property_del(OBJECT(drc), "device");
+-    drc->dev = NULL;
+-}
+-
+ void spapr_drc_detach(SpaprDrc *drc)
+ {
+     SpaprDrcClass *drck = SPAPR_DR_CONNECTOR_GET_CLASS(drc);
 -- 
 2.29.2
 
