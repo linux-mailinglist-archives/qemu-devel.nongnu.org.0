@@ -2,60 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0994321A7F
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:45:15 +0100 (CET)
-Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9875B321A8E
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:51:38 +0100 (CET)
+Received: from localhost ([::1]:34428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lECSY-0000Oj-OK
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:45:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50598)
+	id 1lECYj-0005pK-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:51:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lECRD-0007oT-2B
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:43:51 -0500
-Received: from 9.mo52.mail-out.ovh.net ([87.98.180.222]:44780)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1lECRL-00080t-Au
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:44:00 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:38843)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lECRA-0004sJ-Vy
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:43:50 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.26])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 8135E23FFD7;
- Mon, 22 Feb 2021 15:43:44 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 22 Feb
- 2021 15:43:43 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004c422c599-5c40-4a3c-8d8b-f272010ec64c,
- 7322555201F4CCBA135B576978D07BE5564972B5) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 22 Feb 2021 15:43:41 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
-Message-ID: <20210222154341.0992238d@bahia.lan>
-In-Reply-To: <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
-References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
- <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
- <20210222082137.1b3f8b3b@bahia.lan>
- <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1lECRJ-0004wH-2i
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:43:59 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1lECRG-001YGy-0m; Mon, 22 Feb 2021 15:43:54 +0100
+Received: from p57bd9049.dip0.t-ipconnect.de ([87.189.144.73]
+ helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
+ with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1lECRF-0035iR-Qe; Mon, 22 Feb 2021 15:43:53 +0100
+Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
+To: Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
+References: <20210222105004.1642234-1-laurent@vivier.eu>
+ <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
+ <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
+Date: Mon, 22 Feb 2021 15:43:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+In-Reply-To: <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG2EX1.mxp5.local (172.16.2.11) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 9b2ca55f-3cc0-4c88-9638-9cfac66b1ef3
-X-Ovh-Tracer-Id: 14060238038734117225
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedugfeljeetjefhfeduhfffledvieelfffggeegfeegteegfeeukeduudetffdunecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhupghoshhssegtrhhuuggvsgihthgvrdgtohhm
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=groug@kaod.org;
- helo=9.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.144.73
+Received-SPF: pass client-ip=130.133.4.66;
+ envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,67 +67,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Helge Deller <deller@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Feb 2021 13:59:34 +0000
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Mon, 22 Feb 2021 at 07:21, Greg Kurz <groug@kaod.org> wrote:
-> >
-> > On Fri, 19 Feb 2021 17:51:02 +0100
-> > Thomas Huth <thuth@redhat.com> wrote:
-> >
-> > > On 19/02/2021 17.26, Peter Maydell wrote:
-> > > > Does anybody use the ozlabs patchwork install for QEMU patches,
-> > > > either occasionally or on a regular basis ?
-> > > > http://patchwork.ozlabs.org/project/qemu-devel/list/
-> > > > The admins for that system are trying to identify which of
-> > > > the various projects are really using their patchwork instances,
-> > > > so I figured I'd do a quick survey here. We don't use it
-> > > > as an official project tool but it's certainly possible to
-> > > > use it as an individual developer in one way or another.
-> > >
-> > > I think it might be used by some of the ppc hackers ... so CC:-ing to
-> > > qemu-pcc ...
-> > >
-> >
-> > I do on a very regular basis.
+On 2/22/21 3:38 PM, Michael Tokarev wrote:
+> 22.02.2021 13:58, John Paul Adrian Glaubitz wrote:
+>> Hi Laurent!
+>>
+>> On 2/22/21 11:50 AM, Laurent Vivier wrote:
+>>> Add --preserve-argv0 in qemu-binfmt-conf.sh to configure the preserve-argv0
+>>> flag.
+>>>
+>>> This patch allows to use new flag in AT_FLAGS to detect if
+>>> preserve-argv0 is configured for this interpreter:
+>>> argv[0] (the full pathname provided by binfmt-misc) is removed and
+>>> replaced by argv[1] (the original argv[0] provided by binfmt-misc when
+>>> 'P'/preserve-arg[0] is set)
+>>
+>> Would this patch finally fix the issue with the perl package in Debian? [1]
 > 
-> Thanks for the reports. Do you use the features like assigning
-> patches to people and changing patch status, or do you mostly
-> just use it as a read-only archive-of-patches ?
-> 
+> It's been fixed a week or so ago.
 
-Only the latter but mostly because I don't have the permissions
-to change status, e.g. when trying to change status of this
-recent patch from Cedric to rearrange the PowerPC docs:
+Doesn't the patch require a kernel fix which is only present in Linux 5.12?
 
-You don't have permissions to edit patch 'docs/system: Extend PPC section'
+@Laurent: Could you help clarify the difference of both fixes?
 
-My understanding is that users must be "maintainer" to edit other's
-patches. Only three 'maintainers' are currently listed at ozlabs for
-QEMU:
+Thanks,
+Adrian
 
-https://patchwork.ozlabs.org/api/1.0/projects/14/
-
-We had a discussion about that a few months back with Christian Schoenebeck
-(9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
-quite know how to go further because of lack of documentation, but I'd be
-glad to experiment the full patchwork experience if someone knows how to
-do it :-)
-
-Cheers,
-
---
-Greg
-
-
-> -- PMM
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
 
