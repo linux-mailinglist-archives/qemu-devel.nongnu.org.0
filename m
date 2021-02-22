@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF09D321F7E
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 20:00:01 +0100 (CET)
-Received: from localhost ([::1]:47610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 517E3321F67
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 19:53:44 +0100 (CET)
+Received: from localhost ([::1]:39456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEGR6-0003gr-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 14:00:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42146)
+	id 1lEGL1-0008IB-8E
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 13:53:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEGFm-0004tT-TZ; Mon, 22 Feb 2021 13:48:18 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:50113)
+ id 1lEGFm-0004tS-Sj; Mon, 22 Feb 2021 13:48:18 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:55039)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEGFa-0003i0-Pp; Mon, 22 Feb 2021 13:48:18 -0500
+ id 1lEGFc-0003iV-8S; Mon, 22 Feb 2021 13:48:18 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 963715803BE;
- Mon, 22 Feb 2021 13:48:04 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 2198D5803BF;
+ Mon, 22 Feb 2021 13:48:06 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 22 Feb 2021 13:48:04 -0500
+ by compute4.internal (MEProxy); Mon, 22 Feb 2021 13:48:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=8HPIbXBiY9U8K
- 8vCWWacn2bteea3HW7keVpAJqtUmYg=; b=CY1tcHM8mWNwNUdi+9wWzx/J4aT5x
- pWggfz3TqSVjRt6/BmtgmIb2LzFtJByFMg6BKEy6n4nico133ZXOx8SECfq/gqza
- R1UyN2ifUY+GBiqBe47fhW2Zc+2l/L237qXjyPqHedbPsLj5o+ww7kT/xYn4yk3h
- QNH7NC0qZCbSJLRCyV++m4KR/mQDITTWj30rZ2l2skJ5eD2Tlod8qGxc5gM3AGzL
- E8ihsO/3/z9KDlXI8fTPlK6JT9po2G1k0kWoZlDVClrAxNrTOKk8tGGI3aQ+afqC
- M87dHsOt/PvtDlAEd7YFwGgxiCDPkK/kah73nt/3X/bBObqQJ8207K/tQ==
+ :mime-version:content-transfer-encoding; s=fm2; bh=pkg977ggyoOoq
+ p0d2YOw3d3d/n6U9MKG5m3VsJtGcD0=; b=Ip1S6AsI7q43YZXFyKR2ZsIjI0L5O
+ f3qYikr3pRkVyuIHoi4zZ/eamqvBxf0eCvpBuWoyphvKsBsqRPVbmjzq8Lbsrl3h
+ lQDkbtJ53KB6hWZ9KfI97KzT52Wnzqj7kgC/zeaMaQLh1dl4mCNX7W6zzpr3EquN
+ QTSW+wiI7AHNvPMnQ6KqGr6YtMbHYRGIGKiJL67564GsXfhC6PgpYZ70hBg+3snj
+ XFKml1lKTqfWt9qvRaneV4imEwpeCaRiWEqsFci//vOAlPUy4Q71x3lZFkrSZdBH
+ 66cll7skSd7kFcotFe5q1y6WqB1DEHyB5JzUvOEvwKhZ2ElEr7IwkME9g==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=8HPIbXBiY9U8K8vCWWacn2bteea3HW7keVpAJqtUmYg=; b=hpt7clZB
- Uqo9zP+x/YvsRc0B9zW3PajvPz7HMfnIAe45CoTXh+E2yJClxC8c8X6BJ8pgfNuo
- R/2RhHaYFXIShAxc3KBBHF4ZuSYtd+CHgPbesxPg+hhEHssI1qeb7Ar7PNvfCHjj
- IEy2Q5DPhitxde3VHGVM3085/TQ791Y97kTcPMAjKa3IetD0tLlPgW2oe1pHzFWc
- uJGDiM2Rdlq1thSq21dHcIrAggHGLVMlpLIL2F2HhdtMnTiBlpXE1emm2edSLdd/
- XiDZV7u73UGYNFHnqZcrHDd1a9n7yVw+EJW6C80tBU3zP15fvbsYsw6hitbUaFSK
- ocC6uxdDLYDtMQ==
-X-ME-Sender: <xms:ZPwzYAFUMbOoKNWdKfXMlzRL_6lXAsHFrhpkx_oepZbGBGN5ti-fPQ>
- <xme:ZPwzYJXGWzRFEhqAu23xLRmOYlBPPaCfIv6CYKJxVEbWIgWEKF5-pv1w5e4Zsprl9
- apV_NFmww4qDWsPaCc>
+ fm2; bh=pkg977ggyoOoqp0d2YOw3d3d/n6U9MKG5m3VsJtGcD0=; b=AW0C6TV5
+ IxuosIvlJkplnbdsDMKhQXJWZrvczOjx7KONdWgZjqHPTevVbIWvOzV3JtPwyyUT
+ Hoqfew6cE56WuqXJIv/TskNWW0eoyhgX00i8cwLg2LpBjOXxAg17gpe9EY2lO+a8
+ NXpqRdWqJr74d+AYnYi817r7Z10z2zzSEjM+EqEuYYLvPaL3DNrbuTa9eIuf6PGw
+ i+gzKCeZTQSOpOQC/2jJA3CMSeKbL7SIN5zg7L1AaaKPAHIK9kcQWS83gUoUyctC
+ CwOT4ecdB+z0LOa9IwdoMvck1NgvqiY6aFMWPP2t1/vYWxas7IyQd7Cw4BGH8CZ5
+ wKNKrohhg5xX9g==
+X-ME-Sender: <xms:ZvwzYDCUNMdb6AbQ_sS45l_wYxomaaXt97HL6hRkBQIJFLgnglxJcg>
+ <xme:ZvwzYGYN5NFQI8T79A3URtY-OVJpDgcTuOiuzvp-Q6JWokSrXQZX6sQAcjPyEPsH5
+ 7JYh2bMM_WZIhK673c>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgdduudeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgdduudeiucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:ZPwzYKLDOf6UMApdK9ou-M3mD-JUHr2j6VNChAAOiC37bpsPmAEv_w>
- <xmx:ZPwzYCFElz51fQuTygUazE92w8vXrNoUNvZ71mI9tcm-KftQvpp_xA>
- <xmx:ZPwzYGVsTTZzXrwmvedffQuVvmOseyy4-LTcxf5BQOWDnEKbgJb3bQ>
- <xmx:ZPwzYKrYSJ1qz0z25xjIT6FMT2To1nITA2tWfaBpd_pIuFecWhQE1Q>
+X-ME-Proxy: <xmx:ZvwzYOUNuB0Ob8BXpZptbSJw7McpMHk0faGaXiE3-tW9VgxwCI259w>
+ <xmx:ZvwzYFPYdeo8ZYnZ4f4nXxf13yUbgwmtUutiEJo6kE6qMftOOeGWGw>
+ <xmx:ZvwzYIZjrSyvO2ljf5qMQokCg31noZpNZDXK91NxSuv2wkO3m_caXg>
+ <xmx:ZvwzYMIkMHIC96uaIsD39N2PPVKNlN_1tPZRf-57LOYk7Y67WvarIw>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 16CA7240068;
- Mon, 22 Feb 2021 13:48:02 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id A5CD3240066;
+ Mon, 22 Feb 2021 13:48:04 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/5] hw/block/nvme: remove unnecessary endian conversion
-Date: Mon, 22 Feb 2021 19:47:55 +0100
-Message-Id: <20210222184759.65041-2-its@irrelevant.dk>
+Subject: [PATCH v2 2/5] hw/block/nvme: add identify trace event
+Date: Mon, 22 Feb 2021 19:47:56 +0100
+Message-Id: <20210222184759.65041-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210222184759.65041-1-its@irrelevant.dk>
 References: <20210222184759.65041-1-its@irrelevant.dk>
@@ -102,28 +102,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Remove an unnecessary le_to_cpu conversion in Identify.
+Add a trace event for the Identify command.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/nvme.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/nvme.c       | 3 +++
+ hw/block/trace-events | 1 +
+ 2 files changed, 4 insertions(+)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 1cd82fa3c9fe..c0b349dfab0d 100644
+index c0b349dfab0d..ddc83f7f7a19 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -3415,7 +3415,7 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
+@@ -3415,6 +3415,9 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
  {
      NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
  
--    switch (le32_to_cpu(c->cns)) {
-+    switch (c->cns) {
++    trace_pci_nvme_identify(nvme_cid(req), c->cns, le16_to_cpu(c->ctrlid),
++                            c->csi);
++
+     switch (c->cns) {
      case NVME_ID_CNS_NS:
           /* fall through */
-     case NVME_ID_CNS_NS_PRESENT:
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index b04f7a3e1890..1f958d09d2a9 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -61,6 +61,7 @@ pci_nvme_create_sq(uint64_t addr, uint16_t sqid, uint16_t cqid, uint16_t qsize,
+ pci_nvme_create_cq(uint64_t addr, uint16_t cqid, uint16_t vector, uint16_t size, uint16_t qflags, int ien) "create completion queue, addr=0x%"PRIx64", cqid=%"PRIu16", vector=%"PRIu16", qsize=%"PRIu16", qflags=%"PRIu16", ien=%d"
+ pci_nvme_del_sq(uint16_t qid) "deleting submission queue sqid=%"PRIu16""
+ pci_nvme_del_cq(uint16_t cqid) "deleted completion queue, cqid=%"PRIu16""
++pci_nvme_identify(uint16_t cid, uint8_t cns, uint16_t ctrlid, uint8_t csi) "cid %"PRIu16" cns 0x%"PRIx8" ctrlid %"PRIu16" csi 0x%"PRIx8""
+ pci_nvme_identify_ctrl(void) "identify controller"
+ pci_nvme_identify_ctrl_csi(uint8_t csi) "identify controller, csi=0x%"PRIx8""
+ pci_nvme_identify_ns(uint32_t ns) "nsid %"PRIu32""
 -- 
 2.30.1
 
