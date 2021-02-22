@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A2C23220E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:40:55 +0100 (CET)
-Received: from localhost ([::1]:48958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422EA3220DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 21:36:01 +0100 (CET)
+Received: from localhost ([::1]:45144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEI0j-0001iC-PF
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:40:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43414)
+	id 1lEHw0-0008Dg-6U
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 15:36:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEHpk-00069r-B9; Mon, 22 Feb 2021 15:29:32 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:41211)
+ id 1lEHpj-00068b-CO; Mon, 22 Feb 2021 15:29:31 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:46185)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lEHph-0007IE-EC; Mon, 22 Feb 2021 15:29:32 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id C912E5C01C2;
+ id 1lEHph-0007IF-DP; Mon, 22 Feb 2021 15:29:31 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id C49485C0167;
  Mon, 22 Feb 2021 15:29:27 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 22 Feb 2021 15:29:27 -0500
+ by compute4.internal (MEProxy); Mon, 22 Feb 2021 15:29:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=HTbmG4L5dimVQlEHDp46JSmo+o
- iFWtG0aq9BZzQbH8k=; b=Am0nKJMyWofokdylEgZ6j240jvgKoxC2wVdywI3w7o
- TXw2t5imXEIfcVyKnq3lJNdUX2KJFcE7Cino2xXdppGcEOkDUkOhIW2hcwn9JgxU
- Au5NbMSTSgwfLmy1omaIUzfJI/0yozTI21G3/wRMdYGo3FwEAbm4V9KJa9cW7F7z
- 2EElZcT0k3FK7xwj3Yf+NZ76HPURXoEaeujH+tSs/Cnw281zM2mJi8xddDWGDr2g
- +OpfcNkPl0K6g214dF1nR/7ie43FaD5qxd3H60bnS6XbJB3jbTmbbm9h3J62/SkE
- 8yysKrqB4khbMSi1WT8iHLmvjf0sdqiVUjyez21aUR5g==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=OwQKyqvrIAw6Q
+ QNJz1/HxcS1f9tb+afhuYbkHeFh3AU=; b=h+NYjRWH9tGnH7DqRv5xnZkkvmQuw
+ mJatuAWXU0vcBrIiIggJlfDPOsjc5txYkNu15p0m60rVt4JAT7xaVju5IpvumyWT
+ kaT+iv4ZHisI9VNJEqY+3dwGsCxdvpJGG04D+OMmNMCX8rzRWkAp8cGjx6vBFWLt
+ n9pD0p5P16ZNxrH1SrcWE5Xw683EHpzEakiwXZyng6CV/f2VDgC/lGnj0aehkF0w
+ UrzRuXsOhFCPvte4cBpw4aG3gGW18FZ6Q/4MxdQmoZ8v6w77q74/35fs6ZPCmZkt
+ n2TVsuQ8g18O/Bvu/fsgFLFRhuCHkHIr/hq3Jrf9wwk7Q6nzqWd/G7RRg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=HTbmG4
- L5dimVQlEHDp46JSmo+oiFWtG0aq9BZzQbH8k=; b=iGLXLqjAYCZtjJ4hl/g9Ho
- bqA/CPQp/uL+/9fPyw9llQ+Bldd6QOioNzwdVDlCMRkcHPz53gCRTT+9lhegxGes
- rDVnPz/GLvIe0R9d/rJwmR++VQTQG8EoHC0wczrAnEvWEyCGEdWpy+al8HI5Dsck
- ki395+vkFwlneq10EdEYyvAKY1divuAl70zCYTh99IXEOES+bY2aZ8jasDuDicAX
- PgyRm/Duw05ScbhqGl7uEq3RNFpgPzgIyRBExuvpV9kyA9rU07OFVsEY+xswWYKQ
- 7DBCT3BrJcBZq/k9GP1Le9vmNrLf4xo2t+GukpSYTT7AjRrHi4EuIqSh7PzT9vtQ
- ==
-X-ME-Sender: <xms:JhQ0YGrFOSE7EqbPy7NhSzIXgnpaP_MMtq00n_tOgHbdf-89E99BKQ>
- <xme:JhQ0YMbNeN9BWT02FdSjpsaaeUC0eH3IY0D3ifQ81kXiMlp1pI4U-Io5kWl0vp-Ou
- vyElQF2EAk2wv1W6FE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeejucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=OwQKyqvrIAw6QQNJz1/HxcS1f9tb+afhuYbkHeFh3AU=; b=I3X7hnpl
+ gbY+/Q6xmPPEXhB749xOg9qC2vxOpVpBQnRCXn/m0mIg7T46Nf394s1aQPvaNzw5
+ hPlIps1aFINavgGSiN/xyPNwoZUUKqbngUU7u8PSwn2YxTrGsWA/uDga5YkXUDq5
+ QjERLfdrQV460SyGP5dwxwt8YivjLTprCLVCgDoa9is3+2lhGqnJDNJ/NnNs64NZ
+ UrcVO+vU1Bf+3oJfQ1XZAulgo9v3qGhOgwCc3DNKSryKkQi89JZMHQ/ugxovHaBV
+ bY4Tu69g6CZ9ZmFcddvugB1LC2SHqlru/6VHBWykuf6hleukAD53UZwE5NMnD9Bl
+ 5ikmJIKW4jV9hg==
+X-ME-Sender: <xms:JxQ0YEtHwuvVw5ndIrc5tfuZJSeBk3PlhibSnlcZgBbs6wuKwldIhQ>
+ <xme:JxQ0YBfZ3_gJUrkQU8o3sSIcqibjsby08Zi2Yd2aSORf3M12Ma5Cm_nMU9dAweZYi
+ UoNFX64VAPxdD8j75g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeefgddufeeiucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhephfegveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefh
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:JhQ0YOT8OIA5Ets7hKR2LjpNclXyxZt46KeD2inckAjw8txpAICrIA>
- <xmx:JhQ0YD4GOrA32ydiP-QWuZOGdVN02pv-gn87SKag5yQ4QqWeRI0sFw>
- <xmx:JhQ0YDxmSx0yqWxgoHcEdJ3jf6ed8V3QGNnrUe9iI12ssNE1DeH6VA>
- <xmx:JxQ0YE7FgPl1YKFVuiIGucrw0MC_VM0d1_u7IzuPjJitpn_hIE4LqA>
+ cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:JxQ0YPxw7h4sDA91B0LXSfsJ-qlABy4smJeSAIDlTGaPrgtLb-Sglw>
+ <xmx:JxQ0YHPvO1r6oYbG4HyKCdNDiOIZCT6ZA610eu8P8i4oAkns9Ks9ww>
+ <xmx:JxQ0YE8K7vjIGmchy2kTsLK0mbfB4CGMp6g86Gv_et_xG0YdrwsvTQ>
+ <xmx:JxQ0YIbPklbcQj9GfbrKE-HrETSy_mqJ8oDl00vcR6xbGLeC6HMR2Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 44C5524005B;
- Mon, 22 Feb 2021 15:29:25 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 6A332240066;
+ Mon, 22 Feb 2021 15:29:26 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw/block/nvme: mdts/zasl cleanup
-Date: Mon, 22 Feb 2021 21:29:18 +0100
-Message-Id: <20210222202921.92774-1-its@irrelevant.dk>
+Subject: [PATCH 1/3] hw/block/nvme: document 'mdts' nvme device parameter
+Date: Mon, 22 Feb 2021 21:29:19 +0100
+Message-Id: <20210222202921.92774-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210222202921.92774-1-its@irrelevant.dk>
+References: <20210222202921.92774-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -97,55 +98,33 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-The gist of this series is about aligning the zoned.zasl parameter with=0D
-the mdts parameter. I complained about this back when I was reviewing=0D
-the zoned series but was shot down. I relented on the size/capacity=0D
-debate (and still fully support that), but I never really liked that=0D
-ZASL is different from MDTS. Changing the definition makes the=0D
-validation code much simpler and, well, it aligns perfectly with the=0D
-existing mdts parameter, which is the goal here.=0D
-=0D
-While the current definition of zasl is in master, it has not yet been=0D
-released, so this is sort of our last chance to change this before v6.0.=0D
-=0D
-I'll repeat the commit message of [3/3] here for context:=0D
-=0D
-ZASL (Zone Append Size Limit) is defined exactly like MDTS (Maximum Data=0D
-Transfer Size), that is, it is a value in units of the minimum memory=0D
-page size (CAP.MPSMIN) and is reported as a power of two.=0D
-=0D
-The 'mdts' nvme device parameter is specified as in the spec, but the=0D
-'zoned.append_size_limit' parameter is specified in bytes. This is=0D
-suboptimal for a number of reasons:=0D
-=0D
-  1. It is just plain confusing wrt. the definition of mdts.=0D
-  2. There is a lot of complexity involved in validating the value; it=0D
-     must be a power of two, it should be larger than 4k, if it is zero=0D
-     we set it internally to mdts, but still report it as zero.=0D
-  3. While "hw/block/nvme: improve invalid zasl value reporting"=0D
-     slightly improved the handling of the parameter, the validation is=0D
-     still wrong; it does not depend on CC.MPS, it depends on=0D
-     CAP.MPSMIN. And we are not even checking that it is actually less=0D
-     than or equal to MDTS, which is kinda the *one* condition it must=0D
-     satisfy.=0D
-=0D
-Fix this by defining zasl exactly like mdts and checking the one thing=0D
-that it must satisfy (that it is less than or equal to mdts). Also,=0D
-change the default value from 128KiB to 0 (aka, whatever mdts is).=0D
-=0D
-Klaus Jensen (3):=0D
-  hw/block/nvme: document 'mdts' nvme device parameter=0D
-  hw/block/nvme: deduplicate bad mdts trace event=0D
-  hw/block/nvme: align zoned.zasl with mdts=0D
-=0D
- hw/block/nvme.h       |  4 +--=0D
- hw/block/nvme.c       | 67 ++++++++++++++-----------------------------=0D
- hw/block/trace-events |  4 +--=0D
- 3 files changed, 25 insertions(+), 50 deletions(-)=0D
-=0D
--- =0D
-2.30.1=0D
-=0D
+Document the 'mdts' nvme device parameter.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 1cd82fa3c9fe..6a27b28f2c2d 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -63,6 +63,12 @@
+  *   completion when there are no outstanding AERs. When the maximum number of
+  *   enqueued events are reached, subsequent events will be dropped.
+  *
++ * - `mdts`
++ *   Indicates the maximum data transfer size for a command that transfers data
++ *   between host-accessible memory and the controller. The value is specified
++ *   as a power of two (2^n) and is in units of the minimum memory page size
++ *   (CAP.MPSMIN). The default value is 7 (i.e. 512 KiB).
++ *
+  * - `zoned.append_size_limit`
+  *   The maximum I/O size in bytes that is allowed in Zone Append command.
+  *   The default is 128KiB. Since internally this this value is maintained as
+-- 
+2.30.1
+
 
