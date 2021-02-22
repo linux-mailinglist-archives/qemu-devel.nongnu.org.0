@@ -2,74 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD83321A24
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:22:13 +0100 (CET)
-Received: from localhost ([::1]:47760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A85D3321A5F
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 15:32:08 +0100 (CET)
+Received: from localhost ([::1]:35062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEC6G-0008BP-4g
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:22:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45678)
+	id 1lECFr-0008L1-ON
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 09:32:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEC4C-00076G-9s
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:20:04 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:46574)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lECEy-0007hu-0Q
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:31:12 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEC47-0002kP-Pd
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:20:03 -0500
-Received: by mail-ej1-x636.google.com with SMTP id r17so3269000ejy.13
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 06:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=3cwrLLT0Sx9k75ti66df7DS3UlSsbDApUDJDHCs2JTY=;
- b=V5VwBSKZE6lmk+tMck7o6JaCovm4/VrH0ZOChaO/PbwiOFp564GqEkxqbmntq08l5J
- olXmIoy9RrPPC+qWKGOxQBFMcw/MwNmwf0gNEtKBzEVMEcqnFeVni4EIysaj6skQrxPy
- HwGN3tZBU5NNIx6AcQim+1FoqWCZ2qfHIPFVOjVM3fawYQDm+vMQmmTW7sVEhP0ALUw1
- +S1opHAqFfRjosuxp5YMaYi9TQkCm7cx45G4N3zYMk8TqzYat/qXOvKyG2Pt+GzuxkAd
- 5at8ox99mAyKmSBKUiBQ7bCPsoFxKmzBZoI2tUNu5bdMEiD9rIFxdpwYXeIeB7LTmCVt
- MD4w==
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lECEv-0007o6-NT
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 09:31:11 -0500
+Received: by mail-wr1-x433.google.com with SMTP id l12so19305633wry.2
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 06:31:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=WAzYnNI34/hACyG3M2i5zRRziXIyzO+10bey5F98dIg=;
+ b=x6aydmSQGYSrvXnAgIvxNgDXAYbOo5QjP1nh/RCP/ulREEFKM+fAEIC5F4k7RqOt4u
+ uovF98zbGafILH0rR6yEuSJv9SnA9suk14/pSV7sYEUy68CLvm5/6WM/hC7cqiWf02uO
+ P194IhPWCqdPOvrAnp9zCdnSumhsHHhyBGwZmzf+fEFLDa7f+loEEbA2wQb9jO5nLcrP
+ qhtgzRCpmaUBqFWjKM02fQKDcJcATcpl8l5N7EuESrMs3N5n1Fr/jNoolz0QTZgnAeaf
+ ozuTMmnoOdGkytPFx5kMIDnHWpUxpH7N0ZQujzxHJPW4k5gp2V0ko0uEdCc1ttmn6Yn9
+ NWyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=3cwrLLT0Sx9k75ti66df7DS3UlSsbDApUDJDHCs2JTY=;
- b=a/CseY+kU+p0bNwms73Pmvx5nnINyik8iURB0jnroILxhSuJkB7LBH1/YXCcb2pl3o
- RTKB1yAudWrTMy+el2mwBOyoN0ja8TMlM9JXxWf6gs0bxrD/XHFXiEttPM2rqcyjuJvH
- 99ki9vputNY5Z7tz22bNRUM+kjF5zuEgiUT7vEDl0XNGh7auknu+hqLCfy43LPSeXmW+
- PR5lIDyVlxZYbjlRfdhL9ZJsAFmHofECYT16QhCKE3i6i7ssYyGF5xsF/v4xEeOR7N+F
- 7/QA8JmvHzygZ9ZxbQjikRBcODaoGx/WmH/GJIQ+Xb2CaCoNPJvKbiMZltpkQ88mzt4f
- B3+w==
-X-Gm-Message-State: AOAM5307+cVlxRfAObsEFQjg4D134IsbWir/G/1nG92l7Pf8xHA5VGYQ
- bkQBEKJipcHZU/pOnqNFeC5ENAs5K+Omg1JdUpp1Dw==
-X-Google-Smtp-Source: ABdhPJwGRfqzWnroS02Kl1/5JwUTc8Ui8Iemqh3OH0V0zMxdk6wgoaSE5X9441+U1GsU1Xx/YoeFKzfvdGvkIzlK2bw=
-X-Received: by 2002:a17:906:ca58:: with SMTP id
- jx24mr18259995ejb.482.1614003569694; 
- Mon, 22 Feb 2021 06:19:29 -0800 (PST)
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WAzYnNI34/hACyG3M2i5zRRziXIyzO+10bey5F98dIg=;
+ b=RLHfnlO5ZMCCW4kY9jE4CtlVp3rtwDusDZ0mG1Zn7djKC8r4fJgiaTnZP1w76rfbQS
+ clTVU5WPPkHI6/ot7DD6ZK171Yuocpg/PNtt+OGnRITpbFHG2Rw79zTRzEGIWU19tcj6
+ bP1PRmgEsyzYLP3qdHKaxfJmSfRZeVIbrmsbh/xpnFX7CkVjf2jkgDjX1Vk5keTOvOEJ
+ 7SBT3nmkCRCF77DaHgRkji0/TK6Ppi3/6L5lrATt0FYPCCl9Re96ib89MUS3OpSao0PY
+ dRIey7QdV7LUQ7YVzSRh0tmEkck/JdVXxtCOfdz3vInc/+NhDQC1S84ZUkOEBma87KB5
+ wjYQ==
+X-Gm-Message-State: AOAM533U5rWPE2gWJG3qmXrfpK8NX7uCja/gEIMAZXWlIj8TyP/Mb/LY
+ b+KTnMTcJESbyHx7XOEB8BnZug==
+X-Google-Smtp-Source: ABdhPJy9yeLnzcRm7FjYinAPz8lyUYxT8C8fdB6ggl+ujwdOV3tcLV/mFryFh4KOzaDHcmF3/rb0dA==
+X-Received: by 2002:a05:6000:1841:: with SMTP id
+ c1mr21316449wri.278.1614004267059; 
+ Mon, 22 Feb 2021 06:31:07 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id y12sm17142621wrm.33.2021.02.22.06.31.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 06:31:06 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id db019096;
+ Mon, 22 Feb 2021 14:31:05 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH v2 3/3] hw/pflash_cfi01: Allow devices to have a
+ smaller backing device
+In-Reply-To: <012fce58-9543-eb63-0358-a0b3f135f6c2@redhat.com>
+References: <20210222090747.2310104-1-david.edmondson@oracle.com>
+ <20210222090747.2310104-4-david.edmondson@oracle.com>
+ <012fce58-9543-eb63-0358-a0b3f135f6c2@redhat.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Mon, 22 Feb 2021 14:31:05 +0000
+Message-ID: <cunblccw4wm.fsf@dme.org>
 MIME-Version: 1.0
-References: <20210221215915.2568943-1-f4bug@amsat.org>
- <20210221215915.2568943-2-f4bug@amsat.org>
- <CAFEAcA8myJg96kdcMX+aQJm=ngPdW564=b46N=knFCO-dGkiYg@mail.gmail.com>
- <f243ee8c-39de-5b48-b329-9440594a3f2a@amsat.org>
-In-Reply-To: <f243ee8c-39de-5b48-b329-9440594a3f2a@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 22 Feb 2021 14:19:18 +0000
-Message-ID: <CAFEAcA-dqQFR+J7+aAiT3Haajc=12xQq8kSxRHqqUzLwqbRTrA@mail.gmail.com>
-Subject: Re: [PATCH v3 1/8] hw/sh4: Add missing license
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: neutral client-ip=2a00:1450:4864:20::433;
+ envelope-from=dme@dme.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,48 +90,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- Yoshinori Sato <ysato@users.sourceforge.jp>,
- Magnus Damm <magnus.damm@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Max Reitz <mreitz@redhat.com>, Samuel Tardieu <sam@rfc1149.net>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Feb 2021 at 14:13, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Monday, 2021-02-22 at 15:06:35 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+
+> Hi David,
 >
-> On 2/22/21 2:55 PM, Peter Maydell wrote:
-> > On Sun, 21 Feb 2021 at 21:59, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.=
-org> wrote:
-> >>
-> >> This code was introduced in commit 27c7ca7e775,
-> >> ("SHIX board emulation (Samuel Tardieu)"). Use
-> >> the same license.
-
-> > I thought it wasn't generally recommended to convert
-> > a license text to a single SPDX line? The sh7750.c file
-> > has a full 3-para license text.
+> On 2/22/21 10:07 AM, David Edmondson wrote:
+>> Allow the backing device to be smaller than the extent of the flash
+>> device by mapping it as a subregion of the flash device region.
+>>=20
+>> Return zeroes for all reads of the flash device beyond the extent of
+>> the backing device.
+>>=20
+>> For writes beyond the extent of the underlying device, fail on
+>> read-only devices and discard them for writable devices.
 >
-> Yes you are right, sorry. I'll respin.
+> This looks much simpler now.
 
-Also on the subject of sh4 code licenses, hw/sh4/sh7750_regs.h
-has
- * The license and distribution terms for this file may be
- * found in the file LICENSE in this distribution or at
- *  http://www.rtems.com/license/LICENSE.
-because it's borrowed from RTEMS.
-(The license at the URL is gpl-2-or-later with a header exception).
+Thanks for looking at it.
 
-Maybe we should expand the license in-place so we're not dependent
-on a 3rd party website to stay up to tell us what the license
-on the file is? In particular I assume the comment really
-means "the file LICENSE in the rtems distribution"
-https://git.rtems.org/rtems/tree/LICENSE (same text as web page)
-and not the file LICENSE in QEMU, which is not the same thing,
-so that part is actively misleading.
+>> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+>> ---
+>>  hw/block/pflash_cfi01.c | 108 ++++++++++++++++++++++++++++++----------
+>>  hw/block/trace-events   |   3 ++
+>>  2 files changed, 86 insertions(+), 25 deletions(-)
+>
+>>      if (pfl->blk) {
+>>          uint64_t perm;
+>> +
+>>          pfl->ro =3D !blk_supports_write_perm(pfl->blk);
+>>          perm =3D BLK_PERM_CONSISTENT_READ | (pfl->ro ? 0 : BLK_PERM_WRI=
+TE);
+>>          ret =3D blk_set_perm(pfl->blk, perm, BLK_PERM_ALL, errp);
+>>          if (ret < 0) {
+>>              return;
+>>          }
+>> +
+>> +        inner_len =3D blk_getlength(pfl->blk);
+>> +
+>> +        if (inner_len > outer_len) {
+>> +            error_setg(errp,
+>> +                       "block backend provides %" HWADDR_PRIu " bytes, "
+>> +                       "device limited to %" PRIu64 " bytes",
+>> +                       inner_len, outer_len);
+>> +            return;
+>> +        }
+>
+> Do you mind extracting this change in a previous patch?
 
--- PMM
+Before this change that test was performed by
+blk_check_size_and_read_all(), which insisted that the block device was
+exactly the same size as the region (because it was told to read enough
+bytes to fill the region).
+
+Now that we pass the size of the backing device to that function, rather
+than the size of the region, it's necessary to add the extra check
+before the call.
+
+Hence, I don't think that it's useful to add this as an earlier patch.
+
+It would perhaps make sense to switch away from
+blk_check_size_and_read_all(), preferring to just call blk_pread() now,
+which would be cleaner?
+
+dme.
+--=20
+Do I have to tell the story, of a thousand rainy days since we first met?
 
