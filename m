@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91AF2321EFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 19:18:23 +0100 (CET)
-Received: from localhost ([::1]:60244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A88E321F19
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 19:24:03 +0100 (CET)
+Received: from localhost ([::1]:36620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEFmo-0003VN-L6
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 13:18:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33694)
+	id 1lEFsI-0005rV-5E
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 13:24:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEFkC-0002Zp-2e
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:15:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:21713)
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1lEFrG-0005Pk-89
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:22:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEFk9-0006qZ-DK
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:15:39 -0500
+ (Exim 4.90_1) (envelope-from <pkrempa@redhat.com>)
+ id 1lEFrC-0000qd-1u
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 13:22:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614017735;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1614018172;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BIYDINmA+s9L1cgWv2wqmURWttMuM0iVhSPANY/Lxn0=;
- b=Lr0/KFGULb8jdk12v9k9vmRc6DFMgnnFMnvk4o8m9xIzUt6p0KhzlQuABDpoOTa7riX3e9
- FL/2DtSBGq3VjpdgwaaQx+//WKXL3mt8cfehegPsZXAbGZd/r91XUL7ttHoo7VeOflKAcu
- XLNmi0BQlBTmR29Qp46PpoBtD7Taaog=
+ bh=605HT3GZYrJzwOtc09kEDNmROElmT7CQmvXpIhBugX0=;
+ b=HrkiXbeYt7cup7uKLs7jJfK1o/AUwDojYucSPZXmXWF4FRhXhBwx0/Q0SkBNHS/DATfUW5
+ mmQ3Vb6IYFPkOiqN00aqdC/KMVy9mB2wIRKwf4ebkgjauz2+gkCgYO/O9I7cF0UjMbwdfw
+ ZM136ta+iWbG+vRiGhZupq9DN1uCc60=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-5TIESmLUPS2mKTk-B8U5_w-1; Mon, 22 Feb 2021 13:15:31 -0500
-X-MC-Unique: 5TIESmLUPS2mKTk-B8U5_w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-426-3tXs2OkoOm2uBdtsr7goiQ-1; Mon, 22 Feb 2021 13:22:50 -0500
+X-MC-Unique: 3tXs2OkoOm2uBdtsr7goiQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CA7C6107ACF2;
- Mon, 22 Feb 2021 18:15:30 +0000 (UTC)
-Received: from redhat.com (ovpn-115-70.ams2.redhat.com [10.36.115.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E253219725;
- Mon, 22 Feb 2021 18:15:16 +0000 (UTC)
-Date: Mon, 22 Feb 2021 18:15:13 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 0/2] block: Use 'read-zeroes=true' mode by default
- with 'null-co' driver
-Message-ID: <YDP0sZHoT45skArd@redhat.com>
-References: <20210211142656.3818078-1-philmd@redhat.com>
- <20210213215448.GA67780@ip-172-44-255-31>
- <3da6a2aa-472e-d9e1-b803-303891513274@redhat.com>
- <38dd38eb-af59-8baf-b908-fb6c4e842cd1@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 760921074CC1;
+ Mon, 22 Feb 2021 18:22:49 +0000 (UTC)
+Received: from angien.pipo.sk (unknown [10.40.208.53])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 61C735D71D;
+ Mon, 22 Feb 2021 18:22:35 +0000 (UTC)
+Date: Mon, 22 Feb 2021 19:22:32 +0100
+From: Peter Krempa <pkrempa@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
+Message-ID: <20210222182232.GZ2875719@angien.pipo.sk>
+References: <875z2knoa5.fsf@dusky.pond.sub.org>
+ <ceb5d0f8-3022-e91a-006b-5ac6e5862e4a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <38dd38eb-af59-8baf-b908-fb6c4e842cd1@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <ceb5d0f8-3022-e91a-006b-5ac6e5862e4a@redhat.com>
+X-PGP-Key-ID: 0xD018682B
+X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pkrempa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pkrempa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -85,62 +81,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Bandan Das <bsd@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>
+Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Feb 19, 2021 at 03:09:43PM +0100, Philippe Mathieu-Daudé wrote:
-> On 2/19/21 12:07 PM, Max Reitz wrote:
-> > On 13.02.21 22:54, Fam Zheng wrote:
-> >> On 2021-02-11 15:26, Philippe Mathieu-Daudé wrote:
-> >>> The null-co driver doesn't zeroize buffer in its default config,
-> >>> because it is designed for testing and tests want to run fast.
-> >>> However this confuses security researchers (access to uninit
-> >>> buffers).
-> >>
-> >> I'm a little surprised.
-> >>
-> >> Is changing default the only way to fix this? I'm not opposed to
-> >> changing the default but I'm not convinced this is the easiest way.
-> >> block/nvme.c also doesn't touch the memory, but defers to the device
-> >> DMA, why doesn't that confuse the security checker?
+On Mon, Feb 22, 2021 at 18:42:00 +0100, Paolo Bonzini wrote:
+> On 22/02/21 15:57, Markus Armbruster wrote:
+> > * The block layer's pseudo-protocol "json:" (which can get embedded in
+> >    image headers)
 > 
-> Generally speaking, there is a balance between security and performance.
-> We try to provide both, but when we can't, my understanding is security
-> is more important.
-> 
-> Customers expect a secure product. If they prefer performance and
-> at the price of security, it is also possible by enabling an option
-> that is not the default.
-> 
-> I'm not sure why you mention block/nvme here. I have the understanding
-> the null-co driver is only useful for testing. Are there production
-> cases where null-co is used?
+> If it gets embedded in image headers, I don't think we'll be able to
+> deprecate it ever.  We'd need to keep a converter for old images, at which
+> point it's simpler to keep the extensions.
 
-Do we have any real world figures for the performance of null-co
-with & without  zero'ing ?  Before worrying about a tradeoff of
-security vs performance, it'd be good to know if there is actually
-a real world performance problem in the first place. Personally I'd
-go for zero'ing by defualt unless the performance hit was really
-bad.
+The converter or better 'fixer' actually doesn't need to be able to
+interpret the old string, just accept a new. IOW it's more of a
+documentation problem, because qemu-img can already do that since it's
+able to write invalid JSON without interpreting it:
 
-> BTW block/nvme is a particular driver where performance matters more
-> than security (but we have to make sure the users are aware of that).
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+$ qemu-img rebase -f qcow2 -F qcow2 -b 'json:{' -u /tmp/ble.qcow2
+$ qemu-img info /tmp/ble.qcow2
+image: /tmp/ble.qcow2
+file format: qcow2
+virtual size: 10 MiB (10485760 bytes)
+disk size: 196 KiB
+cluster_size: 65536
+backing file: json:{
+backing file format: qcow2
+Format specific information:
+    compat: 1.1
+    compression type: zlib
+    lazy refcounts: false
+    refcount bits: 16
+    corrupt: false
 
 
