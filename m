@@ -2,74 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C820E32152A
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 12:32:46 +0100 (CET)
-Received: from localhost ([::1]:51634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA001321532
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 12:38:12 +0100 (CET)
+Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE9SH-0003e7-Sb
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 06:32:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35902)
+	id 1lE9XX-0005lt-OY
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 06:38:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9QA-00037w-Gq
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:30:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29402)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lE9Q3-0005rB-1K
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:30:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613993424;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=erOluhgo1sGP9//1WgDuOpfFpdN2ZFLpoP/e4epbhZo=;
- b=Pbi0bDRgLH/aQcibkm9NtmsST7qYy8kEsO5q+bfpjuUPg9rYmb0soUdpvIYlMP4X+z71kN
- kU1EMG9nqze/87yea4olsc8Tac9SXAej9GXCcleqmt9KEmByOuEobl99z33JrRipsMClYn
- 04bShqaRFpNEJq04p57RrErnL/K34EQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-HwrYagBpPuOLa0tJz14ICw-1; Mon, 22 Feb 2021 06:30:23 -0500
-X-MC-Unique: HwrYagBpPuOLa0tJz14ICw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0248192CC4D;
- Mon, 22 Feb 2021 11:30:18 +0000 (UTC)
-Received: from [10.36.115.16] (ovpn-115-16.ams2.redhat.com [10.36.115.16])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 37F021F0;
- Mon, 22 Feb 2021 11:30:00 +0000 (UTC)
-Subject: Re: [PATCH v5 03/11] virtio-mem: Implement RamDiscardMgr interface
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210121110540.33704-1-david@redhat.com>
- <20210121110540.33704-4-david@redhat.com> <20210127201441.GR3052@work-vm>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <05a25150-730b-930a-c995-94389a0d9a89@redhat.com>
-Date: Mon, 22 Feb 2021 12:29:59 +0100
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE9WP-0005LE-CQ
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:37:01 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:46134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lE9WL-0000DC-UA
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 06:37:01 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id r17so2396292ejy.13
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 03:36:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NQSiEYIElSVcKFCAkUt87Jdtgr8D59sGeN2wVBmJISc=;
+ b=ikKSuFqbOW4XyyCiW+tG5cZn9s2OyLKWJqvVoYSmw/oKheF1+MKaVsuBVixFMBpbZW
+ jAbSuy1JvSnmMkilwM0KAxSrpjPObGWKcxdi9Qx5NSGRYCVJDPUBBGFDkSEogCXyLHyA
+ 1YlvdltCsoglt2h+MYxW487QGoKQeSI9vFeg0Ql6L5MKlNV1ZSBj4P9llGg+DyJv3Qe1
+ JL/T25byiUZp/h61Ny/Sd/kRnWw8zeZtdPuzpGKIHS1cGDmBP/gch5X9p/p4wm7trCdt
+ e1wQtw7MubUzjj873/QsKVml3LcsotFJo8EAFbxfYt47ssXyD+WqW2MrLuHmAa3CMRRe
+ ek8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NQSiEYIElSVcKFCAkUt87Jdtgr8D59sGeN2wVBmJISc=;
+ b=AwtHfgWHdtufhZHwd020DBj1HKQcBam39TZ3rQ4N2v7X0SC/BsZJPcJTmcGkfBm7NZ
+ /nl1hXy5DcPsa8uKrp0lRMlXqk/d72vwdgGyIc+eKcVFo2xbSMp7XPryupxveoTlGGy7
+ oNpTQw6OSTbV1nUaNS4mhQMvkopkvjpZ/chJylwNA5RRBs+4SNZHU76/je2+AMEt6h/5
+ UmKuOT1ygRVFnjczm5t7NsVAzIUgMeVJyoYymf2j8T7/pqXvdKfKB+q8U3UNenErf/KP
+ HCFACj2qTQW4PRO1PuesQneK6uXiVbm8tjow1Cpr0NuSAN1ZBK0y8/CemqCrk3IvUgTV
+ ECuw==
+X-Gm-Message-State: AOAM532D2Pp5R3UZ7ZlVqeKxbc4dQMJumRVlHtSckhq2yKKhU2GTnG8y
+ vDtsJ00nbT0GzQHMvZHbQ40=
+X-Google-Smtp-Source: ABdhPJwhVL7ua7cYk/+81IeK8eRZxXSxJl/1d+KHBd1lzwDpmTWQD6OqZBpHDfcTIQukS/wISRUWXQ==
+X-Received: by 2002:a17:906:2818:: with SMTP id
+ r24mr14083993ejc.472.1613993816402; 
+ Mon, 22 Feb 2021 03:36:56 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id y21sm8492957ejj.31.2021.02.22.03.36.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 03:36:55 -0800 (PST)
+Subject: Re: [PATCH v2 6/6] docs/devel: add forward reference to check-tcg
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210222101455.12640-1-alex.bennee@linaro.org>
+ <20210222101455.12640-7-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <20afa72c-da47-431a-6230-45cc46c15afb@amsat.org>
+Date: Mon, 22 Feb 2021 12:36:54 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210127201441.GR3052@work-vm>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210222101455.12640-7-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,35 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Auger Eric <eric.auger@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
+Cc: fam@euphon.net, Thomas Huth <thuth@redhat.com>, berrange@redhat.com,
+ stefanha@redhat.com, crosa@redhat.com, pbonzini@redhat.com,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->> +    if (ret) {
->> +        /* Could be a mapping attempt resulted in memory getting populated. */
->> +        ret2 = ram_block_discard_range(vmem->memdev->mr.ram_block, offset,
->> +                                       size);
->> +        if (ret2) {
->> +            error_report("Unexpected error discarding RAM: %s",
->> +                         strerror(-ret2));
+On 2/22/21 11:14 AM, Alex Bennée wrote:
+> For completeness reference the check-tcg tests in the container
+> preamble text.
 > 
-> Not a blocker, but it's good to include the RAMBlock/offset/size in
-> errors like these.
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Thomas Huth <thuth@redhat.com>
+> ---
+>  docs/devel/testing.rst | 5 +++++
+>  1 file changed, 5 insertions(+)
 
-Having a second look, ram_block_discard_range() already properly prints 
-errors including details. I think I can drop this error_report 
-completely (all errors when discarding are unexpected).
-
--- 
-Thanks,
-
-David / dhildenb
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
