@@ -2,81 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9C2321228
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:42:52 +0100 (CET)
-Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD24321230
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 09:44:51 +0100 (CET)
+Received: from localhost ([::1]:43856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lE6nr-0006uy-92
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:42:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53162)
+	id 1lE6pm-00018o-GD
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 03:44:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lE6if-0001Mi-9p; Mon, 22 Feb 2021 03:37:29 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lE6id-0002qr-OB; Mon, 22 Feb 2021 03:37:29 -0500
-Received: by mail-wr1-x435.google.com with SMTP id u14so18130728wri.3;
- Mon, 22 Feb 2021 00:37:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=tygrm846ZW6orgUpekWbujy4yxBMfasa9rICgjuq7VM=;
- b=rL9mJtuaMNq7Tgfkp/4a9BCRomcxofKKBBRNOgAcE8qBMC1SuBO52xB9p/UH98RJ7f
- VJsvnDVq9LofGprPwX4dVrzPPE3QZmhi30K86WhsMQJyXyO2svI/wjvj4Lfj5gIZvNht
- UOY9745Lkke1yDLJwzHUKLvf184zRAIfcLzeinO2HJDSgngCmk3kmSk5kvMljHNT7f7R
- jBT6Oaspy0ZKY7IN0ys/KkksNlLDbFoEJpDn04hBYKtAIwran0iq9/Hnd3od4xc3U/cv
- T2TbEE/BkHGPe54W6h2R0DQIyVkiP0uAo1YsQL6H4VLzMLvbUl4Acqx8wpcky6SkBWON
- wekA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=tygrm846ZW6orgUpekWbujy4yxBMfasa9rICgjuq7VM=;
- b=dqZ3ZFaxyQu0LkKX7p5+iLM8kRBtYJAzFGcf1WaIplRdcs1/u5NPclKq3e59TaXxqQ
- XTsW1LhQKlZhfhLFxAxgudA9zgHgvaH3tJxesu9sR7jSyiGMsz9ZBjxt7hge0sHnfFLh
- gCULd6ykkOQr+MYlcpNrN3kPGG6topjzg1vyCNPwdaEw+VgFweZcIRSzjtjebjbIXw6Q
- EnWkvqD5i9kkTf6+KjXPFrnh5FNMdS/reS7PCNn6A901oQeT7WdXdItXN1pWdkToRbPu
- VDOamReZWSoHbTyv1A6oxOZeqHUNy+LE0WDNfAPQAxWD88eA0uQITZKy1gE6IU5AvURu
- wrJg==
-X-Gm-Message-State: AOAM533ejlMywkZOoXtokqfoETG/LNrzqAGRPa+f2FzuyOZ+0nbEglvO
- HkNpJoPEIvSVauQRXjHeBa1Dtikz+qM=
-X-Google-Smtp-Source: ABdhPJyeSCK3XmnqYhDweft8P6+cxYPcBzCVCMLC6MsVJwFaJlGVzXKLfyLSmoN4u66Qf8dt/iccJA==
-X-Received: by 2002:adf:de01:: with SMTP id b1mr19996579wrm.369.1613983045948; 
- Mon, 22 Feb 2021 00:37:25 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id q25sm19890185wmq.15.2021.02.22.00.37.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 00:37:25 -0800 (PST)
-Subject: Re: tests: n810 arm failing
-To: Thomas Huth <thuth@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- avocado-devel <avocado-devel@redhat.com>
-References: <cef2f119-3612-65a0-d828-b480179dc3a9@amsat.org>
- <CAFEAcA-yLQNLVUPZPRnTTNupkUrgcTRHVR=SW1Yb6KEUeQjkoQ@mail.gmail.com>
- <85acde21-88ac-1925-b6f8-ce12c649556b@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <605e1cb5-a9b0-5c96-f2d0-33f14755feb1@amsat.org>
-Date: Mon, 22 Feb 2021 09:37:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lE6le-0005dT-PJ
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:40:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27399)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lE6lb-00046E-Lu
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 03:40:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1613983229;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yp8Ir18XdEFq8yMY183Erx1ipE7ib8JNuVWwLD7Hc/4=;
+ b=bkwT2jfBIbp0LAU/gFqKdAwxQsy4FQP/VBwQWN0EBHz596m82SzSGQtpAVt0jyc3bGXDeH
+ TXsRBN3RVvC8XaHT3vl2bHDllF241nr7RhTHcd1sKIZbZjWrC7+7RZiZwbHTydiRkIlA8/
+ +cm8dS3T2ClDaT3vL1O2YFQYbM0KjQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-z9xtmn6NM6KQrnCyZSUh2w-1; Mon, 22 Feb 2021 03:40:27 -0500
+X-MC-Unique: z9xtmn6NM6KQrnCyZSUh2w-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5D7A192AB79;
+ Mon, 22 Feb 2021 08:40:26 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+ (colo-mx02.intmail.prod.int.phx2.redhat.com [10.5.11.21])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B6C51001281;
+ Mon, 22 Feb 2021 08:40:26 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+ (zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+ by colo-mx.corp.redhat.com (Postfix) with ESMTP id 7DD514E58D;
+ Mon, 22 Feb 2021 08:40:26 +0000 (UTC)
+Date: Mon, 22 Feb 2021 03:40:06 -0500 (EST)
+From: Jason Wang <jasowang@redhat.com>
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <1306072831.56396199.1613983206292.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAC_L=vVoqVdetQfxDdvb=v9einKj+mhNs=p7Vybh1D6OgR1FvQ@mail.gmail.com>
+References: <20210122180029.575284-1-cohuck@redhat.com>
+ <20210129162719.7438dea2.cohuck@redhat.com>
+ <20210208181745.1ac08f12.cohuck@redhat.com>
+ <29651c01-6e9d-c7ef-def8-96dc75b00a3a@redhat.com>
+ <a8e4d6ee-cc78-75d8-d626-705477dfd134@redhat.com>
+ <CAC_L=vVoqVdetQfxDdvb=v9einKj+mhNs=p7Vybh1D6OgR1FvQ@mail.gmail.com>
+Subject: Re: [PATCH RFC] pvrdma: wean code off pvrdma_ring.h kernel header
 MIME-Version: 1.0
-In-Reply-To: <85acde21-88ac-1925-b6f8-ce12c649556b@redhat.com>
+X-Originating-IP: [10.72.12.244, 10.4.195.26]
+Thread-Topic: pvrdma: wean code off pvrdma_ring.h kernel header
+Thread-Index: fDYjdeYciwU8egUsfP4Mv4GFbcESFw==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.251,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,52 +91,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm <qemu-arm@nongnu.org>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu devel list <qemu-devel@nongnu.org>,
+ Yuval Shaia <yuval.shaia.ml@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 7:25 AM, Thomas Huth wrote:
-> On 21/02/2021 20.33, Peter Maydell wrote:
->> On Sun, 21 Feb 2021 at 17:26, Philippe Mathieu-Daudé <f4bug@amsat.org>
->> wrote:
->>>
->>> Hi,
->>>
->>> The n810 arm test failed on latest master:
->>>
->>> https://gitlab.com/qemu-project/qemu/-/jobs/1045015424/artifacts/browse/build/tests/results/latest/test-results/26-tests_acceptance_machine_arm_n8x0.py_N8x0Machine.test_n810/
->>>
->>
->> It passed on the gitlab CI run on the exact same commit hash
->> as 'staging' before I pushed the merge, though...
-> 
-> Looking at the following run, it failed with some timeouts as well:
-> 
->  https://gitlab.com/qemu-project/qemu/-/pipelines/259425956
-> 
-> ... but in completely different spots.
 
-This one is "read ASDF from console but some char got eaten
-so ASF was displayed and Avocado is reading infinitely for
-ASDF".
 
-> So maybe it was "just" a global
-> slow-down in the CI farm? (Which sounds somewhat worrisome, too ... I
-> hope gitlab-CI is not going down the same road as travis-ci.org did
-> during the past year)
+----- =E5=8E=9F=E5=A7=8B=E9=82=AE=E4=BB=B6 -----
+> Hi Jason.
+>=20
+> On Tue, Feb 9, 2021 at 5:47 AM Jason Wang <jasowang@redhat.com> wrote:
+>=20
+> >
+> > On 2021/2/9 =E4=B8=8A=E5=8D=881:28, Paolo Bonzini wrote:
+> > > On 08/02/21 18:17, Cornelia Huck wrote:
+> > >> On Fri, 29 Jan 2021 16:27:19 +0100
+> > >> Cornelia Huck <cohuck@redhat.com> wrote:
+> > >>
+> > >>> On Fri, 22 Jan 2021 19:00:29 +0100
+> > >>> Cornelia Huck <cohuck@redhat.com> wrote:
+> > >>>
+> > >>>> The pvrdma code relies on the pvrdma_ring.h kernel header for some
+> > >>>> basic ring buffer handling. The content of that header isn't very
+> > >>>> exciting, but contains some (q)atomic_*() invocations that (a)
+> > >>>> cause manual massaging when doing a headers update, and (b) are
+> > >>>> an indication that we probably should not be importing that header
+> > >>>> at all.
+> > >>>>
+> > >>>> Let's reimplement the ring buffer handling directly in the pvrdma
+> > >>>> code instead. This arguably also improves readability of the code.
+> > >>>>
+> > >>>> Importing the header can now be dropped.
+> > >>>>
+> > >>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> > >>>> ---
+> > >>>>
+> > >>>> Compile-tested only, needs both testing and more eyeballs :)
+> > >>>
+> > >>> Friendly ping :)
+> > >>>
+> > >>> Suggestions for a test setup to do some sanity checks (that does no=
+t
+> > >>> require special hardware) also welcome.
+> > >>
+> > >> Can I interest anyone in this? I'd be happy doing sanity tests mysel=
+f,
+> > >> but I have a hard time figuring out even where to start...
+> > >
+> > > Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+> > >
+> > > Jason, Michael, are you going to pick this up?
+> > >
+> > > Paolo
+> >
+> >
+> > I will queue this.
+> >
+>=20
+>=20
+> Have you picked it up? It will be great so I'll not send a PR with a sing=
+le
+> patch...
+> BTW, Yuval tested and acked the patch.
 
-The question here is how can we detect the failure cause? Is it the
-CI infra or our test?
+Plan to send a pull request this Friday.
 
-Currently Avocado only dump log for "FAILed" tests.
+It should be part of that.
 
-I sent a patch to also dump the log for "INTERRUPTed (by timeout)":
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg782782.html
+Thanks
 
-Here we got an ERROR result (SIGTERM) so the log is not dumped.
+>=20
+> Thanks,
+> Marcel
+>=20
+> [...]
+>=20
+>=20
+> >
+> >
+>=20
 
-Regards,
-
-Phil.
 
