@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 505CD321B51
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:24:56 +0100 (CET)
-Received: from localhost ([::1]:44252 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A714321B03
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 16:15:52 +0100 (CET)
+Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lED4x-00067s-4N
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:24:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57304)
+	id 1lECwB-0003tm-6P
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 10:15:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lECtR-0001Qv-7o
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:13:01 -0500
-Received: from mail-qk1-x72d.google.com ([2607:f8b0:4864:20::72d]:41691)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1lECtM-0000uU-NV
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:13:00 -0500
-Received: by mail-qk1-x72d.google.com with SMTP id q85so12826931qke.8
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 07:12:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=tVDNS81LfFfcaq6f1jauFh4EhXfJMVZyKinQpeemO9A=;
- b=odprYQtuaktdKe5us7BxT4fUlaHeKzI9o0AVuasgYBnKHCdPTOfx9OSsdeY/g4r193
- 09TLysKEA1MF61kQFukD67rTT2PZQ25UnzChv3fp7buJ1FmCF4wQUosCWTGpBHCZocKY
- fMj84N2h7v8snjfyG24nv5OCbCjdgiiHLKwazIZvb4IzMhCKfrrAFZ7sStEH4XQ6Bu7W
- K7fvhyYFAnGVDX6cQ96wWzEAMFkivOovRJfY2DTIFf8/LbkvJtsexM+wW/LsxoMeM7fb
- oayRP8T+cBvoUYxrNGspALcc7C86z0x5y8K8VgXuMOD2G4C24/qG2l1MX3V/2mHig5PH
- GCmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tVDNS81LfFfcaq6f1jauFh4EhXfJMVZyKinQpeemO9A=;
- b=QFe+udL1Bpt4xbb46mF+un13K9BgAvL2rJhJ2oRVvBfPKdSrV0G88u1cpyL+fWym9z
- tbgbNjfGwlUNQvONgEw4v1TPpB7+P6LpShFG0HOnyzdA47KivDoWeqFdVIHXn8zdRki2
- bwYEG/vzzzVw5RiRH3affHOvaW8FdntQPBTF0c6mW/QREpctQ6E1Eq2zsagmMB3y7a+f
- dwk/pvE58DVuY1qRBUoY6qPs5b8O+RsHVOr2lhgC5vDYFovFEZR9oc34pJ2WL0R0A1dJ
- F2WV7qkMZA0wtihS5l68O/2HfgbEKSr4MduG382p4WNOclhGCCHSjkdo0bO+hCyOab0E
- iPqQ==
-X-Gm-Message-State: AOAM531KbuQhlAeFmuhmux/3kFTVbGvDWwDYhbygUV+ild7KRqDeD2qe
- 5lf6AGlopMDHIpURfzyPiFnQO5MyFGm6VkQS+SwHIQ==
-X-Google-Smtp-Source: ABdhPJyaK+MTM7WxdrJ043mtnecNMUl1RIF2o1BN9qaMB6U0ZfGP8ePAaAx/9xMoXkUCnClJiXY+wF3UvS11PEJHVJg=
-X-Received: by 2002:a05:620a:12d1:: with SMTP id
- e17mr21099079qkl.89.1614006772553; 
- Mon, 22 Feb 2021 07:12:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lECu3-00026e-O0
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:13:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37075)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lECu2-0001Bq-3s
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 10:13:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614006816;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cY8YIfaYQ1WDKdLu8rqTYk0ShExwbqbrLAUm0OwmLdU=;
+ b=iyWB/E6t+UHLI9Q3rPwZTEADcVy0HWC/KilXZ1yKHVLL+R0VoIA8ztgxvQbboecCwBgk5Y
+ UqgrhW9Hut3MrJ64ub8eVEEv+VoRcffeZCIpagF4ZPTzq28wh0oufUrD+MoUFOCxceY+8f
+ tfkkHfoCjkxTrH0nd+Wsg3hO/LyL97A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-594-DB10Lh_rOAOw7vhJDnzoJQ-1; Mon, 22 Feb 2021 10:13:34 -0500
+X-MC-Unique: DB10Lh_rOAOw7vhJDnzoJQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04FDC106BAF2
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 15:13:34 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-184.ams2.redhat.com
+ [10.36.114.184])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BE21D6091A;
+ Mon, 22 Feb 2021 15:13:33 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 28A771800399; Mon, 22 Feb 2021 16:13:32 +0100 (CET)
+Date: Mon, 22 Feb 2021 16:13:32 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 0/8] [RfC] fix tracing for modules
+Message-ID: <20210222151332.vea6cszd4pwtkeno@sirius.home.kraxel.org>
+References: <20210121125028.3247190-1-kraxel@redhat.com>
+ <20210203163202.GF241524@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20210219212352.74172-1-imp@freefall.freebsd.org>
- <20210222132131.cnxc7a3c6fkbmkvj@sirius.home.kraxel.org>
-In-Reply-To: <20210222132131.cnxc7a3c6fkbmkvj@sirius.home.kraxel.org>
-From: Warner Losh <imp@bsdimp.com>
-Date: Mon, 22 Feb 2021 08:12:41 -0700
-Message-ID: <CANCZdfrhXf4j5vZw+bMdwVShVcYZocNcXYkJqNeKjGB2j8rtpA@mail.gmail.com>
-Subject: Re: [PATCH] FreeBSD: Upgrade to 12.2 release
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000057ef9005bbee3cd9"
-Received-SPF: none client-ip=2607:f8b0:4864:20::72d;
- envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x72d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210203163202.GF241524@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,78 +79,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kyle Evans <kevans@freebsd.org>, Warner Losh <imp@freebsd.org>,
- Warner Losh <imp@freefall.freebsd.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Ed Maste <emaste@freebsd.org>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000057ef9005bbee3cd9
-Content-Type: text/plain; charset="UTF-8"
+  Hi,
 
-On Mon, Feb 22, 2021 at 6:21 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+> > TODO:
+> > Enabling modular tracepoints via -trace cmd line doesn't work yet.
+> > Guess we need to store the list somewhere for later re-processing.
+> > Error handling is tricky, specifically the "tracepoint doesn't exist"
+> > error.  Suggestions / ideas are welcome.
+> 
+> Two ideas:
+> 
+> Global trace event name list
+> ----------------------------
+> Build *some* global information about all trace events, including
+> modules, into the main QEMU binary. For example, generate an array of
+> all trace event names so QEMU can always print an error if a
+> non-existent trace event name is used. (This is similar to the
+> trace-events-all file, which is a global list of all trace events.)
+> 
+> Module name prefixes
+> --------------------
+> Allow an optional module/group prefix like qxl:my_trace_event. When the
+> user says:
+> 
+>   --trace qxl:my_trace_event
+> 
+> QEMU knows that this trace event belongs to the "qxl" module/group. It
+> will not attempt to load it until the qxl module registers itself.
+> 
+> If "my_trace_event" doesn't exist in the qxl module:
+> 1. If the qxl module is not loaded we don't hit an error. Nevermind.
+> 2. When the qxl module is loaded pending events are resolved and an
+>    error is printed.
 
-> On Fri, Feb 19, 2021 at 02:23:52PM -0700, Warner Losh wrote:
-> > From: Warner Losh <imp@FreeBSD.org>
-> >
-> > FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD's
-> > project's packages will work.
->
-> Not working.  There is a little change in the time zone selection
-> dialog and we need adjust the install script ...
->
-> -        self.console_wait_send("Time Zone Selector",    "a\n")
-> +        self.console_wait_send("Time Zone Selector",    "0\n")
->
-> Try "make vm-build-freebsd" to test changes, add "V=1" for
-> trouble-shooting.
->
+Finally found the time to look at this again... 
 
-Thanks! I'll have to start doing that...
+So, we already have a "group".  Which is basically the sub-directory of
+the trace-events file right now, and it seems to be mostly a build system
+thing.  We get many small lists instead of one huge, but there seems to
+be no other effect.  We could change that though, by giving each group
+an (optional?) prefix.
 
+There also is a probe prefix, apparently used by dtrace only.  Not sure
+how to deal with that.  It prefix is qemu-<target-type>-<target-name>.
+Giving qemu modules its own dtrace prefix looks sensible to me.  That
+would probably something like "qemu-module-<name>".
 
-> With that change it seems to work fine (my test install is still busy
-> fetching packages over my slow internet link ...).
->
+take care,
+  Gerd
 
-I'll rebase and try it here...
-
-Warner
-
---00000000000057ef9005bbee3cd9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 22, 2021 at 6:21 AM Gerd =
-Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, =
-Feb 19, 2021 at 02:23:52PM -0700, Warner Losh wrote:<br>
-&gt; From: Warner Losh &lt;imp@FreeBSD.org&gt;<br>
-&gt; <br>
-&gt; FreeBSD 12.1 has reached end of life. Use 12.2 instead so that FreeBSD=
-&#39;s<br>
-&gt; project&#39;s packages will work.<br>
-<br>
-Not working.=C2=A0 There is a little change in the time zone selection<br>
-dialog and we need adjust the install script ...<br>
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.console_wait_send(&quot;Time Zone Selecto=
-r&quot;,=C2=A0 =C2=A0 &quot;a\n&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.console_wait_send(&quot;Time Zone Selecto=
-r&quot;,=C2=A0 =C2=A0 &quot;0\n&quot;)<br>
-<br>
-Try &quot;make vm-build-freebsd&quot; to test changes, add &quot;V=3D1&quot=
-; for<br>
-trouble-shooting.<br></blockquote><div><br></div><div>Thanks! I&#39;ll have=
- to start doing that...</div><div>=C2=A0</div><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
-4);padding-left:1ex">
-With that change it seems to work fine (my test install is still busy<br>
-fetching packages over my slow internet link ...).<br></blockquote><div><br=
-></div><div>I&#39;ll rebase and try it here...</div><div><br></div><div>War=
-ner=C2=A0</div></div></div>
-
---00000000000057ef9005bbee3cd9--
 
