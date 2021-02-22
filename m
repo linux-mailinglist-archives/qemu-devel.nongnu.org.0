@@ -2,71 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B00C321E0B
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:25:44 +0100 (CET)
-Received: from localhost ([::1]:38948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0692321E0A
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 18:25:12 +0100 (CET)
+Received: from localhost ([::1]:38456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEExr-0005On-8U
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:25:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46336)
+	id 1lEExL-0005Ab-QW
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 12:25:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEEvA-0002nD-CK
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:22:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40090)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEEv7-0006Dm-Ki
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 12:22:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614014572;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oouKPZs8pq2lx21fWh+eIfJMlmw4PZdr5KNUx+8muhk=;
- b=RfNoLqCh549X5zexjVk9u/IR6trXW6EdxsdxfRayI+Ws0FnX57NCXpURR0WhjK4TeFlaGo
- mv3REzFVAR1VFP1OnhDL6irB36NU/1xHfuRi+miPLb+6AMai7aHgx3Y6zKYNY9GMmet5B6
- 4UZzDw1N6no2paJXboLEdBTuD6CXH/s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-304-SdLlWqz1N-OiRXeFkxkIWA-1; Mon, 22 Feb 2021 12:22:49 -0500
-X-MC-Unique: SdLlWqz1N-OiRXeFkxkIWA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D90AFA80;
- Mon, 22 Feb 2021 17:22:47 +0000 (UTC)
-Received: from localhost (ovpn-112-255.ams2.redhat.com [10.36.112.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C46310013DB;
- Mon, 22 Feb 2021 17:22:44 +0000 (UTC)
-Date: Mon, 22 Feb 2021 17:22:43 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Jiahui Cen <cenjiahui@huawei.com>
-Subject: Re: [PATCH v5 1/9] qapi/block-core: Add retry option for error action
-Message-ID: <YDPoY4IbSa8XdIiC@stefanha-x1.localdomain>
-References: <20210205101315.13042-1-cenjiahui@huawei.com>
- <20210205101315.13042-2-cenjiahui@huawei.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEEvZ-00032w-N3; Mon, 22 Feb 2021 12:23:22 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:43548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEEvX-0006G4-Vz; Mon, 22 Feb 2021 12:23:21 -0500
+Received: by mail-ed1-x532.google.com with SMTP id d2so22974647edq.10;
+ Mon, 22 Feb 2021 09:23:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=X+H6RaqDTEfbbc/klOGzQ2ahJEHfQZJJZWSrwJkvu+E=;
+ b=uq08mTJ4HE6daCkwj0ELH8+dF7U26r1rI9k51w12YlJg0jIhUE1OwKzoGFwZNbut/M
+ beIW0NYH0XuXhdQXbY2xnFY3St4zuvPbm9HYEgDEOObzsj1ZGS5YFxSlu1Qr7ldeqGdl
+ p+PZ2c3QyRhLnQw1aGVeFYISB5nurA8s+v0GTHyW00DVWotAAnp5jxs92mqkdWgHyE1A
+ 8wgDVWPmSyPYlwtlNsnJTwK4oUPepd0EoJXHBNINYhoPogGM6/JeaQg7GotglWod91Sm
+ zP8OAPqymRzEtj0IkmANoOk8/qx3+iH30SHRGGp5XAvXT/nnATXwBsFRGKzlWmADwIkA
+ RP8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=X+H6RaqDTEfbbc/klOGzQ2ahJEHfQZJJZWSrwJkvu+E=;
+ b=l1WXu2nY9954BosrwbFzeT4cCay0fUN37gPs56/dtABFi0O5isGRkCX00GFco0xkFA
+ gXBZ7GSBCHvayclVv0nm9OFhdKjcHsQc7vcvLI/9PTHgJzG1xvabVEpvGauRfWj9n3fB
+ VcR1FG08w6/unSySJ73YosOIG0/5nQf6tuWdWc57eKOA1UqG4bfWo3pBpnYS1coDHmal
+ BxX6hW3EUYYugClnm154vdnhyaR6b0iCWqZOGlJQDyTDHgAoRo38knVyyYhi8euJnNfr
+ m7AtiTcgiArtUo7vUW/tAWi0iQTwVmnAPW0UIBfUpWsm5zMcG3W44p8jc1moXeFIe1wq
+ qNtA==
+X-Gm-Message-State: AOAM531A6ApCaTIOdL529Ub9mgqZDZy4jC6UNbuGoj5q9ao2fc2hDO4i
+ ZAS8EmYcX5RotfbzV9gFGno=
+X-Google-Smtp-Source: ABdhPJwXAz8ZOTvAC/VG1kSxgS4eZd/LlyKYrV0zaUVCNeKptK01ZrXsM1bQhtag1ewOlwAPidwdTg==
+X-Received: by 2002:a05:6402:1383:: with SMTP id
+ b3mr22875489edv.131.1614014597966; 
+ Mon, 22 Feb 2021 09:23:17 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id y13sm603431eju.75.2021.02.22.09.23.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 22 Feb 2021 09:23:17 -0800 (PST)
+Subject: Re: [PATCH v3 5/6] hw/pci-host: Add emulation of Marvell MV64361 PPC
+ system controller
+To: BALATON Zoltan <balaton@eik.bme.hu>
+References: <cover.1614007326.git.balaton@eik.bme.hu>
+ <a18959c44349a5c5845e388a0e43a8bd04472b45.1614007326.git.balaton@eik.bme.hu>
+ <6881b4dd-d8dc-4b40-cd1b-5f3755add6d1@amsat.org>
+ <fa4f7bbb-3267-14a0-d20-c2a8836b79f4@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b7f9872d-c346-4ffb-1463-2699dcaf0690@amsat.org>
+Date: Mon, 22 Feb 2021 18:23:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210205101315.13042-2-cenjiahui@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ImTbIprp6oO5BOFS"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <fa4f7bbb-3267-14a0-d20-c2a8836b79f4@eik.bme.hu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,75 +91,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, zhang.zhanghailiang@huawei.com,
- qemu-block@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- fangying1@huawei.com, Max Reitz <mreitz@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---ImTbIprp6oO5BOFS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/22/21 6:01 PM, BALATON Zoltan wrote:
+> On Mon, 22 Feb 2021, Philippe Mathieu-Daudé wrote:
+>> On 2/22/21 4:22 PM, BALATON Zoltan wrote:
+>>> The Marvell Discovery II aka. MV64361 is a PowerPC system controller
+>>> chip that is used on the pegasos2 PPC board. This adds emulation of it
+>>> that models the device enough to boot guests on this board. The
+>>> mv643xx.h header with register definitions is taken from Linux 4.15.10
+>>> only fixing end of line white space errors and removing not needed
+>>> parts, it's otherwise keeps Linux formatting.
+>>>
+>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>  hw/pci-host/Kconfig           |   3 +
+>>>  hw/pci-host/meson.build       |   2 +
+>>>  hw/pci-host/mv64361.c         | 966 ++++++++++++++++++++++++++++++++++
+>>>  hw/pci-host/mv643xx.h         | 919 ++++++++++++++++++++++++++++++++
+>>>  hw/pci-host/trace-events      |   6 +
+>>>  include/hw/pci-host/mv64361.h |   8 +
+>>>  include/hw/pci/pci_ids.h      |   1 +
+>>>  7 files changed, 1905 insertions(+)
+>>>  create mode 100644 hw/pci-host/mv64361.c
+>>>  create mode 100644 hw/pci-host/mv643xx.h
+>>>  create mode 100644 include/hw/pci-host/mv64361.h
+>>
+>> Is this the datasheet for this controller?
+>> ftp://ftp.freecalypso.org/PowerPC/support_ics/mv64360/datasheets/DS_64360_1_2.pdf.zip
+>>
+>>
+>> It seems to have common parts with the GT64120.
+> 
+> Yes, as noted on https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+> the GT64120 seems to be an older (and MIPS specific) version of this
+> chip that Marvell bought and likely made this PPC version based on that.
+> (The whole pegasos2 seems to be like a MIPS board with a PPC CPU even
+> down to the firmware which looks quite like PMON just has SmartFirmware
+> instead of the commands of PMON. So whoever designed it, might have
+> taken inspiration from some MIPS hardware.) However the emulation of
+> GT64xxx in QEMU seemed to be not complete and different enough so I
+> haven't looked at that when implementing this so I don't know how much
+> commonality is there and if that would worth reusing. (If you think
+> there could be some reuse then that should be done separate of this
+> series, afterwards it's merged.)
 
-On Fri, Feb 05, 2021 at 06:13:07PM +0800, Jiahui Cen wrote:
-> Add a new error action 'retry' to support retry on errors.
->=20
-> Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
-> ---
->  blockdev.c           | 2 ++
->  qapi/block-core.json | 9 +++++++--
->  2 files changed, 9 insertions(+), 2 deletions(-)
->=20
-> diff --git a/blockdev.c b/blockdev.c
-> index b250b9b959..ece1d8ae58 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -342,6 +342,8 @@ static int parse_block_error_action(const char *buf, =
-bool is_read, Error **errp)
->          return BLOCKDEV_ON_ERROR_STOP;
->      } else if (!strcmp(buf, "report")) {
->          return BLOCKDEV_ON_ERROR_REPORT;
-> +    } else if (!strcmp(buf, "retry")) {
-> +        return BLOCKDEV_ON_ERROR_RETRY;
->      } else {
->          error_setg(errp, "'%s' invalid %s error action",
->                     buf, is_read ? "read" : "write");
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 9f555d5c1d..30ea43cb77 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -1143,10 +1143,13 @@
->  #
->  # @auto: inherit the error handling policy of the backend (since: 2.7)
->  #
-> +# @retry: for guest operations, retry the failing request; (since: 6.0)
-> +#         for jobs, not supported
-
-Does this mean block_job_error_action() can now reach abort() in switch
-(on_err)? If yes, please add a check that reports an error when "retry"
-is specified so that abort() cannot be reached.
-
-Stefan
-
---ImTbIprp6oO5BOFS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAz6GMACgkQnKSrs4Gr
-c8j1iAf/abbjW9CXRnOW9T6rhkMULnaIp0rDvjfYoJYmZmGsDAqoJ5JZ3vVt8gS+
-PJEONRndHxJhT+d2uOSy6cFoJL5wLSw/+Zn1pjwwcsKON81KHeOZ4sMWZ6q6IPBS
-tS18vIeYanLXPYCD9+PDtZfr4NgwZdmU5DIVK1279VnHVIuyws486xZ0BptMojHm
-ZOsEmbKILds988RHyd1cZRrDBfIOH1SsoSBoW4Y1b8fofy1t05Ovc9wtzzCC3Xhx
-Zonj923e2e8gQn6X3DJVDtTZyJ64OaGBExLccWKb2ckkzrAfUihED0UWO54knq0l
-GbbB34B4qtYw4nMoKwgQ6jdURRnI6g==
-=iScn
------END PGP SIGNATURE-----
-
---ImTbIprp6oO5BOFS--
-
+Yes, I see your patch is more complete. Fair enough.
 
