@@ -2,93 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 033D5321877
-	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:23:13 +0100 (CET)
-Received: from localhost ([::1]:46796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13ED4321890
+	for <lists+qemu-devel@lfdr.de>; Mon, 22 Feb 2021 14:28:18 +0100 (CET)
+Received: from localhost ([::1]:57552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEBBA-0005He-1N
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:23:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59680)
+	id 1lEBG5-0001On-5R
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 08:28:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEB7d-0001as-Oy
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:19:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21838)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEB7X-0002TC-8M
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:19:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1613999961;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Qug2RTu/T1uSQ745n8lC2c0QqoReD0ieGgc66jNB2QI=;
- b=IS0EAR6nSPzAYXvRdd/ZYTzW1XpEK4h1C487yjWzEo9R+HPS7f0JvFLwK9gEOqAlYwZYqg
- UPrvrksOwApPxklVnBciYfSQTSqnpJkvbFGLWL1C4cL82H0fptSetaND1gmbkzQypg1Gg7
- XGp/6agFi69HVWG0VKcf1EovJQIBq6c=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-383-Ncs-xSRIPLmVkEn6xo0BZg-1; Mon, 22 Feb 2021 08:19:17 -0500
-X-MC-Unique: Ncs-xSRIPLmVkEn6xo0BZg-1
-Received: by mail-ej1-f70.google.com with SMTP id yd24so3980774ejb.9
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:19:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEBCd-0007nR-9Q
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:24:43 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:36806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEBCa-0004jR-Hu
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 08:24:42 -0500
+Received: by mail-wm1-x335.google.com with SMTP id a207so14347829wmd.1
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 05:24:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=LPnQD5pP/iEURNGtaVBlxBG671gzwlnLFwRdqRRGlF8=;
+ b=hV8I9l9wRO4e8B/hjS7qLyCJmr69cPo8+mYtLoGKATXJHiKuqp0Xd1aPi8l8Ffvau9
+ jr40LN2y/0lNpkPtVlxjWJcg0zojKFxLKl4+itczIcyWBmfn6WKefIucBtdLIxivbj+Q
+ UAIJMJUlK+hibLPfU9jIeBN0zb/H7GYy8NhESA1JeW19Wu6d28DqPQrQP7D6BN3BPh4C
+ ukO+Ptx4vxw47U3oBHqR0g6uqzE0Qcgl18Xr7voPujz2llZ0H9weVCJ5ahaFEEAltq5k
+ X0M6ENW62rds78p4GlZ0LAJPUSc5jLVN1KxN1UscN1OYkao7CXaOQbizh7a07jwlIzPc
+ M9AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Qug2RTu/T1uSQ745n8lC2c0QqoReD0ieGgc66jNB2QI=;
- b=UFjyVj9Sz8KtpBZB5fsOoyTbi//mo0ujaim9vg/UOjWZ4xPrD1RJADTxg5XeouygNP
- +lu2LbIC0xaSjiRO97Nfk+Fp66bgd8ewsA4E0/W9JemXKjH3UbKhnJcRpW4Q4Dp/eBAR
- Pyphp6Q5TkdPJZAHf3Ek3r50JC4S8i2ezl7ESvojAqZKFcfL3r0B9RNF2kenCBsVUEyY
- PRTmw4jSGmqRDzYBaCeQvc/mma9fcxo8/kUc/YCjeXUx0ovPezd+T5Q/Stk9Is7AiKiZ
- leFlApKM0erOJ6Cm4Azx4LB9wCXqVfG5rUbDwuyreU1LOMh3J7LxHe6es8YsIMIPjmII
- pRpQ==
-X-Gm-Message-State: AOAM530gnlAz4lfmd882S8fywfpDnv7qmxnTH5aPKPeOOO+gFFuiu3Hy
- ze2PGimH8gWBlePrrx3FjZhCAxVzhQQQcADkrdYbK805dAYWacnklABJNSZ9aYjMktVkJCh4YZy
- WKZXTyEURYXT5nfg=
-X-Received: by 2002:a17:906:cf8f:: with SMTP id
- um15mr5937403ejb.455.1613999956721; 
- Mon, 22 Feb 2021 05:19:16 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwvbw/PgfA0F/25nHKxn/HTOW5jX2GdrY67Z+Yez2DT22kLFPNtBmQLRjUdkVjUL1EidwLbmg==
-X-Received: by 2002:a17:906:cf8f:: with SMTP id
- um15mr5937362ejb.455.1613999956555; 
- Mon, 22 Feb 2021 05:19:16 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id kd13sm6734645ejc.106.2021.02.22.05.19.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 22 Feb 2021 05:19:15 -0800 (PST)
-Subject: Re: [RFC PATCH v2 06/11] hw/ppc: Restrict KVM to various PPC machines
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210219173847.2054123-1-philmd@redhat.com>
- <20210219173847.2054123-7-philmd@redhat.com>
- <YDNIQiHG0nfKXNR8@yekko.fritz.box>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <e28dc7fe-3a78-6b24-0034-830909f71f8e@redhat.com>
-Date: Mon, 22 Feb 2021 14:19:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=LPnQD5pP/iEURNGtaVBlxBG671gzwlnLFwRdqRRGlF8=;
+ b=UfVRJMzjwBzbb9pPQWheg9NlBZNXRcJPjPF+RN5AhauaJXxToYAgH+6iX/eDkftBk+
+ UuJi6erb5zHyTZ3WZ+hhIzymJcWhcdqTkX7uYBa0cJ0fn1pA+emaOe9kajG7k8m35sNY
+ 2yw/L2+bzMpSL9W5a0P2vzvQJEsiMP9ORQrIIYD8+W4Jh/zQraGz91C0Us+v8VJEjJWo
+ B7w8OnKkt0IbKum31F2KesLO41Fu43JP1mpvCKDjGPR4EQl5qs5RS7LmYMv3V7S0jpjS
+ 1j9tm2LIhNLCBvNluEClqA2yF0lSKScbM4uE3jOe7egbKaDZQ53EkLQVyUvBoABpe0xH
+ I2vA==
+X-Gm-Message-State: AOAM5309rApwJ/n1dkH4m2sMrYoTNNF/NXUkE9ta1RVG9FV53ByyrBAU
+ /6h3qGAjjFAZwYsoaiibrPS/SA==
+X-Google-Smtp-Source: ABdhPJyrrJ11xs6fRaCzmptMBvx2kyL0PLmsTCRMakV2CrBQa60Fn0/YwmeFPVhKnoCdtl3cL3K5LA==
+X-Received: by 2002:a1c:5a08:: with SMTP id o8mr19947048wmb.60.1614000277905; 
+ Mon, 22 Feb 2021 05:24:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id p6sm17682155wmg.37.2021.02.22.05.24.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 05:24:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 148101FF7E;
+ Mon, 22 Feb 2021 13:24:36 +0000 (GMT)
+References: <8735xskm7j.fsf@linaro.org> <YDOsP1pWUS+hXiBX@work-vm>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: vhost reply_ack negotiation (a.k.a differences in vhost-user
+ behaviour with libvhost-user and vhost-user-backend.rs)
+Date: Mon, 22 Feb 2021 13:21:04 +0000
+In-reply-to: <YDOsP1pWUS+hXiBX@work-vm>
+Message-ID: <871rd86xrf.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <YDNIQiHG0nfKXNR8@yekko.fritz.box>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,66 +87,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Leif Lindholm <leif@nuviainc.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Radoslaw Biernacki <rad@semihalf.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Sergio Lopez <slp@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ "rust-vmm@lists.opendev.org" <rust-vmm@lists.opendev.org>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/22/21 6:59 AM, David Gibson wrote:
-> On Fri, Feb 19, 2021 at 06:38:42PM +0100, Philippe Mathieu-Daudé wrote:
->> Restrit KVM to the following PPC machines:
->> - 40p
->> - bamboo
->> - g3beige
->> - mac99
->> - mpc8544ds
->> - ppce500
->> - pseries
->> - sam460ex
->> - virtex-ml507
-> 
-> Hrm.
-> 
-> The reason this list is kind of surprising is because there are 3
-> different "flavours" of KVM on ppc: KVM HV ("pseries" only), KVM PR
-> (almost any combination, theoretically, but kind of buggy in
-> practice), and the Book E specific KVM (Book-E systems with HV
-> extensions only).
-> 
-> But basically, qemu explicitly managing what accelerators are
-> available for each machine seems the wrong way around to me.  The
-> approach we've generally taken is that qemu requests the specific
-> features it needs of KVM, and KVM tells us whether it can supply those
-> or not (which may involve selecting between one of the several
-> flavours).
-> 
-> That way we can extend KVM to cover more situations without needing
-> corresponding changes in qemu every time.
 
-OK thanks for the information. I'll wait the other patches
-get reviewed (in particular the most important ones, 2 and
-10) before respining including this information.
+Dr. David Alan Gilbert <dgilbert@redhat.com> writes:
 
-Regards,
+> * Alex Benn=C3=A9e (alex.bennee@linaro.org) wrote:
+>> Hi,
+>>=20
+>> I finally got a chance to get down into the guts of vhost-user while
+>> attempting to port my original C RPMB daemon to Rust using the
+>> vhost-user-backend and related crates. I ended up with this hang during
+>> negotiation:
+>>=20
+>>   startup
+>>=20
+>>   vhost_user_write req:1 flags:0x1
+>>   vhost_user_read_start
+>>   vhost_user_read req:1 flags:0x5
+>>   vhost_user_backend_init: we got 170000000
 
-Phil.
+GET_FEATURES
 
+>>   vhost_user_write req:15 flags:0x1
+>>   vhost_user_read_start
+>>   vhost_user_read req:15 flags:0x5
+>>   vhost_user_set_protocol_features: 2008
+>>   vhost_user_write req:16 flags:0x1
+>>   vhost_user_write req:3 flags:0x1
+>>   vhost_user_write req:1 flags:0x1
+>>   vhost_user_read_start
+>>   vhost_user_read req:1 flags:0x5
+>>   vhost_user_write req:13 flags:0x1
+>>=20
+>>   kernel initialises device
+>>=20
+>>   virtio_rpmb virtio1: init done!
+>>   vhost_user_write req:13 flags:0x1
+>>   vhost_dev_set_features: 130000000
+>>   vhost_user_set_features: 130000000
+
+SET_FEATURES
+
+>>   vhost_user_write req:2 flags:0x1
+>>   vhost_user_write req:5 flags:0x9
+>>   vhost_user_read_start
+>>=20
+<snip>
+>>=20
+>>  - Should QEMU have preserved VhostUserVirtioFeatures::PROTOCOL_FEATURES
+>>    when doing the eventual VHOST_USER_SET_FEATURES reply?
+>>=20
+>>  - Is vhost.rs being to strict or libvhost-user too lax in interpreting
+>>    the negotiated features before processing the ``need_reply`` [Bit 3]
+>>    field of the messages?
+>
+> I think vhost.rs is being correctly strict - but there would be no harm
+> in it flagging that you'd hit an inconsistency if it finds a need_reply
+> without the feature.
+
+But the feature should have been negotiated. So unless the slave can
+assume it is enabled because it asked I think QEMU is in the wrong by
+not preserving the feature bits in it's SET_FEATURES reply. We just gets
+away with it with libvhostuser being willing to reply anyway.
+
+>
+>>  - are VHOST_USER_SET_MEM_TABLE to VHOST_USER_SET_INFLIGHT_FD included
+>>    in the "list of the ones that do" require replies or do they only
+>>    reply when REPLY_ACK has been negotiated as the ambiguous "seealso::"
+>>    box out seems to imply?
+>
+> set_mem_table gives a reply when postcopy is enabled (and then qemu
+> replies to the reply!) but otherwise doesn't.
+> (Note there's an issue opened for .rs to support ADD_MEM_REGION
+> since it's a lot better than SET_MEM_TABLE which has a fixed size table
+> that's small).
+
+Thanks for the heads up.
+
+>
+> Dave
+>
+>> Currently I have some hacks in:
+>>=20
+>>   https://github.com/stsquad/vhost/tree/my-hacks
+>>=20
+>> which gets my daemon booting up to the point we actually need to do a
+>> transaction. However I won't submit a PR until I've worked out exactly
+>> where the problems are.
+>>=20
+>> --=20
+>> Alex Benn=C3=A9e
+>>=20
+
+
+--=20
+Alex Benn=C3=A9e
 
