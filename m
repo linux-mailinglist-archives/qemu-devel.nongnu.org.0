@@ -2,60 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF930322F1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:54:43 +0100 (CET)
-Received: from localhost ([::1]:52830 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5519E322F1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:54:57 +0100 (CET)
+Received: from localhost ([::1]:54392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEaxO-0000Hx-LU
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:54:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57762)
+	id 1lEaxc-0000wA-9f
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:54:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <yshxxsjt715@gmail.com>)
- id 1lEUS7-0003wc-Dl; Tue, 23 Feb 2021 04:57:59 -0500
-Received: from mail-il1-x12d.google.com ([2607:f8b0:4864:20::12d]:42156)
+ id 1lEVt3-00019H-33; Tue, 23 Feb 2021 06:29:53 -0500
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:43046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <yshxxsjt715@gmail.com>)
- id 1lEUS5-000744-KK; Tue, 23 Feb 2021 04:57:59 -0500
-Received: by mail-il1-x12d.google.com with SMTP id z18so13510608ile.9;
- Tue, 23 Feb 2021 01:57:56 -0800 (PST)
+ id 1lEVt1-0005uS-AW; Tue, 23 Feb 2021 06:29:52 -0500
+Received: by mail-il1-x135.google.com with SMTP id q5so13719046ilc.10;
+ Tue, 23 Feb 2021 03:29:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=DiC2cfi3+/E6H2PIHT9MSeSuf0XVlMNfSncNGe9ypx4=;
- b=LQv9XH9cg7xa1dqE0Oru80aqyn3TLV8L0Tjye/jHL3z+H10nxk0EhUxBKucJAfKGkC
- t/G1QdW+hw15RNpUPVBv/V/h/Q+SZDkO2fJo+ow01RjF1nr7fXZhV1kcHXfhGm3hXPs5
- KZZRDfH9R9kuM2unl8VImBOSTs9RC6KTKtpxaEliaKL5gva4K76eCUcGPPcybFVjkLta
- mVOGKD+yqNn0jBYZy0XlSlU4hUz454KnRThhnfPv2oqGuQezp9Q1K5rbnq5pQYDSUC64
- MHJQPt5hviqLtVC8wpkuKcM/CmQoK+ZRguwD06Qt+qY8wA7s5/rvDnnd+4Hslt9KYZad
- f4vg==
+ :cc; bh=0h8eSDuU44Xs+IiTZ0oUmvRM5qz9Ku1A2lg61pQgzDY=;
+ b=m7kH7vHmg8A2ZVQuwnJdrN3nx7XHadqtU4X1fd2TABSBMDyLD/UMvmMGjbuumQfq4C
+ S3+lVYs1sP/xV3gPhHhCSzhiIAdkGIswNpn5tcFyD20gjwTWmdJzRHI5RmOZdxQrXBFL
+ S9WgOM52UMsvrk3BkNJ+liOmqA962whN66B0UWuBnNqNOsYfpQKJaumaq4gfpvNcyot1
+ T5l6WR+zrJJvy+Wqz+fkB2YDiGazCOcLXfWGUqeXIPGtfe8QDSooPPRmMoXqQLVv+AMZ
+ 8ui0rTjAVxtlhisTYNBO0ftByurAAOhKMekxMZw4nBBiAkaC6GTzvpTy223BbCnU0tOe
+ BnVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=DiC2cfi3+/E6H2PIHT9MSeSuf0XVlMNfSncNGe9ypx4=;
- b=GpSGSRNKvbw1muj9GCYbZ7pq1fr60/LRR2+S6S85ts479k1XJG0pmuVR+ex76HWXIN
- 1c5Nmo4ttA/9qg5IsltyX9VqxAVcOBn8Ge8CY5IRlCmMaPCDeb+fMcFscnAJlFbjwlrx
- nlF7eInRydwVzCWDB+DQ/DLxfIoMf3uEobirE1U+RrJtJBUI7XjGfCcbGuUbpUaVArol
- uoVxJ6jUCDo7nbM/plm9zjvGHaJk8ItESxaMwM/DaBpi2wJoaSmfiN9baxLApxxxplTI
- QsohUaB47QyvavVA59I10BKdJaHP63dhoUG1FABCjjgroQwaZHdRZDkhlGtbgl00R4Mx
- PssQ==
-X-Gm-Message-State: AOAM531rEtH16cb2IX9vsGz6P1muPVxD+7j54ZQzbEF1LONxn5cIGLbz
- wWouYS2yXht5sp7VFZQ3sNJBVZwBOFHrjBWI00o=
-X-Google-Smtp-Source: ABdhPJwKghgn5HB0t+qbw9egdpJqKKikRiRuhWVzbS2SSn4pNqHmJMMjCLx34t/sHiU7cKgSsX5S1RmwL5Bl5MzisJQ=
-X-Received: by 2002:a92:b00d:: with SMTP id x13mr18846657ilh.128.1614074276344; 
- Tue, 23 Feb 2021 01:57:56 -0800 (PST)
+ bh=0h8eSDuU44Xs+IiTZ0oUmvRM5qz9Ku1A2lg61pQgzDY=;
+ b=Ow2Gy/R/3Zrrnn+S4aw+kwNQYZACt5wkyUFy5NaIJqj4Z6Wpz4UmKMO42VC1wjniKN
+ hH6vFZXUnMOylMOR4Zo8BeB1i7KYKnDZL4pTdY2dnk8BSyVhF3co2mf0QsMjqkLTRpU6
+ N1mqy4tQ02QlYbOZbJBmFe4aEyGBE2jrXjkbHjCDnTvAm5b8c/9MMkHGFS6gqjwjv7S3
+ pnMRTW94LTTzzz6V44M3EVyUivPJ30oY35pCH6E4Kb+zFr6fi2Hh/X9vsC2dsePw/8V2
+ Gce04QxXda5gIAFtfV7RDp9HOG/ZtFIT8s87CjrKINfyD8f2AoiJqj6LRiZobpXyxONd
+ 1BJw==
+X-Gm-Message-State: AOAM533FctdAbru5Kcr9ABh5WoD9FPk3zqVSL83V9DHgxkG7/YzbZgV3
+ VAbpHBDlsZg8PqvST7CQfibr6VdhGMCWFe/puW0=
+X-Google-Smtp-Source: ABdhPJw+mh41qwEpjlcl4VTU+EnRMYZ3JjL9t328jmXOy8JGmKC7N9BVOgdpZmexD9GsraUG/k30fOT0J48/uV5g4I8=
+X-Received: by 2002:a05:6e02:b2e:: with SMTP id
+ e14mr18511929ilu.164.1614079789891; 
+ Tue, 23 Feb 2021 03:29:49 -0800 (PST)
 MIME-Version: 1.0
 References: <CALqm=df_dH41LQfG+X2_qL2z68DPAF9vT=9HGSEbBMWec_zLQA@mail.gmail.com>
  <ef18782e-99d8-8406-152f-46c03bbd3280@redhat.com> <YDTO5yIR1IyxbVZt@work-vm>
-In-Reply-To: <YDTO5yIR1IyxbVZt@work-vm>
+ <CALqm=ddLcPh2wUcYTwrf5uXG1Oyakocef449dyQ8NUeb6CY2Ow@mail.gmail.com>
+ <948fee76-e315-4155-c665-2379def3cae3@redhat.com>
+In-Reply-To: <948fee76-e315-4155-c665-2379def3cae3@redhat.com>
 From: Jiatong Shen <yshxxsjt715@gmail.com>
-Date: Tue, 23 Feb 2021 17:57:45 +0800
-Message-ID: <CALqm=ddLcPh2wUcYTwrf5uXG1Oyakocef449dyQ8NUeb6CY2Ow@mail.gmail.com>
+Date: Tue, 23 Feb 2021 19:29:38 +0800
+Message-ID: <CALqm=dcgmZ1NWKhnU-qg0mNKpWjxwLKKjKQgGK-+=Qj6ZuGBUw@mail.gmail.com>
 Subject: Re: romfile resize
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000e1f8e205bbfdf3f6"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12d;
- envelope-from=yshxxsjt715@gmail.com; helo=mail-il1-x12d.google.com
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000084030b05bbff3cb5"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=yshxxsjt715@gmail.com; helo=mail-il1-x135.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -77,164 +80,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+Cc: qemu-devel <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-discuss@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000e1f8e205bbfdf3f6
+--00000000000084030b05bbff3cb5
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+alright, thank you very much for the help :)
 
-  Thank you very much for the answer. so if romfile on destination got a
-larger size than source, why romfile check still does not
-pass? because dest got enough space to hold romfile.
+On Tue, Feb 23, 2021 at 6:23 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
 
-thank you.
-
-Jiatong Shen
-
-On Tue, Feb 23, 2021 at 5:46 PM Dr. David Alan Gilbert <dgilbert@redhat.com=
->
-wrote:
-
-> * Philippe Mathieu-Daud=C3=A9 (philmd@redhat.com) wrote:
-> > Cc'ing qemu-devel@
+> On 23/02/21 10:57, Jiatong Shen wrote:
 > >
-> > On 2/23/21 1:45 AM, Jiatong Shen wrote:
-> > > Hello,
-> > >
-> > >   we are faced with an issue where a changed sized romfile
-> > > (efi-virtio.rom) fails live migration. Do qemu load this rom from its
-> > > current host only? If yes, why cannot sync this from source vm?
+> >    Thank you very much for the answer. so if romfile on destination got
+> > a larger size than source, why romfile check still does not
+> > pass? because dest got enough space to hold romfile.
 >
-> Hi,
->   For migration to work the ROM has to be the same size on the source
-> and destination.
+> Because QEMU checks that memory areas have the same size on the source
+> and destination.  You're right that it's overly strict, but it's a case
+> that has never been an issue before; probably because the ROM size
+> should be fixed for each QEMU "machine type", and it's better to have a
+> consistent set of ROM files on all your hosts.
 >
->   The problem is that whne the destination starts up it allocates the
-> size of the ROM based on the size of the file;  but then the migration
-> comes along and tries to copy the data from the source machine into that
-> allocation; and isn't sure what should happen when it doesn't quite fit.
+> You can create a dummy file with the right size, or copy it from the
+> source.
 >
->   There is some variation allowed (I think the allocated size gets
-> rounded up, maybe to the next power of 2); but you still hit problems
-> wehn the ROM size crosses certain thresholds.
->
->   In the latest qemu, a 'romsize' property was added (see git commit
-> 08b1df8ff463e72b0875538fb991d5393047606c ); that lets you specifiy a
-> size that's big enough to hold some space for future expansion - e.g.
-> lets say your ROM is currently 300k, you might specify romsize=3D512k
-> and then it doesn't matter what size the actual file is, we'll always
-> allocate 512k, and as long as the file is less than 512k migration will
-> work.
->
->   The more manual way to do that, is to arrange for your files to be
-> padded to a larger boundary so that you leave room for growth.
-> Some distros have done that for a while.
->
-> Dave
->
-> > > thank you.
-> > >
-> > > --
-> > >
-> > > Best Regards,
-> > >
-> > > Jiatong Shen
-> >
-> --
-> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> Paolo
 >
 >
 
---=20
+-- 
 
 Best Regards,
 
 Jiatong Shen
 
---000000000000e1f8e205bbfdf3f6
+--00000000000084030b05bbff3cb5
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Hi,<div><br></div><div>=C2=A0 Thank you very much for the =
-answer. so if romfile on destination got a larger size than source, why rom=
-file check still does not</div><div>pass? because dest got enough space to =
-hold romfile.</div><div><br></div><div>thank you.</div><div><br></div><div>=
-Jiatong Shen</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Tue, Feb 23, 2021 at 5:46 PM Dr. David Alan Gilbert &l=
-t;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">* Philippe Math=
-ieu-Daud=C3=A9 (<a href=3D"mailto:philmd@redhat.com" target=3D"_blank">phil=
-md@redhat.com</a>) wrote:<br>
-&gt; Cc&#39;ing qemu-devel@<br>
+<div dir=3D"ltr">alright, thank you very much for the help :)</div><br><div=
+ class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Feb 23=
+, 2021 at 6:23 PM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com">=
+pbonzini@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
+e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
+;padding-left:1ex">On 23/02/21 10:57, Jiatong Shen wrote:<br>
 &gt; <br>
-&gt; On 2/23/21 1:45 AM, Jiatong Shen wrote:<br>
-&gt; &gt; Hello,<br>
-&gt; &gt; <br>
-&gt; &gt; =C2=A0 we are faced with an issue where a changed sized romfile<b=
-r>
-&gt; &gt; (efi-virtio.rom) fails live migration. Do qemu load this rom from=
- its<br>
-&gt; &gt; current host only? If yes, why cannot sync this from source vm?<b=
-r>
+&gt;=C2=A0 =C2=A0 Thank you very much for the answer. so if romfile on dest=
+ination got <br>
+&gt; a larger size than source, why romfile check still does not<br>
+&gt; pass? because dest got enough space to hold romfile.<br>
 <br>
-Hi,<br>
-=C2=A0 For migration to work the ROM has to be the same size on the source<=
-br>
-and destination.<br>
+Because QEMU checks that memory areas have the same size on the source <br>
+and destination.=C2=A0 You&#39;re right that it&#39;s overly strict, but it=
+&#39;s a case <br>
+that has never been an issue before; probably because the ROM size <br>
+should be fixed for each QEMU &quot;machine type&quot;, and it&#39;s better=
+ to have a <br>
+consistent set of ROM files on all your hosts.<br>
 <br>
-=C2=A0 The problem is that whne the destination starts up it allocates the<=
-br>
-size of the ROM based on the size of the file;=C2=A0 but then the migration=
+You can create a dummy file with the right size, or copy it from the source=
+.<br>
 <br>
-comes along and tries to copy the data from the source machine into that<br=
->
-allocation; and isn&#39;t sure what should happen when it doesn&#39;t quite=
- fit.<br>
-<br>
-=C2=A0 There is some variation allowed (I think the allocated size gets<br>
-rounded up, maybe to the next power of 2); but you still hit problems<br>
-wehn the ROM size crosses certain thresholds.<br>
-<br>
-=C2=A0 In the latest qemu, a &#39;romsize&#39; property was added (see git =
-commit<br>
-08b1df8ff463e72b0875538fb991d5393047606c ); that lets you specifiy a<br>
-size that&#39;s big enough to hold some space for future expansion - e.g.<b=
-r>
-lets say your ROM is currently 300k, you might specify romsize=3D512k<br>
-and then it doesn&#39;t matter what size the actual file is, we&#39;ll alwa=
-ys<br>
-allocate 512k, and as long as the file is less than 512k migration will<br>
-work.<br>
-<br>
-=C2=A0 The more manual way to do that, is to arrange for your files to be<b=
-r>
-padded to a larger boundary so that you leave room for growth.<br>
-Some distros have done that for a while.<br>
-<br>
-Dave<br>
-<br>
-&gt; &gt; thank you.<br>
-&gt; &gt; <br>
-&gt; &gt; -- <br>
-&gt; &gt; <br>
-&gt; &gt; Best Regards,<br>
-&gt; &gt; <br>
-&gt; &gt; Jiatong Shen<br>
-&gt; <br>
--- <br>
-Dr. David Alan Gilbert / <a href=3D"mailto:dgilbert@redhat.com" target=3D"_=
-blank">dgilbert@redhat.com</a> / Manchester, UK<br>
+Paolo<br>
 <br>
 </blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
  class=3D"gmail_signature"><div dir=3D"ltr"><br><div>Best Regards,</div><di=
 v><br></div><div>Jiatong Shen</div></div></div>
 
---000000000000e1f8e205bbfdf3f6--
+--00000000000084030b05bbff3cb5--
 
