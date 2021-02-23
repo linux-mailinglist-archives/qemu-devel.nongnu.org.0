@@ -2,71 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D9E63228D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:28:00 +0100 (CET)
-Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D76633228D1
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:27:59 +0100 (CET)
+Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEUv9-00069u-5C
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:27:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
+	id 1lEUv8-000689-TZ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:27:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lEUrk-0003M0-Qn; Tue, 23 Feb 2021 05:24:29 -0500
-Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:43316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lEUrd-0001m3-GF; Tue, 23 Feb 2021 05:24:28 -0500
-Received: by mail-yb1-xb31.google.com with SMTP id u75so15929477ybi.10;
- Tue, 23 Feb 2021 02:24:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ucuPs1EFrTWkrcSftLOOH0A/C7Bd9UVGmjlvXJpdG9k=;
- b=OtLj21otqdt6tM/o4Kn43BNoUe3C0HJ5LdGr48YE3t7zBMTXwQzwCvAobM2G6Ps8on
- JwalP/g9JbDKC6H3epqCr2K5+KxjsPCf63HDqem1S6xuR4EZ0unurmgGGVLBz1zRqYfo
- xB6VSDr4q4WSC7WpXoIWha7IvWvYQ5nO63hITDpRB14Mt6F/VLHjfk5l9UPVO1yeufbK
- Yrv7wbttLRpedeMR6YoKqb4dcf5m0QWkIL/5xKTZSCG2pZrgwcoIAXL1izue1MNB/SIx
- hDZ/0Krkq/INH6aZEbnu1QpV6KONLrpmQ3BSxXs2EUPIsHj2VY9NsBCL/gVF6/YcMr5+
- ddJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ucuPs1EFrTWkrcSftLOOH0A/C7Bd9UVGmjlvXJpdG9k=;
- b=Ta2OUpHjdNcwKM6qWMbZQVjIsOSOG9S6HKGSxSHqu1WEpukutq4nnukgORpiRCD3L2
- gIqvpZnGtAwifLScxEE/wyeGr6ol6FHWvSnXk5w3YoX853vhTEIbN/MZx023+Heb1ZOf
- sSTFVyIzvtuE5sEsohb+nQVpUOaBvCt4xXxxWTLu2H6F8JKn+bCkk3GR8es1DEeWnE4I
- o6V0AN7z9steJEeUUN1kg2+w3/t9aXoVriF2fiCAh2JAPphAk9g5c61SYrVY3esT9iYV
- H3wUR2DH7bJw6AsNrof7s06KcTXJfbB6VLyEjE/qx8kWEcoUt9AW/SG2y4vPEis4wBG7
- fgSQ==
-X-Gm-Message-State: AOAM530F7B9flQYbXmI74Eo7H28Y/NMmo7c8p3S4LmHwB62Tx/YLknW7
- WmaiIKMXDOsjPOFv9gXgrA1m2X4b7JVdTlGHgkk=
-X-Google-Smtp-Source: ABdhPJyQGDRTSOap4wZEwpEUXCo3P46OEaOzWRYOnLeU57BN6uXD0fi3wXNxa4K0dw7bHSeKcpPf6wmhvvRx8o4HOCw=
-X-Received: by 2002:a25:8712:: with SMTP id a18mr38901184ybl.306.1614075858970; 
- Tue, 23 Feb 2021 02:24:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lEUtp-000559-KG
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:26:38 -0500
+Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17]:59356)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1lEUtm-0002e6-Vt
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:26:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
+ References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+ Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+ List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=636Q7rfqo3ZsAz0L0fwEqkBzQ0SiKEr4XNqjQetIg5Q=; b=anxH3fIx45IiWM7aeDeH/RBzKy
+ s3F4yM7gCYU4QNe1U5Xv00R0PGckLv5GmQUNe55A7vGYK91WudG0FFLugqA1cKZ88fHIpwiefSJIZ
+ HIN4cn1RS9nZWQq97yplLhpgmdKpHnPwgq6JNd4l3hrEuy6822YmIgcJ6lXpx1c2XVcE=;
+Date: Tue, 23 Feb 2021 11:25:55 +0100
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2 00/15] tests/tcg: Add TriCore tests
+Message-ID: <20210223102555.fyrrlg24vuk7urxj@schnipp-desktop>
+References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
+ <29328969-9f3a-182f-4fa8-08643f4afab4@redhat.com>
 MIME-Version: 1.0
-References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
- <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
- <20210222082137.1b3f8b3b@bahia.lan>
- <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
- <20210222154341.0992238d@bahia.lan>
- <CAEUhbmV+qUWtw0Cksrp9dwO2vPnCD8B7Se88a3K_dn3FENnLLQ@mail.gmail.com>
- <20210223105510.0687d0b6@bahia.lan>
-In-Reply-To: <20210223105510.0687d0b6@bahia.lan>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 23 Feb 2021 18:24:07 +0800
-Message-ID: <CAEUhbmWUMaf=vqKibc0fnHR+BJVyO2-mvg+rPXPdVSPGsCHUag@mail.gmail.com>
-Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <29328969-9f3a-182f-4fa8-08643f4afab4@redhat.com>
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2021.2.23.101817, AntiVirus-Engine: 5.80.0,
+ AntiVirus-Data: 2021.2.8.5800000
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::17;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,86 +64,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 23, 2021 at 5:55 PM Greg Kurz <groug@kaod.org> wrote:
->
-> On Tue, 23 Feb 2021 14:57:21 +0800
-> Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> > On Mon, Feb 22, 2021 at 10:43 PM Greg Kurz <groug@kaod.org> wrote:
-> > >
-> > > On Mon, 22 Feb 2021 13:59:34 +0000
-> > > Peter Maydell <peter.maydell@linaro.org> wrote:
-> > >
-> > > > On Mon, 22 Feb 2021 at 07:21, Greg Kurz <groug@kaod.org> wrote:
-> > > > >
-> > > > > On Fri, 19 Feb 2021 17:51:02 +0100
-> > > > > Thomas Huth <thuth@redhat.com> wrote:
-> > > > >
-> > > > > > On 19/02/2021 17.26, Peter Maydell wrote:
-> > > > > > > Does anybody use the ozlabs patchwork install for QEMU patches,
-> > > > > > > either occasionally or on a regular basis ?
-> > > > > > > http://patchwork.ozlabs.org/project/qemu-devel/list/
-> > > > > > > The admins for that system are trying to identify which of
-> > > > > > > the various projects are really using their patchwork instances,
-> > > > > > > so I figured I'd do a quick survey here. We don't use it
-> > > > > > > as an official project tool but it's certainly possible to
-> > > > > > > use it as an individual developer in one way or another.
-> > > > > >
-> > > > > > I think it might be used by some of the ppc hackers ... so CC:-ing to
-> > > > > > qemu-pcc ...
-> > > > > >
-> > > > >
-> > > > > I do on a very regular basis.
-> > > >
-> > > > Thanks for the reports. Do you use the features like assigning
-> > > > patches to people and changing patch status, or do you mostly
-> > > > just use it as a read-only archive-of-patches ?
-> > > >
-> > >
-> > > Only the latter but mostly because I don't have the permissions
-> > > to change status, e.g. when trying to change status of this
-> > > recent patch from Cedric to rearrange the PowerPC docs:
-> > >
-> > > You don't have permissions to edit patch 'docs/system: Extend PPC section'
-> > >
-> > > My understanding is that users must be "maintainer" to edit other's
-> > > patches. Only three 'maintainers' are currently listed at ozlabs for
-> > > QEMU:
-> >
-> > I can update my patch status in the QEMU project. I am not sure if
-> > this is due to I am a maintainer of another project hosted on
-> > ozlabs.org.
-> >
->
-> Yeah everyone can update its own patches but you need to
-> be maintainer of a project to update the status of other's
-> patch for this project IIUC.
->
+Hi Thomas,
 
-Ah, I see, thanks. So the question is whether QEMU maintainers want to
-try the practice of using patchwork to help their maintenance work ...
+On Mon, Feb 22, 2021 at 10:23:23AM +0100, Thomas Huth wrote:
+> On 04/06/2020 10.54, Bastian Koppelmann wrote:
+> > Hi Alex,
+> > 
+> > I managed to update the series to successfully run make check-tcg. This required
+> > some changes to the makefiles. I tried running the riscv64 and arm tests and so
+> > far I didn't break anything.
+> > 
+> > You can find the full tree here:
+> > https://github.com/bkoppelmann/qemu/tree/tricore-tcg-tests
+> > 
+> > Cheers,
+> > Bastian
+> > 
+> > Bastian Koppelmann (15):
+> >    docker/tricore: Use stretch-slim as a base image
+> >    tests/tcg: Add docker_as and docker_ld cmds
+> >    tests/tcg: Run timeout cmds using --foreground
+> >    hw/tricore: Add testdevice for tests in tests/tcg/
+> >    tests/tcg/tricore: Add build infrastructure
+> >    tests/tcg/tricore: Add macros to create tests and first test 'abs'
+> >    tests/tcg/tricore: Add bmerge test
+> >    tests/tcg/tricore: Add clz test
+> >    tests/tcg/tricore: Add dvstep test
+> >    tests/tcg/tricore: Add fadd test
+> >    tests/tcg/tricore: Add fmul test
+> >    tests/tcg/tricore: Add ftoi test
+> >    tests/tcg/tricore: Add madd test
+> >    tests/tcg/tricore: Add msub test
+> >    tests/tcg/tricore: Add muls test
+> 
+>  Hi Bastian,
+> 
+> I'm currently looking at the containers that we build in the gitlab-CI, and
+> it seems that the "debian-tricore-cross" container is currently always built
+> though it is never used.
+> So I'm wondering: Do you still plan to finish this series here and get it
+> merged, or could we remove the "debian-tricore-cross" container from the
+> gitlab-CI again?
 
-> > >
-> > > https://patchwork.ozlabs.org/api/1.0/projects/14/
-> > >
-> > > We had a discussion about that a few months back with Christian Schoenebeck
-> > > (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
-> > > quite know how to go further because of lack of documentation, but I'd be
-> > > glad to experiment the full patchwork experience if someone knows how to
-> > > do it :-)
-> >
-> > I personally found patchwork is really helpful for mainatiner's work.
-> > But it looks the maintainers from the QEMU community do not use it.
+yes, I'm still working on it. However, right now I have limited time. I plan
+work on it again in the beginning of March.
 
-Regards,
-Bin
+Cheers,
+Bastian
 
