@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76633228D1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:27:59 +0100 (CET)
-Received: from localhost ([::1]:58124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B98C3228E4
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:33:02 +0100 (CET)
+Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEUv8-000689-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:27:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38278)
+	id 1lEV01-00083R-DM
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:33:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lEUtp-000559-KG
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:26:38 -0500
-Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17]:59356)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1lEUtm-0002e6-Vt
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:26:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Type:MIME-Version:
- References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
- Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
- List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=636Q7rfqo3ZsAz0L0fwEqkBzQ0SiKEr4XNqjQetIg5Q=; b=anxH3fIx45IiWM7aeDeH/RBzKy
- s3F4yM7gCYU4QNe1U5Xv00R0PGckLv5GmQUNe55A7vGYK91WudG0FFLugqA1cKZ88fHIpwiefSJIZ
- HIN4cn1RS9nZWQq97yplLhpgmdKpHnPwgq6JNd4l3hrEuy6822YmIgcJ6lXpx1c2XVcE=;
-Date: Tue, 23 Feb 2021 11:25:55 +0100
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 00/15] tests/tcg: Add TriCore tests
-Message-ID: <20210223102555.fyrrlg24vuk7urxj@schnipp-desktop>
-References: <20200604085441.103087-1-kbastian@mail.uni-paderborn.de>
- <29328969-9f3a-182f-4fa8-08643f4afab4@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEUxw-0007N2-6x
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:30:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:59424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEUxp-0004ks-G3
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:30:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lEUxm-0001kJ-Pm
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:30:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A19D22E8050
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:30:42 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <29328969-9f3a-182f-4fa8-08643f4afab4@redhat.com>
-X-IMT-Spam-Score: 0.0 ()
-X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2021.2.23.101817, AntiVirus-Engine: 5.80.0,
- AntiVirus-Data: 2021.2.8.5800000
-X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
-Received-SPF: pass client-ip=2001:638:502:c003::17;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 23 Feb 2021 10:24:34 -0000
+From: Frederic Bezies <1916394@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: brian-cain fredb74
+X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
+X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
+References: <161392715224.29500.2044106040123688461.malonedeb@soybean.canonical.com>
+Message-Id: <161407587440.22192.18181372827746087247.malone@wampee.canonical.com>
+Subject: [Bug 1916394] Re: [git] Cannot build qemu: FAILED:
+ target/hexagon/semantics_generated.pyinc 
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="f759833f01c7f0b01b31b10cf317a55893ebb0ad"; Instance="production"
+X-Launchpad-Hash: 75b683fddf54063894582ad53fe7cd6d466effd2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,55 +70,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
+Reply-To: Bug 1916394 <1916394@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+Sorry for the late reply. Tried patch... Here is the output:
 
-On Mon, Feb 22, 2021 at 10:23:23AM +0100, Thomas Huth wrote:
-> On 04/06/2020 10.54, Bastian Koppelmann wrote:
-> > Hi Alex,
-> > 
-> > I managed to update the series to successfully run make check-tcg. This required
-> > some changes to the makefiles. I tried running the riscv64 and arm tests and so
-> > far I didn't break anything.
-> > 
-> > You can find the full tree here:
-> > https://github.com/bkoppelmann/qemu/tree/tricore-tcg-tests
-> > 
-> > Cheers,
-> > Bastian
-> > 
-> > Bastian Koppelmann (15):
-> >    docker/tricore: Use stretch-slim as a base image
-> >    tests/tcg: Add docker_as and docker_ld cmds
-> >    tests/tcg: Run timeout cmds using --foreground
-> >    hw/tricore: Add testdevice for tests in tests/tcg/
-> >    tests/tcg/tricore: Add build infrastructure
-> >    tests/tcg/tricore: Add macros to create tests and first test 'abs'
-> >    tests/tcg/tricore: Add bmerge test
-> >    tests/tcg/tricore: Add clz test
-> >    tests/tcg/tricore: Add dvstep test
-> >    tests/tcg/tricore: Add fadd test
-> >    tests/tcg/tricore: Add fmul test
-> >    tests/tcg/tricore: Add ftoi test
-> >    tests/tcg/tricore: Add madd test
-> >    tests/tcg/tricore: Add msub test
-> >    tests/tcg/tricore: Add muls test
-> 
->  Hi Bastian,
-> 
-> I'm currently looking at the containers that we build in the gitlab-CI, and
-> it seems that the "debian-tricore-cross" container is currently always built
-> though it is never used.
-> So I'm wondering: Do you still plan to finish this series here and get it
-> merged, or could we remove the "debian-tricore-cross" container from the
-> gitlab-CI again?
+Option b_staticpic is: false [default: false]
+Found ninja-1.10.2 at /usr/bin/ninja
+[658/9072] Generating iset.py with a custom command
+FAILED: target/hexagon/iset.py =
 
-yes, I'm still working on it. However, right now I have limited time. I plan
-work on it again in the beginning of March.
+@INPUT@ target/hexagon/iset.py
+/bin/sh: line 1: @INPUT@: command not found
+[663/9072] Compiling C object tests/qtest/libqos/libqos.fa.p/.._libqtest.c.o
+ninja: build stopped: subcommand failed.
 
-Cheers,
-Bastian
+Still busted. Nothing changed.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916394
+
+Title:
+  [git] Cannot build qemu: FAILED:
+  target/hexagon/semantics_generated.pyinc
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello.
+
+  I'm using Archlinux and I maintain qemu-git AUR package.
+
+  I tried to build Qemu at commit
+  4115aec9af2a3de5fa89a0b1daa12debcd7741ff but it stops with this error
+  message:
+
+  Found ninja-1.10.2 at /usr/bin/ninja
+  [632/9068] Generating semantics_generated.pyinc with a custom command
+  FAILED: target/hexagon/semantics_generated.pyinc
+  @INPUT@ target/hexagon/semantics_generated.pyinc
+  /bin/sh: line 1: @INPUT@: command not found
+  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
+er.c.o
+  ninja: build stopped: subcommand failed.
+
+  ninja version: 1.10.2
+  meson version: 0.57.1
+
+  Downgrading meson doesn't change anything.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916394/+subscriptions
 
