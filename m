@@ -2,51 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58B98322416
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 03:19:12 +0100 (CET)
-Received: from localhost ([::1]:48024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7951532241C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 03:24:59 +0100 (CET)
+Received: from localhost ([::1]:58866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lENI7-0002jm-CN
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 21:19:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51980)
+	id 1lENNi-0007jo-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 21:24:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52640)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lENGq-0001pq-OP
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 21:17:52 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2652)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1lENLy-00068O-OM; Mon, 22 Feb 2021 21:23:10 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3485)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lENGo-0006Wv-JO
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 21:17:52 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Dl2j72t3qz7nm3;
- Tue, 23 Feb 2021 10:16:11 +0800 (CST)
-Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Tue, 23 Feb 2021 10:17:39 +0800
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-To: Juan Quintela <quintela@redhat.com>, "Dr . David Alan Gilbert"
- <dgilbert@redhat.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-Subject: [PATCH 3/3] migration/ram: Optimize ram_save_host_page()
-Date: Tue, 23 Feb 2021 10:16:45 +0800
-Message-ID: <20210223021646.500-4-jiangkunkun@huawei.com>
-X-Mailer: git-send-email 2.26.2.windows.1
-In-Reply-To: <20210223021646.500-1-jiangkunkun@huawei.com>
-References: <20210223021646.500-1-jiangkunkun@huawei.com>
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1lENLq-0000H0-71; Mon, 22 Feb 2021 21:23:10 -0500
+Received: from DGGEMS407-HUB.china.huawei.com (unknown [172.30.72.59])
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dl2q313FNzjR1N;
+ Tue, 23 Feb 2021 10:21:19 +0800 (CST)
+Received: from DESKTOP-7FEPK9S.china.huawei.com (10.174.184.135) by
+ DGGEMS407-HUB.china.huawei.com (10.3.19.207) with Microsoft SMTP Server id
+ 14.3.498.0; Tue, 23 Feb 2021 10:22:46 +0800
+From: Shenming Lu <lushenming@huawei.com>
+To: Alex Williamson <alex.williamson@redhat.com>, Kirti Wankhede
+ <kwankhede@nvidia.com>, Cornelia Huck <cohuck@redhat.com>,
+ <qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>
+Subject: [PATCH v3 0/3] vfio: Some fixes and optimizations for VFIO migration
+Date: Tue, 23 Feb 2021 10:22:22 +0800
+Message-ID: <20210223022225.50-1-lushenming@huawei.com>
+X-Mailer: git-send-email 2.27.0.windows.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Originating-IP: [10.174.185.210]
+X-Originating-IP: [10.174.184.135]
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=jiangkunkun@huawei.com; helo=szxga07-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.191;
+ envelope-from=lushenming@huawei.com; helo=szxga05-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,70 +56,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- Keqian Zhu <zhukeqian1@huawei.com>
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, Marc Zyngier <maz@kernel.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Eric
+ Auger <eric.auger@redhat.com>, yuzenghui@huawei.com, wanghaibin.wang@huawei.com,
+ lushenming@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Starting from pss->page, ram_save_host_page() will check every page
-and send the dirty pages up to the end of the current host page or
-the boundary of used_length of the block. If the host page size is
-a huge page, the step "check" will take a lot of time.
+This patch set includes two fixes and one optimization for VFIO migration
+as blew:
 
-This will improve performance to use migration_bitmap_find_dirty().
+Patch 1-2:
+- Fix two ordering problems in migration.
 
-Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
-Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
----
- migration/ram.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+Patch 3:
+- Optimize the enabling process of the MSI-X vectors in migration.
 
-diff --git a/migration/ram.c b/migration/ram.c
-index c7e18dc2fc..c7a2350198 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1994,6 +1994,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
-     int tmppages, pages = 0;
-     size_t pagesize_bits =
-         qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-+    unsigned long hostpage_boundary =
-+        QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
-     unsigned long start_page = pss->page;
-     int res;
- 
-@@ -2005,8 +2007,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
-     do {
-         /* Check the pages is dirty and if it is send it */
-         if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
--            pss->page++;
--            continue;
-+            goto find_next;
-         }
- 
-         tmppages = ram_save_target_page(rs, pss, last_stage);
-@@ -2015,16 +2016,17 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
-         }
- 
-         pages += tmppages;
--        pss->page++;
-         /* Allow rate limiting to happen in the middle of huge pages */
-         if (pagesize_bits > 1) {
-             migration_rate_limit();
-         }
--    } while ((pss->page & (pagesize_bits - 1)) &&
-+find_next:
-+        pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
-+    } while ((pss->page < hostpage_boundary) &&
-              offset_in_ramblock(pss->block,
-                                 ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
--    /* The offset we leave with is the last one we looked at */
--    pss->page--;
-+    /* The offset we leave with is the min boundary of host page and block */
-+    pss->page = MIN(pss->page, hostpage_boundary) - 1;
- 
-     res = ram_save_release_protection(rs, pss, start_page);
-     return (res < 0 ? res : pages);
+History:
+
+v2 -> v3:
+- Nit fixes.
+- Set error in migration stream for migration to fail in Patch 1.
+- Tested Patch 3 with a Windows guest.
+
+Thanks,
+Shenming
+
+
+Shenming Lu (3):
+  vfio: Move the saving of the config space to the right place in VFIO
+    migration
+  vfio: Set the priority of the VFIO VM state change handler explicitly
+  vfio: Avoid disabling and enabling vectors repeatedly in VFIO
+    migration
+
+ hw/pci/msix.c         |  2 +-
+ hw/vfio/migration.c   | 28 +++++++++++++++++-----------
+ hw/vfio/pci.c         | 20 +++++++++++++++++---
+ include/hw/pci/msix.h |  1 +
+ 4 files changed, 36 insertions(+), 15 deletions(-)
+
 -- 
-2.23.0
+2.19.1
 
 
