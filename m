@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20ED83229C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:56:35 +0100 (CET)
-Received: from localhost ([::1]:53814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFB2D3229C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:58:03 +0100 (CET)
+Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEWIr-0001vP-TF
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:56:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59382)
+	id 1lEWKI-0002qS-R7
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:58:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEWHP-0001Go-AQ
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:55:04 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:44710)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lEWIs-0002Fu-Ag; Tue, 23 Feb 2021 06:56:34 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:41649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEWHN-0000b2-6q
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:55:03 -0500
-Received: by mail-ej1-x631.google.com with SMTP id w1so33989885ejf.11
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:55:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=H1xE4fjD2G/iEmolfTWe9jylxc5ltLRuA9lOdyte2Bg=;
- b=RqZhsN4joWZQ+39gKG+qJgY76FZppEGzA9XVpsmzHw4lM+jU9BiOzjr8wCLjPpjwIe
- 3Q0Hq3ukfgJDdFzEpo7tPDlW1uR5jw1iXZdJ8pi53XCw6T3jFY11Mw42RXdzniOi35g+
- /uYTrvLiNXFK93L8DAuU6DlQt79uX8if9VjTeXmNgIVauJTxfiETGDv8tKFid9OF8Bbe
- ptV6letZzri0Ock7sdG7UKsZFbpnADtr1NHk9PRp8rJH8jgQiRGS8GNkV4p49ASXF3PN
- ytUqkijXkUQX8/UL1sx10tFZdj1W3kyW1vhrhAJ0Z8hDMMdMeUT+vuVtq+kR1jOppEH/
- hXEw==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lEWIo-0001Ld-UY; Tue, 23 Feb 2021 06:56:34 -0500
+Received: by mail-pl1-x631.google.com with SMTP id d11so4724261plo.8;
+ Tue, 23 Feb 2021 03:56:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=PXFyo0fuv8jnsWZ01bGHl1Ugcs8Arvd+rz+qu2RPvEM=;
+ b=U4LFMjR8y4mbb058lAaEBxy+7FoQZsS/RRL6p56ZkRtOpACd+OiBbbwT1SZ3loU7Mf
+ dJjP1BMtveDZMIhMUqYcZJaidMcOoUhPwLLfIiSLyfyVJ7aM+Z660x+1x4mkyLzakZfF
+ Dn8QFe7Skk3sOuYXmvP/mX8JADJXavKIdLeTjv/GXRc9tWn0N0ooRWxGIX8om2g5lELl
+ pMH/AUHGTXzPecfUI7NvqZ02sODJc994zm88O5Iq6x7NwRFuBhz5wwXOXA4YTfPJqm3X
+ NXmwrifpxtMxx2YLkRgRNxul8PgLSNEmDSxDKuYTWgaz3cOiY5nTqG5tWCU8GvOwtcmo
+ sR8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=H1xE4fjD2G/iEmolfTWe9jylxc5ltLRuA9lOdyte2Bg=;
- b=dwFrLnDMf0ceQ7dsrlKC7K0iQFXWsvDHoWVxdCZko6n8ixpt17aqbK6U4mYjk+iW4Z
- DCJd2ozW34mivF/XiVL0TJi/tIKHTFrIjb86qdEHHYHnfbk78AS3ptTlHBedZ8Hk3uWi
- P1UTGGgqyIr6t27d6BHB1AYZjilireyh6f/pOiNSwY6IJ54Kx0SSdzDTCrR++zeY+DpS
- m7oxwRtzAF3dPF4QxrbX9Z988crbpVLn12U9SpYvnCK6VFpYVfgiRj+Y53m1hapHB//S
- A8umo3qW0KllKZncDev9ZZRisr1zp3Vs7fcuLBW68r5u3VrgpVwU7gx1PC+vYXWWL54D
- VpLw==
-X-Gm-Message-State: AOAM533GyWfC7XX+v637wOdvM04Iv5eqTzy14NoQK/QpWfLch9df9EX7
- 2PjCJzcKcU7gQF7TFAiHP19YM1SaMBoJiXWSD0cTjQ==
-X-Google-Smtp-Source: ABdhPJwwwKm+voJrif77+AndyVtNfIxkcxApk18hqFXt+IMwbg2rzdLjU3QE25ccmk857tTGwMR8FRIMBkpWTX2R1zo=
-X-Received: by 2002:a17:906:ca58:: with SMTP id
- jx24mr22752178ejb.482.1614081299067; 
- Tue, 23 Feb 2021 03:54:59 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=PXFyo0fuv8jnsWZ01bGHl1Ugcs8Arvd+rz+qu2RPvEM=;
+ b=bkmuig50oLbSsH7I3Yo7nCyeJVRX4r35sNGZFgtwywckdBQaEM6VgsYEMIkyj7aK4s
+ MCOUUod4jbkYVsVc2DnYbxzv0CPkkL99sfkCyUDjBrVB0nQ0HEEqdasHpHnH8atPKoTF
+ 0GKcKhhihlzuLgsy7Nz5NwCkrSnDlN1NsjZvETTH/C2ZOfuTLLJas9rnTI/3eHsha4Cg
+ X2dwUDGNs+LFsrPvpEzitSxGp0PN6w+30FG3u1+0XYgxHvbcTz4rDNYquXP/EfHEQOx8
+ jIi2rIIpWQQ+GVmrPNXiF5ZYMx16/UergXcJofjUCwQA8LjDwRB93YDoXL0j6rEiuM+6
+ DedA==
+X-Gm-Message-State: AOAM531zX2iEOfn9J0uJPk5xeLEwproqIdEum19bbZDnYEaZv2Zvkxe3
+ Yv54hsQfH5anX3KbRwQC7HE=
+X-Google-Smtp-Source: ABdhPJxl1NpgyjVl/0sdylSoZAWbjdKZJnDHm4N9KmZKpOLQOvklDKJba3g9w9WegJyOVTrDbrbBvg==
+X-Received: by 2002:a17:90b:3892:: with SMTP id
+ mu18mr28696287pjb.143.1614081389156; 
+ Tue, 23 Feb 2021 03:56:29 -0800 (PST)
+Received: from [10.0.2.15] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
+ by smtp.gmail.com with ESMTPSA id j3sm21312811pgk.24.2021.02.23.03.56.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 03:56:28 -0800 (PST)
+Subject: Re: [PATCH v6 01/11] hvf: Add hypervisor entitlement to output
+ binaries
+To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
+References: <20210120224444.71840-1-agraf@csgraf.de>
+ <20210120224444.71840-2-agraf@csgraf.de>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Message-ID: <a41a39e5-951f-c178-d50e-6041eec63cbe@gmail.com>
+Date: Tue, 23 Feb 2021 20:56:24 +0900
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
- <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
- <20210222082137.1b3f8b3b@bahia.lan>
- <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
- <20210222154341.0992238d@bahia.lan>
- <CAFEAcA8x6GnfaHtfTLtEMiM1Xm9K7dhsMEpFjf2MFYe7T1jF4w@mail.gmail.com>
- <20210223123943.06d23a56@bahia.lan>
-In-Reply-To: <20210223123943.06d23a56@bahia.lan>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Feb 2021 11:54:47 +0000
-Message-ID: <CAFEAcA9mgE5t5KpkGac7ABaVy3gK11PbpNMfO3p-gcVhSN51tQ@mail.gmail.com>
-Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+In-Reply-To: <20210120224444.71840-2-agraf@csgraf.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,43 +87,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Feb 2021 at 11:39, Greg Kurz <groug@kaod.org> wrote:
->
-> On Tue, 23 Feb 2021 11:09:05 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> > On Mon, 22 Feb 2021 at 14:43, Greg Kurz <groug@kaod.org> wrote:
-> > > My understanding is that users must be "maintainer" to edit other's
-> > > patches. Only three 'maintainers' are currently listed at ozlabs for
-> > > QEMU:
-> > >
-> > > https://patchwork.ozlabs.org/api/1.0/projects/14/
-> > >
-> > > We had a discussion about that a few months back with Christian Schoenebeck
-> > > (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
-> > > quite know how to go further because of lack of documentation, but I'd be
-> > > glad to experiment the full patchwork experience if someone knows how to
-> > > do it :-)
-> >
-> > If people want to try that kind of thing out I'm happy to try
-> > to tweak their permissions on the patchwork instance.
-> >
->
-> Please do for me then. My name is groug :)
+Hi,
 
-Hmm. Having looked through the UI and docs I can't figure
-out how to do that (or even if 'maintainer' permission is
-sufficient to add other maintainers; maybe one has to ask the
-patchwork instance admins to do that?). If you can tell me what
-I need to do to add you to the maintainer list for QEMU I'll do it :-)
+I use your patches when running QEMU on M1 MacBook Air.
 
--- PMM
+I noticed that the installation process corrupts the code signature 
+because meson modifies the file to fix dynamic shared library install 
+names. Also, stripping apparently does not work because the signed file 
+is not considered as "executable" by meson. Here is some change I wrote 
+for my own use, just for reference:
+https://github.com/akihikodaki/qemu/commit/6a9b5d7e4ea03b1e757be1eedf256871bb6a5bdd
+
+Also, the patch series do no longer apply to master. Here is my merge 
+with conflict resolution (It is not a rebase and was done for my own 
+purpose. Just for reference.):
+https://github.com/akihikodaki/qemu/commit/b7885e4370a2fe426e80d32afe6eb5d01a71640d
+
+Regards,
+Akihiko Odaki
+
+On 2021/01/21 7:44, Alexander Graf wrote:
+> In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
+> respective entitlement. Add an entitlement template and automatically self
+> sign and apply the entitlement in the build.
+> 
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> 
+> ---
+> 
+> v1 -> v2:
+> 
+>    - Make safe to ctrl-C
+> 
+> v3 -> v4:
+> 
+>    - Remove unused exe_full variable
+>    - Reuse exe_name variable
+> ---
+>   accel/hvf/entitlements.plist |  8 ++++++++
+>   meson.build                  | 29 +++++++++++++++++++++++++----
+>   scripts/entitlement.sh       | 13 +++++++++++++
+>   3 files changed, 46 insertions(+), 4 deletions(-)
+>   create mode 100644 accel/hvf/entitlements.plist
+>   create mode 100755 scripts/entitlement.sh
+> 
+> diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.plist
+> new file mode 100644
+> index 0000000000..154f3308ef
+> --- /dev/null
+> +++ b/accel/hvf/entitlements.plist
+> @@ -0,0 +1,8 @@
+> +<?xml version="1.0" encoding="UTF-8"?>
+> +<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+> +<plist version="1.0">
+> +<dict>
+> +    <key>com.apple.security.hypervisor</key>
+> +    <true/>
+> +</dict>
+> +</plist>
+> diff --git a/meson.build b/meson.build
+> index 3d889857a0..c667d64498 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2146,9 +2146,14 @@ foreach target : target_dirs
+>       }]
+>     endif
+>     foreach exe: execs
+> -    emulators += {exe['name']:
+> -         executable(exe['name'], exe['sources'],
+> -               install: true,
+> +    exe_name = exe['name']
+> +    exe_sign = 'CONFIG_HVF' in config_target
+> +    if exe_sign
+> +      exe_name += '-unsigned'
+> +    endif
+> +
+> +    emulator = executable(exe_name, exe['sources'],
+> +               install: not exe_sign,
+>                  c_args: c_args,
+>                  dependencies: arch_deps + deps + exe['dependencies'],
+>                  objects: lib.extract_all_objects(recursive: true),
+> @@ -2156,7 +2161,23 @@ foreach target : target_dirs
+>                  link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
+>                  link_args: link_args,
+>                  gui_app: exe['gui'])
+> -    }
+> +
+> +    if exe_sign
+> +      emulators += {exe['name'] : custom_target(exe['name'],
+> +                   install: true,
+> +                   install_dir: get_option('bindir'),
+> +                   depends: emulator,
+> +                   output: exe['name'],
+> +                   command: [
+> +                     meson.current_source_dir() / 'scripts/entitlement.sh',
+> +                     meson.current_build_dir() / exe_name,
+> +                     meson.current_build_dir() / exe['name'],
+> +                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
+> +                   ])
+> +      }
+> +    else
+> +      emulators += {exe['name']: emulator}
+> +    endif
+>   
+>       if 'CONFIG_TRACE_SYSTEMTAP' in config_host
+>         foreach stp: [
+> diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
+> new file mode 100755
+> index 0000000000..c540fa6435
+> --- /dev/null
+> +++ b/scripts/entitlement.sh
+> @@ -0,0 +1,13 @@
+> +#!/bin/sh -e
+> +#
+> +# Helper script for the build process to apply entitlements
+> +
+> +SRC="$1"
+> +DST="$2"
+> +ENTITLEMENT="$3"
+> +
+> +trap 'rm "$DST.tmp"' exit
+> +cp -af "$SRC" "$DST.tmp"
+> +codesign --entitlements "$ENTITLEMENT" --force -s - "$DST.tmp"
+> +mv "$DST.tmp" "$DST"
+> +trap '' exit
+> 
 
