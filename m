@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4A9322C06
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 15:16:20 +0100 (CET)
-Received: from localhost ([::1]:45922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE1D322C3A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 15:28:55 +0100 (CET)
+Received: from localhost ([::1]:57120 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEYU7-0007Cw-F8
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 09:16:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34172)
+	id 1lEYgI-0003xU-47
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 09:28:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEYSI-0006ML-5G
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:14:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44102)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lEYf1-0002uo-Go
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:27:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEYSG-0003xP-Co
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:14:25 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lEYez-0001TE-Dv
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:27:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614089663;
+ s=mimecast20190719; t=1614090452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zQA3fkJo1uAU5TPsKUe1n/8Ftx/oUU4sgYeRhFvYupU=;
- b=UORRAeqo41Ro9z+v1tHLO7Fq9YO8y0T+sJZxRp2Xg5fXseZ6eSVCUUTcIPNBsVCZcmVIBr
- OKBudVS9KGbBh2MJcxjQmIp6g8Xwn9EYH4hGsp5dtFZGqGc1d37K2oqQ4QOgaqBGEkCOgv
- maQ+FPOmrwJDFNiZQqoDGB3ue6iMXnY=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-279-UIjSn30XPcekTMiGsWwu_w-1; Tue, 23 Feb 2021 09:14:21 -0500
-X-MC-Unique: UIjSn30XPcekTMiGsWwu_w-1
-Received: by mail-wr1-f69.google.com with SMTP id w11so7425007wrp.6
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 06:14:20 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=zQA3fkJo1uAU5TPsKUe1n/8Ftx/oUU4sgYeRhFvYupU=;
- b=rQGnfNNUxVc8qjXrCPIZXupAFFgL0k36qEMS5rx3k7MqiJEP7ogJVClT3S9O3kpDUV
- jCC1gORFblNkH5lTHryeQmBi2DabpwsgCzmmR9+cIi0Xg/ccCwwLtKtmferwhnUbFAgU
- EJ7nIesYtUjQQfE/SWYQtdGesrpS7d2iHlymr3T4+2KueP2SSPwSafOqStFFveAak64B
- poFgsfAMeq/UwMYdYgrp2OXc9F7Bhi5ozBvOWdx9mC2foHTQn5jzap6w6plp45ACuPPp
- FYVjaUMe/TrhHRlj9v437e/StxPY4Qgvrtu3Q0QCH/GMYQE7zyJKKeIiLlEd7kflZiTN
- kZjQ==
-X-Gm-Message-State: AOAM533dKiIqNr2mvnrh1OJSgtPbN158vR9pJ02Rn1BK5VOQ9BlHtZBt
- 2lFhxRb++i849yFk56uqqYH4pCV8fnXqv2Is2sY2O2jNSnwy1a7aZCHRaveDaTG+cX4vN5EwMr5
- xc3N+im37CF/mBr4=
-X-Received: by 2002:a05:600c:2183:: with SMTP id
- e3mr9830634wme.47.1614089659853; 
- Tue, 23 Feb 2021 06:14:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx/hQZbfgQZ9w6SlMO46rz0/6YAxfPtMbxH2KFiouX1BIb1VZHTzRlWETvJGtAYUeZ4/wNQTQ==
-X-Received: by 2002:a05:600c:2183:: with SMTP id
- e3mr9830618wme.47.1614089659680; 
- Tue, 23 Feb 2021 06:14:19 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id t15sm2777511wmi.48.2021.02.23.06.14.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 06:14:18 -0800 (PST)
-Date: Tue, 23 Feb 2021 09:14:16 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [RFC PATCH 0/6] vhost-user: Shutdown/Flush slave channel properly
-Message-ID: <20210223091358-mutt-send-email-mst@kernel.org>
-References: <20210125180115.22936-1-vgoyal@redhat.com>
+ bh=0gilvtKA7f6+D9JKQBNnpXLkyH5kc0OgxQBMZTqEvM8=;
+ b=UChK8PrAybMPOLbZK1BwtaJUKbp/bmtUMKZxGXFQo2iScWCEKLZWVLUpI8xWYSn4qlkpgU
+ +vhowcLuFENlKdEILQTsFk+3IZYf+f5tBH1E/oZoIcqVf7L+HZZK6Pr7DD/4KrAp5Sxolw
+ xZYE2Or72Ey4F4toS25TQOnwkGcI/Jk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-323-VZBul1ZWMxWquu1qIWj_2A-1; Tue, 23 Feb 2021 09:27:28 -0500
+X-MC-Unique: VZBul1ZWMxWquu1qIWj_2A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 108681092128;
+ Tue, 23 Feb 2021 14:22:29 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.64])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 971DF68D22;
+ Tue, 23 Feb 2021 14:22:21 +0000 (UTC)
+Date: Tue, 23 Feb 2021 15:22:19 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: isaku.yamahata@gmail.com
+Subject: Re: [PATCH v5 03/10] ich9, piix4: add properoty, smm-compat, to
+ keep compatibility of SMM
+Message-ID: <20210223152219.5711d4db@redhat.com>
+In-Reply-To: <47254ae0b8c6cc6945422978b6b2af2d213ef891.1613615732.git.isaku.yamahata@intel.com>
+References: <cover.1613615732.git.isaku.yamahata@intel.com>
+ <47254ae0b8c6cc6945422978b6b2af2d213ef891.1613615732.git.isaku.yamahata@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20210125180115.22936-1-vgoyal@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -92,62 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-fs@redhat.com, marcandre.lureau@redhat.com, qemu-devel@nongnu.org,
- stefanha@redhat.com, dgilbert@redhat.com
+Cc: isaku.yamahata@intel.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 01:01:09PM -0500, Vivek Goyal wrote:
-> Hi,
-> 
-> We are working on DAX support in virtiofs and have some patches out of
-> the tree hosted here.
-> 
-> https://gitlab.com/virtio-fs/qemu/-/commits/virtio-fs-dev
+On Wed, 17 Feb 2021 21:51:11 -0800
+isaku.yamahata@gmail.com wrote:
 
-any plans to post a non RFC version?
+subj: s/properoty/property/
 
-> These patches have not been proposed for merge yet, becasue David
-> Gilbert noticed that we can run into a deadlock during an emergency
-> reboot of guest kernel. (echo b > /proc/sysrq-trigger).
+perhaps Michael can fix it up when merging  
+
+> From: Isaku Yamahata <isaku.yamahata@intel.com>
 > 
-> I have provided details of deadlock in 4th path of the series with
-> subject "qemu, vhost-user: Extend protocol to start/stop/flush slave
-> channel".
+> The following patch will introduce incompatible behavior of SMM.
+> Introduce a property to keep the old behavior for compatibility.
+> To enable smm compat, use "-global ICH9-LPC.smm-compat=on" or
+> "-global PIIX4_PM.smm-compat=on"
 > 
-> Basic problem seems to be that we don't have a proper mechanism to
-> shutdown slave channel when vhost-user device is stopping. This means
-> there might be pending messages in slave channel and slave is blocked
-> and waiting for response.
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> ---
+>  hw/acpi/piix4.c        | 2 ++
+>  hw/isa/lpc_ich9.c      | 1 +
+>  include/hw/acpi/ich9.h | 1 +
+>  3 files changed, 4 insertions(+)
 > 
-> This is an RFC patch series to enhance vhost-user protocol to 
-> properly shutdown/flush slave channel and avoid the deadlock. Though
-> we faced the issue in the context of virtiofs, any vhost-user
-> device using slave channel can potentially run into issues and
-> can benefit from these patches.
-> 
-> Any feedback is welcome. Currently patches are based on out of
-> tree code but after I get some feedback, I can only take pieces
-> which are relevant to upstream and post separately.
-> 
-> Thanks
-> Vivek
-> 
-> Vivek Goyal (6):
->   virtiofsd: Drop ->vu_dispatch_rwlock while waiting for thread to exit
->   libvhost-user: Use slave_mutex in all slave messages
->   vhost-user: Return error code from slave_read()
->   qemu, vhost-user: Extend protocol to start/stop/flush slave channel
->   libvhost-user: Add support to start/stop/flush slave channel
->   virtiofsd: Opt in for slave start/stop/shutdown functionality
-> 
->  hw/virtio/vhost-user.c                    | 151 +++++++++++++++++++++-
->  subprojects/libvhost-user/libvhost-user.c | 147 +++++++++++++++++----
->  subprojects/libvhost-user/libvhost-user.h |   8 +-
->  tools/virtiofsd/fuse_virtio.c             |  20 +++
->  4 files changed, 294 insertions(+), 32 deletions(-)
-> 
-> -- 
-> 2.25.4
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 669be5bbf6..30dd9b2309 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -74,6 +74,7 @@ struct PIIX4PMState {
+>      qemu_irq irq;
+>      qemu_irq smi_irq;
+>      int smm_enabled;
+> +    bool smm_compat;
+>      Notifier machine_ready;
+>      Notifier powerdown_notifier;
+>  
+> @@ -642,6 +643,7 @@ static Property piix4_pm_properties[] = {
+>                       use_acpi_root_pci_hotplug, true),
+>      DEFINE_PROP_BOOL("memory-hotplug-support", PIIX4PMState,
+>                       acpi_memory_hotplug.is_enabled, true),
+> +    DEFINE_PROP_BOOL("smm-compat", PIIX4PMState, smm_compat, false),
+>      DEFINE_PROP_END_OF_LIST(),
+>  };
+>  
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index d3145bf014..3963b73520 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -775,6 +775,7 @@ static const VMStateDescription vmstate_ich9_lpc = {
+>  
+>  static Property ich9_lpc_properties[] = {
+>      DEFINE_PROP_BOOL("noreboot", ICH9LPCState, pin_strap.spkr_hi, true),
+> +    DEFINE_PROP_BOOL("smm-compat", ICH9LPCState, pm.smm_compat, false),
+>      DEFINE_PROP_BIT64("x-smi-broadcast", ICH9LPCState, smi_host_features,
+>                        ICH9_LPC_SMI_F_BROADCAST_BIT, true),
+>      DEFINE_PROP_BIT64("x-smi-cpu-hotplug", ICH9LPCState, smi_host_features,
+> diff --git a/include/hw/acpi/ich9.h b/include/hw/acpi/ich9.h
+> index 54571c77e0..df519e40b5 100644
+> --- a/include/hw/acpi/ich9.h
+> +++ b/include/hw/acpi/ich9.h
+> @@ -59,6 +59,7 @@ typedef struct ICH9LPCPMRegs {
+>      uint8_t disable_s4;
+>      uint8_t s4_val;
+>      uint8_t smm_enabled;
+> +    bool smm_compat;
+>      bool enable_tco;
+>      TCOIORegs tco_regs;
+>  } ICH9LPCPMRegs;
 
 
