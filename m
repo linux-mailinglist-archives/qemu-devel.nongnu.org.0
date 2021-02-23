@@ -2,96 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A64B3228D0
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:26:24 +0100 (CET)
-Received: from localhost ([::1]:53138 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D9E63228D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:28:00 +0100 (CET)
+Received: from localhost ([::1]:58196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEUtb-0003x1-67
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:26:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37356)
+	id 1lEUv9-00069u-5C
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:27:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEUr3-0002ZZ-MY
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:23:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60556)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lEUr1-0001Y2-Kj
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:23:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614075822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ONA6MzE+62MBdXsLezMBnFy0YNeeXhI4RdnsmP3EC78=;
- b=CFaRKqiT9aSKfkiSq7xM7vNR769L1YDjl9NevVnUGXjBC6R4N+7gW+Sc8Kc8OZpnsdGj27
- UmOOoh8k3wmMcR/RTXox2Osa3Z3TKmEJXKWJHaYUpuvk2W5krNGLho/lgy0KJTRD/QDW9Z
- Vru9ZJiABEsRr86uamsvjnfTu7cPIZk=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-487-wNM-vuyYP5CH-SyaN0Ax0w-1; Tue, 23 Feb 2021 05:23:40 -0500
-X-MC-Unique: wNM-vuyYP5CH-SyaN0Ax0w-1
-Received: by mail-ej1-f71.google.com with SMTP id ia14so5178756ejc.8
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 02:23:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEUrk-0003M0-Qn; Tue, 23 Feb 2021 05:24:29 -0500
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:43316)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEUrd-0001m3-GF; Tue, 23 Feb 2021 05:24:28 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id u75so15929477ybi.10;
+ Tue, 23 Feb 2021 02:24:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ucuPs1EFrTWkrcSftLOOH0A/C7Bd9UVGmjlvXJpdG9k=;
+ b=OtLj21otqdt6tM/o4Kn43BNoUe3C0HJ5LdGr48YE3t7zBMTXwQzwCvAobM2G6Ps8on
+ JwalP/g9JbDKC6H3epqCr2K5+KxjsPCf63HDqem1S6xuR4EZ0unurmgGGVLBz1zRqYfo
+ xB6VSDr4q4WSC7WpXoIWha7IvWvYQ5nO63hITDpRB14Mt6F/VLHjfk5l9UPVO1yeufbK
+ Yrv7wbttLRpedeMR6YoKqb4dcf5m0QWkIL/5xKTZSCG2pZrgwcoIAXL1izue1MNB/SIx
+ hDZ/0Krkq/INH6aZEbnu1QpV6KONLrpmQ3BSxXs2EUPIsHj2VY9NsBCL/gVF6/YcMr5+
+ ddJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ONA6MzE+62MBdXsLezMBnFy0YNeeXhI4RdnsmP3EC78=;
- b=nCkb89KB3nBbKOWqANMyIm1F3yqy1Lu1g0T430Kc/Rk7Wp7vAN7MEgwmOO1Fkv1KiE
- IfaCk1gkQMaj4gX6RL24d7QcxtHuXHoLIJZUCjgeIL7RzLsQH/O+Af9XpaQCPbdSpYbY
- j4poGGDYksWGc/k+3L4ZB7+jFebUvN/0x/x4cj1vx2ZELC5JDi7dA0z2xtMSZJVDPKzX
- zD0m42yo37IPZIvWG+gTPttW9LRkph5Fa+f7pB3sVyAB6367gJnH6BfVTM2cGlE3zuWD
- p0eOAD4TJBXfnRFaxd3mLONaqTqOSVqiaq8o2ysxyT7eyb4Nbrhfu1QLScBxGhDxX1Dw
- q2rg==
-X-Gm-Message-State: AOAM533XztCtIRQP04VYBs3PBmtNlQ7FCMbv71ZZygzM25QRc7nTh1G8
- 0CjB4FPwoiyxOQX6IjsVysBSOOnZ7SwHJpiPpdIdps9m686b5TeKL9V53RpJJx8jvVKelgNLzqJ
- MrRGaiR29lcWPy4o=
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr27619552edc.174.1614075819699; 
- Tue, 23 Feb 2021 02:23:39 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw0r6P7ShOobLZvmLHL0jbX0EFtTOUmvbuENZSBK+/eSQdmkpQppmQa8Fu1UMjnNqUPQ3uk1Q==
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr27619538edc.174.1614075819545; 
- Tue, 23 Feb 2021 02:23:39 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id ly8sm6400713ejb.124.2021.02.23.02.23.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 02:23:38 -0800 (PST)
-Subject: Re: romfile resize
-To: Jiatong Shen <yshxxsjt715@gmail.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <CALqm=df_dH41LQfG+X2_qL2z68DPAF9vT=9HGSEbBMWec_zLQA@mail.gmail.com>
- <ef18782e-99d8-8406-152f-46c03bbd3280@redhat.com> <YDTO5yIR1IyxbVZt@work-vm>
- <CALqm=ddLcPh2wUcYTwrf5uXG1Oyakocef449dyQ8NUeb6CY2Ow@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <948fee76-e315-4155-c665-2379def3cae3@redhat.com>
-Date: Tue, 23 Feb 2021 11:23:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ucuPs1EFrTWkrcSftLOOH0A/C7Bd9UVGmjlvXJpdG9k=;
+ b=Ta2OUpHjdNcwKM6qWMbZQVjIsOSOG9S6HKGSxSHqu1WEpukutq4nnukgORpiRCD3L2
+ gIqvpZnGtAwifLScxEE/wyeGr6ol6FHWvSnXk5w3YoX853vhTEIbN/MZx023+Heb1ZOf
+ sSTFVyIzvtuE5sEsohb+nQVpUOaBvCt4xXxxWTLu2H6F8JKn+bCkk3GR8es1DEeWnE4I
+ o6V0AN7z9steJEeUUN1kg2+w3/t9aXoVriF2fiCAh2JAPphAk9g5c61SYrVY3esT9iYV
+ H3wUR2DH7bJw6AsNrof7s06KcTXJfbB6VLyEjE/qx8kWEcoUt9AW/SG2y4vPEis4wBG7
+ fgSQ==
+X-Gm-Message-State: AOAM530F7B9flQYbXmI74Eo7H28Y/NMmo7c8p3S4LmHwB62Tx/YLknW7
+ WmaiIKMXDOsjPOFv9gXgrA1m2X4b7JVdTlGHgkk=
+X-Google-Smtp-Source: ABdhPJyQGDRTSOap4wZEwpEUXCo3P46OEaOzWRYOnLeU57BN6uXD0fi3wXNxa4K0dw7bHSeKcpPf6wmhvvRx8o4HOCw=
+X-Received: by 2002:a25:8712:: with SMTP id a18mr38901184ybl.306.1614075858970; 
+ Tue, 23 Feb 2021 02:24:18 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CALqm=ddLcPh2wUcYTwrf5uXG1Oyakocef449dyQ8NUeb6CY2Ow@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
+ <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
+ <20210222082137.1b3f8b3b@bahia.lan>
+ <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
+ <20210222154341.0992238d@bahia.lan>
+ <CAEUhbmV+qUWtw0Cksrp9dwO2vPnCD8B7Se88a3K_dn3FENnLLQ@mail.gmail.com>
+ <20210223105510.0687d0b6@bahia.lan>
+In-Reply-To: <20210223105510.0687d0b6@bahia.lan>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 23 Feb 2021 18:24:07 +0800
+Message-ID: <CAEUhbmWUMaf=vqKibc0fnHR+BJVyO2-mvg+rPXPdVSPGsCHUag@mail.gmail.com>
+Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,26 +80,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-discuss@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/02/21 10:57, Jiatong Shen wrote:
-> 
->    Thank you very much for the answer. so if romfile on destination got 
-> a larger size than source, why romfile check still does not
-> pass? because dest got enough space to hold romfile.
+On Tue, Feb 23, 2021 at 5:55 PM Greg Kurz <groug@kaod.org> wrote:
+>
+> On Tue, 23 Feb 2021 14:57:21 +0800
+> Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> > On Mon, Feb 22, 2021 at 10:43 PM Greg Kurz <groug@kaod.org> wrote:
+> > >
+> > > On Mon, 22 Feb 2021 13:59:34 +0000
+> > > Peter Maydell <peter.maydell@linaro.org> wrote:
+> > >
+> > > > On Mon, 22 Feb 2021 at 07:21, Greg Kurz <groug@kaod.org> wrote:
+> > > > >
+> > > > > On Fri, 19 Feb 2021 17:51:02 +0100
+> > > > > Thomas Huth <thuth@redhat.com> wrote:
+> > > > >
+> > > > > > On 19/02/2021 17.26, Peter Maydell wrote:
+> > > > > > > Does anybody use the ozlabs patchwork install for QEMU patches,
+> > > > > > > either occasionally or on a regular basis ?
+> > > > > > > http://patchwork.ozlabs.org/project/qemu-devel/list/
+> > > > > > > The admins for that system are trying to identify which of
+> > > > > > > the various projects are really using their patchwork instances,
+> > > > > > > so I figured I'd do a quick survey here. We don't use it
+> > > > > > > as an official project tool but it's certainly possible to
+> > > > > > > use it as an individual developer in one way or another.
+> > > > > >
+> > > > > > I think it might be used by some of the ppc hackers ... so CC:-ing to
+> > > > > > qemu-pcc ...
+> > > > > >
+> > > > >
+> > > > > I do on a very regular basis.
+> > > >
+> > > > Thanks for the reports. Do you use the features like assigning
+> > > > patches to people and changing patch status, or do you mostly
+> > > > just use it as a read-only archive-of-patches ?
+> > > >
+> > >
+> > > Only the latter but mostly because I don't have the permissions
+> > > to change status, e.g. when trying to change status of this
+> > > recent patch from Cedric to rearrange the PowerPC docs:
+> > >
+> > > You don't have permissions to edit patch 'docs/system: Extend PPC section'
+> > >
+> > > My understanding is that users must be "maintainer" to edit other's
+> > > patches. Only three 'maintainers' are currently listed at ozlabs for
+> > > QEMU:
+> >
+> > I can update my patch status in the QEMU project. I am not sure if
+> > this is due to I am a maintainer of another project hosted on
+> > ozlabs.org.
+> >
+>
+> Yeah everyone can update its own patches but you need to
+> be maintainer of a project to update the status of other's
+> patch for this project IIUC.
+>
 
-Because QEMU checks that memory areas have the same size on the source 
-and destination.  You're right that it's overly strict, but it's a case 
-that has never been an issue before; probably because the ROM size 
-should be fixed for each QEMU "machine type", and it's better to have a 
-consistent set of ROM files on all your hosts.
+Ah, I see, thanks. So the question is whether QEMU maintainers want to
+try the practice of using patchwork to help their maintenance work ...
 
-You can create a dummy file with the right size, or copy it from the source.
+> > >
+> > > https://patchwork.ozlabs.org/api/1.0/projects/14/
+> > >
+> > > We had a discussion about that a few months back with Christian Schoenebeck
+> > > (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
+> > > quite know how to go further because of lack of documentation, but I'd be
+> > > glad to experiment the full patchwork experience if someone knows how to
+> > > do it :-)
+> >
+> > I personally found patchwork is really helpful for mainatiner's work.
+> > But it looks the maintainers from the QEMU community do not use it.
 
-Paolo
-
+Regards,
+Bin
 
