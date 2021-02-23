@@ -2,100 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13A9B32227B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 00:03:17 +0100 (CET)
-Received: from localhost ([::1]:34496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E1F32232E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 01:40:24 +0100 (CET)
+Received: from localhost ([::1]:38768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEKEV-00042i-JV
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 18:03:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49690)
+	id 1lELkL-0005rs-SU
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 19:40:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lEKCi-000316-2B
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 18:01:24 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:7414)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lEKCd-0006sU-6v
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 18:01:23 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 11MMWbbu164590; Mon, 22 Feb 2021 18:01:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=Aymr6mTgscQXPxjx7t7iXD31+ob/GDAAQHtp292NJQw=;
- b=cgSDAPLnvGwcx3gJx08ZbdPK3iE3sE/QUI5EU+c2DzF+LACbj6c/3w0f5OFfM+S6o1fu
- Fqamh1keIn1KuYbxhPjb0BDCtQLXxSrComz/qLPNbMcQa2xWWV9/+bCOU42QIhv3tuSP
- 7Env4SRogUFJ/w9jkcc/4it5rxmFZBibAi7lX92iSxpzh6b5yS8/K0C64TrR4PdRqYra
- qv3SzVVyHtQHNWD5MSzTZl2rda71CjHAK3WwtOEmp9LGSebt4Ff6tSeXhAWOzJlZieAO
- 6ow6dVRw0d3B08ldycod/DBWZw6le+cKByj+71Jp8UBOIZWqdS9VE64CLETPLr16dOBN +Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36vkg3mka6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Feb 2021 18:01:16 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11MMWba8164600;
- Mon, 22 Feb 2021 18:01:16 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36vkg3mk9m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Feb 2021 18:01:16 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11MMwHIw011220;
- Mon, 22 Feb 2021 23:01:15 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma04dal.us.ibm.com with ESMTP id 36tt2a6xss-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 22 Feb 2021 23:01:15 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11MN1EFR23200138
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 22 Feb 2021 23:01:14 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id E70A26A04F;
- Mon, 22 Feb 2021 23:01:13 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 5830A6A051;
- Mon, 22 Feb 2021 23:01:13 +0000 (GMT)
-Received: from Buonos-Thinkpad-X1.ibm.com (unknown [9.163.12.145])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Mon, 22 Feb 2021 23:01:13 +0000 (GMT)
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] gitlab-ci.yml: Add jobs to test CFI flags
-Date: Mon, 22 Feb 2021 18:01:05 -0500
-Message-Id: <20210222230106.7030-3-dbuono@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210222230106.7030-1-dbuono@linux.vnet.ibm.com>
-References: <20210222230106.7030-1-dbuono@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lELfo-0000oc-MZ
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 19:35:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54245)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lELec-0005M0-I0
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 19:35:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614040453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=1bzOLbmwlvVAMcfzUsKobi+Jko+XsKC74KGeNHr+QyI=;
+ b=DlXe8+pvjxxN0OQlM8/kD71H5khVSPN9GUg0Zikll9wPGPm39OQc1fGW+OiowrOwGuqRvJ
+ 0dZhoVFN8ZOLDLCR7zT0ba6YaTr8eDqng5SxKDf3EA/crn4Pj7oC/GuhfD397FSXcHiwwW
+ BiMNHbOoOXTdBzBSv3wjNCTeeKSJOZM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-101-OINIulvfPDSuTnR9sBqQoA-1; Mon, 22 Feb 2021 19:34:10 -0500
+X-MC-Unique: OINIulvfPDSuTnR9sBqQoA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7E38A1005501;
+ Tue, 23 Feb 2021 00:34:09 +0000 (UTC)
+Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BE81E5D6D5;
+ Tue, 23 Feb 2021 00:34:08 +0000 (UTC)
+From: John Snow <jsnow@redhat.com>
+To: qemu-devel@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>
+Subject: [PATCH v3 00/16] qapi: static typing conversion, pt3
+Date: Mon, 22 Feb 2021 19:33:52 -0500
+Message-Id: <20210223003408.964543-1-jsnow@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-22_07:2021-02-22,
- 2021-02-22 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 mlxscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 spamscore=0 phishscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102220194
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -108,131 +74,166 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Daniele Buono <dbuono@linux.vnet.ibm.com>
+Cc: Michael Roth <michael.roth@amd.com>, John Snow <jsnow@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU has had options to enable control-flow integrity features
-for a few months now. Add two sets of build/check/acceptance
-jobs to ensure the binary produced is working fine.
-
-The two sets allow testing of x86_64 binaries for every target
-that is not deprecated.
-
-Signed-off-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
----
- .gitlab-ci.yml | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
-
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 5c198f05d4..f2fea8e2eb 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -479,6 +479,98 @@ clang-user:
-       --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
-     MAKE_CHECK_ARGS: check-unit check-tcg
- 
-+# Set JOBS=1 because this requires LTO and ld consumes a large amount of memory.
-+# On gitlab runners, default JOBS of 2 sometimes end up calling 2 lds concurrently
-+# and triggers an Out-Of-Memory error
-+#
-+# Because of how slirp is used in QEMU, we need to have CFI also on libslirp.
-+# System-wide version in fedora is not compiled with CFI so we recompile it using
-+# -enable-slirp=git
-+#
-+# Split in two sets of build/check/acceptance because a single build job for every
-+# target creates an artifact archive too big to be uploaded
-+build-cfi-set1:
-+  <<: *native_build_job_definition
-+  needs:
-+  - job: amd64-fedora-container
-+  variables:
-+    JOBS: 1
-+    AR: llvm-ar
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-+      --enable-safe-stack --enable-slirp=git
-+    TARGETS: aarch64-softmmu arm-softmmu alpha-softmmu i386-softmmu ppc-softmmu
-+      ppc64-softmmu riscv32-softmmu riscv64-softmmu s390x-softmmu sparc-softmmu
-+      sparc64-softmmu x86_64-softmmu
-+      aarch64-linux-user aarch64_be-linux-user arm-linux-user i386-linux-user
-+      ppc64-linux-user ppc64le-linux-user s390x-linux-user x86_64-linux-user
-+    MAKE_CHECK_ARGS: check-build
-+  timeout: 3h
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-cfi-set1:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-set1
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-cfi-set1:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-set1
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
-+
-+build-cfi-set2:
-+  <<: *native_build_job_definition
-+  needs:
-+  - job: amd64-fedora-container
-+  variables:
-+    JOBS: 1
-+    AR: llvm-ar
-+    IMAGE: fedora
-+    CONFIGURE_ARGS: --cc=clang --cxx=clang++ --enable-cfi --enable-cfi-debug
-+      --enable-safe-stack --enable-slirp=git
-+    TARGETS: avr-softmmu cris-softmmu hppa-softmmu m68k-softmmu
-+      microblaze-softmmu microblazeel-softmmu mips-softmmu mips64-softmmu
-+      mips64el-softmmu mipsel-softmmu moxie-softmmu nios2-softmmu or1k-softmmu
-+      rx-softmmu sh4-softmmu sh4eb-softmmu tricore-softmmu xtensa-softmmu
-+      xtensaeb-softmmu
-+    MAKE_CHECK_ARGS: check-build
-+  timeout: 3h
-+  artifacts:
-+    expire_in: 2 days
-+    paths:
-+      - build
-+
-+check-cfi-set2:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-set2
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check
-+
-+acceptance-cfi-set2:
-+  <<: *native_test_job_definition
-+  needs:
-+    - job: build-cfi-set2
-+      artifacts: true
-+  variables:
-+    IMAGE: fedora
-+    MAKE_CHECK_ARGS: check-acceptance
-+  <<: *acceptance_definition
-+
- tsan-build:
-   <<: *native_build_job_definition
-   variables:
--- 
-2.30.0
+Hi, this series adds static types to the QAPI module.=0D
+This is part three, and it focuses on expr.py.=0D
+=0D
+This series is applied and hosted here:=0D
+https://gitlab.com/jsnow/qemu/-/tree/python-qapi-cleanup-pt3=0D
+=0D
+Environment:=0D
+- Python >=3D 3.6, <=3D 3.8 *=0D
+- mypy >=3D 0.770=0D
+- pylint >=3D 2.6.0=0D
+- flake8=0D
+- isort=0D
+=0D
+Every commit should pass with (from ./scripts/):=0D
+ - flake8 qapi/=0D
+ - pylint --rcfile=3Dqapi/pylintrc qapi/=0D
+ - mypy --config-file=3Dqapi/mypy.ini qapi/=0D
+ - pushd qapi && isort -c . && popd=0D
+=0D
+Please read the changelog below for some review notes that may be of intere=
+st.=0D
+=0D
+V3:=0D
+=0D
+001/16:[----] [--] 'qapi/expr.py: Remove 'info' argument from nested check_=
+if_str'=0D
+002/16:[----] [--] 'qapi/expr.py: Check for dict instead of OrderedDict'=0D
+003/16:[0004] [FC] 'qapi/expr.py: constrain incoming expression types'=0D
+004/16:[----] [--] 'qapi/expr.py: Add assertion for union type 'check_dict'=
+'=0D
+005/16:[----] [--] 'qapi/expr.py: move string check upwards in check_type'=
+=0D
+006/16:[----] [--] 'qapi/expr.py: Check type of 'data' member'=0D
+007/16:[0002] [FC] 'qapi/expr.py: Add casts in a few select cases'=0D
+008/16:[----] [--] 'qapi/expr.py: add type hint annotations'=0D
+009/16:[down] 'qapi/expr.py: Consolidate check_if_str calls in check_if'=0D
+010/16:[----] [--] 'qapi/expr.py: Remove single-letter variable'=0D
+011/16:[----] [--] 'qapi/expr.py: enable pylint checks'=0D
+012/16:[----] [-C] 'qapi/expr.py: Add docstrings'=0D
+013/16:[down] 'qapi/expr.py: Modify check_keys to accept any Collection'=0D
+014/16:[----] [--] 'qapi/expr.py: Use tuples instead of lists for static da=
+ta'=0D
+015/16:[0004] [FC] 'qapi/expr.py: move related checks inside check_xxx func=
+tions'=0D
+016/16:[0011] [FC] 'qapi/expr.py: Use an expression checker dispatch table'=
+=0D
+=0D
+ - Some RB-s added, some dropped; see "Review Status" section below.=0D
+ - ("pt0" series rebased on latest origin/master.)=0D
+ - Rebased on origin/master.=0D
+ - 03: Re-ordered the Expression unpacking slightly to match the other stan=
+zas.=0D
+       (R-Bs kept.)=0D
+ - 07: Changed capitalization of a comment. (R-Bs kept.)=0D
+ - 09: Rewritten more aggressively. (R-Bs dropped.)=0D
+ - 13: Use "Collection" instead of "Iterable" because of concerns with the=
+=0D
+       possibly consumptive nature of Iterable; change commit name & messag=
+e.=0D
+       (R-Bs dropped.)=0D
+ - 15: Use tuples everywhere, even for single items. (R-Bs kept.)=0D
+ - 16: Update ExpressionType to define a __str__ method, which allows=0D
+       the meta variable to be passed and used directly as a string.=0D
+       (R-Bs dropped.)=0D
+=0D
+RFCs/notes:=0D
+=0D
+- This series was written long before pt1.5 and pt2. Keep that in mind! (So=
+rry.)=0D
+=0D
+- I used MutableMapping instead of Dict in patch 8. There's no real=0D
+  reason I couldn't have used Dict, both work - this one is more=0D
+  abstract.  Both would work for dict/OrderedDict perfectly well.=0D
+=0D
+  (I think I had some reason at one point or another, but I can no=0D
+  longer remember what it is, if I am being honest. It might have to do=0D
+  with Dict being invariant, but MutableMapping being covariant, which=0D
+  might come into play much later in the six-part series. I really=0D
+  forget.)=0D
+=0D
+- The dreaded _DObject comes back, this time named _JSObject. It's a bad na=
+me.=0D
+  It means "Any JSON object deserialized as a Python dict". I didn't rename=
+ it=0D
+  because I didn't want to shed the R-Bs yet. Please suggest a name.=0D
+  (Or a way to avoid needing it at all.)=0D
+=0D
+  You'll probably notice that I keep futzing with the documentation near=0D
+  this definition. I opted not to fix it to avoid touching patches that=0D
+  were (so far) fully reviewed.=0D
+=0D
+- Patch 12 (the docstring patch) needs to be heavily copy-edited. I=0D
+  figured I would simply address it all at once after review from=0D
+  Markus. I ask that a review of this patch be exhaustive if at all=0D
+  possible.=0D
+=0D
+  I start using [Const] and [RW] markers in the summary string; I think=0D
+  I will actually remove these as they are not real markup, but I'd like=0D
+  to solicit suggestions on how to differentiate functions that modify=0D
+  expr from ones that do not.=0D
+=0D
+  I also start using some fairly arbitrary syntax to try and document=0D
+  the syntactic forms being checked and normalized here, but they are=0D
+  not very consistent. Suggestions welcome.=0D
+=0D
+- Patch 16 is something I am not sure I really like anymore, it has some=0D
+  mild benefit but I don't like how I repeat the expression types twice=0D
+  in one file. I consider this patch optional for now. I suspect there's=0D
+  a neater way to write it that gives us the same benefit but looks less=0D
+  ugly.=0D
+=0D
+Review Status:=0D
+=0D
+[01] qapi-expr-py-remove-info       # [RB] CR,EH [SOB] JS=0D
+[02] qapi-expr-py-check-for-dict    # [RB] CR,EH [SOB] JS=0D
+[03] qapi-expr-py-constrain         # [RB] CR,EH [SOB] JS=0D
+[04] qapi-expr-py-add-assertion-for # [RB] CR,EH [SOB] JS=0D
+[05] qapi-expr-py-move-string-check # [RB] CR,EH [SOB] JS=0D
+[06] qapi-expr-py-check-type-of     # [RB]    EH [SOB] JS=0D
+[07] qapi-expr-py-add-casts-in-a    # [RB] CR,EH [SOB] JS=0D
+[08] qapi-expr-py-add-type-hint     # [RB] CR,EH [SOB] JS=0D
+[09] qapi-expr-py-consolidate       #            [SOB] JS=0D
+[10] qapi-expr-py-remove-single     # [RB] CR,EH [SOB] JS=0D
+[11] qapi-expr-py-enable-pylint     # [RB] CR,EH [SOB] JS=0D
+[12] qapi-expr-py-add-docstrings    # [RB] CR    [SOB] JS=0D
+[13] qapi-expr-py-modify-check_keys #            [SOB] JS=0D
+[14] qapi-expr-py-use-tuples        # [RB] CR,EH [SOB] JS=0D
+[15] qapi-expr-py-move-related      # [RB] CR    [SOB] JS=0D
+[16] qapi-expr-py-use-an-expression #            [SOB] JS=0D
+=0D
+John Snow (16):=0D
+  qapi/expr.py: Remove 'info' argument from nested check_if_str=0D
+  qapi/expr.py: Check for dict instead of OrderedDict=0D
+  qapi/expr.py: constrain incoming expression types=0D
+  qapi/expr.py: Add assertion for union type 'check_dict'=0D
+  qapi/expr.py: move string check upwards in check_type=0D
+  qapi/expr.py: Check type of 'data' member=0D
+  qapi/expr.py: Add casts in a few select cases=0D
+  qapi/expr.py: add type hint annotations=0D
+  qapi/expr.py: Consolidate check_if_str calls in check_if=0D
+  qapi/expr.py: Remove single-letter variable=0D
+  qapi/expr.py: enable pylint checks=0D
+  qapi/expr.py: Add docstrings=0D
+  qapi/expr.py: Modify check_keys to accept any Collection=0D
+  qapi/expr.py: Use tuples instead of lists for static data=0D
+  qapi/expr.py: move related checks inside check_xxx functions=0D
+  qapi/expr.py: Use an expression checker dispatch table=0D
+=0D
+ scripts/qapi/expr.py  | 453 +++++++++++++++++++++++++++++++-----------=0D
+ scripts/qapi/mypy.ini |   5 -=0D
+ scripts/qapi/pylintrc |   1 -=0D
+ 3 files changed, 337 insertions(+), 122 deletions(-)=0D
+=0D
+--=20=0D
+2.29.2=0D
+=0D
 
 
