@@ -2,64 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4DD932282D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:56:30 +0100 (CET)
-Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F1A3322878
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:02:24 +0100 (CET)
+Received: from localhost ([::1]:38798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEUQf-0003Ce-TC
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:56:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56398)
+	id 1lEUWN-00054s-2O
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:02:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lEUPY-0002hB-A3; Tue, 23 Feb 2021 04:55:20 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52533)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1lEUPW-0005hR-7Q; Tue, 23 Feb 2021 04:55:20 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 97D8E906B7C6;
- Tue, 23 Feb 2021 10:55:13 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 23 Feb
- 2021 10:55:12 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003fdd3c27a-2c97-4ecb-bfbd-29b1a101441f,
- 6F2917FB5EF69EFB637F8DE19110E4015BA123FD) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 23 Feb 2021 10:55:10 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
-Message-ID: <20210223105510.0687d0b6@bahia.lan>
-In-Reply-To: <CAEUhbmV+qUWtw0Cksrp9dwO2vPnCD8B7Se88a3K_dn3FENnLLQ@mail.gmail.com>
-References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
- <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
- <20210222082137.1b3f8b3b@bahia.lan>
- <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
- <20210222154341.0992238d@bahia.lan>
- <CAEUhbmV+qUWtw0Cksrp9dwO2vPnCD8B7Se88a3K_dn3FENnLLQ@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEUTl-0004YQ-ID
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:59:41 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEUTj-0007pF-4n
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:59:41 -0500
+Received: by mail-wm1-x331.google.com with SMTP id m1so1839167wml.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 01:59:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uYEncLACFsbZri1Jv9GZWLum9XLY8QucCf543fHh7pE=;
+ b=p+00SZAKxBqYh6bB9g+BaNih806mSBIVdJ+Cd1IJYXJAVt5kjuGnvDyYSxVRuBaMzo
+ QmjDC9u3WptPtd5QRvRinGta/gEDlIvXdm8Z3PMoAxCjq1CTzmpRRLQABeU0cpAoUetZ
+ x8G0L3je7a0HQdV5RtzTP7IPqy2LmKef9rfXpqD++yae10fuk4reH6RJx9Ks44J8qzyz
+ 9e5G7jnp99RlJ86GgPI2n2J4ly21u2U9OMoZLnw7BIOJbUBjWpRN/ZTWqS2J+fw/jLBf
+ T9a5YuF3AlbAvldyav/rr0lqDfxWxUX7fevRYQ80pBMdwShHyKVJw8mjztDZr6/4xNNB
+ 3nRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uYEncLACFsbZri1Jv9GZWLum9XLY8QucCf543fHh7pE=;
+ b=KOcMhUlrYNYDxaFB3ecaW2gLCnWUR8nXM0ONgC8AuBsR+d+mC/xT00mtOQ1sHBl5P4
+ l96zOLyfA9DKZyHjuE1xVuIlBZjZRHRoARTHQbL3e10AZwwMMTLXZ/dwM9lKRUFiZsdX
+ KB6wCNZnuVfSnW+418DDSfc6FJueukyJ9EQRv0MW9Np2lbAcfpHyfC2uMD7/dMk/HXQI
+ eBB8vF6YiTFDvuVnK69PoXlj8b2lwSUlqUm9RTlOmTAKRN+feFa/R+UMUzxvpWhed8GR
+ quYdt2UkgmZvoybVEGOAYA0G5A7ZfYUEOP8zvuardLi9Xf6ATmVIGSVusIrYVUps/YdP
+ 7/cA==
+X-Gm-Message-State: AOAM532mYV5ChX2GD4YSSK+qIWkYJkvMn0PEbmTufx0vndKcwR2DT5qJ
+ uOIJlnX7YWN26LnNNmelZCWgFw==
+X-Google-Smtp-Source: ABdhPJyLTxGCRyhUkiZs8kp37lH5I3AkaBNg+A5N2bbAGPZmR/dQ0Be2fUVatFZy017d6qAt9mpKbA==
+X-Received: by 2002:a05:600c:4fd0:: with SMTP id
+ o16mr23531505wmq.77.1614074377031; 
+ Tue, 23 Feb 2021 01:59:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y2sm10141941wrp.39.2021.02.23.01.59.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 01:59:35 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 20A2C1FF7E;
+ Tue, 23 Feb 2021 09:59:35 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs: move CODING_STYLE into the developer documentation
+Date: Tue, 23 Feb 2021 09:59:31 +0000
+Message-Id: <20210223095931.16908-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: e7aab1c2-4495-495f-9cd5-bc5b32af9fb4
-X-Ovh-Tracer-Id: 15060318630309697900
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeehgddutdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedugfeljeetjefhfeduhfffledvieelfffggeegfeegteegfeeukeduudetffdunecuffhomhgrihhnpehoiihlrggsshdrohhrghenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -5
-X-Spam_score: -0.6
-X-Spam_bar: /
-X-Spam_report: (-0.6 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_BL_SPAMCOP_NET=1.347,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,81 +85,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Feb 2021 14:57:21 +0800
-Bin Meng <bmeng.cn@gmail.com> wrote:
+There is no particular reason to keep this on it's own in the root of
+the tree. Move it into the rest of the fine developer manual and fixup
+any links to it. The only tweak I've made is to fix the code-block
+annotations to mention the language C.
 
-> On Mon, Feb 22, 2021 at 10:43 PM Greg Kurz <groug@kaod.org> wrote:
-> >
-> > On Mon, 22 Feb 2021 13:59:34 +0000
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > > On Mon, 22 Feb 2021 at 07:21, Greg Kurz <groug@kaod.org> wrote:
-> > > >
-> > > > On Fri, 19 Feb 2021 17:51:02 +0100
-> > > > Thomas Huth <thuth@redhat.com> wrote:
-> > > >
-> > > > > On 19/02/2021 17.26, Peter Maydell wrote:
-> > > > > > Does anybody use the ozlabs patchwork install for QEMU patches,
-> > > > > > either occasionally or on a regular basis ?
-> > > > > > http://patchwork.ozlabs.org/project/qemu-devel/list/
-> > > > > > The admins for that system are trying to identify which of
-> > > > > > the various projects are really using their patchwork instances,
-> > > > > > so I figured I'd do a quick survey here. We don't use it
-> > > > > > as an official project tool but it's certainly possible to
-> > > > > > use it as an individual developer in one way or another.
-> > > > >
-> > > > > I think it might be used by some of the ppc hackers ... so CC:-ing to
-> > > > > qemu-pcc ...
-> > > > >
-> > > >
-> > > > I do on a very regular basis.
-> > >
-> > > Thanks for the reports. Do you use the features like assigning
-> > > patches to people and changing patch status, or do you mostly
-> > > just use it as a read-only archive-of-patches ?
-> > >
-> >
-> > Only the latter but mostly because I don't have the permissions
-> > to change status, e.g. when trying to change status of this
-> > recent patch from Cedric to rearrange the PowerPC docs:
-> >
-> > You don't have permissions to edit patch 'docs/system: Extend PPC section'
-> >
-> > My understanding is that users must be "maintainer" to edit other's
-> > patches. Only three 'maintainers' are currently listed at ozlabs for
-> > QEMU:
-> 
-> I can update my patch status in the QEMU project. I am not sure if
-> this is due to I am a maintainer of another project hosted on
-> ozlabs.org.
-> 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ docs/devel/index.rst                     | 1 +
+ CODING_STYLE.rst => docs/devel/style.rst | 6 +++---
+ README.rst                               | 4 +++-
+ scripts/fix-multiline-comments.sh        | 2 +-
+ 4 files changed, 8 insertions(+), 5 deletions(-)
+ rename CODING_STYLE.rst => docs/devel/style.rst (99%)
 
-Yeah everyone can update its own patches but you need to
-be maintainer of a project to update the status of other's
-patch for this project IIUC.
-
-> >
-> > https://patchwork.ozlabs.org/api/1.0/projects/14/
-> >
-> > We had a discussion about that a few months back with Christian Schoenebeck
-> > (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
-> > quite know how to go further because of lack of documentation, but I'd be
-> > glad to experiment the full patchwork experience if someone knows how to
-> > do it :-)
-> 
-> I personally found patchwork is really helpful for mainatiner's work.
-> But it looks the maintainers from the QEMU community do not use it.
-> 
-> Regards,
-> Bin
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 22854e334d..ae664da00c 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -14,6 +14,7 @@ Contents:
+    :maxdepth: 2
+ 
+    build-system
++   style
+    kconfig
+    testing
+    fuzzing
+diff --git a/CODING_STYLE.rst b/docs/devel/style.rst
+similarity index 99%
+rename from CODING_STYLE.rst
+rename to docs/devel/style.rst
+index 7bf4e39d48..8b0bdb3570 100644
+--- a/CODING_STYLE.rst
++++ b/docs/devel/style.rst
+@@ -641,7 +641,7 @@ trace-events style
+ 
+ In trace-events files, use a '0x' prefix to specify hex numbers, as in:
+ 
+-.. code-block::
++.. code-block:: c
+ 
+     some_trace(unsigned x, uint64_t y) "x 0x%x y 0x" PRIx64
+ 
+@@ -649,14 +649,14 @@ An exception is made for groups of numbers that are hexadecimal by
+ convention and separated by the symbols '.', '/', ':', or ' ' (such as
+ PCI bus id):
+ 
+-.. code-block::
++.. code-block:: c
+ 
+     another_trace(int cssid, int ssid, int dev_num) "bus id: %x.%x.%04x"
+ 
+ However, you can use '0x' for such groups if you want. Anyway, be sure that
+ it is obvious that numbers are in hex, ex.:
+ 
+-.. code-block::
++.. code-block:: c
+ 
+     data_dump(uint8_t c1, uint8_t c2, uint8_t c3) "bytes (in hex): %02x %02x %02x"
+ 
+diff --git a/README.rst b/README.rst
+index ce39d89077..f5d41e59b1 100644
+--- a/README.rst
++++ b/README.rst
+@@ -66,7 +66,9 @@ When submitting patches, one common approach is to use 'git
+ format-patch' and/or 'git send-email' to format & send the mail to the
+ qemu-devel@nongnu.org mailing list. All patches submitted must contain
+ a 'Signed-off-by' line from the author. Patches should follow the
+-guidelines set out in the CODING_STYLE.rst file.
++guidelines set out in the `style section
++<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
++the Developers Guide.
+ 
+ Additional information on submitting patches can be found online via
+ the QEMU website
+diff --git a/scripts/fix-multiline-comments.sh b/scripts/fix-multiline-comments.sh
+index 93f9b10669..c15a041272 100755
+--- a/scripts/fix-multiline-comments.sh
++++ b/scripts/fix-multiline-comments.sh
+@@ -1,6 +1,6 @@
+ #! /bin/sh
+ #
+-# Fix multiline comments to match CODING_STYLE
++# Fix multiline comments to match docs/devel/style.rst
+ #
+ # Copyright (C) 2018 Red Hat, Inc.
+ #
+-- 
+2.20.1
 
 
