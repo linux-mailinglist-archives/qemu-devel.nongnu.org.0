@@ -2,79 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1CC3230CD
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 19:32:48 +0100 (CET)
-Received: from localhost ([::1]:36666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310583230D7
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 19:35:16 +0100 (CET)
+Received: from localhost ([::1]:40938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEcUJ-0006ht-Gq
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 13:32:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39754)
+	id 1lEcWh-0000MK-5M
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 13:35:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEcQz-0005DC-QM
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:29:21 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:32852)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEcUZ-0007ia-7b
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:33:03 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43441)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEcQx-0000X0-UF
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:29:21 -0500
-Received: by mail-wr1-x432.google.com with SMTP id 7so23602835wrz.0
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:29:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=xkHzDPWYUO/Xr9IzBu4/hp/fhAcYRxw6HNHasl3o7J8=;
- b=jmwYq6rQ9FZnW1GmSYDbYpoFWZbOfvw0jb59FkrvwMMkcIma01hDPP/Wei3AoS8SJT
- aeEZ00FUR34Ey+1s8/g8L/h5UoPEsihRj4BtgRCtv3YXbIgdFwvBcbLc1CBxZ2yBrFKE
- Of+WuHHrkkU3CiyEtnaeaO8Bp5TsuAlK5lUq9Ff0DQXKZFDBK+B+I69L9qlYZqPPfMTs
- +ByqwuOdPp7ZdZX1z6O9+V1fMfF3TuDjAAhRvH7MpK5UTcgtw1nx8x4ENaQxuZQQ0Y3E
- byQdPqVs7AyTVKpzHNvHQMiC27iQoNdqQSxHpEA6dj49QI0rhBfH4We9L61k3J921bV/
- 92Cg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEcUX-00029a-Nl
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:33:02 -0500
+Received: by mail-ej1-x630.google.com with SMTP id k13so34202666ejs.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:33:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=bkls2pf5ioJid4omazxUVIriPEmNanz4i60MQ0dgZ1o=;
+ b=DivA7YiXYu4xDsDTf8PX+8EqbQ2Q1k20KATDwQIMeWRlhPrAcpHYi+3SU6KmYFb1Ox
+ lnqwnSSaygNwV4h5ofCMVs6IHbe6/boZwlon5Ks5U4vWhlzbyB7gFjWVx9Q7IVbGReBL
+ Iuj+VT/fvh6TzID3ioRzFg9YRnbXgrZec0m4mfeLR1uuYWTaqsh72bzXiMt1wEyUMDpy
+ CVbFgJhIEOHHKio7kG2qABYHwMjLwFP3iJam9Ul4AcqPLBrL3wjSmLLg51/0EgzCt/HF
+ IZ9hjZme0t7z6RD0vUpeDnoJCQx54i9BcMIUHUH5LDsGJHijPnNTDjMEHSvqtGBHhWIU
+ 1RsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=xkHzDPWYUO/Xr9IzBu4/hp/fhAcYRxw6HNHasl3o7J8=;
- b=t4JodbD1goPHGYQlrOv/mo9VZEnBKOlQUhPANoA7PEohVj/SAC+fX+TTLK8AuOO9hg
- GsyRoar2P9eNPIwaFl4h0ZwdSBzA14h1MlYyir12w73/5UJ++xW7QzMz4ng0A8lBFWhi
- BswqYYf71+dKdRFd5ghMIttirBHJWeb9t5WxgxQj/uVhq/yN0gwXwtD1v3SlYSvKC7qF
- aAWk4SO6Ko8AI4rGXvJHgPnMXfV43IjeyYUrx4L+FUqcw4qKJg9gwLFCeX6hBs6/snNI
- yKVTNXrcRrZCA5o/y3+TZy5IjNaZvYoN/wCAkSSQ54mj2uZ6fpYGvb8TUbEZTXMy/GGO
- ZPQw==
-X-Gm-Message-State: AOAM532dvBSfJYkS4OnUZkFhA3qetc3SKc0rN7GnSdkRa/SK/Pna7ph0
- 6FhV4gN11l9JHfjI9CFo92zt2Q==
-X-Google-Smtp-Source: ABdhPJx3cGfHUL6docFAiLMUS0o9aNWbgfVryzAEVAqYo3NWB0KGLbf+XEoagvq16rqT0kWUdDJjcg==
-X-Received: by 2002:a5d:67c2:: with SMTP id n2mr28078387wrw.298.1614104958431; 
- Tue, 23 Feb 2021 10:29:18 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id n10sm6553211wrt.83.2021.02.23.10.29.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 10:29:17 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D2E6A1FF7E;
- Tue, 23 Feb 2021 18:29:16 +0000 (GMT)
-References: <20210223170910.2916721-1-f4bug@amsat.org>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] tests/docker: Use --arch-only when building Debian
- cross images
-Date: Tue, 23 Feb 2021 18:28:00 +0000
-In-reply-to: <20210223170910.2916721-1-f4bug@amsat.org>
-Message-ID: <87sg5m3af7.fsf@linaro.org>
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bkls2pf5ioJid4omazxUVIriPEmNanz4i60MQ0dgZ1o=;
+ b=lNK2K2IUJPf6ve71bf8jsyNw18EHR/SGhTDqGqNWkAg43KSVFGPo8e2z4crUOBqdXS
+ pbglXKquni8UjLO0kmYCqAdAxJxjq16trbi2lo5pQcq1tKFc+goliP84EO/SeVKqGpm7
+ ZnL9UHb4Q1qUhNkEq2JSzJLg3z7JAOdDnM42ZhHWxYArEN2Ffys4i5q5omRkUmN+4EPs
+ /nBCGzGP5dVpt/FMbCOnXgzFHl5qBNgy69UmO3/5WClJZrMi5JQPBM3Jqh0pwRJs7TvM
+ p2nNUa4ez2mWKBJfSbI7U49HcEH8gXB8OpGUdIcBxqb3VQUq1PiWl1HxSxzD1Jwkhkug
+ IAMA==
+X-Gm-Message-State: AOAM5330gFEKa9XJKpb+w+zf48F74EKtaE8jjdRD+ryw39xJpUUQzndT
+ r4bmAJrZcd27Y5ITle+aqMM=
+X-Google-Smtp-Source: ABdhPJxiGX7MM7sxCh5zT+AR5iwLZ+wRe+ROHospjQgvo+yMKjgn8ZSqIK1ZtFZG9uM23WJ+sF+9FA==
+X-Received: by 2002:a17:906:c0cd:: with SMTP id
+ bn13mr26546765ejb.368.1614105180015; 
+ Tue, 23 Feb 2021 10:33:00 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id p20sm11682641ejo.19.2021.02.23.10.32.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 10:32:59 -0800 (PST)
+Subject: Re: [PATCH v2 24/42] esp: use in-built TC to determine PDMA transfer
+ length
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-25-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9cb2b1b1-7254-ae1c-19f7-21384ecc6bef@amsat.org>
+Date: Tue, 23 Feb 2021 19:32:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210209193018.31339-25-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,82 +92,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> When building a Docker image based on debian10.docker on
-> a non-x86 host, we get:
->
->  [2/4] RUN apt update &&     DEBIAN_FRONTEND=3Dnoninteractive eatmydata  =
-   apt build-dep -yy qemu
->  Reading package lists... Done
->  Building dependency tree
->  Reading state information... Done
->  Some packages could not be installed. This may mean that you have
->  requested an impossible situation or if you are using the unstable
->  distribution that some required packages have not yet been created
->  or been moved out of Incoming.
->  The following information may help to resolve the situation:
->
->  The following packages have unmet dependencies:
->   builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
->                    Depends: gcc-alpha-linux-gnu but it is not installable
->  E: Unable to correct problems, you have held broken packages.
->
-> Fix by using the --arch-only option suggested here:
-> https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1866032/comments/1
->
-> Suggested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+On 2/9/21 8:30 PM, Mark Cave-Ayland wrote:
+> Real hardware simply counts down using the in-built TC to determine when the
+> the PDMA request is complete. Use the TC to determine the PDMA transfer length
+> which then enables us to remove the redundant pdma_len variable.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  tests/docker/dockerfiles/debian-all-test-cross.docker | 2 +-
->  tests/docker/dockerfiles/debian10.docker              | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/test=
-s/docker/dockerfiles/debian-all-test-cross.docker
-> index dedcea58b46..593b7ef1023 100644
-> --- a/tests/docker/dockerfiles/debian-all-test-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-> @@ -11,7 +11,7 @@ FROM qemu/debian10
->  # What we need to build QEMU itself
->  RUN apt update && \
->      DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-> -    apt build-dep -yy qemu
-> +    apt build-dep --arch-only -yy qemu
+>  hw/scsi/esp.c         | 28 +++++++++++++---------------
+>  include/hw/scsi/esp.h |  1 -
+>  2 files changed, 13 insertions(+), 16 deletions(-)
 
-This is just going to fail later on when you discover the cross
-compilers are only packaged for amd64. Perhaps we need to mark this one
-as amd64 only somehow?
-
->=20=20
->  # Add the foreign architecture we want and install dependencies
->  RUN DEBIAN_FRONTEND=3Dnoninteractive eatmydata \
-> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dock=
-erfiles/debian10.docker
-> index 9d42b5a4b81..d034acbd256 100644
-> --- a/tests/docker/dockerfiles/debian10.docker
-> +++ b/tests/docker/dockerfiles/debian10.docker
-> @@ -32,6 +32,6 @@ RUN apt update && \
->          psmisc \
->          python3 \
->          python3-sphinx \
-> -        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut =
--d\  -f2)
-> +        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep
->  '[all]' | cut -d\  -f2)
-
-This bit is fine, without the all-test-cross change:
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
