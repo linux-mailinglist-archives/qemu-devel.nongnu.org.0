@@ -2,71 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75F8A322932
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:04:46 +0100 (CET)
-Received: from localhost ([::1]:57012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00ECA322939
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:07:34 +0100 (CET)
+Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEVUj-0002MD-Fz
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:04:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48276)
+	id 1lEVXR-0004g8-1x
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:07:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48512)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEVTd-0001tm-VV
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:03:37 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:46954)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEVTY-0002TM-Od
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:03:37 -0500
-Received: by mail-ed1-x535.google.com with SMTP id v22so25288428edx.13
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:03:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Z0ObqowxFpKpMobu25k7wTuowi4uIxLJpi9W+LCqNJ8=;
- b=lH7musMmaSSILPBbHXFgu+o15kzjU/h3iX25GNF1b6TuKR8+li8XUK4GldbyUVfOyO
- +59wzmmPmTw33AwJLE5qKjNbnuSyZXBOEst6ryGyDt7a3jAE6o3a5pj0IwkhJhYprfhS
- his+UB6pLjgkaG5nEoK6VXVseljSWgfMWNHkF6k83ZjTSKJJMN9lfiDqmDUEOKOTMThR
- ofRGOefSbdln4hSt7KC+gcM+Uc5M3fftgXS7rbQWTzqpJ/M+7japryVpVuyPlpZz/efl
- 6i0fLt1w2gn1RJgn6Nx4DG/YwPDebYFTLeisSgjlEurL8X+qunC9ps7xJtt1erJseGey
- fiWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Z0ObqowxFpKpMobu25k7wTuowi4uIxLJpi9W+LCqNJ8=;
- b=We4FU/09rK+urOFMHMJpoo2SCkexozwM3VF5ey2XpaEltq/RraeEipcl04gu7u+xL4
- 9B+gxoPqEvXkYpGlzq1ICQltQcC1M87c7amaGtiba/vI/5aX1Kb4RJTBJ+sQx3CapWwo
- 4Rk22sLjzP30cJCFyXLVGIGq9irrrUEagr2Y7ZdruSBtdrhf/01Zn0O5ulZIEtqlSzRd
- m/isJHI5oUQpG+BuqAsFwPtDPCdRNyphDFa32tFhM+gplGtfzpEzE8hQaiXlQNUlmRI4
- l+bvBW31NiWhiMV/DPgk8zNPlnTpMvwuB0w3sB4Jw/7oM6Ww6uGz/wuPpb4mQuuJ+9cg
- sK+g==
-X-Gm-Message-State: AOAM532Kd3661/BU4SPhFEYUhvqwUGLGjRZb+N7CdcpO5RUxCqEjNV+r
- d4TFG+TmR5whZk0DUI1jxq9iCvWyv/FmUxlp/yELCw==
-X-Google-Smtp-Source: ABdhPJwvIXsQGqDxNOML7uyrOjT90UyCqFFEPgsAIeKZLsDUpqmvwSmvGWWP+WAnuvoYqiZCzLPUzV9aCqD8+neiuns=
-X-Received: by 2002:a05:6402:3494:: with SMTP id
- v20mr28037964edc.146.1614078211252; 
- Tue, 23 Feb 2021 03:03:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEVVJ-0003FG-FA
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:05:22 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEVVG-0003HE-1f
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:05:21 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 4392FAD29;
+ Tue, 23 Feb 2021 11:05:16 +0000 (UTC)
+Subject: Re: [PATCH] docs: move CODING_STYLE into the developer documentation
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210223095931.16908-1-alex.bennee@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <8d149371-56d2-9b91-5b2a-857237ae6823@suse.de>
+Date: Tue, 23 Feb 2021 12:05:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
- <c5d13648-445d-92b9-6bff-95bd2b99d52e@redhat.com>
- <YDPv7Bk6/DNq/lCn@redhat.com> <87o8gbf7uc.fsf@dusky.pond.sub.org>
-In-Reply-To: <87o8gbf7uc.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Feb 2021 11:03:19 +0000
-Message-ID: <CAFEAcA_NNyFM=bqN663o3r49tgpa21U9Easv9=EXzqW1Ygfqhg@mail.gmail.com>
-Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210223095931.16908-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,23 +55,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Libvirt <libvir-list@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- John Snow <jsnow@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Feb 2021 at 09:33, Markus Armbruster <armbru@redhat.com> wrote:
-> Misunderstanding: our JSON interpolation feature is *not* string
-> interpolation!  It interpolates *objects* into the QObject built by the
-> parser.
+On 2/23/21 10:59 AM, Alex Bennée wrote:
+> There is no particular reason to keep this on it's own in the root of
+> the tree. Move it into the rest of the fine developer manual and fixup
+> any links to it. The only tweak I've made is to fix the code-block
+> annotations to mention the language C.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-Given that it's basically undocumented except in a scattered
-handful of comments inside the qjson parser implementation, it's
-not too surprising that people misunderstand it :-) (One surprising
-feature: the parser takes ownership of the object that you pass it
-via the '%p' interpolation, and will qobject_unref() it.)
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
 
--- PMM
+Are there pointers in wiki.qemu.org that need updating?
+
+
+> ---
+>  docs/devel/index.rst                     | 1 +
+>  CODING_STYLE.rst => docs/devel/style.rst | 6 +++---
+>  README.rst                               | 4 +++-
+>  scripts/fix-multiline-comments.sh        | 2 +-
+>  4 files changed, 8 insertions(+), 5 deletions(-)
+>  rename CODING_STYLE.rst => docs/devel/style.rst (99%)
+> 
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index 22854e334d..ae664da00c 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -14,6 +14,7 @@ Contents:
+>     :maxdepth: 2
+>  
+>     build-system
+> +   style
+>     kconfig
+>     testing
+>     fuzzing
+> diff --git a/CODING_STYLE.rst b/docs/devel/style.rst
+> similarity index 99%
+> rename from CODING_STYLE.rst
+> rename to docs/devel/style.rst
+> index 7bf4e39d48..8b0bdb3570 100644
+> --- a/CODING_STYLE.rst
+> +++ b/docs/devel/style.rst
+> @@ -641,7 +641,7 @@ trace-events style
+>  
+>  In trace-events files, use a '0x' prefix to specify hex numbers, as in:
+>  
+> -.. code-block::
+> +.. code-block:: c
+>  
+>      some_trace(unsigned x, uint64_t y) "x 0x%x y 0x" PRIx64
+>  
+> @@ -649,14 +649,14 @@ An exception is made for groups of numbers that are hexadecimal by
+>  convention and separated by the symbols '.', '/', ':', or ' ' (such as
+>  PCI bus id):
+>  
+> -.. code-block::
+> +.. code-block:: c
+>  
+>      another_trace(int cssid, int ssid, int dev_num) "bus id: %x.%x.%04x"
+>  
+>  However, you can use '0x' for such groups if you want. Anyway, be sure that
+>  it is obvious that numbers are in hex, ex.:
+>  
+> -.. code-block::
+> +.. code-block:: c
+>  
+>      data_dump(uint8_t c1, uint8_t c2, uint8_t c3) "bytes (in hex): %02x %02x %02x"
+>  
+> diff --git a/README.rst b/README.rst
+> index ce39d89077..f5d41e59b1 100644
+> --- a/README.rst
+> +++ b/README.rst
+> @@ -66,7 +66,9 @@ When submitting patches, one common approach is to use 'git
+>  format-patch' and/or 'git send-email' to format & send the mail to the
+>  qemu-devel@nongnu.org mailing list. All patches submitted must contain
+>  a 'Signed-off-by' line from the author. Patches should follow the
+> -guidelines set out in the CODING_STYLE.rst file.
+> +guidelines set out in the `style section
+> +<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
+> +the Developers Guide.
+>  
+>  Additional information on submitting patches can be found online via
+>  the QEMU website
+> diff --git a/scripts/fix-multiline-comments.sh b/scripts/fix-multiline-comments.sh
+> index 93f9b10669..c15a041272 100755
+> --- a/scripts/fix-multiline-comments.sh
+> +++ b/scripts/fix-multiline-comments.sh
+> @@ -1,6 +1,6 @@
+>  #! /bin/sh
+>  #
+> -# Fix multiline comments to match CODING_STYLE
+> +# Fix multiline comments to match docs/devel/style.rst
+>  #
+>  # Copyright (C) 2018 Red Hat, Inc.
+>  #
+> 
+
 
