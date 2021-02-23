@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67AD322779
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:07:37 +0100 (CET)
-Received: from localhost ([::1]:51482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB97032277A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:08:28 +0100 (CET)
+Received: from localhost ([::1]:53100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lETfM-0006Qs-Q0
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:07:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43460)
+	id 1lETgB-000767-OB
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:08:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lETaL-0003bv-R7; Tue, 23 Feb 2021 04:02:26 -0500
-Received: from mail-lf1-x131.google.com ([2a00:1450:4864:20::131]:41374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lETaK-0007R5-7V; Tue, 23 Feb 2021 04:02:25 -0500
-Received: by mail-lf1-x131.google.com with SMTP id d24so10022174lfs.8;
- Tue, 23 Feb 2021 01:02:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=1d5KrpF2uGQA4mfYkB2T97VwW38zrUtX1brQ5yiTY+w=;
- b=McODWlTD1W02YDfoTAzSo+D0FFTU3Jy8DOD8ZTC3RZgSCAsKah/qLD+n6Km1XsLScG
- gNMHCq4QAih/ubq5pjM+meqp8Y0HVEyHpKkvPRJpVxQJ5eDxksCw+OboTyah2xsTGukJ
- SxVykDi9WZLFAXml1dGP2HO6Gkm4VzjxLnNNhPqaULJv+9pphiknFnoSONWrBBGE4x17
- kKkJqZV+tlqsTS87u9u38f59j+Mhx3P6CH5QWrg3+WRPMn71bl95AVv+cjHYBuceHhhQ
- bu/40dc17B+JDginf5kCyYoCRXZLsRhjnAXWWzoYIc6lzcD8+LekEB0y/M/hi8AT6R5O
- PUKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=1d5KrpF2uGQA4mfYkB2T97VwW38zrUtX1brQ5yiTY+w=;
- b=cYo6ggoemcAQByI7/nKse9BpzhLdb39jpPeXvnGcjH9Cs+PVk64XRPWZUxxgJtnGOH
- yk+BPs1mgvbuAMok7Re3wPt6d/HVgfjwzrwa/e3Q1AGPGJR5NXgleaakpL24C0ZUn80h
- cVz1ZtlDKJMCS04knXvtV1jOBTM5qYq1UUz7Flc/aVVkct/jeFTNmIqgLUhjfQImvpLl
- dyD82rgrOF0KcChAfgDggHSrP0rwb27JSBcvhayjtOVhVjNyXDH+l8Y2A5sCGW7iPQO6
- 5GARTr+JF+/32kkELC0VnPyfy02GUWsuWwlxCTQcHDDuG6N77WGbLkObBmF7zIggWZ6W
- ubgw==
-X-Gm-Message-State: AOAM531fXJVacyp6pEkD6QMnmJpa1Jm9eFCbksidMpn4IYSeWFfF8sGU
- Ve7eJlCaVrNv8IMvlmr7oj8=
-X-Google-Smtp-Source: ABdhPJzVWGQ+SaT7j8jeAAB/BViu+88CAUjJotDAmMQOLCDI9zdpm4XkVtLz2QgyJ9xg8GiOUC0lFA==
-X-Received: by 2002:ac2:523a:: with SMTP id i26mr705789lfl.473.1614070942187; 
- Tue, 23 Feb 2021 01:02:22 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id k27sm1329835lfm.125.2021.02.23.01.02.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 01:02:21 -0800 (PST)
-Date: Tue, 23 Feb 2021 10:02:21 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v4 5/5] hw/ssi: xilinx_spips: Remove DMA related dead
- codes from zynqmp_spips
-Message-ID: <20210223090221.GT477672@toto>
-References: <20210222130514.2167-1-bmeng.cn@gmail.com>
- <20210222130514.2167-6-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lETeW-0006FN-Hw
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:06:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lETeR-0000hW-Ip
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:06:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614071198;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TiofZtwhpE3W9O9kmNL48Ob0Lhr/MrTgLe4VNez7Ef8=;
+ b=HG/JiuUwECVfnojtaOv+lVDKx7L7xBOC/S5A2QF3Z57x1sdfO/MGPm3cUaOjMFj2IM/nX8
+ 6w4t053z/GY3gYE5ibzqfdDBWIcOu5QoFzW91rKLYw0X3myf1tOK2/RCUP27xu0QpNUjNI
+ eYQddCxfbxKKN8E5KYjdrmtxRTf87Cw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-Zu-AqlAuNNmzyO-xxBu1xw-1; Tue, 23 Feb 2021 04:06:36 -0500
+X-MC-Unique: Zu-AqlAuNNmzyO-xxBu1xw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5C5B18B6142;
+ Tue, 23 Feb 2021 09:06:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AF3BC1001281;
+ Tue, 23 Feb 2021 09:06:32 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3A3CA113860F; Tue, 23 Feb 2021 10:06:31 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
+References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
+ <c5d13648-445d-92b9-6bff-95bd2b99d52e@redhat.com>
+Date: Tue, 23 Feb 2021 10:06:30 +0100
+In-Reply-To: <c5d13648-445d-92b9-6bff-95bd2b99d52e@redhat.com> (Paolo
+ Bonzini's message of "Mon, 22 Feb 2021 18:47:30 +0100")
+Message-ID: <87y2fff90p.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210222130514.2167-6-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::131;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,81 +83,86 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ libvir-list@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 22, 2021 at 09:05:14PM +0800, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> 
-> Now that the Xilinx CSU DMA model is implemented, the existing
-> DMA related dead codes in the ZynqMP QSPI are useless and should
-> be removed. The maximum register number is also updated to only
-> include the QSPI registers.
-> 
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+> On 22/02/21 16:24, Daniel P. Berrang=C3=A9 wrote:
+>> This problem isn't unique to QEMU. Any app using JSON from the
+>> shell will have the tedium of quote escaping. JSON is incredibly
+>> widespread and no other apps felt it neccessary to introduce single
+>> quoting support, because the benefit doesn't outweigh the interop
+>> problem it introduces.
+>
+> The quotes were introduced for C code (and especially qtest), not for
+> the shell.  We have something like
+>
+>     response =3D qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, =
+"
+>                    "'property': 'temperature' } }", id);
+>
+> These are sent to QEMU as double-quoted strings (the single-quoted
+> JSON is parsed to get interpolation and printed back; commit
+> 563890c7c7, "libqtest: escape strings in QMP commands, fix leak",
+> 2014-07-01). However, doing the interpolation requires a parser that
+> recognizes the single-quoted strings.
 
+Doing interpolation requires a parser that recognizes %-sequences.
+Single quote support isn't *required*, but quite desirable to let us
+avoid leaning toothpick syndrome (LTS).
 
-> 
-> ---
-> 
-> Changes in v4:
-> - Modify XLNX_ZYNQMP_SPIPS_R_MAX
-> 
-> Changes in v3:
-> - new patch: xilinx_spips: Remove DMA related code from zynqmp_qspips
-> 
->  include/hw/ssi/xilinx_spips.h |  2 +-
->  hw/ssi/xilinx_spips.c         | 10 ----------
->  2 files changed, 1 insertion(+), 11 deletions(-)
-> 
-> diff --git a/include/hw/ssi/xilinx_spips.h b/include/hw/ssi/xilinx_spips.h
-> index 3eae73480e..06bfd18312 100644
-> --- a/include/hw/ssi/xilinx_spips.h
-> +++ b/include/hw/ssi/xilinx_spips.h
-> @@ -34,7 +34,7 @@
->  typedef struct XilinxSPIPS XilinxSPIPS;
->  
->  #define XLNX_SPIPS_R_MAX        (0x100 / 4)
-> -#define XLNX_ZYNQMP_SPIPS_R_MAX (0x830 / 4)
-> +#define XLNX_ZYNQMP_SPIPS_R_MAX (0x200 / 4)
->  
->  /* Bite off 4k chunks at a time */
->  #define LQSPI_CACHE_SIZE 1024
-> diff --git a/hw/ssi/xilinx_spips.c b/hw/ssi/xilinx_spips.c
-> index 8a0cc22d42..1e9dba2039 100644
-> --- a/hw/ssi/xilinx_spips.c
-> +++ b/hw/ssi/xilinx_spips.c
-> @@ -195,13 +195,6 @@
->  #define R_GQSPI_MOD_ID        (0x1fc / 4)
->  #define R_GQSPI_MOD_ID_RESET  (0x10a0000)
->  
-> -#define R_QSPIDMA_DST_CTRL         (0x80c / 4)
-> -#define R_QSPIDMA_DST_CTRL_RESET   (0x803ffa00)
-> -#define R_QSPIDMA_DST_I_MASK       (0x820 / 4)
-> -#define R_QSPIDMA_DST_I_MASK_RESET (0xfe)
-> -#define R_QSPIDMA_DST_CTRL2        (0x824 / 4)
-> -#define R_QSPIDMA_DST_CTRL2_RESET  (0x081bfff8)
-> -
->  /* size of TXRX FIFOs */
->  #define RXFF_A          (128)
->  #define TXFF_A          (128)
-> @@ -417,9 +410,6 @@ static void xlnx_zynqmp_qspips_reset(DeviceState *d)
->      s->regs[R_GQSPI_GPIO] = 1;
->      s->regs[R_GQSPI_LPBK_DLY_ADJ] = R_GQSPI_LPBK_DLY_ADJ_RESET;
->      s->regs[R_GQSPI_MOD_ID] = R_GQSPI_MOD_ID_RESET;
-> -    s->regs[R_QSPIDMA_DST_CTRL] = R_QSPIDMA_DST_CTRL_RESET;
-> -    s->regs[R_QSPIDMA_DST_I_MASK] = R_QSPIDMA_DST_I_MASK_RESET;
-> -    s->regs[R_QSPIDMA_DST_CTRL2] = R_QSPIDMA_DST_CTRL2_RESET;
->      s->man_start_com_g = false;
->      s->gqspi_irqline = 0;
->      xlnx_zynqmp_qspips_update_ixr(s);
-> -- 
-> 2.25.1
-> 
+Example: compare the above to
+
+      response =3D qmp("{ \"execute\": \"qom-get\", \"arguments\": { \"path=
+\": %s, "
+                     "\"property\": \"temperature\" } }", id);
+
+We kept the interpolation extension out of the external interfaces, but
+not the single quotes.
+
+> Markus, did you rebuild the qtests after disabling single-quoted
+> strings?  "make check-qtest-x86_64" would have rebuilt them, but I'm=20
+> confused by the results.
+
+I ran "make check" and looked at the failures:
+
+* check-qjson.c
+
+  - escaped_string() covers \'.  Naturally, this fails.
+
+  - escaped_string() and utf8_string() try every string twice, first in
+    double quotes, then in single quotes.  Naturally, the latter fails.
+
+  - string_with_quotes() tests unquoted single quote in double-quoted
+    string, and unquoted double quote in single-quoted string.
+    Naturally, the latter fails.
+
+  - large_dict() and simple_whitespace() use single quotes to avoid LTS.
+
+  This is the test my "The unit test testing the JSON parser is of
+  course excused" referred to.
+
+* test-qobject-input-visitor.c
+* qtest/qmp-test.c
+
+  More LTS avoidance.
+
+  This is "The remaining qtest and the unit test could perhaps be
+  dismissed as atypical use of QEMU from C."
+
+* tests/qemu-iotests/
+
+  Unlike the tests above, these use *external* interfaces.
+
+  In shell, we need to use double quotes to get parameter expansion.  We
+  then use single quotes to avoid LTS.
+
+  The Python code has less excuse, I think.
+
+Still confused?
+
 
