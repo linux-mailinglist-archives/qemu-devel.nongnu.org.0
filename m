@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88521322E90
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:18:05 +0100 (CET)
-Received: from localhost ([::1]:60952 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFC7322E9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:20:54 +0100 (CET)
+Received: from localhost ([::1]:37548 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEaNw-0003ZY-HJ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:18:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34018)
+	id 1lEaQf-0005ds-Qb
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:20:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEaDS-0000B7-Ki
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:07:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24549)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEaDz-0000ea-HO
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:07:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50877)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEaDP-00057u-SX
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:07:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEaDx-0005LF-Uk
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:07:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614096431;
+ s=mimecast20190719; t=1614096465;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=C1ukuRVgkofH+UtrMRGSY9YqbsE1ipuouYGmZgQF7Rs=;
- b=FmvmTSZkYjPTqgmIT2vnFFCJ3w9ihcowGLqbRjR630Z19NOfaGIGcdoPvTRuqNuLIax4o3
- jhQKeoRq1QQHA2h4QKqtqRdIVJxPEc6RLoWKc01M9VLKX72+tKidr4LA+W7krzOW43s8Kr
- Hynq7+9e4DXMXKw42zDq6hUPVb3wRow=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-WcD6wTWqPf610zwd7CFRvQ-1; Tue, 23 Feb 2021 11:04:22 -0500
-X-MC-Unique: WcD6wTWqPf610zwd7CFRvQ-1
-Received: by mail-wr1-f72.google.com with SMTP id v1so7540237wru.2
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:04:22 -0800 (PST)
+ bh=xRuiajQC1YfeOqX65tuV4EMF3YnUxlH639qCU97W3A8=;
+ b=IreHDSTzm4O9KS1It/NAqMGOsOdRDRX6EhUTWjDmECVZdP5FDMjfCEUeHoHMriOyzaHIUA
+ PnxT6cTeow9L3IHYkTuhWwiCvtjqVyNjkma1s4mgW9+f/owYmloZ3IHt60EXGKliKda2zT
+ 0KM7yLuWWfB5wAhsxESBBvi3tJS4LUE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-y53C4rzPP5iP47WsPI2ayQ-1; Tue, 23 Feb 2021 11:04:24 -0500
+X-MC-Unique: y53C4rzPP5iP47WsPI2ayQ-1
+Received: by mail-wm1-f70.google.com with SMTP id f18so823227wmq.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:04:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=C1ukuRVgkofH+UtrMRGSY9YqbsE1ipuouYGmZgQF7Rs=;
- b=XyfL7Zawh+7imgy5xaP2JlYhV1Ry/0gD5mLDGF/dFYY6s4Kw3F05GdFgYPrTnz0Lis
- Qnvn4fTXCaN89pRF3eJD5vPvBhO1pyCu/R7fUDIf7jZlsOTgP9iqNLoBe2+fVahwWULY
- ujqmcEDHrQBIgvw7TrOOsfsA9avYdfMlNxMGmiffyEUTPWiSvS9wHAgSSZi50osaPDAF
- NwDb+qP7geB64psbl7GDtyRbQYUCMbXRNrrv7mRX3GTErIN+SzY72IbRbUh4MURhYDBA
- A8SNNXI6C0NzxmdTEUsVlLmCYZb6yjsrZkcbDY3CGWgmxFHxG4pDwOnaD5JC4R62+lT2
- PgcA==
-X-Gm-Message-State: AOAM530/vWriRtf0H5X2/hGpUztzILtuQtYHbiLZPz/MLg+QGnTyfqn4
- gzhHEqNtsqCr8tvJpQC6EZND6NiG1caMeuMsjS0v8WBBBRlSYp6Wi/fYyPzg/6srQGquXcCXy4n
- tuSHlA9SEelnS56Kh9+x+HcpGixAXz8Wfaw6HX8q8eBDdgGYfVjCXvnTdOWF5
-X-Received: by 2002:a1c:29c4:: with SMTP id p187mr25860985wmp.8.1614096259995; 
- Tue, 23 Feb 2021 08:04:19 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwzDQzjKf0B6ts1GVCJPO8NC054tST/F87FhBGKLfnrVFaD9JUL9260qvr7YdVjyIVdTs0T4A==
-X-Received: by 2002:a1c:29c4:: with SMTP id p187mr25860958wmp.8.1614096259838; 
- Tue, 23 Feb 2021 08:04:19 -0800 (PST)
+ :mime-version:content-disposition:in-reply-to;
+ bh=xRuiajQC1YfeOqX65tuV4EMF3YnUxlH639qCU97W3A8=;
+ b=EzWRYREcN1dWOcQ8RsOYTH/f4Y3SJXZpAiQMWw3limMirSDtxrgCFalV0bU2rBXn8q
+ S/RwKOiOgLcjcDL/ViI7QAhyjgiwNOZpRnIZj3w6gsj2i0xwTcdiLN9hVDm/9VIGdX8n
+ aZyqbxFxyDVfxiEINH54p2GILskbqgJkmVpq+gwhH8bAjF84E1/FQ0xg8SdQQuVAoqxC
+ koGh0AMdsA0TM7loTTqY55jLbVM7PZbreTDbl2XtEtM0RB4lRYfdJysT5BAEzoOrQfUX
+ i7m2Yin1r94Jbq7wrCdRrMH+u9y6RiBmEwcyprR+JKavn+me8fgaRalaclBsHs1ZivWK
+ zEsg==
+X-Gm-Message-State: AOAM5334BE0lvyxxFH51rHbLYo0zEZAbWKZF5jvFtYiYA1hSpWWSIBP7
+ rEWCNpmC2CKgBrRb5KWc8D7bFQlhaMhxMSlHwGFAjf+gj8aa1h+xrQbxjMWvWOFJzmJR9wnURlo
+ JfH5bkg5kzAnK39DJqsoG/7EP0G3MMHX3Qk5tahmnbZoTfj6afQJcowef5QfF
+X-Received: by 2002:a1c:cc08:: with SMTP id h8mr26084208wmb.188.1614096263077; 
+ Tue, 23 Feb 2021 08:04:23 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwZFqy+/pwquY7vxo7HiPD9m9n6ccnmIt+etrT4th+Ffe1Wt494X60w1Cl9li9vUmBlmrIaiw==
+X-Received: by 2002:a1c:cc08:: with SMTP id h8mr26084191wmb.188.1614096262925; 
+ Tue, 23 Feb 2021 08:04:22 -0800 (PST)
 Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id a186sm3311870wme.17.2021.02.23.08.04.18
+ by smtp.gmail.com with ESMTPSA id o15sm3088057wmh.39.2021.02.23.08.04.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 08:04:19 -0800 (PST)
-Date: Tue, 23 Feb 2021 11:04:17 -0500
+ Tue, 23 Feb 2021 08:04:22 -0800 (PST)
+Date: Tue, 23 Feb 2021 11:04:20 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/17] i386: acpi: Don't build HPET ACPI entry if HPET is
- disabled
-Message-ID: <20210223160144.1507082-16-mst@redhat.com>
+Subject: [PULL 16/17] acpi: add test case for -no-hpet
+Message-ID: <20210223160144.1507082-17-mst@redhat.com>
 References: <20210223160144.1507082-1-mst@redhat.com>
 MIME-Version: 1.0
 In-Reply-To: <20210223160144.1507082-1-mst@redhat.com>
@@ -72,9 +69,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -96,108 +92,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Sean Christopherson <sean.j.christopherson@intel.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Isaku Yamahata <isaku.yamahata@intel.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Sean Christopherson <sean.j.christopherson@intel.com>
+From: Isaku Yamahata <isaku.yamahata@intel.com>
 
-Omit HPET AML if the HPET is disabled, QEMU is not emulating it and the
-guest may get confused by seeing HPET in the ACPI tables without a
-"physical" device present.
-
-The change of DSDT when -no-hpet is as follows.
-
-@@ -141,47 +141,6 @@ DefinitionBlock ("", "DSDT", 1, "BOCHS "
-         }
-     }
-
--    Scope (_SB)
--    {
--        Device (HPET)
--        {
--            Name (_HID, EisaId ("PNP0103") /* HPET System Timer */)  // _HID: Hardware ID
--            Name (_UID, Zero)  // _UID: Unique ID
--            OperationRegion (HPTM, SystemMemory, 0xFED00000, 0x0400)
--            Field (HPTM, DWordAcc, Lock, Preserve)
--            {
--                VEND,   32,
--                PRD,    32
--            }
--
--            Method (_STA, 0, NotSerialized)  // _STA: Status
--            {
--                Local0 = VEND /* \_SB_.HPET.VEND */
--                Local1 = PRD /* \_SB_.HPET.PRD_ */
--                Local0 >>= 0x10
--                If (((Local0 == Zero) || (Local0 == 0xFFFF)))
--                {
--                    Return (Zero)
--                }
--
--                If (((Local1 == Zero) || (Local1 > 0x05F5E100)))
--                {
--                    Return (Zero)
--                }
--
--                Return (0x0F)
--            }
--
--            Name (_CRS, ResourceTemplate ()  // _CRS: Current Resource Settings
--            {
--                Memory32Fixed (ReadOnly,
--                    0xFED00000,         // Address Base
--                    0x00000400,         // Address Length
--                    )
--            })
--        }
--    }
--
-     Scope (_SB.PCI0)
-     {
-         Device (ISA)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Signed-off-by: Sean Christopherson <sean.j.christopherson@intel.com>
-Message-Id: <66114dead09232d04891b9e5f5a4081e85cc2c4d.1613615732.git.isaku.yamahata@intel.com>
+Signed-off-by: Isaku Yamahata <isaku.yamahata@intel.com>
+Message-Id: <5ef9a81e49793afb42ffd19bbf1f44e269c65e93.1613615732.git.isaku.yamahata@intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tests/qtest/bios-tables-test.c | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 96497475d1..31a5f6f4a5 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1281,7 +1281,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         aml_append(sb_scope, dev);
-         aml_append(dsdt, sb_scope);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 93d037c29d..e020c83d2a 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -1006,6 +1006,17 @@ static void test_acpi_piix4_tcg_smm_compat_nosmm(void)
+     free_test_data(&data);
+ }
  
--        build_hpet_aml(dsdt);
-+        if (misc->has_hpet) {
-+            build_hpet_aml(dsdt);
-+        }
-         build_piix4_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-         if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
-@@ -1328,7 +1330,9 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
++static void test_acpi_piix4_tcg_nohpet(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_PC;
++    data.variant = ".nohpet";
++    test_acpi_one("-no-hpet", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_q35_tcg_numamem(void)
+ {
+     test_data data;
+@@ -1051,6 +1062,17 @@ static void test_acpi_q35_tcg_smm_compat_nosmm(void)
+     free_test_data(&data);
+ }
  
-         aml_append(dsdt, sb_scope);
- 
--        build_hpet_aml(dsdt);
-+        if (misc->has_hpet) {
-+            build_hpet_aml(dsdt);
-+        }
-         build_q35_isa_bridge(dsdt);
-         build_isa_devices_aml(dsdt);
-         build_q35_pci0_int(dsdt);
++static void test_acpi_q35_tcg_nohpet(void)
++{
++    test_data data;
++
++    memset(&data, 0, sizeof(data));
++    data.machine = MACHINE_Q35;
++    data.variant = ".nohpet";
++    test_acpi_one("-no-hpet", &data);
++    free_test_data(&data);
++}
++
+ static void test_acpi_piix4_tcg_numamem(void)
+ {
+     test_data data;
+@@ -1516,11 +1538,13 @@ int main(int argc, char *argv[])
+                        test_acpi_piix4_tcg_smm_compat);
+         qtest_add_func("acpi/piix4/smm-compat-nosmm",
+                        test_acpi_piix4_tcg_smm_compat_nosmm);
++        qtest_add_func("acpi/piix4/nohpet", test_acpi_piix4_tcg_nohpet);
+         qtest_add_func("acpi/q35/nosmm", test_acpi_q35_tcg_nosmm);
+         qtest_add_func("acpi/q35/smm-compat",
+                        test_acpi_q35_tcg_smm_compat);
+         qtest_add_func("acpi/q35/smm-compat-nosmm",
+                        test_acpi_q35_tcg_smm_compat_nosmm);
++        qtest_add_func("acpi/q35/nohpet", test_acpi_q35_tcg_nohpet);
+         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
+         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
+         qtest_add_func("acpi/piix4/acpihmat", test_acpi_piix4_tcg_acpi_hmat);
 -- 
 MST
 
