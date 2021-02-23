@@ -2,76 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C451322D12
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:04:03 +0100 (CET)
-Received: from localhost ([::1]:33336 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47344322D17
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:06:12 +0100 (CET)
+Received: from localhost ([::1]:38792 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEZEI-0004sU-AS
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:04:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45144)
+	id 1lEZGN-0007BH-8D
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:06:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEZ8m-00016H-Lj
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:58:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36028)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEZ8i-0006xZ-1G
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:58:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614092295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=utmtKv14Vqy39DCRbfyMVxcI940V6V2LzrVBitcta10=;
- b=EbvFsnbNByoqoCd3U4GL84SqsXKJ7BchEu3j9LjPsXdPizjE+yoeP+v1DfHxmL16NuZp3Z
- SbPp6pzpFm82y0UXCcZAK1rSTb0+IQrm8YDesdhvI9axPmvIiBATuAkCNdFIuXavrR9mMp
- bvL3Ol2M1yK7czjq534kbZlVUPNX/SU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-260-t9VaScdHOvCgsKw67IRnTA-1; Tue, 23 Feb 2021 09:58:13 -0500
-X-MC-Unique: t9VaScdHOvCgsKw67IRnTA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1791AC291;
- Tue, 23 Feb 2021 14:52:30 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 650375D9D7;
- Tue, 23 Feb 2021 14:52:19 +0000 (UTC)
-Subject: Re: [PATCH 0/3] gitlab-pipeline-status script: provide more
- information on errors
-To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
-References: <20210222193240.921250-1-crosa@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <c3b6aaa9-9914-fed6-aaa8-ef9e5258c714@redhat.com>
-Date: Tue, 23 Feb 2021 11:52:17 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1lEZE9-0005Y2-W2
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:03:54 -0500
+Received: from youngberry.canonical.com ([91.189.89.112]:60548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
+ (Exim 4.90_1) (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1lEZE7-00014L-RV
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:03:53 -0500
+Received: from 2.general.paelzer.uk.vpn ([10.172.196.173]
+ helo=Keschdeichel.fritz.box) by youngberry.canonical.com with esmtpsa
+ (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
+ (envelope-from <christian.ehrhardt@canonical.com>)
+ id 1lEZE4-0005Jz-Qg; Tue, 23 Feb 2021 15:03:48 +0000
+From: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+To: qemu-devel <qemu-devel@nongnu.org>
+Subject: [PATCH] disas: Fix build with glib2.0 >=2.67.3
+Date: Tue, 23 Feb 2021 15:56:46 +0100
+Message-Id: <20210223145646.4129643-1-christian.ehrhardt@canonical.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210222193240.921250-1-crosa@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: none client-ip=91.189.89.112;
+ envelope-from=christian.ehrhardt@canonical.com; helo=youngberry.canonical.com
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,62 +53,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Cleber,
+glib2.0 introduced a change in 2.67.3 and later which triggers an
+issue [1] for anyone including it's headers in a "extern C" context
+which a few files in disas/* do. An example of such an include chain
+and error look like:
 
-In case you need to send a v2, mind to add the following patch together?
+../../disas/arm-a64.cc
+In file included from /usr/include/glib-2.0/glib/gmacros.h:241,
+                 from /usr/lib/x86_64-linux-gnu/glib-2.0/include/glibconfig.h:9,
+                 from /usr/include/glib-2.0/glib/gtypes.h:32,
+                 from /usr/include/glib-2.0/glib/galloca.h:32,
+                 from /usr/include/glib-2.0/glib.h:30,
+                 from /<<BUILDDIR>>/qemu-5.2+dfsg/include/glib-compat.h:32,
+                 from /<<BUILDDIR>>/qemu-5.2+dfsg/include/qemu/osdep.h:126,
+                 from ../../disas/arm-a64.cc:21:
+/usr/include/c++/10/type_traits:56:3: error: template with C linkage
+   56 |   template<typename _Tp, _Tp __v>
+      |   ^~~~~~~~
+../../disas/arm-a64.cc:20:1: note: ‘extern "C"’ linkage started here
+   20 | extern "C" {
+      | ^~~~~~~~~~
 
-commit 3c4ed8a78e096e4d7df0398c29887a9d468ae120 (HEAD -> gitlab_runners)
-Author: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Date:   Tue Feb 23 11:26:08 2021 -0300
+To fix that move the include of osdep.h out of that section. It was added
+already as C++ fixup by e78490c44: "disas/arm-a64.cc: Include osdep.h first".
 
-     scripts/ci/gitlab-pipeline-status: Handle ValueError exceptions nicely
+[1]: https://gitlab.gnome.org/GNOME/glib/-/issues/2331
 
-     With this change, when getting the local branch, it will handle nicely
-     any threw ValueError exception instead of print the stack trace.
+Signed-off-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
+---
+ disas/arm-a64.cc   | 2 +-
+ disas/nanomips.cpp | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-     Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-diff --git a/scripts/ci/gitlab-pipeline-status 
-b/scripts/ci/gitlab-pipeline-status
-index 924db327ff..6177df973a 100755
---- a/scripts/ci/gitlab-pipeline-status
-+++ b/scripts/ci/gitlab-pipeline-status
-@@ -160,7 +160,11 @@ def main():
-      args = parser.parse_args()
-
-      if not args.commit:
--        args.commit = get_local_branch_commit(args.branch)
-+        try:
-+            args.commit = get_local_branch_commit(args.branch)
-+        except ValueError as error:
-+            print("ERROR: %s" % error)
-+            sys.exit(1)
-
-      success = False
-      try:
-
-On 2/22/21 4:32 PM, Cleber Rosa wrote:
-> When things go wrong with the GitLab API requests, it's useful to give
-> users more information about the possible causes.
->
-> Cleber Rosa (3):
->    scripts/ci/gitlab-pipeline-status: split utlity function for HTTP GET
->    scripts/ci/gitlab-pipeline-status: give more information on failures
->    scripts/ci/gitlab-pipeline-status: give more info when pipeline not
->      found
->
->   scripts/ci/gitlab-pipeline-status | 25 ++++++++++++++++++-------
->   1 file changed, 18 insertions(+), 7 deletions(-)
->
+diff --git a/disas/arm-a64.cc b/disas/arm-a64.cc
+index 9fa779e175..27613d4b25 100644
+--- a/disas/arm-a64.cc
++++ b/disas/arm-a64.cc
+@@ -17,8 +17,8 @@
+  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-extern "C" {
+ #include "qemu/osdep.h"
++extern "C" {
+ #include "disas/dis-asm.h"
+ }
+ 
+diff --git a/disas/nanomips.cpp b/disas/nanomips.cpp
+index 90e63b8367..3c202075cc 100644
+--- a/disas/nanomips.cpp
++++ b/disas/nanomips.cpp
+@@ -27,8 +27,8 @@
+  *      Reference Manual", Revision 01.01, April 27, 2018
+  */
+ 
+-extern "C" {
+ #include "qemu/osdep.h"
++extern "C" {
+ #include "disas/dis-asm.h"
+ }
+ 
+-- 
+2.30.0
 
 
