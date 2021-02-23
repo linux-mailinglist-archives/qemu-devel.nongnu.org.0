@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C63EC322561
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 06:31:11 +0100 (CET)
-Received: from localhost ([::1]:49990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE8B322563
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 06:31:19 +0100 (CET)
+Received: from localhost ([::1]:50446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEQHr-000815-GA
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 00:31:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
+	id 1lEQI2-0008Cp-2P
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 00:31:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEQFo-0006jy-KS; Tue, 23 Feb 2021 00:29:00 -0500
-Received: from ozlabs.org ([203.11.71.1]:57315)
+ id 1lEQFo-0006jp-6M; Tue, 23 Feb 2021 00:29:00 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35579 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEQFi-0004Rs-Dj; Tue, 23 Feb 2021 00:29:00 -0500
+ id 1lEQFi-0004S8-Dj; Tue, 23 Feb 2021 00:28:59 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Dl6zP15W1z9sVF; Tue, 23 Feb 2021 16:28:49 +1100 (AEDT)
+ id 4Dl6zP1kCYz9sSC; Tue, 23 Feb 2021 16:28:49 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1614058129;
- bh=E1wnzVMcz9LG7G1Tam/moj1i3v1pQfHDsxmi/NGMGH8=;
+ bh=vs8qSL3KtgTssXXA2uU8VAQBep7hyZB6HeuGs6EaI+I=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=RH1Tp7+dmaVts2orA6hgof+gKB+4Jf7r349RKfEQayOqFzY34aKOkvr+0j2MokfDw
- ImhVnL1BeEeLrO2lsSTXljXst+Um3igMd4aXbk+Ddo66J4WdQztPSkH4JooyBmgYB2
- g2azBCD49x/lTq1HXmmhNsJGjEyAhU1KYmiYqSLE=
-Date: Tue, 23 Feb 2021 16:11:35 +1100
+ b=TvxhOLu4IogqmxwKLNx6eyq3G2k972Eurf5D0kgONbr/UkaD4Hq8QNGxnRl91xxMP
+ fzcf44xZnU+e72PotYzmV4xxaOvcKIMVp3K1F/YrmyAK1CuL5tFQTwEQbeRgg7pYF9
+ lUVvmuQ3F6aktD8bH4z4fh5DOTJCoSOxl3SlF0zM=
+Date: Tue, 23 Feb 2021 16:28:34 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
+To: Alexey Kardashevskiy <aik@ozlabs.ru>
 Subject: Re: [PATCH qemu v13] spapr: Implement Open Firmware client interface
-Message-ID: <YDSOh4MUvCS7ZRZ1@yekko.fritz.box>
+Message-ID: <YDSSgrTDipRIq2Lx@yekko.fritz.box>
 References: <20210209110252.110107-1-aik@ozlabs.ru>
- <a1a58715-970c-2bb8-9b06-de92563c0efe@ozlabs.ru>
- <20210222160106.3b463089@bahia.lan>
+ <YDRxdIIiX9gCLEFM@yekko.fritz.box>
+ <ccdc8cae-56a6-fa36-82bb-0cd6ea2a6c75@ozlabs.ru>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="c4bl1uGCBGTplZqp"
+ protocol="application/pgp-signature"; boundary="/N/u4KEvZPPI5Q3D"
 Content-Disposition: inline
-In-Reply-To: <20210222160106.3b463089@bahia.lan>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <ccdc8cae-56a6-fa36-82bb-0cd6ea2a6c75@ozlabs.ru>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -59,58 +59,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Nicholas Piggin <npiggin@gmail.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---c4bl1uGCBGTplZqp
+--/N/u4KEvZPPI5Q3D
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 22, 2021 at 04:01:06PM +0100, Greg Kurz wrote:
-> On Mon, 22 Feb 2021 22:48:51 +1100
-> Alexey Kardashevskiy <aik@ozlabs.ru> wrote:
+On Tue, Feb 23, 2021 at 04:01:00PM +1100, Alexey Kardashevskiy wrote:
 >=20
-> > Ping?
-> >=20
-> > I need community support here :) I am hearing that having this mode=20
-> > helps heaps with development in fully emulated environments as this=20
-> > skips SLOF entirely, for example. Another rumour I am hearing is that=
-=20
-> > there is interest in running grub in the userspace which this VOF thing=
-=20
-> > makes handy too.
-> >=20
 >=20
-> I had tried a previous version of this : skipping SLOF is very
-> beneficial to do guest work, even when running on KVM.
->=20
-> This patch is quite huge and I don't personally have time to review all
-> of it. My main concern is that it doesn't impact support of the paths
-> used in production (i.e. pseries + SLOF + KVM).
-
-Yeah, it would be great if this could be split up a bit, but I see
-that could be pretty tricky.
-
-> Alexey has made a great job of separating VOF from the rest : changes in
-> hw/ppc/spapr.c are simple enough for me now. So from that perspective:
->=20
-> Acked-by: Greg Kurz <groug@kaod.org>
->=20
-> Then maybe it would make sense you also add yourself as maintainer
-> for hw/ppc/*vof* to share the burden ?
-
-That would be a good idea.
-
->=20
-> Anyway, David will have the final say on this patch.
->=20
-> >=20
-> >=20
-> > On 09/02/2021 22:02, Alexey Kardashevskiy wrote:
+> On 23/02/2021 14:07, David Gibson wrote:
+> > On Tue, Feb 09, 2021 at 10:02:52PM +1100, Alexey Kardashevskiy wrote:
 > > > The PAPR platform which describes an OS environment that's presented =
 by
 > > > a combination of a hypervisor and firmware. The features it specifies
@@ -426,7 +389,6 @@ ortClass;
 > > >   #include "hw/ppc/xics.h"        /* For ICSState */
 > > >   #include "hw/ppc/spapr_tpm_proxy.h"
 > > > +#include "hw/ppc/vof.h"
-> > >  =20
 > > >   struct SpaprVioBus;
 > > >   struct SpaprPhbState;
 > > > @@ -180,6 +181,7 @@ struct SpaprMachineState {
@@ -434,6 +396,11 @@ ortClass;
 > > >       uint32_t initrd_base;
 > > >       long initrd_size;
 > > > +    Vof vof;
+> >=20
+> > Since vof is optional, I think it would be better to make this a
+> > pointer, and only allocate in the vof=3Don case.  You can then also use
+> > (vof =3D=3D NULL) instead of the vof->on boolean.
+> >=20
 > > >       uint64_t rtc_offset; /* Now used only during incoming migration=
  */
 > > >       struct PPCTimebase tb;
@@ -444,8 +411,26 @@ ortClass;
 > > >   #define KVMPPC_H_UPDATE_DT      (KVMPPC_HCALL_BASE + 0x3)
 > > > -#define KVMPPC_HCALL_MAX        KVMPPC_H_UPDATE_DT
 > > > +#define KVMPPC_H_VOF_CLIENT     (KVMPPC_HCALL_BASE + 0x5)
+> >=20
+> > Any reason this is 0x5, rather than 0x4?
+>=20
+> There was this in SLOF in the past:
+>=20
+> #define KVMPPC_H_UPDATE_PHANDLE (KVMPPC_HCALL_BASE + 0x4)
+>=20
+> QEMU did not seem to ever receive this change though but there might be s=
+ome
+> custom QEMU builds I did in the past which recognize 0x4 which should mat=
+ter
+> anyway and I could use 0x4 here as KVMPPC_H_UPDATE_PHANDLE was the SLOF-o=
+nly
+> thing which is not running here anyway.
+>=20
+> Use 0x4?
+
+No, stick with 0x5, but put in a small comment that 0x4 was skipped.
+
 > > > +#define KVMPPC_HCALL_MAX        KVMPPC_H_VOF_CLIENT
-> > >  =20
 > > >   /*
 > > >    * The hcall range 0xEF00 to 0xEF80 is reserved for use in facilita=
 ting
@@ -475,6 +460,34 @@ t);
 > > > +#define OF_STACK_ADDR       0x10000
 > > > +
 > > >   #endif /* HW_SPAPR_H */
+> >=20
+> >=20
+> > VOF is pretty much inherently papr specific, so I'm not really seeing
+> > a clear rationale for the distinction between vof_*() things and
+> > spapr_vof_*() things.
+>=20
+>=20
+> spapr_vof_ uses SpaprMachineState, vof_ does not and can be used ... I do
+> not know... for macs? freescale?
+>=20
+> I thought it might be useful for whatever Balaton Zoltran wanted to use it
+> for.
+
+Hmm, I hadn't thought of that sort of application.  I guess that's a
+point.
+
+I feel like the call for vof is less for those platforms, because they
+admit a full in-guest firmware implementation, whereas the paravirt
+nature of papr means that some components have to go into the
+hypervisor.
+
+> I'll in the next respin 2 things to add some sense to some code decisions:
+> - we may want it for platforms other than spapr;
+> - we may want the tiny firmware to learn about parttable/GPT/ELF to load
+> grub (done separately on top of this).
+
+Ok.
+
 > > > diff --git a/pc-bios/vof/vof.h b/pc-bios/vof/vof.h
 > > > new file mode 100644
 > > > index 000000000000..cd5989952a98
@@ -527,6 +540,19 @@ t len);
 > > > +
 > > > +/* booting from -kernel */
 > > > +void boot_from_memory(uint64_t initrd, uint64_t initrdsize);
+> >=20
+> >=20
+> > It seems to me you shouldn't need even this much in terms of in-guest
+> > code, but more on that later.
+>=20
+>=20
+> There is a patch on top which loads grub from a disk and does not need
+> -kernel/-initrd, I am not sure we will ever get there (because it talks to
+> blockdev backend bypassing drivers) but at least keep this in mind. I'll
+> revisit this bit though, the code is more than 1yr old :)
+
+Ok.
+
 > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
 > > > index 2e2ac20193fb..547b2bd8ac77 100644
 > > > --- a/hw/ppc/spapr.c
@@ -539,7 +565,6 @@ that */
 > > > +#define FW_FILE_NAME_VOF        "vof.bin"
 > > >   #define FW_OVERHEAD             0x2800000
 > > >   #define KERNEL_LOAD_ADDR        FW_MAX_SIZE
-> > >  =20
 > > > @@ -1561,6 +1562,7 @@ static void spapr_machine_reset(MachineState *m=
 achine)
 > > >       SpaprMachineState *spapr =3D SPAPR_MACHINE(machine);
@@ -548,19 +573,16 @@ achine)
 > > > +    target_ulong stack_ptr =3D 0;
 > > >       void *fdt;
 > > >       int rc;
-> > >  =20
 > > > @@ -1621,24 +1623,48 @@ static void spapr_machine_reset(MachineState =
 *machine)
 > > >        */
 > > >       fdt_addr =3D MIN(spapr->rma_size, RTAS_MAX_ADDR) - FDT_MAX_SIZE;
-> > >  =20
 > > > +    if (spapr->vof.on) {
 > > > +        /* Resets the VOF's internal state */
 > > > +        vof_reset(&spapr->vof, spapr->rma_size);
 > > > +    }
 > > > +
 > > >       fdt =3D spapr_build_fdt(spapr, true, FDT_MAX_SIZE);
-> > >  =20
 > > > -    rc =3D fdt_pack(fdt);
 > > > +    if (spapr->vof.on) {
 > > > +        /*
@@ -568,7 +590,20 @@ achine)
 > > > +         * doing it befofe packing.
 > > > +         */
 > > > +        spapr_vof_reset(spapr, fdt, &stack_ptr);
-> > >  =20
+> >=20
+> > Not really seeing why vof_reset() and spapr_vof_reset() are separate th=
+ings.
+>=20
+>=20
+> spapr_vof_reset() claims kernel/initrd/stack and other platforms may want=
+ to
+> claim more/less.
+>=20
+> vof_reset() simply resets the internal state of VOF.
+
+Right, but couldn't you just call vof_reset() at the beginning of
+spapr_vof_reset()?
+
 > > > -    /* Should only fail if we've built a corrupted tree */
 > > > -    assert(rc =3D=3D 0);
 > > > +        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
@@ -584,7 +619,6 @@ it.
 > > > +        rc =3D fdt_pack(fdt);
 > > > +        /* Should only fail if we've built a corrupted tree */
 > > > +        assert(rc =3D=3D 0);
-> > >  =20
 > > > -    /* Load the fdt */
 > > > +        spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT,
 > > > +                                  0, fdt_addr, 0);
@@ -596,7 +630,6 @@ it.
 > > >       spapr->fdt_size =3D fdt_totalsize(fdt);
 > > >       spapr->fdt_initial_size =3D spapr->fdt_size;
 > > >       spapr->fdt_blob =3D fdt;
-> > >  =20
 > > >       /* Set up the entry state */
 > > > -    spapr_cpu_set_entry_state(first_ppc_cpu, SPAPR_ENTRY_POINT, 0, f=
 dt_addr, 0);
@@ -606,7 +639,6 @@ dt_addr, 0);
 > > > +        cpu_physical_memory_write(fdt_addr, spapr->fdt_blob, spapr->=
 fdt_size);
 > > > +    }
-> > >  =20
 > > >       spapr->fwnmi_system_reset_addr =3D -1;
 > > >       spapr->fwnmi_machine_check_addr =3D -1;
 > > > @@ -2638,7 +2664,8 @@ static void spapr_machine_init(MachineState *ma=
@@ -624,7 +656,6 @@ FW_FILE_NAME;
 > > > @@ -2990,6 +3017,10 @@ static void spapr_machine_init(MachineState *m=
 achine)
 > > >       }
-> > >  =20
 > > >       qemu_cond_init(&spapr->fwnmi_machine_check_interlock_cond);
 > > > +
 > > > +    if (spapr->vof.on) {
@@ -632,13 +663,11 @@ achine)
 ient);
 > > > +    }
 > > >   }
-> > >  =20
 > > >   #define DEFAULT_KVM_TYPE "auto"
 > > > @@ -3180,6 +3211,20 @@ static void spapr_set_resize_hpt(Object *obj, =
 const char *value, Error **errp)
 > > >       }
 > > >   }
-> > >  =20
 > > > +static bool spapr_get_vof(Object *obj, Error **errp)
 > > > +{
 > > > +    SpaprMachineState *spapr =3D SPAPR_MACHINE(obj);
@@ -677,7 +706,6 @@ CLASS(oc);
 > > >       XiveFabricClass *xfc =3D XIVE_FABRIC_CLASS(oc);
 > > > +    ClientArchitectureSupportClass *casc =3D CLIENT_ARCHITECTURE_SUP=
 PORT_CLASS(oc);
-> > >  =20
 > > >       mc->desc =3D "pSeries Logical Partition (PAPR compliant)";
 > > >       mc->ignore_boot_device_suffixes =3D true;
 > > > @@ -4481,6 +4531,9 @@ static void spapr_machine_class_init(ObjectClas=
@@ -689,7 +717,6 @@ s *oc, void *data)
 > > > +    casc->cas =3D spapr_vof_client_architecture_support;
 > > > +    casc->quiesce =3D spapr_vof_quiesce;
 > > >   }
-> > >  =20
 > > >   static const TypeInfo spapr_machine_info =3D {
 > > > @@ -4500,6 +4553,7 @@ static const TypeInfo spapr_machine_info =3D {
 > > >           { TYPE_XICS_FABRIC },
@@ -703,7 +730,6 @@ s *oc, void *data)
 chineClass *mc)
 > > >   }
 > > >   DEFINE_SPAPR_MACHINE(2_1, "2.1", false);
-> > >  =20
 > > > +static const TypeInfo client_archivecture_support_info =3D {
 > > > +    .name =3D TYPE_CLIENT_ARCHITECTURE_SUPPORT,
 > > > +    .parent =3D TYPE_INTERFACE,
@@ -715,7 +741,6 @@ chineClass *mc)
 > > >       type_register_static(&spapr_machine_info);
 > > > +    type_register_static(&client_archivecture_support_info);
 > > >   }
-> > >  =20
 > > >   type_init(spapr_machine_register_types)
 > > > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
 > > > index 7b5cd3553c26..0043ca057ba5 100644
@@ -725,7 +750,6 @@ chineClass *mc)
 werPCCPU *cpu,
 > > >           spapr_setup_hpt(spapr);
 > > >       }
-> > >  =20
 > > > -    fdt =3D spapr_build_fdt(spapr, false, fdt_bufsize);
 > > > +    if (spapr->vof.on && spapr->vof.initrd_base && spapr->vof.initrd=
 _size) {
@@ -733,17 +757,24 @@ _size) {
 ed below */
 > > > +        spapr->initrd_base =3D spapr->vof.initrd_base;
 > > > +        spapr->initrd_size =3D spapr->vof.initrd_size;
+> >=20
+> > Why do you need a separate vof initrd base & size in the first place?
+>=20
+>=20
+> This is to keep VOF reusable by others than just spapr.
+>=20
+>=20
+>=20
+> >=20
 > > > +    }
 > > > +
 > > > +    fdt =3D spapr_build_fdt(spapr, spapr->vof.on, fdt_bufsize);
-> > >  =20
 > > >       g_free(spapr->fdt_blob);
 > > >       spapr->fdt_size =3D fdt_totalsize(fdt);
 > > > @@ -1850,6 +1856,24 @@ static target_ulong h_client_architecture_supp=
 ort(PowerPCCPU *cpu,
 > > >       return ret;
 > > >   }
-> > >  =20
 > > > +target_ulong spapr_vof_client_architecture_support(CPUState *cs,
 > > > +                                                  target_ulong ovec_=
 addr)
@@ -807,6 +838,13 @@ rgs)
 > > > +    unsigned nargs, nret, i;
 > > > +
 > > > +    cpu_physical_memory_read(of_client_args, &pargs, sizeof(pargs));
+> >=20
+> > Need to check for read errors in case an out of bounds address is passe=
+d.
+>=20
+> Ok.
+>=20
+>=20
 > > > +    nargs =3D be32_to_cpu(pargs.nargs);
 > > > +    if (nargs >=3D ARRAY_SIZE(pargs.args)) {
 > > > +        return H_PARAMETER;
@@ -821,6 +859,13 @@ rgs)
 > > > +
 > > > +    for (i =3D 0; i < nargs; ++i) {
 > > > +        pargs.args[i] =3D be32_to_cpu(pargs.args[i]);
+> >=20
+> > In general I dislike in-place endian conversion of structs, since I
+> > think it's less confusing to think of the endianness as a property of
+> > the type.
+>=20
+> Ok.
+>=20
 > > > +    }
 > > > +
 > > > +    nret =3D be32_to_cpu(pargs.nret);
@@ -976,11 +1021,19 @@ LINGS IN
 > > > + * OF 1275 "nextprop" description suggests is it 32 bytes max but
 > > > + * LoPAPR defines "ibm,query-interrupt-source-number" which is 33 ch=
 ars long.
+> >=20
+> > Yeah, I discovered that and similar things when writing dtc and libfdt.
+> >=20
 > > > + */
 > > > +#define OF_PROPNAME_LEN_MAX 64
 > > > +
 > > > +#define ALIGN(x, a) (((x) + (a) - 1) & ~((a) - 1))
-> > > +
+> >=20
+> > You can use QEMU_ALIGN_UP instead of redefining this.
+>=20
+> Ok.
+>=20
+> >=20
 > > > +typedef struct {
 > > > +    uint64_t start;
 > > > +    uint64_t size;
@@ -1014,7 +1067,12 @@ ars long.
 > > > +        trace_vof_error_param(s, nargscheck, nretcheck, nargs, nret);
 > > > +        return false;
 > > > +    }
-> > > +
+> >=20
+> > len & len1 are unused - what are they for?
+>=20
+> Leftovers.
+>=20
+> >=20
 > > > +    return true;
 > > > +}
 > > > +
@@ -1030,6 +1088,13 @@ t,
 > > > +        *node =3D g_strdup(fullpath);
 > > > +        return;
 > > > +    }
+> >=20
+> > A comment describing what you expect paths to look like would make
+> > this a bunch easier to interpret.
+>=20
+> Ok.
+>=20
+> >=20
 > > > +
 > > > +    for (c =3D fullpath + strlen(fullpath) - 1; c > fullpath; --c) {
 > > > +        if (*c =3D=3D '/') {
@@ -1103,6 +1168,25 @@ len)
 > > > +    offset =3D fdt_path_offset(fdt, node);
 > > > +
 > > > +    if (offset < 0 && unit) {
+> >=20
+> > I don't think this is right.  I'm guessing if unit is supplied you
+> > definitely want to match on the unit address.  But if there is any
+> > node matching the name, but not matching the unit, then the original
+> > fdt_path_offset() will succeed, meaning we don't get into the unit
+> > matching logic.
+>=20
+> I did not realize this aspect of the fdt_path_offset()'s behaviour, I'll =
+try
+> this.
+
+Right, fdt_subnode_offset() - and therefore fdt_path_offset(), which
+calls it - already matches an unqualified name to to any unit
+address.  That might simplify your code... although
+fdt_subnode_offset() *doesn't* do the other OF thing of matching a
+unit address without name (e.g. "@80000000") to any node with that
+unit address regardless of name.
+
+> >=20
 > > > +        g_autofree char *tmp =3D g_strdup_printf("%s@%s", node, unit=
 );
 > > > +
@@ -1120,9 +1204,25 @@ len)
 > > > +    int offset;
 > > > +
 > > > +    readstr(nodeaddr, fullnode, sizeof(fullnode));
+> >=20
+> > Should you detect a truncation error from readstr() here?
+>=20
+>=20
+> There is a tracepoint in readstr() and the rest of the code copes with
+> truncated strings fine.
+
+But shouldn't the finddevice call fail outright in that case?
+
 > > > +
 > > > +    split_path(fullnode, &node, &unit, &part);
 > > > +    offset =3D vof_fdt_path_offset(fdt, node, unit);
+> >=20
+> > It seems a bit weird to split the node and unit address apart, just to
+> > glue them back together to look them up in the tree.
+>=20
+> My lack of fdt_path_offset() knowledge...
+>=20
+>=20
 > > > +    if (offset >=3D 0) {
 > > > +        ret =3D fdt_get_phandle(fdt, offset);
 > > > +    }
@@ -1157,6 +1257,14 @@ _t pname,
 > > > +         * OF1275 says:
 > > > +         * "Size is either the actual size of the property, or =E2=
 =80=931 if name
+> >=20
+> > That appears to be a weird unicode minus sign, rather than a plain old =
+'-'.
+>=20
+>=20
+> Yeah, I suspect cut-n-paste from OF1275.
+>=20
+> >=20
 > > > +         * does not exist", hence returning proplen instead of cb.
 > > > +         */
 > > > +        ret =3D proplen;
@@ -1384,6 +1492,26 @@ t, phandle));
 > > > +
 > > > +uint32_t vof_client_open(void *fdt, Vof *vof, const char *nodename,
 > > > +                         const char *prop, const char *path)
+> >=20
+> > AFAICT this has just one caller - handling the open of stdout.  It
+> > might be simpler to just open code it there.
+>=20
+> This is another controversy :)
+>=20
+> I have another patch on top which implements "stdin" on top of spapr-vty
+> which was objected before as QEMU's backends in general are not really
+> designed to be used directly bypassing devices.
+>=20
+> And I needed "stdin" for forementioned patch which loads grub.
+>=20
+> So there are 2 callers of it in my working tree.
+
+Ok.  I guess part of my confusion is the name: "client_open" to me
+doesn't obviously suggest a writeback to the device tree.
+
+>=20
+>=20
+> >=20
 > > > +{
 > > > +    int node =3D fdt_path_offset(fdt, nodename);
 > > > +    uint32_t inst =3D vof_do_open(fdt, vof, path);
@@ -1465,6 +1593,12 @@ le),
 > > > +}
 > > > +
 > > > +static void vof_clamed_dump(GArray *claimed)
+> >=20
+> > s/clamed/claimed/ ?
+>=20
+>=20
+> Oops. Yes.
+>=20
 > > > +{
 > > > +#ifdef DEBUG
 > > > +    int i;
@@ -1489,6 +1623,12 @@ rt + c.size,
 > > > +        c =3D g_array_index(claimed, OfClaimed, i);
 > > > +        if ((c.start <=3D virt && virt < c.start + c.size) ||
 > > > +            (virt <=3D c.start && c.start < virt + size)) {
+> >=20
+> > You can use the ranges_overlap() function to simplify this.
+>=20
+> Good.
+>=20
+> >=20
 > > > +            return false;
 > > > +        }
 > > > +    }
@@ -1570,6 +1710,13 @@ ze);
 > > > + * "claim" claims memory at @virt if @align=3D=3D0; otherwise it all=
 ocates
 > > > + * memory at the requested alignment.
+> >=20
+> >  From the logic, I'm guessing that this should be called with exactly
+> > one of @virt and @align non-zero.  Is that right?  Might be best to
+> > clarify that here.
+>=20
+> Ok.
+>=20
 > > > + */
 > > > +uint64_t vof_claim(void *fdt, Vof *vof, uint64_t virt, uint64_t size,
 > > > +                   uint64_t align)
@@ -1625,6 +1772,14 @@ an claim */
 > > > +        if (c.start =3D=3D virt && c.size =3D=3D size) {
 > > > +            g_array_remove_index(claimed, i);
 > > > +            ret =3D 0;
+> >=20
+> > This should also rewrite the "available" property, shouldn't it?
+>=20
+> Huh. Yes. And claim should do the same I believe. It did not hit me as the
+> client does not read the property in between, I'll add "available" rewrite
+> when it is being read via the CI.
+>=20
+>=20
 > > > +            break;
 > > > +        }
 > > > +    }
@@ -1675,6 +1830,13 @@ PORT);
 > > > +                    CLIENT_ARCHITECTURE_SUPPORT_GET_CLASS(cas_if);
 > > > +
 > > > +                ret =3D casc->cas(first_cpu, param1);
+> >=20
+> > Vof is pretty unavoidably tied to spapr, so I don't think you really
+> > need an interface to abstract this.
+>=20
+> Balaton Zoltran asked for that, more or less :)
+>=20
+>=20
 > > > +            }
 > > > +
 > > > +            *ret2 =3D 0;
@@ -1831,6 +1993,13 @@ ect_equal,
 it :-/ */
 > > > +    offset =3D fdt_add_subnode(fdt, 0, "options");
 > > > +    if (offset > 0) {
+> >=20
+> > Probably best to just fail outright if the add_subnode() fails, rather
+> > than just skipping some things.
+>=20
+>=20
+> Ok.
+>=20
 > > > +        struct winsize ws;
 > > > +
 > > > +        if (ioctl(1, TIOCGWINSZ, &ws) !=3D -1) {
@@ -1839,6 +2008,17 @@ it :-/ */
 > > > +            _FDT(fdt_setprop_cell(fdt, offset, "screen-#rows", ws.ws=
 _row));
 > > > +        }
+> >=20
+> > This is only correct in a pretty narrow set of circumstances - a
+> > serial guest console attached to qemu's stdout.
+>=20
+> I do not see any harm though, do you?
+
+Hm.. maybe not?.  I don't like poking the qemu process's terminal if
+we're not confident it's relevant, though.  I think it might be best
+to just omit these properties for now, and add them in conditionally
+as a later extension.
+
 > > > +        _FDT(fdt_setprop_cell(fdt, offset, "real-mode?", 1));
 > > > +    }
 > > > +
@@ -1877,6 +2057,20 @@ _row));
 > > > +        }
 > > > +        _FDT(fdt_setprop_cell(fdt, offset, "phandle", phandle));
 > > > +    }
+> >=20
+> > A simpler way would be just to call fdt_get_max_phandle() first, then
+> > allocate all the new phandles from that value upwards.  In theory it
+> > can fail if the tree has some high phandle values, but it's basically
+> > not going to happen in practice.
+>=20
+> Predefined phandles are quite huge - PHANDLE_PCIDEV/PHANDLE_NVLINK - and I
+> really do not want to start phandles there for aestatic reasons even thou=
+gh
+> it should work indeed.
+
+Hmmm... for me half a dozen lines of extra source code is a worse
+aesthetic flaw than some ugly phandle values.
+
 > > > +    g_array_unref(phandles);
 > > > +
 > > > +    vof_dt_memory_available(fdt, vof->claimed, vof->claimed_base);
@@ -1899,6 +2093,24 @@ _row));
 > > > +		return;
 > > > +
 > > > +	do_boot(kern[0], initrd, initrdsize);
+> >=20
+> > All do_boot() does is set up some register entry conditions, so AFAICT
+> > you could do this just as well from the qemu side.
+>=20
+> Within just this patch - yes.
+>=20
+> With the grub support patch - no. I have not given up on that just yet. I
+> cannot do this from QEMU as it is the guest code's task to find the boot
+> loader:
+>=20
+> https://github.com/aik/qemu/commit/858686591f#diff-c444dcf2ad343c5514524f=
+ea6347c58e71fe0b0549b853ecb518c96dd1829f6dR209
+
+Ah, right.  And belatedly recalling some of the earlier discussion
+threads about this, I think the reasoning was that although that sort
+of logic *could* be done in qemu, the preference was to do it in-guest
+to be really confident it's isolated from the host.
+
 > > > +}
 > > > diff --git a/pc-bios/vof/ci.c b/pc-bios/vof/ci.c
 > > > new file mode 100644
@@ -1945,7 +2157,24 @@ _row));
 > > > +	memcpy(rtasbase, hv_rtas, hv_rtas_size);
 > > > +	pargs->args[pargs->nargs] =3D 0;
 > > > +	pargs->args[pargs->nargs + 1] =3D pargs->args[2];
-> > > +
+> >=20
+> > This is just a write to guest memory, why can't it be done from the
+> > qemu side?
+>=20
+>=20
+> QEMU does not know where RTAS is, it is a part of this tiny firmware (just
+> like with SLOF).
+
+Right, but we control the firmware image, so we could have a well-know
+location for it.
+
+> Also QEMU does not need to know about RTAS being
+> instantiated at all.
+
+It doesn't *have* to know about lots of stuff, the whole point of this
+VOF thing is that doing things in qemu - regular userland C - is
+usually easier than doing them in a limited boot time environment.
+
 > > > +	return true;
 > > > +}
 > > > +
@@ -2113,6 +2342,16 @@ t len)
 > > > +
 > > > +        return dest;
 > > > +}
+> >=20
+> > AFAICT most of this code exists only to support boot_from_mem() and
+> > prom_handle(), which I don't actually see a need to be in guest code
+> > anyway.
+>=20
+> I can see why you think this :) I keep blockdev+grub in my mind and my lo=
+cal
+> working tree.
+>=20
+>=20
 > > > diff --git a/pc-bios/vof/main.c b/pc-bios/vof/main.c
 > > > new file mode 100644
 > > > index 000000000000..34299a9cc5ad
@@ -2165,7 +2404,6 @@ t index) "DRC index: 0x%"PRIx3
 > > >   spapr_vio_h_reg_crq(uint64_t reg, uint64_t queue_addr, uint64_t que=
 ue_len) "CRQ for dev 0x%" PRIx64 " registered at 0x%" PRIx64 "/0x%" PRIx64
 > > >   spapr_vio_free_crq(uint32_t reg) "CRQ for dev 0x%" PRIx32 " freed"
-> > >  =20
 > > > +# vof.c
 > > > +vof_error_str_truncated(const char *s, int len) "%s truncated to %d"
 > > > +vof_error_param(const char *method, int nargscheck, int nretcheck, i=
@@ -2204,7 +2442,6 @@ t32_t ret, uint32_t ret2) "[%s] 0x%x 0x%x =3D> 0x%x 0x%x"
 > > >   ppc_tb_adjust(uint64_t offs1, uint64_t offs2, int64_t diff, int64_t=
  seconds) "adjusted from 0x%"PRIx64" to 0x%"PRIx64", diff %"PRId64" (%"PRId=
 64"s)"
-> > >  =20
 > > > diff --git a/pc-bios/README b/pc-bios/README
 > > > index 33f9754ad30f..7839ab5364c5 100644
 > > > --- a/pc-bios/README
@@ -2212,7 +2449,6 @@ t32_t ret, uint32_t ret2) "[%s] 0x%x 0x%x =3D> 0x%x 0x%x"
 > > > @@ -16,6 +16,8 @@
 > > >     https://github.com/aik/SLOF, and the image currently in qemu is
 > > >     built from git tag qemu-slof-20200717.
-> > >  =20
 > > > +- vof is a minimalistic firmware to work with -machine pseries,x-vof=
 =3Don.
 > > > +
@@ -2289,113 +2525,19 @@ bversion
 > > > +ENTRY(_start)
 > > > +	LOAD32(%r31, 0) /* Go 32bit mode */
 > > > +	mtmsrd %r31,0
-> > > +	LOAD32(2, __toc_start)
-> > > +	b entry_c
-> > > +
-> > > +ENTRY(_prom_entry)
-> > > +	LOAD32(2, __toc_start)
-> > > +	stdu    %r1,-112(%r1)
-> > > +	std     %r31,104(%r1)
-> > > +	mflr    %r31
-> > > +	bl prom_entry
-> > > +	nop
-> > > +	mtlr    %r31
-> > > +	ld      %r31,104(%r1)
-> > > +	addi    %r1,%r1,112
-> > > +	blr
-> > > +
-> > > +ENTRY(ci_entry)
-> > > +	mr	4,3
-> > > +	LOAD32(3,KVMPPC_H_VOF_CLIENT)
-> > > +	sc	1
-> > > +	blr
-> > > +
-> > > +/* This is the actual RTAS blob copied to the OS at instantiate-rtas=
- */
-> > > +ENTRY(hv_rtas)
-> > > +	mr      %r4,%r3
-> > > +	LOAD32(3,KVMPPC_H_RTAS)
-> > > +	sc	1
-> > > +	blr
-> > > +	.globl hv_rtas_size
-> > > +hv_rtas_size:
-> > > +	.long . - hv_rtas;
-> > > diff --git a/pc-bios/vof/l.lds b/pc-bios/vof/l.lds
-> > > new file mode 100644
-> > > index 000000000000..10b557a81f78
-> > > --- /dev/null
-> > > +++ b/pc-bios/vof/l.lds
-> > > @@ -0,0 +1,48 @@
-> > > +OUTPUT_FORMAT("elf32-powerpc", "elf32-powerpc", "elf32-powerpc")
-> > > +OUTPUT_ARCH(powerpc:common)
-> > > +
-> > > +/* set the entry point */
-> > > +ENTRY ( __start )
-> > > +
-> > > +SECTIONS {
-> > > +	__executable_start =3D .;
-> > > +
-> > > +	.text : {
-> > > +		*(.text)
-> > > +	}
-> > > +
-> > > +	__etext =3D .;
-> > > +
-> > > +	. =3D ALIGN(8);
-> > > +
-> > > +	.data : {
-> > > +		*(.data)
-> > > +		*(.rodata .rodata.*)
-> > > +		*(.got1)
-> > > +		*(.sdata)
-> > > +		*(.opd)
-> > > +	}
-> > > +
-> > > +	/* FIXME bss at end ??? */
-> > > +
-> > > +	. =3D ALIGN(8);
-> > > +	__bss_start =3D .;
-> > > +	.bss : {
-> > > +		*(.sbss) *(.scommon)
-> > > +		*(.dynbss)
-> > > +		*(.bss)
-> > > +	}
-> > > +
-> > > +	. =3D ALIGN(8);
-> > > +	__bss_end =3D .;
-> > > +	__bss_size =3D (__bss_end - __bss_start);
-> > > +
-> > > +	. =3D ALIGN(256);
-> > > +	__toc_start =3D DEFINED (.TOC.) ? .TOC. : ADDR (.got) + 0x8000;
-> > > +	.got :
-> > > +	{
-> > > +		 *(.toc .got)
-> > > +	}
-> > > +	. =3D ALIGN(8);
-> > > +	__toc_end =3D .;
-> > > +}
-> > > diff --git a/pc-bios/vof/nvram.bin b/pc-bios/vof/nvram.bin
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..d183901cf980a91d81c43=
-48bb20487c7bb62a2ec
-> > > GIT binary patch
-> > > literal 16384
-> > > zcmeI%Jx;?g6bEpZJ8*)oSZeqZi&Z2pKnD)sI4{AHlNb4;RW}a70XPHaW57uo=3D-#R7
-> > > zKSLBhJJ0sdixY3IuY@hzo0r$OmE%T;XE9uh@s1k=3DAOHafKmY;|fB*y_009U<00Izz
-> > > z00bZa0SG_<0uX=3Dz1Rwwb2tWV=3DXCbip6d#B4{{rX#XR%}$Bm^J;0SG|gWP$!?Aq=
-=3D-I
-> > > zcT+0Ix{{?1q>9J8r+eW^JK1tYYZZMWQCUwW%0S*~w^p@wfkX-<yRFx)H*+YEt0RRd
-> > > zmn}6xtwbP`yp4O=3D>kxMAEA<~5@*g)@mb%KD5!;O~8c)>8rRQBx55=3Dtrhk#+1+T3J_
-> > > zaf*G4vZAduqy$qda{``6Gnc2DQg<Es<GLxL#9<Oj*zP!8ZSnwf@-j7l47!nFXQO$a
-> > > z^Hes6YU^_M<KsM*k~zwOSa+2g3Sx{*Eyu^XrB0FM5IJ-*?8`VvpBc4}vS(+_UKJ;=3D
-> > > xITAns0uX=3Dz1Rwwb2tWV=3D5P-nt34DD||Nni|VfbXeJORuY0uX=3Dz1R!vE0>7B^s4=
-f5i
-> > >=20
-> > > literal 0
-> > > HcmV?d00001
-> > >=20
 > >=20
+> > Since this is intimately tied to qemu, you can just assume the startup
+> > cpu mode and shouldn't need to manage it with guest instructions.
 >=20
+> I am pretty sure we start as 64bit in ppc_cpu_reset() and do not touch MSR
+> anywhere in spapr code and I did not want to start changing MSR outside of
+> target/ppc/.
+>=20
+> Also, it is the firmware which really wants 32bit, let it set it explicit=
+ly.
+
+I'm not entirely convinced, but it's a pretty minor point, let's see
+how it plays out in subsequent spins.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -2403,25 +2545,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---c4bl1uGCBGTplZqp
+--/N/u4KEvZPPI5Q3D
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0joYACgkQbDjKyiDZ
-s5JnoQ//SS9dtaY8f+RQw7lDyHD5DCp2Odpea+Iu2qnKG3r+xt4LdtiIvSqZDOGa
-B8mPgmZi7F3YNFGBom9EGOnWZFCU7JFkjMf7n24+gP5z5ujZrh3Os3nl1rZQxPor
-V5+yyK/zuRny5xRNrBnOgAeOy49eKrjC/BTgdvvcT8yg5Zd+pUGMRP1UxbhulvGK
-9tiFZI0D8vDRtoKBNz/tVJOvD+/KF2KKxHQ9L5S9uYs4X4mTcc4jPCoZeY1bQ6BZ
-LfQHfqkLDYHmTo9Jc964zEpZWgGEW5Y1ZB3jU7azSOutyDpI3TxAEuOyl9RroOOf
-pnK1dM4W+V48z1QRRk9bYnAToNdvNtp1DnOMYDJuA5E5JhDZN8yLZuLfpN4z+//I
-qOq0Lk2lYgVIbtqjrVO7Br/qJ2hX+79LrTQ1WmCZ1He/dtKiK868pVmNIbofh2sP
-Q7rpTLuvfOtPuNVJwui8rLL9MJyq5cL9Ydj7HJI5cmWHBF8LDyJpwP/JUBVlRduj
-oLj6UW4W07VF3rmORUNKG6xvuh72kpOLn1yGOS5fDZoDZ8m7VDhGeWGstahaNGx0
-KC+Zgoxt2s/HfKkuIMU58jJnHFqemzcGGLqcmO/1ncHQ/FQJqEg3li33X7dcxf1S
-mRRkDQq2KAL6V2yxEiU87A8XvErc2AtxQRnmh2tmd36FhxLL4Vc=
-=Kvpf
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0koAACgkQbDjKyiDZ
+s5LiQw/8DSVwfkREYjWfFeu+yjmkBCRPZyUpST3KSTBqGe9USBZ0YnWXuOB8ggMo
+c8+Yiynnczk/yVD3Gfvg0aRejM4JzP5peAghaFcjs0GfnTcVDv42FJvVYV7hlDn4
+anebH0uBid83eKyaxD3HWGikBMwiTla8WeMLjvcIDnv17QkAvKX5ppfR9JXaVQ72
+J97WzCLCq10QyrErN1sE9+FPac++vOiBI2isVr4cs+67iiLBtr0ljblk5l7/RDfH
+DD328GAsywIAJqr+oaECsHjxJFA1NYGRlNC9YZGnUEvsrhODLlwsQBf5Qw37Rzu0
+Ui0LAWefd1EPjFrnas5gCYQUJjqwa6uSWehxa7rEvsKGy2IpQ1ST73qYXycGtGIR
+jE5Dfz6dB9Av3vwwt/65FCgXBCX+GGwqf0UwQQF9oXcTfAcodQPxTIE0f2zAu47Z
+hlLpngJGT2J2bDRvvCn1IEA3CL4stTqic/4Pm6FzkDtkOyOWsshTDMpY8oZh1YGC
+dbOtFO9ZqvlrZwy/wS1D77jfDwlPOQKyiqRdmvEiFWH0XjuHAKQt89FpuJ71oPtp
+qddnS0XhBNX+aYySbXNdbzZFPFrWExLYms73Wa1ywemTFUodN3IBf5Fbkc5ehURX
+ddRvBZ2+5lTcz6l7g2oH/JljgvVeQw3J1MGpS82bwgUAFwovmAw=
+=Clb5
 -----END PGP SIGNATURE-----
 
---c4bl1uGCBGTplZqp--
+--/N/u4KEvZPPI5Q3D--
 
