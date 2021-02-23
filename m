@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0C6D322D0A
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:01:24 +0100 (CET)
-Received: from localhost ([::1]:56844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 644D5322D0B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:01:35 +0100 (CET)
+Received: from localhost ([::1]:57434 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEZBj-0002pz-I2
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:01:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43038)
+	id 1lEZBu-00039w-CL
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:01:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEZ15-0008VI-3V
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:50:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43612)
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1lEZ7j-0000A8-29
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:57:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEZ12-0003PB-N3
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:50:22 -0500
+ (Exim 4.90_1) (envelope-from <eskultet@redhat.com>)
+ id 1lEZ7f-0006Vf-FN
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:57:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614091819;
+ s=mimecast20190719; t=1614092230;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lgtPA01RUNgHlkKTIvcWt2T+4Qe1IRlbp49TuuOEeM4=;
- b=ZpGDnA8+vCoCt0qhLu0cRX1547UKVtejBTwZyyNsZxtk+fP41PlASnzW0vGXOXohY6bs9V
- BDy89sSMLQF0AYZ+GJbxHEKWkLZMTYT0Oi++BnkBnmB2c12inOsJAQ8EY//LBvx8qIBbOL
- QH5NkKY19WRqTpuDsFNb3X03wPqk4KI=
+ bh=OEw4oTAM6z4JjVUyqUpvRTEIicfOmiV8UvIzrVqBNL4=;
+ b=cGSVP1pPTtFLL+bT/Ofsv20fbk9vHD+y5oreTN1BiU7NWanzVzQYe4jnyil0exwxT/neRh
+ bHOzzu9wPm3DeyYi4d98/vhnV9wsQKoNK1ilD2qUivmMCLeQdNkPG+knNk9GNt8i5G8aRx
+ r4XRrVoxY6yZkC6tEljAFCzSsChc/ls=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-351--B5zgdaENy2A79ALjFFuAQ-1; Tue, 23 Feb 2021 09:49:10 -0500
-X-MC-Unique: -B5zgdaENy2A79ALjFFuAQ-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-171-HnqhpRwjO7OheKRN80Lm4Q-1; Tue, 23 Feb 2021 09:56:32 -0500
+X-MC-Unique: HnqhpRwjO7OheKRN80Lm4Q-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1F4D80405B;
- Tue, 23 Feb 2021 14:48:42 +0000 (UTC)
-Received: from localhost (ovpn-114-203.ams2.redhat.com [10.36.114.203])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E16C919CB1;
- Tue, 23 Feb 2021 14:48:35 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/12] vhost-user-blk-test: test discard/write zeroes
- invalid inputs
-Date: Tue, 23 Feb 2021 14:46:52 +0000
-Message-Id: <20210223144653.811468-12-stefanha@redhat.com>
-In-Reply-To: <20210223144653.811468-1-stefanha@redhat.com>
-References: <20210223144653.811468-1-stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 68599809DE5;
+ Tue, 23 Feb 2021 14:51:38 +0000 (UTC)
+Received: from nautilus.local (unknown [10.40.192.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A820610016F6;
+ Tue, 23 Feb 2021 14:51:35 +0000 (UTC)
+Date: Tue, 23 Feb 2021 15:51:33 +0100
+From: Erik Skultety <eskultet@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: Re: [PATCH v5 2/4] Jobs based on custom runners: build environment
+ docs and playbook
+Message-ID: <YDUWdeTcyf0Fwn/w@nautilus.local>
+References: <20210219215838.752547-1-crosa@redhat.com>
+ <20210219215838.752547-3-crosa@redhat.com>
+ <87im6i4znx.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <87im6i4znx.fsf@linaro.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eskultet@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eskultet@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,115 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Coiby Xu <coiby.xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-RXhlcmNpc2UgaW5wdXQgdmFsaWRhdGlvbiBjb2RlIHBhdGhzIGluCmJsb2NrL2V4cG9ydC92aG9z
-dC11c2VyLWJsay1zZXJ2ZXIuYy4KClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpub2N6aSA8c3Rl
-ZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiB0ZXN0cy9xdGVzdC92aG9zdC11c2VyLWJsay10ZXN0LmMg
-fCAxMjQgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrCiAxIGZpbGUgY2hhbmdlZCwgMTI0
-IGluc2VydGlvbnMoKykKCmRpZmYgLS1naXQgYS90ZXN0cy9xdGVzdC92aG9zdC11c2VyLWJsay10
-ZXN0LmMgYi90ZXN0cy9xdGVzdC92aG9zdC11c2VyLWJsay10ZXN0LmMKaW5kZXggNjFiZWVlNTJk
-My4uZGM5ZDdhMzFhZSAxMDA2NDQKLS0tIGEvdGVzdHMvcXRlc3Qvdmhvc3QtdXNlci1ibGstdGVz
-dC5jCisrKyBiL3Rlc3RzL3F0ZXN0L3Zob3N0LXVzZXItYmxrLXRlc3QuYwpAQCAtOTQsNiArOTQs
-MTI0IEBAIHN0YXRpYyB1aW50NjRfdCB2aXJ0aW9fYmxrX3JlcXVlc3QoUUd1ZXN0QWxsb2NhdG9y
-ICphbGxvYywgUVZpcnRpb0RldmljZSAqZCwKICAgICByZXR1cm4gYWRkcjsKIH0KIAorc3RhdGlj
-IHZvaWQgdGVzdF9pbnZhbGlkX2Rpc2NhcmRfd3JpdGVfemVyb2VzKFFWaXJ0aW9EZXZpY2UgKmRl
-diwKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBRR3Vlc3RB
-bGxvY2F0b3IgKmFsbG9jLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgIFFUZXN0U3RhdGUgKnF0cywKKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICBRVmlydFF1ZXVlICp2cSwKKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICB1aW50MzJfdCB0eXBlKQoreworICAgIFFWaXJ0aW9CbGtSZXEg
-cmVxOworICAgIHN0cnVjdCB2aXJ0aW9fYmxrX2Rpc2NhcmRfd3JpdGVfemVyb2VzIGR3el9oZHI7
-CisgICAgc3RydWN0IHZpcnRpb19ibGtfZGlzY2FyZF93cml0ZV96ZXJvZXMgZHd6X2hkcjJbMl07
-CisgICAgdWludDY0X3QgcmVxX2FkZHI7CisgICAgdWludDMyX3QgZnJlZV9oZWFkOworICAgIHVp
-bnQ4X3Qgc3RhdHVzOworCisgICAgLyogTW9yZSB0aGFuIG9uZSBkd3ogaXMgbm90IHN1cHBvcnRl
-ZCAqLworICAgIHJlcS50eXBlID0gdHlwZTsKKyAgICByZXEuZGF0YSA9IChjaGFyICopIGR3el9o
-ZHIyOworICAgIGR3el9oZHIyWzBdLnNlY3RvciA9IDA7CisgICAgZHd6X2hkcjJbMF0ubnVtX3Nl
-Y3RvcnMgPSAxOworICAgIGR3el9oZHIyWzBdLmZsYWdzID0gMDsKKyAgICBkd3pfaGRyMlsxXS5z
-ZWN0b3IgPSAxOworICAgIGR3el9oZHIyWzFdLm51bV9zZWN0b3JzID0gMTsKKyAgICBkd3pfaGRy
-MlsxXS5mbGFncyA9IDA7CisKKyAgICB2aXJ0aW9fYmxrX2ZpeF9kd3pfaGRyKGRldiwgJmR3el9o
-ZHIyWzBdKTsKKyAgICB2aXJ0aW9fYmxrX2ZpeF9kd3pfaGRyKGRldiwgJmR3el9oZHIyWzFdKTsK
-KworICAgIHJlcV9hZGRyID0gdmlydGlvX2Jsa19yZXF1ZXN0KGFsbG9jLCBkZXYsICZyZXEsIHNp
-emVvZihkd3pfaGRyMikpOworCisgICAgZnJlZV9oZWFkID0gcXZpcnRxdWV1ZV9hZGQocXRzLCB2
-cSwgcmVxX2FkZHIsIDE2LCBmYWxzZSwgdHJ1ZSk7CisgICAgcXZpcnRxdWV1ZV9hZGQocXRzLCB2
-cSwgcmVxX2FkZHIgKyAxNiwgc2l6ZW9mKGR3el9oZHIyKSwgZmFsc2UsIHRydWUpOworICAgIHF2
-aXJ0cXVldWVfYWRkKHF0cywgdnEsIHJlcV9hZGRyICsgMTYgKyBzaXplb2YoZHd6X2hkcjIpLCAx
-LCB0cnVlLAorICAgICAgICAgICAgICAgICAgIGZhbHNlKTsKKworICAgIHF2aXJ0cXVldWVfa2lj
-ayhxdHMsIGRldiwgdnEsIGZyZWVfaGVhZCk7CisKKyAgICBxdmlydGlvX3dhaXRfdXNlZF9lbGVt
-KHF0cywgZGV2LCB2cSwgZnJlZV9oZWFkLCBOVUxMLAorICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgUVZJUlRJT19CTEtfVElNRU9VVF9VUyk7CisgICAgc3RhdHVzID0gcmVhZGIocmVxX2FkZHIg
-KyAxNiArIHNpemVvZihkd3pfaGRyMikpOworICAgIGdfYXNzZXJ0X2NtcGludChzdGF0dXMsID09
-LCBWSVJUSU9fQkxLX1NfVU5TVVBQKTsKKworICAgIGd1ZXN0X2ZyZWUoYWxsb2MsIHJlcV9hZGRy
-KTsKKworICAgIC8qIG51bV9zZWN0b3JzIG11c3QgYmUgbGVzcyB0aGFuIGNvbmZpZy0+bWF4X3dy
-aXRlX3plcm9lc19zZWN0b3JzICovCisgICAgcmVxLnR5cGUgPSB0eXBlOworICAgIHJlcS5kYXRh
-ID0gKGNoYXIgKikgJmR3el9oZHI7CisgICAgZHd6X2hkci5zZWN0b3IgPSAwOworICAgIGR3el9o
-ZHIubnVtX3NlY3RvcnMgPSAweGZmZmZmZmZmOworICAgIGR3el9oZHIuZmxhZ3MgPSAwOworCisg
-ICAgdmlydGlvX2Jsa19maXhfZHd6X2hkcihkZXYsICZkd3pfaGRyKTsKKworICAgIHJlcV9hZGRy
-ID0gdmlydGlvX2Jsa19yZXF1ZXN0KGFsbG9jLCBkZXYsICZyZXEsIHNpemVvZihkd3pfaGRyKSk7
-CisKKyAgICBmcmVlX2hlYWQgPSBxdmlydHF1ZXVlX2FkZChxdHMsIHZxLCByZXFfYWRkciwgMTYs
-IGZhbHNlLCB0cnVlKTsKKyAgICBxdmlydHF1ZXVlX2FkZChxdHMsIHZxLCByZXFfYWRkciArIDE2
-LCBzaXplb2YoZHd6X2hkciksIGZhbHNlLCB0cnVlKTsKKyAgICBxdmlydHF1ZXVlX2FkZChxdHMs
-IHZxLCByZXFfYWRkciArIDE2ICsgc2l6ZW9mKGR3el9oZHIpLCAxLCB0cnVlLAorICAgICAgICAg
-ICAgICAgICAgIGZhbHNlKTsKKworICAgIHF2aXJ0cXVldWVfa2ljayhxdHMsIGRldiwgdnEsIGZy
-ZWVfaGVhZCk7CisKKyAgICBxdmlydGlvX3dhaXRfdXNlZF9lbGVtKHF0cywgZGV2LCB2cSwgZnJl
-ZV9oZWFkLCBOVUxMLAorICAgICAgICAgICAgICAgICAgICAgICAgICAgUVZJUlRJT19CTEtfVElN
-RU9VVF9VUyk7CisgICAgc3RhdHVzID0gcmVhZGIocmVxX2FkZHIgKyAxNiArIHNpemVvZihkd3pf
-aGRyKSk7CisgICAgZ19hc3NlcnRfY21waW50KHN0YXR1cywgPT0sIFZJUlRJT19CTEtfU19JT0VS
-Uik7CisKKyAgICBndWVzdF9mcmVlKGFsbG9jLCByZXFfYWRkcik7CisKKyAgICAvKiBzZWN0b3Ig
-bXVzdCBiZSBsZXNzIHRoYW4gdGhlIGRldmljZSBjYXBhY2l0eSAqLworICAgIHJlcS50eXBlID0g
-dHlwZTsKKyAgICByZXEuZGF0YSA9IChjaGFyICopICZkd3pfaGRyOworICAgIGR3el9oZHIuc2Vj
-dG9yID0gVEVTVF9JTUFHRV9TSVpFIC8gNTEyICsgMTsKKyAgICBkd3pfaGRyLm51bV9zZWN0b3Jz
-ID0gMTsKKyAgICBkd3pfaGRyLmZsYWdzID0gMDsKKworICAgIHZpcnRpb19ibGtfZml4X2R3el9o
-ZHIoZGV2LCAmZHd6X2hkcik7CisKKyAgICByZXFfYWRkciA9IHZpcnRpb19ibGtfcmVxdWVzdChh
-bGxvYywgZGV2LCAmcmVxLCBzaXplb2YoZHd6X2hkcikpOworCisgICAgZnJlZV9oZWFkID0gcXZp
-cnRxdWV1ZV9hZGQocXRzLCB2cSwgcmVxX2FkZHIsIDE2LCBmYWxzZSwgdHJ1ZSk7CisgICAgcXZp
-cnRxdWV1ZV9hZGQocXRzLCB2cSwgcmVxX2FkZHIgKyAxNiwgc2l6ZW9mKGR3el9oZHIpLCBmYWxz
-ZSwgdHJ1ZSk7CisgICAgcXZpcnRxdWV1ZV9hZGQocXRzLCB2cSwgcmVxX2FkZHIgKyAxNiArIHNp
-emVvZihkd3pfaGRyKSwgMSwgdHJ1ZSwKKyAgICAgICAgICAgICAgICAgICBmYWxzZSk7CisKKyAg
-ICBxdmlydHF1ZXVlX2tpY2socXRzLCBkZXYsIHZxLCBmcmVlX2hlYWQpOworCisgICAgcXZpcnRp
-b193YWl0X3VzZWRfZWxlbShxdHMsIGRldiwgdnEsIGZyZWVfaGVhZCwgTlVMTCwKKyAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIFFWSVJUSU9fQkxLX1RJTUVPVVRfVVMpOworICAgIHN0YXR1cyA9
-IHJlYWRiKHJlcV9hZGRyICsgMTYgKyBzaXplb2YoZHd6X2hkcikpOworICAgIGdfYXNzZXJ0X2Nt
-cGludChzdGF0dXMsID09LCBWSVJUSU9fQkxLX1NfSU9FUlIpOworCisgICAgZ3Vlc3RfZnJlZShh
-bGxvYywgcmVxX2FkZHIpOworCisgICAgLyogcmVzZXJ2ZWQgZmxhZyBiaXRzIG11c3QgYmUgemVy
-byAqLworICAgIHJlcS50eXBlID0gdHlwZTsKKyAgICByZXEuZGF0YSA9IChjaGFyICopICZkd3pf
-aGRyOworICAgIGR3el9oZHIuc2VjdG9yID0gMDsKKyAgICBkd3pfaGRyLm51bV9zZWN0b3JzID0g
-MTsKKyAgICBkd3pfaGRyLmZsYWdzID0gflZJUlRJT19CTEtfV1JJVEVfWkVST0VTX0ZMQUdfVU5N
-QVA7CisKKyAgICB2aXJ0aW9fYmxrX2ZpeF9kd3pfaGRyKGRldiwgJmR3el9oZHIpOworCisgICAg
-cmVxX2FkZHIgPSB2aXJ0aW9fYmxrX3JlcXVlc3QoYWxsb2MsIGRldiwgJnJlcSwgc2l6ZW9mKGR3
-el9oZHIpKTsKKworICAgIGZyZWVfaGVhZCA9IHF2aXJ0cXVldWVfYWRkKHF0cywgdnEsIHJlcV9h
-ZGRyLCAxNiwgZmFsc2UsIHRydWUpOworICAgIHF2aXJ0cXVldWVfYWRkKHF0cywgdnEsIHJlcV9h
-ZGRyICsgMTYsIHNpemVvZihkd3pfaGRyKSwgZmFsc2UsIHRydWUpOworICAgIHF2aXJ0cXVldWVf
-YWRkKHF0cywgdnEsIHJlcV9hZGRyICsgMTYgKyBzaXplb2YoZHd6X2hkciksIDEsIHRydWUsCisg
-ICAgICAgICAgICAgICAgICAgZmFsc2UpOworCisgICAgcXZpcnRxdWV1ZV9raWNrKHF0cywgZGV2
-LCB2cSwgZnJlZV9oZWFkKTsKKworICAgIHF2aXJ0aW9fd2FpdF91c2VkX2VsZW0ocXRzLCBkZXYs
-IHZxLCBmcmVlX2hlYWQsIE5VTEwsCisgICAgICAgICAgICAgICAgICAgICAgICAgICBRVklSVElP
-X0JMS19USU1FT1VUX1VTKTsKKyAgICBzdGF0dXMgPSByZWFkYihyZXFfYWRkciArIDE2ICsgc2l6
-ZW9mKGR3el9oZHIpKTsKKyAgICBnX2Fzc2VydF9jbXBpbnQoc3RhdHVzLCA9PSwgVklSVElPX0JM
-S19TX1VOU1VQUCk7CisKKyAgICBndWVzdF9mcmVlKGFsbG9jLCByZXFfYWRkcik7Cit9CisKIC8q
-IFJldHVybnMgdGhlIHJlcXVlc3QgdmlydHF1ZXVlIHNvIHRoZSBjYWxsZXIgY2FuIHBlcmZvcm0g
-ZnVydGhlciB0ZXN0cyAqLwogc3RhdGljIFFWaXJ0UXVldWUgKnRlc3RfYmFzaWMoUVZpcnRpb0Rl
-dmljZSAqZGV2LCBRR3Vlc3RBbGxvY2F0b3IgKmFsbG9jKQogewpAQCAtMjM1LDYgKzM1Myw5IEBA
-IHN0YXRpYyBRVmlydFF1ZXVlICp0ZXN0X2Jhc2ljKFFWaXJ0aW9EZXZpY2UgKmRldiwgUUd1ZXN0
-QWxsb2NhdG9yICphbGxvYykKICAgICAgICAgZ19mcmVlKGRhdGEpOwogCiAgICAgICAgIGd1ZXN0
-X2ZyZWUoYWxsb2MsIHJlcV9hZGRyKTsKKworICAgICAgICB0ZXN0X2ludmFsaWRfZGlzY2FyZF93
-cml0ZV96ZXJvZXMoZGV2LCBhbGxvYywgcXRzLCB2cSwKKyAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIFZJUlRJT19CTEtfVF9XUklURV9aRVJPRVMpOwogICAgIH0KIAog
-ICAgIGlmIChmZWF0dXJlcyAmICgxdSA8PCBWSVJUSU9fQkxLX0ZfRElTQ0FSRCkpIHsKQEAgLTI2
-Myw2ICszODQsOSBAQCBzdGF0aWMgUVZpcnRRdWV1ZSAqdGVzdF9iYXNpYyhRVmlydGlvRGV2aWNl
-ICpkZXYsIFFHdWVzdEFsbG9jYXRvciAqYWxsb2MpCiAgICAgICAgIGdfYXNzZXJ0X2NtcGludChz
-dGF0dXMsID09LCAwKTsKIAogICAgICAgICBndWVzdF9mcmVlKGFsbG9jLCByZXFfYWRkcik7CisK
-KyAgICAgICAgdGVzdF9pbnZhbGlkX2Rpc2NhcmRfd3JpdGVfemVyb2VzKGRldiwgYWxsb2MsIHF0
-cywgdnEsCisgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBWSVJUSU9f
-QkxLX1RfRElTQ0FSRCk7CiAgICAgfQogCiAgICAgaWYgKGZlYXR1cmVzICYgKDF1IDw8IFZJUlRJ
-T19GX0FOWV9MQVlPVVQpKSB7Ci0tIAoyLjI5LjIKCg==
+On Tue, Feb 23, 2021 at 02:01:53PM +0000, Alex Bennée wrote:
+> 
+> Cleber Rosa <crosa@redhat.com> writes:
+> 
+> > To run basic jobs on custom runners, the environment needs to be
+> > properly set up.  The most common requirement is having the right
+> > packages installed.
+> >
+> > The playbook introduced here covers the QEMU's project s390x and
+> > aarch64 machines.  At the time this is being proposed, those machines
+> > have already had this playbook applied to them.
+> >
+> > Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> > ---
+> >  docs/devel/ci.rst                      | 30 ++++++++++
+> >  scripts/ci/setup/build-environment.yml | 76 ++++++++++++++++++++++++++
+> >  scripts/ci/setup/inventory             |  1 +
+> >  3 files changed, 107 insertions(+)
+> >  create mode 100644 scripts/ci/setup/build-environment.yml
+> >  create mode 100644 scripts/ci/setup/inventory
+> >
+> > diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> > index 585b7bf4b8..a556558435 100644
+> > --- a/docs/devel/ci.rst
+> > +++ b/docs/devel/ci.rst
+> > @@ -26,3 +26,33 @@ gitlab-runner, is called a "custom runner".
+> >  The GitLab CI jobs definition for the custom runners are located under::
+> >  
+> >    .gitlab-ci.d/custom-runners.yml
+> > +
+> > +Machine Setup Howto
+> > +-------------------
+> > +
+> > +For all Linux based systems, the setup can be mostly automated by the
+> > +execution of two Ansible playbooks.  Start by adding your machines to
+> > +the ``inventory`` file under ``scripts/ci/setup``, such as this::
+> > +
+> > +  fully.qualified.domain
+> > +  other.machine.hostname
+> 
+> Is this really needed? Can't the host list be passed in the command
+> line? I find it off to imagine users wanting to configure whole fleets
+> of runners.
+
+Why not support both, since the playbook execution is not wrapped by anything,
+giving the option of using either and inventory or direct cmdline invocation
+seems like the proper way to do it.
+
+> 
+> > +
+> > +You may need to set some variables in the inventory file itself.  One
+> > +very common need is to tell Ansible to use a Python 3 interpreter on
+> > +those hosts.  This would look like::
+> > +
+> > +  fully.qualified.domain ansible_python_interpreter=/usr/bin/python3
+> > +  other.machine.hostname ansible_python_interpreter=/usr/bin/python3
+> > +
+> > +Build environment
+> > +~~~~~~~~~~~~~~~~~
+> > +
+> > +The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
+> > +set up machines with the environment needed to perform builds and run
+> > +QEMU tests.  It covers a number of different Linux distributions and
+> > +FreeBSD.
+> > +
+> > +To run the playbook, execute::
+> > +
+> > +  cd scripts/ci/setup
+> > +  ansible-playbook -i inventory build-environment.yml
+> 
+> So I got somewhat there with a direct command line invocation:
+> 
+>   ansible-playbook -u root -i 192.168.122.24,192.168.122.45 scripts/ci/setup/build-environment.yml -e 'ansible_python_interpreter=/usr/bin/python3'
+> 
+> although for some reason a single host -i fails...
+
+The trick is to end it with a ',' like "-i host1,"
+
+Erik
 
 
