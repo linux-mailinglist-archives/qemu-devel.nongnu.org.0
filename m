@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1373322617
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 07:58:36 +0100 (CET)
-Received: from localhost ([::1]:50664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F8A322619
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 08:01:00 +0100 (CET)
+Received: from localhost ([::1]:53026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEReV-0008Km-9B
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 01:58:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40048)
+	id 1lERgq-00012O-1W
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 02:01:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lERdY-0007oG-Ok; Tue, 23 Feb 2021 01:57:36 -0500
-Received: from mail-yb1-xb2e.google.com ([2607:f8b0:4864:20::b2e]:46146)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1lERfd-0000SZ-P2
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 01:59:45 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:33619)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lERdW-0002Fq-1Z; Tue, 23 Feb 2021 01:57:36 -0500
-Received: by mail-yb1-xb2e.google.com with SMTP id m188so15421716yba.13;
- Mon, 22 Feb 2021 22:57:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=m9UM4XIJQrFWbd8j4KbQaqCs9uMp5bGrBqvF7k3MQ/0=;
- b=DF2X+9+CUNEicNI6WEpknxg1TixUKjiOInWPt43IEojgH9eqGBOU89xFsN+xrbzH9X
- 2MX8kFtaiIGHmIVncwRziH6+dNOgtVrm38Bni7qhBsuZ3a4qs0UpLKCatlvakSpIzu+R
- V+pBEDMgf2/21Ymd05YinT/NiQU5hQIDfe150R+9gt7bbIlSKeSkY7vc0nivIv8fQwvG
- hpRJBuTIsllXGjflj6qbFnQKdOuxM07WaszGWcB9Kn3NbVJTlQnzH1c42w4V72W12roU
- mj0lnSMl4C5htRvIS4OuQ2D9XpR2i9hMcQOXWXZFOQPZ8/gk48kdm1MGvHAoskp+ycej
- 0HSw==
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1lERfb-0003bk-A9
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 01:59:45 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id t5so1167565pjd.0
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 22:59:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=from:to:cc:subject:date:message-id;
+ bh=13vhUIocFQHQnO3QqjJ3UGcFtp1CW2yXBHweLGUr8I4=;
+ b=miiP4kVnpTrjjFjScK8FRTEoOJ538XVP0PZyWZd4NZqc6fT+xn/TPvI2rXIyovFMSx
+ 6/gdzICYVb0qsFi/BtxPonFYQKIRte4R6rHa1/DH7fKc8gHzFINdwAhB3zCmQk0s1inW
+ VINKZJ52z1+L+PUC3NQGNg+WJHoRobd0LqUo1t9ilnTEIZ06vvAGXrdU3qZvQAE3rd+d
+ QL02xjqZhY7fJOIcFNvbMISSugIxZaK+EjPNfmD7NxldPiI2ofufw/HU7igAQTwUlqUi
+ PC5htbPii01zv6SUQrKhpD20/Gt6v8JYdIiw1g+Goh/vNEq6h6AGN+EiYrcMKbRt6gTw
+ 3jyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=m9UM4XIJQrFWbd8j4KbQaqCs9uMp5bGrBqvF7k3MQ/0=;
- b=rNnvcOQLHI7BJ7OB24HzXKWYBX/NxVTPIKiQed+XjWF4eTOWgSZyvCUPukWsW8NYVA
- 1LoS76ys+ENE77PncmbbM7X1ts4stotA+UEamgwD1TrHt5wxqoko+GPjbUGoZUmzm/bC
- cygtE+uStkvh17mVWRt13Jig7UdPiap6AUpJfxjJFzRhVDDG3KQYQQFESP54GAgWqR6q
- ZHlTfckO1GXxe/ZqN5gGRgYPMi5nKSCrArCw1oR9tbrjO/qRopgu7M5j1agBmnRULKYI
- 0py+/fJbYQ3SfH7w4/PvgMh5ycF+hpMqXQchZO0IZXr2NkFhkZX9JApGd7hyO4rCaKMs
- 9ftQ==
-X-Gm-Message-State: AOAM532oLLUyvbKFN/0EOhheSylPhsMOy1J7jarW0P5pJUjDz8rmIx9c
- CjBUhjs8oWRpGtbF3ll/TeFspIEkG//fVOvg6oY=
-X-Google-Smtp-Source: ABdhPJz8weeedgdwgvU+n/tzk6i5QhJhbXCVTDonjVx+tqwrH5dc6GaUsIfqU/bPFdpAF0KxjV/q14R7/d2BtKyGVuc=
-X-Received: by 2002:a25:d28b:: with SMTP id
- j133mr35636933ybg.517.1614063452891; 
- Mon, 22 Feb 2021 22:57:32 -0800 (PST)
-MIME-Version: 1.0
-References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
- <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
- <20210222082137.1b3f8b3b@bahia.lan>
- <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
- <20210222154341.0992238d@bahia.lan>
-In-Reply-To: <20210222154341.0992238d@bahia.lan>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 23 Feb 2021 14:57:21 +0800
-Message-ID: <CAEUhbmV+qUWtw0Cksrp9dwO2vPnCD8B7Se88a3K_dn3FENnLLQ@mail.gmail.com>
-Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
-To: Greg Kurz <groug@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2e;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2e.google.com
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=13vhUIocFQHQnO3QqjJ3UGcFtp1CW2yXBHweLGUr8I4=;
+ b=bKZnLVEniAHu6pj+tCSicKcqqtBoyCFbHP3k7bWoaxNDeJ2dw304rpr4VS4LYgpr+s
+ otSI9dfEYZynTKyLveUL68IxUWWPyiRB4YKgcxYTzr2SJUJI3MZFV0lBl01dmV5F+ljT
+ H5IGULnTYU+aqmM9KTgOftGIW5ov2qQF1hDaWCDm4tCJWc4Y3IKzftky/5lwkuhZEGeC
+ rRJXygx1o1jijSSD6qtbFLgcD5u3KsvmHuUTw5kVFt9YB7toupXuzf+1WQjYX/ofwS3M
+ wDwT8rR+HHOYvLmt3KMlTDUtwDJNJgRiD9kfdCjVHX8bEa6Iyy8ziaHx6j5mBmac0bR5
+ GMzA==
+X-Gm-Message-State: AOAM531eJOSwvYZrJIvKKmOkmL/mW0eeDyTK2BtDGNa64FkYzz8SUDNU
+ oU0S2R5RmsL6sktDAhXMaZs+4+VJE7IC4A==
+X-Google-Smtp-Source: ABdhPJyF6BixiB3P+7Qc1FWsSrdHwbMzSvFJ3a5+Jl6I5eOuHGeCzAoWZyVVBIgxiUcUbp7i0j9Exg==
+X-Received: by 2002:a17:90a:4092:: with SMTP id
+ l18mr27749782pjg.39.1614063580995; 
+ Mon, 22 Feb 2021 22:59:40 -0800 (PST)
+Received: from frankchang-ThinkPad-T490.internal.sifive.com
+ (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
+ by smtp.gmail.com with ESMTPSA id s18sm20165714pfm.129.2021.02.22.22.59.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 22 Feb 2021 22:59:40 -0800 (PST)
+From: frank.chang@sifive.com
+To: qemu-devel@nongnu.org,
+	qemu-riscv@nongnu.org
+Subject: [PATCH] target/riscv: fix vs() to return proper error code
+Date: Tue, 23 Feb 2021 14:59:32 +0800
+Message-Id: <20210223065935.20208-1-frank.chang@sifive.com>
+X-Mailer: git-send-email 2.17.1
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alexey Kardashevskiy <aik@ozlabs.ru>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Frank Chang <frank.chang@sifive.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 22, 2021 at 10:43 PM Greg Kurz <groug@kaod.org> wrote:
->
-> On Mon, 22 Feb 2021 13:59:34 +0000
-> Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> > On Mon, 22 Feb 2021 at 07:21, Greg Kurz <groug@kaod.org> wrote:
-> > >
-> > > On Fri, 19 Feb 2021 17:51:02 +0100
-> > > Thomas Huth <thuth@redhat.com> wrote:
-> > >
-> > > > On 19/02/2021 17.26, Peter Maydell wrote:
-> > > > > Does anybody use the ozlabs patchwork install for QEMU patches,
-> > > > > either occasionally or on a regular basis ?
-> > > > > http://patchwork.ozlabs.org/project/qemu-devel/list/
-> > > > > The admins for that system are trying to identify which of
-> > > > > the various projects are really using their patchwork instances,
-> > > > > so I figured I'd do a quick survey here. We don't use it
-> > > > > as an official project tool but it's certainly possible to
-> > > > > use it as an individual developer in one way or another.
-> > > >
-> > > > I think it might be used by some of the ppc hackers ... so CC:-ing to
-> > > > qemu-pcc ...
-> > > >
-> > >
-> > > I do on a very regular basis.
-> >
-> > Thanks for the reports. Do you use the features like assigning
-> > patches to people and changing patch status, or do you mostly
-> > just use it as a read-only archive-of-patches ?
-> >
->
-> Only the latter but mostly because I don't have the permissions
-> to change status, e.g. when trying to change status of this
-> recent patch from Cedric to rearrange the PowerPC docs:
->
-> You don't have permissions to edit patch 'docs/system: Extend PPC section'
->
-> My understanding is that users must be "maintainer" to edit other's
-> patches. Only three 'maintainers' are currently listed at ozlabs for
-> QEMU:
+From: Frank Chang <frank.chang@sifive.com>
 
-I can update my patch status in the QEMU project. I am not sure if
-this is due to I am a maintainer of another project hosted on
-ozlabs.org.
+vs() should return -RISCV_EXCP_ILLEGAL_INST instead of -1 if rvv feature
+is not enabled.
 
->
-> https://patchwork.ozlabs.org/api/1.0/projects/14/
->
-> We had a discussion about that a few months back with Christian Schoenebeck
-> (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
-> quite know how to go further because of lack of documentation, but I'd be
-> glad to experiment the full patchwork experience if someone knows how to
-> do it :-)
+If -1 is returned, exception will be raised and cs->exception_index will
+be set to the negative return value. The exception will then be treated
+as an instruction access fault instead of illegal instruction fault.
 
-I personally found patchwork is really helpful for mainatiner's work.
-But it looks the maintainers from the QEMU community do not use it.
+Signed-off-by: Frank Chang <frank.chang@sifive.com>
+---
+ target/riscv/csr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Bin
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index fd2e6363f39..d2ae73e4a08 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -54,7 +54,7 @@ static int vs(CPURISCVState *env, int csrno)
+     if (env->misa & RVV) {
+         return 0;
+     }
+-    return -1;
++    return -RISCV_EXCP_ILLEGAL_INST;
+ }
+ 
+ static int ctr(CPURISCVState *env, int csrno)
+-- 
+2.17.1
+
 
