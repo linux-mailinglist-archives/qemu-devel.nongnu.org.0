@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB2D3229C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:58:03 +0100 (CET)
-Received: from localhost ([::1]:55954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F2E322A31
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 13:07:31 +0100 (CET)
+Received: from localhost ([::1]:59692 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEWKI-0002qS-R7
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:58:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59778)
+	id 1lEWTR-00051h-H3
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 07:07:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lEWIs-0002Fu-Ag; Tue, 23 Feb 2021 06:56:34 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:41649)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEWRz-0004as-3N
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:06:00 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lEWIo-0001Ld-UY; Tue, 23 Feb 2021 06:56:34 -0500
-Received: by mail-pl1-x631.google.com with SMTP id d11so4724261plo.8;
- Tue, 23 Feb 2021 03:56:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=PXFyo0fuv8jnsWZ01bGHl1Ugcs8Arvd+rz+qu2RPvEM=;
- b=U4LFMjR8y4mbb058lAaEBxy+7FoQZsS/RRL6p56ZkRtOpACd+OiBbbwT1SZ3loU7Mf
- dJjP1BMtveDZMIhMUqYcZJaidMcOoUhPwLLfIiSLyfyVJ7aM+Z660x+1x4mkyLzakZfF
- Dn8QFe7Skk3sOuYXmvP/mX8JADJXavKIdLeTjv/GXRc9tWn0N0ooRWxGIX8om2g5lELl
- pMH/AUHGTXzPecfUI7NvqZ02sODJc994zm88O5Iq6x7NwRFuBhz5wwXOXA4YTfPJqm3X
- NXmwrifpxtMxx2YLkRgRNxul8PgLSNEmDSxDKuYTWgaz3cOiY5nTqG5tWCU8GvOwtcmo
- sR8Q==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEWRu-0005Sv-TA
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:05:58 -0500
+Received: by mail-wr1-x432.google.com with SMTP id d11so2957971wrj.7
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 04:05:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=BExo7Xo7W1lwhqB8XpwJ43yMMEoId7SWdRhKGaTZwSk=;
+ b=gU3Hy0btJuPjW5J1jQEc0wQwxOSGGwrATSlgMHqigBTFm+NhfVIP5r8v5nP3Ke2MVk
+ 6y0xwKddniDIi5IZ00wPXZciRdrchYLBVhJutKSKOw/ZWey8wCxAXHN+IQw4YXkCq3XK
+ HKxWATqmEs7NZ6JnfjtFy3qzpdahytM6+RfmMrlO+yYqqWWPhiWGcnoH5Kk5/HbteSRG
+ uSJuhVBMHMMtNIEsWf999wDFO/WWr5uPBjFIWqZ0Trg/7MqU6qtsebmQYEPJPRtQrLpC
+ SvYpKBqTCWffgpo5Jmu+1T99MqXVWFE6WmZ4qD5s8Mz7ug/U9+0Cz4Q99v51lIre/ayN
+ ptAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=PXFyo0fuv8jnsWZ01bGHl1Ugcs8Arvd+rz+qu2RPvEM=;
- b=bkmuig50oLbSsH7I3Yo7nCyeJVRX4r35sNGZFgtwywckdBQaEM6VgsYEMIkyj7aK4s
- MCOUUod4jbkYVsVc2DnYbxzv0CPkkL99sfkCyUDjBrVB0nQ0HEEqdasHpHnH8atPKoTF
- 0GKcKhhihlzuLgsy7Nz5NwCkrSnDlN1NsjZvETTH/C2ZOfuTLLJas9rnTI/3eHsha4Cg
- X2dwUDGNs+LFsrPvpEzitSxGp0PN6w+30FG3u1+0XYgxHvbcTz4rDNYquXP/EfHEQOx8
- jIi2rIIpWQQ+GVmrPNXiF5ZYMx16/UergXcJofjUCwQA8LjDwRB93YDoXL0j6rEiuM+6
- DedA==
-X-Gm-Message-State: AOAM531zX2iEOfn9J0uJPk5xeLEwproqIdEum19bbZDnYEaZv2Zvkxe3
- Yv54hsQfH5anX3KbRwQC7HE=
-X-Google-Smtp-Source: ABdhPJxl1NpgyjVl/0sdylSoZAWbjdKZJnDHm4N9KmZKpOLQOvklDKJba3g9w9WegJyOVTrDbrbBvg==
-X-Received: by 2002:a17:90b:3892:: with SMTP id
- mu18mr28696287pjb.143.1614081389156; 
- Tue, 23 Feb 2021 03:56:29 -0800 (PST)
-Received: from [10.0.2.15] (p912131-ipoe.ipoe.ocn.ne.jp. [153.243.13.130])
- by smtp.gmail.com with ESMTPSA id j3sm21312811pgk.24.2021.02.23.03.56.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 03:56:28 -0800 (PST)
-Subject: Re: [PATCH v6 01/11] hvf: Add hypervisor entitlement to output
- binaries
-To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-2-agraf@csgraf.de>
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Message-ID: <a41a39e5-951f-c178-d50e-6041eec63cbe@gmail.com>
-Date: Tue, 23 Feb 2021 20:56:24 +0900
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=BExo7Xo7W1lwhqB8XpwJ43yMMEoId7SWdRhKGaTZwSk=;
+ b=Hdk775mnlyyxmg0ZQodaTdpGdiMc8v793MxjAjj0oPIuSJ3ho0MM8/FFn9rOh81QHA
+ yxY8DX45gL5GQpbWLPM+hUUN4uluBMY3r44+zWa91oJ6UgLJ/mhZ5u6UOBCZ02xg5uPn
+ RzDg/J4urKC2vLlZRdYnxZR4V7OmgTe70+c0g4zN0yI/oH9Eb6IGPLkccIkgsL2zaHg5
+ HG2cG44C83X99LIk6xXG4zSIYrb+u5taUpime7IfcZxwfSBM85IxZijUI3MfW5kvYZmO
+ TDI6PhUAr8sKDgyiJzUFv+3URTh7IlZGBbGdG86XSDN2g/ECXTj/UChftss/DlyFMqYC
+ jVrQ==
+X-Gm-Message-State: AOAM533VZ7m+HwJJot5RYjDPzidYjrjORT47zsrbnu/LqTFPFagFdv3T
+ ElNCkxoIQz5cq9L3646hiqJ52A==
+X-Google-Smtp-Source: ABdhPJxqpS2wMry3H1rlRay8Q9XYZ/hmjfEf+tDEyL+MKgoGOPdGpORToC1kRkDEMLIR6Ely8WeIUg==
+X-Received: by 2002:a5d:4842:: with SMTP id n2mr14500933wrs.181.1614081953198; 
+ Tue, 23 Feb 2021 04:05:53 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id v1sm2376713wmj.31.2021.02.23.04.05.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 04:05:52 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AE7251FF7E;
+ Tue, 23 Feb 2021 12:05:51 +0000 (GMT)
+References: <20210223095931.16908-1-alex.bennee@linaro.org>
+ <CAFEAcA-v51sgBiNs5hpHwyQx0X=rYdmaWYPesJ0pGy=+ufyi4w@mail.gmail.com>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] docs: move CODING_STYLE into the developer documentation
+Date: Tue, 23 Feb 2021 12:03:43 +0000
+In-reply-to: <CAFEAcA-v51sgBiNs5hpHwyQx0X=rYdmaWYPesJ0pGy=+ufyi4w@mail.gmail.com>
+Message-ID: <87o8gb3s68.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210120224444.71840-2-agraf@csgraf.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x631.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,140 +87,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
 
-I use your patches when running QEMU on M1 MacBook Air.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-I noticed that the installation process corrupts the code signature 
-because meson modifies the file to fix dynamic shared library install 
-names. Also, stripping apparently does not work because the signed file 
-is not considered as "executable" by meson. Here is some change I wrote 
-for my own use, just for reference:
-https://github.com/akihikodaki/qemu/commit/6a9b5d7e4ea03b1e757be1eedf256871bb6a5bdd
+> On Tue, 23 Feb 2021 at 10:02, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> There is no particular reason to keep this on it's own in the root of
+>> the tree. Move it into the rest of the fine developer manual and fixup
+>> any links to it. The only tweak I've made is to fix the code-block
+>> annotations to mention the language C.
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>> diff --git a/README.rst b/README.rst
+>> index ce39d89077..f5d41e59b1 100644
+>> --- a/README.rst
+>> +++ b/README.rst
+>> @@ -66,7 +66,9 @@ When submitting patches, one common approach is to use=
+ 'git
+>>  format-patch' and/or 'git send-email' to format & send the mail to the
+>>  qemu-devel@nongnu.org mailing list. All patches submitted must contain
+>>  a 'Signed-off-by' line from the author. Patches should follow the
+>> -guidelines set out in the CODING_STYLE.rst file.
+>> +guidelines set out in the `style section
+>> +<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
+>> +the Developers Guide.
+>
+> This is the first instance of a qemu.readthedocs.io URL in the
+> tree. Do we really want to have our references to our documentation
+> be to a third party website ?
 
-Also, the patch series do no longer apply to master. Here is my merge 
-with conflict resolution (It is not a rebase and was done for my own 
-purpose. Just for reference.):
-https://github.com/akihikodaki/qemu/commit/b7885e4370a2fe426e80d32afe6eb5d01a71640d
+Well I browsed to:
 
-Regards,
-Akihiko Odaki
+  https://www.qemu.org/docs/master/
 
-On 2021/01/21 7:44, Alexander Graf wrote:
-> In macOS 11, QEMU only gets access to Hypervisor.framework if it has the
-> respective entitlement. Add an entitlement template and automatically self
-> sign and apply the entitlement in the build.
-> 
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> 
-> ---
-> 
-> v1 -> v2:
-> 
->    - Make safe to ctrl-C
-> 
-> v3 -> v4:
-> 
->    - Remove unused exe_full variable
->    - Reuse exe_name variable
-> ---
->   accel/hvf/entitlements.plist |  8 ++++++++
->   meson.build                  | 29 +++++++++++++++++++++++++----
->   scripts/entitlement.sh       | 13 +++++++++++++
->   3 files changed, 46 insertions(+), 4 deletions(-)
->   create mode 100644 accel/hvf/entitlements.plist
->   create mode 100755 scripts/entitlement.sh
-> 
-> diff --git a/accel/hvf/entitlements.plist b/accel/hvf/entitlements.plist
-> new file mode 100644
-> index 0000000000..154f3308ef
-> --- /dev/null
-> +++ b/accel/hvf/entitlements.plist
-> @@ -0,0 +1,8 @@
-> +<?xml version="1.0" encoding="UTF-8"?>
-> +<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-> +<plist version="1.0">
-> +<dict>
-> +    <key>com.apple.security.hypervisor</key>
-> +    <true/>
-> +</dict>
-> +</plist>
-> diff --git a/meson.build b/meson.build
-> index 3d889857a0..c667d64498 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -2146,9 +2146,14 @@ foreach target : target_dirs
->       }]
->     endif
->     foreach exe: execs
-> -    emulators += {exe['name']:
-> -         executable(exe['name'], exe['sources'],
-> -               install: true,
-> +    exe_name = exe['name']
-> +    exe_sign = 'CONFIG_HVF' in config_target
-> +    if exe_sign
-> +      exe_name += '-unsigned'
-> +    endif
-> +
-> +    emulator = executable(exe_name, exe['sources'],
-> +               install: not exe_sign,
->                  c_args: c_args,
->                  dependencies: arch_deps + deps + exe['dependencies'],
->                  objects: lib.extract_all_objects(recursive: true),
-> @@ -2156,7 +2161,23 @@ foreach target : target_dirs
->                  link_depends: [block_syms, qemu_syms] + exe.get('link_depends', []),
->                  link_args: link_args,
->                  gui_app: exe['gui'])
-> -    }
-> +
-> +    if exe_sign
-> +      emulators += {exe['name'] : custom_target(exe['name'],
-> +                   install: true,
-> +                   install_dir: get_option('bindir'),
-> +                   depends: emulator,
-> +                   output: exe['name'],
-> +                   command: [
-> +                     meson.current_source_dir() / 'scripts/entitlement.sh',
-> +                     meson.current_build_dir() / exe_name,
-> +                     meson.current_build_dir() / exe['name'],
-> +                     meson.current_source_dir() / 'accel/hvf/entitlements.plist'
-> +                   ])
-> +      }
-> +    else
-> +      emulators += {exe['name']: emulator}
-> +    endif
->   
->       if 'CONFIG_TRACE_SYSTEMTAP' in config_host
->         foreach stp: [
-> diff --git a/scripts/entitlement.sh b/scripts/entitlement.sh
-> new file mode 100755
-> index 0000000000..c540fa6435
-> --- /dev/null
-> +++ b/scripts/entitlement.sh
-> @@ -0,0 +1,13 @@
-> +#!/bin/sh -e
-> +#
-> +# Helper script for the build process to apply entitlements
-> +
-> +SRC="$1"
-> +DST="$2"
-> +ENTITLEMENT="$3"
-> +
-> +trap 'rm "$DST.tmp"' exit
-> +cp -af "$SRC" "$DST.tmp"
-> +codesign --entitlements "$ENTITLEMENT" --force -s - "$DST.tmp"
-> +mv "$DST.tmp" "$DST"
-> +trap '' exit
-> 
+which re-directed me to the readthedocs URL. However it looks like:
+
+  https://www.qemu.org/docs/master/devel/index.html
+
+DTRT so I can fix that.
+
+>
+> thanks
+> -- PMM
+
+
+--=20
+Alex Benn=C3=A9e
 
