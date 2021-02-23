@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358FC322708
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 09:21:45 +0100 (CET)
-Received: from localhost ([::1]:50692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED7A8322710
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 09:25:29 +0100 (CET)
+Received: from localhost ([::1]:53256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lESwy-0000GA-8V
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 03:21:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60936)
+	id 1lET0b-0001cY-0Y
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 03:25:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lESvJ-0007VA-RK
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 03:20:01 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:38141)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lESvH-0001YV-1y
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 03:20:01 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id 201so5207300pfw.5
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 00:19:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id;
- bh=1qrHobv3NrqcH2ghUvMxccLmDGRDxe+jf1v0dL2ZvGc=;
- b=CHe+3qGRmKPjDneLse1yoCmabbOJHPKRRd3negZwA6Dns/gspK+Vp0p5RVrJVrPrHv
- zRbsYTLDPoOPpS2kkKQ3MRMmufKk020InNtDsEkHap6jeo4RY98auhn9pIblb9OWD1zB
- ec+k86HsgEvLuru1/obSbI7d1qXLOhbdXs43ZSFQD/o8/0sdfzEYKHsjLUHXPYoabk8o
- tKNTFY7uj2gNyOvy/QLgJPxno2MXbL4kvjsksWPsytLppkdWqNaUj1MkCSUB/bWeqA1a
- /pvKuwaFAT2ay5tPJ1DK2yIBsRVPXj77X7iOFk6bckRCkFUKlIpD74vSzTPjxU8kcO1z
- e9tQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id;
- bh=1qrHobv3NrqcH2ghUvMxccLmDGRDxe+jf1v0dL2ZvGc=;
- b=tIVzpjG5O6+kOe7ZXqbkmI6xsFWaN/uPqu3raSugeB21gEQOCMaHrolM3QSdXjCndn
- TaNRa/N/7E/pq6cRKtGu8cs1YTck0Yr5Pv37qQnryvme6oVAfMJCKd5Jkh2u3ytMwHKw
- rwv52j4WPfyrfIeHhHb8gub2GaI5qk1bq1TslDQbgYxcuVtAEL7826uTNWaqYfLPF1wr
- 4JP4kcB14cSFgzb5aLVWho1p4cQaWkm/VQcBdn8n0az5TWSy8MHXxhHXT1CzbPzjePx/
- dbW2A+tmHBpEbH7dsn8iuY671crkKDUDr3jO00FfFkbw0R0MYJUDuiL/hVizENDhdErl
- baLQ==
-X-Gm-Message-State: AOAM533fT5dDa4XhwGh+qgB3nNWh2pB++r235D94yE/WLZ60ePyaIj1b
- CsqQG7Jm4bEc8evcv8qjS1P9udLb0EH2kg==
-X-Google-Smtp-Source: ABdhPJynpt1oPBg6mxQ6bAbaDCMYbwM2xs56qmZ2updBWlD1Bvds9RMBgAJ2oe+Kv3GVrse6pvzB3Q==
-X-Received: by 2002:a62:7e58:0:b029:1ed:b833:a305 with SMTP id
- z85-20020a627e580000b02901edb833a305mr6050729pfc.66.1614068397429; 
- Tue, 23 Feb 2021 00:19:57 -0800 (PST)
-Received: from frankchang-ThinkPad-T490.internal.sifive.com
- (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id fw18sm2057773pjb.46.2021.02.23.00.19.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 00:19:56 -0800 (PST)
-From: frank.chang@sifive.com
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org
-Subject: [PATCH v2] target/riscv: fix TB_FLAGS bits overlapping bug for rvv/rvh
-Date: Tue, 23 Feb 2021 16:19:49 +0800
-Message-Id: <20210223081951.20226-1-frank.chang@sifive.com>
-X-Mailer: git-send-email 2.17.1
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lESzq-0001CS-J1
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 03:24:42 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:33618
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lESzo-0004VR-UQ
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 03:24:42 -0500
+Received: from host31-48-197-98.range31-48.btcentralplus.com ([31.48.197.98]
+ helo=[192.168.1.110]) by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1lESzX-0000OR-Rx; Tue, 23 Feb 2021 08:24:24 +0000
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org, laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-31-mark.cave-ayland@ilande.co.uk>
+ <0978e91b-d2e8-ce30-87de-cba2896ecc16@amsat.org>
+ <ce56bbc6-8467-db6d-599d-c52c56ad6f5f@ilande.co.uk>
+ <e86ba2e0-c023-b2fa-6c38-d9fe762bba50@amsat.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <73445020-bb50-e3d6-07b1-a72b6b5e80bf@ilande.co.uk>
+Date: Tue, 23 Feb 2021 08:24:23 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <e86ba2e0-c023-b2fa-6c38-d9fe762bba50@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 31.48.197.98
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH v2 30/42] esp: add 4 byte PDMA read and write transfers
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,72 +67,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Cc: fam@euphon.net, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Frank Chang <frank.chang@sifive.com>
+On 16/02/2021 07:30, Philippe Mathieu-Daudé wrote:
 
-TB_FLAGS mem_idx bits was extended from 2 bits to 3 bits in
-commit: c445593, but other TB_FLAGS bits for rvv and rvh were
-not shift as well so these bits may overlap with each other when
-rvv is enabled.
+>> Are you planning to review any more of this series? I'm keen to put out
+>> a (hopefully final) v3 soon, but I'll hold off for little while if you
+>> want more time to look over the remaining patches.
+> 
+> I talked about this series with Laurent on Sunday, asking him for
+> review help ;) I don't remember if there is any big comment to
+> address in patches 1-14. If not I can review the missing ones
+> there today and you could send directly a pull request for this
+> first set, then send the rest as v3. Does that help?
+> For the rest I doubt having time to focus before Friday.
 
-Signed-off-by: Frank Chang <frank.chang@sifive.com>
----
- target/riscv/cpu.h       | 12 ++++++------
- target/riscv/translate.c |  2 +-
- 2 files changed, 7 insertions(+), 7 deletions(-)
+Hi Phil/Laurent,
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 02758ae0eb4..116b16b9362 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -370,7 +370,6 @@ void QEMU_NORETURN riscv_raise_exception(CPURISCVState *env,
- target_ulong riscv_cpu_get_fflags(CPURISCVState *env);
- void riscv_cpu_set_fflags(CPURISCVState *env, target_ulong);
- 
--#define TB_FLAGS_MMU_MASK   7
- #define TB_FLAGS_PRIV_MMU_MASK                3
- #define TB_FLAGS_PRIV_HYP_ACCESS_MASK   (1 << 2)
- #define TB_FLAGS_MSTATUS_FS MSTATUS_FS
-@@ -379,12 +378,13 @@ typedef CPURISCVState CPUArchState;
- typedef RISCVCPU ArchCPU;
- #include "exec/cpu-all.h"
- 
--FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
--FIELD(TB_FLAGS, LMUL, 3, 2)
--FIELD(TB_FLAGS, SEW, 5, 3)
--FIELD(TB_FLAGS, VILL, 8, 1)
-+FIELD(TB_FLAGS, MEM_IDX, 0, 3)
-+FIELD(TB_FLAGS, VL_EQ_VLMAX, 3, 1)
-+FIELD(TB_FLAGS, LMUL, 4, 2)
-+FIELD(TB_FLAGS, SEW, 6, 3)
-+FIELD(TB_FLAGS, VILL, 9, 1)
- /* Is a Hypervisor instruction load/store allowed? */
--FIELD(TB_FLAGS, HLSX, 9, 1)
-+FIELD(TB_FLAGS, HLSX, 10, 1)
- 
- bool riscv_cpu_is_32bit(CPURISCVState *env);
- 
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 0f28b5f41e4..9b518cdff46 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -802,7 +802,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     uint32_t tb_flags = ctx->base.tb->flags;
- 
-     ctx->pc_succ_insn = ctx->base.pc_first;
--    ctx->mem_idx = tb_flags & TB_FLAGS_MMU_MASK;
-+    ctx->mem_idx = FIELD_EX32(tb_flags, TB_FLAGS, MEM_IDX);
-     ctx->mstatus_fs = tb_flags & TB_FLAGS_MSTATUS_FS;
-     ctx->priv_ver = env->priv_ver;
- #if !defined(CONFIG_USER_ONLY)
--- 
-2.17.1
+I know you're both really busy, but gentle ping to ask if anyone is still planning to 
+review the second half of this patchset? :)
 
+
+ATB,
+
+Mark.
 
