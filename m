@@ -2,70 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D2DE322EBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:31:16 +0100 (CET)
-Received: from localhost ([::1]:54630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39065322EC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:33:13 +0100 (CET)
+Received: from localhost ([::1]:57828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEaag-0004p6-Qg
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:31:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39424)
+	id 1lEaca-0006Gv-8h
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:33:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEaZI-0004HX-1F
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:29:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEaZF-0006cf-TE
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:29:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614097784;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=A1oMOJU93lniC0ET7TFEib1FTRDZLN6wo31fH6ar4kE=;
- b=O3xwG2jvxwnVO7z8EZIIJCSQyHv/ftyRIJ8cYqXK0aYafpq0/TquiHKa9ZyN6ED+MZaPLv
- La1ga/rwClCxR6xpyv8iIoGfddWSr0ddZa8lxWeMHAw4sfEOfgwt/jjMJH9iSzSCgsNYlf
- +dUqBgXl+Np1eTG6CjbZwbVoP5zarDM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-159-UZZTV0vnN3yaF43qrBDa7w-1; Tue, 23 Feb 2021 11:29:41 -0500
-X-MC-Unique: UZZTV0vnN3yaF43qrBDa7w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D826185B6CC;
- Tue, 23 Feb 2021 16:29:29 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-113-233.ams2.redhat.com [10.36.113.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43D135D6A1;
- Tue, 23 Feb 2021 16:29:27 +0000 (UTC)
-Date: Tue, 23 Feb 2021 17:29:26 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: What prevents discarding a cluster during rewrite?
-Message-ID: <20210223162926.GE5083@merkur.fritz.box>
-References: <198596cd-4867-3da5-cd8f-68c1c570a52b@virtuozzo.com>
- <21d6f4e3-1512-50b3-d2a0-7969a49f18bb@virtuozzo.com>
- <20210223103534.GD5083@merkur.fritz.box>
- <e7480b84-bda0-c280-603e-38ba176c44c9@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lEaZs-0004mn-Le
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:30:25 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:45100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lEaZp-0006ww-EM
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:30:24 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id j12so9089723pfj.12
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:30:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UdTRO6OBBERyLLYygQpp3UjR5pAJPNGPSoawy8meqIQ=;
+ b=nlpNGnXgYbl6kxLlSn6598kG3xK53LHNtHJQ2RB1lkwHPFmU4pVxiD+xTopFZaABpg
+ ZQ2qZS65VjUVwjsJ2HRHZBsBCEbBn0ge4iq4opYkOBvHPsJFk79R+9EIsqIFfy0h6Gc3
+ xV0sj5j9CNKsajqjiXQau8FipeYE+7lEIYLRXqWRfcDsGO8JBUaGsYylZ7az/XzUzkxw
+ q04oRl2mxY/6Tb2v2RY7iacCaGNesJP+DSNXGjifyZWdn9H71spAdb/2q0QJdcdYDBf5
+ F9iXhepljklvpmVBXPF9DR1YDwQzUeRjiDWS1dxc16MB68cDEBoshR7yXy5p+MUy9FiF
+ HP5w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UdTRO6OBBERyLLYygQpp3UjR5pAJPNGPSoawy8meqIQ=;
+ b=WCjCwOx8YFkn8B2qTTX7oB38vXiprpHLpbh1U+uY0HdH13UOvk8U2m659j+b8hz8+p
+ nSq1FhLFQr+7xzotHDU+EGx+Yrr4YJ8l89Wl3wEsZRrnmpLJZLsHdnA/nSIO6EB8od8P
+ +QD6DiVMgZbPlfsX/laW7mhhcYqgZGE/LJ0enEt/kVB5fgVjlV8QmibB8m43xHrx+vmT
+ nKYxaHZlq5JVmKQlMpcy3aNWLHQRjkUJpLre56479ik036hSJfcJ45q42z8r9JrR4A4r
+ 3DmhLnRq4NBOtp7V7hxtOma0aaI+Iw7A4+Z8AKDY8ukT2vOr8xIsSd1Hhw+MifdWLBjs
+ LjFA==
+X-Gm-Message-State: AOAM5309kgMtfAqQ77fgffA1xIm9mrZsqR90WOrtYixsgvQbFmDP+GOU
+ Q6WtsP3s/9BlLxpOqeRZHNjXvQ==
+X-Google-Smtp-Source: ABdhPJzgWDhP6tFEvjFkCN2oQSI02afkfiYgBigtIMQDf7D0wA0xxDQV4noJZtzWNBRbcaxQM7FhNg==
+X-Received: by 2002:a05:6a00:1385:b029:1be:ac19:3a9d with SMTP id
+ t5-20020a056a001385b02901beac193a9dmr2923883pfg.65.1614097817775; 
+ Tue, 23 Feb 2021 08:30:17 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id y123sm16995379pfb.122.2021.02.23.08.30.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 08:30:17 -0800 (PST)
+Subject: Re: [RFC v1 24/38] target/arm: move aa64_va_parameter_tbi,tbid,tcma
+ and arm_rebuild_hflags
+To: Claudio Fontana <cfontana@suse.de>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <20210221092449.7545-25-cfontana@suse.de>
+ <d7bca535-d6eb-780b-7248-d6810652c76d@linaro.org>
+ <cc67b97a-1456-c232-3bfd-91902973ce5e@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <47f7efff-a2c8-18a7-ab88-8a6b86ff7ef1@linaro.org>
+Date: Tue, 23 Feb 2021 08:30:15 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <e7480b84-bda0-c280-603e-38ba176c44c9@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <cc67b97a-1456-c232-3bfd-91902973ce5e@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,67 +91,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Denis V. Lunev" <den@openvz.org>, qemu-devel <qemu-devel@nongnu.org>,
- qemu block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Alex Bennee <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.02.2021 um 16:23 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 
-> 
-> On 23.02.2021 13:35, Kevin Wolf wrote:
-> > Am 22.02.2021 um 22:42 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > 23.02.2021 00:30, Vladimir Sementsov-Ogievskiy wrote:
-> > > > Thinking of how to prevent dereferencing to zero (and discard) of
-> > > > host cluster during flush of compressed cache (which I'm working on
-> > > > now), I have a question.. What prevents it for normal writes?
-> > > 
-> > > I have no idea about why didn't it fail for years.. May be, I'm
-> > > missing something?
-> > 
-> > Ouch. I suppose the reason why we never ran into it is that afaik Linux
-> > drains the queue before sending discard requests.
-> > 
-> > Of course, we still need to protect against this in QEMU. We can't just
-> > unref a cluster that is still in use.
-> > 
-> > > I have idea of fixing: increase the refcount of host cluster before
-> > > write to data_file (it's important to increase refacount in same
-> > > s->lock critical section where we get host_offset) and dereference it
-> > > after write.. It should help. Any thoughts?
-> > 
-> > It would cause metadata updates for rewrites. I don't know whether the
-> > intermediate value would ever be written to disk, but at least we'd
-> > rewrite the same refcounts as before. I don't think we want that.
-> 
-> Hmm, if that can provoke extra refcount cache flush that's bad..
-> 
-> May be we need something like of additional "dynamic" refcounts, so
-> that total_refcount = normal_refcount + dynamic_refcount.. And for
-> in-flight clusters dynamic_refcount is > 0. We can store dynamic
-> refcounts in GHashTable(cluster -> refcount).
+On 2/23/21 2:07 AM, Claudio Fontana wrote:
+> is the code elimination for "if (0)" a guarantee, ie, we won't encounter
+> compiler or compiler-options differences, for the compilers we support?
+Yes, it's a guarantee.
 
-Do you think it's worth the complexity? The qcow2 driver is already
-relatively complicated today.
+> Is there some way to force the compilers to not even look at what is in the
+> if (0) block?
 
-> > Discard requests might be rare enough that not considering the cluster
-> > at all could work. We could then take a reader CoRwlock during most
-> > operations, and a writer lock for discard.
-> > 
-> > Actually, maybe s->lock should be this CoRwlock, and instead of dropping
-> > it temporarily like we do now we would just upgrade and downgrade it as
-> > needed. Maybe this would allow finer grained locking in other places,
-> > too.
-> 
-> In this case many operations will be blocked during data writing, like
-> allocation of another cluster.. That doesn't seem good.
+No, it must be syntactically correct, and it must not reference variables that
+have not been declared.  But that's a feature -- making sure that nothing has
+syntax errors in is a major improvement over ifdefs.
 
-You're right, that would be too restrictive.
+> That should work also with --enable-debug?
 
-> Separate CoRwLock looks more feasible.
+Yes.
 
-Maybe that then.
+> This way we could avoid a lot of boilerplate/stubs...
 
-Kevin
+Eh, maybe, maybe not.  Stubs may still be required, depending on how complex
+the condition is -- more than if (0).
+
+
+r~
+
 
 
