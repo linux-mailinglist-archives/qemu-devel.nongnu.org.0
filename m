@@ -2,77 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F1A3322878
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:02:24 +0100 (CET)
-Received: from localhost ([::1]:38798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F66322898
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:09:16 +0100 (CET)
+Received: from localhost ([::1]:41842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEUWN-00054s-2O
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:02:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58364)
+	id 1lEUd1-0006uj-3e
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:09:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEUTl-0004YQ-ID
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:59:41 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:37850)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEUTj-0007pF-4n
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:59:41 -0500
-Received: by mail-wm1-x331.google.com with SMTP id m1so1839167wml.2
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 01:59:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uYEncLACFsbZri1Jv9GZWLum9XLY8QucCf543fHh7pE=;
- b=p+00SZAKxBqYh6bB9g+BaNih806mSBIVdJ+Cd1IJYXJAVt5kjuGnvDyYSxVRuBaMzo
- QmjDC9u3WptPtd5QRvRinGta/gEDlIvXdm8Z3PMoAxCjq1CTzmpRRLQABeU0cpAoUetZ
- x8G0L3je7a0HQdV5RtzTP7IPqy2LmKef9rfXpqD++yae10fuk4reH6RJx9Ks44J8qzyz
- 9e5G7jnp99RlJ86GgPI2n2J4ly21u2U9OMoZLnw7BIOJbUBjWpRN/ZTWqS2J+fw/jLBf
- T9a5YuF3AlbAvldyav/rr0lqDfxWxUX7fevRYQ80pBMdwShHyKVJw8mjztDZr6/4xNNB
- 3nRA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uYEncLACFsbZri1Jv9GZWLum9XLY8QucCf543fHh7pE=;
- b=KOcMhUlrYNYDxaFB3ecaW2gLCnWUR8nXM0ONgC8AuBsR+d+mC/xT00mtOQ1sHBl5P4
- l96zOLyfA9DKZyHjuE1xVuIlBZjZRHRoARTHQbL3e10AZwwMMTLXZ/dwM9lKRUFiZsdX
- KB6wCNZnuVfSnW+418DDSfc6FJueukyJ9EQRv0MW9Np2lbAcfpHyfC2uMD7/dMk/HXQI
- eBB8vF6YiTFDvuVnK69PoXlj8b2lwSUlqUm9RTlOmTAKRN+feFa/R+UMUzxvpWhed8GR
- quYdt2UkgmZvoybVEGOAYA0G5A7ZfYUEOP8zvuardLi9Xf6ATmVIGSVusIrYVUps/YdP
- 7/cA==
-X-Gm-Message-State: AOAM532mYV5ChX2GD4YSSK+qIWkYJkvMn0PEbmTufx0vndKcwR2DT5qJ
- uOIJlnX7YWN26LnNNmelZCWgFw==
-X-Google-Smtp-Source: ABdhPJyLTxGCRyhUkiZs8kp37lH5I3AkaBNg+A5N2bbAGPZmR/dQ0Be2fUVatFZy017d6qAt9mpKbA==
-X-Received: by 2002:a05:600c:4fd0:: with SMTP id
- o16mr23531505wmq.77.1614074377031; 
- Tue, 23 Feb 2021 01:59:37 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y2sm10141941wrp.39.2021.02.23.01.59.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 01:59:35 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 20A2C1FF7E;
- Tue, 23 Feb 2021 09:59:35 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs: move CODING_STYLE into the developer documentation
-Date: Tue, 23 Feb 2021 09:59:31 +0000
-Message-Id: <20210223095931.16908-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEUbf-0006RI-3U
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:07:51 -0500
+Received: from mx2.suse.de ([195.135.220.15]:41136)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEUba-0002sQ-MD
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:07:50 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id D9140AEBE;
+ Tue, 23 Feb 2021 10:07:44 +0000 (UTC)
+Subject: Re: [RFC v1 24/38] target/arm: move aa64_va_parameter_tbi,tbid,tcma
+ and arm_rebuild_hflags
+To: Richard Henderson <richard.henderson@linaro.org>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <20210221092449.7545-25-cfontana@suse.de>
+ <d7bca535-d6eb-780b-7248-d6810652c76d@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <cc67b97a-1456-c232-3bfd-91902973ce5e@suse.de>
+Date: Tue, 23 Feb 2021 11:07:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <d7bca535-d6eb-780b-7248-d6810652c76d@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,97 +57,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Alex Bennee <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is no particular reason to keep this on it's own in the root of
-the tree. Move it into the rest of the fine developer manual and fixup
-any links to it. The only tweak I've made is to fix the code-block
-annotations to mention the language C.
+On 2/22/21 7:02 AM, Richard Henderson wrote:
+> On 2/21/21 1:24 AM, Claudio Fontana wrote:
+>> From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
+>>
+>> they are needed for KVM too, move them out of TCG helpers.
+>>
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> ---
+>>  target/arm/internals.h      |  37 +++++
+>>  target/arm/tcg/helper-tcg.h |  32 -----
+>>  target/arm/cpu-common.c     | 252 ++++++++++++++++++++++++++++++++++
+>>  target/arm/tcg/helper.c     | 264 +-----------------------------------
+>>  4 files changed, 293 insertions(+), 292 deletions(-)
+>>
+>> diff --git a/target/arm/internals.h b/target/arm/internals.h
+>> index 6589b63ebc..9eb5d7fd79 100644
+>> --- a/target/arm/internals.h
+>> +++ b/target/arm/internals.h
+>> @@ -1196,6 +1196,43 @@ static inline uint64_t useronly_maybe_clean_ptr(uint32_t desc, uint64_t ptr)
+>>      return ptr;
+>>  }
+>>  
+>> +/*
+>> + * Convert a possible stage1+2 MMU index into the appropriate
+>> + * stage 1 MMU index
+>> + */
+>> +static inline ARMMMUIdx stage_1_mmu_idx(ARMMMUIdx mmu_idx)
+>> +{
+>> +    switch (mmu_idx) {
+>> +    case ARMMMUIdx_SE10_0:
+>> +        return ARMMMUIdx_Stage1_SE0;
+>> +    case ARMMMUIdx_SE10_1:
+>> +        return ARMMMUIdx_Stage1_SE1;
+>> +    case ARMMMUIdx_SE10_1_PAN:
+>> +        return ARMMMUIdx_Stage1_SE1_PAN;
+>> +    case ARMMMUIdx_E10_0:
+>> +        return ARMMMUIdx_Stage1_E0;
+>> +    case ARMMMUIdx_E10_1:
+>> +        return ARMMMUIdx_Stage1_E1;
+>> +    case ARMMMUIdx_E10_1_PAN:
+>> +        return ARMMMUIdx_Stage1_E1_PAN;
+>> +    default:
+>> +        return mmu_idx;
+>> +    }
+>> +}
+>> +
+>> +int aa64_va_parameter_tbi(uint64_t tcr, ARMMMUIdx mmu_idx);
+>> +int aa64_va_parameter_tbid(uint64_t tcr, ARMMMUIdx mmu_idx);
+> 
+> I can see these being needed for get-phys-addr -- and that probably answers my
+> arm_mmu_idx_el question earlier too.
+> 
+> 
+>> +uint32_t rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+>> +                            ARMMMUIdx mmu_idx);
+>> +uint32_t rebuild_hflags_a32(CPUARMState *env, int fp_el, ARMMMUIdx mmu_idx);
+>> +uint32_t rebuild_hflags_m32(CPUARMState *env, int fp_el, ARMMMUIdx mmu_idx);
+> 
+> However these really really shouldn't be used for !tcg.  I would even wrap
+> CPUARMState::hflags in #ifdef CONFIG_TCG to enforce that.
+> 
+> I think maybe the best option is
+> 
+>     if (tcg_enabled()) {
+>         rebuild_hflags();
+>     }
+> 
+> so that we don't spend the time on the rebuild for a regular build that has
+> both tcg and kvm enabled, and the symbol gets
+> compiled out when tcg is disabled.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/devel/index.rst                     | 1 +
- CODING_STYLE.rst => docs/devel/style.rst | 6 +++---
- README.rst                               | 4 +++-
- scripts/fix-multiline-comments.sh        | 2 +-
- 4 files changed, 8 insertions(+), 5 deletions(-)
- rename CODING_STYLE.rst => docs/devel/style.rst (99%)
+is the code elimination for "if (0)" a guarantee, ie, we won't encounter compiler or compiler-options differences,
+for the compilers we support?
 
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index 22854e334d..ae664da00c 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -14,6 +14,7 @@ Contents:
-    :maxdepth: 2
- 
-    build-system
-+   style
-    kconfig
-    testing
-    fuzzing
-diff --git a/CODING_STYLE.rst b/docs/devel/style.rst
-similarity index 99%
-rename from CODING_STYLE.rst
-rename to docs/devel/style.rst
-index 7bf4e39d48..8b0bdb3570 100644
---- a/CODING_STYLE.rst
-+++ b/docs/devel/style.rst
-@@ -641,7 +641,7 @@ trace-events style
- 
- In trace-events files, use a '0x' prefix to specify hex numbers, as in:
- 
--.. code-block::
-+.. code-block:: c
- 
-     some_trace(unsigned x, uint64_t y) "x 0x%x y 0x" PRIx64
- 
-@@ -649,14 +649,14 @@ An exception is made for groups of numbers that are hexadecimal by
- convention and separated by the symbols '.', '/', ':', or ' ' (such as
- PCI bus id):
- 
--.. code-block::
-+.. code-block:: c
- 
-     another_trace(int cssid, int ssid, int dev_num) "bus id: %x.%x.%04x"
- 
- However, you can use '0x' for such groups if you want. Anyway, be sure that
- it is obvious that numbers are in hex, ex.:
- 
--.. code-block::
-+.. code-block:: c
- 
-     data_dump(uint8_t c1, uint8_t c2, uint8_t c3) "bytes (in hex): %02x %02x %02x"
- 
-diff --git a/README.rst b/README.rst
-index ce39d89077..f5d41e59b1 100644
---- a/README.rst
-+++ b/README.rst
-@@ -66,7 +66,9 @@ When submitting patches, one common approach is to use 'git
- format-patch' and/or 'git send-email' to format & send the mail to the
- qemu-devel@nongnu.org mailing list. All patches submitted must contain
- a 'Signed-off-by' line from the author. Patches should follow the
--guidelines set out in the CODING_STYLE.rst file.
-+guidelines set out in the `style section
-+<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
-+the Developers Guide.
- 
- Additional information on submitting patches can be found online via
- the QEMU website
-diff --git a/scripts/fix-multiline-comments.sh b/scripts/fix-multiline-comments.sh
-index 93f9b10669..c15a041272 100755
---- a/scripts/fix-multiline-comments.sh
-+++ b/scripts/fix-multiline-comments.sh
-@@ -1,6 +1,6 @@
- #! /bin/sh
- #
--# Fix multiline comments to match CODING_STYLE
-+# Fix multiline comments to match docs/devel/style.rst
- #
- # Copyright (C) 2018 Red Hat, Inc.
- #
--- 
-2.20.1
+This is a doubt that is bothering me since some time, since I remember I encountered problems like this before,
+with my compiler behaving differently than Paolo's in particular.
+
+Is there some way to force the compilers to not even look at what is in the if (0) block?
+That should work also with --enable-debug?
+
+This way we could avoid a lot of boilerplate/stubs...
+
+Ciao,
+
+Claudio
+
+
+> 
+> 
+> r~
+> 
 
 
