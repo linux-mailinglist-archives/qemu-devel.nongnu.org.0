@@ -2,91 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B383227B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:23:01 +0100 (CET)
-Received: from localhost ([::1]:46172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17C503227B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:22:55 +0100 (CET)
+Received: from localhost ([::1]:45578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lETuG-00081c-Mh
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:23:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47168)
+	id 1lETuA-0007mF-2C
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:22:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lETpn-0004CJ-Ia
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:18:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49609)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lETpj-0005fR-35
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:18:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614071896;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CT9RZ9uHl+J4O6Vu1Eq9hj6tUE/gpABjgsQ9wGYI5QA=;
- b=LiQoCw/atuCWRhPq/oaW/FmhFn8FzjZIhj/waDn2xNQlXlEXxVMtYRyAwrifoBWdHOZlkv
- osDE6Zc2qVFx1Qzw7cden2/Xsk4NyXbDXiT2hy5oWAOOx7PWfbYdLarP5a4JTMPYdODbAm
- LWHEHcHZYRKHheopFz1W8vNlw4N/Zq0=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-230-AcmLeskmP1WcuXM4LUu0fQ-1; Tue, 23 Feb 2021 04:18:14 -0500
-X-MC-Unique: AcmLeskmP1WcuXM4LUu0fQ-1
-Received: by mail-wm1-f69.google.com with SMTP id b62so940957wmc.5
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 01:18:14 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CT9RZ9uHl+J4O6Vu1Eq9hj6tUE/gpABjgsQ9wGYI5QA=;
- b=qP7BiMaVZb70LpdtUhTWu7L8gH/vPnFpiJAgffZ5A+rpoHyI/mOHntsEOT4aohC7UX
- OtYN2c56kub3Npo86AqAm50u+BV/HDZudxe/AVbXO+vfO3iYIZoxYVM7ZP6q7tvgUMZh
- JH0nqySCc/JZ6jIcQ9LoVLY7luzvIae/Rhbcnv5vaIaWGPYVSZySJAcYFBB3RcMxf4x5
- GAshjBhDZd9zrMbRBMsQzhGJd/3p1nD5VDMOrBeK/5HsJoLwhnULqjH/FfZ0SEjUDn+I
- H17zo51nU7bzVH47Q7AYMrZnU6Ze5dBn+Ng+9gpjXQKcT3Htv+dBpcPhAmhgUmg5hsgx
- FeZg==
-X-Gm-Message-State: AOAM531n5fD/0bQb9X4YDmKbsGu+svsmZU6Q0DgQcvvwTmnMzbRQX+5X
- +wp921Mi46BMNwm2GM/Q1jGMN5vPOPVtycaw6uQrxYA5PP6q6ulpSFhm3K1lYBbkEQ+lZkZeYGt
- RrjZvzRNs8dj9P60=
-X-Received: by 2002:adf:e60e:: with SMTP id p14mr8430499wrm.388.1614071893066; 
- Tue, 23 Feb 2021 01:18:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzJQnpL5Wj0nY8VAc7xYo1M7oqbPXfWQ0ROToIS1tr1e63o4NG5k2fxNUoVlZvgKPb1VWmnMg==
-X-Received: by 2002:adf:e60e:: with SMTP id p14mr8430485wrm.388.1614071892880; 
- Tue, 23 Feb 2021 01:18:12 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id q24sm1924474wmq.24.2021.02.23.01.18.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 01:18:12 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lETq2-0004NL-4Z
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:18:38 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60178)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lETpz-0005m2-Mr
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 04:18:37 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3B4A2AEE5;
+ Tue, 23 Feb 2021 09:18:34 +0000 (UTC)
 Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210221092449.7545-1-cfontana@suse.de>
  <875z2k53mn.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
-Date: Tue, 23 Feb 2021 10:18:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <ac869e6c-8969-585b-5a6e-a893635f2b2e@suse.de>
+Date: Tue, 23 Feb 2021 10:18:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
 In-Reply-To: <875z2k53mn.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,7 +58,8 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -133,10 +90,181 @@ On 2/22/21 8:00 PM, Alex Bennée wrote:
 >   -rwxr-xr-x 1 alex alex 107M Feb 22 18:08 qemu-system-aarch64*
 >   18:59:29 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh ../disable.tcg/qemu-system-aarch64
 >   -rwxr-xr-x 1 alex alex 76M Feb 22 17:47 ../disable.tcg/qemu-system-aarch64*
-
-:~)
-
 > 
 > and I've tested the KVM side works well enough with a basic image.
+
+Thanks for giving it a spin :-)
+
+Now needs a cleanup pass for sure..
+
+Ciao,
+
+Claudio
+
+> 
+>>
+>> I thought it could be useful to share early, especially in light
+>> of the combination of this with Philippe's work on building
+>> only the machines and devices compatible with KVM for arm.
+>>
+>> Comments welcome, thanks,
+>>
+>> Claudio
+>>
+>>
+>> Claudio Fontana (38):
+>>   target/arm: move translate modules to tcg/
+>>   target/arm: move helpers to tcg/
+>>   arm: tcg: only build under CONFIG_TCG
+>>   target/arm: move psci.c into tcg/softmmu/
+>>   target/arm: wrap arm_cpu_exec_interrupt in CONFIG_TCG
+>>   target/arm: split off cpu-softmmu.c
+>>   target/arm: split off softmmu/helper.c
+>>   target/arm/tcg: split softmmu parts of v8_cp_reginfo and
+>>     el2_cp_reginfo
+>>   target/arm/tcg: split softmmu parts of vhe_cp_reginfo
+>>   target/arm/tcg: move v8_user_idregs to user-only subdir
+>>   target/arm/tcg: move id_v8_user_midr_cp_reginfo to user-only subdir
+>>   target/arm/tcg: move mpidr_user_cp_reginfo to user-only subdir
+>>   target/arm/tcg: split vapa_cp_reginfo softmmu part
+>>   target/arm: move vec_internal.h to tcg/
+>>   target/arm: move aarch64_sync_32_to_64 and vv to cpu code
+>>   target/arm: move arm_sctlr away from tcg helpers
+>>   target/arm: move switch_mode and cpsr_read/write to cpu
+>>   target/arm: split vfp state setting from tcg helpers
+>>   target/arm: move register read/write to common_cpu
+>>   target/arm: move arm_hcr_el2_eff to common_cpu
+>>   target/arm: move cp regs definition functions to common_cpu
+>>   target/arm: move arm_cpu_list to common_cpu
+>>   target/arm: move arm_mmu_idx_el to common-cpu
+>>   target/arm: move aa64_va_parameter_tbi,tbid,tcma and
+>>     arm_rebuild_hflags
+>>   target/arm: move fp_exception_el outside of tcg helpers
+>>   target/arm: move sve_exception_el to cpu
+>>   target/arm: move sve_zcr_len_for_el to common_cpu
+>>   target/arm: make arm_pmu_timer_cb TCG-only, starting tcg-stub
+>>   target/arm/tcg: add write_v7m_exception to stubs
+>>   target/arm: make hw_watchpoint and hw_breakpoint stuff tcg-only
+>>   target/arm: move cp register write-ignore and read-as-zero to cpu
+>>   target/arm: cpu: do not initialize TCG PMU for KVM
+>>   target/arm: cpu: do not initialize TCG view of cpregs
+>>   target/arm: cpu: only initialize TCG gt timers under CONFIG_TCG
+>>   target/arm: get-phys-addr: new module
+>>   target/arm: move qmp_query_cpu_definitions to common_cpu
+>>   target/arm: move arm_mmu_idx from tcg to get-phys-addr.c
+>>   target/arm: move arm_cpu_do_interrupt from tcg to common code
+>>
+>>  meson.build                               |    2 +
+>>  target/arm/cpu.h                          |    5 +
+>>  target/arm/internals.h                    |   84 +-
+>>  target/arm/tcg/helper-tcg.h               |   50 +
+>>  target/arm/tcg/softmmu/trace.h            |    1 +
+>>  target/arm/tcg/trace.h                    |    1 +
+>>  target/arm/{ => tcg}/translate-a64.h      |    0
+>>  target/arm/{ => tcg}/translate.h          |    0
+>>  target/arm/{ => tcg}/vec_internal.h       |    0
+>>  target/arm/{ => tcg}/a32-uncond.decode    |    0
+>>  target/arm/{ => tcg}/a32.decode           |    0
+>>  target/arm/{ => tcg}/m-nocp.decode        |    0
+>>  target/arm/{ => tcg}/neon-dp.decode       |    0
+>>  target/arm/{ => tcg}/neon-ls.decode       |    0
+>>  target/arm/{ => tcg}/neon-shared.decode   |    0
+>>  target/arm/{ => tcg}/sve.decode           |    0
+>>  target/arm/{ => tcg}/t16.decode           |    0
+>>  target/arm/{ => tcg}/t32.decode           |    0
+>>  target/arm/{ => tcg}/vfp-uncond.decode    |    0
+>>  target/arm/{ => tcg}/vfp.decode           |    0
+>>  target/arm/cpu-common.c                   | 1388 +++++
+>>  target/arm/cpu-softmmu.c                  | 1228 ++++
+>>  target/arm/cpu-user.c                     |   77 +
+>>  target/arm/cpu-vfp.c                      |  232 +
+>>  target/arm/cpu.c                          |  109 +-
+>>  target/arm/get-phys-addr.c                | 2286 +++++++
+>>  target/arm/machine.c                      |   23 +-
+>>  target/arm/{ => tcg}/crypto_helper.c      |    0
+>>  target/arm/{ => tcg}/debug_helper.c       |    0
+>>  target/arm/{ => tcg}/helper-a64.c         |    0
+>>  target/arm/{ => tcg}/helper.c             | 6613 +--------------------
+>>  target/arm/{ => tcg}/iwmmxt_helper.c      |    0
+>>  target/arm/{ => tcg}/m_helper.c           |    0
+>>  target/arm/{ => tcg}/mte_helper.c         |    0
+>>  target/arm/{ => tcg}/neon_helper.c        |    0
+>>  target/arm/{ => tcg}/op_helper.c          |    0
+>>  target/arm/{ => tcg}/pauth_helper.c       |    0
+>>  target/arm/tcg/softmmu/helper.c           | 1784 ++++++
+>>  target/arm/{ => tcg/softmmu}/psci.c       |    0
+>>  target/arm/{ => tcg}/sve_helper.c         |    0
+>>  target/arm/tcg/tcg-stub.c                 |   20 +
+>>  target/arm/{ => tcg}/tlb_helper.c         |    0
+>>  target/arm/{ => tcg}/translate-a64.c      |    0
+>>  target/arm/{ => tcg}/translate-sve.c      |    0
+>>  target/arm/{ => tcg}/translate.c          |    0
+>>  target/arm/tcg/user/helper.c              |  129 +
+>>  target/arm/tcg/user/psci.c                |   26 +
+>>  target/arm/{ => tcg}/vec_helper.c         |    0
+>>  target/arm/{ => tcg}/vfp_helper.c         |  210 +-
+>>  target/arm/{ => tcg}/translate-neon.c.inc |    0
+>>  target/arm/{ => tcg}/translate-vfp.c.inc  |    0
+>>  target/arm/meson.build                    |   42 +-
+>>  target/arm/tcg/meson.build                |   43 +
+>>  target/arm/tcg/softmmu/meson.build        |    5 +
+>>  target/arm/tcg/softmmu/trace-events       |   10 +
+>>  target/arm/tcg/trace-events               |    2 +
+>>  target/arm/tcg/user/meson.build           |    5 +
+>>  target/arm/trace-events                   |    9 -
+>>  58 files changed, 7427 insertions(+), 6957 deletions(-)
+>>  create mode 100644 target/arm/tcg/helper-tcg.h
+>>  create mode 100644 target/arm/tcg/softmmu/trace.h
+>>  create mode 100644 target/arm/tcg/trace.h
+>>  rename target/arm/{ => tcg}/translate-a64.h (100%)
+>>  rename target/arm/{ => tcg}/translate.h (100%)
+>>  rename target/arm/{ => tcg}/vec_internal.h (100%)
+>>  rename target/arm/{ => tcg}/a32-uncond.decode (100%)
+>>  rename target/arm/{ => tcg}/a32.decode (100%)
+>>  rename target/arm/{ => tcg}/m-nocp.decode (100%)
+>>  rename target/arm/{ => tcg}/neon-dp.decode (100%)
+>>  rename target/arm/{ => tcg}/neon-ls.decode (100%)
+>>  rename target/arm/{ => tcg}/neon-shared.decode (100%)
+>>  rename target/arm/{ => tcg}/sve.decode (100%)
+>>  rename target/arm/{ => tcg}/t16.decode (100%)
+>>  rename target/arm/{ => tcg}/t32.decode (100%)
+>>  rename target/arm/{ => tcg}/vfp-uncond.decode (100%)
+>>  rename target/arm/{ => tcg}/vfp.decode (100%)
+>>  create mode 100644 target/arm/cpu-common.c
+>>  create mode 100644 target/arm/cpu-softmmu.c
+>>  create mode 100644 target/arm/cpu-user.c
+>>  create mode 100644 target/arm/cpu-vfp.c
+>>  create mode 100644 target/arm/get-phys-addr.c
+>>  rename target/arm/{ => tcg}/crypto_helper.c (100%)
+>>  rename target/arm/{ => tcg}/debug_helper.c (100%)
+>>  rename target/arm/{ => tcg}/helper-a64.c (100%)
+>>  rename target/arm/{ => tcg}/helper.c (53%)
+>>  rename target/arm/{ => tcg}/iwmmxt_helper.c (100%)
+>>  rename target/arm/{ => tcg}/m_helper.c (100%)
+>>  rename target/arm/{ => tcg}/mte_helper.c (100%)
+>>  rename target/arm/{ => tcg}/neon_helper.c (100%)
+>>  rename target/arm/{ => tcg}/op_helper.c (100%)
+>>  rename target/arm/{ => tcg}/pauth_helper.c (100%)
+>>  create mode 100644 target/arm/tcg/softmmu/helper.c
+>>  rename target/arm/{ => tcg/softmmu}/psci.c (100%)
+>>  rename target/arm/{ => tcg}/sve_helper.c (100%)
+>>  create mode 100644 target/arm/tcg/tcg-stub.c
+>>  rename target/arm/{ => tcg}/tlb_helper.c (100%)
+>>  rename target/arm/{ => tcg}/translate-a64.c (100%)
+>>  rename target/arm/{ => tcg}/translate-sve.c (100%)
+>>  rename target/arm/{ => tcg}/translate.c (100%)
+>>  create mode 100644 target/arm/tcg/user/helper.c
+>>  create mode 100644 target/arm/tcg/user/psci.c
+>>  rename target/arm/{ => tcg}/vec_helper.c (100%)
+>>  rename target/arm/{ => tcg}/vfp_helper.c (84%)
+>>  rename target/arm/{ => tcg}/translate-neon.c.inc (100%)
+>>  rename target/arm/{ => tcg}/translate-vfp.c.inc (100%)
+>>  create mode 100644 target/arm/tcg/meson.build
+>>  create mode 100644 target/arm/tcg/softmmu/meson.build
+>>  create mode 100644 target/arm/tcg/softmmu/trace-events
+>>  create mode 100644 target/arm/tcg/trace-events
+>>  create mode 100644 target/arm/tcg/user/meson.build
+> 
+> 
 
 
