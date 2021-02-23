@@ -2,49 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C49A3224F8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 05:45:44 +0100 (CET)
-Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4780C322500
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 05:48:42 +0100 (CET)
+Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEPZv-0004Ag-44
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 23:45:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43902)
+	id 1lEPcn-0006H7-Bd
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 23:48:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEPWb-0000HG-5Q; Mon, 22 Feb 2021 23:42:17 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:49921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEPWY-00058n-Gy; Mon, 22 Feb 2021 23:42:16 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Dl5xX3dQPz9sVV; Tue, 23 Feb 2021 15:42:08 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1614055328;
- bh=tNM6qbrlucmkB6mDeo0gBNZCVtE9BxnAuKHYXbtfc04=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bFv6oZ6+6BJkv82AeWESgJ0NF4n6CFejdLinaTxv3XkreLEcWo4Mev6Q41FNQK1Vh
- RXmQUVQQbYP8S5Aux7WEBzbHWHKtmFmDgTWStQ2Qi46l0FnOiyvxkXQWVKvU21Taiq
- bYpIR5TQXJ7kc+K9K3IkUTmDPd2FL+20Wym+wAMc=
-Date: Tue, 23 Feb 2021 15:42:02 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: Re: [PATCH v3 0/6] Pegasos2 emulation
-Message-ID: <YDSHmmzHLzMkd+zF@yekko.fritz.box>
-References: <cover.1614007326.git.balaton@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lEPXz-0001lP-0b
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 23:43:43 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1lEPXx-0005vZ-5R
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 23:43:42 -0500
+Received: by mail-ed1-x536.google.com with SMTP id h25so10827554eds.4
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 20:43:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3XsiF+kEKGGWG467hYHh5bnXlvpC0NbU+/pn/Sb1SeM=;
+ b=HQw6okVNhpKs9oWKtky6J2Q06BkJpgBH2rf2HAicHaqldjFdbb5HjuuCuj37QFDIhz
+ zraDr7OjrrSVtFK7Rq1gCe2GzEMfXetvIPhGhh0yu3rr/sqZBZxgIbQOp0R0sFJRuYM3
+ pkE8XW2Q/1+bfyOeVsltXWEBKncu6aZ1YSy+NrreZVnUajcnFnJSkCxE0/+Y4AO1tDN2
+ vnOwWJuzYX0HGpSnUs/kW2SGHMlRHAwZ020hOeV4fwxVqzRnuduI82lnsAaH/q0Vl/pD
+ I/y0GDOYVvi79m7xbIIxypTtF9hnSAd+P7ebHPsyC4j6uPWONjDzT8tXQrTFCSpDwirU
+ VFnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3XsiF+kEKGGWG467hYHh5bnXlvpC0NbU+/pn/Sb1SeM=;
+ b=H3s1b1gAFbLO2JWbSLB6q8rbcUf7FkxebABe91kFcbDr16TD57r4grVO0pFhs0IfFY
+ CczhDtjCgxiIKrkeAephqnCaUlYkz+C+SgLHaSqlwAOpVpoCiN16qpCfiGjjvbT3J/IL
+ LKmckd6Z91IeLpobDwzKNtf+vilajI2BhxlO6v+Ho/dueELAvHQwTCKyrGWjTOjm5ZBp
+ S1q7ZVpnB8DviU02KJVbDwb3tdmbqwcBkDp2OpB/eYovqaYnSfuBVY/a3jaydJkZrOuY
+ ErsNXnrINmSO8Vsygakf93ORS1wtiz3VTg4k6xeDCj2pZWtWWyvWuSjBcpRuGzaEBi32
+ yOpg==
+X-Gm-Message-State: AOAM532Sk9hMFV3x2cOIKHvs74TJFKCmICo3ThoXFMifXQgdeEEeKUlF
+ 9qH5rn+nlJ9T5U09tovRPbCLL/GJkFYSMdTd+4w=
+X-Google-Smtp-Source: ABdhPJyhFuT68LN+DLxRAGX3a/caqNR5yXDbPBCeSZbFGVoEM26lI9Vl7VER4jv8/UnV8opyYLV5Ywsf33yuTEwArUs=
+X-Received: by 2002:a05:6402:270d:: with SMTP id
+ y13mr25938648edd.149.1614055417148; 
+ Mon, 22 Feb 2021 20:43:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NejvI1cd98a9K1fz"
-Content-Disposition: inline
-In-Reply-To: <cover.1614007326.git.balaton@eik.bme.hu>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210219144848.wy7wmel4lixaqkyb@sirius.home.kraxel.org>
+ <20210220113810.78371-1-akihiko.odaki@gmail.com>
+ <20210222105100.idqhislns33etne7@sirius.home.kraxel.org>
+In-Reply-To: <20210222105100.idqhislns33etne7@sirius.home.kraxel.org>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+Date: Tue, 23 Feb 2021 13:43:26 +0900
+Message-ID: <CAMVc7JXTXngrnKF-u91S7JHUMVWrDGLEdupX4XN99dM1ZPJw-w@mail.gmail.com>
+Subject: Re: [PATCH v2] ui/console: Pass placeholder surface to displays
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,78 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, f4bug@amsat.org
+Cc: qemu Developers <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+2021=E5=B9=B42=E6=9C=8822=E6=97=A5(=E6=9C=88) 19:51 Gerd Hoffmann <kraxel@r=
+edhat.com>:
+>
+>   Hi,
+>
+> >  #define QEMU_ALLOCATED_FLAG     0x01
+> > +#define QEMU_PLACEHOLDER_FLAG   0x02
+>
+> > +static inline int is_placeholder(DisplaySurface *surface)
+> > +{
+> > +    return surface->flags & QEMU_PLACEHOLDER_FLAG;
+> > +}
+>
+> Interesting idea.  That approach makes sense too.
+>
+> > +        if (!placeholder) {
+> > +            placeholder =3D qemu_create_message_surface(640, 480, plac=
+eholder_msg);
+> > +            placeholder->flags |=3D QEMU_PLACEHOLDER_FLAG;
+>
+> I think we should set the placeholder flag in
+> qemu_create_message_surface() because every surface created with that
+> function is some kind if placeholder.
+>
+> Also when replacing an existing surface we should make the placeholder
+> the same size, to avoid pointless ui window resizes.
+>
+> > -    if (!new_surface) {
+> > +    if (is_placeholder(new_surface)) {
+>
+> We should check whenever this is the primary or a secondary window here
+> and only destroy secondary windows.  qemu hiding all windows but
+> continuing to run has great potential for user confusion ...
+>
+> > -    if (!new_surface) {
+> > +    if (is_placeholder(new_surface)) {
+>
+> Same here.
 
---NejvI1cd98a9K1fz
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The other surfaces created by qemu_create_message_surface() are not
+considered as "placeholder" here, and have contents to be displayed.
+Since no emulated devices give NULL to dpy_gfx_replace_surface for the
+primary connection, it will never get the "placeholder", and its
+window will be always shown.
 
-On Mon, Feb 22, 2021 at 04:22:06PM +0100, BALATON Zoltan wrote:
-> Hello,
->=20
-> This is adding a new PPC board called pegasos2. More info on it can be
-> found at:
->=20
-> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
->=20
-> Currently it needs a firmware ROM image that I cannot include due to
-> original copyright holder (bPlan) did not release it under a free
-> licence but I have plans to write a replacement in the future. With
-> the original board firmware it can boot MorphOS now as:
->=20
-> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile=3D=
-"" -serial stdio
->=20
-> then enter "boot cd boot.img" at the firmware "ok" prompt as described
-> in the MorphOS.readme. To boot Linux use same command line with e.g.
-> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
-> "boot cd install/pegasos"
->=20
-> The last patch adds the actual board code after previous patches
-> adding VT8231 and MV64361 system controller chip emulation. The
-> mv643xx.h header file is taken from Linux and produces a bunch of
-> checkpatch warnings due to different formatting rules it follows, I'm
-> not sure we want to adopt it and change formatting or keep it as it
-> is.
+Regards,
+Akihiko Odaki
 
-A couple of overall comments:
-
- * Adding yourself to MAINTAINERS for the new files would be a good
-   idea
- * At least some rudimentary tests would be good, though I guess that
-   might be tricky with non-free firmware
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---NejvI1cd98a9K1fz
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0h5oACgkQbDjKyiDZ
-s5JWIw/8CWW2yLZZ0Z16yuoaKXy3t1qUPa3KzBWYzOyZSm0BayvlNsx4Iax8cyy7
-A5J/uRv9MFcqgXl6yXLBAbIux9vZRCEPCILrtCheM8PcSvoTsRl9NGvs9yDvGGvS
-06gIbtVF0wPLn8FmCNZPZODKEXrpwfgg/TNtiYQC7Cs2Zlrj3srcf6CPQjp9nJKl
-YEuPFVRf++c+gy/QQ9Kf2/mRxihCuOxKkZThpQ4jCtiSYqSUBErNbIcRM/vm1Gd8
-GUJCBzpk9MZSJijj93AeZy7AztaIi0f3aCjKHmuoESKu0efTmC7Ar8DDOLh+LXyD
-+8mx43isdw5yLjUXTiNFl36VZc3vsu1p7Iqe8t4P0kw2BZl5aVhvZDXAHE8Ivrn7
-slSLnmSdeF7nGtRN4XoKEUwgxhQic8HdxxzclkbYcAmXf8CGeyuY6q1Q310vt2KV
-lFcdwcrbvJsf3Un4LsnOkswVPsLnkVQh+8DDfoIUN2IJX4B3jHZGGM4G+Gyg4DWK
-OxrToY9piApoUWaU/Cv7Iwy3zSUR2Sb8t0atnfJVuQHUM+44EYQWafi8ISGMWSMs
-Ag1YH+W8rhEfv/kqK6eFZxA3WQz2fmdtVT49h6EFx843G7m3bR77Prb4sTJu+ZYs
-XCqO8Ud198JOoP8P5Y+yDTrQ5GgAkSpZz153zOR/duy5MDj/Fr0=
-=dzMk
------END PGP SIGNATURE-----
-
---NejvI1cd98a9K1fz--
+>
+> take care,
+>   Gerd
+>
 
