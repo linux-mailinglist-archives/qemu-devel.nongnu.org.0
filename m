@@ -2,56 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAFF322488
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 04:11:27 +0100 (CET)
-Received: from localhost ([::1]:50588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A25432247C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 04:09:34 +0100 (CET)
+Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEO6g-0002Dd-6H
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 22:11:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58666)
+	id 1lEO4q-0007zl-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 22:09:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEO38-0006EX-7p; Mon, 22 Feb 2021 22:07:46 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38667 helo=ozlabs.org)
+ id 1lEO36-0006E7-Uf; Mon, 22 Feb 2021 22:07:44 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:42529 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEO35-0003Da-UI; Mon, 22 Feb 2021 22:07:45 -0500
+ id 1lEO34-0003DY-66; Mon, 22 Feb 2021 22:07:44 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Dl3rS5NJnz9sTD; Tue, 23 Feb 2021 14:07:36 +1100 (AEDT)
+ id 4Dl3rT11Xpz9sVR; Tue, 23 Feb 2021 14:07:36 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1614049656;
- bh=lB2qhVhVvCNwKnLEP9cyVRt4kgQq0RQXnIPlpk7dq2g=;
+ d=gibson.dropbear.id.au; s=201602; t=1614049657;
+ bh=Hh9S9McQYb8lj6xzEmqMFfmgWS0iR02y9Iix7RleEAY=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KFOWhcID0dtdiNAomEpDaPts1jSJ82Ytxndpt+d2goQHThz6ePo193JIsAGJiwYUo
- P86LbDcu1xNkh2QLXqPt/+rGLma2RlyYfZGg3c2dZ4Rw4FNWTs8HtM/WMOo8D/0hW2
- WkZKKs7NJTNCZUbJTm/cdhZcKb3yIEEd5MCTIJEI=
-Date: Tue, 23 Feb 2021 10:37:01 +1100
+ b=ffIash84kKEW8juJw6/WeJg6LmqdUR68uB3gxav5ite6n+4ZQoNF7912MgM42Js9j
+ mBHrzLSOdONzm+QeO3nU76xxnjk61Eq3aBx4WpQ2C6ymvQHsKgbvcIRR+Hkte+nePR
+ ddq7Cab/Pzh2icbDezr1fd1d9bGeMTjt4Hfv7cv0=
+Date: Tue, 23 Feb 2021 11:12:23 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [PATCH v2 01/11] accel/kvm: Check MachineClass kvm_type() return
- value
-Message-ID: <YDRAHW1ds1eh0Lav@yekko.fritz.box>
-References: <20210219173847.2054123-1-philmd@redhat.com>
- <20210219173847.2054123-2-philmd@redhat.com>
- <20210222182405.3e6e9a6f.cohuck@redhat.com>
- <bc37276d-74cc-22f0-fcc0-4ee5e62cf1df@redhat.com>
- <20210222185044.23fccecc.cohuck@redhat.com>
- <YDQ/Y1KozPSyNGjo@yekko.fritz.box>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH v4 1/5] spapr_drc.c: use spapr_drc_release() in
+ isolate_physical/set_unusable
+Message-ID: <YDRIZ7puzPWyTzae@yekko.fritz.box>
+References: <20210222194531.62717-1-danielhb413@gmail.com>
+ <20210222194531.62717-2-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="iHciYgIJJ+RNzZ6R"
+ protocol="application/pgp-signature"; boundary="42gaFvhWK5cw7bHi"
 Content-Disposition: inline
-In-Reply-To: <YDQ/Y1KozPSyNGjo@yekko.fritz.box>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210222194531.62717-2-danielhb413@gmail.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
-X-Spam_score_int: -1
-X-Spam_score: -0.2
-X-Spam_bar: /
-X-Spam_report: (-0.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_03_06=1.592,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,117 +59,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?iso-8859-1?Q?Herv=E9?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Leif Lindholm <leif@nuviainc.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Radoslaw Biernacki <rad@semihalf.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---iHciYgIJJ+RNzZ6R
-Content-Type: text/plain; charset=iso-8859-1
+--42gaFvhWK5cw7bHi
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 23, 2021 at 10:33:55AM +1100, David Gibson wrote:
-> On Mon, Feb 22, 2021 at 06:50:44PM +0100, Cornelia Huck wrote:
-> > On Mon, 22 Feb 2021 18:41:07 +0100
-> > Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
-> >=20
-> > > On 2/22/21 6:24 PM, Cornelia Huck wrote:
-> > > > On Fri, 19 Feb 2021 18:38:37 +0100
-> > > > Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
-> > > >  =20
-> > > >> MachineClass::kvm_type() can return -1 on failure.
-> > > >> Document it, and add a check in kvm_init().
-> > > >>
-> > > >> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> > > >> ---
-> > > >>  include/hw/boards.h | 3 ++-
-> > > >>  accel/kvm/kvm-all.c | 6 ++++++
-> > > >>  2 files changed, 8 insertions(+), 1 deletion(-)
-> > > >>
-> > > >> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > > >> index a46dfe5d1a6..68d3d10f6b0 100644
-> > > >> --- a/include/hw/boards.h
-> > > >> +++ b/include/hw/boards.h
-> > > >> @@ -127,7 +127,8 @@ typedef struct {
-> > > >>   *    implement and a stub device is required.
-> > > >>   * @kvm_type:
-> > > >>   *    Return the type of KVM corresponding to the kvm-type string=
- option or
-> > > >> - *    computed based on other criteria such as the host kernel ca=
-pabilities.
-> > > >> + *    computed based on other criteria such as the host kernel ca=
-pabilities
-> > > >> + *    (which can't be negative), or -1 on error.
-> > > >>   * @numa_mem_supported:
-> > > >>   *    true if '--numa node.mem' option is supported and false oth=
-erwise
-> > > >>   * @smp_parse:
-> > > >> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > > >> index 84c943fcdb2..b069938d881 100644
-> > > >> --- a/accel/kvm/kvm-all.c
-> > > >> +++ b/accel/kvm/kvm-all.c
-> > > >> @@ -2057,6 +2057,12 @@ static int kvm_init(MachineState *ms)
-> > > >>                                                              "kvm-=
-type",
-> > > >>                                                              &erro=
-r_abort);
-> > > >>          type =3D mc->kvm_type(ms, kvm_type);
-> > > >> +        if (type < 0) {
-> > > >> +            ret =3D -EINVAL;
-> > > >> +            fprintf(stderr, "Failed to detect kvm-type for machin=
-e '%s'\n",
-> > > >> +                    mc->name);
-> > > >> +            goto err;
-> > > >> +        }
-> > > >>      }
-> > > >> =20
-> > > >>      do { =20
-> > > >=20
-> > > > No objection to this patch; but I'm wondering why some non-pseries
-> > > > machines implement the kvm_type callback, when I see the kvm-type
-> > > > property only for pseries? Am I holding my git grep wrong? =20
-> > >=20
-> > > Can it be what David commented here?
-> > > https://www.mail-archive.com/qemu-devel@nongnu.org/msg784508.html
-> > >=20
-> >=20
-> > Ok, I might be confused about the other ppc machines; but I'm wondering
-> > about the kvm_type callback for mips and arm/virt. Maybe I'm just
-> > confused by the whole mechanism?
+On Mon, Feb 22, 2021 at 04:45:27PM -0300, Daniel Henrique Barboza wrote:
+> When moving a physical DRC to "Available", drc_isolate_physical() will
+> move the DRC state to STATE_PHYSICAL_POWERON and, if the DRC is marked
+> for unplug, call spapr_drc_detach(). For physical DRCs,
+> drck->empty_state is STATE_PHYSICAL_POWERON, meaning that we're sure
+> that spapr_drc_detach() will end up calling spapr_drc_release() in the
+> end.
 >=20
-> For ppc at least, not sure about in general, pseries is the only
-> machine type that can possibly work under more than one KVM flavour
-> (HV or PR).  So, it's the only one where it's actually useful to be
-> able to configure this.
+> Likewise, for logical DRCs, drc_set_unusable will move the DRC to
+> "Unusable" state, setting drc->state to STATE_LOGICAL_UNUSABLE, which is
+> the drck->empty_state for logical DRCs. spapr_drc_detach() will call
+> spapr_drc_release() in this case as well.
+>=20
+> In both scenarios, spapr_drc_detach() is being used as a
+> spapr_drc_release(), wrapper, where we also set unplug_requested (which
+> is already true, otherwise spapr_drc_detach() wouldn't be called in the
+> first place) and check if drc->state =3D=3D drck->empty_state, which we a=
+lso
+> know it's guaranteed to be true because we just set it.
+>=20
+> Just use spapr_drc_release() in these functions to be clear of our
+> intentions in both these functions.
+>=20
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-Wait... I'm not sure that's true.  At least theoretically, some of the
-Book3E platforms could work with either PR or the Book3E specific
-KVM.  Not sure if KVM PR supports all the BookE instructions it would
-need to in practice.
+Applied to ppc-for-6.0, thanks.
 
-Possibly pseries is just the platform where there's been enough people
-interested in setting the KVM flavour so far.
+> ---
+>  hw/ppc/spapr_drc.c | 32 ++++++++++++++++----------------
+>  1 file changed, 16 insertions(+), 16 deletions(-)
+>=20
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 84bd3c881f..555a25517d 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -50,6 +50,20 @@ uint32_t spapr_drc_index(SpaprDrc *drc)
+>          | (drc->id & DRC_INDEX_ID_MASK);
+>  }
+> =20
+> +static void spapr_drc_release(SpaprDrc *drc)
+> +{
+> +    SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> +
+> +    drck->release(drc->dev);
+> +
+> +    drc->unplug_requested =3D false;
+> +    g_free(drc->fdt);
+> +    drc->fdt =3D NULL;
+> +    drc->fdt_start_offset =3D 0;
+> +    object_property_del(OBJECT(drc), "device");
+> +    drc->dev =3D NULL;
+> +}
+> +
+>  static uint32_t drc_isolate_physical(SpaprDrc *drc)
+>  {
+>      switch (drc->state) {
+> @@ -68,7 +82,7 @@ static uint32_t drc_isolate_physical(SpaprDrc *drc)
+>      if (drc->unplug_requested) {
+>          uint32_t drc_index =3D spapr_drc_index(drc);
+>          trace_spapr_drc_set_isolation_state_finalizing(drc_index);
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_release(drc);
+>      }
+> =20
+>      return RTAS_OUT_SUCCESS;
+> @@ -209,7 +223,7 @@ static uint32_t drc_set_unusable(SpaprDrc *drc)
+>      if (drc->unplug_requested) {
+>          uint32_t drc_index =3D spapr_drc_index(drc);
+>          trace_spapr_drc_set_allocation_state_finalizing(drc_index);
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_release(drc);
+>      }
+> =20
+>      return RTAS_OUT_SUCCESS;
+> @@ -372,20 +386,6 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+>                               NULL, 0);
+>  }
+> =20
+> -static void spapr_drc_release(SpaprDrc *drc)
+> -{
+> -    SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> -
+> -    drck->release(drc->dev);
+> -
+> -    drc->unplug_requested =3D false;
+> -    g_free(drc->fdt);
+> -    drc->fdt =3D NULL;
+> -    drc->fdt_start_offset =3D 0;
+> -    object_property_del(OBJECT(drc), "device");
+> -    drc->dev =3D NULL;
+> -}
+> -
+>  void spapr_drc_detach(SpaprDrc *drc)
+>  {
+>      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -182,25 +173,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---iHciYgIJJ+RNzZ6R
+--42gaFvhWK5cw7bHi
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0QB0ACgkQbDjKyiDZ
-s5JQqBAA2HMmkpdhk4iK7XRStsDCbxBXZysxhFDBM0qLWfKEbOKqcRzv9BiIFbRb
-Ioh4AG1Vvt/cxatFBRkKOOIML8ICtAm/hhBBo3A/6gwi5ogzlRO54Jkr+GIWiRSH
-0iY9VKPGnsjTaf6SrE7GKxdYiPdGTR+6+2snq/f0EUjcz15LsWujsrB2Vyr/F/Oe
-KEYH+S+Pwot39s3mGSOIR0QYHsfN4+oYLPajZXdmcrGjBsTNM6s7+fDGb6oAC7Yg
-7cvOCbL6EAOJ1P3wmYySwu1rVM/vU6IFW7LUfZcP33JynhPYWWh7J84zCTBwNgJF
-IQvlIEQU3Qta+SieLJma+ZTwALAiYSDKSJ1n4vIEWQ21FoQLSbzP4oxqDMiTZha+
-LW5mzqPTQuF/MZg+B+dZtpCKWiLhkG7SWVB7Gb8hq7wat+AZONUJU/BaqQq2QVdN
-a7YiR95k/6rsUFyN0I8NYsrIIMbR6IlI+ivVCukvurwo3iP9m+4/UyM/gM3XRBNc
-ekYjyglLGj9pztFIC0JVBPodTG/8OSkAuvVDh2fVaefjfj0nckXJ9oxJDc1D6LH2
-vocCjxis9Dv2YgQgzem8pUAQ//Z1WGIiiyWD1gPDt/A3EDbvjxHPZK0w7ZOxKLYR
-cagHb4ijSlK6htqbMaqOJ3zM7FOgPwHvc0xLzUttBEolVXQia1E=
-=kPBL
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0SGUACgkQbDjKyiDZ
+s5JoyRAAq+5xPPuhMtwcoMuiCFv84KEi8Emxqb9qAsMoSzIkAl7PKVcPMGE46Nfn
+4ypUvqORu+mjiDuuouSb9n1ZvxnQss0dMuF6+8n2qMDTFbRKC4Fz7Os9NohWrVb9
+ffwXdxrgeYxo4/D19dbUcCiMwSb8Y+LEzweDGn4rgrVvRX1hoJUnSEj1Iq4kePr5
+/z6UbDRmZOHMl2/gAUejnvt2+NZ0A3jGztVPa9x/2R6HHURAXJ1ecxCmCUMHJa52
+hk8HVTGvL3dyO0YO1LqGQypRnOfdNEFWjK3VXKWRXtBhnRBq0sh9Ghmk83IMstGl
+4MmFjXfMhtMgpEM1cAHKpbXd2xZ5/OFSEnldzcUp1dePdMXon4OixGaoKSg68hMG
+zfaqQwAhY1OgSRLoMZRb6NCwVCIAQhrxHP4k0x3CPIJQuwnEKE55oL/stKtgZn0o
+F4DQvItvnbsHqsaejgrieNKv5UaXLE25ziYgVW2Epr/EAu6h/lX5ZmKG1JjXAWZl
+Sj+1UKS5qc/htkgpI1ZlUiZb5wT0gZSm9+JUiNb+qQ3OZCNFkD8CtATcS6xFuKIe
+EOeeCTFCrszMut5DFXNyhUmi4X2qIrUxIy5ePL3R5ewoInVMSJpgWolwLUnPSnGf
+KVWxbF3++4iAskk1OMRyNCVd73y7vvETy/4e0ChExOu4BUvZ3+U=
+=DIHg
 -----END PGP SIGNATURE-----
 
---iHciYgIJJ+RNzZ6R--
+--42gaFvhWK5cw7bHi--
 
