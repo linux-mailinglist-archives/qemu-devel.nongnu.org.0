@@ -2,85 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9193D322916
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:54:58 +0100 (CET)
-Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1318432291E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:56:32 +0100 (CET)
+Received: from localhost ([::1]:49272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEVLF-00062M-Jh
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:54:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45046)
+	id 1lEVMl-00072F-3H
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:56:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lEVKF-0005YY-7E
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:53:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lEVKD-0006U7-Nt
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:53:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614077632;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wuM+V7JisvLFnSPVGOWgvhuCv62ELUPyhvjtExOXSwg=;
- b=D2FiCltOTuFJMZT/omMCXddJ1Cb9L0nLl2x8otDatAV6SZlzmqO/vwGLjbAmPb9dX1u436
- LWaKDboxezxLnXwM8OB1Z2Uy2TMn/l+2YYy/vprOflBHY0fps51IAsgoSiQyUjv6oE61GJ
- H6G0svyWeFPATzCR3H2WcM+0zLUnZ1g=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-105-KWsKGtpiPQOcIxH-NcIL5w-1; Tue, 23 Feb 2021 05:53:50 -0500
-X-MC-Unique: KWsKGtpiPQOcIxH-NcIL5w-1
-Received: by mail-wm1-f71.google.com with SMTP id w20so111874wmc.0
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 02:53:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lEVKz-00067t-B1; Tue, 23 Feb 2021 05:54:41 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:51752)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lEVKw-0006oi-R1; Tue, 23 Feb 2021 05:54:41 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id gm18so1557260pjb.1;
+ Tue, 23 Feb 2021 02:54:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GSM+IR3cw7lUFzFFiL5gR3vyf2xUEEL3dHTVCYAPNUs=;
+ b=i68v5pdsKF8aW+4R+/y6GFIwnxTI5hR3hon9iJovyjXTL/et00Htbs5cYA5AG2/MlH
+ t37QbsVSe1NjLHiqU9qOZgOVJWxYkJ+AZ9nfGurRrQUB4dIS1q/ueIngksTnfEU5jN7W
+ +KVJapVK01USi+EhEFt/GUVy0rarmMpooK2HQlbxofctCHAgLoQ48m3mNNL/FxYd7+HG
+ FTf/zAM4Gi9r0Zl6SqNxVBnNiJVtkpIbHc92wHDZdqAKmyf0N19fbqGfJgRIwFZdv5LX
+ Tgh2Hnlo2TRFuXC4ptBB82imqpOgFYOlNtbySNi8baQ0/GtnwLgBbJh7jmsrZxXTAczn
+ y+ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wuM+V7JisvLFnSPVGOWgvhuCv62ELUPyhvjtExOXSwg=;
- b=B2n43qR+3+DFG+A27vxk7LCVg81hLVV96Hv5N0My2JcM2REenm6rVA2TMLNBd431bT
- kLHrLnBEE3WHKsT1SSQvb+hs+XpsSkaqYbGs5DbI+2vFFhjCdSV6CgbWi39+ndCaPVjc
- BmouI2c2iD/zKyP90/sPGyhegnw/iGU2D7t2NZUqt1Lw0V5gaksfTUpDKNV8HVC3d3dn
- Vzvbs/dZUu+qLY1lBTxHcXzFm42rE6SoqmY+8r9oBrukPiWIGtCUDCdP3dWUh67riQZz
- gi6ptix/WWDMYEPzx3fKS3ryYUBStEZwxWtZpq6gP2l6G1afVu6jSvMJxWUXW08mHZTR
- TpCA==
-X-Gm-Message-State: AOAM530BHX1ZFt1JqyuNNCR4GW66vD4M1dygqRo6HyYG2mVo3qniNjdS
- Kt9l3l36iWclyJWigDYu6w1qbEebEjqEclXFba/NRDK/IwySCnAtafBPkBjQ1FQamOxPvR1rmwU
- QcAMKfFXurKVZENQ=
-X-Received: by 2002:a5d:540d:: with SMTP id g13mr25912712wrv.143.1614077629546; 
- Tue, 23 Feb 2021 02:53:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwJ4c5bMqZL8NUWLaMsaah+9Bf3fv8Qcefia75ueKg9euwPOf4ZHsVL9iWyllzdubrOYmhEag==
-X-Received: by 2002:a5d:540d:: with SMTP id g13mr25912702wrv.143.1614077629369; 
- Tue, 23 Feb 2021 02:53:49 -0800 (PST)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id g1sm2491811wmh.9.2021.02.23.02.53.48
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GSM+IR3cw7lUFzFFiL5gR3vyf2xUEEL3dHTVCYAPNUs=;
+ b=ojnzi8pIiletrwCLuF4zed5lul9LrA2kiUzCXHsU8M1cpRIJVu/8yufnugdHRtP5c3
+ YIwHK7BCr608yBSZ0qXPXujP2e1AM6451hx3BLWVlhtro/eEwQuxkPB1zem9ZvcBjPCN
+ QbYlfZ3mD6gvFROucbKC8G1y6euomXzqGIwy6WwyE4YleMo15PnpXrNK4igwLL13OVIw
+ DotxEFmT1BACuAVlM3uwhKkiJO+Ya13wJ3dGUB8X1MXCT8CuqP/1lD7NHwDo4XF6o2jv
+ 7cPXtBcETgvXpECGMJAzNV3iB+b2aNGHkgmnrsvCD2r0y14Xmr/3sV6nar78xdnBpwqp
+ hwlA==
+X-Gm-Message-State: AOAM530Cyqqv1gfSJl77UBZ8P6oul9Bcpfta2uKh4AmiXmrSoMjijxLm
+ Wy33fNfTuo2WfhcIbkOFT78=
+X-Google-Smtp-Source: ABdhPJx5tOTG3Z+bdrrxYOp4Qn7jOPtv2PWjqKTszdUHAtBAuQBP8TPL74NOIjpTwOPG6dZiMBzAlA==
+X-Received: by 2002:a17:902:f686:b029:de:18c7:41f8 with SMTP id
+ l6-20020a170902f686b02900de18c741f8mr26591395plg.65.1614077676894; 
+ Tue, 23 Feb 2021 02:54:36 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id x68sm10839879pfc.26.2021.02.23.02.54.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 02:53:49 -0800 (PST)
-Date: Tue, 23 Feb 2021 11:53:46 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] vhost: simplify vhost_dev_init() fail_busyloop label
-Message-ID: <20210223105346.ii4ex7no5fd434zi@steredhat>
-References: <20210222114931.272308-1-stefanha@redhat.com>
+ Tue, 23 Feb 2021 02:54:36 -0800 (PST)
+Date: Tue, 23 Feb 2021 19:54:34 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH 2/2] hw/nvme: move device-scoped functions
+Message-ID: <20210223105434.GA2119@localhost.localdomain>
+References: <20210209110826.585987-1-its@irrelevant.dk>
+ <20210209110826.585987-3-its@irrelevant.dk>
 MIME-Version: 1.0
-In-Reply-To: <20210222114931.272308-1-stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20210209110826.585987-3-its@irrelevant.dk>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,64 +83,335 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 22, 2021 at 11:49:31AM +0000, Stefan Hajnoczi wrote:
->Requiring a conditional for every goto is tedious:
->
->  if (busyloop_timeout) {
->      goto fail_busyloop;
->  } else {
->      goto fail;
+On 21-02-09 12:08:26, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> Move a bunch of functions that are internal to a device out of the
+> shared header.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/nvme/nvme.h | 110 +------------------------------------------------
+>  hw/nvme/ctrl.c |  90 +++++++++++++++++++++++++++++++++++++++-
+>  hw/nvme/ns.c   |   7 +++-
+>  3 files changed, 97 insertions(+), 110 deletions(-)
+> 
+> diff --git a/hw/nvme/nvme.h b/hw/nvme/nvme.h
+> index 452a64499b1b..929c6c553ca2 100644
+> --- a/hw/nvme/nvme.h
+> +++ b/hw/nvme/nvme.h
+> @@ -96,36 +96,13 @@ static inline uint32_t nvme_nsid(NvmeNamespace *ns)
+>      return -1;
 >  }
->
->Move the conditional to into the fail_busyloop label so that it's safe
->to jump to this label unconditionally.
->
->This change makes the migrate_add_blocker() error case more consistent.
->It jumped to fail_busyloop unconditionally whereas the memslots limits
->error case was conditional.
->
->Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->---
-> hw/virtio/vhost.c | 12 +++++-------
-> 1 file changed, 5 insertions(+), 7 deletions(-)
+>  
+> -static inline bool nvme_ns_shared(NvmeNamespace *ns)
+> -{
+> -    return !!ns->subsys;
+> -}
 
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Re-raising this up.
 
->
->diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
->index 6e17d631f7..2a01662b08 100644
->--- a/hw/virtio/vhost.c
->+++ b/hw/virtio/vhost.c
->@@ -1388,18 +1388,16 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
->         error_report("vhost backend memory slots limit is less"
->                 " than current number of present memory slots");
->         r = -1;
->-        if (busyloop_timeout) {
->-            goto fail_busyloop;
->-        } else {
->-            goto fail;
->-        }
->+        goto fail_busyloop;
->     }
->
->     return 0;
->
-> fail_busyloop:
->-    while (--i >= 0) {
->-        vhost_virtqueue_set_busyloop_timeout(hdev, hdev->vq_index + i, 0);
->+    if (busyloop_timeout) {
->+        while (--i >= 0) {
->+            vhost_virtqueue_set_busyloop_timeout(hdev, hdev->vq_index + i, 0);
->+        }
->     }
-> fail:
->     hdev->nvqs = n_initialized_vqs;
->-- 
->2.29.2
->
+Something like this helper is related to the data structure usages
+itself like, if ns->subsys is not NULL, it "can" mean that this
+namespace is shared among controllers.  This helper represents that the
+'subsys' member itself is indicating some meaning, not only just for the
+subsystem itself.
 
+That's why I've been hesitating to simply ack to this patch ;)
+
+But, I am not strongly against to this so please make a decision with
+Keith and go ahead!
+
+Thanks!
+
+>  static inline uint8_t nvme_ns_lbads(NvmeNamespace *ns)
+>  {
+> -    return nvme_ns_lbaf(ns)->ds;
+> -}
+> +    NvmeLBAF lbaf = ns->id_ns.lbaf[NVME_ID_NS_FLBAS_INDEX(ns->id_ns.flbas)];
+>  
+> -/* calculate the number of LBAs that the namespace can accomodate */
+> -static inline uint64_t nvme_ns_nlbas(NvmeNamespace *ns)
+> -{
+> -    return ns->size >> nvme_ns_lbads(ns);
+> +    return lbaf.ds;
+>  }
+>  
+> -/* convert an LBA to the equivalent in bytes */
+> -static inline size_t nvme_l2b(NvmeNamespace *ns, uint64_t lba)
+> -{
+> -    return lba << nvme_ns_lbads(ns);
+> -}
+> -
+> -typedef struct NvmeCtrl NvmeCtrl;
+> -
+>  static inline NvmeZoneState nvme_get_zone_state(NvmeZone *zone)
+>  {
+>      return zone->d.zs >> 4;
+> @@ -136,31 +113,6 @@ static inline void nvme_set_zone_state(NvmeZone *zone, NvmeZoneState state)
+>      zone->d.zs = state << 4;
+>  }
+>  
+> -static inline uint64_t nvme_zone_rd_boundary(NvmeNamespace *ns, NvmeZone *zone)
+> -{
+> -    return zone->d.zslba + ns->zone_size;
+> -}
+> -
+> -static inline uint64_t nvme_zone_wr_boundary(NvmeZone *zone)
+> -{
+> -    return zone->d.zslba + zone->d.zcap;
+> -}
+> -
+> -static inline bool nvme_wp_is_valid(NvmeZone *zone)
+> -{
+> -    uint8_t st = nvme_get_zone_state(zone);
+> -
+> -    return st != NVME_ZONE_STATE_FULL &&
+> -           st != NVME_ZONE_STATE_READ_ONLY &&
+> -           st != NVME_ZONE_STATE_OFFLINE;
+> -}
+> -
+> -static inline uint8_t *nvme_get_zd_extension(NvmeNamespace *ns,
+> -                                             uint32_t zone_idx)
+> -{
+> -    return &ns->zd_extensions[zone_idx * ns->params.zd_extension_size];
+> -}
+> -
+>  static inline void nvme_aor_inc_open(NvmeNamespace *ns)
+>  {
+>      assert(ns->nr_open_zones >= 0);
+> @@ -203,7 +155,6 @@ void nvme_ns_drain(NvmeNamespace *ns);
+>  void nvme_ns_shutdown(NvmeNamespace *ns);
+>  void nvme_ns_cleanup(NvmeNamespace *ns);
+>  
+> -
+>  typedef struct NvmeParams {
+>      char     *serial;
+>      uint32_t num_queues; /* deprecated since 5.1 */
+> @@ -237,40 +188,6 @@ typedef struct NvmeRequest {
+>      QTAILQ_ENTRY(NvmeRequest)entry;
+>  } NvmeRequest;
+>  
+> -static inline const char *nvme_adm_opc_str(uint8_t opc)
+> -{
+> -    switch (opc) {
+> -    case NVME_ADM_CMD_DELETE_SQ:        return "NVME_ADM_CMD_DELETE_SQ";
+> -    case NVME_ADM_CMD_CREATE_SQ:        return "NVME_ADM_CMD_CREATE_SQ";
+> -    case NVME_ADM_CMD_GET_LOG_PAGE:     return "NVME_ADM_CMD_GET_LOG_PAGE";
+> -    case NVME_ADM_CMD_DELETE_CQ:        return "NVME_ADM_CMD_DELETE_CQ";
+> -    case NVME_ADM_CMD_CREATE_CQ:        return "NVME_ADM_CMD_CREATE_CQ";
+> -    case NVME_ADM_CMD_IDENTIFY:         return "NVME_ADM_CMD_IDENTIFY";
+> -    case NVME_ADM_CMD_ABORT:            return "NVME_ADM_CMD_ABORT";
+> -    case NVME_ADM_CMD_SET_FEATURES:     return "NVME_ADM_CMD_SET_FEATURES";
+> -    case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
+> -    case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
+> -    default:                            return "NVME_ADM_CMD_UNKNOWN";
+> -    }
+> -}
+> -
+> -static inline const char *nvme_io_opc_str(uint8_t opc)
+> -{
+> -    switch (opc) {
+> -    case NVME_CMD_FLUSH:            return "NVME_NVM_CMD_FLUSH";
+> -    case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
+> -    case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
+> -    case NVME_CMD_COMPARE:          return "NVME_NVM_CMD_COMPARE";
+> -    case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
+> -    case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
+> -    case NVME_CMD_COPY:             return "NVME_NVM_CMD_COPY";
+> -    case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_ZONED_CMD_MGMT_SEND";
+> -    case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_ZONED_CMD_MGMT_RECV";
+> -    case NVME_CMD_ZONE_APPEND:      return "NVME_ZONED_CMD_ZONE_APPEND";
+> -    default:                        return "NVME_NVM_CMD_UNKNOWN";
+> -    }
+> -}
+> -
+>  typedef struct NvmeSQueue {
+>      struct NvmeCtrl *ctrl;
+>      uint16_t    sqid;
+> @@ -379,29 +296,6 @@ typedef struct NvmeCtrl {
+>      NvmeFeatureVal  features;
+>  } NvmeCtrl;
+>  
+> -static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+> -{
+> -    if (!nsid || nsid > n->num_namespaces) {
+> -        return NULL;
+> -    }
+> -
+> -    return n->namespaces[nsid - 1];
+> -}
+> -
+> -static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
+> -{
+> -    NvmeSQueue *sq = req->sq;
+> -    NvmeCtrl *n = sq->ctrl;
+> -
+> -    return n->cq[sq->cqid];
+> -}
+> -
+> -static inline NvmeCtrl *nvme_ctrl(NvmeRequest *req)
+> -{
+> -    NvmeSQueue *sq = req->sq;
+> -    return sq->ctrl;
+> -}
+> -
+>  int nvme_register_namespace(NvmeCtrl *n, NvmeNamespace *ns, Error **errp);
+>  
+>  #endif /* HW_NVME_H */
+> diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+> index 262c20c1cba7..c245339be9da 100644
+> --- a/hw/nvme/ctrl.c
+> +++ b/hw/nvme/ctrl.c
+> @@ -204,6 +204,40 @@ static const uint32_t nvme_cse_iocs_zoned[256] = {
+>  
+>  static void nvme_process_sq(void *opaque);
+>  
+> +static inline const char *nvme_adm_opc_str(uint8_t opc)
+> +{
+> +    switch (opc) {
+> +    case NVME_ADM_CMD_DELETE_SQ:        return "NVME_ADM_CMD_DELETE_SQ";
+> +    case NVME_ADM_CMD_CREATE_SQ:        return "NVME_ADM_CMD_CREATE_SQ";
+> +    case NVME_ADM_CMD_GET_LOG_PAGE:     return "NVME_ADM_CMD_GET_LOG_PAGE";
+> +    case NVME_ADM_CMD_DELETE_CQ:        return "NVME_ADM_CMD_DELETE_CQ";
+> +    case NVME_ADM_CMD_CREATE_CQ:        return "NVME_ADM_CMD_CREATE_CQ";
+> +    case NVME_ADM_CMD_IDENTIFY:         return "NVME_ADM_CMD_IDENTIFY";
+> +    case NVME_ADM_CMD_ABORT:            return "NVME_ADM_CMD_ABORT";
+> +    case NVME_ADM_CMD_SET_FEATURES:     return "NVME_ADM_CMD_SET_FEATURES";
+> +    case NVME_ADM_CMD_GET_FEATURES:     return "NVME_ADM_CMD_GET_FEATURES";
+> +    case NVME_ADM_CMD_ASYNC_EV_REQ:     return "NVME_ADM_CMD_ASYNC_EV_REQ";
+> +    default:                            return "NVME_ADM_CMD_UNKNOWN";
+> +    }
+> +}
+> +
+> +static inline const char *nvme_io_opc_str(uint8_t opc)
+> +{
+> +    switch (opc) {
+> +    case NVME_CMD_FLUSH:            return "NVME_NVM_CMD_FLUSH";
+> +    case NVME_CMD_WRITE:            return "NVME_NVM_CMD_WRITE";
+> +    case NVME_CMD_READ:             return "NVME_NVM_CMD_READ";
+> +    case NVME_CMD_COMPARE:          return "NVME_NVM_CMD_COMPARE";
+> +    case NVME_CMD_WRITE_ZEROES:     return "NVME_NVM_CMD_WRITE_ZEROES";
+> +    case NVME_CMD_DSM:              return "NVME_NVM_CMD_DSM";
+> +    case NVME_CMD_COPY:             return "NVME_NVM_CMD_COPY";
+> +    case NVME_CMD_ZONE_MGMT_SEND:   return "NVME_ZONED_CMD_MGMT_SEND";
+> +    case NVME_CMD_ZONE_MGMT_RECV:   return "NVME_ZONED_CMD_MGMT_RECV";
+> +    case NVME_CMD_ZONE_APPEND:      return "NVME_ZONED_CMD_ZONE_APPEND";
+> +    default:                        return "NVME_NVM_CMD_UNKNOWN";
+> +    }
+> +}
+> +
+>  static uint16_t nvme_cid(NvmeRequest *req)
+>  {
+>      if (!req) {
+> @@ -213,11 +247,65 @@ static uint16_t nvme_cid(NvmeRequest *req)
+>      return le16_to_cpu(req->cqe.cid);
+>  }
+>  
+> +static inline NvmeCQueue *nvme_cq(NvmeRequest *req)
+> +{
+> +    NvmeSQueue *sq = req->sq;
+> +    NvmeCtrl *n = sq->ctrl;
+> +
+> +    return n->cq[sq->cqid];
+> +}
+> +
+> +static inline NvmeCtrl *nvme_ctrl(NvmeRequest *req)
+> +{
+> +    NvmeSQueue *sq = req->sq;
+> +    return sq->ctrl;
+> +}
+> +
+>  static uint16_t nvme_sqid(NvmeRequest *req)
+>  {
+>      return le16_to_cpu(req->sq->sqid);
+>  }
+>  
+> +static inline NvmeNamespace *nvme_ns(NvmeCtrl *n, uint32_t nsid)
+> +{
+> +    if (!nsid || nsid > n->num_namespaces) {
+> +        return NULL;
+> +    }
+> +
+> +    return n->namespaces[nsid - 1];
+> +}
+> +
+> +/* convert an LBA to the equivalent in bytes */
+> +static inline size_t nvme_l2b(NvmeNamespace *ns, uint64_t lba)
+> +{
+> +    return lba << nvme_ns_lbads(ns);
+> +}
+> +
+> +static inline uint64_t nvme_zone_rd_boundary(NvmeNamespace *ns, NvmeZone *zone)
+> +{
+> +    return zone->d.zslba + ns->zone_size;
+> +}
+> +
+> +static inline uint64_t nvme_zone_wr_boundary(NvmeZone *zone)
+> +{
+> +    return zone->d.zslba + zone->d.zcap;
+> +}
+> +
+> +static inline bool nvme_wp_is_valid(NvmeZone *zone)
+> +{
+> +    uint8_t st = nvme_get_zone_state(zone);
+> +
+> +    return st != NVME_ZONE_STATE_FULL &&
+> +           st != NVME_ZONE_STATE_READ_ONLY &&
+> +           st != NVME_ZONE_STATE_OFFLINE;
+> +}
+> +
+> +static inline uint8_t *nvme_get_zd_extension(NvmeNamespace *ns,
+> +                                             uint32_t zone_idx)
+> +{
+> +    return &ns->zd_extensions[zone_idx * ns->params.zd_extension_size];
+> +}
+> +
+>  static void nvme_assign_zone_state(NvmeNamespace *ns, NvmeZone *zone,
+>                                     NvmeZoneState state)
+>  {
+> @@ -2487,7 +2575,7 @@ static uint16_t nvme_zone_mgmt_recv(NvmeCtrl *n, NvmeRequest *req)
+>      uint32_t zone_idx, zra, zrasf, partial;
+>      uint64_t max_zones, nr_zones = 0;
+>      uint16_t status;
+> -    uint64_t slba, capacity = nvme_ns_nlbas(ns);
+> +    uint64_t slba, capacity = le64_to_cpu(ns->id_ns.nsze);
+>      NvmeZoneDescr *z;
+>      NvmeZone *zone;
+>      NvmeZoneReportHeader *header;
+> diff --git a/hw/nvme/ns.c b/hw/nvme/ns.c
+> index a7d55d71d9de..d0810523172c 100644
+> --- a/hw/nvme/ns.c
+> +++ b/hw/nvme/ns.c
+> @@ -31,6 +31,11 @@
+>  
+>  #define MIN_DISCARD_GRANULARITY (4 * KiB)
+>  
+> +static inline bool nvme_ns_shared(NvmeNamespace *ns)
+> +{
+> +    return !!ns->subsys;
+> +}
+> +
+>  static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+>  {
+>      BlockDriverInfo bdi;
+> @@ -42,7 +47,7 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
+>  
+>      id_ns->lbaf[lba_index].ds = 31 - clz32(ns->blkconf.logical_block_size);
+>  
+> -    id_ns->nsze = cpu_to_le64(nvme_ns_nlbas(ns));
+> +    id_ns->nsze = cpu_to_le64(ns->size >> nvme_ns_lbads(ns));
+>  
+>      ns->csi = NVME_CSI_NVM;
+>  
+> -- 
+> 2.30.0
+> 
+> 
 
