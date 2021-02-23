@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4780C322500
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 05:48:42 +0100 (CET)
-Received: from localhost ([::1]:58362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23D91322505
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 05:52:11 +0100 (CET)
+Received: from localhost ([::1]:32890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEPcn-0006H7-Bd
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 23:48:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44058)
+	id 1lEPgA-0007l4-7S
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 23:52:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lEPXz-0001lP-0b
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 23:43:43 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:37826)
+ id 1lEPf7-0007Hy-NK
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 23:51:05 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:45740)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lEPXx-0005vZ-5R
- for qemu-devel@nongnu.org; Mon, 22 Feb 2021 23:43:42 -0500
-Received: by mail-ed1-x536.google.com with SMTP id h25so10827554eds.4
- for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 20:43:40 -0800 (PST)
+ id 1lEPf4-00024U-R8
+ for qemu-devel@nongnu.org; Mon, 22 Feb 2021 23:51:05 -0500
+Received: by mail-ej1-x630.google.com with SMTP id j6so5516043eja.12
+ for <qemu-devel@nongnu.org>; Mon, 22 Feb 2021 20:51:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=3XsiF+kEKGGWG467hYHh5bnXlvpC0NbU+/pn/Sb1SeM=;
- b=HQw6okVNhpKs9oWKtky6J2Q06BkJpgBH2rf2HAicHaqldjFdbb5HjuuCuj37QFDIhz
- zraDr7OjrrSVtFK7Rq1gCe2GzEMfXetvIPhGhh0yu3rr/sqZBZxgIbQOp0R0sFJRuYM3
- pkE8XW2Q/1+bfyOeVsltXWEBKncu6aZ1YSy+NrreZVnUajcnFnJSkCxE0/+Y4AO1tDN2
- vnOwWJuzYX0HGpSnUs/kW2SGHMlRHAwZ020hOeV4fwxVqzRnuduI82lnsAaH/q0Vl/pD
- I/y0GDOYVvi79m7xbIIxypTtF9hnSAd+P7ebHPsyC4j6uPWONjDzT8tXQrTFCSpDwirU
- VFnA==
+ bh=eyV0i+C+/h3drfKQYSgn5N2vYzhLCJd5VmWoT2VkEoU=;
+ b=pzVLXKEKzvs2zueS4b8VZnt0B2A1VZQiMUTosGz2+LxDz2sOSMm+4do8amPtPwMInW
+ RTNppoTFhwerWxvd4vhBVP+eccc8gKnbIsswMJkxxtgERcS3nh5YFFdYuC7ppTAghvUI
+ GHspGWPEUc0tGE4oLfW4Oxd4aiB4rw9ySmsHad/Yf3U+TrO7ezR2NHXuZVcz1IM0gJQb
+ XuITgLxiNTVC8HZ/14qhgD5HqwSjUDKAiPErn2GV2VZZKpWxSC/B4hDsNoI3R7dQqEyT
+ HcSxTeU6R2eZL+FKcL8uuWWDx0cp67PYw2T1lAsCaz48ianIB3zX7ptpgkpadRjKovCS
+ jERw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=3XsiF+kEKGGWG467hYHh5bnXlvpC0NbU+/pn/Sb1SeM=;
- b=H3s1b1gAFbLO2JWbSLB6q8rbcUf7FkxebABe91kFcbDr16TD57r4grVO0pFhs0IfFY
- CczhDtjCgxiIKrkeAephqnCaUlYkz+C+SgLHaSqlwAOpVpoCiN16qpCfiGjjvbT3J/IL
- LKmckd6Z91IeLpobDwzKNtf+vilajI2BhxlO6v+Ho/dueELAvHQwTCKyrGWjTOjm5ZBp
- S1q7ZVpnB8DviU02KJVbDwb3tdmbqwcBkDp2OpB/eYovqaYnSfuBVY/a3jaydJkZrOuY
- ErsNXnrINmSO8Vsygakf93ORS1wtiz3VTg4k6xeDCj2pZWtWWyvWuSjBcpRuGzaEBi32
- yOpg==
-X-Gm-Message-State: AOAM532Sk9hMFV3x2cOIKHvs74TJFKCmICo3ThoXFMifXQgdeEEeKUlF
- 9qH5rn+nlJ9T5U09tovRPbCLL/GJkFYSMdTd+4w=
-X-Google-Smtp-Source: ABdhPJyhFuT68LN+DLxRAGX3a/caqNR5yXDbPBCeSZbFGVoEM26lI9Vl7VER4jv8/UnV8opyYLV5Ywsf33yuTEwArUs=
-X-Received: by 2002:a05:6402:270d:: with SMTP id
- y13mr25938648edd.149.1614055417148; 
- Mon, 22 Feb 2021 20:43:37 -0800 (PST)
+ bh=eyV0i+C+/h3drfKQYSgn5N2vYzhLCJd5VmWoT2VkEoU=;
+ b=XTh4z23xbUD2c7fvvpbU7VB6jsgJ7Swia2cXkAC4Ewogz5kbZl56GczC9PAaroqEt7
+ TDdhbM8vXKwjrhsSTohl8+QFbnM6BQVuM4gLGyOOvdAk52Lbx7r3BkV5ygSLOEx7pDeS
+ tUQYsQnWYuPajOHu+ELPNOPrrjMwbsx3vzoiH2jfZeW9McqOWcb63OX37HUzLKdSEvHL
+ 42+bAJ2bGBEbE6p1sy+6/4I35lnr306VdL5VRkDdjw/kITPsHKgbRgtTT+wLSfU9ckPr
+ Hs2vjeq9thQUdMTysc6kpyInnQoCKEq05TQg0ejXBfh6uF4ieQzNwxy17wRlf5dUjSca
+ Fsww==
+X-Gm-Message-State: AOAM530BjA6f0l+cIHsQYReKyyGOmcw2lvU+qo7uZso1r8jCNjdtiEe6
+ WgVa4esggKikzkWL9bLmvUzMhuVRUiLtN1mE56g=
+X-Google-Smtp-Source: ABdhPJyEsVXOt5ffezeXVPCwJHnmQ5QdmAVNmzijrNpdiNHtBYNLyYXnrDbjRFz4rLHU+fbg3MyG2RTIHwjDpj372Ck=
+X-Received: by 2002:a17:906:3856:: with SMTP id
+ w22mr23918943ejc.77.1614055861541; 
+ Mon, 22 Feb 2021 20:51:01 -0800 (PST)
 MIME-Version: 1.0
-References: <20210219144848.wy7wmel4lixaqkyb@sirius.home.kraxel.org>
- <20210220113810.78371-1-akihiko.odaki@gmail.com>
- <20210222105100.idqhislns33etne7@sirius.home.kraxel.org>
-In-Reply-To: <20210222105100.idqhislns33etne7@sirius.home.kraxel.org>
+References: <20210221133414.7262-1-akihiko.odaki@gmail.com>
+ <20210222105738.w2q6vp5pi4p6bx5m@sirius.home.kraxel.org>
+In-Reply-To: <20210222105738.w2q6vp5pi4p6bx5m@sirius.home.kraxel.org>
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Tue, 23 Feb 2021 13:43:26 +0900
-Message-ID: <CAMVc7JXTXngrnKF-u91S7JHUMVWrDGLEdupX4XN99dM1ZPJw-w@mail.gmail.com>
-Subject: Re: [PATCH v2] ui/console: Pass placeholder surface to displays
+Date: Tue, 23 Feb 2021 13:50:51 +0900
+Message-ID: <CAMVc7JVo_XJcGcxW0Wmqje3Y40fRZDY6T8dnQTc2=Ehasz4UHw@mail.gmail.com>
+Subject: Re: [PATCH] virtio-gpu: Respect graphics update interval for EDID
 To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-ed1-x536.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,55 +80,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu Developers <qemu-devel@nongnu.org>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu Developers <qemu-devel@nongnu.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B42=E6=9C=8822=E6=97=A5(=E6=9C=88) 19:51 Gerd Hoffmann <kraxel@r=
+2021=E5=B9=B42=E6=9C=8822=E6=97=A5(=E6=9C=88) 19:57 Gerd Hoffmann <kraxel@r=
 edhat.com>:
 >
->   Hi,
+> On Sun, Feb 21, 2021 at 10:34:14PM +0900, Akihiko Odaki wrote:
+> > This change introduces an additional member, refresh_rate to
+> > qemu_edid_info in include/hw/display/edid.h.
+> >
+> > This change also isolates the graphics update interval from the
+> > display update interval. The guest will update the frame buffer
+> > in the graphics update interval, but displays can be updated in a
+> > dynamic interval, for example to save update costs aggresively
+> > (vnc) or to respond to user-generated events (sdl).
+> > It stabilizes the graphics update interval and prevents the guest
+> > from being confused.
 >
-> >  #define QEMU_ALLOCATED_FLAG     0x01
-> > +#define QEMU_PLACEHOLDER_FLAG   0x02
+> Hmm.  What problem you are trying to solve here?
 >
-> > +static inline int is_placeholder(DisplaySurface *surface)
-> > +{
-> > +    return surface->flags & QEMU_PLACEHOLDER_FLAG;
-> > +}
->
-> Interesting idea.  That approach makes sense too.
->
-> > +        if (!placeholder) {
-> > +            placeholder =3D qemu_create_message_surface(640, 480, plac=
-eholder_msg);
-> > +            placeholder->flags |=3D QEMU_PLACEHOLDER_FLAG;
->
-> I think we should set the placeholder flag in
-> qemu_create_message_surface() because every surface created with that
-> function is some kind if placeholder.
->
-> Also when replacing an existing surface we should make the placeholder
-> the same size, to avoid pointless ui window resizes.
->
-> > -    if (!new_surface) {
-> > +    if (is_placeholder(new_surface)) {
->
-> We should check whenever this is the primary or a secondary window here
-> and only destroy secondary windows.  qemu hiding all windows but
-> continuing to run has great potential for user confusion ...
->
-> > -    if (!new_surface) {
-> > +    if (is_placeholder(new_surface)) {
->
-> Same here.
+> The update throttle being visible by the guest was done intentionally,
+> so the guest can throttle the display updates too in case nobody is
+> watching those display updated anyway.
 
-The other surfaces created by qemu_create_message_surface() are not
-considered as "placeholder" here, and have contents to be displayed.
-Since no emulated devices give NULL to dpy_gfx_replace_surface for the
-primary connection, it will never get the "placeholder", and its
-window will be always shown.
+Indeed, we are throttling the update for vnc to avoid some worthless
+work. But typically a guest cannot respond to update interval changes
+so often because real display devices the guest is designed for does
+not change the update interval in that way. That is why we have to
+tell the guest a stable update interval even if it results in wasted
+frames.
 
 Regards,
 Akihiko Odaki
