@@ -2,74 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90ED3323302
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:12:52 +0100 (CET)
-Received: from localhost ([::1]:46394 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6242732332C
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:22:55 +0100 (CET)
+Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEezD-00014G-JZ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:12:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54580)
+	id 1lEf8v-0004De-QO
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:22:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEexm-0000d9-1s
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:11:22 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45510)
+ id 1lEf8A-0003nh-RB
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:22:06 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45585)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEexk-0006sq-B7
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:11:21 -0500
-Received: by mail-wr1-x430.google.com with SMTP id y17so2428084wrs.12
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:11:19 -0800 (PST)
+ id 1lEf88-0002y1-8A
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:22:06 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id y17so2450046wrs.12
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:22:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=rdjBx72aSF3XhB+Mr/HN1j2ULLAwqHlFQjWOPN6q/zM=;
- b=c9IJ7MayB5U0W6Tk7ezLR6Eu/D1HVVvTmHb740ICZ4FQ5mUbMru2GPNKwIqnUbnZp+
- KhQu/IzXR1Rsow6jDv0r0KaZu4S4a57M3Dagy1XyGvzCYzenF/PUDNeLrvzvU33ACNvs
- ljXsLuBKPR3TMPQh/iab9GKx2eFF9sN+cVkd0BMEaStfsgq9Eb/HTljm0i5d3hjY4Anm
- sVXnCm7kl6unReuOPTCUvx6cbChZS+bA+J+oKb1ga4Gu7twV+nLhC5zsaYEctdSTOFD8
- 07hEOAHOgDIuhvhx0lbMWVOCJrkRFYDPg1voCM2OVSnZVP63WHuPSXioyf8eMSBGtf1W
- wLoA==
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=n+aQkC7SAE9qBtEgvtv0jDuzxZFTG/xq4N24IqSvRN0=;
+ b=RW9cfRu9S7JpDwBmDv+7zsJAfFcCybE4zLWYIYKsUgUoySnFjbEZouNeuW5/AkWFFE
+ OA85g6Oy6cSxuRKY9Puu5iDogk1zOotMHybN1JTGbFxL8+DgzaJdKvbPy4B4LzSWUc24
+ piGp1fsJaGBni8ctsZ7IUtVCcrKxfyncpsScKh9KE+NKVsO8mB5ZsMSC4tQ4wddoSoWV
+ VslY4bWn3+j3TKt97umGWgy8vc4axZRQASNuXCaw+7RrYmohp8vqQb1Xwf2zS13kmd0o
+ +YqS5Lq2HuY6WB6e/OvKMHVW609JPa6w/QlFaYWUUIOkvMkSjzXnCdUbkSYBf3cZ9yCj
+ XN/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=rdjBx72aSF3XhB+Mr/HN1j2ULLAwqHlFQjWOPN6q/zM=;
- b=oAQPkEaOy1fXMaJvkz5NgpVhzVDxUGLVB6T93mSGb4MdULhXmovxOADEsj6DToRpdC
- pGFO3yKEODzR6WaPqKQmqeUa5W9vLoi3vYacOVHBHi5+Hckih1KWD19hlrhA3eXJDmtk
- KOtud9VmYh+MVK1EIa26iTVr6lzEgQSx8frPMt7WPh3YQnHGQNjj+BLfpRo6TW4/g8d/
- OCjbb9XMi9P/0VNoY0Z26iq1ptqiTdmEaVfCfNcsV3ThpR6HTvOA6LA739jZ7UZRAUhM
- B7BEeMO1U3fX6cwKZpmMmwerDEhr8isZLEwPsRObA2bs4KKz5OedTlTumBQ2YE52PanB
- 4gzA==
-X-Gm-Message-State: AOAM531NIE70qSSLSeJZccIFrY8qtbYFejTqtTE/ClT7/sA5JGMceBK1
- QADZfOR3gih5zmyEEi0YNcIBVBmaXRI=
-X-Google-Smtp-Source: ABdhPJy9lLSbTYWSPWO8ZksquyOtL0A151ebQHlxm5dD8T7VTopnCwRBEs413VhV6XvpJ53JDNMlsA==
-X-Received: by 2002:adf:e90e:: with SMTP id f14mr27096305wrm.324.1614114677868; 
- Tue, 23 Feb 2021 13:11:17 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=n+aQkC7SAE9qBtEgvtv0jDuzxZFTG/xq4N24IqSvRN0=;
+ b=q+LEYys1SF5t84yDpZ/m+uMHh8/Dj6N38no81I9sQPvXlolXsqP4FvHJe0w+QRwZsQ
+ bxoflv8MmxOXitKEBRNVp7fYvcENVzKDgsBvOirIzZfNtlDC5PHSmlC9grt0bTLbQy9u
+ z1VCXZfDHye/NY2YPcMutahrUnZUzHiR3RkuAFYqCp2aHQtjcX7U6wJPQ6/9sU9/fIuO
+ X0lduq2Yqhv5ypNHEu/Xp5QuBV0sovfHDFj9fIdyNfnjVmn+SeF0I5NASGVTezM6u5Va
+ oHLlYSx/PUFGtGJhFoA+NrTqbgFU/wQd/87tcDw4d0PXfVIQOpA1h3IvElNvcUVM67BG
+ c2EA==
+X-Gm-Message-State: AOAM533iFhCx4q4PRHgdAhyWLIxB3I0tk2c5PU68Gnt9tY9WiTSynf9a
+ FWR4Pt8G4jYPl72tCakXBNc=
+X-Google-Smtp-Source: ABdhPJxufkNuadh5qhbykIV41rB2LAyn05iC1wkLA0Juoe6TyFxRn3WpvSq5BicX4p3aE5ylHjSWrw==
+X-Received: by 2002:a5d:6b42:: with SMTP id x2mr27905902wrw.117.1614115322571; 
+ Tue, 23 Feb 2021 13:22:02 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id g18sm32575451wrw.40.2021.02.23.13.11.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 13:11:17 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] tests/docker: Use --arch-only when building Debian cross
- image
-Date: Tue, 23 Feb 2021 22:11:15 +0100
-Message-Id: <20210223211115.2971565-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ by smtp.gmail.com with ESMTPSA id l4sm6149wrt.42.2021.02.23.13.22.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 13:22:02 -0800 (PST)
+Subject: Re: [PATCH v2 13/42] esp: remove dma_left from ESPState
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <204a6f19-6722-ccc5-306c-05d62b00bb6a@amsat.org>
+Date: Tue, 23 Feb 2021 22:22:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -84,56 +90,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building a Docker image based on debian10.docker on
-a non-x86 host, we get:
+On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
+> The ESP device already keeps track of the remaining bytes left to transfer via
+> its TC (transfer counter) register which is decremented for each byte that
+> is transferred across the SCSI bus.
+> 
+> Switch the transfer logic to use the value of TC instead of dma_left and then
+> remove dma_left completely, adding logic to the vmstate_esp post_load() function
+> to transfer the old dma_left value to the TC register during migration from
+> older versions.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  hw/scsi/esp.c         | 47 ++++++++++++++++++++++++++++---------------
+>  include/hw/scsi/esp.h |  5 +++--
+>  2 files changed, 34 insertions(+), 18 deletions(-)
 
- [2/4] RUN apt update &&     DEBIAN_FRONTEND=noninteractive eatmydata     apt build-dep -yy qemu
- Reading package lists... Done
- Building dependency tree
- Reading state information... Done
- Some packages could not be installed. This may mean that you have
- requested an impossible situation or if you are using the unstable
- distribution that some required packages have not yet been created
- or been moved out of Incoming.
- The following information may help to resolve the situation:
-
- The following packages have unmet dependencies:
-  builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
-                   Depends: gcc-alpha-linux-gnu but it is not installable
- E: Unable to correct problems, you have held broken packages.
-
-Fix by using the --arch-only option suggested here:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1866032/comments/1
-
-Suggested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/docker/dockerfiles/debian10.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 9d42b5a4b81..d034acbd256 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -32,6 +32,6 @@ RUN apt update && \
-         psmisc \
-         python3 \
-         python3-sphinx \
--        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-+        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
- 
- ENV FEATURES docs
--- 
-2.26.2
-
+I dare to add:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
