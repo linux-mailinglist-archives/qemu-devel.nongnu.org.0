@@ -2,64 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857DE3232BB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:03:00 +0100 (CET)
-Received: from localhost ([::1]:41802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B4103232FF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:10:56 +0100 (CET)
+Received: from localhost ([::1]:44214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEepe-0007Bs-V6
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:02:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51772)
+	id 1lEexL-00008K-19
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:10:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEenc-0006P5-34
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:00:57 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEenY-0002GX-FY
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:00:51 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lEenW-0008Rt-L2
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 21:00:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8070B2E813F
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 21:00:46 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lEewC-00083m-E4
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:09:44 -0500
+Received: from mail-dm6nam10on2107.outbound.protection.outlook.com
+ ([40.107.93.107]:21600 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1lEewA-00064V-7q
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:09:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=d24upz7IGJq9g5UUsCbDmfetpLGUFcGdRbGyCVo8OsiQYnKex+4wWOMwW0UjPSBh7bH6ZrmYUZb9DLoldEzMm/wyjLy+TVsgZ8ocri4cL9x/Y4FW/RfWaMPGT05+0XEKzzwVClqGIUCVAykRZNPtdUZ3kbi104g4igUjvyAZjuY5PuZeceaTo5Jd4HPc7tEzCW+c4Ds6x5Bi6DyHT2ItvSYPNDpkdfPHW3n3ip/UkMcfwL7z40kh+UfVB0e64DG5MqvHnJPOSh915qIkpqN0IJ8ZDh7CbGwIeMw32oxllHvltkTkwHSNpH+XpyHVoj5q/FBa03bztXvhIR7T/PPQog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wnjcneg9j0Yvv3bGUSyOwFs16g0pm/pSg2BnCvkvcJo=;
+ b=kAE7HmgjLgap2YVzDIykLsgdacjLp9jUQwVcgWDIvwpM7Zp2kQz6BnyvNTBTl5mRTZ9sPBL8m7+pE3uZT4EzL9Q0DpVnw84426A3/yuebWCUQmzLRRrUc41ZPIMnm0bvpQifhqKII6IOr0uGLro39LaSE/DonkmgnqtK9xhEz4Fww1Jle/A+jwpRi6Ce+xEHqdjftrF/u56yDsKgLedC6cadZC0CFwz90g/czcC755tf0+86dHmEKaFIQQHs9++zp0JENmmMY+d9bX8JRE7oYMo+qI/eR5LQNH2wydTfY12rzZzIIIZ8xzecgXYI8qrU1qAOXHmNhDwUF+fp09pYZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wnjcneg9j0Yvv3bGUSyOwFs16g0pm/pSg2BnCvkvcJo=;
+ b=eb+vlIK0RfXZuei3i6ZbAOyfUbMRAVo2wn9C1F9yZ9BopERu+QtXAimqLBb7ST2enNEHFe/gdb3NRPJxE1pmtZUF4FQZMnRh5ULgKF8GzN6eUOTw3UufX9I6p0Qtdr/n/KuWBZRm35WTQFZ95BzXMJ+52LpDycIHEmREsAA9cjs=
+Authentication-Results: linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SA0PR01MB6459.prod.exchangelabs.com (2603:10b6:806:db::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3868.29; Tue, 23 Feb 2021 20:54:35 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c43:8d97:e9e9:6403]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c43:8d97:e9e9:6403%7]) with mapi id 15.20.3868.033; Tue, 23 Feb 2021
+ 20:54:35 +0000
+Date: Tue, 23 Feb 2021 15:53:54 -0500
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, cota@braap.org, richard.henderson@linaro.org
+Subject: Re: Plugin Address Translations Inconsistent/Incorrect?
+Message-ID: <YDVrYk9O2gBPwxe4@strawberry.localdomain>
+References: <YDPk08PCwhD7Nm2+@strawberry.localdomain>
+ <8735xn6fy7.fsf@linaro.org>
+ <YDQYrptOxAjs0Pf0@strawberry.localdomain>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <YDQYrptOxAjs0Pf0@strawberry.localdomain>
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: MN2PR11CA0022.namprd11.prod.outlook.com
+ (2603:10b6:208:23b::27) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Feb 2021 20:47:52 -0000
-From: Dantali0n <1916655@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: dantalion
-X-Launchpad-Bug-Reporter: Dantali0n (dantalion)
-X-Launchpad-Bug-Modifier: Dantali0n (dantalion)
-Message-Id: <161411327241.7209.12340035841972797663.malonedeb@gac.canonical.com>
-Subject: [Bug 1916655] [NEW] Compilation fails due to zstd qcow2 compression
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f759833f01c7f0b01b31b10cf317a55893ebb0ad"; Instance="production"
-X-Launchpad-Hash: f69bcb909d688f9bf77a0debb8cb86cd705804c1
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ MN2PR11CA0022.namprd11.prod.outlook.com (2603:10b6:208:23b::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.28 via Frontend
+ Transport; Tue, 23 Feb 2021 20:54:34 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 0292a005-1401-4c08-4be4-08d8d83d3a24
+X-MS-TrafficTypeDiagnostic: SA0PR01MB6459:
+X-Microsoft-Antispam-PRVS: <SA0PR01MB6459A918EE2161859818F6738A809@SA0PR01MB6459.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VRuOYEnRNPx5HClv+6vPOOCFcCzlIg2JQpfL/NrB9Lf6P1K6Eag4NgOE2bwCY+403hYE7wBUo4BFobbgW1PWC2BkotP1SyxVxEELVyAloTVtwjBOyWfFBPxO6OpokY3lHKVpb3eyqah6/avWiabwy9OaBgSSiGEuq+Bl/H9vxK/Yc5taHIom6Y906YsXRHYTwmXlZrbUHcli6F0mBRSFJIYce03krNtRWOIWRxvQ5OqiGKjq2a7yXvf6ggeI8FDAO3UYLW5FuLS77zFHF5Y4LlUQR9XcqSGCe+feO4JilAZNRbLA9LSkkUVb/wn0wGRqlsldFvVcFVikQubhoB/yuc/Ml5Wk5uPzXF3rszWFAFpWOiUcmd+Rx4gTPCHLrbfNTB8z1n0LupZ6dwRivhovgnTfXr5pi3vTYCUNZrfhOcITw8QtWjY9umQ565ZDCJF+iUDVfC8vBD4ZatVKVEZNoxsdBH+GvN7++efmL+eprajKZElr9LYJxqeGAH5r8SnZcNJzEBe7kSumLAR28nplbA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(7696005)(55016002)(2906002)(186003)(9686003)(4326008)(16526019)(26005)(956004)(6666004)(6506007)(83380400001)(86362001)(498600001)(52116002)(66476007)(6916009)(66556008)(66946007)(8676002)(8936002)(5660300002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?iso-8859-1?Q?scfhY9tBIcHLc9ISduHcGicMA7Fcx4ln08M4Fhnvw5D6z+ugzgdk9n2lGH?=
+ =?iso-8859-1?Q?lp6H7U2Nn8mVt0Q1wXxp4ROwaNNFUzGIFvMy4DlfC2+5t8fAI3Hrq1UBXT?=
+ =?iso-8859-1?Q?OAbBM+anGT+2YnioKVXKbGy9c7IkIWIhCOzX3Q/jlj68y1raxEN/d6if8C?=
+ =?iso-8859-1?Q?sPBTEN1a3yrB0r+TrFGCYkh/zjd6llUWRn5gu9LTzLrKTgweo8HYzFEmVF?=
+ =?iso-8859-1?Q?i/iySvFcDB3fyGtxJL02acba7J0LTKgLSG70R+Ir9BOG0Cv1i2Wp7Fyc4q?=
+ =?iso-8859-1?Q?Zt/0DSApEhxtevPc5Epl5qW9RiUA2d2fXiqnpE+7vw4USRd4exEPHCYPmL?=
+ =?iso-8859-1?Q?8YZjGqMWg9pviZ3qeQX/b6RdShdKvbxw2hN4tSAjf4PVCujcBOk0GvuUGf?=
+ =?iso-8859-1?Q?cWWjDOxP9Wr1IDq4JAz4w4yW7TQUC0bzyAjdQGqqu9qPsZm0Sx9dhsJj9J?=
+ =?iso-8859-1?Q?7zkMBINDWTjHOVNxceUz9zgI02I8dI6AIvodiEOeopiMK6So2K3s8bd3Zm?=
+ =?iso-8859-1?Q?Eagy1LawhK/Xr5cY2Bk7OE2UHJv4eJV7rNy/H5XqP7zshciz3Zu4Ms8lvd?=
+ =?iso-8859-1?Q?rgR6nYLs6OrqgbbEpnCKr6tuALxRU2nt7wFJCKB0sU9vaSMqfpDiSqDEQb?=
+ =?iso-8859-1?Q?asZz1WkyFHv3oI4rojMe0hNJ/8IGR8IDPMRQ31ffxmnimqWyi36eJyfgvy?=
+ =?iso-8859-1?Q?BwJNKZAtzdgQYxVocrTWYhjFFlPl1ZBMbmP41W48Bb/RbcKR5DCoYiJkY5?=
+ =?iso-8859-1?Q?C4iu4KU+KyALwrmAfEHLQIu1ipNZz/5wFR7HGcB3zUEy1/jonsLoNBXxCv?=
+ =?iso-8859-1?Q?JBjbcOJoIobRaYt/Yle3zIbV6ZEj+5kN+IxCbAHgVAlkC9wFFbbj86f+1r?=
+ =?iso-8859-1?Q?9jqR5oroYZqOc4fEuyDSm6z3s8c6i0FpeMa2PthM4VQEbEh1ohdmdHhqUq?=
+ =?iso-8859-1?Q?a1UgexxVtVrasClgA36zdbXNxRiCjVK3+zJnv6ZO1zXMyO2SbpGzxnzSUS?=
+ =?iso-8859-1?Q?jC6LdN+9MVie+gtUBhz80W46k0fNWcRiAoirWw/Ew1xqms1TO9Sw8Jaj6X?=
+ =?iso-8859-1?Q?1xf4h1yLmEivmoQplSG3J/8nkY3lyXRfk0CBIB5qai7vMZcPsZ+gAu7Puh?=
+ =?iso-8859-1?Q?CxRHhBFyUY9xBC/nN29WVv/tYSfM4jsytPCSCydyHt8SIblvZI2SsVSmKm?=
+ =?iso-8859-1?Q?AYOcgxNnbvuNg1dw3iSMXZ3gwFo8w8VFE/fn+IVjclZ5gv4/ZINJvZZh02?=
+ =?iso-8859-1?Q?+pG5uPeLW2+ME/cezed07SgcQkYpYJ2Qd6VjP0TBTpU4ehn7JlPHXSqCJg?=
+ =?iso-8859-1?Q?O6PO9HiL5V2ux/Y4ZKfyDg0Y+vFQMIu9lTy+DGlPxExBOsIxBD1XeERiGx?=
+ =?iso-8859-1?Q?ShznEViGMD?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0292a005-1401-4c08-4be4-08d8d83d3a24
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Feb 2021 20:54:35.5965 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +ls3qdhDH/wD8pCi/p6jYl68Wq9uaG1GyI4NYDZFaiWBodomLrtBw6tFGBkdvgzgHvwB+JniRUwr6TLgsU+YJj2NxvrAs3DIIwRLpBHRxRg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR01MB6459
+Received-SPF: pass client-ip=40.107.93.107;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,102 +138,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916655 <1916655@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Aaron Lindsay <aaron@os.amperecomputing.com>
+From:  Aaron Lindsay via <qemu-devel@nongnu.org>
 
-Public bug reported:
+On Feb 22 15:48, Aaron Lindsay wrote:
+> On Feb 22 19:30, Alex Bennée wrote:
+> > Aaron Lindsay <aaron@os.amperecomputing.com> writes:
+> > That said I think we could add an additional helper to translate a
+> > hwaddr to a global address space address. I'm open to suggestions of the
+> > best way to structure this.
+> 
+> Haven't put a ton of thought into it, but what about something like this
+> (untested):
+> 
+> uint64_t qemu_plugin_hwaddr_phys_addr(const struct qemu_plugin_hwaddr *haddr)
+> {
+> #ifdef CONFIG_SOFTMMU
+>     if (haddr) {
+>         if (!haddr->is_io) {
+>             RAMBlock *block;
+>             ram_addr_t offset;
+> 
+>             block = qemu_ram_block_from_host((void *) haddr->v.ram.hostaddr, false, &offset);
+>             if (!block) {
+>                 error_report("Bad ram pointer %"PRIx64"", haddr->v.ram.hostaddr);
+>                 abort();
+>             }
+> 
+>             return block->offset + offset + block->mr->addr;
+>         } else {
+>             MemoryRegionSection *mrs = haddr->v.io.section;
+>             return haddr->v.io.offset + mrs->mr->addr;
+>         }
+>     }
+> #endif
+>     return 0;
+> }
 
-Compilation of QEMU fails when using recent versions of zstd.
+This appears to successfully return correct physical addresses for RAM
+at least, though I've not tested it thoroughly for MMIO yet.
 
-I use the following commands to compile QEMU:
-$ mkdir build
-$ cd build
-$ ../configure --enable-debug --target-list=3Dx86_64-softmmu
-$ make -j $(nproc)
+If it ends up being desirable based on the discussion elsewhere on this
+thread I am willing to perform more complete testing, turn this into a
+patch, and submit it.
 
-Here is a paste from the ../configure output:
-https://paste.ubuntu.com/p/dHsWzGV7TH/
-
-And one from the make output:
-https://paste.ubuntu.com/p/89qKk4NrFz/
-
-In short the error boils down to:
-../block/qcow2-threads.c: In function =E2=80=98qcow2_zstd_compress=E2=80=99:
-../block/qcow2-threads.c:225:16: error: implicit declaration of function =
-=E2=80=98ZSTD_compressStream2=E2=80=99; did you mean =E2=80=98ZSTD_compress=
-Stream=E2=80=99? [-Werror=3Dimplicit-function-declaration]
-  225 |     zstd_ret =3D ZSTD_compressStream2(cctx, &output, &input, ZSTD_e=
-_end);
-      |                ^~~~~~~~~~~~~~~~~~~~
-      |                ZSTD_compressStream
-../block/qcow2-threads.c:225:16: error: nested extern declaration of =E2=80=
-=98ZSTD_compressStream2=E2=80=99 [-Werror=3Dnested-externs]
-../block/qcow2-threads.c:225:60: error: =E2=80=98ZSTD_e_end=E2=80=99 undecl=
-ared (first use in this function)
-  225 |     zstd_ret =3D ZSTD_compressStream2(cctx, &output, &input, ZSTD_e=
-_end);
-      |
-
-System info:
-QEMU commit: 7ef8134565dccf9186d5eabd7dbb4ecae6dead87 (from Github)
-Kernel: 5.10.15
-zstd: 1.4.8
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916655
-
-Title:
-  Compilation fails due to zstd qcow2 compression
-
-Status in QEMU:
-  New
-
-Bug description:
-  Compilation of QEMU fails when using recent versions of zstd.
-
-  I use the following commands to compile QEMU:
-  $ mkdir build
-  $ cd build
-  $ ../configure --enable-debug --target-list=3Dx86_64-softmmu
-  $ make -j $(nproc)
-
-  Here is a paste from the ../configure output:
-  https://paste.ubuntu.com/p/dHsWzGV7TH/
-
-  And one from the make output:
-  https://paste.ubuntu.com/p/89qKk4NrFz/
-
-  In short the error boils down to:
-  ../block/qcow2-threads.c: In function =E2=80=98qcow2_zstd_compress=E2=80=
-=99:
-  ../block/qcow2-threads.c:225:16: error: implicit declaration of function =
-=E2=80=98ZSTD_compressStream2=E2=80=99; did you mean =E2=80=98ZSTD_compress=
-Stream=E2=80=99? [-Werror=3Dimplicit-function-declaration]
-    225 |     zstd_ret =3D ZSTD_compressStream2(cctx, &output, &input, ZSTD=
-_e_end);
-        |                ^~~~~~~~~~~~~~~~~~~~
-        |                ZSTD_compressStream
-  ../block/qcow2-threads.c:225:16: error: nested extern declaration of =E2=
-=80=98ZSTD_compressStream2=E2=80=99 [-Werror=3Dnested-externs]
-  ../block/qcow2-threads.c:225:60: error: =E2=80=98ZSTD_e_end=E2=80=99 unde=
-clared (first use in this function)
-    225 |     zstd_ret =3D ZSTD_compressStream2(cctx, &output, &input, ZSTD=
-_e_end);
-        |
-
-  System info:
-  QEMU commit: 7ef8134565dccf9186d5eabd7dbb4ecae6dead87 (from Github)
-  Kernel: 5.10.15
-  zstd: 1.4.8
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916655/+subscriptions
+-Aaron
 
