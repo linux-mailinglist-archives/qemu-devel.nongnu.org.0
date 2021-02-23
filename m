@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6242732332C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:22:55 +0100 (CET)
-Received: from localhost ([::1]:52930 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3BAE323331
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:23:57 +0100 (CET)
+Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEf8v-0004De-QO
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:22:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57188)
+	id 1lEf9w-00058A-RR
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:23:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEf8A-0003nh-RB
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:22:06 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45585)
+ id 1lEf9C-0004iE-E6
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:23:10 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEf88-0002y1-8A
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:22:06 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id y17so2450046wrs.12
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:22:03 -0800 (PST)
+ id 1lEf9B-0003RL-4K
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:23:10 -0500
+Received: by mail-wm1-x335.google.com with SMTP id p3so61656wmc.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:23:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=n+aQkC7SAE9qBtEgvtv0jDuzxZFTG/xq4N24IqSvRN0=;
- b=RW9cfRu9S7JpDwBmDv+7zsJAfFcCybE4zLWYIYKsUgUoySnFjbEZouNeuW5/AkWFFE
- OA85g6Oy6cSxuRKY9Puu5iDogk1zOotMHybN1JTGbFxL8+DgzaJdKvbPy4B4LzSWUc24
- piGp1fsJaGBni8ctsZ7IUtVCcrKxfyncpsScKh9KE+NKVsO8mB5ZsMSC4tQ4wddoSoWV
- VslY4bWn3+j3TKt97umGWgy8vc4axZRQASNuXCaw+7RrYmohp8vqQb1Xwf2zS13kmd0o
- +YqS5Lq2HuY6WB6e/OvKMHVW609JPa6w/QlFaYWUUIOkvMkSjzXnCdUbkSYBf3cZ9yCj
- XN/g==
+ bh=1NlJEQSL3qJhjpeaw+wHBI+W6u7PmZjxsBDwqV+OISY=;
+ b=Im0Y7oQvC7B9demfwPj6YINkNWaWZ6m2XDANKVtPlF1uKA+KlbKtVXZp4SqFr6rTHR
+ tslb4QvVZeTHsdA2IoOgNdTNreR9UnXL07PwRrqOWwGi4Vn2nNFvOA8zorF2tzsxSq6I
+ +rao35GVUH62lNCWwu3c6UPNoIo9QprmvYQo1bQHbXx62TY/bT1tcBT4n1NxzY1tn3KE
+ 4luthBRMjLLoUCMs0qvpoHppZBmrUeEmWAAqJAWLbl7pZmxt8q/oHZlwpc9d90QzcI04
+ 4BShFu/O+oXeoynLeQQ3u92zSyeCeDLqPG1EqWtSEWwWR1Dh8xYD7/Pei4NhABNe9p+n
+ hBkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=n+aQkC7SAE9qBtEgvtv0jDuzxZFTG/xq4N24IqSvRN0=;
- b=q+LEYys1SF5t84yDpZ/m+uMHh8/Dj6N38no81I9sQPvXlolXsqP4FvHJe0w+QRwZsQ
- bxoflv8MmxOXitKEBRNVp7fYvcENVzKDgsBvOirIzZfNtlDC5PHSmlC9grt0bTLbQy9u
- z1VCXZfDHye/NY2YPcMutahrUnZUzHiR3RkuAFYqCp2aHQtjcX7U6wJPQ6/9sU9/fIuO
- X0lduq2Yqhv5ypNHEu/Xp5QuBV0sovfHDFj9fIdyNfnjVmn+SeF0I5NASGVTezM6u5Va
- oHLlYSx/PUFGtGJhFoA+NrTqbgFU/wQd/87tcDw4d0PXfVIQOpA1h3IvElNvcUVM67BG
- c2EA==
-X-Gm-Message-State: AOAM533iFhCx4q4PRHgdAhyWLIxB3I0tk2c5PU68Gnt9tY9WiTSynf9a
- FWR4Pt8G4jYPl72tCakXBNc=
-X-Google-Smtp-Source: ABdhPJxufkNuadh5qhbykIV41rB2LAyn05iC1wkLA0Juoe6TyFxRn3WpvSq5BicX4p3aE5ylHjSWrw==
-X-Received: by 2002:a5d:6b42:: with SMTP id x2mr27905902wrw.117.1614115322571; 
- Tue, 23 Feb 2021 13:22:02 -0800 (PST)
+ bh=1NlJEQSL3qJhjpeaw+wHBI+W6u7PmZjxsBDwqV+OISY=;
+ b=V0ss2tHoee7JUmY1FTsiUCgO3Mpfhf0xONWBOc8UtJQMFeJ9XugKJeEOp/vMUUEUSi
+ AbCRfQmWkwRggRYBtoPH9/t+IVWELm/RQ7zjQEDwAfCFDTKoBD8eqApIvYHJBMbUAhGf
+ Lw3IwhYRTVtGV+++HqsgqlNzp2RIe0z6WJWnWCvJpEx5T1idrBzIZ6ZZW/NGuGl//0bS
+ BM1g1MnJOJamGBHZS2uagDBzrl9lEl3JtIKLx91nbvQfN3XVywzJ3vb3Dy9fP5srXhL+
+ BN13OBpI6tZ1P05xhM1XSyUskm2H+ftUZbaoGOFXWFq5DjJgBCMqy3M1Tw5bozmuQmyd
+ 9GgQ==
+X-Gm-Message-State: AOAM532lFO4uzrIz1qGdmcfo2M+u7nn6FtDzvqX0d5z1jhvjCAteaFt4
+ 5+tdzOTcrKI7NZp++Ccs/SM=
+X-Google-Smtp-Source: ABdhPJw5b+6k/JqtkuYZ9ruTGIvKqI2nYitrHeLuzrepEBGX5QLzFBf1lmT4QJuDNIhpF9+ZyLOWRQ==
+X-Received: by 2002:a7b:c18b:: with SMTP id y11mr630765wmi.132.1614115386430; 
+ Tue, 23 Feb 2021 13:23:06 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id l4sm6149wrt.42.2021.02.23.13.22.01
+ by smtp.gmail.com with ESMTPSA id w13sm25222wre.2.2021.02.23.13.23.05
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 13:22:02 -0800 (PST)
-Subject: Re: [PATCH v2 13/42] esp: remove dma_left from ESPState
+ Tue, 23 Feb 2021 13:23:05 -0800 (PST)
+Subject: Re: [PATCH v2 17/42] esp: move pdma_len and TC logic into
+ esp_pdma_read()/esp_pdma_write()
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-18-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <204a6f19-6722-ccc5-306c-05d62b00bb6a@amsat.org>
-Date: Tue, 23 Feb 2021 22:22:00 +0100
+Message-ID: <9f5a7759-4aeb-4eb2-be1d-0d43b5b78822@amsat.org>
+Date: Tue, 23 Feb 2021 22:23:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210209193018.31339-18-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,21 +95,16 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
-> The ESP device already keeps track of the remaining bytes left to transfer via
-> its TC (transfer counter) register which is decremented for each byte that
-> is transferred across the SCSI bus.
-> 
-> Switch the transfer logic to use the value of TC instead of dma_left and then
-> remove dma_left completely, adding logic to the vmstate_esp post_load() function
-> to transfer the old dma_left value to the TC register during migration from
-> older versions.
-> 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c         | 47 ++++++++++++++++++++++++++++---------------
->  include/hw/scsi/esp.h |  5 +++--
->  2 files changed, 34 insertions(+), 18 deletions(-)
+>  hw/scsi/esp.c | 50 ++++++++++++++++++++++++++++++++------------------
+>  1 file changed, 32 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index cfeba2feb0..7134c0aff4 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -153,22 +153,45 @@ static uint8_t *get_pdma_buf(ESPState *s)
 
-I dare to add:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
