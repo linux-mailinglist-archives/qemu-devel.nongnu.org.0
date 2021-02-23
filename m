@@ -2,75 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 272D5323054
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 19:13:07 +0100 (CET)
-Received: from localhost ([::1]:33078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBBC32304F
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 19:11:14 +0100 (CET)
+Received: from localhost ([::1]:58730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEcBG-0000lC-7N
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 13:13:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35272)
+	id 1lEc9R-00083Q-7T
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 13:11:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lEc8j-0007t8-Ov
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:10:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39582)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lEc8e-0000m3-0J
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:10:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614103822;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=v6G1rgHe9thhfsbkAmS6zjeB9s9cZiM/nHYHZZzIOTk=;
- b=HSEcg9Ovgje3tyrNTi0rsl9vCt3wtWV5SY0iPkCZQ40m9dp+kyax2PKxScib6c5cTN2B6j
- jpYxINRUJc2Ky2+KFPe6M7UMKoSKq915VoDCjEkxHiyAYZm3n5tbVeJRogR4QPaXNEG8Tu
- eESUwEoBnsvkVB5BKAFrOGcwI+pRyAg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-8hpOtvx1MjqVqtDBWbMfiw-1; Tue, 23 Feb 2021 13:10:19 -0500
-X-MC-Unique: 8hpOtvx1MjqVqtDBWbMfiw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E780A100961D;
- Tue, 23 Feb 2021 18:10:17 +0000 (UTC)
-Received: from localhost (ovpn-114-28.rdu2.redhat.com [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2EC35D6A1;
- Tue, 23 Feb 2021 18:10:14 +0000 (UTC)
-Date: Tue, 23 Feb 2021 13:09:32 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 1/4] Jobs based on custom runners: documentation and
- configuration placeholder
-Message-ID: <20210223180932.GF987581@amachine.somewhere>
-References: <20210219215838.752547-1-crosa@redhat.com>
- <20210219215838.752547-2-crosa@redhat.com>
- <3f0a3854-425d-27e7-d466-f6f4db4dd9aa@redhat.com>
- <e884e35a-cb4c-059b-7b67-1c69f7869347@redhat.com>
- <20210223164718.GA987581@amachine.somewhere>
- <8de62a35-7e66-b182-a182-4d021b713b5a@redhat.com>
- <bf8a9dd0-c20f-7bef-ae65-2c3c1e10da68@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEc84-0006r6-Fp
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:09:48 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40581)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEc82-0000Wy-Sw
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:09:48 -0500
+Received: by mail-wm1-x334.google.com with SMTP id l13so3296577wmg.5
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:09:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=izNZbzep6RFv9naLHctffwfwK4F54GVrV2OO+O24v9w=;
+ b=J3HhCsdOdU3VdYpDWSngiJryTBFAeNna54GPaSPytJoSNei4uhwhxBkl0PPwqEfujU
+ dLQJKVS+OfUy9iB8sRAvtTOpVSueNHPwCJtrSbG8IKVX8U5+Ci8HSapKo0x+MZvA8cWU
+ Wo6vHJSuzlxsIO80ANdCHbusqUJYKvvWFEmR9Zo9cobn/C/xGjoWVSUsh9fKIdX3/XbN
+ QxaxFAcr14/PeeCm+rOOirQ/H04U7o1p7ZOTXKw1grrNpnu30xgAGkckDN16+22OwZYr
+ bf9Q1YVOcCdccEom9WgYxeuBVo+21MyjVYe9qCsB5DWqGGsPeTTSJFbxIZX5TeT6jonX
+ b5Zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=izNZbzep6RFv9naLHctffwfwK4F54GVrV2OO+O24v9w=;
+ b=OW114V7u5wy4GoFoWC50RaEZMowvGA1lSvWd/thufKJ9cNUhyf7e+BCh/+raxAirOS
+ jI+DraaAlvncvdmAtXiSqwZ6KqnXbHATUNt4Gxn0OBDRemw8p43VFs/XSz9BhlNyhDok
+ xeLAHGFZTLqHVww4v7Yd6nFxK537ohjY8bPTrtLxo9al+4QXNuJlcgEEogjJo4OqHpQ3
+ 2bKCgHQt0n1w5uAr2Tl7UN78vr9JkhVH5yoob/r2+Vj7XS620i8vemjdCRgAQGas7oTE
+ 1SkNgtQOBROKlbgWj8d2A7XSqYOM/bXy0BFgJHw5qwSfRIMqLGiq/KIaLS0K4qyBd1JA
+ HM8w==
+X-Gm-Message-State: AOAM5337JFQZrkf/WPCsOkeiOMmIlBXK47dIGiNNcTBnMNSjfuw/MEG5
+ lpSKaNhI0a/rC7I3A1a/1+i52g==
+X-Google-Smtp-Source: ABdhPJxgr//Yd7QRck1Qyb/Cq7NBCtj/5yaZxJmgauRGJjx6xQKZaS419CKwLaLsEnY79OX1dxS+iA==
+X-Received: by 2002:a1c:cc08:: with SMTP id h8mr4510wmb.188.1614103785152;
+ Tue, 23 Feb 2021 10:09:45 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id y1sm32860414wrr.41.2021.02.23.10.09.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 10:09:44 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 907F51FF7E;
+ Tue, 23 Feb 2021 18:09:43 +0000 (GMT)
+References: <20210222193240.921250-1-crosa@redhat.com>
+ <20210222193240.921250-3-crosa@redhat.com>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH 2/3] scripts/ci/gitlab-pipeline-status: give more
+ information on failures
+Date: Tue, 23 Feb 2021 18:09:38 +0000
+In-reply-to: <20210222193240.921250-3-crosa@redhat.com>
+Message-ID: <874ki24pw8.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <bf8a9dd0-c20f-7bef-ae65-2c3c1e10da68@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="bGR76rFJjkSxVeRa"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,212 +88,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---bGR76rFJjkSxVeRa
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Feb 23, 2021 at 06:34:07PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 2/23/21 6:24 PM, Philippe Mathieu-Daud=E9 wrote:
-> > On 2/23/21 5:47 PM, Cleber Rosa wrote:
-> >> On Tue, Feb 23, 2021 at 05:37:04PM +0100, Philippe Mathieu-Daud=E9 wro=
-te:
-> >>> On 2/23/21 12:25 PM, Thomas Huth wrote:
-> >>>> On 19/02/2021 22.58, Cleber Rosa wrote:
-> >>>>> As described in the included documentation, the "custom runner" job=
-s
-> >>>>> extend the GitLab CI jobs already in place.=A0 One of their primary
-> >>>>> goals of catching and preventing regressions on a wider number of h=
-ost
-> >>>>> systems than the ones provided by GitLab's shared runners.
-> >>>>>
-> >>>>> This sets the stage in which other community members can add their =
-own
-> >>>>> machine configuration documentation/scripts, and accompanying job
-> >>>>> definitions.=A0 As a general rule, those newly added contributed jo=
-bs
-> >>>>> should run as "non-gating", until their reliability is verified (AK=
-A
-> >>>>> "allow_failure: true").
-> >>>>>
-> >>>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
-> >>>>> ---
-> >>>>> =A0 .gitlab-ci.d/custom-runners.yml | 14 ++++++++++++++
-> >>>>> =A0 .gitlab-ci.yml=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
-=A0 |=A0 1 +
-> >>>>> =A0 docs/devel/ci.rst=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 2=
-8 ++++++++++++++++++++++++++++
-> >>>>> =A0 docs/devel/index.rst=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 |=A0 1 +
-> >>>>> =A0 4 files changed, 44 insertions(+)
-> >>>>> =A0 create mode 100644 .gitlab-ci.d/custom-runners.yml
-> >>>>> =A0 create mode 100644 docs/devel/ci.rst
-> >>>>>
-> >>>>> diff --git a/.gitlab-ci.d/custom-runners.yml
-> >>>>> b/.gitlab-ci.d/custom-runners.yml
-> >>>>> new file mode 100644
-> >>>>> index 0000000000..3004da2bda
-> >>>>> --- /dev/null
-> >>>>> +++ b/.gitlab-ci.d/custom-runners.yml
-> >>>>> @@ -0,0 +1,14 @@
-> >>>>> +# The CI jobs defined here require GitLab runners installed and
-> >>>>> +# registered on machines that match their operating system names,
-> >>>>> +# versions and architectures.=A0 This is in contrast to the other =
-CI
-> >>>>> +# jobs that are intended to run on GitLab's "shared" runners.
-> >>>>> +
-> >>>>> +# Different than the default approach on "shared" runners, based o=
-n
-> >>>>> +# containers, the custom runners have no such *requirement*, as th=
-ose
-> >>>>> +# jobs should be capable of running on operating systems with no
-> >>>>> +# compatible container implementation, or no support from
-> >>>>> +# gitlab-runner.=A0 To avoid problems that gitlab-runner can cause=
- while
-> >>>>> +# reusing the GIT repository, let's enable the recursive submodule
-> >>>>> +# strategy.
-> >>>>> +variables:
-> >>>>> +=A0 GIT_SUBMODULE_STRATEGY: recursive
-> >>>>
-> >>>> Is it really necessary? I thought our configure script would take ca=
-re
-> >>>> of the submodules?
-> >>>
-> >>
-> >> I've done a lot of testing on bare metal systems, and the problems
-> >> that come from reusing the same system and failed cleanups can be very
-> >> frustrating.  It's unfortunate that we need this, but it was the
-> >> simplest and most reliable solution I found.  :/
-> >>
-> >> Having said that, I noticed after I posted this series that this is
-> >> affecting all other jobs.  We don't need it that in the jobs based
-> >> on containers (for obvious reasons), so I see two options:
-> >>
-> >> 1) have it enabled on all jobs for consistency
-> >>
-> >> 2) have it enabled only on jobs that will reuse the repo
-> >>
-> >>> Well, if there is a failure during the first clone (I got one network
-> >>> timeout in the middle)=20
-> >=20
-> > [This network failure is pasted at the end]
-> >=20
-> >>> then next time it doesn't work:
-> >>>
-> >>> Updating/initializing submodules recursively...
-> >>> Synchronizing submodule url for 'capstone'
-> >>> Synchronizing submodule url for 'dtc'
-> >>> Synchronizing submodule url for 'meson'
-> >>> Synchronizing submodule url for 'roms/QemuMacDrivers'
-> >>> Synchronizing submodule url for 'roms/SLOF'
-> >>> Synchronizing submodule url for 'roms/edk2'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/esaxx'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/libdivsu=
-fsort'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/CryptoPkg/Library/OpensslLib/openssl'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/MdeModulePkg/Library/BrotliCustomDecompressLib/brotli'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/MdeModulePkg/Universal/RegularExpressionDxe/oniguruma'
-> >>> Synchronizing submodule url for
-> >>> 'roms/edk2/UnitTestFrameworkPkg/Library/CmockaLib/cmocka'
->=20
-> So far, beside the repository useful for QEMU, I cloned:
->=20
-> - boringssl
-> - krb5
-> - pyca-cryptography
-> - esaxx
-> - libdivsufsort
-> - oniguruma
-> - openssl
-> - brotli
-> - cmocka
+Cleber Rosa <crosa@redhat.com> writes:
+
+> When an HTTP GET request fails, it's useful to go beyond the "not
+> successful" message, and show the code returned by the server.
 >
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
 
-Hi Phil,
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-I'm not following what you meant by "I cloned"... Are you experimenting
-with this on a machine of your own and manually cloning the submodules?
-
-> But reach the runner time limit of 2h.
+> ---
+>  scripts/ci/gitlab-pipeline-status | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
 >
-> The directory reports 3GB of source code.
->=20
-> I don't think the series has been tested enough before posting,
+> diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeli=
+ne-status
+> index 0c1e8bd8a7..ad62ab3cfc 100755
+> --- a/scripts/ci/gitlab-pipeline-status
+> +++ b/scripts/ci/gitlab-pipeline-status
+> @@ -56,7 +56,9 @@ def get_json_http_response(url):
+>      connection.request('GET', url=3Durl)
+>      response =3D connection.getresponse()
+>      if response.code !=3D http.HTTPStatus.OK:
+> -        raise CommunicationFailure("Failed to receive a successful respo=
+nse")
+> +        msg =3D "Received unsuccessful response: %s (%s)" % (response.co=
+de,
+> +                                                           response.reas=
+on)
+> +        raise CommunicationFailure(msg)
+>      return json.loads(response.read())
 
-Please take into consideration that this series, although simple in
-content, touches and interacts with a lot of moving pieces, and
-possibly with personal systems that I did not have, or will have,
-access to.  As far as public testing proof goes, you can see a
-pipeline here with this version of this series here:
 
-   https://gitlab.com/cleber.gnu/qemu/-/pipelines/258982039/builds
-
-As I said elsewhere, I only noticed the recursive submodule being
-applied to the existing jobs after I submitted the series.  Mea culpa.
-But:
-
- * none of the jobs took noticeably longer than the previous baseline
- * there was one *container build failure* (safe to say it's not
-   related)
- * all other jobs passed successfully
-
-And, along with the previous versions, this series were tested on all
-the previously included architectures and operating systems.  It's
-unfortunate that because of your experience at this time (my
-apologies), you don't realize the amount of testing done so far.
-
-> I'm stopping here my experiments.
->
-> Regards,
->=20
-> Phil.
->=20
-
-I honestly appreciate your help here up to this point.
-
-Regards,
-- Cleber.
-
---bGR76rFJjkSxVeRa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmA1RNkACgkQZX6NM6Xy
-CfPv/RAAk6kjr3kc6QHV59btK7LzuiOVEbYd1VsXrCTTESbAR100h/3XNIy4Xe6T
-IScLU/NfiC376VAFHrkQbqukaXh8Di3G5vG2gRcC10EI4rGWZkX5uz72ajkF+Qz0
-w2BSlp7caclmJpsTVjfodY+OQxlR7c92Gvl3HGA+MOsmvOFPYwzSGzO0aRukBTdL
-8WlHPcIhCKax6gY5aXqsvahD1HKXopfyaOUQK+YdLo7mCzbf3g+hIHtzWh32+ZUC
-/0XUIbmNaQwYF2PUdFeWqL5tJKLvLUoJC9iltzJWZ3bpQ0CBtHYYnDaL19JD71fF
-VdGGX6cTg7razqi6IQ9uaxRnWpOVYvBefgHqzj4Zg9ns15vzyeIYaS91zNwaIthe
-solt0mhnWUZU7T+pGTTAiYVj2IKpUqh0spy0DLSpJ23XooBo9p4M3f11pUAbAxuc
-juzUguwUZpNENzQDQk69dTchYjOdgsBuJUs74e2O3T8qlEbrJC3ycJAgc9DDinuV
-Hyp6YReYvOxxTiAMk54MgTGiwJCueRRUxI0cxeTpnmQ3Ql95Wdeud/r2hK+PNBGJ
-RlVrBJk/Qjzpd2RTn0KWcEXpwqjCf0TJqRrjgRUV5FRp5PtRiUaCN/m5vbIEAsNv
-OHZ+kV4aDrtMUPZ4h3c/vgq9/5gi8Pz2yQpgA/rPdK1sbkL5NBQ=
-=+El/
------END PGP SIGNATURE-----
-
---bGR76rFJjkSxVeRa--
-
+--=20
+Alex Benn=C3=A9e
 
