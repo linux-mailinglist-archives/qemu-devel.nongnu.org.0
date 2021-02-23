@@ -2,82 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EC3E322D2D
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:11:16 +0100 (CET)
-Received: from localhost ([::1]:52154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32E9B322D4A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:19:00 +0100 (CET)
+Received: from localhost ([::1]:54562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEZLH-0004NF-6e
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:11:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47962)
+	id 1lEZSj-0005is-Hc
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:18:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEZJn-0003UH-6c
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:09:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59645)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEZJl-0003TL-Ii
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:09:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614092980;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=HsZ7ph7Hi3IfIatLW8IfMVbBCCJOSQtXxCEEWkRevGE=;
- b=C1A/YtQqGHa4Xr/r0BNn929pZG2keShAogvn1Yglaa6yWLqjcu1SghsOcvU6tNQWrEEV/o
- F0WwhhK5lyeDyeqdzdrbpQMeDNw2u9yhToBQ8quYttdxQ83uhQu4tgSLwyUfhV/C0nkBgN
- zJ1uKbxPVvokDT8rVVCq1IsngQO/lpM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-pj9zf6JjMeGLdHm0WNmtAg-1; Tue, 23 Feb 2021 10:09:37 -0500
-X-MC-Unique: pj9zf6JjMeGLdHm0WNmtAg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4DEC7801975;
- Tue, 23 Feb 2021 15:09:36 +0000 (UTC)
-Received: from [10.36.114.0] (ovpn-114-0.ams2.redhat.com [10.36.114.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2282D60CFB;
- Tue, 23 Feb 2021 15:09:20 +0000 (UTC)
-Subject: Re: [PATCH v6 01/12] memory: Introduce RamDiscardMgr for RAM memory
- regions
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210222115708.7623-1-david@redhat.com>
- <20210222115708.7623-2-david@redhat.com>
- <7137d1ad-2741-7536-5a3c-58d0c4f8306b@redhat.com>
- <0277759d-bb9a-6bf3-0ca4-53d3f7ec98f5@redhat.com>
- <a6f7de7a-72c3-a6c6-0a14-3e21a0cc833b@redhat.com>
- <24562156-457f-90b5-dcaf-c55fba1e881b@redhat.com>
- <adedbbe8-cf77-7ede-1291-a1d6f6082451@redhat.com>
- <82e6faad-7d45-0f37-eda5-aef42e353972@redhat.com>
- <1409acfe-86eb-a4db-b35a-b45f5c046a2e@redhat.com>
- <f53e9c67-fc0f-d168-7ed9-77d866de7654@redhat.com>
-From: David Hildenbrand <david@redhat.com>
-Organization: Red Hat GmbH
-Message-ID: <f2c98c4c-d828-1448-599d-c839763b806d@redhat.com>
-Date: Tue, 23 Feb 2021 16:09:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEZQa-0005AD-0F
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:16:44 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:54225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lEZQV-0006a8-Th
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:16:43 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id x16so2766727wmk.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 07:16:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=YcZkZVEs+osikOGdLUa9q4S8+Q/cG/KsvrzVZfSIN4Y=;
+ b=gxeSJAWa6GJe38uYRcp7oECdwejpYSbPJIJaOhznDnnU8yIwqbIy96cTl6h++96UVL
+ BZz4flWjPjd2U03m5iZQSB7PUwKOJxGds0sTxbRlYm5c3uaBHK1ysnl88sVZDV+I5f9S
+ VBl3JlT45dJBPzgPxPNjQNlyYpf3jVKdqEZjDqzhn6H106UXiSx18UQ5FohTPm6WGlTp
+ YYnchuUlf1vhBK5LUchNsQaJhKFN5/zqd/FfOcIN5J6CGScZPUbEr9oaA+65qAxgPako
+ fDVAJS+gLaktE//vYUHwolTlU6wUIDFf4gF0a2V7cc9tw/9Oa051D59GdaGwsNXs+q8O
+ V3ZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=YcZkZVEs+osikOGdLUa9q4S8+Q/cG/KsvrzVZfSIN4Y=;
+ b=WGUjjoNga4itcOjTqTNFen+kcrqLgaIAsDFfrCwuB7Mk6bkUT6o4yb1A4/HHxCZNhz
+ In61RQ1Tu2Sl/BD7d+jSPbxDqS/XeFHXeSFnLnP0P3cy+lv0CQfTG88a2lV7tyT/bOda
+ YJ62UeDRcWFo5YiPMgS5oj5nSwqx+2I0W0qqXQ/AWfsLPbiADOCFHkTD3IFqeDNVhQog
+ IGQa7ZUkH++gDzxenGW7/VEe1L8fFxWluRNLbgcJPGPx3LGWf7ODWjRd5w6c13TbtvY7
+ qzqamKPuUPGku4l0XTCZad8EdUxaVYrwyA/23NKf+1ZVMMXKiWK2kjesJDkdAji2+bEB
+ uu/w==
+X-Gm-Message-State: AOAM53191LDGqOZz4IArxeBti+r78H68C2quhvR8xa9w3vkaxr/If8JA
+ 6PB+2sVZwdVPr8DTyQJzBdOhBw==
+X-Google-Smtp-Source: ABdhPJxWeofDLhH9Xk2bZjG1g0zqP9DjKIhb/waQlQmvf68j0zlmtfxdDZyb2SLIPr2u6U1TMUTLng==
+X-Received: by 2002:a1c:a795:: with SMTP id
+ q143mr25720868wme.113.1614093397878; 
+ Tue, 23 Feb 2021 07:16:37 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u137sm2851090wmu.20.2021.02.23.07.16.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 07:16:36 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 6BF691FF7E;
+ Tue, 23 Feb 2021 15:16:35 +0000 (GMT)
+References: <20210219215838.752547-1-crosa@redhat.com>
+ <20210219215838.752547-4-crosa@redhat.com>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Cleber Rosa <crosa@redhat.com>
+Subject: Re: [PATCH v5 3/4] Jobs based on custom runners: docs and
+ gitlab-runner setup playbook
+Date: Tue, 23 Feb 2021 15:15:13 +0000
+In-reply-to: <20210219215838.752547-4-crosa@redhat.com>
+Message-ID: <87czwq4xws.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f53e9c67-fc0f-d168-7ed9-77d866de7654@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,42 +89,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
- Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
- teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
- Marek Kedzierski <mkedzier@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.02.21 16:03, Paolo Bonzini wrote:
-> On 23/02/21 11:50, David Hildenbrand wrote:
->>
->>
->> However, I do agree that the notifier should work with
->> MemoryRegionSection - this will make the "client" code much easier.
->>
->> The register()/replay_populate() mechanism should consume a
->> MemoryRegionSection to work on, and call the listener via (adjusted)
->> MemoryRegionSection.
->>
->> Maybe I'm even able to simplify/get rid of the discard_all() callback.
-> 
-> Good, thanks for trying and finding the best of both worlds.
 
-I'll do a couple of reworks and then share the current state, then we 
-can discuss if this is going into the right direction.
+Cleber Rosa <crosa@redhat.com> writes:
 
-Thanks a lot for the feedback!
+> To have the jobs dispatched to custom runners, gitlab-runner must
+> be installed, active as a service and properly configured.  The
+> variables file and playbook introduced here should help with those
+> steps.
+>
+> The playbook introduced here covers a number of different Linux
+> distributions and FreeBSD, and are intended to provide a reproducible
+> environment.
+>
+> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> ---
+>  docs/devel/ci.rst                  | 58 ++++++++++++++++++++++++++
+>  scripts/ci/setup/.gitignore        |  1 +
+>  scripts/ci/setup/gitlab-runner.yml | 65 ++++++++++++++++++++++++++++++
+>  scripts/ci/setup/vars.yml.template | 13 ++++++
+>  4 files changed, 137 insertions(+)
+>  create mode 100644 scripts/ci/setup/.gitignore
+>  create mode 100644 scripts/ci/setup/gitlab-runner.yml
+>  create mode 100644 scripts/ci/setup/vars.yml.template
+>
+> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
+> index a556558435..9f9c4bd3f9 100644
+> --- a/docs/devel/ci.rst
+> +++ b/docs/devel/ci.rst
+> @@ -56,3 +56,61 @@ To run the playbook, execute::
+>=20=20
+>    cd scripts/ci/setup
+>    ansible-playbook -i inventory build-environment.yml
+> +
+> +gitlab-runner setup and registration
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +The gitlab-runner agent needs to be installed on each machine that
+> +will run jobs.  The association between a machine and a GitLab project
+> +happens with a registration token.  To find the registration token for
+> +your repository/project, navigate on GitLab's web UI to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * Under "Set up a specific Runner manually", look for the value under
+> +   "Use the following registration token during setup"
+> +
+> +Copy the ``scripts/ci/setup/vars.yml.template`` file to
+> +``scripts/ci/setup/vars.yml``.  Then, set the
+> +``gitlab_runner_registration_token`` variable to the value obtained
+> +earlier.
+> +
+> +.. note:: gitlab-runner is not available from the standard location
+> +          for all OS and architectures combinations.  For some systems,
+> +          a custom build may be necessary.  Some builds are avaiable
+> +          at https://cleber.fedorapeople.org/gitlab-runner/ and this
+> +          URI may be used as a value on ``vars.yml``
+> +
+> +To run the playbook, execute::
+> +
+> +  cd scripts/ci/setup
+> +  ansible-playbook -i inventory gitlab-runner.yml
+> +
+> +Following the registration, it's necessary to configure the runner tags,
+> +and optionally other configurations on the GitLab UI.  Navigate to:
+> +
+> + * Settings (the gears like icon), then
+> + * CI/CD, then
+> + * Runners, and click on the "Expand" button, then
+> + * "Runners activated for this project", then
+> + * Click on the "Edit" icon (next to the "Lock" Icon)
+> +
+> +Under tags, add values matching the jobs a runner should run.  For a
+> +Ubuntu 20.04 aarch64 system, the tags should be set as::
+> +
+> +  ubuntu_20.04,aarch64
+> +
+> +Because the job definition at ``.gitlab-ci.d/custom-runners.yml``
+> +would contain::
+> +
+> +  ubuntu-20.04-aarch64-all:
+> +   tags:
+> +   - ubuntu_20.04
+> +   - aarch64
+> +
+> +It's also recommended to:
+> +
+> + * increase the "Maximum job timeout" to something like ``2h``
+> + * uncheck the "Run untagged jobs" check box
+> + * give it a better Description
+> diff --git a/scripts/ci/setup/.gitignore b/scripts/ci/setup/.gitignore
+> new file mode 100644
+> index 0000000000..f112d05dd0
+> --- /dev/null
+> +++ b/scripts/ci/setup/.gitignore
+> @@ -0,0 +1 @@
+> +vars.yml
+> \ No newline at end of file
+> diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab=
+-runner.yml
+> new file mode 100644
+> index 0000000000..ab1944965f
+> --- /dev/null
+> +++ b/scripts/ci/setup/gitlab-runner.yml
+> @@ -0,0 +1,65 @@
+> +---
+> +- name: Installation of gitlab-runner
+> +  hosts: all
+> +  vars_files:
+> +    - vars.yml
+> +  tasks:
+> +    - debug:
+> +        msg: 'Checking for a valid GitLab registration token'
+> +      failed_when: "gitlab_runner_registration_token =3D=3D 'PLEASE_PROV=
+IDE_A_VALID_TOKEN'"
+> +
+> +    - name: Checks the availability of official gitlab-runner builds in =
+the archive
+> +      uri:
+> +        url: https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab=
+_runner_version  }}/binaries/gitlab-runner-linux-386
+> +        method: HEAD
+> +        status_code:
+> +          - 200
+> +          - 403
+> +      register: gitlab_runner_available_archive
+> +
+> +    - name: Update base url
+> +      set_fact:
+> +        gitlab_runner_base_url: https://s3.amazonaws.com/gitlab-runner-d=
+ownloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-
+> +      when: gitlab_runner_available_archive.status =3D=3D 200
+> +    - debug:
+> +        msg: Base gitlab-runner url is {{ gitlab_runner_base_url  }}
+> +
+> +    - name: Create a group for the gitlab-runner service
+> +      group:
+> +        name: gitlab-runner
+
+I got this not particularly helpful error:
+
+  TASK [Create a group for the gitlab-runner service] *********************=
+***************************************************************************=
+*************************
+  fatal: [hackbox-ubuntu-2004]: FAILED! =3D> {"changed": false, "module_std=
+err": "Shared connection to 192.168.122.170 closed.\r\n", "module_stdout": =
+"/root/.ansible/tmp/ansible
+  -tmp-1614092629.906646-258936160555386/AnsiballZ_group.py:17: Deprecation=
+Warning: the imp module is deprecated in favour of importlib; see the modul=
+e's documentation for alt
+  ernative uses\r\n  import imp\r\nTraceback (most recent call last):\r\n  =
+File \"/tmp/ansible_group_payload_2xv1or12/ansible_group_payload.zip/ansibl=
+e/module_utils/basic.py\"
+  , line 279, in get_distribution\r\nAttributeError: module 'platform' has =
+no attribute '_supported_dists'\r\n\r\nDuring handling of the above excepti=
+on, another exception occ
+  urred:\r\n\r\nTraceback (most recent call last):\r\n  File \"/root/.ansib=
+le/tmp/ansible-tmp-1614092629.906646-258936160555386/AnsiballZ_group.py\", =
+line 113, in <module>\r\n
+      _ansiballz_main()\r\n  File \"/root/.ansible/tmp/ansible-tmp-16140926=
+29.906646-258936160555386/AnsiballZ_group.py\", line 105, in _ansiballz_mai=
+n\r\n    invoke_module(zi
+  pped_mod, temp_path, ANSIBALLZ_PARAMS)\r\n  File \"/root/.ansible/tmp/ans=
+ible-tmp-1614092629.906646-258936160555386/AnsiballZ_group.py\", line 48, i=
+n invoke_module\r\n    im
+  p.load_module('__main__', mod, module, MOD_DESC)\r\n  File \"/usr/lib/pyt=
+hon3.8/imp.py\", line 234, in load_module\r\n    return load_source(name, f=
+ilename, file)\r\n  File
+  \"/usr/lib/python3.8/imp.py\", line 169, in load_source\r\n    module =3D=
+ _exec(spec, sys.modules[name])\r\n  File \"<frozen importlib._bootstrap>\"=
+, line 604, in _exec\r\n  F
+  ile \"<frozen importlib._bootstrap_external>\", line 783, in exec_module\=
+r\n  File \"<frozen importlib._bootstrap>\", line 219, in _call_with_frames=
+_removed\r\n  File \"/tmp
+  /ansible_group_payload_2xv1or12/__main__.py\", line 501, in <module>\r\n =
+ File \"/tmp/ansible_group_payload_2xv1or12/__main__.py\", line 449, in mai=
+n\r\n  File \"/tmp/ansibl
+  e_group_payload_2xv1or12/__main__.py\", line 89, in __new__\r\n  File \"/=
+tmp/ansible_group_payload_2xv1or12/ansible_group_payload.zip/ansible/module=
+_utils/basic.py\", line 3
+  37, in load_platform_subclass\r\n  File \"/tmp/ansible_group_payload_2xv1=
+or12/ansible_group_payload.zip/ansible/module_utils/basic.py\", line 289, i=
+n get_distribution\r\nAtt
+  ributeError: module 'platform' has no attribute 'dist'\r\n", "msg": "MODU=
+LE FAILURE\nSee stdout/stderr for the exact error", "rc": 1}
+          to retry, use: --limit @/home/alex/lsrc/qemu.git/scripts/ci/setup=
+/gitlab-runner.retry
 
 
--- 
-Thanks,
-
-David / dhildenb
-
+--=20
+Alex Benn=C3=A9e
 
