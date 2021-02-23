@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3D1532293C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:09:12 +0100 (CET)
-Received: from localhost ([::1]:38706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4947132294A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:10:42 +0100 (CET)
+Received: from localhost ([::1]:42736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEVZ1-0006cc-T1
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:09:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48978)
+	id 1lEVaT-0008L7-AY
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:10:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEVXc-0005Zn-PB
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:07:44 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39623)
+ id 1lEVZB-0007MZ-B4
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:09:22 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35492)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEVXb-0004PB-32
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:07:44 -0500
-Received: by mail-ej1-x631.google.com with SMTP id t11so33890889ejx.6
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:07:42 -0800 (PST)
+ id 1lEVZ7-0005AJ-NO
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:09:21 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id g5so33971407ejt.2
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:09:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=n6fQBWTxTU/29VDIOFupdpjGY1QJ5/ypRF7jGCsiMF0=;
- b=iTXC9Qyq23wGHW3XckwHBfxRD4EvlZovJuBbR9pdWu4bjE7cuHTvYpnZZ1sDfbv4Qr
- EJsxtVxayAgxAaDc/1ku42QKgshWHRxGSBQiDtkXTCm3UQFEfbffwKd3AADExm+3iWNE
- 7gNd/v7G4RUvllDQi9QGeVaaCaD2oJj3oKFADc7NowAN2x271zn39ufAt2SmxDEI4eSv
- QZsRV+K3Xw7nOB/G1/3+Ij9YXDsHbd1m+V3AGD2B/59jBjx/Db6SoaFN9RTNeD/3WIrk
- jz7T8/69Akcz4PcqltAaN1F06AyUcUeY+DwfgGznuKwfO6yaR8VAbrRpzQCO6ADOkwii
- tBmA==
+ :cc; bh=eADvxbXOglYh+IExeRA58qpVi7tKOFI75IARnzGF3BI=;
+ b=XBx5BCvdTyS+6BwKy7+itSE8aRDAM3KxHcIC6Y32IjVyNjYoeZu7ndgTMmlDosC/2q
+ Abt1qQFG1h28/LX/wxWpolJOqiWVEDY03I3s+ZaK2EnNwBeaHTazL/geIu5A8o9jv/2x
+ sFDY9/2Y8G/QeJ9oRAtzF6vY3WzhBZLmfgpY+yJwtJk7cgkTfeTLhucysap3hj2l6GDy
+ D8HG4u2E6ZVqEhbnmAWppSL4qzWKf+RTulpbEMWtSaOG3kCBSXWOyTOdCKY1sGLgqGei
+ JQqCh9dJHryg1VbO8YEXhiQcZQvkZwzN+qV8xCcp+tMV71nhMRYJhrvMIxHFQPsrVKYP
+ WJIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n6fQBWTxTU/29VDIOFupdpjGY1QJ5/ypRF7jGCsiMF0=;
- b=OgE4W3VlN4BFzJPQ/fp8GDv+hdXhF8gZE1GD+vcL+E3ofgPvPPazbgElVrZmHrO/CB
- k7gcL9gtc8lncV7/lnsa/L1i/7dIZQcF1ltwE0Jjxr9rbesRkTn8ocUeydu8h7KvOXw8
- Z5vlZxaFYH3YkEdcuP9R3RIaFNF5cCa1XczlvSV69lzQKvB/YZh4N+JpSYVftOHsjq1w
- vWv7f5jBLgZLl0pZgpIqYtPW1IabtYGA5OfGC2A1vPZKIjaJ5ZMMjSds9A1peKYhdbGL
- EQCBKp6DJOOQ/Z0HodGy5LD2Z0v6np2HStnCnyvszBdNfpqEP4Xs+tLaAFmir4Ppl6fL
- bIIw==
-X-Gm-Message-State: AOAM530Xu9YOSxjv/wmgKV42CCPkPspTXgoEFBTPkOqEh76OzFnA6JDZ
- FQ3f6thCcStiEhvMjMBU1lET/jCotIK1etKOFEpiMA==
-X-Google-Smtp-Source: ABdhPJy1zc+gr45/IA0tjJEDyDrR81rvQWsZOJMQGPqp5NvbxETs2Tqpj6nl8pMrEmRZDR6YcTqdTSw9AWeJHkFjpl4=
+ :message-id:subject:to:cc;
+ bh=eADvxbXOglYh+IExeRA58qpVi7tKOFI75IARnzGF3BI=;
+ b=mj7tbBZ5lt9hYa6YHAzhl7isEkedCfzAB2gpHZ19yrgRzMJlZcXc8KGjObixhwSpqr
+ f4XtjXLoDAtrISE2wwS25stRdyzwenfXwTtQcBwUBRcpQCWsTL9olI1TDRR62SInAicC
+ oqwDP89PPo4IpYrc77301jM0u2pl8QNruqdGnWuaDTiUlu9Xk13Jvnph2pVVzRIARn4M
+ /7nqRzcG5pKplKe9iAR04lzqKzRFD/PBluolv1qR1ETp+vp3pfBtntxMlObXAPqOlWLP
+ fPKYsv3J1MXLwoMBIhXMTkSLE9xEdogewySIhkJo8WgtP1MayaXISbXQj2mf1n5NjPe9
+ gIwg==
+X-Gm-Message-State: AOAM531qaIH4XuzcK8mqrqo+WsMkvAf4h0rBwg0s76XSBwoUWkdAgsWf
+ bINw1MefEsFc9X+6FjWyUsitVqEG6UCf33ja5HxJFg==
+X-Google-Smtp-Source: ABdhPJwyB2A0Wy4Nto/2j8X3M7z/Qy393j+yFSTsyeljzRFa2KGEavzPPk/LKGI3P39Da8bnfKju30nxJD4siwONLzM=
 X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr26153548ejd.250.1614078461665; 
- Tue, 23 Feb 2021 03:07:41 -0800 (PST)
+ a7mr26162329ejd.250.1614078556227; 
+ Tue, 23 Feb 2021 03:09:16 -0800 (PST)
 MIME-Version: 1.0
-References: <20210223095931.16908-1-alex.bennee@linaro.org>
-In-Reply-To: <20210223095931.16908-1-alex.bennee@linaro.org>
+References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
+ <99af17f9-10cf-7c9b-8222-2318b464f5b0@redhat.com>
+ <20210222082137.1b3f8b3b@bahia.lan>
+ <CAFEAcA8oqPR=PbqWaoBGfDKWik6Jv5TuE-PZqTc0W3TsoktvsA@mail.gmail.com>
+ <20210222154341.0992238d@bahia.lan>
+In-Reply-To: <20210222154341.0992238d@bahia.lan>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 23 Feb 2021 11:07:30 +0000
-Message-ID: <CAFEAcA-v51sgBiNs5hpHwyQx0X=rYdmaWYPesJ0pGy=+ufyi4w@mail.gmail.com>
-Subject: Re: [PATCH] docs: move CODING_STYLE into the developer documentation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Date: Tue, 23 Feb 2021 11:09:05 +0000
+Message-ID: <CAFEAcA8x6GnfaHtfTLtEMiM1Xm9K7dhsMEpFjf2MFYe7T1jF4w@mail.gmail.com>
+Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
+To: Greg Kurz <groug@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,38 +81,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 23 Feb 2021 at 10:02, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+On Mon, 22 Feb 2021 at 14:43, Greg Kurz <groug@kaod.org> wrote:
+> My understanding is that users must be "maintainer" to edit other's
+> patches. Only three 'maintainers' are currently listed at ozlabs for
+> QEMU:
 >
-> There is no particular reason to keep this on it's own in the root of
-> the tree. Move it into the rest of the fine developer manual and fixup
-> any links to it. The only tweak I've made is to fix the code-block
-> annotations to mention the language C.
+> https://patchwork.ozlabs.org/api/1.0/projects/14/
 >
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
-> diff --git a/README.rst b/README.rst
-> index ce39d89077..f5d41e59b1 100644
-> --- a/README.rst
-> +++ b/README.rst
-> @@ -66,7 +66,9 @@ When submitting patches, one common approach is to use =
-'git
->  format-patch' and/or 'git send-email' to format & send the mail to the
->  qemu-devel@nongnu.org mailing list. All patches submitted must contain
->  a 'Signed-off-by' line from the author. Patches should follow the
-> -guidelines set out in the CODING_STYLE.rst file.
-> +guidelines set out in the `style section
-> +<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
-> +the Developers Guide.
+> We had a discussion about that a few months back with Christian Schoenebeck
+> (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we didn't
+> quite know how to go further because of lack of documentation, but I'd be
+> glad to experiment the full patchwork experience if someone knows how to
+> do it :-)
 
-This is the first instance of a qemu.readthedocs.io URL in the
-tree. Do we really want to have our references to our documentation
-be to a third party website ?
+If people want to try that kind of thing out I'm happy to try
+to tweak their permissions on the patchwork instance.
 
-thanks
 -- PMM
 
