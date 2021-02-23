@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAF58322AA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 13:36:11 +0100 (CET)
-Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C6B2322AAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 13:41:03 +0100 (CET)
+Received: from localhost ([::1]:51416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEWvC-0005OZ-Rd
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 07:36:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40318)
+	id 1lEWzu-0006UB-7f
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 07:41:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEWuH-0004zO-Gv
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:35:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEWuC-0001cR-N2
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:35:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614083706;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=GIMJ9bAQxz42efptjbtyqHDPTeys/er7jl5rpZuRjAc=;
- b=XTmIHr6VvT+054RgdAVmKzGClXMJ+dU4yqsQNK7WkNfSzkP/5cDHKJLMwqtundVboh1oy7
- G/nww3JuZyOpqbE8etWCCoIwcTBcH/hagR40GQjZBtUCMDu8ffq2+tVMRQOSMkLQlfVXPY
- iP9gK8x0/Jv34wVVd7E13rXNCWk0bK4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-484-nB2bBaO1PXqEjaQqZSICNQ-1; Tue, 23 Feb 2021 07:35:03 -0500
-X-MC-Unique: nB2bBaO1PXqEjaQqZSICNQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B04710066EF;
- Tue, 23 Feb 2021 12:35:02 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DB8475C290;
- Tue, 23 Feb 2021 12:34:58 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 67FF3113860F; Tue, 23 Feb 2021 13:34:57 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
-References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
- <c5d13648-445d-92b9-6bff-95bd2b99d52e@redhat.com>
- <87y2fff90p.fsf@dusky.pond.sub.org>
- <f883798f-8054-61a3-a1ec-a1e80b6c2f4b@redhat.com>
-Date: Tue, 23 Feb 2021 13:34:56 +0100
-In-Reply-To: <f883798f-8054-61a3-a1ec-a1e80b6c2f4b@redhat.com> (Paolo
- Bonzini's message of "Tue, 23 Feb 2021 11:59:20 +0100")
-Message-ID: <87wnuzc68f.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEWy2-00063V-PN
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:39:08 -0500
+Received: from mx2.suse.de ([195.135.220.15]:44298)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEWxu-0003Ho-03
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:39:06 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 9C944AC69;
+ Tue, 23 Feb 2021 12:38:55 +0000 (UTC)
+Subject: Re: [RFC v1 34/38] target/arm: cpu: only initialize TCG gt timers
+ under CONFIG_TCG
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <20210221092449.7545-35-cfontana@suse.de> <87v9ak5cz0.fsf@linaro.org>
+ <03502e51-99f5-239d-42a6-e57892faa297@suse.de> <87wnuz3v0u.fsf@linaro.org>
+ <b93a69bd-e8db-bf4a-2357-be51151c2c13@suse.de>
+Message-ID: <2b3556b7-8f10-5c59-d098-7d1ca0598e8b@suse.de>
+Date: Tue, 23 Feb 2021 13:38:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <b93a69bd-e8db-bf4a-2357-be51151c2c13@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,87 +58,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
- John Snow <jsnow@redhat.com>,
- "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Claudio Fontana <cfontana@centriq4.arch.suse.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+On 2/23/21 12:36 PM, Claudio Fontana wrote:
+> On 2/23/21 12:01 PM, Alex Bennée wrote:
+>>
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>
+>>> On 2/22/21 4:34 PM, Alex Bennée wrote:
+>>>>
+>>>> Claudio Fontana <cfontana@suse.de> writes:
+>>>>
+>>>>> From: Claudio Fontana <cfontana@centriq4.arch.suse.de>
+>>>>>
+>>>>> KVM has its own cpu->kvm_vtime.
+>>>>>
+>>>>> Adjust cpu vmstate by putting unused fields instead of the
+>>>>> VMSTATE_TIMER_PTR when TCG is not available.
+>>>>>
+>>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>>> ---
+>>>>>  target/arm/cpu.c     | 4 +++-
+>>>>>  target/arm/machine.c | 5 +++++
+>>>>>  2 files changed, 8 insertions(+), 1 deletion(-)
+>>>>>
+>>>>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+>>>>> index 1d81a1e7ac..b929109054 100644
+>>>>> --- a/target/arm/cpu.c
+>>>>> +++ b/target/arm/cpu.c
+>>>>> @@ -1322,6 +1322,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>>>>          }
+>>>>>      }
+>>>>>  
+>>>>> +#ifdef CONFIG_TCG
+>>>>>      {
+>>>>>          uint64_t scale;
+>>>>>  
+>>>>> @@ -1347,7 +1348,8 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
+>>>>>          cpu->gt_timer[GTIMER_HYPVIRT] = timer_new(QEMU_CLOCK_VIRTUAL, scale,
+>>>>>                                                    arm_gt_hvtimer_cb, cpu);
+>>>>>      }
+>>>>> -#endif
+>>>>> +#endif /* CONFIG_TCG */
+>>>>> +#endif /* !CONFIG_USER_ONLY */
+>>>>>  
+>>>>>      cpu_exec_realizefn(cs, &local_err);
+>>>>>      if (local_err != NULL) {
+>>>>> diff --git a/target/arm/machine.c b/target/arm/machine.c
+>>>>> index 666ef329ef..13d7c6d930 100644
+>>>>> --- a/target/arm/machine.c
+>>>>> +++ b/target/arm/machine.c
+>>>>> @@ -822,8 +822,13 @@ const VMStateDescription vmstate_arm_cpu = {
+>>>>>          VMSTATE_UINT32(env.exception.syndrome, ARMCPU),
+>>>>>          VMSTATE_UINT32(env.exception.fsr, ARMCPU),
+>>>>>          VMSTATE_UINT64(env.exception.vaddress, ARMCPU),
+>>>>> +#ifdef CONFIG_TCG
+>>>>>          VMSTATE_TIMER_PTR(gt_timer[GTIMER_PHYS], ARMCPU),
+>>>>>          VMSTATE_TIMER_PTR(gt_timer[GTIMER_VIRT], ARMCPU),
+>>>>> +#else
+>>>>> +        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
+>>>>> +        VMSTATE_UNUSED(sizeof(QEMUTimer *)),
+>>>>> +#endif /* CONFIG_TCG */
+>>>>
+>>>> I'm not sure this is correct - VMSTATE_TIMER_PTR chases the links to
+>>>> just expose expired time but QEMUTimer has more in it than that. Paolo
+>>>
+>>>
+>>> I am not sure I follow can you state more precisely where the issue could be?
+>>>
+>>> it's not a VMSTATE_TIMER, it's a VMSTATE_TIMER_PTR,
+>>> it ends up in VMSTATE_POINTER where a single pointer is assigned;
+>>
+>> Does it? I thought it ended up with the .expire_time (int64_t) which
+>> will be bigger than sizeof(QemuTimer *) on a 32 bit system.
+> 
+> Ok I understand what you mean. Lets see:
+> 
+> Looking at vmstate.h,
+> 
+> #define VMSTATE_TIMER_PTR(_f, _s)                                         \
+>     VMSTATE_TIMER_PTR_V(_f, _s, 0)
+> 
+> #define VMSTATE_TIMER_PTR_V(_f, _s, _v)                                   \
+>     VMSTATE_POINTER(_f, _s, _v, vmstate_info_timer, QEMUTimer *)
+> 
+> #define VMSTATE_POINTER(_field, _state, _version, _info, _type) {    \
+>     .name       = (stringify(_field)),                               \
+>     .version_id = (_version),                                        \
+>     .info       = &(_info),                                          \
+>     .size       = sizeof(_type),                                     \
+>     .flags      = VMS_SINGLE|VMS_POINTER,                            \
+>     .offset     = vmstate_offset_value(_state, _field, _type),       \
+> }
+> 
+> so here we get the vmstate field definition.
+> 
+> .size is fine, as it is sizeof(QEMUTimer *).
+> 
+> .info, is &vmstate_info_timer, migration/savevm.c:
+> 
+> const VMStateInfo vmstate_info_timer = {
+>     .name = "timer",
+>     .get  = get_timer,
+>     .put  = put_timer,
+> };
+> 
+> void timer_put(QEMUFile *f, QEMUTimer *ts)
+> {
+>     uint64_t expire_time;
+> 
+>     expire_time = timer_expire_time_ns(ts);
+>     qemu_put_be64(f, expire_time);
+> }
+> 
+> void timer_get(QEMUFile *f, QEMUTimer *ts)
+> {
+>     uint64_t expire_time;
+> 
+>     expire_time = qemu_get_be64(f);
+>     if (expire_time != -1) {
+>         timer_mod_ns(ts, expire_time);
+>     } else {
+>         timer_del(ts);
+>     }
+> }
+> 
+> ---
+> 
+> And the migration code does: (migration/vmstate.c):
+> 
+> int vmstate_save_state_v() {
+>   ...
+>   ret = field->info->put(f, curr_elem, size, field, vmdesc_loop);
+>   ...
+> }
+> 
+> which puts a BE64 in the QEMUFile *f (see timer_put above).
+> 
+> The load code in the same file does:
+> 
+> int vmstate_load_state() {
+>   ...
+>   ret = field->info->get(f, curr_elem, size, field);
+>   ...
+> }
+> 
+> which reads a BE64 from the QEMUFile *f (see timer_get above).
+> 
+> Would be "fine" from the field sizes perspective (the .size of the field type, and the value of the BE64),
+> 
+> but it's the calculations done in timer_get and timer_put which are scary, as they dereference the timer pointer.
+> 
+> 
+> Should we actually have a check for null pointer in vmstate.c?
+> 
+> We _do_ have one in vmstate_save_state_v and vmstate_load_state, but it is actually active only for VMS_ARRAY_OF_POINTER.
+> Why? Why not also do the same (write the null pointer and not following it) for normal VMS_POINTER ?
+> 
+> int vmstate_save_state_v() {
+>  ...
+>                 if (!curr_elem && size) {
+>                     /* if null pointer write placeholder and do not follow */
+>                     assert(field->flags & VMS_ARRAY_OF_POINTER);
+>                     ret = vmstate_info_nullptr.put(f, curr_elem, size, NULL,
+>                                                    NULL);
+> 
+>  ...
+> 
+> 
+> int vmstate_load_state() {
+> 
+> ...
+>                 if (!curr_elem && size) {
+>                     /* if null pointer check placeholder and do not follow */
+>                     assert(field->flags & VMS_ARRAY_OF_POINTER);
+>                     ret = vmstate_info_nullptr.get(f, curr_elem, size, NULL);
+> ...
+> 
+> }
+> 
+> 
+> This is worthwhile investigating further, any other ideas?
+> 
+> Thanks,
+> 
+> Claudio
+> 
+> 
 
-> On 23/02/21 10:06, Markus Armbruster wrote:
->>> Markus, did you rebuild the qtests after disabling single-quoted
->>> strings?  "make check-qtest-x86_64" would have rebuilt them, but I'm
->>> confused by the results.
->> I ran "make check" and looked at the failures:
->> Still confused?
->
-> Yes.  What's the patch that you used to disable the single quotes, and
-> why didn't the patched parser choke on
->
->     response = qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, "
->                    "'property': 'temperature' } }", id);
->
-> ?
+Btw here it would be good to be able to rely on the existing tests,
+do we have full coverage of these compatibility situations?
 
-My bad!  I neglected to mention that I tied "disable single-quoted
-strings" to "interpolation is off" for my experiment.  This is a lazy,
-half-assed approximation of "internal interface".
+According to make check it's all a-ok, but... is the testing coverage insufficient
+for these VMSTATE compatibility issues?
 
-Here's the experimental patch.
+Ciao,
+
+Claudio
 
 
-commit 57138b9d4188dd8ce1814237fe53f7131bbb3f45
-Author: Markus Armbruster <armbru@redhat.com>
-Date:   Mon Feb 22 17:04:10 2021 +0100
-
-    qobject: Tie single quote extension to interpolation WIP
-    
-    This makes several tests fail or hang.  Some are hacked up.
-
-diff --git a/qobject/json-parser.c b/qobject/json-parser.c
-index 008b326fb8..c1ddc65d96 100644
---- a/qobject/json-parser.c
-+++ b/qobject/json-parser.c
-@@ -150,9 +150,6 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-             case '"':
-                 g_string_append_c(str, '"');
-                 break;
--            case '\'':
--                g_string_append_c(str, '\'');
--                break;
-             case '\\':
-                 g_string_append_c(str, '\\');
-                 break;
-@@ -201,6 +198,12 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
-                 }
-                 g_string_append(str, utf8_buf);
-                 break;
-+            case '\'':
-+                if (ctxt->ap) {
-+                    g_string_append_c(str, '\'');
-+                    break;
-+                }
-+                /* fall through */
-             default:
-                 parse_error(ctxt, token, "invalid escape sequence in string");
-                 goto out;
-diff --git a/qobject/json-streamer.c b/qobject/json-streamer.c
-index b93d97b995..3d4d3b484e 100644
---- a/qobject/json-streamer.c
-+++ b/qobject/json-streamer.c
-@@ -49,6 +49,11 @@ void json_message_process_token(JSONLexer *lexer, GString *input,
-     case JSON_RSQUARE:
-         parser->bracket_count--;
-         break;
-+    case JSON_STRING:
-+        if (input->str[0] == '\"' || parser->ap) {
-+            break;
-+        }
-+        /* fall through */
-     case JSON_ERROR:
-         error_setg(&err, "JSON parse error, stray '%s'", input->str);
-         goto out_emit;
+>>
+>>>
+>>> so if we don't use gt_timer at all (as is the case with !CONFIG_TCG), we just
+>>> need to ensure that an unused number is there to assign, migrating from old to new version?
+>>>
+>>>
+>>>> suggested a straight VMSTATE_UNUSED(8) on IRC but I wonder if it would
+>>>> be better to have a VMSTATE_UNUSED_TIMER?
+>>>>
+>>>> I don't think there is an impact for Xen because I'm fairly certain
+>>>> migration isn't a thing we do - but I'll double check.
+>>>>
+>>>
+>>> Thanks Alex, that would be helpful,
+>>> if Xen uses gt_timer in any way I would not want to unwillingly break
+>>> it.
+>>
+>> Not for ARM no, currently there is no ARM specific machine emulated by
+>> QEMU for Xen. All ARM guests are PV guests.
+>>
+>>>
+>>> Thanks,
+>>>
+>>> Claudio
+>>
+>>
+> 
 
 
