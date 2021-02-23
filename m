@@ -2,77 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 745B2322E10
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:55:22 +0100 (CET)
-Received: from localhost ([::1]:38714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEF8322E1B
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 16:56:50 +0100 (CET)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEa1w-00076Y-WE
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:55:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58760)
+	id 1lEa3N-0008Pb-N7
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 10:56:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEa0w-0006PF-9U
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:54:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53909)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEa0u-0007DS-Oi
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:54:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614095655;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vKhaXr8zCxAOWsLaMWyPmixMlZxqAManxINNbqgeI2w=;
- b=aj0HdlPmunEoBBMHkX/2q7yWgjedjZKBKSbeb/DZy8Ru3Kkl3wbkDIBHId2gt+pClbg+Fj
- 9jZEzm7csWvH95UVhsFQr+u6lPXwrOIGv36mJ/HENi0fFVkpgEonhLzWO9fzUwVshZAtXr
- yNFLMxlYU8g7+8NjMPcwcmSV8teN83s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-63-5jLDqWb3NZu7Nf3aNAe-vw-1; Tue, 23 Feb 2021 10:53:44 -0500
-X-MC-Unique: 5jLDqWb3NZu7Nf3aNAe-vw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0121106BC91;
- Tue, 23 Feb 2021 15:53:42 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1CE5960C04;
- Tue, 23 Feb 2021 15:53:36 +0000 (UTC)
-Subject: Re: [PATCH 0/3] gitlab-pipeline-status script: provide more
- information on errors
-To: Erik Skultety <eskultet@redhat.com>
-References: <20210222193240.921250-1-crosa@redhat.com>
- <c3b6aaa9-9914-fed6-aaa8-ef9e5258c714@redhat.com>
- <YDUdGUDcfcv4no8h@nautilus.local>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <5b6f8bbe-3009-06e0-4e6e-d5d3cad40b32@redhat.com>
-Date: Tue, 23 Feb 2021 12:53:34 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lEa2Q-0007t0-7g
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:55:50 -0500
+Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:50215)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lEa2N-0007xM-Rc
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 10:55:49 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.193])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 22AE32458DE;
+ Tue, 23 Feb 2021 16:55:44 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 23 Feb
+ 2021 16:55:43 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002b39267b4-66d9-4876-b8a8-2e7443fc35ca,
+ 6F2917FB5EF69EFB637F8DE19110E4015BA123FD) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 23 Feb 2021 16:55:41 +0100
+From: Greg Kurz <groug@kaod.org>
+To: <lagarcia@linux.ibm.com>
+Subject: Re: [PATCH v2] IOMMU not supported by vhost-user.
+Message-ID: <20210223165541.5aafc638@bahia.lan>
+In-Reply-To: <a47b7a5dafcab0f3a662414ba6cbbc7eb280d478.1613591341.git.lagarcia@br.ibm.com>
+References: <a47b7a5dafcab0f3a662414ba6cbbc7eb280d478.1613591341.git.lagarcia@br.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YDUdGUDcfcv4no8h@nautilus.local>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 9f3b3f1a-651e-4740-9daf-1d45ea48eba1
+X-Ovh-Tracer-Id: 2701878302335670566
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeehgdekvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheplhgrghgrrhgtihgrsegsrhdrihgsmhdrtghomh
+Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
+ helo=7.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,60 +67,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Andrea Bolognani <abologna@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
+Cc: farosas@br.ibm.com, Leonardo Garcia <lagarcia@br.ibm.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Hi Leo,
 
-On 2/23/21 12:19 PM, Erik Skultety wrote:
-> On Tue, Feb 23, 2021 at 11:52:17AM -0300, Wainer dos Santos Moschetta wrote:
->> Hi Cleber,
->>
->> In case you need to send a v2, mind to add the following patch together?
->>
->> commit 3c4ed8a78e096e4d7df0398c29887a9d468ae120 (HEAD -> gitlab_runners)
->> Author: Wainer dos Santos Moschetta <wainersm@redhat.com>
->> Date:   Tue Feb 23 11:26:08 2021 -0300
->>
->>      scripts/ci/gitlab-pipeline-status: Handle ValueError exceptions nicely
->>
->>      With this change, when getting the local branch, it will handle nicely
->>      any threw ValueError exception instead of print the stack trace.
->>
->>      Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
->>
->> diff --git a/scripts/ci/gitlab-pipeline-status
->> b/scripts/ci/gitlab-pipeline-status
->> index 924db327ff..6177df973a 100755
->> --- a/scripts/ci/gitlab-pipeline-status
->> +++ b/scripts/ci/gitlab-pipeline-status
->> @@ -160,7 +160,11 @@ def main():
->>       args = parser.parse_args()
->>
->>       if not args.commit:
->> -        args.commit = get_local_branch_commit(args.branch)
->> +        try:
->> +            args.commit = get_local_branch_commit(args.branch)
->> +        except ValueError as error:
->> +            print("ERROR: %s" % error)
->> +            sys.exit(1)
-> 1 is the default error code, so you should pass the error message to sys.exit
-> directly without the print. If you don't want that, at least redirect the
-> print to sys.stderr.
+Please use my personal groug@kaod.org address for upstream matters.
 
-There are occurrences of the same pattern on the script, so I better 
-send a separate series to change them all. Thanks for pointing it out Erik!
+On Wed, 17 Feb 2021 16:55:12 -0300
+lagarcia@linux.ibm.com wrote:
 
-- Wainer
+> From: Leonardo Garcia <lagarcia@br.ibm.com>
+> 
+> Currently, as IOMMU is not supported, if a user mistakenly set it and
+> tries to mount the vhost-user filesystem (or use any other vhost-user
+> based device) inside the guest, whenever the user tries to access the
+> device, the system will hang forever (because virtiofsd will not be
+> running anymore).
+> 
+> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+> ---
+>  hw/virtio/vhost-user-fs.c | 5 +++++
+>  hw/virtio/vhost-user.c    | 7 +++++++
+>  hw/virtio/vhost.c         | 1 -
+>  3 files changed, 12 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index ac4fc34b36..059b0d2ef9 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -222,6 +222,11 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+>      /* 1 high prio queue, plus the number configured */
+>      fs->vhost_dev.nvqs = 1 + fs->conf.num_request_queues;
+>      fs->vhost_dev.vqs = g_new0(struct vhost_virtqueue, fs->vhost_dev.nvqs);
+> +    /*
+> +     * vhost_user_backend_init does additional checks if VirtIODevice is defined
+> +     * in vhost_dev
+> +     */
+> +    fs->vhost_dev.vdev = vdev;
 
->
-> Erik
+This looks a bit like a software boundary violation to me.
+
+Only places where ->vdev is modified are all in hw/vhost/vhost.c :
+- vhost_dev_init() = NULL
+- vhost_dev_start() = vdev
+- vhost_dev_stop() = NULL
+- vhost_dev_prepare_inflight() = vdev
+
+The last one is interesting because it seems to be doing something
+vaguely similar to what you're trying to achieve, i.e. setting ->vdev
+before vhost_dev_start() is called for some reason.
+
+commit 1b0063b3048af65dfaae6422a572c87db8575a92
+Author: Jin Yu <jin.yu@intel.com>
+Date:   Tue Nov 3 20:36:17 2020 +0800
+
+    vhost-blk: set features before setting inflight feature
+
+>      ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
+>                           VHOST_BACKEND_TYPE_USER, 0);
+>      if (ret < 0) {
+> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
+> index 2fdd5daf74..6ab760364b 100644
+> --- a/hw/virtio/vhost-user.c
+> +++ b/hw/virtio/vhost-user.c
+> @@ -1849,6 +1849,13 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+>              }
+>          }
+>  
+> +        if ((dev->vdev != NULL) &&
+> +            virtio_host_has_feature(dev->vdev, VIRTIO_F_IOMMU_PLATFORM) &&
+> +            !(features & (1ULL << VIRTIO_F_IOMMU_PLATFORM))) {
+> +            error_report("IOMMU is currently not supported with vhost-user");
+> +            return -1;
+> +        }
+> +
+>          if (virtio_has_feature(features, VIRTIO_F_IOMMU_PLATFORM) &&
+>                  !(virtio_has_feature(dev->protocol_features,
+>                      VHOST_USER_PROTOCOL_F_SLAVE_REQ) &&
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 6e17d631f7..78e58d2148 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -1293,7 +1293,6 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+>      int i, r, n_initialized_vqs = 0;
+>      Error *local_err = NULL;
+>  
+> -    hdev->vdev = NULL;
+
+With this change, vhost_dev_init() no longer offers the guarantee
+that ->vdev is valid, which might cause problems for any device
+that doesn't set ->vdev itself like this patch does for vhost-user-fs.
+
+I suggest you to turn vhost_dev_init() into a vhost_dev_init_vdev()
+with an extra vdev argument and use it for all vhost-user devices.
+Introduce a vhost_dev_init() inline that does vhost_dev_init_vdev(NULL)
+and call it everywhere else.
+
+>      hdev->migration_blocker = NULL;
+>  
+>      r = vhost_set_backend_type(hdev, backend_type);
 
 
