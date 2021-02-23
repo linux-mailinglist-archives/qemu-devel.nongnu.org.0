@@ -2,83 +2,105 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BED8323116
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 20:01:33 +0100 (CET)
-Received: from localhost ([::1]:45326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236FE323175
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 20:35:26 +0100 (CET)
+Received: from localhost ([::1]:32926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEcw6-0006Z4-Sm
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 14:01:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45790)
+	id 1lEdSu-000792-N6
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 14:35:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEctV-0005lh-0U
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:58:49 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38535)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEctT-00056M-C5
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:58:48 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id n20so10177011ejb.5
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:58:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Y0rV3nLkNtLf/FoAdGRCjQbLVdC5Hapw/g2M3flHqiE=;
- b=kTNEaFd9WIvOVvG2PcNyaKpmxCtA3C8//vvMM/a4Y4h2VPB99txI4WfRd3/B6/wJcV
- G8saBjdz5HV7/oxK4SVHgFVWuH5Bt5tcGgfbdY7nAq08L6BlpzddaI7xP7KK/cQzCiXt
- EsfcQuqHZzu0asflfldoSpiZUNXu7vHWmSUoguI/o4slLdtBDaevuPEvOLjOAA1Hm+6L
- wnb+Y2m5PfOqkN3ryt0eNbkO1T/X9wBD91k+nl7YKHSE/8x+qQstETv9bCaTvbGA8c1e
- J0nU9HoGSl4CH/+9bqyvyd4DuVwhsBi1lXXtR+ShzM2bJcndjK9S4QYdxs3MraEhmZfQ
- XmIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Y0rV3nLkNtLf/FoAdGRCjQbLVdC5Hapw/g2M3flHqiE=;
- b=kqu/pj6cw66lduNt9B59W7V3sq41rNFI4XMmK8dXLwCZzq/wq9FOhBNW7x5EWLcsT+
- J/Ds2gWw/lLmninF/ZZszpIpHwl6k667JMALdv+2q11wiMcApEhnrUw8UG/cNnVI/fin
- u+9v172BCKGT5CYh0owQ2I6ZfyM6yWJawuWnKmD1eRM3whg2IRkBCz0+G7cp5hB5YLwQ
- UXVEKvigc/DU9soCUQRfR/sEHullw2kp5iZGyqjbAkyfQJgR9zogvxAo6fAOfbqPvnX2
- DL185uqJCGdsN9agtanjNwLF4QzlgFSSIv2qaWLsNcuI7wsHEj4XUIL3+SJPXkeKi41J
- HvqQ==
-X-Gm-Message-State: AOAM532VbjniM7KQz1tDXoRrX8myVCswHijqoDAmn2lXp0qCJHt8nyxe
- SM1aWeCEoXExobL4XqGVqpg=
-X-Google-Smtp-Source: ABdhPJzroerOICAVMEzMIyvVuWkFfT4tuX01ku9sYkGE6S3N9QlTNXnmQc6vRd6ZaOxR5EIO754Y8g==
-X-Received: by 2002:a17:906:3916:: with SMTP id
- f22mr27648450eje.328.1614106725929; 
- Tue, 23 Feb 2021 10:58:45 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id b17sm13257652ejj.9.2021.02.23.10.58.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 10:58:45 -0800 (PST)
-Subject: Re: [PATCH] tests/docker: Use --arch-only when building Debian cross
- images
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210223170910.2916721-1-f4bug@amsat.org>
- <87sg5m3af7.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <a6c21c83-cf5d-c05f-cee7-27bf74d06cdc@amsat.org>
-Date: Tue, 23 Feb 2021 19:58:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lEdRt-0006gQ-9W
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 14:34:21 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:4488)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
+ id 1lEdRr-0003tn-CX
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 14:34:21 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11NJY75Q031514; Tue, 23 Feb 2021 14:34:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=DfsMN6JrAFhYZIE7ydKA0PR8VSZuwXO1vQOPWd+VDM0=;
+ b=S87fI3aLJz3cf3B37k8UaxE881pbyANAG32mrLAZxMBVPb9myQ4j+lEWatUKgD6iH/aE
+ bIVCeTELBmdWNn6flaGoSQSXlu5y4t0hIgHBIW29+1mwg+O1/rapK81TCVbklU/Iv0PS
+ AH0k2RSCB3Fc7j8qFTfjKucu90ebc/UEPKV5qBBTbUQOvRnbXpPATr50sXOHguvzczzw
+ VWoHSGAN9PhHHOLzW8IyNRrbxDQN1+XVqq+JItNfuawDa+jOGvWohXD0geI1V5gqO7uo
+ AbiPsFn/MPuEmU39C3GJJvCfufGCsok9Vbi/0L/I6odnreISdmCo8bZi0W7lRx4o5wYg iA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36vkfukx2f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Feb 2021 14:34:16 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11NJYG5p031940;
+ Tue, 23 Feb 2021 14:34:16 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36vkfukx25-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Feb 2021 14:34:15 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11NJXIFp007410;
+ Tue, 23 Feb 2021 19:34:14 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01wdc.us.ibm.com with ESMTP id 36tt2912a7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 23 Feb 2021 19:34:14 +0000
+Received: from b03ledav003.gho.boulder.ibm.com
+ (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11NJYDqB45482386
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 23 Feb 2021 19:34:13 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9101D6A051;
+ Tue, 23 Feb 2021 19:34:13 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1B90E6A04D;
+ Tue, 23 Feb 2021 19:34:13 +0000 (GMT)
+Received: from [9.163.12.145] (unknown [9.163.12.145])
+ by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 23 Feb 2021 19:34:12 +0000 (GMT)
+Subject: Re: [PATCH 1/2] gitlab-ci.yml: Allow custom make parallelism
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210222230106.7030-1-dbuono@linux.vnet.ibm.com>
+ <20210222230106.7030-2-dbuono@linux.vnet.ibm.com>
+ <20057039-92b4-5b0f-436d-7310e9e59dfe@redhat.com>
+From: Daniele Buono <dbuono@linux.vnet.ibm.com>
+Message-ID: <2209b899-4de1-5b8d-99de-0b993575c0a3@linux.vnet.ibm.com>
+Date: Tue, 23 Feb 2021 14:34:11 -0500
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <87sg5m3af7.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20057039-92b4-5b0f-436d-7310e9e59dfe@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-23_08:2021-02-23,
+ 2021-02-23 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 mlxlogscore=999
+ phishscore=0 spamscore=0 impostorscore=0 malwarescore=0 bulkscore=0
+ adultscore=0 suspectscore=0 priorityscore=1501 lowpriorityscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102230163
+Received-SPF: none client-ip=148.163.156.1;
+ envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,82 +113,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 7:28 PM, Alex Bennée wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> When building a Docker image based on debian10.docker on
->> a non-x86 host, we get:
->>
->>  [2/4] RUN apt update &&     DEBIAN_FRONTEND=noninteractive eatmydata     apt build-dep -yy qemu
->>  Reading package lists... Done
->>  Building dependency tree
->>  Reading state information... Done
->>  Some packages could not be installed. This may mean that you have
->>  requested an impossible situation or if you are using the unstable
->>  distribution that some required packages have not yet been created
->>  or been moved out of Incoming.
->>  The following information may help to resolve the situation:
->>
->>  The following packages have unmet dependencies:
->>   builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
->>                    Depends: gcc-alpha-linux-gnu but it is not installable
->>  E: Unable to correct problems, you have held broken packages.
->>
->> Fix by using the --arch-only option suggested here:
->> https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1866032/comments/1
->>
->> Suggested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  tests/docker/dockerfiles/debian-all-test-cross.docker | 2 +-
->>  tests/docker/dockerfiles/debian10.docker              | 2 +-
->>  2 files changed, 2 insertions(+), 2 deletions(-)
->>
->> diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
->> index dedcea58b46..593b7ef1023 100644
->> --- a/tests/docker/dockerfiles/debian-all-test-cross.docker
->> +++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
->> @@ -11,7 +11,7 @@ FROM qemu/debian10
->>  # What we need to build QEMU itself
->>  RUN apt update && \
->>      DEBIAN_FRONTEND=noninteractive eatmydata \
->> -    apt build-dep -yy qemu
->> +    apt build-dep --arch-only -yy qemu
-> 
-> This is just going to fail later on when you discover the cross
-> compilers are only packaged for amd64.
+This works, but setting this value to 1 for everybody seems a bit too
+restrictive. While the gitlab ci runners don't have enough memory for
+this, that's not necessarily true for every build platform, and linking
+multiple targets in parallel with LTO can result in a big save in time,
+so I'd prefer a customizable way.
 
-Yes, I wonder if this is a Debian bug (we can still install cross
-gcc for the host target -- which is pointless) and the cross libc.
+How about adding a flag `--max-ld-procs` to configure to manually set
+backend_max_links?
 
-> Perhaps we need to mark this one as amd64 only somehow?
+This would also allow setting it up to any specific number above 1,
+which looking at the Makefile seems to not be possible now: because of
+how the -j flag is passed from make to ninja, a compilation is either
+sequential or parallel based on #cpus
 
-OK.
-
->>  
->>  # Add the foreign architecture we want and install dependencies
->>  RUN DEBIAN_FRONTEND=noninteractive eatmydata \
->> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
->> index 9d42b5a4b81..d034acbd256 100644
->> --- a/tests/docker/dockerfiles/debian10.docker
->> +++ b/tests/docker/dockerfiles/debian10.docker
->> @@ -32,6 +32,6 @@ RUN apt update && \
->>          psmisc \
->>          python3 \
->>          python3-sphinx \
->> -        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
->> +        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep
->>  '[all]' | cut -d\  -f2)
+On 2/23/2021 3:12 AM, Paolo Bonzini wrote:
+> On 23/02/21 00:01, Daniele Buono wrote:
+>> Currently, make parallelism at build time is defined as #cpus+1. Some 
+>> build jobs may need (or benefit from) a different number. An example 
+>> is builds with LTO where, because of the huge demand of memory at link 
+>> time, gitlab runners fails if two linkers are run concurrently This 
+>> patch retains the default value of #cpus+1 but allows setting the 
+>> "JOBS" variable to a different number when applying the template
 > 
-> This bit is fine, without the all-test-cross change:
+> As I just found out, you can add -Dbackend_max_links=1 to the meson 
+> command line instead if LTO is enabled.
 > 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Paolo
 > 
 
