@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61174322A75
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 13:26:30 +0100 (CET)
-Received: from localhost ([::1]:46950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAF58322AA0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 13:36:11 +0100 (CET)
+Received: from localhost ([::1]:49246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEWlp-0003w3-DJ
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 07:26:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37948)
+	id 1lEWvC-0005OZ-Rd
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 07:36:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lEWkr-0003OM-K0; Tue, 23 Feb 2021 07:25:29 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:36921)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lEWko-0005w3-TV; Tue, 23 Feb 2021 07:25:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=KlIv50r98oKKKsTVCVEw7CfM8OA3Cr4XlAKZ5WYKFWs=; b=awYen3YLx2Rn56dWMV3KAOOpW+
- WsI742/k7Y4IkJJMeOnlAVsm0PCfzvWWdU97rGZrNBbdD8B0m6WGjo8WNss1fspaE53qhyXshdxDj
- +c1GbCUEi5pnJwLrnmY4GgBOdxjB0ZaWLYYgXAYdf9PloVaIXirfhBBAqgiXhVIw/8QuEScCaD+wO
- X7MagLhCMHYvQgaK1bFBnv/YHachWvuYv4VWnlLIhIrTC1dwPzvkWzd5ej/H3g8wdGU69dWOl+3PD
- fTn66IQFmJZa7GqTI67Cj9u6rB4ru8W5ewOZa7M3qGl7pCIx0e9sQHCQINsS7/ZjzF8GhVBs86XSC
- IlQu2k88bZE5kQnQ1Lma+mC5Rh6PAoZ7Wo1dWThT6TiYs1mOTbCkZCK7c7uG4PK2rivnqERoQTNHU
- ZPdAfD0nDFj7l+bHBbjWd4mbbN//JZ7bdr7D9oi5n/cgZDnMW7oBRw/gXMN5+TvjF7MgPoqlvhaTV
- DEUtVu9pMJuCr7+jiTsddqEu+XP7hN71cvGJ4LsIX2z3QqBGzQnUzbu7WjTLQcyG6H+RqKPXGcs9k
- 2+jMF4u1/B+d9ovLQUt+MJnB4MVcx8R74oXVQVb72YZY2y/j6DlmMI3vy1C3y2RRNVLNabc+20zFx
- 7RVqD20RkWESdYhq92H9Yh5sjKxK/vWub/hCKK4dk=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
- Thomas Huth <thuth@redhat.com>, Alexey Kardashevskiy <aik@ozlabs.ru>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
-Date: Tue, 23 Feb 2021 13:24:30 +0100
-Message-ID: <2915273.dLz0rCdnKo@silver>
-In-Reply-To: <CAFEAcA9mgE5t5KpkGac7ABaVy3gK11PbpNMfO3p-gcVhSN51tQ@mail.gmail.com>
-References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
- <20210223123943.06d23a56@bahia.lan>
- <CAFEAcA9mgE5t5KpkGac7ABaVy3gK11PbpNMfO3p-gcVhSN51tQ@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEWuH-0004zO-Gv
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:35:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30871)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEWuC-0001cR-N2
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 07:35:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614083706;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GIMJ9bAQxz42efptjbtyqHDPTeys/er7jl5rpZuRjAc=;
+ b=XTmIHr6VvT+054RgdAVmKzGClXMJ+dU4yqsQNK7WkNfSzkP/5cDHKJLMwqtundVboh1oy7
+ G/nww3JuZyOpqbE8etWCCoIwcTBcH/hagR40GQjZBtUCMDu8ffq2+tVMRQOSMkLQlfVXPY
+ iP9gK8x0/Jv34wVVd7E13rXNCWk0bK4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-484-nB2bBaO1PXqEjaQqZSICNQ-1; Tue, 23 Feb 2021 07:35:03 -0500
+X-MC-Unique: nB2bBaO1PXqEjaQqZSICNQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B04710066EF;
+ Tue, 23 Feb 2021 12:35:02 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DB8475C290;
+ Tue, 23 Feb 2021 12:34:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 67FF3113860F; Tue, 23 Feb 2021 13:34:57 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: A brief look at deprecating our JSON extensions over RFC 8259
+References: <875z2knoa5.fsf@dusky.pond.sub.org> <YDPMs1Hu8LDRJUhX@redhat.com>
+ <c5d13648-445d-92b9-6bff-95bd2b99d52e@redhat.com>
+ <87y2fff90p.fsf@dusky.pond.sub.org>
+ <f883798f-8054-61a3-a1ec-a1e80b6c2f4b@redhat.com>
+Date: Tue, 23 Feb 2021 13:34:56 +0100
+In-Reply-To: <f883798f-8054-61a3-a1ec-a1e80b6c2f4b@redhat.com> (Paolo
+ Bonzini's message of "Tue, 23 Feb 2021 11:59:20 +0100")
+Message-ID: <87wnuzc68f.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,54 +82,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: libvir-list@redhat.com, Peter Maydell <peter.maydell@linaro.org>,
+ John Snow <jsnow@redhat.com>,
+ "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 23. Februar 2021 12:54:47 CET Peter Maydell wrote:
-> On Tue, 23 Feb 2021 at 11:39, Greg Kurz <groug@kaod.org> wrote:
-> > On Tue, 23 Feb 2021 11:09:05 +0000
-> > 
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> > > On Mon, 22 Feb 2021 at 14:43, Greg Kurz <groug@kaod.org> wrote:
-> > > > My understanding is that users must be "maintainer" to edit other's
-> > > > patches. Only three 'maintainers' are currently listed at ozlabs for
-> > > > QEMU:
-> > > > 
-> > > > https://patchwork.ozlabs.org/api/1.0/projects/14/
-> > > > 
-> > > > We had a discussion about that a few months back with Christian
-> > > > Schoenebeck
-> > > > (9pfs maintainer, Cc'd) who also uses patchworks. It turned out we
-> > > > didn't
-> > > > quite know how to go further because of lack of documentation, but I'd
-> > > > be
-> > > > glad to experiment the full patchwork experience if someone knows how
-> > > > to
-> > > > do it :-)
-> > > 
-> > > If people want to try that kind of thing out I'm happy to try
-> > > to tweak their permissions on the patchwork instance.
-> > 
-> > Please do for me then. My name is groug :)
-> 
-> Hmm. Having looked through the UI and docs I can't figure
-> out how to do that (or even if 'maintainer' permission is
-> sufficient to add other maintainers; maybe one has to ask the
-> patchwork instance admins to do that?). If you can tell me what
-> I need to do to add you to the maintainer list for QEMU I'll do it :-)
-> 
-> -- PMM
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-We were looking into this last year, and from my (poor) understanding this is 
-how it works:
+> On 23/02/21 10:06, Markus Armbruster wrote:
+>>> Markus, did you rebuild the qtests after disabling single-quoted
+>>> strings?  "make check-qtest-x86_64" would have rebuilt them, but I'm
+>>> confused by the results.
+>> I ran "make check" and looked at the failures:
+>> Still confused?
+>
+> Yes.  What's the patch that you used to disable the single quotes, and
+> why didn't the patched parser choke on
+>
+>     response = qmp("{ 'execute': 'qom-get', 'arguments': { 'path': %s, "
+>                    "'property': 'temperature' } }", id);
+>
+> ?
 
-https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg02864.html
+My bad!  I neglected to mention that I tied "disable single-quoted
+strings" to "interpolation is off" for my experiment.  This is a lazy,
+half-assed approximation of "internal interface".
 
-If somebody knows a more convenient/appropriate way, that would be 
-appreciated.
+Here's the experimental patch.
 
-Best regards,
-Christian Schoenebeck
 
+commit 57138b9d4188dd8ce1814237fe53f7131bbb3f45
+Author: Markus Armbruster <armbru@redhat.com>
+Date:   Mon Feb 22 17:04:10 2021 +0100
+
+    qobject: Tie single quote extension to interpolation WIP
+    
+    This makes several tests fail or hang.  Some are hacked up.
+
+diff --git a/qobject/json-parser.c b/qobject/json-parser.c
+index 008b326fb8..c1ddc65d96 100644
+--- a/qobject/json-parser.c
++++ b/qobject/json-parser.c
+@@ -150,9 +150,6 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
+             case '"':
+                 g_string_append_c(str, '"');
+                 break;
+-            case '\'':
+-                g_string_append_c(str, '\'');
+-                break;
+             case '\\':
+                 g_string_append_c(str, '\\');
+                 break;
+@@ -201,6 +198,12 @@ static QString *parse_string(JSONParserContext *ctxt, JSONToken *token)
+                 }
+                 g_string_append(str, utf8_buf);
+                 break;
++            case '\'':
++                if (ctxt->ap) {
++                    g_string_append_c(str, '\'');
++                    break;
++                }
++                /* fall through */
+             default:
+                 parse_error(ctxt, token, "invalid escape sequence in string");
+                 goto out;
+diff --git a/qobject/json-streamer.c b/qobject/json-streamer.c
+index b93d97b995..3d4d3b484e 100644
+--- a/qobject/json-streamer.c
++++ b/qobject/json-streamer.c
+@@ -49,6 +49,11 @@ void json_message_process_token(JSONLexer *lexer, GString *input,
+     case JSON_RSQUARE:
+         parser->bracket_count--;
+         break;
++    case JSON_STRING:
++        if (input->str[0] == '\"' || parser->ap) {
++            break;
++        }
++        /* fall through */
+     case JSON_ERROR:
+         error_setg(&err, "JSON parse error, stray '%s'", input->str);
+         goto out_emit;
 
 
