@@ -2,98 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F483322971
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:25:14 +0100 (CET)
-Received: from localhost ([::1]:56154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25C4322976
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:27:49 +0100 (CET)
+Received: from localhost ([::1]:59356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEVoX-0006DU-Ha
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:25:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52018)
+	id 1lEVr2-0007l4-Re
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:27:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEVnJ-0005Rd-T8
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:23:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33466)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lEVnb-0005ov-4r
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:24:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55325)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEVnH-00038J-D3
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:23:57 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lEVnZ-0003Hr-EO
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:24:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614079434;
+ s=mimecast20190719; t=1614079452;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fqXHpRX9rxmTQG166I9+zJJichU2jtp55FS+xZ4AgUs=;
- b=FyJZyEQs3zCGWLIwXinjNjdG8cG0v5BU8h/SNG3Qqy+pPL1HoMZYHIaxnkGkL0xjNRMlzR
- up+z/Qz61+BOPNOYvhbSTJtdcuqlw3xTRgJYfEF+l2ECWQb0OWmtowRw4Nnpql9oXnAwdZ
- 2nN/kWIndVP6LwV5wapXCGHCR3VZEXM=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-253-Jly0KbPiOGW9hBT8a5IX3w-1; Tue, 23 Feb 2021 06:23:50 -0500
-X-MC-Unique: Jly0KbPiOGW9hBT8a5IX3w-1
-Received: by mail-wr1-f70.google.com with SMTP id x14so6568612wrr.13
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:23:50 -0800 (PST)
+ bh=IAVSc0A/7qDBe5MIa/4V5sIgshkGM/S6iSIXJjRWvdw=;
+ b=dqpw8ZI0+VMZpBt8Y2h72BJ53IyZMiTjak0RsZzqRZ2oy6dWmFSOmnBtXxHxc5hqQ5BDAl
+ s/2NeGBkwuG/C9o4eRxd14rKsIShuQHPN4DuWHYmqLrksakGN14LHeao6LHptlCMCJnPiw
+ qjYIHhzhpCef9Tu/UmkOyHRLBxdzw0g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-mvTi4CF3OFaa2TeZS7N0lg-1; Tue, 23 Feb 2021 06:24:10 -0500
+X-MC-Unique: mvTi4CF3OFaa2TeZS7N0lg-1
+Received: by mail-wr1-f69.google.com with SMTP id l10so7201001wry.16
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:24:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fqXHpRX9rxmTQG166I9+zJJichU2jtp55FS+xZ4AgUs=;
- b=ePllNv1QwSCeQY8jIY5zHVdVh2pMR17dLHuuvfQpzOQTdKduaKqJjTXZm4MeKoI9T1
- Lmmv4wQHYOaOjsRLQahqx07SDnrx8DrvIuoVazzJ0nnFb5VVH4oYmzfOZ55epRFeDtto
- HbnNwD1acloioKABtaZXXW1Tci5Rtr3GQLtH5sO1qK33BVCGypY7NNODbZ6lvCkEiNCw
- bsLBnkNeSu9aQP1yiUFns8+v+E70Bxmi8X0KmGdmD8l+cyIG+mnXd8OtzGQVlr7CbRav
- 9SV6r28Wkofllm1QD6ktwR8oDI9gokxt4/5ydnqbWR3qtM2Cn3Yukl1I4M2dSM7ndjpo
- jEQQ==
-X-Gm-Message-State: AOAM531i9gC3Jhj+rGJAHnL/yrCZ+jLaAtoi3Fykga4hoqF66w/mwi2M
- 64QS8lwl1W+QT3+YPQrg9thJb5gomayYiEOxe5qj97CO/IhX93k5AOTtNSZ4mrbgmYsFnh330h/
- cnfXeYpp1jhiQFOs=
-X-Received: by 2002:adf:e444:: with SMTP id t4mr15063431wrm.97.1614079429544; 
- Tue, 23 Feb 2021 03:23:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwL+4SwYURVZHwXSt7T2jcYFKjCeE7PCTmR6MVNodayFVhJQhTgY/EVJ9CycKefcbMINHdzhQ==
-X-Received: by 2002:adf:e444:: with SMTP id t4mr15063387wrm.97.1614079429294; 
- Tue, 23 Feb 2021 03:23:49 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a3sm4521531wrt.68.2021.02.23.03.23.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 03:23:48 -0800 (PST)
-Subject: Re: [PATCH v2 01/11] accel/kvm: Check MachineClass kvm_type() return
- value
-To: Cornelia Huck <cohuck@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210219173847.2054123-1-philmd@redhat.com>
- <20210219173847.2054123-2-philmd@redhat.com>
- <20210222182405.3e6e9a6f.cohuck@redhat.com>
- <bc37276d-74cc-22f0-fcc0-4ee5e62cf1df@redhat.com>
- <20210222185044.23fccecc.cohuck@redhat.com>
- <YDQ/Y1KozPSyNGjo@yekko.fritz.box> <YDRAHW1ds1eh0Lav@yekko.fritz.box>
- <20210223113634.6626c8f8.cohuck@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <98ed9478-240d-cd20-ac84-82c540bd3e21@redhat.com>
-Date: Tue, 23 Feb 2021 12:23:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=IAVSc0A/7qDBe5MIa/4V5sIgshkGM/S6iSIXJjRWvdw=;
+ b=QFHGIFRJJLqgznPuHS/IljakEflMCp5abs4Gx/ZdR0iG+aj8DGRgixKNxvYZzonMF4
+ G5B+asSHm+Sy6XJJGlDvBNoNoJTLmqbRkETePysrfnuasIIhKKnls6bEbryE/XfX0YVL
+ 2I7Sf/ebKvvlYUQzdEKbr+0H+fCgUCysXQjjzPZduIlRoY/6eBqUQRyWFH38LsaZobs5
+ 7z/O7mVPlDzHjabrvGVM7LrLk/Spfw9QuUEXHnc/b/qLCP5BasS5EP7dmEKbpUR/YP/D
+ nZzoR8kOPOw4mpKNQoHbVQbuuig4SF4hVFnCRzMu1YuPEhBztXdqiE3xF79nfeyDxpGW
+ ml5g==
+X-Gm-Message-State: AOAM533FejG6Vi+5kdA+goUoVJW55rsBZxqzDCBI4AtD7mk6GZL3qJ3Z
+ PWXxhevKhgPdvzphTpSeC8OMkWHyKuRW1hLT4TlkSRVkJdUS6ihmDslw+zDTUEOm7Reo/fxO8bV
+ q7uUH58DdzN/V3NY=
+X-Received: by 2002:adf:81f7:: with SMTP id 110mr25868747wra.35.1614079449327; 
+ Tue, 23 Feb 2021 03:24:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwzs54541hSPKy2WkTDpYl+00Y5iQ4RoHU7BFRbby3/APvghBG2rkG19V8Y9haFlet1FRN6vg==
+X-Received: by 2002:adf:81f7:: with SMTP id 110mr25868725wra.35.1614079449066; 
+ Tue, 23 Feb 2021 03:24:09 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id f7sm32250383wrm.92.2021.02.23.03.24.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 03:24:08 -0800 (PST)
+Date: Tue, 23 Feb 2021 12:24:06 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v2] virtio-blk: Respect discard granularity
+Message-ID: <20210223112406.cqbujfkt7pq4zyg6@steredhat>
+References: <YDPgfPiXQ9fNmGlq@stefanha-x1.localdomain>
+ <20210223053616.68503-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210223113634.6626c8f8.cohuck@redhat.com>
+In-Reply-To: <20210223053616.68503-1-akihiko.odaki@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -106,143 +94,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Huacai Chen <chenhuacai@kernel.org>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Leif Lindholm <leif@nuviainc.com>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Radoslaw Biernacki <rad@semihalf.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>, qemu-ppc@nongnu.org,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 11:36 AM, Cornelia Huck wrote:
-> On Tue, 23 Feb 2021 10:37:01 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
-> 
->> On Tue, Feb 23, 2021 at 10:33:55AM +1100, David Gibson wrote:
->>> On Mon, Feb 22, 2021 at 06:50:44PM +0100, Cornelia Huck wrote:  
->>>> On Mon, 22 Feb 2021 18:41:07 +0100
->>>> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>>   
->>>>> On 2/22/21 6:24 PM, Cornelia Huck wrote:  
->>>>>> On Fri, 19 Feb 2021 18:38:37 +0100
->>>>>> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>>>>>     
->>>>>>> MachineClass::kvm_type() can return -1 on failure.
->>>>>>> Document it, and add a check in kvm_init().
->>>>>>>
->>>>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>>>>>> ---
->>>>>>>  include/hw/boards.h | 3 ++-
->>>>>>>  accel/kvm/kvm-all.c | 6 ++++++
->>>>>>>  2 files changed, 8 insertions(+), 1 deletion(-)
->>>>>>>
->>>>>>> diff --git a/include/hw/boards.h b/include/hw/boards.h
->>>>>>> index a46dfe5d1a6..68d3d10f6b0 100644
->>>>>>> --- a/include/hw/boards.h
->>>>>>> +++ b/include/hw/boards.h
->>>>>>> @@ -127,7 +127,8 @@ typedef struct {
->>>>>>>   *    implement and a stub device is required.
->>>>>>>   * @kvm_type:
->>>>>>>   *    Return the type of KVM corresponding to the kvm-type string option or
->>>>>>> - *    computed based on other criteria such as the host kernel capabilities.
->>>>>>> + *    computed based on other criteria such as the host kernel capabilities
->>>>>>> + *    (which can't be negative), or -1 on error.
->>>>>>>   * @numa_mem_supported:
->>>>>>>   *    true if '--numa node.mem' option is supported and false otherwise
->>>>>>>   * @smp_parse:
->>>>>>> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
->>>>>>> index 84c943fcdb2..b069938d881 100644
->>>>>>> --- a/accel/kvm/kvm-all.c
->>>>>>> +++ b/accel/kvm/kvm-all.c
->>>>>>> @@ -2057,6 +2057,12 @@ static int kvm_init(MachineState *ms)
->>>>>>>                                                              "kvm-type",
->>>>>>>                                                              &error_abort);
->>>>>>>          type = mc->kvm_type(ms, kvm_type);
->>>>>>> +        if (type < 0) {
->>>>>>> +            ret = -EINVAL;
->>>>>>> +            fprintf(stderr, "Failed to detect kvm-type for machine '%s'\n",
->>>>>>> +                    mc->name);
->>>>>>> +            goto err;
->>>>>>> +        }
->>>>>>>      }
->>>>>>>  
->>>>>>>      do {    
->>>>>>
->>>>>> No objection to this patch; but I'm wondering why some non-pseries
->>>>>> machines implement the kvm_type callback, when I see the kvm-type
->>>>>> property only for pseries? Am I holding my git grep wrong?    
->>>>>
->>>>> Can it be what David commented here?
->>>>> https://www.mail-archive.com/qemu-devel@nongnu.org/msg784508.html
->>>>>   
->>>>
->>>> Ok, I might be confused about the other ppc machines; but I'm wondering
->>>> about the kvm_type callback for mips and arm/virt. Maybe I'm just
->>>> confused by the whole mechanism?  
->>>
->>> For ppc at least, not sure about in general, pseries is the only
->>> machine type that can possibly work under more than one KVM flavour
->>> (HV or PR).  So, it's the only one where it's actually useful to be
->>> able to configure this.  
->>
->> Wait... I'm not sure that's true.  At least theoretically, some of the
->> Book3E platforms could work with either PR or the Book3E specific
->> KVM.  Not sure if KVM PR supports all the BookE instructions it would
->> need to in practice.
->>
->> Possibly pseries is just the platform where there's been enough people
->> interested in setting the KVM flavour so far.
-> 
-> If I'm not utterly confused by the code, it seems the pseries machines
-> are the only ones where you can actually get to an invocation of
-> ->kvm_type(): You need to have a 'kvm-type' machine property, and
-> AFAICS only the pseries machine has that.
+On Tue, Feb 23, 2021 at 02:36:16PM +0900, Akihiko Odaki wrote:
+>Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+>---
+> hw/block/virtio-blk.c          | 8 +++++++-
+> hw/core/machine.c              | 9 ++++++++-
+> include/hw/virtio/virtio-blk.h | 1 +
+> 3 files changed, 16 insertions(+), 2 deletions(-)
+>
+>diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+>index bac2d6fa2b2..f4378e61182 100644
+>--- a/hw/block/virtio-blk.c
+>+++ b/hw/block/virtio-blk.c
+>@@ -962,10 +962,14 @@ static void virtio_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+>     blkcfg.wce = blk_enable_write_cache(s->blk);
+>     virtio_stw_p(vdev, &blkcfg.num_queues, s->conf.num_queues);
+>     if (virtio_has_feature(s->host_features, VIRTIO_BLK_F_DISCARD)) {
+>+        uint32_t discard_granularity = conf->discard_granularity;
+>+        if (discard_granularity == -1 || !s->conf.report_discard_granularity) {
+>+            discard_granularity = blk_size;
+>+        }
+>         virtio_stl_p(vdev, &blkcfg.max_discard_sectors,
+>                      s->conf.max_discard_sectors);
+>         virtio_stl_p(vdev, &blkcfg.discard_sector_alignment,
+>-                     blk_size >> BDRV_SECTOR_BITS);
+>+                     discard_granularity >> BDRV_SECTOR_BITS);
+>         /*
+>          * We support only one segment per request since multiple segments
+>          * are not widely used and there are no userspace APIs that allow
+>@@ -1299,6 +1303,8 @@ static Property virtio_blk_properties[] = {
+>                      IOThread *),
+>     DEFINE_PROP_BIT64("discard", VirtIOBlock, host_features,
+>                       VIRTIO_BLK_F_DISCARD, true),
+>+    DEFINE_PROP_BOOL("report-discard-granularity", VirtIOBlock,
+>+                     conf.report_discard_granularity, true),
+>     DEFINE_PROP_BIT64("write-zeroes", VirtIOBlock, host_features,
+>                       VIRTIO_BLK_F_WRITE_ZEROES, true),
+>     DEFINE_PROP_UINT32("max-discard-sectors", VirtIOBlock,
+>diff --git a/hw/core/machine.c b/hw/core/machine.c
+>index de3b8f1b318..3ba976e5bbc 100644
+>--- a/hw/core/machine.c
+>+++ b/hw/core/machine.c
+>@@ -33,7 +33,9 @@
+> #include "migration/global_state.h"
+> #include "migration/vmstate.h"
+>
+>-GlobalProperty hw_compat_5_2[] = {};
+>+GlobalProperty hw_compat_5_2[] = {
+>+    { "virtio-blk-device", "report-discard-granularity", "off" },
 
-OMG you are right... This changed in commit f2ce39b4f06
-("vl: make qemu_get_machine_opts static"):
+IIUC older machines inherit the properties set for newer machines, so I 
+think only this one is enough.
 
-@@ -2069,13 +2068,11 @@ static int kvm_init(MachineState *ms)
-     }
-     s->as = g_new0(struct KVMAs, s->nr_as);
+Thanks,
+Stefano
 
--    kvm_type = qemu_opt_get(qemu_get_machine_opts(), "kvm-type");
--    if (mc->kvm_type) {
-+    if (object_property_find(OBJECT(current_machine), "kvm-type")) {
-+        g_autofree char *kvm_type =
-object_property_get_str(OBJECT(current_machine),
-+                                                            "kvm-type",
-+                                                            &error_abort);
-         type = mc->kvm_type(ms, kvm_type);
--    } else if (kvm_type) {
--        ret = -EINVAL;
--        fprintf(stderr, "Invalid argument kvm-type=%s\n", kvm_type);
--        goto err;
-     }
-
-Paolo, is that expected?
-
-So these callbacks are dead code:
-hw/arm/virt.c:2585:    mc->kvm_type = virt_kvm_type;
-hw/mips/loongson3_virt.c:625:    mc->kvm_type = mips_kvm_type;
-hw/ppc/mac_newworld.c:598:    mc->kvm_type = core99_kvm_type;
-hw/ppc/mac_oldworld.c:447:    mc->kvm_type = heathrow_kvm_type;
-
-> 
-> (Or is something hiding behind some macro magic?)
-> 
+>+};
+> const size_t hw_compat_5_2_len = G_N_ELEMENTS(hw_compat_5_2);
+>
+> GlobalProperty hw_compat_5_1[] = {
+>@@ -41,6 +43,7 @@ GlobalProperty hw_compat_5_1[] = {
+>     { "vhost-user-blk", "num-queues", "1"},
+>     { "vhost-user-scsi", "num_queues", "1"},
+>     { "virtio-blk-device", "num-queues", "1"},
+>+    { "virtio-blk-device", "report-discard-granularity", "off" },
+>     { "virtio-scsi-device", "num_queues", "1"},
+>     { "nvme", "use-intel-id", "on"},
+>     { "pvpanic", "events", "1"}, /* PVPANIC_PANICKED */
+>@@ -50,6 +53,7 @@ const size_t hw_compat_5_1_len = G_N_ELEMENTS(hw_compat_5_1);
+> GlobalProperty hw_compat_5_0[] = {
+>     { "pci-host-bridge", "x-config-reg-migration-enabled", "off" },
+>     { "virtio-balloon-device", "page-poison", "false" },
+>+    { "virtio-blk-device", "report-discard-granularity", "off" },
+>     { "vmport", "x-read-set-eax", "off" },
+>     { "vmport", "x-signal-unsupported-cmd", "off" },
+>     { "vmport", "x-report-vmx-type", "off" },
+>@@ -59,6 +63,7 @@ GlobalProperty hw_compat_5_0[] = {
+> const size_t hw_compat_5_0_len = G_N_ELEMENTS(hw_compat_5_0);
+>
+> GlobalProperty hw_compat_4_2[] = {
+>+    { "virtio-blk-device", "report-discard-granularity", "off" },
+>     { "virtio-blk-device", "queue-size", "128"},
+>     { "virtio-scsi-device", "virtqueue_size", "128"},
+>     { "virtio-blk-device", "x-enable-wce-if-config-wce", "off" },
+>@@ -74,6 +79,7 @@ GlobalProperty hw_compat_4_2[] = {
+> const size_t hw_compat_4_2_len = G_N_ELEMENTS(hw_compat_4_2);
+>
+> GlobalProperty hw_compat_4_1[] = {
+>+    { "virtio-blk-device", "report-discard-granularity", "off" },
+>     { "virtio-pci", "x-pcie-flr-init", "off" },
+>     { "virtio-device", "use-disabled-flag", "false" },
+> };
+>@@ -83,6 +89,7 @@ GlobalProperty hw_compat_4_0[] = {
+>     { "VGA",            "edid", "false" },
+>     { "secondary-vga",  "edid", "false" },
+>     { "bochs-display",  "edid", "false" },
+>+    { "virtio-blk-device", "report-discard-granularity", "off" },
+>     { "virtio-vga",     "edid", "false" },
+>     { "virtio-gpu-device", "edid", "false" },
+>     { "virtio-device", "use-started", "false" },
+>diff --git a/include/hw/virtio/virtio-blk.h b/include/hw/virtio/virtio-blk.h
+>index 214ab748229..29655a406dd 100644
+>--- a/include/hw/virtio/virtio-blk.h
+>+++ b/include/hw/virtio/virtio-blk.h
+>@@ -41,6 +41,7 @@ struct VirtIOBlkConf
+>     uint16_t num_queues;
+>     uint16_t queue_size;
+>     bool seg_max_adjust;
+>+    bool report_discard_granularity;
+>     uint32_t max_discard_sectors;
+>     uint32_t max_write_zeroes_sectors;
+>     bool x_enable_wce_if_config_wce;
+>-- 
+>2.24.3 (Apple Git-128)
+>
+>
 
 
