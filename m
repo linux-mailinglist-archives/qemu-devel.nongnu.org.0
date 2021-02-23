@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64EB1322F5B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 18:10:15 +0100 (CET)
-Received: from localhost ([::1]:50090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2CE8322F62
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 18:14:26 +0100 (CET)
+Received: from localhost ([::1]:53220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEbCQ-0002u6-Ew
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 12:10:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48178)
+	id 1lEbGT-0004UI-90
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 12:14:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEbBU-00024L-SS
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 12:09:17 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:32931)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEbBS-0007Zz-Uu
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 12:09:16 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id c6so26818139ede.0
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 09:09:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=qK1ZHWaQwSItrhdTsE7NLFhqgiQfhqszet17MwUmTbI=;
- b=mIpY9fAcKKrpEwBeR/+LAdxh7jXGG/HgksEdTM4jdGcqmHDP3JbsPNaoDQyvvb8m77
- r53JEbxi0puuyw8GuuRc3Zt9t3aCT1hOH4QaQ6H1HC2a6IxRNEBFvsiAE5qABnSxIwDf
- jexNPXqkGmQ67sxJYGWX3dVwe1SJAO2fqhDBDTeCj4SDEtVNN5XQPXKWLjYWqKsQQIXl
- V5m0uDr/OP5xhIZUsYzr4lJ0c1zbtlLI1uh5jG6T6af9kKcJIAKbrcI6aQ7yZKK7UYtT
- GSiyz53yuOSYabXv8sVhsj6eI25MEZf+l2Krdz7tH33Hmc5RZuIDKhRui/UtUGi9+ib0
- F+fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=qK1ZHWaQwSItrhdTsE7NLFhqgiQfhqszet17MwUmTbI=;
- b=IdUn8ZQDpATINafiJIJbQDecXutxNvxjQeNUoD1bwm/VoLF6M7HWhYU6G7XgoAV6b/
- QFn5trYIz5IaEPRk7UC5waWw9JuWNLy2rx9laBCamXKY1FsgPsuRtEkNlKuREFkpWhFP
- BRyZdT2fHbXLU2f5vrxjhDsY2f+O+c4flvKwnjDtkp4RSXuItScBQO/+DPCKM3vdOxlv
- 6YD386svS7UrR2Y8brDNKsJt25R8SeFSfg5k/iWtznkV0U/SYly2boQefb8/pO5E62Da
- a4IpeIAtCbkiXlGyKyLPnp4dYdApwTuvoogOMVdTkyrZINFUBvdIHA829fteTQZ1/8SR
- gkCw==
-X-Gm-Message-State: AOAM532s0Uww4mg7wz7MIdKskb180oKMKuDB0uPhaXTRxOid5b5Ze7fj
- 6GaB+rYc8BzjKiYxMc1VDiNeEm5M0QM=
-X-Google-Smtp-Source: ABdhPJyKITHfkwRfkNJGOo4GBdUkyD98gfE+W7LeevEDB1yb41QYrBmLtq9OCaceqRIq844Z4ekkww==
-X-Received: by 2002:aa7:c645:: with SMTP id z5mr3960326edr.126.1614100153000; 
- Tue, 23 Feb 2021 09:09:13 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id lj13sm12722541ejb.123.2021.02.23.09.09.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 09:09:12 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/docker: Use --arch-only when building Debian cross
- images
-Date: Tue, 23 Feb 2021 18:09:10 +0100
-Message-Id: <20210223170910.2916721-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEbFO-0003xl-Lx
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 12:13:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEbFM-0000yR-6h
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 12:13:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614100394;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DcgydohWU8EZ5dNqkvW5WRZ4AOS74VMFKVy431vWr90=;
+ b=VV+YS75IWLrWO9XwQpReBaof1SmZM+G4flrjQRzrpAUcNa4dDMz4aFQURQri/WkV/uDQY5
+ SArVy6ib9nNY6BNiwoP78vXHN9jf6hjmNFdcCajyFtyNSy3BtAQZEbFpvLzA4BGM1fJxcY
+ U6vtw/5gHOM/19EyGGZVN2JheTG4UuM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-563-mT4UfS9AO2m3Lt0hPMC_SQ-1; Tue, 23 Feb 2021 12:13:07 -0500
+X-MC-Unique: mT4UfS9AO2m3Lt0hPMC_SQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9BF9818E8761;
+ Tue, 23 Feb 2021 17:13:06 +0000 (UTC)
+Received: from redhat.com (ovpn-115-33.ams2.redhat.com [10.36.115.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 63B8B5C3FD;
+ Tue, 23 Feb 2021 17:13:04 +0000 (UTC)
+Date: Tue, 23 Feb 2021 17:13:01 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v2 2/4] utils: Improve qemu_strtosz() to have 64 bits of
+ precision
+Message-ID: <YDU3nca4MSZ9zChE@redhat.com>
+References: <20210211204438.1184395-1-eblake@redhat.com>
+ <20210211204438.1184395-3-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20210211204438.1184395-3-eblake@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,69 +83,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ qemu-block@nongnu.org, rjones@redhat.com, tao3.xu@intel.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building a Docker image based on debian10.docker on
-a non-x86 host, we get:
+On Thu, Feb 11, 2021 at 02:44:36PM -0600, Eric Blake wrote:
+> We have multiple clients of qemu_strtosz (qemu-io, the opts visitor,
+> the keyval visitor), and it gets annoying that edge-case testing is
+> impacted by implicit rounding to 53 bits of precision due to parsing
+> with strtod().  As an example posted by Rich Jones:
+>  $ nbdkit memory $(( 2**63 - 2**30 )) --run \
+>    'build/qemu-io -f raw "$uri" -c "w -P 3 $(( 2**63 - 2**30 - 512 )) 512" '
+>  write failed: Input/output error
+> 
+> because 9223372035781033472 got rounded to 0x7fffffffc0000000 which is
+> out of bounds.
+> 
+> It is also worth noting that our existing parser, by virtue of using
+> strtod(), accepts decimal AND hex numbers, even though test-cutils
+> previously lacked any coverage of the latter until the previous patch.
+> We do have existing clients that expect a hex parse to work (for
+> example, iotest 33 using qemu-io -c "write -P 0xa 0x200 0x400"), but
+> strtod() parses "08" as 8 rather than as an invalid octal number, so
+> we know there are no clients that depend on octal.  Our use of
+> strtod() also means that "0x1.8k" would actually parse as 1536 (the
+> fraction is 8/16), rather than 1843 (if the fraction were 8/10); but
+> as this was not covered in the testsuite, I have no qualms forbidding
+> hex fractions as invalid, so this patch declares that the use of
+> fractions is only supported with decimal input, and enhances the
+> testsuite to document that.
+> 
+> Our previous use of strtod() meant that -1 parsed as a negative; now
+> that we parse with strtoull(), negative values can wrap around modulo
+> 2^64, so we have to explicitly check whether the user passed in a '-';
+> and make it consistent to also reject '-0'.  This has the minor effect
+> of treating negative values as EINVAL (with no change to endptr)
+> rather than ERANGE (with endptr advanced to what was parsed), visible
+> in the updated iotest output.
+> 
+> We also had no testsuite coverage of "1.1e0k", which happened to parse
+> under strtod() but is unlikely to occur in practice; as long as we are
+> making things more robust, it is easy enough to reject the use of
+> exponents in a strtod parse.
+> 
+> The fix is done by breaking the parse into an integer prefix (no loss
+> in precision), rejecting negative values (since we can no longer rely
+> on strtod() to do that), determining if a decimal or hexadecimal parse
+> was intended (with the new restriction that a fractional hex parse is
+> not allowed), and where appropriate, using a floating point fractional
+> parse (where we also scan to reject use of exponents in the fraction).
+> The bulk of the patch is then updates to the testsuite to match our
+> new precision, as well as adding new cases we reject (whether they
+> were rejected or inadvertently accepted before).
+> 
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> ---
+> 
+> Note that this approach differs from what has been attempted in the
+> past; see the thread starting at
+> https://lists.gnu.org/archive/html/qemu-devel/2019-12/msg00852.html
+> That approach tried to parse both as strtoull and strtod and take
+> whichever was longer, but that was harder to document.
+> ---
+>  tests/test-cutils.c              | 74 ++++++++++----------------
+>  tests/test-keyval.c              | 35 +++++++++----
+>  tests/test-qemu-opts.c           | 33 ++++++++----
+>  util/cutils.c                    | 90 ++++++++++++++++++++++++--------
+>  tests/qemu-iotests/049.out       | 14 +++--
+>  tests/qemu-iotests/178.out.qcow2 |  3 +-
+>  tests/qemu-iotests/178.out.raw   |  3 +-
+>  7 files changed, 158 insertions(+), 94 deletions(-)
 
- [2/4] RUN apt update &&     DEBIAN_FRONTEND=noninteractive eatmydata     apt build-dep -yy qemu
- Reading package lists... Done
- Building dependency tree
- Reading state information... Done
- Some packages could not be installed. This may mean that you have
- requested an impossible situation or if you are using the unstable
- distribution that some required packages have not yet been created
- or been moved out of Incoming.
- The following information may help to resolve the situation:
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
- The following packages have unmet dependencies:
-  builddeps:qemu : Depends: gcc-s390x-linux-gnu but it is not installable
-                   Depends: gcc-alpha-linux-gnu but it is not installable
- E: Unable to correct problems, you have held broken packages.
 
-Fix by using the --arch-only option suggested here:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1866032/comments/1
-
-Suggested-by: Christian Ehrhardt <christian.ehrhardt@canonical.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/docker/dockerfiles/debian-all-test-cross.docker | 2 +-
- tests/docker/dockerfiles/debian10.docker              | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/tests/docker/dockerfiles/debian-all-test-cross.docker b/tests/docker/dockerfiles/debian-all-test-cross.docker
-index dedcea58b46..593b7ef1023 100644
---- a/tests/docker/dockerfiles/debian-all-test-cross.docker
-+++ b/tests/docker/dockerfiles/debian-all-test-cross.docker
-@@ -11,7 +11,7 @@ FROM qemu/debian10
- # What we need to build QEMU itself
- RUN apt update && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
--    apt build-dep -yy qemu
-+    apt build-dep --arch-only -yy qemu
- 
- # Add the foreign architecture we want and install dependencies
- RUN DEBIAN_FRONTEND=noninteractive eatmydata \
-diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
-index 9d42b5a4b81..d034acbd256 100644
---- a/tests/docker/dockerfiles/debian10.docker
-+++ b/tests/docker/dockerfiles/debian10.docker
-@@ -32,6 +32,6 @@ RUN apt update && \
-         psmisc \
-         python3 \
-         python3-sphinx \
--        $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
-+        $(apt-get -s build-dep --arch-only qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
- 
- ENV FEATURES docs
+Regards,
+Daniel
 -- 
-2.26.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
