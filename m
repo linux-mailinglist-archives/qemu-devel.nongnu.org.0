@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A25432247C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 04:09:34 +0100 (CET)
-Received: from localhost ([::1]:44406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E648232248D
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 04:13:32 +0100 (CET)
+Received: from localhost ([::1]:54780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEO4q-0007zl-Q3
-	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 22:09:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58628)
+	id 1lEO8h-0003xj-Q3
+	for lists+qemu-devel@lfdr.de; Mon, 22 Feb 2021 22:13:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEO36-0006E7-Uf; Mon, 22 Feb 2021 22:07:44 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:42529 helo=ozlabs.org)
+ id 1lEO37-0006EJ-NR; Mon, 22 Feb 2021 22:07:45 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45053 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1lEO34-0003DY-66; Mon, 22 Feb 2021 22:07:44 -0500
+ id 1lEO34-0003Dt-7G; Mon, 22 Feb 2021 22:07:45 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4Dl3rT11Xpz9sVR; Tue, 23 Feb 2021 14:07:36 +1100 (AEDT)
+ id 4Dl3rT1gBqz9sVr; Tue, 23 Feb 2021 14:07:37 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1614049657;
- bh=Hh9S9McQYb8lj6xzEmqMFfmgWS0iR02y9Iix7RleEAY=;
+ bh=K6Z3D59FDsiQ92Y/dGZ2W2dh1e9j1RvXDv3f8ds8kvg=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ffIash84kKEW8juJw6/WeJg6LmqdUR68uB3gxav5ite6n+4ZQoNF7912MgM42Js9j
- mBHrzLSOdONzm+QeO3nU76xxnjk61Eq3aBx4WpQ2C6ymvQHsKgbvcIRR+Hkte+nePR
- ddq7Cab/Pzh2icbDezr1fd1d9bGeMTjt4Hfv7cv0=
-Date: Tue, 23 Feb 2021 11:12:23 +1100
+ b=Cv8ZtfqO3fbRlzqHOK1lfINVPhd6+xnfqaY9Ey3Wm3V+jTB43LmuOwMLgk+dCBNSi
+ O/NLWHcjMI3fzo2xsSdu+xzT2RAM9BU18txAPdWXQsK4e51t7zirOW8AeLczA1/Jct
+ zbuoLlpazDHW0J+OlEi9v2TSl6vG/OHunwH0Vt6g=
+Date: Tue, 23 Feb 2021 11:13:01 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v4 1/5] spapr_drc.c: use spapr_drc_release() in
- isolate_physical/set_unusable
-Message-ID: <YDRIZ7puzPWyTzae@yekko.fritz.box>
+Subject: Re: [PATCH v4 2/5] spapr: rename spapr_drc_detach() to
+ spapr_drc_unplug_request()
+Message-ID: <YDRIjXPwLM35nc3P@yekko.fritz.box>
 References: <20210222194531.62717-1-danielhb413@gmail.com>
- <20210222194531.62717-2-danielhb413@gmail.com>
+ <20210222194531.62717-3-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="42gaFvhWK5cw7bHi"
+ protocol="application/pgp-signature"; boundary="HGGeAy1srSswKZd0"
 Content-Disposition: inline
-In-Reply-To: <20210222194531.62717-2-danielhb413@gmail.com>
+In-Reply-To: <20210222194531.62717-3-danielhb413@gmail.com>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,33 +64,35 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---42gaFvhWK5cw7bHi
+--HGGeAy1srSswKZd0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Feb 22, 2021 at 04:45:27PM -0300, Daniel Henrique Barboza wrote:
-> When moving a physical DRC to "Available", drc_isolate_physical() will
-> move the DRC state to STATE_PHYSICAL_POWERON and, if the DRC is marked
-> for unplug, call spapr_drc_detach(). For physical DRCs,
-> drck->empty_state is STATE_PHYSICAL_POWERON, meaning that we're sure
-> that spapr_drc_detach() will end up calling spapr_drc_release() in the
-> end.
+On Mon, Feb 22, 2021 at 04:45:28PM -0300, Daniel Henrique Barboza wrote:
+> spapr_drc_detach() is not the best name for what the function does. The
+> function does not detach the DRC, it makes an uncommited attempt to do
+> it.  It'll mark the DRC as pending unplug, via the 'unplug_request'
+> flag, and only if the DRC state is drck->empty_state it will detach the
+> DRC, via spapr_drc_release().
 >=20
-> Likewise, for logical DRCs, drc_set_unusable will move the DRC to
-> "Unusable" state, setting drc->state to STATE_LOGICAL_UNUSABLE, which is
-> the drck->empty_state for logical DRCs. spapr_drc_detach() will call
-> spapr_drc_release() in this case as well.
+> This is a contrast with its pair spapr_drc_attach(), where the function
+> is indeed creating the DRC QOM object. If you know what
+> spapr_drc_attach() does, you can be misled into thinking that
+> spapr_drc_detach() is removing the DRC from QEMU internal state, which
+> isn't true.
 >=20
-> In both scenarios, spapr_drc_detach() is being used as a
-> spapr_drc_release(), wrapper, where we also set unplug_requested (which
-> is already true, otherwise spapr_drc_detach() wouldn't be called in the
-> first place) and check if drc->state =3D=3D drck->empty_state, which we a=
-lso
-> know it's guaranteed to be true because we just set it.
+> The current role of this function is better described as a request for
+> detach, since there's no guarantee that we're going to detach the DRC in
+> the end.  Rename the function to spapr_drc_unplug_request to reflect
+> what is is doing.
 >=20
-> Just use spapr_drc_release() in these functions to be clear of our
-> intentions in both these functions.
+> The initial idea was to change the name to spapr_drc_detach_request(),
+> and later on change the unplug_request flag to detach_request. However,
+> unplug_request is a migratable boolean for a long time now and renaming
+> it is not worth the trouble. spapr_drc_unplug_request() setting
+> drc->unplug_request is more natural than spapr_drc_detach_request
+> setting drc->unplug_request.
 >=20
 > Reviewed-by: Greg Kurz <groug@kaod.org>
 > Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
@@ -99,73 +101,115 @@ lso
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/spapr_drc.c | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
+>  hw/ppc/spapr.c             | 6 +++---
+>  hw/ppc/spapr_drc.c         | 4 ++--
+>  hw/ppc/spapr_pci.c         | 4 ++--
+>  hw/ppc/trace-events        | 2 +-
+>  include/hw/ppc/spapr_drc.h | 2 +-
+>  5 files changed, 9 insertions(+), 9 deletions(-)
 >=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 85fe65f894..b066df68cb 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3654,7 +3654,7 @@ static void spapr_memory_unplug_request(HotplugHand=
+ler *hotplug_dev,
+>                                addr / SPAPR_MEMORY_BLOCK_SIZE);
+>          g_assert(drc);
+> =20
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+>          addr +=3D SPAPR_MEMORY_BLOCK_SIZE;
+>      }
+> =20
+> @@ -3722,7 +3722,7 @@ void spapr_core_unplug_request(HotplugHandler *hotp=
+lug_dev, DeviceState *dev,
+>      g_assert(drc);
+> =20
+>      if (!spapr_drc_unplug_requested(drc)) {
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+>          spapr_hotplug_req_remove_by_index(drc);
+>      }
+>  }
+> @@ -3985,7 +3985,7 @@ static void spapr_phb_unplug_request(HotplugHandler=
+ *hotplug_dev,
+>      assert(drc);
+> =20
+>      if (!spapr_drc_unplug_requested(drc)) {
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+>          spapr_hotplug_req_remove_by_index(drc);
+>      }
+>  }
 > diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 84bd3c881f..555a25517d 100644
+> index 555a25517d..67041fb212 100644
 > --- a/hw/ppc/spapr_drc.c
 > +++ b/hw/ppc/spapr_drc.c
-> @@ -50,6 +50,20 @@ uint32_t spapr_drc_index(SpaprDrc *drc)
->          | (drc->id & DRC_INDEX_ID_MASK);
->  }
-> =20
-> +static void spapr_drc_release(SpaprDrc *drc)
-> +{
-> +    SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> +
-> +    drck->release(drc->dev);
-> +
-> +    drc->unplug_requested =3D false;
-> +    g_free(drc->fdt);
-> +    drc->fdt =3D NULL;
-> +    drc->fdt_start_offset =3D 0;
-> +    object_property_del(OBJECT(drc), "device");
-> +    drc->dev =3D NULL;
-> +}
-> +
->  static uint32_t drc_isolate_physical(SpaprDrc *drc)
->  {
->      switch (drc->state) {
-> @@ -68,7 +82,7 @@ static uint32_t drc_isolate_physical(SpaprDrc *drc)
->      if (drc->unplug_requested) {
->          uint32_t drc_index =3D spapr_drc_index(drc);
->          trace_spapr_drc_set_isolation_state_finalizing(drc_index);
-> -        spapr_drc_detach(drc);
-> +        spapr_drc_release(drc);
->      }
-> =20
->      return RTAS_OUT_SUCCESS;
-> @@ -209,7 +223,7 @@ static uint32_t drc_set_unusable(SpaprDrc *drc)
->      if (drc->unplug_requested) {
->          uint32_t drc_index =3D spapr_drc_index(drc);
->          trace_spapr_drc_set_allocation_state_finalizing(drc_index);
-> -        spapr_drc_detach(drc);
-> +        spapr_drc_release(drc);
->      }
-> =20
->      return RTAS_OUT_SUCCESS;
-> @@ -372,20 +386,6 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
+> @@ -386,11 +386,11 @@ void spapr_drc_attach(SpaprDrc *drc, DeviceState *d)
 >                               NULL, 0);
 >  }
 > =20
-> -static void spapr_drc_release(SpaprDrc *drc)
-> -{
-> -    SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
-> -
-> -    drck->release(drc->dev);
-> -
-> -    drc->unplug_requested =3D false;
-> -    g_free(drc->fdt);
-> -    drc->fdt =3D NULL;
-> -    drc->fdt_start_offset =3D 0;
-> -    object_property_del(OBJECT(drc), "device");
-> -    drc->dev =3D NULL;
-> -}
-> -
->  void spapr_drc_detach(SpaprDrc *drc)
+> -void spapr_drc_detach(SpaprDrc *drc)
+> +void spapr_drc_unplug_request(SpaprDrc *drc)
 >  {
 >      SpaprDrcClass *drck =3D SPAPR_DR_CONNECTOR_GET_CLASS(drc);
+> =20
+> -    trace_spapr_drc_detach(spapr_drc_index(drc));
+> +    trace_spapr_drc_unplug_request(spapr_drc_index(drc));
+> =20
+>      g_assert(drc->dev);
+> =20
+> diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
+> index f1c7479816..b00e9609ae 100644
+> --- a/hw/ppc/spapr_pci.c
+> +++ b/hw/ppc/spapr_pci.c
+> @@ -1723,12 +1723,12 @@ static void spapr_pci_unplug_request(HotplugHandl=
+er *plug_handler,
+>                       * functions, even if their unplug weren't requested
+>                       * beforehand.
+>                       */
+> -                    spapr_drc_detach(func_drc);
+> +                    spapr_drc_unplug_request(func_drc);
+>                  }
+>              }
+>          }
+> =20
+> -        spapr_drc_detach(drc);
+> +        spapr_drc_unplug_request(drc);
+> =20
+>          /* if this isn't func 0, defer unplug event. otherwise signal re=
+moval
+>           * for all present functions
+> diff --git a/hw/ppc/trace-events b/hw/ppc/trace-events
+> index 1e91984526..b4bbfbb013 100644
+> --- a/hw/ppc/trace-events
+> +++ b/hw/ppc/trace-events
+> @@ -50,7 +50,7 @@ spapr_drc_set_allocation_state(uint32_t index, int stat=
+e) "drc: 0x%"PRIx32", sta
+>  spapr_drc_set_allocation_state_finalizing(uint32_t index) "drc: 0x%"PRIx=
+32
+>  spapr_drc_set_configured(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_attach(uint32_t index) "drc: 0x%"PRIx32
+> -spapr_drc_detach(uint32_t index) "drc: 0x%"PRIx32
+> +spapr_drc_unplug_request(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_awaiting_quiesce(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_reset(uint32_t index) "drc: 0x%"PRIx32
+>  spapr_drc_realize(uint32_t index) "drc: 0x%"PRIx32
+> diff --git a/include/hw/ppc/spapr_drc.h b/include/hw/ppc/spapr_drc.h
+> index 8982927d5c..02a63b3666 100644
+> --- a/include/hw/ppc/spapr_drc.h
+> +++ b/include/hw/ppc/spapr_drc.h
+> @@ -243,7 +243,7 @@ int spapr_dt_drc(void *fdt, int offset, Object *owner=
+, uint32_t drc_type_mask);
+>   * beforehand (eg. check drc->dev at pre-plug).
+>   */
+>  void spapr_drc_attach(SpaprDrc *drc, DeviceState *d);
+> -void spapr_drc_detach(SpaprDrc *drc);
+> +void spapr_drc_unplug_request(SpaprDrc *drc);
+> =20
+>  /*
+>   * Reset all DRCs, causing pending hot-plug/unplug requests to complete.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -173,25 +217,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---42gaFvhWK5cw7bHi
+--HGGeAy1srSswKZd0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0SGUACgkQbDjKyiDZ
-s5JoyRAAq+5xPPuhMtwcoMuiCFv84KEi8Emxqb9qAsMoSzIkAl7PKVcPMGE46Nfn
-4ypUvqORu+mjiDuuouSb9n1ZvxnQss0dMuF6+8n2qMDTFbRKC4Fz7Os9NohWrVb9
-ffwXdxrgeYxo4/D19dbUcCiMwSb8Y+LEzweDGn4rgrVvRX1hoJUnSEj1Iq4kePr5
-/z6UbDRmZOHMl2/gAUejnvt2+NZ0A3jGztVPa9x/2R6HHURAXJ1ecxCmCUMHJa52
-hk8HVTGvL3dyO0YO1LqGQypRnOfdNEFWjK3VXKWRXtBhnRBq0sh9Ghmk83IMstGl
-4MmFjXfMhtMgpEM1cAHKpbXd2xZ5/OFSEnldzcUp1dePdMXon4OixGaoKSg68hMG
-zfaqQwAhY1OgSRLoMZRb6NCwVCIAQhrxHP4k0x3CPIJQuwnEKE55oL/stKtgZn0o
-F4DQvItvnbsHqsaejgrieNKv5UaXLE25ziYgVW2Epr/EAu6h/lX5ZmKG1JjXAWZl
-Sj+1UKS5qc/htkgpI1ZlUiZb5wT0gZSm9+JUiNb+qQ3OZCNFkD8CtATcS6xFuKIe
-EOeeCTFCrszMut5DFXNyhUmi4X2qIrUxIy5ePL3R5ewoInVMSJpgWolwLUnPSnGf
-KVWxbF3++4iAskk1OMRyNCVd73y7vvETy/4e0ChExOu4BUvZ3+U=
-=DIHg
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA0SI0ACgkQbDjKyiDZ
+s5JCgQ/+NGJiHWNSVNugg3eXoT1zXvt9LPyMtulJzRh187BFXlcfD6sfTsuPtG39
+ilyKWRpX1xw8nisdruHxlv4KGUoVs3b0f79Hq6WAdRScNcbcXQI1soRcBwEhBe1K
+3ITBe1kJAM97N3VU4ujaMP4saYQCvNVQYffg0WSeGAeKwD63gXt2VNbvDrjV10Cx
+e3CW2F4XJyQSokh8KKtcQAyx88r+NKCGtdcluzVP/XsY+MgKGhkRc6JGiELmNQ3b
+lwbemJ+6vOGYo1mhy7+ppfFDKHesH/2ty7K+hCGLdwlb/qpQHvHN69mW8kffFNhe
+vvCo1oNDLhuTULcsxjockV8eLxuUd+i8a5h2IhT0L8vATfwz2BEE+8KPXkf5L1yj
+qCR2wZwzTLauc4HZnKUS6VI9Aowl8E50yL7DVCyXoG0BZy+r0LT3k4Cx2GHsdh7A
+2gqDG+u5cfBCZN7oZVbX0jv+V2BugsQ+bFVc5kjyTdS7BKE3Vsu3Ps11TFJCvgaq
+srtQTfn/c9Y4eemR88PRVS69cJVxHyVCb1lcr+pK0m4kjv9Z9vJp9b3Q2Ejkwa3g
+hadHbtjVYdEb16qrsWWxA0HYfRw1r50qLdZM374rXFglFq0Db0tHoS1wlDez3YUa
+GfzIKvAx/nbxpQ5+lFrtbIJtyKXSiuy0VSkPHLOveYNM3Da4QVM=
+=NIRv
 -----END PGP SIGNATURE-----
 
---42gaFvhWK5cw7bHi--
+--HGGeAy1srSswKZd0--
 
