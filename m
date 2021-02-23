@@ -2,67 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A627D322F1C
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:54:42 +0100 (CET)
-Received: from localhost ([::1]:52668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CE5322EFB
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:43:57 +0100 (CET)
+Received: from localhost ([::1]:42528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEaxN-0000Dk-5W
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:54:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
+	id 1lEamy-0003sD-Bt
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:43:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <whensungoes@gmail.com>)
- id 1lEajs-0002Q6-PK
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:40:45 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41622)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <whensungoes@gmail.com>)
- id 1lEajr-0003Ap-6Z
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:40:44 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id q20so9113093pfu.8
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:40:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:from:date:message-id:subject:to;
- bh=dbocFgUAooLEKYVNS8NaMRt5Bduhg+SJ6stcQGF0bqM=;
- b=T7qCDHukFsovnoKEug8Zcr8nfqgoYCo02KQ7jJKqURyvZO7NqFdPBQG268qANQi3HP
- cZWj4PQLpu87NZXb4RgSwreKaeS8KSTyWfslQDb7h5B+z481T2HNmZ9sPvcsvAFSv/Zl
- nHIQ/o9NZaCvPpvCJykyxo5H2i70MyR6gb2Lub33SM+OBD9uaEC3VsdyERCV5iA6FziB
- CoPEKiJCp+607l9dYFh5dGu6YhrnQedAT9T/Jr6HSvchZQL7/oV/hU8n2zI25yC8leSS
- y4KnrQaXRUOplZqO3s5O28mbyyESCEK14QCmgpWqlGtkvQa0EWQ+wBs3a2e8Ru94EGZW
- KVFw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEakw-0003LF-BY
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:41:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEaku-0003eb-1e
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:41:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614098507;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=acwH2HOPj1JfsMhvPGLoxYmtclLSfFGD9IFCY2B87fc=;
+ b=K+8K8TEaJEwyW2BzJJz98gYd5vask1MQvFpX2rRS2PiMnOB6N5ASR5FcCe7I9e6EV4aaAk
+ sC26gdNvhnd5EIQmIXmjh3BCPZz4HJEb8eazrCVIBDNkbLiPALg52C8aGFJ6Wl8mlaCs73
+ JyQ0dUNBT3DzyR24RTedZluiAmLNnfo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-490-Ix5mHu3ANFOJCFhPgRkV2A-1; Tue, 23 Feb 2021 11:41:43 -0500
+X-MC-Unique: Ix5mHu3ANFOJCFhPgRkV2A-1
+Received: by mail-ed1-f72.google.com with SMTP id ch30so5106504edb.14
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:41:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
- bh=dbocFgUAooLEKYVNS8NaMRt5Bduhg+SJ6stcQGF0bqM=;
- b=std3RBq+7v225t21qvf9TEx4zTu1MGJkfa9FJf/0HaOV0S9WVU0puHnIG6gSrzvpGM
- P3qVklYa6WGi7QfCsC+c3VrMshxG9OtITAQw6bUuL41EdEcf8URN5xafohTithTwTgKw
- tVB0sDXgAx58NLpK+7g8NKtGL354dS6kp2qKneeeDDVvzdEyCMD6fuk4XOgArVkkbdew
- zio2zaVXZiUXgRsH1QUdmS+kqd1HkHsGJbavyLIeDTLTivm5k/BJg5BCR7BJ5fn4qqpn
- o4fFGH6NulHg0+fmtSEn1cPPA45L7BTbpBoXhjjkU77+aQIgSNBL/qsLvmX12GR3LkJz
- ERZw==
-X-Gm-Message-State: AOAM531DFJS0prCdSvV8kxgWE4mf8KlJkgKsR2neuPjTn5aq+elYVVUC
- y9Dx6pYJ12maooQ1AX8HBIGx9AhAGNq7kwecf8FoR5y5Nlw=
-X-Google-Smtp-Source: ABdhPJzVSmdOkH23T2AETC4ug0PSYz4jHqXFRBz8SZQ0R7PLfoZtcxmRjye38g+DHRUvNnariD4Za9B8sEm3ccUW13w=
-X-Received: by 2002:a63:fd0a:: with SMTP id d10mr3933438pgh.405.1614098439050; 
- Tue, 23 Feb 2021 08:40:39 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=acwH2HOPj1JfsMhvPGLoxYmtclLSfFGD9IFCY2B87fc=;
+ b=kB+Np5TsIwsWVj1nFBt5wD9kJA3ZmaeFp99/wmaCezUTTh2Eduu5t125aEJ9VSG5ic
+ d8L3eHqYGt+enymCpZ3Uw0hZ69hOSNpY8QBlpqM8mvnmjg1Bt/A/+ntJ2VNJgNW6OjT5
+ nM5w8RxeVBdImKAcleixFbdpvoenmSQXT7S8YVQIYCILBmPiH95j5c0JaV+RpqElxosJ
+ KcKzZTT4iIvEOiMP78owXSt56im0dntl6wfis7XqgznCCCF/+q9cU5KD9wf5w4o6ZiYY
+ duQ/1yT9MiIpgsbQxRXgT/ArVZEtGZdDS0Sv8FIwcF2g/ceRJcHtZDtx4yeoFbhIgZib
+ fzAQ==
+X-Gm-Message-State: AOAM533e6QMJzAXEP5QjWbCR7eeB9tR8gzQfxazeAKpsDuy4ucFp+u0S
+ spS5NEEAkF7YXfD1a619Da2RbDgjsC/tzlDDHe7SvMF+R94Z03/cXB7DUicqtvcufzZFKKFxpxV
+ 9r26Wfv9gXMtulAU=
+X-Received: by 2002:aa7:c312:: with SMTP id l18mr28579217edq.278.1614098502534; 
+ Tue, 23 Feb 2021 08:41:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJysJuw+QONPvK3151iAWy2n20MobyPBj4LcztQI08+h8rnHiHGgXTKOu3bb+YMYv/Mezz73KQ==
+X-Received: by 2002:aa7:c312:: with SMTP id l18mr28579181edq.278.1614098502276; 
+ Tue, 23 Feb 2021 08:41:42 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id br22sm3444132ejb.117.2021.02.23.08.41.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 08:41:41 -0800 (PST)
+Subject: Re: [PATCH v5 4/4] Jobs based on custom runners: add job definitions
+ for QEMU's machines
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210219215838.752547-1-crosa@redhat.com>
+ <20210219215838.752547-5-crosa@redhat.com>
+ <21f882ba-21db-2d45-0e74-be27e1119355@redhat.com>
+ <YDUlozcbgzWfQetX@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <29f877c0-c6bf-a0f5-968a-51be00c88523@redhat.com>
+Date: Tue, 23 Feb 2021 17:41:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-From: uty uaty <whensungoes@gmail.com>
-Date: Tue, 23 Feb 2021 11:39:57 -0500
-Message-ID: <CANrjN1V+yjLCq6iYYM21yGPqdW0ztL7ESFgtrg1yXRWWFOPfMA@mail.gmail.com>
-Subject: Install Win10 x64 on QEMU TCG failed
-To: qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000179b8c05bc039430"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=whensungoes@gmail.com; helo=mail-pf1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <YDUlozcbgzWfQetX@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Tue, 23 Feb 2021 11:52:20 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -74,51 +101,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Erik Skultety <eskultet@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
+ qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000179b8c05bc039430
-Content-Type: text/plain; charset="UTF-8"
+On 2/23/21 4:56 PM, Daniel P. Berrangé wrote:
+> On Tue, Feb 23, 2021 at 04:17:23PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 2/19/21 10:58 PM, Cleber Rosa wrote:
+>>> The QEMU project has two machines (aarch64 and s390x) that can be used
+>>> for jobs that do build and run tests.  This introduces those jobs,
+>>> which are a mapping of custom scripts used for the same purpose.
+>>>
+>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>>> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> ---
+>>>  .gitlab-ci.d/custom-runners.yml | 204 ++++++++++++++++++++++++++++++++
+>>>  1 file changed, 204 insertions(+)
+>>>
+>>> diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+>>> index 3004da2bda..a9166c82a2 100644
+>>> --- a/.gitlab-ci.d/custom-runners.yml
+>>> +++ b/.gitlab-ci.d/custom-runners.yml
+>>> @@ -12,3 +12,207 @@
+>>>  # strategy.
+>>>  variables:
+>>>    GIT_SUBMODULE_STRATEGY: recursive
+>>> +
+>>> +# All ubuntu-18.04 jobs should run successfully in an environment
+>>> +# setup by the scripts/ci/setup/build-environment.yml task
+>>> +# "Install basic packages to build QEMU on Ubuntu 18.04/20.04"
+>>> +ubuntu-18.04-s390x-all-linux-static:
+>>> + allow_failure: true
+>>> + needs: []
+>>> + stage: build
+>>> + tags:
+>>> + - ubuntu_18.04
+>>> + - s390x
+>>
+>> Where is this tag list filled upon registration?
+>>
+>>> + rules:
+>>> + - if: '$CI_COMMIT_BRANCH =~ /^staging/'
+>>> + script:
+>>> + # --disable-libssh is needed because of https://bugs.launchpad.net/qemu/+bug/1838763
+>>> + # --disable-glusterfs is needed because there's no static version of those libs in distro supplied packages
+>>> + - mkdir build
+>>> + - cd build
+>>> + - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
+>>> + - make --output-sync -j`nproc`
+>>> + - make --output-sync -j`nproc` check V=1
+>>> + - make --output-sync -j`nproc` check-tcg V=1
+>>
+>> Also this break the rest of the tests...
+>>
+>> The first containers job (amd64-alpine-container) got
+>> added to the custom runner and failed (because docker-dind
+>> isn't there?):
+> 
+> Urgh, well that's a big problem. We certainly don't want *anything* being
+> placed on the custom runners without explicit opt-in, otherwise jobs run
+> in the main repo have a different environment from when users run on their
+> personal forks.
+> 
+> IOW, we need anti-affinity against our custom runners really.
+> 
+>> $ export TAG="$CI_REGISTRY_IMAGE/qemu/$NAME:latest"
+>> $ export COMMON_TAG="$CI_REGISTRY/qemu-project/qemu/$NAME:latest"
+>> $ apk add python3
+>> bash: line 110: apk: command not found
+>> Running after_script 00:01
+>> Running after script...
+>> $ docker logout
+>> Removing login credentials for https://index.docker.io/v1/
+>> ERROR: Job failed: exit status 1
+>>
+>> Do we need to restrict the other jobs to the Gitlab public
+>> (x86) runners? Maybe as:
+>>
+>> diff --git a/.gitlab-ci.d/containers.yml b/.gitlab-ci.d/containers.yml
+>> @@ -1,6 +1,6 @@
+>>  .container_job_template: &container_job_definition
+>> +  tags:
+>> +    - gitlab-org-docker
+> 
+> Is that a real tag that exists on gitlab's shared runners, or something
+> you just invented ?
 
-Hi,
+This is not standardized yet:
+https://gitlab.com/gitlab-com/gl-infra/infrastructure/-/issues/5420
 
-I am trying to install Windows 10 on QEMU using TCG. I understand it would
-be slow, but I am trying to intercept some of the events in the system.
+I checked the available runners, some have 'docker' while other have
+'gitlab-org-docker'. There are more 'gitlab-org-docker' than 'docker'
+runners. The tag selection is not exclusive, this is a "all or nothing"
+selection, so for my testing I choose 'gitlab-org-docker' which is
+the most available.
 
-It works for Win7. However, when I install Win10, it takes a long time
-to finish most parts and eventually shows me "Why did my pc restart" screen.
+> 
+>>    image: docker:stable
+>>    stage: containers
+>>    services:
+>>
+>> Daniel, you didn't hit this problem on the previous version
+>> of this series?
+> 
+> I didn't try actually executing previous postings of this series.
+> 
+> 
+> Regards,
+> Daniel
+> 
 
-The version I'm using is Qemu-5.2.0.
-qemu-system-x86_64 -m 4G \
-        -cpu qemu64 \
-        -vga cirrus \
-        -cdrom ~/iso/Win10_x64.iso \
-        -boot d \
-        win10.hd
-
-Is it something because of Win10's hypervisor?
-Any suggestions?
-
-Best Regards,
-uty
-
---000000000000179b8c05bc039430
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi,<div><br></div><div>I am trying to install Windows 10 o=
-n QEMU using TCG. I understand it would be slow, but I am trying to interce=
-pt some of the events in the system.</div><div><br></div><div>It works for =
-Win7. However,=C2=A0when I install Win10, it takes a long time to=C2=A0fini=
-sh most parts and eventually shows me &quot;Why did my pc restart&quot; scr=
-een.</div><div><br></div><div>The version I&#39;m using is Qemu-5.2.0.=C2=
-=A0</div><div>qemu-system-x86_64 -m 4G \</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 -cpu qemu64 \</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 -vga cirrus \</div>=
-<div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 -cdrom ~/iso/Win10_x64.iso \</div><div>=C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 -boot d \</div><div>=C2=A0 =C2=A0 =C2=A0 =C2=A0 wi=
-n10.hd</div><div><br></div><div>Is it something because of Win10&#39;s hype=
-rvisor?</div><div>Any suggestions?=C2=A0</div><div><br></div><div>Best Rega=
-rds,</div><div>uty</div></div>
-
---000000000000179b8c05bc039430--
 
