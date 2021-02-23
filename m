@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02833228EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:39:05 +0100 (CET)
-Received: from localhost ([::1]:39708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F87322908
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:52:10 +0100 (CET)
+Received: from localhost ([::1]:42464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEV5t-0002Fi-1N
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:39:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41452)
+	id 1lEVIX-0004B4-BL
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:52:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lEV48-0001Jk-Sf
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:37:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42106)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEVHB-0003ie-0Z
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:50:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54735)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1lEV45-0007fA-C1
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:37:16 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEVH7-00055B-Jo
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:50:44 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614076632;
+ s=mimecast20190719; t=1614077440;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bIGzZAHT2IrR97nIWaOZh13hqXqdEEn4ZaBsZNS2Jg0=;
- b=KHxX8DKO752n5FbuHjwofIlpdWW7Z5N7UkycR4nJhVsuREEQGngoK+BXa+jsagZPSTsUTJ
- IddAdh2Fipago6Gfz2d6VIqDKVQ4b6ztkdtN27Xi0bUyVgMvy5oTiPLLyi6SaaTC6qCP3a
- J+ZZ4mBMcV4VvzXXr15YCuNQWCsqWl8=
+ bh=ASdY3KCOVxzqeRHWsLmgXivP5flg5UUrBWr4qShR2Dw=;
+ b=IGoYqB0k+Ft3WZl790T2EcMYrkFN8h+8gyW6JSMp4d6FH5Gk2o6AbLwwOce/G1rGLP+GlH
+ r3KrRuipJLEC6P7rljmHisYlcaIgUbSEzBRfWp8aogNGnaGGcB6SJpPZW6KFHOSDxD5TtA
+ xPYIwp2X9Cu9ODDWML7S3MxpRmii6b0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-QvMczwhUMS6WpidU3ya6Pg-1; Tue, 23 Feb 2021 05:37:06 -0500
-X-MC-Unique: QvMczwhUMS6WpidU3ya6Pg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-12-B3WPqqWvN_2vcOuV0OuZAA-1; Tue, 23 Feb 2021 05:50:38 -0500
+X-MC-Unique: B3WPqqWvN_2vcOuV0OuZAA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6226801986;
- Tue, 23 Feb 2021 10:37:01 +0000 (UTC)
-Received: from gondolin (ovpn-113-126.ams2.redhat.com [10.36.113.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D59045D9D0;
- Tue, 23 Feb 2021 10:36:47 +0000 (UTC)
-Date: Tue, 23 Feb 2021 11:36:34 +0100
-From: Cornelia Huck <cohuck@redhat.com>
-To: David Gibson <david@gibson.dropbear.id.au>
-Subject: Re: [PATCH v2 01/11] accel/kvm: Check MachineClass kvm_type()
- return value
-Message-ID: <20210223113634.6626c8f8.cohuck@redhat.com>
-In-Reply-To: <YDRAHW1ds1eh0Lav@yekko.fritz.box>
-References: <20210219173847.2054123-1-philmd@redhat.com>
- <20210219173847.2054123-2-philmd@redhat.com>
- <20210222182405.3e6e9a6f.cohuck@redhat.com>
- <bc37276d-74cc-22f0-fcc0-4ee5e62cf1df@redhat.com>
- <20210222185044.23fccecc.cohuck@redhat.com>
- <YDQ/Y1KozPSyNGjo@yekko.fritz.box>
- <YDRAHW1ds1eh0Lav@yekko.fritz.box>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2501801975;
+ Tue, 23 Feb 2021 10:50:36 +0000 (UTC)
+Received: from [10.36.114.0] (ovpn-114-0.ams2.redhat.com [10.36.114.0])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57AA160DA0;
+ Tue, 23 Feb 2021 10:50:11 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210222115708.7623-1-david@redhat.com>
+ <20210222115708.7623-2-david@redhat.com>
+ <7137d1ad-2741-7536-5a3c-58d0c4f8306b@redhat.com>
+ <0277759d-bb9a-6bf3-0ca4-53d3f7ec98f5@redhat.com>
+ <a6f7de7a-72c3-a6c6-0a14-3e21a0cc833b@redhat.com>
+ <24562156-457f-90b5-dcaf-c55fba1e881b@redhat.com>
+ <adedbbe8-cf77-7ede-1291-a1d6f6082451@redhat.com>
+ <82e6faad-7d45-0f37-eda5-aef42e353972@redhat.com>
 Organization: Red Hat GmbH
+Subject: Re: [PATCH v6 01/12] memory: Introduce RamDiscardMgr for RAM memory
+ regions
+Message-ID: <1409acfe-86eb-a4db-b35a-b45f5c046a2e@redhat.com>
+Date: Tue, 23 Feb 2021 11:50:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/nudo1.j=xV83/2pyII4Lt07";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=cohuck@redhat.com;
+In-Reply-To: <82e6faad-7d45-0f37-eda5-aef42e353972@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,148 +89,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, kvm@vger.kernel.org,
- Paul Durrant <paul@xen.org>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Stefano Stabellini <sstabellini@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, Huacai Chen <chenhuacai@kernel.org>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- =?UTF-8?B?SGVy?= =?UTF-8?B?dsOp?= Poussineau <hpoussin@reactos.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- Leif Lindholm <leif@nuviainc.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Alistair Francis <alistair@alistair23.me>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org,
- Radoslaw Biernacki <rad@semihalf.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
+ Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/nudo1.j=xV83/2pyII4Lt07
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+On 22.02.21 20:43, David Hildenbrand wrote:
+>>>>> The main motivation is to let listener decide how it wants to handle the
+>>>>> memory region. For example, for vhost, vdpa, kvm, ... I only want a
+>>>>> single region, not separate ones for each and every populated range,
+>>>>> punching out discarded ranges. Note that there are cases (i.e.,
+>>>>> anonymous memory), where it's even valid for the guest to read discarded
+>>>>> memory.
+>>>>
+>>>> Yes, I agree with that.  You would still have the same
+>>>> region-add/region_nop/region_del callbacks for KVM and friends; on top
+>>>> of that you would have region_populate/region_discard callbacks for VFIO.
+>>>
+>>> I think instead of region_populate/region_discard we would want
+>>> individual region_add/region_del when populating/discarding for all
+>>> MemoryListeners that opt-in somehow (e.g., VFIO, dump-guest-memory,
+>>> ...). Similarly, we would want to call log_sync()/log_clear() then only
+>>> for these parts.
+>>>
+>>> But what happens when I populate/discard some memory? I don't want to
+>>> trigger an address space transaction (begin()...region_nop()...commit())
+>>> - whenever I populate/discard memory (e.g., in 2 MB granularity).
+>>> Especially not, if nothing might have changed for most other
+>>> MemoryListeners.
+>>
+>> Right, that was the reason why I was suggesting different callbacks.
+>> For the VFIO listener, which doesn't have begin or commit callbacks, I
+>> think you could just rename region_add to region_populate, and point
+>> both region_del and region_discard to the existing region_del commit.
+>>
+>> Calling log_sync/log_clear only for populated parts also makes sense.
+>> log_sync and log_clear do not have to be within begin/commit, so you can
+>> change the semantics to call them more than once.
+> 
+> So I looked at the simplest of all cases (discard) and I am not convinced yet
+> that this is the right approach. I can understand why it looks like this fits
+> into the MemoryListener, but I am not sure if gives us any real benefits or
+> makes the code any clearer (I'd even say it's the contrary).
+> 
+> 
+> +void memory_region_notify_discard(MemoryRegion *mr, hwaddr offset,
+> +                                  hwaddr size)
+> +{
+> +    hwaddr mr_start, mr_end;
+> +    MemoryRegionSection mrs;
+> +    MemoryListener *listener;
+> +    AddressSpace *as;
+> +    FlatView *view;
+> +    FlatRange *fr;
+> +
+> +    QTAILQ_FOREACH(listener, &memory_listeners, link) {
+> +        if (!listener->region_discard) {
+> +            continue;
+> +        }
+> +        as = listener->address_space;
+> +        view = address_space_get_flatview(as);
+> +        FOR_EACH_FLAT_RANGE(fr, view) {
+> +            if (fr->mr != mr) {
+> +                continue;
+> +            }
+> +
+> +            mrs = section_from_flat_range(fr, view);
+> +
+> +            mr_start = MAX(mrs.offset_within_region, offset);
+> +            mr_end = MIN(offset + size,
+> +                          mrs.offset_within_region + int128_get64(mrs.size));
+> +            mr_end = MIN(mr_end, offset + size);
+> +
+> +            if (mr_start >= mr_end) {
+> +                continue;
+> +            }
+> +
+> +            mrs.offset_within_address_space += mr_start -
+> +                                               mrs.offset_within_region;
+> +            mrs.offset_within_region = mr_start;
+> +            mrs.size = int128_make64(mr_end - mr_start);
+> +            listener->region_discard(listener, &mrs);
+> +        }
+> +        flatview_unref(view);
+> +    }
+> +}
+> 
+> Maybe I am missing something important. This looks highly inefficient.
+> 
+> 1. Although we know the memory region we have to walk over the whole address
+>      space ... over and over again for each potential listener.
+> 
+> 2. Even without any applicable listeners (=> ! VFIO) we loop over all listeners.
+>      There are ways around that but it doesn't make the code nicer IMHO.
+> 
+> 3. In the future I am planning on sending populate/discard events
+>      without the BQL (in my approach, synchronizing internally against
+>      register/unregister/populate/discard ...). I don't see an easy way
+>      to achieve that here. I think we are required to hold the BQL on any
+>      updates.
+> 
+> memory_region_notify_populate() gets quite ugly when we realize halfway that
+> we have to revert what we already did by notifying about already populated
+> pieces ...
+> 
 
-On Tue, 23 Feb 2021 10:37:01 +1100
-David Gibson <david@gibson.dropbear.id.au> wrote:
+So, the more I look into it the more I doubt this should go into the 
+MemoryListener.
 
-> On Tue, Feb 23, 2021 at 10:33:55AM +1100, David Gibson wrote:
-> > On Mon, Feb 22, 2021 at 06:50:44PM +0100, Cornelia Huck wrote: =20
-> > > On Mon, 22 Feb 2021 18:41:07 +0100
-> > > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> > >  =20
-> > > > On 2/22/21 6:24 PM, Cornelia Huck wrote: =20
-> > > > > On Fri, 19 Feb 2021 18:38:37 +0100
-> > > > > Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
-> > > > >    =20
-> > > > >> MachineClass::kvm_type() can return -1 on failure.
-> > > > >> Document it, and add a check in kvm_init().
-> > > > >>
-> > > > >> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > > > >> ---
-> > > > >>  include/hw/boards.h | 3 ++-
-> > > > >>  accel/kvm/kvm-all.c | 6 ++++++
-> > > > >>  2 files changed, 8 insertions(+), 1 deletion(-)
-> > > > >>
-> > > > >> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> > > > >> index a46dfe5d1a6..68d3d10f6b0 100644
-> > > > >> --- a/include/hw/boards.h
-> > > > >> +++ b/include/hw/boards.h
-> > > > >> @@ -127,7 +127,8 @@ typedef struct {
-> > > > >>   *    implement and a stub device is required.
-> > > > >>   * @kvm_type:
-> > > > >>   *    Return the type of KVM corresponding to the kvm-type stri=
-ng option or
-> > > > >> - *    computed based on other criteria such as the host kernel =
-capabilities.
-> > > > >> + *    computed based on other criteria such as the host kernel =
-capabilities
-> > > > >> + *    (which can't be negative), or -1 on error.
-> > > > >>   * @numa_mem_supported:
-> > > > >>   *    true if '--numa node.mem' option is supported and false o=
-therwise
-> > > > >>   * @smp_parse:
-> > > > >> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > > > >> index 84c943fcdb2..b069938d881 100644
-> > > > >> --- a/accel/kvm/kvm-all.c
-> > > > >> +++ b/accel/kvm/kvm-all.c
-> > > > >> @@ -2057,6 +2057,12 @@ static int kvm_init(MachineState *ms)
-> > > > >>                                                              "kv=
-m-type",
-> > > > >>                                                              &er=
-ror_abort);
-> > > > >>          type =3D mc->kvm_type(ms, kvm_type);
-> > > > >> +        if (type < 0) {
-> > > > >> +            ret =3D -EINVAL;
-> > > > >> +            fprintf(stderr, "Failed to detect kvm-type for mach=
-ine '%s'\n",
-> > > > >> +                    mc->name);
-> > > > >> +            goto err;
-> > > > >> +        }
-> > > > >>      }
-> > > > >> =20
-> > > > >>      do {   =20
-> > > > >=20
-> > > > > No objection to this patch; but I'm wondering why some non-pseries
-> > > > > machines implement the kvm_type callback, when I see the kvm-type
-> > > > > property only for pseries? Am I holding my git grep wrong?   =20
-> > > >=20
-> > > > Can it be what David commented here?
-> > > > https://www.mail-archive.com/qemu-devel@nongnu.org/msg784508.html
-> > > >  =20
-> > >=20
-> > > Ok, I might be confused about the other ppc machines; but I'm wonderi=
-ng
-> > > about the kvm_type callback for mips and arm/virt. Maybe I'm just
-> > > confused by the whole mechanism? =20
-> >=20
-> > For ppc at least, not sure about in general, pseries is the only
-> > machine type that can possibly work under more than one KVM flavour
-> > (HV or PR).  So, it's the only one where it's actually useful to be
-> > able to configure this. =20
->=20
-> Wait... I'm not sure that's true.  At least theoretically, some of the
-> Book3E platforms could work with either PR or the Book3E specific
-> KVM.  Not sure if KVM PR supports all the BookE instructions it would
-> need to in practice.
->=20
-> Possibly pseries is just the platform where there's been enough people
-> interested in setting the KVM flavour so far.
+The RamDiscardManager is specific to RAM memory regions - similarly the 
+IOMMU notifier is specific to IOMMU regions.
 
-If I'm not utterly confused by the code, it seems the pseries machines
-are the only ones where you can actually get to an invocation of
-->kvm_type(): You need to have a 'kvm-type' machine property, and
-AFAICS only the pseries machine has that.
+In the near future we will have two "clients" (vfio, 
+tpm/dump-guest-memory), whereby only vfio will actually has to register 
+for updates at runtime.
 
-(Or is something hiding behind some macro magic?)
+I really want to have a dedicated registration/notifier mechanism, for 
+reasons already mentioned in my last mail, but also to later reuse that 
+mechanism in other context as noted in the cover letter:
 
---Sig_/nudo1.j=xV83/2pyII4Lt07
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+"Note: At some point, we might want to let RAMBlock users (esp. vfio 
+used for nvme://) consume this interface as well. We'll need RAMBlock 
+notifier calls when a RAMBlock is getting mapped/unmapped (via the 
+corresponding memory region), so we can properly register a listener 
+there as well."
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEw9DWbcNiT/aowBjO3s9rk8bwL68FAmA02rMACgkQ3s9rk8bw
-L69Sng//SPiU5hi/9Db125/S0xZG5O8UzQoag2vh8Q68aGY9pmkB5pUsF5xCYvq4
-v3GT9vtpCT+urKHCNhQcPD0nLLumzQxaz3GKTHvqOWkOwGI3HJhCg9HAutC4d77k
-pAQpFCiDaxRw98uRREJDiG1tM9xzhU/qb1Ujs90aYALeZ3B4wmQQTRVXTiZjto++
-PqJyNULu02yA4sFyZy+iCvv8dT8Ex2uyxV0JzeNS9RV4xsOGH8jMqElRPJiioJhf
-20o5RAL+tpkM71Z1OMj3mBfrdui2K6ordXZKs7OoIkrjb01l/oZXSvVSjxzbKOTn
-LKQYKIZ2/0SHH1IIxovfDJYm/1iV0JHmmW7klM2U1OSmMlZx0TsRmZ6ArWAE6/7z
-CJhC/PpeE8bX9fRuXzAwuBRbT3Cgp6XurESExT1BDWMF3Gym3FaiIz2FHyVnvlPR
-yFcVjR7pgAKWSRI1/EddICKWb2paYhSpzZ9QjbhOISelEslzJU57WQIAUjVPnSho
-lrgY/XuKSJA+ZnRQdY3LX5IADVpA0rn7W2nW0JkJN0nJn4dw3P6Ikp14W1qUC8UR
-AcsnC9Xqbj9D+xRgf1yoCBez7D9kthUXY226A3DYJJcp0qfsquXw0+cxN71CqPhb
-dcvq0J1IEjbx4ir/qN2R8hxfCm3vwXG+w/3ZhKx69rUI5w4PA8Q=
-=u9hO
------END PGP SIGNATURE-----
+However, I do agree that the notifier should work with 
+MemoryRegionSection - this will make the "client" code much easier.
 
---Sig_/nudo1.j=xV83/2pyII4Lt07--
+The register()/replay_populate() mechanism should consume a 
+MemoryRegionSection to work on, and call the listener via (adjusted) 
+MemoryRegionSection.
+
+Maybe I'm even able to simplify/get rid of the discard_all() callback.
+
+-- 
+Thanks,
+
+David / dhildenb
 
 
