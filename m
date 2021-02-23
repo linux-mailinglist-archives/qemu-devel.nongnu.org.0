@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B98C3228E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:33:02 +0100 (CET)
-Received: from localhost ([::1]:33986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4054D3228EA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:37:22 +0100 (CET)
+Received: from localhost ([::1]:36758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEV01-00083R-DM
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:33:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39720)
+	id 1lEV4D-0000ys-6a
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:37:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEUxw-0007N2-6x
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:30:52 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59424)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEUxp-0004ks-G3
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:30:51 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lEUxm-0001kJ-Pm
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:30:42 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A19D22E8050
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:30:42 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEV2g-0000Rl-61
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:35:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39586)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEV2e-00075h-H7
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:35:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614076543;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DoaDdjDrc2x23Lu682aneJcNPUu30Zku365gQI9nOs4=;
+ b=WWHGgU1FGAgPlGavlKXXSS2GV+APRBY6Sv1WA8qU/IyoD1QzhCWfeLsT06EdOJWJzZ1tr7
+ RjxN/1Ngms97Cb5t/WtiMIYTtRohNSMIoF8SqVabEeWIhM9Uylqo76inMIHL3E+SLNHZzX
+ 7tgLZt8ETgAdDcwKa9c5dIxQwN/4S+4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-tD4y324ZPAep3BmlJzcgaA-1; Tue, 23 Feb 2021 05:35:39 -0500
+X-MC-Unique: tD4y324ZPAep3BmlJzcgaA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70CEC801979;
+ Tue, 23 Feb 2021 10:35:38 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-113-233.ams2.redhat.com [10.36.113.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 014DA5F706;
+ Tue, 23 Feb 2021 10:35:35 +0000 (UTC)
+Date: Tue, 23 Feb 2021 11:35:34 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: What prevents discarding a cluster during rewrite?
+Message-ID: <20210223103534.GD5083@merkur.fritz.box>
+References: <198596cd-4867-3da5-cd8f-68c1c570a52b@virtuozzo.com>
+ <21d6f4e3-1512-50b3-d2a0-7969a49f18bb@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 23 Feb 2021 10:24:34 -0000
-From: Frederic Bezies <1916394@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brian-cain fredb74
-X-Launchpad-Bug-Reporter: Frederic Bezies (fredb74)
-X-Launchpad-Bug-Modifier: Frederic Bezies (fredb74)
-References: <161392715224.29500.2044106040123688461.malonedeb@soybean.canonical.com>
-Message-Id: <161407587440.22192.18181372827746087247.malone@wampee.canonical.com>
-Subject: [Bug 1916394] Re: [git] Cannot build qemu: FAILED:
- target/hexagon/semantics_generated.pyinc 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="f759833f01c7f0b01b31b10cf317a55893ebb0ad"; Instance="production"
-X-Launchpad-Hash: 75b683fddf54063894582ad53fe7cd6d466effd2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <21d6f4e3-1512-50b3-d2a0-7969a49f18bb@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,60 +76,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1916394 <1916394@bugs.launchpad.net>
+Cc: "Denis V. Lunev" <den@openvz.org>, qemu-devel <qemu-devel@nongnu.org>,
+ qemu block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry for the late reply. Tried patch... Here is the output:
+Am 22.02.2021 um 22:42 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 23.02.2021 00:30, Vladimir Sementsov-Ogievskiy wrote:
+> > Thinking of how to prevent dereferencing to zero (and discard) of
+> > host cluster during flush of compressed cache (which I'm working on
+> > now), I have a question.. What prevents it for normal writes?
+> 
+> I have no idea about why didn't it fail for years.. May be, I'm
+> missing something?
 
-Option b_staticpic is: false [default: false]
-Found ninja-1.10.2 at /usr/bin/ninja
-[658/9072] Generating iset.py with a custom command
-FAILED: target/hexagon/iset.py =
+Ouch. I suppose the reason why we never ran into it is that afaik Linux
+drains the queue before sending discard requests.
 
-@INPUT@ target/hexagon/iset.py
-/bin/sh: line 1: @INPUT@: command not found
-[663/9072] Compiling C object tests/qtest/libqos/libqos.fa.p/.._libqtest.c.o
-ninja: build stopped: subcommand failed.
+Of course, we still need to protect against this in QEMU. We can't just
+unref a cluster that is still in use.
 
-Still busted. Nothing changed.
+> I have idea of fixing: increase the refcount of host cluster before
+> write to data_file (it's important to increase refacount in same
+> s->lock critical section where we get host_offset) and dereference it
+> after write.. It should help. Any thoughts?
 
--- =
+It would cause metadata updates for rewrites. I don't know whether the
+intermediate value would ever be written to disk, but at least we'd
+rewrite the same refcounts as before. I don't think we want that.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1916394
+Discard requests might be rare enough that not considering the cluster
+at all could work. We could then take a reader CoRwlock during most
+operations, and a writer lock for discard.
 
-Title:
-  [git] Cannot build qemu: FAILED:
-  target/hexagon/semantics_generated.pyinc
+Actually, maybe s->lock should be this CoRwlock, and instead of dropping
+it temporarily like we do now we would just upgrade and downgrade it as
+needed. Maybe this would allow finer grained locking in other places,
+too.
 
-Status in QEMU:
-  New
+Kevin
 
-Bug description:
-  Hello.
-
-  I'm using Archlinux and I maintain qemu-git AUR package.
-
-  I tried to build Qemu at commit
-  4115aec9af2a3de5fa89a0b1daa12debcd7741ff but it stops with this error
-  message:
-
-  Found ninja-1.10.2 at /usr/bin/ninja
-  [632/9068] Generating semantics_generated.pyinc with a custom command
-  FAILED: target/hexagon/semantics_generated.pyinc
-  @INPUT@ target/hexagon/semantics_generated.pyinc
-  /bin/sh: line 1: @INPUT@: command not found
-  [637/9068] Compiling C object fsdev/vi...proxy-helper.p/virtfs-proxy-help=
-er.c.o
-  ninja: build stopped: subcommand failed.
-
-  ninja version: 1.10.2
-  meson version: 0.57.1
-
-  Downgrading meson doesn't change anything.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1916394/+subscriptions
 
