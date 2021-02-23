@@ -2,94 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018D0322999
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:42:27 +0100 (CET)
-Received: from localhost ([::1]:47140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9970B3229A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 12:48:17 +0100 (CET)
+Received: from localhost ([::1]:49620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEW5C-0006lb-1b
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:42:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56656)
+	id 1lEWAq-00084b-M8
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 06:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEW4P-0006KC-K8
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:41:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20299)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEW83-0007SF-BB
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:45:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:25861)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEW4N-0003BG-00
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:41:36 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lEW7s-0004q9-O5
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 06:45:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614080493;
+ s=mimecast20190719; t=1614080704;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iRVTM1/6kPZdsN5ZBiPckICnE3wwL3AKImUE5yTaQY4=;
- b=cTQuLd0dJlbr6VP/JI5puVnnngKdBSgre5zQbI96CmA/44CZXAt6i+AbbxB/DPVLJfVpEU
- cLqdhTDaLH1cCr2Y/oACvVeo2uqkE4TIcvT6nZvNTI4J1XtBn7xWJBeAlR1yHSQgdm0GyG
- NOaIK+3WyYffCwr3QDTmEw209SMGJ+c=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-443-fASkF7sjPuGpCpvNN9skrg-1; Tue, 23 Feb 2021 06:41:30 -0500
-X-MC-Unique: fASkF7sjPuGpCpvNN9skrg-1
-Received: by mail-wm1-f71.google.com with SMTP id t15so614354wmj.1
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:41:30 -0800 (PST)
+ bh=TmgUR8mtFn/OGi35pPFGLa/+flr/D7IghxODDd3T4Zg=;
+ b=OkQr4n3zfWyO8j/Hwt2qgjamd7pCiQUfQnxNaM1CaAZugNKraaCx1KB4WKQd56R6Q5cpH/
+ m3w+C3qCUZddG3aerl9sKpNZh1B+wxzs3u6GPjetxpDxDFPpwoyoMJGKG2HNPh6UJj40VJ
+ fVJOGeCGJabTpUguk3t28dRMPE2j6HA=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-16-eZ0qcLGRNZWYcV6oDCSivQ-1; Tue, 23 Feb 2021 06:45:00 -0500
+X-MC-Unique: eZ0qcLGRNZWYcV6oDCSivQ-1
+Received: by mail-wr1-f72.google.com with SMTP id e29so7034343wra.12
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 03:45:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iRVTM1/6kPZdsN5ZBiPckICnE3wwL3AKImUE5yTaQY4=;
- b=KFJMtvvsMPgEl5kSEkRayGTctmjGvO+FIlnsSozVevBrfTM8iEG3WeF6lxQLLr/L9b
- 2zLnzkjQWC4Bazp4dNrJKv+AkL7j/YwK1bLjsnBEQW03lGq7ZrfTMyJEksqK7kWPPd+u
- EhJO6WLiGAZ1r6bxJJe9K/N6fB0bUSzCn6JeXkXugIUkSmy4sh7pJJnvSKvdPd8l/NvX
- OSMnfaJszvRCH3AXUgKBNfYUNA77282DYfWVvuOSVUK2OvNqQGZ9HzkZ9EGT7lk8c2lA
- bW7MX7zYGNry4xJYATQ22TGy3bKu8B4CrdneU0E6uUTUohQ5tHZUzDTUU5u72CFUBI9N
- frTQ==
-X-Gm-Message-State: AOAM532ehTaKgUUmsdQsRNg1e60p5Zd1JqF/buWmMdEG2ktn86bBqBjY
- hGbfb2hpQXtXxM/m1mIjiNTgJamHJa8nCGlCcnqN/du06CKyfh11MgIZaybdaBbVM7aaEsu4sem
- WomiWYx/KTl76VYU=
-X-Received: by 2002:a5d:42cf:: with SMTP id t15mr26070071wrr.82.1614080489172; 
- Tue, 23 Feb 2021 03:41:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyKJBvwxmFln39xQKtLkHlcQGJ4ZtweEUxM1Z6W4g0aEQYB6ANhjMQlerq0X3b7y8VjnjvR0A==
-X-Received: by 2002:a5d:42cf:: with SMTP id t15mr26070046wrr.82.1614080489008; 
- Tue, 23 Feb 2021 03:41:29 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w81sm2443500wmb.3.2021.02.23.03.41.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 03:41:28 -0800 (PST)
-Subject: Re: QEMU hosting
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Fosshost <admin@fosshost.org>
-References: <CAJSP0QVZuh8H-U1vtFMhasqSsSy3OA4jmRvwZrQEAx3=1dcb+w@mail.gmail.com>
- <LO2P123MB2605DA330913C7D2DA311EF1C8D10@LO2P123MB2605.GBRP123.PROD.OUTLOOK.COM>
- <b803bbce-ef10-229b-eccb-b26f0e589a43@redhat.com>
- <b19717c3-bf78-9369-e84a-b8f965d7150f@redhat.com>
- <e8513f65-a94f-7944-587c-6a7462a3f7a5@redhat.com>
-Message-ID: <19ca4ff0-55b7-0bfd-624a-85962fee3bcc@redhat.com>
-Date: Tue, 23 Feb 2021 12:41:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=TmgUR8mtFn/OGi35pPFGLa/+flr/D7IghxODDd3T4Zg=;
+ b=VzgSH7HdwbWPxSdXFC+lwtTfYA8huHwn6f/tkG92jCD41D3aGOvgcrJlCkM4jT6ked
+ lecpNr4/wx+BLKAoZcg/vKmQ6iPtgRelUVqgfa69n4cSU+LN4ScP4mM/2BCp9wq7EW+I
+ Fkm2kNXobmVUBh0WIhFHoYZvcS6ke6YQpmR3u1fbIdaHg72vzcDTJyaDvqQhXmxtmwXK
+ hIGfIql2rbKIC1y28bdwlmY8geSSntFN7M76BiQnGxeTbHtBAVDSwHuEaY22TkKmzNrm
+ QkoahmZFWO4meOnEYP3sfi8KQWzGlVzsbQABCiLGqxA+bCDErhUkpMrfND0ReHE17O4g
+ ziyQ==
+X-Gm-Message-State: AOAM5327n1j//tVh7ODq37NDhwyNtu654rYaWK+Lt+e/M02EPHH5SdP/
+ vQicZJazc0OtkbCNhT1rH9NdEaEH5A7fAoJoFYCAJQ0E4Pu+tL9yk4GBUmuy67IIohfHU0IhviL
+ 8kjnI76JjRXHn70Y=
+X-Received: by 2002:a5d:5586:: with SMTP id i6mr16386496wrv.250.1614080699398; 
+ Tue, 23 Feb 2021 03:44:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzWHJ/E9MogY6g/+K3tE3xtKq9Ygi+iPIKWdsAgjJ1wRZ7kuKhjIOikwHJt61Q3sGW+i0ywOA==
+X-Received: by 2002:a5d:5586:: with SMTP id i6mr16386474wrv.250.1614080699152; 
+ Tue, 23 Feb 2021 03:44:59 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id c133sm2478925wme.46.2021.02.23.03.44.57
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 23 Feb 2021 03:44:58 -0800 (PST)
+Date: Tue, 23 Feb 2021 06:44:55 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Subject: Re: vhost reply_ack negotiation (a.k.a differences in vhost-user
+ behaviour with libvhost-user and vhost-user-backend.rs)
+Message-ID: <20210223064312-mutt-send-email-mst@kernel.org>
+References: <8735xskm7j.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <e8513f65-a94f-7944-587c-6a7462a3f7a5@redhat.com>
+In-Reply-To: <8735xskm7j.fsf@linaro.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
-Content-Language: en-US
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,87 +94,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel <qemu-devel@nongnu.org>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Sergio Lopez <slp@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "rust-vmm@lists.opendev.org" <rust-vmm@lists.opendev.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ raphael.norwitz@nutanix.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Updating this thread for the list, I have been told that
-Cleber is looking at all these options for mainstream CI,
-and is already in contact with fosshost.org.
+Cc: Raphael
 
-I'll let him follow these ideas.
-
-Regards,
-
-Phil.
-
-On 2/22/21 5:11 PM, Philippe Mathieu-Daudé wrote:
-> On 2/22/21 5:07 PM, Philippe Mathieu-Daudé wrote:
->> On 2/22/21 4:56 PM, Philippe Mathieu-Daudé wrote:
->>> Hi Thomas and Stefan,
->>>
->>> On 1/5/21 7:55 PM, Fosshost wrote:
->>>> Hi Stefan
->>>>
->>>> Thank you for your email.
->>>>
->>>>  1. We do not offer MacOS hosting
->>>>  2. We can provide virtual machines with full KVM virt on x86
->>>>     architecture and soon arm64 v8
+On Fri, Feb 19, 2021 at 04:04:34PM +0000, Alex Bennée wrote:
+> Hi,
 > 
-> And from https://fosshost.org/about:
-> "We support most operating systems including CentOS, Debian, Ubuntu,
-> ArchLinux and FreeBSD and custom OS."
+> I finally got a chance to get down into the guts of vhost-user while
+> attempting to port my original C RPMB daemon to Rust using the
+> vhost-user-backend and related crates. I ended up with this hang during
+> negotiation:
 > 
-> Eventually we could add a pair of FreeBSD runners to our Gitlab CI?
-> https://docs.gitlab.com/runner/install/freebsd.html
->
->>>>  3. We do not provide dedicated servers.
->>>
->>> Would it be possible to have a dedicated VM for a git LFS server [*]?
->>
->> Just noticed the Mirrors-as-a-Service option "(available for package
->> mirrors, operating systems, repositories, documentation, static assets,
->> etc)":
->>
->> https://docs.fosshost.org/en/home/getting-started#production-services
->> https://docs.fosshost.org/en/home/mirrors-as-a-service
->>
->>> If so, what storage is usable? Are there network traffic limits?
->>>
->>> Thanks,
->>>
->>> Phil.
->>>
->>> [*] https://docs.gitlab.com/ee/topics/git/lfs/
->>>
->>>> ------------------------------------------------------------------------
->>>> *From:* Stefan Hajnoczi <stefanha@gmail.com>
->>>> *Sent:* 05 January 2021 14:21
->>>> *To:* Fosshost <admin@fosshost.org>
->>>> *Cc:* qemu-devel <qemu-devel@nongnu.org>
->>>> *Subject:* QEMU hosting
->>>>  
->>>> Hi Thomas,
->>>> In November you emailed qemu-devel asking if the QEMU project was
->>>> interested in exploring hosting with Fosshost.org. I think my reply
->>>> may have gotten lost so I wanted to check if you have time to discuss
->>>> this again.
->>>>
->>>> The main hosting need that QEMU has is for continuous integration
->>>> system runners. We are particularly interested in non-x86/non-Linux
->>>> build machines and a dedicated server for reproducible performance
->>>> tests. Just today there was discussion on #qemu IRC about how to go
->>>> about adding a macOS build machine, for example.
->>>>
->>>> It would be great to find out more about Fosshost.org and whether we
->>>> can work together.
->>>>
->>>> Thanks,
->>>> Stefan
->>>
->>
+>   startup
 > 
+>   vhost_user_write req:1 flags:0x1
+>   vhost_user_read_start
+>   vhost_user_read req:1 flags:0x5
+>   vhost_user_backend_init: we got 170000000
+>   vhost_user_write req:15 flags:0x1
+>   vhost_user_read_start
+>   vhost_user_read req:15 flags:0x5
+>   vhost_user_set_protocol_features: 2008
+>   vhost_user_write req:16 flags:0x1
+>   vhost_user_write req:3 flags:0x1
+>   vhost_user_write req:1 flags:0x1
+>   vhost_user_read_start
+>   vhost_user_read req:1 flags:0x5
+>   vhost_user_write req:13 flags:0x1
+> 
+>   kernel initialises device
+> 
+>   virtio_rpmb virtio1: init done!
+>   vhost_user_write req:13 flags:0x1
+>   vhost_dev_set_features: 130000000
+>   vhost_user_set_features: 130000000
+>   vhost_user_write req:2 flags:0x1
+>   vhost_user_write req:5 flags:0x9
+>   vhost_user_read_start
+> 
+> The proximate cause is the vhost crate handling:
+> 
+>   MasterReq::SET_MEM_TABLE => {
+>       let res = self.set_mem_table(&hdr, size, &buf, rfds);
+>       self.send_ack_message(&hdr, res)?;
+>   }
+> 
+> which gates on the replay_ack_enabled flag:
+> 
+>     fn send_ack_message(
+>         &mut self,
+>         req: &VhostUserMsgHeader<MasterReq>,
+>         res: Result<()>,
+>     ) -> Result<()> {
+>         if dbg!(self.reply_ack_enabled) {
+>             let hdr = self.new_reply_header::<VhostUserU64>(req, 0)?;
+>             let val = match res {
+>                 Ok(_) => 0,
+>                 Err(_) => 1,
+>             };
+>             let msg = VhostUserU64::new(val);
+>             self.main_sock.send_message(&hdr, &msg, None)?;
+>         }
+>         Ok(())
+>     }
+> 
+> which is only set when we have all the appropriate acknowledged flags:
+> 
+>     fn update_reply_ack_flag(&mut self) {
+>         let vflag = VhostUserVirtioFeatures::PROTOCOL_FEATURES.bits();
+>         let pflag = VhostUserProtocolFeatures::REPLY_ACK;
+>         if (self.virtio_features & vflag) != 0
+>             && (self.acked_virtio_features & vflag) != 0
+>             && self.protocol_features.contains(pflag)
+>             && (self.acked_protocol_features & pflag.bits()) != 0
+>         {
+>             self.reply_ack_enabled = true;
+>         } else {
+>             self.reply_ack_enabled = false;
+>         }
+>     }
+> 
+> which from above you can see QEMU helpfully dropped those bits in the
+> reply. It does however work in the C/libvhost version:
+> 
+>   virtio_rpmb virtio1: init done!
+>   vhost_user_write req:13 flags:0x1
+>   vhost_dev_set_features: 130000000
+>   vhost_user_set_features: 130000000
+>   vhost_user_write req:2 flags:0x1
+>   vhost_user_write req:37 flags:0x9
+>   vhost_user_read_start
+>   vhost_user_read req:37 flags:0x5
+>   vhost_user_write req:8 flags:0x1
+>   vhost_user_write req:10 flags:0x1
+>   vhost_user_write req:9 flags:0x1
+>   vhost_user_write req:12 flags:0x1
+>   vhost_user_write req:13 flags:0x1
+> 
+> albeit with a slightly different message sequence
+> (VHOST_USER_ADD_MEM_REG instead of VHOST_USER_SET_MEM_TABLE). Reading
+> the C code you can see why:
+> 
+>     need_reply = vmsg.flags & VHOST_USER_NEED_REPLY_MASK;
+> 
+>     reply_requested = vu_process_message(dev, &vmsg);
+>     if (!reply_requested && need_reply) {
+>         vmsg_set_reply_u64(&vmsg, 0);
+>         reply_requested = 1;
+>     }
+> 
+> So regardless of what may have been negotiated it will always reply with
+> something if the master requested it do so. This points us at the
+> specification which reads:
+> 
+>   - Bit 3 is the need_reply flag - see :ref:`REPLY_ACK <reply_ack>` for
+>     details.
+> 
+> which says in VHOST_USER_PROTOCOL_F_REPLY_ACK that this bit should only
+> be honoured when the feature has been negotiated. Which brings us to a
+> series of questions:
+> 
+>  - Should QEMU have preserved VhostUserVirtioFeatures::PROTOCOL_FEATURES
+>    when doing the eventual VHOST_USER_SET_FEATURES reply?
+
+Hmm looks like a bug indeed ... Anyone wants to look
+into fixing that? Marc-André?
+
+
+>  - Is vhost.rs being to strict or libvhost-user too lax in interpreting
+>    the negotiated features before processing the ``need_reply`` [Bit 3]
+>    field of the messages?
+> 
+>  - are VHOST_USER_SET_MEM_TABLE to VHOST_USER_SET_INFLIGHT_FD included
+>    in the "list of the ones that do" require replies or do they only
+>    reply when REPLY_ACK has been negotiated as the ambiguous "seealso::"
+>    box out seems to imply?
+> 
+> Currently I have some hacks in:
+> 
+>   https://github.com/stsquad/vhost/tree/my-hacks
+> 
+> which gets my daemon booting up to the point we actually need to do a
+> transaction. However I won't submit a PR until I've worked out exactly
+> where the problems are.
+> 
+> -- 
+> Alex Bennée
 
 
