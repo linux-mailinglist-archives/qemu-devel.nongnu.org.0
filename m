@@ -2,96 +2,139 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09D0322FB5
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 18:35:19 +0100 (CET)
-Received: from localhost ([::1]:52408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E82322FB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 18:36:18 +0100 (CET)
+Received: from localhost ([::1]:55030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEbag-0000Ht-Ec
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 12:35:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53530)
+	id 1lEbbd-0001OQ-7G
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 12:36:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEbZt-0008J4-UG
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 12:34:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47187)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEbZq-0001lU-1W
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 12:34:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614101662;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8g3jgm/26vjkE8ubyuQ/5FAIu9NQCykI566mOWHLqc4=;
- b=ScaW1jroReabbsCRiDyaq085SftgYbBHC06QIdliGRjuNoiMhc9kuNz/XarutnqnxCF7tD
- e/FguyeggI1mqZVopGImxUYspmKuXTDJSyA1POZLNqJumkD0j0sTE2kOSDduuuJJ/RasV8
- ykm83XcZXdsliCFu4cE0Pu9FwXlVCmI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-485-iLGzs_NpMjiP-LKiwx7Zgg-1; Tue, 23 Feb 2021 12:34:12 -0500
-X-MC-Unique: iLGzs_NpMjiP-LKiwx7Zgg-1
-Received: by mail-ej1-f70.google.com with SMTP id m4so5655940ejc.14
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 09:34:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=8g3jgm/26vjkE8ubyuQ/5FAIu9NQCykI566mOWHLqc4=;
- b=cfqMR6ADMgACLfNGHyYIF7vINejNWwxDgCGsTn1pPj2MvtyWMmCBfrZzPfcK+kyXGe
- Ja1i/xHV/RfH4umG72dGMF0mEcpE4ZPRK0bsnBXJLFMrWPwQy9yhcNP+40teeCLZwtfi
- 8Hp9VxgnFP8fQksZVMofuUJuJkUio5tPshLD4F64NsgUIQFr//HvVJTTeolwmJgQtYbg
- b5cBA9W0fYAPrpHq2jYumSlBgMPkGTffP4zCN4V3DGiF9ttq7oTdoKy0UdmOwH/MCBlf
- abugW2r9sNgynW3Z4z6hVZ9kl5bgVchYayo+JIW9DMPhooFteE8t/XPVI90K0b4piFBT
- OpEA==
-X-Gm-Message-State: AOAM530C43tgzKuW8U1S6t+0SRb9p0foi/YlM7hyqdal6MGyV2ScmixX
- ThwnEa3MTBEFCMbK4eXvCzqT8MzhtEnPKT2op7mNkptW3SWtbl3pnvem0Wlu0TGTaqM461gtWYT
- ZyjitOyL5oYUBI+M=
-X-Received: by 2002:a50:e14d:: with SMTP id i13mr28917686edl.106.1614101650211; 
- Tue, 23 Feb 2021 09:34:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyvTDhTmimm7Cb8yDTkuPq57pmk4k9KeyScLQTa0kTZrAnU1fbl+kTv4+2jcdB3aGcNa34ZgA==
-X-Received: by 2002:a50:e14d:: with SMTP id i13mr28917652edl.106.1614101649988; 
- Tue, 23 Feb 2021 09:34:09 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id m26sm8029373eja.6.2021.02.23.09.34.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 09:34:09 -0800 (PST)
-Subject: Re: [PATCH v5 1/4] Jobs based on custom runners: documentation and
- configuration placeholder
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Cleber Rosa <crosa@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210219215838.752547-1-crosa@redhat.com>
- <20210219215838.752547-2-crosa@redhat.com>
- <3f0a3854-425d-27e7-d466-f6f4db4dd9aa@redhat.com>
- <e884e35a-cb4c-059b-7b67-1c69f7869347@redhat.com>
- <20210223164718.GA987581@amachine.somewhere>
- <8de62a35-7e66-b182-a182-4d021b713b5a@redhat.com>
-Message-ID: <bf8a9dd0-c20f-7bef-ae65-2c3c1e10da68@redhat.com>
-Date: Tue, 23 Feb 2021 18:34:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <8de62a35-7e66-b182-a182-4d021b713b5a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=WINDOWS-1252
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1lEbap-0000t4-5I; Tue, 23 Feb 2021 12:35:27 -0500
+Received: from mail-bn7nam10on2061.outbound.protection.outlook.com
+ ([40.107.92.61]:32001 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
+ id 1lEbam-0002Fz-47; Tue, 23 Feb 2021 12:35:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=OQg8onVScSMOs1qZN2QsWzkt/eROUB456Q0xaDnTWpKEcI65U6BNXBk9y8Ww8S5VccTnggWpDQB5Ba840Zw/ZIg4NpC9NWyxB0dI1KmnxxAygfg36Kp91EauOVu2/M2YakfmCfwyL2rH6nvzVx49HX7uzmxoiBLqkn/AaQx2r4sEiw4q6WEFwZscXJoL22PcMdT5zMVrI3HiW5LOoW1HSzwFhJHvMH3dCYVxnm5rG3P3LHt2FfwF3SU8ydVmHYcG7rjmOpx9hrCLrJtMRq04gW4JCY5AFPj0FiJXOAhTUH6KyowDLY+ZBT1wOMrOkg32XOLjCDV/KEtwp7IQm/X21w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9oEDK6qBlPuq/F0o/3ESD/DUh7hU6cGRXDxz3Lidz4k=;
+ b=ZD/HmNnWXOt7V+dog64Aij0ScacBe2SOhYQtU+Z0CkIxCJc1W3ZHFD1ObumBtBHEnA0/whmL6GVGPLWD55EijnOBy5rEyDj0vSbSJVdtHel1Zm/9Ih5IboPIofEeXea+z0uTROOjtYOivIKiszvGDayvpEETVoSPVX2jv8ODeSlv1/OMSvlQ7+HgBGG+D1c3xIENVtA0XkgJOR3QYmSTbd9xaxYHYjZk7x+plKyD2DBsW3Z5LEjI0xIFljjjlqVyN4KMp4Mh/6A0sJZ9FPx3ljhFf935wLhaDD827sF06N/B3nezXV8aYaqv1UqWqG614bSDzjmru38nqZfdLs+sHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9oEDK6qBlPuq/F0o/3ESD/DUh7hU6cGRXDxz3Lidz4k=;
+ b=eTFhg1x1HWXsIWcThUBigmO3cFx4n8p8wz+QQ+GiMxPZzHnNCBSehWb8I9f2P3S+cKcuhYbN2fiV2FsNMm2H7znOMyVJsGoCK+6j98yx2sMqOCUrfIA396SwDX+dmAGjrKQ66TjNQs9JbHT33Q12YF6suw2AvpAnTvWOWtRauN4=
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com (2603:10b6:a03:206::11)
+ by BYAPR02MB5654.namprd02.prod.outlook.com (2603:10b6:a03:9f::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.28; Tue, 23 Feb
+ 2021 17:35:20 +0000
+Received: from BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::c18e:1693:fd4e:7fdf]) by BY5PR02MB6772.namprd02.prod.outlook.com
+ ([fe80::c18e:1693:fd4e:7fdf%5]) with mapi id 15.20.3868.033; Tue, 23 Feb 2021
+ 17:35:20 +0000
+From: Sai Pavan Boddu <saipava@xilinx.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>, Markus
+ Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, Max Reitz
+ <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, 
+ Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>,
+ =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>, Vincent Palatin
+ <vpalatin@chromium.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, Peter
+ Maydell <peter.maydell@linaro.org>, Alistair Francis
+ <alistair.francis@wdc.com>, Edgar Iglesias <edgari@xilinx.com>, Luc Michel
+ <luc.michel@greensocs.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: RE: [PATCH v2 01/22] block: add eMMC block device type
+Thread-Topic: [PATCH v2 01/22] block: add eMMC block device type
+Thread-Index: AQHXCPMCc9P7MYpy7UqlbMux6TiW26pkE7eAgAHtmfA=
+Date: Tue, 23 Feb 2021 17:35:20 +0000
+Message-ID: <BY5PR02MB6772EEE95845BAD093CAC972CA809@BY5PR02MB6772.namprd02.prod.outlook.com>
+References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613982039-13861-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ <3c229241-fdc5-a445-d96e-ca16a5c0106b@redhat.com>
+In-Reply-To: <3c229241-fdc5-a445-d96e-ca16a5c0106b@redhat.com>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.50.128]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: cc83eaf6-be94-4ce2-8661-08d8d8216462
+x-ms-traffictypediagnostic: BYAPR02MB5654:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BYAPR02MB565427494A6F9881562E99E8CA809@BYAPR02MB5654.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:2399;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: Uh3iMVDT/7MEyN/QMxHuzhf1Cx7yk87E+BA9mSEicAm/fiGV1nbUi3YInrHH9oImJsl/kUG4p3DFew0B3N48wiJnArcuLbRkaAwm3E5UgLCxSwJg6PtPb0vkITLpSmyTJf/buDgJNHlWsdGHrTduZ0lAeplfnG4xF7EsnSO5ARTbOUB5PCYPTZAS5ltRWUElVWJ1DiIRjP9hqbfd2kxBHB6OWYLexfwcW8uUlBQjZVnINO0caxsDNXQOTiRAyBRSCvyVkZfpJDUHy9zlgTrhZr871l8a3qQM4hoZR8JKR9B5zcLwXAuM9VFt7OkaT5x9JEjMX2qjrIDLiPpsdavOdfLATC79hcl0O+nKRZexMz+lBdstz2nm4iMLpVAjEgwKmHsw9aukH8GlK6h8y/ItZg02BLV0wKxR9/jc8DGeEB4t8pLnNISv3MipO/pgsv7Y5fgUQlXB9ySKN+uxyWywKU37FnI72ACU9Ah9FpPtH9PBAI/ysJrYP/vpCP6kngJJuiABoYIHKzTQ4laS4nJ3QdSNqBIO1P3UMkogmDHqVp7Jm62hNadSmznLO4Wp/SxE
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6772.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39840400004)(376002)(136003)(346002)(366004)(83380400001)(54906003)(8676002)(7416002)(110136005)(33656002)(86362001)(5660300002)(71200400001)(478600001)(76116006)(186003)(7696005)(55016002)(316002)(66946007)(66476007)(66556008)(64756008)(66446008)(2906002)(921005)(26005)(6506007)(52536014)(9686003)(4326008)(53546011)(8936002);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?MDFXRXFSK2RWMEhWR3BTaEgyVjg1bjBsYVdObGlUMmYzRHByOXRDUXpYSUoy?=
+ =?utf-8?B?YkYwQkhSejEyY2ZoNlZsRWNsSThocGEwTk5JV3dIekgyQkNYM1RWaUlQUVE2?=
+ =?utf-8?B?NGtObTB0WS9PU2d1eDRRWm9DWm8vOSthYVVBWkhJUXFKZEE0b0xpVDVrcGxY?=
+ =?utf-8?B?K0ZkZmRWVjh1ajFpV2pHSGNZVUFvUGtXM1RWck1EUXI2TWY2dlhrNWhUcEFh?=
+ =?utf-8?B?ZS92ZXR0TGlhYlFFV0xaRzY2QzR3dE1pYlZqZndXc05TZHRtbGVsMHFHTTI1?=
+ =?utf-8?B?NGQ4MlZKOVNzYU11Z2VuSStVeW1lQ3h4QlVmRjJ5V2x4eklCSXBwbkVtNzBy?=
+ =?utf-8?B?djZvVDNDY0FiRjZ4YVZTZSticDNmUHkrNHUrZitYYnE4dEhXd3R1WEVFTzIr?=
+ =?utf-8?B?OUYzTmFjckJINEw5YkQxMXFFL2hBZHgvdkpTd0ZMdDRjOFdqNnJtR0lEbG5E?=
+ =?utf-8?B?QmE1MHNoTFVpR0pzS2hnalBUYU4vMXRaLzBhR1hEMVVxRE4xTlhhOVpoV1Fq?=
+ =?utf-8?B?NzQ0R1FrMFdUZGpSbTBGbUhnU2VZUVd4aXgwMlc0dDVBWm9lMnJmdzRFTmNx?=
+ =?utf-8?B?R3J6U1RBRktHdGN5QThOZzd4WExrQnZXb0ZOOXJQeXg2M2h0dW5OM0EzM3BY?=
+ =?utf-8?B?d1U0V2Z5d2EzNVllc2VrQ05ueDYzbktxNzBwUS84R3BqemtOclpUMlZ2NkJs?=
+ =?utf-8?B?OHVXaDN5aVJSWTR3ZUJtb1FpelVsT1BoSkpkQ2F0K1kzdnhvY1ZZUHJmZzdt?=
+ =?utf-8?B?a1kyL3hpTE82S1ZsK0FJdWo4dWtBWHBSS1pVKy93Mm5uNG8yaFViNG0zZWZy?=
+ =?utf-8?B?VStZaEdCMW54NS9HdW0yTnpscmVzRTEveS9udUV6cmdadFhJWkxaMWh5Q2Yv?=
+ =?utf-8?B?VTVMdXZMWXBpY2N4SnV4YzFIYTNEeHRONCtIc1ZENkp3YllEZFRhVkl5ODRy?=
+ =?utf-8?B?L2kwYWJtbVh1d0o0UjAyU2FxVXBEdGlKaHpHUmpGclovUXB4bk4vQ29yRVhu?=
+ =?utf-8?B?VHdKaVpTRlZCdG5IRDV1Rk9rTlhZZm9zajFwSjVVNGJocHJSSFdjVE5teFBy?=
+ =?utf-8?B?UlUzQTFzSEhUK08rZG5tcWtpeSs1U0c4TDZHc1VCeDNsenNldnFVbkY0aFRH?=
+ =?utf-8?B?eVZSZnJDbWZOS1lVNTdEWGVkbk0xR3NiZmdmMFE1bCtoQTdDM2dNb1M3bnBy?=
+ =?utf-8?B?S09FdFN2TUhJRi92TUNOVGVZWTc3QTFIYjNCNGJsTWcwZ2dEcnpwRlhnbW8z?=
+ =?utf-8?B?dyt3UDJ5ZHl3ZzByTUlMNm5Remk1ZFRsbDIrdnlnbnNFbU8wK1kvaEc3ZzY5?=
+ =?utf-8?B?eDRJZldDZU90c0JDdkpOcE5qMmRpQUIxSS96Yk5aMEgwdEltQ0h1c3Ixdkhn?=
+ =?utf-8?B?UVJ6ZFd1TSs3aERhWTdxQzV1amtkakV4Q2NKcy8vRXBaV1p6Q0g4UzhlaHkz?=
+ =?utf-8?B?R0JoNU5HaVBpTjdGWHRQb2M3czU5WFBaQnJzcnpiSG5kZzQ4dGt4dk1lUFhm?=
+ =?utf-8?B?S28xVnR2T0VOM1BzazBkc1haU3daTHRYVHN4NnhsUEpWNUV5T3d6ekdlbHlG?=
+ =?utf-8?B?Y1FGYmVNS3VlUDdSaDNYQnFRM0VSVkZqTWc2RS94aDY5ekg3ekQvTHVvWnM2?=
+ =?utf-8?B?RFV1NkhpSlZxNVkwNUxxck5WSjhtamlxbGNlWVJaWDBhRHY0QnBMbmFFV3Rs?=
+ =?utf-8?B?b3NybUxMWkZIVDlIakY5QTFyNXJyaXQ3YUVNWldhOWhLS3kzUitkZTJaMkNn?=
+ =?utf-8?Q?vJ3XyncJsXc+6uNCPgJOSuXaEx0DJGqL85fnMAu?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6772.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc83eaf6-be94-4ce2-8661-08d8d8216462
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Feb 2021 17:35:20.1737 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: vWliw+gpE1qOM+Zi44QrpMzf3565mlMOAfpYrQB9Fk1rnqeVR9w0XU4ee3A8NnZ6S5PTjwi2EFTQssmuaihZuw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5654
+Received-SPF: pass client-ip=40.107.92.61; envelope-from=saipava@xilinx.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -104,133 +147,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Erik Skultety <eskultet@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 6:24 PM, Philippe Mathieu-Daudé wrote:
-> On 2/23/21 5:47 PM, Cleber Rosa wrote:
->> On Tue, Feb 23, 2021 at 05:37:04PM +0100, Philippe Mathieu-Daudé wrote:
->>> On 2/23/21 12:25 PM, Thomas Huth wrote:
->>>> On 19/02/2021 22.58, Cleber Rosa wrote:
->>>>> As described in the included documentation, the "custom runner" jobs
->>>>> extend the GitLab CI jobs already in place.  One of their primary
->>>>> goals of catching and preventing regressions on a wider number of host
->>>>> systems than the ones provided by GitLab's shared runners.
->>>>>
->>>>> This sets the stage in which other community members can add their own
->>>>> machine configuration documentation/scripts, and accompanying job
->>>>> definitions.  As a general rule, those newly added contributed jobs
->>>>> should run as "non-gating", until their reliability is verified (AKA
->>>>> "allow_failure: true").
->>>>>
->>>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>>>> ---
->>>>>   .gitlab-ci.d/custom-runners.yml | 14 ++++++++++++++
->>>>>   .gitlab-ci.yml                  |  1 +
->>>>>   docs/devel/ci.rst               | 28 ++++++++++++++++++++++++++++
->>>>>   docs/devel/index.rst            |  1 +
->>>>>   4 files changed, 44 insertions(+)
->>>>>   create mode 100644 .gitlab-ci.d/custom-runners.yml
->>>>>   create mode 100644 docs/devel/ci.rst
->>>>>
->>>>> diff --git a/.gitlab-ci.d/custom-runners.yml
->>>>> b/.gitlab-ci.d/custom-runners.yml
->>>>> new file mode 100644
->>>>> index 0000000000..3004da2bda
->>>>> --- /dev/null
->>>>> +++ b/.gitlab-ci.d/custom-runners.yml
->>>>> @@ -0,0 +1,14 @@
->>>>> +# The CI jobs defined here require GitLab runners installed and
->>>>> +# registered on machines that match their operating system names,
->>>>> +# versions and architectures.  This is in contrast to the other CI
->>>>> +# jobs that are intended to run on GitLab's "shared" runners.
->>>>> +
->>>>> +# Different than the default approach on "shared" runners, based on
->>>>> +# containers, the custom runners have no such *requirement*, as those
->>>>> +# jobs should be capable of running on operating systems with no
->>>>> +# compatible container implementation, or no support from
->>>>> +# gitlab-runner.  To avoid problems that gitlab-runner can cause while
->>>>> +# reusing the GIT repository, let's enable the recursive submodule
->>>>> +# strategy.
->>>>> +variables:
->>>>> +  GIT_SUBMODULE_STRATEGY: recursive
->>>>
->>>> Is it really necessary? I thought our configure script would take care
->>>> of the submodules?
->>>
->>
->> I've done a lot of testing on bare metal systems, and the problems
->> that come from reusing the same system and failed cleanups can be very
->> frustrating.  It's unfortunate that we need this, but it was the
->> simplest and most reliable solution I found.  :/
->>
->> Having said that, I noticed after I posted this series that this is
->> affecting all other jobs.  We don't need it that in the jobs based
->> on containers (for obvious reasons), so I see two options:
->>
->> 1) have it enabled on all jobs for consistency
->>
->> 2) have it enabled only on jobs that will reuse the repo
->>
->>> Well, if there is a failure during the first clone (I got one network
->>> timeout in the middle) 
-> 
-> [This network failure is pasted at the end]
-> 
->>> then next time it doesn't work:
->>>
->>> Updating/initializing submodules recursively...
->>> Synchronizing submodule url for 'capstone'
->>> Synchronizing submodule url for 'dtc'
->>> Synchronizing submodule url for 'meson'
->>> Synchronizing submodule url for 'roms/QemuMacDrivers'
->>> Synchronizing submodule url for 'roms/SLOF'
->>> Synchronizing submodule url for 'roms/edk2'
->>> Synchronizing submodule url for
->>> 'roms/edk2/ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3'
->>> Synchronizing submodule url for
->>> 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli'
->>> Synchronizing submodule url for
->>> 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/esaxx'
->>> Synchronizing submodule url for
->>> 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/libdivsufsort'
->>> Synchronizing submodule url for
->>> 'roms/edk2/CryptoPkg/Library/OpensslLib/openssl'
->>> Synchronizing submodule url for
->>> 'roms/edk2/MdeModulePkg/Library/BrotliCustomDecompressLib/brotli'
->>> Synchronizing submodule url for
->>> 'roms/edk2/MdeModulePkg/Universal/RegularExpressionDxe/oniguruma'
->>> Synchronizing submodule url for
->>> 'roms/edk2/UnitTestFrameworkPkg/Library/CmockaLib/cmocka'
-
-So far, beside the repository useful for QEMU, I cloned:
-
-- boringssl
-- krb5
-- pyca-cryptography
-- esaxx
-- libdivsufsort
-- oniguruma
-- openssl
-- brotli
-- cmocka
-
-But reach the runner time limit of 2h.
-
-The directory reports 3GB of source code.
-
-I don't think the series has been tested enough before posting,
-I'm stopping here my experiments.
-
-Regards,
-
-Phil.
-
+SGkgUGhpbGlwcGUsDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhp
+bGlwcGUgTWF0aGlldS1EYXVkw6kgPHBoaWxtZEByZWRoYXQuY29tPg0KPiBTZW50OiBNb25kYXks
+IEZlYnJ1YXJ5IDIyLCAyMDIxIDU6MzQgUE0NCj4gVG86IFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2
+YUB4aWxpbnguY29tPjsgTWFya3VzIEFybWJydXN0ZXINCj4gPGFybWJydUByZWRoYXQuY29tPjsg
+S2V2aW4gV29sZiA8a3dvbGZAcmVkaGF0LmNvbT47IE1heCBSZWl0eg0KPiA8bXJlaXR6QHJlZGhh
+dC5jb20+OyBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5DQo+IDx2c2VtZW50c292QHZpcnR1
+b3p6by5jb20+OyBFcmljIEJsYWtlIDxlYmxha2VAcmVkaGF0LmNvbT47IEpvZWwgU3RhbmxleQ0K
+PiA8am9lbEBqbXMuaWQuYXU+OyBDw6lkcmljIExlIEdvYXRlciA8Y2xnQGthb2Qub3JnPjsgVmlu
+Y2VudCBQYWxhdGluDQo+IDx2cGFsYXRpbkBjaHJvbWl1bS5vcmc+OyBEci4gRGF2aWQgQWxhbiBH
+aWxiZXJ0IDxkZ2lsYmVydEByZWRoYXQuY29tPjsNCj4gVGhvbWFzIEh1dGggPHRodXRoQHJlZGhh
+dC5jb20+OyBTdGVmYW4gSGFqbm9jemkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+Ow0KPiBQZXRlciBN
+YXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+OyBBbGlzdGFpciBGcmFuY2lzDQo+IDxh
+bGlzdGFpci5mcmFuY2lzQHdkYy5jb20+OyBFZGdhciBJZ2xlc2lhcyA8ZWRnYXJpQHhpbGlueC5j
+b20+OyBMdWMgTWljaGVsDQo+IDxsdWMubWljaGVsQGdyZWVuc29jcy5jb20+OyBQYW9sbyBCb256
+aW5pIDxwYm9uemluaUByZWRoYXQuY29tPg0KPiBDYzogU2FpIFBhdmFuIEJvZGR1IDxzYWlwYXZh
+QHhpbGlueC5jb20+OyBxZW11LWRldmVsQG5vbmdudS5vcmc7IHFlbXUtDQo+IGJsb2NrQG5vbmdu
+dS5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MiAwMS8yMl0gYmxvY2s6IGFkZCBlTU1DIGJs
+b2NrIGRldmljZSB0eXBlDQo+IA0KPiBPbiAyLzIyLzIxIDk6MjAgQU0sIFNhaSBQYXZhbiBCb2Rk
+dSB3cm90ZToNCj4gPiBGcm9tOiBWaW5jZW50IFBhbGF0aW4gPHZwYWxhdGluQGNocm9taXVtLm9y
+Zz4NCj4gPg0KPiA+IEFkZCBuZXcgYmxvY2sgZGV2aWNlIHR5cGUuDQo+ID4NCj4gPiBTaWduZWQt
+b2ZmLWJ5OiBWaW5jZW50IFBhbGF0aW4gPHZwYWxhdGluQGNocm9taXVtLm9yZz4NCj4gPiBbU1BC
+OiBSZWJhc2VkIG92ZXIgNS4xIHZlcnNpb25dDQo+ID4gU2lnbmVkLW9mZi1ieTogU2FpIFBhdmFu
+IEJvZGR1IDxzYWkucGF2YW4uYm9kZHVAeGlsaW54LmNvbT4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBK
+b2VsIFN0YW5sZXkgPGpvZWxAam1zLmlkLmF1Pg0KPiA+IFNpZ25lZC1vZmYtYnk6IEPDqWRyaWMg
+TGUgR29hdGVyIDxjbGdAa2FvZC5vcmc+DQo+ID4gUmV2aWV3ZWQtYnk6IEFsaXN0YWlyIEZyYW5j
+aXMgPGFsaXN0YWlyLmZyYW5jaXNAd2RjLmNvbT4NCj4gPiAtLS0NCj4gPiAgaW5jbHVkZS9zeXNl
+bXUvYmxvY2tkZXYuaCB8IDEgKw0KPiA+ICBibG9ja2Rldi5jICAgICAgICAgICAgICAgIHwgMSAr
+DQo+ID4gIDIgZmlsZXMgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspDQo+ID4NCj4gPiBkaWZmIC0t
+Z2l0IGEvaW5jbHVkZS9zeXNlbXUvYmxvY2tkZXYuaCBiL2luY2x1ZGUvc3lzZW11L2Jsb2NrZGV2
+LmgNCj4gPiBpbmRleCAzYjVmY2RhLi5lZWZhZTlmIDEwMDY0NA0KPiA+IC0tLSBhL2luY2x1ZGUv
+c3lzZW11L2Jsb2NrZGV2LmgNCj4gPiArKysgYi9pbmNsdWRlL3N5c2VtdS9ibG9ja2Rldi5oDQo+
+ID4gQEAgLTI0LDYgKzI0LDcgQEAgdHlwZWRlZiBlbnVtIHsNCj4gPiAgICAgICAqLw0KPiA+ICAg
+ICAgSUZfTk9ORSA9IDAsDQo+ID4gICAgICBJRl9JREUsIElGX1NDU0ksIElGX0ZMT1BQWSwgSUZf
+UEZMQVNILCBJRl9NVEQsIElGX1NELCBJRl9WSVJUSU8sDQo+ID4gSUZfWEVOLA0KPiA+ICsgICAg
+SUZfRU1NQywNCj4gPiAgICAgIElGX0NPVU5UDQo+ID4gIH0gQmxvY2tJbnRlcmZhY2VUeXBlOw0K
+PiA+DQo+ID4gZGlmZiAtLWdpdCBhL2Jsb2NrZGV2LmMgYi9ibG9ja2Rldi5jDQo+ID4gaW5kZXgg
+Y2Q0MzhlNi4uMzkwZDQzYyAxMDA2NDQNCj4gPiAtLS0gYS9ibG9ja2Rldi5jDQo+ID4gKysrIGIv
+YmxvY2tkZXYuYw0KPiA+IEBAIC04Myw2ICs4Myw3IEBAIHN0YXRpYyBjb25zdCBjaGFyICpjb25z
+dCBpZl9uYW1lW0lGX0NPVU5UXSA9IHsNCj4gPiAgICAgIFtJRl9TRF0gPSAic2QiLA0KPiA+ICAg
+ICAgW0lGX1ZJUlRJT10gPSAidmlydGlvIiwNCj4gPiAgICAgIFtJRl9YRU5dID0gInhlbiIsDQo+
+ID4gKyAgICBbSUZfRU1NQ10gPSAiZW1tYyIsDQo+ID4gIH07DQo+IA0KPiBXZSBkb24ndCBuZWVk
+IHRvIGludHJvZHVjZSBzdXBwb3J0IGZvciB0aGUgbGVnYWN5IC1kcml2ZSBtYWdpYy4NCj4gDQo+
+IC1kZXZpY2Ugc2hvdWxkIGJlIGVub3VnaCBmb3IgdGhpcyBkZXZpY2UsIHJpZ2h0Pw0KW1NhaSBQ
+YXZhbiBCb2RkdV0gSSB3YXMgc2VlaW5nIHRvIHVzZSAtZGV2aWNlIGZvciBlbW1jLiBCdXQgSSBz
+ZWUgd2UgYW55d2F5IG5lZWQgYmxvY2tkZXYgc3VwcG9ydCBmb3IgdGhpcywgd2hpY2ggd291bGQg
+cmVxdWlyZSB1cyB0aGUgdXNlIC1kcml2ZS4NCg0KQ2FuIHlvdSBnaXZlIHNvbWUgcG9pbnRlcnMs
+IGhvdyB0byBhcHByb2FjaCB0aGlzID8NCg0KUmVnYXJkcywNClNhaSBQYXZhbg0KDQo=
 
