@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3BAE323331
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:23:57 +0100 (CET)
-Received: from localhost ([::1]:55116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFD5232333A
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:26:47 +0100 (CET)
+Received: from localhost ([::1]:57446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEf9w-00058A-RR
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:23:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57454)
+	id 1lEfCg-0006NR-RQ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:26:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEf9C-0004iE-E6
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:23:10 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:53088)
+ id 1lEfBp-0005sr-5k
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:25:53 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:41179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEf9B-0003RL-4K
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:23:10 -0500
-Received: by mail-wm1-x335.google.com with SMTP id p3so61656wmc.2
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:23:08 -0800 (PST)
+ id 1lEfBn-0004gm-PY
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:25:52 -0500
+Received: by mail-wr1-x434.google.com with SMTP id c7so7268822wru.8
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1NlJEQSL3qJhjpeaw+wHBI+W6u7PmZjxsBDwqV+OISY=;
- b=Im0Y7oQvC7B9demfwPj6YINkNWaWZ6m2XDANKVtPlF1uKA+KlbKtVXZp4SqFr6rTHR
- tslb4QvVZeTHsdA2IoOgNdTNreR9UnXL07PwRrqOWwGi4Vn2nNFvOA8zorF2tzsxSq6I
- +rao35GVUH62lNCWwu3c6UPNoIo9QprmvYQo1bQHbXx62TY/bT1tcBT4n1NxzY1tn3KE
- 4luthBRMjLLoUCMs0qvpoHppZBmrUeEmWAAqJAWLbl7pZmxt8q/oHZlwpc9d90QzcI04
- 4BShFu/O+oXeoynLeQQ3u92zSyeCeDLqPG1EqWtSEWwWR1Dh8xYD7/Pei4NhABNe9p+n
- hBkQ==
+ bh=9IsHbY1Cg2md9Kn7zp4Cp7dOCc6NeZ134oC4n5kBXB8=;
+ b=adGU6NdlQ6vFofqgKCIjaKMck9or33t3zEOvV9wvAhNYLJpWdPh6gB5Z7dj7O8hne2
+ /acy6m+S+U8CewSd9T2iSIzMOpSHP+0jXk3opt/pzFlQg7OLLvXGmug5zIY5bJYe8Wkr
+ XHnGLy9AtMrTJ/Hus6SLSes1dXtkbGTJQRxnYZW0ZSiuaJFUezIz5mQgBIeLlryUSI9N
+ 6bkaCmu4igDkP7T5KH0ygMhB1ShU0DAef6R7Bm8e18EwrBttqdcd9tPmCs7YkQOwDqLH
+ b8LIAusUp6tkwXgvdUhYTvaTDm5PAx2ozUU0PoA4t6ffmqR8twoq5wNh1j7QYQ2HQjyY
+ n3Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=1NlJEQSL3qJhjpeaw+wHBI+W6u7PmZjxsBDwqV+OISY=;
- b=V0ss2tHoee7JUmY1FTsiUCgO3Mpfhf0xONWBOc8UtJQMFeJ9XugKJeEOp/vMUUEUSi
- AbCRfQmWkwRggRYBtoPH9/t+IVWELm/RQ7zjQEDwAfCFDTKoBD8eqApIvYHJBMbUAhGf
- Lw3IwhYRTVtGV+++HqsgqlNzp2RIe0z6WJWnWCvJpEx5T1idrBzIZ6ZZW/NGuGl//0bS
- BM1g1MnJOJamGBHZS2uagDBzrl9lEl3JtIKLx91nbvQfN3XVywzJ3vb3Dy9fP5srXhL+
- BN13OBpI6tZ1P05xhM1XSyUskm2H+ftUZbaoGOFXWFq5DjJgBCMqy3M1Tw5bozmuQmyd
- 9GgQ==
-X-Gm-Message-State: AOAM532lFO4uzrIz1qGdmcfo2M+u7nn6FtDzvqX0d5z1jhvjCAteaFt4
- 5+tdzOTcrKI7NZp++Ccs/SM=
-X-Google-Smtp-Source: ABdhPJw5b+6k/JqtkuYZ9ruTGIvKqI2nYitrHeLuzrepEBGX5QLzFBf1lmT4QJuDNIhpF9+ZyLOWRQ==
-X-Received: by 2002:a7b:c18b:: with SMTP id y11mr630765wmi.132.1614115386430; 
- Tue, 23 Feb 2021 13:23:06 -0800 (PST)
+ bh=9IsHbY1Cg2md9Kn7zp4Cp7dOCc6NeZ134oC4n5kBXB8=;
+ b=hmM2eJ2Vm+0UKzkx3+wK1YEFDxNu2vScIBA0zbICHTIRwxUlItszM6fs2lNVAwd/G1
+ XKYn8jO4ThTJ82DvZ+CSceWcoxemdYWWHFz4YBVE8P81XBF7+WJGiACLubgG4bL4Nnyv
+ NX1e4cY+Av8eibj2I5JbOPP9yOrQL1TQm7ypiYA0/HRKfXtsIKviehsPINILm/vQHFRP
+ HlAVmsx44D/FoeGITZJELLOKTEdN5LbCitbKFgnAcqriP3QtVLcvPQU0Kd8B7z37PRG8
+ jPbD8cGWysZtu96nFk/S9q4TQ9ol+RvnU+84Nj5wuPSEMR/NRLCQdzmuWoPzyXb7EPSO
+ /DXg==
+X-Gm-Message-State: AOAM530cbOiimnmdjZiEppCQCR/ouY5jVQirSulUTZ+q+mfJcgvSx8i6
+ pd+gq++TwzUScuMMRfDP/iN67S9E+Oc=
+X-Google-Smtp-Source: ABdhPJxdmvAaLBGnc96Ilx6mr1BiddzqY3ioeVbDkbbMFgiIS+ip+4v8UWgoKgthjwi7DBms53dDgw==
+X-Received: by 2002:adf:e68d:: with SMTP id r13mr27691493wrm.303.1614115550088; 
+ Tue, 23 Feb 2021 13:25:50 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id w13sm25222wre.2.2021.02.23.13.23.05
+ by smtp.gmail.com with ESMTPSA id h13sm22134wrv.20.2021.02.23.13.25.48
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 13:23:05 -0800 (PST)
-Subject: Re: [PATCH v2 17/42] esp: move pdma_len and TC logic into
- esp_pdma_read()/esp_pdma_write()
+ Tue, 23 Feb 2021 13:25:49 -0800 (PST)
+Subject: Re: [PATCH v2 18/42] esp: accumulate SCSI commands for PDMA transfers
+ in cmdbuf instead of pdma_buf
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
  pbonzini@redhat.com, fam@euphon.net, laurent@vivier.eu
 References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-18-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-19-mark.cave-ayland@ilande.co.uk>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9f5a7759-4aeb-4eb2-be1d-0d43b5b78822@amsat.org>
-Date: Tue, 23 Feb 2021 22:23:05 +0100
+Message-ID: <49a16c87-376b-d365-3b45-e4d0d231a59c@amsat.org>
+Date: Tue, 23 Feb 2021 22:25:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-18-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20210209193018.31339-19-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,16 +95,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
+> ESP SCSI commands are already accumulated in cmdbuf and so there is no need to
+> keep a separate pdma_buf buffer. Accumulate SCSI commands for PDMA transfers in
+> cmdbuf instead of pdma_buf so update cmdlen accordingly and change pdma_origin
+> for PDMA transfers to CMD which allows the PDMA origin to be removed.
+> 
+> This commit also removes a stray memcpy() from get_cmd() which is a no-op because
+> cmdlen is always zero at the start of a command.
+> 
+> Notionally the removal of pdma_buf from vmstate_esp_pdma also breaks migration
+> compatibility for the PDMA subsection until its complete removal by the end of
+> the series.
+> 
 > Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  hw/scsi/esp.c | 50 ++++++++++++++++++++++++++++++++------------------
->  1 file changed, 32 insertions(+), 18 deletions(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index cfeba2feb0..7134c0aff4 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -153,22 +153,45 @@ static uint8_t *get_pdma_buf(ESPState *s)
+>  hw/scsi/esp.c         | 56 +++++++++++++++++++------------------------
+>  include/hw/scsi/esp.h |  2 --
+>  2 files changed, 25 insertions(+), 33 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
