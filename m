@@ -2,88 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DC732310B
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 19:53:04 +0100 (CET)
-Received: from localhost ([::1]:38480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B0F1323110
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 19:56:25 +0100 (CET)
+Received: from localhost ([::1]:40808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEcnv-0003VK-BF
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 13:53:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44218)
+	id 1lEcrA-0004eC-Kv
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 13:56:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lEcmq-0002aG-H1
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:51:56 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:37874)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEcqF-000483-0C
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:55:27 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:44012)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lEcmo-00022k-R2
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:51:56 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id o10so660731pgg.4
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:51:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEcqD-0003Z8-4V
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 13:55:26 -0500
+Received: by mail-ed1-x533.google.com with SMTP id d2so26991342edq.10
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 10:55:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=HKpRgJD3+6xMy6XFIxS/hbHyzDdgg6kp9wo4k/kxP6k=;
- b=AwYNzZQgMTo7R0d4iiixd12eWz6vyMYYd1sngSCObdhqkhD1xs9iJHpldbLkEvLp8y
- cEDe9fcYTuS0IoZd+5jBKos4SQswUgS7JgcURRvv9j2JTfBwpxI3+toR+9WcssowHOJw
- tcTC9NDCyVekmc1WYufZEhUvgeKtjlAx9jQIq7EBjbK8HZ8l0NNHfxnDorHKAD4/4Fnh
- Vqfd0+RT8boTZScsDlI8Nam+dkzJbQ/Gc3iLKiD3JiONDcjouMkGZwNPmHU42x3nWYm6
- kuO4yd7xFrIvdrPaGzhSxodasvSU0T4hD3BHwH1IWxTn4HR1QGQkExaLE2NGMhfzt4Jx
- yXTQ==
+ bh=dpznWoHiWLOsVaqi2czeddshrPJGaEndL5LQI46StP8=;
+ b=ZTGM3way9qii7pJQgsVHT0VtpQQTZ8Wth+AYUL2Znm0jtzlBzi3xlSkNjZ7rYya0Z/
+ SlUZAbytAHAsZ6aZxmI3D20sK5/IgJ+xZC/ldu39SuANfVKhmYXMW4zo8V2ww7l1drZI
+ EmfdCriQoVXWQWnz7r3SUzhoI4mAi1pN3z+S5EwBOYqzOPJySFyFd31mkKWG0Mn+zURR
+ Pl3e60KHge4ie5mQXbOjo0TXo5CrDyhslK29ftSRIjUDc1uy+DxtODw0OCPjxozvRNIn
+ nQjOw9cFGbBy0NdTc6N0zSxTBKxacE7xMPrMAXErzaGFBCwp+So3J5bqyF9z7aRmrl4C
+ c32Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=HKpRgJD3+6xMy6XFIxS/hbHyzDdgg6kp9wo4k/kxP6k=;
- b=VjASaNxLnn84OFF6yxhh5FMhwhdT+rb+ueXFhmnOUIVQ4uLQ3YcvTC+R27gcFG01GJ
- TOxiPJvGECZCaj5m64Rgufu7vB8LLG5C+IqjUS4M28q+t7MXV4mNz9bCTGg+HesDfKWi
- b+Ww2t0hMJBoQepIHfawMcI0wbsvpZfsj2zw7EDcsu6dCbnhoopJpgyoOllKOzcpMfQ0
- we/BxV7sLiLkiB8rwOSCqeQy7aHR0fjVj2pZP3z5hFQobVCiM9/YA4K1SQfPyR5XU+8I
- REsSbUshX+T6x7W17JW9MVMB86VjnrQolrnSnp8Uy5/on2Og/pWpbZEmLfYBcsBkhzTW
- QcqQ==
-X-Gm-Message-State: AOAM533uBfBjjB9cap/rTKurrFmvx2neH2tdvw9Ug+CJPrXRjn7nYpcS
- Zz5vYtlWZUBCJIA0dwJ/aqmW3g==
-X-Google-Smtp-Source: ABdhPJzylGgwVCxnT8uqQ6W/WDDDIWND8ilXBn563O9wBSbQr3ttu8DoVZSoAQxlzpcpdO5FT0ab6g==
-X-Received: by 2002:a62:6d45:0:b029:1ed:55f6:ff53 with SMTP id
- i66-20020a626d450000b02901ed55f6ff53mr19128780pfc.24.1614106313232; 
- Tue, 23 Feb 2021 10:51:53 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id u31sm22921569pgl.9.2021.02.23.10.51.52
+ bh=dpznWoHiWLOsVaqi2czeddshrPJGaEndL5LQI46StP8=;
+ b=V0nWjtG/avWKqGl1GyMS/1Yq0fBBVNpHWd13V/pgVJloCE1Yac8IDFRCNxk6ueXRTO
+ 0JwU5ldaI3pmFtuizsy/LS+GKBAlcvBForo+nFGWdM5URBBxKfr+tFzLISj4zADpfaPB
+ E2I3Vp6BEYI3EuAfVJbtvIpkYXzYeuaCTHwjrB/kY57At2FL/Rq4332q6PuzQb3y/fcI
+ R1sVskDOLU45IhQdjoscEODKdadvJh0+0MxfIC3pVYU1MFMa3amlxzM8iSa25tS9Mn0Q
+ KV8/Jxay2Ta0+hoAOFdl6yMi2LJ8fvBmKRn2lSzPiUidTD3nzAPUcwiIa0qgyj/lUJdr
+ K53Q==
+X-Gm-Message-State: AOAM533rxcEtCK1DnFO4iZ/3BhtZviOTzZxC9BSmYA7Dl3vGtgWDRRX7
+ p7WXnqXjNouJOHETkzE3dRs=
+X-Google-Smtp-Source: ABdhPJxnBgyWFIjm5rTDfuQ0U67Uu2PMP83nI4dbfzet1RQLLtPnAARVdJV/06mEf/CTZS9ETbLQAQ==
+X-Received: by 2002:aa7:c542:: with SMTP id s2mr9571354edr.369.1614106523472; 
+ Tue, 23 Feb 2021 10:55:23 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id v9sm16138052edj.89.2021.02.23.10.55.22
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 23 Feb 2021 10:51:52 -0800 (PST)
-Subject: Re: softmmu vs sysemu [Was: Re: [RFC v1 06/38] target/arm: split off
- cpu-softmmu.c]
-To: Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <20210221092449.7545-7-cfontana@suse.de> <87blcc57rj.fsf@linaro.org>
- <e7f21ff9-b2c6-668e-c973-d2949b81327e@suse.de>
- <2765ff1d-8b77-c2c8-c48a-dc2f582d80ff@redhat.com>
- <477a7799-cb25-afa7-c280-09d839a2b180@suse.de>
- <a6682a0f-5993-ed12-98d7-0c8f59385bbd@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <0a47d627-fda8-54c7-dbf8-2ebfc9000137@linaro.org>
-Date: Tue, 23 Feb 2021 10:51:50 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Tue, 23 Feb 2021 10:55:22 -0800 (PST)
+Subject: Re: [PATCH v2 30/42] esp: add 4 byte PDMA read and write transfers
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ laurent@vivier.eu
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-31-mark.cave-ayland@ilande.co.uk>
+ <0978e91b-d2e8-ce30-87de-cba2896ecc16@amsat.org>
+ <ce56bbc6-8467-db6d-599d-c52c56ad6f5f@ilande.co.uk>
+ <e86ba2e0-c023-b2fa-6c38-d9fe762bba50@amsat.org>
+ <73445020-bb50-e3d6-07b1-a72b6b5e80bf@ilande.co.uk>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <3480d37c-741a-89ad-1a9a-8a4acddad19c@amsat.org>
+Date: Tue, 23 Feb 2021 19:55:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <a6682a0f-5993-ed12-98d7-0c8f59385bbd@suse.de>
+In-Reply-To: <73445020-bb50-e3d6-07b1-a72b6b5e80bf@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,26 +94,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Claudio Fontana <cfontana@centriq4.arch.suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+Cc: fam@euphon.net, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 10:18 AM, Claudio Fontana wrote:
-> I am all for "just getting it done", but here the i386 and the arm series become a mixture of things that I am not comfortable with,
-> I'd prefer a dedicated series..
+On 2/23/21 9:24 AM, Mark Cave-Ayland wrote:
+> On 16/02/2021 07:30, Philippe Mathieu-Daudé wrote:
+> 
+>>> Are you planning to review any more of this series? I'm keen to put out
+>>> a (hopefully final) v3 soon, but I'll hold off for little while if you
+>>> want more time to look over the remaining patches.
+>>
+>> I talked about this series with Laurent on Sunday, asking him for
+>> review help ;) I don't remember if there is any big comment to
+>> address in patches 1-14. If not I can review the missing ones
+>> there today and you could send directly a pull request for this
+>> first set, then send the rest as v3. Does that help?
+>> For the rest I doubt having time to focus before Friday.
+> 
+> Hi Phil/Laurent,
+> 
+> I know you're both really busy, but gentle ping to ask if anyone is
+> still planning to review the second half of this patchset? :)
 
-You're thinking too deeply about the problem that I'm reporting to you about
-this patch set.
+At this point I reviewed more than half of the series :)
 
-I just want the file naming done correctly, while you're renaming.  That is
-something you are actively changing in this patch set, so we should get it right.
-
-You don't have to worry about ifdef CONFIG_SOFTMMU vs ifndef CONFIG_USER_ONLY
-within the code itself.
-
-
-r~
+Laurent, can you have a look at the upper half?
 
