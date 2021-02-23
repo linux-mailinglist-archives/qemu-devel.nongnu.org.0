@@ -2,80 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A078322C8F
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 15:40:43 +0100 (CET)
-Received: from localhost ([::1]:39170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22AA5322C8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 15:40:40 +0100 (CET)
+Received: from localhost ([::1]:38968 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEYri-0008W2-Cq
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 09:40:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40202)
+	id 1lEYre-0008QC-M2
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 09:40:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEYqO-0007fs-3c
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:39:21 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:37349)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEYpp-0006XP-Pr
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:39:19 -0500
-Received: by mail-wm1-x335.google.com with SMTP id m1so2685405wml.2
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 06:38:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=qBrwfzMobrzqlCgf46Khz4bUNfUDWzwL53zOb7BJ03I=;
- b=ga+5k7y3LrdMtcvgS4/9yrjgts2qFH0XykuW/KGbIQZB2HiRLdlrkpP3s8ophG0tln
- +HrqEhccw/NG2CJh7MEqUFRr1wvMsZGlJym2RsqNfx6TAM5fAqcOoNoOBM4lcu0qdMjt
- 7VLypB+xrSjNnlIOuAkoMZflGBzYoepT6QbI6nVN4ZVbhcpD3T4nfjmvBrwI1P28SrM0
- JsiAvf9JfXYsolJN/ct02/Su97h67/8br/5RFB/bWPiPctN/Ag0l0INYnSAHjDV0R/Uh
- n8G0LPu/AjlPLGKmh/1n+SuKPnT3PlWQo981vtGchfIbEbLMZBfu0pKsZ9Wa8ekQF0jc
- 7xAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=qBrwfzMobrzqlCgf46Khz4bUNfUDWzwL53zOb7BJ03I=;
- b=YDT7TNqcLEwO6rBjC3pcXwu/RHHsXMkTf3aOrSt/1HSTcR/lULJigEGL2eu0xZZN0Z
- 4w0f0srBh0y8gGjjvA1pWUY2nvNWDpJXS1aWJUYvLxBWskoeKklUWjXYRAeMfO92N39l
- uS0nA3Lue+zqGxUNo51SXkALUXx6BYJ642SKaGvmait2Vs/cZuqaN1kkyyyz+OZvmQiY
- 6q+e2rs9ijh0aZC7CMkhhec+mc1F3/D9W0d1AUbxeuHx966sfHfCFK3ga29WUo20Iju+
- gtwfX1X3iR/XyMlf1EGkNoAUtbrvwbzV5ayfFQlT+6H0vgy2gBwGXR7IcozWIYZsIBVN
- +ufA==
-X-Gm-Message-State: AOAM531y+Kh6SAGxGolQmKaHKg7kzLGw4n6gANIbSYOe/yhSLzfii/TZ
- osUQuD8PLvin59IA3SAuJjsl4Q==
-X-Google-Smtp-Source: ABdhPJyCBc/igeVRkFXdx+fkuYORTp4cWSLVrJNdnteXIThkNgYUBykONZPW+0Y0Uo1gETx6wZ+z+A==
-X-Received: by 2002:a1c:5412:: with SMTP id i18mr24492023wmb.179.1614091124187; 
- Tue, 23 Feb 2021 06:38:44 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d20sm34709471wrc.12.2021.02.23.06.38.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 06:38:43 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 498251FF7E;
- Tue, 23 Feb 2021 14:38:42 +0000 (GMT)
-References: <20210219215838.752547-1-crosa@redhat.com>
- <20210219215838.752547-3-crosa@redhat.com>
-User-agent: mu4e 1.5.8; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Cleber Rosa <crosa@redhat.com>
-Subject: Re: [PATCH v5 2/4] Jobs based on custom runners: build environment
- docs and playbook
-Date: Tue, 23 Feb 2021 14:01:53 +0000
-In-reply-to: <20210219215838.752547-3-crosa@redhat.com>
-Message-ID: <87im6i4znx.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEYqI-0007eS-Rt
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:39:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38561)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEYpp-0006XJ-8u
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 09:39:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614091123;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+x/LEPV/XORA9qZlO3w067t0CnWO+QhCe3AZ4Aixds4=;
+ b=VD+l7FPInCm5d6bV3X/eWVzhp6rnpPY7oNB73pQMyp5pSl3XcUQrexbxfAO5KjmJcjEYFm
+ 5wSok8qEAR2Bt0zYgh0HqLN68e+2CnConcJFoLPEf819Rct5kBqHITu5PkheBI4EhKeXa8
+ n7oUhw8Zusuu72ErHStxpT2p15scIhU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-ei_CeNCMOLGczgd3GDNn6w-1; Tue, 23 Feb 2021 09:38:41 -0500
+X-MC-Unique: ei_CeNCMOLGczgd3GDNn6w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0218B801988;
+ Tue, 23 Feb 2021 14:38:40 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DA91219C95;
+ Tue, 23 Feb 2021 14:38:33 +0000 (UTC)
+Subject: Re: [PATCH 1/3] scripts/ci/gitlab-pipeline-status: split utlity
+ function for HTTP GET
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org
+References: <20210222193240.921250-1-crosa@redhat.com>
+ <20210222193240.921250-2-crosa@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <fe8f495c-fdf3-b6c0-ef70-8f4b46bce9db@redhat.com>
+Date: Tue, 23 Feb 2021 11:38:31 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210222193240.921250-2-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,188 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P_=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hi,
 
-Cleber Rosa <crosa@redhat.com> writes:
-
-> To run basic jobs on custom runners, the environment needs to be
-> properly set up.  The most common requirement is having the right
-> packages installed.
->
-> The playbook introduced here covers the QEMU's project s390x and
-> aarch64 machines.  At the time this is being proposed, those machines
-> have already had this playbook applied to them.
+On 2/22/21 4:32 PM, Cleber Rosa wrote:
+> This simply splits out the code that does an HTTP GET so that it
+> can be used for other API requests.
 >
 > Signed-off-by: Cleber Rosa <crosa@redhat.com>
 > ---
->  docs/devel/ci.rst                      | 30 ++++++++++
->  scripts/ci/setup/build-environment.yml | 76 ++++++++++++++++++++++++++
->  scripts/ci/setup/inventory             |  1 +
->  3 files changed, 107 insertions(+)
->  create mode 100644 scripts/ci/setup/build-environment.yml
->  create mode 100644 scripts/ci/setup/inventory
+>   scripts/ci/gitlab-pipeline-status | 17 ++++++++++++-----
+>   1 file changed, 12 insertions(+), 5 deletions(-)
+
+Only fix the "utlity" typo in $SUBJECT:
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
 >
-> diff --git a/docs/devel/ci.rst b/docs/devel/ci.rst
-> index 585b7bf4b8..a556558435 100644
-> --- a/docs/devel/ci.rst
-> +++ b/docs/devel/ci.rst
-> @@ -26,3 +26,33 @@ gitlab-runner, is called a "custom runner".
->  The GitLab CI jobs definition for the custom runners are located under::
->=20=20
->    .gitlab-ci.d/custom-runners.yml
+> diff --git a/scripts/ci/gitlab-pipeline-status b/scripts/ci/gitlab-pipeline-status
+> index 78e72f6008..0c1e8bd8a7 100755
+> --- a/scripts/ci/gitlab-pipeline-status
+> +++ b/scripts/ci/gitlab-pipeline-status
+> @@ -48,18 +48,25 @@ def get_local_branch_commit(branch):
+>       return result
+>   
+>   
+> -def get_pipeline_status(project_id, commit_sha1):
+> +def get_json_http_response(url):
+>       """
+> -    Returns the JSON content of the pipeline status API response
+> +    Returns the JSON content of an HTTP GET request to gitlab.com
+>       """
+> -    url = '/api/v4/projects/{}/pipelines?sha={}'.format(project_id,
+> -                                                        commit_sha1)
+>       connection = http.client.HTTPSConnection('gitlab.com')
+>       connection.request('GET', url=url)
+>       response = connection.getresponse()
+>       if response.code != http.HTTPStatus.OK:
+>           raise CommunicationFailure("Failed to receive a successful response")
+> -    json_response = json.loads(response.read())
+> +    return json.loads(response.read())
 > +
-> +Machine Setup Howto
-> +-------------------
 > +
-> +For all Linux based systems, the setup can be mostly automated by the
-> +execution of two Ansible playbooks.  Start by adding your machines to
-> +the ``inventory`` file under ``scripts/ci/setup``, such as this::
-> +
-> +  fully.qualified.domain
-> +  other.machine.hostname
+> +def get_pipeline_status(project_id, commit_sha1):
+> +    """
+> +    Returns the JSON content of the pipeline status API response
+> +    """
+> +    url = '/api/v4/projects/{}/pipelines?sha={}'.format(project_id,
+> +                                                        commit_sha1)
+> +    json_response = get_json_http_response(url)
+>   
+>       # As far as I can tell, there should be only one pipeline for the same
+>       # project + commit. If this assumption is false, we can add further
 
-Is this really needed? Can't the host list be passed in the command
-line? I find it off to imagine users wanting to configure whole fleets
-of runners.
-
-> +
-> +You may need to set some variables in the inventory file itself.  One
-> +very common need is to tell Ansible to use a Python 3 interpreter on
-> +those hosts.  This would look like::
-> +
-> +  fully.qualified.domain ansible_python_interpreter=3D/usr/bin/python3
-> +  other.machine.hostname ansible_python_interpreter=3D/usr/bin/python3
-> +
-> +Build environment
-> +~~~~~~~~~~~~~~~~~
-> +
-> +The ``scripts/ci/setup/build-environment.yml`` Ansible playbook will
-> +set up machines with the environment needed to perform builds and run
-> +QEMU tests.  It covers a number of different Linux distributions and
-> +FreeBSD.
-> +
-> +To run the playbook, execute::
-> +
-> +  cd scripts/ci/setup
-> +  ansible-playbook -i inventory build-environment.yml
-
-So I got somewhat there with a direct command line invocation:
-
-  ansible-playbook -u root -i 192.168.122.24,192.168.122.45 scripts/ci/setu=
-p/build-environment.yml -e 'ansible_python_interpreter=3D/usr/bin/python3'
-
-although for some reason a single host -i fails...
-
-> diff --git a/scripts/ci/setup/build-environment.yml b/scripts/ci/setup/bu=
-ild-environment.yml
-> new file mode 100644
-> index 0000000000..0197e0a48b
-> --- /dev/null
-> +++ b/scripts/ci/setup/build-environment.yml
-> @@ -0,0 +1,76 @@
-> +---
-> +- name: Installation of basic packages to build QEMU
-> +  hosts: all
-> +  tasks:
-> +    - name: Update apt cache
-> +      apt:
-> +        update_cache: yes
-> +      when:
-> +        - ansible_facts['distribution'] =3D=3D 'Ubuntu'
-
-So are we limiting to Ubuntu here rather than say a Debian base?
-
-> +
-> +    - name: Install basic packages to build QEMU on Ubuntu 18.04/20.04
-> +      package:
-> +        name:
-> +        # Originally from tests/docker/dockerfiles/ubuntu1804.docker
-> +          - ccache
-> +          - clang
-> +          - gcc
-> +          - gettext
-> +          - git
-> +          - glusterfs-common
-> +          - libaio-dev
-> +          - libattr1-dev
-> +          - libbrlapi-dev
-> +          - libbz2-dev
-> +          - libcacard-dev
-> +          - libcap-ng-dev
-> +          - libcurl4-gnutls-dev
-> +          - libdrm-dev
-> +          - libepoxy-dev
-> +          - libfdt-dev
-> +          - libgbm-dev
-> +          - libgtk-3-dev
-> +          - libibverbs-dev
-> +          - libiscsi-dev
-> +          - libjemalloc-dev
-> +          - libjpeg-turbo8-dev
-> +          - liblzo2-dev
-> +          - libncurses5-dev
-> +          - libncursesw5-dev
-> +          - libnfs-dev
-> +          - libnss3-dev
-> +          - libnuma-dev
-> +          - libpixman-1-dev
-> +          - librados-dev
-> +          - librbd-dev
-> +          - librdmacm-dev
-> +          - libsasl2-dev
-> +          - libsdl2-dev
-> +          - libseccomp-dev
-> +          - libsnappy-dev
-> +          - libspice-protocol-dev
-> +          - libssh-dev
-> +          - libusb-1.0-0-dev
-> +          - libusbredirhost-dev
-> +          - libvdeplug-dev
-> +          - libvte-2.91-dev
-> +          - libzstd-dev
-> +          - make
-> +          - ninja-build
-> +          - python3-yaml
-> +          - python3-sphinx
-> +          - sparse
-> +          - xfslibs-dev
-> +        state: present
-> +      when:
-> +        - ansible_facts['distribution'] =3D=3D 'Ubuntu'
-> +
-> +    - name: Install packages to build QEMU on Ubuntu 18.04/20.04 on non-=
-s390x
-> +      package:
-> +        name:
-> +          - libspice-server-dev
-> +          - libxen-dev
-> +        state: present
-> +      when:
-> +        - ansible_facts['distribution'] =3D=3D 'Ubuntu'
-> +        - ansible_facts['architecture'] !=3D 's390x'
-> diff --git a/scripts/ci/setup/inventory b/scripts/ci/setup/inventory
-> new file mode 100644
-> index 0000000000..2fbb50c4a8
-> --- /dev/null
-> +++ b/scripts/ci/setup/inventory
-> @@ -0,0 +1 @@
-> +localhost
-
-I'm not sure we should have a default here because it will inevitably
-cause someone to do something to their machine when trying to setup a
-runner.
-
---=20
-Alex Benn=C3=A9e
 
