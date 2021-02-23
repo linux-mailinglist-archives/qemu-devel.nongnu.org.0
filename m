@@ -2,76 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568A7322915
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:53:24 +0100 (CET)
-Received: from localhost ([::1]:44638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9193D322916
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 11:54:58 +0100 (CET)
+Received: from localhost ([::1]:46924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEVJj-00054P-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:53:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44862)
+	id 1lEVLF-00062M-Jh
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 05:54:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEVIO-0004Pc-HF
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:52:00 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:39967)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lEVIM-0005i0-F0
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:52:00 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id d11so2722224wrj.7
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 02:51:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2SmZ96dravRMqQ09BVpGDhRv9QcZrmDeLNEhAyGvw58=;
- b=UXaxnsjrjOGWmMln+N1n1cP5ZbUEiC8bB/P7th/+9VUw9+CEQyglGimU4QZ50rJt25
- 7vvWLx/Aqkb40lQ3fVePcs0enKWvyxDzJu9GhthVmaodR0NjDyyT1tGUMuJfI3SJno8W
- haRIt7TRZlMhwAzJz8Y2vGT36rIyh0IBNasfMOXFq/YX+K4QCppsDH1pymoyBL0Rf3Cn
- BPxiZfPsNGJp9sAc0W5H7OLWYicqICc7xBSsmcKNhRhRjVsp2iFlM3Zo6UN5kNcnKCtK
- XzagGrAvQraG+eqGfe0HSJhuoZLn4uUsepg6gPKtm8Qc+WUbviL2za2AbxnqoIpFbJ6t
- oVXw==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lEVKF-0005YY-7E
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:53:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40417)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lEVKD-0006U7-Nt
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 05:53:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614077632;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wuM+V7JisvLFnSPVGOWgvhuCv62ELUPyhvjtExOXSwg=;
+ b=D2FiCltOTuFJMZT/omMCXddJ1Cb9L0nLl2x8otDatAV6SZlzmqO/vwGLjbAmPb9dX1u436
+ LWaKDboxezxLnXwM8OB1Z2Uy2TMn/l+2YYy/vprOflBHY0fps51IAsgoSiQyUjv6oE61GJ
+ H6G0svyWeFPATzCR3H2WcM+0zLUnZ1g=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-105-KWsKGtpiPQOcIxH-NcIL5w-1; Tue, 23 Feb 2021 05:53:50 -0500
+X-MC-Unique: KWsKGtpiPQOcIxH-NcIL5w-1
+Received: by mail-wm1-f71.google.com with SMTP id w20so111874wmc.0
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 02:53:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=2SmZ96dravRMqQ09BVpGDhRv9QcZrmDeLNEhAyGvw58=;
- b=qUeZOhj8MtYfrEtFoXkXUq757B/W8Nxe0P9KvmbyJ7aiM9hB/4n2PbCeJx5vDc2oNA
- cHXc0Gmd4Cok7eP1gGORoYPjDY/nUkCpEawGezDD1AIIGW4rK95M4+m61NcY+N616z13
- XRFD02Uz0VrdEojSIDUWouzzg0m5E+Ecx3hwcK3mlOhZ4GfDm+SP9YM5D9apSe1AEm3e
- HZtFRF2vVhiZgg/Fqe3P5zlPU164s4f7Vdisb43A4YZpy6ehfzOgOoR+Vh8PC1mtV/5D
- xrSFaj9FL1fiUeh8TouywTYWpKgXXgjXURgFj+OmK/jUpPTf6hJC0Uf26sqkxNXe2orL
- osjw==
-X-Gm-Message-State: AOAM533T0ERMC2fKQX8XH829oKFn5z2M8Hw9S95LydQasC4BvpBsoS3w
- tKbVT/B9VD41kF6bDqd1ngf4JA==
-X-Google-Smtp-Source: ABdhPJznfjVvLuvFXZ+DVjw0NjQluLEGY+sVuJ0FdFrU+IkCmsTU23mkP5FMXHs0L07A2UwMvdgGfw==
-X-Received: by 2002:a5d:4d0a:: with SMTP id z10mr19228866wrt.69.1614077516755; 
- Tue, 23 Feb 2021 02:51:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f22sm2106803wmb.31.2021.02.23.02.51.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=wuM+V7JisvLFnSPVGOWgvhuCv62ELUPyhvjtExOXSwg=;
+ b=B2n43qR+3+DFG+A27vxk7LCVg81hLVV96Hv5N0My2JcM2REenm6rVA2TMLNBd431bT
+ kLHrLnBEE3WHKsT1SSQvb+hs+XpsSkaqYbGs5DbI+2vFFhjCdSV6CgbWi39+ndCaPVjc
+ BmouI2c2iD/zKyP90/sPGyhegnw/iGU2D7t2NZUqt1Lw0V5gaksfTUpDKNV8HVC3d3dn
+ Vzvbs/dZUu+qLY1lBTxHcXzFm42rE6SoqmY+8r9oBrukPiWIGtCUDCdP3dWUh67riQZz
+ gi6ptix/WWDMYEPzx3fKS3ryYUBStEZwxWtZpq6gP2l6G1afVu6jSvMJxWUXW08mHZTR
+ TpCA==
+X-Gm-Message-State: AOAM530BHX1ZFt1JqyuNNCR4GW66vD4M1dygqRo6HyYG2mVo3qniNjdS
+ Kt9l3l36iWclyJWigDYu6w1qbEebEjqEclXFba/NRDK/IwySCnAtafBPkBjQ1FQamOxPvR1rmwU
+ QcAMKfFXurKVZENQ=
+X-Received: by 2002:a5d:540d:: with SMTP id g13mr25912712wrv.143.1614077629546; 
+ Tue, 23 Feb 2021 02:53:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwJ4c5bMqZL8NUWLaMsaah+9Bf3fv8Qcefia75ueKg9euwPOf4ZHsVL9iWyllzdubrOYmhEag==
+X-Received: by 2002:a5d:540d:: with SMTP id g13mr25912702wrv.143.1614077629369; 
+ Tue, 23 Feb 2021 02:53:49 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id g1sm2491811wmh.9.2021.02.23.02.53.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 02:51:55 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3D841FF7E;
- Tue, 23 Feb 2021 10:51:54 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH] docs/devel: re-organise the developers guide into sections
-Date: Tue, 23 Feb 2021 10:51:46 +0000
-Message-Id: <20210223105146.6695-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ Tue, 23 Feb 2021 02:53:49 -0800 (PST)
+Date: Tue, 23 Feb 2021 11:53:46 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] vhost: simplify vhost_dev_init() fail_busyloop label
+Message-ID: <20210223105346.ii4ex7no5fd434zi@steredhat>
+References: <20210222114931.272308-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210222114931.272308-1-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,266 +93,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org, berrange@redhat.com, f4bug@amsat.org,
- stefanha@redhat.com
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The list of sub-sections was getting a bit long and sporadically
-organised. Let's try and impose some order on this hairball of
-documentation.
+On Mon, Feb 22, 2021 at 11:49:31AM +0000, Stefan Hajnoczi wrote:
+>Requiring a conditional for every goto is tedious:
+>
+>  if (busyloop_timeout) {
+>      goto fail_busyloop;
+>  } else {
+>      goto fail;
+>  }
+>
+>Move the conditional to into the fail_busyloop label so that it's safe
+>to jump to this label unconditionally.
+>
+>This change makes the migrate_add_blocker() error case more consistent.
+>It jumped to fail_busyloop unconditionally whereas the memslots limits
+>error case was conditional.
+>
+>Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>---
+> hw/virtio/vhost.c | 12 +++++-------
+> 1 file changed, 5 insertions(+), 7 deletions(-)
 
-[AJB: RFC because I wonder if we should make a more concerted effort
-to move bits of the wiki into a canonical maintained document. There
-is also probably a need for a quickbuild or tldr section of the
-build-system for users who just want to build something.]
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-Based-on: 20210223095931.16908-1-alex.bennee@linaro.org
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/devel/index.rst                 | 32 ++++++----------------------
- docs/devel/multi-thread-tcg.rst      |  5 +++--
- docs/devel/section-apis.rst          | 16 ++++++++++++++
- docs/devel/section-building.rst      | 13 +++++++++++
- docs/devel/section-concepts.rst      | 21 ++++++++++++++++++
- docs/devel/section-process.rst       | 11 ++++++++++
- docs/devel/section-tcg-emulation.rst | 19 +++++++++++++++++
- docs/devel/section-testing.rst       | 20 +++++++++++++++++
- docs/devel/tcg-icount.rst            |  6 +++---
- docs/devel/testing.rst               |  6 +++---
- 10 files changed, 115 insertions(+), 34 deletions(-)
- create mode 100644 docs/devel/section-apis.rst
- create mode 100644 docs/devel/section-building.rst
- create mode 100644 docs/devel/section-concepts.rst
- create mode 100644 docs/devel/section-process.rst
- create mode 100644 docs/devel/section-tcg-emulation.rst
- create mode 100644 docs/devel/section-testing.rst
-
-diff --git a/docs/devel/index.rst b/docs/devel/index.rst
-index ae664da00c..2af7bf8736 100644
---- a/docs/devel/index.rst
-+++ b/docs/devel/index.rst
-@@ -13,29 +13,9 @@ Contents:
- .. toctree::
-    :maxdepth: 2
- 
--   build-system
--   style
--   kconfig
--   testing
--   fuzzing
--   control-flow-integrity
--   loads-stores
--   memory
--   migration
--   atomics
--   stable-process
--   qtest
--   decodetree
--   secure-coding-practices
--   tcg
--   tcg-icount
--   tracing
--   multi-thread-tcg
--   tcg-plugins
--   bitops
--   reset
--   s390-dasd-ipl
--   clocks
--   qom
--   block-coroutine-wrapper
--   multi-process
-+   section-building
-+   section-testing
-+   section-concepts
-+   section-apis
-+   section-tcg-emulation
-+   section-process
-diff --git a/docs/devel/multi-thread-tcg.rst b/docs/devel/multi-thread-tcg.rst
-index 92a9eba13c..5b446ee08b 100644
---- a/docs/devel/multi-thread-tcg.rst
-+++ b/docs/devel/multi-thread-tcg.rst
-@@ -4,8 +4,9 @@
-   This work is licensed under the terms of the GNU GPL, version 2 or
-   later. See the COPYING file in the top-level directory.
- 
--Introduction
--============
-+==================
-+Multi-threaded TCG
-+==================
- 
- This document outlines the design for multi-threaded TCG (a.k.a MTTCG)
- system-mode emulation. user-mode emulation has always mirrored the
-diff --git a/docs/devel/section-apis.rst b/docs/devel/section-apis.rst
-new file mode 100644
-index 0000000000..ab1f6bed60
---- /dev/null
-+++ b/docs/devel/section-apis.rst
-@@ -0,0 +1,16 @@
-+*********
-+QEMU APIs
-+*********
-+
-+There are a number of APIs in QEMU and the following sections document
-+some of the most important ones. For tose that aren't documented here
-+you can also find notes on usage in the header definitions.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   atomics
-+   bitops
-+   loads-stores
-+   memory
-+   tracing
-diff --git a/docs/devel/section-building.rst b/docs/devel/section-building.rst
-new file mode 100644
-index 0000000000..e6e9fa1d6a
---- /dev/null
-+++ b/docs/devel/section-building.rst
-@@ -0,0 +1,13 @@
-+*************
-+Building QEMU
-+*************
-+
-+The following sections deal with how the build system works, how it is
-+configured and some basic guidance on how code should be written.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   build-system
-+   kconfig
-+   style
-diff --git a/docs/devel/section-concepts.rst b/docs/devel/section-concepts.rst
-new file mode 100644
-index 0000000000..566c52e90a
---- /dev/null
-+++ b/docs/devel/section-concepts.rst
-@@ -0,0 +1,21 @@
-+*************
-+QEMU Concepts
-+*************
-+
-+There are a number of high level concepts that are useful to
-+understand when working with the code base. Perhaps the most pervasive
-+is the QEMU Object Model (QOM) which underpins much of the flexibility
-+and configurable of the project. The following sections document that
-+as well as diving into other concepts that are useful to know if
-+working on some areas of the code.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   qom
-+   clocks
-+   reset
-+   block-coroutine-wrapper
-+   migration
-+   multi-process
-+   s390-dasd-ipl
-diff --git a/docs/devel/section-process.rst b/docs/devel/section-process.rst
-new file mode 100644
-index 0000000000..3b0ae4f19b
---- /dev/null
-+++ b/docs/devel/section-process.rst
-@@ -0,0 +1,11 @@
-+===================
-+Development Process
-+===================
-+
-+The following sections detail aspects of the development process.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   secure-coding-practices
-+   stable-process
-diff --git a/docs/devel/section-tcg-emulation.rst b/docs/devel/section-tcg-emulation.rst
-new file mode 100644
-index 0000000000..81fa131de7
---- /dev/null
-+++ b/docs/devel/section-tcg-emulation.rst
-@@ -0,0 +1,19 @@
-+*************
-+TCG Emulation
-+*************
-+
-+QEMU was originally built as an emulator capable of running binaries
-+for one architecture on another. The following sections describe the
-+internals of how the Just In Time (JIT) Tiny Code Generator (TCG)
-+works. You only really need to read this if you are interested in
-+adding new architectures or fixing existing architecture emulation.
-+
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   tcg
-+   multi-thread-tcg
-+   tcg-icount
-+   decodetree
-+   tcg-plugins
-diff --git a/docs/devel/section-testing.rst b/docs/devel/section-testing.rst
-new file mode 100644
-index 0000000000..c93ff4c4dd
---- /dev/null
-+++ b/docs/devel/section-testing.rst
-@@ -0,0 +1,20 @@
-+***************
-+Testing in QEMU
-+***************
-+
-+QEMU is a large and complex project which can be configured in a
-+multitude of ways. As it's impossible for an individual developer to
-+manually test all of these we rely on a whole suite of automated
-+testing approaches to ensure regressions are kept to a minimum.
-+
-+The following sections give a broad overview of the testing
-+infrastructure as well as some detailed introductions into more
-+advanced testing topics.
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   testing
-+   fuzzing
-+   control-flow-integrity
-+   qtest
-diff --git a/docs/devel/tcg-icount.rst b/docs/devel/tcg-icount.rst
-index 8d67b6c076..eb990b0976 100644
---- a/docs/devel/tcg-icount.rst
-+++ b/docs/devel/tcg-icount.rst
-@@ -3,9 +3,9 @@
-    Written by Alex Bennée
- 
- 
--========================
--TCG Instruction Counting
--========================
-+=================================
-+TCG Instruction Counting (icount)
-+=================================
- 
- TCG has long supported a feature known as icount which allows for
- instruction counting during execution. This should not be confused
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 3124ee2470..a69db8ab93 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -1,6 +1,6 @@
--===============
--Testing in QEMU
--===============
-+=======
-+Testing
-+=======
- 
- This document describes the testing infrastructure in QEMU.
- 
--- 
-2.20.1
+>
+>diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+>index 6e17d631f7..2a01662b08 100644
+>--- a/hw/virtio/vhost.c
+>+++ b/hw/virtio/vhost.c
+>@@ -1388,18 +1388,16 @@ int vhost_dev_init(struct vhost_dev *hdev, void *opaque,
+>         error_report("vhost backend memory slots limit is less"
+>                 " than current number of present memory slots");
+>         r = -1;
+>-        if (busyloop_timeout) {
+>-            goto fail_busyloop;
+>-        } else {
+>-            goto fail;
+>-        }
+>+        goto fail_busyloop;
+>     }
+>
+>     return 0;
+>
+> fail_busyloop:
+>-    while (--i >= 0) {
+>-        vhost_virtqueue_set_busyloop_timeout(hdev, hdev->vq_index + i, 0);
+>+    if (busyloop_timeout) {
+>+        while (--i >= 0) {
+>+            vhost_virtqueue_set_busyloop_timeout(hdev, hdev->vq_index + i, 0);
+>+        }
+>     }
+> fail:
+>     hdev->nvqs = n_initialized_vqs;
+>-- 
+>2.29.2
+>
 
 
