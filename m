@@ -2,69 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C45F13227CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:28:40 +0100 (CET)
-Received: from localhost ([::1]:60120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E3BE3227CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:30:16 +0100 (CET)
+Received: from localhost ([::1]:37840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lETzj-0005ej-Qk
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:28:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48590)
+	id 1lEU1H-00089p-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:30:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lETvC-0001qy-EA; Tue, 23 Feb 2021 04:23:58 -0500
-Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:44669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lETvA-0008AM-FR; Tue, 23 Feb 2021 04:23:58 -0500
-Received: by mail-yb1-xb2b.google.com with SMTP id f4so15775591ybk.11;
- Tue, 23 Feb 2021 01:23:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VdFcHXIi2l6F4v6GC+vrTtJpdUQvJRG9CwLdjk9FXL0=;
- b=a8tTKoNl8L1kszaxPeN7LuLjQL6dbhTilpRxEqDsWfq9MOMNzs8/EiIZHbq0boLl7Z
- y/l/xevqDLdMYC9ww58axSVC1sgv66LLzszsDgiFjACR9a1O7yUoEYj1jQXCk0g+j8PM
- fBFuRih0/gvygt9YuZYYNIAAqjWV8BFgx5JCunIalBHEjGBS9SLwpIjh9h/OpbJ0tvk6
- kuXlelexMGGLd6ugapQcZ/Osnv3w3vHi6g3ckupRlmttN5aBJTSn36NuEuQCgdnetkcv
- 4w2qkYpjT2r6vGoS6yVMLt25J7e18UwpYKCRv1tcrKXzEkiwgcUZSZQQdRzygQpRTAdK
- G4Eg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VdFcHXIi2l6F4v6GC+vrTtJpdUQvJRG9CwLdjk9FXL0=;
- b=pQissLkN+5uzbiyRpZHbwnbPaQPFSF8UtCipk23pbMdMcJJoHvfRVoRufK9794zG2j
- gDZrWYnZxASjvlkOhpK3y/oEe6XMwGQ639MsoH69A1t626jG85/CJ9rsH/JM51E9HD6j
- oSNLEHPG1RhGd8TfogfObgumTHapDsXITbpMl3d80vukPltHfxPDfLJKQfWAX3T0S2te
- CcgC411btu4EBIgnFlkX809LgRxyw7Zl53yYNpGDoyAyan+YBcbqF8ylpdsfYvVJ2chc
- tf77NZS4DKOIbMj95MhwyF8OU8huYaHi7+OASxNKlEiwslrlkecbrRPtEIK7pM/i2H54
- 25Pw==
-X-Gm-Message-State: AOAM531q91M5MwClDgHyP8sCGvG8HVMiJVOvU9JboWavj+eeLOgXcgs6
- h32Hwen/fowMystUphfQFdBxuAv8L8wr0J7BfUIyfd+Z
-X-Google-Smtp-Source: ABdhPJyK06uPPQQaVmY0M5e7GTI1WBUEogC8El8koeVaVFJlHyRvqOFBNsDfpeaqS18cbmVUQTxDjYDem/k/hI04gHQ=
-X-Received: by 2002:a25:d17:: with SMTP id 23mr9112853ybn.387.1614072235045;
- Tue, 23 Feb 2021 01:23:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lETvW-00028B-AW; Tue, 23 Feb 2021 04:24:18 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:27727)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1lETvT-0008Ju-Bf; Tue, 23 Feb 2021 04:24:17 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 65E2D7462FD;
+ Tue, 23 Feb 2021 10:24:13 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id D59677456B7; Tue, 23 Feb 2021 10:24:12 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id D3E0D7456B4;
+ Tue, 23 Feb 2021 10:24:12 +0100 (CET)
+Date: Tue, 23 Feb 2021 10:24:12 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH v3 0/6] Pegasos2 emulation
+In-Reply-To: <YDSHmmzHLzMkd+zF@yekko.fritz.box>
+Message-ID: <55c7284b-d02f-daf-b338-948de3f2d8a7@eik.bme.hu>
+References: <cover.1614007326.git.balaton@eik.bme.hu>
+ <YDSHmmzHLzMkd+zF@yekko.fritz.box>
 MIME-Version: 1.0
-References: <20210222130514.2167-1-bmeng.cn@gmail.com>
- <20210222130514.2167-2-bmeng.cn@gmail.com>
- <20210223092127.GU477672@toto>
-In-Reply-To: <20210223092127.GU477672@toto>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Tue, 23 Feb 2021 17:23:43 +0800
-Message-ID: <CAEUhbmX-nLxDYAHDZQga4ADpy2+2cnKsfxMYucxNC=zUdfFupw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/5] hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA
- model
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,72 +55,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, f4bug@amsat.org,
+ qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Edgar,
+On Tue, 23 Feb 2021, David Gibson wrote:
+> On Mon, Feb 22, 2021 at 04:22:06PM +0100, BALATON Zoltan wrote:
+>> Hello,
+>>
+>> This is adding a new PPC board called pegasos2. More info on it can be
+>> found at:
+>>
+>> https://osdn.net/projects/qmiga/wiki/SubprojectPegasos2
+>>
+>> Currently it needs a firmware ROM image that I cannot include due to
+>> original copyright holder (bPlan) did not release it under a free
+>> licence but I have plans to write a replacement in the future. With
+>> the original board firmware it can boot MorphOS now as:
+>>
+>> qemu-system-ppc -M pegasos2 -cdrom morphos.iso -device ati-vga,romfile="" -serial stdio
+>>
+>> then enter "boot cd boot.img" at the firmware "ok" prompt as described
+>> in the MorphOS.readme. To boot Linux use same command line with e.g.
+>> -cdrom debian-8.11.0-powerpc-netinst.iso then enter
+>> "boot cd install/pegasos"
+>>
+>> The last patch adds the actual board code after previous patches
+>> adding VT8231 and MV64361 system controller chip emulation. The
+>> mv643xx.h header file is taken from Linux and produces a bunch of
+>> checkpatch warnings due to different formatting rules it follows, I'm
+>> not sure we want to adopt it and change formatting or keep it as it
+>> is.
+>
+> A couple of overall comments:
+>
+> * Adding yourself to MAINTAINERS for the new files would be a good
+>   idea
+> * At least some rudimentary tests would be good, though I guess that
+>   might be tricky with non-free firmware
 
-On Tue, Feb 23, 2021 at 5:21 PM Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
-> On Mon, Feb 22, 2021 at 09:05:10PM +0800, Bin Meng wrote:
-> > From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> >
-> > ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-> > is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
-> > crash. This is observed when testing VxWorks 7.
-> >
-> > This adds a Xilinx CSU DMA model and the implementation is based on
-> > https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c.
-> > The DST part of the model is verified along with ZynqMP GQSPI model.
-> >
-> > Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> >
-> > ---
-> >
-> > Changes in v4:
-> > - Add complete CSU DMA model based on Edgar's branch
-> > - Differences with Edgar's branch:
-> >   1. Match the registers' FIELD to UG1807.
-> >   2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
-> >      must be word aligned.
->
-> The relaxation of alignment is a new feature, not included on the ZynqMP but
-> it will be included in future versions. Would be nice to keep it but we can
-> also add it later since it's not really related to QSPI.
+I've described here what could be a test:
 
-I think Xilinx folks can add the "byte-align" property in the future
-patches. Is this a new feature for Versal?
+https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01553.html
 
->
-> >   3. Make the values of int_enable and int_disable mutually exclusive
-> >      otherwise IRQ cannot be delivered.
->
-> This doesn't sound right. The enable and disable regs are stateless.
-> They both indirectly modify the MASK register.
->
-> I.e, setting a bit in the enable register will clear the correspoding bit in the
-> mask register, atomically, without the need for read-modify-write of MASK.
->
-> The disable register does the opposite.
->
-> >   4. Clear int_status after int_disable is set.
->
-> This doesn't sound right either. Status is a w1c register, i.e bits get set
-> when the interrupt event happens in the DMA and bits only get cleared when
-> SW writes a 1 to the STATUS reg to clear bits (write one to clear, w1c).
->
-> Other than the interrupt issues, I think this looks good.
-
-Without these interrupt fixes, our tests cannot pass. We will have a
-further look at your comments.
+but I'm not sure how to implement that in qtest so if somebody helped with 
+that that would be greatly appreciated.
 
 Regards,
-Bin
+BALATON Zoltan
 
