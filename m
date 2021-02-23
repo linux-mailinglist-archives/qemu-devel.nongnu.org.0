@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2F533227B8
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:25:44 +0100 (CET)
-Received: from localhost ([::1]:53688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E863B3227BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 10:25:54 +0100 (CET)
+Received: from localhost ([::1]:54242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lETwt-0002tV-Qf
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:25:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47918)
+	id 1lETx3-00037K-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 04:25:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lETsu-0007cT-6z; Tue, 23 Feb 2021 04:21:38 -0500
-Received: from mail-lf1-x135.google.com ([2a00:1450:4864:20::135]:34273)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1lETso-00077l-RZ; Tue, 23 Feb 2021 04:21:35 -0500
-Received: by mail-lf1-x135.google.com with SMTP id h26so10199621lfm.1;
- Tue, 23 Feb 2021 01:21:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=F9LntpN1FWIwRqg17Dh9EBAlrmROQwLs9HKGXdGU3sg=;
- b=WxWImGwHzfz2DRTUV04m/mXKzP/LG68n7dDP0rd+/UX+59MF8Pavev2hqJ9dxbXuWg
- vpN188M6Ez6N2BVm2jT6ii59d2C1W676323csp48x7Jns9W+2WyAMA3QQjx0onYqjYJB
- O2xXlzjr07YRGd1kNYDL5MTWRKdi9F31S0MZPDRq7nsWdNnkfRpIrh+ACJ3O7In3VHB4
- ixjAIRS83s5RNk/Kc4iw/ufh11+n75kZCsWQYBx+wHZx9CuXnXiGGtVYohAQ1CEEYbwU
- isKOgYnQNI+wZ6uSmuG1Btwqn+s3sY2X1S762SlDnwCiM8OlwRWpPmYRRLzTcaUKeMa8
- f2Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=F9LntpN1FWIwRqg17Dh9EBAlrmROQwLs9HKGXdGU3sg=;
- b=H2fCofYUhntlY6pq0/JqllYgzXpRekcrG9FMB+PvHsi6//AEYAJDoSakqxMg2K7Dyi
- 79CsE1k/LKV0ff5WDI2oE95l1j7Ah/oi7GAG5sSdmPcpvrTzwMHiOnMq25VOCTiUThAr
- WTRuP1rfXmsLxLMI0oTui6JVnr6cfTmlKFTSmcw3BrY0mA1v+qbWu3DH9N2MUAQnn27j
- OfD5u8JVokc7druHgI186HdCO7TRHVssK08xFBePVvdteBVMw8N5eBuOaQoBr49I5vql
- qjq1annv7dV1Kfw3OX99QaGOu1dMTLXkpZrE4bxcNTiO2v6BNE0DvsQCdPiZKDKwoMsQ
- xasQ==
-X-Gm-Message-State: AOAM53048Yz79FxIXjaBxlj4cpgFpFfAdevCItvbvqT7tS42MC2WqzHE
- PYqnSAgmVxASSmdLf56vSEE=
-X-Google-Smtp-Source: ABdhPJwP0TkaabUOSWJUSR+6ekI2CEra8ISOkkrjItIR8zlmevhTuru3Il6pNF2IVjOJ881GiNtGNQ==
-X-Received: by 2002:a05:6512:1051:: with SMTP id
- c17mr16135947lfb.418.1614072088693; 
- Tue, 23 Feb 2021 01:21:28 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id k8sm2504430lfg.41.2021.02.23.01.21.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 23 Feb 2021 01:21:28 -0800 (PST)
-Date: Tue, 23 Feb 2021 10:21:27 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH v4 1/5] hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA
- model
-Message-ID: <20210223092127.GU477672@toto>
-References: <20210222130514.2167-1-bmeng.cn@gmail.com>
- <20210222130514.2167-2-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1lETtx-0000V0-A3; Tue, 23 Feb 2021 04:22:41 -0500
+Received: from sender2-op-o12.zoho.com.cn ([163.53.93.243]:17652)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fam@euphon.net>)
+ id 1lETtt-0007ZG-Ta; Tue, 23 Feb 2021 04:22:40 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614072124; cv=none; d=zoho.com.cn; s=zohoarc; 
+ b=KI9QLjifrWj7+2pzMzK0LOgtnhnU6kZMssr6HySwS8qWbX6oqtSOtDdxUlNHwzL/uKvZR8EfPdF43Wsw0GwHP/eIAiQ8S2oH2OiBDtEQU1NBydKSeU556SPx4JbaBypLFdtDTEPtObEtn9dhzj/oSy8x3fPgdmXCoBE2ozE8kWE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com.cn;
+ s=zohoarc; t=1614072124;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:To;
+ bh=7pwgiyDeiJg+c6BKRE8zO5DPgkPguciczDMASm8djCk=; 
+ b=qbRPiuHlN+AkoL3D3+r9n+DkEXDzTPvVm150QlFU/XcRyVf15BUwF5itsHnNdYOYgYPqIII3EKNZF9YyQ77Z/umiY8sofq+fU5ygJUvD/rO9IZGmi/I7SqssART9Sw49tCEZfD6H2k8AEdyyM3BFhfnSSv14Jzs7cm4om6OGPYo=
+ARC-Authentication-Results: i=1; mx.zoho.com.cn;
+ dkim=pass  header.i=euphon.net;
+ spf=pass  smtp.mailfrom=fam@euphon.net;
+ dmarc=pass header.from=<fam@euphon.net> header.from=<fam@euphon.net>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1614072124; 
+ s=zoho; d=euphon.net; i=fam@euphon.net;
+ h=Date:From:To:Cc:Message-ID:Subject:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To;
+ bh=7pwgiyDeiJg+c6BKRE8zO5DPgkPguciczDMASm8djCk=;
+ b=d+i3LokEhTTu+PNqf5q7yzZWo7IWPn65tt3cPC9Eg0NLbAW7xv+5cSg7ZVu+DLgO
+ JHLS8ojliWse9pWRABlGMdt2X3tazHRLE4r+Jhf5VCj+++f7RCLeACZ0HGo3LiXsw7P
+ CQQsTu+yEQAB0JBI0a7VD+RqxM9RqsI9kv6pY138=
+Received: from localhost (ec2-18-134-147-35.eu-west-2.compute.amazonaws.com
+ [18.134.147.35]) by mx.zoho.com.cn
+ with SMTPS id 1614072122383989.6813412343807;
+ Tue, 23 Feb 2021 17:22:02 +0800 (CST)
+Date: Tue, 23 Feb 2021 09:21:53 +0000
+From: Fam Zheng <fam@euphon.net>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20210223092153.GA122030@ip-172-44-255-31>
+Subject: Re: [PATCH v2 0/2] block: Use 'read-zeroes=true' mode by default
+ with 'null-co' driver
+References: <20210211142656.3818078-1-philmd@redhat.com>
+ <20210213215448.GA67780@ip-172-44-255-31>
+ <3da6a2aa-472e-d9e1-b803-303891513274@redhat.com>
+ <38dd38eb-af59-8baf-b908-fb6c4e842cd1@redhat.com>
+ <20210222173532.GA117898@ip-172-44-255-31>
+ <5f6c8e8f-ccc9-7098-0fb0-53ec1da33466@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20210222130514.2167-2-bmeng.cn@gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::135;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x135.google.com
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <5f6c8e8f-ccc9-7098-0fb0-53ec1da33466@redhat.com>
+X-ZohoCNMailClient: External
+Received-SPF: pass client-ip=163.53.93.243; envelope-from=fam@euphon.net;
+ helo=sender2-op-o12.zoho.com.cn
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,59 +78,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Xuzhou Cheng <xuzhou.cheng@windriver.com>, Bin Meng <bin.meng@windriver.com>,
- qemu-devel@nongnu.org, Francisco Iglesias <francisco.iglesias@xilinx.com>,
- qemu-arm@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 22, 2021 at 09:05:10PM +0800, Bin Meng wrote:
-> From: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> 
-> ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
-> is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
-> crash. This is observed when testing VxWorks 7.
-> 
-> This adds a Xilinx CSU DMA model and the implementation is based on
-> https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c.
-> The DST part of the model is verified along with ZynqMP GQSPI model.
-> 
-> Signed-off-by: Xuzhou Cheng <xuzhou.cheng@windriver.com>
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> ---
-> 
-> Changes in v4:
-> - Add complete CSU DMA model based on Edgar's branch
-> - Differences with Edgar's branch:
->   1. Match the registers' FIELD to UG1807.
->   2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
->      must be word aligned.
+On 2021-02-22 18:55, Philippe Mathieu-Daud=E9 wrote:
+> On 2/22/21 6:35 PM, Fam Zheng wrote:
+> > On 2021-02-19 15:09, Philippe Mathieu-Daud=E9 wrote:
+> >> On 2/19/21 12:07 PM, Max Reitz wrote:
+> >>> On 13.02.21 22:54, Fam Zheng wrote:
+> >>>> On 2021-02-11 15:26, Philippe Mathieu-Daud=E9 wrote:
+> >>>>> The null-co driver doesn't zeroize buffer in its default config,
+> >>>>> because it is designed for testing and tests want to run fast.
+> >>>>> However this confuses security researchers (access to uninit
+> >>>>> buffers).
+> >>>>
+> >>>> I'm a little surprised.
+> >>>>
+> >>>> Is changing default the only way to fix this? I'm not opposed to
+> >>>> changing the default but I'm not convinced this is the easiest way.
+> >>>> block/nvme.c also doesn't touch the memory, but defers to the device
+> >>>> DMA, why doesn't that confuse the security checker?
+> >>
+> >> Generally speaking, there is a balance between security and performanc=
+e.
+> >> We try to provide both, but when we can't, my understanding is securit=
+y
+> >> is more important.
+> >=20
+> > Why is hiding the code path behind a non-default more secure? What is
+> > not secure now?
+>=20
+> Se we are back to the problem of having default values.
+>=20
+> I'd like to remove the default and have the option explicit,
+> but qemu_opt_get_bool() expects a 'default' value.
+>=20
+> Should we rename qemu_opt_get_bool() -> qemu_opt_get_bool_with_default()
+> and add a simpler qemu_opt_get_bool()?
 
-The relaxation of alignment is a new feature, not included on the ZynqMP but
-it will be included in future versions. Would be nice to keep it but we can
-also add it later since it's not really related to QSPI.
+My point is I still don't get the full context of the problem this
+series is trying to solve. If the problem is tools are confused, I would
+like to understand why. What is the thing that matters here, exactly?
 
->   3. Make the values of int_enable and int_disable mutually exclusive
->      otherwise IRQ cannot be delivered.
+But there's always been nullblk.ko in kernel that doesn't lie in the
+name. If we change the default we are not very honest any more about
+what the driver actually does.
 
-This doesn't sound right. The enable and disable regs are stateless.
-They both indirectly modify the MASK register.
+Even if null-co:// and null-aio:// is a bad idea, then let's add
+zero-co://co and zero-aio://, and deprecate null-*://.
 
-I.e, setting a bit in the enable register will clear the correspoding bit in the
-mask register, atomically, without the need for read-modify-write of MASK.
+Fam
 
-The disable register does the opposite.
-
->   4. Clear int_status after int_disable is set.
-
-This doesn't sound right either. Status is a w1c register, i.e bits get set
-when the interrupt event happens in the DMA and bits only get cleared when
-SW writes a 1 to the STATUS reg to clear bits (write one to clear, w1c).
-
-Other than the interrupt issues, I think this looks good.
-
-Cheers,
-Edgar
 
