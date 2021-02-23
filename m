@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E35C323356
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:36:21 +0100 (CET)
-Received: from localhost ([::1]:37892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE38632335E
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 22:44:46 +0100 (CET)
+Received: from localhost ([::1]:43598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEfLw-0002C1-Ip
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:36:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59658)
+	id 1lEfU5-0005HH-CS
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 16:44:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEfKf-0001ef-4h
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:35:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44698)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1lEfKc-0008MD-7Q
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:35:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614116096;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ioMHxitY9UNAoIpGhDlBin8w77qo1R4wHvhl5zk76mg=;
- b=h9oOZC4k6xqv7U4BxQyj7rSpPjRSPXMZuVJChSr8TTJeCPJnSsFnMCBuOtA8J/1hIIyUYg
- eFRx78/AmmYUBCAP3wVCVPJFU7AF4czRtrOKquHf5vs4bbB4eq1BpjnlDqZQ5jCaSp35jK
- m6Am3Mb4G1S+muKSxVcwlp7mTv3HVhc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-23-DYeAW0gBPEe0ELFt28QXhQ-1; Tue, 23 Feb 2021 16:34:54 -0500
-X-MC-Unique: DYeAW0gBPEe0ELFt28QXhQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 488EF107ACF5;
- Tue, 23 Feb 2021 21:34:53 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
- [10.97.116.126])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 14AF519C46;
- Tue, 23 Feb 2021 21:34:44 +0000 (UTC)
-Subject: Re: [PATCH v5 1/4] Jobs based on custom runners: documentation and
- configuration placeholder
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
-References: <20210219215838.752547-1-crosa@redhat.com>
- <20210219215838.752547-2-crosa@redhat.com>
- <3f0a3854-425d-27e7-d466-f6f4db4dd9aa@redhat.com>
- <e884e35a-cb4c-059b-7b67-1c69f7869347@redhat.com>
- <20210223164718.GA987581@amachine.somewhere> <YDU/PgzQCaY10Udl@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <4e479647-390c-cb86-458d-18c412b1d37b@redhat.com>
-Date: Tue, 23 Feb 2021 18:34:41 -0300
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEfT7-0004pU-6L
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:43:45 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:36438)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lEfT5-0003hs-EG
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 16:43:44 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id u14so24069239wri.3
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 13:43:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=uapBLOomuCV/uC3d5ky8n3WORQutm9oG0Cs8yqLlFxQ=;
+ b=W2gG7zbkedbBQrKNcxoMj5ecl5ipOqXlC12pm6y5CEfoQYOMQEqf6RKl84nAKzE+I9
+ aj7l9R4hU0w+jH8+dD8dweFar9WbTyLid7KNlfWfcA7Xbx3eWEP+CJV4rkEwbr2s1gs3
+ wts63Nk3TKn/59/UKyxQrv3UKkZPxbsSYfgkpUNYTecBc5HMqYIkUYi81si/2CD887Zw
+ JqSoS7KnL/OFaQKL3z67FCzCTy7wq5sBF5wtKIpZaREmKyxZVgg2cHG23qJJ6Z+nubnp
+ lY8beH8gmvW0q6Szigd0Ki6Ac53f/B1Xn+7ZZUj/ehjiAq7ofz00ENHQF3i3OyBKaAcE
+ 0gRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=uapBLOomuCV/uC3d5ky8n3WORQutm9oG0Cs8yqLlFxQ=;
+ b=YKXzeu89+2fBdJUZlC490ig+n/YffScLQZ5HOvojCGStBgsOBc5V2vXU1zHkimyXj9
+ Ry0s+x1dTLh8oPE+xHlz49nsnXs7s++K/3sz69r3j/xYXo+UgXqkPbVVICR/xquQVvX3
+ iSaL9JQT4PZeMEQDNAiNmYXat6fInqRuaPAJjPYo4+3iUymtsXWWIvwCqrueb6yJw04K
+ NcOhA9zUUkyDSCtp0hab8EVSMyqqXAj4zzUow90TzryVq3abXHo5g062+9vVgT5NpI2E
+ EEwDXYSmsrceZx/TPRQ98cCw/HmpXG9SWoMDxD+TkySEwGaHO84b0wRWmv6hdE6VvrCZ
+ s07Q==
+X-Gm-Message-State: AOAM533xAYFxWp1VcDL1TBe78JswqyamXk6CdwQ0YAukhX7x96WF1aK+
+ KqAKIBb2OFYlS/Uq1AGS03k=
+X-Google-Smtp-Source: ABdhPJzWcJehpYqCcZgLtfoN4h+a9fGGZ9/kPRnL9eZnG853G09dOEzcNbjAFwqj5RUuJrXdempnvQ==
+X-Received: by 2002:adf:b313:: with SMTP id j19mr4988961wrd.188.1614116621039; 
+ Tue, 23 Feb 2021 13:43:41 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id k15sm76869wrn.0.2021.02.23.13.43.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 13:43:40 -0800 (PST)
+Subject: Re: [PULL 38/46] cpu: move cc->transaction_failed to tcg_ops
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20210205225650.1330794-1-richard.henderson@linaro.org>
+ <20210205225650.1330794-39-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e3c017b9-9f3a-78bd-7406-41a02ca6a597@amsat.org>
+Date: Tue, 23 Feb 2021 22:43:39 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YDU/PgzQCaY10Udl@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210205225650.1330794-39-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,87 +90,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Erik Skultety <eskultet@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Andrea Bolognani <abologna@redhat.com>,
- Willian Rampazzo <wrampazz@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 2/5/21 11:56 PM, Richard Henderson wrote:
+> From: Claudio Fontana <cfontana@suse.de>
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> 
+> [claudio: wrap target code around CONFIG_TCG and !CONFIG_USER_ONLY]
+> 
+> avoiding its use in headers used by common_ss code (should be poisoned).
+> 
+> Note: need to be careful with the use of CONFIG_USER_ONLY,
+> Message-Id: <20210204163931.7358-11-cfontana@suse.de>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/hw/core/cpu.h     | 28 +++++++++++++---------------
+>  hw/mips/jazz.c            |  9 +++++++--
+>  target/alpha/cpu.c        |  2 +-
+>  target/arm/cpu.c          |  4 ++--
+>  target/m68k/cpu.c         |  2 +-
+>  target/microblaze/cpu.c   |  2 +-
+>  target/mips/cpu.c         |  4 +++-
+>  target/riscv/cpu.c        |  2 +-
+>  target/riscv/cpu_helper.c |  2 +-
+>  target/sparc/cpu.c        |  2 +-
+>  target/xtensa/cpu.c       |  2 +-
+>  target/xtensa/helper.c    |  4 ++--
+>  12 files changed, 34 insertions(+), 29 deletions(-)
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 60cf20bf05..41ce1daefc 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -122,6 +122,14 @@ typedef struct TcgCpuOperations {
+>      /** @debug_excp_handler: Callback for handling debug exceptions */
+>      void (*debug_excp_handler)(CPUState *cpu);
+>  
+> +    /**
+> +     * @do_transaction_failed: Callback for handling failed memory transactions
+> +     * (ie bus faults or external aborts; not MMU faults)
+> +     */
+> +    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
+> +                                  unsigned size, MMUAccessType access_type,
+> +                                  int mmu_idx, MemTxAttrs attrs,
+> +                                  MemTxResult response, uintptr_t retaddr);
+>  } TcgCpuOperations;
+>  
+>  /**
+> @@ -133,8 +141,6 @@ typedef struct TcgCpuOperations {
+>   * @has_work: Callback for checking if there is work to do.
+>   * @do_unaligned_access: Callback for unaligned access handling, if
+>   * the target defines #TARGET_ALIGNED_ONLY.
+> - * @do_transaction_failed: Callback for handling failed memory transactions
+> - * (ie bus faults or external aborts; not MMU faults)
+>   * @virtio_is_big_endian: Callback to return %true if a CPU which supports
+>   * runtime configurable endianness is currently big-endian. Non-configurable
+>   * CPUs can use the default implementation of this method. This method should
+> @@ -203,10 +209,6 @@ struct CPUClass {
+>      void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+>                                  MMUAccessType access_type,
+>                                  int mmu_idx, uintptr_t retaddr);
+> -    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
+> -                                  unsigned size, MMUAccessType access_type,
+> -                                  int mmu_idx, MemTxAttrs attrs,
+> -                                  MemTxResult response, uintptr_t retaddr);
+>      bool (*virtio_is_big_endian)(CPUState *cpu);
+>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
+>                             uint8_t *buf, int len, bool is_write);
+> @@ -879,9 +881,6 @@ CPUState *cpu_by_arch_id(int64_t id);
+>  
+>  void cpu_interrupt(CPUState *cpu, int mask);
+>  
+> -#ifdef NEED_CPU_H
+> -
+> -#ifdef CONFIG_SOFTMMU
+>  static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+>                                          MMUAccessType access_type,
+>                                          int mmu_idx, uintptr_t retaddr)
+> @@ -900,14 +899,13 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+>  {
+>      CPUClass *cc = CPU_GET_CLASS(cpu);
+>  
+> -    if (!cpu->ignore_memory_transaction_failures && cc->do_transaction_failed) {
+> -        cc->do_transaction_failed(cpu, physaddr, addr, size, access_type,
+> -                                  mmu_idx, attrs, response, retaddr);
+> +    if (!cpu->ignore_memory_transaction_failures &&
+> +        cc->tcg_ops.do_transaction_failed) {
+> +        cc->tcg_ops.do_transaction_failed(cpu, physaddr, addr, size,
+> +                                          access_type, mmu_idx, attrs,
+> +                                          response, retaddr);
+>      }
+>  }
+> -#endif
+> -
+> -#endif /* NEED_CPU_H */
+>  
+>  /**
+>   * cpu_set_pc:
+> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+> index f9442731dd..46c71a0ac8 100644
+> --- a/hw/mips/jazz.c
+> +++ b/hw/mips/jazz.c
+> @@ -116,6 +116,8 @@ static const MemoryRegionOps dma_dummy_ops = {
+>  #define MAGNUM_BIOS_SIZE_MAX 0x7e000
+>  #define MAGNUM_BIOS_SIZE                                                       \
+>          (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
+> +
+> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+>  static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
+>                                            vaddr addr, unsigned size,
+>                                            MMUAccessType access_type,
+> @@ -137,6 +139,7 @@ static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+>      (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
+>                                    mmu_idx, attrs, response, retaddr);
+>  }
+> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+>  
+>  static void mips_jazz_init(MachineState *machine,
+>                             enum jazz_model_e jazz_model)
+> @@ -205,8 +208,10 @@ static void mips_jazz_init(MachineState *machine,
+>       * memory region that catches all memory accesses, as we do on Malta.
+>       */
+>      cc = CPU_GET_CLASS(cpu);
+> -    real_do_transaction_failed = cc->do_transaction_failed;
+> -    cc->do_transaction_failed = mips_jazz_do_transaction_failed;
+> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+> +    real_do_transaction_failed = cc->tcg_ops.do_transaction_failed;
+> +    cc->tcg_ops.do_transaction_failed = mips_jazz_do_transaction_failed;
+> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
 
-On 2/23/21 2:45 PM, Daniel P. Berrangé wrote:
-> On Tue, Feb 23, 2021 at 11:47:18AM -0500, Cleber Rosa wrote:
->> On Tue, Feb 23, 2021 at 05:37:04PM +0100, Philippe Mathieu-Daudé wrote:
->>> On 2/23/21 12:25 PM, Thomas Huth wrote:
->>>> On 19/02/2021 22.58, Cleber Rosa wrote:
->>>>> As described in the included documentation, the "custom runner" jobs
->>>>> extend the GitLab CI jobs already in place.  One of their primary
->>>>> goals of catching and preventing regressions on a wider number of host
->>>>> systems than the ones provided by GitLab's shared runners.
->>>>>
->>>>> This sets the stage in which other community members can add their own
->>>>> machine configuration documentation/scripts, and accompanying job
->>>>> definitions.  As a general rule, those newly added contributed jobs
->>>>> should run as "non-gating", until their reliability is verified (AKA
->>>>> "allow_failure: true").
->>>>>
->>>>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
->>>>> ---
->>>>>    .gitlab-ci.d/custom-runners.yml | 14 ++++++++++++++
->>>>>    .gitlab-ci.yml                  |  1 +
->>>>>    docs/devel/ci.rst               | 28 ++++++++++++++++++++++++++++
->>>>>    docs/devel/index.rst            |  1 +
->>>>>    4 files changed, 44 insertions(+)
->>>>>    create mode 100644 .gitlab-ci.d/custom-runners.yml
->>>>>    create mode 100644 docs/devel/ci.rst
->>>>>
->>>>> diff --git a/.gitlab-ci.d/custom-runners.yml
->>>>> b/.gitlab-ci.d/custom-runners.yml
->>>>> new file mode 100644
->>>>> index 0000000000..3004da2bda
->>>>> --- /dev/null
->>>>> +++ b/.gitlab-ci.d/custom-runners.yml
->>>>> @@ -0,0 +1,14 @@
->>>>> +# The CI jobs defined here require GitLab runners installed and
->>>>> +# registered on machines that match their operating system names,
->>>>> +# versions and architectures.  This is in contrast to the other CI
->>>>> +# jobs that are intended to run on GitLab's "shared" runners.
->>>>> +
->>>>> +# Different than the default approach on "shared" runners, based on
->>>>> +# containers, the custom runners have no such *requirement*, as those
->>>>> +# jobs should be capable of running on operating systems with no
->>>>> +# compatible container implementation, or no support from
->>>>> +# gitlab-runner.  To avoid problems that gitlab-runner can cause while
->>>>> +# reusing the GIT repository, let's enable the recursive submodule
->>>>> +# strategy.
->>>>> +variables:
->>>>> +  GIT_SUBMODULE_STRATEGY: recursive
->>>> Is it really necessary? I thought our configure script would take care
->>>> of the submodules?
->> I've done a lot of testing on bare metal systems, and the problems
->> that come from reusing the same system and failed cleanups can be very
->> frustrating.  It's unfortunate that we need this, but it was the
->> simplest and most reliable solution I found.  :/
-> Hmmm, this makes it sound like the job is not being run in a
-> fresh pristine checkout. IMHO we need to guarantee that in
-> general, at which point submodules should "just work", unless
-> the running is blocking network access ?
-
-Setting the git strategy may work out:
-
-https://docs.gitlab.com/ee/ci/runners/README.html#git-strategy
-
-- Wainer
-
->
->
->
-> Regards,
-> Daniel
-
+Why CONFIG_USER_ONLY isn't poisoned under hw/ ?
 
