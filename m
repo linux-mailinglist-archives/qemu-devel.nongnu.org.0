@@ -2,69 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96364322ED1
-	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:35:15 +0100 (CET)
-Received: from localhost ([::1]:33248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85293322EF0
+	for <lists+qemu-devel@lfdr.de>; Tue, 23 Feb 2021 17:41:12 +0100 (CET)
+Received: from localhost ([::1]:38398 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEaeY-0007rZ-LB
-	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:35:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40196)
+	id 1lEakJ-0001vl-0T
+	for lists+qemu-devel@lfdr.de; Tue, 23 Feb 2021 11:41:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1lEacX-0006en-7O
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:33:09 -0500
-Received: from mail-il1-x129.google.com ([2607:f8b0:4864:20::129]:36901)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1lEacU-0008FJ-J4
- for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:33:08 -0500
-Received: by mail-il1-x129.google.com with SMTP id k2so6685367ili.4
- for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:33:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=BMZLxTegqq+B/ysuIUF3VxQtmO56nV7KjQfFXkhIFiw=;
- b=PW23wr7FbWq3Oelwbly+ERUOeJZOGbUlLuMMpyZ8yZSHAPmbpESccfedrawcrT0g0i
- QLVwiooTGJWKq0P4cBScw0o0g0FtVetnaJXnAtpcCeRgtsZzRyWZZGZ1cjmnUG7vvGDF
- B4ukewD1aQzpNMs8KyVsGa+2TNrw1+oue8/WDki3s/7Mi6X9KeaMnNFz9zubsAzxd5Do
- +qPFz6WT/tEHjfNjiG1jpSXzR941L8oK6IH29O8vmp18OrFcOQ8P1TnX8peLaHxiW45e
- 6TkDfDy2uuNUE0rrSuaPF4cJZxF3AwRT/S0m4EQ2uN8uMcmC7LSeCU5kdz3PLFIx4Z1D
- +hMA==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEah9-0000cZ-8q
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:37:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEagr-0001wJ-1M
+ for qemu-devel@nongnu.org; Tue, 23 Feb 2021 11:37:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614098255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RyU6KVGXqMAP46/Wj3ApNP5H1Wuw8mZraGX+slkwLy4=;
+ b=g8sRAEUA3PzgflpwxAA6giOdmdWafZho2+fPUsoVA7WluMNUFfxK2Z3wm9toAQnbE+rqZW
+ ISatrI/Pj6RcYwRLGrN3k4OTZw3rdm6vWijii9KnPuh8rTpemZ+EJB1a8ftYqtebWufu4K
+ EgopNF2LiMK7ySvWcexupN9qQHMGSYY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-373-9sA5K4TmM6G0vyr2e3Aqiw-1; Tue, 23 Feb 2021 11:37:07 -0500
+X-MC-Unique: 9sA5K4TmM6G0vyr2e3Aqiw-1
+Received: by mail-ed1-f71.google.com with SMTP id c7so1880106ede.17
+ for <qemu-devel@nongnu.org>; Tue, 23 Feb 2021 08:37:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=BMZLxTegqq+B/ysuIUF3VxQtmO56nV7KjQfFXkhIFiw=;
- b=jKSjkdwl8fQFsPXH5MJX5Oth9Zfr9fg2lGt89qzvphGgr/l+NRs5P98Fq06MOYF0Ha
- xbs7H7M73VY6j0Bk4rbaJ5NrreLYirBlSTPdykSqCwTcO3Fx1E8w/mrDJuenvHzor5bG
- G3GQdRImlGr9AtKrDHUIzeBLJSmRv8z/PRDlU/6IMQYWERG7kQsyf+7oXbeLXQmv4/xO
- 4EUXtfsBDXJGpPXSstzFjXATTXEDncGHPHTOPixW+guXEtmFZ0B+Qx3QusABubTzC/SJ
- 5oZgs4oEIgy7SpjoWyw7PmLPscZ/pMFQzpaLh7LiE4rRMtbfJGR+pcohPz5PHbTWs+7d
- +akg==
-X-Gm-Message-State: AOAM531plB0yMXW2IPkHwMm4rc3xTGKHJrD4qj0Qz32P+gdNiyCe7td3
- ObS2hCZuwr/EsWo3qBPbgVA9+uA+3ABsNhd5hds=
-X-Google-Smtp-Source: ABdhPJzCQePZW8LNeY1xPGGZPj7BhZpBpvFE9XaNDCnetnAPNq7MSRczv1uEdv8iZILiLihVhRmcaAtgzwFLqOpAm3k=
-X-Received: by 2002:a05:6e02:b27:: with SMTP id
- e7mr20275685ilu.253.1614097984764; 
- Tue, 23 Feb 2021 08:33:04 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RyU6KVGXqMAP46/Wj3ApNP5H1Wuw8mZraGX+slkwLy4=;
+ b=XXDzkqQ0Ear3hWRnHOBdTguz4hL+fbM+AAaimrchyHUAtGlbg9a/yMAlR8aScOZ6IZ
+ SK9pI/YlqIScpyOo5XQvalAmoZUJL3lCLE66xJF/p1i3zcAzIubP7alQ8wim9hi+jNVN
+ IuewTN+dlxlMlkvMWcW44PwhNGMVdyOT2VD5lB8k/YdraEFxZR5a1q1OyxEZ3jBwQsfb
+ a1y4PI6v7LY7rz3ykrt2sfmYu8SCc+TCROBIj6px32mBXnH/gNaqgsTHzbIc0XEm5xXB
+ zWEQoQBkx06BY4EYQQRWO3PSe61o1atmI15Xe/M9fYhFBQC6lym7bf1jVrXR4y+g6Y7D
+ lc/w==
+X-Gm-Message-State: AOAM530DwRePwuedDf6XfSL0C+OvpGKuJ55axjmytt+A/LHdtqB0D8Cj
+ P6g43ggOg5e4zug2grkKOvLFIVsNlpjClE876X4msIS+nJ/UU/JwZjUnGPtHCLV9rwUtm0TLPL+
+ Z4NfHUm1lq3xYMdk=
+X-Received: by 2002:a05:6402:3589:: with SMTP id
+ y9mr29363439edc.344.1614098226540; 
+ Tue, 23 Feb 2021 08:37:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwlhHGeChSNyuI9w7ZWrFvZHxGbg12PKXD3313m4xvC5Zk+pIYyYPuPId3oXdfQudtGburHbQ==
+X-Received: by 2002:a05:6402:3589:: with SMTP id
+ y9mr29363402edc.344.1614098226262; 
+ Tue, 23 Feb 2021 08:37:06 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id hc40sm12203277ejc.50.2021.02.23.08.37.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 23 Feb 2021 08:37:05 -0800 (PST)
+Subject: Re: [PATCH v5 1/4] Jobs based on custom runners: documentation and
+ configuration placeholder
+To: Thomas Huth <thuth@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Peter Maydell <peter.maydell@linaro.org>
+References: <20210219215838.752547-1-crosa@redhat.com>
+ <20210219215838.752547-2-crosa@redhat.com>
+ <3f0a3854-425d-27e7-d466-f6f4db4dd9aa@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e884e35a-cb4c-059b-7b67-1c69f7869347@redhat.com>
+Date: Tue, 23 Feb 2021 17:37:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <161290460478.11352.8933244555799318236.stgit@bmoger-ubuntu>
-In-Reply-To: <161290460478.11352.8933244555799318236.stgit@bmoger-ubuntu>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Tue, 23 Feb 2021 17:32:53 +0100
-Message-ID: <CAM9Jb+hOeKrQ1QxZm5zB1LioMNuyzzTObM8XL+zatqP7KdESWA@mail.gmail.com>
-Subject: Re: [PATCH v2] i386: Add the support for AMD EPYC 3rd generation
- processors
-To: Babu Moger <babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::129;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x129.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <3f0a3854-425d-27e7-d466-f6f4db4dd9aa@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,217 +104,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>, Beraldo Leal <bleal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Babu,
+On 2/23/21 12:25 PM, Thomas Huth wrote:
+> On 19/02/2021 22.58, Cleber Rosa wrote:
+>> As described in the included documentation, the "custom runner" jobs
+>> extend the GitLab CI jobs already in place.  One of their primary
+>> goals of catching and preventing regressions on a wider number of host
+>> systems than the ones provided by GitLab's shared runners.
+>>
+>> This sets the stage in which other community members can add their own
+>> machine configuration documentation/scripts, and accompanying job
+>> definitions.  As a general rule, those newly added contributed jobs
+>> should run as "non-gating", until their reliability is verified (AKA
+>> "allow_failure: true").
+>>
+>> Signed-off-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   .gitlab-ci.d/custom-runners.yml | 14 ++++++++++++++
+>>   .gitlab-ci.yml                  |  1 +
+>>   docs/devel/ci.rst               | 28 ++++++++++++++++++++++++++++
+>>   docs/devel/index.rst            |  1 +
+>>   4 files changed, 44 insertions(+)
+>>   create mode 100644 .gitlab-ci.d/custom-runners.yml
+>>   create mode 100644 docs/devel/ci.rst
+>>
+>> diff --git a/.gitlab-ci.d/custom-runners.yml
+>> b/.gitlab-ci.d/custom-runners.yml
+>> new file mode 100644
+>> index 0000000000..3004da2bda
+>> --- /dev/null
+>> +++ b/.gitlab-ci.d/custom-runners.yml
+>> @@ -0,0 +1,14 @@
+>> +# The CI jobs defined here require GitLab runners installed and
+>> +# registered on machines that match their operating system names,
+>> +# versions and architectures.  This is in contrast to the other CI
+>> +# jobs that are intended to run on GitLab's "shared" runners.
+>> +
+>> +# Different than the default approach on "shared" runners, based on
+>> +# containers, the custom runners have no such *requirement*, as those
+>> +# jobs should be capable of running on operating systems with no
+>> +# compatible container implementation, or no support from
+>> +# gitlab-runner.  To avoid problems that gitlab-runner can cause while
+>> +# reusing the GIT repository, let's enable the recursive submodule
+>> +# strategy.
+>> +variables:
+>> +  GIT_SUBMODULE_STRATEGY: recursive
+> 
+> Is it really necessary? I thought our configure script would take care
+> of the submodules?
 
-Have below doubt about exposed CPU flags between EPYC-Rome & EPYC-Milan family.
-Please see below.
+Well, if there is a failure during the first clone (I got one network
+timeout in the middle) then next time it doesn't work:
 
-> Adds the support for AMD 3rd generation processors. The model
-> display for the new processor will be EPYC-Milan.
->
-> Adds the following new feature bits on top of the feature bits from
-> the first and second generation EPYC models.
->
-> pcid          : Process context identifiers support
-> ibrs          : Indirect Branch Restricted Speculation
-> ssbd          : Speculative Store Bypass Disable
-> erms          : Enhanced REP MOVSB/STOSB support
-> fsrm          : Fast Short REP MOVSB support
-> invpcid       : Invalidate processor context ID
-> pku           : Protection keys support
-> svme-addr-chk : SVM instructions address check for #GP handling
->
-> Depends on the following kernel commits:
-> 14c2bf81fcd2 ("KVM: SVM: Fix #GP handling for doubly-nested virtualization")
-> 3b9c723ed7cf ("KVM: SVM: Add support for SVM instruction address check change")
-> 4aa2691dcbd3 ("8ce1c461188799d863398dd2865d KVM: x86: Factor out x86 instruction emulation with decoding")
-> 4407a797e941 ("KVM: SVM: Enable INVPCID feature on AMD")
-> 9715092f8d7e ("KVM: X86: Move handling of INVPCID types to x86")
-> 3f3393b3ce38 ("KVM: X86: Rename and move the function vmx_handle_memory_failure to x86.c")
-> 830bd71f2c06 ("KVM: SVM: Remove set_cr_intercept, clr_cr_intercept and is_cr_intercept")
-> 4c44e8d6c193 ("KVM: SVM: Add new intercept word in vmcb_control_area")
-> c62e2e94b9d4 ("KVM: SVM: Modify 64 bit intercept field to two 32 bit vectors")
-> 9780d51dc2af ("KVM: SVM: Modify intercept_exceptions to generic intercepts")
-> 30abaa88382c ("KVM: SVM: Change intercept_dr to generic intercepts")
-> 03bfeeb988a9 ("KVM: SVM: Change intercept_cr to generic intercepts")
-> c45ad7229d13 ("KVM: SVM: Introduce vmcb_(set_intercept/clr_intercept/_is_intercept)")
-> a90c1ed9f11d ("(pcid) KVM: nSVM: Remove unused field")
-> fa44b82eb831 ("KVM: x86: Move MPK feature detection to common code")
-> 38f3e775e9c2 ("x86/Kconfig: Update config and kernel doc for MPK feature on AMD")
-> 37486135d3a7 ("KVM: x86: Fix pkru save/restore when guest CR4.PKE=0, move it to x86.c")
->
-> Signed-off-by: Babu Moger <babu.moger@amd.com>
-> ---
-> v2: Added svme-addr-chk. Also added all the dependent kernel commits in the log.
->
-> v1: https://lore.kernel.org/qemu-devel/161133338780.27536.17735339269843944966.stgit@bmoger-ubuntu/
->
->  target/i386/cpu.c |  107 +++++++++++++++++++++++++++++++++++++++++++++++++++++
->  target/i386/cpu.h |    4 ++
->  2 files changed, 110 insertions(+), 1 deletion(-)
->
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 9c3d2d60b7..24db7ed892 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -1033,7 +1033,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
->              "clzero", NULL, "xsaveerptr", NULL,
->              NULL, NULL, NULL, NULL,
->              NULL, "wbnoinvd", NULL, NULL,
-> -            "ibpb", NULL, NULL, "amd-stibp",
-> +            "ibpb", NULL, "ibrs", "amd-stibp",
->              NULL, NULL, NULL, NULL,
->              NULL, NULL, NULL, NULL,
->              "amd-ssbd", "virt-ssbd", "amd-no-ssb", NULL,
-> @@ -1798,6 +1798,56 @@ static CPUCaches epyc_rome_cache_info = {
->      },
->  };
->
-> +static CPUCaches epyc_milan_cache_info = {
-> +    .l1d_cache = &(CPUCacheInfo) {
-> +        .type = DATA_CACHE,
-> +        .level = 1,
-> +        .size = 32 * KiB,
-> +        .line_size = 64,
-> +        .associativity = 8,
-> +        .partitions = 1,
-> +        .sets = 64,
-> +        .lines_per_tag = 1,
-> +        .self_init = 1,
-> +        .no_invd_sharing = true,
-> +    },
-> +    .l1i_cache = &(CPUCacheInfo) {
-> +        .type = INSTRUCTION_CACHE,
-> +        .level = 1,
-> +        .size = 32 * KiB,
-> +        .line_size = 64,
-> +        .associativity = 8,
-> +        .partitions = 1,
-> +        .sets = 64,
-> +        .lines_per_tag = 1,
-> +        .self_init = 1,
-> +        .no_invd_sharing = true,
-> +    },
-> +    .l2_cache = &(CPUCacheInfo) {
-> +        .type = UNIFIED_CACHE,
-> +        .level = 2,
-> +        .size = 512 * KiB,
-> +        .line_size = 64,
-> +        .associativity = 8,
-> +        .partitions = 1,
-> +        .sets = 1024,
-> +        .lines_per_tag = 1,
-> +    },
-> +    .l3_cache = &(CPUCacheInfo) {
-> +        .type = UNIFIED_CACHE,
-> +        .level = 3,
-> +        .size = 32 * MiB,
-> +        .line_size = 64,
-> +        .associativity = 16,
-> +        .partitions = 1,
-> +        .sets = 32768,
-> +        .lines_per_tag = 1,
-> +        .self_init = true,
-> +        .inclusive = true,
-> +        .complex_indexing = true,
-> +    },
-> +};
-> +
->  /* The following VMX features are not supported by KVM and are left out in the
->   * CPU definitions:
->   *
-> @@ -4130,6 +4180,61 @@ static X86CPUDefinition builtin_x86_defs[] = {
->          .model_id = "AMD EPYC-Rome Processor",
->          .cache_info = &epyc_rome_cache_info,
->      },
-> +    {
-> +        .name = "EPYC-Milan",
-> +        .level = 0xd,
-> +        .vendor = CPUID_VENDOR_AMD,
-> +        .family = 25,
-> +        .model = 1,
-> +        .stepping = 1,
-> +        .features[FEAT_1_EDX] =
-> +            CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX | CPUID_CLFLUSH |
-> +            CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA | CPUID_PGE |
-> +            CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 | CPUID_MCE |
-> +            CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE | CPUID_DE |
-> +            CPUID_VME | CPUID_FP87,
-> +        .features[FEAT_1_ECX] =
-> +            CPUID_EXT_RDRAND | CPUID_EXT_F16C | CPUID_EXT_AVX |
-> +            CPUID_EXT_XSAVE | CPUID_EXT_AES |  CPUID_EXT_POPCNT |
-> +            CPUID_EXT_MOVBE | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
-> +            CPUID_EXT_CX16 | CPUID_EXT_FMA | CPUID_EXT_SSSE3 |
-> +            CPUID_EXT_MONITOR | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
-> +            CPUID_EXT_PCID,
-> +        .features[FEAT_8000_0001_EDX] =
-> +            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_PDPE1GB |
-> +            CPUID_EXT2_FFXSR | CPUID_EXT2_MMXEXT | CPUID_EXT2_NX |
-> +            CPUID_EXT2_SYSCALL,
-> +        .features[FEAT_8000_0001_ECX] =
-> +            CPUID_EXT3_OSVW | CPUID_EXT3_3DNOWPREFETCH |
-> +            CPUID_EXT3_MISALIGNSSE | CPUID_EXT3_SSE4A | CPUID_EXT3_ABM |
-> +            CPUID_EXT3_CR8LEG | CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM |
-> +            CPUID_EXT3_TOPOEXT | CPUID_EXT3_PERFCORE,
-> +        .features[FEAT_8000_0008_EBX] =
-> +            CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR |
-> +            CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
-> +            CPUID_8000_0008_EBX_IBRS | CPUID_8000_0008_EBX_STIBP |
-> +            CPUID_8000_0008_EBX_AMD_SSBD,
+Updating/initializing submodules recursively...
+Synchronizing submodule url for 'capstone'
+Synchronizing submodule url for 'dtc'
+Synchronizing submodule url for 'meson'
+Synchronizing submodule url for 'roms/QemuMacDrivers'
+Synchronizing submodule url for 'roms/SLOF'
+Synchronizing submodule url for 'roms/edk2'
+Synchronizing submodule url for
+'roms/edk2/ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3'
+Synchronizing submodule url for
+'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli'
+Synchronizing submodule url for
+'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/esaxx'
+Synchronizing submodule url for
+'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/libdivsufsort'
+Synchronizing submodule url for
+'roms/edk2/CryptoPkg/Library/OpensslLib/openssl'
+Synchronizing submodule url for
+'roms/edk2/MdeModulePkg/Library/BrotliCustomDecompressLib/brotli'
+Synchronizing submodule url for
+'roms/edk2/MdeModulePkg/Universal/RegularExpressionDxe/oniguruma'
+Synchronizing submodule url for
+'roms/edk2/UnitTestFrameworkPkg/Library/CmockaLib/cmocka'
+Synchronizing submodule url for 'roms/ipxe'
+Synchronizing submodule url for 'roms/openbios'
+Synchronizing submodule url for 'roms/opensbi'
+Synchronizing submodule url for 'roms/qboot'
+Synchronizing submodule url for 'roms/qemu-palcode'
+Synchronizing submodule url for 'roms/seabios'
+Synchronizing submodule url for 'roms/seabios-hppa'
+Synchronizing submodule url for 'roms/sgabios'
+Synchronizing submodule url for 'roms/skiboot'
+Synchronizing submodule url for 'roms/u-boot'
+Synchronizing submodule url for 'roms/u-boot-sam460ex'
+Synchronizing submodule url for 'roms/vbootrom'
+Synchronizing submodule url for 'slirp'
+Synchronizing submodule url for 'tests/fp/berkeley-softfloat-3'
+Synchronizing submodule url for 'tests/fp/berkeley-testfloat-3'
+Synchronizing submodule url for 'ui/keycodemapdb'
+Entering 'capstone'
+Entering 'dtc'
+Entering 'meson'
+Entering 'roms/QemuMacDrivers'
+Entering 'roms/SLOF'
+Entering 'roms/edk2'
+Entering 'roms/edk2/ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3'
+Entering 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli'
+Entering 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/esaxx'
+Entering
+'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/libdivsufsort'
+Entering 'roms/edk2/CryptoPkg/Library/OpensslLib/openssl'
+Entering 'roms/edk2/MdeModulePkg/Library/BrotliCustomDecompressLib/brotli'
+Entering 'roms/edk2/MdeModulePkg/Universal/RegularExpressionDxe/oniguruma'
+Entering 'roms/edk2/UnitTestFrameworkPkg/Library/CmockaLib/cmocka'
+Entering 'roms/ipxe'
+Entering 'roms/openbios'
+Entering 'roms/opensbi'
+Entering 'roms/qboot'
+Entering 'roms/qemu-palcode'
+Entering 'roms/seabios'
+Entering 'roms/seabios-hppa'
+Entering 'roms/sgabios'
+Entering 'roms/skiboot'
+Entering 'roms/u-boot'
+Entering 'roms/u-boot-sam460ex'
+Entering 'roms/vbootrom'
+Entering 'slirp'
+Entering 'tests/fp/berkeley-softfloat-3'
+Entering 'tests/fp/berkeley-testfloat-3'
+Entering 'ui/keycodemapdb'
+Entering 'capstone'
+HEAD is now at f8b1b833 fix CS_ mips_ OP structure comment error (#1674)
+Entering 'dtc'
+HEAD is now at 85e5d83 Makefile: when building libfdt only, do not add
+unneeded deps
+Entering 'meson'
+HEAD is now at 776acd2a8 Bump versions to 0.55.3 for release
+Entering 'roms/QemuMacDrivers'
+HEAD is now at 90c488d Merge pull request #3 from
+mcayland/fix/unbreak-256-color-mode
+Entering 'roms/SLOF'
+HEAD is now at e18ddad version: update to 20200717
+Entering 'roms/edk2'
+HEAD is now at 06dc822d04 Revert ".pytool/EccCheck: Disable Ecc error
+code 10014 for open CI"
+Entering 'roms/edk2/ArmPkg/Library/ArmSoftFloatLib/berkeley-softfloat-3'
+HEAD is now at b64af41 Fix typo in function
+'softfloat_propagateNaNF128M' for RISC-V.
+Entering 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli'
+HEAD is now at 666c328 Make types of variable match (#796)
+Entering 'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/esaxx'
+HEAD is now at ca7cb33 move to git
+Entering
+'roms/edk2/BaseTools/Source/C/BrotliCompress/brotli/research/libdivsufsort'
+HEAD is now at 5f60d6f Merge pull request #7 from kloetzl/master
+Entering 'roms/edk2/CryptoPkg/Library/OpensslLib/openssl'
+Entering 'roms/edk2/MdeModulePkg/Library/BrotliCustomDecompressLib/brotli'
+HEAD is now at 63be8a9 unichr was removed in Python 3 because all str
+are Unicode (#877)
+Entering 'roms/edk2/MdeModulePkg/Universal/RegularExpressionDxe/oniguruma'
+HEAD is now at b2c1da6 add ONIG_OPTION_CALLBACK_EACH_MATCH test
+Entering 'roms/edk2/UnitTestFrameworkPkg/Library/CmockaLib/cmocka'
+HEAD is now at 160dffe Don't use non-literal format strings
+Entering 'roms/ipxe'
+HEAD is now at 4bd064de [build] Fix building on older versions of gcc
+Entering 'roms/openbios'
+HEAD is now at 7f28286 PPC: mark first 4 pages of physical and virtual
+memory as unavailable
+Entering 'roms/opensbi'
+HEAD is now at a98258d include: Bump-up version to 0.8
+Entering 'roms/qboot'
+HEAD is now at a5300c4 qboot: Disable PIE for ELF binary build step
+Entering 'roms/qemu-palcode'
+HEAD is now at bf0e136 Report machine checks to the kernel
+Entering 'roms/seabios'
+HEAD is now at 155821a docs: Note v1.14.0 release
+Entering 'roms/seabios-hppa'
+HEAD is now at 73b740f7 parisc: Set text planes and used_bits in STI fields
+Entering 'roms/sgabios'
+HEAD is now at cbaee52 SGABIOS: fix wrong video attrs for int 10h, ah==13h
+Entering 'roms/skiboot'
+HEAD is now at 3a6fdede skiboot v6.4 release notes
+Entering 'roms/u-boot'
+HEAD is now at d3689267f9 Prepare v2019.01
+Entering 'roms/u-boot-sam460ex'
+HEAD is now at 60b3916 Add README to clarify relation to U-Boot and
+ACube's version
+Entering 'roms/vbootrom'
+HEAD is now at 0c37a43 Merge pull request #1 from google/disable-build-id
+Entering 'slirp'
+HEAD is now at 8f43a99 Merge branch 'stable-4.2' into 'stable-4.2'
+Entering 'tests/fp/berkeley-softfloat-3'
+HEAD is now at b64af41 Fix typo in function
+'softfloat_propagateNaNF128M' for RISC-V.
+Entering 'tests/fp/berkeley-testfloat-3'
+HEAD is now at 5a59dce fail: constify fail_programName
+Entering 'ui/keycodemapdb'
+HEAD is now at 6119e6e Fix scan codes for Korean keys
+fatal: Needed a single revision
+Unable to find current revision in submodule path
+'roms/edk2/CryptoPkg/Library/OpensslLib/openssl'
+Failed to recurse into submodule path 'roms/edk2'
+ERROR: Job failed: exit status 1
 
-Don't have SSBD flag exposed in default EPYC-Rome CPU configuration?
-Is there any reason for this?
-Or do we need to explicitly add it?
-
-Thanks,
-Pankaj
-
-> +        .features[FEAT_7_0_EBX] =
-> +            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
-> +            CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
-> +            CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
-> +            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_ERMS |
-> +            CPUID_7_0_EBX_INVPCID,
-> +        .features[FEAT_7_0_ECX] =
-> +            CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_PKU,
-> +        .features[FEAT_7_0_EDX] =
-> +            CPUID_7_0_EDX_FSRM,
-> +        .features[FEAT_XSAVE] =
-> +            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-> +            CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES,
-> +        .features[FEAT_6_EAX] =
-> +            CPUID_6_EAX_ARAT,
-> +        .features[FEAT_SVM] =
-> +            CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE | CPUID_SVM_SVME_ADDR_CHK,
-> +        .xlevel = 0x8000001E,
-> +        .model_id = "AMD EPYC-Milan Processor",
-> +        .cache_info = &epyc_milan_cache_info,
-> +    },
->  };
->
->  /* KVM-specific features that are automatically added/removed
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 8d599bb5b8..888c3a59e2 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -816,8 +816,12 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
->  #define CPUID_8000_0008_EBX_WBNOINVD    (1U << 9)
->  /* Indirect Branch Prediction Barrier */
->  #define CPUID_8000_0008_EBX_IBPB        (1U << 12)
-> +/* Indirect Branch Restricted Speculation */
-> +#define CPUID_8000_0008_EBX_IBRS        (1U << 14)
->  /* Single Thread Indirect Branch Predictors */
->  #define CPUID_8000_0008_EBX_STIBP       (1U << 15)
-> +/* Speculative Store Bypass Disable */
-> +#define CPUID_8000_0008_EBX_AMD_SSBD    (1U << 24)
->
->  #define CPUID_XSAVE_XSAVEOPT   (1U << 0)
->  #define CPUID_XSAVE_XSAVEC     (1U << 1)
->
->
 
