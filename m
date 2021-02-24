@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 904BD3240DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:33:56 +0100 (CET)
-Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6533240E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:38:31 +0100 (CET)
+Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEwAk-00045t-Qy
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:33:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41404)
+	id 1lEwFC-0007f8-2x
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:38:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45228)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lEw9T-0003UC-LJ
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:32:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39692)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEwCg-0005gX-DB
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:35:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52323)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lEw9P-0007j4-EY
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:32:35 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEwCe-0001GF-N5
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:35:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614180749;
+ s=mimecast20190719; t=1614180952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=brvuPGV1SrosHnOXedtKg8QhtNjmSRHszz8PNbaiWnI=;
- b=BAFQ+jsAJ/EJv4ig6h3MCUHJAJ4CJsZpl2qiF6dom4Bvi1GCv5CiWWCzNTk7D9UPeQpB0f
- JC86ESukisJ1zpjrG43HaJZbUhAXMEV1EEykJxP4+B5Havvkd3YhXB8mXObalXgDFaHCje
- Kpb22GekztVnwcG4kK2wlXkcRlALdXk=
+ bh=UFZmlzTAuEGE6ZFch0ja74QQhkiVv6QNCnOoPAPVKCM=;
+ b=Xs6bE952YfnnngGoL+7T15MkQYwD7kRki3HWLQWZGRIF35/aynfOxAiLRr5A1N+FONgV/Z
+ /A/cH5lBKZQNF+Y4G29mZvhlQmP0WkJPG6FLkRFjrCi5BqzXNouLgUX75QZDFYqGnq8bza
+ wSwOW+6VVkVv7mGrc5G9HoC0uXHZAGs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-356-MxEmbSe-P5GhRvJWTwWTqA-1; Wed, 24 Feb 2021 10:32:27 -0500
-X-MC-Unique: MxEmbSe-P5GhRvJWTwWTqA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-528-nc2uN8ykNpyDaY7DE5NRew-1; Wed, 24 Feb 2021 10:35:48 -0500
+X-MC-Unique: nc2uN8ykNpyDaY7DE5NRew-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23F10120174A;
- Wed, 24 Feb 2021 14:58:58 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-115-86.rdu2.redhat.com [10.10.115.86])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 566805D6A8;
- Wed, 24 Feb 2021 14:58:52 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id E76E822054F; Wed, 24 Feb 2021 09:58:51 -0500 (EST)
-Date: Wed, 24 Feb 2021 09:58:51 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: qemu-devel@nongnu.org, virtio-fs@redhat.com
-Subject: Re: [PATCH v3 0/2] virtiofsd: Enable posix_acl by default
-Message-ID: <20210224145851.GC3148@redhat.com>
-References: <20210223225250.23945-1-vgoyal@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 63C6B1103897;
+ Wed, 24 Feb 2021 15:01:51 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-142.ams2.redhat.com [10.36.115.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 63DD06E505;
+ Wed, 24 Feb 2021 15:01:25 +0000 (UTC)
+Subject: Re: [PATCH 11/14] block: remove 'encryption_key_missing' flag from
+ QAPI
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-12-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <6884bef5-3d1a-cde8-5429-31987b7e2f6b@redhat.com>
+Date: Wed, 24 Feb 2021 16:01:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210223225250.23945-1-vgoyal@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210224131142.1952027-12-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,57 +83,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lhenriques@suse.de, dgilbert@redhat.com, stefanha@redhat.com,
- miklos@szeredi.hu
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 23, 2021 at 05:52:48PM -0500, Vivek Goyal wrote:
-> Hi,
+On 24/02/2021 14.11, Daniel P. Berrangé wrote:
+> This has been hardcoded to "false" since 2.10.0, since secrets required
+> to unlock block devices are now always provided upfront instead of using
+> interactive prompts.
 > 
-> This is V3 of the patches. Changes since v2 are.
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   block/qapi.c                     |  1 -
+>   docs/system/deprecated.rst       | 10 -------
+>   docs/system/removed-features.rst | 10 +++++++
+>   qapi/block-core.json             |  8 ------
+>   tests/qemu-iotests/184.out       |  6 ++--
+>   tests/qemu-iotests/191.out       | 48 +++++++++++---------------------
+>   tests/qemu-iotests/273.out       | 15 ++++------
+>   7 files changed, 33 insertions(+), 65 deletions(-)
 > 
-> - I dropped the patch to give user an option to enable/disable acls.
->   Now acls are enabled by default if xattrs are enabled and fuse
->   client offers FUSE_POSIX_ACL capability.
->  
-> Miklos mentioned that ACLS might not have lot of overhead as these
-> can be cached. So it might make sense to enable these by default.
+> diff --git a/block/qapi.c b/block/qapi.c
+> index 84a0aadc09..3acc118c44 100644
+> --- a/block/qapi.c
+> +++ b/block/qapi.c
+> @@ -62,7 +62,6 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+>       info->ro                     = bs->read_only;
+>       info->drv                    = g_strdup(bs->drv->format_name);
+>       info->encrypted              = bs->encrypted;
+> -    info->encryption_key_missing = false;
+>   
+>       info->cache = g_new(BlockdevCacheInfo, 1);
+>       *info->cache = (BlockdevCacheInfo) {
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index cb88fea94f..e746a63edf 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -147,16 +147,6 @@ Use argument ``id`` instead.
+>   
+>   Use argument ``id`` instead.
+>   
+> -``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.0)
+> -''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -Always false.
+> -
+> -``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.0)
+> -'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> -
+> -Always false.
+> -
+>   ``blockdev-add`` empty string argument ``backing`` (since 2.10.0)
+>   '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+>   
+> diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+> index bb6bc8dfc8..583f14f02e 100644
+> --- a/docs/system/removed-features.rst
+> +++ b/docs/system/removed-features.rst
+> @@ -112,6 +112,16 @@ chardev client socket with ``wait`` option (removed in 6.0)
+>   Character devices creating sockets in client mode should not specify
+>   the 'wait' field, which is only applicable to sockets in server mode
+>   
+> +``query-named-block-nodes`` result ``encryption_key_missing`` (removed in 6.0)
+> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Always false.
 
-Maybe ACL caching will only work well with cache=auto and cache=always.
-With cache=none it probably will show most extra overhead.
+Should that be "Removed with no replacement", too ? (just like the one below)
 
-For example, with cache=none, I did "su test". And then did "cat foo.txt"
-and every time it results in two GETXATTR(system.posix_acl_access) calls.
+> +``query-block`` result ``inserted.encryption_key_missing`` (removed in 6.0)
+> +'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +Removed with no replacement
+> +
 
-2021-02-24 09:56:09.45-0500] [ID: 00000004] lo_getxattr(ino=1, name=system.posix_acl_access size=4096)
-[2021-02-24 09:56:09.45-0500] [ID: 00000004] lo_getxattr(ino=2, name=system.posix_acl_access size=4096)
-
-So this will definitely impact the performance with cache=none negatively.
-
-I am now inclined to respin the patches and add options to enable/disable
-acl and keep acl disabled by default. Those who need it, can enable it.
-
-Vivek
-
-> 
-> If we run into performance issues, then we can add another patch to
-> give option to enable/disable and disable it by default.
-> 
-> Luis Henriques reported that fstest generic/099 fails with virtiofs.
-> Little debugging showed that we don't enable acl support. This
-> patch series should fix the issue
-> 
-> Vivek Goyal (2):
->   virtiofsd: Add umask to seccom allow list
->   virtiofsd: Enable posix_acls by default if xattrs are enabled
-> 
->  tools/virtiofsd/passthrough_ll.c      | 29 +++++++++++++++++++++------
->  tools/virtiofsd/passthrough_seccomp.c |  1 +
->  2 files changed, 24 insertions(+), 6 deletions(-)
-> 
-> -- 
-> 2.25.4
-> 
+Apart from that nit:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
