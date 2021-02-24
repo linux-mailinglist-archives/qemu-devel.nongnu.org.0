@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB093243BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:27:12 +0100 (CET)
-Received: from localhost ([::1]:43490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E3F73243C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:30:46 +0100 (CET)
+Received: from localhost ([::1]:51934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEysR-00044T-Ka
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:27:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37502)
+	id 1lEyvt-0007iU-AB
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:30:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lEyqJ-0002JM-Qh
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:24:59 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:37061)
+ id 1lEyqK-0002Jv-Rb
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:25:01 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38533)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lEyqI-0004lv-0J
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:24:59 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id h25so3773672eds.4
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:24:57 -0800 (PST)
+ id 1lEyqJ-0004mO-84
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:25:00 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id n20so4652956ejb.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:24:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=uBJ4xrj+hJEP+gaoUps5rPIqMrLdZuVboWYAHOTV5sw=;
- b=SHRwgRx40iraAte4pdKs6p5FYZf+NUi2qPBAG+FhKbumGVjnOE8/0Wsbuh93azCCAu
- etF9qqaCh+uDXRwB+0qJeaEAa1kA0BYvLyxc7+kDna41AAwbUKsds04aHYCNp00oUmik
- nIP9TLeENEDzP3YfambOekA3bzKruUOtwqhYn8R/Xgjl5dG+TbEmkRa1DfNdrWtAaQ1X
- fELafFZAsu/VZTHGImfogZPtj34ebMPwYFhiTV1VFlc31F7V7t9Pf8kwydKmONL3zYdZ
- e9vQNprdEBCp7kJcnlmEzadlTX2L0YUtLQoTO7AAFCUjD1Em7iyUl2ZROKGrZ06CEw9n
- IQdQ==
+ bh=osmTk+V+aeU1VByo64kXupbvRKx+EAC0OdfK2HOG+ik=;
+ b=qJttzzqFEluTgyv/dn0yBp6jSLpDd6q9aGzb6ljO3h7gQs0qqIggSRkzJ9/X9jHBSB
+ rkAygw8Q6iYTaUpezaZ+iOClcmHS82mxiYUtTbTy10ZUD5pM+AXI7Iz7hjBQs4jHgHS4
+ HCVxRrZ/iy7/xdwWBgihsDiHCJ6g4s4/Js7q+7MEOJ0a1jC7lCV3T8w4bA8O8WmrUGOB
+ pxS/fXdnZZ9ybITPOLRiAiQeINqbWn2Qk4P+EDEgxqFz4PZyQZ3JEtOq18xhIp1od2+j
+ aD4+DW+19hPD9beCpsQtdkdJWwhgaleEc7yw04c/59iOnABFYf3RYloDz4fN7XQkmMwk
+ Jh5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=uBJ4xrj+hJEP+gaoUps5rPIqMrLdZuVboWYAHOTV5sw=;
- b=ZerxInMPYBfBllk2hk4/6eS5V9qLh2SCxFw1fdd4Vmh0jctijtiBp2/ysKb8jzbYl6
- 5zgw+Ol/ciEjhDH6i3INqV18lMnpqNVXPQBWoZakb+9/I+wlJIdHB+2dX788L9zSWPQg
- eeXfM0U5dXLLbNqI0ybtjF7psasvtCDHf/+odEcflmTVqOKnoJasY4+E5p+vYgbDw3Yx
- DLJtUAMZvgVvsLeagt3Fiuetth/QftjHDy9N/9f0ri/sGZtIf8RVNjTRo99glhKbVHfY
- oWWQSn2Hv86tIVvCQERcTKM8lQStEsfhDSXdjpwwYIapkiG1dTLepJx2EUh+aTrWJX9X
- MvjQ==
-X-Gm-Message-State: AOAM533ol5IAjKyKgtvvcecKDNTyLlaiwoobz5N+W4xH9NUxPZjleKTq
- 2x2XxzYCcg/q1cXcGTpFGXCSEFnOuA4=
-X-Google-Smtp-Source: ABdhPJxuZONZ1WEjJhrwjQDVrAEnqbLHjOO4JFxmKCDIp2s5cRQD7VV3cTIfCm6fDufPl9N00XYc5A==
-X-Received: by 2002:aa7:d64f:: with SMTP id v15mr18553871edr.358.1614191096685; 
- Wed, 24 Feb 2021 10:24:56 -0800 (PST)
+ bh=osmTk+V+aeU1VByo64kXupbvRKx+EAC0OdfK2HOG+ik=;
+ b=mOckMgqMR+8g4QJSwci9Yb4WQJnGyeKaCXkNBaCxcd7D9fQTGXm8w4iG6j3G8oHEUM
+ CHWCyEhFHixvfack/zC8jo1VAEcucorR1xatF+oKfDt9cOfrPUA8VLpNKD3FFDrYC2q0
+ /yeVCSBh6yAO16413G1XBJ1+KJlCOXBe6PZupl8cTlsJPVGfbRZbhWWZJU7CZDbNoumD
+ Ib8aSwyE6U7/cVeuyvb/1CSsUT8YELb+UDB2J+4i4MaC/wSZeRdbKcAgmccKlq9KjUQA
+ XpCryTuHcKZDbbbcTXlUgvU6/Lu35mU1sBQoO8VkF8OZceCkGAex/8Tj9+dq3MEZPjc5
+ 1nCg==
+X-Gm-Message-State: AOAM533vJ9IxpKix8ZqDqpWmC8t8730+qTcfkT4AQ3PZMdtg35hrVdw1
+ ZUNloNe3rtuvxIPHK2udq2hBHaJyunw=
+X-Google-Smtp-Source: ABdhPJxQFarWTVJuU4flp5VNSfzwi0ZEmR9Kp7EGyTjAqbv0h0slc7F7KhaXQtDol7ZhNXI89vxLig==
+X-Received: by 2002:a17:906:3f96:: with SMTP id
+ b22mr31923202ejj.478.1614191097340; 
+ Wed, 24 Feb 2021 10:24:57 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
  by smtp.gmail.com with ESMTPSA id bw22sm1791172ejb.78.2021.02.24.10.24.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 10:24:56 -0800 (PST)
+ Wed, 24 Feb 2021 10:24:57 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/10] scsi: introduce scsi_sense_from_errno()
-Date: Wed, 24 Feb 2021 19:24:46 +0100
-Message-Id: <20210224182453.587731-4-pbonzini@redhat.com>
+Subject: [PATCH 04/10] scsi-disk: pass SCSI status to scsi_handle_rw_error
+Date: Wed, 24 Feb 2021 19:24:47 +0100
+Message-Id: <20210224182453.587731-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210224182453.587731-1-pbonzini@redhat.com>
 References: <20210224182453.587731-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,165 +88,90 @@ Cc: hare@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The new function is an extension of the switch statement in scsi-disk.c
-which also includes the errno cases only found in sg_io_sense_from_errno.
-This allows us to consolidate the errno handling.
-
-Extracted from a patch by Hannes Reinecke <hare@suse.de>.
+Instead of fishing it from *r->status, just pass the SCSI status
+as a positive value of the second parameter and an errno as a
+negative value.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c  | 45 +++++++-------------------------------
- include/scsi/utils.h |  2 ++
- scsi/utils.c         | 51 +++++++++++++++++++++++++++++++++++---------
- 3 files changed, 51 insertions(+), 47 deletions(-)
+ hw/scsi/scsi-disk.c | 38 +++++++++++++++++++++++++++-----------
+ 1 file changed, 27 insertions(+), 11 deletions(-)
 
 diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 36aa872445..9c6099ffc4 100644
+index 9c6099ffc4..548a5297fa 100644
 --- a/hw/scsi/scsi-disk.c
 +++ b/hw/scsi/scsi-disk.c
-@@ -194,13 +194,13 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+@@ -187,34 +187,48 @@ static void scsi_disk_load_request(QEMUFile *f, SCSIRequest *req)
+  * scsi_handle_rw_error always manages its reference counts, independent
+  * of the return value.
+  */
+-static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
++static bool scsi_handle_rw_error(SCSIDiskReq *r, int ret, bool acct_failed)
+ {
+     bool is_read = (r->req.cmd.mode == SCSI_XFER_FROM_DEV);
+     SCSIDiskState *s = DO_UPCAST(SCSIDiskState, qdev, r->req.dev);
      SCSIDiskClass *sdc = (SCSIDiskClass *) object_get_class(OBJECT(s));
-     BlockErrorAction action = blk_get_error_action(s->qdev.conf.blk,
-                                                    is_read, error);
-+    SCSISense sense;
+-    BlockErrorAction action = blk_get_error_action(s->qdev.conf.blk,
+-                                                   is_read, error);
+-    SCSISense sense;
++    SCSISense sense = SENSE_CODE(NO_SENSE);
++    int error = 0;
++    bool req_has_sense = false;
++    BlockErrorAction action;
++    int status;
  
++    if (ret < 0) {
++        status = scsi_sense_from_errno(-ret, &sense);
++        error = -ret;
++    } else {
++        /* A passthrough command has completed with nonzero status.  */
++        status = ret;
++        if (status == CHECK_CONDITION) {
++            req_has_sense = true;
++            error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
++        } else {
++            error = EINVAL;
++        }
++    }
++
++    action = blk_get_error_action(s->qdev.conf.blk, is_read, error);
      if (action == BLOCK_ERROR_ACTION_REPORT) {
          if (acct_failed) {
              block_acct_failed(blk_get_stats(s->qdev.conf.blk), &r->acct);
          }
--        switch (error) {
--        case 0:
-+        if (error == 0) {
+-        if (error == 0) {
++        if (req_has_sense) {
              /* A passthrough command has run and has produced sense data; check
               * whether the error has to be handled by the guest or should rather
               * pause the host.
-@@ -213,41 +213,12 @@ static bool scsi_handle_rw_error(SCSIDiskReq *r, int error, bool acct_failed)
+              */
+-            assert(r->status && *r->status);
+             if (scsi_sense_buf_is_guest_recoverable(r->req.sense, sizeof(r->req.sense))) {
+                 /* These errors are handled by guest. */
+                 sdc->update_sense(&r->req);
+-                scsi_req_complete(&r->req, *r->status);
++                scsi_req_complete(&r->req, status);
                  return true;
              }
-             error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
--            break;
--#ifdef CONFIG_LINUX
--            /* These errno mapping are specific to Linux.  For more information:
--             * - scsi_decide_disposition in drivers/scsi/scsi_error.c
--             * - scsi_result_to_blk_status in drivers/scsi/scsi_lib.c
--             * - blk_errors[] in block/blk-core.c
--             */
--        case EBADE:
--            /* DID_NEXUS_FAILURE -> BLK_STS_NEXUS.  */
--            scsi_req_complete(&r->req, RESERVATION_CONFLICT);
--            break;
--        case ENODATA:
--            /* DID_MEDIUM_ERROR -> BLK_STS_MEDIUM.  */
--            scsi_check_condition(r, SENSE_CODE(READ_ERROR));
--            break;
--        case EREMOTEIO:
--            /* DID_TARGET_FAILURE -> BLK_STS_TARGET.  */
--            scsi_req_complete(&r->req, HARDWARE_ERROR);
--            break;
--#endif
--        case ENOMEDIUM:
--            scsi_check_condition(r, SENSE_CODE(NO_MEDIUM));
--            break;
--        case ENOMEM:
--            scsi_check_condition(r, SENSE_CODE(TARGET_FAILURE));
--            break;
--        case EINVAL:
--            scsi_check_condition(r, SENSE_CODE(INVALID_FIELD));
--            break;
--        case ENOSPC:
--            scsi_check_condition(r, SENSE_CODE(SPACE_ALLOC_FAILED));
--            break;
--        default:
--            scsi_check_condition(r, SENSE_CODE(IO_ERROR));
--            break;
-+        } else {
-+            int status = scsi_sense_from_errno(error, &sense);
-+            if (status == CHECK_CONDITION) {
-+                scsi_req_build_sense(&r->req, sense);
-+            }
-+            scsi_req_complete(&r->req, status);
-         }
+-            error = scsi_sense_buf_to_errno(r->req.sense, sizeof(r->req.sense));
+         } else {
+-            int status = scsi_sense_from_errno(error, &sense);
+             if (status == CHECK_CONDITION) {
+                 scsi_req_build_sense(&r->req, sense);
+             }
+@@ -240,8 +254,10 @@ static bool scsi_disk_req_check_error(SCSIDiskReq *r, int ret, bool acct_failed)
+         return true;
      }
  
-diff --git a/include/scsi/utils.h b/include/scsi/utils.h
-index 096489c6cd..ff7c7091b6 100644
---- a/include/scsi/utils.h
-+++ b/include/scsi/utils.h
-@@ -135,4 +135,6 @@ int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
-                            SCSISense *sense);
- #endif
+-    if (ret < 0 || (r->status && *r->status)) {
+-        return scsi_handle_rw_error(r, -ret, acct_failed);
++    if (ret < 0) {
++        return scsi_handle_rw_error(r, ret, acct_failed);
++    } else if (r->status && *r->status) {
++        return scsi_handle_rw_error(r, *r->status, acct_failed);
+     }
  
-+int scsi_sense_from_errno(int errno_value, SCSISense *sense);
-+
- #endif
-diff --git a/scsi/utils.c b/scsi/utils.c
-index 793c3a6b9c..6b56e01002 100644
---- a/scsi/utils.c
-+++ b/scsi/utils.c
-@@ -565,21 +565,52 @@ const char *scsi_command_name(uint8_t cmd)
-     return names[cmd];
- }
- 
-+int scsi_sense_from_errno(int errno_value, SCSISense *sense)
-+{
-+    switch (errno_value) {
-+    case 0:
-+        return GOOD;
-+    case EDOM:
-+        return TASK_SET_FULL;
-+#ifdef CONFIG_LINUX
-+        /* These errno mapping are specific to Linux.  For more information:
-+         * - scsi_decide_disposition in drivers/scsi/scsi_error.c
-+         * - scsi_result_to_blk_status in drivers/scsi/scsi_lib.c
-+         * - blk_errors[] in block/blk-core.c
-+         */
-+    case EBADE:
-+        return RESERVATION_CONFLICT;
-+    case ENODATA:
-+        *sense = SENSE_CODE(READ_ERROR);
-+        return CHECK_CONDITION;
-+    case EREMOTEIO:
-+        *sense = SENSE_CODE(LUN_COMM_FAILURE);
-+        return CHECK_CONDITION;
-+#endif
-+    case ENOMEDIUM:
-+        *sense = SENSE_CODE(NO_MEDIUM);
-+        return CHECK_CONDITION;
-+    case ENOMEM:
-+        *sense = SENSE_CODE(TARGET_FAILURE);
-+        return CHECK_CONDITION;
-+    case EINVAL:
-+        *sense = SENSE_CODE(INVALID_FIELD);
-+        return CHECK_CONDITION;
-+    case ENOSPC:
-+        *sense = SENSE_CODE(SPACE_ALLOC_FAILED);
-+        return CHECK_CONDITION;
-+    default:
-+        *sense = SENSE_CODE(IO_ERROR);
-+        return CHECK_CONDITION;
-+    }
-+}
-+
- #ifdef CONFIG_LINUX
- int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
-                            SCSISense *sense)
- {
-     if (errno_value != 0) {
--        switch (errno_value) {
--        case EDOM:
--            return TASK_SET_FULL;
--        case ENOMEM:
--            *sense = SENSE_CODE(TARGET_FAILURE);
--            return CHECK_CONDITION;
--        default:
--            *sense = SENSE_CODE(IO_ERROR);
--            return CHECK_CONDITION;
--        }
-+        return scsi_sense_from_errno(errno_value, sense);
-     } else {
-         if (io_hdr->host_status == SG_ERR_DID_NO_CONNECT ||
-             io_hdr->host_status == SG_ERR_DID_BUS_BUSY ||
+     return false;
 -- 
 2.29.2
 
