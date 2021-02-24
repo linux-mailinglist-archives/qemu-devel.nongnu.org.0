@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3613239F2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 10:54:34 +0100 (CET)
-Received: from localhost ([::1]:45396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40112323A05
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 10:57:56 +0100 (CET)
+Received: from localhost ([::1]:54250 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEqsL-0005ji-Rc
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 04:54:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56676)
+	id 1lEqvb-0001MP-8V
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 04:57:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqoH-00021L-Rd
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23534)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqoJ-00022n-AC
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57901)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqoF-0007RA-Sy
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:21 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqoH-0007S1-4s
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614160218;
+ s=mimecast20190719; t=1614160220;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=exBhVbYMLdFhHtTiYQF/29VAzmR24iwzMveBwY0scMM=;
- b=TcXoJmpV0MthhFZnBVx7V/wCdn+XkaMHP2WsnN+qBuWDOIZIfleX3zLzmdFvtIUwHvOyX8
- Ugoa/sH1kL1Va6JgBd6c75Qov52/VLqQ7yMluFT8QgzksBj2pbuu9ZpBJ2OBbBkQACw9/s
- M2wBNPqKXOZOUNDkqg/a8cp/nyDwf30=
+ bh=cgf7X2V+cNDckZkSdQKWlxDk2IzJLIhZoFvrNRYHRvE=;
+ b=EPkRREdtMcThmKJk+rzsYVusIAUtVCpkWXFghnHsbBEckW7oANFHXkjUUAHysZCV3qBy6a
+ 1WU7MNPyC+s9Hw9RLuU44s9LZmrgJp3Nh56WgJShxd+c8Q7zjXm/32D0qi//9EG5rRhpYC
+ VBbC1Ho1Jn91OPx9CDvQfzrZTN7uNyk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-278--3LCHmW0Mhi7Q9AgY0QA7Q-1; Wed, 24 Feb 2021 04:50:08 -0500
-X-MC-Unique: -3LCHmW0Mhi7Q9AgY0QA7Q-1
+ us-mta-244-LfMgFunMO1iKl1i-UshJYg-1; Wed, 24 Feb 2021 04:50:16 -0500
+X-MC-Unique: LfMgFunMO1iKl1i-UshJYg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 24EEA100A8EB;
- Wed, 24 Feb 2021 09:50:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 96953100A8EE;
+ Wed, 24 Feb 2021 09:50:15 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-83.ams2.redhat.com [10.36.114.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD5D770481;
- Wed, 24 Feb 2021 09:49:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 75832722CE;
+ Wed, 24 Feb 2021 09:50:07 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 03/13] virtio-mem: Factor out traversing unplugged ranges
-Date: Wed, 24 Feb 2021 10:48:59 +0100
-Message-Id: <20210224094910.44986-4-david@redhat.com>
+Subject: [PATCH v7 04/13] virtio-mem: Don't report errors when
+ ram_block_discard_range() fails
+Date: Wed, 24 Feb 2021 10:49:00 +0100
+Message-Id: <20210224094910.44986-5-david@redhat.com>
 In-Reply-To: <20210224094910.44986-1-david@redhat.com>
 References: <20210224094910.44986-1-david@redhat.com>
 MIME-Version: 1.0
@@ -78,21 +79,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
  Wei Yang <richard.weiyang@linux.alibaba.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
  Auger Eric <eric.auger@redhat.com>,
- Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
  teawater <teawaterz@linux.alibaba.com>, Igor Mammedov <imammedo@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Let's factor out the core logic, no need to replicate.
+Any errors are unexpected and ram_block_discard_range() already properly
+prints errors. Let's stop manually reporting errors.
 
-Reviewed-by: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Alex Williamson <alex.williamson@redhat.com>
@@ -106,132 +104,66 @@ Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/virtio/virtio-mem.c | 86 ++++++++++++++++++++++++------------------
- 1 file changed, 49 insertions(+), 37 deletions(-)
+ hw/virtio/virtio-mem.c | 20 ++++----------------
+ 1 file changed, 4 insertions(+), 16 deletions(-)
 
 diff --git a/hw/virtio/virtio-mem.c b/hw/virtio/virtio-mem.c
-index 655824ff81..471e464171 100644
+index 471e464171..bbe42ad83b 100644
 --- a/hw/virtio/virtio-mem.c
 +++ b/hw/virtio/virtio-mem.c
-@@ -145,6 +145,33 @@ static bool virtio_mem_is_busy(void)
-     return migration_in_incoming_postcopy() || !migration_is_idle();
- }
- 
-+typedef int (*virtio_mem_range_cb)(const VirtIOMEM *vmem, void *arg,
-+                                   uint64_t offset, uint64_t size);
-+
-+static int virtio_mem_for_each_unplugged_range(const VirtIOMEM *vmem, void *arg,
-+                                               virtio_mem_range_cb cb)
-+{
-+    unsigned long first_zero_bit, last_zero_bit;
-+    uint64_t offset, size;
-+    int ret = 0;
-+
-+    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
-+    while (first_zero_bit < vmem->bitmap_size) {
-+        offset = first_zero_bit * vmem->block_size;
-+        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
-+                                      first_zero_bit + 1) - 1;
-+        size = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-+
-+        ret = cb(vmem, arg, offset, size);
-+        if (ret) {
-+            break;
-+        }
-+        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
-+                                            last_zero_bit + 2);
-+    }
-+    return ret;
-+}
-+
- static bool virtio_mem_test_bitmap(VirtIOMEM *vmem, uint64_t start_gpa,
-                                    uint64_t size, bool plugged)
+@@ -246,17 +246,14 @@ static int virtio_mem_set_block_state(VirtIOMEM *vmem, uint64_t start_gpa,
+                                       uint64_t size, bool plug)
  {
-@@ -594,33 +621,27 @@ static void virtio_mem_device_unrealize(DeviceState *dev)
-     ram_block_discard_require(false);
- }
+     const uint64_t offset = start_gpa - vmem->addr;
+-    int ret;
++    RAMBlock *rb = vmem->memdev->mr.ram_block;
  
--static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
-+static int virtio_mem_discard_range_cb(const VirtIOMEM *vmem, void *arg,
-+                                       uint64_t offset, uint64_t size)
- {
-     RAMBlock *rb = vmem->memdev->mr.ram_block;
--    unsigned long first_zero_bit, last_zero_bit;
--    uint64_t offset, length;
-     int ret;
+     if (virtio_mem_is_busy()) {
+         return -EBUSY;
+     }
  
--    /* Find consecutive unplugged blocks and discard the consecutive range. */
--    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
--    while (first_zero_bit < vmem->bitmap_size) {
--        offset = first_zero_bit * vmem->block_size;
--        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
--                                      first_zero_bit + 1) - 1;
--        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
--
--        ret = ram_block_discard_range(rb, offset, length);
+     if (!plug) {
+-        ret = ram_block_discard_range(vmem->memdev->mr.ram_block, offset, size);
 -        if (ret) {
 -            error_report("Unexpected error discarding RAM: %s",
 -                         strerror(-ret));
--            return -EINVAL;
--        }
--        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
--                                            last_zero_bit + 2);
-+    ret = ram_block_discard_range(rb, offset, size);
-+    if (ret) {
-+        error_report("Unexpected error discarding RAM: %s", strerror(-ret));
-+        return -EINVAL;
++        if (ram_block_discard_range(rb, offset, size)) {
+             return -EBUSY;
+         }
      }
-     return 0;
- }
- 
-+static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
-+{
-+    /* Make sure all memory is really discarded after migration. */
-+    return virtio_mem_for_each_unplugged_range(vmem, NULL,
-+                                               virtio_mem_discard_range_cb);
-+}
-+
- static int virtio_mem_post_load(void *opaque, int version_id)
+@@ -345,15 +342,12 @@ static void virtio_mem_resize_usable_region(VirtIOMEM *vmem,
+ static int virtio_mem_unplug_all(VirtIOMEM *vmem)
  {
-     if (migration_in_incoming_postcopy()) {
-@@ -872,28 +893,19 @@ static void virtio_mem_set_block_size(Object *obj, Visitor *v, const char *name,
-     vmem->block_size = value;
- }
+     RAMBlock *rb = vmem->memdev->mr.ram_block;
+-    int ret;
  
--static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
-+static int virtio_mem_precopy_exclude_range_cb(const VirtIOMEM *vmem, void *arg,
-+                                               uint64_t offset, uint64_t size)
+     if (virtio_mem_is_busy()) {
+         return -EBUSY;
+     }
+ 
+-    ret = ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb));
+-    if (ret) {
+-        error_report("Unexpected error discarding RAM: %s", strerror(-ret));
++    if (ram_block_discard_range(rb, 0, qemu_ram_get_used_length(rb))) {
+         return -EBUSY;
+     }
+     bitmap_clear(vmem->bitmap, 0, vmem->bitmap_size);
+@@ -625,14 +619,8 @@ static int virtio_mem_discard_range_cb(const VirtIOMEM *vmem, void *arg,
+                                        uint64_t offset, uint64_t size)
  {
-     void * const host = qemu_ram_get_host_addr(vmem->memdev->mr.ram_block);
--    unsigned long first_zero_bit, last_zero_bit;
--    uint64_t offset, length;
+     RAMBlock *rb = vmem->memdev->mr.ram_block;
+-    int ret;
  
--    /*
--     * Find consecutive unplugged blocks and exclude them from migration.
--     *
--     * Note: Blocks cannot get (un)plugged during precopy, no locking needed.
--     */
--    first_zero_bit = find_first_zero_bit(vmem->bitmap, vmem->bitmap_size);
--    while (first_zero_bit < vmem->bitmap_size) {
--        offset = first_zero_bit * vmem->block_size;
--        last_zero_bit = find_next_bit(vmem->bitmap, vmem->bitmap_size,
--                                      first_zero_bit + 1) - 1;
--        length = (last_zero_bit - first_zero_bit + 1) * vmem->block_size;
-+    qemu_guest_free_page_hint(host + offset, size);
-+    return 0;
-+}
- 
--        qemu_guest_free_page_hint(host + offset, length);
--        first_zero_bit = find_next_zero_bit(vmem->bitmap, vmem->bitmap_size,
--                                            last_zero_bit + 2);
+-    ret = ram_block_discard_range(rb, offset, size);
+-    if (ret) {
+-        error_report("Unexpected error discarding RAM: %s", strerror(-ret));
+-        return -EINVAL;
 -    }
-+static void virtio_mem_precopy_exclude_unplugged(VirtIOMEM *vmem)
-+{
-+    virtio_mem_for_each_unplugged_range(vmem, NULL,
-+                                        virtio_mem_precopy_exclude_range_cb);
+-    return 0;
++    return ram_block_discard_range(rb, offset, size) ? -EINVAL : 0;
  }
  
- static int virtio_mem_precopy_notify(NotifierWithReturn *n, void *data)
+ static int virtio_mem_restore_unplugged(VirtIOMEM *vmem)
 -- 
 2.29.2
 
