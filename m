@@ -2,151 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD0553242F1
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:11:59 +0100 (CET)
-Received: from localhost ([::1]:53078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 270AE324316
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:22:18 +0100 (CET)
+Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExhe-00060O-PV
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:11:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44546)
+	id 1lExrd-0006Um-5k
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:22:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lExWX-0004qr-FT
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:00:33 -0500
-Received: from mail-eopbgr150115.outbound.protection.outlook.com
- ([40.107.15.115]:13443 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lExWP-0007nl-Na
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:00:29 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Ch06jjwQ5q26DYrQVhEGHoQlzFJyh4IgjztwNH6nmYo5F4gMFAQ331rLFpfxto0mD3E0oEpFSPJTSMDVhVmqE9ViGNzzfPjx+Ce8Oz4nwWYTCnwhz9wqUj5srPS3bP0BSSch602mZAYY3I7tbKEl+SulgU9U9gYDPdlvSKBeVSoyMN+uiE/MNM72j3fbXN8NsdTuHCoaWg9FfirG7gUu938eA09ry5v3xUVeL3C/Kb+Ypc9y3OGGr+ZOoagbsXhci81qQLp8vYMpIoIc3Hn6rQfTjOXCmHotQErCQij49zEDbArRzfrLWnAUduY3rMfxfhhWZ5Hsp/oSTlII/RDflw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rSHtQeOpcKED5ppctoIdWEwI/VzsvtYP51xIYKUQ+Xo=;
- b=bp/+xyNPnToegZqem6IdH/ltVUTh2Aebp3TDmAbw6aw1cfGpJfVNAyOEtIdJrM3sFBUj66pCEmN/3a2SOAg0HNY2wQZ/mGEMU5kyZR8RYKxUrXp4U8gLoUcMIJ8cYg5u4QQw5EQDdEGWbloSjIl1o6pDHHyf81/kjhYtswAwxttMnXy+DycxLtdz5aM88DBc8D0W6yzbjMoujaN0+ZjU+9BHEwdSlOevmkyOMYgTmgJ2TkUPxPenHl4ecfHVmpkOImarNejWFq8wilAlt8Cb7vocyJvWXTFo0SPrvxBu1Nw24eTwVfcdiW7Fx6c91TvwvN48KR01QD6xINXuD9BP/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rSHtQeOpcKED5ppctoIdWEwI/VzsvtYP51xIYKUQ+Xo=;
- b=qrmHJzQcABjXrkCGqLZN7e2y4UYxI62ZTpgnQIrznSfNseyhjhK4M7BjobI0PWrfmX7Y4C/Hbq2tDNfTNpP7soisVg9Wa0CqVm0v32aoh8WiUbEZGNUxvXp2h7TVqgyKirmzXKLG+dM16jQ4A/TAsKUHe5vHz3bEhalKq9NPZyY=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
- by AM0PR08MB4434.eurprd08.prod.outlook.com (2603:10a6:208:143::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27; Wed, 24 Feb
- 2021 17:00:18 +0000
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3890.019; Wed, 24 Feb 2021
- 17:00:18 +0000
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-To: David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Den Lunev <den@openvz.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>
-References: <20210211210549.GE157159@xz-x1>
- <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
- <20210212030621.GF157159@xz-x1>
- <79c3ebb9-82ba-4714-0cf1-9f2e08eff660@redhat.com>
- <20210212161125.GH157159@xz-x1>
- <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
- <20210216233545.GD91264@xz-x1>
- <add9a7f7-9e02-5024-4bfd-2597a8920ec5@virtuozzo.com>
- <20210219205052.GK6669@xz-x1>
- <d5abc500-a7b2-cf25-db88-b6d4284b910f@virtuozzo.com>
- <6bb24cdb-3f0e-6924-2891-5bf695267615@redhat.com>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <510ea9fc-63ae-b444-4971-caa9b397ef75@virtuozzo.com>
-Date: Wed, 24 Feb 2021 20:00:17 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <6bb24cdb-3f0e-6924-2891-5bf695267615@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-Originating-IP: [109.252.109.82]
-X-ClientProxiedBy: AM9P195CA0018.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:20b:21f::23) To AM0PR08MB3364.eurprd08.prod.outlook.com
- (2603:10a6:208:e4::15)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lExXA-00051Q-ME
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:01:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28326)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1lExX1-00081f-BA
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:01:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614186056;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=eLxTv4tCQACzWuMFqyGApWLUEtWN5eG2sFrUNM+uLxU=;
+ b=fKamr2/QcwhNU578e3/DhBDg8N8shpPCb8IlfcCaqrrH3obTh3ZMOQTlo09jwAVdXmGVdK
+ JJR6/NJiWtBFrqq51NmmiixlUvgtOO8LaklZGwPEI91s+uU3CtFKrKcO3op6PbbFpuxkY6
+ KWqortb5XwvC2UyvJ5yXUXJUH4FJ3v4=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-145-Zg6wE1ZwN0iakGex1IZykg-1; Wed, 24 Feb 2021 12:00:46 -0500
+X-MC-Unique: Zg6wE1ZwN0iakGex1IZykg-1
+Received: by mail-ed1-f71.google.com with SMTP id g20so1212619edr.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 09:00:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=eLxTv4tCQACzWuMFqyGApWLUEtWN5eG2sFrUNM+uLxU=;
+ b=npIm6AqzlFHUvvPEmvr/emRzX3zdf6GEoeWoTvxipCWnLrhcHubLy9AOJS1WP1Q6no
+ LQb4Soa8h0gn5ZAUMSitwmmXNf9dH1fPXN/NMXxq3jzpM5aPy+BhWdcdejfp4Kg70XnE
+ BBb460kWFFY661XG6LVhtR/9qhM/UXjU+LN8SXjuezwhX2zJIjTgdZvaYjgU+5sGMh9B
+ 6Sat/0Op/M/BNsikr1HWk/oVgMwpaVAhmZ2nNmqQ3vDah1JWCDqGqmVhAK7jOAn/S3Ol
+ xff3Bh9Nx1VGfLeyTVBzqdsdhlJHdVsxPUTbVds8jDpP7NVJU4tlhrC678BdZYcaknO8
+ Xhog==
+X-Gm-Message-State: AOAM53347F7HWdNA/5CHHq694CvxZaiZDqPMucVV5p9hA3hrxhm8M8PC
+ W5Ou8TGkPbCfc1rUwE1vDCXKRzN57tgdKtKP2STUp/iqY+lb3OXwMv8V7qXZeRZbeDlR14TEHYw
+ jhEaksA2hiFI6PmDf85dhOnVvLJWBzdoMSKEVXY79yMLhBB5e//pX+VSuTbW/7HW9c5c=
+X-Received: by 2002:a17:907:4cf:: with SMTP id
+ vz15mr21588899ejb.39.1614186044979; 
+ Wed, 24 Feb 2021 09:00:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwr3w6v4X3PVaiu6Ez0pKcQHYRWQcfpRjjJMyrhV2TCOIr8r0v6uZJXr4vonq71z7tbtELuNQ==
+X-Received: by 2002:a17:907:4cf:: with SMTP id
+ vz15mr21588860ejb.39.1614186044682; 
+ Wed, 24 Feb 2021 09:00:44 -0800 (PST)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id bz25sm1701682ejc.97.2021.02.24.09.00.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 09:00:44 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
+ enablement/disablement
+In-Reply-To: <20210224170622.786515d6@redhat.com>
+References: <20210210164033.607612-1-vkuznets@redhat.com>
+ <20210210164033.607612-17-vkuznets@redhat.com>
+ <20210211183555.2136b5c8@redhat.com> <87tuqhllmn.fsf@vitty.brq.redhat.com>
+ <20210212151259.3db7406f@redhat.com> <87k0rdl3er.fsf@vitty.brq.redhat.com>
+ <20210212170113.30a902b2@redhat.com> <87eehhlnj5.fsf@vitty.brq.redhat.com>
+ <20210215180106.7e573e6a@redhat.com> <87sg5xjj60.fsf@vitty.brq.redhat.com>
+ <87mtvw4d59.fsf@vitty.brq.redhat.com> <20210223161948.56bf86c0@redhat.com>
+ <871rd6yefp.fsf@vitty.brq.redhat.com> <20210223184802.7080da4a@redhat.com>
+ <87y2fewtat.fsf@vitty.brq.redhat.com> <20210224170622.786515d6@redhat.com>
+Date: Wed, 24 Feb 2021 18:00:43 +0100
+Message-ID: <87o8g9wgck.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.3] (109.252.109.82) by
- AM9P195CA0018.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:21f::23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3868.27 via Frontend Transport; Wed, 24 Feb 2021 17:00:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 40769b91-745e-479e-17bb-08d8d8e5aa23
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4434:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB4434FEB1137AFA0C226AFFE69F9F9@AM0PR08MB4434.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3wztBnNIR4U1aMv18VNFIHe1dtZ7kNcj6kY2UuX3uL/nPXYfgs5h9+8lYKOqu7zsYk9JXXKePgdoGvWwWYwWY7/3nRVUfEibtmC6O9cMreay+E3zIRY/wtuXsHG4gJ0svXQmnxpc3Jql92ollPcBTbqZ4Mj25KCfHtJYmNMP4/NcvweCAe9jUGtf/4n44uE03OihaDLvy/XOgodo0K/8iUbERdGzjUDiVtlhdN4XF6RS+YtoOH3uepFXXicvJ7eiQ0XkBHEW/cAaDVzKi7OIGxwGmYq6E/z+9gEFGVmF4HmPmnGO1qxeycTT3T1b+DOj4mHKWQh2FzMiJqamkAaLD816SbO5+mDitrPmbBz157+77x0gEnXtVqOvFE26iLS1C4Lp1W374UkNRDdT5mbVJkxAPDJnKPTek6beXwFpr3bZqN0drZS8Xa/iU3EbpCAV66zRlKUS8qbQnBS12ii0Rben8RqRfHahFIoRhA9UUWkKNRBu5THiPg1LzMSw3My4YCmyHHgJSkyurLKmXjslEL+ktZA6J/tpW4SUxQFiSdzaDq6C0Of7l22DeDqGq2Ug7KVnRCpJMVYm2EMnCUgH8ljWIDUL2LeuLy4BU3hOt8M=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(366004)(136003)(396003)(346002)(376002)(5660300002)(53546011)(956004)(4326008)(66946007)(31686004)(16526019)(8936002)(110136005)(16576012)(316002)(8676002)(6486002)(26005)(2616005)(86362001)(2906002)(83380400001)(54906003)(31696002)(66556008)(478600001)(52116002)(36756003)(44832011)(66476007)(186003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OXJBTEFKaFNIR0FHSjFHNzJZSkxLQmhzcUt3bkJ4M2U1ejNMTmQ4dHNyNlpF?=
- =?utf-8?B?eFp1V3NvelJnMlZqSmEyL2ZHUmlhN25BRlQ2QndWdWtoZ2FVOG1GZjhwUy95?=
- =?utf-8?B?SlQyNkQ5dng1U0xSV05VdU9lU3AxeW5qRjRuanFITlZqb3JqY2YwTnh0TVA5?=
- =?utf-8?B?OGFMOTRGaW5JUjBZM2QyY0FpU3lsTG1yZzl6Y0Q5emE2TXgxT2xkbjdHSHph?=
- =?utf-8?B?YUpGenBDbExvcEdWSTIrV2pyU3MyVkx5QllOT1pkU1BQcG1YNFFHRHBMWGtZ?=
- =?utf-8?B?V0tIdEo5aER4VEFxRStyZlBVR0dNd2E4amhwc1BrSVBqWUt2eXhNWlZPQmpX?=
- =?utf-8?B?SVFTQlRRWEl0RXZrOXZsMzF1TnVQbkNmN1VHdyt5OGprZ0VJUzZMcWxWcWdv?=
- =?utf-8?B?YVAwbm1QWkdpQ3JROElQcEdoUzNvdjNPSXZWTzZGbkN0QUQvWlYwZHYzdXpN?=
- =?utf-8?B?Skhzd1BCQ1ErdDdWUGhDcGRqbDRQVjlmU0NmbVo1VkFnaXVwRzhRSi9VNmdH?=
- =?utf-8?B?VFpwT3pxdzVJdkRnc3dKUGpXN3VrVzkvMm1HZS85SDFSRXdlWi9DTEU1YmtG?=
- =?utf-8?B?cGhybS9RRlRBTzdXYlFHMWM2M0hDTU90end5Rkt2bk93d00wTkxMd1ZFUXlp?=
- =?utf-8?B?S2V4bnI0bGRHckFWSDcycVo4a3FwRmdscGtUVG5vdlBjUyt2UXZSVFVmUFFQ?=
- =?utf-8?B?L25WSWpVTDZ3U1dXVlRBenNBWVAzOU54dlQ4STZvREVZZnBwcWtkYXQ0Ly9v?=
- =?utf-8?B?eHhsOWpiT1lobm5xdnNFZDJBRVRkZkNZRGdJQWdqMGpRNnp5R1lRRFdCeXFV?=
- =?utf-8?B?ZjhLY2RSdXFQM2FsRGtIbE04aHE3RWpKT1lXcHdKSm9nTWFYRFZtc3VmQ1JE?=
- =?utf-8?B?UmU1RVlkczlyOWM3SVBVWGIzTFNTdll6NkpFQnBFRWlXd0FzVGRVVUs0QU5G?=
- =?utf-8?B?eWdreFc0a200d0JNUWF2M0VyNnJlSExRSjVJV2tESG13VzBYbFNlOVZURzR2?=
- =?utf-8?B?anQrdk0zRCtuL0xaK3Vkd05CVE10VThDMW9JUFBZNVBmM3NMdDFOS3hlOUl0?=
- =?utf-8?B?QllRS1Q5a0hmdDIySjZiSHFEdWxEbUZGL0ZKbURVTDBkbyswbzh0MEdmRTRC?=
- =?utf-8?B?KzNrV3hCc01rRjVjelBteCtOMXdkR3BadEFhNTYrSDNBQUtqQWZZT1g4Nk9L?=
- =?utf-8?B?Q0dBbkN3aVVjcjlpSForNHcvdE0rWExIalFsRGhoTWN6eTcyektIRDVXV2w0?=
- =?utf-8?B?dHVYRHJkR0o3N3I2YUN2ZDNNc1J4QWx6VnJEdFRjd2Q1MFhiRzIyZERWenpu?=
- =?utf-8?B?TC9kcmZxeVBSdmtkZDYyN3h5dnJmR2lwQjQ4UTBmS01SZTFiU2xzdWNpRE9x?=
- =?utf-8?B?NWtlc002Skg0bjNkR0EyLzdNL3VUOXRVRzF0R0NScGppaDgvalV1TFRPaGtX?=
- =?utf-8?B?WkU3c1NEZ3RFbDQrZXJtd1dHd2JyVUFqSmFCbVV3Z3JJSHcrcVFYY0t6R3B0?=
- =?utf-8?B?OWFTZDRtMXFmVnB3WVhjY001UUh0Ri9tKzlBaHAwQmVaZmdSSmJMUEJNUjRD?=
- =?utf-8?B?dG5yN1hRZEg0cVdrQkRrL0J6OVBsY3lwWmVwa0xtNnhORVZxYWtkK1o4QzVq?=
- =?utf-8?B?ZHVDdlVMYnFIazV5TXpFNGpWZHNjZ2hHZFZlZmZ4RVV5alFVSGRkU2J6bVZG?=
- =?utf-8?B?V003dy9lVklzazB6aGVNVG5pM3dUQUgvTG9MaDN0aEpjbENtVHZ0N201QVla?=
- =?utf-8?Q?CBvUtvWB5kKDOg+lEvxx6gat6wGMVPT27pLJT6n?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 40769b91-745e-479e-17bb-08d8d8e5aa23
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2021 17:00:18.7431 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zJkQjwQLY4qzB7DOyjHtcmK+p46Hc/hRSRjk6owWDOGOII9ntTO3kLTm2G2+++Yp4GOOmrIjinMq/5XvOPh+QaefIuiw+pM8y96lNTHC7gY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4434
-Received-SPF: pass client-ip=40.107.15.115;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -159,45 +102,287 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24.02.2021 19:54, David Hildenbrand wrote:
->>>> Anyhow I'm quite sure that adding global MISSING handler for 
->>>> snapshotting
->>>> is too heavy and not really needed.
->>> UFFDIO_ZEROCOPY installs a zero pfn and that should be all of it.  
->>> There'll
->>> definitely be overhead, but it may not be that huge as imagined.  
->>> Live snapshot
->>> is great in that we have point-in-time image of guest without 
->>> stopping the
->>> guest, so taking slightly longer time won't be a huge loss to us too.
->>>
->>> Actually we can also think of other ways to work around it. One way 
->>> is we can
->>> pre-fault all guest pages before wr-protect.  Note that we don't 
->>> need to write
->>> to the guest page because read would suffice, since uffd-wp would 
->>> also work
->>> with zero pfn.  It's just that this workaround won't help on saving 
->>> snapshot
->>> disk space, but it seems working.  It would be great if you have other
->>> workarounds, maybe as you said UFFDIO_ZEROCOPY is not the only route.
->>>
->>> Thanks,
->>>
->> Just to add: one of the good options is too keep track of 
->> virtio-baloon discarded pages and
->> pre-fault them before migration starts. What do you think?
+Igor Mammedov <imammedo@redhat.com> writes:
+
+> On Tue, 23 Feb 2021 19:08:42 +0100
+> Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
 >
-> Just pre-fault everything and inhibit the balloon. That should work.
+>> Igor Mammedov <imammedo@redhat.com> writes:
+>> 
+>> > On Tue, 23 Feb 2021 16:46:50 +0100
+>> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+>> >  
+>> >> Igor Mammedov <imammedo@redhat.com> writes:
+>> >>   
+>> >> > On Mon, 22 Feb 2021 11:20:34 +0100
+>> >> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+>> >> >    
+>> >> >> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
+>> >> >>     
+>> >> >> > Igor Mammedov <imammedo@redhat.com> writes:
+>> >> >> >      
+>> >> >> >>> 
+>> >> >> >>> We need to distinguish because that would be sane.
+>> >> >> >>> 
+>> >> >> >>> Enlightened VMCS is an extension to VMX, it can't be used without
+>> >> >> >>> it. Genuine Hyper-V doesn't have a knob for enabling and disabling it,      
+>> >> >> >> ...      
+>> >> >> >>> That bein said, if
+>> >> >> >>> guest CPU lacks VMX it is counter-productive to expose EVMCS. However,
+>> >> >> >>> there is a problem with explicit enablement: what should
+>> >> >> >>> 
+>> >> >> >>> 'hv-passthrough,hv-evmcs' option do? Just silently drop EVMCS? Doesn't
+>> >> >> >>> sound sane to me.      
+>> >> >> >> based on above I'd error out is user asks for unsupported option
+>> >> >> >> i.e. no VMX -> no hv-evmcs - if explicitly asked -> error out      
+>> >> >> >
+>> >> >> > That's what I keep telling you but you don't seem to listen. 'Scratch
+>> >> >> > CPU' can't possibly help with this use-case because when you parse 
+>> >> >> >
+>> >> >> > 'hv-passthrough,hv-evmcs,vmx=off' you
+>> >> >> >
+>> >> >> > 1) "hv-passthrough" -> set EVMCS bit to '1' as it is supported by the
+>> >> >> > host.
+>> >> >> >
+>> >> >> > 2) 'hv-evmcs' -> keep EVMCS bit '1'
+>> >> >> >
+>> >> >> > 3) 'vmx=off' -> you have no idea where EVMCS bit came from.
+>> >> >> >
+>> >> >> > We have to remember which options were aquired from the host and which
+>> >> >> > were set explicitly by the user.       
+>> >> >> 
+>> >> >> Igor,
+>> >> >> 
+>> >> >> could you please comment on the above? In case my line of thought is
+>> >> >> correct, and it is impossible to distinguish between e.g.
+>> >> >> 
+>> >> >> 'hv-passthrough,hv-evmcs,-vmx'
+>> >> >> and
+>> >> >> 'hv-passthrough,-vmx'
+>> >> >> 
+>> >> >> without a custom parser (written just exactly the way I did in this
+>> >> >> version, for example) regardless of when 'hv-passthrough' is
+>> >> >> expanded. E.g. we have the exact same problem with
+>> >> >> 'hv-default,hv-evmcs,-vmx'. I that case I see no point in discussing    
+>> >> >
+>> >> > right, if we need to distinguish between explicit and implicit hv-evmcs set by
+>> >> > hv-passthrough custom parser probably the way to go.
+>> >> >
+>> >> > However do we need actually need to do it?    
+>> >> 
+>> >> I think we really need that. See below ...
+>> >>   
+>> >> > I'd treat 'hv-passthrough,-vmx' the same way as 'hv-passthrough,hv-evmcs,-vmx'
+>> >> > and it applies not only hv-evmcs but other features hv-passthrough might set
+>> >> > (i.e. if whatever was [un]set by hv-passthrough in combination with other
+>> >> > features results in invalid config, QEMU shall error out instead of magically
+>> >> > altering host provided hv-passthrough value).
+>> >> >
+>> >> > something like:
+>> >> >   'hv-passthrough,-vmx' when hv-passthrough makes hv-evmcs bit set
+>> >> > should result in
+>> >> >   error_setg(errp,"'vmx' feature can't be disabled when hv-evmcs is enabled,"
+>> >> >                  " either enable 'vmx' or disable 'hv-evmcs' along with disabling 'vmx'"
+>> >> >
+>> >> > making host's features set, *magically* mutable, depending on other user provided features
+>> >> > is a bit confusing. One would never know what hv-passthrough actually means, and if
+>> >> > enabling/disabling 'random' feature changes it.
+>> >> >
+>> >> > It's cleaner to do just what user asked (whether implicitly or explicitly) and error out
+>> >> > in case it ends up in nonsense configuration.
+>> >> >    
+>> >> 
+>> >> I don't seem to agree this is a sane behavior, especially if you replace
+>> >> 'hv-passthrough' with 'hv-default' above. Removing 'vmx' from CPU for
+>> >> Windows guests is common if you'd want to avoid nested configuration:
+>> >> even without any Hyper-V guests created, Windows itself is a Hyper-V
+>> >> partition.
+>> >> 
+>> >> So a sane user will do:
+>> >> 
+>> >> '-cpu host,hv-default,vmx=off' 
+>> >> 
+>> >> and on Intel he will get an error, and on AMD he won't. 
+>> >> 
+>> >> So what you're suggesting actually defeats the whole purpose of
+>> >> 'hv-default' as upper-layer tools (think libvirt) will need to know that  
+>> > I'd assume it would be hard for libvirt to use 'hv-default' from migration
+>> > point of view. It's semi opaque (one can find out what features it sets
+>> > indirectly inspecting individual hv_foo features, and mgmt will need to
+>> > know about them). If it will mutate when other features [un]set, upper
+>> > layers might need to enumerate all these permutations to know which hosts
+>> > are compatible or compare host feature sets every time before attempting
+>> > migration.
+>> 
+>> That's exactly the opposite of what's the goal here which is: make it
+>> possible for upper layers to not know anything about Hyper-V
+>> enlightenments besides 'hv-default'. Migration should work just fine, if
+>> the rest of guest configuration matches -- then 'hv-default' will create
+>> the exact same things (e.g. if 'vmx' was disabled on the source it has
+>             ^^^^^
+> I'm not convinced in that yet (not with current impl. more on that at the end of reply)
 >
-Yep.
+>> to be enabled on the destination, it can't be different)
+>> 
+>> 
+>> >> Intel configurations for Windows guests are somewhat different. They'll
+>> >> need to know what 'hv-evmcs' is. We're back to where we've started.  
+>> >
+>> > we were talking about hv-passthrough, and if host advertises hv-evmcs
+>> > QEMU should complain if user disabled features it depends on (
+>> > not silently fixing up configuration error).
+>> > But the same applies to hv-default.  
+>> 
+>> Let's forget about hv-passthrough completely for a while as this series
+>> is kind of unrelated to it.
+>
+> It adds a lot for unrelated code (not just couple of lines),
+> I've played with scratch CPU idea, here is demo of it
+> https://github.com/imammedo/qemu/commit/a4b107d5368ebf72d45082bc8310a6b88a4ba6fb
+> I didn't rework caps/cpuid querying parts (just hacked around it),
+> and even without that it saves us ~200LOC (not a small part of which comes
+> with this series).
+
+All your savings come from throwing away custom parsers -- which are not
+needed at all if we don't distinguish between
+
+'hv-default,hv-evmcs' and 'hv-default'
+
+it's just not needed, don't count these patches in. Or, if it is needed,
+please explain how your scratch CPU is making things different. I guess
+it is not so we can discuss this outside of this series.
+
+> I also split horrible hv_cpuid_check_and_set into separate 'set' and 'check' stages.
+> Granted it was sort-of pre-existing ugly code, some of your
+> re-factoring made it a bit better but it's still far from readable.
+>  
+
+hv_cpuid_check_and_set() is already there, I'm not at all opposed to
+making this code even better but I don't see it as a must for this
+particular feature (hv-default).
+
+>> In the previous submission I was setting 'hv-default' based on host
+>> availability of the feature only. That is: set on Intel, unset on
+>> AMD. We have to at least preserve that because it would be insane to
+>> crash on
+>> 
+>> -cpu host,hv-default 
+>> 
+>> on AMD because AMD doesn't (and never will!) support hv-evmcs, right?
+>
+> If QEMU prevents cross arch migration i.e. it's not supported,
+> then I guess we can make hv-default different depending on AMD or Intel host.
+> If not then we might need to be conservative i.e. exclude hv-evmcs from defaults.
+>
+
+Forget about cross vendor. I want to tie it 1:1 to VMX feature on the
+guest CPU -- which happens to be only available on Intel. It is
+absolutely impossible to migrate VMX enabled guest to VMX-disabled
+destination, with or without evmcs.
+
+
+>> >> If we are to follow this approach let's just throw away 'hv-evmcs' from
+>> >> 'hv-default' set, it's going to be much cleaner. But again, I don't
+>> >> really believe it's the right way to go.  
+>> >
+>> > if desired behavior, on Intel host for above config, to start without error
+>> > then indeed defaults should not set 'hv-evmcs' if it results in invalid
+>> > feature set.  
+>> 
+>> This is problematic as it is still sane for everyone to enable it as it
+>> gives performance advantage. If we just for a second forget about custom
+>   "
+>     > >> So a sane user will do:
+>     > >> 
+>     > >> '-cpu host,hv-default,vmx=off'
+>   "
+>   it's not easy picking defaults.
+>
+>> parsers and all that -- which is just an implementation detail, why can't
+>> we tie 'hv-evmcs' bit in 'hv-default' to 'vxm' 1:1?
+> migration wise I don't see issues wrt vmx=off turning of hv-evmcs,
+> however ...
+>
+> we were replacing user input fixups with hard errors asking
+> user to fix CLI and removing custom parsers in favor of generic ones.
+>
+> In vmx=off case we would be fixing up what 'hv-default' explicitly set.
+> Same applies to other hv-foo set by hv-default.
+>
+> ex: 'hv-default,hv-dep1=off', will turn off some dependent feature
+> for other hv feature in hv-default set and it will error out,
+> same goes on for enabling feature that has dependencies.
+> Why should we treat hv-evmcs/vmx pair any different?
+>
+
+VMX is not part of Hyper-V enlightenments, is it? It can also be coming
+from a CPU model:
+
+"-cpu MyLovelyModelWithVmx,hv-default"
+
+should not throw an error!
+
+Again, the goal is for userspace to not know anything besides
+'hv-default' for Hyper-V enlightenments.
+
+
+> Granted exiting with error is not the best UX, but at least it says to user
+> what's wrong with CLI and how to fix it. Also it lets to keep QEMU code
+> manageable and with consistent behavior.
+
+Enabling EVMCS only when guest CPU has VMX is a smart behavior, all
+users want that. It is very consistent with how genuine Hyper-V behaves.
+
+>
+>> Again, the end goal is: make it possible for upper layers to now know
+>> anything about Hyper-V enlightenments other than 'hv-default'.
+> I'm still doubtful about feasibility of this goal when migration is considered.
+> It sure would work if hosts are identical hw/sw wise.
+> In mixed setup all features, except of hv-evmcs, that included in 'hv-default',
+> will error out in case host doesn't support it, which should prevent
+> incompatible migration so that's also fine.
+>
+> But hv-evmcs will silently go away if host doesn't support it,
+> which is issue when migration happens to/from host that supports it.
+
+But how can it go away? In KVM, hv-evmcs support is not conditional,
+basically, all KVMs which support netsting state migration also support
+EVMCS. 
+
+>
+> Maybe to help mgmt to figure out hosts compatibility
+>   1. it should know about hv-evmcs to query it's status
+>   2. or default value set by 'hv-default' should be exposed to mgmt
+>      so it could compare whole feature-set in one go without being
+>      aware of individual features.
+>
+> Additionally on QEMU side for such conditional features we can
+> theoretically add a subsection to migration stream when feature
+> is enabled, that way we at least can prevent 'successful' migration,
+> when destination value doesn't match. But this might already be
+> over-engineering on my part.
+
+I think you're trying to solve an issue which doesn't exist. In case
+we're successfully migrating a nested enabled guest, our KVM is modern
+enough and supports EVMCS (on Intel, of course). Also, nested state
+(which is part of the migration stream) has EVMCS flag, we can't migrate
+somewhere where the flag is unsupported.
+
+Anyway, I feel we're walking in circles. I'm ready to just drop all
+EVMCS related bits from this seies to get it merged. This will make the
+part which you hate the most ("custom parsers") go away too. We can discuss
+EVMCS to death after that and, when we finally decide that user
+convenience is actually worth something, we can add 'hv-evmcs' to the
+new 
+
+Eduardo, do you see any way forward here? 
 
 -- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+Vitaly
 
 
