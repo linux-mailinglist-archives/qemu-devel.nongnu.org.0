@@ -2,78 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FD63246E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 23:32:35 +0100 (CET)
-Received: from localhost ([::1]:39436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 403C3324702
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 23:42:18 +0100 (CET)
+Received: from localhost ([::1]:48846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF2hu-0005aA-G9
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 17:32:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37088)
+	id 1lF2rJ-0001yx-AG
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 17:42:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF2fh-0004i8-5m
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:30:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF2ff-0006qf-GT
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:30:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614205814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=YfoTPmIjB4f2wDx/27wODA1JkaNb06IVfGbjN8bNvYM=;
- b=ZONgVTF3CP6tjXT8QFVyxadd2Wq/SHpWfhJpPZnVm76Rq4Mhybk7eM5HWvTNCMhSm5FmUp
- pdn8P5pOQrD20B0234Xxb5SsUcA5OOo68BRUn+eSICHmOFlsXE7icvNxVSFlzASljTbAeU
- B9IpTQjgIwgD3uqkSDAkrsDFBEcYNcQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-496-f8dCztvCOEqpJHQIPTzIFw-1; Wed, 24 Feb 2021 17:30:11 -0500
-X-MC-Unique: f8dCztvCOEqpJHQIPTzIFw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B939A107ACE6;
- Wed, 24 Feb 2021 22:30:10 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E161A5D9D3;
- Wed, 24 Feb 2021 22:30:09 +0000 (UTC)
-Subject: Re: [PATCH v3 08/16] qapi/expr.py: add type hint annotations
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-9-jsnow@redhat.com>
- <87y2fdzdt3.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <838aa159-9bf9-8c71-49dc-7d80e1b849ed@redhat.com>
-Date: Wed, 24 Feb 2021 17:30:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lF2pz-0001WN-Om
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:40:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40390)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lF2pu-0003MU-RV
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:40:55 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lF2pq-0006rk-Ns
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 22:40:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id B127D2E8024
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 22:40:46 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <87y2fdzdt3.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Feb 2021 22:30:57 -0000
+From: John Arbuckle <1916344@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: libslirp mac networking osx podman qemu slirp user-mode
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: imperialguy programmingkidx th-huth
+X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
+X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
+References: <161384672086.17995.1360895646378656233.malonedeb@wampee.canonical.com>
+Message-Id: <161420585705.21941.16080042255451680984.malone@gac.canonical.com>
+Subject: [Bug 1916344] Re: User mode networking not working properly on QEMU
+ on Mac OS X host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbcae463afd8b78ec54d5c5633aff9545801dde"; Instance="production"
+X-Launchpad-Hash: 764ac7690a1112e4d8771e3a2ff7f78c954030ca
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -82,63 +71,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Bug 1916344 <1916344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 10:27 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> Annotations do not change runtime behavior.
->> This commit *only* adds annotations.
->>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   scripts/qapi/expr.py  | 71 ++++++++++++++++++++++++++++---------------
->>   scripts/qapi/mypy.ini |  5 ---
->>   2 files changed, 46 insertions(+), 30 deletions(-)
->>
->> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index f45d6be1f4c..df6c64950fa 100644
->> --- a/scripts/qapi/expr.py
->> +++ b/scripts/qapi/expr.py
->> @@ -15,7 +15,14 @@
->>   # See the COPYING file in the top-level directory.
->>   
->>   import re
->> -from typing import MutableMapping, Optional, cast
->> +from typing import (
->> +    Iterable,
->> +    List,
->> +    MutableMapping,
->> +    Optional,
->> +    Union,
->> +    cast,
->> +)
->>   
->>   from .common import c_name
->>   from .error import QAPISemError
->> @@ -23,9 +30,10 @@
->>   from .source import QAPISourceInfo
->>   
->>   
->> -# Expressions in their raw form are JSON-like structures with arbitrary forms.
->> -# Minimally, their top-level form must be a mapping of strings to values.
->> -Expression = MutableMapping[str, object]
->> +# Arbitrary form for a JSON-like object.
->> +_JSObject = MutableMapping[str, object]
->> +# Expressions in their raw form are (just) JSON-like objects.
->> +Expression = _JSObject
-> 
-> Wat?
-> 
+I'm on Mac OS 11.1 on an M1 Mac. I did some tests with QEMU 2.10.1 and
+5.3 and here are the results:
 
-Please read the "RFCs/notes" section of the cover letter. I wrote it for 
-*you*!
+QEMU 2.10.1:
+- Ran Windows XP as a guest
+- qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -d=
+evice rtl8139,netdev=3Dn0
+- Internet Explorer was able to load a web page.
 
---js
+QEMU 5.3.x:
+- Tried to run Windows XP as a guest:
+- qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -d=
+evice rtl8139,netdev=3Dn0
+- QEMU refused to run and displayed this error message: qemu-system-i386: -=
+netdev user,id=3Dn0: Parameter 'type' expects a netdev backend type
 
+I'm not sure if this message is a bug or something else.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916344
+
+Title:
+  User mode networking not working properly on QEMU on Mac OS X host
+
+Status in QEMU:
+  New
+
+Bug description:
+  Steps to reproduce:
+
+  1. Install QEMU using homebrew on Mac OS X (I tried on Catalina and Big S=
+ur)
+  2. Spin up a guest VM (say) Cent OS 8 using user mode networking.
+  3. Install podman inside the guest
+  4. Run podman pull alpine
+
+  The result is:
+
+  [root@localhost ~]# podman pull alpine
+  Resolved "alpine" as an alias (/etc/containers/registries.conf.d/shortnam=
+es.conf)
+  Trying to pull docker.io/library/alpine:latest...
+  Getting image source signatures
+  Copying blob ba3557a56b15 [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D] 2.7M=
+iB / 2.7MiB
+  =C2=A0=C2=A0unexpected EOF
+  Error: Error writing blob: error storing blob to file "/var/tmp/storage85=
+1171596/1": error happened during read: unexpected EOF
+
+  This is happening because QEMU is telling the guest that the TCP
+  connection is closed even before reading all the data from the host
+  socket and forwarding it to the guest.
+
+  This issue doesn't happen on a Linux host. So, that tells me that this
+  has something to do with QEMU installation on Mac OS X.
+
+  This could be a slirp related issue. So, QEMU/slirp may need to work
+  together on fixing this. Here's the link to the libslirp issue:
+
+  https://gitlab.freedesktop.org/slirp/libslirp/-/issues/35
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916344/+subscriptions
 
