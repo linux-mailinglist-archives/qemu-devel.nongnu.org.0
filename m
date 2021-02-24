@@ -2,96 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D01323A70
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 11:23:21 +0100 (CET)
-Received: from localhost ([::1]:55584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8847323A77
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 11:24:55 +0100 (CET)
+Received: from localhost ([::1]:57780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lErKC-00066r-PH
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 05:23:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36028)
+	id 1lErLi-00075K-RE
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 05:24:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36200)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lErIr-0005dR-Gg
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:21:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46687)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1lErJj-00064J-SK
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:22:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lErIj-0004OV-Ib
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:21:53 -0500
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1lErJi-0004eq-8p
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:22:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614162108;
+ s=mimecast20190719; t=1614162169;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ylLEq1h3LkRvYPexOcXHDsfUC1W5UG2Fxs/R7W6DqKU=;
- b=Fv3eTrbqB5diyIV2j//dopEpBAdrSSftNFTSwH45EasgxCs+AtZTe70N9qddvTgf+Y5OTA
- PFONeRDRyeWdjwSbCo+WlBEjAfrwP9RZcgSS/Nl4yaks/uYZn513jL4xHqUz8S47AMKyXo
- wHfreggaSnRdPkx4MLYy/SQOKQchYWQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-315-bg1MRMKrNwCDX_6qkxAHEg-1; Wed, 24 Feb 2021 05:21:44 -0500
-X-MC-Unique: bg1MRMKrNwCDX_6qkxAHEg-1
-Received: by mail-ed1-f70.google.com with SMTP id c7so632762ede.17
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 02:21:44 -0800 (PST)
+ bh=b5dhz8KcuQRAPV1SPkTt3bQj4y7qWgDlhFNlPlkDGK4=;
+ b=H9jvgMSUCOZDW7ax9vYMSKRXJTHS5iyjuO+XTnUETt/DBlc42XNG3tgs+LBNuJ8d57VZhC
+ uFqavgVrLMIRWkMLJyWzAFfBzEXUOauiq9MQNPfJ4jeaEZL52+Vt/zalIMm0V54Sg18quY
+ gDKrmwB7A4r0hK2CYvwp8GU9S0pRHFY=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-Eq1yvQEmOhyJJAEHwsz09A-1; Wed, 24 Feb 2021 05:22:43 -0500
+X-MC-Unique: Eq1yvQEmOhyJJAEHwsz09A-1
+Received: by mail-io1-f70.google.com with SMTP id q10so1093645ion.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 02:22:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ylLEq1h3LkRvYPexOcXHDsfUC1W5UG2Fxs/R7W6DqKU=;
- b=cZ20rp4TEiyNo749jl2M2//k2NW1HXdXUexB8NWSU0JHc3r+5hupuroSD4doVlW+cO
- QNCvpiFAcMuMTQrj3ZZqqYABXxt89rzPDJrQTeFjhcvvlcOlaBR9RkFv/NMRo+e0XqQu
- KyGns0F3laLJR8iXJPsjAwc5uBhbJaq+F5vx+/kIYeSVgzVsAxatXnOK0EU9IMvcgxAb
- 9OG5k6y7yQxs/il4+/2MRPJyIygC2PvP8hrDVnNbqhcrmeFG7+Lxriu7PnmZkFrF43Jy
- +9kfKh3l6Qi4oG1x0JF++w7RJEqnlHjX4j5v/KYU3kNYji/pahYqAFHIMqtuVC+7gdBB
- JO1Q==
-X-Gm-Message-State: AOAM53023hKS83HvLSrE5HaP9gLOJlQQzw+p+kqAKxeckl/vaSOsVopu
- pSuPqpWb8pBddIzbZeXywPohwUjXTAH1Z/J8I8mDbF2JKBfcoaAUJxqwolGpXxqUpWMtJShbZzM
- PJ9j9ju/VLb7yTjM=
-X-Received: by 2002:a17:906:f885:: with SMTP id
- lg5mr21451514ejb.25.1614162103610; 
- Wed, 24 Feb 2021 02:21:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz7wpvMpdCYNFmBuPD+qOYQzUF++lJXeF/FIOzyMbC1rRyXY/ASTOXY87Zupz3tW9lFbVEBDA==
-X-Received: by 2002:a17:906:f885:: with SMTP id
- lg5mr21451500ejb.25.1614162103434; 
- Wed, 24 Feb 2021 02:21:43 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rn18sm979053ejb.99.2021.02.24.02.21.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 02:21:42 -0800 (PST)
-Subject: Re: [PATCH] virtio: disable ioeventfd for record/replay
-To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- Cornelia Huck <cohuck@redhat.com>
-References: <161303249335.948571.16873882207700527766.stgit@pasha-ThinkPad-X280>
- <20210211094406.664520e6.cohuck@redhat.com>
- <ad446311-c5f9-9887-73d5-3c1f3707e5d1@ispras.ru>
- <fb2d2816-a696-a407-2f92-ec5950db9c4d@redhat.com>
- <b59c3b42-b22b-8056-35e5-d7e37c215314@ispras.ru>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <1e157b72-6db8-2630-67f8-c60ac69b287c@redhat.com>
-Date: Wed, 24 Feb 2021 11:21:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=b5dhz8KcuQRAPV1SPkTt3bQj4y7qWgDlhFNlPlkDGK4=;
+ b=Tie8pUtwmrI63Qxp7MCJb/L8mAGBlHlXVmqIG+z8M8phrmS1PULa73hBdrl/g3mlQ0
+ VWjhklPqvyhQwU49GTKjCfpuPD39EK11wv3IPajyoe/YvyxU+UPuYkNbKKINaLsxcHe6
+ x9q5QDPbNXo3Imu8x/uhFTyEw1paoSfG4k4hflE1PFHd2sfnqIt4RUO+HT1dMNFGniPL
+ h6QqYaN9itDL78d9Rf/kRk2MjEwYfvv729NUrcfCiz0SC/1pEqqldBOrfXf45LK9zHTT
+ u8w8wj9JvH3RLNVK6czz3KD1CRk8F2ovlBeThGUQk5mdbGTVMh04aicOrcE9D0kDXXXf
+ 8NMg==
+X-Gm-Message-State: AOAM531XDgmSfB9nBwB7paEVhcl0EJqZXJe2+Q9H34qzSv8mnwCwMFjd
+ CpOLAAmvI63oV0UnS4fUrb+xlutJwk5x1m8ZvCHcMXGjsj2LUI3PmEhJ9ceYUE6k3u68iM4pTIR
+ fKonyGy6PaJXKSyGofaP6hQR3AIoDE3g=
+X-Received: by 2002:a05:6e02:214d:: with SMTP id
+ d13mr23543597ilv.82.1614162163205; 
+ Wed, 24 Feb 2021 02:22:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyQXvilP1PZ+EUC/PwkMY3i/G8p9+6uZv7Wwl+hJ8lvspfGGZJp4/zCiSKUh12Mxcu3D+9ltC6jmJ8hJAwd6aI=
+X-Received: by 2002:a05:6e02:214d:: with SMTP id
+ d13mr23543585ilv.82.1614162162991; 
+ Wed, 24 Feb 2021 02:22:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <b59c3b42-b22b-8056-35e5-d7e37c215314@ispras.ru>
+References: <20210222161017.570837-1-stefanha@redhat.com>
+ <20210222161017.570837-2-stefanha@redhat.com>
+In-Reply-To: <20210222161017.570837-2-stefanha@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Wed, 24 Feb 2021 14:22:31 +0400
+Message-ID: <CAMxuvazaCQ+WN6-rkhydEHmV7o4MrUzU7YBV4i1ZYodedV4aLw@mail.gmail.com>
+Subject: Re: [PATCH 1/3] tests/qtest/vhost-user-test: use share=on with memfd
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: multipart/alternative; boundary="00000000000055def605bc126ab8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -106,20 +91,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org, mst@redhat.com
+Cc: "Wolf, Kevin" <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/02/21 10:56, Pavel Dovgalyuk wrote:
->>
-> 
-> Thanks for pointing at these machines.
-> But virtio-mmio does not support ioeventfd disabling as in PCI and CCW 
-> devices.
-> Should this option be added first?
+--00000000000055def605bc126ab8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, that was a good idea.
+Hi
 
-Paolo
+On Mon, Feb 22, 2021 at 8:11 PM Stefan Hajnoczi <stefanha@redhat.com> wrote=
+:
+
+> For some reason memfd never used share=3Don. vhost-user relies on
+> mmap(MAP_SHARED) so this seems like a problem, but the tests still run
+> without it.
+>
+>
+Simply because it's on by default with memory-backend-memfd (it wouldn't
+make much sense to use memfd in the first place without share)
+
+Add share=3Don for consistency and to prevent future bugs in the test.
+>
+
+But it doesn't hurt to be explicit though.
+
+
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>
+
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+
+---
+>  tests/qtest/vhost-user-test.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.=
+c
+> index 1a5f5313ff..2db98c4920 100644
+> --- a/tests/qtest/vhost-user-test.c
+> +++ b/tests/qtest/vhost-user-test.c
+> @@ -40,7 +40,7 @@
+>  #define QEMU_CMD_MEM    " -m %d -object
+> memory-backend-file,id=3Dmem,size=3D%dM," \
+>                          "mem-path=3D%s,share=3Don -numa node,memdev=3Dme=
+m"
+>  #define QEMU_CMD_MEMFD  " -m %d -object
+> memory-backend-memfd,id=3Dmem,size=3D%dM," \
+> -                        " -numa node,memdev=3Dmem"
+> +                        "share=3Don -numa node,memdev=3Dmem"
+>  #define QEMU_CMD_CHR    " -chardev socket,id=3D%s,path=3D%s%s"
+>  #define QEMU_CMD_NETDEV " -netdev vhost-user,id=3Dhs0,chardev=3D%s,vhost=
+force"
+>
+> --
+> 2.29.2
+>
+>
+
+--00000000000055def605bc126ab8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Feb 22, 2021 at 8:11 PM Ste=
+fan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com">stefanha@redhat.com=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+For some reason memfd never used share=3Don. vhost-user relies on<br>
+mmap(MAP_SHARED) so this seems like a problem, but the tests still run<br>
+without it.<br>
+<br></blockquote><div><br></div><div>Simply because it&#39;s on by default =
+with memory-backend-memfd (it wouldn&#39;t make much sense to use memfd in =
+the first place without share)<br></div><div> <br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
+Add share=3Don for consistency and to prevent future bugs in the test.<br><=
+/blockquote><div><br></div><div>But it doesn&#39;t hurt to be explicit thou=
+gh.=C2=A0</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"ma=
+rgin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:=
+1ex">
+<br>
+Signed-off-by: Stefan Hajnoczi &lt;<a href=3D"mailto:stefanha@redhat.com" t=
+arget=3D"_blank">stefanha@redhat.com</a>&gt;<br></blockquote><div><br></div=
+><div>Reviewed-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.l=
+ureau@redhat.com">marcandre.lureau@redhat.com</a>&gt;=C2=A0 <br></div><div>=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0tests/qtest/vhost-user-test.c | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c<=
+br>
+index 1a5f5313ff..2db98c4920 100644<br>
+--- a/tests/qtest/vhost-user-test.c<br>
++++ b/tests/qtest/vhost-user-test.c<br>
+@@ -40,7 +40,7 @@<br>
+=C2=A0#define QEMU_CMD_MEM=C2=A0 =C2=A0 &quot; -m %d -object memory-backend=
+-file,id=3Dmem,size=3D%dM,&quot; \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0&quot;mem-path=3D%s,share=3Don -numa node,memdev=3Dmem&quo=
+t;<br>
+=C2=A0#define QEMU_CMD_MEMFD=C2=A0 &quot; -m %d -object memory-backend-memf=
+d,id=3Dmem,size=3D%dM,&quot; \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &quot; -numa node,memdev=3Dmem&quot;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 &quot;share=3Don -numa node,memdev=3Dmem&quot;<br>
+=C2=A0#define QEMU_CMD_CHR=C2=A0 =C2=A0 &quot; -chardev socket,id=3D%s,path=
+=3D%s%s&quot;<br>
+=C2=A0#define QEMU_CMD_NETDEV &quot; -netdev vhost-user,id=3Dhs0,chardev=3D=
+%s,vhostforce&quot;<br>
+<br>
+-- <br>
+2.29.2<br>
+<br>
+</blockquote></div></div>
+
+--00000000000055def605bc126ab8--
 
 
