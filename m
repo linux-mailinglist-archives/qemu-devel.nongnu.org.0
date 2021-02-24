@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DF6632442E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:58:55 +0100 (CET)
-Received: from localhost ([::1]:58064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3AC324435
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:59:55 +0100 (CET)
+Received: from localhost ([::1]:33966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEzN7-0007DJ-Uy
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:58:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45272)
+	id 1lEzO6-0000X8-FU
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:59:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEzLm-00062R-Od
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:30 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:53122)
+ id 1lEzLo-00064h-KZ
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:32 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:33201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEzLi-0002cd-AD
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:27 -0500
-Received: by mail-wm1-x331.google.com with SMTP id p3so2689958wmc.2
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:57:25 -0800 (PST)
+ id 1lEzLn-0002eX-9J
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:32 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id 7so2920468wrz.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:57:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ihrw4n8coHSILSNwOuGNRlM8eVaq4PF06jId6z5e0I0=;
- b=GQPTjEgeETk8ak3pcwWVpBeLHGJ9o0vA1hFOdEHEgrFPVt1fpA881wnsrIIOylH09Q
- 2reoMMio3hbiBOotSTutmxQ1OcQLJMrwYS/wqgvHFdXMS/vswTECFgLe1GFABtNrqJIL
- maYv7eXitYqNcksDQttxbAn92jK1OKJWCtzkmFoQDupONKY0e92LevIEdpSw4J6Tz1Ac
- vWRkrJJhRmdd8TmAZZwXTPaVmJ0mH52BWihVmBm8HypKhdrECRG79otWNvQcdWrVdSpo
- wMkTKQSIVkoAjuHWKJoZPf/xmnWHd3EiREY+jl3BDRx5jBlgVWgsFP5THxFFWOGhZdDb
- lSoQ==
+ bh=dbstaMPFkZR/YHzcDJ3JxaNPdajf1J5Vka3V0TW9Seg=;
+ b=RgAKQxgs+TxE+DmR7wZ47qvFxL8vwwzI5LSCG6lUh+NyxJtb+ucdz+m9qV1lXMKQmA
+ koViZc+unV+8teCUbsFmPdnTP9uCWoXCIwiF3RLYFEjEro+FuKlAQcdMHT1/Trs7Dq0V
+ syLA3FltHjgilwvswGW6tPGkPMFGp/bdoSEPkWWm92k4tp0DF9cWvszB5kZPOgwJ+ZCD
+ es6SxrUdnGrxWrxlaHLNZAL5CfA6MBObNxfUj3ByJvHoQS4lsd1y39LvpR86sNqx3Nun
+ taUNRH2bqC/+54DvTGYUvzjOFKdjVKb7py6hkMEYTn3GBOUKJKCrrri10jkZmzs5tx0Q
+ ZSJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ihrw4n8coHSILSNwOuGNRlM8eVaq4PF06jId6z5e0I0=;
- b=bblwtr7y1wQfDt7puDRc3xcu8AQijE8crA/3MFsCMAcuw0sXwiEMZxGv+qUgi9ortg
- 7Os1/EGRGIQYCEoGWZriGQBBR7qe5QIa0s4Ikp2sp5khe/4iIW3FhK6jzUaJH/iJ2Kk3
- 7tAO91ukucMcJose1k0VUZBR4b+uX/4FyxacgFQPmqHq6oqS9T8Q8+a4iq4bBF8byp7Q
- jNcbbSM84XkBw9s0ZO6jF01YdtHLKIZzI8vYRb7TyJ1ucZGG8YeS8bjt/1gQmTFjc7ae
- /bFwLHX2cpexrCTiKs9xjSwopYa2+SEqa2P4edmfxHDGDUbKyjNU1haPbg9rWCp98sG/
- N4Ew==
-X-Gm-Message-State: AOAM5336w0ZuH4Zewh/iqJMa8XKFFRxIHBKm1GSI4IPAYhUjnkw48Nzb
- RHeojDGCRwD1xOmefr6ISmO6/khktGM=
-X-Google-Smtp-Source: ABdhPJwOPVO2lo4Nu2b5nqFMt9VorDg33vMXjuT20RbQ4VlNO3tnUtzkcMl0K85Gc9rHOK/ZxhFmTw==
-X-Received: by 2002:a1c:c90c:: with SMTP id f12mr5115284wmb.98.1614193044658; 
- Wed, 24 Feb 2021 10:57:24 -0800 (PST)
+ bh=dbstaMPFkZR/YHzcDJ3JxaNPdajf1J5Vka3V0TW9Seg=;
+ b=FQFgOAf5KS9vhAG+JMGncE+amDqyzVz4MqrevYecF2mehiB8sI80EtR9vTlnFsMqqu
+ 279aK0IdPTPWVEruazoWCbQp4u9O1G2Vmv+aY2h1VUKuEXg4u2Lwcxw+AIYJSIEPlx1r
+ 4D3Z0Rk+qjwnhe5+cdCgnuRRp+bhWM+X8p7aDnJ6rx5RQI8KLGg7fgZ7qr7/J7+ETkbG
+ lwEnxlJCrYzg7Z7D+bKPgHIiPxCLkUqBIo+Q2xqtY+Jt+J5CbMVzKHJ+TB+s7CNT+xX7
+ KV6hUXlirXBR9DKug/gu5Hr/M7BgR8ZvwQW6WRBkN5gLQKMlOozbzmv0UPfiw96788Ah
+ mvpg==
+X-Gm-Message-State: AOAM533CvdhoFdT6Ny3I3HWbQuTtwH57mfLtMkkA43u6F8zkKkiH/AWw
+ lvhLeKdskMSKhDdwvy9U78nsIeOA1ak=
+X-Google-Smtp-Source: ABdhPJyn5OUo5mvI8NUXKDp4sB09xssm5NgiCMu0IY5LVjjCDrgeonyYr2C5QKa0TLiQpQbHhqcXZw==
+X-Received: by 2002:a5d:4d0e:: with SMTP id z14mr32276405wrt.411.1614193049749; 
+ Wed, 24 Feb 2021 10:57:29 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s23sm4034585wmc.35.2021.02.24.10.57.23
+ by smtp.gmail.com with ESMTPSA id 2sm5462364wre.24.2021.02.24.10.57.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 10:57:24 -0800 (PST)
+ Wed, 24 Feb 2021 10:57:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/12] target/mips/meson: Restrict mips-semi.c to TCG
-Date: Wed, 24 Feb 2021 19:56:56 +0100
-Message-Id: <20210224185706.3293058-3-f4bug@amsat.org>
+Subject: [PATCH v4 03/12] target/mips: Rewrite complex ifdef'ry
+Date: Wed, 24 Feb 2021 19:56:57 +0100
+Message-Id: <20210224185706.3293058-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210224185706.3293058-1-f4bug@amsat.org>
 References: <20210224185706.3293058-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,27 +93,39 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+No need for this obfuscated ifdef'ry, KISS.
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/meson.build | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/mips/translate.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
 
-diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 75c16524606..53580633ce0 100644
---- a/target/mips/meson.build
-+++ b/target/mips/meson.build
-@@ -31,10 +31,10 @@
-   'addr.c',
-   'cp0_timer.c',
-   'machine.c',
--  'mips-semi.c',
- ))
- mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'cp0_helper.c',
-+  'mips-semi.c',
- ))
- 
- mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index 70891c37cdd..1f1c5f33c87 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28276,13 +28276,16 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
+ #if defined(TARGET_MIPS64)
+         if ((ctx->insn_flags & INSN_R5900) && (ctx->insn_flags & ASE_MMI)) {
+             decode_mmi(env, ctx);
+-#else
++            break;
++        }
++#endif
++#if !defined(TARGET_MIPS64)
+         if (ctx->insn_flags & ASE_MXU) {
+             decode_opc_mxu(env, ctx);
+-#endif
+-        } else {
+-            decode_opc_special2_legacy(env, ctx);
++            break;
+         }
++#endif
++        decode_opc_special2_legacy(env, ctx);
+         break;
+     case OPC_SPECIAL3:
+ #if defined(TARGET_MIPS64)
 -- 
 2.26.2
 
