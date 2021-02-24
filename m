@@ -2,79 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC58B324772
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 00:23:50 +0100 (CET)
-Received: from localhost ([::1]:56692 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB7DA324777
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 00:24:51 +0100 (CET)
+Received: from localhost ([::1]:58394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF3VV-0002qt-5c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 18:23:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47414)
+	id 1lF3WU-0003ZV-U8
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 18:24:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lF3UL-0002M3-3N
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 18:22:37 -0500
-Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:34658)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1lF3UJ-0004vA-HV
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 18:22:36 -0500
-Received: by mail-qk1-x735.google.com with SMTP id x124so4046325qkc.1
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 15:22:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:content-transfer-encoding:mime-version:subject:message-id:date
- :cc:to; bh=NAtjrjkIOkTDc3p89TDlNq//Q7inMGRPt3dH9XKY/ww=;
- b=XGOx/dS+AKc19J18Waoe8BVOfKqT7YnLS+VSA8ks6gBHpHslwZ522fNyy2obwPMGq0
- emMmoQ9SFnkLDNsFTQ+sszBiQvqcVevaozrp0U8nzlK772TQw1AsBEFJyWs1bGSKn3jR
- Vd31IZ/oF1ATQEau6mCIhtY23X4GlflEj7de8/vLSlKgwCCh2V/0+CWXC1IWGCcxdiPk
- ZYMvf31tyrz8PwMf39mvsThZN7XE+9axf2ai6xWeL8b22DRj6368DWlBvZZ9cFoZQz0h
- dqx+2kNzgiOfEnoxM1ENf2asrroz+YQNhOFsxaw1lABNzbBJB1OVRtE6lBvb+YD6EsWY
- sstg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:content-transfer-encoding:mime-version
- :subject:message-id:date:cc:to;
- bh=NAtjrjkIOkTDc3p89TDlNq//Q7inMGRPt3dH9XKY/ww=;
- b=MS24d+HqGU3ANNNLYRhsCyrNilLzVHIywuGjF7JXcSZE6zZMBvadcHRt6mvvCTulgS
- AwQ8na6DwiKUUbma1DSLMS9DNNPK66D35xNT/L3EyXHPgTZw1SHlacLCGahFqD/xhQP/
- F1DPbDHgv3UmzdoeKDeVGLS50/mMs2X1xuwO7h83YReDl6KEEF4FN2nL9b5hEhNlqu72
- fFoIaQyTOsEdHZ8h4JtUDpRJt55dMEj9pm1axQtirCLSJxOQR9jiI2BDaIYzlx49t6l5
- mTZw6cNYBuQI7n6Y4FrjsWxy24N1+ek3i4CjuFseh1JzqkkQYXLu6D9J1Ni+s1gIGyGD
- 8BgA==
-X-Gm-Message-State: AOAM530sjbhzViZpXnDAm83L8yJ+QPQHUJEz71MnwTc+VQ/Tl16GDAu4
- ip+oghCRqpeEsF+9LGDVVfS2xG49UxCGhQ==
-X-Google-Smtp-Source: ABdhPJwc9IG3O1Rg5CiNK9RmxEC2L/Nr2WUAbrimhICywhICLzKtaOcUmzxljQA4Ei7BMBD6x0cn+w==
-X-Received: by 2002:a05:620a:e09:: with SMTP id
- y9mr390996qkm.126.1614208953720; 
- Wed, 24 Feb 2021 15:22:33 -0800 (PST)
-Received: from [192.168.0.5] (d149-67-175-105.try.wideopenwest.com.
- [67.149.105.175])
- by smtp.gmail.com with ESMTPSA id f17sm2357961qtv.93.2021.02.24.15.22.32
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Feb 2021 15:22:33 -0800 (PST)
-From: Programmingkid <programmingkidx@gmail.com>
-Content-Type: text/plain;
-	charset=us-ascii
+ (Exim 4.90_1) (envelope-from <prvs=682b6eb60=graf@amazon.de>)
+ id 1lF3Ul-0002g0-3x
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 18:23:03 -0500
+Received: from smtp-fw-2101.amazon.com ([72.21.196.25]:10585)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=682b6eb60=graf@amazon.de>)
+ id 1lF3Uh-00054g-Q9
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 18:23:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1614208980; x=1645744980;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=ajbqqzyw00MhpTl6JbnnxX80P4gpbBT5SgRo7F/hXQg=;
+ b=dxirYzmQeztvhCWEpxBvCrlJznLR8oalLGnIon3qAZVHbSQDmZSERbxP
+ 8TonCPY3rYOyhD1vkCnRApZsoMBa9ufd5P6XBVzlmUrUAMe7bN4lWXJQR
+ EaXiO3F3g73FemAuFrM9TEE8BdLnlwwglFnIniuMR00nXytXAQx6efWE2 o=;
+X-IronPort-AV: E=Sophos;i="5.81,203,1610409600"; d="scan'208";a="87715762"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO
+ email-inbound-relay-2b-4e24fd92.us-west-2.amazon.com) ([10.43.8.6])
+ by smtp-border-fw-out-2101.iad2.amazon.com with ESMTP;
+ 24 Feb 2021 23:22:56 +0000
+Received: from EX13MTAUWC002.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
+ by email-inbound-relay-2b-4e24fd92.us-west-2.amazon.com (Postfix) with ESMTPS
+ id B4778A22EC; Wed, 24 Feb 2021 23:22:53 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC002.ant.amazon.com (10.43.162.240) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 23:22:51 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.160.146) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 23:22:43 +0000
+Subject: Re: [PATCH v7 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Adrian Catangiu <acatan@amazon.com>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <qemu-devel@nongnu.org>,
+ <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>,
+ <gregkh@linuxfoundation.org>, <rdunlap@infradead.org>, <arnd@arndb.de>,
+ <ebiederm@xmission.com>, <rppt@kernel.org>, <0x7f454c46@gmail.com>,
+ <borntraeger@de.ibm.com>, <Jason@zx2c4.com>, <jannh@google.com>, <w@1wt.eu>,
+ <colmmacc@amazon.com>, <luto@kernel.org>, <tytso@mit.edu>,
+ <ebiggers@kernel.org>, <dwmw@amazon.co.uk>, <bonzini@gnu.org>,
+ <sblbir@amazon.com>, <raduweis@amazon.com>, <corbet@lwn.net>,
+ <mhocko@kernel.org>, <rafael@kernel.org>, <pavel@ucw.cz>,
+ <mpe@ellerman.id.au>, <areber@redhat.com>, <ovzxemul@gmail.com>,
+ <avagin@gmail.com>, <ptikhomirov@virtuozzo.com>, <gil@azul.com>,
+ <asmehra@redhat.com>, <dgunigun@redhat.com>, <vijaysun@ca.ibm.com>,
+ <oridgar@gmail.com>, <ghammer@redhat.com>
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-2-git-send-email-acatan@amazon.com>
+ <20210224040516-mutt-send-email-mst@kernel.org>
+ <d63146a9-a3f8-14ea-2b16-cb5b3fe7aecf@amazon.com>
+ <20210224173205-mutt-send-email-mst@kernel.org>
+From: Alexander Graf <graf@amazon.com>
+Message-ID: <e7768780-ce08-9998-8200-d3c33d34fade@amazon.com>
+Date: Thu, 25 Feb 2021 00:22:41 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
+MIME-Version: 1.0
+In-Reply-To: <20210224173205-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [10.43.160.146]
+X-ClientProxiedBy: EX13D36UWB003.ant.amazon.com (10.43.161.118) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Precedence: Bulk
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
 Content-Transfer-Encoding: quoted-printable
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH v9 04/11] slirp: feature detection for smbd
-Message-Id: <676D2869-5B9E-4FB7-92C2-0DF7974E3B6D@gmail.com>
-Date: Wed, 24 Feb 2021 18:22:32 -0500
-To: j@getutm.app
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
- envelope-from=programmingkidx@gmail.com; helo=mail-qk1-x735.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=72.21.196.25;
+ envelope-from=prvs=682b6eb60=graf@amazon.de; helo=smtp-fw-2101.amazon.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,12 +100,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU devel list <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I've noticed that my guests like Windows XP and Mac OS 10.4 cannot =
-access the internet using the recent versions of QEMU on Mac OS 11. I'm =
-on an M1 Mac. Does your patchset enable guests to be able to access the =
-internet?=
+
+
+On 24.02.21 23:41, Michael S. Tsirkin wrote:
+> =
+
+> On Wed, Feb 24, 2021 at 02:45:03PM +0100, Alexander Graf wrote:
+>>> Above should try harder to explan what are the things that need to be
+>>> scrubbed and why. For example, I personally don't really know what is
+>>> the OpenSSL session token example and what makes it vulnerable. I guess
+>>> snapshots can attack each other?
+>>>
+>>>
+>>>
+>>>
+>>> Here's a simple example of a workflow that submits transactions
+>>> to a database and wants to avoid duplicate transactions.
+>>> This does not require overseer magic. It does however require
+>>> a correct genid from hypervisor, so no mmap tricks work.
+>>>
+>>>
+>>>
+>>>           int genid, oldgenid;
+>>>           read(&genid);
+>>> start:
+>>>           oldgenid =3D genid;
+>>>           transid =3D submit transaction
+>>>           read(&genid);
+>>>           if (genid !=3D oldgenid) {
+>>>                           revert transaction (transid);
+>>>                           goto start:
+>>>           }
+>>
+>> I'm not sure I fully follow. For starters, if this is a VM local databas=
+e, I
+>> don't think you'd care about the genid. If it's a remote database, your
+>> connection would get dropped already at the point when you clone/resume,
+>> because TCP and your connection state machine will get really confused w=
+hen
+>> you suddenly have a different IP address or two consumers of the same st=
+ream
+>> :).
+>>
+>> But for the sake of the argument, let's assume you can have a connection=
+less
+>> database connection that maintains its own connection uniqueness logic.
+> =
+
+> Right. E.g. not uncommon with REST APIs. They survive disconnect easily
+> and use cookies or such.
+> =
+
+>> That
+>> database connector would need to understand how to abort the connection =
+(and
+>> thus the transaction!) when the generation changes.
+> =
+
+> the point is that instead of all that you discover transaction as
+> a duplicate and revert it.
+> =
+
+> =
+
+>> And that's logic you
+>> would do with the read/write/notify mechanism. So your main loop would c=
+heck
+>> for reads on the genid fd and after sending a connection termination, no=
+tify
+>> the overlord that it's safe to use the VM now.
+>>
+>> The OpenSSL case (with mmap) is for libraries that are stateless and can=
+ not
+>> guarantee that they receive a genid notification event timely.
+>>
+>> Since you asked, this is mainly important for the PRNG. Imagine an https
+>> server. You create a snapshot. You resume from that snapshot. OpenSSL is
+>> fully initialized with a user space PRNG randomness pool that it conside=
+rs
+>> safe to consume. However, that means your first connection after resume =
+will
+>> be 100% predictable randomness wise.
+> =
+
+> I wonder whether something similar is possible here. I.e. use the secret
+> to encrypt stuff but check the gen ID before actually sending data.
+> If it changed re-encrypt. Hmm?
+
+I don't see why you would though. Once you control the application =
+
+level, just use the event based API. That's the much easier to use one. =
+
+The mmap one is really just there to cover cases where you don't own the =
+
+main event loop, but can't spend the syscall overhead on every =
+
+invocation to check if the genid changed.
+
+> =
+
+>>
+>> The mmap mechanism allows the PRNG to reseed after a genid change. Becau=
+se
+>> we don't have an event mechanism for this code path, that can happen min=
+utes
+>> after the resume. But that's ok, we "just" have to ensure that nobody is
+>> consuming secret data at the point of the snapshot.
+> =
+
+> =
+
+> Something I am still not clear on is whether it's really important to
+> skip the system call here. If not I think it's prudent to just stick
+> to read for now, I think there's a slightly lower chance that
+> it will get misused. mmap which gives you a laggy gen id value
+> really seems like it would be hard to use correctly.
+
+The read is not any less racy than the mmap. The real "safety" of the =
+
+read interface comes from the acknowledge path. And that path requires =
+
+you to be part of the event loop.
+
+> =
+
+> =
+
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>
+>>>> +Simplifyng assumption - safety prerequisite
+>>>> +-------------------------------------------
+>>>> +
+>>>> +**Control the snapshot flow**, disallow snapshots coming at arbitrary
+>>>> +moments in the workload lifetime.
+>>>> +
+>>>> +Use a system-level overseer entity that quiesces the system before
+>>>> +snapshot, and post-snapshot-resume oversees that software components
+>>>> +have readjusted to new environment, to the new generation. Only after,
+>>>> +will the overseer un-quiesce the system and allow active workloads.
+>>>> +
+>>>> +Software components can choose whether they want to be tracked and
+>>>> +waited on by the overseer by using the ``SYSGENID_SET_WATCHER_TRACKIN=
+G``
+>>>> +IOCTL.
+>>>> +
+>>>> +The sysgenid framework standardizes the API for system software to
+>>>> +find out about needing to readjust and at the same time provides a
+>>>> +mechanism for the overseer entity to wait for everyone to be done, the
+>>>> +system to have readjusted, so it can un-quiesce.
+>>>> +
+>>>> +Example snapshot-safe workflow
+>>>> +------------------------------
+>>>> +
+>>>> +1) Before taking a snapshot, quiesce the VM/container/system. Exactly
+>>>> +   how this is achieved is very workload-specific, but the general
+>>>> +   description is to get all software to an expected state where their
+>>>> +   event loops dry up and they are effectively quiesced.
+>>>
+>>> If you have ability to do this by communicating with
+>>> all processes e.g. through a unix domain socket,
+>>> why do you need the rest of the stuff in the kernel?
+>>> Quescing is a harder problem than waking up.
+>>
+>> That depends. Think of a typical VM workload. Let's take the web server
+>> example again. You can preboot the full VM and snapshot it as is. As lon=
+g as
+>> you don't allow any incoming connections, you can guarantee that the sys=
+tem
+>> is "quiesced" well enough for the snapshot.
+> =
+
+> Well you can use a firewall or such to block incoming packets,
+> but I am not at all sure that means e.g. all socket buffers
+> are empty.
+
+If it's a fresh VM that only started the web server and did nothing =
+
+else, there shouldn't be anything in its socket buffers :).
+
+I agree that it won't allow us to cover 100% of all cases automatically =
+
+and seamlessly. I can't think of any solution that does - if you can =
+
+think of something I'm all ears. But this API at least gives us a path =
+
+to slowly move the ecosystem to a point where applications and libraries =
+
+can enable themselves to become vm/container clone aware. Today we don't =
+
+even give them the opportunity to self adjust.
+
+
+Alex
+
+
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
+
 
