@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A137323F57
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:01:58 +0100 (CET)
-Received: from localhost ([::1]:45286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4F8323F41
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:52:05 +0100 (CET)
+Received: from localhost ([::1]:42526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEvfp-0004Hc-9h
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:01:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47676)
+	id 1lEvWG-0008NZ-Oq
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:52:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEvQ2-0001al-3w
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:45:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50951)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEvQf-0002A6-7Z
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:46:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57393)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEvPu-0003GN-A0
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:45:37 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEvQc-0003cn-M7
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:46:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614177929;
+ s=mimecast20190719; t=1614177974;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Y6qQ8WUyyd9Dl6d48HDjjpAlyT5GsHiTiYJryrGfxpY=;
- b=CDrQvhLL7q6/i+nE7Tsvx3MymV6JGGVFu9kj9k2C7QyRve53VmhYzvDpsa2ZX7DZo1xkoj
- 3COAIPUN6d1u8w6vtuBw1lUvR1H1oR/wS6vMlaYSiEBf7JQdyoZ3QuGA0eq6RNqpIjRBzz
- +h4KRxySf2bQeZVuL8+NxoxuO/w1TdY=
+ bh=I+tsw32m4ImJA/s2NdC+WrUHp21imXzyr/ZshNYex1o=;
+ b=FC3KCNJYXZEE2BmKsZtX8Efjls8V7bBCMGdqtYcAZ1ECoA5Z/z3aa75EJtgSBtguSe/i8D
+ qLsjHv638IYjGijISXtg+ha5wDSJrN5P96TALcHiw46Fww+SMNcCuJhhf5xlBd+3uGeRmS
+ qrZ0s7WqusXCpfivpYGnayahbJ0DIR0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-GBOFvllROdmuXl-1o7bVbw-1; Wed, 24 Feb 2021 09:45:27 -0500
-X-MC-Unique: GBOFvllROdmuXl-1o7bVbw-1
+ us-mta-528-9DnrToVMNjS8Jbl668d9kw-1; Wed, 24 Feb 2021 09:45:27 -0500
+X-MC-Unique: 9DnrToVMNjS8Jbl668d9kw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805B919558C0;
- Wed, 24 Feb 2021 13:53:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B429019558C6;
+ Wed, 24 Feb 2021 13:54:00 +0000 (UTC)
 Received: from merkur.redhat.com (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 913305D6AD;
- Wed, 24 Feb 2021 13:53:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C72995D6D3;
+ Wed, 24 Feb 2021 13:53:57 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 10/31] qapi/qom: Add ObjectOptions for secret*,
+Subject: [PATCH v2 11/31] qapi/qom: Add ObjectOptions for tls-*,
  deprecate 'loaded'
-Date: Wed, 24 Feb 2021 14:52:34 +0100
-Message-Id: <20210224135255.253837-11-kwolf@redhat.com>
+Date: Wed, 24 Feb 2021 14:52:35 +0100
+Message-Id: <20210224135255.253837-12-kwolf@redhat.com>
 In-Reply-To: <20210224135255.253837-1-kwolf@redhat.com>
 References: <20210224135255.253837-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -64,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,7 +84,7 @@ Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds a QAPI schema for the properties of the secret* objects.
+This adds a QAPI schema for the properties of the tls-* objects.
 
 The 'loaded' property doesn't seem to make sense as an external
 interface: It is automatically set to true in ucc->complete, and
@@ -96,132 +96,146 @@ in the schema from the start.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/crypto.json           | 61 ++++++++++++++++++++++++++++++++++++++
- qapi/qom.json              |  5 ++++
- docs/system/deprecated.rst | 11 +++++++
- 3 files changed, 77 insertions(+)
+ qapi/crypto.json | 98 ++++++++++++++++++++++++++++++++++++++++++++++++
+ qapi/qom.json    | 12 +++++-
+ 2 files changed, 108 insertions(+), 2 deletions(-)
 
 diff --git a/qapi/crypto.json b/qapi/crypto.json
-index 2aebe6fa20..0fef3de66d 100644
+index 0fef3de66d..7116ae9a46 100644
 --- a/qapi/crypto.json
 +++ b/qapi/crypto.json
-@@ -381,3 +381,64 @@
-   'discriminator': 'format',
-   'data': {
-           'luks': 'QCryptoBlockAmendOptionsLUKS' } }
+@@ -442,3 +442,101 @@
+ { 'struct': 'SecretKeyringProperties',
+   'base': 'SecretCommonProperties',
+   'data': { 'serial': 'int32' } }
 +
 +##
-+# @SecretCommonProperties:
++# @TlsCredsProperties:
 +#
-+# Properties for objects of classes derived from secret-common.
++# Properties for objects of classes derived from tls-creds.
 +#
-+# @loaded: if true, the secret is loaded immediately when applying this option
-+#          and will probably fail when processing the next option. Don't use;
++# @verify-peer: if true the peer credentials will be verified once the
++#               handshake is completed.  This is a no-op for anonymous
++#               credentials. (default: true)
++#
++# @dir: the path of the directory that contains the credential files
++#
++# @endpoint: whether the QEMU network backend that uses the credentials will be
++#            acting as a client or as a server (default: client)
++#
++# @priority: a gnutls priority string as described at
++#            https://gnutls.org/manual/html_node/Priority-Strings.html
++#
++# Since: 2.5
++##
++{ 'struct': 'TlsCredsProperties',
++  'data': { '*verify-peer': 'bool',
++            '*dir': 'str',
++            '*endpoint': 'QCryptoTLSCredsEndpoint',
++            '*priority': 'str' } }
++
++##
++# @TlsCredsAnonProperties:
++#
++# Properties for tls-creds-anon objects.
++#
++# @loaded: if true, the credentials are loaded immediately when applying this
++#          option and will ignore options that are processed later. Don't use;
 +#          only provided for compatibility. (default: false)
-+#
-+# @format: the data format that the secret is provided in (default: raw)
-+#
-+# @keyid: the name of another secret that should be used to decrypt the
-+#         provided data. If not present, the data is assumed to be unencrypted.
-+#
-+# @iv: the random initialization vector used for encryption of this particular
-+#      secret. Should be a base64 encrypted string of the 16-byte IV. Mandatory
-+#      if @keyid is given. Ignored if @keyid is absent.
 +#
 +# Features:
 +# @deprecated: Member @loaded is deprecated.  Setting true doesn't make sense,
 +#              and false is already the default.
 +#
-+# Since: 2.6
++# Since: 2.5
 +##
-+{ 'struct': 'SecretCommonProperties',
++{ 'struct': 'TlsCredsAnonProperties',
++  'base': 'TlsCredsProperties',
++  'data': { '*loaded': { 'type': 'bool', 'features': ['deprecated'] } } }
++
++##
++# @TlsCredsPskProperties:
++#
++# Properties for tls-creds-psk objects.
++#
++# @loaded: if true, the credentials are loaded immediately when applying this
++#          option and will ignore options that are processed later. Don't use;
++#          only provided for compatibility. (default: false)
++#
++# @username: the username which will be sent to the server.  For clients only.
++#            If absent, "qemu" is sent and the property will read back as an
++#            empty string.
++#
++# Features:
++# @deprecated: Member @loaded is deprecated.  Setting true doesn't make sense,
++#              and false is already the default.
++#
++# Since: 3.0
++##
++{ 'struct': 'TlsCredsPskProperties',
++  'base': 'TlsCredsProperties',
 +  'data': { '*loaded': { 'type': 'bool', 'features': ['deprecated'] },
-+            '*format': 'QCryptoSecretFormat',
-+            '*keyid': 'str',
-+            '*iv': 'str' } }
++            '*username': 'str' } }
 +
 +##
-+# @SecretProperties:
++# @TlsCredsX509Properties:
 +#
-+# Properties for secret objects.
++# Properties for tls-creds-x509 objects.
 +#
-+# Either @data or @file must be provided, but not both.
++# @loaded: if true, the credentials are loaded immediately when applying this
++#          option and will ignore options that are processed later. Don't use;
++#          only provided for compatibility. (default: false)
 +#
-+# @data: the associated with the secret from
++# @sanity-check: if true, perform some sanity checks before using the
++#                credentials (default: true)
 +#
-+# @file: the filename to load the data associated with the secret from
++# @passwordid: For the server-key.pem and client-key.pem files which contain
++#              sensitive private keys, it is possible to use an encrypted
++#              version by providing the @passwordid parameter.  This provides
++#              the ID of a previously created secret object containing the
++#              password for decryption.
 +#
-+# Since: 2.6
++# Features:
++# @deprecated: Member @loaded is deprecated.  Setting true doesn't make sense,
++#              and false is already the default.
++#
++# Since: 2.5
 +##
-+{ 'struct': 'SecretProperties',
-+  'base': 'SecretCommonProperties',
-+  'data': { '*data': 'str',
-+            '*file': 'str' } }
-+
-+##
-+# @SecretKeyringProperties:
-+#
-+# Properties for secret_keyring objects.
-+#
-+# @serial: serial number that identifies a key to get from the kernel
-+#
-+# Since: 5.1
-+##
-+{ 'struct': 'SecretKeyringProperties',
-+  'base': 'SecretCommonProperties',
-+  'data': { 'serial': 'int32' } }
++{ 'struct': 'TlsCredsX509Properties',
++  'base': 'TlsCredsProperties',
++  'data': { '*loaded': { 'type': 'bool', 'features': ['deprecated'] },
++            '*sanity-check': 'bool',
++            '*passwordid': 'str' } }
 diff --git a/qapi/qom.json b/qapi/qom.json
-index 449dca8ec5..2668ad8369 100644
+index 2668ad8369..f22b7aa99b 100644
 --- a/qapi/qom.json
 +++ b/qapi/qom.json
-@@ -7,6 +7,7 @@
- { 'include': 'authz.json' }
- { 'include': 'block-core.json' }
- { 'include': 'common.json' }
-+{ 'include': 'crypto.json' }
- 
- ##
- # = QEMU Object Model (QOM)
-@@ -449,6 +450,8 @@
-     'rng-builtin',
-     'rng-egd',
+@@ -452,7 +452,11 @@
      'rng-random',
-+    'secret',
-+    'secret_keyring',
-     'throttle-group'
+     'secret',
+     'secret_keyring',
+-    'throttle-group'
++    'throttle-group',
++    'tls-creds-anon',
++    'tls-creds-psk',
++    'tls-creds-x509',
++    'tls-cipher-suites'
    ] }
  
-@@ -483,6 +486,8 @@
-       'rng-builtin':                'RngProperties',
-       'rng-egd':                    'RngEgdProperties',
+ ##
+@@ -488,7 +492,11 @@
        'rng-random':                 'RngRandomProperties',
-+      'secret':                     'SecretProperties',
-+      'secret_keyring':             'SecretKeyringProperties',
-       'throttle-group':             'ThrottleGroupProperties'
+       'secret':                     'SecretProperties',
+       'secret_keyring':             'SecretKeyringProperties',
+-      'throttle-group':             'ThrottleGroupProperties'
++      'throttle-group':             'ThrottleGroupProperties',
++      'tls-creds-anon':             'TlsCredsAnonProperties',
++      'tls-creds-psk':              'TlsCredsPskProperties',
++      'tls-creds-x509':             'TlsCredsX509Properties',
++      'tls-cipher-suites':          'TlsCredsProperties'
    } }
  
-diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 79991c2893..78b175cb59 100644
---- a/docs/system/deprecated.rst
-+++ b/docs/system/deprecated.rst
-@@ -155,6 +155,17 @@ other options have been processed.  This will either have no effect (if
- ``opened`` was the last option) or cause errors.  The property is therefore
- useless and should not be specified.
- 
-+``loaded`` property of ``secret`` and ``secret_keyring`` objects (since 6.0.0)
-+''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-+
-+The only effect of specifying ``loaded=on`` in the command line or QMP
-+``object-add`` is that the secret is loaded immediately, possibly before all
-+other options have been processed.  This will either have no effect (if
-+``loaded`` was the last option) or cause options to be effectively ignored as
-+if they were not given.  The property is therefore useless and should not be
-+specified.
-+
-+
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
- 
+ ##
 -- 
 2.29.2
 
