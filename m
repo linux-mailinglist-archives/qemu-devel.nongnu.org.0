@@ -2,64 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86EC3245A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 22:18:23 +0100 (CET)
-Received: from localhost ([::1]:49794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A553B3245B5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 22:22:54 +0100 (CET)
+Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF1Y6-0004M2-8C
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 16:18:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49886)
+	id 1lF1cT-0007JT-GF
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 16:22:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF1Vk-0003TQ-C5
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:15:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37143)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lF1b2-0006VH-7Z
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:21:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF1Vf-0006Oa-Qh
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:15:54 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lF1ay-0000Qh-Ej
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:21:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614201347;
+ s=mimecast20190719; t=1614201679;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pGCDwB3DW3VPoWU4mPPc9WdHBtgejJ7RnAYwBTRx6IY=;
- b=Gbc2n9fZ/Man7CzKsRtHwL5SZBgOJ2YNjnO2d12kmUVw98Oh8AkjJSc3irqUEhQuFriWbd
- 6o8kO7hVWA+9M//gqwEz96KxV6Czt7tI/FMZGwR1vhNYXYqoa7/gEAzjDMWoi2FcRD2pwq
- V59Uy7shs8L1BUF7w9LJGQUf9UKagIA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-99-tH4BJhoCOte3q6I1HGbm8g-1; Wed, 24 Feb 2021 16:15:45 -0500
-X-MC-Unique: tH4BJhoCOte3q6I1HGbm8g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A86901E56B;
- Wed, 24 Feb 2021 21:15:44 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7709D60C91;
- Wed, 24 Feb 2021 21:15:43 +0000 (UTC)
-Subject: Re: [PATCH] qapi: Fix parse errors for removal of null from schema
- language
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210224101442.1837475-1-armbru@redhat.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <1d60d007-c8b8-923b-58a3-82543c770b7d@redhat.com>
-Date: Wed, 24 Feb 2021 16:15:42 -0500
+ bh=kBb3ywUbQCpSK1+Dj8YFEUS+uIncm4+VXfEC5jOaKMk=;
+ b=Ivb3zbCS0aHFTl2kgwHLru/77cuWz+5m/1yVVGYQMxHy2qBj8taTvmWtv7GKSIJ92iaK/H
+ oAfPhzjRAweSCOZ+qeIGLQLFpkDVxi70of5+R11A6qeUthWruIThtSDni7ZQ46MuZywCvH
+ cou9/951P0NFQeN7TEPfwh3n4pyTkqs=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-437-GfCFDmWjM-en3evzDQn9sw-1; Wed, 24 Feb 2021 16:21:16 -0500
+X-MC-Unique: GfCFDmWjM-en3evzDQn9sw-1
+Received: by mail-wr1-f72.google.com with SMTP id e13so1618723wrg.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 13:21:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kBb3ywUbQCpSK1+Dj8YFEUS+uIncm4+VXfEC5jOaKMk=;
+ b=NmU0R+O34HpcXGFLS1UUkJfP7nd5sty+ofjyboxcGkjW63oKTfE5Oda/LbggXgrb4M
+ H+TI+Yzb9GbuOOdHrRLQuwEI28EXtVC7I7XcSe99kX8fPFybBTNwRnzgrrHszYIkR1Qi
+ 2yZZuQlXf8mY58kPKzvT1D8x5qN9pBqmkp+GJ3Zt0q8opn3Er9KzEcnjlLjKIex6gbNI
+ XABnTQ8VpTMqy9rOOchd5OkfwptuYygNt9pw4ADmxnD4/WrRZS4gWiEbrqvBvICIveY0
+ 1F4BTE7bmqRifD+up9u+35CUU0s4UE/oJKM2kiQlelMJxs3hTAHCwuWbmCsp/dV05W6A
+ 4WwQ==
+X-Gm-Message-State: AOAM53062HS/iW2guIGSmyS3D6K3PQ7p7nM1Ar7Jy+Ga9BCjHVuxovrf
+ FlKIxFXoC6rE0YfI0CneGPDawONxXvxoHwHox3oqTvLxzjOIdYVb3k4d8imvjV3Vl/TIupqhQTn
+ 6obmFUoKBK7ZOB/FJDyrv3yFjEp739XtA2p6inliJnxtlpVDJbaw/BfbRL8o03EP0
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr12955wmk.63.1614201675015;
+ Wed, 24 Feb 2021 13:21:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzVvumde/K6kAc5eH1cKA67cAtCY4ix18osW7cGvIp2VzKKYjjvuVP2hw/9+ISG+NtaZ2LsKw==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr12932wmk.63.1614201674755;
+ Wed, 24 Feb 2021 13:21:14 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id f7sm4393686wmh.39.2021.02.24.13.21.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Feb 2021 13:21:13 -0800 (PST)
+Subject: Re: [PATCH v22 06/17] meson: add target_user_arch
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210224133428.14071-1-cfontana@suse.de>
+ <20210224133428.14071-7-cfontana@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <ab323577-c68e-c215-655f-1b45d2e9b112@redhat.com>
+Date: Wed, 24 Feb 2021 22:21:12 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210224101442.1837475-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210224133428.14071-7-cfontana@suse.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -81,71 +102,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: michael.roth@amd.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 5:14 AM, Markus Armbruster wrote:
-> Commit 9d55380b5a "qapi: Remove null from schema language" (v4.2.0)
-> neglected to update two error messages.  Do that now.
+On 2/24/21 2:34 PM, Claudio Fontana wrote:
+> the lack of target_user_arch makes it hard to fully leverage the
+> build system in order to separate user code from sysemu code.
 > 
+> Provide it, so that we can avoid the proliferation of #ifdef
+> in target code.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> 
+> [claudio: added changes for new target hexagon]
 
-One less patch in part 5.
+Again, this line goes ...
 
-Reviewed-by: John Snow <jsnow@redhat.com>
-
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
 > ---
->   scripts/qapi/parser.py                    | 8 ++++----
->   tests/qapi-schema/leading-comma-list.err  | 2 +-
->   tests/qapi-schema/trailing-comma-list.err | 2 +-
->   3 files changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
-> index e7b9d670ad..116afe549a 100644
-> --- a/scripts/qapi/parser.py
-> +++ b/scripts/qapi/parser.py
-> @@ -236,9 +236,9 @@ def get_values(self):
->           if self.tok == ']':
->               self.accept()
->               return expr
-> -        if self.tok not in "{['tfn":
-> +        if self.tok not in "{['tf":
->               raise QAPIParseError(
-> -                self, "expected '{', '[', ']', string, boolean or 'null'")
-> +                self, "expected '{', '[', ']', string, or boolean")
->           while True:
->               expr.append(self.get_expr(True))
->               if self.tok == ']':
-> @@ -257,12 +257,12 @@ def get_expr(self, nested):
->           elif self.tok == '[':
->               self.accept()
->               expr = self.get_values()
-> -        elif self.tok in "'tfn":
-> +        elif self.tok in "'tf":
->               expr = self.val
->               self.accept()
->           else:
->               raise QAPIParseError(
-> -                self, "expected '{', '[', string, boolean or 'null'")
-> +                self, "expected '{', '[', string, or boolean")
->           return expr
->   
->       def get_doc(self, info):
-> diff --git a/tests/qapi-schema/leading-comma-list.err b/tests/qapi-schema/leading-comma-list.err
-> index 76eed2b5b3..0725d6529f 100644
-> --- a/tests/qapi-schema/leading-comma-list.err
-> +++ b/tests/qapi-schema/leading-comma-list.err
-> @@ -1 +1 @@
-> -leading-comma-list.json:2:13: expected '{', '[', ']', string, boolean or 'null'
-> +leading-comma-list.json:2:13: expected '{', '[', ']', string, or boolean
-> diff --git a/tests/qapi-schema/trailing-comma-list.err b/tests/qapi-schema/trailing-comma-list.err
-> index ad2f2d7c97..bb5f8c3c90 100644
-> --- a/tests/qapi-schema/trailing-comma-list.err
-> +++ b/tests/qapi-schema/trailing-comma-list.err
-> @@ -1 +1 @@
-> -trailing-comma-list.json:2:36: expected '{', '[', string, boolean or 'null'
-> +trailing-comma-list.json:2:36: expected '{', '[', string, or boolean
-> 
+
+... here. Else it is not stripped by git-am and ends
+burried in the repository (see commit 940e43aa30e).
+
+>  meson.build                   | 5 +++++
+>  target/alpha/meson.build      | 3 +++
+>  target/arm/meson.build        | 2 ++
+>  target/cris/meson.build       | 3 +++
+>  target/hexagon/meson.build    | 3 +++
+>  target/hppa/meson.build       | 3 +++
+>  target/i386/meson.build       | 2 ++
+>  target/m68k/meson.build       | 3 +++
+>  target/microblaze/meson.build | 3 +++
+>  target/mips/meson.build       | 3 +++
+>  target/nios2/meson.build      | 3 +++
+>  target/openrisc/meson.build   | 3 +++
+>  target/ppc/meson.build        | 3 +++
+>  target/riscv/meson.build      | 3 +++
+>  target/s390x/meson.build      | 3 +++
+>  target/sh4/meson.build        | 3 +++
+>  target/sparc/meson.build      | 3 +++
+>  target/tilegx/meson.build     | 3 +++
+>  target/tricore/meson.build    | 3 +++
+>  target/xtensa/meson.build     | 3 +++
+>  20 files changed, 60 insertions(+)
 
 
