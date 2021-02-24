@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADCD324328
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:28:08 +0100 (CET)
-Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B26B2324333
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:32:43 +0100 (CET)
+Received: from localhost ([::1]:34540 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExxG-0004uf-PY
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:28:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48730)
+	id 1lEy1i-0007Yt-Gp
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:32:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lExmQ-0004Ie-6w
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:17:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lExmL-0004He-Ne
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:16:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614187007;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=HMSf7VHZzN3ORhRRQHVi3oJyjkiz8LlOOO8DQlsKxl4=;
- b=KbiS1PFKePN0sxjxAGSiEsI3JQ/jUVmZjQQGkOKELXo1l5SHJk2Osi/2apPYU9qn2qhBZ1
- ak13gc6gLovAeKcW9vfW2orc0HkTkX476GFa3CAqQeKC44ZY4w8JpEngBzFFcMbgAtFUD4
- vciYXheEiQSLjf7kk3bYrp3vTYS0WyA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-127-hvcCwq_DPXG4q5TFCGqrhg-1; Wed, 24 Feb 2021 12:16:46 -0500
-X-MC-Unique: hvcCwq_DPXG4q5TFCGqrhg-1
-Received: by mail-wm1-f69.google.com with SMTP id u15so840315wmj.2
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 09:16:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HMSf7VHZzN3ORhRRQHVi3oJyjkiz8LlOOO8DQlsKxl4=;
- b=FbEzhIFYwTK4tJZMTwfl0mMBhWsX77djsjxXcczCMlP/h7j7TWLb8Q6JbkfL+CwrXF
- jgBeA0ne3km6hmJc+CgXZFybV/hzYxANEUMpMs7gYHOWW51NJw63re+JXN3yDNbTrMC8
- F9Ac7EcwJxsP8vvtnG8nUc1AwFoKqP+2EDnlbbv7JgraC1+6tWDl5DKUScT0tSGfDAFA
- 8jTiqRlgldsqmHTLHoQ8AJFPOB/2XzXBZZ6peZp6BxdK/QVq3kTANKu7nqfWxjUB2Ttt
- 6rZqAl47LBBy+4c1QYtcm5YISBeEXhNsJuhC1tt37E8lR/lpo9yss8gB6LN4T5VcdSgI
- COeA==
-X-Gm-Message-State: AOAM533d3S2w0qyPjyn2zXitNRZtCS3FDNfOkewBYDg4UryBdUZSKZd+
- w4YG8HawitvvhnoBa6L6HiM8su5hkFsKE5AWFpui5vojOFMSvznIlTjJURM8jMphUkCdeM4Ofhb
- ZX0HEIPuuGl9Es/ZIjEGoIHIdnRAy1lsi0maeMwPGu4/goOqlXFtiiYm6esH2z4bU
-X-Received: by 2002:a7b:c417:: with SMTP id k23mr4728192wmi.132.1614187004642; 
- Wed, 24 Feb 2021 09:16:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyS2ICE/w7+ZEat06UHPH/k/rw3E8Hy4qlOg6FuVRMEKO3NGt5743Umk90OpAZSLKRxzeFdLA==
-X-Received: by 2002:a7b:c417:: with SMTP id k23mr4728178wmi.132.1614187004454; 
- Wed, 24 Feb 2021 09:16:44 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id o13sm5627209wro.15.2021.02.24.09.16.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 09:16:43 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lExyu-0006Ee-Co
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:29:49 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:55189)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lExyp-0000a5-Bu
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:29:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=cfld9iqQqB8zEmqw3OtX+VEwv5dIhK7gDXNdydRlBRc=; b=MlrQYFCLpq9DCxugQNSJarKUs6
+ b6E2XBdPDM7w3E69/Oc5zOl7GEqaqAy/hU1K9+UTbxcjor0ulzadfI8Yahvc/gyRHs0pCC/XmqoJX
+ Jsasxy0fF9pjqC0n/yULoe2JD/hklB2A4vAYJHuXXt64+jIjwWpkuP4PoGt7oRNwqM7QcJMUDpjDA
+ Wacb4UsI7aZXvAwgQuEe/j5egnCvdrEEarDeWk0MgG8eAbJCFX/7y77+tZbZj01TQYxAFh0CdFHgV
+ R4AmY68SS9OP8uFpGmyDMSQoYy9VRrUU3YHtCDLXshOOSBvinjK++YzIyHYS9kQvpiY4aFe2pQQkQ
+ amNCgfd+2Yy/3wV125EF7UpQRdKvwJNeYFVmFawiSGsob9rxvT8XrJ4bkYu9P7y61gfN4141LrkrF
+ gxcHPbsyQxXPl6VjhR3T+lSkMGj692jZPEOSOs99AbrTqbObY03JdTlqQd2ZpUP+JW7ajn4whmHc7
+ XXrbfdpn00qdAPrYq6hLPS7TIMDD1hKSwJUBEXQJ4Pib//1l+MmytX1eN/N895I9L/kRypQihfB4S
+ wVg6KB/TAmzHPQfo0MSTfACzYRUPu7XNzfFKlIywnIvXad66fKcWykhda9/Q9EMNBo2xQ++udbW1u
+ 1IULmOKhV6SiVptG10vFNJQRo5a3KJ2YTf9WshgK8=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] qapi: Remove QMP events and commands from user-mode builds
-Date: Wed, 24 Feb 2021 18:16:42 +0100
-Message-Id: <20210224171642.3242293-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+Cc: =?ISO-8859-1?Q?Jos=E9_Ram=F3n_Mu=F1oz?= Pekkarinen <koalinux@gmail.com>,
+ Geoffrey McRae <geoff@hostfission.com>, kraxel@redhat.com
+Subject: Re: [PATCH] Autoconnect jack ports by default
+Date: Wed, 24 Feb 2021 18:29:34 +0100
+Message-ID: <10027779.MNeJ0xqg2j@silver>
+In-Reply-To: <CANWZPg+agYD3bXBPsEYG8txZqV6UwT3piJY0kbKy4t0+8vutZA@mail.gmail.com>
+References: <20210224154901.23901-1-koalinux@gmail.com>
+ <4436341.rU913LdL3d@silver>
+ <CANWZPg+agYD3bXBPsEYG8txZqV6UwT3piJY0kbKy4t0+8vutZA@mail.gmail.com>
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,46 +67,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We removed the QMP loop in user-mode builds in commit 1935e0e4e09
-("qapi/meson: Remove QMP from user-mode emulation"), now commands
-and events code is unreachable.
+On Mittwoch, 24. Februar 2021 17:47:03 CET Jos=E9 Ram=F3n Mu=F1oz Pekkarine=
+n wrote:
+> On Wed, 24 Feb 2021 at 18:40, Christian Schoenebeck <qemu_oss@crudebyte.c=
+om>
+> wrote:
+> > On Mittwoch, 24. Februar 2021 17:16:58 CET Jos=E9 Ram=F3n Mu=F1oz Pekka=
+rinen
+> >=20
+> > wrote:
+> > > On Wed, 24 Feb 2021 at 17:49, Jos=E9 Pekkarinen <koalinux@gmail.com>
+> >=20
+> > wrote:
+> > > > This patch provides a default value to connect
+> > > > jack ports when the user don't specify connect-ports.
+> > > >=20
+> > > > Buglink: https://bugs.launchpad.net/qemu/+bug/1908832
+> > > >=20
+> > > > Signed-off-by: Jos=E9 Pekkarinen <koalinux@gmail.com>
+> > > > ---
+> > > >=20
+> > > >  audio/jackaudio.c | 15 ++++++++++++---
+> > > >  1 file changed, 12 insertions(+), 3 deletions(-)
+> > > >=20
+> > > > diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+> > > > index 3031c4e29b..a29b1ccba2 100644
+> > > > --- a/audio/jackaudio.c
+> > > > +++ b/audio/jackaudio.c
+> > > > @@ -369,14 +369,23 @@ static size_t qjack_read(HWVoiceIn *hw, void
+> >=20
+> > *buf,
+> >=20
+> > > > size_t len)
+> > > >=20
+> > > >  static void qjack_client_connect_ports(QJackClient *c)
+> > > >  {
+> > > >=20
+> > > > -    if (!c->connect_ports || !c->opt->connect_ports) {
+> > > > +    if (!c->connect_ports) {
+> > > >=20
+> > > >          return;
+> > > >     =20
+> > > >      }
+> > > >     =20
+> > > >      c->connect_ports =3D false;
+> > > >      const char **ports;
+> > > >=20
+> > > > -    ports =3D jack_get_ports(c->client, c->opt->connect_ports, NUL=
+L,
+> > > > -        c->out ? JackPortIsInput : JackPortIsOutput);
+> > > > +    if (c->out) {
+> > > > +        ports =3D jack_get_ports(c->client,
+> > > > +            c->opt->connect_ports ? "system:capture_.*"
+> > > > +                : c->opt->connect_ports,
+> >=20
+> > I think that should be the other way around:
+> >         c->opt->connect_ports ? c->opt->connect_ports :
+> >         "system:capture_.*"
+>=20
+>     I was thinking exactly the same when I was reading
+> the patch, but in the way you hint it doesn't make it, so
+> somewhere we may be taking the logic inverted.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- qapi/meson.build | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+I guess that's because the RegEx patterns are interchanged as well. Try:
 
-diff --git a/qapi/meson.build b/qapi/meson.build
-index 0652569bc43..fcb15a78f15 100644
---- a/qapi/meson.build
-+++ b/qapi/meson.build
-@@ -102,11 +102,15 @@
-     'qapi-types-@0@.h'.format(module),
-     'qapi-visit-@0@.c'.format(module),
-     'qapi-visit-@0@.h'.format(module),
--    'qapi-events-@0@.c'.format(module),
--    'qapi-events-@0@.h'.format(module),
--    'qapi-commands-@0@.c'.format(module),
--    'qapi-commands-@0@.h'.format(module),
-   ]
-+  if have_system or have_tools
-+    qapi_module_outputs += [
-+      'qapi-events-@0@.c'.format(module),
-+      'qapi-events-@0@.h'.format(module),
-+      'qapi-commands-@0@.c'.format(module),
-+      'qapi-commands-@0@.h'.format(module),
-+    ]
-+  endif
-   if module.endswith('-target')
-     qapi_specific_outputs += qapi_module_outputs
-   else
--- 
-2.26.2
+if (c->out) {
+	...
+	c->opt->connect_ports ? c->opt->connect_ports : "system:playback_.*"
+	...
+} else {
+	...
+	c->opt->connect_ports ? c->opt->connect_ports : "system:capture_.*"
+	...
+}
+
+Best regards,
+Christian Schoenebeck
+
 
 
