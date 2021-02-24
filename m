@@ -2,83 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7407432436D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:58:41 +0100 (CET)
-Received: from localhost ([::1]:54718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67388324378
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:03:58 +0100 (CET)
+Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEyQq-00020n-Gb
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:58:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57994)
+	id 1lEyVx-0004Jk-8U
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:03:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lEyNX-0000qB-OZ
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:55:15 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56456)
+ id 1lEyUX-0003aG-OT
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:02:29 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15910
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lEyNV-0000Yn-M7
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:55:15 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 11OHYg2q045198; Wed, 24 Feb 2021 12:55:09 -0500
+ id 1lEyUV-0002zW-RH
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:02:29 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11OHZmgI192350; Wed, 24 Feb 2021 13:02:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=subject : to : cc :
  references : from : message-id : date : mime-version : in-reply-to :
  content-type : content-transfer-encoding; s=pp1;
- bh=kqwYiGuVc00zpL5/ERbncxDukdh3zs2Yvdv+6X58gck=;
- b=VBQpqkwDkbOqA4lusod5eLHOj+T5OX8S9U5fvowxSvg/ABM48N+qcEC1YCj/sU5aMtgj
- 6PXw+gkDNtrtK8TC5T1QK+jfFbKaayJmhcui1WLfcYuYg86i3dOi9xRelJ6D8QynqCtV
- GT0+9HRFXQ/9wb0UxJez6PLuPiloWDihvN3Dopp9kAC569Corigvdj7yO3FaXKyQnjyS
- 45rBl+DhlOjCglTCP0wc7QMh8LQIjkLCE6MYP7AdbGND3vUmlWth3mFoaVI23tprJapp
- 0wTzfYqIdRrm4LNskJbrIU8YdmNVxL0sJV9B/wxP7BzHURSMmQ6ADxZB0PWj5rqGGXmo wA== 
+ bh=9QW6K19ubqLcMCluVG+7tkRubF3URUz32FYMexnXWdQ=;
+ b=qJxoI44EGbgvbLd35XUiki2+w054nnDd7/GW2wy0EQgKSdR/Ow322Wf9yX0TfJJM5hg6
+ M1DOe0Vq5ywo+epTvq5iEXED+NJBVPrfN6tLDuuyYWrQjKwR/K/ZoSrtU8B1BfTJOfGx
+ v8D922178pFGlu4rYL3LBlpULHv9JroPup4uhij+TVIdZUsqAiepnZaJbZkyU+aYU2Wo
+ /L7PKOvPEqjk52IJ7Rovbcd9ku2xxblk9sj+cNIrFontEPqszbkJ01lbCMZi1vBl0yqP
+ /CokmefPrDzC/tpRQo5tTwHR5TL7qi9pqh6Zx8Qq5imzJ4y4zh99zUDa1hQCRDpSrduE TA== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36wgu6f36m-1
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36wm7hj16j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 12:55:09 -0500
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11OHZcZp055606;
- Wed, 24 Feb 2021 12:55:09 -0500
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36wgu6f359-1
+ Wed, 24 Feb 2021 13:02:25 -0500
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11OHiuHW042726;
+ Wed, 24 Feb 2021 13:02:25 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36wm7hj165-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 12:55:09 -0500
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11OHq5xj001299;
- Wed, 24 Feb 2021 17:55:06 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma03wdc.us.ibm.com with ESMTP id 36tt298hfp-1
+ Wed, 24 Feb 2021 13:02:25 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11OHusuA000811;
+ Wed, 24 Feb 2021 18:02:24 GMT
+Received: from b03cxnp08028.gho.boulder.ibm.com
+ (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
+ by ppma02dal.us.ibm.com with ESMTP id 36tt2a8nqb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 17:55:06 +0000
+ Wed, 24 Feb 2021 18:02:24 +0000
 Received: from b03ledav003.gho.boulder.ibm.com
  (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11OHt5S318743754
+ by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11OI2Nij31654172
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 24 Feb 2021 17:55:05 GMT
+ Wed, 24 Feb 2021 18:02:23 GMT
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3B52F6A04D;
- Wed, 24 Feb 2021 17:55:05 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id 2B7566A04F;
+ Wed, 24 Feb 2021 18:02:23 +0000 (GMT)
 Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id BD5266A057;
- Wed, 24 Feb 2021 17:55:04 +0000 (GMT)
+ by IMSVA (Postfix) with ESMTP id A65836A04D;
+ Wed, 24 Feb 2021 18:02:22 +0000 (GMT)
 Received: from [9.163.12.145] (unknown [9.163.12.145])
  by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 24 Feb 2021 17:55:04 +0000 (GMT)
-Subject: Re: [PATCH 2/2] gitlab-ci.yml: Add jobs to test CFI flags
+ Wed, 24 Feb 2021 18:02:22 +0000 (GMT)
+Subject: Re: [PATCH 1/2] gitlab-ci.yml: Allow custom make parallelism
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 References: <20210222230106.7030-1-dbuono@linux.vnet.ibm.com>
- <20210222230106.7030-3-dbuono@linux.vnet.ibm.com>
- <e9973878-6181-41c6-5e65-afd07db7c476@redhat.com>
+ <20210222230106.7030-2-dbuono@linux.vnet.ibm.com>
+ <20057039-92b4-5b0f-436d-7310e9e59dfe@redhat.com>
+ <2209b899-4de1-5b8d-99de-0b993575c0a3@linux.vnet.ibm.com>
+ <0bed82c8-f40d-8a22-74e5-7eede5ef80c5@redhat.com>
 From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <b8a6d3be-727e-9006-e6f8-c80c918d8caa@linux.vnet.ibm.com>
-Date: Wed, 24 Feb 2021 12:55:03 -0500
+Message-ID: <bd71d643-68f0-1bfb-088c-f7c4b9cb153a@linux.vnet.ibm.com>
+Date: Wed, 24 Feb 2021 13:02:21 -0500
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <e9973878-6181-41c6-5e65-afd07db7c476@redhat.com>
+In-Reply-To: <0bed82c8-f40d-8a22-74e5-7eede5ef80c5@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -87,12 +90,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
  definitions=2021-02-24_08:2021-02-24,
  2021-02-24 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 clxscore=1015
- impostorscore=0 malwarescore=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 priorityscore=1501 mlxlogscore=999 mlxscore=0
- lowpriorityscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ phishscore=0 mlxlogscore=999
+ mlxscore=0 impostorscore=0 malwarescore=0 adultscore=0 spamscore=0
+ bulkscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2009150000 definitions=main-2102240137
-Received-SPF: none client-ip=148.163.156.1;
+Received-SPF: none client-ip=148.163.158.5;
  envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
@@ -120,51 +123,24 @@ Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/2021 3:11 AM, Paolo Bonzini wrote:
-> On 23/02/21 00:01, Daniele Buono wrote:
->> +# Set JOBS=1 because this requires LTO and ld consumes a large amount 
->> of memory.
->> +# On gitlab runners, default JOBS of 2 sometimes end up calling 2 lds 
->> concurrently
->> +# and triggers an Out-Of-Memory error
+
+
+On 2/24/2021 2:44 AM, Paolo Bonzini wrote:
+> On 23/02/21 20:34, Daniele Buono wrote:
+>> This works, but setting this value to 1 for everybody seems a bit too
+>> restrictive. While the gitlab ci runners don't have enough memory for
+>> this, that's not necessarily true for every build platform, and linking
+>> multiple targets in parallel with LTO can result in a big save in time,
+>> so I'd prefer a customizable way.
+>>
+>> How about adding a flag `--max-ld-procs` to configure to manually set
+>> backend_max_links?
 > 
-> Does it make sense to test only one target instead?
+> Another possibility is to invoke "meson configure build 
+> -Dbackend_max_links=1" after configure.
 
-I'd prefer grouping multiple targets per job so that the number of jobs 
-doesn't explode, and stopping ninja from linking in parallel does solve 
-the issue.
+I like this, I'll send a v2 soon where I replace this patch with one
+just for linking.
 
-There's also the issue that tests are also compiled here so you may end
-up with two linkers anyway. However the chance that this will end up in
-an out-of-memory error is quite smaller (possibly zero) since tests
-don't link that many object files together.
-
-> 
->> +# Because of how slirp is used in QEMU, we need to have CFI also on 
->> libslirp.
->> +# System-wide version in fedora is not compiled with CFI so we 
->> recompile it using
->> +# -enable-slirp=git
-> 
-> Can you explain what you mean, and perhaps add a check or warning for 
-> incompatible settings?
-
-Certainly. The issue here is that there is a function in libslirp that
-is used as callbacks for QEMU Timers: ra_timer_handler
-(There may be others, but of this one I'm sure because I traced it).
-
-This is not an issue when you compile slirp with qemu, since the whole
-library now has CFI informations and is statically linked in the QEMU
-binary. It becomes an issue if you are dynamically linking a system-wide
-libslirp, as it happens on Fedora.
-
-I'd be happy to add a check on configure/meson that ends the configure
-step with an error when this happens, but that would technically be an
-independent patch that I'd work on in parallel to this one.
-I would prefer to not automatically select the git-based libslirp
-because that may go unnoticed when configuring.
-
-> 
-> Paolo
-> 
+Daniele
 
