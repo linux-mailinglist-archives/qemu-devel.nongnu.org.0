@@ -2,74 +2,138 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7502324121
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 17:05:19 +0100 (CET)
-Received: from localhost ([::1]:50148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF3793240FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:59:57 +0100 (CET)
+Received: from localhost ([::1]:40904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEwf8-00069V-Pp
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 11:05:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54568)
+	id 1lEwZw-0001xA-P6
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:59:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lEwYP-0001JR-Fr
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:58:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51965)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lEwYK-0002yu-Ih
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:58:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614182295;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=pbkDDxgExv3Z/HgSETGXl6E6MhalSF9bWDYz/u8p1Ew=;
- b=fgGRay8ckGCGrTVqXbIkoeOKgoYWcO+6OrVE63buny8WqlZDRDORe/UnMU8InwNCxyd/lT
- /yLMmZfl8OovAE3dud4l2rM9ZeydR36EPs5pFDQ1Y74iQrpzyNDyCx7ZrGT3mdhiex3NrS
- 4VPcajT4NOLG4yf9l18B4uGA7FblA24=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-Ywxt271-NiKS2JJNGkKznw-1; Wed, 24 Feb 2021 10:58:10 -0500
-X-MC-Unique: Ywxt271-NiKS2JJNGkKznw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E98BE119F557;
- Wed, 24 Feb 2021 15:54:11 +0000 (UTC)
-Received: from localhost (ovpn-114-28.rdu2.redhat.com [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9CBA55C224;
- Wed, 24 Feb 2021 15:54:11 +0000 (UTC)
-Date: Wed, 24 Feb 2021 10:54:06 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH v5 4/4] Jobs based on custom runners: add job definitions
- for QEMU's machines
-Message-ID: <20210224155406.GB1074102@amachine.somewhere>
-References: <20210219215838.752547-1-crosa@redhat.com>
- <20210219215838.752547-5-crosa@redhat.com>
- <21f882ba-21db-2d45-0e74-be27e1119355@redhat.com>
- <YDUlozcbgzWfQetX@redhat.com>
- <20210223182539.GH987581@amachine.somewhere>
- <247471f5-1b65-b93c-8c23-18857653e3b8@redhat.com>
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1lEwVr-0006Kf-TR
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:55:45 -0500
+Received: from mail-eopbgr680085.outbound.protection.outlook.com
+ ([40.107.68.85]:8891 helo=NAM04-BN3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
+ id 1lEwVp-0001nl-5z
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:55:43 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IGamSlJ4MkBB9b1U3rY6LvT5l21GwQAwlTZsgvqzot4ChN66EpGgAqRREp+PSNKHUsPQpcpQuvRsJIgJ/GLMEwW6JIu8QSHDlP210K51mTsJ260vdlY3jKxbt7Grd88fmVJwlB8CioRQAJtpnc8Yz73ezH2mZwh+FTCxLVtmyg8d3+FWbHV9ZkXCLs/1MYyn9ATbudaweKE+7P3rBBUsB2ySgbDvFflnF2mTE/Nd64IdYJU+NJspVY2qffyypp5PiTyQDV9ts8xW0R1t4dErZ3x2I8y5uLszPILDFZk/yD5nT5U1uyhuVIwadICt8BvNcoQJXetOfUDZIQzL+0oaSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1h2QDLG0cFiYfr73jFSvVQFLq2rnEnGH2Oi8gVIeLDE=;
+ b=erDkRQ9C7mvH4osWaCnr0QBCvUCOhyhquW3QuUg5VhX+1LyXGjj3nyfQciYOkZdwo85+DCdRKX2xuquLiIGhcpEf8PM0S5hPJMNh9NcTp6m76FzHEW2PFzKWVvO/fyELIJCtt3SyQa2tGt9iulUQ0PzwX/NDqAiYpCXUlyoVzgLLQuEoUK/b0CvcCWaCqbw2ow0xIcseEnLZ43ARBWOfY7mh7P2YDMTuF7Y5UAkNVPsvui7jsXmFLGif/fLmpI7joshUcaKpUHUcgfedvhNawybdV4VtjnTWgx7sU2Uzyie0ZS6hNwxcnSYSmzKtMIRbeeE1bKitW5DYNG2kTDXLPA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1h2QDLG0cFiYfr73jFSvVQFLq2rnEnGH2Oi8gVIeLDE=;
+ b=RhT2qyrsVfX1CflleyCLpsvtPxVXNdH9g4sf30GjWEDU+4kvAAoIB6catPJS/TNoU99JIEN9xiyb4B3e1NBV+JQoQkBuOwRZGYOtJLyONdf+hwta1cn/yDyaAPdkJWLBxSBQ7GdGrRHLz6I542Imdt/Qu3JWN6z3XUija59J49o=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
+ by SA0PR12MB4480.namprd12.prod.outlook.com (2603:10b6:806:99::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Wed, 24 Feb
+ 2021 15:55:38 +0000
+Received: from SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::8c0e:9a64:673b:4fff]) by SN1PR12MB2560.namprd12.prod.outlook.com
+ ([fe80::8c0e:9a64:673b:4fff%5]) with mapi id 15.20.3825.040; Wed, 24 Feb 2021
+ 15:55:38 +0000
+Subject: RE: [PATCH v2] i386: Add the support for AMD EPYC 3rd generation
+ processors
+To: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+References: <161290460478.11352.8933244555799318236.stgit@bmoger-ubuntu>
+ <CAM9Jb+hOeKrQ1QxZm5zB1LioMNuyzzTObM8XL+zatqP7KdESWA@mail.gmail.com>
+ <d2f234a5-e753-5a4e-97db-21bd0a0a69eb@amd.com>
+ <CAM9Jb+hESq1yEbPcMWhJTVWoUK-es168bHoOayQ_N1vh3tdRRQ@mail.gmail.com>
+From: Babu Moger <babu.moger@amd.com>
+Message-ID: <cd9a84a3-f151-fa00-0b34-2652824bbbfc@amd.com>
+Date: Wed, 24 Feb 2021 09:55:37 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <CAM9Jb+hESq1yEbPcMWhJTVWoUK-es168bHoOayQ_N1vh3tdRRQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: SA9PR03CA0001.namprd03.prod.outlook.com
+ (2603:10b6:806:20::6) To SN1PR12MB2560.namprd12.prod.outlook.com
+ (2603:10b6:802:26::19)
 MIME-Version: 1.0
-In-Reply-To: <247471f5-1b65-b93c-8c23-18857653e3b8@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
-Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.31.136] (165.204.77.1) by
+ SA9PR03CA0001.namprd03.prod.outlook.com (2603:10b6:806:20::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3890.19 via Frontend Transport; Wed, 24 Feb 2021 15:55:38 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 98ea2596-dd12-429b-f582-08d8d8dca154
+X-MS-TrafficTypeDiagnostic: SA0PR12MB4480:
+X-Microsoft-Antispam-PRVS: <SA0PR12MB44804C24FA9BF2DAFD82C169959F9@SA0PR12MB4480.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Kt4KhRlpyr6rL/ZFYIN4Y3tjv18FKMAgaeZeRv9fgn/YxU9xiIt6YaEz3InooaEdNDaFQDjqrgFqEkQ9O+Qwv6VJLQXMetF3uO4AxnjmPrVQYeqBecsnnGS0YDN43awva//Km+ZJLz2OWqHaa/9CpfCXQDoBRNoHnqTgQGc3gRMGW+C0Jng902XAxMm62lUAgCmSsO/hWyvk0yoW5sHVyzb85DO7S1qfAUZVE2XOeoRWjOGjUOWk8FqbRH8oblHNQBJQog8G/HPSFU75OQS3rq/xSW1Z5CmeBsLpc2H/ShqAy49MZCBmzt60ysB3kQC34y/0eawVZ374+SCIgIcaWK3JOizShF9OQ5/Yf1BzPDcIyKNVdUEc+pKpr3+1+kNzDqy94L3oHS+fX0U9sUOAPN0s7hb73aLlih3SXKthWBO1ubMqSA05BYx21p4T5DgRbxiZKoqDozxhIiNu9rWrc4XewCYjSNSGvyMe/QHIjb18qxkgy7M2ePaLOt9C875OVQLVQ8xF5W0I1/wVCNjfNvScTxWZezq1wyGx0HjYrjeEogJoZvyus20RH+Gm68vxckg49SmInJ5EB8Tw9Y9htZdEGjbyVLt/fXLigdfJX3c=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(376002)(39860400002)(396003)(346002)(31696002)(66946007)(66556008)(316002)(66476007)(86362001)(31686004)(8676002)(8936002)(36756003)(2906002)(6486002)(52116002)(6916009)(2616005)(4326008)(956004)(478600001)(16526019)(186003)(26005)(53546011)(5660300002)(83380400001)(44832011)(54906003)(16576012)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WjgwVCtjQzVPallkWjU4VUJXNk5Xand4UDhqTENWb2c0c2RXSjFzaEZYb3B3?=
+ =?utf-8?B?MVAxS1BzMXFOelJrQzZaeEFmME92TE1oWVA3SUJnQTdWSno0TlBBQ2QrMlh6?=
+ =?utf-8?B?YnRVREZLbkd0WU56WVhWaDV4UkF5Z1ZjWFZpbW1DWElsM0ZYTGN4NDVydW9n?=
+ =?utf-8?B?dGFVdzhBU0M3bkY0TTB5NmIxOUhFYkVDK2Z0Q2lpQlAxb3N1c1phczNkRUlV?=
+ =?utf-8?B?MVJBMXFSMGR0Vmd3SmNtei9wWDBCVTBBMGE1cUZGUHhQSFExeGtwbEZHQlRE?=
+ =?utf-8?B?ZlhLak9oOEgxUzBIWkFLbWo0bmFHTjdlaHZaeXYvbUovQzBYQnU0TndUYkEz?=
+ =?utf-8?B?MnhtaUpCbGdKOVBHRHpJN1dROXVJalVSV2NqZ1hOdWdlM3R4R1l5QWJ6YjEv?=
+ =?utf-8?B?end2WkI5cXZndmZZQ2k5N05SNkRxbzRGdlFnU2VmNkwzQzNIZmxHSDVlS1R6?=
+ =?utf-8?B?V3NOb2ZCVzgwWFF1NFNKTkJSbW5mRFdqVjFJZW1rSEFpdW5VTDA3MGM2YXBt?=
+ =?utf-8?B?L1R4OHpnZDdYY1hGMjRLbWwxUXdiVkFpWk11YlFZK0gzN2l5VjcvaWZOeVhl?=
+ =?utf-8?B?U25ITTcrNWhKWWsvNGNmQzhydkc1RG12cjV3TCtHNnFsVU9oQ0p4eXJaRVdz?=
+ =?utf-8?B?SWZpaUh3R05mZmhSckQ3MGlYNGJSU3p0TW4rTE5yODBVSTFZQTY2TUlpaWtv?=
+ =?utf-8?B?bnRXQm9JbnNRZ1puSEdiYi9PZU8zZ1FOLzhFbEpXbzBQRWJFSTAzY1Robzk1?=
+ =?utf-8?B?aWpDQ01VcFNsS3NZWGc1YWZpanFNblgrN0MzbXlKdkI2RmlKS0Y1WWVaWFhi?=
+ =?utf-8?B?eHdoakF6NlZKdENzVEh5V0tCMHQ3MUppakhVelcwYjhKUUpXaE9ZYS9yQysw?=
+ =?utf-8?B?disxSXZmN3FDL3ZCZVhRUXhCeFdIOFE5MHk1U2NKSlZZRHZMSVFRckRMdlly?=
+ =?utf-8?B?Vk5YcVE4YVFLTVAzZjB5ZjRtaWRiZlNSZ2Q3cnFDbWFyeFJaM2pXMVBYWitH?=
+ =?utf-8?B?aWszaXN5VE9IaFFLQWRzYVZGY1JvNEZNeGEvU1RrOFNqVDdpVXpwNG9XOVdN?=
+ =?utf-8?B?YnlKZVNNY3dQWmJmaVh3bzJIV2RLQVhIRVJONnVyTFNGNXI5U1E0Z3F6MnF1?=
+ =?utf-8?B?S05NdGM1U2J6QXNuQk1zSitXRkE3RUQ4R2UvL3ROMzZOb0c4elJuUDNjWE1C?=
+ =?utf-8?B?ZGFOMStjZ0N5Z255YjdJUDArcXhyTnBrZmNEUXdVMGJZUjZBNFR1cHlHYjV0?=
+ =?utf-8?B?OVluTEFsZDF2UWw4U3o3Q2ttQlk3NmdCYktqbkZyNDE2c29haEdMMUVFbW5y?=
+ =?utf-8?B?RkNUTFNvNjNYYjNtZkQ4ME1tRlh2MWxIWDUxbDAvRXhSSGJjcldsY0xRZE5H?=
+ =?utf-8?B?YmsrcWZmdkJ0ZGQvOU1DOVlwSTRqMXB0bXlWZDhYMThCajVtVXVpbUZYdWk3?=
+ =?utf-8?B?SWlYY0dtN0NHUWMrV3c3cVduQ1VwaUFJdnFUWEYxV2dvWDNXcnY0c0x4RHB5?=
+ =?utf-8?B?RnFDeDV0WmJDWlpEMmxWMUMzSk42c2VhWENKQmdTMjZwdExkZTlvSUg5eFBY?=
+ =?utf-8?B?Z0pDdi80S3BvNHN3WE1pQmwwdjZ5TU9vTEtGa1JNUUhJNjdaRTQ2c3hFTUxy?=
+ =?utf-8?B?MFN3RE9kaXplam1OLzBvSzg3dGJIZVNxcnU0WFhmMUlPRjdud2JkVVM1UXl2?=
+ =?utf-8?B?T1IzYVRlMktLM2RwT3F3bGpEd01XcklPRzRmV1EvSFhRT2RBL21DMy93d2tW?=
+ =?utf-8?Q?dlOJU0/ul8GBrvIV2d1+KFDLqjaI71uJNUpZ6mM?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98ea2596-dd12-429b-f582-08d8d8dca154
+X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2021 15:55:38.5238 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vjLiQe0MMBawrxSM1HBuqfB5x29wcvWfhw94vHVUDIJqZHOQwjjwELlbIlxqnhfG
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR12MB4480
+Received-SPF: softfail client-ip=40.107.68.85; envelope-from=Babu.Moger@amd.com;
+ helo=NAM04-BN3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,80 +146,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Andrea Bolognani <abologna@redhat.com>, Willian Rampazzo <wrampazz@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Beraldo Leal <bleal@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---6sX45UoQRIJXqkqR
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Pankaj,
 
-On Wed, Feb 24, 2021 at 01:00:54PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 2/23/21 7:25 PM, Cleber Rosa wrote:
-> > On Tue, Feb 23, 2021 at 03:56:19PM +0000, Daniel P. Berrang=E9 wrote:
-> >>
-> >> Urgh, well that's a big problem. We certainly don't want *anything* be=
-ing
-> >> placed on the custom runners without explicit opt-in, otherwise jobs r=
-un
-> >> in the main repo have a different environment from when users run on t=
-heir
-> >> personal forks.
-> >>
-> >> IOW, we need anti-affinity against our custom runners really.
-> >>
-> >=20
-> > I'm assuming Phil missed that documentation, because that's a
-> > non-issue, really.
-> >=20
-> > Just unchecking the "Run untagged jobs" check box on the runner
-> > configuration makes sure that the custom runners won't pickup any jobs
-> > not *specifically* tagged for them.
->=20
-> Can we explicit this when registering the runner instead of having to
-> access the WebUI?
->=20
-> $ gitlab-runner register --help
->=20
->    --run-untagged
->      Register to run untagged builds; defaults to 'true'
->      when 'tag-list' is empty [$REGISTER_RUN_UNTAGGED]
->=20
+> -----Original Message-----
+> From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+> Sent: Wednesday, February 24, 2021 2:19 AM
+> To: Moger, Babu <Babu.Moger@amd.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>; richard.henderson@linaro.org;
+> Eduardo Habkost <ehabkost@redhat.com>; Qemu Developers <qemu-
+> devel@nongnu.org>
+> Subject: Re: [PATCH v2] i386: Add the support for AMD EPYC 3rd generation
+> processors
+> 
+> Hi Babu,
+> 
+> > >> +        .features[FEAT_8000_0008_EBX] =
+> > >> +            CPUID_8000_0008_EBX_CLZERO |
+> CPUID_8000_0008_EBX_XSAVEERPTR |
+> > >> +            CPUID_8000_0008_EBX_WBNOINVD |
+> CPUID_8000_0008_EBX_IBPB |
+> > >> +            CPUID_8000_0008_EBX_IBRS | CPUID_8000_0008_EBX_STIBP |
+> > >> +            CPUID_8000_0008_EBX_AMD_SSBD,
+> > >
+> > > Don't have SSBD flag exposed in default EPYC-Rome CPU configuration?
+> > > Is there any reason for this?
+> > > Or do we need to explicitly add it?
+> >
+> > I think we missed it when we added EPYC-Rome model. I was going to add
+> > it sometime soon. As you know users can still add it with "+ssbd" if required.
+> 
+> Thanks for clarifying. I also see CPUID_8000_0008_EBX_IBRS missing for Rome.
+> Will it be okay if we add them now for Rome?
 
-Sure thing, I will change the default behavior on the next version.
+It is normally added as v2 for compatibility. Like this.
 
-Thanks,
-- Cleber.
-
---6sX45UoQRIJXqkqR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmA2dpwACgkQZX6NM6Xy
-CfNceQ//doK1HNCO7WGQCOBIJNxGzZLqnUlJ+ScJQ1Gah/UrVge3b6KVLcotnO1g
-kQZPGsyloS4py5wxZaBT/SeWgdDWRnlRwrowt7WgEWWetNnKZvyI1Du9AujoQ6aJ
-UvaT1rKJ6/bdzvKjTEG+oY7S0y4e2S+fh/P8nHQm9TWPPyfybGIvhCFcL8C1sW+7
-hXVKbuPNlOwgZ9aHXY8zzGqLafyna/ReOu1zAUfne4grKCdzVqGgAQmM+jCvdH7g
-WTxT8SRbV6a8u+s/dQn/W0gxIi/5YIGRPijM4hQTBZiDkqe8f+fKERTHM4dk7pdh
-uTroj/hQ0entS0inP9v2dXTDsaWVbspGLWsOXMn+Kqm5QQaSWdYkHXvjMm5I+3pU
-D1xHkkZTS/tNd4ZeXT2WYDwnmnxktha+Wr+/m5NwoNpvm+5rxr+eyyCOoiEm9CZ7
-D6DV9AmsEb9zcH81b2uqEXYTQUV6zRZIswIyVI/6Z3JsVErCBY2j264+2tuY0LW6
-57zG03zekG3SUO2IHb3hqFO1b75LSEW4/uHLfYDxdDTEIn+cR6Icd+hlYDdVe21H
-KVO8WgnWJPe/CEie53GuMv11AiF9KYjIz6DuRcMUeUfxEAMZp01dr0bjI72I5QP5
-TF7vKpR9Dqy4frCZiJJstsldHVzlNtRv7Qy6lJnmpNMDdDC98Fw=
-=qck3
------END PGP SIGNATURE-----
-
---6sX45UoQRIJXqkqR--
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 24db7ed892..f721d0db78 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4179,6 +4179,20 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .xlevel = 0x8000001E,
+         .model_id = "AMD EPYC-Rome Processor",
+         .cache_info = &epyc_rome_cache_info,
++        .versions = (X86CPUVersionDefinition[]) {
++            { .version = 1 },
++            {
++                .version = 2,
++                .props = (PropValue[]) {
++                    { "ibrs", "on" },
++                    { "amd-ssbd", "on" },
++                    { "model-id",
++                      "AMD EPYC-Rome Processor" },
++                    { /* end of list */ }
++                }
++            },
++            { /* end of list */ }
++        }
+     },
+     {
+         .name = "EPYC-Milan",
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c index
+> 6a53446e6a..b495116545 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -4161,7 +4161,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>          .features[FEAT_8000_0008_EBX] =
+>              CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR
+> |
+>              CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
+> -            CPUID_8000_0008_EBX_STIBP,
+> +            CPUID_8000_0008_EBX_STIBP | CPUID_8000_0008_EBX_IBRS |
+> +            CPUID_8000_0008_EBX_AMD_SSBD,
+>          .features[FEAT_7_0_EBX] =
+>              CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 |
+> CPUID_7_0_EBX_AVX2 |
+>              CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 |
+> CPUID_7_0_EBX_RDSEED |
 
