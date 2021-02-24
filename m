@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A6B43240F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:56:24 +0100 (CET)
-Received: from localhost ([::1]:58346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4293240E5
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:41:15 +0100 (CET)
+Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEwWV-0005x6-5Z
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52494)
+	id 1lEwHq-0001W2-9c
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:41:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEwQU-0000Ul-LI
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:50:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52143)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEwQP-00082l-IX
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:50:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614181799;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7SrmjOryht3bO77ws3esX9ib9SfnwkJhY/d+oqIECTM=;
- b=OhN3D2wsW38PVAklyMRPN5mx1hV+oYM0KLaeyKkHZK5io+EPZQVeQzq73I2kayPjHXGsKn
- IxCL7lDBzjGolN+MkGjgnH+xSZbiA03JQVrsXzbvQXtyXRwmt33cLyoxMui65GHxgyYTsM
- bXfZjxeDlwCDCIA8FAMMURBnrZFxoZ4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-YWt5UuetND-irWFeaK2_HA-1; Wed, 24 Feb 2021 10:49:45 -0500
-X-MC-Unique: YWt5UuetND-irWFeaK2_HA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 00FBB8A0265;
- Wed, 24 Feb 2021 15:33:49 +0000 (UTC)
-Received: from redhat.com (ovpn-115-119.ams2.redhat.com [10.36.115.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5F4A35D6A8;
- Wed, 24 Feb 2021 15:33:44 +0000 (UTC)
-Date: Wed, 24 Feb 2021 15:33:41 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] docs: move CODING_STYLE into the developer documentation
-Message-ID: <YDZx1WEpMPGZB+b9@redhat.com>
-References: <20210223095931.16908-1-alex.bennee@linaro.org>
- <CAFEAcA-v51sgBiNs5hpHwyQx0X=rYdmaWYPesJ0pGy=+ufyi4w@mail.gmail.com>
- <2ee6c3b3-7b90-e10c-8950-bfd07c963558@redhat.com>
- <5a1c4191-b0e6-8dcf-d5db-7335b5f41628@redhat.com>
- <87lfbe51oy.fsf@linaro.org>
- <YDZDSY3G9+KpgJsE@stefanha-x1.localdomain>
- <YDZETVhPKm7H2My2@redhat.com>
- <YDZv9ROdREeN5o5u@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1lEwG0-0000fV-Jw; Wed, 24 Feb 2021 10:39:21 -0500
+Received: from szxga03-in.huawei.com ([45.249.212.189]:2192)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
+ id 1lEwFw-0002rJ-Bg; Wed, 24 Feb 2021 10:39:20 -0500
+Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
+ by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Dm0Qf6N5sz5Vhc;
+ Wed, 24 Feb 2021 23:36:58 +0800 (CST)
+Received: from dggpemm100012.china.huawei.com (7.185.36.212) by
+ DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
+ id 14.3.498.0; Wed, 24 Feb 2021 23:38:59 +0800
+Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
+ dggpemm100012.china.huawei.com (7.185.36.212) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2106.2; Wed, 24 Feb 2021 23:38:58 +0800
+Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
+ lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
+ 15.01.2106.006; Wed, 24 Feb 2021 15:38:56 +0000
+From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+To: Auger Eric <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
+ <eric.auger.pro@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "alex.williamson@redhat.com"
+ <alex.williamson@redhat.com>
+Subject: RE: [RFC v7 26/26] vfio/pci: Implement return_page_response page
+ response callback
+Thread-Topic: [RFC v7 26/26] vfio/pci: Implement return_page_response page
+ response callback
+Thread-Index: AQHWvEUTUiE9WTe+7E+ovBX+zyeIRqpeRGbwgAAIYwCAAA9WoIAAIHCAgAlxCQCAAB3dwA==
+Date: Wed, 24 Feb 2021 15:38:56 +0000
+Message-ID: <0c74eadade7b45c7b59cf38a205af396@huawei.com>
+References: <20201116181349.11908-1-eric.auger@redhat.com>
+ <20201116181349.11908-27-eric.auger@redhat.com>
+ <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
+ <f11ef533-da64-3d6a-24f5-79d5e7a205da@redhat.com>
+ <5f85d8999c0c40a29c32ac63b8730fa8@huawei.com>
+ <679c5696-c73f-517d-f555-90ec2c767fbb@redhat.com>
+ <41b9d3a2-1199-5dad-876b-10efa51638bb@redhat.com>
+In-Reply-To: <41b9d3a2-1199-5dad-876b-10efa51638bb@redhat.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.47.95.44]
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-In-Reply-To: <YDZv9ROdREeN5o5u@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.189;
+ envelope-from=shameerali.kolothum.thodi@huawei.com; helo=szxga03-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,62 +78,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
+ "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
+ "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
+ "tn@semihalf.com" <tn@semihalf.com>, "peterx@redhat.com" <peterx@redhat.com>,
+ "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
+ "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
+ "yi.l.liu@intel.com" <yi.l.liu@intel.com>,
+ "zhangfei.gao@gmail.com" <zhangfei.gao@gmail.com>,
+ yuzenghui <yuzenghui@huawei.com>, qubingbing <qubingbing@hisilicon.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 03:25:41PM +0000, Stefan Hajnoczi wrote:
-> On Wed, Feb 24, 2021 at 12:19:25PM +0000, Daniel P. Berrangé wrote:
-> > On Wed, Feb 24, 2021 at 12:15:05PM +0000, Stefan Hajnoczi wrote:
-> > > On Tue, Feb 23, 2021 at 01:37:45PM +0000, Alex Bennée wrote:
-> > > > 
-> > > > Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> > > > > Or even better since we have a job pushing to Gitlab pages
-> > > > > accessible on https://qemu-project.gitlab.io/qemu/:
-> > > > >
-> > > > > https://qemu-project.gitlab.io/qemu/devel/style.html
-> > > > >
-> > > > > Maybe the https://www.qemu.org/docs/ redirect should
-> > > > > go to gitlab page now?
-> > > > 
-> > > > It could do either, I think the result is exactly the same.
-> > > 
-> > > Standarizing project infrastructure on GitLab CI seems good to me. That
-> > > way developers will be able to reuse their CI knowledge and won't have
-> > > to learn other systems (like readthedocs).
-> > > 
-> > > However, I don't see .gitlab-ci.yml directives that build the docs and
-> > > publish a static page yet. Is anyone volunteering to do this? (It can be
-> > > done as a separate step from this patch.)
-> > 
-> > The very last job (called 'pages') in .gitlab-ci.yml does this.
-> 
-> Awesome! I have updated the qemu.org HTTP redirect to GitLab:
-> 
->   https://qemu.org/docs/master/
-> 
-> If anyone wants to discuss RTD vs GitLab docs hosting more, please go
-> ahead. We can change the redirect again in the future, if necessary.
-
-The downside with using a HTTP redirect is that user's still see the
-particular hosting choice. So they are liable to bookmark these
-links which will  break if we move again.
-
-Paolo had proposed a patch to rsync the CI content directly onto
-qemu.org:
-
-  https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04629.html
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+SGkgRXJpYywNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBdWdlciBF
+cmljIFttYWlsdG86ZXJpYy5hdWdlckByZWRoYXQuY29tXQ0KPiBTZW50OiAyNCBGZWJydWFyeSAy
+MDIxIDEzOjQ0DQo+IFRvOiBTaGFtZWVyYWxpIEtvbG90aHVtIFRob2RpIDxzaGFtZWVyYWxpLmtv
+bG90aHVtLnRob2RpQGh1YXdlaS5jb20+Ow0KPiBlcmljLmF1Z2VyLnByb0BnbWFpbC5jb207IHFl
+bXUtZGV2ZWxAbm9uZ251Lm9yZzsgcWVtdS1hcm1Abm9uZ251Lm9yZzsNCj4gYWxleC53aWxsaWFt
+c29uQHJlZGhhdC5jb20NCj4gQ2M6IHBldGVyLm1heWRlbGxAbGluYXJvLm9yZzsgamFjb2IuanVu
+LnBhbkBsaW51eC5pbnRlbC5jb207DQo+IHpoYW5nZmVpLmdhb0BnbWFpbC5jb207IGplYW4tcGhp
+bGlwcGVAbGluYXJvLm9yZzsgdG5Ac2VtaWhhbGYuY29tOw0KPiBwZXRlcnhAcmVkaGF0LmNvbTsg
+bmljb2xlb3RzdWthQGdtYWlsLmNvbTsgdml2ZWsuZ2F1dGFtQGFybS5jb207DQo+IHlpLmwubGl1
+QGludGVsLmNvbTsgWmVuZ3RhbyAoQikgPHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IHl1emVu
+Z2h1aQ0KPiA8eXV6ZW5naHVpQGh1YXdlaS5jb20+OyBxdWJpbmdiaW5nIDxxdWJpbmdiaW5nQGhp
+c2lsaWNvbi5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUkZDIHY3IDI2LzI2XSB2ZmlvL3BjaTogSW1w
+bGVtZW50IHJldHVybl9wYWdlX3Jlc3BvbnNlIHBhZ2UNCj4gcmVzcG9uc2UgY2FsbGJhY2sNCj4g
+DQo+IEhpIFNoYW1lZXIsDQpbLi4uXQ0KIA0KPiBJIHNlbnQgdGhlIHJlc3BpbiBvbiB0b3Agb2Yg
+bWFzdGVyIGJyYW5jaCArIEplYW4tUGhpbGlwcGUncw0KPiBbUEFUQ0ggdjEyIDAwLzEwXSBpb21t
+dTogSS9PIHBhZ2UgZmF1bHRzIGZvciBTTU1VdjMuDQo+IGJlY2F1c2UgSSB0aG91Z2h0IGl0IG1h
+a2VzIG1vcmUgc2Vuc2UgdG8gcG9zdCBvbiBtYXN0ZXIgKyBzb21lIG5lYXJseQ0KPiAicmVhZHkg
+dG8gZ28iIHN0dWZmLg0KDQpZZXMuIEkgc2VlIHRoYXQuIFRoYW5rcyBmb3IgdGhlIHJlc3Bpbi4g
+V2lsbCB0YWtlIGEgbG9vayBhdCB0aGlzIHNvb24uDQoNCj4gDQo+IE5ldmVydGhlbGVzcyBJIHdp
+bGwgZG8gbXkgYmVzdCB0byBwcmVwYXJlIGFzYXAgYSBicmFuY2ggYmFzZWQgb24gSmVhbidzDQo+
+IHN2YS9jdXJyZW50IGJyYW5jaCAoYmFzZWQgb24gNS4xMS1yYzUpDQoNCk9rLg0KDQpDaGVlcnMs
+DQpTaGFtZWVyDQoNCg0K
 
