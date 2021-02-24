@@ -2,69 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA78324338
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:33:56 +0100 (CET)
-Received: from localhost ([::1]:36146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AD5324339
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:37:26 +0100 (CET)
+Received: from localhost ([::1]:42988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEy2t-0008Ke-5g
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:33:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52144)
+	id 1lEy6H-0003D5-5a
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:37:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEy0I-00079i-Pw
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:31:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45522)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lEy4r-0002Up-SD
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:35:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEy0G-0001Kk-1e
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:31:13 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lEy4j-0002b6-8x
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:35:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614187870;
+ s=mimecast20190719; t=1614188143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=E7o5NMHw3MOF7yt79r+NEPR1shwm1DlDYzH0xVVxxBQ=;
- b=Zu4ZzhAf7mVDuaWR+eXCNr56nvCUoRKXwLWGBoVGtgUwAJMUZNsYqY+n7w+xGo/epD7XCa
- qOSCCRhRDtTGiR1CkyPR1AsczizYH/HDwyd8fDC8XMR2AHgiXIwWXXPHDC+d3l9bqKNgk9
- GTLN2eqkCbyVlSKZsAmIdGZK6pYLUA8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-554-p0VTK6SuM2e7hXiEtVM_kQ-1; Wed, 24 Feb 2021 12:31:06 -0500
-X-MC-Unique: p0VTK6SuM2e7hXiEtVM_kQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD77D80196C;
- Wed, 24 Feb 2021 17:31:03 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A70595C22B;
- Wed, 24 Feb 2021 17:30:57 +0000 (UTC)
-Date: Wed, 24 Feb 2021 18:30:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] block/file-posix: Optimize for macOS
-Message-ID: <20210224173056.GH11025@merkur.fritz.box>
-References: <20210219085148.90545-1-akihiko.odaki@gmail.com>
- <YDZ+gVgfvNejLfFQ@stefanha-x1.localdomain>
+ bh=QFwoaXIg/8dcv3zQFVRwnKZ5yfoVU3LKrNRCTM/7KIg=;
+ b=NY551m6LJoDfDAOOBM0Ukn8CWlvj7ZpNSn14xNplPzl+ue+sFw0VIfID0JRllO4GkY8BZc
+ jOvFn0C7K4mmZmXdrJ/aAUqzcm8CsVQIuwuFIfF0X0lrqQOFZcf4SMuS21bsvvkU78sGuE
+ GwoPQQExeEydIpykb+tsTlU0E/Vo+zI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-cdo4kI4NMOS3tAK9jzjFJg-1; Wed, 24 Feb 2021 12:35:41 -0500
+X-MC-Unique: cdo4kI4NMOS3tAK9jzjFJg-1
+Received: by mail-ej1-f72.google.com with SMTP id g7so1133751ejd.16
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 09:35:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QFwoaXIg/8dcv3zQFVRwnKZ5yfoVU3LKrNRCTM/7KIg=;
+ b=kBnpgbdNO1Zi1xSzCkq65N6wtFDsVD2rgQ6L/c8wsw6GGV20WZneGWnb+l4cZvdqR/
+ lPuwc0kY04KM6farMGaY0ByNG5/zOtBa8jSEqy41Hvra7UTCGenXzEeuCHQWVw4RvHnx
+ DcYEBBepWp3+dhl1OmEWFP9M4No4rpzjEG5qG3nnL6oHnWzyXm7zka+4FGoCLA6kjQui
+ 5G//81hjgfnaa2mO9Sd0qmV8Kynf3CIaESP0/paQcdK6IiS+S17OEtx+XhPGYOLSbW0Q
+ Lpd7XESaax797IkSOeiBpi0FsDf0SPUdQHgvMoN5AUFPU89mRTovvyVXv6/myDGoZgJL
+ +8HQ==
+X-Gm-Message-State: AOAM530gl3pZ7Wp5eX2Uvx8iR2c4WJcwQHwmkuG4Qyoxm/iDc9Il8x/S
+ Qi8XW/Q6GiUAQPiu/TtbK8vO8tt4xSYXsL0xufRTP5dculyaNDwS0B272248y42Ss2skMe5xLqm
+ sjsI5hjUvGCKc3uY=
+X-Received: by 2002:a05:6402:40b:: with SMTP id
+ q11mr5401611edv.36.1614188140226; 
+ Wed, 24 Feb 2021 09:35:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyKvTx0gVWscnPQq+wB6TWq8cw1ElcAkMxYTB5LOy8k49zacMRRZ92GdhRUev6WMEkdGVYPmA==
+X-Received: by 2002:a05:6402:40b:: with SMTP id
+ q11mr5401593edv.36.1614188140082; 
+ Wed, 24 Feb 2021 09:35:40 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id bn2sm1697102ejb.35.2021.02.24.09.35.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Feb 2021 09:35:39 -0800 (PST)
+Subject: Re: [PATCH] qapi: Remove QMP events and commands from user-mode builds
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210224171642.3242293-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <12557ba5-e8c1-80ca-8a51-1d7319372d35@redhat.com>
+Date: Wed, 24 Feb 2021 18:35:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <YDZ+gVgfvNejLfFQ@stefanha-x1.localdomain>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210224171642.3242293-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="envbJBWh7q8WU6mo"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,93 +102,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, pkrempa@redhat.com, qemu-block@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Akihiko Odaki <akihiko.odaki@gmail.com>,
- John Snow <jsnow@redhat.com>, dgilbert@redhat.com
+Cc: Michael Roth <michael.roth@amd.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---envbJBWh7q8WU6mo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 24/02/21 18:16, Philippe Mathieu-Daudé wrote:
+> We removed the QMP loop in user-mode builds in commit 1935e0e4e09
+> ("qapi/meson: Remove QMP from user-mode emulation"), now commands
+> and events code is unreachable.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   qapi/meson.build | 12 ++++++++----
+>   1 file changed, 8 insertions(+), 4 deletions(-)
+> 
+> diff --git a/qapi/meson.build b/qapi/meson.build
+> index 0652569bc43..fcb15a78f15 100644
+> --- a/qapi/meson.build
+> +++ b/qapi/meson.build
+> @@ -102,11 +102,15 @@
+>       'qapi-types-@0@.h'.format(module),
+>       'qapi-visit-@0@.c'.format(module),
+>       'qapi-visit-@0@.h'.format(module),
+> -    'qapi-events-@0@.c'.format(module),
+> -    'qapi-events-@0@.h'.format(module),
+> -    'qapi-commands-@0@.c'.format(module),
+> -    'qapi-commands-@0@.h'.format(module),
+>     ]
+> +  if have_system or have_tools
+> +    qapi_module_outputs += [
+> +      'qapi-events-@0@.c'.format(module),
+> +      'qapi-events-@0@.h'.format(module),
+> +      'qapi-commands-@0@.c'.format(module),
+> +      'qapi-commands-@0@.h'.format(module),
+> +    ]
+> +  endif
+>     if module.endswith('-target')
+>       qapi_specific_outputs += qapi_module_outputs
+>     else
+> 
 
-Am 24.02.2021 um 17:27 hat Stefan Hajnoczi geschrieben:
-> On Fri, Feb 19, 2021 at 05:51:48PM +0900, Akihiko Odaki wrote:
-> > This commit introduces "punch hole" operation and optimizes transfer
-> > block size for macOS.
-> >=20
-> > This commit introduces two additional members,
-> > discard_granularity and opt_io to BlockSizes type in
-> > include/block/block.h. Also, the members of the type are now
-> > optional. Set -1 to discard_granularity and 0 to other members
-> > for the default values.
->=20
-> I remember BlockSizes was added specifically for s390 DASD devices.
-> Normally QEMU does not automatically expose details of the underlying
-> hardware to the guest because it breaks live migration compatibility.
->=20
-> If a VM is running on host A where the value happens to be 512 bytes and
-> is migrated to host B where the value happens to be 4KB then:
->=20
-> 1. The value reported to the guest by the storage device will change
->    unexpectedly and the guest software is probably not prepared for this
->    to happen.
->=20
-> 2. I/O requests that violate the constraint imposed by host B's value
->    will suddenly start failing and the VM may no longer be operational.
->=20
-> I think there was an argument that DASDs are passthrough devices and the
-> user always knows what they are doing, so we can ignore this problem for
-> DASDs.
->=20
-> This reasoning does not apply to POSIX files on macOS hosts, so I think
-> we need to figure out what to do here. The easiest option is not to
-> merge this patch series, but if this feature is important to you then we
-> need to think about how to extend the block size probing to be live
-> migration friendly or to change the QEMU command-line to support this
-> use case without unexpected live migration breakage.
-
-Dave actually made a good point on IRC: Even if we change live migration
-so that it doesn't break when we move to a host where different defaults
-are autodetected (we could do this by including these values in the
-migration stream and letting that override what the user specific on the
-command line), it still means that the guest visible device would change
-after the next reboot.
-
-The same can happen without live migration, either by copying the image
-to a different host, or by changing the hardware of the host.
-
-I'm not sure how critical such changes are now, but I seem to remember
-that in the past, one big reason to avoid them was that Windows guests
-would require reactivation after a few changes.
-
-(Also adding Peter to CC as the libvirt representative who, I suspect,
-might not like the idea of autodetecting by default very much :-))
-
-Kevin
-
---envbJBWh7q8WU6mo
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEE3D3rFZqa+V09dFb+fwmycsiPL9YFAmA2jVAACgkQfwmycsiP
-L9a95g//QMdMu1EVFql7cGteILENPdgwK/v/f3badwpvCNB9Eqse/T8ar6WjSFPR
-gRrd6qIykVnlbnXJrx2xjTYWYv/sNxKmNJij4wPTlJWLmmsFnI5BCaIIsHpn3sfO
-j4QI9DRHxOx1pKaTst6WwMYWP9ppgAHMtSiwyNJI36BcXZLXr3BtX7WpXKULhpS8
-z5R5OU5suZOIVq5NTrQRLBjRk7yAeVCGOm71FHNKd+LbadjHtDzF6UNIcdzuDD2j
-jGcwxPm5+2kchgqMreiH/sX5romJgSSmYTxl115xpecosFzQ7HwlYs09hsLweNel
-bzwsGZj7BvEcoeZ4pg2HA68hTBIJ2ffxPTAlEaxkuDDi+HjIC6OUF/kj0NKugZoy
-jY4DzW2skA9nrKaOkF5DIn5MOGgJUyYuCY0FPqgHIlhLbkIoBO7Zx3O2sxtJnYng
-/r7zrAwhvm+ULuy9hiBHsBOzg8CW9DedrmWSnrtz4uk6uLJiJUX94rWJJshszgMa
-hjFeT1wpJ+JEF/6PzIggDhVpvhlqCAdpOPthguyKmr84GuRLWQ5ynDH9s2Yhi+v6
-+GIIj4brjfo59bkuwobp8n2pC/rY5ZuFvI43D6tQW0wiBOCtxhUd/LV/LyBuKwpM
-NozLtUNvtUesEL3NRxWP6TfPd+Pv+1qS52YZakGkn79Q6kpHgik=
-=Vhs8
------END PGP SIGNATURE-----
-
---envbJBWh7q8WU6mo--
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
 
 
