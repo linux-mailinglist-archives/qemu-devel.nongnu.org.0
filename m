@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05DB73245BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 22:25:20 +0100 (CET)
-Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5C083245C4
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 22:28:58 +0100 (CET)
+Received: from localhost ([::1]:34396 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF1ep-0008Qk-1r
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 16:25:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51278)
+	id 1lF1iL-0002M7-QF
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 16:28:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF1dP-0007vC-8q
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:23:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45921)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lF1gg-00010O-R3
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:27:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF1dN-0001b6-C9
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:23:50 -0500
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lF1ge-0003B6-TR
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:27:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614201828;
+ s=mimecast20190719; t=1614202030;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iSevqa82q3Z1iSYZwZAdkaTuhtaymTXD4bDeL+6eJe4=;
- b=JHzVGNqmWxLZvxhy7NF1SFS+j0skTDEMjqfYGAMXKQ4BUcZ991xn6GZ426gwopE8VzAO1q
- 5eJJstD23zWepZXpAYcKJ57cUU61dvJXFS9DzVE6OVoCoYz0Qyy2RLPYQrZPluIDMRkpKx
- pIAf6K9W3TPO1HQUlMKnU8nYlJ36ElQ=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=VF8w2nnqyxDEykqicdKmz6clTMz70st/UP7HjDzRMHY=;
+ b=UBW5UUek0A3oYGCaqxJQrcXmRJgJSTWo1VDuLRMMr8D9XFlJGbU1+JiAIhZSvdDzKLufVK
+ E6bMjyQQh8/2lRSi20S765HGVU8Laq6TTnaVP6FYJiqk5N7f/YHcdEOh9AnXxtfE+8MR60
+ brXjHClrkAFeFmbk3k3tVydOTCBEliQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-237-j_2R7O9bOjC2TBrDpwVoMA-1; Wed, 24 Feb 2021 16:23:44 -0500
-X-MC-Unique: j_2R7O9bOjC2TBrDpwVoMA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-460-4f1TLQpXPL24Xok1ti2OqQ-1; Wed, 24 Feb 2021 16:27:06 -0500
+X-MC-Unique: 4f1TLQpXPL24Xok1ti2OqQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BAC3803F4C;
- Wed, 24 Feb 2021 21:23:43 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 796B960862;
- Wed, 24 Feb 2021 21:23:42 +0000 (UTC)
-Subject: Re: [PATCH v3 02/16] qapi/expr.py: Check for dict instead of
- OrderedDict
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-3-jsnow@redhat.com>
- <87a6rt7qzf.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <10b0905f-2c36-48f1-fef4-ac96417e48d8@redhat.com>
-Date: Wed, 24 Feb 2021 16:23:42 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D01F179EC2;
+ Wed, 24 Feb 2021 21:27:04 +0000 (UTC)
+Received: from wainer-laptop.localdomain.com (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 260CA5D6D3;
+ Wed, 24 Feb 2021 21:26:58 +0000 (UTC)
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] tests/acceptance: Handle tests with "cpu" tag
+Date: Wed, 24 Feb 2021 18:26:51 -0300
+Message-Id: <20210224212654.1146167-1-wainersm@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87a6rt7qzf.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,84 +76,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: wrampazz@redhat.com, philmd@redhat.com, pavel.dovgaluk@ispras.ru,
+ crosa@redhat.com, pbonzini@redhat.com, alex.bennee@linaro.org,
+ aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 4:30 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> OrderedDict is a subtype of dict, so we can check for a more general
->> form. These functions do not themselves depend on it being any
->> particular type.
-> 
-> True.  The actual arguments can only be OrderedDict, though.  I think we
-> refrained from relaxing to dict in these helpers because we felt
-> "staying ordered" is clearer.
-> 
+Currently the acceptance tests tagged with "machine" have the "-M TYPE"
+automatically added to the list of arguments of the QEMUMachine object.
+In other words, that option is passed to the launched QEMU. On this
+series it is implemented the same feature but instead for tests marked
+with "cpu".
 
-As a habit, I tend towards declaring the least specific type possible 
-for input and declaring the most specific type possible for output.
+There is a caveat, however, in case the test needs additional arguments to
+the CPU type they cannot be passed via tag, because the tags parser split
+values by comma. For example, in tests/acceptance/x86_cpu_model_versions.py,
+there are cases where:
 
-> We're *this* close to mooting the point, because
-> 
->      Changed in version 3.7: Dictionary order is guaranteed to be
->      insertion order. This behavior was an implementation detail of
->      CPython from 3.6.
-> 
-> https://docs.python.org/3.7/library/stdtypes.html
-> 
-> Is messing with it necessary for later work?  If not, is it a worthwhile
-> improvement?
-> 
+  * -cpu is set to "Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+  * if it was tagged like "cpu:Cascadelake-Server,x-force-features=on,check=off,enforce=off"
+    then the parser would break it into 4 tags ("cpu:Cascadelake-Server",
+    "x-force-features=on", "check=off", "enforce=off")
+  * resulting on "-cpu Cascadelake-Server" and the remaining arguments are ignored.
 
-Not strictly necessary, but if the expression checkers here don't 
-*require* the type be an ordereddict, why bother to enforce that here?
+For the example above, one should tag it (or not at all) as "cpu:Cascadelake-Server"
+AND self.vm.add_args('-cpu', "Cascadelake-Server,x-force-features=on,check=off,enforce=off"),
+and that results on something like:
 
-It's just a bid to slacken the type (my type hints will look for Dict, 
-not OrderedDict) and leave the use of OrderedDict as an "implementation 
-detail" that only parser.py knows about.
+  "qemu-system-x86_64 (...) -cpu Cascadelake-Server -cpu Cascadelake-Server,x-force-features=on,check=off,enforce=off".
 
-(I needed to change it for prototyping using an off-the-shelf parser, so 
-it was annoying to have it check for a stronger type if it doesn't 
-absolutely have to.)
+QEMU is going to ignore the first -cpu argument. See the patch 0003 for a reference.
 
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->> ---
->>   scripts/qapi/expr.py | 5 ++---
->>   1 file changed, 2 insertions(+), 3 deletions(-)
->>
->> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->> index 35695c4c653..5694c501fa3 100644
->> --- a/scripts/qapi/expr.py
->> +++ b/scripts/qapi/expr.py
->> @@ -14,7 +14,6 @@
->>   # This work is licensed under the terms of the GNU GPL, version 2.
->>   # See the COPYING file in the top-level directory.
->>   
->> -from collections import OrderedDict
->>   import re
->>   
->>   from .common import c_name
->> @@ -131,7 +130,7 @@ def check_if_str(ifcond):
->>   
->>   
->>   def normalize_members(members):
->> -    if isinstance(members, OrderedDict):
->> +    if isinstance(members, dict):
->>           for key, arg in members.items():
->>               if isinstance(arg, dict):
->>                   continue
->> @@ -162,7 +161,7 @@ def check_type(value, info, source,
->>       if not allow_dict:
->>           raise QAPISemError(info, "%s should be a type name" % source)
->>   
->> -    if not isinstance(value, OrderedDict):
->> +    if not isinstance(value, dict):
->>           raise QAPISemError(info,
->>                              "%s should be an object or type name" % source)
+This series was tested on CI (https://gitlab.com/wainersm/qemu/-/pipelines/261254251)
+and with the following code:
+
+from avocado_qemu import Test
+
+class CPUTest(Test):
+    def test_cpu(self):
+        """
+        :avocado: tags=cpu:host
+        """
+        # The cpu property is set to the tag value, or None on its absence
+        self.assertEqual(self.cpu, "host")
+        # The created VM has the '-cpu host' option
+        self.assertIn("-cpu host", " ".join(self.vm._args))
+        self.vm.launch()
+
+    def test_cpu_none(self):
+        self.assertEqual(self.cpu, None)
+        self.assertNotIn('-cpu', self.vm._args)
+
+Wainer dos Santos Moschetta (3):
+  tests/acceptance: Automatic set -cpu to the test vm
+  tests/acceptance: Let the framework handle "cpu:VALUE" tagged tests
+  tests/acceptance: Tagging tests with "cpu:VALUE"
+
+ docs/devel/testing.rst                     |  8 ++++++++
+ tests/acceptance/avocado_qemu/__init__.py  |  4 ++++
+ tests/acceptance/boot_linux.py             |  3 ---
+ tests/acceptance/boot_linux_console.py     | 16 +++++++++-------
+ tests/acceptance/machine_mips_malta.py     |  7 +++----
+ tests/acceptance/pc_cpu_hotplug_props.py   |  2 +-
+ tests/acceptance/replay_kernel.py          | 17 +++++++++--------
+ tests/acceptance/reverse_debugging.py      |  2 +-
+ tests/acceptance/tcg_plugins.py            | 15 +++++++--------
+ tests/acceptance/virtio-gpu.py             |  4 ++--
+ tests/acceptance/x86_cpu_model_versions.py |  8 ++++++++
+ 11 files changed, 52 insertions(+), 34 deletions(-)
+
+-- 
+2.29.2
 
 
