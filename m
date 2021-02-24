@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5C393243C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:30:40 +0100 (CET)
-Received: from localhost ([::1]:51854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223503243CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:32:51 +0100 (CET)
+Received: from localhost ([::1]:57536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEyvn-0007gO-Aj
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:30:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37576)
+	id 1lEyxu-0001j5-4J
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:32:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37610)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lEyqM-0002Lf-K8
+ id 1lEyqN-0002Ll-Gb
  for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:25:03 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33095)
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:33999)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lEyqK-0004nq-NF
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:25:02 -0500
-Received: by mail-ej1-x632.google.com with SMTP id jt13so4674017ejb.0
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:25:00 -0800 (PST)
+ id 1lEyqL-0004o8-HT
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:25:03 -0500
+Received: by mail-ej1-x636.google.com with SMTP id hs11so4659591ejc.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:25:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=q5f9t5j4/QGWJNhsSofDm2TZVW3Y7Podv7uACdRkSTU=;
- b=FmwSuZyMaBTzqNBluJ3p3vKIKI2B4afm+R7NL6MW9pacFgp9WlmEyj89+hz9vMLmFS
- 5jKMAgQ3de91/JJVRLpKvbJiG7LvAF5YwNYdU+8IaOFhvwv70eFjz8cukxIv4HwJ6rbG
- 8kmk81/IT112v0U9e9vg4hgpF24vfMpVafN7CNPx6VKKNeFriTjrjM5UEZ3kTjowM3eB
- iJO7uo0F9EOPOR9Q8VzHNkelr9Xm/kdmnUqi1YSSetbqo3B28IHvNznqKei82+hH1DCN
- UvK/T/XdKCs5juOS1pDNZ+xPg8GcISzQ+kcgvmnMvw61kUAlumfeHd6ZtRCyKJcIZOrY
- EH/g==
+ bh=WtBT0u+jvn6wnMBv0IRJDqOEAKiAeRmCEq+7vu/c0Yc=;
+ b=IYQUFN7B/PcJRkgjRmbOA8ugRa79G9AFtvB/iGQvRvytpscWPkP0yvC1n+eqLgFSUE
+ ztk0LKnRk5Gn+QR03SIHSjFkJruEPWSRHDFn5Rl85Cod/OBJ+ctvFScCqbtfl7HlKqUH
+ V8dqz/6niwWGm70Q0XWNA5yZfffPf4FkyXOeg1EFYKHiRRMD0CFkrjyL7cNb+PHVWuQ/
+ OK3+HyGMqqqtf2KQ3E2iKfPRavvFB1F5dvWXBfJWRcDE2Q0IEdj4KMzTFiKmy7fRvAZ8
+ dwiPMUVfweA5sVRHiXpnUOP6nyecrtNq0BtK+KfukhQlziPGjCURSYqgHsk+qhGCLslc
+ mCDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=q5f9t5j4/QGWJNhsSofDm2TZVW3Y7Podv7uACdRkSTU=;
- b=UjG0E9FOpCPV+kMSMIhkevZXs7M2eIfKw0wU8h2b5/IOm9Rj2IHSZBKEZJj/DOy4uO
- UGqzCkW3klGKwqwxLnh2ng1y5YwaUNmOClb9t8AeYktjbs+HVROjMzKp1KKi5HBMjsbw
- cMi0SEl0PfoQpny5UTr5jJcE/Mu03jiXJWRRFcqYikC7pwx4bzhi7SlEot/FDD1VGfPY
- dY378eyyXIbI+av7TdyD6itturqNCnLXfkcBl4SDM2nh6iK9CdjUUEu2vqFF6+j6/45p
- Zq+CA6YsO+wghlf10ob37zbpxfQHt2/wDbO6cYvIhpenJ4D4JulhRyBSnR3TjL8HNRll
- XBdg==
-X-Gm-Message-State: AOAM531UUIYoJQuref5aKe7J37sxCOj+XjXd/RclTKOTKYk/xePgzGmu
- kcdtRVo/MtmtCHMBiin7utrsaM/hYlk=
-X-Google-Smtp-Source: ABdhPJw3ZUe+YM68rRubpP/44D5fif9cQo9+2pg8nrN3Onun7994MXkzhIBrkj5liZmeS7V9fpDr7A==
-X-Received: by 2002:a17:906:4c56:: with SMTP id
- d22mr4280886ejw.426.1614191099442; 
- Wed, 24 Feb 2021 10:24:59 -0800 (PST)
+ bh=WtBT0u+jvn6wnMBv0IRJDqOEAKiAeRmCEq+7vu/c0Yc=;
+ b=n/DX4LfP7ALeD9nZRmv4KtMhoWpI0zHdgwDPEDfmkG/F6oiwUiTMQQQRIj5xdzRxH9
+ dMK+fOzhNcP5r/WQTmgPiDOFKDvnQnNemWKb5uMw41COvkvZhtIGvll6gAbf11ANGP+C
+ Z/qjPmkoy8hlUvYVUn4knYRVR9q83Z1CC/3p397sxfDFqT3CxzjCQkAVUvB2IXrVdd8f
+ fRqICuYCzV1vGx9okoGvrSlqLl17GqADHkk6EudPBvxM6+nsAa/1bArH6sPBu+C4i15j
+ QvcKx/TMec8gyJv7UXjol9uGXJIR/VTI0YqQl+SW+gRzAnB0neNHf9ZYp4FwUxeZ/Yrf
+ hHpw==
+X-Gm-Message-State: AOAM530+9D7055pGDTGw8AY4t5rvAoVwobS6bqb5sRLVdTA0UHnCqWD+
+ FfjiGOdcC5vb0QEwPrwAXUHkkRoY0eg=
+X-Google-Smtp-Source: ABdhPJyigwaldiRU5IzcFrXD/h6dRx6qCc8tgfanfYwTxw5Fhtas6BQBz2TspHMkkukg3YoMwTGIgA==
+X-Received: by 2002:a17:906:72d7:: with SMTP id
+ m23mr18380934ejl.430.1614191100199; 
+ Wed, 24 Feb 2021 10:25:00 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id bw22sm1791172ejb.78.2021.02.24.10.24.58
+ by smtp.gmail.com with ESMTPSA id bw22sm1791172ejb.78.2021.02.24.10.24.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Wed, 24 Feb 2021 10:24:59 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 07/10] scsi: Rename linux-specific SG_ERR codes to generic
- SCSI_HOST error codes
-Date: Wed, 24 Feb 2021 19:24:50 +0100
-Message-Id: <20210224182453.587731-8-pbonzini@redhat.com>
+Subject: [PATCH 08/10] scsi: Add mapping for generic SCSI_HOST status to sense
+ codes
+Date: Wed, 24 Feb 2021 19:24:51 +0100
+Message-Id: <20210224182453.587731-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210224182453.587731-1-pbonzini@redhat.com>
 References: <20210224182453.587731-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x632.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x636.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -91,82 +91,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hannes Reinecke <hare@suse.de>
 
-We really should make a distinction between legitimate sense codes
-(ie if one is running against an emulated block device or for
-pass-through sense codes), and the intermediate errors generated
-during processing of the command, which really are not sense codes
-but refer to some specific internal status. And this internal
-state is not necessarily linux-specific, but rather can refer to
-the qemu implementation itself.
-So rename the linux-only SG_ERR codes to SCSI_HOST codes and make
-them available generally.
+As we don't have a driver-specific mapping (yet) we should provide
+for a detailed mapping from host_status to SCSI sense codes.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Message-Id: <20201116184041.60465-5-hare@suse.de>
+Message-Id: <20201116184041.60465-6-hare@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- include/scsi/utils.h | 23 ++++++++++++++++-------
- scsi/utils.c         |  6 +++---
- 2 files changed, 19 insertions(+), 10 deletions(-)
+ include/scsi/utils.h |  1 +
+ scsi/utils.c         | 65 +++++++++++++++++++++++++++++++++++++++-----
+ 2 files changed, 59 insertions(+), 7 deletions(-)
 
 diff --git a/include/scsi/utils.h b/include/scsi/utils.h
-index ff7c7091b6..ddb22b56df 100644
+index ddb22b56df..9080d65e27 100644
 --- a/include/scsi/utils.h
 +++ b/include/scsi/utils.h
-@@ -16,6 +16,22 @@ enum SCSIXferMode {
-     SCSI_XFER_TO_DEV,    /*  WRITE, MODE_SELECT, ...         */
- };
+@@ -145,5 +145,6 @@ int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
+ #endif
  
-+enum SCSIHostStatus {
-+    SCSI_HOST_OK,
-+    SCSI_HOST_NO_LUN,
-+    SCSI_HOST_BUSY,
-+    SCSI_HOST_TIME_OUT,
-+    SCSI_HOST_BAD_RESPONSE,
-+    SCSI_HOST_ABORTED,
-+    SCSI_HOST_ERROR = 0x07,
-+    SCSI_HOST_RESET = 0x08,
-+    SCSI_HOST_TRANSPORT_DISRUPTED = 0xe,
-+    SCSI_HOST_TARGET_FAILURE = 0x10,
-+    SCSI_HOST_RESERVATION_ERROR = 0x11,
-+    SCSI_HOST_ALLOCATION_FAILURE = 0x12,
-+    SCSI_HOST_MEDIUM_ERROR = 0x13,
-+};
-+
- typedef struct SCSICommand {
-     uint8_t buf[SCSI_CMD_BUF_SIZE];
-     int len;
-@@ -124,13 +140,6 @@ int scsi_cdb_length(uint8_t *buf);
- #define SG_ERR_DRIVER_TIMEOUT  0x06
- #define SG_ERR_DRIVER_SENSE    0x08
+ int scsi_sense_from_errno(int errno_value, SCSISense *sense);
++int scsi_sense_from_host_status(uint8_t host_status, SCSISense *sense);
  
--#define SG_ERR_DID_OK          0x00
--#define SG_ERR_DID_NO_CONNECT  0x01
--#define SG_ERR_DID_BUS_BUSY    0x02
--#define SG_ERR_DID_TIME_OUT    0x03
--
--#define SG_ERR_DRIVER_SENSE    0x08
--
- int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
-                            SCSISense *sense);
  #endif
 diff --git a/scsi/utils.c b/scsi/utils.c
-index 6b56e01002..4d994b6d56 100644
+index 4d994b6d56..28eb32746e 100644
 --- a/scsi/utils.c
 +++ b/scsi/utils.c
-@@ -612,9 +612,9 @@ int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
+@@ -257,6 +257,21 @@ const struct SCSISense sense_code_LUN_COMM_FAILURE = {
+     .key = ABORTED_COMMAND, .asc = 0x08, .ascq = 0x00
+ };
+ 
++/* Command aborted, LUN does not respond to selection */
++const struct SCSISense sense_code_LUN_NOT_RESPONDING = {
++    .key = ABORTED_COMMAND, .asc = 0x05, .ascq = 0x00
++};
++
++/* Command aborted, Command Timeout during processing */
++const struct SCSISense sense_code_COMMAND_TIMEOUT = {
++    .key = ABORTED_COMMAND, .asc = 0x2e, .ascq = 0x02
++};
++
++/* Command aborted, Commands cleared by device server */
++const struct SCSISense sense_code_COMMAND_ABORTED = {
++    .key = ABORTED_COMMAND, .asc = 0x2f, .ascq = 0x02
++};
++
+ /* Medium Error, Unrecovered read error */
+ const struct SCSISense sense_code_READ_ERROR = {
+     .key = MEDIUM_ERROR, .asc = 0x11, .ascq = 0x00
+@@ -605,6 +620,45 @@ int scsi_sense_from_errno(int errno_value, SCSISense *sense)
+     }
+ }
+ 
++int scsi_sense_from_host_status(uint8_t host_status,
++                                SCSISense *sense)
++{
++    switch (host_status) {
++    case SCSI_HOST_NO_LUN:
++        *sense = SENSE_CODE(LUN_NOT_RESPONDING);
++        return CHECK_CONDITION;
++    case SCSI_HOST_BUSY:
++        return BUSY;
++    case SCSI_HOST_TIME_OUT:
++        *sense = SENSE_CODE(COMMAND_TIMEOUT);
++        return CHECK_CONDITION;
++    case SCSI_HOST_BAD_RESPONSE:
++        *sense = SENSE_CODE(LUN_COMM_FAILURE);
++        return CHECK_CONDITION;
++    case SCSI_HOST_ABORTED:
++        *sense = SENSE_CODE(COMMAND_ABORTED);
++        return CHECK_CONDITION;
++    case SCSI_HOST_RESET:
++        *sense = SENSE_CODE(RESET);
++        return CHECK_CONDITION;
++    case SCSI_HOST_TRANSPORT_DISRUPTED:
++        *sense = SENSE_CODE(I_T_NEXUS_LOSS);
++        return CHECK_CONDITION;
++    case SCSI_HOST_TARGET_FAILURE:
++        *sense = SENSE_CODE(TARGET_FAILURE);
++        return CHECK_CONDITION;
++    case SCSI_HOST_RESERVATION_ERROR:
++        return RESERVATION_CONFLICT;
++    case SCSI_HOST_ALLOCATION_FAILURE:
++        *sense = SENSE_CODE(SPACE_ALLOC_FAILED);
++        return CHECK_CONDITION;
++    case SCSI_HOST_MEDIUM_ERROR:
++        *sense = SENSE_CODE(READ_ERROR);
++        return CHECK_CONDITION;
++    }
++    return GOOD;
++}
++
+ #ifdef CONFIG_LINUX
+ int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
+                            SCSISense *sense)
+@@ -612,14 +666,11 @@ int sg_io_sense_from_errno(int errno_value, struct sg_io_hdr *io_hdr,
      if (errno_value != 0) {
          return scsi_sense_from_errno(errno_value, sense);
      } else {
--        if (io_hdr->host_status == SG_ERR_DID_NO_CONNECT ||
--            io_hdr->host_status == SG_ERR_DID_BUS_BUSY ||
--            io_hdr->host_status == SG_ERR_DID_TIME_OUT ||
-+        if (io_hdr->host_status == SCSI_HOST_NO_LUN ||
-+            io_hdr->host_status == SCSI_HOST_BUSY ||
-+            io_hdr->host_status == SCSI_HOST_TIME_OUT ||
-             (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT)) {
+-        if (io_hdr->host_status == SCSI_HOST_NO_LUN ||
+-            io_hdr->host_status == SCSI_HOST_BUSY ||
+-            io_hdr->host_status == SCSI_HOST_TIME_OUT ||
+-            (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT)) {
++        int status = scsi_sense_from_host_status(io_hdr->host_status, sense);
++        if (status) {
++            return status;
++        } else if (io_hdr->driver_status & SG_ERR_DRIVER_TIMEOUT) {
              return BUSY;
-         } else if (io_hdr->host_status) {
+-        } else if (io_hdr->host_status) {
+-            *sense = SENSE_CODE(I_T_NEXUS_LOSS);
+-            return CHECK_CONDITION;
+         } else if (io_hdr->status) {
+             return io_hdr->status;
+         } else if (io_hdr->driver_status & SG_ERR_DRIVER_SENSE) {
 -- 
 2.29.2
 
