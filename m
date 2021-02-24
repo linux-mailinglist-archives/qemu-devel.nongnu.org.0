@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF3C323E7E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:43:38 +0100 (CET)
-Received: from localhost ([::1]:36706 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18DFD323EA9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:46:42 +0100 (CET)
+Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuS1-0007Ur-S4
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:43:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50936)
+	id 1lEuUz-0002lo-1u
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:46:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <msuchanek@suse.de>) id 1lEu7g-0001EU-FI
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:22:36 -0500
-Received: from mx2.suse.de ([195.135.220.15]:33766)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <msuchanek@suse.de>) id 1lEu7e-0000OG-KY
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:22:36 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id B16BDAD5C;
- Wed, 24 Feb 2021 13:22:32 +0000 (UTC)
-Date: Wed, 24 Feb 2021 14:22:31 +0100
-From: Michal =?iso-8859-1?Q?Such=E1nek?= <msuchanek@suse.de>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: Problem running functional tests from China
-Message-ID: <20210224132231.GP6564@kitsune.suse.cz>
-References: <60118671-cd47-1900-59c6-96782dd7e26c@redhat.com>
- <20210224110605.GM6564@kitsune.suse.cz>
- <198ecefe-4d68-b43d-dfae-8a5ceeee9615@redhat.com>
- <20210224120140.GO6564@kitsune.suse.cz>
- <YDZBsz/FFZtRCokJ@redhat.com>
- <0de93d2b-32bb-d0eb-646c-e3a8bb1943a7@redhat.com>
- <YDZNKdD7ll2zoAk/@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEuGO-0000mJ-JA
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:31:36 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50780)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEuGE-0003yi-Fz
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:31:36 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lEuG9-0005lw-Hn
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 13:31:21 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A76282E8142
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 13:31:20 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <YDZNKdD7ll2zoAk/@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=msuchanek@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Feb 2021 13:23:01 -0000
+From: Christian Schoenebeck <1908832@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: koalinux schoenebeck
+X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
+X-Launchpad-Bug-Modifier: Christian Schoenebeck (schoenebeck)
+References: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
+Message-Id: <161417298187.19816.12289317245607310239.malone@wampee.canonical.com>
+Subject: [Bug 1908832] Re: jack audio dev produces no sound
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbcae463afd8b78ec54d5c5633aff9545801dde"; Instance="production"
+X-Launchpad-Hash: 5ff950e56e8c122b4d2d122e8b95778aab4820a8
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -59,78 +69,154 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, avocado-devel <avocado-devel@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1908832 <1908832@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 12:57:13PM +0000, Daniel P. Berrangé wrote:
-> On Wed, Feb 24, 2021 at 01:48:25PM +0100, Philippe Mathieu-Daudé wrote:
-> > On 2/24/21 1:08 PM, Daniel P. Berrangé wrote:
-> > > On Wed, Feb 24, 2021 at 01:01:40PM +0100, Michal Suchánek wrote:
-> > >> On Wed, Feb 24, 2021 at 12:37:53PM +0100, Philippe Mathieu-Daudé wrote:
-> > >>> On 2/24/21 12:06 PM, Michal Suchánek wrote:
-> > >>>> On Wed, Feb 24, 2021 at 10:29:15AM +0100, Philippe Mathieu-Daudé wrote:
-> > >>>>> Just to inform the files hosted on github don't work when
-> > >>>>> testing from China:
-> > >>>>
-> > >>>>>
-> > >>>>> raw.githubusercontent.com resolves to 127.0.0.1
-> > >>>
-> > >>> Actually not even localhost but 0.0.0.0 :)
-> > >>>
-> > >>>> And from where does this come from?
-> > >>>>
-> > >>>> Your local system, your ISP, ... ?
-> > >>>
-> > >>> Probably the ISP:
-> > >>>
-> > >> ...
-> > >>>
-> > >>> I raised that problem not to find a way to bypass an ISP
-> > >>> firewall, but to see if there is a way to use another
-> > >>> storage for test artifacts so all the community can run
-> > >>> the tests.
-> > >>
-> > >> I don't think protecting from random network malfunction is something
-> > >> the qemu project can do.
-> > >>
-> > >> That said, downloading the test data during test run does indeed look
-> > >> fragile.
-> > >>
-> > >> We have the concept of git submodules which is used in qemu extensively
-> > >> so the test data could possibly be included directly in the git tree.
-> > >>
-> > >> The obvious downside is that the current and past test binaries will take
-> > >> up disk space for all users that check out the repository, even those
-> > >> that don't run the tests.
-> > > 
-> > > We explicitly do not want to be distributing / including the
-> > > images ourselves, as that makes the QEMU project responsible for
-> > > license compliance and thus provision of full & corresponding source.
-> > 
-> > I am not asking that QEMU redistribute these files, I'm asking to the
-> > community if someone know an alternative to store files so we can run
-> > QEMU tests in Chinese cloud farms.
-> > 
-> > Back to your comment, should we remove these tests?
-> 
-> No, I don't think that we should do that.
-> 
-> If someone has broken ISP and they need to run all tests, then they'll
-> need to use a VPN.
+c->opt->connect_ports is an optional user supplied configuration
+argument which allows the user to specify a regular expression pattern
+which is used by QEMU's JACK audio driver to automatically connect its
+JACK ports to. From qapi/audio.json:
 
-I would say running tests offline is generally desirable feature - runs
-in secure environments, networking errors not affecting test results,
-etc.
+##
+# @AudiodevJackPerDirectionOptions:
+#
+# Options of the JACK backend that are used for both playback and
+# recording.
+#
+# @server-name: select from among several possible concurrent server instan=
+ces
+#               (default: environment variable $JACK_DEFAULT_SERVER if set,=
+ else "default")
+#
+# @client-name: the client name to use. The server will modify this name to
+#               create a unique variant, if needed unless @exact-name is tr=
+ue (default: the
+#               guest's name)
+#
+# @connect-ports: if set, a regular expression of JACK client port name(s) =
+to
+#                 monitor for and automatically connect to
+#
+# @start-server: start a jack server process if one is not already present
+#                (default: false)
+#
+# @exact-name: use the exact name requested otherwise JACK automatically
+#              generates a unique one, if needed (default: false)
+#
+# Since: 5.1
+##
+{ 'struct': 'AudiodevJackPerDirectionOptions',
+  'base': 'AudiodevPerDirectionOptions',
+  'data': {
+    '*server-name':   'str',
+    '*client-name':   'str',
+    '*connect-ports': 'str',
+    '*start-server':  'bool',
+    '*exact-name':    'bool' } }
 
-Also pulling test data from a number of random repositories does not
-sound great for test reproducibility. Is there some plan for addressing
-these random artifacts going away some day other than ignoring the tests
-for which test data is missing?
+I agree with you that it would be more user friendly to auto connect
+QEMU's output ports to system:playback_1, system:playback_2 and QEMU's
+input ports to system:capture_1, system:capture_2 respectively if the
+user did not specify any argument for "connect-ports".
 
-Thanks
+However I think your patch is a bit too simple, i.e. it is more or less
+luck that the system ports end up as the first two members in the lookup
+array "ports". It is working right now, but there is no guarantee about
+the order of the ports returned by jack_get_ports():
 
-Michal
+https://jackaudio.org/api/group__PortSearching.html
+
+So I would suggest changing your patch a bit by passing a lookup pattern
+like "system:playback_.*" to jack_get_ports() for QEMU output ports and
+a pattern like "system:capture_.*" for QEMU input ports, if
+c->opt->connect_ports is empty that is.
+
+Would you try to send a patch like this? And if yes, would you mind
+sending your patch directly to the qemu-devel mailing list? That would
+allow us to merge your patch more efficiently & quickly.
+
+https://wiki.qemu.org/Contribute/SubmitAPatch
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1908832
+
+Title:
+  jack audio dev produces no sound
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hi,
+
+  I'm testing the new jack audiodev backend in my
+  laptop. The host system is gentoo, using the
+  ebuild for qemu 5.1.0-r2, and I'm using jack
+  use flag globally in the system so any ebuild
+  that have support for jack should be build with
+  it. The jack setup reportedly works as I use it
+  with firefox, and mumble with no trouble. When
+  I launch the following script, I see the vm
+  connects to jack:
+
+  /usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,g=
+l=3Don \
+          -cpu host -smp 2,cores=3D2,threads=3D1 \
+          -m 4G -L /usr/share/qemu \
+          -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
+          -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,forma=
+t=3Draw,unit=3D0,readonly=3Don \
+          -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
+          -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device =
+hda-duplex,audiodev=3Djack \
+          -device virtio-serial-pci \
+          -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.=
+spice.0 \
+          -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
+          -device nec-usb-xhci,id=3Dusb \
+          -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
+          -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
+          -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
+          -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
+          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
+          -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
+          -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
+          -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
+
+  Output of vm initialization:
+
+  jack: JACK output configured for 48000Hz (1024 samples)
+  jack: JACK input configured for 48000Hz (1024 samples)
+  gl_version 46 - core profile enabled
+  GLSL feature level 430
+
+  Though executing any application that uses sound,
+  for instance, any youtube video through browser,
+  I listen nothing. By executing pkill jackd, and
+  launching the same script replacing the audiodev
+  line for the following:
+
+          -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
+  hda-duplex,audiodev=3Dalsa \
+
+  The audio works, and I can listen to music, or
+  any other kind of application, though I cannot
+  listen anything else in the host.
+
+  The guest is a simple debian testing(bullseye)
+  system with plasma desktop, using pulseaudio,
+  nothing fancy.
+
+  Thanks!
+
+  Jos=C3=A9
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1908832/+subscriptions
 
