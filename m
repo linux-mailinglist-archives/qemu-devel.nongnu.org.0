@@ -2,85 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A553B3245B5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 22:22:54 +0100 (CET)
-Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05DB73245BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 22:25:20 +0100 (CET)
+Received: from localhost ([::1]:58052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF1cT-0007JT-GF
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 16:22:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50820)
+	id 1lF1ep-0008Qk-1r
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 16:25:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lF1b2-0006VH-7Z
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:21:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36062)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF1dP-0007vC-8q
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:23:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lF1ay-0000Qh-Ej
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:21:22 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lF1dN-0001b6-C9
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 16:23:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614201679;
+ s=mimecast20190719; t=1614201828;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kBb3ywUbQCpSK1+Dj8YFEUS+uIncm4+VXfEC5jOaKMk=;
- b=Ivb3zbCS0aHFTl2kgwHLru/77cuWz+5m/1yVVGYQMxHy2qBj8taTvmWtv7GKSIJ92iaK/H
- oAfPhzjRAweSCOZ+qeIGLQLFpkDVxi70of5+R11A6qeUthWruIThtSDni7ZQ46MuZywCvH
- cou9/951P0NFQeN7TEPfwh3n4pyTkqs=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-437-GfCFDmWjM-en3evzDQn9sw-1; Wed, 24 Feb 2021 16:21:16 -0500
-X-MC-Unique: GfCFDmWjM-en3evzDQn9sw-1
-Received: by mail-wr1-f72.google.com with SMTP id e13so1618723wrg.4
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 13:21:16 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kBb3ywUbQCpSK1+Dj8YFEUS+uIncm4+VXfEC5jOaKMk=;
- b=NmU0R+O34HpcXGFLS1UUkJfP7nd5sty+ofjyboxcGkjW63oKTfE5Oda/LbggXgrb4M
- H+TI+Yzb9GbuOOdHrRLQuwEI28EXtVC7I7XcSe99kX8fPFybBTNwRnzgrrHszYIkR1Qi
- 2yZZuQlXf8mY58kPKzvT1D8x5qN9pBqmkp+GJ3Zt0q8opn3Er9KzEcnjlLjKIex6gbNI
- XABnTQ8VpTMqy9rOOchd5OkfwptuYygNt9pw4ADmxnD4/WrRZS4gWiEbrqvBvICIveY0
- 1F4BTE7bmqRifD+up9u+35CUU0s4UE/oJKM2kiQlelMJxs3hTAHCwuWbmCsp/dV05W6A
- 4WwQ==
-X-Gm-Message-State: AOAM53062HS/iW2guIGSmyS3D6K3PQ7p7nM1Ar7Jy+Ga9BCjHVuxovrf
- FlKIxFXoC6rE0YfI0CneGPDawONxXvxoHwHox3oqTvLxzjOIdYVb3k4d8imvjV3Vl/TIupqhQTn
- 6obmFUoKBK7ZOB/FJDyrv3yFjEp739XtA2p6inliJnxtlpVDJbaw/BfbRL8o03EP0
-X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr12955wmk.63.1614201675015;
- Wed, 24 Feb 2021 13:21:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzVvumde/K6kAc5eH1cKA67cAtCY4ix18osW7cGvIp2VzKKYjjvuVP2hw/9+ISG+NtaZ2LsKw==
-X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr12932wmk.63.1614201674755;
- Wed, 24 Feb 2021 13:21:14 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f7sm4393686wmh.39.2021.02.24.13.21.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 13:21:13 -0800 (PST)
-Subject: Re: [PATCH v22 06/17] meson: add target_user_arch
-To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210224133428.14071-1-cfontana@suse.de>
- <20210224133428.14071-7-cfontana@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ab323577-c68e-c215-655f-1b45d2e9b112@redhat.com>
-Date: Wed, 24 Feb 2021 22:21:12 +0100
+ bh=iSevqa82q3Z1iSYZwZAdkaTuhtaymTXD4bDeL+6eJe4=;
+ b=JHzVGNqmWxLZvxhy7NF1SFS+j0skTDEMjqfYGAMXKQ4BUcZ991xn6GZ426gwopE8VzAO1q
+ 5eJJstD23zWepZXpAYcKJ57cUU61dvJXFS9DzVE6OVoCoYz0Qyy2RLPYQrZPluIDMRkpKx
+ pIAf6K9W3TPO1HQUlMKnU8nYlJ36ElQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-237-j_2R7O9bOjC2TBrDpwVoMA-1; Wed, 24 Feb 2021 16:23:44 -0500
+X-MC-Unique: j_2R7O9bOjC2TBrDpwVoMA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BAC3803F4C;
+ Wed, 24 Feb 2021 21:23:43 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 796B960862;
+ Wed, 24 Feb 2021 21:23:42 +0000 (UTC)
+Subject: Re: [PATCH v3 02/16] qapi/expr.py: Check for dict instead of
+ OrderedDict
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210223003408.964543-1-jsnow@redhat.com>
+ <20210223003408.964543-3-jsnow@redhat.com>
+ <87a6rt7qzf.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <10b0905f-2c36-48f1-fef4-ac96417e48d8@redhat.com>
+Date: Wed, 24 Feb 2021 16:23:42 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210224133428.14071-7-cfontana@suse.de>
+In-Reply-To: <87a6rt7qzf.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -102,50 +83,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 2:34 PM, Claudio Fontana wrote:
-> the lack of target_user_arch makes it hard to fully leverage the
-> build system in order to separate user code from sysemu code.
+On 2/24/21 4:30 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
 > 
-> Provide it, so that we can avoid the proliferation of #ifdef
-> in target code.
+>> OrderedDict is a subtype of dict, so we can check for a more general
+>> form. These functions do not themselves depend on it being any
+>> particular type.
 > 
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> True.  The actual arguments can only be OrderedDict, though.  I think we
+> refrained from relaxing to dict in these helpers because we felt
+> "staying ordered" is clearer.
 > 
-> [claudio: added changes for new target hexagon]
 
-Again, this line goes ...
+As a habit, I tend towards declaring the least specific type possible 
+for input and declaring the most specific type possible for output.
 
-> ---
+> We're *this* close to mooting the point, because
+> 
+>      Changed in version 3.7: Dictionary order is guaranteed to be
+>      insertion order. This behavior was an implementation detail of
+>      CPython from 3.6.
+> 
+> https://docs.python.org/3.7/library/stdtypes.html
+> 
+> Is messing with it necessary for later work?  If not, is it a worthwhile
+> improvement?
+> 
 
-... here. Else it is not stripped by git-am and ends
-burried in the repository (see commit 940e43aa30e).
+Not strictly necessary, but if the expression checkers here don't 
+*require* the type be an ordereddict, why bother to enforce that here?
 
->  meson.build                   | 5 +++++
->  target/alpha/meson.build      | 3 +++
->  target/arm/meson.build        | 2 ++
->  target/cris/meson.build       | 3 +++
->  target/hexagon/meson.build    | 3 +++
->  target/hppa/meson.build       | 3 +++
->  target/i386/meson.build       | 2 ++
->  target/m68k/meson.build       | 3 +++
->  target/microblaze/meson.build | 3 +++
->  target/mips/meson.build       | 3 +++
->  target/nios2/meson.build      | 3 +++
->  target/openrisc/meson.build   | 3 +++
->  target/ppc/meson.build        | 3 +++
->  target/riscv/meson.build      | 3 +++
->  target/s390x/meson.build      | 3 +++
->  target/sh4/meson.build        | 3 +++
->  target/sparc/meson.build      | 3 +++
->  target/tilegx/meson.build     | 3 +++
->  target/tricore/meson.build    | 3 +++
->  target/xtensa/meson.build     | 3 +++
->  20 files changed, 60 insertions(+)
+It's just a bid to slacken the type (my type hints will look for Dict, 
+not OrderedDict) and leave the use of OrderedDict as an "implementation 
+detail" that only parser.py knows about.
+
+(I needed to change it for prototyping using an off-the-shelf parser, so 
+it was annoying to have it check for a stronger type if it doesn't 
+absolutely have to.)
+
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+>> ---
+>>   scripts/qapi/expr.py | 5 ++---
+>>   1 file changed, 2 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>> index 35695c4c653..5694c501fa3 100644
+>> --- a/scripts/qapi/expr.py
+>> +++ b/scripts/qapi/expr.py
+>> @@ -14,7 +14,6 @@
+>>   # This work is licensed under the terms of the GNU GPL, version 2.
+>>   # See the COPYING file in the top-level directory.
+>>   
+>> -from collections import OrderedDict
+>>   import re
+>>   
+>>   from .common import c_name
+>> @@ -131,7 +130,7 @@ def check_if_str(ifcond):
+>>   
+>>   
+>>   def normalize_members(members):
+>> -    if isinstance(members, OrderedDict):
+>> +    if isinstance(members, dict):
+>>           for key, arg in members.items():
+>>               if isinstance(arg, dict):
+>>                   continue
+>> @@ -162,7 +161,7 @@ def check_type(value, info, source,
+>>       if not allow_dict:
+>>           raise QAPISemError(info, "%s should be a type name" % source)
+>>   
+>> -    if not isinstance(value, OrderedDict):
+>> +    if not isinstance(value, dict):
+>>           raise QAPISemError(info,
+>>                              "%s should be an object or type name" % source)
 
 
