@@ -2,84 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80F2323F36
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:42:59 +0100 (CET)
-Received: from localhost ([::1]:45190 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D20C6323F39
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:44:25 +0100 (CET)
+Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEvNS-0005vZ-L5
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:42:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44772)
+	id 1lEvOq-0008CA-TC
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:44:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lEvLV-0004Nv-F7
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:40:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30372)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEvMA-0005Xm-Lw
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:41:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52131)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lEvLL-0000rU-JD
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:40:57 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEvM8-0001I6-JU
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:41:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614177645;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1614177695;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ylr7UQTkFZQiYHni4UTaJMQZA/gj+wKWtICi8/+6cYI=;
- b=ApgWwrsGKkI2iuaq1xqBpQn7HiOr3Lwwpv5at8hfSEgLWCiY/IUGAhXlEXR5IFsiy2bk49
- hLPJASxI5Vi97BzxuVp1t0JCNSrX3WJhWO+JfSPZ1wDl1MrKHsfxQDsvgmhLs6O80pCXUi
- LqBiEDBDwMDKl3G1aKa173KykwwVZME=
+ bh=KSaGBK9o1EFC3yot+Rxt/hgAW8VJY1LkPtvz1U7ZKT0=;
+ b=FL0pZy24JT4SSlpNnrIRV2rfSKV1B8TY61jFO23M908DwcvANkg87WDqB8jQzmX6EGP7aR
+ FVoyOlV+6je7o8H6r9p32+vwFlCc6y0YJ15tIjHhGxGUSC3HJLNSop13mW4ilHwOy2XPe7
+ oQfffMC5vKyEHrXNORQFZcyHTd2x9qA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-CTmCNTn9PZGIL2NvVtFpJw-1; Wed, 24 Feb 2021 09:39:59 -0500
-X-MC-Unique: CTmCNTn9PZGIL2NvVtFpJw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-600-ZjGb-sBuNCe1VEU8T68-jw-1; Wed, 24 Feb 2021 09:40:16 -0500
+X-MC-Unique: ZjGb-sBuNCe1VEU8T68-jw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1AC91907276;
- Wed, 24 Feb 2021 13:44:00 +0000 (UTC)
-Received: from [10.36.114.34] (ovpn-114-34.ams2.redhat.com [10.36.114.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7561160C5F;
- Wed, 24 Feb 2021 13:43:47 +0000 (UTC)
-Subject: Re: [RFC v7 26/26] vfio/pci: Implement return_page_response page
- response callback
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
- "eric.auger.pro@gmail.com" <eric.auger.pro@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "alex.williamson@redhat.com" <alex.williamson@redhat.com>
-References: <20201116181349.11908-1-eric.auger@redhat.com>
- <20201116181349.11908-27-eric.auger@redhat.com>
- <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
- <f11ef533-da64-3d6a-24f5-79d5e7a205da@redhat.com>
- <5f85d8999c0c40a29c32ac63b8730fa8@huawei.com>
- <679c5696-c73f-517d-f555-90ec2c767fbb@redhat.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <41b9d3a2-1199-5dad-876b-10efa51638bb@redhat.com>
-Date: Wed, 24 Feb 2021 14:43:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8C4118B9EF2;
+ Wed, 24 Feb 2021 13:44:49 +0000 (UTC)
+Received: from redhat.com (ovpn-115-119.ams2.redhat.com [10.36.115.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EAF852C168;
+ Wed, 24 Feb 2021 13:44:29 +0000 (UTC)
+Date: Wed, 24 Feb 2021 13:44:26 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 04/14] softmmu: remove '-usbdevice' command line option
+Message-ID: <YDZYOlMynIf+5Kqm@redhat.com>
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-5-berrange@redhat.com>
+ <18b76a19-6f69-890e-8bb5-54d90aa132c1@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <679c5696-c73f-517d-f555-90ec2c767fbb@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <18b76a19-6f69-890e-8bb5-54d90aa132c1@redhat.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,123 +83,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "tn@semihalf.com" <tn@semihalf.com>, "peterx@redhat.com" <peterx@redhat.com>,
- "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
- "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
- "yi.l.liu@intel.com" <yi.l.liu@intel.com>,
- "zhangfei.gao@gmail.com" <zhangfei.gao@gmail.com>,
- yuzenghui <yuzenghui@huawei.com>, qubingbing <qubingbing@hisilicon.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Shameer,
-
-On 2/18/21 2:32 PM, Auger Eric wrote:
-> Hi Shameer,
+On Wed, Feb 24, 2021 at 02:25:46PM +0100, Paolo Bonzini wrote:
+> On 24/02/21 14:11, Daniel P. Berrangé wrote:
+> > This was replaced by the '-device usb-DEV' option.
+> > 
+> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> On 2/18/21 12:46 PM, Shameerali Kolothum Thodi wrote:
->>
->> Hi Eric,
->>
->>> -----Original Message-----
->>> From: Auger Eric [mailto:eric.auger@redhat.com]
->>> Sent: 18 February 2021 10:42
->>> To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>;
->>> eric.auger.pro@gmail.com; qemu-devel@nongnu.org; qemu-arm@nongnu.org;
->>> alex.williamson@redhat.com
->>> Cc: peter.maydell@linaro.org; jacob.jun.pan@linux.intel.com; Zengtao (B)
->>> <prime.zeng@hisilicon.com>; jean-philippe@linaro.org; tn@semihalf.com;
->>> peterx@redhat.com; nicoleotsuka@gmail.com; vivek.gautam@arm.com;
->>> yi.l.liu@intel.com; zhangfei.gao@gmail.com; yuzenghui
->>> <yuzenghui@huawei.com>; qubingbing <qubingbing@hisilicon.com>
->>> Subject: Re: [RFC v7 26/26] vfio/pci: Implement return_page_response page
->>> response callback
->>>
->> [...]
->>
->>>> Also, I just noted that this patch breaks the dev hot add/del functionality.
->>>> device_add works fine but device_del is not removing the dev cleanly.Thank
->>> you for reporting this!
->>>
->>> The test matrix becomes bigger and bigger :-( I Need to write some
->>> avocado-vt tests or alike.
->>>
->>> I am currently working on the respin. At the moment I investigate the
->>> DPDK issue that you reported and I was able to reproduce.
->>
->> Ok. Good to know that it is reproducible.
->>
->>> I intend to rebase on top of Jean-Philippe's
->>> [PATCH v12 00/10] iommu: I/O page faults for SMMUv3
->>>
->>> Is that good enough for your SVA integration or do you want I prepare a
->>> rebase on some extended code?
->>
->> Could you please try to base it on https://jpbrucker.net/git/linux/log/?h=sva/current
-> 
-> OK. At least I will provide a branch.
+> This is probably used in many tutorial as "-usbdevice tablet" (for example
+> https://wiki.gentoo.org/wiki/QEMU/Options).
 
-I sent the respin on top of master branch + Jean-Philippe's
-[PATCH v12 00/10] iommu: I/O page faults for SMMUv3.
-because I thought it makes more sense to post on master + some nearly
-"ready to go" stuff.
+It has been deprecated, printing a warning message, for almost 4 years
+now, and had your ack originally :-)
 
-Nevertheless I will do my best to prepare asap a branch based on Jean's
-sva/current branch (based on 5.11-rc5)
+  commit a358a3af4558a24398a541951cad7a6c458df72b
+  Author: Thomas Huth <thuth@redhat.com>
+  Date:   Fri May 19 08:35:16 2017 +0200
 
-Thanks
-
-Eric
+    usb: Deprecate the legacy -usbdevice option
+    
+    The '-usbdevice' option is considered as deprecated nowadays and
+    we might want to remove these options in a future version of QEMU.
+    So mark this options as deprecated in the documenation and print out
+    a warning if it is used to tell the user what to use instead.
+    While we're at it, improve also some other minor USB-related spots
+    in qemu-options.hx that were not up to date anymore.
+    
+    Signed-off-by: Thomas Huth <thuth@redhat.com>
+    Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
+    Message-id: 1495175716-12735-1-git-send-email-thuth@redhat.com
+    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
 
+There's some tradeoff to be had.  The 3rd party docs will be unlikely
+to be updated to the new syntax as long as the old syntax still works.
+So we get ourselves into a chicken & egg scenario.
 
-> 
-> Eric
->>
->> I think that has the latest from Jean-Philippe and will be easy to add
->> uacce/zip specific patches to test SVA/vSVA.
->>
->> Thanks,
->> Shameer
->>
->>  
->>> Thanks
->>>
->>> Eric
->>>>
->>>> The below one fixes it. Please check.
->>>>
->>>> Thanks,
->>>> Shameer
->>>>
->>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>>> index 797acd9c73..92c1d48316 100644
->>>> --- a/hw/vfio/pci.c
->>>> +++ b/hw/vfio/pci.c
->>>> @@ -3470,6 +3470,7 @@ static void vfio_instance_finalize(Object *obj)
->>>>      vfio_display_finalize(vdev);
->>>>      vfio_bars_finalize(vdev);
->>>>      vfio_region_finalize(&vdev->dma_fault_region);
->>>> +    vfio_region_finalize(&vdev->dma_fault_response_region);
->>>>      g_free(vdev->emulated_config_bits);
->>>>      g_free(vdev->rom);
->>>>      /*
->>>> @@ -3491,6 +3492,7 @@ static void vfio_exitfn(PCIDevice *pdev)
->>>>      vfio_unregister_err_notifier(vdev);
->>>>      vfio_unregister_ext_irq_notifiers(vdev);
->>>>      vfio_region_exit(&vdev->dma_fault_region);
->>>> +    vfio_region_exit(&vdev->dma_fault_response_region);
->>>>      pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
->>>>      if (vdev->irqchip_change_notifier.notify) {
->>>>
->>> kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_not
->>>>
->>>>
->>>>
->>
+Overall the -usbdevice doesn't add significant syntax sugar benefits
+over -device, as compared benefits of other syntax sugar args we
+have.
+
+> > ---
+> >   docs/system/deprecated.rst       |  9 -------
+> >   docs/system/removed-features.rst |  9 +++++++
+> >   softmmu/vl.c                     | 42 --------------------------------
+> >   3 files changed, 9 insertions(+), 51 deletions(-)
+
+It seems this is incomplete though, I missed qemu-options.hx,
+docs/qdev-device-use.txt and hw/usb/bus.c updates to remove
+associated cruft.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
