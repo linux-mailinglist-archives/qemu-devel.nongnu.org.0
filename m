@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C78B0323F2D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:40:34 +0100 (CET)
-Received: from localhost ([::1]:40174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 904BD3240DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:33:56 +0100 (CET)
+Received: from localhost ([::1]:45088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEvL6-0003lB-Dt
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:40:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43936)
+	id 1lEwAk-00045t-Qy
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:33:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEvJa-00035h-6M
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:38:58 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:34280)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEvJY-0000LB-14
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:38:57 -0500
-Received: by mail-ed1-x531.google.com with SMTP id j9so2827504edp.1
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 06:38:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=v7ZxfvyazaMbxfOpvm9Hc3mGSr/aJWUBHGkiYF3e+HI=;
- b=cXlMAFU8H9EUUOeOcNiodUkiaUXA++7FxiWmgKMPifJ+rhdtm21wv95qzUPWAjmNtQ
- b+pBwhpCEMFvO0S5MwdtkgJN+K9gAsO7LcTN0Nm7zMxnz+7HGk/ctM8RdWQOkkmZ7Z3A
- vs01iwzhnpcL8sERjJqWcI647jCf+t5wHixl32LSwhew2FjDeklYEG8d9O0sxxJujUzJ
- l2ry4oX+LWhm2tv+kGXsDH3kUO669092tCg7QJAKzxQ6gbzZ2xmkaeYaWiw1eCXA5DrB
- RbMZDWfUDBmBcItQ0SwLug6jBWlDLYRWKjiuqkzt3TUzDwGH0tI+7kGgdwkC8/emlBPH
- l/YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=v7ZxfvyazaMbxfOpvm9Hc3mGSr/aJWUBHGkiYF3e+HI=;
- b=hE8eWIiZ7X9tYC/5I29E5VtNm2qu9eitdpcQYK4MUoW9TPhzHvtWeOvLVsTIACUf0X
- 73jHEcbqnCiR9z8s5nwZBdve9CmXi1ZP4kLcVYdxB1IRKF5h55RFjklp72MURmpJxp6F
- Q467tTzvMVyf7P+IzFEN7W/HPpGerN8OARA/G5NS/jBKOGv6+D+hOZzCm9ZJjHd7SQmF
- JtaRtuxJyXOBdNBzOr6vrtZSvB425LV0HsMrgnvv8h03B1lpPHyzsENV9/ovEzZhI1R9
- Q0zirNirYL+45CL4PvqHjYacrEFCQthRHM4D+D8ga+giv8taYFB1UzprE3nBXi5gLgZQ
- QMAw==
-X-Gm-Message-State: AOAM5311qRXP0u1VNTSNMeMB/pjcFX+LINKLRbOpjvAG/iFikT/cOOB6
- K+8Cz1dJGusxQuRgEr3cOrEbIb+7mFaiawx3n+dBjQ==
-X-Google-Smtp-Source: ABdhPJzQQ+FjSvaealcu4IPsCG0DRu/ImMPxaWxwP2KzbxTUQP+K/uqv60AJmQ2/NgGaAT83RWezxDJ05V5LAINIKWY=
-X-Received: by 2002:aa7:c804:: with SMTP id a4mr2693760edt.251.1614177534422; 
- Wed, 24 Feb 2021 06:38:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lEw9T-0003UC-LJ
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:32:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1lEw9P-0007j4-EY
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:32:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614180749;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=brvuPGV1SrosHnOXedtKg8QhtNjmSRHszz8PNbaiWnI=;
+ b=BAFQ+jsAJ/EJv4ig6h3MCUHJAJ4CJsZpl2qiF6dom4Bvi1GCv5CiWWCzNTk7D9UPeQpB0f
+ JC86ESukisJ1zpjrG43HaJZbUhAXMEV1EEykJxP4+B5Havvkd3YhXB8mXObalXgDFaHCje
+ Kpb22GekztVnwcG4kK2wlXkcRlALdXk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-MxEmbSe-P5GhRvJWTwWTqA-1; Wed, 24 Feb 2021 10:32:27 -0500
+X-MC-Unique: MxEmbSe-P5GhRvJWTwWTqA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 23F10120174A;
+ Wed, 24 Feb 2021 14:58:58 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-115-86.rdu2.redhat.com [10.10.115.86])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 566805D6A8;
+ Wed, 24 Feb 2021 14:58:52 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id E76E822054F; Wed, 24 Feb 2021 09:58:51 -0500 (EST)
+Date: Wed, 24 Feb 2021 09:58:51 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: qemu-devel@nongnu.org, virtio-fs@redhat.com
+Subject: Re: [PATCH v3 0/2] virtiofsd: Enable posix_acl by default
+Message-ID: <20210224145851.GC3148@redhat.com>
+References: <20210223225250.23945-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-References: <20210224131142.1952027-1-berrange@redhat.com>
-In-Reply-To: <20210224131142.1952027-1-berrange@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Feb 2021 14:38:43 +0000
-Message-ID: <CAFEAcA-Dvdg3L8rZT=yxjct-EkYcUzWAu2AZY67dKO6cRcvXzA@mail.gmail.com>
-Subject: Re: [PATCH 00/14] deprecations: remove many old deprecations
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210223225250.23945-1-vgoyal@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,41 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- Libvirt <libvir-list@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- John Snow <jsnow@redhat.com>, David Gibson <david@gibson.dropbear.id.au>,
- Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc <qemu-ppc@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: lhenriques@suse.de, dgilbert@redhat.com, stefanha@redhat.com,
+ miklos@szeredi.hu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Feb 2021 at 13:21, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
- wrote:
->
-> The following features have been deprecated for well over the 2
-> release cycle we promise
->
->   ``-usbdevice`` (since 2.10.0)
->   ``-drive file=3D3Djson:{...{'driver':'file'}}`` (since 3.0)
->   ``-vnc acl`` (since 4.0.0)
->   ``-mon ...,control=3D3Dreadline,pretty=3D3Don|off`` (since 4.1)
+On Tue, Feb 23, 2021 at 05:52:48PM -0500, Vivek Goyal wrote:
+> Hi,
+> 
+> This is V3 of the patches. Changes since v2 are.
+> 
+> - I dropped the patch to give user an option to enable/disable acls.
+>   Now acls are enabled by default if xattrs are enabled and fuse
+>   client offers FUSE_POSIX_ACL capability.
+>  
+> Miklos mentioned that ACLS might not have lot of overhead as these
+> can be cached. So it might make sense to enable these by default.
 
-Are the literal '=3D3D' here intended ?
+Maybe ACL caching will only work well with cache=auto and cache=always.
+With cache=none it probably will show most extra overhead.
 
+For example, with cache=none, I did "su test". And then did "cat foo.txt"
+and every time it results in two GETXATTR(system.posix_acl_access) calls.
 
-thanks
--- PMM
+2021-02-24 09:56:09.45-0500] [ID: 00000004] lo_getxattr(ino=1, name=system.posix_acl_access size=4096)
+[2021-02-24 09:56:09.45-0500] [ID: 00000004] lo_getxattr(ino=2, name=system.posix_acl_access size=4096)
+
+So this will definitely impact the performance with cache=none negatively.
+
+I am now inclined to respin the patches and add options to enable/disable
+acl and keep acl disabled by default. Those who need it, can enable it.
+
+Vivek
+
+> 
+> If we run into performance issues, then we can add another patch to
+> give option to enable/disable and disable it by default.
+> 
+> Luis Henriques reported that fstest generic/099 fails with virtiofs.
+> Little debugging showed that we don't enable acl support. This
+> patch series should fix the issue
+> 
+> Vivek Goyal (2):
+>   virtiofsd: Add umask to seccom allow list
+>   virtiofsd: Enable posix_acls by default if xattrs are enabled
+> 
+>  tools/virtiofsd/passthrough_ll.c      | 29 +++++++++++++++++++++------
+>  tools/virtiofsd/passthrough_seccomp.c |  1 +
+>  2 files changed, 24 insertions(+), 6 deletions(-)
+> 
+> -- 
+> 2.25.4
+> 
+
 
