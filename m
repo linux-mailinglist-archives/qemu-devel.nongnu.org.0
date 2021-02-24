@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFC1323BF0
+	by mail.lfdr.de (Postfix) with ESMTPS id 467EA323BEF
 	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:37:51 +0100 (CET)
-Received: from localhost ([::1]:56986 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:57020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEtQM-0006LW-Bf
+	id 1lEtQM-0006M9-AG
 	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:37:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37800)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lEtNp-00050d-Lm
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:35:15 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3489)
+ id 1lEtNm-000502-00
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:35:10 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <changzihao1@huawei.com>)
- id 1lEtNh-0005LG-HU
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:35:11 -0500
+ id 1lEtNh-0005LH-Pn
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:35:08 -0500
 Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DlwLk1F1hzjS0x;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DlwLk1V38zjS17;
  Wed, 24 Feb 2021 20:33:18 +0800 (CST)
 Received: from DESKTOP-F1615D3.china.huawei.com (10.174.186.85) by
  DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 24 Feb 2021 20:34:45 +0800
+ 14.3.498.0; Wed, 24 Feb 2021 20:34:47 +0800
 From: Zihao Chang <changzihao1@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [PATCH v4 2/3] vnc: support reload x509 certificates for vnc
-Date: Wed, 24 Feb 2021 20:34:18 +0800
-Message-ID: <20210224123419.786-3-changzihao1@huawei.com>
+Subject: [PATCH v4 3/3] qmp: add new qmp display-reload
+Date: Wed, 24 Feb 2021 20:34:19 +0800
+Message-ID: <20210224123419.786-4-changzihao1@huawei.com>
 X-Mailer: git-send-email 2.22.0.windows.1
 In-Reply-To: <20210224123419.786-1-changzihao1@huawei.com>
 References: <20210224123419.786-1-changzihao1@huawei.com>
@@ -64,66 +64,78 @@ Cc: berrange@redhat.com, oscar.zhangbo@huawei.com, changzihao1@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch add vnc_display_reload_certs() to support
-update x509 certificates.
+This patch provides a new qmp to reload display configuration
+without restart VM, but only reloading the vnc tls certificates
+is implemented.
+Example:
+{"execute": "display-reload", "arguments":{"vnc-tls-certs": true}}
 
 Signed-off-by: Zihao Chang <changzihao1@huawei.com>
 ---
- include/ui/console.h |  1 +
- ui/vnc.c             | 28 ++++++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ monitor/qmp-cmds.c | 12 ++++++++++++
+ qapi/ui.json       | 32 ++++++++++++++++++++++++++++++++
+ 2 files changed, 44 insertions(+)
 
-diff --git a/include/ui/console.h b/include/ui/console.h
-index d30e972d0b57..787f00a583d1 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -470,6 +470,7 @@ int vnc_display_password(const char *id, const char *password);
- int vnc_display_pw_expire(const char *id, time_t expires);
- void vnc_parse(const char *str);
- int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
-+bool vnc_display_reload_certs(const char *id,  Error **errp);
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index c7df8c0ee268..02ac2fdb1a47 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -334,3 +334,15 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
  
- /* input.c */
- int index_from_key(const char *key, size_t key_length);
-diff --git a/ui/vnc.c b/ui/vnc.c
-index 16bb3be770b2..cb1df911dc12 100644
---- a/ui/vnc.c
-+++ b/ui/vnc.c
-@@ -584,6 +584,34 @@ VncInfo2List *qmp_query_vnc_servers(Error **errp)
-     return prev;
+     return mem_info;
  }
- 
-+bool vnc_display_reload_certs(const char *id, Error **errp)
++
++void qmp_display_reload(DisplayReloadInfo *arg, Error **errp)
 +{
-+    VncDisplay *vd = vnc_display_find(id);
-+    QCryptoTLSCredsClass *creds = NULL;
++    Error *local_err = NULL;
 +
-+    if (!vd) {
-+        error_setg(errp, "Can not find vnc display");
-+        return false;
++    if (arg->has_vnc_tls_certs && arg->vnc_tls_certs) {
++        if (!vnc_display_reload_certs(NULL, &local_err)) {
++            error_propagate(errp, local_err);
++            return;
++        }
 +    }
-+
-+    if (!vd->tlscreds) {
-+        error_setg(errp, "vnc tls is not enable");
-+        return false;
-+    }
-+
-+    creds = QCRYPTO_TLS_CREDS_GET_CLASS(OBJECT(vd->tlscreds));
-+    if (creds->reload == NULL) {
-+        error_setg(errp, "%s doesn't support to reload TLS credential",
-+                   object_get_typename(OBJECT(vd->tlscreds)));
-+        return false;
-+    }
-+    if (!creds->reload(vd->tlscreds, errp)) {
-+        return false;
-+    }
-+
-+    return true;
 +}
+diff --git a/qapi/ui.json b/qapi/ui.json
+index d08d72b43923..922d9ae0772e 100644
+--- a/qapi/ui.json
++++ b/qapi/ui.json
+@@ -1179,3 +1179,35 @@
+ ##
+ { 'command': 'query-display-options',
+   'returns': 'DisplayOptions' }
 +
- /* TODO
-    1) Get the queue working for IO.
-    2) there is some weirdness when using the -S option (the screen is grey
++##
++# @DisplayReloadInfo:
++#
++# The basic information for reload Display configuration
++#
++# @vnc-tls-certs: whether to reload tls certs
++#
++# Since: 6.0
++##
++{ 'struct': 'DisplayReloadInfo',
++  'data': { '*vnc-tls-certs': 'bool' } }
++
++##
++# @display-reload:
++#
++# Reload display configuration
++#
++# Returns: Nothing on success
++#
++# Since: 6.0
++#
++# Example:
++#
++# -> { "execute": "display-reload",
++#      "arguments": { "vnc-tls-certs": true } }
++# <- { "return": {} }
++#
++##
++{ 'command': 'display-reload',
++  'data': 'DisplayReloadInfo',
++  'boxed' : true }
 -- 
 2.28.0
 
