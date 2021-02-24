@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 857073242C5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:03:37 +0100 (CET)
-Received: from localhost ([::1]:60318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5908B3242EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:09:01 +0100 (CET)
+Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExZY-0004mb-G6
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:03:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44022)
+	id 1lExem-0002sp-DS
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:09:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44024)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lExUW-0003Ho-QM
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:58:24 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:36433)
+ id 1lExUX-0003IC-1D
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:58:25 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:51455)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lExUP-000748-Ne
+ id 1lExUT-00075L-Gc
  for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:58:24 -0500
-Received: by mail-wm1-x329.google.com with SMTP id k66so2469466wmf.1
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 08:58:17 -0800 (PST)
+Received: by mail-wm1-x332.google.com with SMTP id j187so2396462wmj.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 08:58:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5tflN3q79KkPgu1AfUv+9Ai33YagcdoNXpl6kgnHQ88=;
- b=z4Twsl1gqeIe/EEbGMuM5b4V0pKi6+P+BW8EsYTsPf16XwGkVUf2i2Mafqce7kSwwE
- 9WBhYblXsWfdBhK6+ygiXyu3a6ySOGUf9gT5lwGWJyuZ3Li0vp+89BAz8lsFz4SkyUko
- UzVfKeFKJVb21vYpeeNuJni7V19a8VJ1wtE/wn4WxvfBQQlc9IrKPwlIZokFpzlCjWvj
- IK19bqJRTs77vk4rhw+oDp/QHRcjtV+2+2IIPYn/XVPM8JTCwt3tJhN6vwYNXKyCu7Ba
- AOPoH75fO5W7dt1NIl3F1p9olzZJQ3A4vDhlsIZSB5Ai2ktma+TqEVKMPrdlhNX9nNis
- 6Tww==
+ bh=ijUHy5f8z4m3eStoJmSo8NsJPN9+rPCEGdu4/3Xebsg=;
+ b=e/E81CVcf+WoBZaFlPzK8MY1sYSXbQK/p4YBNi6joPiZc4+L3e/MGOp1lGOwo8TckW
+ 4xm8LPgEyNX5hCPpF3TRvaPuOJy2YHk2ynV5fpMFGXkkaUqVt1hz6CfIC88k6VxLnqt/
+ 06uo4iCW885BqMMjV5zsT7fRl/izdKLRpOrF+VQWOnfSaw3FkJRMvd+OwlZg6zOvGqdt
+ 2wVJNLXdYAIyb7Xd6wrXPhlg/aE3NUkfHZ3+ZwZF60yz7WN1Tydh/O86JF/u4stMqJTa
+ htrM1GhAN1p3NH95mY2VX9+eFevQeEJ/+x/tV7xx4iAcCTvgVV7rstRTsO8aDaczQ5e7
+ i3iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5tflN3q79KkPgu1AfUv+9Ai33YagcdoNXpl6kgnHQ88=;
- b=Q8Yxlmx869fIjhcKyquInWcobFxt+ESMZuQgEv5/Ne2NjAsEJrhEAnQSwQZgCVxwj0
- tEXZYCYSBQ/GqG/nni1HESE5rOuXlD42qeLJAZMXxoAMRC6JV8RFX8Oy5nVtLI9ITY3Q
- Pwd4mEFAufS0w0h4KvwMRnSW9+w4Db9krL/Yva8NPO5/ToHIWrvjpWh4GqQi/sA1IEu1
- F4ZayeG5z0+2j+6xYezjwOVba2DP2uR9iMdlllRI7YYp0SjKOioixl23eePvYwKa6ZJV
- 5hFdXsDdhnfoxwxWHWdIq1HCE4PZoTsTIZrOmTfqjFEN3XNkRgFR228O7cJyXRVaSYjY
- 71gA==
-X-Gm-Message-State: AOAM532/JyppIR20/HMZuNCQBZAJtmryXvnWZYob/qTDMqjrUwLT+JpY
- lxNCDY3DjWn2majlN+SWqDSzyA==
-X-Google-Smtp-Source: ABdhPJzDv1KJiO8jO9Z+Dmjj75ymW7f7wIYUb2Aa4qn5vwU2bBfhfANmD99LMbNMTIhBPdwJC/laOg==
-X-Received: by 2002:a7b:c957:: with SMTP id i23mr4502790wml.32.1614185896330; 
- Wed, 24 Feb 2021 08:58:16 -0800 (PST)
+ bh=ijUHy5f8z4m3eStoJmSo8NsJPN9+rPCEGdu4/3Xebsg=;
+ b=owi36V4P6yAYjrmi7emlWVDu51NHJ9sjk9i0XoBogctyWz2beisH9qFxtodOHxB+tw
+ ntmFObVj8kQDmHBphZl/egIUB0glWmDTP1+4gZiSmQ3vtSOk45oP9g/C0Vx8+YvJPAjT
+ u6446M0HIFktR2Mov/LIpGCNHkHYBdumzdmlTQsK+ncEiluB4zEbb226GTAjW5sdSdsz
+ ydzJxu2uuw9jyAiftEKvxwFrppiega+pkI5U9/chsswGDn+2AeU2UBZZEJwdjTxdX1YL
+ jQvug37mXqcuRefnRS3MATaFg00HF954M2fhj0kYrj7w2LEkwZEpW7nItxGuglO+awAT
+ qG+g==
+X-Gm-Message-State: AOAM532wNh3OcAasAKU4/TPVhTeUmv8AFR01VW7YjRlZvP+WRBLPS0Jo
+ Po1n2QQv5lKwAKuiKsAHYtE2NA==
+X-Google-Smtp-Source: ABdhPJx7ncsJSdbAh8gzggTeEwm/q52nisVFXoT8LMGAjRYBzr0SKmRtoIEUuqV6myasDP1A/KSsmg==
+X-Received: by 2002:a7b:ca49:: with SMTP id m9mr4393004wml.89.1614185899386;
+ Wed, 24 Feb 2021 08:58:19 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id 2sm5001720wre.24.2021.02.24.08.58.12
+ by smtp.gmail.com with ESMTPSA id q15sm4909769wrr.58.2021.02.24.08.58.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 08:58:12 -0800 (PST)
+ Wed, 24 Feb 2021 08:58:16 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9C0561FF8C;
+ by zen.linaroharston (Postfix) with ESMTP id B9D251FF8F;
  Wed, 24 Feb 2021 16:58:11 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: richard.henderson@linaro.org
-Subject: [RFC PATCH 2/5] accel/tcg: move CF_CLUSTER calculation to curr_cflags
-Date: Wed, 24 Feb 2021 16:58:08 +0000
-Message-Id: <20210224165811.11567-3-alex.bennee@linaro.org>
+Subject: [RFC PATCH 3/5] accel/tcg: drop the use of CF_HASH_MASK and rename
+ params
+Date: Wed, 24 Feb 2021 16:58:09 +0000
+Message-Id: <20210224165811.11567-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210224165811.11567-1-alex.bennee@linaro.org>
 References: <20210224165811.11567-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,152 +92,209 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, cota@braap.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is nothing special about this compile flag that doesn't mean we
-can't just compute it with curr_cflags() which we should be using when
-building a new set.
+We don't really deal in cf_mask most of the time. The one time it's
+relevant is when we want to remove an invalidated TB from the QHT
+lookup. Everywhere else we should be looking up things without
+CF_INVALID set.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- include/exec/exec-all.h   | 8 +++++---
- include/exec/tb-lookup.h  | 3 ---
- accel/tcg/cpu-exec.c      | 9 ++++-----
- accel/tcg/tcg-runtime.c   | 2 +-
- accel/tcg/translate-all.c | 6 +++---
- softmmu/physmem.c         | 2 +-
- 6 files changed, 14 insertions(+), 16 deletions(-)
+ include/exec/exec-all.h   |  4 +---
+ include/exec/tb-lookup.h  |  9 ++++++---
+ accel/tcg/cpu-exec.c      | 16 ++++++++--------
+ accel/tcg/tcg-runtime.c   |  2 +-
+ accel/tcg/translate-all.c |  8 +++++---
+ 5 files changed, 21 insertions(+), 18 deletions(-)
 
 diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index b7b3c0ef12..1a69c07add 100644
+index 1a69c07add..acf66ab692 100644
 --- a/include/exec/exec-all.h
 +++ b/include/exec/exec-all.h
-@@ -519,10 +519,12 @@ static inline uint32_t tb_cflags(const TranslationBlock *tb)
- }
+@@ -460,8 +460,6 @@ struct TranslationBlock {
+ #define CF_PARALLEL    0x00080000 /* Generate code for a parallel context */
+ #define CF_CLUSTER_MASK 0xff000000 /* Top 8 bits are cluster ID */
+ #define CF_CLUSTER_SHIFT 24
+-/* cflags' mask for hashing/comparison, basically ignore CF_INVALID */
+-#define CF_HASH_MASK   (~CF_INVALID)
  
- /* current cflags for hashing/comparison */
--static inline uint32_t curr_cflags(void)
-+static inline uint32_t curr_cflags(CPUState *cpu)
- {
--    return (parallel_cpus ? CF_PARALLEL : 0)
--         | (icount_enabled() ? CF_USE_ICOUNT : 0);
-+    uint32_t cflags = deposit32(0, CF_CLUSTER_SHIFT, 8, cpu->cluster_index);
-+    cflags |= parallel_cpus ? CF_PARALLEL : 0;
-+    cflags |= icount_enabled() ? CF_USE_ICOUNT : 0;
-+    return cflags;
- }
+     /* Per-vCPU dynamic tracing state used to generate this TB */
+     uint32_t trace_vcpu_dstate;
+@@ -538,7 +536,7 @@ void tb_flush(CPUState *cpu);
+ void tb_phys_invalidate(TranslationBlock *tb, tb_page_addr_t page_addr);
+ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+                                    target_ulong cs_base, uint32_t flags,
+-                                   uint32_t cf_mask);
++                                   uint32_t cflags);
+ void tb_set_jmp_target(TranslationBlock *tb, int n, uintptr_t addr);
  
- /* TranslationBlock invalidate API */
+ /* GETPC is the true target of the return instruction that we'll execute.  */
 diff --git a/include/exec/tb-lookup.h b/include/exec/tb-lookup.h
-index 62a509535d..b2247d458b 100644
+index b2247d458b..7b70412fae 100644
 --- a/include/exec/tb-lookup.h
 +++ b/include/exec/tb-lookup.h
-@@ -27,9 +27,6 @@ static inline TranslationBlock * tb_lookup(CPUState *cpu,
+@@ -19,11 +19,14 @@
+ /* Might cause an exception, so have a longjmp destination ready */
+ static inline TranslationBlock * tb_lookup(CPUState *cpu,
+                                            target_ulong pc, target_ulong cs_base,
+-                                           uint32_t flags, uint32_t cf_mask)
++                                           uint32_t flags, uint32_t cflags)
+ {
+     TranslationBlock *tb;
+     uint32_t hash;
+ 
++    /* we should never be trying to look up an INVALID tb */
++    tcg_debug_assert(!(cflags & CF_INVALID));
++
      hash = tb_jmp_cache_hash_func(pc);
      tb = qatomic_rcu_read(&cpu->tb_jmp_cache[hash]);
  
--    cf_mask &= ~CF_CLUSTER_MASK;
--    cf_mask |= cpu->cluster_index << CF_CLUSTER_SHIFT;
--
-     if (likely(tb &&
-                tb->pc == pc &&
+@@ -32,10 +35,10 @@ static inline TranslationBlock * tb_lookup(CPUState *cpu,
                 tb->cs_base == cs_base &&
+                tb->flags == flags &&
+                tb->trace_vcpu_dstate == *cpu->trace_dstate &&
+-               (tb_cflags(tb) & (CF_HASH_MASK | CF_INVALID)) == cf_mask)) {
++               tb_cflags(tb) == cflags)) {
+         return tb;
+     }
+-    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cf_mask);
++    tb = tb_htable_lookup(cpu, pc, cs_base, flags, cflags);
+     if (tb == NULL) {
+         return NULL;
+     }
 diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index ef96b312a1..45286dc4b3 100644
+index 45286dc4b3..931da96c2b 100644
 --- a/accel/tcg/cpu-exec.c
 +++ b/accel/tcg/cpu-exec.c
-@@ -249,8 +249,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-     TranslationBlock *tb;
-     target_ulong cs_base, pc;
+@@ -307,7 +307,7 @@ struct tb_desc {
+     CPUArchState *env;
+     tb_page_addr_t phys_page1;
      uint32_t flags;
--    uint32_t cflags = 1;
--    uint32_t cf_mask = cflags & CF_HASH_MASK;
-+    uint32_t cflags = (curr_cflags(cpu) & ~CF_PARALLEL) | 1;
-     int tb_exit;
+-    uint32_t cf_mask;
++    uint32_t cflags;
+     uint32_t trace_vcpu_dstate;
+ };
  
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-@@ -260,7 +259,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-         cpu->running = true;
+@@ -321,7 +321,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
+         tb->cs_base == desc->cs_base &&
+         tb->flags == desc->flags &&
+         tb->trace_vcpu_dstate == desc->trace_vcpu_dstate &&
+-        (tb_cflags(tb) & (CF_HASH_MASK | CF_INVALID)) == desc->cf_mask) {
++        tb_cflags(tb) == desc->cflags) {
+         /* check next page if needed */
+         if (tb->page_addr[1] == -1) {
+             return true;
+@@ -341,7 +341,7 @@ static bool tb_lookup_cmp(const void *p, const void *d)
  
-         cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
--        tb = tb_lookup(cpu, pc, cs_base, flags, cf_mask);
-+        tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
+ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+                                    target_ulong cs_base, uint32_t flags,
+-                                   uint32_t cf_mask)
++                                   uint32_t cflags)
+ {
+     tb_page_addr_t phys_pc;
+     struct tb_desc desc;
+@@ -350,7 +350,7 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+     desc.env = (CPUArchState *)cpu->env_ptr;
+     desc.cs_base = cs_base;
+     desc.flags = flags;
+-    desc.cf_mask = cf_mask;
++    desc.cflags = cflags;
+     desc.trace_vcpu_dstate = *cpu->trace_dstate;
+     desc.pc = pc;
+     phys_pc = get_page_addr_code(desc.env, pc);
+@@ -358,7 +358,7 @@ TranslationBlock *tb_htable_lookup(CPUState *cpu, target_ulong pc,
+         return NULL;
+     }
+     desc.phys_page1 = phys_pc & TARGET_PAGE_MASK;
+-    h = tb_hash_func(phys_pc, pc, flags, cf_mask, *cpu->trace_dstate);
++    h = tb_hash_func(phys_pc, pc, flags, cflags, *cpu->trace_dstate);
+     return qht_lookup_custom(&tb_ctx.htable, &desc, h, tb_lookup_cmp);
+ }
  
-         if (tb == NULL) {
-             mmap_lock();
-@@ -497,7 +496,7 @@ static inline bool cpu_handle_exception(CPUState *cpu, int *ret)
-         if (replay_has_exception()
-             && cpu_neg(cpu)->icount_decr.u16.low + cpu->icount_extra == 0) {
-             /* Execute just one insn to trigger exception pending in the log */
--            cpu->cflags_next_tb = (curr_cflags() & ~CF_USE_ICOUNT) | 1;
-+            cpu->cflags_next_tb = (curr_cflags(cpu) & ~CF_USE_ICOUNT) | 1;
-         }
- #endif
-         return false;
-@@ -794,7 +793,7 @@ int cpu_exec(CPUState *cpu)
-                have CF_INVALID set, -1 is a convenient invalid value that
-                does not require tcg headers for cpu_common_reset.  */
-             if (cflags == -1) {
--                cflags = curr_cflags();
-+                cflags = curr_cflags(cpu);
-             } else {
-                 cpu->cflags_next_tb = -1;
-             }
-diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
-index 05e3d52c2f..99403e3eb3 100644
---- a/accel/tcg/tcg-runtime.c
-+++ b/accel/tcg/tcg-runtime.c
-@@ -154,7 +154,7 @@ const void *HELPER(lookup_tb_ptr)(CPUArchState *env)
+@@ -418,7 +418,7 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
+ 
+ static inline TranslationBlock *tb_find(CPUState *cpu,
+                                         TranslationBlock *last_tb,
+-                                        int tb_exit, uint32_t cf_mask)
++                                        int tb_exit, uint32_t cflags)
+ {
+     CPUArchState *env = (CPUArchState *)cpu->env_ptr;
+     TranslationBlock *tb;
+@@ -427,10 +427,10 @@ static inline TranslationBlock *tb_find(CPUState *cpu,
  
      cpu_get_tb_cpu_state(env, &pc, &cs_base, &flags);
  
--    tb = tb_lookup(cpu, pc, cs_base, flags, curr_cflags());
-+    tb = tb_lookup(cpu, pc, cs_base, flags, curr_cflags(cpu));
+-    tb = tb_lookup(cpu, pc, cs_base, flags, cf_mask);
++    tb = tb_lookup(cpu, pc, cs_base, flags, cflags);
      if (tb == NULL) {
-         return tcg_code_gen_epilogue;
-     }
+         mmap_lock();
+-        tb = tb_gen_code(cpu, pc, cs_base, flags, cf_mask);
++        tb = tb_gen_code(cpu, pc, cs_base, flags, cflags);
+         mmap_unlock();
+         /* We add the TB in the virtual pc hash table for the fast lookup */
+         qatomic_set(&cpu->tb_jmp_cache[tb_jmp_cache_hash_func(pc)], tb);
+diff --git a/accel/tcg/tcg-runtime.c b/accel/tcg/tcg-runtime.c
+index 99403e3eb3..49f5de37e8 100644
+--- a/accel/tcg/tcg-runtime.c
++++ b/accel/tcg/tcg-runtime.c
+@@ -27,10 +27,10 @@
+ #include "exec/helper-proto.h"
+ #include "exec/cpu_ldst.h"
+ #include "exec/exec-all.h"
+-#include "exec/tb-lookup.h"
+ #include "disas/disas.h"
+ #include "exec/log.h"
+ #include "tcg/tcg.h"
++#include "exec/tb-lookup.h"
+ 
+ /* 32-bit helpers */
+ 
 diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index bbd919a393..f29b47f090 100644
+index f29b47f090..0b0bfd35ab 100644
 --- a/accel/tcg/translate-all.c
 +++ b/accel/tcg/translate-all.c
-@@ -2194,7 +2194,7 @@ tb_invalidate_phys_page_range__locked(struct page_collection *pages,
-     if (current_tb_modified) {
-         page_collection_unlock(pages);
-         /* Force execution of one insn next time.  */
--        cpu->cflags_next_tb = 1 | curr_cflags();
-+        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
-         mmap_unlock();
-         cpu_loop_exit_noexc(cpu);
-     }
-@@ -2362,7 +2362,7 @@ static bool tb_invalidate_phys_page(tb_page_addr_t addr, uintptr_t pc)
- #ifdef TARGET_HAS_PRECISE_SMC
-     if (current_tb_modified) {
-         /* Force execution of one insn next time.  */
--        cpu->cflags_next_tb = 1 | curr_cflags();
-+        cpu->cflags_next_tb = 1 | curr_cflags(cpu);
-         return true;
-     }
- #endif
-@@ -2438,7 +2438,7 @@ void cpu_io_recompile(CPUState *cpu, uintptr_t retaddr)
-      * operations only (which execute after completion) so we don't
-      * double instrument the instruction.
-      */
--    cpu->cflags_next_tb = curr_cflags() | CF_MEMI_ONLY | CF_LAST_IO | n;
-+    cpu->cflags_next_tb = curr_cflags(cpu) | CF_MEMI_ONLY | CF_LAST_IO | n;
+@@ -1311,7 +1311,7 @@ static bool tb_cmp(const void *ap, const void *bp)
+     return a->pc == b->pc &&
+         a->cs_base == b->cs_base &&
+         a->flags == b->flags &&
+-        (tb_cflags(a) & CF_HASH_MASK) == (tb_cflags(b) & CF_HASH_MASK) &&
++        (tb_cflags(a) & ~CF_INVALID) == (tb_cflags(b) & ~CF_INVALID) &&
+         a->trace_vcpu_dstate == b->trace_vcpu_dstate &&
+         a->page_addr[0] == b->page_addr[0] &&
+         a->page_addr[1] == b->page_addr[1];
+@@ -1616,6 +1616,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+     PageDesc *p;
+     uint32_t h;
+     tb_page_addr_t phys_pc;
++    uint32_t orig_cflags = tb_cflags(tb);
  
-     qemu_log_mask_and_addr(CPU_LOG_EXEC, tb->pc,
-                            "cpu_io_recompile: rewound execution of TB to "
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 19e0aa9836..7e8b0fab89 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -937,7 +937,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
-                     cpu_loop_exit_restore(cpu, ra);
-                 } else {
-                     /* Force execution of one insn next time.  */
--                    cpu->cflags_next_tb = 1 | curr_cflags();
-+                    cpu->cflags_next_tb = 1 | curr_cflags(cpu);
-                     mmap_unlock();
-                     if (ra) {
-                         cpu_restore_state(cpu, ra, true);
+     assert_memory_lock();
+ 
+@@ -1626,7 +1627,7 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
+ 
+     /* remove the TB from the hash list */
+     phys_pc = tb->page_addr[0] + (tb->pc & ~TARGET_PAGE_MASK);
+-    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb_cflags(tb) & CF_HASH_MASK,
++    h = tb_hash_func(phys_pc, tb->pc, tb->flags, orig_cflags,
+                      tb->trace_vcpu_dstate);
+     if (!qht_remove(&tb_ctx.htable, tb, h)) {
+         return;
+@@ -1793,6 +1794,7 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+     uint32_t h;
+ 
+     assert_memory_lock();
++    tcg_debug_assert(!(tb->cflags & CF_INVALID));
+ 
+     /*
+      * Add the TB to the page list, acquiring first the pages's locks.
+@@ -1811,7 +1813,7 @@ tb_link_page(TranslationBlock *tb, tb_page_addr_t phys_pc,
+     }
+ 
+     /* add in the hash table */
+-    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags & CF_HASH_MASK,
++    h = tb_hash_func(phys_pc, tb->pc, tb->flags, tb->cflags,
+                      tb->trace_vcpu_dstate);
+     qht_insert(&tb_ctx.htable, tb, h, &existing_tb);
+ 
 -- 
 2.20.1
 
