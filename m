@@ -2,49 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E7D323F01
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:00:42 +0100 (CET)
-Received: from localhost ([::1]:34802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE99323F22
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:24:23 +0100 (CET)
+Received: from localhost ([::1]:57840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuiX-0004vm-L0
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:00:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53716)
+	id 1lEv5S-00072R-Im
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:24:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEuJb-0004nY-7F
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:34:55 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43042)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEuJW-0005En-56
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:34:54 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A2F05AE53;
- Wed, 24 Feb 2021 13:34:36 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v22 17/17] i386: move cpu_load_efer into sysemu-only section
- of cpu.h
-Date: Wed, 24 Feb 2021 14:34:28 +0100
-Message-Id: <20210224133428.14071-18-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210224133428.14071-1-cfontana@suse.de>
-References: <20210224133428.14071-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEv3z-0006Bq-Qi
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:22:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46362)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEv3y-0001PI-9O
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:22:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614176569;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4lt/looMaorLMRoiPJ2uWyE+cTp8PYc3N6O5aQZfunk=;
+ b=MHiF/44fhon+0Wizq2wptvw2aNE/+jrRloYi7Axf2+qnIX8nppG71JCLEnAF7/buRT+bL7
+ SPmU4o/vduPF+UZaCZi1UyygijJaB1XUjslUsfdh6X5DUUuROMTl00lSS9DKuNMPlAYSFi
+ ueIeh+hdsuJ2+qmpKfxrqGyRXI0ubo4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-138-juvjvvZwP_aNxdrl8NI_Dg-1; Wed, 24 Feb 2021 09:22:45 -0500
+X-MC-Unique: juvjvvZwP_aNxdrl8NI_Dg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4CFD594EC1A;
+ Wed, 24 Feb 2021 13:37:43 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-142.ams2.redhat.com [10.36.115.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADB805D6D3;
+ Wed, 24 Feb 2021 13:36:47 +0000 (UTC)
+Subject: Re: [PATCH 01/14] ui, monitor: remove deprecated VNC ACL option and
+ HMP commands
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-2-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <c82447de-e268-4237-248f-cb9017798b09@redhat.com>
+Date: Wed, 24 Feb 2021 14:36:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210224131142.1952027-2-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,72 +83,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_load_efer is now used only for sysemu code.
+On 24/02/2021 14.11, Daniel P. Berrangé wrote:
+> The VNC ACL concept has been replaced by the pluggable "authz" framework
+> which does not use monitor commands.
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   docs/system/deprecated.rst       |  16 ---
+>   docs/system/removed-features.rst |  13 +++
+>   hmp-commands.hx                  |  76 -------------
+>   monitor/misc.c                   | 187 -------------------------------
+>   ui/vnc.c                         |  38 -------
+>   5 files changed, 13 insertions(+), 317 deletions(-)
 
-Therefore, make this inline function not visible anymore
-in CONFIG_USER_ONLY builds.
+If I run:
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- target/i386/cpu.h | 31 ++++++++++++++++---------------
- 1 file changed, 16 insertions(+), 15 deletions(-)
+  grep -r vnc.*acl *
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 770c833363..3ccf28b443 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1957,6 +1957,22 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
-     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
- }
- 
-+/*
-+ * load efer and update the corresponding hflags. XXX: do consistency
-+ * checks with cpuid bits?
-+ */
-+static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
-+{
-+    env->efer = val;
-+    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
-+    if (env->efer & MSR_EFER_LMA) {
-+        env->hflags |= HF_LMA_MASK;
-+    }
-+    if (env->efer & MSR_EFER_SVME) {
-+        env->hflags |= HF_SVME_MASK;
-+    }
-+}
-+
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
-@@ -2053,21 +2069,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
-     return eflags;
- }
- 
--
--/* load efer and update the corresponding hflags. XXX: do consistency
--   checks with cpuid bits? */
--static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
--{
--    env->efer = val;
--    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
--    if (env->efer & MSR_EFER_LMA) {
--        env->hflags |= HF_LMA_MASK;
--    }
--    if (env->efer & MSR_EFER_SVME) {
--        env->hflags |= HF_SVME_MASK;
--    }
--}
--
- static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
- {
-     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
--- 
-2.26.2
+I also see some lines in tests/check-block-qdict.c ... are they related and 
+should be removed, too?
+
+Apart from that, patch looks fine to me:
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
