@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFB91323F38
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:43:31 +0100 (CET)
-Received: from localhost ([::1]:46454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD139323F3C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:48:17 +0100 (CET)
+Received: from localhost ([::1]:58740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEvNy-0006Se-VE
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:43:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44830)
+	id 1lEvSa-0003O2-Lt
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:48:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEvLX-0004SE-DY
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:40:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55680)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lEvPe-0001Js-St
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:45:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59941)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEvLV-0000zR-N7
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:40:59 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lEvPc-00032I-0T
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:45:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614177656;
+ s=mimecast20190719; t=1614177911;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jxl+sY1WJZkzm7DtXj6kr2MhI3IDSojO/Hco84IpZXY=;
- b=J1YXGM6siwFwHq1pB5q7I9MHU7YS13P8FVlvL4Xx5facxYJ5RrEW7D7UDLfhqXZPHRmlOv
- 592wEoH0rwXqsdh9xyxQWzJyfA5USTRSbDmRfIakLoVXGURqpR8S3/HNjavN0x88Qr7ugK
- d2wyST9EUunbXRICNmHguAM1CE3CO5Q=
+ bh=NLEC3w7PRMkEZYpnDn9uU1eCWeAsBW6MNICZMYfDT00=;
+ b=GP/b+ZQP5Jy7IUK57oJS4FibYhEZnW6EIWFo2S7VNLEnm5lKVW2i+aEDHFjTvahDbR/Z4n
+ TGl2GKZvr13ufPHOu/uNMghPhp0BX8qzTmS16nFxZPUTaHnf+b6JzYgKIf4nedxKVnohEb
+ MAlPIloPNdPuS1sKzZYQnkNkyUVMvwU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-ZVnnY1idMRKE-sZhxh1twA-1; Wed, 24 Feb 2021 09:40:55 -0500
-X-MC-Unique: ZVnnY1idMRKE-sZhxh1twA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-525-RbBJsuvjMPCd8ZV3DMpGgA-1; Wed, 24 Feb 2021 09:45:09 -0500
+X-MC-Unique: RbBJsuvjMPCd8ZV3DMpGgA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AE7D41160E9A;
- Wed, 24 Feb 2021 13:47:41 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-142.ams2.redhat.com [10.36.115.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 17A4C5D6AD;
- Wed, 24 Feb 2021 13:47:20 +0000 (UTC)
-Subject: Re: [PATCH 03/14] monitor: remove 'query-events' QMP command
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210224131142.1952027-1-berrange@redhat.com>
- <20210224131142.1952027-4-berrange@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <5c352953-6e39-23c1-e37e-c4a8f10c6075@redhat.com>
-Date: Wed, 24 Feb 2021 14:47:20 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1BBA690B60A;
+ Wed, 24 Feb 2021 13:52:07 +0000 (UTC)
+Received: from [10.3.113.71] (ovpn-113-71.phx2.redhat.com [10.3.113.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5ED9160C5F;
+ Wed, 24 Feb 2021 13:52:03 +0000 (UTC)
+Subject: Re: [PATCH v2 4/4] utils: Deprecate inexact fractional suffix sizes
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20210211204438.1184395-1-eblake@redhat.com>
+ <20210211204438.1184395-5-eblake@redhat.com> <YDU5d/Ug+Jes4jE0@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <78295ebe-3887-2cdf-679e-0e7bbc93f791@redhat.com>
+Date: Wed, 24 Feb 2021 07:52:02 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210224131142.1952027-4-berrange@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <YDU5d/Ug+Jes4jE0@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -69,7 +69,7 @@ X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,38 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: vsementsov@virtuozzo.com, qemu-block@nongnu.org, rjones@redhat.com,
+ "reviewer:Incompatible changes" <libvir-list@redhat.com>, tao3.xu@intel.com,
+ armbru@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/02/2021 14.11, Daniel P. Berrangé wrote:
-> The code comment suggests removing QAPIEvent_(str|lookup) symbols too,
-> however, these are both auto-generated as standard for any enum in
-> QAPI. As such it they'll exist whether we use them or not.
+On 2/23/21 11:20 AM, Daniel P. Berrangé wrote:
+> On Thu, Feb 11, 2021 at 02:44:38PM -0600, Eric Blake wrote:
+>> The value '1.1k' is inexact; 1126.4 bytes is not possible, so we
+>> happen to truncate it to 1126.  Our use of fractional sizes is
+>> intended for convenience, but when a user specifies a fraction that is
+>> not a clean translation to binary, truncating/rounding behind their
+>> backs can cause confusion.  Better is to deprecate inexact values,
+>> which still leaves '1.5k' as valid, but alerts the user to spell out
+>> their values as a precise byte number in cases where they are
+>> currently being rounded.
+>>
+>> Note that values like '0.1G' in the testsuite need adjustment as a
+>> result.
+>>
+>> Since qemu_strtosz() does not have an Err** parameter, and plumbing
+>> that in would be a much larger task, we instead go with just directly
+>> emitting the deprecation warning to stderr.
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>
+>> ---
+>>
+>> I'm not a fan of this patch, but am proposing it for discussion purposes.
 > 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> ---
->   docs/system/deprecated.rst       |  6 -----
->   docs/system/removed-features.rst |  6 +++++
->   monitor/qmp-cmds-control.c       | 24 -----------------
->   qapi/control.json                | 45 --------------------------------
->   4 files changed, 6 insertions(+), 75 deletions(-)
+> Likewise. I'm *not* in favour of this patch.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Glad we're in agreement.  Consider this one dropped, and I will queue
+1-3 through my NBD tree.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
