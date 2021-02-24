@@ -2,88 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0856F323E72
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:42:52 +0100 (CET)
-Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE717323EAB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:47:55 +0100 (CET)
+Received: from localhost ([::1]:49152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuRF-000612-Bz
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:42:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52768)
+	id 1lEuWA-0004Mu-Kq
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:47:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEuFv-0000XT-BK
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:31:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24128)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEuLH-0007O7-8b
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:36:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38494)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEuFr-0003lh-T9
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:31:07 -0500
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1lEuLE-000694-FF
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:36:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614173463;
+ s=mimecast20190719; t=1614173795;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OMf3D3RU/1ovZVc0YpYwO+l+OWT57rA5QKZHxEOEOEg=;
- b=SYjaSImFAqsjpIDRq4VjFgQ2a2FxrpzzCxroguYefcREomz7CWDNhy2NSCkr0gRk0xF+fH
- K/AZ6HAsCoFkT1S7ndERTnrFnydUKiithX19WLNzvJUZ4bhh7m8OK0zX10R7fp3jvzRUUf
- tx3nYqnFlI95RKJBtL4qIIbUkiBynSg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-tXyNV4cBP0maXohb9aHKrg-1; Wed, 24 Feb 2021 08:31:00 -0500
-X-MC-Unique: tXyNV4cBP0maXohb9aHKrg-1
-Received: by mail-wm1-f69.google.com with SMTP id b62so564573wmc.5
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:31:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OMf3D3RU/1ovZVc0YpYwO+l+OWT57rA5QKZHxEOEOEg=;
- b=rAyTivRwZN8ynhFO3MjHqx6O1+QFmghwMNrqlu/H31dbIlwW7/WY4qvWyAlvchNKJt
- B4YBvIC3ieCkRXZIK1Vm9K33yJQfjufRpJ8yAkEDVpg7TeaQva4xJ3FgM+bM8ub4NPfB
- ighpLhVDKG/phd6DwG7ui6hYV3sHpsdRCjZTLQR6823bFJ7CvJ+5TUlhOhycr4/mswz6
- 1fxRIodQ5dtW5HCqGPITjomquh36mNacohTzh0bl9QsB5tIIbodUoraUbflkLdbUrNIE
- gPAvUIjDSdviHIiLZsqYyU3bpDE8xHzp0S2y2E5brUE6yEv2heflyLIoyaV9NLXrcyf2
- GIJA==
-X-Gm-Message-State: AOAM532uCIqi92DWcqJRE+uX1rXyv20XCpMPwapNB4qPVI5y8IycR4Gv
- qIbODeLNyUGHsE7D1qKCVokVWv4Zti9FnTdwoK49EpWwhvQ+URbreTXGHhF6Lbw2ZrwT1WdVUqj
- biQpcZef6P3/Krbc=
-X-Received: by 2002:a05:6000:89:: with SMTP id m9mr23443122wrx.3.1614173459177; 
- Wed, 24 Feb 2021 05:30:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx++Yy3k0FJY1Y7GcEPT+NBhq2uAVQSL5WLT1qp8ugF/8m5E4qd6oWvvYbssq/RL8G7YYHtnA==
-X-Received: by 2002:a05:6000:89:: with SMTP id m9mr23443095wrx.3.1614173458871; 
- Wed, 24 Feb 2021 05:30:58 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id j16sm3619776wra.17.2021.02.24.05.30.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 05:30:58 -0800 (PST)
-Subject: Re: [PATCH] meson: Only generate trace files for selected targets
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210224120923.3154325-1-philmd@redhat.com>
- <CAFEAcA8OxLPeOb0TEAKSU-qJYntFPhmPeqooW5=C_55B8X+d_A@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b59301fa-eec6-a2e2-4b7b-dfbfee3324a8@redhat.com>
-Date: Wed, 24 Feb 2021 14:30:56 +0100
+ bh=CGG2V4s4bSDDuXVhrt5ItpWZ2Cu+1z8tTsfqTBVFq1o=;
+ b=bQJ7hKJ0W/lJW0xj5WbH0jGZTR9rh9efZnG5ErTkcwuPOOOyt8XWDbOG+QxDvUQi+ZdBsD
+ YKjnMp7dQL/CcwGrOfy62nfuPIu9EHddCQGBEmEPRw85r5xjEzb6NS8I0xoYrPt9MVc1gG
+ +7bjcq23Wyc9M9hA6M3NuIeon3btJoM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-396-z4fxSk-gNwu-SytP04fPzg-1; Wed, 24 Feb 2021 08:36:33 -0500
+X-MC-Unique: z4fxSk-gNwu-SytP04fPzg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 491B81433A1;
+ Wed, 24 Feb 2021 13:32:22 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-126.gru2.redhat.com
+ [10.97.116.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7CD395D9D3;
+ Wed, 24 Feb 2021 13:32:17 +0000 (UTC)
+Subject: Re: Problem running functional tests from China
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+References: <60118671-cd47-1900-59c6-96782dd7e26c@redhat.com>
+ <20210224110605.GM6564@kitsune.suse.cz>
+ <198ecefe-4d68-b43d-dfae-8a5ceeee9615@redhat.com>
+ <20210224120140.GO6564@kitsune.suse.cz> <YDZBsz/FFZtRCokJ@redhat.com>
+ <0de93d2b-32bb-d0eb-646c-e3a8bb1943a7@redhat.com>
+ <YDZNKdD7ll2zoAk/@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <9fb3994b-e535-9dfa-c026-21b1463ab509@redhat.com>
+Date: Wed, 24 Feb 2021 10:32:15 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8OxLPeOb0TEAKSU-qJYntFPhmPeqooW5=C_55B8X+d_A@mail.gmail.com>
+In-Reply-To: <YDZNKdD7ll2zoAk/@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,58 +89,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>,
+ avocado-devel <avocado-devel@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 2:11 PM, Peter Maydell wrote:
-> On Wed, 24 Feb 2021 at 12:11, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> We don't need to generate trace files for targets we
->> are not building. Restrict the the ones selected.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  meson.build | 10 +---------
->>  1 file changed, 1 insertion(+), 9 deletions(-)
->>
->> diff --git a/meson.build b/meson.build
->> index 05a67c20d93..c9b0433667d 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -1826,15 +1826,6 @@
->>    trace_events_subdirs += [
->>      'accel/tcg',
->>      'hw/core',
->> -    'target/arm',
->> -    'target/hppa',
->> -    'target/i386',
->> -    'target/i386/kvm',
->> -    'target/mips',
->> -    'target/ppc',
->> -    'target/riscv',
->> -    'target/s390x',
->> -    'target/sparc',
->>    ]
->>  endif
->>
->> @@ -2166,6 +2157,7 @@
->>    t = target_arch[arch].apply(config_target, strict: false)
->>    arch_srcs += t.sources()
->>    arch_deps += t.dependencies()
->> +  trace_events_subdirs += ['target' / arch]
-> 
-> This will catch all the 'target/foo' entries deleted above,
-> but what about 'target/i386/kvm' ?
+Hi,
 
-Yes, this doesn't work as expected... I just figured it was
-working in my build directories because the trace header
-previously generated are still present. I should have tested
-in an empty directory before posting.
+On 2/24/21 9:57 AM, Daniel P. Berrangé wrote:
+> On Wed, Feb 24, 2021 at 01:48:25PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 2/24/21 1:08 PM, Daniel P. Berrangé wrote:
+>>> On Wed, Feb 24, 2021 at 01:01:40PM +0100, Michal Suchánek wrote:
+>>>> On Wed, Feb 24, 2021 at 12:37:53PM +0100, Philippe Mathieu-Daudé wrote:
+>>>>> On 2/24/21 12:06 PM, Michal Suchánek wrote:
+>>>>>> On Wed, Feb 24, 2021 at 10:29:15AM +0100, Philippe Mathieu-Daudé wrote:
+>>>>>>> Just to inform the files hosted on github don't work when
+>>>>>>> testing from China:
+>>>>>>> raw.githubusercontent.com resolves to 127.0.0.1
+>>>>> Actually not even localhost but 0.0.0.0 :)
+>>>>>
+>>>>>> And from where does this come from?
+>>>>>>
+>>>>>> Your local system, your ISP, ... ?
+>>>>> Probably the ISP:
+>>>>>
+>>>> ...
+>>>>> I raised that problem not to find a way to bypass an ISP
+>>>>> firewall, but to see if there is a way to use another
+>>>>> storage for test artifacts so all the community can run
+>>>>> the tests.
+>>>> I don't think protecting from random network malfunction is something
+>>>> the qemu project can do.
+>>>>
+>>>> That said, downloading the test data during test run does indeed look
+>>>> fragile.
+>>>>
+>>>> We have the concept of git submodules which is used in qemu extensively
+>>>> so the test data could possibly be included directly in the git tree.
+>>>>
+>>>> The obvious downside is that the current and past test binaries will take
+>>>> up disk space for all users that check out the repository, even those
+>>>> that don't run the tests.
+>>> We explicitly do not want to be distributing / including the
+>>> images ourselves, as that makes the QEMU project responsible for
+>>> license compliance and thus provision of full & corresponding source.
+>> I am not asking that QEMU redistribute these files, I'm asking to the
+>> community if someone know an alternative to store files so we can run
+>> QEMU tests in Chinese cloud farms.
+>>
+>> Back to your comment, should we remove these tests?
+> No, I don't think that we should do that.
+>
+> If someone has broken ISP and they need to run all tests, then they'll
+> need to use a VPN.
+>
+> Regardless of that though, we should make sure that tests automatically
+> mark themselves as "skipped" if any downloading of assets fails. ie a
+> download failure shouldn't cause tests to report failure.
 
-Regards,
+That is the current behavior, tests are marked "CANCEL" in case the 
+download failed.
 
-Phil.
+PS: canceled tests don't change the overall status of the job.
+
+- Wainer
+
+>
+> Regards,
+> Daniel
 
 
