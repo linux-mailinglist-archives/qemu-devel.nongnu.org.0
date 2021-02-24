@@ -2,65 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E910323F14
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:08:41 +0100 (CET)
-Received: from localhost ([::1]:49900 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0928C323F4D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:57:17 +0100 (CET)
+Received: from localhost ([::1]:34254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuqF-0002sI-Mm
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:08:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33366)
+	id 1lEvbH-00087I-VD
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:57:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEuo7-0001oR-N4
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:06:27 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58590)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lEuo4-00023c-AM
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:06:27 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lEuo0-0002c8-FH
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 14:06:20 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6D8182E8140
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 14:06:20 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEvSs-0005Oa-7d
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:48:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1lEvSq-0004Vp-C7
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:48:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614178111;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1uNEjs1fKOQAkEQyMyOu4eJ3pNEkbatpxq6LdhvfavY=;
+ b=FGpKBTKhvDKSNqL/2A88YofMabGKSkKu9hbZc52p6xqEHdkSSsuugHJe+1Trn5b/pLbrFP
+ J0r/FQsWiSJbV1sf1V0A3+TaDdtfjLh9jrvl1td86fDVFWcmv3NRnJzZWUQccTogiOeR/T
+ lc1RaWMo6aVPDNw/sU9jkaCEBOWw21M=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-602-9zIlBgBbNpWinKq0rZ1qIQ-1; Wed, 24 Feb 2021 09:48:28 -0500
+X-MC-Unique: 9zIlBgBbNpWinKq0rZ1qIQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E6EBD18A9A12;
+ Wed, 24 Feb 2021 13:58:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-115-142.ams2.redhat.com [10.36.115.142])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D9A342C01F;
+ Wed, 24 Feb 2021 13:58:20 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Samuel Thibault <samuel.thibault@ens-lyon.org>
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <20210224131142.1952027-5-berrange@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 04/14] softmmu: remove '-usbdevice' command line option
+Message-ID: <d746eab0-5870-d709-50c2-74ed3b3b3264@redhat.com>
+Date: Wed, 24 Feb 2021 14:58:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 24 Feb 2021 13:56:15 -0000
-From: =?utf-8?q?Jos=C3=A9_Pekkarinen?= <1908832@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: koalinux schoenebeck
-X-Launchpad-Bug-Reporter: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Jos=C3=A9_Pekkarinen_=28koalinux=29?=
-References: <160848897234.4298.12739306431901820443.malonedeb@wampee.canonical.com>
-Message-Id: <161417497522.22136.12844032308102458260.malone@gac.canonical.com>
-Subject: [Bug 1908832] Re: jack audio dev produces no sound
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="1cbcae463afd8b78ec54d5c5633aff9545801dde"; Instance="production"
-X-Launchpad-Hash: 1bb3a28ae1dfaf6cf8c6e807d652b906ffd8bcdf
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210224131142.1952027-5-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,101 +82,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1908832 <1908832@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yes, I agree, the patch itself is a quick fix, indeed, if I look to
-the graphs in QJackCtl, I would expect to see new bubbles from qemu
-connected to the system ports, as it happens when I connect Firefox
-or Falkon through alsa -> jack plugin, as per the output you can
-see it's using some sort of null sink already populated.
+On 24/02/2021 14.11, Daniel P. Berrangé wrote:
+> This was replaced by the '-device usb-DEV' option.
+> 
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>   docs/system/deprecated.rst       |  9 -------
+>   docs/system/removed-features.rst |  9 +++++++
+>   softmmu/vl.c                     | 42 --------------------------------
+>   3 files changed, 9 insertions(+), 51 deletions(-)
 
-About the patch, yes no problem I'll modify it and submit.
+Last time I tried to remove -usbdevice, there was some concerns that 
+-usbdevice braille might still be useful for some people, see the thread 
+that started here:
 
-Thanks!
+  https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg00651.html
 
-Jose.
+(and Gerd's summary here: 
+https://lists.nongnu.org/archive/html/qemu-devel/2018-01/msg01520.html )
 
--- =
+So we might need a new "sugared" option like "-braille" instead before we 
+can fully remove -usbdevice? ... or we just keep -usbdevice as a bittersweet 
+remainder?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1908832
+  Thomas
 
-Title:
-  jack audio dev produces no sound
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hi,
-
-  I'm testing the new jack audiodev backend in my
-  laptop. The host system is gentoo, using the
-  ebuild for qemu 5.1.0-r2, and I'm using jack
-  use flag globally in the system so any ebuild
-  that have support for jack should be build with
-  it. The jack setup reportedly works as I use it
-  with firefox, and mumble with no trouble. When
-  I launch the following script, I see the vm
-  connects to jack:
-
-  /usr/bin/qemu-system-x86_64 -enable-kvm -M q35 -vga virtio -display gtk,g=
-l=3Don \
-          -cpu host -smp 2,cores=3D2,threads=3D1 \
-          -m 4G -L /usr/share/qemu \
-          -global ICH9-LPC.disable_s3=3D1 -global ICH9-LPC.disable_s4=3D1 \
-          -drive file=3D/usr/share/edk2-ovmf/OVMF_CODE.fd,if=3Dpflash,forma=
-t=3Draw,unit=3D0,readonly=3Don \
-          -drive file=3Ddebian_VARS.fd,if=3Dpflash,format=3Draw,unit=3D1 \
-          -audiodev id=3Djack,driver=3Djack -device ich9-intel-hda -device =
-hda-duplex,audiodev=3Djack \
-          -device virtio-serial-pci \
-          -device virtserialport,chardev=3Dspicechannel0,name=3Dcom.redhat.=
-spice.0 \
-          -chardev spicevmc,id=3Dspicechannel0,name=3Dvdagent \
-          -device nec-usb-xhci,id=3Dusb \
-          -device usb-host,vendorid=3D0x04ca,productid=3D0x708e \
-          -device usb-host,vendorid=3D0x1050,productid=3D0x0407 \
-          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev1 \
-          -device usb-redir,chardev=3Dusbredirchardev1,id=3Dusbredirdev1 \
-          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev2 \
-          -device usb-redir,chardev=3Dusbredirchardev2,id=3Dusbredirdev2 \
-          -chardev spicevmc,name=3Dusbredir,id=3Dusbredirchardev3 \
-          -device usb-redir,chardev=3Dusbredirchardev3,id=3Dusbredirdev3 \
-          -netdev user,id=3Duser.0 -device virtio-net-pci,netdev=3Duser.0 \
-          -drive file=3Ddebian.qcow2,cache=3Dnone,aio=3Dio_uring,if=3Dvirtio
-
-  Output of vm initialization:
-
-  jack: JACK output configured for 48000Hz (1024 samples)
-  jack: JACK input configured for 48000Hz (1024 samples)
-  gl_version 46 - core profile enabled
-  GLSL feature level 430
-
-  Though executing any application that uses sound,
-  for instance, any youtube video through browser,
-  I listen nothing. By executing pkill jackd, and
-  launching the same script replacing the audiodev
-  line for the following:
-
-          -audiodev id=3Dalsa,driver=3Dalsa -device ich9-intel-hda -device
-  hda-duplex,audiodev=3Dalsa \
-
-  The audio works, and I can listen to music, or
-  any other kind of application, though I cannot
-  listen anything else in the host.
-
-  The guest is a simple debian testing(bullseye)
-  system with plasma desktop, using pulseaudio,
-  nothing fancy.
-
-  Thanks!
-
-  Jos=C3=A9
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1908832/+subscriptions
 
