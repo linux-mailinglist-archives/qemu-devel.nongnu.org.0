@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72DC5323D71
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:14:53 +0100 (CET)
-Received: from localhost ([::1]:50472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95051323E6D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:39:22 +0100 (CET)
+Received: from localhost ([::1]:50194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEu0C-0002iC-Ef
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:14:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48174)
+	id 1lEuNt-0001Il-IJ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:39:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEtxb-0001Lf-V8
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:12:11 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33316)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEtxW-0004Sf-5k
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:12:11 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id jt13so2998569ejb.0
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:12:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Tzoa8C+Zlvv75pkQYDqXV0W8pQmKCJwDIVjozxFOjow=;
- b=sD/FR7WFlEl0v5zJLf4geRYmCc5qL5atTxrbPEG0Gn1hUl76fSP6u9gwY25JvWeOfh
- /yEmA3X0QlPueMPADvpcgtnOkOhyeIRMVACsLUmpudsICTzLuUkr3dCy77/xADHjFBwc
- xq6Sj/hZftl8oOO0tN4GtF6AFihrV+1wN4sj4JJFBl+qVB+lY/L44v0N7V44GOz/boxC
- xJhT9iyKReUp/Bbr6oNN2AzXMkikx3u653yXT9yAyNv/Lkm0dZOfnHoSw7fGVlMIZjwT
- RhambfrU59jM3KIp6dxi8p4Zh3PhEVtG4V3k3A25jI5YJOaROAopIiO8d0Rn+4vW9Fso
- JUJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Tzoa8C+Zlvv75pkQYDqXV0W8pQmKCJwDIVjozxFOjow=;
- b=uDeejucZcRokBOx/oIZSEqjl5YHfDgLdSys8jeL/5dVD3jxKSjsL/SyrvcUfrG1wER
- ILWAV4AMLR9ESvF9AY/SznqHmTuQM+kAXE6G3JAwTEeneee7bcu4lC96ArHP0ws/podJ
- jrSLAWLzfIRF0Eqft5mVRH5VpXIa/01d64XPePeOdRge6+d1ThJf6dhaCbqyOGUj9GSR
- 7kBSN6YI/2TTKTZekAG4Y5xJaRhoCM86BnrnKVIZTMmjvhfxaEpukCo8DTGpJ3vt8s7Z
- E7hEoNol1YA7/fp0AFKNPfsI98GF2eNR8huePc2Evj0zFbC7Vn45RI0Tw/m1EMHsT17d
- dOQg==
-X-Gm-Message-State: AOAM533wvE9i5I/CLJoFdsWQnH7ag/XE0F6v53D/PLR9vkp+b6WByofs
- cbfXu08QX1RyxAK/EJ8j1A8m4mDBCxHqPHI0x5yV0g==
-X-Google-Smtp-Source: ABdhPJxEF7BcR4+g1MWO5/LkP0n5ec4u9iDGQ85GqcezlAgjbrT0DBRL3CKxitMyhsu5sghKEHt2yVoOL5SP5CB4g4w=
-X-Received: by 2002:a17:906:1ecc:: with SMTP id
- m12mr12042016ejj.4.1614172323275; 
- Wed, 24 Feb 2021 05:12:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEu10-0004cM-5S
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:15:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31211)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1lEu0u-00065d-Sx
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:15:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614172536;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+FTUVgtevUm3ZXqV4u2x7HqY28mZNn3uCqw18VSBuDk=;
+ b=RpcIDVOS+FeKeV9gnFTDHF3StxtYD4OllM7OCwuneLONgaEBKdiTTY4Ck5CLCeDeHqWdNb
+ JtOv1+fw+cGXuuImqVQcE9wNWgIQrDI7Bp+lo88nLH0apEr5NN8e3rFBrZjAFp7EjoggDz
+ rsTw0O8tTR37RaNem/DwacDo55Sokho=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-pwnE1If8Ot6HCb9LoCxiGA-1; Wed, 24 Feb 2021 08:15:32 -0500
+X-MC-Unique: pwnE1If8Ot6HCb9LoCxiGA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03DC518B9E80;
+ Wed, 24 Feb 2021 13:15:31 +0000 (UTC)
+Received: from redhat.com (ovpn-115-119.ams2.redhat.com [10.36.115.119])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C2D1519725;
+ Wed, 24 Feb 2021 13:15:29 +0000 (UTC)
+Date: Wed, 24 Feb 2021 13:15:26 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] disas: Fix build with glib2.0 >=2.67.3
+Message-ID: <YDZRbkiRzDgtKvXu@redhat.com>
+References: <20210223145646.4129643-1-christian.ehrhardt@canonical.com>
+ <CAFEAcA-LiCAK5EPCqwxOvJofhkoNpYs6UyrjrkOkYLTfJAxfmg@mail.gmail.com>
+ <YDUoX0DZz6jcxjVy@redhat.com>
+ <CAATJJ0LbLfmQt3y-=nS7R+=WLpGHZH0bie20FLaYXxZt2WA84w@mail.gmail.com>
+ <YDYyoeFU4jQBN/8v@redhat.com>
+ <CAFEAcA8DvXVxRvB0ZtQh3j5Y=34DOC1CzUY1LkuMB5WCJKthmg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210224120923.3154325-1-philmd@redhat.com>
-In-Reply-To: <20210224120923.3154325-1-philmd@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Feb 2021 13:11:52 +0000
-Message-ID: <CAFEAcA8OxLPeOb0TEAKSU-qJYntFPhmPeqooW5=C_55B8X+d_A@mail.gmail.com>
-Subject: Re: [PATCH] meson: Only generate trace files for selected targets
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <CAFEAcA8DvXVxRvB0ZtQh3j5Y=34DOC1CzUY1LkuMB5WCJKthmg@mail.gmail.com>
+User-Agent: Mutt/2.0.5 (2021-01-21)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,51 +86,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: qemu-devel <qemu-devel@nongnu.org>,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Feb 2021 at 12:11, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> We don't need to generate trace files for targets we
-> are not building. Restrict the the ones selected.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  meson.build | 10 +---------
->  1 file changed, 1 insertion(+), 9 deletions(-)
->
-> diff --git a/meson.build b/meson.build
-> index 05a67c20d93..c9b0433667d 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1826,15 +1826,6 @@
->    trace_events_subdirs +=3D [
->      'accel/tcg',
->      'hw/core',
-> -    'target/arm',
-> -    'target/hppa',
-> -    'target/i386',
-> -    'target/i386/kvm',
-> -    'target/mips',
-> -    'target/ppc',
-> -    'target/riscv',
-> -    'target/s390x',
-> -    'target/sparc',
->    ]
->  endif
->
-> @@ -2166,6 +2157,7 @@
->    t =3D target_arch[arch].apply(config_target, strict: false)
->    arch_srcs +=3D t.sources()
->    arch_deps +=3D t.dependencies()
-> +  trace_events_subdirs +=3D ['target' / arch]
+On Wed, Feb 24, 2021 at 01:07:33PM +0000, Peter Maydell wrote:
+> On Wed, 24 Feb 2021 at 11:04, Daniel P. Berrangé <berrange@redhat.com> wrote:
+> > So from osdep.h I think something like this is likely sufficient:
+> >
+> > diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> > index ba15be9c56..7a1d83a8b6 100644
+> > --- a/include/qemu/osdep.h
+> > +++ b/include/qemu/osdep.h
+> > @@ -126,6 +126,7 @@ extern int daemon(int, int);
+> >  #include "glib-compat.h"
+> >  #include "qemu/typedefs.h"
+> >
+> > +extern "C" {
+> 
+> Needs to be protected by #ifdef so it's only relevant for the
+> C++ compiler, right?
+> 
+> >  /*
+> >   * For mingw, as of v6.0.0, the function implementing the assert macro is
+> >   * not marked as noreturn, so the compiler cannot delete code following an
+> > @@ -722,4 +723,6 @@ static inline int platform_does_not_support_system(const char *command)
+> >  }
+> >  #endif /* !HAVE_SYSTEM_FUNCTION */
+> >
+> > +}
+> > +
+> >  #endif
+> >
+> >
+> > We'll also need to them protect any local headers we use before this point.
+> >
+> > $ grep #include ../../../include/qemu/osdep.h  | grep -v '<'
+> > #include "config-host.h"
+> > #include CONFIG_TARGET
+> > #include "exec/poison.h"
+> > #include "qemu/compiler.h"
+> > #include "sysemu/os-win32.h"
+> > #include "sysemu/os-posix.h"
+> > #include "glib-compat.h"
+> > #include "qemu/typedefs.h"
+> >
+> > and transitively through that list, but I think there's no too many
+> > more there.
+> 
+> Is there anything we can do to make the compiler complain if we
+> get this wrong? Otherwise it seems likely that we'll end up
+> accidentally putting things inside or outside 'extern "C"'
+> declarations when they shouldn't be, as we make future changes
+> to our headers.
 
-This will catch all the 'target/foo' entries deleted above,
-but what about 'target/i386/kvm' ?
+There's nothing easy I know of to highlight this.  It is more the kind
+of thing checkpatch would have to look at - complain if there is
+anything which isn't a  preprocessor include directive or comment
+before the 'extern'.
 
-thanks
--- PMM
+> (The other approach would be to try to get rid of the
+> C++ in the codebase. We could probably say 'drop vixl
+> and always use capstone', for instance.)
+
+Yeah, getting rid of C++ would probably be the sanest solution long
+term.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
