@@ -2,53 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FDD43238F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 09:49:14 +0100 (CET)
-Received: from localhost ([::1]:56222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DDEC323908
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 09:52:01 +0100 (CET)
+Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEpr7-0007Kt-LO
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 03:49:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40540)
+	id 1lEpto-0000f1-LP
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 03:52:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEpon-0006RG-FM
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:46:49 -0500
-Received: from mx2.suse.de ([195.135.220.15]:45484)
+ (Exim 4.90_1) (envelope-from <prvs=6821e0933=acatan@amazon.com>)
+ id 1lEpqG-0007AS-B8
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:48:21 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:61489)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEpol-00073C-EB
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:46:49 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id C2C26AE72;
- Wed, 24 Feb 2021 08:46:45 +0000 (UTC)
-Subject: Re: [PULL 38/46] cpu: move cc->transaction_failed to tcg_ops
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210205225650.1330794-1-richard.henderson@linaro.org>
- <20210205225650.1330794-39-richard.henderson@linaro.org>
- <e3c017b9-9f3a-78bd-7406-41a02ca6a597@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <54652321-5183-4a50-b88c-14b4e480e62e@suse.de>
-Date: Wed, 24 Feb 2021 09:46:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <prvs=6821e0933=acatan@amazon.com>)
+ id 1lEpqE-0007oi-2M
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:48:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1614156498; x=1645692498;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=/R8Bcf3qXRH0sz3GRvHFXvpgzilNaYT4N1/kR6A7D8E=;
+ b=lv1dvwgMXavfBqvi/ChtFDpibw2UCkORnuEwXKQb6icUMPNnanQhnBG/
+ laYqOsq2YiO5q4Pqb8FyU23W8+jjrs8yXFOjvrEBIV2zKVs/VlENSBw3k
+ YMjXYyDRTJFIZL8OD6zJhI6T2V89BXk22mZn3V1iSZlPq6mY/i62p4lwL I=;
+X-IronPort-AV: E=Sophos;i="5.81,202,1610409600"; d="scan'208";a="91601605"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
+ 24 Feb 2021 08:48:09 +0000
+Received: from EX13D08EUB004.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+ by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS
+ id B296FA20A1; Wed, 24 Feb 2021 08:47:57 +0000 (UTC)
+Received: from uf6ed9c851f4556.ant.amazon.com (10.43.160.157) by
+ EX13D08EUB004.ant.amazon.com (10.43.166.158) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 08:47:42 +0000
+From: Adrian Catangiu <acatan@amazon.com>
+To: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>
+CC: <gregkh@linuxfoundation.org>, <graf@amazon.com>, <rdunlap@infradead.org>, 
+ <arnd@arndb.de>, <ebiederm@xmission.com>, <rppt@kernel.org>,
+ <0x7f454c46@gmail.com>, <borntraeger@de.ibm.com>, <Jason@zx2c4.com>,
+ <jannh@google.com>, <w@1wt.eu>, <colmmacc@amazon.com>, <luto@kernel.org>,
+ <tytso@mit.edu>, <ebiggers@kernel.org>, <dwmw@amazon.co.uk>,
+ <bonzini@gnu.org>, <sblbir@amazon.com>, <raduweis@amazon.com>,
+ <corbet@lwn.net>, <mst@redhat.com>, <mhocko@kernel.org>, <rafael@kernel.org>, 
+ <pavel@ucw.cz>, <mpe@ellerman.id.au>, <areber@redhat.com>,
+ <ovzxemul@gmail.com>, <avagin@gmail.com>, <ptikhomirov@virtuozzo.com>,
+ <gil@azul.com>, <asmehra@redhat.com>, <dgunigun@redhat.com>,
+ <vijaysun@ca.ibm.com>, <oridgar@gmail.com>, <ghammer@redhat.com>, Adrian
+ Catangiu <acatan@amazon.com>
+Subject: [PATCH v7 0/2] System Generation ID driver and VMGENID backend
+Date: Wed, 24 Feb 2021 10:47:30 +0200
+Message-ID: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <e3c017b9-9f3a-78bd-7406-41a02ca6a597@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+X-Originating-IP: [10.43.160.157]
+X-ClientProxiedBy: EX13D38UWC002.ant.amazon.com (10.43.162.46) To
+ EX13D08EUB004.ant.amazon.com (10.43.166.158)
+Precedence: Bulk
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=52.95.48.154;
+ envelope-from=prvs=6821e0933=acatan@amazon.com; helo=smtp-fw-6001.amazon.com
+X-Spam_score_int: -118
+X-Spam_score: -11.9
+X-Spam_bar: -----------
+X-Spam_report: (-11.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,167 +87,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 10:43 PM, Philippe Mathieu-Daudé wrote:
-> On 2/5/21 11:56 PM, Richard Henderson wrote:
->> From: Claudio Fontana <cfontana@suse.de>
->>
->> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>
->> [claudio: wrap target code around CONFIG_TCG and !CONFIG_USER_ONLY]
->>
->> avoiding its use in headers used by common_ss code (should be poisoned).
->>
->> Note: need to be careful with the use of CONFIG_USER_ONLY,
->> Message-Id: <20210204163931.7358-11-cfontana@suse.de>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  include/hw/core/cpu.h     | 28 +++++++++++++---------------
->>  hw/mips/jazz.c            |  9 +++++++--
->>  target/alpha/cpu.c        |  2 +-
->>  target/arm/cpu.c          |  4 ++--
->>  target/m68k/cpu.c         |  2 +-
->>  target/microblaze/cpu.c   |  2 +-
->>  target/mips/cpu.c         |  4 +++-
->>  target/riscv/cpu.c        |  2 +-
->>  target/riscv/cpu_helper.c |  2 +-
->>  target/sparc/cpu.c        |  2 +-
->>  target/xtensa/cpu.c       |  2 +-
->>  target/xtensa/helper.c    |  4 ++--
->>  12 files changed, 34 insertions(+), 29 deletions(-)
->>
->> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
->> index 60cf20bf05..41ce1daefc 100644
->> --- a/include/hw/core/cpu.h
->> +++ b/include/hw/core/cpu.h
->> @@ -122,6 +122,14 @@ typedef struct TcgCpuOperations {
->>      /** @debug_excp_handler: Callback for handling debug exceptions */
->>      void (*debug_excp_handler)(CPUState *cpu);
->>  
->> +    /**
->> +     * @do_transaction_failed: Callback for handling failed memory transactions
->> +     * (ie bus faults or external aborts; not MMU faults)
->> +     */
->> +    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
->> +                                  unsigned size, MMUAccessType access_type,
->> +                                  int mmu_idx, MemTxAttrs attrs,
->> +                                  MemTxResult response, uintptr_t retaddr);
->>  } TcgCpuOperations;
->>  
->>  /**
->> @@ -133,8 +141,6 @@ typedef struct TcgCpuOperations {
->>   * @has_work: Callback for checking if there is work to do.
->>   * @do_unaligned_access: Callback for unaligned access handling, if
->>   * the target defines #TARGET_ALIGNED_ONLY.
->> - * @do_transaction_failed: Callback for handling failed memory transactions
->> - * (ie bus faults or external aborts; not MMU faults)
->>   * @virtio_is_big_endian: Callback to return %true if a CPU which supports
->>   * runtime configurable endianness is currently big-endian. Non-configurable
->>   * CPUs can use the default implementation of this method. This method should
->> @@ -203,10 +209,6 @@ struct CPUClass {
->>      void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
->>                                  MMUAccessType access_type,
->>                                  int mmu_idx, uintptr_t retaddr);
->> -    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
->> -                                  unsigned size, MMUAccessType access_type,
->> -                                  int mmu_idx, MemTxAttrs attrs,
->> -                                  MemTxResult response, uintptr_t retaddr);
->>      bool (*virtio_is_big_endian)(CPUState *cpu);
->>      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
->>                             uint8_t *buf, int len, bool is_write);
->> @@ -879,9 +881,6 @@ CPUState *cpu_by_arch_id(int64_t id);
->>  
->>  void cpu_interrupt(CPUState *cpu, int mask);
->>  
->> -#ifdef NEED_CPU_H
->> -
->> -#ifdef CONFIG_SOFTMMU
->>  static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
->>                                          MMUAccessType access_type,
->>                                          int mmu_idx, uintptr_t retaddr)
->> @@ -900,14 +899,13 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
->>  {
->>      CPUClass *cc = CPU_GET_CLASS(cpu);
->>  
->> -    if (!cpu->ignore_memory_transaction_failures && cc->do_transaction_failed) {
->> -        cc->do_transaction_failed(cpu, physaddr, addr, size, access_type,
->> -                                  mmu_idx, attrs, response, retaddr);
->> +    if (!cpu->ignore_memory_transaction_failures &&
->> +        cc->tcg_ops.do_transaction_failed) {
->> +        cc->tcg_ops.do_transaction_failed(cpu, physaddr, addr, size,
->> +                                          access_type, mmu_idx, attrs,
->> +                                          response, retaddr);
->>      }
->>  }
->> -#endif
->> -
->> -#endif /* NEED_CPU_H */
->>  
->>  /**
->>   * cpu_set_pc:
->> diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
->> index f9442731dd..46c71a0ac8 100644
->> --- a/hw/mips/jazz.c
->> +++ b/hw/mips/jazz.c
->> @@ -116,6 +116,8 @@ static const MemoryRegionOps dma_dummy_ops = {
->>  #define MAGNUM_BIOS_SIZE_MAX 0x7e000
->>  #define MAGNUM_BIOS_SIZE                                                       \
->>          (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
->> +
->> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
->>  static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
->>                                            vaddr addr, unsigned size,
->>                                            MMUAccessType access_type,
->> @@ -137,6 +139,7 @@ static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physaddr,
->>      (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
->>                                    mmu_idx, attrs, response, retaddr);
->>  }
->> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
->>  
->>  static void mips_jazz_init(MachineState *machine,
->>                             enum jazz_model_e jazz_model)
->> @@ -205,8 +208,10 @@ static void mips_jazz_init(MachineState *machine,
->>       * memory region that catches all memory accesses, as we do on Malta.
->>       */
->>      cc = CPU_GET_CLASS(cpu);
->> -    real_do_transaction_failed = cc->do_transaction_failed;
->> -    cc->do_transaction_failed = mips_jazz_do_transaction_failed;
->> +#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
->> +    real_do_transaction_failed = cc->tcg_ops.do_transaction_failed;
->> +    cc->tcg_ops.do_transaction_failed = mips_jazz_do_transaction_failed;
->> +#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
-> 
-> Why CONFIG_USER_ONLY isn't poisoned under hw/ ?
-> 
-
-As I can see, hw/ contains a wide variety of objects, which go into hw_arch, specific, softmmu or common.
-
-There does not seem to be a common way to handle objects in hw/ .
-
-In the case of hw/mips, it goes to hw_arch in meson.build, so it sees config target.
-
-Other users of CONFIG_USER_ONLY in hw/ are arm semihosting:
-
-semihosting/arm-compat-semi.c which goes to specific_ss
-
-and hw/cpu.c, which uses CONFIG_USER_ONLY but does not see it, since it is a common_ss module.
-
-So the uses of CONFIG_USER_ONLY in hw/cpu.c are wrong for sure, or at least until hw/cpu.c goes to common_ss.
-It does not hurt because the tests are in the negative, and those sysemu-only / softmmu-only symbols are actually always visible, including for CONFIG_USER_ONLY.
-
-Ciao,
-
-Claudio
-
-
-
-
+VGhpcyBmZWF0dXJlIGlzIGFpbWVkIGF0IHZpcnR1YWxpemVkIG9yIGNvbnRhaW5lcml6ZWQgZW52
+aXJvbm1lbnRzCndoZXJlIFZNIG9yIGNvbnRhaW5lciBzbmFwc2hvdHRpbmcgZHVwbGljYXRlcyBt
+ZW1vcnkgc3RhdGUsIHdoaWNoIGlzIGEKY2hhbGxlbmdlIGZvciBhcHBsaWNhdGlvbnMgdGhhdCB3
+YW50IHRvIGdlbmVyYXRlIHVuaXF1ZSBkYXRhIHN1Y2ggYXMKcmVxdWVzdCBJRHMsIFVVSURzLCBh
+bmQgY3J5cHRvZ3JhcGhpYyBub25jZXMuCgpUaGUgcGF0Y2ggc2V0IGludHJvZHVjZXMgYSBtZWNo
+YW5pc20gdGhhdCBwcm92aWRlcyBhIHVzZXJzcGFjZQppbnRlcmZhY2UgZm9yIGFwcGxpY2F0aW9u
+cyBhbmQgbGlicmFyaWVzIHRvIGJlIG1hZGUgYXdhcmUgb2YgdW5pcXVlbmVzcwpicmVha2luZyBl
+dmVudHMgc3VjaCBhcyBWTSBvciBjb250YWluZXIgc25hcHNob3R0aW5nLCBhbmQgYWxsb3cgdGhl
+bSB0bwpyZWFjdCBhbmQgYWRhcHQgdG8gc3VjaCBldmVudHMuCgpTb2x2aW5nIHRoZSB1bmlxdWVu
+ZXNzIHByb2JsZW0gc3Ryb25nbHkgZW5vdWdoIGZvciBjcnlwdG9ncmFwaGljCnB1cnBvc2VzIHJl
+cXVpcmVzIGEgbWVjaGFuaXNtIHdoaWNoIGNhbiBkZXRlcm1pbmlzdGljYWxseSByZXNlZWQKdXNl
+cnNwYWNlIFBSTkdzIHdpdGggbmV3IGVudHJvcHkgYXQgcmVzdG9yZSB0aW1lLiBUaGlzIG1lY2hh
+bmlzbSBtdXN0CmFsc28gc3VwcG9ydCB0aGUgaGlnaC10aHJvdWdocHV0IGFuZCBsb3ctbGF0ZW5j
+eSB1c2UtY2FzZXMgdGhhdCBsZWQKcHJvZ3JhbW1lcnMgdG8gcGljayBhIHVzZXJzcGFjZSBQUk5H
+IGluIHRoZSBmaXJzdCBwbGFjZTsgYmUgdXNhYmxlIGJ5CmJvdGggYXBwbGljYXRpb24gY29kZSBh
+bmQgbGlicmFyaWVzOyBhbGxvdyB0cmFuc3BhcmVudCByZXRyb2ZpdHRpbmcKYmVoaW5kIGV4aXN0
+aW5nIHBvcHVsYXIgUFJORyBpbnRlcmZhY2VzIHdpdGhvdXQgY2hhbmdpbmcgYXBwbGljYXRpb24K
+Y29kZTsgaXQgbXVzdCBiZSBlZmZpY2llbnQsIGVzcGVjaWFsbHkgb24gc25hcHNob3QgcmVzdG9y
+ZTsgYW5kIGJlCnNpbXBsZSBlbm91Z2ggZm9yIHdpZGUgYWRvcHRpb24uCgpUaGUgZmlyc3QgcGF0
+Y2ggaW4gdGhlIHNldCBpbXBsZW1lbnRzIGEgZGV2aWNlIGRyaXZlciB3aGljaCBleHBvc2VzIGEK
+dGhlIC9kZXYvc3lzZ2VuaWQgY2hhciBkZXZpY2UgdG8gdXNlcnNwYWNlLiBJdHMgYXNzb2NpYXRl
+ZCBmaWxlc3lzdGVtCm9wZXJhdGlvbnMgb3BlcmF0aW9ucyBjYW4gYmUgdXNlZCB0byBidWlsZCBh
+IHN5c3RlbSBsZXZlbCBzYWZlIHdvcmtmbG93CnRoYXQgZ3Vlc3Qgc29mdHdhcmUgY2FuIGZvbGxv
+dyB0byBwcm90ZWN0IGl0c2VsZiBmcm9tIG5lZ2F0aXZlIHN5c3RlbQpzbmFwc2hvdCBlZmZlY3Rz
+LgoKVGhlIHNlY29uZCBwYXRjaCBpbiB0aGUgc2V0IGFkZHMgYSBWbUdlbklkIGRyaXZlciB3aGlj
+aCBtYWtlcyB1c2Ugb2YKdGhlIEFDUEkgdm1nZW5pZCBkZXZpY2UgdG8gZHJpdmUgU3lzR2VuSWQg
+YW5kIHRvIHJlc2VlZCBrZXJuZWwgZW50cm9weQpmb2xsb3dpbmcgVk0gc25hcHNob3RzLgoKKipQ
+bGVhc2Ugbm90ZSoqLCBTeXNHZW5JRCBhbG9uZSBkb2VzIG5vdCBndWFyYW50ZWUgY29tcGxldGUg
+c25hcHNob3QKc2FmZXR5IHRvIGFwcGxpY2F0aW9ucyB1c2luZyBpdC4gQSBjZXJ0YWluIHdvcmtm
+bG93IG5lZWRzIHRvIGJlCmZvbGxvd2VkIGF0IHRoZSBzeXN0ZW0gbGV2ZWwsIGluIG9yZGVyIHRv
+IG1ha2UgdGhlIHN5c3RlbQpzbmFwc2hvdC1yZXNpbGllbnQuIFBsZWFzZSBzZWUgdGhlICJTbmFw
+c2hvdCBTYWZldHkgUHJlcmVxdWlzaXRlcyIKc2VjdGlvbiBpbiB0aGUgaW5jbHVkZWQgU3lzR2Vu
+SUQgZG9jdW1lbnRhdGlvbi4KCi0tLQoKdjYgLT4gdjc6CiAgLSByZW1vdmUgc3lzZ2VuaWQgdWV2
+ZW50Cgp2NSAtPiB2NjoKCiAgLSBzeXNnZW5pZDogd2F0Y2hlciB0cmFja2luZyBkaXNhYmxlZCBi
+eSBkZWZhdWx0CiAgLSBzeXNnZW5pZDogYWRkIFNZU0dFTklEX1NFVF9XQVRDSEVSX1RSQUNLSU5H
+IGlvY3RsIHRvIGFsbG93IGVhY2gKICAgIGZpbGUgZGVzY3JpcHRvciB0byBzZXQgd2hldGhlciB0
+aGV5IHNob3VsZCBiZSB0cmFja2VkIGFzIHdhdGNoZXJzCiAgLSByZW5hbWUgU1lTR0VOSURfRk9S
+Q0VfR0VOX1VQREFURSAtPiBTWVNHRU5JRF9UUklHR0VSX0dFTl9VUERBVEUKICAtIHJld29yayBh
+bGwgZG9jdW1lbnRhdGlvbiB0byBjbGVhcmx5IGNhcHR1cmUgYWxsIHByZXJlcXVpc2l0ZXMgZm9y
+CiAgICBhY2hpZXZpbmcgc25hcHNob3Qgc2FmZXR5IHdoZW4gdXNpbmcgdGhlIHByb3ZpZGVkIG1l
+Y2hhbmlzbQogIC0gc3lzZ2VuaWQgZG9jdW1lbnRhdGlvbjogcmVwbGFjZSBpbmRpdmlkdWFsIGZp
+bGVzeXN0ZW0gb3BlcmF0aW9ucwogICAgZXhhbXBsZXMgd2l0aCBhIGhpZ2hlciBsZXZlbCBleGFt
+cGxlIHNob3djYXNpbmcgc3lzdGVtLWxldmVsCiAgICBzbmFwc2hvdC1zYWZlIHdvcmtmbG93Cgp2
+NCAtPiB2NToKCiAgLSBzeXNnZW5pZDogZ2VuZXJhdGlvbiBjaGFuZ2VzIGFyZSBhbHNvIGV4cG9y
+dGVkIHRocm91Z2ggdWV2ZW50cwogIC0gcmVtb3ZlIFNZU0dFTklEX0dFVF9PVVREQVRFRF9XQVRD
+SEVSUyBpb2N0bAogIC0gZG9jdW1lbnQgc3lzZ2VuaWQgaW9jdGwgbWFqb3IvbWlub3IgbnVtYmVy
+cwoKdjMgLT4gdjQ6CgogIC0gc3BsaXQgZnVuY3Rpb25hbGl0eSBpbiB0d28gc2VwYXJhdGUga2Vy
+bmVsIG1vZHVsZXM6IAogICAgMS4gZHJpdmVycy9taXNjL3N5c2dlbmlkLmMgd2hpY2ggcHJvdmlk
+ZXMgdGhlIGdlbmVyaWMgdXNlcnNwYWNlCiAgICAgICBpbnRlcmZhY2UgYW5kIG1lY2hhbmlzbXMK
+ICAgIDIuIGRyaXZlcnMvdmlydC92bWdlbmlkLmMgYXMgVk1HRU5JRCBhY3BpIGRldmljZSBkcml2
+ZXIgdGhhdCBzZWVkcwogICAgICAga2VybmVsIGVudHJvcHkgYW5kIGFjdHMgYXMgYSBkcml2aW5n
+IGJhY2tlbmQgZm9yIHRoZSBnZW5lcmljCiAgICAgICBzeXNnZW5pZAogIC0gcmVuYW1lIC9kZXYv
+dm1nZW5pZCAtPiAvZGV2L3N5c2dlbmlkCiAgLSByZW5hbWUgdWFwaSBoZWFkZXIgZmlsZSB2bWdl
+bmlkLmggLT4gc3lzZ2VuaWQuaAogIC0gcmVuYW1lIGlvY3RscyBWTUdFTklEXyogLT4gU1lTR0VO
+SURfKgogIC0gYWRkIOKAmG1pbl9nZW7igJkgcGFyYW1ldGVyIHRvIFNZU0dFTklEX0ZPUkNFX0dF
+Tl9VUERBVEUgaW9jdGwKICAtIGZpeCByYWNlcyBpbiBkb2N1bWVudGF0aW9uIGV4YW1wbGVzCgp2
+MiAtPiB2MzoKCiAgLSBzZXBhcmF0ZSB0aGUgY29yZSBkcml2ZXIgbG9naWMgYW5kIGludGVyZmFj
+ZSwgZnJvbSB0aGUgQUNQSSBkZXZpY2UuCiAgICBUaGUgQUNQSSB2bWdlbmlkIGRldmljZSBpcyBu
+b3cgb25lIHBvc3NpYmxlIGJhY2tlbmQKICAtIGZpeCBpc3N1ZSB3aGVuIHRpbWVvdXQ9MCBpbiBW
+TUdFTklEX1dBSVRfV0FUQ0hFUlMKICAtIGFkZCBsb2NraW5nIHRvIGF2b2lkIHJhY2VzIGJldHdl
+ZW4gZnMgb3BzIGhhbmRsZXJzIGFuZCBodyBpcnEKICAgIGRyaXZlbiBnZW5lcmF0aW9uIHVwZGF0
+ZXMKICAtIGNoYW5nZSBWTUdFTklEX1dBSVRfV0FUQ0hFUlMgaW9jdGwgc28gaWYgdGhlIGN1cnJl
+bnQgY2FsbGVyIGlzCiAgICBvdXRkYXRlZCBvciBhIGdlbmVyYXRpb24gY2hhbmdlIGhhcHBlbnMg
+d2hpbGUgd2FpdGluZyAodGh1cyBtYWtpbmcKICAgIGN1cnJlbnQgY2FsbGVyIG91dGRhdGVkKSwg
+dGhlIGlvY3RsIHJldHVybnMgLUVJTlRSIHRvIHNpZ25hbCB0aGUKICAgIHVzZXIgdG8gaGFuZGxl
+IGV2ZW50IGFuZCByZXRyeS4gRml4ZXMgYmxvY2tpbmcgb24gb25lc2VsZgogIC0gYWRkIFZNR0VO
+SURfRk9SQ0VfR0VOX1VQREFURSBpb2N0bCBjb25kaXRpb25lZCBieQogICAgQ0FQX0NIRUNLUE9J
+TlRfUkVTVE9SRSBjYXBhYmlsaXR5LCB0aHJvdWdoIHdoaWNoIHNvZnR3YXJlIGNhbiBmb3JjZQog
+ICAgZ2VuZXJhdGlvbiBidW1wCgp2MSAtPiB2MjoKCiAgLSBleHBvc2UgdG8gdXNlcnNwYWNlIGEg
+bW9ub3RvbmljYWxseSBpbmNyZWFzaW5nIHUzMiBWbSBHZW4gQ291bnRlcgogICAgaW5zdGVhZCBv
+ZiB0aGUgaHcgVm1HZW4gVVVJRAogIC0gc2luY2UgdGhlIGh3L2h5cGVydmlzb3ItcHJvdmlkZWQg
+MTI4LWJpdCBVVUlEIGlzIG5vdCBwdWJsaWMKICAgIGFueW1vcmUsIGFkZCBpdCB0byB0aGUga2Vy
+bmVsIFJORyBhcyBkZXZpY2UgcmFuZG9tbmVzcwogIC0gaW5zZXJ0IGRyaXZlciBwYWdlIGNvbnRh
+aW5pbmcgVm0gR2VuIENvdW50ZXIgaW4gdGhlIHVzZXIgdm1hIGluCiAgICB0aGUgZHJpdmVyJ3Mg
+bW1hcCBoYW5kbGVyIGluc3RlYWQgb2YgdXNpbmcgYSBmYXVsdCBoYW5kbGVyCiAgLSB0dXJuIGRy
+aXZlciBpbnRvIGEgbWlzYyBkZXZpY2UgZHJpdmVyIHRvIGF1dG8tY3JlYXRlIC9kZXYvdm1nZW5p
+ZAogIC0gY2hhbmdlIGlvY3RsIGFyZyB0byBhdm9pZCBsZWFraW5nIGtlcm5lbCBzdHJ1Y3RzIHRv
+IHVzZXJzcGFjZQogIC0gdXBkYXRlIGRvY3VtZW50YXRpb24KCkFkcmlhbiBDYXRhbmdpdSAoMik6
+CiAgZHJpdmVycy9taXNjOiBzeXNnZW5pZDogYWRkIHN5c3RlbSBnZW5lcmF0aW9uIGlkIGRyaXZl
+cgogIGRyaXZlcnMvdmlydDogdm1nZW5pZDogYWRkIHZtIGdlbmVyYXRpb24gaWQgZHJpdmVyCgog
+RG9jdW1lbnRhdGlvbi9taXNjLWRldmljZXMvc3lzZ2VuaWQucnN0ICAgICAgICAgICAgfCAyMjkg
+KysrKysrKysrKysrKysrCiBEb2N1bWVudGF0aW9uL3VzZXJzcGFjZS1hcGkvaW9jdGwvaW9jdGwt
+bnVtYmVyLnJzdCB8ICAgMSArCiBEb2N1bWVudGF0aW9uL3ZpcnQvdm1nZW5pZC5yc3QgICAgICAg
+ICAgICAgICAgICAgICB8ICAzNiArKysKIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIHwgIDE1ICsKIGRyaXZlcnMvbWlzYy9LY29uZmlnICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgIDE1ICsKIGRyaXZlcnMvbWlzYy9NYWtlZmlsZSAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAxICsKIGRyaXZlcnMvbWlzYy9zeXNnZW5pZC5j
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMzIyICsrKysrKysrKysrKysrKysrKysrKwog
+ZHJpdmVycy92aXJ0L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgMTMg
+KwogZHJpdmVycy92aXJ0L01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAg
+IDEgKwogZHJpdmVycy92aXJ0L3ZtZ2VuaWQuYyAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAxNTMgKysrKysrKysrKwogaW5jbHVkZS91YXBpL2xpbnV4L3N5c2dlbmlkLmggICAgICAgICAg
+ICAgICAgICAgICAgfCAgMTggKysKIDExIGZpbGVzIGNoYW5nZWQsIDgwNCBpbnNlcnRpb25zKCsp
+CiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9taXNjLWRldmljZXMvc3lzZ2VuaWQu
+cnN0CiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi92aXJ0L3ZtZ2VuaWQucnN0CiBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9taXNjL3N5c2dlbmlkLmMKIGNyZWF0ZSBtb2RlIDEw
+MDY0NCBkcml2ZXJzL3ZpcnQvdm1nZW5pZC5jCiBjcmVhdGUgbW9kZSAxMDA2NDQgaW5jbHVkZS91
+YXBpL2xpbnV4L3N5c2dlbmlkLmgKCi0tIAoyLjcuNAoKCgoKQW1hem9uIERldmVsb3BtZW50IENl
+bnRlciAoUm9tYW5pYSkgUy5SLkwuIHJlZ2lzdGVyZWQgb2ZmaWNlOiAyN0EgU2YuIExhemFyIFN0
+cmVldCwgVUJDNSwgZmxvb3IgMiwgSWFzaSwgSWFzaSBDb3VudHksIDcwMDA0NSwgUm9tYW5pYS4g
+UmVnaXN0ZXJlZCBpbiBSb21hbmlhLiBSZWdpc3RyYXRpb24gbnVtYmVyIEoyMi8yNjIxLzIwMDUu
+Cg==
 
 
