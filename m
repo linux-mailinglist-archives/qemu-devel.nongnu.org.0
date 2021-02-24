@@ -2,71 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD26B323E55
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:35:49 +0100 (CET)
-Received: from localhost ([::1]:39360 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EDF2323E9C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:45:06 +0100 (CET)
+Received: from localhost ([::1]:41998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuKS-0005E1-Qh
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:35:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49238)
+	id 1lEuTR-0001GM-BL
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:45:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEu1P-0004oI-SL
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:16:09 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:44050)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1lEu1J-0006F8-Ns
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:16:07 -0500
-Received: by mail-ej1-x636.google.com with SMTP id w1so2964459ejf.11
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:16:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=egMIU7EewR4sTtb8CDcwVB4M8SRXnVOWsu14gmWNO0g=;
- b=Ed4DnG9rcsNISpLi0d8skxHnerjWv7Sa7+0sUoCbFcTUr28ZjDQIFWp10fZO47vfUT
- 4ApqI09CJM3cieIvCMqQGFfAACWbWWbmTs364YELz2bIlhlzLovwgOMnd+RKmAGrzwGX
- N6F4HdKAOMyqodzShoqiSENo/WPk2tB+7W7bDhC60TBr/AgvRb6HEStjmumkiUSalpnG
- 5g0h/93RdZO1pJ9BONQTjXCuHobK1a3MsRdzSDarr0KuAZf34/ZwVC/cyl7TwlthbkzL
- ILNHeUfO4ZcCZIsjNCII2MdFEcFL3L8p73QIZOrxzVUJYViIR6RvmBjedAdyoQTrAjxF
- T0aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=egMIU7EewR4sTtb8CDcwVB4M8SRXnVOWsu14gmWNO0g=;
- b=oR5d9yt4+wbrE7ivvp7rHScHml/ZDRsjrkKrxPdTXWoeN12Nua4f2Q8M7ABKhm9w67
- sTQWHVNhrwmlNN/RwgVfvo+6gqRYpTGH+3ZVebL/+GZ85fKIchtAlIV5k34lyiWkJ+kW
- 8oxqxGIyrUTJF8RKSAIHbW2JhhAAz1POklaoRtcUV9rn2xp6x00xn/W5vwa3sYQ/VbCW
- IbD34TUFiK1kSdKaU6ZHyv7ywJGT/Eg5tUfN6bhLtkpZVELgBUOW7FKWvmO5RpA9qZo+
- VK5AEyGUF9Wz6j9MTZe8h3sPIoZfS7xVldH47+wh6Y4YTG9rK/uQ/wm6Er5/F/qle3rk
- 3tUQ==
-X-Gm-Message-State: AOAM532kcUSSSm3IbV7fBZ797gSkxAgXwaCTXiYrPKfp0FmxbuqZ3jl7
- vNxp5jtqKwMGdU/WvDe6YW0JUb2En42fvsHqjHZdTA==
-X-Google-Smtp-Source: ABdhPJzUTHePM45iM/ilnTt/4ehPopwFNVyrLOOGOt/TIAz7nfaYkpkIKg1U9MPZmEfa+5Bovd4sg16/KWr45jGgL8s=
-X-Received: by 2002:a17:906:f10c:: with SMTP id
- gv12mr21006019ejb.407.1614172560043; 
- Wed, 24 Feb 2021 05:16:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lEu2U-0005MT-TB
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:17:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20375)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1lEu2Q-0006dB-Pk
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:17:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614172630;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=hupWbg4zyTMMXDvwKczKsW0TJfmHBBcfoa9ppxyPO0g=;
+ b=AC2vZ3IGQea/Qk9vepTV5qaNf+fjiu3bA73iOw5fjptdZxqKDCqALNeFfwBbRvV6i750tQ
+ grA84p6szm7sfZKOQaR67y9r21dK/QmiLVWgY+rM2KzixkLr1A6bfiPq+s068tTx4wIVk5
+ SbuuK3FREUhehmD3PNJyGckdWGAMguw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-553-WxCEVboqOJGVFG_L5HhFCg-1; Wed, 24 Feb 2021 08:17:08 -0500
+X-MC-Unique: WxCEVboqOJGVFG_L5HhFCg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6867A195D560;
+ Wed, 24 Feb 2021 13:17:06 +0000 (UTC)
+Received: from wangxiaodeMacBook-Air.local (ovpn-12-168.pek2.redhat.com
+ [10.72.12.168])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 065DA60C61;
+ Wed, 24 Feb 2021 13:17:04 +0000 (UTC)
+Subject: Re: [PATCH 1/6] net: introduce qemu_receive_packet()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210224055401.492407-1-jasowang@redhat.com>
+ <20210224055401.492407-2-jasowang@redhat.com>
+ <9e432ff0-793e-64a7-97f3-ff3a374ee98f@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <b7d39898-d688-70bb-4546-612150a1635b@redhat.com>
+Date: Wed, 24 Feb 2021 21:17:03 +0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
 MIME-Version: 1.0
-References: <20210223105146.6695-1-alex.bennee@linaro.org>
- <a03c1d90-d30b-e805-8466-4d6aa9bfb015@redhat.com>
-In-Reply-To: <a03c1d90-d30b-e805-8466-4d6aa9bfb015@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 24 Feb 2021 13:15:49 +0000
-Message-ID: <CAFEAcA8kt_vsHFHGL=dQMPBqogJTQOiAV=O-Zc=UBxQ5AR7opA@mail.gmail.com>
-Subject: Re: [RFC PATCH] docs/devel: re-organise the developers guide into
- sections
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <9e432ff0-793e-64a7-97f3-ff3a374ee98f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-GB
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +86,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Daniel P. Berrange" <berrange@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Security <qemu-security@nongnu.org>, ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Feb 2021 at 12:51, Wainer dos Santos Moschetta
-<wainersm@redhat.com> wrote:
-> Just a fyi... yesterday I realized that the (current) TOC is not getting
-> rendered on my Firefox (or chrome) browser:
+
+On 2021/2/24 6:11 下午, Philippe Mathieu-Daudé wrote:
+> On 2/24/21 6:53 AM, Jason Wang wrote:
+>> Some NIC supports loopback mode and this is done by calling
+>> nc->info->receive() directly which in fact suppresses the effort of
+>> reentrancy check that is done in qemu_net_queue_send().
+>>
+>> Unfortunately we can use qemu_net_queue_send() here since for loop
+>> back there's no sender as peer, so this patch introduce a
+>> qemu_receive_packet() which is used for implementing loopback mode
+>> for a NIC with this check.
+> IIUC the guest could trigger an infinite loop and brick the emulated
+> device model. Likely exhausting the stack, so either SEGV by
+> corruption or some ENOMEM?
+
+
+Yes.
+
+
 >
-> https://gitlab.com/qemu-project/qemu/-/tree/master/docs/devel
+> Since this is guest triggerable, shouldn't we contact qemu-security@
+> list and ask for a CVE for this issue, so distributions can track
+> the patches to backport in their stable releases? (it seems to be
+> within the KVM devices boundary).
 
-That's the source code for the docs, isn't it? gitlab
-is trying to render it as raw rst, but that won't handle
-all the Sphinx-specific markup, including the TOC.
 
-The built-and-rendered docs are elsewhere (the gitlab CI
-job runs Sphinx and puts the rendered manuals here):
-https://qemu-project.gitlab.io/qemu/
+That's the plan. I discussed this with Prasad before and he promise to 
+ask CVE for this.
 
-thanks
--- PMM
+But it's a knwon issue, the reentrant DMA which has been discussed 
+before[1], unfortuantely we don't make any progress. This patch can only 
+fix the NIC RX issue.
+
+Thanks
+
+[1] https://mail.gnu.org/archive/html/qemu-devel/2020-09/msg00906.html
+
+
+>
+>> NIC that supports loopback mode will be converted to this helper.
+>>
+>> Signed-off-by: Jason Wang <jasowang@redhat.com>
+>> ---
+>>   include/net/net.h   |  5 +++++
+>>   include/net/queue.h |  8 ++++++++
+>>   net/net.c           | 38 +++++++++++++++++++++++++++++++-------
+>>   net/queue.c         | 22 ++++++++++++++++++++++
+>>   4 files changed, 66 insertions(+), 7 deletions(-)
+
 
