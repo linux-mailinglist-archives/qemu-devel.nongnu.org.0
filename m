@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2BF1324415
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:52:32 +0100 (CET)
-Received: from localhost ([::1]:51486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 456EC3243BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:27:12 +0100 (CET)
+Received: from localhost ([::1]:43468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEzGx-0003vE-DR
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:52:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
+	id 1lEysR-00044A-9Q
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:27:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sedat.dilek@gmail.com>)
- id 1lEyb4-0006eM-2b
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:09:14 -0500
-Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:41670)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lEyqI-0002JB-7z
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:24:58 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:36279)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <sedat.dilek@gmail.com>)
- id 1lEyb2-0005CY-GF
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:09:13 -0500
-Received: by mail-il1-x131.google.com with SMTP id c10so2527734ilo.8
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:09:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lEyqG-0004l1-0f
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:24:57 -0500
+Received: by mail-ed1-x533.google.com with SMTP id l12so3769542edt.3
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:24:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=dKCWFwCtere4GZoadEUWnq7pobLJDcHFCquipMb1ruk=;
- b=hqke137REPFIk08X26O9Qf6S+JDQmGikbvjBbxcfEot4DctxH36v/1Z0sUISy5h2Nx
- 3yUSceQyhSUXD1D7HmWMC4SbfTDFC98ZtgBdyo8N/CEM148DdmxO+n0yvPcEF9s4ky2E
- 2KtG48ooopFe/gzIzAYS8EVjSdc3gnkI9piiA0iLkRGI+u+/fkxcFYxJ2uFsATFFoJ2k
- 56R1JJnJGBTGNOyay/sPvXzGIDii9vZe3SXMIru02NOewoZc1kTF+VUg/Y9dLSuLe5wp
- RbRZH3n0RJGhAvAWTVooLr05i1lD6pZE02ZRyhqC6+AaghfThafHISJnaH7imAEHE4x3
- 11nQ==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=mAgVP4gp+8RqZ/YG+2KlyeQLZybeexYNbSRa/thmu/4=;
+ b=fAmtszXLydpCypLT3sTHPKhFHBSac6GpTUXN+Dl9gChoThNZg8sEaU57dtzK9s4ASF
+ vyW9vBoDp9rI63tcns865e3RmkzhFf6FBEARuFsSGccFQ3HPpGWx7BTYuh0GmBXt6umh
+ zSKo+RfOUlzpSVySI+BWPV3IJ3t6KhIhKCCU5+k/tc3KyhoWpybdoYalTm/wulH25gYR
+ 4UVMJQsax6PiWgLNaUw9ycES66bGnJD935o89zRH/NNfh9Zho/6wY44KdSqzcW2Nrk41
+ mBc2XndcRQEeh/dnE3r09R09v3zQ89/gikOWVklZsm/lLSM7SgwPPbAdIJmtryuYYgtQ
+ D7zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=dKCWFwCtere4GZoadEUWnq7pobLJDcHFCquipMb1ruk=;
- b=CBW9cuKLhUNYIsWtkKYqseV3miIZ+xi6qz/gQilQrZJuG0IvZST5jH5EhX2j6gChn4
- QP0j/jrdSaKg4I+TjisLn/O4jU+Yka4EK666Hw5HhozkG+jKzLMq5x6k7jrr4cs18Pa0
- BrUvhLHmC4648HBS0gckHT5Ag358bRhpA1u5RKtNwWN9mTi5Su7Cr1OmygUuj0wv9Zur
- T+3Vq1k1/qyZchU6AGwcgSufSzrfMP4nCVH6HR9XeRLoF2Mqilw9kkJ6zi2vqjxK0ENe
- EPsVYkDP1378+eG+M3PIFEtkpz3HA/M8ddJdB1I+EtDG0BxGMTd/IHH/EjZPfVE+vhro
- kUxQ==
-X-Gm-Message-State: AOAM532nNHDF1DuFpnPtdxcCfUHj3QM1LMAG68pJ8euV9tC0t5mx+6UZ
- DrHdl03k9xGPw0T9EW4IYJoI5jvgLiemv7qOTFk=
-X-Google-Smtp-Source: ABdhPJz3GIBdgA4zHbgVmxKw9YsFP/tLTYz2tkBhM/AiHwcN92PZFP+mitQPKNwLrlEkglorYH8lYc6zOj657BmjvVA=
-X-Received: by 2002:a05:6e02:13a6:: with SMTP id
- h6mr14196474ilo.10.1614190150784; 
- Wed, 24 Feb 2021 10:09:10 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=mAgVP4gp+8RqZ/YG+2KlyeQLZybeexYNbSRa/thmu/4=;
+ b=d77fbXp8E4RWA8/fKykSsW7sFRax0Tb+lSGayx/b+j4sztSCDofCycCrXMpa6mY+mB
+ mKxWuILJD9i4nQGmu5HDjtrjNAq0p5gXz6+FMjqJxv/wyqhyY66EUieH3Y3PyOVxfrz/
+ zUOY/03ityikkF4UEEKVIQYgiefP0n2E3h4gLwOW1CvMAynrzzPwIirvcI1eyHAbbvrU
+ TvVsaREq1dP/eNcQizI28H6AtbVHd5njHXf5CGPtmgMYso4JjReTOyCrPB1wBeYj4n//
+ ndRSSfcWXMudhAhHlH/TZzOk5SBqDkQXYV6mz02w5SwwmfLrUDIZt7Ou+x7/ixHisJVo
+ HbHg==
+X-Gm-Message-State: AOAM533dQzuRPEpm5cGNGh/zt7Kr2Mi6k2lJOsUKDqYMkNGEPZlcnWih
+ Pd6c5VMqUdeqbRRFe1Adcx4NJ09jgWk=
+X-Google-Smtp-Source: ABdhPJwfFwuPxE+qglXU1EL5SdSluIU+vooWOoTdszXbQyIrQ0NRAtdf3agSuqEitAg1HAbdk/OC2A==
+X-Received: by 2002:aa7:c94c:: with SMTP id h12mr35323851edt.40.1614191094502; 
+ Wed, 24 Feb 2021 10:24:54 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id bw22sm1791172ejb.78.2021.02.24.10.24.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 10:24:54 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/11] scsi-generic: error handling overhaul
+Date: Wed, 24 Feb 2021 19:24:43 +0100
+Message-Id: <20210224182453.587731-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-References: <20210211194258.4137998-1-nathan@kernel.org>
- <CABCJKueyXp5EQnmZ7a6HR87oKwDBDukprnJWT620McSYFd1SMg@mail.gmail.com>
-In-Reply-To: <CABCJKueyXp5EQnmZ7a6HR87oKwDBDukprnJWT620McSYFd1SMg@mail.gmail.com>
-From: Sedat Dilek <sedat.dilek@gmail.com>
-Date: Wed, 24 Feb 2021 19:08:59 +0100
-Message-ID: <CA+icZUW=GTV0L884wdohaOdFmg4E4wdtSEOgF+KEGPcKzYOoow@mail.gmail.com>
-Subject: Re: [PATCH] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
-To: Sami Tolvanen <samitolvanen@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
- envelope-from=sedat.dilek@gmail.com; helo=mail-il1-x131.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 24 Feb 2021 13:51:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -80,51 +81,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: sedat.dilek@gmail.com
-Cc: Kees Cook <keescook@chromium.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Gabriel Somlo <somlo@cmu.edu>, Nick Desaulniers <ndesaulniers@google.com>,
- qemu-devel@nongnu.org, LKML <linux-kernel@vger.kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- clang-built-linux <clang-built-linux@googlegroups.com>
+Cc: hare@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 11, 2021 at 9:41 PM 'Sami Tolvanen' via Clang Built Linux
-<clang-built-linux@googlegroups.com> wrote:
->
-> Hi Nathan,
->
-> On Thu, Feb 11, 2021 at 11:43 AM Nathan Chancellor <nathan@kernel.org> wrote:
-> >
-> > fw_cfg_showrev() is called by an indirect call in kobj_attr_show(),
-> > which violates clang's CFI checking because fw_cfg_showrev()'s second
-> > parameter is 'struct attribute', whereas the ->show() member of 'struct
-> > kobj_structure' expects the second parameter to be of type 'struct
-> > kobj_attribute'.
-> >
-> > $ cat /sys/firmware/qemu_fw_cfg/rev
-> > 3
-> >
-> > $ dmesg | grep "CFI failure"
-> > [   26.016832] CFI failure (target: fw_cfg_showrev+0x0/0x8):
-> >
-> > Fix this by converting fw_cfg_rev_attr to 'struct kobj_attribute' where
-> > this would have been caught automatically by the incompatible pointer
-> > types compiler warning. Update fw_cfg_showrev() accordingly.
-> >
-> > Fixes: 75f3e8e47f38 ("firmware: introduce sysfs driver for QEMU's fw_cfg device")
-> > Link: https://github.com/ClangBuiltLinux/linux/issues/1299
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
->
-> Looks good to me. Thank you for sending the patch!
->
-> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
->
+This series is mostly a refresh of Hannes's patches at
+https://patchew.org/QEMU/20201116184041.60465-1-hare@suse.de/, which
+haven't been applied yet because they broke the testsuite.
 
-Environment: Linux v5.11-10201-gc03c21ba6f4e plus Clang-CFI as of
-24-Feb-2021 on top built with LLVM v13-git.
+In addition to Hannes's introduction of host status in the SCSI
+subsystem, which survives mostly in patches 3 and 6-10, I am also changing
+scsi_handle_rw_error to always pass down guest-recoverable sense codes,
+even if rerror=stop/werror=stop.  Without this change, [rw]error=stop are
+mostly unusable because the guest will stop even for unit attention sense.
 
-Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
+Paolo
 
-- Sedat -
+Supersedes: <20201116184041.60465-1-hare@suse.de>
+
+Hannes Reinecke (5):
+  scsi: drop 'result' argument from command_complete callback
+  scsi: Rename linux-specific SG_ERR codes to generic SCSI_HOST error
+    codes
+  scsi: Add mapping for generic SCSI_HOST status to sense codes
+  scsi: inline sg_io_sense_from_errno() into the callers.
+  scsi: move host_status handling into SCSI drivers
+
+Paolo Bonzini (5):
+  scsi-disk: move scsi_handle_rw_error earlier
+  scsi-disk: do not complete requests early for rerror/werror=ignore
+  scsi: introduce scsi_sense_from_errno()
+  scsi-disk: pass SCSI status to scsi_handle_rw_error
+  scsi-disk: pass guest recoverable errors through even for rerror=stop
+
+ hw/scsi/esp-pci.c        |   5 +-
+ hw/scsi/esp.c            |   7 +-
+ hw/scsi/lsi53c895a.c     |   6 +-
+ hw/scsi/megasas.c        |   6 +-
+ hw/scsi/mptsas.c         |   5 +-
+ hw/scsi/scsi-bus.c       |  23 ++++-
+ hw/scsi/scsi-disk.c      | 203 ++++++++++++++++++++++-----------------
+ hw/scsi/scsi-generic.c   |  20 ++--
+ hw/scsi/spapr_vscsi.c    |  10 +-
+ hw/scsi/virtio-scsi.c    |  51 +++++++++-
+ hw/scsi/vmw_pvscsi.c     |  43 ++++++++-
+ hw/usb/dev-storage.c     |   6 +-
+ hw/usb/dev-uas.c         |   7 +-
+ include/hw/scsi/esp.h    |   2 +-
+ include/hw/scsi/scsi.h   |   6 +-
+ include/scsi/constants.h |   3 +
+ include/scsi/utils.h     |  29 ++++--
+ scsi/qemu-pr-helper.c    |  24 +++--
+ scsi/utils.c             | 119 +++++++++++++++++------
+ 19 files changed, 395 insertions(+), 180 deletions(-)
+
+-- 
+2.29.2
+
 
