@@ -2,52 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D85F932370D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 06:56:20 +0100 (CET)
-Received: from localhost ([::1]:50436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E989323711
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 06:57:41 +0100 (CET)
+Received: from localhost ([::1]:56688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEn9n-00036j-Qg
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 00:56:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
+	id 1lEnB6-0005hK-AE
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 00:57:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lEn7j-0001Yi-PW
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59352)
+ id 1lEn7m-0001au-5M
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lEn7i-0003qG-A7
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:11 -0500
+ id 1lEn7k-0003rh-8k
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614146049;
+ s=mimecast20190719; t=1614146051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LWQBYpqHeqPKZXPtrrDMpX3vpjQmFCAgiD8xPTWwcRY=;
- b=I7nElcUAgjlePHRytx/IN3AxK795AOiF6ZuElDMqNQG5MjbliLZh0+1nTVGl8s+zvNeaod
- oA+I7W0OlFD8dUlGgENdrUoA24HgJB/8mpWwisr3PCeOjF9eoeZebir8vdD7Kj2ziCGmd+
- qkUp3779dHwHV3QFTWex3PeDtyD+oTs=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IfWm4PdhuA9QiJZbIsDcCk59KKFR9wnSNUKDqARuyJk=;
+ b=hWXcr6pI1F1kvgOH9V+PqaWXf/LMaJ1ySUU3Gb9Rh9ZUCElGR48N7fWK/t6jciyeMF4sgq
+ ZvVBAqaFnHtxM2I9R8n3YA7jnmeJvywarISxysf2XiTJC5v1e+dL8JGhRZca1DEFNecgl8
+ LYMtmKsx+e/vik1ydL8+aYXsVzVIBzY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-29-yAX1tSFdOHSK1AUuiFYQbQ-1; Wed, 24 Feb 2021 00:54:07 -0500
-X-MC-Unique: yAX1tSFdOHSK1AUuiFYQbQ-1
+ us-mta-423-Yq38fqbPO9uFhLBEN7HZlA-1; Wed, 24 Feb 2021 00:54:09 -0500
+X-MC-Unique: Yq38fqbPO9uFhLBEN7HZlA-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81AC21020C20
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:54:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 667E251D9
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:54:08 +0000 (UTC)
 Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
  (ovpn-13-164.pek2.redhat.com [10.72.13.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2923B6061F;
- Wed, 24 Feb 2021 05:54:03 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D3706061F;
+ Wed, 24 Feb 2021 05:54:06 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 0/6] Detect reentrant RX casue by loopback
-Date: Wed, 24 Feb 2021 13:53:55 +0800
-Message-Id: <20210224055401.492407-1-jasowang@redhat.com>
+Subject: [PATCH 1/6] net: introduce qemu_receive_packet()
+Date: Wed, 24 Feb 2021 13:53:56 +0800
+Message-Id: <20210224055401.492407-2-jasowang@redhat.com>
+In-Reply-To: <20210224055401.492407-1-jasowang@redhat.com>
+References: <20210224055401.492407-1-jasowang@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
@@ -81,36 +84,162 @@ Cc: ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All:
+Some NIC supports loopback mode and this is done by calling
+nc->info->receive() directly which in fact suppresses the effort of
+reentrancy check that is done in qemu_net_queue_send().
 
-Followed by commit 22dc8663d9 ("net: forbid the reentrant RX"), we
-still need to fix the issues casued by loopback mode where the NIC
-usually it via calling nc->info->receive() directly.
+Unfortunately we can use qemu_net_queue_send() here since for loop
+back there's no sender as peer, so this patch introduce a
+qemu_receive_packet() which is used for implementing loopback mode
+for a NIC with this check.
 
-The fix is to introduce new network helper and check the
-queue->delivering.
+NIC that supports loopback mode will be converted to this helper.
 
-Thanks
-
-Jason Wang (6):
-  net: introduce qemu_receive_packet()
-  e1000: switch to use qemu_receive_packet() for loopback
-  dp8393x: switch to use qemu_receive_packet() for loopback packet
-  msf2-mac: switch to use qemu_receive_packet() for loopback
-  sungem: switch to use qemu_receive_packet() for loopback
-  tx_pkt: switch to use qemu_receive_packet_iov() for loopback
-
- hw/net/dp8393x.c    |  2 +-
- hw/net/e1000.c      |  2 +-
- hw/net/msf2-emac.c  |  2 +-
- hw/net/net_tx_pkt.c |  2 +-
- hw/net/sungem.c     |  2 +-
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
  include/net/net.h   |  5 +++++
  include/net/queue.h |  8 ++++++++
  net/net.c           | 38 +++++++++++++++++++++++++++++++-------
  net/queue.c         | 22 ++++++++++++++++++++++
- 9 files changed, 71 insertions(+), 12 deletions(-)
+ 4 files changed, 66 insertions(+), 7 deletions(-)
 
+diff --git a/include/net/net.h b/include/net/net.h
+index 919facaad2..65eb8a58c5 100644
+--- a/include/net/net.h
++++ b/include/net/net.h
+@@ -144,12 +144,17 @@ void *qemu_get_nic_opaque(NetClientState *nc);
+ void qemu_del_net_client(NetClientState *nc);
+ typedef void (*qemu_nic_foreach)(NICState *nic, void *opaque);
+ void qemu_foreach_nic(qemu_nic_foreach func, void *opaque);
++int qemu_can_receive_packet(NetClientState *nc);
+ int qemu_can_send_packet(NetClientState *nc);
+ ssize_t qemu_sendv_packet(NetClientState *nc, const struct iovec *iov,
+                           int iovcnt);
+ ssize_t qemu_sendv_packet_async(NetClientState *nc, const struct iovec *iov,
+                                 int iovcnt, NetPacketSent *sent_cb);
+ ssize_t qemu_send_packet(NetClientState *nc, const uint8_t *buf, int size);
++ssize_t qemu_receive_packet(NetClientState *nc, const uint8_t *buf,int size);
++ssize_t qemu_receive_packet_iov(NetClientState *nc,
++                                const struct iovec *iov,
++                                int iovcnt);
+ ssize_t qemu_send_packet_raw(NetClientState *nc, const uint8_t *buf, int size);
+ ssize_t qemu_send_packet_async(NetClientState *nc, const uint8_t *buf,
+                                int size, NetPacketSent *sent_cb);
+diff --git a/include/net/queue.h b/include/net/queue.h
+index c0269bb1dc..9f2f289d77 100644
+--- a/include/net/queue.h
++++ b/include/net/queue.h
+@@ -55,6 +55,14 @@ void qemu_net_queue_append_iov(NetQueue *queue,
+ 
+ void qemu_del_net_queue(NetQueue *queue);
+ 
++ssize_t qemu_net_queue_receive(NetQueue *queue,
++                               const uint8_t *data,
++                               size_t size);
++
++ssize_t qemu_net_queue_receive_iov(NetQueue *queue,
++                                   const struct iovec *iov,
++                                   int iovcnt);
++
+ ssize_t qemu_net_queue_send(NetQueue *queue,
+                             NetClientState *sender,
+                             unsigned flags,
+diff --git a/net/net.c b/net/net.c
+index e1035f21d1..6e470133ad 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -528,6 +528,17 @@ int qemu_set_vnet_be(NetClientState *nc, bool is_be)
+ #endif
+ }
+ 
++int qemu_can_receive_packet(NetClientState *nc)
++{
++    if (nc->receive_disabled) {
++        return 0;
++    } else if (nc->info->can_receive &&
++               !nc->info->can_receive(nc)) {
++        return 0;
++    }
++    return 1;
++}
++
+ int qemu_can_send_packet(NetClientState *sender)
+ {
+     int vm_running = runstate_is_running();
+@@ -540,13 +551,7 @@ int qemu_can_send_packet(NetClientState *sender)
+         return 1;
+     }
+ 
+-    if (sender->peer->receive_disabled) {
+-        return 0;
+-    } else if (sender->peer->info->can_receive &&
+-               !sender->peer->info->can_receive(sender->peer)) {
+-        return 0;
+-    }
+-    return 1;
++    return qemu_can_receive_packet(sender->peer);
+ }
+ 
+ static ssize_t filter_receive_iov(NetClientState *nc,
+@@ -679,6 +684,25 @@ ssize_t qemu_send_packet(NetClientState *nc, const uint8_t *buf, int size)
+     return qemu_send_packet_async(nc, buf, size, NULL);
+ }
+ 
++ssize_t qemu_receive_packet(NetClientState *nc, const uint8_t *buf, int size)
++{
++    if (!qemu_can_receive_packet(nc)) {
++        return 0;
++    }
++
++    return qemu_net_queue_receive(nc->incoming_queue, buf, size);
++}
++
++ssize_t qemu_receive_packet_iov(NetClientState *nc, const struct iovec *iov,
++                                int iovcnt)
++{
++    if (!qemu_can_receive_packet(nc)) {
++        return 0;
++    }
++
++    return qemu_net_queue_receive_iov(nc->incoming_queue, iov, iovcnt);
++}
++
+ ssize_t qemu_send_packet_raw(NetClientState *nc, const uint8_t *buf, int size)
+ {
+     return qemu_send_packet_async_with_flags(nc, QEMU_NET_PACKET_FLAG_RAW,
+diff --git a/net/queue.c b/net/queue.c
+index 19e32c80fd..c872d51df8 100644
+--- a/net/queue.c
++++ b/net/queue.c
+@@ -182,6 +182,28 @@ static ssize_t qemu_net_queue_deliver_iov(NetQueue *queue,
+     return ret;
+ }
+ 
++ssize_t qemu_net_queue_receive(NetQueue *queue,
++                               const uint8_t *data,
++                               size_t size)
++{
++    if (queue->delivering) {
++        return 0;
++    }
++
++    return qemu_net_queue_deliver(queue, NULL, 0, data, size);
++}
++
++ssize_t qemu_net_queue_receive_iov(NetQueue *queue,
++                                   const struct iovec *iov,
++                                   int iovcnt)
++{
++    if (queue->delivering) {
++        return 0;
++    }
++
++    return qemu_net_queue_deliver_iov(queue, NULL, 0, iov, iovcnt);
++}
++
+ ssize_t qemu_net_queue_send(NetQueue *queue,
+                             NetClientState *sender,
+                             unsigned flags,
 -- 
 2.25.1
 
