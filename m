@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF2323BD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:24:13 +0100 (CET)
-Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE81D323BDD
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:27:37 +0100 (CET)
+Received: from localhost ([::1]:45744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEtDA-0008MR-7v
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:24:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34762)
+	id 1lEtGS-0001NM-UH
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:27:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lEtCC-0007uf-9R
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:23:12 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44217)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lEtCA-0008R8-6q
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:23:11 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id w1so2690304ejf.11
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 04:23:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3p5Hf65tX062J2B2QKClY490eTOYjzdcfVhu8SEuifA=;
- b=ouYChA2rGzYWfkq0/dCxdI/ok/jYxtnaQWLt/B2jtukfjeMAQVDS9kxi+rRr0FMz0q
- Uk8UqAAVu+ccYAZ3jBMjQUqR2VzAI0TTaZk+84OaY+Yfv+3SReRsjzBVqS9HCM6v7viF
- Vj4s2rSElUhpi5+Ix6RN+wMxFfuxo5AGBSuyHxPW7C3SvBUKzYwcfOy3tZ6faKaxiaQM
- 4WwC6JETe29tDTrTYWqPVw4uxrSsVeHHSxDao8VywJZu1mVuqU804KCc4GdahGSuvyQl
- q4CVypWuNIZ1bcUlKYocRi6av5GFA1nuhq3l0+5LbtWNqurzoyfIH1NTbVic7tbrgjHP
- auCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=3p5Hf65tX062J2B2QKClY490eTOYjzdcfVhu8SEuifA=;
- b=qvLiYtaL15sXZoGTsLFQcqBboP38TPvZkX30wTM/0R6VX27DML2JiE0CXh9TqrZh+I
- LBXSuwEHizJafqwonUQcbf11SSdSc6bkuzlEq/qrT5uWAkMEpfTgHi/dYYkRBJmHYz6y
- 28/FbG35pdBT4E4pM6h3I8nsuSg8cF3JbSJ2eOSnJI4KGxo2aKwYHElxm1R1dA4V3D0N
- i7xqzhQ7fwQfRn7BZq+7Al3poXkz+PUO4jwY0sWarDr9bSsyUiz/qGqjje1mAoQvPj5q
- 3F57tOo9jl9stvuuGzuCbfIy8DegYPPMsr2oIVMfwESUnzqF8wIEB267bynARx7GRpIi
- k4hg==
-X-Gm-Message-State: AOAM532HHl9g7GoGMuZFrkptN4XU/vzuzx0hNrF0AhhB9oNyEFubWRvq
- qMVI2MBYFyPme3yx4QcLf8tlgYNmbao=
-X-Google-Smtp-Source: ABdhPJwG6UmWXF2zUxTV/SvjEIdLz/l7E7gWbQ9fzEvxEQ1cX8+YEPKuLE6Jv5N6+9Mq8nkpGrcq2w==
-X-Received: by 2002:a17:906:cf84:: with SMTP id
- um4mr30944906ejb.61.1614169387713; 
- Wed, 24 Feb 2021 04:23:07 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id rn18sm1221096ejb.99.2021.02.24.04.23.06
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 04:23:07 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] multiprocess: move feature to meson_options.txt
-Date: Wed, 24 Feb 2021 13:23:06 +0100
-Message-Id: <20210224122306.451764-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lEtEv-0000bS-0q
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:26:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49335)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lEtEs-0001Cp-9Y
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:26:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614169557;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Mrd+JOCyGUWT1coeDHBht+wmRiMfvIAB5cNx1y97zHE=;
+ b=UO5jGc7vqUZVrQEXpkzRPnSuykt+3rZGgBzzxX5qQEROdcR6dg9I0pfPo8UvS8+O+xUA8z
+ SZkGvZ4cmCNlq9BNcWnez+aS6EYmLqewVUeV6vDMqIfN4PTcP1YgKeK3taWSnOM3kXM0sp
+ rCVNX8CJ9oDM5O+r6l4k2eFWm+vzbIs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-272-Ll0_lf0mP6GVxN1-yG5R5Q-1; Wed, 24 Feb 2021 07:25:54 -0500
+X-MC-Unique: Ll0_lf0mP6GVxN1-yG5R5Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9A0DC801981;
+ Wed, 24 Feb 2021 12:25:53 +0000 (UTC)
+Received: from localhost (ovpn-115-137.ams2.redhat.com [10.36.115.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE8BD5D9D3;
+ Wed, 24 Feb 2021 12:25:49 +0000 (UTC)
+Date: Wed, 24 Feb 2021 12:25:48 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH v3 1/2] virtiofsd: Add umask to seccom allow list
+Message-ID: <YDZFzGSkzlNC2xz+@stefanha-x1.localdomain>
+References: <20210223225250.23945-1-vgoyal@redhat.com>
+ <20210223225250.23945-2-vgoyal@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210223225250.23945-2-vgoyal@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="LQ1RUayJWBLhbxyk"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,123 +79,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: virtio-fs@redhat.com, lhenriques@suse.de, miklos@szeredi.hu,
+ qemu-devel@nongnu.org, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- configure         | 12 ++++--------
- meson.build       |  9 +++++++--
- meson_options.txt |  2 ++
- 3 files changed, 13 insertions(+), 10 deletions(-)
+--LQ1RUayJWBLhbxyk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/configure b/configure
-index 19f2b88589..bdc96d0831 100755
---- a/configure
-+++ b/configure
-@@ -463,7 +463,7 @@ skip_meson=no
- gettext="auto"
- fuse="auto"
- fuse_lseek="auto"
--multiprocess="no"
-+multiprocess="auto"
- 
- malloc_trim="auto"
- 
-@@ -798,7 +798,6 @@ Linux)
-   linux="yes"
-   linux_user="yes"
-   vhost_user=${default_feature:-yes}
--  multiprocess=${default_feature:-yes}
- ;;
- esac
- 
-@@ -1558,9 +1557,9 @@ for opt do
-   ;;
-   --disable-fuse-lseek) fuse_lseek="disabled"
-   ;;
--  --enable-multiprocess) multiprocess="yes"
-+  --enable-multiprocess) multiprocess="enabled"
-   ;;
--  --disable-multiprocess) multiprocess="no"
-+  --disable-multiprocess) multiprocess="disabled"
-   ;;
-   *)
-       echo "ERROR: unknown option $opt"
-@@ -6089,9 +6088,6 @@ fi
- if test "$have_mlockall" = "yes" ; then
-   echo "HAVE_MLOCKALL=y" >> $config_host_mak
- fi
--if test "$multiprocess" = "yes" ; then
--  echo "CONFIG_MULTIPROCESS_ALLOWED=y" >> $config_host_mak
--fi
- if test "$fuzzing" = "yes" ; then
-   # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
-   # needed CFLAGS have already been provided
-@@ -6434,7 +6430,7 @@ NINJA=$ninja $meson setup \
-         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
-         -Dattr=$attr -Ddefault_devices=$default_devices \
-         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
--        -Dvhost_user_blk_server=$vhost_user_blk_server \
-+        -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
-         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi \
-         $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
- 	-Dtcg_interpreter=$tcg_interpreter \
-diff --git a/meson.build b/meson.build
-index 05a67c20d9..cb9420a99e 100644
---- a/meson.build
-+++ b/meson.build
-@@ -157,6 +157,11 @@ if targetos != 'linux' and get_option('mpath').enabled()
-   error('Multipath is supported only on Linux')
- endif
- 
-+if targetos != 'linux' and get_option('multiprocess').enabled()
-+  error('Multiprocess QEMU is supported only on Linux')
-+endif
-+multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
-+
- m = cc.find_library('m', required: false)
- util = cc.find_library('util', required: false)
- winmm = []
-@@ -1228,7 +1233,7 @@ host_kconfig = \
-   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
-   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
-   ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
--  ('CONFIG_MULTIPROCESS_ALLOWED' in config_host ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
-+  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
- 
- ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
- 
-@@ -2535,6 +2540,7 @@ endif
- summary_info += {'target list':       ' '.join(target_dirs)}
- if have_system
-   summary_info += {'default devices':   get_option('default_devices')}
-+  summary_info += {'Multiprocess QEMU': multiprocess_allowed}
- endif
- summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
- 
-@@ -2655,7 +2661,6 @@ summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
- summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
- summary_info += {'libudev':           libudev.found()}
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
--summary_info += {'Multiprocess QEMU': config_host.has_key('CONFIG_MULTIPROCESS_ALLOWED')}
- summary(summary_info, bool_yn: true, section: 'Dependencies')
- 
- if not supported_cpus.contains(cpu)
-diff --git a/meson_options.txt b/meson_options.txt
-index 675a9c500a..bf11de7bb2 100644
---- a/meson_options.txt
-+++ b/meson_options.txt
-@@ -45,6 +45,8 @@ option('cfi', type: 'boolean', value: 'false',
-        description: 'Control-Flow Integrity (CFI)')
- option('cfi_debug', type: 'boolean', value: 'false',
-        description: 'Verbose errors in case of CFI violation')
-+option('multiprocess', type: 'feature', value: 'auto',
-+       description: 'Multiprocess QEMU support')
- 
- option('attr', type : 'feature', value : 'auto',
-        description: 'attr/xattr support')
--- 
-2.29.2
+On Tue, Feb 23, 2021 at 05:52:49PM -0500, Vivek Goyal wrote:
+> Patches in this series  are going to make use of "umask" syscall.
+> So allow it.
+>=20
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/passthrough_seccomp.c | 1 +
+>  1 file changed, 1 insertion(+)
+
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+
+--LQ1RUayJWBLhbxyk
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA2RcwACgkQnKSrs4Gr
+c8j5bwf9GOjSn9zhlXu6g9boOZzii6dzYutZpyVLXbqc0XFLZv4nXb0T/eA0ZhlL
+B//PSDpkBD/lrk6kQJz9UcIUw2LYvC3GGFVye1Ys80WFcVGate4k/j3H6Se9PPhf
+dqkPDKcfP+HkKpzb1pbCUPj1XUGLVh8iTbDWQCZQTbsfMQw+jnLLvaejTUPWAgPK
+IE4QLhD8RcZW/b4wso9Q2jGNqZ8KJ1/O3P4LRTstVFF6Tfr3/IuS8hwG4oLfc4SQ
+QrsYAUYumdYFXT2lf+nNMa25HHftByZ3xPMwzLL3LzFgu+8qnhI09OexJPiU5ifH
+WZInBHD4fbse40hRCCJqfIFTVj/i5A==
+=AaQM
+-----END PGP SIGNATURE-----
+
+--LQ1RUayJWBLhbxyk--
 
 
