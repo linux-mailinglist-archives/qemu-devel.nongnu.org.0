@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C710F324462
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 20:07:55 +0100 (CET)
-Received: from localhost ([::1]:49050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E756324434
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:59:41 +0100 (CET)
+Received: from localhost ([::1]:60694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEzVq-0007Gf-MY
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 14:07:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
+	id 1lEzNs-0008LH-5K
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:59:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEzM5-0006X3-09
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:49 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:50876)
+ id 1lEzMA-0006g7-8h
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:54 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:54546)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lEzM3-0002n2-Fx
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:48 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id i9so2382509wml.0
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:57:47 -0800 (PST)
+ id 1lEzM8-0002q5-QF
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:57:53 -0500
+Received: by mail-wm1-x332.google.com with SMTP id u187so768141wmg.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:57:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=IE7Z1PUDdNGO2QCn3y3Rte5L3sCvv5X28KeN2j6Nh84=;
- b=PSlMnBOHSZobbD7Kxh2s2nH2DPT1yxiOe7qg5yDg5lqjtKD7u4yTYPPxU8bSsh/kLu
- w2sVmvoXqZZ4MuZ8LZxmmeIW9cPGx9/UbRQukiKhteoKMpQFIvnvIrOVlnkxqii9Rcal
- 96nh6XOfoFoqC78kasv9rY17mWLfws2GR9rpG3CAA2mKMM9M9BQVi7pu3675mxzCRyoI
- jduxh6cT4qaa1yj5W79w/0EJ7BYCJcTMyMjlCGZV3KJ2dUt7BzJyFWd6TSz4mTSMz0fv
- nvVqTMcFJOIFXIDX7jXL+EdMxoGrSW+j4gWGwWJF+OHXMNorAdAB5Rm0EeoynamSjmPk
- 4bRw==
+ bh=3wgVFWl1ooSOtrFHyjc6vBbkl1t0wg7aCFfvYF/8BTs=;
+ b=n0pfoac3jhd1Eg9gbHd1mY14EfdI4Jd3eX8unnWoKg6rs9RYvzQCnG4EShgftX0KEQ
+ pShWMmrO6NqAw3CBlAw+Yic0Z9sckfXuTw81msET/dZySpFj94SBs1f/QEh4EDc9EruB
+ f3lHh2cALbeV3pLMfO/rtMaCY/Qqnqsflmxvv0b6+ImjL6rpNdI3/BQu/G8WEsQxZrUI
+ NySYcTcDF0h7tc4rNLXMisP74ZJmOSFPOXqseP6bGXqacNo88uJmv7oXcq6M+7MZR60z
+ S5WgOoRQls1no/JI/csUXPLzsCOJXR/pzdYKBmkutjhmgnu0eBq0qYYJ8zD/XCsdatpT
+ XVng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=IE7Z1PUDdNGO2QCn3y3Rte5L3sCvv5X28KeN2j6Nh84=;
- b=QtrqMIkiQzEJHVQ+mrz9FmTdnqDU5qWPcts6lSC4nnm8WUAKuBKnX5EfIY4hSh/HQR
- T0fS63r8Ke0GxPm0Tb4JvDzFclef4+yy8HxVT1UKm7UNVGyNI6do1lyw/uzocVnsqinx
- x2OAZmyysYGTjaPD0ZiwkPgO6/dobVQ3L7kO+9LEg0+YAxepZjYnlbgfiJFp2Y3zYkoI
- VkRuV9ZqihXCjnFMiy04YXrvWfM0RuloSXcTSy6tLHE+NSeFqcgw/6wdO1Awd3ySkcTR
- d8PksnYvg7xi6/tnzsnapGKA3KzAlrc9kedJGsmJ5i087EUPq0a6FymuyACuQoFU9iBa
- PSDA==
-X-Gm-Message-State: AOAM533Kgas5XuFTwhDYPKAawJ4hPcg9h2iKzfTFGNTL+vr/qFIn0A8G
- JHnyhBRJ6TGzS58YxrOlcVUcUR2O0RE=
-X-Google-Smtp-Source: ABdhPJxpxUDtL6dKwJoS8/0p9Cy9IF3BU7hcFBSRObhMyJXGEnAUKp2Kdx0G74DqHuAK2Pb+cyWHPg==
-X-Received: by 2002:a05:600c:4f07:: with SMTP id
- l7mr4916414wmq.141.1614193065872; 
- Wed, 24 Feb 2021 10:57:45 -0800 (PST)
+ bh=3wgVFWl1ooSOtrFHyjc6vBbkl1t0wg7aCFfvYF/8BTs=;
+ b=Mj4HBwVfoFRrg9bm35OSZTTo2KhbUXDcApyLBTM6nGm6WqC+uO+yrX+RPexScwphED
+ ++08A9eDVP9SIguEFwyW5xdr5oxnV9b8Ucaf/xUypf0j9qBDe9cYqIDiKV9TsDkNXMAk
+ JTE/YyeE6DPXRvp4uu3RYXKDuonc7H/dwY2kq5hM8tj/EfuHcBQT5N1SntpSZqNA89NN
+ 067SbOsdce+pn2LHbHIvHqtxqQAt3iTrv2smx9CzRzK0gBcCpiojYUxE4GmUMm8ptdMr
+ pt+eM/2puLp4zwxjYEAVbywOhvTZMTl3SN65cdCh5REoQrhbf978Gjp0MC+27P5w/UcM
+ a/Gg==
+X-Gm-Message-State: AOAM53324johbE9+tayzeyuo55x46P0/OAZGS9c0yFz7Ur47ygYqdfx/
+ 6Sm1SIlNRE1GVGtvtIWwvYsXjSDYtTM=
+X-Google-Smtp-Source: ABdhPJwpMR7nagoOry6ZjipA1XQPe/awsiedqf+Z13FhYzClm6XhqOcB+u+3TApFJDVu4BxN2DNb2w==
+X-Received: by 2002:a1c:b604:: with SMTP id g4mr4929090wmf.145.1614193071318; 
+ Wed, 24 Feb 2021 10:57:51 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id s23sm4188596wmc.29.2021.02.24.10.57.44
+ by smtp.gmail.com with ESMTPSA id 7sm5047264wmi.27.2021.02.24.10.57.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 10:57:45 -0800 (PST)
+ Wed, 24 Feb 2021 10:57:50 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 05/12] target/mips: Remove unused CPUMIPSState* from MXU
- functions
-Date: Wed, 24 Feb 2021 19:56:59 +0100
-Message-Id: <20210224185706.3293058-6-f4bug@amsat.org>
+Subject: [PATCH v4 06/12] target/mips: Pass instruction opcode to
+ decode_opc_mxu()
+Date: Wed, 24 Feb 2021 19:57:00 +0100
+Message-Id: <20210224185706.3293058-7-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210224185706.3293058-1-f4bug@amsat.org>
 References: <20210224185706.3293058-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,99 +94,50 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-None of these MXU functions use their CPUMIPSState* env argument,
-remove it.
+In the next commit we'll make decode_opc_mxu() match decodetree
+prototype by returning a boolean. First pass ctx->opcode as an
+argument.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/translate.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ target/mips/translate.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
 diff --git a/target/mips/translate.c b/target/mips/translate.c
-index a53ce6adb9a..6f5ccd667da 100644
+index 6f5ccd667da..9e875fa4a25 100644
 --- a/target/mips/translate.c
 +++ b/target/mips/translate.c
-@@ -25694,7 +25694,7 @@ static void gen_mxu_S32ALNI(DisasContext *ctx)
-  * =======================
-  */
- 
--static void decode_opc_mxu__pool00(CPUMIPSState *env, DisasContext *ctx)
-+static void decode_opc_mxu__pool00(DisasContext *ctx)
- {
-     uint32_t opcode = extract32(ctx->opcode, 18, 3);
- 
-@@ -25718,7 +25718,7 @@ static void decode_opc_mxu__pool00(CPUMIPSState *env, DisasContext *ctx)
-     }
- }
- 
--static void decode_opc_mxu__pool04(CPUMIPSState *env, DisasContext *ctx)
-+static void decode_opc_mxu__pool04(DisasContext *ctx)
- {
-     uint32_t opcode = extract32(ctx->opcode, 20, 1);
- 
-@@ -25734,7 +25734,7 @@ static void decode_opc_mxu__pool04(CPUMIPSState *env, DisasContext *ctx)
-     }
- }
- 
--static void decode_opc_mxu__pool16(CPUMIPSState *env, DisasContext *ctx)
-+static void decode_opc_mxu__pool16(DisasContext *ctx)
- {
-     uint32_t opcode = extract32(ctx->opcode, 18, 3);
- 
-@@ -25761,7 +25761,7 @@ static void decode_opc_mxu__pool16(CPUMIPSState *env, DisasContext *ctx)
-     }
- }
- 
--static void decode_opc_mxu__pool19(CPUMIPSState *env, DisasContext *ctx)
-+static void decode_opc_mxu__pool19(DisasContext *ctx)
- {
-     uint32_t opcode = extract32(ctx->opcode, 22, 2);
- 
-@@ -25780,7 +25780,7 @@ static void decode_opc_mxu__pool19(CPUMIPSState *env, DisasContext *ctx)
+@@ -25780,17 +25780,17 @@ static void decode_opc_mxu__pool19(DisasContext *ctx)
  /*
   * Main MXU decoding function
   */
--static void decode_opc_mxu(CPUMIPSState *env, DisasContext *ctx)
-+static void decode_opc_mxu(DisasContext *ctx)
+-static void decode_opc_mxu(DisasContext *ctx)
++static void decode_opc_mxu(DisasContext *ctx, uint32_t insn)
  {
-     uint32_t opcode = extract32(ctx->opcode, 0, 6);
+-    uint32_t opcode = extract32(ctx->opcode, 0, 6);
++    uint32_t opcode = extract32(insn, 0, 6);
  
-@@ -25817,7 +25817,7 @@ static void decode_opc_mxu(CPUMIPSState *env, DisasContext *ctx)
+     if (opcode == OPC__MXU_MUL) {
+         uint32_t  rs, rt, rd, op1;
  
-         switch (opcode) {
-         case OPC_MXU__POOL00:
--            decode_opc_mxu__pool00(env, ctx);
-+            decode_opc_mxu__pool00(ctx);
-             break;
-         case OPC_MXU_D16MUL:
-             gen_mxu_d16mul(ctx);
-@@ -25826,16 +25826,16 @@ static void decode_opc_mxu(CPUMIPSState *env, DisasContext *ctx)
-             gen_mxu_d16mac(ctx);
-             break;
-         case OPC_MXU__POOL04:
--            decode_opc_mxu__pool04(env, ctx);
-+            decode_opc_mxu__pool04(ctx);
-             break;
-         case OPC_MXU_S8LDD:
-             gen_mxu_s8ldd(ctx);
-             break;
-         case OPC_MXU__POOL16:
--            decode_opc_mxu__pool16(env, ctx);
-+            decode_opc_mxu__pool16(ctx);
-             break;
-         case OPC_MXU__POOL19:
--            decode_opc_mxu__pool19(env, ctx);
-+            decode_opc_mxu__pool19(ctx);
-             break;
-         default:
-             MIPS_INVAL("decode_opc_mxu");
+-        rs = extract32(ctx->opcode, 21, 5);
+-        rt = extract32(ctx->opcode, 16, 5);
+-        rd = extract32(ctx->opcode, 11, 5);
+-        op1 = MASK_SPECIAL2(ctx->opcode);
++        rs = extract32(insn, 21, 5);
++        rt = extract32(insn, 16, 5);
++        rd = extract32(insn, 11, 5);
++        op1 = MASK_SPECIAL2(insn);
+ 
+         gen_arith(ctx, op1, rd, rs, rt);
+ 
 @@ -26995,7 +26995,7 @@ static bool decode_opc_legacy(CPUMIPSState *env, DisasContext *ctx)
  #endif
  #if !defined(TARGET_MIPS64)
          if (ctx->insn_flags & ASE_MXU) {
--            decode_opc_mxu(env, ctx);
-+            decode_opc_mxu(ctx);
+-            decode_opc_mxu(ctx);
++            decode_opc_mxu(ctx, ctx->opcode);
              break;
          }
  #endif
