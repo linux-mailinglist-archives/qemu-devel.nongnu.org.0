@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2595323B5E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 12:39:36 +0100 (CET)
-Received: from localhost ([::1]:52038 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46AAE323B61
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 12:41:50 +0100 (CET)
+Received: from localhost ([::1]:54476 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEsVz-0002zv-VU
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 06:39:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53732)
+	id 1lEsY9-000430-AZ
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 06:41:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54116)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEsUb-0002X6-SE
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 06:38:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20558)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lEsWu-0003YF-OA
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 06:40:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26631)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEsUW-0005cq-Ae
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 06:38:09 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lEsWs-0006jQ-W1
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 06:40:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614166683;
+ s=mimecast20190719; t=1614166830;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G65pnobmk8B3RJhFQK2VV/vlabUrpI+z0rRef6dAFOs=;
- b=Wib+kUkvtbm+sWpbHk09R5M18Vyg2Z14uva2k0Nn5uNstsGbJYny6urtJYDZxP55e4gqwR
- REjm849s3CnF9TBugQGKFqTIQ0K48BXvBHkWYzcMhYidISkZZkj0yE/x78okL4EDcGCxKv
- 5GOjETi8RELal2vNsivo3R0l0Yz/gfE=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-339-aKHp6H0EOR2orj2WYfpsjA-1; Wed, 24 Feb 2021 06:37:57 -0500
-X-MC-Unique: aKHp6H0EOR2orj2WYfpsjA-1
-Received: by mail-wm1-f69.google.com with SMTP id b62so441561wmc.5
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 03:37:56 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=G65pnobmk8B3RJhFQK2VV/vlabUrpI+z0rRef6dAFOs=;
- b=FlekHTS9QqfnzPrKR3HC+OF7g0evP6m4ilmD6AIHIQq4XbjFG/xfTbDQ6wog1OaX2b
- L3fCKTzFa0MCxEd9YSXEd5i75s+xqmo7tLr+hwQhiOX+eJiH98XHiq7oN1vR231EWsS6
- c7Awr29QH0WPA8Sovt49S+YMHYYchftVLfh0h/WmIGY2quia0j4GpUxrbiNVhNsLe+rk
- hrj2pg1uY1HhXNgfG2iAvozYTRJS3hMYJBaW1Wyuci1kLAxwgjSlWgrNeklId4/Y9kOG
- G+g1Kz+dVmatf5DGV1Uvv4z3H8/X60JyqFoSrMDn68qvsE1BAIYKpjKvJdGoauvG+5VT
- 6nJQ==
-X-Gm-Message-State: AOAM53265BY1b+MD3WpGy6e1CLvH5upjCyTzQkNeUlypiOF0x/JQUKOS
- /V/s3AsMxf7efRkheaqdzBqda5zCYzGkXm+gQz7L+G/S06FP6pNJgsYACxsaTXaTcqppGPK9eDF
- PTk915BglKMQJI/8=
-X-Received: by 2002:a05:6000:89:: with SMTP id m9mr22987920wrx.3.1614166675564; 
- Wed, 24 Feb 2021 03:37:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVARvmjGP/dWO2CSGL5pDeK1GW6mpG2olv/rO4RSK7X0NHAUgfSm7e8L7q4wXUxBgxpwzYCA==
-X-Received: by 2002:a05:6000:89:: with SMTP id m9mr22987903wrx.3.1614166675395; 
- Wed, 24 Feb 2021 03:37:55 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id v5sm2398641wmh.2.2021.02.24.03.37.54
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 03:37:54 -0800 (PST)
-Subject: Re: Problem running functional tests from China
-To: =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-References: <60118671-cd47-1900-59c6-96782dd7e26c@redhat.com>
- <20210224110605.GM6564@kitsune.suse.cz>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <198ecefe-4d68-b43d-dfae-8a5ceeee9615@redhat.com>
-Date: Wed, 24 Feb 2021 12:37:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=+wmS1pXCJW4MCb4uOlyiYMZb4ScaZyV68XcCDYaSyzk=;
+ b=ER2dqR+MtVAhYQ+15owK1xeNUz6JUMRWosgy3pEsJO2TwCE9T9/7y7I3fhg8jl7CAXXUkm
+ Whw4NQI9Qo/doLrEZAUjtY+hwUM6dxARX8m3v8WVwCayK7zuvcAzwDIijlfP7LCIhcx6Ht
+ jWQRq4coJ/1KPNhJu4Ht4fCIswKeIhQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-13-H7rZj5C5M5STnzfHKvdhzA-1; Wed, 24 Feb 2021 06:40:28 -0500
+X-MC-Unique: H7rZj5C5M5STnzfHKvdhzA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 553A3801965;
+ Wed, 24 Feb 2021 11:40:26 +0000 (UTC)
+Received: from localhost (ovpn-115-137.ams2.redhat.com [10.36.115.137])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7192460C61;
+ Wed, 24 Feb 2021 11:40:25 +0000 (UTC)
+Date: Wed, 24 Feb 2021 11:40:24 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Sai Pavan Boddu <saipava@xilinx.com>
+Subject: Re: [PATCH v2 01/22] block: add eMMC block device type
+Message-ID: <YDY7KKI1Xme29UlQ@stefanha-x1.localdomain>
+References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613982039-13861-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ <3c229241-fdc5-a445-d96e-ca16a5c0106b@redhat.com>
+ <BY5PR02MB6772EEE95845BAD093CAC972CA809@BY5PR02MB6772.namprd02.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20210224110605.GM6564@kitsune.suse.cz>
+In-Reply-To: <BY5PR02MB6772EEE95845BAD093CAC972CA809@BY5PR02MB6772.namprd02.prod.outlook.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="VdtvjZ1lUtiJHXRc"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,70 +81,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, avocado-devel <avocado-devel@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Vincent Palatin <vpalatin@chromium.org>, Luc Michel <luc.michel@greensocs.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 12:06 PM, Michal Suchánek wrote:
-> On Wed, Feb 24, 2021 at 10:29:15AM +0100, Philippe Mathieu-Daudé wrote:
->> Just to inform the files hosted on github don't work when
->> testing from China:
-> 
->>
->> raw.githubusercontent.com resolves to 127.0.0.1
+--VdtvjZ1lUtiJHXRc
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Actually not even localhost but 0.0.0.0 :)
+On Tue, Feb 23, 2021 at 05:35:20PM +0000, Sai Pavan Boddu wrote:
+> Hi Philippe,
+>=20
+> > -----Original Message-----
+> > From: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
+> > Sent: Monday, February 22, 2021 5:34 PM
+> > To: Sai Pavan Boddu <saipava@xilinx.com>; Markus Armbruster
+> > <armbru@redhat.com>; Kevin Wolf <kwolf@redhat.com>; Max Reitz
+> > <mreitz@redhat.com>; Vladimir Sementsov-Ogievskiy
+> > <vsementsov@virtuozzo.com>; Eric Blake <eblake@redhat.com>; Joel Stanle=
+y
+> > <joel@jms.id.au>; C=E9dric Le Goater <clg@kaod.org>; Vincent Palatin
+> > <vpalatin@chromium.org>; Dr. David Alan Gilbert <dgilbert@redhat.com>;
+> > Thomas Huth <thuth@redhat.com>; Stefan Hajnoczi <stefanha@redhat.com>;
+> > Peter Maydell <peter.maydell@linaro.org>; Alistair Francis
+> > <alistair.francis@wdc.com>; Edgar Iglesias <edgari@xilinx.com>; Luc Mic=
+hel
+> > <luc.michel@greensocs.com>; Paolo Bonzini <pbonzini@redhat.com>
+> > Cc: Sai Pavan Boddu <saipava@xilinx.com>; qemu-devel@nongnu.org; qemu-
+> > block@nongnu.org
+> > Subject: Re: [PATCH v2 01/22] block: add eMMC block device type
+> >=20
+> > On 2/22/21 9:20 AM, Sai Pavan Boddu wrote:
+> > > From: Vincent Palatin <vpalatin@chromium.org>
+> > >
+> > > Add new block device type.
+> > >
+> > > Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
+> > > [SPB: Rebased over 5.1 version]
+> > > Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+> > > Signed-off-by: Joel Stanley <joel@jms.id.au>
+> > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+> > > Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> > > ---
+> > >  include/sysemu/blockdev.h | 1 +
+> > >  blockdev.c                | 1 +
+> > >  2 files changed, 2 insertions(+)
+> > >
+> > > diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+> > > index 3b5fcda..eefae9f 100644
+> > > --- a/include/sysemu/blockdev.h
+> > > +++ b/include/sysemu/blockdev.h
+> > > @@ -24,6 +24,7 @@ typedef enum {
+> > >       */
+> > >      IF_NONE =3D 0,
+> > >      IF_IDE, IF_SCSI, IF_FLOPPY, IF_PFLASH, IF_MTD, IF_SD, IF_VIRTIO,
+> > > IF_XEN,
+> > > +    IF_EMMC,
+> > >      IF_COUNT
+> > >  } BlockInterfaceType;
+> > >
+> > > diff --git a/blockdev.c b/blockdev.c
+> > > index cd438e6..390d43c 100644
+> > > --- a/blockdev.c
+> > > +++ b/blockdev.c
+> > > @@ -83,6 +83,7 @@ static const char *const if_name[IF_COUNT] =3D {
+> > >      [IF_SD] =3D "sd",
+> > >      [IF_VIRTIO] =3D "virtio",
+> > >      [IF_XEN] =3D "xen",
+> > > +    [IF_EMMC] =3D "emmc",
+> > >  };
+> >=20
+> > We don't need to introduce support for the legacy -drive magic.
+> >=20
+> > -device should be enough for this device, right?
+> [Sai Pavan Boddu] I was seeing to use -device for emmc. But I see we anyw=
+ay need blockdev support for this, which would require us the use -drive.
+>=20
+> Can you give some pointers, how to approach this ?
 
-> And from where does this come from?
-> 
-> Your local system, your ISP, ... ?
+It is probably not necessary to add a new IF_ constant. Would this work:
 
-Probably the ISP:
+  -drive if=3Dnone,id=3Demmc0,file=3Dtest.img,format=3Draw
+  -device emmc,...,drive=3Demmc0
 
-$ host -v raw.githubusercontent.com
-Trying "raw.githubusercontent.com"
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 21011
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+Or the more modern:
 
-;; QUESTION SECTION:
-;raw.githubusercontent.com.     IN      A
+  -blockdev node-name=3Demmc0,driver=3Dfile,filename=3Dtest.img
+  -device emmc,...,drive=3Demmc0
 
-;; ANSWER SECTION:
-raw.githubusercontent.com. 299  IN      A       0.0.0.0
+?
 
-Received 59 bytes from 210.22.70.3#53 in 3 ms
-Trying "raw.githubusercontent.com"
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 60262
-;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+(The syntax might need small tweaks but is shows the general idea.)
 
-;; QUESTION SECTION:
-;raw.githubusercontent.com.     IN      AAAA
+Stefan
 
-;; ANSWER SECTION:
-raw.githubusercontent.com. 297  IN      AAAA    ::
+--VdtvjZ1lUtiJHXRc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Received 71 bytes from 210.22.70.3#53 in 3 ms
-Trying "raw.githubusercontent.com"
-;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 30016
-;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+-----BEGIN PGP SIGNATURE-----
 
-;; QUESTION SECTION:
-;raw.githubusercontent.com.     IN      MX
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA2OygACgkQnKSrs4Gr
+c8gS+wgAt6tTUeatlg0r0ypGM6gNiMQR9dnpr5TFtj2GZlw/fT8AYv71HUjtr6J+
+2WevoGHYjTyIVy7Jxo2Ym3gPk5NvpX4BkheywWCPog8CHHwvp19l6BqO5vg46O1n
+rvNx6fcm3LttYGYEZjP6KaMjah3BDDkA0bxbUMr0C8gmnnWuttTgduTDG3GiQdpQ
+MVylpxtJigiTK4Bcx0TIJvCp50wcPdcgIV6ZSeN/YO14COkFO0hNXZEvMXn97413
+AZlhS3nW0bqIGRJf3IfJsfkz1a88EhRl+VAHagqCrUQaEjjonYE6lrR1pPgKzynK
+BjfvqiEwg4SAQDRelsCpWmyu6A2big==
+=Vsa/
+-----END PGP SIGNATURE-----
 
-;; AUTHORITY SECTION:
-badlist.                350     IN      SOA     localhost.
-root.locahost. 1 3600 900 2592000 7200
-
-Received 108 bytes from 210.22.70.3#53 in 3 ms
-
-I raised that problem not to find a way to bypass an ISP
-firewall, but to see if there is a way to use another
-storage for test artifacts so all the community can run
-the tests.
-
-Regards,
-
-Phil.
+--VdtvjZ1lUtiJHXRc--
 
 
