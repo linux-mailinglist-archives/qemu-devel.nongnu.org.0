@@ -2,149 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2CC9324300
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:14:37 +0100 (CET)
-Received: from localhost ([::1]:59880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 955ED324282
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 17:51:02 +0100 (CET)
+Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExkC-0000YA-Ov
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:14:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44090)
+	id 1lExNN-0005r9-14
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 11:51:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40904)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lExUi-0003OA-Pv
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:58:36 -0500
-Received: from mail-eopbgr20104.outbound.protection.outlook.com
- ([40.107.2.104]:47390 helo=EUR02-VE1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lExJJ-0004F5-2z; Wed, 24 Feb 2021 11:46:49 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55902)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1lExUf-00079L-2t
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:58:36 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jWN/FPqBZxZHusODPzU5ViM/K1VNfqRXul4Uqibk/6vTS4yDqNYMDfL5XtdcxHMdZMuMa4D4/YXZGV5hNt/E12V+6gt25YXavx5jpqoVn8x4BJzybp+RQzPcMT8StE77P1X53qQhImwum8AKKJiNl67rILRP7ybTupD2XWtUrCBJ0JoYwB3esDLhQ9EKjedI25AHE1wc3Coxy6Zm/ont4qwLenTLvE/eqKlEIZ2Qsvq01qIwJhU5ulM5CIshlFk7Yff2rJTV525qCLa/p0HNKRo5wqgm4dkIpwnFpw67r373ZJzUnw0gF8CUV9yA6dey2cdDNgRPiDn0Qg5tD0wu4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EbFH82maFOLxV4LhBIJ7WcJKdEoibhvRfpRArxlBKbM=;
- b=E63hMzVJs1rzPJYVOlIh/4P+8eY2z81485u3rC5gjB//eqKFbCyqxm2mr2HpXS05EMB/pjIz8+MOpFYuu4ATnKoqzizrkGG7SgiGOlWc0l51LKtN1LyqIJXJwr2lp4asb9VBGEXna6JCzA2nuf7XdxfwCFQ67vSF7rmyp4KD2Sm7vcxnf+Aua2Hv4i7HO+CfFZ/r0R1AzJ54n5KXO/Yg/kWJRpmUtRkpATTnty1qcpZIk9p8rIVpvWa1AD1TmWg+NuttQtVUZgKjrN2SsLRCv3Bf89Gw1fW32rycXTOiHaeNcr2HosPoJq01lquX5Fya9qncHMUWnlb9tkngLO35iQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EbFH82maFOLxV4LhBIJ7WcJKdEoibhvRfpRArxlBKbM=;
- b=GL74yaejjPoswx2xQKZq21hE9OXMsawPaz0wGVt2dzW7KE8bDw4mN//niC50+D2wQuZNtf2/Zo5LGB2nM6IzDeujnAjbFgh5biGK5bBrV/t66RBTu7ORnjhgoj5b/Qb4LQDEMt3qRojOoZaP4YzuV7B3VQvsgmNlQbBnp3nd0nM=
-Authentication-Results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
- by AM8PR08MB5651.eurprd08.prod.outlook.com (2603:10a6:20b:1c4::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27; Wed, 24 Feb
- 2021 16:43:27 +0000
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3890.019; Wed, 24 Feb 2021
- 16:43:27 +0000
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
-To: Peter Xu <peterx@redhat.com>
-Cc: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Den Lunev <den@openvz.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Alexander Duyck <alexander.duyck@gmail.com>
-References: <20210211210549.GE157159@xz-x1>
- <4E588B57-AAC8-40DD-9260-541836074DB3@redhat.com>
- <20210212030621.GF157159@xz-x1>
- <79c3ebb9-82ba-4714-0cf1-9f2e08eff660@redhat.com>
- <20210212161125.GH157159@xz-x1>
- <add5eef8-ff5b-5708-5383-f76262738e94@virtuozzo.com>
- <20210216233545.GD91264@xz-x1>
- <add9a7f7-9e02-5024-4bfd-2597a8920ec5@virtuozzo.com>
- <20210219205052.GK6669@xz-x1>
-Message-ID: <d5abc500-a7b2-cf25-db88-b6d4284b910f@virtuozzo.com>
-Date: Wed, 24 Feb 2021 19:43:25 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210219205052.GK6669@xz-x1>
-Content-Type: multipart/alternative;
- boundary="------------9F178A795734153A382198C8"
-Content-Language: en-US
-X-Originating-IP: [109.252.109.82]
-X-ClientProxiedBy: AM4PR07CA0032.eurprd07.prod.outlook.com
- (2603:10a6:205:1::45) To AM0PR08MB3364.eurprd08.prod.outlook.com
- (2603:10a6:208:e4::15)
+ (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
+ id 1lExJH-0003KA-34; Wed, 24 Feb 2021 11:46:48 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
+ 11OGZDTc099810; Wed, 24 Feb 2021 11:46:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=date : from : to : cc :
+ subject : message-id : in-reply-to : references : mime-version :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=aowUJqwb1m1lUSuOPA2PseTql5N/kTnZLkCZtk4qkhQ=;
+ b=esw62h4kZBwwjMdlFCW7YgvJbQrs2u+9X+N+IXjN19Sr9g1x87efiDGuw1Szt5GSASEO
+ f/bjNCJMpiGYNbO13pBK+jCmdjAVwGRAAkMbm+XMyuRkUr7+OFPMwHDnPRRryCuy5LWn
+ Zw+xV5CmCw4wuvmavKQlFEa9XH8QAbzGRWCV2z6NhvHwbNvPUtIrMs9hDYEVttjCtpto
+ 5qlE5M/2464ttRHbpa7/e1Ga1yGC0GBS1ylqpubEQHbasL0udyxQtFod6O9beOcOwnen
+ VvSjYea7EHBFZq+mJuZFBa8ZeIqJjKAtJmPp9q8YYHnH0QlhQPYztg0XRRqQXr5zAcF5 gg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36wktm7f73-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Feb 2021 11:46:42 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11OGZSWd101173;
+ Wed, 24 Feb 2021 11:46:42 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36wktm7f64-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Feb 2021 11:46:42 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11OGgJXb008105;
+ Wed, 24 Feb 2021 16:46:39 GMT
+Received: from b06cxnps4074.portsmouth.uk.ibm.com
+ (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
+ by ppma06ams.nl.ibm.com with ESMTP id 36tsph3qh1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 24 Feb 2021 16:46:39 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 11OGkaBl42074464
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 24 Feb 2021 16:46:36 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AB8BAAE045;
+ Wed, 24 Feb 2021 16:46:36 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AA1F5AE053;
+ Wed, 24 Feb 2021 16:46:35 +0000 (GMT)
+Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.198])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Wed, 24 Feb 2021 16:46:35 +0000 (GMT)
+Date: Wed, 24 Feb 2021 17:46:34 +0100
+From: Halil Pasic <pasic@linux.ibm.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: [PATCH v2 1/1] hw/s390x: modularize virtio-gpu-ccw
+Message-ID: <20210224174634.58a1ecda.pasic@linux.ibm.com>
+In-Reply-To: <20210224113617.6v42bfxyzvw6733h@sirius.home.kraxel.org>
+References: <20210222125548.346166-1-pasic@linux.ibm.com>
+ <20210224113617.6v42bfxyzvw6733h@sirius.home.kraxel.org>
+Organization: IBM
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.3] (109.252.109.82) by
- AM4PR07CA0032.eurprd07.prod.outlook.com (2603:10a6:205:1::45) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3890.11 via Frontend Transport; Wed, 24 Feb 2021 16:43:26 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: ef6f4368-b938-4dd4-bf52-08d8d8e34f3a
-X-MS-TrafficTypeDiagnostic: AM8PR08MB5651:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM8PR08MB56517CD63B773AD2F8B57B289F9F9@AM8PR08MB5651.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MUmlgtUGAuP37mV5sntuio3YJUjdFOkWL9aeCQRnZ2a5iE2qiBKOoZHlaUil7o3Z+IiDg9G2rrv2c2a/5fCAwWQmVkzhE9KCESWKrMzyIfJ/mnq/oKPXfT19jDmnW3hQy0AzPIGon7SM7oQqpg3X+IRdx1vcUHJkUKxasaWYBBs9fKv2iNl2UM0JVdSmt7b7JKOk8EWnsBE/WVjvHe4U8+Z/l5hO8VySNRNI1fXhACSHr3tklFPU7gKl1bnd6SXTqYkR+auIxSmUwelqpALTi4wLVR1ogdRjOUp28kozG4gTAt6OqhQ0GDlLydp89d/FaLw+w2ZmIZkdUU6KWrR1jvhhQaWwpt1wwz4gUcVE77dqQ0z5e4nSi2a1oDxvCoKAzq7rDjVXWqnMmvxb+hAjMaNTp7geaFi4TyKZA6gDLo9Jw10EkWy/Uvaz6tjNy88L6qJUGokuUUtYvMlLvI+WUZSWJuGt9Q6onW3R6ZtVygJuTjxW8opoulEj/BMMS+GAs/3Le752mbe0BLrYP+HRIhO8B61h5uBtCKeX5SCamcguxy581mPF4dNphCAamfJT3ZKlDAXq+wRpLt8Erfw3s3DSFla/1Dg+K5SLLod+0uo=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39830400003)(396003)(376002)(136003)(366004)(346002)(31696002)(52116002)(4326008)(31686004)(53546011)(54906003)(2616005)(86362001)(66556008)(6916009)(33964004)(5660300002)(16526019)(956004)(316002)(83380400001)(186003)(478600001)(2906002)(8936002)(6486002)(66476007)(36756003)(8676002)(66946007)(26005)(44832011)(16576012)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cFVhVzFmOUlrQWx3SnpJY25FQlQybW1HWEJHdTFNS2NQQVBlWk1kdGptcFF1?=
- =?utf-8?B?OHBzYjBhWnJCd3pZMUlrUjFuMWZqRVNuWktJaEp5OGJxVUJyTE5SdmUyeFZ2?=
- =?utf-8?B?Umg2S2FKK3IvME1ydWw0OHQ0RDFKb0hXc3MycnZXZHprOThMaFJJNHlWQ3po?=
- =?utf-8?B?TDRDSlZwanM5a1Y1eG13cU5PaWdLcVM2eThpemd0aEtEbnJ5NE96cXR6YTRr?=
- =?utf-8?B?WlR6Zm12cUNJYXBTc0xvN3RsU3piMzFQcnIrcWhnc1pub3JXNDZQcmVWK243?=
- =?utf-8?B?Y0R0ZURKRXNxNzVMSTF6VzVtVmhXbjhpNzE3SldFZ0RjbmVZRktSL0FUTmFK?=
- =?utf-8?B?VjVPZWRqcWRIWXVFZ2NMNEhPUXM0ckI2SHN3VWM5QVIwZllBLzRWK3BlYURY?=
- =?utf-8?B?UHdZMDRSMFhFRlpHQU9GK052eHdwQ09pMlRXUW5kQ1RnSjZndFFOT3M5bFpR?=
- =?utf-8?B?RVEyc0Q4bStEYjlqelRhNzdyOXN4S0hjajg4VTVPbjRXZE52MzVPbnVybFha?=
- =?utf-8?B?Qnk3ekdHSWhMZkw1ck5sRGU4UkFseHBVcThuQkZqNVF5ZElScFZ5WnRzSGhK?=
- =?utf-8?B?c1RCUzVlb2lnOW1VNnRBMlFONkE0MEFlU1lIN2lIaUFobWVuSXhTMGcvWWsy?=
- =?utf-8?B?QVFyQ0ppTFhVRGpYTGRmYkZtU2IrZHpOZ2RVSEtPUDV3VnVSNnFrdVExeFV4?=
- =?utf-8?B?TGI0bnNBb0RsdUFIU3F2ZHIreGwvVmVuVHNYa3hJOTBsOUY1TzNBblc5eVdI?=
- =?utf-8?B?RzNZTCtybWYwMlJvK1BiZThOaDR6MHhOaUVld1VEcU5wRGxDb0YxdDZnWUlF?=
- =?utf-8?B?bXlwUTRrMGJJcWxkTDA3NHliQ3JkY3JYWFEvM1VKV2NzYlVHRzJqNG12MUl1?=
- =?utf-8?B?SHl2Vm1jTmJhNkZFQTZDbzFYR0VRdHE3RWl2ZzFPOGozSDhaVitUUFBKQ29s?=
- =?utf-8?B?ZFdpY2tEY21kc0hSREpLdGVoQWRYNUY5azhtU0xJUTB4aHFBZG5CNVhnN0Zu?=
- =?utf-8?B?R1NhNVdVZ1pzeml6cUNiMm1XVjVVckpqV3FmN3UydFh2L1JBMG5yeTk5QWht?=
- =?utf-8?B?NjVyR2U5SVBDQW1IOHJlZHFJYndySnF3Sm4vQU1mMlQ4NHMrNE5sL09qSGxQ?=
- =?utf-8?B?VFZtdGE2dTNEWE4vOVpnUWd5ZTB4TlpmNXhScnBhR3RTMTRtdHdMQ0JKd21U?=
- =?utf-8?B?S1BUc29HUUNHT2loK2dRUjVrNzlGNUVRT2VYT05mMStxa0FTMWFXeWFCZlpu?=
- =?utf-8?B?SXgvS0VzSElyTEJiTCtaMlMyZlJrVk5BOFdSNXZHVllBK1pKUi9xQVFSYlpy?=
- =?utf-8?B?UkdBaUlhTGo5TUJxUVI3d2swOEhRT0J0QWdhemlZK3RDeG0xN2ZvOURmenpI?=
- =?utf-8?B?M0xlbFZYN1Z1cjRiMHpxWXVHWWtGbVBld09ZdGpnWFRCWXhlb3BPelI3ZHFR?=
- =?utf-8?B?U2x4aGkxTys3ekh2WFFsMFhHd3VQcnpPZC9sWm1aRS9BSHZWR0ZpelNqYmlZ?=
- =?utf-8?B?cjZOUzRDVUorMkhjelFkS3oxL01HemNBZk9oMmpwQjQwNnh4MzE1VmVuL2ZT?=
- =?utf-8?B?RUFoSEpxMFR2WndMZU5oT1FsUzNyU0hkMjRGMDltdTFUbmpIYnQwTk5JbW9p?=
- =?utf-8?B?ZTJLZnQxbkJ5NWxkRWhlQnh6bDMydU1QaC9Zb0cxRUlNUUhVTWZ1SGNOR3p1?=
- =?utf-8?B?bHZaV2o3TUpnb1NuMkxDMmJJZGhZWjUvU2F4Z2o5ZGVkYWNuZjhJR1lvd2Iy?=
- =?utf-8?Q?aNlAVKTM3yoNnYpSuSsMuzkVt5rIAoUPGsy36ge?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef6f4368-b938-4dd4-bf52-08d8d8e34f3a
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Feb 2021 16:43:27.2280 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VXrRjBS4m6VuvzSfUNhyX7idmEAUYDUKoo5iEtr5aATVZTdREshOeGmtN1lidzz4cTR84gvR8YBQ2J1nzX4gyinntnojuCXYoZi8Y6NWqLM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5651
-Received-SPF: pass client-ip=40.107.2.104;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR02-VE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
+ definitions=2021-02-24_06:2021-02-24,
+ 2021-02-24 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 adultscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 phishscore=0 priorityscore=1501
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2102240127
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -158,164 +109,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bruce Rogers <brogers@suse.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------9F178A795734153A382198C8
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Wed, 24 Feb 2021 12:36:17 +0100
+Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-On 19.02.2021 23:50, Peter Xu wrote:
-> Andrey,
->
-> On Fri, Feb 19, 2021 at 09:57:37AM +0300, Andrey Gruzdev wrote:
->> For the discards that happen before snapshot is started, I need to dig into Linux and QEMU virtio-baloon
->> code more to get clear with it.
-> Yes it's very tricky on how the error could trigger.
->
-> Let's think of below sequence:
->
->    - Start a guest with init_on_free=1 set and also a virtio-balloon device
->
->    - Guest frees a page P and zeroed it (since init_on_free=1). Now P contains
->      all zeros.
->
->    - Virtio-balloon reports this page to host, MADV_DONTNEED sent, then this
->      page is dropped on the host.
->
->    - Start live snapshot, wr-protect all pages (but not including page P because
->      it's currently missing).  Let's call it $SNAPSHOT1.
->
->    - Guest does alloc_page(__GFP_ZERO), accidentally fetching this page P and
->      returned
->
->    - So far, page P is still all zero (which is good!), then guest uses page P
->      and writes data to it (say, now P has data P1 rather than all zeros).
->
->    - Live snapshot saves page P, which content P1 rather than all zeros.
->
->    - Live snapshot completed.  Saved as $SNAPSHOT1.
->
-> Then when load snapshot $SNAPSHOT1, we'll have P contains data P1.  After
-> snapshot loaded, when guest allocate again with alloc_page(__GFP_ZERO) on this
-> page P, since guest kernel "thought" this page is all-zero already so memzero()
-> is skipped even if __GFP_ZERO is provided.  Then this page P (with content P1)
-> got returned for the alloc_page(__GFP_ZERO) even if __GFP_ZERO set.  That could
-> break the caller of alloc_page().
+> >  static void virtio_ccw_gpu_register(void)
+> >  {
+> > +#ifdef CONFIG_MODULES
+> > +    type_register_static_mayfail(&virtio_ccw_gpu);
+> > +#else
+> >      type_register_static(&virtio_ccw_gpu);
+> > +#endif  
+> 
+> Move the ifdef to type_register_static_mayfail, so this is not
+> duplicated for every module which might need this?
 
-Yep, that's quite clear.
+I am concerned about a cluttered API. Having the documentation say:
 
->> Anyhow I'm quite sure that adding global MISSING handler for snapshotting
->> is too heavy and not really needed.
-> UFFDIO_ZEROCOPY installs a zero pfn and that should be all of it.  There'll
-> definitely be overhead, but it may not be that huge as imagined.  Live snapshot
-> is great in that we have point-in-time image of guest without stopping the
-> guest, so taking slightly longer time won't be a huge loss to us too.
->
-> Actually we can also think of other ways to work around it.  One way is we can
-> pre-fault all guest pages before wr-protect.  Note that we don't need to write
-> to the guest page because read would suffice, since uffd-wp would also work
-> with zero pfn.  It's just that this workaround won't help on saving snapshot
-> disk space, but it seems working.  It would be great if you have other
-> workarounds, maybe as you said UFFDIO_ZEROCOPY is not the only route.
->
-> Thanks,
->
-Just to add: one of the good options is too keep track of virtio-baloon discarded pages and
-pre-fault them before migration starts. What do you think?
+/**
+ * type_register_static_mayfail:
+ * @info: The #TypeInfo of the new type.
+ *
+ * @info and all of the strings it points to should exist for the life time
+ * that the type is registered.
+ * 
+ * If missing a parent type and if qom/object.c is built with CONFIG_MODULES
+ * type_register_static_mayfail() differs from type_register_static only in not
+ * printing an error and aborting but returning NULL. If qom/object.c is
+ * built without CONFIG_MODULES type_register_static_mayfail() is same as
+ * type_register_static() 
+ * Returns: the new #Type or NULL if missing a parent type.
+ */
+Type type_register_static_mayfail(const TypeInfo *info);
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+does not feel right. Indeed modules seems to be the only
+circumstance under which a failed type registration does not imply
+a programming error. So I'm absolutely against shoving this logic
+down into object.c. But I find the variant I posted nicer to document
+and nicer to read: looking at virtio_ccw_gpu_register() one sees
+immediately that if built as a module, it is OK if the registration
+fails, and if built-in it is expected to work.
 
+> 
+> > --- a/include/hw/s390x/css.h
+> > +++ b/include/hw/s390x/css.h  
+> 
+> Move this to a separate patch?
+> The "add type_register_mayfail" and "modularize virtio-gpu-ccw" changes
+> should be separate patches too.
+> 
+> > -static TypeImpl *type_register_internal(const TypeInfo *info)
+> > +static TypeImpl *type_register_internal(const TypeInfo *info, bool mayfail)
+> >  {
+> >      TypeImpl *ti;
+> >      ti = type_new(info);  
+> 
+> Hmm, type_register_internal seems to not look at the new mayfail flag.
+> Patch looks incomplete ...
 
---------------9F178A795734153A382198C8
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+It definitely is. I messed up my smoke test (used the wrong executable)
+so I did not notice.
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 19.02.2021 23:50, Peter Xu wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20210219205052.GK6669@xz-x1">
-      <pre class="moz-quote-pre" wrap="">Andrey,
+> 
+> take care,
+>   Gerd
+> 
+> 
 
-On Fri, Feb 19, 2021 at 09:57:37AM +0300, Andrey Gruzdev wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">For the discards that happen before snapshot is started, I need to dig into Linux and QEMU virtio-baloon
-code more to get clear with it.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">Yes it's very tricky on how the error could trigger.
-
-Let's think of below sequence:
-
-  - Start a guest with init_on_free=1 set and also a virtio-balloon device
-
-  - Guest frees a page P and zeroed it (since init_on_free=1). Now P contains
-    all zeros.
-
-  - Virtio-balloon reports this page to host, MADV_DONTNEED sent, then this
-    page is dropped on the host.
-
-  - Start live snapshot, wr-protect all pages (but not including page P because
-    it's currently missing).  Let's call it $SNAPSHOT1.
-
-  - Guest does alloc_page(__GFP_ZERO), accidentally fetching this page P and
-    returned
-
-  - So far, page P is still all zero (which is good!), then guest uses page P
-    and writes data to it (say, now P has data P1 rather than all zeros).
-
-  - Live snapshot saves page P, which content P1 rather than all zeros.
-
-  - Live snapshot completed.  Saved as $SNAPSHOT1.
-
-Then when load snapshot $SNAPSHOT1, we'll have P contains data P1.  After
-snapshot loaded, when guest allocate again with alloc_page(__GFP_ZERO) on this
-page P, since guest kernel &quot;thought&quot; this page is all-zero already so memzero()
-is skipped even if __GFP_ZERO is provided.  Then this page P (with content P1)
-got returned for the alloc_page(__GFP_ZERO) even if __GFP_ZERO set.  That could
-break the caller of alloc_page().
-</pre>
-    </blockquote>
-    <pre>Yep, that's quite clear.
-</pre>
-    <blockquote type="cite" cite="mid:20210219205052.GK6669@xz-x1">
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">Anyhow I'm quite sure that adding global MISSING handler for snapshotting
-is too heavy and not really needed.
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">UFFDIO_ZEROCOPY installs a zero pfn and that should be all of it.  There'll
-definitely be overhead, but it may not be that huge as imagined.  Live snapshot
-is great in that we have point-in-time image of guest without stopping the
-guest, so taking slightly longer time won't be a huge loss to us too.
-
-Actually we can also think of other ways to work around it.  One way is we can
-pre-fault all guest pages before wr-protect.  Note that we don't need to write
-to the guest page because read would suffice, since uffd-wp would also work
-with zero pfn.  It's just that this workaround won't help on saving snapshot
-disk space, but it seems working.  It would be great if you have other
-workarounds, maybe as you said UFFDIO_ZEROCOPY is not the only route.
-
-Thanks,
-
-</pre>
-    </blockquote>
-    <pre>Just to add: one of the good options is too keep track of virtio-baloon discarded pages and
-pre-fault them before migration starts. What do you think?
-</pre>
-    <pre class="moz-signature" cols="72">-- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                virtuzzo.com</pre>
-  </body>
-</html>
-
---------------9F178A795734153A382198C8--
 
