@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5240C323E4A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:34:32 +0100 (CET)
-Received: from localhost ([::1]:32908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E72BB323AFC
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 12:05:08 +0100 (CET)
+Received: from localhost ([::1]:48516 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuJD-0002W2-8r
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:34:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44258)
+	id 1lEryd-0003an-VP
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 06:05:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lErsr-0001UB-Ax
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:59:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60666)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lErsp-00044C-QH
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:59:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614164346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=htESETlwmtASm15hT05r8wH8PFgIxJqbtH1OWupTNiU=;
- b=Y9x0wU6eaOqkO0OB7vG81qF3gve8yAotpUS3wL0SQJVziPhJeQ1G0as9pTUuoKNPAas8IE
- ZHzk0N99dXc1gXcsDCvj6C1bLRUzU3TAv+8YX+PKZOJbyzDfFDTnMMYlRezmTsGR8sTO/N
- CgBwbAfHrCWpLRp01H8q7I1TxuB3CgA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-rTI9JPvDMF2LmQmL59nwZw-1; Wed, 24 Feb 2021 05:59:04 -0500
-X-MC-Unique: rTI9JPvDMF2LmQmL59nwZw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12860193579B
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:59:04 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-113-99.ams2.redhat.com
- [10.36.113.99])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 083E26F929;
- Wed, 24 Feb 2021 10:59:02 +0000 (UTC)
-Subject: Re: [PATCH] libqos/qgraph: format qgraph comments for sphinx
- documentation
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210224101810.52851-1-eesposit@redhat.com>
- <ec53c449-b719-07cf-0993-352bdbd32725@redhat.com>
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-Message-ID: <919d2c24-92f8-53e8-5598-97166add3083@redhat.com>
-Date: Wed, 24 Feb 2021 11:59:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lErwl-00036j-AM
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 06:03:11 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:37554)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lErwf-00064k-Us
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 06:03:10 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id v15so1464995wrx.4
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 03:03:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:message-id
+ :in-reply-to:mime-version:content-transfer-encoding;
+ bh=xm97YyC5DL1yFKCov0qNnos1ZXOGM8OcYyxp1IVEiI4=;
+ b=DdkrA0OaE3oErJkNbzrLDvigMEum+t4Z1QXDjaKgiXNIA5XD48alrvytrh13mp01Ly
+ Mxd0u6GnynNwZQjiPJD03R72ncmiQz3hpf6UPA3emQoVL/jugArCTkKXWaGJmkhYvnF1
+ hAiO0Q8HvATqt2ugX8n2rFoiNBruG9+r7tbrbW+mqPkgSeLHKWzLHmdcOMTavLXPT2Ac
+ SBApP0bUP4ftwEnWmRU7H8XTHizcrCfdAegn+ui4Q6ESpR4dETlaeefm4RHF+lFwKJWG
+ n8ou73RdOeRTofz5uGSHm5jk302EYcK9bcdcZonZFwCaOpkB2l8tTMNZ2ySx/J0a7cSg
+ FyUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :message-id:in-reply-to:mime-version:content-transfer-encoding;
+ bh=xm97YyC5DL1yFKCov0qNnos1ZXOGM8OcYyxp1IVEiI4=;
+ b=R3pnvxRM9eWP10MNiM0qeAD1vyoEyt1rvmlTkFrMBKrsxEUl3guDe03gVsTAuhccXD
+ dL1prSnKNwHIV6hIGZnZhXFzWnLa4Hjol8GJu45OaX+0Wuft0Sf3JNEMZW8wb1aF96lt
+ VfUwtb+uo93l0u2Jchlc0H4h5b2ZxjUg9UGF/T4g9y50JaVz+5SMg7ssjsp6UaJq/8lL
+ IEveEWGshr2RPj1sMkTVED4/OplruTH6DriqS5HOhVQTY8c5/+XtkhToEGtmY/DDqKJ/
+ xQFOPoNqdKt5wdOMDw8g2TsRd0JwpAuW8e88OblSLLEwfSylwgbIebMJHTO9dSKETPYi
+ zvdQ==
+X-Gm-Message-State: AOAM532sZuTkNL90VRTYhhlAGotJ74QkNVzCWeFKyr9CHUbpG/7IWJTO
+ XRWa1Dcai+Z2UaarakThEFRb4B8ZqdB+oA==
+X-Google-Smtp-Source: ABdhPJwswjOMeQsxpmMedJ5Qx1KjsFrsABuZ2kFFhc7O7yua1zkEsSVbjFzPXkTuKk+Wf4JkdHkxkg==
+X-Received: by 2002:adf:e68d:: with SMTP id r13mr30416558wrm.303.1614164581107; 
+ Wed, 24 Feb 2021 03:03:01 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id l22sm2959599wrb.4.2021.02.24.03.03.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 03:03:00 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A08E01FF7E;
+ Wed, 24 Feb 2021 11:02:59 +0000 (GMT)
+References: <20210223095931.16908-1-alex.bennee@linaro.org>
+ <8d149371-56d2-9b91-5b2a-857237ae6823@suse.de>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Claudio Fontana <cfontana@suse.de>
+Subject: Re: [PATCH] docs: move CODING_STYLE into the developer documentation
+Date: Wed, 24 Feb 2021 11:01:56 +0000
+Message-ID: <87pn0pbuej.fsf@linaro.org>
+In-reply-to: <8d149371-56d2-9b91-5b2a-857237ae6823@suse.de>
 MIME-Version: 1.0
-In-Reply-To: <ec53c449-b719-07cf-0993-352bdbd32725@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eesposit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 24 Feb 2021 08:17:37 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -86,74 +87,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Claudio Fontana <cfontana@suse.de> writes:
 
-On 24/02/2021 11:49, Paolo Bonzini wrote:
-> On 24/02/21 11:18, Emanuele Giuseppe Esposito wrote:
->>     qtest
->> +   qgraph
-> 
-> It may make sense to add instead a "toctree" directive in qtest.rst.  I 
-> haven't checked what the result looks like, though.
+> On 2/23/21 10:59 AM, Alex Benn=C3=A9e wrote:
+>> There is no particular reason to keep this on it's own in the root of
+>> the tree. Move it into the rest of the fine developer manual and fixup
+>> any links to it. The only tweak I've made is to fix the code-block
+>> annotations to mention the language C.
+>>=20
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> Reviewed-by: Claudio Fontana <cfontana@suse.de>
+>
+> Are there pointers in wiki.qemu.org that need updating?
 
-Current result is
+The Contribute/StartHere wiki page redirects to Contribute but I guess
+it would be better to move some of that content either to the devel
+manual or the website.
 
-- QTest Device Emulation Testing Framework
-- Qtest Driver Framework
+>
+>
+>> ---
+>>  docs/devel/index.rst                     | 1 +
+>>  CODING_STYLE.rst =3D> docs/devel/style.rst | 6 +++---
+>>  README.rst                               | 4 +++-
+>>  scripts/fix-multiline-comments.sh        | 2 +-
+>>  4 files changed, 8 insertions(+), 5 deletions(-)
+>>  rename CODING_STYLE.rst =3D> docs/devel/style.rst (99%)
+>>=20
+>> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+>> index 22854e334d..ae664da00c 100644
+>> --- a/docs/devel/index.rst
+>> +++ b/docs/devel/index.rst
+>> @@ -14,6 +14,7 @@ Contents:
+>>     :maxdepth: 2
+>>=20=20
+>>     build-system
+>> +   style
+>>     kconfig
+>>     testing
+>>     fuzzing
+>> diff --git a/CODING_STYLE.rst b/docs/devel/style.rst
+>> similarity index 99%
+>> rename from CODING_STYLE.rst
+>> rename to docs/devel/style.rst
+>> index 7bf4e39d48..8b0bdb3570 100644
+>> --- a/CODING_STYLE.rst
+>> +++ b/docs/devel/style.rst
+>> @@ -641,7 +641,7 @@ trace-events style
+>>=20=20
+>>  In trace-events files, use a '0x' prefix to specify hex numbers, as in:
+>>=20=20
+>> -.. code-block::
+>> +.. code-block:: c
+>>=20=20
+>>      some_trace(unsigned x, uint64_t y) "x 0x%x y 0x" PRIx64
+>>=20=20
+>> @@ -649,14 +649,14 @@ An exception is made for groups of numbers that ar=
+e hexadecimal by
+>>  convention and separated by the symbols '.', '/', ':', or ' ' (such as
+>>  PCI bus id):
+>>=20=20
+>> -.. code-block::
+>> +.. code-block:: c
+>>=20=20
+>>      another_trace(int cssid, int ssid, int dev_num) "bus id: %x.%x.%04x"
+>>=20=20
+>>  However, you can use '0x' for such groups if you want. Anyway, be sure =
+that
+>>  it is obvious that numbers are in hex, ex.:
+>>=20=20
+>> -.. code-block::
+>> +.. code-block:: c
+>>=20=20
+>>      data_dump(uint8_t c1, uint8_t c2, uint8_t c3) "bytes (in hex): %02x=
+ %02x %02x"
+>>=20=20
+>> diff --git a/README.rst b/README.rst
+>> index ce39d89077..f5d41e59b1 100644
+>> --- a/README.rst
+>> +++ b/README.rst
+>> @@ -66,7 +66,9 @@ When submitting patches, one common approach is to use=
+ 'git
+>>  format-patch' and/or 'git send-email' to format & send the mail to the
+>>  qemu-devel@nongnu.org mailing list. All patches submitted must contain
+>>  a 'Signed-off-by' line from the author. Patches should follow the
+>> -guidelines set out in the CODING_STYLE.rst file.
+>> +guidelines set out in the `style section
+>> +<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
+>> +the Developers Guide.
+>>=20=20
+>>  Additional information on submitting patches can be found online via
+>>  the QEMU website
+>> diff --git a/scripts/fix-multiline-comments.sh b/scripts/fix-multiline-c=
+omments.sh
+>> index 93f9b10669..c15a041272 100755
+>> --- a/scripts/fix-multiline-comments.sh
+>> +++ b/scripts/fix-multiline-comments.sh
+>> @@ -1,6 +1,6 @@
+>>  #! /bin/sh
+>>  #
+>> -# Fix multiline comments to match CODING_STYLE
+>> +# Fix multiline comments to match docs/devel/style.rst
+>>  #
+>>  # Copyright (C) 2018 Red Hat, Inc.
+>>  #
+>>=20
 
-but I agree, maybe with an internal toctree in qtest.rst it will be 
-clearer. I'll try.
 
-> 
->> + * DOC: Qtest Driver Framework
-> 
-> Is this needed since you have the heading already in qgraph.rst?
-
-No, sorry I was experimenting and looking at qtest.rst
-I forgot to remove it
-
-> 
-> (Also, the whole section could move to qgraph.rst.  This is what was 
-> done with qom.rst for example).
-
-Ok makes sense.
-
-> 
->> + * More specifically:
->> + *
->> + * .. code::
->> + *
->> + *   x86_64/pc -->contains--> other_node <--consumes-- my_driver
->> + *                                                         |
-> 
-> You can end a paragraph with "::", and the following block will 
-> automatically become monospaced.
-> 
-> Also "-->contains-->" has an extra ">" sign.
-> 
->> + * ``"-netdev something -device my_node,addr=04.0 -device other"``
-> 
-> Maybe the quotes can be removed since you have monospaced text.
-> 
-> The main issue with the text overall is that it was written before 
-> having experience with developing QGraph drivers and interfaces.  It's 
-> already a good thing to have it in the manual, so the smallest possible 
-> change (as you did in this patch) is already an improvement.
-> 
-> However, it would also be nice to replace the examples with something 
-> more "real world", based on the code in tests/qtest.
-
-I will try to use better examples and post v2, thank you for the feedback.
-
-Emanuele
-> 
-> Thanks!
-> 
-> Paolo
-> 
-
+--=20
+Alex Benn=C3=A9e
 
