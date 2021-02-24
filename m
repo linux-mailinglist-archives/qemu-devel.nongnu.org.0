@@ -2,90 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECA0A323A39
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 11:12:33 +0100 (CET)
-Received: from localhost ([::1]:48124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF241323A4B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 11:16:32 +0100 (CET)
+Received: from localhost ([::1]:50338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEr9k-0002cP-W9
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 05:12:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33888)
+	id 1lErDb-0003gn-QC
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 05:16:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEr8e-0002Cl-NA
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:11:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59726)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lErBx-0003Be-BW
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:14:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41292)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEr8Z-0008I0-Si
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:11:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lErBv-0001ID-UT
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 05:14:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614161477;
+ s=mimecast20190719; t=1614161687;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=igppCznv1W52kcu7K+03F6tz7Lyxh2RbpPo9VBd3sqc=;
- b=ALr1dC33S1WpKsLun/4Jh8txePu1LJJYCN01Tiv8yCjv20yXU9smjOeLhTOuKQlkCHEKdh
- /+0uk0got/Nrg7Ua+8V7THAMWYfzXGZZrupkbwp+vXygFsQR4TIQBuo6DlHdCx+6ehE9sC
- gXMG7jbMA/tZTWL1UpF2P1VUBI/SVZE=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-YodsPgssNSuyAusD-5ByBQ-1; Wed, 24 Feb 2021 05:11:15 -0500
-X-MC-Unique: YodsPgssNSuyAusD-5ByBQ-1
-Received: by mail-wr1-f71.google.com with SMTP id g5so807851wrd.22
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 02:11:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=igppCznv1W52kcu7K+03F6tz7Lyxh2RbpPo9VBd3sqc=;
- b=gwDKZxzLCjsOSjPfiHTGe4DCJDvNlJBx9YvcGjUSUizSuxBanu7Hhn8ijKt8V/E6tu
- 2WL3fILC9I9l6g+vAQrKPmfMk9Aw9qs2J/q1JILNXOvUdkqnvM6agMneLVkIhpv8Ndtv
- 6jyLhgpFAAiPhjyUPydJsk2c6pNomU3LbSGS6vlczGGtqiNn2tGAbXcsPnCx/uDSB/aK
- RWdfogvqkLdHewla5OM9ysCBYpHhqX4Wpos0eYImt78i1p1oesXqgYnm+y5drtZPfmwe
- b2GQvmm24gnX2ymDxpKT0mqA3dK59zBMEyK7sJvKmSEqpaHA4pEBFsugi8OR+6OUqf1T
- iXwA==
-X-Gm-Message-State: AOAM530G1sANgYRq5uNSBvaXoh26yZs/v8ENT4Wr2XTPP5CsMqKlHhTM
- 9vRigQgX8TsWTmFl6EZcwaubmbnwoPoVY2joHq1S0xgyAX03LM8cw0mZgKqoHEhuEcHhXIEJ+HM
- 0cB0dG6Wj8M2o75k=
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr3018190wmk.80.1614161474399; 
- Wed, 24 Feb 2021 02:11:14 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpIzcYcGVYKNpExnfwTXbaXLR4Prgs4auqBT/BUKg/n85pwXg5yUZZ618mbrgYbjoTmRiyQw==
-X-Received: by 2002:a7b:c76a:: with SMTP id x10mr3018177wmk.80.1614161474227; 
- Wed, 24 Feb 2021 02:11:14 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id d7sm2460381wrm.62.2021.02.24.02.11.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 02:11:13 -0800 (PST)
-Subject: Re: [PATCH 1/6] net: introduce qemu_receive_packet()
-To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
-References: <20210224055401.492407-1-jasowang@redhat.com>
- <20210224055401.492407-2-jasowang@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9e432ff0-793e-64a7-97f3-ff3a374ee98f@redhat.com>
-Date: Wed, 24 Feb 2021 11:11:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4EBnZv4L3vq+WNCnjXD6sb+RlgjEo0Wn3cB7kpqsLJo=;
+ b=bCwjEencPR9vg4nVXlO6EpytnnI7pIZWkiwA8Zh64vv8Y6w/+qUw7KBV4zYdsuZp5Fvo6i
+ bv+QKWM9ulmEb2JVh8cvMBeHdtI07wr5cDnxVDJ4cDwkZMyqwHls5dDVpd/NlPa6HMYKsa
+ cY5Alb9I6tBlaJodkav1xmFg5J79HL8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-11-8FHkfvdZMc6iXHZXV2yhzg-1; Wed, 24 Feb 2021 05:14:45 -0500
+X-MC-Unique: 8FHkfvdZMc6iXHZXV2yhzg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C8AB801984;
+ Wed, 24 Feb 2021 10:14:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C51C3828;
+ Wed, 24 Feb 2021 10:14:44 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C016B113860F; Wed, 24 Feb 2021 11:14:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qapi: Fix parse errors for removal of null from schema
+ language
+Date: Wed, 24 Feb 2021 11:14:42 +0100
+Message-Id: <20210224101442.1837475-1-armbru@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210224055401.492407-2-jasowang@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,38 +77,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Security <qemu-security@nongnu.org>, ppandit@redhat.com
+Cc: michael.roth@amd.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 6:53 AM, Jason Wang wrote:
-> Some NIC supports loopback mode and this is done by calling
-> nc->info->receive() directly which in fact suppresses the effort of
-> reentrancy check that is done in qemu_net_queue_send().
-> 
-> Unfortunately we can use qemu_net_queue_send() here since for loop
-> back there's no sender as peer, so this patch introduce a
-> qemu_receive_packet() which is used for implementing loopback mode
-> for a NIC with this check.
+Commit 9d55380b5a "qapi: Remove null from schema language" (v4.2.0)
+neglected to update two error messages.  Do that now.
 
-IIUC the guest could trigger an infinite loop and brick the emulated
-device model. Likely exhausting the stack, so either SEGV by
-corruption or some ENOMEM?
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+---
+ scripts/qapi/parser.py                    | 8 ++++----
+ tests/qapi-schema/leading-comma-list.err  | 2 +-
+ tests/qapi-schema/trailing-comma-list.err | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-Since this is guest triggerable, shouldn't we contact qemu-security@
-list and ask for a CVE for this issue, so distributions can track
-the patches to backport in their stable releases? (it seems to be
-within the KVM devices boundary).
-
-> 
-> NIC that supports loopback mode will be converted to this helper.
-> 
-> Signed-off-by: Jason Wang <jasowang@redhat.com>
-> ---
->  include/net/net.h   |  5 +++++
->  include/net/queue.h |  8 ++++++++
->  net/net.c           | 38 +++++++++++++++++++++++++++++++-------
->  net/queue.c         | 22 ++++++++++++++++++++++
->  4 files changed, 66 insertions(+), 7 deletions(-)
+diff --git a/scripts/qapi/parser.py b/scripts/qapi/parser.py
+index e7b9d670ad..116afe549a 100644
+--- a/scripts/qapi/parser.py
++++ b/scripts/qapi/parser.py
+@@ -236,9 +236,9 @@ def get_values(self):
+         if self.tok == ']':
+             self.accept()
+             return expr
+-        if self.tok not in "{['tfn":
++        if self.tok not in "{['tf":
+             raise QAPIParseError(
+-                self, "expected '{', '[', ']', string, boolean or 'null'")
++                self, "expected '{', '[', ']', string, or boolean")
+         while True:
+             expr.append(self.get_expr(True))
+             if self.tok == ']':
+@@ -257,12 +257,12 @@ def get_expr(self, nested):
+         elif self.tok == '[':
+             self.accept()
+             expr = self.get_values()
+-        elif self.tok in "'tfn":
++        elif self.tok in "'tf":
+             expr = self.val
+             self.accept()
+         else:
+             raise QAPIParseError(
+-                self, "expected '{', '[', string, boolean or 'null'")
++                self, "expected '{', '[', string, or boolean")
+         return expr
+ 
+     def get_doc(self, info):
+diff --git a/tests/qapi-schema/leading-comma-list.err b/tests/qapi-schema/leading-comma-list.err
+index 76eed2b5b3..0725d6529f 100644
+--- a/tests/qapi-schema/leading-comma-list.err
++++ b/tests/qapi-schema/leading-comma-list.err
+@@ -1 +1 @@
+-leading-comma-list.json:2:13: expected '{', '[', ']', string, boolean or 'null'
++leading-comma-list.json:2:13: expected '{', '[', ']', string, or boolean
+diff --git a/tests/qapi-schema/trailing-comma-list.err b/tests/qapi-schema/trailing-comma-list.err
+index ad2f2d7c97..bb5f8c3c90 100644
+--- a/tests/qapi-schema/trailing-comma-list.err
++++ b/tests/qapi-schema/trailing-comma-list.err
+@@ -1 +1 @@
+-trailing-comma-list.json:2:36: expected '{', '[', string, boolean or 'null'
++trailing-comma-list.json:2:36: expected '{', '[', string, or boolean
+-- 
+2.26.2
 
 
