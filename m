@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D28893239F4
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 10:56:10 +0100 (CET)
-Received: from localhost ([::1]:49666 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB24323A10
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 10:59:32 +0100 (CET)
+Received: from localhost ([::1]:57454 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEqtt-0007d5-RA
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 04:56:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56774)
+	id 1lEqx9-0002gB-4Q
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 04:59:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqoa-0002Rw-Tc
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21210)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqop-0002Yw-2x
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38923)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqoY-0007a7-Ok
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:40 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lEqom-0007l9-Ck
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:50:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614160238;
+ s=mimecast20190719; t=1614160251;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rmkkhm0ffTmMwQd+jFHn8rEZGsxxDfmeSVq/4DleMLE=;
- b=U4uDsKC7Bq4K9FLk3MYt8odRam0JcRY96Dv8DxCaQJv5w3+xmjeu/l+USbjo9+c+Kq8VVV
- siplcyxMubYWl94Kdk3yUs5F+UoXLoyPuJZj6g8BjFYLnrdo6J4wrfDOUMXWam5mMfIq2H
- 1l/9uzrWQE1lTu/+tOPGiObQAk4NN8A=
+ bh=XrJ/bidZlqQwk0smX8dhOQfv0hTmtWPFfiwZd8eyEnA=;
+ b=WTrR3xsap+zJ9f0FoZTo4N750pUZsr7+lCgB/FVbn3/PamwU+YsovDvjFJATwDfZizI3FY
+ Qpj6nFVy5xoeD1a1DTQF4CSwtpKmGz+Pz54djJCFlMDM2zE39OA6dOQtdWIAao3i5C51Xg
+ 8/gX/vpZJUnao2JQoD6DPD2fD2bxtoI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-U0Z5cE9fNn2xDYGBFthO8w-1; Wed, 24 Feb 2021 04:50:36 -0500
-X-MC-Unique: U0Z5cE9fNn2xDYGBFthO8w-1
+ us-mta-326-AG-O5y7_PnWIvBZgA_f3Ug-1; Wed, 24 Feb 2021 04:50:50 -0500
+X-MC-Unique: AG-O5y7_PnWIvBZgA_f3Ug-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 42328814304;
- Wed, 24 Feb 2021 09:50:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D4652100A8EA;
+ Wed, 24 Feb 2021 09:50:48 +0000 (UTC)
 Received: from t480s.redhat.com (ovpn-114-83.ams2.redhat.com [10.36.114.83])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1FD816F7E9;
- Wed, 24 Feb 2021 09:50:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 931466F7E9;
+ Wed, 24 Feb 2021 09:50:35 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 06/13] vfio: Support for RamDiscardManager in the !vIOMMU
- case
-Date: Wed, 24 Feb 2021 10:49:02 +0100
-Message-Id: <20210224094910.44986-7-david@redhat.com>
+Subject: [PATCH v7 07/13] vfio: Query and store the maximum number of possible
+ DMA mappings
+Date: Wed, 24 Feb 2021 10:49:03 +0100
+Message-Id: <20210224094910.44986-8-david@redhat.com>
 In-Reply-To: <20210224094910.44986-1-david@redhat.com>
 References: <20210224094910.44986-1-david@redhat.com>
 MIME-Version: 1.0
@@ -88,15 +88,10 @@ Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement support for RamDiscardManager, to prepare for virtio-mem
-support. Instead of mapping the whole memory section, we only map
-"populated" parts and update the mapping when notified about
-discarding/population of memory via the RamDiscardListener. Similarly, when
-syncing the dirty bitmaps, sync only the actually mapped (populated) parts
-by replaying via the notifier.
-
-Using virtio-mem with vfio is still blocked via
-ram_block_discard_disable()/ram_block_discard_require() after this patch.
+Let's query the maximum number of possible DMA mappings by querying the
+available mappings when creating the container (before any mappings are
+created). We'll use this informaton soon to perform some sanity checks
+and warn the user.
 
 Reviewed-by: Alex Williamson <alex.williamson@redhat.com>
 Acked-by: Alex Williamson <alex.williamson@redhat.com>
@@ -114,249 +109,45 @@ Cc: teawater <teawaterz@linux.alibaba.com>
 Cc: Marek Kedzierski <mkedzier@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- hw/vfio/common.c              | 164 ++++++++++++++++++++++++++++++++++
- include/hw/vfio/vfio-common.h |  11 +++
- 2 files changed, 175 insertions(+)
+ hw/vfio/common.c              | 4 ++++
+ include/hw/vfio/vfio-common.h | 1 +
+ 2 files changed, 5 insertions(+)
 
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 6ff1daa763..5788bf6b6e 100644
+index 5788bf6b6e..2f20075b8c 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -654,6 +654,110 @@ out:
-     rcu_read_unlock();
- }
- 
-+static void vfio_ram_discard_notify_discard(RamDiscardListener *rdl,
-+                                            MemoryRegionSection *section)
-+{
-+    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
-+                                                listener);
-+    const hwaddr size = int128_get64(section->size);
-+    const hwaddr iova = section->offset_within_address_space;
-+    int ret;
-+
-+    /* Unmap with a single call. */
-+    ret = vfio_dma_unmap(vrdl->container, iova, size , NULL);
-+    if (ret) {
-+        error_report("%s: vfio_dma_unmap() failed: %s", __func__,
-+                     strerror(-ret));
-+    }
-+}
-+
-+static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
-+                                            MemoryRegionSection *section)
-+{
-+    VFIORamDiscardListener *vrdl = container_of(rdl, VFIORamDiscardListener,
-+                                                listener);
-+    const hwaddr end = section->offset_within_region +
-+                       int128_get64(section->size);
-+    hwaddr start, next, iova;
-+    void *vaddr;
-+    int ret;
-+
-+    /*
-+     * Map in (aligned within memory region) minimum granularity, so we can
-+     * unmap in minimum granularity later.
-+     */
-+    for (start = section->offset_within_region; start < end; start = next) {
-+        next = ROUND_UP(start + 1, vrdl->granularity);
-+        next = MIN(next, end);
-+
-+        iova = start - section->offset_within_region +
-+               section->offset_within_address_space;
-+        vaddr = memory_region_get_ram_ptr(section->mr) + start;
-+
-+        ret = vfio_dma_map(vrdl->container, iova, next - start,
-+                           vaddr, section->readonly);
-+        if (ret) {
-+            /* Rollback */
-+            vfio_ram_discard_notify_discard(rdl, section);
-+            return ret;
-+        }
-+    }
-+    return 0;
-+}
-+
-+static void vfio_register_ram_discard_listener(VFIOContainer *container,
-+                                               MemoryRegionSection *section)
-+{
-+    RamDiscardManager *rdm = memory_region_get_ram_discard_manager(section->mr);
-+    VFIORamDiscardListener *vrdl;
-+
-+    /* Ignore some corner cases not relevant in practice. */
-+    g_assert(QEMU_IS_ALIGNED(section->offset_within_region, TARGET_PAGE_SIZE));
-+    g_assert(QEMU_IS_ALIGNED(section->offset_within_address_space,
-+                             TARGET_PAGE_SIZE));
-+    g_assert(QEMU_IS_ALIGNED(int128_get64(section->size), TARGET_PAGE_SIZE));
-+
-+    vrdl = g_new0(VFIORamDiscardListener, 1);
-+    vrdl->container = container;
-+    vrdl->mr = section->mr;
-+    vrdl->offset_within_address_space = section->offset_within_address_space;
-+    vrdl->size = int128_get64(section->size);
-+    vrdl->granularity = ram_discard_manager_get_min_granularity(rdm,
-+                                                                section->mr);
-+
-+    g_assert(vrdl->granularity && is_power_of_2(vrdl->granularity));
-+    g_assert(vrdl->granularity >= 1 << ctz64(container->pgsizes));
-+
-+    ram_discard_listener_init(&vrdl->listener,
-+                              vfio_ram_discard_notify_populate,
-+                              vfio_ram_discard_notify_discard, true);
-+    ram_discard_manager_register_listener(rdm, &vrdl->listener, section);
-+    QLIST_INSERT_HEAD(&container->vrdl_list, vrdl, next);
-+}
-+
-+static void vfio_unregister_ram_discard_listener(VFIOContainer *container,
-+                                                 MemoryRegionSection *section)
-+{
-+    RamDiscardManager *rdm = memory_region_get_ram_discard_manager(section->mr);
-+    VFIORamDiscardListener *vrdl = NULL;
-+
-+    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
-+        if (vrdl->mr == section->mr &&
-+            vrdl->offset_within_address_space ==
-+            section->offset_within_address_space) {
-+            break;
-+        }
-+    }
-+
-+    if (!vrdl) {
-+        hw_error("vfio: Trying to unregister missing RAM discard listener");
-+    }
-+
-+    ram_discard_manager_unregister_listener(rdm, &vrdl->listener);
-+    QLIST_REMOVE(vrdl, next);
-+    g_free(vrdl);
-+}
-+
- static void vfio_listener_region_add(MemoryListener *listener,
-                                      MemoryRegionSection *section)
- {
-@@ -814,6 +918,16 @@ static void vfio_listener_region_add(MemoryListener *listener,
- 
-     /* Here we assume that memory_region_is_ram(section->mr)==true */
- 
-+    /*
-+     * For RAM memory regions with a RamDiscardManager, we only want to map the
-+     * actually populated parts - and update the mapping whenever we're notified
-+     * about changes.
-+     */
-+    if (memory_region_has_ram_discard_manager(section->mr)) {
-+        vfio_register_ram_discard_listener(container, section);
-+        return;
-+    }
-+
-     vaddr = memory_region_get_ram_ptr(section->mr) +
-             section->offset_within_region +
-             (iova - section->offset_within_address_space);
-@@ -950,6 +1064,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
- 
-         pgmask = (1ULL << ctz64(hostwin->iova_pgsizes)) - 1;
-         try_unmap = !((iova & pgmask) || (int128_get64(llsize) & pgmask));
-+    } else if (memory_region_has_ram_discard_manager(section->mr)) {
-+        vfio_unregister_ram_discard_listener(container, section);
-+        /* Unregistering will trigger an unmap. */
-+        try_unmap = false;
-     }
- 
-     if (try_unmap) {
-@@ -1077,6 +1195,49 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
-     rcu_read_unlock();
- }
- 
-+static int vfio_ram_discard_get_dirty_bitmap(MemoryRegionSection *section,
-+                                             void *opaque)
-+{
-+    const hwaddr size = int128_get64(section->size);
-+    const hwaddr iova = section->offset_within_address_space;
-+    const ram_addr_t ram_addr = memory_region_get_ram_addr(section->mr) +
-+                                section->offset_within_region;
-+    VFIORamDiscardListener *vrdl = opaque;
-+
-+    /*
-+     * Sync the whole mapped region (spanning multiple individual mappings)
-+     * in one go.
-+     */
-+    return vfio_get_dirty_bitmap(vrdl->container, iova, size, ram_addr);
-+}
-+
-+static int vfio_sync_ram_discard_listener_dirty_bitmap(VFIOContainer *container,
-+                                                   MemoryRegionSection *section)
-+{
-+    RamDiscardManager *rdm = memory_region_get_ram_discard_manager(section->mr);
-+    VFIORamDiscardListener *vrdl = NULL;
-+
-+    QLIST_FOREACH(vrdl, &container->vrdl_list, next) {
-+        if (vrdl->mr == section->mr &&
-+            vrdl->offset_within_address_space ==
-+            section->offset_within_address_space) {
-+            break;
-+        }
-+    }
-+
-+    if (!vrdl) {
-+        hw_error("vfio: Trying to sync missing RAM discard listener");
-+    }
-+
-+    /*
-+     * We only want/can synchronize the bitmap for actually mapped parts -
-+     * which correspond to populated parts. Replay all populated parts.
-+     */
-+    return ram_discard_manager_replay_populated(rdm, section,
-+                                              vfio_ram_discard_get_dirty_bitmap,
-+                                                &vrdl);
-+}
-+
- static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-                                   MemoryRegionSection *section)
- {
-@@ -1108,6 +1269,8 @@ static int vfio_sync_dirty_bitmap(VFIOContainer *container,
-             }
-         }
-         return 0;
-+    } else if (memory_region_has_ram_discard_manager(section->mr)) {
-+        return vfio_sync_ram_discard_listener_dirty_bitmap(container, section);
-     }
- 
-     ram_addr = memory_region_get_ram_addr(section->mr) +
-@@ -1737,6 +1900,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+@@ -1898,6 +1898,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     container->fd = fd;
+     container->error = NULL;
      container->dirty_pages_supported = false;
++    container->dma_max_mappings = 0;
      QLIST_INIT(&container->giommu_list);
      QLIST_INIT(&container->hostwin_list);
-+    QLIST_INIT(&container->vrdl_list);
+     QLIST_INIT(&container->vrdl_list);
+@@ -1929,7 +1930,10 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+         vfio_host_win_add(container, 0, (hwaddr)-1, info->iova_pgsizes);
+         container->pgsizes = info->iova_pgsizes;
  
-     ret = vfio_init_container(container, group->fd, errp);
-     if (ret) {
++        /* The default in the kernel ("dma_entry_limit") is 65535. */
++        container->dma_max_mappings = 65535;
+         if (!ret) {
++            vfio_get_info_dma_avail(info, &container->dma_max_mappings);
+             vfio_get_iommu_info_migration(container, info);
+         }
+         g_free(info);
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 6141162d7a..681432213d 100644
+index 681432213d..8af11b0a76 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -91,6 +91,7 @@ typedef struct VFIOContainer {
+@@ -88,6 +88,7 @@ typedef struct VFIOContainer {
+     uint64_t dirty_pgsizes;
+     uint64_t max_dirty_bitmap_size;
+     unsigned long pgsizes;
++    unsigned int dma_max_mappings;
      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
      QLIST_HEAD(, VFIOGroup) group_list;
-+    QLIST_HEAD(, VFIORamDiscardListener) vrdl_list;
-     QLIST_ENTRY(VFIOContainer) next;
- } VFIOContainer;
- 
-@@ -102,6 +103,16 @@ typedef struct VFIOGuestIOMMU {
-     QLIST_ENTRY(VFIOGuestIOMMU) giommu_next;
- } VFIOGuestIOMMU;
- 
-+typedef struct VFIORamDiscardListener {
-+    VFIOContainer *container;
-+    MemoryRegion *mr;
-+    hwaddr offset_within_address_space;
-+    hwaddr size;
-+    uint64_t granularity;
-+    RamDiscardListener listener;
-+    QLIST_ENTRY(VFIORamDiscardListener) next;
-+} VFIORamDiscardListener;
-+
- typedef struct VFIOHostDMAWindow {
-     hwaddr min_iova;
-     hwaddr max_iova;
 -- 
 2.29.2
 
