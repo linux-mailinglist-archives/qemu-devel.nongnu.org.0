@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4293240E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:41:15 +0100 (CET)
-Received: from localhost ([::1]:57884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3812C3240E6
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:42:14 +0100 (CET)
+Received: from localhost ([::1]:60068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEwHq-0001W2-9c
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:41:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47970)
+	id 1lEwIn-0002WT-7I
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:42:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1lEwG0-0000fV-Jw; Wed, 24 Feb 2021 10:39:21 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2192)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shameerali.kolothum.thodi@huawei.com>)
- id 1lEwFw-0002rJ-Bg; Wed, 24 Feb 2021 10:39:20 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.55])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4Dm0Qf6N5sz5Vhc;
- Wed, 24 Feb 2021 23:36:58 +0800 (CST)
-Received: from dggpemm100012.china.huawei.com (7.185.36.212) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Wed, 24 Feb 2021 23:38:59 +0800
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- dggpemm100012.china.huawei.com (7.185.36.212) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Wed, 24 Feb 2021 23:38:58 +0800
-Received: from lhreml710-chm.china.huawei.com ([169.254.81.184]) by
- lhreml710-chm.china.huawei.com ([169.254.81.184]) with mapi id
- 15.01.2106.006; Wed, 24 Feb 2021 15:38:56 +0000
-From: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-To: Auger Eric <eric.auger@redhat.com>, "eric.auger.pro@gmail.com"
- <eric.auger.pro@gmail.com>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, "alex.williamson@redhat.com"
- <alex.williamson@redhat.com>
-Subject: RE: [RFC v7 26/26] vfio/pci: Implement return_page_response page
- response callback
-Thread-Topic: [RFC v7 26/26] vfio/pci: Implement return_page_response page
- response callback
-Thread-Index: AQHWvEUTUiE9WTe+7E+ovBX+zyeIRqpeRGbwgAAIYwCAAA9WoIAAIHCAgAlxCQCAAB3dwA==
-Date: Wed, 24 Feb 2021 15:38:56 +0000
-Message-ID: <0c74eadade7b45c7b59cf38a205af396@huawei.com>
-References: <20201116181349.11908-1-eric.auger@redhat.com>
- <20201116181349.11908-27-eric.auger@redhat.com>
- <494e4bdf5ecd4b528a016d4545d45f71@huawei.com>
- <f11ef533-da64-3d6a-24f5-79d5e7a205da@redhat.com>
- <5f85d8999c0c40a29c32ac63b8730fa8@huawei.com>
- <679c5696-c73f-517d-f555-90ec2c767fbb@redhat.com>
- <41b9d3a2-1199-5dad-876b-10efa51638bb@redhat.com>
-In-Reply-To: <41b9d3a2-1199-5dad-876b-10efa51638bb@redhat.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.47.95.44]
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lEwGt-0001Oh-LM
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:40:16 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:39313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lEwGo-0003PA-Uo
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:40:15 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id k22so1410044pll.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 07:40:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=J4bnZAdQftAfJ26kYuwrdE5S9W5LqUVn/hzhaghzMEE=;
+ b=OdTt3CLD6l9vA7Z7QMsmtBad7pSOewcp+AfYeG26qly+ZB5p2vJ2iIUJudjWZ4OSHw
+ 6NckfSYZ7Cb/8XKsQEURanEWWij4Ce1THd372KFgwRaKCbVwvc+6vpse3fmIr3ZngnQr
+ F0m9MlF7nB5o9hcDAL8CBIzW3UkDJzmrgN7QuUefHgpuCZgbjc8fk/0U6R9YLBN4UepV
+ XMzUFwTxEiVUOWru2aFWOw2V+g4eWp5D8XlGPH1MiA+vRk7P8QWrPYB5PePsAoMxTyeG
+ ZGFb2WQs7EgZvq855FL70ISmk8WnPExbpN8daKw0C6Rxe4BuAwLund3XCRwDXW+fikFc
+ JiEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=J4bnZAdQftAfJ26kYuwrdE5S9W5LqUVn/hzhaghzMEE=;
+ b=lB5fQY7mqnttaAPX3tIPL+6T8f1kFEOH4Ury0nH1ShJI+mHvDhzcYKw0hDqbiIpJAO
+ zivt0mcIk2vmQPRrVdPevaN6gPIyGU3QJqPpCS5uHHwQyqDJ9GTOL8P+E4KFc0sql+y3
+ QTef0gUrleM/YEfkZMMwyorrjR1WImCHlWvaWSifWa2uq9jdWZGuFdYxxOCSYFvErCC7
+ 9hE31FJdlgJBJXoM74U+eZakjBKucLcR5yYgMRAagT7rlvC+349KWcsEadCpz9Or0IsA
+ u0ndsNceZxvrPJLeCJwHNrjvPmKBSLjCwJ5t4nNhDXsJITdtW5zVYz53yxWbygSN3OnE
+ 7CZQ==
+X-Gm-Message-State: AOAM530RN+me4ChQEYUCDt2UFh3LGQb173RzIwij6ir4EpTzeRVBeUS/
+ JXgExzEbdeAun9uz2MPyET0PHg==
+X-Google-Smtp-Source: ABdhPJxAc2ipL86i2fpsbAFV3W9cqC5Y6ArEymdQg2XVFQONPNrCg/0JG2pluvwuBF4GnvOR36idNA==
+X-Received: by 2002:a17:90a:c84:: with SMTP id
+ v4mr5222336pja.228.1614181208770; 
+ Wed, 24 Feb 2021 07:40:08 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id 8sm3175300pjl.55.2021.02.24.07.40.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Feb 2021 07:40:08 -0800 (PST)
+Subject: Re: [PATCH v4 0/8] hw/sh4: Kconfig cleanups
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210222141514.2646278-1-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <a8f2c5e0-8546-4d94-21a8-6416f4c68718@linaro.org>
+Date: Wed, 24 Feb 2021 07:40:05 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=shameerali.kolothum.thodi@huawei.com; helo=szxga03-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210222141514.2646278-1-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,39 +88,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "jacob.jun.pan@linux.intel.com" <jacob.jun.pan@linux.intel.com>,
- "Zengtao \(B\)" <prime.zeng@hisilicon.com>,
- "jean-philippe@linaro.org" <jean-philippe@linaro.org>,
- "tn@semihalf.com" <tn@semihalf.com>, "peterx@redhat.com" <peterx@redhat.com>,
- "nicoleotsuka@gmail.com" <nicoleotsuka@gmail.com>,
- "vivek.gautam@arm.com" <vivek.gautam@arm.com>,
- "yi.l.liu@intel.com" <yi.l.liu@intel.com>,
- "zhangfei.gao@gmail.com" <zhangfei.gao@gmail.com>,
- yuzenghui <yuzenghui@huawei.com>, qubingbing <qubingbing@hisilicon.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-block@nongnu.org,
+ Magnus Damm <magnus.damm@gmail.com>, Max Reitz <mreitz@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SGkgRXJpYywNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBBdWdlciBF
-cmljIFttYWlsdG86ZXJpYy5hdWdlckByZWRoYXQuY29tXQ0KPiBTZW50OiAyNCBGZWJydWFyeSAy
-MDIxIDEzOjQ0DQo+IFRvOiBTaGFtZWVyYWxpIEtvbG90aHVtIFRob2RpIDxzaGFtZWVyYWxpLmtv
-bG90aHVtLnRob2RpQGh1YXdlaS5jb20+Ow0KPiBlcmljLmF1Z2VyLnByb0BnbWFpbC5jb207IHFl
-bXUtZGV2ZWxAbm9uZ251Lm9yZzsgcWVtdS1hcm1Abm9uZ251Lm9yZzsNCj4gYWxleC53aWxsaWFt
-c29uQHJlZGhhdC5jb20NCj4gQ2M6IHBldGVyLm1heWRlbGxAbGluYXJvLm9yZzsgamFjb2IuanVu
-LnBhbkBsaW51eC5pbnRlbC5jb207DQo+IHpoYW5nZmVpLmdhb0BnbWFpbC5jb207IGplYW4tcGhp
-bGlwcGVAbGluYXJvLm9yZzsgdG5Ac2VtaWhhbGYuY29tOw0KPiBwZXRlcnhAcmVkaGF0LmNvbTsg
-bmljb2xlb3RzdWthQGdtYWlsLmNvbTsgdml2ZWsuZ2F1dGFtQGFybS5jb207DQo+IHlpLmwubGl1
-QGludGVsLmNvbTsgWmVuZ3RhbyAoQikgPHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IHl1emVu
-Z2h1aQ0KPiA8eXV6ZW5naHVpQGh1YXdlaS5jb20+OyBxdWJpbmdiaW5nIDxxdWJpbmdiaW5nQGhp
-c2lsaWNvbi5jb20+DQo+IFN1YmplY3Q6IFJlOiBbUkZDIHY3IDI2LzI2XSB2ZmlvL3BjaTogSW1w
-bGVtZW50IHJldHVybl9wYWdlX3Jlc3BvbnNlIHBhZ2UNCj4gcmVzcG9uc2UgY2FsbGJhY2sNCj4g
-DQo+IEhpIFNoYW1lZXIsDQpbLi4uXQ0KIA0KPiBJIHNlbnQgdGhlIHJlc3BpbiBvbiB0b3Agb2Yg
-bWFzdGVyIGJyYW5jaCArIEplYW4tUGhpbGlwcGUncw0KPiBbUEFUQ0ggdjEyIDAwLzEwXSBpb21t
-dTogSS9PIHBhZ2UgZmF1bHRzIGZvciBTTU1VdjMuDQo+IGJlY2F1c2UgSSB0aG91Z2h0IGl0IG1h
-a2VzIG1vcmUgc2Vuc2UgdG8gcG9zdCBvbiBtYXN0ZXIgKyBzb21lIG5lYXJseQ0KPiAicmVhZHkg
-dG8gZ28iIHN0dWZmLg0KDQpZZXMuIEkgc2VlIHRoYXQuIFRoYW5rcyBmb3IgdGhlIHJlc3Bpbi4g
-V2lsbCB0YWtlIGEgbG9vayBhdCB0aGlzIHNvb24uDQoNCj4gDQo+IE5ldmVydGhlbGVzcyBJIHdp
-bGwgZG8gbXkgYmVzdCB0byBwcmVwYXJlIGFzYXAgYSBicmFuY2ggYmFzZWQgb24gSmVhbidzDQo+
-IHN2YS9jdXJyZW50IGJyYW5jaCAoYmFzZWQgb24gNS4xMS1yYzUpDQoNCk9rLg0KDQpDaGVlcnMs
-DQpTaGFtZWVyDQoNCg0K
+On 2/22/21 6:15 AM, Philippe Mathieu-Daudé wrote:
+> Philippe Mathieu-Daudé (8):
+>   hw/sh4: Add missing license
+>   hw/sh4: Add missing Kconfig dependency on SH7750 for the R2D board
+>   hw/intc: Introduce SH_INTC Kconfig entry
+>   hw/char: Introduce SH_SCI Kconfig entry
+>   hw/timer: Introduce SH_TIMER Kconfig entry
+>   hw/block: Introduce TC58128 eeprom Kconfig entry
+>   hw/pci-host: Introduce SH_PCI Kconfig entry
+>   hw/sh4: Remove now unused CONFIG_SH4 from Kconfig
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
