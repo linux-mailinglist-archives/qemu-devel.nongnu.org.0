@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD95F323E05
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:26:23 +0100 (CET)
-Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37729323E10
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:27:25 +0100 (CET)
+Received: from localhost ([::1]:45108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuBK-0003Hy-S1
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:26:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
+	id 1lEuCK-00046C-3t
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:27:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEtzD-0002m6-S1
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:13:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20113)
+ id 1lEtzW-0002yD-M5
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:14:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEtz5-00059c-75
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:13:48 -0500
+ id 1lEtzP-0005FO-2i
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:14:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614172422;
+ s=mimecast20190719; t=1614172441;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=AxBoh4lolgLfXpFW+Uw/kgKyoRvdfkcVOv8fk3PBqO8=;
- b=SjUrt9ySJOvaU0zIWM9WdiP/OGo98iNRfyiU1brAst6UMMXggjELn0WDG6wKyrRGRFIog/
- Mh6oLJy1lQwMH0IAdvspvXf4Sa7RWorMRAkDexxkGwVKfY8uW3T3CXgVW9q0qckZklrK3j
- 0J25DrGioA68m5lUz28QcvEy3jEn+10=
+ bh=xTve/5x2/EV6t3mZ3Zn08IRY9tClbftbIuM+d/X7uAY=;
+ b=g3GPWzMyG0hjYNEBSCp3kS8Rb8PemLEQ8syAtF6w7P/JhmyreH4xwKEY+irMKvVdweej+0
+ 3U+wK424oY/3GlpuJm+2n2gRF5iPap+Hz1mcsOG0N/Ni6tUx1ZaMU4rnxAVYjbxxaJGJGG
+ YEqusVswpyX3R+FMmJrdU7WjS5rWflU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-mb8b5Go_NM2pXsbyC09Z1A-1; Wed, 24 Feb 2021 08:13:39 -0500
-X-MC-Unique: mb8b5Go_NM2pXsbyC09Z1A-1
+ us-mta-325-axU1tYNPNyeVcTnyzdKXXw-1; Wed, 24 Feb 2021 08:14:00 -0500
+X-MC-Unique: axU1tYNPNyeVcTnyzdKXXw-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3519107ACE4;
- Wed, 24 Feb 2021 13:13:36 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 45F6818B613D;
+ Wed, 24 Feb 2021 13:13:58 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-119.ams2.redhat.com
  [10.36.115.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5AC591001281;
- Wed, 24 Feb 2021 13:13:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 57DCA1002388;
+ Wed, 24 Feb 2021 13:13:37 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/14] softmmu: remove '-usbdevice' command line option
-Date: Wed, 24 Feb 2021 13:11:32 +0000
-Message-Id: <20210224131142.1952027-5-berrange@redhat.com>
+Subject: [PATCH 05/14] migrate: remove QMP/HMP commands for speed,
+ downtime and cache size
+Date: Wed, 24 Feb 2021 13:11:33 +0000
+Message-Id: <20210224131142.1952027-6-berrange@redhat.com>
 In-Reply-To: <20210224131142.1952027-1-berrange@redhat.com>
 References: <20210224131142.1952027-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -58,14 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,129 +100,633 @@ Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This was replaced by the '-device usb-DEV' option.
+The generic 'migrate_set_parameters' command handle all types of param.
+
+Only the QMP commands were documented in the deprecations page, but the
+rationale for deprecating applies equally to HMP, and the replacements
+exist. Furthermore the HMP commands are just shims to the QMP commands,
+so removing the latter breaks the former unless they get re-implemented.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/system/deprecated.rst       |  9 -------
- docs/system/removed-features.rst |  9 +++++++
- softmmu/vl.c                     | 42 --------------------------------
- 3 files changed, 9 insertions(+), 51 deletions(-)
+ docs/devel/migration.rst            |  2 +-
+ docs/rdma.txt                       |  2 +-
+ docs/system/deprecated.rst          | 10 ---
+ docs/system/removed-features.rst    | 20 ++++++
+ docs/xbzrle.txt                     |  5 --
+ hmp-commands-info.hx                | 13 ----
+ hmp-commands.hx                     | 45 -------------
+ include/monitor/hmp.h               |  4 --
+ migration/migration.c               | 45 -------------
+ migration/ram.c                     |  2 +-
+ monitor/hmp-cmds.c                  | 34 ----------
+ qapi/migration.json                 | 98 -----------------------------
+ tests/migration/guestperf/engine.py | 16 ++---
+ tests/qemu-iotests/181              |  2 +-
+ tests/qtest/migration-test.c        | 48 --------------
+ tests/qtest/test-hmp.c              |  6 +-
+ tests/qtest/vhost-user-test.c       |  8 +--
+ 17 files changed, 40 insertions(+), 320 deletions(-)
 
+diff --git a/docs/devel/migration.rst b/docs/devel/migration.rst
+index ad381b89b2..19c3d4f3ea 100644
+--- a/docs/devel/migration.rst
++++ b/docs/devel/migration.rst
+@@ -641,7 +641,7 @@ time per vCPU.
+ 
+ .. note::
+   During the postcopy phase, the bandwidth limits set using
+-  ``migrate_set_speed`` is ignored (to avoid delaying requested pages that
++  ``migrate_set_parameter`` is ignored (to avoid delaying requested pages that
+   the destination is waiting for).
+ 
+ Postcopy device transfer
+diff --git a/docs/rdma.txt b/docs/rdma.txt
+index 49dc9f8bca..2b4cdea1d8 100644
+--- a/docs/rdma.txt
++++ b/docs/rdma.txt
+@@ -89,7 +89,7 @@ RUNNING:
+ First, set the migration speed to match your hardware's capabilities:
+ 
+ QEMU Monitor Command:
+-$ migrate_set_speed 40g # or whatever is the MAX of your RDMA device
++$ migrate_set_parameter max_bandwidth 40g # or whatever is the MAX of your RDMA device
+ 
+ Next, on the destination machine, add the following to the QEMU command line:
+ 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index 611adf60f7..c577cc97c4 100644
+index c577cc97c4..e214f0a9cf 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -21,15 +21,6 @@ deprecated.
- System emulator command line arguments
- --------------------------------------
+@@ -147,11 +147,6 @@ Use argument ``id`` instead.
  
--``-usbdevice`` (since 2.10.0)
--'''''''''''''''''''''''''''''
+ Use argument ``id`` instead.
+ 
+-``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 -
--The ``-usbdevice DEV`` argument is now a synonym for setting
--the ``-device usb-DEV`` argument instead. The deprecated syntax
--would automatically enable USB support on the machine type.
--If using the new syntax, USB support must be explicitly
--enabled via the ``-machine usb=on`` argument.
+-Use ``migrate-set-parameters`` instead.
 -
- ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
- '''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ ``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.0)
+ ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ 
+@@ -167,11 +162,6 @@ Always false.
+ 
+ Use argument value ``null`` instead.
+ 
+-``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11.0)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Use ``migrate-set-parameters`` and ``query-migrate-parameters`` instead.
+-
+ ``block-commit`` arguments ``base`` and ``top`` (since 3.1.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index dc63581fe5..74d022babf 100644
+index 74d022babf..2c5513dcc7 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -50,6 +50,15 @@ by the ``tls-authz`` and ``sasl-authz`` options.
- The ``pretty=on|off`` switch has no effect for HMP monitors and
- its use is rejected.
+@@ -85,6 +85,16 @@ Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
+ The ``query-events`` command has been superseded by the more powerful
+ and accurate ``query-qmp-schema`` command.
  
-+``-usbdevice`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''
++``migrate_set_cache_size`` and ``query-migrate-cache-size`` (removed in 6.0)
++''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
-+The ``-usbdevice DEV`` argument was now a synonym for setting
-+the ``-device usb-DEV`` argument instead. The removed syntax
-+would automatically enable USB support on the machine type.
-+When using the new syntax, USB support must be explicitly
-+enabled via the ``-machine usb=on`` argument.
++Use ``migrate_set_parameter`` and ``info migrate_parameters`` instead.
 +
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
++``migrate_set_downtime`` and ``migrate_set_speed`` (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use ``migrate_set_parameter`` instead.
++
+ Human Monitor Protocol (HMP) commands
+ -------------------------------------
  
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index b219ce1f35..c31061cc09 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -743,34 +743,6 @@ static void configure_msg(QemuOpts *opts)
+@@ -113,6 +123,16 @@ The ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, and
+ ``acl_remove`` commands were removed with no replacement. Authorization
+ for VNC should be performed using the pluggable QAuthZ objects.
+ 
++``migrate-set-cache-size`` and ``info migrate-cache-size`` (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use ``migrate-set-parameters`` and ``info migrate-parameters`` instead.
++
++``migrate_set_downtime`` and ``migrate_set_speed`` (removed in 6.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
++
++Use ``migrate-set-parameters`` instead.
++
+ Guest Emulator ISAs
+ -------------------
+ 
+diff --git a/docs/xbzrle.txt b/docs/xbzrle.txt
+index 6bd1828f34..bcb3f0c901 100644
+--- a/docs/xbzrle.txt
++++ b/docs/xbzrle.txt
+@@ -90,11 +90,6 @@ Usage
+ 
+ 3. Set the XBZRLE cache size - the cache size is in MBytes and should be a
+ power of 2. The cache default value is 64MBytes. (on source only)
+-    {qemu} migrate_set_cache_size 256m
+-
+-Commit 73af8dd8d7 "migration: Make xbzrle_cache_size a migration parameter"
+-(v2.11.0) deprecated migrate-set-cache-size, therefore, the new parameter
+-is recommended.
+     {qemu} migrate_set_parameter xbzrle-cache-size 256m
+ 
+ 4. Start outgoing migration
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 117ba25f91..ab0c7aa5ee 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -567,19 +567,6 @@ SRST
+     Show current migration parameters.
+ ERST
+ 
+-    {
+-        .name       = "migrate_cache_size",
+-        .args_type  = "",
+-        .params     = "",
+-        .help       = "show current migration xbzrle cache size",
+-        .cmd        = hmp_info_migrate_cache_size,
+-    },
+-
+-SRST
+-  ``info migrate_cache_size``
+-    Show current migration xbzrle cache size.
+-ERST
+-
+     {
+         .name       = "balloon",
+         .args_type  = "",
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index b500b8526d..2bbe133bb6 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -979,51 +979,6 @@ SRST
+   Pause an ongoing migration.  Currently it only supports postcopy.
+ ERST
+ 
+-    {
+-        .name       = "migrate_set_cache_size",
+-        .args_type  = "value:o",
+-        .params     = "value",
+-        .help       = "set cache size (in bytes) for XBZRLE migrations,"
+-                      "the cache size will be rounded down to the nearest "
+-                      "power of 2.\n"
+-                      "The cache size affects the number of cache misses."
+-                      "In case of a high cache miss ratio you need to increase"
+-                      " the cache size",
+-        .cmd        = hmp_migrate_set_cache_size,
+-    },
+-
+-SRST
+-``migrate_set_cache_size`` *value*
+-  Set cache size to *value* (in bytes) for xbzrle migrations.
+-ERST
+-
+-    {
+-        .name       = "migrate_set_speed",
+-        .args_type  = "value:o",
+-        .params     = "value",
+-        .help       = "set maximum speed (in bytes) for migrations. "
+-	"Defaults to MB if no size suffix is specified, ie. B/K/M/G/T",
+-        .cmd        = hmp_migrate_set_speed,
+-    },
+-
+-SRST
+-``migrate_set_speed`` *value*
+-  Set maximum speed to *value* (in bytes) for migrations.
+-ERST
+-
+-    {
+-        .name       = "migrate_set_downtime",
+-        .args_type  = "value:T",
+-        .params     = "value",
+-        .help       = "set maximum tolerated downtime (in seconds) for migrations",
+-        .cmd        = hmp_migrate_set_downtime,
+-    },
+-
+-SRST
+-``migrate_set_downtime`` *second*
+-  Set maximum tolerated downtime (in seconds) for migration.
+-ERST
+-
+     {
+         .name       = "migrate_set_capability",
+         .args_type  = "capability:s,state:b",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index ed2913fd18..605d57287a 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -28,7 +28,6 @@ void hmp_info_mice(Monitor *mon, const QDict *qdict);
+ void hmp_info_migrate(Monitor *mon, const QDict *qdict);
+ void hmp_info_migrate_capabilities(Monitor *mon, const QDict *qdict);
+ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict);
+-void hmp_info_migrate_cache_size(Monitor *mon, const QDict *qdict);
+ void hmp_info_cpus(Monitor *mon, const QDict *qdict);
+ void hmp_info_vnc(Monitor *mon, const QDict *qdict);
+ void hmp_info_spice(Monitor *mon, const QDict *qdict);
+@@ -64,11 +63,8 @@ void hmp_migrate_continue(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_incoming(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_recover(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_pause(Monitor *mon, const QDict *qdict);
+-void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict);
+-void hmp_migrate_set_speed(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_set_capability(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict);
+-void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict);
+ void hmp_client_migrate_info(Monitor *mon, const QDict *qdict);
+ void hmp_migrate_start_postcopy(Monitor *mon, const QDict *qdict);
+ void hmp_x_colo_lost_heartbeat(Monitor *mon, const QDict *qdict);
+diff --git a/migration/migration.c b/migration/migration.c
+index a5ddf43559..5408367eda 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2318,51 +2318,6 @@ void qmp_migrate_continue(MigrationStatus state, Error **errp)
+     qemu_sem_post(&s->pause_sem);
  }
  
- 
--/***********************************************************/
--/* USB devices */
--
--static int usb_device_add(const char *devname)
+-void qmp_migrate_set_cache_size(int64_t value, Error **errp)
 -{
--    USBDevice *dev = NULL;
+-    MigrateSetParameters p = {
+-        .has_xbzrle_cache_size = true,
+-        .xbzrle_cache_size = value,
+-    };
 -
--    if (!machine_usb(current_machine)) {
--        return -1;
--    }
--
--    dev = usbdevice_create(devname);
--    if (!dev)
--        return -1;
--
--    return 0;
+-    qmp_migrate_set_parameters(&p, errp);
 -}
 -
--static int usb_parse(const char *cmdline)
+-uint64_t qmp_query_migrate_cache_size(Error **errp)
 -{
--    int r;
--    r = usb_device_add(cmdline);
--    if (r < 0) {
--        error_report("could not add USB device '%s'", cmdline);
--    }
--    return r;
+-    return migrate_xbzrle_cache_size();
 -}
 -
- /***********************************************************/
- /* machine registration */
- 
-@@ -1267,7 +1239,6 @@ static void monitor_parse(const char *optarg, const char *mode, bool pretty)
- 
- struct device_config {
-     enum {
--        DEV_USB,       /* -usbdevice     */
-         DEV_SERIAL,    /* -serial        */
-         DEV_PARALLEL,  /* -parallel      */
-         DEV_DEBUGCON,  /* -debugcon */
-@@ -2484,12 +2455,6 @@ static void qemu_create_cli_devices(void)
-     qemu_opts_foreach(qemu_find_opts("fw_cfg"),
-                       parse_fw_cfg, fw_cfg_find(), &error_fatal);
- 
--    /* init USB devices */
--    if (machine_usb(current_machine)) {
--        if (foreach_device_config(DEV_USB, usb_parse) < 0)
--            exit(1);
+-void qmp_migrate_set_speed(int64_t value, Error **errp)
+-{
+-    MigrateSetParameters p = {
+-        .has_max_bandwidth = true,
+-        .max_bandwidth = value,
+-    };
+-
+-    qmp_migrate_set_parameters(&p, errp);
+-}
+-
+-void qmp_migrate_set_downtime(double value, Error **errp)
+-{
+-    if (value < 0 || value > MAX_MIGRATE_DOWNTIME_SECONDS) {
+-        error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
+-                   "downtime_limit",
+-                   "an integer in the range of 0 to "
+-                    stringify(MAX_MIGRATE_DOWNTIME_SECONDS)" seconds");
+-        return;
 -    }
 -
-     /* init generic devices */
-     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
-     qemu_opts_foreach(qemu_find_opts("device"),
-@@ -3182,13 +3147,6 @@ void qemu_init(int argc, char **argv, char **envp)
-                 olist = qemu_find_opts("machine");
-                 qemu_opts_parse_noisily(olist, "usb=on", false);
-                 break;
--            case QEMU_OPTION_usbdevice:
--                error_report("'-usbdevice' is deprecated, please use "
--                             "'-device usb-...' instead");
--                olist = qemu_find_opts("machine");
--                qemu_opts_parse_noisily(olist, "usb=on", false);
--                add_device_config(DEV_USB, optarg);
--                break;
-             case QEMU_OPTION_device:
-                 if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
-                                              optarg, true)) {
+-    value *= 1000; /* Convert to milliseconds */
+-
+-    MigrateSetParameters p = {
+-        .has_downtime_limit = true,
+-        .downtime_limit = (int64_t)value,
+-    };
+-
+-    qmp_migrate_set_parameters(&p, errp);
+-}
+-
+ bool migrate_release_ram(void)
+ {
+     MigrationState *s;
+diff --git a/migration/ram.c b/migration/ram.c
+index 72143da0ac..a569b87875 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -121,7 +121,7 @@ static void XBZRLE_cache_unlock(void)
+ /**
+  * xbzrle_cache_resize: resize the xbzrle cache
+  *
+- * This function is called from qmp_migrate_set_cache_size in main
++ * This function is called from migrate_params_apply in main
+  * thread, possibly while a migration is in progress.  A running
+  * migration may be using the cache and might finish during this call,
+  * hence changes to the cache are protected by XBZRLE.lock().
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index 3c88a4faef..8a47ba8fbb 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -518,12 +518,6 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
+     qapi_free_MigrationParameters(params);
+ }
+ 
+-void hmp_info_migrate_cache_size(Monitor *mon, const QDict *qdict)
+-{
+-    monitor_printf(mon, "xbzrel cache size: %" PRId64 " kbytes\n",
+-                   qmp_query_migrate_cache_size(NULL) >> 10);
+-}
+-
+ 
+ #ifdef CONFIG_VNC
+ /* Helper for hmp_info_vnc_clients, _servers */
+@@ -1226,34 +1220,6 @@ void hmp_migrate_pause(Monitor *mon, const QDict *qdict)
+     hmp_handle_error(mon, err);
+ }
+ 
+-/* Kept for backwards compatibility */
+-void hmp_migrate_set_downtime(Monitor *mon, const QDict *qdict)
+-{
+-    Error *err = NULL;
+-
+-    double value = qdict_get_double(qdict, "value");
+-    qmp_migrate_set_downtime(value, &err);
+-    hmp_handle_error(mon, err);
+-}
+-
+-void hmp_migrate_set_cache_size(Monitor *mon, const QDict *qdict)
+-{
+-    int64_t value = qdict_get_int(qdict, "value");
+-    Error *err = NULL;
+-
+-    qmp_migrate_set_cache_size(value, &err);
+-    hmp_handle_error(mon, err);
+-}
+-
+-/* Kept for backwards compatibility */
+-void hmp_migrate_set_speed(Monitor *mon, const QDict *qdict)
+-{
+-    Error *err = NULL;
+-
+-    int64_t value = qdict_get_int(qdict, "value");
+-    qmp_migrate_set_speed(value, &err);
+-    hmp_handle_error(mon, err);
+-}
+ 
+ void hmp_migrate_set_capability(Monitor *mon, const QDict *qdict)
+ {
+diff --git a/qapi/migration.json b/qapi/migration.json
+index 6e5943fbb4..9bf0bc4d25 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -1398,104 +1398,6 @@
+ ##
+ { 'command': 'migrate-continue', 'data': {'state': 'MigrationStatus'} }
+ 
+-##
+-# @migrate_set_downtime:
+-#
+-# Set maximum tolerated downtime for migration.
+-#
+-# @value: maximum downtime in seconds
+-#
+-# Features:
+-# @deprecated: This command is deprecated.  Use
+-#              'migrate-set-parameters' instead.
+-#
+-# Returns: nothing on success
+-#
+-# Since: 0.14
+-#
+-# Example:
+-#
+-# -> { "execute": "migrate_set_downtime", "arguments": { "value": 0.1 } }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'migrate_set_downtime', 'data': {'value': 'number'},
+-  'features': [ 'deprecated' ] }
+-
+-##
+-# @migrate_set_speed:
+-#
+-# Set maximum speed for migration.
+-#
+-# @value: maximum speed in bytes per second.
+-#
+-# Features:
+-# @deprecated: This command is deprecated.  Use
+-#              'migrate-set-parameters' instead.
+-#
+-# Returns: nothing on success
+-#
+-# Since: 0.14
+-#
+-# Example:
+-#
+-# -> { "execute": "migrate_set_speed", "arguments": { "value": 1024 } }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'migrate_set_speed', 'data': {'value': 'int'},
+-  'features': [ 'deprecated' ] }
+-
+-##
+-# @migrate-set-cache-size:
+-#
+-# Set cache size to be used by XBZRLE migration
+-#
+-# @value: cache size in bytes
+-#
+-# Features:
+-# @deprecated: This command is deprecated.  Use
+-#              'migrate-set-parameters' instead.
+-#
+-# The size will be rounded down to the nearest power of 2.
+-# The cache size can be modified before and during ongoing migration
+-#
+-# Returns: nothing on success
+-#
+-# Since: 1.2
+-#
+-# Example:
+-#
+-# -> { "execute": "migrate-set-cache-size",
+-#      "arguments": { "value": 536870912 } }
+-# <- { "return": {} }
+-#
+-##
+-{ 'command': 'migrate-set-cache-size', 'data': {'value': 'int'},
+-  'features': [ 'deprecated' ] }
+-
+-##
+-# @query-migrate-cache-size:
+-#
+-# Query migration XBZRLE cache size
+-#
+-# Features:
+-# @deprecated: This command is deprecated.  Use
+-#              'query-migrate-parameters' instead.
+-#
+-# Returns: XBZRLE cache size in bytes
+-#
+-# Since: 1.2
+-#
+-# Example:
+-#
+-# -> { "execute": "query-migrate-cache-size" }
+-# <- { "return": 67108864 }
+-#
+-##
+-{ 'command': 'query-migrate-cache-size', 'returns': 'size',
+-  'features': [ 'deprecated' ] }
+-
+ ##
+ # @migrate:
+ #
+diff --git a/tests/migration/guestperf/engine.py b/tests/migration/guestperf/engine.py
+index 83bfc3b6bb..5161e4ff81 100644
+--- a/tests/migration/guestperf/engine.py
++++ b/tests/migration/guestperf/engine.py
+@@ -149,11 +149,11 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+                                      "state": True }
+                                ])
+ 
+-        resp = src.command("migrate_set_speed",
+-                           value=scenario._bandwidth * 1024 * 1024)
++        resp = src.command("migrate-set-parameters",
++                           max_bandwidth=scenario._bandwidth * 1024 * 1024)
+ 
+-        resp = src.command("migrate_set_downtime",
+-                           value=scenario._downtime / 1024.0)
++        resp = src.command("migrate-set-parameters",
++                           downtime_limit=scenario._downtime / 1024.0)
+ 
+         if scenario._compression_mt:
+             resp = src.command("migrate-set-capabilities",
+@@ -182,9 +182,11 @@ def _migrate(self, hardware, scenario, src, dst, connect_uri):
+                                    { "capability": "xbzrle",
+                                      "state": True }
+                                ])
+-            resp = src.command("migrate-set-cache-size",
+-                               value=(hardware._mem * 1024 * 1024 * 1024 / 100 *
+-                                      scenario._compression_xbzrle_cache))
++            resp = src.command("migrate-set-parameters",
++                               xbzrle_cache_size=(
++                                   hardware._mem *
++                                   1024 * 1024 * 1024 / 100 *
++                                   scenario._compression_xbzrle_cache))
+ 
+         resp = src.command("migrate", uri=connect_uri)
+ 
+diff --git a/tests/qemu-iotests/181 b/tests/qemu-iotests/181
+index 820c53ef35..cb96d09ae5 100755
+--- a/tests/qemu-iotests/181
++++ b/tests/qemu-iotests/181
+@@ -109,7 +109,7 @@ if [ ${QEMU_STATUS[$dest]} -lt 0 ]; then
+     _notrun 'Postcopy is not supported'
+ fi
+ 
+-_send_qemu_cmd $src 'migrate_set_speed 4k' "(qemu)"
++_send_qemu_cmd $src 'migrate_set_parameter max_bandwidth 4k' "(qemu)"
+ _send_qemu_cmd $src 'migrate_set_capability postcopy-ram on' "(qemu)"
+ _send_qemu_cmd $src "migrate -d unix:${MIG_SOCKET}" "(qemu)"
+ _send_qemu_cmd $src 'migrate_start_postcopy' "(qemu)"
+diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+index f2142fbd3c..3a711bb492 100644
+--- a/tests/qtest/migration-test.c
++++ b/tests/qtest/migration-test.c
+@@ -658,53 +658,6 @@ static void test_migrate_end(QTestState *from, QTestState *to, bool test_dest)
+     cleanup("dest_serial");
+ }
+ 
+-static void deprecated_set_downtime(QTestState *who, const double value)
+-{
+-    QDict *rsp;
+-
+-    rsp = qtest_qmp(who,
+-                    "{ 'execute': 'migrate_set_downtime',"
+-                    " 'arguments': { 'value': %f } }", value);
+-    g_assert(qdict_haskey(rsp, "return"));
+-    qobject_unref(rsp);
+-    migrate_check_parameter_int(who, "downtime-limit", value * 1000);
+-}
+-
+-static void deprecated_set_speed(QTestState *who, long long value)
+-{
+-    QDict *rsp;
+-
+-    rsp = qtest_qmp(who, "{ 'execute': 'migrate_set_speed',"
+-                          "'arguments': { 'value': %lld } }", value);
+-    g_assert(qdict_haskey(rsp, "return"));
+-    qobject_unref(rsp);
+-    migrate_check_parameter_int(who, "max-bandwidth", value);
+-}
+-
+-static void deprecated_set_cache_size(QTestState *who, long long value)
+-{
+-    QDict *rsp;
+-
+-    rsp = qtest_qmp(who, "{ 'execute': 'migrate-set-cache-size',"
+-                         "'arguments': { 'value': %lld } }", value);
+-    g_assert(qdict_haskey(rsp, "return"));
+-    qobject_unref(rsp);
+-    migrate_check_parameter_int(who, "xbzrle-cache-size", value);
+-}
+-
+-static void test_deprecated(void)
+-{
+-    QTestState *from;
+-
+-    from = qtest_init("-machine none");
+-
+-    deprecated_set_downtime(from, 0.12345);
+-    deprecated_set_speed(from, 12345);
+-    deprecated_set_cache_size(from, 4096);
+-
+-    qtest_quit(from);
+-}
+-
+ static int migrate_postcopy_prepare(QTestState **from_ptr,
+                                     QTestState **to_ptr,
+                                     MigrateStart *args)
+@@ -1486,7 +1439,6 @@ int main(int argc, char **argv)
+ 
+     qtest_add_func("/migration/postcopy/unix", test_postcopy);
+     qtest_add_func("/migration/postcopy/recovery", test_postcopy_recovery);
+-    qtest_add_func("/migration/deprecated", test_deprecated);
+     qtest_add_func("/migration/bad_dest", test_baddest);
+     qtest_add_func("/migration/precopy/unix", test_precopy_unix);
+     qtest_add_func("/migration/precopy/tcp", test_precopy_tcp);
+diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
+index 94a8023173..413eb95d2a 100644
+--- a/tests/qtest/test-hmp.c
++++ b/tests/qtest/test-hmp.c
+@@ -45,9 +45,9 @@ static const char *hmp_cmds[] = {
+     "log all",
+     "log none",
+     "memsave 0 4096 \"/dev/null\"",
+-    "migrate_set_cache_size 1",
+-    "migrate_set_downtime 1",
+-    "migrate_set_speed 1",
++    "migrate_set_parameter xbzrle_cache_size 1",
++    "migrate_set_parameter downtime_limit 1",
++    "migrate_set_parameter max_bandwidth 1",
+     "netdev_add user,id=net1",
+     "set_link net1 off",
+     "set_link net1 on",
+diff --git a/tests/qtest/vhost-user-test.c b/tests/qtest/vhost-user-test.c
+index 1a5f5313ff..3d6337fb5c 100644
+--- a/tests/qtest/vhost-user-test.c
++++ b/tests/qtest/vhost-user-test.c
+@@ -756,8 +756,8 @@ static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
+ 
+     /* slow down migration to have time to fiddle with log */
+     /* TODO: qtest could learn to break on some places */
+-    rsp = qmp("{ 'execute': 'migrate_set_speed',"
+-              "'arguments': { 'value': 10 } }");
++    rsp = qmp("{ 'execute': 'migrate-set-parameters',"
++              "'arguments': { 'max-bandwidth': 10 } }");
+     g_assert(qdict_haskey(rsp, "return"));
+     qobject_unref(rsp);
+ 
+@@ -776,8 +776,8 @@ static void test_migrate(void *obj, void *arg, QGuestAllocator *alloc)
+     munmap(log, size);
+ 
+     /* speed things up */
+-    rsp = qmp("{ 'execute': 'migrate_set_speed',"
+-              "'arguments': { 'value': 0 } }");
++    rsp = qmp("{ 'execute': 'migrate-set-parameters',"
++              "'arguments': { 'max-bandwidth': 0 } }");
+     g_assert(qdict_haskey(rsp, "return"));
+     qobject_unref(rsp);
+ 
 -- 
 2.29.2
 
