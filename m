@@ -2,94 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ACA632437A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:04:46 +0100 (CET)
-Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2BF1324415
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:52:32 +0100 (CET)
+Received: from localhost ([::1]:51486 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEyWj-00050a-4t
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:04:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59988)
+	id 1lEzGx-0003vE-DR
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:52:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33392)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEyV6-0003vU-T9
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:03:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31442)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEyV3-00037W-Se
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:03:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614189779;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NW1Hfey9S5rPsTYaOaxmDa4i/W2vMcAQBQx46eZKpy0=;
- b=MQnl+MMi5quQKt27n1cnUEFXitHtnZhk3+RXTmXqVGpMcjf91ULz22mzJ5XhqUreNs0iSI
- uQgxG3796cgDxQXOkwBGiMAzc+RXHNF8uZojhZ4YTEa3A3rQl5ZCZ7cabA9WRbAFq3y11h
- gyoWJpZeFrIBMNP+RMaOBd0cLffK7Wg=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-Ce9FXXQdP8ytZ9U3pXBEEg-1; Wed, 24 Feb 2021 13:02:49 -0500
-X-MC-Unique: Ce9FXXQdP8ytZ9U3pXBEEg-1
-Received: by mail-wr1-f72.google.com with SMTP id i2so1406725wru.1
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:02:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <sedat.dilek@gmail.com>)
+ id 1lEyb4-0006eM-2b
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:09:14 -0500
+Received: from mail-il1-x131.google.com ([2607:f8b0:4864:20::131]:41670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <sedat.dilek@gmail.com>)
+ id 1lEyb2-0005CY-GF
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:09:13 -0500
+Received: by mail-il1-x131.google.com with SMTP id c10so2527734ilo.8
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:09:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=dKCWFwCtere4GZoadEUWnq7pobLJDcHFCquipMb1ruk=;
+ b=hqke137REPFIk08X26O9Qf6S+JDQmGikbvjBbxcfEot4DctxH36v/1Z0sUISy5h2Nx
+ 3yUSceQyhSUXD1D7HmWMC4SbfTDFC98ZtgBdyo8N/CEM148DdmxO+n0yvPcEF9s4ky2E
+ 2KtG48ooopFe/gzIzAYS8EVjSdc3gnkI9piiA0iLkRGI+u+/fkxcFYxJ2uFsATFFoJ2k
+ 56R1JJnJGBTGNOyay/sPvXzGIDii9vZe3SXMIru02NOewoZc1kTF+VUg/Y9dLSuLe5wp
+ RbRZH3n0RJGhAvAWTVooLr05i1lD6pZE02ZRyhqC6+AaghfThafHISJnaH7imAEHE4x3
+ 11nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:from:to:cc:references:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NW1Hfey9S5rPsTYaOaxmDa4i/W2vMcAQBQx46eZKpy0=;
- b=poja0655yGqU0G/9ErfFg4YsSIHiT0iD/KE7YVgguDZPcCIaTA2rSX3AfpjzJ3XbvI
- AGE663mgYuso52QUQFb1v8jU5rUoKwPP1IhGDdEviB/wCpEMs3cNo1O92S77I31Ox58X
- hQLq2ReO9vZqQPXRZ68+NMwU2ASM01ufEO7hRlWpQRWchjM/QCRVzQ2SuQg+Up5SMI/H
- hHmOMFbhl6YRSxj55bXn8HdM3d0Wmdp1XpdhnecYzgrnPLLJDi9T4tjJINeyR1PyB3C5
- fDoYgLFYyZHPIyyqECiuaPf1GkYDwDk+de17U1YFlwqipNF4gLq/lXxItyRneIUYRcDA
- XH+A==
-X-Gm-Message-State: AOAM530fRyMaLBDk7ku4pZXp9iz81aQy9wnV0u5HFKALDRQ9BNghn+iC
- HlfyFsc+Wm3lh12ElSFutJGm/mIDpvQ7QcpWeDNAradZ86Ki9HRQULgEJLlJHBhvEYWR4ND3inF
- CnAfSH/P6qh6C0CA=
-X-Received: by 2002:a05:600c:4f86:: with SMTP id
- n6mr4838879wmq.22.1614189767725; 
- Wed, 24 Feb 2021 10:02:47 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzErC6k4ktpDRw/2PPdSvVxIz2TDEdTuJkqCrPNAM1i80yz2tzfJkzJd8iLDKixLqhDXgaqgw==
-X-Received: by 2002:a05:600c:4f86:: with SMTP id
- n6mr4838802wmq.22.1614189766915; 
- Wed, 24 Feb 2021 10:02:46 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id m9sm10017878wml.3.2021.02.24.10.02.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 10:02:46 -0800 (PST)
-Subject: Re: [PATCH] meson: Only generate trace files for selected targets
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210224120923.3154325-1-philmd@redhat.com>
- <39cc99dd-54d5-9dd1-d66a-7947686dbada@redhat.com>
- <11b6e7ad-9ac9-45fe-ebcf-1db7e396d33a@redhat.com>
-Message-ID: <0efebdee-6ff9-b242-54b2-3341a05bcaa6@redhat.com>
-Date: Wed, 24 Feb 2021 19:02:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=dKCWFwCtere4GZoadEUWnq7pobLJDcHFCquipMb1ruk=;
+ b=CBW9cuKLhUNYIsWtkKYqseV3miIZ+xi6qz/gQilQrZJuG0IvZST5jH5EhX2j6gChn4
+ QP0j/jrdSaKg4I+TjisLn/O4jU+Yka4EK666Hw5HhozkG+jKzLMq5x6k7jrr4cs18Pa0
+ BrUvhLHmC4648HBS0gckHT5Ag358bRhpA1u5RKtNwWN9mTi5Su7Cr1OmygUuj0wv9Zur
+ T+3Vq1k1/qyZchU6AGwcgSufSzrfMP4nCVH6HR9XeRLoF2Mqilw9kkJ6zi2vqjxK0ENe
+ EPsVYkDP1378+eG+M3PIFEtkpz3HA/M8ddJdB1I+EtDG0BxGMTd/IHH/EjZPfVE+vhro
+ kUxQ==
+X-Gm-Message-State: AOAM532nNHDF1DuFpnPtdxcCfUHj3QM1LMAG68pJ8euV9tC0t5mx+6UZ
+ DrHdl03k9xGPw0T9EW4IYJoI5jvgLiemv7qOTFk=
+X-Google-Smtp-Source: ABdhPJz3GIBdgA4zHbgVmxKw9YsFP/tLTYz2tkBhM/AiHwcN92PZFP+mitQPKNwLrlEkglorYH8lYc6zOj657BmjvVA=
+X-Received: by 2002:a05:6e02:13a6:: with SMTP id
+ h6mr14196474ilo.10.1614190150784; 
+ Wed, 24 Feb 2021 10:09:10 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <11b6e7ad-9ac9-45fe-ebcf-1db7e396d33a@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210211194258.4137998-1-nathan@kernel.org>
+ <CABCJKueyXp5EQnmZ7a6HR87oKwDBDukprnJWT620McSYFd1SMg@mail.gmail.com>
+In-Reply-To: <CABCJKueyXp5EQnmZ7a6HR87oKwDBDukprnJWT620McSYFd1SMg@mail.gmail.com>
+From: Sedat Dilek <sedat.dilek@gmail.com>
+Date: Wed, 24 Feb 2021 19:08:59 +0100
+Message-ID: <CA+icZUW=GTV0L884wdohaOdFmg4E4wdtSEOgF+KEGPcKzYOoow@mail.gmail.com>
+Subject: Re: [PATCH] qemu_fw_cfg: Make fw_cfg_rev_attr a proper kobj_attribute
+To: Sami Tolvanen <samitolvanen@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::131;
+ envelope-from=sedat.dilek@gmail.com; helo=mail-il1-x131.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Wed, 24 Feb 2021 13:51:18 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -101,55 +80,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: sedat.dilek@gmail.com
+Cc: Kees Cook <keescook@chromium.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Gabriel Somlo <somlo@cmu.edu>, Nick Desaulniers <ndesaulniers@google.com>,
+ qemu-devel@nongnu.org, LKML <linux-kernel@vger.kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ clang-built-linux <clang-built-linux@googlegroups.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 1:51 PM, Philippe Mathieu-Daudé wrote:
-> On 2/24/21 1:26 PM, Paolo Bonzini wrote:
->> On 24/02/21 13:09, Philippe Mathieu-Daudé wrote:
->>> We don't need to generate trace files for targets we
->>> are not building. Restrict the the ones selected.
->>>
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>>   meson.build | 10 +---------
->>>   1 file changed, 1 insertion(+), 9 deletions(-)
->>>
->>> diff --git a/meson.build b/meson.build
->>> index 05a67c20d93..c9b0433667d 100644
->>> --- a/meson.build
->>> +++ b/meson.build
->>> @@ -1826,15 +1826,6 @@
->>>     trace_events_subdirs += [
->>>       'accel/tcg',
->>>       'hw/core',
->>> -    'target/arm',
->>> -    'target/hppa',
->>> -    'target/i386',
->>> -    'target/i386/kvm',
->>> -    'target/mips',
->>> -    'target/ppc',
->>> -    'target/riscv',
->>> -    'target/s390x',
->>> -    'target/sparc',
->>>     ]
->>>   endif
->>>   @@ -2166,6 +2157,7 @@
->>>     t = target_arch[arch].apply(config_target, strict: false)
->>>     arch_srcs += t.sources()
->>>     arch_deps += t.dependencies()
->>> +  trace_events_subdirs += ['target' / arch]
->>>       target_common = common_ss.apply(config_target, strict: false)
->>>     objects = common_all.extract_objects(target_common.sources())
->>>
->>
->> Is this still okay if there is no trace-events file for a given arch?
+On Thu, Feb 11, 2021 at 9:41 PM 'Sami Tolvanen' via Clang Built Linux
+<clang-built-linux@googlegroups.com> wrote:
+>
+> Hi Nathan,
+>
+> On Thu, Feb 11, 2021 at 11:43 AM Nathan Chancellor <nathan@kernel.org> wrote:
+> >
+> > fw_cfg_showrev() is called by an indirect call in kobj_attr_show(),
+> > which violates clang's CFI checking because fw_cfg_showrev()'s second
+> > parameter is 'struct attribute', whereas the ->show() member of 'struct
+> > kobj_structure' expects the second parameter to be of type 'struct
+> > kobj_attribute'.
+> >
+> > $ cat /sys/firmware/qemu_fw_cfg/rev
+> > 3
+> >
+> > $ dmesg | grep "CFI failure"
+> > [   26.016832] CFI failure (target: fw_cfg_showrev+0x0/0x8):
+> >
+> > Fix this by converting fw_cfg_rev_attr to 'struct kobj_attribute' where
+> > this would have been caught automatically by the incompatible pointer
+> > types compiler warning. Update fw_cfg_showrev() accordingly.
+> >
+> > Fixes: 75f3e8e47f38 ("firmware: introduce sysfs driver for QEMU's fw_cfg device")
+> > Link: https://github.com/ClangBuiltLinux/linux/issues/1299
+> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+>
+> Looks good to me. Thank you for sending the patch!
+>
+> Reviewed-by: Sami Tolvanen <samitolvanen@google.com>
+>
 
-No, it is *not* Okay :>
+Environment: Linux v5.11-10201-gc03c21ba6f4e plus Clang-CFI as of
+24-Feb-2021 on top built with LLVM v13-git.
 
-> 
-> No problem in my usual build configs, but I kicked a CI build to check
-> the all of them and be sure.
+Tested-by: Sedat Dilek <sedat.dilek@gmail.com>
 
+- Sedat -
 
