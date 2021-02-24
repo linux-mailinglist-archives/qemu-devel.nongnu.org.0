@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEA6323BD5
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:21:05 +0100 (CET)
-Received: from localhost ([::1]:40412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF2323BD9
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:24:13 +0100 (CET)
+Received: from localhost ([::1]:42712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEtA8-0007CJ-5d
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:21:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
+	id 1lEtDA-0008MR-7v
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:24:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEt8q-0006lS-CW
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:19:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52947)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEt8o-0006sq-8p
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:19:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614169180;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XRsxIOUI7a+T3ZWnEj4ZC9mi3WSK0vu8SrIrctvlX10=;
- b=awfDA1/ruN1viL0oaoC4uP/NYU9JdQ18YX1iZLH6HhRFcFh1Py2tQJoVzy9J2NkN7LDLeu
- jziCT9gCEHWQAXrRlypuUJvLFFrsQz3Gx02J86QFPOWgmIRsltvaFxnM928wSPkpIBetA4
- KZ6bn2Aab1gl/JfnIQQMwO1x3GQCzDA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-fu2Y-VudNlecJdwbXtGggQ-1; Wed, 24 Feb 2021 07:19:36 -0500
-X-MC-Unique: fu2Y-VudNlecJdwbXtGggQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77A08801977;
- Wed, 24 Feb 2021 12:19:35 +0000 (UTC)
-Received: from redhat.com (ovpn-115-119.ams2.redhat.com [10.36.115.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E8F360916;
- Wed, 24 Feb 2021 12:19:28 +0000 (UTC)
-Date: Wed, 24 Feb 2021 12:19:25 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] docs: move CODING_STYLE into the developer documentation
-Message-ID: <YDZETVhPKm7H2My2@redhat.com>
-References: <20210223095931.16908-1-alex.bennee@linaro.org>
- <CAFEAcA-v51sgBiNs5hpHwyQx0X=rYdmaWYPesJ0pGy=+ufyi4w@mail.gmail.com>
- <2ee6c3b3-7b90-e10c-8950-bfd07c963558@redhat.com>
- <5a1c4191-b0e6-8dcf-d5db-7335b5f41628@redhat.com>
- <87lfbe51oy.fsf@linaro.org>
- <YDZDSY3G9+KpgJsE@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lEtCC-0007uf-9R
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:23:12 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44217)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1lEtCA-0008R8-6q
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:23:11 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id w1so2690304ejf.11
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 04:23:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=3p5Hf65tX062J2B2QKClY490eTOYjzdcfVhu8SEuifA=;
+ b=ouYChA2rGzYWfkq0/dCxdI/ok/jYxtnaQWLt/B2jtukfjeMAQVDS9kxi+rRr0FMz0q
+ Uk8UqAAVu+ccYAZ3jBMjQUqR2VzAI0TTaZk+84OaY+Yfv+3SReRsjzBVqS9HCM6v7viF
+ Vj4s2rSElUhpi5+Ix6RN+wMxFfuxo5AGBSuyHxPW7C3SvBUKzYwcfOy3tZ6faKaxiaQM
+ 4WwC6JETe29tDTrTYWqPVw4uxrSsVeHHSxDao8VywJZu1mVuqU804KCc4GdahGSuvyQl
+ q4CVypWuNIZ1bcUlKYocRi6av5GFA1nuhq3l0+5LbtWNqurzoyfIH1NTbVic7tbrgjHP
+ auCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=3p5Hf65tX062J2B2QKClY490eTOYjzdcfVhu8SEuifA=;
+ b=qvLiYtaL15sXZoGTsLFQcqBboP38TPvZkX30wTM/0R6VX27DML2JiE0CXh9TqrZh+I
+ LBXSuwEHizJafqwonUQcbf11SSdSc6bkuzlEq/qrT5uWAkMEpfTgHi/dYYkRBJmHYz6y
+ 28/FbG35pdBT4E4pM6h3I8nsuSg8cF3JbSJ2eOSnJI4KGxo2aKwYHElxm1R1dA4V3D0N
+ i7xqzhQ7fwQfRn7BZq+7Al3poXkz+PUO4jwY0sWarDr9bSsyUiz/qGqjje1mAoQvPj5q
+ 3F57tOo9jl9stvuuGzuCbfIy8DegYPPMsr2oIVMfwESUnzqF8wIEB267bynARx7GRpIi
+ k4hg==
+X-Gm-Message-State: AOAM532HHl9g7GoGMuZFrkptN4XU/vzuzx0hNrF0AhhB9oNyEFubWRvq
+ qMVI2MBYFyPme3yx4QcLf8tlgYNmbao=
+X-Google-Smtp-Source: ABdhPJwG6UmWXF2zUxTV/SvjEIdLz/l7E7gWbQ9fzEvxEQ1cX8+YEPKuLE6Jv5N6+9Mq8nkpGrcq2w==
+X-Received: by 2002:a17:906:cf84:: with SMTP id
+ um4mr30944906ejb.61.1614169387713; 
+ Wed, 24 Feb 2021 04:23:07 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id rn18sm1221096ejb.99.2021.02.24.04.23.06
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 04:23:07 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] multiprocess: move feature to meson_options.txt
+Date: Wed, 24 Feb 2021 13:23:06 +0100
+Message-Id: <20210224122306.451764-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <YDZDSY3G9+KpgJsE@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,92 +83,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 12:15:05PM +0000, Stefan Hajnoczi wrote:
-> On Tue, Feb 23, 2021 at 01:37:45PM +0000, Alex Bennée wrote:
-> > 
-> > Philippe Mathieu-Daudé <philmd@redhat.com> writes:
-> > 
-> > > On 2/23/21 12:29 PM, Philippe Mathieu-Daudé wrote:
-> > >> On 2/23/21 12:07 PM, Peter Maydell wrote:
-> > >>> On Tue, 23 Feb 2021 at 10:02, Alex Bennée <alex.bennee@linaro.org> wrote:
-> > >>>>
-> > >>>> There is no particular reason to keep this on it's own in the root of
-> > >>>> the tree. Move it into the rest of the fine developer manual and fixup
-> > >>>> any links to it. The only tweak I've made is to fix the code-block
-> > >>>> annotations to mention the language C.
-> > >>>>
-> > >>>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> > >>>> ---
-> > >>>> diff --git a/README.rst b/README.rst
-> > >>>> index ce39d89077..f5d41e59b1 100644
-> > >>>> --- a/README.rst
-> > >>>> +++ b/README.rst
-> > >>>> @@ -66,7 +66,9 @@ When submitting patches, one common approach is to use 'git
-> > >>>>  format-patch' and/or 'git send-email' to format & send the mail to the
-> > >>>>  qemu-devel@nongnu.org mailing list. All patches submitted must contain
-> > >>>>  a 'Signed-off-by' line from the author. Patches should follow the
-> > >>>> -guidelines set out in the CODING_STYLE.rst file.
-> > >>>> +guidelines set out in the `style section
-> > >>>> +<https://qemu.readthedocs.io/en/latest/devel/style.html>` of
-> > >>>> +the Developers Guide.
-> > >>>
-> > >>> This is the first instance of a qemu.readthedocs.io URL in the
-> > >>> tree. Do we really want to have our references to our documentation
-> > >>> be to a third party website ?
-> > >> 
-> > >> We can use https://www.qemu.org/docs/master/devel/style.html:
-> > >> 
-> > >> $ curl https://www.qemu.org/docs/master/devel/style.html
-> > >> <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-> > >> <html><head>
-> > >> <title>302 Found</title>
-> > >> </head><body>
-> > >> <h1>Found</h1>
-> > >> <p>The document has moved <a
-> > >> href="https://qemu.readthedocs.io/en/latest/devel/style.html">here</a>.</p>
-> > >> </body></html>
-> > 
-> > I think if we treat the qemu.org domain as being the canonical URL and
-> > then let it redirect where it wants. 
-> 
-> Yes, let's treat qemu.org as the canonical domain so we have the ability
-> to change locations easily later.
-> 
-> > > Or even better since we have a job pushing to Gitlab pages
-> > > accessible on https://qemu-project.gitlab.io/qemu/:
-> > >
-> > > https://qemu-project.gitlab.io/qemu/devel/style.html
-> > >
-> > > Maybe the https://www.qemu.org/docs/ redirect should
-> > > go to gitlab page now?
-> > 
-> > It could do either, I think the result is exactly the same.
-> 
-> Standarizing project infrastructure on GitLab CI seems good to me. That
-> way developers will be able to reuse their CI knowledge and won't have
-> to learn other systems (like readthedocs).
-> 
-> However, I don't see .gitlab-ci.yml directives that build the docs and
-> publish a static page yet. Is anyone volunteering to do this? (It can be
-> done as a separate step from this patch.)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ configure         | 12 ++++--------
+ meson.build       |  9 +++++++--
+ meson_options.txt |  2 ++
+ 3 files changed, 13 insertions(+), 10 deletions(-)
 
-The very last job (called 'pages') in .gitlab-ci.yml does this.
-
-
-Regards,
-Daniel
+diff --git a/configure b/configure
+index 19f2b88589..bdc96d0831 100755
+--- a/configure
++++ b/configure
+@@ -463,7 +463,7 @@ skip_meson=no
+ gettext="auto"
+ fuse="auto"
+ fuse_lseek="auto"
+-multiprocess="no"
++multiprocess="auto"
+ 
+ malloc_trim="auto"
+ 
+@@ -798,7 +798,6 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   vhost_user=${default_feature:-yes}
+-  multiprocess=${default_feature:-yes}
+ ;;
+ esac
+ 
+@@ -1558,9 +1557,9 @@ for opt do
+   ;;
+   --disable-fuse-lseek) fuse_lseek="disabled"
+   ;;
+-  --enable-multiprocess) multiprocess="yes"
++  --enable-multiprocess) multiprocess="enabled"
+   ;;
+-  --disable-multiprocess) multiprocess="no"
++  --disable-multiprocess) multiprocess="disabled"
+   ;;
+   *)
+       echo "ERROR: unknown option $opt"
+@@ -6089,9 +6088,6 @@ fi
+ if test "$have_mlockall" = "yes" ; then
+   echo "HAVE_MLOCKALL=y" >> $config_host_mak
+ fi
+-if test "$multiprocess" = "yes" ; then
+-  echo "CONFIG_MULTIPROCESS_ALLOWED=y" >> $config_host_mak
+-fi
+ if test "$fuzzing" = "yes" ; then
+   # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
+   # needed CFLAGS have already been provided
+@@ -6434,7 +6430,7 @@ NINJA=$ninja $meson setup \
+         -Dzstd=$zstd -Dseccomp=$seccomp -Dvirtfs=$virtfs -Dcap_ng=$cap_ng \
+         -Dattr=$attr -Ddefault_devices=$default_devices \
+         -Ddocs=$docs -Dsphinx_build=$sphinx_build -Dinstall_blobs=$blobs \
+-        -Dvhost_user_blk_server=$vhost_user_blk_server \
++        -Dvhost_user_blk_server=$vhost_user_blk_server -Dmultiprocess=$multiprocess \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi \
+         $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
+ 	-Dtcg_interpreter=$tcg_interpreter \
+diff --git a/meson.build b/meson.build
+index 05a67c20d9..cb9420a99e 100644
+--- a/meson.build
++++ b/meson.build
+@@ -157,6 +157,11 @@ if targetos != 'linux' and get_option('mpath').enabled()
+   error('Multipath is supported only on Linux')
+ endif
+ 
++if targetos != 'linux' and get_option('multiprocess').enabled()
++  error('Multiprocess QEMU is supported only on Linux')
++endif
++multiprocess_allowed = targetos == 'linux' and not get_option('multiprocess').disabled()
++
+ m = cc.find_library('m', required: false)
+ util = cc.find_library('util', required: false)
+ winmm = []
+@@ -1228,7 +1233,7 @@ host_kconfig = \
+   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
+   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+   ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
+-  ('CONFIG_MULTIPROCESS_ALLOWED' in config_host ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
++  (multiprocess_allowed ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
+ 
+ ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
+ 
+@@ -2535,6 +2540,7 @@ endif
+ summary_info += {'target list':       ' '.join(target_dirs)}
+ if have_system
+   summary_info += {'default devices':   get_option('default_devices')}
++  summary_info += {'Multiprocess QEMU': multiprocess_allowed}
+ endif
+ summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
+ 
+@@ -2655,7 +2661,6 @@ summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
+ summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
+ summary_info += {'libudev':           libudev.found()}
+ summary_info += {'FUSE lseek':        fuse_lseek.found()}
+-summary_info += {'Multiprocess QEMU': config_host.has_key('CONFIG_MULTIPROCESS_ALLOWED')}
+ summary(summary_info, bool_yn: true, section: 'Dependencies')
+ 
+ if not supported_cpus.contains(cpu)
+diff --git a/meson_options.txt b/meson_options.txt
+index 675a9c500a..bf11de7bb2 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -45,6 +45,8 @@ option('cfi', type: 'boolean', value: 'false',
+        description: 'Control-Flow Integrity (CFI)')
+ option('cfi_debug', type: 'boolean', value: 'false',
+        description: 'Verbose errors in case of CFI violation')
++option('multiprocess', type: 'feature', value: 'auto',
++       description: 'Multiprocess QEMU support')
+ 
+ option('attr', type : 'feature', value : 'auto',
+        description: 'attr/xattr support')
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.29.2
 
 
