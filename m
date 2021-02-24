@@ -2,92 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05828323C13
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:49:47 +0100 (CET)
-Received: from localhost ([::1]:42738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A540D323C43
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 13:53:13 +0100 (CET)
+Received: from localhost ([::1]:48068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEtbu-00040X-2O
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:49:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41874)
+	id 1lEtfE-0006K6-JF
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 07:53:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42444)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEtak-0003NY-NV
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:48:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41819)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEtai-0002aD-Qa
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 07:48:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614170911;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=EeE2st+IQ2Ncu/nk9s3pBVu6q7E7Da7SWixNf4aQnp4=;
- b=IdKVPXu97kjWN4acIO1qCQRBnNEI9N9rPhaI2hiZRj0mYeLNNJUhl2+BdBaeOSpkzwnMAx
- WpKQhu+1aURJy3JxUbpKXKRObclPNKj0u7qKRjfp1bpPiBruoycV2Jzp3phi0ZgryBvw6y
- 8ho7zfKgI6Wrf5fj1o4uElBMdg+LqKM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-48-m6lqV0BAOgixPZV9nqOI3A-1; Wed, 24 Feb 2021 07:48:29 -0500
-X-MC-Unique: m6lqV0BAOgixPZV9nqOI3A-1
-Received: by mail-wm1-f72.google.com with SMTP id s192so514480wme.6
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 04:48:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEtct-0004c1-Ue; Wed, 24 Feb 2021 07:50:48 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:40717)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lEtcm-0003gx-AR; Wed, 24 Feb 2021 07:50:47 -0500
+Received: by mail-pl1-x629.google.com with SMTP id z7so1133259plk.7;
+ Wed, 24 Feb 2021 04:50:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=QN2BHa7Hdh5f1DDf4RnvvF8Snt8q4rFQmUGm330ary4=;
+ b=u7BLOXbG3ZJ2Isv5a5jnnXl7OCrFpqUHB20yJ3ZVn1/cD+uCr7cvOnbiVkaCJYlBlZ
+ 7pwugzM3tBdT0EF/qSZPB/91u6onbnc1CS95M9Y5Fie2/F9tB9StZ0bWX7JYjY1390qT
+ DFaBgv0XkaI7eQ4bbLViaFydriBy0mSX7kctRj/7Ru48gnWcoK5O6tYOIv0BbPelMPqM
+ c73fsInkz1E6k0Zwgj/D+ZO+FlPNWACZywmP3EoNomd8g+P3behBivgKeu2oDCOFdQX3
+ wat2gEdelvgV0bpch7jeFfDQufzV53r3j8eoSU2saqIHMafBCI4vv/MMym5My33fZCUA
+ Vzwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=EeE2st+IQ2Ncu/nk9s3pBVu6q7E7Da7SWixNf4aQnp4=;
- b=GgRoRvCU/sML6qca+3VzhEsyiQSxoVsy6X6/27NmgSHalmVmqRg+lR3M4FrS4aztbP
- tfuQ4W2MNBXvERlbc441DxhHmiPiK0aJ/i34k30fzS23uccnl1/KIvt6fpXxpStLUrWH
- TltrScTXKAbfiU4TYthUbwczDuLO9usZ/GCKP/mvKmep8bwq05xgzgZ/0VS7EKU5DJtF
- TeQiqCNY4wrXf2WMKbC3xP136bqjzM7jXaX9e+YX6CGbxGuTove83GMUdSLJbOBED9MD
- Urm+VlHpiDBUEfq15kEYakuPZktoLczS6NsyFL1JF54J/4wQrEAO3repDgv3gJ9Z98Xz
- V5Zg==
-X-Gm-Message-State: AOAM530X65hyv61ced6yQsXmBKzngTWG1NwWkw4tlPxbcCugLpuVy+Gh
- ULoj0HZ/juZsScZCiuGOvGe7X7eAm8amzbf9ZDbFj22cQCXqW20/sgjwMOGfFXN3ppR80jVzGBC
- KKzFXoJbWF2CuKQVOtg7KFNIk171fytQsXDk5wkn/2KFuPgZ0IzjIitrO7dNR22nB
-X-Received: by 2002:adf:bb93:: with SMTP id q19mr14575714wrg.154.1614170907747; 
- Wed, 24 Feb 2021 04:48:27 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxuCFOS/ZHXnB94zl9Yp5D6Mp1a0BGhuUP/+RSbkEbN1bq38piO0EQLbORU+J0fs8k34/anhA==
-X-Received: by 2002:adf:bb93:: with SMTP id q19mr14575702wrg.154.1614170907560; 
- Wed, 24 Feb 2021 04:48:27 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id r7sm3366644wre.25.2021.02.24.04.48.26
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 04:48:27 -0800 (PST)
-Subject: Re: Problem running functional tests from China
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Michal_Such=c3=a1nek?= <msuchanek@suse.de>
-References: <60118671-cd47-1900-59c6-96782dd7e26c@redhat.com>
- <20210224110605.GM6564@kitsune.suse.cz>
- <198ecefe-4d68-b43d-dfae-8a5ceeee9615@redhat.com>
- <20210224120140.GO6564@kitsune.suse.cz> <YDZBsz/FFZtRCokJ@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <0de93d2b-32bb-d0eb-646c-e3a8bb1943a7@redhat.com>
-Date: Wed, 24 Feb 2021 13:48:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=QN2BHa7Hdh5f1DDf4RnvvF8Snt8q4rFQmUGm330ary4=;
+ b=bha+TAxUfUDePt+9GdaqFFaUomXGIhSAmXfJHh8X1+A+shObwAs8vRHHRWVWqZyaEk
+ ZmppT6XY7J2k0KJWGy9S/zKE3vMXLx/JFMr0CNTk5ZXuxYTuosTe3WeYGKhB7axA4Xi2
+ cCbVKGrLnlt6uDdcnlzU++NFPdVfozbaBDoyxS0ICpyqiaVZccmCoANDWFo+PGSpelx2
+ 16pcDc+oBG9JgozLSJioNbjg069mJSaYc+Fw1jxEO6ymBmMfL+ZLvExMLNPydAvzFkVu
+ ckBERU7tL79e6Vt4/GUJ7dJeAKwuejAFiPSHf9QWDx6cEVrBzRhT8I7vuqFZssjoFeBJ
+ 22ag==
+X-Gm-Message-State: AOAM531roAd4TBqhTcDsJUugpDHi23WHw4ih7Hp5JQvHlQmWhV0Limo7
+ Zzz02bbaugyOkxt327UccK8=
+X-Google-Smtp-Source: ABdhPJz2kjyQYgiiTkHc5ZDkF+0NfwmbDA/XQ6Dp1o5rTGh9J24QYJlbRKWB7Gy54WCcQcVXeOL2+Q==
+X-Received: by 2002:a17:902:7897:b029:e2:c149:cbe6 with SMTP id
+ q23-20020a1709027897b02900e2c149cbe6mr31503268pll.68.1614171038466; 
+ Wed, 24 Feb 2021 04:50:38 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id e12sm2795661pjj.23.2021.02.24.04.50.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 04:50:38 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v5 0/5] hw/arm: zynqmp: Implement a CSU DMA model and connect
+ it with GQSPI
+Date: Wed, 24 Feb 2021 20:50:19 +0800
+Message-Id: <20210224125024.4160-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <YDZBsz/FFZtRCokJ@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,62 +84,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, avocado-devel <avocado-devel@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Francisco Iglesias <francisco.iglesias@xilinx.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 1:08 PM, Daniel P. Berrangé wrote:
-> On Wed, Feb 24, 2021 at 01:01:40PM +0100, Michal Suchánek wrote:
->> On Wed, Feb 24, 2021 at 12:37:53PM +0100, Philippe Mathieu-Daudé wrote:
->>> On 2/24/21 12:06 PM, Michal Suchánek wrote:
->>>> On Wed, Feb 24, 2021 at 10:29:15AM +0100, Philippe Mathieu-Daudé wrote:
->>>>> Just to inform the files hosted on github don't work when
->>>>> testing from China:
->>>>
->>>>>
->>>>> raw.githubusercontent.com resolves to 127.0.0.1
->>>
->>> Actually not even localhost but 0.0.0.0 :)
->>>
->>>> And from where does this come from?
->>>>
->>>> Your local system, your ISP, ... ?
->>>
->>> Probably the ISP:
->>>
->> ...
->>>
->>> I raised that problem not to find a way to bypass an ISP
->>> firewall, but to see if there is a way to use another
->>> storage for test artifacts so all the community can run
->>> the tests.
->>
->> I don't think protecting from random network malfunction is something
->> the qemu project can do.
->>
->> That said, downloading the test data during test run does indeed look
->> fragile.
->>
->> We have the concept of git submodules which is used in qemu extensively
->> so the test data could possibly be included directly in the git tree.
->>
->> The obvious downside is that the current and past test binaries will take
->> up disk space for all users that check out the repository, even those
->> that don't run the tests.
-> 
-> We explicitly do not want to be distributing / including the
-> images ourselves, as that makes the QEMU project responsible for
-> license compliance and thus provision of full & corresponding source.
+From: Bin Meng <bin.meng@windriver.com>
 
-I am not asking that QEMU redistribute these files, I'm asking to the
-community if someone know an alternative to store files so we can run
-QEMU tests in Chinese cloud farms.
+ZynqMP QSPI supports SPI transfer using DMA mode, but currently this
+is unimplemented. When QSPI is programmed to use DMA mode, QEMU will
+crash. This is observed when testing VxWorks 7.
 
-Back to your comment, should we remove these tests?
+We added a Xilinx CSU DMA model and the implementation is based on
+https://github.com/Xilinx/qemu/blob/master/hw/dma/csu_stream_dma.c
+and the one in Edgar's branch.
 
-Thanks,
+The DST part of the model is verified along with ZynqMP GQSPI model.
 
-Phil.
+Changes in v5:
+- int_enable and int_disable do not affect each other
+- do not modify int_status int_disable_pre_write
+- set MEM_DONE in xlnx_csu_dma_done if it's SRC
+
+Changes in v4:
+- Add complete CSU DMA model based on Edgar's branch
+- Differences with Edgar's branch:
+  1. Match the registers' FIELD to UG1807.
+  2. Remove "byte-align" property. Per UG1807, SIZE and ADDR registers
+     must be word aligned.
+  3. Make the values of int_enable and int_disable mutually exclusive
+     otherwise IRQ cannot be delivered.
+  4. Clear int_status after int_disable is set.
+  5. Coding convention issues clean-up
+- remove one change that is not a checkpatch warning
+- Rename "csu_dma" to "qspi_dma"
+- Modify XLNX_ZYNQMP_SPIPS_R_MAX
+
+Changes in v3:
+- Implement DMA as a separate CSU DMA model
+- new patch: xlnx-zynqmp: Add XLNX CSU DMA module
+- new patch: xilinx_spips: Remove DMA related code from zynqmp_qspips
+
+Changes in v2:
+- Remove unconnected TYPE_STREAM_SINK link property
+- Add a TYPE_MEMORY_REGION link property, to allow board codes to tell
+  the device what its view of the world that it is doing DMA to is
+- Replace cpu_physical_memory_write() with address_space_write()
+
+Xuzhou Cheng (5):
+  hw/dma: xlnx_csu_dma: Implement a Xilinx CSU DMA model
+  hw/arm: xlnx-zynqmp: Clean up coding convention issues
+  hw/arm: xlnx-zynqmp: Connect a Xilinx CSU DMA module for QSPI
+  hw/ssi: xilinx_spips: Clean up coding convention issues
+  hw/ssi: xilinx_spips: Remove DMA related dead codes from zynqmp_spips
+
+ include/hw/arm/xlnx-zynqmp.h  |   5 +-
+ include/hw/dma/xlnx_csu_dma.h |  52 +++
+ include/hw/ssi/xilinx_spips.h |   2 +-
+ hw/arm/xlnx-zynqmp.c          |  21 +-
+ hw/dma/xlnx_csu_dma.c         | 741 ++++++++++++++++++++++++++++++++++
+ hw/ssi/xilinx_spips.c         |  33 +-
+ hw/arm/Kconfig                |   1 +
+ hw/dma/Kconfig                |   4 +
+ hw/dma/meson.build            |   1 +
+ 9 files changed, 836 insertions(+), 24 deletions(-)
+ create mode 100644 include/hw/dma/xlnx_csu_dma.h
+ create mode 100644 hw/dma/xlnx_csu_dma.c
+
+-- 
+2.25.1
 
 
