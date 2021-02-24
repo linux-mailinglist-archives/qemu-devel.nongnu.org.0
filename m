@@ -2,72 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD21323879
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 09:20:26 +0100 (CET)
-Received: from localhost ([::1]:38446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753BF323883
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 09:23:29 +0100 (CET)
+Received: from localhost ([::1]:42296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEpPF-0006VQ-4q
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 03:20:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33970)
+	id 1lEpSC-0008SR-EC
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 03:23:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34212)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1lEpNp-0005kZ-Af
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:18:57 -0500
-Received: from mail-il1-x132.google.com ([2607:f8b0:4864:20::132]:33446)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pankaj.gupta.linux@gmail.com>)
- id 1lEpNn-0007Bj-O6
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:18:57 -0500
-Received: by mail-il1-x132.google.com with SMTP id e2so1029062ilu.0
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 00:18:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=nrdLi2A7jkyOvS9ppy85vUqonPDqZKhuZZKnaprRs+M=;
- b=Yx04Rroft6y6er9m+mPzJ0f15lkigsyWXgWDkOar9gfMThp4ez8dCo8wliokzPSx9H
- hOGqoZS0GxdQejsbGNQCRku7lT+50Uhm7mOPyyFjX1LVTGAoAmpxIMXw6lsZeIfTPV5z
- vR8FlW4/oxjeUOSuryc0YDYlTu8WrSpysKFlCDTyc4MWr7f5ytOot57qRirv3Yu+HS5c
- VM4tYtZJSB5yAiH3q6XHEZiTSGSH8u/OhDaYWqQIWk0b6w0Mq06y2a/5xClkdnHGrmTK
- z/JqXynd5AmlTzXU/PsshWcy6PdhdkgmgPKfRlY6JmaubpluIjjX954n8Tl5JGELtZ+o
- wx2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=nrdLi2A7jkyOvS9ppy85vUqonPDqZKhuZZKnaprRs+M=;
- b=d3RJdm/7GvknYBiBnVjbf2P6rBx8R/shQWKQzVmettFofVcw5Zx+nSTbFZZzRvS6Xz
- Vgg1zGR+jNgLPxEoEdMzJn9K6yvZedak1XrPkkD8L3Ko9luyIPdBDxknaxgNLfAHs3qi
- z8A87tIf+81NTb0JQDbLfM82/Xk2kVa7BQGcCY4QUKAdx4KXfWgCxtxWqTloy+Y2i2Ex
- N2KtNLXZdbUU9nv7HVSswBtXHeMqy+UaVuUzwznsmQ4IrYL2RwqG9g2GNaTaWrxahmCi
- S/gQNJlq7rRGCNQeFxnMTuqWxTbS3ZZLHKHQeXk62htdv+eNX3q2Gypt1Y84n9f1g5ro
- eZqg==
-X-Gm-Message-State: AOAM533B+v/GTDnbSC+W4xdfmop4XtOKS2sw+7wB/mVEVKet7VoyT58Z
- HKpXuZDU8ZtDPEagnhMUYRdDJC3LoYp7FCwm36s=
-X-Google-Smtp-Source: ABdhPJyWqGIIl/QVLkcxhfuA21lQ7HD/TcPkOMU8seX8jeIqGeC1FsfXZjVbTYABt1Q7PcDhhQFWWgZ5iITltK5ozFw=
-X-Received: by 2002:a05:6e02:b27:: with SMTP id
- e7mr23298680ilu.253.1614154734346; 
- Wed, 24 Feb 2021 00:18:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lEpPT-00076y-QM
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:20:45 -0500
+Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:39247)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lEpPR-000830-KU
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 03:20:39 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.156.217])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 852122454EA;
+ Wed, 24 Feb 2021 09:20:22 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 24 Feb
+ 2021 09:20:21 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G0014f7df7e5-866c-461a-9b21-2421b7366e77,
+ 4492215E884D8EB0206D6A0B23EE6B50DB014786) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 24 Feb 2021 09:20:20 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Jeremy Kerr <jk@ozlabs.org>
+Subject: Re: who's using the ozlabs patchwork install for QEMU patches ?
+Message-ID: <20210224092020.269ab775@bahia.lan>
+In-Reply-To: <4023a93314e1ae69c19a4a93e87b65c8bfaac619.camel@ozlabs.org>
+References: <CAFEAcA8h8QVoGsfJCLTYnbk3yzmrtphsWdSsDUrgQkB=vGh3zw@mail.gmail.com>
+ <20210223123943.06d23a56@bahia.lan>
+ <CAFEAcA9mgE5t5KpkGac7ABaVy3gK11PbpNMfO3p-gcVhSN51tQ@mail.gmail.com>
+ <2915273.dLz0rCdnKo@silver>
+ <e79d7306-c0d8-fbd2-9582-bfa169dd6289@ozlabs.ru>
+ <4023a93314e1ae69c19a4a93e87b65c8bfaac619.camel@ozlabs.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <161290460478.11352.8933244555799318236.stgit@bmoger-ubuntu>
- <CAM9Jb+hOeKrQ1QxZm5zB1LioMNuyzzTObM8XL+zatqP7KdESWA@mail.gmail.com>
- <d2f234a5-e753-5a4e-97db-21bd0a0a69eb@amd.com>
-In-Reply-To: <d2f234a5-e753-5a4e-97db-21bd0a0a69eb@amd.com>
-From: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
-Date: Wed, 24 Feb 2021 09:18:43 +0100
-Message-ID: <CAM9Jb+hESq1yEbPcMWhJTVWoUK-es168bHoOayQ_N1vh3tdRRQ@mail.gmail.com>
-Subject: Re: [PATCH v2] i386: Add the support for AMD EPYC 3rd generation
- processors
-To: Babu Moger <babu.moger@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::132;
- envelope-from=pankaj.gupta.linux@gmail.com; helo=mail-il1-x132.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 41b95554-65a9-4200-8d59-3e28da30bab5
+X-Ovh-Tracer-Id: 884394379145025839
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeeigdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehsfhhrsegtrghnsgdrrghuuhhgrdhorhhgrdgruh
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
+ helo=4.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,41 +71,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, richard.henderson@linaro.org,
- Eduardo Habkost <ehabkost@redhat.com>, Qemu Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, Alexey Kardashevskiy <aik@ozlabs.ru>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
+ "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Babu,
+On Wed, 24 Feb 2021 08:29:17 +0800
+Jeremy Kerr <jk@ozlabs.org> wrote:
 
-> >> +        .features[FEAT_8000_0008_EBX] =
-> >> +            CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR |
-> >> +            CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
-> >> +            CPUID_8000_0008_EBX_IBRS | CPUID_8000_0008_EBX_STIBP |
-> >> +            CPUID_8000_0008_EBX_AMD_SSBD,
-> >
-> > Don't have SSBD flag exposed in default EPYC-Rome CPU configuration?
-> > Is there any reason for this?
-> > Or do we need to explicitly add it?
->
-> I think we missed it when we added EPYC-Rome model. I was going to add it
-> sometime soon. As you know users can still add it with "+ssbd" if required.
+> Hi Alexey,
+> > Jeremy or Stephen (cc-ing) do definitely know if there is a better
+> > way.
+> 
+> The standard process is to send me an email :)
+> 
 
-Thanks for clarifying. I also see CPUID_8000_0008_EBX_IBRS missing for Rome.
-Will it be okay if we add them now for Rome?
+Is this standard process mentioned somewhere ?
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6a53446e6a..b495116545 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4161,7 +4161,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .features[FEAT_8000_0008_EBX] =
-             CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR |
-             CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
--            CPUID_8000_0008_EBX_STIBP,
-+            CPUID_8000_0008_EBX_STIBP | CPUID_8000_0008_EBX_IBRS |
-+            CPUID_8000_0008_EBX_AMD_SSBD,
-         .features[FEAT_7_0_EBX] =
-             CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
-             CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
+> You're wanting to add user 'groug' to the qemu project, is that
+> correct?
+> 
+
+Yes. Thanks !
+
+--
+Greg
+
+> Cheers,
+> 
+> 
+> Jeremy
+> 
+
 
