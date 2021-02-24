@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2377323716
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 07:00:27 +0100 (CET)
-Received: from localhost ([::1]:32806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36153323710
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 06:56:35 +0100 (CET)
+Received: from localhost ([::1]:51842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEnDm-0007XB-V2
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 01:00:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35826)
+	id 1lEnA2-0003gT-2m
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 00:56:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lEn86-0001sG-Jb
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52519)
+ id 1lEn88-0001tB-IQ
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53353)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lEn83-00043r-Ve
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:34 -0500
+ id 1lEn86-00044y-Ba
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614146071;
+ s=mimecast20190719; t=1614146073;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=X3SFibeVIgv2nFTvQXoFQwlNZ3BmixaEpRoucdc6PUw=;
- b=SL0cHfHfz+6MCtwrY+4Bpm85XT9A4hZHbJS/zXqBej15fX6uJNBYdHXJEX9IeaOZjpPTGX
- ePZfHOwsyFetrp3IqfCKCZWLm8vI3BfnThFmLmakI6D0UJEqAPq3Aiy8uAe7e5OUTk5GBn
- uyDUAmZmEWdlr5rYKt3N7bbqhTVp0PQ=
+ bh=DaqSA7gOY6IcoJBLakceTp/PPrLZ/lIRFijQ1wer3Gs=;
+ b=PylnAYNe1xSJdsvUGUGFO3AMHKnpG1QODGrB/UgM+trZWaw1wM9HlVajVLXUyBUiVQ5xey
+ BFBeFQY+e/gImDm+8hFEfmhiIte09q/gxe4lfgx4BuEuqc3JT0S5Y8EF/H9rX9CL78295m
+ mOkklv5UHWg5hgR7xFA08oK1V6fwSnw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-319-yxyyXZb9PBmUuhvIQ5wzPw-1; Wed, 24 Feb 2021 00:54:28 -0500
-X-MC-Unique: yxyyXZb9PBmUuhvIQ5wzPw-1
+ us-mta-339-77CCxkpRO4GOZBQ0--tXAg-1; Wed, 24 Feb 2021 00:54:30 -0500
+X-MC-Unique: 77CCxkpRO4GOZBQ0--tXAg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE46D1020C21
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:54:27 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D6313803F49
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:54:29 +0000 (UTC)
 Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
  (ovpn-13-164.pek2.redhat.com [10.72.13.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E389A5C675;
- Wed, 24 Feb 2021 05:54:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7B4026061F;
+ Wed, 24 Feb 2021 05:54:28 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 5/6] sungem: switch to use qemu_receive_packet() for loopback
-Date: Wed, 24 Feb 2021 13:54:00 +0800
-Message-Id: <20210224055401.492407-6-jasowang@redhat.com>
+Subject: [PATCH 6/6] tx_pkt: switch to use qemu_receive_packet_iov() for
+ loopback
+Date: Wed, 24 Feb 2021 13:54:01 +0800
+Message-Id: <20210224055401.492407-7-jasowang@redhat.com>
 In-Reply-To: <20210224055401.492407-1-jasowang@redhat.com>
 References: <20210224055401.492407-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -84,26 +85,26 @@ Cc: ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch switches to use qemu_receive_packet() which can detect
+This patch switches to use qemu_receive_receive_iov() which can detect
 reentrancy and return early.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/sungem.c | 2 +-
+ hw/net/net_tx_pkt.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/sungem.c b/hw/net/sungem.c
-index 33c3722df6..3684a4d733 100644
---- a/hw/net/sungem.c
-+++ b/hw/net/sungem.c
-@@ -306,7 +306,7 @@ static void sungem_send_packet(SunGEMState *s, const uint8_t *buf,
-     NetClientState *nc = qemu_get_queue(s->nic);
- 
-     if (s->macregs[MAC_XIFCFG >> 2] & MAC_XIFCFG_LBCK) {
--        nc->info->receive(nc, buf, size);
-+        qemu_receive_packet(nc, buf, size);
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index da262edc3e..1f9aa59eca 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -553,7 +553,7 @@ static inline void net_tx_pkt_sendv(struct NetTxPkt *pkt,
+     NetClientState *nc, const struct iovec *iov, int iov_cnt)
+ {
+     if (pkt->is_loopback) {
+-        nc->info->receive_iov(nc, iov, iov_cnt);
++        qemu_receive_packet_iov(nc, iov, iov_cnt);
      } else {
-         qemu_send_packet(nc, buf, size);
+         qemu_sendv_packet(nc, iov, iov_cnt);
      }
 -- 
 2.25.1
