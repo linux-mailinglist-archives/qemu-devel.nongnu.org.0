@@ -2,94 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 270AE324316
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:22:18 +0100 (CET)
-Received: from localhost ([::1]:43356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6393532431E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:24:59 +0100 (CET)
+Received: from localhost ([::1]:50158 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExrd-0006Um-5k
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:22:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44746)
+	id 1lExuE-0001Yt-8P
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:24:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lExXA-00051Q-ME
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:01:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28326)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lExY4-0005aP-Fw
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:02:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38774)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
- id 1lExX1-00081f-BA
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:01:08 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lExXy-0008JZ-H3
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:02:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614186056;
+ s=mimecast20190719; t=1614186117;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=eLxTv4tCQACzWuMFqyGApWLUEtWN5eG2sFrUNM+uLxU=;
- b=fKamr2/QcwhNU578e3/DhBDg8N8shpPCb8IlfcCaqrrH3obTh3ZMOQTlo09jwAVdXmGVdK
- JJR6/NJiWtBFrqq51NmmiixlUvgtOO8LaklZGwPEI91s+uU3CtFKrKcO3op6PbbFpuxkY6
- KWqortb5XwvC2UyvJ5yXUXJUH4FJ3v4=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-Zg6wE1ZwN0iakGex1IZykg-1; Wed, 24 Feb 2021 12:00:46 -0500
-X-MC-Unique: Zg6wE1ZwN0iakGex1IZykg-1
-Received: by mail-ed1-f71.google.com with SMTP id g20so1212619edr.6
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 09:00:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
- :message-id:mime-version;
- bh=eLxTv4tCQACzWuMFqyGApWLUEtWN5eG2sFrUNM+uLxU=;
- b=npIm6AqzlFHUvvPEmvr/emRzX3zdf6GEoeWoTvxipCWnLrhcHubLy9AOJS1WP1Q6no
- LQb4Soa8h0gn5ZAUMSitwmmXNf9dH1fPXN/NMXxq3jzpM5aPy+BhWdcdejfp4Kg70XnE
- BBb460kWFFY661XG6LVhtR/9qhM/UXjU+LN8SXjuezwhX2zJIjTgdZvaYjgU+5sGMh9B
- 6Sat/0Op/M/BNsikr1HWk/oVgMwpaVAhmZ2nNmqQ3vDah1JWCDqGqmVhAK7jOAn/S3Ol
- xff3Bh9Nx1VGfLeyTVBzqdsdhlJHdVsxPUTbVds8jDpP7NVJU4tlhrC678BdZYcaknO8
- Xhog==
-X-Gm-Message-State: AOAM53347F7HWdNA/5CHHq694CvxZaiZDqPMucVV5p9hA3hrxhm8M8PC
- W5Ou8TGkPbCfc1rUwE1vDCXKRzN57tgdKtKP2STUp/iqY+lb3OXwMv8V7qXZeRZbeDlR14TEHYw
- jhEaksA2hiFI6PmDf85dhOnVvLJWBzdoMSKEVXY79yMLhBB5e//pX+VSuTbW/7HW9c5c=
-X-Received: by 2002:a17:907:4cf:: with SMTP id
- vz15mr21588899ejb.39.1614186044979; 
- Wed, 24 Feb 2021 09:00:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwr3w6v4X3PVaiu6Ez0pKcQHYRWQcfpRjjJMyrhV2TCOIr8r0v6uZJXr4vonq71z7tbtELuNQ==
-X-Received: by 2002:a17:907:4cf:: with SMTP id
- vz15mr21588860ejb.39.1614186044682; 
- Wed, 24 Feb 2021 09:00:44 -0800 (PST)
-Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
- by smtp.gmail.com with ESMTPSA id bz25sm1701682ejc.97.2021.02.24.09.00.44
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 09:00:44 -0800 (PST)
-From: Vitaly Kuznetsov <vkuznets@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v4 16/21] i386: track explicit 'hv-*' features
- enablement/disablement
-In-Reply-To: <20210224170622.786515d6@redhat.com>
-References: <20210210164033.607612-1-vkuznets@redhat.com>
- <20210210164033.607612-17-vkuznets@redhat.com>
- <20210211183555.2136b5c8@redhat.com> <87tuqhllmn.fsf@vitty.brq.redhat.com>
- <20210212151259.3db7406f@redhat.com> <87k0rdl3er.fsf@vitty.brq.redhat.com>
- <20210212170113.30a902b2@redhat.com> <87eehhlnj5.fsf@vitty.brq.redhat.com>
- <20210215180106.7e573e6a@redhat.com> <87sg5xjj60.fsf@vitty.brq.redhat.com>
- <87mtvw4d59.fsf@vitty.brq.redhat.com> <20210223161948.56bf86c0@redhat.com>
- <871rd6yefp.fsf@vitty.brq.redhat.com> <20210223184802.7080da4a@redhat.com>
- <87y2fewtat.fsf@vitty.brq.redhat.com> <20210224170622.786515d6@redhat.com>
-Date: Wed, 24 Feb 2021 18:00:43 +0100
-Message-ID: <87o8g9wgck.fsf@vitty.brq.redhat.com>
+ bh=qf8EsFHjvorI6cWHRuDw/8EY61NQ254qB814sg0D6vg=;
+ b=dSmntsbuBeQl7F8xoT+R8Vbg/nr8oFcRsXy7qav+0rdygKp7XuZsnkZzFygy/yPOmt6C9w
+ Z5WHjDyPv6iireFJiHbcmHVjSfSTMrV8yqESdhFroOC3sV+YFkdGxP5l5rC3tn1UWtAQtE
+ uKqxowj2WWIuD2t9SJwYWzPAbWHAAhE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-403-GBQrXatxPgKps_gQEeX_vQ-1; Wed, 24 Feb 2021 12:01:55 -0500
+X-MC-Unique: GBQrXatxPgKps_gQEeX_vQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D980A100A67C;
+ Wed, 24 Feb 2021 17:01:53 +0000 (UTC)
+Received: from [10.36.114.83] (ovpn-114-83.ams2.redhat.com [10.36.114.83])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EBEA019C71;
+ Wed, 24 Feb 2021 17:01:45 +0000 (UTC)
+Subject: Re: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>, Peter Xu <peterx@redhat.com>
+References: <20210219224719.GN6669@xz-x1>
+ <68564940-6276-465D-9945-A50A900B90BF@redhat.com>
+ <20210222172923.GS6669@xz-x1>
+ <79ce6a7e-c40b-b64e-757e-1ec6e4177310@redhat.com>
+ <20210222175440.GT6669@xz-x1>
+ <5471ac12-0dc5-1435-8fba-fad7b37bbcf1@redhat.com>
+ <29fff27e-b2df-83a8-2649-581949a216de@virtuozzo.com>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <39a30875-4424-8437-47a8-1043252159f5@redhat.com>
+Date: Wed, 24 Feb 2021 18:01:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <29fff27e-b2df-83a8-2649-581949a216de@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=vkuznets@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,287 +87,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, drjones@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ Alexander Duyck <alexander.duyck@gmail.com>, qemu-devel@nongnu.org,
+ David Hildenbrand <dhildenb@redhat.com>, Den Lunev <den@openvz.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Igor Mammedov <imammedo@redhat.com> writes:
+On 24.02.21 17:56, Andrey Gruzdev wrote:
+> On 22.02.2021 21:11, David Hildenbrand wrote:
+>> On 22.02.21 18:54, Peter Xu wrote:
+>>> On Mon, Feb 22, 2021 at 06:33:27PM +0100, David Hildenbrand wrote:
+>>>> On 22.02.21 18:29, Peter Xu wrote:
+>>>>> On Sat, Feb 20, 2021 at 02:59:42AM -0500, David Hildenbrand wrote:
+>>>>>> Live snapshotting ends up reading all guest memory (dirty bitmap
+>>>>>> starts with all 1s), which is not what we want for virtio-mem - we
+>>>>>> don’t want to read and migrate memory that has been discarded and
+>>>>>> has no stable content.
+>>>>>>
+>>>>>> For ordinary migration we use the guest page hint API to clear
+>>>>>> bits in the dirty bitmap after dirty bitmap sync. Well, if we
+>>>>>> don‘t do bitmap syncs we‘ll never clear any dirty bits. That‘s the
+>>>>>> problem.
+>>>>>
+>>>>> Using dirty bitmap for that information is less efficient, becase it's
+>>>>> definitely a larger granularity information than PAGE_SIZE. If the
+>>>>> disgarded
+>>>>> ranges are always continuous and at the end of a memory region, we
+>>>>> should have
+>>>>> some parameter in the ramblock showing that where we got shrinked
+>>>>> then we don't
+>>>>> check dirty bitmap at all, rather than always assuming used_length
+>>>>> is the one.
+>>>>
+>>>> They are randomly scattered across the whole RAMBlock.
+>>>> Shrinking/growing
+>>>> will be done to some degree in the future (but it won't get rid of the
+>>>> general sparse layout we can produce).
+>>>
+>>> OK. Btw I think currently live snapshot should still be reading dirty
+>>> bitmap,
+>>> so maybe it's still fine.  It's just that it's still not very clear
+>>> to hide
+>>> virtio-mem information into dirty bitmap, imho, since that's not how we
+>>> interpret dirty bitmap - which is only for the sake of tracking page
+>>> changes.
+>>
+>> Well, currently it is "what do we have to migrate".
+>>
+> Using dirty bitmap can prohibit unexpected (overwritten) content of
+> pre-discarded pages, but they'll appear as zeroed on destination.
 
-> On Tue, 23 Feb 2021 19:08:42 +0100
-> Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->
->> Igor Mammedov <imammedo@redhat.com> writes:
->> 
->> > On Tue, 23 Feb 2021 16:46:50 +0100
->> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->> >  
->> >> Igor Mammedov <imammedo@redhat.com> writes:
->> >>   
->> >> > On Mon, 22 Feb 2021 11:20:34 +0100
->> >> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
->> >> >    
->> >> >> Vitaly Kuznetsov <vkuznets@redhat.com> writes:
->> >> >>     
->> >> >> > Igor Mammedov <imammedo@redhat.com> writes:
->> >> >> >      
->> >> >> >>> 
->> >> >> >>> We need to distinguish because that would be sane.
->> >> >> >>> 
->> >> >> >>> Enlightened VMCS is an extension to VMX, it can't be used without
->> >> >> >>> it. Genuine Hyper-V doesn't have a knob for enabling and disabling it,      
->> >> >> >> ...      
->> >> >> >>> That bein said, if
->> >> >> >>> guest CPU lacks VMX it is counter-productive to expose EVMCS. However,
->> >> >> >>> there is a problem with explicit enablement: what should
->> >> >> >>> 
->> >> >> >>> 'hv-passthrough,hv-evmcs' option do? Just silently drop EVMCS? Doesn't
->> >> >> >>> sound sane to me.      
->> >> >> >> based on above I'd error out is user asks for unsupported option
->> >> >> >> i.e. no VMX -> no hv-evmcs - if explicitly asked -> error out      
->> >> >> >
->> >> >> > That's what I keep telling you but you don't seem to listen. 'Scratch
->> >> >> > CPU' can't possibly help with this use-case because when you parse 
->> >> >> >
->> >> >> > 'hv-passthrough,hv-evmcs,vmx=off' you
->> >> >> >
->> >> >> > 1) "hv-passthrough" -> set EVMCS bit to '1' as it is supported by the
->> >> >> > host.
->> >> >> >
->> >> >> > 2) 'hv-evmcs' -> keep EVMCS bit '1'
->> >> >> >
->> >> >> > 3) 'vmx=off' -> you have no idea where EVMCS bit came from.
->> >> >> >
->> >> >> > We have to remember which options were aquired from the host and which
->> >> >> > were set explicitly by the user.       
->> >> >> 
->> >> >> Igor,
->> >> >> 
->> >> >> could you please comment on the above? In case my line of thought is
->> >> >> correct, and it is impossible to distinguish between e.g.
->> >> >> 
->> >> >> 'hv-passthrough,hv-evmcs,-vmx'
->> >> >> and
->> >> >> 'hv-passthrough,-vmx'
->> >> >> 
->> >> >> without a custom parser (written just exactly the way I did in this
->> >> >> version, for example) regardless of when 'hv-passthrough' is
->> >> >> expanded. E.g. we have the exact same problem with
->> >> >> 'hv-default,hv-evmcs,-vmx'. I that case I see no point in discussing    
->> >> >
->> >> > right, if we need to distinguish between explicit and implicit hv-evmcs set by
->> >> > hv-passthrough custom parser probably the way to go.
->> >> >
->> >> > However do we need actually need to do it?    
->> >> 
->> >> I think we really need that. See below ...
->> >>   
->> >> > I'd treat 'hv-passthrough,-vmx' the same way as 'hv-passthrough,hv-evmcs,-vmx'
->> >> > and it applies not only hv-evmcs but other features hv-passthrough might set
->> >> > (i.e. if whatever was [un]set by hv-passthrough in combination with other
->> >> > features results in invalid config, QEMU shall error out instead of magically
->> >> > altering host provided hv-passthrough value).
->> >> >
->> >> > something like:
->> >> >   'hv-passthrough,-vmx' when hv-passthrough makes hv-evmcs bit set
->> >> > should result in
->> >> >   error_setg(errp,"'vmx' feature can't be disabled when hv-evmcs is enabled,"
->> >> >                  " either enable 'vmx' or disable 'hv-evmcs' along with disabling 'vmx'"
->> >> >
->> >> > making host's features set, *magically* mutable, depending on other user provided features
->> >> > is a bit confusing. One would never know what hv-passthrough actually means, and if
->> >> > enabling/disabling 'random' feature changes it.
->> >> >
->> >> > It's cleaner to do just what user asked (whether implicitly or explicitly) and error out
->> >> > in case it ends up in nonsense configuration.
->> >> >    
->> >> 
->> >> I don't seem to agree this is a sane behavior, especially if you replace
->> >> 'hv-passthrough' with 'hv-default' above. Removing 'vmx' from CPU for
->> >> Windows guests is common if you'd want to avoid nested configuration:
->> >> even without any Hyper-V guests created, Windows itself is a Hyper-V
->> >> partition.
->> >> 
->> >> So a sane user will do:
->> >> 
->> >> '-cpu host,hv-default,vmx=off' 
->> >> 
->> >> and on Intel he will get an error, and on AMD he won't. 
->> >> 
->> >> So what you're suggesting actually defeats the whole purpose of
->> >> 'hv-default' as upper-layer tools (think libvirt) will need to know that  
->> > I'd assume it would be hard for libvirt to use 'hv-default' from migration
->> > point of view. It's semi opaque (one can find out what features it sets
->> > indirectly inspecting individual hv_foo features, and mgmt will need to
->> > know about them). If it will mutate when other features [un]set, upper
->> > layers might need to enumerate all these permutations to know which hosts
->> > are compatible or compare host feature sets every time before attempting
->> > migration.
->> 
->> That's exactly the opposite of what's the goal here which is: make it
->> possible for upper layers to not know anything about Hyper-V
->> enlightenments besides 'hv-default'. Migration should work just fine, if
->> the rest of guest configuration matches -- then 'hv-default' will create
->> the exact same things (e.g. if 'vmx' was disabled on the source it has
->             ^^^^^
-> I'm not convinced in that yet (not with current impl. more on that at the end of reply)
->
->> to be enabled on the destination, it can't be different)
->> 
->> 
->> >> Intel configurations for Windows guests are somewhat different. They'll
->> >> need to know what 'hv-evmcs' is. We're back to where we've started.  
->> >
->> > we were talking about hv-passthrough, and if host advertises hv-evmcs
->> > QEMU should complain if user disabled features it depends on (
->> > not silently fixing up configuration error).
->> > But the same applies to hv-default.  
->> 
->> Let's forget about hv-passthrough completely for a while as this series
->> is kind of unrelated to it.
->
-> It adds a lot for unrelated code (not just couple of lines),
-> I've played with scratch CPU idea, here is demo of it
-> https://github.com/imammedo/qemu/commit/a4b107d5368ebf72d45082bc8310a6b88a4ba6fb
-> I didn't rework caps/cpuid querying parts (just hacked around it),
-> and even without that it saves us ~200LOC (not a small part of which comes
-> with this series).
+To be precise, they'll usually appear as discarded (no pages in the 
+migration stream).
 
-All your savings come from throwing away custom parsers -- which are not
-needed at all if we don't distinguish between
+> What about other virtio-baloon features like HW_POISON when poisoned
+> pages should also be retained on population filled with certain pattern?
 
-'hv-default,hv-evmcs' and 'hv-default'
+In case of free page reporting, we skip discarding if poisoning is set 
+to != 0 because of that reason:
 
-it's just not needed, don't count these patches in. Or, if it is needed,
-please explain how your scratch CPU is making things different. I guess
-it is not so we can discuss this outside of this series.
-
-> I also split horrible hv_cpuid_check_and_set into separate 'set' and 'check' stages.
-> Granted it was sort-of pre-existing ugly code, some of your
-> re-factoring made it a bit better but it's still far from readable.
->  
-
-hv_cpuid_check_and_set() is already there, I'm not at all opposed to
-making this code even better but I don't see it as a must for this
-particular feature (hv-default).
-
->> In the previous submission I was setting 'hv-default' based on host
->> availability of the feature only. That is: set on Intel, unset on
->> AMD. We have to at least preserve that because it would be insane to
->> crash on
->> 
->> -cpu host,hv-default 
->> 
->> on AMD because AMD doesn't (and never will!) support hv-evmcs, right?
->
-> If QEMU prevents cross arch migration i.e. it's not supported,
-> then I guess we can make hv-default different depending on AMD or Intel host.
-> If not then we might need to be conservative i.e. exclude hv-evmcs from defaults.
->
-
-Forget about cross vendor. I want to tie it 1:1 to VMX feature on the
-guest CPU -- which happens to be only available on Intel. It is
-absolutely impossible to migrate VMX enabled guest to VMX-disabled
-destination, with or without evmcs.
-
-
->> >> If we are to follow this approach let's just throw away 'hv-evmcs' from
->> >> 'hv-default' set, it's going to be much cleaner. But again, I don't
->> >> really believe it's the right way to go.  
->> >
->> > if desired behavior, on Intel host for above config, to start without error
->> > then indeed defaults should not set 'hv-evmcs' if it results in invalid
->> > feature set.  
->> 
->> This is problematic as it is still sane for everyone to enable it as it
->> gives performance advantage. If we just for a second forget about custom
->   "
->     > >> So a sane user will do:
->     > >> 
->     > >> '-cpu host,hv-default,vmx=off'
->   "
->   it's not easy picking defaults.
->
->> parsers and all that -- which is just an implementation detail, why can't
->> we tie 'hv-evmcs' bit in 'hv-default' to 'vxm' 1:1?
-> migration wise I don't see issues wrt vmx=off turning of hv-evmcs,
-> however ...
->
-> we were replacing user input fixups with hard errors asking
-> user to fix CLI and removing custom parsers in favor of generic ones.
->
-> In vmx=off case we would be fixing up what 'hv-default' explicitly set.
-> Same applies to other hv-foo set by hv-default.
->
-> ex: 'hv-default,hv-dep1=off', will turn off some dependent feature
-> for other hv feature in hv-default set and it will error out,
-> same goes on for enabling feature that has dependencies.
-> Why should we treat hv-evmcs/vmx pair any different?
->
-
-VMX is not part of Hyper-V enlightenments, is it? It can also be coming
-from a CPU model:
-
-"-cpu MyLovelyModelWithVmx,hv-default"
-
-should not throw an error!
-
-Again, the goal is for userspace to not know anything besides
-'hv-default' for Hyper-V enlightenments.
-
-
-> Granted exiting with error is not the best UX, but at least it says to user
-> what's wrong with CLI and how to fix it. Also it lets to keep QEMU code
-> manageable and with consistent behavior.
-
-Enabling EVMCS only when guest CPU has VMX is a smart behavior, all
-users want that. It is very consistent with how genuine Hyper-V behaves.
-
->
->> Again, the end goal is: make it possible for upper layers to now know
->> anything about Hyper-V enlightenments other than 'hv-default'.
-> I'm still doubtful about feasibility of this goal when migration is considered.
-> It sure would work if hosts are identical hw/sw wise.
-> In mixed setup all features, except of hv-evmcs, that included in 'hv-default',
-> will error out in case host doesn't support it, which should prevent
-> incompatible migration so that's also fine.
->
-> But hv-evmcs will silently go away if host doesn't support it,
-> which is issue when migration happens to/from host that supports it.
-
-But how can it go away? In KVM, hv-evmcs support is not conditional,
-basically, all KVMs which support netsting state migration also support
-EVMCS. 
-
->
-> Maybe to help mgmt to figure out hosts compatibility
->   1. it should know about hv-evmcs to query it's status
->   2. or default value set by 'hv-default' should be exposed to mgmt
->      so it could compare whole feature-set in one go without being
->      aware of individual features.
->
-> Additionally on QEMU side for such conditional features we can
-> theoretically add a subsection to migration stream when feature
-> is enabled, that way we at least can prevent 'successful' migration,
-> when destination value doesn't match. But this might already be
-> over-engineering on my part.
-
-I think you're trying to solve an issue which doesn't exist. In case
-we're successfully migrating a nested enabled guest, our KVM is modern
-enough and supports EVMCS (on Intel, of course). Also, nested state
-(which is part of the migration stream) has EVMCS flag, we can't migrate
-somewhere where the flag is unsupported.
-
-Anyway, I feel we're walking in circles. I'm ready to just drop all
-EVMCS related bits from this seies to get it merged. This will make the
-part which you hate the most ("custom parsers") go away too. We can discuss
-EVMCS to death after that and, when we finally decide that user
-convenience is actually worth something, we can add 'hv-evmcs' to the
-new 
-
-Eduardo, do you see any way forward here? 
+if (virtio_balloon_inhibited() || dev->poison_val) {
+	goto skip_element;
+}
 
 -- 
-Vitaly
+Thanks,
+
+David / dhildenb
 
 
