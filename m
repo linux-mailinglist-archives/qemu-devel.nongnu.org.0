@@ -2,97 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAC632472D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 23:55:33 +0100 (CET)
-Received: from localhost ([::1]:41734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1716B32472E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 23:55:55 +0100 (CET)
+Received: from localhost ([::1]:42104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF348-00030m-QL
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 17:55:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41738)
+	id 1lF34T-0003Am-Qh
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 17:55:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lF32I-0002Ck-DH
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:53:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35725)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lF32E-0000Qz-44
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:53:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614207213;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XWtFQ+v2znOPw4h3JmBisrmB2fhK36zsmHodIPTR4jw=;
- b=KmMC3C4X8omfZTi6xV99uTRTdXty0/V7G3Zy2ZvSgEz6EEbdW4lsjFyeb+hSyf1fdRZGdk
- GR2+RG9/JWYEEv5ZCqO7icQMM2R4/1KX69HuUlsxSXXaxitlF8Q5OKJL66D/MK4oqvdO5r
- Qihibz+Rh+wPhfPjw9ZZrVLxYfEHsJk=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-478-0imOFckOOdGTBc1ZsL-Y-A-1; Wed, 24 Feb 2021 17:53:29 -0500
-X-MC-Unique: 0imOFckOOdGTBc1ZsL-Y-A-1
-Received: by mail-wm1-f71.google.com with SMTP id b62so1142116wmc.5
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 14:53:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lF32R-0002Hc-Hd
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:53:48 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39813)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lF32P-0000UU-MI
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 17:53:47 -0500
+Received: by mail-wr1-x432.google.com with SMTP id v1so3413209wrd.6
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 14:53:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version; bh=OyNFwRqHRBVpAGK1YTrrlzvhueUuW3vMZT2fUmQYp8o=;
+ b=ys8x6I0roemPQ12tTqD1I7nV15qA2uOsDQuyUXKLpJA8x92S22BcZdgovKC6auqE6k
+ I0s3/OB0nmR16zxvQ7LKkhlSrHINZYsvtQxhM5BSVg4uK0wqnH/pUPOeXBovERSzdF1w
+ xx4iLwjlQqNf3MWcvN6jlpojsayQAjAu3l2KIp9TxqRHYNM5CCvlgBLpV8ImOwJ0jdds
+ gS1/Y6yA/z0rKSTA9ICyG084KGillt3j0MTdASASBZRdjeoavU5+/v/rJo8Xd6lYFWvZ
+ k+b93mR7fb/dPhru3itIxYai9Ba8MQs/jwkP9NaygfKIh5gW/aXTFTA/E+cPN6uH8lXe
+ 8ptA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=XWtFQ+v2znOPw4h3JmBisrmB2fhK36zsmHodIPTR4jw=;
- b=BLSma2mSSVEPRDDof/iVOx4XqBKuhfdVH9uc2rAGolUR8HOhkfMUsds2QgzSUWejrT
- BryuuM/6ypDH7zJau0cB/3lckiOln+Y/cUkeeGm8DXUlkl/rKNOzPqWK+w6E6CPWChvA
- mmdRm9h4c1s9vRDL9oKRddL8wBi0U0Fnau2DeCNI96tWP9ofS5FdaWpaBNU/mkAreQoO
- hTAo14TctdQovNjKWfD0JBSItOdhn7n3bvVZRV+wg/OwNbackprjzMn5lhN4lvldE62B
- rD7DQUj6YWtghcuOtNHp1qN3cr5F+jp59CnkXesWw+1FPKrxPvUXYA8BHHBnFVOFBrj7
- TyCA==
-X-Gm-Message-State: AOAM530IbehpE7x43k+SPfFDRQmDcq9iaV2nh1npkj9nt8TKDCI9G7EN
- ZVheU1v+WnpA7MjvJ+2k8wz/0BM03QkxwhS0uCdX4sROOI8Lh1goAJHMXEAxQXUjOUSBDe883jx
- TZw4ZdkvQj1z9cRcspjDlq/KPD71+FOqk+AhyHiAaKEBl3MTk+U0RGU8suA0Ncx5W
-X-Received: by 2002:a5d:5710:: with SMTP id a16mr261708wrv.275.1614207208531; 
- Wed, 24 Feb 2021 14:53:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxNIjYzJwtX0vwWZoDXwF0rXHGcrZIdZS/7mgD7FWfH7mFBh9V/eldZLH7rLpnhCZtlb1q9Gw==
-X-Received: by 2002:a5d:5710:: with SMTP id a16mr261690wrv.275.1614207208336; 
- Wed, 24 Feb 2021 14:53:28 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id c3sm5639993wrr.29.2021.02.24.14.53.27
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 14:53:27 -0800 (PST)
-Subject: Re: [PATCH v22 06/17] meson: add target_user_arch
-To: Eric Blake <eblake@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210224133428.14071-1-cfontana@suse.de>
- <20210224133428.14071-7-cfontana@suse.de>
- <ab323577-c68e-c215-655f-1b45d2e9b112@redhat.com>
- <37da6126-a6eb-a12e-2944-9ac4a232390c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <f8d003fc-5f1d-3280-4466-331cbb8cfafb@redhat.com>
-Date: Wed, 24 Feb 2021 23:53:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version;
+ bh=OyNFwRqHRBVpAGK1YTrrlzvhueUuW3vMZT2fUmQYp8o=;
+ b=FzXEijnmAsrW4jOyxXD6v66eXglP3Q0O7ZbVnZwMB1uDoRaWLCCfHR5DB12TXGEx/y
+ 99VUC83kC6BsrzjiJAA4WXyIFKX72V9km5xVlOjCiqiVH5ewaHyHGTzbyyOcCwoY0W3j
+ jBt1RC1QbJDN4AzOzM3QxhiOxx0i7Yg6bi+KYnFwjDzOsW7omF6C7lFtlU6xTyW21aIT
+ USVIjyv/kqc/UwpRJlld2+KDQypp8wvWPzQT3BRrphY7smcZeQa6SmdbUKeqU6RwIT0K
+ UxXW3Rek/gwR5JjNR1SZCo07FGpV56MFCgtQBolndT4blIGruJiqU74Ei9PjituzxsnE
+ RYdw==
+X-Gm-Message-State: AOAM531SVOSs6fsMDSVSxv+xfz6XH2sOZtuP+EyBQWkR9VWFkZVY1bOD
+ M0getblxgB0qkL1plIZV00GYwg==
+X-Google-Smtp-Source: ABdhPJwUzGEKGlnJgXzYfhgRZlHSrPgN8nox3ZBTUW/ggC9YkjZ//K4W/Fr3bPsIYgZWXwO3rX85fg==
+X-Received: by 2002:a05:6000:188c:: with SMTP id
+ a12mr286383wri.105.1614207222854; 
+ Wed, 24 Feb 2021 14:53:42 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id q20sm4746444wmc.14.2021.02.24.14.53.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 14:53:42 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id d32daa1c;
+ Wed, 24 Feb 2021 22:53:41 +0000 (UTC)
+To: Kunkun Jiang <jiangkunkun@huawei.com>, Juan Quintela
+ <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH 1/3] migration/ram: Modify the code comment of
+ ram_save_host_page()
+In-Reply-To: <20210223021646.500-2-jiangkunkun@huawei.com>
+References: <20210223021646.500-1-jiangkunkun@huawei.com>
+ <20210223021646.500-2-jiangkunkun@huawei.com>
+X-HGTTG: zarquon
+From: David Edmondson <dme@dme.org>
+Date: Wed, 24 Feb 2021 22:53:41 +0000
+Message-ID: <cunim6haxhm.fsf@dme.org>
 MIME-Version: 1.0
-In-Reply-To: <37da6126-a6eb-a12e-2944-9ac4a232390c@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: neutral client-ip=2a00:1450:4864:20::432;
+ envelope-from=dme@dme.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,51 +88,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
+ Keqian Zhu <zhukeqian1@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 11:35 PM, Eric Blake wrote:
-> On 2/24/21 3:21 PM, Philippe Mathieu-Daudé wrote:
->> On 2/24/21 2:34 PM, Claudio Fontana wrote:
->>> the lack of target_user_arch makes it hard to fully leverage the
->>> build system in order to separate user code from sysemu code.
->>>
->>> Provide it, so that we can avoid the proliferation of #ifdef
->>> in target code.
->>>
->>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
->>> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
->>>
->>> [claudio: added changes for new target hexagon]
->>
->> Again, this line goes ...
->>
->>> ---
->>
->> ... here. Else it is not stripped by git-am and ends
->> burried in the repository (see commit 940e43aa30e).
-> 
-> If you are modifying a patch originally written by someone else (that
-> is, their S-o-b appears first, but your edits mean you also add S-o-b),
-> it is courteous to include your modifications in the commit log in this
-> manner.  (For an example, see commit 2c4c556e06)
-> 
-> You're right that it can look fishy if your changlog appears on your own
-> commit (if you rebased things with no one else touching the patch in
-> between, just update the commit message as part of that rebase; the
-> changelog goes after the --- for review in that case).  But it's not
-> completely wrong: you'll see me doing it when wearing my maintainer hat
-> and preparing a pull request, and modifying my own patch different from
-> how it was posted on the mailing list while wearing my developr hat
-> prior to the pull request (see commit c930831446 for an example)
+On Tuesday, 2021-02-23 at 10:16:43 +08, Kunkun Jiang wrote:
 
-In that case that makes sense indeed (although in Claudio's case I
-find it more confusing).
+> The ram_save_host_page() has been modified several times
+> since its birth. But the comment hasn't been modified as it should
+> be. It'd better to modify the comment to explain ram_save_host_page()
+> more clearly.
+>
+> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+> ---
+>  migration/ram.c | 17 +++++++++--------
+>  1 file changed, 9 insertions(+), 8 deletions(-)
+>
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 72143da0ac..fc49c3f898 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1970,15 +1970,16 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+>  }
+>  
+>  /**
+> - * ram_save_host_page: save a whole host page
+> + * ram_save_host_page: save a whole host page or the rest of a block
+>   *
+> - * Starting at *offset send pages up to the end of the current host
+> - * page. It's valid for the initial offset to point into the middle of
+> - * a host page in which case the remainder of the hostpage is sent.
+> - * Only dirty target pages are sent. Note that the host page size may
+> - * be a huge page for this block.
+> - * The saving stops at the boundary of the used_length of the block
+> - * if the RAMBlock isn't a multiple of the host page size.
+> + * Starting at pss->page send pages up to the end of the current host
+> + * page or the boundary of used_length of the block (if the RAMBlock
+> + * isn't a multiple of the host page size). The min one is selected.
+> + * Only dirty target pages are sent.
+> + *
+> + * Note that the host page size may be a huge page for this block, it's
+> + * valid for the initial offset to point into the middle of a host page
+> + * in which case the remainder of the hostpage is sent.
 
-Regards,
+How about:
 
-Phil.
+* Send dirty pages between pss->page and either the end of that page or
+* the used_length of the RAMBlock, whichever is smaller.
+*
+* Note that if the host page is a huge page, pss->page may be in the
+* middle of that page.
 
+>   *
+>   * Returns the number of pages written or negative on error
+>   *
+> -- 
+> 2.23.0
+
+dme.
+-- 
+I'm in with the in crowd, I know every latest dance.
 
