@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02283241B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 17:19:01 +0100 (CET)
-Received: from localhost ([::1]:42078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAB3932422B
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 17:34:39 +0100 (CET)
+Received: from localhost ([::1]:55926 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEwsP-0007c8-1I
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 11:19:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32908)
+	id 1lEx7W-0005l2-DX
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 11:34:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <koalinux@gmail.com>)
- id 1lEwqk-00073Z-2R
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:17:18 -0500
-Received: from mail-io1-xd2d.google.com ([2607:f8b0:4864:20::d2d]:45188)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEx3s-0004J2-1T
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:30:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <koalinux@gmail.com>)
- id 1lEwqi-0002lL-BJ
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:17:17 -0500
-Received: by mail-io1-xd2d.google.com with SMTP id a7so2535284iok.12
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 08:17:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ORDQlo5Sw/FkXKCgRZ663lLNkgjKavNGACTLn73Hwx0=;
- b=s7+NXITrzeBLdyevjxP1EpllNhfj55u+BQvNBmn3Y6CdnNtAbxvs/wYJCdYAuNkpSI
- Uds8NaunSvmgN0lib62sgySZw8ifwBlWNTV1HNmchUMj3JKNMRpUMMwstI6bNk4nyLfI
- ZYjRJei2ZowX+uw7JTQ8iQ9Azg2sPGDPegJX24kQwShUw1/x/NV4horX2TSlEQP24uhm
- KRK8e7O1f85Aoifu+iGPrkOPhX1CN0heEsj5ZddGR5gK1cjEJqu3yePBhYELI6bEt+SX
- IZZlySBZcD8lv4XApCCelChclxBPHXAVdLbkGA/TgNDtN5+JHRir71Z1FCYvLkD5r+48
- 6x6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ORDQlo5Sw/FkXKCgRZ663lLNkgjKavNGACTLn73Hwx0=;
- b=JzCSKotOpmYfLt9rjZN/nZMRwQTdxTiNhp+CPLFskqy6+EtDB52fdFjNQYfdVJ7RUR
- uoBz9CzPUQ8dC/SfOMIZXKmoYcsFGYSEoRU7+DTGXqueWuFduEREMXWmbMUFY3cBql06
- Cb5V9pN9yYgdaMcYdFPAUgTSF+7SKSjD4J0TYGbsachkGpfH/oyJ95WgoCLcN+XLK6P4
- 4HIf51kKpNOM8I2eV3IBCwmew1/PrhgKZ+uGZWygcWwzw/GjjNdVII9zB1kANH1Hwj8D
- VO0L2c8EShkkh0TN/Im+mmsM24yqNPpoFxjKzOaDuJLVIwVA5Pddn1w4cxXqwmQ6O3/X
- gloQ==
-X-Gm-Message-State: AOAM531I9MZsYjem6qYzCtx7ZPhJ5Op5z+ucjK26mZ++jwDoP0/5hWXS
- mj0/jcUjBapyVFU5/GCKRTiOZqrqziUxJGh2ffY=
-X-Google-Smtp-Source: ABdhPJzZPzXQA/lRRygvUAREvXC5ySmiL7s3mKyFIEAwRApFqvhzvEHU4biTJzxpWu9FD4RB/qpyp/oaVwDUyGENbsk=
-X-Received: by 2002:a05:6638:1390:: with SMTP id
- w16mr5731813jad.83.1614183434066; 
- Wed, 24 Feb 2021 08:17:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lEx3p-0006wk-EE
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:30:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lEx3m-00074N-NF
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 16:30:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 9E42C2E80FF
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 16:30:46 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210224154901.23901-1-koalinux@gmail.com>
-In-Reply-To: <20210224154901.23901-1-koalinux@gmail.com>
-From: =?UTF-8?B?Sm9zw6kgUmFtw7NuIE11w7FveiBQZWtrYXJpbmVu?= <koalinux@gmail.com>
-Date: Wed, 24 Feb 2021 18:16:58 +0200
-Message-ID: <CANWZPgLxUNM3tPg6wxCt=v7Z-d+DN3J9EyTSV3dwv=uzWMnY0Q@mail.gmail.com>
-Subject: Re: [PATCH] Autoconnect jack ports by default
-To: kraxel@redhat.com
-Content-Type: multipart/alternative; boundary="00000000000030a0b205bc175e8d"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2d;
- envelope-from=koalinux@gmail.com; helo=mail-io1-xd2d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 24 Feb 2021 16:20:28 -0000
+From: Abdurrahim <1916775@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: whpx windows
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: abdurrahim-cakar
+X-Launchpad-Bug-Reporter: Abdurrahim (abdurrahim-cakar)
+X-Launchpad-Bug-Modifier: Abdurrahim (abdurrahim-cakar)
+Message-Id: <161418362907.7833.18159388399676261767.malonedeb@soybean.canonical.com>
+Subject: [Bug 1916775] [NEW] Guest freezes until there is a keyboard input on
+ Windows version
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="1cbcae463afd8b78ec54d5c5633aff9545801dde"; Instance="production"
+X-Launchpad-Hash: a7e757c6d91baf7503c9eeed5b92f13bb3a835a9
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,140 +70,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1916775 <1916775@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000030a0b205bc175e8d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Public bug reported:
 
-    Hi,
+I am using Qemu for Windows and when I try to run this for Windows
+guests then the guests are freezing and waiting for keyboard input and
+it continues to function after I press a key. I am using Windows10 Home
+and below is the command I use to run the guest. I have suspected if
+this is caused by random entropy but even with mouse moving it gives
+same random locks and it continues to work as soon as I press a key so
+maybe its not about entropy at all,
 
-    Adding qemu-devel.
+startwinguest.bat:
+qemu-system-x86_64 ^
+=C2=A0-name "win" ^
+=C2=A0-machine type=3Dq35,accel=3Dwhpx ^
+=C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
+=C2=A0-nodefaults ^
+=C2=A0-usb ^
+=C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
+=C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
+=C2=A0-m 8192 -mem-prealloc ^
+=C2=A0-soundhw hda ^
+=C2=A0-usbdevice tablet ^
+=C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-net=
+,netdev=3Dmynet0 ^
+=C2=A0-vga std ^
+=C2=A0-display gtk ^
+=C2=A0-boot d ^
+=C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
+=C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3Dun=
+map,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
+=C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
+=C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_de=
+c_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
+=C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
 
-    Best regards.
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-    Jos=C3=A9.
 
-On Wed, 24 Feb 2021 at 17:49, Jos=C3=A9 Pekkarinen <koalinux@gmail.com> wro=
-te:
+** Tags: whpx windows
 
-> This patch provides a default value to connect
-> jack ports when the user don't specify connect-ports.
->
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1908832
->
-> Signed-off-by: Jos=C3=A9 Pekkarinen <koalinux@gmail.com>
-> ---
->  audio/jackaudio.c | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/audio/jackaudio.c b/audio/jackaudio.c
-> index 3031c4e29b..a29b1ccba2 100644
-> --- a/audio/jackaudio.c
-> +++ b/audio/jackaudio.c
-> @@ -369,14 +369,23 @@ static size_t qjack_read(HWVoiceIn *hw, void *buf,
-> size_t len)
->
->  static void qjack_client_connect_ports(QJackClient *c)
->  {
-> -    if (!c->connect_ports || !c->opt->connect_ports) {
-> +    if (!c->connect_ports) {
->          return;
->      }
->
->      c->connect_ports =3D false;
->      const char **ports;
-> -    ports =3D jack_get_ports(c->client, c->opt->connect_ports, NULL,
-> -        c->out ? JackPortIsInput : JackPortIsOutput);
-> +    if (c->out) {
-> +        ports =3D jack_get_ports(c->client,
-> +            c->opt->connect_ports ? "system:capture_.*"
-> +                : c->opt->connect_ports,
-> +            NULL, JackPortIsInput);
-> +    } else {
-> +        ports =3D jack_get_ports(c->client,
-> +            c->opt->connect_ports ? "system:playback_.*"
-> +                : c->opt->connect_ports,
-> +            NULL, JackPortIsOutput);
-> +    }
->
->      if (!ports) {
->          return;
-> --
-> 2.26.2
->
->
+** Description changed:
 
---00000000000030a0b205bc175e8d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- Windows guests are freezing and waiting for keyboard input and it
+- continues to function after I press a key. I am using Windows10 Home and
+- below is the command I use to run the guest. I have suspected if this is
+- caused by random entropy but even with mouse moving it gives same random
+- locks and it continues to work as soon as I press a key so maybe its not
+- about entropy at all,
++ I am using Qemu for Windows and when I try to run this for Windows
++ guests then the guests are freezing and waiting for keyboard input and
++ it continues to function after I press a key. I am using Windows10 Home
++ and below is the command I use to run the guest. I have suspected if
++ this is caused by random entropy but even with mouse moving it gives
++ same random locks and it continues to work as soon as I press a key so
++ maybe its not about entropy at all,
+  =
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br><div>=C2=A0 =C2=A0 Hi,</div><div><br>=
-</div><div>=C2=A0 =C2=A0 Adding qemu-devel.</div><div><br></div><div>=C2=A0=
- =C2=A0 Best regards.</div><div><br></div><div>=C2=A0 =C2=A0 Jos=C3=A9.</di=
-v></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Wed, 24 Feb 2021 at 17:49, Jos=C3=A9 Pekkarinen &lt;<a href=3D"mailto:=
-koalinux@gmail.com">koalinux@gmail.com</a>&gt; wrote:<br></div><blockquote =
-class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px sol=
-id rgb(204,204,204);padding-left:1ex">This patch provides a default value t=
-o connect<br>
-jack ports when the user don&#39;t specify connect-ports.<br>
-<br>
-Buglink: <a href=3D"https://bugs.launchpad.net/qemu/+bug/1908832" rel=3D"no=
-referrer" target=3D"_blank">https://bugs.launchpad.net/qemu/+bug/1908832</a=
-><br>
-<br>
-Signed-off-by: Jos=C3=A9 Pekkarinen &lt;<a href=3D"mailto:koalinux@gmail.co=
-m" target=3D"_blank">koalinux@gmail.com</a>&gt;<br>
----<br>
-=C2=A0audio/jackaudio.c | 15 ++++++++++++---<br>
-=C2=A01 file changed, 12 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/audio/jackaudio.c b/audio/jackaudio.c<br>
-index 3031c4e29b..a29b1ccba2 100644<br>
---- a/audio/jackaudio.c<br>
-+++ b/audio/jackaudio.c<br>
-@@ -369,14 +369,23 @@ static size_t qjack_read(HWVoiceIn *hw, void *buf, si=
-ze_t len)<br>
-<br>
-=C2=A0static void qjack_client_connect_ports(QJackClient *c)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 if (!c-&gt;connect_ports || !c-&gt;opt-&gt;connect_ports) {<=
-br>
-+=C2=A0 =C2=A0 if (!c-&gt;connect_ports) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0c-&gt;connect_ports =3D false;<br>
-=C2=A0 =C2=A0 =C2=A0const char **ports;<br>
--=C2=A0 =C2=A0 ports =3D jack_get_ports(c-&gt;client, c-&gt;opt-&gt;connect=
-_ports, NULL,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;out ? JackPortIsInput : JackPortIsOutput=
-);<br>
-+=C2=A0 =C2=A0 if (c-&gt;out) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports =3D jack_get_ports(c-&gt;client,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;opt-&gt;connect_ports ? &q=
-uot;system:capture_.*&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : c-&gt;opt-&gt;co=
-nnect_ports,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, JackPortIsInput);<br>
-+=C2=A0 =C2=A0 } else {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports =3D jack_get_ports(c-&gt;client,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;opt-&gt;connect_ports ? &q=
-uot;system:playback_.*&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : c-&gt;opt-&gt;co=
-nnect_ports,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 NULL, JackPortIsOutput);<br>
-+=C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (!ports) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
--- <br>
-2.26.2<br>
-<br>
-</blockquote></div></div>
+  startwinguest.bat:
+  qemu-system-x86_64 ^
+-  -name "win" ^
+-  -machine type=3Dq35,accel=3Dwhpx ^
+-  -cpu EPYC,hv_relaxed,hv_time,topoext   ^
+-  -nodefaults ^
+-  -usb ^
+-  -rtc base=3Dlocaltime,driftfix=3Dslew ^
+-  -smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
+-  -m 8192 -mem-prealloc ^
+-  -soundhw hda ^
+-  -usbdevice tablet ^
+-  -netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-net,ne=
+tdev=3Dmynet0 ^
+-  -vga std ^
+-  -display gtk ^
+-  -boot d ^
+-  -device virtio-scsi-pci,id=3Dscsi0 ^
+-  -drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3Dunmap=
+,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
+-  -device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
+-  -drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_dec_2=
+020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
+-  -drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
++ =C2=A0-name "win" ^
++ =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
++ =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
++ =C2=A0-nodefaults ^
++ =C2=A0-usb ^
++ =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
++ =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
++ =C2=A0-m 8192 -mem-prealloc ^
++ =C2=A0-soundhw hda ^
++ =C2=A0-usbdevice tablet ^
++ =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
+et,netdev=3Dmynet0 ^
++ =C2=A0-vga std ^
++ =C2=A0-display gtk ^
++ =C2=A0-boot d ^
++ =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
++ =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
+unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
++ =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
++ =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
+dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
++ =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
 
---00000000000030a0b205bc175e8d--
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1916775
+
+Title:
+  Guest freezes until there is a keyboard input on Windows version
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am using Qemu for Windows and when I try to run this for Windows
+  guests then the guests are freezing and waiting for keyboard input and
+  it continues to function after I press a key. I am using Windows10
+  Home and below is the command I use to run the guest. I have suspected
+  if this is caused by random entropy but even with mouse moving it
+  gives same random locks and it continues to work as soon as I press a
+  key so maybe its not about entropy at all,
+
+  startwinguest.bat:
+  qemu-system-x86_64 ^
+  =C2=A0-name "win" ^
+  =C2=A0-machine type=3Dq35,accel=3Dwhpx ^
+  =C2=A0-cpu EPYC,hv_relaxed,hv_time,topoext   ^
+  =C2=A0-nodefaults ^
+  =C2=A0-usb ^
+  =C2=A0-rtc base=3Dlocaltime,driftfix=3Dslew ^
+  =C2=A0-smp 6,sockets=3D1,cores=3D3,threads=3D2 ^
+  =C2=A0-m 8192 -mem-prealloc ^
+  =C2=A0-soundhw hda ^
+  =C2=A0-usbdevice tablet ^
+  =C2=A0-netdev user,id=3Dmynet0,hostfwd=3Dtcp::3390-:3389 -device virtio-n=
+et,netdev=3Dmynet0 ^
+  =C2=A0-vga std ^
+  =C2=A0-display gtk ^
+  =C2=A0-boot d ^
+  =C2=A0-device virtio-scsi-pci,id=3Dscsi0 ^
+  =C2=A0-drive "file=3D%~dp0win10.qcow2,if=3Dnone,format=3Dqcow2,discard=3D=
+unmap,aio=3Dthreads,cache=3Dwritethrough,id=3Dsomeid" ^
+  =C2=A0-device scsi-hd,drive=3Dsomeid,bus=3Dscsi0.0 ^
+  =C2=A0-drive "file=3DD:\Setups\OS\Windows\en_windows_server_2019_updated_=
+dec_2020_x64_dvd_36e0f791.iso,media=3Dcdrom,index=3D1" ^
+  =C2=A0-drive "file=3D%~dp0virtio-win-0.1.185.iso,media=3Dcdrom,index=3D2"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1916775/+subscriptions
 
