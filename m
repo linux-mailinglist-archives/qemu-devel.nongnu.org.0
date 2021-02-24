@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FF732398A
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 10:34:01 +0100 (CET)
-Received: from localhost ([::1]:59326 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE65732397E
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 10:33:24 +0100 (CET)
+Received: from localhost ([::1]:58224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEqYS-0006mp-Dn
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 04:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51816)
+	id 1lEqXr-0006L8-Gc
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 04:33:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEqV8-0004nx-BU
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:30:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23130)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lEqV0-0006gs-F7
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:30:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614159025;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=f3ZxrnD9VsT63iduo3e+4bEE4l7Lw5oeuHGCk0qLhRk=;
- b=Uqh1ODd5YTA0twO+CS1FvoYaKFanyHrFF8xVzKr7CMIf38bN0dlK7HwjKaTxqLuVnRSXNr
- qAQOkS/dv+QMuk9Ba5XrQ6ytGnY2Ft965Q2pksjY754krqh+ceC1G3L1JiS0yXf+iJgNGd
- Efvp7ZTON2lWf0tnv1VavjJfVueuXmo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-210-WvUyZMdNNQOh8DGrlCmpAA-1; Wed, 24 Feb 2021 04:30:15 -0500
-X-MC-Unique: WvUyZMdNNQOh8DGrlCmpAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB7DC6D4E8;
- Wed, 24 Feb 2021 09:30:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 65E3D5D74A;
- Wed, 24 Feb 2021 09:30:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E4AC8113860F; Wed, 24 Feb 2021 10:30:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 02/16] qapi/expr.py: Check for dict instead of
- OrderedDict
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-3-jsnow@redhat.com>
-Date: Wed, 24 Feb 2021 10:30:12 +0100
-In-Reply-To: <20210223003408.964543-3-jsnow@redhat.com> (John Snow's message
- of "Mon, 22 Feb 2021 19:33:54 -0500")
-Message-ID: <87a6rt7qzf.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEqVE-0004qW-3c
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:30:42 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49938)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lEqVA-0006jT-1V
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 04:30:38 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 1E7E4AE05;
+ Wed, 24 Feb 2021 09:30:33 +0000 (UTC)
+Subject: Re: softmmu vs sysemu [Was: Re: [RFC v1 06/38] target/arm: split off
+ cpu-softmmu.c]
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <20210221092449.7545-7-cfontana@suse.de> <87blcc57rj.fsf@linaro.org>
+ <e7f21ff9-b2c6-668e-c973-d2949b81327e@suse.de>
+ <2765ff1d-8b77-c2c8-c48a-dc2f582d80ff@redhat.com>
+ <477a7799-cb25-afa7-c280-09d839a2b180@suse.de>
+ <a6682a0f-5993-ed12-98d7-0c8f59385bbd@suse.de>
+ <0a47d627-fda8-54c7-dbf8-2ebfc9000137@linaro.org>
+ <9dee8138-2088-33ba-b941-494c64925004@amsat.org>
+ <cbece07f-67ae-147b-98b7-62b37b16e808@linaro.org>
+ <52d854fa-120a-d748-2469-383b4b46f8e7@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <5a2a9620-1322-1e6d-a0c5-c1d495d2e289@suse.de>
+Date: Wed, 24 Feb 2021 10:30:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <52d854fa-120a-d748-2469-383b4b46f8e7@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,67 +68,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@centriq4.arch.suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 2/24/21 10:20 AM, Paolo Bonzini wrote:
+> On 24/02/21 01:06, Richard Henderson wrote:
+>> On 2/23/21 3:43 PM, Philippe Mathieu-Daudé wrote:
+>>> On 2/23/21 7:51 PM, Richard Henderson wrote:
+>>>> I just want the file naming done correctly, while you're renaming.  That is
+>>>> something you are actively changing in this patch set, so we should get it right.
+>>>
+>>> So what is the new directory structure?
+>>>
+>>> - user/
+>>> - sysemu/{tcg,kvm,}/
+>>>
+>>> or
+>>>
+>>> - tcg/a-user.c
+>>> - tcg/b-sysemu.c
+>>> - kvm/kvm.c
+>>
+>> Personally I think this second one makes more sense, focused primarily on the
+>> accelerator and secondarily on the kind of emulation.
+> 
+> I agree.
 
-> OrderedDict is a subtype of dict, so we can check for a more general
-> form. These functions do not themselves depend on it being any
-> particular type.
+Agree here are well.
 
-True.  The actual arguments can only be OrderedDict, though.  I think we
-refrained from relaxing to dict in these helpers because we felt
-"staying ordered" is clearer.
+> 
+> I don't care _too much_ about sysemu vs. softmmu.
 
-We're *this* close to mooting the point, because
 
-    Changed in version 3.7: Dictionary order is guaranteed to be
-    insertion order. This behavior was an implementation detail of
-    CPython from 3.6.
+I am neutral here as well.
 
-https://docs.python.org/3.7/library/stdtypes.html
 
-Is messing with it necessary for later work?  If not, is it a worthwhile
-improvement?
+>In any case if we 
+> want to go with sysemu it can be done in steps:
+> 
+> - easy: rename files and directories
 
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  scripts/qapi/expr.py | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index 35695c4c653..5694c501fa3 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -14,7 +14,6 @@
->  # This work is licensed under the terms of the GNU GPL, version 2.
->  # See the COPYING file in the top-level directory.
->  
-> -from collections import OrderedDict
->  import re
->  
->  from .common import c_name
-> @@ -131,7 +130,7 @@ def check_if_str(ifcond):
->  
->  
->  def normalize_members(members):
-> -    if isinstance(members, OrderedDict):
-> +    if isinstance(members, dict):
->          for key, arg in members.items():
->              if isinstance(arg, dict):
->                  continue
-> @@ -162,7 +161,7 @@ def check_type(value, info, source,
->      if not allow_dict:
->          raise QAPISemError(info, "%s should be a type name" % source)
->  
-> -    if not isinstance(value, OrderedDict):
-> +    if not isinstance(value, dict):
->          raise QAPISemError(info,
->                             "%s should be an object or type name" % source)
+right. The ask in this series from Richard is to rename new files and directories from "softmmu" to "sysemu".
+
+This gives us a resulting codebase where some directories are softmmu, some are sysemu, and the meson stuff is still softmmu.
+To me this is a worse situation than where we started, but if I am the only one perceiving this I will just call the new directories and files "sysemu".
+
+
+> 
+> - medium: rename sourcesets in meson.build
+
+right
+
+> 
+> - harder (or just larger): rename CONFIG_SOFTMMU
+
+indeed. Currently (I think) CONFIG_SOFTMMU is the same as !CONFIG_USER_ONLY. But IIUC CONFIG_SOFTMMU would assume a new meaning after the change.
+
+> 
+> Paolo
+> 
 
 
