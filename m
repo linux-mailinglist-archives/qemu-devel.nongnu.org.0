@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED739323DC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:21:45 +0100 (CET)
-Received: from localhost ([::1]:33114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD95F323E05
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:26:23 +0100 (CET)
+Received: from localhost ([::1]:43146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEu6q-0007TU-UN
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:21:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48542)
+	id 1lEuBK-0003Hy-S1
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:26:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEtyk-0002c6-4B
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:13:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56121)
+ id 1lEtzD-0002m6-S1
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:13:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20113)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEtyi-000509-9R
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:13:21 -0500
+ id 1lEtz5-00059c-75
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:13:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614172399;
+ s=mimecast20190719; t=1614172422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=8SI05MdPS4f/GzogNORcXrpyFidB7MvFz60k/mjgfRo=;
- b=F2k1NPIg+Oz+wnGxPxyt1Ue8ya8G9LiAdr4BeYOm3Uuk86pIpz6twP7rUd7F1b69GpPGlN
- v6LL6Bz48jFT3zCrOlzXyvj6kXYCJmhWupczehf/+21RLpzVtgdIk/OIuw0+ZXl435FuCW
- NedvKtl8v6sQYx3nOiBAD28u98oJTu4=
+ bh=AxBoh4lolgLfXpFW+Uw/kgKyoRvdfkcVOv8fk3PBqO8=;
+ b=SjUrt9ySJOvaU0zIWM9WdiP/OGo98iNRfyiU1brAst6UMMXggjELn0WDG6wKyrRGRFIog/
+ Mh6oLJy1lQwMH0IAdvspvXf4Sa7RWorMRAkDexxkGwVKfY8uW3T3CXgVW9q0qckZklrK3j
+ 0J25DrGioA68m5lUz28QcvEy3jEn+10=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-Ngv4pszZMP6VqxIMH9Pn0Q-1; Wed, 24 Feb 2021 08:13:18 -0500
-X-MC-Unique: Ngv4pszZMP6VqxIMH9Pn0Q-1
+ us-mta-478-mb8b5Go_NM2pXsbyC09Z1A-1; Wed, 24 Feb 2021 08:13:39 -0500
+X-MC-Unique: mb8b5Go_NM2pXsbyC09Z1A-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F250418957EC;
- Wed, 24 Feb 2021 13:13:15 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F3519107ACE4;
+ Wed, 24 Feb 2021 13:13:36 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-115-119.ams2.redhat.com
  [10.36.115.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 438C81002388;
- Wed, 24 Feb 2021 13:12:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5AC591001281;
+ Wed, 24 Feb 2021 13:13:16 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 03/14] monitor: remove 'query-events' QMP command
-Date: Wed, 24 Feb 2021 13:11:31 +0000
-Message-Id: <20210224131142.1952027-4-berrange@redhat.com>
+Subject: [PATCH 04/14] softmmu: remove '-usbdevice' command line option
+Date: Wed, 24 Feb 2021 13:11:32 +0000
+Message-Id: <20210224131142.1952027-5-berrange@redhat.com>
 In-Reply-To: <20210224131142.1952027-1-berrange@redhat.com>
 References: <20210224131142.1952027-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -99,143 +99,129 @@ Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The code comment suggests removing QAPIEvent_(str|lookup) symbols too,
-however, these are both auto-generated as standard for any enum in
-QAPI. As such it they'll exist whether we use them or not.
+This was replaced by the '-device usb-DEV' option.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/system/deprecated.rst       |  6 -----
- docs/system/removed-features.rst |  6 +++++
- monitor/qmp-cmds-control.c       | 24 -----------------
- qapi/control.json                | 45 --------------------------------
- 4 files changed, 6 insertions(+), 75 deletions(-)
+ docs/system/deprecated.rst       |  9 -------
+ docs/system/removed-features.rst |  9 +++++++
+ softmmu/vl.c                     | 42 --------------------------------
+ 3 files changed, 9 insertions(+), 51 deletions(-)
 
 diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-index dfd8a8c497..611adf60f7 100644
+index 611adf60f7..c577cc97c4 100644
 --- a/docs/system/deprecated.rst
 +++ b/docs/system/deprecated.rst
-@@ -222,12 +222,6 @@ The ``query-cpus`` command is replaced by the ``query-cpus-fast`` command.
- The ``arch`` output member of the ``query-cpus-fast`` command is
- replaced by the ``target`` output member.
+@@ -21,15 +21,6 @@ deprecated.
+ System emulator command line arguments
+ --------------------------------------
  
--``query-events`` (since 4.0)
--''''''''''''''''''''''''''''
+-``-usbdevice`` (since 2.10.0)
+-'''''''''''''''''''''''''''''
 -
--The ``query-events`` command has been superseded by the more powerful
--and accurate ``query-qmp-schema`` command.
+-The ``-usbdevice DEV`` argument is now a synonym for setting
+-the ``-device usb-DEV`` argument instead. The deprecated syntax
+-would automatically enable USB support on the machine type.
+-If using the new syntax, USB support must be explicitly
+-enabled via the ``-machine usb=on`` argument.
 -
- chardev client socket with ``wait`` option (since 4.0)
- ''''''''''''''''''''''''''''''''''''''''''''''''''''''
+ ``-drive file=json:{...{'driver':'file'}}`` (since 3.0)
+ '''''''''''''''''''''''''''''''''''''''''''''''''''''''
  
 diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
-index 3ca13d2844..dc63581fe5 100644
+index dc63581fe5..74d022babf 100644
 --- a/docs/system/removed-features.rst
 +++ b/docs/system/removed-features.rst
-@@ -70,6 +70,12 @@ documentation of ``query-hotpluggable-cpus`` for additional details.
+@@ -50,6 +50,15 @@ by the ``tls-authz`` and ``sasl-authz`` options.
+ The ``pretty=on|off`` switch has no effect for HMP monitors and
+ its use is rejected.
  
- Use ``blockdev-change-medium`` or ``change-vnc-password`` instead.
- 
-+``query-events`` (removed in 6.0)
-+'''''''''''''''''''''''''''''''''
++``-usbdevice`` (removed in 6.0)
++'''''''''''''''''''''''''''''''
 +
-+The ``query-events`` command has been superseded by the more powerful
-+and accurate ``query-qmp-schema`` command.
++The ``-usbdevice DEV`` argument was now a synonym for setting
++the ``-device usb-DEV`` argument instead. The removed syntax
++would automatically enable USB support on the machine type.
++When using the new syntax, USB support must be explicitly
++enabled via the ``-machine usb=on`` argument.
 +
- Human Monitor Protocol (HMP) commands
- -------------------------------------
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
  
-diff --git a/monitor/qmp-cmds-control.c b/monitor/qmp-cmds-control.c
-index 509ae870bd..513b547233 100644
---- a/monitor/qmp-cmds-control.c
-+++ b/monitor/qmp-cmds-control.c
-@@ -130,30 +130,6 @@ CommandInfoList *qmp_query_commands(Error **errp)
-     return list;
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index b219ce1f35..c31061cc09 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -743,34 +743,6 @@ static void configure_msg(QemuOpts *opts)
  }
  
--EventInfoList *qmp_query_events(Error **errp)
+ 
+-/***********************************************************/
+-/* USB devices */
+-
+-static int usb_device_add(const char *devname)
 -{
--    /*
--     * TODO This deprecated command is the only user of
--     * QAPIEvent_str() and QAPIEvent_lookup[].  When the command goes,
--     * they should go, too.
--     */
--    EventInfoList *ev_list = NULL;
--    QAPIEvent e;
+-    USBDevice *dev = NULL;
 -
--    for (e = 0 ; e < QAPI_EVENT__MAX ; e++) {
--        const char *event_name = QAPIEvent_str(e);
--        EventInfo *info;
--
--        assert(event_name != NULL);
--        info = g_malloc0(sizeof(*info));
--        info->name = g_strdup(event_name);
--
--        QAPI_LIST_PREPEND(ev_list, info);
+-    if (!machine_usb(current_machine)) {
+-        return -1;
 -    }
 -
--    return ev_list;
+-    dev = usbdevice_create(devname);
+-    if (!dev)
+-        return -1;
+-
+-    return 0;
 -}
 -
- /*
-  * Minor hack: generated marshalling suppressed for this command
-  * ('gen': false in the schema) so we can parse the JSON string
-diff --git a/qapi/control.json b/qapi/control.json
-index 2615d5170b..71a838d49e 100644
---- a/qapi/control.json
-+++ b/qapi/control.json
-@@ -159,51 +159,6 @@
- { 'command': 'query-commands', 'returns': ['CommandInfo'],
-   'allow-preconfig': true }
+-static int usb_parse(const char *cmdline)
+-{
+-    int r;
+-    r = usb_device_add(cmdline);
+-    if (r < 0) {
+-        error_report("could not add USB device '%s'", cmdline);
+-    }
+-    return r;
+-}
+-
+ /***********************************************************/
+ /* machine registration */
  
--##
--# @EventInfo:
--#
--# Information about a QMP event
--#
--# @name: The event name
--#
--# Since: 1.2
--##
--{ 'struct': 'EventInfo', 'data': {'name': 'str'} }
+@@ -1267,7 +1239,6 @@ static void monitor_parse(const char *optarg, const char *mode, bool pretty)
+ 
+ struct device_config {
+     enum {
+-        DEV_USB,       /* -usbdevice     */
+         DEV_SERIAL,    /* -serial        */
+         DEV_PARALLEL,  /* -parallel      */
+         DEV_DEBUGCON,  /* -debugcon */
+@@ -2484,12 +2455,6 @@ static void qemu_create_cli_devices(void)
+     qemu_opts_foreach(qemu_find_opts("fw_cfg"),
+                       parse_fw_cfg, fw_cfg_find(), &error_fatal);
+ 
+-    /* init USB devices */
+-    if (machine_usb(current_machine)) {
+-        if (foreach_device_config(DEV_USB, usb_parse) < 0)
+-            exit(1);
+-    }
 -
--##
--# @query-events:
--#
--# Return information on QMP events.
--#
--# Features:
--# @deprecated: This command is deprecated, because its output doesn't
--#              reflect compile-time configuration.  Use 'query-qmp-schema'
--#              instead.
--#
--# Returns: A list of @EventInfo.
--#
--# Since: 1.2
--#
--# Example:
--#
--# -> { "execute": "query-events" }
--# <- {
--#      "return": [
--#          {
--#             "name":"SHUTDOWN"
--#          },
--#          {
--#             "name":"RESET"
--#          }
--#       ]
--#    }
--#
--# Note: This example has been shortened as the real response is too long.
--#
--##
--{ 'command': 'query-events', 'returns': ['EventInfo'],
--  'features': [ 'deprecated' ] }
--
- ##
- # @quit:
- #
+     /* init generic devices */
+     rom_set_order_override(FW_CFG_ORDER_OVERRIDE_DEVICE);
+     qemu_opts_foreach(qemu_find_opts("device"),
+@@ -3182,13 +3147,6 @@ void qemu_init(int argc, char **argv, char **envp)
+                 olist = qemu_find_opts("machine");
+                 qemu_opts_parse_noisily(olist, "usb=on", false);
+                 break;
+-            case QEMU_OPTION_usbdevice:
+-                error_report("'-usbdevice' is deprecated, please use "
+-                             "'-device usb-...' instead");
+-                olist = qemu_find_opts("machine");
+-                qemu_opts_parse_noisily(olist, "usb=on", false);
+-                add_device_config(DEV_USB, optarg);
+-                break;
+             case QEMU_OPTION_device:
+                 if (!qemu_opts_parse_noisily(qemu_find_opts("device"),
+                                              optarg, true)) {
 -- 
 2.29.2
 
