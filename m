@@ -2,41 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29456323E9D
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:45:07 +0100 (CET)
-Received: from localhost ([::1]:42272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 385B6323EF1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:57:19 +0100 (CET)
+Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEuTS-0001NB-5h
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:45:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53244)
+	id 1lEufG-0001Fq-7f
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:57:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lEuI6-0002TY-A9
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:33:22 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:60546)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1lEuI3-0004cC-UT
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:33:21 -0500
-Received: from [127.0.1.1] (unknown [85.142.117.224])
- by mail.ispras.ru (Postfix) with ESMTPSA id 010A44076251;
- Wed, 24 Feb 2021 13:33:12 +0000 (UTC)
-Subject: [PATCH] hw/virtio: enable ioeventfd configuring for mmio
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Date: Wed, 24 Feb 2021 16:33:12 +0300
-Message-ID: <161417359262.2250859.14712052392728549075.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.23
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lEuZI-0001Yi-Ey
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:51:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lEuZF-0003nf-F3
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:51:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614174664;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KA9M6Sa7pC0eaJCSxlvVAzJgcImxrAC37FeN2Zn8iVo=;
+ b=CrfancGJkd7WPWKAgl2o/cmiWDv7OQitZwelnVXL6bprAruddYkN6xd8cG4xZnG66QAmGK
+ kX/Lk6saJkqEgWkjDAIBYqDhEmJDgirqVlCrwsWYO/qATAKq0v+wCpmfCvmTphit6wJRZs
+ 4n3OK/993BF07KEmnsB51stcs0dtODU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-492-yzzjsLezNZiqfqLiwtv6Sg-1; Wed, 24 Feb 2021 08:49:59 -0500
+X-MC-Unique: yzzjsLezNZiqfqLiwtv6Sg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 79B0C18D69B8;
+ Wed, 24 Feb 2021 13:34:10 +0000 (UTC)
+Received: from [10.3.113.71] (ovpn-113-71.phx2.redhat.com [10.3.113.71])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 28AE25C224;
+ Wed, 24 Feb 2021 13:34:10 +0000 (UTC)
+Subject: Re: [PATCH] qapi: Fix parse errors for removal of null from schema
+ language
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210224101442.1837475-1-armbru@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <a53e6bb5-4745-6326-07d7-f0708a052619@redhat.com>
+Date: Wed, 24 Feb 2021 07:34:09 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210224101442.1837475-1-armbru@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,77 +82,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, pbonzini@redhat.com, pavel.dovgalyuk@ispras.ru,
- mst@redhat.com
+Cc: michael.roth@amd.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds ioeventfd flag for virtio-mmio configuration.
-It allows switching ioeventfd on and off.
+On 2/24/21 4:14 AM, Markus Armbruster wrote:
+> Commit 9d55380b5a "qapi: Remove null from schema language" (v4.2.0)
+> neglected to update two error messages.  Do that now.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/qapi/parser.py                    | 8 ++++----
+>  tests/qapi-schema/leading-comma-list.err  | 2 +-
+>  tests/qapi-schema/trailing-comma-list.err | 2 +-
+>  3 files changed, 6 insertions(+), 6 deletions(-)
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- hw/virtio/virtio-mmio.c         |   11 ++++++++++-
- include/hw/virtio/virtio-mmio.h |    5 +++++
- 2 files changed, 15 insertions(+), 1 deletion(-)
+My first reaction was "How does our 'StrOrNull' alternate type work?
+But I see that uses 'null' (that is, a string type name, just like 'str'
+or 'int'), and not a literal null.  At which point this makes total sense.
 
-diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-index 610661d6a5..551f831562 100644
---- a/hw/virtio/virtio-mmio.c
-+++ b/hw/virtio/virtio-mmio.c
-@@ -36,7 +36,9 @@
- 
- static bool virtio_mmio_ioeventfd_enabled(DeviceState *d)
- {
--    return kvm_eventfds_enabled();
-+    VirtIOMMIOProxy *proxy = VIRTIO_MMIO(d);
-+
-+    return (proxy->flags & VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD) != 0;
- }
- 
- static int virtio_mmio_ioeventfd_assign(DeviceState *d,
-@@ -690,6 +692,8 @@ static Property virtio_mmio_properties[] = {
-     DEFINE_PROP_BOOL("format_transport_address", VirtIOMMIOProxy,
-                      format_transport_address, true),
-     DEFINE_PROP_BOOL("force-legacy", VirtIOMMIOProxy, legacy, true),
-+    DEFINE_PROP_BIT("ioeventfd", VirtIOMMIOProxy, flags,
-+                    VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -701,6 +705,11 @@ static void virtio_mmio_realizefn(DeviceState *d, Error **errp)
-     qbus_create_inplace(&proxy->bus, sizeof(proxy->bus), TYPE_VIRTIO_MMIO_BUS,
-                         d, NULL);
-     sysbus_init_irq(sbd, &proxy->irq);
-+
-+    if (!kvm_eventfds_enabled()) {
-+        proxy->flags &= ~VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD;
-+    }
-+
-     if (proxy->legacy) {
-         memory_region_init_io(&proxy->iomem, OBJECT(d),
-                               &virtio_legacy_mem_ops, proxy,
-diff --git a/include/hw/virtio/virtio-mmio.h b/include/hw/virtio/virtio-mmio.h
-index d4c4c386ab..090f7730e7 100644
---- a/include/hw/virtio/virtio-mmio.h
-+++ b/include/hw/virtio/virtio-mmio.h
-@@ -49,12 +49,17 @@ typedef struct VirtIOMMIOQueue {
-     uint32_t used[2];
- } VirtIOMMIOQueue;
- 
-+#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT 1
-+#define VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD \
-+        (1 << VIRTIO_IOMMIO_FLAG_USE_IOEVENTFD_BIT)
-+
- struct VirtIOMMIOProxy {
-     /* Generic */
-     SysBusDevice parent_obj;
-     MemoryRegion iomem;
-     qemu_irq irq;
-     bool legacy;
-+    uint32_t flags;
-     /* Guest accessible state needing migration and reset */
-     uint32_t host_features_sel;
-     uint32_t guest_features_sel;
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
