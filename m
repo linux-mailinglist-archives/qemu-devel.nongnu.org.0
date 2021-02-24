@@ -2,79 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D20C6323F39
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:44:25 +0100 (CET)
-Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C20D8323EB1
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 14:50:22 +0100 (CET)
+Received: from localhost ([::1]:57822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEvOq-0008CA-TC
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:44:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45294)
+	id 1lEuYX-0007xb-PR
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 08:50:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEvMA-0005Xm-Lw
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:41:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52131)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lEvM8-0001I6-JU
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:41:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614177695;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=KSaGBK9o1EFC3yot+Rxt/hgAW8VJY1LkPtvz1U7ZKT0=;
- b=FL0pZy24JT4SSlpNnrIRV2rfSKV1B8TY61jFO23M908DwcvANkg87WDqB8jQzmX6EGP7aR
- FVoyOlV+6je7o8H6r9p32+vwFlCc6y0YJ15tIjHhGxGUSC3HJLNSop13mW4ilHwOy2XPe7
- oQfffMC5vKyEHrXNORQFZcyHTd2x9qA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-600-ZjGb-sBuNCe1VEU8T68-jw-1; Wed, 24 Feb 2021 09:40:16 -0500
-X-MC-Unique: ZjGb-sBuNCe1VEU8T68-jw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8C4118B9EF2;
- Wed, 24 Feb 2021 13:44:49 +0000 (UTC)
-Received: from redhat.com (ovpn-115-119.ams2.redhat.com [10.36.115.119])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EAF852C168;
- Wed, 24 Feb 2021 13:44:29 +0000 (UTC)
-Date: Wed, 24 Feb 2021 13:44:26 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 04/14] softmmu: remove '-usbdevice' command line option
-Message-ID: <YDZYOlMynIf+5Kqm@redhat.com>
-References: <20210224131142.1952027-1-berrange@redhat.com>
- <20210224131142.1952027-5-berrange@redhat.com>
- <18b76a19-6f69-890e-8bb5-54d90aa132c1@redhat.com>
+ (Exim 4.90_1) (envelope-from <prvs=682b6eb60=graf@amazon.de>)
+ id 1lEuUB-0003Ed-Ts
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:45:52 -0500
+Received: from smtp-fw-6001.amazon.com ([52.95.48.154]:43722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <prvs=682b6eb60=graf@amazon.de>)
+ id 1lEuU2-0001ZS-3X
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 08:45:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1614174342; x=1645710342;
+ h=subject:to:cc:references:from:message-id:date:
+ mime-version:in-reply-to:content-transfer-encoding;
+ bh=qkxlZHYSuW0uj3CmrGOCQGXxaMSVLtWvtFUpmQxIi2g=;
+ b=MJHIujOi6IJl+xoPF/nWw4lF6KpfEjQdxmWSfnWr/KTYOcDUN6Bfk385
+ Lk/q/C0twUk5X73LCKPqaq1bnQMv5RDtjbLRMQl0/07/p4HJvQIdIQ5Rt
+ n+9deAspiK/xq1HM+Q+U2HPU+HHQ9ejBu89Z2M53d9hU8/NHMHUHm6kEq M=;
+X-IronPort-AV: E=Sophos;i="5.81,203,1610409600"; d="scan'208";a="91706228"
+Received: from iad12-co-svc-p1-lb1-vlan2.amazon.com (HELO
+ email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.43.8.2])
+ by smtp-border-fw-out-6001.iad6.amazon.com with ESMTP;
+ 24 Feb 2021 13:45:32 +0000
+Received: from EX13MTAUWC001.ant.amazon.com
+ (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
+ by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS
+ id 2623DA2E61; Wed, 24 Feb 2021 13:45:14 +0000 (UTC)
+Received: from EX13D20UWC001.ant.amazon.com (10.43.162.244) by
+ EX13MTAUWC001.ant.amazon.com (10.43.162.135) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 13:45:13 +0000
+Received: from Alexanders-MacBook-Air.local (10.43.161.39) by
+ EX13D20UWC001.ant.amazon.com (10.43.162.244) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Wed, 24 Feb 2021 13:45:05 +0000
+Subject: Re: [PATCH v7 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+To: "Michael S. Tsirkin" <mst@redhat.com>, Adrian Catangiu <acatan@amazon.com>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <qemu-devel@nongnu.org>, <kvm@vger.kernel.org>, <linux-s390@vger.kernel.org>, 
+ <gregkh@linuxfoundation.org>, <rdunlap@infradead.org>, <arnd@arndb.de>,
+ <ebiederm@xmission.com>, <rppt@kernel.org>, <0x7f454c46@gmail.com>,
+ <borntraeger@de.ibm.com>, <Jason@zx2c4.com>, <jannh@google.com>, <w@1wt.eu>,
+ <colmmacc@amazon.com>, <luto@kernel.org>, <tytso@mit.edu>,
+ <ebiggers@kernel.org>, <dwmw@amazon.co.uk>, <bonzini@gnu.org>,
+ <sblbir@amazon.com>, <raduweis@amazon.com>, <corbet@lwn.net>,
+ <mhocko@kernel.org>, <rafael@kernel.org>, <pavel@ucw.cz>,
+ <mpe@ellerman.id.au>, <areber@redhat.com>, <ovzxemul@gmail.com>,
+ <avagin@gmail.com>, <ptikhomirov@virtuozzo.com>, <gil@azul.com>,
+ <asmehra@redhat.com>, <dgunigun@redhat.com>, <vijaysun@ca.ibm.com>,
+ <oridgar@gmail.com>, <ghammer@redhat.com>
+References: <1614156452-17311-1-git-send-email-acatan@amazon.com>
+ <1614156452-17311-2-git-send-email-acatan@amazon.com>
+ <20210224040516-mutt-send-email-mst@kernel.org>
+From: Alexander Graf <graf@amazon.com>
+Message-ID: <d63146a9-a3f8-14ea-2b16-cb5b3fe7aecf@amazon.com>
+Date: Wed, 24 Feb 2021 14:45:03 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <18b76a19-6f69-890e-8bb5-54d90aa132c1@redhat.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210224040516-mutt-send-email-mst@kernel.org>
+Content-Language: en-US
+X-Originating-IP: [10.43.161.39]
+X-ClientProxiedBy: EX13D22UWC003.ant.amazon.com (10.43.162.250) To
+ EX13D20UWC001.ant.amazon.com (10.43.162.244)
+Precedence: Bulk
+Content-Type: text/plain; charset="windows-1252"; format="flowed"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=52.95.48.154;
+ envelope-from=prvs=682b6eb60=graf@amazon.de; helo=smtp-fw-6001.amazon.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,81 +97,349 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- Markus Armbruster <armbru@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 02:25:46PM +0100, Paolo Bonzini wrote:
-> On 24/02/21 14:11, Daniel P. Berrangé wrote:
-> > This was replaced by the '-device usb-DEV' option.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> 
-> This is probably used in many tutorial as "-usbdevice tablet" (for example
-> https://wiki.gentoo.org/wiki/QEMU/Options).
 
-It has been deprecated, printing a warning message, for almost 4 years
-now, and had your ack originally :-)
+On 24.02.21 10:19, Michael S. Tsirkin wrote:
+> =
 
-  commit a358a3af4558a24398a541951cad7a6c458df72b
-  Author: Thomas Huth <thuth@redhat.com>
-  Date:   Fri May 19 08:35:16 2017 +0200
+> On Wed, Feb 24, 2021 at 10:47:31AM +0200, Adrian Catangiu wrote:
+>> - Background and problem
+>>
+>> The System Generation ID feature is required in virtualized or
+>> containerized environments by applications that work with local copies
+>> or caches of world-unique data such as random values, uuids,
+>> monotonically increasing counters, etc.
+>> Such applications can be negatively affected by VM or container
+>> snapshotting when the VM or container is either cloned or returned to
+>> an earlier point in time.
+>>
+>> Furthermore, simply finding out about a system generation change is
+>> only the starting point of a process to renew internal states of
+>> possibly multiple applications across the system. This process requires
+>> a standard interface that applications can rely on and through which
+>> orchestration can be easily done.
+>>
+>> - Solution
+>>
+>> The System Generation ID is meant to help in these scenarios by
+>> providing a monotonically increasing u32 counter that changes each time
+>> the VM or container is restored from a snapshot.
+>>
+>> The `sysgenid` driver exposes a monotonic incremental System Generation
+>> u32 counter via a char-dev filesystem interface accessible
+>> through `/dev/sysgenid`. It provides synchronous and asynchronous SysGen
+>> counter update notifications, as well as counter retrieval and
+>> confirmation mechanisms.
+>> The counter starts from zero when the driver is initialized and
+>> monotonically increments every time the system generation changes.
+>>
+>> Userspace applications or libraries can (a)synchronously consume the
+>> system generation counter through the provided filesystem interface, to
+>> make any necessary internal adjustments following a system generation
+>> update.
+>>
+>> The provided filesystem interface operations can be used to build a
+>> system level safe workflow that guest software can follow to protect
+>> itself from negative system snapshot effects.
+>>
+>> The `sysgenid` driver exports the `void sysgenid_bump_generation()`
+>> symbol which can be used by backend drivers to drive system generation
+>> changes based on hardware events.
+>> System generation changes can also be driven by userspace software
+>> through a dedicated driver ioctl.
+>>
+>> **Please note**, SysGenID alone does not guarantee complete snapshot
+>> safety to applications using it. A certain workflow needs to be
+>> followed at the system level, in order to make the system
+>> snapshot-resilient. Please see the "Snapshot Safety Prerequisites"
+>> section in the included documentation.
+>>
+>> Signed-off-by: Adrian Catangiu <acatan@amazon.com>
+>> ---
+>>   Documentation/misc-devices/sysgenid.rst            | 229 +++++++++++++=
+++
+>>   Documentation/userspace-api/ioctl/ioctl-number.rst |   1 +
+>>   MAINTAINERS                                        |   8 +
+>>   drivers/misc/Kconfig                               |  15 +
+>>   drivers/misc/Makefile                              |   1 +
+>>   drivers/misc/sysgenid.c                            | 322 +++++++++++++=
+++++++++
+>>   include/uapi/linux/sysgenid.h                      |  18 ++
+>>   7 files changed, 594 insertions(+)
+>>   create mode 100644 Documentation/misc-devices/sysgenid.rst
+>>   create mode 100644 drivers/misc/sysgenid.c
+>>   create mode 100644 include/uapi/linux/sysgenid.h
+>>
 
-    usb: Deprecate the legacy -usbdevice option
-    
-    The '-usbdevice' option is considered as deprecated nowadays and
-    we might want to remove these options in a future version of QEMU.
-    So mark this options as deprecated in the documenation and print out
-    a warning if it is used to tell the user what to use instead.
-    While we're at it, improve also some other minor USB-related spots
-    in qemu-options.hx that were not up to date anymore.
-    
-    Signed-off-by: Thomas Huth <thuth@redhat.com>
-    Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-    Message-id: 1495175716-12735-1-git-send-email-thuth@redhat.com
-    Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+[...]
+
+>> +``ioctl()``:
+>> +  The driver also adds support for waiting on open file descriptors
+>> +  that haven't acknowledged a generation counter update, as well as a
+>> +  mechanism for userspace to *trigger* a generation update:
+>> +
+>> +  - SYSGENID_SET_WATCHER_TRACKING: takes a bool argument to set tracking
+>> +    status for current file descriptor. When watcher tracking is
+>> +    enabled, the driver tracks this file descriptor as an independent
+>> +    *watcher*. The driver keeps accounting of how many watchers have
+>> +    confirmed the latest Sys-Gen-Id counter and how many of them are
+>> +    *outdated*; an outdated watcher is a *tracked* open file descriptor
+>> +    that has lived through a Sys-Gen-Id change but has not yet confirmed
+>> +    the new generation counter.
+>> +    Software that wants to be waited on by the system while it adjusts
+>> +    to generation changes, should turn tracking on. The sysgenid driver
+>> +    then keeps track of it and can block system-level adjustment process
+>> +    until the software has finished adjusting and confirmed it through a
+>> +    ``write()``.
+>> +    Tracking is disabled by default and file descriptors need to
+>> +    explicitly opt-in using this IOCTL.
+>> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
+>> +    tracked watchers or, if a ``timeout`` argument is provided, until
+>> +    the timeout expires.
+>> +    If the current caller is *outdated* or a generation change happens
+>> +    while waiting (thus making current caller *outdated*), the ioctl
+>> +    returns ``-EINTR`` to signal the user to handle event and retry.
+>> +  - SYSGENID_TRIGGER_GEN_UPDATE: triggers a generation counter incremen=
+t.
+>> +    It takes a ``minimum-generation`` argument which represents the
+>> +    minimum value the generation counter will be set to. For example if
+>> +    current generation is ``5`` and ``SYSGENID_TRIGGER_GEN_UPDATE(8)``
+>> +    is called, the generation counter will increment to ``8``.
+> =
+
+> And what if it's 9?
+
+Then it becomes 10. The hint only tells you what the smallest version =
+
+the system is matching against is.
+
+The only thing I have a slight concern over here is an overflow. What if =
+
+my generation id is 0x7fffffff? For starters, it'd probably be better to =
+
+treat the counter as ulong so it matches the atomic_t, no?
+
+But then you would still have the same situation, just with a wrap to 0 =
+
+instead of a wrap to negative. I guess the answer is "users of this API =
+
+will not get a guarantee that the counters are monotonically increasing. =
+
+They have to check for !=3D instead of < or >".
+
+> =
+
+>> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
+>> +    or CAP_SYS_ADMIN capabilities.
+>> +
+>> +``mmap()``:
+>> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
+>> +  in size. The first 4 bytes of the mapped page will contain an
+>> +  up-to-date u32 copy of the system generation counter.
+>> +  The mapped memory can be used as a low-latency generation counter
+>> +  probe mechanism in critical sections.
+>> +  The mmap() interface is targeted at libraries or code that needs to
+>> +  check for generation changes in-line, where an event loop is not
+>> +  available or read()/write() syscalls are too expensive.
+>> +  In such cases, logic can be added in-line with the sensitive code to
+>> +  check and trigger on-demand/just-in-time readjustments when changes
+>> +  are detected on the memory mapped generation counter.
+>> +  Users of this interface that plan to lazily adjust should not enable
+>> +  watcher tracking, since waiting on them doesn't make sense.
+>> +
+>> +``close()``:
+>> +  Removes the file descriptor as a system generation counter *watcher*.
+>> +
+>> +Snapshot Safety Prerequisites
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+>> +
+>> +If VM, container or other system-level snapshots happen asynchronously,
+>> +at arbitrary times during an active workload there is no practical way
+>> +to ensure that in-flight local copies or caches of world-unique data
+>> +such as random values, secrets, UUIDs, etc are properly scrubbed and
+>> +regenerated.
+>> +The challenge stems from the fact that the categorization of data as
+>> +snapshot-sensitive is only known to the software working with it, and
+>> +this software has no logical control over the moment in time when an
+>> +external system snapshot occurs.
+>> +
+>> +Let's take an OpenSSL session token for example. Even if the library
+>> +code is made 100% snapshot-safe, meaning the library guarantees that
+>> +the session token is unique (any snapshot that happened during the
+>> +library call did not duplicate or leak the token), the token is still
+>> +vulnerable to snapshot events while it transits the various layers of
+>> +the library caller, then the various layers of the OS before leaving
+>> +the system.
+>> +
+>> +To catch a secret while it's in-flight, we'd have to validate system
+>> +generation at every layer, every step of the way. Even if that would
+>> +be deemed the right solution, it would be a long road and a whole
+>> +universe to patch before we get there.
+>> +
+>> +Bottom line is we don't have a way to track all of these in-flight
+>> +secrets and dynamically scrub them from existence with snapshot
+>> +events happening arbitrarily.
+> =
+
+> Above should try harder to explan what are the things that need to be
+> scrubbed and why. For example, I personally don't really know what is
+> the OpenSSL session token example and what makes it vulnerable. I guess
+> snapshots can attack each other?
+> =
+
+> =
+
+> =
+
+> =
+
+> Here's a simple example of a workflow that submits transactions
+> to a database and wants to avoid duplicate transactions.
+> This does not require overseer magic. It does however require
+> a correct genid from hypervisor, so no mmap tricks work.
+> =
+
+> =
+
+> =
+
+>          int genid, oldgenid;
+>          read(&genid);
+> start:
+>          oldgenid =3D genid;
+>          transid =3D submit transaction
+>          read(&genid);
+>          if (genid !=3D oldgenid) {
+>                          revert transaction (transid);
+>                          goto start:
+>          }
+
+I'm not sure I fully follow. For starters, if this is a VM local =
+
+database, I don't think you'd care about the genid. If it's a remote =
+
+database, your connection would get dropped already at the point when =
+
+you clone/resume, because TCP and your connection state machine will get =
+
+really confused when you suddenly have a different IP address or two =
+
+consumers of the same stream :).
+
+But for the sake of the argument, let's assume you can have a =
+
+connectionless database connection that maintains its own connection =
+
+uniqueness logic. That database connector would need to understand how =
+
+to abort the connection (and thus the transaction!) when the generation =
+
+changes. And that's logic you would do with the read/write/notify =
+
+mechanism. So your main loop would check for reads on the genid fd and =
+
+after sending a connection termination, notify the overlord that it's =
+
+safe to use the VM now.
+
+The OpenSSL case (with mmap) is for libraries that are stateless and can =
+
+not guarantee that they receive a genid notification event timely.
+
+Since you asked, this is mainly important for the PRNG. Imagine an https =
+
+server. You create a snapshot. You resume from that snapshot. OpenSSL is =
+
+fully initialized with a user space PRNG randomness pool that it =
+
+considers safe to consume. However, that means your first connection =
+
+after resume will be 100% predictable randomness wise.
+
+The mmap mechanism allows the PRNG to reseed after a genid change. =
+
+Because we don't have an event mechanism for this code path, that can =
+
+happen minutes after the resume. But that's ok, we "just" have to ensure =
+
+that nobody is consuming secret data at the point of the snapshot.
+
+> =
+
+> =
+
+> =
+
+> =
+
+> =
+
+> =
+
+>> +Simplifyng assumption - safety prerequisite
+>> +-------------------------------------------
+>> +
+>> +**Control the snapshot flow**, disallow snapshots coming at arbitrary
+>> +moments in the workload lifetime.
+>> +
+>> +Use a system-level overseer entity that quiesces the system before
+>> +snapshot, and post-snapshot-resume oversees that software components
+>> +have readjusted to new environment, to the new generation. Only after,
+>> +will the overseer un-quiesce the system and allow active workloads.
+>> +
+>> +Software components can choose whether they want to be tracked and
+>> +waited on by the overseer by using the ``SYSGENID_SET_WATCHER_TRACKING``
+>> +IOCTL.
+>> +
+>> +The sysgenid framework standardizes the API for system software to
+>> +find out about needing to readjust and at the same time provides a
+>> +mechanism for the overseer entity to wait for everyone to be done, the
+>> +system to have readjusted, so it can un-quiesce.
+>> +
+>> +Example snapshot-safe workflow
+>> +------------------------------
+>> +
+>> +1) Before taking a snapshot, quiesce the VM/container/system. Exactly
+>> +   how this is achieved is very workload-specific, but the general
+>> +   description is to get all software to an expected state where their
+>> +   event loops dry up and they are effectively quiesced.
+> =
+
+> If you have ability to do this by communicating with
+> all processes e.g. through a unix domain socket,
+> why do you need the rest of the stuff in the kernel?
+> Quescing is a harder problem than waking up.
+
+That depends. Think of a typical VM workload. Let's take the web server =
+
+example again. You can preboot the full VM and snapshot it as is. As =
+
+long as you don't allow any incoming connections, you can guarantee that =
+
+the system is "quiesced" well enough for the snapshot.
+
+This is really what this bullet point is about. The point is that you're =
+
+not consuming randomness you can't reseed asynchronously (see the above =
+
+OpenSSL PRNG example).
 
 
-There's some tradeoff to be had.  The 3rd party docs will be unlikely
-to be updated to the new syntax as long as the old syntax still works.
-So we get ourselves into a chicken & egg scenario.
-
-Overall the -usbdevice doesn't add significant syntax sugar benefits
-over -device, as compared benefits of other syntax sugar args we
-have.
-
-> > ---
-> >   docs/system/deprecated.rst       |  9 -------
-> >   docs/system/removed-features.rst |  9 +++++++
-> >   softmmu/vl.c                     | 42 --------------------------------
-> >   3 files changed, 9 insertions(+), 51 deletions(-)
-
-It seems this is incomplete though, I missed qemu-options.hx,
-docs/qdev-device-use.txt and hw/usb/bus.c updates to remove
-associated cruft.
+Alex
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+Amazon Development Center Germany GmbH
+Krausenstr. 38
+10117 Berlin
+Geschaeftsfuehrung: Christian Schlaeger, Jonathan Weiss
+Eingetragen am Amtsgericht Charlottenburg unter HRB 149173 B
+Sitz: Berlin
+Ust-ID: DE 289 237 879
+
+
 
 
