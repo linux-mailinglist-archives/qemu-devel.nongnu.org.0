@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1498432370E
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 06:56:24 +0100 (CET)
-Received: from localhost ([::1]:50772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A967032370F
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 06:56:29 +0100 (CET)
+Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEn9q-0003Ff-VV
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 00:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
+	id 1lEn9w-0003T1-Jr
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 00:56:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lEn7o-0001bs-AZ
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:24813)
+ id 1lEn7u-0001jB-NG
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29995)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1lEn7m-0003sw-9a
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:16 -0500
+ id 1lEn7r-0003we-8g
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 00:54:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614146053;
+ s=mimecast20190719; t=1614146057;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KvzW3hi6AkgmHpL+ByRcVl4gnkpCMuhT9e/4F1tN/rs=;
- b=b2ZhCjEekXTaDhtvFYTQT9D6RSOms2Ee8z1SkuUb713nFjcZEJldwIYw7gEzKkqlIYy+xA
- 7+nl1CThpIstNe/k0wh7PJzqdR1gKeGkRxWHlQEy4Kl+8efV1LeUjcSrYFZ9I3SqNUB0sA
- 8TLeocEdNzsT6kmbGhpoqks8ufNj8GA=
+ bh=cy4bKniJw4V0UemaAFV1tBIj3D8/xKN8G+jpRvaBAZo=;
+ b=iO6aLx4ZMCDzUavMs7WAUzyf9/bEs8c/pVz0Ovmk+hVadW38FRpO7Cf08CdCNmd79yoGrJ
+ EOH1mYoPfQgG98lOK2P1srsttWc8UbxmbBVSn9peWrlx3a9NbdWXs8L4zS1dephgI2RBpq
+ qWFmGU/YiyPVaWN3L+SuODgB/uDKaxU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-44-cB8ZLYwUNJOf0DqBRfWoBg-1; Wed, 24 Feb 2021 00:54:11 -0500
-X-MC-Unique: cB8ZLYwUNJOf0DqBRfWoBg-1
+ us-mta-398-AoBD0BC0MRK-97YfnekURg-1; Wed, 24 Feb 2021 00:54:15 -0500
+X-MC-Unique: AoBD0BC0MRK-97YfnekURg-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49FCD1020C21
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:54:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE69A107ACE3
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 05:54:14 +0000 (UTC)
 Received: from jason-ThinkPad-X1-Carbon-6th.redhat.com
  (ovpn-13-164.pek2.redhat.com [10.72.13.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E5BE66F971;
- Wed, 24 Feb 2021 05:54:08 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C9B225C675;
+ Wed, 24 Feb 2021 05:54:10 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: jasowang@redhat.com,
 	qemu-devel@nongnu.org
-Subject: [PATCH 2/6] e1000: switch to use qemu_receive_packet() for loopback
-Date: Wed, 24 Feb 2021 13:53:57 +0800
-Message-Id: <20210224055401.492407-3-jasowang@redhat.com>
+Subject: [PATCH 3/6] dp8393x: switch to use qemu_receive_packet() for loopback
+ packet
+Date: Wed, 24 Feb 2021 13:53:58 +0800
+Message-Id: <20210224055401.492407-4-jasowang@redhat.com>
 In-Reply-To: <20210224055401.492407-1-jasowang@redhat.com>
 References: <20210224055401.492407-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -59,7 +60,7 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -89,22 +90,22 @@ reentrancy and return early.
 
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- hw/net/e1000.c | 2 +-
+ hw/net/dp8393x.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/e1000.c b/hw/net/e1000.c
-index 4345d863e6..4f75b44cfc 100644
---- a/hw/net/e1000.c
-+++ b/hw/net/e1000.c
-@@ -546,7 +546,7 @@ e1000_send_packet(E1000State *s, const uint8_t *buf, int size)
- 
-     NetClientState *nc = qemu_get_queue(s->nic);
-     if (s->phy_reg[PHY_CTRL] & MII_CR_LOOPBACK) {
--        nc->info->receive(nc, buf, size);
-+        qemu_receive_packet(nc, buf, size);
-     } else {
-         qemu_send_packet(nc, buf, size);
-     }
+diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+index 205c0decc5..019d4fe435 100644
+--- a/hw/net/dp8393x.c
++++ b/hw/net/dp8393x.c
+@@ -506,7 +506,7 @@ static void dp8393x_do_transmit_packets(dp8393xState *s)
+             s->regs[SONIC_TCR] |= SONIC_TCR_CRSL;
+             if (nc->info->can_receive(nc)) {
+                 s->loopback_packet = 1;
+-                nc->info->receive(nc, s->tx_buffer, tx_len);
++                qemu_receice_packet(nc, s->tx_buffer, tx_Len);
+             }
+         } else {
+             /* Transmit packet */
 -- 
 2.25.1
 
