@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90049324480
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 20:18:50 +0100 (CET)
-Received: from localhost ([::1]:41802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0FAA32448D
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 20:22:07 +0100 (CET)
+Received: from localhost ([::1]:47910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEzgP-00088b-IG
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 14:18:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47558)
+	id 1lEzja-0002M4-Iv
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 14:22:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47762)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lEzU2-0006c6-Fb
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 14:06:02 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:50967)
+ id 1lEzUH-00072P-9t
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 14:06:17 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:37407)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lEzTr-0006Cq-9V
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 14:05:55 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id b15so1946888pjb.0
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 11:05:49 -0800 (PST)
+ id 1lEzUF-0006LM-Lx
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 14:06:16 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id u12so1738724pjr.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 11:06:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=W637nTXwMuJRCteMAZc+ILdQvbjzwS2EWJUyupIJYXs=;
- b=CV8/8g0lrwXRXc6DbhoIZANdBL3UCW6hQlAQNAkyzim28jJNGxLrWN9Z7Zq7jKLXRW
- 3H+JTQIefiIJoXtp1sLiknwkSRIV+B6kA4+1+HNW6RdVqvs+0Kaq6+6SxZpmMr7/FyLU
- Crs/T/p77AMuuZc5edIfAG7SDbyPpAEc889PTyB+7eWz+siAH5zv7FzeLCz1WLve1EIn
- J2vaFkwO41P0KZhIeqxbwHIy1ghHjobAfT5tu8+J7dLMeZ/YPBR4a4oQqMgj6S+t9mGX
- ABoqLZeLYUKfTAFU1HnLM2LzBnzaqLmE69JV2TMdsSu6o7BXVuUts4doRvTFcFkwUdmz
- IdZA==
+ bh=229nyDUBO4Gwhktm3OIArNTtnk1En2Sj+mZRHRyHFiM=;
+ b=tjAflxx3rRuegc1VeGexRKvCwOaCouS29PvW8HCXcKIMjTyjc6f6LGPDph1PDJok+C
+ 9Y787ZHmg2I5yw8v7vA+7zH/CF0bweVI3kjPaxfBBZkRAIwu4SKolM/5YglC6pzPRgZW
+ xAEaK2sussRiHfz/t683zP9Jf7s3lJi+AiakIvn2iMlceGmlwS+m7N1c6gyv7Q4qzmwI
+ DfHWzdXcDTgasT8lzJ09YoC51iZ3rLSzPrDZuTOD1Pnjdu3h2hhlgqz4VQjAnFiYnx1h
+ 3vpLdhQHwiPs8LP2xpj1R0UyqCKufwY3DUFzp/BPDm78FyIaAFr/kRdb1F/lXvv72dK8
+ HQOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=W637nTXwMuJRCteMAZc+ILdQvbjzwS2EWJUyupIJYXs=;
- b=WrSTkETTp0x5Pgwb9vNxoG/gp9vVjBUAz+KSZ3REK5g/Od0hraFb8TRBU8DmZrLnH9
- qzF1lxcTN2MKHJnAJm7C3CrSX7D+7XfSJgPKB4GulrXQLp/EcNsge6G5B6vW9q4N/zKt
- zArrExr3p1ta1ZDF3aNMkNLOzyL2+SkZSrFHrQEM0agKfYa3o7NdX5CCyPDC8MlFcfW5
- W6vvikoMnfUpyZl7IZnUv9sQ/zuAnbhQQBBD4atN95A0IZNUwIXcT1ROqGkIhg9fm87f
- aN+eacEFXvvzhZElv2eRKLwbq4L5bBK2q9Jb8NiuXXPruzex/Y7A5bgYCa3KoqbqHcsT
- /yKA==
-X-Gm-Message-State: AOAM532MMLybqAe6p+8i8EGXCupK8m9Q6OBYNoACzjZOnw2InkGWNDRa
- aTfk0x2R6u4cRQNScsYZnmt73g==
-X-Google-Smtp-Source: ABdhPJzdvYZfG49Mjrb8vg5bKABUBiUkNTjuHP2Fmx+s9Z2tWNyVi+s44afdx9AXA8OoLRBF/PiYNA==
-X-Received: by 2002:a17:902:c114:b029:e3:b2e7:d410 with SMTP id
- 20-20020a170902c114b02900e3b2e7d410mr30930121pli.16.1614193548350; 
- Wed, 24 Feb 2021 11:05:48 -0800 (PST)
+ bh=229nyDUBO4Gwhktm3OIArNTtnk1En2Sj+mZRHRyHFiM=;
+ b=SR0GRLLGQLgrC/K17E1LqcOgrY3hQi/t5oNynAOSn+qDgFwD8Dr+MujcrHkrfdL8fa
+ /dFfVqVb+ZVKaNxzlrZDJFKZh9KtZJfLPpoLEnXkNQq/+V2mD86ZFH6ZbQ7iZ+eJ0VfB
+ tTpRei7LDPFad2VpDWrM8GbnlFo6fj3bxMgAO5qjdi/8am922jjW1Mxk2J6M308OenqO
+ HvsWx1bxsFK0RkOOCnnaYwLLfcdOxtS/y2KxqHHtZkvjaDs+ViF/QIonRXdj3GYxEKL+
+ o/N/BgHFoHdlCELT4vPeGDOa79o5xHFkZ9vCFcMea0ToXL5g++p5dpxQ3mU4h8UK04CT
+ g4ng==
+X-Gm-Message-State: AOAM530KcW4EFpe5knNMs1zNx2HuovB+XoYKffmPYMAAy7MlMWaX1kFp
+ MCwFzMeOkET0gtHUkO5uAlG82w==
+X-Google-Smtp-Source: ABdhPJyxchwK8+ptgHmx5+5cj9u9BrM1Iu3m3FrGKPxLkQthy8hHgKpK0sU81tMBBW/V5u397rmU6w==
+X-Received: by 2002:a17:90a:5206:: with SMTP id
+ v6mr6040391pjh.22.1614193574351; 
+ Wed, 24 Feb 2021 11:06:14 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id h123sm1234230pfe.115.2021.02.24.11.05.47
+ by smtp.gmail.com with ESMTPSA id a24sm3532594pff.18.2021.02.24.11.06.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 11:05:47 -0800 (PST)
-Subject: Re: [PATCH v4 02/12] target/mips/meson: Restrict mips-semi.c to TCG
+ Wed, 24 Feb 2021 11:06:13 -0800 (PST)
+Subject: Re: [PATCH v4 08/12] target/mips: Move MUL opcode check from
+ decode_mxu() to decode_legacy()
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210224185706.3293058-1-f4bug@amsat.org>
- <20210224185706.3293058-3-f4bug@amsat.org>
+ <20210224185706.3293058-9-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <2a892133-d2ff-7ff5-cae2-7323c88c154b@linaro.org>
-Date: Wed, 24 Feb 2021 11:05:45 -0800
+Message-ID: <f56d2b17-80ad-758a-05c6-2ff68f564004@linaro.org>
+Date: Wed, 24 Feb 2021 11:06:11 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210224185706.3293058-3-f4bug@amsat.org>
+In-Reply-To: <20210224185706.3293058-9-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,11 +96,15 @@ Cc: Aurelien Jarno <aurelien@aurel32.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 10:56 AM, Philippe Mathieu-Daudé wrote:
+On 2/24/21 10:57 AM, Philippe Mathieu-Daudé wrote:
+> Move the check for MUL opcode from decode_opc_mxu() callee
+> to decode_opc_legacy() caller, so we can simplify the ifdef'ry
+> and elide the call in few commits.
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/meson.build | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/mips/translate.c | 19 +++++--------------
+>  1 file changed, 5 insertions(+), 14 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
