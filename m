@@ -2,80 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DCC324301
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:15:10 +0100 (CET)
-Received: from localhost ([::1]:33604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0ADCD324328
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 18:28:08 +0100 (CET)
+Received: from localhost ([::1]:57670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExkj-0001Qf-I3
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:15:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47886)
+	id 1lExxG-0004uf-PY
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 12:28:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lExik-00083B-2L
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:13:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32051)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lExmQ-0004Ie-6w
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:17:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
- id 1lExig-00034Z-9W
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:13:05 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lExmL-0004He-Ne
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 12:16:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614186780;
+ s=mimecast20190719; t=1614187007;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wp8Np61zOSztWV5tLbvqDvmus9rUS2m+aGcFh4lDRss=;
- b=UjpOidHcBVUzCauohoHPN7LmFNOADZ5ZqiFu1C7Mgo+ZLOICc8rLe59v6IHNhCVzFXURPk
- bGn5Y7OULsUuFOGLYv+W6cZz6S0T708LITdRcISC3uR6dTSUW6sD+SGtGt6QLdAdq+waGi
- JnYtQUV7fKHJq/xUoIwdOov2u5ztWFg=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-219-f6U926RyOpiEvpRhbNGRew-1; Wed, 24 Feb 2021 12:12:58 -0500
-X-MC-Unique: f6U926RyOpiEvpRhbNGRew-1
-Received: by mail-wr1-f69.google.com with SMTP id p18so1339048wrt.5
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 09:12:57 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=HMSf7VHZzN3ORhRRQHVi3oJyjkiz8LlOOO8DQlsKxl4=;
+ b=KbiS1PFKePN0sxjxAGSiEsI3JQ/jUVmZjQQGkOKELXo1l5SHJk2Osi/2apPYU9qn2qhBZ1
+ ak13gc6gLovAeKcW9vfW2orc0HkTkX476GFa3CAqQeKC44ZY4w8JpEngBzFFcMbgAtFUD4
+ vciYXheEiQSLjf7kk3bYrp3vTYS0WyA=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-127-hvcCwq_DPXG4q5TFCGqrhg-1; Wed, 24 Feb 2021 12:16:46 -0500
+X-MC-Unique: hvcCwq_DPXG4q5TFCGqrhg-1
+Received: by mail-wm1-f69.google.com with SMTP id u15so840315wmj.2
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 09:16:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=wp8Np61zOSztWV5tLbvqDvmus9rUS2m+aGcFh4lDRss=;
- b=PcMdHZtp90JgitmCUoMOZtJxVzjoFo9KFJKyXkXHB4LFus5zK7DnKFHjNERwDHQrmk
- P4sQ3UmjOmh9+jwJEK7K2hSifTiYkuHJlCQRJ8VKUSxWxsC5Bc3+IPqC0Wi3KtGc2vvR
- racRT9lr9LxQMObW62yUyT1fKDEz/UGTLfV03hhS0y5Mnxm97ZuxAVh+N+G6WdkwkjMA
- gACFFKQgV7IpuJE7/MBkCpym1m4hejevOl+VIIsBoNO6FgteDBK7o3IhNERkSSHJgyYQ
- 3ojLWs2GKoUEpXSycnTrsXhxgtYRqTKGz9qvFIQ8tw3WIyBYvaV1MKyzQ95ECjL2Y8qK
- Ehiw==
-X-Gm-Message-State: AOAM532u+YABiZu8XQxKWxwfYyA5z9AGOIPrLbH8/IRl3kOn2yqts068
- eCuUt5qiM3HodrNk0TTIYdzDILtV7mOewqEjBCRUubGerSKk187uwaGKBjSDoSaOdEV1g3QkyUk
- etjoT6KLHnRzT82M=
-X-Received: by 2002:adf:8151:: with SMTP id 75mr3633452wrm.152.1614186776830; 
- Wed, 24 Feb 2021 09:12:56 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxaE8teLIC8ysi9MifKOsQpdsLoEcsBBF+lXaIsZohfaqsV82TNEovrynPmSzJfjq6g829FwQ==
-X-Received: by 2002:adf:8151:: with SMTP id 75mr3633436wrm.152.1614186776616; 
- Wed, 24 Feb 2021 09:12:56 -0800 (PST)
-Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
- [79.34.249.199])
- by smtp.gmail.com with ESMTPSA id k128sm3669259wmf.42.2021.02.24.09.12.55
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HMSf7VHZzN3ORhRRQHVi3oJyjkiz8LlOOO8DQlsKxl4=;
+ b=FbEzhIFYwTK4tJZMTwfl0mMBhWsX77djsjxXcczCMlP/h7j7TWLb8Q6JbkfL+CwrXF
+ jgBeA0ne3km6hmJc+CgXZFybV/hzYxANEUMpMs7gYHOWW51NJw63re+JXN3yDNbTrMC8
+ F9Ac7EcwJxsP8vvtnG8nUc1AwFoKqP+2EDnlbbv7JgraC1+6tWDl5DKUScT0tSGfDAFA
+ 8jTiqRlgldsqmHTLHoQ8AJFPOB/2XzXBZZ6peZp6BxdK/QVq3kTANKu7nqfWxjUB2Ttt
+ 6rZqAl47LBBy+4c1QYtcm5YISBeEXhNsJuhC1tt37E8lR/lpo9yss8gB6LN4T5VcdSgI
+ COeA==
+X-Gm-Message-State: AOAM533d3S2w0qyPjyn2zXitNRZtCS3FDNfOkewBYDg4UryBdUZSKZd+
+ w4YG8HawitvvhnoBa6L6HiM8su5hkFsKE5AWFpui5vojOFMSvznIlTjJURM8jMphUkCdeM4Ofhb
+ ZX0HEIPuuGl9Es/ZIjEGoIHIdnRAy1lsi0maeMwPGu4/goOqlXFtiiYm6esH2z4bU
+X-Received: by 2002:a7b:c417:: with SMTP id k23mr4728192wmi.132.1614187004642; 
+ Wed, 24 Feb 2021 09:16:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyS2ICE/w7+ZEat06UHPH/k/rw3E8Hy4qlOg6FuVRMEKO3NGt5743Umk90OpAZSLKRxzeFdLA==
+X-Received: by 2002:a7b:c417:: with SMTP id k23mr4728178wmi.132.1614187004454; 
+ Wed, 24 Feb 2021 09:16:44 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id o13sm5627209wro.15.2021.02.24.09.16.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 09:12:56 -0800 (PST)
-Date: Wed, 24 Feb 2021 18:12:53 +0100
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] blockjob: report a better error message
-Message-ID: <20210224171253.shyajn7y2bmjnbie@steredhat>
-References: <20210223131150.124867-1-sgarzare@redhat.com>
- <20210224143620.GB11025@merkur.fritz.box>
- <20210224155925.kzyatjog67ldwpzf@steredhat>
- <20210224170414.GG11025@merkur.fritz.box>
+ Wed, 24 Feb 2021 09:16:43 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] qapi: Remove QMP events and commands from user-mode builds
+Date: Wed, 24 Feb 2021 18:16:42 +0100
+Message-Id: <20210224171642.3242293-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210224170414.GG11025@merkur.fritz.box>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -96,76 +90,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Michael Roth <michael.roth@amd.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 06:04:14PM +0100, Kevin Wolf wrote:
->Am 24.02.2021 um 16:59 hat Stefano Garzarella geschrieben:
->> On Wed, Feb 24, 2021 at 03:36:20PM +0100, Kevin Wolf wrote:
->> > Am 23.02.2021 um 14:11 hat Stefano Garzarella geschrieben:
->> > > When a block job fails, we report 'strerror(-job->job.ret)' error
->> > > message, also if the job set an error object.
->> > > Let's report a better error message using 'error_get_pretty(job->job.err)'.
->> > >
->> > > If an error object was not set, strerror(-job->ret) is used as fallback,
->> > > as explained in include/qemu/job.h:
->> > >
->> > > typedef struct Job {
->> > >     ...
->> > >     /**
->> > >      * Error object for a failed job.
->> > >      * If job->ret is nonzero and an error object was not set, it will be set
->> > >      * to strerror(-job->ret) during job_completed.
->> > >      */
->> > >     Error *err;
->> > > }
->> >
->> > This is true, but there is a short time where job->ret is already set,
->> > but not turned into job->err yet if necessary. The latter is done in a
->> > bottom half scheduled after the former has happened.
->> >
->> > It doesn't matter for block_job_event_completed(), which is called only
->> > after both, but block_job_query() could in theory be called in this
->> > window.
->> >
->> > > Suggested-by: Kevin Wolf <kwolf@redhat.com>
->> > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->> > > ---
->> > >  blockjob.c | 5 +++--
->> > >  1 file changed, 3 insertions(+), 2 deletions(-)
->> > >
->> > > diff --git a/blockjob.c b/blockjob.c
->> > > index f2feff051d..a696f3408d 100644
->> > > --- a/blockjob.c
->> > > +++ b/blockjob.c
->> > > @@ -319,7 +319,8 @@ BlockJobInfo *block_job_query(BlockJob *job, Error **errp)
->> > >      info->auto_finalize = job->job.auto_finalize;
->> > >      info->auto_dismiss  = job->job.auto_dismiss;
->> > >      info->has_error = job->job.ret != 0;
->> > > -    info->error     = job->job.ret ? g_strdup(strerror(-job->job.ret)) : NULL;
->> > > +    info->error     = job->job.ret ?
->> > > +                        g_strdup(error_get_pretty(job->job.err)) : NULL;
->> >
->> > So I think we can't rely on job->job.err being non-NULL here.
->>
->> Do you think is better to leave it as it was or do something like this?
->>
->>     if (job->job.ret) {
->>         info->has_error = true;
->>         info->error = job->job.err ? g_strdup(error_get_pretty(job->job.err)) :
->>                         g_strdup(strerror(-job->job.ret);
->>     }
->
->Yes, I think this is the best solution. Use the error when we have it,
->fall back to strerror() when we don't have it.
->
+We removed the QMP loop in user-mode builds in commit 1935e0e4e09
+("qapi/meson: Remove QMP from user-mode emulation"), now commands
+and events code is unreachable.
 
-Okay, I'll send v2 with that fixed.
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ qapi/meson.build | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-Thanks,
-Stefano
+diff --git a/qapi/meson.build b/qapi/meson.build
+index 0652569bc43..fcb15a78f15 100644
+--- a/qapi/meson.build
++++ b/qapi/meson.build
+@@ -102,11 +102,15 @@
+     'qapi-types-@0@.h'.format(module),
+     'qapi-visit-@0@.c'.format(module),
+     'qapi-visit-@0@.h'.format(module),
+-    'qapi-events-@0@.c'.format(module),
+-    'qapi-events-@0@.h'.format(module),
+-    'qapi-commands-@0@.c'.format(module),
+-    'qapi-commands-@0@.h'.format(module),
+   ]
++  if have_system or have_tools
++    qapi_module_outputs += [
++      'qapi-events-@0@.c'.format(module),
++      'qapi-events-@0@.h'.format(module),
++      'qapi-commands-@0@.c'.format(module),
++      'qapi-commands-@0@.h'.format(module),
++    ]
++  endif
+   if module.endswith('-target')
+     qapi_specific_outputs += qapi_module_outputs
+   else
+-- 
+2.26.2
 
 
