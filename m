@@ -2,100 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 955ED324282
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 17:51:02 +0100 (CET)
-Received: from localhost ([::1]:45196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24BA1324283
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 17:51:12 +0100 (CET)
+Received: from localhost ([::1]:45836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lExNN-0005r9-14
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 11:51:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40904)
+	id 1lExNX-0006F2-6L
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 11:51:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lExJJ-0004F5-2z; Wed, 24 Feb 2021 11:46:49 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:55902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pasic@linux.ibm.com>)
- id 1lExJH-0003KA-34; Wed, 24 Feb 2021 11:46:48 -0500
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 11OGZDTc099810; Wed, 24 Feb 2021 11:46:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=date : from : to : cc :
- subject : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=pp1;
- bh=aowUJqwb1m1lUSuOPA2PseTql5N/kTnZLkCZtk4qkhQ=;
- b=esw62h4kZBwwjMdlFCW7YgvJbQrs2u+9X+N+IXjN19Sr9g1x87efiDGuw1Szt5GSASEO
- f/bjNCJMpiGYNbO13pBK+jCmdjAVwGRAAkMbm+XMyuRkUr7+OFPMwHDnPRRryCuy5LWn
- Zw+xV5CmCw4wuvmavKQlFEa9XH8QAbzGRWCV2z6NhvHwbNvPUtIrMs9hDYEVttjCtpto
- 5qlE5M/2464ttRHbpa7/e1Ga1yGC0GBS1ylqpubEQHbasL0udyxQtFod6O9beOcOwnen
- VvSjYea7EHBFZq+mJuZFBa8ZeIqJjKAtJmPp9q8YYHnH0QlhQPYztg0XRRqQXr5zAcF5 gg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36wktm7f73-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 11:46:42 -0500
-Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11OGZSWd101173;
- Wed, 24 Feb 2021 11:46:42 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36wktm7f64-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 11:46:42 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11OGgJXb008105;
- Wed, 24 Feb 2021 16:46:39 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma06ams.nl.ibm.com with ESMTP id 36tsph3qh1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 16:46:39 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11OGkaBl42074464
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 24 Feb 2021 16:46:36 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AB8BAAE045;
- Wed, 24 Feb 2021 16:46:36 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AA1F5AE053;
- Wed, 24 Feb 2021 16:46:35 +0000 (GMT)
-Received: from li-e979b1cc-23ba-11b2-a85c-dfd230f6cf82 (unknown [9.171.70.198])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
- Wed, 24 Feb 2021 16:46:35 +0000 (GMT)
-Date: Wed, 24 Feb 2021 17:46:34 +0100
-From: Halil Pasic <pasic@linux.ibm.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 1/1] hw/s390x: modularize virtio-gpu-ccw
-Message-ID: <20210224174634.58a1ecda.pasic@linux.ibm.com>
-In-Reply-To: <20210224113617.6v42bfxyzvw6733h@sirius.home.kraxel.org>
-References: <20210222125548.346166-1-pasic@linux.ibm.com>
- <20210224113617.6v42bfxyzvw6733h@sirius.home.kraxel.org>
-Organization: IBM
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <koalinux@gmail.com>)
+ id 1lExJr-0004SO-Rm
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:47:24 -0500
+Received: from mail-io1-xd29.google.com ([2607:f8b0:4864:20::d29]:38125)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <koalinux@gmail.com>)
+ id 1lExJo-0003SK-Ea
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 11:47:23 -0500
+Received: by mail-io1-xd29.google.com with SMTP id k17so2677598ioc.5
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 08:47:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=zS+oboiFzc+4rQLGwEiebQtfX0DekkK7FDxHmYsWheE=;
+ b=URb4Ge7K6EH+fyRcBGKhlyffcjyUZd27ZcSe5uR5GwA9AiNkXZngbuLU3hYtLFqttk
+ cTch0cARwdVM7/I62XpbtS7WhK8U0pk/Lo9aiL/e0+rnHgP1DZrFEtDH0jiPT9V+DTzm
+ wF6Mc+P+llYcYZEMUcat5cxxtgzAhUVxWhv+q1QOzk6D2mNR7seqWMK9T6JL97AO3ALo
+ MfT6C1JTUCTBokYzMl/sYB2Nj/FE2qFP7BNXFlPWMEw9wVfaXIBMn9WTyU/KY0xwY7BH
+ tyeVV+U9cdBJwoGDgwZItEvB+MnLpa9Cct8pLlDvDRRTkBmA7ae/ATqhFakwPUlq1S9O
+ 9xdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=zS+oboiFzc+4rQLGwEiebQtfX0DekkK7FDxHmYsWheE=;
+ b=E0lzWPZ207Cp8fqfFV9yO3t7HUXJlolwnHh6MQ279HXQ93phFkqBNRWwxxPrRZzp5d
+ hQETeGABzUW+kcDgBqw+XQHLdgB7DX8H1jXSnbeArRkllAfaCP63wigSM5uZTlhcjgCm
+ Dii3S9lFkM62Smy9Fd/15HtQcfWbfCHpJCIwneGGBNOdZCeGG7jKUt1SI8Q1yRuoVnFG
+ J8eB4hIaktTvtQ4JQjCZgEzwD7G6i8Kpw0mlpit7bknjR9zpj5Uyh5oa/81kaorn4OOm
+ uotRWxdo9++zQPA1RnJprL1lf58t1oqZuQtqJwShWYny4uwx3wKa6M1o4PpXCtzEik9z
+ awWA==
+X-Gm-Message-State: AOAM532/Y/gVXlfOkgjKDXNwF/l441J54tFEwldgsw0JpXxaBI2zg0Eg
+ 1uIFD1hU14TDGHmdQxd4nHSgJfSZj/AgYKNe5Qg=
+X-Google-Smtp-Source: ABdhPJxY0kR1w9LV47qV3vs0hEDtS0A+pC0vkwWQo7TBFb7Ur1HXye8pMaJbGmbXxY4AY9cONvJAXhDrsp1KtOtvNIs=
+X-Received: by 2002:a5e:8345:: with SMTP id y5mr17606437iom.58.1614185239064; 
+ Wed, 24 Feb 2021 08:47:19 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-24_06:2021-02-24,
- 2021-02-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 adultscore=0
- spamscore=0 bulkscore=0 suspectscore=0 impostorscore=0 mlxlogscore=999
- lowpriorityscore=0 malwarescore=0 phishscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102240127
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=pasic@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <20210224154901.23901-1-koalinux@gmail.com>
+ <CANWZPgLxUNM3tPg6wxCt=v7Z-d+DN3J9EyTSV3dwv=uzWMnY0Q@mail.gmail.com>
+ <4436341.rU913LdL3d@silver>
+In-Reply-To: <4436341.rU913LdL3d@silver>
+From: =?UTF-8?B?Sm9zw6kgUmFtw7NuIE11w7FveiBQZWtrYXJpbmVu?= <koalinux@gmail.com>
+Date: Wed, 24 Feb 2021 18:47:03 +0200
+Message-ID: <CANWZPg+agYD3bXBPsEYG8txZqV6UwT3piJY0kbKy4t0+8vutZA@mail.gmail.com>
+Subject: Re: [PATCH] Autoconnect jack ports by default
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Content-Type: multipart/alternative; boundary="000000000000c6b33405bc17c90d"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d29;
+ envelope-from=koalinux@gmail.com; helo=mail-io1-xd29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,83 +78,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
- "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Cornelia Huck <cohuck@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Bruce Rogers <brogers@suse.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?TWFyYy1BbmRyw6k=?= Lureau <marcandre.lureau@redhat.com>,
- David Hildenbrand <david@redhat.com>
+Cc: Geoffrey McRae <geoff@hostfission.com>, qemu-devel@nongnu.org,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 24 Feb 2021 12:36:17 +0100
-Gerd Hoffmann <kraxel@redhat.com> wrote:
+--000000000000c6b33405bc17c90d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> >  static void virtio_ccw_gpu_register(void)
-> >  {
-> > +#ifdef CONFIG_MODULES
-> > +    type_register_static_mayfail(&virtio_ccw_gpu);
-> > +#else
-> >      type_register_static(&virtio_ccw_gpu);
-> > +#endif  
-> 
-> Move the ifdef to type_register_static_mayfail, so this is not
-> duplicated for every module which might need this?
+On Wed, 24 Feb 2021 at 18:40, Christian Schoenebeck <qemu_oss@crudebyte.com=
+>
+wrote:
 
-I am concerned about a cluttered API. Having the documentation say:
+> On Mittwoch, 24. Februar 2021 17:16:58 CET Jos=C3=A9 Ram=C3=B3n Mu=C3=B1o=
+z Pekkarinen
+> wrote:
+> > On Wed, 24 Feb 2021 at 17:49, Jos=C3=A9 Pekkarinen <koalinux@gmail.com>
+> wrote:
+> > > This patch provides a default value to connect
+> > > jack ports when the user don't specify connect-ports.
+> > >
+> > > Buglink: https://bugs.launchpad.net/qemu/+bug/1908832
+> > >
+> > > Signed-off-by: Jos=C3=A9 Pekkarinen <koalinux@gmail.com>
+> > > ---
+> > >
+> > >  audio/jackaudio.c | 15 ++++++++++++---
+> > >  1 file changed, 12 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/audio/jackaudio.c b/audio/jackaudio.c
+> > > index 3031c4e29b..a29b1ccba2 100644
+> > > --- a/audio/jackaudio.c
+> > > +++ b/audio/jackaudio.c
+> > > @@ -369,14 +369,23 @@ static size_t qjack_read(HWVoiceIn *hw, void
+> *buf,
+> > > size_t len)
+> > >
+> > >  static void qjack_client_connect_ports(QJackClient *c)
+> > >  {
+> > >
+> > > -    if (!c->connect_ports || !c->opt->connect_ports) {
+> > > +    if (!c->connect_ports) {
+> > >
+> > >          return;
+> > >
+> > >      }
+> > >
+> > >      c->connect_ports =3D false;
+> > >      const char **ports;
+> > >
+> > > -    ports =3D jack_get_ports(c->client, c->opt->connect_ports, NULL,
+> > > -        c->out ? JackPortIsInput : JackPortIsOutput);
+> > > +    if (c->out) {
+> > > +        ports =3D jack_get_ports(c->client,
+> > > +            c->opt->connect_ports ? "system:capture_.*"
+> > > +                : c->opt->connect_ports,
+>
+> I think that should be the other way around:
+>
+>         c->opt->connect_ports ? c->opt->connect_ports : "system:capture_.=
+*"
+>
 
-/**
- * type_register_static_mayfail:
- * @info: The #TypeInfo of the new type.
- *
- * @info and all of the strings it points to should exist for the life time
- * that the type is registered.
- * 
- * If missing a parent type and if qom/object.c is built with CONFIG_MODULES
- * type_register_static_mayfail() differs from type_register_static only in not
- * printing an error and aborting but returning NULL. If qom/object.c is
- * built without CONFIG_MODULES type_register_static_mayfail() is same as
- * type_register_static() 
- * Returns: the new #Type or NULL if missing a parent type.
- */
-Type type_register_static_mayfail(const TypeInfo *info);
+    I was thinking exactly the same when I was reading
+the patch, but in the way you hint it doesn't make it, so
+somewhere we may be taking the logic inverted.
 
-does not feel right. Indeed modules seems to be the only
-circumstance under which a failed type registration does not imply
-a programming error. So I'm absolutely against shoving this logic
-down into object.c. But I find the variant I posted nicer to document
-and nicer to read: looking at virtio_ccw_gpu_register() one sees
-immediately that if built as a module, it is OK if the registration
-fails, and if built-in it is expected to work.
+    Best regards.
 
-> 
-> > --- a/include/hw/s390x/css.h
-> > +++ b/include/hw/s390x/css.h  
-> 
-> Move this to a separate patch?
-> The "add type_register_mayfail" and "modularize virtio-gpu-ccw" changes
-> should be separate patches too.
-> 
-> > -static TypeImpl *type_register_internal(const TypeInfo *info)
-> > +static TypeImpl *type_register_internal(const TypeInfo *info, bool mayfail)
-> >  {
-> >      TypeImpl *ti;
-> >      ti = type_new(info);  
-> 
-> Hmm, type_register_internal seems to not look at the new mayfail flag.
-> Patch looks incomplete ...
+    Jos=C3=A9.
 
-It definitely is. I messed up my smoke test (used the wrong executable)
-so I did not notice.
+--000000000000c6b33405bc17c90d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> take care,
->   Gerd
-> 
-> 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 24 Feb 2021 at 18:40, Christi=
+an Schoenebeck &lt;<a href=3D"mailto:qemu_oss@crudebyte.com">qemu_oss@crude=
+byte.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">On Mittwoch, 24. Februar 2021 17:16:58 CET Jos=C3=A9 Ram=C3=B3n Mu=
+=C3=B1oz Pekkarinen wrote:<br>
+&gt; On Wed, 24 Feb 2021 at 17:49, Jos=C3=A9 Pekkarinen &lt;<a href=3D"mail=
+to:koalinux@gmail.com" target=3D"_blank">koalinux@gmail.com</a>&gt; wrote:<=
+br>
+&gt; &gt; This patch provides a default value to connect<br>
+&gt; &gt; jack ports when the user don&#39;t specify connect-ports.<br>
+&gt; &gt; <br>
+&gt; &gt; Buglink: <a href=3D"https://bugs.launchpad.net/qemu/+bug/1908832"=
+ rel=3D"noreferrer" target=3D"_blank">https://bugs.launchpad.net/qemu/+bug/=
+1908832</a><br>
+&gt; &gt; <br>
+&gt; &gt; Signed-off-by: Jos=C3=A9 Pekkarinen &lt;<a href=3D"mailto:koalinu=
+x@gmail.com" target=3D"_blank">koalinux@gmail.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 audio/jackaudio.c | 15 ++++++++++++---<br>
+&gt; &gt;=C2=A0 1 file changed, 12 insertions(+), 3 deletions(-)<br>
+&gt; &gt; <br>
+&gt; &gt; diff --git a/audio/jackaudio.c b/audio/jackaudio.c<br>
+&gt; &gt; index 3031c4e29b..a29b1ccba2 100644<br>
+&gt; &gt; --- a/audio/jackaudio.c<br>
+&gt; &gt; +++ b/audio/jackaudio.c<br>
+&gt; &gt; @@ -369,14 +369,23 @@ static size_t qjack_read(HWVoiceIn *hw, voi=
+d *buf,<br>
+&gt; &gt; size_t len)<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 static void qjack_client_connect_ports(QJackClient *c)<br>
+&gt; &gt;=C2=A0 {<br>
+&gt; &gt; <br>
+&gt; &gt; -=C2=A0 =C2=A0 if (!c-&gt;connect_ports || !c-&gt;opt-&gt;connect=
+_ports) {<br>
+&gt; &gt; +=C2=A0 =C2=A0 if (!c-&gt;connect_ports) {<br>
+&gt; &gt; <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 <br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 c-&gt;connect_ports =3D false;<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 const char **ports;<br>
+&gt; &gt; <br>
+&gt; &gt; -=C2=A0 =C2=A0 ports =3D jack_get_ports(c-&gt;client, c-&gt;opt-&=
+gt;connect_ports, NULL,<br>
+&gt; &gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;out ? JackPortIsInput : JackPo=
+rtIsOutput);<br>
+&gt; &gt; +=C2=A0 =C2=A0 if (c-&gt;out) {<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 ports =3D jack_get_ports(c-&gt;clien=
+t,<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;opt-&gt;connect_=
+ports ? &quot;system:capture_.*&quot;<br>
+&gt; &gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 : c-&gt;=
+opt-&gt;connect_ports,<br>
+<br>
+I think that should be the other way around:<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 c-&gt;opt-&gt;connect_ports ? c-&gt;opt-&gt;con=
+nect_ports : &quot;system:capture_.*&quot;<br></blockquote><div><br></div><=
+div>=C2=A0 =C2=A0 I was thinking exactly the same when I was reading</div><=
+div>the patch, but in the way you hint it doesn&#39;t make it, so</div><div=
+>somewhere we may be taking the logic inverted.</div><div><br></div><div>=
+=C2=A0 =C2=A0 Best regards.</div><div><br></div><div>=C2=A0 =C2=A0 Jos=C3=
+=A9.</div></div></div>
 
+--000000000000c6b33405bc17c90d--
 
