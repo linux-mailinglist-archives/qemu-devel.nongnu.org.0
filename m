@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84605323F6F
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:19:03 +0100 (CET)
-Received: from localhost ([::1]:57628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FDD0323F0C
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 15:03:57 +0100 (CET)
+Received: from localhost ([::1]:39948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEvwM-0004mP-GG
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:19:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
+	id 1lEulb-00078k-1k
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 09:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEvSX-0004XI-7Y
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:48:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lEvST-0004KG-PO
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 09:48:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614178088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MzUuseB0orTMjpC4G1G61zMm36iFjlyj36C+eFM4CHE=;
- b=NdXIVKPm/lVgrrKqSRAZ+I3CtJePEgri3gLTjk6VJ96TzUpcWJT0hkqaxwbduC7iMXVHAF
- pdOwMh8Rl7ze2VuuDT6edBfLj5NP/NkvgZeBmXn5Hb+158mTh4MYkdePtlOrlg2XphEHOh
- bAdD0d8O8sfIuHpiY1oy5tTo6W9MDyA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-373-522zveIYN_iiTLX1dahREQ-1; Wed, 24 Feb 2021 09:48:07 -0500
-X-MC-Unique: 522zveIYN_iiTLX1dahREQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE6468D2915;
- Wed, 24 Feb 2021 13:56:44 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-114-142.ams2.redhat.com [10.36.114.142])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CED115D6AD;
- Wed, 24 Feb 2021 13:56:41 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 31/31] qom: Drop QemuOpts based interfaces
-Date: Wed, 24 Feb 2021 14:52:55 +0100
-Message-Id: <20210224135255.253837-32-kwolf@redhat.com>
-In-Reply-To: <20210224135255.253837-1-kwolf@redhat.com>
-References: <20210224135255.253837-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lEudP-0008Q7-Ja; Wed, 24 Feb 2021 08:55:23 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:44773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1lEudM-0005gp-0J; Wed, 24 Feb 2021 08:55:23 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.240])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 3E42D90F1267;
+ Wed, 24 Feb 2021 14:55:13 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 24 Feb
+ 2021 14:55:09 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00462ed1aa0-0a1f-47ec-8daa-abe9b36f25c1,
+ AC927D453D6768141DE92FF53A40F340F9E27F5E) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 86.201.91.229
+Subject: Re: [PATCH v2 01/22] block: add eMMC block device type
+To: Stefan Hajnoczi <stefanha@redhat.com>, Sai Pavan Boddu <saipava@xilinx.com>
+References: <1613982039-13861-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ <1613982039-13861-2-git-send-email-sai.pavan.boddu@xilinx.com>
+ <3c229241-fdc5-a445-d96e-ca16a5c0106b@redhat.com>
+ <BY5PR02MB6772EEE95845BAD093CAC972CA809@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <YDY7KKI1Xme29UlQ@stefanha-x1.localdomain>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <5c7cd4cd-ffe0-fa5d-5a9f-96bc07d7b037@kaod.org>
+Date: Wed, 24 Feb 2021 14:55:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <YDY7KKI1Xme29UlQ@stefanha-x1.localdomain>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 93b50e21-c6d5-4c86-98a4-22f590b84eff
+X-Ovh-Tracer-Id: 6539226661084039949
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeejgdehjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefheenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeeglefgjeevheeifeffudeuhedvveeftdeliedukeejgeeviefgieefhfdtffeftdenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepshhtvghfrghnhhgrsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,299 +73,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Vincent Palatin <vpalatin@chromium.org>, Luc Michel <luc.michel@greensocs.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ Edgar Iglesias <edgari@xilinx.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Joel Stanley <joel@jms.id.au>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-user_creatable_add_opts() has only a single user left, which is a test
-case. Rewrite the test to use user_creatable_add_type() instead (which
-is the remaining function that doesn't require a QAPI schema) and drop
-the QemuOpts related functions.
+On 2/24/21 12:40 PM, Stefan Hajnoczi wrote:
+> On Tue, Feb 23, 2021 at 05:35:20PM +0000, Sai Pavan Boddu wrote:
+>> Hi Philippe,
+>>
+>>> -----Original Message-----
+>>> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Sent: Monday, February 22, 2021 5:34 PM
+>>> To: Sai Pavan Boddu <saipava@xilinx.com>; Markus Armbruster
+>>> <armbru@redhat.com>; Kevin Wolf <kwolf@redhat.com>; Max Reitz
+>>> <mreitz@redhat.com>; Vladimir Sementsov-Ogievskiy
+>>> <vsementsov@virtuozzo.com>; Eric Blake <eblake@redhat.com>; Joel Stanley
+>>> <joel@jms.id.au>; Cédric Le Goater <clg@kaod.org>; Vincent Palatin
+>>> <vpalatin@chromium.org>; Dr. David Alan Gilbert <dgilbert@redhat.com>;
+>>> Thomas Huth <thuth@redhat.com>; Stefan Hajnoczi <stefanha@redhat.com>;
+>>> Peter Maydell <peter.maydell@linaro.org>; Alistair Francis
+>>> <alistair.francis@wdc.com>; Edgar Iglesias <edgari@xilinx.com>; Luc Michel
+>>> <luc.michel@greensocs.com>; Paolo Bonzini <pbonzini@redhat.com>
+>>> Cc: Sai Pavan Boddu <saipava@xilinx.com>; qemu-devel@nongnu.org; qemu-
+>>> block@nongnu.org
+>>> Subject: Re: [PATCH v2 01/22] block: add eMMC block device type
+>>>
+>>> On 2/22/21 9:20 AM, Sai Pavan Boddu wrote:
+>>>> From: Vincent Palatin <vpalatin@chromium.org>
+>>>>
+>>>> Add new block device type.
+>>>>
+>>>> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
+>>>> [SPB: Rebased over 5.1 version]
+>>>> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
+>>>> Signed-off-by: Joel Stanley <joel@jms.id.au>
+>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>>> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>>>> ---
+>>>>  include/sysemu/blockdev.h | 1 +
+>>>>  blockdev.c                | 1 +
+>>>>  2 files changed, 2 insertions(+)
+>>>>
+>>>> diff --git a/include/sysemu/blockdev.h b/include/sysemu/blockdev.h
+>>>> index 3b5fcda..eefae9f 100644
+>>>> --- a/include/sysemu/blockdev.h
+>>>> +++ b/include/sysemu/blockdev.h
+>>>> @@ -24,6 +24,7 @@ typedef enum {
+>>>>       */
+>>>>      IF_NONE = 0,
+>>>>      IF_IDE, IF_SCSI, IF_FLOPPY, IF_PFLASH, IF_MTD, IF_SD, IF_VIRTIO,
+>>>> IF_XEN,
+>>>> +    IF_EMMC,
+>>>>      IF_COUNT
+>>>>  } BlockInterfaceType;
+>>>>
+>>>> diff --git a/blockdev.c b/blockdev.c
+>>>> index cd438e6..390d43c 100644
+>>>> --- a/blockdev.c
+>>>> +++ b/blockdev.c
+>>>> @@ -83,6 +83,7 @@ static const char *const if_name[IF_COUNT] = {
+>>>>      [IF_SD] = "sd",
+>>>>      [IF_VIRTIO] = "virtio",
+>>>>      [IF_XEN] = "xen",
+>>>> +    [IF_EMMC] = "emmc",
+>>>>  };
+>>>
+>>> We don't need to introduce support for the legacy -drive magic.
+>>>
+>>> -device should be enough for this device, right?
+>> [Sai Pavan Boddu] I was seeing to use -device for emmc. But I see we anyway need blockdev support for this, which would require us the use -drive.
+>>
+>> Can you give some pointers, how to approach this ?
+> 
+> It is probably not necessary to add a new IF_ constant. Would this work:
+> 
+>   -drive if=none,id=emmc0,file=test.img,format=raw
+>   -device emmc,...,drive=emmc0
+> 
+> Or the more modern:
+> 
+>   -blockdev node-name=emmc0,driver=file,filename=test.img
+>   -device emmc,...,drive=emmc0
+> 
+> ?
+> 
+> (The syntax might need small tweaks but is shows the general idea.)
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/qom/object_interfaces.h | 59 ------------------------
- qom/object_interfaces.c         | 81 ---------------------------------
- tests/check-qom-proplist.c      | 42 ++++++++---------
- 3 files changed, 20 insertions(+), 162 deletions(-)
+Yes. This is better. 
 
-diff --git a/include/qom/object_interfaces.h b/include/qom/object_interfaces.h
-index fb32330901..ac6c33ceac 100644
---- a/include/qom/object_interfaces.h
-+++ b/include/qom/object_interfaces.h
-@@ -99,51 +99,6 @@ Object *user_creatable_add_type(const char *type, const char *id,
-  */
- void user_creatable_add_qapi(ObjectOptions *options, Error **errp);
- 
--/**
-- * user_creatable_add_opts:
-- * @opts: the object definition
-- * @errp: if an error occurs, a pointer to an area to store the error
-- *
-- * Create an instance of the user creatable object whose type
-- * is defined in @opts by the 'qom-type' option, placing it
-- * in the object composition tree with name provided by the
-- * 'id' field. The remaining options in @opts are used to
-- * initialize the object properties.
-- *
-- * Returns: the newly created object or NULL on error
-- */
--Object *user_creatable_add_opts(QemuOpts *opts, Error **errp);
--
--
--/**
-- * user_creatable_add_opts_predicate:
-- * @type: the QOM type to be added
-- *
-- * A callback function to determine whether an object
-- * of type @type should be created. Instances of this
-- * callback should be passed to user_creatable_add_opts_foreach
-- */
--typedef bool (*user_creatable_add_opts_predicate)(const char *type);
--
--/**
-- * user_creatable_add_opts_foreach:
-- * @opaque: a user_creatable_add_opts_predicate callback or NULL
-- * @opts: options to create
-- * @errp: unused
-- *
-- * An iterator callback to be used in conjunction with
-- * the qemu_opts_foreach() method for creating a list of
-- * objects from a set of QemuOpts
-- *
-- * The @opaque parameter can be passed a user_creatable_add_opts_predicate
-- * callback to filter which types of object are created during iteration.
-- * When it fails, report the error.
-- *
-- * Returns: 0 on success, -1 when an error was reported.
-- */
--int user_creatable_add_opts_foreach(void *opaque,
--                                    QemuOpts *opts, Error **errp);
--
- /**
-  * user_creatable_parse_str:
-  * @optarg: the object definition string as passed on the command line
-@@ -190,20 +145,6 @@ bool user_creatable_add_from_str(const char *optarg, Error **errp);
-  */
- void user_creatable_process_cmdline(const char *optarg);
- 
--/**
-- * user_creatable_print_help:
-- * @type: the QOM type to be added
-- * @opts: options to create
-- *
-- * Prints help if requested in @type or @opts. Note that if @type is neither
-- * "help"/"?" nor a valid user creatable type, no help will be printed
-- * regardless of @opts.
-- *
-- * Returns: true if a help option was found and help was printed, false
-- * otherwise.
-- */
--bool user_creatable_print_help(const char *type, QemuOpts *opts);
--
- /**
-  * user_creatable_del:
-  * @id: the unique ID for the object
-diff --git a/qom/object_interfaces.c b/qom/object_interfaces.c
-index 1c29f45b41..25cc54fcd7 100644
---- a/qom/object_interfaces.c
-+++ b/qom/object_interfaces.c
-@@ -10,12 +10,9 @@
- #include "qapi/qobject-input-visitor.h"
- #include "qapi/qobject-output-visitor.h"
- #include "qom/object_interfaces.h"
--#include "qemu/help_option.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
- #include "qemu/qemu-print.h"
--#include "qapi/opts-visitor.h"
--#include "qemu/config-file.h"
- 
- bool user_creatable_complete(UserCreatable *uc, Error **errp)
- {
-@@ -131,60 +128,6 @@ void user_creatable_add_qapi(ObjectOptions *options, Error **errp)
-     visit_free(v);
- }
- 
--Object *user_creatable_add_opts(QemuOpts *opts, Error **errp)
--{
--    Visitor *v;
--    QDict *pdict;
--    Object *obj;
--    const char *id = qemu_opts_id(opts);
--    char *type = qemu_opt_get_del(opts, "qom-type");
--
--    if (!type) {
--        error_setg(errp, QERR_MISSING_PARAMETER, "qom-type");
--        return NULL;
--    }
--    if (!id) {
--        error_setg(errp, QERR_MISSING_PARAMETER, "id");
--        qemu_opt_set(opts, "qom-type", type, &error_abort);
--        g_free(type);
--        return NULL;
--    }
--
--    qemu_opts_set_id(opts, NULL);
--    pdict = qemu_opts_to_qdict(opts, NULL);
--
--    v = opts_visitor_new(opts);
--    obj = user_creatable_add_type(type, id, pdict, v, errp);
--    visit_free(v);
--
--    qemu_opts_set_id(opts, (char *) id);
--    qemu_opt_set(opts, "qom-type", type, &error_abort);
--    g_free(type);
--    qobject_unref(pdict);
--    return obj;
--}
--
--
--int user_creatable_add_opts_foreach(void *opaque, QemuOpts *opts, Error **errp)
--{
--    bool (*type_opt_predicate)(const char *, QemuOpts *) = opaque;
--    Object *obj = NULL;
--    const char *type;
--
--    type = qemu_opt_get(opts, "qom-type");
--    if (type && type_opt_predicate &&
--        !type_opt_predicate(type, opts)) {
--        return 0;
--    }
--
--    obj = user_creatable_add_opts(opts, errp);
--    if (!obj) {
--        return -1;
--    }
--    object_unref(obj);
--    return 0;
--}
--
- char *object_property_help(const char *name, const char *type,
-                            QObject *defval, const char *description)
- {
-@@ -260,20 +203,6 @@ static bool user_creatable_print_type_properites(const char *type)
-     return true;
- }
- 
--bool user_creatable_print_help(const char *type, QemuOpts *opts)
--{
--    if (is_help_option(type)) {
--        user_creatable_print_types();
--        return true;
--    }
--
--    if (qemu_opt_has_help_opt(opts)) {
--        return user_creatable_print_type_properites(type);
--    }
--
--    return false;
--}
--
- static void user_creatable_print_help_from_qdict(QDict *args)
- {
-     const char *type = qdict_get_try_str(args, "qom-type");
-@@ -334,7 +263,6 @@ void user_creatable_process_cmdline(const char *optarg)
- 
- bool user_creatable_del(const char *id, Error **errp)
- {
--    QemuOptsList *opts_list;
-     Object *container;
-     Object *obj;
- 
-@@ -350,15 +278,6 @@ bool user_creatable_del(const char *id, Error **errp)
-         return false;
-     }
- 
--    /*
--     * if object was defined on the command-line, remove its corresponding
--     * option group entry
--     */
--    opts_list = qemu_find_opts_err("object", NULL);
--    if (opts_list) {
--        qemu_opts_del(qemu_opts_find(opts_list, id));
--    }
--
-     object_unparent(obj);
-     return true;
- }
-diff --git a/tests/check-qom-proplist.c b/tests/check-qom-proplist.c
-index 1b76581980..3bf208ba8b 100644
---- a/tests/check-qom-proplist.c
-+++ b/tests/check-qom-proplist.c
-@@ -21,6 +21,8 @@
- #include "qemu/osdep.h"
- 
- #include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
-+#include "qapi/qobject-input-visitor.h"
- #include "qom/object.h"
- #include "qemu/module.h"
- #include "qemu/option.h"
-@@ -400,20 +402,30 @@ static void test_dummy_createlist(void)
- 
- static void test_dummy_createcmdl(void)
- {
--    QemuOpts *opts;
-     DummyObject *dobj;
--    Error *err = NULL;
-+    QDict *args;
-+    Visitor *v;
-+    g_autofree const char *qom_type = NULL;
-+    g_autofree const char *id = NULL;
-     const char *params = TYPE_DUMMY \
-                          ",id=dev0," \
-                          "bv=yes,sv=Hiss hiss hiss,av=platypus";
- 
--    qemu_add_opts(&qemu_object_opts);
--    opts = qemu_opts_parse(&qemu_object_opts, params, true, &err);
--    g_assert(err == NULL);
--    g_assert(opts);
-+    args = keyval_parse(params, "qom-type", NULL, &error_abort);
-+
-+    qom_type = g_strdup(qdict_get_str(args, "qom-type"));
-+    qdict_del(args, "qom-type");
-+    g_assert(!strcmp(qom_type, TYPE_DUMMY));
-+
-+    id = g_strdup(qdict_get_str(args, "id"));
-+    qdict_del(args, "id");
-+    g_assert(!strcmp(id, "dev0"));
-+
-+    v = qobject_input_visitor_new_keyval(QOBJECT(args));
-+    dobj = DUMMY_OBJECT(user_creatable_add_type(TYPE_DUMMY, id, args, v,
-+                                                &error_abort));
-+    visit_free(v);
- 
--    dobj = DUMMY_OBJECT(user_creatable_add_opts(opts, &err));
--    g_assert(err == NULL);
-     g_assert(dobj);
-     g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
-     g_assert(dobj->bv == true);
-@@ -422,20 +434,6 @@ static void test_dummy_createcmdl(void)
-     user_creatable_del("dev0", &error_abort);
- 
-     object_unref(OBJECT(dobj));
--
--    /*
--     * cmdline-parsing via qemu_opts_parse() results in a QemuOpts entry
--     * corresponding to the Object's ID to be added to the QemuOptsList
--     * for objects. To avoid having this entry conflict with future
--     * Objects using the same ID (which can happen in cases where
--     * qemu_opts_parse() is used to parse the object params, such as
--     * with hmp_object_add() at the time of this comment), we need to
--     * check for this in user_creatable_del() and remove the QemuOpts if
--     * it is present.
--     *
--     * The below check ensures this works as expected.
--     */
--    g_assert_null(qemu_opts_find(&qemu_object_opts, "dev0"));
- }
- 
- static void test_dummy_badenum(void)
--- 
-2.29.2
+We could have an "emmc" device inheriting from "sd-card". The "emmc" 
+property would not be necessary anymore and may be, we could cleanup 
+up some parts doing : 
 
+    if (sd->emmc) { /* eMMC */
+        ...
+    } else {
+
+    }
+
+with SDCardClass handlers. the SWITCH_FUNCTION command is a good 
+candidate, CMD8 also.
+
+C.
 
