@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECF83240F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:57:10 +0100 (CET)
-Received: from localhost ([::1]:60682 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73F63240EB
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 16:46:35 +0100 (CET)
+Received: from localhost ([::1]:37748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEwXF-0006ub-A2
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:57:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52752)
+	id 1lEwN0-00051k-TH
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 10:46:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEwRX-0001vJ-Oi
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:51:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25951)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lEwRQ-0008WN-OZ
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:51:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614181868;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8IO0feKnQpkKDmGdg3SJzC4GYwm2FUXwpfFYXHI1ckM=;
- b=BjxWll2qG/wG9xlH3V7iA0/cjKq0wkQTeZgOL9fZZWdPqkZXw5br9cE+DnvgQxsj8AjOoJ
- IiWvJsE12268P9dnN89epfqZnAIxv97fOsFaCUZ6Zo7PVt5Ssdk0BVDkV8LnJR5661AR1x
- tx4SnKFXi6Hs8tKClmLqsRLWBRGd6ms=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-_rDh9ZbaNWKlLUNhCSxZ7A-1; Wed, 24 Feb 2021 10:51:04 -0500
-X-MC-Unique: _rDh9ZbaNWKlLUNhCSxZ7A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 490BFE4050
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 15:40:26 +0000 (UTC)
-Received: from localhost (ovpn-115-137.ams2.redhat.com [10.36.115.137])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B8F515D9DD;
- Wed, 24 Feb 2021 15:40:18 +0000 (UTC)
-Date: Wed, 24 Feb 2021 15:40:17 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH 2/3] memory: add memory_region_is_mapped_shared()
-Message-ID: <YDZzYcIEk7a9t8+e@stefanha-x1.localdomain>
-References: <20210222161017.570837-1-stefanha@redhat.com>
- <20210222161017.570837-3-stefanha@redhat.com>
- <CAMxuvaxXpRFa+V3H5qmKe4MAo+vUrasMTc+y_s8w4AVQGdnkAA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <asmadeus@codewreck.org>)
+ id 1lEwKr-00045S-77
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:44:21 -0500
+Received: from nautica.notk.org ([91.121.71.147]:38100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <asmadeus@codewreck.org>)
+ id 1lEwKo-0005Uw-Et
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 10:44:20 -0500
+Received: by nautica.notk.org (Postfix, from userid 108)
+ id B8C09C01E; Wed, 24 Feb 2021 16:44:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+ t=1614181454; bh=ZV8jkMbY8El7E5ZFbA9docIbSkA9tEpu7hmt+4Awjko=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=VsE5jdr/5aZpQH+iy7jVXAIurhi3NlE749qCFkpkQQXTKLZ7EcdbMytdAVWvGLbO4
+ yrQl2sg3Ro42bSA3PZ21pohotim5n/cZtc3ZFmh09AqaoDUTXHVcRFeVW6yGo2By7D
+ dcRGux1GlLIY/yihtuj76PwQ1QCHm7YwA5wkVwI4Mw8OsuLfI2J2PX/dRALFf2NZ7b
+ LwBfghtJh8qE6qYp8dlWFJYbyYBSmGt09FUpPGOrt8vqt2ravJT4MUWgNLOBh+zQUr
+ +JXEiAqK+//aafD2H/UazGLSU64xrLP7QUUo5fTTfZh+4yenAAjlYn+cOIf3pGANRC
+ gyXblOwR/IiYg==
+Received: from tyr.codewreck.org (localhost [127.0.0.1])
+ by nautica.notk.org (Postfix) with ESMTP id 99CC2C009;
+ Wed, 24 Feb 2021 16:44:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+ t=1614181453; bh=ZV8jkMbY8El7E5ZFbA9docIbSkA9tEpu7hmt+4Awjko=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=Cg4V6oqyH5eIpG+vlgHKbC/pIbonfhxTTuPNEM6WTJnR05IOLD9CkddT/7KkI5nDu
+ f+oBz98aOjF7gyK2dZ942PyqTnmoTfh+l90ies6b/vyeHlujKtk4Y7svX2SlRSLGRd
+ 4IaQuFgM++MFYG/UMgGN5/wZ2xPwuzzOa2t1UMIrosD/6qDRgj54Z9svWmf2AtXOHJ
+ CpOlGz9izTLCorDbl+RwbVIPlLtnzpc2vRe0IiKyjFghHep3Eg9Wzb3d7+IBGOFqkM
+ vh2I58M9ZaHrZK++A8EtEZUzmCudlJxJP+t7J0A7Qo9pwTzEoEwlo06iKsFvNIZK+D
+ MQqJZQwLAoMVg==
+Received: from tyr.codewreck.org (localhost [127.0.0.1])
+ by tyr.codewreck.org (Postfix) with SMTP id 8618A281001;
+ Thu, 25 Feb 2021 00:44:12 +0900 (JST)
+Received: (from asmadeus@codewreck.org)
+ by tyr.codewreck.org (mini_sendmail/1.3.9 19Oct2015);
+ Thu, 25 Feb 2021 00:44:12 JST (sender asmadeus@tyr.codewreck.org)
+Date: Thu, 25 Feb 2021 00:43:57 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: Can not set high msize with virtio-9p (Was: Re: virtiofs vs 9p
+ performance)
+Message-ID: <20210224154357.GA12207@tyr>
+References: <20200918213436.GA3520@redhat.com> <6115734.fQeFoySBn5@silver>
+ <20210223090531-mutt-send-email-mst@kernel.org>
+ <2006960.IAZaadA1hq@silver>
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvaxXpRFa+V3H5qmKe4MAo+vUrasMTc+y_s8w4AVQGdnkAA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pA19J2z7YdqQK5Ia"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <2006960.IAZaadA1hq@silver>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Received-SPF: pass client-ip=91.121.71.147;
+ envelope-from=asmadeus@codewreck.org; helo=nautica.notk.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,110 +82,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wolf, Kevin" <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: "cdupontd@redhat.com" <cdupontd@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ v9fs-developer@lists.sourceforge.net, "Shinde,
+ Archana M" <archana.m.shinde@intel.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---pA19J2z7YdqQK5Ia
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Christian Schoenebeck wrote on Wed, Feb 24, 2021 at 04:16:52PM +0100:
+> Misapprehension + typo(s) in my previous message, sorry Michael. That's 500k 
+> of course (not 5k), yes.
+> 
+> Let me rephrase that question: are you aware of something in virtio that would 
+> per se mandate an absolute hard coded message size limit (e.g. from virtio 
+> specs perspective or maybe some compatibility issue)?
+> 
+> If not, we would try getting rid of that hard coded limit of the 9p client on 
+> kernel side in the first place, because the kernel's 9p client already has a 
+> dynamic runtime option 'msize' and that hard coded enforced limit (500k) is a 
+> performance bottleneck like I said.
 
-On Wed, Feb 24, 2021 at 02:33:32PM +0400, Marc-Andr=E9 Lureau wrote:
-> On Mon, Feb 22, 2021 at 8:11 PM Stefan Hajnoczi <stefanha@redhat.com> wro=
-te:
->=20
-> > Add a function to query whether a memory region is mmap(MAP_SHARED).
-> > This will be used to check that vhost-user memory regions can be shared
-> > with the device backend process in the next patch.
-> >
-> > An inline function in "exec/memory.h" would have been nice but RAMBlock
-> > fields are only accessible from memory.c (see "exec/ramblock.h").
-> >
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  include/exec/memory.h | 11 +++++++++++
-> >  softmmu/memory.c      |  6 ++++++
-> >  2 files changed, 17 insertions(+)
-> >
-> > diff --git a/include/exec/memory.h b/include/exec/memory.h
-> > index c6fb714e49..7b7dbe9fd0 100644
-> > --- a/include/exec/memory.h
-> > +++ b/include/exec/memory.h
-> > @@ -2457,6 +2457,17 @@ static inline bool
-> > memory_access_is_direct(MemoryRegion *mr, bool is_write)
-> >      }
-> >  }
-> >
-> > +/**
-> > + * memory_region_is_mapped_shared: check whether a memory region is
-> > + * mmap(MAP_SHARED)
-> > + *
-> > + * Returns %true is a memory region is mmap(MAP_SHARED). This is alway=
-s
-> > false
-> > + * on memory regions that do not support memory_region_get_ram_ptr().
-> > + *
-> > + * @mr: the memory region being queried
-> > + */
-> > +bool memory_region_is_mapped_shared(MemoryRegion *mr);
-> > +
-> >  /**
-> >   * address_space_read: read from an address space.
-> >   *
-> > diff --git a/softmmu/memory.c b/softmmu/memory.c
-> > index 874a8fccde..e6631e5d4c 100644
-> > --- a/softmmu/memory.c
-> > +++ b/softmmu/memory.c
-> > @@ -1809,6 +1809,12 @@ bool memory_region_is_ram_device(MemoryRegion *m=
-r)
-> >      return mr->ram_device;
-> >  }
-> >
-> > +bool memory_region_is_mapped_shared(MemoryRegion *mr)
-> > +{
-> > +    return memory_access_is_direct(mr, false) &&
-> >
->=20
-> memory_access_is_direct is a bit special, it treats ram-device differentl=
-y
-> from rom-device since commit 4a2e242bbb306 ("memory: Don't use memcpy for
-> ram_device regions").
->=20
-> I don't think it's an issue for now, but I wonder if in the future we wil=
-l
-> share ram-device as well.
->=20
-> Where did you get the idea to use that function? I suppose that's also th=
-e
-> one we use somewhere else in the code path sharing the VM memory.
+We could probably set it at init time through virtio_max_dma_size(vdev)
+like virtio_blk does (I just tried and get 2^64 so we can probably
+expect virtually no limit there)
 
-It's used right before qemu_map_ram_ptr() in address_space_read() and
-seems like the most comprehensive way to check if a MemoryRegion is
-accessed via memory loads/stores.
+I'm not too familiar with virtio, feel free to try and if it works send
+me a patch -- the size drop from 512 to 500k is old enough that things
+probably have changed in the background since then.
 
-Do you prefer just memory_region_is_ram()? Or something more complicated
-to also allow romd?
 
-Stefan
+On the 9p side itself, unrelated to virtio, we don't want to make it
+*too* big as the client code doesn't use any scatter-gather and will
+want to allocate upfront contiguous buffers of the size that got
+negotiated -- that can get ugly quite fast, but we can leave it up to
+users to decide.
+One of my very-long-term goal would be to tend to that, if someone has
+cycles to work on it I'd gladly review any patch in that area.
+A possible implementation path would be to have transport define
+themselves if they support it or not and handle it accordingly until all
+transports migrated, so one wouldn't need to care about e.g. rdma or xen
+if you don't have hardware to test in the short term.
 
---pA19J2z7YdqQK5Ia
-Content-Type: application/pgp-signature; name="signature.asc"
+The next best thing would be David's netfs helpers and sending
+concurrent requests if you use cache, but that's not merged yet either
+so it'll be a few cycles as well.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA2c2EACgkQnKSrs4Gr
-c8jQxQf+LI/JO5kVvcOGuJ8D99JCdOF/wRrJfrKUqlXN3R6NWWdjqIzNl62Fwunh
-DsK4HLhsy98yGsfNiT6FlMT9pIIgxNxI05jNgDv/oiKbUDOI2+3qFowOAsPgPic+
-MuSp80FUy7KDEW12Y82PAFuOEm4VIVDq0gNvpWYj6LJWmwo58ZSXtSwC8YJg9URM
-GYLcR4IW8qHc4LVSQ1fPiEZFZqS6kV4gh4KFd68e7I3GqENTAh1jpQEWKdJBhQ9O
-sJ359Nul6klht+bFsTl1JnZOukHKiZgD4KDlW/dNB8sSXwegKsMIkije8njhtZQj
-NOovHHnIFFPjYQWD/26XqnLtWEkQrw==
-=Inlv
------END PGP SIGNATURE-----
-
---pA19J2z7YdqQK5Ia--
-
+Cheers,
+-- 
+Dominique
 
