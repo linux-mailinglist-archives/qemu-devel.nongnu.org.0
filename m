@@ -2,108 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67388324378
-	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:03:58 +0100 (CET)
-Received: from localhost ([::1]:59154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1ACA632437A
+	for <lists+qemu-devel@lfdr.de>; Wed, 24 Feb 2021 19:04:46 +0100 (CET)
+Received: from localhost ([::1]:60806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lEyVx-0004Jk-8U
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:03:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59810)
+	id 1lEyWj-00050a-4t
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 13:04:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lEyUX-0003aG-OT
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:02:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:15910
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbuono@linux.vnet.ibm.com>)
- id 1lEyUV-0002zW-RH
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:02:29 -0500
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 11OHZmgI192350; Wed, 24 Feb 2021 13:02:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=9QW6K19ubqLcMCluVG+7tkRubF3URUz32FYMexnXWdQ=;
- b=qJxoI44EGbgvbLd35XUiki2+w054nnDd7/GW2wy0EQgKSdR/Ow322Wf9yX0TfJJM5hg6
- M1DOe0Vq5ywo+epTvq5iEXED+NJBVPrfN6tLDuuyYWrQjKwR/K/ZoSrtU8B1BfTJOfGx
- v8D922178pFGlu4rYL3LBlpULHv9JroPup4uhij+TVIdZUsqAiepnZaJbZkyU+aYU2Wo
- /L7PKOvPEqjk52IJ7Rovbcd9ku2xxblk9sj+cNIrFontEPqszbkJ01lbCMZi1vBl0yqP
- /CokmefPrDzC/tpRQo5tTwHR5TL7qi9pqh6Zx8Qq5imzJ4y4zh99zUDa1hQCRDpSrduE TA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36wm7hj16j-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 13:02:25 -0500
-Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.43/8.16.0.43) with SMTP id 11OHiuHW042726;
- Wed, 24 Feb 2021 13:02:25 -0500
-Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
- [169.62.189.10])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36wm7hj165-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 13:02:25 -0500
-Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
- by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 11OHusuA000811;
- Wed, 24 Feb 2021 18:02:24 GMT
-Received: from b03cxnp08028.gho.boulder.ibm.com
- (b03cxnp08028.gho.boulder.ibm.com [9.17.130.20])
- by ppma02dal.us.ibm.com with ESMTP id 36tt2a8nqb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 24 Feb 2021 18:02:24 +0000
-Received: from b03ledav003.gho.boulder.ibm.com
- (b03ledav003.gho.boulder.ibm.com [9.17.130.234])
- by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 11OI2Nij31654172
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 24 Feb 2021 18:02:23 GMT
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 2B7566A04F;
- Wed, 24 Feb 2021 18:02:23 +0000 (GMT)
-Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id A65836A04D;
- Wed, 24 Feb 2021 18:02:22 +0000 (GMT)
-Received: from [9.163.12.145] (unknown [9.163.12.145])
- by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 24 Feb 2021 18:02:22 +0000 (GMT)
-Subject: Re: [PATCH 1/2] gitlab-ci.yml: Allow custom make parallelism
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEyV6-0003vU-T9
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:03:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31442)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lEyV3-00037W-Se
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 13:03:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614189779;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=NW1Hfey9S5rPsTYaOaxmDa4i/W2vMcAQBQx46eZKpy0=;
+ b=MQnl+MMi5quQKt27n1cnUEFXitHtnZhk3+RXTmXqVGpMcjf91ULz22mzJ5XhqUreNs0iSI
+ uQgxG3796cgDxQXOkwBGiMAzc+RXHNF8uZojhZ4YTEa3A3rQl5ZCZ7cabA9WRbAFq3y11h
+ gyoWJpZeFrIBMNP+RMaOBd0cLffK7Wg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-128-Ce9FXXQdP8ytZ9U3pXBEEg-1; Wed, 24 Feb 2021 13:02:49 -0500
+X-MC-Unique: Ce9FXXQdP8ytZ9U3pXBEEg-1
+Received: by mail-wr1-f72.google.com with SMTP id i2so1406725wru.1
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 10:02:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NW1Hfey9S5rPsTYaOaxmDa4i/W2vMcAQBQx46eZKpy0=;
+ b=poja0655yGqU0G/9ErfFg4YsSIHiT0iD/KE7YVgguDZPcCIaTA2rSX3AfpjzJ3XbvI
+ AGE663mgYuso52QUQFb1v8jU5rUoKwPP1IhGDdEviB/wCpEMs3cNo1O92S77I31Ox58X
+ hQLq2ReO9vZqQPXRZ68+NMwU2ASM01ufEO7hRlWpQRWchjM/QCRVzQ2SuQg+Up5SMI/H
+ hHmOMFbhl6YRSxj55bXn8HdM3d0Wmdp1XpdhnecYzgrnPLLJDi9T4tjJINeyR1PyB3C5
+ fDoYgLFYyZHPIyyqECiuaPf1GkYDwDk+de17U1YFlwqipNF4gLq/lXxItyRneIUYRcDA
+ XH+A==
+X-Gm-Message-State: AOAM530fRyMaLBDk7ku4pZXp9iz81aQy9wnV0u5HFKALDRQ9BNghn+iC
+ HlfyFsc+Wm3lh12ElSFutJGm/mIDpvQ7QcpWeDNAradZ86Ki9HRQULgEJLlJHBhvEYWR4ND3inF
+ CnAfSH/P6qh6C0CA=
+X-Received: by 2002:a05:600c:4f86:: with SMTP id
+ n6mr4838879wmq.22.1614189767725; 
+ Wed, 24 Feb 2021 10:02:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzErC6k4ktpDRw/2PPdSvVxIz2TDEdTuJkqCrPNAM1i80yz2tzfJkzJd8iLDKixLqhDXgaqgw==
+X-Received: by 2002:a05:600c:4f86:: with SMTP id
+ n6mr4838802wmq.22.1614189766915; 
+ Wed, 24 Feb 2021 10:02:46 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id m9sm10017878wml.3.2021.02.24.10.02.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Feb 2021 10:02:46 -0800 (PST)
+Subject: Re: [PATCH] meson: Only generate trace files for selected targets
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210222230106.7030-1-dbuono@linux.vnet.ibm.com>
- <20210222230106.7030-2-dbuono@linux.vnet.ibm.com>
- <20057039-92b4-5b0f-436d-7310e9e59dfe@redhat.com>
- <2209b899-4de1-5b8d-99de-0b993575c0a3@linux.vnet.ibm.com>
- <0bed82c8-f40d-8a22-74e5-7eede5ef80c5@redhat.com>
-From: Daniele Buono <dbuono@linux.vnet.ibm.com>
-Message-ID: <bd71d643-68f0-1bfb-088c-f7c4b9cb153a@linux.vnet.ibm.com>
-Date: Wed, 24 Feb 2021 13:02:21 -0500
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+References: <20210224120923.3154325-1-philmd@redhat.com>
+ <39cc99dd-54d5-9dd1-d66a-7947686dbada@redhat.com>
+ <11b6e7ad-9ac9-45fe-ebcf-1db7e396d33a@redhat.com>
+Message-ID: <0efebdee-6ff9-b242-54b2-3341a05bcaa6@redhat.com>
+Date: Wed, 24 Feb 2021 19:02:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <0bed82c8-f40d-8a22-74e5-7eede5ef80c5@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <11b6e7ad-9ac9-45fe-ebcf-1db7e396d33a@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.369, 18.0.761
- definitions=2021-02-24_08:2021-02-24,
- 2021-02-24 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- mlxscore=0 impostorscore=0 malwarescore=0 adultscore=0 spamscore=0
- bulkscore=0 suspectscore=0 lowpriorityscore=0 priorityscore=1501
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2102240137
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=dbuono@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,31 +101,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-trivial@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2/24/2021 2:44 AM, Paolo Bonzini wrote:
-> On 23/02/21 20:34, Daniele Buono wrote:
->> This works, but setting this value to 1 for everybody seems a bit too
->> restrictive. While the gitlab ci runners don't have enough memory for
->> this, that's not necessarily true for every build platform, and linking
->> multiple targets in parallel with LTO can result in a big save in time,
->> so I'd prefer a customizable way.
+On 2/24/21 1:51 PM, Philippe Mathieu-Daudé wrote:
+> On 2/24/21 1:26 PM, Paolo Bonzini wrote:
+>> On 24/02/21 13:09, Philippe Mathieu-Daudé wrote:
+>>> We don't need to generate trace files for targets we
+>>> are not building. Restrict the the ones selected.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> ---
+>>>   meson.build | 10 +---------
+>>>   1 file changed, 1 insertion(+), 9 deletions(-)
+>>>
+>>> diff --git a/meson.build b/meson.build
+>>> index 05a67c20d93..c9b0433667d 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -1826,15 +1826,6 @@
+>>>     trace_events_subdirs += [
+>>>       'accel/tcg',
+>>>       'hw/core',
+>>> -    'target/arm',
+>>> -    'target/hppa',
+>>> -    'target/i386',
+>>> -    'target/i386/kvm',
+>>> -    'target/mips',
+>>> -    'target/ppc',
+>>> -    'target/riscv',
+>>> -    'target/s390x',
+>>> -    'target/sparc',
+>>>     ]
+>>>   endif
+>>>   @@ -2166,6 +2157,7 @@
+>>>     t = target_arch[arch].apply(config_target, strict: false)
+>>>     arch_srcs += t.sources()
+>>>     arch_deps += t.dependencies()
+>>> +  trace_events_subdirs += ['target' / arch]
+>>>       target_common = common_ss.apply(config_target, strict: false)
+>>>     objects = common_all.extract_objects(target_common.sources())
+>>>
 >>
->> How about adding a flag `--max-ld-procs` to configure to manually set
->> backend_max_links?
+>> Is this still okay if there is no trace-events file for a given arch?
+
+No, it is *not* Okay :>
+
 > 
-> Another possibility is to invoke "meson configure build 
-> -Dbackend_max_links=1" after configure.
+> No problem in my usual build configs, but I kicked a CI build to check
+> the all of them and be sure.
 
-I like this, I'll send a v2 soon where I replace this patch with one
-just for linking.
-
-Daniele
 
