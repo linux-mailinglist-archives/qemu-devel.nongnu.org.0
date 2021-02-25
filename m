@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE2C324C15
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:32:58 +0100 (CET)
-Received: from localhost ([::1]:34270 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D8B324C1A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:35:54 +0100 (CET)
+Received: from localhost ([::1]:36882 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFC4v-0007mU-Cu
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:32:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
+	id 1lFC7j-0000eh-Cz
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:35:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <koalinux@gmail.com>)
- id 1lFC42-0007Iz-SS
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:32:02 -0500
-Received: from mail-il1-x136.google.com ([2607:f8b0:4864:20::136]:41532)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <koalinux@gmail.com>)
- id 1lFC41-0005sz-17
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:32:02 -0500
-Received: by mail-il1-x136.google.com with SMTP id c10so4198469ilo.8
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 00:32:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=IOqz32nz7mkaeiIHmd/JiPYZGnjg372IdP/Q2VHu8Tg=;
- b=ojfXacgbxaBROWcOpUwZ27MYQSK7nw4YGuClE7kuouD1QAHOEVUIulaVyFzJSR1sdk
- ZofINggTJ6KWfYbhT9Dnqcue8RpdpnB5zEIPaKQqbXhEOhh+/HPOL1a5Dct/gA34QxRX
- 3N39X+Oa9mH7UFJ2Q9qZFQZ1f7y3lCiCeS9JqKp5SXtQDmylkO81/UOOCV+xeRtzM76G
- Hyil81yQjDOVzM2/vUfN+bpMTu7ZXCJGRNO9lD9fH27YqGBl1s7k5sfyNt2+4QnN/igi
- Lhcg1juJyQ+SPDFucVKCVMk7MgZvt5KPHI/ginA/9NMOD46CQ6bQ2K4d19cKPVN0Ywc8
- a11w==
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lFC6K-0008SN-1Z
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:34:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lFC6H-0007OH-Ku
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:34:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614242060;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=3Z+B5rCibcEMmZDh47QzOLvDM8NBc5T5IBG+qFh4wfg=;
+ b=FXR9Pd5uQIgDe8EWa5JwckHb3mnyASe3wGJ8PpOfcjGFr6VBNvx/jk8oI+PiuY02fjkFS9
+ yA3JMyScoscG+SNv2PkkaMOqYdsUnPZBzUfa6tBdanUVJOJiS5B1R1b4dj15D4PY5PXWyp
+ +++2Ulnd+ZQS3QO3ByQgz8ZC6Z0nvrw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-462-FvmMJJGCNRq1MTT5lkVeNw-1; Thu, 25 Feb 2021 03:34:18 -0500
+X-MC-Unique: FvmMJJGCNRq1MTT5lkVeNw-1
+Received: by mail-wm1-f69.google.com with SMTP id v130so1529850wma.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 00:34:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=IOqz32nz7mkaeiIHmd/JiPYZGnjg372IdP/Q2VHu8Tg=;
- b=Ne0g4G54I/b7S12wp/btUz5/ZeH8ekI9dK3VOgQ1FqissfTz28ixMg+e5ps7ByBTwB
- nE75HYQXMcQ2TcTMWsHdX5Qz8Q6+HDGn+BI22TZYGbrcrPRm+FRLlmBsY4CzHJsoOHJn
- nT+27cjDK7mkvD1yON+nYLDBQZl8lr5rc5QseWxRIj44q5dFCePy4oK8PIGN9f+NaMxa
- gGQeoqjrT9KWtx9xctgO1rab+Z0uqOpYSTVYcf/dO2g1D7vy6ZOKDynjyTNsyZ5aG3H7
- RkFI4heWbB8VyXJYcgV/WNDPdSD9xssHOEKZI7+GNoezt/Lk2cGjiFOZs+JEsgpeZF5D
- Vyfg==
-X-Gm-Message-State: AOAM5301TM/aAiI8CXalZE9W8cG3uJWebRLn65csWfGQ2MMbRcLoFa5G
- a4Vhv0fdXzXfD5swwoFfnmhByMjvfrSYrnBOXDI=
-X-Google-Smtp-Source: ABdhPJwQepkHgeDeeDfZL3xvdctye7HKrJu6zVYXTl6chZROEOKiwBtI3iEhHZ3L7l3eYtsgvVslFA3Cu8lP21r5ET4=
-X-Received: by 2002:a05:6e02:1a82:: with SMTP id
- k2mr1629766ilv.155.1614241919823; 
- Thu, 25 Feb 2021 00:31:59 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=3Z+B5rCibcEMmZDh47QzOLvDM8NBc5T5IBG+qFh4wfg=;
+ b=NtpI491g4cH9IBhc0E5d0Z5MQnN03ZlQnzCHFMKz075fJZZS6XxqF78AXh0rVCluwi
+ kNM5C9wpVpTyz840d+e7ewaEjuTYh5QzTnqTDstMibu2FktrfwmeUbd5FUZN9OfuO7g1
+ eYV9a9h/gOkYRQuIcgGscz23oVfcJh3Aq8HPm5flrp6vHX44wasjRSoWJFO4EwLJ7NzT
+ +kOTtLkEQGGoc+AJ3U5qvtvTEo+9ekc9UtMtAXHhJSjoFdIqCMYWFJVaUmam9iAoIyLf
+ oo0CvJRTIudBdo/xgPjGwXmoUU7CjeB/xg7IWrtuiL2F2jGLIQCDNwFymMOYMBBAGIBi
+ eBYw==
+X-Gm-Message-State: AOAM533seNqlWbbDamaVoDCdsqh4r9F1bYaTiHXjdAnJy9U6+QGzlFYE
+ KbpsQM0bQ1DaZ87gdu98T+IcVu43YOExxJ8DvNBY+KkTs8QIH2ierZyYm6gQjpgy0EAZ0HwwT1E
+ sdorAcrUWOZqtjyo=
+X-Received: by 2002:adf:9f10:: with SMTP id l16mr2256944wrf.0.1614242057054;
+ Thu, 25 Feb 2021 00:34:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzGpymZqxqmis23wWfzzhIJ5wycw31aSmSYk9JPPyT4QKF5JxixEGqewU51tAkiB/xPgrmkRA==
+X-Received: by 2002:adf:9f10:: with SMTP id l16mr2256925wrf.0.1614242056821;
+ Thu, 25 Feb 2021 00:34:16 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id c26sm7031291wrb.87.2021.02.25.00.34.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Feb 2021 00:34:16 -0800 (PST)
+Date: Thu, 25 Feb 2021 09:34:13 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v4] virtio-blk: Respect discard granularity
+Message-ID: <20210225083413.yeyegvqbke3u5pyz@steredhat>
+References: <20210224101747.hmgou6z7qzmk62ft@steredhat>
+ <20210225001239.47046-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-References: <20210224191927.19271-1-koalinux@gmail.com>
- <3407243.daszWApDLn@silver>
- <5694e258e36c6623aae5465aafeec951@hostfission.com>
- <31652865.Htn8XJslzA@silver>
- <ab566e57c5ec57e857834d7a70d4dfde@hostfission.com>
-In-Reply-To: <ab566e57c5ec57e857834d7a70d4dfde@hostfission.com>
-From: =?UTF-8?B?Sm9zw6kgUmFtw7NuIE11w7FveiBQZWtrYXJpbmVu?= <koalinux@gmail.com>
-Date: Thu, 25 Feb 2021 10:31:44 +0200
-Message-ID: <CANWZPgKuwQya4ZrVZzmRS1Rw+Y3-vXtaXY7iC__JH4NpXdyLuQ@mail.gmail.com>
-Subject: Re: [PATCH v2] Autoconnect jack ports by default
-To: Geoffrey McRae <geoff@hostfission.com>
-Content-Type: multipart/alternative; boundary="00000000000036759305bc24fc7c"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::136;
- envelope-from=koalinux@gmail.com; helo=mail-il1-x136.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <20210225001239.47046-1-akihiko.odaki@gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,73 +94,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- kraxel@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000036759305bc24fc7c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, 25 Feb 2021 at 00:38, Geoffrey McRae <geoff@hostfission.com> wrote:
-
-> While I get where you're coming from, those using QEMU with Jack are
-> already advanced users that are used to reading technical documentation.
-> Having our one client do something that is unexpected/different would
-> not only confuse existing Jack users but also anyone following any
-> guides/documentation on how to use a generic jack client. IMO the better
-> solution here is simply better documentation, perhaps even a known
-> working sample setup.
+On Thu, Feb 25, 2021 at 09:12:39AM +0900, Akihiko Odaki wrote:
+>Report the configured granularity for discard operation to the
+>guest. If this is not set use the block size.
 >
+>Since until now we have ignored the configured discard granularity
+>and always reported the block size, let's add
+>'report-discard-granularity' property and disable it for older
+>machine types to avoid migration issues.
+>
+>Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+>---
+> hw/block/virtio-blk.c          | 8 +++++++-
+> hw/core/machine.c              | 4 +++-
+> include/hw/virtio/virtio-blk.h | 1 +
+> 3 files changed, 11 insertions(+), 2 deletions(-)
 
-    This is an interesting point, but hey, things be told in advance,
-whether
-the patch is accepted or not is up to you, I'll respect any decision in the
-upstreaming, I'm just curious, how can a default behaviour that multiple
-other applications and libraries adopt is going to confuse jack community?
-For instance, I tend to work with firefox, and mumble that natively support
-jack, and they perform automatic connection no patchbay extra config
-required, the basics just work out of the box, while you still can do more
-complex stuff if you want to use the full set of features of jack.
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 
-    On the other hand, I took some time to read to automatically configure
-the connection over qjackctl patchbay, so thanks for pointing out that via.
-
-    Jos=C3=A9.
-
---00000000000036759305bc24fc7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 25 Feb 2021 at 00:38, Geoffre=
-y McRae &lt;<a href=3D"mailto:geoff@hostfission.com" target=3D"_blank">geof=
-f@hostfission.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">While I get where you&#39;re coming from, those using QEMU=
- with Jack are <br>
-already advanced users that are used to reading technical documentation. <b=
-r>
-Having our one client do something that is unexpected/different would <br>
-not only confuse existing Jack users but also anyone following any <br>
-guides/documentation on how to use a generic jack client. IMO the better <b=
-r>
-solution here is simply better documentation, perhaps even a known <br>
-working sample setup.<br></blockquote><div><br></div><div>=C2=A0 =C2=A0 Thi=
-s is an interesting point, but hey, things be told in advance, whether</div=
-><div>the patch is accepted or not is up to you, I&#39;ll respect any decis=
-ion in the</div><div>upstreaming, I&#39;m just curious, how can a default b=
-ehaviour that multiple</div><div>other applications and libraries adopt is =
-going to confuse jack community?</div><div>For instance, I tend to work wit=
-h firefox, and mumble that natively support</div><div>jack, and they perfor=
-m automatic connection no patchbay extra config</div><div>required, the bas=
-ics just work out of the box, while you still can do more</div><div>complex=
- stuff if you want to use the full set of features of jack.</div><div><br><=
-/div><div>=C2=A0 =C2=A0 On the other hand, I took some time to read to auto=
-matically configure</div><div>the connection over qjackctl patchbay, so tha=
-nks for pointing out that via.</div><div><br></div><div>=C2=A0 =C2=A0 Jos=
-=C3=A9.</div></div></div>
-
---00000000000036759305bc24fc7c--
 
