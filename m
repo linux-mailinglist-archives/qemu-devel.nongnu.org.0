@@ -2,78 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F32C3253E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:47:51 +0100 (CET)
-Received: from localhost ([::1]:38390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 758BE3253F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:49:57 +0100 (CET)
+Received: from localhost ([::1]:42912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFJnp-00042Q-GR
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:47:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39920)
+	id 1lFJps-0005yi-Fe
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:49:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lFJk9-0002ge-6M
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:44:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1lFJjy-0007ad-MH
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:44:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614271425;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=s3KSB7e4Gspf3X5hHpL9C3WRD9cI8OiKEqvk3dl72bk=;
- b=H9QrxdEeTUrv/E9zQvlO6EDlv25bCnoiWN53esQBJLphcypUo//8EZ6LtDeCztQlxHSQ13
- abnFJhu2otH6knAkJkfTCVIN7EkilCv8I0LjR/2q8FwX1FMIOPBuzJToR1E9OU4Th0aiOp
- GaiB/cc+20vJZJ+zVE73DswsXF8H/QU=
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com
- [209.85.214.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-366-yFsn6Lo6NeqNfP9tient6A-1; Thu, 25 Feb 2021 11:43:44 -0500
-X-MC-Unique: yFsn6Lo6NeqNfP9tient6A-1
-Received: by mail-pl1-f200.google.com with SMTP id z2so3760319pln.18
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 08:43:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=s3KSB7e4Gspf3X5hHpL9C3WRD9cI8OiKEqvk3dl72bk=;
- b=kf7AXvWJH2EUBrTTh5Dcx0R5CYbHQZHAWA1cBxJiXEjmowuhNar8TX0FanOW7Z3aHh
- 51r549JYZ92RrFjZiNnv1Fi0rrlWbkuwdG/pfmd+BKr6PdV/QHNBKBAf+sr3fS9aZ7hM
- SNc3PK4mjMVM1sXPB/oMfLATkkhGBrfhsL4IZmqWC8yGH3SKJjS3e9iTvaeDNLdS9/9C
- ho13XA03h8O7eK8+YpDWiZ/5Kh4CqZCjoBo/qtkYY2VXOneg8o71MRbaYE8e5HGcYccd
- O8BMB7sAMeRZz1lRw2xK2KjVh11Qd6i0fDxWBsygitplUL2fa0m7umrIW97+CU7GsGUY
- FlOg==
-X-Gm-Message-State: AOAM530mkpWTzxB4lBqwpZdQk70Tuy3jjXIoIGPCtZ/bjz9S375RDS4D
- Uq9asK/hGC0iLecfn5BHFqJnrICI/4dY+yR5d1mgbSe/SCUBb+OsL4Z62NH3cDeyLWqOUm6/mOA
- Ll850OxqrIFYCoJTdjy122ph13XG6Lzg=
-X-Received: by 2002:a63:d153:: with SMTP id c19mr3694409pgj.311.1614271421934; 
- Thu, 25 Feb 2021 08:43:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwukvCV8h2tBtWMZpzzZ8fgj2au/Ewu2EZpB3MPj1NzJPCgefrwz+LanZkew7xd5Of44DNVAXGbx21/mm58S7A=
-X-Received: by 2002:a63:d153:: with SMTP id c19mr3694377pgj.311.1614271421620; 
- Thu, 25 Feb 2021 08:43:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lFJnK-0004hs-N9
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:47:19 -0500
+Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:53572)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lFJnH-0000x2-FR
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:47:18 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.163])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 70C2F24526A;
+ Thu, 25 Feb 2021 17:47:03 +0100 (CET)
+Received: from kaod.org (37.59.142.99) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 25 Feb
+ 2021 17:47:02 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003258f0f3b-ba78-4ec3-8f0c-6959de09b248,
+ 626514EADA2E0701D0BACADA871C63A3A4664F47) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 25 Feb 2021 17:47:01 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: 9pfs developers docs
+Message-ID: <20210225174701.193cf694@bahia.lan>
+In-Reply-To: <1713522.Q2EPVctnWf@silver>
+References: <3475760.T70ipHyFzN@silver> <20210201132649.6db25cec@bahia.lan>
+ <18968671.BsRifgzQ0d@silver> <1713522.Q2EPVctnWf@silver>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210224073333.16035-1-lulu@redhat.com>
- <20210224024852-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210224024852-mutt-send-email-mst@kernel.org>
-From: Cindy Lu <lulu@redhat.com>
-Date: Fri, 26 Feb 2021 00:43:05 +0800
-Message-ID: <CACLfguXiywOcTEYWJJA9MaB1XocaOUegiWS=0TAQi9ykmbn0sw@mail.gmail.com>
-Subject: Re: [PATCH] virtio-net: Add check for mac address while peer is vdpa
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c559f106-bff6-451b-a59a-bb09d3c35eae
+X-Ovh-Tracer-Id: 15314209059561576858
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrkeelgdelhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehgeegvddvtefhtddtvdfhiedutedvgfejtddutefgveehieejieelveffgeekheenucffohhmrghinhepqhgvmhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelleenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=groug@kaod.org;
+ helo=1.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,83 +68,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eugenio Perez Martin <eperezma@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Adrian Moreno Zapata <amorenoz@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-sure, Thanks michael, I will address, these comment and send a new version
+On Thu, 25 Feb 2021 17:31:22 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-On Wed, Feb 24, 2021 at 3:59 PM Michael S. Tsirkin <mst@redhat.com> wrote:
->
-> > [PATCH] virtio-net: Add check for mac address while peer is vdpa
-> please do keep numbering patch versions.
->
->
-> On Wed, Feb 24, 2021 at 03:33:33PM +0800, Cindy Lu wrote:
-> > Sometime vdpa get an all zero mac address from the hardware, this will cause the
-> > traffic down, So we add the check for in part.if we get an zero mac address we will
-> > use the default/cmdline mac address instead
->
-> How does this differ from v4 of same patch?
->
-> Lots of typos above. I guess I can just rewrite the whole log ...
->
-> >
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> > ---
-> >  hw/net/virtio-net.c | 7 ++++++-
-> >  1 file changed, 6 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 9179013ac4..f1648fc47d 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-> >      VirtIONet *n = VIRTIO_NET(vdev);
-> >      struct virtio_net_config netcfg;
-> >      NetClientState *nc = qemu_get_queue(n->nic);
-> > +    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
-> >
-> >      int ret = 0;
-> >      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
-> > @@ -151,7 +152,11 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-> >          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
-> >                                     n->config_size);
-> >          if (ret != -1) {
-> > -            memcpy(config, &netcfg, n->config_size);
->
-> Below needs a huge code comment explaining what is going on.
->
-> E.g.  if we get a valid mac from peer, use it.
->
-> If we get 0 instead
-> then we don't know the peer mac but since the
-> mac is 0 and that is not a legal value,
-> try to proceed assume something else (management, hardware) sets up the mac
-> correctly and consistently with the qemu configuration.
->
->
-> > +            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) != 0) {
->
-> != 0 is not necessary
->
-> > +                memcpy(config, &netcfg, n->config_size);
->
-> > +        } else {
-> > +                error_report("Get an all zero mac address from hardware");
->
-> So why are you skipping the copying of the whole config space? Why not
-> just skip the mac? Seems quite risky e.g. looks like it will break
-> things like reporting the link status, right?
->
-> > +            }
-> >          }
-> >      }
-> >  }
-> > --
-> > 2.21.3
->
+> On Montag, 1. Februar 2021 14:37:02 CET qemu_oss--- via wrote:
+> > On Montag, 1. Februar 2021 13:26:49 CET Greg Kurz wrote:
+> > > > > I agree that a bunch of other things should be documented, but that's
+> > > > > definitely a great start. Thanks for doing this !
+> > > > > 
+> > > > > Just one remark on the topology diagram:
+> > > > > 
+> > > > > https://wiki.qemu.org/File:9pfs_topology.png
+> > > > > 
+> > > > > It gives the impression that the 9p transport and server can
+> > > > > handle multiple guests, which they certainly don't : each
+> > > > > 9p server lives in exactly one device which is exposed to
+> > > > > exactly one guest.
+> > > > 
+> > > > Right, I haven't considered that the diagram might be interpreted that
+> > > > way. My primary intention was to show the 3 main components of 9pfs from
+> > > > design perspective and secondary showing that multiple guests can share
+> > > > storage.
+> > > > 
+> > > > So what would be better: a) duplicating the server side in the diagram
+> > > > (then the image might become a bit large in height), b) dropping the
+> > > > multiple guests, c) making the issue with server instances clear in the
+> > > > text?
+> > > 
+> > > I'd rather go for b)
+> > 
+> > Updated the diagram on the wiki page.
+> > 
+> > To keep noise low, I won't send emails on further changes to that wiki page.
+> > If you want to be auto notified then just add yourself to the watch list
+> > there.
+> 
+> Ok, I think I'm done with this page:
+> https://wiki.qemu.org/Documentation/9p
+> 
+> At least I think I've described everything I wanted to from my side regarding 
+> current 9p status.
+> 
+
+Great thanks for doing this ! I'll have a look ASAP.
+
+Cheers,
+
+--
+Greg
+
+
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
