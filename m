@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 082683257E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:45:20 +0100 (CET)
-Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69E9D3257E4
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:47:33 +0100 (CET)
+Received: from localhost ([::1]:47490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFNVe-00056y-IJ
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:45:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48284)
+	id 1lFNXo-0006Ps-Ev
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:47:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lFNUO-0004WO-RL
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:44:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25254)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lFNUL-00045U-HF
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:44:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614285835;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/K81gw4n1GI/PJ/2681CqL71MDsgjSArbKzGxUqihiQ=;
- b=GhcZHK3BUJUSu4gdR3tbH+5/2QeSsxK1p2mWD8ivVs25RRNjFBe3688UxwCfd9soj3ze/I
- 0XwzE//hDgpa5FQOcvBS8qaLa1VFG8jF8WM+xERIm6RVimOFMCRciSbpCbinyCLoZGUAvm
- nTqdxN+nNtVo0o5jRDX1SkFNU7upmgw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-wTFhRvxCOoKOdiyqTQw15g-1; Thu, 25 Feb 2021 15:43:53 -0500
-X-MC-Unique: wTFhRvxCOoKOdiyqTQw15g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A510801976;
- Thu, 25 Feb 2021 20:43:52 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7DCF160D07;
- Thu, 25 Feb 2021 20:43:51 +0000 (UTC)
-Subject: Re: [PATCH v3 03/16] qapi/expr.py: constrain incoming expression types
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-4-jsnow@redhat.com>
- <8735xl7pit.fsf@dusky.pond.sub.org>
- <14af160f-7a06-7b9e-a770-13c1fef86ae4@redhat.com>
- <87o8g8s6n9.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <5630d887-3fb8-d46d-a047-aa02c51b6f26@redhat.com>
-Date: Thu, 25 Feb 2021 15:43:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lFNVX-0005aM-Mo
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:45:11 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:35571)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lFNVS-0004jF-S6
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:45:11 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id e9so4298796pjj.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 12:45:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=I/+Jn5lUAbf7Y/q602uqkkTcKL6nrrAjIdLM/8si67c=;
+ b=P8wnuF8skWN2kLUKqH3pWwRkOieetwLsqhF2wx3ulcdmrUb8nsFen9G+Wtb7a0+Qg0
+ ecd3uwDkH0H8Sh5J7mmhaGTY7VoGtH9jvNW+U+zPG+oh0ZFlQP5xSIfDJ5vgTuKbpqjm
+ wcjhyMtBXuubCsstE/26yGWM+3SoGdyJlWT8h3gkfDTa9Vo4fE2/ULkB4wGN6lACkp8h
+ LoRkZUlqJ3QUnDdB3XFQ/PJDJf9JL3Q6KB65p/DocWXKp5C/tyOOrEVv6sFv57tqCrKS
+ TSGhwfjeicYCEeGtXltqN4/Sts4VY4JiCG56UR/C1lVfA3fvQkNqx2+wplWzckNY5jye
+ utrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=I/+Jn5lUAbf7Y/q602uqkkTcKL6nrrAjIdLM/8si67c=;
+ b=nnnjmP7j9dkSSRWEVtmJbXQhLI702LhdwxnnUhgZHRsHmebotaLLpZi3BazQ0IuW4/
+ cTJUirPv8HLxEne3G61DdIyfv8dLwSHNZDa6vnZUV6uUkzUXZLjmnTOp4lq0bNGGmsd5
+ 85lrvQghVSpzKb0wmYBJB3dC7lDfpPKgbCTLzd1ImkqyKb/0SqXcwB6tF0fm6g1z8ly7
+ iULzpIavPk8+ZxkxwDGb3EjvuE7ziNzB4Lq2Okok5NztoI8bnEkB0QyGQCgK2DcNdcfM
+ 0qhdhswFbqkamncU/xVF5xP5PflKIzs2LQi9wd56oG8gydP6gimQlRvujLSeVV73Tr4I
+ abVA==
+X-Gm-Message-State: AOAM533ibq7QR1GXEkS1G8DuHOwUEwi57qc+i7nqohk6qXD5vDPxURXc
+ PaJxAZmiMdzNpZ51860fjDGsSQ==
+X-Google-Smtp-Source: ABdhPJwTQTE6JSQo4bXcgYrfXw/CFEIkUVDETKqaZmX/D+HLGb7GJ7BWRU6k7w7/+PmVTQllQDDeDw==
+X-Received: by 2002:a17:90a:e7cd:: with SMTP id
+ kb13mr230835pjb.10.1614285905153; 
+ Thu, 25 Feb 2021 12:45:05 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id d10sm7074567pgl.72.2021.02.25.12.45.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Feb 2021 12:45:04 -0800 (PST)
+Subject: Re: [PATCH v2 04/10] target/hexagon: introduce new helper functions
+To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
+References: <20210225151856.3284701-1-ale.qemu@rev.ng>
+ <20210225151856.3284701-5-ale.qemu@rev.ng>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <9b040b9f-cba6-5a2e-a1af-ea4d9445b453@linaro.org>
+Date: Thu, 25 Feb 2021 12:45:02 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <87o8g8s6n9.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210225151856.3284701-5-ale.qemu@rev.ng>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
+X-Spam_bar: --
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.435,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,271 +88,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Alessandro Di Federico <ale@rev.ng>, bcain@quicinc.com, babush@rev.ng,
+ tsimpson@quicinc.com, nizzo@rev.ng, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/21 6:56 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
+On 2/25/21 7:18 AM, Alessandro Di Federico wrote:
+> From: Niccolò Izzo <nizzo@rev.ng>
 > 
->> On 2/24/21 5:01 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> mypy does not know the types of values stored in Dicts that masquerade
->>>> as objects. Help the type checker out by constraining the type.
->>>>
->>>> Signed-off-by: John Snow <jsnow@redhat.com>
->>>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->>>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
->>>> ---
->>>>    scripts/qapi/expr.py | 25 ++++++++++++++++++++++---
->>>>    1 file changed, 22 insertions(+), 3 deletions(-)
->>>>
->>>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->>>> index 5694c501fa3..783282b53ce 100644
->>>> --- a/scripts/qapi/expr.py
->>>> +++ b/scripts/qapi/expr.py
->>>> @@ -15,9 +15,17 @@
->>>>    # See the COPYING file in the top-level directory.
->>>>    
->>>>    import re
->>>> +from typing import MutableMapping, Optional
->>>>    
->>>>    from .common import c_name
->>>>    from .error import QAPISemError
->>>> +from .parser import QAPIDoc
->>>> +from .source import QAPISourceInfo
->>>> +
->>>> +
->>>> +# Expressions in their raw form are JSON-like structures with arbitrary forms.
->>>> +# Minimally, their top-level form must be a mapping of strings to values.
->>>> +Expression = MutableMapping[str, object]
->>>
->>> MutableMapping, fancy.  It's only ever dict.  Why abstract from that?
+> These helpers will be employed by the idef-parser generated code.
 > 
-> OrderedDict, actually.  MutableMapping is misleading, because it doesn't
-> specify "orderedness".
+> Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Niccolò Izzo <nizzo@rev.ng>
+> ---
+>  target/hexagon/genptr.c | 227 +++++++++++++++++++++++++++++++++++++++-
+>  target/hexagon/genptr.h |  19 ++++
+>  target/hexagon/macros.h |   2 +-
+>  3 files changed, 245 insertions(+), 3 deletions(-)
 > 
+> diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
+> index 97de669f38..78cda032db 100644
+> --- a/target/hexagon/genptr.c
+> +++ b/target/hexagon/genptr.c
+> @@ -40,7 +40,8 @@ TCGv gen_read_preg(TCGv pred, uint8_t num)
+>      return pred;
+>  }
+>  
+> -static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
+> +static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
+> +                                                unsigned slot)
 
-Yeah, I am realizing that Dict helps imply that constraint on 3.6+ but 
-that MutableMapping doesn't.
+This change is unrelated to adding new helper functions.
+It requires a separate patch and justification.
 
-I am worried about how hard it's gonna hurt when I remember why I wanted 
-MutableMapping.
+> +void gen_fbrev(TCGv result, TCGv src)
+> +{
+> +    TCGv lo = tcg_temp_new();
+> +    TCGv tmp1 = tcg_temp_new();
+> +    TCGv tmp2 = tcg_temp_new();
+> +
+> +    /* Bit reversal of low 16 bits */
+> +    tcg_gen_extract_tl(lo, src, 0, 16);
+> +    tcg_gen_andi_tl(tmp1, lo, 0xaaaa);
+> +    tcg_gen_shri_tl(tmp1, tmp1, 1);
+> +    tcg_gen_andi_tl(tmp2, lo, 0x5555);
+> +    tcg_gen_shli_tl(tmp2, tmp2, 1);
+> +    tcg_gen_or_tl(lo, tmp1, tmp2);
+> +    tcg_gen_andi_tl(tmp1, lo, 0xcccc);
+> +    tcg_gen_shri_tl(tmp1, tmp1, 2);
+> +    tcg_gen_andi_tl(tmp2, lo, 0x3333);
+> +    tcg_gen_shli_tl(tmp2, tmp2, 2);
+> +    tcg_gen_or_tl(lo, tmp1, tmp2);
+> +    tcg_gen_andi_tl(tmp1, lo, 0xf0f0);
+> +    tcg_gen_shri_tl(tmp1, tmp1, 4);
+> +    tcg_gen_andi_tl(tmp2, lo, 0x0f0f);
+> +    tcg_gen_shli_tl(tmp2, tmp2, 4);
+> +    tcg_gen_or_tl(lo, tmp1, tmp2);
+> +    tcg_gen_bswap16_tl(lo, lo);
 
- >:|
+So far we've kept operations like this as external helper functions, where you
+can then use revbit16().  General rule of thumb for a cutoff is about 10-15
+ops, and this is right on the edge.
 
-For now, I'll go back to Dict.
+Any particular reason you wanted this inlined?
 
->> I don't know! I referenced this in the cover letter. I cannot remember
->> the reason anymore. It had R-Bs on it so I left it alone.
->>
->> There are some differences, but I no longer remember why I thought they
->> applied. Maybe some of my more exploratory work wanted it. Dunno.
-> 
-> Happens.  It's a long patch queue you're trying to flush.
-> 
->>> The use of object is again owed to mypy's inability to do recursive
->>> types.  What we really have here is something like
->>>
->>>      Expression = Union[bool, str, dict[str, Expression], list[Expression]]
->>>
->>> with the root further constrained to the Union's dict branch.  Spell
->>> that out in a bit more detail, like you did in introspect.py?
->>>
->>
->> Terminology problem?
->>
->> I am using "Expression" to mean very specifically a top-level object as
->> returned from parser.py, which *must* be an Object, so it *must* be a
->> mapping of str => yaddayadda.
-> 
-> Aha!
-> 
-> We'll talk some more about naming of type aliases in review of PATCH 08.
-> 
->> The type as I intended it is Expression = Dict[str, yaddayadda]
->>
->> where yaddayadda is
->> Union[int, str, bool, List[yaddayadda], Dict[str, yaddayadda]]
-> 
-> Yes.
-> 
-> As qapi-code-gen.txt explains, we have two layers of syntax:
-> 
-> * The bottom layer is (heavily bastardized) JSON.  qapi-code-gen.txt
->    specifies it by listing the differences to RFC 8259.  parser.py parses
->    it into abstract syntax trees.
-> 
+> +    /* Final tweaks */
+> +    tcg_gen_extract_tl(result, src, 16, 16);
+> +    tcg_gen_or_tl(result, result, lo);
 
-Aside: A new realization about a deviation from JSON: objects are 
-inherently unordered collections.
+This is wrong.  You've clobbered your carefully reversed results with the high
+16-bits of src.
 
-> * The upper layer recognizes the abstract syntax trees that are valid as
->    QAPI schema.  qapi-code-gen.txt specifies it with a context-free
->    grammar.  expr.py checks the ASTs against that grammar.  It also
->    expands shorthand forms into longhand.
-> 
-> Detail not documented in qapi-code-gen.txt: parser.py rejects non-object
-> at the top-level, so expr.py doesn't have to.
-> 
+I'm certain you wanted
 
-Yep.
+   tcg_gen_deposit_tl(result, src, lo, 0, 16);
 
->> expr.py is what validates the yaddayadda, so there's no point in trying
->> to type it further, I think.
-> 
-> If mypy could do recursive types, typing it further would be a
-> no-brainer: just state what is.
-> 
-> Since it can't, we need to stop typing / start cheating at some point.
-> Where exactly is not obvious.  Your idea is at least as good as mine.
-> 
->> Probably worth a better comment.
-> 
-> Yes :)
-> 
+to replace the low 16 bits of the input with your computation.
 
-I'll look at Patch 8 and then revisit, but I will attempt to make a 
-better comment. I think there are bits of part 5 that makes it a bit 
-more obvious, because I create a Real Type :tm: to pass each 
-"Expression" as a whole over to to expr.py.
+> +TCGv gen_set_bit(tcg_target_long i, TCGv result, TCGv src)
+> +{
+> +    TCGv mask = tcg_const_tl(~(1 << i));
+> +    TCGv bit = tcg_temp_new();
+> +    tcg_gen_shli_tl(bit, src, i);
+> +    tcg_gen_and_tl(result, result, mask);
+> +    tcg_gen_or_tl(result, result, bit);
+> +    tcg_temp_free(mask);
+> +    tcg_temp_free(bit);
 
-(This is just kind of an intermediate form and as such it's not 
-necessarily something I gave tremendous thought to.)
+  tcg_gen_deposit_tl(result, result, src, i, 1);
 
->>> Hmm, there you used Any, not object.  I guess that's because mypy lets
->>> you get away with object here, but not there.  Correct?
->>>
->>
->> Yep. I can get away with the stricter type here because of how we use
->> it, so I did. That's an artifact of it not being recursive and how
->> expr.py's entire raison d'etre is using isinstance() checks to
->> effectively downcast for us everywhere already.
->>
->>> Also, PEP 8 comment line length.
->>>
->>
->> Augh.
->>
->> Is there a way to set emacs mode highlighting in Python such that it
->> highlights when I run past the 72-col margin, but only for comments?
->>
->> I have the general-purpose highlighter on for the 80-col margin.
-> 
-> Got a .emacs snippet for me?
-> 
+> +void gen_cancel(tcg_target_ulong slot)
+> +{
+> +    TCGv one = tcg_const_tl(1);
+> +    tcg_gen_deposit_tl(hex_slot_cancelled, hex_slot_cancelled, one, slot, 1);
+> +    tcg_temp_free(one);
 
-I use only these bits:
+  tcg_gen_ori_tl(hex_slot_cancelled, hex_slot_cancelled,
+                 1 << slot);
 
-  ;; Reflow-width defaults to 72.
-  '(fill-column 72)
+> +void gen_sat_i32(TCGv dest, TCGv source, int width, bool set_overflow)
+> +{
+> +    TCGv max_val = tcg_const_i32((1 << (width - 1)) - 1);
+> +    TCGv min_val = tcg_const_i32(-(1 << (width - 1)));
+> +    tcg_gen_movcond_i32(TCG_COND_GT, dest, source, max_val, max_val, source);
+> +    tcg_gen_movcond_i32(TCG_COND_LT, dest, source, min_val, min_val, dest);
 
-  ;; Highlight past column 80
-  '(whitespace-line-column 80)
+  tcg_gen_smin_tl(dest, source, max_val);
+  tcg_gen_smax_tl(dest, dest, min_val);
 
-  ;; Theme whitespace highlighting as such:
-  '(whitespace-style '(face empty tabs lines-tail trailing))
+> +    /* Set Overflow Bit */
+> +    if (set_overflow) {
+> +        TCGv ovf = tcg_temp_new();
+> +        TCGv one = tcg_const_i32(1);
+> +        GET_USR_FIELD(USR_OVF, ovf);
+> +        tcg_gen_movcond_i32(TCG_COND_GT, ovf, source, max_val, one, ovf);
+> +        tcg_gen_movcond_i32(TCG_COND_LT, ovf, source, min_val, one, ovf);
+> +        SET_USR_FIELD(USR_OVF, ovf);
 
-  ;; Don't insert tabs for spaces
-  '(indent-tabs-mode nil)
+This seems like a complicated way to set overflow.
+How about
 
->> I'm not familiar with any setting like this for any of the linters or
->> pycharm right away either.
-> 
-> Hmm, ... okay, TIL from pycodestyle(1):
-> 
->              --max-line-length=n  set maximum allowed line length (default: 79)
->              --max-doc-length=n   set maximum allowed doc line length and perform these
->                                   checks (unchecked if not set)
-> 
-> Let me know whether --max-doc-length=72 fits the bill.
-> 
+  tcg_gen_setcond_tl(TCG_COND_NE, ovf, source, dest);
+  tcg_gen_shli_tl(ovf, ovf, USR_OVF_SHIFT);
+  tcg_gen_or_tl(hex_reg[usr], hex_reg[usr], ovf);
 
-It does.
 
-I'd need to send a fixup patch in order to enable it, but I am not 
-thrilled with the idea of having to squabble with you over how to break 
-lines that are just barely overlong.
+> +        tcg_temp_free_i32(ovf);
+> +        tcg_temp_free_i32(one);
+> +    }
+> +    tcg_temp_free_i32(max_val);
+> +    tcg_temp_free_i32(min_val);
+> +}
+> +
+> +void gen_satu_i32(TCGv dest, TCGv source, int width, bool set_overflow)
+> +{
+> +    TCGv max_val = tcg_const_i32((1 << width) - 1);
+> +    tcg_gen_movcond_i32(TCG_COND_GTU, dest, source, max_val, max_val, source);
+> +    TCGv_i32 zero = tcg_const_i32(0);
+> +    tcg_gen_movcond_i32(TCG_COND_LT, dest, source, zero, zero, dest);
 
-Least annoying for me: I write a draft patch to get the flake8 baseline 
-for local testing, you copy-edit the patch to your stylistic liking, 
-I'll ACK the edits.
+Is this a signed input being saturated to unsigned bounds or not?  Because one
+of these two comparisons is wrong.
 
->>
->>>>    
->>>>    
->>>>    # Names must be letters, numbers, -, and _.  They must start with letter,
->>>> @@ -287,9 +295,20 @@ def check_event(expr, info):
->>>>    
->>>>    def check_exprs(exprs):
->>>>        for expr_elem in exprs:
->>>> -        expr = expr_elem['expr']
->>>> -        info = expr_elem['info']
->>>> -        doc = expr_elem.get('doc')
->>>> +        # Expression
->>>> +        assert isinstance(expr_elem['expr'], dict)
-> 
-> Must be an *ordered* mapping, actually.  It's only ever OrderedDict.
-> 
+If it's an unsigned input being saturated to unsigned bounds, then you don't
+need the second test at all, and should be using
 
-Allegedly. Lawsuit pending appeal.
+  tcg_gen_umin_i32(dest, src, max_val);
 
->>>> +        for key in expr_elem['expr'].keys():
->>>> +            assert isinstance(key, str)
->>>> +        expr: Expression = expr_elem['expr']
-> 
-> *Unchecked* way to tell the type checker (I think):
-> 
->               expr = cast(Expression, expr_elem['expr']
-> 
-> I like checking in general, but is it worth the bother here?
-> 
+> +void gen_sat_i64(TCGv_i64 dest, TCGv_i64 source, int width, bool set_overflow)
+> +void gen_satu_i64(TCGv_i64 dest, TCGv_i64 source, int width, bool set_overflow)
 
-It all goes away in the first half of part 5, where I create an 
-Expression object that has typed fields for its components, and mypy's 
-static checker does the rest of the lifting.
+Similarly.
 
-Could do casts, yeah, but I suppose I liked the assert to let me know 
-that the types I saw on the back of my eyelids were the real ones.
+> diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
+> index 78c4efb5cb..7b6556b07b 100644
+> --- a/target/hexagon/macros.h
+> +++ b/target/hexagon/macros.h
+> @@ -154,7 +154,7 @@
+>  #define LOAD_CANCEL(EA) do { CANCEL; } while (0)
+>  
+>  #ifdef QEMU_GENERATE
+> -static inline void gen_pred_cancel(TCGv pred, int slot_num)
+> +static inline void gen_pred_cancel(TCGv pred, tcg_target_ulong slot_num)
 
->>>
->>> You're fine with repeating exp_elem['expr'] here, and ...
->>>
->>>> +
->>>> +        # QAPISourceInfo
->>>> +        assert isinstance(expr_elem['info'], QAPISourceInfo)
->>>> +        info: QAPISourceInfo = expr_elem['info']
->>>
->>> ... expr_elem['info'] here, but ...
->>>
->>>> +
->>>> +        # Optional[QAPIDoc]
->>>> +        tmp = expr_elem.get('doc')
->>>> +        assert tmp is None or isinstance(tmp, QAPIDoc)
->>>> +        doc: Optional[QAPIDoc] = tmp
->>>
->>> ... you avoid repetition of expr_elem.get('doc') here.  Any particular
->>> reason?
->>>
->>
->> Because this looks like garbage written by a drunkard:
->>
->> assert expr_elem.get('doc') is None or isinstance(expr_elem.get('doc'),
->> QAPIDoc)
->> doc: Optional[QAPIDoc] = expr_elem.get('doc')
-> 
-> Unchecked way:
-> 
->               doc = cast(Optional[QAPIDoc], expr_elem.get('doc'))
-> 
->>>>    
->>>>            if 'include' in expr:
->>>>                continue
+Why in the world would a slot number need to be 64-bits?
 
-I'll see if I can clean it up a little. I will take your suggestion of 
-casts to mean that you'd be okay with actually not checking the form at 
-runtime.
+
+r~
 
 
