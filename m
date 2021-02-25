@@ -2,74 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DDA324F62
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:47:39 +0100 (CET)
-Received: from localhost ([::1]:52446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 335C2324F6A
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:49:12 +0100 (CET)
+Received: from localhost ([::1]:55024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFF7K-0006Es-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:47:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41428)
+	id 1lFF8p-0007Kj-7x
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:49:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFF6N-0005mr-KC
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:46:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46056)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lFF7V-0006km-In
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:47:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43807)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFF6L-0004Bq-Qm
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:46:39 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lFF7T-0004io-P4
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:47:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614253596;
+ s=mimecast20190719; t=1614253667;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xKmTEivAGnpXirok/FZMI9IT5+2rG+YO+T2SvKiBEY0=;
- b=Ql8JZVqPmgVE9wpuuRWmh0n1wqGVISyEFBolXguG6/xyTMnjY5wEiOkGkZg2wFgqqJhYJG
- PjAZZv28+7VB368wwEk6UnLte+1bFhl4bOkBBcZcxyTZYTJXHZIZ/WPsHie0L1pIR11Zi2
- s5x9t4yJbBe6bBacm6mSAMgBHFrqd9s=
+ bh=4gyZvG1CnyZJcbsIKlmlk2mlU2HIrNBV0wH+jOOR6jo=;
+ b=glJuBfVahDMRRJNlLbz1gbgjUnATbmZF9VqbszmopHIJApmjSDI4HhtN6TKLygGecAhNzX
+ 4BRF0Ch0wUJh1PONoPgx+MDdlxEgKEsBxDueotza18Mw9zpQcikIDCNrIfokQQzyVAhy2G
+ WHd8aqqjBGmcm9F1VlhaRs7YfgFCvZk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-226-gTc3-8vAOWS90hJJXyCksg-1; Thu, 25 Feb 2021 06:46:33 -0500
-X-MC-Unique: gTc3-8vAOWS90hJJXyCksg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
+ us-mta-51-8IpdxKtoNwSBSp90YzgZZQ-1; Thu, 25 Feb 2021 06:47:43 -0500
+X-MC-Unique: 8IpdxKtoNwSBSp90YzgZZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7FEC8030C1;
- Thu, 25 Feb 2021 11:46:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-4.ams2.redhat.com
- [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 247E91980D;
- Thu, 25 Feb 2021 11:46:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 8821D18000A7; Thu, 25 Feb 2021 12:46:26 +0100 (CET)
-Date: Thu, 25 Feb 2021 12:46:26 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@gmail.com>
-Subject: Re: [PATCH] virtio-gpu: Respect graphics update interval for EDID
-Message-ID: <20210225114626.dn7wevr3fozp5rcu@sirius.home.kraxel.org>
-References: <20210221133414.7262-1-akihiko.odaki@gmail.com>
- <20210222105738.w2q6vp5pi4p6bx5m@sirius.home.kraxel.org>
- <CAMVc7JVo_XJcGcxW0Wmqje3Y40fRZDY6T8dnQTc2=Ehasz4UHw@mail.gmail.com>
- <20210224111540.xd5a6yszql6wln7m@sirius.home.kraxel.org>
- <CAMVc7JXUXnrK_amhQsy=paMeqjMU_8r86Hj4UF5haZ+Oq15JkA@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6782A1020C21;
+ Thu, 25 Feb 2021 11:47:41 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B9D85D9D7;
+ Thu, 25 Feb 2021 11:47:35 +0000 (UTC)
+Date: Thu, 25 Feb 2021 12:47:32 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 4/5] hw/acpi/aml-build: add processor hierarchy node
+ structure
+Message-ID: <20210225114732.5f7gqgl7lym7d4hs@kamzik.brq.redhat.com>
+References: <20210225085627.2263-1-fangying1@huawei.com>
+ <20210225085627.2263-5-fangying1@huawei.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMVc7JXUXnrK_amhQsy=paMeqjMU_8r86Hj4UF5haZ+Oq15JkA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210225085627.2263-5-fangying1@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,45 +79,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu Developers <qemu-devel@nongnu.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, Henglong Fan <fanhenglong@huawei.com>,
+ alistair.francis@wdc.com, qemu-arm@nongnu.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
-
-> > Because of the wasted frames I'd like this to be an option you can
-> > enable when needed.  For the majority of use cases this seems to be
-> > no problem ...
+On Thu, Feb 25, 2021 at 04:56:26PM +0800, Ying Fang wrote:
+> Add the processor hierarchy node structures to build ACPI information
+> for CPU topology. Since the private resources may be used to describe
+> cache hierarchy and it is variable among different topology level,
+> three helpers are introduced to describe the hierarchy.
 > 
-> I see blinks with GNOME on Wayland on Ubuntu 20.04 and virtio-gpu with
-> the EDID change included in this patch.
+> (1) build_socket_hierarchy for socket description
+> (2) build_processor_hierarchy for processor description
+> (3) build_smt_hierarchy for thread (logic processor) description
+> 
+> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> Signed-off-by: Henglong Fan <fanhenglong@huawei.com>
+> ---
+>  hw/acpi/aml-build.c         | 40 +++++++++++++++++++++++++++++++++++++
+>  include/hw/acpi/acpi-defs.h | 13 ++++++++++++
+>  include/hw/acpi/aml-build.h |  7 +++++++
+>  3 files changed, 60 insertions(+)
+> 
+> diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> index a2cd7a5830..a0af3e9d73 100644
+> --- a/hw/acpi/aml-build.c
+> +++ b/hw/acpi/aml-build.c
+> @@ -1888,6 +1888,46 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                   table_data->len - slit_start, 1, oem_id, oem_table_id);
+>  }
+>  
+> +/*
+> + * ACPI 6.3: 5.2.29.1 Processor hierarchy node structure (Type 0)
+> + */
+> +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+> +{
+> +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
+> +    build_append_byte(tbl, 20);         /* Length, no private resources */
+> +    build_append_int_noprefix(tbl, 0, 2);  /* Reserved */
+> +    build_append_int_noprefix(tbl, ACPI_PPTT_PHYSICAL_PACKAGE, 4);
 
-/me looks closely at the patch again.
+Missing '/* Flags */'
 
-So you update the edid dynamically, each time the refresh rate changes.
-Problem with that approach is software doesn't expect edid to change
-dynamically because on physical hardware it is static information about
-the connected monitor.
+> +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
+> +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
+> +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+> +}
+> +
+> +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+> +                               uint32_t parent, uint32_t id)
+> +{
+> +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR);  /* Type 0 - processor */
+> +    build_append_byte(tbl, 20);         /* Length, no private resources */
+> +    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
+> +    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
+> +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
+> +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
+> +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+> +}
+> +
+> +void build_thread_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+> +{
+> +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
+> +    build_append_byte(tbl, 20);           /* Length, no private resources */
+> +    build_append_int_noprefix(tbl, 0, 2); /* Reserved */
+> +    build_append_int_noprefix(tbl,
+> +                              ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
+> +                              ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD |
+> +                              ACPI_PPTT_ACPI_LEAF_NODE, 4);  /* Flags */
+> +    build_append_int_noprefix(tbl, parent , 4); /* parent */
 
-So what the virtio-gpu guest driver does is emulate a monitor hotplug
-event to notify userspace.  If you resize the qemu window on the host
-it'll look like the monitor with the old window size was unplugged and
-a new monitor with the new window size got plugged instead, so gnome
-shell goes adapt the display resolution to the new virtual monitor size.
+'parent' not capitalized. We want these comments to exactly match the text
+in the spec.
 
-The blink you are seeing probably comes from gnome-shell processing the
-monitor hotplug event.
+> +    build_append_int_noprefix(tbl, id, 4);      /* ACPI processor ID */
+> +    build_append_int_noprefix(tbl, 0, 4);       /* Num of private resources */
+> +}
+> +
+>  /* build rev1/rev3/rev5.1 FADT */
+>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>                  const char *oem_id, const char *oem_table_id)
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index cf9f44299c..45e10d886f 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -618,4 +618,17 @@ struct AcpiIortRC {
+>  } QEMU_PACKED;
+>  typedef struct AcpiIortRC AcpiIortRC;
+>  
+> +enum {
+> +    ACPI_PPTT_TYPE_PROCESSOR = 0,
+> +    ACPI_PPTT_TYPE_CACHE,
+> +    ACPI_PPTT_TYPE_ID,
+> +    ACPI_PPTT_TYPE_RESERVED
+> +};
+> +
+> +#define ACPI_PPTT_PHYSICAL_PACKAGE          (1)
+> +#define ACPI_PPTT_ACPI_PROCESSOR_ID_VALID   (1 << 1)
+> +#define ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD  (1 << 2)      /* ACPI 6.3 */
+> +#define ACPI_PPTT_ACPI_LEAF_NODE            (1 << 3)      /* ACPI 6.3 */
+> +#define ACPI_PPTT_ACPI_IDENTICAL            (1 << 4)      /* ACPI 6.3 */
+> +
+>  #endif
+> diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+> index 380d3e3924..7f0ca1a198 100644
+> --- a/include/hw/acpi/aml-build.h
+> +++ b/include/hw/acpi/aml-build.h
+> @@ -462,6 +462,13 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+>  void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+>                  const char *oem_id, const char *oem_table_id);
+>  
+> +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
+> +
+> +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+> +                               uint32_t parent, uint32_t id);
+> +
+> +void build_thread_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
 
-We could try to skip generating a monitor hotplug event in case only the
-refresh rate did change.  That would fix the blink, but it would also
-have the effect that nobody will notice the update.
+Why does build_processor_hierarchy() take a flags argument, but the
+others don't? Why not just have a single 'flags' taking function,
+like [*] that works for all of them? I think that answer to that is
+that when cache topology support is added it's better to break these
+into separate functions, but should we do that now? It seems odd to
+be introducing unused defines and this API before it's necessary.
 
-Bottom line:  I think making the edid refresh rate configurable might be
-useful, but changing it dynamically most likely isn't.
+[*] https://github.com/rhdrjones/qemu/commit/439b38d67ca1f2cbfa5b9892a822b651ebd05c11
 
-take care,
-  Gerd
+Thanks,
+drew
+
+> +
+>  void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+>                  const char *oem_id, const char *oem_table_id);
+>  
+> -- 
+> 2.23.0
+> 
+> 
 
 
