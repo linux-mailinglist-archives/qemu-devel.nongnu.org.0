@@ -2,46 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1E1832572A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 20:58:43 +0100 (CET)
-Received: from localhost ([::1]:35488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D615325744
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:06:35 +0100 (CET)
+Received: from localhost ([::1]:49700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFMmY-00020d-Hq
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 14:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36916)
+	id 1lFMu9-0000Us-RI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lFMk5-0000GN-7t; Thu, 25 Feb 2021 14:56:09 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:44108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1lFMk1-0000XH-Km; Thu, 25 Feb 2021 14:56:09 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A64F1746396;
- Thu, 25 Feb 2021 20:56:00 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 15F3E746334; Thu, 25 Feb 2021 20:56:00 +0100 (CET)
-Message-Id: <9d0d42f241616eb2c5ac1485bb97723cc0316f60.1614282456.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1614282456.git.balaton@eik.bme.hu>
-References: <cover.1614282456.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v4 1/6] vt82c686: Implement control of serial port io ranges
- via config regs
-Date: Thu, 25 Feb 2021 20:47:36 +0100
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lFMsB-0007Sp-Rq
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:04:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55974)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lFMrx-00040k-O8
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:04:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614283453;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QRtVmQCfZusWv8VZxIoW+m10DYdtv0Ri7FtdBQ2URM0=;
+ b=N8vcZypfHW93G3KSBtVCVXpfIpWvyUwavgZKR5Pw22xKIOT5G+F0bZI97fDd9C4g4JAqz6
+ nDRPxA44QQzCEuT3UH6eU77gwmHBhjo6wKMSC2YFo963DrfAy53VEm5qhdUMp3qteBeE1v
+ 974vYeg20jDq38U+VSC4LtgSMOh5ORo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-597-zh4mhHPSOcGuFsfV6s91nA-1; Thu, 25 Feb 2021 15:04:03 -0500
+X-MC-Unique: zh4mhHPSOcGuFsfV6s91nA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEF14C295;
+ Thu, 25 Feb 2021 20:04:01 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4FAB11346D;
+ Thu, 25 Feb 2021 20:04:01 +0000 (UTC)
+Subject: Re: [PATCH v3 02/16] qapi/expr.py: Check for dict instead of
+ OrderedDict
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210223003408.964543-1-jsnow@redhat.com>
+ <20210223003408.964543-3-jsnow@redhat.com>
+ <87a6rt7qzf.fsf@dusky.pond.sub.org>
+ <10b0905f-2c36-48f1-fef4-ac96417e48d8@redhat.com>
+ <87r1l4toq0.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <b1ff239d-f4d5-26ed-0a94-13096e78a903@redhat.com>
+Date: Thu, 25 Feb 2021 15:04:00 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <87r1l4toq0.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,163 +85,140 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, f4bug@amsat.org,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In VIA super south bridge the io ranges of superio components
-(parallel and serial ports and FDC) can be controlled by superio
-config registers to set their base address and enable/disable them.
-This is not easy to implement in QEMU because ISA emulation is only
-designed to set io base address once on creating the device and io
-ranges are registered at creation and cannot easily be disabled or
-moved later.
+On 2/25/21 5:40 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> On 2/24/21 4:30 AM, Markus Armbruster wrote:
+>>> John Snow <jsnow@redhat.com> writes:
+>>>
+>>>> OrderedDict is a subtype of dict, so we can check for a more general
+>>>> form. These functions do not themselves depend on it being any
+>>>> particular type.
+>>>
+>>> True.  The actual arguments can only be OrderedDict, though.  I think we
+>>> refrained from relaxing to dict in these helpers because we felt
+>>> "staying ordered" is clearer.
+>>>
+>>
+>> As a habit, I tend towards declaring the least specific type possible
+>> for input and declaring the most specific type possible for output.
+> 
+> This maximimizes generality, which can be quite worthwhile.  Maximizing
+> generality by default is not a bad habit, I guess.  But cases exist
+> where generality is not needed, and other considerations take
+> precedence.
+> 
+>>> We're *this* close to mooting the point, because
+>>>
+>>>       Changed in version 3.7: Dictionary order is guaranteed to be
+>>>       insertion order. This behavior was an implementation detail of
+>>>       CPython from 3.6.
+>>>
+>>> https://docs.python.org/3.7/library/stdtypes.html
+>>>
+>>> Is messing with it necessary for later work?  If not, is it a worthwhile
+>>> improvement?
+>>>
+>>
+>> Not strictly necessary, but if the expression checkers here don't
+>> *require* the type be an ordereddict, why bother to enforce that here?
+>>
+>> It's just a bid to slacken the type (my type hints will look for Dict,
+>> not OrderedDict) and leave the use of OrderedDict as an "implementation
+>> detail" that only parser.py knows about.
+> 
+> "Orderedness" is anything but a detail only parser.py knows about.
+> 
+> Example:
+> 
+>      { 'command': 'blockdev-insert-medium',
+>        'data': { 'id': 'str',
+>                  'node-name': 'str'} }
+> 
+> AST:
+> 
+>      OrderedDict([('command', 'blockdev-insert-medium'),
+>                   ('data',
+>                    OrderedDict([('id', {'type': 'str'}),
+>                                 ('node-name', {'type': 'str'})]))])
+> 
+> For the inner dictionary, order matters, because the difference between
+> 
+>      void qmp_blockdev_insert_medium(const char *id, const char *node_name,
+>                                      Error **errp);
+> 
+> and
+> 
+>      void qmp_blockdev_insert_medium(const char *node_name, const char *id,
+>                                      Error **errp);
+> 
+> matters.
+> 
+> For the outer dictionary, order carries no semantic meaning.
+> 
+> My point is: parser.py fundamentally builds *ordered* dicts.  We're
+> certainly free to relax them to more general types wherever
+> "orderedness" is not needed.  However, one of the main aims of this
+> typing exercise is to make the code easier to read, and I doubt making
+> things more general helps there.
+> 
 
-In this patch we hack around that but only for serial ports because
-those have a single io range at port base that's relatively easy to
-handle and it's what guests actually use and set address different
-than the default.
+I primarily I saw the writing on the wall that we *will* be abandoning 
+the use of OrderedDict and so I preferred to type in terms of just Dict, 
+using the fact that Dict < OrderedDict anyway, asserting that parser.py 
+uses OrderedDict as an "implementation detail".
 
-We do not attempt to handle controlling the parallel and FDC regions
-because those have multiple io ranges so handling them would be messy
-and guests either don't change their deafult or don't care. We could
-even get away with disabling and not emulating them, but since they
-are already there, this patch leaves them mapped at their default
-address just in case this could be useful for a guest in the future.
+Later, parser.py may abandon its use of OrderedDict without changes to 
+the rest of the code.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/isa/vt82c686.c | 84 +++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 82 insertions(+), 2 deletions(-)
+The alternative is to use OrderedDict everywhere here in expr.py, but I 
+would *prefer* not to, as it will inhibit prototyping and 
+experimentation efforts where we might use a parser that doesn't use 
+OrderedDict.
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 05d084f698..a3353ec5db 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -252,8 +252,24 @@ static const TypeInfo vt8231_pm_info = {
- typedef struct SuperIOConfig {
-     uint8_t regs[0x100];
-     MemoryRegion io;
-+    ISASuperIODevice *superio;
-+    MemoryRegion *serial_io[SUPERIO_MAX_SERIAL_PORTS];
- } SuperIOConfig;
- 
-+static MemoryRegion *find_subregion(ISADevice *d, MemoryRegion *parent,
-+                                    int offs)
-+{
-+    MemoryRegion *subregion, *mr = NULL;
-+
-+    QTAILQ_FOREACH(subregion, &parent->subregions, subregions_link) {
-+        if (subregion->addr == offs) {
-+            mr = subregion;
-+            break;
-+        }
-+    }
-+    return mr;
-+}
-+
- static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-                               unsigned size)
- {
-@@ -279,7 +295,53 @@ static void superio_cfg_write(void *opaque, hwaddr addr, uint64_t data,
-     case 0xfd ... 0xff:
-         /* ignore write to read only registers */
-         return;
--    /* case 0xe6 ... 0xe8: Should set base port of parallel and serial */
-+    case 0xe2:
-+    {
-+        data &= 0x1f;
-+        if (data & BIT(2)) { /* Serial port 1 enable */
-+            ISADevice *dev = sc->superio->serial[0];
-+            if (!memory_region_is_mapped(sc->serial_io[0])) {
-+                memory_region_add_subregion(isa_address_space_io(dev),
-+                                            dev->ioport_id, sc->serial_io[0]);
-+            }
-+        } else {
-+            MemoryRegion *io = isa_address_space_io(sc->superio->serial[0]);
-+            if (memory_region_is_mapped(sc->serial_io[0])) {
-+                memory_region_del_subregion(io, sc->serial_io[0]);
-+            }
-+        }
-+        if (data & BIT(3)) { /* Serial port 2 enable */
-+            ISADevice *dev = sc->superio->serial[1];
-+            if (!memory_region_is_mapped(sc->serial_io[1])) {
-+                memory_region_add_subregion(isa_address_space_io(dev),
-+                                            dev->ioport_id, sc->serial_io[1]);
-+            }
-+        } else {
-+            MemoryRegion *io = isa_address_space_io(sc->superio->serial[1]);
-+            if (memory_region_is_mapped(sc->serial_io[1])) {
-+                memory_region_del_subregion(io, sc->serial_io[1]);
-+            }
-+        }
-+        break;
-+    }
-+    case 0xe7: /* Serial port 1 io base address */
-+    {
-+        data &= 0xfe;
-+        sc->superio->serial[0]->ioport_id = data << 2;
-+        if (memory_region_is_mapped(sc->serial_io[0])) {
-+            memory_region_set_address(sc->serial_io[0], data << 2);
-+        }
-+        break;
-+    }
-+    case 0xe8: /* Serial port 2 io base address */
-+    {
-+        data &= 0xfe;
-+        sc->superio->serial[1]->ioport_id = data << 2;
-+        if (memory_region_is_mapped(sc->serial_io[1])) {
-+            memory_region_set_address(sc->serial_io[1], data << 2);
-+        }
-+        break;
-+    }
-     default:
-         qemu_log_mask(LOG_UNIMP,
-                       "via_superio_cfg: unimplemented register 0x%x\n", idx);
-@@ -385,6 +447,7 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     DeviceState *dev = DEVICE(d);
-     ISABus *isa_bus;
-     qemu_irq *isa_irq;
-+    ISASuperIOClass *ic;
-     int i;
- 
-     qdev_init_gpio_out(dev, &s->cpu_intr, 1);
-@@ -394,7 +457,9 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-     isa_bus_irqs(isa_bus, i8259_init(isa_bus, *isa_irq));
-     i8254_pit_init(isa_bus, 0x40, 0, NULL);
-     i8257_dma_init(isa_bus, 0);
--    isa_create_simple(isa_bus, TYPE_VT82C686B_SUPERIO);
-+    s->superio_cfg.superio = ISA_SUPERIO(isa_create_simple(isa_bus,
-+                                                      TYPE_VT82C686B_SUPERIO));
-+    ic = ISA_SUPERIO_GET_CLASS(s->superio_cfg.superio);
-     mc146818_rtc_init(isa_bus, 2000, NULL);
- 
-     for (i = 0; i < PCI_CONFIG_HEADER_SIZE; i++) {
-@@ -412,6 +477,21 @@ static void vt82c686b_realize(PCIDevice *d, Error **errp)
-      */
-     memory_region_add_subregion(isa_bus->address_space_io, 0x3f0,
-                                 &s->superio_cfg.io);
-+
-+    /* Grab io regions of serial devices so we can control them */
-+    for (i = 0; i < ic->serial.count; i++) {
-+        ISADevice *sd = s->superio_cfg.superio->serial[i];
-+        MemoryRegion *io = isa_address_space_io(sd);
-+        MemoryRegion *mr = find_subregion(sd, io, sd->ioport_id);
-+        if (!mr) {
-+            error_setg(errp, "Could not get io region for serial %d", i);
-+            return;
-+        }
-+        s->superio_cfg.serial_io[i] = mr;
-+        if (memory_region_is_mapped(mr)) {
-+            memory_region_del_subregion(io, mr);
-+        }
-+    }
- }
- 
- static void via_class_init(ObjectClass *klass, void *data)
--- 
-2.21.3
+What I absolutely did not want to do was type in terms of Dict[str, 
+object] but then use isinstance checks for OrderedDict.
+
+My preference is still, I think, to just go all-in on dict. I am 
+personally comfortable trusting that parser.py creates an ordered 
+implementation of the type.
+
+As for these specific checks:
+
+- normalize_members doesn't assert that it has an OrderedDict, it only 
+normalizes *if* it gets one. I don't think this is helpful behavior.
+
+- check_type has an error message that doesn't square with the check: we 
+can give it a dict and it will pretend like we didn't give it one. I 
+don't think that's helpful either.
+
+> Related: the type aliases for the AST you define later in this series.
+> I figure relaxing these to more general types where possible would
+> actually reduce their value.  TopLevelExpression tells me more than
+> dict.
+> 
+> I'm not against relaxing types per se.  Judicious relaxation is often
+> useful to keep code more generally useful.  When to relax isn't always
+> obvious.
+> 
+>> (I needed to change it for prototyping using an off-the-shelf parser, so
+>> it was annoying to have it check for a stronger type if it doesn't
+>> absolutely have to.)
+> 
+> If your off-the-shelf parse doesn't preserve order, it's not fit for the
+> purpose :)
+> 
+
+It does, but in 3.6 that might be relying on CPython details. This is a 
+pretty frustrating place to be in, support-wise.
+
+>>>> Signed-off-by: John Snow <jsnow@redhat.com>
+>>>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
+>>>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
 
