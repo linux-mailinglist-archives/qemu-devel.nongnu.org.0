@@ -2,78 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FCBF32519C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:39:31 +0100 (CET)
-Received: from localhost ([::1]:54084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 411B83251A9
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:43:44 +0100 (CET)
+Received: from localhost ([::1]:35626 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFHne-00031v-KJ
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:39:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35950)
+	id 1lFHrj-0007Ij-9Z
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:43:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lFHm0-0001Xl-Uu; Thu, 25 Feb 2021 09:37:50 -0500
-Received: from mail-qk1-x72c.google.com ([2607:f8b0:4864:20::72c]:42928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lFHlr-0007Nq-NX; Thu, 25 Feb 2021 09:37:47 -0500
-Received: by mail-qk1-x72c.google.com with SMTP id z190so5764106qka.9;
- Thu, 25 Feb 2021 06:37:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=0gHWZYftpu/mTcDDol08+FG2sXIT/gOPnrl8ZzguuZ0=;
- b=FP7oAAF981F3d5QuriNB4813Osin8u5pgvQbnXayR9LuYwSzBSxiNu9PHoXgBYVzkV
- mrbW1ShiZ+h91YfdxMi12AR+3FNNbH5l6g0dTZwhtwKHd48eqsJOyIgfyJmA5UbG7jD+
- M9/2QAR4YymkR9GNIG/oFd8ER3cYhZA8/mqKHJ4/Y/JKpmSV5GAYmRU8bcmK1bey8Gk9
- I0g3cPIcWyc1jbDxkb25dr2ViVmSg/9wgrM8XST0i8QG2W6moRBKQ4+cnKxtG6hsWHKc
- L9r8Nw19ZNPMegX1bWeP04CWHYnSqGDf/lO61esbTLTUSCt/CrYoGi2vx5/GXq/Oi7f0
- tnhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=0gHWZYftpu/mTcDDol08+FG2sXIT/gOPnrl8ZzguuZ0=;
- b=oEIeiUolP9b/T80RhMshN3Kqyz/czrqjKa0fAYgLscHxBr4ZKqxhP57kHqg4CyaCla
- pLmEAgzqE9gT+tSmKYvZmV2Stn3xdjx7J5iLYBYZmiRxzKC7BVdmKVQQP4ZsTLfnESB3
- 9Bf7Fg3ZHvhdfusfsESPxh++/1ibyVok0+s1xI6fLb7U+qt37JyHNqZKTaqCw3mTPQWx
- rrBM0n9EM4sv74Uky0wXmaqt8CEY3SUAbfAOMjUfxz41hJnqxuhwC9sN8ssRyrEqPgUK
- FPGlD6IXMqd3g69PbnoUcFx0WdHbUHiwYW9jl4Y7enUVGMQuD6yKSJ/xxhfiHBjAsOZF
- 01kA==
-X-Gm-Message-State: AOAM530QpXp7bw5IFrjae8NJZwuGL4IQ18oErkkGmKpSyhPKZtOfQE27
- /GL5RqZxzuTUaZrg5gUze6VNmRdUGq70+w==
-X-Google-Smtp-Source: ABdhPJxoZ97xHEP3s4caaj5RXzOhqTyqjIMLqEl+Kh6sSEiZLQVYqOkpVSSRmTNW56547RSpi8Jihw==
-X-Received: by 2002:a37:dc41:: with SMTP id v62mr2733453qki.457.1614263854918; 
- Thu, 25 Feb 2021 06:37:34 -0800 (PST)
-Received: from ?IPv6:2804:431:c7c6:cd1c:d722:e26f:4e76:c5c1?
- ([2804:431:c7c6:cd1c:d722:e26f:4e76:c5c1])
- by smtp.gmail.com with ESMTPSA id d128sm3983145qkb.44.2021.02.25.06.37.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Feb 2021 06:37:34 -0800 (PST)
-Subject: Re: [PATCH qemu] spapr: Fix typo in the patb_entry comment
-To: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org
-References: <20210225032335.64245-1-aik@ozlabs.ru>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-ID: <1868bae2-2c31-7052-11e6-660e25e5cbbe@gmail.com>
-Date: Thu, 25 Feb 2021 11:37:31 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lFHqO-0006bU-K6
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:42:20 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:35912
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1lFHqG-0000lI-5G
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:42:20 -0500
+Received: from mobile-149-057.wlan.uni-mannheim.de
+ (mobile-149-057.wlan.uni-mannheim.de [134.155.149.57])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id D6DA4DA0153;
+ Thu, 25 Feb 2021 15:42:08 +0100 (CET)
+Subject: Re: [PATCH 3/6] dp8393x: switch to use qemu_receive_packet() for
+ loopback packet
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <20210224055401.492407-1-jasowang@redhat.com>
+ <20210224055401.492407-4-jasowang@redhat.com>
+ <70f3456c-1f3b-8a14-8c51-a0b7dff5f048@weilnetz.de>
+ <fdd95814-c3d9-3c93-466a-5846da8e10e5@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
+Message-ID: <326a7231-d5f1-5f08-eac3-8fd23f154c66@weilnetz.de>
+Date: Thu, 25 Feb 2021 15:42:08 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210225032335.64245-1-aik@ozlabs.ru>
+In-Reply-To: <fdd95814-c3d9-3c93-466a-5846da8e10e5@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72c;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72c.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.435,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,36 +61,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org
+Cc: ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 25.02.21 um 15:36 schrieb Philippe Mathieu-Daudé:
+
+> On 2/24/21 7:13 AM, Stefan Weil wrote:
+>> Am 24.02.21 um 06:53 schrieb Jason Wang:
+>>
+>>> This patch switches to use qemu_receive_packet() which can detect
+>>> reentrancy and return early.
+>>>
+>>> Signed-off-by: Jason Wang <jasowang@redhat.com>
+>>> ---
+>>>    hw/net/dp8393x.c | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/net/dp8393x.c b/hw/net/dp8393x.c
+>>> index 205c0decc5..019d4fe435 100644
+>>> --- a/hw/net/dp8393x.c
+>>> +++ b/hw/net/dp8393x.c
+>>> @@ -506,7 +506,7 @@ static void
+>>> dp8393x_do_transmit_packets(dp8393xState *s)
+>>>                s->regs[SONIC_TCR] |= SONIC_TCR_CRSL;
+>>>                if (nc->info->can_receive(nc)) {
+>>>                    s->loopback_packet = 1;
+>>> -                nc->info->receive(nc, s->tx_buffer, tx_len);
+>>> +                qemu_receice_packet(nc, s->tx_buffer, tx_Len);
+>>
+>> Did you test compilation of that code? It looks like a typo ...
+> With typo fixed:
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
-On 2/25/21 12:23 AM, Alexey Kardashevskiy wrote:
-> There is no H_REGISTER_PROCESS_TABLE, it is H_REGISTER_PROC_TBL handler
-> for which is still called h_register_process_table() though.
-> 
-> Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-> ---
+Plural, as I noticed later: there are two typos in the same line of 
+code. The compiler will report both of them.
 
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+Stefan
 
->   include/hw/ppc/spapr.h | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index ccbeeca1de84..8dceace4b442 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -168,7 +168,7 @@ struct SpaprMachineState {
->       SpaprResizeHpt resize_hpt;
->       void *htab;
->       uint32_t htab_shift;
-> -    uint64_t patb_entry; /* Process tbl registed in H_REGISTER_PROCESS_TABLE */
-> +    uint64_t patb_entry; /* Process tbl registed in H_REGISTER_PROC_TBL */
->       SpaprPendingHpt *pending_hpt; /* in-progress resize */
->   
->       hwaddr rma_size;
-> 
 
