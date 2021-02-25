@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9137532498D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 04:38:52 +0100 (CET)
-Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC4D32499F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 04:58:55 +0100 (CET)
+Received: from localhost ([::1]:58592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF7UJ-0007QP-L4
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 22:38:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59044)
+	id 1lF7ni-00036y-4N
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 22:58:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33680)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lF7Ss-0006wt-PE
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 22:37:23 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:37968)
+ id 1lF7mE-0002PG-U8
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 22:57:22 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:33732)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lF7Sn-0007v9-SA
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 22:37:22 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id l18so2715378pji.3
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 19:37:17 -0800 (PST)
+ id 1lF7mD-0003RS-2i
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 22:57:22 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id d16so2486648plg.0
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 19:57:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=E5eO1/NcK8gCImFAFeQRrWDoFCgxyOSSxZuP1xb/zdE=;
- b=JrFttAWtjpkuQoRc32ui4UrB9JNoFu+fWku85R7oNcAOdMgT1UK3168IO6xZgwWoOl
- D8vWeksig4jnKux5hyfB+2fgqRBYnqQD2qXOBmBo0t1rAImgMeOYiD2tXdBbmCc92D3e
- lJZ0Czj5fc5wFqPiVIdfwHEkntHoeDzcN0ht3ZanM8jTuRKX7Z0L0kzLE4RTzNZU0mB/
- j7gUJxsE+bSYa+2eN62Q/4ZFNZk8aB1ySESDXygxBlAlzwk9Hr1DbzC2AY3bbOH+vvYE
- R2JaBGGX+fI6xxaSVYFb4FMbyFoIiVmjN2JdInZsM2+/1tT5RIhIvtoCf4JuRGzQ2HwU
- ypTw==
+ bh=7Ti+dfOQMm1aHOxeAa+cjQMiwy168r6lRwsrTuIIwlU=;
+ b=XLPfpjDgNO5afWmpgHWzY0/459Ymc/WuJBz3CVxURwLv9RdPFfw4NzOGm3lLYzEpu5
+ paElRuX3AvqxPKmjj/qiOevACe0k6pBYfo1OT5g+FOO0XM9Zm3L5hR9aMZ/ebGfEYS/c
+ VYdlUm8if7Cbtpp6ezePXiWQIyV3UsNQbOPSrXb14Qlqp0ID8u9L5kKF2dSpoqiyAmzk
+ 9bC4AuyTx0uQDNRaOu9viW1KiQxu9XE+01ZLCVGD1QsY0gUmuRW6JfcJ9EdqzCI49kU/
+ uvr6BpWnidMpwiKL6+9fGySGaaN2rrEmjyNj+/Km9g6v3TPWH02ceXF3Aw7Gz0+Xd+6P
+ vthA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=E5eO1/NcK8gCImFAFeQRrWDoFCgxyOSSxZuP1xb/zdE=;
- b=gBfeG0/d5K1YnDBf5QTorbFSpg0CIy+odKxWS72N2fpnNiknsleNLUYbx1mt6ZxLzv
- tcjhs1WYU177CgYZdASOC46IjiwQ2u9843/5skkvF/UaSFpSe24e8tqHDCmPoJEkuEQ5
- PQ1WMdTBy4BBe11le3fr5NlrvqltWTCqesLPOcGrlX0lFA2+0YaCm/cviys8at9WXBoa
- sVbR3OQNpBofc7R7o8ttlwpH5ztYsxzUhbp4bq/FFMEM/RIyS0bqWcytZ0C9ep9zeThZ
- G2B6bQNv10Imn8YYfos7Kw+/EH+5ZjGNDsxW9LeAAGcunRqKQn00bqNWKVS1kmNFbf9p
- SkvA==
-X-Gm-Message-State: AOAM530PXvrU8tapL0yQRKnKnEZt97yWmRT6MBtXLr7VXEWPKBuEBYVS
- /gFpPLC6sguDMmA8/7hzUl1wtNajYvAe6Q==
-X-Google-Smtp-Source: ABdhPJxhq2hzudSwucvkH06mwUVJZxljT2yLXXnPRrvr0dynX+dw7zllIafcltEYYRmMYpvMtIHVrQ==
-X-Received: by 2002:a17:90a:4cc6:: with SMTP id
- k64mr1193886pjh.162.1614224236297; 
- Wed, 24 Feb 2021 19:37:16 -0800 (PST)
+ bh=7Ti+dfOQMm1aHOxeAa+cjQMiwy168r6lRwsrTuIIwlU=;
+ b=D72M5vRvy0QVjn1pqb1vxeKbF5bJEmdEO30w1fg4/AU5eTZlcYf3K7ENeogPm3EKck
+ XgK1w1rtSztGYmft0vJQSaLhzRfJu9U8OzxmFhWpfe4PI4GV7x/B9aBD2hiea2JCwtRT
+ 6f23OKDi1qM821r1odhWMekHE0ORNXZmovh+pCYjbnWR+UyVQX72EQetpFcBpdut9loI
+ N4Ct+h2VAdjPpOOKMKnT8Fk9bV09osB/a5odg0pEmRvsHFBdFyA7S9t29VnJcMpYQf16
+ /dcc6Gh0L4bjVJ9zTDPNo0JuV2+l9XI9hdnSZEAgSJBlsqfOo0OmEE2X4auZq38nB2gj
+ RKdA==
+X-Gm-Message-State: AOAM530RY70Nj1mgdecmgbFUs7s3IN4pRDBptCQg8ge9uJTq63Z6IpQ9
+ +gzI4VV3cC4Vt9r8R/t8drRGiiG33Gwk9A==
+X-Google-Smtp-Source: ABdhPJzzy/CknIhD492qP1ipwcAaYgU9dIP9QZgkI8dFRdyB0FQNEB+nSIXpUjM54S2/I8ohgdPTqA==
+X-Received: by 2002:a17:902:6ac1:b029:e3:dbc0:bc44 with SMTP id
+ i1-20020a1709026ac1b02900e3dbc0bc44mr1334443plt.15.1614225439219; 
+ Wed, 24 Feb 2021 19:57:19 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id r68sm4455821pfc.49.2021.02.24.19.37.15
+ by smtp.gmail.com with ESMTPSA id b187sm3844522pgc.23.2021.02.24.19.57.18
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 24 Feb 2021 19:37:15 -0800 (PST)
-Subject: Re: [PATCH v22 13/17] i386: split svm_helper into sysemu and
- stub-only user
+ Wed, 24 Feb 2021 19:57:18 -0800 (PST)
+Subject: Re: [PATCH v22 14/17] i386: split seg_helper into user-only and
+ sysemu parts
 To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 References: <20210224133428.14071-1-cfontana@suse.de>
- <20210224133428.14071-14-cfontana@suse.de>
+ <20210224133428.14071-15-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <33d4043e-23ea-8489-fb37-e822f8261dcf@linaro.org>
-Date: Wed, 24 Feb 2021 19:37:13 -0800
+Message-ID: <270c65bc-54a4-01b2-6fde-d59784cb455f@linaro.org>
+Date: Wed, 24 Feb 2021 19:57:16 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210224133428.14071-14-cfontana@suse.de>
+In-Reply-To: <20210224133428.14071-15-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,36 +99,46 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/24/21 5:34 AM, Claudio Fontana wrote:
-> For now we just copy over the previous user stubs, but really,
-> 
-> everything that requires s->cpl == 0 should be impossible
-> to trigger from user-mode emulation.
-> 
-> Later on we should add a check that asserts this easily f.e.:
-> 
-> static bool check_cpl0(DisasContext *s)
-> {
->      int cpl = s->cpl;
->  #ifdef CONFIG_USER_ONLY
->      assert(cpl == 3);
->  #endif
->      if (cpl != 0) {
->          gen_exception(s, EXCP0D_GPF, s->pc_start - s->cs_base);
->          return false;
->      }
->      return true;
-> }
-
-Hmm, more or less exactly what I was suggesting vs patch 11, with the
-improvement to consolidate the generation of the exception.
-
-Is it worth doing this now rather than later, so that we don't have to have the
-stubs, and so don't have to add the new file?
-
-If you were adding the stubs new, rather than moving them, I'd say add
-g_assert_not_reached to them.  But the actual patch is fine.
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> ---
+>  target/i386/tcg/helper-tcg.h        |   5 +
+>  target/i386/tcg/seg_helper.h        |  66 ++++++++
+>  target/i386/tcg/seg_helper.c        | 233 +---------------------------
+>  target/i386/tcg/sysemu/seg_helper.c | 125 +++++++++++++++
+>  target/i386/tcg/user/seg_helper.c   | 109 +++++++++++++
+>  target/i386/tcg/sysemu/meson.build  |   1 +
+>  target/i386/tcg/user/meson.build    |   1 +
+>  7 files changed, 311 insertions(+), 229 deletions(-)
+>  create mode 100644 target/i386/tcg/seg_helper.h
+>  create mode 100644 target/i386/tcg/sysemu/seg_helper.c
+>  create mode 100644 target/i386/tcg/user/seg_helper.c
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+Not your bug, but for the record:
+
+> +void cpu_x86_load_seg(CPUX86State *env, X86Seg seg_reg, int selector)
+> +{
+> +    if (!(env->cr[0] & CR0_PE_MASK) || (env->eflags & VM_MASK)) {
+
+This first test is always false for user-only.  The second can be true via the
+vm86(2) syscall.
+
+> +        int dpl = (env->eflags & VM_MASK) ? 3 : 0;
+
+so this second test becomes redundant.
+
+> +        selector &= 0xffff;
+> +        cpu_x86_load_seg_cache(env, seg_reg, selector,
+> +                               (selector << 4), 0xffff,
+> +                               DESC_P_MASK | DESC_S_MASK | DESC_W_MASK |
+> +                               DESC_A_MASK | (dpl << DESC_DPL_SHIFT));
+> +    } else {
+> +        helper_load_seg(env, seg_reg, selector);
+> +    }
+
+And helper_load_seg calls GETPC(), so suffers from the same problem as the fpu
+helpers.
 
 
 r~
