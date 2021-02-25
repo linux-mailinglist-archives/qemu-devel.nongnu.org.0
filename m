@@ -2,58 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E393252B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:48:29 +0100 (CET)
-Received: from localhost ([::1]:52890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D2F43252B5
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:49:11 +0100 (CET)
+Received: from localhost ([::1]:53684 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFIsO-00025a-UU
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:48:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52218)
+	id 1lFIt4-0002Oj-4W
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:49:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lFIq0-0000fS-U2
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:46:00 -0500
-Resent-Date: Thu, 25 Feb 2021 10:46:00 -0500
-Resent-Message-Id: <E1lFIq0-0000fS-U2@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21333)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lFIpx-0004vx-OU
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:46:00 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1614267949; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=OTFdos/Ikk1VRmypipopAakdPaUHYOkXSCeJTQ488y6aozWmjsPXQrUSK+O8pGFYtnNa0It3sjesow7XjZeEDwcRvzmhVbpNFYDDEh/TtDoEm+k8CfhQt0jSx1SvZug3a+hS71GavyF8MNsZYYp8tSiYB5TRBvWuGNgjNnSSfIg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1614267949;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=gGhumPAWhbSYg2VHK0EbUNVHIKzHbSwRfCY8oXUWrq8=; 
- b=GtNjP681eQiUDcfRpqpGBLF96bB72IQr/DL96L4LfI9lZDw+up2W4wjv/Ma8RBQXU7inpcN4NvOQBgij95Y1Qx8xLY/YFVSbNtcoYslaEcH3W1iKrBXlSRDwvLTJI0F73BpEL9vgVQlMSAyORWIvcd/jNOgLsnPzcI7J8NfNQkY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1614267946902816.6862140826674;
- Thu, 25 Feb 2021 07:45:46 -0800 (PST)
-In-Reply-To: <20210224165811.11567-1-alex.bennee@linaro.org>
-Subject: Re: [RFC PATCH  0/5] Experimenting with tb-lookup tweaks
-Message-ID: <161426794575.1906.6485972182754444411@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFIqy-00017l-2u
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:47:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36220)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFIqw-0005V9-9Z
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:46:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614268017;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xETs5wr7nb2W/yc2tpnquZQCwWFNXdoO03IFcqc0qKc=;
+ b=ONFFahu3bYqj8xBpBnFnxwgVW4LspouI3X/MudUoPzh6f6Aaf78Q9pbH/5xtr0XJPzD1XO
+ 5wFFjFH6DBiUIV4iX4RuL8/jITwHweUryNhnP3DymYm+CfMqzi5y9pcbg+DNrz53wfpb7T
+ /N248AKMoGBnoCZ1+oSHwvCaj0qQHxc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-345-0b1AasAPPOmQCcT39twf-w-1; Thu, 25 Feb 2021 10:46:43 -0500
+X-MC-Unique: 0b1AasAPPOmQCcT39twf-w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F0CA2100CCC0;
+ Thu, 25 Feb 2021 15:46:40 +0000 (UTC)
+Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 500945B4A0;
+ Thu, 25 Feb 2021 15:46:40 +0000 (UTC)
+Subject: Re: [PATCH 1/5] iotests: Update 241 to expose backing layer
+ fragmentation
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20210218201528.127099-1-eblake@redhat.com>
+ <20210218201528.127099-2-eblake@redhat.com>
+ <a31b0bf7-56af-94a8-4d83-eac366bf62b9@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <21299534-63a6-e6ac-c3f4-74dc40d882ff@redhat.com>
+Date: Thu, 25 Feb 2021 09:46:39 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: alex.bennee@linaro.org
-Date: Thu, 25 Feb 2021 07:45:46 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <a31b0bf7-56af-94a8-4d83-eac366bf62b9@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,80 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, cota@braap.org, richard.henderson@linaro.org,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIyNDE2NTgxMS4xMTU2
-Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
-aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
-ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIyNDE2NTgxMS4x
-MTU2Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1JGQyBQQVRDSCAgMC81XSBF
-eHBlcmltZW50aW5nIHdpdGggdGItbG9va3VwIHR3ZWFrcwoKPT09IFRFU1QgU0NSSVBUIEJFR0lO
-ID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAw
-CmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0
-b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1Qg
-U0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4NzgyMTY0ZDFkZWY3ZjQ0YmQ4
-ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKIC0g
-W3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIxODIwMTUyOC4xMjcwOTktMS1lYmxha2VA
-cmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMjE4MjAxNTI4LjEyNzA5OS0xLWVibGFrZUByZWRo
-YXQuY29tCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBhdGNoZXcvMjAyMTAyMjQwNTU0MDEuNDkyNDA3
-LTEtamFzb3dhbmdAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMjI0MDU1NDAxLjQ5MjQwNy0x
-LWphc293YW5nQHJlZGhhdC5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDIy
-NDE2NTgxMS4xMTU2Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcgLT4gcGF0Y2hldy8yMDIxMDIy
-NDE2NTgxMS4xMTU2Ny0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKICogW25ldyB0YWddICAgICAg
-ICAgcGF0Y2hldy8yMDIxMDIyNDE2NTgzNy4yMTk4My0xLXZnb3lhbEByZWRoYXQuY29tIC0+IHBh
-dGNoZXcvMjAyMTAyMjQxNjU4MzcuMjE5ODMtMS12Z295YWxAcmVkaGF0LmNvbQogLSBbdGFnIHVw
-ZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjI1MDMyMzM1LjY0MjQ1LTEtYWlrQG96bGFicy5ydSAt
-PiBwYXRjaGV3LzIwMjEwMjI1MDMyMzM1LjY0MjQ1LTEtYWlrQG96bGFicy5ydQogKiBbbmV3IHRh
-Z10gICAgICAgICBwYXRjaGV3LzIwMjEwMjI1MDU0NzU2LjM1OTYyLTEtbGludXhtYWtlckAxNjMu
-Y29tIC0+IHBhdGNoZXcvMjAyMTAyMjUwNTQ3NTYuMzU5NjItMS1saW51eG1ha2VyQDE2My5jb20K
-IC0gW3RhZyB1cGRhdGVdICAgICAgcGF0Y2hldy8yMDIxMDIyNTEzMTMxNi42MzE5NDAtMS1wYm9u
-emluaUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMjUxMzEzMTYuNjMxOTQwLTEtcGJvbnpp
-bmlAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjBiZTU0YjQgaW5j
-bHVkZS9leGVjL3RiLWxvb2t1cDogdHJ5IGFuZCByZWR1Y2UgYnJhbmNoIHByZWRpY3Rpb24gaXNz
-dWVzCmM2MjMzZGUgaW5jbHVkZS9leGVjOiBsaWdodGx5IHJlLWFycmFuZ2UgVHJhbnNsYXRpb25C
-bG9jawoxODUzNGJmIGFjY2VsL3RjZzogZHJvcCB0aGUgdXNlIG9mIENGX0hBU0hfTUFTSyBhbmQg
-cmVuYW1lIHBhcmFtcwozYTMwY2FmIGFjY2VsL3RjZzogbW92ZSBDRl9DTFVTVEVSIGNhbGN1bGF0
-aW9uIHRvIGN1cnJfY2ZsYWdzCmExMzViZWEgYWNjZWwvdGNnOiByZW5hbWUgdGJfbG9va3VwX19j
-cHVfc3RhdGUgYW5kIGhvaXN0IHN0YXRlIGV4dHJhY3Rpb24KCj09PSBPVVRQVVQgQkVHSU4gPT09
-CjEvNSBDaGVja2luZyBjb21taXQgYTEzNWJlYTM2MzY2IChhY2NlbC90Y2c6IHJlbmFtZSB0Yl9s
-b29rdXBfX2NwdV9zdGF0ZSBhbmQgaG9pc3Qgc3RhdGUgZXh0cmFjdGlvbikKRVJST1I6ICJmb28g
-KiBiYXIiIHNob3VsZCBiZSAiZm9vICpiYXIiCiM4NDogRklMRTogaW5jbHVkZS9leGVjL3RiLWxv
-b2t1cC5oOjIwOgorc3RhdGljIGlubGluZSBUcmFuc2xhdGlvbkJsb2NrICogdGJfbG9va3VwKENQ
-VVN0YXRlICpjcHUsCgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojODU6IEZJTEU6
-IGluY2x1ZGUvZXhlYy90Yi1sb29rdXAuaDoyMToKKyAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICB0YXJnZXRfdWxvbmcgcGMsIHRhcmdldF91bG9uZyBjc19iYXNlLAoK
-dG90YWw6IDEgZXJyb3JzLCAxIHdhcm5pbmdzLCA4MCBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzUg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvNSBDaGVja2luZyBjb21taXQgM2EzMGNhZjVm
-NDdkIChhY2NlbC90Y2c6IG1vdmUgQ0ZfQ0xVU1RFUiBjYWxjdWxhdGlvbiB0byBjdXJyX2NmbGFn
-cykKMy81IENoZWNraW5nIGNvbW1pdCAxODUzNGJmZjBmMWYgKGFjY2VsL3RjZzogZHJvcCB0aGUg
-dXNlIG9mIENGX0hBU0hfTUFTSyBhbmQgcmVuYW1lIHBhcmFtcykKNC81IENoZWNraW5nIGNvbW1p
-dCBjNjIzM2RlODMyNjMgKGluY2x1ZGUvZXhlYzogbGlnaHRseSByZS1hcnJhbmdlIFRyYW5zbGF0
-aW9uQmxvY2spCldBUk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIGxlYWRpbmcgLyogb24gYSBz
-ZXBhcmF0ZSBsaW5lCiMzNTogRklMRTogaW5jbHVkZS9leGVjL2V4ZWMtYWxsLmg6NDY1OgorICAg
-IHVpbnQxNl90IHNpemU7ICAgICAgLyogc2l6ZSBvZiB0YXJnZXQgY29kZSBmb3IgdGhpcyBibG9j
-ayAoMSA8PQoKV0FSTklORzogQmxvY2sgY29tbWVudHMgdXNlICogb24gc3Vic2VxdWVudCBsaW5l
-cwojMzY6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjQ2NjoKKyAgICB1aW50MTZfdCBz
-aXplOyAgICAgIC8qIHNpemUgb2YgdGFyZ2V0IGNvZGUgZm9yIHRoaXMgYmxvY2sgKDEgPD0KKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAgIHNpemUgPD0gVEFSR0VUX1BBR0VfU0laRSkgKi8KCldB
-Uk5JTkc6IEJsb2NrIGNvbW1lbnRzIHVzZSBhIHRyYWlsaW5nICovIG9uIGEgc2VwYXJhdGUgbGlu
-ZQojMzY6IEZJTEU6IGluY2x1ZGUvZXhlYy9leGVjLWFsbC5oOjQ2NjoKKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHNpemUgPD0gVEFSR0VUX1BBR0VfU0laRSkgKi8KCnRvdGFsOiAwIGVycm9y
-cywgMyB3YXJuaW5ncywgMjAgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC81IGhhcyBzdHlsZSBwcm9i
-bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
-c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
-TUFJTlRBSU5FUlMuCjUvNSBDaGVja2luZyBjb21taXQgMGJlNTRiNGVlMTQ2IChpbmNsdWRlL2V4
-ZWMvdGItbG9va3VwOiB0cnkgYW5kIHJlZHVjZSBicmFuY2ggcHJlZGljdGlvbiBpc3N1ZXMpCj09
-PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUg
-ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMjI0
-MTY1ODExLjExNTY3LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 2/25/21 7:50 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 18.02.2021 23:15, Eric Blake wrote:
+>> Previous commits (such as 6e280648, 75d34eb9) have mentioned that our
+>> NBD server still sends unaligned fragments when an active layer with
+>> large advertised minimum block size is backed by another layer with a
+>> smaller block size. Expand the test to actually cover these scenario,
+>> by using two different approaches: qcow2 encryption (which forces
+>> 512-byte alignment) with an unaligned raw backing file, and blkdebug
+>> with a 4k alignment.
+>>
+>> The encryption test passes with the desired results, but only because
+>> the client side works around the server's non-compliance; if you
+>> repeat the test manually with tracing turned on, you will see the
+>> server sending a status for 1000 bytes of data then 1048 bytes of
+>> hole, which is not aligned. But reverting commit 737d3f5244 shows that
+>> it is indeed the client working around the bug in the server.
+>>
+>> Meanwhile, the blkdebug test gives incorrect results: remember, when
+>> using x-dirty-bitmap with qemu-img map as a way to sniff alternative
+>> metadata contexts, the meanings of "data" and "zero" are determined by
+> 
+> How I'm tired of this abuse:) It seems that total amount of comments
+> about it in code and commit messages worth creating more intuitive
+> interface.. Don't you have an idea in mind?
+
+Yes: 'nbdinfo' as part of the libnbd project ;)
+
+Sadly, libnbd is not available on all our common porting targets yet,
+and nbdinfo is less than a year old (so even distros that have libnbd
+1.0 are too old).
+
+> 
+>> that context.  Our client workaround is assuming that the fragmented
+>> replies can be merged according to base:allocation rules, but those
+>> rules do not work for other contexts (merging dirty and clean bitmap
+>> should produce dirty; merging allocated and unallocated should produce
+>> allocated; see the FIXME for more about the decoded values we expect).
+> 
+> You could instead keep the test output correct (without FIXME marks) but
+> add the test to "disabled" group and drop it from the group when fixed.
+
+Either way, it's fixed by the end of the series.
+
+> 
+>>
+>> Signed-off-by: Eric Blake <eblake@redhat.com>
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+
+Thanks!
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
