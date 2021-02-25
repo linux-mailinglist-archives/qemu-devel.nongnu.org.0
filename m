@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 167EE324ED3
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:10:14 +0100 (CET)
-Received: from localhost ([::1]:55506 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF28F324EDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:12:39 +0100 (CET)
+Received: from localhost ([::1]:37668 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFEX6-0004zF-SN
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:10:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55770)
+	id 1lFEZS-0000pT-Sm
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:12:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lFEKJ-0002DQ-88
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:56:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38648)
+ id 1lFEKO-0002Qr-1I
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:57:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lFEKH-0006Tu-PY
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:56:58 -0500
+ id 1lFEKM-0006Wh-AM
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:57:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614250617;
+ s=mimecast20190719; t=1614250621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sx2vRRYISdhKsakXwQJJnoaaQyhxgwJAdnxikV207cI=;
- b=e3z96SRTSkx7YZsnHwkP6Y3VLF+9MEip0kpfNJIi3dDefPTJ7LuWzgFqLLn6fVUq2t7fjp
- inAcl3OJxOqh2Y+vgRd78SRY7zvKmKXpGGrLrBQOex9XXI27BA4bjbjnL6g3XvEh1ktxU9
- HlKdD5sOu7LEqSUg3MX0s76rqVk8mXE=
+ bh=ucnkIMVDxxULLy56H1j/WOiURiBi560G1f25zjOBI0g=;
+ b=b6NR1ZVuQR8J+7djMPzlpk970QvuuwFbG3J8b5trH+HUR2JgPgh8h6nOETYpJ11nM7XJUH
+ NiPtHSICbLwL9noYtvl77xZ6gD2fyPIhbA59ECuhRuV9eAEyunC5K721kTkiBZjLdu5WN7
+ 53UPvF4R22J5pbVJz8QdDKM36TqGf3Q=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-238-itxkzIPMPjCtUgT5uk0XRA-1; Thu, 25 Feb 2021 05:56:53 -0500
-X-MC-Unique: itxkzIPMPjCtUgT5uk0XRA-1
+ us-mta-241-puUwa2AmMHGhA1BhgzM75A-1; Thu, 25 Feb 2021 05:56:59 -0500
+X-MC-Unique: puUwa2AmMHGhA1BhgzM75A-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36E06107ACE3;
- Thu, 25 Feb 2021 10:56:51 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BDF0B107ACC7;
+ Thu, 25 Feb 2021 10:56:57 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 44A095D9D7;
- Thu, 25 Feb 2021 10:56:34 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9A7B95D9D7;
+ Thu, 25 Feb 2021 10:56:51 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v8 20/28] hw/arm/smmuv3: Advertise MSI_TRANSLATE attribute
-Date: Thu, 25 Feb 2021 11:52:25 +0100
-Message-Id: <20210225105233.650545-21-eric.auger@redhat.com>
+Subject: [RFC v8 21/28] hw/arm/smmuv3: Store the PASID table GPA in the
+ translation config
+Date: Thu, 25 Feb 2021 11:52:26 +0100
+Message-Id: <20210225105233.650545-22-eric.auger@redhat.com>
 In-Reply-To: <20210225105233.650545-1-eric.auger@redhat.com>
 References: <20210225105233.650545-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -60,15 +61,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,31 +89,41 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SMMUv3 has the peculiarity to translate MSI
-transactionss. let's advertise the corresponding
-attribute.
+For VFIO integration we will need to pass the Context Descriptor (CD)
+table GPA to the host. The CD table is also referred to as the PASID
+table. Its GPA corresponds to the s1ctrptr field of the Stream Table
+Entry. So let's decode and store it in the configuration structure.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
----
- hw/arm/smmuv3.c | 3 +++
- 1 file changed, 3 insertions(+)
+ hw/arm/smmuv3.c              | 1 +
+ include/hw/arm/smmu-common.h | 1 +
+ 2 files changed, 2 insertions(+)
 
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 6172a62b8e..a998e237f0 100644
+index a998e237f0..ab0e1c5818 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -1587,6 +1587,9 @@ static int smmuv3_get_attr(IOMMUMemoryRegion *iommu,
-     if (attr == IOMMU_ATTR_VFIO_NESTED) {
-         *(bool *) data = true;
-         return 0;
-+    } else if (attr == IOMMU_ATTR_MSI_TRANSLATE) {
-+        *(bool *) data = true;
-+        return 0;
+@@ -358,6 +358,7 @@ static int decode_ste(SMMUv3State *s, SMMUTransCfg *cfg,
+                       "SMMUv3 S1 stalling fault model not allowed yet\n");
+         goto bad_ste;
      }
-     return -EINVAL;
- }
++    cfg->s1ctxptr = STE_CTXPTR(ste);
+     return 0;
+ 
+ bad_ste:
+diff --git a/include/hw/arm/smmu-common.h b/include/hw/arm/smmu-common.h
+index 706be3c6d0..d578339935 100644
+--- a/include/hw/arm/smmu-common.h
++++ b/include/hw/arm/smmu-common.h
+@@ -76,6 +76,7 @@ typedef struct SMMUTransCfg {
+     uint8_t tbi;               /* Top Byte Ignore */
+     uint16_t asid;
+     SMMUTransTableInfo tt[2];
++    dma_addr_t s1ctxptr;
+     uint32_t iotlb_hits;       /* counts IOTLB hits for this asid */
+     uint32_t iotlb_misses;     /* counts IOTLB misses for this asid */
+ } SMMUTransCfg;
 -- 
 2.26.2
 
