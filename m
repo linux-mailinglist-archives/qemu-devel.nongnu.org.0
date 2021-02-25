@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEE5D325A13
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 00:10:00 +0100 (CET)
-Received: from localhost ([::1]:38518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BE9325A1B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 00:17:50 +0100 (CET)
+Received: from localhost ([::1]:41284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFPlf-00038J-US
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 18:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35118)
+	id 1lFPtD-0004z8-EI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 18:17:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFPjN-0002MJ-CT
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:07:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24318)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFPrt-0004Xl-Sj
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:16:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFPjJ-0000Yt-4K
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:07:37 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFPro-0003si-7B
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:16:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614294452;
+ s=mimecast20190719; t=1614294978;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r1psNVTcfauEDpFiI3f36FyOUt8703MWCNGItPkVb64=;
- b=CV/IoUPOR7ihsozOyS/Fzj7Tm13UYtEMuFOs+hIzcjb95e05k6OMwnt4A92XhQ0LWLVcA1
- jBOjUqsMEtqAP433dGJF1ebPhlWXu/UvTn9GSGnJtccTqzuND/z8BuUTMHo17uFNhm9E6G
- +MAVqdc8KiSAAPx9Vn+oSQEH77F+sdc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-33_sBKqRPGWhI7mNoq2aaA-1; Thu, 25 Feb 2021 18:07:29 -0500
-X-MC-Unique: 33_sBKqRPGWhI7mNoq2aaA-1
-Received: by mail-ed1-f72.google.com with SMTP id l6so3613038edn.22
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 15:07:29 -0800 (PST)
+ bh=AxLdUe5FjH7H87Yv0LWWAh6qHE4DW28K+xG2lV4vKyk=;
+ b=i/ZjGM3ygEHJ2O77U6++DsQ6FmhiQwJCMCKqXC4l4wdUH0R+K2Gb8kmiygc/lE8kE2l67i
+ mkEdXwjOCmPO/fHxCsuY9YqVylAga38tbk7BK/KjtcuBV171Zp0NEErdjPGQAMZkWq11AZ
+ QJw/qXvdmPCRTDJJZYUB0R3wY/OySeg=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-175-N9UL1zjpP-yxkZBF2xgbhQ-1; Thu, 25 Feb 2021 18:16:15 -0500
+X-MC-Unique: N9UL1zjpP-yxkZBF2xgbhQ-1
+Received: by mail-ed1-f69.google.com with SMTP id q2so3604567edt.16
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 15:16:14 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=r1psNVTcfauEDpFiI3f36FyOUt8703MWCNGItPkVb64=;
- b=Lv4k08J9LYQe+9qZWYYNHOSwxKI5orh0ZpanRIfGxFGvGi9/H80HgCpgCs+B4U6VVd
- lZK0TBH9hzqqRLQsVMbTiIadSQVR4AhRBOx4N6CXrHGa5oOvObqZP16pJdhlmPINj+dA
- feG4MH302Q+PYMpECEK1qCM9QDVoQHYmxFr0KH1qWQpd/xCpUdJKHByjTva6ApPJBCmk
- h40Lrj8WrBCpA0O5SvstcFktbMse/tc9L95FyzLjj73o9Yz11QYub4hxuJeEcw1l9mar
- zmYZzTDJd/9Qma2eaZbOU+Hek9kDPWfA7h/Hnfal0YfiCThHOhrweUSwVembJplrvtrB
- zPPQ==
-X-Gm-Message-State: AOAM531vQJ0c1YYNLZ9z+UY6WhnIGXr85dJSD6XeRAip7oZYrRMUuU9l
- /TGIzEJCrkpbT4C67n8ra0g+hIox5hyK6gTr8qbafiu8605Uaevry3WZdjgvK85MSxoyyhtGi/D
- CP3btPuxBTBu8qJU=
-X-Received: by 2002:a17:906:a099:: with SMTP id
- q25mr5051344ejy.549.1614294448684; 
- Thu, 25 Feb 2021 15:07:28 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyQYtTsY43GMchA+hNoCnV45UL4/kGKMkof5f5J5eRYYWRZti2DH1fkU92sKO2BpWyzbUiqpg==
-X-Received: by 2002:a17:906:a099:: with SMTP id
- q25mr5051326ejy.549.1614294448567; 
- Thu, 25 Feb 2021 15:07:28 -0800 (PST)
+ bh=AxLdUe5FjH7H87Yv0LWWAh6qHE4DW28K+xG2lV4vKyk=;
+ b=jJgaFK0aEEBcKSnraQIBUvTpS6YRhrMtOzjK9LnsVMv9Lf6xYEJ0R3Det+5a9kYLV6
+ qZynZxaSXSGkCXObS16Jvr9s0sISKg5L85gh/x/2T7hvUeGni6ZzOT+CxCCGgDPpQ3u+
+ hbfSzTeZeMs8J4GCWB3fUXCGtCOIRTJea4QrytexL9r+MtVe/ZP/VVPHDq59dKxJUQHg
+ QjoctrLQ8qZ9E8qglD9bl8x5tJbMkgUr9FfkZYfnc/Kx1TMfADTbCIBELGJJ+9AiETL3
+ 7r3JB5dyCA6jX3xGtOyU3mv2fb3i6wnHdAOEBGP/rsGVbYmEdLQtMqYKuiA3SQ+/B34G
+ ycSQ==
+X-Gm-Message-State: AOAM533qAGLq2fG9k/AB19BVF4AvaCkxQIdyj5StTyGzoGjS7H7OC3fG
+ mI8Yy8tnRo/winz/QIzP9M3mDxYlscj7B8yW9/VVzfvZI25qvXoGPKgk2GR1k2+MzT2REpU4Tch
+ XBcz4giCTAq53U+0=
+X-Received: by 2002:a05:6402:1118:: with SMTP id
+ u24mr321576edv.386.1614294973869; 
+ Thu, 25 Feb 2021 15:16:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxa9NefHEtEktJY0dEa+KjKYrXEvDrt8YT9LjXzIY0cXzqgclvsBQfAo8GJvCcH7fA9Hm3xMA==
+X-Received: by 2002:a05:6402:1118:: with SMTP id
+ u24mr321555edv.386.1614294973679; 
+ Thu, 25 Feb 2021 15:16:13 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id ap14sm3856569ejc.13.2021.02.25.15.07.27
+ by smtp.gmail.com with ESMTPSA id lk12sm1243966ejb.14.2021.02.25.15.16.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Feb 2021 15:07:28 -0800 (PST)
-Subject: Re: [PATCH v2 0/2] tests: Add functional test for out-of-process
- device emulation
-To: Willian Rampazzo <willianr@redhat.com>, qemu-devel@nongnu.org
-References: <20210225205907.223995-1-willianr@redhat.com>
+ Thu, 25 Feb 2021 15:16:13 -0800 (PST)
+Subject: Re: [PATCH] multiprocess: move feature to meson_options.txt
+To: Jag Raman <jag.raman@oracle.com>, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210224122306.451764-1-pbonzini@redhat.com>
+ <72fc7d76-f8e3-2c0f-e890-99509bb6230d@redhat.com>
+ <e89873e7-d996-0161-8c4f-587aadd2208f@redhat.com>
+ <YDfRz3zhkoTiyoKt@stefanha-x1.localdomain>
+ <C3EAD382-8A3B-4DC7-9982-CC1DDAEEF4B7@oracle.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5518f282-4fb4-57d4-37cf-c2cfda261e92@redhat.com>
-Date: Fri, 26 Feb 2021 00:07:25 +0100
+Message-ID: <cd96210d-58bc-2978-02bc-b7ca794f7274@redhat.com>
+Date: Fri, 26 Feb 2021 00:16:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210225205907.223995-1-willianr@redhat.com>
+In-Reply-To: <C3EAD382-8A3B-4DC7-9982-CC1DDAEEF4B7@oracle.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -101,49 +104,78 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
+ John Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/21 9:59 PM, Willian Rampazzo wrote:
-> This series is a respin to the "multi-process: Acceptance test for multiproce=
-> ss
-> QEMU" patch sent in December which, runs an Avocado functional test to check =
-> if a
-> remote lsi53c895a device gets identified by the guest:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg769188.html
+On 2/25/21 6:50 PM, Jag Raman wrote:
 > 
-> First, we introduce the `exec_command` to the avocado_qemu package, which sen=
-> ds a
-> command to a console without the need to wait for a pattern as a result. This=
->  is
-> useful when a test needs to execute a command that does not produce an output,
-> like, for example, a `mount` command.
 > 
-> Then, the original test is refactored to simplify the code using the new
-> `exec_command` function, remove the unnecessary change to the
-> `wait_for_console_pattern` method and normalize the use of single quotes.
+>> On Feb 25, 2021, at 11:35 AM, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>>
+>> On Thu, Feb 25, 2021 at 01:15:53PM +0100, Paolo Bonzini wrote:
+>>> On 25/02/21 11:38, Philippe Mathieu-Daudé wrote:
+>>>> On 2/24/21 1:23 PM, Paolo Bonzini wrote:
+>>>>> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+>>>>> ---
+>>>>>  configure         | 12 ++++--------
+>>>>>  meson.build       |  9 +++++++--
+>>>>>  meson_options.txt |  2 ++
+>>>>>  3 files changed, 13 insertions(+), 10 deletions(-)
+>>>> ...
+>>>>
+>>>>> @@ -2535,6 +2540,7 @@ endif
+>>>>>  summary_info += {'target list':       ' '.join(target_dirs)}
+>>>>>  if have_system
+>>>>>    summary_info += {'default devices':   get_option('default_devices')}
+>>>>> +  summary_info += {'Multiprocess QEMU': multiprocess_allowed}
+>>>>
+>>>> Since you are changing this, it is a good opportunity to find a
+>>>> better description to this feature (similarly how we recently clarified
+>>>> the TCI description).
+>>>>
+>>>> The current description is confusing with multiprocessing (which is
+>>>> by default on QEMU and every developer want to exploit that).
+>>>>
+>>>> So the main multiprocess code resides in hw/remote/mpqemu*.
+>>>>
+>>>> I have the impression "monolithic application" is common in
+>>>> software engineering. What about "polylithic QEMU"?
+>>>>
+>>>> Stefan once described it as "out of (main) process device emulation".
+>>>
+>>> Out of process emulation?
+>>
+>> When Multiprocess QEMU switches to the vfio-user protocol the feature
+>> could be renamed to "vfio-user device backends".
 > 
-> CI Pipeline: https://gitlab.com/willianrampazzo/qemu/-/pipelines/261946622
-> 
-> Supersedes: <785772783205140e219b8bfe7f793305ee768f03.1608705805.git.elena.uf=
-> imtseva@oracle.com>
-> 
-> Jagannathan Raman (1):
->   tests: Add functional test for out-of-process device emulation
-> 
-> Willian Rampazzo (1):
->   avocado_qemu: add exec_command function
-> 
->  tests/acceptance/avocado_qemu/__init__.py | 13 +++-
->  tests/acceptance/multiprocess.py          | 95 +++++++++++++++++++++++
->  2 files changed, 107 insertions(+), 1 deletion(-)
->  create mode 100644 tests/acceptance/multiprocess.py
+> I personally don’t have any preference for the name.
+
+Great.
+
+So with the summary/description updated as:
+
+summary_info += {'Multiprocess QEMU (vfio-user device backends)':
+multiprocess_allowed}
+
+option('multiprocess', type: 'feature', value: 'auto',
+       description: 'Multiprocess QEMU (vfio-user device backends) support')
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> 
+> Like Stefan pointed out, this would be merged with the
+> vfio-user model for emulating devices in a separate
+> process. We could probably rename this during that change.
+> 
+> Thank you very much!
+> —
+> Jag
+> 
+>>
+>> Stefan
+> 
 
 
