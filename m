@@ -2,55 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CE16325393
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:34:48 +0100 (CET)
-Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25C0A3253A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:37:20 +0100 (CET)
+Received: from localhost ([::1]:55850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFJbD-0005Ev-A2
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:34:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
+	id 1lFJdd-0007Oy-Pf
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:37:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lFJYF-0003tF-Of
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:31:43 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:42027)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1lFJY9-0002BF-O2
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:31:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Cc:
- Content-ID:Content-Description;
- bh=upbhcPvTDll9o9VVt1G+2DG4a+cndDZvHoepW8CGA4Q=; b=OQCUo3CrHLWPygn8vQnkbh8TfW
- dNT5hqzZLLVAkNqo9FwlIeGh4QUC31w4OK4zGBLg91wXLQcuskFB0XyfmD/W3SIZ7x5AeeXP10DFh
- njeUueMy5oCUH45APr3DoNB/LL0sOnnuUGwTWAQyfrQQCrOitAG0qoNZSF43nuYHqmtabnZ+H4Kr1
- hvFqL9DO+gwf925jzyYq7A0nj0WVDM5QnTJhFEHswv+55ouG5AGw2HzKYs0/gFxJDJO4HDUPn8wJr
- RgYttOrFATbcCuQTQTcTdt+ieDaAii4pOFSlI+0ZG5q9zFDpwkcpEJcedI0jzW4wHZSRU8L9JmHy4
- FKhaw+2N22PpLSE3wVtUwBBaegiFAxxig5JOagpRQZ1R4qRUwzu9UtSVccJiYemPyQ0bvOBSNXDDL
- fQHAsf+oHjcduRwSf3yAoi0Jd2AJgaACKjqBjOmtyiS0awl2qM0nkgB+lvlKrUYpU8KE388dj65bX
- i8Ueyhsy/XqYaovIOjzaYZCWVkg04wKD2d0+8WXLPTC19h5dTegfuS1PEd+ivgPPbdMIR4L9g3LrA
- xbUkA7qDWQRpioDcB6+6J7RBjd+3jcwYyl5tkb3MM6y+J2sT85LmW/g4BPb83Ca7aV+VljBUEyFbp
- 9EbmUmEHAgS0xlBr4PwTCgH1nA63XaIU1RdqhbEmQ=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
-Subject: Re: 9pfs developers docs
-Date: Thu, 25 Feb 2021 17:31:22 +0100
-Message-ID: <1713522.Q2EPVctnWf@silver>
-In-Reply-To: <18968671.BsRifgzQ0d@silver>
-References: <3475760.T70ipHyFzN@silver> <20210201132649.6db25cec@bahia.lan>
- <18968671.BsRifgzQ0d@silver>
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lFJaw-0005c5-Hy
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:34:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60354)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1lFJam-0003EB-0c
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:34:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614270855;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TDBtJAKM1hfJ0ZC5sq+ZLKQyEG0Bd3zlsgkwaHiNwHM=;
+ b=Xdabr5jDi09TkUSi2Dl9reV5rFgW4fLIiD7B/HqTmRpz52seylNuA1WV9qrqe7IRxOOmF2
+ vd9rst75PnS6RfPi/bGUKUKckXnVxyZZqKVOo+O5XaVGzIlad8NEaWAlJCSxikWvj10/Z+
+ fNngdF9rgz2HJ/kDQNPEvqV7d+SIg3g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-499-LaDyMwwMNoumiUDW88VYgw-1; Thu, 25 Feb 2021 11:34:13 -0500
+X-MC-Unique: LaDyMwwMNoumiUDW88VYgw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0EA10835E23;
+ Thu, 25 Feb 2021 16:34:11 +0000 (UTC)
+Received: from [10.36.112.150] (ovpn-112-150.ams2.redhat.com [10.36.112.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1418A60855;
+ Thu, 25 Feb 2021 16:34:00 +0000 (UTC)
+Subject: Re: [PATCH v2 1/7] intel_iommu: Fix mask may be uninitialized in
+ vtd_context_device_invalidate
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ eric.auger.pro@gmail.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ peter.maydell@linaro.org, jean-philippe@linaro.org, peterx@redhat.com,
+ jasowang@redhat.com, pbonzini@redhat.com
+References: <20210225091435.644762-1-eric.auger@redhat.com>
+ <20210225091435.644762-2-eric.auger@redhat.com>
+ <2e75abf8-55e4-b5db-7ca2-6e0408bf81e6@redhat.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <420d0048-e2a9-2571-9f4c-45341c7a3355@redhat.com>
+Date: Thu, 25 Feb 2021 17:33:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <2e75abf8-55e4-b5db-7ca2-6e0408bf81e6@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,49 +88,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: vivek.gautam@arm.com, shameerali.kolothum.thodi@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 1. Februar 2021 14:37:02 CET qemu_oss--- via wrote:
-> On Montag, 1. Februar 2021 13:26:49 CET Greg Kurz wrote:
-> > > > I agree that a bunch of other things should be documented, but that's
-> > > > definitely a great start. Thanks for doing this !
-> > > > 
-> > > > Just one remark on the topology diagram:
-> > > > 
-> > > > https://wiki.qemu.org/File:9pfs_topology.png
-> > > > 
-> > > > It gives the impression that the 9p transport and server can
-> > > > handle multiple guests, which they certainly don't : each
-> > > > 9p server lives in exactly one device which is exposed to
-> > > > exactly one guest.
-> > > 
-> > > Right, I haven't considered that the diagram might be interpreted that
-> > > way. My primary intention was to show the 3 main components of 9pfs from
-> > > design perspective and secondary showing that multiple guests can share
-> > > storage.
-> > > 
-> > > So what would be better: a) duplicating the server side in the diagram
-> > > (then the image might become a bit large in height), b) dropping the
-> > > multiple guests, c) making the issue with server instances clear in the
-> > > text?
-> > 
-> > I'd rather go for b)
+Hi Philippe,
+
+On 2/25/21 11:08 AM, Philippe Mathieu-Daudé wrote:
+> On 2/25/21 10:14 AM, Eric Auger wrote:
+>> With -Werror=maybe-uninitialized configuration we get
+>> ../hw/i386/intel_iommu.c: In function ‘vtd_context_device_invalidate’:
+>> ../hw/i386/intel_iommu.c:1888:10: error: ‘mask’ may be used
+>> uninitialized in this function [-Werror=maybe-uninitialized]
+>>  1888 |     mask = ~mask;
+>>       |     ~~~~~^~~~~~~
+>>
+>> Add a g_assert_not_reached() to avoid the error.
+>>
+>> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+>> ---
+>>  hw/i386/intel_iommu.c | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+>> index b4f5094259..3206f379f8 100644
+>> --- a/hw/i386/intel_iommu.c
+>> +++ b/hw/i386/intel_iommu.c
+>> @@ -1884,6 +1884,8 @@ static void vtd_context_device_invalidate(IntelIOMMUState *s,
+>>      case 3:
+>>          mask = 7;   /* Mask bit 2:0 in the SID field */
+>>          break;
+>> +    default:
+>> +        g_assert_not_reached();
+>>      }
+>>      mask = ~mask;
 > 
-> Updated the diagram on the wiki page.
+> Unrelated to this patch, but I wonder why we don't directly assign the
+> correct value of the mask in the switch cases...
+
+After reading the vtd spec again, I think this is aligned with the spec
+description.  FM = function mask encodes the bits to mask. Then you
+actually compute the mask by ~mask.
 > 
-> To keep noise low, I won't send emails on further changes to that wiki page.
-> If you want to be auto notified then just add yourself to the watch list
-> there.
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Ok, I think I'm done with this page:
-https://wiki.qemu.org/Documentation/9p
+Thanks!
 
-At least I think I've described everything I wanted to from my side regarding 
-current 9p status.
+Eric
 
-Best regards,
-Christian Schoenebeck
-
+> 
+> set the mask
+> diuse the
+>>  
+>>
+> 
 
 
