@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA981324BA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:03:35 +0100 (CET)
-Received: from localhost ([::1]:46438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 169F9324BB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:06:55 +0100 (CET)
+Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFBcU-0007PH-7y
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:03:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54858)
+	id 1lFBfi-0000At-4O
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:06:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFBb8-0006yD-V2
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:02:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24290)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFBeK-00084X-MB
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:05:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37302)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFBb1-00042t-Gx
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:02:09 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFBeH-0005xN-2q
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:05:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614240121;
+ s=mimecast20190719; t=1614240323;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Je85hC5Lle83eArCBzpHyGCDzwJcfQWB3pVbIHidkuc=;
- b=PKVMYXE5uIMNar5ngA0dNSh1pCXAPuqKQaP5gd3+uqG0RuwuOVPKlu7wShoIDPGk1rYHmR
- e3vJGbgK7Yvl7I7OE4q8qfe2Wtfr8VH3kJdpU7RJHJKk0hFsi8KV6M9CLDwzpWmeI56mbe
- gzUjlEf2CEwzWMPHADs+1LJEETf0XHk=
+ bh=eJIxsgIpyLLEeH2GcChbIHZMYOVV3CRIu8myrgm+dFw=;
+ b=fJT1upKqbC1S313WWnfy8gFVu9oyL+vBB+FPx9vnWjyZsZKF2NGuZkmP+23dHUUCgdkYNs
+ mO4LgCnASZr5dYbIcdAaRrziEeijhlwx66A3aG3Sw9y0CQI8crziG5vMCOMUTvave+PcND
+ yA/c+WBeWgm78fMiLSjheRFvY3pDd0Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-407-rLM49D1HP3ukyRT_h5iFqQ-1; Thu, 25 Feb 2021 03:01:59 -0500
-X-MC-Unique: rLM49D1HP3ukyRT_h5iFqQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-191-wyFOQZQ1Nzq6oejIbObeqg-1; Thu, 25 Feb 2021 03:05:22 -0500
+X-MC-Unique: wyFOQZQ1Nzq6oejIbObeqg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40E0918B9ECB;
- Thu, 25 Feb 2021 08:01:58 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A5B931E566;
+ Thu, 25 Feb 2021 08:05:20 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-114-4.ams2.redhat.com
  [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D65F860C5F;
- Thu, 25 Feb 2021 08:01:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E9D45C224;
+ Thu, 25 Feb 2021 08:05:09 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 16E4418000A7; Thu, 25 Feb 2021 09:01:56 +0100 (CET)
-Date: Thu, 25 Feb 2021 09:01:56 +0100
+ id C7A4C18000A7; Thu, 25 Feb 2021 09:05:07 +0100 (CET)
+Date: Thu, 25 Feb 2021 09:05:07 +0100
 From: Gerd Hoffmann <kraxel@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH v2] ui/cocoa: Fix stride resolution of pixman image
-Message-ID: <20210225080156.ifg2rshiagwqck7j@sirius.home.kraxel.org>
-References: <CAFEAcA9E73_a0hEMV+jFm6YbcOz=hFR-NyYKa_Roisw_MR_cNg@mail.gmail.com>
- <20210222144012.21486-1-akihiko.odaki@gmail.com>
- <20210224112307.vfz3qz6bgrboj627@sirius.home.kraxel.org>
- <CAFEAcA-whQcik9-jx_ZSHJ8dyQBM5FvQFZKn9xkeBnOZfj7DCw@mail.gmail.com>
+To: Halil Pasic <pasic@linux.ibm.com>
+Subject: Re: [PATCH v2 1/1] hw/s390x: modularize virtio-gpu-ccw
+Message-ID: <20210225080507.7tlqmory7abyhlyr@sirius.home.kraxel.org>
+References: <20210222125548.346166-1-pasic@linux.ibm.com>
+ <20210224113617.6v42bfxyzvw6733h@sirius.home.kraxel.org>
+ <20210224174634.58a1ecda.pasic@linux.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-whQcik9-jx_ZSHJ8dyQBM5FvQFZKn9xkeBnOZfj7DCw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210224174634.58a1ecda.pasic@linux.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,36 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: Thomas Huth <thuth@redhat.com>, Boris Fiuczynski <fiuczy@linux.ibm.com>,
+ Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Cornelia Huck <cohuck@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Bruce Rogers <brogers@suse.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 01:08:22PM +0000, Peter Maydell wrote:
-> On Wed, 24 Feb 2021 at 11:23, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> > On Mon, Feb 22, 2021 at 11:40:12PM +0900, Akihiko Odaki wrote:
-> > > A display can receive an image which its stride is greater than its
-> > > width. In fact, when a guest requests virtio-gpu to scan out a
-> > > smaller part of an image, virtio-gpu passes it to a display as an
-> > > image which its width represents the one of the part and its stride
-> > > equals to the one of the whole image.
-> >
-> > Probably not limited to virtio-gpu.  Wayland rounds display framebuffers
-> > to the next multiple of 64, so when running -- for example -- 800x600
-> > wayland will create an image 832 pixels wide.  Other UIs had simliar
-> > issues.
-> >
-> > Patch added to UI patch queue.
-> 
-> Could you add Akihiko's explanation to the commit message
-> for the patch in your queue, please?
+  Hi,
 
-That _is_ the (v2) commit message ;)
+> a programming error. So I'm absolutely against shoving this logic
+> down into object.c. But I find the variant I posted nicer to document
+> and nicer to read: looking at virtio_ccw_gpu_register() one sees
+> immediately that if built as a module, it is OK if the registration
+> fails, and if built-in it is expected to work.
 
-Akihiko: new versions of a patch should be sent as new thread, not as
-reply.  It is less confusing for both people and tools like b4
-(https://pypi.org/project/b4/) which help with patch processing.
+Ok, makes sense, and we'll probably have not that many cases where we
+need this ...
 
 take care,
   Gerd
