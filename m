@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A22324DAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 11:13:47 +0100 (CET)
-Received: from localhost ([::1]:34436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC43B324DAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 11:12:48 +0100 (CET)
+Received: from localhost ([::1]:60168 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFDeU-00019C-9H
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 05:13:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36860)
+	id 1lFDdX-00008U-JZ
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 05:12:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lFDc8-0006jk-27; Thu, 25 Feb 2021 05:11:20 -0500
+ id 1lFDc6-0006f0-2d; Thu, 25 Feb 2021 05:11:18 -0500
 Received: from mail-eopbgr10128.outbound.protection.outlook.com
  ([40.107.1.128]:44612 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lFDc6-0006il-Bg; Thu, 25 Feb 2021 05:11:19 -0500
+ id 1lFDc0-0006il-Ub; Thu, 25 Feb 2021 05:11:17 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N/fMqWVx/EapTTfWWAyiI6I43vun87n4h3EqGwIjs6sICAtYG3dfkKRz3aCSOJc5FSTVr+VBbtMtrHp8YFz3BXyvwzZMJ6t6F1jTHMTdgAUnESGax4mr/RGFif3jSp9s/288osVz0oifhzZJuG3jP1r8oitJoNSBZAagmbJ+XirZ2FwFaTnsXGQ+Uo8KHz1zi+m4YrdkZO9wM8ufjV90cjZk3IOQ7gNVsjEYB72UcYJWVMtFccB1mTd1VFbRIiPr0ZhwPNwgFdCp0InaSBvy5LvV35Bustpc/5iQqOw/9OI9bGDoTecK6i9fAC7rwBKNctg8+Dt3KTw5Wn4/h0nSkw==
+ b=QTGCeVHEB8unz5oGbgj/g5RqwflpQWynOfM7N9WZMRbBEmIjiEwKYEFp2ScQmRI0JZaWv0r7aaWh1nLBbELrlYaJ1QtC2amrmk5EhZAXHKp81It1nNxTcPw59VFDztaIUU8FaVvpWX0zDb6JvDrwwEM7c71R1uRSKO2iG9BYep6z+wUuWM2gtHx9Y71r9r0xANiZMNkxf0ozhcGJX0YY+kETq8l+YoXMHHsKBjz8SaMZcxiibtOhvpQ78td3X+z9sikPVnRe7vtGnDm69a/ELLQg4aRHx9Ex94JsVMmb+c8EIg0sPGZMHTXwuzuQ05JvO4nurTyoSj8aaqikdKBnNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EPO2wPxvAslmGAsrw/vRtLntiJ3NY6+IxFeMbn0c+Dg=;
- b=dSTMh0O8GK5KKXiKM54HQClh3j2rOQxygaoM+QpfvHFjXWFT3WV6PdYHB9g7LIzIEkfOMEhj4ZZJevl2mjbXKt4ep7c6iSdbrIu+/mAANyWjgvy5sO5gXKx/etBimprY0RHjBiEWg4c30AHjY/LXSzHK9C9GkZThFUkiDsWtKgx6QuTOo8527XV8hsQhHLhATp4p5n8Yt+Dy+OI8BtTxMok9lU4CqNm4MfVY6qXtE1h8ccffDahWd4YtlZ7fC7PdKMSfaCCJd/BOOJ5Ob1CgSKsjzc+OjCh4VMyMfgrnYpUNBZ0FR+inIewXawYLJ6odlv0aG4CiSMFhVKZVLQFBXA==
+ bh=iXZs9GFBvUAXNvJ2vlQnOgXar2kFLPug2NV9BHHGUJM=;
+ b=hAUNGdHPTHKtMIEGuUY0bttligjnUQRaQLQVWsHn6zZRD43b4pyyT+FDwe1hB5wSN4jBWU4ivQ+aTkKxxkxONmAJgCRDynhmCqrv/vHCGC/tVBfCT/dum829fUIZMjL6bw12VRg5as04bSsSuBdfccSpILxW8Y14yTdUxEGp53NYjN2ISP2+ZohxVNHKI80enfwrvYLZMYEOEaz1wzjLfKnxkRdHhYqGYXWWCr/PBtiPujO/cb7KeBCvtG9cruGhCAIoPODdguD5NxCdkIJ4l1kSqbfqN2KDtazBL6g35ItKypqEQkvsVVBbHjFjmv5n3H1zxCvkSI6O3P6wmw2RCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EPO2wPxvAslmGAsrw/vRtLntiJ3NY6+IxFeMbn0c+Dg=;
- b=C6XbOLDjMHCYZrLg8I7YYnOVAb9nC74uYQ8sgLETK1R91ePfVSgraz5mprZsE0HY/q0UP5tORWqedW8CFZxABJspyR6zmndbht+80pq5iiaISv1qJp0D4Vng7XLVyyG2BpJoj9n6bxAykLfSxOagoQAQzZtWcTH4SA+vKX2OTRo=
+ bh=iXZs9GFBvUAXNvJ2vlQnOgXar2kFLPug2NV9BHHGUJM=;
+ b=euS9U3N/vKBY5ZVxiTmBqQ4PzoMg9jO5FmYdXk2Gb2gVwQ5L17ZAtdqSneWHs7c5jVjv5L67iTEAGpvcmytrJTviaitX0q+MaSfkO7nEBO8Er8ZHd6TJTIpMDaBv41ziGe4m4O3+2heQBSyI6vIR/G/ZzJj0VWvY7VnMQjy3Wzg=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
@@ -43,15 +43,17 @@ Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3868.034; Thu, 25 Feb 2021
- 10:11:06 +0000
+ 10:11:08 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, mreitz@redhat.com, kwolf@redhat.com,
  Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: [PATCH v1 0/2] qcow2: fix parallel rewrite and discard
-Date: Thu, 25 Feb 2021 13:10:37 +0300
-Message-Id: <20210225101039.165730-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v1 1/2] iotests: add qcow2-discard-during-rewrite
+Date: Thu, 25 Feb 2021 13:10:38 +0300
+Message-Id: <20210225101039.165730-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210225101039.165730-1-vsementsov@virtuozzo.com>
+References: <20210225101039.165730-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.253]
@@ -63,52 +65,52 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from localhost.localdomain (185.215.60.253) by
  HE1PR0301CA0004.eurprd03.prod.outlook.com (2603:10a6:3:76::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3890.19 via Frontend Transport; Thu, 25 Feb 2021 10:11:05 +0000
+ 15.20.3890.19 via Frontend Transport; Thu, 25 Feb 2021 10:11:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1c76ee0a-dd57-4c53-edbd-08d8d975a9ef
+X-MS-Office365-Filtering-Correlation-Id: 3aded124-d2a6-473b-e52a-08d8d975aaba
 X-MS-TrafficTypeDiagnostic: AM7PR08MB5381:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5381845CF26B2B7908BD9672C19E9@AM7PR08MB5381.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
+X-Microsoft-Antispam-PRVS: <AM7PR08MB5381D4FC1DACE315EA8879FCC19E9@AM7PR08MB5381.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3826;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: B5tUMYJKaIiyUTNPxe9u63xSTUs4FXye8RGXDB6rZnwT6RtfAnuqEaw/KdXQwck2DGiGnbhEyG12Nk3AfV3EP9KUEsTY1WdmkvrOPns6sOYkD4/qh0RsN2kvuQ+gq2xCiW7XrfuDJ3+DlEDOG5iJG57n6sMDiM/z8ukaExt31VH5DBVT98baEnXpNJ8EBsU4E7SqOjL+MkQyc6ovBqmzeq4YikNjdjOUswyV2Tu3DaJxARbLaMA28M2wDaEHlxMOGXZ98cNML4uXICyK8T0tNuUgUuDOJdeuxZZR6AsL48KTdttVAjuluv9mBNDP8eeYe/les231LsgtaR/9A8MY7uXfTA+CiGksUQfrE1iuFSKTbhYFx0W3a604PfJK4ekW7HneFTNB7+YO6kByIO3IY1/V/xxDptM61/x0MDIbqis+2ANqhIEg0G+fU3zTdbYsnuNkm89fIZBZckjTyAU/kzFe3pvk8pM0b769sVgHj7bh5QUBqCFXnnxXnXlfem/vTF9LgZKeV96e6ncjtSsCbkIda2UtR6kfmBdrDv+FXun6/ttfYN0fofAvxnUp5oDfF9Hac6/K0QtFHGHABrNyNA==
+X-Microsoft-Antispam-Message-Info: C5J3YoSmiG+DNad094luRidjR05/CURzDH3aT1BW1R/dK5+p09Ud0x0WNEDxp39FMK+7Epe47CmQL6TI8E3CdhhXYD5XC17JDh0LqBLzuez2EA6t695Y8VtFbflBbvZxMr67YFUjv/kceRsc1xhQzGJft6b5P2N8gmZ6B3wI2E37FvUqckFpZ60VsturZBNSakYqy5noXKlA7osGgOpqDBsBc82Cn4T4bXbh+w32GPxP/uRuWezPxnMNOkQoI35VpSeUqUwd+S587Wl06mvGr+55RgrjXezl4rnIjDI134GduktzYElnQmWZAUYgmdUC0ViuSIW0zRNdwGZDFaAn0XiSjq00C4U0eCmaawN5645UwRFZHPw/87lOliMcUYY6lFUYumf0r/0vGWP7U7v4GdrhzSLHqO28lYXutiTuWSzFpciNkKoIeAz4kXnDpU611AYqnieacocCsBa+aNsORrdEPjrKetqAxBFfNykykfGlkOm8ros0zSVV+aOvLcJ7DizPkn/y+eBWdmC7073+VBavhX4FJ+lnzkUfOyrpU/3s5eIV1HDzOAD5Dn3+El/ZopVli1AFVDynZlvaFmZ3VUcL81SoLbECb+vWb3vmVWNhQRftlAtj1BW+7TVTmZRJxoHAD7Sl1F32x9GrBzaEgQnnvvQ+BLUEOajwXVhoxQlNiit2dgp9qrPMoYZxD8UZLq64dknxBLG/wluPmaDUog==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(346002)(366004)(39830400003)(376002)(136003)(8936002)(186003)(86362001)(107886003)(956004)(52116002)(8676002)(6486002)(5660300002)(1076003)(83380400001)(478600001)(2616005)(16526019)(66946007)(316002)(66476007)(26005)(6916009)(66556008)(6666004)(6506007)(69590400012)(2906002)(36756003)(6512007)(4326008);
+ SFS:(4636009)(396003)(346002)(366004)(39830400003)(376002)(136003)(8936002)(186003)(86362001)(107886003)(956004)(52116002)(8676002)(6486002)(5660300002)(1076003)(83380400001)(478600001)(2616005)(16526019)(66946007)(316002)(66476007)(26005)(6916009)(66556008)(6666004)(6506007)(69590400012)(2906002)(36756003)(6512007)(4326008)(2004002)(21314003);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?n5Y/eTlqhaj0xGZOUSlVc3iw+WRP93CUhSrjwQ5KNrqEWjos+CE5DuUXPtmS?=
- =?us-ascii?Q?/s9BwZ4ZANQmAb34eKPiB836K8KwT9truIGOyLvvYm5lW+8QfyU3X1o1vl8e?=
- =?us-ascii?Q?k6vQ9E5WtmilgHo3p9WoPiwXRJkC2jIPxuaH9QKS/0nVGHps7X5djNZa+B2s?=
- =?us-ascii?Q?U74XNUobxzqVRwmaovJHI8DL7KEdC+JXwcKC1rujU3hpge3cuty9wRiyxDli?=
- =?us-ascii?Q?AT7dcsf1BdE50CTqQCU1EiCafAo7mHJHNiQoly8af2sk2oU6BRrl8tC9etoK?=
- =?us-ascii?Q?sdOilQ3bbJCQWCrMUErjXXfoRW+7mqmgnOaTkUGF0EY/ObYEVlc4Ux2GmsOR?=
- =?us-ascii?Q?z6DDfwwmjp2kNGX1++hu+xQRpqgcjf7YM8naWMCsqe4MYKRVK6Q1+o7L8MrW?=
- =?us-ascii?Q?gvmpvzwbwXqaqvl0kZJF+gXclboHZqbMfDoqkdXy8zF5ZxraMduYbvRN95GE?=
- =?us-ascii?Q?5cxP/WEy77hM/qPaGjLPzNlDWMcMi0Eec/JhNpMAQh1fbb8DK7GgSbTyytS4?=
- =?us-ascii?Q?ZM6PiOLy4brid5VJ/1lznQQkP5G3Un4wGASYls6heQvxkrpd1lVX42Bbcuuz?=
- =?us-ascii?Q?n/3TqMKzq9v4u8x4MuRL6O6wOdxX2JC7B3rq/GdGxgZF4tCOUcouhw3iMavX?=
- =?us-ascii?Q?LYjPYIfbzKVFGN2IyKOc8FRb3SPBck/5HB3GvZZY070qDVtRWTDaSX3qnzJY?=
- =?us-ascii?Q?nSTX9o1AZXhMqzPtUTrV56eUfb9kkLce0Bnl1RD3LvFKrZ7hLdcqw3GaC27f?=
- =?us-ascii?Q?4kZj0hHgYWn7SqFlaVHYJXds5ObrHNfGKxDHj8usB8+3Mer+YAZb6Uv98S0T?=
- =?us-ascii?Q?Mg1Vh+SM5W7oQS/9o7IB8R0FvFDA80GaoXRGUEXJjR5Mi5RXqcz9WzxiV07F?=
- =?us-ascii?Q?F2uPwxsArWJaNuvWBYhz64zJC9lgNCZR3ufxFfabjpGzcDogMFtmspwPCu0y?=
- =?us-ascii?Q?2n/ZFc/fecAGlQfh6LonAwEYB+OZdsVap8puJdx6hkOTp+H6lx6tXwkX3mjl?=
- =?us-ascii?Q?gFFbWOb17WAS3yPxZhsWLyhHmRtYDDfh7hlH0trBelqgpG/4IaMIpxawp7Tw?=
- =?us-ascii?Q?pn3L3dSY27jwvsFitw7Gd09Ge+lcjjEKwDUuLKkk0av/Ufbf96HRH5PrmnGK?=
- =?us-ascii?Q?/75oUJk3Vy1cPcnYcn3lrUwR687dvBZI5KRLTYN9dVK+EjZgU0jyfKxZ5h07?=
- =?us-ascii?Q?3+rehwD/vrbXNEdXCVIk4QJjLKSQ0+2JcUmllZdxL/pObmQHu9NZNo39dE1Z?=
- =?us-ascii?Q?9yuysMs4XK1oNbYRTT/e7fBTF6gmkZDkv1tkAkXQ71CXDICt9lzKvOdz8hAH?=
- =?us-ascii?Q?i6NJ3r7N2TiEeOyhUiLH8qHQ?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?0RU16ebu2BlADFD2aW/76catXeSEtiL4QF+gSuZMmln4kjWj2ogteYANnHjw?=
+ =?us-ascii?Q?WWywLxBtbTzfMfbPMMzHGR3FED8olE1VBjk5m/8wkRMoSUYX+OloUrX7QS9X?=
+ =?us-ascii?Q?Ojznj+AkvSKo5ZUvm6Yt3xs6zKZgdjcuZ23oWXeaUcFWtbiZEEl3hRxPXR04?=
+ =?us-ascii?Q?Jywil2sj6RM6sZVgylZ1RY2HxNh9WS/p57R6kOS8w53KiYcTvv14oeRot/U3?=
+ =?us-ascii?Q?E9pobq6p2sGjxtzNm36wnadI8npPxpcWeHWIjIivAQ/sx6dgERq7S4Tf4HPP?=
+ =?us-ascii?Q?g1ea3VjT0EPFxG+9unnWWJXJrIaVnYcAnY/aaDvrOQ0wzb5hJwYt3NrFdHXN?=
+ =?us-ascii?Q?NoAdz8JWJKAIPf8P0guvdiXAiS5gykR5CsSisCCDZlJ7t1YO4Y9iGaDcqFPn?=
+ =?us-ascii?Q?puFwytpmoCWcZIJ5vAX6ihKh57nERYANpR+e0M24gQDHKL+OlzCE8SqnZr0u?=
+ =?us-ascii?Q?tEVZPwwpZXhECf8JBQgXdommrO8wmXRiN2sz6RHCdEZ04xYD7jycT2XBPRFO?=
+ =?us-ascii?Q?YGLnhh3RTb+m5zXx4VXqkQL4gnp9c8/8P+zEbDfE0faTQbo0Qf4nvm9ccbMf?=
+ =?us-ascii?Q?XcU+6hEtDYg2Va0XqkvxZwxEvjFWaoETCq3Gj7yO25cWw7uLjCPO4Jug43/q?=
+ =?us-ascii?Q?Jgw1+Q6294yg0BRb04BA5+TE6XiVYdVcwa/sIAF3t9jV6f8m/hjgaeJrgfAW?=
+ =?us-ascii?Q?1dxfvnqjw3H+DY95ulM0xjwjG75vPfSDn5wixMamXLrHCmpFL2J1psmCgLG5?=
+ =?us-ascii?Q?3A5r0/C852TZLM2vmzdJ9OJRLTJLxYgD47p5DOvpZ8+zdOMKqKaU2rgjPLSa?=
+ =?us-ascii?Q?PRq6WSsK+8Vfb/IBkXPhkaXdT6sLkhDc7TF29uNaGtJs8ba6AMXdePn1rJum?=
+ =?us-ascii?Q?WTQ6ZQqg9t9blI/iO/+NLP0w4oDzsHNQtxCBn+/262dDG2sKzq6uzwaE7fPB?=
+ =?us-ascii?Q?xnNAtC6wHPz2IpVLJR4zpqH7T4cmDOiBONEarDwYGIsTZrYZm+GxDeXBJIfy?=
+ =?us-ascii?Q?FiMooytmMrwDzJgokCB5kuoNBhZKRnpzZenrmE9AHnX0+B3T40DZn6eEFvGm?=
+ =?us-ascii?Q?waCTOUQS9N72XsBbEvHkhZkf0CUeuI3LkfR7/CVt94VpmdY74WgUMnQk3INs?=
+ =?us-ascii?Q?AQBMir4Ag2TjmlG7mc027TvILOunKH/nKasMNpRQmPA/H/OFFtL7A0uFFwFU?=
+ =?us-ascii?Q?63EDoTfV9909elRujItmzc0B28T9zHqmA87tCnR5ZaYCM0NXsux7rqPBN1pw?=
+ =?us-ascii?Q?eI8pOQ1w+tu5f61kWblH0V+kUqzw8qguraVBZWw2KTCgmkrrHY4sU0yiwxWv?=
+ =?us-ascii?Q?WgxVSkCYH6cLEXv026B8ockA?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c76ee0a-dd57-4c53-edbd-08d8d975a9ef
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3aded124-d2a6-473b-e52a-08d8d975aaba
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 10:11:06.1585 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 10:11:07.5594 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PF2SdBwBJMxvdEsK9wg0ppDvVrJC+Hz40nN9O3z4LRr61WHC0KWTTMnoB80zYU5rsUtG/e8P4ODMTYHSuciVorn8ew89et2r2ZiYGtLbcMY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: cimOgr4Kl8NVSVnkXhp2ZDiPg7bJ/Umgok9V+3zU9n3zeFqCOzYjuqNabS83aDwKhUNv8ni2th8oURNHYzluVVHdJjh8fCHtf0vX/18v4z0=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5381
 Received-SPF: pass client-ip=40.107.1.128;
  envelope-from=vsementsov@virtuozzo.com;
@@ -135,34 +137,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all! It occurs that nothing prevents discarding and reallocating host
-cluster during data writing. This way data writing will pollute another
-flash allocated cluster of data or metadata.
+Simple test:
+ - start writing to allocated cluster A
+ - discard this cluster
+ - write to another unallocated cluster B (it's allocated in same place
+   where A was allocated)
+ - continue writing to A
 
-Here is my suggestion to fix it basing on improved refcounts model. Look
-at 02 for details.
+For now last action pollutes cluster B which is a bug fixed by the
+following commit.
 
-I don't insist on this version, and will soon send a v2, based on
-CoRwLock, as Kevin suggested, which should look simpler. Still, with v1
-we keep possibility of relatively async discard.. Doesn't seem worth the
-complexity.. But I'd like to share my idea of additional "runtime"
-reference counters for clusters, as it may be needed later if we face
-problems with more restrictive CoRwLock or may be for some other task.
-So here is it.
+For now, add test to "disabled" group, so that it doesn't run
+automatically.
 
-Vladimir Sementsov-Ogievskiy (2):
-  iotests: add qcow2-discard-during-rewrite
-  block/qcow2: introduce inflight writes counters: fix discard
-
- block/qcow2.h                                 |   9 +
- block/qcow2-refcount.c                        | 154 +++++++++++++++++-
- block/qcow2.c                                 |  26 ++-
- .../tests/qcow2-discard-during-rewrite        |  72 ++++++++
- .../tests/qcow2-discard-during-rewrite.out    |  21 +++
- 5 files changed, 278 insertions(+), 4 deletions(-)
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ .../tests/qcow2-discard-during-rewrite        | 72 +++++++++++++++++++
+ .../tests/qcow2-discard-during-rewrite.out    | 21 ++++++
+ 2 files changed, 93 insertions(+)
  create mode 100755 tests/qemu-iotests/tests/qcow2-discard-during-rewrite
  create mode 100644 tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
 
+diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+new file mode 100755
+index 0000000000..7f0d8a107a
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite
+@@ -0,0 +1,72 @@
++#!/usr/bin/env bash
++# group: quick disabled
++#
++# Test discarding (and reusing) host cluster during writing data to it.
++#
++# Copyright (c) 2021 Virtuozzo International GmbH.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++# creator
++owner=vsementsov@virtuozzo.com
++
++seq=`basename $0`
++echo "QA output created by $seq"
++
++status=1	# failure is the default!
++
++_cleanup()
++{
++    _cleanup_test_img
++}
++trap "_cleanup; exit \$status" 0 1 2 3 15
++
++# get standard environment, filters and checks
++. ./../common.rc
++. ./../common.filter
++
++_supported_fmt qcow2
++_supported_proto file fuse
++_supported_os Linux
++
++size=1M
++_make_test_img $size
++
++(
++cat <<EOF
++write -P 1 0 64K
++
++break pwritev A
++aio_write -P 2 0 64K
++wait_break A
++
++discard 0 64K
++write -P 3 128K 64K
++read -P 3 128K 64K
++
++break pwritev_done B
++resume A
++wait_break B
++resume B
++
++read -P 0 0 64K
++read -P 3 128K 64K
++EOF
++) | $QEMU_IO blkdebug::$TEST_IMG | _filter_qemu_io
++
++# success, all done
++echo "*** done"
++rm -f $seq.full
++status=0
+diff --git a/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+new file mode 100644
+index 0000000000..8e75b2fbff
+--- /dev/null
++++ b/tests/qemu-iotests/tests/qcow2-discard-during-rewrite.out
+@@ -0,0 +1,21 @@
++QA output created by qcow2-discard-during-rewrite
++Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++blkdebug: Suspended request 'A'
++discard 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++blkdebug: Resuming request 'A'
++blkdebug: Suspended request 'B'
++blkdebug: Resuming request 'B'
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++*** done
 -- 
 2.29.2
 
