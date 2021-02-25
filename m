@@ -2,41 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 569C6325243
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:23:39 +0100 (CET)
-Received: from localhost ([::1]:35022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DA3325242
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:23:35 +0100 (CET)
+Received: from localhost ([::1]:34978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFIUM-0007Ua-Ac
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:23:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45382)
+	id 1lFIUI-0007TX-1x
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:23:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQO-0002KW-9q
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:32 -0500
-Received: from rev.ng ([5.9.113.41]:50865)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQM-0002GM-2G
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:30 -0500
+Received: from rev.ng ([5.9.113.41]:40921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQJ-0001D0-4I
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:32 -0500
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQJ-0001D7-42
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=kvCrBq+qiD1jQK8XJ31q4EtUpfuT9FrJS1SbT9Hm7O0=; b=OdhDmKV/wupXcj2Lhm9orUadtG
- 2YDcGQcigwCKbjFtztbGOjjp09b5WHVwEL6p3Afltk/sAlWxPblX9qyAYuzWNJsJ5/Fog6PRXiMuh
- 1ppl75RtdDfztUP8Ijqr3vsMOeHQNoXv5i3ZIH8loohj6QiHHIH3nWm3ubzOpNCbAMG0=;
+ bh=4mk88MXnD2JLawYyee4/UktHlQA2ei3bmf3gngdwZVs=; b=qYKPQFZ5npEA9Jfu3tK6e4t12i
+ DbaZguFdwrrf1YZtW+I+8ocgF9ChMaHWY0DIaSwfimW7LESlwhUDfG4JOUhU20nE3axh7WkaZvxPZ
+ rTkD3TSYfSYT7ZuaTkO/BbpFrIhCwwBchYsdwKJpBX+YsqxD2EQ1LKLDzVNxzcpIf9nM=;
 To: qemu-devel@nongnu.org
 Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
  philmd@redhat.com, richard.henderson@linaro.org,
  Alessandro Di Federico <ale@rev.ng>
-Subject: [PATCH v2 04/10] target/hexagon: introduce new helper functions
-Date: Thu, 25 Feb 2021 16:18:50 +0100
-Message-Id: <20210225151856.3284701-5-ale.qemu@rev.ng>
+Subject: [PATCH v2 05/10] target/hexagon: expose next PC in DisasContext
+Date: Thu, 25 Feb 2021 16:18:51 +0100
+Message-Id: <20210225151856.3284701-6-ale.qemu@rev.ng>
 In-Reply-To: <20210225151856.3284701-1-ale.qemu@rev.ng>
 References: <20210225151856.3284701-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
@@ -62,311 +61,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alessandro Di Federico <ale.qemu@rev.ng>
 From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-From: Niccolò Izzo <nizzo@rev.ng>
-
-These helpers will be employed by the idef-parser generated code.
+From: Paolo Montesel <babush@rev.ng>
 
 Signed-off-by: Alessandro Di Federico <ale@rev.ng>
-Signed-off-by: Niccolò Izzo <nizzo@rev.ng>
+Signed-off-by: Paolo Montesel <babush@rev.ng>
 ---
- target/hexagon/genptr.c | 227 +++++++++++++++++++++++++++++++++++++++-
- target/hexagon/genptr.h |  19 ++++
- target/hexagon/macros.h |   2 +-
- 3 files changed, 245 insertions(+), 3 deletions(-)
+ target/hexagon/translate.c | 4 +++-
+ target/hexagon/translate.h | 1 +
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/target/hexagon/genptr.c b/target/hexagon/genptr.c
-index 97de669f38..78cda032db 100644
---- a/target/hexagon/genptr.c
-+++ b/target/hexagon/genptr.c
-@@ -40,7 +40,8 @@ TCGv gen_read_preg(TCGv pred, uint8_t num)
-     return pred;
- }
+diff --git a/target/hexagon/translate.c b/target/hexagon/translate.c
+index eeaad5f8ba..a59db485a3 100644
+--- a/target/hexagon/translate.c
++++ b/target/hexagon/translate.c
+@@ -503,11 +503,13 @@ static void decode_and_translate_packet(CPUHexagonState *env, DisasContext *ctx)
+     if (decode_packet(nwords, words, &pkt, false) > 0) {
+         HEX_DEBUG_PRINT_PKT(&pkt);
+         gen_start_packet(ctx, &pkt);
++        ctx->npc = ctx->base.pc_next + pkt.encod_pkt_size_in_bytes;
+         for (i = 0; i < pkt.num_insns; i++) {
+             gen_insn(env, ctx, &pkt.insn[i], &pkt);
+         }
+         gen_commit_packet(ctx, &pkt);
+-        ctx->base.pc_next += pkt.encod_pkt_size_in_bytes;
++        ctx->base.pc_next = ctx->npc;
++        ctx->npc = 0;
+     } else {
+         gen_exception(HEX_EXCP_INVALID_PACKET);
+         ctx->base.is_jmp = DISAS_NORETURN;
+diff --git a/target/hexagon/translate.h b/target/hexagon/translate.h
+index 938f7fbb9f..2195e20f4b 100644
+--- a/target/hexagon/translate.h
++++ b/target/hexagon/translate.h
+@@ -36,6 +36,7 @@ typedef struct DisasContext {
+     int preg_log_idx;
+     uint8_t store_width[STORES_MAX];
+     uint8_t s1_store_processed;
++    uint32_t npc;
+ } DisasContext;
  
--static inline void gen_log_predicated_reg_write(int rnum, TCGv val, int slot)
-+static inline void gen_log_predicated_reg_write(int rnum, TCGv val,
-+                                                unsigned slot)
- {
-     TCGv one = tcg_const_tl(1);
-     TCGv zero = tcg_const_tl(0);
-@@ -69,7 +70,8 @@ void gen_log_reg_write(int rnum, TCGv val)
- #endif
- }
- 
--static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val, int slot)
-+static void gen_log_predicated_reg_write_pair(int rnum, TCGv_i64 val,
-+                                              unsigned slot)
- {
-     TCGv val32 = tcg_temp_new();
-     TCGv one = tcg_const_tl(1);
-@@ -334,5 +336,226 @@ static inline void gen_store_conditional8(CPUHexagonState *env,
-     tcg_gen_movi_tl(hex_llsc_addr, ~0);
- }
- 
-+void gen_fbrev(TCGv result, TCGv src)
-+{
-+    TCGv lo = tcg_temp_new();
-+    TCGv tmp1 = tcg_temp_new();
-+    TCGv tmp2 = tcg_temp_new();
-+
-+    /* Bit reversal of low 16 bits */
-+    tcg_gen_extract_tl(lo, src, 0, 16);
-+    tcg_gen_andi_tl(tmp1, lo, 0xaaaa);
-+    tcg_gen_shri_tl(tmp1, tmp1, 1);
-+    tcg_gen_andi_tl(tmp2, lo, 0x5555);
-+    tcg_gen_shli_tl(tmp2, tmp2, 1);
-+    tcg_gen_or_tl(lo, tmp1, tmp2);
-+    tcg_gen_andi_tl(tmp1, lo, 0xcccc);
-+    tcg_gen_shri_tl(tmp1, tmp1, 2);
-+    tcg_gen_andi_tl(tmp2, lo, 0x3333);
-+    tcg_gen_shli_tl(tmp2, tmp2, 2);
-+    tcg_gen_or_tl(lo, tmp1, tmp2);
-+    tcg_gen_andi_tl(tmp1, lo, 0xf0f0);
-+    tcg_gen_shri_tl(tmp1, tmp1, 4);
-+    tcg_gen_andi_tl(tmp2, lo, 0x0f0f);
-+    tcg_gen_shli_tl(tmp2, tmp2, 4);
-+    tcg_gen_or_tl(lo, tmp1, tmp2);
-+    tcg_gen_bswap16_tl(lo, lo);
-+
-+    /* Final tweaks */
-+    tcg_gen_extract_tl(result, src, 16, 16);
-+    tcg_gen_or_tl(result, result, lo);
-+
-+    tcg_temp_free(lo);
-+    tcg_temp_free(tmp1);
-+    tcg_temp_free(tmp2);
-+}
-+
-+TCGv gen_set_bit(tcg_target_long i, TCGv result, TCGv src)
-+{
-+    TCGv mask = tcg_const_tl(~(1 << i));
-+    TCGv bit = tcg_temp_new();
-+    tcg_gen_shli_tl(bit, src, i);
-+    tcg_gen_and_tl(result, result, mask);
-+    tcg_gen_or_tl(result, result, bit);
-+    tcg_temp_free(mask);
-+    tcg_temp_free(bit);
-+
-+    return result;
-+}
-+
-+void gen_cancel(tcg_target_ulong slot)
-+{
-+    TCGv one = tcg_const_tl(1);
-+    tcg_gen_deposit_tl(hex_slot_cancelled, hex_slot_cancelled, one, slot, 1);
-+    tcg_temp_free(one);
-+}
-+
-+void gen_store32(TCGv vaddr, TCGv src, tcg_target_long width, unsigned slot)
-+{
-+    tcg_gen_mov_tl(hex_store_addr[slot], vaddr);
-+    tcg_gen_movi_tl(hex_store_width[slot], width);
-+    tcg_gen_mov_tl(hex_store_val32[slot], src);
-+}
-+
-+void gen_store1(TCGv_env cpu_env, TCGv vaddr, TCGv src, DisasContext *ctx,
-+                unsigned slot)
-+{
-+    gen_store32(vaddr, src, 1, slot);
-+    ctx->store_width[slot] = 1;
-+}
-+
-+void gen_store2(TCGv_env cpu_env, TCGv vaddr, TCGv src, DisasContext *ctx,
-+                unsigned slot)
-+{
-+    gen_store32(vaddr, src, 2, slot);
-+    ctx->store_width[slot] = 2;
-+}
-+
-+void gen_store4(TCGv_env cpu_env, TCGv vaddr, TCGv src, DisasContext *ctx,
-+                unsigned slot)
-+{
-+    gen_store32(vaddr, src, 4, slot);
-+    ctx->store_width[slot] = 4;
-+}
-+
-+
-+void gen_store8(TCGv_env cpu_env, TCGv vaddr, TCGv_i64 src, DisasContext *ctx,
-+                unsigned slot)
-+{
-+    tcg_gen_mov_tl(hex_store_addr[slot], vaddr);
-+    tcg_gen_movi_tl(hex_store_width[slot], 8);
-+    tcg_gen_mov_i64(hex_store_val64[slot], src);
-+    ctx->store_width[slot] = 8;
-+}
-+
-+void gen_set_usr_field(int field, TCGv val)
-+{
-+    tcg_gen_deposit_tl(hex_gpr[HEX_REG_USR], hex_gpr[HEX_REG_USR], val,
-+                       reg_field_info[field].offset,
-+                       reg_field_info[field].width);
-+}
-+
-+void gen_set_usr_fieldi(int field, int x)
-+{
-+    TCGv val = tcg_const_tl(x);
-+    gen_set_usr_field(field, val);
-+    tcg_temp_free(val);
-+}
-+
-+void gen_write_new_pc(TCGv addr)
-+{
-+    /* If there are multiple branches in a packet, ignore the second one */
-+    TCGv zero = tcg_const_tl(0);
-+    tcg_gen_movcond_tl(TCG_COND_NE, hex_next_PC, hex_branch_taken, zero,
-+                       hex_next_PC, addr);
-+    tcg_gen_movi_tl(hex_branch_taken, 1);
-+    tcg_temp_free(zero);
-+}
-+
-+void gen_sat_i32(TCGv dest, TCGv source, int width, bool set_overflow)
-+{
-+    TCGv max_val = tcg_const_i32((1 << (width - 1)) - 1);
-+    TCGv min_val = tcg_const_i32(-(1 << (width - 1)));
-+    tcg_gen_movcond_i32(TCG_COND_GT, dest, source, max_val, max_val, source);
-+    tcg_gen_movcond_i32(TCG_COND_LT, dest, source, min_val, min_val, dest);
-+    /* Set Overflow Bit */
-+    if (set_overflow) {
-+        TCGv ovf = tcg_temp_new();
-+        TCGv one = tcg_const_i32(1);
-+        GET_USR_FIELD(USR_OVF, ovf);
-+        tcg_gen_movcond_i32(TCG_COND_GT, ovf, source, max_val, one, ovf);
-+        tcg_gen_movcond_i32(TCG_COND_LT, ovf, source, min_val, one, ovf);
-+        SET_USR_FIELD(USR_OVF, ovf);
-+        tcg_temp_free_i32(ovf);
-+        tcg_temp_free_i32(one);
-+    }
-+    tcg_temp_free_i32(max_val);
-+    tcg_temp_free_i32(min_val);
-+}
-+
-+void gen_satu_i32(TCGv dest, TCGv source, int width, bool set_overflow)
-+{
-+    TCGv max_val = tcg_const_i32((1 << width) - 1);
-+    tcg_gen_movcond_i32(TCG_COND_GTU, dest, source, max_val, max_val, source);
-+    TCGv_i32 zero = tcg_const_i32(0);
-+    tcg_gen_movcond_i32(TCG_COND_LT, dest, source, zero, zero, dest);
-+    /* Set Overflow Bit */
-+    if (set_overflow) {
-+        TCGv ovf = tcg_temp_new();
-+        TCGv one = tcg_const_i32(1);
-+        GET_USR_FIELD(USR_OVF, ovf);
-+        tcg_gen_movcond_i32(TCG_COND_GTU, ovf, source, max_val, one, ovf);
-+        SET_USR_FIELD(USR_OVF, ovf);
-+        tcg_temp_free_i32(ovf);
-+        tcg_temp_free_i32(one);
-+    }
-+    tcg_temp_free_i32(max_val);
-+    tcg_temp_free_i32(zero);
-+}
-+
-+void gen_sat_i64(TCGv_i64 dest, TCGv_i64 source, int width, bool set_overflow)
-+{
-+    TCGv_i64 max_val = tcg_const_i64((1 << (width - 1)) - 1);
-+    TCGv_i64 min_val = tcg_const_i64(-(1 << (width - 1)));
-+    tcg_gen_movcond_i64(TCG_COND_GT, dest, source, max_val, max_val, source);
-+    tcg_gen_movcond_i64(TCG_COND_LT, dest, source, min_val, min_val, dest);
-+    /* Set Overflow Bit */
-+    if (set_overflow) {
-+        TCGv ovf = tcg_temp_new();
-+        TCGv_i64 ovf_ext = tcg_temp_new_i64();
-+        TCGv_i64 one = tcg_const_i64(1);
-+        GET_USR_FIELD(USR_OVF, ovf);
-+        tcg_gen_ext_i32_i64(ovf_ext, ovf);
-+        tcg_gen_movcond_i64(TCG_COND_GT,
-+                            ovf_ext,
-+                            source,
-+                            max_val,
-+                            one,
-+                            ovf_ext);
-+        tcg_gen_movcond_i64(TCG_COND_LT,
-+                            ovf_ext,
-+                            source,
-+                            min_val,
-+                            one,
-+                            ovf_ext);
-+        tcg_gen_trunc_i64_tl(ovf, ovf_ext);
-+        SET_USR_FIELD(USR_OVF, ovf);
-+        tcg_temp_free_i32(ovf);
-+        tcg_temp_free_i64(ovf_ext);
-+        tcg_temp_free_i64(one);
-+    }
-+    tcg_temp_free_i64(max_val);
-+    tcg_temp_free_i64(min_val);
-+}
-+
-+void gen_satu_i64(TCGv_i64 dest, TCGv_i64 source, int width, bool set_overflow)
-+{
-+    TCGv_i64 max_val = tcg_const_i64((1 << width) - 1);
-+    tcg_gen_movcond_i64(TCG_COND_GTU, dest, source, max_val, max_val, source);
-+    TCGv_i64 zero = tcg_const_i64(0);
-+    tcg_gen_movcond_i64(TCG_COND_LT, dest, source, zero, zero, dest);
-+    /* Set Overflow Bit */
-+    if (set_overflow) {
-+        TCGv ovf = tcg_temp_new();
-+        TCGv_i64 ovf_ext = tcg_temp_new_i64();
-+        TCGv_i64 one = tcg_const_i64(1);
-+        GET_USR_FIELD(USR_OVF, ovf);
-+        tcg_gen_ext_i32_i64(ovf_ext, ovf);
-+        tcg_gen_movcond_i64(TCG_COND_GTU,
-+                            ovf_ext,
-+                            source,
-+                            max_val,
-+                            one,
-+                            ovf_ext);
-+        tcg_gen_trunc_i64_tl(ovf, ovf_ext);
-+        SET_USR_FIELD(USR_OVF, ovf);
-+        tcg_temp_free_i32(ovf);
-+        tcg_temp_free_i64(ovf_ext);
-+        tcg_temp_free_i64(one);
-+    }
-+    tcg_temp_free_i64(max_val);
-+    tcg_temp_free_i64(zero);
-+}
-+
- #include "tcg_funcs_generated.c.inc"
- #include "tcg_func_table_generated.c.inc"
-diff --git a/target/hexagon/genptr.h b/target/hexagon/genptr.h
-index 0bfa99b463..86f5d5222e 100644
---- a/target/hexagon/genptr.h
-+++ b/target/hexagon/genptr.h
-@@ -28,5 +28,24 @@ TCGv gen_read_reg(TCGv result, int num);
- TCGv gen_read_preg(TCGv pred, uint8_t num);
- void gen_log_reg_write(int rnum, TCGv val);
- void gen_log_pred_write(int pnum, TCGv val);
-+void gen_fbrev(TCGv result, TCGv src);
-+void gen_cancel(tcg_target_ulong slot);
-+TCGv gen_set_bit(tcg_target_long i, TCGv result, TCGv src);
-+void gen_store32(TCGv vaddr, TCGv src, tcg_target_long width, unsigned slot);
-+void gen_store1(TCGv_env cpu_env, TCGv vaddr, TCGv src, DisasContext *ctx,
-+                unsigned slot);
-+void gen_store2(TCGv_env cpu_env, TCGv vaddr, TCGv src, DisasContext *ctx,
-+                unsigned slot);
-+void gen_store4(TCGv_env cpu_env, TCGv vaddr, TCGv src, DisasContext *ctx,
-+                unsigned slot);
-+void gen_store8(TCGv_env cpu_env, TCGv vaddr, TCGv_i64 src, DisasContext *ctx,
-+                unsigned slot);
-+void gen_set_usr_field(int field, TCGv val);
-+void gen_set_usr_fieldi(int field, int x);
-+void gen_write_new_pc(TCGv addr);
-+void gen_sat_i32(TCGv dest, TCGv source, int width, bool set_overflow);
-+void gen_satu_i32(TCGv dest, TCGv source, int width, bool set_overflow);
-+void gen_sat_i64(TCGv_i64 dest, TCGv_i64 source, int width, bool set_overflow);
-+void gen_satu_i64(TCGv_i64 dest, TCGv_i64 source, int width, bool set_overflow);
- 
- #endif
-diff --git a/target/hexagon/macros.h b/target/hexagon/macros.h
-index 78c4efb5cb..7b6556b07b 100644
---- a/target/hexagon/macros.h
-+++ b/target/hexagon/macros.h
-@@ -154,7 +154,7 @@
- #define LOAD_CANCEL(EA) do { CANCEL; } while (0)
- 
- #ifdef QEMU_GENERATE
--static inline void gen_pred_cancel(TCGv pred, int slot_num)
-+static inline void gen_pred_cancel(TCGv pred, tcg_target_ulong slot_num)
-  {
-     TCGv slot_mask = tcg_const_tl(1 << slot_num);
-     TCGv tmp = tcg_temp_new();
+ static inline void ctx_log_reg_write(DisasContext *ctx, int rnum)
 -- 
 2.30.1
 
