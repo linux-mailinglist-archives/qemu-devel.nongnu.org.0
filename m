@@ -2,55 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0BCD325177
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:28:40 +0100 (CET)
-Received: from localhost ([::1]:59170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC36932517B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:30:27 +0100 (CET)
+Received: from localhost ([::1]:34332 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFHd9-0001Ug-Ei
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:28:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33116)
+	id 1lFHes-0002w6-Qi
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:30:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vfazio@xes-inc.com>)
- id 1lFHbM-0000NZ-9L; Thu, 25 Feb 2021 09:26:48 -0500
-Received: from mail.xes-mad.com ([162.248.234.2]:45890)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vfazio@xes-inc.com>)
- id 1lFHbK-0002T6-AN; Thu, 25 Feb 2021 09:26:47 -0500
-Received: from [10.52.16.140] (vfazio1.xes-mad.com [10.52.16.140])
- by mail.xes-mad.com (Postfix) with ESMTP id A5378206BE;
- Thu, 25 Feb 2021 08:26:33 -0600 (CST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xes-inc.com; s=mail;
- t=1614263193; bh=Ikx1DMxoOBuXED4X9owvinv/nptMF7WM4ilf6sxZF5Y=;
- h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
- b=NdOBho2CD1QrtJOgqEr80KUoGbnLDP/q2vFoe1bYIdR6VdSLEQJjjEfVJj3PdjwwU
- PkWssdyYuhkdlMC7tlU0Ac6C72CApKprLSWgu31S3LF/XID7dS84Fx67KBFeVu3QmU
- igrjmcTqjQtcv275vB7dvdt+y4BPhV+zDphimEV8=
-Subject: Re: [PATCH] linux-user/elfload: do not assume MAP_FIXED_NOREPLACE
- kernel support
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Vincent Fazio <vfazio@gmail.com>
-References: <20210131061930.14554-1-vfazio@xes-inc.com>
- <87o8gmc2k5.fsf@linaro.org> <78c75d31-f8be-a98a-8649-87ceca224b8b@vivier.eu>
- <CAOrEah7X3H7g7gSKFf-jD0nQ7YqnE+hUP7eq7Ozk8HfwYaxuqA@mail.gmail.com>
- <87o8glveme.fsf@linaro.org>
-From: Vincent Fazio <vfazio@xes-inc.com>
-Message-ID: <3301f4ba-f65b-ea79-efe3-f84c29c8ab70@xes-inc.com>
-Date: Thu, 25 Feb 2021 08:26:33 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFHdW-00027U-21
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:29:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25402)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFHdU-0003S8-5M
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:29:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614263338;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=r4OcGxTLUFpLxngskDlG+XhqSuD6Ydr9RC683HreLIY=;
+ b=RfTHgfUi++WA5uDoWfQuEVXck3fEcfSXZz/+DUamyzmcv5CG2zGMZly4MoSdDPxvbTRSuE
+ LJJSxejHwWIGAZ3W+XJIjn0pzKLxgW+iI1w/ApGIQgpnvouhXrj1VrUMeu6yzxoAHgQcsN
+ yeobd3/kTfz5VUfcQQvPI8vcBzlZL4o=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-dPlrKyKrMKuXYtsGIhylyA-1; Thu, 25 Feb 2021 09:28:56 -0500
+X-MC-Unique: dPlrKyKrMKuXYtsGIhylyA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE50280196C
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 14:28:55 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A4BBE5D9E3;
+ Thu, 25 Feb 2021 14:28:49 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 35646113860F; Thu, 25 Feb 2021 15:28:48 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH v2] vl: deprecate -writeconfig
+References: <20210225131316.631940-1-pbonzini@redhat.com>
+ <YDeuOYpYZX+49AAd@redhat.com>
+ <7593fccc-fb5b-4e1c-a35f-e9e4ff940a9a@redhat.com>
+Date: Thu, 25 Feb 2021 15:28:47 +0100
+In-Reply-To: <7593fccc-fb5b-4e1c-a35f-e9e4ff940a9a@redhat.com> (Paolo
+ Bonzini's message of "Thu, 25 Feb 2021 15:08:03 +0100")
+Message-ID: <87lfbc9q74.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <87o8glveme.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=162.248.234.2; envelope-from=vfazio@xes-inc.com;
- helo=mail.xes-mad.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.435,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,38 +83,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
+Cc: "Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
  qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
+> On 25/02/21 15:03, Daniel P. Berrang=C3=A9 wrote:
+>> FWIW, we've rarely kept exactly to our 2 cycle plan. In practice it has
+>> become more of a minimum bar, rather than an exact deadline.  If you wan=
+t
+>> to promise death in 6.2 though I'll defer to your judgement :=3D)
+>> Reviewed-by: Daniel P. Berrang=C3=A9<berrange@redhat.com>
+>
+> Well, I have patches waiting for the removal and sitting over them for
+> a year is already enough. :)
 
+I don't see a need to bake the end of the grace period into the
+deprecation message.  We don't do that elsewhere, either.
 
-On 2/15/21 3:52 AM, Alex Bennée wrote:
-> 
-> Vincent Fazio <vfazio@gmail.com> writes:
-> 
-> 
-> Ahh right so I think this is a case of binaries being built on a
-> different platform than kernel they are running on. In which case the
-> flag would be defined but the underlying kernel fails to identify it. Is
-> this a container like case by any chance?
-Yes, my builds were happening in a container to eventually have the statically built binaries run in another container. 
-I discovered this issue (and the two others reviewed) while trying to debootstrap Debian Bullseye in a container.
-> 
-> If I'd read the man page closer:
-> 
->     Note   that   older   kernels   which   do   not  recognize  the
->     MAP_FIXED_NOREPLACE flag will typically (upon detecting a colli‐
->     sion  with a preexisting mapping) fall back to a "non-MAP_FIXED"
->     type of behavior: they will return an address that is  different
->     from  the  requested  address.   Therefore,  backward-compatible
->     software should check the returned address against the requested
->     address.
-> 
-> so yes we should avoid short circuiting the return address check.
-> 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-> 
 
