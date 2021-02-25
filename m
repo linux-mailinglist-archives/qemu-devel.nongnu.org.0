@@ -2,52 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38F26325048
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:21:02 +0100 (CET)
-Received: from localhost ([::1]:38834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3100F325047
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:21:00 +0100 (CET)
+Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFGZh-0008Ez-7W
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:21:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42434)
+	id 1lFGZe-0008At-V9
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:20:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1lFGXc-000703-G6; Thu, 25 Feb 2021 08:18:54 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3313)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lFGXo-00074k-Ko
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:19:06 -0500
+Resent-Date: Thu, 25 Feb 2021 08:19:04 -0500
+Resent-Message-Id: <E1lFGXo-00074k-Ko@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1lFGXS-0004zP-9H; Thu, 25 Feb 2021 08:18:51 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DmYG64D4szlPJ8;
- Thu, 25 Feb 2021 21:16:30 +0800 (CST)
-Received: from [10.174.186.67] (10.174.186.67) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 25 Feb 2021 21:18:23 +0800
-Subject: Re: [RFC PATCH 2/5] hw/arm/virt: Add cpu-map to device tree
-To: Andrew Jones <drjones@redhat.com>
-References: <20210225085627.2263-1-fangying1@huawei.com>
- <20210225085627.2263-3-fangying1@huawei.com>
- <20210225111610.mejof5pe2y5fe5xr@kamzik.brq.redhat.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <5fc765dd-52fa-2936-f298-d2635c863eb3@huawei.com>
-Date: Thu, 25 Feb 2021 21:18:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lFGXg-000549-WD
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:19:04 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614259128; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=lFJ8abcXMy8ghb/J7Klsr11jtlwrM3Di3NQD6eVOcVqcAuQG27evEwVhMu44fHLeEjWoScr+xBxWAOgBR1mP1oC6BGpDaAqaJ7tF0eEgvDCfN9S4CkgdmGHjZrFpqN5mPityh6R3Ehmsrw1RJj8mnV+oVN+VDqhtIzdibnqAs+I=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1614259128;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=Syt/LBpqG8/Kxwo8KX6i9uYvQAqEMp+aD+64UmAxnYo=; 
+ b=byF/Gx/w058wXx5hgQ5rQvj2dOQEQ2VdZVWrPJ9M2cnzVPKIrKCJ+MgJ4K6IWZW9rBKZhoVIYehKZZYg3bcLOD5Prv/6P9H5phEhVFChPPH3OyB6y/3moJ3Uqdc0czdCnIxouPC1ZiJXkMjChgR153ziJQ2JoSHdZ64uD/XwppE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1614259126025356.12303515518477;
+ Thu, 25 Feb 2021 05:18:46 -0800 (PST)
+In-Reply-To: <20210225131316.631940-1-pbonzini@redhat.com>
+Subject: Re: [PATCH v2] vl: deprecate -writeconfig
+Message-ID: <161425912501.1906.13285337044095609180@c667a6b167f6>
 MIME-Version: 1.0
-In-Reply-To: <20210225111610.mejof5pe2y5fe5xr@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.67]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.435,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: pbonzini@redhat.com
+Date: Thu, 25 Feb 2021 05:18:46 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,165 +67,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
- imammedo@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 2/25/2021 7:16 PM, Andrew Jones wrote:
-> Hi Ying Fang,
-> 
-> The only difference between this and what I have in my tree[*]
-> is the removal of the socket node (which has been in the Linux
-> docs since June 2019). Any reason why you removed that node? In
-> any case, I think I deserve a bit more credit for this patch.
-
-Sorry, you surely deserve it. I forget to add it here.
-Should I have a SOB of you here ?
-
-The latest linux kernel use a four level cpu topology defined in
-
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/cpu/cpu-topology.txt?h=v5.11
-
-ie. socket node, cluster node, core node, thread node.
-
-The linux kernel 4.19 LTS use a three level cpu topology defined in
-Documentation/devicetree/bindings/arm/topology.txt
-
-ie. cluster node, core node, thread node.
-
-Currently Qemu x86 has 4 level of cpu topology as: socket, die, core,
-thread. Should arm64 active like it here ?
-
-Further more, latest linux kernel define the cpu topology struct as.
-So maybe it only cares about the socket, core, thread topology levels.
-
-struct cpu_topology { 
-
-     int thread_id; 
-
-     int core_id; 
-
-     int package_id; 
-
-     int llc_id; 
-
-     cpumask_t thread_sibling; 
-
-     cpumask_t core_sibling; 
-
-     cpumask_t llc_sibling; 
-
-};
-
-> 
-> [*] https://github.com/rhdrjones/qemu/commit/35feecdd43475608c8f55973a0c159eac4aafefd
-> 
-> Thanks,
-> drew
-> 
-> On Thu, Feb 25, 2021 at 04:56:24PM +0800, Ying Fang wrote:
->> Support device tree CPU topology descriptions.
->>
->> Signed-off-by: Ying Fang <fangying1@huawei.com>
->> ---
->>   hw/arm/virt.c         | 38 +++++++++++++++++++++++++++++++++++++-
->>   include/hw/arm/virt.h |  1 +
->>   2 files changed, 38 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
->> index 371147f3ae..c133b342b8 100644
->> --- a/hw/arm/virt.c
->> +++ b/hw/arm/virt.c
->> @@ -351,10 +351,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
->>       int cpu;
->>       int addr_cells = 1;
->>       const MachineState *ms = MACHINE(vms);
->> +    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
->>       int smp_cpus = ms->smp.cpus;
->>   
->>       /*
->> -     * From Documentation/devicetree/bindings/arm/cpus.txt
->> +     * See Linux Documentation/devicetree/bindings/arm/cpus.yaml
->>        *  On ARM v8 64-bit systems value should be set to 2,
->>        *  that corresponds to the MPIDR_EL1 register size.
->>        *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
->> @@ -407,8 +408,42 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
->>                   ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
->>           }
->>   
->> +        if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
->> +            qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
->> +                                  qemu_fdt_alloc_phandle(vms->fdt));
->> +        }
->> +
->>           g_free(nodename);
->>       }
->> +
->> +    if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
->> +        /*
->> +         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
->> +         */
->> +        qemu_fdt_add_subnode(vms->fdt, "/cpus/cpu-map");
->> +
->> +        for (cpu = ms->smp.cpus - 1; cpu >= 0; cpu--) {
->> +            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
->> +            char *map_path;
->> +
->> +            if (ms->smp.threads > 1) {
->> +                map_path = g_strdup_printf(
->> +                            "/cpus/cpu-map/%s%d/%s%d/%s%d",
->> +                            "cluster", cpu / (ms->smp.cores * ms->smp.threads),
-
-a cluster node may be replaced by socket to keep accord with the latest 
-kernel.
-
->> +                            "core", (cpu / ms->smp.threads) % ms->smp.cores,
->> +                            "thread", cpu % ms->smp.threads);
->> +            } else {
->> +                map_path = g_strdup_printf(
->> +                            "/cpus/cpu-map/%s%d/%s%d",
->> +                            "cluster", cpu / ms->smp.cores,
->> +                            "core", cpu % ms->smp.cores);
->> +            }
->> +            qemu_fdt_add_path(vms->fdt, map_path);
->> +            qemu_fdt_setprop_phandle(vms->fdt, map_path, "cpu", cpu_path);
->> +            g_free(map_path);
->> +            g_free(cpu_path);
->> +        }
->> +    }
->>   }
->>   
->>   static void fdt_add_its_gic_node(VirtMachineState *vms)
->> @@ -2742,6 +2777,7 @@ static void virt_machine_5_2_options(MachineClass *mc)
->>       virt_machine_6_0_options(mc);
->>       compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->>       vmc->no_secure_gpio = true;
->> +    vmc->no_cpu_topology = true;
->>   }
->>   DEFINE_VIRT_MACHINE(5, 2)
->>   
->> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
->> index ee9a93101e..7ef6d08ac3 100644
->> --- a/include/hw/arm/virt.h
->> +++ b/include/hw/arm/virt.h
->> @@ -129,6 +129,7 @@ struct VirtMachineClass {
->>       bool no_kvm_steal_time;
->>       bool acpi_expose_flash;
->>       bool no_secure_gpio;
->> +    bool no_cpu_topology;
->>   };
->>   
->>   struct VirtMachineState {
->> -- 
->> 2.23.0
->>
->>
-> 
-> .
-> 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIyNTEzMTMxNi42MzE5
+NDAtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
+dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
+aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMjUxMzEzMTYuNjMx
+OTQwLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIHZsOiBkZXByZWNh
+dGUgLXdyaXRlY29uZmlnCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdp
+dCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hl
+Y2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBk
+YXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBz
+Oi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBw
+YXRjaGV3LzIwMjEwMjI0MTMxMTQyLjE5NTIwMjctMS1iZXJyYW5nZUByZWRoYXQuY29tIC0+IHBh
+dGNoZXcvMjAyMTAyMjQxMzExNDIuMTk1MjAyNy0xLWJlcnJhbmdlQHJlZGhhdC5jb20KICogW25l
+dyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDIyNTEzMTMxNi42MzE5NDAtMS1wYm9uemluaUBy
+ZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMjUxMzEzMTYuNjMxOTQwLTEtcGJvbnppbmlAcmVk
+aGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjAwMTYwZmUgdmw6IGRlcHJl
+Y2F0ZSAtd3JpdGVjb25maWcKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBsaW5lIG92ZXIg
+OTAgY2hhcmFjdGVycwojNjY6IEZJTEU6IHNvZnRtbXUvdmwuYzozMzU5OgorICAgICAgICAgICAg
+ICAgICAgICB3YXJuX3JlcG9ydCgiLXdyaXRlY29uZmlnIGlzIGRlcHJlY2F0ZWQuICBJdCB3aWxs
+IGdvIGF3YXkgaW4gUUVNVSA2LjIgd2l0aCBubyByZXBsYWNlbWVudCIpOwoKdG90YWw6IDEgZXJy
+b3JzLCAwIHdhcm5pbmdzLCAzNCBsaW5lcyBjaGVja2VkCgpDb21taXQgMDAxNjBmZWE4ZjdmICh2
+bDogZGVwcmVjYXRlIC13cml0ZWNvbmZpZykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
+aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
+aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
+IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
+dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAyMjUx
+MzEzMTYuNjMxOTQwLTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
+cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
+W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
+aGV3LWRldmVsQHJlZGhhdC5jb20=
 
