@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DDAE3250AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:43:38 +0100 (CET)
-Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 410293250DF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:50:12 +0100 (CET)
+Received: from localhost ([::1]:49494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFGvZ-00077n-C5
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:43:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
+	id 1lFH1u-00014H-VO
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:50:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51074)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFGu0-0005s4-Lu
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:42:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44668)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lFH0c-0000FN-G2
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:48:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49963)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFGtw-0007Tc-EL
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:42:00 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lFH0a-0002Bv-Mi
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:48:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614260514;
+ s=mimecast20190719; t=1614260927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V8WpRqVtu7T2sX0Fzts5oaG5GRQuppb2GTAAg1f0UUg=;
- b=buTnR4+zOuilu7a2myd4z2N8jZE4Vkr6icRl4KK8DPnbpJQ6Mfl/aEcKzT0KAOXuEU31/M
- NSWY9DMTX7/Ycq9oBVNW558dmEGVFN5nxRs3EBRUp064XVRiZBhHFQrJb56f07AxPBOpwz
- TDPqIAl7cm7PRq2e+SOqms4L9UcSI8E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-248-0EAu_L7sNMemnqvXq86PfQ-1; Thu, 25 Feb 2021 08:41:52 -0500
-X-MC-Unique: 0EAu_L7sNMemnqvXq86PfQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F3CA801977;
- Thu, 25 Feb 2021 13:41:51 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37C485D6D7;
- Thu, 25 Feb 2021 13:41:51 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C0FFC113860F; Thu, 25 Feb 2021 14:41:49 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Bogus "is either too old or uses too old a Python version" from
- docs/meson.build
-References: <87ft1kqqsp.fsf@dusky.pond.sub.org>
- <CAFEAcA-NyQT_m37UfeH5KAQ9+dkNBHcQivYyrS4C9F3EUqJ+Nw@mail.gmail.com>
-Date: Thu, 25 Feb 2021 14:41:49 +0100
-In-Reply-To: <CAFEAcA-NyQT_m37UfeH5KAQ9+dkNBHcQivYyrS4C9F3EUqJ+Nw@mail.gmail.com>
- (Peter Maydell's message of "Thu, 25 Feb 2021 12:55:49 +0000")
-Message-ID: <87zgzsb6xu.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=3+XOHzhctG0lBYbayjbPGG7Ezgdhsy4EPhIAL57S5/U=;
+ b=L3dhrayiX+DpnsBK1jaiZz/03PQvQUcJW1yiemBIbGwTsSb60mjw456KRosnpRHDrBjzUx
+ aXPp+bgS1nSsncmsjSIbu6b6waiiOnOehJZYhnFgfaqEh1d9eocdjNYTbYAqmw/vfFU5s5
+ iKvZC7jGOLUoLrHny7eW34/JT5GPv4A=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-Bsgp9sKSNG-imuaTWDmFEQ-1; Thu, 25 Feb 2021 08:48:45 -0500
+X-MC-Unique: Bsgp9sKSNG-imuaTWDmFEQ-1
+Received: by mail-wm1-f71.google.com with SMTP id n6so724419wmd.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 05:48:45 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3+XOHzhctG0lBYbayjbPGG7Ezgdhsy4EPhIAL57S5/U=;
+ b=KCS76lOwWdKhkvUwcqutuoxPSxkmOPbjNwwp0Y+AuHmjqzvsZUiH7sHw1kdaIWs4W0
+ dqA1NAk1VEA2G65eDgTpI13QD1iTLM47DYu4IPTkqmDr78jn7jZIXDlI3O9kZtB3Ahiz
+ niVnwGZWWbLfCqXKrEju49b8WmgGI48GQQtyeZ3xvHTyiXD6f8tpDMocMZw+iC1jeeFx
+ Kjw6Nw5+oqfqIyp3EY1FgTQCQF+whZTZyZPI3Qd1QVHp14L3fSEk6RwYBwwu0D4uSzqf
+ xM8SpfAqWz6Mq4jQKAFbSTar4QntjhKX4riHWourDZ9ynXw2cEY7NyKF5quw7Vf5EhPI
+ VUKA==
+X-Gm-Message-State: AOAM531Nnh3zcBpnIBSe6dbiS6Fu5YmVEUQ9f0B8HUJmw0InzkjZikyk
+ 1aO25EF7I/hgHGUfH5c+3RACqZWSyxAuGq2Bt1KhhzALRqFk+f8vkg7rOsxf1+9beYNNLfbRYme
+ +xa1/TDHUEqM/Fb8fCID1ZegMlRLc4eFxo2DtruQeuhkncnWkIhrzDSw3ctV2trf/o0Y=
+X-Received: by 2002:a5d:5904:: with SMTP id v4mr3633693wrd.261.1614260924037; 
+ Thu, 25 Feb 2021 05:48:44 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJw16UZTQuhwwDOQ9V4WmoHfopOwpIEoshWg1+QpqRlNVRdGU3gondsq4I8n60fjA+wjxssq0w==
+X-Received: by 2002:a5d:5904:: with SMTP id v4mr3633677wrd.261.1614260923790; 
+ Thu, 25 Feb 2021 05:48:43 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id z5sm9202136wrn.8.2021.02.25.05.48.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Feb 2021 05:48:43 -0800 (PST)
+Subject: Re: [PATCH] hvf: Sign the code after installation
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+References: <419dbb9c-badd-25d8-1755-00978a592671@redhat.com>
+ <20210225000614.46919-1-akihiko.odaki@gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2d7fa111-9970-b417-392c-4ddaef3cc4a8@redhat.com>
+Date: Thu, 25 Feb 2021 14:48:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210225000614.46919-1-akihiko.odaki@gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,55 +100,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+On 25/02/21 01:06, Akihiko Odaki wrote:
+> Before this change, the code signed during the build was installed
+> directly.
+> 
+> However, the signature gets invalidated because meson modifies the code
+> to fix dynamic library install names during the install process.
+> 
+> It also prevents meson to strip the code because the pre-signed file is
+> not marked as an executable (although it is somehow able to perform the
+> modification described above).
+> 
+> With this change, the unsigned code will be installed and modified by
+> meson first, and a script signs it later.
+> 
+> Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 
-> On Thu, 25 Feb 2021 at 12:23, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> I just chanced on this one:
->>
->>     Program sphinx-build-3 found: YES
->>     ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3 is either too old or uses too old a Python version
->>
->>     ../docs/meson.build:33:6: ERROR: Problem encountered: Install a Python 3 version of python-sphinx
->>
->>     A full log can be found at /work/armbru/qemu/bld-x86/meson-logs/meson-log.txt
->>
->>     ERROR: meson setup failed
->>
->> My sphinx-build-3 is just fine, the problem is caused by me changing my
->> tree so that
->>
->> 1. qapi-gen.py fails (because I messed up), and
->>
->> 2. make re-runs configure.
->>
->> Perhaps the test for a working sphinx-build-3 could be made a bit more
->> robust.
->
-> I'm not sure what could reasonably be done. The Sphinx test is just
-> "try building a trivial document with our config (which is what
-> enforces the version requirement)".
+Thanks very much!  As mentioned in the other message, I would prefer to 
+have a single script so here is what I came up with.
 
-This question is almost certainly naive: why is it necessary for the
-"trivial" document to include the truckload generated by qapi-gen.py
+#!/bin/sh -e
+#
+# Helper script for the build process to apply entitlements
 
->                                     So yes, if you modify the QEMU sources
-> in a way that breaks the config file or one of the Sphinx plugins then
-> it'll trip the configure check. If you give the configure-check run
-> its own config file, then you end up with the version checks in two places
-> and they could get out of sync. One could try to have the conf.py have a
-> lot of conditionals to cut out things that the test-document doesn't use,
-> but then you run the risk that we no longer catch something for end-users
-> that we didn't anticipate that means we can't build the docs.
->
-> It seems more reasonable to me to assume that developers who are
-> actively modifying the QEMU code which is used in docs building
-> are able to read the log file that the error message points them
-> at, and can figure out what really happened from the log.
+copy=:
+if [ "$1" = --install ]; then
+   shift
+   copy=false
+   cd "$MESON_INSTALL_DESTDIR_PREFIX"
+fi
+
+SRC="$1"
+DST="$2"
+ENTITLEMENT="$3"
+
+if $copy; then
+   trap 'rm "$DST.tmp"' exit
+   cp -af "$SRC" "$DST.tmp"
+   SRC="$DST.tmp"
+fi
+
+codesign --entitlements "$ENTITLEMENT" --force -s - "$SRC"
+mv -f "$SRC" "$DST"
+trap '' exit
+
+
+I'll include this in the next pull request, since I was able to test it 
+with Cirrus CI.
+
+Thanks,
+
+Paolo
 
 
