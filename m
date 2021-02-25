@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18B313258A7
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 22:30:22 +0100 (CET)
-Received: from localhost ([::1]:33946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A9AA3258B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 22:35:59 +0100 (CET)
+Received: from localhost ([::1]:38574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFODF-0002AP-3M
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 16:30:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33102)
+	id 1lFOIg-0005An-7P
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 16:35:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lFOCQ-0001jm-PB; Thu, 25 Feb 2021 16:29:30 -0500
-Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:41940)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1lFOCO-0006sI-7Z; Thu, 25 Feb 2021 16:29:30 -0500
-Received: by mail-qk1-x736.google.com with SMTP id q85so7145232qke.8;
- Thu, 25 Feb 2021 13:29:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0KaLrDqmhnOxiPrRMamkEcy719Uyr/75+GZ2G0ez52E=;
- b=A7REgEz4zDb8R58L3xKlQmFB6iV/yOd3zINC6aiRT2a9y6rhnZ+BOYpkIFEgL6kSfH
- b92JrkHcO0MrRaWXFufyCdzrqdB8WIp29LNYJA1bS/3eS9d9vGRkw6FqrUETDlZ3Nx44
- O/16HTb3j649RULlg604abyoV3ICyJVVT5tK/2K9+tBc90HWfa0ECMaArRtOYRfrYnAj
- DOsUZlsAzxrgf/4l4tgnd4nhRO46uGDFGlnuqocVPHRDvk+gx3kYK/fJDTTQH8lemd47
- 2lx/+3VJugJCP88qGbedyy9aFqQiNLTomMGOFuMJC9whDFUjzqx4TNdzFsE7du+Ez0pb
- rWDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0KaLrDqmhnOxiPrRMamkEcy719Uyr/75+GZ2G0ez52E=;
- b=PLEnclmsBEDR/o/KHLhkW/c+B+p1c3RoPXYNyy4VvNc8gh6bAXWPVm8b6dxDnCKaUR
- qP5uWmVmONJ1C7RTamhcg/ZdrxNocMFDMfDeAgZ/ncdTDFVO6c2DQltX0R7UlEFCBcYX
- u4ekM/NvdtodZzZ28xnTTS9kYiCnlg6Aid28UpXyNb9BIibyw/aj7WB1MNMVsuR1kJfX
- eNScN7767/mTjWxgXruSMHxQYjnktVsZGqjApwBg6XHKlgT2sJNbij3qHlKE3svG+77I
- EN+AQRTBc2iBT/D+6vDHzDvT4Vomokjfuj8o8E/mxCDTMruWMXLIG/IRjw7/q7Fvz/nG
- pbLw==
-X-Gm-Message-State: AOAM530k+Y1zt64IcuXUcLQngWkqWP+irdI9+GRNokauS+ht9sWo4slI
- KMlJ4hd9JuUlolhOWz8JqF3rX4XIk01LLQ==
-X-Google-Smtp-Source: ABdhPJylF3YIrTbo3P+Lown62V6TwkLGUzrdYeTPsyUkKL/osLB7VKqPrp9hitpmIu7cHj/aqb9Fhg==
-X-Received: by 2002:a37:af83:: with SMTP id y125mr4648690qke.210.1614288566723; 
- Thu, 25 Feb 2021 13:29:26 -0800 (PST)
-Received: from rekt.ibmuc.com ([2804:431:c7c6:cd1c:d722:e26f:4e76:c5c1])
- by smtp.gmail.com with ESMTPSA id b9sm4673004qkj.90.2021.02.25.13.29.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 13:29:26 -0800 (PST)
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] qemu_timer.c: add timer_deadline_ms() helper
-Date: Thu, 25 Feb 2021 18:29:14 -0300
-Message-Id: <20210225212914.366462-1-danielhb413@gmail.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lFOH4-0004Et-QZ
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 16:34:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33255)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1lFOH0-0000bJ-Ck
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 16:34:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614288848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OfKN+4ePLLujTIhS/BbgCUhnEKAMynDAVe4aOyk0+1w=;
+ b=eNDLd8+kLFDMOOjka+nWIto7SGJ8VLsHehxYlCuTMUoxhKRx5B6iYV0LYcAfc60+D00fHM
+ 85bzsNhHkSJwQ4GHRw9RyMq+7rkdOXDhtgVsPN2GCY0lgBy3mj6YZhjkE0CucjPBToOZ0M
+ HTt16IbYnq+kWJwZP7PEuQ3d9qYMi8Y=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-358-jCWHq0UFP7-VfdQF0BhaHQ-1; Thu, 25 Feb 2021 16:34:06 -0500
+X-MC-Unique: jCWHq0UFP7-VfdQF0BhaHQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 984D76D4E6;
+ Thu, 25 Feb 2021 21:34:05 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EA26C5D9D2;
+ Thu, 25 Feb 2021 21:34:04 +0000 (UTC)
+Subject: Re: [PATCH v3 09/16] qapi/expr.py: Consolidate check_if_str calls in
+ check_if
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210223003408.964543-1-jsnow@redhat.com>
+ <20210223003408.964543-10-jsnow@redhat.com>
+ <87a6rsb50a.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <0b9b080e-afda-ed57-7dc8-62d0b12c77a2@redhat.com>
+Date: Thu, 25 Feb 2021 16:34:04 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87a6rsb50a.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,90 +83,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- groug@kaod.org, david@gibson.dropbear.id.au
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pSeries machine is using QEMUTimer internals to return the timeout
-in seconds for a timer object, in hw/ppc/spapr.c, function
-spapr_drc_unplug_timeout_remaining_sec().
+On 2/25/21 9:23 AM, Markus Armbruster wrote:
+> John Snow <jsnow@redhat.com> writes:
+> 
+>> This is a small rewrite to address some minor style nits.
+>>
+>> Don't compare against the empty list to check for the empty condition, and
+>> move the normalization forward to unify the check on the now-normalized
+>> structure.
+>>
+>> With the check unified, the local nested function isn't needed anymore
+>> and can be brought down into the normal flow of the function. With the
+>> nesting level changed, shuffle the error strings around a bit to get
+>> them to fit in 79 columns.
+>>
+>> Note: though ifcond is typed as Sequence[str] elsewhere, we *know* that
+>> the parser will produce real, bona-fide lists. It's okay to check
+>> isinstance(ifcond, list) here.
+>>
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>   scripts/qapi/expr.py | 36 ++++++++++++++++--------------------
+>>   1 file changed, 16 insertions(+), 20 deletions(-)
+>>
+>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+>> index df6c64950fa..3235a3b809e 100644
+>> --- a/scripts/qapi/expr.py
+>> +++ b/scripts/qapi/expr.py
+>> @@ -128,30 +128,26 @@ def check_flags(expr: Expression, info: QAPISourceInfo) -> None:
+>>   
+>>   def check_if(expr: _JSObject, info: QAPISourceInfo, source: str) -> None:
+>>   
+>> -    def check_if_str(ifcond: object) -> None:
+>> -        if not isinstance(ifcond, str):
+>> -            raise QAPISemError(
+>> -                info,
+>> -                "'if' condition of %s must be a string or a list of strings"
+>> -                % source)
+>> -        if ifcond.strip() == '':
+>> -            raise QAPISemError(
+>> -                info,
+>> -                "'if' condition '%s' of %s makes no sense"
+>> -                % (ifcond, source))
+>> -
+>>       ifcond = expr.get('if')
+>>       if ifcond is None:
+>>           return
+>> -    if isinstance(ifcond, list):
+>> -        if ifcond == []:
+>> +
+>> +    # Normalize to a list
+>> +    if not isinstance(ifcond, list):
+>> +        ifcond = [ifcond]
+>> +        expr['if'] = ifcond
+>> +
+>> +    if not ifcond:
+>> +        raise QAPISemError(info, f"'if' condition [] of {source} is useless")
+> 
+> In the old code, the connection between the conditional and the error
+> message was a bit more obvious.
+> 
 
-Create a helper in qemu-timer.c to retrieve the deadline for a QEMUTimer
-object, in ms, to avoid exposing timer internals to the PPC code.
+I will admit to that being true.
 
-CC: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
----
+Do you think it's still worth the change? I do need to get rid of the 
+comparison against "[]", the rest was just "Ah, while I'm here, ..." and 
+I thought it was nice to get rid of the nested function.
 
-This patch is applicable on top of David's ppc-for-6.0.
+(I think it's still worth it.)
 
- hw/ppc/spapr_drc.c   |  5 ++---
- include/qemu/timer.h |  8 ++++++++
- util/qemu-timer.c    | 13 +++++++++++++
- 3 files changed, 23 insertions(+), 3 deletions(-)
+>> +
+>> +    for element in ifcond:
+> 
+> @element is rather long.  If you hate @elt, what about @ifc?
+> 
 
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 8c4997d795..98b626acf9 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -421,9 +421,8 @@ void spapr_drc_unplug_request(SpaprDrc *drc)
- 
- int spapr_drc_unplug_timeout_remaining_sec(SpaprDrc *drc)
- {
--    if (drc->unplug_requested && timer_pending(drc->unplug_timeout_timer)) {
--        return (qemu_timeout_ns_to_ms(drc->unplug_timeout_timer->expire_time) -
--                qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL)) / 1000;
-+    if (drc->unplug_requested) {
-+        return timer_deadline_ms(drc->unplug_timeout_timer) / 1000;
-     }
- 
-     return 0;
-diff --git a/include/qemu/timer.h b/include/qemu/timer.h
-index 1678238384..5e76e3f8c2 100644
---- a/include/qemu/timer.h
-+++ b/include/qemu/timer.h
-@@ -795,6 +795,14 @@ static inline int64_t get_max_clock_jump(void)
-     return 60 * NANOSECONDS_PER_SECOND;
- }
- 
-+/**
-+ * timer_deadline_ms:
-+ *
-+ * Returns the remaining miliseconds for @timer to expire, or zero
-+ * if the timer is no longer pending.
-+ */
-+int64_t timer_deadline_ms(QEMUTimer *timer);
-+
- /*
-  * Low level clock functions
-  */
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index 81c28af517..3a03a63daa 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -243,6 +243,19 @@ int64_t timerlist_deadline_ns(QEMUTimerList *timer_list)
-     return delta;
- }
- 
-+/*
-+ * Returns the time remaining for the deadline, in ms.
-+ */
-+int64_t timer_deadline_ms(QEMUTimer *timer)
-+{
-+    if (timer_pending(timer)) {
-+        return qemu_timeout_ns_to_ms(timer->expire_time) -
-+               qemu_clock_get_ms(QEMU_CLOCK_VIRTUAL);
-+    }
-+
-+    return 0;
-+}
-+
- /* Calculate the soonest deadline across all timerlists attached
-  * to the clock. This is used for the icount timeout so we
-  * ignore whether or not the clock should be used in deadline
--- 
-2.29.2
+Hate's a strong word, It just wasn't obvious to me at the time. I 
+decided to expand it to what you said it stood for.
+
+I can undo that if you are attached to 'elt', but I don't share the view 
+that 'element' is somehow burdensomely long.
+
+>> +        if not isinstance(element, str):
+>> +            raise QAPISemError(info, (
+>> +                f"'if' condition of {source}"
+>> +                " must be a string or a list of strings"))
+>> +        if element.strip() == '':
+>>               raise QAPISemError(
+>> -                info, "'if' condition [] of %s is useless" % source)
+>> -        for elt in ifcond:
+>> -            check_if_str(elt)
+>> -    else:
+>> -        check_if_str(ifcond)
+>> -        expr['if'] = [ifcond]
+>> +                info, f"'if' condition '{element}' of {source} makes no sense")
+>>   
+>>   
+>>   def normalize_members(members: object) -> None:
+> 
+> Perhaps:
+> 
+> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
+> index df6c64950f..e904924599 100644
+> --- a/scripts/qapi/expr.py
+> +++ b/scripts/qapi/expr.py
+> @@ -128,30 +128,26 @@ def check_flags(expr: Expression, info: QAPISourceInfo) -> None:
+>   
+>   def check_if(expr: _JSObject, info: QAPISourceInfo, source: str) -> None:
+>   
+> -    def check_if_str(ifcond: object) -> None:
+> -        if not isinstance(ifcond, str):
+> -            raise QAPISemError(
+> -                info,
+> -                "'if' condition of %s must be a string or a list of strings"
+> -                % source)
+> -        if ifcond.strip() == '':
+> -            raise QAPISemError(
+> -                info,
+> -                "'if' condition '%s' of %s makes no sense"
+> -                % (ifcond, source))
+> -
+>       ifcond = expr.get('if')
+>       if ifcond is None:
+>           return
+> +
+>       if isinstance(ifcond, list):
+>           if ifcond == []:
+
+Should be "if not ifcond", though I suppose pylint does not actually 
+whine about this. Guido lives in my head rent-free.
+
+>               raise QAPISemError(
+>                   info, "'if' condition [] of %s is useless" % source)
+> -        for elt in ifcond:
+> -            check_if_str(elt)
+>       else:
+> -        check_if_str(ifcond)
+> -        expr['if'] = [ifcond]
+> +        # Normalize to a list
+> +        ifcond = expr['if'] = [ifcond]
+
+You know, I didn't actually know this worked in Python, because I didn't 
+think "x = 3" was an expression that had a value. I thought that was the 
+entire reason they added the := operator in Python 3.8.
+
+Neat, I guess.
+
+> +
+> +    for elt in ifcond:
+> +        if not isinstance(elt, str):
+> +            raise QAPISemError(info, (
+> +                f"'if' condition of {source}"
+> +                " must be a string or a list of strings"))
+> +        if elt.strip() == '':
+> +            raise QAPISemError(
+> +                info, f"'if' condition '{elt}' of {source} makes no sense")
+>   
+>   
+>   def normalize_members(members: object) -> None:
+> 
+> 
+> Bonus: slightly less churn.
+> 
+
+Looks OK, I'll test with it.
 
 
