@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1701324F13
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:24:41 +0100 (CET)
-Received: from localhost ([::1]:47064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1788324F20
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:27:31 +0100 (CET)
+Received: from localhost ([::1]:53322 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFEl6-00080c-Mw
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:24:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55132)
+	id 1lFEnm-0002Dh-B8
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:27:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lFEIS-0007tC-OO
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:55:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46901)
+ id 1lFEIW-00083Y-NW
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:55:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55873)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lFEIO-0005UM-Bh
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:55:04 -0500
+ id 1lFEIT-0005YC-Nu
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:55:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614250499;
+ s=mimecast20190719; t=1614250505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4GhVkhZKLaTLbAq+0TaQvBVHGyMULsiCQCuN2TmjgO0=;
- b=TfxzXj+WhCecB17EnyInOIpC3VYfFU9bgsHXQ63d96fPXMJCL6C5iJiJVPp5ubCh/d3P0O
- lv76gy/tlq0WhQ74p9GOL96mCR7qMMVWNgYDBhIFul77Yq7KTEy6/quyT3QJdlprIFH5v8
- FpdAIDZK6rL70E2mcSB5HZ63uV+Ifac=
+ bh=68SIX7vSpqajc9v6uhioAym7OJ2G0vlwTFl/KMwt4FQ=;
+ b=Q9rQIVr80xSR0qq0CdP+u7FAjHX1whDCkq+oUTxzxk5PGTKq4R9FPYNC1wnWRxVGK9t0dq
+ jeiO/JxpTmFf0x1RiUJanvxC82d1q7TddBExgbB2HpKettXiacPhXDQhohCg6Ldw4dw2hX
+ AhPWrfCCTK0qfKJoM4CRUhYTZiIDtRc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-175-C5csXKOpMtyiAqzHiFxobQ-1; Thu, 25 Feb 2021 05:54:57 -0500
-X-MC-Unique: C5csXKOpMtyiAqzHiFxobQ-1
+ us-mta-312-wdj5JS5OMqi-029LCfYRnQ-1; Thu, 25 Feb 2021 05:55:03 -0500
+X-MC-Unique: wdj5JS5OMqi-029LCfYRnQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4B09A107ACC7;
- Thu, 25 Feb 2021 10:54:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6C44B1E1C;
+ Thu, 25 Feb 2021 10:55:01 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 30EA15D9D7;
- Thu, 25 Feb 2021 10:54:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C82B15D9D7;
+ Thu, 25 Feb 2021 10:54:55 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v8 10/28] pci: introduce PCIPASIDOps to PCIDevice
-Date: Thu, 25 Feb 2021 11:52:15 +0100
-Message-Id: <20210225105233.650545-11-eric.auger@redhat.com>
+Subject: [RFC v8 11/28] vfio: Force nested if iommu requires it
+Date: Thu, 25 Feb 2021 11:52:16 +0100
+Message-Id: <20210225105233.650545-12-eric.auger@redhat.com>
 In-Reply-To: <20210225105233.650545-1-eric.auger@redhat.com>
 References: <20210225105233.650545-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -60,14 +60,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,126 +88,110 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Yi L <yi.l.liu@intel.com>
+In case we detect the address space is translated by
+a virtual IOMMU which requires HW nested paging to
+integrate with VFIO, let's set up the container with
+the VFIO_TYPE1_NESTING_IOMMU iommu_type.
 
-This patch introduces PCIPASIDOps for IOMMU related operations.
+Signed-off-by: Eric Auger <eric.auger@redhat.com>
 
-https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00078.html
-https://lists.gnu.org/archive/html/qemu-devel/2018-03/msg00940.html
-
-So far, to setup virt-SVA for assigned SVA capable device, needs to
-configure host translation structures for specific pasid. (e.g. bind
-guest page table to host and enable nested translation in host).
-Besides, vIOMMU emulator needs to forward guest's cache invalidation
-to host since host nested translation is enabled. e.g. on VT-d, guest
-owns 1st level translation table, thus cache invalidation for 1st
-level should be propagated to host.
-
-This patch adds two functions: alloc_pasid and free_pasid to support
-guest pasid allocation and free. The implementations of the callbacks
-would be device passthru modules. Like vfio.
-
-Cc: Kevin Tian <kevin.tian@intel.com>
-Cc: Jacob Pan <jacob.jun.pan@linux.intel.com>
-Cc: Peter Xu <peterx@redhat.com>
-Cc: Eric Auger <eric.auger@redhat.com>
-Cc: Yi Sun <yi.y.sun@linux.intel.com>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Signed-off-by: Liu Yi L <yi.l.liu@intel.com>
-Signed-off-by: Yi Sun <yi.y.sun@linux.intel.com>
 ---
- hw/pci/pci.c         | 34 ++++++++++++++++++++++++++++++++++
- include/hw/pci/pci.h | 11 +++++++++++
- 2 files changed, 45 insertions(+)
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a9ebef8a35..8f79c9bf45 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -2724,6 +2724,40 @@ void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque)
-     bus->iommu_opaque = opaque;
+v7 -> v8
+- remove as != &address_space_memory as
+  memory_region_is_iommu(as->root) is sufficient [Kunkun]
+
+v4 -> v5:
+- fail immediatly if nested is wanted but not supported
+
+v2 -> v3:
+- add "nested only is selected if requested by @force_nested"
+  comment in this patch
+---
+ hw/vfio/common.c | 36 ++++++++++++++++++++++++++++--------
+ 1 file changed, 28 insertions(+), 8 deletions(-)
+
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index fcf2c5049f..04e5699ccf 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1546,27 +1546,38 @@ static void vfio_put_address_space(VFIOAddressSpace *space)
+  * vfio_get_iommu_type - selects the richest iommu_type (v2 first)
+  */
+ static int vfio_get_iommu_type(VFIOContainer *container,
++                               bool want_nested,
+                                Error **errp)
+ {
+-    int iommu_types[] = { VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
++    int iommu_types[] = { VFIO_TYPE1_NESTING_IOMMU,
++                          VFIO_TYPE1v2_IOMMU, VFIO_TYPE1_IOMMU,
+                           VFIO_SPAPR_TCE_v2_IOMMU, VFIO_SPAPR_TCE_IOMMU };
+-    int i;
++    int i, ret = -EINVAL;
+ 
+     for (i = 0; i < ARRAY_SIZE(iommu_types); i++) {
+         if (ioctl(container->fd, VFIO_CHECK_EXTENSION, iommu_types[i])) {
+-            return iommu_types[i];
++            if (iommu_types[i] == VFIO_TYPE1_NESTING_IOMMU && !want_nested) {
++                continue;
++            }
++            ret = iommu_types[i];
++            break;
+         }
+     }
+-    error_setg(errp, "No available IOMMU models");
+-    return -EINVAL;
++    if (ret < 0) {
++        error_setg(errp, "No available IOMMU models");
++    } else if (want_nested && ret != VFIO_TYPE1_NESTING_IOMMU) {
++        error_setg(errp, "Nested mode requested but not supported");
++        ret = -EINVAL;
++    }
++    return ret;
  }
  
-+void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops)
-+{
-+    assert(ops && !dev->pasid_ops);
-+    dev->pasid_ops = ops;
-+}
-+
-+bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn)
-+{
-+    PCIDevice *dev;
-+
-+    if (!bus) {
-+        return false;
-+    }
-+
-+    dev = bus->devices[devfn];
-+    return !!(dev && dev->pasid_ops);
-+}
-+
-+int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn,
-+                               IOMMUConfig *config)
-+{
-+    PCIDevice *dev;
-+
-+    if (!bus) {
-+        return -EINVAL;
-+    }
-+
-+    dev = bus->devices[devfn];
-+    if (dev && dev->pasid_ops && dev->pasid_ops->set_pasid_table) {
-+        return dev->pasid_ops->set_pasid_table(bus, devfn, config);
-+    }
-+    return -ENOENT;
-+}
-+
- static void pci_dev_get_w64(PCIBus *b, PCIDevice *dev, void *opaque)
+ static int vfio_init_container(VFIOContainer *container, int group_fd,
+-                               Error **errp)
++                               bool want_nested, Error **errp)
  {
-     Range *range = opaque;
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 1bc231480f..820c3485a1 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -9,6 +9,7 @@
+     int iommu_type, ret;
  
- #include "hw/pci/pcie.h"
- #include "qom/object.h"
-+#include "hw/iommu/iommu.h"
- 
- extern bool pci_available;
- 
-@@ -265,6 +266,11 @@ struct PCIReqIDCache {
- };
- typedef struct PCIReqIDCache PCIReqIDCache;
- 
-+struct PCIPASIDOps {
-+    int (*set_pasid_table)(PCIBus *bus, int32_t devfn, IOMMUConfig *config);
-+};
-+typedef struct PCIPASIDOps PCIPASIDOps;
+-    iommu_type = vfio_get_iommu_type(container, errp);
++    iommu_type = vfio_get_iommu_type(container, want_nested, errp);
+     if (iommu_type < 0) {
+         return iommu_type;
+     }
+@@ -1671,6 +1682,14 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     VFIOContainer *container;
+     int ret, fd;
+     VFIOAddressSpace *space;
++    IOMMUMemoryRegion *iommu_mr;
++    bool nested = false;
 +
- struct PCIDevice {
-     DeviceState qdev;
-     bool partially_hotplugged;
-@@ -359,6 +365,7 @@ struct PCIDevice {
++    if (memory_region_is_iommu(as->root)) {
++        iommu_mr = IOMMU_MEMORY_REGION(as->root);
++        memory_region_iommu_get_attr(iommu_mr, IOMMU_ATTR_VFIO_NESTED,
++                                     (void *)&nested);
++    }
  
-     /* ID of standby device in net_failover pair */
-     char *failover_pair_id;
-+    PCIPASIDOps *pasid_ops;
- };
+     space = vfio_get_address_space(as);
  
- void pci_register_bar(PCIDevice *pci_dev, int region_num,
-@@ -490,6 +497,10 @@ typedef AddressSpace *(*PCIIOMMUFunc)(PCIBus *, void *, int);
- AddressSpace *pci_device_iommu_address_space(PCIDevice *dev);
- void pci_setup_iommu(PCIBus *bus, PCIIOMMUFunc fn, void *opaque);
+@@ -1740,13 +1759,14 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
+     QLIST_INIT(&container->giommu_list);
+     QLIST_INIT(&container->hostwin_list);
  
-+void pci_setup_pasid_ops(PCIDevice *dev, PCIPASIDOps *ops);
-+bool pci_device_is_pasid_ops_set(PCIBus *bus, int32_t devfn);
-+int pci_device_set_pasid_table(PCIBus *bus, int32_t devfn, IOMMUConfig *config);
-+
- static inline void
- pci_set_byte(uint8_t *config, uint8_t val)
- {
+-    ret = vfio_init_container(container, group->fd, errp);
++    ret = vfio_init_container(container, group->fd, nested, errp);
+     if (ret) {
+         goto free_container_exit;
+     }
+     trace_vfio_connect_new_container(group->groupid, container->fd);
+ 
+     switch (container->iommu_type) {
++    case VFIO_TYPE1_NESTING_IOMMU:
+     case VFIO_TYPE1v2_IOMMU:
+     case VFIO_TYPE1_IOMMU:
+     {
 -- 
 2.26.2
 
