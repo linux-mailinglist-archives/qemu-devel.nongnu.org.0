@@ -2,74 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B87A324FAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 13:10:18 +0100 (CET)
-Received: from localhost ([::1]:51970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F650324FC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 13:16:59 +0100 (CET)
+Received: from localhost ([::1]:54808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFFTF-00029p-BI
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 07:10:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47656)
+	id 1lFFZi-0003vI-7s
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 07:16:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFFRs-0001Ha-2E
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 07:08:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41814)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lFFYP-0003Pc-Py
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 07:15:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFFRp-0005fG-M0
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 07:08:51 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lFFYL-0000P9-4l
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 07:15:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614254926;
+ s=mimecast20190719; t=1614255332;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=IRABkmtA/op3ejqMhw/2iKJMKqTUNbWOau6VCV/zrvg=;
- b=WEJpsKh851i1QdPSvAOO4G8K+PhRFK9m12EMPLl8T8iJaunncobVJFZNYOrVpW8s0TzSfR
- 32gBAknzFyxrc+wIp9A7vTR7gTGgQtIdm1VyKUOXhL3J4X8vimgJp7/cq1kfJ6dQjCCBMl
- avGrjKHh/GgqWwVu4mewPeyI+j+zydw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-FrB88ZF1Nv2EGshlmxl2-w-1; Thu, 25 Feb 2021 07:08:44 -0500
-X-MC-Unique: FrB88ZF1Nv2EGshlmxl2-w-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 71A6C1005501;
- Thu, 25 Feb 2021 12:08:43 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 209DB5C559;
- Thu, 25 Feb 2021 12:08:43 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AEEE8113860F; Thu, 25 Feb 2021 13:08:41 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 08/16] qapi/expr.py: add type hint annotations
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-9-jsnow@redhat.com>
- <87y2fdzdt3.fsf@dusky.pond.sub.org>
- <838aa159-9bf9-8c71-49dc-7d80e1b849ed@redhat.com>
-Date: Thu, 25 Feb 2021 13:08:41 +0100
-In-Reply-To: <838aa159-9bf9-8c71-49dc-7d80e1b849ed@redhat.com> (John Snow's
- message of "Wed, 24 Feb 2021 17:30:09 -0500")
-Message-ID: <878s7cs62e.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=vykrYS+sxzkHOOmtF/52lMMUXyxGWC4o0RUntPvg5e4=;
+ b=gLLCCietCcXhj6AEomiEuaqCpR4eLQzGznaoRvlzm3TFNxPIgeKw6P2kRXgjjdx0pYguBj
+ 4ndIz97j+rKHH9jJEEPZ5wa30pUcCFBFo/cbH561Agb8CjJt/iRtNJH86Qx1rTskZV9IDO
+ VXWCqGMXZyQ0/AIFFn5y+VbgC3W3OG0=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-297-hv5koOscN32vaqUqsKDulQ-1; Thu, 25 Feb 2021 07:15:30 -0500
+X-MC-Unique: hv5koOscN32vaqUqsKDulQ-1
+Received: by mail-ej1-f69.google.com with SMTP id bs10so2323040ejb.21
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 04:15:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=vykrYS+sxzkHOOmtF/52lMMUXyxGWC4o0RUntPvg5e4=;
+ b=fLjfwBz4xIx/+3Hf7PaO2H4eaRZWYprFB+aiuwqbRyq/NOllDmWvtfLp+PQv+R6LHU
+ lM4q5Da8QIX53yoXAc9hoAjsmhlZj38SgwUW6vecZskrkwZsr0P/EAbFfyt+7HJF6JAY
+ SWPrVHIJDcKKkYPOVjLe+S8zySApWK9rgxC8s4HJzas5WXZ4GdLW3cct2sF9+etb+La/
+ VckkXhdAEgmr29yuFRBRaKrTbe70gNz3nNlBpp8EdGQTsJJ7d3Z/PjuAX8kk8GDZm0AY
+ vyB8aLUxBk9vaw2Vcsmcz9EJrdFTBtjpNreJjJ3Vsb7RkkijzDgZmqH/j7owb1cWkEBm
+ dyaQ==
+X-Gm-Message-State: AOAM5336faCIrqCaHEQhnnXvNitgUjHuqYfhiFZDFMbUrcY9cUMOvr43
+ DxEQ3tjMsxo1BTfaNIF/KHcQL25heNMRLreUAcGWKiVS6abeMOuyGBAdZdKWPFyDxe5gCOsWo0N
+ iYK42u8vvQqIZv4yeI3Jhn3z6fpra7L8OImaKHMOIMonxVA/+hopODn0TnvQY5zaTGys=
+X-Received: by 2002:a05:6402:1205:: with SMTP id
+ c5mr2625049edw.222.1614255329360; 
+ Thu, 25 Feb 2021 04:15:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyGpLGyGnIzwRUqrFrUU07Equya68Pd76Nh/VdWhR7C1ACfnRRrIPt4BQzVs+geDXizTGev3g==
+X-Received: by 2002:a05:6402:1205:: with SMTP id
+ c5mr2625025edw.222.1614255329186; 
+ Thu, 25 Feb 2021 04:15:29 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t16sm3433912edi.60.2021.02.25.04.15.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Feb 2021 04:15:28 -0800 (PST)
+Subject: Re: [PATCH] tcg/i386: rdpmc: use the the condtions
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Zheng Zhan Liang <linuxmaker@163.com>
+References: <20210225054756.35962-1-linuxmaker@163.com>
+ <433c4c21-be83-1cb9-91bb-0f855fd161ed@redhat.com>
+ <8650b361-ecf1-2d24-c827-0e539bac62ec@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9ce76c44-1c9f-6c0c-0da9-e92198fe5858@redhat.com>
+Date: Thu, 25 Feb 2021 13:15:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <8650b361-ecf1-2d24-c827-0e539bac62ec@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,66 +104,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> On 2/24/21 10:27 AM, Markus Armbruster wrote:
->> John Snow <jsnow@redhat.com> writes:
->> 
->>> Annotations do not change runtime behavior.
->>> This commit *only* adds annotations.
->>>
->>> Signed-off-by: John Snow <jsnow@redhat.com>
->>> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
->>> Reviewed-by: Cleber Rosa <crosa@redhat.com>
+On 25/02/21 11:13, Philippe Mathieu-Daudé wrote:
+> Hi Paolo,
+> 
+> On 2/25/21 11:07 AM, Paolo Bonzini wrote:
+>> On 25/02/21 06:47, Zheng Zhan Liang wrote:
+>>> Signed-off-by: Zheng Zhan Liang <linuxmaker@163.com>
 >>> ---
->>>   scripts/qapi/expr.py  | 71 ++++++++++++++++++++++++++++---------------
->>>   scripts/qapi/mypy.ini |  5 ---
->>>   2 files changed, 46 insertions(+), 30 deletions(-)
+>>>    target/i386/tcg/misc_helper.c | 3 ++-
+>>>    1 file changed, 2 insertions(+), 1 deletion(-)
 >>>
->>> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
->>> index f45d6be1f4c..df6c64950fa 100644
->>> --- a/scripts/qapi/expr.py
->>> +++ b/scripts/qapi/expr.py
->>> @@ -15,7 +15,14 @@
->>>   # See the COPYING file in the top-level directory.
->>>   
->>>   import re
->>> -from typing import MutableMapping, Optional, cast
->>> +from typing import (
->>> +    Iterable,
->>> +    List,
->>> +    MutableMapping,
->>> +    Optional,
->>> +    Union,
->>> +    cast,
->>> +)
->>>   
->>>   from .common import c_name
->>>   from .error import QAPISemError
->>> @@ -23,9 +30,10 @@
->>>   from .source import QAPISourceInfo
->>>   
->>>   
->>> -# Expressions in their raw form are JSON-like structures with arbitrary forms.
->>> -# Minimally, their top-level form must be a mapping of strings to values.
->>> -Expression = MutableMapping[str, object]
->>> +# Arbitrary form for a JSON-like object.
->>> +_JSObject = MutableMapping[str, object]
->>> +# Expressions in their raw form are (just) JSON-like objects.
->>> +Expression = _JSObject
->> 
->> Wat?
->> 
->
-> Please read the "RFCs/notes" section of the cover letter. I wrote it for 
-> *you*!
+>>> diff --git a/target/i386/tcg/misc_helper.c
+>>> b/target/i386/tcg/misc_helper.c
+>>> index f02e4fd400..90b87fdef0 100644
+>>> --- a/target/i386/tcg/misc_helper.c
+>>> +++ b/target/i386/tcg/misc_helper.c
+>>> @@ -222,7 +222,8 @@ void helper_rdtscp(CPUX86State *env)
+>>>      void helper_rdpmc(CPUX86State *env)
+>>>    {
+>>> -    if ((env->cr[4] & CR4_PCE_MASK) && ((env->hflags & HF_CPL_MASK)
+>>> != 0)) {
+>>> +    if (((env->cr[4] & CR4_PCE_MASK) == 0 ) &&
+>>> +        ((env->hflags & HF_CPL_MASK) != 0)) {
+>>>            raise_exception_ra(env, EXCP0D_GPF, GETPC());
+>>>        }
+>>>        cpu_svm_check_intercept_param(env, SVM_EXIT_RDPMC, 0, GETPC());
+>>>
+>>
+>> Queued, thanks.
+> 
+> Do you mind fixing the patch subject?
 
-You mean I'm supposed to remember the cover letter by the time I get to
-PATCH 08?  Dang!  This is no country for old men...
+Yes, done already actually.  Thanks,
+
+Paolo
 
 
