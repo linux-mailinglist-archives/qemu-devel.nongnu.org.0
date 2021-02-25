@@ -2,40 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E647D325262
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:26:57 +0100 (CET)
-Received: from localhost ([::1]:46334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7DD1325263
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:27:05 +0100 (CET)
+Received: from localhost ([::1]:47182 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFIXY-0003lR-Sj
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:26:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46750)
+	id 1lFIXg-0004DL-Qa
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:27:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIVY-0002GB-9E
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:24:52 -0500
-Received: from rev.ng ([5.9.113.41]:34305)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIVg-0002XA-8f
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:25:00 -0500
+Received: from rev.ng ([5.9.113.41]:35751)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIVV-0003LU-S7
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:24:52 -0500
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIVe-0003PT-Pa
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:25:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=9lAPWz8Eo2uqGbkJERDoXPBP9p67nVEsuzgM5jczxoA=; b=qaBpvV7nH/aB12in695AAF49zq
- X1sDTXMkRBK32k6UNnYQixzWcj9UYRd2nYGO+wvohA7G/jDc2H7GHe3Tce28bFWmaswcFT3LZ/pYB
- V9guSJednZOu7Vn0Dkjca7Qi+zvsNjK+hloxmIw2mqc5zts1H/Xb6JGgTb+UwYoilVNs=;
-Date: Thu, 25 Feb 2021 16:24:36 +0100
+ bh=Jquf2iJW5jTdpV/+AfwurIUv+cTL14UOQMCpqJiCpwA=; b=mVuxcQsQt4RyIruTxDO+DF7n8K
+ lS6AadaSCI7hjBFhvqQL4FKlP4NPKMfZxvN0XBJb0OhY0B9KrIdo3X53soOOJnhAHaAZFYQd3MZna
+ /BOynZm6ghI402B2gjSvaIDEdY6YL6U5Ut+qoTsKR3yZ/ZP4oUt8mXjXfqN6UBusQx+0=;
+Date: Thu, 25 Feb 2021 16:24:48 +0100
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org,
  babush@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com, nizzo@rev.ng
-Subject: Re: [RFC PATCH 08/10] target/hexagon: import parser for idef-parser
-Message-ID: <20210225162436.7132b02f@orange>
-In-Reply-To: <85018b3a-bf9f-09b9-2415-fc68868f0cf2@linaro.org>
+Subject: Re: [RFC PATCH 00/10] target/hexagon: introduce idef-parser
+Message-ID: <20210225162448.32061a7b@orange>
+In-Reply-To: <517570b3-2e0f-3f3e-697b-5fa61754ba7e@linaro.org>
 References: <20210211215051.2102435-1-ale.qemu@rev.ng>
- <20210211215051.2102435-9-ale.qemu@rev.ng>
- <85018b3a-bf9f-09b9-2415-fc68868f0cf2@linaro.org>
+ <517570b3-2e0f-3f3e-697b-5fa61754ba7e@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -63,15 +62,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alessandro Di Federico <ale@rev.ng>
 From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Sun, 14 Feb 2021 08:56:11 -0800
+On Sun, 14 Feb 2021 13:52:25 -0800
 Richard Henderson <richard.henderson@linaro.org> wrote:
 
-> What version of bison are you using?
+> Well, first off, this fails to build with our gitlab CI.
+> 
+> There are several problems, apart from the new bison parse.error
+> option previously reported:
+> 
+> (1) bison and flex not added to dockerfiles, so the packages are not
+> available to CI.
+> 
+> (2) idef-parser program not marked with "native: true", so we get an
+> early meson error about that.
+> 
+> (3) flex = generator() does not specify both output files, so the
+> proper dependency on idef-parser.yy.h is not present.
+> 
+> (4) idef-parser.yy.h is placed in the wrong directory, because you
+> used '%option header-file="xyz"' instead of the command-line
+> '--headerfile=@OUTPUT1@'.  This results in an immediate compilation
+> failure, because the file isn't found.
+> 
+> (5) There's an odd mismatch in file naming, in which you have
+> idef-lexer.lex.yy.c but idef-parser.yy.h.  Not a bug, really, but it
+> looks odd when fixing 3 & 4.
 
-We were using a rather recent version of bison (3.7.5), but it's not
-strictly required.
-
-Fixed in v2.
+We've integrated the suggested changes and tested the v2 on the Gitlab
+CI. It should now work properly.
 
 -- 
 Alessandro Di Federico
