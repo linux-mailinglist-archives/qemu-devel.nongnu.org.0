@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F51F3257F0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:49:03 +0100 (CET)
-Received: from localhost ([::1]:50756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BADA43257EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:49:01 +0100 (CET)
+Received: from localhost ([::1]:50682 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFNZG-0007t3-2g
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:49:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49248)
+	id 1lFNZE-0007rF-Q7
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:49:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lFNXF-0006c7-3g
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:46:57 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b]:33607)
+ id 1lFNXx-0006vl-6V
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:47:41 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:42540)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lFNXA-0005Zv-BO
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:46:56 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id g4so4634117pgj.0
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 12:46:51 -0800 (PST)
+ id 1lFNXv-0005um-Gm
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:47:40 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id w18so4419645pfu.9
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 12:47:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=5PkpeNoZaI1f+5ra1C5pdmH9epBMUaAoY6gSGQzK2io=;
- b=kyFJr05GSw6ceM+3HG2M+xEgqW14r0CHebmyHG7Wp+ADBdY1x9WMbMpS4t8hao8ZUO
- SeT+JXU90mmgdYLNNaC3DztNL5cisTEBLgJYsxDckh76MRxrSPkpjNfJODn+elu6udJn
- UWDEiZLURFc7STN1afPgBhKe2Z/AnAPzX86fxFdgeeldRKZRi43bwlQI1/71a17g9oNH
- d7y64qRc3NLMZkz0dhYMUxDg6Q/GcHqJOVQWd4wa/4NOygrH4zff1XAe1XkjNFJdejei
- eUgSK34pwWtIFReU8FoKP2+YDKkdU1AxGILeuUOh/XJAdzisZZuc/hyiHVZ1bI/XJ41P
- 1EhQ==
+ bh=FrsCjIbNVxH0GzQ+X2SI+twYDbO3vDZSVdU73hlZ6cs=;
+ b=vYHvPpbxLCI8swvIOQjTDk073f+E0aEBrwHfFAF+VfQPFFx6zjeWNTryMt6Jt7fYU7
+ /S5nLOZ4ymSfo3BRFWKH/o5mTKFQKbHbSJEcwU70IAFF97qHQ7L6MIA5pNW5DM9YiDG5
+ b+rXvWKiAZRI2kOElRbxNQsYtP7BHEjZtNRz2eTLyhd3USHbu4C6cboksQdQagCqegXv
+ sOkFOgiP2Od3fWVVVn9oAd84r62M0vY5YNlmF3hQQGV9NbCzS0jaG645uFCFd0uGwIil
+ 2wjjSDIXxhvMypfMFT+sZVIZpKd+V8RxlEk+Od70lR9HnGlrgTPt0KONcIHk31jkfgoy
+ 2p0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=5PkpeNoZaI1f+5ra1C5pdmH9epBMUaAoY6gSGQzK2io=;
- b=JFh5hFSlghzwGM7jNT6MR4EZLHMjjn5L1dlbbbN/WiAxZhKm7X1EdJbkS6qYAhRXrF
- r/cR/khOIeZeczEKKyc2618JTmdslszwISOPDx77UyEiXGH26DH3UbBZFUIHvSbWrhUz
- omLW1qdWgTqUToV3YhGaY3ix7sQXGJC0molJ/gQMcnEYV2MDALq4bp3mMjI5Az3/VHhd
- VcW8DjauBS2UHO0ldgoKdYdKYbvrVSyAyWzcyTtbDJJMy9PRfLe3T8aujzmRqUmZiEDf
- wV3jEAWNoWHfPR0GFpSbtMbSM1Z5CH1NdAxWYifETdEBrtL9PsPVARneFQqxOOnPRYxr
- s9pg==
-X-Gm-Message-State: AOAM530eNtdvjJK3tqa09ZXHZqPZfzLOtrK299m/BJuFcJdHcimE2f87
- 2HDo9zOlBVUyLFrQ7rRI7M8BQA==
-X-Google-Smtp-Source: ABdhPJx3icd5pnNZi2iqhP+s+XnHG/1I0LsgbfeSkoRgHnx4+zerJUurmmmqOyIimMViOHLLhKom2Q==
-X-Received: by 2002:a65:690a:: with SMTP id s10mr4554950pgq.162.1614286010787; 
- Thu, 25 Feb 2021 12:46:50 -0800 (PST)
+ bh=FrsCjIbNVxH0GzQ+X2SI+twYDbO3vDZSVdU73hlZ6cs=;
+ b=WZDQ1c43mth+eOVoNVjsAkGJXLcdld1rWIIQ40emYhMVJG0tzscpeDoskjVGvJ8kJY
+ 9PeQ75t1QXCsrfVvYBE9n8eWQPmgNzoo9QxUqYpm8SOKbUqo9A9NUxL8H6/E1zeZYl0p
+ uDF6s0ie7osbtPW1y8CNccwco7dQ88W4qsJc/E+0EuRkt1RcV5/+aGufFpB6uhXqt2of
+ NROM4YyKQxUGOEdWfqI6VofKQKKJplMjt+12XQvP22DEyLVAY8syACByTAyXbPPZeq2+
+ rKILkwYJVwxXSDZRP1Bnl3bWsMLGimNgHQeR/cPUDQwBRWiY0ZirxJFv2AJvWvv+RuNH
+ Tn0g==
+X-Gm-Message-State: AOAM5300t2F7c5zMZh6H2O+jLRAoWXltrv/PHw4BRTlJr8TA98iuVeWM
+ wuJsywVfxrveMUMa0pInZ7b8/2IO77H1tg==
+X-Google-Smtp-Source: ABdhPJz7bqSseUv4KY1SMhFChgN3elVRYhlpT9SLkkMXgGYaa3gSrq4hmp+vUuiwkUMsIkZn+bFEfA==
+X-Received: by 2002:a63:1503:: with SMTP id v3mr4562199pgl.240.1614286058082; 
+ Thu, 25 Feb 2021 12:47:38 -0800 (PST)
 Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id o9sm5006452pfh.47.2021.02.25.12.46.49
+ by smtp.gmail.com with ESMTPSA id r2sm6794641pgv.50.2021.02.25.12.47.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Feb 2021 12:46:50 -0800 (PST)
-Subject: Re: [PATCH v2 01/10] target/hexagon: update MAINTAINERS for
- idef-parser
+ Thu, 25 Feb 2021 12:47:37 -0800 (PST)
+Subject: Re: [PATCH v2 03/10] target/hexagon: make helper functions non-static
 To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
 References: <20210225151856.3284701-1-ale.qemu@rev.ng>
- <20210225151856.3284701-2-ale.qemu@rev.ng>
+ <20210225151856.3284701-4-ale.qemu@rev.ng>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6844159c-1bd0-0370-d653-bcd44e509e29@linaro.org>
-Date: Thu, 25 Feb 2021 12:46:48 -0800
+Message-ID: <1810031f-a137-6fe7-1f6e-16347855618f@linaro.org>
+Date: Thu, 25 Feb 2021 12:47:35 -0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210225151856.3284701-2-ale.qemu@rev.ng>
+In-Reply-To: <20210225151856.3284701-4-ale.qemu@rev.ng>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -94,14 +93,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/25/21 7:18 AM, Alessandro Di Federico wrote:
-> From: Alessandro Di Federico <ale@rev.ng>
+> From: Paolo Montesel <babush@rev.ng>
+> 
+> Make certain helper functions non-static, making them available outside
+> genptr.c. These functions are required by code generated by the
+> idef-parser.
 > 
 > Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+> Signed-off-by: Paolo Montesel <babush@rev.ng>
 > ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  target/hexagon/genptr.c | 13 ++++++++++---
+>  target/hexagon/genptr.h |  7 +++++++
+>  2 files changed, 17 insertions(+), 3 deletions(-)
+
+You should mention that gen_read_reg is new.  Otherwise,
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
+
 
