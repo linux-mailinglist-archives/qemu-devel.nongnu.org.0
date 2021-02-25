@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3732432523E
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:21:32 +0100 (CET)
-Received: from localhost ([::1]:54872 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A7C32523D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:21:31 +0100 (CET)
+Received: from localhost ([::1]:54960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFISH-0003xu-0b
+	id 1lFISH-00040N-IR
 	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:21:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45318)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQL-0002GF-Be
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:29 -0500
-Received: from rev.ng ([5.9.113.41]:50561)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQM-0002Gz-LK
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:30 -0500
+Received: from rev.ng ([5.9.113.41]:45359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQJ-0001BO-3r
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:29 -0500
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIQJ-0001BQ-3x
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:19:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-Id:Date
- :Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:
+ Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+ Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+ :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=0bAG0Jc6kwW2g65U2Z8htgNo8pa3HPIEK+NYnHT05e8=; b=Y/+L2FAQ1wnvZi0JtRKQdTVYsK
- f4rMQijUtMuXzaZ8IQItBsHcWKzO3GMEGhJzosU2qxjzNDjcxBGXkFdF3Ngp+aTz6PkpkgtwvZnBV
- bCh/yNyqQhYYm7nUyfPDOgy+2gvA1HHOZdFN9g4mHmjODDs328i0n1dsRQNXrlT35FT0=;
+ bh=30yu1RawxHOCxO1NSWeusVgt6PduhFb59zFo1gKyI9Q=; b=ZzlkCwnhMdNrMttlqrEpdmS9Q9
+ C+ct8i5sG+4p5dOByDdyNBkQLnTsLuglf8XBR2xIxbLFzvqDrtXGBCk261x8xxZmtsWRke5oigynG
+ y4zQLCihvD0s0EkCUiM4mJIgcyeYc3skNEaJzLGv7Lk8hOVfmac5C+1g9vDSCFWptCFk=;
 To: qemu-devel@nongnu.org
 Cc: tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
  philmd@redhat.com, richard.henderson@linaro.org,
  Alessandro Di Federico <ale@rev.ng>
-Subject: [PATCH v2 00/10] target/hexagon: introduce idef-parser
-Date: Thu, 25 Feb 2021 16:18:46 +0100
-Message-Id: <20210225151856.3284701-1-ale.qemu@rev.ng>
+Subject: [PATCH v2 01/10] target/hexagon: update MAINTAINERS for idef-parser
+Date: Thu, 25 Feb 2021 16:18:47 +0100
+Message-Id: <20210225151856.3284701-2-ale.qemu@rev.ng>
+In-Reply-To: <20210225151856.3284701-1-ale.qemu@rev.ng>
+References: <20210225151856.3284701-1-ale.qemu@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
@@ -62,157 +63,35 @@ From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
 From: Alessandro Di Federico <ale@rev.ng>
 
-This patchset introduces the idef-parser for target/hexagon.
+Signed-off-by: Alessandro Di Federico <ale@rev.ng>
+---
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-It's the second iteration of the patchset and includes fixes suggested
-in the previous iteration.
-
-`idef-parser` is a build-time tool built using flex and bison. Its aim
-is to generate a large part of the tiny code generator frontend for
-Hexagon. The prototype of idef-parser has been presented at KVM Forum
-2019 ("QEMU-Hexagon: Automatic Translation of the ISA Manual Pseudcode
-to Tiny Code Instructions"):
-
-    https://www.youtube.com/watch?v=3EpnTYBOXCI
-
-`target/hexagon/idef-parser/README.rst` provides an overview of the
-parser and its inner working.
-
-A couple of notes:
-
-* `idef-parser` also supports certain things that are not used in the
-  most recently submitted version of the "Hexagon patch
-  series". However, they will be needed and stripping them out of the
-  parser is quite a bit of work.
-* checkpatch.pl complains on a single macro which has a trailing
-  semi-colon, which is required.
-
-Alessandro Di Federico (4):
-  target/hexagon: update MAINTAINERS for idef-parser
-  target/hexagon: import README for idef-parser
-  target/hexagon: prepare input for the idef-parser
-  target/hexagon: call idef-parser functions
-
-Niccolò Izzo (2):
-  target/hexagon: introduce new helper functions
-  target/hexagon: import additional tests
-
-Paolo Montesel (4):
-  target/hexagon: make helper functions non-static
-  target/hexagon: expose next PC in DisasContext
-  target/hexagon: import lexer for idef-parser
-  target/hexagon: import parser for idef-parser
-
- MAINTAINERS                                   |    8 +
- target/hexagon/README                         |    5 +
- target/hexagon/gen_idef_parser_funcs.py       |  114 +
- target/hexagon/gen_tcg_funcs.py               |   28 +-
- target/hexagon/genptr.c                       |  240 +-
- target/hexagon/genptr.h                       |   26 +
- target/hexagon/hex_common.py                  |   10 +
- target/hexagon/idef-parser/README.rst         |  447 ++++
- target/hexagon/idef-parser/idef-parser.h      |  245 +++
- target/hexagon/idef-parser/idef-parser.lex    |  647 ++++++
- target/hexagon/idef-parser/idef-parser.y      | 1250 +++++++++++
- target/hexagon/idef-parser/macros.inc         |  166 ++
- target/hexagon/idef-parser/parser-helpers.c   | 1925 +++++++++++++++++
- target/hexagon/idef-parser/parser-helpers.h   |  293 +++
- target/hexagon/idef-parser/prepare            |   33 +
- target/hexagon/macros.h                       |    2 +-
- target/hexagon/meson.build                    |   67 +-
- target/hexagon/translate.c                    |    4 +-
- target/hexagon/translate.h                    |    1 +
- tests/docker/dockerfiles/alpine.docker        |    2 +
- tests/docker/dockerfiles/centos7.docker       |    2 +
- tests/docker/dockerfiles/centos8.docker       |    2 +
- tests/docker/dockerfiles/debian10.docker      |    2 +
- .../dockerfiles/fedora-i386-cross.docker      |    2 +
- .../dockerfiles/fedora-win32-cross.docker     |    2 +
- .../dockerfiles/fedora-win64-cross.docker     |    2 +
- tests/docker/dockerfiles/fedora.docker        |    2 +
- tests/docker/dockerfiles/opensuse-leap.docker |    2 +
- tests/docker/dockerfiles/ubuntu.docker        |    2 +
- tests/docker/dockerfiles/ubuntu1804.docker    |    2 +
- tests/docker/dockerfiles/ubuntu2004.docker    |    4 +-
- tests/tcg/hexagon/Makefile.target             |   35 +-
- tests/tcg/hexagon/crt.S                       |   28 +
- tests/tcg/hexagon/first.S                     |   24 +-
- tests/tcg/hexagon/test_abs.S                  |   20 +
- tests/tcg/hexagon/test_add.S                  |   20 +
- tests/tcg/hexagon/test_andp.S                 |   23 +
- tests/tcg/hexagon/test_bitcnt.S               |   42 +
- tests/tcg/hexagon/test_bitsplit.S             |   25 +
- tests/tcg/hexagon/test_call.S                 |   63 +
- tests/tcg/hexagon/test_clobber.S              |   35 +
- tests/tcg/hexagon/test_cmp.S                  |   34 +
- tests/tcg/hexagon/test_cmpy.S                 |   31 +
- tests/tcg/hexagon/test_djump.S                |   24 +
- tests/tcg/hexagon/test_dotnew.S               |   39 +
- tests/tcg/hexagon/test_dstore.S               |   29 +
- tests/tcg/hexagon/test_ext.S                  |   18 +
- tests/tcg/hexagon/test_fibonacci.S            |   33 +
- tests/tcg/hexagon/test_hello.S                |   21 +
- tests/tcg/hexagon/test_hl.S                   |   19 +
- tests/tcg/hexagon/test_hwloops.S              |   25 +
- tests/tcg/hexagon/test_jmp.S                  |   25 +
- tests/tcg/hexagon/test_lsr.S                  |   39 +
- tests/tcg/hexagon/test_mpyi.S                 |   20 +
- tests/tcg/hexagon/test_packet.S               |   26 +
- tests/tcg/hexagon/test_reorder.S              |   31 +
- tests/tcg/hexagon/test_round.S                |   31 +
- tests/tcg/hexagon/test_vavgw.S                |   33 +
- tests/tcg/hexagon/test_vcmpb.S                |   32 +
- tests/tcg/hexagon/test_vcmpw.S                |   29 +
- tests/tcg/hexagon/test_vcmpy.S                |   50 +
- tests/tcg/hexagon/test_vlsrw.S                |   23 +
- tests/tcg/hexagon/test_vmaxh.S                |   37 +
- tests/tcg/hexagon/test_vminh.S                |   37 +
- tests/tcg/hexagon/test_vpmpyh.S               |   30 +
- tests/tcg/hexagon/test_vspliceb.S             |   33 +
- 66 files changed, 6568 insertions(+), 33 deletions(-)
- create mode 100644 target/hexagon/gen_idef_parser_funcs.py
- create mode 100644 target/hexagon/idef-parser/README.rst
- create mode 100644 target/hexagon/idef-parser/idef-parser.h
- create mode 100644 target/hexagon/idef-parser/idef-parser.lex
- create mode 100644 target/hexagon/idef-parser/idef-parser.y
- create mode 100644 target/hexagon/idef-parser/macros.inc
- create mode 100644 target/hexagon/idef-parser/parser-helpers.c
- create mode 100644 target/hexagon/idef-parser/parser-helpers.h
- create mode 100755 target/hexagon/idef-parser/prepare
- create mode 100644 tests/tcg/hexagon/crt.S
- create mode 100644 tests/tcg/hexagon/test_abs.S
- create mode 100644 tests/tcg/hexagon/test_add.S
- create mode 100644 tests/tcg/hexagon/test_andp.S
- create mode 100644 tests/tcg/hexagon/test_bitcnt.S
- create mode 100644 tests/tcg/hexagon/test_bitsplit.S
- create mode 100644 tests/tcg/hexagon/test_call.S
- create mode 100644 tests/tcg/hexagon/test_clobber.S
- create mode 100644 tests/tcg/hexagon/test_cmp.S
- create mode 100644 tests/tcg/hexagon/test_cmpy.S
- create mode 100644 tests/tcg/hexagon/test_djump.S
- create mode 100644 tests/tcg/hexagon/test_dotnew.S
- create mode 100644 tests/tcg/hexagon/test_dstore.S
- create mode 100644 tests/tcg/hexagon/test_ext.S
- create mode 100644 tests/tcg/hexagon/test_fibonacci.S
- create mode 100644 tests/tcg/hexagon/test_hello.S
- create mode 100644 tests/tcg/hexagon/test_hl.S
- create mode 100644 tests/tcg/hexagon/test_hwloops.S
- create mode 100644 tests/tcg/hexagon/test_jmp.S
- create mode 100644 tests/tcg/hexagon/test_lsr.S
- create mode 100644 tests/tcg/hexagon/test_mpyi.S
- create mode 100644 tests/tcg/hexagon/test_packet.S
- create mode 100644 tests/tcg/hexagon/test_reorder.S
- create mode 100644 tests/tcg/hexagon/test_round.S
- create mode 100644 tests/tcg/hexagon/test_vavgw.S
- create mode 100644 tests/tcg/hexagon/test_vcmpb.S
- create mode 100644 tests/tcg/hexagon/test_vcmpw.S
- create mode 100644 tests/tcg/hexagon/test_vcmpy.S
- create mode 100644 tests/tcg/hexagon/test_vlsrw.S
- create mode 100644 tests/tcg/hexagon/test_vmaxh.S
- create mode 100644 tests/tcg/hexagon/test_vminh.S
- create mode 100644 tests/tcg/hexagon/test_vpmpyh.S
- create mode 100644 tests/tcg/hexagon/test_vspliceb.S
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9b2aa18e1f..9a6878b970 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -192,11 +192,19 @@ Hexagon TCG CPUs
+ M: Taylor Simpson <tsimpson@quicinc.com>
+ S: Supported
+ F: target/hexagon/
++X: target/hexagon/idef-parser/
++X: target/hexagon/gen_idef_parser_funcs.py
+ F: linux-user/hexagon/
+ F: tests/tcg/hexagon/
+ F: disas/hexagon.c
+ F: default-configs/targets/hexagon-linux-user.mak
+ 
++Hexagon idef-parser
++M: Alessandro Di Federico <ale@rev.ng>
++S: Supported
++F: target/hexagon/idef-parser/
++F: target/hexagon/gen_idef_parser_funcs.py
++
+ HPPA (PA-RISC) TCG CPUs
+ M: Richard Henderson <richard.henderson@linaro.org>
+ S: Maintained
 -- 
 2.30.1
 
