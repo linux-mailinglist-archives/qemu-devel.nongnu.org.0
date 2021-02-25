@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 810CF3256DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 20:41:21 +0100 (CET)
-Received: from localhost ([::1]:49468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D17232570C
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 20:48:40 +0100 (CET)
+Received: from localhost ([::1]:55910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFMVk-00033z-1o
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 14:41:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33090)
+	id 1lFMco-0006TQ-Ta
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 14:48:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lFMUQ-0002Qo-B5; Thu, 25 Feb 2021 14:39:58 -0500
-Received: from mail-il1-x134.google.com ([2607:f8b0:4864:20::134]:38566)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lFMZe-0004cy-Nz
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 14:45:23 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <nieklinnenbank@gmail.com>)
- id 1lFMUO-0001im-3A; Thu, 25 Feb 2021 14:39:58 -0500
-Received: by mail-il1-x134.google.com with SMTP id f10so5428353ilq.5;
- Thu, 25 Feb 2021 11:39:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1lFMZZ-0004BN-Or
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 14:45:22 -0500
+Received: by mail-ed1-x532.google.com with SMTP id c6so8442630ede.0
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 11:45:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=x8DQ1n/1E8K07VrAGtc1E9VO+ZJ+gwVbBIbaWMI5kTk=;
- b=sScSFaso/PVyP5ULeWxITxx45tckXvIAlg87UIKctK+OOogIE5/XLvdhrWmLKCLd8r
- +oyQeUOldBPC1ENwddeP+2QI7Ro6GYfAZUMBVvg5zGFek3OhKCBQlArxiV+m18e7iQFw
- imIYepWEVcvwPGOlgQy0w283yIQhJlnCRaDJtOGbk0rKHMCojKv/jbJgMnAK/gcVMnd9
- lsSTNE0YhdM37fNPC/wXVXnFpcWv2pPsCzg7Ev+H6HeCZw26qL9UtsTASffzz64JTsed
- s/PCTr0X6QNK+FxMxZBfRUVImSoSBIejopQjhGUVMyNHtfPDDjuGDjg+J/VlDvxeCUuC
- pOYw==
+ :cc; bh=9mwRLNIn92SdH/1W7fkQ5zYQ+X4mfq1llP3yUn2+3Sc=;
+ b=U8+TPUQGDjXqCkH4WJPcGgphyNcW2ULF5l18O439hJxrLgo/cYuf3lGlUsPB6VM5qI
+ 5VvI7l7K1wn0zbHzF6f33BrtK9WR0YPWvGo6iyAsfevgnKt3x61Z0rs5CObJqHSRMMpI
+ n4RwwzqcbMj8qEVMIWmoZCRPOvX7J8KOnx4uxhQUUbbkiqiwLFxpqe1gRURHIsP/OLnE
+ 3olbdZASaiP5pqucBtpqTy+Hz2eZQa/uwd6Aik3NWB+z1thrQcIxWgGCvPFdhfvzE5rz
+ UkBWhyv4shDpKuQHWDLzA0PGtZUlb3LY+WdsyeYaYnVSe/P3w9jidxVMVWr7IJumvJj4
+ V0jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=x8DQ1n/1E8K07VrAGtc1E9VO+ZJ+gwVbBIbaWMI5kTk=;
- b=J1Nq5V8N5Jv92+k1HRd9LzyWRv2Zom4InH1ZKkJY2/XdMutd2+Ho+eJHmUFdB64yiP
- TtW6NS6C28U7oWQKBBoeJRA4oRYvOPgDniAqfRh0tanCMVSXa06UjymLsJ+L/VUl2qhP
- F24TfTQxNdKri7S1fq3WEta7HA3aK2Gd5x+ZmdPuX2s1CHi34orLrSfw6LOQktBAKiHq
- jKVDahhbzRYYMz5uctH6EyIXNbRgY76ntnrFLraENY0lg2TAtSv7xd88CI6GG+nJg5vT
- vtTRXzIcfmCYegkn+kV0le/yh4XNg9zws88lLSogNkBBINpHlqEne3xQdP/5yiz15Viw
- Su2Q==
-X-Gm-Message-State: AOAM531yJzL6QETTYqvyxPSgsNOK0BCtp+mOZdtWIjXRJWwZUT2Dmvq0
- AjvTI0hr07N2hhKw+d1oLuDu3WqBH3SB9LQrIW8=
-X-Google-Smtp-Source: ABdhPJycxzgzKOMDxwdKIlx90Qop3bOut0lR8n5fT2JFtEQS7HpJ/Bg3cEp2cYPodC4HoeojUCsVtcH7UsNnNmVyrEk=
-X-Received: by 2002:a05:6e02:1544:: with SMTP id
- j4mr3707731ilu.67.1614281994068; 
- Thu, 25 Feb 2021 11:39:54 -0800 (PST)
+ bh=9mwRLNIn92SdH/1W7fkQ5zYQ+X4mfq1llP3yUn2+3Sc=;
+ b=VClneNbVU7xj88YCvoB1eTXoaKtOwnrYCL/202jx5mmRHjVAXTdv4INphNQDXn9Lz7
+ 6SYfYm7K8l7UlkjNoCpdiDvFbKIk3FHpDcknwJSvv8R7eATBn8eIumOnzwVhdtdnpAed
+ po0CAPHTGZzzf6wutdh6RIotJECLTi8tb2xxrnND40dk2BhYHePsbAfPe9cqAsaGqMpM
+ vZeE4Cwg6SwNjePAJcBawP/xprBmWFOYll+GPwwF+M0YvA7OikRFxvbfDZlPbE1UXJ4+
+ QOgoLmrzj5QimlivyNpX3eZJmvl9HXaEHQ4pnD58aHk9Vr78OwGy2DxNahbq6IE6n1V2
+ InRw==
+X-Gm-Message-State: AOAM533hwonr0gDMXOcIAVvP57IA6Z0oqSYxkMIzmnTY8LhzzVkmoWVu
+ 8yRk2vkbOISS9ZQb+jDMGaQetkseW1GSnTyMbaM=
+X-Google-Smtp-Source: ABdhPJx23WBllSiY7P+w8dEXABZzVzuJ4oI9GODwA382Ie+dXIDk+OPiClogOKqmj9pBBMXbjsCaFB2XNqzzXfz6EiA=
+X-Received: by 2002:aa7:cd94:: with SMTP id x20mr4863322edv.53.1614282315621; 
+ Thu, 25 Feb 2021 11:45:15 -0800 (PST)
 MIME-Version: 1.0
-References: <20210223225327.26700-1-nieklinnenbank@gmail.com>
- <20210223225327.26700-2-nieklinnenbank@gmail.com>
- <5556626c-0b4f-0de3-9cb8-d174cd210b5c@amsat.org>
- <20210224191341.GC1074102@amachine.somewhere>
- <CAPan3WqXre=Rau4-jOSE2u=GGRO8hSKzuuWFSN4xP3wbpvQ-Dg@mail.gmail.com>
- <YDdx9N0Wtv8F47Ka@redhat.com>
-In-Reply-To: <YDdx9N0Wtv8F47Ka@redhat.com>
-From: Niek Linnenbank <nieklinnenbank@gmail.com>
-Date: Thu, 25 Feb 2021 20:39:42 +0100
-Message-ID: <CAPan3Wp-4Ey+vmMfw2F_yynC_un+byCcYh1U4HuMQYypOJp3GA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] tests/acceptance: replace unstable apt.armbian.com
- URLs for orangepi-pc, cubieboard
-To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000d2ea2f05bc2e50fb"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::134;
- envelope-from=nieklinnenbank@gmail.com; helo=mail-il1-x134.google.com
+References: <20210219131349.3993192-1-kraxel@redhat.com>
+ <20210219131349.3993192-8-kraxel@redhat.com>
+In-Reply-To: <20210219131349.3993192-8-kraxel@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 25 Feb 2021 23:45:03 +0400
+Message-ID: <CAJ+F1C+7aZyDOGB+CD2CubxzTexJ0kBkMx76Zk4zpHiQZuEx9Q@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ui/gtk: add clipboard support
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="000000000000fd69ed05bc2e637a"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,325 +77,566 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Pavel.Dovgaluk@ispras.ru, Cleber Rosa <crosa@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000d2ea2f05bc2e50fb
+--000000000000fd69ed05bc2e637a
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Philippe, Thomas, Daniel,
+On Fri, Feb 19, 2021 at 5:29 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Thank you all. Then I'll just prepare a new version of the patch that uses
-currently working archive.armbian.com links.
+> This patch adds clipboard support to the qemu gtk ui.
+>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+> ---
+>  include/ui/gtk.h   |   9 ++++
+>  ui/gtk-clipboard.c | 124 +++++++++++++++++++++++++++++++++++++++++++++
+>  ui/gtk.c           |   1 +
+>  ui/meson.build     |   2 +-
+>  4 files changed, 135 insertions(+), 1 deletion(-)
+>  create mode 100644 ui/gtk-clipboard.c
+>
+> diff --git a/include/ui/gtk.h b/include/ui/gtk.h
+> index 55319843758d..08999f8835e6 100644
+> --- a/include/ui/gtk.h
+> +++ b/include/ui/gtk.h
+> @@ -18,6 +18,7 @@
+>  #include <gdk/gdkwayland.h>
+>  #endif
+>
+> +#include "ui/clipboard.h"
+>  #include "ui/console.h"
+>  #include "ui/kbd-state.h"
+>  #if defined(CONFIG_OPENGL)
+> @@ -137,6 +138,11 @@ struct GtkDisplayState {
+>
+>      bool external_pause_update;
+>
+> +    QemuClipboardPeer cbpeer;
+> +    QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];
+> +    uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];
+> +    GtkClipboard *gtkcb[QEMU_CLIPBOARD_SELECTION__COUNT];
+> +
+>      DisplayOptions *opts;
+>  };
+>
+> @@ -208,4 +214,7 @@ QEMUGLContext
+> gd_gl_area_get_current_context(DisplayChangeListener *dcl);
+>  int gd_gl_area_make_current(DisplayChangeListener *dcl,
+>                              QEMUGLContext ctx);
+>
+> +/* gtk-clipboard.c */
+> +void gd_clipboard_init(GtkDisplayState *gd);
+> +
+>  #endif /* UI_GTK_H */
+> diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c
+> new file mode 100644
+> index 000000000000..4a7f44b25818
+> --- /dev/null
+> +++ b/ui/gtk-clipboard.c
+> @@ -0,0 +1,124 @@
+> +/*
+> + * GTK UI -- clipboard support
+> + *
+> + * Copyright (C) 2021 Gerd Hoffmann <kraxel@redhat.com>
+> + *
+> + * This program is free software; you can redistribute it and/or modify
+> + * it under the terms of the GNU General Public License as published by
+> + * the Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful,
+> + * but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+> + * General Public License for more details.
+> + *
+> + * You should have received a copy of the GNU General Public License
+> + * along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +
+> +#include "ui/gtk.h"
+> +
+> +static void gd_clipboard_notify(Notifier *notifier, void *data)
+> +{
+> +    GtkDisplayState *gd =3D container_of(notifier, GtkDisplayState,
+> cbpeer.update);
+> +    QemuClipboardInfo *info =3D data;
+> +    QemuClipboardSelection s =3D info->selection;
+> +    bool self_update =3D info->owner =3D=3D &gd->cbpeer;
+> +
+> +    if (info !=3D gd->cbinfo[s]) {
+> +        qemu_clipboard_info_put(gd->cbinfo[s]);
+> +        gd->cbinfo[s] =3D qemu_clipboard_info_get(info);
+> +        gd->cbpending[s] =3D 0;
+> +        if (!self_update) {
+> +            if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available) {
+> +                qemu_clipboard_request(info, QEMU_CLIPBOARD_TYPE_TEXT);
+>
 
-Kind regards,
-Niek
+Always requesting the clipboard is a bit harsh, isn't it?
 
-On Thu, Feb 25, 2021 at 10:46 AM Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om>
-wrote:
++            }
+> +        }
+> +        return;
+> +    }
+> +
+> +    if (self_update) {
+> +        return;
+> +    }
+> +
+> +    if (info->types[QEMU_CLIPBOARD_TYPE_TEXT].available &&
+> +        info->types[QEMU_CLIPBOARD_TYPE_TEXT].data) {
+> +        gtk_clipboard_set_text(gd->gtkcb[s],
+> +                               info->types[QEMU_CLIPBOARD_TYPE_TEXT].dat=
+a,
+> +
+>  info->types[QEMU_CLIPBOARD_TYPE_TEXT].size);
+> +    }
+> +}
+> +
+> +static void gd_clipboard_request(QemuClipboardInfo *info,
+> +                                 QemuClipboardType type)
+> +{
+> +    GtkDisplayState *gd =3D container_of(info->owner, GtkDisplayState,
+> cbpeer);
+> +    char *text;
+> +
+> +    switch (type) {
+> +    case QEMU_CLIPBOARD_TYPE_TEXT:
+> +        text =3D gtk_clipboard_wait_for_text(gd->gtkcb[info->selection])=
+;
+> +        qemu_clipboard_set_data(&gd->cbpeer, info, type,
+> +                                strlen(text), text, true);
+>
 
-> On Wed, Feb 24, 2021 at 09:02:51PM +0100, Niek Linnenbank wrote:
-> > Hi Philippe, Cleber,
-> >
-> > On Wed, Feb 24, 2021 at 8:14 PM Cleber Rosa <crosa@redhat.com> wrote:
-> >
-> > > On Wed, Feb 24, 2021 at 10:12:10AM +0100, Philippe Mathieu-Daud=C3=A9=
- wrote:
-> > > > Hi Niek,
-> > > >
-> > > > On 2/23/21 11:53 PM, Niek Linnenbank wrote:
-> > > > > Currently the automated acceptance tests for the Orange Pi PC and
-> > > cubieboard
-> > > > > machines are disabled by default. The tests for both machines
-> require
-> > > artifacts
-> > > > > that are stored on the apt.armbian.com domain. Unfortunately,
-> some of
-> > > these artifacts
-> > > > > have been removed from apt.armbian.com and it is uncertain whethe=
-r
-> > > more will be removed.
-> > > > >
-> > > > > This commit moves the artifacts previously stored on
-> apt.armbian.com
-> > > to github
-> > > > > and retrieves them using the path: '/<machine>/<artifact>'.
-> > > > >
-> > > > > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > > > > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> > > > > Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> > > >
-> > > > > Tested-by: Cleber Rosa <crosa@redhat.com>
-> > > >
-> > > > Did Cleber test this new version?
-> > > >
-> > >
-> >
-> > You're right, it was the previous version (v1) that Cleber tested using
-> my
-> > own machine URL's.
-> >
-> > I was actually not sure whether I should or should not have added the
-> > Tested-by/Reviewed-by tags in such scenario.
-> > The content had to be changed due to the outcome of our discussion but
-> also
-> > I thought I don't want to silently drop
-> > the tags since Cleber invested his time into it too.
-> >
-> > What should I do here, next time?
-> >
-> >
-> >
-> > >
-> > > Nope, and I'm having issues with those URLs.  For instance:
-> > >
-> > >    $ curl -L
-> > >
-> https://github.com/nieklinnenbank/QemuArtifacts/raw/master/cubieboard/lin=
-ux-image-dev-sunxi_5.75_armhf.deb
-> > >    version https://git-lfs.github.com/spec/v1
-> > >    oid
-> > > sha256:a4b765c851de76592f55023b1ff4104f7fd29bf90937e6054e0a64fdda5638=
-0b
-> > >    size 20331524
-> > >
-> > > Looks like it has to do with GitHub's behavior wrt quota.
-> > >
-> >
-> > Indeed. Just this morning I received an e-mail from github with the
-> > following text:
-> >
-> > "[GitHub] Git LFS disabled for nieklinnenbank
-> >
-> > Git LFS has been disabled on your personal account nieklinnenbank becau=
-se
-> > you=E2=80=99ve exceeded your data plan by at least 150%.
-> > Please purchase additional data packs to cover your bandwidth and stora=
-ge
-> > usage:
-> >
-> >   https://github.com/account/billing/data/upgrade
-> >
-> > Current usage as of 24 Feb 2021 09:49AM UTC:
-> >
-> >   Bandwidth: 1.55 GB / 1 GB (155%)
-> >   Storage: 0.48 GB / 1 GB (48%)"
-> >
-> > I wasn't aware of it but it appears that Github has these quota's for t=
-he
-> > Large File Storage (LFS). I uploaded the files in the git LFS
-> > because single files are also limited to 100MiB each on the regular Git
-> > repositories.
-> >
-> > With those strict limits, in my opinion Github isn't really a solution
-> > since the bandwidth limit will be reached very quickly. At least for th=
-e
-> > LFS part that is. I don't know yet if there is any limit for regular
-> access.
-> >
-> > My current ideas:
+text might be NULL if it failed.
+
+And you must free it.
+
++        break;
+> +    default:
+> +        break;
+> +    }
+> +}
+> +
+> +static QemuClipboardSelection gd_find_selection(GtkDisplayState *gd,
+> +                                                GtkClipboard *clipboard)
+> +{
+> +    QemuClipboardSelection s;
+> +
+> +    for (s =3D 0; s < QEMU_CLIPBOARD_SELECTION__COUNT; s++) {
+> +        if (gd->gtkcb[s] =3D=3D clipboard) {
+> +            return s;
+> +        }
+> +    }
+> +    return QEMU_CLIPBOARD_SELECTION_CLIPBOARD;
+> +}
+> +
+> +static void gd_owner_change(GtkClipboard *clipboard,
+> +                            GdkEvent *event,
+> +                            gpointer data)
+> +{
+> +    GtkDisplayState *gd =3D data;
+> +    QemuClipboardSelection s =3D gd_find_selection(gd, clipboard);
+> +    QemuClipboardInfo *info;
+> +
+> +    info =3D qemu_clipboard_info_new(&gd->cbpeer, s);
+> +    if (gtk_clipboard_wait_is_text_available(clipboard)) {
+> +        info->types[QEMU_CLIPBOARD_TYPE_TEXT].available =3D true;
+> +    }
 >
-> >   - we can try to just update the URLs to armbian that are working now
-> > (with the risk of breaking again in the near future). Ive also found th=
-is
-> > link, which may be more stable:
-> >      https://archive.armbian.com/orangepipc/archive/
+
+Hmm, so after gtk_clipboard_set_text() the client side is actually taking
+the ownership away from the guest clipboard I presume. That might have some
+weird interaction issues. Hopefully the other side isn't playing the same
+game...
+
++
+> +    qemu_clipboard_update(info);
+> +    qemu_clipboard_info_put(info);
+> +}
+> +
+> +void gd_clipboard_init(GtkDisplayState *gd)
+> +{
+> +    gd->cbpeer.name =3D "gtk";
+> +    gd->cbpeer.update.notify =3D gd_clipboard_notify;
+> +    gd->cbpeer.request =3D gd_clipboard_request;
+> +    qemu_clipboard_peer_register(&gd->cbpeer);
+> +
+> +    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =3D
+> +        gtk_clipboard_get(gdk_atom_intern("CLIPBOARD", FALSE));
 >
-> Just do this, as it is the simplest option that gets things working. We
-> have already spent far too long talking about the problem instead of
-> just fixing the URLs.
+
+GDK_SELECTION_CLIPBOARD
+
+
+> +    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY] =3D
+> +        gtk_clipboard_get(gdk_atom_intern("PRIMARY", FALSE));
 >
+
+ GDK_SELECTION_PRIMARY
+
++    gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY] =3D
+> +        gtk_clipboard_get(gdk_atom_intern("SECONDARY", FALSE));
 >
-> Regards,
-> Daniel
+
+ GDK_SELECTION_SECONDARY
+
+
+> +
+> +    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD],
+> +                     "owner-change", G_CALLBACK(gd_owner_change), gd);
+> +    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY],
+> +                     "owner-change", G_CALLBACK(gd_owner_change), gd);
+> +    g_signal_connect(gd->gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY],
+> +                     "owner-change", G_CALLBACK(gd_owner_change), gd);
+>
+
+
+Might be worth having a deinit for signals, peer registration etc, even if
+nothing is hooked yet in gtk.c..
+
+Overall, calling wait & set variants of clipboard functions makes things
+quite simpler to deal with. Hopefully it can stay that way...
+
++}
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 7b412dd4fe0b..0ae3ec20f594 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -2252,6 +2252,7 @@ static void gtk_display_init(DisplayState *ds,
+> DisplayOptions *opts)
+>          opts->u.gtk.grab_on_hover) {
+>          gtk_menu_item_activate(GTK_MENU_ITEM(s->grab_on_hover_item));
+>      }
+> +    gd_clipboard_init(s);
+>  }
+>
+>  static void early_gtk_display_init(DisplayOptions *opts)
+> diff --git a/ui/meson.build b/ui/meson.build
+> index a98f89b48978..3ea969a6210b 100644
+> --- a/ui/meson.build
+> +++ b/ui/meson.build
+> @@ -64,7 +64,7 @@ if gtk.found()
+>    softmmu_ss.add(when: 'CONFIG_WIN32', if_true: files('win32-kbd-hook.c'=
+))
+>
+>    gtk_ss =3D ss.source_set()
+> -  gtk_ss.add(gtk, vte, pixman, files('gtk.c'))
+> +  gtk_ss.add(gtk, vte, pixman, files('gtk.c', 'gtk-clipboard.c'))
+>    gtk_ss.add(when: x11, if_true: files('x_keymap.c'))
+>    gtk_ss.add(when: [opengl, 'CONFIG_OPENGL'], if_true: files('gtk-egl.c'=
+,
+> 'gtk-gl-area.c'))
+>    ui_modules +=3D {'gtk' : gtk_ss}
 > --
-> |: https://berrange.com      -o-
-> https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-
-> https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-
-> https://www.instagram.com/dberrange :|
+> 2.29.2
+>
 >
 >
 
 --=20
-Niek Linnenbank
+Marc-Andr=C3=A9 Lureau
 
---000000000000d2ea2f05bc2e50fb
+--000000000000fd69ed05bc2e637a
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div>Hi Philippe, Thomas, Daniel,</div><div><br></div><div=
->Thank you all. Then I&#39;ll just prepare a new version of the patch that =
-uses currently working <a href=3D"http://archive.armbian.com">archive.armbi=
-an.com</a> links.</div><div><br></div><div>Kind regards,</div><div>Niek<br>=
-</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_=
-attr">On Thu, Feb 25, 2021 at 10:46 AM Daniel P. Berrang=C3=A9 &lt;<a href=
-=3D"mailto:berrange@redhat.com">berrange@redhat.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex">On Wed, Feb 24, 2021 at =
-09:02:51PM +0100, Niek Linnenbank wrote:<br>
-&gt; Hi Philippe, Cleber,<br>
-&gt; <br>
-&gt; On Wed, Feb 24, 2021 at 8:14 PM Cleber Rosa &lt;<a href=3D"mailto:cros=
-a@redhat.com" target=3D"_blank">crosa@redhat.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; On Wed, Feb 24, 2021 at 10:12:10AM +0100, Philippe Mathieu-Daud=
-=C3=A9 wrote:<br>
-&gt; &gt; &gt; Hi Niek,<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; On 2/23/21 11:53 PM, Niek Linnenbank wrote:<br>
-&gt; &gt; &gt; &gt; Currently the automated acceptance tests for the Orange=
- Pi PC and<br>
-&gt; &gt; cubieboard<br>
-&gt; &gt; &gt; &gt; machines are disabled by default. The tests for both ma=
-chines require<br>
-&gt; &gt; artifacts<br>
-&gt; &gt; &gt; &gt; that are stored on the <a href=3D"http://apt.armbian.co=
-m" rel=3D"noreferrer" target=3D"_blank">apt.armbian.com</a> domain. Unfortu=
-nately, some of<br>
-&gt; &gt; these artifacts<br>
-&gt; &gt; &gt; &gt; have been removed from <a href=3D"http://apt.armbian.co=
-m" rel=3D"noreferrer" target=3D"_blank">apt.armbian.com</a> and it is uncer=
-tain whether<br>
-&gt; &gt; more will be removed.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; This commit moves the artifacts previously stored on <a=
- href=3D"http://apt.armbian.com" rel=3D"noreferrer" target=3D"_blank">apt.a=
-rmbian.com</a><br>
-&gt; &gt; to github<br>
-&gt; &gt; &gt; &gt; and retrieves them using the path: &#39;/&lt;machine&gt=
-;/&lt;artifact&gt;&#39;.<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Signed-off-by: Niek Linnenbank &lt;<a href=3D"mailto:ni=
-eklinnenbank@gmail.com" target=3D"_blank">nieklinnenbank@gmail.com</a>&gt;<=
-br>
-&gt; &gt; &gt; &gt; Reviewed-by: Willian Rampazzo &lt;<a href=3D"mailto:wil=
-lianr@redhat.com" target=3D"_blank">willianr@redhat.com</a>&gt;<br>
-&gt; &gt; &gt; &gt; Reviewed-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@re=
-dhat.com" target=3D"_blank">crosa@redhat.com</a>&gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; Tested-by: Cleber Rosa &lt;<a href=3D"mailto:crosa@redh=
-at.com" target=3D"_blank">crosa@redhat.com</a>&gt;<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Did Cleber test this new version?<br>
-&gt; &gt; &gt;<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; You&#39;re right, it was the previous version (v1) that Cleber tested =
-using my<br>
-&gt; own machine URL&#39;s.<br>
-&gt; <br>
-&gt; I was actually not sure whether I should or should not have added the<=
-br>
-&gt; Tested-by/Reviewed-by tags in such scenario.<br>
-&gt; The content had to be changed due to the outcome of our discussion but=
- also<br>
-&gt; I thought I don&#39;t want to silently drop<br>
-&gt; the tags since Cleber invested his time into it too.<br>
-&gt; <br>
-&gt; What should I do here, next time?<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; &gt;<br>
-&gt; &gt; Nope, and I&#39;m having issues with those URLs.=C2=A0 For instan=
-ce:<br>
-&gt; &gt;<br>
-&gt; &gt;=C2=A0 =C2=A0 $ curl -L<br>
-&gt; &gt; <a href=3D"https://github.com/nieklinnenbank/QemuArtifacts/raw/ma=
-ster/cubieboard/linux-image-dev-sunxi_5.75_armhf.deb" rel=3D"noreferrer" ta=
-rget=3D"_blank">https://github.com/nieklinnenbank/QemuArtifacts/raw/master/=
-cubieboard/linux-image-dev-sunxi_5.75_armhf.deb</a><br>
-&gt; &gt;=C2=A0 =C2=A0 version <a href=3D"https://git-lfs.github.com/spec/v=
-1" rel=3D"noreferrer" target=3D"_blank">https://git-lfs.github.com/spec/v1<=
-/a><br>
-&gt; &gt;=C2=A0 =C2=A0 oid<br>
-&gt; &gt; sha256:a4b765c851de76592f55023b1ff4104f7fd29bf90937e6054e0a64fdda=
-56380b<br>
-&gt; &gt;=C2=A0 =C2=A0 size 20331524<br>
-&gt; &gt;<br>
-&gt; &gt; Looks like it has to do with GitHub&#39;s behavior wrt quota.<br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Indeed. Just this morning I received an e-mail from github with the<br=
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Feb 19, 2021 at 5:29 PM Gerd =
+Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This pat=
+ch adds clipboard support to the qemu gtk ui.<br>
+<br>
+Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
+t=3D"_blank">kraxel@redhat.com</a>&gt;<br>
+---<br>
+=C2=A0include/ui/gtk.h=C2=A0 =C2=A0|=C2=A0 =C2=A09 ++++<br>
+=C2=A0ui/gtk-clipboard.c | 124 ++++++++++++++++++++++++++++++++++++++++++++=
++<br>
+=C2=A0ui/gtk.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A01 +<br=
 >
-&gt; following text:<br>
-&gt; <br>
-&gt; &quot;[GitHub] Git LFS disabled for nieklinnenbank<br>
-&gt; <br>
-&gt; Git LFS has been disabled on your personal account nieklinnenbank beca=
-use<br>
-&gt; you=E2=80=99ve exceeded your data plan by at least 150%.<br>
-&gt; Please purchase additional data packs to cover your bandwidth and stor=
-age<br>
-&gt; usage:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/account/billing/data/upgrade=
-" rel=3D"noreferrer" target=3D"_blank">https://github.com/account/billing/d=
-ata/upgrade</a><br>
-&gt; <br>
-&gt; Current usage as of 24 Feb 2021 09:49AM UTC:<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0Bandwidth: 1.55 GB / 1 GB (155%)<br>
-&gt;=C2=A0 =C2=A0Storage: 0.48 GB / 1 GB (48%)&quot;<br>
-&gt; <br>
-&gt; I wasn&#39;t aware of it but it appears that Github has these quota&#3=
-9;s for the<br>
-&gt; Large File Storage (LFS). I uploaded the files in the git LFS<br>
-&gt; because single files are also limited to 100MiB each on the regular Gi=
-t<br>
-&gt; repositories.<br>
-&gt; <br>
-&gt; With those strict limits, in my opinion Github isn&#39;t really a solu=
-tion<br>
-&gt; since the bandwidth limit will be reached very quickly. At least for t=
-he<br>
-&gt; LFS part that is. I don&#39;t know yet if there is any limit for regul=
-ar access.<br>
-&gt; <br>
-&gt; My current ideas:<br>
+=C2=A0ui/meson.build=C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A02 +-<br>
+=C2=A04 files changed, 135 insertions(+), 1 deletion(-)<br>
+=C2=A0create mode 100644 ui/gtk-clipboard.c<br>
 <br>
-&gt;=C2=A0 =C2=A0- we can try to just update the URLs to armbian that are w=
-orking now<br>
-&gt; (with the risk of breaking again in the near future). Ive also found t=
-his<br>
-&gt; link, which may be more stable:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 <a href=3D"https://archive.armbian.com/orangepipc/=
-archive/" rel=3D"noreferrer" target=3D"_blank">https://archive.armbian.com/=
-orangepipc/archive/</a><br>
+diff --git a/include/ui/gtk.h b/include/ui/gtk.h<br>
+index 55319843758d..08999f8835e6 100644<br>
+--- a/include/ui/gtk.h<br>
++++ b/include/ui/gtk.h<br>
+@@ -18,6 +18,7 @@<br>
+=C2=A0#include &lt;gdk/gdkwayland.h&gt;<br>
+=C2=A0#endif<br>
 <br>
-Just do this, as it is the simplest option that gets things working. We<br>
-have already spent far too long talking about the problem instead of<br>
-just fixing the URLs.<br>
++#include &quot;ui/clipboard.h&quot;<br>
+=C2=A0#include &quot;ui/console.h&quot;<br>
+=C2=A0#include &quot;ui/kbd-state.h&quot;<br>
+=C2=A0#if defined(CONFIG_OPENGL)<br>
+@@ -137,6 +138,11 @@ struct GtkDisplayState {<br>
 <br>
+=C2=A0 =C2=A0 =C2=A0bool external_pause_update;<br>
 <br>
-Regards,<br>
-Daniel<br>
++=C2=A0 =C2=A0 QemuClipboardPeer cbpeer;<br>
++=C2=A0 =C2=A0 QemuClipboardInfo *cbinfo[QEMU_CLIPBOARD_SELECTION__COUNT];<=
+br>
++=C2=A0 =C2=A0 uint32_t cbpending[QEMU_CLIPBOARD_SELECTION__COUNT];<br>
++=C2=A0 =C2=A0 GtkClipboard *gtkcb[QEMU_CLIPBOARD_SELECTION__COUNT];<br>
++<br>
+=C2=A0 =C2=A0 =C2=A0DisplayOptions *opts;<br>
+=C2=A0};<br>
+<br>
+@@ -208,4 +214,7 @@ QEMUGLContext gd_gl_area_get_current_context(DisplayCha=
+ngeListener *dcl);<br>
+=C2=A0int gd_gl_area_make_current(DisplayChangeListener *dcl,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QEMUGLContext ctx);<br>
+<br>
++/* gtk-clipboard.c */<br>
++void gd_clipboard_init(GtkDisplayState *gd);<br>
++<br>
+=C2=A0#endif /* UI_GTK_H */<br>
+diff --git a/ui/gtk-clipboard.c b/ui/gtk-clipboard.c<br>
+new file mode 100644<br>
+index 000000000000..4a7f44b25818<br>
+--- /dev/null<br>
++++ b/ui/gtk-clipboard.c<br>
+@@ -0,0 +1,124 @@<br>
++/*<br>
++ * GTK UI -- clipboard support<br>
++ *<br>
++ * Copyright (C) 2021 Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.co=
+m" target=3D"_blank">kraxel@redhat.com</a>&gt;<br>
++ *<br>
++ * This program is free software; you can redistribute it and/or modify<br=
+>
++ * it under the terms of the GNU General Public License as published by<br=
+>
++ * the Free Software Foundation; either version 2 of the License, or<br>
++ * (at your option) any later version.<br>
++ *<br>
++ * This program is distributed in the hope that it will be useful,<br>
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of<br>
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.=C2=A0 See the GNU<=
+br>
++ * General Public License for more details.<br>
++ *<br>
++ * You should have received a copy of the GNU General Public License<br>
++ * along with this program; if not, see &lt;<a href=3D"http://www.gnu.org/=
+licenses/" rel=3D"noreferrer" target=3D"_blank">http://www.gnu.org/licenses=
+/</a>&gt;.<br>
++ *<br>
++ */<br>
++<br>
++#include &quot;qemu/osdep.h&quot;<br>
++#include &quot;qemu-common.h&quot;<br>
++<br>
++#include &quot;ui/gtk.h&quot;<br>
++<br>
++static void gd_clipboard_notify(Notifier *notifier, void *data)<br>
++{<br>
++=C2=A0 =C2=A0 GtkDisplayState *gd =3D container_of(notifier, GtkDisplaySta=
+te, cbpeer.update);<br>
++=C2=A0 =C2=A0 QemuClipboardInfo *info =3D data;<br>
++=C2=A0 =C2=A0 QemuClipboardSelection s =3D info-&gt;selection;<br>
++=C2=A0 =C2=A0 bool self_update =3D info-&gt;owner =3D=3D &amp;gd-&gt;cbpee=
+r;<br>
++<br>
++=C2=A0 =C2=A0 if (info !=3D gd-&gt;cbinfo[s]) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_info_put(gd-&gt;cbinfo[s]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gd-&gt;cbinfo[s] =3D qemu_clipboard_info_get(i=
+nfo);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gd-&gt;cbpending[s] =3D 0;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!self_update) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (info-&gt;types[QEMU_CLIPBOAR=
+D_TYPE_TEXT].available) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_req=
+uest(info, QEMU_CLIPBOARD_TYPE_TEXT);<br></blockquote><div><br></div><div>A=
+lways requesting the clipboard is a bit harsh, isn&#39;t it?</div><div> <br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (self_update) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
++=C2=A0 =C2=A0 }<br>
++<br>
++=C2=A0 =C2=A0 if (info-&gt;types[QEMU_CLIPBOARD_TYPE_TEXT].available &amp;=
+&amp;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[QEMU_CLIPBOARD_TYPE_TEXT].data)=
+ {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_set_text(gd-&gt;gtkcb[s],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;types[QEMU_CLIPBOARD_TYPE_TE=
+XT].data,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0info-&gt;types[QEMU_CLIPBOARD_TYPE_TE=
+XT].size);<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static void gd_clipboard_request(QemuClipboardInfo *info,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QemuClipboardType type)<br>
++{<br>
++=C2=A0 =C2=A0 GtkDisplayState *gd =3D container_of(info-&gt;owner, GtkDisp=
+layState, cbpeer);<br>
++=C2=A0 =C2=A0 char *text;<br>
++<br>
++=C2=A0 =C2=A0 switch (type) {<br>
++=C2=A0 =C2=A0 case QEMU_CLIPBOARD_TYPE_TEXT:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 text =3D gtk_clipboard_wait_for_text(gd-&gt;gt=
+kcb[info-&gt;selection]);<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_clipboard_set_data(&amp;gd-&gt;cbpeer, in=
+fo, type,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 strlen(text), text, true);<br></bloc=
+kquote><div><br></div><div>text might be NULL if it failed.</div><div><br><=
+/div><div>And you must free it.</div><div> <br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
+,204,204);padding-left:1ex">
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 default:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
++=C2=A0 =C2=A0 }<br>
++}<br>
++<br>
++static QemuClipboardSelection gd_find_selection(GtkDisplayState *gd,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 GtkClipboard *clipboard)<br>
++{<br>
++=C2=A0 =C2=A0 QemuClipboardSelection s;<br>
++<br>
++=C2=A0 =C2=A0 for (s =3D 0; s &lt; QEMU_CLIPBOARD_SELECTION__COUNT; s++) {=
+<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (gd-&gt;gtkcb[s] =3D=3D clipboard) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return s;<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 }<br>
++=C2=A0 =C2=A0 return QEMU_CLIPBOARD_SELECTION_CLIPBOARD;<br>
++}<br>
++<br>
++static void gd_owner_change(GtkClipboard *clipboard,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 GdkEvent *event,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 gpointer data)<br>
++{<br>
++=C2=A0 =C2=A0 GtkDisplayState *gd =3D data;<br>
++=C2=A0 =C2=A0 QemuClipboardSelection s =3D gd_find_selection(gd, clipboard=
+);<br>
++=C2=A0 =C2=A0 QemuClipboardInfo *info;<br>
++<br>
++=C2=A0 =C2=A0 info =3D qemu_clipboard_info_new(&amp;gd-&gt;cbpeer, s);<br>
++=C2=A0 =C2=A0 if (gtk_clipboard_wait_is_text_available(clipboard)) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 info-&gt;types[QEMU_CLIPBOARD_TYPE_TEXT].avail=
+able =3D true;<br>
++=C2=A0 =C2=A0 }<br></blockquote><div><br></div>Hmm, so after gtk_clipboard=
+_set_text() the client side is actually taking the ownership away from the =
+guest clipboard I presume. That might have some weird interaction issues. H=
+opefully the other side isn&#39;t playing the same game...<br></div><div cl=
+ass=3D"gmail_quote"><br></div><div class=3D"gmail_quote"><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">
++<br>
++=C2=A0 =C2=A0 qemu_clipboard_update(info);<br>
++=C2=A0 =C2=A0 qemu_clipboard_info_put(info);<br>
++}<br>
++<br>
++void gd_clipboard_init(GtkDisplayState *gd)<br>
++{<br>
++=C2=A0 =C2=A0 gd-&gt;<a href=3D"http://cbpeer.name" rel=3D"noreferrer" tar=
+get=3D"_blank">cbpeer.name</a> =3D &quot;gtk&quot;;<br>
++=C2=A0 =C2=A0 gd-&gt;cbpeer.update.notify =3D gd_clipboard_notify;<br>
++=C2=A0 =C2=A0 gd-&gt;cbpeer.request =3D gd_clipboard_request;<br>
++=C2=A0 =C2=A0 qemu_clipboard_peer_register(&amp;gd-&gt;cbpeer);<br>
++<br>
++=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPBOARD] =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&quot;CLIPBO=
+ARD&quot;, FALSE));<br></blockquote><div><br></div><div>GDK_SELECTION_CLIPB=
+OARD</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
++=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMARY] =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&quot;PRIMAR=
+Y&quot;, FALSE));<br></blockquote><div><br></div><div>=C2=A0GDK_SELECTION_P=
+RIMARY</div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
++=C2=A0 =C2=A0 gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_SECONDARY] =3D<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk_clipboard_get(gdk_atom_intern(&quot;SECOND=
+ARY&quot;, FALSE));<br>
+</blockquote><div><div><br></div><div>=C2=A0GDK_SELECTION_SECONDARY</div>=
+=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+<br>
++=C2=A0 =C2=A0 g_signal_connect(gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_CLIPB=
+OARD],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&quot;owner-change&quot;, G_CALLBACK(gd_owner_change), gd);<br>
++=C2=A0 =C2=A0 g_signal_connect(gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_PRIMA=
+RY],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&quot;owner-change&quot;, G_CALLBACK(gd_owner_change), gd);<br>
++=C2=A0 =C2=A0 g_signal_connect(gd-&gt;gtkcb[QEMU_CLIPBOARD_SELECTION_SECON=
+DARY],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0&quot;owner-change&quot;, G_CALLBACK(gd_owner_change), gd);<br></blockqu=
+ote><div><br></div><div></div><div><br></div><div>Might be worth having a d=
+einit for signals, peer registration etc, even if nothing is hooked yet in =
+gtk.c..</div><div><br></div><div>Overall, calling wait &amp; set variants o=
+f clipboard functions makes things quite simpler to deal with. Hopefully it=
+ can stay that way...<br></div><div><br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,20=
+4);padding-left:1ex">
++}<br>
+diff --git a/ui/gtk.c b/ui/gtk.c<br>
+index 7b412dd4fe0b..0ae3ec20f594 100644<br>
+--- a/ui/gtk.c<br>
++++ b/ui/gtk.c<br>
+@@ -2252,6 +2252,7 @@ static void gtk_display_init(DisplayState *ds, Displa=
+yOptions *opts)<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0opts-&gt;u.gtk.grab_on_hover) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gtk_menu_item_activate(GTK_MENU_ITEM(s-&g=
+t;grab_on_hover_item));<br>
+=C2=A0 =C2=A0 =C2=A0}<br>
++=C2=A0 =C2=A0 gd_clipboard_init(s);<br>
+=C2=A0}<br>
+<br>
+=C2=A0static void early_gtk_display_init(DisplayOptions *opts)<br>
+diff --git a/ui/meson.build b/ui/meson.build<br>
+index a98f89b48978..3ea969a6210b 100644<br>
+--- a/ui/meson.build<br>
++++ b/ui/meson.build<br>
+@@ -64,7 +64,7 @@ if gtk.found()<br>
+=C2=A0 =C2=A0softmmu_ss.add(when: &#39;CONFIG_WIN32&#39;, if_true: files(&#=
+39;win32-kbd-hook.c&#39;))<br>
+<br>
+=C2=A0 =C2=A0gtk_ss =3D ss.source_set()<br>
+-=C2=A0 gtk_ss.add(gtk, vte, pixman, files(&#39;gtk.c&#39;))<br>
++=C2=A0 gtk_ss.add(gtk, vte, pixman, files(&#39;gtk.c&#39;, &#39;gtk-clipbo=
+ard.c&#39;))<br>
+=C2=A0 =C2=A0gtk_ss.add(when: x11, if_true: files(&#39;x_keymap.c&#39;))<br=
+>
+=C2=A0 =C2=A0gtk_ss.add(when: [opengl, &#39;CONFIG_OPENGL&#39;], if_true: f=
+iles(&#39;gtk-egl.c&#39;, &#39;gtk-gl-area.c&#39;))<br>
+=C2=A0 =C2=A0ui_modules +=3D {&#39;gtk&#39; : gtk_ss}<br>
 -- <br>
-|: <a href=3D"https://berrange.com" rel=3D"noreferrer" target=3D"_blank">ht=
-tps://berrange.com</a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"http=
-s://www.flickr.com/photos/dberrange" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://www.flickr.com/photos/dberrange</a> :|<br>
-|: <a href=3D"https://libvirt.org" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://libvirt.org</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"https://fstop138.berrange.com" rel=3D"n=
-oreferrer" target=3D"_blank">https://fstop138.berrange.com</a> :|<br>
-|: <a href=3D"https://entangle-photo.org" rel=3D"noreferrer" target=3D"_bla=
-nk">https://entangle-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D=
-"https://www.instagram.com/dberrange" rel=3D"noreferrer" target=3D"_blank">=
-https://www.instagram.com/dberrange</a> :|<br>
+2.29.2<br>
+<br>
 <br>
 </blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature"><div dir=3D"ltr"><div>Niek Linnenbank<br><br></div></div></=
-div>
+mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
 
---000000000000d2ea2f05bc2e50fb--
+--000000000000fd69ed05bc2e637a--
 
