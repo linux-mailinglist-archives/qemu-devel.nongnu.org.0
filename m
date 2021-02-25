@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B256324C71
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 10:10:04 +0100 (CET)
-Received: from localhost ([::1]:46780 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590D2324C74
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 10:12:19 +0100 (CET)
+Received: from localhost ([::1]:49216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFCep-0001QM-FY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 04:10:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45342)
+	id 1lFCh0-0002YX-4o
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 04:12:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFCdd-0000mI-Ae
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:08:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23091)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFCfm-00023b-1T
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:11:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21359)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFCdV-0002II-2P
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:08:48 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFCfk-0003fj-9Q
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:11:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614244117;
+ s=mimecast20190719; t=1614244259;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=rizPlqyQsfbUxS7LeN1iSz3JbJ3181xF5/Gab0E2ULM=;
- b=Fy/Lq/7aZgsQY5FfWsvIfr7O8CHpNwo7LOMf0S/pcTqy7B5+BwZ1JMzhM9tgDrfxoNnM+J
- aHrq+tZ1njyQC/X003/wm6c+zscbcc/8PBmAb1wEy72bKhY0ZkxQWbr77hVfnu1reT1z9t
- SQKDfhCFBh5Z7h/SoGXys2bfXfLL384=
+ bh=yfMfSfDrRzwRQ1MGNOoTbbr5zMk98UHOia//WAiBKI8=;
+ b=hlg0xhtbF1A7rXsv9GfKFIj7rbeuMBirDEbXRnLOtqxF2rK9nejSBJHca/vDyGa6KJWpDg
+ OzZYhsSjZlN9WKxbk4x2x+tHlBlXbMLvAjwVOPzWYJ8Ffhf1gc6jMhqXVfLXV5YFxAO53I
+ UI8o6YUdLbJftQRydnkzDrCaxaB7ftY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-231-Rq4u4ix3PDKK27GUhF6Plg-1; Thu, 25 Feb 2021 04:08:32 -0500
-X-MC-Unique: Rq4u4ix3PDKK27GUhF6Plg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-65-s_xyrj87NOagvhGQwPSQNw-1; Thu, 25 Feb 2021 04:10:57 -0500
+X-MC-Unique: s_xyrj87NOagvhGQwPSQNw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9CC95AFA85;
- Thu, 25 Feb 2021 09:08:31 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B44062467;
- Thu, 25 Feb 2021 09:08:31 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0112E113860F; Thu, 25 Feb 2021 10:08:29 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Chen Qun <kuhn.chenqun@huawei.com>
-Subject: Re: [PATCH] qtest: delete redundant qtest.h header files
-References: <20210225055251.192104-1-kuhn.chenqun@huawei.com>
-Date: Thu, 25 Feb 2021 10:08:29 +0100
-In-Reply-To: <20210225055251.192104-1-kuhn.chenqun@huawei.com> (Chen Qun's
- message of "Thu, 25 Feb 2021 13:52:51 +0800")
-Message-ID: <87h7m0v7jm.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B06671020C20;
+ Thu, 25 Feb 2021 09:10:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-114-4.ams2.redhat.com
+ [10.36.114.4])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A454679F0;
+ Thu, 25 Feb 2021 09:10:53 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 840A218000A7; Thu, 25 Feb 2021 10:10:49 +0100 (CET)
+Date: Thu, 25 Feb 2021 10:10:49 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+Subject: Re: [PATCH v3 3/3] virtio-gpu: Do not distinguish the primary console
+Message-ID: <20210225091049.npg2w7yacxel2cyz@sirius.home.kraxel.org>
+References: <20210224110656.5pctwd7hdpvqi2na@sirius.home.kraxel.org>
+ <20210225013609.73388-1-akihiko.odaki@gmail.com>
+ <20210225013609.73388-3-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210225013609.73388-3-akihiko.odaki@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
@@ -79,28 +80,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
- qemu-trivial@nongnu.org, qemu-devel@nongnu.org, ganqixin@huawei.com
+Cc: qemu Developers <qemu-devel@nongnu.org>,
+ "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Chen Qun <kuhn.chenqun@huawei.com> writes:
+> -        if (m->scanout_id == 0 && m->width == 0) {
+> +        if (m->width == 0) {
+>              s->ds = qemu_create_placeholder_surface(640, 480,
+>                                                      "Guest disabled display.");
+>              dpy_gfx_replace_surface(con, s->ds);
 
-> There are 23 files that include the "sysemu/qtest.h",
-> but they do not use any qtest functions.
->
-> Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+Just call dpy_gfx_replace_surface(con, NULL) here and let console.c
+create the placeholder?
 
-The subject sounds as if you were deleting file include/sysemu/qtest.h,
-which would be wrong.  You're actually deleting inclusions.  Suggest to
-say
+>      for (i = 0; i < g->conf.max_outputs; i++) {
+>          g->scanout[i].con =
+>              graphic_console_init(DEVICE(g), i, &virtio_gpu_ops, g);
+> -        if (i > 0) {
+> -            dpy_gfx_replace_surface(g->scanout[i].con, NULL);
+> -        }
 
-    qtest: delete superfluous inclusions of qtest.h
+I think we should call dpy_gfx_replace_surface(..., NULL)
+unconditionally here instead of removing the call.
 
-or
+> +    /* primary head */
 
-    delete superfluous #include "sysemu/qtest.h"
+Comment can go away as we remove the special case for scanout == 0,
 
-Perhaps the maintainer merging your patch can do that for you.
+> +    ds = qemu_create_placeholder_surface(scanout->width  ?: 640,
+> +                                         scanout->height ?: 480,
+> +                                         "Guest disabled display.");
+>      dpy_gfx_replace_surface(scanout->con, ds);
+
+likewise "dpy_gfx_replace_surface(..., NULL);"
+
+take care,
+  Gerd
 
 
