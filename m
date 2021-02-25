@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE51F325BAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 03:28:30 +0100 (CET)
-Received: from localhost ([::1]:34214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7D6325BAE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 03:31:49 +0100 (CET)
+Received: from localhost ([::1]:36892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFSrl-0006s4-TB
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 21:28:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53142)
+	id 1lFSuy-0008Bn-2K
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 21:31:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1lFSqR-0006Gi-HU; Thu, 25 Feb 2021 21:27:07 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3492)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lFStI-0007SP-3S; Thu, 25 Feb 2021 21:30:04 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:55141 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1lFSqL-00028Z-CV; Thu, 25 Feb 2021 21:27:07 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DmtmH3BYtzjS7M;
- Fri, 26 Feb 2021 10:25:19 +0800 (CST)
-Received: from [10.174.186.67] (10.174.186.67) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Fri, 26 Feb 2021 10:26:49 +0800
-Subject: Re: [RFC PATCH 5/5] hw/arm/virt-acpi-build: add PPTT table
-To: Andrew Jones <drjones@redhat.com>
-References: <20210225085627.2263-1-fangying1@huawei.com>
- <20210225085627.2263-6-fangying1@huawei.com>
- <20210225113817.xdctmgp3icrhjhrf@kamzik.brq.redhat.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <8ff55a13-e072-9e90-d689-6fb26383e1f2@huawei.com>
-Date: Fri, 26 Feb 2021 10:26:49 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1lFStF-0003Od-4k; Thu, 25 Feb 2021 21:30:03 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DmtsV56TKz9sVS; Fri, 26 Feb 2021 13:29:50 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1614306590;
+ bh=lEEY7Qx2tQrnWIuW0AxqJQXv3TTN+I4hKqPT79xT7T4=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=h/+2B2qNGPg8hT6RSTkLtdJKDwzOS1F2n7P0VQZ+0klyEAf7UVRItEoX09PfP6bKz
+ Dh8PoUb/wUPZsAwNadRhiTVVKZ4V7q5FULaVYgQ7Ba+3o7vwPjWNOUD6G1Z8rCOrA8
+ uwNXs6szKP6LVrkTsaYu56lwQtCJbLq6v+Z8EtP0=
+Date: Fri, 26 Feb 2021 10:55:12 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] exec/memory: Use struct Object typedef
+Message-ID: <YDg44Ovow7HPhqHR@yekko.fritz.box>
+References: <20210225182003.3629342-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210225113817.xdctmgp3icrhjhrf@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.67]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191; envelope-from=fangying1@huawei.com;
- helo=szxga05-in.huawei.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.435,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="d7juCJ1Nj7RBeRsB"
+Content-Disposition: inline
+In-Reply-To: <20210225182003.3629342-1-philmd@redhat.com>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,123 +57,313 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
- imammedo@redhat.com, Jiajie Li <lijiajie11@huawei.com>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ qemu-ppc@nongnu.org, =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--d7juCJ1Nj7RBeRsB
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 2/25/2021 7:38 PM, Andrew Jones wrote:
-> 
-> This is just [*] with some minor code changes
-> 
-> [*] https://github.com/rhdrjones/qemu/commit/439b38d67ca1f2cbfa5b9892a822b651ebd05c11
-> 
-> so it's disappointing that my name is nowhere to be found on it.
-> 
-> Also, the explanation of the DT and ACPI differences has been
-> dropped from the commit message of [*]. I'm not sure why.
-> 
+On Thu, Feb 25, 2021 at 07:20:03PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> We forward-declare Object typedef in "qemu/typedefs.h" since commit
+> ca27b5eb7cd ("qom/object: Move Object typedef to 'qemu/typedefs.h'").
+> Use it everywhere to make the code simpler.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
 
-Will fix that. I will add SOB of you then you can help to comment on it.
+ppc parts
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
 
-> Thanks,
-> drew
-> 
-> On Thu, Feb 25, 2021 at 04:56:27PM +0800, Ying Fang wrote:
->> Add the Processor Properties Topology Table (PPTT) to present
->> CPU topology information to the guest. A three-level cpu
->> topology is built in accord with the linux kernel currently does.
->>
->> Tested-by: Jiajie Li <lijiajie11@huawei.com>
->> Signed-off-by: Ying Fang <fangying1@huawei.com>
->> ---
->>   hw/arm/virt-acpi-build.c | 50 ++++++++++++++++++++++++++++++++++++++++
->>   1 file changed, 50 insertions(+)
->>
->> diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->> index bb91152fe2..38d50ce66c 100644
->> --- a/hw/arm/virt-acpi-build.c
->> +++ b/hw/arm/virt-acpi-build.c
->> @@ -436,6 +436,50 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->>                    vms->oem_table_id);
->>   }
->>   
->> +static void
->> +build_pptt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->> +{
->> +    int pptt_start = table_data->len;
->> +    int uid = 0, cpus = 0, socket = 0;
->> +    MachineState *ms = MACHINE(vms);
->> +    unsigned int smp_cores = ms->smp.cores;
->> +    unsigned int smp_threads = ms->smp.threads;
->> +
->> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
->> +
->> +    for (socket = 0; cpus < ms->possible_cpus->len; socket++) {
->> +        uint32_t socket_offset = table_data->len - pptt_start;
->> +        int core;
->> +
->> +        build_socket_hierarchy(table_data, 0, socket);
->> +
->> +        for (core = 0; core < smp_cores; core++) {
->> +            uint32_t core_offset = table_data->len - pptt_start;
->> +            int thread;
->> +
->> +            if (smp_threads <= 1) {
->> +                build_processor_hierarchy(table_data,
->> +                                          ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
->> +                                          ACPI_PPTT_ACPI_LEAF_NODE,
->> +                                          socket_offset, uid++);
->> +             } else {
->> +                build_processor_hierarchy(table_data,
->> +                                          ACPI_PPTT_ACPI_PROCESSOR_ID_VALID,
->> +                                          socket_offset, core);
->> +                for (thread = 0; thread < smp_threads; thread++) {
->> +                    build_thread_hierarchy(table_data, core_offset, uid++);
->> +                }
->> +             }
->> +        }
->> +        cpus += smp_cores * smp_threads;
->> +    }
->> +
->> +    build_header(linker, table_data,
->> +                 (void *)(table_data->data + pptt_start), "PPTT",
->> +                 table_data->len - pptt_start, 2,
->> +                 vms->oem_id, vms->oem_table_id);
->> +}
->> +
->>   /* GTDT */
->>   static void
->>   build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
->> @@ -688,6 +732,7 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>       unsigned dsdt, xsdt;
->>       GArray *tables_blob = tables->table_data;
->>       MachineState *ms = MACHINE(vms);
->> +    bool cpu_topology_enabled = !vmc->no_cpu_topology;
->>   
->>       table_offsets = g_array_new(false, true /* clear */,
->>                                           sizeof(uint32_t));
->> @@ -707,6 +752,11 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
->>       acpi_add_table(table_offsets, tables_blob);
->>       build_madt(tables_blob, tables->linker, vms);
->>   
->> +    if (ms->smp.cpus > 1 && cpu_topology_enabled) {
->> +        acpi_add_table(table_offsets, tables_blob);
->> +        build_pptt(tables_blob, tables->linker, vms);
->> +    }
->> +
->>       acpi_add_table(table_offsets, tables_blob);
->>       build_gtdt(tables_blob, tables->linker, vms);
->>   
->> -- 
->> 2.23.0
->>
->>
-> 
-> .
-> 
+> ---
+>  include/exec/memory.h      | 32 ++++++++++++++++----------------
+>  include/hw/ppc/pnv_xscom.h |  2 +-
+>  hw/ppc/pnv_xscom.c         |  2 +-
+>  softmmu/memory.c           | 12 ++++++------
+>  4 files changed, 24 insertions(+), 24 deletions(-)
+>=20
+> diff --git a/include/exec/memory.h b/include/exec/memory.h
+> index c6fb714e499..54ccf1a5f09 100644
+> --- a/include/exec/memory.h
+> +++ b/include/exec/memory.h
+> @@ -828,7 +828,7 @@ static inline bool MemoryRegionSection_eq(MemoryRegio=
+nSection *a,
+>   * @size: size of the region; any subregions beyond this size will be cl=
+ipped
+>   */
+>  void memory_region_init(MemoryRegion *mr,
+> -                        struct Object *owner,
+> +                        Object *owner,
+>                          const char *name,
+>                          uint64_t size);
+> =20
+> @@ -876,7 +876,7 @@ void memory_region_unref(MemoryRegion *mr);
+>   * @size: size of the region.
+>   */
+>  void memory_region_init_io(MemoryRegion *mr,
+> -                           struct Object *owner,
+> +                           Object *owner,
+>                             const MemoryRegionOps *ops,
+>                             void *opaque,
+>                             const char *name,
+> @@ -898,7 +898,7 @@ void memory_region_init_io(MemoryRegion *mr,
+>   * RAM memory region to be migrated; that is the responsibility of the c=
+aller.
+>   */
+>  void memory_region_init_ram_nomigrate(MemoryRegion *mr,
+> -                                      struct Object *owner,
+> +                                      Object *owner,
+>                                        const char *name,
+>                                        uint64_t size,
+>                                        Error **errp);
+> @@ -920,7 +920,7 @@ void memory_region_init_ram_nomigrate(MemoryRegion *m=
+r,
+>   * The only difference is part of the RAM region can be remapped.
+>   */
+>  void memory_region_init_ram_shared_nomigrate(MemoryRegion *mr,
+> -                                             struct Object *owner,
+> +                                             Object *owner,
+>                                               const char *name,
+>                                               uint64_t size,
+>                                               bool share,
+> @@ -946,7 +946,7 @@ void memory_region_init_ram_shared_nomigrate(MemoryRe=
+gion *mr,
+>   * RAM memory region to be migrated; that is the responsibility of the c=
+aller.
+>   */
+>  void memory_region_init_resizeable_ram(MemoryRegion *mr,
+> -                                       struct Object *owner,
+> +                                       Object *owner,
+>                                         const char *name,
+>                                         uint64_t size,
+>                                         uint64_t max_size,
+> @@ -979,7 +979,7 @@ void memory_region_init_resizeable_ram(MemoryRegion *=
+mr,
+>   * RAM memory region to be migrated; that is the responsibility of the c=
+aller.
+>   */
+>  void memory_region_init_ram_from_file(MemoryRegion *mr,
+> -                                      struct Object *owner,
+> +                                      Object *owner,
+>                                        const char *name,
+>                                        uint64_t size,
+>                                        uint64_t align,
+> @@ -1005,7 +1005,7 @@ void memory_region_init_ram_from_file(MemoryRegion =
+*mr,
+>   * RAM memory region to be migrated; that is the responsibility of the c=
+aller.
+>   */
+>  void memory_region_init_ram_from_fd(MemoryRegion *mr,
+> -                                    struct Object *owner,
+> +                                    Object *owner,
+>                                      const char *name,
+>                                      uint64_t size,
+>                                      bool share,
+> @@ -1030,7 +1030,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *m=
+r,
+>   * RAM memory region to be migrated; that is the responsibility of the c=
+aller.
+>   */
+>  void memory_region_init_ram_ptr(MemoryRegion *mr,
+> -                                struct Object *owner,
+> +                                Object *owner,
+>                                  const char *name,
+>                                  uint64_t size,
+>                                  void *ptr);
+> @@ -1058,7 +1058,7 @@ void memory_region_init_ram_ptr(MemoryRegion *mr,
+>   * (For RAM device memory regions, migrating the contents rarely makes s=
+ense.)
+>   */
+>  void memory_region_init_ram_device_ptr(MemoryRegion *mr,
+> -                                       struct Object *owner,
+> +                                       Object *owner,
+>                                         const char *name,
+>                                         uint64_t size,
+>                                         void *ptr);
+> @@ -1076,7 +1076,7 @@ void memory_region_init_ram_device_ptr(MemoryRegion=
+ *mr,
+>   * @size: size of the region.
+>   */
+>  void memory_region_init_alias(MemoryRegion *mr,
+> -                              struct Object *owner,
+> +                              Object *owner,
+>                                const char *name,
+>                                MemoryRegion *orig,
+>                                hwaddr offset,
+> @@ -1101,7 +1101,7 @@ void memory_region_init_alias(MemoryRegion *mr,
+>   * @errp: pointer to Error*, to store an error if it happens.
+>   */
+>  void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+> -                                      struct Object *owner,
+> +                                      Object *owner,
+>                                        const char *name,
+>                                        uint64_t size,
+>                                        Error **errp);
+> @@ -1124,7 +1124,7 @@ void memory_region_init_rom_nomigrate(MemoryRegion =
+*mr,
+>   * @errp: pointer to Error*, to store an error if it happens.
+>   */
+>  void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+> -                                             struct Object *owner,
+> +                                             Object *owner,
+>                                               const MemoryRegionOps *ops,
+>                                               void *opaque,
+>                                               const char *name,
+> @@ -1183,7 +1183,7 @@ void memory_region_init_iommu(void *_iommu_mr,
+>   * If you pass a non-NULL non-device @owner then we will assert.
+>   */
+>  void memory_region_init_ram(MemoryRegion *mr,
+> -                            struct Object *owner,
+> +                            Object *owner,
+>                              const char *name,
+>                              uint64_t size,
+>                              Error **errp);
+> @@ -1210,7 +1210,7 @@ void memory_region_init_ram(MemoryRegion *mr,
+>   * @errp: pointer to Error*, to store an error if it happens.
+>   */
+>  void memory_region_init_rom(MemoryRegion *mr,
+> -                            struct Object *owner,
+> +                            Object *owner,
+>                              const char *name,
+>                              uint64_t size,
+>                              Error **errp);
+> @@ -1241,7 +1241,7 @@ void memory_region_init_rom(MemoryRegion *mr,
+>   * @errp: pointer to Error*, to store an error if it happens.
+>   */
+>  void memory_region_init_rom_device(MemoryRegion *mr,
+> -                                   struct Object *owner,
+> +                                   Object *owner,
+>                                     const MemoryRegionOps *ops,
+>                                     void *opaque,
+>                                     const char *name,
+> @@ -1254,7 +1254,7 @@ void memory_region_init_rom_device(MemoryRegion *mr,
+>   *
+>   * @mr: the memory region being queried.
+>   */
+> -struct Object *memory_region_owner(MemoryRegion *mr);
+> +Object *memory_region_owner(MemoryRegion *mr);
+> =20
+>  /**
+>   * memory_region_size: get a memory region's size.
+> diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+> index 8578f5a207d..2ff9f7a8d6f 100644
+> --- a/include/hw/ppc/pnv_xscom.h
+> +++ b/include/hw/ppc/pnv_xscom.h
+> @@ -139,7 +139,7 @@ int pnv_dt_xscom(PnvChip *chip, void *fdt, int root_o=
+ffset,
+>  void pnv_xscom_add_subregion(PnvChip *chip, hwaddr offset,
+>                               MemoryRegion *mr);
+>  void pnv_xscom_region_init(MemoryRegion *mr,
+> -                           struct Object *owner,
+> +                           Object *owner,
+>                             const MemoryRegionOps *ops,
+>                             void *opaque,
+>                             const char *name,
+> diff --git a/hw/ppc/pnv_xscom.c b/hw/ppc/pnv_xscom.c
+> index e9ae1569ffc..be7018e8ac5 100644
+> --- a/hw/ppc/pnv_xscom.c
+> +++ b/hw/ppc/pnv_xscom.c
+> @@ -308,7 +308,7 @@ void pnv_xscom_add_subregion(PnvChip *chip, hwaddr of=
+fset, MemoryRegion *mr)
+>  }
+> =20
+>  void pnv_xscom_region_init(MemoryRegion *mr,
+> -                           struct Object *owner,
+> +                           Object *owner,
+>                             const MemoryRegionOps *ops,
+>                             void *opaque,
+>                             const char *name,
+> diff --git a/softmmu/memory.c b/softmmu/memory.c
+> index 874a8fccdee..91f1bf47c30 100644
+> --- a/softmmu/memory.c
+> +++ b/softmmu/memory.c
+> @@ -1581,7 +1581,7 @@ void memory_region_init_resizeable_ram(MemoryRegion=
+ *mr,
+> =20
+>  #ifdef CONFIG_POSIX
+>  void memory_region_init_ram_from_file(MemoryRegion *mr,
+> -                                      struct Object *owner,
+> +                                      Object *owner,
+>                                        const char *name,
+>                                        uint64_t size,
+>                                        uint64_t align,
+> @@ -1607,7 +1607,7 @@ void memory_region_init_ram_from_file(MemoryRegion =
+*mr,
+>  }
+> =20
+>  void memory_region_init_ram_from_fd(MemoryRegion *mr,
+> -                                    struct Object *owner,
+> +                                    Object *owner,
+>                                      const char *name,
+>                                      uint64_t size,
+>                                      bool share,
+> @@ -1679,7 +1679,7 @@ void memory_region_init_alias(MemoryRegion *mr,
+>  }
+> =20
+>  void memory_region_init_rom_nomigrate(MemoryRegion *mr,
+> -                                      struct Object *owner,
+> +                                      Object *owner,
+>                                        const char *name,
+>                                        uint64_t size,
+>                                        Error **errp)
+> @@ -3205,7 +3205,7 @@ void mtree_info(bool flatview, bool dispatch_tree, =
+bool owner, bool disabled)
+>  }
+> =20
+>  void memory_region_init_ram(MemoryRegion *mr,
+> -                            struct Object *owner,
+> +                            Object *owner,
+>                              const char *name,
+>                              uint64_t size,
+>                              Error **errp)
+> @@ -3229,7 +3229,7 @@ void memory_region_init_ram(MemoryRegion *mr,
+>  }
+> =20
+>  void memory_region_init_rom(MemoryRegion *mr,
+> -                            struct Object *owner,
+> +                            Object *owner,
+>                              const char *name,
+>                              uint64_t size,
+>                              Error **errp)
+> @@ -3253,7 +3253,7 @@ void memory_region_init_rom(MemoryRegion *mr,
+>  }
+> =20
+>  void memory_region_init_rom_device(MemoryRegion *mr,
+> -                                   struct Object *owner,
+> +                                   Object *owner,
+>                                     const MemoryRegionOps *ops,
+>                                     void *opaque,
+>                                     const char *name,
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--d7juCJ1Nj7RBeRsB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmA4ON4ACgkQbDjKyiDZ
+s5Iw8xAAvPTwA0LfEeYwyK9kxLYZvFRoP0ywRmnMHCf67jFxviJZUQ3I+IDqL8Z9
+fEku7QnwpnWXvhJFXa3PDxVxshqGhLxlTRokpNEoliFDTTqcYgSZgrzr4w7OtEcj
+L2j1tkjMbv3ft3if3G67wiLU2fBPzPG8ShMNlA8suXhc+hZL2BLWhSpdf0WpPZjL
+qx36bYOBxXlRe09tkNm0BiAx1vCrNLoak8aqHt2egSgcdRo/DkTVXJRhzEpITO+M
+R4PETsOQ9dDT/MRy1rc/79p5h3rlKDekRwL0MBgZSQP3CWU/KZAln6oTYQ9qj4fQ
+cfkg7hYL45CFFK0d5ki6InYHDm+R3ZMRCgPnvtGsXvYFPWQc/PC3KQfVVG5TZAcV
+m2SGzf8iyO95NzrK1ZIfBljwCLbskqHDMBRKyliipMvFOGGoAY3w6vlNmSUQOs9Y
+Q7WPxP+bFC/iF332jwqqgE4kMdFt8DOYWcxzeqvN2IXhWlc9WCyEcJjitjw+2TCe
+XO/E4uTVEF3x0V53vdkdDVnvmFz+4X7tGapxRbMCRYdNXH7JkKFqsMH1uYO7Uwz9
+bV+iJy6YMj2gAe++HMocQfQiNjLtBUNCc8HajKx7jIpcEgndF0NKiPJ2Fpb9Rf4A
+3S/kpip0pkjgyvHatSlNoR/rFcl3o8GkF1mas9z9irGhr8ffuKs=
+=QlfV
+-----END PGP SIGNATURE-----
+
+--d7juCJ1Nj7RBeRsB--
 
