@@ -2,59 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3100F325047
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:21:00 +0100 (CET)
-Received: from localhost ([::1]:38664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C54E5325059
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:27:38 +0100 (CET)
+Received: from localhost ([::1]:43014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFGZe-0008At-V9
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:20:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1lFGg5-0001yz-Rb
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:27:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lFGXo-00074k-Ko
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:19:06 -0500
-Resent-Date: Thu, 25 Feb 2021 08:19:04 -0500
-Resent-Message-Id: <E1lFGXo-00074k-Ko@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21326)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1lFGXg-000549-WD
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:19:04 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1614259128; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=lFJ8abcXMy8ghb/J7Klsr11jtlwrM3Di3NQD6eVOcVqcAuQG27evEwVhMu44fHLeEjWoScr+xBxWAOgBR1mP1oC6BGpDaAqaJ7tF0eEgvDCfN9S4CkgdmGHjZrFpqN5mPityh6R3Ehmsrw1RJj8mnV+oVN+VDqhtIzdibnqAs+I=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1614259128;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=Syt/LBpqG8/Kxwo8KX6i9uYvQAqEMp+aD+64UmAxnYo=; 
- b=byF/Gx/w058wXx5hgQ5rQvj2dOQEQ2VdZVWrPJ9M2cnzVPKIrKCJ+MgJ4K6IWZW9rBKZhoVIYehKZZYg3bcLOD5Prv/6P9H5phEhVFChPPH3OyB6y/3moJ3Uqdc0czdCnIxouPC1ZiJXkMjChgR153ziJQ2JoSHdZ64uD/XwppE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1614259126025356.12303515518477;
- Thu, 25 Feb 2021 05:18:46 -0800 (PST)
-In-Reply-To: <20210225131316.631940-1-pbonzini@redhat.com>
-Subject: Re: [PATCH v2] vl: deprecate -writeconfig
-Message-ID: <161425912501.1906.13285337044095609180@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lFGeZ-0001Qm-MP
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:26:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lFGeR-000880-Ui
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:26:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614259551;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=TkUqK/pMkDObD+D1Sta9lBixh6HS/TyipdzhzziGrRA=;
+ b=HG3p74hXQyM2IHeGrqzvsSw40uXH9jTHB4ZtWkyBHZ1Sk8Wxf6UF2Ig2aGU38CdwFX5iIS
+ DlD94EwZaY+bbvefROv6Kpqx+y0hlpf79/bmmmPKKitpEpCw/qNkCvNEKD9wJpFg44rE0E
+ vVGJzLbYRqgZ0HQwXOL0VAjOJ2oVbw0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-k-16BGrrPKaYSIvoOmm3vg-1; Thu, 25 Feb 2021 08:25:49 -0500
+X-MC-Unique: k-16BGrrPKaYSIvoOmm3vg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C4D511005501;
+ Thu, 25 Feb 2021 13:25:46 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.200])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CE0EE6090F;
+ Thu, 25 Feb 2021 13:25:38 +0000 (UTC)
+Date: Thu, 25 Feb 2021 14:25:36 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 1/5] device_tree: Add qemu_fdt_add_path
+Message-ID: <20210225132536.ns4fheaik6vt45si@kamzik.brq.redhat.com>
+References: <20210225085627.2263-1-fangying1@huawei.com>
+ <20210225085627.2263-2-fangying1@huawei.com>
+ <20210225110311.quvchs32o4n6iqpt@kamzik.brq.redhat.com>
+ <278b7b03-f463-61b6-111d-1e840df22eae@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: pbonzini@redhat.com
-Date: Thu, 25 Feb 2021 05:18:46 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <278b7b03-f463-61b6-111d-1e840df22eae@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,40 +80,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: berrange@redhat.com, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
+ imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIyNTEzMTMxNi42MzE5
-NDAtMS1wYm9uemluaUByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhh
-dmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUg
-aW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAyMjUxMzEzMTYuNjMx
-OTQwLTEtcGJvbnppbmlAcmVkaGF0LmNvbQpTdWJqZWN0OiBbUEFUQ0ggdjJdIHZsOiBkZXByZWNh
-dGUgLXdyaXRlY29uZmlnCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdp
-dCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
-IGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUK
-Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hl
-Y2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBk
-YXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBz
-Oi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0gICAgICBw
-YXRjaGV3LzIwMjEwMjI0MTMxMTQyLjE5NTIwMjctMS1iZXJyYW5nZUByZWRoYXQuY29tIC0+IHBh
-dGNoZXcvMjAyMTAyMjQxMzExNDIuMTk1MjAyNy0xLWJlcnJhbmdlQHJlZGhhdC5jb20KICogW25l
-dyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDIyNTEzMTMxNi42MzE5NDAtMS1wYm9uemluaUBy
-ZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMjUxMzEzMTYuNjMxOTQwLTEtcGJvbnppbmlAcmVk
-aGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjAwMTYwZmUgdmw6IGRlcHJl
-Y2F0ZSAtd3JpdGVjb25maWcKCj09PSBPVVRQVVQgQkVHSU4gPT09CkVSUk9SOiBsaW5lIG92ZXIg
-OTAgY2hhcmFjdGVycwojNjY6IEZJTEU6IHNvZnRtbXUvdmwuYzozMzU5OgorICAgICAgICAgICAg
-ICAgICAgICB3YXJuX3JlcG9ydCgiLXdyaXRlY29uZmlnIGlzIGRlcHJlY2F0ZWQuICBJdCB3aWxs
-IGdvIGF3YXkgaW4gUUVNVSA2LjIgd2l0aCBubyByZXBsYWNlbWVudCIpOwoKdG90YWw6IDEgZXJy
-b3JzLCAwIHdhcm5pbmdzLCAzNCBsaW5lcyBjaGVja2VkCgpDb21taXQgMDAxNjBmZWE4ZjdmICh2
-bDogZGVwcmVjYXRlIC13cml0ZWNvbmZpZykgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2
-aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0
-aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KPT09
-IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBm
-dWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAyMjUx
-MzEzMTYuNjMxOTQwLTEtcGJvbnppbmlAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5
-cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcg
-W2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRj
-aGV3LWRldmVsQHJlZGhhdC5jb20=
+On Thu, Feb 25, 2021 at 08:54:40PM +0800, Ying Fang wrote:
+> 
+> 
+> On 2/25/2021 7:03 PM, Andrew Jones wrote:
+> > Hi Ying Fang,
+> > 
+> > I don't see any change in this patch from what I have in my
+> > tree, so this should be
+> > 
+> >   From: Andrew Jones <drjones@redhat.com>
+> > 
+> > Thanks,
+> > drew
+> > 
+> 
+> Yes, I picked it from your qemu branch:
+> https://github.com/rhdrjones/qemu/commit/ecfc1565f22187d2c715a99bbcd35cf3a7e428fa
+> 
+> So what can I do to make it "From: Andrew Jones <drjones@redhat.com>" ?
+> 
+> Can I made it by using git commit --amend like below ?
+> 
+> git commit --amend --author "Andrew Jones <drjones@redhat.com>"
+
+That's one way to fix it now, but normally when you apply/cherry-pick
+a patch it will keep the authorship. Then, all you have to do is
+post like usual and the "From: ..." will show up automatically.
+
+Thanks,
+drew
+
+> 
+> > On Thu, Feb 25, 2021 at 04:56:23PM +0800, Ying Fang wrote:
+> > > qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except
+> > > it also adds any missing parent nodes. We also tweak an error
+> > > message of qemu_fdt_add_subnode().
+> > > 
+> > > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > > Signed-off-by: Ying Fang <fangying1@huawei.com>
+> > > ---
+> > >   include/sysemu/device_tree.h |  1 +
+> > >   softmmu/device_tree.c        | 45 ++++++++++++++++++++++++++++++++++--
+> > >   2 files changed, 44 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
+> > > index 982c89345f..15fb98af98 100644
+> > > --- a/include/sysemu/device_tree.h
+> > > +++ b/include/sysemu/device_tree.h
+> > > @@ -104,6 +104,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
+> > >   uint32_t qemu_fdt_alloc_phandle(void *fdt);
+> > >   int qemu_fdt_nop_node(void *fdt, const char *node_path);
+> > >   int qemu_fdt_add_subnode(void *fdt, const char *name);
+> > > +int qemu_fdt_add_path(void *fdt, const char *path);
+> > >   #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
+> > >       do {                                                                      \
+> > > diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
+> > > index b9a3ddc518..1e3857ca0c 100644
+> > > --- a/softmmu/device_tree.c
+> > > +++ b/softmmu/device_tree.c
+> > > @@ -515,8 +515,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+> > >       retval = fdt_add_subnode(fdt, parent, basename);
+> > >       if (retval < 0) {
+> > > -        error_report("FDT: Failed to create subnode %s: %s", name,
+> > > -                     fdt_strerror(retval));
+> > > +        error_report("%s: Failed to create subnode %s: %s",
+> > > +                     __func__, name, fdt_strerror(retval));
+> > >           exit(1);
+> > >       }
+> > > @@ -524,6 +524,47 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
+> > >       return retval;
+> > >   }
+> > > +/*
+> > > + * Like qemu_fdt_add_subnode(), but will add all missing
+> > > + * subnodes in the path.
+> > > + */
+> > > +int qemu_fdt_add_path(void *fdt, const char *path)
+> > > +{
+> > > +    char *dupname, *basename, *p;
+> > > +    int parent, retval = -1;
+> > > +
+> > > +    if (path[0] != '/') {
+> > > +        return retval;
+> > > +    }
+> > > +
+> > > +    parent = fdt_path_offset(fdt, "/");
+> > > +    p = dupname = g_strdup(path);
+> > > +
+> > > +    while (p) {
+> > > +        *p = '/';
+> > > +        basename = p + 1;
+> > > +        p = strchr(p + 1, '/');
+> > > +        if (p) {
+> > > +            *p = '\0';
+> > > +        }
+> > > +        retval = fdt_path_offset(fdt, dupname);
+> > > +        if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
+> > > +            error_report("%s: Invalid path %s: %s",
+> > > +                         __func__, path, fdt_strerror(retval));
+> > > +            exit(1);
+> > > +        } else if (retval == -FDT_ERR_NOTFOUND) {
+> > > +            retval = fdt_add_subnode(fdt, parent, basename);
+> > > +            if (retval < 0) {
+> > > +                break;
+> > > +            }
+> > > +        }
+> > > +        parent = retval;
+> > > +    }
+> > > +
+> > > +    g_free(dupname);
+> > > +    return retval;
+> > > +}
+> > > +
+> > >   void qemu_fdt_dumpdtb(void *fdt, int size)
+> > >   {
+> > >       const char *dumpdtb = current_machine->dumpdtb;
+> > > -- 
+> > > 2.23.0
+> > > 
+> > > 
+> > 
+> > .
+> > 
+> 
+
 
