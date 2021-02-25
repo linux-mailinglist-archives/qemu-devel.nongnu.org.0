@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 246E1325A22
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 00:23:14 +0100 (CET)
-Received: from localhost ([::1]:44544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED342325A26
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 00:24:33 +0100 (CET)
+Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFPyS-0006bs-SY
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 18:23:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38462)
+	id 1lFPzl-00082P-0L
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 18:24:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPwu-0005oR-W5
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56644)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPww-0005oe-IN
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPws-00069v-KB
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:36 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPws-00069q-GY
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614295294;
+ s=mimecast20190719; t=1614295293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=NvC5EMXTHdw6brRAdSX65XaEvrahPPj5i/BywLEhK8c=;
- b=AnccKrIfpr7xEjo5U7CfKIVgS+WsQ8mnsdfCJb5qS2cepQMXTzm40IKU7jnKTw6vssQngB
- I5jOzhjQ924J+Lg4JABHDOdgDojQ+1dNZjrzbSABTsKjOpdylgCiwZkDNOnIuq+etJCnjR
- gOKbsZa6eaOHplsLDCmvOJqhhCCeG5Y=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ITXnPJVdGwPJU5JxuQ9KJnJO4aISbH9Ig3FGOjkrTUM=;
+ b=iX8q5Q69AWipDocP0wq0NOlbKkLj8CobeJco54ky5mOb/o4pD/GDCyQuPE0AtNtgrLW9CV
+ esJG9YYBOjiQ7EkRYbeYKLAm1JidfOrjwW5MwhOU+iC1lvVnLkzMae85Ab3lsD5PC3qKXD
+ IK9ICbqTW4fh2uBWpgE4mJQE5CYpYQs=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-263-NLVotVsINxKsuOqkkvH9gg-1; Thu, 25 Feb 2021 18:21:30 -0500
-X-MC-Unique: NLVotVsINxKsuOqkkvH9gg-1
+ us-mta-387-MEwBffcJMTeaoJaIUvv9sw-1; Thu, 25 Feb 2021 18:21:31 -0500
+X-MC-Unique: MEwBffcJMTeaoJaIUvv9sw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0E8B1936B61;
- Thu, 25 Feb 2021 23:21:28 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77BDC801F9A;
+ Thu, 25 Feb 2021 23:21:30 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-28.rdu2.redhat.com
  [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C377D61F38;
- Thu, 25 Feb 2021 23:21:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F16D75D6D7;
+ Thu, 25 Feb 2021 23:21:28 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] Acceptance Tests: restore the use of target related
- information
-Date: Thu, 25 Feb 2021 18:21:20 -0500
-Message-Id: <20210225232122.1254879-1-crosa@redhat.com>
+Subject: [PATCH 1/2] Acceptance Tests: restore downloading of VM images
+Date: Thu, 25 Feb 2021 18:21:21 -0500
+Message-Id: <20210225232122.1254879-2-crosa@redhat.com>
+In-Reply-To: <20210225232122.1254879-1-crosa@redhat.com>
+References: <20210225232122.1254879-1-crosa@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=crosa@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -86,39 +88,39 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This addresses two issues, restoring them to their previous behavior:=0D
-=0D
-The first one, reported by Thomas Huth, a test timeout (and thus a job=0D
-failed) on CI.  The test was interrupted because of a download=0D
-timeout.  The download timeout happened due to the fact that "make=0D
-get-vm-images" is currently broken and the images matching the QEMU=0D
-targets are not being downloaded before the Avocado job.=0D
-=0D
-The second one is the use of the same target related information, but=0D
-to filter out tests that don't have a matching "arch" tag.  So, if one=0D
-is not building, say "aarch64-softmmu", tests tagged with "arch:=0D
-aarch64" won't even make into the Avocado job.=0D
-=0D
-For review purposes, the following job that shows the download of=0D
-ppc64le, s390x and x86_64 (but not aarch64) Fedora 31 images on a=0D
-acceptance-system-centos job:=0D
-=0D
-   https://gitlab.com/cleber.gnu/qemu/-/jobs/1057043012#L63=0D
-=0D
-And the following shows the download of the aarch64 Fedora 31 image=0D
-(but not any other) on a acceptance-system-ubuntu job:=0D
-=0D
-   https://gitlab.com/cleber.gnu/qemu/-/jobs/1057043005#L61=0D
-=0D
-Cleber Rosa (2):=0D
-  Acceptance Tests: restore downloading of VM images=0D
-  Acceptance Tests: restore filtering of tests by target arch=0D
-=0D
- tests/Makefile.include | 5 +++--=0D
- 1 file changed, 3 insertions(+), 2 deletions(-)=0D
-=0D
---=20=0D
-2.25.4=0D
-=0D
+The "get-vm-images" target defined in tests/Makefile.include is a
+prerequisite for "check-acceptance", so that those files get
+downloaded before the Avocado job even starts.
+
+It looks like on c401c058a1c a TARGETS variable was introduced with a
+different content than it was previously coming from the main
+Makefile.  From that point on, the "get-vm-images" succeed without
+doing anything because there was no matching architecture to download.
+
+This restores the download of images (that match targets to be built)
+before the job starts, eliminating downloads and their associated
+failures during the tests.
+
+Signed-off-by: Cleber Rosa <crosa@redhat.com>
+---
+ tests/Makefile.include | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index d34254fb29..dbd53a9de6 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -109,7 +109,8 @@ $(TESTS_RESULTS_DIR):
+ 
+ check-venv: $(TESTS_VENV_DIR)
+ 
+-FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(TARGETS))
++FEDORA_31_ARCHES_TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGETS)))
++FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(FEDORA_31_ARCHES_TARGETS))
+ FEDORA_31_ARCHES := x86_64 aarch64 ppc64le s390x
+ FEDORA_31_DOWNLOAD=$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDIDATES))
+ 
+-- 
+2.25.4
 
 
