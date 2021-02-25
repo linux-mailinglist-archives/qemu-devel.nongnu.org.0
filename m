@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7DD1325263
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:27:05 +0100 (CET)
-Received: from localhost ([::1]:47182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 578C9325271
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 16:29:39 +0100 (CET)
+Received: from localhost ([::1]:54304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFIXg-0004DL-Qa
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:27:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46802)
+	id 1lFIaA-0007AN-C8
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 10:29:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIVg-0002XA-8f
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:25:00 -0500
-Received: from rev.ng ([5.9.113.41]:35751)
+ (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
+ id 1lFIYp-0006EQ-PG
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:28:17 -0500
+Received: from oxygen.pond.sub.org ([94.130.129.15]:46756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lFIVe-0003PT-Pa
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:25:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
- In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=Jquf2iJW5jTdpV/+AfwurIUv+cTL14UOQMCpqJiCpwA=; b=mVuxcQsQt4RyIruTxDO+DF7n8K
- lS6AadaSCI7hjBFhvqQL4FKlP4NPKMfZxvN0XBJb0OhY0B9KrIdo3X53soOOJnhAHaAZFYQd3MZna
- /BOynZm6ghI402B2gjSvaIDEdY6YL6U5Ut+qoTsKR3yZ/ZP4oUt8mXjXfqN6UBusQx+0=;
-Date: Thu, 25 Feb 2021 16:24:48 +0100
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org,
- babush@rev.ng, bcain@quicinc.com, tsimpson@quicinc.com, nizzo@rev.ng
-Subject: Re: [RFC PATCH 00/10] target/hexagon: introduce idef-parser
-Message-ID: <20210225162448.32061a7b@orange>
-In-Reply-To: <517570b3-2e0f-3f3e-697b-5fa61754ba7e@linaro.org>
-References: <20210211215051.2102435-1-ale.qemu@rev.ng>
- <517570b3-2e0f-3f3e-697b-5fa61754ba7e@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
+ id 1lFIYk-0004qH-3W
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 10:28:14 -0500
+Received: from blackfin.pond.sub.org
+ (p200300d36f2e0300dacb8afffee0c842.dip0.t-ipconnect.de
+ [IPv6:2003:d3:6f2e:300:dacb:8aff:fee0:c842])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (Client did not present a certificate)
+ by oxygen.pond.sub.org (Postfix) with ESMTPSA id 522AC2087B;
+ Thu, 25 Feb 2021 16:28:06 +0100 (CET)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 8892F113860F; Thu, 25 Feb 2021 16:28:02 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH v3 15/16] qapi/expr.py: move related checks inside
+ check_xxx functions
+References: <20210223003408.964543-1-jsnow@redhat.com>
+ <20210223003408.964543-16-jsnow@redhat.com>
+Date: Thu, 25 Feb 2021 16:28:02 +0100
+Message-ID: <87r1l488vx.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=ale@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=94.130.129.15; envelope-from=armbru@pond.sub.org;
+ helo=oxygen.pond.sub.org
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,41 +59,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alessandro Di Federico <ale@rev.ng>
-From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Sun, 14 Feb 2021 13:52:25 -0800
-Richard Henderson <richard.henderson@linaro.org> wrote:
+John Snow <jsnow@redhat.com> writes:
 
-> Well, first off, this fails to build with our gitlab CI.
-> 
-> There are several problems, apart from the new bison parse.error
-> option previously reported:
-> 
-> (1) bison and flex not added to dockerfiles, so the packages are not
-> available to CI.
-> 
-> (2) idef-parser program not marked with "native: true", so we get an
-> early meson error about that.
-> 
-> (3) flex = generator() does not specify both output files, so the
-> proper dependency on idef-parser.yy.h is not present.
-> 
-> (4) idef-parser.yy.h is placed in the wrong directory, because you
-> used '%option header-file="xyz"' instead of the command-line
-> '--headerfile=@OUTPUT1@'.  This results in an immediate compilation
-> failure, because the file isn't found.
-> 
-> (5) There's an odd mismatch in file naming, in which you have
-> idef-lexer.lex.yy.c but idef-parser.yy.h.  Not a bug, really, but it
-> looks odd when fixing 3 & 4.
+> There's not a big obvious difference between the types of checks that
+> happen in the main function versus the kind that happen in the
+> functions. Now they're in one place for each of the main types.
+>
+> As part of the move, spell out the required and optional keywords so
+> they're obvious at a glance. Use tuples instead of lists for immutable
+> data, too.
+>
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Cleber Rosa <crosa@redhat.com>
 
-We've integrated the suggested changes and tested the v2 on the Gitlab
-CI. It should now work properly.
+No objection to changing read-only lists to tuples (applies to previous
+patch, too).
 
--- 
-Alessandro Di Federico
-rev.ng
+No objection to turning positional into keyword arguments where that
+improves clarity.
+
+I have doubts on the code motion.  Yes, the checks for each type are now
+together.  On the other hand, the check_keys() are now separate.  I can
+no longer see all the keys at a glance.
 
