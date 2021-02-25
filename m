@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71DA7324F0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:21:47 +0100 (CET)
-Received: from localhost ([::1]:39558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5905324F49
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:35:12 +0100 (CET)
+Received: from localhost ([::1]:40094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFEiI-0004s1-Ez
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:21:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56100)
+	id 1lFEvH-0000TA-Rr
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:35:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lFELB-00043p-Fr
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:57:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39182)
+ id 1lFELR-0004X0-9r
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:58:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23830)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1lFEL9-0006qW-Ox
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:57:53 -0500
+ id 1lFELP-0006xS-Et
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:58:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614250671;
+ s=mimecast20190719; t=1614250686;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bWEN9W3CSh/fuwVHUFsScmrUiqJMJE6m9Ra8jyjW+gw=;
- b=GnkPeg6v66lqANgSExVqiBNHUFW2Ho1mp9p810iSstK/V3OyjayVb5VjkXj6/trkZ8n6ds
- VRoU6FoNl/ClJTo2u0EgvizMYyD32pu89fd9QGZA2uBGO9nrYe/vd+svKiWZ+KwjyzrN5u
- rzNDZb1syoqXMNJO2zTSJg5pTxoQDoE=
+ bh=mWpvnpNWqbf4fsxYCvkc5JQlRB/986NNUaqzHGD3Ask=;
+ b=AwEauFqJ5yDDGDnOZTyQS6B/tHS6nRW/F8wEudmC9/id7BlPYC63xw/8skSNbAyk4zciCI
+ 9snqqLyM0rdasJwesVpwg8j/C1Ffm4JTass9rejYMDkViZmSHOa8QgEifj3/AD2ZhKEBpB
+ E43EGEP1odmHNHAFLAiBDW+rhQ9r0+I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-512-DiHAwfLwMxe4YW1zpsxH2g-1; Thu, 25 Feb 2021 05:57:47 -0500
-X-MC-Unique: DiHAwfLwMxe4YW1zpsxH2g-1
+ us-mta-270-NYov6jGMPgKF2Wf3bJsgng-1; Thu, 25 Feb 2021 05:58:04 -0500
+X-MC-Unique: NYov6jGMPgKF2Wf3bJsgng-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0FD09804036;
- Thu, 25 Feb 2021 10:57:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 787F618B6141;
+ Thu, 25 Feb 2021 10:58:02 +0000 (UTC)
 Received: from laptop.redhat.com (ovpn-112-150.ams2.redhat.com [10.36.112.150])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2F2085D9D7;
- Thu, 25 Feb 2021 10:57:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A45785D9D7;
+ Thu, 25 Feb 2021 10:57:45 +0000 (UTC)
 From: Eric Auger <eric.auger@redhat.com>
 To: eric.auger.pro@gmail.com, eric.auger@redhat.com, qemu-devel@nongnu.org,
  qemu-arm@nongnu.org, peter.maydell@linaro.org, mst@redhat.com,
  alex.williamson@redhat.com, jacob.jun.pan@linux.intel.com,
  yi.l.liu@intel.com
-Subject: [RFC v8 25/28] hw/arm/smmuv3: Implement fault injection
-Date: Thu, 25 Feb 2021 11:52:30 +0100
-Message-Id: <20210225105233.650545-26-eric.auger@redhat.com>
+Subject: [RFC v8 26/28] hw/arm/smmuv3: Allow MAP notifiers
+Date: Thu, 25 Feb 2021 11:52:31 +0100
+Message-Id: <20210225105233.650545-27-eric.auger@redhat.com>
 In-Reply-To: <20210225105233.650545-1-eric.auger@redhat.com>
 References: <20210225105233.650545-1-eric.auger@redhat.com>
 MIME-Version: 1.0
@@ -88,111 +88,34 @@ Cc: jean-philippe@linaro.org, tnowicki@marvell.com, maz@kernel.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We convert iommu_fault structs received from the kernel
-into the data struct used by the emulation code and record
-the evnts into the virtual event queue.
+We now have all bricks to support nested paging. This
+uses MAP notifiers to map the MSIs. So let's allow MAP
+notifiers to be registered.
 
 Signed-off-by: Eric Auger <eric.auger@redhat.com>
-
 ---
-
-v3 -> v4:
-- fix compil issue on mingw
-
-Exhaustive mapping remains to be done
----
- hw/arm/smmuv3.c | 71 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ hw/arm/smmuv3.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
 diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-index 03cc299710..a61c1129d9 100644
+index a61c1129d9..77d5fc2ec5 100644
 --- a/hw/arm/smmuv3.c
 +++ b/hw/arm/smmuv3.c
-@@ -1650,6 +1650,76 @@ static int smmuv3_get_attr(IOMMUMemoryRegion *iommu,
-     return -EINVAL;
- }
+@@ -1618,14 +1618,6 @@ static int smmuv3_notify_flag_changed(IOMMUMemoryRegion *iommu,
+         return -EINVAL;
+     }
  
-+struct iommu_fault;
-+
-+static inline int
-+smmuv3_inject_faults(IOMMUMemoryRegion *iommu_mr, int count,
-+                     struct iommu_fault *buf)
-+{
-+#ifdef __linux__
-+    SMMUDevice *sdev = container_of(iommu_mr, SMMUDevice, iommu);
-+    SMMUv3State *s3 = sdev->smmu;
-+    uint32_t sid = smmu_get_sid(sdev);
-+    int i;
-+
-+    for (i = 0; i < count; i++) {
-+        SMMUEventInfo info = {};
-+        struct iommu_fault_unrecoverable *record;
-+
-+        if (buf[i].type != IOMMU_FAULT_DMA_UNRECOV) {
-+            continue;
-+        }
-+
-+        info.sid = sid;
-+        record = &buf[i].event;
-+
-+        switch (record->reason) {
-+        case IOMMU_FAULT_REASON_PASID_INVALID:
-+            info.type = SMMU_EVT_C_BAD_SUBSTREAMID;
-+            /* TODO further fill info.u.c_bad_substream */
-+            break;
-+        case IOMMU_FAULT_REASON_PASID_FETCH:
-+            info.type = SMMU_EVT_F_CD_FETCH;
-+            break;
-+        case IOMMU_FAULT_REASON_BAD_PASID_ENTRY:
-+            info.type = SMMU_EVT_C_BAD_CD;
-+            /* TODO further fill info.u.c_bad_cd */
-+            break;
-+        case IOMMU_FAULT_REASON_WALK_EABT:
-+            info.type = SMMU_EVT_F_WALK_EABT;
-+            info.u.f_walk_eabt.addr = record->addr;
-+            info.u.f_walk_eabt.addr2 = record->fetch_addr;
-+            break;
-+        case IOMMU_FAULT_REASON_PTE_FETCH:
-+            info.type = SMMU_EVT_F_TRANSLATION;
-+            info.u.f_translation.addr = record->addr;
-+            break;
-+        case IOMMU_FAULT_REASON_OOR_ADDRESS:
-+            info.type = SMMU_EVT_F_ADDR_SIZE;
-+            info.u.f_addr_size.addr = record->addr;
-+            break;
-+        case IOMMU_FAULT_REASON_ACCESS:
-+            info.type = SMMU_EVT_F_ACCESS;
-+            info.u.f_access.addr = record->addr;
-+            break;
-+        case IOMMU_FAULT_REASON_PERMISSION:
-+            info.type = SMMU_EVT_F_PERMISSION;
-+            info.u.f_permission.addr = record->addr;
-+            break;
-+        default:
-+            warn_report("%s Unexpected fault reason received from host: %d",
-+                        __func__, record->reason);
-+            continue;
-+        }
-+
-+        smmuv3_record_event(s3, &info);
-+    }
-+    return 0;
-+#else
-+    return -1;
-+#endif
-+}
-+
- static void smmuv3_iommu_memory_region_class_init(ObjectClass *klass,
-                                                   void *data)
- {
-@@ -1658,6 +1728,7 @@ static void smmuv3_iommu_memory_region_class_init(ObjectClass *klass,
-     imrc->translate = smmuv3_translate;
-     imrc->notify_flag_changed = smmuv3_notify_flag_changed;
-     imrc->get_attr = smmuv3_get_attr;
-+    imrc->inject_faults = smmuv3_inject_faults;
- }
- 
- static const TypeInfo smmuv3_type_info = {
+-    if (new & IOMMU_NOTIFIER_MAP) {
+-        error_setg(errp,
+-                   "device %02x.%02x.%x requires iommu MAP notifier which is "
+-                   "not currently supported", pci_bus_num(sdev->bus),
+-                   PCI_SLOT(sdev->devfn), PCI_FUNC(sdev->devfn));
+-        return -EINVAL;
+-    }
+-
+     if (old == IOMMU_NOTIFIER_NONE) {
+         trace_smmuv3_notify_flag_add(iommu->parent_obj.name);
+         QLIST_INSERT_HEAD(&s->devices_with_notifiers, sdev, next);
 -- 
 2.26.2
 
