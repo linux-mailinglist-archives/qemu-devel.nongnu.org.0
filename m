@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB81B32538F
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:33:41 +0100 (CET)
-Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CE16325393
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:34:48 +0100 (CET)
+Received: from localhost ([::1]:51304 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFJa8-0004Br-Gk
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:33:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35702)
+	id 1lFJbD-0005Ev-A2
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:34:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lFJWp-0003BN-5c; Thu, 25 Feb 2021 11:30:15 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:43412)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lFJYF-0003tF-Of
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:31:43 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:42027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lFJWn-0001NV-Kk; Thu, 25 Feb 2021 11:30:14 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11PGTGPU030218
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 25 Feb 2021 11:29:19 -0500
-Date: Thu, 25 Feb 2021 11:29:16 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: P J P <ppandit@redhat.com>
-Subject: Re: [PATCH 1/6] net: introduce qemu_receive_packet()
-Message-ID: <20210225162908.awbtm2xud64xdsku@mozz.bu.edu>
-References: <20210224055401.492407-1-jasowang@redhat.com>
- <20210224055401.492407-2-jasowang@redhat.com>
- <9e432ff0-793e-64a7-97f3-ff3a374ee98f@redhat.com>
- <b7d39898-d688-70bb-4546-612150a1635b@redhat.com>
- <5386f97e-0fb4-b7bc-6520-698a9c856bf9@redhat.com>
- <90q67362-8n44-60q3-1q8o-nso367onnr3@erqung.pbz>
- <20210225162805.dwgmz4lwfafeqjmg@mozz.bu.edu>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1lFJY9-0002BF-O2
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 11:31:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:To:From:Cc:
+ Content-ID:Content-Description;
+ bh=upbhcPvTDll9o9VVt1G+2DG4a+cndDZvHoepW8CGA4Q=; b=OQCUo3CrHLWPygn8vQnkbh8TfW
+ dNT5hqzZLLVAkNqo9FwlIeGh4QUC31w4OK4zGBLg91wXLQcuskFB0XyfmD/W3SIZ7x5AeeXP10DFh
+ njeUueMy5oCUH45APr3DoNB/LL0sOnnuUGwTWAQyfrQQCrOitAG0qoNZSF43nuYHqmtabnZ+H4Kr1
+ hvFqL9DO+gwf925jzyYq7A0nj0WVDM5QnTJhFEHswv+55ouG5AGw2HzKYs0/gFxJDJO4HDUPn8wJr
+ RgYttOrFATbcCuQTQTcTdt+ieDaAii4pOFSlI+0ZG5q9zFDpwkcpEJcedI0jzW4wHZSRU8L9JmHy4
+ FKhaw+2N22PpLSE3wVtUwBBaegiFAxxig5JOagpRQZ1R4qRUwzu9UtSVccJiYemPyQ0bvOBSNXDDL
+ fQHAsf+oHjcduRwSf3yAoi0Jd2AJgaACKjqBjOmtyiS0awl2qM0nkgB+lvlKrUYpU8KE388dj65bX
+ i8Ueyhsy/XqYaovIOjzaYZCWVkg04wKD2d0+8WXLPTC19h5dTegfuS1PEd+ivgPPbdMIR4L9g3LrA
+ xbUkA7qDWQRpioDcB6+6J7RBjd+3jcwYyl5tkb3MM6y+J2sT85LmW/g4BPb83Ca7aV+VljBUEyFbp
+ 9EbmUmEHAgS0xlBr4PwTCgH1nA63XaIU1RdqhbEmQ=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Subject: Re: 9pfs developers docs
+Date: Thu, 25 Feb 2021 17:31:22 +0100
+Message-ID: <1713522.Q2EPVctnWf@silver>
+In-Reply-To: <18968671.BsRifgzQ0d@silver>
+References: <3475760.T70ipHyFzN@silver> <20210201132649.6db25cec@bahia.lan>
+ <18968671.BsRifgzQ0d@silver>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210225162805.dwgmz4lwfafeqjmg@mozz.bu.edu>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,50 +64,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, QEMU Security <qemu-security@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210225 1128, Alexander Bulekov wrote:
-> On 210225 1931, P J P wrote:
-> > +-- On Wed, 24 Feb 2021, Philippe Mathieu-Daudé wrote --+
-> > | On 2/24/21 2:17 PM, Jason Wang wrote:
-> > | > On 2021/2/24 6:11 下午, Philippe Mathieu-Daudé wrote:
-> > | >> IIUC the guest could trigger an infinite loop and brick the emulated 
-> > | >> device model. Likely exhausting the stack, so either SEGV by corruption 
-> > | >> or some ENOMEM?
-> > | > 
-> > | > Yes.
-> > | >>
-> > | >> Since this is guest triggerable, shouldn't we contact qemu-security@ list 
-> > | >> and ask for a CVE for this issue, so distributions can track the patches 
-> > | >> to backport in their stable releases? (it seems to be within the KVM 
-> > | >> devices boundary).
-> > | > 
-> > | > 
-> > | > That's the plan. I discussed this with Prasad before and he promise to
-> > | > ask CVE for this.
+On Montag, 1. Februar 2021 14:37:02 CET qemu_oss--- via wrote:
+> On Montag, 1. Februar 2021 13:26:49 CET Greg Kurz wrote:
+> > > > I agree that a bunch of other things should be documented, but that's
+> > > > definitely a great start. Thanks for doing this !
+> > > > 
+> > > > Just one remark on the topology diagram:
+> > > > 
+> > > > https://wiki.qemu.org/File:9pfs_topology.png
+> > > > 
+> > > > It gives the impression that the 9p transport and server can
+> > > > handle multiple guests, which they certainly don't : each
+> > > > 9p server lives in exactly one device which is exposed to
+> > > > exactly one guest.
+> > > 
+> > > Right, I haven't considered that the diagram might be interpreted that
+> > > way. My primary intention was to show the 3 main components of 9pfs from
+> > > design perspective and secondary showing that multiple guests can share
+> > > storage.
+> > > 
+> > > So what would be better: a) duplicating the server side in the diagram
+> > > (then the image might become a bit large in height), b) dropping the
+> > > multiple guests, c) making the issue with server instances clear in the
+> > > text?
 > > 
-> > 'CVE-2021-3416' is assigned to this issue by Red Hat Inc.
-> > 
+> > I'd rather go for b)
 > 
-> Hi Prasad,
-> What is the difference with CVE-2021-20255 and CVE-2021-20257 ? Aren't
-> those just manifestations of this bug for the e1000 and the eepro100
-> bug?
-^^ *devices
+> Updated the diagram on the wiki page.
+> 
+> To keep noise low, I won't send emails on further changes to that wiki page.
+> If you want to be auto notified then just add yourself to the watch list
+> there.
 
-links:
-https://www.openwall.com/lists/oss-security/2021/02/25/1
-https://www.openwall.com/lists/oss-security/2021/02/25/2
+Ok, I think I'm done with this page:
+https://wiki.qemu.org/Documentation/9p
 
-> -Alex
-> 
-> > Thank you.
-> > --
-> > Prasad J Pandit / Red Hat Product Security Team
-> > 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
-> 
+At least I think I've described everything I wanted to from my side regarding 
+current 9p status.
+
+Best regards,
+Christian Schoenebeck
+
+
 
