@@ -2,70 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9662F324EF9
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:19:03 +0100 (CET)
-Received: from localhost ([::1]:56604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCBC2324F21
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 12:27:42 +0100 (CET)
+Received: from localhost ([::1]:53990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFEfe-0000FQ-GT
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:19:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33210)
+	id 1lFEo1-0002a9-Lw
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 06:27:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33420)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lFEdA-0006gR-Ci
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:16:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33349)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFEeA-0007ks-8b
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:17:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35527)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lFEd8-00071Z-CO
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:16:28 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFEe8-0007P0-61
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 06:17:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614251785;
+ s=mimecast20190719; t=1614251847;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hr+IVev0rY1qJ6hHTRXvtOJnL44iGNDAyi4QuCfolZI=;
- b=bBuUkNBwKnPTyF02mMV+WK/J10AoXDsbzsZtDiEv5pXKwERHRogXDt6SDDjw8JBH2KSw+v
- Q6+Pcn+xzyQJDpDNfnyzgjjAWg3ttfZjSy1n8RoLDCbKPw4aTxFu+brGUzzGNLo9QTsvJl
- jXS2QV8OyfCVfJRp/hiQETl3xB9x4Ec=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-583-kBChVfTwOceiLaz9I5ptEA-1; Thu, 25 Feb 2021 06:16:22 -0500
-X-MC-Unique: kBChVfTwOceiLaz9I5ptEA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECE15BBEE2;
- Thu, 25 Feb 2021 11:16:20 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.194.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 243BF63632;
- Thu, 25 Feb 2021 11:16:12 +0000 (UTC)
-Date: Thu, 25 Feb 2021 12:16:10 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH 2/5] hw/arm/virt: Add cpu-map to device tree
-Message-ID: <20210225111610.mejof5pe2y5fe5xr@kamzik.brq.redhat.com>
-References: <20210225085627.2263-1-fangying1@huawei.com>
- <20210225085627.2263-3-fangying1@huawei.com>
+ bh=Cyd7SDEfbDZ6cRTAKNry9kObVF9u++5C80GLnWCK4O8=;
+ b=fHJUozNahXnhmMi82C29UR2ShTfOmsLFnLQ3PzOA/1TPwR+Hs3Zg4oweH4XNmye/JQrqXq
+ 7G16TaIC+SwV4BMYjWohzaRzz3ZIUydpmC5qMa3/OEBWLOakwJh9JsDugj3SIJlkFjT5HK
+ R7Lb0fNgkpYpwIwU6Zm5WEq7EDhJZCw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-471-98_iCad4PmmjSn6a-AJqug-1; Thu, 25 Feb 2021 06:17:25 -0500
+X-MC-Unique: 98_iCad4PmmjSn6a-AJqug-1
+Received: by mail-wm1-f71.google.com with SMTP id f13so78316wml.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 03:17:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Cyd7SDEfbDZ6cRTAKNry9kObVF9u++5C80GLnWCK4O8=;
+ b=NIVNttlWjBvALofPds1tbwR5c/2/XY41OLkH/gP63ZRWOvTRu9iUgZ4TFbpt4I9yeF
+ bmB8/ifH8N1xt++d0GuzoR/wU0Qu1bL+lowUBBWaKbuH0ZtOtVOs02tSxJI/1dPrnduA
+ o5KCxSJRF/GlGTIjM/5+8s1DqWy8uIqEIK6tk9eBadO3SyijZvy3a090kFpFI5yPEEsr
+ UX0KxikYAkyNxOXuWzJmOg3w4cnUm5GbMtKW98LYnZRssUkCtIwnPScdZMSD9J8y5HDi
+ 4b2wR2KR2UbYiCuk5T6AQ1KrwqDyJnmNMgBKxVh8PTJCWxTjrObntyx3dM19m/FIcpTX
+ +YlQ==
+X-Gm-Message-State: AOAM5319vU/TYwhkMRnABYZnXpyCKN4kpIzK4Hk7ur2fzSiyZ91vjx8m
+ sruo0o1mdAqny9g4hpmpvrK/FEi7bsQARF+C8q8aw9A93+jXvRRpgfofQq45n4UosLrzs8/Xy7R
+ VHGP5wRDw2JvKVOmBYbkQneFXgVZNinvabUoZSVcEfNG918RhJ2Pl6AUxeRVT2u0u
+X-Received: by 2002:a05:6000:1208:: with SMTP id
+ e8mr3007583wrx.131.1614251844273; 
+ Thu, 25 Feb 2021 03:17:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxh+Q8qV2JzTOuXqVnQvKGXKdUHervWHsMOK3S3z3ltqzqHTtGBpUeEcPft1N0jIugz+FyRlQ==
+X-Received: by 2002:a05:6000:1208:: with SMTP id
+ e8mr3007570wrx.131.1614251844106; 
+ Thu, 25 Feb 2021 03:17:24 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id o10sm7688642wrx.5.2021.02.25.03.17.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Feb 2021 03:17:23 -0800 (PST)
+Subject: Re: [PATCH] chardev: do not use short form boolean options in
+ non-QemuOpts character device descriptions
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210225111157.619188-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <c47f4807-4325-97b8-423e-ead1a2c1701f@redhat.com>
+Date: Thu, 25 Feb 2021 12:17:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210225085627.2263-3-fangying1@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210225111157.619188-1-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,117 +100,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
- imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Ying Fang,
-
-The only difference between this and what I have in my tree[*]
-is the removal of the socket node (which has been in the Linux
-docs since June 2019). Any reason why you removed that node? In
-any case, I think I deserve a bit more credit for this patch.
-
-[*] https://github.com/rhdrjones/qemu/commit/35feecdd43475608c8f55973a0c159eac4aafefd
-
-Thanks,
-drew
-
-On Thu, Feb 25, 2021 at 04:56:24PM +0800, Ying Fang wrote:
-> Support device tree CPU topology descriptions.
+On 2/25/21 12:11 PM, Paolo Bonzini wrote:
+> Options such as "-gdb" or "-serial" accept a part-QemuOpts part-parsed-by-hand
+> character device description.  Do not use short form boolean options in the
+> QemuOpts part.
 > 
-> Signed-off-by: Ying Fang <fangying1@huawei.com>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  hw/arm/virt.c         | 38 +++++++++++++++++++++++++++++++++++++-
->  include/hw/arm/virt.h |  1 +
->  2 files changed, 38 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index 371147f3ae..c133b342b8 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -351,10 +351,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
->      int cpu;
->      int addr_cells = 1;
->      const MachineState *ms = MACHINE(vms);
-> +    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
->      int smp_cpus = ms->smp.cpus;
->  
->      /*
-> -     * From Documentation/devicetree/bindings/arm/cpus.txt
-> +     * See Linux Documentation/devicetree/bindings/arm/cpus.yaml
->       *  On ARM v8 64-bit systems value should be set to 2,
->       *  that corresponds to the MPIDR_EL1 register size.
->       *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
-> @@ -407,8 +408,42 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
->                  ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
->          }
->  
-> +        if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
-> +            qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
-> +                                  qemu_fdt_alloc_phandle(vms->fdt));
-> +        }
-> +
->          g_free(nodename);
->      }
-> +
-> +    if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
-> +        /*
-> +         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
-> +         */
-> +        qemu_fdt_add_subnode(vms->fdt, "/cpus/cpu-map");
-> +
-> +        for (cpu = ms->smp.cpus - 1; cpu >= 0; cpu--) {
-> +            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
-> +            char *map_path;
-> +
-> +            if (ms->smp.threads > 1) {
-> +                map_path = g_strdup_printf(
-> +                            "/cpus/cpu-map/%s%d/%s%d/%s%d",
-> +                            "cluster", cpu / (ms->smp.cores * ms->smp.threads),
-> +                            "core", (cpu / ms->smp.threads) % ms->smp.cores,
-> +                            "thread", cpu % ms->smp.threads);
-> +            } else {
-> +                map_path = g_strdup_printf(
-> +                            "/cpus/cpu-map/%s%d/%s%d",
-> +                            "cluster", cpu / ms->smp.cores,
-> +                            "core", cpu % ms->smp.cores);
-> +            }
-> +            qemu_fdt_add_path(vms->fdt, map_path);
-> +            qemu_fdt_setprop_phandle(vms->fdt, map_path, "cpu", cpu_path);
-> +            g_free(map_path);
-> +            g_free(cpu_path);
-> +        }
-> +    }
->  }
->  
->  static void fdt_add_its_gic_node(VirtMachineState *vms)
-> @@ -2742,6 +2777,7 @@ static void virt_machine_5_2_options(MachineClass *mc)
->      virt_machine_6_0_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
->      vmc->no_secure_gpio = true;
-> +    vmc->no_cpu_topology = true;
->  }
->  DEFINE_VIRT_MACHINE(5, 2)
->  
-> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> index ee9a93101e..7ef6d08ac3 100644
-> --- a/include/hw/arm/virt.h
-> +++ b/include/hw/arm/virt.h
-> @@ -129,6 +129,7 @@ struct VirtMachineClass {
->      bool no_kvm_steal_time;
->      bool acpi_expose_flash;
->      bool no_secure_gpio;
-> +    bool no_cpu_topology;
->  };
->  
->  struct VirtMachineState {
-> -- 
-> 2.23.0
-> 
-> 
+>  chardev/char-socket.c         | 10 +++++-----
+>  qapi/char.json                |  4 ++--
+>  tests/guest-debug/run-test.py |  8 ++++----
+>  3 files changed, 11 insertions(+), 11 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
