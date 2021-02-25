@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A15324C21
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:39:41 +0100 (CET)
-Received: from localhost ([::1]:39142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66624324C29
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:43:05 +0100 (CET)
+Received: from localhost ([::1]:41280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFCBQ-0001q1-TV
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:39:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36752)
+	id 1lFCEi-0002xf-FC
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:43:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lFCAg-0001P1-Cr
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:38:54 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:50182)
+ id 1lFCDt-0002YD-8w
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:42:14 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:34285)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lFCAe-0001el-Hc
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:38:54 -0500
-Received: by mail-wm1-x334.google.com with SMTP id i9so3626315wml.0
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 00:38:52 -0800 (PST)
+ id 1lFCDq-0003n0-GT
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:42:13 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id o22so4694215pjs.1
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 00:42:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=n3mg/OYkNJTieDbn3P87OeCV9BqvZqzJzRyhMz4QlbM=;
- b=i6vO4TSy1oF3PB037aZDNmX9xOmU56kyIW7iGHH8WL800pViMSHUSG62rsO6aM8zOU
- /uZuPjcZQdeGl9EYtv8zt80ePyoyPrnOAaXRR2OJRj3xoRW6QiBCiO981qLB16ZTG3V3
- 8M2DeQ1Ynv4Affb6H1U+VdB13IM6XzVKWrmL848sT+a+1JOeCYNcQd73G2G11fP71Ei5
- W5QTXNVAgE2eH81dOdEbht6xKVlDwrKnr78w9bFkIBBLuslbHKhNGwgn3zfdt2o6gu+f
- OKYiAPOyyGizeE8WHM6tJvEdlXQfRJu9mFxuHPM/E8u/KaepnMw/2OFy9SdQcWgj4ivT
- /BLw==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c7hafPRIBJNWRGEzSYObN+J4lcA+ioV0M3zxtIKpfcA=;
+ b=klN627QQ7jfrmGhWDt7pB2bgImhFWz74Wr0rKFw0V4Z8203VN7JoPH6PUqzgUDPReq
+ usM0k6xIJ7tWBv5W9ygWxVqhfdetQuGz8SOORtdhYI8EYo93kXzlsNkne6GyVGcwGGgr
+ 30SiLDONoSRoWZDcX4HhW34casgkzTyIJO+mE+B7yP1ED5TmPc6uGvZieJoqUyaBUSR4
+ ET7BM0zXpfl1QQ5dotija6rRWljsORz0fKEzqaMsVOIHdVqETO+B2YhGaLeLQsxxt0a6
+ nwL7iOZj4ArpJ4Z0nGSujrCqyiDx0x1GGkAj+P6Pber2Eq7hP5r1K26XPspeKk7H61ph
+ APmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n3mg/OYkNJTieDbn3P87OeCV9BqvZqzJzRyhMz4QlbM=;
- b=iuMq84CYUckMX7wpPqZc+zA3B9hgpVyW5j3aSydZkYQqY6AZiKhSYth6O9mNhMjUv/
- LovEQ5helGeF/zmfH5F48tbTSr5WBDExPEpaNhHFYk2MY9LJ3wQFf3m5w/7tApoUX1W/
- oYZy2aNRJgVsJgdovS4zw9Uls2OmFhhf3uJ6yuTceUE926lwPLnzUqfQ+cATfiyEkMRL
- HmfxAYbBy4VcaMmK3rUnL99Yxu0dnCdEiTClbd/W3xeOVoXgioONXPFXvKH0qqu8SQB8
- qdoI8d19k5o5gIsa85RM9StF8OnbqjriO/ZJhAsTI8xh24K/ePueXfJcpZRDQHpehmw9
- nSVA==
-X-Gm-Message-State: AOAM531z+8mq88wNgkYqR0wwfE/CD9QAhiNrUlqN+4oB7CSigYIhjciK
- KoXvMxiEYTbLNT6m2QvF3H+dluszo4ZcQNA3SYE=
-X-Google-Smtp-Source: ABdhPJyKjpiFI1RKCmSOPBOGJiDaYkYlpt0Z/1zW+ILr/VZW/kbr5UzRxqOEARho8AVawC3g575uGTLdpmqeKYQDaVo=
-X-Received: by 2002:a1c:df8a:: with SMTP id w132mr2112357wmg.53.1614242330829; 
- Thu, 25 Feb 2021 00:38:50 -0800 (PST)
-MIME-Version: 1.0
-References: <CAFEAcA9E73_a0hEMV+jFm6YbcOz=hFR-NyYKa_Roisw_MR_cNg@mail.gmail.com>
- <20210222144012.21486-1-akihiko.odaki@gmail.com>
- <20210224112307.vfz3qz6bgrboj627@sirius.home.kraxel.org>
- <CAFEAcA-whQcik9-jx_ZSHJ8dyQBM5FvQFZKn9xkeBnOZfj7DCw@mail.gmail.com>
- <20210225080156.ifg2rshiagwqck7j@sirius.home.kraxel.org>
-In-Reply-To: <20210225080156.ifg2rshiagwqck7j@sirius.home.kraxel.org>
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=c7hafPRIBJNWRGEzSYObN+J4lcA+ioV0M3zxtIKpfcA=;
+ b=n6SSLEz9ooLP8OQqTAb1zZ/MGcArNCPj/2gPKsCTbFEu7Apmv9JeOBkxWhDF1wf8HH
+ H4gT+Z5s0aN3uMEbEWrQ0QDYUHxGsEH7nEAzczo2fn/BME4DOdKBx0dzRExW1Ad7XR5m
+ BqjamYpPNHA/Sv/DfmKflgTVcov0JzVgwfhIr7xs03D5i5g3i2A5GIcGj1YcFKyrHlxn
+ kqNWjPEmMf2OqbsktmaEg/KzeOkoQ1nXgUNp22oZ9tjVVSgwYz2HhQt3UnAFpCbPDyCn
+ z1lzpXhefYQa4V4fwgiuxvW/AlQ6+M6wP+EoLcj5KkF1xTepBX3A9MPFyQWb6pyjOhCV
+ ftYQ==
+X-Gm-Message-State: AOAM532Dqjq69GqGYRCyUrFa9qTauwWKA3EirzKS0lSYcR8MkTSovlf0
+ F9aUYWZEPT6zb97TIlMqtBPAgUj89urZww==
+X-Google-Smtp-Source: ABdhPJzdc72Kw6OvDjIHegoiWjuz7Nef9oMbdyqdGscD/mBktDCg9Xa/hAR702FzckH5qDl0o88iWw==
+X-Received: by 2002:a17:90b:1290:: with SMTP id
+ fw16mr2272219pjb.99.1614242527459; 
+ Thu, 25 Feb 2021 00:42:07 -0800 (PST)
+Received: from localhost.localdomain ([2400:4050:c360:8200:29a8:515b:7b7:9008])
+ by smtp.gmail.com with ESMTPSA id bg16sm3671858pjb.43.2021.02.25.00.42.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Feb 2021 00:42:06 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
-Date: Thu, 25 Feb 2021 17:38:40 +0900
-Message-ID: <CAMVc7JVC1dck7ximr2jEHDF+C9sd_NnERr2iacigzfZE2MUBpQ@mail.gmail.com>
-Subject: Re: [PATCH v2] ui/cocoa: Fix stride resolution of pixman image
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-wm1-x334.google.com
+To: 
+Subject: [PATCH] ui/cocoa: Mark variables static
+Date: Thu, 25 Feb 2021 17:42:02 +0900
+Message-Id: <20210225084202.39601-1-akihiko.odaki@gmail.com>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,48 +81,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-2021=E5=B9=B42=E6=9C=8825=E6=97=A5(=E6=9C=A8) 17:02 Gerd Hoffmann <kraxel@r=
-edhat.com>:
->
-> On Wed, Feb 24, 2021 at 01:08:22PM +0000, Peter Maydell wrote:
-> > On Wed, 24 Feb 2021 at 11:23, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > > On Mon, Feb 22, 2021 at 11:40:12PM +0900, Akihiko Odaki wrote:
-> > > > A display can receive an image which its stride is greater than its
-> > > > width. In fact, when a guest requests virtio-gpu to scan out a
-> > > > smaller part of an image, virtio-gpu passes it to a display as an
-> > > > image which its width represents the one of the part and its stride
-> > > > equals to the one of the whole image.
-> > >
-> > > Probably not limited to virtio-gpu.  Wayland rounds display framebuff=
-ers
-> > > to the next multiple of 64, so when running -- for example -- 800x600
-> > > wayland will create an image 832 pixels wide.  Other UIs had simliar
-> > > issues.
-> > >
-> > > Patch added to UI patch queue.
-> >
-> > Could you add Akihiko's explanation to the commit message
-> > for the patch in your queue, please?
->
-> That _is_ the (v2) commit message ;)
->
-> Akihiko: new versions of a patch should be sent as new thread, not as
-> reply.  It is less confusing for both people and tools like b4
-> (https://pypi.org/project/b4/) which help with patch processing.
+Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
+---
+ ui/cocoa.m | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-I didn't know that. Thanks for telling me that. I'll do so next time.
+diff --git a/ui/cocoa.m b/ui/cocoa.m
+index 0ef5fdf3b7a..9e9a2f88dde 100644
+--- a/ui/cocoa.m
++++ b/ui/cocoa.m
+@@ -80,7 +80,7 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ 
+ static void cocoa_refresh(DisplayChangeListener *dcl);
+ 
+-NSWindow *normalWindow, *about_window;
++static NSWindow *normalWindow, *about_window;
+ static const DisplayChangeListenerOps dcl_ops = {
+     .dpy_name          = "cocoa",
+     .dpy_gfx_update = cocoa_update,
+@@ -93,11 +93,11 @@ static void cocoa_switch(DisplayChangeListener *dcl,
+ static int last_buttons;
+ static int cursor_hide = 1;
+ 
+-int gArgc;
+-char **gArgv;
+-bool stretch_video;
+-NSTextField *pauseLabel;
+-NSArray * supportedImageFileTypes;
++static int gArgc;
++static char **gArgv;
++static bool stretch_video;
++static NSTextField *pauseLabel;
++static NSArray * supportedImageFileTypes;
+ 
+ static QemuSemaphore display_init_sem;
+ static QemuSemaphore app_started_sem;
+@@ -135,7 +135,7 @@ static bool bool_with_iothread_lock(BoolCodeBlock block)
+ }
+ 
+ // Mac to QKeyCode conversion
+-const int mac_to_qkeycode_map[] = {
++static const int mac_to_qkeycode_map[] = {
+     [kVK_ANSI_A] = Q_KEY_CODE_A,
+     [kVK_ANSI_B] = Q_KEY_CODE_B,
+     [kVK_ANSI_C] = Q_KEY_CODE_C,
+-- 
+2.24.3 (Apple Git-128)
 
-Regards,
-Akihiko Odaki
-
->
-> take care,
->   Gerd
->
 
