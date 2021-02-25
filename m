@@ -2,69 +2,142 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BBD9325569
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 19:26:49 +0100 (CET)
-Received: from localhost ([::1]:54006 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 617B43255A2
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 19:37:32 +0100 (CET)
+Received: from localhost ([::1]:33974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFLLb-0001as-Jt
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 13:26:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37288)
+	id 1lFLVy-0005mO-Tj
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 13:37:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lFLJh-0000rw-RV
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 13:24:49 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:42230)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1lFLJZ-00027X-3B
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 13:24:49 -0500
-Received: by mail-ed1-x529.google.com with SMTP id h19so8137152edb.9
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 10:24:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ql0gRrZBLzqzLRpo0NeqwnoE0anIZD2xI4+oLCI8lQU=;
- b=WT9nd1Cv7qa0Qy1Vx+OqGd8hNb5oirNFPbdjYIu5sk0S6wHPXGZPFhhblI8q98fKZv
- U8dmxNE93HaA3alFe0ynjTo5BVuaVQNko35IDi6zEfXwXOMU/b7H03wP1CpnekdN9WVN
- +iuEUTph9BgULZQFMnEJaGhniA6hF7XjVOCBnKev0iaC5DGbCf5CqNEAZ8Eurnv7+rqe
- uc+wC6t6ixNKn6DvGgZFeJnhFlfKOFSMErpQ+ruKwZBAnUmIDqfiY220nPqDx2b1P97E
- BzB+r3Y3132yQPMEnBl1S07qimEMRK3ev0KFDSFqZJ9Mxv3BI8yMVskZIbmJOL/igUqq
- lV4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ql0gRrZBLzqzLRpo0NeqwnoE0anIZD2xI4+oLCI8lQU=;
- b=efkgEnylQn5hy/3nUDLr6M9JhmEUVD5q9IFAHmhgVBhjzDGIHVHL2tk8b41PIsTgdh
- lojxtssHQR62rlmh+T7UqwgrZGFwUn08FgIU4zC0u2ji/jhaxOqzPEVtzfNWk1SB3MGU
- tgq8ZV0Z87+rXvV3BBGSRdqzvkWBPI8igU4suAy1qg6v3sSdqLve7yBlBoCATbmmRAiN
- fW4Fi4qiNiDOcsk8/DlSgAhiNZMb7nfjZZ9Mix3+tgSh5rojFAjn+er4AGuFXf215VkD
- AyvHXnz1jvgq/5y3nPjfJvL+4n86IwowUg4bQsJBdPMKSAKAnV5Y3uaAR5htucB3tM+p
- uekA==
-X-Gm-Message-State: AOAM532xn1F2KRI9D9dDfRlrn5z/mY6wteWk902+GllCle7ep4GqzeXW
- 0BhVNpgAn1ep1Cc6S8V7rASSJwFsQXRZr6Anx47EitubMqM3Wg==
-X-Google-Smtp-Source: ABdhPJzuwYthV9VkdIcMDGDlKS4OBuJ44mrJ1Aj1LbVT/defrNXywZgkh0iTlvC6KDu19VOWcHazE+rpY5OUZFOttM4=
-X-Received: by 2002:a05:6402:3094:: with SMTP id
- de20mr4470316edb.30.1614277478497; 
- Thu, 25 Feb 2021 10:24:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lFLU6-00055H-2p; Thu, 25 Feb 2021 13:35:34 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:11032)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <tsimpson@quicinc.com>)
+ id 1lFLTx-0006rY-AX; Thu, 25 Feb 2021 13:35:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1614278125; x=1645814125;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=9prErSF8sO9YyVcBaBZipGsPD8PZ6JW1Yc+yJjY50qg=;
+ b=hW/Hy8KLPfIPZLGPcYR/0wa9a5REae6ZbGiGmEDFulqYX6gTL5ZO4hkJ
+ DHOzlQ6sUbeK5ajAYZIafF+4HNkc1RJMZVHIjnHUI2BPyHTCNrTEC2kb1
+ 1geCGoh5TtzXPbziIrjnYWzoyXqN4hhbhIm3TOd+btd7JO0JJNTfg2KX+ 8=;
+Received: from unknown (HELO ironmsg02-sd.qualcomm.com) ([10.53.140.142])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Feb 2021 10:35:18 -0800
+X-QCInternal: smtphost
+Received: from nasanexm03d.na.qualcomm.com ([10.85.0.91])
+ by ironmsg02-sd.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 25 Feb 2021 10:35:17 -0800
+Received: from nasanexm03b.na.qualcomm.com (10.85.0.98) by
+ nasanexm03d.na.qualcomm.com (10.85.0.91) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Thu, 25 Feb 2021 10:35:17 -0800
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03b.na.qualcomm.com (10.85.0.98) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Thu, 25 Feb 2021 10:35:17 -0800
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com (2603:10b6:a03:46::32)
+ by BY5PR02MB6755.namprd02.prod.outlook.com (2603:10b6:a03:205::18)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3868.27; Thu, 25 Feb
+ 2021 18:35:16 +0000
+Received: from BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6]) by BYAPR02MB4886.namprd02.prod.outlook.com
+ ([fe80::7980:b3e8:c439:fad6%4]) with mapi id 15.20.3868.031; Thu, 25 Feb 2021
+ 18:35:16 +0000
+From: Taylor Simpson <tsimpson@quicinc.com>
+To: =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH] target/hexagon/gen_tcg_funcs: Fix a typo
+Thread-Topic: [PATCH] target/hexagon/gen_tcg_funcs: Fix a typo
+Thread-Index: AQHXC6IuRKivL2O1PkmH6nH9WQUd5qppMmmg
+Date: Thu, 25 Feb 2021 18:35:16 +0000
+Message-ID: <BYAPR02MB4886794D977C7E64EB2CAEBBDE9E9@BYAPR02MB4886.namprd02.prod.outlook.com>
+References: <20210225181507.3624509-1-f4bug@amsat.org>
+In-Reply-To: <20210225181507.3624509-1-f4bug@amsat.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: amsat.org; dkim=none (message not signed)
+ header.d=none;amsat.org; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [70.115.140.19]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: a2d44bc2-ec4b-470e-0db8-08d8d9bc1893
+x-ms-traffictypediagnostic: BY5PR02MB6755:
+x-microsoft-antispam-prvs: <BY5PR02MB67550753370D1E96200B8C3CDE9E9@BY5PR02MB6755.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:51;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: shJG2HgAMmasdNKzEFqIlPfkVtwkfl34jxkJNPfAQ9sY9LiTCmVlG9/KeZSmnYOC5fahBPe2ifOxeagIQuYLJ9G3Aeaq8Tkerh/4Gl5VpElZ+Kqp/jTtj23vsz8JhMD84XM5bQfyubihV2/0stkxc6VYoo4p8dQXh4WlvmIIUpJL9Ut7XmEBZo5/4h9BiUatthuGh+1nr5bnf2Bb2g6Opr7i1bfGyOv3YFzhixZFJq5LVTVMJvqMFFcvJ4GCzgKKTC9HkiRReo31cdCIGp4hVR4Ujam+G8KPMD6laYFuyNeH7TlblmRuV8RgmG1Cx8TlXF45XFeiNkoJQf2Fc0ofgYX7wCa4EvrRkjWIUOUNGBNiC80NUh59XA2C5x6w0AVqY0rfMMk137RJmSHUQZjEdnfmCpa0qPRBVhCKi6wZ169tN/Yqsj3NlUzmQCjyfmUxvlpQwyumTH+7InHxY3Ud+dLaw1a2/urON3ZMbUvPa2uBuameFJQk2bZa7d0xj3/DcUzwpNGLLUuQt+AWJsr/lg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB4886.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(136003)(396003)(39860400002)(376002)(366004)(2906002)(66946007)(6506007)(110136005)(316002)(8676002)(33656002)(55016002)(83380400001)(7696005)(76116006)(66476007)(66556008)(4326008)(5660300002)(64756008)(66446008)(53546011)(8936002)(186003)(52536014)(71200400001)(26005)(86362001)(9686003)(478600001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?cEhNOEVRbklkbHBXZ0pRcldSTzVlVC9rTjNvZ080V3UvRm9hcDc0VUJhOFNY?=
+ =?utf-8?B?RG43QXhlUFMxNVhDSWJzVXBEbktaMHFBdWExdysrQkZKODM2cUg4dWxLZUh1?=
+ =?utf-8?B?MWh6eHZPcytsUGZOMEoxb1dFdTFuTlN3Vy85eUcwZUsxUlZ2bDdGZGtpNUF3?=
+ =?utf-8?B?TENQRUtSUUZJOVdONTIxZXF1bjRpWTNraGlueWs3NHl5SDl5UmhoaDJzQi9M?=
+ =?utf-8?B?eHZlK0xrSWowNURpaXVlTnlnejRRM3JvNGFXNlRtTHJCdjFvNFlNWExJV0ll?=
+ =?utf-8?B?OUFadGFuUzg1SGtaZ3QwRittck81UjdndlVDbVJUY1ZSOUZLTWRrK0pjdHZR?=
+ =?utf-8?B?dTZLc09mVmM4UWZWdkZHNVJJL05KRVYrTXNDTGRYbzVLUnVpMVpHMFE3VFlo?=
+ =?utf-8?B?ZFNGMUVqNkNzYW1wOEk1NkVwayt1NjBmcjBJS3UrNmRrQzFMMmxGY0RTcHFy?=
+ =?utf-8?B?NWpVbjA3VHNQclZnejZNVllpTStjWjg1UjZNVWZOQkxLOHJTT1F0dVRzeE1m?=
+ =?utf-8?B?SmV5QjdQNnhnZjJKd0hVcXE3Nm5LMmo5bHRPVnFzSGtkWCs4eGljMzJhUVAw?=
+ =?utf-8?B?UVNwdU9xeEh0VGVsa1lSZzlIdUgzYVpwT2hBQ1NFbDAyZXlOQ1UzbDhIcHNO?=
+ =?utf-8?B?WUJsRTNsdVlsTTdLaXo3NFcvb3FubW9adTM0RkZBeWlSV0VGczY0WTJSeXhK?=
+ =?utf-8?B?a1FiMklYR29GbWRidkRCeXRDS1lhRGtCZFJmeVhlZTQ2YmQ0OGxoTjZXeVZ3?=
+ =?utf-8?B?cDdKOGoweWQvTTZZS1IxVGNyQTVPdWhmVEVlMC9Ham12M3ltVnVOSiticnNT?=
+ =?utf-8?B?bDNhR3VVNSs2TGNTVUlUOTBRRWUrVlEzZm00OUQ4a1Mveks1SUJFMmlwWHpV?=
+ =?utf-8?B?aXBpeUZPaHNFRVQ0MW9jSjFuL0FldlJhVnNOcElnZU9uVm9DcTJTL1RrQTVV?=
+ =?utf-8?B?akJucHBtcnU1QnFmbDN5amNLcTV2NmJEN0R5TkxsYitCdXE0UFFNaTlYNWd1?=
+ =?utf-8?B?Ryt5MHRHZW9JM3dTVnhqQ2RxZDcxV0wxdWFFZE5vZU14NFRmVGEwZCs5MktM?=
+ =?utf-8?B?TEltVHlJMU1SaHEwTm1ZR1BldnNXMXJuVzRIbVRNWWVvSjFEL2wxU0dFUUZy?=
+ =?utf-8?B?clpJcy8xSzJvUXZXcEdGMmdHNk52MFl6a284YUp4bHE5bVpsQUV1SllwQ21S?=
+ =?utf-8?B?UDczZytaSjZESlZlQjdiR0JFdkt4RkphZDlCM2pPUGh2a1Q3TW9VYThXbGgr?=
+ =?utf-8?B?V2pLczl3RzJHWHMxVkVYV3RPSWV2WlpndGp4TVVqQ3Q4REZKNHprOSsyZlc0?=
+ =?utf-8?B?c2NlZHVOci9GSE8zMXNxcFZXVlBRbG9xSWRBamNVcUNRWUtna2NCNHE5RnZj?=
+ =?utf-8?B?Y09JK0VVTUVuSjFMK2tXMUFLVnRJNks3NmtWeHgvYXA1TEJVMzF2TVNhL3A3?=
+ =?utf-8?B?cEg4Zm1FOXVqcEVkZmhkaW1JWHZWWG05UC8rWGdxSnRYZXpYOElLTU04STlX?=
+ =?utf-8?B?Rlg4Nk9KUXRvVHdGcnV1SUhBZVJXSHB6emt4RHRsVTYzR05rZnMxamZWZlJL?=
+ =?utf-8?B?eWtNeDdQVXJ1eFc3N0g3OHlOdXhGTHY0dk9vbHBkZGJPQVRYeGZmeEZWT2l4?=
+ =?utf-8?B?U25xa3MwRC9FbFJ6S3BhcGsxM2tpcy9nSmdzb3BmZUYzbEhMZFF0dDNyZU9O?=
+ =?utf-8?B?L1NNMFZWa1hFaS9Ya3FOMk9XWGtweWlNdUF2bVo1cy90c0J2OHdWQmRzclo2?=
+ =?utf-8?Q?OjioilYRm6jvWNoqvj+eGni4lrQrQ4wj8f67Ztv?=
+x-ms-exchange-transport-forked: True
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=H89t5wvW76bvRZaeLzvjjsMvMtyXzEtVaJ7iCNsP2Ek6su3Brmu++Q/FHBrcsMVOub7VxLEHKqCT7U47C7Oq6rHPTjgzj+dl43KZ62BWpuVvssbbZr8or9p4DHGqDY4myv0iLHzp1y30kY/XzN1p5SeLIY3ZMIq3I7sG/c/Xzre3J892AHV/jVlFXchmHPotRnGkME71ihBtMs033+DXxXSgF3/PtmzD/bhBSLod29ey8xXc17T5F6BJdhFmIHL7JuLxZXMTFep/TT9qhBtoGo2EV87WX70nM0tXDxEuTDcloLOB4P4/EKcot4Mcpc/vVL05Dz0FGjKhmrm0gazE8g==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fKQp5r2hLKg+pJfm0iPGw4m1rQ6Xz8Iz0/cy1nN0i3E=;
+ b=l02kHmc4Q9QR6h6ZVxvejAlqXeQyo27D9+zy7A3crBGwsqVXBi3BYf6KXy5YjNuRGLEIEJOMxSai7/2aRhIT3XKAK8+rN8VIzvt/YR4roeXKp6NpsOrfiHVBTn58x6HEpKXerQkUl34KHaEeLRZ9/J2VjkVAKE5jlKj7PIIcRVr0DEHnXTcDa/zedTX3Wr0bdknmDgmaStxYf3GU7RH/6xUDLOJy6wrlTyjPLV7qZ/DXbqVC5N05RT/G8pdlVMN4tfOBMnKKVELN8ALslUHpUlr0xI3aePxubfX8v9iKcoPZtROvOnML161XJdL/7AnXcUP/igF59LNqbQC2Hdprzg==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: BYAPR02MB4886.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: a2d44bc2-ec4b-470e-0db8-08d8d9bc1893
+x-ms-exchange-crosstenant-originalarrivaltime: 25 Feb 2021 18:35:16.0865 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: k7adVK4v79aMV+FDnKTpD7eNWpyP37GmSjWcYMYv4udmdXYshSM7zVzCVQc9DqZ2TVGTsuQ9ScdObs3pbpaBYw==
+x-ms-exchange-transport-crosstenantheadersstamped: BY5PR02MB6755
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210219131349.3993192-1-kraxel@redhat.com>
- <20210219131349.3993192-3-kraxel@redhat.com>
-In-Reply-To: <20210219131349.3993192-3-kraxel@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 25 Feb 2021 22:24:26 +0400
-Message-ID: <CAJ+F1CJHhoauTcsmHrrvUshiJ+6kU0zTprLkoyu1yUNOm+fpTQ@mail.gmail.com>
-Subject: Re: [PATCH 2/7] ui/vdagent: core infrastructure
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000acc05505bc2d431a"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=tsimpson@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,819 +151,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000acc05505bc2d431a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-On Fri, Feb 19, 2021 at 5:17 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-
-> The vdagent protocol allows the guest agent (spice-vdagent) and the
-> spice client exchange messages to implement features which require
-> guest cooperation, for example clipboard support.
->
-> This is a qemu implementation of the spice client side.  This allows
-> the spice guest agent talk to qemu directly when not using the spice
-> protocol.
->
-> usage: qemu \
->   -chardev vdagent,id=3Dvdagent \
->   -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0
->
-> This patch adds just the protocol basics: initial handshake and
-> capability negotiation.
->
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  ui/vdagent.c    | 240 ++++++++++++++++++++++++++++++++++++++++++++++++
->  qapi/char.json  |  13 +++
->  ui/meson.build  |   1 +
->  ui/trace-events |   7 ++
->  4 files changed, 261 insertions(+)
->  create mode 100644 ui/vdagent.c
->
-> diff --git a/ui/vdagent.c b/ui/vdagent.c
-> new file mode 100644
-> index 000000000000..9ef4ed3f4dd8
-> --- /dev/null
-> +++ b/ui/vdagent.c
-> @@ -0,0 +1,240 @@
-> +#include "qemu/osdep.h"
-> +#include "include/qemu-common.h"
-> +#include "chardev/char.h"
-> +#include "trace.h"
-> +
-> +#include "qapi/qapi-types-char.h"
-> +
-> +#include "spice/vd_agent.h"
-> +
-> +#define MSGSIZE_MAX (sizeof(VDIChunkHeader) + \
-> +                     sizeof(VDAgentMessage) + \
-> +                     VD_AGENT_MAX_DATA_SIZE)
-> +
-> +struct VDAgentChardev {
-> +    Chardev parent;
-> +
-> +    /* guest vdagent */
-> +    uint32_t caps;
-> +    uint8_t msgbuf[MSGSIZE_MAX];
-> +    uint32_t msgsize;
-> +};
-> +typedef struct VDAgentChardev VDAgentChardev;
-> +
-> +#define TYPE_CHARDEV_VDAGENT "chardev-vdagent"
-> +
-> +DECLARE_INSTANCE_CHECKER(VDAgentChardev, VDAGENT_CHARDEV,
-> +                         TYPE_CHARDEV_VDAGENT);
-> +
-> +/* ------------------------------------------------------------------ */
-> +/* names, for debug logging                                           */
-> +
-> +static const char *cap_name[] =3D {
-> +    [VD_AGENT_CAP_MOUSE_STATE]                    =3D "mouse-state",
-> +    [VD_AGENT_CAP_MONITORS_CONFIG]                =3D "monitors-config",
-> +    [VD_AGENT_CAP_REPLY]                          =3D "reply",
-> +    [VD_AGENT_CAP_CLIPBOARD]                      =3D "clipboard",
-> +    [VD_AGENT_CAP_DISPLAY_CONFIG]                 =3D "display-config",
-> +    [VD_AGENT_CAP_CLIPBOARD_BY_DEMAND]            =3D "clipboard-by-dema=
-nd",
-> +    [VD_AGENT_CAP_CLIPBOARD_SELECTION]            =3D "clipboard-selecti=
-on",
-> +    [VD_AGENT_CAP_SPARSE_MONITORS_CONFIG]         =3D
-> "sparse-monitors-config",
-> +    [VD_AGENT_CAP_GUEST_LINEEND_LF]               =3D "guest-lineend-lf"=
-,
-> +    [VD_AGENT_CAP_GUEST_LINEEND_CRLF]             =3D "guest-lineend-crl=
-f",
-> +    [VD_AGENT_CAP_MAX_CLIPBOARD]                  =3D "max-clipboard",
-> +    [VD_AGENT_CAP_AUDIO_VOLUME_SYNC]              =3D "audio-volume-sync=
-",
-> +    [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]       =3D
-> "monitors-config-position",
-> +    [VD_AGENT_CAP_FILE_XFER_DISABLED]             =3D "file-xfer-disable=
-d",
-> +    [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]      =3D
-> "file-xfer-detailed-errors",
-> +#if 0
-> +    [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]           =3D
-> "graphics-device-info",
-> +    [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] =3D
-> "clipboard-no-release-on-regrab",
-> +    [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]          =3D
-> "clipboard-grab-serial",
-> +#endif
-> +};
-> +
-> +static const char *msg_name[] =3D {
-> +    [VD_AGENT_MOUSE_STATE]           =3D "mouse-state",
-> +    [VD_AGENT_MONITORS_CONFIG]       =3D "monitors-config",
-> +    [VD_AGENT_REPLY]                 =3D "reply",
-> +    [VD_AGENT_CLIPBOARD]             =3D "clipboard",
-> +    [VD_AGENT_DISPLAY_CONFIG]        =3D "display-config",
-> +    [VD_AGENT_ANNOUNCE_CAPABILITIES] =3D "announce-capabilities",
-> +    [VD_AGENT_CLIPBOARD_GRAB]        =3D "clipboard-grab",
-> +    [VD_AGENT_CLIPBOARD_REQUEST]     =3D "clipboard-request",
-> +    [VD_AGENT_CLIPBOARD_RELEASE]     =3D "clipboard-release",
-> +    [VD_AGENT_FILE_XFER_START]       =3D "file-xfer-start",
-> +    [VD_AGENT_FILE_XFER_STATUS]      =3D "file-xfer-status",
-> +    [VD_AGENT_FILE_XFER_DATA]        =3D "file-xfer-data",
-> +    [VD_AGENT_CLIENT_DISCONNECTED]   =3D "client-disconnected",
-> +    [VD_AGENT_MAX_CLIPBOARD]         =3D "max-clipboard",
-> +    [VD_AGENT_AUDIO_VOLUME_SYNC]     =3D "audio-volume-sync",
-> +#if 0
-> +    [VD_AGENT_GRAPHICS_DEVICE_INFO]  =3D "graphics-device-info",
-> +#endif
-> +};
-> +
-> +#define GET_NAME(_m, _v) \
-> +    (((_v) < ARRAY_SIZE(_m) && (_m[_v])) ? (_m[_v]) : "???")
-> +
-> +/* ------------------------------------------------------------------ */
-> +/* send messages                                                      */
-> +
-> +static void vdagent_send_buf(VDAgentChardev *vd, void *ptr, uint32_t
-> msgsize)
-> +{
-> +    uint8_t *msgbuf =3D ptr;
-> +    uint32_t len, pos =3D 0;
-> +
-> +    while (pos < msgsize) {
-> +        len =3D qemu_chr_be_can_write(CHARDEV(vd));
-> +        if (len > msgsize - pos) {
-> +            len =3D msgsize - pos;
-> +        }
-> +        qemu_chr_be_write(CHARDEV(vd), msgbuf + pos, len);
-> +        pos +=3D len;
-> +    }
-> +}
-> +
-> +static void vdagent_send_msg(VDAgentChardev *vd, VDAgentMessage *msg)
-> +{
-> +    uint8_t *msgbuf =3D (void *)msg;
-> +    uint32_t msgsize =3D sizeof(VDAgentMessage) + msg->size;
-> +    VDIChunkHeader chunk;
-> +
-> +    trace_vdagent_send(GET_NAME(msg_name, msg->type));
-> +
-> +    chunk.port =3D VDP_CLIENT_PORT;
-> +    chunk.size =3D msgsize;
-> +    vdagent_send_buf(vd, &chunk, sizeof(chunk));
-> +
-> +    msg->protocol =3D VD_AGENT_PROTOCOL;
-> +    vdagent_send_buf(vd, msgbuf, msgsize);
-> +    g_free(msg);
-> +}
-> +
-> +static void vdagent_send_caps(VDAgentChardev *vd)
-> +{
-> +    VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) +
-> +                                    sizeof(VDAgentAnnounceCapabilities) =
-+
-> +                                    sizeof(uint32_t));
-> +
-> +    msg->type =3D VD_AGENT_ANNOUNCE_CAPABILITIES;
-> +    msg->size =3D sizeof(VDAgentAnnounceCapabilities) + sizeof(uint32_t)=
-;
-> +
-> +    vdagent_send_msg(vd, msg);
-> +}
-> +
-> +/* ------------------------------------------------------------------ */
-> +/* chardev backend                                                    */
-> +
-> +static void vdagent_chr_open(Chardev *chr,
-> +                             ChardevBackend *backend,
-> +                             bool *be_opened,
-> +                             Error **errp)
-> +{
-> +    *be_opened =3D true;
-> +}
-> +
-> +static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *ms=
-g)
-> +{
-> +    VDAgentAnnounceCapabilities *caps =3D (void *)msg->data;
->
-
-It's missing some boundary checks for vd->msgsize (-
-sizeof(VDIChunkHeader)), since vdagent_chr_recv() doesn't check for >=3D
-sizeof(VDAgentAnnounceCapabilities) + sizeof(uint32).
-
-In the following patches, there are similar concerns for other messages.
-
-+    int i;
-> +
-> +    for (i =3D 0; i < ARRAY_SIZE(cap_name); i++) {
-> +        if (caps->caps[0] & (1 << i)) {
-> +            trace_vdagent_peer_cap(GET_NAME(cap_name, i));
-> +        }
-> +    }
-> +
-> +    vd->caps =3D caps->caps[0];
-> +    if (caps->request) {
-> +        vdagent_send_caps(vd);
-> +    }
-> +}
-> +
-> +static uint32_t vdagent_chr_recv(VDAgentChardev *vd)
-> +{
-> +    VDIChunkHeader *chunk =3D (void *)vd->msgbuf;
-> +    VDAgentMessage *msg =3D (void *)vd->msgbuf + sizeof(VDIChunkHeader);
-> +
-> +    if (sizeof(VDIChunkHeader) + chunk->size > vd->msgsize) {
-> +        return 0;
-> +    }
-> +
-> +    trace_vdagent_recv(GET_NAME(msg_name, msg->type));
-> +
-> +    switch (msg->type) {
-> +    case VD_AGENT_ANNOUNCE_CAPABILITIES:
-> +        vdagent_chr_recv_caps(vd, msg);
-> +        break;
-> +    default:
-> +        break;
-> +    }
-> +
-> +    return sizeof(VDIChunkHeader) + chunk->size;
-> +}
-> +
-> +static int vdagent_chr_write(Chardev *chr, const uint8_t *buf, int len)
-> +{
-> +    VDAgentChardev *vd =3D VDAGENT_CHARDEV(chr);
-> +    uint32_t copy, move;
-> +
-> +    copy =3D MSGSIZE_MAX - vd->msgsize;
-> +    if (copy > len) {
-> +        copy =3D len;
-> +    }
-> +
-> +    memcpy(vd->msgbuf + vd->msgsize, buf, copy);
-> +    vd->msgsize +=3D copy;
-> +
-> +    while (vd->msgsize > sizeof(VDIChunkHeader)) {
-> +        move =3D vdagent_chr_recv(vd);
-> +        if (move =3D=3D 0) {
-> +            break;
-> +        }
-> +
-> +        memmove(vd->msgbuf, vd->msgbuf + move, vd->msgsize - move);
-> +        vd->msgsize -=3D move;
-> +    }
-> +
-> +    return copy;
-> +}
-> +
-> +static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)
-> +{
-> +    VDAgentChardev *vd =3D VDAGENT_CHARDEV(chr);
-> +
-> +    if (!fe_open) {
-> +        trace_vdagent_close();
-> +        /* reset state */
-> +        vd->msgsize =3D 0;
-> +        vd->caps =3D 0;
-> +        return;
-> +    }
-> +
-> +    trace_vdagent_open();
-> +}
-> +
-> +/* ------------------------------------------------------------------ */
-> +
-> +static void vdagent_chr_class_init(ObjectClass *oc, void *data)
-> +{
-> +    ChardevClass *cc =3D CHARDEV_CLASS(oc);
-> +
-> +    cc->open             =3D vdagent_chr_open;
-> +    cc->chr_write        =3D vdagent_chr_write;
-> +    cc->chr_set_fe_open  =3D vdagent_chr_set_fe_open;
-> +}
-> +
-> +static const TypeInfo vdagent_chr_type_info =3D {
-> +    .name =3D TYPE_CHARDEV_VDAGENT,
-> +    .parent =3D TYPE_CHARDEV,
-> +    .instance_size =3D sizeof(VDAgentChardev),
-> +    .class_init =3D vdagent_chr_class_init,
-> +};
-> +
-> +static void register_types(void)
-> +{
-> +    type_register_static(&vdagent_chr_type_info);
-> +}
-> +
-> +type_init(register_types);
-> diff --git a/qapi/char.json b/qapi/char.json
-> index 58338ed62d43..62e161aea343 100644
-> --- a/qapi/char.json
-> +++ b/qapi/char.json
-> @@ -390,6 +390,17 @@
->    'data': { '*size': 'int' },
->    'base': 'ChardevCommon' }
->
-> +##
-> +# @ChardevVDAgent:
-> +#
-> +# Configuration info for vdagent.
-> +#
-> +# Since: 6.0
-> +##
-> +{ 'struct': 'ChardevVDAgent',
-> +  'data': { },
-> +  'base': 'ChardevCommon' }
-> +
->  ##
->  # @ChardevBackend:
->  #
-> @@ -417,6 +428,8 @@
->                            'if': 'defined(CONFIG_SPICE)' },
->              'spiceport': { 'type': 'ChardevSpicePort',
->                             'if': 'defined(CONFIG_SPICE)' },
-> +            'vdagent': { 'type': 'ChardevVDAgent',
-> +                         'if': 'defined(CONFIG_SPICE)' },
->              'vc': 'ChardevVC',
->              'ringbuf': 'ChardevRingbuf',
->              # next one is just for compatibility
-> diff --git a/ui/meson.build b/ui/meson.build
-> index fbb9a512042a..08447ac15c5e 100644
-> --- a/ui/meson.build
-> +++ b/ui/meson.build
-> @@ -14,6 +14,7 @@ softmmu_ss.add(files(
->    'qemu-pixman.c',
->  ))
->  softmmu_ss.add([spice_headers, files('spice-module.c')])
-> +softmmu_ss.add(when: spice_headers, if_true: files('vdagent.c'))
->
->  softmmu_ss.add(when: 'CONFIG_LINUX', if_true: files('input-linux.c'))
->  softmmu_ss.add(when: cocoa, if_true: files('cocoa.m'))
-> diff --git a/ui/trace-events b/ui/trace-events
-> index 0ffcdb4408a6..1a5bd3861da5 100644
-> --- a/ui/trace-events
-> +++ b/ui/trace-events
-> @@ -108,3 +108,10 @@ xkeymap_extension(const char *name) "extension '%s'"
->  xkeymap_vendor(const char *name) "vendor '%s'"
->  xkeymap_keycodes(const char *name) "keycodes '%s'"
->  xkeymap_keymap(const char *name) "keymap '%s'"
-> +
-> +# vdagent.c
-> +vdagent_open(void) ""
-> +vdagent_close(void) ""
-> +vdagent_send(const char *name) "msg %s"
-> +vdagent_recv(const char *name) "msg %s"
-> +vdagent_peer_cap(const char *name) "cap %s"
-> --
-> 2.29.2
->
->
->
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---000000000000acc05505bc2d431a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Feb 19, 2021 at 5:17 PM Gerd Hoffmann=
- &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left:1px solid rgb(204,204,204);padding-left:1ex">The vdagent prot=
-ocol allows the guest agent (spice-vdagent) and the<br>
-spice client exchange messages to implement features which require<br>
-guest cooperation, for example clipboard support.<br>
-<br>
-This is a qemu implementation of the spice client side.=C2=A0 This allows<b=
-r>
-the spice guest agent talk to qemu directly when not using the spice<br>
-protocol.<br>
-<br>
-usage: qemu \<br>
-=C2=A0 -chardev vdagent,id=3Dvdagent \<br>
-=C2=A0 -device virtserialport,chardev=3Dvdagent,name=3Dcom.redhat.spice.0<b=
-r>
-<br>
-This patch adds just the protocol basics: initial handshake and<br>
-capability negotiation.<br>
-<br>
-Signed-off-by: Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" targe=
-t=3D"_blank">kraxel@redhat.com</a>&gt;<br>
----<br>
-=C2=A0ui/vdagent.c=C2=A0 =C2=A0 | 240 +++++++++++++++++++++++++++++++++++++=
-+++++++++++<br>
-=C2=A0qapi/char.json=C2=A0 |=C2=A0 13 +++<br>
-=C2=A0ui/meson.build=C2=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0ui/trace-events |=C2=A0 =C2=A07 ++<br>
-=C2=A04 files changed, 261 insertions(+)<br>
-=C2=A0create mode 100644 ui/vdagent.c<br>
-<br>
-diff --git a/ui/vdagent.c b/ui/vdagent.c<br>
-new file mode 100644<br>
-index 000000000000..9ef4ed3f4dd8<br>
---- /dev/null<br>
-+++ b/ui/vdagent.c<br>
-@@ -0,0 +1,240 @@<br>
-+#include &quot;qemu/osdep.h&quot;<br>
-+#include &quot;include/qemu-common.h&quot;<br>
-+#include &quot;chardev/char.h&quot;<br>
-+#include &quot;trace.h&quot;<br>
-+<br>
-+#include &quot;qapi/qapi-types-char.h&quot;<br>
-+<br>
-+#include &quot;spice/vd_agent.h&quot;<br>
-+<br>
-+#define MSGSIZE_MAX (sizeof(VDIChunkHeader) + \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0sizeof(VDAgentMessage) + \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0VD_AGENT_MAX_DATA_SIZE)<br>
-+<br>
-+struct VDAgentChardev {<br>
-+=C2=A0 =C2=A0 Chardev parent;<br>
-+<br>
-+=C2=A0 =C2=A0 /* guest vdagent */<br>
-+=C2=A0 =C2=A0 uint32_t caps;<br>
-+=C2=A0 =C2=A0 uint8_t msgbuf[MSGSIZE_MAX];<br>
-+=C2=A0 =C2=A0 uint32_t msgsize;<br>
-+};<br>
-+typedef struct VDAgentChardev VDAgentChardev;<br>
-+<br>
-+#define TYPE_CHARDEV_VDAGENT &quot;chardev-vdagent&quot;<br>
-+<br>
-+DECLARE_INSTANCE_CHECKER(VDAgentChardev, VDAGENT_CHARDEV,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0TYPE_CHARDEV_VDAGENT);<br>
-+<br>
-+/* ------------------------------------------------------------------ */<b=
-r>
-+/* names, for debug logging=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0*/<br>
-+<br>
-+static const char *cap_name[] =3D {<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_MOUSE_STATE]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;mouse-state&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_MONITORS_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;monitors-config&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_REPLY]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;reply&quot;,=
-<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;clipboard&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_DISPLAY_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;display-config&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_BY_DEMAND]=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =3D &quot;clipboard-by-demand&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_SELECTION]=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =3D &quot;clipboard-selection&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_SPARSE_MONITORS_CONFIG]=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0=3D &quot;sparse-monitors-config&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_GUEST_LINEEND_LF]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;guest-lineend-lf&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_GUEST_LINEEND_CRLF]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0=3D &quot;guest-lineend-crlf&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_MAX_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;max-clipboard&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_AUDIO_VOLUME_SYNC]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =3D &quot;audio-volume-sync&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_MONITORS_CONFIG_POSITION]=C2=A0 =C2=A0 =C2=A0 =
-=C2=A0=3D &quot;monitors-config-position&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_FILE_XFER_DISABLED]=C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0=3D &quot;file-xfer-disabled&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_FILE_XFER_DETAILED_ERRORS]=C2=A0 =C2=A0 =C2=A0=
- =3D &quot;file-xfer-detailed-errors&quot;,<br>
-+#if 0<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_GRAPHICS_DEVICE_INFO]=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0=3D &quot;graphics-device-info&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB] =3D &quot;clip=
-board-no-release-on-regrab&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL]=C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =3D &quot;clipboard-grab-serial&quot;,<br>
-+#endif<br>
-+};<br>
-+<br>
-+static const char *msg_name[] =3D {<br>
-+=C2=A0 =C2=A0 [VD_AGENT_MOUSE_STATE]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0=3D &quot;mouse-state&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_MONITORS_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &qu=
-ot;monitors-config&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_REPLY]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0=3D &quot;reply&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0=3D &quot;clipboard&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_DISPLAY_CONFIG]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;display-config&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_ANNOUNCE_CAPABILITIES] =3D &quot;announce-capabili=
-ties&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_GRAB]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;clipboard-grab&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_REQUEST]=C2=A0 =C2=A0 =C2=A0=3D &quot;cl=
-ipboard-request&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIPBOARD_RELEASE]=C2=A0 =C2=A0 =C2=A0=3D &quot;cl=
-ipboard-release&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_FILE_XFER_START]=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &qu=
-ot;file-xfer-start&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_FILE_XFER_STATUS]=C2=A0 =C2=A0 =C2=A0 =3D &quot;fi=
-le-xfer-status&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_FILE_XFER_DATA]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &qu=
-ot;file-xfer-data&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_CLIENT_DISCONNECTED]=C2=A0 =C2=A0=3D &quot;client-=
-disconnected&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_MAX_CLIPBOARD]=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D &quot;max-clipboard&quot;,<br>
-+=C2=A0 =C2=A0 [VD_AGENT_AUDIO_VOLUME_SYNC]=C2=A0 =C2=A0 =C2=A0=3D &quot;au=
-dio-volume-sync&quot;,<br>
-+#if 0<br>
-+=C2=A0 =C2=A0 [VD_AGENT_GRAPHICS_DEVICE_INFO]=C2=A0 =3D &quot;graphics-dev=
-ice-info&quot;,<br>
-+#endif<br>
-+};<br>
-+<br>
-+#define GET_NAME(_m, _v) \<br>
-+=C2=A0 =C2=A0 (((_v) &lt; ARRAY_SIZE(_m) &amp;&amp; (_m[_v])) ? (_m[_v]) :=
- &quot;???&quot;)<br>
-+<br>
-+/* ------------------------------------------------------------------ */<b=
-r>
-+/* send messages=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-+<br>
-+static void vdagent_send_buf(VDAgentChardev *vd, void *ptr, uint32_t msgsi=
-ze)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint8_t *msgbuf =3D ptr;<br>
-+=C2=A0 =C2=A0 uint32_t len, pos =3D 0;<br>
-+<br>
-+=C2=A0 =C2=A0 while (pos &lt; msgsize) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D qemu_chr_be_can_write(CHARDEV(vd));<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (len &gt; msgsize - pos) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 len =3D msgsize - pos;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_chr_be_write(CHARDEV(vd), msgbuf + pos, l=
-en);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pos +=3D len;<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static void vdagent_send_msg(VDAgentChardev *vd, VDAgentMessage *msg)<br>
-+{<br>
-+=C2=A0 =C2=A0 uint8_t *msgbuf =3D (void *)msg;<br>
-+=C2=A0 =C2=A0 uint32_t msgsize =3D sizeof(VDAgentMessage) + msg-&gt;size;<=
-br>
-+=C2=A0 =C2=A0 VDIChunkHeader chunk;<br>
-+<br>
-+=C2=A0 =C2=A0 trace_vdagent_send(GET_NAME(msg_name, msg-&gt;type));<br>
-+<br>
-+=C2=A0 =C2=A0 chunk.port =3D VDP_CLIENT_PORT;<br>
-+=C2=A0 =C2=A0 chunk.size =3D msgsize;<br>
-+=C2=A0 =C2=A0 vdagent_send_buf(vd, &amp;chunk, sizeof(chunk));<br>
-+<br>
-+=C2=A0 =C2=A0 msg-&gt;protocol =3D VD_AGENT_PROTOCOL;<br>
-+=C2=A0 =C2=A0 vdagent_send_buf(vd, msgbuf, msgsize);<br>
-+=C2=A0 =C2=A0 g_free(msg);<br>
-+}<br>
-+<br>
-+static void vdagent_send_caps(VDAgentChardev *vd)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentMessage *msg =3D g_malloc0(sizeof(VDAgentMessage) +<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(VDAgentAnnounce=
-Capabilities) +<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 sizeof(uint32_t));<br>
-+<br>
-+=C2=A0 =C2=A0 msg-&gt;type =3D VD_AGENT_ANNOUNCE_CAPABILITIES;<br>
-+=C2=A0 =C2=A0 msg-&gt;size =3D sizeof(VDAgentAnnounceCapabilities) + sizeo=
-f(uint32_t);<br>
-+<br>
-+=C2=A0 =C2=A0 vdagent_send_msg(vd, msg);<br>
-+}<br>
-+<br>
-+/* ------------------------------------------------------------------ */<b=
-r>
-+/* chardev backend=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-+<br>
-+static void vdagent_chr_open(Chardev *chr,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ChardevBackend *backend,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0bool *be_opened,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Error **errp)<br>
-+{<br>
-+=C2=A0 =C2=A0 *be_opened =3D true;<br>
-+}<br>
-+<br>
-+static void vdagent_chr_recv_caps(VDAgentChardev *vd, VDAgentMessage *msg)=
-<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentAnnounceCapabilities *caps =3D (void *)msg-&gt;data;<=
-br></blockquote><div><br></div><div>It&#39;s missing some boundary checks f=
-or vd-&gt;msgsize (- sizeof(VDIChunkHeader)), since vdagent_chr_recv() does=
-n&#39;t check for &gt;=3D sizeof(VDAgentAnnounceCapabilities) + sizeof(uint=
-32). <br></div><div><br></div><div>In the following patches, there are simi=
-lar concerns for other messages.<br></div><div> <br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-+=C2=A0 =C2=A0 int i;<br>
-+<br>
-+=C2=A0 =C2=A0 for (i =3D 0; i &lt; ARRAY_SIZE(cap_name); i++) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (caps-&gt;caps[0] &amp; (1 &lt;&lt; i)) {<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_peer_cap(GET_NAME(=
-cap_name, i));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 vd-&gt;caps =3D caps-&gt;caps[0];<br>
-+=C2=A0 =C2=A0 if (caps-&gt;request) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_send_caps(vd);<br>
-+=C2=A0 =C2=A0 }<br>
-+}<br>
-+<br>
-+static uint32_t vdagent_chr_recv(VDAgentChardev *vd)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDIChunkHeader *chunk =3D (void *)vd-&gt;msgbuf;<br>
-+=C2=A0 =C2=A0 VDAgentMessage *msg =3D (void *)vd-&gt;msgbuf + sizeof(VDICh=
-unkHeader);<br>
-+<br>
-+=C2=A0 =C2=A0 if (sizeof(VDIChunkHeader) + chunk-&gt;size &gt; vd-&gt;msgs=
-ize) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return 0;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 trace_vdagent_recv(GET_NAME(msg_name, msg-&gt;type));<br>
-+<br>
-+=C2=A0 =C2=A0 switch (msg-&gt;type) {<br>
-+=C2=A0 =C2=A0 case VD_AGENT_ANNOUNCE_CAPABILITIES:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vdagent_chr_recv_caps(vd, msg);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 default:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return sizeof(VDIChunkHeader) + chunk-&gt;size;<br>
-+}<br>
-+<br>
-+static int vdagent_chr_write(Chardev *chr, const uint8_t *buf, int len)<br=
->
-+{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D VDAGENT_CHARDEV(chr);<br>
-+=C2=A0 =C2=A0 uint32_t copy, move;<br>
-+<br>
-+=C2=A0 =C2=A0 copy =3D MSGSIZE_MAX - vd-&gt;msgsize;<br>
-+=C2=A0 =C2=A0 if (copy &gt; len) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 copy =3D len;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 memcpy(vd-&gt;msgbuf + vd-&gt;msgsize, buf, copy);<br>
-+=C2=A0 =C2=A0 vd-&gt;msgsize +=3D copy;<br>
-+<br>
-+=C2=A0 =C2=A0 while (vd-&gt;msgsize &gt; sizeof(VDIChunkHeader)) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 move =3D vdagent_chr_recv(vd);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (move =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 break;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 memmove(vd-&gt;msgbuf, vd-&gt;msgbuf + move, v=
-d-&gt;msgsize - move);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;msgsize -=3D move;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 return copy;<br>
-+}<br>
-+<br>
-+static void vdagent_chr_set_fe_open(struct Chardev *chr, int fe_open)<br>
-+{<br>
-+=C2=A0 =C2=A0 VDAgentChardev *vd =3D VDAGENT_CHARDEV(chr);<br>
-+<br>
-+=C2=A0 =C2=A0 if (!fe_open) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 trace_vdagent_close();<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* reset state */<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;msgsize =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 vd-&gt;caps =3D 0;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-+=C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 trace_vdagent_open();<br>
-+}<br>
-+<br>
-+/* ------------------------------------------------------------------ */<b=
-r>
-+<br>
-+static void vdagent_chr_class_init(ObjectClass *oc, void *data)<br>
-+{<br>
-+=C2=A0 =C2=A0 ChardevClass *cc =3D CHARDEV_CLASS(oc);<br>
-+<br>
-+=C2=A0 =C2=A0 cc-&gt;open=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-=3D vdagent_chr_open;<br>
-+=C2=A0 =C2=A0 cc-&gt;chr_write=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D vdagent_chr_=
-write;<br>
-+=C2=A0 =C2=A0 cc-&gt;chr_set_fe_open=C2=A0 =3D vdagent_chr_set_fe_open;<br=
->
-+}<br>
-+<br>
-+static const TypeInfo vdagent_chr_type_info =3D {<br>
-+=C2=A0 =C2=A0 .name =3D TYPE_CHARDEV_VDAGENT,<br>
-+=C2=A0 =C2=A0 .parent =3D TYPE_CHARDEV,<br>
-+=C2=A0 =C2=A0 .instance_size =3D sizeof(VDAgentChardev),<br>
-+=C2=A0 =C2=A0 .class_init =3D vdagent_chr_class_init,<br>
-+};<br>
-+<br>
-+static void register_types(void)<br>
-+{<br>
-+=C2=A0 =C2=A0 type_register_static(&amp;vdagent_chr_type_info);<br>
-+}<br>
-+<br>
-+type_init(register_types);<br>
-diff --git a/qapi/char.json b/qapi/char.json<br>
-index 58338ed62d43..62e161aea343 100644<br>
---- a/qapi/char.json<br>
-+++ b/qapi/char.json<br>
-@@ -390,6 +390,17 @@<br>
-=C2=A0 =C2=A0&#39;data&#39;: { &#39;*size&#39;: &#39;int&#39; },<br>
-=C2=A0 =C2=A0&#39;base&#39;: &#39;ChardevCommon&#39; }<br>
-<br>
-+##<br>
-+# @ChardevVDAgent:<br>
-+#<br>
-+# Configuration info for vdagent.<br>
-+#<br>
-+# Since: 6.0<br>
-+##<br>
-+{ &#39;struct&#39;: &#39;ChardevVDAgent&#39;,<br>
-+=C2=A0 &#39;data&#39;: { },<br>
-+=C2=A0 &#39;base&#39;: &#39;ChardevCommon&#39; }<br>
-+<br>
-=C2=A0##<br>
-=C2=A0# @ChardevBackend:<br>
-=C2=A0#<br>
-@@ -417,6 +428,8 @@<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0&#39;if&#39;: &#39;defined(CONFIG_SPICE)&#39; },<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;spiceport&#39;: { &#39=
-;type&#39;: &#39;ChardevSpicePort&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &#39;if&#39;: &#39;defined(CONFIG_SPICE)&#39; },<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &#39;vdagent&#39;: { &#39;type&#=
-39;: &#39;ChardevVDAgent&#39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0&#39;if&#39;: &#39;defined(CONFIG_SPICE)&#39; },<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;vc&#39;: &#39;ChardevV=
-C&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;ringbuf&#39;: &#39;Cha=
-rdevRingbuf&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# next one is just for comp=
-atibility<br>
-diff --git a/ui/meson.build b/ui/meson.build<br>
-index fbb9a512042a..08447ac15c5e 100644<br>
---- a/ui/meson.build<br>
-+++ b/ui/meson.build<br>
-@@ -14,6 +14,7 @@ softmmu_ss.add(files(<br>
-=C2=A0 =C2=A0&#39;qemu-pixman.c&#39;,<br>
-=C2=A0))<br>
-=C2=A0softmmu_ss.add([spice_headers, files(&#39;spice-module.c&#39;)])<br>
-+softmmu_ss.add(when: spice_headers, if_true: files(&#39;vdagent.c&#39;))<b=
-r>
-<br>
-=C2=A0softmmu_ss.add(when: &#39;CONFIG_LINUX&#39;, if_true: files(&#39;inpu=
-t-linux.c&#39;))<br>
-=C2=A0softmmu_ss.add(when: cocoa, if_true: files(&#39;cocoa.m&#39;))<br>
-diff --git a/ui/trace-events b/ui/trace-events<br>
-index 0ffcdb4408a6..1a5bd3861da5 100644<br>
---- a/ui/trace-events<br>
-+++ b/ui/trace-events<br>
-@@ -108,3 +108,10 @@ xkeymap_extension(const char *name) &quot;extension &#=
-39;%s&#39;&quot;<br>
-=C2=A0xkeymap_vendor(const char *name) &quot;vendor &#39;%s&#39;&quot;<br>
-=C2=A0xkeymap_keycodes(const char *name) &quot;keycodes &#39;%s&#39;&quot;<=
-br>
-=C2=A0xkeymap_keymap(const char *name) &quot;keymap &#39;%s&#39;&quot;<br>
-+<br>
-+# vdagent.c<br>
-+vdagent_open(void) &quot;&quot;<br>
-+vdagent_close(void) &quot;&quot;<br>
-+vdagent_send(const char *name) &quot;msg %s&quot;<br>
-+vdagent_recv(const char *name) &quot;msg %s&quot;<br>
-+vdagent_peer_cap(const char *name) &quot;cap %s&quot;<br>
--- <br>
-2.29.2<br>
-<br>
-<br>
-</blockquote></div><br clear=3D"all"><br>-- <br><div dir=3D"ltr" class=3D"g=
-mail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---000000000000acc05505bc2d431a--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogUGhpbGlwcGUgTWF0aGll
+dS1EYXVkw6kgPHBoaWxpcHBlLm1hdGhpZXUuZGF1ZGVAZ21haWwuY29tPiBPbg0KPiBCZWhhbGYg
+T2YgUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kNCj4gU2VudDogVGh1cnNkYXksIEZlYnJ1YXJ5IDI1
+LCAyMDIxIDEyOjE1IFBNDQo+IFRvOiBxZW11LWRldmVsQG5vbmdudS5vcmcNCj4gQ2M6IHFlbXUt
+dHJpdmlhbEBub25nbnUub3JnOyBUYXlsb3IgU2ltcHNvbiA8dHNpbXBzb25AcXVpY2luYy5jb20+
+Ow0KPiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8ZjRidWdAYW1zYXQub3JnPg0KPiBTdWJqZWN0
+OiBbUEFUQ0hdIHRhcmdldC9oZXhhZ29uL2dlbl90Y2dfZnVuY3M6IEZpeCBhIHR5cG8NCj4NCj4g
+U2lnbmVkLW9mZi1ieTogUGhpbGlwcGUgTWF0aGlldS1EYXVkw6kgPGY0YnVnQGFtc2F0Lm9yZz4N
+Cj4gLS0tDQo+ICB0YXJnZXQvaGV4YWdvbi9nZW5fdGNnX2Z1bmNzLnB5IHwgMTQgKysrKysrKy0t
+LS0tLS0NCj4gIDEgZmlsZSBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25zKC0p
+DQo+DQo+IGRpZmYgLS1naXQgYS90YXJnZXQvaGV4YWdvbi9nZW5fdGNnX2Z1bmNzLnB5DQo+IGIv
+dGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19mdW5jcy5weQ0KPiBpbmRleCBmZTRkOGU1NzMwMy4uZGI5
+ZjY2M2E3NzggMTAwNzU1DQo+IC0tLSBhL3RhcmdldC9oZXhhZ29uL2dlbl90Y2dfZnVuY3MucHkN
+Cj4gKysrIGIvdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19mdW5jcy5weQ0KPiBAQCAtMzUsNyArMzUs
+NyBAQCBkZWYgZ2VuX2RlY2xfZWFfdGNnKGYsIHRhZyk6DQo+ICBkZWYgZ2VuX2ZyZWVfZWFfdGNn
+KGYpOg0KPiAgICAgIGYud3JpdGUoIiAgICB0Y2dfdGVtcF9mcmVlKEVBKTtcbiIpDQo+DQo+IC1k
+ZWYgZ2VucHRyX2RlY2xfcGFpcl93cml0ZWJsZShmLCB0YWcsIHJlZ3R5cGUsIHJlZ2lkLCByZWdu
+byk6DQo+ICtkZWYgZ2VucHRyX2RlY2xfcGFpcl93cml0YWJsZShmLCB0YWcsIHJlZ3R5cGUsIHJl
+Z2lkLCByZWdubyk6DQo+ICAgICAgcmVnTj0iJXMlc04iICUgKHJlZ3R5cGUscmVnaWQpDQo+ICAg
+ICAgZi53cml0ZSgiICAgIFRDR3ZfaTY0ICVzJXNWID0gdGNnX3RlbXBfbG9jYWxfbmV3X2k2NCgp
+O1xuIiAlIFwNCj4gICAgICAgICAgKHJlZ3R5cGUsIHJlZ2lkKSkNCj4gQEAgLTU0LDcgKzU0LDcg
+QEAgZGVmIGdlbnB0cl9kZWNsX3BhaXJfd3JpdGVibGUoZiwgdGFnLCByZWd0eXBlLCByZWdpZCwN
+Cj4gcmVnbm8pOg0KPiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAocmVnTiwgcmVnTikp
+DQo+ICAgICAgICAgIGYud3JpdGUoIiAgICB9XG4iKQ0KPg0KPiAtZGVmIGdlbnB0cl9kZWNsX3dy
+aXRlYmxlKGYsIHRhZywgcmVndHlwZSwgcmVnaWQsIHJlZ25vKToNCj4gK2RlZiBnZW5wdHJfZGVj
+bF93cml0YWJsZShmLCB0YWcsIHJlZ3R5cGUsIHJlZ2lkLCByZWdubyk6DQo+ICAgICAgcmVnTj0i
+JXMlc04iICUgKHJlZ3R5cGUscmVnaWQpDQo+ICAgICAgZi53cml0ZSgiICAgIFRDR3YgJXMlc1Yg
+PSB0Y2dfdGVtcF9sb2NhbF9uZXcoKTtcbiIgJSBcDQo+ICAgICAgICAgIChyZWd0eXBlLCByZWdp
+ZCkpDQo+IEBAIC03OCwxMiArNzgsMTIgQEAgZGVmIGdlbnB0cl9kZWNsKGYsIHRhZywgcmVndHlw
+ZSwgcmVnaWQsIHJlZ25vKToNCj4gICAgICAgICAgICAgIGYud3JpdGUoIiAgICBjb25zdCBpbnQg
+JXMgPSBpbnNuLT5yZWdub1slZF07XG4iICUgXA0KPiAgICAgICAgICAgICAgICAgIChyZWdOLCBy
+ZWdubykpDQo+ICAgICAgICAgIGVsaWYgKHJlZ2lkIGluIHsiZGQiLCAiZWUiLCAieHgiLCAieXki
+fSk6DQo+IC0gICAgICAgICAgICBnZW5wdHJfZGVjbF9wYWlyX3dyaXRlYmxlKGYsIHRhZywgcmVn
+dHlwZSwgcmVnaWQsIHJlZ25vKQ0KPiArICAgICAgICAgICAgZ2VucHRyX2RlY2xfcGFpcl93cml0
+YWJsZShmLCB0YWcsIHJlZ3R5cGUsIHJlZ2lkLCByZWdubykNCj4gICAgICAgICAgZWxpZiAocmVn
+aWQgaW4geyJzIiwgInQiLCAidSIsICJ2In0pOg0KPiAgICAgICAgICAgICAgZi53cml0ZSgiICAg
+IFRDR3YgJXMlc1YgPSBoZXhfZ3ByW2luc24tPnJlZ25vWyVkXV07XG4iICUgXA0KPiAgICAgICAg
+ICAgICAgICAgIChyZWd0eXBlLCByZWdpZCwgcmVnbm8pKQ0KPiAgICAgICAgICBlbGlmIChyZWdp
+ZCBpbiB7ImQiLCAiZSIsICJ4IiwgInkifSk6DQo+IC0gICAgICAgICAgICBnZW5wdHJfZGVjbF93
+cml0ZWJsZShmLCB0YWcsIHJlZ3R5cGUsIHJlZ2lkLCByZWdubykNCj4gKyAgICAgICAgICAgIGdl
+bnB0cl9kZWNsX3dyaXRhYmxlKGYsIHRhZywgcmVndHlwZSwgcmVnaWQsIHJlZ25vKQ0KPiAgICAg
+ICAgICBlbHNlOg0KPiAgICAgICAgICAgICAgcHJpbnQoIkJhZCByZWdpc3RlciBwYXJzZTogIiwg
+cmVndHlwZSwgcmVnaWQpDQo+ICAgICAgZWxpZiAocmVndHlwZSA9PSAiUCIpOg0KPiBAQCAtOTEs
+NyArOTEsNyBAQCBkZWYgZ2VucHRyX2RlY2woZiwgdGFnLCByZWd0eXBlLCByZWdpZCwgcmVnbm8p
+Og0KPiAgICAgICAgICAgICAgZi53cml0ZSgiICAgIFRDR3YgJXMlc1YgPSBoZXhfcHJlZFtpbnNu
+LT5yZWdub1slZF1dO1xuIiAlIFwNCj4gICAgICAgICAgICAgICAgICAocmVndHlwZSwgcmVnaWQs
+IHJlZ25vKSkNCj4gICAgICAgICAgZWxpZiAocmVnaWQgaW4geyJkIiwgImUiLCAieCJ9KToNCj4g
+LSAgICAgICAgICAgIGdlbnB0cl9kZWNsX3dyaXRlYmxlKGYsIHRhZywgcmVndHlwZSwgcmVnaWQs
+IHJlZ25vKQ0KPiArICAgICAgICAgICAgZ2VucHRyX2RlY2xfd3JpdGFibGUoZiwgdGFnLCByZWd0
+eXBlLCByZWdpZCwgcmVnbm8pDQo+ICAgICAgICAgIGVsc2U6DQo+ICAgICAgICAgICAgICBwcmlu
+dCgiQmFkIHJlZ2lzdGVyIHBhcnNlOiAiLCByZWd0eXBlLCByZWdpZCkNCj4gICAgICBlbGlmIChy
+ZWd0eXBlID09ICJDIik6DQo+IEBAIC0xMDEsMTQgKzEwMSwxNCBAQCBkZWYgZ2VucHRyX2RlY2wo
+ZiwgdGFnLCByZWd0eXBlLCByZWdpZCwgcmVnbm8pOg0KPiAgICAgICAgICAgICAgZi53cml0ZSgi
+ICAgIGNvbnN0IGludCAlcyA9IGluc24tPnJlZ25vWyVkXSArIEhFWF9SRUdfU0EwO1xuIiAlIFwN
+Cj4gICAgICAgICAgICAgICAgICAocmVnTiwgcmVnbm8pKQ0KPiAgICAgICAgICBlbGlmIChyZWdp
+ZCA9PSAiZGQiKToNCj4gLSAgICAgICAgICAgIGdlbnB0cl9kZWNsX3BhaXJfd3JpdGVibGUoZiwg
+dGFnLCByZWd0eXBlLCByZWdpZCwgcmVnbm8pDQo+ICsgICAgICAgICAgICBnZW5wdHJfZGVjbF9w
+YWlyX3dyaXRhYmxlKGYsIHRhZywgcmVndHlwZSwgcmVnaWQsIHJlZ25vKQ0KPiAgICAgICAgICBl
+bGlmIChyZWdpZCA9PSAicyIpOg0KPiAgICAgICAgICAgICAgZi53cml0ZSgiICAgIFRDR3YgJXMl
+c1YgPSB0Y2dfdGVtcF9sb2NhbF9uZXcoKTtcbiIgJSBcDQo+ICAgICAgICAgICAgICAgICAgKHJl
+Z3R5cGUsIHJlZ2lkKSkNCj4gICAgICAgICAgICAgIGYud3JpdGUoIiAgICBjb25zdCBpbnQgJXMl
+c04gPSBpbnNuLT5yZWdub1slZF0gKyBIRVhfUkVHX1NBMDtcbiIgJSBcDQo+ICAgICAgICAgICAg
+ICAgICAgKHJlZ3R5cGUsIHJlZ2lkLCByZWdubykpDQo+ICAgICAgICAgIGVsaWYgKHJlZ2lkID09
+ICJkIik6DQo+IC0gICAgICAgICAgICBnZW5wdHJfZGVjbF93cml0ZWJsZShmLCB0YWcsIHJlZ3R5
+cGUsIHJlZ2lkLCByZWdubykNCj4gKyAgICAgICAgICAgIGdlbnB0cl9kZWNsX3dyaXRhYmxlKGYs
+IHRhZywgcmVndHlwZSwgcmVnaWQsIHJlZ25vKQ0KPiAgICAgICAgICBlbHNlOg0KPiAgICAgICAg
+ICAgICAgcHJpbnQoIkJhZCByZWdpc3RlciBwYXJzZTogIiwgcmVndHlwZSwgcmVnaWQpDQo+ICAg
+ICAgZWxpZiAocmVndHlwZSA9PSAiTSIpOg0KPiAtLQ0KPiAyLjI2LjINCg0KUmV2aWV3ZWQtYnk6
+IFRheWxvciBTaW1wc29uIDx0c2ltcHNvbkBxdWljaW5jLmNvbT4NCg0K
 
