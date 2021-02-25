@@ -2,72 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7458324C3C
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:50:07 +0100 (CET)
-Received: from localhost ([::1]:46714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9C2324C47
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 09:57:03 +0100 (CET)
+Received: from localhost ([::1]:49266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFCLW-0005Yt-7W
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:50:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39080)
+	id 1lFCSE-0007BJ-H8
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 03:57:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFCKb-00059X-DB
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:49:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23209)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1lFCKY-0007dy-9R
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:49:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614242944;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=iuqRAHvPf+XwF+7+V1rYoA0GlPthocsXcLT6gLy4P1o=;
- b=GymOY3nobWaFZxfPp21Jc8gQRL3nb7dcdAj9ujZ+dDzlgvnxQ84niJfX+5gPAax0R1FHOl
- npfQv017xiEfJqRLy/mUcUlHYdCLI0+2XXPi2lfXbkhr7gtazkrODQI+id8RU0BWMleNOU
- d9RBXvLXnVt8irqZIm4F8YeeS9XlMJM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-HbyAt_pSPVClror9TO6vwg-1; Thu, 25 Feb 2021 03:48:59 -0500
-X-MC-Unique: HbyAt_pSPVClror9TO6vwg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 36CA650755;
- Thu, 25 Feb 2021 08:48:58 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-114-4.ams2.redhat.com
- [10.36.114.4])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E176A709B8;
- Thu, 25 Feb 2021 08:48:57 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id CB87818000A7; Thu, 25 Feb 2021 09:48:55 +0100 (CET)
-Date: Thu, 25 Feb 2021 09:48:55 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2] Autoconnect jack ports by default
-Message-ID: <20210225084855.lfyv6ybkcctgulo7@sirius.home.kraxel.org>
-References: <20210224191927.19271-1-koalinux@gmail.com>
- <3407243.daszWApDLn@silver>
- <5694e258e36c6623aae5465aafeec951@hostfission.com>
- <31652865.Htn8XJslzA@silver>
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFCR6-0006ig-Jj
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:55:52 -0500
+Received: from mx2.suse.de ([195.135.220.15]:60810)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFCR4-0003Fa-Ta
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 03:55:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 289DFAAAE;
+ Thu, 25 Feb 2021 08:55:49 +0000 (UTC)
+Subject: Re: [PATCH v22 16/17] i386: gdbstub: only write CR0/CR2/CR3/EFER for
+ SOFTMMU
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210224133428.14071-1-cfontana@suse.de>
+ <20210224133428.14071-17-cfontana@suse.de>
+ <c7a4c597-6864-1ce6-b759-d7ec531eea67@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <efd0679f-5504-dee7-9bcf-8af0c4bed895@suse.de>
+Date: Thu, 25 Feb 2021 09:55:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <31652865.Htn8XJslzA@silver>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <c7a4c597-6864-1ce6-b759-d7ec531eea67@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,40 +62,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Geoffrey McRae <geoff@hostfission.com>, qemu-devel@nongnu.org,
- =?utf-8?B?Sm9zw6k=?= Pekkarinen <koalinux@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 11:33:14PM +0100, Christian Schoenebeck wrote:
-> On Mittwoch, 24. Februar 2021 23:04:47 CET Geoffrey McRae wrote:
-> > This goes against how all standard jack clients work, a new jack client
-> > should not auto-connect at all unless explicitly configured to as if
-> > there is an existing audio diagram configured (which is 99% of the time)
-> > it will cause unexpected/undesired behavior.
-> > 
-> > Jack is not supposed to be an 'automatic' system, it's the
-> > responsibility of the patch bay software to route connections.
-> > 
-> > The auto-connect feature exists to allow the jack audiodev to re-connect
-> > a broken connection when the jack device restarts/reconnects.
+On 2/25/21 5:19 AM, Richard Henderson wrote:
+> On 2/24/21 5:34 AM, Claudio Fontana wrote:
+>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>> ---
+>>  target/i386/gdbstub.c | 16 ++++++++++++++++
+>>  1 file changed, 16 insertions(+)
+>>
+>> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+>> index 41e265fc67..9f505d6ee3 100644
+>> --- a/target/i386/gdbstub.c
+>> +++ b/target/i386/gdbstub.c
+>> @@ -383,26 +383,38 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>>  
+>>          case IDX_CTL_CR0_REG:
+>>              if (env->hflags & HF_CS64_MASK) {
+>> +#ifdef CONFIG_SOFTMMU
+>>                  cpu_x86_update_cr0(env, ldq_p(mem_buf));
+>> +#endif
+>>                  return 8;
+>>              }
+>> +#ifdef CONFIG_SOFTMMU
+>>              cpu_x86_update_cr0(env, ldl_p(mem_buf));
+>> +#endif
+>>              return 4;
 > 
-> Well, that was also my idea first, and I would agree with you in case of a 
-> regular music app of course, but then I thought QEMU is probably not an 
-> average JACK client, and it simply lowers the entry level for new users who 
-> probably just want to output to system out anyway.
+> It would be nice to do all these with rather less ifdefs.
+> And let's correctly use !CONFIG_USER_ONLY.
+> 
+> Without adding more stubs, may I suggest a new helper:
+> 
+> static target_ulong read_long_cs64(env, buf, len)
+> {
+> #ifdef TARGET_X86_64
+>     if (env->hflags & HF_CS64_MASK) {
+>         *len = 8;
+>         return ldq_p(buf);
+>     }
+> #endif
+>     *len = 4;
+>     return ldl_p(buf);
+> }
 
-Well, I guess there is more software like that, any music player for
-example.  I don't think this is a good reason for qemu to have
-non-standard behavior.  If you want qemu autoconnect, you can use the
-connect-ports option.
+in the current code the
 
-Beside that I'd expect the patch bay software is able to remember the
-routing configuration per application, so the setup would be a one-time
-thing you don't have to re-do on every qemu launch.  Not fully sure this
-is actually the case though, I'm not a regular jack user.
+#ifdef TARGET_x86_64 is not there. Is it safe to use everywhere?
 
-take care,
-  Gerd
+should we do a matching:
+
+static int gdb_read_reg_cs64(CPUX86State *env, GByteArray *buf, target_ulong val)
+{
+    if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
+        return gdb_get_reg64(buf, val);
+    }
+    return gdb_get_reg32(buf, val);
+}
+
+?
+
+Should we add the #ifdef TARGET_X86_64 here as well?
+
+Thanks,
+
+Claudio
+
+> 
+> which, even by itself allows some cleanup in this function.
+> Then:
+> 
+>     case IDX_CTL_CR2_REG:
+>        tmp = read_long_cs64(env, mem_buf, &len);
+> #ifndef CONFIG_USER_ONLY
+>        env->cr[2] = tmp;
+> #endif
+>        return len;
+> 
+> which still has one ifdef, but not 2.
+> 
+> 
+> r~
+> 
 
 
