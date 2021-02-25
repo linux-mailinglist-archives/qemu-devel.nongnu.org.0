@@ -2,132 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A27325312
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:07:20 +0100 (CET)
-Received: from localhost ([::1]:56036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32AF732536F
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 17:25:32 +0100 (CET)
+Received: from localhost ([::1]:39196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFJAd-0000Ue-Fb
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:07:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57406)
+	id 1lFJSE-0007r8-MA
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 11:25:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lFJ8K-0006up-NZ; Thu, 25 Feb 2021 11:04:57 -0500
-Received: from mail-eopbgr60095.outbound.protection.outlook.com
- ([40.107.6.95]:33504 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1lFJQg-00074q-2v; Thu, 25 Feb 2021 11:23:54 -0500
+Received: from mail-eopbgr40121.outbound.protection.outlook.com
+ ([40.107.4.121]:48094 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1lFJ8G-0005Qr-K3; Thu, 25 Feb 2021 11:04:55 -0500
+ id 1lFJQc-0006Zd-7C; Thu, 25 Feb 2021 11:23:53 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kCUhs84He2vI9qf4o67XtAuQHI7FuW/q+4BmzzIwTcjHfv7g2Tigfsxp52y6izRosxXXfLq1UwJhIT0arOdw1LOu9XaqVkcHnQ3W0c4ymNEXL3eQ9EsMnkAbRW+z8K12e9kGCtztt1IgSyiR5YE3VINa3MTlcsfX0E4rfHDujPFxTcxdWa5Cmvgm/0HJzLfqOg776T1R5/stbNViDh547X50q4oBc/X5A5xcs4rDg1W9DDpzwdmI7fcqbPTkFfVgtuiVxMj3Ew7knELS+5fY8iVwDoKOe8h6VkVH3DsHb91EUDmN7/srWa71m8daU1lubeNr6hGPy2YPz4DN62l3Zg==
+ b=HoncMOJOWF6IVkBE88DC3uCzzuUo8LpWaSgwPHezd8udhqMCy3dusQPIokRjPuwMfvxaw7VjnerqJ7HxapbbJfCGMC1ZFiVNbEfur9PVN/ZWtPtl22NW/I0LfKCGVEtSgzb7bGJsmAuXrVeWuEeV9K2Ddu+iYTOGJRl5hA78EaneQVaAh/LpR1+UkGk5FScYvua32ctKdB29IadjRlJXxCGJeWtLi+5yOASBq64gBEnBQgn3+u1jAmBbFSkIvxnHOo+yJqgmkzkJ6In4kDRqjot76BpvVDQu74kC2xK8JhDgwvfFwXs5EIJqgbe7sC0gjHUFbjG0uJauSUKla2aLlQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=niPvt6rplu65dL8NxUHrB0FQReEUf8kNE4kNYWyK0zw=;
- b=QuFuHELl/pjRXEK88sMnFEu3t1obL0OhLDUbyIHkti4hXZTYeIOBHh9w7kQ6Zq297BA/297vX2oJ8J/JVPJdjr7M1cWP3e7Ysxi8fGKfyjxZMwh6Cu9PeL+z8N7+I8TXb/lYUtSvQufUS84gur/7GEPsgpLoPC6t9rNcroNN/6FNlPLTss1AsOoHtxobUFoBsLw4GoFFJvncMl1eWJPjIX89d0n21ikfO8qx9iW7SM6a2VskoqCqad/Ytr/wCvyrhu49BSNxhr4p8A+eZbmRrpwkAahqlzsAWl46PpU/8jTvOL7cBI1cO55EN0qTb1HOsfMo76+4Vl+bosZByzs8ng==
+ bh=LyRptnw+vzIHuYF8xItMauoqSo5hzo30rIQ2MbBbD5w=;
+ b=ntsaFuyPxphdjK2eU/PiQPLtZp/Yzl0PQIMfd8X92AOh8npMA5PLAdbUP93rTwlPv7plxIfGr5+cchj8MzoMmGao8x2og4fEeIFHAeWi0UHMwckMKsQDiHJb3/iUzqSmvzIPJki7VlGSMs1eM/29Q6coGtIBY/aKaDSsyNtTZy3OtHA2qDI+o5N30f0XQJkcLoS7WB5q6aaamIrtQkyjbLTq1jrdvwvoC+qhSPEsHzEzH9460ApxgzB0lGzv21fczVdqz9mkGBMXubyOs2OfK1O0c0Jk4T+R3PHqSTjJG0cVC8w/wJGFM0TcIY63AgxJMa2CRyql5NwKfOIxLav2mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=niPvt6rplu65dL8NxUHrB0FQReEUf8kNE4kNYWyK0zw=;
- b=DdpNDr3uh51xaAOQFillqIjpSV9gi2cpj2LI76hpbSyNDKLadQfFBGLVo3B/66g36e4S/gzHaNDwbNNFO9UTcyHcg/a0JJ2pOJXTDBjRGicC5jx4iMvqP7IJokatqnbB6zZzdChxHG0pSx/hq88lcIEf74WHVe+Ff2BpsV1/rSw=
+ bh=LyRptnw+vzIHuYF8xItMauoqSo5hzo30rIQ2MbBbD5w=;
+ b=YxSfTBy8ozcywSA81Okkxn0/DApd+aot34/3lmFwQ1EvhZee/IYuKTz/DQ783wO9KeUaZ+Pq2fjGTrvH46NSNRYvwL/Fqhu56tYNRl22lZrimllp6kTC3nNHzovX0iiaIJ16deiz33LUnTuL3NIijtEk3uipf0b2hkl5CIRrkEE=
 Authentication-Results: redhat.com; dkim=none (message not signed)
  header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0802MB2419.eurprd08.prod.outlook.com (2603:10a6:203:a1::20)
+ by AS8PR08MB6709.eurprd08.prod.outlook.com (2603:10a6:20b:395::17)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3846.31; Thu, 25 Feb
- 2021 16:04:48 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Thu, 25 Feb
+ 2021 16:23:45 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%9]) with mapi id 15.20.3868.034; Thu, 25 Feb 2021
- 16:04:48 +0000
-Subject: Re: [PATCH 1/5] iotests: Update 241 to expose backing layer
- fragmentation
+ 16:23:45 +0000
+Subject: Re: [PATCH 2/5] block: Fix BDRV_BLOCK_RAW status to honor alignment
 To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+ Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  Max Reitz <mreitz@redhat.com>
 References: <20210218201528.127099-1-eblake@redhat.com>
- <20210218201528.127099-2-eblake@redhat.com>
- <a31b0bf7-56af-94a8-4d83-eac366bf62b9@virtuozzo.com>
- <b471d0e3-b7cc-f62f-25a7-d7d59fe6093c@virtuozzo.com>
- <5a39103c-0688-5bb2-1f15-13c87d8f7892@redhat.com>
+ <20210218201528.127099-3-eblake@redhat.com>
+ <35c70ab7-e536-9893-9575-a471e19497ec@virtuozzo.com>
+ <aa338b81-9e89-ac40-a3da-aff9c8b512ee@redhat.com>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <e114c49e-6260-9253-9827-b345ffbf1499@virtuozzo.com>
-Date: Thu, 25 Feb 2021 19:04:44 +0300
+Message-ID: <537c23fc-9b49-03b0-9648-400764a776aa@virtuozzo.com>
+Date: Thu, 25 Feb 2021 19:23:41 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.1
-In-Reply-To: <5a39103c-0688-5bb2-1f15-13c87d8f7892@redhat.com>
+In-Reply-To: <aa338b81-9e89-ac40-a3da-aff9c8b512ee@redhat.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [185.215.60.253]
-X-ClientProxiedBy: HE1PR0701CA0078.eurprd07.prod.outlook.com
- (2603:10a6:3:64::22) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: HE1PR05CA0325.eurprd05.prod.outlook.com
+ (2603:10a6:7:92::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.253) by
- HE1PR0701CA0078.eurprd07.prod.outlook.com (2603:10a6:3:64::22) with Microsoft
+ HE1PR05CA0325.eurprd05.prod.outlook.com (2603:10a6:7:92::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3912.9 via Frontend Transport; Thu, 25 Feb 2021 16:04:47 +0000
+ 15.20.3890.19 via Frontend Transport; Thu, 25 Feb 2021 16:23:44 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 24d3696c-86c5-4872-c07d-08d8d9a71383
-X-MS-TrafficTypeDiagnostic: AM5PR0802MB2419:
-X-Microsoft-Antispam-PRVS: <AM5PR0802MB24194814EC941DBAE9702FC5C19E9@AM5PR0802MB2419.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Office365-Filtering-Correlation-Id: 99b921fd-5b1e-4e4d-c006-08d8d9a9b920
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6709:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6709286C1DF405626B8D9A62C19E9@AS8PR08MB6709.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +T3Tb2rqjeyTCCopN5Dj3PEacMBQimsZxPBfk0NxupY4Z8zOgZH/fbAPGfLA3/IvXqobW6P/KGWg9KQDKHtKFZcmtNjXEMItqBG0Q9rHMI2YWUJbO2HgtvLgAfRBdxAKWks4PTyJDUrEdBkwiKviZtyZ5M8+R05THmDWRY+YG2zH3D+0d+5w+JhrPI5Wsdj9PCroXdexZGeMletFnLnfAiiCbzvr/ROxko5hRRFMPCafTmH162jkVs0G+1Jf2PadVuMXxZFwFdulko0X4ZExWzKHJDOBnm19OLe8iK6bM5TXM82xc1REK9tkLO2DH+GoJO7IaXl3T6EE8okf4Fy564T3R/cJ62jcR5ePbC13wPyAYt4SCpLudLpHlJOHukLUo+lnuH1Mu3ubu46dNCdm0szm3tof56P63TqPz8OSqTkUCf7vPamATbvmjhTQBhYrMRgrtVmO80k6GcELnbDed1XqKNwutcMedbTk6QCY0J6n4dEIr6Nyp9yzu/bgX1WNxY/D6uRhgLmFLuMKEA9JMSGfeM8Gl7XXeLFzRuiZz+00/PUJKReLXoLt3Qkp93ilYFZf0u86nviskF2d56eFEunDIL5RpXpXjTbYvV/RDD4=
+X-Microsoft-Antispam-Message-Info: blJ7bLijcG66ZFz+uw09abHYeBNQraYuNPMTEm0elZDqfMPZV2P53dE3aTA9jNe1Qsrk7I5nirVr37WueW2EJ9TorjRuhgkHEeQxVUP0PU+Ypiq96uumdbzmyTatxHRI0UfYj9+PLCohuyDA3a1UnfEhz1WWC3BIHT5QjJWr4LT37MRDeJFOjSu9Lhkfyu3fDlTO2CO7bw1BeKY8oswoJe0wvJcqxQzp9eMyzg6cvkoXL3fBvsNfEFupPx+mlMRMJgvVwxjWvcKJR6/blkwqSoO82Am/WGDYtjyYZl0V0qWl/9GplypOuxhZxAbsxk0q3Mif/++W9zfcHFnxKzHnN4LjqCT1ofrfTtf0w14wPHe2gaAAumyG1gdfeMnTlYWyvmkbvPAq3dM48tt3LRa6FWfA7MqI3An64vAVfIqic6owU6FE+OG3GlnAYWd+jyEmWn+WgFssjulpyazLQvDrBXs+MV3biKS8R0BnIRAvTEOMuBON+nd8hAt+W/ypv8i+BaTSzIqtTdYUyMTnpmGL9DDbKI6ngas0DyFeKJh/t8s6FjdR8QYrCW5CEqYhGEwSX3EsRJ4JX/mAIWKaYyS95HJT7p2pWQ6n07Rd7cA3SIE=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(366004)(396003)(136003)(376002)(4326008)(66946007)(8676002)(54906003)(53546011)(6486002)(31696002)(86362001)(83380400001)(66476007)(66556008)(52116002)(2906002)(316002)(2616005)(36756003)(956004)(26005)(478600001)(16526019)(31686004)(186003)(6666004)(16576012)(8936002)(5660300002)(45980500001)(43740500002);
+ SFS:(4636009)(376002)(39850400004)(136003)(346002)(396003)(366004)(186003)(66476007)(66556008)(2906002)(66946007)(6486002)(26005)(4326008)(16526019)(31686004)(16576012)(5660300002)(54906003)(83380400001)(53546011)(6666004)(31696002)(478600001)(8936002)(86362001)(8676002)(52116002)(956004)(36756003)(2616005)(316002)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?d2VoRHV4YTBlL2dtMGV5NzJYTVBrMWtxdldxejNQRkx5OUQ3am1oQWxMUGJH?=
- =?utf-8?B?QTZaMy9sSVRJeURHdmQ2N3l6bEZkYkRGN1RuR3JPS0NOaXJKME82ZTVUZ3Jn?=
- =?utf-8?B?SFBUY1B4bW9LNGh4SU1xUmlZODZ5c2MrenNGV01ETHdFTnRWM2RSYkpra3FR?=
- =?utf-8?B?dWJkcUhZMllzV2xUTDVEVVhaVmY4WEFOWm5Ja1B0SGpOeDBFbTRVL0J2QXB5?=
- =?utf-8?B?ZlY1UzBtL1VwQzM3UDRWV1pKdFlpSldXMUpDQ0hMY0Izc0NkbE9RT3Exc09N?=
- =?utf-8?B?S291emtoQnE4enpVd08rRnlWemM3em1Rdk40UHpBY3ZHTWYxOTNVY2VTRWxZ?=
- =?utf-8?B?VUhmVXN6ZjlkRTVQTDlPVmM1cnhqSnU4UVpYbXVFZFpwOEVqOE9nVTI1YjR2?=
- =?utf-8?B?a0c2ck5kaGN0Z3J1UlhzR2xDNEVzUXB0K3ptTFNqcFVURDlsS2dFL3RaYU1h?=
- =?utf-8?B?N3pRKy8vblkzOHZXakMybk03MXVVb0xjM3g4SHozNXI2WEIvYjA1ZGljMWJy?=
- =?utf-8?B?RXJ5QzUvVGNWMXF3N2UzTDl1UlB3RGhKQ3lRSGlsRGplTVlkZ1lON01Na0c1?=
- =?utf-8?B?S0g4MDlwR3BKeDJaRW54Y2pQdSt5QTJKSlRKM2RQbzhtcWV1VWdmZzluOWNX?=
- =?utf-8?B?dHMzS0EwWmpYa2tmbUN3YTBSOWp5VkFvdm9NbTZlMzVaTmgwQzVtOHlKa2ti?=
- =?utf-8?B?dWZOb1pNK0pqcm4yK0c2YlhwZkptRXZsN2hITDhZMWF5RmZneTU5NmNYNzFx?=
- =?utf-8?B?U2VqRW9nd0hrUXI0S0VXZGxESC9LSHZySjE1RndIVHhsbW5XQ1dFQ0NBWG05?=
- =?utf-8?B?SUlXeVQvMVJMdzl6VC8waGZMNFZ2eXdtemxFUFNFOEQ0L0JLTEVmcVRrcDAy?=
- =?utf-8?B?ejNJbENuQWlvK0lsVVNPUEwvVTZQdUVlQWhwVDU3NHZFMjBDQ1hCYVZ6a2p2?=
- =?utf-8?B?MU40MnF6eTN1KzFoZ3RhazJLR1hRMWI4WlduV05wd21pWnBDUEt3cm1Ea05w?=
- =?utf-8?B?WTBEWkhDME5TSzlxNXhtV0JyZG4yUFNmdlIrY3lVWHB0RVptNWxPeS95Szdz?=
- =?utf-8?B?UWh2N3FyRjRkN2Y1K2EyY0pSY1ZZNGxWRHk3WjVDVnk4YzlaUHFGOGUwdlhM?=
- =?utf-8?B?cTRQNWQ0VmdLeWtlNHBXMHFtVDFPajdLeEU4U3EwZHVNaFNNZWVqOWVKaEdE?=
- =?utf-8?B?dDhBNzZCL0dWdTZlS2xoekppOEhCcTE2Njl4YU96UDRqMG1aRzVLMXJodkxY?=
- =?utf-8?B?aDYzcDlCeER0S1ExbFRyaTlwSm05QkNpa0hQMFVJTzNqOS9qNFBuUnZXUzVz?=
- =?utf-8?B?NGs0MFlueHFac2RtNkh5UU5STGJpRXpDZ0tML0krOTNMNDZLVit3MjU0dnp5?=
- =?utf-8?B?TTNSQ1g0WHRnQnJqVVZtTUNHdWVSTXAvbmZoMFp3M2ZYRktHcE1pL0JXTC9T?=
- =?utf-8?B?d3NHeWNqWlFSaXlwKzVCWGpSUnhiMWgyUkFULzJhd2RzeDJyVjBtZWprQXlw?=
- =?utf-8?B?Q2Iva1E1UDhZQklIUzR2WG8xT2MyT29HbVh3eG9IRi85THZ4aGdEdG9YVEFw?=
- =?utf-8?B?Y2tUSTdXNGQ0Y1VOZDZPSDBWZ3lSaG1ZRWdodnk2bW9EK2ZDdU03T1JpeW9O?=
- =?utf-8?B?b0Nqa1hOd2duV0h2YmM5UW5xQ2dHRHZkWnFzT1hkdkRkc2R5RkMzbmdNalBj?=
- =?utf-8?B?RnAwQjZSd29ybVlsZVlubkRZc3V5Ym54QWJ4Tk1oNUV0aW5uU0ZuM1YwOWR0?=
- =?utf-8?Q?nX2gnytbh2NH+QqUpeJi4IWUVMhhVafDKS1RhzP?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cWZ5Ym1SdlFDTHhqL3o4b1Uya3VhbzRpbFlQRGFnNWIwOHZ1cjBJTkFiMzlG?=
+ =?utf-8?B?aVRGZlBtOVJxSW8yNzlHcThpNThKRWh3MEpHTTFMQ1JJUDdYbzF2djJUMWdp?=
+ =?utf-8?B?em9QekMzalBobXRFN2JpdXBUM29PaW96MzAwTXZMcW94OS9CL1pWSEhPa0Vm?=
+ =?utf-8?B?dWpLU011OFl2TXpzOHlsQzZ5em16MFF6dW5CaTNTd29Vc21RNndaYTRDVGNz?=
+ =?utf-8?B?U1Q5ck5reDN6d0hkdTQ5NzZlQmZQaEFibTh3VVlUY0RWNDNFK3BEKzhDNGwr?=
+ =?utf-8?B?bTZwYUZlZmhYcFl0SWdRTTQyQmZHK3hqZDNQdDBvYTFZQTRhdnNiUUhVQzEr?=
+ =?utf-8?B?RVpleCsrazB3WERobTlKMlhXbGJPejlaTXlmOXUrUVZGSVdqWFlzRXR3cHJa?=
+ =?utf-8?B?K3JoRDV4MVNvOTArTnFSREhOU3BDZ21vOS9CeUdyVjN5TDU4S2I2bXNGUThs?=
+ =?utf-8?B?OEZsV25nRnAzRWgrWHJxUlVwRlJDczRraFcwTy96NXpxcG5HU0ZSenkwdDB1?=
+ =?utf-8?B?SnpnUk1obGpFUW5RRG5wV0t1K2UxSDl3aUFmMWJaS3BHVWZ1MjJISmxhZjF5?=
+ =?utf-8?B?cTI0MUdHV1JBWlFsVGhraHp4VXpnK0lUWUNNVHplYVgydXprMjhZb0xKdWtQ?=
+ =?utf-8?B?M0s1V3JseTdSZk5iSGc2citWUGZEeGlVeUdkeFpDbXdSSFVoN0Fna216T2dO?=
+ =?utf-8?B?MXJHMklSYnlsL1lIeFhzNCtpdjRzTkh1NFFYWFJBV0NNMjJQM1ZZWW9RVWJt?=
+ =?utf-8?B?Q3cycS9wcFdXU1NjUUU5UFpTdnRTV0U0YmxDd1VmeUhRczcya1BmMGhiTHZR?=
+ =?utf-8?B?cG5BUUZkdURVN08rK2ZaNDQrRE0wY3M5ZjN0WXBUdXBoOG5jdjJ0NlZCU05T?=
+ =?utf-8?B?cTBxaDRJWVhrZDlaS2EwdzFRTjdzNTZYWFlZYVUvS0V6VDB6SkxkZmgwV2lS?=
+ =?utf-8?B?ZjR4UVA1eXFsbnFObW94UEZOMU0xb3NiK21oOVo3WkFOZm5xNWZIWXVmb2sz?=
+ =?utf-8?B?MGQ3REk0RWZ6VkRQQnBPYzlyd0VFRVptR1BXcWNUejNEd05pTEtSZ2ZKbW5U?=
+ =?utf-8?B?UEF3L1RYbExNZ2M4V2N2WjNqV2JBcEVtR1puZmF0QUVnaTQ1dGJTMW5TUGF5?=
+ =?utf-8?B?dXhHbUhEQlc0R0RnNUxncDk3dTFNdFI4NDQrNmVaRUVRb2xwT2pxVnNFYmZ2?=
+ =?utf-8?B?REhORzkxbXRicnNkWTJrM1hlMmI4TlZrRzBMMmFnaTNFRURJZ1UzZHBEeEcx?=
+ =?utf-8?B?VURBcmFtQ0pRTUR2SFU4TWtTWWJ4U2N5VUxLQXF1RWZzV0xjOUVwTmc0TUUz?=
+ =?utf-8?B?b09NYVNlZkRScUdGT3R0aC9sWVVEaHRGYU5kdE1zYUJvc05idXhyWit4VllR?=
+ =?utf-8?B?aXdmZEtFK2swaXFtZDdRNVhiRlZrcWFzbUFkeFZJa1RKcWI1cHpiUUczV1hn?=
+ =?utf-8?B?WlFpMW0xOVhhSkFmMmZQeWNpMnhZWEVqRnR0MTMzZGpiTGkvb1N3djVRNHlK?=
+ =?utf-8?B?aWliOGc3eFZDSzhrMndRcndIMmRSWk43c1dGYmRzdEIvcmZXQVloa0U5Y3BN?=
+ =?utf-8?B?akMzMjhsQlZRZ1ptc052WFUvSzhRZFVNVWtzczMwSnlBQ2w3cmtvTjNoaSsy?=
+ =?utf-8?B?Wlp6M2hkUWFEaGNuK1A2Tm1BcUpHRTJrei9hMk5NSW1KaUx1YUhUVXQ2bVND?=
+ =?utf-8?B?SlA3eTgvaC8vTDVnMlpHZks5UUg5Wlg0OTNNeUQ1VmwzUFZkTHhrOFFDV1Bl?=
+ =?utf-8?Q?B7AXNxAYdP0fHoUbNoHjbdRPboEY0dyHD3vWRhl?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 24d3696c-86c5-4872-c07d-08d8d9a71383
+X-MS-Exchange-CrossTenant-Network-Message-Id: 99b921fd-5b1e-4e4d-c006-08d8d9a9b920
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 16:04:48.4347 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Feb 2021 16:23:45.4663 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Tmn+bzDfb6DmRwWz1ju9FL983BT618GptKcOWYA8/uMHLvnLDi18yvq5bKY0097rjWw3Ac9xu00Lch5tQI24N5TtN8RO3ZiJy07+iFTAMcs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0802MB2419
-Received-SPF: pass client-ip=40.107.6.95;
+X-MS-Exchange-CrossTenant-UserPrincipalName: G1Qi1I6UijiEzzSA3hilfZevF8p8ER8iqpnFMUz24WuCpqs5RZevmCMkaTI3wq8MfjWHqSHgF1TpO1AYNtDOYa+7fS7jnFZ+bCD/3h6mlkI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6709
+Received-SPF: pass client-ip=40.107.4.121;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
+ helo=EUR03-DB5-obe.outbound.protection.outlook.com
 X-Spam_score_int: -24
 X-Spam_score: -2.5
 X-Spam_bar: --
@@ -151,58 +150,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-25.02.2021 18:52, Eric Blake wrote:
-> On 2/25/21 8:57 AM, Vladimir Sementsov-Ogievskiy wrote:
->> 25.02.2021 16:50, Vladimir Sementsov-Ogievskiy wrote:
->>> 18.02.2021 23:15, Eric Blake wrote:
->>>> Previous commits (such as 6e280648, 75d34eb9) have mentioned that our
->>>> NBD server still sends unaligned fragments when an active layer with
->>>> large advertised minimum block size is backed by another layer with a
->>>> smaller block size. Expand the test to actually cover these scenario,
->>>> by using two different approaches: qcow2 encryption (which forces
->>>> 512-byte alignment) with an unaligned raw backing file, and blkdebug
->>>> with a 4k alignment.
->>>>
+25.02.2021 19:03, Eric Blake wrote:
+> On 2/25/21 8:55 AM, Vladimir Sementsov-Ogievskiy wrote:
+>> 18.02.2021 23:15, Eric Blake wrote:
+>>> Previous patches mentioned how the blkdebug filter driver demonstrates
+>>> a bug present in our NBD server (for example, commit b0245d64); the
+>>> bug is also present with the raw format driver when probing
+>>> occurs. Basically, if we specify a particular alignment > 1, but defer
+>>> the actual block status to the underlying file, and the underlying
+>>> file has a smaller alignment, then the use of BDRV_BLOCK_RAW to defer
+>>> to the underlying file can end up with status split at an alignment
+>>> unacceptable to our layer.  Many callers don't care, but NBD does - it
+>>> is a violation of the NBD protocol to send status or read results
+>>> split on an unaligned boundary (in 737d3f5244, we taught our 4.0
+>>> client to be tolerant of such violations because the problem was even
+>>> more pronounced with qemu 3.1 as server; but we still need to fix our
+>>> server for the sake of other stricter clients).
+>>>
+> 
+>>> + * - BDRV_BLOCK_ALLOCATED is set if the flag is set for at least one
+>>> subregion
+>>
+>> Hmm about this..
+>>
+>> We already have mess around ALLOCATED:
+>>
+>>   [1] for format drivers it means that "read is handled by this layer,
+>> not by backing", i.e. data (or zero) is placed exactly on that layer of
+>> backing-chain
+> 
+> If we're reading at a given granularity, then the 4k read is satisfied
+> at this layer even if portions of the read came from lower layers.  So
+> the logic works here.
+
+Hmm.. I can't agree. This way we can say that everything is satisfied at this layer. Even if no data in it, we read from this layer and it somehow takes data from lower layers.
+
+It's all about terminology of course and we can use same terms for different things. For me ALLOCATED for format layer works as follows:
+
+The whole layer is split into clusters. Each cluster is either ALLOCATED (format layer produces data on read somehow not touching backing child), or UNALLOCATED (format layer just calls read() on backing child with same offset.
+
+And before your patch block_status request never combined clusters with different ALLOCATED status.
+
+ALLOCATED status of blocks at some layer of backing chain is significant for block-jobs, and if we have several sequential chunks with different ALLOCATED status, we can't just consider all of them as ALLOCATED, because in some scenarios it will lead to data loss.
+
 > 
 >>
->> Now I don't think that aligning qemu:allocation-depth information is a
->> correct thing to do.
+>>   [2] for protocol drivers it's up to the driver, which may always report
+>> ALLOCATED (being more compatible with format drivers) or it may
+>> sometimes return UNALLOCATED to show that data is not allocated in FS..
 > 
-> Why not?  First, it's very rare that you'd have a qcow2 image with
-> mandated 4k minimum block size, backed by another qcow2 image with 512
-> block size (blkdebug made it possible to expose the bug, but I could not
-> find a way in common day-to-day usage), so we really aren't impacting
-> normal users.  Second, from the perspective of copying backing chains
-> over NBD, what difference does it make if we have the backing chain:
+> We've been moving away from this particular overload.  What's more, most
+> protocol drivers that set it at all set it for every single byte,
+> because protocol layers don't have a notion of a backing file; which
+> means that if it is set at all, it will be set for every byte anyway, so
+> the logic works here.
 > 
-> A (granularity 512) <- B (granularity 512) <- C (granularity 4k)
+>>
+>> And this way, bdrv_co_block_status_aligned() is compatible with protocol
+>> drivers but not with format drivers (as you can't combine
+>> "go-to-backing" information of several flags, as for some scenarios it's
+>> safer to consider the whole region ALLOCATED and for another it's safer
+>> to consider it UNALLOCATED.
+>>
+>> For example for stream target it's safer to consider target block
+>> UNALLOCATED and do extra copy-on-read operation. And for stream base
+>> it's safer to consider block ALLOCATED (and again do extra copying, not
+>> missing something significant).
+>>
+>>
+>> I think, to avoid increasing of the mess, we should first split [1] from
+>> [2] somehow..
+>> Assume we change it to BDRV_BLOCK_PROTOCOL_ALLOCATED and
+>> BDRV_BLOCK_GO_TO_BACKING.
 > 
-> with the allocation pattern:
+> Maybe it is indeed worth splitting out two different flags to fully
+> distinguish between the two overloaded meanings, but that seems like an
+> independent patch to this series.
 > 
-> A: -A-A-A-A-A-A-A-A
-> B: --BB--BB--BB--BB
-> C: --------CCCCCCCC
+>>
+>> Then, for BDRV_BLOCK_PROTOCOL_ALLOCATED we probably can just report
+>> BDRV_BLOCK_PROTOCOL_ALLOCATED if at least one of extents reports
+>> BDRV_BLOCK_PROTOCOL_ALLOCATED. (probably we don't need
+>> BDRV_BLOCK_PROTOCOL_ALLOCATED at all and can drop this logic)
+>>
+>> But for BDRV_BLOCK_GO_TO_BACKING we'll have to also add
+>> BDRV_BLOCK_GO_TO_BACKING_VALID and report
+>>
+>>   * BDRV_BLOCK_GO_TO_BACKING | BDRV_BLOCK_GO_TO_BACKING_VALID if all
+>> extents report BDRV_BLOCK_GO_TO_BACKING
+>>   
+>>   * BDRV_BLOCK_GO_TO_BACKING if all extents report no
+>> BDRV_BLOCK_GO_TO_BACKING
+>>
+>>   * <nothing> if some extents report BDRV_BLOCK_GO_TO_BACKING but others
+>> not.
+>>
+>>
+>> Hmm.. And, I think that there is a problem is in NBD protocol. Actually,
+>> with allocation-depth context we started to report internal layers of
+>> backing chain. And if we have layers with different request-alignment
+>> it's not correct to report allocation-depth "aligned" to top image
+>> request-alignment.. So, for allocation-depth to work correctly we should
+>> extend NBD protocol to allow unaligned chunks in BLOCK_STATUS report.
 > 
-> and report the allocation depth as:
-> 
->     2222222211111111
-> 
-> instead of
-> 
->     0322032211111111
-> 
-> The former may be imprecise, but it obeys our bounds, and in all
-> reality, if all we have access to is 4k chunks, any decisions we make
-> about how to handle that 4k block should be based on the fact that at
-> least some of the data was allocated in our backing file, and not
-> treating the entire 4k as unallocated merely because the first 512 bytes
-> are neither in A nor B.
-> 
+> The NBD protocol says that base:allocation must obey allocation rules.
+> If we want to declare that "because qemu:allocation-depth is an
+> extension, we choose to NOT obey allocation rules, and if your client
+> connects to our extension, it MUST be prepared for what would normally
+> be non-compliant responses to NBD_CMD_BLOCK_STATUS", then we are free to
+> do so (it is our extension, after all).  Particularly since the only way
+> I could actually trigger it was with blkdebug (most format layers
+> support byte-level access, even when layered on top of a protocol layer
+> with a 512 or 4k minimum byte access).
 
-I'm not sure about NBD client, but in qemu block-jobs the decision may be different for different tasks, as I mentioned in my answer on [2/5].
-For example block-stream will skip chunks allocated in top, because nothing to do, data is already in top. But if we imagine that top may return ALLOCATED for something that is not ALLOCATED the stream logic is broken.. Probably that's a bad example.
+Hmm, NBD spec says in description of NBD_CMD_BLOCK_STATUS:
 
-I agree that this is a rare case anyway and we probably shouldn't care too much. But we should at least describe it in allocation-depth specification.
+The server SHOULD use descriptor lengths that are ..., and MUST use descriptor lengths that are an integer multiple of any advertised minimum block size.
+
+> 
+> So if you think it is better for me to respin the patch to fix ONLY
+> base:allocation bugs, but not qemu:allocation-depth, and instead merely
+> document the issue there, I could be persuaded to do so.
+> 
+>>
+>> So, finally:
+>>
+>> 1. making bitmap export extents aligned is a separate simple thing -
+>> that's OK
+>>
+>> 2. making base:allocation aligned is possible due to good NBD_STATE_HOLE
+>> definition. So for it it's correct to combine BDRV_BLOCK_ALLOCATED as
+>> you do even keeping in mind format layers. We call block_status_above
+>> for the whole chain. ALLOCATED=0 only if all format layers refer to
+>> backing and bottom protocol driver(if exists) reports "unallocated in
+>> FS" so that correspond to
+>>
+>> "If an extent is marked with NBD_STATE_HOLE at that context, this means
+>> that the given extent is not allocated in the backend storage, and that
+>> writing to the extent MAY result in the NBD_ENOSPC error"
+>>
+>>     And this way, I'd prefer to fix exactly base:allocation context
+>> handling in nbd-server not touching generic block_status which already
+>> has enough mess.
+>>
+>> 3. fixing qemu:allocation-depth I think is impossible without allowing
+>> unaligned chunks in NBD spec (really, why we should restrict all
+>> possible metadata contexts so hard?) Or, if we are still going to align
+>> allocation-depth results to top layer request-alignment we should change
+>> allocation-depth specification so that that's not "actual allocation
+>> depth" but something >= than actual allocation depth of all subchunks...
+>> And that becomes useless.
+>>
+> 
 
 
 -- 
