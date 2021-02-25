@@ -2,45 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6679324A46
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 06:55:58 +0100 (CET)
-Received: from localhost ([::1]:49928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD722324A97
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 07:37:40 +0100 (CET)
+Received: from localhost ([::1]:57258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF9cz-0005L9-6i
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 00:55:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60574)
+	id 1lFAHL-0002W6-6M
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 01:37:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40210)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1lF9cB-0004Zz-CP; Thu, 25 Feb 2021 00:55:07 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3312)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1lF9c7-00037x-Hv; Thu, 25 Feb 2021 00:55:06 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DmMPx4ndRzlPnr;
- Thu, 25 Feb 2021 13:52:37 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS410-HUB.china.huawei.com
- (10.3.19.210) with Microsoft SMTP Server id 14.3.498.0; Thu, 25 Feb 2021
- 13:54:32 +0800
-From: Chen Qun <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH] qtest: delete redundant qtest.h header files
-Date: Thu, 25 Feb 2021 13:52:51 +0800
-Message-ID: <20210225055251.192104-1-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1lFAFs-0001nj-GT; Thu, 25 Feb 2021 01:36:08 -0500
+Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:38908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <schspa@gmail.com>)
+ id 1lFAFq-0004A7-S3; Thu, 25 Feb 2021 01:36:08 -0500
+Received: by mail-io1-xd2e.google.com with SMTP id k17so4769054ioc.5;
+ Wed, 24 Feb 2021 22:36:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=message-id:subject:from:to:cc:date:in-reply-to:references
+ :user-agent:mime-version:content-transfer-encoding;
+ bh=reBCH9NQ4PLO7z9HYq+Qls5ToyTit+apfHw2z710a18=;
+ b=oOd4ynZ/8nMpDmvwu5Mfz5EkmQxkaC7+uiDHjbj+HPHFC7X+TqZO1TruH6lFLoVCql
+ jj7XM2yMs3tsMEdU3ICAaSMg+qnaVXhfTiyAgjIfNR63O58X78bu3r6LdNbQ2OTlEV5M
+ d6pjTLkQtVZLWjEJ16PyyY2sePe8s3WVxd25b+IaUnu9M11RSmohUUSBfh2DaXQtirFK
+ sb2FJtpXqBC1bHo6rx+b29w09LNygNRvpSxepJIa/UyKYzn8X4jLtbL/39h0xKR3e/Wq
+ up32yzW79xdN9ESmf9BiTNF99OooX7zk2TVq2PqBVbCwfMxDWLBTcIn5f0CM5qKK5X1C
+ Rw7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+ :references:user-agent:mime-version:content-transfer-encoding;
+ bh=reBCH9NQ4PLO7z9HYq+Qls5ToyTit+apfHw2z710a18=;
+ b=FGo4qyFoHiJlzLFFOTOubYEwtpixIfyBNPk+E2PaoXgWhi51OVdAZ+UQrYPjIp+FTZ
+ HYld+TMNsa4dta/3unHvQ6YnOEn2sgo31y9XyhH347NriUaBqms/QdQ+k76pGZfTlh4z
+ 7qKB98DDbGiXwJeQSdSnvlpSY7zYXZBVWfp8/AkAL0uzBfLRHw2Qqr7DTCoZ2itksD2a
+ VjNOy2ks0vXF5y+b/lQIAcIEQkCMFU28UBayGlI5dNrfPN1L73jbm9R12IxWDDNH2GxL
+ AXpZzBMH9jC4+eb4khIFFj1lC3sc3NXlUTwaDqj7NSdGtYBQ6HnU+DfWhIVQQuZ2wZQF
+ PCtA==
+X-Gm-Message-State: AOAM530IzgBNK8py+XM21SXAbEeejLMzquLJ7zRxpf9mFYJBypjoHEAe
+ UhZnKLYd2H9jnags316soVk=
+X-Google-Smtp-Source: ABdhPJzvjUqZems2gF69kEOwjY9BzyNLIakB7MO7TK2tLFryyaDiwvbmjym4UzJCuB2GOUWiCM9zng==
+X-Received: by 2002:a5e:dd46:: with SMTP id u6mr1497160iop.73.1614234965176;
+ Wed, 24 Feb 2021 22:36:05 -0800 (PST)
+Received: from [127.0.0.1] (ec2-3-14-82-192.us-east-2.compute.amazonaws.com.
+ [3.14.82.192])
+ by smtp.gmail.com with ESMTPSA id w6sm2804967ilj.7.2021.02.24.22.36.00
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 24 Feb 2021 22:36:04 -0800 (PST)
+Message-ID: <aca79b9768aeae38512a35924aaad1a7c33368ea.camel@gmail.com>
+Subject: Re: [PATCH] arm: xlnx-versal: fix virtio-mmio base address assignment
+From: schspa <schspa@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>, "Edgar E. Iglesias"
+ <edgar.iglesias@gmail.com>
+Date: Thu, 25 Feb 2021 14:35:57 +0800
+In-Reply-To: <CAFEAcA_W0AhNYs7+9hn1H6B2DL+UnSdhrj2JsBS4vCZ6fEd_pw@mail.gmail.com>
+References: <3362132240927a23ecca7b9d8cfd6e4130509eea.camel@gmail.com>
+ <dbcfce3c-3140-01b7-06ca-497cf7fdace7@amsat.org>
+ <6f6a803af5941346050d84e77fcaa52e0175a8a7.camel@gmail.com>
+ <f4862169-28cc-82a9-32fb-da56b000cf54@amsat.org>
+ <CAFEAcA9JkTEOhmoFjWYfR5d7ANhKnc9URk89Xe36q7qMVxkMmg@mail.gmail.com>
+ <aa8ccb78-c977-20fa-a814-4223b678d9c4@amsat.org>
+ <CAFEAcA-+dS5r5LvW5DTEH2vBrm1S2rs7sjjh2V7zjtD6ut0wBw@mail.gmail.com>
+ <20210205140807.GH477672@toto>
+ <CAFEAcA_W0AhNYs7+9hn1H6B2DL+UnSdhrj2JsBS4vCZ6fEd_pw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.3 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
+ envelope-from=schspa@gmail.com; helo=mail-io1-xd2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -54,318 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, Chen Qun <kuhn.chenqun@huawei.com>, thuth@redhat.com,
- zhang.zhanghailiang@huawei.com, ganqixin@huawei.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Kevin Zhao <kevin.zhao@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
+ qemu-arm <qemu-arm@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are 23 files that include the "sysemu/qtest.h",
-but they do not use any qtest functions.
+On Mon, 2021-02-08 at 12:59 +0000, Peter Maydell wrote:
+> I just suggested something on another thread: call
+> memory_region_find()
+> and then look at the offset_within_address_space field of the
+> returned
+> MemoryRegionSection. I think that should get you the offset of the
+> transport within the system address space regardless of how much
+> use of containers and other oddball mappings are involved. (If the
+> transport is not mapped into the system address space at all then
+> you'll get its offset within whatever that other address space is,
+> but I think we can reasonably ignore that unlikely corner case.)
 
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
----
- accel/tcg/cpu-exec.c            | 1 -
- blockdev.c                      | 1 -
- hw/9pfs/9p.c                    | 1 -
- hw/arm/armv7m.c                 | 1 -
- hw/arm/mainstone.c              | 1 -
- hw/arm/xlnx-zcu102.c            | 1 -
- hw/arm/z2.c                     | 1 -
- hw/i386/pc.c                    | 1 -
- hw/misc/ivshmem.c               | 1 -
- hw/ppc/ppc440_bamboo.c          | 1 -
- hw/ppc/prep.c                   | 1 -
- hw/ppc/sam460ex.c               | 1 -
- hw/ppc/spapr_caps.c             | 1 -
- hw/ppc/spapr_pci_vfio.c         | 1 -
- hw/ppc/spapr_vio.c              | 1 -
- hw/ppc/virtex_ml507.c           | 1 -
- hw/riscv/spike.c                | 1 -
- hw/rx/rx62n.c                   | 1 -
- net/net.c                       | 1 -
- softmmu/cpu-timers.c            | 1 -
- target/ppc/translate_init.c.inc | 1 -
- util/main-loop.c                | 1 -
- util/qemu-timer.c               | 1 -
- 23 files changed, 23 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 16e4fe3ccd..4db74fc71f 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -28,7 +28,6 @@
- #include "tcg/tcg.h"
- #include "qemu/atomic.h"
- #include "qemu/compiler.h"
--#include "sysemu/qtest.h"
- #include "qemu/timer.h"
- #include "qemu/rcu.h"
- #include "exec/tb-hash.h"
-diff --git a/blockdev.c b/blockdev.c
-index cd438e60e3..7463dd5b09 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -57,7 +57,6 @@
- #include "block/block_int.h"
- #include "block/trace.h"
- #include "sysemu/arch_init.h"
--#include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/replay.h"
- #include "qemu/cutils.h"
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 5a6e2c9d3d..134806db52 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -25,7 +25,6 @@
- #include "coth.h"
- #include "trace.h"
- #include "migration/blocker.h"
--#include "sysemu/qtest.h"
- #include "qemu/xxhash.h"
- #include <math.h>
- #include <linux/limits.h>
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 8224d4ade9..6dd10d8470 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -16,7 +16,6 @@
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
- #include "elf.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-diff --git a/hw/arm/mainstone.c b/hw/arm/mainstone.c
-index 6bc643651b..8454b65458 100644
---- a/hw/arm/mainstone.c
-+++ b/hw/arm/mainstone.c
-@@ -22,7 +22,6 @@
- #include "hw/block/flash.h"
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
--#include "sysemu/qtest.h"
- #include "cpu.h"
- 
- /* Device addresses */
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index c9713638c5..a9db25eb99 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -22,7 +22,6 @@
- #include "hw/boards.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
--#include "sysemu/qtest.h"
- #include "sysemu/device_tree.h"
- #include "qom/object.h"
- #include "net/can_emu.h"
-diff --git a/hw/arm/z2.c b/hw/arm/z2.c
-index 308c4da956..5099bd8380 100644
---- a/hw/arm/z2.c
-+++ b/hw/arm/z2.c
-@@ -24,7 +24,6 @@
- #include "hw/audio/wm8750.h"
- #include "audio/audio.h"
- #include "exec/address-spaces.h"
--#include "sysemu/qtest.h"
- #include "cpu.h"
- #include "qom/object.h"
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8aa85dec54..410db9ef96 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -58,7 +58,6 @@
- #include "sysemu/numa.h"
- #include "sysemu/kvm.h"
- #include "sysemu/xen.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
- #include "kvm/kvm_i386.h"
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index 603e992a7f..a1fa4878be 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -35,7 +35,6 @@
- #include "qom/object_interfaces.h"
- #include "chardev/char-fe.h"
- #include "sysemu/hostmem.h"
--#include "sysemu/qtest.h"
- #include "qapi/visitor.h"
- 
- #include "hw/misc/ivshmem.h"
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index b156bcb999..b7539aa721 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -30,7 +30,6 @@
- #include "hw/ppc/ppc.h"
- #include "ppc405.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/sysbus.h"
- #include "hw/intc/ppc-uic.h"
-diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index 7e72f6e4a9..f1b1efdcef 100644
---- a/hw/ppc/prep.c
-+++ b/hw/ppc/prep.c
-@@ -45,7 +45,6 @@
- #include "hw/qdev-properties.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/kvm.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "exec/address-spaces.h"
- #include "trace.h"
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index e459b43065..0c6baf77e8 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -30,7 +30,6 @@
- #include "ppc405.h"
- #include "hw/block/flash.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 9341e9782a..9ea7ddd1e9 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -33,7 +33,6 @@
- #include "cpu-models.h"
- #include "kvm_ppc.h"
- #include "migration/vmstate.h"
--#include "sysemu/qtest.h"
- #include "sysemu/tcg.h"
- 
- #include "hw/ppc/spapr.h"
-diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
-index ecb34aaade..e0547b1740 100644
---- a/hw/ppc/spapr_pci_vfio.c
-+++ b/hw/ppc/spapr_pci_vfio.c
-@@ -25,7 +25,6 @@
- #include "hw/pci/msix.h"
- #include "hw/vfio/vfio.h"
- #include "qemu/error-report.h"
--#include "sysemu/qtest.h"
- 
- bool spapr_phb_eeh_available(SpaprPhbState *sphb)
- {
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index 3cc9421526..ef06e0362c 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -31,7 +31,6 @@
- #include "sysemu/device_tree.h"
- #include "kvm_ppc.h"
- #include "migration/vmstate.h"
--#include "sysemu/qtest.h"
- 
- #include "hw/ppc/spapr.h"
- #include "hw/ppc/spapr_vio.h"
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index b26ff17767..cb421570da 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -31,7 +31,6 @@
- #include "hw/char/serial.h"
- #include "hw/block/flash.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/boards.h"
- #include "sysemu/device_tree.h"
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 56986ecfe0..2c419b294e 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -40,7 +40,6 @@
- #include "chardev/char.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/device_tree.h"
--#include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
- 
- static const struct MemmapEntry {
-diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-index 17ec73fc7b..9c34ce14de 100644
---- a/hw/rx/rx62n.c
-+++ b/hw/rx/rx62n.c
-@@ -29,7 +29,6 @@
- #include "hw/sysbus.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "cpu.h"
- #include "qom/object.h"
- 
-diff --git a/net/net.c b/net/net.c
-index fb7b7dcc25..6002ba50db 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -50,7 +50,6 @@
- #include "qapi/error.h"
- #include "qapi/opts-visitor.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "net/filter.h"
-diff --git a/softmmu/cpu-timers.c b/softmmu/cpu-timers.c
-index 1eb7c675c1..cd38595245 100644
---- a/softmmu/cpu-timers.c
-+++ b/softmmu/cpu-timers.c
-@@ -30,7 +30,6 @@
- #include "qemu/error-report.h"
- #include "exec/exec-all.h"
- #include "sysemu/cpus.h"
--#include "sysemu/qtest.h"
- #include "qemu/main-loop.h"
- #include "qemu/option.h"
- #include "qemu/seqlock.h"
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index e7324e85cd..108ff2be2b 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -37,7 +37,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/ppc/ppc.h"
- #include "mmu-book3s-v3.h"
--#include "sysemu/qtest.h"
- #include "qemu/cutils.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 6bfc7c46f5..5188ff6540 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -26,7 +26,6 @@
- #include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "qemu/timer.h"
--#include "sysemu/qtest.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index 81c28af517..f36c75e594 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -29,7 +29,6 @@
- #include "sysemu/cpu-timers.h"
- #include "sysemu/replay.h"
- #include "sysemu/cpus.h"
--#include "sysemu/qtest.h"
- 
- #ifdef CONFIG_POSIX
- #include <pthread.h>
+Thanks for your suggestions, I have tried it on both arm virt & the
+Xilinx platform works perfectly.
+
+I have upload a new patch v4 for it.
 -- 
-2.23.0
+schspa <schspa@gmail.com>
 
 
