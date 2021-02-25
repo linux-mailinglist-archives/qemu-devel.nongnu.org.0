@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A95F6324DC0
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 11:15:44 +0100 (CET)
-Received: from localhost ([::1]:38382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E4C2324DC3
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 11:16:51 +0100 (CET)
+Received: from localhost ([::1]:42566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFDgN-0002oD-KT
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 05:15:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37620)
+	id 1lFDhS-0004Zi-Gu
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 05:16:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFDeF-0001Z3-9H
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:13:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48973)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFDeD-00084h-P1
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:13:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614248009;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pnja8ID6PKuAE50BXObi7Ta5EDTNwSW9bs+cJgYZ7kI=;
- b=Ev3rGVlXY4p76bAavMdeA1AAc/fa+KU7b/nBORaG1ByFP8ghUnF6LQQi7PkVdsku7HEVyS
- SaLFjxzQ3R0bFo7ATx9Hk852sdVEVsqyk4P1i3XzIXp5bTqOYUqR96lxkDQ/b5q02x0GKL
- ZKIqIENNkooXZAHuo1Q/fv5jxxaNCHk=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-553-0cCnQfTdMIqqi0P9mrfyww-1; Thu, 25 Feb 2021 05:13:24 -0500
-X-MC-Unique: 0cCnQfTdMIqqi0P9mrfyww-1
-Received: by mail-wr1-f72.google.com with SMTP id v13so1468398wrs.21
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 02:13:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=pnja8ID6PKuAE50BXObi7Ta5EDTNwSW9bs+cJgYZ7kI=;
- b=UWYQ7X24UQQMXmWIx/3n8e5qVPTlyBJZfYPGV30oiM8Efrjw+UqkGT4XWI2IG+X+i0
- 1+seacVPQiq1SonoMzUna8d7QhvrjOjywFF0pooPIwr+x5oYdgDKk8tGFilbbe+E2D+4
- fV0uKdQfuD0YlFRX8HqBo/T+rtToH36xutKSYzNX4vn3tqe3Zo/d6z7hwzFMSY9rcdhn
- FWmEkISdAbdyz/AZGIJrfonZBhBWbEtLKR9Wrnb5ONoELwfbSKWuB5WFRqebLmT2q3oG
- OlNhnDlpq/d5LzoBjqXsD9tuWLgEn16/XHBA/sQm8vxuwLTmySRKYHA39kKiU8MGzPqx
- xouA==
-X-Gm-Message-State: AOAM533IH/sgagZweuKeSIDqFF0zdJ0Z6ndQ2rw4FAObMy8toUHcoWQ5
- pduGEoS9em98PCBUedG2Ndn0P1rP0z6hQJJ3ktH3YlHo9dziaIhdQ2uExPA6Em+b92HO2ezHtcM
- w1cgQRgmFEiLA0mEoitLmo0A+WeGRRh8VZezseQdpSjfyujubPvRJCHmxXFhZui10
-X-Received: by 2002:adf:e60a:: with SMTP id p10mr2675968wrm.291.1614248002313; 
- Thu, 25 Feb 2021 02:13:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy9iaytD/wl2DuY/Ty0OkX8Vu/XEoGKO6k0qiF7Rs1iU62eyLO/GHX0cOgSqQe5MRnw9KkS3A==
-X-Received: by 2002:adf:e60a:: with SMTP id p10mr2675955wrm.291.1614248002185; 
- Thu, 25 Feb 2021 02:13:22 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id p190sm2004050wmp.4.2021.02.25.02.13.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Feb 2021 02:13:21 -0800 (PST)
-Subject: Re: [PATCH] tcg/i386: rdpmc: use the the condtions
-To: Paolo Bonzini <pbonzini@redhat.com>, Zheng Zhan Liang <linuxmaker@163.com>
-References: <20210225054756.35962-1-linuxmaker@163.com>
- <433c4c21-be83-1cb9-91bb-0f855fd161ed@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <8650b361-ecf1-2d24-c827-0e539bac62ec@redhat.com>
-Date: Thu, 25 Feb 2021 11:13:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <ashe@kivikakk.ee>) id 1lFDf8-0002iz-1p
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:14:26 -0500
+Received: from wout3-smtp.messagingengine.com ([64.147.123.19]:53047)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ashe@kivikakk.ee>) id 1lFDey-0008W2-GU
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:14:25 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id 3690DEA2;
+ Thu, 25 Feb 2021 05:14:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Thu, 25 Feb 2021 05:14:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivikakk.ee; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=iddEhS1vbD+ynSET2V8OytL+my
+ 6yf0XFX9t0q1n1Qfs=; b=dmFrr9UbaA7pDOgnAdLBafFFMS1q9qvHoLyJZI0NjN
+ hdKnZif1+G4QCVy7vCZg36hyRvWsxXm097+qD5K7BWw5N6an6rceLWbEGuSpqh15
+ hl2UgZamg5nmYNnJIW4BlM+BasFjZ1x3mxtbf/wTWXr2v+0pgY7iAQwHDHILb/hB
+ k9ivfRNktEEDZYRK4iNfh99fZDZjpapqmpGDVkW7kK887eL5IqKd4h4VXDbCaJpF
+ tKL/8SeM9aX/4a9FvRpcXKxpBEUvb9LYgBOs24K04uRpwP2llSm/LEV8Wid7Q5z5
+ mW89ksxiC0BfVtTfk4uz0C6dAOVdAoLb4Ldod+zJZnew==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=iddEhS1vbD+ynSET2
+ V8OytL+my6yf0XFX9t0q1n1Qfs=; b=Yu6VX4rdKXp4vwszCfdGM1w9NCVlb6dh2
+ sl+KUY3hiSsAcF2XSpi8NyXy8tCRxEwC6LNrP+MiVWXlse3+fwpljgN7HmKrHSn4
+ 8qeQ8BBR33UMpkjetTMxHnTss0QODTMGOxG0SQidJOzBMdXPuMp2sjeLpVhFwf4q
+ S9qu/OT8mmG2NmO+B7ZN/Jg/XgruePaYkEeuVfiCXSzNctBhCj00uEmdnCOSlQDI
+ S8PoTl+dG5UtxS4dOBjkwPj5U0Y3pye8X/PJkYaLDb7ERaBtury6Fw5AmIvCyU52
+ 9HwQZnXYviHKHeY1oPPXVmCYFB49EsuYihdWYyjQhvZERxUoax1Zg==
+X-ME-Sender: <xms:cng3YL_MTuhPu5iaqigERJtrkCowB-6Y7QQE-oA-3H7m0BvQVuKPhA>
+ <xme:cng3YHvjil8UZJ6dg0V80tb10KehZEPmukJh82zf_p-YYXxJJQR56ijtNqPuopu6l
+ 9twH98r70wwTX50tKU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrkeelgddugecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffoggfgsedtkeertdertd
+ dtnecuhfhrohhmpeetshhhvghrrghhucevohhnnhhorhcuoegrshhhvgeskhhivhhikhgr
+ khhkrdgvvgeqnecuggftrfgrthhtvghrnhepjeejjeelhedvuedtgeeuieekffdvtedvfe
+ ejueffueettdeitdfhgfekieefieefnecukfhppeduudelrddukedrfedurddufeehnecu
+ vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghshhgvse
+ hkihhvihhkrghkkhdrvggv
+X-ME-Proxy: <xmx:cng3YJC1R816qWwqZYtVyurgaHWyT9OYiWxvF1mAeB0qArl8HB16tg>
+ <xmx:cng3YHcaS1opweT_cgQBkouEYJe7_E4SGnxLoqS4ufGazI-nXk9msQ>
+ <xmx:cng3YAPzuL-G_Se6fOXM8ffbUcvwJxIbB-H5D5v0ZdMJhuXLnE-aLA>
+ <xmx:cng3YLbqu0m1vZgynCnCpNrGdY9BS_rtBlnKJhVzN-vF6ajp1_NgUg>
+Received: from tapioca.tomodachi (119-18-31-135.77121f.mel.static.aussiebb.net
+ [119.18.31.135])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 65FC0240057;
+ Thu, 25 Feb 2021 05:14:09 -0500 (EST)
+From: Asherah Connor <ashe@kivikakk.ee>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/riscv: Add basic fw_cfg support to virt
+Date: Thu, 25 Feb 2021 21:13:44 +1100
+Message-Id: <20210225101343.40301-1-ashe@kivikakk.ee>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <433c4c21-be83-1cb9-91bb-0f855fd161ed@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=64.147.123.19; envelope-from=ashe@kivikakk.ee;
+ helo=wout3-smtp.messagingengine.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,40 +89,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
+Cc: Asherah Connor <ashe@kivikakk.ee>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Paolo,
+Provides a minimal fw_cfg for the virt machine on riscv.  I've
+arbitrarily selected an MMIO base for it.  This is very rudimentary, so
+no DMA interface is exposed.  Tested as working!
 
-On 2/25/21 11:07 AM, Paolo Bonzini wrote:
-> On 25/02/21 06:47, Zheng Zhan Liang wrote:
->> Signed-off-by: Zheng Zhan Liang <linuxmaker@163.com>
->> ---
->>   target/i386/tcg/misc_helper.c | 3 ++-
->>   1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/target/i386/tcg/misc_helper.c
->> b/target/i386/tcg/misc_helper.c
->> index f02e4fd400..90b87fdef0 100644
->> --- a/target/i386/tcg/misc_helper.c
->> +++ b/target/i386/tcg/misc_helper.c
->> @@ -222,7 +222,8 @@ void helper_rdtscp(CPUX86State *env)
->>     void helper_rdpmc(CPUX86State *env)
->>   {
->> -    if ((env->cr[4] & CR4_PCE_MASK) && ((env->hflags & HF_CPL_MASK)
->> != 0)) {
->> +    if (((env->cr[4] & CR4_PCE_MASK) == 0 ) &&
->> +        ((env->hflags & HF_CPL_MASK) != 0)) {
->>           raise_exception_ra(env, EXCP0D_GPF, GETPC());
->>       }
->>       cpu_svm_check_intercept_param(env, SVM_EXIT_RDPMC, 0, GETPC());
->>
-> 
-> Queued, thanks.
+(First patch to qemu, so whatever patience you can afford would be
+appreciated.)
 
-Do you mind fixing the patch subject?
+Signed-off-by: Asherah Connor <ashe@kivikakk.ee>
+---
+ hw/riscv/virt.c         | 25 +++++++++++++++++++++++++
+ include/hw/riscv/virt.h |  4 +++-
+ 2 files changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index 2299b3a6be..4981ca004b 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -56,6 +56,7 @@ static const struct MemmapEntry {
+     [VIRT_PLIC] =        {  0xc000000, VIRT_PLIC_SIZE(VIRT_CPUS_MAX * 2) },
+     [VIRT_UART0] =       { 0x10000000,         0x100 },
+     [VIRT_VIRTIO] =      { 0x10001000,        0x1000 },
++    [VIRT_FW_CFG] =      { 0x10100000,          0x10 },
+     [VIRT_FLASH] =       { 0x20000000,     0x4000000 },
+     [VIRT_PCIE_ECAM] =   { 0x30000000,    0x10000000 },
+     [VIRT_PCIE_MMIO] =   { 0x40000000,    0x40000000 },
+@@ -488,6 +489,26 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
+     return dev;
+ }
+ 
++static FWCfgState *create_fw_cfg(const RISCVVirtState *s)
++{
++    hwaddr base = virt_memmap[VIRT_FW_CFG].base;
++    hwaddr size = virt_memmap[VIRT_FW_CFG].size;
++    FWCfgState *fw_cfg;
++    char *nodename;
++
++    fw_cfg = fw_cfg_init_mem_wide(base + 8, base, 8, 0, NULL);
++    fw_cfg_add_i16(fw_cfg, FW_CFG_NB_CPUS, (uint16_t)MACHINE(s)->smp.cpus);
++
++    nodename = g_strdup_printf("/fw-cfg@%" PRIx64, base);
++    qemu_fdt_add_subnode(s->fdt, nodename);
++    qemu_fdt_setprop_string(s->fdt, nodename,
++                            "compatible", "qemu,fw-cfg-mmio");
++    qemu_fdt_setprop_sized_cells(s->fdt, nodename, "reg",
++                                 2, base, 2, size);
++    g_free(nodename);
++    return fw_cfg;
++}
++
+ static void virt_machine_init(MachineState *machine)
+ {
+     const struct MemmapEntry *memmap = virt_memmap;
+@@ -652,6 +673,10 @@ static void virt_machine_init(MachineState *machine)
+         start_addr = virt_memmap[VIRT_FLASH].base;
+     }
+ 
++    /* init fw_cfg */
++    s->fw_cfg = create_fw_cfg(s);
++    rom_set_fw(s->fw_cfg);
++
+     /* Compute the fdt load address in dram */
+     fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+                                    machine->ram_size, s->fdt);
+diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
+index 84b7a3848f..3b81a2e3f6 100644
+--- a/include/hw/riscv/virt.h
++++ b/include/hw/riscv/virt.h
+@@ -40,6 +40,7 @@ struct RISCVVirtState {
+     RISCVHartArrayState soc[VIRT_SOCKETS_MAX];
+     DeviceState *plic[VIRT_SOCKETS_MAX];
+     PFlashCFI01 *flash[2];
++    FWCfgState *fw_cfg;
+ 
+     void *fdt;
+     int fdt_size;
+@@ -58,7 +59,8 @@ enum {
+     VIRT_DRAM,
+     VIRT_PCIE_MMIO,
+     VIRT_PCIE_PIO,
+-    VIRT_PCIE_ECAM
++    VIRT_PCIE_ECAM,
++    VIRT_FW_CFG
+ };
+ 
+ enum {
+-- 
+2.24.3 (Apple Git-128)
 
 
