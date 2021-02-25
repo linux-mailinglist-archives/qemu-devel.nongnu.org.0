@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14EC5325827
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:56:46 +0100 (CET)
-Received: from localhost ([::1]:36294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F76325828
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 21:57:15 +0100 (CET)
+Received: from localhost ([::1]:36992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFNgj-0005Zr-2a
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:56:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51344)
+	id 1lFNhC-0005rQ-Po
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 15:57:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <aladjev.andrew@gmail.com>)
- id 1lFNey-0004WR-OR
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:54:56 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40869)
+ id 1lFNf2-0004b0-At
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:55:00 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:36130)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <aladjev.andrew@gmail.com>)
- id 1lFNex-0000gl-0q
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:54:56 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id w21so8581102edc.7
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 12:54:54 -0800 (PST)
+ id 1lFNf0-0000iq-FZ
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 15:55:00 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id do6so11142879ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 12:54:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZZU4Ny6U3GKbxFz6iwOzcZ/o2uo5k3ZnM0M8EEtaHho=;
- b=Mi00jnHmi+JNnJMcwRQlknrtkKDFfM8NQJpYfA8yluIx3BOK5jvZ2Aw74UsImzEz/b
- udI3PrStTS/JGWqrZKtzIThVTV9P6o7RB9gfUDSJiHKX7rdJHrB/vNnwpI656tkTyFy0
- PrfR9FmoQw+b2LNTCF6BDV8BJqcvxouLaX4jcEnVYXYYmM5FRbr68AzgLvH2X96oVh3q
- nlWnUI226ZJNkKKxuItdtFI/CzgLAib7lJ/bACpU09Y5tu4ylCq/NtAJEsCOVMx70CBq
- gALBWZeW5u9jWiej2qVfipJRCNm15rVs3+A7F+ibZsI2BrjK2+xKZxOHoQK3ic8ORzdf
- 8G1Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/e7On/NbY6NesHUdlz2p2J2DIcZllpiU2fsw9H1h1Q4=;
+ b=GKSkLH4+2AYNCx4oPTJGL2VgY0y8BCJVCrhOtPl8EiTNIantY8szx23xq0MR7DnFD2
+ EQjhuq8adAaVfhyR7AoBw+vEMTOoIlcU9T6V5FxGC8oRGeFvn5V0k8lr5kRg4p+3DNL1
+ 98zkZiqmb5ZgbLeTcHWmyZpjt4ekmraiXITVU9KqjhhIx70i1vQaHGZimUCeFguvFoil
+ 22hmBIn63zbSsuZWhLEdxAW21yiF34Pl9tBrlLL+tBWbsN/yVnjbsPWLYd1cQNMyT5nv
+ VBJN11tXhE3a0JoqJyirGQPq3pzpQOoMBjbMWxl1CokZORXvBdJZRYEcCtv9PLFUSG99
+ CA1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=ZZU4Ny6U3GKbxFz6iwOzcZ/o2uo5k3ZnM0M8EEtaHho=;
- b=Abkob5TSqSOJPrYewBqGvkzIXTc/9DuuXVicOkg4MSHnc2P5l5eI3nZqbixNvBawSP
- yrhPB+iOpcUTIk7s24dwn65jXid2Al4Z9XJf+G528R2X0I928f0OiiTAZ11aRF7NccQJ
- FQKOilnfElmRNuMmDHuBtbuauMiHUy/l6/z3fLmiA1XVxcS9m+hQq09PfpXFPAfHLjh/
- edoinki884KlUjs5y00sQzXMKKhmPXglzpEY/5QEk8O4Zw8UMabMMIT4uoBoz9lHEx0T
- pP+wqr2r1sze2/595Iv2Mv9q5bfpZMLLwM2C+9178An4mIHB/MtceIqXd8O7tEoWeHdd
- KllA==
-X-Gm-Message-State: AOAM530Uh/29Qkpr4rtHiU+5A/AkleLNas5tKeHt1qT//d0YEaB4bzwR
- y6cXwZ3PNVa8wTtghxysmLgRIDap0FURdg==
-X-Google-Smtp-Source: ABdhPJy5NRko/Yv2VQ4heE5HZKmdGnT7bUs/fiU8NtDC8VXSR5Ns35vpj5fYKp0/c5CJe7q1GW4/+A==
-X-Received: by 2002:a05:6402:899:: with SMTP id
- e25mr5070392edy.212.1614286492171; 
- Thu, 25 Feb 2021 12:54:52 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/e7On/NbY6NesHUdlz2p2J2DIcZllpiU2fsw9H1h1Q4=;
+ b=FheG3Z4iUDQOUODMjykY4mZseftElfMyV1rjpmq6nDU47M0fbWIRRg18OHXlA6GUYb
+ +cxAhQhOhVzKvbB+sEZjyEQnkVFLeowgd4aXtif8UNmpBj3OwQCb4Cfu1UoVQf6olJVR
+ 9fpr4z19ASQbAgSyORRkEO+SjYddeENxLJSZEVgfSAciG/J8hiG9h6ZWPzxo3rFoGi/O
+ TSZ6pXYboEootLqB/rmwSOJeZlm/fW4JrMAsmH1QsE1v4OFRXvUsGG/Ac6fbhqlZ2rr5
+ By17xT3PAjDwJZeQfZ0RYv6lJvDPyoOobJwQEHy3bF2AUjGW4u8xDvNEEftLKF2XuO+i
+ +JTA==
+X-Gm-Message-State: AOAM530WPCqwf67FNZlJlq2Ojl0madxK7gNZlUfuNnq3cuzjVD86/S7j
+ nQvxaFM1tRiT+lloFw+yTNRIweUhofb5+Q==
+X-Google-Smtp-Source: ABdhPJxJf+jKnck7Ek5uQPefatvErvyLTGY3lZgN5MlOmTArHLGIk6I3o5Yvi9Rj9LVeatz06Be1bg==
+X-Received: by 2002:a17:906:2e91:: with SMTP id
+ o17mr4490189eji.488.1614286496692; 
+ Thu, 25 Feb 2021 12:54:56 -0800 (PST)
 Received: from mini.lan (ns331963.ip-37-187-122.eu. [37.187.122.190])
- by smtp.gmail.com with ESMTPSA id c17sm949472edw.32.2021.02.25.12.54.50
+ by smtp.gmail.com with ESMTPSA id c17sm949472edw.32.2021.02.25.12.54.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 12:54:51 -0800 (PST)
+ Thu, 25 Feb 2021 12:54:56 -0800 (PST)
 From: aladjev.andrew@gmail.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/4] linux user: make execfd global (like exec path) and keep
- it open
-Date: Thu, 25 Feb 2021 23:54:45 +0300
-Message-Id: <20210225205448.10624-1-aladjev.andrew@gmail.com>
+Subject: [PATCH 2/4] linux user: moved is proc functions to separate file
+Date: Thu, 25 Feb 2021 23:54:46 +0300
+Message-Id: <20210225205448.10624-2-aladjev.andrew@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210225205448.10624-1-aladjev.andrew@gmail.com>
+References: <20210225205448.10624-1-aladjev.andrew@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=aladjev.andrew@gmail.com; helo=mail-ed1-x52d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=aladjev.andrew@gmail.com; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,122 +89,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrew Aladjev <aladjev.andrew@gmail.com>
 
-User opens /proc/self/exe symlink, than kernel should create /proc/self/fd/<execfd> symlink. We should be able to detect both exe and fd/<execfd> symlinks to provide common behaviour. The easiest solution is to make execfd global and keep it open. This solution looks acceptable because exec_path is already global. PS load_flt_binary is not closing bprm->fd, so load_elf_binary may not close it too (used symmetrically in loader_exec).
 ---
- linux-user/elfload.c |  3 ++-
- linux-user/exit.c    |  2 ++
- linux-user/main.c    |  2 +-
- linux-user/qemu.h    |  1 +
- linux-user/syscall.c | 16 ++++++++++++----
- 5 files changed, 18 insertions(+), 6 deletions(-)
+ linux-user/meson.build    |  1 +
+ linux-user/syscall.c      | 33 +--------------------------------
+ linux-user/syscall_proc.c | 32 ++++++++++++++++++++++++++++++++
+ linux-user/syscall_proc.h |  7 +++++++
+ 4 files changed, 41 insertions(+), 32 deletions(-)
+ create mode 100644 linux-user/syscall_proc.c
+ create mode 100644 linux-user/syscall_proc.h
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index bab4237..4c347b0 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2600,6 +2600,7 @@ static bool parse_elf_properties(int image_fd,
- 
-    IMAGE_NAME is the filename of the image, to use in error messages.
-    IMAGE_FD is the open file descriptor for the image.
-+   WARNING: IMAGE_FD won't be closed.
- 
-    BPRM_BUF is a copy of the beginning of the file; this of course
-    contains the elf file header at offset 0.  It is assumed that this
-@@ -2910,7 +2911,6 @@ static void load_elf_image(const char *image_name, int image_fd,
- 
-     mmap_unlock();
- 
--    close(image_fd);
-     return;
- 
-  exit_read:
-@@ -2953,6 +2953,7 @@ static void load_elf_interp(const char *filename, struct image_info *info,
-     }
- 
-     load_elf_image(filename, fd, info, NULL, bprm_buf);
-+    close(fd);
- }
- 
- static int symfind(const void *s0, const void *s1)
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 70b3440..cc9cf38 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -28,6 +28,8 @@ extern void __gcov_dump(void);
- 
- void preexit_cleanup(CPUArchState *env, int code)
- {
-+    close(execfd);
-+
- #ifdef CONFIG_GPROF
-         _mcleanup();
- #endif
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 81f48ff..d365335 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -50,6 +50,7 @@
- #include "crypto/init.h"
- 
- char *exec_path;
-+int execfd;
- 
- int singlestep;
- static const char *argv0;
-@@ -628,7 +629,6 @@ int main(int argc, char **argv, char **envp)
-     int target_argc;
-     int i;
-     int ret;
--    int execfd;
-     int log_mask;
-     unsigned long max_reserved_va;
- 
-diff --git a/linux-user/qemu.h b/linux-user/qemu.h
-index 52c9817..ec26730 100644
---- a/linux-user/qemu.h
-+++ b/linux-user/qemu.h
-@@ -160,6 +160,7 @@ typedef struct TaskState {
- } __attribute__((aligned(16))) TaskState;
- 
- extern char *exec_path;
-+extern int execfd;
- void init_task_state(TaskState *ts);
- void task_settid(TaskState *);
- void stop_all_tasks(void);
+diff --git a/linux-user/meson.build b/linux-user/meson.build
+index 7fe28d6..b6a204d 100644
+--- a/linux-user/meson.build
++++ b/linux-user/meson.build
+@@ -9,6 +9,7 @@ linux_user_ss.add(files(
+   'signal.c',
+   'strace.c',
+   'syscall.c',
++  'syscall_proc.c',
+   'uaccess.c',
+   'uname.c',
+ ))
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 389ec09..c171dea 100644
+index c171dea..0ead34b 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -8110,8 +8110,7 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
-     };
+@@ -133,6 +133,7 @@
+ #include "qapi/error.h"
+ #include "fd-trans.h"
+ #include "tcg/tcg.h"
++#include "syscall_proc.h"
  
-     if (is_proc_myself(pathname, "exe")) {
--        int execfd = qemu_getauxval(AT_EXECFD);
--        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
-+        return execfd;
-     }
+ #ifndef CLONE_IO
+ #define CLONE_IO                0x80000000      /* Clone io context */
+@@ -7979,38 +7980,6 @@ static int open_self_auxv(void *cpu_env, int fd)
+     return 0;
+ }
  
-     for (fake_open = fakes; fake_open->filename; fake_open++) {
-@@ -8369,8 +8368,17 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
- #endif
-     case TARGET_NR_close:
--        fd_trans_unregister(arg1);
--        return get_errno(close(arg1));
-+        {
-+            int fd = arg1;
+-static int is_proc_myself(const char *filename, const char *entry)
+-{
+-    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
+-        filename += strlen("/proc/");
+-        if (!strncmp(filename, "self/", strlen("self/"))) {
+-            filename += strlen("self/");
+-        } else if (*filename >= '1' && *filename <= '9') {
+-            char myself[80];
+-            snprintf(myself, sizeof(myself), "%d/", getpid());
+-            if (!strncmp(filename, myself, strlen(myself))) {
+-                filename += strlen(myself);
+-            } else {
+-                return 0;
+-            }
+-        } else {
+-            return 0;
+-        }
+-        if (!strcmp(filename, entry)) {
+-            return 1;
+-        }
+-    }
+-    return 0;
+-}
+-
+-#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
+-    defined(TARGET_SPARC) || defined(TARGET_M68K) || defined(TARGET_HPPA)
+-static int is_proc(const char *filename, const char *entry)
+-{
+-    return strcmp(filename, entry) == 0;
+-}
+-#endif
+-
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+ static int open_net_route(void *cpu_env, int fd)
+ {
+diff --git a/linux-user/syscall_proc.c b/linux-user/syscall_proc.c
+new file mode 100644
+index 0000000..34051a8
+--- /dev/null
++++ b/linux-user/syscall_proc.c
+@@ -0,0 +1,32 @@
++#include "qemu/osdep.h"
 +
-+            /* We don't need to close execfd, it will be closed on QEMU exit. */
-+            if (fd == execfd) {
++#include "syscall_proc.h"
++
++int is_proc_myself(const char *filename, const char *entry)
++{
++    if (!strncmp(filename, "/proc/", strlen("/proc/"))) {
++        filename += strlen("/proc/");
++        if (!strncmp(filename, "self/", strlen("self/"))) {
++            filename += strlen("self/");
++        } else if (*filename >= '1' && *filename <= '9') {
++            char myself[80];
++            snprintf(myself, sizeof(myself), "%d/", getpid());
++            if (!strncmp(filename, myself, strlen(myself))) {
++                filename += strlen(myself);
++            } else {
 +                return 0;
 +            }
-+
-+            fd_trans_unregister(fd);
-+            return get_errno(close(fd));
++        } else {
++            return 0;
 +        }
- 
-     case TARGET_NR_brk:
-         return do_brk(arg1);
++        if (!strcmp(filename, entry)) {
++            return 1;
++        }
++    }
++    return 0;
++}
++
++int is_proc(const char *filename, const char *entry)
++{
++    return strcmp(filename, entry) == 0;
++}
+diff --git a/linux-user/syscall_proc.h b/linux-user/syscall_proc.h
+new file mode 100644
+index 0000000..3098af9
+--- /dev/null
++++ b/linux-user/syscall_proc.h
+@@ -0,0 +1,7 @@
++#ifndef SYSCALL_PROC_H
++#define SYSCALL_PROC_H
++
++int is_proc(const char *filename, const char *entry);
++int is_proc_myself(const char *filename, const char *entry);
++
++#endif
 -- 
 2.26.2
 
