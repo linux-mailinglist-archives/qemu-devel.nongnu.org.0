@@ -2,50 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEC8D325104
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:58:05 +0100 (CET)
-Received: from localhost ([::1]:56310 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7DC32512B
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:03:11 +0100 (CET)
+Received: from localhost ([::1]:60950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFH9Y-0004JJ-Gs
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:58:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54086)
+	id 1lFHEU-0006Sy-7X
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:03:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55960)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
- id 1lFH8Y-0003rb-1c
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:57:02 -0500
-Received: from oxygen.pond.sub.org ([94.130.129.15]:41080)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@pond.sub.org>)
- id 1lFH8U-00063s-9r
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:57:01 -0500
-Received: from blackfin.pond.sub.org
- (p200300d36f2e0300dacb8afffee0c842.dip0.t-ipconnect.de
- [IPv6:2003:d3:6f2e:300:dacb:8aff:fee0:c842])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (Client did not present a certificate)
- by oxygen.pond.sub.org (Postfix) with ESMTPSA id 9611920C8D;
- Thu, 25 Feb 2021 14:56:51 +0100 (CET)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 42DEF113860F; Thu, 25 Feb 2021 14:56:51 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 08/16] qapi/expr.py: add type hint annotations
-References: <20210223003408.964543-1-jsnow@redhat.com>
- <20210223003408.964543-9-jsnow@redhat.com>
-Date: Thu, 25 Feb 2021 14:56:51 +0100
-Message-ID: <87wnuwb68s.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1lFHD5-0005UQ-7F
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:01:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50634)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1lFHD2-00087v-LB
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:01:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614261684;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=oWmLRpcjxM0i2MJpvkvfvOAlqiTkrate9XhXIYjPXss=;
+ b=IyQ16A3UK7Riv1rkmpjlL3op3p+Kh0OQInYHCfe9PeAm81/PmO/xYo5nov8qZLnRX0hFZ9
+ KB7N/ErwYWxShW92iIMgMTeeNBfIOFhR1t53K2pwTim5/hzF5dugSCq5xswqd5lCeSb7iM
+ IdyxQSBvQ6rKS9PNTAtNVEa1OMsXVDc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-Pl_bNO2IPRaHZLDUrQaK8g-1; Thu, 25 Feb 2021 09:01:20 -0500
+X-MC-Unique: Pl_bNO2IPRaHZLDUrQaK8g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28A78DF8B5;
+ Thu, 25 Feb 2021 14:01:19 +0000 (UTC)
+Received: from kaapi (ovpn-112-133.phx2.redhat.com [10.3.112.133])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 868586090F;
+ Thu, 25 Feb 2021 14:01:17 +0000 (UTC)
+Date: Thu, 25 Feb 2021 19:31:13 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 1/6] net: introduce qemu_receive_packet()
+In-Reply-To: <5386f97e-0fb4-b7bc-6520-698a9c856bf9@redhat.com>
+Message-ID: <90q67362-8n44-60q3-1q8o-nso367onnr3@erqung.pbz>
+References: <20210224055401.492407-1-jasowang@redhat.com>
+ <20210224055401.492407-2-jasowang@redhat.com>
+ <9e432ff0-793e-64a7-97f3-ff3a374ee98f@redhat.com>
+ <b7d39898-d688-70bb-4546-612150a1635b@redhat.com>
+ <5386f97e-0fb4-b7bc-6520-698a9c856bf9@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=94.130.129.15; envelope-from=armbru@pond.sub.org;
- helo=oxygen.pond.sub.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/mixed;
+ BOUNDARY="-1463810559-417590442-1614260086=:488587"
+Content-ID: <opq131oo-5898-1p3q-rp15-q6qooqsrn0q9@erqung.pbz>
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -2
+X-Spam_score: -0.3
+X-Spam_bar: /
+X-Spam_report: (-0.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_CHARSET_FARAWAY=2.45, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,113 +83,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, QEMU Security <qemu-security@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+---1463810559-417590442-1614260086=:488587
+Content-Type: text/plain; CHARSET=GB2312
+Content-Transfer-Encoding: 8BIT
+Content-ID: <89rs3873-11o5-r9r2-3q95-2r6s245552r0@erqung.pbz>
 
-> Annotations do not change runtime behavior.
-> This commit *only* adds annotations.
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-> Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> ---
->  scripts/qapi/expr.py  | 71 ++++++++++++++++++++++++++++---------------
->  scripts/qapi/mypy.ini |  5 ---
->  2 files changed, 46 insertions(+), 30 deletions(-)
->
-> diff --git a/scripts/qapi/expr.py b/scripts/qapi/expr.py
-> index f45d6be1f4c..df6c64950fa 100644
-> --- a/scripts/qapi/expr.py
-> +++ b/scripts/qapi/expr.py
-> @@ -15,7 +15,14 @@
->  # See the COPYING file in the top-level directory.
->  
->  import re
-> -from typing import MutableMapping, Optional, cast
-> +from typing import (
-> +    Iterable,
-> +    List,
-> +    MutableMapping,
-> +    Optional,
-> +    Union,
-> +    cast,
-> +)
->  
->  from .common import c_name
->  from .error import QAPISemError
-> @@ -23,9 +30,10 @@
->  from .source import QAPISourceInfo
->  
->  
-> -# Expressions in their raw form are JSON-like structures with arbitrary forms.
-> -# Minimally, their top-level form must be a mapping of strings to values.
-> -Expression = MutableMapping[str, object]
-> +# Arbitrary form for a JSON-like object.
-> +_JSObject = MutableMapping[str, object]
-> +# Expressions in their raw form are (just) JSON-like objects.
-> +Expression = _JSObject
++-- On Wed, 24 Feb 2021, Philippe Mathieu-Daud¨¦ wrote --+
+| On 2/24/21 2:17 PM, Jason Wang wrote:
+| > On 2021/2/24 6:11 ÏÂÎç, Philippe Mathieu-Daud¨¦ wrote:
+| >> IIUC the guest could trigger an infinite loop and brick the emulated 
+| >> device model. Likely exhausting the stack, so either SEGV by corruption 
+| >> or some ENOMEM?
+| > 
+| > Yes.
+| >>
+| >> Since this is guest triggerable, shouldn't we contact qemu-security@ list 
+| >> and ask for a CVE for this issue, so distributions can track the patches 
+| >> to backport in their stable releases? (it seems to be within the KVM 
+| >> devices boundary).
+| > 
+| > 
+| > That's the plan. I discussed this with Prasad before and he promise to
+| > ask CVE for this.
 
-We solved a similar, slightly more involved typing problem in
-introspect.py.
+'CVE-2021-3416' is assigned to this issue by Red Hat Inc.
 
-Whereas expr.py uses Python dict, list, and scalars to represent the
-output of a JSON parser, introspect.py uses them to represent the input
-of a quasi-JSON formatter ("quasi-JSON" because it spits out a C
-initializer for a C representation of JSON, but that's detail).
+Thank you.
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+---1463810559-417590442-1614260086=:488587--
 
-introspect.py additionally supports comments and #if conditionals.
-
-This is the solution we're using in introspect.py.  The Annotated[] part
-is for comments and conditionals; ignore that.
-
-  # This module constructs a tree data structure that is used to
-  # generate the introspection information for QEMU. It is shaped
-  # like a JSON value.
-  #
-  # A complexity over JSON is that our values may or may not be annotated.
-  #
-  # Un-annotated values may be:
-  #     Scalar: str, bool, None.
-  #     Non-scalar: List, Dict
-  # _value = Union[str, bool, None, Dict[str, JSONValue], List[JSONValue]]
-  #
-  # With optional annotations, the type of all values is:
-  # JSONValue = Union[_Value, Annotated[_Value]]
-  #
-  # Sadly, mypy does not support recursive types; so the _Stub alias is used to
-  # mark the imprecision in the type model where we'd otherwise use JSONValue.
-  _Stub = Any
-  _Scalar = Union[str, bool, None]
-  _NonScalar = Union[Dict[str, _Stub], List[_Stub]]
-  _Value = Union[_Scalar, _NonScalar]
-  JSONValue = Union[_Value, 'Annotated[_Value]']
-
-introspect.py then adds some more type aliases to convey meaning:
-
-  # These types are based on structures defined in QEMU's schema, so we
-  # lack precise types for them here. Python 3.6 does not offer
-  # TypedDict constructs, so they are broadly typed here as simple
-  # Python Dicts.
-  SchemaInfo = Dict[str, object]
-  SchemaInfoObject = Dict[str, object]
-  SchemaInfoObjectVariant = Dict[str, object]
-  SchemaInfoObjectMember = Dict[str, object]
-  SchemaInfoCommand = Dict[str, object]
-
-I'm not asking you to factor out common typing.
-
-I'm not even asking you to rework expr.py to maximize similarity.
-
-I am asking you to consider stealing applicable parts from
-introspect.py's comments.
-
-_JSObject seems to serve the same purpose as JSONValue.  Correct?
-
-Expression seems to serve a comparable purpose as SchemaInfo.  Correct?
-
-[...]
 
