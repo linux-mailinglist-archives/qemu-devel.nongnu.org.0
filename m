@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4913324D25
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 10:48:17 +0100 (CET)
-Received: from localhost ([::1]:36076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E80C7324D2E
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 10:53:17 +0100 (CET)
+Received: from localhost ([::1]:38958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFDFo-0005cG-Sw
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 04:48:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56878)
+	id 1lFDKe-0007Ej-R9
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 04:53:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lFDEZ-0004gY-FW
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:46:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33085)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lFDEU-0008CN-58
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:46:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614246413;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qxoI/BjCPHOrpbwFkNWJcwNJaAJ8zAbJDLnMYBM+RpE=;
- b=Ees7Z8KsovAJK8PZEwCY/vnbvu7VXVgV1gBs4EjjX6lsr32Mx++vhGK6qVTXsnrGVDgn45
- dBLVcUwT0CjYaBVET6kW91QOdr+GapIaI0+bb4r8OhGqmYxnxFZ4HjAf6UTo+LXJEpQjAO
- wmzVNW8zPr+4L0t4JLIzmhbh+lBu8U4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-501-IF__tY6SNICYSUwgixAolA-1; Thu, 25 Feb 2021 04:46:41 -0500
-X-MC-Unique: IF__tY6SNICYSUwgixAolA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3CE28030D5;
- Thu, 25 Feb 2021 09:46:39 +0000 (UTC)
-Received: from redhat.com (ovpn-115-111.ams2.redhat.com [10.36.115.111])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82BB25D9DC;
- Thu, 25 Feb 2021 09:46:31 +0000 (UTC)
-Date: Thu, 25 Feb 2021 09:46:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Niek Linnenbank <nieklinnenbank@gmail.com>
-Subject: Re: [PATCH v2 1/2] tests/acceptance: replace unstable
- apt.armbian.com URLs for orangepi-pc, cubieboard
-Message-ID: <YDdx9N0Wtv8F47Ka@redhat.com>
-References: <20210223225327.26700-1-nieklinnenbank@gmail.com>
- <20210223225327.26700-2-nieklinnenbank@gmail.com>
- <5556626c-0b4f-0de3-9cb8-d174cd210b5c@amsat.org>
- <20210224191341.GC1074102@amachine.somewhere>
- <CAPan3WqXre=Rau4-jOSE2u=GGRO8hSKzuuWFSN4xP3wbpvQ-Dg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lFDJc-0006lZ-1E
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:52:12 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:38666)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lFDJU-0002xO-U3
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 04:52:11 -0500
+Received: by mail-wm1-x335.google.com with SMTP id n4so2819205wmq.3
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 01:52:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=27wn3UmujFxlIImn1omFHsjYRALMq9E0PBDRMfe2ROk=;
+ b=L4FKLdDjad5RSWlcHD+ZG2+X1aweyl1yUyZ04wNycZz2XYySSXx0Zfxz8rbGG0OVWN
+ d1PhayWBGUcsSpXON1Jt2dZEFG5AZZ8qsIil+ORBYa1wTpk+yAvPzSQ2LsaYeyqKR225
+ jEVRsqvk0IRudHv7RN5ulubeQP6343Lxqlc+y8FUv5vq10MTmn1dHX0la/S0ZfiWNutv
+ mVXRTh0ymJXGIf+FZBfz3L86z5foiXXpA1aWz1Ql3/R9KSE+luoKYsndp+MKAuEol//Q
+ lZHjMEG83O+M9kWJAcnXrQ4N0BF6DpPfMbWzWiDnOMgWPV3+a1HMysE6EcsyA2XAaQI4
+ AZ2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=27wn3UmujFxlIImn1omFHsjYRALMq9E0PBDRMfe2ROk=;
+ b=EGFraS6KbvCbgk8geHA/Xsc7GE3eK8mlDJlsfawItRyUuG33c+2OV0fTnMceT8hIWS
+ /pXdIVG/Ej96CC6u6N8I07RIQl755AakjAlAlaI5pTPahxplzIxXy36xXuLGKRXWl5aR
+ s4O/JZbmkVpyMjDUwH+TekqLBZBaCedfButApf79keZMQzF7hMzrCPnwdNba9Ht5G7e1
+ 6BXj59uPA57il/s22bQn7fZ+Ta2GwLeEwVFen6Lv/5SYYPvpJqtJV1uT5bjaqKzmY3WE
+ wEc9QFK3BVrs/u/OZyKIrTSC0Y3IYbXgq3JJpnYYMPifYoPcuIi7fA2qbrYwnCvAG/2I
+ PJEw==
+X-Gm-Message-State: AOAM531iGysouOMKvGcR7SUV7YcohlEt8bOxc/cpE2f2ej0FmkgjI5dH
+ pRhheEJwNnZK/DFq055g6P/FsA==
+X-Google-Smtp-Source: ABdhPJzIWkPIwDZXMFHUB/PHEYHasLf8rk1VP+rF4cBiCnJB/WQ1OFjFc91jlm7neKISEkmFzqNcRg==
+X-Received: by 2002:a05:600c:cc:: with SMTP id
+ u12mr2463843wmm.49.1614246722708; 
+ Thu, 25 Feb 2021 01:52:02 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id w13sm8636775wre.2.2021.02.25.01.52.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 25 Feb 2021 01:52:01 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 03E3E1FF7E;
+ Thu, 25 Feb 2021 09:52:01 +0000 (GMT)
+References: <20210225010708.288696-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.8; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 1/1] accel/tcg: Replace parallel_cpus with cpu->cflags_base
+Date: Thu, 25 Feb 2021 09:51:09 +0000
+In-reply-to: <20210225010708.288696-1-richard.henderson@linaro.org>
+Message-ID: <877dmwbhkv.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAPan3WqXre=Rau4-jOSE2u=GGRO8hSKzuuWFSN4xP3wbpvQ-Dg@mail.gmail.com>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,117 +87,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Beniamino Galvani <b.galvani@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Pavel.Dovgaluk@ispras.ru, Cleber Rosa <crosa@redhat.com>,
- Willian Rampazzo <willianr@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 24, 2021 at 09:02:51PM +0100, Niek Linnenbank wrote:
-> Hi Philippe, Cleber,
-> 
-> On Wed, Feb 24, 2021 at 8:14 PM Cleber Rosa <crosa@redhat.com> wrote:
-> 
-> > On Wed, Feb 24, 2021 at 10:12:10AM +0100, Philippe Mathieu-Daudé wrote:
-> > > Hi Niek,
-> > >
-> > > On 2/23/21 11:53 PM, Niek Linnenbank wrote:
-> > > > Currently the automated acceptance tests for the Orange Pi PC and
-> > cubieboard
-> > > > machines are disabled by default. The tests for both machines require
-> > artifacts
-> > > > that are stored on the apt.armbian.com domain. Unfortunately, some of
-> > these artifacts
-> > > > have been removed from apt.armbian.com and it is uncertain whether
-> > more will be removed.
-> > > >
-> > > > This commit moves the artifacts previously stored on apt.armbian.com
-> > to github
-> > > > and retrieves them using the path: '/<machine>/<artifact>'.
-> > > >
-> > > > Signed-off-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-> > > > Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-> > > > Reviewed-by: Cleber Rosa <crosa@redhat.com>
-> > >
-> > > > Tested-by: Cleber Rosa <crosa@redhat.com>
-> > >
-> > > Did Cleber test this new version?
-> > >
-> >
-> 
-> You're right, it was the previous version (v1) that Cleber tested using my
-> own machine URL's.
-> 
-> I was actually not sure whether I should or should not have added the
-> Tested-by/Reviewed-by tags in such scenario.
-> The content had to be changed due to the outcome of our discussion but also
-> I thought I don't want to silently drop
-> the tags since Cleber invested his time into it too.
-> 
-> What should I do here, next time?
-> 
-> 
-> 
-> >
-> > Nope, and I'm having issues with those URLs.  For instance:
-> >
-> >    $ curl -L
-> > https://github.com/nieklinnenbank/QemuArtifacts/raw/master/cubieboard/linux-image-dev-sunxi_5.75_armhf.deb
-> >    version https://git-lfs.github.com/spec/v1
-> >    oid
-> > sha256:a4b765c851de76592f55023b1ff4104f7fd29bf90937e6054e0a64fdda56380b
-> >    size 20331524
-> >
-> > Looks like it has to do with GitHub's behavior wrt quota.
-> >
-> 
-> Indeed. Just this morning I received an e-mail from github with the
-> following text:
-> 
-> "[GitHub] Git LFS disabled for nieklinnenbank
-> 
-> Git LFS has been disabled on your personal account nieklinnenbank because
-> you’ve exceeded your data plan by at least 150%.
-> Please purchase additional data packs to cover your bandwidth and storage
-> usage:
-> 
->   https://github.com/account/billing/data/upgrade
-> 
-> Current usage as of 24 Feb 2021 09:49AM UTC:
-> 
->   Bandwidth: 1.55 GB / 1 GB (155%)
->   Storage: 0.48 GB / 1 GB (48%)"
-> 
-> I wasn't aware of it but it appears that Github has these quota's for the
-> Large File Storage (LFS). I uploaded the files in the git LFS
-> because single files are also limited to 100MiB each on the regular Git
-> repositories.
-> 
-> With those strict limits, in my opinion Github isn't really a solution
-> since the bandwidth limit will be reached very quickly. At least for the
-> LFS part that is. I don't know yet if there is any limit for regular access.
-> 
-> My current ideas:
 
->   - we can try to just update the URLs to armbian that are working now
-> (with the risk of breaking again in the near future). Ive also found this
-> link, which may be more stable:
->      https://archive.armbian.com/orangepipc/archive/
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Just do this, as it is the simplest option that gets things working. We
-have already spent far too long talking about the problem instead of
-just fixing the URLs.
+> Precompute the initial tb->cflags value for a cpu from its cluster
+> and the number of cpus live in the system.  This avoids having to
+> compute this constant data every time we look up a TB.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
