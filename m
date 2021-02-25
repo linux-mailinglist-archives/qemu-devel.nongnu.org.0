@@ -2,50 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED342325A26
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 00:24:33 +0100 (CET)
-Received: from localhost ([::1]:47906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FD15325A23
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 00:23:16 +0100 (CET)
+Received: from localhost ([::1]:44710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFPzl-00082P-0L
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 18:24:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38464)
+	id 1lFPyV-0006gV-9U
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 18:23:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38476)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPww-0005oe-IN
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26975)
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPwy-0005pK-65
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41688)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPws-00069q-GY
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:37 -0500
+ (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFPww-0006BE-9V
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 18:21:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614295293;
+ s=mimecast20190719; t=1614295297;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ITXnPJVdGwPJU5JxuQ9KJnJO4aISbH9Ig3FGOjkrTUM=;
- b=iX8q5Q69AWipDocP0wq0NOlbKkLj8CobeJco54ky5mOb/o4pD/GDCyQuPE0AtNtgrLW9CV
- esJG9YYBOjiQ7EkRYbeYKLAm1JidfOrjwW5MwhOU+iC1lvVnLkzMae85Ab3lsD5PC3qKXD
- IK9ICbqTW4fh2uBWpgE4mJQE5CYpYQs=
+ bh=0q57cmIdPCEzWsRXFPl3Svir6SJsRgIVpNouXftjIXY=;
+ b=cbg7qK4lrGrJc+KrPvTOloyep/ca/3ifmAwi0m8pJb7XYgxXOW7YRmTuRUWmNTbzlZsfM/
+ u1iMK9nIYuyA0ijr4snDJgaCVoRtUA8iOdAPS1MyIY8NIVz+RUuDzzov2EiGs92RVTEQ/4
+ 00HSbBEP5OBEknW/ecLvjlzLB7nT0Uc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-387-MEwBffcJMTeaoJaIUvv9sw-1; Thu, 25 Feb 2021 18:21:31 -0500
-X-MC-Unique: MEwBffcJMTeaoJaIUvv9sw-1
+ us-mta-379-2Q-tNTRXOPaIhIMmxFhAOA-1; Thu, 25 Feb 2021 18:21:32 -0500
+X-MC-Unique: 2Q-tNTRXOPaIhIMmxFhAOA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77BDC801F9A;
- Thu, 25 Feb 2021 23:21:30 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C500EAFA81;
+ Thu, 25 Feb 2021 23:21:31 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-28.rdu2.redhat.com
  [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F16D75D6D7;
- Thu, 25 Feb 2021 23:21:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 98CBC5D6D7;
+ Thu, 25 Feb 2021 23:21:30 +0000 (UTC)
 From: Cleber Rosa <crosa@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] Acceptance Tests: restore downloading of VM images
-Date: Thu, 25 Feb 2021 18:21:21 -0500
-Message-Id: <20210225232122.1254879-2-crosa@redhat.com>
+Subject: [PATCH 2/2] Acceptance Tests: restore filtering of tests by target
+ arch
+Date: Thu, 25 Feb 2021 18:21:22 -0500
+Message-Id: <20210225232122.1254879-3-crosa@redhat.com>
 In-Reply-To: <20210225232122.1254879-1-crosa@redhat.com>
 References: <20210225232122.1254879-1-crosa@redhat.com>
 MIME-Version: 1.0
@@ -88,38 +89,30 @@ Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The "get-vm-images" target defined in tests/Makefile.include is a
-prerequisite for "check-acceptance", so that those files get
-downloaded before the Avocado job even starts.
-
-It looks like on c401c058a1c a TARGETS variable was introduced with a
-different content than it was previously coming from the main
-Makefile.  From that point on, the "get-vm-images" succeed without
-doing anything because there was no matching architecture to download.
-
-This restores the download of images (that match targets to be built)
-before the job starts, eliminating downloads and their associated
-failures during the tests.
+Previously, tests were being filtered by the matching target
+architectures to be built.  The benefit, compared to the current
+situation, is a more concise test job that won't show tests canceled
+because a matching QEMU binary was not found (those tests won't even
+be attempted).
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 ---
- tests/Makefile.include | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/Makefile.include | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index d34254fb29..dbd53a9de6 100644
+index dbd53a9de6..799e47169c 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -109,7 +109,8 @@ $(TESTS_RESULTS_DIR):
+@@ -92,7 +92,7 @@ TESTS_RESULTS_DIR=$(BUILD_DIR)/tests/results
+ # Any number of command separated loggers are accepted.  For more
+ # information please refer to "avocado --help".
+ AVOCADO_SHOW=app
+-AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGET_DIRS)))
++AVOCADO_TAGS=$(patsubst %-softmmu,-t arch:%, $(filter %-softmmu,$(TARGETS)))
  
- check-venv: $(TESTS_VENV_DIR)
- 
--FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(TARGETS))
-+FEDORA_31_ARCHES_TARGETS=$(patsubst %-softmmu,%, $(filter %-softmmu,$(TARGETS)))
-+FEDORA_31_ARCHES_CANDIDATES=$(patsubst ppc64,ppc64le,$(FEDORA_31_ARCHES_TARGETS))
- FEDORA_31_ARCHES := x86_64 aarch64 ppc64le s390x
- FEDORA_31_DOWNLOAD=$(filter $(FEDORA_31_ARCHES),$(FEDORA_31_ARCHES_CANDIDATES))
- 
+ $(TESTS_VENV_DIR): $(TESTS_VENV_REQ)
+ 	$(call quiet-command, \
 -- 
 2.25.4
 
