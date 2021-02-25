@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 401D232489B
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 02:40:12 +0100 (CET)
-Received: from localhost ([::1]:52552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D25183248A3
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 02:42:26 +0100 (CET)
+Received: from localhost ([::1]:55774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF5dT-00019K-AG
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 20:40:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40124)
+	id 1lF5fd-0002ci-Sz
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 20:42:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lF5Zz-0007Jp-0s
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:36:35 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:34403)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lF5e9-00025A-8j
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:40:53 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43783)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lF5Zw-0004u6-Tt
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:36:34 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id ba1so2322425plb.1
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 17:36:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=oEUljLDlicyF+K7oIs4yg0PWicD1HtbRXU5+ExPpqM0=;
- b=ZoJvd2jW3nO5+B/PpJogVx3zeat4YpJb5qzYnvfg211IncVUDazWpFPVItZzJbTYVf
- 01a2Hmea37c4G95aJBJP/1XurVJ4RY+HQGtw9sqHU5DFYMmG6uBm0b1hNdmPKGOjElUg
- 08ixLT2n+4LQqbcxCH7ddebtoR1rikgW6DTMLRozAZ8s/oDw/ArngAy/2h8uQ4Gomuwb
- XI4rsLP3vOyPzBDnJPqBZ42akWdQiDbwbwMlRzZz5oZW8cEsAS6SNYIqcsOxtYUcSqPt
- PaijyAumnC71cwafKcDLUIna7cSu2cJRsCeukHO4WQXIqxe++aSigV95anoQIUtFWYdb
- qriw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lF5e2-0006Wx-Tr
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:40:52 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id q204so1494131pfq.10
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 17:40:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=aoFOrv8yJ1n5VezJyL6y8YD5f1RWIugTg2qWbEW9XLI=;
+ b=fFpm8N9YWK6FKZOdSKEJ5A4lTn1lJck/tIpOc9bgGGkuDoVHNsoGRQdP3MyxsQR1mB
+ T1yp9KPU2BaRaDnrZNrbbP1O9/3JLApoa/tGT7TN4j+zEnfDIv2hdoUtPOFh0eij4Ohv
+ T3e4vjY77CTQZOb8eNSDvSmzd3l88QvNkwGbR3W2r+vecm65nKNxtyF9VDFPuN61I/s1
+ ewzM7Tyt1K2phHwC3OksTCGtCmLweRtK67LMfopewXP9ESapsAsdU+Ws8b78h4opdWor
+ 0HMsVUF4jxc3UqQTSq/2pMkcUB5ylrwSQF1PDD24DeMhOha/kZWsododnSrdzW4SeWKR
+ Akrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=oEUljLDlicyF+K7oIs4yg0PWicD1HtbRXU5+ExPpqM0=;
- b=tTHRgriVphXeKl2+84gmUsNRg3eiN79Bp2S2XcHLXTyJrEL1LKWKfVl6udyoDKkvym
- QqvhPSydu/aUYWdkA4+/p8I3FabGKhDx72T72gufOIyMpMAw3FDRSUI0o6WdyeF9HXu5
- pLRF0OPZTLRICNemveg9jIdpHOBlyE+VSSTGl0iXZm8L1YJdjRnezA3t10ZoOenRhemd
- yH+QJtB7Om3F70oJQBlBtUBvFD0A/atky0UbuVkiJ5F78r6heWGYIS8q/vCbSWenzuIh
- YPueOus6Gv/nM8mrodya6FTzJZ4tuROQG1ILCgOINgQm74ayb9SYR+ZGx6TxL8kiBgIw
- stoQ==
-X-Gm-Message-State: AOAM53247lm4cAhwcWXB7VgV+l7jkwfMnOWfQ6Zt7jLrqvAhxOF6iU2K
- QhqSJR3KVvAllQt4iYAbbr24ZBEcW3esig==
-X-Google-Smtp-Source: ABdhPJzEkBtA9VgyQFpMgKAqlehNult2QX80NY+VmMDcFk752JZJvnuquS3ULWdWxRUhgsnxZm5xmQ==
-X-Received: by 2002:a17:903:228a:b029:da:d645:ab58 with SMTP id
- b10-20020a170903228ab02900dad645ab58mr871574plh.25.1614216989750; 
- Wed, 24 Feb 2021 17:36:29 -0800 (PST)
-Received: from localhost.localdomain ([2400:4050:c360:8200:29a8:515b:7b7:9008])
- by smtp.gmail.com with ESMTPSA id 137sm3817135pgb.80.2021.02.24.17.36.28
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Wed, 24 Feb 2021 17:36:29 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-To: 
-Subject: [PATCH v3 3/3] virtio-gpu: Do not distinguish the primary console
-Date: Thu, 25 Feb 2021 10:36:09 +0900
-Message-Id: <20210225013609.73388-3-akihiko.odaki@gmail.com>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210225013609.73388-1-akihiko.odaki@gmail.com>
-References: <20210224110656.5pctwd7hdpvqi2na@sirius.home.kraxel.org>
- <20210225013609.73388-1-akihiko.odaki@gmail.com>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=aoFOrv8yJ1n5VezJyL6y8YD5f1RWIugTg2qWbEW9XLI=;
+ b=JjHayEPcDP4CimyMeUb6MaFJekkNFYX7jh6RF7TzWwGxcVvWHhzLCjCwd3L9dmzvhb
+ GGg2VPcduCLozajjxu0PLELJGzKHb140WFg1twIY5JZieY72y4+qz7vSpfHFTwdUeA9u
+ Kyz+2Nldh97tJm21pVC6Xs5PtcS0/BJhpSTVGQFLJ8ILhzREffzqHdXN4A/utdXC0rIT
+ BAJC8KNpJ9C0LbCWGTIZEQ48+JEV+JXpYw7U9OVY+XKQa/DfgpphvQCoom4fnrd+eUYr
+ WJ19bnu1VNf/GBCJtscQYoGLgVPaQm4Zfi+4qne5EA4qOnM/Is8t8Mz8QjZNs9pkh4Xx
+ o34w==
+X-Gm-Message-State: AOAM532szhujuhnMa4p7QAKNSoketNZmb40gmF7rpI8C4pOeIkoY4WER
+ 6qHXtqZWGw2bHNj6NzGhQv6QIEGPHXcN0Q==
+X-Google-Smtp-Source: ABdhPJxgF4/lo+LRoQG/gkGTPeGLFsMwpmL9Q5eQXjlbWdj82ctuP3c0Fa+f2QSz996rXK8Ku7k9EA==
+X-Received: by 2002:a63:524d:: with SMTP id s13mr725930pgl.366.1614217245361; 
+ Wed, 24 Feb 2021 17:40:45 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id q128sm4081091pfb.51.2021.02.24.17.40.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Feb 2021 17:40:44 -0800 (PST)
+Subject: Re: [PATCH v22 10/17] i386: move TCG btp_helper into sysemu/
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210224133428.14071-1-cfontana@suse.de>
+ <20210224133428.14071-11-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7d3bacc6-c68f-87c7-9298-3896c2c1842b@linaro.org>
+Date: Wed, 24 Feb 2021 17:40:43 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pl1-x62f.google.com
+In-Reply-To: <20210224133428.14071-11-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,111 +91,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>,
- qemu Developers <qemu-devel@nongnu.org>,
- Akihiko Odaki <akihiko.odaki@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the past, virtio-gpu set NULL as the surface for the secondary
-consoles to hide its window. The distinction is now handled in
-ui/console and the display backends and virtio-gpu does no longer
-have to do that.
+On 2/24/21 5:34 AM, Claudio Fontana wrote:
+> @@ -8074,7 +8078,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+>                  gen_svm_check_intercept(s, pc_start, SVM_EXIT_WRITE_DR0 + reg);
+>                  gen_op_mov_v_reg(s, ot, s->T0, rm);
+>                  tcg_gen_movi_i32(s->tmp2_i32, reg);
+> +#ifndef CONFIG_USER_ONLY
+>                  gen_helper_set_dr(cpu_env, s->tmp2_i32, s->T0);
+> +#endif /* CONFIG_USER_ONLY */
+>                  gen_jmp_im(s, s->pc - s->cs_base);
+>                  gen_eob(s);
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
----
- hw/display/vhost-user-gpu.c  |  2 +-
- hw/display/virtio-gpu-3d.c   | 10 +++-------
- hw/display/virtio-gpu-base.c |  3 ---
- hw/display/virtio-gpu.c      | 12 +++++-------
- 4 files changed, 9 insertions(+), 18 deletions(-)
+Given that you need the ifdef, you might as well extend it to the entire else
+of s->cpl != 0.  User-only will always have cpl == 3.
 
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index 3e911da795e..cb729ed5bc4 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -193,7 +193,7 @@ vhost_user_gpu_handle_display(VhostUserGPU *g, VhostUserGpuMsg *msg)
-         s = &g->parent_obj.scanout[m->scanout_id];
-         con = s->con;
- 
--        if (m->scanout_id == 0 && m->width == 0) {
-+        if (m->width == 0) {
-             s->ds = qemu_create_placeholder_surface(640, 480,
-                                                     "Guest disabled display.");
-             dpy_gfx_replace_surface(con, s->ds);
-diff --git a/hw/display/virtio-gpu-3d.c b/hw/display/virtio-gpu-3d.c
-index 0b0c11474dd..9eb489077b1 100644
---- a/hw/display/virtio-gpu-3d.c
-+++ b/hw/display/virtio-gpu-3d.c
-@@ -179,10 +179,8 @@ static void virgl_cmd_set_scanout(VirtIOGPU *g,
-             info.width, info.height,
-             ss.r.x, ss.r.y, ss.r.width, ss.r.height);
-     } else {
--        if (ss.scanout_id != 0) {
--            dpy_gfx_replace_surface(
--                g->parent_obj.scanout[ss.scanout_id].con, NULL);
--        }
-+        dpy_gfx_replace_surface(
-+            g->parent_obj.scanout[ss.scanout_id].con, NULL);
-         dpy_gl_scanout_disable(g->parent_obj.scanout[ss.scanout_id].con);
-     }
-     g->parent_obj.scanout[ss.scanout_id].resource_id = ss.resource_id;
-@@ -595,9 +593,7 @@ void virtio_gpu_virgl_reset(VirtIOGPU *g)
- 
-     virgl_renderer_reset();
-     for (i = 0; i < g->parent_obj.conf.max_outputs; i++) {
--        if (i != 0) {
--            dpy_gfx_replace_surface(g->parent_obj.scanout[i].con, NULL);
--        }
-+        dpy_gfx_replace_surface(g->parent_obj.scanout[i].con, NULL);
-         dpy_gl_scanout_disable(g->parent_obj.scanout[i].con);
-     }
- }
-diff --git a/hw/display/virtio-gpu-base.c b/hw/display/virtio-gpu-base.c
-index 4a57350917c..25f8920fdb6 100644
---- a/hw/display/virtio-gpu-base.c
-+++ b/hw/display/virtio-gpu-base.c
-@@ -193,9 +193,6 @@ virtio_gpu_base_device_realize(DeviceState *qdev,
-     for (i = 0; i < g->conf.max_outputs; i++) {
-         g->scanout[i].con =
-             graphic_console_init(DEVICE(g), i, &virtio_gpu_ops, g);
--        if (i > 0) {
--            dpy_gfx_replace_surface(g->scanout[i].con, NULL);
--        }
-     }
- 
-     return true;
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index c1f17bec17e..f6c86cb75c6 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -325,7 +325,7 @@ static void virtio_gpu_disable_scanout(VirtIOGPU *g, int scanout_id)
- {
-     struct virtio_gpu_scanout *scanout = &g->parent_obj.scanout[scanout_id];
-     struct virtio_gpu_simple_resource *res;
--    DisplaySurface *ds = NULL;
-+    DisplaySurface *ds;
- 
-     if (scanout->resource_id == 0) {
-         return;
-@@ -336,12 +336,10 @@ static void virtio_gpu_disable_scanout(VirtIOGPU *g, int scanout_id)
-         res->scanout_bitmask &= ~(1 << scanout_id);
-     }
- 
--    if (scanout_id == 0) {
--        /* primary head */
--        ds = qemu_create_placeholder_surface(scanout->width  ?: 640,
--                                             scanout->height ?: 480,
--                                             "Guest disabled display.");
--    }
-+    /* primary head */
-+    ds = qemu_create_placeholder_surface(scanout->width  ?: 640,
-+                                         scanout->height ?: 480,
-+                                         "Guest disabled display.");
-     dpy_gfx_replace_surface(scanout->con, ds);
-     scanout->resource_id = 0;
-     scanout->ds = NULL;
--- 
-2.24.3 (Apple Git-128)
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+r~
 
