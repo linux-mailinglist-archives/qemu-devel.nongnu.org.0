@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40BEF32484D
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 02:08:09 +0100 (CET)
-Received: from localhost ([::1]:58128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 254A8324881
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 02:25:01 +0100 (CET)
+Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lF58R-0006Xy-QB
-	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 20:08:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36548)
+	id 1lF5Ol-0000j4-IY
+	for lists+qemu-devel@lfdr.de; Wed, 24 Feb 2021 20:24:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lF57a-0005zl-Dm
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:07:14 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:36556)
+ id 1lF5Nt-0000Ge-Cb
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:24:05 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:43563)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lF57X-0000CH-Um
- for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:07:14 -0500
-Received: by mail-pg1-x531.google.com with SMTP id t26so2701385pgv.3
- for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 17:07:11 -0800 (PST)
+ id 1lF5No-0007ef-Vp
+ for qemu-devel@nongnu.org; Wed, 24 Feb 2021 20:24:05 -0500
+Received: by mail-pl1-x630.google.com with SMTP id 17so2275829pli.10
+ for <qemu-devel@nongnu.org>; Wed, 24 Feb 2021 17:24:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cHo9adXGnud/5hn4wOg5nIG1nSSsi+TxRV/RiZDFE4E=;
- b=x7u10lVR7dJNjo1Z/fW8ibHG3rNzrqzSmQbdNaeegEBm9hUVjqlRWJdVpFEhQSC69i
- r1LZ6vVsX4P8+PRMnmpJMkDM49H2rV7JH2mJC8iTlZGyNd/09Qnm9Xdpnfz8I+IaZz3E
- xW/WLCVnYaTqcb78iAbXgnKYOZDlrH587KeEGSKPlmTlXYj6l6/AWo+ACstLBdaRjgGQ
- 6dSfZpk6pE7khDEbhT+0JsYZfpecFnRrqmWuieHIaSnNO0JlUQcNmhBlLD3fq0DBd5YZ
- vj0Nyl57mHhWlwe2Zhyi/SSkbMOl8j3+ISThtMe/6Is+JRvNmpMEoW7+dajuPXUWEWKi
- Pz+g==
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=wQO/PqFEFaQI4VenUKecT8VDOx5/bbK7VtrM7Zm0/9s=;
+ b=D5hg2U2B6t+rFDC7ZUjgLxPgoHayqppJki5zDzjg1PSVyiedlIoY0Al39FqGyRydoj
+ Y+EjoV4zbfzHj50EJsH/UsoQYQTXpTw2ELUkJuG3D19FeIQ9faIfphN4rQiTGS91mJF5
+ Da9/cU6NR5HpcZmMc3vxl7jcA3vMASVL37xsgyslSQbjr+CiQO5lh4wRHnJe+jjZ8HkE
+ /fKx5UGBnoER2pnDlJcNhX6DIJEcwV4sXwS4VzgF4F5WgmVg81G+992BkbJ8zPpOEjmB
+ khLSEAaO+177Un3zUnMTmU64qasdlh5fFmuU+aIAsVjBiwjNQEf4EszQTUfvk8y1LBti
+ TI7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=cHo9adXGnud/5hn4wOg5nIG1nSSsi+TxRV/RiZDFE4E=;
- b=BXytZR9LJ10YNk3bDjxV+jt4Ry7ljGRIGw1MBacndtx7cMtoPfYvDRsEYWI9va1VVG
- D28xu2tBIGuUkWrTL+h0yFHBlZcWJpbBZhySOA50ZBwFF53EW/uh113m7LY42WbFjFYa
- pX63XDXxa1S6LvTc0aMXbOKrLhWzqbPspBwwOo3aoOZrG6DrznDQlFjnBoHRfdoE1AhA
- BOl8UNhMdaVHOSA1exdpeS1TZQDnFO4p8mwnnojvQe3SPUT/U1cqLHS05raKspYXbUpc
- PZc3kza7i/c2P7egkE3dJSocxjwcidx5i+VmiRqFZBpjQNY6vF39ax3Lo718lAJ5lMvk
- SUNQ==
-X-Gm-Message-State: AOAM530sEFMKODvefoHddiZ32UJYxTR4QlcMTdxZuMTvgfPhq00P5Cam
- GSllaaqhWRDIgQITVuymDp4g1+6p4wiJ3A==
-X-Google-Smtp-Source: ABdhPJz3O5eS8GBNbeVnP1OgIE1WxRj64qFPWYyICprV/YvfLXQu8CUKF6KmPIwiMTcyWKcfHuSjkw==
-X-Received: by 2002:a62:1997:0:b029:1ed:5de5:5f1c with SMTP id
- 145-20020a6219970000b02901ed5de55f1cmr720705pfz.14.1614215229949; 
- Wed, 24 Feb 2021 17:07:09 -0800 (PST)
-Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
- [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id o11sm3970821pfp.136.2021.02.24.17.07.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 24 Feb 2021 17:07:09 -0800 (PST)
+ bh=wQO/PqFEFaQI4VenUKecT8VDOx5/bbK7VtrM7Zm0/9s=;
+ b=WHD+W3OOfW07PlHTnCJ2qoxZZfZk25xooLASpWAC6bxysgqi/wv0C5Y370Hmk0TgAq
+ BoWTzs2EsLl+hcJ6PY6BX5i5v+4Huujcl6HZVNv9Rj/N4Bw3f02pKLrQLWK+Ggqppqa/
+ 5Oigw9GUZWGLxoqkVwjdd1YrAyT/AMM/no4+e6Tx3dNrUk4EObS0iT+WL9qjp60reBv5
+ A4yv/z4Ek5+lxU1YCH2bNHk6tn324xN7vTTIf9/hGYNb8ZmcD0qcdm1vVcR/2xN2BKp3
+ jhRFUJtQh6v01NaR4d31bUEwHw0Lv53iCCw+qm697ycaL1CaO75UBIWYverC+F/UMOse
+ 8QyA==
+X-Gm-Message-State: AOAM530ZzbfsD5rpJhuTTWCAwNbjGp9owHrW2rRVythAKxbBSazuL8CT
+ R0e7GKjriDwkbCccQ9gIv9SbTrbJwg+Vtg==
+X-Google-Smtp-Source: ABdhPJyERtTkJFClMCfkw0usrTEQqCBtxEhMgajkEBq9uMvJOAcw0VtxbVgJca0dYnfNMvChJivDNQ==
+X-Received: by 2002:a17:90a:1f4c:: with SMTP id
+ y12mr726676pjy.52.1614216238517; 
+ Wed, 24 Feb 2021 17:23:58 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id b15sm3782216pgj.84.2021.02.24.17.23.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 24 Feb 2021 17:23:57 -0800 (PST)
+Subject: Re: [PATCH v22 01/17] i386: split cpu accelerators from cpu.c, using
+ AccelCPUClass
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210224133428.14071-1-cfontana@suse.de>
+ <20210224133428.14071-2-cfontana@suse.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] accel/tcg: Replace parallel_cpus with cpu->cflags_base
-Date: Wed, 24 Feb 2021 17:07:08 -0800
-Message-Id: <20210225010708.288696-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
+Message-ID: <c1f76ea2-11e3-bd86-aebf-58061eba1262@linaro.org>
+Date: Wed, 24 Feb 2021 17:23:56 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <20210224133428.14071-2-cfontana@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,229 +93,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Precompute the initial tb->cflags value for a cpu from its cluster
-and the number of cpus live in the system.  This avoids having to
-compute this constant data every time we look up a TB.
+On 2/24/21 5:34 AM, Claudio Fontana wrote:
+> i386 is the first user of AccelCPUClass, allowing to split
+> cpu.c into:
+> 
+> cpu.c            cpuid and common x86 cpu functionality
+> host-cpu.c       host x86 cpu functions and "host" cpu type
+> kvm/kvm-cpu.c    KVM x86 AccelCPUClass
+> hvf/hvf-cpu.c    HVF x86 AccelCPUClass
+> tcg/tcg-cpu.c    TCG x86 AccelCPUClass
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  target/i386/cpu.h           |  20 +-
+>  target/i386/host-cpu.h      |  19 ++
+>  target/i386/kvm/kvm-cpu.h   |  41 ++++
+>  target/i386/tcg/tcg-cpu.h   |  15 --
+>  hw/i386/pc_piix.c           |   1 +
+>  target/i386/cpu.c           | 390 ++++--------------------------------
+>  target/i386/host-cpu.c      | 201 +++++++++++++++++++
+>  target/i386/hvf/hvf-cpu.c   |  68 +++++++
+>  target/i386/kvm/kvm-cpu.c   | 151 ++++++++++++++
+>  target/i386/kvm/kvm.c       |   3 +-
+>  target/i386/tcg/tcg-cpu.c   | 113 ++++++++++-
+>  MAINTAINERS                 |   2 +-
+>  target/i386/hvf/meson.build |   1 +
+>  target/i386/kvm/meson.build |   7 +-
+>  target/i386/meson.build     |   6 +-
+>  15 files changed, 651 insertions(+), 387 deletions(-)
+>  create mode 100644 target/i386/host-cpu.h
+>  create mode 100644 target/i386/kvm/kvm-cpu.h
+>  delete mode 100644 target/i386/tcg/tcg-cpu.h
+>  create mode 100644 target/i386/host-cpu.c
+>  create mode 100644 target/i386/hvf/hvf-cpu.c
+>  create mode 100644 target/i386/kvm/kvm-cpu.c
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-Based-on: <20210224165811.11567-1-alex.bennee@linaro.org>
-("Experimenting with tb-lookup tweaks")
----
- accel/tcg/tcg-accel-ops.h       |  1 +
- include/exec/exec-all.h         |  5 +----
- include/hw/core/cpu.h           |  2 ++
- accel/tcg/cpu-exec.c            |  3 ---
- accel/tcg/tcg-accel-ops-mttcg.c |  3 +--
- accel/tcg/tcg-accel-ops-rr.c    |  2 +-
- accel/tcg/tcg-accel-ops.c       | 10 ++++++++++
- accel/tcg/translate-all.c       |  1 -
- linux-user/main.c               |  1 +
- linux-user/sh4/signal.c         |  2 +-
- linux-user/syscall.c            | 18 ++++++++++--------
- 11 files changed, 28 insertions(+), 20 deletions(-)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/accel/tcg/tcg-accel-ops.h b/accel/tcg/tcg-accel-ops.h
-index 48130006de..656c922a67 100644
---- a/accel/tcg/tcg-accel-ops.h
-+++ b/accel/tcg/tcg-accel-ops.h
-@@ -17,5 +17,6 @@
- void tcg_cpus_destroy(CPUState *cpu);
- int tcg_cpus_exec(CPUState *cpu);
- void tcg_handle_interrupt(CPUState *cpu, int mask);
-+void tcg_set_cpus_cflags(uint32_t cflags_base);
- 
- #endif /* TCG_CPUS_H */
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 75f8c3981a..074d88f99a 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -510,8 +510,6 @@ struct TranslationBlock {
-     uintptr_t jmp_dest[2];
- };
- 
--extern bool parallel_cpus;
--
- /* Hide the qatomic_read to make code a little easier on the eyes */
- static inline uint32_t tb_cflags(const TranslationBlock *tb)
- {
-@@ -521,8 +519,7 @@ static inline uint32_t tb_cflags(const TranslationBlock *tb)
- /* current cflags for hashing/comparison */
- static inline uint32_t curr_cflags(CPUState *cpu)
- {
--    uint32_t cflags = deposit32(0, CF_CLUSTER_SHIFT, 8, cpu->cluster_index);
--    cflags |= parallel_cpus ? CF_PARALLEL : 0;
-+    uint32_t cflags = cpu->cflags_base;
-     cflags |= icount_enabled() ? CF_USE_ICOUNT : 0;
-     return cflags;
- }
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index c005d3dc2d..5fd397f37d 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -282,6 +282,7 @@ struct qemu_work_item;
-  *   to a cluster this will be UNASSIGNED_CLUSTER_INDEX; otherwise it will
-  *   be the same as the cluster-id property of the CPU object's TYPE_CPU_CLUSTER
-  *   QOM parent.
-+ * @cflags_base: Precompute @cluster_index and #CF_PARALLEL for this cpu.
-  * @nr_cores: Number of cores within this CPU package.
-  * @nr_threads: Number of threads within this CPU.
-  * @running: #true if CPU is currently running (lockless).
-@@ -412,6 +413,7 @@ struct CPUState {
-     /* TODO Move common fields from CPUArchState here. */
-     int cpu_index;
-     int cluster_index;
-+    uint32_t cflags_base;
-     uint32_t halted;
-     uint32_t can_do_io;
-     int32_t exception_index;
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 931da96c2b..bdfa036ac8 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -267,8 +267,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-             mmap_unlock();
-         }
- 
--        /* Since we got here, we know that parallel_cpus must be true.  */
--        parallel_cpus = false;
-         cpu_exec_enter(cpu);
-         /* execute the generated code */
-         trace_exec_tb(tb, pc);
-@@ -296,7 +294,6 @@ void cpu_exec_step_atomic(CPUState *cpu)
-      * the execution.
-      */
-     g_assert(cpu_in_exclusive_context(cpu));
--    parallel_cpus = true;
-     cpu->running = false;
-     end_exclusive();
- }
-diff --git a/accel/tcg/tcg-accel-ops-mttcg.c b/accel/tcg/tcg-accel-ops-mttcg.c
-index 42973fb062..6676e05182 100644
---- a/accel/tcg/tcg-accel-ops-mttcg.c
-+++ b/accel/tcg/tcg-accel-ops-mttcg.c
-@@ -114,8 +114,7 @@ void mttcg_start_vcpu_thread(CPUState *cpu)
-     char thread_name[VCPU_THREAD_NAME_SIZE];
- 
-     g_assert(tcg_enabled());
--
--    parallel_cpus = (current_machine->smp.max_cpus > 1);
-+    tcg_set_cpus_cflags(current_machine->smp.max_cpus > 1 ? CF_PARALLEL : 0);
- 
-     cpu->thread = g_malloc0(sizeof(QemuThread));
-     cpu->halt_cond = g_malloc0(sizeof(QemuCond));
-diff --git a/accel/tcg/tcg-accel-ops-rr.c b/accel/tcg/tcg-accel-ops-rr.c
-index 4a66055e0d..c10868f736 100644
---- a/accel/tcg/tcg-accel-ops-rr.c
-+++ b/accel/tcg/tcg-accel-ops-rr.c
-@@ -269,7 +269,7 @@ void rr_start_vcpu_thread(CPUState *cpu)
-     static QemuThread *single_tcg_cpu_thread;
- 
-     g_assert(tcg_enabled());
--    parallel_cpus = false;
-+    tcg_set_cpus_cflags(0);
- 
-     if (!single_tcg_cpu_thread) {
-         cpu->thread = g_malloc0(sizeof(QemuThread));
-diff --git a/accel/tcg/tcg-accel-ops.c b/accel/tcg/tcg-accel-ops.c
-index 6144d9df87..6bf260acf0 100644
---- a/accel/tcg/tcg-accel-ops.c
-+++ b/accel/tcg/tcg-accel-ops.c
-@@ -41,6 +41,16 @@
- 
- /* common functionality among all TCG variants */
- 
-+void tcg_set_cpus_cflags(uint32_t cflags_base)
-+{
-+    CPUState *cpu;
-+
-+    CPU_FOREACH(cpu) {
-+        cpu->cflags_base = deposit32(cflags_base, CF_CLUSTER_SHIFT, 8,
-+                                     cpu->cluster_index);
-+    }
-+}
-+
- void tcg_cpus_destroy(CPUState *cpu)
- {
-     cpu_thread_signal_destroyed(cpu);
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 0b0bfd35ab..ec46b88bfe 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -224,7 +224,6 @@ static void *l1_map[V_L1_MAX_SIZE];
- TCGContext tcg_init_ctx;
- __thread TCGContext *tcg_ctx;
- TBContext tb_ctx;
--bool parallel_cpus;
- 
- static void page_table_config_init(void)
- {
-diff --git a/linux-user/main.c b/linux-user/main.c
-index 81f48ff54e..c37040ceec 100644
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -205,6 +205,7 @@ CPUArchState *cpu_copy(CPUArchState *env)
-     /* Reset non arch specific state */
-     cpu_reset(new_cpu);
- 
-+    new_cpu->cflags_base = cpu->cflags_base;
-     memcpy(new_env, env, sizeof(CPUArchState));
- 
-     /* Clone all break/watchpoints.
-diff --git a/linux-user/sh4/signal.c b/linux-user/sh4/signal.c
-index cc89a48ff8..deb569babe 100644
---- a/linux-user/sh4/signal.c
-+++ b/linux-user/sh4/signal.c
-@@ -83,7 +83,7 @@ static abi_ulong get_sigframe(struct target_sigaction *ka,
- }
- 
- /* Notice when we're in the middle of a gUSA region and reset.
--   Note that this will only occur for !parallel_cpus, as we will
-+   Note that this will only occur for !CF_PARALLEL, as we will
-    translate such sequences differently in a parallel context.  */
- static void unwind_gusa(CPUSH4State *regs)
- {
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 389ec09764..83a6e51de3 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6481,6 +6481,16 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-         /* Grab a mutex so that thread setup appears atomic.  */
-         pthread_mutex_lock(&clone_lock);
- 
-+        /*
-+         * If this is our first additional thread, we need to ensure we
-+         * generate code for parallel execution and flush old translations.
-+         * Do this now so that the copy gets CF_PARALLEL too.
-+         */
-+        if (!(cpu->cflags_base & CF_PARALLEL)) {
-+            cpu->cflags_base |= CF_PARALLEL;
-+            tb_flush(cpu);
-+        }
-+
-         /* we create a new CPU instance. */
-         new_env = cpu_copy(env);
-         /* Init regs that differ from the parent.  */
-@@ -6521,14 +6531,6 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
-         sigprocmask(SIG_BLOCK, &sigmask, &info.sigmask);
-         cpu->random_seed = qemu_guest_random_seed_thread_part1();
- 
--        /* If this is our first additional thread, we need to ensure we
--         * generate code for parallel execution and flush old translations.
--         */
--        if (!parallel_cpus) {
--            parallel_cpus = true;
--            tb_flush(cpu);
--        }
--
-         ret = pthread_create(&info.thread, &attr, clone_func, &info);
-         /* TODO: Free new CPU state if thread creation failed.  */
- 
--- 
-2.25.1
-
+r~
 
