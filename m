@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1814D32509A
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:42:35 +0100 (CET)
-Received: from localhost ([::1]:40652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DDAE3250AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 14:43:38 +0100 (CET)
+Received: from localhost ([::1]:44318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFGuX-0005ch-GW
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:42:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48246)
+	id 1lFGvZ-00077n-C5
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 08:43:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49510)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1lFGrd-0003TD-Um; Thu, 25 Feb 2021 08:39:33 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fangying1@huawei.com>)
- id 1lFGra-00068B-8P; Thu, 25 Feb 2021 08:39:33 -0500
-Received: from DGGEMS413-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DmYkY1JHrz16C8y;
- Thu, 25 Feb 2021 21:37:41 +0800 (CST)
-Received: from [10.174.186.67] (10.174.186.67) by
- DGGEMS413-HUB.china.huawei.com (10.3.19.213) with Microsoft SMTP Server id
- 14.3.498.0; Thu, 25 Feb 2021 21:39:08 +0800
-Subject: Re: [RFC PATCH 1/5] device_tree: Add qemu_fdt_add_path
-To: Andrew Jones <drjones@redhat.com>
-References: <20210225085627.2263-1-fangying1@huawei.com>
- <20210225085627.2263-2-fangying1@huawei.com>
- <20210225110311.quvchs32o4n6iqpt@kamzik.brq.redhat.com>
- <278b7b03-f463-61b6-111d-1e840df22eae@huawei.com>
- <20210225132536.ns4fheaik6vt45si@kamzik.brq.redhat.com>
-From: Ying Fang <fangying1@huawei.com>
-Message-ID: <ce24abfe-8b4c-9e70-d772-7eee9ae5ad22@huawei.com>
-Date: Thu, 25 Feb 2021 21:39:07 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFGu0-0005s4-Lu
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:42:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lFGtw-0007Tc-EL
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 08:42:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614260514;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=V8WpRqVtu7T2sX0Fzts5oaG5GRQuppb2GTAAg1f0UUg=;
+ b=buTnR4+zOuilu7a2myd4z2N8jZE4Vkr6icRl4KK8DPnbpJQ6Mfl/aEcKzT0KAOXuEU31/M
+ NSWY9DMTX7/Ycq9oBVNW558dmEGVFN5nxRs3EBRUp064XVRiZBhHFQrJb56f07AxPBOpwz
+ TDPqIAl7cm7PRq2e+SOqms4L9UcSI8E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-0EAu_L7sNMemnqvXq86PfQ-1; Thu, 25 Feb 2021 08:41:52 -0500
+X-MC-Unique: 0EAu_L7sNMemnqvXq86PfQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F3CA801977;
+ Thu, 25 Feb 2021 13:41:51 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 37C485D6D7;
+ Thu, 25 Feb 2021 13:41:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id C0FFC113860F; Thu, 25 Feb 2021 14:41:49 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Bogus "is either too old or uses too old a Python version" from
+ docs/meson.build
+References: <87ft1kqqsp.fsf@dusky.pond.sub.org>
+ <CAFEAcA-NyQT_m37UfeH5KAQ9+dkNBHcQivYyrS4C9F3EUqJ+Nw@mail.gmail.com>
+Date: Thu, 25 Feb 2021 14:41:49 +0100
+In-Reply-To: <CAFEAcA-NyQT_m37UfeH5KAQ9+dkNBHcQivYyrS4C9F3EUqJ+Nw@mail.gmail.com>
+ (Peter Maydell's message of "Thu, 25 Feb 2021 12:55:49 +0000")
+Message-ID: <87zgzsb6xu.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <20210225132536.ns4fheaik6vt45si@kamzik.brq.redhat.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.67]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190; envelope-from=fangying1@huawei.com;
- helo=szxga04-in.huawei.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.435,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,146 +81,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
- imammedo@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
+> On Thu, 25 Feb 2021 at 12:23, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> I just chanced on this one:
+>>
+>>     Program sphinx-build-3 found: YES
+>>     ../docs/meson.build:30: WARNING: /usr/bin/sphinx-build-3 is either too old or uses too old a Python version
+>>
+>>     ../docs/meson.build:33:6: ERROR: Problem encountered: Install a Python 3 version of python-sphinx
+>>
+>>     A full log can be found at /work/armbru/qemu/bld-x86/meson-logs/meson-log.txt
+>>
+>>     ERROR: meson setup failed
+>>
+>> My sphinx-build-3 is just fine, the problem is caused by me changing my
+>> tree so that
+>>
+>> 1. qapi-gen.py fails (because I messed up), and
+>>
+>> 2. make re-runs configure.
+>>
+>> Perhaps the test for a working sphinx-build-3 could be made a bit more
+>> robust.
+>
+> I'm not sure what could reasonably be done. The Sphinx test is just
+> "try building a trivial document with our config (which is what
+> enforces the version requirement)".
 
-On 2/25/2021 9:25 PM, Andrew Jones wrote:
-> On Thu, Feb 25, 2021 at 08:54:40PM +0800, Ying Fang wrote:
->>
->>
->> On 2/25/2021 7:03 PM, Andrew Jones wrote:
->>> Hi Ying Fang,
->>>
->>> I don't see any change in this patch from what I have in my
->>> tree, so this should be
->>>
->>>    From: Andrew Jones <drjones@redhat.com>
->>>
->>> Thanks,
->>> drew
->>>
->>
->> Yes, I picked it from your qemu branch:
->> https://github.com/rhdrjones/qemu/commit/ecfc1565f22187d2c715a99bbcd35cf3a7e428fa
->>
->> So what can I do to make it "From: Andrew Jones <drjones@redhat.com>" ?
->>
->> Can I made it by using git commit --amend like below ?
->>
->> git commit --amend --author "Andrew Jones <drjones@redhat.com>"
-> 
-> That's one way to fix it now, but normally when you apply/cherry-pick
-> a patch it will keep the authorship. Then, all you have to do is
-> post like usual and the "From: ..." will show up automatically.
-> 
+This question is almost certainly naive: why is it necessary for the
+"trivial" document to include the truckload generated by qapi-gen.py
 
-Hmm, I know cherry-pick can do that. But sometimes there maybe
-conflicts, so I have to backport it by hand and copy the commit
-msg back, thus the authorship may be lost.
+>                                     So yes, if you modify the QEMU sources
+> in a way that breaks the config file or one of the Sphinx plugins then
+> it'll trip the configure check. If you give the configure-check run
+> its own config file, then you end up with the version checks in two places
+> and they could get out of sync. One could try to have the conf.py have a
+> lot of conditionals to cut out things that the test-document doesn't use,
+> but then you run the risk that we no longer catch something for end-users
+> that we didn't anticipate that means we can't build the docs.
+>
+> It seems more reasonable to me to assume that developers who are
+> actively modifying the QEMU code which is used in docs building
+> are able to read the log file that the error message points them
+> at, and can figure out what really happened from the log.
 
-
-> Thanks,
-> drew
-> 
->>
->>> On Thu, Feb 25, 2021 at 04:56:23PM +0800, Ying Fang wrote:
->>>> qemu_fdt_add_path() works like qemu_fdt_add_subnode(), except
->>>> it also adds any missing parent nodes. We also tweak an error
->>>> message of qemu_fdt_add_subnode().
->>>>
->>>> Signed-off-by: Andrew Jones <drjones@redhat.com>
->>>> Signed-off-by: Ying Fang <fangying1@huawei.com>
->>>> ---
->>>>    include/sysemu/device_tree.h |  1 +
->>>>    softmmu/device_tree.c        | 45 ++++++++++++++++++++++++++++++++++--
->>>>    2 files changed, 44 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/include/sysemu/device_tree.h b/include/sysemu/device_tree.h
->>>> index 982c89345f..15fb98af98 100644
->>>> --- a/include/sysemu/device_tree.h
->>>> +++ b/include/sysemu/device_tree.h
->>>> @@ -104,6 +104,7 @@ uint32_t qemu_fdt_get_phandle(void *fdt, const char *path);
->>>>    uint32_t qemu_fdt_alloc_phandle(void *fdt);
->>>>    int qemu_fdt_nop_node(void *fdt, const char *node_path);
->>>>    int qemu_fdt_add_subnode(void *fdt, const char *name);
->>>> +int qemu_fdt_add_path(void *fdt, const char *path);
->>>>    #define qemu_fdt_setprop_cells(fdt, node_path, property, ...)                 \
->>>>        do {                                                                      \
->>>> diff --git a/softmmu/device_tree.c b/softmmu/device_tree.c
->>>> index b9a3ddc518..1e3857ca0c 100644
->>>> --- a/softmmu/device_tree.c
->>>> +++ b/softmmu/device_tree.c
->>>> @@ -515,8 +515,8 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->>>>        retval = fdt_add_subnode(fdt, parent, basename);
->>>>        if (retval < 0) {
->>>> -        error_report("FDT: Failed to create subnode %s: %s", name,
->>>> -                     fdt_strerror(retval));
->>>> +        error_report("%s: Failed to create subnode %s: %s",
->>>> +                     __func__, name, fdt_strerror(retval));
->>>>            exit(1);
->>>>        }
->>>> @@ -524,6 +524,47 @@ int qemu_fdt_add_subnode(void *fdt, const char *name)
->>>>        return retval;
->>>>    }
->>>> +/*
->>>> + * Like qemu_fdt_add_subnode(), but will add all missing
->>>> + * subnodes in the path.
->>>> + */
->>>> +int qemu_fdt_add_path(void *fdt, const char *path)
->>>> +{
->>>> +    char *dupname, *basename, *p;
->>>> +    int parent, retval = -1;
->>>> +
->>>> +    if (path[0] != '/') {
->>>> +        return retval;
->>>> +    }
->>>> +
->>>> +    parent = fdt_path_offset(fdt, "/");
->>>> +    p = dupname = g_strdup(path);
->>>> +
->>>> +    while (p) {
->>>> +        *p = '/';
->>>> +        basename = p + 1;
->>>> +        p = strchr(p + 1, '/');
->>>> +        if (p) {
->>>> +            *p = '\0';
->>>> +        }
->>>> +        retval = fdt_path_offset(fdt, dupname);
->>>> +        if (retval < 0 && retval != -FDT_ERR_NOTFOUND) {
->>>> +            error_report("%s: Invalid path %s: %s",
->>>> +                         __func__, path, fdt_strerror(retval));
->>>> +            exit(1);
->>>> +        } else if (retval == -FDT_ERR_NOTFOUND) {
->>>> +            retval = fdt_add_subnode(fdt, parent, basename);
->>>> +            if (retval < 0) {
->>>> +                break;
->>>> +            }
->>>> +        }
->>>> +        parent = retval;
->>>> +    }
->>>> +
->>>> +    g_free(dupname);
->>>> +    return retval;
->>>> +}
->>>> +
->>>>    void qemu_fdt_dumpdtb(void *fdt, int size)
->>>>    {
->>>>        const char *dumpdtb = current_machine->dumpdtb;
->>>> -- 
->>>> 2.23.0
->>>>
->>>>
->>>
->>> .
->>>
->>
-> 
-> .
-> 
 
