@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 357FB324DC1
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 11:15:52 +0100 (CET)
-Received: from localhost ([::1]:38662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D219B324DC6
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 11:18:22 +0100 (CET)
+Received: from localhost ([::1]:47124 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFDgV-0002uw-7H
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 05:15:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37648)
+	id 1lFDiv-0006W2-R7
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 05:18:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lFDeK-0001bW-5D
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:13:36 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:44794)
+ id 1lFDeO-0001jx-GC
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:13:40 -0500
+Received: from mail-pg1-x529.google.com ([2607:f8b0:4864:20::529]:37757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1lFDeI-00087A-9C
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:13:35 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id a4so3450934pgc.11
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 02:13:33 -0800 (PST)
+ id 1lFDeM-0008AI-Cf
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 05:13:40 -0500
+Received: by mail-pg1-x529.google.com with SMTP id o10so3478065pgg.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 02:13:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vzsU3EZ+pZWfLMIpGq3G9wRVI9sKDLLj/9kfAiMMjFA=;
- b=OJczgHQE9N/wEllN4sChY8bFrZt2hG/oOAEAFJwKlasmr4ZZtDOe47Ary9p80oGBHF
- QPEtXuEA+AWd0R7OSh9GlW3tzmkyVA7Op+lryMApY1LhsSB2kt82hs0LvilBPFkAqsWI
- rwo0x1sIxpcxbfrYI48sgcK3RjmBo+vohXW298CNhlDDG0Ummp/nJ4txbl5AWYalvBm8
- sWtfqxC0lTj8WoaoAqb3YsyJ126gW2+eQsVJjqBnGfsVHYnnysAnmcF+Y3kRBaHVcsK1
- PvD7saD0bJL4jii44zHYYC5Qn417CY9gYn1VGqQXFl7eQwEO+rAmtx7XYH5GWSnaiNpH
- jctw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=QiN+GjduDTDob/L43vMiFo+zjJBBP+f5w+hvQdungSM=;
+ b=U3+Ql3gHc2rFHLKUU/6sE9CeSkxa7LX9+X3TVkZssj2D6MIrZookut0uOClV6io+Rt
+ ssew5q9MDI62J7Ddmdkj/MI61GPfBC19GmR/Sli2uQTrh7Ov5BJKJlmjvPsOe5ljlQz4
+ GpLNs00BtlfAWr8VMvJ2pY021HbTwUt0bJxJY5bD96D2d9yKMvP3pFxKRFmgilu1wfty
+ WHo9QIvZpO8uUKMwdyk62AgUIUAoZBz6aRo+W/5hWyhIMpFaSB5OrpboqF9Ya1XajoPZ
+ o9aal8DeVSgwwVHdsC7UucgpzcPjsNCwUIjD238kb0Zg76Pkj1rpNPuWPaCASH0iTtsy
+ BfhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vzsU3EZ+pZWfLMIpGq3G9wRVI9sKDLLj/9kfAiMMjFA=;
- b=naUBqHibm33WHScStoC5D2l6ZrUYDQbbAb+kn1ujymb3/KwrvwVpGN9/3TmGonzd4s
- wsQrndWm3pqhRSFaf+RASMM2D2TnP+/CNpQfD9+BwQ2uhO+2FkaedBBq3JuI6wG46uXs
- 8/R8oqPQ/T2VeFRFInOpOAyND3tOxHfci+LdRaVUtYnpZyu057/Z/BYy/aVYcTQ0T8N0
- b8li9+tGxXieY0l5W3oI5I4TphUt4OP+Jyrsfgwg/08u9QKpYc3x3P2klKrz+FHNW5N9
- JWs7FOJ6Eh754SuD/ZgCJcrq1OLVP1zXYT4q3pPNR7HvO4GggZuIrYe7zhnCRYdf2kS6
- 0MCw==
-X-Gm-Message-State: AOAM533t08sXVN6yBVs/RiWdlt4R3u5PiFbvE0bRHHX/1JJoj/j8FcIB
- 8X61EXc4wCPyXcDPgXIdqF7Kv6wiE/JKPg==
-X-Google-Smtp-Source: ABdhPJwiGgtT8FSs2EeB6bw+NNRXWDZyfyqzHK4yrpCtGa9GKWoUVvwoRD6NDoXRBoswCeOw+SckQA==
-X-Received: by 2002:a63:505d:: with SMTP id q29mr2319904pgl.218.1614248012559; 
- Thu, 25 Feb 2021 02:13:32 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=QiN+GjduDTDob/L43vMiFo+zjJBBP+f5w+hvQdungSM=;
+ b=mmxJbhNQsROOwDWlH9DK6hkpiLq1CDs90KODhDolrhDt+wAK8zfrlIAuSfm/pVKMtj
+ B6qoCirEaojyzCG0A+MVCoLhh2ftS4LffSvh1u/uMp4RmjippuzPk269ktmsEzcnJ4AC
+ DoKZ5WERiXnDwKQdSIZiw/3fF+Yq//HoeVPicqC0iBhkzpuL0E0tjqNfp7j8EKy/2gqw
+ ZZ3azxzWwvWDEf5/QbqQE5APnOYsXZ7oAWK9TdKK7hKZwtMufB0Ux8rhnSyhQkIUOD2Y
+ 0fO9vg1SqU6iYf55zA/RW/q00Z3nss26eReYZI/sC9RnZOMSpryvAGwUsXYs4eIF03AW
+ UxaA==
+X-Gm-Message-State: AOAM533TpSYm9kI+roSe1babzHihXHXCY7TTv9Zz27rVDUQeH2Lmbst1
+ 3C9SiUYmjw/Myf1xJofkQcC3r7WJfcaP0w==
+X-Google-Smtp-Source: ABdhPJwTHi9UEr70dpOOC25mwqjoRALuMJ6IwTJ0bpcdTWV7dtpLWBhF9u95vA/d4g09w1SI39Mnng==
+X-Received: by 2002:a63:5c08:: with SMTP id q8mr2367108pgb.390.1614248016504; 
+ Thu, 25 Feb 2021 02:13:36 -0800 (PST)
 Received: from localhost.localdomain ([2400:4050:c360:8200:29a8:515b:7b7:9008])
- by smtp.gmail.com with ESMTPSA id o18sm5630833pjq.44.2021.02.25.02.13.30
+ by smtp.gmail.com with ESMTPSA id o18sm5630833pjq.44.2021.02.25.02.13.34
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Thu, 25 Feb 2021 02:13:32 -0800 (PST)
+ Thu, 25 Feb 2021 02:13:36 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@gmail.com>
 To: 
-Subject: [PATCH v4 1/3] ui/console: Add placeholder flag to message surface
-Date: Thu, 25 Feb 2021 19:13:14 +0900
-Message-Id: <20210225101316.83940-1-akihiko.odaki@gmail.com>
+Subject: [PATCH v4 2/3] ui/console: Pass placeholder surface to displays
+Date: Thu, 25 Feb 2021 19:13:15 +0900
+Message-Id: <20210225101316.83940-2-akihiko.odaki@gmail.com>
 X-Mailer: git-send-email 2.24.3 (Apple Git-128)
+In-Reply-To: <20210225101316.83940-1-akihiko.odaki@gmail.com>
+References: <20210225101316.83940-1-akihiko.odaki@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::529;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pg1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,155 +88,186 @@ Cc: "Michael S . Tsirkin" <mst@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The surfaces created with former qemu_create_message_surface
-did not display the content from the guest and always contained
-simple messages describing the reason.
+ui/console used to accept NULL as graphic console surface, but its
+semantics was inconsistent among displays:
+- cocoa and gtk-egl perform NULL dereference.
+- egl-headless, spice and spice-egl do nothing.
+- gtk releases underlying resources.
+- sdl2-2d and sdl2-gl destroys the window.
+- vnc shows a message, "Display output is not active."
 
-A display backend may want to hide the window showing such a
-surface. This change renames the function to
-qemu_create_placeholder_surface, and adds "placeholder" flag; the
-display can check the flag to decide to do anything special like
-hiding the window.
+Fortunately, only virtio-gpu and virtio-gpu-3d assign NULL so
+we can study them to figure out the desired behavior. They assign
+NULL *except* for the primary display when the device is realized,
+reset, or its scanout is disabled. This effectively destroys
+windows for the (uninitialized) secondary displays.
+
+To implement the consistent behavior of display device
+realization/reset, this change embeds it to the operation
+switching the surface. When NULL was given as a new surface when
+switching, ui/console will instead passes a placeholder down
+to each display listeners.
+
+sdl destroys the window for a secondary console if its surface is a
+placeholder. The other displays simply shows the placeholder.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@gmail.com>
 ---
- hw/display/vhost-user-gpu.c |  4 ++--
- hw/display/virtio-gpu.c     |  6 +++---
- include/ui/console.h        | 10 ++++++++--
- ui/console.c                | 11 ++++++-----
- ui/vnc.c                    |  2 +-
- 5 files changed, 20 insertions(+), 13 deletions(-)
+ ui/console.c       | 17 ++++++++++++++++-
+ ui/gtk.c           |  4 ----
+ ui/sdl2-2d.c       |  7 ++-----
+ ui/sdl2-gl.c       |  4 ++--
+ ui/spice-display.c |  6 +++---
+ ui/vnc.c           | 10 ----------
+ 6 files changed, 23 insertions(+), 25 deletions(-)
 
-diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
-index 4d8cb3525bf..3e911da795e 100644
---- a/hw/display/vhost-user-gpu.c
-+++ b/hw/display/vhost-user-gpu.c
-@@ -194,8 +194,8 @@ vhost_user_gpu_handle_display(VhostUserGPU *g, VhostUserGpuMsg *msg)
-         con = s->con;
- 
-         if (m->scanout_id == 0 && m->width == 0) {
--            s->ds = qemu_create_message_surface(640, 480,
--                                                "Guest disabled display.");
-+            s->ds = qemu_create_placeholder_surface(640, 480,
-+                                                    "Guest disabled display.");
-             dpy_gfx_replace_surface(con, s->ds);
-         } else {
-             s->ds = qemu_create_displaysurface(m->width, m->height);
-diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
-index 2e4a9822b6a..c1f17bec17e 100644
---- a/hw/display/virtio-gpu.c
-+++ b/hw/display/virtio-gpu.c
-@@ -338,9 +338,9 @@ static void virtio_gpu_disable_scanout(VirtIOGPU *g, int scanout_id)
- 
-     if (scanout_id == 0) {
-         /* primary head */
--        ds = qemu_create_message_surface(scanout->width  ?: 640,
--                                         scanout->height ?: 480,
--                                         "Guest disabled display.");
-+        ds = qemu_create_placeholder_surface(scanout->width  ?: 640,
-+                                             scanout->height ?: 480,
-+                                             "Guest disabled display.");
-     }
-     dpy_gfx_replace_surface(scanout->con, ds);
-     scanout->resource_id = 0;
-diff --git a/include/ui/console.h b/include/ui/console.h
-index d30e972d0b5..c960b7066cc 100644
---- a/include/ui/console.h
-+++ b/include/ui/console.h
-@@ -106,6 +106,7 @@ struct QemuConsoleClass {
- };
- 
- #define QEMU_ALLOCATED_FLAG     0x01
-+#define QEMU_PLACEHOLDER_FLAG   0x02
- 
- typedef struct DisplaySurface {
-     pixman_format_code_t format;
-@@ -259,8 +260,8 @@ DisplaySurface *qemu_create_displaysurface_from(int width, int height,
-                                                 pixman_format_code_t format,
-                                                 int linesize, uint8_t *data);
- DisplaySurface *qemu_create_displaysurface_pixman(pixman_image_t *image);
--DisplaySurface *qemu_create_message_surface(int w, int h,
--                                            const char *msg);
-+DisplaySurface *qemu_create_placeholder_surface(int w, int h,
-+                                                const char *msg);
- PixelFormat qemu_default_pixelformat(int bpp);
- 
- DisplaySurface *qemu_create_displaysurface(int width, int height);
-@@ -281,6 +282,11 @@ static inline int is_buffer_shared(DisplaySurface *surface)
-     return !(surface->flags & QEMU_ALLOCATED_FLAG);
- }
- 
-+static inline int is_placeholder(DisplaySurface *surface)
-+{
-+    return surface->flags & QEMU_PLACEHOLDER_FLAG;
-+}
-+
- void register_displaychangelistener(DisplayChangeListener *dcl);
- void update_displaychangelistener(DisplayChangeListener *dcl,
-                                   uint64_t interval);
 diff --git a/ui/console.c b/ui/console.c
-index c5d11bc7017..32823faf414 100644
+index 32823faf414..171a7bf14b9 100644
 --- a/ui/console.c
 +++ b/ui/console.c
-@@ -1436,8 +1436,8 @@ DisplaySurface *qemu_create_displaysurface_pixman(pixman_image_t *image)
-     return surface;
- }
- 
--DisplaySurface *qemu_create_message_surface(int w, int h,
--                                            const char *msg)
-+DisplaySurface *qemu_create_placeholder_surface(int w, int h,
-+                                                const char *msg)
+@@ -1675,11 +1675,26 @@ void dpy_gfx_update_full(QemuConsole *con)
+ void dpy_gfx_replace_surface(QemuConsole *con,
+                              DisplaySurface *surface)
  {
-     DisplaySurface *surface = qemu_create_displaysurface(w, h);
-     pixman_color_t bg = color_table_rgb[0][QEMU_COLOR_BLACK];
-@@ -1454,6 +1454,7 @@ DisplaySurface *qemu_create_message_surface(int w, int h,
-                                  x+i, y, FONT_WIDTH, FONT_HEIGHT);
-         qemu_pixman_image_unref(glyph);
-     }
-+    surface->flags |= QEMU_PLACEHOLDER_FLAG;
-     return surface;
- }
++    static const char placeholder_msg[] = "Display output is not active.";
+     DisplayState *s = con->ds;
+     DisplaySurface *old_surface = con->surface;
+     DisplayChangeListener *dcl;
++    int width;
++    int height;
++
++    if (!surface) {
++        if (old_surface) {
++            width = surface_width(old_surface);
++            height = surface_height(old_surface);
++        } else {
++            width = 640;
++            height = 480;
++        }
++
++        surface = qemu_create_placeholder_surface(width, height, placeholder_msg);
++    }
  
-@@ -1550,7 +1551,7 @@ void register_displaychangelistener(DisplayChangeListener *dcl)
-             dcl->ops->dpy_gfx_switch(dcl, con->surface);
-         } else {
-             if (!dummy) {
--                dummy = qemu_create_message_surface(640, 480, nodev);
-+                dummy = qemu_create_placeholder_surface(640, 480, nodev);
-             }
-             dcl->ops->dpy_gfx_switch(dcl, dummy);
-         }
-@@ -1998,7 +1999,7 @@ QemuConsole *graphic_console_init(DeviceState *dev, uint32_t head,
-                                  &error_abort);
+-    assert(old_surface != surface || surface == NULL);
++    assert(old_surface != surface);
+ 
+     con->surface = surface;
+     QLIST_FOREACH(dcl, &s->listeners, next) {
+diff --git a/ui/gtk.c b/ui/gtk.c
+index 79dc2401203..a4a5f981e2a 100644
+--- a/ui/gtk.c
++++ b/ui/gtk.c
+@@ -567,10 +567,6 @@ static void gd_switch(DisplayChangeListener *dcl,
+     }
+     vc->gfx.ds = surface;
+ 
+-    if (!surface) {
+-        return;
+-    }
+-
+     if (surface->format == PIXMAN_x8r8g8b8) {
+         /*
+          * PIXMAN_x8r8g8b8 == CAIRO_FORMAT_RGB24
+diff --git a/ui/sdl2-2d.c b/ui/sdl2-2d.c
+index a2ea85127d5..bfebbdeaea8 100644
+--- a/ui/sdl2-2d.c
++++ b/ui/sdl2-2d.c
+@@ -32,14 +32,11 @@ void sdl2_2d_update(DisplayChangeListener *dcl,
+                     int x, int y, int w, int h)
+ {
+     struct sdl2_console *scon = container_of(dcl, struct sdl2_console, dcl);
+-    DisplaySurface *surf = qemu_console_surface(dcl->con);
++    DisplaySurface *surf = scon->surface;
+     SDL_Rect rect;
+     size_t surface_data_offset;
+     assert(!scon->opengl);
+ 
+-    if (!surf) {
+-        return;
+-    }
+     if (!scon->texture) {
+         return;
+     }
+@@ -75,7 +72,7 @@ void sdl2_2d_switch(DisplayChangeListener *dcl,
+         scon->texture = NULL;
      }
  
--    surface = qemu_create_message_surface(width, height, noinit);
-+    surface = qemu_create_placeholder_surface(width, height, noinit);
-     dpy_gfx_replace_surface(s, surface);
-     return s;
- }
-@@ -2027,7 +2028,7 @@ void graphic_console_close(QemuConsole *con)
-     if (con->gl) {
-         dpy_gl_scanout_disable(con);
+-    if (!new_surface) {
++    if (is_placeholder(new_surface) && qemu_console_get_index(dcl->con)) {
+         sdl2_window_destroy(scon);
+         return;
      }
--    surface = qemu_create_message_surface(width, height, unplugged);
-+    surface = qemu_create_placeholder_surface(width, height, unplugged);
-     dpy_gfx_replace_surface(con, surface);
- }
+diff --git a/ui/sdl2-gl.c b/ui/sdl2-gl.c
+index fd594d74611..a21d2deed91 100644
+--- a/ui/sdl2-gl.c
++++ b/ui/sdl2-gl.c
+@@ -86,7 +86,7 @@ void sdl2_gl_switch(DisplayChangeListener *dcl,
  
+     scon->surface = new_surface;
+ 
+-    if (!new_surface) {
++    if (is_placeholder(new_surface) && qemu_console_get_index(dcl->con)) {
+         qemu_gl_fini_shader(scon->gls);
+         scon->gls = NULL;
+         sdl2_window_destroy(scon);
+@@ -112,7 +112,7 @@ void sdl2_gl_refresh(DisplayChangeListener *dcl)
+     assert(scon->opengl);
+ 
+     graphic_hw_update(dcl->con);
+-    if (scon->updates && scon->surface) {
++    if (scon->updates && scon->real_window) {
+         scon->updates = 0;
+         sdl2_gl_render_surface(scon);
+     }
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index 6f32b66a6e7..222c7c20a2a 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -388,7 +388,7 @@ void qemu_spice_display_switch(SimpleSpiceDisplay *ssd,
+     SimpleSpiceUpdate *update;
+     bool need_destroy;
+ 
+-    if (surface && ssd->surface &&
++    if (ssd->surface &&
+         surface_width(surface) == pixman_image_get_width(ssd->surface) &&
+         surface_height(surface) == pixman_image_get_height(ssd->surface) &&
+         surface_format(surface) == pixman_image_get_format(ssd->surface)) {
+@@ -410,8 +410,8 @@ void qemu_spice_display_switch(SimpleSpiceDisplay *ssd,
+ 
+     /* full mode switch */
+     trace_qemu_spice_display_surface(ssd->qxl.id,
+-                                     surface ? surface_width(surface)  : 0,
+-                                     surface ? surface_height(surface) : 0,
++                                     surface_width(surface),
++                                     surface_height(surface),
+                                      false);
+ 
+     memset(&ssd->dirty, 0, sizeof(ssd->dirty));
 diff --git a/ui/vnc.c b/ui/vnc.c
-index 16bb3be770b..4d2151272e5 100644
+index 4d2151272e5..310abc93781 100644
 --- a/ui/vnc.c
 +++ b/ui/vnc.c
-@@ -799,7 +799,7 @@ static void vnc_dpy_switch(DisplayChangeListener *dcl,
+@@ -790,20 +790,10 @@ static bool vnc_check_pageflip(DisplaySurface *s1,
+ static void vnc_dpy_switch(DisplayChangeListener *dcl,
+                            DisplaySurface *surface)
+ {
+-    static const char placeholder_msg[] =
+-        "Display output is not active.";
+-    static DisplaySurface *placeholder;
+     VncDisplay *vd = container_of(dcl, VncDisplay, dcl);
+     bool pageflip = vnc_check_pageflip(vd->ds, surface);
+     VncState *vs;
  
-     if (surface == NULL) {
-         if (placeholder == NULL) {
--            placeholder = qemu_create_message_surface(640, 480, placeholder_msg);
-+            placeholder = qemu_create_placeholder_surface(640, 480, placeholder_msg);
-         }
-         surface = placeholder;
-     }
+-    if (surface == NULL) {
+-        if (placeholder == NULL) {
+-            placeholder = qemu_create_placeholder_surface(640, 480, placeholder_msg);
+-        }
+-        surface = placeholder;
+-    }
+-
+     vnc_abort_display_jobs(vd);
+     vd->ds = surface;
+ 
 -- 
 2.24.3 (Apple Git-128)
 
