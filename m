@@ -2,72 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A6B9325183
-	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:33:29 +0100 (CET)
-Received: from localhost ([::1]:38786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0599032518D
+	for <lists+qemu-devel@lfdr.de>; Thu, 25 Feb 2021 15:35:16 +0100 (CET)
+Received: from localhost ([::1]:42532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFHho-0004w7-Bh
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:33:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34476)
+	id 1lFHjX-0006XF-1O
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 09:35:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34546)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lFHfe-0003uu-Uz
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:31:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54478)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFHfw-0004AB-Fv
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:31:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1lFHfb-0004Yk-7J
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:31:14 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFHfs-0004dU-G5
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 09:31:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614263470;
+ s=mimecast20190719; t=1614263487;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EuUiffr8mGqXR3rC5xkY3vR8T7E5RPaHPuB/slS5uW4=;
- b=i7kkHeKlMwsQzVuqeLFI1sqZQ1lZj//1xGYiP2M5ALeubut58MD26KLtkZ0aMGkFnZZGyP
- 3y+llUraGUi8OkpBk3F2BazQRSlmX2bXF/emXtdKglEjSmfmcGYu0BN776Klkor2hf++m1
- cnrfzdo66JaXNBm2VEufmKS1GLrSFAw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-NKx7XvBJMaSaOL9doyRmEw-1; Thu, 25 Feb 2021 09:31:04 -0500
-X-MC-Unique: NKx7XvBJMaSaOL9doyRmEw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3BE60845EEB;
- Thu, 25 Feb 2021 14:30:47 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.194.200])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 37F961346D;
- Thu, 25 Feb 2021 14:30:39 +0000 (UTC)
-Date: Thu, 25 Feb 2021 15:30:37 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Ying Fang <fangying1@huawei.com>
-Subject: Re: [RFC PATCH 2/5] hw/arm/virt: Add cpu-map to device tree
-Message-ID: <20210225143037.ey6dosjbvv2aigzz@kamzik.brq.redhat.com>
-References: <20210225085627.2263-1-fangying1@huawei.com>
- <20210225085627.2263-3-fangying1@huawei.com>
- <20210225111610.mejof5pe2y5fe5xr@kamzik.brq.redhat.com>
- <5fc765dd-52fa-2936-f298-d2635c863eb3@huawei.com>
+ bh=3W/06pY81fn8u7jBRiVM0mWP9ZVTlfJqReutwasZ5E8=;
+ b=ZVidDpjc47o/1q3Z7pC/FUDOv6mqSY6ySX8AnO7iSC4qNyU+5pgdp6bPZbCJKQaqNhoZgF
+ DMBDNIFT3B0US4RfaUF/Dr8m3XfOuDi8vH9hQ7zl/9X3Bqb/EcYsnQZqUPaM5iRke85SQj
+ bluHclXHtuiUL3LsnX6bbNv2ysB40kE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-312-bI4GcWMaN4a11-sSaOW0oQ-1; Thu, 25 Feb 2021 09:31:25 -0500
+X-MC-Unique: bI4GcWMaN4a11-sSaOW0oQ-1
+Received: by mail-ed1-f70.google.com with SMTP id m1so2782235edv.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 06:31:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3W/06pY81fn8u7jBRiVM0mWP9ZVTlfJqReutwasZ5E8=;
+ b=fDhdAN4tc05iBi8I37GBllAdmld0dUKs4Try62K/WOaWrZvVbzjU1Z5DLVxA/a0oTW
+ jU0DH6UANUJLEnAO4LUkMCRRJeY4Gw42i3VJAb1FDHK/qI3efMbEONI7kq777GG0PaVy
+ +WkjOgdrXwY1otL/aZjl8TteYjX0rpnJLfDe2T9NcJMNNv6uOgtx5CcAx2XpuS3A5fGH
+ eXrcx5Hdy95KBKGU2LETapAUdsH7NN7dlzAvqv7K7LOJGsALSryRN1kso2gxKt69xdRK
+ T9VLt9BtkVyvQgk3gTRRmdmGiFD0VNcdU1w8BeTNKpGHqaUrCNP/7rWc49ITQKMlPe6g
+ 3SiQ==
+X-Gm-Message-State: AOAM530NrN22ZLDdXXK43IgexiOywQ3dt0J6koi78sG57QkECxLEc2Ee
+ CqXcMWrx20nEihzFhnAI4tPAeP0lS7p42HwGMR3wEXE5R82y7ETYVz5X7FBXs8Vi+dZ+Px4hW2V
+ fHYMtE0lyVc7BU+k=
+X-Received: by 2002:aa7:de8f:: with SMTP id j15mr3247373edv.268.1614263484720; 
+ Thu, 25 Feb 2021 06:31:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyPtL8V9fbaN7TaSxkOcZWmM/Iyd+5PwF48MsE1MHsl2M67i8hXexOeCWThVdb3fnW1fLK0Sg==
+X-Received: by 2002:aa7:de8f:: with SMTP id j15mr3247351edv.268.1614263484517; 
+ Thu, 25 Feb 2021 06:31:24 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id r23sm3657660edp.34.2021.02.25.06.31.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 25 Feb 2021 06:31:23 -0800 (PST)
+Subject: Re: [PATCH 1/6] net: introduce qemu_receive_packet()
+To: Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org
+References: <20210224055401.492407-1-jasowang@redhat.com>
+ <20210224055401.492407-2-jasowang@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <389864ac-b741-b2d9-5289-9b8a71ffbb4f@redhat.com>
+Date: Thu, 25 Feb 2021 15:31:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <5fc765dd-52fa-2936-f298-d2635c863eb3@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210224055401.492407-2-jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,185 +98,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
- zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
- shannon.zhaosl@gmail.com, qemu-arm@nongnu.org, alistair.francis@wdc.com,
- imammedo@redhat.com
+Cc: ppandit@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 25, 2021 at 09:18:22PM +0800, Ying Fang wrote:
+On 2/24/21 6:53 AM, Jason Wang wrote:
+> Some NIC supports loopback mode and this is done by calling
+> nc->info->receive() directly which in fact suppresses the effort of
+> reentrancy check that is done in qemu_net_queue_send().
 > 
+> Unfortunately we can use qemu_net_queue_send() here since for loop
+> back there's no sender as peer, so this patch introduce a
+> qemu_receive_packet() which is used for implementing loopback mode
+> for a NIC with this check.
 > 
-> On 2/25/2021 7:16 PM, Andrew Jones wrote:
-> > Hi Ying Fang,
-> > 
-> > The only difference between this and what I have in my tree[*]
-> > is the removal of the socket node (which has been in the Linux
-> > docs since June 2019). Any reason why you removed that node? In
-> > any case, I think I deserve a bit more credit for this patch.
+> NIC that supports loopback mode will be converted to this helper.
 > 
-> Sorry, you surely deserve it. I forget to add it here.
-> Should I have a SOB of you here ?
-> 
-> The latest linux kernel use a four level cpu topology defined in
-> 
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/devicetree/bindings/cpu/cpu-topology.txt?h=v5.11
-> 
-> ie. socket node, cluster node, core node, thread node.
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>  include/net/net.h   |  5 +++++
+>  include/net/queue.h |  8 ++++++++
+>  net/net.c           | 38 +++++++++++++++++++++++++++++++-------
+>  net/queue.c         | 22 ++++++++++++++++++++++
+>  4 files changed, 66 insertions(+), 7 deletions(-)
 
-Yes, this is why the code I wrote uses the 'socket' node.
-
-> 
-> The linux kernel 4.19 LTS use a three level cpu topology defined in
-> Documentation/devicetree/bindings/arm/topology.txt
-
-I don't think we want to target that guest kernel with this
-new QEMU feature. If we must support that guest kernel, then
-I would do it under a machine property, like compat_cpumap
-or something.
-
-> 
-> ie. cluster node, core node, thread node.
-> 
-> Currently Qemu x86 has 4 level of cpu topology as: socket, die, core,
-> thread. Should arm64 active like it here ?
-
-Does the arm64 guest kernel support the concept of 'die'? (I don't
-think so) Anyway, there's no such concept in the current cpu-map
-definition. So, if the guest kernel does support die, then what
-does it map that to from DT and ACPI?
-
-> 
-> Further more, latest linux kernel define the cpu topology struct as.
-> So maybe it only cares about the socket, core, thread topology levels.
-> 
-> struct cpu_topology {
-> 
->     int thread_id;
-> 
->     int core_id;
-> 
->     int package_id;
-> 
->     int llc_id;
-> 
->     cpumask_t thread_sibling;
-> 
->     cpumask_t core_sibling;
-> 
->     cpumask_t llc_sibling;
-> 
-> };
-> 
-> > 
-> > [*] https://github.com/rhdrjones/qemu/commit/35feecdd43475608c8f55973a0c159eac4aafefd
-> > 
-> > Thanks,
-> > drew
-> > 
-> > On Thu, Feb 25, 2021 at 04:56:24PM +0800, Ying Fang wrote:
-> > > Support device tree CPU topology descriptions.
-> > > 
-> > > Signed-off-by: Ying Fang <fangying1@huawei.com>
-> > > ---
-> > >   hw/arm/virt.c         | 38 +++++++++++++++++++++++++++++++++++++-
-> > >   include/hw/arm/virt.h |  1 +
-> > >   2 files changed, 38 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > > index 371147f3ae..c133b342b8 100644
-> > > --- a/hw/arm/virt.c
-> > > +++ b/hw/arm/virt.c
-> > > @@ -351,10 +351,11 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-> > >       int cpu;
-> > >       int addr_cells = 1;
-> > >       const MachineState *ms = MACHINE(vms);
-> > > +    const VirtMachineClass *vmc = VIRT_MACHINE_GET_CLASS(vms);
-> > >       int smp_cpus = ms->smp.cpus;
-> > >       /*
-> > > -     * From Documentation/devicetree/bindings/arm/cpus.txt
-> > > +     * See Linux Documentation/devicetree/bindings/arm/cpus.yaml
-> > >        *  On ARM v8 64-bit systems value should be set to 2,
-> > >        *  that corresponds to the MPIDR_EL1 register size.
-> > >        *  If MPIDR_EL1[63:32] value is equal to 0 on all CPUs
-> > > @@ -407,8 +408,42 @@ static void fdt_add_cpu_nodes(const VirtMachineState *vms)
-> > >                   ms->possible_cpus->cpus[cs->cpu_index].props.node_id);
-> > >           }
-> > > +        if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
-> > > +            qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle",
-> > > +                                  qemu_fdt_alloc_phandle(vms->fdt));
-> > > +        }
-> > > +
-> > >           g_free(nodename);
-> > >       }
-> > > +
-> > > +    if (ms->smp.cpus > 1 && !vmc->no_cpu_topology) {
-> > > +        /*
-> > > +         * See Linux Documentation/devicetree/bindings/cpu/cpu-topology.txt
-> > > +         */
-> > > +        qemu_fdt_add_subnode(vms->fdt, "/cpus/cpu-map");
-> > > +
-> > > +        for (cpu = ms->smp.cpus - 1; cpu >= 0; cpu--) {
-> > > +            char *cpu_path = g_strdup_printf("/cpus/cpu@%d", cpu);
-> > > +            char *map_path;
-> > > +
-> > > +            if (ms->smp.threads > 1) {
-> > > +                map_path = g_strdup_printf(
-> > > +                            "/cpus/cpu-map/%s%d/%s%d/%s%d",
-> > > +                            "cluster", cpu / (ms->smp.cores * ms->smp.threads),
-> 
-> a cluster node may be replaced by socket to keep accord with the latest
-> kernel.
-
-Right, in which case this patch would be identical to the one in my
-branch.
-
-Thanks,
-drew
-
-> 
-> > > +                            "core", (cpu / ms->smp.threads) % ms->smp.cores,
-> > > +                            "thread", cpu % ms->smp.threads);
-> > > +            } else {
-> > > +                map_path = g_strdup_printf(
-> > > +                            "/cpus/cpu-map/%s%d/%s%d",
-> > > +                            "cluster", cpu / ms->smp.cores,
-> > > +                            "core", cpu % ms->smp.cores);
-> > > +            }
-> > > +            qemu_fdt_add_path(vms->fdt, map_path);
-> > > +            qemu_fdt_setprop_phandle(vms->fdt, map_path, "cpu", cpu_path);
-> > > +            g_free(map_path);
-> > > +            g_free(cpu_path);
-> > > +        }
-> > > +    }
-> > >   }
-> > >   static void fdt_add_its_gic_node(VirtMachineState *vms)
-> > > @@ -2742,6 +2777,7 @@ static void virt_machine_5_2_options(MachineClass *mc)
-> > >       virt_machine_6_0_options(mc);
-> > >       compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-> > >       vmc->no_secure_gpio = true;
-> > > +    vmc->no_cpu_topology = true;
-> > >   }
-> > >   DEFINE_VIRT_MACHINE(5, 2)
-> > > diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-> > > index ee9a93101e..7ef6d08ac3 100644
-> > > --- a/include/hw/arm/virt.h
-> > > +++ b/include/hw/arm/virt.h
-> > > @@ -129,6 +129,7 @@ struct VirtMachineClass {
-> > >       bool no_kvm_steal_time;
-> > >       bool acpi_expose_flash;
-> > >       bool no_secure_gpio;
-> > > +    bool no_cpu_topology;
-> > >   };
-> > >   struct VirtMachineState {
-> > > -- 
-> > > 2.23.0
-> > > 
-> > > 
-> > 
-> > .
-> > 
-> 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
