@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 663AD325EEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 09:26:46 +0100 (CET)
-Received: from localhost ([::1]:46382 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D2A8325ECA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 09:20:01 +0100 (CET)
+Received: from localhost ([::1]:33180 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFYST-0004Rt-Ct
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 03:26:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41944)
+	id 1lFYLw-00079P-HB
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 03:20:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lFY8C-0001vO-Sf
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:48 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:43397)
+ id 1lFY8E-0001yR-9e
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:50 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40523)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lFY8B-0004ED-6d
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:48 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id w11so7649733wrr.10
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 00:05:46 -0800 (PST)
+ id 1lFY8C-0004Ee-1l
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:50 -0500
+Received: by mail-wm1-x334.google.com with SMTP id u11so794079wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 00:05:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:subject:date:message-id:in-reply-to:references
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Igm6ct5NehfHivXC2S4IhXhFpL7IzqtPsIoaglG2gD0=;
- b=PqaKfoPCugykF0otyhZj7JLLyAsJBT7e5hD0sOTQrp1Let3Sep71KN7iiVGl30Ay4R
- PVki4r15jhib0l2MiG++e0Jk4I1oZNzlV5CGaTbDiX+p9rX6tR8N18MxtJqYGnVVYGNO
- vKbUyWgMGJEoFd17PR/FMVU4R5OoQTpJAc3kIOITLovj/Wf82u1Q1QWolW3EWUtS7XsS
- kZpZrSalvqnHijEEJye8O2S4oFNaFXPScL8xSqDE+0L2I7HVw8rv+DsbFiZGwFJ3oc1d
- e3pZhrO+/i1ZB2ogOkI/eV1pk2SrZoAgbtpBCCpMObGFP3HyhvxyFtmJlbLhf5Bax/G3
- OtGw==
+ bh=LXNkYFS5l7kUXq9kRDwi/4xS2o8Je0/mCuHM1El/ua4=;
+ b=LKI5PMZ4Pc2Oa/wQqDLgWbxVDAe0Bw7KRVJgcYnkkMDc1SHpKmwmvg0o+pncY2vs9S
+ 3PS/GpqboSHsQWVs/tCqYs7KT9ysLgMvDnzSaW5Km8JtOqa5UhoOgQdQkmSHuCcEhJZT
+ /wIIB8Fvkbc2OxjveQWEpe8C3m9zf5oe5e+nePNVUuiOYpLz7R1m5D8uCtXsqLtujzZm
+ XUP5Ry3Jsa/SqpX8Gny8Nf+wNvaNs/XePpp/VGf6RNOTzHgHrzn6ox8C0hhWadLpuc3x
+ vE4qiTdEWYp+PgLSpUGXqSLq+wk032EsH2TsOZGY5EpaVsGESGw3KtebBSGFdbRWg4kx
+ JQeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:subject:date:message-id
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Igm6ct5NehfHivXC2S4IhXhFpL7IzqtPsIoaglG2gD0=;
- b=Uq3mG7YgqSqC0YwkpK/cza9lla7zMX+qMJlgPt07S3PlEdxPrVZUa5pqDjA68Gcur0
- Z4ulHVG1b5teIDmNOZBwv5qJCMjciqaHML0oDrV04QxMBYHjqvHKsVxm+UG+sEoGSoBs
- et2KP1CeiXaYniBQmJw/TszALmkhdTKbT5sojeplJdxYnM+OTZ2rgF+NTMAQ4VlLxwfu
- IckYAnsxuExoR6K4biVnOWZZLGUky88HpvTPYNy/4i5E6HyggO+DGWekFWAoZfrj//U4
- t3NibsGmlqdwOF/gG4PBVitXJOhMJWQKoHwug+fCDYglJCkDUobWW71Ye9lfgw9ta25V
- 9+oQ==
-X-Gm-Message-State: AOAM532MDN0LGCcEaLCQSddbuX+hgHMuHB+cxy8gZ2MGUqJZ3W23reOI
- C77jVx6FHoEeYX0i5NawwXl9cmEUxMg=
-X-Google-Smtp-Source: ABdhPJw+YqzI46Th+rkLAJlKdR4Zc5f/d5vYakSPlAK2/B1E3F0ZyH+OTYb3c9i9lCs7x2wJpJHTYg==
-X-Received: by 2002:a05:6000:1a8c:: with SMTP id
- f12mr1810358wry.173.1614326745988; 
- Fri, 26 Feb 2021 00:05:45 -0800 (PST)
+ bh=LXNkYFS5l7kUXq9kRDwi/4xS2o8Je0/mCuHM1El/ua4=;
+ b=UMpdYaYRnUPetiQlILmItw03ZKV8ETw/xi7fGJKoTGK+LW0ZNs1nvpcJLZx7cTluFg
+ dPR8k1AtA7whIpZi+/Ls6XAX1yw0jUQ3L/b3iziE96FAEC5fyspLuLKjQrBrOf0oAkkm
+ aGu18yCrhyQaHZh8t/sMJgzfSHWatCAVSN/6r7IE9OZSMB8EM3XZcScu/VvtZeMJareh
+ Sq3N0+Wsiql/xr8osjRPDStbbtsTuuHp8rHyyIfX5TYTqFP9ipIVnnbfxsWLIocRNu8S
+ Irsl6v38YB8/PbiUrqZlYbky6epnsl988JNSGBj6Ap363bDXpIrFzQPzohdxAlmuLT75
+ CEAA==
+X-Gm-Message-State: AOAM533JjF8ERlfsmZY4P6JHcWr5f9tAUsB2+nfa2U5/+rUQNO4BHSqd
+ St5juu06x4hhsZuE8pi2scKdIkwaUyE=
+X-Google-Smtp-Source: ABdhPJwnR/d1q5II2L5dZNRNd2teNKu3fPiaKE4gWNSE6vwWYiY7OS7kQkia0fY7J/XzXompKZhV6Q==
+X-Received: by 2002:a05:600c:4f91:: with SMTP id
+ n17mr1586279wmq.48.1614326746587; 
+ Fri, 26 Feb 2021 00:05:46 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n66sm10700830wmn.25.2021.02.26.00.05.45
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id n66sm10700830wmn.25.2021.02.26.00.05.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 00:05:45 -0800 (PST)
+ Fri, 26 Feb 2021 00:05:46 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/29] chardev: do not use short form boolean options in
- non-QemuOpts character device descriptions
-Date: Fri, 26 Feb 2021 09:05:25 +0100
-Message-Id: <20210226080526.651705-29-pbonzini@redhat.com>
+Subject: [PULL 29/29] tcg/i386: rdpmc: fix the the condtions
+Date: Fri, 26 Feb 2021 09:05:26 +0100
+Message-Id: <20210226080526.651705-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210226080526.651705-1-pbonzini@redhat.com>
 References: <20210226080526.651705-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -86,106 +84,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Zheng Zhan Liang <linuxmaker@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Options such as "-gdb" or "-serial" accept a part-QemuOpts part-parsed-by-hand
-character device description.  Do not use short form boolean options in the
-QemuOpts part.
+From: Zheng Zhan Liang <linuxmaker@163.com>
 
+Signed-off-by: Zheng Zhan Liang <linuxmaker@163.com>
+Message-Id: <20210225054756.35962-1-linuxmaker@163.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- chardev/char-socket.c         | 10 +++++-----
- qapi/char.json                |  4 ++--
- tests/guest-debug/run-test.py |  8 ++++----
- 3 files changed, 11 insertions(+), 11 deletions(-)
+ target/i386/tcg/misc_helper.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/chardev/char-socket.c b/chardev/char-socket.c
-index b7863b8aae..06a37c0cc8 100644
---- a/chardev/char-socket.c
-+++ b/chardev/char-socket.c
-@@ -452,7 +452,7 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
-                                qemu_chr_socket_protocol(s),
-                                s->addr->u.inet.host,
-                                s->addr->u.inet.port,
--                               s->is_listen ? ",server" : "");
-+                               s->is_listen ? ",server=on" : "");
-         break;
-     case SOCKET_ADDRESS_TYPE_UNIX:
-     {
-@@ -470,12 +470,12 @@ static char *qemu_chr_socket_address(SocketChardev *s, const char *prefix)
+diff --git a/target/i386/tcg/misc_helper.c b/target/i386/tcg/misc_helper.c
+index f02e4fd400..90b87fdef0 100644
+--- a/target/i386/tcg/misc_helper.c
++++ b/target/i386/tcg/misc_helper.c
+@@ -222,7 +222,8 @@ void helper_rdtscp(CPUX86State *env)
  
-         return g_strdup_printf("%sunix:%s%s%s%s", prefix, sa->path,
-                                abstract, tight,
--                               s->is_listen ? ",server" : "");
-+                               s->is_listen ? ",server=on" : "");
-         break;
+ void helper_rdpmc(CPUX86State *env)
+ {
+-    if ((env->cr[4] & CR4_PCE_MASK) && ((env->hflags & HF_CPL_MASK) != 0)) {
++    if (((env->cr[4] & CR4_PCE_MASK) == 0 ) &&
++        ((env->hflags & HF_CPL_MASK) != 0)) {
+         raise_exception_ra(env, EXCP0D_GPF, GETPC());
      }
-     case SOCKET_ADDRESS_TYPE_FD:
-         return g_strdup_printf("%sfd:%s%s", prefix, s->addr->u.fd.str,
--                               s->is_listen ? ",server" : "");
-+                               s->is_listen ? ",server=on" : "");
-         break;
-     case SOCKET_ADDRESS_TYPE_VSOCK:
-         return g_strdup_printf("%svsock:%s:%s", prefix,
-@@ -607,7 +607,7 @@ static char *qemu_chr_compute_filename(SocketChardev *s)
-     case AF_UNIX:
-         return g_strdup_printf("unix:%s%s",
-                                ((struct sockaddr_un *)(ss))->sun_path,
--                               s->is_listen ? ",server" : "");
-+                               s->is_listen ? ",server=on" : "");
- #endif
-     case AF_INET6:
-         left  = "[";
-@@ -621,7 +621,7 @@ static char *qemu_chr_compute_filename(SocketChardev *s)
-         return g_strdup_printf("%s:%s%s%s:%s%s <-> %s%s%s:%s",
-                                qemu_chr_socket_protocol(s),
-                                left, shost, right, sserv,
--                               s->is_listen ? ",server" : "",
-+                               s->is_listen ? ",server=on" : "",
-                                left, phost, right, pserv);
- 
-     default:
-diff --git a/qapi/char.json b/qapi/char.json
-index 58338ed62d..6413970fa7 100644
---- a/qapi/char.json
-+++ b/qapi/char.json
-@@ -47,12 +47,12 @@
- #       "return": [
- #          {
- #             "label": "charchannel0",
--#             "filename": "unix:/var/lib/libvirt/qemu/seabios.rhel6.agent,server",
-+#             "filename": "unix:/var/lib/libvirt/qemu/seabios.rhel6.agent,server=on",
- #             "frontend-open": false
- #          },
- #          {
- #             "label": "charmonitor",
--#             "filename": "unix:/var/lib/libvirt/qemu/seabios.rhel6.monitor,server",
-+#             "filename": "unix:/var/lib/libvirt/qemu/seabios.rhel6.monitor,server=on",
- #             "frontend-open": true
- #          },
- #          {
-diff --git a/tests/guest-debug/run-test.py b/tests/guest-debug/run-test.py
-index 8b91ff95af..2e58795a10 100755
---- a/tests/guest-debug/run-test.py
-+++ b/tests/guest-debug/run-test.py
-@@ -64,10 +64,10 @@ def log(output, msg):
- 
-     # Launch QEMU with binary
-     if "system" in args.qemu:
--        cmd = "%s %s %s -gdb unix:path=%s,server" % (args.qemu,
--                                                     args.qargs,
--                                                     args.binary,
--                                                     socket_name)
-+        cmd = "%s %s %s -gdb unix:path=%s,server=on" % (args.qemu,
-+                                                        args.qargs,
-+                                                        args.binary,
-+                                                        socket_name)
-     else:
-         cmd = "%s %s -g %s %s" % (args.qemu, args.qargs, socket_name,
-                                   args.binary)
+     cpu_svm_check_intercept_param(env, SVM_EXIT_RDPMC, 0, GETPC());
 -- 
 2.29.2
-
 
 
