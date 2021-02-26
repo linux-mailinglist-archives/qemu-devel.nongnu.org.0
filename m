@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84EB43261B9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 12:04:47 +0100 (CET)
-Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4FB33261DE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 12:17:33 +0100 (CET)
+Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFavO-0002NB-21
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 06:04:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
+	id 1lFb7k-00052q-BG
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 06:17:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lFau1-0001lG-Ow
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:03:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52107)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lFaty-0005L8-0P
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:03:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614337396;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=c95UZzOO+bd7RHRebXBGDm3oNT/sRfsB6wbRQIVjT+4=;
- b=MDSP2hvm4429YJCqxvR22d5g/OYR10aKRD9V+paDyfJ7KsPa0OTEYXhRuKdFZTxfj5S3NZ
- nYaY4+xmnHqfi/vlnfaczDMcCZ66kJ3vzKUuRUEZ2ACjS7I+Px86fgoim67avkYxb8WLsE
- 9Igi1gSZqWMaNRGQvaJYawuAVycYjaM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-555-MHxAMlqbMxiUdteqK0fVrg-1; Fri, 26 Feb 2021 06:03:14 -0500
-X-MC-Unique: MHxAMlqbMxiUdteqK0fVrg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E2A480196C;
- Fri, 26 Feb 2021 11:03:13 +0000 (UTC)
-Received: from virtlab511.virt.lab.eng.bos.redhat.com
- (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DC1AA5D9D2;
- Fri, 26 Feb 2021 11:03:12 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] storage-daemon: include current command line option in the
- errors
-Date: Fri, 26 Feb 2021 06:03:12 -0500
-Message-Id: <20210226110312.157645-1-pbonzini@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lFb6q-0004dU-RI
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:16:36 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1lFb6p-0002uN-2X
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:16:36 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id g11so3386018wmh.1
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 03:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HHzWegQAun95d3wCnNSfG6kUdobnsd8+Z9JBauUsPWo=;
+ b=pmze6lv6H/VulN5K2+XU2bsdRa7RnUi9ACXezq7BJoGRjC8rK01rh+LjpJ5CvuZlnU
+ hNBe+sY6epcsWsg85b2MxeFrG7FwcWYpqbIE6UbrB37b90PDFPr+25Zd442evkxwQ33a
+ yKYqS075/rRau5PLz6EVtpLt7OwrSIiwFA6Ogdc9Z5hst+vWPolr6e6iv1Z2ZtkSMQ/D
+ ZszoE4ZAYvXv18Zb9JKgoFNciDcedAx7VVDMl/3uk5aHBBpS0dVRd1GrNZMw/s4SzGqQ
+ V6laBYPNbL3zS8seLnXNJqe0GBamnfU73tXjP3HeP4IxLT4oiyh4Pp4WRNJ/F7iU8nUX
+ kNBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HHzWegQAun95d3wCnNSfG6kUdobnsd8+Z9JBauUsPWo=;
+ b=aszOYza2XP8fDt5MAed6cnVaaZYiDKToOBvONwFNSBUdiiCz/0JQ46Bswh44HHI04F
+ dLuCD3nJFdJ9JerWDiI2UDIu79k4m2UCTCw+Nld7z5BAsPN+rDQ9sbY6CIvKcHbwzF78
+ VVTjabWhS/Tz/kZ3BxNCbCXZ0u3m26jD/edBVXCVYoVLiTDdKisDOkIhNw4/+TIUDPiJ
+ 1Dre6Y1wU5ddzZL4Y2khLeeOv4J5rBUQddqehHi5psNlBy9nR7PhdHz41mFnrbpWR6kj
+ pEkDf71ncioUeZuSVViaoYOLIX6SdfeH35UNXsa9P4HWDFzRG3cd29mnhozmVfCNaNA5
+ KXig==
+X-Gm-Message-State: AOAM532UZKQA8ev8HZxK8zVuR9qakqJndhYpJhdunp/+blQZY5LpUaUk
+ celfIYzG/Z+S9Vww650T7Cu25w==
+X-Google-Smtp-Source: ABdhPJx0gOF/lZhT0fX3gXaX4XMlnpZLa/vd0hf/ko9C+F/vrgRZytbagDdjzJaR/jEDKchPUaWO6g==
+X-Received: by 2002:a1c:1d14:: with SMTP id d20mr2381554wmd.36.1614338193426; 
+ Fri, 26 Feb 2021 03:16:33 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id h22sm12574234wmb.36.2021.02.26.03.16.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Feb 2021 03:16:32 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 72F5E1FF7E;
+ Fri, 26 Feb 2021 11:16:31 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org,
+	rust-vmm@lists.opendev.org
+Subject: [VHOST USER SPEC PATCH] vhost-user.rst: add clarifying language about
+ protocol negotiation
+Date: Fri, 26 Feb 2021 11:16:19 +0000
+Message-Id: <20210226111619.21178-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,71 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ viresh.kumar@linaro.org, Jiang Liu <gerry@linux.alibaba.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the location management facilities that the emulator uses, so that
-the current command line option appears in the error message.
+In practice the protocol negotiation between vhost master and slave
+occurs before the final feature negotiation between backend and
+frontend. This has lead to an inconsistency between the rust-vmm vhost
+implementation and the libvhost-user library in their approaches to
+checking if all the requirements for REPLY_ACK processing were met.
+As this is purely a function of the protocol negotiation and not of
+interest to the frontend lets make the language clearer about the
+requirements for a successfully negotiated protocol feature.
 
-Before:
-
-  $ storage-daemon/qemu-storage-daemon --nbd key..=
-  qemu-storage-daemon: Invalid parameter 'key..'
-
-After:
-
-  $ storage-daemon/qemu-storage-daemon --nbd key..=
-  qemu-storage-daemon: --nbd key..=: Invalid parameter 'key..'
-
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Jiang Liu <gerry@linux.alibaba.com>
 ---
- storage-daemon/qemu-storage-daemon.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ docs/interop/vhost-user.rst | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
-index 9021a46b3a..a8f8d83f6f 100644
---- a/storage-daemon/qemu-storage-daemon.c
-+++ b/storage-daemon/qemu-storage-daemon.c
-@@ -152,6 +152,20 @@ static void init_qmp_commands(void)
-                          qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
- }
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index d6085f7045..3ac221a8c7 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -301,12 +301,22 @@ If *slave* detects some error such as incompatible features, it may also
+ close the connection. This should only happen in exceptional circumstances.
  
-+static int getopt_set_loc(int argc, char **argv, const char *optstring,
-+                          const struct option *longopts)
-+{
-+    int c, save_index;
-+
-+    optarg = NULL;
-+    save_index = optind;
-+    c = getopt_long(argc, argv, optstring, longopts, NULL);
-+    if (optarg) {
-+        loc_set_cmdline(argv, save_index, MAX(1, optind - save_index));
-+    }
-+    return c;
-+}
-+
- static void process_options(int argc, char *argv[])
- {
-     int c;
-@@ -174,7 +188,7 @@ static void process_options(int argc, char *argv[])
-      * they are given on the command lines. This means that things must be
-      * defined first before they can be referenced in another option.
-      */
--    while ((c = getopt_long(argc, argv, "hT:V", long_options, NULL)) != -1) {
-+    while ((c = getopt_set_loc(argc, argv, "hT:V", long_options)) != -1) {
-         switch (c) {
-         case '?':
-             exit(EXIT_FAILURE);
-@@ -283,6 +297,7 @@ static void process_options(int argc, char *argv[])
-         error_report("Unexpected argument: %s", argv[optind]);
-         exit(EXIT_FAILURE);
-     }
-+    loc_set_none();
- }
+ Any protocol extensions are gated by protocol feature bits, which
+-allows full backwards compatibility on both master and slave.  As
+-older slaves don't support negotiating protocol features, a feature
++allows full backwards compatibility on both master and slave. As older
++slaves don't support negotiating protocol features, a device feature
+ bit was dedicated for this purpose::
  
- int main(int argc, char *argv[])
+   #define VHOST_USER_F_PROTOCOL_FEATURES 30
+ 
++However as the protocol negotiation something that only occurs between
++parts of the backend implementation it is permissible to for the master
++to mask the feature bit from the guest. As noted for the
++``VHOST_USER_GET_PROTOCOL_FEATURES`` and
++``VHOST_USER_SET_PROTOCOL_FEATURES`` messages this occurs before a
++final ``VHOST_USER_SET_FEATURES`` comes from the guest. So the
++enabling of protocol features need only require the advertising of the
++feature by the slave and the successful get/set protocol features
++sequence.
++  
+ Starting and stopping rings
+ ---------------------------
+ 
 -- 
-2.26.2
+2.20.1
 
 
