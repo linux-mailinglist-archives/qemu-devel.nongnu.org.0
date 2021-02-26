@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED02632657E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 17:24:53 +0100 (CET)
-Received: from localhost ([::1]:56550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3E3D326584
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 17:25:52 +0100 (CET)
+Received: from localhost ([::1]:59574 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFfvA-0007gQ-WE
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 11:24:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49998)
+	id 1lFfw7-0000V4-N4
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 11:25:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lFfsY-00061C-8K
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:22:12 -0500
-Received: from mail-vk1-xa35.google.com ([2607:f8b0:4864:20::a35]:46368)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dje@google.com>) id 1lFfsP-0004F8-I5
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:22:08 -0500
-Received: by mail-vk1-xa35.google.com with SMTP id j188so2043934vke.13
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 08:22:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aAy1GNCv3Zuuaueorh0TEO0DhMmEhORf18/5PPbD3ic=;
- b=Ur7RFVy0jkAtWYApvSJ0z/VoQp7CAWrX77/tWvYx/RGW7Vmq69Grw7/9dWRfLUq93w
- RWuiKoLVRB+WBxQfwGOVf91fpsFlvL4A3seoNaoPd1asmLMM0MegtniaHBuGiWqIpxyK
- Y4PxvCXk9jc3g6n2/xbL9nKcs6xR3zQ3BMM1lUhYCgWYFGrblF7uEsmJMWr2NQmq4sUa
- uOxqaKf0Vqn9/EsNko18tC0hSvLQ+OegmAPOQDguy0c2oOFkkcv7N3u4xg4gReezmzuZ
- PqP4OCWXqxcr5bPrRkej69ZVJPaTdc0l3ZvD/Xl+z3xZmdaED+eAqU0WXonPzPT5vTtq
- IKnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aAy1GNCv3Zuuaueorh0TEO0DhMmEhORf18/5PPbD3ic=;
- b=KxNLCFHOvTM+eIz9MLW3gikOjYFQ8KfGVrqY265cSw5acxcV/Zvw9m8i7ocBsfbnSo
- CgU26DiX+UErYJL1gLCqDtP0OlPbF5CNjS+TZKofEShkPfE/S9zXckTQTMxwHCS2L0hK
- E3cA6VswEyK2Pt9LYv5EEiWsEqK2aC9XUESVO4kYf4DuPISgm7c0hqfPaDr3NjCZ417y
- 85VFeF94OPyd4dZD+s2BMks8IehmYvpLttoPXgTi2TFA43is9+iHFH2VmdyxopRxCZ8m
- 6oYia+/Bj27TkIcXpLc0EKwc0OrjZnzZpFIzutiWm7C9WchTmhv7bWdPjjiNugvFa9Y0
- Cd1w==
-X-Gm-Message-State: AOAM532zXZHjXlkxBudArmDhmqQzAZbO/aIFwCHQ6HL9oE1VOWZJmXSD
- vLT9ON8kynS0bEtCxei78eex33mUUqaMjQ4UFolDHQ==
-X-Google-Smtp-Source: ABdhPJzmrAi1ndgKM19LR9KGsCEvXehYMIQdeCu1Qc35pR5IrMzoMwdjspuJq/ebMsJDEAMaNqdP4rnKH0rOn6NJ0wo=
-X-Received: by 2002:a1f:7281:: with SMTP id n123mr2098268vkc.8.1614356519080; 
- Fri, 26 Feb 2021 08:21:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFfuM-0007Xk-Rk
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:24:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51034)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFfuK-0004le-6L
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:24:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614356638;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=08Dm4BdMhHlTjs7ePfZNXxj+SgRo/TrkhcclfF2dnu0=;
+ b=HYvq69BbpL04tpncc+Pr2LUDiRPKrLpsRobyX65jDx+B+zRXZ3T+A8/+9aks5ktGdz8+Yf
+ 71vWhSFWICcMgePMmokogsRToRqRvwQGvY1toxVw4ret9wEY2ma4ExDNTqRtTwnvf8enaW
+ UMOfPd8g2KW06GnQ7N40Xg2E7cAfO48=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-347-2TaMN-OmOmeoD1BGv_gTug-1; Fri, 26 Feb 2021 11:23:56 -0500
+X-MC-Unique: 2TaMN-OmOmeoD1BGv_gTug-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A44080402C;
+ Fri, 26 Feb 2021 16:23:55 +0000 (UTC)
+Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 007C51A8A3;
+ Fri, 26 Feb 2021 16:23:47 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+References: <20210224135255.253837-1-kwolf@redhat.com>
+ <20210224135255.253837-8-kwolf@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v2 07/31] qapi/qom: Add ObjectOptions for memory-backend-*
+Message-ID: <cbb010a0-0d41-7a21-0130-d56d18942b5e@redhat.com>
+Date: Fri, 26 Feb 2021 10:23:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-References: <20210226120607.675753-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210226120607.675753-1-marcandre.lureau@redhat.com>
-From: Doug Evans <dje@google.com>
-Date: Fri, 26 Feb 2021 08:21:21 -0800
-Message-ID: <CADPb22TSqOq7dxdnu=eMmeW-nPcPWn2T2RgyztyDA=jWE84HsQ@mail.gmail.com>
-Subject: Re: [PATCH] net: remove qemu_ether_ntoa()
-To: marcandre.lureau@redhat.com
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-trivial@nongnu.org, 
- Jason Wang <jasowang@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000dceaf705bc3faa0a"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a35;
- envelope-from=dje@google.com; helo=mail-vk1-xa35.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+In-Reply-To: <20210224135255.253837-8-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,253 +82,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
+ mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000dceaf705bc3faa0a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Fri, Feb 26, 2021 at 4:06 AM <marcandre.lureau@redhat.com> wrote:
-
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The function is not thread-safe and sets a bad example. It's used in a
-> single place for tracing, so open-code the format string like other
-> trace events with MAC addresses.
->
-> Cc: qemu-trivial@nongnu.org
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+On 2/24/21 7:52 AM, Kevin Wolf wrote:
+> This adds a QAPI schema for the properties of the memory-backend-*
+> objects.
+> 
+> HostMemPolicy has to be moved to an include file that can be used by the
+> storage daemon, too, because ObjectOptions must be the same in all
+> binaries if we don't want to compile the whole code multiple times.
+> 
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  include/qemu-common.h |  1 -
->  net/announce.c        |  8 +++++++-
->  util/cutils.c         | 13 -------------
->  net/trace-events      |  2 +-
->  4 files changed, 8 insertions(+), 16 deletions(-)
->
-> diff --git a/include/qemu-common.h b/include/qemu-common.h
-> index 654621444e..209133bfca 100644
-> --- a/include/qemu-common.h
-> +++ b/include/qemu-common.h
-> @@ -132,7 +132,6 @@ void qemu_hexdump(FILE *fp, const char *prefix,
->   */
->  int parse_debug_env(const char *name, int max, int initial);
->
-> -const char *qemu_ether_ntoa(const MACAddr *mac);
->  void page_size_init(void);
->
->  /* returns non-zero if dump is in progress, otherwise zero is
-> diff --git a/net/announce.c b/net/announce.c
-> index 26f057f5ee..fc0c6baace 100644
-> --- a/net/announce.c
-> +++ b/net/announce.c
-> @@ -146,7 +146,13 @@ static void qemu_announce_self_iter(NICState *nic,
-> void *opaque)
->
->      trace_qemu_announce_self_iter(timer->params.has_id ? timer->params.i=
-d
-> : "_",
->                                    nic->ncs->name,
-> -                                  qemu_ether_ntoa(&nic->conf->macaddr),
-> skip);
-> +                                  nic->conf->macaddr.a[0],
-> +                                  nic->conf->macaddr.a[1],
-> +                                  nic->conf->macaddr.a[2],
-> +                                  nic->conf->macaddr.a[3],
-> +                                  nic->conf->macaddr.a[4],
-> +                                  nic->conf->macaddr.a[5],
-> +                                  skip);
->
->      if (!skip) {
->          len =3D announce_self_create(buf, nic->conf->macaddr.a);
-> diff --git a/util/cutils.c b/util/cutils.c
-> index 70c7d6efbd..b5460a72b4 100644
-> --- a/util/cutils.c
-> +++ b/util/cutils.c
-> @@ -847,19 +847,6 @@ int parse_debug_env(const char *name, int max, int
-> initial)
->      return debug;
->  }
->
-> -/*
-> - * Helper to print ethernet mac address
-> - */
-> -const char *qemu_ether_ntoa(const MACAddr *mac)
-> -{
-> -    static char ret[18];
-> -
-> -    snprintf(ret, sizeof(ret), "%02x:%02x:%02x:%02x:%02x:%02x",
-> -             mac->a[0], mac->a[1], mac->a[2], mac->a[3], mac->a[4],
-> mac->a[5]);
-> -
-> -    return ret;
-> -}
-> -
->  /*
->   * Return human readable string for size @val.
->   * @val can be anything that uint64_t allows (no more than "16 EiB").
-> diff --git a/net/trace-events b/net/trace-events
-> index bfaff7891d..07d6203602 100644
-> --- a/net/trace-events
-> +++ b/net/trace-events
-> @@ -1,7 +1,7 @@
->  # See docs/devel/tracing.txt for syntax documentation.
->
->  # announce.c
-> -qemu_announce_self_iter(const char *id, const char *name, const char
-> *mac, int skip) "%s:%s:%s skip: %d"
-> +qemu_announce_self_iter(const char *id, const char *name, char mac0, cha=
-r
-> mac1, char mac2, char mac3, char mac4, char mac5, int skip)
-> "%s:%s:%02x:%02x:%02x:%02x:%02x:%02x skip: %d"
->  qemu_announce_timer_del(bool free_named, bool free_timer, char *id) "fre=
-e
-> named: %d free timer: %d id: %s"
->
->  # vhost-user.c
-> --
-> 2.29.0
->
+>  qapi/common.json  |  20 ++++++++
+>  qapi/machine.json |  22 +--------
+>  qapi/qom.json     | 118 +++++++++++++++++++++++++++++++++++++++++++++-
+>  3 files changed, 138 insertions(+), 22 deletions(-)
+> 
 
+> +++ b/qapi/qom.json
 
-It's pretty tedious to open code that.
-How about instead change qemu_ether_ntoa to being thread-safe?
+> +##
+> +# @MemoryBackendProperties:
+> +#
+> +# Properties for objects of classes derived from memory-backend.
+> +#
+> +# @merge: if true, mark the memory as mergeable (default depends on the machine
+> +#         type)
+> +#
+> +# @dump: if true, include the memory in core dumps (default depends on the
+> +#        machine type)
 
-And, separately, add a bit of type safety and put eth addrs in a struct?
+Interesting choice to flip the description text from its previous
+wording, but fine by me:
+    object_class_property_set_description(oc, "dump",
+        "Set to 'off' to exclude from core dump");
 
---000000000000dceaf705bc3faa0a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +#
+> +# @host-nodes: the list of NUMA host nodes to bind the memory to
+> +#
+> +# @policy: the NUMA policy (default: 'default')
+> +#
+> +# @prealloc: if true, preallocate memory (default: false)
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small">On Fri, Feb 26, 2021 at 4:06 AM &lt;<a href=3D"mailto:marcand=
-re.lureau@redhat.com">marcandre.lureau@redhat.com</a>&gt; wrote:<br></div><=
-/div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
-margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
-t:1ex">From: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@=
-redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
-<br>
-The function is not thread-safe and sets a bad example. It&#39;s used in a<=
-br>
-single place for tracing, so open-code the format string like other<br>
-trace events with MAC addresses.<br>
-<br>
-Cc: <a href=3D"mailto:qemu-trivial@nongnu.org" target=3D"_blank">qemu-trivi=
-al@nongnu.org</a><br>
-Signed-off-by: Marc-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lurea=
-u@redhat.com" target=3D"_blank">marcandre.lureau@redhat.com</a>&gt;<br>
----<br>
-=C2=A0include/qemu-common.h |=C2=A0 1 -<br>
-=C2=A0net/announce.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 8 +++++++-<br>
-=C2=A0util/cutils.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 13 -------------<br>
-=C2=A0net/trace-events=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br>
-=C2=A04 files changed, 8 insertions(+), 16 deletions(-)<br>
-<br>
-diff --git a/include/qemu-common.h b/include/qemu-common.h<br>
-index 654621444e..209133bfca 100644<br>
---- a/include/qemu-common.h<br>
-+++ b/include/qemu-common.h<br>
-@@ -132,7 +132,6 @@ void qemu_hexdump(FILE *fp, const char *prefix,<br>
-=C2=A0 */<br>
-=C2=A0int parse_debug_env(const char *name, int max, int initial);<br>
-<br>
--const char *qemu_ether_ntoa(const MACAddr *mac);<br>
-=C2=A0void page_size_init(void);<br>
-<br>
-=C2=A0/* returns non-zero if dump is in progress, otherwise zero is<br>
-diff --git a/net/announce.c b/net/announce.c<br>
-index 26f057f5ee..fc0c6baace 100644<br>
---- a/net/announce.c<br>
-+++ b/net/announce.c<br>
-@@ -146,7 +146,13 @@ static void qemu_announce_self_iter(NICState *nic, voi=
-d *opaque)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0trace_qemu_announce_self_iter(timer-&gt;params.has_id ?=
- timer-&gt;<a href=3D"http://params.id" rel=3D"noreferrer" target=3D"_blank=
-">params.id</a> : &quot;_&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0nic-&gt;ncs-&gt;name,<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_ether_ntoa(&amp;nic-&gt;=
-conf-&gt;macaddr), skip);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nic-&gt;conf-&gt;macaddr.a[0]=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nic-&gt;conf-&gt;macaddr.a[1]=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nic-&gt;conf-&gt;macaddr.a[2]=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nic-&gt;conf-&gt;macaddr.a[3]=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nic-&gt;conf-&gt;macaddr.a[4]=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 nic-&gt;conf-&gt;macaddr.a[5]=
-,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 skip);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (!skip) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0len =3D announce_self_create(buf, nic-&gt=
-;conf-&gt;macaddr.a);<br>
-diff --git a/util/cutils.c b/util/cutils.c<br>
-index 70c7d6efbd..b5460a72b4 100644<br>
---- a/util/cutils.c<br>
-+++ b/util/cutils.c<br>
-@@ -847,19 +847,6 @@ int parse_debug_env(const char *name, int max, int ini=
-tial)<br>
-=C2=A0 =C2=A0 =C2=A0return debug;<br>
-=C2=A0}<br>
-<br>
--/*<br>
-- * Helper to print ethernet mac address<br>
-- */<br>
--const char *qemu_ether_ntoa(const MACAddr *mac)<br>
--{<br>
--=C2=A0 =C2=A0 static char ret[18];<br>
--<br>
--=C2=A0 =C2=A0 snprintf(ret, sizeof(ret), &quot;%02x:%02x:%02x:%02x:%02x:%0=
-2x&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mac-&gt;a[0], mac-&gt;a[1]=
-, mac-&gt;a[2], mac-&gt;a[3], mac-&gt;a[4], mac-&gt;a[5]);<br>
--<br>
--=C2=A0 =C2=A0 return ret;<br>
--}<br>
--<br>
-=C2=A0/*<br>
-=C2=A0 * Return human readable string for size @val.<br>
-=C2=A0 * @val can be anything that uint64_t allows (no more than &quot;16 E=
-iB&quot;).<br>
-diff --git a/net/trace-events b/net/trace-events<br>
-index bfaff7891d..07d6203602 100644<br>
---- a/net/trace-events<br>
-+++ b/net/trace-events<br>
-@@ -1,7 +1,7 @@<br>
-=C2=A0# See docs/devel/tracing.txt for syntax documentation.<br>
-<br>
-=C2=A0# announce.c<br>
--qemu_announce_self_iter(const char *id, const char *name, const char *mac,=
- int skip) &quot;%s:%s:%s skip: %d&quot;<br>
-+qemu_announce_self_iter(const char *id, const char *name, char mac0, char =
-mac1, char mac2, char mac3, char mac4, char mac5, int skip) &quot;%s:%s:%02=
-x:%02x:%02x:%02x:%02x:%02x skip: %d&quot;<br>
-=C2=A0qemu_announce_timer_del(bool free_named, bool free_timer, char *id) &=
-quot;free named: %d free timer: %d id: %s&quot;<br>
-<br>
-=C2=A0# vhost-user.c<br>
--- <br>
-2.29.0<br></blockquote><div><br></div><div><br></div><div><div class=3D"gma=
-il_default" style=3D"font-size:small">It&#39;s pretty tedious to open code =
-that.</div><div class=3D"gmail_default" style=3D"font-size:small">How about=
- instead change qemu_ether_ntoa to being thread-safe?</div></div><div class=
-=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"gmail_=
-default" style=3D"font-size:small">And, separately, add a bit of type safet=
-y and put eth addrs in a struct?</div></div></div>
+Not quite in the same order as
+backends/hostmem.c:host_memory_backend_class_init() (alphabetic here
+instead of matching the C code declaration order), but that doesn't
+impact QMP semantics, and I was able to match everything up in the end.
 
---000000000000dceaf705bc3faa0a--
+> +#
+> +# @prealloc-threads: number of CPU threads to use for prealloc (default: 1)
+> +#
+> +# @share: if false, the memory is private to QEMU; if true, it is shared
+> +#         (default: false)
+> +#
+> +# @size: size of the memory region in bytes
+> +#
+> +# @x-use-canonical-path-for-ramblock-id: if true, the canoncial path is used
+> +#                                        for ramblock-id. Disable this for 4.0
+> +#                                        machine types or older to allow
+> +#                                        migration with newer QEMU versions.
+> +#                                        (default: false generally, but true
+> +#                                        for machine types <= 4.0)
+
+The comment in the C code mentions that in spite of the x- prefix, we
+have to treat this as a stable interface until 4.0 machines disappear.
+Do we need any of that sentiment in the documentation here?
+
+> +#
+> +# Since: 2.1
+> +##
+> +{ 'struct': 'MemoryBackendProperties',
+> +  'data': { '*dump': 'bool',
+> +            '*host-nodes': ['uint16'],
+> +            '*merge': 'bool',
+> +            '*policy': 'HostMemPolicy',
+> +            '*prealloc': 'bool',
+> +            '*prealloc-threads': 'uint32',
+> +            '*share': 'bool',
+> +            'size': 'size',
+> +            '*x-use-canonical-path-for-ramblock-id': 'bool' } }
+> +
+> +##
+> +# @MemoryBackendFileProperties:
+> +#
+> +# Properties for memory-backend-file objects.
+> +#
+> +# @align: the base address alignment when QEMU mmap(2) @mem-path. Some
+> +#         backend store specified by @mem-path requires an alignment different
+
+Grammar feels off.  Would it read better as
+
+...when QEMU mmap(2)s @mem-path.  Some backend stores specified by
+@mem-path require an...
+
+> +#         than the default one used by QEMU, e.g. the device DAX /dev/dax0.0
+> +#         requires 2M alignment rather than 4K. In such cases, users can
+> +#         specify the required alignment via this option.
+> +#         0 selects a default alignment (currently the page size). (default: 0)
+
+Again, not in the same order as
+backends/hostmem-file.c:file_backend_class_init(), but it matches up.
+
+> +#
+> +# @discard-data: if true, the file contents can be destroyed when QEMU exits,
+> +#                to avoid unnecessarily flushing data to the backing file. Note
+> +#                that ``discard-data`` is only an optimization, and QEMU might
+> +#                not discard file contents if it aborts unexpectedly or is
+> +#                terminated using SIGKILL. (default: false)
+> +#
+> +# @mem-path: the path to either a shared memory or huge page filesystem mount
+> +#
+> +# @pmem: specifies whether the backing file specified by @mem-path is in
+> +#        host persistent memory that can be accessed using the SNIA NVM
+> +#        programming model (e.g. Intel NVDIMM).
+> +#
+> +# @readonly: if true, the backing file is opened read-only; if false, it is
+> +#            opened read-write. (default: false)
+> +#
+> +# Since: 2.1
+> +##
+> +{ 'struct': 'MemoryBackendFileProperties',
+> +  'base': 'MemoryBackendProperties',
+> +  'data': { '*align': 'size',
+> +            '*discard-data': 'bool',
+> +            'mem-path': 'str',
+> +            '*pmem': 'bool',
+
+To match the C code, this should be
+ '*pmem': { 'type':'bool', 'if':'defined(CONFIG_LIBPMEM)' },
+
+> +            '*readonly': 'bool' } }
+> +
+> +##
+> +# @MemoryBackendMemfdProperties:
+> +#
+> +# Properties for memory-backend-memfd objects.
+> +#
+> +# The @share boolean option is true by default with memfd.
+> +#
+> +# @hugetlb: if true, the file to be created resides in the hugetlbfs filesystem
+> +#           (default: false)
+> +#
+> +# @hugetlbsize: the hugetlb page size on systems that support multiple hugetlb
+> +#               page sizes (it must be a power of 2 value supported by the
+> +#               system). 0 selects a default page size. This option is ignored
+> +#               if @hugetlb is false. (default: 0)
+> +#
+> +# @seal: if true, create a sealed-file, which will block further resizing of
+> +#        the memory (default: true)
+> +#
+> +# Since: 2.12
+> +##
+> +{ 'struct': 'MemoryBackendMemfdProperties',
+> +  'base': 'MemoryBackendProperties',
+> +  'data': { '*hugetlb': 'bool',
+> +            '*hugetlbsize': 'size',
+> +            '*seal': 'bool' } }
+
+backends/hostmem-memfd.c makes 'hugetlb' and 'hugetlbsize' conditional
+on qemu_memfd_check(MFD_HUGETLB), and only registers the overal type
+based on qemu_memfd_check(MFD_ALLOW_SEALING).  In turn, qemu_memfd_check
+returns false except for CONFIG_LINUX,...
+
+> +
+>  ##
+>  # @ObjectType:
+>  #
+> @@ -287,7 +395,10 @@
+>      'cryptodev-backend-builtin',
+>      'cryptodev-vhost-user',
+>      'dbus-vmstate',
+> -    'iothread'
+> +    'iothread',
+> +    'memory-backend-file',
+> +    'memory-backend-memfd',
+> +    'memory-backend-ram'
+>    ] }
+>  
+>  ##
+> @@ -314,7 +425,10 @@
+>        'cryptodev-backend-builtin':  'CryptodevBackendProperties',
+>        'cryptodev-vhost-user':       'CryptodevVhostUserProperties',
+>        'dbus-vmstate':               'DBusVMStateProperties',
+> -      'iothread':                   'IothreadProperties'
+> +      'iothread':                   'IothreadProperties',
+> +      'memory-backend-file':        'MemoryBackendFileProperties',
+> +      'memory-backend-memfd':       'MemoryBackendMemfdProperties',
+
+...so I'm wondering if this branch should be:
+
+'memory-backend-memfd', { 'type':'MemoryBackendMemfdProperties',
+  'if': 'defined(CONFIG_LINUX)' },
+
+and whether we are risking problems by always having the 'hugetlb*'
+fields even when the runtime does not register them.
+
+> +      'memory-backend-ram':         'MemoryBackendProperties'
+>    } }
+>  
+>  ##
+> 
+
+Because of my questions on conditional compilation, I'm not comfortable
+with R-b yet.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
