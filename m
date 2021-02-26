@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B69DB326959
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 22:24:02 +0100 (CET)
-Received: from localhost ([::1]:51206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8717132695A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 22:24:45 +0100 (CET)
+Received: from localhost ([::1]:53582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFkaf-0007BL-ES
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 16:24:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35096)
+	id 1lFkbM-0008C8-FN
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 16:24:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFkZS-0006g2-Km
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 16:22:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39083)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFka9-0007GK-IQ
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 16:23:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFkZR-0003uh-9b
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 16:22:46 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFka6-0004E1-Uj
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 16:23:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614374564;
+ s=mimecast20190719; t=1614374606;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=SRQTT4S4YwXiRdYiqmE030X05rzPDJoLdeVGnwdh0h8=;
- b=ZCUhLIv+ilbeqoAUNEPVxf27QFrJVU5GX6y9hHBCj/Xz7eowlR166UMh2kdwYsPsxNDxMz
- DXvx19FBCtqDY1jNM5f8uVyOKdMpne6euzOVCpeYMrt+iwNA69HCZIedzqId6ZcCcmPX7/
- 9T2wtIflPlLDEZit5OzJuama6UwqHi8=
+ bh=L+SVICrx0GjlYIqzni9oNsUPwkqmaK8ZrdHe++V5uDM=;
+ b=a+2xNZPrJhrSNPML3vnYP4JrHk6eXUKjuHZurrRp2tV6aLSZqZ+2F1/crdDKXxRy2mtchz
+ Oj8hM3pg6Rzk/3DYY/Oi2LbNOOvQbVUyt48L2ODKU4W47zqC4jNRzXopOu/T3d5el2KMDm
+ QmjpVsIU3MbZH1jgexAmM+1/3fnCOYM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-427-VlWReu5CMO2p7GFqgQaaaw-1; Fri, 26 Feb 2021 16:22:40 -0500
-X-MC-Unique: VlWReu5CMO2p7GFqgQaaaw-1
+ us-mta-487-ntm-ufISOe2A9DT9GkqCdg-1; Fri, 26 Feb 2021 16:23:23 -0500
+X-MC-Unique: ntm-ufISOe2A9DT9GkqCdg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46EAA1005501;
- Fri, 26 Feb 2021 21:22:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C698193578C;
+ Fri, 26 Feb 2021 21:23:22 +0000 (UTC)
 Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23C5A60BE2;
- Fri, 26 Feb 2021 21:22:28 +0000 (UTC)
-Subject: Re: [PATCH v2 21/31] qemu-storage-daemon: Implement --object with
- qmp_object_add()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4431C60BE2;
+ Fri, 26 Feb 2021 21:23:15 +0000 (UTC)
+Subject: Re: [PATCH v2 22/31] qom: Remove user_creatable_add_dict()
 To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-22-kwolf@redhat.com>
+ <20210224135255.253837-23-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <2dfc8707-a3f4-9f6b-519c-0f290a699211@redhat.com>
-Date: Fri, 26 Feb 2021 15:22:28 -0600
+Message-ID: <3473c780-a3d3-0ff0-1770-4aa89d8fd925@redhat.com>
+Date: Fri, 26 Feb 2021 15:23:14 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210224135255.253837-22-kwolf@redhat.com>
+In-Reply-To: <20210224135255.253837-23-kwolf@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
@@ -70,7 +69,7 @@ X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,13 +90,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> This QAPIfies --object and ensures that QMP and the command line option
-> behave the same.
+> This function is now unused and can be removed.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  storage-daemon/qemu-storage-daemon.c | 21 ++++++++++-----------
->  1 file changed, 10 insertions(+), 11 deletions(-)
+>  include/qom/object_interfaces.h | 18 ------------------
+>  qom/object_interfaces.c         | 32 --------------------------------
+>  2 files changed, 50 deletions(-)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
