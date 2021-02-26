@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BCAB32669C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 18:59:51 +0100 (CET)
-Received: from localhost ([::1]:43384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6C5B32669B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 18:59:25 +0100 (CET)
+Received: from localhost ([::1]:42218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFhP4-0004jE-Kt
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 12:59:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59932)
+	id 1lFhOe-0004GA-Sx
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 12:59:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHY-0004OW-64
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:04 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49944)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhI5-0004cy-T1
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:39 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49988)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHV-00014K-5T
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:03 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHh-00017N-Vz
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:33 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 01E65AFE6;
- Fri, 26 Feb 2021 17:51:49 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id B2C7FB00A;
+ Fri, 26 Feb 2021 17:51:52 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,9 +28,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v25 10/20] i386: split smm helper (sysemu)
-Date: Fri, 26 Feb 2021 18:51:33 +0100
-Message-Id: <20210226175143.22388-11-cfontana@suse.de>
+Subject: [PATCH v25 19/20] target/i386: gdbstub: only write CR0/CR2/CR3/EFER
+ for sysemu
+Date: Fri, 26 Feb 2021 18:51:42 +0100
+Message-Id: <20210226175143.22388-20-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226175143.22388-1-cfontana@suse.de>
 References: <20210226175143.22388-1-cfontana@suse.de>
@@ -43,7 +44,7 @@ X-Spam_score: -4.2
 X-Spam_bar: ----
 X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,148 +63,58 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-smm is only really useful for sysemu, split in two modules
-around the CONFIG_USER_ONLY, in order to remove the ifdef
-and use the build system instead.
-
-add cpu_abort() when detecting attempts to enter SMM mode via
-SMI interrupt in user-mode, and assert that the cpu is not
-in SMM mode while translating RSM instructions.
-
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h                      |  4 ++++
- target/i386/tcg/seg_helper.c              |  4 ++++
- target/i386/tcg/{ => sysemu}/smm_helper.c | 19 ++-----------------
- target/i386/tcg/translate.c               |  5 +++++
- target/i386/tcg/meson.build               |  1 -
- target/i386/tcg/sysemu/meson.build        |  1 +
- 6 files changed, 16 insertions(+), 18 deletions(-)
- rename target/i386/tcg/{ => sysemu}/smm_helper.c (98%)
+ target/i386/gdbstub.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index c2ae2f7e61..8ffda4cdc6 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -70,7 +70,11 @@ DEF_HELPER_1(clac, void, env)
- DEF_HELPER_1(stac, void, env)
- DEF_HELPER_3(boundw, void, env, tl, int)
- DEF_HELPER_3(boundl, void, env, tl, int)
-+
+diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+index 4ad1295425..098a2ad15a 100644
+--- a/target/i386/gdbstub.c
++++ b/target/i386/gdbstub.c
+@@ -351,22 +351,30 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+ 
+         case IDX_CTL_CR0_REG:
+             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
 +#ifndef CONFIG_USER_ONLY
- DEF_HELPER_1(rsm, void, env)
-+#endif /* !CONFIG_USER_ONLY */
-+
- DEF_HELPER_2(into, void, env, int)
- DEF_HELPER_2(cmpxchg8b_unlocked, void, env, tl)
- DEF_HELPER_2(cmpxchg8b, void, env, tl)
-diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
-index 180d47f0e9..d04fbdd7cd 100644
---- a/target/i386/tcg/seg_helper.c
-+++ b/target/i386/tcg/seg_helper.c
-@@ -1351,7 +1351,11 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
-     case CPU_INTERRUPT_SMI:
-         cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
-         cs->interrupt_request &= ~CPU_INTERRUPT_SMI;
-+#ifdef CONFIG_USER_ONLY
-+        cpu_abort(CPU(cpu), "SMI interrupt: cannot enter SMM in user-mode");
-+#else
-         do_smm_enter(cpu);
-+#endif /* CONFIG_USER_ONLY */
-         break;
-     case CPU_INTERRUPT_NMI:
-         cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
-diff --git a/target/i386/tcg/smm_helper.c b/target/i386/tcg/sysemu/smm_helper.c
-similarity index 98%
-rename from target/i386/tcg/smm_helper.c
-rename to target/i386/tcg/sysemu/smm_helper.c
-index 62d027abd3..a45b5651c3 100644
---- a/target/i386/tcg/smm_helper.c
-+++ b/target/i386/tcg/sysemu/smm_helper.c
-@@ -1,5 +1,5 @@
- /*
-- *  x86 SMM helpers
-+ *  x86 SMM helpers (sysemu-only)
-  *
-  *  Copyright (c) 2003 Fabrice Bellard
-  *
-@@ -18,27 +18,14 @@
-  */
+             cpu_x86_update_cr0(env, tmp);
++#endif
+             return len;
  
- #include "qemu/osdep.h"
--#include "qemu/main-loop.h"
- #include "cpu.h"
- #include "exec/helper-proto.h"
- #include "exec/log.h"
--#include "helper-tcg.h"
-+#include "tcg/helper-tcg.h"
+         case IDX_CTL_CR2_REG:
+             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
++#ifndef CONFIG_USER_ONLY
+             env->cr[2] = tmp;
++#endif
+             return len;
  
+         case IDX_CTL_CR3_REG:
+             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
++#ifndef CONFIG_USER_ONLY
+             cpu_x86_update_cr3(env, tmp);
++#endif
+             return len;
  
- /* SMM support */
+         case IDX_CTL_CR4_REG:
+             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
++#ifndef CONFIG_USER_ONLY
+             cpu_x86_update_cr4(env, tmp);
++#endif
+             return len;
  
--#if defined(CONFIG_USER_ONLY)
--
--void do_smm_enter(X86CPU *cpu)
--{
--}
--
--void helper_rsm(CPUX86State *env)
--{
--}
--
--#else
--
- #ifdef TARGET_X86_64
- #define SMM_REVISION_ID 0x00020064
- #else
-@@ -330,5 +317,3 @@ void helper_rsm(CPUX86State *env)
-     qemu_log_mask(CPU_LOG_INT, "SMM: after RSM\n");
-     log_cpu_state_mask(CPU_LOG_INT, CPU(cpu), CPU_DUMP_CCOP);
- }
--
--#endif /* !CONFIG_USER_ONLY */
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index af1faf9342..b882041ef0 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -8319,9 +8319,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         gen_svm_check_intercept(s, pc_start, SVM_EXIT_RSM);
-         if (!(s->flags & HF_SMM_MASK))
-             goto illegal_op;
-+#ifdef CONFIG_USER_ONLY
-+        /* we should not be in SMM mode */
-+        g_assert_not_reached();
-+#else
-         gen_update_cc_op(s);
-         gen_jmp_im(s, s->pc - s->cs_base);
-         gen_helper_rsm(cpu_env);
-+#endif /* CONFIG_USER_ONLY */
-         gen_eob(s);
-         break;
-     case 0x1b8: /* SSE4.2 popcnt */
-diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
-index 320bcd1e46..449d9719ef 100644
---- a/target/i386/tcg/meson.build
-+++ b/target/i386/tcg/meson.build
-@@ -8,7 +8,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
-   'misc_helper.c',
-   'mpx_helper.c',
-   'seg_helper.c',
--  'smm_helper.c',
-   'svm_helper.c',
-   'tcg-cpu.c',
-   'translate.c'), if_false: files('tcg-stub.c'))
-diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
-index 4ab30cc32e..35ba16dc3d 100644
---- a/target/i386/tcg/sysemu/meson.build
-+++ b/target/i386/tcg/sysemu/meson.build
-@@ -1,3 +1,4 @@
- i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'tcg-cpu.c',
-+  'smm_helper.c',
- ))
+         case IDX_CTL_CR8_REG:
+@@ -378,7 +386,9 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+ 
+         case IDX_CTL_EFER_REG:
+             len = gdb_write_reg_cs64(env->hflags, mem_buf, &tmp);
++#ifndef CONFIG_USER_ONLY
+             cpu_load_efer(env, tmp);
++#endif
+             return len;
+         }
+     }
 -- 
 2.26.2
 
