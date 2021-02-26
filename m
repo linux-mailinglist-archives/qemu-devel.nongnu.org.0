@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E544B326724
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 19:55:24 +0100 (CET)
-Received: from localhost ([::1]:50790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE1B1326728
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 19:58:23 +0100 (CET)
+Received: from localhost ([::1]:54944 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFiGp-0001kV-Do
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 13:55:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59606)
+	id 1lFiJi-0003b6-QF
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 13:58:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lFiFt-0000tD-DP; Fri, 26 Feb 2021 13:54:25 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:46267)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
- id 1lFiFr-0003PV-4V; Fri, 26 Feb 2021 13:54:24 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 11QIrK5C022761
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Fri, 26 Feb 2021 13:53:23 -0500
-Date: Fri, 26 Feb 2021 13:53:20 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: P J P <pj.pandit@yahoo.co.in>
-Subject: Re: [QEMU-SECURITY] [PATCH 1/6] net: introduce qemu_receive_packet()
-Message-ID: <20210226185320.ykopguq3vvlln5jg@mozz.bu.edu>
-References: <20210224055401.492407-1-jasowang@redhat.com>
- <20210224055401.492407-2-jasowang@redhat.com>
- <9e432ff0-793e-64a7-97f3-ff3a374ee98f@redhat.com>
- <b7d39898-d688-70bb-4546-612150a1635b@redhat.com>
- <5386f97e-0fb4-b7bc-6520-698a9c856bf9@redhat.com>
- <90q67362-8n44-60q3-1q8o-nso367onnr3@erqung.pbz>
- <20210225162805.dwgmz4lwfafeqjmg@mozz.bu.edu>
- <20210225162908.awbtm2xud64xdsku@mozz.bu.edu>
- <1530141988.220096.1614363271523@mail.yahoo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lFiIw-0003AW-HV
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 13:57:34 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1lFiIu-0004zT-Tt
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 13:57:34 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id u20so16560065ejb.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 10:57:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=G+UhYcLHBOukE8OvsJD/XDFIIlD46niw26xKg8q77yU=;
+ b=Uw7+Rye7GCUBWKjFECFwAZ/EKd1cCPldBLdn/sH6SSDVV/nehQtrDgGp8EYgdE9dcb
+ lEzIsNSZrejKN+93UNdHhpMO7xQLnB+upDrISTq4mgYpzSgI5Kiq84fl5rNvK7kgjYMB
+ RGHh1pgBQpmC42srNqTRoZPftQcgAox21lM9V0NedFxPHg8OHU3fBUydbc3VRdpadWjd
+ wogVntyBxFMLaznvo+hV2f2nKFyn/OyCCtjx3+9ssWgtR7GpNCjiRI7z0I1bXoGUealv
+ KQsVl9SwT2+xZ/zqn4MwPQaECnQVBRIMM3BCYG6ROavEE61X3zHzHGTBVusw4gt6jGWs
+ S8Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=G+UhYcLHBOukE8OvsJD/XDFIIlD46niw26xKg8q77yU=;
+ b=UQWBLpU98b0A0fO/1fx6XdqtucV5I0sNB4txIdAEEkJfb/YfAPdvgKGjtVyb3WjcMk
+ akl0D9H8co7VKCwD9iznnhpDKanyjScergsCc+MvJoGnAG8qTsf4SXFZxPt62jBzHBL9
+ RwWoBysuusEOxwpTUcQIkAAG8Gl61+12qPzNYan5Hr2NRnnfhslFdUGz0vWdxoeQYbi+
+ X8vZPxpP38ShTbRaozNDh/f9j6z0SZX/K+DLWdKkVMUKMY+O/cPYZYGF7tff4giOwJEO
+ QK4aSJknAihKYF3hJFW7KBc9C56+IW6MhtAMt6sTvr94PR/h3AmEStvnYOsceNKZ6HG9
+ 9pvw==
+X-Gm-Message-State: AOAM531KdcWXx0Ivnva0Z0c37eRb8hoqoauukd9nFBmbZrf13OxJaZjX
+ uVnQGaJjRkeGbxRrbBzCTZAc95R4uarvNsil86KCRg==
+X-Google-Smtp-Source: ABdhPJzjEeQPi0A2TkHLJgruhieAA/td88OJdRHxhczWc2KDExpSlQpFIOEH1f/V8uGCYtoHjjZ7f1RXD7qIlYPnkQM=
+X-Received: by 2002:a17:906:1ecc:: with SMTP id
+ m12mr4971042ejj.4.1614365850496; 
+ Fri, 26 Feb 2021 10:57:30 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1530141988.220096.1614363271523@mail.yahoo.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=1, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <1614333786-74258-1-git-send-email-bmeng.cn@gmail.com>
+ <1614333786-74258-2-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1614333786-74258-2-git-send-email-bmeng.cn@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 26 Feb 2021 18:57:19 +0000
+Message-ID: <CAFEAcA_XV=xkZriO61zwb8OCDbKfUQ=oQFCoKyCJyPh0rt0dUQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 1/3] net: Pad short frames to minimum size (60 bytes)
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,55 +78,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- QEMU Security <qemu-security@nongnu.org>
+Cc: Jason Wang <jasowang@redhat.com>, Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210226 1814, P J P wrote:
-> Hello Alex,
-> 
-> On Thursday, 25 February, 2021, 10:00:33 pm IST, Alexander Bulekov <alxndr@bu.edu> wrote: 
-> On 210225 1128, Alexander Bulekov wrote:
-> > On 210225 1931, P J P wrote:
-> > > +-- On Wed, 24 Feb 2021, Philippe Mathieu-Daudé wrote --+
-> > > | On 2/24/21 2:17 PM, Jason Wang wrote:
-> > > | > On 2021/2/24 6:11 下午, Philippe Mathieu-Daudé wrote:
-> > > | >> IIUC the guest could trigger an infinite loop and brick the emulated 
-> > > | >> device model. Likely exhausting the stack, so either SEGV by corruption 
-> > > | >> or some ENOMEM?
-> > > | > 
-> > > | > Yes.
-> > > | >>
-> > > | >> Since this is guest triggerable, shouldn't we contact qemu-security@ list 
-> > > | >> and ask for a CVE for this issue, so distributions can track the patches 
-> > > | >> to backport in their stable releases? (it seems to be within the KVM 
-> > > | >> devices boundary).
-> > > | > 
-> > > | > 
-> > > | > That's the plan. I discussed this with Prasad before and he promise to
-> > > | > ask CVE for this.
-> > > 
-> > > 'CVE-2021-3416' is assigned to this issue by Red Hat Inc.
-> >
-> > What is the difference with CVE-2021-20255 and CVE-2021-20257 ? Aren't
-> > those just manifestations of this bug for the e1000 and the eepro100
-> > devices
-> 
-> * You mean manifestations of the dam re-entrancy issue? 
-> 
-
-Ah I got confused - those other CVEs don't seem to be related to
-loopback.
--Alex
-
-> * They have separate CVEs because they are fixed individually.
-> 
-> 
-> Thank you.
+On Fri, 26 Feb 2021 at 10:03, Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> The minimum Ethernet frame length is 60 bytes, and we should pad
+> frames whose length is smaller to the minimum size.
+>
+> This commit fixes the issue as seen with various ethernet models,
+> that ARP requests get dropped, preventing the guest from becoming
+> visible on the network.
+>
+> The following 2 commits that attempted to workaround this issue
+> in e1000 and vmxenet3 before, should be reverted.
+>
+>   commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
+>   commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 > ---
->   -P J P
-> http://feedmug.com
+
+Is it better to do this here, or in the places which create
+network packets? Doing it centrally has the advantage of
+being just one place to change which then means senders
+and receivers don't need to think about it. On the other
+hand it means we don't have any equivalent of really actually
+sending a short frame and having the modelled ethernet device
+implement the handling of the short frame.
+
+thanks
+-- PMM
 
