@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2317326883
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 21:28:56 +0100 (CET)
-Received: from localhost ([::1]:45020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A042B3268F9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 21:57:21 +0100 (CET)
+Received: from localhost ([::1]:40572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFjjL-0006Rv-De
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 15:28:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50858)
+	id 1lFkAq-0000zE-3T
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 15:57:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFjhx-0005wY-Pj
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 15:27:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:54316)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFk9C-00009a-9M
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 15:55:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39948)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFjhv-0003F1-25
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 15:27:29 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFk99-0007qH-JD
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 15:55:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614371246;
+ s=mimecast20190719; t=1614372933;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=oWHhtuHhcxrX9WUL1yXzUt4h2LL/RcoGSbYYTl5I7gQ=;
- b=jJd4r9THVMIMh1jKv0gwFW+STHX/wQMtQHDeLfVK9wzPEAtvVYggQ747a07FkCRtISTh38
- 6+l/6tlx9w4FeBlRO8Z4LSKm1hJwzxwQ99vjGyTuaNdQC6Rrdp+kU/JsL7j7rpHEW2K+Yv
- Mi8r+lKhHsLp9hM9q62COGuWEMbXZWA=
+ bh=7hhY+mBln8xc98CrPsiWH5T1QwBWbH/YQB4F8YipKfA=;
+ b=BeFiujkz32ubocN9+aWF1p4HR2s3/aZKJHVJAxAqLlG1/EVDCieFJQe9gUruSAv+ri5SXM
+ 9h7xkuiCC+Ws4GJusuTxc+enpxL+LXFWmVn9PqWDF9yYEdnSjYmEKhubAOJX+EAJe5b0qs
+ ALKEmc6vYuh5ZnXLtSDd6Lu+ju5wx/E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-YjTqZggoM6-Tfbq1sSmSyA-1; Fri, 26 Feb 2021 15:27:22 -0500
-X-MC-Unique: YjTqZggoM6-Tfbq1sSmSyA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-288-9W8vAbqsPmOYsaV6fhhD4A-1; Fri, 26 Feb 2021 15:55:31 -0500
+X-MC-Unique: 9W8vAbqsPmOYsaV6fhhD4A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A967118B62A3;
- Fri, 26 Feb 2021 20:27:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 628481005501;
+ Fri, 26 Feb 2021 20:55:30 +0000 (UTC)
 Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AAD2C5C23D;
- Fri, 26 Feb 2021 20:27:14 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0BAD35D9D2;
+ Fri, 26 Feb 2021 20:55:22 +0000 (UTC)
 To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-17-kwolf@redhat.com>
+ <20210224135255.253837-18-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Subject: Re: [PATCH v2 16/31] qapi/qom: Add ObjectOptions for
- confidential-guest-support
-Message-ID: <10a721bb-45e9-3b1e-f907-7e0f81710fdc@redhat.com>
-Date: Fri, 26 Feb 2021 14:27:14 -0600
+Subject: Re: [PATCH v2 17/31] qapi/qom: Add ObjectOptions for input-*
+Message-ID: <5b289a55-6c6f-2529-a21f-19012782229c@redhat.com>
+Date: Fri, 26 Feb 2021 14:55:22 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210224135255.253837-17-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210224135255.253837-18-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -61,7 +60,7 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -91,93 +90,120 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> This adds a QAPI schema for the properties of the objects implementing
-> the confidential-guest-support interface.
+> This adds a QAPI schema for the properties of the input-* objects.
 > 
-> pef-guest and s390x-pv-guest don't have any properties, so they only
-> need to be added to the ObjectType enum without adding a new branch to
-> ObjectOptions.
+> ui.json cannot be included in qom.json because the storage daemon can't
+> use it, so move GrabToggleKeys to common.json.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  qapi/qom.json | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
+>  qapi/common.json | 12 ++++++++++
+>  qapi/qom.json    | 58 ++++++++++++++++++++++++++++++++++++++++++++++++
+>  qapi/ui.json     | 13 +----------
+>  3 files changed, 71 insertions(+), 12 deletions(-)
 > 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index e7184122e9..d5f68b5c89 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -633,6 +633,38 @@
->    'base': 'RngProperties',
->    'data': { '*filename': 'str' } }
->  
+
 > +##
-> +# @SevGuestProperties:
+> +# @InputBarrierProperties:
 > +#
-> +# Properties for sev-guest objects.
+> +# Properties for input-barrier objects.
 > +#
-> +# @sev-device: SEV device to use (default: "/dev/sev")
+> +# @name: the screen name as declared in the screens section of barrier.conf
 > +#
-> +# @dh-cert-file: guest owners DH certificate (encoded with base64)
+> +# @server: hostname of the Barrier server (default: "localhost")
 > +#
-> +# @session-file: guest owners session parameters (encoded with base64)
+> +# @port: TCP port of the Barrier server (default: "24800")
 
-Matches target/i386/sev.c:sev_guest_class_init()...
-
-> +#
-> +# @policy: SEV policy value (default: 0x1)
-> +#
-> +# @handle: SEV firmware handle (default: 0)
-> +#
-> +# @cbitpos: C-bit location in page table entry (default: 0)
-> +#
-> +# @reduced-phys-bits: number of bits in physical addresses that become
-> +#                     unavailable when SEV is enabled
-
-...and sev_guest_instance_init().
+I can understand this being a string (if non-numeric, it can be treated
+as a well-known service name instead), but...
 
 > +#
-> +# Since: 2.12
+> +# @x-origin: x coordinate of the leftmost pixel on the guest screen
+> +#            (default: "0")
+
+...why are these other fields a string instead of an integer?  But you
+are just doing faithful translation of what we already have.
+
+Bummer - our naming for this member implies that it is experimental,
+which is a misnomer (it is quite stable, when viewed in tandem with
+y-origin).  Not your fault.  Would 'origin-x' and 'origin-y' be any
+better as new aliases in a followup patch?
+
+> +#
+> +# @y-origin: y coordinate of he topmost pixel on the guest screen (default: "0")
+
+"the", long line
+
+> +#
+> +# @width: the width of secondary screen in pixels (default: "1920")
+> +#
+> +# @height: the height of secondary screen in pixels (default: "1080")
+> +#
+> +# Since: 4.2
 > +##
-> +{ 'struct': 'SevGuestProperties',
-> +  'data': { '*sev-device': 'str',
-> +            '*dh-cert-file': 'str',
-> +            '*session-file': 'str',
-> +            '*policy': 'uint32',
-> +            '*handle': 'uint32',
-> +            '*cbitpos': 'uint32',
-> +            'reduced-phys-bits': 'uint32' },
-> +  'if': 'defined(CONFIG_SEV)' }
+> +{ 'struct': 'InputBarrierProperties',
+> +  'data': { 'name': 'str',
+> +            '*server': 'str',
+> +            '*port': 'str',
+> +            '*x-origin': 'str',
+> +            '*y-origin': 'str',
+> +            '*width': 'str',
+> +            '*height': 'str' } }
+
+Matches ui/input-barrier.c:input_barrier_class_init().
+
+> +
+> +##
+> +# @InputLinuxProperties:
+> +#
+> +# Properties for input-linux objects.
+> +#
+> +# @evdev: the path of the host evdev device to use
+> +#
+> +# @grab_all: if true, grab is toggled for all devices (e.g. both keyboard and
+> +#            mouse) instead of just one device (default: false)
+
+We have inconsistent naming within this object (see grab-toggle); a good
+followup would be an alias for 'grab-all'.
+
+> +#
+> +# @repeat: enables auto-repeat events (default: false)
+> +#
+> +# @grab-toggle: the key or key combination that toggles device grab
+> +#               (default: ctrl-ctrl)
+> +#
+> +# Since: 2.6
+> +##
+> +{ 'struct': 'InputLinuxProperties',
+> +  'data': { 'evdev': 'str',
+> +            '*grab_all': 'bool',
+> +            '*repeat': 'bool',
+> +            '*grab-toggle': 'GrabToggleKeys' } }
+
+matches ui/input-linux.c.
+
 > +
 >  ##
->  # @ObjectType:
+>  # @IothreadProperties:
 >  #
-> @@ -661,12 +693,15 @@
+> @@ -689,6 +743,8 @@
+>      'filter-redirector',
+>      'filter-replay',
+>      'filter-rewriter',
+> +    'input-barrier',
+> +    'input-linux',
+>      'iothread',
 >      'memory-backend-file',
 >      'memory-backend-memfd',
->      'memory-backend-ram',
-> +    {'name': 'pef-guest', 'if': 'defined(CONFIG_PSERIES)' },
->      'pr-manager-helper',
->      'rng-builtin',
->      'rng-egd',
->      'rng-random',
->      'secret',
->      'secret_keyring',
-> +    {'name': 'sev-guest', 'if': 'defined(CONFIG_SEV)' },
-> +    's390-pv-guest',
->      'throttle-group',
->      'tls-creds-anon',
->      'tls-creds-psk',
-> @@ -716,6 +751,8 @@
->        'rng-random':                 'RngRandomProperties',
->        'secret':                     'SecretProperties',
->        'secret_keyring':             'SecretKeyringProperties',
-> +      'sev-guest':                  { 'type': 'SevGuestProperties',
-> +                                      'if': 'defined(CONFIG_SEV)' },
->        'throttle-group':             'ThrottleGroupProperties',
->        'tls-creds-anon':             'TlsCredsAnonProperties',
->        'tls-creds-psk':              'TlsCredsPskProperties',
-> 
+> @@ -741,6 +797,8 @@
+>        'filter-redirector':          'FilterRedirectorProperties',
+>        'filter-replay':              'NetfilterProperties',
+>        'filter-rewriter':            'FilterRewriterProperties',
+> +      'input-barrier':              'InputBarrierProperties',
+> +      'input-linux':                'InputLinuxProperties',
+>        'iothread':                   'IothreadProperties',
+>        'memory-backend-file':        'MemoryBackendFileProperties',
+>        'memory-backend-memfd':       'MemoryBackendMemfdProperties',
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
