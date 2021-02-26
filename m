@@ -2,88 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10BCA3262F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 13:54:07 +0100 (CET)
-Received: from localhost ([::1]:57378 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDB4326308
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:02:08 +0100 (CET)
+Received: from localhost ([::1]:32858 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFcdB-00033T-L1
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 07:54:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52860)
+	id 1lFckx-00052B-84
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:02:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFcbW-0002V3-Sw
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 07:52:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26660)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFcbS-0003V8-7u
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 07:52:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614343933;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=y4B3Icw8MwG2DyntGS6jYQaHamFPKLKQjGA5xbW4PSg=;
- b=cSHhs7gxps3M+vrp9bWva3zzUxBJRtBTVWdmNUznix0mqfVZ9BEcmW2cPk1UauDqKe94nh
- pQXckxuEIidqSJm+hKv5U4e8LbQvxGBlUo3RCuvOgWkegDN9TJHjpr9jV5HjJOPRCfbEla
- lKlbWZZzKP1fPl3co6dwQlzNfNx+f8o=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-413-EP5Rcwn7PBCoCXJfPWsSzQ-1; Fri, 26 Feb 2021 07:52:10 -0500
-X-MC-Unique: EP5Rcwn7PBCoCXJfPWsSzQ-1
-Received: by mail-wm1-f70.google.com with SMTP id v130so3650343wma.0
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 04:52:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lFck5-0004bX-89
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:01:13 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:43122)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1lFck1-0007OB-IT
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:01:12 -0500
+Received: by mail-wr1-x430.google.com with SMTP id w11so8481586wrr.10
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 05:01:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=TbokggZ/h3gmop2DTO4TBWeR7H6caVZM9bVJ9nVfqnQ=;
+ b=RJaxJstHFqIdIzCw7dWQUKRdE0mlY1GbV9FQClGYuTwLOVlY3wemkZ+yn7XCs4KlN0
+ bkZ7M5112vHO7zn904+N16BcV4iamNvdu/g6jU6npi7wbCYcN8f1S5+DKXe/cHCx5FN3
+ v7+bY0h7BpKndwyQIV90+zJr518TMu9oMZ59XVB20LMA0ggb0YupEz3jCNgT3YB032NN
+ yUKZxp8xYbo5AuRZze/7mesUP46Tqgdwv4Rcd4sPfSXTsMU/uxBNn232wfPcC8LfAUbZ
+ B0cm1ZtYCveQOHr5eDf37/YBiLN2JzPfVFOVqMKkVoaYoIgatWwTBcf5mK2Z2pgFkgGM
+ 9CJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=y4B3Icw8MwG2DyntGS6jYQaHamFPKLKQjGA5xbW4PSg=;
- b=PNycgJlWrLdkOMcrHrdZJc/9HbMyQuK1Mc37FnynEaLuLyUqsYEFryGpgHc5kDpQyR
- he13Q553ub5h0E/X8ABJ4CGge47VyOozKKJuvMnJ4k496SGz5BP/QN8lhTC0o7mDcxkY
- gVGRj+8my88kF2O52GTUGBRVX+GcPNEQGlPqu9AlpxM9pswvAMxHzVjCsE0PkPnirYzn
- wJE/rfAFw//THQE4Wd27PFN1v8JYOoRvyIygZ2tIs6o+vNlVrf0OsdY+8NGuNJTQZKk5
- gltG8ceuKKDo1q9CPCTsG68EJ7k1BnrkDsr8Dc1KFzfM1GKdaZW+nbV06UTW4UtuYgU6
- qSJg==
-X-Gm-Message-State: AOAM533s3w1uzamgmS2BC0b8jmll3S0knCfAInh34QRgRW+ACz6BDKDi
- ARNCAouwB7q+00vmkglBCWbe1HRhOQSSvAb0sGXWbRUven0ibi7O35jCb07CUF4KDezP4SBGkTr
- 5+5/ptJzMwRN2VxE=
-X-Received: by 2002:a5d:524e:: with SMTP id k14mr3146152wrc.9.1614343929008;
- Fri, 26 Feb 2021 04:52:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzcu0g/UwrJOw/A6vsyhBsakjsWDtBeWb6q/gjLU++hc9oZiYR7YngMZ9Z+jQq/Z5rrkGF8Ng==
-X-Received: by 2002:a5d:524e:: with SMTP id k14mr3146137wrc.9.1614343928843;
- Fri, 26 Feb 2021 04:52:08 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id m17sm11257405wmq.5.2021.02.26.04.52.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Feb 2021 04:52:08 -0800 (PST)
-Subject: Re: [PATCH] net: remove qemu_ether_ntoa()
-To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
-References: <20210226120607.675753-1-marcandre.lureau@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <741bba30-a9c3-e87e-3751-6c1f165e8f5c@redhat.com>
-Date: Fri, 26 Feb 2021 13:52:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=TbokggZ/h3gmop2DTO4TBWeR7H6caVZM9bVJ9nVfqnQ=;
+ b=s+j+y4YHt/OrRkqWu0KoywUTb6cvIPoT1+gKmKfh8zc5MjrFSbXfnMvyNyMOOge3HF
+ X/PMXBi+syIXdhHY8mDiNAWyv4kqHRVjxt2YAfHzNLyr3CIv76RiW0k4XXnMxnex6YU8
+ xwAc+1FiCdijqgXZnUaxAOrmHJ6pdheetwcM5RWw/Uc4E4UI5vg7qT6KQodI8351fjUO
+ ZV2GO+vGHRcLlTDYMO20RXlwI75HinEegR+KqvQMpRaVeYPKt6aHaZriMdyhB5MVUvmh
+ irsj09/SYwwtkbjQt91MvobfLWuyLEkIGAIHfqZ0rXLtWyKm7ilRUK3eX/vRBeATuJ3c
+ r0Ug==
+X-Gm-Message-State: AOAM533fRSQ2B34s/xYJW8MiIX/m2vct+0XMAwxIOcS0kJT1FK5/6tax
+ 5GqqPALvL/5t8MJThubd43Yi1A==
+X-Google-Smtp-Source: ABdhPJwRBojpbKNIA61tlakW4Yn0dnwF8nMlvtqc6pV2Vy+lzj5FGVBdMMh4OrtmhUevgXA451xSEA==
+X-Received: by 2002:adf:c101:: with SMTP id r1mr3154850wre.38.1614344467447;
+ Fri, 26 Feb 2021 05:01:07 -0800 (PST)
+Received: from myrica ([2001:1715:4e26:a7e0:116c:c27a:3e7f:5eaf])
+ by smtp.gmail.com with ESMTPSA id n10sm13433784wrt.83.2021.02.26.05.01.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Feb 2021 05:01:06 -0800 (PST)
+Date: Fri, 26 Feb 2021 14:00:46 +0100
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Subject: Re: [PATCH] virtio-iommu: Default to bypass during boot
+Message-ID: <YDjw/s+PuZ012GhX@myrica>
+References: <20210218105929.1433230-1-jean-philippe@linaro.org>
+ <20210221064211-mutt-send-email-mst@kernel.org>
+ <YDfatCDUZ3FISPJI@myrica>
+ <MWHPR11MB18862C07D1473445DBC42C928C9D9@MWHPR11MB1886.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-In-Reply-To: <20210226120607.675753-1-marcandre.lureau@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MWHPR11MB18862C07D1473445DBC42C928C9D9@MWHPR11MB1886.namprd11.prod.outlook.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,26 +85,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, jasowang@redhat.com
+Cc: "eric.auger@redhat.com" <eric.auger@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/21 1:06 PM, marcandre.lureau@redhat.com wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+On Fri, Feb 26, 2021 at 08:11:41AM +0000, Tian, Kevin wrote:
+> > From: Qemu-devel <qemu-devel-bounces+kevin.tian=intel.com@nongnu.org>
+> > On Behalf Of Jean-Philippe Brucker
+> > 
+> > On Sun, Feb 21, 2021 at 06:45:18AM -0500, Michael S. Tsirkin wrote:
+> > > On Thu, Feb 18, 2021 at 11:59:30AM +0100, Jean-Philippe Brucker wrote:
+> > > > Currently the virtio-iommu device must be programmed before it allows
+> > > > DMA from any PCI device. This can make the VM entirely unusable when
+> > a
+> > > > virtio-iommu driver isn't present, for example in a bootloader that
+> > > > loads the OS from storage.
+> > > >
+> > > > Similarly to the other vIOMMU implementations, default to DMA
+> > bypassing
+> > > > the IOMMU during boot. Add a "boot-bypass" option that lets users
+> > change
+> > > > this behavior.
+> > > >
+> > > > Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> > >
+> > > wouldn't this be a spec violation?
+> > >
+> > >
+> > > When the device is reset, endpoints are not attached to any domain.
+> > >
+> > > If the VIRTIO_IOMMU_F_BYPASS feature is negotiated, all accesses from
+> > > unattached endpoints are allowed and translated by the IOMMU using the
+> > > identity function. If the feature is not negotiated, any memory access
+> > > from an unattached endpoint fails. Upon attaching an endpoint in
+> > > bypass mode to a new domain, any memory access from the endpoint fails,
+> > > since the domain does not contain any mapping.
+> > 
+> > Right, but the device behavior regarding BYPASS is specified as:
+> > 
+> >   If the driver does not accept the VIRTIO_IOMMU_F_BYPASS feature, the
+> >   device SHOULD NOT let endpoints access the guest-physical address space.
+> > 
+> > So I figured that the spec could be read as "before feature negotiation
+> > it's undefined whether the IOMMU is bypassed or not" and so a device
+> > implementation can choose either (previously discussed at [1]). But it's a
+> > stretch, we should clarify this.
+> > 
+> > Also, the OS might want to know whether DMA was bypassing the IOMMU
+> > before
+> > the device is initialized. If there are strong security requirements, then
+> > boot-bypass means the system was vulnerable to DMA attacks during boot.
+> > 
+> > So I'd like to add a new feature bit for this, VIRTIO_IOMMU_F_BOOT_BYPASS,
+> > that tells whether DMA bypasses the IOMMU before feature negotiation. It's
+> > only an indicator, accepting the feature doesn't change anything. I'll
+> > send the spec change shortly.
+> > 
+> > Thanks,
+> > Jean
+> > 
+> > [1] https://lore.kernel.org/qemu-
+> > devel/20200109104032.GA937123@myrica/
+> > 
 > 
-> The function is not thread-safe and sets a bad example. It's used in a
-> single place for tracing, so open-code the format string like other
-> trace events with MAC addresses.
-> 
-> Cc: qemu-trivial@nongnu.org
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> ---
->  include/qemu-common.h |  1 -
->  net/announce.c        |  8 +++++++-
->  util/cutils.c         | 13 -------------
->  net/trace-events      |  2 +-
->  4 files changed, 8 insertions(+), 16 deletions(-)
+> I wonder why we didn't define the default behavior to bypass (to align with
+> other vIOMMUs) in the first place and then have an option (e.g. 
+> VIRTIO_IOMMU_F_NOBYPASS) to override in case a stricter policy is required. 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Yes in hindsight the polarity should probably have been reversed. Clearly
+I could have put more thoughts into this. When writing the spec it seemed
+natural in terms of security to disallow accesses until software
+explicitly enables bypass.
 
+In the linked discussion, which happened after the initial spec was
+accepted, we concluded that QEMU should be boot-bypass by default and the
+spec ought to be clarified to explicitly allow this, I just didn't take
+time to work on it until now.
+
+> In concept when a IOMMU device is uninitialized or reset, it essentially means 
+> no protection in place thus a bypass behavior. 
+
+Not necessarily, the SMMU leaves that choice to the implementation (but it
+does have the right polarity 0 == bypass). The SMMU_GBPA register defines
+the bypass behavior. Implementations can tie it to 0 or 1 to define the
+default behavior of abort or bypass. Then software sets it to 0 or 1 to
+select the runtime policy. Ideally I'd like a similar mechanism for
+virtio-iommu, because it's sticky across reset - no vulnerability window
+when firmware hands over the IOMMU to the OS.
+
+Thanks,
+Jean
 
