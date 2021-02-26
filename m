@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3466A325C2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:52:24 +0100 (CET)
-Received: from localhost ([::1]:45632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75476325BFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:32:39 +0100 (CET)
+Received: from localhost ([::1]:41578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFUAx-0008S2-3E
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:52:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34070)
+	id 1lFTrq-0008MB-DW
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTgX-0007Kb-PX
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:20:57 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:51951)
+ id 1lFTgj-0007sF-Fx
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:21:09 -0500
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:35731)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTgV-00016g-BO
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:20:57 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id jx13so1703650pjb.1
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:20:54 -0800 (PST)
+ id 1lFTgg-0001BT-0Y
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:21:09 -0500
+Received: by mail-pg1-x52d.google.com with SMTP id t25so5405256pga.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:21:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FXmPuTpIx4Rx3RvlfE5z6e+P3M3dd2DT4/FudfXUHCw=;
- b=SothW0RhihTCZvpgbJ9PVqXeZj9Y8F4nQYpjfwt+lttDLzLBV40Fv8l2XToAPZy55U
- grnqa6ZdXtxSjM+zPbAChRB4nxJLPG2l62bvqq4QxFLi0/N/mNfWE8tBHQLvL8VWANUZ
- oNXxiYodrB3rC8lc2OZXeBwjqG9n8Oc6pK/9Lal1jUucjTj20kb2U+G29HipafhbM3xF
- AUH0CLeSU/LskGWZEd+HpAf9y0RA5cXpiwmNhhusObUyII83LWG80jHeTwsIzjutuzGO
- hur28rN4OxDhKPzTG4dgTHngIVwNeqJiMNEOuDdOzLWpc8e+UAiS0HBIBqoiDOYrofPy
- FrWA==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=PjXHOByqNYJMm1e+rFgHWbBcBVTkkdgcCQh3/JDEMcI=;
+ b=Q1rdrx6nIsXTLfuXUBLdDQcVaHMmw196HfMUA9aIYX9yKOh+qy22r+xDBkIDb5h5Q1
+ XLJcr6wkYxbft2ssxb35z+qz3COEF94v0gKftHE2716mfnIjzMcXY575DkfxDTbeud2v
+ iIb0GptAYNNpwLhWsnKQYIXA6EK6j+jbPRwhdcpubUtER8tIR49dLkC0ovsuiX0WIamF
+ u1t1cK5VuRAAaz7gDlNOugZcu6VeNt1vEi0KDYaHVztiRkiYwcArT8iq4Cb/CuWQJtZF
+ w+QdYWwKbYFm0r4BAvGnM/aEou+U2YAnersoGVnc8jYtexsqobykTuG7cBlNAJ/J7zYW
+ t7LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=FXmPuTpIx4Rx3RvlfE5z6e+P3M3dd2DT4/FudfXUHCw=;
- b=ju8q+NI55UV2OE4nFmmZx+nolP98pPddRFBOiIvpym4C8KeZ9ppiwXNDbLAmcZPJSi
- zq681X1be3rql9jGGERtDmju9auB3vlE35Zin2ErO/sVoUmitVibfnSLql+j81Hki/4y
- se/eVEdoSCJH91Pnwrdj5ytTGrYh1yq+i5SXMnTfNd8v7qeXnVSMwD90tm6LO8oMvJ2B
- jtuwLwSENB3tSb8XujQgvs71dJZLWpP64AY2EycsAdmXGPdLwCGl9aU/p3hy1m9T6pkj
- smmmODp2z7xG2Q0eBq2w6LnRxsqAufXMKTdw8ryZTkhvmbBfr8hVsIO2wBgaFM8H2IWc
- 2uog==
-X-Gm-Message-State: AOAM531F4eutlVaaY1LFuFzrMSkugaVkFhJRlNO6KyD5XEcgNbQuq4wr
- H5eXPzMtfGl4a8SG2gU1vC7HufQOzp+8VQ==
-X-Google-Smtp-Source: ABdhPJwkxu6DlInApJQQmaitAoOQXNX9PJfEZMde+eAJdCfLCS4jpPz5xOFk5nqrR6Kf3lhe8kddwQ==
-X-Received: by 2002:a17:902:7847:b029:df:d889:252c with SMTP id
- e7-20020a1709027847b02900dfd889252cmr1212342pln.76.1614309653768; 
- Thu, 25 Feb 2021 19:20:53 -0800 (PST)
+ :references:mime-version:content-transfer-encoding;
+ bh=PjXHOByqNYJMm1e+rFgHWbBcBVTkkdgcCQh3/JDEMcI=;
+ b=ZTb4T0azeBmv4fP8Xr2DNbP3cew5oQUVKdrZz8RP3KN6Q6xxF/15uQPir9L1qHZV6o
+ tHPviWGn8AFRGypDRj+gtyBXGuQTMpgtXUpnqGFVDUtYADKr4vsrQXdUwQi3pTscKPwM
+ y6oUSPcCmoSUosLhCS1FU5jCE1aKH2xJRuEqRPqnjhL/r4gm/ysQqBHR2Nm3PJ7RVrX/
+ R2qo3G4yVWW7/G17NmxywiChqgVqjcdsOJaqpcjl+OqTdzGW01b19AV7sD7KsTV2Q4Bv
+ vof4JajKgl76f3wMwrSeC1CZdJhe3TEN7vYyfzzk+odvUM2Gx7TaIYvHd5TGSrvsxuDN
+ cTuQ==
+X-Gm-Message-State: AOAM533v+NbjOaG0vPSt8ngncIdN0/201B6PpReQ2pjwANiS3eCvrb38
+ Z+NWLwRAocP08CBd507zM5RePWC5h85C2A==
+X-Google-Smtp-Source: ABdhPJxRchrSIufyREYSKYwmFEG3pllHmC1GfxvS6EIiPp79OaqzMh6oKWDXgqq23Pwc/oxn8zd81A==
+X-Received: by 2002:a63:4e44:: with SMTP id o4mr1048200pgl.46.1614309663839;
+ Thu, 25 Feb 2021 19:21:03 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.20.51
+ by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.21.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 19:20:53 -0800 (PST)
+ Thu, 25 Feb 2021 19:21:03 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 17/75] target/riscv: rvv-1.0: configure instructions
-Date: Fri, 26 Feb 2021 11:18:01 +0800
-Message-Id: <20210226031902.23656-18-frank.chang@sifive.com>
+Subject: [PATCH v7 19/75] target/riscv: rvv-1.0: index load and store
+ instructions
+Date: Fri, 26 Feb 2021 11:18:03 +0800
+Message-Id: <20210226031902.23656-20-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210226031902.23656-1-frank.chang@sifive.com>
 References: <20210226031902.23656-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1031.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,130 +98,523 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Frank Chang <frank.chang@sifive.com>
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 53 +++++++++----------------
- target/riscv/vector_helper.c            | 14 ++++++-
- 2 files changed, 31 insertions(+), 36 deletions(-)
+ target/riscv/helper.h                   |  67 ++++----
+ target/riscv/insn32.decode              |  21 ++-
+ target/riscv/insn_trans/trans_rvv.c.inc | 209 ++++++++++++++++--------
+ target/riscv/vector_helper.c            |  89 +++++-----
+ 4 files changed, 222 insertions(+), 164 deletions(-)
 
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index ab865f4919f..98c0c6e29b6 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -103,41 +103,38 @@ DEF_HELPER_6(vsse8_v, void, ptr, ptr, tl, tl, env, i32)
+ DEF_HELPER_6(vsse16_v, void, ptr, ptr, tl, tl, env, i32)
+ DEF_HELPER_6(vsse32_v, void, ptr, ptr, tl, tl, env, i32)
+ DEF_HELPER_6(vsse64_v, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlxb_v_b, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxb_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxb_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxb_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxh_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxh_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxh_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxe_v_b, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxe_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxe_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxe_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxbu_v_b, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxbu_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxbu_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxbu_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxhu_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxhu_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxhu_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxwu_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vlxwu_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxb_v_b, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxb_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxb_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxb_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxh_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxh_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxh_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxw_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxw_v_d, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxe_v_b, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxe_v_h, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxe_v_w, void, ptr, ptr, tl, ptr, env, i32)
+-DEF_HELPER_6(vsxe_v_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei8_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei8_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei8_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei8_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei16_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei16_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei16_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei16_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei32_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei32_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei32_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei32_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei64_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei64_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei64_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vlxei64_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei8_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei8_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei8_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei8_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei16_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei16_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei16_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei16_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei32_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei32_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei32_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei32_64_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei64_8_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei64_16_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei64_32_v, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vsxei64_64_v, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_5(vlbff_v_b, void, ptr, ptr, tl, env, i32)
+ DEF_HELPER_5(vlbff_v_h, void, ptr, ptr, tl, env, i32)
+ DEF_HELPER_5(vlbff_v_w, void, ptr, ptr, tl, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 63811c0bd19..c0058c6c756 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -268,18 +268,17 @@ vlbuff_v   ... 000 . 10000 ..... 000 ..... 0000111 @r2_nfvm
+ vlhuff_v   ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
+ vlwuff_v   ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
+ 
+-vlxb_v     ... 111 . ..... ..... 000 ..... 0000111 @r_nfvm
+-vlxh_v     ... 111 . ..... ..... 101 ..... 0000111 @r_nfvm
+-vlxw_v     ... 111 . ..... ..... 110 ..... 0000111 @r_nfvm
+-vlxe_v     ... 011 . ..... ..... 111 ..... 0000111 @r_nfvm
+-vlxbu_v    ... 011 . ..... ..... 000 ..... 0000111 @r_nfvm
+-vlxhu_v    ... 011 . ..... ..... 101 ..... 0000111 @r_nfvm
+-vlxwu_v    ... 011 . ..... ..... 110 ..... 0000111 @r_nfvm
++# Vector ordered-indexed and unordered-indexed load insns.
++vlxei8_v      ... 0-1 . ..... ..... 000 ..... 0000111 @r_nfvm
++vlxei16_v     ... 0-1 . ..... ..... 101 ..... 0000111 @r_nfvm
++vlxei32_v     ... 0-1 . ..... ..... 110 ..... 0000111 @r_nfvm
++vlxei64_v     ... 0-1 . ..... ..... 111 ..... 0000111 @r_nfvm
++
+ # Vector ordered-indexed and unordered-indexed store insns.
+-vsxb_v     ... -11 . ..... ..... 000 ..... 0100111 @r_nfvm
+-vsxh_v     ... -11 . ..... ..... 101 ..... 0100111 @r_nfvm
+-vsxw_v     ... -11 . ..... ..... 110 ..... 0100111 @r_nfvm
+-vsxe_v     ... -11 . ..... ..... 111 ..... 0100111 @r_nfvm
++vsxei8_v      ... 0-1 . ..... ..... 000 ..... 0100111 @r_nfvm
++vsxei16_v     ... 0-1 . ..... ..... 101 ..... 0100111 @r_nfvm
++vsxei32_v     ... 0-1 . ..... ..... 110 ..... 0100111 @r_nfvm
++vsxei64_v     ... 0-1 . ..... ..... 111 ..... 0100111 @r_nfvm
+ 
+ #*** Vector AMO operations are encoded under the standard AMO major opcode ***
+ vamoswapw_v     00001 . . ..... ..... 110 ..... 0101111 @r_wdvm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index ccfa93cf2f8..a3732e76e09 100644
+index ec65ee65adb..320d710695f 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -132,28 +132,29 @@ static bool require_noover_seg(const int8_t dst, const int8_t nf,
-     return !is_overlapped(dst, nf, src, 1);
+@@ -126,12 +126,6 @@ static bool require_noover(const int8_t dst, const int8_t dst_lmul,
+     return !is_overlapped(dst, dst_size, src, src_size);
  }
  
--static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
-+static bool do_vsetvl(DisasContext *ctx, int rd, int rs1, TCGv s2)
+-static bool require_noover_seg(const int8_t dst, const int8_t nf,
+-                               const int8_t src)
+-{
+-    return !is_overlapped(dst, nf, src, 1);
+-}
+-
+ static bool do_vsetvl(DisasContext *ctx, int rd, int rs1, TCGv s2)
  {
--    TCGv s1, s2, dst;
-+    TCGv s1, dst;
+     TCGv s1, dst;
+@@ -224,9 +218,76 @@ static bool vext_check_load(DisasContext *s, int vd, int nf, int vm,
+     return vext_check_store(s, vd, nf, eew) && require_vm(vm, vd);
+ }
  
-     if (!require_rvv(ctx) || !has_ext(ctx, RVV)) {
-         return false;
-     }
- 
--    s2 = tcg_temp_new();
-     dst = tcg_temp_new();
- 
--    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
--    if (a->rs1 == 0) {
-+    if (rd == 0 && rs1 == 0) {
-+        s1 = tcg_temp_new();
-+        tcg_gen_mov_tl(s1, cpu_vl);
-+    } else if (rs1 == 0) {
-         /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
-         s1 = tcg_const_tl(RV_VLEN_MAX);
-     } else {
-         s1 = tcg_temp_new();
--        gen_get_gpr(s1, a->rs1);
-+        gen_get_gpr(s1, rs1);
-     }
--    gen_get_gpr(s2, a->rs2);
+-static bool vext_check_isa_ill(DisasContext *s)
++/*
++ * Vector indexed, indexed segment store check function.
++ *
++ * Rules to be checked here:
++ *   1. EMUL must within the range: 1/8 <= EMUL <= 8. (Section 7.3)
++ *   2. Index vector register number is multiples of EMUL.
++ *      (Section 3.3.2, 7.3)
++ *   3. Destination vector register number is multiples of LMUL.
++ *      (Section 3.3.2, 7.3)
++ *   4. The EMUL setting must be such that EMUL * NFIELDS ≤ 8. (Section 7.8)
++ *   5. Vector register numbers accessed by the segment load or store
++ *      cannot increment past 31. (Section 7.8)
++ */
++static bool vext_check_st_index(DisasContext *s, int vd, int vs2, int nf,
++                                uint8_t eew)
+ {
+-    return !s->vill;
++    int8_t emul = eew - s->sew + s->lmul;
++    return (emul >= -3 && emul <= 3) &&
++            require_align(vs2, emul) &&
++            require_align(vd, s->lmul) &&
++            require_nf(vd, nf, s->lmul);
++}
 +
-     gen_helper_vsetvl(dst, cpu_env, s1, s2);
--    gen_set_gpr(a->rd, dst);
-+    gen_set_gpr(rd, dst);
-     mark_vs_dirty(ctx);
-     tcg_gen_movi_tl(cpu_pc, ctx->pc_succ_insn);
-     lookup_and_goto_ptr(ctx);
-@@ -165,35 +166,17 @@ static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
++/*
++ * Vector indexed, indexed segment load check function.
++ *
++ * Rules to be checked here:
++ *   1. All rules applies to store instructions are applies
++ *      to load instructions.
++ *   2. Destination vector register group for a masked vector
++ *      instruction cannot overlap the source mask register (v0).
++ *      (Section 5.3)
++ *   3. Destination vector register cannot overlap a source vector
++ *      register (vs2) group.
++ *      (Section 5.2)
++ *   4. Destination vector register groups cannot overlap
++ *      the source vector register (vs2) group for
++ *      indexed segment load instructions. (Section 7.8.3)
++ */
++static bool vext_check_ld_index(DisasContext *s, int vd, int vs2,
++                                int nf, int vm, uint8_t eew)
++{
++    int8_t seg_vd;
++    int8_t emul = eew - s->sew + s->lmul;
++    bool ret = vext_check_st_index(s, vd, vs2, nf, eew) &&
++        require_vm(vm, vd);
++
++    /* Each segment register group has to follow overlap rules. */
++    for (int i = 0; i < nf; ++i) {
++        seg_vd = vd + (1 << MAX(s->lmul, 0)) * i;
++
++        if (eew > s->sew) {
++            if (seg_vd != vs2) {
++                ret &= require_noover(seg_vd, s->lmul, vs2, emul);
++            }
++        } else if (eew < s->sew) {
++            ret &= require_noover(seg_vd, s->lmul, vs2, emul);
++        }
++
++        /*
++         * Destination vector register groups cannot overlap
++         * the source vector register (vs2) group for
++         * indexed segment load instructions.
++         */
++        if (nf > 1) {
++            ret &= !is_overlapped(seg_vd, 1 << MAX(s->lmul, 0),
++                                  vs2, 1 << MAX(emul, 0));
++        }
++    }
++    return ret;
+ }
+ 
+ static bool vext_check_ss(DisasContext *s, int vd, int vs, int vm)
+@@ -747,31 +808,38 @@ static bool ldst_index_trans(uint32_t vd, uint32_t rs1, uint32_t vs2,
      return true;
  }
  
--static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
-+static bool trans_vsetvl(DisasContext *ctx, arg_vsetvl *a)
+-static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
++static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
  {
--    TCGv s1, s2, dst;
--
--    if (!require_rvv(ctx) || !has_ext(ctx, RVV)) {
+     uint32_t data = 0;
+     gen_helper_ldst_index *fn;
+-    static gen_helper_ldst_index * const fns[7][4] = {
+-        { gen_helper_vlxb_v_b,  gen_helper_vlxb_v_h,
+-          gen_helper_vlxb_v_w,  gen_helper_vlxb_v_d },
+-        { NULL,                 gen_helper_vlxh_v_h,
+-          gen_helper_vlxh_v_w,  gen_helper_vlxh_v_d },
+-        { NULL,                 NULL,
+-          gen_helper_vlxw_v_w,  gen_helper_vlxw_v_d },
+-        { gen_helper_vlxe_v_b,  gen_helper_vlxe_v_h,
+-          gen_helper_vlxe_v_w,  gen_helper_vlxe_v_d },
+-        { gen_helper_vlxbu_v_b, gen_helper_vlxbu_v_h,
+-          gen_helper_vlxbu_v_w, gen_helper_vlxbu_v_d },
+-        { NULL,                 gen_helper_vlxhu_v_h,
+-          gen_helper_vlxhu_v_w, gen_helper_vlxhu_v_d },
+-        { NULL,                 NULL,
+-          gen_helper_vlxwu_v_w, gen_helper_vlxwu_v_d },
++    static gen_helper_ldst_index * const fns[4][4] = {
++        /*
++         * offset vector register group EEW = 8,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vlxei8_8_v,  gen_helper_vlxei8_16_v,
++          gen_helper_vlxei8_32_v, gen_helper_vlxei8_64_v },
++        /*
++         * offset vector register group EEW = 16,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vlxei16_8_v, gen_helper_vlxei16_16_v,
++          gen_helper_vlxei16_32_v, gen_helper_vlxei16_64_v },
++        /*
++         * offset vector register group EEW = 32,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vlxei32_8_v, gen_helper_vlxei32_16_v,
++          gen_helper_vlxei32_32_v, gen_helper_vlxei32_64_v },
++        /*
++         * offset vector register group EEW = 64,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vlxei64_8_v, gen_helper_vlxei64_16_v,
++          gen_helper_vlxei64_32_v, gen_helper_vlxei64_64_v }
+     };
+ 
+-    fn =  fns[seq][s->sew];
+-    if (fn == NULL) {
 -        return false;
 -    }
--
--    s2 = tcg_const_tl(a->zimm);
--    dst = tcg_temp_new();
--
--    /* Using x0 as the rs1 register specifier, encodes an infinite AVL */
--    if (a->rs1 == 0) {
--        /* As the mask is at least one bit, RV_VLEN_MAX is >= VLMAX */
--        s1 = tcg_const_tl(RV_VLEN_MAX);
--    } else {
--        s1 = tcg_temp_new();
--        gen_get_gpr(s1, a->rs1);
--    }
--    gen_helper_vsetvl(dst, cpu_env, s1, s2);
--    gen_set_gpr(a->rd, dst);
--    mark_vs_dirty(ctx);
--    gen_goto_tb(ctx, 0, ctx->pc_succ_insn);
--    ctx->base.is_jmp = DISAS_NORETURN;
-+    TCGv s2 = tcg_temp_new();
-+    gen_get_gpr(s2, a->rs2);
-+    return do_vsetvl(ctx, a->rd, a->rs1, s2);
-+}
++    fn = fns[eew][s->sew];
  
--    tcg_temp_free(s1);
--    tcg_temp_free(s2);
--    tcg_temp_free(dst);
--    return true;
-+static bool trans_vsetvli(DisasContext *ctx, arg_vsetvli *a)
-+{
-+    TCGv s2 = tcg_const_tl(a->zimm);
-+    return do_vsetvl(ctx, a->rd, a->rs1, s2);
+     data = FIELD_DP32(data, VDATA, VM, a->vm);
+     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+@@ -779,50 +847,50 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+     return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
  }
  
- /* vector register offset from env */
+-/*
+- * For vector indexed segment loads, the destination vector register
+- * groups cannot overlap the source vector register group (specified by
+- * `vs2`), else an illegal instruction exception is raised.
+- */
+-static bool ld_index_check(DisasContext *s, arg_rnfvm* a)
++static bool ld_index_check(DisasContext *s, arg_rnfvm* a, uint8_t eew)
+ {
+-    return (vext_check_isa_ill(s) &&
+-            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
+-            vext_check_reg(s, a->rd, false) &&
+-            vext_check_reg(s, a->rs2, false) &&
+-            vext_check_nf(s, a->nf) &&
+-            ((a->nf == 1) ||
+-             vext_check_overlap_group(a->rd, a->nf << s->lmul,
+-                                      a->rs2, 1 << s->lmul)));
++    return require_rvv(s) &&
++           vext_check_isa_ill(s) &&
++           vext_check_ld_index(s, a->rd, a->rs2, a->nf, a->vm, eew);
+ }
+ 
+-GEN_VEXT_TRANS(vlxb_v, 0, rnfvm, ld_index_op, ld_index_check)
+-GEN_VEXT_TRANS(vlxh_v, 1, rnfvm, ld_index_op, ld_index_check)
+-GEN_VEXT_TRANS(vlxw_v, 2, rnfvm, ld_index_op, ld_index_check)
+-GEN_VEXT_TRANS(vlxe_v, 3, rnfvm, ld_index_op, ld_index_check)
+-GEN_VEXT_TRANS(vlxbu_v, 4, rnfvm, ld_index_op, ld_index_check)
+-GEN_VEXT_TRANS(vlxhu_v, 5, rnfvm, ld_index_op, ld_index_check)
+-GEN_VEXT_TRANS(vlxwu_v, 6, rnfvm, ld_index_op, ld_index_check)
++GEN_VEXT_TRANS(vlxei8_v,  MO_8,  rnfvm, ld_index_op, ld_index_check)
++GEN_VEXT_TRANS(vlxei16_v, MO_16, rnfvm, ld_index_op, ld_index_check)
++GEN_VEXT_TRANS(vlxei32_v, MO_32, rnfvm, ld_index_op, ld_index_check)
++GEN_VEXT_TRANS(vlxei64_v, MO_64, rnfvm, ld_index_op, ld_index_check)
+ 
+-static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
++static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+ {
+     uint32_t data = 0;
+     gen_helper_ldst_index *fn;
+     static gen_helper_ldst_index * const fns[4][4] = {
+-        { gen_helper_vsxb_v_b,  gen_helper_vsxb_v_h,
+-          gen_helper_vsxb_v_w,  gen_helper_vsxb_v_d },
+-        { NULL,                 gen_helper_vsxh_v_h,
+-          gen_helper_vsxh_v_w,  gen_helper_vsxh_v_d },
+-        { NULL,                 NULL,
+-          gen_helper_vsxw_v_w,  gen_helper_vsxw_v_d },
+-        { gen_helper_vsxe_v_b,  gen_helper_vsxe_v_h,
+-          gen_helper_vsxe_v_w,  gen_helper_vsxe_v_d }
++        /*
++         * offset vector register group EEW = 8,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vsxei8_8_v,  gen_helper_vsxei8_16_v,
++          gen_helper_vsxei8_32_v, gen_helper_vsxei8_64_v },
++        /*
++         * offset vector register group EEW = 16,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vsxei16_8_v, gen_helper_vsxei16_16_v,
++          gen_helper_vsxei16_32_v, gen_helper_vsxei16_64_v },
++        /*
++         * offset vector register group EEW = 32,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vsxei32_8_v, gen_helper_vsxei32_16_v,
++          gen_helper_vsxei32_32_v, gen_helper_vsxei32_64_v },
++        /*
++         * offset vector register group EEW = 64,
++         * data vector register group EEW = SEW
++         */
++        { gen_helper_vsxei64_8_v, gen_helper_vsxei64_16_v,
++          gen_helper_vsxei64_32_v, gen_helper_vsxei64_64_v }
+     };
+ 
+-    fn =  fns[seq][s->sew];
+-    if (fn == NULL) {
+-        return false;
+-    }
++    fn = fns[eew][s->sew];
+ 
+     data = FIELD_DP32(data, VDATA, VM, a->vm);
+     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+@@ -830,18 +898,17 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+     return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
+ }
+ 
+-static bool st_index_check(DisasContext *s, arg_rnfvm* a)
++static bool st_index_check(DisasContext *s, arg_rnfvm* a, uint8_t eew)
+ {
+-    return (vext_check_isa_ill(s) &&
+-            vext_check_reg(s, a->rd, false) &&
+-            vext_check_reg(s, a->rs2, false) &&
+-            vext_check_nf(s, a->nf));
++    return require_rvv(s) &&
++           vext_check_isa_ill(s) &&
++           vext_check_st_index(s, a->rd, a->rs2, a->nf, eew);
+ }
+ 
+-GEN_VEXT_TRANS(vsxb_v, 0, rnfvm, st_index_op, st_index_check)
+-GEN_VEXT_TRANS(vsxh_v, 1, rnfvm, st_index_op, st_index_check)
+-GEN_VEXT_TRANS(vsxw_v, 2, rnfvm, st_index_op, st_index_check)
+-GEN_VEXT_TRANS(vsxe_v, 3, rnfvm, st_index_op, st_index_check)
++GEN_VEXT_TRANS(vsxei8_v,  MO_8,  rnfvm, st_index_op, st_index_check)
++GEN_VEXT_TRANS(vsxei16_v, MO_16, rnfvm, st_index_op, st_index_check)
++GEN_VEXT_TRANS(vsxei32_v, MO_32, rnfvm, st_index_op, st_index_check)
++GEN_VEXT_TRANS(vsxei64_v, MO_64, rnfvm, st_index_op, st_index_check)
+ 
+ /*
+  *** unit stride fault-only-first load
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 89aa7cbf73f..61917d34ffe 100644
+index 7ce6d0fb50f..368259f75a0 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -31,12 +31,24 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+@@ -371,8 +371,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+                 void *vs2, CPURISCVState *env, uint32_t desc,
+                 vext_get_index_addr get_index_addr,
+                 vext_ldst_elem_fn *ldst_elem,
+-                uint32_t esz, uint32_t msz, uintptr_t ra,
+-                MMUAccessType access_type)
++                uint32_t esz, uintptr_t ra, MMUAccessType access_type)
  {
-     int vlmax, vl;
-     RISCVCPU *cpu = env_archcpu(env);
-+    uint64_t lmul = FIELD_EX64(s2, VTYPE, VLMUL);
-     uint16_t sew = 8 << FIELD_EX64(s2, VTYPE, VSEW);
-     uint8_t ediv = FIELD_EX64(s2, VTYPE, VEDIV);
-     bool vill = FIELD_EX64(s2, VTYPE, VILL);
-     target_ulong reserved = FIELD_EX64(s2, VTYPE, RESERVED);
+     uint32_t i, k;
+     uint32_t nf = vext_nf(desc);
+@@ -384,7 +383,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+         if (!vm && !vext_elem_mask(v0, i)) {
+             continue;
+         }
+-        probe_pages(env, get_index_addr(base, i, vs2), nf * msz, ra,
++        probe_pages(env, get_index_addr(base, i, vs2), nf * esz, ra,
+                     access_type);
+     }
+     /* load bytes from guest memory */
+@@ -394,67 +393,63 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+             continue;
+         }
+         while (k < nf) {
+-            abi_ptr addr = get_index_addr(base, i, vs2) + k * msz;
++            abi_ptr addr = get_index_addr(base, i, vs2) + k * esz;
+             ldst_elem(env, addr, i + k * vlmax, vd, ra);
+             k++;
+         }
+     }
+ }
  
--    if ((sew > cpu->cfg.elen) || vill || (ediv != 0) || (reserved != 0)) {
-+    if (lmul & 4) {
-+        /* Fractional LMUL. */
-+        if (lmul == 4 ||
-+            cpu->cfg.elen >> (8 - lmul) < sew) {
-+            vill = true;
-+        }
-+    }
+-#define GEN_VEXT_LD_INDEX(NAME, MTYPE, ETYPE, INDEX_FN, LOAD_FN)           \
++#define GEN_VEXT_LD_INDEX(NAME, ETYPE, INDEX_FN, LOAD_FN)                  \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                   \
+                   void *vs2, CPURISCVState *env, uint32_t desc)            \
+ {                                                                          \
+     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,                \
+-                    LOAD_FN, sizeof(ETYPE), sizeof(MTYPE),                 \
+-                    GETPC(), MMU_DATA_LOAD);                               \
+-}
+-
+-GEN_VEXT_LD_INDEX(vlxb_v_b,  int8_t,   int8_t,   idx_b, ldb_b)
+-GEN_VEXT_LD_INDEX(vlxb_v_h,  int8_t,   int16_t,  idx_h, ldb_h)
+-GEN_VEXT_LD_INDEX(vlxb_v_w,  int8_t,   int32_t,  idx_w, ldb_w)
+-GEN_VEXT_LD_INDEX(vlxb_v_d,  int8_t,   int64_t,  idx_d, ldb_d)
+-GEN_VEXT_LD_INDEX(vlxh_v_h,  int16_t,  int16_t,  idx_h, ldh_h)
+-GEN_VEXT_LD_INDEX(vlxh_v_w,  int16_t,  int32_t,  idx_w, ldh_w)
+-GEN_VEXT_LD_INDEX(vlxh_v_d,  int16_t,  int64_t,  idx_d, ldh_d)
+-GEN_VEXT_LD_INDEX(vlxw_v_w,  int32_t,  int32_t,  idx_w, ldw_w)
+-GEN_VEXT_LD_INDEX(vlxw_v_d,  int32_t,  int64_t,  idx_d, ldw_d)
+-GEN_VEXT_LD_INDEX(vlxe_v_b,  int8_t,   int8_t,   idx_b, lde_b)
+-GEN_VEXT_LD_INDEX(vlxe_v_h,  int16_t,  int16_t,  idx_h, lde_h)
+-GEN_VEXT_LD_INDEX(vlxe_v_w,  int32_t,  int32_t,  idx_w, lde_w)
+-GEN_VEXT_LD_INDEX(vlxe_v_d,  int64_t,  int64_t,  idx_d, lde_d)
+-GEN_VEXT_LD_INDEX(vlxbu_v_b, uint8_t,  uint8_t,  idx_b, ldbu_b)
+-GEN_VEXT_LD_INDEX(vlxbu_v_h, uint8_t,  uint16_t, idx_h, ldbu_h)
+-GEN_VEXT_LD_INDEX(vlxbu_v_w, uint8_t,  uint32_t, idx_w, ldbu_w)
+-GEN_VEXT_LD_INDEX(vlxbu_v_d, uint8_t,  uint64_t, idx_d, ldbu_d)
+-GEN_VEXT_LD_INDEX(vlxhu_v_h, uint16_t, uint16_t, idx_h, ldhu_h)
+-GEN_VEXT_LD_INDEX(vlxhu_v_w, uint16_t, uint32_t, idx_w, ldhu_w)
+-GEN_VEXT_LD_INDEX(vlxhu_v_d, uint16_t, uint64_t, idx_d, ldhu_d)
+-GEN_VEXT_LD_INDEX(vlxwu_v_w, uint32_t, uint32_t, idx_w, ldwu_w)
+-GEN_VEXT_LD_INDEX(vlxwu_v_d, uint32_t, uint64_t, idx_d, ldwu_d)
+-
+-#define GEN_VEXT_ST_INDEX(NAME, MTYPE, ETYPE, INDEX_FN, STORE_FN)\
++                    LOAD_FN, sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);       \
++}
 +
-+    if ((sew > cpu->cfg.elen)
-+        || vill
-+        || (ediv != 0)
-+        || (reserved != 0)) {
-         /* only set vill bit. */
-         env->vtype = FIELD_DP64(0, VTYPE, VILL, 1);
-         env->vl = 0;
++GEN_VEXT_LD_INDEX(vlxei8_8_v,   int8_t,  idx_b, lde_b)
++GEN_VEXT_LD_INDEX(vlxei8_16_v,  int16_t, idx_b, lde_h)
++GEN_VEXT_LD_INDEX(vlxei8_32_v,  int32_t, idx_b, lde_w)
++GEN_VEXT_LD_INDEX(vlxei8_64_v,  int64_t, idx_b, lde_d)
++GEN_VEXT_LD_INDEX(vlxei16_8_v,  int8_t,  idx_h, lde_b)
++GEN_VEXT_LD_INDEX(vlxei16_16_v, int16_t, idx_h, lde_h)
++GEN_VEXT_LD_INDEX(vlxei16_32_v, int32_t, idx_h, lde_w)
++GEN_VEXT_LD_INDEX(vlxei16_64_v, int64_t, idx_h, lde_d)
++GEN_VEXT_LD_INDEX(vlxei32_8_v,  int8_t,  idx_w, lde_b)
++GEN_VEXT_LD_INDEX(vlxei32_16_v, int16_t, idx_w, lde_h)
++GEN_VEXT_LD_INDEX(vlxei32_32_v, int32_t, idx_w, lde_w)
++GEN_VEXT_LD_INDEX(vlxei32_64_v, int64_t, idx_w, lde_d)
++GEN_VEXT_LD_INDEX(vlxei64_8_v,  int8_t,  idx_d, lde_b)
++GEN_VEXT_LD_INDEX(vlxei64_16_v, int16_t, idx_d, lde_h)
++GEN_VEXT_LD_INDEX(vlxei64_32_v, int32_t, idx_d, lde_w)
++GEN_VEXT_LD_INDEX(vlxei64_64_v, int64_t, idx_d, lde_d)
++
++#define GEN_VEXT_ST_INDEX(NAME, ETYPE, INDEX_FN, STORE_FN)       \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,         \
+                   void *vs2, CPURISCVState *env, uint32_t desc)  \
+ {                                                                \
+     vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,      \
+-                    STORE_FN, sizeof(ETYPE), sizeof(MTYPE),      \
++                    STORE_FN, sizeof(ETYPE),                     \
+                     GETPC(), MMU_DATA_STORE);                    \
+ }
+ 
+-GEN_VEXT_ST_INDEX(vsxb_v_b, int8_t,  int8_t,  idx_b, stb_b)
+-GEN_VEXT_ST_INDEX(vsxb_v_h, int8_t,  int16_t, idx_h, stb_h)
+-GEN_VEXT_ST_INDEX(vsxb_v_w, int8_t,  int32_t, idx_w, stb_w)
+-GEN_VEXT_ST_INDEX(vsxb_v_d, int8_t,  int64_t, idx_d, stb_d)
+-GEN_VEXT_ST_INDEX(vsxh_v_h, int16_t, int16_t, idx_h, sth_h)
+-GEN_VEXT_ST_INDEX(vsxh_v_w, int16_t, int32_t, idx_w, sth_w)
+-GEN_VEXT_ST_INDEX(vsxh_v_d, int16_t, int64_t, idx_d, sth_d)
+-GEN_VEXT_ST_INDEX(vsxw_v_w, int32_t, int32_t, idx_w, stw_w)
+-GEN_VEXT_ST_INDEX(vsxw_v_d, int32_t, int64_t, idx_d, stw_d)
+-GEN_VEXT_ST_INDEX(vsxe_v_b, int8_t,  int8_t,  idx_b, ste_b)
+-GEN_VEXT_ST_INDEX(vsxe_v_h, int16_t, int16_t, idx_h, ste_h)
+-GEN_VEXT_ST_INDEX(vsxe_v_w, int32_t, int32_t, idx_w, ste_w)
+-GEN_VEXT_ST_INDEX(vsxe_v_d, int64_t, int64_t, idx_d, ste_d)
++GEN_VEXT_ST_INDEX(vsxei8_8_v,   int8_t,  idx_b, ste_b)
++GEN_VEXT_ST_INDEX(vsxei8_16_v,  int16_t, idx_b, ste_h)
++GEN_VEXT_ST_INDEX(vsxei8_32_v,  int32_t, idx_b, ste_w)
++GEN_VEXT_ST_INDEX(vsxei8_64_v,  int64_t, idx_b, ste_d)
++GEN_VEXT_ST_INDEX(vsxei16_8_v,  int8_t,  idx_h, ste_b)
++GEN_VEXT_ST_INDEX(vsxei16_16_v, int16_t, idx_h, ste_h)
++GEN_VEXT_ST_INDEX(vsxei16_32_v, int32_t, idx_h, ste_w)
++GEN_VEXT_ST_INDEX(vsxei16_64_v, int64_t, idx_h, ste_d)
++GEN_VEXT_ST_INDEX(vsxei32_8_v,  int8_t,  idx_w, ste_b)
++GEN_VEXT_ST_INDEX(vsxei32_16_v, int16_t, idx_w, ste_h)
++GEN_VEXT_ST_INDEX(vsxei32_32_v, int32_t, idx_w, ste_w)
++GEN_VEXT_ST_INDEX(vsxei32_64_v, int64_t, idx_w, ste_d)
++GEN_VEXT_ST_INDEX(vsxei64_8_v,  int8_t,  idx_d, ste_b)
++GEN_VEXT_ST_INDEX(vsxei64_16_v, int16_t, idx_d, ste_h)
++GEN_VEXT_ST_INDEX(vsxei64_32_v, int32_t, idx_d, ste_w)
++GEN_VEXT_ST_INDEX(vsxei64_64_v, int64_t, idx_d, ste_d)
+ 
+ /*
+  *** unit-stride fault-only-fisrt load instructions
 -- 
 2.17.1
 
