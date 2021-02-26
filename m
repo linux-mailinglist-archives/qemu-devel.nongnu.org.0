@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C53432608E
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:54:25 +0100 (CET)
-Received: from localhost ([::1]:52792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B92326081
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:52:07 +0100 (CET)
+Received: from localhost ([::1]:44472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFZpI-0001V8-Cy
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:54:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36326)
+	id 1lFZn4-0006af-4y
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:52:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZkq-0004oS-PC
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZkq-0004nl-7K
  for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:49:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:42986)
+Received: from mx2.suse.de ([195.135.220.15]:43002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZkm-0004nS-5d
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:49:48 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZkm-0004na-Rk
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:49:47 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D5EDAAF3F;
- Fri, 26 Feb 2021 09:49:42 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 64B1EAF44;
+ Fri, 26 Feb 2021 09:49:43 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,9 +28,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v24 03/18] accel: introduce new accessor functions
-Date: Fri, 26 Feb 2021 10:49:24 +0100
-Message-Id: <20210226094939.11087-4-cfontana@suse.de>
+Subject: [PATCH v24 04/18] target/i386: fix host_cpu_adjust_phys_bits error
+ handling
+Date: Fri, 26 Feb 2021 10:49:25 +0100
+Message-Id: <20210226094939.11087-5-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226094939.11087-1-cfontana@suse.de>
 References: <20210226094939.11087-1-cfontana@suse.de>
@@ -63,128 +64,65 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-avoid open coding the accesses to cpu->accel_cpu interfaces,
-and instead introduce:
-
-accel_cpu_instance_init,
-accel_cpu_realizefn
-
-to be used by the targets/ initfn code,
-and by cpu_exec_realizefn respectively.
+move the check for phys_bits outside of host_cpu_adjust_phys_bits,
+because otherwise it is impossible to return an error condition
+explicitly.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/accel.h | 13 +++++++++++++
- accel/accel-common.c | 19 +++++++++++++++++++
- cpu.c                |  6 +-----
- target/i386/cpu.c    |  9 ++-------
- 4 files changed, 35 insertions(+), 12 deletions(-)
+ target/i386/host-cpu.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index b9d6d69eb8..da0c8ab523 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -78,4 +78,17 @@ int accel_init_machine(AccelState *accel, MachineState *ms);
- void accel_setup_post(MachineState *ms);
- #endif /* !CONFIG_USER_ONLY */
- 
-+/**
-+ * accel_cpu_instance_init:
-+ * @cpu: The CPU that needs to do accel-specific object initializations.
-+ */
-+void accel_cpu_instance_init(CPUState *cpu);
-+
-+/**
-+ * accel_cpu_realizefn:
-+ * @cpu: The CPU that needs to call accel-specific cpu realization.
-+ * @errp: currently unused.
-+ */
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+
- #endif /* QEMU_ACCEL_H */
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 9901b0531c..0f6fb4fb66 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -89,6 +89,25 @@ void accel_init_interfaces(AccelClass *ac)
-     accel_init_cpu_interfaces(ac);
+diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
+index 9cfe56ce41..d07d41c34c 100644
+--- a/target/i386/host-cpu.c
++++ b/target/i386/host-cpu.c
+@@ -50,7 +50,7 @@ static void host_cpu_enable_cpu_pm(X86CPU *cpu)
+     env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
  }
  
-+void accel_cpu_instance_init(CPUState *cpu)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_instance_init) {
-+        cc->accel_cpu->cpu_instance_init(cpu);
-+    }
-+}
-+
-+void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+{
-+    CPUClass *cc = CPU_GET_CLASS(cpu);
-+
-+    if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
-+        /* NB: errp parameter is unused currently */
-+        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+    }
-+}
-+
- static const TypeInfo accel_cpu_type = {
-     .name = TYPE_ACCEL_CPU,
-     .parent = TYPE_OBJECT,
-diff --git a/cpu.c b/cpu.c
-index ba5d272c1e..25e6fbfa2c 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,11 +130,7 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--
--    if (cc->accel_cpu) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
--    }
-+    accel_cpu_realizefn(cpu, errp);
- 
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 6e2b5d7e59..14e2a60ee5 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -28,7 +28,6 @@
- #include "sysemu/kvm.h"
- #include "sysemu/reset.h"
- #include "sysemu/hvf.h"
--#include "hw/core/accel-cpu.h"
- #include "sysemu/xen.h"
- #include "sysemu/whpx.h"
- #include "kvm/kvm_i386.h"
-@@ -6786,8 +6785,6 @@ static void x86_cpu_initfn(Object *obj)
+-static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
++static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
  {
-     X86CPU *cpu = X86_CPU(obj);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
--    CPUClass *cc = CPU_CLASS(xcc);
--
-     CPUX86State *env = &cpu->env;
- 
-     env->nr_dies = 1;
-@@ -6836,10 +6833,8 @@ static void x86_cpu_initfn(Object *obj)
-         x86_cpu_load_model(cpu, xcc->model);
+     uint32_t host_phys_bits = host_cpu_phys_bits();
+     uint32_t phys_bits = cpu->phys_bits;
+@@ -77,14 +77,6 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
+         }
      }
  
--    /* if required, do the accelerator-specific cpu initialization */
--    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_instance_init(CPU(obj));
+-    if (phys_bits &&
+-        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
+-         phys_bits < 32)) {
+-        error_setg(errp, "phys-bits should be between 32 and %u "
+-                   " (but is %u)",
+-                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
 -    }
-+    /* if required, do accelerator-specific cpu initializations */
-+    accel_cpu_instance_init(CPU(obj));
+-
+     return phys_bits;
  }
  
- static int64_t x86_cpu_get_arch_id(CPUState *cs)
+@@ -97,7 +89,17 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
+         host_cpu_enable_cpu_pm(cpu);
+     }
+     if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
+-        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
++        uint32_t phys_bits = host_cpu_adjust_phys_bits(cpu);
++
++        if (phys_bits &&
++            (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
++             phys_bits < 32)) {
++            error_setg(errp, "phys-bits should be between 32 and %u "
++                       " (but is %u)",
++                       TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
++            return;
++        }
++        cpu->phys_bits = phys_bits;
+     }
+ }
+ 
 -- 
 2.26.2
 
