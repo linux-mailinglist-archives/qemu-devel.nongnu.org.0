@@ -2,57 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D7E326231
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 12:54:28 +0100 (CET)
-Received: from localhost ([::1]:34238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1169F32624D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 13:07:55 +0100 (CET)
+Received: from localhost ([::1]:39856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFbhT-0006rc-R5
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 06:54:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40886)
+	id 1lFbuT-0001fb-Hm
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 07:07:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lFbf2-0005pZ-Nf
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:51:56 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:38832
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lFbew-0001sR-4T
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:51:56 -0500
-Received: from host31-48-197-98.range31-48.btcentralplus.com ([31.48.197.98]
- helo=[192.168.1.65]) by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1lFben-0007bo-OZ; Fri, 26 Feb 2021 11:51:45 +0000
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Bin Meng <bmeng.cn@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <1614333786-74258-1-git-send-email-bmeng.cn@gmail.com>
- <1614333786-74258-2-git-send-email-bmeng.cn@gmail.com>
- <b9c3f883-7365-f30c-0b22-15b5e089268a@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <2c75b5d7-bafc-8606-4dba-a32cede17a14@ilande.co.uk>
-Date: Fri, 26 Feb 2021 11:51:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lFbt3-00011d-ID
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 07:06:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47811)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1lFbt0-0008LH-Ia
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 07:06:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614341181;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=5sSUGjJl0N9rSE3mNsymbDryUSITyUiRDPA98/1ZvGo=;
+ b=SSxE+zTKuKmm+zFT0BC5CJL6Jvvu+X/xVXIdEZPWToqS3J+NGdHpYcNrvyFkBKfac/myQr
+ NR6SPabUMCFwvcuhv2f2LSuuV1ljVKyjNPSKtG65xGT8d/CqwpuTXxtrEV8RxRN5Uxt3FN
+ TpdMpHZL0ir/8t5ejomJ/rNdvr96vow=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-405-vrbIAKLDNrGyBGBYoGwk0g-1; Fri, 26 Feb 2021 07:06:17 -0500
+X-MC-Unique: vrbIAKLDNrGyBGBYoGwk0g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADC3C1868404;
+ Fri, 26 Feb 2021 12:06:16 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 667B8E2E2;
+ Fri, 26 Feb 2021 12:06:11 +0000 (UTC)
+From: marcandre.lureau@redhat.com
+To: qemu-devel@nongnu.org
+Subject: [PATCH] net: remove qemu_ether_ntoa()
+Date: Fri, 26 Feb 2021 16:06:07 +0400
+Message-Id: <20210226120607.675753-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <b9c3f883-7365-f30c-0b22-15b5e089268a@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 31.48.197.98
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [RFC PATCH 1/3] net: Pad short frames to minimum size (60 bytes)
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=216.205.24.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.349,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,80 +76,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-trivial@nongnu.org,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ jasowang@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/02/2021 10:29, Philippe Mathieu-Daudé wrote:
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-> On 2/26/21 11:03 AM, Bin Meng wrote:
->> From: Bin Meng <bin.meng@windriver.com>
->>
->> The minimum Ethernet frame length is 60 bytes, and we should pad
->> frames whose length is smaller to the minimum size.
->>
->> This commit fixes the issue as seen with various ethernet models,
->> that ARP requests get dropped, preventing the guest from becoming
->> visible on the network.
-> 
-> Is it also used in commit 18995b9808d ("Send a RARP packet after
-> migration.")?
-> 
->> The following 2 commits that attempted to workaround this issue
->> in e1000 and vmxenet3 before, should be reverted.
->>
->>    commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
->>    commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
->>
->> Signed-off-by: Bin Meng <bin.meng@windriver.com>
->> ---
->>
->>   net/net.c | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/net/net.c b/net/net.c
->> index b038370..34004da 100644
->> --- a/net/net.c
->> +++ b/net/net.c
->> @@ -638,6 +638,7 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
->>                                                    NetPacketSent *sent_cb)
->>   {
->>       NetQueue *queue;
->> +    uint8_t min_buf[60];
-> 
-> Can you add a definition instead of a magic value?
-> Maybe ETH_FRAME_MIN_LEN in "net/eth.h"?
-> 
->>       int ret;
->>   
->>   #ifdef DEBUG_NET
->> @@ -649,6 +650,14 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
->>           return size;
->>       }
->>   
->> +    /* Pad to minimum Ethernet frame length */
->> +    if (size < sizeof(min_buf)) {
->> +        memcpy(min_buf, buf, size);
->> +        memset(&min_buf[size], 0, sizeof(min_buf) - size);
->> +        buf = min_buf;
->> +        size = sizeof(min_buf);
->> +    }
->> +
->>       /* Let filters handle the packet first */
->>       ret = filter_receive(sender, NET_FILTER_DIRECTION_TX,
->>                            sender, flags, buf, size, sent_cb);
->>
+The function is not thread-safe and sets a bad example. It's used in a
+single place for tracing, so open-code the format string like other
+trace events with MAC addresses.
 
-Looks like this pattern is also used in a few other cards. From the SPARC/PPC world:
+Cc: qemu-trivial@nongnu.org
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ include/qemu-common.h |  1 -
+ net/announce.c        |  8 +++++++-
+ util/cutils.c         | 13 -------------
+ net/trace-events      |  2 +-
+ 4 files changed, 8 insertions(+), 16 deletions(-)
 
-https://gitlab.com/qemu-project/qemu/-/blob/master/hw/net/pcnet.c#L1003
-https://gitlab.com/qemu-project/qemu/-/blob/master/hw/net/sungem.c#L587
-https://gitlab.com/qemu-project/qemu/-/blob/master/hw/net/sunhme.c#L778
+diff --git a/include/qemu-common.h b/include/qemu-common.h
+index 654621444e..209133bfca 100644
+--- a/include/qemu-common.h
++++ b/include/qemu-common.h
+@@ -132,7 +132,6 @@ void qemu_hexdump(FILE *fp, const char *prefix,
+  */
+ int parse_debug_env(const char *name, int max, int initial);
+ 
+-const char *qemu_ether_ntoa(const MACAddr *mac);
+ void page_size_init(void);
+ 
+ /* returns non-zero if dump is in progress, otherwise zero is
+diff --git a/net/announce.c b/net/announce.c
+index 26f057f5ee..fc0c6baace 100644
+--- a/net/announce.c
++++ b/net/announce.c
+@@ -146,7 +146,13 @@ static void qemu_announce_self_iter(NICState *nic, void *opaque)
+ 
+     trace_qemu_announce_self_iter(timer->params.has_id ? timer->params.id : "_",
+                                   nic->ncs->name,
+-                                  qemu_ether_ntoa(&nic->conf->macaddr), skip);
++                                  nic->conf->macaddr.a[0],
++                                  nic->conf->macaddr.a[1],
++                                  nic->conf->macaddr.a[2],
++                                  nic->conf->macaddr.a[3],
++                                  nic->conf->macaddr.a[4],
++                                  nic->conf->macaddr.a[5],
++                                  skip);
+ 
+     if (!skip) {
+         len = announce_self_create(buf, nic->conf->macaddr.a);
+diff --git a/util/cutils.c b/util/cutils.c
+index 70c7d6efbd..b5460a72b4 100644
+--- a/util/cutils.c
++++ b/util/cutils.c
+@@ -847,19 +847,6 @@ int parse_debug_env(const char *name, int max, int initial)
+     return debug;
+ }
+ 
+-/*
+- * Helper to print ethernet mac address
+- */
+-const char *qemu_ether_ntoa(const MACAddr *mac)
+-{
+-    static char ret[18];
+-
+-    snprintf(ret, sizeof(ret), "%02x:%02x:%02x:%02x:%02x:%02x",
+-             mac->a[0], mac->a[1], mac->a[2], mac->a[3], mac->a[4], mac->a[5]);
+-
+-    return ret;
+-}
+-
+ /*
+  * Return human readable string for size @val.
+  * @val can be anything that uint64_t allows (no more than "16 EiB").
+diff --git a/net/trace-events b/net/trace-events
+index bfaff7891d..07d6203602 100644
+--- a/net/trace-events
++++ b/net/trace-events
+@@ -1,7 +1,7 @@
+ # See docs/devel/tracing.txt for syntax documentation.
+ 
+ # announce.c
+-qemu_announce_self_iter(const char *id, const char *name, const char *mac, int skip) "%s:%s:%s skip: %d"
++qemu_announce_self_iter(const char *id, const char *name, char mac0, char mac1, char mac2, char mac3, char mac4, char mac5, int skip) "%s:%s:%02x:%02x:%02x:%02x:%02x:%02x skip: %d"
+ qemu_announce_timer_del(bool free_named, bool free_timer, char *id) "free named: %d free timer: %d id: %s"
+ 
+ # vhost-user.c
+-- 
+2.29.0
 
-I can easily review/test patches that remove the same code from the cards.
-
-
-ATB,
-
-Mark.
 
