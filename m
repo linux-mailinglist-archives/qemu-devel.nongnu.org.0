@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3C8325C70
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 05:15:56 +0100 (CET)
-Received: from localhost ([::1]:37344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1CBC325C7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 05:19:54 +0100 (CET)
+Received: from localhost ([::1]:53836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFUXj-0005w1-Qr
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 23:15:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39496)
+	id 1lFUbZ-0004Bj-U0
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 23:19:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40630)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lFU5u-0002Rg-Gg
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:47:10 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:34864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lFU5s-00052M-P2
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:47:10 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id j24so5362877pfi.2
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:47:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=zL6A1FmIXE6QIsQRUkZrOfpSAns82Mq9zs7OFKgkwTg=;
- b=ef23qUIgmzIEte4YivydEmwYP+R5ixGRB/z8t9D4jlGYlNsM1FU4iEqon8RBH3Md9e
- oyoRXmZEHgnqa1Xze43yIZnW+380KNX9Yx2ydz2sGdiAoBrzhUmI0RskVVTG4acxLTiQ
- +bd29/zvBELN85dQnQDzqM7tI89Ht0JUHhks/V73Yr5tZy122VsMqFQd8hrMNcTOiqy8
- JKwSQ7dK3FO1LMGneJJ6S2rBNJC7eFciRmISmAmZsrcMKLaktaqRXZDYaJdGLqCufiWG
- 9UO8HhyoGnUHw6HYTmAIKVWE3tFfIB07lymE8C5nGKEfSDJFLZo2aT/dUWgmqbqyMnkS
- MBbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=zL6A1FmIXE6QIsQRUkZrOfpSAns82Mq9zs7OFKgkwTg=;
- b=EUIWeantLpnGlkU8O6gObXTj0TVuN8YF+9pbLP2R1G+g3UeISEz3gGBjSeJmQCAxmO
- I0aBTuDGJV7/p8Zthajbw/g1t62uJEsC17uUxyWLJGlqSNcHs4tKrvM7wirKMBCyNrEK
- OXZkvW8NxC499MDU1wRXBQM1KGeAQOpNatN4QzoKsSDbRdUVR8bpPScMhRLpCIONHie7
- o0NpnY1L8LsWMaSvbaiBSxPDNJruKM3fVEg8J3hrEx8FZ/7Oxvy67rdzcGn19Z1B2oPe
- lKCjijRz5k9e6b3kDt8+MFbTN+4s/VbZcx3bKFN39pBcA3sBNGsOU2Wet0WZlGLLDA1Y
- eFnw==
-X-Gm-Message-State: AOAM531r/89zGtQemTn+9yQIdDCjkGJstpGIt7tf3anWxpf8KBqG8rqG
- WWxt2hY56hyLEEbaqYFNY8b/cw==
-X-Google-Smtp-Source: ABdhPJxLWuxl0c8BoVHbdEXWJaDWVD2XiTgyL/EQo4BEiFi1G7zd6x3fopjDCUxn4IJf83FqPt/6oQ==
-X-Received: by 2002:a62:1608:0:b029:1ee:2afc:26aa with SMTP id
- 8-20020a6216080000b02901ee2afc26aamr1151798pfw.40.1614311227019; 
- Thu, 25 Feb 2021 19:47:07 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id m18sm7883292pfd.206.2021.02.25.19.47.06
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Feb 2021 19:47:06 -0800 (PST)
-Subject: Re: [PATCH v2 09/10] target/hexagon: call idef-parser functions
-To: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org
-References: <20210225151856.3284701-1-ale.qemu@rev.ng>
- <20210225151856.3284701-10-ale.qemu@rev.ng>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <87605056-2b5f-842f-1cf5-e0d205584f1b@linaro.org>
-Date: Thu, 25 Feb 2021 19:47:04 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <ashe@kivikakk.ee>)
+ id 1lFUDm-0005nd-Re; Thu, 25 Feb 2021 22:55:18 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:36499)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <ashe@kivikakk.ee>)
+ id 1lFUDl-0001GR-13; Thu, 25 Feb 2021 22:55:18 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.nyi.internal (Postfix) with ESMTP id B725E5C00B4;
+ Thu, 25 Feb 2021 22:55:15 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Thu, 25 Feb 2021 22:55:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kivikakk.ee; h=
+ from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm3; bh=BDcvrC+yXQQQgWbS7S0zznNhfF
+ peAjVX+wpeCV+dUTE=; b=A5kqGrjY0KRmTAc3m3Rbqe4Rcnjz10vPrlIgyTw1MQ
+ OO7afCqJcEcl6ZYISCNJ/q1t9cjmRrsCdCrTHd3RXUpDFyHfGcr/IvcHzIqOSqsk
+ G+pJRYlYfZkEloipOr3jtRHqEvuW2+y6eofjvaZxjLKMlyRKLbZS7GE8lcXh1RAW
+ rE4APViEX4zSdKxMXzOYFc2Ix7PdU1GfhfXsiYUMaNYlmAb5nd3cmpSiwn3U6T5M
+ uiX10F1UjE5k4eL+sobkg+FxOWNr0nc1c0wKVVyFmxi+wacsRZc7dL399LpbnCjg
+ /PBR6N7ZSaad8/0agGZIfeojteLxwIAQhLom4wQRTc1g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=BDcvrC+yXQQQgWbS7
+ S0zznNhfFpeAjVX+wpeCV+dUTE=; b=tGzLwBxJNl3XUksKsCekp23V5peZ08Vki
+ r0sSwnMPS2gPBwSgS/QG+WoZ9TGYWA8xM2TTM0HM9011s0Fujg+rIiYWgbTWZS/+
+ YLo0mugohAdo+kBOmljr1JpZOzSO+h4J3yeufRy6obTMkxOuKLC1EkMcDDj/LhBq
+ +aIQQmJ4rn9YZXmCtMYvcComdoli6k2vHdAHeOtflpjErF9NAUd/DS8JroAOiq40
+ v1LpRrQN/UOXq9AWomuYbuDDyj9dGEeVmIDcMyZpEd5RwQrzkszH1lMfFbO3mPWw
+ 6uH7foPJLKZGav9vrLAxnlFlJtI3xiGAf2fEq+59wXMSdPxV37V/g==
+X-ME-Sender: <xms:InE4YMMPwvYFvVZSRvduJ98DOJD1aQglR1M_HdJmK7i_V9UN1fXYEw>
+ <xme:InE4YC8EhFRgFvWNc-GQqsBlFMn05O0ZnJNu6dyuBnC0qh1rX22piuJL34NU3SuRz
+ lygOn2C8jtzdoj4SeQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrledtgdeiiecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomheptehshhgvrhgrhhcu
+ vehonhhnohhruceorghshhgvsehkihhvihhkrghkkhdrvggvqeenucggtffrrghtthgvrh
+ hnpeejjeejleehvdeutdegueeikeffvdetvdefjeeuffeutedtiedthffgkeeifeeifeen
+ ucfkphepudduledrudekrdefuddrudefheenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpegrshhhvgeskhhivhhikhgrkhhkrdgvvg
+X-ME-Proxy: <xmx:InE4YDRarCwjUmgFIH72ZCb9QVz9ioaoxTt7TSswErafFDqzZufocA>
+ <xmx:InE4YEuMQGPiKggZRQEyrWXezcwOtZKSSi4P2HAP3p1bU7elGROMSw>
+ <xmx:InE4YEfi7tvoZIw6tFGZZfMlBvpRvXxGKkzuoVxcpmJOFgMb4JRhbQ>
+ <xmx:I3E4YD7zqYlgrJGl7dcvR9ACkZIOJ42Ziq3M3IxRYHX7noebMCEi-A>
+Received: from localhost.localdomain
+ (119-18-31-135.77121f.mel.static.aussiebb.net [119.18.31.135])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 03A36108005F;
+ Thu, 25 Feb 2021 22:55:11 -0500 (EST)
+From: Asherah Connor <ashe@kivikakk.ee>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] hw/riscv: Add fw_cfg support, allow ramfb
+Date: Fri, 26 Feb 2021 14:54:45 +1100
+Message-Id: <20210226035447.1252-1-ashe@kivikakk.ee>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <20210225151856.3284701-10-ale.qemu@rev.ng>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -24
-X-Spam_score: -2.5
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=ashe@kivikakk.ee;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,22 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alessandro Di Federico <ale@rev.ng>, bcain@quicinc.com, babush@rev.ng,
- tsimpson@quicinc.com, nizzo@rev.ng, philmd@redhat.com
+Cc: qemu-riscv@nongnu.org, Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Asherah Connor <ashe@kivikakk.ee>, Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/25/21 7:18 AM, Alessandro Di Federico wrote:
-> +            elif hex_common.is_new_val(regtype, regid, tag):
-> +                declared.append("%s%sN" % (regtype,regid))
-> +            else:
-> +                print("Bad register parse: ",regtype,regid,toss,numregs)
+Here's version two of the series to bring fw_cfg support to riscv's virt
+machine.  We add support for the DMA interface, as this is needed for
+writes.
 
-print, but nothing to force exit-with-failure, now or at a later date.  Just
-raise a python exception?
+The ultimate goal is to add ramfb support, in the second patch.  It
+works well!
 
-Otherwise looks fine.
+Changes in v2:
+* Add DMA interface support.
+* Add ramfb as allowed on riscv virt machine class.
 
+Asherah Connor (2):
+  hw/riscv: Add fw_cfg support to virt
+  hw/riscv: allow ramfb on virt
 
-r~
+ hw/riscv/Kconfig        |  1 +
+ hw/riscv/virt.c         | 30 ++++++++++++++++++++++++++++++
+ include/hw/riscv/virt.h |  4 +++-
+ 3 files changed, 34 insertions(+), 1 deletion(-)
+
+-- 
+2.24.3 (Apple Git-128)
+
 
