@@ -2,46 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3769E325F7F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 09:54:27 +0100 (CET)
-Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7918B325F83
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 09:56:12 +0100 (CET)
+Received: from localhost ([::1]:44190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFYtF-0000SJ-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 03:54:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43908)
+	id 1lFYux-0002pL-GR
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 03:56:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1lFYIH-0004XP-QU; Fri, 26 Feb 2021 03:16:14 -0500
-Received: from szxga07-in.huawei.com ([45.249.212.35]:2654)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kuhn.chenqun@huawei.com>)
- id 1lFYID-0001N1-SC; Fri, 26 Feb 2021 03:16:13 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4Dn2W40sKzz7qbw;
- Fri, 26 Feb 2021 16:14:24 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS408-HUB.china.huawei.com
- (10.3.19.208) with Microsoft SMTP Server id 14.3.498.0; Fri, 26 Feb 2021
- 16:15:50 +0800
-From: Chen Qun <kuhn.chenqun@huawei.com>
-To: <qemu-devel@nongnu.org>, <qemu-trivial@nongnu.org>
-Subject: [PATCH v2] qtest: delete superfluous inclusions of qtest.h
-Date: Fri, 26 Feb 2021 16:14:14 +0800
-Message-ID: <20210226081414.205946-1-kuhn.chenqun@huawei.com>
-X-Mailer: git-send-email 2.23.0
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lFYPl-0003R9-RQ
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:23:58 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:32838)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lFYPj-0005x4-V9
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:23:57 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id 7so7724406wrz.0
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 00:23:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dme-org.20150623.gappssmtp.com; s=20150623;
+ h=to:cc:subject:in-reply-to:references:from:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=vt4rqWW/cUh0a/p4IZj2bZduLB4ygab86ObvHCIWI5Y=;
+ b=zW03pUCI+G9pUBGtu10a1zUkN3H8smjDXjwQD1cMZG6ahjc1Q+pFf9xqNENCZ5kLoB
+ GvBt5bILMXT2AuGtFm5NMw+XNhnRo327c0OhhnwwdWLkfxhhbTYZfgYpR8v5xvQvL1Uv
+ wRG0eFpRjJEMWLehY98BIEI9qVZinX1BMRgc8QZOv1FOYTQV0ttKs/OA2OOzNNmvxgQZ
+ ByDjJ5ZP4orkORCcY31/FYcKYkuH+2NcI1/WYMOPDYmOotG7hyC34eiYp1d3aQ/pw0iX
+ 0kxhJ3FuI2BrjkzqIKKjnZ8fyWWiXcyzXdiAqjtxAIFTRX8jzOXBcOA62CbLH5y0smKe
+ S6FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
+ :message-id:mime-version:content-transfer-encoding;
+ bh=vt4rqWW/cUh0a/p4IZj2bZduLB4ygab86ObvHCIWI5Y=;
+ b=hdt19WUIjqGfvDKwEO5HEcyfOmz6471T0Jwe4rgSxfAq2SajfXA0iJMSXE27MicyPI
+ ldr/xuQ1Vttf/Nz6b+pmOuYUA/XR4IPJbde8bAPpklQDmYk8SZi3XcoG/uoNfiQdBrRY
+ oJS6YTZIEJybnQXkzQUxqie8v0EtksDaLDiW9i2L9n593nJtQ5+pg3YMw0fEpStFv7Fx
+ PFy/T3z6LwECmPoOBA8fjVn19a5cGXKr/d7mrt0yeJFeqtnZBgekRzf0DMO83Nem52cd
+ okEZr0OWj/2Hs+GqTHdoH0uSg3sP6LXTRG5gWTXdY3vjA21Bw8HI6gVsWuaH3lgBm/B5
+ 3zTw==
+X-Gm-Message-State: AOAM530udyO2Sc/yDel60iuBii8ahM4FSCkYaR2aCyKqGceBLy41wRI7
+ hAiZAJt7csAcjI+xLUdzNINTAQ==
+X-Google-Smtp-Source: ABdhPJzE96eqFLu8pn57jfsyX87ADotnNdDhWqXULpiOoHI05X3/mRbDSDYhknF6J1J58y21pqYrmA==
+X-Received: by 2002:a5d:570b:: with SMTP id a11mr1884096wrv.281.1614327833186; 
+ Fri, 26 Feb 2021 00:23:53 -0800 (PST)
+Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
+ [2001:8b0:bb71:7140:64::1])
+ by smtp.gmail.com with ESMTPSA id z14sm12353434wrt.89.2021.02.26.00.23.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Feb 2021 00:23:52 -0800 (PST)
+Received: from localhost (disaster-area.hh.sledj.net [local])
+ by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id c4817dfc;
+ Fri, 26 Feb 2021 08:23:50 +0000 (UTC)
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [RFC PATCH 3/3] hw/block/pflash: use
+ memory_region_init_rom_device_from_file()
+In-Reply-To: <20210225230238.3719051-4-philmd@redhat.com>
+References: <20210225230238.3719051-1-philmd@redhat.com>
+ <20210225230238.3719051-4-philmd@redhat.com>
+X-HGTTG: heart-of-gold
+From: David Edmondson <dme@dme.org>
+Date: Fri, 26 Feb 2021 08:23:50 +0000
+Message-ID: <m2im6fb5k9.fsf@dme.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.35;
- envelope-from=kuhn.chenqun@huawei.com; helo=szxga07-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: neutral client-ip=2a00:1450:4864:20::42d;
+ envelope-from=dme@dme.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -54,323 +88,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, zhang.zhanghailiang@huawei.com,
- Markus Armbruster <armbru@redhat.com>, ganqixin@huawei.com,
- Chen Qun <kuhn.chenqun@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Xu Yandong <xuyandong2@huawei.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Zheng Xiang <zhengxiang9@huawei.com>,
+ haibinzhang <haibinzhang@tencent.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud?= =?utf-8?Q?=C3=A9?= <philmd@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are 23 files that include the "sysemu/qtest.h",
-but they do not use any qtest functions.
+On Friday, 2021-02-26 at 00:02:38 +01, Philippe Mathieu-Daud=C3=A9 wrote:
 
-Signed-off-by: Chen Qun <kuhn.chenqun@huawei.com>
+> If the block drive is read-only we will model a "protected" flash
+> device. We can thus use memory_region_init_rom_device_from_file()
+> which mmap the backing file when creating the MemoryRegion.
+> If the same backing file is used by multiple QEMU instances, this
+> reduces the memory footprint (this is often the case with the
+> CODE flash image from OVMF and AAVMF).
+>
+> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/block/pflash_cfi01.c | 20 ++++++++++++++------
+>  hw/block/pflash_cfi02.c | 18 ++++++++++++++----
+>  2 files changed, 28 insertions(+), 10 deletions(-)
+>
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index a5fa8d8b74a..5757391df1c 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -743,11 +743,19 @@ static void pflash_cfi01_realize(DeviceState *dev, =
+Error **errp)
+>          pfl->ro =3D 0;
+>      }
+>=20=20
+> -    memory_region_init_rom_device(
+> -        &pfl->mem, OBJECT(dev),
+> -        &pflash_cfi01_ops,
+> -        pfl,
+> -        pfl->name, total_len, errp);
+> +    if (pfl->blk && pfl->ro) {
+> +        memory_region_init_rom_device_from_file(&pfl->mem, OBJECT(dev),
+> +                                                &pflash_cfi01_ops, pfl,
+> +                                                pfl->name, total_len,
+> +                                                qemu_real_host_page_size,
+> +                                                RAM_SHARED,
+> +                                                blk_bs(pfl->blk)->filena=
+me,
 
----
-v1->v2: Change the subject base on Markus's suggestion.
-Cc: Markus Armbruster <armbru@redhat.com>
----
- accel/tcg/cpu-exec.c            | 1 -
- blockdev.c                      | 1 -
- hw/9pfs/9p.c                    | 1 -
- hw/arm/armv7m.c                 | 1 -
- hw/arm/mainstone.c              | 1 -
- hw/arm/xlnx-zcu102.c            | 1 -
- hw/arm/z2.c                     | 1 -
- hw/i386/pc.c                    | 1 -
- hw/misc/ivshmem.c               | 1 -
- hw/ppc/ppc440_bamboo.c          | 1 -
- hw/ppc/prep.c                   | 1 -
- hw/ppc/sam460ex.c               | 1 -
- hw/ppc/spapr_caps.c             | 1 -
- hw/ppc/spapr_pci_vfio.c         | 1 -
- hw/ppc/spapr_vio.c              | 1 -
- hw/ppc/virtex_ml507.c           | 1 -
- hw/riscv/spike.c                | 1 -
- hw/rx/rx62n.c                   | 1 -
- net/net.c                       | 1 -
- softmmu/cpu-timers.c            | 1 -
- target/ppc/translate_init.c.inc | 1 -
- util/main-loop.c                | 1 -
- util/qemu-timer.c               | 1 -
- 23 files changed, 23 deletions(-)
+How will this behave if someone does:
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 16e4fe3ccd..4db74fc71f 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -28,7 +28,6 @@
- #include "tcg/tcg.h"
- #include "qemu/atomic.h"
- #include "qemu/compiler.h"
--#include "sysemu/qtest.h"
- #include "qemu/timer.h"
- #include "qemu/rcu.h"
- #include "exec/tb-hash.h"
-diff --git a/blockdev.c b/blockdev.c
-index cd438e60e3..7463dd5b09 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -57,7 +57,6 @@
- #include "block/block_int.h"
- #include "block/trace.h"
- #include "sysemu/arch_init.h"
--#include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/replay.h"
- #include "qemu/cutils.h"
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 5a6e2c9d3d..134806db52 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -25,7 +25,6 @@
- #include "coth.h"
- #include "trace.h"
- #include "migration/blocker.h"
--#include "sysemu/qtest.h"
- #include "qemu/xxhash.h"
- #include <math.h>
- #include <linux/limits.h>
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index 8224d4ade9..6dd10d8470 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -16,7 +16,6 @@
- #include "hw/loader.h"
- #include "hw/qdev-properties.h"
- #include "elf.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "qemu/error-report.h"
- #include "qemu/module.h"
-diff --git a/hw/arm/mainstone.c b/hw/arm/mainstone.c
-index 6bc643651b..8454b65458 100644
---- a/hw/arm/mainstone.c
-+++ b/hw/arm/mainstone.c
-@@ -22,7 +22,6 @@
- #include "hw/block/flash.h"
- #include "hw/sysbus.h"
- #include "exec/address-spaces.h"
--#include "sysemu/qtest.h"
- #include "cpu.h"
- 
- /* Device addresses */
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index c9713638c5..a9db25eb99 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -22,7 +22,6 @@
- #include "hw/boards.h"
- #include "qemu/error-report.h"
- #include "qemu/log.h"
--#include "sysemu/qtest.h"
- #include "sysemu/device_tree.h"
- #include "qom/object.h"
- #include "net/can_emu.h"
-diff --git a/hw/arm/z2.c b/hw/arm/z2.c
-index 308c4da956..5099bd8380 100644
---- a/hw/arm/z2.c
-+++ b/hw/arm/z2.c
-@@ -24,7 +24,6 @@
- #include "hw/audio/wm8750.h"
- #include "audio/audio.h"
- #include "exec/address-spaces.h"
--#include "sysemu/qtest.h"
- #include "cpu.h"
- #include "qom/object.h"
- 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8aa85dec54..410db9ef96 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -58,7 +58,6 @@
- #include "sysemu/numa.h"
- #include "sysemu/kvm.h"
- #include "sysemu/xen.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "sysemu/runstate.h"
- #include "kvm/kvm_i386.h"
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index 603e992a7f..a1fa4878be 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -35,7 +35,6 @@
- #include "qom/object_interfaces.h"
- #include "chardev/char-fe.h"
- #include "sysemu/hostmem.h"
--#include "sysemu/qtest.h"
- #include "qapi/visitor.h"
- 
- #include "hw/misc/ivshmem.h"
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index b156bcb999..b7539aa721 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -30,7 +30,6 @@
- #include "hw/ppc/ppc.h"
- #include "ppc405.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/sysbus.h"
- #include "hw/intc/ppc-uic.h"
-diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index 7e72f6e4a9..f1b1efdcef 100644
---- a/hw/ppc/prep.c
-+++ b/hw/ppc/prep.c
-@@ -45,7 +45,6 @@
- #include "hw/qdev-properties.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/kvm.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "exec/address-spaces.h"
- #include "trace.h"
-diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-index e459b43065..0c6baf77e8 100644
---- a/hw/ppc/sam460ex.c
-+++ b/hw/ppc/sam460ex.c
-@@ -30,7 +30,6 @@
- #include "ppc405.h"
- #include "hw/block/flash.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/sysbus.h"
- #include "hw/char/serial.h"
-diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-index 9341e9782a..9ea7ddd1e9 100644
---- a/hw/ppc/spapr_caps.c
-+++ b/hw/ppc/spapr_caps.c
-@@ -33,7 +33,6 @@
- #include "cpu-models.h"
- #include "kvm_ppc.h"
- #include "migration/vmstate.h"
--#include "sysemu/qtest.h"
- #include "sysemu/tcg.h"
- 
- #include "hw/ppc/spapr.h"
-diff --git a/hw/ppc/spapr_pci_vfio.c b/hw/ppc/spapr_pci_vfio.c
-index ecb34aaade..e0547b1740 100644
---- a/hw/ppc/spapr_pci_vfio.c
-+++ b/hw/ppc/spapr_pci_vfio.c
-@@ -25,7 +25,6 @@
- #include "hw/pci/msix.h"
- #include "hw/vfio/vfio.h"
- #include "qemu/error-report.h"
--#include "sysemu/qtest.h"
- 
- bool spapr_phb_eeh_available(SpaprPhbState *sphb)
- {
-diff --git a/hw/ppc/spapr_vio.c b/hw/ppc/spapr_vio.c
-index 3cc9421526..ef06e0362c 100644
---- a/hw/ppc/spapr_vio.c
-+++ b/hw/ppc/spapr_vio.c
-@@ -31,7 +31,6 @@
- #include "sysemu/device_tree.h"
- #include "kvm_ppc.h"
- #include "migration/vmstate.h"
--#include "sysemu/qtest.h"
- 
- #include "hw/ppc/spapr.h"
- #include "hw/ppc/spapr_vio.h"
-diff --git a/hw/ppc/virtex_ml507.c b/hw/ppc/virtex_ml507.c
-index b26ff17767..cb421570da 100644
---- a/hw/ppc/virtex_ml507.c
-+++ b/hw/ppc/virtex_ml507.c
-@@ -31,7 +31,6 @@
- #include "hw/char/serial.h"
- #include "hw/block/flash.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/reset.h"
- #include "hw/boards.h"
- #include "sysemu/device_tree.h"
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 56986ecfe0..2c419b294e 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -40,7 +40,6 @@
- #include "chardev/char.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/device_tree.h"
--#include "sysemu/qtest.h"
- #include "sysemu/sysemu.h"
- 
- static const struct MemmapEntry {
-diff --git a/hw/rx/rx62n.c b/hw/rx/rx62n.c
-index 17ec73fc7b..9c34ce14de 100644
---- a/hw/rx/rx62n.c
-+++ b/hw/rx/rx62n.c
-@@ -29,7 +29,6 @@
- #include "hw/sysbus.h"
- #include "hw/qdev-properties.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "cpu.h"
- #include "qom/object.h"
- 
-diff --git a/net/net.c b/net/net.c
-index fb7b7dcc25..6002ba50db 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -50,7 +50,6 @@
- #include "qapi/error.h"
- #include "qapi/opts-visitor.h"
- #include "sysemu/sysemu.h"
--#include "sysemu/qtest.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
- #include "net/filter.h"
-diff --git a/softmmu/cpu-timers.c b/softmmu/cpu-timers.c
-index 1eb7c675c1..cd38595245 100644
---- a/softmmu/cpu-timers.c
-+++ b/softmmu/cpu-timers.c
-@@ -30,7 +30,6 @@
- #include "qemu/error-report.h"
- #include "exec/exec-all.h"
- #include "sysemu/cpus.h"
--#include "sysemu/qtest.h"
- #include "qemu/main-loop.h"
- #include "qemu/option.h"
- #include "qemu/seqlock.h"
-diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
-index e7324e85cd..108ff2be2b 100644
---- a/target/ppc/translate_init.c.inc
-+++ b/target/ppc/translate_init.c.inc
-@@ -37,7 +37,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/ppc/ppc.h"
- #include "mmu-book3s-v3.h"
--#include "sysemu/qtest.h"
- #include "qemu/cutils.h"
- #include "disas/capstone.h"
- #include "fpu/softfloat.h"
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 6bfc7c46f5..5188ff6540 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -26,7 +26,6 @@
- #include "qapi/error.h"
- #include "qemu/cutils.h"
- #include "qemu/timer.h"
--#include "sysemu/qtest.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/replay.h"
- #include "qemu/main-loop.h"
-diff --git a/util/qemu-timer.c b/util/qemu-timer.c
-index 81c28af517..f36c75e594 100644
---- a/util/qemu-timer.c
-+++ b/util/qemu-timer.c
-@@ -29,7 +29,6 @@
- #include "sysemu/cpu-timers.h"
- #include "sysemu/replay.h"
- #include "sysemu/cpus.h"
--#include "sysemu/qtest.h"
- 
- #ifdef CONFIG_POSIX
- #include <pthread.h>
--- 
-2.23.0
+    -drive file=3DOVMF_CODE.fd.qcow2,index=3D0,if=3Dpflash,format=3Dqcow2,r=
+eadonly=3Don
 
+Honestly, I'm not sure why they would, but it works today.
+
+> +                                                true, errp);
+> +    } else {
+> +        memory_region_init_rom_device(&pfl->mem, OBJECT(dev),
+> +                                      &pflash_cfi01_ops, pfl,
+> +                                      pfl->name, total_len, errp);
+> +    }
+>      if (*errp) {
+>          return;
+>      }
+> @@ -755,7 +763,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+ror **errp)
+>      pfl->storage =3D memory_region_get_ram_ptr(&pfl->mem);
+>      sysbus_init_mmio(SYS_BUS_DEVICE(dev), &pfl->mem);
+>=20=20
+> -    if (pfl->blk) {
+> +    if (pfl->blk && !pfl->ro) {
+>          if (!blk_check_size_and_read_all(pfl->blk, pfl->storage, total_l=
+en,
+>                                           errp)) {
+>              vmstate_unregister_ram(&pfl->mem, DEVICE(pfl));
+> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+> index 4f62ce8917d..d57f64d7732 100644
+> --- a/hw/block/pflash_cfi02.c
+> +++ b/hw/block/pflash_cfi02.c
+> @@ -803,16 +803,26 @@ static void pflash_cfi02_realize(DeviceState *dev, =
+Error **errp)
+>          pfl->ro =3D 0;
+>      }
+>=20=20
+> -    memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+> -                                  &pflash_cfi02_ops, pfl, pfl->name,
+> -                                  pfl->chip_len, errp);
+> +    if (pfl->blk && pfl->ro) {
+> +        memory_region_init_rom_device_from_file(&pfl->orig_mem, OBJECT(p=
+fl),
+> +                                                &pflash_cfi02_ops, pfl,
+> +                                                pfl->name, pfl->chip_len,
+> +                                                qemu_real_host_page_size,
+> +                                                RAM_SHARED,
+> +                                                blk_bs(pfl->blk)->filena=
+me,
+> +                                                true, errp);
+> +    } else {
+> +        memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
+> +                                      &pflash_cfi02_ops, pfl, pfl->name,
+> +                                      pfl->chip_len, errp);
+> +    }
+>      if (*errp) {
+>          return;
+>      }
+>=20=20
+>      pfl->storage =3D memory_region_get_ram_ptr(&pfl->orig_mem);
+>=20=20
+> -    if (pfl->blk) {
+> +    if (pfl->blk && !pfl->ro) {
+>          if (!blk_check_size_and_read_all(pfl->blk, pfl->storage,
+>                                           pfl->chip_len, errp)) {
+>              vmstate_unregister_ram(&pfl->orig_mem, DEVICE(pfl));
+> --=20
+> 2.26.2
+
+dme.
+--=20
+And you're standing here beside me, I love the passing of time.
 
