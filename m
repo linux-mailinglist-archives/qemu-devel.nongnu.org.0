@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B9DE32678A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 20:43:40 +0100 (CET)
-Received: from localhost ([::1]:35334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3592F32678D
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 20:48:23 +0100 (CET)
+Received: from localhost ([::1]:39952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFj1X-0004kO-AQ
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 14:43:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41618)
+	id 1lFj65-0006qm-W8
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 14:48:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFj0N-0004F4-4S
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:42:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23488)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFj4v-0006Gm-2O
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:47:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFj0K-0007tg-ML
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:42:26 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFj4t-0001tK-83
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:47:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614368543;
+ s=mimecast20190719; t=1614368826;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=3XKlGLfEQATtO1oe+t930gnVLOBj4PxGsH21+s4MXnM=;
- b=Vjo8cO2yncMidFWpc78ZAg0lU3BUwXCnMN5rHtwluAhjn8+DMyfI3AyJqsBW+uWBcL1Lz5
- xW574i6+I83oVPfJr+ZMvlKv/aKKA4rM5LC4O0qwuaePFpYNE2Z9vXnXAcf1hIWBHgLOqN
- HvCS11545Lin5rz6X9G2wQ6T2/PFu10=
+ bh=T1VvP3dj7mOeJF5j/NgzgsI7yqpay8Ltx5s1XcXjkcA=;
+ b=V/JsghiuApRWuDBND5BGrfih8QY0H5ILTQ7YADMeMjrIGSmYc5haCgHeQhOnX3RSkjDK6B
+ nR3RYBl4RRZj/q+IKUJ7u2W0zTWwmzgpM94XyH53B+mbTf3j9n1yXB0HYyymwR2DtxfZIR
+ ZOue+gxqS/nAL8ZH9Q030JXKMgnJOEo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-27-Ty39DOGtM-qh0MhkkDbDIQ-1; Fri, 26 Feb 2021 14:42:21 -0500
-X-MC-Unique: Ty39DOGtM-qh0MhkkDbDIQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-227-g6yERN4xOE2u9ieSVt_H9w-1; Fri, 26 Feb 2021 14:47:04 -0500
+X-MC-Unique: g6yERN4xOE2u9ieSVt_H9w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC108107ACE4;
- Fri, 26 Feb 2021 19:42:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E88AC286;
+ Fri, 26 Feb 2021 19:47:03 +0000 (UTC)
 Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AEE1E100239A;
- Fri, 26 Feb 2021 19:42:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C6F9659453;
+ Fri, 26 Feb 2021 19:46:56 +0000 (UTC)
+Subject: Re: [PATCH v2 13/31] qapi/qom: Add ObjectOptions for colo-compare
 To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-13-kwolf@redhat.com>
+ <20210224135255.253837-14-kwolf@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Subject: Re: [PATCH v2 12/31] qapi/qom: Add ObjectOptions for can-*
-Message-ID: <0250da61-515d-cd41-d680-25431da87373@redhat.com>
-Date: Fri, 26 Feb 2021 13:42:12 -0600
+Message-ID: <c570f92c-cbb3-9b0b-a6e1-4dbf36a6b10e@redhat.com>
+Date: Fri, 26 Feb 2021 13:46:56 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210224135255.253837-13-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210224135255.253837-14-kwolf@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -90,73 +90,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> This adds a QAPI schema for the properties of the can-* objects.
-> 
-> can-bus doesn't have any properties, so it only needs to be added to the
-> ObjectType enum without adding a new branch to ObjectOptions.
-
-I somewhat prefer
-
-'can-bus': {},
-
-to make it explicit that we thought about it, but since we allow
-defaulted union branches, your approach works too.
-
+> This adds a QAPI schema for the properties of the colo-compare object.
 > 
 > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  qapi/qom.json | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  qapi/qom.json | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 49 insertions(+)
 > 
 > diff --git a/qapi/qom.json b/qapi/qom.json
-> index f22b7aa99b..4b1cd4b8dc 100644
+> index 4b1cd4b8dc..8e4414f843 100644
 > --- a/qapi/qom.json
 > +++ b/qapi/qom.json
-> @@ -207,6 +207,21 @@
->    'returns': [ 'ObjectPropertyInfo' ],
->    'allow-preconfig': true }
+> @@ -222,6 +222,53 @@
+>    'data': { 'if': 'str',
+>              'canbus': 'str' } }
 >  
 > +##
-> +# @CanHostSocketcanProperties:
+> +# @ColoCompareProperties:
 > +#
-> +# Properties for can-host-socketcan objects.
+> +# Properties for colo-compare objects.
 > +#
-> +# @if: interface name of the host system CAN bus to connect to
+> +# @primary_in: name of the character device backend to use for the primary
+> +#              input (incoming packets are redirected to @outdev)
 > +#
-> +# @canbus: object ID of the can-bus object to connect to the host interface
+> +# @secondary_in: name of the character device backend to use for secondary
+> +#                input (incoming packets are only compared to the input on
+> +#                @primary_in and then dropped)
 > +#
-> +# Since: 2.12
+
+Idea for future improvement: use aliases to shift over to 'primary-in',
+'secondary-in', and so on as our preferred name.  But not for this
+patch, which is a mechanical conversion of what exists.
+
+> +# @outdev: name of the character device backend to use for output
+> +#
+> +# @iothread: name of the iothread to run in
+> +#
+> +# @notify_dev: name of the character device backend to be used to communicate
+> +#              with the remote colo-frame (only for Xen COLO)
+> +#
+> +# @compare_timeout: the maximum time to hold a packet from @primary_in for
+> +#                   comparison with an incoming packet on @secondary_in in
+> +#                   milliseconds (default: 3000)
+> +#
+> +# @expired_scan_cycle: the interval at which colo-compare checks whether
+> +#                      packets from @primary have timed out, in milliseconds
+> +#                      (default: 3000)
+> +#
+> +# @max_queue_size: the maximum number of packets to keep in the queue for
+> +#                  comparing with incoming packets from @secondary_in.  If the
+> +#                  queue is full and addtional packets are received, the
+> +#                  addtional packets are dropped. (default: 1024)
+> +#
+> +# @vnet_hdr_support: if true, vnet header support is enabled (default: false)
+> +#
+> +# Since: 2.8
 > +##
-> +{ 'struct': 'CanHostSocketcanProperties',
-> +  'data': { 'if': 'str',
-> +            'canbus': 'str' } }
+> +{ 'struct': 'ColoCompareProperties',
+> +  'data': { 'primary_in': 'str',
+> +            'secondary_in': 'str',
+> +            'outdev': 'str',
+> +            'iothread': 'str',
+> +            '*notify_dev': 'str',
+> +            '*compare_timeout': 'uint64',
+> +            '*expired_scan_cycle': 'uint32',
+> +            '*max_queue_size': 'uint32',
+> +            '*vnet_hdr_support': 'bool' } }
+
+Matches net/colo-compare.c:colo_compare_init().
+
 > +
-
-Okay, matches net/can/can_socketcan.c:can_host_socketcan_class_init()
-(after chasing down the parent class in
-net/can/can_host.c:can_host_class_init() to find "canbus").
-
 >  ##
 >  # @CryptodevBackendProperties:
 >  #
-> @@ -439,6 +454,8 @@
->      'authz-listfile',
->      'authz-pam',
+> @@ -456,6 +503,7 @@
 >      'authz-simple',
-> +    'can-bus',
-> +    'can-host-socketcan',
+>      'can-bus',
+>      'can-host-socketcan',
+> +    'colo-compare',
 >      'cryptodev-backend',
 >      'cryptodev-backend-builtin',
 >      'cryptodev-vhost-user',
-> @@ -479,6 +496,7 @@
->        'authz-listfile':             'AuthZListFileProperties',
+> @@ -497,6 +545,7 @@
 >        'authz-pam':                  'AuthZPAMProperties',
 >        'authz-simple':               'AuthZSimpleProperties',
-> +      'can-host-socketcan':         'CanHostSocketcanProperties',
+>        'can-host-socketcan':         'CanHostSocketcanProperties',
+> +      'colo-compare':               'ColoCompareProperties',
 >        'cryptodev-backend':          'CryptodevBackendProperties',
 >        'cryptodev-backend-builtin':  'CryptodevBackendProperties',
 >        'cryptodev-vhost-user':       'CryptodevVhostUserProperties',
-> 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
