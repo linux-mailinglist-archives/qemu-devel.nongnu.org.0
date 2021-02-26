@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B3563265EF
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B0993265EE
 	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 17:56:31 +0100 (CET)
-Received: from localhost ([::1]:56564 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFgPm-0008Dr-4I
+	id 1lFgPm-0008DV-1D
 	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 11:56:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53878)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFg3w-00051p-Pk; Fri, 26 Feb 2021 11:33:58 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:39396)
+ id 1lFg45-0005Dq-Gj; Fri, 26 Feb 2021 11:34:05 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:38490)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFg3s-0007ph-8g; Fri, 26 Feb 2021 11:33:54 -0500
-Received: by mail-wm1-x335.google.com with SMTP id u125so8315968wmg.4;
- Fri, 26 Feb 2021 08:33:49 -0800 (PST)
+ id 1lFg43-0007tb-SX; Fri, 26 Feb 2021 11:34:05 -0500
+Received: by mail-wr1-x433.google.com with SMTP id b3so9163700wrj.5;
+ Fri, 26 Feb 2021 08:34:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=2B3Q/ylS5ZNA1mrgb7ev39AiksBcxa1Cjiz4dKBsJpg=;
- b=SRMILkPUFjVtR86aa3EyK1deYZtGw3fRznVtQ3u0RMONqxpvpx3ctxR1gPPgP35PYt
- CVClTcxxdrLzUz5a5pEkfThbVAM/dxYOI/fDWI1u1CNV6TtR2PjfpcwIXB6qBE2a/S/m
- FIBKlQRCKakqDLASCb7sme3oZaphogi0YsmdCS2SIt1TBh/nCd5pAfGhjOn2RcJtflPC
- wHB1R48ZNlgWWiGks0yCIvJc6O/7aXFdbnjdWdczF/mmAbwOaWozuV4Njab5NW7S1Xq1
- XVoq4TL0IG04qCxl4mtyNq0ZKlTDhyw41gPXjp1qxEzwGKGbT8ei3U/mCaq/3SSHermc
- lOXg==
+ bh=yTanq6JfzM3gaBH0H5tWyaeDUZu7wVaLTH7Xl4MKE/E=;
+ b=ITu5LX2ZI2JgkpR4iVu6NfsUJpxJeZlNMyg46p/tmS8LfsT0HI9bbllQfQXKzN/+au
+ RZGdcIN8W7aOgtLTLnEWb98wEp6p3YSWO+lOZ05WetzYcUN0mXSa6nHpbVofD4YkbYqg
+ se+HthTebJlRMrhwqLwYGOp8EmPYADXUn/UjfiraVZh0cnrf3kmFzHDMRjbLYCxVfg8y
+ wNqq7iitezppheyLnerS5ErdJbcFnwoni/JotWF8hXuuQWDF0jbSnCuGLMiTuw4rEsyy
+ F6xFGtzYVbqMTwq+bvv6EGGPPMps2AsERWWFn/kCVt6q0AI4dQgaNucHk6p2mWCa7NC2
+ IYbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=2B3Q/ylS5ZNA1mrgb7ev39AiksBcxa1Cjiz4dKBsJpg=;
- b=Ac/PWzb+2IkiS63dAFTPyFhohqKxstV7rnvHXU3TMbmRSsBRNr7VEfKNdSKLJvhUu/
- QmJJ8OomRNKcg5TOZq0FnpYAjvgLsm7bbmZgAyk28KGXDe9aHvQFnLAMFI1GuFInuLEV
- dybOAtFzU4bnN30tt4Pod/yflVjqlvk6FOtyM8rtfpqME19uzWfd+WuJLpxm83OrJSL+
- vSb6znIpQIk8qN0f8XOwgWPjQdFQAzToA03Scv+qtCS4gj3Wnco/qKSzQUjeSVgr5OlN
- zG2rDbnKlhkHJSVnkoG7XbgU9qMhw///Vny9PnPccFSNAHk4Evhp5NvzUyGBNq477mNH
- XAEA==
-X-Gm-Message-State: AOAM531bSE3UTXJ6yE+Vg5pvBSlnu/xwZ5eRR+i1LaAomQgVGgaNCu/U
- 6pk+dssDIOnpK4QIXjS5w3An5Okwamo=
-X-Google-Smtp-Source: ABdhPJxoLdAPZ0Ft6m7N2DlNxzLfZNEnULVAX158KT3cXTWU060IUvNJcDv/7GGgqlyNaOfQPTBGvw==
-X-Received: by 2002:a05:600c:2298:: with SMTP id
- 24mr3790497wmf.136.1614357228294; 
- Fri, 26 Feb 2021 08:33:48 -0800 (PST)
+ bh=yTanq6JfzM3gaBH0H5tWyaeDUZu7wVaLTH7Xl4MKE/E=;
+ b=Ixz4j0OXbt91d4+zcSA/PeeuvrdajtFKVuuG3v7Yp2RpSQrRskLZ6Tv4FLk2O8/9P6
+ caZXkLDya6cOL5lJMMn6xMw/WhF5i6Wvt5QCCDadiB11YS+CkTmuExwDPZGvOQy1N9lK
+ iSuW0aq58+GDkJbG0vmWddp8FxpLFrUy6ACt8rmtkOSj+iedTi2BJnE2cqDGxzFRy+JW
+ aRt4D46+xyGya48oKRSrUGP1K9c8mynu0LYdjytpHnWxsREoujeFeFj1ofmgUFA5rRK/
+ 3hSGLKNNpEUho+MeARPzfDAsBnG8RGptw96kr3D/LD7IzS2iVo1sQMMJ2PHFkhYS5SUF
+ gWww==
+X-Gm-Message-State: AOAM531vuMkhQ7+E+5d/ADAS5ZB7FgdY2yhGsYjbOxOm5hbrTymTsU4V
+ iJonpaFvMbdFoLfbphMTj1jmrTycauA=
+X-Google-Smtp-Source: ABdhPJzOTZ6UwHTS7Bvdqp61Ih9ss51SNMlWeHMb8F2NTz6lmT5nBAnqAYjA6kU0xWRWvddEWoF/qg==
+X-Received: by 2002:a5d:47a8:: with SMTP id 8mr3981793wrb.180.1614357240762;
+ Fri, 26 Feb 2021 08:34:00 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id t14sm14686281wru.64.2021.02.26.08.33.46
+ by smtp.gmail.com with ESMTPSA id q18sm14489461wrw.91.2021.02.26.08.33.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 08:33:47 -0800 (PST)
+ Fri, 26 Feb 2021 08:34:00 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 12/16] cpu: Move CPUClass::asidx_from_attrs to
+Subject: [PATCH 14/16] cpu: Move CPUClass::get_memory_mapping to
  CPUSystemOperations
-Date: Fri, 26 Feb 2021 17:32:23 +0100
-Message-Id: <20210226163227.4097950-13-f4bug@amsat.org>
+Date: Fri, 26 Feb 2021 17:32:25 +0100
+Message-Id: <20210226163227.4097950-15-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226163227.4097950-1-f4bug@amsat.org>
 References: <20210226163227.4097950-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -114,12 +113,11 @@ Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
  include/hw/core/cpu.h | 8 +++++---
  hw/core/cpu.c         | 4 ++--
- target/arm/cpu.c      | 2 +-
  target/i386/cpu.c     | 2 +-
- 4 files changed, 9 insertions(+), 7 deletions(-)
+ 3 files changed, 8 insertions(+), 6 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index e8c2e9af3bb..fc3c4c217b1 100644
+index 5bc66653c19..caca5896592 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
 @@ -84,6 +84,11 @@ struct AccelCPUClass;
@@ -127,71 +125,58 @@ index e8c2e9af3bb..fc3c4c217b1 100644
   */
  typedef struct CPUSystemOperations {
 +    /**
-+     * @asidx_from_attrs: Callback to return the CPU AddressSpace to use for
-+     *       a memory access with the specified memory transaction attributes.
++     * @get_memory_mapping: Callback for obtaining the memory mappings.
 +     */
-+    int (*asidx_from_attrs)(CPUState *cpu, MemTxAttrs attrs);
++    void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
++                               Error **errp);
      /**
-      * @get_crash_info: Callback for reporting guest crash information in
-      * GUEST_PANICKED events.
-@@ -153,8 +158,6 @@ typedef struct CPUSystemOperations {
-  *       associated memory transaction attributes to use for the access.
-  *       CPUs which use memory transaction attributes should implement this
-  *       instead of get_phys_page_debug.
-- * @asidx_from_attrs: Callback to return the CPU AddressSpace to use for
-- *       a memory access with the specified memory transaction attributes.
-  * @gdb_read_register: Callback for letting GDB read a register.
-  * @gdb_write_register: Callback for letting GDB write a register.
-  * @gdb_num_core_regs: Number of core registers accessible to GDB.
-@@ -196,7 +199,6 @@ struct CPUClass {
-     hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
-     hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
-                                         MemTxAttrs *attrs);
--    int (*asidx_from_attrs)(CPUState *cpu, MemTxAttrs attrs);
+      * @get_phys_page_debug: Callback for obtaining a physical address.
+      */
+@@ -157,7 +162,6 @@ typedef struct CPUSystemOperations {
+  * @dump_statistics: Callback for dumping statistics.
+  * @get_arch_id: Callback for getting architecture-dependent CPU ID.
+  * @get_paging_enabled: Callback for inquiring whether paging is enabled.
+- * @get_memory_mapping: Callback for obtaining the memory mappings.
+  * @set_pc: Callback for setting the Program Counter register. This
+  *       should have the semantics used by the target architecture when
+  *       setting the PC from a source such as an ELF file entry point;
+@@ -201,8 +205,6 @@ struct CPUClass {
+     void (*dump_statistics)(CPUState *cpu, int flags);
+     int64_t (*get_arch_id)(CPUState *cpu);
+     bool (*get_paging_enabled)(const CPUState *cpu);
+-    void (*get_memory_mapping)(CPUState *cpu, MemoryMappingList *list,
+-                               Error **errp);
+     void (*set_pc)(CPUState *cpu, vaddr value);
      int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
      int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
- 
 diff --git a/hw/core/cpu.c b/hw/core/cpu.c
-index 3dc8faf6086..d38eda36bc3 100644
+index f0c558c002e..606fc753bf0 100644
 --- a/hw/core/cpu.c
 +++ b/hw/core/cpu.c
-@@ -116,8 +116,8 @@ int cpu_asidx_from_attrs(CPUState *cpu, MemTxAttrs attrs)
+@@ -83,8 +83,8 @@ void cpu_get_memory_mapping(CPUState *cpu, MemoryMappingList *list,
+ {
      CPUClass *cc = CPU_GET_CLASS(cpu);
-     int ret = 0;
  
--    if (cc->asidx_from_attrs) {
--        ret = cc->asidx_from_attrs(cpu, attrs);
-+    if (cc->system_ops.asidx_from_attrs) {
-+        ret = cc->system_ops.asidx_from_attrs(cpu, attrs);
-         assert(ret < cpu->num_ases && ret >= 0);
+-    if (cc->get_memory_mapping) {
+-        cc->get_memory_mapping(cpu, list, errp);
++    if (cc->system_ops.get_memory_mapping) {
++        cc->system_ops.get_memory_mapping(cpu, list, errp);
+         return;
      }
-     return ret;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 4941a651e64..86af15b0625 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2298,7 +2298,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = arm_cpu_gdb_write_register;
- #ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_attrs_debug = arm_cpu_get_phys_page_attrs_debug;
--    cc->asidx_from_attrs = arm_asidx_from_attrs;
-+    cc->system_ops.asidx_from_attrs = arm_asidx_from_attrs;
-     cc->system_ops.vmsd = &vmstate_arm_cpu;
-     cc->system_ops.virtio_is_big_endian = arm_cpu_virtio_is_big_endian;
-     cc->system_ops.write_elf64_note = arm_cpu_write_elf64_note;
+ 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index c34d41d4c79..36b34eee62f 100644
+index f6f5c333b7e..92691a22de5 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -7418,7 +7418,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
-     cc->get_paging_enabled = x86_cpu_get_paging_enabled;
+@@ -7419,7 +7419,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
  
  #ifndef CONFIG_USER_ONLY
--    cc->asidx_from_attrs = x86_asidx_from_attrs;
-+    cc->system_ops.asidx_from_attrs = x86_asidx_from_attrs;
-     cc->get_memory_mapping = x86_cpu_get_memory_mapping;
-     cc->get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug;
+     cc->system_ops.asidx_from_attrs = x86_asidx_from_attrs;
+-    cc->get_memory_mapping = x86_cpu_get_memory_mapping;
++    cc->system_ops.get_memory_mapping = x86_cpu_get_memory_mapping;
+     cc->system_ops.get_phys_page_attrs_debug = x86_cpu_get_phys_page_attrs_debug;
      cc->system_ops.get_crash_info = x86_cpu_get_crash_info;
+     cc->system_ops.write_elf64_note = x86_cpu_write_elf64_note;
 -- 
 2.26.2
 
