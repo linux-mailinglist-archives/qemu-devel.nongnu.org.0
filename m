@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E6A432633A
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:19:58 +0100 (CET)
-Received: from localhost ([::1]:50610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16A2832634B
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:30:12 +0100 (CET)
+Received: from localhost ([::1]:56024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFd2D-0004oH-GC
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:19:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58618)
+	id 1lFdC6-0007OH-DV
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:30:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60064)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lFczJ-0002gD-3R; Fri, 26 Feb 2021 08:16:57 -0500
-Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46246)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lFd9X-0006Ss-F5
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:27:31 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55420)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lFczH-00069s-B8; Fri, 26 Feb 2021 08:16:56 -0500
-Received: by mail-pf1-x436.google.com with SMTP id r5so6208615pfh.13;
- Fri, 26 Feb 2021 05:16:54 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lFd9T-0002JN-M8
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:27:29 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id w7so7429735wmb.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 05:27:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=Mik0H9XCLPDVUTh+AGn5AvDhKpD0S+U7O9OV4s6qPds=;
- b=n0D0me7f0rT4gzqRpCwq+SapGUiWMSuGI01GM97T0NSvXYTYj9GBHjzBWJGenuFPjH
- fiWr2tHTv630I96quztKTzWC+9rjkASNpf1ieGO1VY37OGFanOFpJGxlQBSdCWi0rt5j
- WqcsKxgEs2j+aIV93CUDGEBXYvL7IWcEh3sTDJO2gEZRDddS3Q1svMextKaCCp03+qbl
- csauXFqYe3k6bfF2uIDsC+5re6A0k2+5o6IfXM33gUtlXZjzPG2JyPOSXUnzUleqDJIF
- y/btesG6B8h/TdbGp8c+fjDJSOpJ6ihL4Vavd2XqcYXzalRSfu5jK7TnuIfFj/btRAxG
- CGvA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pA47ewVHElSoWhd5MIfs99xCEVT+pwReRKjeEzV9VfE=;
+ b=G8mJD7d2QawR1Ym5R2fFeRP0Jt7qbRtpUJRCHJ9z43SusqRufjmtowvbNgEd/AG27y
+ eNOnjTKeIv9blTvqpu/PO0ycGUkpsvwuH5APnOirMNuDIjUFVlMuhehwOvqlHjdO6F3W
+ vA4FfqVqo4p0UtbULlrX1HjfRkQ1/+5YaysT4euM1W0a0S+DE3A1rdBIlTTXJFCAzrhZ
+ JieDjQzlAVKj69HsqHvZyFyrh4u69/dtHb0ESjaZ/dfr4NH1G89FufYLLAtjv/XZbxwo
+ Z6mCIpTZdORZroEhryHsvIvjCrfrcyI53dpGB8Ff6hP+ZGJoMcgTsh6mBX/DU2KsfLri
+ 8SfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=Mik0H9XCLPDVUTh+AGn5AvDhKpD0S+U7O9OV4s6qPds=;
- b=NxWnUn9Neui6+hAqyw2d8jSkxJtjHzpU+bRTHk56KIQkfNd2DMYtOEJ/Flvd15DAbV
- No+xqKBmPZxmJ/X76XM6mxHX5fkuyPklkU6jzYUbPlh7bTgtHt7FhKXCqL2onb1FjblO
- QaNGzm8X10UUVEN6zx4rQyhAA+RjDuuJHVbN3/ANEvJD5lIkz2293tlULpLHdIez7LhB
- CYgYo3MBn3V3YkfkLdr47+d8HryQlgpxmivQhcOqWD7MC1FYYmOdb0DZEUBZdpe1+6ED
- +gilUdn5H+64CC7N+36SBnLzorbF+EzPXX0EgLITIP2tJsO1rIz3mxxrR89frulVTPZ4
- V+0g==
-X-Gm-Message-State: AOAM530f5A6Yl0jRDzJ6euXr68KKMZr/cvdipZPRJoUu7BNgt51sLE6h
- ummZFPq9cKnQjw5hFI3arhE=
-X-Google-Smtp-Source: ABdhPJzi3QklUkD36glYaHgvZiLsDJBuJI/CTCUt1g+WJ8L/YYhJPtXwmB5tLNb1oGPzG58Auv4IKw==
-X-Received: by 2002:a62:144f:0:b029:1ed:9646:736a with SMTP id
- 76-20020a62144f0000b02901ed9646736amr3343004pfu.81.1614345413524; 
- Fri, 26 Feb 2021 05:16:53 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id x80sm9275765pfc.71.2021.02.26.05.16.52
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=pA47ewVHElSoWhd5MIfs99xCEVT+pwReRKjeEzV9VfE=;
+ b=t0auDdGPdf6Ci31TqR3/pZPqjHq9ugE6QqsTjEwslxhDaDDXhi5c+z+T2WHc/KK6X2
+ qgKT3tFiNlCVxAd+0hJ9RF2JdjTvvvR6gnAzCPhQE9N7GqLFBmkGbt7/z93xGJ7/nseX
+ f1uziaNJzhn6Bmm52oPpsLsJf1AELPloyeJ27VAg8Nh6UZUD6rxFTYacvASQP84zKN6d
+ r7hOoOPzzh9+2+JuHBNZrmeYOzj2Sz+HUOJ6X+YsfYj0ZiyUQVv77mgTWuF1kXDn01vM
+ BF1STZKFd+inmS2eTQbcfJ+sa6GN8JW1scziOk7XDcjGgkC0NH66Qe69+bkxHVgTHMQR
+ Qcgg==
+X-Gm-Message-State: AOAM530rq8/jyT/1LVj513VGZkzZl7NoOtN/1UiiUsoH62J7oyRM6n9x
+ 2frS2Lq+tLUCtd55TI62iJ6EjlSklH0=
+X-Google-Smtp-Source: ABdhPJyj3xcVnDgz7xGTSxjddlw4hDxBGhOqXss8b7+csNS32PS7OjLU4HpGYJ4x+YsmQCTH/ZRpqA==
+X-Received: by 2002:a05:600c:3553:: with SMTP id
+ i19mr2969441wmq.82.1614346045752; 
+ Fri, 26 Feb 2021 05:27:25 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id 75sm12707485wma.23.2021.02.26.05.27.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 05:16:53 -0800 (PST)
-Date: Fri, 26 Feb 2021 22:16:51 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Keith Busch <kbusch@kernel.org>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
-Subject: Re: [PATCH 2/2] hw/block/nvme: add 'nvme_ana_inject_state' HMP command
-Message-ID: <20210226131651.GB11808@localhost.localdomain>
-References: <20210214112400.26956-1-minwoo.im.dev@gmail.com>
- <20210214112400.26956-3-minwoo.im.dev@gmail.com>
+ Fri, 26 Feb 2021 05:27:25 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [RFC PATCH 0/2] hw/mips: Restrict emulated machines to TCG
+Date: Fri, 26 Feb 2021 14:27:21 +0100
+Message-Id: <20210226132723.3969650-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210214112400.26956-3-minwoo.im.dev@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,44 +84,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-14 20:24:00, Minwoo Im wrote:
-> Human Monitor Interface(HMP) is there for easy human debugging.  This
-> patch added a HMP command 'nvme_ana_inject_state'.  This can be executed
-> from the QEMU monitor.  This command will have the following syntax:
-> 
-> 	# nvme_ana_inject_state <nvme-id> <anagrpid> <state>
-> 	(qemu) nvme_ana_inject_state nvme0 1 inaccessible
-> 
-> The example above will make ANA group #1 transitioned to
-> ANA_INACCESSIBLE state for `nvme0` controller device.  Additionally,
-> device will notify to the host that ANA has been changed via
-> Asynchronous Event Notifier(AEN).  Then the host will figure out another
-> path to I/O for the namespace by reading the log page for ANA
-> information again, and this is what we call the multipath I/O.
-> 
-> This feature is good to debug the host multipath I/O by controlling the
-> device ANA group state transition.  The path-related errors can be
-> tested and debugged by this feature.  Also, the HMP command interafce
-> will make us not to build QEMU itself again to control things in device.
-> 
-> This interface supports Persistent Loss state transition, but it's not
-> going to be persistent: volatile of qemu perspective.
-> 
-> Cc: Dr . David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-
-Hello Keith,
-
-Do you have any comments about this injection method?  As discussed
-ealier, I've tried to introduce a natural way to control some of device
-status like ANA state which device can behave properly.
-
-It would be great if I can have your feedback on this :)
-
-Thanks!
+Simplify MIPS KVM builds by removing code depending=0D
+on TCG.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  hw/mips/meson: Restrict emulated machines to TCG accelerator=0D
+  hw/mips/jazz: Remove confusing ifdef'ry=0D
+=0D
+ hw/mips/jazz.c      |  4 ----=0D
+ hw/mips/meson.build | 11 +++++++----=0D
+ 2 files changed, 7 insertions(+), 8 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
