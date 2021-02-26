@@ -2,77 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4FB33261DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 12:17:33 +0100 (CET)
-Received: from localhost ([::1]:42140 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B44E3261EA
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 12:23:32 +0100 (CET)
+Received: from localhost ([::1]:44394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFb7k-00052q-BG
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 06:17:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34366)
+	id 1lFbDX-0006DK-9U
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 06:23:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lFb6q-0004dU-RI
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:16:36 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1lFb6p-0002uN-2X
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:16:36 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id g11so3386018wmh.1
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 03:16:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HHzWegQAun95d3wCnNSfG6kUdobnsd8+Z9JBauUsPWo=;
- b=pmze6lv6H/VulN5K2+XU2bsdRa7RnUi9ACXezq7BJoGRjC8rK01rh+LjpJ5CvuZlnU
- hNBe+sY6epcsWsg85b2MxeFrG7FwcWYpqbIE6UbrB37b90PDFPr+25Zd442evkxwQ33a
- yKYqS075/rRau5PLz6EVtpLt7OwrSIiwFA6Ogdc9Z5hst+vWPolr6e6iv1Z2ZtkSMQ/D
- ZszoE4ZAYvXv18Zb9JKgoFNciDcedAx7VVDMl/3uk5aHBBpS0dVRd1GrNZMw/s4SzGqQ
- V6laBYPNbL3zS8seLnXNJqe0GBamnfU73tXjP3HeP4IxLT4oiyh4Pp4WRNJ/F7iU8nUX
- kNBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HHzWegQAun95d3wCnNSfG6kUdobnsd8+Z9JBauUsPWo=;
- b=aszOYza2XP8fDt5MAed6cnVaaZYiDKToOBvONwFNSBUdiiCz/0JQ46Bswh44HHI04F
- dLuCD3nJFdJ9JerWDiI2UDIu79k4m2UCTCw+Nld7z5BAsPN+rDQ9sbY6CIvKcHbwzF78
- VVTjabWhS/Tz/kZ3BxNCbCXZ0u3m26jD/edBVXCVYoVLiTDdKisDOkIhNw4/+TIUDPiJ
- 1Dre6Y1wU5ddzZL4Y2khLeeOv4J5rBUQddqehHi5psNlBy9nR7PhdHz41mFnrbpWR6kj
- pEkDf71ncioUeZuSVViaoYOLIX6SdfeH35UNXsa9P4HWDFzRG3cd29mnhozmVfCNaNA5
- KXig==
-X-Gm-Message-State: AOAM532UZKQA8ev8HZxK8zVuR9qakqJndhYpJhdunp/+blQZY5LpUaUk
- celfIYzG/Z+S9Vww650T7Cu25w==
-X-Google-Smtp-Source: ABdhPJx0gOF/lZhT0fX3gXaX4XMlnpZLa/vd0hf/ko9C+F/vrgRZytbagDdjzJaR/jEDKchPUaWO6g==
-X-Received: by 2002:a1c:1d14:: with SMTP id d20mr2381554wmd.36.1614338193426; 
- Fri, 26 Feb 2021 03:16:33 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h22sm12574234wmb.36.2021.02.26.03.16.32
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 03:16:32 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 72F5E1FF7E;
- Fri, 26 Feb 2021 11:16:31 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org,
-	rust-vmm@lists.opendev.org
-Subject: [VHOST USER SPEC PATCH] vhost-user.rst: add clarifying language about
- protocol negotiation
-Date: Fri, 26 Feb 2021 11:16:19 +0000
-Message-Id: <20210226111619.21178-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lFbCP-0005n5-2e
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:22:22 -0500
+Resent-Date: Fri, 26 Feb 2021 06:22:21 -0500
+Resent-Message-Id: <E1lFbCP-0005n5-2e@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1lFbCH-0005Lh-3u
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:22:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614338510; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=J7gWpmAIoeNM7Fg2XsgZrEbpMi5Ccd68ZrN0ct1v9PomUWvPIQkI6ibxKJOFg8h0kzP185tn3sLQr1Pqxz6z9DkelTdx4UJPENh5jfIQgBNUf5RiH5bMz5njyQ3NAXoqOzFsu9tLt+M0Bvcl7tzhjXc6hfUVyzF3lW1UeWHbhkE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1614338510;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=NBR2VpYWFHkcWPTQC3bm1H9SMW/QK+kQN0PC+AmMCMA=; 
+ b=mZyUZvuOzpRAqbUUJZX37cKxGkiXhoJCyXPcRc2EbgfU5qR0hYkSyHcMZRumOemdlJF7qBIhbfOv8QZlGQQPTN7amPBDqnuYHdl4yKd0hK84+OTUIeZZ8i2Ukcw2j4rHec7cN5/nHKRsTiQqpk/oyMtUZE3M+ej3gDHycgSjJ/0=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1614338508494577.3059995558318;
+ Fri, 26 Feb 2021 03:21:48 -0800 (PST)
+In-Reply-To: <20210226111619.21178-1-alex.bennee@linaro.org>
+Subject: Re: [VHOST USER SPEC PATCH] vhost-user.rst: add clarifying language
+ about protocol negotiation
+Message-ID: <161433850648.15109.10656343115567123539@c667a6b167f6>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: alex.bennee@linaro.org
+Date: Fri, 26 Feb 2021 03:21:48 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,58 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: virtio-dev@lists.oasis-open.org, "Michael S. Tsirkin" <mst@redhat.com>,
- viresh.kumar@linaro.org, Jiang Liu <gerry@linux.alibaba.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- stratos-dev@op-lists.linaro.org
+Reply-To: qemu-devel@nongnu.org
+Cc: virtio-dev@lists.oasis-open.org, mst@redhat.com, viresh.kumar@linaro.org,
+ qemu-devel@nongnu.org, rust-vmm@lists.opendev.org, gerry@linux.alibaba.com,
+ alex.bennee@linaro.org, stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In practice the protocol negotiation between vhost master and slave
-occurs before the final feature negotiation between backend and
-frontend. This has lead to an inconsistency between the rust-vmm vhost
-implementation and the libvhost-user library in their approaches to
-checking if all the requirements for REPLY_ACK processing were met.
-As this is purely a function of the protocol negotiation and not of
-interest to the frontend lets make the language clearer about the
-requirements for a successfully negotiated protocol feature.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Jiang Liu <gerry@linux.alibaba.com>
----
- docs/interop/vhost-user.rst | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
-index d6085f7045..3ac221a8c7 100644
---- a/docs/interop/vhost-user.rst
-+++ b/docs/interop/vhost-user.rst
-@@ -301,12 +301,22 @@ If *slave* detects some error such as incompatible features, it may also
- close the connection. This should only happen in exceptional circumstances.
- 
- Any protocol extensions are gated by protocol feature bits, which
--allows full backwards compatibility on both master and slave.  As
--older slaves don't support negotiating protocol features, a feature
-+allows full backwards compatibility on both master and slave. As older
-+slaves don't support negotiating protocol features, a device feature
- bit was dedicated for this purpose::
- 
-   #define VHOST_USER_F_PROTOCOL_FEATURES 30
- 
-+However as the protocol negotiation something that only occurs between
-+parts of the backend implementation it is permissible to for the master
-+to mask the feature bit from the guest. As noted for the
-+``VHOST_USER_GET_PROTOCOL_FEATURES`` and
-+``VHOST_USER_SET_PROTOCOL_FEATURES`` messages this occurs before a
-+final ``VHOST_USER_SET_FEATURES`` comes from the guest. So the
-+enabling of protocol features need only require the advertising of the
-+feature by the slave and the successful get/set protocol features
-+sequence.
-+  
- Starting and stopping rings
- ---------------------------
- 
--- 
-2.20.1
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIyNjExMTYxOS4yMTE3
+OC0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcvCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8g
+aGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9y
+ZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIyNjExMTYxOS4y
+MTE3OC0xLWFsZXguYmVubmVlQGxpbmFyby5vcmcKU3ViamVjdDogW1ZIT1NUIFVTRVIgU1BFQyBQ
+QVRDSF0gdmhvc3QtdXNlci5yc3Q6IGFkZCBjbGFyaWZ5aW5nIGxhbmd1YWdlIGFib3V0IHByb3Rv
+Y29sIG5lZ290aWF0aW9uCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdp
+dCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2Fs
+IGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hl
+Y2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBk
+YXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBz
+Oi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBw
+YXRjaGV3LzIwMjEwMjI2MTExNjE5LjIxMTc4LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZyAtPiBw
+YXRjaGV3LzIwMjEwMjI2MTExNjE5LjIxMTc4LTEtYWxleC5iZW5uZWVAbGluYXJvLm9yZwpTd2l0
+Y2hlZCB0byBhIG5ldyBicmFuY2ggJ3Rlc3QnCjkzYmExY2Ugdmhvc3QtdXNlci5yc3Q6IGFkZCBj
+bGFyaWZ5aW5nIGxhbmd1YWdlIGFib3V0IHByb3RvY29sIG5lZ290aWF0aW9uCgo9PT0gT1VUUFVU
+IEJFR0lOID09PQpFUlJPUjogdHJhaWxpbmcgd2hpdGVzcGFjZQojNDg6IEZJTEU6IGRvY3MvaW50
+ZXJvcC92aG9zdC11c2VyLnJzdDozMTk6CisgICQKCnRvdGFsOiAxIGVycm9ycywgMCB3YXJuaW5n
+cywgMjQgbGluZXMgY2hlY2tlZAoKQ29tbWl0IDkzYmExY2UwZmIyYSAodmhvc3QtdXNlci5yc3Q6
+IGFkZCBjbGFyaWZ5aW5nIGxhbmd1YWdlIGFib3V0IHByb3RvY29sIG5lZ290aWF0aW9uKSBoYXMg
+c3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFy
+ZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVD
+S1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBl
+eGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8v
+cGF0Y2hldy5vcmcvbG9ncy8yMDIxMDIyNjExMTYxOS4yMTE3OC0xLWFsZXguYmVubmVlQGxpbmFy
+by5vcmcvdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0
+ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFz
+ZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
