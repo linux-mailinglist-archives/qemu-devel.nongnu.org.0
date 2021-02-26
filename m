@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19C3325C65
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 05:12:10 +0100 (CET)
-Received: from localhost ([::1]:52368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997BC325C6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 05:14:35 +0100 (CET)
+Received: from localhost ([::1]:33236 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFUU5-0000g4-T0
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 23:12:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34858)
+	id 1lFUWQ-0004IY-Ia
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 23:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFThz-0000fI-QP
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:29 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38554)
+ id 1lFTiO-00016o-Ig
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:52 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFThv-0001k9-PN
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:25 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id l18so5275498pji.3
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:22:23 -0800 (PST)
+ id 1lFTiM-0001vI-6x
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:52 -0500
+Received: by mail-pf1-x436.google.com with SMTP id j12so5298668pfj.12
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:22:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=xQGaJcGrhlw029hWV6QyNS1h0eHjDML8FH5Am/ePaeo=;
- b=IhJFYWva/SY69EnsUQg1D+9qJiu/9NyiMwrnc3QrdcGKKNVqJX5BtERlhgnrfAS24b
- 0igtzmfoJ1xuL17qwQnO4dKQuCSnXhrIzxvanxZFAZnPEphScnuVzDFPdkR7uIFv/7Ct
- jl8Bozwk4df9RQIYUoI9NVVtviuT7c+lskh1H1qX+eHdzhOxhMlQzd/Cv+hViWgsxXI0
- B6T2Xa9+B3PPGWms056r6ZPLDFv0OtIXbJXCiokSMK33D9uwnec60K4knUwli8WzSxhN
- AIzC3CICNzhDtve9NRRy1fPjSzaFqfBsMY4kp9Hdjmy+o/sMG/wahtgqa1XbvmAUFFWQ
- MaBw==
+ bh=Wv4icnVvps8Vga/shtynEPfSN3f6JZ91D8q+4jTth9Y=;
+ b=MYFa1aYBgdwtmyMVMisS+HckXLc8YdY5SkrkXCsor9sX3cMVr/zUSSz4bIdvgRDz0J
+ kstOnHayD/r2JWm0U5rppJSL5dtbzJX/O9a8MhCqyzYAbvtoNZDRA8nHx0VTw65A7Jgu
+ 2tKvF7jOxYaL0gHpkJrfPh1iMGxr1jA2nHM8QtB1L74sQ3C3WcbLicffIERmSxLARJLh
+ fZagDXIk+MhrkZ1vn+EYYju5NokKoMYvQGL40oK0ZxdwTV2l3TF/d3m7wLZvaZAe+9YZ
+ uoICuDRcbTa2+dbEfBsykC8D/ENbZbtDtCkaJaCxPd3wid3+d0sBGyOK6Cy1iiT9YF0R
+ kyrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=xQGaJcGrhlw029hWV6QyNS1h0eHjDML8FH5Am/ePaeo=;
- b=NQjwxPjCLBri6oW6oKMd7XM03LNAiqL5qo/2ETbkpqAlQGOcRe9ooL4MZC3FkU/AOL
- MC3XxEiPdP/75hc9qjZNTRiOIxa8mP5wAQ6R3pTsGBUOCf2hizgUDhi6GD8qFEc060C1
- NaGH2JqzQW6Unup/3t1c8ooZNyQ9hFlSJz0chDKzdoaWCWACyG5VIoqdd4yyNszLNXvn
- nXxMidVMBK7gdPgo3aSIUrk+1pn8QfGse8IiHpMgh3+FTv5qJwlfLy+ZGTC8foGcHbci
- ss0/Cv94HRiYWBSimRee+Hx6Bf64apmpWm+9DPStVinpFPKsOJQyfPAK4RlixNFwy54H
- ZqPQ==
-X-Gm-Message-State: AOAM5323wyf8Wmc0F0j9Mqqtg4GAwKHd5PB0UweSokHUvczVRtn5cYIw
- 4nsNwqPB+iggKIpBM01ja45qzRDaN2MbCg==
-X-Google-Smtp-Source: ABdhPJzHzPvLVVa3azKCeIVKg7gyIW/fhVNGV43TK9/yerMghjwEQCIldWIzgBE86WovE1SLbtgjjA==
-X-Received: by 2002:a17:902:9343:b029:e3:88d6:3e1e with SMTP id
- g3-20020a1709029343b02900e388d63e1emr1221761plp.27.1614309741758; 
- Thu, 25 Feb 2021 19:22:21 -0800 (PST)
+ bh=Wv4icnVvps8Vga/shtynEPfSN3f6JZ91D8q+4jTth9Y=;
+ b=Z21tYJ0DHym2HHKHKs85UPIu02ZhDKnMZUerArvMgfmJJSPkdKnGerB6Grb+mM/DG1
+ EXE7TKQSjNwf6aD7HFyCY8KBA8vRBHbpWE4GktitArNT+VILJdZqx12qn/eN64RExbQ2
+ JzTMFrwhtiMFC1j7yadWFNZI61SaeCFkgq+QarwBhbKgJUWBqqEFxa9t30GqdISItNTA
+ Lms6TT08HeJnx7um83ZPVCLoVinBcWhJ71Q6GVhLjTcxUDR/WatXBJWblACzei0XT/GN
+ hOQFBagEdMHRvlDAxeIyIjxEtZZ8faqW9Ut5YazNQPjOqpcsGPPoZ9Bz20VtYt9a93NH
+ EOPw==
+X-Gm-Message-State: AOAM532HTr9fR4WdYHSYqIPZY5tiP22MLNF7ou3YeiueKGWGztw8pzy6
+ FzkOvhquf+xP7dtixlv9rGQ43Wm3utdkVw==
+X-Google-Smtp-Source: ABdhPJxopYyWon/+JR+V4x0MYcK50RdRciM1syAVtHa643zlRWYsalAAKHdyRpFGjazxp1669tGiJg==
+X-Received: by 2002:a62:2:0:b029:1ed:6304:17d7 with SMTP id
+ 2-20020a6200020000b02901ed630417d7mr987813pfa.58.1614309768573; 
+ Thu, 25 Feb 2021 19:22:48 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.22.18
+ by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.22.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 19:22:21 -0800 (PST)
+ Thu, 25 Feb 2021 19:22:48 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 34/75] target/riscv: rvv-1.0: register gather instructions
-Date: Fri, 26 Feb 2021 11:18:18 +0800
-Message-Id: <20210226031902.23656-35-frank.chang@sifive.com>
+Subject: [PATCH v7 39/75] target/riscv: rvv-1.0: integer extension instructions
+Date: Fri, 26 Feb 2021 11:18:23 +0800
+Message-Id: <20210226031902.23656-40-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210226031902.23656-1-frank.chang@sifive.com>
 References: <20210226031902.23656-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,148 +93,191 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-* Add vrgatherei16.vv instruction.
+Add the following instructions:
+
+* vzext.vf2
+* vzext.vf4
+* vzext.vf8
+* vsext.vf2
+* vsext.vf4
+* vsext.vf8
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/helper.h                   |  4 ++++
- target/riscv/insn32.decode              |  1 +
- target/riscv/insn_trans/trans_rvv.c.inc | 27 ++++++++++++++++++++++---
- target/riscv/vector_helper.c            | 23 ++++++++++++---------
- 4 files changed, 43 insertions(+), 12 deletions(-)
+ target/riscv/helper.h                   | 14 +++++
+ target/riscv/insn32.decode              |  8 +++
+ target/riscv/insn_trans/trans_rvv.c.inc | 80 +++++++++++++++++++++++++
+ target/riscv/vector_helper.c            | 31 ++++++++++
+ 4 files changed, 133 insertions(+)
 
 diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-index abf08dbc710..ea6c39b49a8 100644
+index ea6c39b49a8..25c0e2eee28 100644
 --- a/target/riscv/helper.h
 +++ b/target/riscv/helper.h
-@@ -1100,6 +1100,10 @@ DEF_HELPER_6(vrgather_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vrgather_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vrgather_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vrgather_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vrgatherei16_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vrgatherei16_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vrgatherei16_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-+DEF_HELPER_6(vrgatherei16_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
- DEF_HELPER_6(vrgather_vx_b, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vrgather_vx_h, void, ptr, ptr, tl, ptr, env, i32)
- DEF_HELPER_6(vrgather_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+@@ -1113,3 +1113,17 @@ DEF_HELPER_6(vcompress_vm_b, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vcompress_vm_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vcompress_vm_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vcompress_vm_d, void, ptr, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_5(vzext_vf2_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf2_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf2_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf4_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf4_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vzext_vf8_d, void, ptr, ptr, ptr, env, i32)
++
++DEF_HELPER_5(vsext_vf2_h, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf2_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf2_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf4_w, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf4_d, void, ptr, ptr, ptr, env, i32)
++DEF_HELPER_5(vsext_vf8_d, void, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index a593938e5c8..85cb3c81be0 100644
+index beef6ca7167..369827ca98f 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -620,6 +620,7 @@ vslidedown_vx   001111 . ..... ..... 100 ..... 1010111 @r_vm
- vslidedown_vi   001111 . ..... ..... 011 ..... 1010111 @r_vm
- vslide1down_vx  001111 . ..... ..... 110 ..... 1010111 @r_vm
- vrgather_vv     001100 . ..... ..... 000 ..... 1010111 @r_vm
-+vrgatherei16_vv 001110 . ..... ..... 000 ..... 1010111 @r_vm
- vrgather_vx     001100 . ..... ..... 100 ..... 1010111 @r_vm
- vrgather_vi     001100 . ..... ..... 011 ..... 1010111 @r_vm
- vcompress_vm    010111 - ..... ..... 010 ..... 1010111 @r
+@@ -630,5 +630,13 @@ vmv2r_v         100111 1 ..... 00001 011 ..... 1010111 @r2rd
+ vmv4r_v         100111 1 ..... 00011 011 ..... 1010111 @r2rd
+ vmv8r_v         100111 1 ..... 00111 011 ..... 1010111 @r2rd
+ 
++# Vector Integer Extension
++vzext_vf2       010010 . ..... 00110 010 ..... 1010111 @r2_vm
++vzext_vf4       010010 . ..... 00100 010 ..... 1010111 @r2_vm
++vzext_vf8       010010 . ..... 00010 010 ..... 1010111 @r2_vm
++vsext_vf2       010010 . ..... 00111 010 ..... 1010111 @r2_vm
++vsext_vf4       010010 . ..... 00101 010 ..... 1010111 @r2_vm
++vsext_vf8       010010 . ..... 00011 010 ..... 1010111 @r2_vm
++
+ vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
+ vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 72222d73e0e..bc780912b2b 100644
+index f92e5c806c8..f3184fb0535 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3323,7 +3323,25 @@ static bool vrgather_vv_check(DisasContext *s, arg_rmrr *a)
-            require_vm(a->vm, a->rd);
- }
- 
-+static bool vrgatherei16_vv_check(DisasContext *s, arg_rmrr *a)
+@@ -3514,3 +3514,83 @@ GEN_VMV_WHOLE_TRANS(vmv1r_v, 1)
+ GEN_VMV_WHOLE_TRANS(vmv2r_v, 2)
+ GEN_VMV_WHOLE_TRANS(vmv4r_v, 4)
+ GEN_VMV_WHOLE_TRANS(vmv8r_v, 8)
++
++static bool int_ext_check(DisasContext *s, arg_rmr *a, uint8_t div)
 +{
-+    int8_t emul = MO_16 - s->sew + s->lmul;
-+    return require_rvv(s) &&
-+           vext_check_isa_ill(s) &&
-+           (emul >= -3 && emul <= 3) &&
-+           require_align(a->rd, s->lmul) &&
-+           require_align(a->rs1, emul) &&
-+           require_align(a->rs2, s->lmul) &&
-+           (a->rd != a->rs2 && a->rd != a->rs1) &&
-+           !is_overlapped(a->rd, 1 << MAX(s->lmul, 0),
-+                          a->rs1, 1 << MAX(emul, 0)) &&
-+           !is_overlapped(a->rd, 1 << MAX(s->lmul, 0),
-+                          a->rs2, 1 << MAX(s->lmul, 0)) &&
-+           require_vm(a->vm, a->rd);
++    uint8_t from = (s->sew + 3) - div;
++    bool ret = require_rvv(s) &&
++        (from >= 3 && from <= 8) &&
++        (a->rd != a->rs2) &&
++        require_align(a->rd, s->lmul) &&
++        require_align(a->rs2, s->lmul - div) &&
++        require_vm(a->vm, a->rd) &&
++        require_noover(a->rd, s->lmul, a->rs2, s->lmul - div);
++    return ret;
 +}
 +
- GEN_OPIVV_TRANS(vrgather_vv, vrgather_vv_check)
-+GEN_OPIVV_TRANS(vrgatherei16_vv, vrgatherei16_vv_check)
- 
- static bool vrgather_vx_check(DisasContext *s, arg_rmrr *a)
- {
-@@ -3343,7 +3361,8 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rmrr *a)
-     }
- 
-     if (a->vm && s->vl_eq_vlmax) {
--        int vlmax = s->vlen;
-+        int scale = s->lmul - (s->sew + 3);
-+        int vlmax = scale < 0 ? s->vlen >> -scale : s->vlen << scale;
-         TCGv_i64 dest = tcg_temp_new_i64();
- 
-         if (a->rs1 == 0) {
-@@ -3374,8 +3393,10 @@ static bool trans_vrgather_vi(DisasContext *s, arg_rmrr *a)
-     }
- 
-     if (a->vm && s->vl_eq_vlmax) {
--        if (a->rs1 >= s->vlen) {
--            tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd),
-+        int scale = s->lmul - (s->sew + 3);
-+        int vlmax = scale < 0 ? s->vlen >> -scale : s->vlen << scale;
-+        if (a->rs1 >= vlmax) {
-+            tcg_gen_gvec_dup_imm(MO_64, vreg_ofs(s, a->rd),
-                                  MAXSZ(s), MAXSZ(s), 0);
-         } else {
-             tcg_gen_gvec_dup_mem(s->sew, vreg_ofs(s, a->rd),
++static bool int_ext_op(DisasContext *s, arg_rmr *a, uint8_t seq)
++{
++    uint32_t data = 0;
++    gen_helper_gvec_3_ptr *fn;
++    TCGLabel *over = gen_new_label();
++    tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
++
++    static gen_helper_gvec_3_ptr * const fns[6][4] = {
++        {
++            NULL, gen_helper_vzext_vf2_h,
++            gen_helper_vzext_vf2_w, gen_helper_vzext_vf2_d
++        },
++        {
++            NULL, NULL,
++            gen_helper_vzext_vf4_w, gen_helper_vzext_vf4_d,
++        },
++        {
++            NULL, NULL,
++            NULL, gen_helper_vzext_vf8_d
++        },
++        {
++            NULL, gen_helper_vsext_vf2_h,
++            gen_helper_vsext_vf2_w, gen_helper_vsext_vf2_d
++        },
++        {
++            NULL, NULL,
++            gen_helper_vsext_vf4_w, gen_helper_vsext_vf4_d,
++        },
++        {
++            NULL, NULL,
++            NULL, gen_helper_vsext_vf8_d
++        }
++    };
++
++    fn = fns[seq][s->sew];
++    if (fn == NULL) {
++        return false;
++    }
++
++    data = FIELD_DP32(data, VDATA, VM, a->vm);
++
++    tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
++                       vreg_ofs(s, a->rs2), cpu_env, 0,
++                       s->vlen / 8, data, fn);
++
++    mark_vs_dirty(s);
++    gen_set_label(over);
++    return true;
++}
++
++/* Vector Integer Extension */
++#define GEN_INT_EXT_TRANS(NAME, DIV, SEQ)             \
++static bool trans_##NAME(DisasContext *s, arg_rmr *a) \
++{                                                     \
++    if (int_ext_check(s, a, DIV)) {                   \
++        return int_ext_op(s, a, SEQ);                 \
++    }                                                 \
++    return false;                                     \
++}
++
++GEN_INT_EXT_TRANS(vzext_vf2, 1, 0)
++GEN_INT_EXT_TRANS(vzext_vf4, 2, 1)
++GEN_INT_EXT_TRANS(vzext_vf8, 3, 2)
++GEN_INT_EXT_TRANS(vsext_vf2, 1, 3)
++GEN_INT_EXT_TRANS(vsext_vf4, 2, 4)
++GEN_INT_EXT_TRANS(vsext_vf8, 3, 5)
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index 8ccf538141c..782fe086f3e 100644
+index 782fe086f3e..40ef5ab53ae 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -4666,11 +4666,11 @@ GEN_VEXT_VSLIDE1DOWN_VX(vslide1down_vx_w, uint32_t, H4)
- GEN_VEXT_VSLIDE1DOWN_VX(vslide1down_vx_d, uint64_t, H8)
- 
- /* Vector Register Gather Instruction */
--#define GEN_VEXT_VRGATHER_VV(NAME, ETYPE, H)                              \
-+#define GEN_VEXT_VRGATHER_VV(NAME, TS1, TS2, HS1, HS2)                    \
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
-+    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(TS1)));             \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t index, i;                                                    \
-@@ -4679,20 +4679,25 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
-         if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
--        index = *((ETYPE *)vs1 + H(i));                                   \
-+        index = *((TS1 *)vs1 + HS1(i));                                   \
-         if (index >= vlmax) {                                             \
--            *((ETYPE *)vd + H(i)) = 0;                                    \
-+            *((TS2 *)vd + HS2(i)) = 0;                                    \
-         } else {                                                          \
--            *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(index));           \
-+            *((TS2 *)vd + HS2(i)) = *((TS2 *)vs2 + HS2(index));           \
-         }                                                                 \
-     }                                                                     \
- }
- 
- /* vd[i] = (vs1[i] >= VLMAX) ? 0 : vs2[vs1[i]]; */
--GEN_VEXT_VRGATHER_VV(vrgather_vv_b, uint8_t,  H1)
--GEN_VEXT_VRGATHER_VV(vrgather_vv_h, uint16_t, H2)
--GEN_VEXT_VRGATHER_VV(vrgather_vv_w, uint32_t, H4)
--GEN_VEXT_VRGATHER_VV(vrgather_vv_d, uint64_t, H8)
-+GEN_VEXT_VRGATHER_VV(vrgather_vv_b, uint8_t,  uint8_t,  H1, H1)
-+GEN_VEXT_VRGATHER_VV(vrgather_vv_h, uint16_t, uint16_t, H2, H2)
-+GEN_VEXT_VRGATHER_VV(vrgather_vv_w, uint32_t, uint32_t, H4, H4)
-+GEN_VEXT_VRGATHER_VV(vrgather_vv_d, uint64_t, uint64_t, H8, H8)
+@@ -4748,3 +4748,34 @@ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_b, uint8_t,  H1)
+ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_h, uint16_t, H2)
+ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_w, uint32_t, H4)
+ GEN_VEXT_VCOMPRESS_VM(vcompress_vm_d, uint64_t, H8)
 +
-+GEN_VEXT_VRGATHER_VV(vrgatherei16_vv_b, uint16_t, uint8_t,  H2, H1)
-+GEN_VEXT_VRGATHER_VV(vrgatherei16_vv_h, uint16_t, uint16_t, H2, H2)
-+GEN_VEXT_VRGATHER_VV(vrgatherei16_vv_w, uint16_t, uint32_t, H2, H4)
-+GEN_VEXT_VRGATHER_VV(vrgatherei16_vv_d, uint16_t, uint64_t, H2, H8)
- 
- #define GEN_VEXT_VRGATHER_VX(NAME, ETYPE, H)                              \
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
++/* Vector Integer Extension */
++#define GEN_VEXT_INT_EXT(NAME, ETYPE, DTYPE, HD, HS1)            \
++void HELPER(NAME)(void *vd, void *v0, void *vs2,                 \
++                  CPURISCVState *env, uint32_t desc)             \
++{                                                                \
++    uint32_t vl = env->vl;                                       \
++    uint32_t vm = vext_vm(desc);                                 \
++    uint32_t i;                                                  \
++                                                                 \
++    for (i = 0; i < vl; i++) {                                   \
++        if (!vm && !vext_elem_mask(v0, i)) {                     \
++            continue;                                            \
++        }                                                        \
++        *((ETYPE *)vd + HD(i)) = *((DTYPE *)vs2 + HS1(i));       \
++    }                                                            \
++}
++
++GEN_VEXT_INT_EXT(vzext_vf2_h, uint16_t, uint8_t,  H2, H1)
++GEN_VEXT_INT_EXT(vzext_vf2_w, uint32_t, uint16_t, H4, H2)
++GEN_VEXT_INT_EXT(vzext_vf2_d, uint64_t, uint32_t, H8, H4)
++GEN_VEXT_INT_EXT(vzext_vf4_w, uint32_t, uint8_t,  H4, H1)
++GEN_VEXT_INT_EXT(vzext_vf4_d, uint64_t, uint16_t, H8, H2)
++GEN_VEXT_INT_EXT(vzext_vf8_d, uint64_t, uint8_t,  H8, H1)
++
++GEN_VEXT_INT_EXT(vsext_vf2_h, int16_t, int8_t,  H2, H1)
++GEN_VEXT_INT_EXT(vsext_vf2_w, int32_t, int16_t, H4, H2)
++GEN_VEXT_INT_EXT(vsext_vf2_d, int64_t, int32_t, H8, H4)
++GEN_VEXT_INT_EXT(vsext_vf4_w, int32_t, int8_t,  H4, H1)
++GEN_VEXT_INT_EXT(vsext_vf4_d, int64_t, int16_t, H8, H2)
++GEN_VEXT_INT_EXT(vsext_vf8_d, int64_t, int8_t,  H8, H1)
 -- 
 2.17.1
 
