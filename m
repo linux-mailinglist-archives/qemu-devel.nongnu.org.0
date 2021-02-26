@@ -2,74 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C907325C20
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:48:21 +0100 (CET)
-Received: from localhost ([::1]:32878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34CF325C25
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:51:50 +0100 (CET)
+Received: from localhost ([::1]:42382 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFU72-0003Ek-Cd
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:48:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34960)
+	id 1lFUAP-00078U-PI
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:51:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35106)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTiG-0000o1-AM
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:44 -0500
-Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:41106)
+ id 1lFTia-0001FB-Qo
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:23:05 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:54748)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTiE-0001rJ-BB
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:44 -0500
-Received: by mail-pf1-x42e.google.com with SMTP id q20so5311300pfu.8
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:22:41 -0800 (PST)
+ id 1lFTiX-00020k-Gs
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:23:04 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id i14so3564369pjz.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:23:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=rWSIZHZDjqIuwdV86CYsQb0YQNX3HHzBj1A0787Bohs=;
- b=d36yhWqOKyOfbRWoMJhz/BPGdg5fJhq7UxlkF+fsoYDZUQxigwLRaR6LXUMDSZxzXf
- 2BSVgrOv/VohHPts+W7czOWoXSsloE/IWXEubFB5qt4AygHfTOrRACLMdVDMR6AOfuY0
- /hMsXJ+i2/CZSz2q0p/P+sVEHyZZM0pYies/Xm3QJic4mJTAwDbAOCGtnIbVGXNYjDyT
- V1+rkS+PIL6Whj4bVB5pGNZx9uUGD6Aunyt+QFhZ7WsiK+p0t8SX0oJ1yv3Wo3sPCf5P
- KXdDWT5NhEDlrqkSWUEfg65oKRQ/x+C3XOs5G5m9kIAN4Rtm06ONQLotJokRzaN1BL8M
- X8JQ==
+ bh=gfZajW9FAFBcbHZTi1uXAEXp3HXFFQN12IooWWtS9oU=;
+ b=L4hFz6btjKfbIuJUdiF8V9bEbstfkgi6inhGcwA3sh947PpRbReg9WszrtO+DQePU7
+ fZHwhZWhAthSF1MzE62r1iSmxca2OEhIq9Es9M0BVfcHdEjTokPaTczXaSBeChxwFdj5
+ 53NHsSHN9DU8S45IRbltCk216V/h7DCvdc/gdXrcgOeflWGlVdjoz3c1ENoiyiNgVR0t
+ B/yarwZPKBac80JGbRHxRIZyFzob4FN5wuS0qguI7OwsbDrBqdVvWsxBDSdKIevzh3OW
+ qvkt5nfqF+npTFNoQZ2eQiaspMQAL5ZtXoYZxV6YSEHpaoRRIRFSWlIP/2x4xR+6OUF3
+ B4AA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=rWSIZHZDjqIuwdV86CYsQb0YQNX3HHzBj1A0787Bohs=;
- b=VAWYxW0O0t73BUMiyR/Tt4x49589z7GZfJCaMNisI+cOLcQTGyET1uXxphtvBqrbUp
- 2hW8fqb8297/kGxFiQrPA1FoyJ2bRJXPRXs5B9ULwY2H2AEexICFKJV7RwL56OSY0iob
- SNFBdb3lzj2sVRL0pA8Lpa4VR532+pKJJ8lggTBZ529Vv1NhgAiyHBl7Rxu+muWfw/Hi
- eJVMCT93w/ZEXV6BXPA6AqXJbZ8k2NR0z3M82MCS/oUPGVYObN30lGIfRsGdMHjEKuqK
- m6XxPqjSRRLUqp6x2uQowbc0CxX1niJN4V54hr9kT0IY32xAUqIQn2hSdqTDzn7gfEk+
- LuYw==
-X-Gm-Message-State: AOAM533WuskqfiqJYTN0YLhOECEIRa8A0idREDWjPVpNZYcy5vim3GzL
- VoRX+utMjZC1WX/7HlwYP+qLmiuWH0rGyA==
-X-Google-Smtp-Source: ABdhPJyU3dR5pKpxs5Fg9y/41hAdfTsjMx8ncD91suOmHZgmiQvbKw5FuagKckiZV5DceANlWUmk6A==
-X-Received: by 2002:a63:ee4e:: with SMTP id n14mr1017634pgk.422.1614309760685; 
- Thu, 25 Feb 2021 19:22:40 -0800 (PST)
+ bh=gfZajW9FAFBcbHZTi1uXAEXp3HXFFQN12IooWWtS9oU=;
+ b=sgMlS6PXVl6G4762bT5vSlSdqkgYUc3F1AaUCdLVYSQyXcW84b4HAPD67CpNwSklMX
+ +Ut+ADJcM/gwhvzGNt1ukOmA7fuwWMgUJgPGcX+uAQciw9gAvoeMioKexog58Y+4wlgZ
+ SRhr5LnflZAvaxqLQGzhwMFirHc7O5ETPJApizNuxK9Fj0ZbdkkA0yX3gZJ3GUQ1Vf7S
+ 53129JmZadyYY+pXzf+UUnkGIYJMUcQcHn2yFsqT9dzp5MkdJUuXe2Z/k7cUZBgG7jqV
+ ygNeOtNsHecBR5fpXI9OLutAyU4WMva005bAJ75Ddk3nCttEYDXxoDQbKBNMnLCnJfU3
+ dG6g==
+X-Gm-Message-State: AOAM533XcvAwVhovLbOR7tRQ8tY9WqwAQmDzQX3f62Gr9mfsXY2+9J2D
+ TbgB+LD+p8yt/YnQ4zprZ+C82NnH/ETFrg==
+X-Google-Smtp-Source: ABdhPJxz5r3hQ4XGjTlEcSAMNPE/3EQzZK2CLU3mz1MF4GCGYLCbPNrZ9/N74m1n7VDhleaFTXq2EA==
+X-Received: by 2002:a17:90a:9310:: with SMTP id
+ p16mr1167702pjo.211.1614309779045; 
+ Thu, 25 Feb 2021 19:22:59 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.22.38
+ by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.22.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 19:22:40 -0800 (PST)
+ Thu, 25 Feb 2021 19:22:58 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 38/75] target/riscv: rvv-1.0: whole register move
- instructions
-Date: Fri, 26 Feb 2021 11:18:22 +0800
-Message-Id: <20210226031902.23656-39-frank.chang@sifive.com>
+Subject: [PATCH v7 40/75] target/riscv: rvv-1.0: single-width averaging add
+ and subtract instructions
+Date: Fri, 26 Feb 2021 11:18:24 +0800
+Message-Id: <20210226031902.23656-41-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210226031902.23656-1-frank.chang@sifive.com>
 References: <20210226031902.23656-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
- envelope-from=frank.chang@sifive.com; helo=mail-pf1-x42e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,65 +96,198 @@ From: Frank Chang <frank.chang@sifive.com>
 
 Add the following instructions:
 
-* vmv1r.v
-* vmv2r.v
-* vmv4r.v
-* vmv8r.v
+* vaaddu.vv
+* vaaddu.vx
+* vasubu.vv
+* vasubu.vx
+
+Remove the following instructions:
+
+* vadd.vi
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/riscv/insn32.decode              |  4 ++++
- target/riscv/insn_trans/trans_rvv.c.inc | 25 +++++++++++++++++++++++++
- 2 files changed, 29 insertions(+)
+ target/riscv/helper.h                   | 16 ++++++
+ target/riscv/insn32.decode              | 13 +++--
+ target/riscv/insn_trans/trans_rvv.c.inc |  5 +-
+ target/riscv/vector_helper.c            | 74 +++++++++++++++++++++++++
+ 4 files changed, 102 insertions(+), 6 deletions(-)
 
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index 25c0e2eee28..421bc423c98 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -689,18 +689,34 @@ DEF_HELPER_6(vaadd_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vasub_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vasub_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vasub_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vasub_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vasubu_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vasubu_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vasubu_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
++DEF_HELPER_6(vasubu_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vaadd_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vaaddu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vasub_vx_b, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vasub_vx_h, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vasub_vx_w, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vasub_vx_d, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vasubu_vx_b, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vasubu_vx_h, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vasubu_vx_w, void, ptr, ptr, tl, ptr, env, i32)
++DEF_HELPER_6(vasubu_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+ 
+ DEF_HELPER_6(vsmul_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
+ DEF_HELPER_6(vsmul_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
 diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-index 8516a12b126..beef6ca7167 100644
+index 369827ca98f..1e2508adfb8 100644
 --- a/target/riscv/insn32.decode
 +++ b/target/riscv/insn32.decode
-@@ -625,6 +625,10 @@ vrgatherei16_vv 001110 . ..... ..... 000 ..... 1010111 @r_vm
- vrgather_vx     001100 . ..... ..... 100 ..... 1010111 @r_vm
- vrgather_vi     001100 . ..... ..... 011 ..... 1010111 @r_vm
- vcompress_vm    010111 - ..... ..... 010 ..... 1010111 @r
-+vmv1r_v         100111 1 ..... 00000 011 ..... 1010111 @r2rd
-+vmv2r_v         100111 1 ..... 00001 011 ..... 1010111 @r2rd
-+vmv4r_v         100111 1 ..... 00011 011 ..... 1010111 @r2rd
-+vmv8r_v         100111 1 ..... 00111 011 ..... 1010111 @r2rd
- 
- vsetvli         0 ........... ..... 111 ..... 1010111  @r2_zimm
- vsetvl          1000000 ..... ..... 111 ..... 1010111  @r
+@@ -468,11 +468,14 @@ vssubu_vv       100010 . ..... ..... 000 ..... 1010111 @r_vm
+ vssubu_vx       100010 . ..... ..... 100 ..... 1010111 @r_vm
+ vssub_vv        100011 . ..... ..... 000 ..... 1010111 @r_vm
+ vssub_vx        100011 . ..... ..... 100 ..... 1010111 @r_vm
+-vaadd_vv        100100 . ..... ..... 000 ..... 1010111 @r_vm
+-vaadd_vx        100100 . ..... ..... 100 ..... 1010111 @r_vm
+-vaadd_vi        100100 . ..... ..... 011 ..... 1010111 @r_vm
+-vasub_vv        100110 . ..... ..... 000 ..... 1010111 @r_vm
+-vasub_vx        100110 . ..... ..... 100 ..... 1010111 @r_vm
++vaadd_vv        001001 . ..... ..... 010 ..... 1010111 @r_vm
++vaadd_vx        001001 . ..... ..... 110 ..... 1010111 @r_vm
++vaaddu_vv       001000 . ..... ..... 010 ..... 1010111 @r_vm
++vaaddu_vx       001000 . ..... ..... 110 ..... 1010111 @r_vm
++vasub_vv        001011 . ..... ..... 010 ..... 1010111 @r_vm
++vasub_vx        001011 . ..... ..... 110 ..... 1010111 @r_vm
++vasubu_vv       001010 . ..... ..... 010 ..... 1010111 @r_vm
++vasubu_vx       001010 . ..... ..... 110 ..... 1010111 @r_vm
+ vsmul_vv        100111 . ..... ..... 000 ..... 1010111 @r_vm
+ vsmul_vx        100111 . ..... ..... 100 ..... 1010111 @r_vm
+ vwsmaccu_vv     111100 . ..... ..... 000 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 63e31299b3b..f92e5c806c8 100644
+index f3184fb0535..308c9fa44be 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -3489,3 +3489,28 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
-     }
-     return false;
- }
+@@ -2237,10 +2237,13 @@ GEN_OPIVI_TRANS(vsadd_vi, IMM_SX, vsadd_vx, opivx_check)
+ 
+ /* Vector Single-Width Averaging Add and Subtract */
+ GEN_OPIVV_TRANS(vaadd_vv, opivv_check)
++GEN_OPIVV_TRANS(vaaddu_vv, opivv_check)
+ GEN_OPIVV_TRANS(vasub_vv, opivv_check)
++GEN_OPIVV_TRANS(vasubu_vv, opivv_check)
+ GEN_OPIVX_TRANS(vaadd_vx,  opivx_check)
++GEN_OPIVX_TRANS(vaaddu_vx,  opivx_check)
+ GEN_OPIVX_TRANS(vasub_vx,  opivx_check)
+-GEN_OPIVI_TRANS(vaadd_vi, 0, vaadd_vx, opivx_check)
++GEN_OPIVX_TRANS(vasubu_vx,  opivx_check)
+ 
+ /* Vector Single-Width Fractional Multiply with Rounding and Saturation */
+ GEN_OPIVV_TRANS(vsmul_vv, opivv_check)
+diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+index 40ef5ab53ae..c37d0404113 100644
+--- a/target/riscv/vector_helper.c
++++ b/target/riscv/vector_helper.c
+@@ -2502,6 +2502,43 @@ GEN_VEXT_VX_RM(vaadd_vx_h, 2, 2)
+ GEN_VEXT_VX_RM(vaadd_vx_w, 4, 4)
+ GEN_VEXT_VX_RM(vaadd_vx_d, 8, 8)
+ 
++static inline uint32_t aaddu32(CPURISCVState *env, int vxrm,
++                               uint32_t a, uint32_t b)
++{
++    uint64_t res = (uint64_t)a + b;
++    uint8_t round = get_round(vxrm, res, 1);
 +
-+/*
-+ * Whole Vector Register Move Instructions ignore vtype and vl setting.
-+ * Thus, we don't need to check vill bit. (Section 17.6)
-+ */
-+#define GEN_VMV_WHOLE_TRANS(NAME, LEN)                          \
-+static bool trans_##NAME(DisasContext *s, arg_##NAME * a)       \
-+{                                                               \
-+    if (require_rvv(s) &&                                       \
-+        QEMU_IS_ALIGNED(a->rd, LEN) &&                          \
-+        QEMU_IS_ALIGNED(a->rs2, LEN)) {                         \
-+        /* EEW = 8 */                                           \
-+        tcg_gen_gvec_mov(MO_8, vreg_ofs(s, a->rd),              \
-+                         vreg_ofs(s, a->rs2),                   \
-+                         s->vlen / 8 * LEN, s->vlen / 8 * LEN); \
-+        mark_vs_dirty(s);                                       \
-+        return true;                                            \
-+    }                                                           \
-+    return false;                                               \
++    return (res >> 1) + round;
 +}
 +
-+GEN_VMV_WHOLE_TRANS(vmv1r_v, 1)
-+GEN_VMV_WHOLE_TRANS(vmv2r_v, 2)
-+GEN_VMV_WHOLE_TRANS(vmv4r_v, 4)
-+GEN_VMV_WHOLE_TRANS(vmv8r_v, 8)
++static inline uint64_t aaddu64(CPURISCVState *env, int vxrm,
++                               uint64_t a, uint64_t b)
++{
++    uint64_t res = a + b;
++    uint8_t round = get_round(vxrm, res, 1);
++    uint64_t over = (uint64_t)(res < a) << 63;
++
++    return ((res >> 1) | over) + round;
++}
++
++RVVCALL(OPIVV2_RM, vaaddu_vv_b, OP_UUU_B, H1, H1, H1, aaddu32)
++RVVCALL(OPIVV2_RM, vaaddu_vv_h, OP_UUU_H, H2, H2, H2, aaddu32)
++RVVCALL(OPIVV2_RM, vaaddu_vv_w, OP_UUU_W, H4, H4, H4, aaddu32)
++RVVCALL(OPIVV2_RM, vaaddu_vv_d, OP_UUU_D, H8, H8, H8, aaddu64)
++GEN_VEXT_VV_RM(vaaddu_vv_b, 1, 1)
++GEN_VEXT_VV_RM(vaaddu_vv_h, 2, 2)
++GEN_VEXT_VV_RM(vaaddu_vv_w, 4, 4)
++GEN_VEXT_VV_RM(vaaddu_vv_d, 8, 8)
++
++RVVCALL(OPIVX2_RM, vaaddu_vx_b, OP_UUU_B, H1, H1, aaddu32)
++RVVCALL(OPIVX2_RM, vaaddu_vx_h, OP_UUU_H, H2, H2, aaddu32)
++RVVCALL(OPIVX2_RM, vaaddu_vx_w, OP_UUU_W, H4, H4, aaddu32)
++RVVCALL(OPIVX2_RM, vaaddu_vx_d, OP_UUU_D, H8, H8, aaddu64)
++GEN_VEXT_VX_RM(vaaddu_vx_b, 1, 1)
++GEN_VEXT_VX_RM(vaaddu_vx_h, 2, 2)
++GEN_VEXT_VX_RM(vaaddu_vx_w, 4, 4)
++GEN_VEXT_VX_RM(vaaddu_vx_d, 8, 8)
++
+ static inline int32_t asub32(CPURISCVState *env, int vxrm, int32_t a, int32_t b)
+ {
+     int64_t res = (int64_t)a - b;
+@@ -2538,6 +2575,43 @@ GEN_VEXT_VX_RM(vasub_vx_h, 2, 2)
+ GEN_VEXT_VX_RM(vasub_vx_w, 4, 4)
+ GEN_VEXT_VX_RM(vasub_vx_d, 8, 8)
+ 
++static inline uint32_t asubu32(CPURISCVState *env, int vxrm,
++                               uint32_t a, uint32_t b)
++{
++    int64_t res = (int64_t)a - b;
++    uint8_t round = get_round(vxrm, res, 1);
++
++    return (res >> 1) + round;
++}
++
++static inline uint64_t asubu64(CPURISCVState *env, int vxrm,
++                               uint64_t a, uint64_t b)
++{
++    uint64_t res = (uint64_t)a - b;
++    uint8_t round = get_round(vxrm, res, 1);
++    uint64_t over = (uint64_t)(res > a) << 63;
++
++    return ((res >> 1) | over) + round;
++}
++
++RVVCALL(OPIVV2_RM, vasubu_vv_b, OP_UUU_B, H1, H1, H1, asubu32)
++RVVCALL(OPIVV2_RM, vasubu_vv_h, OP_UUU_H, H2, H2, H2, asubu32)
++RVVCALL(OPIVV2_RM, vasubu_vv_w, OP_UUU_W, H4, H4, H4, asubu32)
++RVVCALL(OPIVV2_RM, vasubu_vv_d, OP_UUU_D, H8, H8, H8, asubu64)
++GEN_VEXT_VV_RM(vasubu_vv_b, 1, 1)
++GEN_VEXT_VV_RM(vasubu_vv_h, 2, 2)
++GEN_VEXT_VV_RM(vasubu_vv_w, 4, 4)
++GEN_VEXT_VV_RM(vasubu_vv_d, 8, 8)
++
++RVVCALL(OPIVX2_RM, vasubu_vx_b, OP_UUU_B, H1, H1, asubu32)
++RVVCALL(OPIVX2_RM, vasubu_vx_h, OP_UUU_H, H2, H2, asubu32)
++RVVCALL(OPIVX2_RM, vasubu_vx_w, OP_UUU_W, H4, H4, asubu32)
++RVVCALL(OPIVX2_RM, vasubu_vx_d, OP_UUU_D, H8, H8, asubu64)
++GEN_VEXT_VX_RM(vasubu_vx_b, 1, 1)
++GEN_VEXT_VX_RM(vasubu_vx_h, 2, 2)
++GEN_VEXT_VX_RM(vasubu_vx_w, 4, 4)
++GEN_VEXT_VX_RM(vasubu_vx_d, 8, 8)
++
+ /* Vector Single-Width Fractional Multiply with Rounding and Saturation */
+ static inline int8_t vsmul8(CPURISCVState *env, int vxrm, int8_t a, int8_t b)
+ {
 -- 
 2.17.1
 
