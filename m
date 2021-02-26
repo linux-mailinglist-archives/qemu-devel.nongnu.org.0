@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84C883266C4
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 19:15:24 +0100 (CET)
-Received: from localhost ([::1]:42606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 681993266A8
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 19:03:49 +0100 (CET)
+Received: from localhost ([::1]:49710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFhe7-0008Rp-Eb
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 13:15:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60272)
+	id 1lFhSu-0007Wq-6J
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 13:03:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35312)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhI5-0004d1-W4
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:39 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49990)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lFhP2-0005ay-24; Fri, 26 Feb 2021 12:59:48 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34524)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHh-00017O-VR
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:31 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 1F5FEB016;
- Fri, 26 Feb 2021 17:51:53 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v25 20/20] i386: make cpu_load_efer sysemu-only
-Date: Fri, 26 Feb 2021 18:51:43 +0100
-Message-Id: <20210226175143.22388-21-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210226175143.22388-1-cfontana@suse.de>
-References: <20210226175143.22388-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1lFhP0-0003j9-1T; Fri, 26 Feb 2021 12:59:47 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 3D5F464F17;
+ Fri, 26 Feb 2021 17:59:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1614362382;
+ bh=fRIwT1P9mmFxFBfaL3x9LD8R+AkENyzNvUu9hV/Fd70=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=PsCIGtgheMVaxUz3Ugtb+IARfI5so7IuFMO+FGK8hK5xgnZEl+sYOzprBYNxEzWoO
+ SStgw5tt8wV+rwZC8vmeXfiP15vDABjE+hF64/Dv/Gd9riSAbXjkP26UhNdW4TbYvO
+ zfIccSuKpXeE5kKmTlFiyVgzekNhFuGANZxv6WYVhkHjNBoQ84HJ91UqbS8QppKOHw
+ 7PQMhQQZuGcU5FOXnrGTF2gtPcYyg7jjEMMcyKw0S27h+XS4q60ufLdw35HqWcGrqV
+ TZJtLxXtYo6lCzmoVeD88+2RXRxUi/gIFeIztDtl2q/9oCApMce+Xke9pKutKyHjqz
+ jc0/ddxUHDyjw==
+Date: Sat, 27 Feb 2021 02:59:35 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH V2 6/7] hw/block/nvme: support namespace attachment command
+Message-ID: <20210226175935.GB3949@redsun51.ssa.fujisawa.hgst.com>
+References: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+ <20210210160937.1100-7-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210210160937.1100-7-minwoo.im.dev@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,87 +62,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_load_efer is now used only for sysemu code.
+On Thu, Feb 11, 2021 at 01:09:36AM +0900, Minwoo Im wrote:
+> @@ -183,6 +183,7 @@ static const uint32_t nvme_cse_acs[256] = {
+>      [NVME_ADM_CMD_SET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+>      [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+>      [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
+> +    [NVME_ADM_CMD_NS_ATTACHMENT]    = NVME_CMD_EFF_CSUPP,
 
-Therefore, move this function implementation to
-sysemu-only section of helper.c
+Missing NVME_CMD_EFF_NIC for the attachment command.
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/cpu.h    | 20 +++++---------------
- target/i386/helper.c | 13 +++++++++++++
- 2 files changed, 18 insertions(+), 15 deletions(-)
+>  };
+>  
+>  static const uint32_t nvme_cse_iocs_none[256];
+> @@ -3766,6 +3767,62 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest *req)
+>      return NVME_NO_COMPLETE;
+>  }
+>  
+> +static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
+> +static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+> +{
+> +    NvmeNamespace *ns;
+> +    NvmeCtrl *ctrl;
+> +    uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
+> +    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+> +    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
+> +    bool attach = !(dw10 & 0xf);
+> +    uint16_t *nr_ids = &list[0];
+> +    uint16_t *ids = &list[1];
+> +    uint16_t ret;
+> +    int i;
+> +
+> +    trace_pci_nvme_ns_attachment(nvme_cid(req), dw10 & 0xf);
+> +
+> +    ns = nvme_subsys_ns(n->subsys, nsid);
+> +    if (!ns) {
+> +        return NVME_INVALID_FIELD | NVME_DNR;
+> +    }
+> +
+> +    ret = nvme_dma(n, (uint8_t *)list, 4096,
+> +                   DMA_DIRECTION_TO_DEVICE, req);
+> +    if (ret) {
+> +        return ret;
+> +    }
+> +
+> +    if (!*nr_ids) {
+> +        return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+> +    }
+> +
+> +    for (i = 0; i < *nr_ids; i++) {
+> +        ctrl = nvme_subsys_ctrl(n->subsys, ids[i]);
+> +        if (!ctrl) {
+> +            return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+> +        }
+> +
+> +        if (attach) {
+> +            if (nvme_ns_is_attached(ctrl, ns)) {
+> +                return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
+> +            }
+> +
+> +            nvme_ns_attach(ctrl, ns);
+> +            __nvme_select_ns_iocs(ctrl, ns);
+> +        } else {
+> +            if (!nvme_ns_is_attached(ctrl, ns)) {
+> +                return NVME_NS_NOT_ATTACHED | NVME_DNR;
+> +            }
+> +
+> +            nvme_ns_detach(ctrl, ns);
+> +        }
+> +    }
+> +
+> +    return NVME_SUCCESS;
+> +}
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 3797789dc2..a1268abe9f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1957,6 +1957,11 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
-     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
- }
- 
-+/*
-+ * load efer and update the corresponding hflags. XXX: do consistency
-+ * checks with cpuid bits?
-+ */
-+void cpu_load_efer(CPUX86State *env, uint64_t val);
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
-@@ -2053,21 +2058,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
-     return eflags;
- }
- 
--
--/* load efer and update the corresponding hflags. XXX: do consistency
--   checks with cpuid bits? */
--static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
--{
--    env->efer = val;
--    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
--    if (env->efer & MSR_EFER_LMA) {
--        env->hflags |= HF_LMA_MASK;
--    }
--    if (env->efer & MSR_EFER_SVME) {
--        env->hflags |= HF_SVME_MASK;
--    }
--}
--
- static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
- {
-     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 618ad1c409..7304721a94 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -574,6 +574,19 @@ void do_cpu_sipi(X86CPU *cpu)
- #endif
- 
- #ifndef CONFIG_USER_ONLY
-+
-+void cpu_load_efer(CPUX86State *env, uint64_t val)
-+{
-+    env->efer = val;
-+    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
-+    if (env->efer & MSR_EFER_LMA) {
-+        env->hflags |= HF_LMA_MASK;
-+    }
-+    if (env->efer & MSR_EFER_SVME) {
-+        env->hflags |= HF_SVME_MASK;
-+    }
-+}
-+
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
- {
-     X86CPU *cpu = X86_CPU(cs);
--- 
-2.26.2
-
+Every controller that has newly attached the namespace needs to emit the
+Namespace Notify AER in order for the host to react correctly to the
+command.
 
