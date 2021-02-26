@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91E1632601F
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:37:26 +0100 (CET)
-Received: from localhost ([::1]:39322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9DE1326036
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:39:50 +0100 (CET)
+Received: from localhost ([::1]:47590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFZYr-0000Wy-JW
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:37:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60552)
+	id 1lFZbA-00044B-4u
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:39:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60600)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFZT0-00045o-AL
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:31:22 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:34001)
+ id 1lFZT5-0004Eb-HD
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:31:27 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:37045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFZSy-0002ln-S1
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:31:22 -0500
-Received: by mail-ed1-x530.google.com with SMTP id b13so956863edx.1
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 01:31:20 -0800 (PST)
+ id 1lFZT3-0002rV-Jl
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:31:27 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id b21so2653203eja.4
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 01:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=p3rJSXI8AKLVIYnCtIJWOvToJLkr6ghkaSVEvpGX+18=;
- b=jTKoJ0lvfiZizb6F560GJfaZ1eCMmwhe+ELpMZlsUiUgsoEDzJ/vqUw4A4CNdu9U7S
- po4CNJ6Bz/sYuC6gstdP+1Co/2CAAAL8LtYrHKOWRhIWAMO11MRr7HpR35pBDZpxNMZm
- pU9Tkcwr66+Dqwjr4Fq7uD4CwSK8pjN+ZbrC+MzTehfVI9/hZkNXHHMEg+0NdJpk4yI6
- 2NPvffvB1hRfVXjpqOjUxGBi0wjXMctHI+INJ0iMr3CUpaoGb8Rhu3aOEirYzeT+ibJZ
- auySZ6Vc9nwK1OfMEnsZQlGfQvpcHdoK97Z/X/7/8BYIaSxbA1Xp2uEeenaM4GZfzk9B
- CzPg==
+ bh=moYUnA443ZNCun6tItxZiGo6Z2/jYTaF1F6gDoL/yFY=;
+ b=m8kEeZyH1/ttQHawE+V8SJvmt3u0ifi2WvOkUuygkvaDMnxJEmIT0sQ5T/A27jjVfE
+ FgRTieBFLf2WuNaL3Ilz4opn8QR2fiqjktoicjCCRC9nCKfBsZmXAk0kmn98zx34V0Sn
+ 5ORuTl41Xw9daq8O4m+nCLNP0OQhGvLpsOAeQC42csvJeegNSUpTKT/PTJkU79DwpNed
+ V4hkxv7NsurEAhlpZe3HXMHn+nqFIiIlSlhIFyX0tbJhWN8jv8bL9Vuw9JJIImStoIir
+ fImf5DORj6mqpY0METexuywPnCWwJSoqRkdhNE0Ebb9ExOufsfoltJDuhiI3bPTolu+7
+ lfOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=p3rJSXI8AKLVIYnCtIJWOvToJLkr6ghkaSVEvpGX+18=;
- b=BB1vTJCobnBro9vs850g8qdmtm2zVklv4T0CFw50ZtPlpCWNnnt1zhq2V++8EIwlmt
- tQ6ZqvwnXXkTLVyGWTWAzeUXT+NJvAA63Ouccib4gyO4kyzpY3/Y9IfBMo+661mgAsVr
- vTPWSOJiYjXTi+tPJ5HchnLJifz1GLXlUBESdR3gZL2MCPkt2BZC8k3kQmgTNtI5edW0
- jORZG+Il78Dyj4Ay8IaNKZDGTwXNByIu5qfEiANqwYVCasZjcl++BAplr+vYcVgsfIrE
- Ky7bYR2xMYaD7g4L8ZdHjKdLchzhLC/BhVJmUvyY8di7QwPQ7s07WFOFS3EF56knTTk3
- YzJA==
-X-Gm-Message-State: AOAM531wciYNRgOk71OxADqE9Yw5Q9KWxPCVGs/0CszExGDQRZ66gQck
- ZG92x5KsnWxJ8NIp7KoeQ/3KdFofff4=
-X-Google-Smtp-Source: ABdhPJxSS5v8KX+4OVBvd7oJ3KYIqCieCUeJV2q8zyjBd/IiEM/ILE22dRPtmKoGphOrraI47fksxw==
-X-Received: by 2002:a50:9d8a:: with SMTP id w10mr2260114ede.39.1614331878949; 
- Fri, 26 Feb 2021 01:31:18 -0800 (PST)
+ bh=moYUnA443ZNCun6tItxZiGo6Z2/jYTaF1F6gDoL/yFY=;
+ b=FQhSJ8A9iJcNgYUcHNJioyynioidKy6Hx3OaDlPm1PJX35/aPnbB9jky/46avs/y5E
+ PbMdOb4uF8xEZHKbaDaBkCvVH8xEH78fRKRAkt12jwiTgSK0c9kUxNcM3theT9EwTj4o
+ vESxLdlUrl24ICBwSPBQSMA7Rb83YTyKEpkUdTi1pNb9cWASTrt2ZFryLlgj5I29Op7D
+ LywSuBSF05lzFi1PbVqQDbimLkVhGuJy+JZvxVnhYLYSU3wpcaOSvU2UdW+G6fDlWkfe
+ qMVKDGfs4OVz+TtEwGpALoBDM1UhM+mzd0iCTRoZvgjt8s3blMBCSYhWR0oNdnXKDhDi
+ +9Qg==
+X-Gm-Message-State: AOAM530CjVeDkU87r1p6n1MvRfC/4WG1ZZDHWw3hcPktwx8pN2P7trJI
+ 5g8o2E9iSVTGlSDcyjnBaa+FjjTQsT4=
+X-Google-Smtp-Source: ABdhPJyoYR4Dm2NCorYfG3FbMXZoDABq0gAF51rg1CvPjfHCyatB7HvC/VguTyd4hfNX4N6EoZUBSA==
+X-Received: by 2002:a17:907:728b:: with SMTP id
+ dt11mr2278663ejc.321.1614331884051; 
+ Fri, 26 Feb 2021 01:31:24 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id y9sm3899666ejd.110.2021.02.26.01.31.17
+ by smtp.gmail.com with ESMTPSA id m26sm4861255eja.6.2021.02.26.01.31.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 01:31:18 -0800 (PST)
+ Fri, 26 Feb 2021 01:31:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 01/13] target/mips/meson: Introduce mips_tcg source set
-Date: Fri, 26 Feb 2021 10:30:58 +0100
-Message-Id: <20210226093111.3865906-2-f4bug@amsat.org>
+Subject: [PATCH v5 02/13] target/mips/meson: Restrict mips-semi.c to TCG
+Date: Fri, 26 Feb 2021 10:30:59 +0100
+Message-Id: <20210226093111.3865906-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226093111.3865906-1-f4bug@amsat.org>
 References: <20210226093111.3865906-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -92,42 +93,28 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce the 'mips_tcg' source set to collect TCG specific files.
-
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/mips/meson.build | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ target/mips/meson.build | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/target/mips/meson.build b/target/mips/meson.build
-index 9741545440c..75c16524606 100644
+index 75c16524606..53580633ce0 100644
 --- a/target/mips/meson.build
 +++ b/target/mips/meson.build
-@@ -6,12 +6,13 @@
- ]
- 
- mips_ss = ss.source_set()
--mips_ss.add(gen)
- mips_ss.add(files(
-   'cpu.c',
-   'gdbstub.c',
+@@ -31,10 +31,10 @@
+   'addr.c',
+   'cp0_timer.c',
+   'machine.c',
+-  'mips-semi.c',
  ))
--mips_ss.add(when: 'CONFIG_TCG', if_true: files(
-+mips_tcg_ss = ss.source_set()
-+mips_tcg_ss.add(gen)
-+mips_tcg_ss.add(files(
-   'dsp_helper.c',
-   'fpu_helper.c',
-   'lmmi_helper.c',
-@@ -36,5 +37,7 @@
+ mips_softmmu_ss.add(when: 'CONFIG_TCG', if_true: files(
    'cp0_helper.c',
++  'mips-semi.c',
  ))
  
-+mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
-+
- target_arch += {'mips': mips_ss}
- target_softmmu_arch += {'mips': mips_softmmu_ss}
+ mips_ss.add_all(when: 'CONFIG_TCG', if_true: [mips_tcg_ss])
 -- 
 2.26.2
 
