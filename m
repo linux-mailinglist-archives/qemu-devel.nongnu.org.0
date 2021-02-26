@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01812326339
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:19:35 +0100 (CET)
-Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E389326330
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:17:00 +0100 (CET)
+Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFd1q-0004Hs-0b
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:19:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58070)
+	id 1lFczL-0001SU-Ik
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:16:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFcwl-00081k-6k; Fri, 26 Feb 2021 08:14:19 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:36367)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lFcwr-0008Id-VA; Fri, 26 Feb 2021 08:14:26 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFcwh-0004qa-AG; Fri, 26 Feb 2021 08:14:19 -0500
-Received: by mail-wr1-x433.google.com with SMTP id u14so8553280wri.3;
- Fri, 26 Feb 2021 05:14:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lFcwn-0004t9-DJ; Fri, 26 Feb 2021 08:14:25 -0500
+Received: by mail-pf1-x430.google.com with SMTP id t29so6219578pfg.11;
+ Fri, 26 Feb 2021 05:14:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lcg6YHwY0vi6q4edqMH5mvI18L4U1/uEX7m4g24yUqA=;
- b=L6XZeUD+9gq0CbemQtXHmUvxXAj4CBcSyZpy42YXDROpxxHipr7eWhFjzKMCHY6onZ
- 7TM2iW737x1/of+MZCNZtLHjNT+PqLJQLW9lilFp14PmwwrVg4RJOJkq8ciIKO6MiP1x
- 6zyVsPFP8XyUCPRvmIvuZlaHy3df/ri5vIBYXhzfJjAer6SqBM6Xj79GIBgbvMbu8YMO
- 1LoCnX2ak1im6BQw+4nYoNZchFiaDA/dWNOQGZUcPIGVMDJoRe2F0YmDSb/jsPbpeHrD
- 02Xj3BffIJlLmC/+JbP/phVBFZnC7IYU77jeAZU1IQDgtbps4i3XLFD0IP9yIDVNsGzk
- H3hQ==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=GMsbw7TKbGGiqM/9ZPKf7oo5mFNwwzVPMoCjckGS0Ao=;
+ b=JfitXIA5C2WH29iUE8I7pZpkJ8WlvISgSMLRuSNMDaFNCL0voHgzkWveG8uJsKq4lX
+ iBl0io1K9Jdk+lpPls7cQU5iWeRT4dmlv2f2I4DpkqJ1ANrrPO86AfqQTTDg/irfHHLQ
+ 6mMrNc1/zYUbstwjjNeXBQJ1WegrjjbZuKcikXX3hFbxc3jtSZI2yRLz1zjlKQ1Zn26/
+ RIDpN/pyJnnB/BsJ0/AJZzqzAuq06lHMZvIxMc3VG3MuldGIX21hRHDjfodVKEf2DmBs
+ Q1oBFO7wGq4WPAow8+Te0Nf4fT8YyurifDsxJKtvtMxs+BSL9dkMxLwVFJAiNutjUqpm
+ 0AHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=lcg6YHwY0vi6q4edqMH5mvI18L4U1/uEX7m4g24yUqA=;
- b=OLIzZgBpQ8u098ozNMuwJo76Zs0l8yw5wOgyoPYtu+o/ONgkujKHGY7ulM2uTmjIcW
- XiY0l9+H226s0YQonRLj+Lb2MAUNdy3oYYCcd0NneZk3GKj52M+fxQ7PtxMCxso8JDwT
- k8LQV43hMKDCwgSK5RT8zC4JdMxjIS4AECitywOz6ZwwlyI1C2T2Qwc20AgQz091Qgs/
- 4D0W2te36htXPMrNnSHR4TIN8wUqlDN4ENEtDjfBUI3D0T39GvWegktTXXkCNIR+T3Rm
- AFYckY1k2HXPW7XOxmYaVLrqaUncjaPcyDK9HF5SkyXBaSc8InCC9SQV0n+oh/BhM1fc
- tlzQ==
-X-Gm-Message-State: AOAM531ghuFUF0M59wPhnBtiIm0UCaqrc54HOnNDK1MMxvaScdVtVXTB
- h0Lr6GCIFguqk8kfPc65MavrgYw+CtU=
-X-Google-Smtp-Source: ABdhPJxw/BJLl+x3UpKw1D9kKs2dLZ4Z9AiT8ccG+kJ5jBw8weY+eYw3/J8cAuxzGoD2Hdtkz8LB0g==
-X-Received: by 2002:adf:e444:: with SMTP id t4mr3302152wrm.97.1614345252281;
- Fri, 26 Feb 2021 05:14:12 -0800 (PST)
-Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f2sm10140322wrq.34.2021.02.26.05.14.10
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=GMsbw7TKbGGiqM/9ZPKf7oo5mFNwwzVPMoCjckGS0Ao=;
+ b=FtJ4itfjFDdsh8AICCDXsFgBDxMhw3yy8PaM4NiC7l9evlh8yeJEfddIp0kTp3TMVa
+ y6OB17u24KIzW6w2u2upQL8iSPST+JVSKrTaJ4epzqNoMT0gvhTlJgKpSH9/cG/21KNp
+ bxhQElLc4ChOinkHLK/SZlJHBQEYGnktnCJ32EHqP7+ylVgja6zqC+hg9Y9h6Sm6pvF6
+ kRVvFlThLQTeZvtIbdG3GaFaajP7qC3IvRcQ6/T9MSP9g/dDxPXOqb4084U5n8Lk9nLg
+ uS4NmkTwe40YDMgvgz+M53+tTl81yMCJy3JHnAg0uSzRSfRPdIrXy88xtDK1a+mtHoSo
+ 0w3w==
+X-Gm-Message-State: AOAM5303JTyqTNXvfT8Jo1gqDgL/syGufvp+z8eEHSwECbYjZ11TDeyZ
+ x3yLLBbCPwEQnwDtBigqmpM=
+X-Google-Smtp-Source: ABdhPJxgMgHwSbOWYHfWPIpoXYP3Ntpc9D+CniMEmVz0YQf3fH8iE+PsGbcJ+ZuAJ5wLCPSMdfcDfw==
+X-Received: by 2002:a62:1ad4:0:b029:1ed:b92c:6801 with SMTP id
+ a203-20020a621ad40000b02901edb92c6801mr3267554pfa.7.1614345259108; 
+ Fri, 26 Feb 2021 05:14:19 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id j4sm9367402pfa.131.2021.02.26.05.14.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 05:14:11 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] semihosting: Move hw/semihosting/ -> semihosting/
-Date: Fri, 26 Feb 2021 14:13:56 +0100
-Message-Id: <20210226131356.3964782-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210226131356.3964782-1-f4bug@amsat.org>
-References: <20210226131356.3964782-1-f4bug@amsat.org>
+ Fri, 26 Feb 2021 05:14:18 -0800 (PST)
+Date: Fri, 26 Feb 2021 22:14:16 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Keith Busch <kbusch@kernel.org>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
+Subject: Re: [PATCH V2 0/6] hw/block/nvme: support namespace attachment
+Message-ID: <20210226131416.GA11808@localhost.localdomain>
+References: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,129 +83,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>, qemu-riscv@nongnu.org,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Max Filippov <jcmvbkbc@gmail.com>, Michael Walle <michael@walle.cc>,
- qemu-arm@nongnu.org, Alistair Francis <Alistair.Francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-With the exception of hw/core/, the hw/ directory only contains
-device models used in system emulation. Semihosting is also used
-by user emulation. As a generic feature, move it out of hw/ directory.
+On 21-02-11 01:09:30, Minwoo Im wrote:
+> Hello,
+> 
+> This series supports namespace attachment: attach and detach.  This is
+> the second version series with a fix a bug on choosing a controller to
+> attach for a namespace in the attach command handler.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- meson.build                                       | 1 +
- {hw/semihosting => semihosting}/common-semi.h     | 0
- {hw/semihosting => semihosting}/arm-compat-semi.c | 0
- {hw/semihosting => semihosting}/config.c          | 0
- {hw/semihosting => semihosting}/console.c         | 0
- Kconfig                                           | 1 +
- MAINTAINERS                                       | 2 +-
- hw/Kconfig                                        | 1 -
- hw/meson.build                                    | 1 -
- {hw/semihosting => semihosting}/Kconfig           | 0
- {hw/semihosting => semihosting}/meson.build       | 0
- 11 files changed, 3 insertions(+), 3 deletions(-)
- rename {hw/semihosting => semihosting}/common-semi.h (100%)
- rename {hw/semihosting => semihosting}/arm-compat-semi.c (100%)
- rename {hw/semihosting => semihosting}/config.c (100%)
- rename {hw/semihosting => semihosting}/console.c (100%)
- rename {hw/semihosting => semihosting}/Kconfig (100%)
- rename {hw/semihosting => semihosting}/meson.build (100%)
+Keith,
 
-diff --git a/meson.build b/meson.build
-index 05a67c20d93..f2f9bb92520 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1934,6 +1934,7 @@
- subdir('monitor')
- subdir('net')
- subdir('replay')
-+subdir('semihosting')
- subdir('hw')
- subdir('accel')
- subdir('plugins')
-diff --git a/hw/semihosting/common-semi.h b/semihosting/common-semi.h
-similarity index 100%
-rename from hw/semihosting/common-semi.h
-rename to semihosting/common-semi.h
-diff --git a/hw/semihosting/arm-compat-semi.c b/semihosting/arm-compat-semi.c
-similarity index 100%
-rename from hw/semihosting/arm-compat-semi.c
-rename to semihosting/arm-compat-semi.c
-diff --git a/hw/semihosting/config.c b/semihosting/config.c
-similarity index 100%
-rename from hw/semihosting/config.c
-rename to semihosting/config.c
-diff --git a/hw/semihosting/console.c b/semihosting/console.c
-similarity index 100%
-rename from hw/semihosting/console.c
-rename to semihosting/console.c
-diff --git a/Kconfig b/Kconfig
-index bf694c42afe..d52ebd839b3 100644
---- a/Kconfig
-+++ b/Kconfig
-@@ -2,3 +2,4 @@ source Kconfig.host
- source backends/Kconfig
- source accel/Kconfig
- source hw/Kconfig
-+source semihosting/Kconfig
-diff --git a/MAINTAINERS b/MAINTAINERS
-index aacd4408125..9046b54cb2e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3224,7 +3224,7 @@ F: qapi/rdma.json
- Semihosting
- M: Alex Bennée <alex.bennee@linaro.org>
- S: Maintained
--F: hw/semihosting/
-+F: semihosting/
- F: include/semihosting/
- 
- Multi-process QEMU
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 8ea26479c48..ff40bd3f7bb 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -31,7 +31,6 @@ source remote/Kconfig
- source rtc/Kconfig
- source scsi/Kconfig
- source sd/Kconfig
--source semihosting/Kconfig
- source smbios/Kconfig
- source ssi/Kconfig
- source timer/Kconfig
-diff --git a/hw/meson.build b/hw/meson.build
-index e615d72d4df..8ba79b1a528 100644
---- a/hw/meson.build
-+++ b/hw/meson.build
-@@ -30,7 +30,6 @@
- subdir('rtc')
- subdir('scsi')
- subdir('sd')
--subdir('semihosting')
- subdir('smbios')
- subdir('ssi')
- subdir('timer')
-diff --git a/hw/semihosting/Kconfig b/semihosting/Kconfig
-similarity index 100%
-rename from hw/semihosting/Kconfig
-rename to semihosting/Kconfig
-diff --git a/hw/semihosting/meson.build b/semihosting/meson.build
-similarity index 100%
-rename from hw/semihosting/meson.build
-rename to semihosting/meson.build
--- 
-2.26.2
-
+Could you please have a look at this series and give some comments :) ?
 
