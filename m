@@ -2,67 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02A80325BF9
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:31:08 +0100 (CET)
-Received: from localhost ([::1]:38762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04359325BF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:29:01 +0100 (CET)
+Received: from localhost ([::1]:34622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFTqM-0007Ce-VW
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:31:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33878)
+	id 1lFToJ-0005VN-MU
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:29:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTg3-0006rx-3V
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:20:29 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:39720)
+ id 1lFTgg-0007kK-Qq
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:21:06 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:39724)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTfu-0000o8-9I
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:20:25 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id d2so5267591pjs.4
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:20:17 -0800 (PST)
+ id 1lFTgb-00019e-Um
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:21:06 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id d2so5268412pjs.4
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:21:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=DidbHDrw+P2rIJ7ZQzjXA5nBVi8fqOaoQirUqI/kIPA=;
- b=Sv/MJxAnWA+uGhzJIKsw18/10LUlAKr/6BzA7ES+nOoitMIYX1dOn3EstDNXaWIssp
- juI6KvYCTRwZVG4f8I2c0rgbeZY5bKviRzXQ4w7ULs9JVhWEPdyLlFffbDaiG/LdAM8k
- UbB0VxT1JDj3xyLIqXzC6CVnos4i6CSrcBiz9IKs9aUMO3uVoxygPtlk6q+Mcenck70w
- bIwODpSK+K0e/w4tMnkUDMBcCQRKN6Meij0FCc4N0FF/+KcqVpHDC1rbNlTdL+fm1uoO
- HChGlc7x3rA3fZW90sWRAZiYVBbEvzH4Z88PMwIVwbFUBHRYWaU4Z41531bURmAePsqi
- RhnQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=VuUvK4nn7E/I6bHUKHSu4oguqgN/dvLxxYZWK+G5Jzk=;
+ b=cwyPKINwjctySCn3OIp1RMb5rT/3Y0x12FBJWnKzFCdTVRxIxtYzS8UxkpkGLHnPL/
+ UZUEc7dj9b8sZSTHgdLHsWoLII9kixAVhUfEp6bKt3UUiNp+CF8KdXDd/gE4CHXywau3
+ Fx9JRG/8vwfrLWBooHK7BOWY7OAFynl1xKhl94kx3FZFPEQQzkdd3KTTCX/UrUtZjbDa
+ ABPzxVynlJ6qQ5814ym65FlD/HmOT0JrmmVvSAULA3aniIfIIZxlulVnpiceA0AAAh2V
+ 1mhElH5pJO6sY5xoREQrz1Ip4JZ9aigAzzqZCLvBsuo7cG+LZCnEKW4sUh/5cSmdsPWq
+ /8Og==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=DidbHDrw+P2rIJ7ZQzjXA5nBVi8fqOaoQirUqI/kIPA=;
- b=UA5hTvt+mKnz5N6MD28NVM64dFxm3LFii9OczO3ATBT6zVlCxrCw3jKxgDKj2FuFA+
- zJyVbCv2lcHHflFzTD1VnO8dhYyq2td+ZrY4UmIlwGPEAYiRA5ih31EPJxEYI+a/6SWr
- j7ZBT6APFsf2/pteRugoARt613Xdk/P/19eJTREyLllnQV7PUdiT8+RzkiB8hBTSzWq9
- kPStQxoh0l49XVg9wtMmIDWKrATktOpepvxYa2opbWTJkZW2p390Y/K6JI1q6EtdlWfp
- ljBaOwsE74W31KPOTT6Hzt3sETigzvt6S/dG7C24hAnLhWZ1Qh47Lkdy83hLa+xW+TlD
- qMJw==
-X-Gm-Message-State: AOAM532SOrUprknKxiwSR/7XaMFfyMN51eqhhFU2jzgBDrxfLLaNPsay
- Rdd2f87BHB7iXenjY857Il40xM/H4u2GQA==
-X-Google-Smtp-Source: ABdhPJyezzBcbyRvSt1JuRfMKtXUAPC2MTi/j4Fuxxf7GmtMDWgK8wxV3RD+u2B0UytQzyDrGd3ZoA==
-X-Received: by 2002:a17:90a:d486:: with SMTP id
- s6mr1174838pju.164.1614309615523; 
- Thu, 25 Feb 2021 19:20:15 -0800 (PST)
+ :references:mime-version:content-transfer-encoding;
+ bh=VuUvK4nn7E/I6bHUKHSu4oguqgN/dvLxxYZWK+G5Jzk=;
+ b=jBYYSX0NbcYDzhSL4KxvaPvZFIiksrLi82UuNmXaLIqGfFn9u3SGV3KWv+QtxYmk2h
+ 3krE01pjSOl1R5giB6cM+ymt3MsngfIuFibNTqGp1EUjphjq9aQc6QdWtY7ylFsd+Gu/
+ N8AvmQ8NjCck+WdLgVsTqlxnrAMQZfHwW/z0SM1HLKaSJyZz6ts7GNkByjJrYnKSQ1me
+ kNAaoSb2y5XA0q/x6MZayjYWSbcIUqitKvICxO6wIYcjLnY46wSugtPJQoLn1Z1mEefz
+ rq/xs9EllnxvCJonA23oSXuRJ5IPWGaVIGBCHCPOXoEGEAYOEmSkYAA1dytD7XTx/YyJ
+ f8Og==
+X-Gm-Message-State: AOAM533ueeXuZz5E3ysiFJ3LzZKjRWGItsFjTR7roFSjVf+x2fYaOiaH
+ Kne6RfegsKLfF6lTZCOTb99Qk8UnMzuaZw==
+X-Google-Smtp-Source: ABdhPJwQMJqRg0RdXvj2JqB+Wb+vPjPcSgSAyhiswc/hr0PbNd877NThb/4IIhrOUgXeNCoxDxMlew==
+X-Received: by 2002:a17:90b:4a0b:: with SMTP id
+ kk11mr1164730pjb.95.1614309659858; 
+ Thu, 25 Feb 2021 19:20:59 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.20.12
+ by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.20.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 19:20:15 -0800 (PST)
+ Thu, 25 Feb 2021 19:20:59 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 11/75] target/riscv: rvv-1.0: remove MLEN calculations
-Date: Fri, 26 Feb 2021 11:17:55 +0800
-Message-Id: <20210226031902.23656-12-frank.chang@sifive.com>
+Subject: [PATCH v7 18/75] target/riscv: rvv-1.0: stride load and store
+ instructions
+Date: Fri, 26 Feb 2021 11:18:02 +0800
+Message-Id: <20210226031902.23656-19-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210226031902.23656-1-frank.chang@sifive.com>
 References: <20210226031902.23656-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1032.google.com
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=frank.chang@sifive.com; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,1256 +98,842 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Frank Chang <frank.chang@sifive.com>
 
-As in RVV 1.0 design, MLEN is hardcoded with value 1 (Section 4.5).
-Thus, remove all MLEN related calculations.
-
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc |  35 +---
- target/riscv/internals.h                |   9 +-
- target/riscv/translate.c                |   2 -
- target/riscv/vector_helper.c            | 250 ++++++++++--------------
- 4 files changed, 110 insertions(+), 186 deletions(-)
+ target/riscv/helper.h                   | 129 +++-----------
+ target/riscv/insn32.decode              |  43 +++--
+ target/riscv/insn_trans/trans_rvv.c.inc | 227 +++++++++++-------------
+ target/riscv/vector_helper.c            | 190 ++++++--------------
+ 4 files changed, 194 insertions(+), 395 deletions(-)
 
+diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+index e3f3f41e891..ab865f4919f 100644
+--- a/target/riscv/helper.h
++++ b/target/riscv/helper.h
+@@ -79,111 +79,30 @@ DEF_HELPER_2(hyp_hlvx_wu, tl, env, tl)
+ 
+ /* Vector functions */
+ DEF_HELPER_3(vsetvl, tl, env, tl, tl)
+-DEF_HELPER_5(vlb_v_b, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_b_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlb_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlh_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlh_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlh_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlh_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlh_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlh_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlw_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlw_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlw_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlw_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_b, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_b_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vle_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_b, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_b_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlbu_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlhu_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlhu_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlhu_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlhu_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlhu_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlhu_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlwu_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlwu_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlwu_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vlwu_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_b, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_b_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsb_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsh_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsh_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsh_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsh_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsh_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsh_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsw_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsw_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsw_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vsw_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_b, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_b_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_h, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_h_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_w, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_w_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_d, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_5(vse_v_d_mask, void, ptr, ptr, tl, env, i32)
+-DEF_HELPER_6(vlsb_v_b, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsb_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsb_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsb_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsh_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsh_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsh_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsw_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsw_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlse_v_b, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlse_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlse_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlse_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsbu_v_b, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsbu_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsbu_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlsbu_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlshu_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlshu_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlshu_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlswu_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vlswu_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssb_v_b, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssb_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssb_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssb_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssh_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssh_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssh_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssw_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vssw_v_d, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vsse_v_b, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vsse_v_h, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vsse_v_w, void, ptr, ptr, tl, tl, env, i32)
+-DEF_HELPER_6(vsse_v_d, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_5(vle8_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle16_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle32_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle64_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle8_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle16_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle32_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vle64_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse8_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse16_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse32_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse64_v, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse8_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse16_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse32_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_5(vse64_v_mask, void, ptr, ptr, tl, env, i32)
++DEF_HELPER_6(vlse8_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vlse16_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vlse32_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vlse64_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vsse8_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vsse16_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vsse32_v, void, ptr, ptr, tl, tl, env, i32)
++DEF_HELPER_6(vsse64_v, void, ptr, ptr, tl, tl, env, i32)
+ DEF_HELPER_6(vlxb_v_b, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vlxb_v_h, void, ptr, ptr, tl, ptr, env, i32)
+ DEF_HELPER_6(vlxb_v_w, void, ptr, ptr, tl, ptr, env, i32)
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index 84080dd18ca..63811c0bd19 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -240,13 +240,26 @@ hfence_vvma 0010001  .....  ..... 000 00000 1110011 @hfence_vvma
+ # *** RV32V Extension ***
+ 
+ # *** Vector loads and stores are encoded within LOADFP/STORE-FP ***
+-vlb_v      ... 100 . 00000 ..... 000 ..... 0000111 @r2_nfvm
+-vlh_v      ... 100 . 00000 ..... 101 ..... 0000111 @r2_nfvm
+-vlw_v      ... 100 . 00000 ..... 110 ..... 0000111 @r2_nfvm
+-vle_v      ... 000 . 00000 ..... 111 ..... 0000111 @r2_nfvm
+-vlbu_v     ... 000 . 00000 ..... 000 ..... 0000111 @r2_nfvm
+-vlhu_v     ... 000 . 00000 ..... 101 ..... 0000111 @r2_nfvm
+-vlwu_v     ... 000 . 00000 ..... 110 ..... 0000111 @r2_nfvm
++# Vector unit-stride load/store insns.
++vle8_v     ... 000 . 00000 ..... 000 ..... 0000111 @r2_nfvm
++vle16_v    ... 000 . 00000 ..... 101 ..... 0000111 @r2_nfvm
++vle32_v    ... 000 . 00000 ..... 110 ..... 0000111 @r2_nfvm
++vle64_v    ... 000 . 00000 ..... 111 ..... 0000111 @r2_nfvm
++vse8_v     ... 000 . 00000 ..... 000 ..... 0100111 @r2_nfvm
++vse16_v    ... 000 . 00000 ..... 101 ..... 0100111 @r2_nfvm
++vse32_v    ... 000 . 00000 ..... 110 ..... 0100111 @r2_nfvm
++vse64_v    ... 000 . 00000 ..... 111 ..... 0100111 @r2_nfvm
++
++# Vector strided insns.
++vlse8_v     ... 010 . ..... ..... 000 ..... 0000111 @r_nfvm
++vlse16_v    ... 010 . ..... ..... 101 ..... 0000111 @r_nfvm
++vlse32_v    ... 010 . ..... ..... 110 ..... 0000111 @r_nfvm
++vlse64_v    ... 010 . ..... ..... 111 ..... 0000111 @r_nfvm
++vsse8_v     ... 010 . ..... ..... 000 ..... 0100111 @r_nfvm
++vsse16_v    ... 010 . ..... ..... 101 ..... 0100111 @r_nfvm
++vsse32_v    ... 010 . ..... ..... 110 ..... 0100111 @r_nfvm
++vsse64_v    ... 010 . ..... ..... 111 ..... 0100111 @r_nfvm
++
+ vlbff_v    ... 100 . 10000 ..... 000 ..... 0000111 @r2_nfvm
+ vlhff_v    ... 100 . 10000 ..... 101 ..... 0000111 @r2_nfvm
+ vlwff_v    ... 100 . 10000 ..... 110 ..... 0000111 @r2_nfvm
+@@ -254,22 +267,6 @@ vleff_v    ... 000 . 10000 ..... 111 ..... 0000111 @r2_nfvm
+ vlbuff_v   ... 000 . 10000 ..... 000 ..... 0000111 @r2_nfvm
+ vlhuff_v   ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
+ vlwuff_v   ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
+-vsb_v      ... 000 . 00000 ..... 000 ..... 0100111 @r2_nfvm
+-vsh_v      ... 000 . 00000 ..... 101 ..... 0100111 @r2_nfvm
+-vsw_v      ... 000 . 00000 ..... 110 ..... 0100111 @r2_nfvm
+-vse_v      ... 000 . 00000 ..... 111 ..... 0100111 @r2_nfvm
+-
+-vlsb_v     ... 110 . ..... ..... 000 ..... 0000111 @r_nfvm
+-vlsh_v     ... 110 . ..... ..... 101 ..... 0000111 @r_nfvm
+-vlsw_v     ... 110 . ..... ..... 110 ..... 0000111 @r_nfvm
+-vlse_v     ... 010 . ..... ..... 111 ..... 0000111 @r_nfvm
+-vlsbu_v    ... 010 . ..... ..... 000 ..... 0000111 @r_nfvm
+-vlshu_v    ... 010 . ..... ..... 101 ..... 0000111 @r_nfvm
+-vlswu_v    ... 010 . ..... ..... 110 ..... 0000111 @r_nfvm
+-vssb_v     ... 010 . ..... ..... 000 ..... 0100111 @r_nfvm
+-vssh_v     ... 010 . ..... ..... 101 ..... 0100111 @r_nfvm
+-vssw_v     ... 010 . ..... ..... 110 ..... 0100111 @r_nfvm
+-vsse_v     ... 010 . ..... ..... 111 ..... 0100111 @r_nfvm
+ 
+ vlxb_v     ... 111 . ..... ..... 000 ..... 0000111 @r_nfvm
+ vlxh_v     ... 111 . ..... ..... 101 ..... 0000111 @r_nfvm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 56ce39e769a..46e18a62b59 100644
+index a3732e76e09..ec65ee65adb 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -247,7 +247,6 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
-         return false;
-     }
+@@ -188,9 +188,42 @@ static uint32_t vreg_ofs(DisasContext *s, int reg)
+ /* check functions */
  
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -300,7 +299,6 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
-         return false;
-     }
+ /*
+- * In cpu_get_tb_cpu_state(), set VILL if RVV was not present.
+- * So RVV is also be checked in this function.
++ * Vector unit-stride, strided, unit-stride segment, strided segment
++ * store check function.
++ *
++ * Rules to be checked here:
++ *   1. EMUL must within the range: 1/8 <= EMUL <= 8. (Section 7.3)
++ *   2. Destination vector register number is multiples of EMUL.
++ *      (Section 3.3.2, 7.3)
++ *   3. The EMUL setting must be such that EMUL * NFIELDS ≤ 8. (Section 7.8)
++ *   4. Vector register numbers accessed by the segment load or store
++ *      cannot increment past 31. (Section 7.8)
++ */
++static bool vext_check_store(DisasContext *s, int vd, int nf, uint8_t eew)
++{
++    int8_t emul = eew - s->sew + s->lmul;
++    return (emul >= -3 && emul <= 3) &&
++            require_align(vd, emul) &&
++            require_nf(vd, nf, emul);
++}
++
++/*
++ * Vector unit-stride, strided, unit-stride segment, strided segment
++ * load check function.
++ *
++ * Rules to be checked here:
++ *   1. All rules applies to store instructions are applies
++ *      to load instructions.
++ *   2. Destination vector register group for a masked vector
++ *      instruction cannot overlap the source mask register (v0).
++ *      (Section 5.3)
+  */
++static bool vext_check_load(DisasContext *s, int vd, int nf, int vm,
++                            uint8_t eew)
++{
++    return vext_check_store(s, vd, nf, eew) && require_vm(vm, vd);
++}
++
+ static bool vext_check_isa_ill(DisasContext *s)
+ {
+     return !s->vill;
+@@ -437,13 +470,13 @@ static bool vext_check_isa_ill(DisasContext *s)
+ }
  
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -387,7 +385,6 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
-         return false;
-     }
+ /* common translation macro */
+-#define GEN_VEXT_TRANS(NAME, SEQ, ARGTYPE, OP, CHECK)      \
+-static bool trans_##NAME(DisasContext *s, arg_##ARGTYPE *a)\
+-{                                                          \
+-    if (CHECK(s, a)) {                                     \
+-        return OP(s, a, SEQ);                              \
+-    }                                                      \
+-    return false;                                          \
++#define GEN_VEXT_TRANS(NAME, EEW, ARGTYPE, OP, CHECK)        \
++static bool trans_##NAME(DisasContext *s, arg_##ARGTYPE * a) \
++{                                                            \
++    if (CHECK(s, a, EEW)) {                                  \
++        return OP(s, a, EEW);                                \
++    }                                                        \
++    return false;                                            \
+ }
  
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -426,7 +423,6 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
-           gen_helper_vsse_v_w,  gen_helper_vsse_v_d }
+ /*
+@@ -493,44 +526,20 @@ static bool ldst_us_trans(uint32_t vd, uint32_t rs1, uint32_t data,
+     return true;
+ }
+ 
+-static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
++static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+ {
+     uint32_t data = 0;
+     gen_helper_ldst_us *fn;
+-    static gen_helper_ldst_us * const fns[2][7][4] = {
++    static gen_helper_ldst_us * const fns[2][4] = {
+         /* masked unit stride load */
+-        { { gen_helper_vlb_v_b_mask,  gen_helper_vlb_v_h_mask,
+-            gen_helper_vlb_v_w_mask,  gen_helper_vlb_v_d_mask },
+-          { NULL,                     gen_helper_vlh_v_h_mask,
+-            gen_helper_vlh_v_w_mask,  gen_helper_vlh_v_d_mask },
+-          { NULL,                     NULL,
+-            gen_helper_vlw_v_w_mask,  gen_helper_vlw_v_d_mask },
+-          { gen_helper_vle_v_b_mask,  gen_helper_vle_v_h_mask,
+-            gen_helper_vle_v_w_mask,  gen_helper_vle_v_d_mask },
+-          { gen_helper_vlbu_v_b_mask, gen_helper_vlbu_v_h_mask,
+-            gen_helper_vlbu_v_w_mask, gen_helper_vlbu_v_d_mask },
+-          { NULL,                     gen_helper_vlhu_v_h_mask,
+-            gen_helper_vlhu_v_w_mask, gen_helper_vlhu_v_d_mask },
+-          { NULL,                     NULL,
+-            gen_helper_vlwu_v_w_mask, gen_helper_vlwu_v_d_mask } },
++        { gen_helper_vle8_v_mask, gen_helper_vle16_v_mask,
++          gen_helper_vle32_v_mask, gen_helper_vle64_v_mask },
+         /* unmasked unit stride load */
+-        { { gen_helper_vlb_v_b,  gen_helper_vlb_v_h,
+-            gen_helper_vlb_v_w,  gen_helper_vlb_v_d },
+-          { NULL,                gen_helper_vlh_v_h,
+-            gen_helper_vlh_v_w,  gen_helper_vlh_v_d },
+-          { NULL,                NULL,
+-            gen_helper_vlw_v_w,  gen_helper_vlw_v_d },
+-          { gen_helper_vle_v_b,  gen_helper_vle_v_h,
+-            gen_helper_vle_v_w,  gen_helper_vle_v_d },
+-          { gen_helper_vlbu_v_b, gen_helper_vlbu_v_h,
+-            gen_helper_vlbu_v_w, gen_helper_vlbu_v_d },
+-          { NULL,                gen_helper_vlhu_v_h,
+-            gen_helper_vlhu_v_w, gen_helper_vlhu_v_d },
+-          { NULL,                NULL,
+-            gen_helper_vlwu_v_w, gen_helper_vlwu_v_d } }
++        { gen_helper_vle8_v, gen_helper_vle16_v,
++          gen_helper_vle32_v, gen_helper_vle64_v }
      };
  
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -518,7 +514,6 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+-    fn =  fns[a->vm][seq][s->sew];
++    fn =  fns[a->vm][eew];
+     if (fn == NULL) {
          return false;
      }
- 
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -570,7 +565,6 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
-         return false;
-     }
- 
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -649,7 +643,6 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
-         return false;
-     }
- 
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, NF, a->nf);
-@@ -760,7 +753,6 @@ static bool amo_op(DisasContext *s, arg_rwdvm *a, uint8_t seq)
-         }
-     }
- 
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, a->vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     data = FIELD_DP32(data, VDATA, WD, a->wd);
-@@ -839,7 +831,6 @@ do_opivv_gvec(DisasContext *s, arg_rmrr *a, GVecGen3Fn *gvec_fn,
-     } else {
-         uint32_t data = 0;
- 
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-@@ -885,7 +876,6 @@ static bool opivx_trans(uint32_t vd, uint32_t rs1, uint32_t vs2, uint32_t vm,
-     src1 = tcg_temp_new();
-     gen_get_gpr(src1, rs1);
- 
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-@@ -1034,7 +1024,6 @@ static bool opivi_trans(uint32_t vd, uint32_t imm, uint32_t vs2, uint32_t vm,
-     } else {
-         src1 = tcg_const_tl(sextract64(imm, 0, 5));
-     }
--    data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-     data = FIELD_DP32(data, VDATA, VM, vm);
-     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-     desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-@@ -1130,7 +1119,6 @@ static bool do_opivv_widen(DisasContext *s, arg_rmrr *a,
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-@@ -1219,7 +1207,6 @@ static bool do_opiwv_widen(DisasContext *s, arg_rmrr *a,
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-@@ -1298,7 +1285,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-         TCGLabel *over = gen_new_label();                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -1489,7 +1475,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-         TCGLabel *over = gen_new_label();                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -1859,7 +1844,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-         gen_set_rm(s, 7);                                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -1932,7 +1916,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)            \
-             gen_helper_##NAME##_d,                                \
-         };                                                        \
-         gen_set_rm(s, 7);                                         \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);            \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);            \
-         return opfvf_trans(a->rd, a->rs1, a->rs2, data,           \
-@@ -1973,7 +1956,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
-         gen_set_rm(s, 7);                                        \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);        \
-                                                                  \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);           \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);               \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);           \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),   \
-@@ -2011,7 +1993,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
-             gen_helper_##NAME##_h, gen_helper_##NAME##_w,        \
-         };                                                       \
-         gen_set_rm(s, 7);                                        \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);           \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);               \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);           \
-         return opfvf_trans(a->rd, a->rs1, a->rs2, data,          \
-@@ -2048,7 +2029,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)             \
-         gen_set_rm(s, 7);                                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -2084,7 +2064,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmrr *a)           \
-             gen_helper_##NAME##_h, gen_helper_##NAME##_w,        \
-         };                                                       \
-         gen_set_rm(s, 7);                                        \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);           \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);               \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);           \
-         return opfvf_trans(a->rd, a->rs1, a->rs2, data,          \
-@@ -2164,7 +2143,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         gen_set_rm(s, 7);                                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -2307,7 +2285,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         gen_set_rm(s, 7);                                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -2356,7 +2333,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         gen_set_rm(s, 7);                                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-@@ -2419,7 +2395,6 @@ static bool trans_##NAME(DisasContext *s, arg_r *a)                \
-         TCGLabel *over = gen_new_label();                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),     \
-                            vreg_ofs(s, a->rs1),                    \
-@@ -2449,7 +2424,6 @@ static bool trans_vmpopc_m(DisasContext *s, arg_rmr *a)
-         TCGv dst;
-         TCGv_i32 desc;
-         uint32_t data = 0;
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
- 
-@@ -2481,7 +2455,6 @@ static bool trans_vmfirst_m(DisasContext *s, arg_rmr *a)
-         TCGv dst;
-         TCGv_i32 desc;
-         uint32_t data = 0;
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
- 
-@@ -2517,7 +2490,6 @@ static bool trans_##NAME(DisasContext *s, arg_rmr *a)              \
-         TCGLabel *over = gen_new_label();                          \
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);          \
-                                                                    \
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);             \
-         data = FIELD_DP32(data, VDATA, VM, a->vm);                 \
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);             \
-         tcg_gen_gvec_3_ptr(vreg_ofs(s, a->rd),                     \
-@@ -2545,7 +2517,6 @@ static bool trans_viota_m(DisasContext *s, arg_viota_m *a)
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         static gen_helper_gvec_3_ptr * const fns[4] = {
-@@ -2572,7 +2543,6 @@ static bool trans_vid_v(DisasContext *s, arg_vid_v *a)
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, VM, a->vm);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         static gen_helper_gvec_2_ptr * const fns[4] = {
-@@ -2863,7 +2833,7 @@ static bool trans_vrgather_vx(DisasContext *s, arg_rmrr *a)
-     }
- 
-     if (a->vm && s->vl_eq_vlmax) {
--        int vlmax = s->vlen / s->mlen;
-+        int vlmax = s->vlen;
-         TCGv_i64 dest = tcg_temp_new_i64();
- 
-         if (a->rs1 == 0) {
-@@ -2894,7 +2864,7 @@ static bool trans_vrgather_vi(DisasContext *s, arg_rmrr *a)
-     }
- 
-     if (a->vm && s->vl_eq_vlmax) {
--        if (a->rs1 >= s->vlen / s->mlen) {
-+        if (a->rs1 >= s->vlen) {
-             tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd),
-                                  MAXSZ(s), MAXSZ(s), 0);
-         } else {
-@@ -2934,7 +2904,6 @@ static bool trans_vcompress_vm(DisasContext *s, arg_r *a)
-         TCGLabel *over = gen_new_label();
-         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
- 
--        data = FIELD_DP32(data, VDATA, MLEN, s->mlen);
-         data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
-         tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),
-                            vreg_ofs(s, a->rs1), vreg_ofs(s, a->rs2),
-diff --git a/target/riscv/internals.h b/target/riscv/internals.h
-index b15ad394bb9..c3bbeea9a94 100644
---- a/target/riscv/internals.h
-+++ b/target/riscv/internals.h
-@@ -22,11 +22,10 @@
- #include "hw/registerfields.h"
- 
- /* share data between vector helpers and decode code */
--FIELD(VDATA, MLEN, 0, 8)
--FIELD(VDATA, VM, 8, 1)
--FIELD(VDATA, LMUL, 9, 2)
--FIELD(VDATA, NF, 11, 4)
--FIELD(VDATA, WD, 11, 1)
-+FIELD(VDATA, VM, 0, 1)
-+FIELD(VDATA, LMUL, 1, 3)
-+FIELD(VDATA, NF, 4, 4)
-+FIELD(VDATA, WD, 4, 1)
- 
- /* float point classify helpers */
- target_ulong fclass_h(uint64_t frs1);
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index fdb0a83a610..6e1896188c0 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -63,7 +63,6 @@ typedef struct DisasContext {
-     uint8_t lmul;
-     uint8_t sew;
-     uint16_t vlen;
--    uint16_t mlen;
-     bool vl_eq_vlmax;
-     CPUState *cs;
- } DisasContext;
-@@ -855,7 +854,6 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
-     ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
-     ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
--    ctx->mlen = 1 << (ctx->sew  + 3 - ctx->lmul);
-     ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
-     ctx->cs = cs;
+@@ -541,48 +550,32 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
+     return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
  }
+ 
+-static bool ld_us_check(DisasContext *s, arg_r2nfvm* a)
++static bool ld_us_check(DisasContext *s, arg_r2nfvm* a, uint8_t eew)
+ {
+-    return (vext_check_isa_ill(s) &&
+-            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
+-            vext_check_reg(s, a->rd, false) &&
+-            vext_check_nf(s, a->nf));
++    return require_rvv(s) &&
++           vext_check_isa_ill(s) &&
++           vext_check_load(s, a->rd, a->nf, a->vm, eew);
+ }
+ 
+-GEN_VEXT_TRANS(vlb_v, 0, r2nfvm, ld_us_op, ld_us_check)
+-GEN_VEXT_TRANS(vlh_v, 1, r2nfvm, ld_us_op, ld_us_check)
+-GEN_VEXT_TRANS(vlw_v, 2, r2nfvm, ld_us_op, ld_us_check)
+-GEN_VEXT_TRANS(vle_v, 3, r2nfvm, ld_us_op, ld_us_check)
+-GEN_VEXT_TRANS(vlbu_v, 4, r2nfvm, ld_us_op, ld_us_check)
+-GEN_VEXT_TRANS(vlhu_v, 5, r2nfvm, ld_us_op, ld_us_check)
+-GEN_VEXT_TRANS(vlwu_v, 6, r2nfvm, ld_us_op, ld_us_check)
++GEN_VEXT_TRANS(vle8_v,  MO_8,  r2nfvm, ld_us_op, ld_us_check)
++GEN_VEXT_TRANS(vle16_v, MO_16, r2nfvm, ld_us_op, ld_us_check)
++GEN_VEXT_TRANS(vle32_v, MO_32, r2nfvm, ld_us_op, ld_us_check)
++GEN_VEXT_TRANS(vle64_v, MO_64, r2nfvm, ld_us_op, ld_us_check)
+ 
+-static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
++static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+ {
+     uint32_t data = 0;
+     gen_helper_ldst_us *fn;
+-    static gen_helper_ldst_us * const fns[2][4][4] = {
+-        /* masked unit stride load and store */
+-        { { gen_helper_vsb_v_b_mask,  gen_helper_vsb_v_h_mask,
+-            gen_helper_vsb_v_w_mask,  gen_helper_vsb_v_d_mask },
+-          { NULL,                     gen_helper_vsh_v_h_mask,
+-            gen_helper_vsh_v_w_mask,  gen_helper_vsh_v_d_mask },
+-          { NULL,                     NULL,
+-            gen_helper_vsw_v_w_mask,  gen_helper_vsw_v_d_mask },
+-          { gen_helper_vse_v_b_mask,  gen_helper_vse_v_h_mask,
+-            gen_helper_vse_v_w_mask,  gen_helper_vse_v_d_mask } },
++    static gen_helper_ldst_us * const fns[2][4] = {
++        /* masked unit stride store */
++        { gen_helper_vse8_v_mask, gen_helper_vse16_v_mask,
++          gen_helper_vse32_v_mask, gen_helper_vse64_v_mask },
+         /* unmasked unit stride store */
+-        { { gen_helper_vsb_v_b,  gen_helper_vsb_v_h,
+-            gen_helper_vsb_v_w,  gen_helper_vsb_v_d },
+-          { NULL,                gen_helper_vsh_v_h,
+-            gen_helper_vsh_v_w,  gen_helper_vsh_v_d },
+-          { NULL,                NULL,
+-            gen_helper_vsw_v_w,  gen_helper_vsw_v_d },
+-          { gen_helper_vse_v_b,  gen_helper_vse_v_h,
+-            gen_helper_vse_v_w,  gen_helper_vse_v_d } }
++        { gen_helper_vse8_v, gen_helper_vse16_v,
++          gen_helper_vse32_v, gen_helper_vse64_v }
+     };
+ 
+-    fn =  fns[a->vm][seq][s->sew];
++    fn =  fns[a->vm][eew];
+     if (fn == NULL) {
+         return false;
+     }
+@@ -593,17 +586,17 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
+     return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+ }
+ 
+-static bool st_us_check(DisasContext *s, arg_r2nfvm* a)
++static bool st_us_check(DisasContext *s, arg_r2nfvm* a, uint8_t eew)
+ {
+-    return (vext_check_isa_ill(s) &&
+-            vext_check_reg(s, a->rd, false) &&
+-            vext_check_nf(s, a->nf));
++    return require_rvv(s) &&
++           vext_check_isa_ill(s) &&
++           vext_check_store(s, a->rd, a->nf, eew);
+ }
+ 
+-GEN_VEXT_TRANS(vsb_v, 0, r2nfvm, st_us_op, st_us_check)
+-GEN_VEXT_TRANS(vsh_v, 1, r2nfvm, st_us_op, st_us_check)
+-GEN_VEXT_TRANS(vsw_v, 2, r2nfvm, st_us_op, st_us_check)
+-GEN_VEXT_TRANS(vse_v, 3, r2nfvm, st_us_op, st_us_check)
++GEN_VEXT_TRANS(vse8_v,  MO_8,  r2nfvm, st_us_op, st_us_check)
++GEN_VEXT_TRANS(vse16_v, MO_16, r2nfvm, st_us_op, st_us_check)
++GEN_VEXT_TRANS(vse32_v, MO_32, r2nfvm, st_us_op, st_us_check)
++GEN_VEXT_TRANS(vse64_v, MO_64, r2nfvm, st_us_op, st_us_check)
+ 
+ /*
+  *** stride load and store
+@@ -647,28 +640,16 @@ static bool ldst_stride_trans(uint32_t vd, uint32_t rs1, uint32_t rs2,
+     return true;
+ }
+ 
+-static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
++static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+ {
+     uint32_t data = 0;
+     gen_helper_ldst_stride *fn;
+-    static gen_helper_ldst_stride * const fns[7][4] = {
+-        { gen_helper_vlsb_v_b,  gen_helper_vlsb_v_h,
+-          gen_helper_vlsb_v_w,  gen_helper_vlsb_v_d },
+-        { NULL,                 gen_helper_vlsh_v_h,
+-          gen_helper_vlsh_v_w,  gen_helper_vlsh_v_d },
+-        { NULL,                 NULL,
+-          gen_helper_vlsw_v_w,  gen_helper_vlsw_v_d },
+-        { gen_helper_vlse_v_b,  gen_helper_vlse_v_h,
+-          gen_helper_vlse_v_w,  gen_helper_vlse_v_d },
+-        { gen_helper_vlsbu_v_b, gen_helper_vlsbu_v_h,
+-          gen_helper_vlsbu_v_w, gen_helper_vlsbu_v_d },
+-        { NULL,                 gen_helper_vlshu_v_h,
+-          gen_helper_vlshu_v_w, gen_helper_vlshu_v_d },
+-        { NULL,                 NULL,
+-          gen_helper_vlswu_v_w, gen_helper_vlswu_v_d },
++    static gen_helper_ldst_stride * const fns[4] = {
++        gen_helper_vlse8_v, gen_helper_vlse16_v,
++        gen_helper_vlse32_v, gen_helper_vlse64_v
+     };
+ 
+-    fn =  fns[seq][s->sew];
++    fn = fns[eew];
+     if (fn == NULL) {
+         return false;
+     }
+@@ -679,42 +660,32 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+     return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+ }
+ 
+-static bool ld_stride_check(DisasContext *s, arg_rnfvm* a)
++static bool ld_stride_check(DisasContext *s, arg_rnfvm* a, uint8_t eew)
+ {
+-    return (vext_check_isa_ill(s) &&
+-            vext_check_overlap_mask(s, a->rd, a->vm, false) &&
+-            vext_check_reg(s, a->rd, false) &&
+-            vext_check_nf(s, a->nf));
++    return require_rvv(s) &&
++           vext_check_isa_ill(s) &&
++           vext_check_load(s, a->rd, a->nf, a->vm, eew);
+ }
+ 
+-GEN_VEXT_TRANS(vlsb_v, 0, rnfvm, ld_stride_op, ld_stride_check)
+-GEN_VEXT_TRANS(vlsh_v, 1, rnfvm, ld_stride_op, ld_stride_check)
+-GEN_VEXT_TRANS(vlsw_v, 2, rnfvm, ld_stride_op, ld_stride_check)
+-GEN_VEXT_TRANS(vlse_v, 3, rnfvm, ld_stride_op, ld_stride_check)
+-GEN_VEXT_TRANS(vlsbu_v, 4, rnfvm, ld_stride_op, ld_stride_check)
+-GEN_VEXT_TRANS(vlshu_v, 5, rnfvm, ld_stride_op, ld_stride_check)
+-GEN_VEXT_TRANS(vlswu_v, 6, rnfvm, ld_stride_op, ld_stride_check)
++GEN_VEXT_TRANS(vlse8_v,  MO_8,  rnfvm, ld_stride_op, ld_stride_check)
++GEN_VEXT_TRANS(vlse16_v, MO_16, rnfvm, ld_stride_op, ld_stride_check)
++GEN_VEXT_TRANS(vlse32_v, MO_32, rnfvm, ld_stride_op, ld_stride_check)
++GEN_VEXT_TRANS(vlse64_v, MO_64, rnfvm, ld_stride_op, ld_stride_check)
+ 
+-static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
++static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+ {
+     uint32_t data = 0;
+     gen_helper_ldst_stride *fn;
+-    static gen_helper_ldst_stride * const fns[4][4] = {
++    static gen_helper_ldst_stride * const fns[4] = {
+         /* masked stride store */
+-        { gen_helper_vssb_v_b,  gen_helper_vssb_v_h,
+-          gen_helper_vssb_v_w,  gen_helper_vssb_v_d },
+-        { NULL,                 gen_helper_vssh_v_h,
+-          gen_helper_vssh_v_w,  gen_helper_vssh_v_d },
+-        { NULL,                 NULL,
+-          gen_helper_vssw_v_w,  gen_helper_vssw_v_d },
+-        { gen_helper_vsse_v_b,  gen_helper_vsse_v_h,
+-          gen_helper_vsse_v_w,  gen_helper_vsse_v_d }
++        gen_helper_vsse8_v,  gen_helper_vsse16_v,
++        gen_helper_vsse32_v,  gen_helper_vsse64_v
+     };
+ 
+     data = FIELD_DP32(data, VDATA, VM, a->vm);
+     data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+     data = FIELD_DP32(data, VDATA, NF, a->nf);
+-    fn =  fns[seq][s->sew];
++    fn = fns[eew];
+     if (fn == NULL) {
+         return false;
+     }
+@@ -722,17 +693,17 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t seq)
+     return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
+ }
+ 
+-static bool st_stride_check(DisasContext *s, arg_rnfvm* a)
++static bool st_stride_check(DisasContext *s, arg_rnfvm* a, uint8_t eew)
+ {
+-    return (vext_check_isa_ill(s) &&
+-            vext_check_reg(s, a->rd, false) &&
+-            vext_check_nf(s, a->nf));
++    return require_rvv(s) &&
++           vext_check_isa_ill(s) &&
++           vext_check_store(s, a->rd, a->nf, eew);
+ }
+ 
+-GEN_VEXT_TRANS(vssb_v, 0, rnfvm, st_stride_op, st_stride_check)
+-GEN_VEXT_TRANS(vssh_v, 1, rnfvm, st_stride_op, st_stride_check)
+-GEN_VEXT_TRANS(vssw_v, 2, rnfvm, st_stride_op, st_stride_check)
+-GEN_VEXT_TRANS(vsse_v, 3, rnfvm, st_stride_op, st_stride_check)
++GEN_VEXT_TRANS(vsse8_v,  MO_8,  rnfvm, st_stride_op, st_stride_check)
++GEN_VEXT_TRANS(vsse16_v, MO_16, rnfvm, st_stride_op, st_stride_check)
++GEN_VEXT_TRANS(vsse32_v, MO_32, rnfvm, st_stride_op, st_stride_check)
++GEN_VEXT_TRANS(vsse64_v, MO_64, rnfvm, st_stride_op, st_stride_check)
+ 
+ /*
+  *** index load and store
 diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-index bc3f212ceac..12301e943e6 100644
+index 61917d34ffe..7ce6d0fb50f 100644
 --- a/target/riscv/vector_helper.c
 +++ b/target/riscv/vector_helper.c
-@@ -81,11 +81,6 @@ static inline uint32_t vext_nf(uint32_t desc)
-     return FIELD_EX32(simd_data(desc), VDATA, NF);
+@@ -183,38 +183,18 @@ static inline int vext_elem_mask(void *v0, int index)
+ typedef void vext_ldst_elem_fn(CPURISCVState *env, target_ulong addr,
+                                uint32_t idx, void *vd, uintptr_t retaddr);
+ 
+-#define GEN_VEXT_LD_ELEM(NAME, MTYPE, ETYPE, H, LDSUF)     \
++#define GEN_VEXT_LD_ELEM(NAME, ETYPE, H, LDSUF)            \
+ static void NAME(CPURISCVState *env, abi_ptr addr,         \
+                  uint32_t idx, void *vd, uintptr_t retaddr)\
+ {                                                          \
+-    MTYPE data;                                            \
+     ETYPE *cur = ((ETYPE *)vd + H(idx));                   \
+-    data = cpu_##LDSUF##_data_ra(env, addr, retaddr);      \
+-    *cur = data;                                           \
++    *cur = cpu_##LDSUF##_data_ra(env, addr, retaddr);      \
+ }                                                          \
+ 
+-GEN_VEXT_LD_ELEM(ldb_b, int8_t,  int8_t,  H1, ldsb)
+-GEN_VEXT_LD_ELEM(ldb_h, int8_t,  int16_t, H2, ldsb)
+-GEN_VEXT_LD_ELEM(ldb_w, int8_t,  int32_t, H4, ldsb)
+-GEN_VEXT_LD_ELEM(ldb_d, int8_t,  int64_t, H8, ldsb)
+-GEN_VEXT_LD_ELEM(ldh_h, int16_t, int16_t, H2, ldsw)
+-GEN_VEXT_LD_ELEM(ldh_w, int16_t, int32_t, H4, ldsw)
+-GEN_VEXT_LD_ELEM(ldh_d, int16_t, int64_t, H8, ldsw)
+-GEN_VEXT_LD_ELEM(ldw_w, int32_t, int32_t, H4, ldl)
+-GEN_VEXT_LD_ELEM(ldw_d, int32_t, int64_t, H8, ldl)
+-GEN_VEXT_LD_ELEM(lde_b, int8_t,  int8_t,  H1, ldsb)
+-GEN_VEXT_LD_ELEM(lde_h, int16_t, int16_t, H2, ldsw)
+-GEN_VEXT_LD_ELEM(lde_w, int32_t, int32_t, H4, ldl)
+-GEN_VEXT_LD_ELEM(lde_d, int64_t, int64_t, H8, ldq)
+-GEN_VEXT_LD_ELEM(ldbu_b, uint8_t,  uint8_t,  H1, ldub)
+-GEN_VEXT_LD_ELEM(ldbu_h, uint8_t,  uint16_t, H2, ldub)
+-GEN_VEXT_LD_ELEM(ldbu_w, uint8_t,  uint32_t, H4, ldub)
+-GEN_VEXT_LD_ELEM(ldbu_d, uint8_t,  uint64_t, H8, ldub)
+-GEN_VEXT_LD_ELEM(ldhu_h, uint16_t, uint16_t, H2, lduw)
+-GEN_VEXT_LD_ELEM(ldhu_w, uint16_t, uint32_t, H4, lduw)
+-GEN_VEXT_LD_ELEM(ldhu_d, uint16_t, uint64_t, H8, lduw)
+-GEN_VEXT_LD_ELEM(ldwu_w, uint32_t, uint32_t, H4, ldl)
+-GEN_VEXT_LD_ELEM(ldwu_d, uint32_t, uint64_t, H8, ldl)
++GEN_VEXT_LD_ELEM(lde_b, int8_t,  H1, ldsb)
++GEN_VEXT_LD_ELEM(lde_h, int16_t, H2, ldsw)
++GEN_VEXT_LD_ELEM(lde_w, int32_t, H4, ldl)
++GEN_VEXT_LD_ELEM(lde_d, int64_t, H8, ldq)
+ 
+ #define GEN_VEXT_ST_ELEM(NAME, ETYPE, H, STSUF)            \
+ static void NAME(CPURISCVState *env, abi_ptr addr,         \
+@@ -224,15 +204,6 @@ static void NAME(CPURISCVState *env, abi_ptr addr,         \
+     cpu_##STSUF##_data_ra(env, addr, data, retaddr);       \
  }
  
--static inline uint32_t vext_mlen(uint32_t desc)
--{
--    return FIELD_EX32(simd_data(desc), VDATA, MLEN);
--}
--
- static inline uint32_t vext_vm(uint32_t desc)
- {
-     return FIELD_EX32(simd_data(desc), VDATA, VM);
-@@ -188,19 +183,24 @@ static void clearq(void *vd, uint32_t idx, uint32_t cnt, uint32_t tot)
-     vext_clear(cur, cnt, tot);
- }
- 
--static inline void vext_set_elem_mask(void *v0, int mlen, int index,
-+static inline void vext_set_elem_mask(void *v0, int index,
-         uint8_t value)
- {
--    int idx = (index * mlen) / 64;
--    int pos = (index * mlen) % 64;
-+    int idx = index / 64;
-+    int pos = index % 64;
-     uint64_t old = ((uint64_t *)v0)[idx];
--    ((uint64_t *)v0)[idx] = deposit64(old, pos, mlen, value);
-+    ((uint64_t *)v0)[idx] = deposit64(old, pos, 1, value);
- }
- 
--static inline int vext_elem_mask(void *v0, int mlen, int index)
-+/*
-+ * Earlier designs (pre-0.9) had a varying number of bits
-+ * per mask value (MLEN). In the 0.9 design, MLEN=1.
-+ * (Section 4.5)
-+ */
-+static inline int vext_elem_mask(void *v0, int index)
- {
--    int idx = (index * mlen) / 64;
--    int pos = (index * mlen) % 64;
-+    int idx = index / 64;
-+    int pos = index  % 64;
-     return (((uint64_t *)v0)[idx] >> pos) & 1;
- }
- 
-@@ -277,12 +277,11 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+-GEN_VEXT_ST_ELEM(stb_b, int8_t,  H1, stb)
+-GEN_VEXT_ST_ELEM(stb_h, int16_t, H2, stb)
+-GEN_VEXT_ST_ELEM(stb_w, int32_t, H4, stb)
+-GEN_VEXT_ST_ELEM(stb_d, int64_t, H8, stb)
+-GEN_VEXT_ST_ELEM(sth_h, int16_t, H2, stw)
+-GEN_VEXT_ST_ELEM(sth_w, int32_t, H4, stw)
+-GEN_VEXT_ST_ELEM(sth_d, int64_t, H8, stw)
+-GEN_VEXT_ST_ELEM(stw_w, int32_t, H4, stl)
+-GEN_VEXT_ST_ELEM(stw_d, int64_t, H8, stl)
+ GEN_VEXT_ST_ELEM(ste_b, int8_t,  H1, stb)
+ GEN_VEXT_ST_ELEM(ste_h, int16_t, H2, stw)
+ GEN_VEXT_ST_ELEM(ste_w, int32_t, H4, stl)
+@@ -246,8 +217,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+                  target_ulong stride, CPURISCVState *env,
+                  uint32_t desc, uint32_t vm,
+                  vext_ldst_elem_fn *ldst_elem,
+-                 uint32_t esz, uint32_t msz, uintptr_t ra,
+-                 MMUAccessType access_type)
++                 uint32_t esz, uintptr_t ra, MMUAccessType access_type)
  {
      uint32_t i, k;
      uint32_t nf = vext_nf(desc);
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vlmax = vext_maxsz(desc) / esz;
- 
-     /* probe every access*/
-     for (i = 0; i < env->vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
+@@ -258,7 +228,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+         if (!vm && !vext_elem_mask(v0, i)) {
              continue;
          }
-         probe_pages(env, base + stride * i, nf * msz, ra, access_type);
-@@ -290,7 +289,7 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+-        probe_pages(env, base + stride * i, nf * msz, ra, access_type);
++        probe_pages(env, base + stride * i, nf * esz, ra, access_type);
+     }
      /* do real access */
      for (i = 0; i < env->vl; i++) {
-         k = 0;
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
+@@ -267,71 +237,42 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
              continue;
          }
          while (k < nf) {
-@@ -506,12 +505,11 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+-            target_ulong addr = base + stride * i + k * msz;
++            target_ulong addr = base + stride * i + k * esz;
+             ldst_elem(env, addr, i + k * vlmax, vd, ra);
+             k++;
+         }
+     }
+ }
+ 
+-#define GEN_VEXT_LD_STRIDE(NAME, MTYPE, ETYPE, LOAD_FN)                 \
++#define GEN_VEXT_LD_STRIDE(NAME, ETYPE, LOAD_FN)                        \
+ void HELPER(NAME)(void *vd, void * v0, target_ulong base,               \
+                   target_ulong stride, CPURISCVState *env,              \
+                   uint32_t desc)                                        \
+ {                                                                       \
+     uint32_t vm = vext_vm(desc);                                        \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN,      \
+-                     sizeof(ETYPE), sizeof(MTYPE),                      \
+-                     GETPC(), MMU_DATA_LOAD);                           \
+-}
+-
+-GEN_VEXT_LD_STRIDE(vlsb_v_b,  int8_t,   int8_t,   ldb_b)
+-GEN_VEXT_LD_STRIDE(vlsb_v_h,  int8_t,   int16_t,  ldb_h)
+-GEN_VEXT_LD_STRIDE(vlsb_v_w,  int8_t,   int32_t,  ldb_w)
+-GEN_VEXT_LD_STRIDE(vlsb_v_d,  int8_t,   int64_t,  ldb_d)
+-GEN_VEXT_LD_STRIDE(vlsh_v_h,  int16_t,  int16_t,  ldh_h)
+-GEN_VEXT_LD_STRIDE(vlsh_v_w,  int16_t,  int32_t,  ldh_w)
+-GEN_VEXT_LD_STRIDE(vlsh_v_d,  int16_t,  int64_t,  ldh_d)
+-GEN_VEXT_LD_STRIDE(vlsw_v_w,  int32_t,  int32_t,  ldw_w)
+-GEN_VEXT_LD_STRIDE(vlsw_v_d,  int32_t,  int64_t,  ldw_d)
+-GEN_VEXT_LD_STRIDE(vlse_v_b,  int8_t,   int8_t,   lde_b)
+-GEN_VEXT_LD_STRIDE(vlse_v_h,  int16_t,  int16_t,  lde_h)
+-GEN_VEXT_LD_STRIDE(vlse_v_w,  int32_t,  int32_t,  lde_w)
+-GEN_VEXT_LD_STRIDE(vlse_v_d,  int64_t,  int64_t,  lde_d)
+-GEN_VEXT_LD_STRIDE(vlsbu_v_b, uint8_t,  uint8_t,  ldbu_b)
+-GEN_VEXT_LD_STRIDE(vlsbu_v_h, uint8_t,  uint16_t, ldbu_h)
+-GEN_VEXT_LD_STRIDE(vlsbu_v_w, uint8_t,  uint32_t, ldbu_w)
+-GEN_VEXT_LD_STRIDE(vlsbu_v_d, uint8_t,  uint64_t, ldbu_d)
+-GEN_VEXT_LD_STRIDE(vlshu_v_h, uint16_t, uint16_t, ldhu_h)
+-GEN_VEXT_LD_STRIDE(vlshu_v_w, uint16_t, uint32_t, ldhu_w)
+-GEN_VEXT_LD_STRIDE(vlshu_v_d, uint16_t, uint64_t, ldhu_d)
+-GEN_VEXT_LD_STRIDE(vlswu_v_w, uint32_t, uint32_t, ldwu_w)
+-GEN_VEXT_LD_STRIDE(vlswu_v_d, uint32_t, uint64_t, ldwu_d)
+-
+-#define GEN_VEXT_ST_STRIDE(NAME, MTYPE, ETYPE, STORE_FN)                \
++                     sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);            \
++}
++
++GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
++GEN_VEXT_LD_STRIDE(vlse16_v, int16_t, lde_h)
++GEN_VEXT_LD_STRIDE(vlse32_v, int32_t, lde_w)
++GEN_VEXT_LD_STRIDE(vlse64_v, int64_t, lde_d)
++
++#define GEN_VEXT_ST_STRIDE(NAME, ETYPE, STORE_FN)                       \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+                   target_ulong stride, CPURISCVState *env,              \
+                   uint32_t desc)                                        \
+ {                                                                       \
+     uint32_t vm = vext_vm(desc);                                        \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, vm, STORE_FN,     \
+-                     sizeof(ETYPE), sizeof(MTYPE),                      \
+-                     GETPC(), MMU_DATA_STORE);                          \
+-}
+-
+-GEN_VEXT_ST_STRIDE(vssb_v_b, int8_t,  int8_t,  stb_b)
+-GEN_VEXT_ST_STRIDE(vssb_v_h, int8_t,  int16_t, stb_h)
+-GEN_VEXT_ST_STRIDE(vssb_v_w, int8_t,  int32_t, stb_w)
+-GEN_VEXT_ST_STRIDE(vssb_v_d, int8_t,  int64_t, stb_d)
+-GEN_VEXT_ST_STRIDE(vssh_v_h, int16_t, int16_t, sth_h)
+-GEN_VEXT_ST_STRIDE(vssh_v_w, int16_t, int32_t, sth_w)
+-GEN_VEXT_ST_STRIDE(vssh_v_d, int16_t, int64_t, sth_d)
+-GEN_VEXT_ST_STRIDE(vssw_v_w, int32_t, int32_t, stw_w)
+-GEN_VEXT_ST_STRIDE(vssw_v_d, int32_t, int64_t, stw_d)
+-GEN_VEXT_ST_STRIDE(vsse_v_b, int8_t,  int8_t,  ste_b)
+-GEN_VEXT_ST_STRIDE(vsse_v_h, int16_t, int16_t, ste_h)
+-GEN_VEXT_ST_STRIDE(vsse_v_w, int32_t, int32_t, ste_w)
+-GEN_VEXT_ST_STRIDE(vsse_v_d, int64_t, int64_t, ste_d)
++                     sizeof(ETYPE), GETPC(), MMU_DATA_STORE);           \
++}
++
++GEN_VEXT_ST_STRIDE(vsse8_v,  int8_t,  ste_b)
++GEN_VEXT_ST_STRIDE(vsse16_v, int16_t, ste_h)
++GEN_VEXT_ST_STRIDE(vsse32_v, int32_t, ste_w)
++GEN_VEXT_ST_STRIDE(vsse64_v, int64_t, ste_d)
+ 
+ /*
+  *** unit-stride: access elements stored contiguously in memory
+@@ -340,20 +281,20 @@ GEN_VEXT_ST_STRIDE(vsse_v_d, int64_t, int64_t, ste_d)
+ /* unmasked unit-stride load and store operation*/
+ static void
+ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+-             vext_ldst_elem_fn *ldst_elem, uint32_t esz, uint32_t msz,
+-             uintptr_t ra, MMUAccessType access_type)
++             vext_ldst_elem_fn *ldst_elem,
++             uint32_t esz, uintptr_t ra, MMUAccessType access_type)
+ {
      uint32_t i, k;
      uint32_t nf = vext_nf(desc);
-     uint32_t vm = vext_vm(desc);
--    uint32_t mlen = vext_mlen(desc);
      uint32_t vlmax = vext_maxsz(desc) / esz;
  
-     /* probe every access*/
-     for (i = 0; i < env->vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         probe_pages(env, get_index_addr(base, i, vs2), nf * msz, ra,
-@@ -520,7 +518,7 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+     /* probe every access */
+-    probe_pages(env, base, env->vl * nf * msz, ra, access_type);
++    probe_pages(env, base, env->vl * nf * esz, ra, access_type);
      /* load bytes from guest memory */
      for (i = 0; i < env->vl; i++) {
          k = 0;
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
          while (k < nf) {
-@@ -604,7 +602,6 @@ vext_ldff(void *vd, void *v0, target_ulong base,
- {
-     void *host;
-     uint32_t i, k, vl = 0;
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t nf = vext_nf(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vlmax = vext_maxsz(desc) / esz;
-@@ -612,7 +609,7 @@ vext_ldff(void *vd, void *v0, target_ulong base,
- 
-     /* probe every access*/
-     for (i = 0; i < env->vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
+-            target_ulong addr = base + (i * nf + k) * msz;
++            target_ulong addr = base + (i * nf + k) * esz;
+             ldst_elem(env, addr, i + k * vlmax, vd, ra);
+             k++;
          }
-         addr = base + nf * i * msz;
-@@ -653,7 +650,7 @@ ProbeSuccess:
-     }
-     for (i = 0; i < env->vl; i++) {
-         k = 0;
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         while (k < nf) {
-@@ -784,18 +781,17 @@ vext_amo_noatomic(void *vs3, void *v0, target_ulong base,
-     target_long addr;
-     uint32_t wd = vext_wd(desc);
-     uint32_t vm = vext_vm(desc);
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vlmax = vext_maxsz(desc) / esz;
+@@ -365,76 +306,47 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+  * stride = NF * sizeof (MTYPE)
+  */
  
-     for (i = 0; i < env->vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         probe_pages(env, get_index_addr(base, i, vs2), msz, ra, MMU_DATA_LOAD);
-         probe_pages(env, get_index_addr(base, i, vs2), msz, ra, MMU_DATA_STORE);
-     }
-     for (i = 0; i < env->vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         addr = get_index_addr(base, i, vs2);
-@@ -911,13 +907,12 @@ static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
-                        opivv2_fn *fn, clear_fn *clearfn)
- {
-     uint32_t vlmax = vext_maxsz(desc) / esz;
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     uint32_t i;
+-#define GEN_VEXT_LD_US(NAME, MTYPE, ETYPE, LOAD_FN)                     \
++#define GEN_VEXT_LD_US(NAME, ETYPE, LOAD_FN)                            \
+ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulong base,         \
+                          CPURISCVState *env, uint32_t desc)             \
+ {                                                                       \
+-    uint32_t stride = vext_nf(desc) * sizeof(MTYPE);                    \
++    uint32_t stride = vext_nf(desc) * sizeof(ETYPE);                    \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, false, LOAD_FN,   \
+-                     sizeof(ETYPE), sizeof(MTYPE),                      \
+-                     GETPC(), MMU_DATA_LOAD);                           \
++                     sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);            \
+ }                                                                       \
+                                                                         \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+                   CPURISCVState *env, uint32_t desc)                    \
+ {                                                                       \
+     vext_ldst_us(vd, base, env, desc, LOAD_FN,                          \
+-                 sizeof(ETYPE), sizeof(MTYPE), GETPC(), MMU_DATA_LOAD); \
+-}
+-
+-GEN_VEXT_LD_US(vlb_v_b,  int8_t,   int8_t,   ldb_b)
+-GEN_VEXT_LD_US(vlb_v_h,  int8_t,   int16_t,  ldb_h)
+-GEN_VEXT_LD_US(vlb_v_w,  int8_t,   int32_t,  ldb_w)
+-GEN_VEXT_LD_US(vlb_v_d,  int8_t,   int64_t,  ldb_d)
+-GEN_VEXT_LD_US(vlh_v_h,  int16_t,  int16_t,  ldh_h)
+-GEN_VEXT_LD_US(vlh_v_w,  int16_t,  int32_t,  ldh_w)
+-GEN_VEXT_LD_US(vlh_v_d,  int16_t,  int64_t,  ldh_d)
+-GEN_VEXT_LD_US(vlw_v_w,  int32_t,  int32_t,  ldw_w)
+-GEN_VEXT_LD_US(vlw_v_d,  int32_t,  int64_t,  ldw_d)
+-GEN_VEXT_LD_US(vle_v_b,  int8_t,   int8_t,   lde_b)
+-GEN_VEXT_LD_US(vle_v_h,  int16_t,  int16_t,  lde_h)
+-GEN_VEXT_LD_US(vle_v_w,  int32_t,  int32_t,  lde_w)
+-GEN_VEXT_LD_US(vle_v_d,  int64_t,  int64_t,  lde_d)
+-GEN_VEXT_LD_US(vlbu_v_b, uint8_t,  uint8_t,  ldbu_b)
+-GEN_VEXT_LD_US(vlbu_v_h, uint8_t,  uint16_t, ldbu_h)
+-GEN_VEXT_LD_US(vlbu_v_w, uint8_t,  uint32_t, ldbu_w)
+-GEN_VEXT_LD_US(vlbu_v_d, uint8_t,  uint64_t, ldbu_d)
+-GEN_VEXT_LD_US(vlhu_v_h, uint16_t, uint16_t, ldhu_h)
+-GEN_VEXT_LD_US(vlhu_v_w, uint16_t, uint32_t, ldhu_w)
+-GEN_VEXT_LD_US(vlhu_v_d, uint16_t, uint64_t, ldhu_d)
+-GEN_VEXT_LD_US(vlwu_v_w, uint32_t, uint32_t, ldwu_w)
+-GEN_VEXT_LD_US(vlwu_v_d, uint32_t, uint64_t, ldwu_d)
+-
+-#define GEN_VEXT_ST_US(NAME, MTYPE, ETYPE, STORE_FN)                    \
++                 sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);                \
++}
++
++GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
++GEN_VEXT_LD_US(vle16_v, int16_t, lde_h)
++GEN_VEXT_LD_US(vle32_v, int32_t, lde_w)
++GEN_VEXT_LD_US(vle64_v, int64_t, lde_d)
++
++#define GEN_VEXT_ST_US(NAME, ETYPE, STORE_FN)                           \
+ void HELPER(NAME##_mask)(void *vd, void *v0, target_ulong base,         \
+                          CPURISCVState *env, uint32_t desc)             \
+ {                                                                       \
+-    uint32_t stride = vext_nf(desc) * sizeof(MTYPE);                    \
++    uint32_t stride = vext_nf(desc) * sizeof(ETYPE);                    \
+     vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,  \
+-                     sizeof(ETYPE), sizeof(MTYPE),                      \
+-                     GETPC(), MMU_DATA_STORE);                          \
++                     sizeof(ETYPE), GETPC(), MMU_DATA_STORE);           \
+ }                                                                       \
+                                                                         \
+ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+                   CPURISCVState *env, uint32_t desc)                    \
+ {                                                                       \
+     vext_ldst_us(vd, base, env, desc, STORE_FN,                         \
+-                 sizeof(ETYPE), sizeof(MTYPE), GETPC(), MMU_DATA_STORE);\
+-}
+-
+-GEN_VEXT_ST_US(vsb_v_b, int8_t,  int8_t , stb_b)
+-GEN_VEXT_ST_US(vsb_v_h, int8_t,  int16_t, stb_h)
+-GEN_VEXT_ST_US(vsb_v_w, int8_t,  int32_t, stb_w)
+-GEN_VEXT_ST_US(vsb_v_d, int8_t,  int64_t, stb_d)
+-GEN_VEXT_ST_US(vsh_v_h, int16_t, int16_t, sth_h)
+-GEN_VEXT_ST_US(vsh_v_w, int16_t, int32_t, sth_w)
+-GEN_VEXT_ST_US(vsh_v_d, int16_t, int64_t, sth_d)
+-GEN_VEXT_ST_US(vsw_v_w, int32_t, int32_t, stw_w)
+-GEN_VEXT_ST_US(vsw_v_d, int32_t, int64_t, stw_d)
+-GEN_VEXT_ST_US(vse_v_b, int8_t,  int8_t , ste_b)
+-GEN_VEXT_ST_US(vse_v_h, int16_t, int16_t, ste_h)
+-GEN_VEXT_ST_US(vse_v_w, int32_t, int32_t, ste_w)
+-GEN_VEXT_ST_US(vse_v_d, int64_t, int64_t, ste_d)
++                 sizeof(ETYPE), GETPC(), MMU_DATA_STORE);               \
++}
++
++GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
++GEN_VEXT_ST_US(vse16_v, int16_t, ste_h)
++GEN_VEXT_ST_US(vse32_v, int32_t, ste_w)
++GEN_VEXT_ST_US(vse64_v, int64_t, ste_d)
  
-     for (i = 0; i < vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         fn(vd, vs1, vs2, i);
-@@ -976,13 +971,12 @@ static void do_vext_vx(void *vd, void *v0, target_long s1, void *vs2,
-                        opivx2_fn fn, clear_fn *clearfn)
- {
-     uint32_t vlmax = vext_maxsz(desc) / esz;
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     uint32_t i;
- 
-     for (i = 0; i < vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         fn(vd, s1, vs2, i);
-@@ -1172,7 +1166,6 @@ GEN_VEXT_VX(vwsub_wx_w, 4, 8, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-                   CPURISCVState *env, uint32_t desc)          \
- {                                                             \
--    uint32_t mlen = vext_mlen(desc);                          \
-     uint32_t vl = env->vl;                                    \
-     uint32_t esz = sizeof(ETYPE);                             \
-     uint32_t vlmax = vext_maxsz(desc) / esz;                  \
-@@ -1181,7 +1174,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-     for (i = 0; i < vl; i++) {                                \
-         ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        uint8_t carry = vext_elem_mask(v0, mlen, i);          \
-+        uint8_t carry = vext_elem_mask(v0, i);                \
-                                                               \
-         *((ETYPE *)vd + H(i)) = DO_OP(s2, s1, carry);         \
-     }                                                         \
-@@ -1202,7 +1195,6 @@ GEN_VEXT_VADC_VVM(vsbc_vvm_d, uint64_t, H8, DO_VSBC, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,        \
-                   CPURISCVState *env, uint32_t desc)                     \
- {                                                                        \
--    uint32_t mlen = vext_mlen(desc);                                     \
-     uint32_t vl = env->vl;                                               \
-     uint32_t esz = sizeof(ETYPE);                                        \
-     uint32_t vlmax = vext_maxsz(desc) / esz;                             \
-@@ -1210,7 +1202,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,        \
-                                                                          \
-     for (i = 0; i < vl; i++) {                                           \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                               \
--        uint8_t carry = vext_elem_mask(v0, mlen, i);                     \
-+        uint8_t carry = vext_elem_mask(v0, i);                           \
-                                                                          \
-         *((ETYPE *)vd + H(i)) = DO_OP(s2, (ETYPE)(target_long)s1, carry);\
-     }                                                                    \
-@@ -1235,7 +1227,6 @@ GEN_VEXT_VADC_VXM(vsbc_vxm_d, uint64_t, H8, DO_VSBC, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-                   CPURISCVState *env, uint32_t desc)          \
- {                                                             \
--    uint32_t mlen = vext_mlen(desc);                          \
-     uint32_t vl = env->vl;                                    \
-     uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
-     uint32_t i;                                               \
-@@ -1243,12 +1234,12 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-     for (i = 0; i < vl; i++) {                                \
-         ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        uint8_t carry = vext_elem_mask(v0, mlen, i);          \
-+        uint8_t carry = vext_elem_mask(v0, i);                \
-                                                               \
--        vext_set_elem_mask(vd, mlen, i, DO_OP(s2, s1, carry));\
-+        vext_set_elem_mask(vd, i, DO_OP(s2, s1, carry));      \
-     }                                                         \
-     for (; i < vlmax; i++) {                                  \
--        vext_set_elem_mask(vd, mlen, i, 0);                   \
-+        vext_set_elem_mask(vd, i, 0);                         \
-     }                                                         \
- }
- 
-@@ -1266,20 +1257,19 @@ GEN_VEXT_VMADC_VVM(vmsbc_vvm_d, uint64_t, H8, DO_MSBC)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,          \
-                   void *vs2, CPURISCVState *env, uint32_t desc) \
- {                                                               \
--    uint32_t mlen = vext_mlen(desc);                            \
-     uint32_t vl = env->vl;                                      \
-     uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);          \
-     uint32_t i;                                                 \
-                                                                 \
-     for (i = 0; i < vl; i++) {                                  \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                      \
--        uint8_t carry = vext_elem_mask(v0, mlen, i);            \
-+        uint8_t carry = vext_elem_mask(v0, i);                  \
-                                                                 \
--        vext_set_elem_mask(vd, mlen, i,                         \
-+        vext_set_elem_mask(vd, i,                               \
-                 DO_OP(s2, (ETYPE)(target_long)s1, carry));      \
-     }                                                           \
-     for (; i < vlmax; i++) {                                    \
--        vext_set_elem_mask(vd, mlen, i, 0);                     \
-+        vext_set_elem_mask(vd, i, 0);                           \
-     }                                                           \
- }
- 
-@@ -1353,7 +1343,6 @@ GEN_VEXT_VX(vxor_vx_d, 8, 8, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1,                          \
-                   void *vs2, CPURISCVState *env, uint32_t desc)           \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t esz = sizeof(TS1);                                           \
-@@ -1361,7 +1350,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,                          \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         TS1 s1 = *((TS1 *)vs1 + HS1(i));                                  \
-@@ -1391,7 +1380,6 @@ GEN_VEXT_SHIFT_VV(vsra_vv_d, uint64_t, int64_t, H8, H8, DO_SRL, 0x3f, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,                \
-         void *vs2, CPURISCVState *env, uint32_t desc)                 \
- {                                                                     \
--    uint32_t mlen = vext_mlen(desc);                                  \
-     uint32_t vm = vext_vm(desc);                                      \
-     uint32_t vl = env->vl;                                            \
-     uint32_t esz = sizeof(TD);                                        \
-@@ -1399,7 +1387,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,                \
-     uint32_t i;                                                       \
-                                                                       \
-     for (i = 0; i < vl; i++) {                                        \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                    \
-+        if (!vm && !vext_elem_mask(v0, i)) {                          \
-             continue;                                                 \
-         }                                                             \
-         TS2 s2 = *((TS2 *)vs2 + HS2(i));                              \
-@@ -1448,7 +1436,6 @@ GEN_VEXT_SHIFT_VX(vnsra_vx_w, int32_t, int64_t, H4, H8, DO_SRL, 0x3f, clearl)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-                   CPURISCVState *env, uint32_t desc)          \
- {                                                             \
--    uint32_t mlen = vext_mlen(desc);                          \
-     uint32_t vm = vext_vm(desc);                              \
-     uint32_t vl = env->vl;                                    \
-     uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
-@@ -1457,13 +1444,13 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-     for (i = 0; i < vl; i++) {                                \
-         ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {            \
-+        if (!vm && !vext_elem_mask(v0, i)) {                  \
-             continue;                                         \
-         }                                                     \
--        vext_set_elem_mask(vd, mlen, i, DO_OP(s2, s1));       \
-+        vext_set_elem_mask(vd, i, DO_OP(s2, s1));             \
-     }                                                         \
-     for (; i < vlmax; i++) {                                  \
--        vext_set_elem_mask(vd, mlen, i, 0);                   \
-+        vext_set_elem_mask(vd, i, 0);                         \
-     }                                                         \
- }
- 
-@@ -1501,7 +1488,6 @@ GEN_VEXT_CMP_VV(vmsle_vv_d, int64_t, H8, DO_MSLE)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
-                   CPURISCVState *env, uint32_t desc)                \
- {                                                                   \
--    uint32_t mlen = vext_mlen(desc);                                \
-     uint32_t vm = vext_vm(desc);                                    \
-     uint32_t vl = env->vl;                                          \
-     uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);              \
-@@ -1509,14 +1495,14 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,   \
-                                                                     \
-     for (i = 0; i < vl; i++) {                                      \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                          \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                  \
-+        if (!vm && !vext_elem_mask(v0, i)) {                        \
-             continue;                                               \
-         }                                                           \
--        vext_set_elem_mask(vd, mlen, i,                             \
-+        vext_set_elem_mask(vd, i,                                   \
-                 DO_OP(s2, (ETYPE)(target_long)s1));                 \
-     }                                                               \
-     for (; i < vlmax; i++) {                                        \
--        vext_set_elem_mask(vd, mlen, i, 0);                         \
-+        vext_set_elem_mask(vd, i, 0);                               \
-     }                                                               \
- }
- 
-@@ -2078,14 +2064,13 @@ GEN_VEXT_VMV_VX(vmv_v_x_d, int64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,          \
-                   CPURISCVState *env, uint32_t desc)                 \
- {                                                                    \
--    uint32_t mlen = vext_mlen(desc);                                 \
-     uint32_t vl = env->vl;                                           \
-     uint32_t esz = sizeof(ETYPE);                                    \
-     uint32_t vlmax = vext_maxsz(desc) / esz;                         \
-     uint32_t i;                                                      \
-                                                                      \
-     for (i = 0; i < vl; i++) {                                       \
--        ETYPE *vt = (!vext_elem_mask(v0, mlen, i) ? vs2 : vs1);      \
-+        ETYPE *vt = (!vext_elem_mask(v0, i) ? vs2 : vs1);            \
-         *((ETYPE *)vd + H(i)) = *(vt + H(i));                        \
-     }                                                                \
-     CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                         \
-@@ -2100,7 +2085,6 @@ GEN_VEXT_VMERGE_VV(vmerge_vvm_d, int64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1,               \
-                   void *vs2, CPURISCVState *env, uint32_t desc)      \
- {                                                                    \
--    uint32_t mlen = vext_mlen(desc);                                 \
-     uint32_t vl = env->vl;                                           \
-     uint32_t esz = sizeof(ETYPE);                                    \
-     uint32_t vlmax = vext_maxsz(desc) / esz;                         \
-@@ -2108,7 +2092,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,               \
-                                                                      \
-     for (i = 0; i < vl; i++) {                                       \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                           \
--        ETYPE d = (!vext_elem_mask(v0, mlen, i) ? s2 :               \
-+        ETYPE d = (!vext_elem_mask(v0, i) ? s2 :                     \
-                    (ETYPE)(target_long)s1);                          \
-         *((ETYPE *)vd + H(i)) = d;                                   \
-     }                                                                \
-@@ -2146,11 +2130,11 @@ do_##NAME(void *vd, void *vs1, void *vs2, int i,                    \
- static inline void
- vext_vv_rm_1(void *vd, void *v0, void *vs1, void *vs2,
-              CPURISCVState *env,
--             uint32_t vl, uint32_t vm, uint32_t mlen, int vxrm,
-+             uint32_t vl, uint32_t vm, int vxrm,
-              opivv2_rm_fn *fn)
- {
-     for (uint32_t i = 0; i < vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         fn(vd, vs1, vs2, i, env, vxrm);
-@@ -2164,26 +2148,25 @@ vext_vv_rm_2(void *vd, void *v0, void *vs1, void *vs2,
-              opivv2_rm_fn *fn, clear_fn *clearfn)
- {
-     uint32_t vlmax = vext_maxsz(desc) / esz;
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
- 
-     switch (env->vxrm) {
-     case 0: /* rnu */
-         vext_vv_rm_1(vd, v0, vs1, vs2,
--                     env, vl, vm, mlen, 0, fn);
-+                     env, vl, vm, 0, fn);
-         break;
-     case 1: /* rne */
-         vext_vv_rm_1(vd, v0, vs1, vs2,
--                     env, vl, vm, mlen, 1, fn);
-+                     env, vl, vm, 1, fn);
-         break;
-     case 2: /* rdn */
-         vext_vv_rm_1(vd, v0, vs1, vs2,
--                     env, vl, vm, mlen, 2, fn);
-+                     env, vl, vm, 2, fn);
-         break;
-     default: /* rod */
-         vext_vv_rm_1(vd, v0, vs1, vs2,
--                     env, vl, vm, mlen, 3, fn);
-+                     env, vl, vm, 3, fn);
-         break;
-     }
- 
-@@ -2266,11 +2249,11 @@ do_##NAME(void *vd, target_long s1, void *vs2, int i,               \
- static inline void
- vext_vx_rm_1(void *vd, void *v0, target_long s1, void *vs2,
-              CPURISCVState *env,
--             uint32_t vl, uint32_t vm, uint32_t mlen, int vxrm,
-+             uint32_t vl, uint32_t vm, int vxrm,
-              opivx2_rm_fn *fn)
- {
-     for (uint32_t i = 0; i < vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         fn(vd, s1, vs2, i, env, vxrm);
-@@ -2284,26 +2267,25 @@ vext_vx_rm_2(void *vd, void *v0, target_long s1, void *vs2,
-              opivx2_rm_fn *fn, clear_fn *clearfn)
- {
-     uint32_t vlmax = vext_maxsz(desc) / esz;
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
- 
-     switch (env->vxrm) {
-     case 0: /* rnu */
-         vext_vx_rm_1(vd, v0, s1, vs2,
--                     env, vl, vm, mlen, 0, fn);
-+                     env, vl, vm, 0, fn);
-         break;
-     case 1: /* rne */
-         vext_vx_rm_1(vd, v0, s1, vs2,
--                     env, vl, vm, mlen, 1, fn);
-+                     env, vl, vm, 1, fn);
-         break;
-     case 2: /* rdn */
-         vext_vx_rm_1(vd, v0, s1, vs2,
--                     env, vl, vm, mlen, 2, fn);
-+                     env, vl, vm, 2, fn);
-         break;
-     default: /* rod */
-         vext_vx_rm_1(vd, v0, s1, vs2,
--                     env, vl, vm, mlen, 3, fn);
-+                     env, vl, vm, 3, fn);
-         break;
-     }
- 
-@@ -3188,13 +3170,12 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-                   uint32_t desc)                          \
- {                                                         \
-     uint32_t vlmax = vext_maxsz(desc) / ESZ;              \
--    uint32_t mlen = vext_mlen(desc);                      \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-     uint32_t i;                                           \
-                                                           \
-     for (i = 0; i < vl; i++) {                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {        \
-+        if (!vm && !vext_elem_mask(v0, i)) {              \
-             continue;                                     \
-         }                                                 \
-         do_##NAME(vd, vs1, vs2, i, env);                  \
-@@ -3223,13 +3204,12 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1,        \
-                   uint32_t desc)                          \
- {                                                         \
-     uint32_t vlmax = vext_maxsz(desc) / ESZ;              \
--    uint32_t mlen = vext_mlen(desc);                      \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-     uint32_t i;                                           \
-                                                           \
-     for (i = 0; i < vl; i++) {                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {        \
-+        if (!vm && !vext_elem_mask(v0, i)) {              \
-             continue;                                     \
-         }                                                 \
-         do_##NAME(vd, s1, vs2, i, env);                   \
-@@ -3794,7 +3774,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
-         CPURISCVState *env, uint32_t desc)             \
- {                                                      \
-     uint32_t vlmax = vext_maxsz(desc) / ESZ;           \
--    uint32_t mlen = vext_mlen(desc);                   \
-     uint32_t vm = vext_vm(desc);                       \
-     uint32_t vl = env->vl;                             \
-     uint32_t i;                                        \
-@@ -3803,7 +3782,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
-         return;                                        \
-     }                                                  \
-     for (i = 0; i < vl; i++) {                         \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {     \
-+        if (!vm && !vext_elem_mask(v0, i)) {           \
-             continue;                                  \
-         }                                              \
-         do_##NAME(vd, vs2, i, env);                    \
-@@ -3935,7 +3914,6 @@ GEN_VEXT_VF(vfsgnjx_vf_d, 8, 8, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-                   CPURISCVState *env, uint32_t desc)          \
- {                                                             \
--    uint32_t mlen = vext_mlen(desc);                          \
-     uint32_t vm = vext_vm(desc);                              \
-     uint32_t vl = env->vl;                                    \
-     uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);        \
-@@ -3944,14 +3922,14 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,   \
-     for (i = 0; i < vl; i++) {                                \
-         ETYPE s1 = *((ETYPE *)vs1 + H(i));                    \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {            \
-+        if (!vm && !vext_elem_mask(v0, i)) {                  \
-             continue;                                         \
-         }                                                     \
--        vext_set_elem_mask(vd, mlen, i,                       \
-+        vext_set_elem_mask(vd, i,                             \
-                            DO_OP(s2, s1, &env->fp_status));   \
-     }                                                         \
-     for (; i < vlmax; i++) {                                  \
--        vext_set_elem_mask(vd, mlen, i, 0);                   \
-+        vext_set_elem_mask(vd, i, 0);                         \
-     }                                                         \
- }
- 
-@@ -3963,7 +3941,6 @@ GEN_VEXT_CMP_VV_ENV(vmfeq_vv_d, uint64_t, H8, float64_eq_quiet)
- void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
-                   CPURISCVState *env, uint32_t desc)                \
- {                                                                   \
--    uint32_t mlen = vext_mlen(desc);                                \
-     uint32_t vm = vext_vm(desc);                                    \
-     uint32_t vl = env->vl;                                          \
-     uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);              \
-@@ -3971,14 +3948,14 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
-                                                                     \
-     for (i = 0; i < vl; i++) {                                      \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                          \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                  \
-+        if (!vm && !vext_elem_mask(v0, i)) {                        \
-             continue;                                               \
-         }                                                           \
--        vext_set_elem_mask(vd, mlen, i,                             \
-+        vext_set_elem_mask(vd, i,                                   \
-                            DO_OP(s2, (ETYPE)s1, &env->fp_status));  \
-     }                                                               \
-     for (; i < vlmax; i++) {                                        \
--        vext_set_elem_mask(vd, mlen, i, 0);                         \
-+        vext_set_elem_mask(vd, i, 0);                               \
-     }                                                               \
- }
- 
-@@ -4092,13 +4069,12 @@ void HELPER(NAME)(void *vd, void *v0, void *vs2,       \
-                   CPURISCVState *env, uint32_t desc)   \
- {                                                      \
-     uint32_t vlmax = vext_maxsz(desc) / ESZ;           \
--    uint32_t mlen = vext_mlen(desc);                   \
-     uint32_t vm = vext_vm(desc);                       \
-     uint32_t vl = env->vl;                             \
-     uint32_t i;                                        \
-                                                        \
-     for (i = 0; i < vl; i++) {                         \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {     \
-+        if (!vm && !vext_elem_mask(v0, i)) {           \
-             continue;                                  \
-         }                                              \
-         do_##NAME(vd, vs2, i);                         \
-@@ -4175,7 +4151,6 @@ GEN_VEXT_V(vfclass_v_d, 8, 8, clearq)
- void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2, \
-                   CPURISCVState *env, uint32_t desc)          \
- {                                                             \
--    uint32_t mlen = vext_mlen(desc);                          \
-     uint32_t vm = vext_vm(desc);                              \
-     uint32_t vl = env->vl;                                    \
-     uint32_t esz = sizeof(ETYPE);                             \
-@@ -4185,7 +4160,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2, \
-     for (i = 0; i < vl; i++) {                                \
-         ETYPE s2 = *((ETYPE *)vs2 + H(i));                    \
-         *((ETYPE *)vd + H(i))                                 \
--          = (!vm && !vext_elem_mask(v0, mlen, i) ? s2 : s1);  \
-+          = (!vm && !vext_elem_mask(v0, i) ? s2 : s1);        \
-     }                                                         \
-     CLEAR_FN(vd, vl, vl * esz, vlmax * esz);                  \
- }
-@@ -4316,7 +4291,6 @@ GEN_VEXT_V_ENV(vfncvt_f_f_v_w, 4, 4, clearl)
- void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-         void *vs2, CPURISCVState *env, uint32_t desc)     \
- {                                                         \
--    uint32_t mlen = vext_mlen(desc);                      \
-     uint32_t vm = vext_vm(desc);                          \
-     uint32_t vl = env->vl;                                \
-     uint32_t i;                                           \
-@@ -4325,7 +4299,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-                                                           \
-     for (i = 0; i < vl; i++) {                            \
-         TS2 s2 = *((TS2 *)vs2 + HS2(i));                  \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {        \
-+        if (!vm && !vext_elem_mask(v0, i)) {              \
-             continue;                                     \
-         }                                                 \
-         s1 = OP(s1, (TD)s2);                              \
-@@ -4399,7 +4373,6 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,           \
-                   void *vs2, CPURISCVState *env,           \
-                   uint32_t desc)                           \
- {                                                          \
--    uint32_t mlen = vext_mlen(desc);                       \
-     uint32_t vm = vext_vm(desc);                           \
-     uint32_t vl = env->vl;                                 \
-     uint32_t i;                                            \
-@@ -4408,7 +4381,7 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,           \
-                                                            \
-     for (i = 0; i < vl; i++) {                             \
-         TS2 s2 = *((TS2 *)vs2 + HS2(i));                   \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {         \
-+        if (!vm && !vext_elem_mask(v0, i)) {               \
-             continue;                                      \
-         }                                                  \
-         s1 = OP(s1, (TD)s2, &env->fp_status);              \
-@@ -4437,7 +4410,6 @@ GEN_VEXT_FRED(vfredmin_vs_d, uint64_t, uint64_t, H8, H8, float64_minnum, clearq)
- void HELPER(vfwredsum_vs_h)(void *vd, void *v0, void *vs1,
-                             void *vs2, CPURISCVState *env, uint32_t desc)
- {
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     uint32_t i;
-@@ -4446,7 +4418,7 @@ void HELPER(vfwredsum_vs_h)(void *vd, void *v0, void *vs1,
- 
-     for (i = 0; i < vl; i++) {
-         uint16_t s2 = *((uint16_t *)vs2 + H2(i));
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         s1 = float32_add(s1, float16_to_float32(s2, true, &env->fp_status),
-@@ -4459,7 +4431,6 @@ void HELPER(vfwredsum_vs_h)(void *vd, void *v0, void *vs1,
- void HELPER(vfwredsum_vs_w)(void *vd, void *v0, void *vs1,
-                             void *vs2, CPURISCVState *env, uint32_t desc)
- {
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     uint32_t i;
-@@ -4468,7 +4439,7 @@ void HELPER(vfwredsum_vs_w)(void *vd, void *v0, void *vs1,
- 
-     for (i = 0; i < vl; i++) {
-         uint32_t s2 = *((uint32_t *)vs2 + H4(i));
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         s1 = float64_add(s1, float32_to_float64(s2, &env->fp_status),
-@@ -4487,19 +4458,18 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-                   void *vs2, CPURISCVState *env,          \
-                   uint32_t desc)                          \
- {                                                         \
--    uint32_t mlen = vext_mlen(desc);                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;          \
-     uint32_t vl = env->vl;                                \
-     uint32_t i;                                           \
-     int a, b;                                             \
-                                                           \
-     for (i = 0; i < vl; i++) {                            \
--        a = vext_elem_mask(vs1, mlen, i);                 \
--        b = vext_elem_mask(vs2, mlen, i);                 \
--        vext_set_elem_mask(vd, mlen, i, OP(b, a));        \
-+        a = vext_elem_mask(vs1, i);                       \
-+        b = vext_elem_mask(vs2, i);                       \
-+        vext_set_elem_mask(vd, i, OP(b, a));              \
-     }                                                     \
-     for (; i < vlmax; i++) {                              \
--        vext_set_elem_mask(vd, mlen, i, 0);               \
-+        vext_set_elem_mask(vd, i, 0);                     \
-     }                                                     \
- }
- 
-@@ -4523,14 +4493,13 @@ target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
-                               uint32_t desc)
- {
-     target_ulong cnt = 0;
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     int i;
- 
-     for (i = 0; i < vl; i++) {
--        if (vm || vext_elem_mask(v0, mlen, i)) {
--            if (vext_elem_mask(vs2, mlen, i)) {
-+        if (vm || vext_elem_mask(v0, i)) {
-+            if (vext_elem_mask(vs2, i)) {
-                 cnt++;
-             }
-         }
-@@ -4542,14 +4511,13 @@ target_ulong HELPER(vmpopc_m)(void *v0, void *vs2, CPURISCVState *env,
- target_ulong HELPER(vmfirst_m)(void *v0, void *vs2, CPURISCVState *env,
-                                uint32_t desc)
- {
--    uint32_t mlen = vext_mlen(desc);
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     int i;
- 
-     for (i = 0; i < vl; i++) {
--        if (vm || vext_elem_mask(v0, mlen, i)) {
--            if (vext_elem_mask(vs2, mlen, i)) {
-+        if (vm || vext_elem_mask(v0, i)) {
-+            if (vext_elem_mask(vs2, i)) {
-                 return i;
-             }
-         }
-@@ -4566,39 +4534,38 @@ enum set_mask_type {
- static void vmsetm(void *vd, void *v0, void *vs2, CPURISCVState *env,
-                    uint32_t desc, enum set_mask_type type)
- {
--    uint32_t mlen = vext_mlen(desc);
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;
-     uint32_t vm = vext_vm(desc);
-     uint32_t vl = env->vl;
-     int i;
-     bool first_mask_bit = false;
- 
-     for (i = 0; i < vl; i++) {
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {
-+        if (!vm && !vext_elem_mask(v0, i)) {
-             continue;
-         }
-         /* write a zero to all following active elements */
-         if (first_mask_bit) {
--            vext_set_elem_mask(vd, mlen, i, 0);
-+            vext_set_elem_mask(vd, i, 0);
-             continue;
-         }
--        if (vext_elem_mask(vs2, mlen, i)) {
-+        if (vext_elem_mask(vs2, i)) {
-             first_mask_bit = true;
-             if (type == BEFORE_FIRST) {
--                vext_set_elem_mask(vd, mlen, i, 0);
-+                vext_set_elem_mask(vd, i, 0);
-             } else {
--                vext_set_elem_mask(vd, mlen, i, 1);
-+                vext_set_elem_mask(vd, i, 1);
-             }
-         } else {
-             if (type == ONLY_FIRST) {
--                vext_set_elem_mask(vd, mlen, i, 0);
-+                vext_set_elem_mask(vd, i, 0);
-             } else {
--                vext_set_elem_mask(vd, mlen, i, 1);
-+                vext_set_elem_mask(vd, i, 1);
-             }
-         }
-     }
-     for (; i < vlmax; i++) {
--        vext_set_elem_mask(vd, mlen, i, 0);
-+        vext_set_elem_mask(vd, i, 0);
-     }
- }
- 
-@@ -4625,19 +4592,18 @@ void HELPER(vmsof_m)(void *vd, void *v0, void *vs2, CPURISCVState *env,
- void HELPER(NAME)(void *vd, void *v0, void *vs2, CPURISCVState *env,      \
-                   uint32_t desc)                                          \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t sum = 0;                                                     \
-     int i;                                                                \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         *((ETYPE *)vd + H(i)) = sum;                                      \
--        if (vext_elem_mask(vs2, mlen, i)) {                               \
-+        if (vext_elem_mask(vs2, i)) {                                     \
-             sum++;                                                        \
-         }                                                                 \
-     }                                                                     \
-@@ -4653,14 +4619,13 @@ GEN_VEXT_VIOTA_M(viota_m_d, uint64_t, H8, clearq)
- #define GEN_VEXT_VID_V(NAME, ETYPE, H, CLEAR_FN)                          \
- void HELPER(NAME)(void *vd, void *v0, CPURISCVState *env, uint32_t desc)  \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     int i;                                                                \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         *((ETYPE *)vd + H(i)) = i;                                        \
-@@ -4682,14 +4647,13 @@ GEN_VEXT_VID_V(vid_v_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     target_ulong offset = s1, i;                                          \
-                                                                           \
-     for (i = offset; i < vl; i++) {                                       \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         *((ETYPE *)vd + H(i)) = *((ETYPE *)vs2 + H(i - offset));          \
-@@ -4707,15 +4671,14 @@ GEN_VEXT_VSLIDEUP_VX(vslideup_vx_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     target_ulong offset = s1, i;                                          \
-                                                                           \
-     for (i = 0; i < vl; ++i) {                                            \
-         target_ulong j = i + offset;                                      \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         *((ETYPE *)vd + H(i)) = j >= vlmax ? 0 : *((ETYPE *)vs2 + H(j));  \
-@@ -4733,14 +4696,13 @@ GEN_VEXT_VSLIDEDOWN_VX(vslidedown_vx_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         if (i == 0) {                                                     \
-@@ -4762,14 +4724,13 @@ GEN_VEXT_VSLIDE1UP_VX(vslide1up_vx_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t i;                                                           \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         if (i == vl - 1) {                                                \
-@@ -4792,14 +4753,13 @@ GEN_VEXT_VSLIDE1DOWN_VX(vslide1down_vx_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t index, i;                                                    \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         index = *((ETYPE *)vs1 + H(i));                                   \
-@@ -4822,14 +4782,13 @@ GEN_VEXT_VRGATHER_VV(vrgather_vv_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vm = vext_vm(desc);                                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t index = s1, i;                                               \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vm && !vext_elem_mask(v0, mlen, i)) {                        \
-+        if (!vm && !vext_elem_mask(v0, i)) {                              \
-             continue;                                                     \
-         }                                                                 \
-         if (index >= vlmax) {                                             \
-@@ -4852,13 +4811,12 @@ GEN_VEXT_VRGATHER_VX(vrgather_vx_d, uint64_t, H8, clearq)
- void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
-                   CPURISCVState *env, uint32_t desc)                      \
- {                                                                         \
--    uint32_t mlen = vext_mlen(desc);                                      \
--    uint32_t vlmax = env_archcpu(env)->cfg.vlen / mlen;                   \
-+    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
-     uint32_t vl = env->vl;                                                \
-     uint32_t num = 0, i;                                                  \
-                                                                           \
-     for (i = 0; i < vl; i++) {                                            \
--        if (!vext_elem_mask(vs1, mlen, i)) {                              \
-+        if (!vext_elem_mask(vs1, i)) {                                    \
-             continue;                                                     \
-         }                                                                 \
-         *((ETYPE *)vd + H(num)) = *((ETYPE *)vs2 + H(i));                 \
+ /*
+  *** index: access vector element from indexed memory
 -- 
 2.17.1
 
