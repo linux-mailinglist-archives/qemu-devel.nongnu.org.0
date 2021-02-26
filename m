@@ -2,98 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71FE325E72
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 08:50:57 +0100 (CET)
-Received: from localhost ([::1]:49328 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55D7B325E80
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 08:57:17 +0100 (CET)
+Received: from localhost ([::1]:53538 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFXto-0005s2-7k
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 02:50:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38330)
+	id 1lFXzw-00082I-3p
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 02:57:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lFXrs-0005Pw-JR
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 02:48:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41491)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lFXrp-0002ip-5A
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 02:48:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614325731;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=4e2jGYbLP11uTuyttoNuf2uW9qPgDS/zotDX/zE0EdE=;
- b=GLYgWNZpsbLDMMEIegaNK3CtqeBNMx0BY5AWtCg1V75xP64dFa6f9giAgU0IXQlLLrV8Xy
- kez75QI8KjlsxsTQEO8R8BTxoc+J4TSZV2JL/ZYsjC+6px8JPR76a4iPeAiY+Rno20KUh9
- jvFmyKy3W3ntUYbHO5SPD2qGC2PFDnI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-24-pCj6Nf1iPrCOpCoQIE3ErQ-1; Fri, 26 Feb 2021 02:48:47 -0500
-X-MC-Unique: pCj6Nf1iPrCOpCoQIE3ErQ-1
-Received: by mail-ed1-f72.google.com with SMTP id y90so4108049ede.8
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 23:48:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lFXyv-0007ZY-TB
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 02:56:13 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:43850)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lFXys-0006wJ-7M
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 02:56:13 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id k13so13207691ejs.10
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 23:56:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id;
+ bh=LVjjUW5BDudtt7mvafWZ3VEC3ihgBcWA9JHoPZXMXVk=;
+ b=EAC8ZTG8WetsUNl21BQha14mExGdew1LOqPC+w1W2P5th2VzEinXzYvtjS5o4ruFKR
+ f6FX+wcLRtY8SSNUpT0lUHMLMS2nb13VW3Dx5JXrjM53Gdh3lsMGtbmP1mAD/j1LZise
+ Nt2v8+zzaiQTiHAJ1iWCajZKZExbzKBVrvHWc6r2+CclEDCkrlbJZXRE2l1rjPIj3Xu8
+ vkha9yt1CYmsA71SRRg6RLN69suwqm+MhxrEg8zkXX6C9KFqMGmXTljljiZp/PTKjXEC
+ Ip4EkSgyUfAmWfQnoZ4NZViawbGb2lPX9+IJ0hTFfxpxNF7g/W0xCVKueoz63ZTBLrvN
+ txUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=4e2jGYbLP11uTuyttoNuf2uW9qPgDS/zotDX/zE0EdE=;
- b=LreHnlfiV7qjBlWlNH9d7NJThyBs6w7LXGf4pZdw9h9YdfOIcmryZMq07pAj5w+Sd5
- AKJIF6EpLuKe8oisxZnLiMB6YjmkOTIrMKO1R7AgrYrsWj/3NpgshGDsQ+cggLBp//Jb
- ALadytyjRYPYjoaFxJ2QxykoK6eHQ0CObQiDbgxMFTVvN7Oe85Q+vxpu2vtuMWY+wJ83
- wA4S6CRpArKqzJHA68koJ8qJFYkU9kN4X6rS6eCM3lhghq/lqOabHP6lZDbPKWnr3j5G
- 93ypo1ejEgkrOkELWAYHmUCVJUb8BL37kiPCSb3hKuhkNIFdiG4Ek69fnXNHQMnghfJi
- zMbg==
-X-Gm-Message-State: AOAM531bx8RFquF9AV5bNsxV5L2YhkruKORg0F+I54lwJsD2nKXbNUTm
- elKYxXpQdFPnKBKYvffExHxgr/KgWk1IBctOhfKsaIuwtQnowBvBRPjHkiFp9ZT2G+odmSRyj4Z
- 3M2/O+5Xm8cGm1XI=
-X-Received: by 2002:a17:906:30da:: with SMTP id
- b26mr1907677ejb.376.1614325726080; 
- Thu, 25 Feb 2021 23:48:46 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwPQkvewjUNN6pYaijieoo8vFz6oo6NJ7cOH7PP2ZOwNxq/VxA+mgoJPBL2UOjssZIUeMob6g==
-X-Received: by 2002:a17:906:30da:: with SMTP id
- b26mr1907657ejb.376.1614325725888; 
- Thu, 25 Feb 2021 23:48:45 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f9sm2638980eds.91.2021.02.25.23.48.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 25 Feb 2021 23:48:45 -0800 (PST)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Jag Raman <jag.raman@oracle.com>, Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210224122306.451764-1-pbonzini@redhat.com>
- <72fc7d76-f8e3-2c0f-e890-99509bb6230d@redhat.com>
- <e89873e7-d996-0161-8c4f-587aadd2208f@redhat.com>
- <YDfRz3zhkoTiyoKt@stefanha-x1.localdomain>
- <C3EAD382-8A3B-4DC7-9982-CC1DDAEEF4B7@oracle.com>
- <cd96210d-58bc-2978-02bc-b7ca794f7274@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] multiprocess: move feature to meson_options.txt
-Message-ID: <08381101-fde1-dc5c-8156-32e90b21fee3@redhat.com>
-Date: Fri, 26 Feb 2021 08:48:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <cd96210d-58bc-2978-02bc-b7ca794f7274@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ h=x-gm-message-state:from:to:cc:subject:date:message-id;
+ bh=LVjjUW5BDudtt7mvafWZ3VEC3ihgBcWA9JHoPZXMXVk=;
+ b=tAvjWprcjGRZz+TzwNa3lUS+/dGRk4af4Aq1d+2KynwcOLiC1Z0px+DNEXqozubcrC
+ ud1TZ1oINgAVqpfWMjfZG3pX9tQ17tcJ2RYD6DNPBq2rDY9+7cKpCtXYCcPvMOprkHPZ
+ K5JPOWZpoFdnT3HNSUsgZA8fc0IxwRqlU/QHwGvmgGwCzDtNTDr25DAOdwRk+kU/auVi
+ BCjnpiJJRZNM1HjlU7pPpLJfWrfL8ch+JIo3viHju/Wgki0mxsRluc/9IOcwAyxeaA5R
+ gCSbQYszME3R+AdLL3Qh17CKEcJt/GEQs4ds9ei8kPc02QZH0g5IpKSdjruF/QWoUwOx
+ FaNA==
+X-Gm-Message-State: AOAM531n53z13G3SsSANbPLQIJ7etljexMzUkNPFeHKn1/kTPHvH2ypm
+ QzAanXL0XIdbGs4RCdKfwDw=
+X-Google-Smtp-Source: ABdhPJz45F2vSn3fDUigOGRO4v3O3NQPoCGoMd8C1/NtJqip0GYs6kUQumR717JSUnWrDj0Iz7P+1A==
+X-Received: by 2002:a17:907:3daa:: with SMTP id
+ he42mr2044857ejc.54.1614326168040; 
+ Thu, 25 Feb 2021 23:56:08 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com
+ (ec2-44-242-66-180.us-west-2.compute.amazonaws.com. [44.242.66.180])
+ by smtp.gmail.com with ESMTPSA id s18sm5450880edc.21.2021.02.25.23.56.05
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Thu, 25 Feb 2021 23:56:07 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Jason Wang <jasowang@redhat.com>,
+	qemu-devel@nongnu.org
+Subject: [PATCH] net: Fix build error when DEBUG_NET is on
+Date: Fri, 26 Feb 2021 15:56:01 +0800
+Message-Id: <1614326161-65017-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -107,32 +79,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- John Johnson <john.g.johnson@oracle.com>, Thomas Huth <thuth@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/02/21 00:16, Philippe Mathieu-Daudé wrote:
->> I personally don’t have any preference for the name.
-> Great.
-> 
-> So with the summary/description updated as:
-> 
-> summary_info += {'Multiprocess QEMU (vfio-user device backends)':
-> multiprocess_allowed}
-> 
-> option('multiprocess', type: 'feature', value: 'auto',
->         description: 'Multiprocess QEMU (vfio-user device backends) support')
-> 
-> Reviewed-by: Philippe Mathieu-Daudé<philmd@redhat.com>
-> 
+From: Bin Meng <bin.meng@windriver.com>
 
-It's not yet vfio-user.  For now I can put "out of process device 
-emulation"; however, if the protocol is going to change, I wonder if it 
-should be disabled by default.
+"qemu-common.h" should be included to provide the forward declaration
+of qemu_hexdump() when DEBUG_NET is on.
 
-Paolo
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
+
+ net/net.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/net/net.c b/net/net.c
+index fb7b7dc..32d71c1 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -23,6 +23,7 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "qemu-common.h"
+ 
+ #include "net/net.h"
+ #include "clients.h"
+-- 
+2.7.4
 
 
