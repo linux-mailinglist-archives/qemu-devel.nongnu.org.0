@@ -2,93 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDBC326143
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 11:30:32 +0100 (CET)
-Received: from localhost ([::1]:56534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84EB43261B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 12:04:47 +0100 (CET)
+Received: from localhost ([::1]:38720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFaOE-0003IO-FR
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 05:30:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51790)
+	id 1lFavO-0002NB-21
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 06:04:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFaN2-0002pa-RK
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 05:29:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60565)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lFau1-0001lG-Ow
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:03:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFaN0-0006fb-AE
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 05:29:16 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lFaty-0005L8-0P
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 06:03:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614335352;
+ s=mimecast20190719; t=1614337396;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dyn6k+mjoOSfWyl37d3Xqbige20JB7IKp++447PM8FM=;
- b=Lnp1ocV6qhgnOQQOM1lMTGzQcNJwsTWMzVkogZfDTakyBlTsdVcRNQE7cvnWEhtnfakhmn
- /NvYDcmle4DEf411HB1T/HDYB+OZ3785aieQI/DWD3cQh2cAPkB9ODp7qf1hDbKAXV1AE0
- 4Ct2r4mF/a0gFhJ/O8Uv5bP97zFzKtY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-108-7SE5u9NmNSyfx0QAGAzIaA-1; Fri, 26 Feb 2021 05:29:10 -0500
-X-MC-Unique: 7SE5u9NmNSyfx0QAGAzIaA-1
-Received: by mail-ed1-f71.google.com with SMTP id f11so4253404edk.13
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 02:29:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=dyn6k+mjoOSfWyl37d3Xqbige20JB7IKp++447PM8FM=;
- b=CsmrUV+3OdHUWY0i9+8RDjAVUwfIGYNAvQFdzRuthKn+ftPOHQJPv3yHjKxILP6HDL
- z45q6pMcdVk/wmTf7gNAgkKDlYBf3vIIIOoc120tu0SnSzOGsaLsOCq7s0xyR36VtF28
- ADO48X4D/BgSv7v2Cu9blhjqqY65kXfbZhUrg5E9tL0F9XuC3JFjM2BJQcXlPwXI7aZa
- YBp3wYIyHSEjT1xPUg6OTxrNzJb350CRZxsP2qKEthbtEX4QYujNzLzlkUF/3tV+WH3r
- 2ZxJw/rwGMeHYq5zkMynptoa5UAeITT1tLB6aLPa47b9ksuSh38XoYttvT3Dwjq6LIp/
- g55A==
-X-Gm-Message-State: AOAM532VAgR8TSQrvEVFlSx0PhLtkzrVG9VsxVL56EvxVqJCzIORcXmZ
- F0b2kKxoEcQC8OKnzQjiheuN3/8rVhBaIJzkoKDf8vkzxAiB4x5N8MCv9oxUBteMH3VRTEgW3Kt
- U8sjihywhl1dLhyE=
-X-Received: by 2002:a17:906:8546:: with SMTP id
- h6mr1940584ejy.23.1614335349726; 
- Fri, 26 Feb 2021 02:29:09 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw/vsNZlm2JZ7NOmYqYoCOgEQTWtGpxMo3jB3JESX/jmDuh3wGn9LKluni77KEikLK9P8ry5A==
-X-Received: by 2002:a17:906:8546:: with SMTP id
- h6mr1940569ejy.23.1614335349568; 
- Fri, 26 Feb 2021 02:29:09 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id n5sm5353733edw.7.2021.02.26.02.29.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Feb 2021 02:29:09 -0800 (PST)
-Subject: Re: [RFC PATCH 1/3] net: Pad short frames to minimum size (60 bytes)
-To: Bin Meng <bmeng.cn@gmail.com>, Jason Wang <jasowang@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <1614333786-74258-1-git-send-email-bmeng.cn@gmail.com>
- <1614333786-74258-2-git-send-email-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <b9c3f883-7365-f30c-0b22-15b5e089268a@redhat.com>
-Date: Fri, 26 Feb 2021 11:29:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c95UZzOO+bd7RHRebXBGDm3oNT/sRfsB6wbRQIVjT+4=;
+ b=MDSP2hvm4429YJCqxvR22d5g/OYR10aKRD9V+paDyfJ7KsPa0OTEYXhRuKdFZTxfj5S3NZ
+ nYaY4+xmnHqfi/vlnfaczDMcCZ66kJ3vzKUuRUEZ2ACjS7I+Px86fgoim67avkYxb8WLsE
+ 9Igi1gSZqWMaNRGQvaJYawuAVycYjaM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-MHxAMlqbMxiUdteqK0fVrg-1; Fri, 26 Feb 2021 06:03:14 -0500
+X-MC-Unique: MHxAMlqbMxiUdteqK0fVrg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E2A480196C;
+ Fri, 26 Feb 2021 11:03:13 +0000 (UTC)
+Received: from virtlab511.virt.lab.eng.bos.redhat.com
+ (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DC1AA5D9D2;
+ Fri, 26 Feb 2021 11:03:12 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] storage-daemon: include current command line option in the
+ errors
+Date: Fri, 26 Feb 2021 06:03:12 -0500
+Message-Id: <20210226110312.157645-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <1614333786-74258-2-git-send-email-bmeng.cn@gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.435, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,66 +77,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/26/21 11:03 AM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> The minimum Ethernet frame length is 60 bytes, and we should pad
-> frames whose length is smaller to the minimum size.
-> 
-> This commit fixes the issue as seen with various ethernet models,
-> that ARP requests get dropped, preventing the guest from becoming
-> visible on the network.
+Use the location management facilities that the emulator uses, so that
+the current command line option appears in the error message.
 
-Is it also used in commit 18995b9808d ("Send a RARP packet after
-migration.")?
+Before:
 
-> The following 2 commits that attempted to workaround this issue
-> in e1000 and vmxenet3 before, should be reverted.
-> 
->   commit 78aeb23eded2 ("e1000: Pad short frames to minimum size (60 bytes)")
->   commit 40a87c6c9b11 ("vmxnet3: Pad short frames to minimum size (60 bytes)")
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  net/net.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/net/net.c b/net/net.c
-> index b038370..34004da 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -638,6 +638,7 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
->                                                   NetPacketSent *sent_cb)
->  {
->      NetQueue *queue;
-> +    uint8_t min_buf[60];
+  $ storage-daemon/qemu-storage-daemon --nbd key..=
+  qemu-storage-daemon: Invalid parameter 'key..'
 
-Can you add a definition instead of a magic value?
-Maybe ETH_FRAME_MIN_LEN in "net/eth.h"?
+After:
 
->      int ret;
->  
->  #ifdef DEBUG_NET
-> @@ -649,6 +650,14 @@ static ssize_t qemu_send_packet_async_with_flags(NetClientState *sender,
->          return size;
->      }
->  
-> +    /* Pad to minimum Ethernet frame length */
-> +    if (size < sizeof(min_buf)) {
-> +        memcpy(min_buf, buf, size);
-> +        memset(&min_buf[size], 0, sizeof(min_buf) - size);
-> +        buf = min_buf;
-> +        size = sizeof(min_buf);
-> +    }
-> +
->      /* Let filters handle the packet first */
->      ret = filter_receive(sender, NET_FILTER_DIRECTION_TX,
->                           sender, flags, buf, size, sent_cb);
-> 
+  $ storage-daemon/qemu-storage-daemon --nbd key..=
+  qemu-storage-daemon: --nbd key..=: Invalid parameter 'key..'
+
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ storage-daemon/qemu-storage-daemon.c | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/storage-daemon/qemu-storage-daemon.c b/storage-daemon/qemu-storage-daemon.c
+index 9021a46b3a..a8f8d83f6f 100644
+--- a/storage-daemon/qemu-storage-daemon.c
++++ b/storage-daemon/qemu-storage-daemon.c
+@@ -152,6 +152,20 @@ static void init_qmp_commands(void)
+                          qmp_marshal_qmp_capabilities, QCO_ALLOW_PRECONFIG);
+ }
+ 
++static int getopt_set_loc(int argc, char **argv, const char *optstring,
++                          const struct option *longopts)
++{
++    int c, save_index;
++
++    optarg = NULL;
++    save_index = optind;
++    c = getopt_long(argc, argv, optstring, longopts, NULL);
++    if (optarg) {
++        loc_set_cmdline(argv, save_index, MAX(1, optind - save_index));
++    }
++    return c;
++}
++
+ static void process_options(int argc, char *argv[])
+ {
+     int c;
+@@ -174,7 +188,7 @@ static void process_options(int argc, char *argv[])
+      * they are given on the command lines. This means that things must be
+      * defined first before they can be referenced in another option.
+      */
+-    while ((c = getopt_long(argc, argv, "hT:V", long_options, NULL)) != -1) {
++    while ((c = getopt_set_loc(argc, argv, "hT:V", long_options)) != -1) {
+         switch (c) {
+         case '?':
+             exit(EXIT_FAILURE);
+@@ -283,6 +297,7 @@ static void process_options(int argc, char *argv[])
+         error_report("Unexpected argument: %s", argv[optind]);
+         exit(EXIT_FAILURE);
+     }
++    loc_set_none();
+ }
+ 
+ int main(int argc, char *argv[])
+-- 
+2.26.2
 
 
