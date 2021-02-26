@@ -2,79 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFD4B32675D
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 20:21:19 +0100 (CET)
-Received: from localhost ([::1]:45594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02052326789
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 20:42:07 +0100 (CET)
+Received: from localhost ([::1]:32940 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFifu-0004HQ-Bu
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 14:21:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36848)
+	id 1lFj02-0003lH-FT
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 14:42:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFicx-0003Oa-GT
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:18:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50551)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFicr-0005yk-Tq
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:18:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614367088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=F9hQRXlV384egLib5OsQvnXe6PlvUg5A68JfajTU1Yg=;
- b=h9x1/FJaIgIj9NhGOTPiPWY4VKjXHMxEiOmUl+CLPvnB4mrj2AeFVwgaDIGUQI/2so4DM3
- 2FzZIT/dgHkutYTaZyVKp2LtxdBUMF/95MwfWbH10pR4pAfdAOESLd0ZtOtdfXpBXAfQpU
- BhbYdAhTBO9sb0oyAIvvkomdtVIQBlM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-4ISA4tmqP-2RMJqW3dMluA-1; Fri, 26 Feb 2021 14:18:04 -0500
-X-MC-Unique: 4ISA4tmqP-2RMJqW3dMluA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 941B3804023;
- Fri, 26 Feb 2021 19:18:03 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C66060BE2;
- Fri, 26 Feb 2021 19:17:54 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-11-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH v2 10/31] qapi/qom: Add ObjectOptions for secret*,
- deprecate 'loaded'
-Message-ID: <1d1735c1-2780-4d9a-78dd-b8730c4df553@redhat.com>
-Date: Fri, 26 Feb 2021 13:17:53 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lFiyu-0003Jg-MY
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:40:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39796)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lFiyr-000742-Mm
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 14:40:56 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lFiyo-00029Z-V0
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 19:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id D7EA42E813D
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 19:40:50 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210224135255.253837-11-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 26 Feb 2021 19:32:19 -0000
+From: Alexander Bulekov <1917082@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
+Message-Id: <161436793911.24762.6802305911122378058.malonedeb@gac.canonical.com>
+Subject: [Bug 1917082] [NEW] [OSS-Fuzz] Issue 27574 e1000: Loopback-related
+ stack-overflow
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
+X-Launchpad-Hash: 70731a4aebeba497dd1d8348bcdc4a7845c12564
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,173 +69,342 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
+Reply-To: Bug 1917082 <1917082@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> This adds a QAPI schema for the properties of the secret* objects.
-> 
-> The 'loaded' property doesn't seem to make sense as an external
-> interface: It is automatically set to true in ucc->complete, and
-> explicitly setting it to true earlier just means that additional options
-> will be silently ignored.
-> 
-> In other words, the 'loaded' property is useless. Mark it as deprecated
-> in the schema from the start.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qapi/crypto.json           | 61 ++++++++++++++++++++++++++++++++++++++
->  qapi/qom.json              |  5 ++++
->  docs/system/deprecated.rst | 11 +++++++
->  3 files changed, 77 insertions(+)
-> 
-> diff --git a/qapi/crypto.json b/qapi/crypto.json
-> index 2aebe6fa20..0fef3de66d 100644
-> --- a/qapi/crypto.json
-> +++ b/qapi/crypto.json
-> @@ -381,3 +381,64 @@
->    'discriminator': 'format',
->    'data': {
->            'luks': 'QCryptoBlockAmendOptionsLUKS' } }
-> +
-> +##
-> +# @SecretCommonProperties:
-> +#
-> +# Properties for objects of classes derived from secret-common.
-> +#
-> +# @loaded: if true, the secret is loaded immediately when applying this option
-> +#          and will probably fail when processing the next option. Don't use;
-> +#          only provided for compatibility. (default: false)
-> +#
-> +# @format: the data format that the secret is provided in (default: raw)
-> +#
-> +# @keyid: the name of another secret that should be used to decrypt the
-> +#         provided data. If not present, the data is assumed to be unencrypted.
-> +#
-> +# @iv: the random initialization vector used for encryption of this particular
-> +#      secret. Should be a base64 encrypted string of the 16-byte IV. Mandatory
-> +#      if @keyid is given. Ignored if @keyid is absent.
-> +#
-> +# Features:
-> +# @deprecated: Member @loaded is deprecated.  Setting true doesn't make sense,
-> +#              and false is already the default.
-> +#
-> +# Since: 2.6
-> +##
-> +{ 'struct': 'SecretCommonProperties',
-> +  'data': { '*loaded': { 'type': 'bool', 'features': ['deprecated'] },
-> +            '*format': 'QCryptoSecretFormat',
-> +            '*keyid': 'str',
-> +            '*iv': 'str' } }
+Public bug reported:
 
-Matches crypto/secret_common.c:qcrypto_secret_class_init(), and I concur
-with the deprecation.
+=3D=3D=3D Reproducer =3D=3D=3D
+cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
+512M -M q35 -nodefaults -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet0 \
+-qtest /dev/null -qtest stdio
+outl 0xcf8 0x80000813
+outl 0xcfc 0xfe
+outl 0xcf8 0x80000803
+outw 0xcfc 0x0600
+write 0xfe000102 0x1 0x0a
+writel 0xfe000020 0x420ff00
+write 0xfe00280a 0x2 0x0828
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+clock_step
+write 0xfe00281b 0x1 0x08
+write 0xf9b 0x1 0x01
+write 0x2170 0x1 0x14
+write 0x2171 0x1 0x38
+write 0x2173 0x1 0xfe
+write 0xfe000402 0x1 0x02
+write 0xfe00380a 0x2 0x0210
+write 0xfe003818 0x1 0xfa
+EOF
 
-> +
-> +##
-> +# @SecretProperties:
-> +#
-> +# Properties for secret objects.
-> +#
-> +# Either @data or @file must be provided, but not both.
-> +#
-> +# @data: the associated with the secret from
-> +#
-> +# @file: the filename to load the data associated with the secret from
-> +#
-> +# Since: 2.6
-> +##
-> +{ 'struct': 'SecretProperties',
-> +  'base': 'SecretCommonProperties',
-> +  'data': { '*data': 'str',
-> +            '*file': 'str' } }
+=3D=3D=3D Stack-trace =3D=3D=3D
+=3D=3D288216=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7fff=
+51c96f48 (pc 0x56247061af36 bp 0x7fff51c97790 sp 0x7fff51c96f50 T0)
+#0 0x56247061af36 in __asan_memcpy (/home/alxndr/Development/qemu/build/qem=
+u-system-i386+0x2baff36)
+#1 0x5624718eb70d in flatview_read_continue /home/alxndr/Development/qemu/b=
+uild/../softmmu/physmem.c:2846:13
+#2 0x5624718ecd1b in flatview_read /home/alxndr/Development/qemu/build/../s=
+oftmmu/physmem.c:2879:12
+#3 0x5624718ecd1b in address_space_read_full /home/alxndr/Development/qemu/=
+build/../softmmu/physmem.c:2892:18
+#4 0x562470bcb75b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/in=
+clude/sysemu/dma.h:88:12
+#5 0x562470bcb75b in dma_memory_rw /home/alxndr/Development/qemu/include/sy=
+semu/dma.h:127:12
+#6 0x562470bcb75b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/pc=
+i/pci.h:803:12
+#7 0x562470bcb75b in pci_dma_read /home/alxndr/Development/qemu/include/hw/=
+pci/pci.h:821:12
+#8 0x562470bcb75b in e1000_receive_iov /home/alxndr/Development/qemu/build/=
+../hw/net/e1000.c:954:9
+#9 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/../h=
+w/net/e1000.c:1025:12
+#10 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/build=
+/../hw/net/e1000.c:549:9
+#11 0x562470bc7dd8 in xmit_seg /home/alxndr/Development/qemu/build/../hw/ne=
+t/e1000.c
+#12 0x562470bc4dfe in process_tx_desc /home/alxndr/Development/qemu/build/.=
+./hw/net/e1000.c:701:9
+#13 0x562470bc4dfe in start_xmit /home/alxndr/Development/qemu/build/../hw/=
+net/e1000.c:756:9
+#14 0x562470bc4dfe in set_tctl /home/alxndr/Development/qemu/build/../hw/ne=
+t/e1000.c:1127:5
+#15 0x5624719ef2f6 in memory_region_write_accessor /home/alxndr/Development=
+/qemu/build/../softmmu/memory.c:491:5
+#16 0x5624719eed63 in access_with_adjusted_size /home/alxndr/Development/qe=
+mu/build/../softmmu/memory.c:552:18
+#17 0x5624719ee5c0 in memory_region_dispatch_write /home/alxndr/Development=
+/qemu/build/../softmmu/memory.c
+#18 0x5624718f7776 in flatview_write_continue /home/alxndr/Development/qemu=
+/build/../softmmu/physmem.c:2776:23
+#19 0x5624718ed13b in flatview_write /home/alxndr/Development/qemu/build/..=
+/softmmu/physmem.c:2816:14
+#20 0x5624718ed13b in address_space_write /home/alxndr/Development/qemu/bui=
+ld/../softmmu/physmem.c:2908:18
+#21 0x562470bcba6b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/i=
+nclude/sysemu/dma.h:88:12
+#22 0x562470bcba6b in dma_memory_rw /home/alxndr/Development/qemu/include/s=
+ysemu/dma.h:127:12
+#23 0x562470bcba6b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/p=
+ci/pci.h:803:12
+#24 0x562470bcba6b in pci_dma_write /home/alxndr/Development/qemu/include/h=
+w/pci/pci.h:839:12
+#25 0x562470bcba6b in e1000_receive_iov /home/alxndr/Development/qemu/build=
+/../hw/net/e1000.c:967:21
+#26 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/../=
+hw/net/e1000.c:1025:12
+#27 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/build=
+/../hw/net/e1000.c:549:9
+...
 
-Matches crypto/secret.c:qcrypto_secret_class_init() (ugh, we really do
-reuse the same static function name in two different files, but not your
-fault)
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
-> +
-> +##
-> +# @SecretKeyringProperties:
-> +#
-> +# Properties for secret_keyring objects.
-> +#
-> +# @serial: serial number that identifies a key to get from the kernel
-> +#
-> +# Since: 5.1
-> +##
-> +{ 'struct': 'SecretKeyringProperties',
-> +  'base': 'SecretCommonProperties',
-> +  'data': { 'serial': 'int32' } }
+-- =
 
-Matches crypto/secret_keyring.c:qcrypto_secret_keyring_class_init().
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1917082
 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index 449dca8ec5..2668ad8369 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -7,6 +7,7 @@
->  { 'include': 'authz.json' }
->  { 'include': 'block-core.json' }
->  { 'include': 'common.json' }
-> +{ 'include': 'crypto.json' }
->  
->  ##
->  # = QEMU Object Model (QOM)
-> @@ -449,6 +450,8 @@
->      'rng-builtin',
->      'rng-egd',
->      'rng-random',
-> +    'secret',
-> +    'secret_keyring',
+Title:
+  [OSS-Fuzz] Issue 27574 e1000: Loopback-related stack-overflow
 
-What is stopping us from naming this 'secret-keyring'?
+Status in QEMU:
+  New
 
->      'throttle-group'
->    ] }
->  
-> @@ -483,6 +486,8 @@
->        'rng-builtin':                'RngProperties',
->        'rng-egd':                    'RngEgdProperties',
->        'rng-random':                 'RngRandomProperties',
-> +      'secret':                     'SecretProperties',
-> +      'secret_keyring':             'SecretKeyringProperties',
->        'throttle-group':             'ThrottleGroupProperties'
->    } }
->  
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index 79991c2893..78b175cb59 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -155,6 +155,17 @@ other options have been processed.  This will either have no effect (if
->  ``opened`` was the last option) or cause errors.  The property is therefore
->  useless and should not be specified.
->  
-> +``loaded`` property of ``secret`` and ``secret_keyring`` objects (since 6.0.0)
-> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-> +
-> +The only effect of specifying ``loaded=on`` in the command line or QMP
-> +``object-add`` is that the secret is loaded immediately, possibly before all
-> +other options have been processed.  This will either have no effect (if
-> +``loaded`` was the last option) or cause options to be effectively ignored as
-> +if they were not given.  The property is therefore useless and should not be
-> +specified.
+Bug description:
+  =3D=3D=3D Reproducer =3D=3D=3D
+  cat << EOF | ./qemu-system-i386 -display none -machine accel=3Dqtest, -m \
+  512M -M q35 -nodefaults -device e1000,netdev=3Dnet0 -netdev user,id=3Dnet=
+0 \
+  -qtest /dev/null -qtest stdio
+  outl 0xcf8 0x80000813
+  outl 0xcfc 0xfe
+  outl 0xcf8 0x80000803
+  outw 0xcfc 0x0600
+  write 0xfe000102 0x1 0x0a
+  writel 0xfe000020 0x420ff00
+  write 0xfe00280a 0x2 0x0828
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  clock_step
+  write 0xfe00281b 0x1 0x08
+  write 0xf9b 0x1 0x01
+  write 0x2170 0x1 0x14
+  write 0x2171 0x1 0x38
+  write 0x2173 0x1 0xfe
+  write 0xfe000402 0x1 0x02
+  write 0xfe00380a 0x2 0x0210
+  write 0xfe003818 0x1 0xfa
+  EOF
 
-May be impacted if we rename to secret-keyring (in fact, if we rename,
-the new name wouldn't even need the deprecated field), but that may be
-trickier to coordinate.  So with regards to just the mechanical conversion,
+  =3D=3D=3D Stack-trace =3D=3D=3D
+  =3D=3D288216=3D=3DERROR: AddressSanitizer: stack-overflow on address 0x7f=
+ff51c96f48 (pc 0x56247061af36 bp 0x7fff51c97790 sp 0x7fff51c96f50 T0)
+  #0 0x56247061af36 in __asan_memcpy (/home/alxndr/Development/qemu/build/q=
+emu-system-i386+0x2baff36)
+  #1 0x5624718eb70d in flatview_read_continue /home/alxndr/Development/qemu=
+/build/../softmmu/physmem.c:2846:13
+  #2 0x5624718ecd1b in flatview_read /home/alxndr/Development/qemu/build/..=
+/softmmu/physmem.c:2879:12
+  #3 0x5624718ecd1b in address_space_read_full /home/alxndr/Development/qem=
+u/build/../softmmu/physmem.c:2892:18
+  #4 0x562470bcb75b in dma_memory_rw_relaxed /home/alxndr/Development/qemu/=
+include/sysemu/dma.h:88:12
+  #5 0x562470bcb75b in dma_memory_rw /home/alxndr/Development/qemu/include/=
+sysemu/dma.h:127:12
+  #6 0x562470bcb75b in pci_dma_rw /home/alxndr/Development/qemu/include/hw/=
+pci/pci.h:803:12
+  #7 0x562470bcb75b in pci_dma_read /home/alxndr/Development/qemu/include/h=
+w/pci/pci.h:821:12
+  #8 0x562470bcb75b in e1000_receive_iov /home/alxndr/Development/qemu/buil=
+d/../hw/net/e1000.c:954:9
+  #9 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/..=
+/hw/net/e1000.c:1025:12
+  #10 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
+ld/../hw/net/e1000.c:549:9
+  #11 0x562470bc7dd8 in xmit_seg /home/alxndr/Development/qemu/build/../hw/=
+net/e1000.c
+  #12 0x562470bc4dfe in process_tx_desc /home/alxndr/Development/qemu/build=
+/../hw/net/e1000.c:701:9
+  #13 0x562470bc4dfe in start_xmit /home/alxndr/Development/qemu/build/../h=
+w/net/e1000.c:756:9
+  #14 0x562470bc4dfe in set_tctl /home/alxndr/Development/qemu/build/../hw/=
+net/e1000.c:1127:5
+  #15 0x5624719ef2f6 in memory_region_write_accessor /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c:491:5
+  #16 0x5624719eed63 in access_with_adjusted_size /home/alxndr/Development/=
+qemu/build/../softmmu/memory.c:552:18
+  #17 0x5624719ee5c0 in memory_region_dispatch_write /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c
+  #18 0x5624718f7776 in flatview_write_continue /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2776:23
+  #19 0x5624718ed13b in flatview_write /home/alxndr/Development/qemu/build/=
+../softmmu/physmem.c:2816:14
+  #20 0x5624718ed13b in address_space_write /home/alxndr/Development/qemu/b=
+uild/../softmmu/physmem.c:2908:18
+  #21 0x562470bcba6b in dma_memory_rw_relaxed /home/alxndr/Development/qemu=
+/include/sysemu/dma.h:88:12
+  #22 0x562470bcba6b in dma_memory_rw /home/alxndr/Development/qemu/include=
+/sysemu/dma.h:127:12
+  #23 0x562470bcba6b in pci_dma_rw /home/alxndr/Development/qemu/include/hw=
+/pci/pci.h:803:12
+  #24 0x562470bcba6b in pci_dma_write /home/alxndr/Development/qemu/include=
+/hw/pci/pci.h:839:12
+  #25 0x562470bcba6b in e1000_receive_iov /home/alxndr/Development/qemu/bui=
+ld/../hw/net/e1000.c:967:21
+  #26 0x562470bca465 in e1000_receive /home/alxndr/Development/qemu/build/.=
+./hw/net/e1000.c:1025:12
+  #27 0x562470bc9671 in e1000_send_packet /home/alxndr/Development/qemu/bui=
+ld/../hw/net/e1000.c:549:9
+  ...
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1917082/+subscriptions
 
