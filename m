@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6AB7325DC7
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 08:00:14 +0100 (CET)
-Received: from localhost ([::1]:45542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 576B6325DC9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 08:01:09 +0100 (CET)
+Received: from localhost ([::1]:47276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFX6j-0005gb-BN
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 02:00:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56944)
+	id 1lFX7c-0006O7-Br
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 02:01:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56952)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lFX4t-0004MA-EH; Fri, 26 Feb 2021 01:58:19 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:48461)
+ id 1lFX4u-0004MJ-DY; Fri, 26 Feb 2021 01:58:20 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57707)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lFX4r-0007aw-BO; Fri, 26 Feb 2021 01:58:19 -0500
+ id 1lFX4s-0007cp-Rt; Fri, 26 Feb 2021 01:58:20 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 359C65C0088;
- Fri, 26 Feb 2021 01:58:14 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 324095C010A;
+ Fri, 26 Feb 2021 01:58:17 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Fri, 26 Feb 2021 01:58:14 -0500
+ by compute3.internal (MEProxy); Fri, 26 Feb 2021 01:58:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
- :to:cc:subject:date:message-id:mime-version:content-type
- :content-transfer-encoding; s=fm2; bh=CgI5vNGA6gnIo0Yig+kcbSJUcQ
- 0NkbFIMzaTcIvAHGM=; b=j73U5ZYZws/rP8lbd/jCPya90rrOsQcFHtXtDRm/et
- YPW++l5wtSS23M853E/ZNMru75W78Ajr8lICvmWeCTLJNCklXTzwkIp3KTkqOJkr
- xP+DN4iCwG/n+yyneRUrzY1eWxxNVE6k1MMfMds4pVuvxM/2W9OLA0qUv7RhZioT
- Xza7ugHxKbXARHcnEzEaQxcpUQ9UWyQYMN3JtfqpDzRyv1vUHTvwuogaH8M14MHK
- V2TzPDURZl/xZH5+JSTVz5kqh4ffTjcDXeR+VlCtkKUX6iF2BZ3QZU7prRfaXuVn
- WHbggT+8VLyX7MphaGxENTKlpN6+IV41rew9SsuWeFLA==
+ :to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=s/Zs3H8nldIyS
+ rORoqBVGAgKfQMLJ9+BZWTfSlhljkQ=; b=FhrPZ10uuP+nm5/Z1e9NkmmiebobJ
+ YsNm1gTUG1EzvaWJn3YVqDuD3czwwcoO+m/7tW4rZuKeuq0vVlYtKMGXoitIfoeu
+ aTdtF7sJ4+Jdd3ZaienpGd8e/zT0W8yas2/U95HAT63HCwiUBXMWXbc7GfExO0/d
+ BJ709rNi1m7c36grOWMGe/kfsFd1GFdX6itpkLHWcE8pUgQClu1hxuV1dGyXLxT1
+ 2AU0zpILfr84QTT7eBYbjk1KhFnY1VC8QUEUoEKTdVz+HVQEFbmzF14YPaVSv0kh
+ nlgBRuo2luAqlXkUQr9vN2hJYzuepahYqaw1DGtLYfMCIsLOXH9tCqb9Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=CgI5vN
- GA6gnIo0Yig+kcbSJUcQ0NkbFIMzaTcIvAHGM=; b=dvdY8LtjUTYkRDBZfkGUBv
- o2iTLrJvKXl8Ed2ZXT83N1yVHtSrEYkSjeHASkH0scgFlFLyB6480mDt9aV4W8ey
- 95mk95GW+2WYQZ8w/eUnMkRcy4DsD3E7ZDg7B2QoVE7Tb7I4pSqYN/QXGlRZ7d0y
- MR8d/CLcm4IjBmrEa6/noH0szsGhWXW6ioftcWDOUp7nJyS6fMLTDpie2Sgxrxe7
- Oi80qgtKgBWqfgoJN5FxOFlFCbXnNCPQXVbd4vWmOMMjitvYcYPhTm+WCPhYTeJn
- EGvWz4S1tg7C8FdL/49gAYF9w27yTdf1Z1B1Lka6F78lKYML9po0bCmAEZPfwCSw
- ==
-X-ME-Sender: <xms:BJw4YDfk2eLu6AFB3HjWObCtcKaDljQUB_lon6k7fM9NfIVr6Q8zvA>
- <xme:BJw4YJOxebasZmMT0bjmBhJ4AwmMoJqwo9zlsJdg9ENx-VRpI5oDzayUaZkJJjlL8
- CGVAAJ38kRYefxVew>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm2; bh=s/Zs3H8nldIySrORoqBVGAgKfQMLJ9+BZWTfSlhljkQ=; b=YpbHwAJI
+ nIoRLXK6HUphd0zH3f4C1pDPS8LzZeFXoPDzsAhCbco75FUOyrao3RkFAgLAOBRS
+ 7BZMafDUYFjtq6AzumaRxfFdIKGrK3K5LDKWmOrzxER1pUxg7B78cAIV5vr/fnyu
+ PWxeCWQM3dC33JTieFPhWMR/XPRItZEpVpzix2Nq9VAd8NYKMtmmnzurX37E6zq7
+ 8gIOsmLWrbMuCO582T14C51ppg/FUE6KlzHMLB03paXKvAtOHL/DmHwl27zE1MiU
+ it7WRBLyWIdxsUsKyVNAf+er7EI8YUYcy9Y6CoBqq3Bu6i8YIYwMBo2FW89ujQ8v
+ 9Da9VWk/e9jP9w==
+X-ME-Sender: <xms:CZw4YAkKk7tEPzkEdyNihUI4v4YG7tSjb5wwsMRE1Y5xXj3yhlWIdw>
+ <xme:CZw4YP134U5ggJSELSkHbNRuXJUj03xfH5sXs2Hkg_vhY4ohxasm2Cd9ZdEBvrNzu
+ nAMdLm8WP07wUiP-g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrledtgddutdefucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofggtgfgsehtkeertd
- ertdejnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeevvdelieeiveeltdevgfdtveehjedvtd
- ejhfejtdegudfftdduveeugfevudduteenucffohhmrghinhepihhnthgvlhdrtghomhdp
- khgvrhhnvghlrdhorhhgnecukfhppedugedrvddrledurdefjeenucevlhhushhtvghruf
- hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfiesrghjrdhiugdr
- rghu
-X-ME-Proxy: <xmx:BJw4YMgFPyxVD1Y0tMgfnSf-Dg3sX2nMwSORMBSmANu6grHh_HixBg>
- <xmx:BJw4YE-SSn-xsMAQKMLYGmi3fuVCkA7DFS2X_5xMzI46EtHVevgcUw>
- <xmx:BJw4YPsJS9EKHYugOmixsPyBpTrtcPpSKyWMiLJomfcKkG0JBWpTpw>
- <xmx:Bpw4YJIKhYiaC5n377q_z4gmi9fafNMV-nlUOX2UTlZOZ6qm25uf7A>
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvffufffkofgjfhgggfestdekre
+ dtredttdenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
+ jhdrihgurdgruheqnecuggftrfgrthhtvghrnhepjefgvdevheetkeevgeegleelgfelte
+ etjeffleffvdduudevieffgeetleevhfetnecukfhppedugedrvddrledurdefjeenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfi
+ esrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:CZw4YOq8aSImASWe_sjReWbChYYJef-BHXnBdxfH0qPiwy9RKHO-Rw>
+ <xmx:CZw4YMkXW_-F6-OADJr8tfhxCNdIlZ8T-E0QVI-BZ0Z-2UEK5cUN5g>
+ <xmx:CZw4YO16twj4IGJhxR25ZcAKtndsIq67txUowvu5_n0xXpc5pIF-WQ>
+ <xmx:CZw4YBS47dobbcZyPs0qmnNh-Y9B1WqqphowWp5XRZ_GPjJz4hqp-Q>
 Received: from localhost.localdomain
  (ppp14-2-91-37.adl-apt-pir-bras31.tpg.internode.on.net [14.2.91.37])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7E7CA24005B;
- Fri, 26 Feb 2021 01:58:09 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7C90C240054;
+ Fri, 26 Feb 2021 01:58:13 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: qemu-arm@nongnu.org
-Subject: [PATCH 0/4] aspeed: LPC peripheral controller devices
-Date: Fri, 26 Feb 2021 17:27:54 +1030
-Message-Id: <20210226065758.547824-1-andrew@aj.id.au>
+Subject: [PATCH 1/4] arm: ast2600: Force a multiple of 32 of IRQs for the GIC
+Date: Fri, 26 Feb 2021 17:27:55 +1030
+Message-Id: <20210226065758.547824-2-andrew@aj.id.au>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20210226065758.547824-1-andrew@aj.id.au>
+References: <20210226065758.547824-1-andrew@aj.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.25; envelope-from=andrew@aj.id.au;
  helo=out1-smtp.messagingengine.com
@@ -97,76 +97,36 @@ Cc: peter.maydell@linaro.org, ryan_chen@aspeedtech.com, minyard@acm.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+This appears to be a requirement of the GIC model. The AST2600 allocates
+197 GIC IRQs, which we will adjust shortly.
 
-This series adds support for some of the LPC[1] peripherals found in Aspeed BMC
-SoCs. BMCs typically provide a number of features to their host via LPC that
-include but are not limited to:
+Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+---
+ hw/arm/aspeed_ast2600.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-1. Mapping LPC firmware cycles to BMC-controlled flash devices
-2. UART(s) for system console routing
-3. POST code routing
-4. Keyboard-Controller-Style (KCS) IPMI devices
-5. Block Transfer (BT) IPMI devices
-6. A SuperIO controller for management of LPC devices and miscellaneous
-   functionality
-
-[1] https://www.intel.com/content/dam/www/program/design/us/en/documents/low-pin-count-interface-specification.pdf
-
-Specifically, this series adds basic support for functions 1 and 4 above,
-handling the BMC firmware configuring the bridge mapping LPC firmware cycles
-onto its AHB as well as support for four KCS devices.
-
-Aspeed's LPC controller is not a straight-forward device by any stretch. It
-contains at least the capabilities outlined above, in the sense that it's not
-possible to cleanly separate the different functions into distinct MMIO
-sub-regions: Registers for the various bits of functionality have the feel of
-arbitrary placement with a nod to feature-creep and backwards compatibility.
-Further, the conceptually coherent pieces of functionality often come with the
-ability to issue interrupts, though for the AST2400 and AST2500 there is one
-shared VIC IRQ for all LPC "subdevices". By contrast the AST2600 gives each
-subdevice a distinct IRQ via the GIC.
-
-All this combined leads to some complexity regarding the interrupts and handling
-the MMIO accesses (in terms of mapping the access back to the function it's
-affecting).
-
-Finally, as a point of clarity, Aspeed BMCs also contain an LPC Host Controller
-to master the LPC bus. This series does not concern itself with the LPC Host
-Controller function, only with a subset of the peripheral devices the BMC
-presents to the host.
-
-I've tested the series using a combination of the ast2600-evb, witherspoon-bmc
-and romulus-bmc machines along with a set of recently-posted patches for
-Linux[2].
-
-Please review!
-
-Andrew
-
-[2] https://lore.kernel.org/openbmc/20210219142523.3464540-1-andrew@aj.id.au/T/#m1e2029e7aa2be3056320e8d46b3b5b1539a776b4
-
-Andrew Jeffery (3):
-  arm: ast2600: Force a multiple of 32 of IRQs for the GIC
-  arm: ast2600: Fix iBT IRQ ID
-  hw/misc: Model KCS devices in the Aspeed LPC controller
-
-Cédric Le Goater (1):
-  hw/misc: Add a basic Aspeed LPC controller model
-
- docs/system/arm/aspeed.rst   |   2 +-
- hw/arm/aspeed_ast2600.c      |  44 +++-
- hw/arm/aspeed_soc.c          |  34 ++-
- hw/misc/aspeed_lpc.c         | 485 +++++++++++++++++++++++++++++++++++
- hw/misc/meson.build          |   7 +-
- include/hw/arm/aspeed_soc.h  |   3 +
- include/hw/misc/aspeed_lpc.h |  47 ++++
- 7 files changed, 615 insertions(+), 7 deletions(-)
- create mode 100644 hw/misc/aspeed_lpc.c
- create mode 100644 include/hw/misc/aspeed_lpc.h
-
-
-base-commit: 51db2d7cf26d05a961ec0ee0eb773594b32cc4a1
+diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+index bf31ca351feb..bc0eeb058b24 100644
+--- a/hw/arm/aspeed_ast2600.c
++++ b/hw/arm/aspeed_ast2600.c
+@@ -65,7 +65,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+ 
+ #define ASPEED_A7MPCORE_ADDR 0x40460000
+ 
+-#define ASPEED_SOC_AST2600_MAX_IRQ 128
++#define AST2600_MAX_IRQ 128
+ 
+ /* Shared Peripheral Interrupt values below are offset by -32 from datasheet */
+ static const int aspeed_soc_ast2600_irqmap[] = {
+@@ -267,7 +267,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     object_property_set_int(OBJECT(&s->a7mpcore), "num-cpu", sc->num_cpus,
+                             &error_abort);
+     object_property_set_int(OBJECT(&s->a7mpcore), "num-irq",
+-                            ASPEED_SOC_AST2600_MAX_IRQ + GIC_INTERNAL,
++                            ROUND_UP(AST2600_MAX_IRQ + GIC_INTERNAL, 32),
+                             &error_abort);
+ 
+     sysbus_realize(SYS_BUS_DEVICE(&s->a7mpcore), &error_abort);
 -- 
 2.27.0
 
