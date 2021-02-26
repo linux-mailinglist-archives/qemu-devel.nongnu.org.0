@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1B933260AA
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:56:46 +0100 (CET)
-Received: from localhost ([::1]:33622 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B420F3260A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:56:43 +0100 (CET)
+Received: from localhost ([::1]:33170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFZrZ-0005HI-Qg
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:56:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36412)
+	id 1lFZrW-000569-N0
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:56:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZl4-0005HE-15
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:50:02 -0500
-Received: from mx2.suse.de ([195.135.220.15]:43228)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZl7-0005Or-IG
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:50:05 -0500
+Received: from mx2.suse.de ([195.135.220.15]:43252)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZl1-0004rJ-F9
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:50:01 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZl2-0004ra-0Y
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:50:05 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A38D6AF33;
- Fri, 26 Feb 2021 09:49:47 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id B7631AF37;
+ Fri, 26 Feb 2021 09:49:48 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,14 +28,14 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v24 12/18] i386: separate fpu_helper into user and sysemu parts
-Date: Fri, 26 Feb 2021 10:49:33 +0100
-Message-Id: <20210226094939.11087-13-cfontana@suse.de>
+Subject: [PATCH v24 14/18] i386: split seg_helper into user-only and sysemu
+ parts
+Date: Fri, 26 Feb 2021 10:49:35 +0100
+Message-Id: <20210226094939.11087-15-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226094939.11087-1-cfontana@suse.de>
 References: <20210226094939.11087-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -64,152 +64,44 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-
-[claudio: removed unused return value]
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/cpu.h                   |  3 ++
- target/i386/tcg/fpu_helper.c        | 65 +----------------------------
- target/i386/tcg/sysemu/fpu_helper.c | 57 +++++++++++++++++++++++++
- target/i386/tcg/user/fpu_helper.c   | 58 +++++++++++++++++++++++++
- target/i386/tcg/sysemu/meson.build  |  1 +
- target/i386/tcg/user/meson.build    |  1 +
- 6 files changed, 122 insertions(+), 63 deletions(-)
- create mode 100644 target/i386/tcg/sysemu/fpu_helper.c
- create mode 100644 target/i386/tcg/user/fpu_helper.c
+ target/i386/tcg/helper-tcg.h        |   5 +
+ target/i386/tcg/seg_helper.h        |  66 ++++++++
+ target/i386/tcg/seg_helper.c        | 233 +---------------------------
+ target/i386/tcg/sysemu/seg_helper.c | 125 +++++++++++++++
+ target/i386/tcg/user/seg_helper.c   | 109 +++++++++++++
+ target/i386/tcg/sysemu/meson.build  |   1 +
+ target/i386/tcg/user/meson.build    |   1 +
+ 7 files changed, 311 insertions(+), 229 deletions(-)
+ create mode 100644 target/i386/tcg/seg_helper.h
+ create mode 100644 target/i386/tcg/sysemu/seg_helper.c
+ create mode 100644 target/i386/tcg/user/seg_helper.c
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index c8a84a9033..3797789dc2 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1816,7 +1816,10 @@ int cpu_x86_support_mca_broadcast(CPUX86State *env);
- int cpu_get_pic_interrupt(CPUX86State *s);
- /* MSDOS compatibility mode FPU exception support */
- void x86_register_ferr_irq(qemu_irq irq);
-+void fpu_check_raise_ferr_irq(CPUX86State *s);
- void cpu_set_ignne(void);
-+void cpu_clear_ignne(void);
-+
- /* mpx_helper.c */
- void cpu_sync_bndcs_hflags(CPUX86State *env);
+diff --git a/target/i386/tcg/helper-tcg.h b/target/i386/tcg/helper-tcg.h
+index b420b3356d..30eacdbbc9 100644
+--- a/target/i386/tcg/helper-tcg.h
++++ b/target/i386/tcg/helper-tcg.h
+@@ -88,6 +88,11 @@ void do_vmexit(CPUX86State *env, uint32_t exit_code, uint64_t exit_info_1);
  
-diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
-index 60ed93520a..ade18aa13c 100644
---- a/target/i386/tcg/fpu_helper.c
-+++ b/target/i386/tcg/fpu_helper.c
-@@ -21,17 +21,10 @@
- #include <math.h>
- #include "cpu.h"
- #include "exec/helper-proto.h"
--#include "qemu/host-utils.h"
--#include "exec/exec-all.h"
--#include "exec/cpu_ldst.h"
- #include "fpu/softfloat.h"
- #include "fpu/softfloat-macros.h"
- #include "helper-tcg.h"
+ /* seg_helper.c */
+ void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw);
++void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
++                      int error_code, target_ulong next_eip, int is_hw);
++void handle_even_inj(CPUX86State *env, int intno, int is_int,
++                     int error_code, int is_hw, int rm);
++int exception_has_error_code(int intno);
  
--#ifdef CONFIG_SOFTMMU
--#include "hw/irq.h"
--#endif
--
- /* float macros */
- #define FT0    (env->ft0)
- #define ST0    (env->fpregs[env->fpstt].d)
-@@ -75,36 +68,6 @@
- #define floatx80_ln2_d make_floatx80(0x3ffe, 0xb17217f7d1cf79abLL)
- #define floatx80_pi_d make_floatx80(0x4000, 0xc90fdaa22168c234LL)
- 
--#if !defined(CONFIG_USER_ONLY)
--static qemu_irq ferr_irq;
--
--void x86_register_ferr_irq(qemu_irq irq)
--{
--    ferr_irq = irq;
--}
--
--static void cpu_clear_ignne(void)
--{
--    CPUX86State *env = &X86_CPU(first_cpu)->env;
--    env->hflags2 &= ~HF2_IGNNE_MASK;
--}
--
--void cpu_set_ignne(void)
--{
--    CPUX86State *env = &X86_CPU(first_cpu)->env;
--    env->hflags2 |= HF2_IGNNE_MASK;
--    /*
--     * We get here in response to a write to port F0h.  The chipset should
--     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
--     * cleared, because FERR# and FP_IRQ are two separate pins on real
--     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
--     * do directly what the chipset would do, i.e. deassert FP_IRQ.
--     */
--    qemu_irq_lower(ferr_irq);
--}
--#endif
--
--
- static inline void fpush(CPUX86State *env)
- {
-     env->fpstt = (env->fpstt - 1) & 7;
-@@ -203,8 +166,8 @@ static void fpu_raise_exception(CPUX86State *env, uintptr_t retaddr)
-         raise_exception_ra(env, EXCP10_COPR, retaddr);
-     }
- #if !defined(CONFIG_USER_ONLY)
--    else if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
--        qemu_irq_raise(ferr_irq);
-+    else {
-+        fpu_check_raise_ferr_irq(env);
-     }
- #endif
- }
-@@ -2501,18 +2464,6 @@ void helper_frstor(CPUX86State *env, target_ulong ptr, int data32)
-     }
- }
- 
--#if defined(CONFIG_USER_ONLY)
--void cpu_x86_fsave(CPUX86State *env, target_ulong ptr, int data32)
--{
--    helper_fsave(env, ptr, data32);
--}
--
--void cpu_x86_frstor(CPUX86State *env, target_ulong ptr, int data32)
--{
--    helper_frstor(env, ptr, data32);
--}
--#endif
--
- #define XO(X)  offsetof(X86XSaveArea, X)
- 
- static void do_xsave_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
-@@ -2780,18 +2731,6 @@ void helper_fxrstor(CPUX86State *env, target_ulong ptr)
-     }
- }
- 
--#if defined(CONFIG_USER_ONLY)
--void cpu_x86_fxsave(CPUX86State *env, target_ulong ptr)
--{
--    helper_fxsave(env, ptr);
--}
--
--void cpu_x86_fxrstor(CPUX86State *env, target_ulong ptr)
--{
--    helper_fxrstor(env, ptr);
--}
--#endif
--
- void helper_xrstor(CPUX86State *env, target_ulong ptr, uint64_t rfbm)
- {
-     uintptr_t ra = GETPC();
-diff --git a/target/i386/tcg/sysemu/fpu_helper.c b/target/i386/tcg/sysemu/fpu_helper.c
+ /* smm_helper.c */
+ void do_smm_enter(X86CPU *cpu);
+diff --git a/target/i386/tcg/seg_helper.h b/target/i386/tcg/seg_helper.h
 new file mode 100644
-index 0000000000..1c3610da3b
+index 0000000000..ebf1035277
 --- /dev/null
-+++ b/target/i386/tcg/sysemu/fpu_helper.c
-@@ -0,0 +1,57 @@
++++ b/target/i386/tcg/seg_helper.h
+@@ -0,0 +1,66 @@
 +/*
-+ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (sysemu code)
++ *  x86 segmentation related helpers macros
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -227,52 +119,346 @@ index 0000000000..1c3610da3b
 + * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "cpu.h"
-+#include "hw/irq.h"
++#ifndef SEG_HELPER_H
++#define SEG_HELPER_H
 +
-+static qemu_irq ferr_irq;
++//#define DEBUG_PCALL
 +
-+void x86_register_ferr_irq(qemu_irq irq)
-+{
-+    ferr_irq = irq;
-+}
++#ifdef DEBUG_PCALL
++# define LOG_PCALL(...) qemu_log_mask(CPU_LOG_PCALL, ## __VA_ARGS__)
++# define LOG_PCALL_STATE(cpu)                                  \
++    log_cpu_state_mask(CPU_LOG_PCALL, (cpu), CPU_DUMP_CCOP)
++#else
++# define LOG_PCALL(...) do { } while (0)
++# define LOG_PCALL_STATE(cpu) do { } while (0)
++#endif
 +
-+void fpu_check_raise_ferr_irq(CPUX86State *env)
-+{
-+    if (ferr_irq && !(env->hflags2 & HF2_IGNNE_MASK)) {
-+        qemu_irq_raise(ferr_irq);
-+        return;
-+    }
-+}
-+
-+void cpu_clear_ignne(void)
-+{
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 &= ~HF2_IGNNE_MASK;
-+}
-+
-+void cpu_set_ignne(void)
-+{
-+    CPUX86State *env = &X86_CPU(first_cpu)->env;
-+    env->hflags2 |= HF2_IGNNE_MASK;
-+    /*
-+     * We get here in response to a write to port F0h.  The chipset should
-+     * deassert FP_IRQ and FERR# instead should stay signaled until FPSW_SE is
-+     * cleared, because FERR# and FP_IRQ are two separate pins on real
-+     * hardware.  However, we don't model FERR# as a qemu_irq, so we just
-+     * do directly what the chipset would do, i.e. deassert FP_IRQ.
-+     */
-+    qemu_irq_lower(ferr_irq);
-+}
-diff --git a/target/i386/tcg/user/fpu_helper.c b/target/i386/tcg/user/fpu_helper.c
-new file mode 100644
-index 0000000000..a1b96dc51c
---- /dev/null
-+++ b/target/i386/tcg/user/fpu_helper.c
-@@ -0,0 +1,58 @@
 +/*
-+ *  x86 FPU, MMX/3DNow!/SSE/SSE2/SSE3/SSSE3/SSE4/PNI helpers (user-mode)
++ * TODO: Convert callers to compute cpu_mmu_index_kernel once
++ * and use *_mmuidx_ra directly.
++ */
++#define cpu_ldub_kernel_ra(e, p, r) \
++    cpu_ldub_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
++#define cpu_lduw_kernel_ra(e, p, r) \
++    cpu_lduw_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
++#define cpu_ldl_kernel_ra(e, p, r) \
++    cpu_ldl_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
++#define cpu_ldq_kernel_ra(e, p, r) \
++    cpu_ldq_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
++
++#define cpu_stb_kernel_ra(e, p, v, r) \
++    cpu_stb_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
++#define cpu_stw_kernel_ra(e, p, v, r) \
++    cpu_stw_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
++#define cpu_stl_kernel_ra(e, p, v, r) \
++    cpu_stl_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
++#define cpu_stq_kernel_ra(e, p, v, r) \
++    cpu_stq_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
++
++#define cpu_ldub_kernel(e, p)    cpu_ldub_kernel_ra(e, p, 0)
++#define cpu_lduw_kernel(e, p)    cpu_lduw_kernel_ra(e, p, 0)
++#define cpu_ldl_kernel(e, p)     cpu_ldl_kernel_ra(e, p, 0)
++#define cpu_ldq_kernel(e, p)     cpu_ldq_kernel_ra(e, p, 0)
++
++#define cpu_stb_kernel(e, p, v)  cpu_stb_kernel_ra(e, p, v, 0)
++#define cpu_stw_kernel(e, p, v)  cpu_stw_kernel_ra(e, p, v, 0)
++#define cpu_stl_kernel(e, p, v)  cpu_stl_kernel_ra(e, p, v, 0)
++#define cpu_stq_kernel(e, p, v)  cpu_stq_kernel_ra(e, p, v, 0)
++
++#endif /* SEG_HELPER_H */
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index d04fbdd7cd..cf3f051524 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -26,49 +26,7 @@
+ #include "exec/cpu_ldst.h"
+ #include "exec/log.h"
+ #include "helper-tcg.h"
+-
+-//#define DEBUG_PCALL
+-
+-#ifdef DEBUG_PCALL
+-# define LOG_PCALL(...) qemu_log_mask(CPU_LOG_PCALL, ## __VA_ARGS__)
+-# define LOG_PCALL_STATE(cpu)                                  \
+-    log_cpu_state_mask(CPU_LOG_PCALL, (cpu), CPU_DUMP_CCOP)
+-#else
+-# define LOG_PCALL(...) do { } while (0)
+-# define LOG_PCALL_STATE(cpu) do { } while (0)
+-#endif
+-
+-/*
+- * TODO: Convert callers to compute cpu_mmu_index_kernel once
+- * and use *_mmuidx_ra directly.
+- */
+-#define cpu_ldub_kernel_ra(e, p, r) \
+-    cpu_ldub_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
+-#define cpu_lduw_kernel_ra(e, p, r) \
+-    cpu_lduw_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
+-#define cpu_ldl_kernel_ra(e, p, r) \
+-    cpu_ldl_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
+-#define cpu_ldq_kernel_ra(e, p, r) \
+-    cpu_ldq_mmuidx_ra(e, p, cpu_mmu_index_kernel(e), r)
+-
+-#define cpu_stb_kernel_ra(e, p, v, r) \
+-    cpu_stb_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
+-#define cpu_stw_kernel_ra(e, p, v, r) \
+-    cpu_stw_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
+-#define cpu_stl_kernel_ra(e, p, v, r) \
+-    cpu_stl_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
+-#define cpu_stq_kernel_ra(e, p, v, r) \
+-    cpu_stq_mmuidx_ra(e, p, v, cpu_mmu_index_kernel(e), r)
+-
+-#define cpu_ldub_kernel(e, p)    cpu_ldub_kernel_ra(e, p, 0)
+-#define cpu_lduw_kernel(e, p)    cpu_lduw_kernel_ra(e, p, 0)
+-#define cpu_ldl_kernel(e, p)     cpu_ldl_kernel_ra(e, p, 0)
+-#define cpu_ldq_kernel(e, p)     cpu_ldq_kernel_ra(e, p, 0)
+-
+-#define cpu_stb_kernel(e, p, v)  cpu_stb_kernel_ra(e, p, v, 0)
+-#define cpu_stw_kernel(e, p, v)  cpu_stw_kernel_ra(e, p, v, 0)
+-#define cpu_stl_kernel(e, p, v)  cpu_stl_kernel_ra(e, p, v, 0)
+-#define cpu_stq_kernel(e, p, v)  cpu_stq_kernel_ra(e, p, v, 0)
++#include "seg_helper.h"
+ 
+ /* return non zero if error */
+ static inline int load_segment_ra(CPUX86State *env, uint32_t *e1_ptr,
+@@ -531,7 +489,7 @@ static inline unsigned int get_sp_mask(unsigned int e2)
+     }
+ }
+ 
+-static int exception_has_error_code(int intno)
++int exception_has_error_code(int intno)
+ {
+     switch (intno) {
+     case 8:
+@@ -976,72 +934,6 @@ static void do_interrupt64(CPUX86State *env, int intno, int is_int,
+ }
+ #endif
+ 
+-#ifdef TARGET_X86_64
+-#if defined(CONFIG_USER_ONLY)
+-void helper_syscall(CPUX86State *env, int next_eip_addend)
+-{
+-    CPUState *cs = env_cpu(env);
+-
+-    cs->exception_index = EXCP_SYSCALL;
+-    env->exception_is_int = 0;
+-    env->exception_next_eip = env->eip + next_eip_addend;
+-    cpu_loop_exit(cs);
+-}
+-#else
+-void helper_syscall(CPUX86State *env, int next_eip_addend)
+-{
+-    int selector;
+-
+-    if (!(env->efer & MSR_EFER_SCE)) {
+-        raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
+-    }
+-    selector = (env->star >> 32) & 0xffff;
+-    if (env->hflags & HF_LMA_MASK) {
+-        int code64;
+-
+-        env->regs[R_ECX] = env->eip + next_eip_addend;
+-        env->regs[11] = cpu_compute_eflags(env) & ~RF_MASK;
+-
+-        code64 = env->hflags & HF_CS64_MASK;
+-
+-        env->eflags &= ~(env->fmask | RF_MASK);
+-        cpu_load_eflags(env, env->eflags, 0);
+-        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
+-                           0, 0xffffffff,
+-                               DESC_G_MASK | DESC_P_MASK |
+-                               DESC_S_MASK |
+-                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK |
+-                               DESC_L_MASK);
+-        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
+-                               0, 0xffffffff,
+-                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
+-                               DESC_S_MASK |
+-                               DESC_W_MASK | DESC_A_MASK);
+-        if (code64) {
+-            env->eip = env->lstar;
+-        } else {
+-            env->eip = env->cstar;
+-        }
+-    } else {
+-        env->regs[R_ECX] = (uint32_t)(env->eip + next_eip_addend);
+-
+-        env->eflags &= ~(IF_MASK | RF_MASK | VM_MASK);
+-        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
+-                           0, 0xffffffff,
+-                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
+-                               DESC_S_MASK |
+-                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK);
+-        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
+-                               0, 0xffffffff,
+-                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
+-                               DESC_S_MASK |
+-                               DESC_W_MASK | DESC_A_MASK);
+-        env->eip = (uint32_t)env->star;
+-    }
+-}
+-#endif
+-#endif
+-
+ #ifdef TARGET_X86_64
+ void helper_sysret(CPUX86State *env, int dflag)
+ {
+@@ -1136,84 +1028,13 @@ static void do_interrupt_real(CPUX86State *env, int intno, int is_int,
+     env->eflags &= ~(IF_MASK | TF_MASK | AC_MASK | RF_MASK);
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-/* fake user mode interrupt. is_int is TRUE if coming from the int
+- * instruction. next_eip is the env->eip value AFTER the interrupt
+- * instruction. It is only relevant if is_int is TRUE or if intno
+- * is EXCP_SYSCALL.
+- */
+-static void do_interrupt_user(CPUX86State *env, int intno, int is_int,
+-                              int error_code, target_ulong next_eip)
+-{
+-    if (is_int) {
+-        SegmentCache *dt;
+-        target_ulong ptr;
+-        int dpl, cpl, shift;
+-        uint32_t e2;
+-
+-        dt = &env->idt;
+-        if (env->hflags & HF_LMA_MASK) {
+-            shift = 4;
+-        } else {
+-            shift = 3;
+-        }
+-        ptr = dt->base + (intno << shift);
+-        e2 = cpu_ldl_kernel(env, ptr + 4);
+-
+-        dpl = (e2 >> DESC_DPL_SHIFT) & 3;
+-        cpl = env->hflags & HF_CPL_MASK;
+-        /* check privilege if software int */
+-        if (dpl < cpl) {
+-            raise_exception_err(env, EXCP0D_GPF, (intno << shift) + 2);
+-        }
+-    }
+-
+-    /* Since we emulate only user space, we cannot do more than
+-       exiting the emulation with the suitable exception and error
+-       code. So update EIP for INT 0x80 and EXCP_SYSCALL. */
+-    if (is_int || intno == EXCP_SYSCALL) {
+-        env->eip = next_eip;
+-    }
+-}
+-
+-#else
+-
+-static void handle_even_inj(CPUX86State *env, int intno, int is_int,
+-                            int error_code, int is_hw, int rm)
+-{
+-    CPUState *cs = env_cpu(env);
+-    uint32_t event_inj = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                                          control.event_inj));
+-
+-    if (!(event_inj & SVM_EVTINJ_VALID)) {
+-        int type;
+-
+-        if (is_int) {
+-            type = SVM_EVTINJ_TYPE_SOFT;
+-        } else {
+-            type = SVM_EVTINJ_TYPE_EXEPT;
+-        }
+-        event_inj = intno | type | SVM_EVTINJ_VALID;
+-        if (!rm && exception_has_error_code(intno)) {
+-            event_inj |= SVM_EVTINJ_VALID_ERR;
+-            x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
+-                                             control.event_inj_err),
+-                     error_code);
+-        }
+-        x86_stl_phys(cs,
+-                 env->vm_vmcb + offsetof(struct vmcb, control.event_inj),
+-                 event_inj);
+-    }
+-}
+-#endif
+-
+ /*
+  * Begin execution of an interruption. is_int is TRUE if coming from
+  * the int instruction. next_eip is the env->eip value AFTER the interrupt
+  * instruction. It is only relevant if is_int is TRUE.
+  */
+-static void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
+-                             int error_code, target_ulong next_eip, int is_hw)
++void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
++                      int error_code, target_ulong next_eip, int is_hw)
+ {
+     CPUX86State *env = &cpu->env;
+ 
+@@ -1289,36 +1110,6 @@ static void do_interrupt_all(X86CPU *cpu, int intno, int is_int,
+ #endif
+ }
+ 
+-void x86_cpu_do_interrupt(CPUState *cs)
+-{
+-    X86CPU *cpu = X86_CPU(cs);
+-    CPUX86State *env = &cpu->env;
+-
+-#if defined(CONFIG_USER_ONLY)
+-    /* if user mode only, we simulate a fake exception
+-       which will be handled outside the cpu execution
+-       loop */
+-    do_interrupt_user(env, cs->exception_index,
+-                      env->exception_is_int,
+-                      env->error_code,
+-                      env->exception_next_eip);
+-    /* successfully delivered */
+-    env->old_exception = -1;
+-#else
+-    if (cs->exception_index >= EXCP_VMEXIT) {
+-        assert(env->old_exception == -1);
+-        do_vmexit(env, cs->exception_index - EXCP_VMEXIT, env->error_code);
+-    } else {
+-        do_interrupt_all(cpu, cs->exception_index,
+-                         env->exception_is_int,
+-                         env->error_code,
+-                         env->exception_next_eip, 0);
+-        /* successfully delivered */
+-        env->old_exception = -1;
+-    }
+-#endif
+-}
+-
+ void do_interrupt_x86_hardirq(CPUX86State *env, int intno, int is_hw)
+ {
+     do_interrupt_all(env_archcpu(env), intno, 0, 0, 0, is_hw);
+@@ -2626,22 +2417,6 @@ void helper_verw(CPUX86State *env, target_ulong selector1)
+     CC_SRC = eflags | CC_Z;
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-void cpu_x86_load_seg(CPUX86State *env, X86Seg seg_reg, int selector)
+-{
+-    if (!(env->cr[0] & CR0_PE_MASK) || (env->eflags & VM_MASK)) {
+-        int dpl = (env->eflags & VM_MASK) ? 3 : 0;
+-        selector &= 0xffff;
+-        cpu_x86_load_seg_cache(env, seg_reg, selector,
+-                               (selector << 4), 0xffff,
+-                               DESC_P_MASK | DESC_S_MASK | DESC_W_MASK |
+-                               DESC_A_MASK | (dpl << DESC_DPL_SHIFT));
+-    } else {
+-        helper_load_seg(env, seg_reg, selector);
+-    }
+-}
+-#endif
+-
+ /* check if Port I/O is allowed in TSS */
+ static inline void check_io(CPUX86State *env, int addr, int size,
+                             uintptr_t retaddr)
+diff --git a/target/i386/tcg/sysemu/seg_helper.c b/target/i386/tcg/sysemu/seg_helper.c
+new file mode 100644
+index 0000000000..10076d1341
+--- /dev/null
++++ b/target/i386/tcg/sysemu/seg_helper.c
+@@ -0,0 +1,125 @@
++/*
++ *  x86 segmentation related helpers: (sysemu-only code)
++ *  TSS, interrupts, system calls, jumps and call/task gates, descriptors
 + *
 + *  Copyright (c) 2003 Fabrice Bellard
 + *
@@ -293,61 +479,242 @@ index 0000000000..a1b96dc51c
 +#include "qemu/osdep.h"
 +#include "cpu.h"
 +#include "exec/helper-proto.h"
++#include "exec/cpu_ldst.h"
++#include "tcg/helper-tcg.h"
 +
++#ifdef TARGET_X86_64
++void helper_syscall(CPUX86State *env, int next_eip_addend)
++{
++    int selector;
++
++    if (!(env->efer & MSR_EFER_SCE)) {
++        raise_exception_err_ra(env, EXCP06_ILLOP, 0, GETPC());
++    }
++    selector = (env->star >> 32) & 0xffff;
++    if (env->hflags & HF_LMA_MASK) {
++        int code64;
++
++        env->regs[R_ECX] = env->eip + next_eip_addend;
++        env->regs[11] = cpu_compute_eflags(env) & ~RF_MASK;
++
++        code64 = env->hflags & HF_CS64_MASK;
++
++        env->eflags &= ~(env->fmask | RF_MASK);
++        cpu_load_eflags(env, env->eflags, 0);
++        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
++                           0, 0xffffffff,
++                               DESC_G_MASK | DESC_P_MASK |
++                               DESC_S_MASK |
++                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK |
++                               DESC_L_MASK);
++        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
++                               0, 0xffffffff,
++                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
++                               DESC_S_MASK |
++                               DESC_W_MASK | DESC_A_MASK);
++        if (code64) {
++            env->eip = env->lstar;
++        } else {
++            env->eip = env->cstar;
++        }
++    } else {
++        env->regs[R_ECX] = (uint32_t)(env->eip + next_eip_addend);
++
++        env->eflags &= ~(IF_MASK | RF_MASK | VM_MASK);
++        cpu_x86_load_seg_cache(env, R_CS, selector & 0xfffc,
++                           0, 0xffffffff,
++                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
++                               DESC_S_MASK |
++                               DESC_CS_MASK | DESC_R_MASK | DESC_A_MASK);
++        cpu_x86_load_seg_cache(env, R_SS, (selector + 8) & 0xfffc,
++                               0, 0xffffffff,
++                               DESC_G_MASK | DESC_B_MASK | DESC_P_MASK |
++                               DESC_S_MASK |
++                               DESC_W_MASK | DESC_A_MASK);
++        env->eip = (uint32_t)env->star;
++    }
++}
++#endif /* TARGET_X86_64 */
++
++void handle_even_inj(CPUX86State *env, int intno, int is_int,
++                     int error_code, int is_hw, int rm)
++{
++    CPUState *cs = env_cpu(env);
++    uint32_t event_inj = x86_ldl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
++                                                          control.event_inj));
++
++    if (!(event_inj & SVM_EVTINJ_VALID)) {
++        int type;
++
++        if (is_int) {
++            type = SVM_EVTINJ_TYPE_SOFT;
++        } else {
++            type = SVM_EVTINJ_TYPE_EXEPT;
++        }
++        event_inj = intno | type | SVM_EVTINJ_VALID;
++        if (!rm && exception_has_error_code(intno)) {
++            event_inj |= SVM_EVTINJ_VALID_ERR;
++            x86_stl_phys(cs, env->vm_vmcb + offsetof(struct vmcb,
++                                             control.event_inj_err),
++                     error_code);
++        }
++        x86_stl_phys(cs,
++                 env->vm_vmcb + offsetof(struct vmcb, control.event_inj),
++                 event_inj);
++    }
++}
++
++void x86_cpu_do_interrupt(CPUState *cs)
++{
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++
++    if (cs->exception_index >= EXCP_VMEXIT) {
++        assert(env->old_exception == -1);
++        do_vmexit(env, cs->exception_index - EXCP_VMEXIT, env->error_code);
++    } else {
++        do_interrupt_all(cpu, cs->exception_index,
++                         env->exception_is_int,
++                         env->error_code,
++                         env->exception_next_eip, 0);
++        /* successfully delivered */
++        env->old_exception = -1;
++    }
++}
+diff --git a/target/i386/tcg/user/seg_helper.c b/target/i386/tcg/user/seg_helper.c
+new file mode 100644
+index 0000000000..67481b0aa8
+--- /dev/null
++++ b/target/i386/tcg/user/seg_helper.c
+@@ -0,0 +1,109 @@
 +/*
-+ * XXX in helper_fsave() we reference GETPC(). Which is only valid when
-+ * directly called from code_gen_buffer.
++ *  x86 segmentation related helpers (user-mode code):
++ *  TSS, interrupts, system calls, jumps and call/task gates, descriptors
 + *
-+ * The signature of cpu_x86_foo should be changed to add a "uintptr_t retaddr"
-+ * argument, the callers from linux-user/i386/signal.c must pass 0 for this
-+ * new argument (no unwind required), and the helpers must do
++ *  Copyright (c) 2003 Fabrice Bellard
 + *
-+ * void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
-+ * {
-+ *    cpu_x86_fsave(env, ptr, data32, GETPC());
-+ * }
++ * This library is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Lesser General Public
++ * License as published by the Free Software Foundation; either
++ * version 2.1 of the License, or (at your option) any later version.
 + *
-+ * etc.
++ * This library is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++ * Lesser General Public License for more details.
++ *
++ * You should have received a copy of the GNU Lesser General Public
++ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
 + */
 +
-+void cpu_x86_fsave(CPUX86State *env, target_ulong ptr, int data32)
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/helper-proto.h"
++#include "exec/exec-all.h"
++#include "exec/cpu_ldst.h"
++#include "tcg/helper-tcg.h"
++#include "tcg/seg_helper.h"
++
++#ifdef TARGET_X86_64
++void helper_syscall(CPUX86State *env, int next_eip_addend)
 +{
-+    helper_fsave(env, ptr, data32);
++    CPUState *cs = env_cpu(env);
++
++    cs->exception_index = EXCP_SYSCALL;
++    env->exception_is_int = 0;
++    env->exception_next_eip = env->eip + next_eip_addend;
++    cpu_loop_exit(cs);
++}
++#endif /* TARGET_X86_64 */
++
++/*
++ * fake user mode interrupt. is_int is TRUE if coming from the int
++ * instruction. next_eip is the env->eip value AFTER the interrupt
++ * instruction. It is only relevant if is_int is TRUE or if intno
++ * is EXCP_SYSCALL.
++ */
++static void do_interrupt_user(CPUX86State *env, int intno, int is_int,
++                              int error_code, target_ulong next_eip)
++{
++    if (is_int) {
++        SegmentCache *dt;
++        target_ulong ptr;
++        int dpl, cpl, shift;
++        uint32_t e2;
++
++        dt = &env->idt;
++        if (env->hflags & HF_LMA_MASK) {
++            shift = 4;
++        } else {
++            shift = 3;
++        }
++        ptr = dt->base + (intno << shift);
++        e2 = cpu_ldl_kernel(env, ptr + 4);
++
++        dpl = (e2 >> DESC_DPL_SHIFT) & 3;
++        cpl = env->hflags & HF_CPL_MASK;
++        /* check privilege if software int */
++        if (dpl < cpl) {
++            raise_exception_err(env, EXCP0D_GPF, (intno << shift) + 2);
++        }
++    }
++
++    /* Since we emulate only user space, we cannot do more than
++       exiting the emulation with the suitable exception and error
++       code. So update EIP for INT 0x80 and EXCP_SYSCALL. */
++    if (is_int || intno == EXCP_SYSCALL) {
++        env->eip = next_eip;
++    }
 +}
 +
-+void cpu_x86_frstor(CPUX86State *env, target_ulong ptr, int data32)
++void x86_cpu_do_interrupt(CPUState *cs)
 +{
-+    helper_frstor(env, ptr, data32);
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
++
++    /* if user mode only, we simulate a fake exception
++       which will be handled outside the cpu execution
++       loop */
++    do_interrupt_user(env, cs->exception_index,
++                      env->exception_is_int,
++                      env->error_code,
++                      env->exception_next_eip);
++    /* successfully delivered */
++    env->old_exception = -1;
 +}
 +
-+void cpu_x86_fxsave(CPUX86State *env, target_ulong ptr)
++void cpu_x86_load_seg(CPUX86State *env, X86Seg seg_reg, int selector)
 +{
-+    helper_fxsave(env, ptr);
-+}
-+
-+void cpu_x86_fxrstor(CPUX86State *env, target_ulong ptr)
-+{
-+    helper_fxrstor(env, ptr);
++    if (!(env->cr[0] & CR0_PE_MASK) || (env->eflags & VM_MASK)) {
++        int dpl = (env->eflags & VM_MASK) ? 3 : 0;
++        selector &= 0xffff;
++        cpu_x86_load_seg_cache(env, seg_reg, selector,
++                               (selector << 4), 0xffff,
++                               DESC_P_MASK | DESC_S_MASK | DESC_W_MASK |
++                               DESC_A_MASK | (dpl << DESC_DPL_SHIFT));
++    } else {
++        helper_load_seg(env, seg_reg, selector);
++    }
 +}
 diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
-index b2aaab6eef..f84519a213 100644
+index 126528d0c9..2e444e766a 100644
 --- a/target/i386/tcg/sysemu/meson.build
 +++ b/target/i386/tcg/sysemu/meson.build
-@@ -4,4 +4,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
-   'excp_helper.c',
-   'bpt_helper.c',
+@@ -6,4 +6,5 @@ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
    'misc_helper.c',
-+  'fpu_helper.c',
+   'fpu_helper.c',
+   'svm_helper.c',
++  'seg_helper.c',
  ))
 diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
-index 2ab8bd903c..7d919d3bc8 100644
+index f891cc8d76..345294c096 100644
 --- a/target/i386/tcg/user/meson.build
 +++ b/target/i386/tcg/user/meson.build
-@@ -1,4 +1,5 @@
- i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
-   'excp_helper.c',
+@@ -3,4 +3,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
    'misc_stubs.c',
-+  'fpu_helper.c',
+   'fpu_helper.c',
+   'svm_stubs.c',
++  'seg_helper.c',
  ))
 -- 
 2.26.2
