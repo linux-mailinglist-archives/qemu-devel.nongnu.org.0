@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85B79325C18
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:44:29 +0100 (CET)
-Received: from localhost ([::1]:46604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E203E325C1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:46:19 +0100 (CET)
+Received: from localhost ([::1]:53076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFU3I-0005cf-Gi
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:44:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34904)
+	id 1lFU54-0008Gw-Pp
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:46:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34934)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTi5-0000hw-Gq
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:33 -0500
-Received: from mail-pg1-x52a.google.com ([2607:f8b0:4864:20::52a]:41368)
+ id 1lFTiD-0000ks-3V
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:41 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:46909)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTi3-0001nF-AN
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:33 -0500
-Received: by mail-pg1-x52a.google.com with SMTP id t11so5396054pgu.8
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:22:30 -0800 (PST)
+ id 1lFTi8-0001pL-1J
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:22:40 -0500
+Received: by mail-pf1-x433.google.com with SMTP id r5so5294659pfh.13
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:22:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=FlPpAl/QVv1RaMjUle4PW0KgGbPoJfejo1FqGxGA4MA=;
- b=GAkkt5DUgKzu28wjDvXMDl717tp5leyVToP1zRHGMELhleiCRhEslZ50aTDNrn3kzI
- 97w/XA4xqn36ePfcGecerhEKtr/xPROtEjMtHDneB1h83hSRW2+hvlZxsHRvKV5Mij7c
- IUWxXPPW1HYeWhhARcgSqOfd4m6eEYOkZxNWVPDL0UeCQUKaBry14m+mo+4lzGM6Mq9U
- bLmHVppZ0kQ9FOwDsBXPT0S7GYDPZXWUydfA+PTo1j3lYm66hgM+Y65xYkAfMQvcXFtQ
- dmJ/67kGJDLhONsvKTlVqYpb50ZFiQEDPkn74N6v45cN5mEnBI2ji9GKNHXW/zRySWj1
- JMjQ==
+ bh=9rUGyOu7x57v5zXLH0XImFN4ThGv9n62M+D/Ikm1OhU=;
+ b=cuQmtMFCscI3Iba12kBYATEzRTBZhVlzsmjKR+DqLy873sECQDCQJ21Dkc9h0Wl+Ug
+ KirVIwPIVKpVq7kHKvLFrx6XI7godsLDHa6PFc+Fa2vXmUxuZmATtoY8NIEJt9KkGPw4
+ LARPWdHFaCILzj+TruSB+1ZTePwOZm/NymqlbUUl+rV/pi4IDiCO2f1peE5aFi4EkbBQ
+ mOgjPQOF1gevSDopbDJA7uGU3voLBa0hz8UA8f9EijXuKL7qZhc/WT2vhT5JYxXj2EF6
+ L17tPdeUe4XcWsDIrm0hdjXITL0XrtWjpLaQj1OhOvfMZKXI4biV3Uu0lX0XDJ143Eqr
+ E2Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=FlPpAl/QVv1RaMjUle4PW0KgGbPoJfejo1FqGxGA4MA=;
- b=mQQ1uYZqGKQBLbQOKdf0b3lXnx1s5NnVqj9jv5zrIGlUQ9yer4Wo61PvpIGoPmjZoS
- pLU+saYaR5iTrQtfYZAz2k2b4XAvuyhBr8o2xMfM+4rXujvnf5QWW11D0LoOxRCcfr31
- ujYy261E89pgRcP/fnLkak3J6L6TU55nWYifl4BPgGjjivwBBC5+fED06s91cB+EYDLa
- wP/Y3RplOQFrdW8WAq57xo5Z9zGqKlg0kFcpICmn4uvzNcDq4sa0cBgaSRwC4W4QxJYa
- Qe5ryD3BnwDF+hMRj9xcUgG4QxFETmzPaKhVdRERpUyVksMXzZ7UPkcEiNFIOOf++adi
- X/kA==
-X-Gm-Message-State: AOAM532CcVWSXEOP/IPQVBOJqXgceXDi53o6WLlgKkTjTLtBogYLrmPl
- bAPEQjj1I/GQqEiOxobzQds44BxAsn6/fA==
-X-Google-Smtp-Source: ABdhPJxBTDlmpYknu5+FGqxcq8hcfailBbiE0Xfnn7MYBn5HZW1mxCne+uBxiu2ht38c0t5igE6EbQ==
-X-Received: by 2002:a05:6a00:2ac:b029:1e9:3cb7:324a with SMTP id
- q12-20020a056a0002acb02901e93cb7324amr1188380pfs.36.1614309749236; 
- Thu, 25 Feb 2021 19:22:29 -0800 (PST)
+ bh=9rUGyOu7x57v5zXLH0XImFN4ThGv9n62M+D/Ikm1OhU=;
+ b=EU2GE8pLLFGvCDqbweQYXYTM5AQ0T+ciJAtPd0tmxPdPtq2xGwPXWIZpX9Tw/ag3pJ
+ i38r5XaM8vf8fucnIP2IGQ1bjjovn0FkzQ8JXxCy1RlbpGCsRI7hmLfx2X70HB0tvBTR
+ hx4+KrKV6qoFGr8C2tTHyDPM47gVtZyUqZ2VHvplAmzyLgQK3TpWAH+QvXHXS3Y9qCOX
+ Vnm9YXQciV0iHnYhNKA6O6vjT2TlNGfGYrFXOvrj6dyWkb16KRuS0I4EbNTOKwuJTw1K
+ 3A+pdtr81eGayHpyB2KQYKSGnzNLKfNvxFUFZiGZAXuA7uZdXESiDHUyvb5ZoYGJoh+h
+ ZASA==
+X-Gm-Message-State: AOAM5322sueE07Dj0VVPqkQ+ZINcInI70Lbz5d/ZOk2tRhCstYIUL0Rt
+ bcjtl9+tcuRAsFbhLcDMsMt0h0iAWY334A==
+X-Google-Smtp-Source: ABdhPJw+UUDdt77kC7AEOmgPGOUvA1jM0qQsfGByn0i1zS5YJ1da/4n7rSBREDX+Mnup0vzcOMiOWw==
+X-Received: by 2002:a62:e10c:0:b029:1ed:b772:5981 with SMTP id
+ q12-20020a62e10c0000b02901edb7725981mr962289pfh.80.1614309754184; 
+ Thu, 25 Feb 2021 19:22:34 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.22.27
+ by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.22.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 19:22:28 -0800 (PST)
+ Thu, 25 Feb 2021 19:22:33 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 36/75] target/riscv: rvv-1.0: floating-point move
- instruction
-Date: Fri, 26 Feb 2021 11:18:20 +0800
-Message-Id: <20210226031902.23656-37-frank.chang@sifive.com>
+Subject: [PATCH v7 37/75] target/riscv: rvv-1.0: floating-point scalar move
+ instructions
+Date: Fri, 26 Feb 2021 11:18:21 +0800
+Message-Id: <20210226031902.23656-38-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210226031902.23656-1-frank.chang@sifive.com>
 References: <20210226031902.23656-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52a;
- envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=frank.chang@sifive.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,56 +97,108 @@ From: Frank Chang <frank.chang@sifive.com>
 NaN-boxed the scalar floating-point register based on RVV 1.0's rules.
 
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/insn_trans/trans_rvv.c.inc | 16 ++++++++++++++--
- 1 file changed, 14 insertions(+), 2 deletions(-)
+ target/riscv/insn32.decode              |  4 +--
+ target/riscv/insn_trans/trans_rvv.c.inc | 39 +++++++++++++------------
+ target/riscv/internals.h                |  5 ----
+ 3 files changed, 22 insertions(+), 26 deletions(-)
 
+diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+index f26723a4d27..8516a12b126 100644
+--- a/target/riscv/insn32.decode
++++ b/target/riscv/insn32.decode
+@@ -612,8 +612,8 @@ vid_v           010100 . 00000 10001 010 ..... 1010111 @r1_vm
+ vmv_x_s         010000 1 ..... 00000 010 ..... 1010111 @r2rd
+ vmv_s_x         010000 1 00000 ..... 110 ..... 1010111 @r2
+ vext_x_v        001100 1 ..... ..... 010 ..... 1010111 @r
+-vfmv_f_s        001100 1 ..... 00000 001 ..... 1010111 @r2rd
+-vfmv_s_f        001101 1 00000 ..... 101 ..... 1010111 @r2
++vfmv_f_s        010000 1 ..... 00000 001 ..... 1010111 @r2rd
++vfmv_s_f        010000 1 00000 ..... 101 ..... 1010111 @r2
+ vslideup_vx     001110 . ..... ..... 100 ..... 1010111 @r_vm
+ vslideup_vi     001110 . ..... ..... 011 ..... 1010111 @r_vm
+ vslide1up_vx    001110 . ..... ..... 110 ..... 1010111 @r_vm
 diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-index 1839fc0a56b..7ac7d6a2b92 100644
+index 7ac7d6a2b92..63e31299b3b 100644
 --- a/target/riscv/insn_trans/trans_rvv.c.inc
 +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-@@ -2691,9 +2691,15 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
-         require_rvf(s) &&
-         vext_check_isa_ill(s) &&
-         require_align(a->rd, s->lmul)) {
-+        TCGv_i64 t1;
-+
-         if (s->vl_eq_vlmax) {
-+            t1 = tcg_temp_new_i64();
-+            /* NaN-box f[rs1] */
-+            do_nanbox(s, t1, cpu_fpr[a->rs1]);
-+
-             tcg_gen_gvec_dup_i64(s->sew, vreg_ofs(s, a->rd),
--                                 MAXSZ(s), MAXSZ(s), cpu_fpr[a->rs1]);
-+                                 MAXSZ(s), MAXSZ(s), t1);
-             mark_vs_dirty(s);
-         } else {
-             TCGv_ptr dest;
-@@ -2707,16 +2713,22 @@ static bool trans_vfmv_v_f(DisasContext *s, arg_vfmv_v_f *a)
-             TCGLabel *over = gen_new_label();
-             tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+@@ -3282,14 +3282,20 @@ static bool trans_vmv_s_x(DisasContext *s, arg_vmv_s_x *a)
+ /* Floating-Point Scalar Move Instructions */
+ static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
+ {
+-    if (!s->vill && has_ext(s, RVF) &&
+-        (s->mstatus_fs != 0) && (s->sew != 0)) {
+-        unsigned int len = 8 << s->sew;
++    if (require_rvv(s) &&
++        require_rvf(s) &&
++        vext_check_isa_ill(s)) {
++        unsigned int ofs = (8 << s->sew);
++        unsigned int len = 64 - ofs;
++        TCGv_i64 t_nan;
  
-+            t1 = tcg_temp_new_i64();
-+            /* NaN-box f[rs1] */
-+            do_nanbox(s, t1, cpu_fpr[a->rs1]);
-+
-             dest = tcg_temp_new_ptr();
-             desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-             tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, a->rd));
--            fns[s->sew - 1](dest, cpu_fpr[a->rs1], cpu_env, desc);
-+
-+            fns[s->sew - 1](dest, t1, cpu_env, desc);
- 
-             tcg_temp_free_ptr(dest);
-             tcg_temp_free_i32(desc);
-             mark_vs_dirty(s);
-             gen_set_label(over);
+         vec_element_loadi(s, cpu_fpr[a->rd], a->rs2, 0, false);
+-        if (len < 64) {
+-            tcg_gen_ori_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
+-                            MAKE_64BIT_MASK(len, 64 - len));
++        /* NaN-box f[rd] as necessary for SEW */
++        if (len) {
++            t_nan = tcg_const_i64(UINT64_MAX);
++            tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd],
++                                t_nan, ofs, len);
++            tcg_temp_free_i64(t_nan);
          }
-+        tcg_temp_free_i64(t1);
-         return true;
-     }
-     return false;
+ 
+         mark_fs_dirty(s);
+@@ -3301,25 +3307,20 @@ static bool trans_vfmv_f_s(DisasContext *s, arg_vfmv_f_s *a)
+ /* vfmv.s.f vd, rs1 # vd[0] = rs1 (vs2=0) */
+ static bool trans_vfmv_s_f(DisasContext *s, arg_vfmv_s_f *a)
+ {
+-    if (!s->vill && has_ext(s, RVF) && (s->sew != 0)) {
+-        TCGv_i64 t1;
++    if (require_rvv(s) &&
++        require_rvf(s) &&
++        vext_check_isa_ill(s)) {
+         /* The instructions ignore LMUL and vector register group. */
+-        uint32_t vlmax = s->vlen >> 3;
++        TCGv_i64 t1;
++        TCGLabel *over = gen_new_label();
+ 
+         /* if vl == 0, skip vector register write back */
+-        TCGLabel *over = gen_new_label();
+         tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);
+ 
+-        /* zeroed all elements */
+-        tcg_gen_gvec_dup_imm(SEW64, vreg_ofs(s, a->rd), vlmax, vlmax, 0);
+-
+-        /* NaN-box f[rs1] as necessary for SEW */
++        /* NaN-box f[rs1] */
+         t1 = tcg_temp_new_i64();
+-        if (s->sew == MO_64 && !has_ext(s, RVD)) {
+-            tcg_gen_ori_i64(t1, cpu_fpr[a->rs1], MAKE_64BIT_MASK(32, 32));
+-        } else {
+-            tcg_gen_mov_i64(t1, cpu_fpr[a->rs1]);
+-        }
++        do_nanbox(s, t1, cpu_fpr[a->rs1]);
++
+         vec_element_storei(s, a->rd, 0, t1);
+         tcg_temp_free_i64(t1);
+         mark_vs_dirty(s);
+diff --git a/target/riscv/internals.h b/target/riscv/internals.h
+index c3bbeea9a94..959b81b3016 100644
+--- a/target/riscv/internals.h
++++ b/target/riscv/internals.h
+@@ -32,11 +32,6 @@ target_ulong fclass_h(uint64_t frs1);
+ target_ulong fclass_s(uint64_t frs1);
+ target_ulong fclass_d(uint64_t frs1);
+ 
+-#define SEW8  0
+-#define SEW16 1
+-#define SEW32 2
+-#define SEW64 3
+-
+ #ifndef CONFIG_USER_ONLY
+ extern const VMStateDescription vmstate_riscv_cpu;
+ #endif
 -- 
 2.17.1
 
