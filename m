@@ -2,43 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F7C326651
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 18:29:14 +0100 (CET)
-Received: from localhost ([::1]:33920 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE499326675
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 18:48:41 +0100 (CET)
+Received: from localhost ([::1]:47084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFgvR-00038Z-Eo
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 12:29:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45080)
+	id 1lFhEG-00026s-EJ
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 12:48:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFgtT-0001TK-1H
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:27:11 -0500
-Received: from mx2.suse.de ([195.135.220.15]:37008)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFgtR-0008KG-AL
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:27:10 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 98415AC6E;
- Fri, 26 Feb 2021 17:27:07 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Subject: target/arm: "define_arm_cp_regs" and similar for KVM
-Message-ID: <7360ab6a-0613-8300-ef8d-b0c641fbaed1@suse.de>
-Date: Fri, 26 Feb 2021 18:27:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFhCg-0001Z0-6B
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:47:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:30329)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lFhCc-0007Rz-1a
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:47:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614361606;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ZAKTetoQVUNXwGdC6aeuomPxKavcmYdZc7WTdbKDW1o=;
+ b=ZpDm3GAryKzzgaoEph5knr9UxP7U18P7TY+4IvJXXpIfE/7NfNmoYhmO1WfRK7uaBfCNUn
+ 0XynY0Iad9QS2pn856xxaG4u3BNYeakDG0lXYm11yyzmLpCusEkhBB3WkDIwzPLZ1pkVO+
+ Zp/0Clq7w3scg0Pqc2W347n/GUtIUW0=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-TQYVddohPy2HScpZ5x3AoQ-1; Fri, 26 Feb 2021 12:46:44 -0500
+X-MC-Unique: TQYVddohPy2HScpZ5x3AoQ-1
+Received: by mail-wr1-f72.google.com with SMTP id b7so5205747wrv.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 09:46:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZAKTetoQVUNXwGdC6aeuomPxKavcmYdZc7WTdbKDW1o=;
+ b=f9NPUOT5Vh6to0RdeAbi97vqR2NCR4cIkt+GLZ53dZ2QSwApd8UJw6+WbpaSYgtJ8v
+ iHCZviUmCa3y9Zb/2+j6eEGM+bn+5gUSjbOgXaUmHptHlsS0N38KpPXzB/2CCFIPdjwq
+ q6QfsiO0dAXTugO2etbfVSjrTSli3qlz0tg1ejv4T7j1nKti5DRQ9/on9Mgwm81FNTSt
+ oPYjZ2ADizuig9/OYSQkFJcEyfyxh7AY/XB2f2G+qVJROHiob/LcXc2zU9FBF+MlX8Og
+ pLJcAWmkq+ur+DadhWLkzpQA/IdZ2iKs/0klhuBbqUkQqaNv9SDkCcQ5LXlccVYmMOfO
+ N7Ug==
+X-Gm-Message-State: AOAM5317EBIeivyNQbRTwNgbBPLkou3hWPl7sNMZfPJ3qv0uR12JZblw
+ HP4OWkB3PJOIGtfbMUHHjt7B7he+a0iCIpWMU292n0HOQ2nSdpmDBgpKVGHXzCxwKWRihbgQfNl
+ R3qxCJpb616rRjIg=
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr3929696wmh.137.1614361603716; 
+ Fri, 26 Feb 2021 09:46:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwOP9ci6zp2wZIiuVvS9QVao4xhy39+BvLVnth8ImziBKauDSn7QBJ1P0AFrQ80OXEvYUytJA==
+X-Received: by 2002:a7b:cc0c:: with SMTP id f12mr3929687wmh.137.1614361603552; 
+ Fri, 26 Feb 2021 09:46:43 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id u63sm7964681wmg.24.2021.02.26.09.46.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Feb 2021 09:46:43 -0800 (PST)
+Subject: Re: [PATCH v2] qemu-config: add error propagation to qemu_config_parse
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210226170816.231173-1-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <6c4a4697-60b8-a327-f3af-60dfe682c7d4@redhat.com>
+Date: Fri, 26 Feb 2021 18:46:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
+In-Reply-To: <20210226170816.231173-1-pbonzini@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,65 +97,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
+On 2/26/21 6:08 PM, Paolo Bonzini wrote:
+> This enables some simplification of vl.c via error_fatal, and improves
+> error messages.  Before:
+> 
+> Before:
+>   $ ./qemu-system-x86_64 -readconfig .
+>   qemu-system-x86_64: error reading file
+>   qemu-system-x86_64: -readconfig .: read config .: Invalid argument
+>   $ /usr/libexec/qemu-kvm -readconfig foo
+>   qemu-kvm: -readconfig foo: read config foo: No such file or directory
+> 
+> After:
+> 
+>   $ ./qemu-system-x86_64 -readconfig .
+>   qemu-system-x86_64: -readconfig .: error reading file: Is a directory
+>   $ ./qemu-system-x86_64 -readconfig foo
+>   qemu-system-x86_64: -readconfig foo: Cannot read config file foo: No such file or directory
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  block/blkdebug.c           |  3 +--
+>  include/qemu/config-file.h |  5 +++--
+>  softmmu/vl.c               | 29 +++++++++++------------------
+>  util/qemu-config.c         | 23 ++++++++++++-----------
+>  4 files changed, 27 insertions(+), 33 deletions(-)
 
-I am trying to find out how to split properly KVM and TCG in target/arm, among other things.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-I skipped or stubbed all define_arm_cp_regs and similar functions,
-
-and made a cpregs module that is TCG-only.
-
-Thought it is fine, as we have a kvm_arm_init_cpreg_list that throws away everything TCG-related anyway later:
-
-target/arm/kvm.c:
-
-/* Initialize the ARMCPU cpreg list according to the kernel's                                                                               
- * definition of what CPU registers it knows about (and throw away                                                                          
- * the previous TCG-created cpreg list).                                                                                                    
- */
-int kvm_arm_init_cpreg_list(ARMCPU *cpu)
-
-Can you confirm that it is ok to do so?
-
-But I found something peculiar in hw/intc/arm_gicv3_kvm.c:
-
-here we have explictly for a "kvm" module a reginfo definition, and a call to
-
-define_arm_cp_regs(cpu, gicv3_cpuif_reginfo);
-
-/*                                                                                                                                          
- * CPU interface registers of GIC needs to be reset on CPU reset.                                                                           
- * For the calling arm_gicv3_icc_reset() on CPU reset, we register                                                                          
- * below ARMCPRegInfo. As we reset the whole cpu interface under single                                                                     
- * register reset, we define only one register of CPU interface instead                                                                     
- * of defining all the registers.                                                                                                           
- */
-static const ARMCPRegInfo gicv3_cpuif_reginfo[] = {
-
-
-
-Is this actually an exception, and possibly the only use of define_arm_cp_regs that would be required on KVM too?
-
-Am I under some wrong assumption?
-
-Thank you for any help in clarifying this..
-
-commit 07a5628cb89f13b98fe526117fd07e5e273b5a52
-Author: Vijaya Kumar K <Vijaya.Kumar@cavium.com>
-Date:   Thu Feb 23 17:21:13 2017 +0530
-
-Thanks,
-
-Claudio
-
-
--- 
-Claudio Fontana
-Engineering Manager Virtualization, SUSE Labs Core
-
-SUSE Software Solutions Italy Srl
 
