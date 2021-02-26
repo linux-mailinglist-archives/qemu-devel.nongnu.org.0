@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91064325EAE
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 09:13:17 +0100 (CET)
-Received: from localhost ([::1]:45028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F476325ECD
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 09:21:35 +0100 (CET)
+Received: from localhost ([::1]:37136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFYFQ-0000Hh-Hi
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 03:13:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41602)
+	id 1lFYNS-0000R3-8O
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 03:21:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lFY7y-0001j8-Ps
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:35 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43394)
+ id 1lFY80-0001jr-Dq
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:37 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:36137)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1lFY7v-00043m-O3
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:34 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id w11so7649063wrr.10
+ id 1lFY7w-00043w-9o
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 03:05:35 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id k66so6964392wmf.1
  for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 00:05:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BMASOml+kxNutO8/WiL39JF9IgvMS60IQP441O4IM/U=;
- b=iPIz0Wu4j1NMyX0yLSOJ8JLL0aY94pIho5rBq5m3xp6Ljxy4twWvxed4c6eual1KAe
- p5nmyN6fFapggvrUn5y6kS5t9+WuRs7Bn/GRwzVD+JRCwyDGpcqHPnDlPABSK/DKtU8a
- CjNOSDBSgTIX7sQAVexS+isOJgm0kd+RyddCCcEkZAT5R0ZGzjhBODzaOa2+g3qrUuOS
- BZ2gNsks3j5v8ad+V9FBo+Q0aqrKnf9NFtaXLUe7pQ41s3k7147aftIBZkawXNH4LaM6
- AwVgxmMQMlNHonuM2CGQxBq7/zWPTdwsswpaYDdK7mi3s9IDrOUF0IzIAS412i1On8/C
- luRg==
+ bh=+ZErRFnPH+j+hn2Ng7+u1Gir1Cs5JNk/Mv6ocOR4JYs=;
+ b=Pvg+l3gcdHJ4KfLNCv7lNVMde+IRn4u430ZT99YYNQhY5H6rb5PoPdDhFrBruLRo8d
+ nCyyoH2lF5iY2Tad+I3ypwiBSijf6d6Cul0/EW+Uk+msB5VJwhE3d0Ry1izAed5GFVXo
+ Xwpg3/YKwCQVtP6Ve6gEG7+7tPCCOxYrlygyPylyNeM9uyWbZoPRV0XqJwgdH3yXXJLp
+ gihB1QhPVa89CPspsUoXGh19T0e9QE9VWD7SDTirXfyWomFJgY5qIH/tQG+Td8IPfV0C
+ 7OCl0qYFsTbw103RuQs/ob41lD8fsVxvj6Fqe+3scpfuroke6AB4T46TB/IdNw6/3Gpo
+ bleA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BMASOml+kxNutO8/WiL39JF9IgvMS60IQP441O4IM/U=;
- b=iqWGQ10hlfOU6TVQLiGgqtOMhvKxVc9MTrIchxVaNZyxxIA5sPhFGvnUUzhiZp8FBN
- 0xwWujHt59q3CGHDHx2DXq/SqACV53/iifeZNCzXjP6Q82aiolSYg+oe0u5qIa5PclqN
- NSCoh+nfTNOUEzLsqGFVUwZ+bv4KT0MMo4mSzix3Zy8hAAH5mKXieK5HNZQ8MGtjfvkN
- LnpxgKPj9feWasL6GS4FEycFr0Bn1aVK0jMZ9U145HQ1G6+cAHTLHWznxZclrbOYfoFm
- 6F9F5NUif5QEaLe4aWIBHcpviOjNmNKU5552LSFmcSgW6LHT/MKb95e9ShRrF5UqYe4V
- rHcQ==
-X-Gm-Message-State: AOAM531r22jj38X7U2rgfS0uRoZylb5p2JqA7G4z8VaKZWb4VP7etYHC
- z6WyOdHf6B+sfcoGyR1fy9mmg/yYx/E=
-X-Google-Smtp-Source: ABdhPJyeIg9h+N5rf9wdGQ6OanMhsGko8OtPfQYMv27cvccXWmZYDBP8bicyip/etc9Ucs9aNPb0nQ==
-X-Received: by 2002:a5d:4ac4:: with SMTP id y4mr1844685wrs.86.1614326730498;
- Fri, 26 Feb 2021 00:05:30 -0800 (PST)
+ bh=+ZErRFnPH+j+hn2Ng7+u1Gir1Cs5JNk/Mv6ocOR4JYs=;
+ b=khxphEoxQPYQ+BruZt/8kM+lZURwLJfpcRuYN3lu8grVFPBbJoiWVJ1fEOQCZeZ5zt
+ HNEKJVOUyljItJ7fqCeCzl1j+ddY3V84iTQTtraADagh2jyGtbhmbsbv4K3pEz0nGavc
+ ytvsEo2OguDrbyRARjcosfHtektFdnxuX66g4t+qvdIsqIr4i+S4Im0UStdKqvP9/RF4
+ ukkFPwZA5ZdWdC1xzfy69pfZks/jisRvCcCloDSGsfVwXd4r7M8/RnlH/wcv66r19Xr0
+ btIV72zSM5wGjWZ4iPuzOVmr5F0ClZoL8RltVMqxpH6WQgxMNXJ4oRA+OQ4awOXyUNYy
+ 2m4Q==
+X-Gm-Message-State: AOAM533jtLLb8HqH+a/83byHFr/lmotBrcmoj9CVT3/cpjHXcyI9R9cz
+ LCEVSr8I4YeZmKBrsw1HtvzcoFSGHnU=
+X-Google-Smtp-Source: ABdhPJzgALtm32YmunbsJfriz2pC4RX+/ADXibgYWsDzpwTlYS+zID/AXEBU8UQVChcMMS/Mymo1Xw==
+X-Received: by 2002:a1c:f20f:: with SMTP id s15mr1504642wmc.35.1614326731101; 
+ Fri, 26 Feb 2021 00:05:31 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n66sm10700830wmn.25.2021.02.26.00.05.29
+ by smtp.gmail.com with ESMTPSA id n66sm10700830wmn.25.2021.02.26.00.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 26 Feb 2021 00:05:30 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/29] scsi: make io_timeout configurable
-Date: Fri, 26 Feb 2021 09:05:01 +0100
-Message-Id: <20210226080526.651705-5-pbonzini@redhat.com>
+Subject: [PULL 05/29] scsi: add tracing for SG_IO commands
+Date: Fri, 26 Feb 2021 09:05:02 +0100
+Message-Id: <20210226080526.651705-6-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210226080526.651705-1-pbonzini@redhat.com>
 References: <20210226080526.651705-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,166 +89,78 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hannes Reinecke <hare@suse.de>
 
-The current code sets an infinite timeout on SG_IO requests,
-causing the guest to stall if the host experiences a frame
-loss.
-This patch adds an 'io_timeout' parameter for SCSIDevice to
-make the SG_IO timeout configurable, and also shortens the
-default timeout to 30 seconds to avoid infinite stalls.
+Add tracepoints for SG_IO commands to allow for debugging
+of SG_IO commands.
 
 Signed-off-by: Hannes Reinecke <hare@suse.de>
-Message-Id: <20201116183114.55703-3-hare@suse.de>
+Message-Id: <20201116183114.55703-4-hare@suse.de>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- hw/scsi/scsi-disk.c    |  6 ++++--
- hw/scsi/scsi-generic.c | 17 +++++++++++------
- include/hw/scsi/scsi.h |  4 +++-
- 3 files changed, 18 insertions(+), 9 deletions(-)
+ hw/scsi/scsi-disk.c    | 3 ++-
+ hw/scsi/scsi-generic.c | 8 +++++++-
+ hw/scsi/trace-events   | 4 ++++
+ 3 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index ed52fcd49f..c4016d1cfc 100644
+index c4016d1cfc..a2716b26b4 100644
 --- a/hw/scsi/scsi-disk.c
 +++ b/hw/scsi/scsi-disk.c
-@@ -2624,7 +2624,7 @@ static int get_device_type(SCSIDiskState *s)
-     cmd[4] = sizeof(buf);
- 
-     ret = scsi_SG_IO_FROM_DEV(s->qdev.conf.blk, cmd, sizeof(cmd),
--                              buf, sizeof(buf));
-+                              buf, sizeof(buf), s->qdev.io_timeout);
-     if (ret < 0) {
-         return -1;
-     }
-@@ -2785,7 +2785,7 @@ static BlockAIOCB *scsi_block_do_sgio(SCSIBlockReq *req,
-     /* The rest is as in scsi-generic.c.  */
-     io_header->mx_sb_len = sizeof(r->req.sense);
-     io_header->sbp = r->req.sense;
--    io_header->timeout = UINT_MAX;
-+    io_header->timeout = s->qdev.io_timeout * 1000;
+@@ -2788,7 +2788,8 @@ static BlockAIOCB *scsi_block_do_sgio(SCSIBlockReq *req,
+     io_header->timeout = s->qdev.io_timeout * 1000;
      io_header->usr_ptr = r;
      io_header->flags |= SG_FLAG_DIRECT_IO;
- 
-@@ -3103,6 +3103,8 @@ static Property scsi_block_properties[] = {
-                        DEFAULT_MAX_IO_SIZE),
-     DEFINE_PROP_INT32("scsi_version", SCSIDiskState, qdev.default_scsi_version,
-                       -1),
-+    DEFINE_PROP_UINT32("io_timeout", SCSIDiskState, qdev.io_timeout,
-+                       DEFAULT_IO_TIMEOUT),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
+-
++    trace_scsi_disk_aio_sgio_command(r->req.tag, req->cdb[0], lba,
++                                     nb_logical_blocks, io_header->timeout);
+     aiocb = blk_aio_ioctl(s->qdev.conf.blk, SG_IO, io_header, cb, opaque);
+     assert(aiocb != NULL);
+     return aiocb;
 diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
-index ab220141f5..3dd3ccd097 100644
+index 3dd3ccd097..176a72951c 100644
 --- a/hw/scsi/scsi-generic.c
 +++ b/hw/scsi/scsi-generic.c
-@@ -115,6 +115,8 @@ static int execute_command(BlockBackend *blk,
-                            SCSIGenericReq *r, int direction,
-                            BlockCompletionFunc *complete)
- {
-+    SCSIDevice *s = r->req.dev;
-+
-     r->io_header.interface_id = 'S';
-     r->io_header.dxfer_direction = direction;
-     r->io_header.dxferp = r->buf;
-@@ -123,7 +125,7 @@ static int execute_command(BlockBackend *blk,
-     r->io_header.cmd_len = r->req.cmd.len;
-     r->io_header.mx_sb_len = sizeof(r->req.sense);
-     r->io_header.sbp = r->req.sense;
--    r->io_header.timeout = MAX_UINT;
-+    r->io_header.timeout = s->io_timeout * 1000;
+@@ -129,6 +129,8 @@ static int execute_command(BlockBackend *blk,
      r->io_header.usr_ptr = r;
      r->io_header.flags |= SG_FLAG_DIRECT_IO;
  
-@@ -506,7 +508,7 @@ static int read_naa_id(const uint8_t *p, uint64_t *p_wwn)
- }
- 
- int scsi_SG_IO_FROM_DEV(BlockBackend *blk, uint8_t *cmd, uint8_t cmd_size,
--                        uint8_t *buf, uint8_t buf_size)
-+                        uint8_t *buf, uint8_t buf_size, uint32_t timeout)
- {
-     sg_io_hdr_t io_header;
-     uint8_t sensebuf[8];
-@@ -521,7 +523,7 @@ int scsi_SG_IO_FROM_DEV(BlockBackend *blk, uint8_t *cmd, uint8_t cmd_size,
-     io_header.cmd_len = cmd_size;
-     io_header.mx_sb_len = sizeof(sensebuf);
++    trace_scsi_generic_aio_sgio_command(r->req.tag, r->req.cmd.buf[0],
++                                        r->io_header.timeout);
+     r->req.aiocb = blk_aio_ioctl(blk, SG_IO, &r->io_header, complete, r);
+     if (r->req.aiocb == NULL) {
+         return -EIO;
+@@ -525,8 +527,12 @@ int scsi_SG_IO_FROM_DEV(BlockBackend *blk, uint8_t *cmd, uint8_t cmd_size,
      io_header.sbp = sensebuf;
--    io_header.timeout = 6000; /* XXX */
-+    io_header.timeout = timeout * 1000;
+     io_header.timeout = timeout * 1000;
  
++    trace_scsi_generic_ioctl_sgio_command(cmd[0], io_header.timeout);
      ret = blk_ioctl(blk, SG_IO, &io_header);
-     if (ret < 0 || io_header.driver_status || io_header.host_status) {
-@@ -551,7 +553,7 @@ static void scsi_generic_set_vpd_bl_emulation(SCSIDevice *s)
-     cmd[4] = sizeof(buf);
- 
-     ret = scsi_SG_IO_FROM_DEV(s->conf.blk, cmd, sizeof(cmd),
--                              buf, sizeof(buf));
-+                              buf, sizeof(buf), s->io_timeout);
-     if (ret < 0) {
-         /*
-          * Do not assume anything if we can't retrieve the
-@@ -587,7 +589,7 @@ static void scsi_generic_read_device_identification(SCSIDevice *s)
-     cmd[4] = sizeof(buf);
- 
-     ret = scsi_SG_IO_FROM_DEV(s->conf.blk, cmd, sizeof(cmd),
--                              buf, sizeof(buf));
-+                              buf, sizeof(buf), s->io_timeout);
-     if (ret < 0) {
-         return;
-     }
-@@ -638,7 +640,7 @@ static int get_stream_blocksize(BlockBackend *blk)
-     cmd[0] = MODE_SENSE;
-     cmd[4] = sizeof(buf);
- 
--    ret = scsi_SG_IO_FROM_DEV(blk, cmd, sizeof(cmd), buf, sizeof(buf));
-+    ret = scsi_SG_IO_FROM_DEV(blk, cmd, sizeof(cmd), buf, sizeof(buf), 6);
-     if (ret < 0) {
+-    if (ret < 0 || io_header.driver_status || io_header.host_status) {
++    if (ret < 0 || io_header.status ||
++        io_header.driver_status || io_header.host_status) {
++        trace_scsi_generic_ioctl_sgio_done(cmd[0], ret, io_header.status,
++                                           io_header.host_status);
          return -1;
      }
-@@ -728,6 +730,7 @@ static void scsi_generic_realize(SCSIDevice *s, Error **errp)
+     return 0;
+diff --git a/hw/scsi/trace-events b/hw/scsi/trace-events
+index 0e0aa9847d..9788661bfd 100644
+--- a/hw/scsi/trace-events
++++ b/hw/scsi/trace-events
+@@ -331,6 +331,7 @@ scsi_disk_emulate_command_UNKNOWN(int cmd, const char *name) "Unknown SCSI comma
+ scsi_disk_dma_command_READ(uint64_t lba, uint32_t len) "Read (sector %" PRId64 ", count %u)"
+ scsi_disk_dma_command_WRITE(const char *cmd, uint64_t lba, int len) "Write %s(sector %" PRId64 ", count %u)"
+ scsi_disk_new_request(uint32_t lun, uint32_t tag, const char *line) "Command: lun=%d tag=0x%x data=%s"
++scsi_disk_aio_sgio_command(uint32_t tag, uint8_t cmd, uint64_t lba, int len, uint32_t timeout) "disk aio sgio: tag=0x%x cmd=0x%x (sector %" PRId64 ", count %d) timeout=%u"
  
-     /* Only used by scsi-block, but initialize it nevertheless to be clean.  */
-     s->default_scsi_version = -1;
-+    s->io_timeout = DEFAULT_IO_TIMEOUT;
-     scsi_generic_read_device_inquiry(s);
- }
- 
-@@ -751,6 +754,8 @@ static SCSIRequest *scsi_new_request(SCSIDevice *d, uint32_t tag, uint32_t lun,
- static Property scsi_generic_properties[] = {
-     DEFINE_PROP_DRIVE("drive", SCSIDevice, conf.blk),
-     DEFINE_PROP_BOOL("share-rw", SCSIDevice, conf.share_rw, false),
-+    DEFINE_PROP_UINT32("io_timeout", SCSIDevice, io_timeout,
-+                       DEFAULT_IO_TIMEOUT),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/scsi/scsi.h b/include/hw/scsi/scsi.h
-index 09fa5c9d2a..a8ef59c0f4 100644
---- a/include/hw/scsi/scsi.h
-+++ b/include/hw/scsi/scsi.h
-@@ -18,6 +18,7 @@ typedef struct SCSIReqOps SCSIReqOps;
- 
- #define SCSI_SENSE_BUF_SIZE_OLD 96
- #define SCSI_SENSE_BUF_SIZE 252
-+#define DEFAULT_IO_TIMEOUT 30
- 
- struct SCSIRequest {
-     SCSIBus           *bus;
-@@ -84,6 +85,7 @@ struct SCSIDevice
-     uint64_t port_wwn;
-     int scsi_version;
-     int default_scsi_version;
-+    uint32_t io_timeout;
-     bool needs_vpd_bl_emulation;
-     bool hba_supports_iothread;
- };
-@@ -188,7 +190,7 @@ void scsi_device_unit_attention_reported(SCSIDevice *dev);
- void scsi_generic_read_device_inquiry(SCSIDevice *dev);
- int scsi_device_get_sense(SCSIDevice *dev, uint8_t *buf, int len, bool fixed);
- int scsi_SG_IO_FROM_DEV(BlockBackend *blk, uint8_t *cmd, uint8_t cmd_size,
--                        uint8_t *buf, uint8_t buf_size);
-+                        uint8_t *buf, uint8_t buf_size, uint32_t timeout);
- SCSIDevice *scsi_device_find(SCSIBus *bus, int channel, int target, int lun);
- SCSIDevice *scsi_device_get(SCSIBus *bus, int channel, int target, int lun);
- 
+ # scsi-generic.c
+ scsi_generic_command_complete_noio(void *req, uint32_t tag, int statuc) "Command complete %p tag=0x%x status=%d"
+@@ -342,3 +343,6 @@ scsi_generic_write_data(uint32_t tag) "scsi_write_data tag=0x%x"
+ scsi_generic_send_command(const char *line) "Command: data=%s"
+ scsi_generic_realize_type(int type) "device type %d"
+ scsi_generic_realize_blocksize(int blocksize) "block size %d"
++scsi_generic_aio_sgio_command(uint32_t tag, uint8_t cmd, uint32_t timeout) "generic aio sgio: tag=0x%x cmd=0x%x timeout=%u"
++scsi_generic_ioctl_sgio_command(uint8_t cmd, uint32_t timeout) "generic ioctl sgio: cmd=0x%x timeout=%u"
++scsi_generic_ioctl_sgio_done(uint8_t cmd, int ret, uint8_t status, uint8_t host_status) "generic ioctl sgio: cmd=0x%x ret=%d status=0x%x host_status=0x%x"
 -- 
 2.29.2
 
