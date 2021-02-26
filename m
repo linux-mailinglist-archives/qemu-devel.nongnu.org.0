@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2454326695
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 18:57:01 +0100 (CET)
-Received: from localhost ([::1]:36100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BCAB32669C
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 18:59:51 +0100 (CET)
+Received: from localhost ([::1]:43384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFhMK-0001do-Rn
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 12:57:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59912)
+	id 1lFhP4-0004jE-Kt
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 12:59:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHX-0004Mb-2S
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:03 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49784)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHY-0004OW-64
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:04 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHL-00013H-Em
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:02 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFhHV-00014K-5T
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 12:52:03 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id BD7F6AFF5;
- Fri, 26 Feb 2021 17:51:47 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 01E65AFE6;
+ Fri, 26 Feb 2021 17:51:49 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,14 +28,13 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v25 07/20] accel-cpu: make cpu_realizefn return a bool
-Date: Fri, 26 Feb 2021 18:51:30 +0100
-Message-Id: <20210226175143.22388-8-cfontana@suse.de>
+Subject: [PATCH v25 10/20] i386: split smm helper (sysemu)
+Date: Fri, 26 Feb 2021 18:51:33 +0100
+Message-Id: <20210226175143.22388-11-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226175143.22388-1-cfontana@suse.de>
 References: <20210226175143.22388-1-cfontana@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
  helo=mx2.suse.de
@@ -63,186 +62,148 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-overall, all devices' realize functions take an Error **errp, but return void.
+smm is only really useful for sysemu, split in two modules
+around the CONFIG_USER_ONLY, in order to remove the ifdef
+and use the build system instead.
 
-hw/core/qdev.c code, which realizes devices, therefore does:
-
-local_err = NULL;
-dc->realize(dev, &local_err);
-if (local_err != NULL) {
-    goto fail;
-}
-
-However, we can improve at least accel_cpu to return a meaningful bool value.
+add cpu_abort() when detecting attempts to enter SMM mode via
+SMI interrupt in user-mode, and assert that the cpu is not
+in SMM mode while translating RSM instructions.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/accel-cpu.h | 2 +-
- include/qemu/accel.h        | 2 +-
- target/i386/host-cpu.h      | 2 +-
- accel/accel-common.c        | 6 +++---
- cpu.c                       | 5 +++--
- target/i386/host-cpu.c      | 5 +++--
- target/i386/kvm/kvm-cpu.c   | 4 ++--
- target/i386/tcg/tcg-cpu.c   | 6 ++++--
- 8 files changed, 18 insertions(+), 14 deletions(-)
+ target/i386/helper.h                      |  4 ++++
+ target/i386/tcg/seg_helper.c              |  4 ++++
+ target/i386/tcg/{ => sysemu}/smm_helper.c | 19 ++-----------------
+ target/i386/tcg/translate.c               |  5 +++++
+ target/i386/tcg/meson.build               |  1 -
+ target/i386/tcg/sysemu/meson.build        |  1 +
+ 6 files changed, 16 insertions(+), 18 deletions(-)
+ rename target/i386/tcg/{ => sysemu}/smm_helper.c (98%)
 
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 24a6697412..5dbfd79955 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -32,7 +32,7 @@ typedef struct AccelCPUClass {
- 
-     void (*cpu_class_init)(CPUClass *cc);
-     void (*cpu_instance_init)(CPUState *cpu);
--    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
-+    bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
- } AccelCPUClass;
- 
- #endif /* ACCEL_CPU_H */
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index da0c8ab523..4f4c283f6f 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -89,6 +89,6 @@ void accel_cpu_instance_init(CPUState *cpu);
-  * @cpu: The CPU that needs to call accel-specific cpu realization.
-  * @errp: currently unused.
-  */
--void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
- 
- #endif /* QEMU_ACCEL_H */
-diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-index b47bc0943f..6a9bc918ba 100644
---- a/target/i386/host-cpu.h
-+++ b/target/i386/host-cpu.h
-@@ -12,7 +12,7 @@
- 
- void host_cpu_instance_init(X86CPU *cpu);
- void host_cpu_max_instance_init(X86CPU *cpu);
--void host_cpu_realizefn(CPUState *cs, Error **errp);
-+bool host_cpu_realizefn(CPUState *cs, Error **errp);
- 
- void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
- 
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 0f6fb4fb66..d77c09d7b5 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -98,14 +98,14 @@ void accel_cpu_instance_init(CPUState *cpu)
-     }
- }
- 
--void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+        return cc->accel_cpu->cpu_realizefn(cpu, errp);
-     }
-+    return true;
- }
- 
- static const TypeInfo accel_cpu_type = {
-diff --git a/cpu.c b/cpu.c
-index 25e6fbfa2c..34a0484bf4 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,8 +130,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--    accel_cpu_realizefn(cpu, errp);
--
-+    if (!accel_cpu_realizefn(cpu, errp)) {
-+        return;
-+    }
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-index d07d41c34c..4ea9e354ea 100644
---- a/target/i386/host-cpu.c
-+++ b/target/i386/host-cpu.c
-@@ -80,7 +80,7 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
-     return phys_bits;
- }
- 
--void host_cpu_realizefn(CPUState *cs, Error **errp)
-+bool host_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -97,10 +97,11 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
-             error_setg(errp, "phys-bits should be between 32 and %u "
-                        " (but is %u)",
-                        TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
--            return;
-+            return false;
-         }
-         cpu->phys_bits = phys_bits;
-     }
-+    return true;
- }
- 
- #define CPUID_MODEL_ID_SZ 48
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index c23bbe6c50..c660ad4293 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -18,7 +18,7 @@
- #include "kvm_i386.h"
- #include "hw/core/accel-cpu.h"
- 
--static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -41,7 +41,7 @@ static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-                                                    MSR_IA32_UCODE_REV);
-         }
-     }
--    host_cpu_realizefn(cs, errp);
-+    return host_cpu_realizefn(cs, errp);
- }
- 
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index c2ae2f7e61..8ffda4cdc6 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -70,7 +70,11 @@ DEF_HELPER_1(clac, void, env)
+ DEF_HELPER_1(stac, void, env)
+ DEF_HELPER_3(boundw, void, env, tl, int)
+ DEF_HELPER_3(boundl, void, env, tl, int)
++
++#ifndef CONFIG_USER_ONLY
+ DEF_HELPER_1(rsm, void, env)
++#endif /* !CONFIG_USER_ONLY */
++
+ DEF_HELPER_2(into, void, env, int)
+ DEF_HELPER_2(cmpxchg8b_unlocked, void, env, tl)
+ DEF_HELPER_2(cmpxchg8b, void, env, tl)
+diff --git a/target/i386/tcg/seg_helper.c b/target/i386/tcg/seg_helper.c
+index 180d47f0e9..d04fbdd7cd 100644
+--- a/target/i386/tcg/seg_helper.c
++++ b/target/i386/tcg/seg_helper.c
+@@ -1351,7 +1351,11 @@ bool x86_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     case CPU_INTERRUPT_SMI:
+         cpu_svm_check_intercept_param(env, SVM_EXIT_SMI, 0, 0);
+         cs->interrupt_request &= ~CPU_INTERRUPT_SMI;
++#ifdef CONFIG_USER_ONLY
++        cpu_abort(CPU(cpu), "SMI interrupt: cannot enter SMM in user-mode");
++#else
+         do_smm_enter(cpu);
++#endif /* CONFIG_USER_ONLY */
+         break;
+     case CPU_INTERRUPT_NMI:
+         cpu_svm_check_intercept_param(env, SVM_EXIT_NMI, 0, 0);
+diff --git a/target/i386/tcg/smm_helper.c b/target/i386/tcg/sysemu/smm_helper.c
+similarity index 98%
+rename from target/i386/tcg/smm_helper.c
+rename to target/i386/tcg/sysemu/smm_helper.c
+index 62d027abd3..a45b5651c3 100644
+--- a/target/i386/tcg/smm_helper.c
++++ b/target/i386/tcg/sysemu/smm_helper.c
+@@ -1,5 +1,5 @@
  /*
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 1d3d6d1c6a..23e1f5f0c3 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -96,7 +96,7 @@ static void x86_cpu_machine_done(Notifier *n, void *unused)
-     }
+- *  x86 SMM helpers
++ *  x86 SMM helpers (sysemu-only)
+  *
+  *  Copyright (c) 2003 Fabrice Bellard
+  *
+@@ -18,27 +18,14 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/main-loop.h"
+ #include "cpu.h"
+ #include "exec/helper-proto.h"
+ #include "exec/log.h"
+-#include "helper-tcg.h"
++#include "tcg/helper-tcg.h"
+ 
+ 
+ /* SMM support */
+ 
+-#if defined(CONFIG_USER_ONLY)
+-
+-void do_smm_enter(X86CPU *cpu)
+-{
+-}
+-
+-void helper_rsm(CPUX86State *env)
+-{
+-}
+-
+-#else
+-
+ #ifdef TARGET_X86_64
+ #define SMM_REVISION_ID 0x00020064
+ #else
+@@ -330,5 +317,3 @@ void helper_rsm(CPUX86State *env)
+     qemu_log_mask(CPU_LOG_INT, "SMM: after RSM\n");
+     log_cpu_state_mask(CPU_LOG_INT, CPU(cpu), CPU_DUMP_CCOP);
  }
- 
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
-@@ -132,12 +132,14 @@ static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-     /* ... SMRAM with higher priority, linked from /machine/smram.  */
-     cpu->machine_done.notify = x86_cpu_machine_done;
-     qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+    return true;
- }
- 
- #else /* CONFIG_USER_ONLY */
- 
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-+    return true;
- }
- 
- #endif /* !CONFIG_USER_ONLY */
+-
+-#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index af1faf9342..b882041ef0 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -8319,9 +8319,14 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         gen_svm_check_intercept(s, pc_start, SVM_EXIT_RSM);
+         if (!(s->flags & HF_SMM_MASK))
+             goto illegal_op;
++#ifdef CONFIG_USER_ONLY
++        /* we should not be in SMM mode */
++        g_assert_not_reached();
++#else
+         gen_update_cc_op(s);
+         gen_jmp_im(s, s->pc - s->cs_base);
+         gen_helper_rsm(cpu_env);
++#endif /* CONFIG_USER_ONLY */
+         gen_eob(s);
+         break;
+     case 0x1b8: /* SSE4.2 popcnt */
+diff --git a/target/i386/tcg/meson.build b/target/i386/tcg/meson.build
+index 320bcd1e46..449d9719ef 100644
+--- a/target/i386/tcg/meson.build
++++ b/target/i386/tcg/meson.build
+@@ -8,7 +8,6 @@ i386_ss.add(when: 'CONFIG_TCG', if_true: files(
+   'misc_helper.c',
+   'mpx_helper.c',
+   'seg_helper.c',
+-  'smm_helper.c',
+   'svm_helper.c',
+   'tcg-cpu.c',
+   'translate.c'), if_false: files('tcg-stub.c'))
+diff --git a/target/i386/tcg/sysemu/meson.build b/target/i386/tcg/sysemu/meson.build
+index 4ab30cc32e..35ba16dc3d 100644
+--- a/target/i386/tcg/sysemu/meson.build
++++ b/target/i386/tcg/sysemu/meson.build
+@@ -1,3 +1,4 @@
+ i386_softmmu_ss.add(when: ['CONFIG_TCG', 'CONFIG_SOFTMMU'], if_true: files(
+   'tcg-cpu.c',
++  'smm_helper.c',
+ ))
 -- 
 2.26.2
 
