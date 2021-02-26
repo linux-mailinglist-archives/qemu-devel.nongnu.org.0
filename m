@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8CF0325BE1
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:21:53 +0100 (CET)
-Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B4C4325BF4
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 04:29:28 +0100 (CET)
+Received: from localhost ([::1]:36480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFThQ-0007Fw-R1
-	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:21:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33460)
+	id 1lFTol-0006Gn-0R
+	for lists+qemu-devel@lfdr.de; Thu, 25 Feb 2021 22:29:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTf3-0005Q0-GA
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:19:25 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:51139)
+ id 1lFTf6-0005YI-Vj
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:19:29 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:35727)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1lFTf2-0000QC-1l
- for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:19:25 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id b15so5190719pjb.0
- for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:19:23 -0800 (PST)
+ id 1lFTf5-0000S0-CW
+ for qemu-devel@nongnu.org; Thu, 25 Feb 2021 22:19:28 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id t25so5403012pga.2
+ for <qemu-devel@nongnu.org>; Thu, 25 Feb 2021 19:19:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=NII2+lFi6KYqcRFLS2WasLZwq+NpesJfgYTuWrRGis0=;
- b=DChMboaNX0woDfYbRSWEphcr6FYjiyAE1BAhefLn/hczUJDo5q/GD+SSeK8grmzmKx
- K8FFOi8Pc0WNRc0Si3A5jt8HHqyH0m9HLtl5/ii8kDm+BFftR4B51Qhx+US7rOgTgN0X
- cQAwhMT7hWik/jN5p7JRoMSvEnC1+1rK9rZdSw6PoAgF+YQL0Wan2pHexCVX7ih1ZX/K
- vpAq/koagF4e/mr3FXrBVftyLHmWTTmusoc9qU4onSc46HQWJ3tkuiqKtWhjcuzUhbe0
- fiFY/w1k5+sRXRmzeW6vDyJKOtvl5WH+5lYutWTGUOpK4iFJKD8Lhk6ycYp5UHRFv+IT
- RKcQ==
+ bh=bmrQQ5mDYjBADfn4f4ipzmNX78oHq3CXThhzJoHA7E8=;
+ b=jFaCntHh9K86lGQ6XO0bhAE2/ldoJK2FSFhliLrgldX2d+TKeE0hBgJizMuWCi/4oU
+ MvV2oYrwhVAEIeb4R1EtovFmKkUa4bP5JTSXi8pWFymNGgz8UdvUxHqpLEJ0x2WO9Zyo
+ fatEP3pqUxxN53htsHKSwP8tB3vp8kM/Q0MjMhR74crZ/omVX+3YmNrhV7dgCDAnMXr5
+ xJ39xs+kb6aedznTacT+Y6ssRt+zsK6NPoBgqP7QXMtn91Vn3br5JT+GPkH+yhhr1vzd
+ dqvmMcBOtSj0xFP2jeQcH44PUxCzZq2Rj6wJQYBA2mIJ796W/x5IPaLRahhdgOSP2Xq0
+ Rmbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=NII2+lFi6KYqcRFLS2WasLZwq+NpesJfgYTuWrRGis0=;
- b=I6/kB1LZ+G7hhfQbvmBkrn6bfc2o0i8pZlR47L37ucQdTk7GIoIvnChlmAF2mJurxQ
- b6kfW5tZEme/pWpsk7VOw2RgD/Y9lhI3xOJRVvxyiaIP2mZ2EoNFKEkerhVDgIEK6Q3k
- VuwOE72vR1ugMGygNhxRJZzXhNSPhGxJCBbCR/he00azehDgnOmiZf3vPP4WLNhX86Nm
- +YF/3iyCYH8XYxPzS+7cqseQ+9cUrdFTvAEChfycfsX7Rw3Rm5vpVg5BnkaUhNF00fDH
- YdMQypE/GGXBRlCJPqkHriQLTO1+tjO5dG3TowRFiAVBxmq01GPrOzt65qGl+y6liEeH
- jfdg==
-X-Gm-Message-State: AOAM533qTMFtrRizNScBG9ASEUdWPSsc11LgiCkRzcWfbWt9ajc/F49o
- ECoxdZ8OxY0s70CInnGrN7RIgXsepGK0xA==
-X-Google-Smtp-Source: ABdhPJzISPXEKYl6/ZpzYhQdaD6tcSWDuDULqaRAcAtcywlqhqomejeP5g3z4T+tiyxyIJgc4PXuZg==
-X-Received: by 2002:a17:903:2306:b029:de:18e9:f439 with SMTP id
- d6-20020a1709032306b02900de18e9f439mr1017175plh.38.1614309562531; 
- Thu, 25 Feb 2021 19:19:22 -0800 (PST)
+ bh=bmrQQ5mDYjBADfn4f4ipzmNX78oHq3CXThhzJoHA7E8=;
+ b=KmAXIWwLGEHz9e1KSf1oXdgcPZPGyHdcXfB8ucfqqQ4uYscr0Vt71mhI/xsqd2QAQd
+ VcOloEkZO4KOkvhMNVEZpFCNHCLGakGJ8rV5tS5QxqaNwZsGYrEbYGlrIbnlppD6sEvz
+ krtPHfZGJY9PKe8qBAQPIVq2lb0ksG789eKGYyBLpOr9wcClvSwloYuZQfvq1lzqD3OB
+ 8xh7/jhNcR4f5YbN8I7EXMRXttMqSYOO7lCU13YV2WxFIBxfVJz7kUrkjo6ZXvxZSJEM
+ 3sp+DlVlQI/LOabqJ+Rm3zqwSPrL/z5R0cFlDmIFFzCodaIEe2gcZ09OBYsYCIHgi6Dp
+ YshA==
+X-Gm-Message-State: AOAM533lG0V1mCM4QFEYCHOgeNwoRf64Zuu7gPlbZy9EDcKo5/RAq2Ch
+ zCOGIPLLSSXtGK+sUvUXb59jL5EYiJW4wA==
+X-Google-Smtp-Source: ABdhPJx8+jSjBuMcVuWN+adGcOmkKbEFCDhgle3IHYqOBIb2pHwWMKGrei+izqhs8+JLURP8Ht48qQ==
+X-Received: by 2002:aa7:8c0f:0:b029:1ed:4d05:218c with SMTP id
+ c15-20020aa78c0f0000b02901ed4d05218cmr978017pfd.21.1614309565713; 
+ Thu, 25 Feb 2021 19:19:25 -0800 (PST)
 Received: from frankchang-ThinkPad-T490.internal.sifive.com
  (114-34-229-221.HINET-IP.hinet.net. [114.34.229.221])
- by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.19.20
+ by smtp.gmail.com with ESMTPSA id p11sm7083709pjb.31.2021.02.25.19.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 25 Feb 2021 19:19:22 -0800 (PST)
+ Thu, 25 Feb 2021 19:19:25 -0800 (PST)
 From: frank.chang@sifive.com
 To: qemu-devel@nongnu.org,
 	qemu-riscv@nongnu.org
-Subject: [PATCH v7 04/75] target/riscv: rvv-1.0: add sstatus VS field
-Date: Fri, 26 Feb 2021 11:17:48 +0800
-Message-Id: <20210226031902.23656-5-frank.chang@sifive.com>
+Subject: [PATCH v7 05/75] target/riscv: rvv-1.0: introduce writable misa.v
+ field
+Date: Fri, 26 Feb 2021 11:17:49 +0800
+Message-Id: <20210226031902.23656-6-frank.chang@sifive.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210226031902.23656-1-frank.chang@sifive.com>
 References: <20210226031902.23656-1-frank.chang@sifive.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=frank.chang@sifive.com; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=frank.chang@sifive.com; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,50 +83,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Frank Chang <frank.chang@sifive.com>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+Cc: Frank Chang <frank.chang@sifive.com>,
  Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+From: Frank Chang <frank.chang@sifive.com>
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+Implementations may have a writable misa.v field. Analogous to the way
+in which the floating-point unit is handled, the mstatus.vs field may
+exist even if misa.v is clear.
+
 Signed-off-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu_bits.h | 1 +
- target/riscv/csr.c      | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ target/riscv/csr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-index ba4c1c7076f..73e88c2a7b1 100644
---- a/target/riscv/cpu_bits.h
-+++ b/target/riscv/cpu_bits.h
-@@ -414,6 +414,7 @@
- #define SSTATUS_UPIE        0x00000010
- #define SSTATUS_SPIE        0x00000020
- #define SSTATUS_SPP         0x00000100
-+#define SSTATUS_VS          0x00000600
- #define SSTATUS_FS          0x00006000
- #define SSTATUS_XS          0x00018000
- #define SSTATUS_PUM         0x00040000 /* until: priv-1.9.1 */
 diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 778d5b85e92..098de1abacb 100644
+index 098de1abacb..89867a93643 100644
 --- a/target/riscv/csr.c
 +++ b/target/riscv/csr.c
-@@ -440,7 +440,7 @@ static const target_ulong delegable_excps =
-     (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
--    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-+    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD | SSTATUS_VS;
- static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
- static const target_ulong hip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
- static const target_ulong vsip_writable_mask = MIP_VSSIP;
+@@ -571,7 +571,7 @@ static int write_misa(CPURISCVState *env, int csrno, target_ulong val)
+     val &= env->misa_mask;
+ 
+     /* Mask extensions that are not supported by QEMU */
+-    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
++    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU | RVV);
+ 
+     /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
+     if ((val & RVD) && !(val & RVF)) {
 -- 
 2.17.1
 
