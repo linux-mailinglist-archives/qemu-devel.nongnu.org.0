@@ -2,84 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6698B325FAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:11:47 +0100 (CET)
-Received: from localhost ([::1]:44086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAF4325FEE
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:24:21 +0100 (CET)
+Received: from localhost ([::1]:51736 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFZ9z-0006OA-9y
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:11:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55624)
+	id 1lFZMB-0001x3-KT
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:24:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFZ8N-0005Im-BS
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:10:03 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45702)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFZ8L-0006wa-7G
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:10:03 -0500
-Received: by mail-ed1-x533.google.com with SMTP id p2so10020193edm.12
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 01:10:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+tzFv/3QmbVnd211fjWRcjwYcmwCV5SQK708+irMAMI=;
- b=rFzPe7TERgbIlAlQ85MwUOGSJufLfpiBvmfkQr1bEPOxN2tA2FKdOhI/WClJPl6HTt
- 9fWawfRQO5cgBpGYZmEwCTvjDMFnbVt893ZXZaVAkAReQ2T645KbVnERCcPI1rDSrkzD
- xVS1jDTjWt/upSGa3BQnecyg+8927ZlhGzYeDVHBVu1kDHkgNR6QoYvVfTMZvOkUEiNy
- 2AlrPGAFqikQXGtgLGb0PGxLY0hphzUgWIYduGg5AmGC5sMQBjPeiMpC2hJBiOZAUw7m
- S0+Yq95TzjSg4EfwmQ60ug13FlpyCVI6UwBQjX7I2GiaUVx/nk8fgducQ1W0PM3fYj7v
- /NhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=+tzFv/3QmbVnd211fjWRcjwYcmwCV5SQK708+irMAMI=;
- b=SunxkGHzWgkx6JRsFqVnzK53nHBPnNa1fQBaAnnN4FNC83bTUDYurcXYh/KN+chDyT
- eewQ0uvGG09KQ5aTECgNBNnt9LcHE8ZHcaWh/ZuCZMEkSUEP0k0HiHvWnvWXdsakzHKj
- G5E0yeIav3GahBwZj+EtQwjYJSyazxYdo9952fFNLxIrs4W6zwwflXnghYvaOS8vNXiX
- XeWzNqHuGuThsqRD684z/Rpeu2X8LTUyu9uVmvxSoENpscrsv/zS7S8usDcxb4wcWXTh
- KreycH6qE+LzNFGCU6lMPcEvTm17y/WRJPk10V0brVYseXgbf4WgsdBGRxGEawd/C2pf
- KayA==
-X-Gm-Message-State: AOAM533cxRx5qaOaMMumT1QVmoDoRwuBtcLsMnKdIsE63hqXGNNy21L6
- vgZZMATcnY1NQuv5XjHWm8E=
-X-Google-Smtp-Source: ABdhPJzLm0/2vx/57Da5HLbCsLgcynUJ7jJtX3wa6bSJC841RItcPU7P+S6F8LBBLFoYsHHzMpJX7Q==
-X-Received: by 2002:a05:6402:ca2:: with SMTP id
- cn2mr2210524edb.73.1614330599647; 
- Fri, 26 Feb 2021 01:09:59 -0800 (PST)
-Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
- [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id n5sm4750195eji.49.2021.02.26.01.09.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 26 Feb 2021 01:09:59 -0800 (PST)
-Subject: Re: [PATCH v3 05/10] target/mips: Extract decode_ase_mxu() from
- decode_opc_mxu()
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210222223901.2792336-1-f4bug@amsat.org>
- <20210222223901.2792336-6-f4bug@amsat.org>
- <dbda3d40-667e-5687-304e-8981deb146c8@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4e39f648-2a53-28e4-e557-d06b3657730f@amsat.org>
-Date: Fri, 26 Feb 2021 10:09:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZKm-0001BU-Em
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:22:52 -0500
+Received: from mx2.suse.de ([195.135.220.15]:47050)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lFZKk-00064e-Fv
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:22:52 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id B349DAC6E;
+ Fri, 26 Feb 2021 09:22:47 +0000 (UTC)
+Subject: Re: [PATCH v22 16/17] i386: gdbstub: only write CR0/CR2/CR3/EFER for
+ SOFTMMU
+To: Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210224133428.14071-1-cfontana@suse.de>
+ <20210224133428.14071-17-cfontana@suse.de>
+ <c7a4c597-6864-1ce6-b759-d7ec531eea67@linaro.org>
+ <efd0679f-5504-dee7-9bcf-8af0c4bed895@suse.de>
+ <17092d2c-9f40-5d34-b91e-1324434feb48@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <870d6e44-da99-d962-2ce5-821c06a2b04d@suse.de>
+Date: Fri, 26 Feb 2021 10:22:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <dbda3d40-667e-5687-304e-8981deb146c8@linaro.org>
+In-Reply-To: <17092d2c-9f40-5d34-b91e-1324434feb48@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.435,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -45
+X-Spam_score: -4.6
+X-Spam_bar: ----
+X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.435,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,30 +64,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 2:25 AM, Richard Henderson wrote:
-> On 2/22/21 2:38 PM, Philippe Mathieu-Daudé wrote:
->> To easily convert MXU code to decodetree, extract decode_ase_mxu()
->> from decode_opc_mxu(), making it return a boolean.
->> We will keep decode_opc_mxu() in the translate.c unit because it
->> calls gen_arith().
+On 2/26/21 5:05 AM, Richard Henderson wrote:
+> On 2/25/21 12:55 AM, Claudio Fontana wrote:
+>> On 2/25/21 5:19 AM, Richard Henderson wrote:
+>>> On 2/24/21 5:34 AM, Claudio Fontana wrote:
+>>>> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+>>>> Cc: Paolo Bonzini <pbonzini@redhat.com>
+>>>> ---
+>>>>  target/i386/gdbstub.c | 16 ++++++++++++++++
+>>>>  1 file changed, 16 insertions(+)
+>>>>
+>>>> diff --git a/target/i386/gdbstub.c b/target/i386/gdbstub.c
+>>>> index 41e265fc67..9f505d6ee3 100644
+>>>> --- a/target/i386/gdbstub.c
+>>>> +++ b/target/i386/gdbstub.c
+>>>> @@ -383,26 +383,38 @@ int x86_cpu_gdb_write_register(CPUState *cs, uint8_t *mem_buf, int n)
+>>>>  
+>>>>          case IDX_CTL_CR0_REG:
+>>>>              if (env->hflags & HF_CS64_MASK) {
+>>>> +#ifdef CONFIG_SOFTMMU
+>>>>                  cpu_x86_update_cr0(env, ldq_p(mem_buf));
+>>>> +#endif
+>>>>                  return 8;
+>>>>              }
+>>>> +#ifdef CONFIG_SOFTMMU
+>>>>              cpu_x86_update_cr0(env, ldl_p(mem_buf));
+>>>> +#endif
+>>>>              return 4;
+>>>
+>>> It would be nice to do all these with rather less ifdefs.
+>>> And let's correctly use !CONFIG_USER_ONLY.
+>>>
+>>> Without adding more stubs, may I suggest a new helper:
+>>>
+>>> static target_ulong read_long_cs64(env, buf, len)
+>>> {
+>>> #ifdef TARGET_X86_64
+>>>     if (env->hflags & HF_CS64_MASK) {
+>>>         *len = 8;
+>>>         return ldq_p(buf);
+>>>     }
+>>> #endif
+>>>     *len = 4;
+>>>     return ldl_p(buf);
+>>> }
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>  target/mips/translate.c | 45 ++++++++++++++++++++++++-----------------
->>  1 file changed, 26 insertions(+), 19 deletions(-)
+>> in the current code the
+>>
+>> #ifdef TARGET_x86_64 is not there. Is it safe to use everywhere?
 > 
-> I guess the split is fine until you can just call gen_mul() from a trans() from
-> the mxu decodetree.
+> It'll never be set unless TARGET_X86_64.  Also, it *is* used in other tests for
 
-I expect mxu decodetree to not cover MUL and return false, so it is
-handled in the base ISA decoder.
+Right, there might be a reason for it (some instances are with the #ifdef TARGET_x86_64, some without)..?
 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> the mask.  I do wonder if we should have CS64_MASK defined to 0 for
+> !TARGET_X86_64, so that (X & 0) -> 0.> 
+>> should we do a matching:
+>>
+>> static int gdb_read_reg_cs64(CPUX86State *env, GByteArray *buf, target_ulong val)
+>> {
+>>     if ((env->hflags & HF_CS64_MASK) || GDB_FORCE_64) {
+> 
+> I should think so, except...  that FORCE_64 makes the previous test useless.  I
+> have no idea what's going on here.
 
-Thanks :)
+#ifdef TARGET_X86_64
+#define GDB_FORCE_64 1
+#else
+#define GDB_FORCE_64 0
+#endif
+
+So for TARGET_X86_64, GDB_FORCE_64 is always 1.
+
+Maybe the flags is there for when a cpu switches between modes? (32vs64 bit)?
+
+I'll make a conservative patch that does not risk changing the behavior (at least in the intention).
+
+> 
+> 
+> r~
+> 
+
 
