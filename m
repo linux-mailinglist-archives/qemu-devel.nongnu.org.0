@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279B23269E3
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 23:22:18 +0100 (CET)
-Received: from localhost ([::1]:54182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACDA83269EB
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 23:23:29 +0100 (CET)
+Received: from localhost ([::1]:57338 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFlV2-0001rZ-Gy
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 17:22:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44162)
+	id 1lFlWC-0003LI-E3
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 17:23:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFlRD-00007e-0I
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 17:18:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22185)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFlRB-0002vT-Kg
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 17:18:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614377897;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OJz1PoR5JgRyc/ldGGeAxOyaX6LlKx/87439RKdPUXM=;
- b=h5vhxwXUxEETGIOnNsitD8bPYP69laccdjjtt7koJZInrkMpEdON6o4qhfqpF7Uq5MVTZw
- PJRgPNEJWb19QBnSZHOcDwJOi/cY8bBOnEWGSbCCfUYmd+HjsVdYHoIpttRJTW2G9bC5sf
- ZjtGaB6kXemeZcbKRJFk+fQK0HWPcYM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-363-6G3rtszKMv2SEwbXotzPiw-1; Fri, 26 Feb 2021 17:18:12 -0500
-X-MC-Unique: 6G3rtszKMv2SEwbXotzPiw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BC1A6107ACE6;
- Fri, 26 Feb 2021 22:18:11 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B62475C23D;
- Fri, 26 Feb 2021 22:18:04 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-27-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH v2 26/31] qemu-nbd: Use user_creatable_process_cmdline()
- for --object
-Message-ID: <e381fd59-bf81-a220-05db-fc291a1cb62b@redhat.com>
-Date: Fri, 26 Feb 2021 16:18:04 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lFlUH-000233-4c
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 17:21:29 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:55036)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lFlUF-0004FN-IK
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 17:21:28 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id i14so5196584pjz.4
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 14:21:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=2QyO0Y+bdtzCBGJqfWV9nFJwo2R83BmonhwVbwULdsM=;
+ b=n1eHyLRKUVLlRIpnyqcnoqaorkIqqoiI2gxLID3LRkfvi+f6vTGTXrv7uE3PcuArPf
+ dNa1LYSUGgegBrAgfnEXvY2LsyZrKXP8irbVN42VKZaGuzBYbero8lXi/cqPihkecjdF
+ wXM2qRaLOlATo9RARsHEYbdl6qnmCfzOodY2+CR722GlBcGUQMMXpS0QOK3s4guVN4HW
+ 0wohCDg5cwQ2G+j+a4WOMDhlipQZr6cbz+NK7GexgL9E68nRchiB7CItDXSK66jronEb
+ U8AOTfouUfGpPrDT1RJR2qdgU7HzF/DpIJFZe0UxYALyygSPNHAbCKvkJ9xjTcwor/s/
+ tsOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=2QyO0Y+bdtzCBGJqfWV9nFJwo2R83BmonhwVbwULdsM=;
+ b=b/3QOEBqosUi7TOTg8b2LJI8OvSSoZyXzYPn76RaoduM3SK2/Dh87GfcEyE3rDuswW
+ HuvlQvZr0HBB31Rz+h4UctoGlfOh1dZ57RXejgjtR2ztTEXDbwvllFwgDrD48T/yuO2F
+ duBMaKLrYQTJ10IrKyTOE5V7UiJHhLP1/rrrKXTBPb68qa7DW6PQBIEFBHaLG16lTTwb
+ OloTB4Q7OoYXvcAxhcJ6PO1C5Ig8mjL0YNTtILTEoieLJZ1LgUWNm/bkvUeGcAWbJitn
+ ht8ZapHWjBUm+26J0Oi6hbo5t/LSn27JG0yzLtmL5n7WxhqMpjzQwaUHzoOHiqerN2sV
+ JnHw==
+X-Gm-Message-State: AOAM531wVwV3nmqaQOiMVvg8XU2RA1F82LW9SyAKBTOBDvGwvPflY0eu
+ Mmj81SgOAb+B4+ESE1otaymFeA==
+X-Google-Smtp-Source: ABdhPJxp3gdptu/3o2qI2mlEP2AL8sVdVYktF05JbmkGcksdoa+EBG5PG3brJNv6PXnTKQL9XoGr5Q==
+X-Received: by 2002:a17:90a:d585:: with SMTP id
+ v5mr5527965pju.206.1614378085579; 
+ Fri, 26 Feb 2021 14:21:25 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id i22sm2735709pjz.56.2021.02.26.14.21.24
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Feb 2021 14:21:25 -0800 (PST)
+Subject: Re: [RFC PATCH 2/2] hw/mips/jazz: Remove confusing ifdef'ry
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210226132723.3969650-1-f4bug@amsat.org>
+ <20210226132723.3969650-3-f4bug@amsat.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <ccd34d47-a9f7-be79-5086-4a33e2d092a7@linaro.org>
+Date: Fri, 26 Feb 2021 14:21:23 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210224135255.253837-27-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210226132723.3969650-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,31 +89,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Claudio Fontana <cfontana@suse.de>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> This switches qemu-nbd from a QemuOpts-based parser for --object to
-> user_creatable_process_cmdline() which uses a keyval parser and enforces
-> the QAPI schema.
-> 
-> Apart from being a cleanup, this makes non-scalar properties accessible.
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  qemu-nbd.c | 34 +++-------------------------------
->  1 file changed, 3 insertions(+), 31 deletions(-)
-> 
+On 2/26/21 5:27 AM, Philippe Mathieu-Daudé wrote:
+> @@ -211,10 +209,8 @@ static void mips_jazz_init(MachineState *machine,
+>       * memory region that catches all memory accesses, as we do on Malta.
+>       */
+>      cc = CPU_GET_CLASS(cpu);
+> -#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+>      real_do_transaction_failed = cc->tcg_ops->do_transaction_failed;
+>      cc->tcg_ops->do_transaction_failed = mips_jazz_do_transaction_failed;
+> -#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Ah, I wondered what you were after with that first patch,
+and this is it.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Series:
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+
+r~
 
