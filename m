@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B34732656E
+	by mail.lfdr.de (Postfix) with ESMTPS id B143432656F
 	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 17:22:44 +0100 (CET)
-Received: from localhost ([::1]:51798 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:51814 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFft5-0005if-5L
+	id 1lFft5-0005iz-N0
 	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 11:22:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49648)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lFfqy-0004PM-SL
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:20:32 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:45357)
+ id 1lFfqz-0004PT-Dc
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:20:33 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:40027)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lFfqr-0003lo-QX
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:20:32 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id p21so6475359pgl.12
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 08:20:25 -0800 (PST)
+ id 1lFfqs-0003lt-QF
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 11:20:33 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id b21so6497131pgk.7
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 08:20:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kR+rPkyn1eaB2xjiJv9Rpu4FzKJYlJu2en4dmmFR0No=;
- b=sniMn1PKuw3PPWl3AW+U5UhHVPkEYD8LaTMhFdnFhNjnw+BFbpavjhpaqwD+F8fsDM
- DH/Dtf6FfVlsr5Fs1Y2YHJDJrD3MrxZOG8xj1IusQpk3682wS/0n0as/MfjONpkTL3d1
- pto8QGVjF0smr+NU5NKnBVowRuuU4rodbq/pf+3F+9i7pJaCZ5AWNePu73avIoRXhCOz
- 6o0kR8ttodQPY1bEW3n2rlp3+t3Kfl3HVfQmgfRMimt8cGF0ZBkLMqFJ1ccUJB4oiqd2
- csMQV5o+MNrgT6dfctj6/AjMLtwtw20YMFhaxOdumFPCXFLELW1l2UHQZyIjQMNckhBw
- K8cw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=51VJfBomUWlzPOgh52KPvkCUMNk32VAdgGf+JIsREJk=;
+ b=GXV2I8mC92jRZ6+ZejAijLimHPi5ms9CN8Qc6FZ+zJf+gJFnhdmqhQhU2Cq/A38p3J
+ iqgqkMkX+bLv8326mDejpuP7bvYKbkNYUT5v2RHd0iFlGC6REgCJ5HyGLnh2rFiu5elW
+ 36VRxnQ5StH4yyrKqrNKzWpccc0q78uv5wL5tDzz87HTNN19+L7fw8SGa1NRuNxcWyq8
+ vfs+5K2NhhrQY96Ihfo64a6vCB1Qrd2EifUvjwUPS7PFLl98msF5S41LEZffD7er+Apf
+ hqc5UthsqBXYcCCs44w4dhNq8l4UUz2aDhYmODSw0ZP47CEzdK8XVFSqGqOwHfFfxGKZ
+ r+iA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=kR+rPkyn1eaB2xjiJv9Rpu4FzKJYlJu2en4dmmFR0No=;
- b=p7WYuw5fTYnXaq4JmSm5J7ne14yomdcaTYrMO8MChrZnEWHUpRTQ/oKhfTxVf1UXH1
- og1/OW5M2wu5uXHQcLTYNa7QoiZnhUfL6ChCLyxPXGJu7s+y1CMOs13K6TxpE7JC2FZk
- qwMeiZU4hkKFEPvUR9A2+q16kIw2pfbICYh5JE6TX7k9jnkMjeMRz8fgIMl1g2Tg8rRC
- stWNfvplWprlfmgKqB+YRRdmq2F2JFsvY6MSDwMYRx5Qy2m7gfA15pY3zg4xdGM0K06P
- BIhCKQtb8CKK+fHD3Yg7dg1AnrCBGvCjS+1Mo4CuLhwLxqHvE9oo2z8nDY1tvm2VIIdJ
- EQcA==
-X-Gm-Message-State: AOAM530JzPQxyG6MgVN2zHD7oXCaCVCOE4e39Q+f1RLb0Q60HfVwhUF/
- VWjt9EyiF+JsNBlzjTWYJxDN8KOri0qN9A==
-X-Google-Smtp-Source: ABdhPJxmH9N7n1taTvWq5YLUJPsrJZGnnHmyJUoRs4dUjx6PxcIEZo+56GqlwoX4HpTXryGsV4u4hA==
-X-Received: by 2002:a63:494b:: with SMTP id y11mr3470596pgk.99.1614356424162; 
- Fri, 26 Feb 2021 08:20:24 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=51VJfBomUWlzPOgh52KPvkCUMNk32VAdgGf+JIsREJk=;
+ b=GFh8bNxAWgO034Ot31dAAFZQDNEqhmzPkThhuh6oCj07Om4uHvZYbqWvrnc+dGRWDK
+ skUWxJqcwMTLsOJC6XNcfHleIlJpQtKYAVo9FL28pES57OI147xAsvQFo2JUxL7TSP5J
+ J65MC+z7OZNcavpdIyZyqesnxoNrDX7GPohlWteddyBnyzs2SiNMBffGIr+0OxR8QHO1
+ Nls9HXDnztoDZTG/TLLKC9Dbf1Vig/RPGY5GdgJtfhiGt+hax9si0+skSTWJLGufanpW
+ 0qfmMksudAE6ER2HDLoUKss0w8Ko+O216b4gLOLNP9lPoVWTQH13M1uKYaJ2GY1aAdcG
+ 9lBg==
+X-Gm-Message-State: AOAM5306HiBzrYZ82YDUvoML4kPdvbbWBiwpH2tp09HzzU/80wehOsy6
+ 5wwoWWzsjxPbX3r8hFmgqCWT+wGUdr6Epw==
+X-Google-Smtp-Source: ABdhPJyikJysZbJkSEKth01+BGJKHy2+IX0C5B7p1gey7m76/X4JdDBLUZaCfIvVAj8Kb0/Ko0vfXg==
+X-Received: by 2002:a63:f953:: with SMTP id q19mr3485884pgk.125.1614356425183; 
+ Fri, 26 Feb 2021 08:20:25 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id 6sm9141291pgv.70.2021.02.26.08.20.23
+ by smtp.gmail.com with ESMTPSA id 6sm9141291pgv.70.2021.02.26.08.20.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 08:20:23 -0800 (PST)
+ Fri, 26 Feb 2021 08:20:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/2] target/i386: Fix cpu_x86_{fsave,frstor,fxsave,fxrstor}
-Date: Fri, 26 Feb 2021 08:20:20 -0800
-Message-Id: <20210226162022.375654-1-richard.henderson@linaro.org>
+Subject: [PATCH 1/2] target/i386: Rename helper_fldt, helper_fstt
+Date: Fri, 26 Feb 2021 08:20:21 -0800
+Message-Id: <20210226162022.375654-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210226162022.375654-1-richard.henderson@linaro.org>
+References: <20210226162022.375654-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,19 +88,94 @@ Cc: pbonzini@redhat.com, philmd@redhat.com, cfontana@suse.de,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As discussed during review of Claudio's "i386 cleanup" patch set.
+Change the prefix from "helper" to "do".  The former should be
+reserved for those functions that are called from TCG; the latter
+is in use within the file already for those functions that are
+called from the helper functions, adding a "retaddr" argument.
 
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/i386/tcg/fpu_helper.c | 19 +++++++++----------
+ 1 file changed, 9 insertions(+), 10 deletions(-)
 
-r~
-
-
-Richard Henderson (2):
-  target/i386: Rename helper_fldt, helper_fstt
-  target/i386: Split out do_fsave, do_frstor, do_fxsave, do_fxrstor
-
- target/i386/tcg/fpu_helper.c | 65 +++++++++++++++++++++++-------------
- 1 file changed, 41 insertions(+), 24 deletions(-)
-
+diff --git a/target/i386/tcg/fpu_helper.c b/target/i386/tcg/fpu_helper.c
+index 60ed93520a..3d9b192901 100644
+--- a/target/i386/tcg/fpu_helper.c
++++ b/target/i386/tcg/fpu_helper.c
+@@ -117,8 +117,7 @@ static inline void fpop(CPUX86State *env)
+     env->fpstt = (env->fpstt + 1) & 7;
+ }
+ 
+-static inline floatx80 helper_fldt(CPUX86State *env, target_ulong ptr,
+-                                   uintptr_t retaddr)
++static floatx80 do_fldt(CPUX86State *env, target_ulong ptr, uintptr_t retaddr)
+ {
+     CPU_LDoubleU temp;
+ 
+@@ -127,8 +126,8 @@ static inline floatx80 helper_fldt(CPUX86State *env, target_ulong ptr,
+     return temp.d;
+ }
+ 
+-static inline void helper_fstt(CPUX86State *env, floatx80 f, target_ulong ptr,
+-                               uintptr_t retaddr)
++static void do_fstt(CPUX86State *env, floatx80 f, target_ulong ptr,
++                    uintptr_t retaddr)
+ {
+     CPU_LDoubleU temp;
+ 
+@@ -405,14 +404,14 @@ void helper_fldt_ST0(CPUX86State *env, target_ulong ptr)
+     int new_fpstt;
+ 
+     new_fpstt = (env->fpstt - 1) & 7;
+-    env->fpregs[new_fpstt].d = helper_fldt(env, ptr, GETPC());
++    env->fpregs[new_fpstt].d = do_fldt(env, ptr, GETPC());
+     env->fpstt = new_fpstt;
+     env->fptags[new_fpstt] = 0; /* validate stack entry */
+ }
+ 
+ void helper_fstt_ST0(CPUX86State *env, target_ulong ptr)
+ {
+-    helper_fstt(env, ST0, ptr, GETPC());
++    do_fstt(env, ST0, ptr, GETPC());
+ }
+ 
+ void helper_fpush(CPUX86State *env)
+@@ -2468,7 +2467,7 @@ void helper_fsave(CPUX86State *env, target_ulong ptr, int data32)
+     ptr += (14 << data32);
+     for (i = 0; i < 8; i++) {
+         tmp = ST(i);
+-        helper_fstt(env, tmp, ptr, GETPC());
++        do_fstt(env, tmp, ptr, GETPC());
+         ptr += 10;
+     }
+ 
+@@ -2495,7 +2494,7 @@ void helper_frstor(CPUX86State *env, target_ulong ptr, int data32)
+     ptr += (14 << data32);
+ 
+     for (i = 0; i < 8; i++) {
+-        tmp = helper_fldt(env, ptr, GETPC());
++        tmp = do_fldt(env, ptr, GETPC());
+         ST(i) = tmp;
+         ptr += 10;
+     }
+@@ -2539,7 +2538,7 @@ static void do_xsave_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
+     addr = ptr + XO(legacy.fpregs);
+     for (i = 0; i < 8; i++) {
+         floatx80 tmp = ST(i);
+-        helper_fstt(env, tmp, addr, ra);
++        do_fstt(env, tmp, addr, ra);
+         addr += 16;
+     }
+ }
+@@ -2703,7 +2702,7 @@ static void do_xrstor_fpu(CPUX86State *env, target_ulong ptr, uintptr_t ra)
+ 
+     addr = ptr + XO(legacy.fpregs);
+     for (i = 0; i < 8; i++) {
+-        floatx80 tmp = helper_fldt(env, addr, ra);
++        floatx80 tmp = do_fldt(env, addr, ra);
+         ST(i) = tmp;
+         addr += 16;
+     }
 -- 
 2.25.1
 
