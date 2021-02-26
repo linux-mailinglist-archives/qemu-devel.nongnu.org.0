@@ -2,52 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9C57326008
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:29:19 +0100 (CET)
-Received: from localhost ([::1]:54368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24759326019
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 10:34:31 +0100 (CET)
+Received: from localhost ([::1]:59006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFZR0-0003Gv-PM
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:29:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59940)
+	id 1lFZW2-0005RV-1s
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 04:34:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lFZPz-0002l3-Gq; Fri, 26 Feb 2021 04:28:16 -0500
-Received: from fanzine.igalia.com ([178.60.130.6]:51327)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lFZSv-00042r-SN
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:31:17 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:44775)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <berto@igalia.com>)
- id 1lFZPw-0000iI-Cc; Fri, 26 Feb 2021 04:28:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
- s=20170329; 
- h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:To:From;
- bh=+AKBJZXNoGdfycvf8DFyQvKtxvGjdmXaNNqJfkyTav4=; 
- b=JWrjKhBLvNuc4oQRlKRL3t8Z9EkEZ1rIkpV9gKAawS5vxq5TDON4UhqWEa0tAllcoW9o9em7Ln6R0I+0HAFI5f/JGteY1YISAGk056Cg/xrb0KnNiiT4W/om3smSslLRqCrFyylc01v2QdGgXRUDxdUcA5HecBdTDRA1CgXsYALUdlc1STJ3m0q0BjYuzgX0IbGtpU17JwdIF1oj3bGJ/siVofJ+BF+C0VekUdlPiRcoN3C996mcvI+fHpq6gECCQ9JkzWrLTy9U9ndV3pRQbfedF5piLgcNlnYY9GgXVvdQ7dHTkUgpRiwEWAYsoCYFedrQx0LPcW29w00sM3IjNA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
- by fanzine.igalia.com with esmtps 
- (Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
- id 1lFZPY-00075P-Bm; Fri, 26 Feb 2021 10:27:48 +0100
-Received: from berto by mail.igalia.com with local (Exim)
- id 1lFZPY-0006Tj-1y; Fri, 26 Feb 2021 10:27:48 +0100
-From: Alberto Garcia <berto@igalia.com>
-To: Peter Lieven <pl@kamp.de>, "qemu-devel\@nongnu.org" <qemu-devel@nongnu.org>,
- qemu block <qemu-block@nongnu.org>
-Subject: Re: block/throttle and burst bucket
-In-Reply-To: <efe8ee1c-e12f-b739-b9dd-9bd6d80527cb@kamp.de>
-References: <efe8ee1c-e12f-b739-b9dd-9bd6d80527cb@kamp.de>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
- (i586-pc-linux-gnu)
-Date: Fri, 26 Feb 2021 10:27:48 +0100
-Message-ID: <w51blc7ji0b.fsf@maestria.local.igalia.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lFZSu-0002gD-9G
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 04:31:17 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id w1so13655092ejf.11
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 01:31:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=wL3AGqhYSjF9EoFbnqDL5zekUK1XsP5iyKDd4gg/r0s=;
+ b=aXpnSG2C3XsFoxkq/d6QanQRR0DzTMKeyvJP5HhEheHGlI9EmmJjkykBUDojib7Ul0
+ wX2lRdIXNepEiJwx4bMqVWyvWhQq1xQa3FpYmi4mT6OeqBCwzbIyw/Dw0bM7OgbjJvA6
+ Adqriw96VBdt1P+2VQ1j0b5wX7C6JPEfSeZMTvdA8PsiAjjxw6UFqmvRsyDT8voY3TQn
+ 8phDZHUvQv34grU7Ql3Y3IBJi1fM7lR5X7Ei5zbnmMP9rYS/hVPdiehBTw5vTDCyg/jX
+ bJyWbObq5LwYIDgA91rWcazDGuN9GyBfWnP0k3Iky2508g9ArDmHUPazSOGQgb7XrNq3
+ VygA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=wL3AGqhYSjF9EoFbnqDL5zekUK1XsP5iyKDd4gg/r0s=;
+ b=tpVAbN6+40/P65PXKHLXImYjO1DetZ7wmg5/ZC9izP4UEVZOVOtEYQ0aWKBRWB0u78
+ rx0OSzvK+P0q9Ys/krLjCABWUokf9CsH2eZjBJ1bFnMXvAO7a8gNIjw09Riv0zk+tiE5
+ oFVvc+AtHr1AzWrcZKi1QYSf8+7REZjWl2PGQDSz2wRp4vB67PCnw9yq7l+URamLIJEf
+ 3doW8vbbKdKnB8LJJ76NECk6ppncij6nZtjV2EmPz4M+ZBkFGGD1GQnKEtFiDMpqDNOe
+ eFNg/gbBUdkzFfRZOWIejgjcTFlZhF9RprGGC4V2ZPiPL73b9qF8Zr72jOEC0UCfmHCl
+ AFXw==
+X-Gm-Message-State: AOAM5334zvUnq8jAugwqb8y4wuEQrIvIOkdzUwpdYDec23TvX3Gktjs7
+ 5DbUYRMrcZztyWXev3AmAQUphJrJngs=
+X-Google-Smtp-Source: ABdhPJyE7MiqVLl6rHJISNdL+55YxZ+x/tL6JzjF2e9fbkNqDSlxm235WtZ2RNijaiYi2N20U4gyYA==
+X-Received: by 2002:a17:907:78d9:: with SMTP id
+ kv25mr2363748ejc.415.1614331873877; 
+ Fri, 26 Feb 2021 01:31:13 -0800 (PST)
+Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id b18sm4675285ejb.77.2021.02.26.01.31.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Feb 2021 01:31:13 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/13] target/mips: Extract MXU code to new mxu_translate.c
+ file
+Date: Fri, 26 Feb 2021 10:30:57 +0100
+Message-Id: <20210226093111.3865906-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=178.60.130.6; envelope-from=berto@igalia.com;
- helo=fanzine.igalia.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -60,26 +85,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu 25 Feb 2021 06:34:48 PM CET, Peter Lieven <pl@kamp.de> wrote:
-> I was wondering if there is a way to check from outside (qmp etc.) if
-> a throttled block device has exceeded the iops_max_length seconds of
-> time bursting up to iops_max and is now hard limited to the iops limit
-> that is supplied?
->
-> Would it be also a good idea to exetend the accounting to account for
-> requests that must have waited before being sent out to the backend
-> device?
-
-No, there's no such interface as far as I'm aware. I think one problem
-is that throttling is now done using a filter, that can be inserted
-anywhere in the node graph, and accounting is done at the BlockBackend
-level.
-
-We don't even have a query-block-throttle function. I actually started
-to write one six years ago but it was never finished.
-
-Berto
+Series fully reviewed.=0D
+=0D
+Since v4:=0D
+- Explicit decode_opc_mxu() -> decode_ase_mxu() renaming=0D
+=0D
+Since v3:=0D
+- addressed Richard's review comments, elide code when possible=0D
+=0D
+$ git backport-diff -u v4=0D
+Key:=0D
+[----] : patches are identical=0D
+[####] : number of functional differences between upstream/downstream patch=
+=0D
+[down] : patch is downstream-only=0D
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respecti=
+ve=3D=0D
+ly=0D
+=0D
+001/13:[----] [--] 'target/mips/meson: Introduce mips_tcg source set'=0D
+002/13:[----] [--] 'target/mips/meson: Restrict mips-semi.c to TCG'=0D
+003/13:[----] [--] 'target/mips: Rewrite complex ifdef'ry'=0D
+004/13:[----] [--] 'target/mips: Remove XBurst Media eXtension Unit dead co=
+de'=0D
+005/13:[----] [--] 'target/mips: Remove unused CPUMIPSState* from MXU funct=
+io=3D=0D
+ns'=0D
+006/13:[----] [--] 'target/mips: Pass instruction opcode to decode_opc_mxu(=
+)'=0D
+007/13:[----] [--] 'target/mips: Use OPC_MUL instead of OPC__MXU_MUL'=0D
+008/13:[----] [--] 'target/mips: Move MUL opcode check from decode_mxu() to=
+ d=3D=0D
+ecode_legacy()'=0D
+009/13:[down] 'target/mips: Rename decode_opc_mxu() as decode_ase_mxu()'=0D
+010/13:[down] 'target/mips: Convert decode_ase_mxu() to decodetree prototyp=
+e'=0D
+011/13:[----] [--] 'target/mips: Simplify decode_opc_mxu() ifdef'ry'=0D
+012/13:[----] [--] 'target/mips: Introduce mxu_translate_init() helper'=0D
+013/13:[----] [--] 'target/mips: Extract MXU code to new mxu_translate.c fi=
+le'=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (13):=0D
+  target/mips/meson: Introduce mips_tcg source set=0D
+  target/mips/meson: Restrict mips-semi.c to TCG=0D
+  target/mips: Rewrite complex ifdef'ry=0D
+  target/mips: Remove XBurst Media eXtension Unit dead code=0D
+  target/mips: Remove unused CPUMIPSState* from MXU functions=0D
+  target/mips: Pass instruction opcode to decode_opc_mxu()=0D
+  target/mips: Use OPC_MUL instead of OPC__MXU_MUL=0D
+  target/mips: Move MUL opcode check from decode_mxu() to=0D
+    decode_legacy()=0D
+  target/mips: Rename decode_opc_mxu() as decode_ase_mxu()=0D
+  target/mips: Convert decode_ase_mxu() to decodetree prototype=0D
+  target/mips: Simplify decode_opc_mxu() ifdef'ry=0D
+  target/mips: Introduce mxu_translate_init() helper=0D
+  target/mips: Extract MXU code to new mxu_translate.c file=0D
+=0D
+ target/mips/translate.h     |    4 +=0D
+ target/mips/mxu_translate.c | 1609 +++++++++++++++++++=0D
+ target/mips/translate.c     | 2920 +----------------------------------=0D
+ target/mips/meson.build     |   13 +-=0D
+ 4 files changed, 1636 insertions(+), 2910 deletions(-)=0D
+ create mode 100644 target/mips/mxu_translate.c=0D
+=0D
+--=3D20=0D
+2.26.2=0D
+=0D
 
