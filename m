@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99AE332634C
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:30:12 +0100 (CET)
-Received: from localhost ([::1]:56100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23FA932636A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:33:44 +0100 (CET)
+Received: from localhost ([::1]:59838 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFdC7-0007Q5-IB
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:30:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60094)
+	id 1lFdFX-0000gA-3C
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:33:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFd9c-0006T5-GC
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:27:40 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33680)
+ id 1lFd9h-0006UP-8H
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:27:42 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:40380)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lFd9Y-0002LK-U6
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:27:34 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id 7so8598212wrz.0
- for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 05:27:32 -0800 (PST)
+ id 1lFd9d-0002Na-B8
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 08:27:38 -0500
+Received: by mail-wm1-x336.google.com with SMTP id u11so1645979wmq.5
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 05:27:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=JWgGy7fjXHRska01RAxi8f5jwvzVQO+35Bzk4lClyhI=;
- b=BFYakLPfP8bYHYnSz0erQd9XvQpO8Lr35tVsvFzx/YwKD0oHUcTwUh7Sur72UZSC3y
- l/1AmmksttburX2ZfCDmZJqiqxaNQUJSWP22baxDhYEdCA+TG2ZqjvhjRxM3PoSFDnSb
- WDr1+gxshOydXPAy7bYQlRxTJ/uMkiKXGlu3CTb0TL2c/uUvqJRWzf2gBPqQjv6qZS6A
- jpTSjQhYuEaF2hJZUvUQU3PPbbnt8C3SMaCnMgTzxbwZF03p0plL4zffcoEaRWbgFxfF
- 9e8JxFe5YnGkbpGoQcsieKz+rzd6rJRBliMegeeZOyQKy/Fi+AwkRS+WSZhBZBBIEA+w
- euYw==
+ bh=2gsJbpv42AOeUT/UNWYygQZCoVIRU495UbUCd6k+cHQ=;
+ b=fvfLrsoVMRAMU58KR3idQk1b3ge8+ujusZ2EWBChjWU7xFi0mi7G2jWHRaEz+mQ5iU
+ IEdUGtRIaZkWMxn3b0twWN3jLK4WssbPnkPRpJcRlrQ1Dgi6sE8mk3d0rLJk0sP8aIew
+ gl7tFV2EvcsYulNYoS/I47Zj1RdBsoStVSN1Ty52aGAMhu1ATw9GZITHgDKh8aAn0Eb1
+ /mxz6uPFBS5Ayf+SHdIQ3OIBnHem+IigBe0JG2S68+djNRPrCEAKO4oKeaDQaDw9fu/p
+ UVN4Xvn9OcbZuPy4Qpu4AJn94VCReP6g9vQBkXwntVv+0GY9a8KpEfPem0N4I0LAFFvi
+ qEcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=JWgGy7fjXHRska01RAxi8f5jwvzVQO+35Bzk4lClyhI=;
- b=CgSLVal+hAZ0l+4MnOBurGw/NdeAHu2En5WEI6XSoXtef/lCa/s49rfFqVWdkQsh98
- Nc2S0wrO7/iOcHIU6YcS4m4mw0qeQmvvBGkS3EVGqOt0T6l3NiVYvzbfO6H1BzhpUyOu
- mlYFBbWDVMIawAQVHRG63bytabA5Mi9ZK0xOdFraxI4tmSZjDVI3WUG+Ag2Etv+VfTvZ
- KM2Z6EctiAvBbV1MdUpr/Yxc8R3vRrBwG/K3KxhhBYXo5+rtN6mc3J4uCDn+NDANnQSG
- awUijwsHy9+n1i9TCevFmDGPr+OpFwHrKkPEQ8PGp0HePF+sPV3DuCqoG2zWkWE2H9KQ
- yEgw==
-X-Gm-Message-State: AOAM531tmf3krX5A/2ofM3hrTsGYKwQ0xmhDP5kHdiBj76VNjfF8McmH
- nTIM7BrnEM5WMS5Fd3UCYwIctpsk4lE=
-X-Google-Smtp-Source: ABdhPJzgGE4SjcJpwZn9nMKk9g3CRsk5SYEw9p1mk8n2U3fIy35dDpG34+zXzLyPhviMFpXpdzZNkw==
-X-Received: by 2002:adf:a4d1:: with SMTP id h17mr3246775wrb.57.1614346050965; 
- Fri, 26 Feb 2021 05:27:30 -0800 (PST)
+ bh=2gsJbpv42AOeUT/UNWYygQZCoVIRU495UbUCd6k+cHQ=;
+ b=SdWSUHyXQySf0tq9ShovspMiowM9quaKjBxcwrdvQaGQCAD59FROE3K2SRRvdt79WO
+ TzDDibDvuU39xoMPgooF82Y8lJzWtsiXl2YbJVWh0h4g2ENwDfhElwJrc1CuOTnmk8PV
+ n0nVhlgIXRXKWCZ6dnOLQWn3hFgcskQ/uXOMqd0ayRQTB/typ8+8GYmddTOb3aTyu0fy
+ 15L443V5rfMGCUB/wNJcLyQVa0cHX2Vhi2VHvr24nRchkllbFXdZanqRGyNBkc7lV1Ck
+ IjtdTndpWX8vXtMxdv+yUxeuDURzJkbqnJ6xJQxfPFLoys7XVGbyCAjXR+jfFMJmYN5v
+ BO2Q==
+X-Gm-Message-State: AOAM530B1Q5KuGYjeHDDHIZrxOTlm8CwvbzcU/ETG/NQcbZHGDPwOVrI
+ syzdI6AgBtm8RQEi41givN1q1m09zug=
+X-Google-Smtp-Source: ABdhPJzCoJFwKU+broPBDV+da3ZWpYLJzHCMcZxnsZXA1QMVBj8Xg6STu7iOJ7lilmivaggNoCwCbQ==
+X-Received: by 2002:a1c:c244:: with SMTP id s65mr2924446wmf.96.1614346055827; 
+ Fri, 26 Feb 2021 05:27:35 -0800 (PST)
 Received: from x1w.redhat.com (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id f7sm13086841wre.78.2021.02.26.05.27.29
+ by smtp.gmail.com with ESMTPSA id q24sm11292063wmq.24.2021.02.26.05.27.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 05:27:30 -0800 (PST)
+ Fri, 26 Feb 2021 05:27:35 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 1/2] hw/mips/meson: Restrict emulated machines to TCG
- accelerator
-Date: Fri, 26 Feb 2021 14:27:22 +0100
-Message-Id: <20210226132723.3969650-2-f4bug@amsat.org>
+Subject: [RFC PATCH 2/2] hw/mips/jazz: Remove confusing ifdef'ry
+Date: Fri, 26 Feb 2021 14:27:23 +0100
+Message-Id: <20210226132723.3969650-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210226132723.3969650-1-f4bug@amsat.org>
 References: <20210226132723.3969650-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,43 +93,45 @@ Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally this should solved by Kconfig "depends on TCG", but we
-are not there yet:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg777710.html
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg777632.html
-
-As a kludge, use meson to only include emulated machines
-when TCG accelerator is selected.
+The jazz machine is not used under user emulation and
+does not support KVM. Simplify the ifdef'ry.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/mips/meson.build | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ hw/mips/jazz.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/hw/mips/meson.build b/hw/mips/meson.build
-index 1195716dc73..d172eee6e7d 100644
---- a/hw/mips/meson.build
-+++ b/hw/mips/meson.build
-@@ -1,12 +1,15 @@
- mips_ss = ss.source_set()
- mips_ss.add(files('bootloader.c', 'mips_int.c'))
- mips_ss.add(when: 'CONFIG_FW_CFG_MIPS', if_true: files('fw_cfg.c'))
--mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
- mips_ss.add(when: 'CONFIG_LOONGSON3V', if_true: files('loongson3_bootp.c', 'loongson3_virt.c'))
--mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
- mips_ss.add(when: 'CONFIG_MALTA', if_true: files('gt64xxx_pci.c', 'malta.c'))
--mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
--mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
- mips_ss.add(when: 'CONFIG_MIPS_CPS', if_true: files('cps.c'))
+diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
+index 83c80860626..cd24e8778b1 100644
+--- a/hw/mips/jazz.c
++++ b/hw/mips/jazz.c
+@@ -120,7 +120,6 @@ static const MemoryRegionOps dma_dummy_ops = {
+ #define MAGNUM_BIOS_SIZE                                                       \
+         (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
  
-+if 'CONFIG_TCG' in config_all
-+mips_ss.add(when: 'CONFIG_FULOONG', if_true: files('fuloong2e.c'))
-+mips_ss.add(when: 'CONFIG_JAZZ', if_true: files('jazz.c'))
-+mips_ss.add(when: 'CONFIG_MIPSSIM', if_true: files('mipssim.c'))
-+mips_ss.add(when: 'CONFIG_MIPS_BOSTON', if_true: [files('boston.c'), fdt])
-+endif
-+
- hw_arch += {'mips': mips_ss}
+-#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+ static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
+                                           vaddr addr, unsigned size,
+                                           MMUAccessType access_type,
+@@ -142,7 +141,6 @@ static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
+                                   mmu_idx, attrs, response, retaddr);
+ }
+-#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+ 
+ static void mips_jazz_init(MachineState *machine,
+                            enum jazz_model_e jazz_model)
+@@ -211,10 +209,8 @@ static void mips_jazz_init(MachineState *machine,
+      * memory region that catches all memory accesses, as we do on Malta.
+      */
+     cc = CPU_GET_CLASS(cpu);
+-#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
+     real_do_transaction_failed = cc->tcg_ops->do_transaction_failed;
+     cc->tcg_ops->do_transaction_failed = mips_jazz_do_transaction_failed;
+-#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+ 
+     /* allocate RAM */
+     memory_region_add_subregion(address_space, 0, machine->ram);
 -- 
 2.26.2
 
