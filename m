@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE96A326516
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 17:00:12 +0100 (CET)
-Received: from localhost ([::1]:32914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95B4E326529
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 17:02:39 +0100 (CET)
+Received: from localhost ([::1]:36016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFfXH-0003bB-UX
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 11:00:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42278)
+	id 1lFfZe-00058q-CW
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 11:02:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFfVt-00037R-8B
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 10:58:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lFfVp-0003BW-5B
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 10:58:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614355117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5PFHvltxej26fhfHzFILVAIOg0sHnOaMIvmalTHix+w=;
- b=hxwgqFnOh8xAyNHEOU+7IuW4QKpc5BLv4vZERMtvFLupnjE8i+Fv6wtXUm5jVcJNTcHbpD
- YhSsGVY+D1W3dg4JxXRBIgo5CWpB3cnHORCX0CLikH/4y0PsZYywvZVeQSSqF1qKKzBGWR
- /6O9Rmtzu6ExNFWUdgeYb9lLYeuc9fQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-vqpOD1MUN2CZlFoPyTdT9w-1; Fri, 26 Feb 2021 10:58:34 -0500
-X-MC-Unique: vqpOD1MUN2CZlFoPyTdT9w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 896411E562;
- Fri, 26 Feb 2021 15:58:33 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E91960BE5;
- Fri, 26 Feb 2021 15:58:26 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-References: <20210224135255.253837-1-kwolf@redhat.com>
- <20210224135255.253837-7-kwolf@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Subject: Re: [PATCH v2 06/31] qapi/qom: Add ObjectOptions for dbus-vmstate
-Message-ID: <11a6a75b-2e84-9033-d15c-f30b40c45c07@redhat.com>
-Date: Fri, 26 Feb 2021 09:58:26 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lFfWh-0003jI-UC
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 10:59:36 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:46174)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1lFfWg-0003c7-2P
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 10:59:35 -0500
+Received: by mail-pf1-x434.google.com with SMTP id r5so6501278pfh.13
+ for <qemu-devel@nongnu.org>; Fri, 26 Feb 2021 07:59:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=XFsmtRFs/867TBn/f/KoGJVCoOki/1C/ZlFfO+Uy9sQ=;
+ b=Nqhvzv9Lo2tnbErzH/JYIXkFcVhktnNL/JguATgq+xDQyjaqXJej3V9wRdW1j7q6dd
+ hcg9mcI+qGYNCCr2trMDhuw5FZ181mJhkR9ERi5aE7rJCpDcxkjB5C7aKBqAQgMdSJbV
+ LKuffbEu8nY8oVL8Km2saxKsORYyjTlbcXQx7FePK3ME5281lvu30CxKQkPF40k4dVkF
+ 9biY8c1qVNtO05u8e5O7yoF2v7FMg/Mb9GqS/qu4Mh2nk8SVSUzHuMXvrs05NfvHXITG
+ NznrPfDko453NRGuDuaN8VjHdzNHdoeKJFuF8rY8uLX9UDt8e/Ll2iYZ3T72gyyW6xI5
+ kpMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XFsmtRFs/867TBn/f/KoGJVCoOki/1C/ZlFfO+Uy9sQ=;
+ b=aHDaq4JqER7WRY7voAtbckUSEFzcWnEmf0pC7515+simGK7YqkbMSTKsnhPCLCgcjH
+ JcHwRLg+C3wlM7SQaWWaiJW3UnE/Nh0qsWKez1XS9pJ7V6966i0wsS+u7ro5dkSY7nfA
+ iUeCyPN0wN5Cez0ab7hJw22yEDcCZholuhb/IV2x5I4cSbXACPNIksBrLPFAYXGn7+Wq
+ 6nLJq93VWQb2T3pni36kcP/NF09rTwyUxiwEwjXwxHPvhtQ2UBJPk5nMMf8inlNpIoWB
+ nezvU7m3IeBC95XDjnHiK4gQm0D1ztKPTnrSUZbKRgQBT5Wg4YcaGWX+V3n8VwDlL5tt
+ AKIg==
+X-Gm-Message-State: AOAM533Q2O78TFkZTFMkAGLqbeYV/K7KwVOsouifSYkTZdsTcr0zhkDp
+ PuWTYsP5A2g7jvsSGG1dQvC+fNtdLzU3Bg==
+X-Google-Smtp-Source: ABdhPJw+MmZz2hjy5bOoUBj+2SNV5CRlRtSw49UBGXgJ4QphVBz+jFDk0yWsDrXCSODdsqB4PlFgXQ==
+X-Received: by 2002:a65:62cd:: with SMTP id m13mr3482865pgv.108.1614355172510; 
+ Fri, 26 Feb 2021 07:59:32 -0800 (PST)
+Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
+ by smtp.gmail.com with ESMTPSA id r202sm10806124pfc.10.2021.02.26.07.59.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 26 Feb 2021 07:59:32 -0800 (PST)
+Subject: Re: [PATCH v24 16/18] target/i386: gdbstub: introduce aux functions
+ to read/write CS64 regs
+To: Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210226094939.11087-1-cfontana@suse.de>
+ <20210226094939.11087-17-cfontana@suse.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <1112ad55-6d5c-2c8d-229b-11a09498a466@linaro.org>
+Date: Fri, 26 Feb 2021 07:59:30 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210224135255.253837-7-kwolf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210226094939.11087-17-cfontana@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.349, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.349,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,65 +92,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
- berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
- libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
- mreitz@redhat.com, kraxel@redhat.com, pbonzini@redhat.com, dgilbert@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/24/21 7:52 AM, Kevin Wolf wrote:
-> This adds a QAPI schema for the properties of the dbus-vmstate object.
+On 2/26/21 1:49 AM, Claudio Fontana wrote:
+> a number of registers are read as 64bit under the condition that
+> (hflags & HF_CS64_MASK) || TARGET_X86_64)
 > 
-> A list represented as a comma separated string is clearly not very
-> QAPI-like, but for now just describe the existing interface.
-
-Does your alias proposal give us a path forward for improving that down
-the road?  Or maybe it's not an alias we need, but a new field with
-better QAPI-like semantics, deprecate the old one, and wait out the 2
-release cycles?
-
+> and a number of registers are written as 64bit under the condition that
+> (hflags & HF_CS64_MASK).
 > 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+> Provide some auxiliary functions that do that.
+> 
+> Signed-off-by: Claudio Fontana <cfontana@suse.de>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->  qapi/qom.json | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
-> 
-> diff --git a/qapi/qom.json b/qapi/qom.json
-> index 1dbc95fb53..a6a5049707 100644
-> --- a/qapi/qom.json
-> +++ b/qapi/qom.json
-> @@ -232,6 +232,22 @@
->    'base': 'CryptodevBackendProperties',
->    'data': { 'chardev': 'str' } }
->  
-> +##
-> +# @DBusVMStateProperties:
-> +#
-> +# Properties for dbus-vmstate objects.
-> +#
-> +# @addr: the name of the DBus bus to connect to
-> +#
-> +# @id-list: a comma separated list of DBus IDs of helpers whose data should be
-> +#           included in the VM state on migration
-> +#
-> +# Since: 5.0
-> +##
-> +{ 'struct': 'DBusVMStateProperties',
-> +  'data': { 'addr': 'str' ,
-> +            '*id-list': 'str' } }
+>  target/i386/gdbstub.c | 155 ++++++++++++++----------------------------
+>  1 file changed, 51 insertions(+), 104 deletions(-)
 
-Matches backends/dbus-vmstate.c:dbus_vmstate_class_init(), including
-splitting id-list into a GHashTable with get_id_list_set().
+Much better, thanks.
 
-Since there is benefit to documenting/converting our existing API in
-this series without dragging it out by also trying to fix the warts,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
