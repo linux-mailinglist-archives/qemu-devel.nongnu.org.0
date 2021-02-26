@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E389326330
-	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:17:00 +0100 (CET)
-Received: from localhost ([::1]:42468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E6A432633A
+	for <lists+qemu-devel@lfdr.de>; Fri, 26 Feb 2021 14:19:58 +0100 (CET)
+Received: from localhost ([::1]:50610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFczL-0001SU-Ik
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:16:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58102)
+	id 1lFd2D-0004oH-GC
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 08:19:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lFcwr-0008Id-VA; Fri, 26 Feb 2021 08:14:26 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:44744)
+ id 1lFczJ-0002gD-3R; Fri, 26 Feb 2021 08:16:57 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46246)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1lFcwn-0004t9-DJ; Fri, 26 Feb 2021 08:14:25 -0500
-Received: by mail-pf1-x430.google.com with SMTP id t29so6219578pfg.11;
- Fri, 26 Feb 2021 05:14:20 -0800 (PST)
+ id 1lFczH-00069s-B8; Fri, 26 Feb 2021 08:16:56 -0500
+Received: by mail-pf1-x436.google.com with SMTP id r5so6208615pfh.13;
+ Fri, 26 Feb 2021 05:16:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=GMsbw7TKbGGiqM/9ZPKf7oo5mFNwwzVPMoCjckGS0Ao=;
- b=JfitXIA5C2WH29iUE8I7pZpkJ8WlvISgSMLRuSNMDaFNCL0voHgzkWveG8uJsKq4lX
- iBl0io1K9Jdk+lpPls7cQU5iWeRT4dmlv2f2I4DpkqJ1ANrrPO86AfqQTTDg/irfHHLQ
- 6mMrNc1/zYUbstwjjNeXBQJ1WegrjjbZuKcikXX3hFbxc3jtSZI2yRLz1zjlKQ1Zn26/
- RIDpN/pyJnnB/BsJ0/AJZzqzAuq06lHMZvIxMc3VG3MuldGIX21hRHDjfodVKEf2DmBs
- Q1oBFO7wGq4WPAow8+Te0Nf4fT8YyurifDsxJKtvtMxs+BSL9dkMxLwVFJAiNutjUqpm
- 0AHg==
+ bh=Mik0H9XCLPDVUTh+AGn5AvDhKpD0S+U7O9OV4s6qPds=;
+ b=n0D0me7f0rT4gzqRpCwq+SapGUiWMSuGI01GM97T0NSvXYTYj9GBHjzBWJGenuFPjH
+ fiWr2tHTv630I96quztKTzWC+9rjkASNpf1ieGO1VY37OGFanOFpJGxlQBSdCWi0rt5j
+ WqcsKxgEs2j+aIV93CUDGEBXYvL7IWcEh3sTDJO2gEZRDddS3Q1svMextKaCCp03+qbl
+ csauXFqYe3k6bfF2uIDsC+5re6A0k2+5o6IfXM33gUtlXZjzPG2JyPOSXUnzUleqDJIF
+ y/btesG6B8h/TdbGp8c+fjDJSOpJ6ihL4Vavd2XqcYXzalRSfu5jK7TnuIfFj/btRAxG
+ CGvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=GMsbw7TKbGGiqM/9ZPKf7oo5mFNwwzVPMoCjckGS0Ao=;
- b=FtJ4itfjFDdsh8AICCDXsFgBDxMhw3yy8PaM4NiC7l9evlh8yeJEfddIp0kTp3TMVa
- y6OB17u24KIzW6w2u2upQL8iSPST+JVSKrTaJ4epzqNoMT0gvhTlJgKpSH9/cG/21KNp
- bxhQElLc4ChOinkHLK/SZlJHBQEYGnktnCJ32EHqP7+ylVgja6zqC+hg9Y9h6Sm6pvF6
- kRVvFlThLQTeZvtIbdG3GaFaajP7qC3IvRcQ6/T9MSP9g/dDxPXOqb4084U5n8Lk9nLg
- uS4NmkTwe40YDMgvgz+M53+tTl81yMCJy3JHnAg0uSzRSfRPdIrXy88xtDK1a+mtHoSo
- 0w3w==
-X-Gm-Message-State: AOAM5303JTyqTNXvfT8Jo1gqDgL/syGufvp+z8eEHSwECbYjZ11TDeyZ
- x3yLLBbCPwEQnwDtBigqmpM=
-X-Google-Smtp-Source: ABdhPJxgMgHwSbOWYHfWPIpoXYP3Ntpc9D+CniMEmVz0YQf3fH8iE+PsGbcJ+ZuAJ5wLCPSMdfcDfw==
-X-Received: by 2002:a62:1ad4:0:b029:1ed:b92c:6801 with SMTP id
- a203-20020a621ad40000b02901edb92c6801mr3267554pfa.7.1614345259108; 
- Fri, 26 Feb 2021 05:14:19 -0800 (PST)
+ bh=Mik0H9XCLPDVUTh+AGn5AvDhKpD0S+U7O9OV4s6qPds=;
+ b=NxWnUn9Neui6+hAqyw2d8jSkxJtjHzpU+bRTHk56KIQkfNd2DMYtOEJ/Flvd15DAbV
+ No+xqKBmPZxmJ/X76XM6mxHX5fkuyPklkU6jzYUbPlh7bTgtHt7FhKXCqL2onb1FjblO
+ QaNGzm8X10UUVEN6zx4rQyhAA+RjDuuJHVbN3/ANEvJD5lIkz2293tlULpLHdIez7LhB
+ CYgYo3MBn3V3YkfkLdr47+d8HryQlgpxmivQhcOqWD7MC1FYYmOdb0DZEUBZdpe1+6ED
+ +gilUdn5H+64CC7N+36SBnLzorbF+EzPXX0EgLITIP2tJsO1rIz3mxxrR89frulVTPZ4
+ V+0g==
+X-Gm-Message-State: AOAM530f5A6Yl0jRDzJ6euXr68KKMZr/cvdipZPRJoUu7BNgt51sLE6h
+ ummZFPq9cKnQjw5hFI3arhE=
+X-Google-Smtp-Source: ABdhPJzi3QklUkD36glYaHgvZiLsDJBuJI/CTCUt1g+WJ8L/YYhJPtXwmB5tLNb1oGPzG58Auv4IKw==
+X-Received: by 2002:a62:144f:0:b029:1ed:9646:736a with SMTP id
+ 76-20020a62144f0000b02901ed9646736amr3343004pfu.81.1614345413524; 
+ Fri, 26 Feb 2021 05:16:53 -0800 (PST)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id j4sm9367402pfa.131.2021.02.26.05.14.18
+ by smtp.gmail.com with ESMTPSA id x80sm9275765pfc.71.2021.02.26.05.16.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 26 Feb 2021 05:14:18 -0800 (PST)
-Date: Fri, 26 Feb 2021 22:14:16 +0900
+ Fri, 26 Feb 2021 05:16:53 -0800 (PST)
+Date: Fri, 26 Feb 2021 22:16:51 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: Keith Busch <kbusch@kernel.org>, qemu-devel@nongnu.org,
  qemu-block@nongnu.org
-Subject: Re: [PATCH V2 0/6] hw/block/nvme: support namespace attachment
-Message-ID: <20210226131416.GA11808@localhost.localdomain>
-References: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH 2/2] hw/block/nvme: add 'nvme_ana_inject_state' HMP command
+Message-ID: <20210226131651.GB11808@localhost.localdomain>
+References: <20210214112400.26956-1-minwoo.im.dev@gmail.com>
+ <20210214112400.26956-3-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+In-Reply-To: <20210214112400.26956-3-minwoo.im.dev@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,19 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-11 01:09:30, Minwoo Im wrote:
-> Hello,
+On 21-02-14 20:24:00, Minwoo Im wrote:
+> Human Monitor Interface(HMP) is there for easy human debugging.  This
+> patch added a HMP command 'nvme_ana_inject_state'.  This can be executed
+> from the QEMU monitor.  This command will have the following syntax:
 > 
-> This series supports namespace attachment: attach and detach.  This is
-> the second version series with a fix a bug on choosing a controller to
-> attach for a namespace in the attach command handler.
+> 	# nvme_ana_inject_state <nvme-id> <anagrpid> <state>
+> 	(qemu) nvme_ana_inject_state nvme0 1 inaccessible
+> 
+> The example above will make ANA group #1 transitioned to
+> ANA_INACCESSIBLE state for `nvme0` controller device.  Additionally,
+> device will notify to the host that ANA has been changed via
+> Asynchronous Event Notifier(AEN).  Then the host will figure out another
+> path to I/O for the namespace by reading the log page for ANA
+> information again, and this is what we call the multipath I/O.
+> 
+> This feature is good to debug the host multipath I/O by controlling the
+> device ANA group state transition.  The path-related errors can be
+> tested and debugged by this feature.  Also, the HMP command interafce
+> will make us not to build QEMU itself again to control things in device.
+> 
+> This interface supports Persistent Loss state transition, but it's not
+> going to be persistent: volatile of qemu perspective.
+> 
+> Cc: Dr . David Alan Gilbert <dgilbert@redhat.com>
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 
-Keith,
+Hello Keith,
 
-Could you please have a look at this series and give some comments :) ?
+Do you have any comments about this injection method?  As discussed
+ealier, I've tried to introduce a natural way to control some of device
+status like ANA state which device can behave properly.
+
+It would be great if I can have your feedback on this :)
+
+Thanks!
 
