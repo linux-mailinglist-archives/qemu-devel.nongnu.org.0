@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63755326A54
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 00:07:21 +0100 (CET)
-Received: from localhost ([::1]:56716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19208326AB3
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 01:20:29 +0100 (CET)
+Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFmCd-00018L-S9
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 18:07:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52366)
+	id 1lFnLP-000316-Lk
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 19:20:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFmAj-00005k-Gf
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 18:05:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46165)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <crosa@redhat.com>) id 1lFmAe-0006qQ-9H
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 18:05:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614380711;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=q7ptpAIiMS0K/3HRfZ3slnpheNWzoNJfhlm9Z6QW6H4=;
- b=Ee1OrYNQLTanOr817SUMbIrvNzSKv+gC0U3xvm+xfmDIw9jWP7iGpcoZDzFNRHYWidHo5y
- PpgA1ECcRAA0RPk6codswv/+Y41IhnlyZwn11un4kc1WMPDkuMjRyhbkqZPqV+G0Wi2uoH
- Y6vN8/uvAnrAYakqpFPHMEjfzp98jyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-584-1XYQT_lrNpimyqUgbg0y7g-1; Fri, 26 Feb 2021 18:05:07 -0500
-X-MC-Unique: 1XYQT_lrNpimyqUgbg0y7g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4686180196E;
- Fri, 26 Feb 2021 23:05:06 +0000 (UTC)
-Received: from localhost (ovpn-114-28.rdu2.redhat.com [10.10.114.28])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E15675D9CA;
- Fri, 26 Feb 2021 23:05:02 +0000 (UTC)
-Date: Fri, 26 Feb 2021 18:04:38 -0500
-From: Cleber Rosa <crosa@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 1/2] Acceptance Tests: restore downloading of VM images
-Message-ID: <20210226230438.GA1329285@amachine.somewhere>
-References: <20210225232122.1254879-1-crosa@redhat.com>
- <20210225232122.1254879-2-crosa@redhat.com>
- <3e7370f0-c094-e1b9-50d2-bdc63170404d@redhat.com>
+ (Exim 4.90_1) (envelope-from <asmadeus@gaia.codewreck.org>)
+ id 1lFnKW-0002Zv-2G
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 19:19:32 -0500
+Received: from nautica.notk.org ([91.121.71.147]:39520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <asmadeus@gaia.codewreck.org>)
+ id 1lFnKT-0005hO-5g
+ for qemu-devel@nongnu.org; Fri, 26 Feb 2021 19:19:31 -0500
+Received: by nautica.notk.org (Postfix, from userid 108)
+ id CEF97C01E; Sat, 27 Feb 2021 01:04:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+ t=1614384242; bh=gZ+rgJ3UihBISUAot2sePawG8XzFfR7OqVRAAigwTBI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=bihkVzetvx+UGlhsFTGUtXtHWuMr4eUlD3WWK2Cw+sVrItCusn/kzLMWGkrU0/FF3
+ V855iX2GLDXNno9lCViDVgr+gh1T7rHQZFM+NY6QoQfwG6RXv8CNV4kZRNXm47PkNJ
+ oJxFHC5AQIH7yAsoBKl7U3WQceu9Qadc5JunjGmUVaemEVWVbyMJbvYOCn6DMBfxzv
+ UEuBQehIyUFLWctXfogLWrrq2C1r5+HvP/a+zMhFb80tmD+bZDgF+NDXN2YdrYscxB
+ jsftSe2D4n3BaeGd8HPJ8XXX94RkuqcY97N4haUwcZIJweLbabkVwzpPs3w6TPLlaB
+ Xe3BTdZfN7sLQ==
+Received: from odin.codewreck.org (localhost [127.0.0.1])
+ by nautica.notk.org (Postfix) with ESMTPS id 76862C009;
+ Sat, 27 Feb 2021 01:03:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
+ t=1614384241; bh=gZ+rgJ3UihBISUAot2sePawG8XzFfR7OqVRAAigwTBI=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=R1hQmsD7cXOP2C2E5tRZPGfZOlY48ge6tacMMKMEc4gIXSJf4UjdEOfLBN8JaW3uB
+ SW8hA6Kgt4L2vipe00siK7iDxCQjkHuwvdeAT+nGoLjvkgEswOTaHB7GZmJZIoVcYN
+ pVKlP0jQf3ZqwHNLRGr1Bg3/zChZshbdoGn0/0/NJ8+UKrPNeUqNhUkcv9ql5XwacA
+ 1MmUTW56GrYcFmoISDpevSuFn+qQwNNvDEHVI7iCLkSCgNK2G+Ba/Z7S7Qk3Fkxfrk
+ xKzB/rDzrKRFo9frzH21Yg3N7TqR6YioTPRB0QGWzXJxu6j+861V5oYFqe0H7ze9Xy
+ ythfv4is9dpMg==
+Received: from localhost (odin.codewreck.org [local])
+ by odin.codewreck.org (OpenSMTPD) with ESMTPA id aa018e7b;
+ Sat, 27 Feb 2021 00:03:55 +0000 (UTC)
+Date: Sat, 27 Feb 2021 09:03:40 +0900
+From: Dominique Martinet <asmadeus@codewreck.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: Can not set high msize with virtio-9p (Was: Re: virtiofs vs 9p
+ performance)
+Message-ID: <YDmMXCxxOqo1xKgq@odin>
+References: <20200918213436.GA3520@redhat.com> <2006960.IAZaadA1hq@silver>
+ <20210224154357.GA12207@tyr> <1918692.k70u9Ml6kK@silver>
 MIME-Version: 1.0
-In-Reply-To: <3e7370f0-c094-e1b9-50d2-bdc63170404d@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=crosa@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="n8g4imXOkfNTN/H1"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=crosa@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <1918692.k70u9Ml6kK@silver>
+Received-SPF: none client-ip=91.121.71.147;
+ envelope-from=asmadeus@gaia.codewreck.org; helo=nautica.notk.org
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,89 +77,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, qemu-devel@nongnu.org,
- Willian Rampazzo <wrampazz@redhat.com>,
- Marcelo Bandeira Condotta <mbandeir@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: "Shinde, Archana M" <archana.m.shinde@intel.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, "Venegas Munoz,
+ Jose Carlos" <jose.carlos.venegas.munoz@intel.com>, Greg Kurz <groug@kaod.org>,
+ qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, v9fs-developer@lists.sourceforge.net,
+ "cdupontd@redhat.com" <cdupontd@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---n8g4imXOkfNTN/H1
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Christian Schoenebeck wrote on Fri, Feb 26, 2021 at 02:49:12PM +0100:
+> Right now the client uses a hard coded amount of 128 elements. So what about
+> replacing VIRTQUEUE_NUM by a variable which is initialized with a value
+> according to the user's requested 'msize' option at init time?
+> 
+> According to the virtio specs the max. amount of elements in a virtqueue is
+> 32768. So 32768 * 4k = 128M as new upper limit would already be a significant
+> improvement and would not require too many changes to the client code, right?
 
-On Fri, Feb 26, 2021 at 01:01:28AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> On 2/26/21 12:21 AM, Cleber Rosa wrote:
-> > The "get-vm-images" target defined in tests/Makefile.include is a
-> > prerequisite for "check-acceptance", so that those files get
-> > downloaded before the Avocado job even starts.
-> >=20
-> > It looks like on c401c058a1c a TARGETS variable was introduced with a
-> > different content than it was previously coming from the main
-> > Makefile.  From that point on, the "get-vm-images" succeed without
-> > doing anything because there was no matching architecture to download.
->=20
-> Any idea about how to detect such side effects (tests silently
-> disabled) automatically?
->=20
+The current code inits the chan->sg at probe time (when driver is
+loader) and not mount time, and it is currently embedded in the chan
+struct, so that would need allocating at mount time (p9_client_create ;
+either resizing if required or not sharing) but it doesn't sound too
+intrusive yes.
 
-It wasn't really that any tests were disabled... they all continued to
-run.  In this case it was a broken make rule that caused the download
-of the images, ahead of time, to not be performed.
+I don't see more adherenences to VIRTQUEUE_NUM that would hurt trying.
 
-But your question is still valid and something that could happen.  The
-best answer I have is that all job results could and should also be
-persisted in a structured way that is succeptible to being queried.
-Then on top of that, you can build queries to show stability metrics,
-regressions, etc.
+> > On the 9p side itself, unrelated to virtio, we don't want to make it
+> > *too* big as the client code doesn't use any scatter-gather and will
+> > want to allocate upfront contiguous buffers of the size that got
+> > negotiated -- that can get ugly quite fast, but we can leave it up to
+> > users to decide.
+> 
+> With ugly you just mean that it's occupying this memory for good as long as
+> the driver is loaded, or is there some runtime performance penalty as well to
+> be aware of?
 
-To that regards, I can speak about three possibilities:
+The main problem is memory fragmentation, see /proc/buddyinfo on various
+systems.
+After a fresh boot memory is quite clean and there is no problem
+allocating 2MB contiguous buffers, but after a while depending on the
+workload it can be hard to even allocate large buffers.
+I've had that problem at work in the past with a RDMA driver that wanted
+to allocate 256KB and could get that to fail quite reliably with our
+workload, so it really depends on what the client does.
 
-1) Avocado has support for Fedora's resultsdb[1][2]
+In the 9p case, the memory used to be allocated for good and per client
+(= mountpoint), so if you had 15 9p mounts that could do e.g. 32
+requests in parallel with 1MB buffers you could lock 500MB of idling
+ram. I changed that to a dedicated slab a while ago, so that should no
+longer be so much of a problem -- the slab will keep the buffers around
+as well if used frequently so the performance hit wasn't bad even for
+larger msizes
 
-2) Because the Acceptance tests are already communicating the test
-results to GitLab (via junit), using the GitLab API that lets you
-query the detailed test results
 
-3) In addition to that, Marcelo (cc'd here) has written an Avocado plugin
-that will export test resutls suitable to be used on a datawarehouse
-tool developed by the Continuous Kernel Integration project[3]. This
-is not generally available at the moment, but should be available
-soon.
+> > One of my very-long-term goal would be to tend to that, if someone has
+> > cycles to work on it I'd gladly review any patch in that area.
+> > A possible implementation path would be to have transport define
+> > themselves if they support it or not and handle it accordingly until all
+> > transports migrated, so one wouldn't need to care about e.g. rdma or xen
+> > if you don't have hardware to test in the short term.
+> 
+> Sounds like something that Greg suggested before for a slightly different,
+> even though related issue: right now the default 'msize' on Linux client side
+> is 8k, which really hurts performance wise as virtually all 9p messages have
+> to be split into a huge number of request and response messages. OTOH you
+> don't want to set this default value too high. So Greg noted that virtio could
+> suggest a default msize, i.e. a value that would suit host's storage hardware
+> appropriately.
 
-Regards,
-- Cleber.
+We can definitely increase the default, for all transports in my
+opinion.
+As a first step, 64 or 128k?
 
-[1] - https://taskotron.fedoraproject.org/resultsdb/results
-[2] - https://avocado-framework.readthedocs.io/en/85.0/plugins/optional/res=
-ults.html#resultsdb-plugin
-[3] - https://cki-project.org
+> > The next best thing would be David's netfs helpers and sending
+> > concurrent requests if you use cache, but that's not merged yet either
+> > so it'll be a few cycles as well.
+> 
+> So right now the Linux client is always just handling one request at a time;
+> it sends a 9p request and waits for its response before processing the next
+> request?
 
---n8g4imXOkfNTN/H1
-Content-Type: application/pgp-signature; name="signature.asc"
+Requests are handled concurrently just fine - if you have multiple
+processes all doing their things it will all go out in parallel.
 
------BEGIN PGP SIGNATURE-----
+The bottleneck people generally complain about (and where things hurt)
+is if you have a single process reading then there is currently no
+readahead as far as I know, so reads are really sent one at a time,
+waiting for reply and sending next.
 
-iQIzBAEBCAAdFiEEeruW64tGuU1eD+m7ZX6NM6XyCfMFAmA5foMACgkQZX6NM6Xy
-CfOvkhAAuqhewltJ9oQPFSABdYaUvjhvZkvaEh+cGFmbB6gtNgfRZHWTZuZT/UcM
-uKYmSEXjCyNWYXSh4JssAr/Elxp9rp1oY0m/8zj3yvNfAIKeWJPOzoEUh7CIsfNm
-v2olNUidigGVN1qKDBmUhyHr8JkbbE63t/H4Ol14u2Bl+QygRPFQM0QHnWdqxUmi
-lQKxoWPzNsE9HZhiujqmihRjhvkTxwt2gE40qlaeZYRLMIASkoY/+CQUYbs5RdHH
-+ri1CYrupLwufyfEkGDexNIHm2O1lpKOaNJsuEvTwECF2EfcTE8KQbtHHI2Kv1vD
-iSs75fzMYZjE34kyD0k8DX8vJNmw/vThstP6AvrKWIxT/oRigzizJw6uINAC0k2Z
-LfJWSvgd1A2TFS7363pumk52rtlOYpY6kXu9FY8Z+11Pfzi3wYiGtTiCGCXAM+74
-P8yYanuVnucKKjmwUqc5YAK6ypyuDd6JME5iFcXadsurwaAiGncQiacJZBtGyAXB
-4Qmnn5NGddi9DnoyvMGHs2JD0GoEYgNWmErJfU2zZ5n0f3hOcl2vLtMHFhcxPuGM
-+pKylAm44aVoPxW0RtodYwIJclYzmv31Y7DSBg2TS85/6D1rzYcf0f8V8pFGjlkS
-O8cenHq1L93aC6xoibHmQXS7NAKF/6zVD2u1T/hu2xyXh11/xEk=
-=zyI0
------END PGP SIGNATURE-----
+> If so, is there a reason to limit the planned concurrent request handling
+> feature to one of the cached modes? I mean ordering of requests is already
+> handled on 9p server side, so client could just pass all messages in a
+> lite-weight way and assume server takes care of it.
 
---n8g4imXOkfNTN/H1--
+cache=none is difficult, we could pipeline requests up to the buffer
+size the client requested, but that's it.
+Still something worth doing if the msize is tiny and the client requests
+4+MB in my opinion, but nothing anything in the vfs can help us with.
 
+cache=mmap is basically cache=none with a hack to say "ok, for mmap
+there's no choice so do use some" -- afaik mmap has its own readahead
+mechanism, so this should actually prefetch things, but I don't know
+about the parallelism of that mechanism and would say it's linear.
+
+Other chaching models (loose / fscache) actually share most of the code
+so whatever is done for one would be for both, the discussion is still
+underway with David/Willy and others mostly about ceph/cifs but would
+benefit everyone and I'm following closely.
+
+-- 
+Dominique
 
