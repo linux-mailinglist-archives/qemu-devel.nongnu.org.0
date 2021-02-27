@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19208326AB3
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 01:20:29 +0100 (CET)
-Received: from localhost ([::1]:41928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67F69326AEB
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 02:03:14 +0100 (CET)
+Received: from localhost ([::1]:58864 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFnLP-000316-Lk
-	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 19:20:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36172)
+	id 1lFo0n-0004WC-0n
+	for lists+qemu-devel@lfdr.de; Fri, 26 Feb 2021 20:03:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <asmadeus@gaia.codewreck.org>)
- id 1lFnKW-0002Zv-2G
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 19:19:32 -0500
-Received: from nautica.notk.org ([91.121.71.147]:39520)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <asmadeus@gaia.codewreck.org>)
- id 1lFnKT-0005hO-5g
- for qemu-devel@nongnu.org; Fri, 26 Feb 2021 19:19:31 -0500
-Received: by nautica.notk.org (Postfix, from userid 108)
- id CEF97C01E; Sat, 27 Feb 2021 01:04:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
- t=1614384242; bh=gZ+rgJ3UihBISUAot2sePawG8XzFfR7OqVRAAigwTBI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=bihkVzetvx+UGlhsFTGUtXtHWuMr4eUlD3WWK2Cw+sVrItCusn/kzLMWGkrU0/FF3
- V855iX2GLDXNno9lCViDVgr+gh1T7rHQZFM+NY6QoQfwG6RXv8CNV4kZRNXm47PkNJ
- oJxFHC5AQIH7yAsoBKl7U3WQceu9Qadc5JunjGmUVaemEVWVbyMJbvYOCn6DMBfxzv
- UEuBQehIyUFLWctXfogLWrrq2C1r5+HvP/a+zMhFb80tmD+bZDgF+NDXN2YdrYscxB
- jsftSe2D4n3BaeGd8HPJ8XXX94RkuqcY97N4haUwcZIJweLbabkVwzpPs3w6TPLlaB
- Xe3BTdZfN7sLQ==
-Received: from odin.codewreck.org (localhost [127.0.0.1])
- by nautica.notk.org (Postfix) with ESMTPS id 76862C009;
- Sat, 27 Feb 2021 01:03:58 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org; s=2;
- t=1614384241; bh=gZ+rgJ3UihBISUAot2sePawG8XzFfR7OqVRAAigwTBI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=R1hQmsD7cXOP2C2E5tRZPGfZOlY48ge6tacMMKMEc4gIXSJf4UjdEOfLBN8JaW3uB
- SW8hA6Kgt4L2vipe00siK7iDxCQjkHuwvdeAT+nGoLjvkgEswOTaHB7GZmJZIoVcYN
- pVKlP0jQf3ZqwHNLRGr1Bg3/zChZshbdoGn0/0/NJ8+UKrPNeUqNhUkcv9ql5XwacA
- 1MmUTW56GrYcFmoISDpevSuFn+qQwNNvDEHVI7iCLkSCgNK2G+Ba/Z7S7Qk3Fkxfrk
- xKzB/rDzrKRFo9frzH21Yg3N7TqR6YioTPRB0QGWzXJxu6j+861V5oYFqe0H7ze9Xy
- ythfv4is9dpMg==
-Received: from localhost (odin.codewreck.org [local])
- by odin.codewreck.org (OpenSMTPD) with ESMTPA id aa018e7b;
- Sat, 27 Feb 2021 00:03:55 +0000 (UTC)
-Date: Sat, 27 Feb 2021 09:03:40 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: Can not set high msize with virtio-9p (Was: Re: virtiofs vs 9p
- performance)
-Message-ID: <YDmMXCxxOqo1xKgq@odin>
-References: <20200918213436.GA3520@redhat.com> <2006960.IAZaadA1hq@silver>
- <20210224154357.GA12207@tyr> <1918692.k70u9Ml6kK@silver>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lFnzW-00042h-Tv; Fri, 26 Feb 2021 20:01:54 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:35259)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1lFnzT-00008I-CQ; Fri, 26 Feb 2021 20:01:54 -0500
+Received: by mail-pl1-x633.google.com with SMTP id g20so6201720plo.2;
+ Fri, 26 Feb 2021 17:01:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=YymxZiI5kmYFmQq5ownkoJaevU2WhlYQxFrxNT/xNpo=;
+ b=RgwgyP8tSo2FSz6XNJQEzLYtNti7b42xsqSU6eRhN2vusjFtivpdk+dDeSP27PLgbk
+ 84JFoRX+kR1eU8Q739vVZsyBXfczEnwjSIimTuItgokQQlBMc/0MHNhsXiB2uqnY+qT/
+ kUZ+EXzbad6X0+ui45MjcfpVKJiBzmtlnxVSG35U19v38kQpYLOhPQFnDZ+jQ/T8vmtw
+ 8pIH3gle7BOhSxUnZXpOBck/G4gccqhwKAhiNC1n2U/7Qnohanp7gTZCA3NTs3P5kMI4
+ kfZjlY63qePYcYg+LLSG4IQN9LwH2LZohLr3IIWZ+BicGKjLFym/0hyXuaCBsGnyYfKD
+ 1vWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=YymxZiI5kmYFmQq5ownkoJaevU2WhlYQxFrxNT/xNpo=;
+ b=N09mcB2zcoYbDVm8kyF/2f3hWo4vPFsUaxjwdj6Ld6GajclLwxMGEJjpN5sHFq28Oo
+ CVRYlUgZ2GBTJpWf7Snf5bsLv57CPiNReI/wA5XJol49tC8wrTStbziqMJbayVfprtPs
+ n5X+WFf9uB49rwNxK8+ayfWAMEJhhgVWx0XZK2c4K8by9zbaw6AyTUWIs0BWuHZu8hat
+ UNpZv5AbPGMusTnCQX12JRAqDX4sFmyVAyefvSBYHKuVjE66I3WyG5mlmEL5xqAdtSVX
+ B6bmca2eyYZugAaUoIXVUuSqgAQ/SYOWkEAgJRLxYSFMWkPZSYoGJB786C+k7OhyqPv/
+ UAlQ==
+X-Gm-Message-State: AOAM531op1WPYoMC8iJ/r1u5yhix4Zvr2s0AnoC66wXemX3LHgRv7Igu
+ Y1qEtKzC8WPG7lotniFAq0Y=
+X-Google-Smtp-Source: ABdhPJyJjF6npo0VcJK/jigoxnkcyaIuN0OinhrXUqnjBh70qw6zhJ4IEmPXKLT67oadotcqTdn82w==
+X-Received: by 2002:a17:90a:5b0c:: with SMTP id
+ o12mr6120018pji.68.1614387708455; 
+ Fri, 26 Feb 2021 17:01:48 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id c18sm9191554pgm.88.2021.02.26.17.01.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 26 Feb 2021 17:01:48 -0800 (PST)
+Date: Sat, 27 Feb 2021 10:01:45 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V2 6/7] hw/block/nvme: support namespace attachment command
+Message-ID: <20210227010145.GA3670@localhost.localdomain>
+References: <20210210160937.1100-1-minwoo.im.dev@gmail.com>
+ <20210210160937.1100-7-minwoo.im.dev@gmail.com>
+ <20210226175935.GB3949@redsun51.ssa.fujisawa.hgst.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <1918692.k70u9Ml6kK@silver>
-Received-SPF: none client-ip=91.121.71.147;
- envelope-from=asmadeus@gaia.codewreck.org; helo=nautica.notk.org
+In-Reply-To: <20210226175935.GB3949@redsun51.ssa.fujisawa.hgst.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,116 +84,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Shinde, Archana M" <archana.m.shinde@intel.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, "Venegas Munoz,
- Jose Carlos" <jose.carlos.venegas.munoz@intel.com>, Greg Kurz <groug@kaod.org>,
- qemu-devel@nongnu.org, virtio-fs-list <virtio-fs@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, v9fs-developer@lists.sourceforge.net,
- "cdupontd@redhat.com" <cdupontd@redhat.com>, Vivek Goyal <vgoyal@redhat.com>
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Christian Schoenebeck wrote on Fri, Feb 26, 2021 at 02:49:12PM +0100:
-> Right now the client uses a hard coded amount of 128 elements. So what about
-> replacing VIRTQUEUE_NUM by a variable which is initialized with a value
-> according to the user's requested 'msize' option at init time?
+On 21-02-27 02:59:35, Keith Busch wrote:
+> On Thu, Feb 11, 2021 at 01:09:36AM +0900, Minwoo Im wrote:
+> > @@ -183,6 +183,7 @@ static const uint32_t nvme_cse_acs[256] = {
+> >      [NVME_ADM_CMD_SET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+> >      [NVME_ADM_CMD_GET_FEATURES]     = NVME_CMD_EFF_CSUPP,
+> >      [NVME_ADM_CMD_ASYNC_EV_REQ]     = NVME_CMD_EFF_CSUPP,
+> > +    [NVME_ADM_CMD_NS_ATTACHMENT]    = NVME_CMD_EFF_CSUPP,
 > 
-> According to the virtio specs the max. amount of elements in a virtqueue is
-> 32768. So 32768 * 4k = 128M as new upper limit would already be a significant
-> improvement and would not require too many changes to the client code, right?
+> Missing NVME_CMD_EFF_NIC for the attachment command.
 
-The current code inits the chan->sg at probe time (when driver is
-loader) and not mount time, and it is currently embedded in the chan
-struct, so that would need allocating at mount time (p9_client_create ;
-either resizing if required or not sharing) but it doesn't sound too
-intrusive yes.
+Will do that!
 
-I don't see more adherenences to VIRTQUEUE_NUM that would hurt trying.
-
-> > On the 9p side itself, unrelated to virtio, we don't want to make it
-> > *too* big as the client code doesn't use any scatter-gather and will
-> > want to allocate upfront contiguous buffers of the size that got
-> > negotiated -- that can get ugly quite fast, but we can leave it up to
-> > users to decide.
+> >  };
+> >  
+> >  static const uint32_t nvme_cse_iocs_none[256];
+> > @@ -3766,6 +3767,62 @@ static uint16_t nvme_aer(NvmeCtrl *n, NvmeRequest *req)
+> >      return NVME_NO_COMPLETE;
+> >  }
+> >  
+> > +static void __nvme_select_ns_iocs(NvmeCtrl *n, NvmeNamespace *ns);
+> > +static uint16_t nvme_ns_attachment(NvmeCtrl *n, NvmeRequest *req)
+> > +{
+> > +    NvmeNamespace *ns;
+> > +    NvmeCtrl *ctrl;
+> > +    uint16_t list[NVME_CONTROLLER_LIST_SIZE] = {};
+> > +    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
+> > +    uint32_t dw10 = le32_to_cpu(req->cmd.cdw10);
+> > +    bool attach = !(dw10 & 0xf);
+> > +    uint16_t *nr_ids = &list[0];
+> > +    uint16_t *ids = &list[1];
+> > +    uint16_t ret;
+> > +    int i;
+> > +
+> > +    trace_pci_nvme_ns_attachment(nvme_cid(req), dw10 & 0xf);
+> > +
+> > +    ns = nvme_subsys_ns(n->subsys, nsid);
+> > +    if (!ns) {
+> > +        return NVME_INVALID_FIELD | NVME_DNR;
+> > +    }
+> > +
+> > +    ret = nvme_dma(n, (uint8_t *)list, 4096,
+> > +                   DMA_DIRECTION_TO_DEVICE, req);
+> > +    if (ret) {
+> > +        return ret;
+> > +    }
+> > +
+> > +    if (!*nr_ids) {
+> > +        return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+> > +    }
+> > +
+> > +    for (i = 0; i < *nr_ids; i++) {
+> > +        ctrl = nvme_subsys_ctrl(n->subsys, ids[i]);
+> > +        if (!ctrl) {
+> > +            return NVME_NS_CTRL_LIST_INVALID | NVME_DNR;
+> > +        }
+> > +
+> > +        if (attach) {
+> > +            if (nvme_ns_is_attached(ctrl, ns)) {
+> > +                return NVME_NS_ALREADY_ATTACHED | NVME_DNR;
+> > +            }
+> > +
+> > +            nvme_ns_attach(ctrl, ns);
+> > +            __nvme_select_ns_iocs(ctrl, ns);
+> > +        } else {
+> > +            if (!nvme_ns_is_attached(ctrl, ns)) {
+> > +                return NVME_NS_NOT_ATTACHED | NVME_DNR;
+> > +            }
+> > +
+> > +            nvme_ns_detach(ctrl, ns);
+> > +        }
+> > +    }
+> > +
+> > +    return NVME_SUCCESS;
+> > +}
 > 
-> With ugly you just mean that it's occupying this memory for good as long as
-> the driver is loaded, or is there some runtime performance penalty as well to
-> be aware of?
+> Every controller that has newly attached the namespace needs to emit the
+> Namespace Notify AER in order for the host to react correctly to the
+> command.
 
-The main problem is memory fragmentation, see /proc/buddyinfo on various
-systems.
-After a fresh boot memory is quite clean and there is no problem
-allocating 2MB contiguous buffers, but after a while depending on the
-workload it can be hard to even allocate large buffers.
-I've had that problem at work in the past with a RDMA driver that wanted
-to allocate 256KB and could get that to fail quite reliably with our
-workload, so it really depends on what the client does.
+Okay. will prepare next series.
 
-In the 9p case, the memory used to be allocated for good and per client
-(= mountpoint), so if you had 15 9p mounts that could do e.g. 32
-requests in parallel with 1MB buffers you could lock 500MB of idling
-ram. I changed that to a dedicated slab a while ago, so that should no
-longer be so much of a problem -- the slab will keep the buffers around
-as well if used frequently so the performance hit wasn't bad even for
-larger msizes
-
-
-> > One of my very-long-term goal would be to tend to that, if someone has
-> > cycles to work on it I'd gladly review any patch in that area.
-> > A possible implementation path would be to have transport define
-> > themselves if they support it or not and handle it accordingly until all
-> > transports migrated, so one wouldn't need to care about e.g. rdma or xen
-> > if you don't have hardware to test in the short term.
-> 
-> Sounds like something that Greg suggested before for a slightly different,
-> even though related issue: right now the default 'msize' on Linux client side
-> is 8k, which really hurts performance wise as virtually all 9p messages have
-> to be split into a huge number of request and response messages. OTOH you
-> don't want to set this default value too high. So Greg noted that virtio could
-> suggest a default msize, i.e. a value that would suit host's storage hardware
-> appropriately.
-
-We can definitely increase the default, for all transports in my
-opinion.
-As a first step, 64 or 128k?
-
-> > The next best thing would be David's netfs helpers and sending
-> > concurrent requests if you use cache, but that's not merged yet either
-> > so it'll be a few cycles as well.
-> 
-> So right now the Linux client is always just handling one request at a time;
-> it sends a 9p request and waits for its response before processing the next
-> request?
-
-Requests are handled concurrently just fine - if you have multiple
-processes all doing their things it will all go out in parallel.
-
-The bottleneck people generally complain about (and where things hurt)
-is if you have a single process reading then there is currently no
-readahead as far as I know, so reads are really sent one at a time,
-waiting for reply and sending next.
-
-> If so, is there a reason to limit the planned concurrent request handling
-> feature to one of the cached modes? I mean ordering of requests is already
-> handled on 9p server side, so client could just pass all messages in a
-> lite-weight way and assume server takes care of it.
-
-cache=none is difficult, we could pipeline requests up to the buffer
-size the client requested, but that's it.
-Still something worth doing if the msize is tiny and the client requests
-4+MB in my opinion, but nothing anything in the vfs can help us with.
-
-cache=mmap is basically cache=none with a hack to say "ok, for mmap
-there's no choice so do use some" -- afaik mmap has its own readahead
-mechanism, so this should actually prefetch things, but I don't know
-about the parallelism of that mechanism and would say it's linear.
-
-Other chaching models (loose / fscache) actually share most of the code
-so whatever is done for one would be for both, the discussion is still
-underway with David/Willy and others mostly about ceph/cifs but would
-benefit everyone and I'm following closely.
-
--- 
-Dominique
+Thanks!
 
