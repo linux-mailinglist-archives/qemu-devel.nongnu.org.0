@@ -2,64 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4705B326E6F
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 18:36:58 +0100 (CET)
-Received: from localhost ([::1]:55186 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310D5326EAF
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 19:51:32 +0100 (CET)
+Received: from localhost ([::1]:49788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lG3WS-0001ev-Qw
-	for lists+qemu-devel@lfdr.de; Sat, 27 Feb 2021 12:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59716)
+	id 1lG4ga-0002Cz-Cq
+	for lists+qemu-devel@lfdr.de; Sat, 27 Feb 2021 13:51:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lG3VK-00017x-M3
- for qemu-devel@nongnu.org; Sat, 27 Feb 2021 12:35:47 -0500
-Received: from indium.canonical.com ([91.189.90.7]:59924)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lG3VH-0007DY-Sb
- for qemu-devel@nongnu.org; Sat, 27 Feb 2021 12:35:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lG3VC-0006GS-EA
- for <qemu-devel@nongnu.org>; Sat, 27 Feb 2021 17:35:38 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 60FCA2E814B
- for <qemu-devel@nongnu.org>; Sat, 27 Feb 2021 17:35:38 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lG4fK-0001Uw-0v; Sat, 27 Feb 2021 13:50:11 -0500
+Received: from mx2.suse.de ([195.135.220.15]:46994)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1lG4fE-0007Cs-MT; Sat, 27 Feb 2021 13:50:09 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 539EEAC6F;
+ Sat, 27 Feb 2021 18:50:00 +0000 (UTC)
+Subject: Re: [PATCH 07/16] cpu: Introduce CPUSystemOperations structure
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210226163227.4097950-1-f4bug@amsat.org>
+ <20210226163227.4097950-8-f4bug@amsat.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <52e23664-534b-70b3-fad0-54a6b964963f@suse.de>
+Date: Sat, 27 Feb 2021 19:49:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 27 Feb 2021 17:27:55 -0000
-From: John Arbuckle <1917161@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: programmingkidx
-X-Launchpad-Bug-Reporter: John Arbuckle (programmingkidx)
-X-Launchpad-Bug-Modifier: John Arbuckle (programmingkidx)
-Message-Id: <161444687583.24678.13238506356231835061.malonedeb@wampee.canonical.com>
-Subject: [Bug 1917161] [NEW] Parameter 'type' expects a netdev backend type
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
-X-Launchpad-Hash: bf0891429ac3822df0b4ac6b19033e60971f5185
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210226163227.4097950-8-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.35,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,53 +56,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1917161 <1917161@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ David Hildenbrand <david@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, David Gibson <david@gibson.dropbear.id.au>,
+ qemu-riscv@nongnu.org, Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Michael Walle <michael@walle.cc>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 2/26/21 5:32 PM, Philippe Mathieu-Daudé wrote:
+> Introduce a structure to hold handler specific to sysemu.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  include/hw/core/cpu.h | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index b12028c3c03..ab89235cb45 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -80,6 +80,12 @@ struct TCGCPUOps;
+>  /* see accel-cpu.h */
+>  struct AccelCPUClass;
+>  
+> +/*
+> + * struct CPUSystemOperations: System operations specific to a CPU class
+> + */
+> +typedef struct CPUSystemOperations {
 
-When using QEMU on an M1 Mac with Mac OS 11.1, I see this error message
-when trying to enable networking for a guest:
+I'd suggest for consistency and brevity:
 
-Parameter 'type' expects a netdev backend type
+SysemuCPUOps .
 
-Example command:
-qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -dev=
-ice rtl8139,netdev=3Dn0
+Let me tell you my full train of thought, just so you understand exactly where I am coming from:
 
-What should happen is networking should work when issuing the above
-command. What actually happens is QEMU exits immediately.
+in my view all this camelcase is nonsense, as is typedef. They just cause problems and solve none.
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+However, considering the existing QEMU conventions, the existence of QOM,
+for consistency with the rest of the QEMU code base, especially when looking at stuff around CPUClass,
+the convention is to use this camel case stuff for objects, so in lieu of
 
--- =
+tcg_cpu_ops
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1917161
+I went with TCGCPUOps
 
-Title:
-  Parameter 'type' expects a netdev backend type
+(TCG is the standard way to call tcg when case is an option, same for CPU, then Ops).
 
-Status in QEMU:
-  New
+Here for consistency I would say:
 
-Bug description:
-  When using QEMU on an M1 Mac with Mac OS 11.1, I see this error
-  message when trying to enable networking for a guest:
+Sysemu (as we are standardizing on calling system emulation/virtualization "sysemu")
++CPUOps as before.
 
-  Parameter 'type' expects a netdev backend type
+=
 
-  Example command:
-  qemu-system-i386 -m 700 -hda <Windows XP HD file> -netdev user,id=3Dn0 -d=
-evice rtl8139,netdev=3Dn0
+SysemuCPUOps.
 
-  What should happen is networking should work when issuing the above
-  command. What actually happens is QEMU exits immediately.
+What do you think?
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1917161/+subscriptions
+Ciao,
+
+Claudio
+
+> +} CPUSystemOperations;
+> +
+>  /**
+>   * CPUClass:
+>   * @class_by_name: Callback to map -cpu command line model name to an
+> @@ -190,6 +196,9 @@ struct CPUClass {
+>      bool gdb_stop_before_watchpoint;
+>      struct AccelCPUClass *accel_cpu;
+>  
+> +    /* when system emulation is not available, this pointer is NULL */
+> +    struct CPUSystemOperations system_ops;
+> +
+>      /* when TCG is not available, this pointer is NULL */
+>      struct TCGCPUOps *tcg_ops;
+>  };
+> 
+
 
