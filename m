@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26508326C46
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 09:38:58 +0100 (CET)
-Received: from localhost ([::1]:55340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DD4326C43
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Feb 2021 09:37:04 +0100 (CET)
+Received: from localhost ([::1]:49776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lFv7p-0008Of-6K
-	for lists+qemu-devel@lfdr.de; Sat, 27 Feb 2021 03:38:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35070)
+	id 1lFv5z-00063Z-4d
+	for lists+qemu-devel@lfdr.de; Sat, 27 Feb 2021 03:37:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35048)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lFv3O-0004VP-Gi; Sat, 27 Feb 2021 03:34:22 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:3493)
+ id 1lFv3N-0004Uy-T6; Sat, 27 Feb 2021 03:34:22 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:3497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wangxingang5@huawei.com>)
- id 1lFv3J-0007vv-DR; Sat, 27 Feb 2021 03:34:22 -0500
+ id 1lFv3J-0007vz-CC; Sat, 27 Feb 2021 03:34:21 -0500
 Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DnfsT48FRzjSGJ;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DnfsT4NXMzjSYF;
  Sat, 27 Feb 2021 16:32:29 +0800 (CST)
 Received: from huawei.com (10.174.185.226) by DGGEMS410-HUB.china.huawei.com
  (10.3.19.210) with Microsoft SMTP Server id 14.3.498.0; Sat, 27 Feb 2021
- 16:33:57 +0800
+ 16:33:58 +0800
 From: Wang Xingang <wangxingang5@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC RESEND PATCH 0/4] hw/arm/virt-acpi-build: Introduce iommu option
- for pci root bus
-Date: Sat, 27 Feb 2021 08:33:47 +0000
-Message-ID: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
+Subject: [RFC RESEND PATCH 1/4] pci: Add PCI_BUS_IOMMU property
+Date: Sat, 27 Feb 2021 08:33:48 +0000
+Message-ID: <1614414831-39712-2-git-send-email-wangxingang5@huawei.com>
 X-Mailer: git-send-email 2.6.4.windows.1
+In-Reply-To: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
+References: <1614414831-39712-1-git-send-email-wangxingang5@huawei.com>
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Originating-IP: [10.174.185.226]
@@ -62,30 +63,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xingang Wang <wangxingang5@huawei.com>
 
-These patches add support for configure iommu on/off for pci root bus,
-including primary bus and pxb root bus. At present, All root bus will go
-through iommu when iommu is configured, which is not flexible.
+This Property can be useful to check whether this bus is attached to iommu.
 
-So this add option to enable/disable iommu for primary bus and pxb root bus.
-When iommu is enabled for the root bus, devices attached to it will go
-through iommu. When iommu is disabled for the root bus, devices will not
-go through iommu accordingly.
+Signed-off-by: Xingang Wang <wangxingang5@huawei.com>
+Signed-off-by: Jiahui Cen <cenjiahui@huawei.com>
+---
+ include/hw/pci/pci_bus.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Xingang Wang (4):
-  pci: Add PCI_BUS_IOMMU property
-  hw/pci: Add iommu option for pci root bus
-  hw/pci: Add pci_root_bus_max_bus
-  hw/arm/virt-acpi-build: Add explicit idmap info in IORT table
-
- hw/arm/virt-acpi-build.c            | 92 +++++++++++++++++++++--------
- hw/arm/virt.c                       | 29 +++++++++
- hw/pci-bridge/pci_expander_bridge.c |  6 ++
- hw/pci/pci.c                        | 35 ++++++++++-
- include/hw/arm/virt.h               |  1 +
- include/hw/pci/pci.h                |  1 +
- include/hw/pci/pci_bus.h            | 13 ++++
- 7 files changed, 153 insertions(+), 24 deletions(-)
-
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index 347440d42c..42109e8a06 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -24,6 +24,8 @@ enum PCIBusFlags {
+     PCI_BUS_IS_ROOT                                         = 0x0001,
+     /* PCIe extended configuration space is accessible on this bus */
+     PCI_BUS_EXTENDED_CONFIG_SPACE                           = 0x0002,
++    /* Iommu is enabled on this bus */
++    PCI_BUS_IOMMU                                           = 0x0004,
+ };
+ 
+ struct PCIBus {
+@@ -63,4 +65,15 @@ static inline bool pci_bus_allows_extended_config_space(PCIBus *bus)
+     return !!(bus->flags & PCI_BUS_EXTENDED_CONFIG_SPACE);
+ }
+ 
++static inline bool pci_bus_has_iommu(PCIBus *bus)
++{
++    PCIBus *root_bus = bus;
++
++    while (root_bus && !pci_bus_is_root(root_bus)) {
++        root_bus = pci_get_bus(root_bus->parent_dev);
++    }
++
++    return !!(root_bus->flags & PCI_BUS_IOMMU);
++}
++
+ #endif /* QEMU_PCI_BUS_H */
 -- 
 2.19.1
 
