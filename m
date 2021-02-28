@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D07E32756D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 01:00:23 +0100 (CET)
-Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B4E3327557
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:47:55 +0100 (CET)
+Received: from localhost ([::1]:60660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVz4-0003yd-Aj
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 19:00:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
+	id 1lGVn0-0006rM-7G
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:47:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPs-0005ij-Tr
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:00 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:35878)
+ id 1lGVPt-0005kC-6P
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:01 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:41373)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPi-0007lc-37
+ id 1lGVPi-0007lj-3H
  for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:00 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id t26so10374621pgv.3
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:48 -0800 (PST)
+Received: by mail-pg1-x536.google.com with SMTP id a23so548434pga.8
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=LaK3xHS/fvHJ2f1smHUqdXOOyUpc8PJcLS6WrecJURU=;
- b=Dm5NkehuYLOzmdU35O0j/RlAwZGbXA3HZbrc2uDP37KDD59aaKRSxGpsRJH+1B50Zv
- 5/r7FZl5v0/eYA+hW3zCqYEd/kfpSjtUcAvMN9ak7ds+WtzS8EKe/hr0fMN2fKUgqUiP
- XZoNh4qEeNDUzT0FQm3i5Lit7eEvQS1sbojm764jvFf4CBeAOgP5wuDsY1nld50A56c2
- APBn0j3dDoIzhuJiSHuOQ4HX8lNo+feoHbozfFkRdEdnhBR/9zG5dg71T6W0Svj+fEgp
- YM2nrg5v2CjjYpnhuZigK6yMsztrjSOGWNzIAgKDkIGTJQjfM3zHEeS8w5Q3eUZdvlIA
- PiGQ==
+ bh=czdE06JLRHpOqF9jSyw++HZIOzTZNz7lm/9aBoir1rI=;
+ b=u+B0cgxXDQeTsumcfKSqWViZC3djhMfcbhpfuj9aVUDCArt5BvRFtRaogR17aCaMMp
+ qq7oWvwzgGm2LOJtyb5wrj9RMfaLGUdkWjQTWFvPJzeSA5iI6cHIg3W2kdwAUB0tOUeJ
+ bdfmzMUbnCEClZR1aLRjJG4FjghhqPxgCemrw+WAFkmtkk1Czu+Nr8QyU/7U68Fgspgw
+ lo5lqrOBAmJCcp8ffsigbNe6EOMPg6RUx/kp7c39eYwDXP0Csp0p/q4j47IIljdcRbgh
+ 4t92E4QBqYu7C+YVRw/yxS/JAxJ8RUtdfYHWzCk+ijt0mMeuwHp9vfpLO0vWFO06DjxQ
+ aYug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=LaK3xHS/fvHJ2f1smHUqdXOOyUpc8PJcLS6WrecJURU=;
- b=bqJnkd+NsToL3zLdxaRAtaMrrj3v8IRKwlRjt8Khy4ZW7d1PGImm4LOevIpDiLmPX/
- KsqnhSMgnTEGHj88XomaeHSxzD1NibfBYleKBGdsxcRgv33UVBmWBc9QbEhc9TzGDwod
- AXLftsxXRwC4rPQHBDTa5pkcXUD0Zp6wkFxu9dinsbAXXF3P4h90oIdtJVM76hnU5Pyq
- MlvWtCTDvG2Sx9WDG+yHpXtPfqO9YLc2tuknZI/b1b5Ulq2kIv+CzUUcq48DDg+XdgUk
- jApwBxlW7u7dfflSjyRMGhARCE9LDGDTcHPEajg+tjDinNLBk9GhN8mPAYH6gIe+ya0Q
- bK+w==
-X-Gm-Message-State: AOAM531atkIJ7UVcqwzT1RUf/nESK57OBTCDXJuDZSmjt/dEmVM1Lxvx
- 8Bp0gaIZVPxJGFsG3n42KrbQMNa5F5BBnQ==
-X-Google-Smtp-Source: ABdhPJxmDozFzDShtOATNWajLr5I1OIqOmI62Lo1GHSkSF+mS8qwoOrxTBhkI/m8ecPCTSrcvt5LzQ==
-X-Received: by 2002:a65:4088:: with SMTP id t8mr11463969pgp.296.1614554627590; 
- Sun, 28 Feb 2021 15:23:47 -0800 (PST)
+ bh=czdE06JLRHpOqF9jSyw++HZIOzTZNz7lm/9aBoir1rI=;
+ b=UxzKefgVSVlZU3AeQEjK7Vv8y/xbnbTHiIHhmWT3Irr2FXbgRMLLyZpzQEbp+OOwez
+ 2YccApaOd2u7EUE/FB5qdXjaK3mHzVQYTTRSIH+zuoqZ5kcmY7ZLriOwvyJ895XAhOtS
+ FQP4Ciby4aCtdnAZjfVgTR8sEJ1GD2TdajG16QtZLzNKoy5+FO5z5Uyhhn2z4bGoH78P
+ uBseawG7KbxRIrsXCVBWzX9ukTM9o6I2nxU2/AV7IoI+e4A2SpJMg7Cz8Xvna0lgIJan
+ KYaNN2n2Z9WGcYXKzkCD50V9092sZPtVkyFAo/CKzKWZpjk/fvSWI562KwSeKXLO0gx2
+ vPyg==
+X-Gm-Message-State: AOAM533Yo33s8i9qTWY2s1vpfe4tVUi8KDDQFx6hCqgTpsX0nIySrr46
+ 03enXvLn6X8KnBxB4w8JQ9U5+yesvmQEyA==
+X-Google-Smtp-Source: ABdhPJzF9UFXWRsFN5CWsZixbAKevgK49CUezlHg9n5VidT3uBo/ByepDmExJwK9q37nuSOZzAkiaw==
+X-Received: by 2002:a63:d752:: with SMTP id w18mr9293504pgi.343.1614554628212; 
+ Sun, 28 Feb 2021 15:23:48 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
  by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.47
@@ -54,16 +54,16 @@ Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  Sun, 28 Feb 2021 15:23:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 28/50] target/i386: Reorder DisasContext members
-Date: Sun, 28 Feb 2021 15:22:59 -0800
-Message-Id: <20210228232321.322053-29-richard.henderson@linaro.org>
+Subject: [PATCH 29/50] target/i386: Add stub generator for helper_set_dr
+Date: Sun, 28 Feb 2021 15:23:00 -0800
+Message-Id: <20210228232321.322053-30-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,70 +87,54 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sort all of the single-byte members to the same area
-of the structure, eliminating 8 bytes of padding.
+This removes an ifdef from the middle of disas_insn,
+and ensures that the branch is not reachable.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 27 ++++++++++++++-------------
- 1 file changed, 14 insertions(+), 13 deletions(-)
+ target/i386/tcg/translate.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 36dee5c0c7..f0bc2df98c 100644
+index f0bc2df98c..42b96a2669 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -76,20 +76,24 @@ static TCGv_i64 cpu_bndu[4];
- typedef struct DisasContext {
-     DisasContextBase base;
- 
--    /* current insn context */
--    int8_t override; /* -1 if no override, else R_CS, R_DS, etc */
--    uint8_t prefix;
-+    target_ulong pc;       /* pc = eip + cs_base */
-+    target_ulong pc_start; /* pc at TB entry */
-+    target_ulong cs_base;  /* base of CS segment */
-+
-     MemOp aflag;
-     MemOp dflag;
--    target_ulong pc_start;
--    target_ulong pc; /* pc = eip + cs_base */
--    /* current block context */
--    target_ulong cs_base; /* base of CS segment */
-+
-+    int8_t override; /* -1 if no override, else R_CS, R_DS, etc */
-+    uint8_t prefix;
- 
- #ifndef CONFIG_USER_ONLY
-     uint8_t cpl;   /* code priv level */
-     uint8_t iopl;  /* i/o priv level */
+@@ -179,6 +179,19 @@ typedef struct DisasContext {
+ #define REX_B(S)       0
  #endif
-+    uint8_t vex_l;  /* vex vector length */
-+    uint8_t vex_v;  /* vex vvvv register, without 1's complement.  */
-+    uint8_t popl_esp_hack; /* for correct popl with esp base handling */
-+    uint8_t rip_offset; /* only used in x86_64, but left for simplicity */
  
- #ifdef TARGET_X86_64
-     uint8_t rex_r;
-@@ -97,16 +101,13 @@ typedef struct DisasContext {
-     uint8_t rex_b;
-     bool rex_w;
- #endif
--    uint8_t vex_l;  /* vex vector length */
--    uint8_t vex_v;  /* vex vvvv register, without 1's complement.  */
--    CCOp cc_op;  /* current CC operation */
--    bool cc_op_dirty;
-     bool jmp_opt; /* use direct block chaining for direct jumps */
-     bool repz_opt; /* optimize jumps within repz instructions */
-+    bool cc_op_dirty;
++/*
++ * Many sysemu-only helpers are not reachable for user-only.
++ * Define stub generators here, so that we need not either sprinkle
++ * ifdefs through the translator, nor provide the helper function.
++ */
++#define STUB_HELPER(NAME, ...) \
++    static inline void gen_helper_##NAME(__VA_ARGS__) \
++    { qemu_build_not_reached(); }
 +
-+    CCOp cc_op;  /* current CC operation */
-     int mem_index; /* select memory access functions */
-     uint32_t flags; /* all execution flags */
--    uint8_t popl_esp_hack; /* for correct popl with esp base handling */
--    uint8_t rip_offset; /* only used in x86_64, but left for simplicity */
-     int cpuid_features;
-     int cpuid_ext_features;
-     int cpuid_ext2_features;
++#ifdef CONFIG_USER_ONLY
++STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
++#endif
++
+ static void gen_eob(DisasContext *s);
+ static void gen_jr(DisasContext *s, TCGv dest);
+ static void gen_jmp(DisasContext *s, target_ulong eip);
+@@ -8069,7 +8082,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x121: /* mov reg, drN */
+     case 0x123: /* mov drN, reg */
+         if (check_cpl0(s)) {
+-#ifndef CONFIG_USER_ONLY
+             modrm = x86_ldub_code(env, s);
+             /* Ignore the mod bits (assume (modrm&0xc0)==0xc0).
+              * AMD documentation (24594.pdf) and testing of
+@@ -8098,7 +8110,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 gen_helper_get_dr(s->T0, cpu_env, s->tmp2_i32);
+                 gen_op_mov_reg_v(s, ot, rm, s->T0);
+             }
+-#endif /* !CONFIG_USER_ONLY */
+         }
+         break;
+     case 0x106: /* clts */
 -- 
 2.25.1
 
