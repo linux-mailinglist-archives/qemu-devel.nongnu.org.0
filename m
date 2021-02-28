@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1850832755E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:51:40 +0100 (CET)
-Received: from localhost ([::1]:44036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D978327560
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:53:22 +0100 (CET)
+Received: from localhost ([::1]:49836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVqd-0003F4-2Q
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:51:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44012)
+	id 1lGVsH-0005bI-6j
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:53:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44028)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVQM-0006b9-He
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:30 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:34836)
+ id 1lGVQN-0006cB-12
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:31 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:36564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVQK-00082B-Bo
+ id 1lGVQK-00082H-VO
  for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:30 -0500
-Received: by mail-pl1-x631.google.com with SMTP id g20so8775706plo.2
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:24:27 -0800 (PST)
+Received: by mail-pl1-x630.google.com with SMTP id e9so8765590plh.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:24:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=6nFM7mvFhUXE7Fg3oMPfO4xBFJLP9Mt7B9tvDexHBR0=;
- b=p6wYkpOUEiQcwZBfLF2/Wh0H06s8bT0jSUOswYH5H9q/fshKkZDdk0nQWmHQnBUi5w
- CFn8MnvbiCngeGKdMScNXmdlx0S4HZThLzz6yMKrvGSfAdGS6ETEo7uw1/vf50TAQXS4
- TR/c/qpszGzBzh7ChUiqwvfAqXB5JCOfSSzmb4GZeTDOS1Kj6pOaedHXXhTlrRXB6GJx
- Z96/bAunEzLMMcSX91b1oisyu++os2tMmv7D7Qb6eAJU3cZz/WuLvaqpBtIfaSd/7xcp
- v4RHCJneoKAPvuaN50FklPHuQ7KIRoPN5eJmFIpBqdLHfuCZFzPn5QqMQj2JiUB/fqe3
- DQFg==
+ bh=H5E7k9OmH/UhmHw5sMuUJjf7Rg3ut1g/2JQo4GVdgNQ=;
+ b=pmEGnKGxowTK+UcFC+rtEK3+hvwetbkr6B1LIxkOK6F1tkGMlWnjzddqPgYVRxoMfu
+ ngcmvS57M+5VHb/FocBUP4C7TSFWCF+umpQWXqBVd/9eA34/rm1sxJ0h+v3RHE3n02Bo
+ nTBfq6iB07trOqfOCoI2XE+uzGBrXXPe87/LmCkg/Hn1DrMZkdnzuxBZTNQEF5vd9JX4
+ 8ktzJxoGgp0IAxtkd542mBacp7hBdMIZRZVy0jXZdvcVhHDV4AoOHdemBPXpViz9hfOh
+ aV6ghHbEr6knP/mP2b/PfoHSYJ1d9U4IOOHKq62PVsL57v1a225wPtOdBbv1vOyWGd9r
+ CGgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=6nFM7mvFhUXE7Fg3oMPfO4xBFJLP9Mt7B9tvDexHBR0=;
- b=RuEiDzgXYlIJS26jwXYkL6PrsWyi23rGu48Sgzrlu7N5uq8IjY03LbpcwKvH8IALCz
- CVITqhleLKclHsLdqcfJO/lOn5L6rRb7lNoKkzncVIkyQZJAxDtzZfMl9sYPDmPrgeuR
- CViTucGBSXTRFXp1dgjnFJWXaEPjKV3pXRteCwu9tDvA30XXTaO4NURpkv/WC10ZDfN4
- VoObqHAh7LTlxAYzRuo1yLQM3iP5JcP7Nv44d3FD6pf7k47P36F1onB9Ra/Kj4oo6KEF
- an+ak3L/CLQH2eoaYWIE+nYBnIzeTfapmiAmeZCZ3AD/VDB3YWtYHtAzPyK6D6YnTWht
- dMHw==
-X-Gm-Message-State: AOAM53178dVOQJG+K1DCqQ1gwabFgCbHMdBfIUkVP/maHpYdx4+OGcCB
- PgS/JwhJhawXjsN6U6BkvbnuP/GEjx/8aw==
-X-Google-Smtp-Source: ABdhPJwhIHMikooVxOXybogxB4/C87I9PXNtGoPXDzoNgjAM3p4THLaWCouN5M+vx/JLnnWecnU1Hw==
-X-Received: by 2002:a17:90a:7c0c:: with SMTP id
- v12mr14095219pjf.63.1614554667155; 
+ bh=H5E7k9OmH/UhmHw5sMuUJjf7Rg3ut1g/2JQo4GVdgNQ=;
+ b=WhA45lAKNipB98TlLwP2viOkjMOkHcWrnlGSxfYAZWJ1JjvIjNKyGpKEtc1y+KqLgR
+ uEdAej4tqwSewKXBPM4b8OSHXbP2gVBc3k18bDcdIojKYa02g9u4i2ALdNsd0O5tDEVu
+ f56PSfTsWHBCwNm0sh1Yq0oV+IAhusQqZ8w7MX5CqTpnLz+0L7rDa4Yonn/fCHU3EBnp
+ mBxzljf9pRCzPE/Rg+6Dy07QH7yMZxcyzsfg5eqSo2UMM7cg/IWiUK7drLyrmhtS/ne8
+ 1aDrOagcc63YX9IlOvmISbesECuMHM0eWcmm4sxugXvOVSBw5vODrPdHNGno+NmaCGtd
+ c1tA==
+X-Gm-Message-State: AOAM530um9qz4/GKDNn30Vkkp72jpjq2qeABWuJN1JslA3EB6MmAnd7f
+ 3BShOlwSFpy6cYABmVi6RbQwUT2Naxv2LA==
+X-Google-Smtp-Source: ABdhPJwIQ82XqSLDJOkDV0/u5GNhFv7MHK8ChX4VggGHl3Ov5PVC4Buf6K1QqEyl9prcUCWldmrVMQ==
+X-Received: by 2002:a17:90a:74c6:: with SMTP id
+ p6mr13926695pjl.134.1614554667785; 
  Sun, 28 Feb 2021 15:24:27 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id b10sm14164049pgm.76.2021.02.28.15.24.26
+ by smtp.gmail.com with ESMTPSA id b10sm14164049pgm.76.2021.02.28.15.24.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:24:26 -0800 (PST)
+ Sun, 28 Feb 2021 15:24:27 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 42/50] target/i386: Unify invlpg, invlpga
-Date: Sun, 28 Feb 2021 15:23:13 -0800
-Message-Id: <20210228232321.322053-43-richard.henderson@linaro.org>
+Subject: [PATCH 43/50] target/i386: Inline user cpu_svm_check_intercept_param
+Date: Sun, 28 Feb 2021 15:23:14 -0800
+Message-Id: <20210228232321.322053-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,127 +88,83 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a single helper, flush_page, to do the work.
-Use gen_svm_check_intercept.
-Perform the zero-extension for invlpga inline.
+The user-version is a no-op.  This lets us completely
+remove tcg/user/svm_stubs.c.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/helper.h                 |  3 +--
- target/i386/tcg/sysemu/misc_helper.c |  7 ++-----
- target/i386/tcg/sysemu/svm_helper.c  | 18 ------------------
- target/i386/tcg/translate.c          | 20 ++++++++++++--------
- 4 files changed, 15 insertions(+), 33 deletions(-)
+ target/i386/cpu.h                |  8 ++++++++
+ target/i386/tcg/user/svm_stubs.c | 28 ----------------------------
+ target/i386/tcg/user/meson.build |  1 -
+ 3 files changed, 8 insertions(+), 29 deletions(-)
+ delete mode 100644 target/i386/tcg/user/svm_stubs.c
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index ab72eba52a..0264fba335 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -110,8 +110,7 @@ DEF_HELPER_2(vmload, void, env, int)
- DEF_HELPER_2(vmsave, void, env, int)
- DEF_HELPER_1(stgi, void, env)
- DEF_HELPER_1(clgi, void, env)
--DEF_HELPER_2(invlpga, void, env, int)
--DEF_HELPER_2(invlpg, void, env, tl)
-+DEF_HELPER_FLAGS_2(flush_page, TCG_CALL_NO_RWG, void, env, tl)
- DEF_HELPER_FLAGS_2(hlt, TCG_CALL_NO_WG, noreturn, env, int)
- DEF_HELPER_FLAGS_2(monitor, TCG_CALL_NO_WG, void, env, tl)
- DEF_HELPER_FLAGS_2(mwait, TCG_CALL_NO_WG, noreturn, env, int)
-diff --git a/target/i386/tcg/sysemu/misc_helper.c b/target/i386/tcg/sysemu/misc_helper.c
-index 1d8b651212..b7146092f1 100644
---- a/target/i386/tcg/sysemu/misc_helper.c
-+++ b/target/i386/tcg/sysemu/misc_helper.c
-@@ -435,12 +435,9 @@ void helper_rdmsr(CPUX86State *env)
-     env->regs[R_EDX] = (uint32_t)(val >> 32);
- }
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index a1268abe9f..70b26991dd 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -2129,8 +2129,16 @@ static inline void cpu_set_fpuc(CPUX86State *env, uint16_t fpuc)
+ void helper_lock_init(void);
  
--void helper_invlpg(CPUX86State *env, target_ulong addr)
-+void helper_flush_page(CPUX86State *env, target_ulong addr)
- {
--    X86CPU *cpu = env_archcpu(env);
+ /* svm_helper.c */
++#ifdef CONFIG_USER_ONLY
++static inline void
++cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
++                              uint64_t param, uintptr_t retaddr)
++{ /* no-op */ }
++#else
+ void cpu_svm_check_intercept_param(CPUX86State *env1, uint32_t type,
+                                    uint64_t param, uintptr_t retaddr);
++#endif
++
+ /* apic.c */
+ void cpu_report_tpr_access(CPUX86State *env, TPRAccess access);
+ void apic_handle_tpr_access_report(DeviceState *d, target_ulong ip,
+diff --git a/target/i386/tcg/user/svm_stubs.c b/target/i386/tcg/user/svm_stubs.c
+deleted file mode 100644
+index db818f89a8..0000000000
+--- a/target/i386/tcg/user/svm_stubs.c
++++ /dev/null
+@@ -1,28 +0,0 @@
+-/*
+- *  x86 SVM helpers (user-mode)
+- *
+- *  Copyright (c) 2003 Fabrice Bellard
+- *
+- * This library is free software; you can redistribute it and/or
+- * modify it under the terms of the GNU Lesser General Public
+- * License as published by the Free Software Foundation; either
+- * version 2.1 of the License, or (at your option) any later version.
+- *
+- * This library is distributed in the hope that it will be useful,
+- * but WITHOUT ANY WARRANTY; without even the implied warranty of
+- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+- * Lesser General Public License for more details.
+- *
+- * You should have received a copy of the GNU Lesser General Public
+- * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+- */
 -
--    cpu_svm_check_intercept_param(env, SVM_EXIT_INVLPG, 0, GETPC());
--    tlb_flush_page(CPU(cpu), addr);
-+    tlb_flush_page(env_cpu(env), addr);
- }
- 
- static void QEMU_NORETURN do_hlt(CPUX86State *env)
-diff --git a/target/i386/tcg/sysemu/svm_helper.c b/target/i386/tcg/sysemu/svm_helper.c
-index 86a0b3c4be..a8a671aa33 100644
---- a/target/i386/tcg/sysemu/svm_helper.c
-+++ b/target/i386/tcg/sysemu/svm_helper.c
-@@ -423,24 +423,6 @@ void helper_clgi(CPUX86State *env)
-     env->hflags2 &= ~HF2_GIF_MASK;
- }
- 
--void helper_invlpga(CPUX86State *env, int aflag)
+-#include "qemu/osdep.h"
+-#include "cpu.h"
+-#include "exec/helper-proto.h"
+-#include "tcg/helper-tcg.h"
+-
+-void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
+-                                   uint64_t param, uintptr_t retaddr)
 -{
--    X86CPU *cpu = env_archcpu(env);
--    target_ulong addr;
--
--    cpu_svm_check_intercept_param(env, SVM_EXIT_INVLPGA, 0, GETPC());
--
--    if (aflag == 2) {
--        addr = env->regs[R_EAX];
--    } else {
--        addr = (uint32_t)env->regs[R_EAX];
--    }
--
--    /* XXX: could use the ASID to see if it is needed to do the
--       flush */
--    tlb_flush_page(CPU(cpu), addr);
 -}
--
- void cpu_svm_check_intercept_param(CPUX86State *env, uint32_t type,
-                                    uint64_t param, uintptr_t retaddr)
- {
-diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index aa6a8c4813..9d2171aa3a 100644
---- a/target/i386/tcg/translate.c
-+++ b/target/i386/tcg/translate.c
-@@ -194,9 +194,8 @@ typedef struct DisasContext {
- 
- #ifdef CONFIG_USER_ONLY
- STUB_HELPER(clgi, TCGv_env env)
-+STUB_HELPER(flush_page, TCGv_env env, TCGv addr)
- STUB_HELPER(hlt, TCGv_env env, TCGv_i32 pc_ofs)
--STUB_HELPER(invlpga, TCGv_env env, TCGv_i32 aflag)
--STUB_HELPER(invlpg, TCGv_env env, TCGv addr)
- STUB_HELPER(monitor, TCGv_env env, TCGv addr)
- STUB_HELPER(mwait, TCGv_env env, TCGv_i32 pc_ofs)
- STUB_HELPER(set_dr, TCGv_env env, TCGv_i32 reg, TCGv val)
-@@ -7586,9 +7585,15 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             if (!check_cpl0(s)) {
-                 break;
-             }
--            gen_update_cc_op(s);
--            gen_jmp_im(s, pc_start - s->cs_base);
--            gen_helper_invlpga(cpu_env, tcg_const_i32(s->aflag - 1));
-+            gen_svm_check_intercept(s, SVM_EXIT_INVLPGA);
-+            if (s->aflag == MO_64) {
-+                tcg_gen_mov_tl(s->A0, cpu_regs[R_EAX]);
-+            } else {
-+                tcg_gen_ext32u_tl(s->A0, cpu_regs[R_EAX]);
-+            }
-+            gen_helper_flush_page(cpu_env, s->A0);
-+            gen_jmp_im(s, s->pc - s->cs_base);
-+            gen_eob(s);
-             break;
- 
-         CASE_MODRM_MEM_OP(2): /* lgdt */
-@@ -7676,10 +7681,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-             if (!check_cpl0(s)) {
-                 break;
-             }
--            gen_update_cc_op(s);
--            gen_jmp_im(s, pc_start - s->cs_base);
-+            gen_svm_check_intercept(s, SVM_EXIT_INVLPG);
-             gen_lea_modrm(env, s, modrm);
--            gen_helper_invlpg(cpu_env, s->A0);
-+            gen_helper_flush_page(cpu_env, s->A0);
-             gen_jmp_im(s, s->pc - s->cs_base);
-             gen_eob(s);
-             break;
+diff --git a/target/i386/tcg/user/meson.build b/target/i386/tcg/user/meson.build
+index 345294c096..16a0be1ae6 100644
+--- a/target/i386/tcg/user/meson.build
++++ b/target/i386/tcg/user/meson.build
+@@ -2,6 +2,5 @@ i386_user_ss.add(when: ['CONFIG_TCG', 'CONFIG_USER_ONLY'], if_true: files(
+   'excp_helper.c',
+   'misc_stubs.c',
+   'fpu_helper.c',
+-  'svm_stubs.c',
+   'seg_helper.c',
+ ))
 -- 
 2.25.1
 
