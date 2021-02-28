@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3794432704C
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 06:08:41 +0100 (CET)
-Received: from localhost ([::1]:56170 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3CB5327055
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 06:15:36 +0100 (CET)
+Received: from localhost ([::1]:58370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGEJs-0005JZ-97
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 00:08:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41552)
+	id 1lGEQZ-0006hY-UI
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 00:15:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lGEHd-00041N-S3; Sun, 28 Feb 2021 00:06:21 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629]:34382)
+ id 1lGEP6-0006Ea-Qv
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 00:14:04 -0500
+Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:40726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lGEHc-00054z-DE; Sun, 28 Feb 2021 00:06:21 -0500
-Received: by mail-pl1-x629.google.com with SMTP id ba1so7581650plb.1;
- Sat, 27 Feb 2021 21:06:19 -0800 (PST)
+ id 1lGEP4-0000sv-6u
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 00:14:04 -0500
+Received: by mail-yb1-xb2f.google.com with SMTP id c131so13386161ybf.7
+ for <qemu-devel@nongnu.org>; Sat, 27 Feb 2021 21:14:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gbeFzvOCg2FfLYNNXxmrU/VInuwmU84mD73YK7KoSwo=;
- b=Pk629juDU1WulXygQh1/wwYJum+0dyF97p1zioD/+0gjtr8LYBpIB6rgHKIICl7WVP
- L6EhsC7fjIgWI9hAbZdMFBf9RILT7fFMYr7/fLEjG4k/jw3tVGY6VNzNSbwbDdAbXmPt
- DT4wqR+pkpMxI/Wq9+EXweNdGFdWpC/zybRTsR99PntdDVpiKoyisO2+YElzNSKwSlQO
- vcYoFFkBXvCxl28ksJrQ1N02cD7sNdPNP30S8q0pQn9gDs7vBSRWL9bhC5guHcIlxtzY
- QLzUy+GZgXRCarWP6Dum43H1ulOqF6Z4d6BTFAuUXWu191CL7gbqjCcPNklkZUQXgmkV
- JtHQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=KkYnJ7wa/+zI+8NUoftb2gtLTjwFLyuZgytDrAWBTPo=;
+ b=XHedob714sb64JpGM0HO17mqW2vaW7rdOUv/NqtXSU5XVyjvCnIiJfAJ0phraCYLJH
+ afPVRfAC2zjvK050n5zBvkz0bNsEShUExbxrBzeUC4//uAl2OvGTAi3R23gKjL3wKHc0
+ e4lKvyDm0ACCu7IGR4v1j3ETW8Wg+lj77SVR0OVh3OqdC4jcQcy3lRH1DfLbcncobhUh
+ XigIOw4mgx+K148h0OZuzXo2zW8EOcU9/vhJjZk6al+cGJottXy1s5XoL0ZbRqYSJ/KY
+ i7YMDiy73iH08oO0l3irxUGbC4MoqLH/qMxe2K0ERsGogd573+PaC2SDOSjJaBdZdUgI
+ IjsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=gbeFzvOCg2FfLYNNXxmrU/VInuwmU84mD73YK7KoSwo=;
- b=PouzQXQCal0O+o1KW2pYNARUEiMplSG3QTnddkVfP+hSStfh2t5OcACSWQBl8PfBmw
- HVNX8m/ntYhiONLxqeudCmOVCwaWpUti02i3OcnTyt8sBxgdyKVAJgkH7dZZdvga/6HO
- 8tod6HQhz1Ob2zC8+z0BfQRKhCxd4KOzXeML4m+ZJlZCjpwAb/7Je6bd3kcyyKbsvqJy
- u8Ti1E4x0q0NHrYPDr6+5ug4fVhLpfEFH74XwKNGcYVbPW7Qivz8xt3MZ7PXs8tDtZl+
- A+r6z5nvleYbE6rZUvnjYQV2k9zscVZIlnc6Py98TEN3Swrv3LIDncCmUVNwjNaF07ZP
- 8iZg==
-X-Gm-Message-State: AOAM530KU1hakcqEaqruMcvyEZaLV1FYt2Tp3cGyGBKucRJmYmG96vWv
- R78QVXjdmf9/0p+UZoQy598=
-X-Google-Smtp-Source: ABdhPJwQfimLmek5tczCtIhOl0E+LaUD2180Wy4Eiddsx4lbGsdThu+12tkHcCOt9F0KQWMp/vWTUw==
-X-Received: by 2002:a17:90a:4104:: with SMTP id
- u4mr1551900pjf.81.1614488778519; 
- Sat, 27 Feb 2021 21:06:18 -0800 (PST)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id d75sm11097736pfd.20.2021.02.27.21.06.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 27 Feb 2021 21:06:18 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH] hw/sd: sd: Fix build error when DEBUG_SD is on
-Date: Sun, 28 Feb 2021 13:06:09 +0800
-Message-Id: <20210228050609.24779-1-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=KkYnJ7wa/+zI+8NUoftb2gtLTjwFLyuZgytDrAWBTPo=;
+ b=oJTmfofT9t2GhRuW1NNKExdxSXNWqpuTg3qs+RdLHDz4UxEzSSnHAgNf+SX8aKdk6e
+ BZEiCrQE0me7E5zBMCoDT/6efOuCY1U6lCJfibVUTUx1crF/ZdCE8cvoiIOfXW2UM+tP
+ OIyhs2zbW5/pH7ZzovZI3nB0Xd6hJ98YD04U+fw413ePdnqX8pUgLkRPo1rI8yZhwOEY
+ wcNuyK0MIcUGQF/+8kS6bncGM2KSlRJ/jwzfyxPe6e+gx/45H0vXUI/UVUToGxjZiYvB
+ Ajsk1l47u6Pok0K51fiusKXnw5j9PpO6NMomfEj8wmCwZbj4kywMYN+VaPS0dSC6Jxw6
+ PljQ==
+X-Gm-Message-State: AOAM530z+QYIvv8rp7eRN8vmRSrNyWOD0Y0ZJv7hJUFcItSBkGZvlvtw
+ JiiVq7X9UHHUsm7+JjswwDtWS6z9qRkRGna1/Qg=
+X-Google-Smtp-Source: ABdhPJypScBJ3+MtCR4DInyxi1jykPRdVQR9PyJeXHV8vdXORnRRepBYDMX/MJ8YPjE7VpEp7y8ZJiQN8YcIHz4+KQs=
+X-Received: by 2002:a25:d17:: with SMTP id 23mr16158716ybn.387.1614489241234; 
+ Sat, 27 Feb 2021 21:14:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x629.google.com
+References: <1613739127-61825-1-git-send-email-bmeng.cn@gmail.com>
+ <CAFEAcA_qpOXLXDkaYq6T+StUnSUEuV6+FL94bgzvkoRE6ShUMA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_qpOXLXDkaYq6T+StUnSUEuV6+FL94bgzvkoRE6ShUMA@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 28 Feb 2021 13:13:50 +0800
+Message-ID: <CAEUhbmXvVqqn9QhC15oAV_erQzdfhOUQoxVoNcEgmVH7D9_L5A@mail.gmail.com>
+Subject: Re: [PATCH] Make ram_addr_t 64 bits unconditionally
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,34 +77,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Hi Peter,
 
-"qemu-common.h" should be included to provide the forward declaration
-of qemu_hexdump() when DEBUG_SD is on.
+On Fri, Feb 19, 2021 at 9:11 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Fri, 19 Feb 2021 at 12:52, Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > Currently machine->ram_size is a ram_addr_t, whose size is 64 bits
+> > if either (a) the host is 64 bits or (b) CONFIG_XEN_BACKEND is
+> > enabled, so it's effectively only 32 bits on 32-bit-not-x86.
+> >
+> > commit 4be403c8158e ("Make target_phys_addr_t 64 bits unconditionally")
+> > did the change for target_phys_addr_t which is now hwaddr to be 64 bits
+> > unconditionally. Let's do the same to ram_addr_t.
+> >
+> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> > --
+>
+> As noted on the other thread, I like this in principle,
+> but I think it would be interesting to check whether it
+> has a measurable perf impact on the non-x86-32-bit hosts
+> that it affects.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
+What measures should we take to move this on? I don't have any access
+to non-x86 32-bit hosts.
 
- hw/sd/sd.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 8b397effbc..7b09ce9c2e 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -47,6 +47,7 @@
- #include "qemu/timer.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu-common.h"
- #include "sdmmc-internal.h"
- #include "trace.h"
- 
--- 
-2.25.1
-
+Regards,
+Bin
 
