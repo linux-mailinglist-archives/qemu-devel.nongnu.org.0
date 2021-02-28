@@ -2,29 +2,29 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 562FE327427
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 20:34:53 +0100 (CET)
-Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9DC5327437
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 20:43:05 +0100 (CET)
+Received: from localhost ([::1]:44818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGRq8-0005ot-BF
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 14:34:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54298)
+	id 1lGRxz-0000cu-MI
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 14:42:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lGRl1-00004u-VA; Sun, 28 Feb 2021 14:29:37 -0500
-Received: from mail-dm6nam10on2083.outbound.protection.outlook.com
- ([40.107.93.83]:7764 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1lGRlE-0000Mz-7g; Sun, 28 Feb 2021 14:29:48 -0500
+Received: from mail-bn8nam11on2041.outbound.protection.outlook.com
+ ([40.107.236.41]:43360 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lGRkx-0003Ax-J3; Sun, 28 Feb 2021 14:29:35 -0500
+ id 1lGRl5-0003BA-TH; Sun, 28 Feb 2021 14:29:47 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aL7MJcquxIgzUT+LDKxTCDQ3/6Qv1rZGt3Z9WtCqqkg/ZIzjm58U/nuQUbnfc60GASylmDyZZ5d/FvBrvb7UXK6JXIBd9UKXm9PEAS8W5qxrXzbOV0bu2kM/yoUxH6UpHFuCdIJvk9/8/Wu3xTouNaV5pJL/P16vYCwzhUgaPC32bEQmVyAbmDISoYe2j/3BfPAx0dwQDKcpaW6PDaxWsorkqAZSOtCmLbA8WDOamycmCGupXE2fHR0DRuFU8X+PNAdggI2/CnmF3ktsbvmxfED7rVpCYEH31lwZOBMJwt/wppouhrzjZZD3ERv6mmXIkrVeMY8wm91WFTVKjFpK1w==
+ b=J52gA+BX8IeKlSWR0aS/LAEVwA3IQSPMS0rovhotb8+z87xtB9tMVF2Pgm7jY72lpcg48FgQb6+7uQ56xGp8b+nRAXBNsaTRGR2CuHp7EUXe5f0QouG+0KuYGSHyQmalqDOTb997hSXa8scKB1/D5DLT+hWPndM1mD2F7IjU2WzQQzjKv7BYhLHUyxgpkJPE09dJT1vIkk8KqMHEUKcoIHfYHW5rBHxIfzQbdIp0ETA5u+v0+NENFHCCexkKIUIT/LgKi4P3UhgHtcMcJCtJaOeEHD4tVeqatSKjhtjCF8CTwetR3D8gAulGfPn3FbQdV/abyyJV0cMq7udaJvnftA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gJjid8O73JbjGuZhgnVYVSjPII4cATb/znl6qcWgJLE=;
- b=WxHJRa4mbb/VuprHNaOPumNRUvkl+oOfOZWQnrPBQY0+ucTtQHDBELkYG9oGpDVKgk9IvClYL1FmE6ufR+/nkE2oKdoF0tpYX8v2sEVpbjM0PUSNb3TGe6+gqI2tZLpNCPp6SUTB81K+Fh1TmCJUdqJlwgGcxF7yaezeNHGG/39XHrA5N4O0XyVK4ILvuzkoOA31ivh3zA3M9m9cW/SFEWhbNgnTpwbwmtcNGY+P+XR8wxsvGolKCebO4RgbeSaoPfDVJSuaqdrL/XcWSGePvFwIPR6PKQyOybkxm4TlsORbny/DBpC2asYZ7DeEHx9bpmrBdCI2etEqvRSFq4i9+w==
+ bh=8fY9HpVPoQ5z0IBxhOa1n/ZuBIQZwWxDpcKbgQV9lnI=;
+ b=TBkD/tLNnHe+CD+JaCAr16pnbFEh6sAMCraKaqMLCxpjxkfn0RKl4TE3ZP7lwKHQENaWmt0Q+Q214sY00BgJORvOX0Dp2hQNfaf0p2p34CxXPFMj8BEtwdEVpZDxAT8XOFLIoiKgGf9a0FVXdjSKQfjRs1gy/GoV6AH5y9MHfNNpHdqbdLZaQZCGwa28V9Bi731U0vpDGo4FN7Z+sy3e5zmkK4AHOGS5Y2c1gNo3G5rkwN5HwFF/SZcoA1c3fEKgtUOnGcokyc/Wxgl015ZNerUeIqVza1IsvupjM9KkOP5soanSdaTV5EHqNYgkLTJfGSNQ0HRO81wpC9LRzhH4lA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=chromium.org smtp.mailfrom=xilinx.com;
  dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
@@ -32,18 +32,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gJjid8O73JbjGuZhgnVYVSjPII4cATb/znl6qcWgJLE=;
- b=R0q5fAifWLK1BNfbFQnB8EgYR7kbNEpz0FoaaBRmNrAHKW4CdQxyhbJw7/nMByYAaTm2sedtfYCOLd2uYalP4xbjHhQqCeLTXHa96uUazdZftj0/sT7XcQQ9uVJoyqjDmxuIJw5rjVEFC/xvJfXDGovuxrkrBp6VyqgW/MBeXcQ=
-Received: from CY4PR03CA0021.namprd03.prod.outlook.com (2603:10b6:903:33::31)
- by BYAPR02MB5445.namprd02.prod.outlook.com (2603:10b6:a03:a4::18)
+ bh=8fY9HpVPoQ5z0IBxhOa1n/ZuBIQZwWxDpcKbgQV9lnI=;
+ b=r2QnrJODxG0ZmoJej5tAp8su8cDVdZUm4IW76SaziIAAq8jtcnEu2TaTLDS2qb+IQe2E9+FXuz04G+fZ+fXAe+MAOsg2N0C+3zKlD5kFHKf70QkBdFOlyUcyGSYMQ3RoIZiZeA9bRJh1kgzVgifm67jAnpKARnId3NB2+Zd5aeU=
+Received: from CY4PR03CA0015.namprd03.prod.outlook.com (2603:10b6:903:33::25)
+ by MWHPR02MB2302.namprd02.prod.outlook.com (2603:10b6:300:5b::20)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19; Sun, 28 Feb
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.20; Sun, 28 Feb
  2021 19:29:27 +0000
 Received: from CY1NAM02FT032.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:33:cafe::19) by CY4PR03CA0021.outlook.office365.com
- (2603:10b6:903:33::31) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10b6:903:33:cafe::21) by CY4PR03CA0015.outlook.office365.com
+ (2603:10b6:903:33::25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.19 via Frontend
- Transport; Sun, 28 Feb 2021 19:29:26 +0000
+ Transport; Sun, 28 Feb 2021 19:29:27 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; chromium.org; dkim=none (message not signed)
  header.d=none;chromium.org; dmarc=pass action=none header.from=xilinx.com;
@@ -53,20 +53,20 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
 Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
  CY1NAM02FT032.mail.protection.outlook.com (10.152.75.184) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3890.19 via Frontend Transport; Sun, 28 Feb 2021 19:29:26 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ 15.20.3890.19 via Frontend Transport; Sun, 28 Feb 2021 19:29:27 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
  xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
  15.1.1913.5; Sun, 28 Feb 2021 11:29:16 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
  15.1.1913.5 via Frontend Transport; Sun, 28 Feb 2021 11:29:16 -0800
-Received: from [10.140.6.35] (port=57760 helo=xhdsaipava40.xilinx.com)
+Received: from [10.140.6.35] (port=57762 helo=xhdsaipava40.xilinx.com)
  by smtp.xilinx.com with esmtp (Exim 4.90)
  (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1lGRki-0008An-Ba; Sun, 28 Feb 2021 11:29:16 -0800
+ id 1lGRki-0003MF-Cd; Sun, 28 Feb 2021 11:29:16 -0800
 Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id 5983E13C089C; Mon,  1 Mar 2021 01:04:01 +0530 (IST)
+ id 6111813C091C; Mon,  1 Mar 2021 01:04:01 +0530 (IST)
 From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
  Reitz" <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
@@ -78,43 +78,42 @@ To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
  Francis" <alistair.francis@wdc.com>, "Edgar E. Iglesias"
  <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, "Paolo
  Bonzini" <pbonzini@redhat.com>
-Subject: [PATCH v3 03/21] sd: emmc: Update SET_RELATIVE_ADDR command
-Date: Mon, 1 Mar 2021 01:03:09 +0530
-Message-ID: <1614540807-30686-4-git-send-email-sai.pavan.boddu@xilinx.com>
+Subject: [PATCH v3 04/21] sd: emmc: update OCR fields for eMMC
+Date: Mon, 1 Mar 2021 01:03:10 +0530
+Message-ID: <1614540807-30686-5-git-send-email-sai.pavan.boddu@xilinx.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
 References: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 13aa54f6-fbec-4ee2-a77a-08d8dc1f2917
-X-MS-TrafficTypeDiagnostic: BYAPR02MB5445:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB54459D798ABD1CAD7064CDDECA9B9@BYAPR02MB5445.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 862776a0-36e1-4ee0-338b-08d8dc1f29ac
+X-MS-TrafficTypeDiagnostic: MWHPR02MB2302:
+X-Microsoft-Antispam-PRVS: <MWHPR02MB2302597A3329D8662681801FCA9B9@MWHPR02MB2302.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:519;
+X-MS-Oob-TLC-OOBClassifiers: OLM:153;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: s5bFa6DT8nZFK3NygKB23Itro4DMj64+6QWnK9L3x7zcwr753qQ0auTEO/7i4cKnvr8cQ9n0O/RuzAQkJDBkA2SGaTsTKTLKVijUY/Vl9hLP1jkBq7Gt52L+qmbXkPzhupbvlJI9GiSKybR0pVH3TRO73y3H5WyVic65RRzpsHzMNE435ISU3prPX9FwUpYFJsD5PmvswVQsU5qBwSJ8YV0hi7iX0/Sn1Y7zJr/fdKAOlUBwteySyQFIFRTmv5NbCq6rzT8LXW61dspcB7JVqDOrC/fskIh4ZobvKN4jZm0V8VNHngJH1Xu2KTa/EvvBzp9MLXqdTKRXyo2fK8IBV4oP5QAfFGBHnXSKsQfJU7oJXLdFMDdvvbYUgIjVLQWCEbSmdYrbJ8StS7PSrLznyaVa52/B5+omuUmQQO3xzWTUU1QyMF6mO+48vNf8+HACFZ9GlUDLBD0ynUwXOWGtJuC0EaamWvKDzp3Zc0cQ/NJSJWnlkySD3C/+vonCqvMr/uiYc7W2S7nA793bR4jKeoWvzeGDvHBkfDjWv1U2TWZxssLXJ3UdAJvYyKIbxON/CVI8F9OZwj0AK5U5LcACAE4pd31WUDT7NqyaED589BbNPtI2ue/LUyJVrLfW+XVwSsAIY15NDFoOGS6g0dO+an6GF6WlWAVGj11U5A81zlTTciB0PIMRvYZQt6iM2BronJ5cG/Z+aPrLG5D8Tjvq5A==
+X-Microsoft-Antispam-Message-Info: EugIWa4zWn/aDdGnfrSxXdgwl8r84/PPp8evrYnB5Fjgfyp8BSVeo/LLPuj5wJSIZvJaoJbglC31S9JQ6YeKo+XbLdHoF4IR/ynGAanwFpvxQK+fHBavLGI7PzkLZwsJ+JDFPBMdXxiBmJwVWi9L9rAPp6AdvRKFqUQQuvk2/qrH1BmUBQUsCKasPR1tgsSh5+55r51i8rhZwFqdhWzQr6yI+a4ggvXswIA0XyKbIH+od6lku/kc+wBrMj4F4SDSlYFM/9tzKlKBtswy2SCHJTNAl5RG68ZuQRoZefHDaHu9mb+A88evSSNI0qrxiH++mFRBBH44uJEbX4p09oOGPD/OnaD7NyovAgU9biJiIqLKRUgRSPvGDxdPa/ArPHPDFNTLtyBjqEZdWq1B8yco+YQ1J6caXUw9WfhcGoD9JXMdcHsX+XBpk2TT81LVH9ColQGGTTcesB8fM3CrQ5J1iH2Kbeikp03713mw7Eo/VSJ9cUMK9p2bcsec30R2Z+tJMpeB/OrCZ9xDGwSPPsqh82vZsGiVxaa5Fe42pmQrU6/SMHLbj2XLhoM/iAvxJFWTMiNW0SSiNKIJLFVJa+HM2PSOaoLoDscPF7BD7d+jug3coLnx0y0b5T5n6C83NPbKNf6clpQjtYhxzSqQp19etX4wJORiI+z1Zfp6eP3WJve2XCUibKMr8isD566HCVkp41Y+LL67q2mWsIzTikwvsg==
 X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
  PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(346002)(396003)(39850400004)(376002)(136003)(46966006)(36840700001)(42186006)(8676002)(70586007)(2906002)(70206006)(82740400003)(921005)(316002)(478600001)(4326008)(107886003)(82310400003)(110136005)(54906003)(6266002)(36906005)(7416002)(356005)(336012)(2616005)(5660300002)(7636003)(426003)(83380400001)(36860700001)(186003)(8936002)(47076005)(36756003)(26005)(102446001);
+ SFS:(4636009)(39850400004)(396003)(136003)(376002)(346002)(36840700001)(46966006)(5660300002)(82740400003)(8936002)(70586007)(921005)(7416002)(54906003)(2906002)(2616005)(356005)(186003)(70206006)(36860700001)(4326008)(7636003)(42186006)(110136005)(6666004)(6266002)(336012)(316002)(426003)(83380400001)(36906005)(36756003)(47076005)(478600001)(26005)(107886003)(82310400003)(8676002)(102446001);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2021 19:29:26.3808 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13aa54f6-fbec-4ee2-a77a-08d8dc1f2917
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2021 19:29:27.3543 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 862776a0-36e1-4ee0-338b-08d8dc1f29ac
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
  Helo=[xsj-pvapexch02.xlnx.xilinx.com]
 X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT032.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5445
-Received-SPF: pass client-ip=40.107.93.83; envelope-from=saipava@xilinx.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2302
+Received-SPF: pass client-ip=40.107.236.41; envelope-from=saipava@xilinx.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -139,49 +138,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vincent Palatin <vpalatin@chromium.org>
 
-Change SET_RELATIVE_ADDR command to assign relative address
-as requested by user.
+eMMC OCR register doesn't has UHS-II field and voltage fields are
+different.
 
 Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Cédric Le Goater <clg@kaod.org>
-[spb: Split original patch series]
 Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
 ---
- hw/sd/sd.c | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
+ hw/sd/sd.c | 27 ++++++++++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index a23af6d..6de414b 100644
+index 6de414b..bc9d913 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -436,9 +436,13 @@ static void sd_set_csd(SDState *sd, uint64_t size)
-     sd->csd[15] = (sd_crc7(sd->csd, 15) << 1) | 1;
- }
+@@ -287,6 +287,15 @@ FIELD(OCR, UHS_II_CARD,                29,  1) /* Only UHS-II */
+ FIELD(OCR, CARD_CAPACITY,              30,  1) /* 0:SDSC, 1:SDHC/SDXC */
+ FIELD(OCR, CARD_POWER_UP,              31,  1)
  
--static void sd_set_rca(SDState *sd)
-+static void sd_set_rca(SDState *sd, uint16_t value)
++/*
++ * eMMC OCR register
++ */
++FIELD(EMMC_OCR, VDD_WINDOW_0,  7, 1)
++FIELD(EMMC_OCR, VDD_WINDOW_1,  8, 7)
++FIELD(EMMC_OCR, VDD_WINDOW_2, 15, 9)
++FIELD(EMMC_OCR, ACCESS_MODE,  29, 2)
++FIELD(EMMC_OCR, POWER_UP,     31, 1)
++
+ #define ACMD41_ENQUIRY_MASK     0x00ffffff
+ #define ACMD41_R3_MASK          (R_OCR_VDD_VOLTAGE_WIN_HI_MASK \
+                                | R_OCR_ACCEPT_SWITCH_1V8_MASK \
+@@ -296,8 +305,16 @@ FIELD(OCR, CARD_POWER_UP,              31,  1)
+ 
+ static void sd_set_ocr(SDState *sd)
  {
--    sd->rca += 0x4567;
+-    /* All voltages OK */
+-    sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
 +    if (sd->emmc) {
-+        sd->rca = value;
++        /*
++         * Dual Voltage eMMC card
++         */
++        sd->ocr = R_EMMC_OCR_VDD_WINDOW_0_MASK |
++                  R_EMMC_OCR_VDD_WINDOW_2_MASK;
 +    } else {
-+        sd->rca += 0x4567;
++        /* All voltages OK */
++        sd->ocr = R_OCR_VDD_VOLTAGE_WIN_HI_MASK;
 +    }
  }
  
- FIELD(CSR, AKE_SEQ_ERROR,               3,  1)
-@@ -984,8 +988,8 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-         case sd_identification_state:
-         case sd_standby_state:
-             sd->state = sd_standby_state;
--            sd_set_rca(sd);
--            return sd_r6;
-+            sd_set_rca(sd, req.arg >> 16);
-+            return sd->emmc ? sd_r1 : sd_r6;
+ static void sd_ocr_powerup(void *opaque)
+@@ -525,7 +542,11 @@ static void sd_response_r1_make(SDState *sd, uint8_t *response)
  
-         default:
-             break;
+ static void sd_response_r3_make(SDState *sd, uint8_t *response)
+ {
+-    stl_be_p(response, sd->ocr & ACMD41_R3_MASK);
++    if (sd->emmc) {
++        stl_be_p(response, sd->ocr);
++    } else {
++        stl_be_p(response, sd->ocr & ACMD41_R3_MASK);
++    }
+ }
+ 
+ static void sd_response_r6_make(SDState *sd, uint8_t *response)
 -- 
 2.7.4
 
