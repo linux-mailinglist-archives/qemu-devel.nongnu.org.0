@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7022F327223
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 12:56:38 +0100 (CET)
-Received: from localhost ([::1]:48992 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16CC632721D
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 12:44:17 +0100 (CET)
+Received: from localhost ([::1]:41948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGKge-0007j0-TA
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 06:56:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38398)
+	id 1lGKUh-0003w1-J8
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 06:44:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lGKfG-0007CZ-6a
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 06:55:10 -0500
-Received: from indium.canonical.com ([91.189.90.7]:48668)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lGKTM-0003Tn-Bg; Sun, 28 Feb 2021 06:42:52 -0500
+Received: from mail-yb1-xb35.google.com ([2607:f8b0:4864:20::b35]:39005)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1lGKfD-0008OF-Sh
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 06:55:09 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1lGKfB-0000FF-6k
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 11:55:05 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id B02EB2E8143
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 11:55:04 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1lGKTH-0003Iv-BB; Sun, 28 Feb 2021 06:42:52 -0500
+Received: by mail-yb1-xb35.google.com with SMTP id u3so13944276ybk.6;
+ Sun, 28 Feb 2021 03:42:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lIpSv/qdDh94OOBo3bFyvAyk+OT7dOjyWzoJ+bAVQCI=;
+ b=oxzsi1/z6aNSnWe5RhQu7Da+AJEhncQkStrhae1h8GSFEyEZQO2qeZOr3/1rHdQlaz
+ wHUiv/5xIHZHyQkLTDxxd2AeJYvNhANHNCbs9qezC6+EpLy37SMJL7217sjMgt/bjzS1
+ 8yiIRHfugiakvpeWoD96YzazyzgQAj6OSEK85nDVxfFnorjpm/P6oOIE6e218ydg0/Dk
+ Np/fzGsUjBiFMmJ3vDJkcH51Yb+cVVcV35FAgaQ6Abz1tpx80X9FPwPOc4CR6SIO9ZXl
+ cx6zGtsNXK2B4kujE5bGq1As5QLyg9myazRDxHq9vpucg7RVxQE8euIvnAoRmT9jRwjh
+ 5m4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lIpSv/qdDh94OOBo3bFyvAyk+OT7dOjyWzoJ+bAVQCI=;
+ b=NVsVJmjUjSwwJbbsZihO34wN5dQg7q6vfrHqLQgchZW4bX2R7Tla1WQOL+ol4MuUt3
+ wBpEOcaogKppVXx/pqnvD8Y8PaXkdpnzpitmps8AGQUVB3AIAP0KwujgHEzQ578Ya8TM
+ YTBQl9hBtMoyDfifaEU810GkWClUrMxSuw+A/+VcO4+grpn6DhXD1MzyPNkovNtFYfLP
+ iW5MNJJSmlkfqsgHL5uJxltCyMXu08Etk4NS6jODv2BtkSkvi/XS90b2x3/K2c2GlQO4
+ A6HlCyKwwPysd2SKai7eg1Dhs0DzNgvwcXRIaXguNh2NNX7SdAH/3t3XPKMLLICi3CSR
+ K3NQ==
+X-Gm-Message-State: AOAM530AMFqRRNslKSx3+ksQcSnJmEY/mdXc5H3LRxRuYbzyjACZ6Y96
+ FSWby4OtTZpPKsE/ePWJZmYQtKUPivlw9KyAi0Y=
+X-Google-Smtp-Source: ABdhPJx7eJxI4fZmlN/VMsY+vGt5iej/By0ikBsXcvMsck/Kce1AnkSuZxq8MFfSRfeGZpyUnnjmvVeyxNJ8Yicdny0=
+X-Received: by 2002:a25:abce:: with SMTP id v72mr17711256ybi.152.1614512566054; 
+ Sun, 28 Feb 2021 03:42:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 28 Feb 2021 11:38:50 -0000
-From: Peter Maydell <1523811@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: assert fuzzer usb
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: cwmyung janitor joveler th-huth
-X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <20151208084519.14688.79647.malonedeb@wampee.canonical.com>
-Message-Id: <161451233076.13768.4509628983859178165.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1523811] Re: USB assert failure on dev-storage.c
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
-X-Launchpad-Hash: 6d49103581e7b57287b04cfb8379f446cc304b48
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210226035447.1252-1-ashe@kivikakk.ee>
+ <20210226035447.1252-2-ashe@kivikakk.ee>
+ <CAEUhbmWBPGNQ0J9P3OzV60BW23YCatbU9PZ0whs2ut4bXLPU4A@mail.gmail.com>
+ <20210228111806.s6pyxk3iyhvfatzh@talia.n4wrvuuuhszuhem3na2pm5saea.px.internal.cloudapp.net>
+In-Reply-To: <20210228111806.s6pyxk3iyhvfatzh@talia.n4wrvuuuhszuhem3na2pm5saea.px.internal.cloudapp.net>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 28 Feb 2021 19:42:35 +0800
+Message-ID: <CAEUhbmULkBvBKg9haizdHAN3r=wveHC67=M62vhsAUMF=00p9g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/2] hw/riscv: Add fw_cfg support to virt
+To: Asherah Connor <ashe@kivikakk.ee>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b35;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb35.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,60 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1523811 <1523811@bugs.launchpad.net>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: fuzzer
+Hi Asherah,
 
--- =
+On Sun, Feb 28, 2021 at 7:18 PM Asherah Connor <ashe@kivikakk.ee> wrote:
+>
+> Hi Bin,
+>
+> Thanks very much for your review.
+>
+> On 21/02/28 02:02:p, Bin Meng wrote:
+> > I guess this is put here because riscv_load_fdt() is trying to touch
+> > the device tree, and creating fw_cfg has to be done before that?
+> > Maybe a comment is needed to prevent whoever later wanted to move the
+> > codes around?
+>
+> Done!
+>
+> > > -    VIRT_PCIE_ECAM
+> > > +    VIRT_PCIE_ECAM,
+> > > +    VIRT_FW_CFG
+> >
+> > nits: insert this before VIRT_FLASH
+>
+> Done.  I've included your Reviewed-by: on the unmodified commit in the
+> series; I hope this is the correct thing to do.
+>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1523811
+Yep, that's correct. Thanks!
 
-Title:
-  USB assert failure on dev-storage.c
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  On executing the attached python script in the guest OS, QEMU dies
-  with assert failure:
-
-  [run python script in guest root shell]
-  # python a.py
-
-  [host message]
-  qemu-system-x86_64: hw/usb/dev-storage.c:445: usb_msd_handle_data: Assert=
-ion `le32_to_cpu(s->csw.residue) =3D=3D 0' failed.
-  Aborted (core dumped)
-
-  =
-
-  When I detach the kernel driver and send CBW and reattach it again, witho=
-ut conforming to the command/data/status protocol, QEMU dies.
-  I think this is due to misimplementation of Command/Data/Status protocol =
-in Bulk-only transfer.
-  This kind of assert failure can be misused by malwares to avoid being ana=
-lyzed by terminating only in the virtual environments and still execute the=
- malicious code in real machines.
-  Before running python script, make sure to change a.py that it should poi=
-nts to usb mass storage's vid and pid.
-
-  QEMU was running on these environment : =
-
-  [CPU model]    Intel(R) Core(TM) i5-4590 CPU @ 3.30GHz
-  [qemu version] QEMU 2.5.0-rc2 (compiled from source, gcc 4.8.4)
-  [host info]    Ubuntu 14.04.3, x86_64, 3.19.0-32-generic
-  [guest info]   Ubuntu 14.04.3, x86_64, 3.19.0-28-generic
-  [QEMU argument]
-  x86_64-softmmu/qemu-system-x86_64 -hda /media/hdd/img/ubuntu1404.qcow2.5 \
-  	-m 512 \
-  	--usbdevice disk:format=3Dqcow2:../usb.img.5 \
-  	--enable-kvm
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1523811/+subscriptions
+Regards,
+Bin
 
