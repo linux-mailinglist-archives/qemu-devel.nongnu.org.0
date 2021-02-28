@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 341DF32754D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:41:50 +0100 (CET)
-Received: from localhost ([::1]:43730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF99732754A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:41:47 +0100 (CET)
+Received: from localhost ([::1]:43506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVh7-0008Jb-0H
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:41:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43624)
+	id 1lGVh4-0008EO-Te
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:41:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43556)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPn-0005To-GK
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:55 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:39294)
+ id 1lGVPj-0005RH-Cj
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:52 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:38889)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPV-0007iI-6R
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:55 -0500
-Received: by mail-pl1-x632.google.com with SMTP id k22so8761988pll.6
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:36 -0800 (PST)
+ id 1lGVPW-0007iN-Db
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:51 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id l18so10481498pji.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=eWU48+PmRMax2TIUlWmTbNBZGlHPNyOmd8zQuonIrmY=;
- b=agasLxkVbDR2asl2wYEV9qXQy61UhPH+QOMW8JBVAz9VnXgzopRJBvuDY7l1VOVvLT
- 5m9n7DwQMOSg6xfUmSN+UOsl4dRHQblPw/ZZ5ktqO33ixAdu2Yvx7A9r77jzY4imslt2
- +vPftpDlVud0JtGW5F0aEJL51hgGY89nULz5xUjP0pepn2zymjPkYcnZF3PsjmEsIeHC
- vD4kQcpcDV5doWRD9qokSm9gGVfh0ab6hRfJFdaMwUD0UM8EM5ivvDkKdt4W3b5J3gB9
- K7yuByw+Y2xbwqzz2qnmZYs2D6IpBAL9j3jxR8tWj7KobvdDE/RLF7hqJWqU7/Cads63
- rc1w==
+ bh=F2Soij/n72t5+4Lnb4cZ68WmnkGE/xgVzkoBmLKFKwI=;
+ b=P8x2E8tauKRddyCoYM7luWl2XmJ4L7azYPNx63yS9DYkOXBgarLlSJwV6gFqM88OC7
+ 4Z4dhvBbvmpFF3FLe3U++P81KgKLR3y7zDImdLLwn3iy+A3vGQZ9aeD3+U6wubNvfZNI
+ d7nl3pJXPSe0rWVtcenYUQs2HeXLQ/CjUM3L21j8WAnlXdZRWj1Xljoz7nrg7sins75L
+ vD5SKw9hVatcwRzskCvd/2eqOxXUoJF7WREttsxBA8FCzq+u+y9SiJHAyQFLcYhh4Iin
+ VHoayLdHZQ2fD9TCKMsZuP+rxvAODTO07bdDLddek/5oBNQ//526fcvYs1C2HgK0DThI
+ EacQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=eWU48+PmRMax2TIUlWmTbNBZGlHPNyOmd8zQuonIrmY=;
- b=BdOEBuusa7/jjoaSkPBfRWM/8fmx6K7mdXfdFcWSvlgYoZZrRpMRHPDBU58SUn31k4
- WR8XJdV3GGd4G3ZDdfQW3ijk/yWihyEA4D1t8AXI6BjNyTCG9K7TenCUMZEm4oy7Utbw
- 9S9PovH3/tdXobwjizkyvnZw6P/LppxvaqUOruhRCu7nhe4Q/FNNvSpFcHBydlkKQ2zu
- PiTRQfc+cD7Bg+otT2EXyiJYfJllfnBq86/ZstWsZyc9hIRnD2xdohJmRrYj4RJwo7fr
- Q8gOH5Fn65+a/AT1v0SFdp1nFi2kYK592Q5Wc5VTvR2mJitmQL0X3pXTjcC2BdlTI00Y
- D7+A==
-X-Gm-Message-State: AOAM5329ZRqRZsWYV3+Qqe3cuczRUQuXiAr5DS58OBVGN1mzt38FS24b
- QN0QsSlBqLFWOti97AkmxcQ/aMWPjmhB5g==
-X-Google-Smtp-Source: ABdhPJx4QcD3Yf2h7PGzGzyCYRVX4BooUam4YC+zOO1Q1KDuLoqtHaMwttdytq/7exiQ7hM0RRv70g==
-X-Received: by 2002:a17:90a:5d14:: with SMTP id
- s20mr6464631pji.6.1614554615721; 
- Sun, 28 Feb 2021 15:23:35 -0800 (PST)
+ bh=F2Soij/n72t5+4Lnb4cZ68WmnkGE/xgVzkoBmLKFKwI=;
+ b=TXTel131QyJAtggzJutKZP5enhWGj2ROq1kQ2DOyW3zWCsReiEazoiF6knNiC3bahM
+ OJ2CbIaGsjQl+ehzYIuqqHK6983pUHmBuuKXg5xsGR3xPdicKSQLyC0z6jHgRpbU+EGI
+ XvMyieRh3g8E7lNBIEMGrTbhN1U+RPacQCmsUT23NwesTAtINXBqxiO4VomFnfJtyJWq
+ DwaOt1tfFE3+x1RPhm/iUyc3PO7jjDDPtD+sCPnm8n4noJuneQ+rc6N+JjqLrh0djPDO
+ EBqWEE0X6+Tzu5o6CWWabX84EyQC7aZJ/oM16hYY66OvfIvttiKVe1ToNz0vHWIosVTA
+ b1TQ==
+X-Gm-Message-State: AOAM53134bsoh6Q2J3a22sRlJKhNokXA/pMaIfEauVAcdTcEjnDYj20X
+ kmjNAwpPEYUN0N2qdsYMAwEk/TnfXDUqJg==
+X-Google-Smtp-Source: ABdhPJyu6qu15KyYgMCAyWjErjOX2z0GUSEmr0mzieHuVTjcojpPZoZprqypmoIJeFWeQ4DcVl8JjQ==
+X-Received: by 2002:a17:90a:f28e:: with SMTP id
+ fs14mr2752851pjb.100.1614554616745; 
+ Sun, 28 Feb 2021 15:23:36 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.35
+ by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:23:35 -0800 (PST)
+ Sun, 28 Feb 2021 15:23:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 14/50] target/i386: Assert !ADDSEG for x86_64 user-only
-Date: Sun, 28 Feb 2021 15:22:45 -0800
-Message-Id: <20210228232321.322053-15-richard.henderson@linaro.org>
+Subject: [PATCH 15/50] target/i386: Introduce REX_PREFIX
+Date: Sun, 28 Feb 2021 15:22:46 -0800
+Message-Id: <20210228232321.322053-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,79 +88,111 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-LMA disables traditional segmentation, exposing a flat address space.
-This means that ADDSEG is off.
+The existing flag, x86_64_hregs, does not accurately describe
+its setting.  It is true if and only if a REX prefix has been
+seen.  Yes, that affects the "h" regs, but that's secondary.
 
-Since we're adding an accessor macro, pull the value directly out
-of flags otherwise.
+Add PREFIX_REX and include this bit in s->prefix.  Add REX_PREFIX
+so that the check folds away when x86_64 is compiled out.
+
+Fold away the reg >= 8 check, because bit 3 of the register
+number comes from the REX prefix in the first place.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ target/i386/tcg/translate.c | 29 +++++++++++------------------
+ 1 file changed, 11 insertions(+), 18 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index c8728397d0..33da97d0a6 100644
+index 33da97d0a6..31b128d4fe 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -108,7 +108,6 @@ typedef struct DisasContext {
+@@ -39,6 +39,7 @@
+ #define PREFIX_DATA   0x08
+ #define PREFIX_ADR    0x10
+ #define PREFIX_VEX    0x20
++#define PREFIX_REX    0x40
+ 
  #ifdef TARGET_X86_64
-     bool x86_64_hregs;
- #endif
--    int addseg; /* non zero if either DS/ES/SS have a non zero base */
+ #define REX_X(s) ((s)->rex_x)
+@@ -105,9 +106,6 @@ typedef struct DisasContext {
+     int vex_v;  /* vex vvvv register, without 1's complement.  */
+     CCOp cc_op;  /* current CC operation */
+     bool cc_op_dirty;
+-#ifdef TARGET_X86_64
+-    bool x86_64_hregs;
+-#endif
      int f_st;   /* currently unused */
      int tf;     /* TF cpu flag */
      int jmp_opt; /* use direct block chaining for direct jumps */
-@@ -156,10 +155,12 @@ typedef struct DisasContext {
- #define VM86(S)   false
- #define CODE32(S) true
- #define SS32(S)   true
-+#define ADDSEG(S) false
- #else
- #define VM86(S)   (((S)->flags & HF_VM_MASK) != 0)
- #define CODE32(S) (((S)->flags & HF_CS32_MASK) != 0)
- #define SS32(S)   (((S)->flags & HF_SS32_MASK) != 0)
-+#define ADDSEG(S) (((S)->flags & HF_ADDSEG_MASK) != 0)
+@@ -173,6 +171,12 @@ typedef struct DisasContext {
+ #define LMA(S)    (((S)->flags & HF_LMA_MASK) != 0)
  #endif
- #if !defined(TARGET_X86_64)
- #define CODE64(S) false
-@@ -492,7 +493,7 @@ static void gen_lea_v_seg(DisasContext *s, MemOp aflag, TCGv a0,
+ 
++#ifdef TARGET_X86_64
++#define REX_PREFIX(S)  (((S)->prefix & PREFIX_REX) != 0)
++#else
++#define REX_PREFIX(S)  false
++#endif
++
+ static void gen_eob(DisasContext *s);
+ static void gen_jr(DisasContext *s, TCGv dest);
+ static void gen_jmp(DisasContext *s, target_ulong eip);
+@@ -336,14 +340,10 @@ static void gen_update_cc_op(DisasContext *s)
+  */
+ static inline bool byte_reg_is_xH(DisasContext *s, int reg)
+ {
+-    if (reg < 4) {
++    /* Any time the REX prefix is present, byte registers are uniform */
++    if (reg < 4 || REX_PREFIX(s)) {
+         return false;
+     }
+-#ifdef TARGET_X86_64
+-    if (reg >= 8 || s->x86_64_hregs) {
+-        return false;
+-    }
+-#endif
+     return true;
+ }
+ 
+@@ -4559,7 +4559,6 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ #ifdef TARGET_X86_64
+     s->rex_x = 0;
+     s->rex_b = 0;
+-    s->x86_64_hregs = false;
  #endif
-     case MO_32:
-         /* 32 bit address */
--        if (ovr_seg < 0 && s->addseg) {
-+        if (ovr_seg < 0 && ADDSEG(s)) {
-             ovr_seg = def_seg;
+     s->rip_offset = 0; /* for relative ip address */
+     s->vex_l = 0;
+@@ -4614,12 +4613,11 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x40 ... 0x4f:
+         if (CODE64(s)) {
+             /* REX prefix */
++            prefixes |= PREFIX_REX;
+             rex_w = (b >> 3) & 1;
+             rex_r = (b & 0x4) << 1;
+             s->rex_x = (b & 0x2) << 2;
+             REX_B(s) = (b & 0x1) << 3;
+-            /* select uniform byte register addressing */
+-            s->x86_64_hregs = true;
+             goto next_byte;
          }
-         if (ovr_seg < 0) {
-@@ -505,7 +506,7 @@ static void gen_lea_v_seg(DisasContext *s, MemOp aflag, TCGv a0,
-         tcg_gen_ext16u_tl(s->A0, a0);
-         a0 = s->A0;
-         if (ovr_seg < 0) {
--            if (s->addseg) {
-+            if (ADDSEG(s)) {
-                 ovr_seg = def_seg;
-             } else {
-                 return;
-@@ -2429,7 +2430,7 @@ static void gen_push_v(DisasContext *s, TCGv val)
-     tcg_gen_subi_tl(s->A0, cpu_regs[R_ESP], size);
+         break;
+@@ -4643,14 +4641,9 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
  
-     if (!CODE64(s)) {
--        if (s->addseg) {
-+        if (ADDSEG(s)) {
-             new_esp = s->tmp4;
-             tcg_gen_mov_tl(new_esp, s->A0);
-         }
-@@ -8500,8 +8501,8 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     g_assert(CODE64(dc) == ((flags & HF_CS64_MASK) != 0));
-     g_assert(SS32(dc) == ((flags & HF_SS32_MASK) != 0));
-     g_assert(LMA(dc) == ((flags & HF_LMA_MASK) != 0));
-+    g_assert(ADDSEG(dc) == ((flags & HF_ADDSEG_MASK) != 0));
- 
--    dc->addseg = (flags >> HF_ADDSEG_SHIFT) & 1;
-     dc->f_st = 0;
-     dc->tf = (flags >> TF_SHIFT) & 1;
-     dc->cc_op = CC_OP_DYNAMIC;
+             /* 4.1.1-4.1.3: No preceding lock, 66, f2, f3, or rex prefixes. */
+             if (prefixes & (PREFIX_REPZ | PREFIX_REPNZ
+-                            | PREFIX_LOCK | PREFIX_DATA)) {
++                            | PREFIX_LOCK | PREFIX_DATA | PREFIX_REX)) {
+                 goto illegal_op;
+             }
+-#ifdef TARGET_X86_64
+-            if (s->x86_64_hregs) {
+-                goto illegal_op;
+-            }
+-#endif
+             rex_r = (~vex2 >> 4) & 8;
+             if (b == 0xc5) {
+                 /* 2-byte VEX prefix: RVVVVlpp, implied 0f leading opcode byte */
 -- 
 2.25.1
 
