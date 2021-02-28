@@ -2,126 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 541F8327433
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 20:41:00 +0100 (CET)
-Received: from localhost ([::1]:38368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0141332748A
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 22:11:56 +0100 (CET)
+Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGRw3-0006HD-2I
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 14:40:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54370)
+	id 1lGTM2-0002VB-S1
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 16:11:54 -0500
+Received: from eggs.gnu.org ([209.51.188.92]:36902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lGRl7-00008j-Gm; Sun, 28 Feb 2021 14:29:41 -0500
-Received: from mail-eopbgr770072.outbound.protection.outlook.com
- ([40.107.77.72]:57574 helo=NAM02-SN1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <saipava@xilinx.com>)
- id 1lGRkx-0003Am-U5; Sun, 28 Feb 2021 14:29:41 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kV5FgiqYL9jVyIgela7BzVJpxfcnDuWeWTqiQMLMZaOS8IBPcd/+XGyKFpNeXD4ByX+3iM/8qmPMnGcnUnONcEB9dRDod3WfzBCZKSMt52/L/clOUaqoswYXMMRY1+heDYu7T1GBfaCKX/zRz7tcxCkbT//KEdsEMS3YTBwFvl4hKdAwM89eqcWdFGslmdz0AFDuaH3CXZIGwNspK5JzLzbEepMJPyg/98TONmPD+HYtcdt2tbKdRm+Tt7j7yFx90V4I+EWujgpC9n6eOH6Kl+4xBdLIP4FfuAHTTDHJQurvTrg07qiqcjQwI6i/H/YsSsZAfI5IL83zW0jiuZa01g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k/kLlHt3sNvFRKoBrjTykrarDocZp5C7m6n7LZo4pfU=;
- b=oXo6lCp8pkoKj368zOr5hdWtZIDUzzk3ozIP6QI8tHkUrJLjfVlZKftqS5BfZKrrW+yJta0O0NFqy0aZluNkoHZ+nENBUnHtDL+s9x6XoWezrNdBsEIKiRdcpLyJtzHmuL6p8M+JaupcTrPuqwnf9tCcyf6gGoUsC6tkJXTaCoCraXR8dkgGgb7tmOQXmkD2bvTp2IM9ZnNhPbxhIlMqGAqqKivXDWgYwVClOkpKanhZ/Xu7ULPWAzWgxhdMEiy3J7q5JU4gNP8w/tjpLEPjFdsnuJxAj/AsZD1xz/dnWM78/V5Biiv9NStO+wl1U//4ieisTsF+stdjo8YJnbV6Nw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=chromium.org smtp.mailfrom=xilinx.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=xilinx.com;
- dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=k/kLlHt3sNvFRKoBrjTykrarDocZp5C7m6n7LZo4pfU=;
- b=YF4u9cIBCWR0s94uJkCHp5SmyAiyDm2ivIUTpmtd2ZSldaCnp6zsssZGBhzFPs0CqVrBxJB+im+qeu+lqg8CUOeY15S+1gJ2zF7xygmf4r66YqwoBXNvrnYpo1Vz0RSpo3JqUZIpyAmOYXM0jXzgZZSoPLjb6dui/T/4XIqhCmg=
-Received: from CY4PR13CA0077.namprd13.prod.outlook.com (2603:10b6:903:152::15)
- by MN2PR02MB6336.namprd02.prod.outlook.com (2603:10b6:208:1b8::30)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3890.23; Sun, 28 Feb
- 2021 19:29:26 +0000
-Received: from CY1NAM02FT051.eop-nam02.prod.protection.outlook.com
- (2603:10b6:903:152:cafe::6c) by CY4PR13CA0077.outlook.office365.com
- (2603:10b6:903:152::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3912.9 via Frontend
- Transport; Sun, 28 Feb 2021 19:29:26 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; chromium.org; dkim=none (message not signed)
- header.d=none;chromium.org; dmarc=pass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT051.mail.protection.outlook.com (10.152.74.148) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3890.19 via Frontend Transport; Sun, 28 Feb 2021 19:29:25 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Sun, 28 Feb 2021 11:29:18 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Sun, 28 Feb 2021 11:29:18 -0800
-Received: from [10.140.6.35] (port=57774 helo=xhdsaipava40.xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <sai.pavan.boddu@xilinx.com>)
- id 1lGRkk-0008Ay-4b; Sun, 28 Feb 2021 11:29:18 -0800
-Received: by xhdsaipava40.xilinx.com (Postfix, from userid 14131)
- id E573D13C0B03; Mon,  1 Mar 2021 01:04:01 +0530 (IST)
-From: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-To: Markus Armbruster <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, "Max
- Reitz" <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy
- <vsementsov@virtuozzo.com>, Eric Blake <eblake@redhat.com>, Joel Stanley
- <joel@jms.id.au>, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Vincent Palatin <vpalatin@chromium.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, "Alistair
- Francis" <alistair.francis@wdc.com>, "Edgar E. Iglesias"
- <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, "Paolo
- Bonzini" <pbonzini@redhat.com>
-Subject: [PATCH v3 21/21] docs: arm: xlnx-versal-virt: Add eMMC support
- documentation
-Date: Mon, 1 Mar 2021 01:03:27 +0530
-Message-ID: <1614540807-30686-22-git-send-email-sai.pavan.boddu@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
-References: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGT00-0006xr-Ea
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 15:49:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60198)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGSrF-0006sa-E0
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 15:40:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614544797;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Yp/ijWIoVCmWK0cQ//oi1b7Itl/aFjM0RJhldWUFC+g=;
+ b=XTDep62XXBM5OLmO13RY0gLH2nYi/oy3usRWHi6yAxocIKx8CSDcBOdag8y5noJ0GR9XM5
+ 1nMN/vWbKpRijEfaE0c8VvTmrDZrV5WyrovQJy0NRaBNpypwzMwAibog+MDwTtpzIz/kK7
+ 9IRETJK3M1sXGXOjDnnBp3NmN7BR9Bg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-B6Xc6IY2PDGUnNXEA-moQA-1; Sun, 28 Feb 2021 15:39:55 -0500
+X-MC-Unique: B6Xc6IY2PDGUnNXEA-moQA-1
+Received: by mail-ed1-f71.google.com with SMTP id q2so7763231edt.16
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 12:39:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=Yp/ijWIoVCmWK0cQ//oi1b7Itl/aFjM0RJhldWUFC+g=;
+ b=py4jTu6kEZHxaPOVy6+1NNWaG8+KTXDuMDe/igpzi+u49WMML+usPYwFKgUZ9TF3SC
+ s8kxOBpfthJOMkCc9zbUjjbJin2g2pPeVP/kjWCeF7mOYMIzngZ00L40GUxwSrAzzolq
+ Zr8YljN9Tau79gwpso/L5cw2q2JOdPvbI26Df7nkLZneCm5oVoBqEQSHrOHsZTWxxMg7
+ M6DiDBmcJtn2lz9rbxvtYNLD8z8OC9qZs6qBcx6zPjG9DqQIqhS8Rj0gH1MrSqfbOOVd
+ cRojEUBjY3n5dhLdBAmSuNzDfzSnRjddXFw27rtUuBn8tr6ICnG5JwpvvgvSpEsYzMLk
+ NHTA==
+X-Gm-Message-State: AOAM531b9OtBYi/QUIho/cHtJwJ2Dm3qUcNkUbFrtiwdAZ5HnRMt4HxN
+ 6pd38snXLKBsSmPd9fN+14faJKblWdCBC22JM/s/gcGi8L/Ow+E74aXOGgwpNa0lQYNHCGKcjXW
+ 5h3G+w7la4CVbus0=
+X-Received: by 2002:aa7:c0c7:: with SMTP id j7mr812677edp.298.1614544794365;
+ Sun, 28 Feb 2021 12:39:54 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwdpPjabZqxCPcSmuGJe97X/UXytu5ODNhiaJzYpTCUZD4cZkeoCEIRegCQVuFjEMOY2jIApw==
+X-Received: by 2002:aa7:c0c7:: with SMTP id j7mr812662edp.298.1614544794201;
+ Sun, 28 Feb 2021 12:39:54 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id q27sm11246729ejc.74.2021.02.28.12.39.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 28 Feb 2021 12:39:53 -0800 (PST)
+Date: Sun, 28 Feb 2021 15:39:50 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Subject: Re: [PATCH v5 1/1] virtio-net: Add check for mac address while peer
+ is vdpa
+Message-ID: <20210228153905-mutt-send-email-mst@kernel.org>
+References: <20210225165506.18321-1-lulu@redhat.com>
+ <20210225165506.18321-2-lulu@redhat.com>
+ <20210225141203-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3e424894-085d-41ec-f7e5-08d8dc1f28d7
-X-MS-TrafficTypeDiagnostic: MN2PR02MB6336:
-X-Microsoft-Antispam-PRVS: <MN2PR02MB63365D318879F089F936A516CA9B9@MN2PR02MB6336.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 22k6jLLmEdpaKGXA+E1zokMacJHOkyCa+pWB6WWCdUHxwZar7ixqalPZQfodoD2hM6kHKHIjkiGE2PZI/utmCPftRRYyoWBQ5Z81eM+L4UMtikTD+HNb/lo6IA2iWAR7iuWazmqEpwqVfg/HzHhoIMndQD66B5pPnVKI0Pm5abbFT7M6OGHirAsgqG02OZNZlmDxtxKoWYdOn15cK0vX9Fuw7Wdq8bW1pNdbV4fTXjaFBNIAJGQnMLpz33YyHHEicCDE6j/6oMIyQ9axbGXZAP1Q9MYM3XGpHSCC4gqNXp1EyoFsgswJtxKsaUY1nU0zmJxIGzHV0qqg4sUWOuXQeayhU87T/QlHtZgW3UwkE74Ucdcr3fYwPqQgn0MNHBIGENigGQKz3GHUAONG2mIksR7VQCeEuacfZkoaX+cqnlrvv/9Fyi1k0P09tOZhSNk4kuoOHMSpdZy6QEc3H3UprE3JEubXVEoEohLi1tHa3V104uroZsuGGcVxHt/vLpu+F1v706NbmSyINLBrZhnI4JgvlmgE33NY/+SPpWRzQnGbdmEkpzbKSiGhQEmw2jan+49YJy4/gJ/6VwGKOSp9BETfrPlhB/kHXJzZxhtkiO+x/G9wa41etQlvhznhMeF24wpHa0LHc9PFRLL8ZbTr09vV+hhRVV/mLjG71bRKDPge1BKpcCWyMtjRyf0a2zbXFry9oTBAETtoFTquwPmHAQ==
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch01.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(346002)(376002)(136003)(39850400004)(396003)(36840700001)(46966006)(7636003)(921005)(36906005)(8676002)(316002)(4326008)(2616005)(7416002)(36860700001)(5660300002)(6666004)(36756003)(478600001)(8936002)(110136005)(42186006)(82310400003)(107886003)(83380400001)(82740400003)(70586007)(426003)(26005)(356005)(47076005)(70206006)(54906003)(2906002)(336012)(186003)(6266002)(102446001);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Feb 2021 19:29:25.9644 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e424894-085d-41ec-f7e5-08d8dc1f28d7
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT051.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6336
-Received-SPF: pass client-ip=40.107.77.72; envelope-from=saipava@xilinx.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210225141203-mutt-send-email-mst@kernel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -134,51 +93,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: eperezma@redhat.com, jasowang@redhat.com, amorenoz@redhat.com,
+ qemu-devel@nongnu.org, Sean Mooney <smooney@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add details of eMMC specific machine property and example for passing
-eMMC device.
+On Thu, Feb 25, 2021 at 02:14:39PM -0500, Michael S. Tsirkin wrote:
+> On Fri, Feb 26, 2021 at 12:55:06AM +0800, Cindy Lu wrote:
+> > While peer is vdpa, sometime qemu get an all zero mac address from the hardware,
+> > This is not a legal value. Add the check for this.if we get an zero mac address.
+> > qemu will use the default mac address or the mac address from qemu cmdline
+> > 
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> 
+> I guess I will have to rewrite the comments and commit log :(
+> 
+> It is all saying what does the patch do. We want it to rather
+> give motivation.
+> 
+> Sean could you please comment on whether this patch fixes your
+> config?
 
-Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
----
- docs/system/arm/xlnx-versal-virt.rst | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ping. if I'm to try and merge this work around it's critical
+that someone with access to hardware confirm it actually works.
 
-diff --git a/docs/system/arm/xlnx-versal-virt.rst b/docs/system/arm/xlnx-versal-virt.rst
-index 2602d0f..d1099fa 100644
---- a/docs/system/arm/xlnx-versal-virt.rst
-+++ b/docs/system/arm/xlnx-versal-virt.rst
-@@ -29,6 +29,7 @@ Implemented devices:
- - 2 GEMs (Cadence MACB Ethernet MACs)
- - 8 ADMA (Xilinx zDMA) channels
- - 2 SD Controllers
-+    * SDHCI0 can be configured as eMMC
- - OCM (256KB of On Chip Memory)
- - DDR memory
- 
-@@ -43,6 +44,19 @@ Other differences between the hardware and the QEMU model:
- - QEMU provides 8 virtio-mmio virtio transports; these start at
-   address ``0xa0000000`` and have IRQs from 111 and upwards.
- 
-+Enabling eMMC
-+"""""""""""""
-+In order to enable eMMC pass the following machine property "emmc=on".
-+ex:
-+    "-M xlnx-versal-virt,emmc=on"
-+
-+Above switch would configure SDHCI0 to accept eMMC. More details on eMMC
-+emulation can be found in docs/devel/emmc.txt.
-+
-+Below is the command to pass eMMC device.
-+    "-drive file=emmc.img,if=none,id=emmc,format=raw
-+     -device emmc,drive=emmc,id=emmc0,bus=/sdhci0/sd-bus"
-+
- Running
- """""""
- If the user provides an Operating System to be loaded, we expect users
--- 
-2.7.4
+
+> > ---
+> >  hw/net/virtio-net.c | 10 ++++++++++
+> >  1 file changed, 10 insertions(+)
+> > 
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index 9179013ac4..8f36ca5066 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+> >      VirtIONet *n = VIRTIO_NET(vdev);
+> >      struct virtio_net_config netcfg;
+> >      NetClientState *nc = qemu_get_queue(n->nic);
+> > +    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
+> >  
+> >      int ret = 0;
+> >      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
+> > @@ -151,6 +152,15 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+> >          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+> >                                     n->config_size);
+> >          if (ret != -1) {
+> > +            /*
+> > +             * Here is a work around, the 0 mac address is not a legal value.
+> > +             * if we got this from hardware, qemu will use the mac address
+> > +             * saved in VirtIONet->mac.
+> > +             */
+> > +            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
+> > +                info_report("Get an all zero mac address from hardware");
+> > +                memcpy(netcfg.mac, n->mac, ETH_ALEN);
+> > +            }
+> >              memcpy(config, &netcfg, n->config_size);
+> >          }
+> >      }
+> > -- 
+> > 2.21.3
 
 
