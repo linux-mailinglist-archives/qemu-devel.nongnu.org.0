@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E66A327538
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:28:27 +0100 (CET)
-Received: from localhost ([::1]:38194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72FE632752E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:26:09 +0100 (CET)
+Received: from localhost ([::1]:57778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVUA-0002Hl-DK
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:28:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43402)
+	id 1lGVRw-0007CH-Ft
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:26:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPV-0005N0-Ez
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:39 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:53176)
+ id 1lGVPP-0005Lp-Lp
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:33 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:32805)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPL-0007fI-Rg
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:37 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id e9so7196681pjs.2
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:27 -0800 (PST)
+ id 1lGVPM-0007fX-Qv
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:31 -0500
+Received: by mail-pl1-x632.google.com with SMTP id b8so5946898plh.0
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZE0p78tg8cxpd5a+CooQGkZB6FVAM4mBBizGWXSKr3w=;
- b=ofqfcp149fg+tXklZk1tvv3QW/MRO1c0i5ZYWuW0YVC1ybeE9AhgrUg6Ojv0cbav+2
- 14JV9Gd8j5MOoE4v9KpxMlNf07L18PDJBpWkvK8Sq3efLDf6DaYXgYJU5MBuO94+GpDO
- A4s10xhYuMLDSQKdGA7UAu+aZuh7GcsiRshi8ftt+YQ9IOEpS6e7YSLDKt0Aq2OlDO/u
- ZxoLAwM1V3N8CYQ9nUhGT5t0nffZrK5DEtPpuXFzS4MfmIDH5ExG283H8tiDIzFt3Lru
- 5TvgtXHA4tNWm+H0aDdys9c/6uZvKVWy23RVdGLV8AuvDnjsJcS3ObPHhco/Zkl1+yoL
- 3IHw==
+ bh=NEaEZZZxi9u9Mpvj5euEgFjoVxLuL6VRMYmG/p0WBKQ=;
+ b=wMvU1SFYqvML0Yvvpnz4MDtxEmy5RbGliZXWkKWWfACJC3iygiW4mJNHX8xvTdDgTn
+ vM+gh+lRGFcGpBsQF0qWHjVDgotfip7cBc5+4dH/Uxe1jnnRhRPnrrJ8ql/yhunu/CZS
+ 5+SH4fptblL3JBttyLlVtz8mLovQ1EgpCYnt5a+NFUPvXJ43nC2wgnfUjxRU0OCZYXRA
+ 7LHM5LRuOmI2FfrZgweWL3YcUKW4RxrPo2B1745wULObCIaT0Ezqw3cO0YYaK+WdPyfh
+ dXUAzZIV+LjHvCsf1prCMpHB+n5y77lqpWLN/AKV8hx1EpEuruxMHUXVSlK19G9cCbJ1
+ KCgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZE0p78tg8cxpd5a+CooQGkZB6FVAM4mBBizGWXSKr3w=;
- b=TM0poSvyDWljEkOp2CcnaPVJdv/EIrgelobUXcalFJb+y+sb6zd08V8YJ2lYezEr0z
- y2ZtzUwaq8eDecJRKMR6eZt5aRA46fPzsaHXQxQZWcEgYEXnNJRaX7Sc4erelRJ7ulZ9
- yypCEUSJim+8DFJUVaImL8baSvP4U50PqEXCjSWVYaq07zpF9HfAH30IO+D3ca9y/Q0f
- CVSFeXY+PriSkXf64NAz5Wi1Muh4v/2EElnc6PuWguumuX8IJGZSKQNlFStQKqtMhYQt
- 6l8JhNaf+IS93/l8X9DMNc/iYEOEAmoqL3mLcMAV78NVD/iOmZr4CtKoDjDk6fdJr8tU
- BwCw==
-X-Gm-Message-State: AOAM533w6ax6QiLDKmq0qd/AjRb5k2dnfIohCW2pxeWeSSDica/zpmtB
- I5hTYrI7w8+WYsZp8kOcnuqaX2o+f0QOFQ==
-X-Google-Smtp-Source: ABdhPJx5whSrabdrhNhhoxuObVC2W/XiM5rGSKPwTKDN7lohyvtFS6pRzZ2jIsl1zSM3H5E/Zs2RGw==
-X-Received: by 2002:a17:90b:253:: with SMTP id
- fz19mr7557602pjb.160.1614554606591; 
- Sun, 28 Feb 2021 15:23:26 -0800 (PST)
+ bh=NEaEZZZxi9u9Mpvj5euEgFjoVxLuL6VRMYmG/p0WBKQ=;
+ b=hXWMYCSf4cWCShIut4tjxSWGynA+NxBQeiI7APYrPSxgQ2f0s5TzEs1/jc8V09A6aa
+ pEkJEN+i/qADieJRNfuEhGhs4pDRwUg+vAWMqRrxwMKuTPAjFC4nxRmEWYJr744SCfms
+ qFhwu0N2ID6PWOkKU9FNaCnl61XCuN3XzTE2TnGwrCaOBZIcMEsiPPKVrgDvEoGWR/Ca
+ C7PdjJJ7Lf94OGBsgk/BeX6Wz8CB9JjU3zfU1AxBHAUoed5sNZ8ybCzLal54PfuHJ+YX
+ 6gaGtfGYi59hyq+nj7otiSZf2SuX4oM68p0wEfgS+gRNnnmB+RNMjYFiUwwnwSa0AM2G
+ terQ==
+X-Gm-Message-State: AOAM533QvX9ZbUXU1CfrpIKuHYTdkOHAThGX1Fd08FfHEqtb4Wr6YbxI
+ uN/EsTK/RGxHoLk+vWmPTr4SbW26K6b6lQ==
+X-Google-Smtp-Source: ABdhPJzAXX7DB9LF0SnORN4+vIEvi5dRQ0jjpX+7n7i8qLT0SofhaHaFWO9JhHw8zbpkGUOHene2Ug==
+X-Received: by 2002:a17:902:e8c4:b029:e2:b7d3:4fd7 with SMTP id
+ v4-20020a170902e8c4b02900e2b7d34fd7mr12405476plg.73.1614554607551; 
+ Sun, 28 Feb 2021 15:23:27 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
  by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:23:26 -0800 (PST)
+ Sun, 28 Feb 2021 15:23:27 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 04/50] target/i386: Split out check_vm86_iopl
-Date: Sun, 28 Feb 2021 15:22:35 -0800
-Message-Id: <20210228232321.322053-5-richard.henderson@linaro.org>
+Subject: [PATCH 05/50] target/i386: Split out check_iopl
+Date: Sun, 28 Feb 2021 15:22:36 -0800
+Message-Id: <20210228232321.322053-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,21 +90,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ target/i386/tcg/translate.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 59c1212625..75ee87fe84 100644
+index 75ee87fe84..176c95c02b 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -1292,6 +1292,16 @@ static bool check_cpl0(DisasContext *s)
+@@ -1302,6 +1302,16 @@ static bool check_vm86_iopl(DisasContext *s)
      return false;
  }
  
-+/* If vm86, check for iopl == 3; if not, raise #GP and return false. */
-+static bool check_vm86_iopl(DisasContext *s)
++/* Check for iopl allowing access; if not, raise #GP and return false. */
++static bool check_iopl(DisasContext *s)
 +{
-+    if (!s->vm86 || s->iopl == 3) {
++    if (s->vm86 ? s->iopl == 3 : s->cpl <= s->iopl) {
 +        return true;
 +    }
 +    gen_exception_gpf(s);
@@ -114,49 +114,38 @@ index 59c1212625..75ee87fe84 100644
  /* if d == OR_TMP0, it means memory operand (address in A0) */
  static void gen_op(DisasContext *s1, int op, MemOp ot, int d)
  {
-@@ -6573,8 +6583,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         gen_svm_check_intercept(s, pc_start, SVM_EXIT_IRET);
-         if (!s->pe || s->vm86) {
-             /* real mode or vm86 mode */
--            if (s->vm86 && s->iopl != 3) {
+@@ -7089,28 +7099,16 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         break;
+ #endif
+     case 0xfa: /* cli */
+-        if (!s->vm86) {
+-            if (s->cpl <= s->iopl) {
+-                gen_helper_cli(cpu_env);
+-            } else {
 -                gen_exception_gpf(s);
-+            if (!check_vm86_iopl(s)) {
-                 break;
-             }
-             gen_helper_iret_real(cpu_env, tcg_const_i32(dflag - 1));
-@@ -6694,9 +6703,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         /* flags */
-     case 0x9c: /* pushf */
-         gen_svm_check_intercept(s, pc_start, SVM_EXIT_PUSHF);
--        if (s->vm86 && s->iopl != 3) {
--            gen_exception_gpf(s);
+-            }
 -        } else {
-+        if (check_vm86_iopl(s)) {
-             gen_update_cc_op(s);
-             gen_helper_read_eflags(s->T0, cpu_env);
-             gen_push_v(s, s->T0);
-@@ -6704,9 +6711,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         break;
-     case 0x9d: /* popf */
-         gen_svm_check_intercept(s, pc_start, SVM_EXIT_POPF);
--        if (s->vm86 && s->iopl != 3) {
--            gen_exception_gpf(s);
--        } else {
-+        if (check_vm86_iopl(s)) {
-             ot = gen_pop_T0(s);
-             if (s->cpl == 0) {
-                 if (dflag != MO_16) {
-@@ -7066,9 +7071,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         break;
-     case 0xcd: /* int N */
-         val = x86_ldub_code(env, s);
--        if (s->vm86 && s->iopl != 3) {
--            gen_exception_gpf(s);
--        } else {
-+        if (check_vm86_iopl(s)) {
-             gen_interrupt(s, val, pc_start - s->cs_base, s->pc - s->cs_base);
+-            if (s->iopl == 3) {
+-                gen_helper_cli(cpu_env);
+-            } else {
+-                gen_exception_gpf(s);
+-            }
++        if (check_iopl(s)) {
++            gen_helper_cli(cpu_env);
          }
          break;
+     case 0xfb: /* sti */
+-        if (s->vm86 ? s->iopl == 3 : s->cpl <= s->iopl) {
++        if (check_iopl(s)) {
+             gen_helper_sti(cpu_env);
+             /* interruptions are enabled only the first insn after sti */
+             gen_jmp_im(s, s->pc - s->cs_base);
+             gen_eob_inhibit_irq(s, true);
+-        } else {
+-            gen_exception_gpf(s);
+         }
+         break;
+     case 0x62: /* bound */
 -- 
 2.25.1
 
