@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72FE632752E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:26:09 +0100 (CET)
-Received: from localhost ([::1]:57778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171A4327535
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:28:22 +0100 (CET)
+Received: from localhost ([::1]:38054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVRw-0007CH-Ft
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:26:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43320)
+	id 1lGVU4-0002EN-Us
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:28:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43436)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPP-0005Lp-Lp
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:33 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:32805)
+ id 1lGVPZ-0005Nn-9U
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:42 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38896)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPM-0007fX-Qv
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:31 -0500
-Received: by mail-pl1-x632.google.com with SMTP id b8so5946898plh.0
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:28 -0800 (PST)
+ id 1lGVPQ-0007h2-NK
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:41 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id l18so10481401pji.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NEaEZZZxi9u9Mpvj5euEgFjoVxLuL6VRMYmG/p0WBKQ=;
- b=wMvU1SFYqvML0Yvvpnz4MDtxEmy5RbGliZXWkKWWfACJC3iygiW4mJNHX8xvTdDgTn
- vM+gh+lRGFcGpBsQF0qWHjVDgotfip7cBc5+4dH/Uxe1jnnRhRPnrrJ8ql/yhunu/CZS
- 5+SH4fptblL3JBttyLlVtz8mLovQ1EgpCYnt5a+NFUPvXJ43nC2wgnfUjxRU0OCZYXRA
- 7LHM5LRuOmI2FfrZgweWL3YcUKW4RxrPo2B1745wULObCIaT0Ezqw3cO0YYaK+WdPyfh
- dXUAzZIV+LjHvCsf1prCMpHB+n5y77lqpWLN/AKV8hx1EpEuruxMHUXVSlK19G9cCbJ1
- KCgg==
+ bh=NSyzwXdepOJtmog9MVMDw1s/eSNq+uZi1xq2Xphvsqo=;
+ b=gHbr/9FObM/39IcDAecbZG9XYIvp+Z8jBI7hYvQXX5Wr/YCXw7lARRTwV4iBOe+7sq
+ KRPS4ZUVqYO1hdV+I0vRkCYg09/zXZAlWKsRIkhPRsXuM4bhYygF5fP01BiT5I1zP/EO
+ 1QDuoKC05Y0SwPE5edi76YmYnRNC3JPS8bkjR8wIK59yGPUdBaj6SkCcLx8+ekRXbcqH
+ QF3Z6o9pzbDj1Gba8bbyxKm8tSLaMHVjINoM6Xj+XabzpPxImYuYXWa4ESs0KRTLdfCD
+ PuKzToH2yOg0MsN38g1SutMgJgRl8SJXYzNjJrrzKg8YXDWw6mi6OJLLbttxibMu276I
+ 6mcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=NEaEZZZxi9u9Mpvj5euEgFjoVxLuL6VRMYmG/p0WBKQ=;
- b=hXWMYCSf4cWCShIut4tjxSWGynA+NxBQeiI7APYrPSxgQ2f0s5TzEs1/jc8V09A6aa
- pEkJEN+i/qADieJRNfuEhGhs4pDRwUg+vAWMqRrxwMKuTPAjFC4nxRmEWYJr744SCfms
- qFhwu0N2ID6PWOkKU9FNaCnl61XCuN3XzTE2TnGwrCaOBZIcMEsiPPKVrgDvEoGWR/Ca
- C7PdjJJ7Lf94OGBsgk/BeX6Wz8CB9JjU3zfU1AxBHAUoed5sNZ8ybCzLal54PfuHJ+YX
- 6gaGtfGYi59hyq+nj7otiSZf2SuX4oM68p0wEfgS+gRNnnmB+RNMjYFiUwwnwSa0AM2G
- terQ==
-X-Gm-Message-State: AOAM533QvX9ZbUXU1CfrpIKuHYTdkOHAThGX1Fd08FfHEqtb4Wr6YbxI
- uN/EsTK/RGxHoLk+vWmPTr4SbW26K6b6lQ==
-X-Google-Smtp-Source: ABdhPJzAXX7DB9LF0SnORN4+vIEvi5dRQ0jjpX+7n7i8qLT0SofhaHaFWO9JhHw8zbpkGUOHene2Ug==
-X-Received: by 2002:a17:902:e8c4:b029:e2:b7d3:4fd7 with SMTP id
- v4-20020a170902e8c4b02900e2b7d34fd7mr12405476plg.73.1614554607551; 
- Sun, 28 Feb 2021 15:23:27 -0800 (PST)
+ bh=NSyzwXdepOJtmog9MVMDw1s/eSNq+uZi1xq2Xphvsqo=;
+ b=nBLEH8QBpxsGRQULoeVcr11btHjec/GlIy7+ufb/S86RIEYT2OnxRI+Rayeer+mdBb
+ 3jt8GJuv1VRZ8Tyfpq2D8aZPyx1ExANDbr06QVnPNeoX0pthchghwJvlJpvBTRxySLq8
+ VBZ6wfYaZ1SBcQyMD/hnjoGmGVothCTUt5IVKeNQLOalFP6cCSLDlsZ5+K9YDPBWTkbc
+ oTkNw3Zok6JumBxvT8FP/b1eGrQO8FZdpmRvMIg38tnPFj4qJZXHK8GQw7cRlSVPIZjf
+ kG60BXoTQd1iFG7jaR0tYpNKC9l1JDy3oxcIuhTfiPRft+4CrYZ/WnnsZ7eFaT/eDLan
+ 7V+A==
+X-Gm-Message-State: AOAM531QltNFE+Yt+fx1uGArTz2u/JGc3KUiPJY75PQskUMXF5vbHH3C
+ U9kVte4nkmOJAdVm23icSQjbZd4dNrMOIQ==
+X-Google-Smtp-Source: ABdhPJx1EeJGrtJUo9RQDQfKwCD8fHM3akuAkwar4wKLKrA4B1OiCuSehYLmXzHBOiDZy6TuzXuiMA==
+X-Received: by 2002:a17:902:ed94:b029:de:8844:a650 with SMTP id
+ e20-20020a170902ed94b02900de8844a650mr12808202plj.56.1614554610604; 
+ Sun, 28 Feb 2021 15:23:30 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.26
+ by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:23:27 -0800 (PST)
+ Sun, 28 Feb 2021 15:23:30 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/50] target/i386: Split out check_iopl
-Date: Sun, 28 Feb 2021 15:22:36 -0800
-Message-Id: <20210228232321.322053-6-richard.henderson@linaro.org>
+Subject: [PATCH 08/50] target/i386: Assert IOPL is 0 for user-only
+Date: Sun, 28 Feb 2021 15:22:39 -0800
+Message-Id: <20210228232321.322053-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +88,114 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On real hardware, the linux kernel has the iopl(2) syscall which
+can set IOPL to 3, to allow e.g. the xserver to briefly disable
+interrupts while programming the graphics card.
+
+However, QEMU cannot and does not implement this syscall, so the
+IOPL is never changed from 0.  Which means that all of the checks
+vs CPL <= IOPL are false for user-only.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ target/i386/tcg/translate.c | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 75ee87fe84..176c95c02b 100644
+index 50dc693edc..5f24615826 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -1302,6 +1302,16 @@ static bool check_vm86_iopl(DisasContext *s)
-     return false;
- }
+@@ -97,6 +97,7 @@ typedef struct DisasContext {
  
-+/* Check for iopl allowing access; if not, raise #GP and return false. */
-+static bool check_iopl(DisasContext *s)
-+{
-+    if (s->vm86 ? s->iopl == 3 : s->cpl <= s->iopl) {
-+        return true;
-+    }
-+    gen_exception_gpf(s);
-+    return false;
-+}
-+
- /* if d == OR_TMP0, it means memory operand (address in A0) */
- static void gen_op(DisasContext *s1, int op, MemOp ot, int d)
- {
-@@ -7089,28 +7099,16 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-         break;
+ #ifndef CONFIG_USER_ONLY
+     uint8_t cpl;   /* code priv level */
++    uint8_t iopl;  /* i/o priv level */
  #endif
-     case 0xfa: /* cli */
--        if (!s->vm86) {
--            if (s->cpl <= s->iopl) {
--                gen_helper_cli(cpu_env);
--            } else {
--                gen_exception_gpf(s);
--            }
--        } else {
--            if (s->iopl == 3) {
--                gen_helper_cli(cpu_env);
--            } else {
--                gen_exception_gpf(s);
--            }
-+        if (check_iopl(s)) {
-+            gen_helper_cli(cpu_env);
-         }
-         break;
-     case 0xfb: /* sti */
--        if (s->vm86 ? s->iopl == 3 : s->cpl <= s->iopl) {
-+        if (check_iopl(s)) {
-             gen_helper_sti(cpu_env);
-             /* interruptions are enabled only the first insn after sti */
-             gen_jmp_im(s, s->pc - s->cs_base);
-             gen_eob_inhibit_irq(s, true);
--        } else {
--            gen_exception_gpf(s);
-         }
-         break;
-     case 0x62: /* bound */
+ 
+     int code32; /* 32 bit code segment */
+@@ -116,7 +117,6 @@ typedef struct DisasContext {
+     int addseg; /* non zero if either DS/ES/SS have a non zero base */
+     int f_st;   /* currently unused */
+     int vm86;   /* vm86 mode */
+-    int iopl;
+     int tf;     /* TF cpu flag */
+     int jmp_opt; /* use direct block chaining for direct jumps */
+     int repz_opt; /* optimize jumps within repz instructions */
+@@ -153,9 +153,11 @@ typedef struct DisasContext {
+ #ifdef CONFIG_USER_ONLY
+ #define PE(S)     true
+ #define CPL(S)    3
++#define IOPL(S)   0
+ #else
+ #define PE(S)     (((S)->flags & HF_PE_MASK) != 0)
+ #define CPL(S)    ((S)->cpl)
++#define IOPL(S)   ((S)->iopl)
+ #endif
+ 
+ static void gen_eob(DisasContext *s);
+@@ -629,7 +631,7 @@ static void gen_check_io(DisasContext *s, MemOp ot, target_ulong cur_eip,
+ {
+     target_ulong next_eip;
+ 
+-    if (PE(s) && (CPL(s) > s->iopl || s->vm86)) {
++    if (PE(s) && (CPL(s) > IOPL(s) || s->vm86)) {
+         tcg_gen_trunc_tl_i32(s->tmp2_i32, s->T0);
+         switch (ot) {
+         case MO_8:
+@@ -1307,7 +1309,7 @@ static bool check_cpl0(DisasContext *s)
+ /* If vm86, check for iopl == 3; if not, raise #GP and return false. */
+ static bool check_vm86_iopl(DisasContext *s)
+ {
+-    if (!s->vm86 || s->iopl == 3) {
++    if (!s->vm86 || IOPL(s) == 3) {
+         return true;
+     }
+     gen_exception_gpf(s);
+@@ -1317,7 +1319,7 @@ static bool check_vm86_iopl(DisasContext *s)
+ /* Check for iopl allowing access; if not, raise #GP and return false. */
+ static bool check_iopl(DisasContext *s)
+ {
+-    if (s->vm86 ? s->iopl == 3 : CPL(s) <= s->iopl) {
++    if (s->vm86 ? IOPL(s) == 3 : CPL(s) <= IOPL(s)) {
+         return true;
+     }
+     gen_exception_gpf(s);
+@@ -6750,7 +6752,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                                                           & 0xffff));
+                 }
+             } else {
+-                if (CPL(s) <= s->iopl) {
++                if (CPL(s) <= IOPL(s)) {
+                     if (dflag != MO_16) {
+                         gen_helper_write_eflags(cpu_env, s->T0,
+                                                 tcg_const_i32((TF_MASK |
+@@ -8468,23 +8470,25 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+     CPUX86State *env = cpu->env_ptr;
+     uint32_t flags = dc->base.tb->flags;
+     int cpl = (flags >> HF_CPL_SHIFT) & 3;
++    int iopl = (flags >> IOPL_SHIFT) & 3;
+ 
+     dc->cs_base = dc->base.tb->cs_base;
+     dc->flags = flags;
+ #ifndef CONFIG_USER_ONLY
+     dc->cpl = cpl;
++    dc->iopl = iopl;
+ #endif
+ 
+     /* We make some simplifying assumptions; validate they're correct. */
+     g_assert(PE(dc) == ((flags & HF_PE_MASK) != 0));
+     g_assert(CPL(dc) == cpl);
++    g_assert(IOPL(dc) == iopl);
+ 
+     dc->code32 = (flags >> HF_CS32_SHIFT) & 1;
+     dc->ss32 = (flags >> HF_SS32_SHIFT) & 1;
+     dc->addseg = (flags >> HF_ADDSEG_SHIFT) & 1;
+     dc->f_st = 0;
+     dc->vm86 = (flags >> VM_SHIFT) & 1;
+-    dc->iopl = (flags >> IOPL_SHIFT) & 3;
+     dc->tf = (flags >> TF_SHIFT) & 1;
+     dc->cc_op = CC_OP_DYNAMIC;
+     dc->cc_op_dirty = false;
 -- 
 2.25.1
 
