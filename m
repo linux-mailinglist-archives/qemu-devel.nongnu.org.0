@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3CB5327055
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 06:15:36 +0100 (CET)
-Received: from localhost ([::1]:58370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F940327056
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 06:16:18 +0100 (CET)
+Received: from localhost ([::1]:60660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGEQZ-0006hY-UI
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 00:15:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43144)
+	id 1lGERF-0007fj-CG
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 00:16:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43494)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lGEP6-0006Ea-Qv
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 00:14:04 -0500
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:40726)
+ id 1lGEQE-0006n9-Sz; Sun, 28 Feb 2021 00:15:14 -0500
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b]:44094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1lGEP4-0000sv-6u
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 00:14:04 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id c131so13386161ybf.7
- for <qemu-devel@nongnu.org>; Sat, 27 Feb 2021 21:14:01 -0800 (PST)
+ id 1lGEQC-0001Vi-PW; Sun, 28 Feb 2021 00:15:14 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id f4so13388864ybk.11;
+ Sat, 27 Feb 2021 21:15:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KkYnJ7wa/+zI+8NUoftb2gtLTjwFLyuZgytDrAWBTPo=;
- b=XHedob714sb64JpGM0HO17mqW2vaW7rdOUv/NqtXSU5XVyjvCnIiJfAJ0phraCYLJH
- afPVRfAC2zjvK050n5zBvkz0bNsEShUExbxrBzeUC4//uAl2OvGTAi3R23gKjL3wKHc0
- e4lKvyDm0ACCu7IGR4v1j3ETW8Wg+lj77SVR0OVh3OqdC4jcQcy3lRH1DfLbcncobhUh
- XigIOw4mgx+K148h0OZuzXo2zW8EOcU9/vhJjZk6al+cGJottXy1s5XoL0ZbRqYSJ/KY
- i7YMDiy73iH08oO0l3irxUGbC4MoqLH/qMxe2K0ERsGogd573+PaC2SDOSjJaBdZdUgI
- IjsQ==
+ :cc; bh=M+nbYEPDmROvplud8P18wUkNibKsWIoTz9K9t2bcUmY=;
+ b=uOK8EondsvdZF263LFgA/azb8O6q1JsdFT+9K27zpJCRAqkr+cBrWGKRR5hDQr/On7
+ ZxPlvaenw0Zlvgi8wDM7aNniM25oqx2WpVctcE/6rZRPeULWbHrVghn7zls8jf85Y3SL
+ VNQv7i7P49yquMOPuA4EpRyPZncSLq1N1rJHQS5rjFc4X15xRI8R6y4q/TAOb3+DcS8k
+ t2dLS8PWphZVmGjMbliP6URLvbwO3upabFX2/OP4fknyDX/ThUml7wjgr8uhQko3GtAL
+ zpnsjIB2Hzweh96Md9uatrzydYsP8kiJYNZQee70p79/zme25bcMm0N7Ex4ldu+4YONq
+ N2xw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KkYnJ7wa/+zI+8NUoftb2gtLTjwFLyuZgytDrAWBTPo=;
- b=oJTmfofT9t2GhRuW1NNKExdxSXNWqpuTg3qs+RdLHDz4UxEzSSnHAgNf+SX8aKdk6e
- BZEiCrQE0me7E5zBMCoDT/6efOuCY1U6lCJfibVUTUx1crF/ZdCE8cvoiIOfXW2UM+tP
- OIyhs2zbW5/pH7ZzovZI3nB0Xd6hJ98YD04U+fw413ePdnqX8pUgLkRPo1rI8yZhwOEY
- wcNuyK0MIcUGQF/+8kS6bncGM2KSlRJ/jwzfyxPe6e+gx/45H0vXUI/UVUToGxjZiYvB
- Ajsk1l47u6Pok0K51fiusKXnw5j9PpO6NMomfEj8wmCwZbj4kywMYN+VaPS0dSC6Jxw6
- PljQ==
-X-Gm-Message-State: AOAM530z+QYIvv8rp7eRN8vmRSrNyWOD0Y0ZJv7hJUFcItSBkGZvlvtw
- JiiVq7X9UHHUsm7+JjswwDtWS6z9qRkRGna1/Qg=
-X-Google-Smtp-Source: ABdhPJypScBJ3+MtCR4DInyxi1jykPRdVQR9PyJeXHV8vdXORnRRepBYDMX/MJ8YPjE7VpEp7y8ZJiQN8YcIHz4+KQs=
-X-Received: by 2002:a25:d17:: with SMTP id 23mr16158716ybn.387.1614489241234; 
- Sat, 27 Feb 2021 21:14:01 -0800 (PST)
+ bh=M+nbYEPDmROvplud8P18wUkNibKsWIoTz9K9t2bcUmY=;
+ b=OFCiYJmkw2GCTzpOa72cgGSo2cvoxVbcynLvE1dKuNAvl1RtCCGNigbeCF4CV17FpJ
+ kcvMK6jhSGziO6P+g9PXmWZtz0W1wRbZ0WnSJXIyQAmHkl2RzzppNlrZz4cSrPTKd/QI
+ k2TfHGIOUU4VPSAbrZ09LoWzMAV9mBL88TvHZyXne1DeV1qxDtpuvkr6Tluf+6tMlKfe
+ lZEhi9QGvlspq0wxXL3C8u3c7FAxFRJ/S+uPh4okgvAEi8j/M3XYOCBx6V4TkpetRwxF
+ 5UmODNI72Bq2JSbDvAYzKI038LJlKbIKpdBJXd1rt3uUkkhc+Aa9ggyPBg2q4+pTIbhN
+ P6dg==
+X-Gm-Message-State: AOAM532RaYGXX6q1MfBJGQ86N2oAb2w2NHEpdE49t84zlVxCKW8ZwfwR
+ snNSQbPpvH+peeMusL8b91hu5w4PcsCwXXEWNas=
+X-Google-Smtp-Source: ABdhPJx9mwGvGgfk9xlG/BKBwYrW1Iip2TSjudX4j+zjK0prlmv/hVcIqT8jPJYRfpZSJXGpxu7jM702eofocTgPJAU=
+X-Received: by 2002:a25:c090:: with SMTP id
+ c138mr14212520ybf.314.1614489311396; 
+ Sat, 27 Feb 2021 21:15:11 -0800 (PST)
 MIME-Version: 1.0
-References: <1613739127-61825-1-git-send-email-bmeng.cn@gmail.com>
- <CAFEAcA_qpOXLXDkaYq6T+StUnSUEuV6+FL94bgzvkoRE6ShUMA@mail.gmail.com>
-In-Reply-To: <CAFEAcA_qpOXLXDkaYq6T+StUnSUEuV6+FL94bgzvkoRE6ShUMA@mail.gmail.com>
+References: <20210220144807.819-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210220144807.819-1-bmeng.cn@gmail.com>
 From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 28 Feb 2021 13:13:50 +0800
-Message-ID: <CAEUhbmXvVqqn9QhC15oAV_erQzdfhOUQoxVoNcEgmVH7D9_L5A@mail.gmail.com>
-Subject: Re: [PATCH] Make ram_addr_t 64 bits unconditionally
-To: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 28 Feb 2021 13:15:00 +0800
+Message-ID: <CAEUhbmX2+CtzQ53JbN-Vn9mVX9tipTND3xGJzk317mTZEfayJA@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] hw/riscv: Clean-ups and map high mmio for PCIe of
+ 'virt' machine
+To: Alistair Francis <Alistair.Francis@wdc.com>, 
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,40 +78,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
-On Fri, Feb 19, 2021 at 9:11 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+On Sat, Feb 20, 2021 at 10:48 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> On Fri, 19 Feb 2021 at 12:52, Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > From: Bin Meng <bin.meng@windriver.com>
-> >
-> > Currently machine->ram_size is a ram_addr_t, whose size is 64 bits
-> > if either (a) the host is 64 bits or (b) CONFIG_XEN_BACKEND is
-> > enabled, so it's effectively only 32 bits on 32-bit-not-x86.
-> >
-> > commit 4be403c8158e ("Make target_phys_addr_t 64 bits unconditionally")
-> > did the change for target_phys_addr_t which is now hwaddr to be 64 bits
-> > unconditionally. Let's do the same to ram_addr_t.
-> >
-> > Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> > Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> > --
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> As noted on the other thread, I like this in principle,
-> but I think it would be interesting to check whether it
-> has a measurable perf impact on the non-x86-32-bit hosts
-> that it affects.
+> This series does the following clean-ups:
+> - Drop 'struct MemmapEntry'
+> - virt: Drop the 'link_up' parameter of gpex_pcie_init()
+>
+> It also adds the following small enhancement to 'virt' machine:
+> - Limit RAM size in a 32-bit system
+> - Map high mmio for PCIe
+>
+> Changes in v3:
+> - Fix the typo (limit) in the commit message and codes
+>
 
-What measures should we take to move this on? I don't have any access
-to non-x86 32-bit hosts.
-
-Regards,
-Bin
+Ping?
 
