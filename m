@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0917F327515
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:08:42 +0100 (CET)
-Received: from localhost ([::1]:44906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A0E327516
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:11:11 +0100 (CET)
+Received: from localhost ([::1]:47418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVB2-00010C-Jm
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:08:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40354)
+	id 1lGVDS-00025S-Jo
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:11:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGV9y-0000SZ-N8; Sun, 28 Feb 2021 18:07:34 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:41033)
+ id 1lGVBa-0001WF-Rg; Sun, 28 Feb 2021 18:09:14 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:45521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGV9u-0000nd-A3; Sun, 28 Feb 2021 18:07:32 -0500
+ id 1lGVBZ-0001Xe-Ep; Sun, 28 Feb 2021 18:09:14 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 646095C0093;
- Sun, 28 Feb 2021 18:07:25 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 9CEBE5C008C;
+ Sun, 28 Feb 2021 18:09:12 -0500 (EST)
 Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Sun, 28 Feb 2021 18:07:25 -0500
+ by compute3.internal (MEProxy); Sun, 28 Feb 2021 18:09:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
  mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm2; bh=r8kga
- nQMACnpTwhCNua7t0wdW1Szzoj5H7CTSvz4Fp4=; b=Uv0BSG8XNbytYunRlOG7f
- Sq1mIvLc9o5YbS1QUPZTqOt25zzFKPN/ftvKRslp1pGrNLmqyHzBNgH5o+EJiq3a
- yP60o9NHqijDyjjyxQ1Ouz4hqA0CgwuACYVjKL9p66nOwXlmDdv+PVm0s18fh96/
- D8AG2SE/uvEZIh8Lf325nn6YcQ1CAlfG2DS7iccqCwggK+RpG0mzCRWDcXx+l2uR
- C69u/onMkvwkz1cBsrpVFxRty4bjGK2G+a6kxwaJApHlOZ81JA7J7fKEi1/8C1KS
- UO3Fj1ZgQ77qk4UP2q96mKfFMnIkRI8A/RMfEi0CyaNqmThq0BU4SK361wCkMKtD
- g==
+ :subject:content-type:content-transfer-encoding; s=fm2; bh=cFrEa
+ XkFX/pufSG94aC9/XAc2CtR0GwlPR8jI683L88=; b=tVILj8rn0TpldbKjLbFRB
+ JaqSmb9h4Yt1/SEkrDBBieEyEKaWfhc/uBj++LvFTuzN1TlkbuHO4SllgRe/3+0a
+ GOENkVBYLy9lnV1nAEamBtcZJxxnBKVVmRra/XBK9JEHeAlQMrNYL3o/cn8Y8nQn
+ riNMawVw1MYw4MjTRezfrWLWu1Wt2BA/u6ikRIvyX9Zt+Dqa+tp2D8mFgmFGBMdF
+ P0+ESeS/Yj5TDbNY3/iTyuSzo0O3qrLxkVa2ag+JWivXz+Wl54J2kRT8HR5kX5cp
+ AYJgnQggrDv+Nsjzwm+IGDDCgLcPFE20jKRY+OnNzuivO2ogZqHV2cjxnW6ep6we
+ Q==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:content-type
  :date:from:in-reply-to:message-id:mime-version:references
  :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=r8kganQMACnpTwhCNua7t0wdW1Szzoj5H7CTSvz4F
- p4=; b=KcQrn8PvXRIyWWBV6LQr8nl8z4PauGoMO3BfFAOmwCe4fOW2dDOfHN7Ej
- jjaWil8WIvBVEuTEgq1jqgyblA+KRHGS5X6+f9au8AfXZ3X75rp0qt1H5L/7JnGr
- AY5nOvq55QHDatBZwMBneqL3NancCHX3RB5OxgLbfTm9m5MUfD0wYJRnltUd/CZw
- kcgurm4Ylc0NOEFPaKxVgpT4v54KofcuQt/waxjeOlzuT8xbXVwHUV25OIcpQkwr
- wzejB/EjwK0rY0dN6tTgaMce494lRAi7XxVcuJjc1J+hRn7VVBNqm+QgxMnVyYKp
- ajCWQtSmUMIyUpQB10CDDbsq2oVgQ==
-X-ME-Sender: <xms:KyI8YBmPNdtnjbhzooGFSeEqusAXBRpBFgoUYSUYwvPFG68bEgCMyg>
- <xme:KyI8YM1_YFVz-R0xI2HsZ-gyH5SzE_ZVEGajBEQlfEIr9ibYWC6Idxq1o2vrJR4Bw
- SNLjPkfcX8pT9VqaA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleejgddtjecutefuodetggdotefrodftvf
+ :x-sasl-enc; s=fm2; bh=cFrEaXkFX/pufSG94aC9/XAc2CtR0GwlPR8jI683L
+ 88=; b=RGBEnMbFOlh5S0ytCxVC9xhdF9EyrN5TQ2nj5UdKYENsY1LWB5YNUsM1x
+ wEEcuhGOnPEulu9G1FZLL1MP/EOSn6/IkrCextSarNYSAwJe5mnmBlacCX1Tv656
+ /nDWLMAOxn6wlwCi9RlS1KLWg8AF5T5ch81aylmfELXXeUgxV1/Qa93gOA/VNmMF
+ w2vcNMPCnrKVXunzXX4Ui3X2xBzhh4ejSO6nhawHFfLnSS5LLmk5WV42HpxW/EYx
+ hwp6Av7HgHdrvLAdSJzLbvhSc/oRLWdr9vSclcNpYGIyj21iRH2ORL/uOTxX7zx8
+ O4JEP80freLVXpPD1izNni+oO/H8Q==
+X-ME-Sender: <xms:lyI8YP8zeYbpbflAkGIHdsdfBRwJCyoVaa8Vk8Qf67JfI4OThLiw3w>
+ <xme:lyI8YLtZXH8mky4wWLsFWORcpMwfCA4PU1CiXcPZd-1Bltc_mGDzpksfQzHfefOxX
+ UIDRaUhyyUUj9FuAg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleejgddtkecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefofgggkfgjfhffhffvufgtgfesthhqredtreerjeenucfhrhhomhepfdetnhgu
@@ -54,26 +54,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleejgddtjecutefuodetggdote
  grthhtvghrnhepvdegkeehgeefvdfhteehhfduteetgeeugefgieeigeeuheekudegtdek
  gfelgfehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
  eprghnughrvgifsegrjhdrihgurdgruh
-X-ME-Proxy: <xmx:KyI8YHrwRJuyV91b-_wguahDHjyIkzPFITXV1cZY3X26aQT6sArRbA>
- <xmx:KyI8YBlsw81cI_ciF-hKFI7AOe0k5-UaeTIov3ZoPYFwZraWG6lK-A>
- <xmx:KyI8YP1Ao8DvjT6CXOjBpHhBw7FhaLbOUvORkaNCAF0QCCP5Hh2vtw>
- <xmx:LSI8YP9xS0EDPfuM6hQWpTPj9tDRsmccUD4zLUz7CNu_xasHPcHXAw>
+X-ME-Proxy: <xmx:lyI8YNCOtAyFXPIeRi1M5xUgvT5bEp40gzFNfvEs27-EC8q_qRYNBA>
+ <xmx:lyI8YLca0-0NNdyvTmLi31uf5Tjcf8xDGqTsee2D7ff5uRVqPIyBww>
+ <xmx:lyI8YEOO2nsyJsXb5Ql6DixnV9f416jWMPDGZa3cN6cUMrBov0vyeg>
+ <xmx:mCI8YD0-vOTMNSJ3If6FDfGS4W59C_CtX2F6qQDsDaUWprOHK1eFhw>
 Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id E856EA00064; Sun, 28 Feb 2021 18:07:22 -0500 (EST)
+ id A2019A00064; Sun, 28 Feb 2021 18:09:11 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 User-Agent: Cyrus-JMAP/3.5.0-alpha0-141-gf094924a34-fm-20210210.001-gf094924a
 Mime-Version: 1.0
-Message-Id: <10a65ca0-0f6a-46be-a292-d37647e03a7f@www.fastmail.com>
-In-Reply-To: <1681fdc1-2c9d-db2c-a872-c0ff156e07c4@amsat.org>
+Message-Id: <af0b09f9-daff-463e-a887-387ff6d9a132@www.fastmail.com>
+In-Reply-To: <c74d23df-d90b-93e8-fe40-7de905b5af3e@amsat.org>
 References: <20210226065758.547824-1-andrew@aj.id.au>
- <20210226065758.547824-2-andrew@aj.id.au>
- <1681fdc1-2c9d-db2c-a872-c0ff156e07c4@amsat.org>
-Date: Mon, 01 Mar 2021 09:37:01 +1030
+ <20210226065758.547824-3-andrew@aj.id.au>
+ <c74d23df-d90b-93e8-fe40-7de905b5af3e@amsat.org>
+Date: Mon, 01 Mar 2021 09:38:50 +1030
 From: "Andrew Jeffery" <andrew@aj.id.au>
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm@nongnu.org
-Subject: =?UTF-8?Q?Re:_[PATCH_1/4]_arm:_ast2600:_Force_a_multiple_of_32_of_IRQs_f?=
- =?UTF-8?Q?or_the_GIC?=
+Subject: Re: [PATCH 2/4] arm: ast2600: Fix iBT IRQ ID
 Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=andrew@aj.id.au;
@@ -107,17 +106,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On Fri, 26 Feb 2021, at 19:26, Philippe Mathieu-Daud=C3=A9 wrote:
+On Fri, 26 Feb 2021, at 19:28, Philippe Mathieu-Daud=C3=A9 wrote:
 > On 2/26/21 7:57 AM, Andrew Jeffery wrote:
-> > This appears to be a requirement of the GIC model.
+> > The AST2600 allocates individual GIC IRQ lines for the LPC sub-devic=
+es.
+> > This is a contrast to the AST2400 and AST2500 which use one shared V=
+IC
+> > IRQ line for the LPC sub-devices. Switch the iBT device to use the
+> > GIC IRQ ID documented in the datasheet.
 >=20
-> If so this should be adjusted in the GIC or a15mp_priv_realize(),
-> not in each caller, isn't it?
+> [*]
 >=20
+> >=20
+> > While we're here, set the number of IRQs to the allocated number of =
+IRQs
+> > in the datasheet.
+>=20
+> Please do one change per patch. This would be the first change,
+> and [*] is the second.
 
-Maybe, let me look into it. I'll clean it up in v2 if it makes sense.
+Given that I had to change the current value to support the iBT device=20=
 
-Cheers,
+I figured it would be fine in the same patch, but sure, I can split=20
+this out in v2.
 
 Andrew
 
