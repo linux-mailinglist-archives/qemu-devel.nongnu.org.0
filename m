@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B460232756A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:57:11 +0100 (CET)
-Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D07E32756D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 01:00:23 +0100 (CET)
+Received: from localhost ([::1]:37648 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVvy-0001Xv-Mf
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:57:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
+	id 1lGVz4-0003yd-Aj
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 19:00:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPs-0005fV-2m
+ id 1lGVPs-0005ij-Tr
  for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:00 -0500
-Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:37365)
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:35878)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPg-0007lU-72
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:59 -0500
-Received: by mail-pf1-x430.google.com with SMTP id i10so1101226pfk.4
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:47 -0800 (PST)
+ id 1lGVPi-0007lc-37
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:00 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id t26so10374621pgv.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=U1XiVtYWvYMkkEWgKciMDe6IrloK2SNAwvVZLpof23Y=;
- b=qtGgVQDPWGYx0rb+orSlBir1h0GtP34+RnbJ1uqjprms5xsmn3IkoPX4stkvSysUwy
- 0aFmXP0lOmmoMi2vmyWo6jH1fZE6ttHB9IBObdLvb1yebDUGffvxvJ/PZOmYoFb7vK/x
- vqJO03Y6VIouu3/C5914J3BNXqcSZ0SiwW1hg3NOa8hh8pdnV3xoEBc4A1wete4Hy3De
- 3WFOvz8tvo8rxQie9IXDdEqUk10zPB4xdjuNdoDxlyQ3P+t7Gea/dwVe3wZOAosBFtvQ
- cRipWadnTBKQEfrW/060lBQdLUC68KHVUwd16u+f+WhMuMUFTiocW7bL7rjLovpIcJ2L
- OZMw==
+ bh=LaK3xHS/fvHJ2f1smHUqdXOOyUpc8PJcLS6WrecJURU=;
+ b=Dm5NkehuYLOzmdU35O0j/RlAwZGbXA3HZbrc2uDP37KDD59aaKRSxGpsRJH+1B50Zv
+ 5/r7FZl5v0/eYA+hW3zCqYEd/kfpSjtUcAvMN9ak7ds+WtzS8EKe/hr0fMN2fKUgqUiP
+ XZoNh4qEeNDUzT0FQm3i5Lit7eEvQS1sbojm764jvFf4CBeAOgP5wuDsY1nld50A56c2
+ APBn0j3dDoIzhuJiSHuOQ4HX8lNo+feoHbozfFkRdEdnhBR/9zG5dg71T6W0Svj+fEgp
+ YM2nrg5v2CjjYpnhuZigK6yMsztrjSOGWNzIAgKDkIGTJQjfM3zHEeS8w5Q3eUZdvlIA
+ PiGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=U1XiVtYWvYMkkEWgKciMDe6IrloK2SNAwvVZLpof23Y=;
- b=TV0h36aA9wd/V4AW0k7DzyeB2eVRELIPnWXUukRUKPlPGjGkYW02H5cX8qNjRKbD4O
- wJvRf7wr3b8wDIkqFxbe7j7Dmdgr8zDRggy1YSXoCze81NOk7X7HsK1omcUy2LNYOvS4
- 7QJbAA7Kpj1f9Wiu8XAZDopUmhE/KDUzKE9znWNxf8x/FjSsm8Xk+1V1/LlH7ElUg90d
- EjCL66/QruIWph7ZzIXJ4egPUtW8pRDqFZjK/A0qWM7BuKU2VWTn3Ug/V8zSNH4FE+rc
- b0xrl8Kit6Lp4wns/YsrPzAuScRBPQbvW7If+PkY2VbbSmkj/+JbogX/69GKVPsTZCgb
- lncg==
-X-Gm-Message-State: AOAM532kHTsODyvKSBJamUN7IFtDrlP+fwXOtZ3HSZoWlh3YY0Kl3+km
- iW04qQrBQ89rKLci/9Q7EfQeB1r+KZqOjA==
-X-Google-Smtp-Source: ABdhPJzNb+ip4QloMWaH7D2SaedAwwb/ZSsv5nZDXebyCXNlxfekGXLJb70u5r7DjT0mtnudDL4fcg==
-X-Received: by 2002:a62:7e01:0:b029:1ed:8173:40a1 with SMTP id
- z1-20020a627e010000b02901ed817340a1mr12491102pfc.6.1614554626931; 
- Sun, 28 Feb 2021 15:23:46 -0800 (PST)
+ bh=LaK3xHS/fvHJ2f1smHUqdXOOyUpc8PJcLS6WrecJURU=;
+ b=bqJnkd+NsToL3zLdxaRAtaMrrj3v8IRKwlRjt8Khy4ZW7d1PGImm4LOevIpDiLmPX/
+ KsqnhSMgnTEGHj88XomaeHSxzD1NibfBYleKBGdsxcRgv33UVBmWBc9QbEhc9TzGDwod
+ AXLftsxXRwC4rPQHBDTa5pkcXUD0Zp6wkFxu9dinsbAXXF3P4h90oIdtJVM76hnU5Pyq
+ MlvWtCTDvG2Sx9WDG+yHpXtPfqO9YLc2tuknZI/b1b5Ulq2kIv+CzUUcq48DDg+XdgUk
+ jApwBxlW7u7dfflSjyRMGhARCE9LDGDTcHPEajg+tjDinNLBk9GhN8mPAYH6gIe+ya0Q
+ bK+w==
+X-Gm-Message-State: AOAM531atkIJ7UVcqwzT1RUf/nESK57OBTCDXJuDZSmjt/dEmVM1Lxvx
+ 8Bp0gaIZVPxJGFsG3n42KrbQMNa5F5BBnQ==
+X-Google-Smtp-Source: ABdhPJxmDozFzDShtOATNWajLr5I1OIqOmI62Lo1GHSkSF+mS8qwoOrxTBhkI/m8ecPCTSrcvt5LzQ==
+X-Received: by 2002:a65:4088:: with SMTP id t8mr11463969pgp.296.1614554627590; 
+ Sun, 28 Feb 2021 15:23:47 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.46
+ by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:23:46 -0800 (PST)
+ Sun, 28 Feb 2021 15:23:47 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 27/50] target/i386: Fix the comment for repz_opt
-Date: Sun, 28 Feb 2021 15:22:58 -0800
-Message-Id: <20210228232321.322053-28-richard.henderson@linaro.org>
+Subject: [PATCH 28/50] target/i386: Reorder DisasContext members
+Date: Sun, 28 Feb 2021 15:22:59 -0800
+Message-Id: <20210228232321.322053-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,43 +87,70 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-After fixing a typo in the comment, fixup for CODING_STYLE.
+Sort all of the single-byte members to the same area
+of the structure, eliminating 8 bytes of padding.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ target/i386/tcg/translate.c | 27 ++++++++++++++-------------
+ 1 file changed, 14 insertions(+), 13 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 6877873bee..36dee5c0c7 100644
+index 36dee5c0c7..f0bc2df98c 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -8515,15 +8515,16 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
-     dc->cpuid_xsave_features = env->features[FEAT_XSAVE];
-     dc->jmp_opt = !(dc->base.singlestep_enabled ||
-                     (flags & (HF_TF_MASK | HF_INHIBIT_IRQ_MASK)));
--    /* Do not optimize repz jumps at all in icount mode, because
--       rep movsS instructions are execured with different paths
--       in !repz_opt and repz_opt modes. The first one was used
--       always except single step mode. And this setting
--       disables jumps optimization and control paths become
--       equivalent in run and single step modes.
--       Now there will be no jump optimization for repz in
--       record/replay modes and there will always be an
--       additional step for ecx=0 when icount is enabled.
-+    /*
-+     * Do not optimize repz jumps at all in icount mode, because
-+     * rep movsS instructions are executed with different paths
-+     * in !repz_opt and repz_opt modes. The first one was used
-+     * always except single step mode. And this setting
-+     * disables jumps optimization and control paths become
-+     * equivalent in run and single step modes.
-+     * Now there will be no jump optimization for repz in
-+     * record/replay modes and there will always be an
-+     * additional step for ecx=0 when icount is enabled.
-      */
-     dc->repz_opt = !dc->jmp_opt && !(tb_cflags(dc->base.tb) & CF_USE_ICOUNT);
+@@ -76,20 +76,24 @@ static TCGv_i64 cpu_bndu[4];
+ typedef struct DisasContext {
+     DisasContextBase base;
  
+-    /* current insn context */
+-    int8_t override; /* -1 if no override, else R_CS, R_DS, etc */
+-    uint8_t prefix;
++    target_ulong pc;       /* pc = eip + cs_base */
++    target_ulong pc_start; /* pc at TB entry */
++    target_ulong cs_base;  /* base of CS segment */
++
+     MemOp aflag;
+     MemOp dflag;
+-    target_ulong pc_start;
+-    target_ulong pc; /* pc = eip + cs_base */
+-    /* current block context */
+-    target_ulong cs_base; /* base of CS segment */
++
++    int8_t override; /* -1 if no override, else R_CS, R_DS, etc */
++    uint8_t prefix;
+ 
+ #ifndef CONFIG_USER_ONLY
+     uint8_t cpl;   /* code priv level */
+     uint8_t iopl;  /* i/o priv level */
+ #endif
++    uint8_t vex_l;  /* vex vector length */
++    uint8_t vex_v;  /* vex vvvv register, without 1's complement.  */
++    uint8_t popl_esp_hack; /* for correct popl with esp base handling */
++    uint8_t rip_offset; /* only used in x86_64, but left for simplicity */
+ 
+ #ifdef TARGET_X86_64
+     uint8_t rex_r;
+@@ -97,16 +101,13 @@ typedef struct DisasContext {
+     uint8_t rex_b;
+     bool rex_w;
+ #endif
+-    uint8_t vex_l;  /* vex vector length */
+-    uint8_t vex_v;  /* vex vvvv register, without 1's complement.  */
+-    CCOp cc_op;  /* current CC operation */
+-    bool cc_op_dirty;
+     bool jmp_opt; /* use direct block chaining for direct jumps */
+     bool repz_opt; /* optimize jumps within repz instructions */
++    bool cc_op_dirty;
++
++    CCOp cc_op;  /* current CC operation */
+     int mem_index; /* select memory access functions */
+     uint32_t flags; /* all execution flags */
+-    uint8_t popl_esp_hack; /* for correct popl with esp base handling */
+-    uint8_t rip_offset; /* only used in x86_64, but left for simplicity */
+     int cpuid_features;
+     int cpuid_ext_features;
+     int cpuid_ext2_features;
 -- 
 2.25.1
 
