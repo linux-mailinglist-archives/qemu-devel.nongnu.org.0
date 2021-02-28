@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 735F832754C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:41:48 +0100 (CET)
-Received: from localhost ([::1]:43568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B460232756A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:57:11 +0100 (CET)
+Received: from localhost ([::1]:60456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVh5-0008Fr-DR
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:41:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43706)
+	id 1lGVvy-0001Xv-Mf
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:57:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPr-0005d1-7k
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:59 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:42515)
+ id 1lGVPs-0005fV-2m
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:24:00 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:37365)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPg-0007ko-6x
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:58 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id w18so10270080pfu.9
+ id 1lGVPg-0007lU-72
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:59 -0500
+Received: by mail-pf1-x430.google.com with SMTP id i10so1101226pfk.4
  for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=b7j9ch8PyL7hMB8yDFIrEz2hIViL6J2USSPBmhNlSXg=;
- b=XZKBH8AKwbjJOjaFxM4SDPh9/MCElHqUa2/NTqpZEySoAFoDv9PzxjDD1rZuI18viB
- 8N4UkAjWGXgR2gJPvYdUG0/ZnKACEvJXfa3aii0FAyMJSD5cmWRBW0UgwODZeR8qvsF+
- KOzGMlPzmrMMUOz2q2gMgiNIXheDkvHyZ11aXVZtxKULtWAfuhIU/PaAeqAUG1DtY+EV
- NitwgPTjhL4KLqveEeiVg9pey9AC9yxQ9FRVYsaA6NFmpYF6eA2XEHjm7CyPZ9XKHjm7
- tQKYBo80dczJ4wqIcyCi/43MiCq6DNlbCY2gchAUpHfSxeJfAOF3UXAG5k7br9xmt3z+
- LEBg==
+ bh=U1XiVtYWvYMkkEWgKciMDe6IrloK2SNAwvVZLpof23Y=;
+ b=qtGgVQDPWGYx0rb+orSlBir1h0GtP34+RnbJ1uqjprms5xsmn3IkoPX4stkvSysUwy
+ 0aFmXP0lOmmoMi2vmyWo6jH1fZE6ttHB9IBObdLvb1yebDUGffvxvJ/PZOmYoFb7vK/x
+ vqJO03Y6VIouu3/C5914J3BNXqcSZ0SiwW1hg3NOa8hh8pdnV3xoEBc4A1wete4Hy3De
+ 3WFOvz8tvo8rxQie9IXDdEqUk10zPB4xdjuNdoDxlyQ3P+t7Gea/dwVe3wZOAosBFtvQ
+ cRipWadnTBKQEfrW/060lBQdLUC68KHVUwd16u+f+WhMuMUFTiocW7bL7rjLovpIcJ2L
+ OZMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=b7j9ch8PyL7hMB8yDFIrEz2hIViL6J2USSPBmhNlSXg=;
- b=n5hZn0jexNfPZLFtsfB2K+Ii3dNZX/fWHdtSVmdxdGboDOvroOA0ELkJcJZXgIWMmb
- 918BmjEiWP/0NxhTgvsJ4vUvCzYHOL4scjN9xcfQ4HzKP7pR4guNJXkKu0O1CXNjCoUN
- /ke4MPVs1QJ2rAtP97J6zepq4rd20LBdYPZUHg+Jb49khehCVp9W4pSDlsJNJJzt76jL
- cDH9xMvHvyYJSGiTUAQ/oDcy+Q3Oi+ZzpPj/GpG30NyjKXDjZpOFHYw+rWxjw34MvEB2
- SIUvKARLDTFnqn7pjx535wLHHFyZyU8kt726aYsNCUdG3JIf1zr3QR1tMVIOSQpOT+1t
- fW6A==
-X-Gm-Message-State: AOAM533+YRepJ2uZUip6M+LmwUDGbk9VZzG1Wy5o1H6jEhcjZRr9lzzh
- k0MShNBlJiEuxNBrJrjpbZE2sb7fc/3ODg==
-X-Google-Smtp-Source: ABdhPJx6XDlvdS/TU6YGpUy3XGggVhV6cKbYSHRkYkyGPp3sDHbT20QHfLlu9xJDiSfOQBPQuWAuBQ==
-X-Received: by 2002:a62:bd05:0:b029:1ab:6d2:5edf with SMTP id
- a5-20020a62bd050000b02901ab06d25edfmr12208904pff.32.1614554626271; 
+ bh=U1XiVtYWvYMkkEWgKciMDe6IrloK2SNAwvVZLpof23Y=;
+ b=TV0h36aA9wd/V4AW0k7DzyeB2eVRELIPnWXUukRUKPlPGjGkYW02H5cX8qNjRKbD4O
+ wJvRf7wr3b8wDIkqFxbe7j7Dmdgr8zDRggy1YSXoCze81NOk7X7HsK1omcUy2LNYOvS4
+ 7QJbAA7Kpj1f9Wiu8XAZDopUmhE/KDUzKE9znWNxf8x/FjSsm8Xk+1V1/LlH7ElUg90d
+ EjCL66/QruIWph7ZzIXJ4egPUtW8pRDqFZjK/A0qWM7BuKU2VWTn3Ug/V8zSNH4FE+rc
+ b0xrl8Kit6Lp4wns/YsrPzAuScRBPQbvW7If+PkY2VbbSmkj/+JbogX/69GKVPsTZCgb
+ lncg==
+X-Gm-Message-State: AOAM532kHTsODyvKSBJamUN7IFtDrlP+fwXOtZ3HSZoWlh3YY0Kl3+km
+ iW04qQrBQ89rKLci/9Q7EfQeB1r+KZqOjA==
+X-Google-Smtp-Source: ABdhPJzNb+ip4QloMWaH7D2SaedAwwb/ZSsv5nZDXebyCXNlxfekGXLJb70u5r7DjT0mtnudDL4fcg==
+X-Received: by 2002:a62:7e01:0:b029:1ed:8173:40a1 with SMTP id
+ z1-20020a627e010000b02901ed817340a1mr12491102pfc.6.1614554626931; 
  Sun, 28 Feb 2021 15:23:46 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.45
+ by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:23:45 -0800 (PST)
+ Sun, 28 Feb 2021 15:23:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 26/50] target/i386: Reduce DisasContext jmp_opt,
- repz_opt to bool
-Date: Sun, 28 Feb 2021 15:22:57 -0800
-Message-Id: <20210228232321.322053-27-richard.henderson@linaro.org>
+Subject: [PATCH 27/50] target/i386: Fix the comment for repz_opt
+Date: Sun, 28 Feb 2021 15:22:58 -0800
+Message-Id: <20210228232321.322053-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
 References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,26 +88,43 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+After fixing a typo in the comment, fixup for CODING_STYLE.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/i386/tcg/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/i386/tcg/translate.c | 19 ++++++++++---------
+ 1 file changed, 10 insertions(+), 9 deletions(-)
 
 diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
-index 92669bc142..6877873bee 100644
+index 6877873bee..36dee5c0c7 100644
 --- a/target/i386/tcg/translate.c
 +++ b/target/i386/tcg/translate.c
-@@ -101,8 +101,8 @@ typedef struct DisasContext {
-     uint8_t vex_v;  /* vex vvvv register, without 1's complement.  */
-     CCOp cc_op;  /* current CC operation */
-     bool cc_op_dirty;
--    int jmp_opt; /* use direct block chaining for direct jumps */
--    int repz_opt; /* optimize jumps within repz instructions */
-+    bool jmp_opt; /* use direct block chaining for direct jumps */
-+    bool repz_opt; /* optimize jumps within repz instructions */
-     int mem_index; /* select memory access functions */
-     uint32_t flags; /* all execution flags */
-     uint8_t popl_esp_hack; /* for correct popl with esp base handling */
+@@ -8515,15 +8515,16 @@ static void i386_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cpu)
+     dc->cpuid_xsave_features = env->features[FEAT_XSAVE];
+     dc->jmp_opt = !(dc->base.singlestep_enabled ||
+                     (flags & (HF_TF_MASK | HF_INHIBIT_IRQ_MASK)));
+-    /* Do not optimize repz jumps at all in icount mode, because
+-       rep movsS instructions are execured with different paths
+-       in !repz_opt and repz_opt modes. The first one was used
+-       always except single step mode. And this setting
+-       disables jumps optimization and control paths become
+-       equivalent in run and single step modes.
+-       Now there will be no jump optimization for repz in
+-       record/replay modes and there will always be an
+-       additional step for ecx=0 when icount is enabled.
++    /*
++     * Do not optimize repz jumps at all in icount mode, because
++     * rep movsS instructions are executed with different paths
++     * in !repz_opt and repz_opt modes. The first one was used
++     * always except single step mode. And this setting
++     * disables jumps optimization and control paths become
++     * equivalent in run and single step modes.
++     * Now there will be no jump optimization for repz in
++     * record/replay modes and there will always be an
++     * additional step for ecx=0 when icount is enabled.
+      */
+     dc->repz_opt = !dc->jmp_opt && !(tb_cflags(dc->base.tb) & CF_USE_ICOUNT);
+ 
 -- 
 2.25.1
 
