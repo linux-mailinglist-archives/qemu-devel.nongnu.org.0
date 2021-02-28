@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0141332748A
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 22:11:56 +0100 (CET)
-Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD1D327489
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 22:11:03 +0100 (CET)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGTM2-0002VB-S1
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 16:11:54 -0500
-Received: from eggs.gnu.org ([209.51.188.92]:36902)
+	id 1lGTLB-0001lF-AA
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 16:11:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39324)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGT00-0006xr-Ea
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGT00-0006xq-ET
  for qemu-devel@nongnu.org; Sun, 28 Feb 2021 15:49:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60198)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGSrF-0006sa-E0
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 15:40:19 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGSux-00084w-Np
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 15:44:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614544797;
+ s=mimecast20190719; t=1614545032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Yp/ijWIoVCmWK0cQ//oi1b7Itl/aFjM0RJhldWUFC+g=;
- b=XTDep62XXBM5OLmO13RY0gLH2nYi/oy3usRWHi6yAxocIKx8CSDcBOdag8y5noJ0GR9XM5
- 1nMN/vWbKpRijEfaE0c8VvTmrDZrV5WyrovQJy0NRaBNpypwzMwAibog+MDwTtpzIz/kK7
- 9IRETJK3M1sXGXOjDnnBp3NmN7BR9Bg=
+ bh=A51IK0h5cDEoE5Df7Z+8pF/AiR65lbs7DfGMZoM1L6U=;
+ b=OMLnU1ziTuBA7y0uAkDoym51I05eHTTKr/nLd+x9DeFDxYx2UiQc6BDT4wEErfM37YIpTQ
+ oKg9BFvFVHPP+cWCXQYvx0OcYXbIjanpWuyOcoj+dFUoBYdK1fQFifWq6juj3kAfk+0XwX
+ pt2kPZ7GXrf77bFJu5an+Ix8zRC3yFk=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-B6Xc6IY2PDGUnNXEA-moQA-1; Sun, 28 Feb 2021 15:39:55 -0500
-X-MC-Unique: B6Xc6IY2PDGUnNXEA-moQA-1
-Received: by mail-ed1-f71.google.com with SMTP id q2so7763231edt.16
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 12:39:55 -0800 (PST)
+ us-mta-451-Y3ar0BBbOtylqWM9zit6LA-1; Sun, 28 Feb 2021 15:43:47 -0500
+X-MC-Unique: Y3ar0BBbOtylqWM9zit6LA-1
+Received: by mail-ed1-f71.google.com with SMTP id t18so7794916edr.19
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 12:43:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to;
- bh=Yp/ijWIoVCmWK0cQ//oi1b7Itl/aFjM0RJhldWUFC+g=;
- b=py4jTu6kEZHxaPOVy6+1NNWaG8+KTXDuMDe/igpzi+u49WMML+usPYwFKgUZ9TF3SC
- s8kxOBpfthJOMkCc9zbUjjbJin2g2pPeVP/kjWCeF7mOYMIzngZ00L40GUxwSrAzzolq
- Zr8YljN9Tau79gwpso/L5cw2q2JOdPvbI26Df7nkLZneCm5oVoBqEQSHrOHsZTWxxMg7
- M6DiDBmcJtn2lz9rbxvtYNLD8z8OC9qZs6qBcx6zPjG9DqQIqhS8Rj0gH1MrSqfbOOVd
- cRojEUBjY3n5dhLdBAmSuNzDfzSnRjddXFw27rtUuBn8tr6ICnG5JwpvvgvSpEsYzMLk
- NHTA==
-X-Gm-Message-State: AOAM531b9OtBYi/QUIho/cHtJwJ2Dm3qUcNkUbFrtiwdAZ5HnRMt4HxN
- 6pd38snXLKBsSmPd9fN+14faJKblWdCBC22JM/s/gcGi8L/Ow+E74aXOGgwpNa0lQYNHCGKcjXW
- 5h3G+w7la4CVbus0=
-X-Received: by 2002:aa7:c0c7:: with SMTP id j7mr812677edp.298.1614544794365;
- Sun, 28 Feb 2021 12:39:54 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdpPjabZqxCPcSmuGJe97X/UXytu5ODNhiaJzYpTCUZD4cZkeoCEIRegCQVuFjEMOY2jIApw==
-X-Received: by 2002:aa7:c0c7:: with SMTP id j7mr812662edp.298.1614544794201;
- Sun, 28 Feb 2021 12:39:54 -0800 (PST)
+ bh=A51IK0h5cDEoE5Df7Z+8pF/AiR65lbs7DfGMZoM1L6U=;
+ b=iT6DdNCToX8ellegQ/iGnosuQIcywbKVAUK9rr3Bbmk3pVdoDJABibSC+FimYVvCaG
+ Y93RjEX6vaNbdo9CuYcwNK0mSv9SssR7Kz6KN3DNUQd43fOPd7twQuElNQKVXaaJSbRf
+ WHruE+T60CXoLobrEUAsFyqqYju6Kpe0rqzZ/DkG24MD8UO2a7yAH1ZxuzdW3rv8QXeL
+ 51zM+K+n12y5TJJQglqwXatVl+KCGV3oZpYGGnAMdOjwHkbgGnkgFSGAMa+6tT2iZOrL
+ 0LNtINvboJejm45Ngp11xjpFlq9Nzna6NaSj0i+irOffUNw8OCaqPJiIVYrsxxpYEJu2
+ Bs1A==
+X-Gm-Message-State: AOAM533ev6o9Hm9FBwTl2GUJ8N62XAiAky4+JqCMBXyIUEhvhSOw6aV+
+ D/KJAzzqVjAD1oNuxTmbuA2/3YC6IpvfkcSa0vCh7uf9lpO5nHzRMoGyLt0P8gvOkMsXlJ+A2Qw
+ GIlzBUZ4G4sA+wRw=
+X-Received: by 2002:a17:906:8443:: with SMTP id
+ e3mr4609639ejy.370.1614545026028; 
+ Sun, 28 Feb 2021 12:43:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzPDzkR0x1hyE0LGsJDlVSWikvfd2aXWd67VuqslTT+vNuGEFq8jUi7yTtVbX9yDrEncWb7pA==
+X-Received: by 2002:a17:906:8443:: with SMTP id
+ e3mr4609628ejy.370.1614545025815; 
+ Sun, 28 Feb 2021 12:43:45 -0800 (PST)
 Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id q27sm11246729ejc.74.2021.02.28.12.39.52
+ by smtp.gmail.com with ESMTPSA id z19sm12928708edr.69.2021.02.28.12.43.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 12:39:53 -0800 (PST)
-Date: Sun, 28 Feb 2021 15:39:50 -0500
+ Sun, 28 Feb 2021 12:43:43 -0800 (PST)
+Date: Sun, 28 Feb 2021 15:43:40 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Cindy Lu <lulu@redhat.com>
-Subject: Re: [PATCH v5 1/1] virtio-net: Add check for mac address while peer
- is vdpa
-Message-ID: <20210228153905-mutt-send-email-mst@kernel.org>
-References: <20210225165506.18321-1-lulu@redhat.com>
- <20210225165506.18321-2-lulu@redhat.com>
- <20210225141203-mutt-send-email-mst@kernel.org>
+To: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+Message-ID: <20210228154208-mutt-send-email-mst@kernel.org>
+References: <20200730155755.188845-1-mst@redhat.com>
+ <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <20210225141203-mutt-send-email-mst@kernel.org>
+In-Reply-To: <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,64 +93,235 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: eperezma@redhat.com, jasowang@redhat.com, amorenoz@redhat.com,
- qemu-devel@nongnu.org, Sean Mooney <smooney@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Laszlo Ersek <lersek@redhat.com>, vit9696 <vit9696@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Feb 25, 2021 at 02:14:39PM -0500, Michael S. Tsirkin wrote:
-> On Fri, Feb 26, 2021 at 12:55:06AM +0800, Cindy Lu wrote:
-> > While peer is vdpa, sometime qemu get an all zero mac address from the hardware,
-> > This is not a legal value. Add the check for this.if we get an zero mac address.
-> > qemu will use the default mac address or the mac address from qemu cmdline
+On Sat, Feb 27, 2021 at 08:41:11PM +0100, Thomas Lamprecht wrote:
+> On 30.07.20 17:58, Michael S. Tsirkin wrote:
+> > macOS uses ACPI UIDs to build the DevicePath for NVRAM boot options,
+> > while OVMF firmware gets them via an internal channel through QEMU.
+> > Due to a bug in QEMU ACPI currently UEFI firmware and ACPI have
+> > different values, and this makes the underlying operating system
+> > unable to report its boot option.
 > > 
-> > Signed-off-by: Cindy Lu <lulu@redhat.com>
-> 
-> I guess I will have to rewrite the comments and commit log :(
-> 
-> It is all saying what does the patch do. We want it to rather
-> give motivation.
-> 
-> Sean could you please comment on whether this patch fixes your
-> config?
-
-ping. if I'm to try and merge this work around it's critical
-that someone with access to hardware confirm it actually works.
-
-
+> > The particular node in question is the primary PciRoot (PCI0 in ACPI),
+> > which for some reason gets assigned 1 in ACPI UID and 0 in the
+> > DevicePath. This is due to the _UID assigned to it by build_dsdt in
+> > hw/i386/acpi-build.c Which does not correspond to the primary PCI
+> > identifier given by pcibus_num in hw/pci/pci.c
+> > 
+> > Reference with the device paths, OVMF startup logs, and ACPI table
+> > dumps (SysReport):
+> > https://github.com/acidanthera/bugtracker/issues/1050
+> > 
+> > In UEFI v2.8, section "10.4.2 Rules with ACPI _HID and _UID" ends with
+> > the paragraph,
+> > 
+> >     Root PCI bridges will use the plug and play ID of PNP0A03, This will
+> >     be stored in the ACPI Device Path _HID field, or in the Expanded
+> >     ACPI Device Path _CID field to match the ACPI name space. The _UID
+> >     in the ACPI Device Path structure must match the _UID in the ACPI
+> >     name space.
+> > 
+> > (See especially the last sentence.)
+> > 
+> > Considering *extra* root bridges / root buses (with bus number > 0),
+> > QEMU's ACPI generator actually does the right thing; since QEMU commit
+> > c96d9286a6d7 ("i386/acpi-build: more traditional _UID and _HID for PXB
+> > root buses", 2015-06-11).
+> > 
+> > However, the _UID values for root bridge zero (on both i440fx and q35)
+> > have always been "wrong" (from UEFI perspective), going back in QEMU to
+> > commit 74523b850189 ("i386: add ACPI table files from seabios",
+> > 2013-10-14).
+> > 
+> > Even in SeaBIOS, these _UID values have always been 1; see commit
+> > a4d357638c57 ("Port rombios32 code from bochs-bios.", 2008-03-08) for
+> > i440fx, and commit ecbe3fd61511 ("seabios: q35: add dsdt", 2012-12-01)
+> > for q35.
+> > 
+> > Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> > Tested-by: vit9696 <vit9696@protonmail.com>
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 > > ---
-> >  hw/net/virtio-net.c | 10 ++++++++++
-> >  1 file changed, 10 insertions(+)
+> >  hw/i386/acpi-build.c | 4 ++--
+> >  1 file changed, 2 insertions(+), 2 deletions(-)
 > > 
-> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > index 9179013ac4..8f36ca5066 100644
-> > --- a/hw/net/virtio-net.c
-> > +++ b/hw/net/virtio-net.c
-> > @@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-> >      VirtIONet *n = VIRTIO_NET(vdev);
-> >      struct virtio_net_config netcfg;
-> >      NetClientState *nc = qemu_get_queue(n->nic);
-> > +    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index b7bcbbbb2a..7a5a8b3521 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -1497,7 +1497,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          dev = aml_device("PCI0");
+> >          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A03")));
+> >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> > -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> > +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> >          aml_append(sb_scope, dev);
+> >          aml_append(dsdt, sb_scope);
 > >  
-> >      int ret = 0;
-> >      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
-> > @@ -151,6 +152,15 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
-> >          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
-> >                                     n->config_size);
-> >          if (ret != -1) {
-> > +            /*
-> > +             * Here is a work around, the 0 mac address is not a legal value.
-> > +             * if we got this from hardware, qemu will use the mac address
-> > +             * saved in VirtIONet->mac.
-> > +             */
-> > +            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
-> > +                info_report("Get an all zero mac address from hardware");
-> > +                memcpy(netcfg.mac, n->mac, ETH_ALEN);
-> > +            }
-> >              memcpy(config, &netcfg, n->config_size);
-> >          }
-> >      }
-> > -- 
-> > 2.21.3
+> > @@ -1512,7 +1512,7 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >          aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> >          aml_append(dev, aml_name_decl("_CID", aml_eisaid("PNP0A03")));
+> >          aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> > -        aml_append(dev, aml_name_decl("_UID", aml_int(1)));
+> > +        aml_append(dev, aml_name_decl("_UID", aml_int(0)));
+> >          aml_append(dev, build_q35_osc_method());
+> >          aml_append(sb_scope, dev);
+> >          aml_append(dsdt, sb_scope);
+> > 
+> 
+> This "breaks" Windows guests created/installed before this change in the sense
+> of Windows gets confused and declares that most of the devices changed and thus
+> it has new entries for them in the device manager where settings of the old one
+> do not apply anymore.
+> 
+> We were made aware of this by our users when making QEMU 5.2.0 available on
+> a more used repository of us. Users complained that their static network
+> configuration got thrown out in Windows 2016 or 2019 server VMs, and Windows tried
+> to use DHCP (which was not available in their environments) and thus their Windows
+> VMs had no network connectivity at all anymore.
+> 
+> It's currently not yet quite 100% clear to me with what QEMU version the Windows VM
+> must be installed with, from reading the patch I have to believe it must be before
+> that, but we got mixed reports and a colleague could not replicate it from upgrade
+> of 4.0 to 5.2 (I did /not/ confirm that one). Anyway, just writing this all to avoid
+> people seeing different results and brushing this off.
+> 
+> So here's my personal reproducer, as said, I think that one should be able to just
+> use QEMU 5.1 to install a Windows guest and start it with 5.2 afterwards to see this
+> issue, but YMMV.
+> 
+> Note. I always used the exact same QEMU command (see below) for installation,
+> reproducing and bisect.
+> 
+> 1. Installed Windows 2016 1616 VM using QEMU 3.0.1
+>    - VirtIO net/scsi driver from VirtIO win 190
+> 2. Setup static network in the VM and shutdown
+> 3. Started VM with 5.2.0 -> Network gone, new "Ethernet #2" adapter shows up instead
+> 
+> Starting the  "Device Manager" and enabling "View -> Show hidden devices" showed
+> me a greyed out device duplicate for basically anything attached, SCSI disk, Basic
+> Display Adapter, CDROM device, ..., and the Network device.
+> 
+> The first difference I could find was the "Device instance path" one can find in
+> the "Details" tab of the devices' "Properties" window.
+> 
+> # old, from initial installation on QEMU 3.0.1
+> PCI\VEN_1AF4&DEV_1000&SUBSYS_00011AF4&REV_00\3&13C0B0C5&0&90
+> 
+> # new, from boot with QEMU 5.2
+> PCI\VEN_1AF4&DEV_1000&SUBSYS_00011AF4&REV_00\3&267A616A&0&90
+> 
+> They match until almost the end, not sure how important that is, but it caught my
+> eye (I'm really no windows guy since a decade so please excuse my terrible
+> debugging/exploring skills there. The rest of those properties looked pretty
+> much identical.
+> 
+> I then started a bisect, always just restarting the guest with the new QEMU build
+> and checking "Device Manager" and network settings to see if good/bad. That worked
+> pretty well and I came to this commit. See the bisect log attached at the end of
+> this mail.
+> 
+> So, from reading the commit message I figure that this change is wanted, what are
+> the implications of just reverting it? (which works out in bringing back the
+> old state in Windows + working static network config again).
+> 
+> Or any other way/idea to address this in a sane way so that those picky Windows
+> guests can be handled more graciously?
+
+Sure. The way to do that is to tie old behaviour to old machine
+versions. We'll need it in stable too ...
+
+Igor want to cook up a patch?
+
+
+> I guess also that there could be more subtle effects from this patch here, the
+> network one may have just had quite visible effects to pop up as first issue...
+> 
+> Thanks if you read so far!
+> 
+> cheers,
+> Thomas
+> 
+> 
+> = QEMU Command =
+> 
+> (This was generated by our (Proxmox VE) stack, I only cleaned it up a bit to allow
+> easier manual running it)
+> 
+> ./qemu-system-x86_64 \
+>   -name win2016 \
+>   -chardev 'socket,id=qmp,path=/var/run/qemu-server/11765.qmp,server,nowait' \
+>   -mon 'chardev=qmp,mode=control' \
+>   -smbios 'type=1,uuid=6324fb28-e98a-44cf-85db-694d1b3405f5' \
+>   -smp '2,sockets=1,cores=2,maxcpus=2' \
+>   -nodefaults \
+>   -boot 'menu=on,strict=on,reboot-timeout=1000' \
+>   -vnc unix:/var/run/qemu-server/11765.vnc,password \
+>   -no-hpet \
+>   -cpu 'host,hv_ipi,hv_relaxed,hv_reset,hv_runtime,hv_spinlocks=0x1fff,hv_stimer,hv_synic,hv_time,hv_vapic,hv_vpindex,+kvm_pv_eoi,+kvm_pv_unhalt,+md-clear,+pcid,+spec-ctrl' \
+>   -m 2048 \
+>   -device 'pci-bridge,id=pci.1,chassis_nr=1,bus=pci.0,addr=0x1e' \
+>   -device 'pci-bridge,id=pci.2,chassis_nr=2,bus=pci.0,addr=0x1f' \
+>   -device 'vmgenid,guid=2e56e6ca-2cf8-4f1d-8cc3-9b19a2510c01' \
+>   -device 'piix3-usb-uhci,id=uhci,bus=pci.0,addr=0x1.0x2' \
+>   -device 'usb-tablet,id=tablet,bus=uhci.0,port=1' \
+>   -device 'VGA,id=vga,bus=pci.0,addr=0x2,edid=off' \
+>   -chardev 'socket,path=/var/run/qemu-server/11765.qga,server,nowait,id=qga0' \
+>   -device 'virtio-serial,id=qga0,bus=pci.0,addr=0x8' \
+>   -device 'virtserialport,chardev=qga0,name=org.qemu.guest_agent.0' \
+>   -device 'virtio-balloon-pci,id=balloon0,bus=pci.0,addr=0x3' \
+>   -iscsi 'initiator-name=iqn.1993-08.org.debian:01:468faae9322b' \
+>   -drive 'file=/mnt/pve/iso/template/iso/virtio-win-0.1.190.iso,if=none,id=drive-ide0,media=cdrom,aio=threads' \
+>   -device 'ide-cd,bus=ide.0,unit=0,drive=drive-ide0,id=ide0,bootindex=200' \
+>   -drive 'file=/mnt/pve/iso/template/iso/Win2016-1616-evaluation.ISO,if=none,id=drive-ide2,media=cdrom,aio=threads' \
+>   -device 'ide-cd,bus=ide.1,unit=0,drive=drive-ide2,id=ide2,bootindex=201' \
+>   -device 'virtio-scsi-pci,id=scsihw0,bus=pci.0,addr=0x5' \
+>   -drive 'file=/dev/WDnvme/vm-11765-disk-0,if=none,id=drive-scsi0,format=raw,cache=none,aio=native,detect-zeroes=on' \
+>   -device 'scsi-hd,bus=scsihw0.0,channel=0,scsi-id=0,lun=0,drive=drive-scsi0,id=scsi0,rotation_rate=1,bootindex=100' \
+>   -netdev 'type=tap,id=net0,ifname=tap11765i0,script=/var/lib/qemu-server/pve-bridge,downscript=/var/lib/qemu-server/pve-bridgedown,vhost=on' \
+>   -device 'virtio-net-pci,mac=02:98:90:43:42:1D,netdev=net0,bus=pci.0,addr=0x12,id=net0,bootindex=300' \
+>   -rtc 'driftfix=slew,base=localtime' \
+>   -machine 'type=pc' \
+>   -global 'kvm-pit.lost_tick_policy=discard'
+> 
+> 
+> = bisect log =
+> 
+> git bisect start
+> # bad: [553032db17440f8de011390e5a1cfddd13751b0b] Update version for v5.2.0 release
+> git bisect bad 553032db17440f8de011390e5a1cfddd13751b0b
+> # good: [d0ed6a69d399ae193959225cdeaa9382746c91cc] Update version for v5.1.0 release
+> git bisect good d0ed6a69d399ae193959225cdeaa9382746c91cc
+> # bad: [ed799805d00ccdda45eb8441c7d929624d9e98a6] qom: Add kernel-doc markup to introduction doc comment
+> git bisect bad ed799805d00ccdda45eb8441c7d929624d9e98a6
+> # bad: [e4d8b7c1a95fffcfa4bdab9aa7ffd1cf590cdcf5] Merge remote-tracking branch 'remotes/nvme/tags/pull-nvme-20200902' into staging
+> git bisect bad e4d8b7c1a95fffcfa4bdab9aa7ffd1cf590cdcf5
+> # bad: [af1dfe1ec0864e6700237a43cc36018176f9eba9] acpi: update expected DSDT files with _UID changes
+> git bisect bad af1dfe1ec0864e6700237a43cc36018176f9eba9
+> # good: [d7df0ceee0fd2e512cd214a9074ebeeb40da3099] Merge remote-tracking branch 'remotes/philmd-gitlab/tags/sd-next-20200821' into staging
+> git bisect good d7df0ceee0fd2e512cd214a9074ebeeb40da3099
+> # good: [df82aa7fe10e46b675678977999d49bd586538f8] Merge remote-tracking branch 'remotes/edgar/tags/edgar/xilinx-next-2020-08-24.for-upstream' into staging
+> git bisect good df82aa7fe10e46b675678977999d49bd586538f8
+> # good: [e39a8320b088dd5efc9ebaafe387e52b3d962665] target/riscv: Support the Virtual Instruction fault
+> git bisect good e39a8320b088dd5efc9ebaafe387e52b3d962665
+> # good: [a6841a2de66fa44fe52ed996b70f9fb9f7bd6ca7] qcow2: Add subcluster support to qcow2_co_pwrite_zeroes()
+> git bisect good a6841a2de66fa44fe52ed996b70f9fb9f7bd6ca7
+> # good: [2f8cd515477edab1cbf38ecbdbfa2cac13ce1550] hw/display/artist: Fix invalidation of lines near screen border
+> git bisect good 2f8cd515477edab1cbf38ecbdbfa2cac13ce1550
+> # good: [a5d3cfa2dc775e5d99f013703b8508f1d989d588] iotests: Add tests for qcow2 images with extended L2 entries
+> git bisect good a5d3cfa2dc775e5d99f013703b8508f1d989d588
+> # good: [8e49197ca5e76fdb8928833b2649ef13fc5aab2f] Merge remote-tracking branch 'remotes/hdeller/tags/target-hppa-v3-pull-request' into staging
+> git bisect good 8e49197ca5e76fdb8928833b2649ef13fc5aab2f
+> # bad: [af1b80ae56c9495999e8ccf7b70ef894378de642] i386/acpi: fix inconsistent QEMU/OVMF device paths
+> git bisect bad af1b80ae56c9495999e8ccf7b70ef894378de642
+> # good: [42a62c20925e02aef0d849f92a0e9540888e79ae] acpi: allow DSDT changes
+> git bisect good 42a62c20925e02aef0d849f92a0e9540888e79ae
+> # first bad commit: [af1b80ae56c9495999e8ccf7b70ef894378de642] i386/acpi: fix inconsistent QEMU/OVMF device paths
 
 
