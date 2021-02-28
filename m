@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7A8132752D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:25:58 +0100 (CET)
-Received: from localhost ([::1]:57444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A659327534
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 00:28:21 +0100 (CET)
+Received: from localhost ([::1]:37922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGVRl-000733-Mr
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:25:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43250)
+	id 1lGVU4-0002B4-1t
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 18:28:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPK-0005J0-Q4
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:26 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:50748)
+ id 1lGVPL-0005J7-NU
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:27 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGVPI-0007dg-QN
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:26 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id b15so9868513pjb.0
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:24 -0800 (PST)
+ id 1lGVPJ-0007dn-Gv
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 18:23:27 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id g20so8774857plo.2
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 15:23:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3umkeXZytXS+Abg6MpYJb33hrNdOOsXWBYLz/xjcZrc=;
- b=FgdOHxVrZDC8X7qBRi4RmAZtmR3b74kOkgapPd/++KbQ+uP1+br1eJW7to0h1VfpqK
- zSSCAe4ETkTP6MZDdldTbVktiM8ZzsBQ5GY9OPVJ+LuatcdrJ8vll0oenqemiFGCegGu
- w6AJ8mburiR/VaeNgeCHcUBukRyNZehvk8p+E9YdFfY2lAZzzQQrdFV4s/4vAWFieG3R
- 0J4t4D4KFNL3bbvam91sbMzmM5KXxNY7Moyq4GTzjUuHnuVBo7vFhDcZMQPy+RhiBstE
- sLfA6fWIAGkBWzETNiSuP+Zxd2cGhmK0zGcmv6B4bGqJfcpgiTeI5lA+c4fRaAQVCmRt
- YeLQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=4OnXiQELZimMmmln2oIwEWMyVy/CxfoTzEEpFKC8y+0=;
+ b=y13v08BH573xQVpHEpCUJR3yuMkD4iTBC47vZ0Jto5cLZJzPfHkaZD1bxZYZmtFt+i
+ kn5cJ2tfYlCULy4WA45sZpjsdFQr9QnuoR2OaLQcQledRi830rN7JdRhARkR9zDVk+5A
+ /lWF04HK7eN1/bUzHbzXyUfIUyqYQy8DcxezWAJbg6o6hFloEkMJproF8htu8x2qPgkG
+ 2o6YeA8XzXbgHzQM7Lp7JynL9TJgjd/GqviRrdYITOpbyASg0zcQQ5E5mEEIEGfV0Uop
+ P/qBAjGUhaNXuEFSlW6OW20iaorznuO0bVcPmmafUV+X+O1kfnNKpxKqK+d/yFO0i33l
+ 6d9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=3umkeXZytXS+Abg6MpYJb33hrNdOOsXWBYLz/xjcZrc=;
- b=QcFSATa6DELCRtWHQrgdNVGjtbgu8SoG+uS0/YYhZEancIbjTlLS5SSqM1VDHVb/VO
- 5S91gQQ26f5P3EKmgAdR9ww9gbFVqhmVoSYBwt8JcnneM4vAosr03FotPC1gN89RnFhI
- ckD/M7UwCtJtBM4ZUB0ythmRlV5RcIz9MzEYfS59JjdjK+Tb/GChOxYF66NA0v7CU3wu
- jjCDODp57KCXKTlBe6i0oNu41EuLkpFmYKIGrsQ7RwTbP5uLrZbtNXlBppEf2QbeWQ73
- 6eABfUpVWD9GwHi/zU4j8mg/sUlO+7xrUylR87yGvE7xNq26wP2/7xS5ONFZBxoOHY7W
- U14g==
-X-Gm-Message-State: AOAM532Kzbp9F7Nlsa8FZhN+E1erUfZHd4+xmgs408zYKOJcPE5WMkl6
- wMmdNkhQUF1cRpjxIVNpTQ+tM97m8EY5Lg==
-X-Google-Smtp-Source: ABdhPJwpPDjBqxGmpvuzEGcIfJcJ2gfNyIYb3eoc0S6RxuSgL5aRoUUgx/25enH4rGjZS5bzDD0L+w==
-X-Received: by 2002:a17:90a:c483:: with SMTP id
- j3mr14351211pjt.196.1614554603030; 
- Sun, 28 Feb 2021 15:23:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=4OnXiQELZimMmmln2oIwEWMyVy/CxfoTzEEpFKC8y+0=;
+ b=SFS5JZDE18hSOkDwgdSnJz0uxdUF59jiip1wmB902MKY0AQy1zgk+oFncc2eG+SYVe
+ pWoY9X/xgAatTLJoR8FbsSEt85oIXcjVhZ0/mpo9zTU48xdbz9bkC4t9VexLqqA0A2XJ
+ eE6xRbyxfbBJkIEoigheOjqpGtvSk1Jd1zqXWMd/Lu9ag8Zd8mfLxe9XT0p9xbEs70Gg
+ zSYWMUMTDdLA6JYd4bfqGV5fj0vMX6oiErlZEvO9i9L6ZUEiPIdpF0FMDw0tPTS89+7w
+ dMrPaBH4JFdhJBLMOmJEhUpihiszkHX61n9cISF1pDdT+qTQiW0irpPdWviLaFuIHHAp
+ 9I6Q==
+X-Gm-Message-State: AOAM5325hC5Tfg9ONuj7ZBj+h5ntfxzAMArdsWp0J1NBtSvJ+PWMqBEO
+ VYMKLiA1JOvMag54T7odyU3wiO4vimBzVA==
+X-Google-Smtp-Source: ABdhPJwwUl4aKFa6zjwWD9KBr5ixCgRWDlGy3lUMbE5WpCo65KeRSrkhRRCI4l2HPRHJhe4EBubLiw==
+X-Received: by 2002:a17:90b:794:: with SMTP id
+ l20mr7163242pjz.207.1614554604077; 
+ Sun, 28 Feb 2021 15:23:24 -0800 (PST)
 Received: from localhost.localdomain (174-21-84-25.tukw.qwest.net.
  [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.22
+ by smtp.gmail.com with ESMTPSA id d24sm16257400pfn.54.2021.02.28.15.23.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 28 Feb 2021 15:23:22 -0800 (PST)
+ Sun, 28 Feb 2021 15:23:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/50] i386 cleanup part 3
-Date: Sun, 28 Feb 2021 15:22:31 -0800
-Message-Id: <20210228232321.322053-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/50] target/i386: Split out gen_exception_gpf
+Date: Sun, 28 Feb 2021 15:22:32 -0800
+Message-Id: <20210228232321.322053-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210228232321.322053-1-richard.henderson@linaro.org>
+References: <20210228232321.322053-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,91 +88,305 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Based-on: 20210226175143.22388-1-cfontana@suse.de
-("[PATCH v25 00/20] i386 cleanup PART 2")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/i386/tcg/translate.c | 68 ++++++++++++++++++++-----------------
+ 1 file changed, 37 insertions(+), 31 deletions(-)
 
-This started out to address a fixme in Claudio's patch set, then
-wandered a bit, with cleanups and bug fixes in the code that I was
-touching.  I stopped when I reached my original goal of removing
-target/i386/tcg/user/*_stubs.c.
-
-There are a lot of patches, but hopefully they're all small
-enough to be obvious.
-
-
-r~
-
-Richard Henderson (50):
-  target/i386: Split out gen_exception_gpf
-  target/i386: Split out check_cpl0
-  target/i386: Unify code paths for IRET
-  target/i386: Split out check_vm86_iopl
-  target/i386: Split out check_iopl
-  target/i386: Assert PE is set for user-only
-  target/i386: Assert CPL is 3 for user-only
-  target/i386: Assert IOPL is 0 for user-only
-  target/i386: Assert !VM86 for x86_64 user-only
-  target/i386: Assert CODE32 for x86_64 user-only
-  target/i386: Assert SS32 for x86_64 user-only
-  target/i386: Assert CODE64 for x86_64 user-only
-  target/i386: Assert LMA for x86_64 user-only
-  target/i386: Assert !ADDSEG for x86_64 user-only
-  target/i386: Introduce REX_PREFIX
-  target/i386: Tidy REX_B, REX_X definition
-  target/i386: Move rex_r into DisasContext
-  target/i386: Move rex_w into DisasContext
-  target/i386: Remove DisasContext.f_st as unused
-  target/i386: Reduce DisasContext.flags to uint32_t
-  target/i386: Reduce DisasContext.override to int8_t
-  target/i386: Reduce DisasContext.prefix to uint8_t
-  target/i386: Reduce DisasContext.vex_[lv] to uint8_t
-  target/i386: Reduce DisasContext popl_esp_hack and rip_offset to
-    uint8_t
-  target/i386: Leave TF in DisasContext.flags
-  target/i386: Reduce DisasContext jmp_opt, repz_opt to bool
-  target/i386: Fix the comment for repz_opt
-  target/i386: Reorder DisasContext members
-  target/i386: Add stub generator for helper_set_dr
-  target/i386: Assert !SVME for user-only
-  target/i386: Assert !GUEST for user-only
-  target/i386: Implement skinit in translate.c
-  target/i386: Eliminate SVM helpers for user-only
-  target/i386: Mark some helpers as noreturn
-  target/i386: Simplify gen_debug usage
-  target/i386: Tidy svm_check_intercept from tcg
-  target/i386: Remove pc_start argument to gen_svm_check_intercept
-  target/i386: Remove user stub for cpu_vmexit
-  target/i386: Cleanup read_crN, write_crN, lmsw
-  target/i386: Pass env to do_pause and do_hlt
-  target/i386: Move invlpg, hlt, monitor, mwait to sysemu
-  target/i386: Unify invlpg, invlpga
-  target/i386: Inline user cpu_svm_check_intercept_param
-  target/i386: Eliminate user stubs for read/write_crN, rd/wrmsr
-  target/i386: Exit tb after wrmsr
-  target/i386: Tidy gen_check_io
-  target/i386: Pass in port to gen_check_io
-  target/i386: Create helper_check_io
-  target/i386: Move helper_check_io to sysemu
-  target/i386: Remove user-only i/o stubs
-
- target/i386/cpu.h                    |   8 +
- target/i386/helper.h                 |  43 +-
- target/i386/tcg/helper-tcg.h         |   5 +-
- target/i386/tcg/bpt_helper.c         |   2 +-
- target/i386/tcg/excp_helper.c        |  18 +-
- target/i386/tcg/misc_helper.c        |  79 +--
- target/i386/tcg/seg_helper.c         |  43 --
- target/i386/tcg/sysemu/misc_helper.c |  52 +-
- target/i386/tcg/sysemu/seg_helper.c  |  29 +
- target/i386/tcg/sysemu/svm_helper.c  |  30 +-
- target/i386/tcg/translate.c          | 891 ++++++++++++++-------------
- target/i386/tcg/user/misc_stubs.c    |  75 ---
- target/i386/tcg/user/svm_stubs.c     |  76 ---
- target/i386/tcg/user/meson.build     |   2 -
- 14 files changed, 600 insertions(+), 753 deletions(-)
- delete mode 100644 target/i386/tcg/user/misc_stubs.c
- delete mode 100644 target/i386/tcg/user/svm_stubs.c
-
+diff --git a/target/i386/tcg/translate.c b/target/i386/tcg/translate.c
+index 6ecbbfa6c1..6af8bd219b 100644
+--- a/target/i386/tcg/translate.c
++++ b/target/i386/tcg/translate.c
+@@ -1276,6 +1276,12 @@ static void gen_illegal_opcode(DisasContext *s)
+     gen_exception(s, EXCP06_ILLOP, s->pc_start - s->cs_base);
+ }
+ 
++/* Generate #GP for the current instruction. */
++static void gen_exception_gpf(DisasContext *s)
++{
++    gen_exception(s, EXCP0D_GPF, s->pc_start - s->cs_base);
++}
++
+ /* if d == OR_TMP0, it means memory operand (address in A0) */
+ static void gen_op(DisasContext *s1, int op, MemOp ot, int d)
+ {
+@@ -4502,7 +4508,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     s->vex_l = 0;
+     s->vex_v = 0;
+     if (sigsetjmp(s->jmpbuf, 0) != 0) {
+-        gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++        gen_exception_gpf(s);
+         return s->pc;
+     }
+ 
+@@ -6561,7 +6567,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             set_cc_op(s, CC_OP_EFLAGS);
+         } else if (s->vm86) {
+             if (s->iopl != 3) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+             } else {
+                 gen_helper_iret_real(cpu_env, tcg_const_i32(dflag - 1));
+                 set_cc_op(s, CC_OP_EFLAGS);
+@@ -6683,7 +6689,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x9c: /* pushf */
+         gen_svm_check_intercept(s, pc_start, SVM_EXIT_PUSHF);
+         if (s->vm86 && s->iopl != 3) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_update_cc_op(s);
+             gen_helper_read_eflags(s->T0, cpu_env);
+@@ -6693,7 +6699,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x9d: /* popf */
+         gen_svm_check_intercept(s, pc_start, SVM_EXIT_POPF);
+         if (s->vm86 && s->iopl != 3) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             ot = gen_pop_T0(s);
+             if (s->cpl == 0) {
+@@ -7055,7 +7061,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0xcd: /* int N */
+         val = x86_ldub_code(env, s);
+         if (s->vm86 && s->iopl != 3) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_interrupt(s, val, pc_start - s->cs_base, s->pc - s->cs_base);
+         }
+@@ -7078,13 +7084,13 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             if (s->cpl <= s->iopl) {
+                 gen_helper_cli(cpu_env);
+             } else {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+             }
+         } else {
+             if (s->iopl == 3) {
+                 gen_helper_cli(cpu_env);
+             } else {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+             }
+         }
+         break;
+@@ -7095,7 +7101,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             gen_jmp_im(s, s->pc - s->cs_base);
+             gen_eob_inhibit_irq(s, true);
+         } else {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         }
+         break;
+     case 0x62: /* bound */
+@@ -7188,7 +7194,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x130: /* wrmsr */
+     case 0x132: /* rdmsr */
+         if (s->cpl != 0) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_update_cc_op(s);
+             gen_jmp_im(s, pc_start - s->cs_base);
+@@ -7220,7 +7226,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         if (CODE64(s) && env->cpuid_vendor1 != CPUID_VENDOR_INTEL_1)
+             goto illegal_op;
+         if (!s->pe) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_helper_sysenter(cpu_env);
+             gen_eob(s);
+@@ -7231,7 +7237,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         if (CODE64(s) && env->cpuid_vendor1 != CPUID_VENDOR_INTEL_1)
+             goto illegal_op;
+         if (!s->pe) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_helper_sysexit(cpu_env, tcg_const_i32(dflag - 1));
+             gen_eob(s);
+@@ -7250,7 +7256,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         break;
+     case 0x107: /* sysret */
+         if (!s->pe) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_helper_sysret(cpu_env, tcg_const_i32(dflag - 1));
+             /* condition codes are modified only in long mode */
+@@ -7272,7 +7278,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         break;
+     case 0xf4: /* hlt */
+         if (s->cpl != 0) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_update_cc_op(s);
+             gen_jmp_im(s, pc_start - s->cs_base);
+@@ -7298,7 +7304,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             if (!s->pe || s->vm86)
+                 goto illegal_op;
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+             } else {
+                 gen_svm_check_intercept(s, pc_start, SVM_EXIT_LDTR_WRITE);
+                 gen_ldst_modrm(env, s, modrm, MO_16, OR_TMP0, 0);
+@@ -7319,7 +7325,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             if (!s->pe || s->vm86)
+                 goto illegal_op;
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+             } else {
+                 gen_svm_check_intercept(s, pc_start, SVM_EXIT_TR_WRITE);
+                 gen_ldst_modrm(env, s, modrm, MO_16, OR_TMP0, 0);
+@@ -7435,7 +7441,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             tcg_gen_concat_tl_i64(s->tmp1_i64, cpu_regs[R_EAX],
+@@ -7452,7 +7458,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7477,7 +7483,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7490,7 +7496,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7505,7 +7511,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7519,7 +7525,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7543,7 +7549,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+                 goto illegal_op;
+             }
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7553,7 +7559,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ 
+         CASE_MODRM_MEM_OP(2): /* lgdt */
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_svm_check_intercept(s, pc_start, SVM_EXIT_GDTR_WRITE);
+@@ -7570,7 +7576,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ 
+         CASE_MODRM_MEM_OP(3): /* lidt */
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_svm_check_intercept(s, pc_start, SVM_EXIT_IDTR_WRITE);
+@@ -7616,7 +7622,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+             break;
+         CASE_MODRM_OP(6): /* lmsw */
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_svm_check_intercept(s, pc_start, SVM_EXIT_WRITE_CR0);
+@@ -7628,7 +7634,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ 
+         CASE_MODRM_MEM_OP(7): /* invlpg */
+             if (s->cpl != 0) {
+-                gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                gen_exception_gpf(s);
+                 break;
+             }
+             gen_update_cc_op(s);
+@@ -7643,7 +7649,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+ #ifdef TARGET_X86_64
+             if (CODE64(s)) {
+                 if (s->cpl != 0) {
+-                    gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++                    gen_exception_gpf(s);
+                 } else {
+                     tcg_gen_mov_tl(s->T0, cpu_seg_base[R_GS]);
+                     tcg_gen_ld_tl(cpu_seg_base[R_GS], cpu_env,
+@@ -7679,7 +7685,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x108: /* invd */
+     case 0x109: /* wbinvd */
+         if (s->cpl != 0) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_svm_check_intercept(s, pc_start, (b & 2) ? SVM_EXIT_INVD : SVM_EXIT_WBINVD);
+             /* nothing to do */
+@@ -8003,7 +8009,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x120: /* mov reg, crN */
+     case 0x122: /* mov crN, reg */
+         if (s->cpl != 0) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             modrm = x86_ldub_code(env, s);
+             /* Ignore the mod bits (assume (modrm&0xc0)==0xc0).
+@@ -8057,7 +8063,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x121: /* mov reg, drN */
+     case 0x123: /* mov drN, reg */
+         if (s->cpl != 0) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+ #ifndef CONFIG_USER_ONLY
+             modrm = x86_ldub_code(env, s);
+@@ -8093,7 +8099,7 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+         break;
+     case 0x106: /* clts */
+         if (s->cpl != 0) {
+-            gen_exception(s, EXCP0D_GPF, pc_start - s->cs_base);
++            gen_exception_gpf(s);
+         } else {
+             gen_svm_check_intercept(s, pc_start, SVM_EXIT_WRITE_CR0);
+             gen_helper_clts(cpu_env);
 -- 
 2.25.1
 
