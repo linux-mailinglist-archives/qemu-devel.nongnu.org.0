@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB303273A1
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 18:24:14 +0100 (CET)
-Received: from localhost ([::1]:52958 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A35643273A4
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Feb 2021 18:28:43 +0100 (CET)
+Received: from localhost ([::1]:38118 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGPng-0000Uh-LL
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 12:24:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1lGPs2-0006RF-KQ
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 12:28:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lGPkT-00074u-Tn
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 12:20:54 -0500
-Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232]:34293)
+ id 1lGPo8-0002YT-6I
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 12:24:40 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:40258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1lGPkR-0003dl-NX
- for qemu-devel@nongnu.org; Sun, 28 Feb 2021 12:20:53 -0500
-Received: by mail-lj1-x232.google.com with SMTP id r23so16645406ljh.1
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 09:20:51 -0800 (PST)
+ id 1lGPo6-0005Eb-JO
+ for qemu-devel@nongnu.org; Sun, 28 Feb 2021 12:24:39 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d11so13623275wrj.7
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 09:24:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=50I85kwi4TsdGYap5vZoRzId2DUATjLVUntOirnqCOY=;
- b=eHJCSyeLLoI/7S4O9VDhKM5P9e0SXjGuycGl2C8IlSKOEsFwVsg7W1nm3s6XdNesow
- ayXLk4RJL+grrjcS/PK5yRD4n2dfm9D/lB9uZWR+BgkpwAj5gJEjMtgIxkr2OQlwbGgS
- 4E3D+H1+4WFHEolBFY5mvYJNdEnsL3PvV0VvhWesb7haAqt45PNTZ27yiC1CUhK2B8ZT
- UPPGnOIGP9dHa9vN05cbsmPB29HxvaY5FuquiYPZNs29/gL6gXmDF7TUs44bshfNPJh4
- AUwndwg8dUTaGRx318iRsFQrrk8ixg6ig6pi+aanC+gmL9MepkBy+Yd8oske1UBQAe0K
- PSHQ==
+ bh=zdQEC660FEPa/zGa3AqmK9zxWSHlzGraC18PV8k2PIQ=;
+ b=U1FchKXe8Zy1U1a9wb7cqctzOBevZ6xgavOmJTmMFjQJ86h0JyQJ8a0Tpbdq9L98PJ
+ WNcRG/yFOvN+CFzZ6zevyYHbfC6Rhu3BxyJ0flxHmMaZz7frRVWY/B9dcBGTgIm79PnS
+ ieYeGAhGbUpSdMl/B92IkIQdkAG2r1pzzdp6UZcjlf3AKT3gqUxyzPipPHRAW2TVjGED
+ js65LZ9W07ak8BOTyUJ3NShn0FX9eDRWW7dkNgqDFQSKx13AFDu5TzXYMizwaHXkFzvT
+ Zizb9bIiheyd7Z0ShNrDN/hXEa7TCKmGHE8WvYQ6Ec8sXGKjCnLN/RPVTovDUQPjE0hB
+ 2rNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=50I85kwi4TsdGYap5vZoRzId2DUATjLVUntOirnqCOY=;
- b=J5F7e9iDFeWFQrtmOLpKO5kGNh6t1dG4BYZTflKY3Jzpj+VjfG0bVvW/vTGz/D5vG8
- shm9sm6ySRfGyk+dtsFIk7tOxI+r3LCiVwnWzhb4l+YDziUGLmCTwXXVGoNpKMqgBwTH
- y2/egbNNRrUm7YC5SgYpf1b9zq4pbs0WbDgH4rUnn5z4+Sb3w5DSimJ3qnVyMtHACbVA
- bit3jnv9sK2xvHCbmt+RFqP/dEO0Ome4kMurWL5wbR9aSiO4rmCFHYmHtDoK8S2uPtxO
- neMtDdEeGoZaxDARqzKH7C988xv3Du7RlykUE0d9hiyIOTp0B8pbV3qAkV+vnijyNBUv
- pQbA==
-X-Gm-Message-State: AOAM532cpyl9KRMiIs1AdRQz/B4w6NSQhl+wFDHsvrgW6E5LMRCFWgyZ
- rC174ePl88QR/k6zKXdwFWlyH6+r3JM=
-X-Google-Smtp-Source: ABdhPJwiR/Gsu9K94UpvByS1BhObftMqBvAfF612GskXpKttz0ooswvigb3gdHdyhMDP9zJXuTeTkw==
-X-Received: by 2002:a5d:684d:: with SMTP id o13mr7640021wrw.235.1614528858794; 
- Sun, 28 Feb 2021 08:14:18 -0800 (PST)
+ bh=zdQEC660FEPa/zGa3AqmK9zxWSHlzGraC18PV8k2PIQ=;
+ b=E72vRIpchAhpa2x8dnjaPspRiZ6H+VHv6Ddop6kudnL8/v0B+IcRnuI0+m0CtOrQyk
+ k1s6vLpMScwgYyoFB/gfBi8K5lKE/EUY/gZGtcFAbCThJOgSA/DFwwoqXRAswX5PSYTz
+ FTLicqJXZ48C05a6F5PJZ0xF+bKl2rpVV8fMRNe3wRUYPwsiACrOLyAYAkzPo7RXNIyS
+ qFfXMPiLgqUke5Yt+lZpICoM33S+o8squ0Zx/cOLbrumu89y5hbHHiwC4/by2/77CgPm
+ /Q8wv58UV7BxcPbSNws8MxXgKfZWFyS8QcU3CxC3upfqfWPDltFQ/HRfZ0QxMfd41bL2
+ pm+g==
+X-Gm-Message-State: AOAM533ZVWftnKo0JGf6CcigNrzEequJnP5pVFAYFi7ucEx6aGbt/z2V
+ 5203SUqNOeKxpv2cbkoLzRXBlc5/U/g=
+X-Google-Smtp-Source: ABdhPJy5yP0r702pmqlX34233lmD/jgnQAYAeT5AVy1RSJWfDPWxd5ZeLEAz+Md8aboIGVIPHbPtqQ==
+X-Received: by 2002:a05:6000:1545:: with SMTP id
+ 5mr12506455wry.90.1614528881679; 
+ Sun, 28 Feb 2021 08:14:41 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id h22sm21872390wmb.36.2021.02.28.08.14.17
+ by smtp.gmail.com with ESMTPSA id c9sm19430301wmb.33.2021.02.28.08.14.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Feb 2021 08:14:18 -0800 (PST)
-Subject: Re: [PATCH 1/2] target/mips: Fold jazz behaviour into
- mips_cpu_do_transaction_failed
+ Sun, 28 Feb 2021 08:14:41 -0800 (PST)
+Subject: Re: [PATCH 2/2] hw/core: Constify TCGCPUOps
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210227232519.222663-1-richard.henderson@linaro.org>
- <20210227232519.222663-2-richard.henderson@linaro.org>
+ <20210227232519.222663-3-richard.henderson@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8102bde6-d2d3-0058-dddb-db295ce5bfac@amsat.org>
-Date: Sun, 28 Feb 2021 17:14:17 +0100
+Message-ID: <18b9b14d-2d13-4ccd-f1ec-13432ab4dc58@amsat.org>
+Date: Sun, 28 Feb 2021 17:14:40 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210227232519.222663-2-richard.henderson@linaro.org>
+In-Reply-To: <20210227232519.222663-3-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::232;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-lj1-x232.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,37 +94,40 @@ Cc: cfontana@suse.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard,
-
 On 2/28/21 12:25 AM, Richard Henderson wrote:
-> Add a flag to MIPSCPUClass in order to avoid needing to
-> replace mips_tcg_ops.do_transaction_failed.
+> We no longer have any runtime modifications to this struct,
+> so declare them all const.
 > 
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/mips/cpu-qom.h   |  3 +++
->  hw/mips/jazz.c          | 35 +++--------------------------------
->  target/mips/op_helper.c |  3 ++-
->  3 files changed, 8 insertions(+), 33 deletions(-)
-> 
-> diff --git a/target/mips/cpu-qom.h b/target/mips/cpu-qom.h
-> index 826ab13019..dda0c911fa 100644
-> --- a/target/mips/cpu-qom.h
-> +++ b/target/mips/cpu-qom.h
-> @@ -47,6 +47,9 @@ struct MIPSCPUClass {
->      DeviceRealize parent_realize;
->      DeviceReset parent_reset;
->      const struct mips_def_t *cpu_def;
-> +
-> +    /* Used for the jazz board to modify mips_cpu_do_transaction_failed. */
+>  include/hw/core/cpu.h           | 2 +-
+>  target/alpha/cpu.c              | 2 +-
+>  target/arm/cpu.c                | 2 +-
+>  target/arm/cpu_tcg.c            | 2 +-
+>  target/avr/cpu.c                | 2 +-
+>  target/cris/cpu.c               | 4 ++--
+>  target/hexagon/cpu.c            | 2 +-
+>  target/hppa/cpu.c               | 2 +-
+>  target/i386/tcg/tcg-cpu.c       | 2 +-
+>  target/lm32/cpu.c               | 2 +-
+>  target/m68k/cpu.c               | 2 +-
+>  target/microblaze/cpu.c         | 2 +-
+>  target/mips/cpu.c               | 2 +-
+>  target/moxie/cpu.c              | 2 +-
+>  target/nios2/cpu.c              | 2 +-
+>  target/openrisc/cpu.c           | 2 +-
+>  target/riscv/cpu.c              | 2 +-
+>  target/rx/cpu.c                 | 2 +-
+>  target/s390x/cpu.c              | 2 +-
+>  target/sh4/cpu.c                | 2 +-
+>  target/sparc/cpu.c              | 2 +-
+>  target/tilegx/cpu.c             | 2 +-
+>  target/tricore/cpu.c            | 2 +-
+>  target/unicore32/cpu.c          | 2 +-
+>  target/xtensa/cpu.c             | 2 +-
+>  target/ppc/translate_init.c.inc | 2 +-
+>  26 files changed, 27 insertions(+), 27 deletions(-)
 
-Isn't it possible to have other (old) boards doing something similar?
-
-If so any target can overload its CPUClass with the same boolean,
-so:
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-> +    bool no_data_aborts;
->  };
 
