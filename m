@@ -2,64 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C536D328727
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 18:21:58 +0100 (CET)
-Received: from localhost ([::1]:36448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0E90328724
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 18:21:07 +0100 (CET)
+Received: from localhost ([::1]:34832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGmF3-0003OS-QZ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 12:21:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35506)
+	id 1lGmEF-0002dl-0t
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 12:21:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36178)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akalita@cs.stonybrook.edu>)
- id 1lGmAJ-0008Ko-Tg
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:17:05 -0500
-Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:41996)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akalita@cs.stonybrook.edu>)
- id 1lGmAH-0007tI-1t
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:17:03 -0500
-Received: by mail-ot1-x32c.google.com with SMTP id e45so17154535ote.9
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 09:16:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=stonybrook.edu; s=sbu-gmail;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=2UOC8ZIkrmYZo8xXuqg5UcEwRItZbzsEtzIFhZwc9GE=;
- b=JbtyBmh80hnYkhIBmVxl1CK76bzUB2h7jyOAT7iNMj1LtFDqOR1Os5llMCsKRsXQOe
- ojywVf23vZEQNkbHXvLJWmmIgEoml15Rv92VkAfvNaN0SWjs3F+XcudvYXhIHu/Oc2ST
- CsXjnH2nDNgXBKr2RvDu1fFEgZILB0nXQcNQg=
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGmC3-0001A7-8e
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:18:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:29693)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGmBs-0008KO-F8
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:18:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614619117;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=xNNa4+QHlCa2am0SKvzb7fSrWsTS+ftZd7p0Rzz9XMM=;
+ b=Th8aHlKuQ9Grc4A0yxUTfpApC8HekRGUKlNiLrD5ts4otnilm3OLH0GRsHyZEvsSlbStPR
+ cLSarEutqwmnEtZJa/4mtyZPv0vjXmV/G+UjHXaQonruA80+HkrcMQdNRrZXwDxbaWSwnu
+ ykuTot7C1tiosncQ6fM1YEQ4n2KYUBg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-76-dU8R3r93NCynTnxttOmcWw-1; Mon, 01 Mar 2021 12:18:30 -0500
+X-MC-Unique: dU8R3r93NCynTnxttOmcWw-1
+Received: by mail-ed1-f70.google.com with SMTP id o15so3785040edv.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 09:18:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=2UOC8ZIkrmYZo8xXuqg5UcEwRItZbzsEtzIFhZwc9GE=;
- b=ebsVCywkuUOXT0nWt0rF0BUe3Kzqim0OJ+j/8EPLc8T45Dmocu10VwXBxP0KcUvBjz
- WJybB2N29/UgbmsWc259qbqid4X1zU/pZMftKvW2pwCk1HlFfjATGvUHVj42z6oCI/63
- arugneS/TLMrukCJfIBQ+cd3Yj/aIN7cTcfkWqUaV6A8EJogiAtb5tt5LhaDHwdU+iCz
- OVtdmHNcuCaBXvuodK+xkmL88xpgWyfM0Dxp4/Jc7pSjAOO6FGzVGjd+lpzIbhpmKt/q
- wbtEE3vmk+KqD++gBPLlnW/+D9XuBdHFier70vucvH/wH3inaz0ZXZquanqXLnRl5Lho
- 1eyQ==
-X-Gm-Message-State: AOAM530Bxw727G+Q8aksbXIg3MCAcXbmiIDozPMjyBu75utjPRMthESG
- Xn3bmZhiFASfzGGRkM3yqSA+PvPyngMZLeifcJM1Mw==
-X-Google-Smtp-Source: ABdhPJzfGkW5kUcRBUCQt3McxbzjVbo6Gcefagzolw32TlzQ5sq14ZWRRjigu5M9SPz8iNxgUe5GGc133WaBEiO+tUI=
-X-Received: by 2002:a05:6830:1d41:: with SMTP id
- p1mr14168740oth.126.1614619017966; 
- Mon, 01 Mar 2021 09:16:57 -0800 (PST)
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=xNNa4+QHlCa2am0SKvzb7fSrWsTS+ftZd7p0Rzz9XMM=;
+ b=DCriR0wrTMP9fLJ4NV6TwmHbVbH7363XWc9GFAtjguAAugle+gNqT6wsQafu4YDd44
+ 84oNXKaoSzKKGU5LsIbh5iZQtibVI2r9YvYczCEjiHBtJ68aPYv6ZFYx0k3gf6TOdbeT
+ NDZr1t+fGDWuW6IZ34QQFDsYGgv1AvBNhMdPbG4tQw9ofjEJ+1Pk+5NSnKqSTbCmYs5F
+ gnezxVWZTZ6TJYOcvbY5100gFODFqXMgb4Owg6br0Y2u+pKyGZ+xWrRG8Vp8PlCQEUfd
+ 24x+KYmwRGOL5ZnM+JE1aMJZZ8B4OlM+vdO7AP/CIIBb8Wm8D0q9cNvTgca+hgvo6CBL
+ t1Ag==
+X-Gm-Message-State: AOAM533WTc3zrsOWcjQEGIkTVxRw7CrGLSMDvvhAPX9strhAl1hPNNHf
+ JMsl7ffxtSwnZvacFZ0Wkz/rCe/CSoN1OJKRMKkzag9qSqldhWnFUEqAuHEj/4ocQSJu2+vNIB7
+ bghVCWEaZrk3/Y8Q=
+X-Received: by 2002:a17:906:f891:: with SMTP id
+ lg17mr17050032ejb.69.1614619109689; 
+ Mon, 01 Mar 2021 09:18:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwrNgMUtLOS3yiaM/MwUKaO4wo4hVtfVem6DSd3yF+cnUv7yCcgeweYQGMSUpSUfDFVL8d2GQ==
+X-Received: by 2002:a17:906:f891:: with SMTP id
+ lg17mr17050015ejb.69.1614619109488; 
+ Mon, 01 Mar 2021 09:18:29 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id t11sm15855470edd.1.2021.03.01.09.18.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 09:18:29 -0800 (PST)
+Date: Mon, 1 Mar 2021 12:18:25 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [virtio-dev] [VHOST USER SPEC PATCH] vhost-user.rst: add
+ clarifying language about protocol negotiation
+Message-ID: <20210301121623-mutt-send-email-mst@kernel.org>
+References: <20210226111619.21178-1-alex.bennee@linaro.org>
+ <YDzKhnQa+LS01yTN@stefanha-x1.localdomain>
+ <87czwjjdf7.fsf@linaro.org>
+ <YD0X58hj+al5uPWk@stefanha-x1.localdomain>
 MIME-Version: 1.0
-From: Arnabjyoti Kalita <akalita@cs.stonybrook.edu>
-Date: Mon, 1 Mar 2021 22:46:47 +0530
-Message-ID: <CAJGDS+E24RdLWii1GbuxW4pBabpu9wboacMkT+qQ+0VL3-qyQw@mail.gmail.com>
-Subject: Some more questions with regards to QEMU clock record and replay
-To: qemu-discuss <qemu-discuss@nongnu.org>
-Content-Type: multipart/alternative; boundary="000000000000038f0205bc7cc9b7"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
- envelope-from=akalita@cs.stonybrook.edu; helo=mail-ot1-x32c.google.com
-X-Spam_score_int: -9
-X-Spam_score: -1.0
-X-Spam_bar: -
-X-Spam_report: (-1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001, RCVD_DOTEDU_SHORT=1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YD0X58hj+al5uPWk@stefanha-x1.localdomain>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,64 +99,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel <qemu-devel@nongnu.org>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: virtio-dev@lists.oasis-open.org, viresh.kumar@linaro.org,
+ qemu-devel@nongnu.org, rust-vmm@lists.opendev.org,
+ Jiang Liu <gerry@linux.alibaba.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ stratos-dev@op-lists.linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000038f0205bc7cc9b7
-Content-Type: text/plain; charset="UTF-8"
+On Mon, Mar 01, 2021 at 04:35:51PM +0000, Stefan Hajnoczi wrote:
+> On Mon, Mar 01, 2021 at 11:38:47AM +0000, Alex Bennée wrote:
+> > Stefan Hajnoczi <stefanha@redhat.com> writes:
+> > > On Fri, Feb 26, 2021 at 11:16:19AM +0000, Alex Bennée wrote:
+> > >> +However as the protocol negotiation something that only occurs between
+> > >
+> > > Missing "is". Shortening the sentence fixes that without losing clarity:
+> > > s/something that/negotiation/
+> > >
+> > >> +parts of the backend implementation it is permissible to for the master
+> > >
+> > > "vhost-user device backend" is often used to refer to the slave (to
+> > > avoid saying the word "slave") but "backend" is being used in a
+> > > different sense here. That is confusing.
+> > >
+> > >> +to mask the feature bit from the guest.
+> > >
+> > > I think this sentence effectively says "the master MAY mask the
+> > > VHOST_USER_F_PROTOCOL_FEATURES bit from the VIRTIO feature bits". That
+> > > is not really accurate since VIRTIO devices do not advertise this
+> > > feature bit and so it can never be negotiated through the VIRTIO feature
+> > > negotiation process.
+> > >
+> > > How about referring to the details from the VIRTIO 1.1 specification
+> > > instead. Something like this:
+> > >
+> > >   Note that VHOST_USER_F_PROTOCOL_FEATURES is the UNUSED (30) feature
+> > >   bit defined in `VIRTIO 1.1 6.3 Legacy Interface: Reserved Feature Bits
+> > >   <https://docs.oasis-open.org/virtio/virtio/v1.1/cs01/virtio-v1.1-cs01.html#x1-4130003>`_.
+> > >   VIRTIO devices do not advertise this feature bit and therefore VIRTIO
+> > >   drivers cannot negotiate it.
+> > >
+> > >   This reserved feature bit was reused by the vhost-user protocol to add
+> > >   vhost-user protocol feature negotiation in a backwards compatible
+> > >   fashion. Old vhost-user master and slave implementations continue to
+> > >   work even though they are not aware of vhost-user protocol feature
+> > >   negotiation.
+> > 
+> > OK - so does that mean that feature bit will remain UNUSED for ever
+> > more?
+> 
+> It's unlikely to be repurposed in VIRTIO. It can never be used by VIRTIO
+> in a situation that overlaps with vhost-user. That leaves cases that
+> don't overlap with vhost-user but that is unlikely too since the bit had
+> a previous meaning (before vhost-user) and repurposing it would cause
+> confusion for very old drivers or devices.
 
-Hello all,
+Yes, it's easier to just use higher bits.
+If it ever is reused we will just send that bit separately.
 
-I am really thankful for the wonderful answers in my last post linked below-
+> > What about other feature bits? Is it permissible for the
+> > master/requester/vhost-user front-end/QEMU to filter any other feature
+> > bits the slave/vhost-user backend/daemon may offer from being read by
+> > the guest driver when it reads the feature bits?
+> 
+> Yes, the vhost-user frontend can decide how it wants to expose
+> VHOST_USER_GET_FEATURES feature bits on the VIRTIO device:
+> 
+> 1. Pass-through. Allow the vhost-user device backend to control the
+>    feature bit.
+> 2. Disabling. Clear a feature bit because it cannot be supported for
+>    some reason (e.g. VIRTIO 1.1 packed vrings are not implemented and
+>    therefore enabling them would prevent live migration).
+> 3. Enabling. Enable a feature bit that does not rely on vhost-user
+>    device backend support. For example, message-signalled interrupts
+>    for virtio-mmio.
+> 
+> > 
+> > >
+> > >> As noted for the
+> > >> +``VHOST_USER_GET_PROTOCOL_FEATURES`` and
+> > >> +``VHOST_USER_SET_PROTOCOL_FEATURES`` messages this occurs before a
+> > >> +final ``VHOST_USER_SET_FEATURES`` comes from the guest.
+> > >
+> > > I couldn't find any place where vhost-user.rst states that
+> > > VHOST_USER_SET_PROTOCOL_FEATURES has to come before
+> > > VHOST_USER_SET_FEATURES?
+> > >
+> > > The only order I found was:
+> > >
+> > > 1. VHOST_USER_GET_FEATURES to determine whether protocol features are
+> > >    supported.
+> > > 2. VHOST_USER_GET_PROTOCOL_FEATURES to fetch available protocol feature bits.
+> > > 3. VHOST_USER_SET_PROTOCOL_FEATURES to set protocol feature bits.
+> > > 4. Using functionality that depends on enabled protocol feature bits.
+> > >
+> > > Is the purpose of this sentence to add a new requirement to the spec
+> > > that "VHOST_USER_SET_PROTOCOL_FEATURES MUST be sent before
+> > > VHOST_USER_SET_FEATURES"?
+> > 
+> > No I don't want to add a new sequence requirement. But if SET_FEATURES
+> > doesn't acknowledge the VHOST_USER_F_PROTOCOL_FEATURES bit should that
+> > stop the processing of
+> > VHOST_USER_GET_PROTOCOL_FEATURES/VHOST_USER_SET_PROTOCOL_FEATURES
+> > messages? AFAICT SET_FEATURES should be irrelevant to the negotiation of
+> > the PROTOCOL_FEATURES right?
+> 
+> I agree, the value of VHOST_USER_F_PROTOCOL_FEATURES in
+> VHOST_USER_SET_FEATURES does not matter according to the spec:
+> 
+>   Only legal if feature bit ``VHOST_USER_F_PROTOCOL_FEATURES`` is
+>   present in ``VHOST_USER_GET_FEATURES``.
+> 
+> Since it does not mention "set in VHOST_USER_SET_FEATURES" we have to
+> assume existing vhost-user device backends do not care whether the
+> vhost-user frontend includes the bit in VHOST_USER_SET_FEATURES or not.
+> 
+> Stefan
 
-https://lists.nongnu.org/archive/html/qemu-discuss/2021-02/msg00131.html
 
-In continuation with the last post, I have a few more questions to ask -
-
-My experiment is still, mostly the same. I record clock values in KVM mode,
-and then replay the clock values in TCG mode. However, now I am recording
-and replaying all of the clock values (I was only recording/replaying the
-host clock previously). However, I do not use the -icount feature.
-
-- Why are clock values being replayed at checkpoints?
-- Can we ignore replaying at checkpoints and do a dumb replay as and when
-the clock read actually happens?
-- Based on the documentation available, I can see that checkpoints are
-necessary for thread synchronization. Does this mean, if I do not replay
-clock values at checkpoints, the guest kernel scheduler might behave
-incorrectly during replay ?
-
-Thank you very much, again.
-
-Best Regards,
-Arnab
-
---000000000000038f0205bc7cc9b7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div><div>Hello all,<br><br></div>I am really th=
-ankful for the wonderful answers in my last post linked below-<br><br><a hr=
-ef=3D"https://lists.nongnu.org/archive/html/qemu-discuss/2021-02/msg00131.h=
-tml">https://lists.nongnu.org/archive/html/qemu-discuss/2021-02/msg00131.ht=
-ml</a><br><br></div><div>In continuation with the last post, I have a few m=
-ore questions to ask -<br><br></div>My experiment is still, mostly the same=
-. I record clock values in KVM mode, and then replay the clock values in TC=
-G mode. However, now I am recording and replaying all of the clock values (=
-I was only recording/replaying the host clock previously). However, I do no=
-t use the -icount feature.<br><br></div></div>- Why are clock values being =
-replayed at checkpoints? <br><div>- Can we ignore replaying at checkpoints =
-and do a dumb replay as and when the clock read actually happens?</div><div=
->- Based on the documentation available, I can see that checkpoints are nec=
-essary for thread synchronization. Does this mean, if I do not replay clock=
- values at checkpoints, the guest kernel scheduler might behave incorrectly=
- during replay ?<br><br></div><div>Thank you very much, again.<br><br></div=
-><div>Best Regards,<br></div><div>Arnab<br></div><div><div><br><br><br><br>=
-</div></div></div>
-
---000000000000038f0205bc7cc9b7--
 
