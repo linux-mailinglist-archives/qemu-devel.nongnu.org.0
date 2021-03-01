@@ -2,55 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16CBC327849
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 08:35:41 +0100 (CET)
-Received: from localhost ([::1]:37028 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93F4327887
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 08:47:58 +0100 (CET)
+Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGd5f-0006E8-ST
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 02:35:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60796)
+	id 1lGdHZ-00006j-IR
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 02:47:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lGd3x-0005mc-7Y
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:33:53 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2193)
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1lGdFp-000886-EX
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:46:09 -0500
+Received: from proxmox-new.maurer-it.com ([212.186.127.180]:24453)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lGd3u-00020g-52
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:33:52 -0500
-Received: from DGGEMM405-HUB.china.huawei.com (unknown [172.30.72.54])
- by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4DpsQB5qJdz56d8;
- Mon,  1 Mar 2021 15:31:30 +0800 (CST)
-Received: from dggema765-chm.china.huawei.com (10.1.198.207) by
- DGGEMM405-HUB.china.huawei.com (10.3.20.213) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 1 Mar 2021 15:33:36 +0800
-Received: from [10.174.185.210] (10.174.185.210) by
- dggema765-chm.china.huawei.com (10.1.198.207) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Mon, 1 Mar 2021 15:33:36 +0800
-Subject: Re: [PATCH 3/3] migration/ram: Optimize ram_save_host_page()
-To: David Edmondson <dme@dme.org>, Juan Quintela <quintela@redhat.com>, "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC here"
- <qemu-devel@nongnu.org>
-References: <20210223021646.500-1-jiangkunkun@huawei.com>
- <20210223021646.500-4-jiangkunkun@huawei.com> <cuna6rs48l2.fsf@dme.org>
-From: Kunkun Jiang <jiangkunkun@huawei.com>
-Message-ID: <5438e9c9-2eee-5a2b-8a30-24c0d707e125@huawei.com>
-Date: Mon, 1 Mar 2021 15:33:22 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
+ id 1lGdFh-0000TQ-QH
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:46:08 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 8E24641D13;
+ Mon,  1 Mar 2021 08:45:54 +0100 (CET)
+Message-ID: <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
+Date: Mon, 1 Mar 2021 08:45:53 +0100
 MIME-Version: 1.0
-In-Reply-To: <cuna6rs48l2.fsf@dme.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101
+ Thunderbird/87.0
 Content-Language: en-US
-X-Originating-IP: [10.174.185.210]
-X-ClientProxiedBy: dggeme706-chm.china.huawei.com (10.1.199.102) To
- dggema765-chm.china.huawei.com (10.1.198.207)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.189;
- envelope-from=jiangkunkun@huawei.com; helo=szxga03-in.huawei.com
+To: "Michael S. Tsirkin" <mst@redhat.com>
+References: <20200730155755.188845-1-mst@redhat.com>
+ <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
+ <20210228154208-mutt-send-email-mst@kernel.org>
+ <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
+ <20210301021449-mutt-send-email-mst@kernel.org>
+From: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+In-Reply-To: <20210301021449-mutt-send-email-mst@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=212.186.127.180;
+ envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -69,87 +59,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com, Keqian
- Zhu <zhukeqian1@huawei.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
+ qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+ Laszlo Ersek <lersek@redhat.com>, vit9696 <vit9696@protonmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/2/25 20:48, David Edmondson wrote:
-> On Tuesday, 2021-02-23 at 10:16:45 +08, Kunkun Jiang wrote:
->
->> Starting from pss->page, ram_save_host_page() will check every page
->> and send the dirty pages up to the end of the current host page or
->> the boundary of used_length of the block. If the host page size is
->> a huge page, the step "check" will take a lot of time.
+On 01.03.21 08:20, Michael S. Tsirkin wrote:
+> On Mon, Mar 01, 2021 at 08:12:35AM +0100, Thomas Lamprecht wrote:
+>> On 28.02.21 21:43, Michael S. Tsirkin wrote:
+>>> Sure. The way to do that is to tie old behaviour to old machine
+>>> versions. We'll need it in stable too ...
 >>
->> This will improve performance to use migration_bitmap_find_dirty().
+>> Yeah, using machine types is how its meant to be with solving migration
+>> breakage, sure.
+>> But that means we have to permanently pin the VM, and any backup restored from
+>> that to that machine type *forever*. That'd be new for us as we always could
+>> allow a newer machine type for a fresh start (i.e., non migration or the like)
+>> here, and mean that lots of other improvements guarded by a newer machine type
+>> for those VMs will.
+> 
+> If you don't do that, that is a bug as any virtual hardware
+> can change across machine types.
+
+For us a feature, for fresh starts one gets the current virtual HW but for
+live migration or our live snapshot code it stays compatible. Works quite
+well here for many years, as we can simply test the HW changes on existing
+VMs - which failed here due to lack of static IPs in the test bed. So yes,
+it has its problems as it is not really  what an OS considers as HW change
+so big that it makes it a new device, mostly Windows is a PITA here as seen
+in this issue.
+
+I mean, QEMU deprecates very old machines at some point anyway, so even then
+it is impossible to keep to the old machine forever, but otoh redoing some
+changes after a decade or two can be fine, I guess?
+
+> 
+>> And yeah, stable is wanted, but extrapolating from the current stable releases
+>> frequency, where normally there's maximal one after 5-6 months from the .0
+>> release, means that this will probably still hit all those distributions I
+>> mentioned or is there something more soon planned?
 >>
->> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
->> Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
->> ---
->>   migration/ram.c | 14 ++++++++------
->>   1 file changed, 8 insertions(+), 6 deletions(-)
->>
->> diff --git a/migration/ram.c b/migration/ram.c
->> index c7e18dc2fc..c7a2350198 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -1994,6 +1994,8 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>       int tmppages, pages = 0;
->>       size_t pagesize_bits =
->>           qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
->> +    unsigned long hostpage_boundary =
->> +        QEMU_ALIGN_UP(pss->page + 1, pagesize_bits);
->>       unsigned long start_page = pss->page;
->>       int res;
->>   
->> @@ -2005,8 +2007,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>       do {
->>           /* Check the pages is dirty and if it is send it */
->>           if (!migration_bitmap_clear_dirty(rs, pss->block, pss->page)) {
->> -            pss->page++;
->> -            continue;
->> +            goto find_next;
->>           }
->>   
->>           tmppages = ram_save_target_page(rs, pss, last_stage);
->> @@ -2015,16 +2016,17 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>           }
->>   
->>           pages += tmppages;
->> -        pss->page++;
->>           /* Allow rate limiting to happen in the middle of huge pages */
->>           if (pagesize_bits > 1) {
->>               migration_rate_limit();
->>           }
->> -    } while ((pss->page & (pagesize_bits - 1)) &&
->> +find_next:
->> +        pss->page = migration_bitmap_find_dirty(rs, pss->block, pss->page);
->> +    } while ((pss->page < hostpage_boundary) &&
->>                offset_in_ramblock(pss->block,
->>                                   ((ram_addr_t)pss->page) << TARGET_PAGE_BITS));
-> This ends up looking very messy, with a goto inside the loop.
->
-> Wouldn't it be cleaner to invert the sense of the
-> migration_bitmap_clear_dirty() test, such that
-> migration_bitmap_find_dirty() is called after the body of the test?
-Sorry for the late reply.
-Thanks for your advice.  I will post a v2 as soon as possible.
+>> Also, is there any regression testing infrastructure around to avoid such
+>> changes in the future? This change got undetected for 7 months, which can be
+>> pretty the norm for QEMU releases, so some earlier safety net would be good? Is
+>> there anything which dumps various default machine HW layouts and uses them for
+>> an ABI check of some sorts?
+> 
+> There are various testing efforts the reason this got undetected is
+> because it does not affect linux guests, and even for windows
+> they kind of recover, there's just some boot slowdown around reconfiguration.
+> Not easy to detect automatically given windows has lots of random
+> downtime during boot around updates etc etc.
+> 
 
-Best Regards.
+No, Windows does not reconfigure, this is a permanent change, one is just lucky
+if one has a DHCP server around in the network accessible for the guest.
+As static addresses setup on that virtual NIC before that config is gone,
+no recovery whatsoever until manual intervention.
 
-Kunkun Jiang
-
->> -    /* The offset we leave with is the last one we looked at */
->> -    pss->page--;
->> +    /* The offset we leave with is the min boundary of host page and block */
->> +    pss->page = MIN(pss->page, hostpage_boundary) - 1;
->>   
->>       res = ram_save_release_protection(rs, pss, start_page);
->>       return (res < 0 ? res : pages);
->> -- 
->> 2.23.0
-> dme.
-
+I meant more of a "dump HW layout to .txt file, commit to git, and ensure
+there's no diff without and machine version bump" (very boiled down), e.g., like
+ABI checks for kernel builds are often done by distros - albeit those are easier
+as its quite clear what and how the kernel ABI can be used.
 
 
