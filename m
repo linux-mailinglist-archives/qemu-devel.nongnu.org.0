@@ -2,89 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA52A327D06
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:22:33 +0100 (CET)
-Received: from localhost ([::1]:42834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15C8E327CEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:17:52 +0100 (CET)
+Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGgdE-0003jY-7B
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:22:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54550)
+	id 1lGgYg-0001VP-J2
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:17:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGgWV-0000YK-Aw; Mon, 01 Mar 2021 06:15:35 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:58125)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGgWS-0001Kp-To; Mon, 01 Mar 2021 06:15:35 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 593B45C008C;
- Mon,  1 Mar 2021 06:15:31 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 01 Mar 2021 06:15:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=kTx1rEZ18HLpVXZgQvJGcvdZGJa
- Wj4vip/FYa9Wgd5U=; b=q/tYpcimB3ziJJdv9WXyCsVuf2QcIX5OBCXYGWtakWW
- ebXiJ3313qgu7M1k5ZxN8qg/7CZTMwffWgUbXjyCCna82qBKN8z5Hql+gd6OOMx9
- rH8WHdr+I23TLveNJABR6b9okM51QN2tp6dBLhMPGFpDXh7mnUTmIualRQHH38ZZ
- D/kTbayxU/F6PRoestnp226fKdq39yB/7k51OqLx9f6du4Vg+Jv0e3eb9Ob/F3rb
- OcZr5iQq9ghPH6Y2k4H1BOkmaWbGndHoevaKOXiI97E3nJ3XMAdcVTtUn8P5gb/w
- QMZ2RcaH8VfFhPZ4wHwdFzY07YswkHy4MOldGM4LkJw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=kTx1rE
- Z18HLpVXZgQvJGcvdZGJaWj4vip/FYa9Wgd5U=; b=KfgKBaKwZuzpckGctCdG5X
- /JEvCibOYXz2DoX324uZcEw8iFH5pfeTK8fNy1k4TApeVuzE6wtsVnVAfEAy06Ur
- A6KqFzpCz/8OZGLk/h7ifHHeVVeS1XGVobr0ogAcczZB7nCl58giEMb/B4rXICgN
- O8yiG080KhFD8/fRVD/QX+1/vjrRSrvivbb9GTj0vV9wpdAdVNPz6Igd3S1sNewK
- X4xE5jkydWFClmptWXaN4RMfBEEbMBt+9GIyaVET9ah3Og1JnxjkrLO0P8p7nLGA
- 8yvf/zX7V67p5WtvVzAn0k9/X5StrjC2A0vsNrqYpOnYOBymLbm/dq+2Usl811CQ
- ==
-X-ME-Sender: <xms:0cw8YKIujRWiS2Pn5jnbaWC0I0PXLHS-jXiz8EHG53o-sL8zCfSnJQ>
- <xme:0cw8YCKDUMaGgMZjueSTXc52G2leGPbVHAmzNjE4eO2HlRjdJfbMXEkS8hj03aV7a
- 9-zG57mpyT8n7h9mCI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgddvgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:0cw8YKu50BwD2Iz5H1g0ZqsgeVx5uuQS8WOke0kXyHDVsgRbVtLvsQ>
- <xmx:0cw8YPYbNoSwEO_P-NC43RsNxn73WD4ouEjvkijON8XNInub2HFONw>
- <xmx:0cw8YBawND-Dzpgk6Us_GrnqfZAk2-f7RAwcoCTBZX_KI3uoMSvv0g>
- <xmx:08w8YN4ZSRkXnzyyKz2P6xP8j0WHRqtOvxphRvJJnlckj6K1UIqckg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2293A108006A;
- Mon,  1 Mar 2021 06:15:28 -0500 (EST)
-Date: Mon, 1 Mar 2021 12:15:26 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH v2 5/5] hw/block/nvme: report non-mdts command size limit
- for dsm
-Message-ID: <YDzMznTMIam04v+J@apples.localdomain>
-References: <20210222184759.65041-1-its@irrelevant.dk>
- <20210222184759.65041-6-its@irrelevant.dk>
- <20210222205506.GB16253@redsun51.ssa.fujisawa.hgst.com>
- <YDQeNpjTCvYbKhjh@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lGgWz-0000la-Jx
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:16:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38058)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lGgWv-0001dK-H0
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:16:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614597360;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UW5EAhRq01zAlhshGr6Cj14eUZMgDl5l2wepDZBjdqk=;
+ b=Mq38vOakwCAA9ufqoSCEW/o6psBIIBqrO1XIwMmVYZg7o4cT7pTABX+VFagCMMSgwT4Dc3
+ f1n5jNyiEoFoqAfmg4RrHZcPuTOhocmHQhMJRckfVmBPDpEhS3FwszdtdtLMNdL0YYat7A
+ yqlZr9ziv/wHkpCUsQdNFxPZ0eihTDg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-65-ODy2Ef9OM0WM6VBrQGnVAA-1; Mon, 01 Mar 2021 06:15:58 -0500
+X-MC-Unique: ODy2Ef9OM0WM6VBrQGnVAA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 589AA106BB23;
+ Mon,  1 Mar 2021 11:15:56 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-165.ams2.redhat.com [10.36.114.165])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B4DCB60BFA;
+ Mon,  1 Mar 2021 11:15:35 +0000 (UTC)
+Date: Mon, 1 Mar 2021 12:15:34 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Jim Fehlig <jfehlig@suse.com>
+Subject: Re: [PATCH 00/14] deprecations: remove many old deprecations
+Message-ID: <20210301111534.GD7698@merkur.fritz.box>
+References: <20210224131142.1952027-1-berrange@redhat.com>
+ <de4a241c-3cca-203e-62c2-bf2c19f9e7ce@suse.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="xZuppcGVQaz18HUO"
+In-Reply-To: <de4a241c-3cca-203e-62c2-bf2c19f9e7ce@suse.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <YDQeNpjTCvYbKhjh@apples.localdomain>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -97,60 +78,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
+ libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ xen-devel <xen-devel@lists.xenproject.org>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 25.02.2021 um 18:32 hat Jim Fehlig geschrieben:
+> Adding xen-devel and Ian to cc.
+> 
+> On 2/24/21 6:11 AM, Daniel P. Berrangé wrote:
+> > The following features have been deprecated for well over the 2
+> > release cycle we promise
+> 
+> This reminded me of a bug report we received late last year when updating to
+> 5.2.0. 'virsh setvcpus' suddenly stopped working for Xen HVM guests. Turns
+> out libxl uses cpu-add under the covers.
+> 
+> > 
+> >    ``-usbdevice`` (since 2.10.0)
+> >    ``-drive file=3Djson:{...{'driver':'file'}}`` (since 3.0)
+> >    ``-vnc acl`` (since 4.0.0)
+> >    ``-mon ...,control=3Dreadline,pretty=3Don|off`` (since 4.1)
+> >    ``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
+> >    ``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.0)
+> >    ``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.0)
+> >    ``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11.0)
+> >    ``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].sta=
+> > tus (ince 4.0)
+> >    ``query-cpus`` (since 2.12.0)
+> >    ``query-cpus-fast`` ``arch`` output member (since 3.0.0)
+> >    ``query-events`` (since 4.0)
+> >    chardev client socket with ``wait`` option (since 4.0)
+> >    ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, ``acl_remove`` (s=
+> > ince 4.0.0)
+> >    ``ide-drive`` (since 4.2)
+> >    ``scsi-disk`` (since 4.2)
+> > 
+> > AFAICT, libvirt has ceased to use all of these too.
+> 
+> A quick grep of the libxl code shows it uses -usbdevice, query-cpus, and scsi-disk.
+> 
+> > There are many more similarly old deprecations not (yet) tackled.
+> 
+> The Xen tools maintainers will need to be more vigilant of the deprecations.
+> I don't follow Xen development close enough to know if this topic has
+> already been discussed.
 
---xZuppcGVQaz18HUO
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+MAINTAINERS has a section for "Incompatible changes" that covers
+docs/system/deprecated.rst. Maybe if the Xen maintainers are interested
+in that, we could add another list or individual people there so they
+would see patches that deprecate something?
 
-On Feb 22 22:12, Klaus Jensen wrote:
-> On Feb 23 05:55, Keith Busch wrote:
-> > On Mon, Feb 22, 2021 at 07:47:59PM +0100, Klaus Jensen wrote:
-> > > +typedef struct NvmeIdCtrlNvm {
-> > > +    uint8_t     vsl;
-> > > +    uint8_t     wzsl;
-> > > +    uint8_t     wusl;
-> > > +    uint8_t     dmrl;
-> > > +    uint32_t    dmrsl;
-> > > +    uint64_t    dmsl;
-> > > +    uint8_t     rsvd16[4080];
-> > > +} NvmeIdCtrlNvm;
-> >=20
-> > TP 4040a still displays these fields with preceding '...' indicating
-> > something comes before this. Is that just left-over from the integration
-> > for TBD offsets, or is there something that still hasn't been accounted
-> > for?
->=20
-> Good question.
->=20
-> But since the TBDs have been assigned I believe it is just a left-over.
-> I must admit that I have not cross checked this with all other TPs, but
-> AFAIK this is the only ratified TP that adds something to the
-> NVM-specific identify controller data structure.
+But either way, it would probably be useful to check the full
+deprecation list rather than just what we're going to remove right now.
 
-Are you otherwise OK with this?
+Kevin
 
---xZuppcGVQaz18HUO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmA8zMwACgkQTeGvMW1P
-DenomAgAqA/r30sJjemJG4b6l9nSy6fl7SU401NICKg/TW8+LcCNUgEfO53GsK/V
-APezrlIX4Sgw40dhxHtdXNCqYzp9HumMRfCCmqQibLWMh6WOwSi2519KqIxHxKHG
-OfQny+cj2BvV5uL42aIBj08UBWDT1FmwpsidkXCy6DhZZ900iYZRgxfLUG4l0ncn
-UFLkCyJisJGXnh75TmOZOUFX6/h7e2D7TXmfrduWmkcDfZr96gu4LZa+hiqUslgF
-JSezTzXDsi9Dc+tKFO45BOqirGVbNSjHvKhVqVORiw5MX2OdDfnOgzfKUhtBodFp
-gAdPI4Xzb6C+RujvtUv+OwXuA4ay+A==
-=nJIq
------END PGP SIGNATURE-----
-
---xZuppcGVQaz18HUO--
 
