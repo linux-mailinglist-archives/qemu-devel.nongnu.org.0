@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F8353275B2
+	by mail.lfdr.de (Postfix) with ESMTPS id BC21E3275B3
 	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 02:09:01 +0100 (CET)
-Received: from localhost ([::1]:56660 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:56770 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGX3T-0002Bp-Mm
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 20:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32946)
+	id 1lGX3U-0002EY-NH
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 20:09:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGX18-0000QP-M3; Sun, 28 Feb 2021 20:06:34 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:45593)
+ id 1lGX1A-0000T7-OA; Sun, 28 Feb 2021 20:06:36 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:54119)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGX12-0001hX-VS; Sun, 28 Feb 2021 20:06:34 -0500
+ id 1lGX18-0001iy-Nn; Sun, 28 Feb 2021 20:06:36 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 20C8B5C00B6;
- Sun, 28 Feb 2021 20:06:28 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id CD6D95C008E;
+ Sun, 28 Feb 2021 20:06:31 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sun, 28 Feb 2021 20:06:28 -0500
+ by compute3.internal (MEProxy); Sun, 28 Feb 2021 20:06:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=s/Zs3H8nldIyS
- rORoqBVGAgKfQMLJ9+BZWTfSlhljkQ=; b=G6iGRQ3NEFCtk9iF8zjzRYA0ymTJe
- Bn0eO+VLzC3svlObRqnXDk9jS12fZhec44djR0JcK+505yO76bhf+x5uxd/ymvzB
- SibLA8ZlGOMXVPLSXvnYVZwob5GcCIXOKYKHn0Es7LVG+WWud87ZxtrXyXnsbgUT
- XKz8ZxXSCI7ebEixZStfrKyPmbO8Ywwr6EbAlxyEnhccEpdK3EKNyepj3T9N9Uv6
- tW8ud1TwWM7LrdjcVh7RtiC9hvc//o1B1g3l7YSPd08N/rONDquCMM7IylcpYF3l
- dGpxSQC4ryWi/rVehMiAodE6wL7HcCZZgYvf+ZdS1slKWys015SHIRSWA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=vQM2m20CPhZZ2
+ uwDmgCbR86DApctoswo2QcAvJu7x+o=; b=QBPluBm6JKvlxhteuQq1C5YdjMt4l
+ Vxw5UHZXZNEkboOx6nQx5aqYxsTTEaUd3yu4xAKmqhJhDQlVQ0T+1lZWprsYrhWv
+ B0321LaF4lEAxxMBJ/bU5T2wRATLyc/xE+wO7irVnfp4kIuPwll0CFINE+7GLfRl
+ 08+7EfUz3ezjVWTiV6AhMoXp06RL5VRp7390r4me1w7SVhUUHIYDwe/woFg78As2
+ FmomJ5FJiKt98YFFYAkKCTM8wQCFMHq//BGFVlKAlW4XzuQaFiIpUgnIpnZAMKCR
+ VGOPKs+7c+6IBWYFWSxlEnWXfKiHj+1MkIIBL3ICjMe/lrL0gOyxxbcSg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=s/Zs3H8nldIySrORoqBVGAgKfQMLJ9+BZWTfSlhljkQ=; b=v1CSPO2Y
- ZZ8C4zbINjP2ZJpM6EIVdC7LTTmP2X9aePDnXyiuTx/LTxLhD9ONfcIhp9AQgTbI
- br//gIezhWgmIXrxgl+wyPh2MStxdDDws5ewgV1poTBTolkPn+6FMrUP924JBFP3
- CueAOYBiiYgMC0Fmb3+B42iLO+KJDESVVH6lBHHSEQ9cGN0I6aatYayfUYflevoB
- boyGZLR/dkY1HGiwzxjUjYQi3XB07vejGZOfmFDCqxDRsfXKGIJpQtoBiFhF/bJE
- IHLO9htg1Iu/yZm8wyDQr7VQBzjTUxc/DTc740OsDzxAiUC23u389Pi799tMR1YR
- K4VhEtQlk52o8Q==
-X-ME-Sender: <xms:FD48YNOK7KQ74zhY5gBhkHMstW9o2qca_yNZg5Zh93IX6d99PQgTBQ>
- <xme:FD48YP_J6vlN1cWhQot5nNfPIAq78L7vPhD2ULvtavqEJLbX2Ft8CiwYZCdTyiLZc
- ZaU-ImB1mpCXNtRLw>
+ fm2; bh=vQM2m20CPhZZ2uwDmgCbR86DApctoswo2QcAvJu7x+o=; b=cs9gn4BS
+ 1VzA04lVlGkWzbECdvHYHPNFsrc1aiaqdS5iMTargUUPPh50c+1n6sAN2ZsKVPFw
+ 8GuO1NZ9GaMNh7OOq8BXkE/lYITfXxs2Ph3P9Jvurb7Drgzz6vQKVkaPoNO/tvXQ
+ Ton+IozMTPiMJcjahVAseirCQ0m3FhQMLQckIHb+8jpv8vdisvh3WhV+be+HxgK7
+ 7zy2uvSWH8H7n6lLuwEdKuTS49P8VgcRAVhSCCDIvmswS1tE+coBJpJu5m+eggcf
+ Foh7Q391qYTKOYubF8NMSlxpxBfbdqv6IlAfa9rtGvWwU0LagSimmMJWIp89tFxT
+ f0m/b5dqZB4WiQ==
+X-ME-Sender: <xms:Fz48YCA4CIRo3dKUBpueXsqf01ONRpc5LorVk6sIKCp93p3CZY4WPQ>
+ <xme:Fz48YMjBYl9VqIIUH9IrOqOdlrd4R0ETKJjwWUu7GE-Y3qTopau25dRoKBNos7xDF
+ KBTZZWfUwRB0TRz9w>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleejgdefvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
@@ -53,20 +53,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleejgdefvdcutefuodetggdote
  ejffelffdvudduveeiffegteelvefhteenucfkphepudegrddvrdeluddrfeejnecuvehl
  uhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifse
  grjhdrihgurdgruh
-X-ME-Proxy: <xmx:FD48YMRz56qkqCfy94P8Bx8BgMvSLHTKHS-vtT7z3Do5097CY7Mtpw>
- <xmx:FD48YJvOIazKD5JueIMnJPmqt78kKblzAJclM8GYjmJXWkIF9AEIYw>
- <xmx:FD48YFf-K8fdaWxhhK626-mTX4z98v_IV6VGyhk3nOOO9P2ZequzGg>
- <xmx:FD48YOHs1X2KobNUtSrp3_7pbtuPRJZqYup0uMPWPdC64kvcQU_aag>
+X-ME-Proxy: <xmx:Fz48YFmK5mKMGqPy-ccIBoisAVwbAmFZmx2LBiT8bQXIdmUkX25HqA>
+ <xmx:Fz48YAxKZDli-3khlpeGKoTHpwt_HQnexs2i0-A6t5Dt6tC1eDEmiw>
+ <xmx:Fz48YHQTjnHSeR-Gv4jcLYYAV1nKLqTFiHSjcOyfRBbQuofXuJQTvQ>
+ <xmx:Fz48YIJdk0QwdoVk6ArBSl1sc-HiIZBPhPIHKB9FD_ieOmxs66G-KQ>
 Received: from localhost.localdomain
  (ppp14-2-91-37.adl-apt-pir-bras31.tpg.internode.on.net [14.2.91.37])
- by mail.messagingengine.com (Postfix) with ESMTPA id 0DAE1240057;
- Sun, 28 Feb 2021 20:06:24 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 8B1D5240057;
+ Sun, 28 Feb 2021 20:06:28 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v2 1/5] arm: ast2600: Force a multiple of 32 of IRQs for the
- GIC
-Date: Mon,  1 Mar 2021 11:36:06 +1030
-Message-Id: <20210301010610.355702-2-andrew@aj.id.au>
+Subject: [PATCH v2 2/5] hw/arm: ast2600: Set AST2600_MAX_IRQ to value from
+ datasheet
+Date: Mon,  1 Mar 2021 11:36:07 +1030
+Message-Id: <20210301010610.355702-3-andrew@aj.id.au>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210301010610.355702-1-andrew@aj.id.au>
 References: <20210301010610.355702-1-andrew@aj.id.au>
@@ -98,36 +98,28 @@ Cc: peter.maydell@linaro.org, ryan_chen@aspeedtech.com, minyard@acm.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This appears to be a requirement of the GIC model. The AST2600 allocates
-197 GIC IRQs, which we will adjust shortly.
+The datasheet says we have 197 IRQs allocated, and we need more than 128
+to describe IRQs from LPC devices. Raise the value now to allow
+modelling of the LPC devices.
 
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- hw/arm/aspeed_ast2600.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/arm/aspeed_ast2600.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index bf31ca351feb..bc0eeb058b24 100644
+index bc0eeb058b24..22fcb5b0edbe 100644
 --- a/hw/arm/aspeed_ast2600.c
 +++ b/hw/arm/aspeed_ast2600.c
 @@ -65,7 +65,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
  
  #define ASPEED_A7MPCORE_ADDR 0x40460000
  
--#define ASPEED_SOC_AST2600_MAX_IRQ 128
-+#define AST2600_MAX_IRQ 128
+-#define AST2600_MAX_IRQ 128
++#define AST2600_MAX_IRQ 197
  
  /* Shared Peripheral Interrupt values below are offset by -32 from datasheet */
  static const int aspeed_soc_ast2600_irqmap[] = {
-@@ -267,7 +267,7 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-     object_property_set_int(OBJECT(&s->a7mpcore), "num-cpu", sc->num_cpus,
-                             &error_abort);
-     object_property_set_int(OBJECT(&s->a7mpcore), "num-irq",
--                            ASPEED_SOC_AST2600_MAX_IRQ + GIC_INTERNAL,
-+                            ROUND_UP(AST2600_MAX_IRQ + GIC_INTERNAL, 32),
-                             &error_abort);
- 
-     sysbus_realize(SYS_BUS_DEVICE(&s->a7mpcore), &error_abort);
 -- 
 2.27.0
 
