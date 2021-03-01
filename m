@@ -2,48 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C02BB327A7E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:11:50 +0100 (CET)
-Received: from localhost ([::1]:33400 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B495327A94
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:19:51 +0100 (CET)
+Received: from localhost ([::1]:43920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGeaj-00060U-Qm
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:11:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49780)
+	id 1lGeiT-0002Vi-Mb
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:19:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKu-00057e-5N
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:28 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58380)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKm-0000Jg-66
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:27 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id AD939B024;
- Mon,  1 Mar 2021 08:55:06 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v26 20/20] i386: make cpu_load_efer sysemu-only
-Date: Mon,  1 Mar 2021 09:54:50 +0100
-Message-Id: <20210301085450.1732-21-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210301085450.1732-1-cfontana@suse.de>
-References: <20210301085450.1732-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGegv-00023j-5T
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 04:18:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32773)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGegs-0005KW-69
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 04:18:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614590287;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=IvXJIhIDjbr3lJnuXbpEgtBvlQluvtZCQv0Xg//XaJM=;
+ b=QYEhE7TVaiEN6B9MPg1fX7BdLdMmz/uQyWKkRJuN3QjsUczvTNaOZsUtRV/oRbte70YH+d
+ GxYJAnon35PH0NT30sjupd3S85MLbJCb1UEaICvBV8nk6LyIZxvc1ZzelFmwRNthZjPUhH
+ 8akfuiROzGBrz3A/7pLUXkfOyPCUz70=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-564-uzgkt_w2M9-fXN_0HiBEMw-1; Mon, 01 Mar 2021 04:18:02 -0500
+X-MC-Unique: uzgkt_w2M9-fXN_0HiBEMw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA01579EC0;
+ Mon,  1 Mar 2021 09:18:01 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
+ [10.36.115.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AA10010013D7;
+ Mon,  1 Mar 2021 09:18:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 30B60113860F; Mon,  1 Mar 2021 10:18:00 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Bogus "is either too old or uses too old a Python version" from
+ docs/meson.build
+References: <87ft1kqqsp.fsf@dusky.pond.sub.org>
+ <CAFEAcA-NyQT_m37UfeH5KAQ9+dkNBHcQivYyrS4C9F3EUqJ+Nw@mail.gmail.com>
+ <87zgzsb6xu.fsf@dusky.pond.sub.org>
+ <CAFEAcA9x9DV4Pvu7CifuHRXrqcgvPWs+wB5UUtcmrEK0G+3mYw@mail.gmail.com>
+Date: Mon, 01 Mar 2021 10:17:59 +0100
+In-Reply-To: <CAFEAcA9x9DV4Pvu7CifuHRXrqcgvPWs+wB5UUtcmrEK0G+3mYw@mail.gmail.com>
+ (Peter Maydell's message of "Thu, 25 Feb 2021 14:01:59 +0000")
+Message-ID: <875z2bkzaw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,87 +83,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, Claudio Fontana <cfontana@suse.de>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Yonggang Luo <luoyonggang@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_load_efer is now used only for sysemu code.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Therefore, move this function implementation to
-sysemu-only section of helper.c
+> On Thu, 25 Feb 2021 at 13:41, Markus Armbruster <armbru@redhat.com> wrote:
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>> > I'm not sure what could reasonably be done. The Sphinx test is just
+>> > "try building a trivial document with our config (which is what
+>> > enforces the version requirement)".
+>>
+>> This question is almost certainly naive: why is it necessary for the
+>> "trivial" document to include the truckload generated by qapi-gen.py
+>
+> Because we want to use docs/conf.py, and docs/conf.py says
+> "these are the plugins we use" (by setting the 'extensions' config
+> variable, and so Sphinx will run the bit of the plugin that is "run this to
+> initialize me".
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/cpu.h    | 20 +++++---------------
- target/i386/helper.c | 13 +++++++++++++
- 2 files changed, 18 insertions(+), 15 deletions(-)
+I see.
 
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 3797789dc2..a1268abe9f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1957,6 +1957,11 @@ static inline AddressSpace *cpu_addressspace(CPUState *cs, MemTxAttrs attrs)
-     return cpu_get_address_space(cs, cpu_asidx_from_attrs(cs, attrs));
- }
- 
-+/*
-+ * load efer and update the corresponding hflags. XXX: do consistency
-+ * checks with cpuid bits?
-+ */
-+void cpu_load_efer(CPUX86State *env, uint64_t val);
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_lduw_phys(CPUState *cs, hwaddr addr);
- uint32_t x86_ldl_phys(CPUState *cs, hwaddr addr);
-@@ -2053,21 +2058,6 @@ static inline uint32_t cpu_compute_eflags(CPUX86State *env)
-     return eflags;
- }
- 
--
--/* load efer and update the corresponding hflags. XXX: do consistency
--   checks with cpuid bits? */
--static inline void cpu_load_efer(CPUX86State *env, uint64_t val)
--{
--    env->efer = val;
--    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
--    if (env->efer & MSR_EFER_LMA) {
--        env->hflags |= HF_LMA_MASK;
--    }
--    if (env->efer & MSR_EFER_SVME) {
--        env->hflags |= HF_SVME_MASK;
--    }
--}
--
- static inline MemTxAttrs cpu_get_mem_attrs(CPUX86State *env)
- {
-     return ((MemTxAttrs) { .secure = (env->hflags & HF_SMM_MASK) != 0 });
-diff --git a/target/i386/helper.c b/target/i386/helper.c
-index 618ad1c409..7304721a94 100644
---- a/target/i386/helper.c
-+++ b/target/i386/helper.c
-@@ -574,6 +574,19 @@ void do_cpu_sipi(X86CPU *cpu)
- #endif
- 
- #ifndef CONFIG_USER_ONLY
-+
-+void cpu_load_efer(CPUX86State *env, uint64_t val)
-+{
-+    env->efer = val;
-+    env->hflags &= ~(HF_LMA_MASK | HF_SVME_MASK);
-+    if (env->efer & MSR_EFER_LMA) {
-+        env->hflags |= HF_LMA_MASK;
-+    }
-+    if (env->efer & MSR_EFER_SVME) {
-+        env->hflags |= HF_SVME_MASK;
-+    }
-+}
-+
- uint8_t x86_ldub_phys(CPUState *cs, hwaddr addr)
- {
-     X86CPU *cpu = X86_CPU(cs);
--- 
-2.26.2
+> You could add conditionals to the conf.py to say "don't set the 'extensions'
+> variable if we're being called for the trivial document by configure",
+> but if there really is some problem with the user's environment that
+> means that those extensions don't work, we'd rather have configure
+> detect that and default to don't-build-docs, rather than configure
+> believe that all is OK and then the 'make' later falling over.
+
+Makes sense for the initial configure, but I'm afraid it's not what
+happens in the "need to run config.status case" case.
+
+If I configured with --enable-docs, then "make" running config.status
+fails in the opaque way I described.  You argued anyone messing with the
+QAPI generator should be capable of following the "A full log can be
+found at" clue, and figure out what's wrong.  Fair enough, as long as we
+ignore the possibility that qapi-gen could ever start to fail for
+reasons other than "developer messed it up", such as "a Python upgrade
+messed it up",
+
+If I let configure decide whether to build docs, then "make" will fail
+in the same clear way it always fails when the developer messes up
+qapi-gen.  But first, it'll disable doc generation.  I'm pretty much
+certain to miss that.  Fixing qapi-gen will *not* re-enable doc
+generation.  It'll silently reenable itself the next time configure gets
+run for some reason.  Until then, the build tree will contain stale
+documentation.  I consider this a (relatively minor) trap for
+developers.
+
+Unrelated issue: touch any QAPI schema or QAPI generator source file,
+rebuild the entire documentation.  This is a real drag.  The generated
+code we only recompile when it changes.
+
+I'm switching my primary build tree to --disable-docs now.  Less drag,
+one less trap, and I rarely want to look at the formatted documentation
+anyway.
 
 
