@@ -2,59 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFF35329119
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 21:22:49 +0100 (CET)
-Received: from localhost ([::1]:39974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04A9329135
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 21:24:02 +0100 (CET)
+Received: from localhost ([::1]:42114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGp44-00038T-AA
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 15:22:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
+	id 1lGp5F-00041G-Oc
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 15:24:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGp2u-0002hH-2E
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:21:36 -0500
-Received: from mout.kundenserver.de ([212.227.126.131]:45833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGp2o-0006Zh-Qn
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:21:35 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MQuwR-1lT8y60VFv-00O22C; Mon, 01 Mar 2021 21:21:21 +0100
-Subject: Re: [PATCH v2 04/42] esp: add vmstate_esp version to embedded ESPState
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-5-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <9c5fe97c-d5f5-59b3-f37b-f95362559038@vivier.eu>
-Date: Mon, 1 Mar 2021 21:21:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@cloud.ionos.com>)
+ id 1lGp3o-0003A1-5Q
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:22:32 -0500
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233]:45275)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pankaj.gupta@cloud.ionos.com>)
+ id 1lGp3l-0006yd-J7
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:22:31 -0500
+Received: by mail-lj1-x233.google.com with SMTP id y12so8134369ljj.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 12:22:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=cloud.ionos.com; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=2L34JmDAGubXIyk7ZVWoTpPZYhzfZgp/0m4I9XQZLYE=;
+ b=DkIx3oNzkvGw0Zo6mJHRYK5v/2Kdp/PLc/qbhS/IwrKmw3hg5/z7SlN3CULbdSzWJm
+ FZZ1pEtoZYa0DzfazYd8XQE6pVpv+s1obxUnz9wV+Zsp4JS41dfT98gKaC42OHliH9LF
+ oYjfM1u66MLi31pdeoBgw1JDTUF6mq3UBq0GtQuijZY7bO5rZ5gnRAwyvnJbY4z/pMvt
+ 2UPlNkb/21WneOU09y+kMRucLPaDJDskoaP7n5hFc6w+fCkNzXwO0Y65td0DAqDWBJSh
+ h+cOzgugmwyL8WX76YpAz0oj+7k2i00AwG79U3dUEyX6nP+Cer50SlLy5vl65VKjWlhG
+ QHnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=2L34JmDAGubXIyk7ZVWoTpPZYhzfZgp/0m4I9XQZLYE=;
+ b=umFLdfuq2Jndon4wSjazBc166rtH6uGskcWXGZiNbdGCIStH9qk/H2LUczRVxAmMY5
+ 86eawk9j9v1pZjdjC0Thpg70d9g1jYsBo2vqXxftO5GuZjxb8OFWaBHhNvODeRsh2QOW
+ KLHtwdd/VvKFg+yAt4/pb6wohMc6VCxvfCHTGq7B5w4q5dkMYWgHV1bxU53Bzo5ZMhJR
+ FePG6RoyhTyTrX7oZ8ELiD16cM7Z3cE9x8RwD+vWXGrx2uDCNMoyFXuLrHkdozg0p0xG
+ fGj0cdqdhgW1R5qz4X79Ar27EWQ5ekO9otNOORWOaBUTJMO0KyIhJEI1lbzULFFvw6Vo
+ Ga5g==
+X-Gm-Message-State: AOAM532tdH5+7KIQorOeCITTtATmzs70OYoCcK2GLdfG3MZHiv29dLKh
+ olY/EAOIXhF62pYPcz//b6LVvIZCLEByVvXOEbxnyw==
+X-Google-Smtp-Source: ABdhPJx1acp+zUsXlOEHAj1aC8+D5n1MxQKvxBJu6nxGoXtOHH9M2mCDTeb+QbrM9igtUqIU1qSz2ygWgToL7ULyCZA=
+X-Received: by 2002:a05:651c:110b:: with SMTP id
+ d11mr9723973ljo.334.1614630146737; 
+ Mon, 01 Mar 2021 12:22:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-5-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:A0fskHHfKgeFvJQT60FgVs1rnujDhtingkUvY3ZX6OdYKMkO4Zb
- DSHoXpaVLe8LOsTf946f9BPy/6nHspojA73NIB6Lp47XXOynkFt4VMK9tS/L8opi99z0CG4
- HtCkb8QePMdWp1kk4wmJbZ+2OmECcg3heBHa/ZFiVjxuNgriXkCUkbJLDaK03kEZ53j7jnf
- EvhAS/sPoFTxoFP7bsENA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ui+7VkDa688=:YIgbrezoZOV10MMdJiUQ1Q
- W+EPfPfIAjxCjb+8Y30WaX84zc6SBqybpUIlbxMweD0anvGrq/o6z7QmrVWgBlWHmRgKH8ECR
- MWwMD2dVzCzXrhCxkX9uYbbcTvt2Jqx2pZqFwYGY6a4PiYFbywg3Gw3Q3qtQa1T5zXK2M12qH
- zXfTfzqeu6acJRJNORZnYT1933fZZtGyzFVxAsFfKgjspEmBnmGe9hRQnt8i+wCao/dpqcQD1
- NCwCYe3PPCMXGVZE4HbpxTU5GhzJkgI2fa+28y0fSmMiJHBbGq+m2Yv9QU9jIAIi/kv/OMYJE
- exfFWQQ8v/7tFt2DjEdVq8F4HNksKzGCfGXxsWn+hf1zbmk5S01qMYO4xNaqsVH8f7WE5fA3/
- xkZbJGDd04n59amFLx+k1VnY1Vx/LuiIqWuIaB4fwh46Jjubw+stDs2GQLQGmXzTfl1EHvpd2
- Ozx+hqxSww==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <161290460478.11352.8933244555799318236.stgit@bmoger-ubuntu>
+ <CAM9Jb+hOeKrQ1QxZm5zB1LioMNuyzzTObM8XL+zatqP7KdESWA@mail.gmail.com>
+ <d2f234a5-e753-5a4e-97db-21bd0a0a69eb@amd.com>
+ <CAM9Jb+hESq1yEbPcMWhJTVWoUK-es168bHoOayQ_N1vh3tdRRQ@mail.gmail.com>
+ <cd9a84a3-f151-fa00-0b34-2652824bbbfc@amd.com>
+ <CAM9Jb+jWfW5yFMy5b9fGXr9Hk4TUv5roOQGEm5C+BSR89e9C_g@mail.gmail.com>
+ <CALzYo33ACktZcsQ2u=Q2=6drtKDvZYhBOhXXRhDDZRoh7WWu3A@mail.gmail.com>
+ <fc966654-c04e-a61b-dd08-c28dd04bd316@amd.com>
+In-Reply-To: <fc966654-c04e-a61b-dd08-c28dd04bd316@amd.com>
+From: Pankaj Gupta <pankaj.gupta@cloud.ionos.com>
+Date: Mon, 1 Mar 2021 21:22:15 +0100
+Message-ID: <CALzYo31mMJ_Rf9PAhAHHi6JHzBn_dc6ZhsU636r1UeEj5uuQKQ@mail.gmail.com>
+Subject: Re: [PATCH v2] i386: Add the support for AMD EPYC 3rd generation
+ processors
+To: Babu Moger <babu.moger@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=pankaj.gupta@cloud.ionos.com; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,112 +87,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Qemu Developers <qemu-devel@nongnu.org>,
+ Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
-> The QOM object representing ESPState is currently embedded within both the
-> SYSBUS_ESP and PCI_ESP devices with migration state handled by embedding
-> vmstate_esp within each device using VMSTATE_STRUCT.
-> 
-> Since the vmstate_esp fields are embedded directly within the migration
-> stream, the incoming vmstate_esp version_id is lost. The only version information
-> available is that from vmstate_sysbus_esp_scsi and vmstate_esp_pci_scsi, but
-> those versions represent their respective devices and not that of the underlying
-> ESPState.
-> 
-> Resolve this by adding a new version-dependent field in vmstate_sysbus_esp_scsi
-> and vmstate_esp_pci_scsi which stores the vmstate_esp version_id field within
-> ESPState to be used to allow migration from older QEMU versions.
-> 
-> Finally bump the vmstate_esp version to 5 to cover the upcoming ESPState changes
-> within this patch series.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp-pci.c     |  3 ++-
->  hw/scsi/esp.c         | 23 +++++++++++++++++++++--
->  include/hw/scsi/esp.h |  2 ++
->  3 files changed, 25 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/scsi/esp-pci.c b/hw/scsi/esp-pci.c
-> index ccf73bb901..8a82404853 100644
-> --- a/hw/scsi/esp-pci.c
-> +++ b/hw/scsi/esp-pci.c
-> @@ -330,11 +330,12 @@ static void esp_pci_hard_reset(DeviceState *dev)
->  
->  static const VMStateDescription vmstate_esp_pci_scsi = {
->      .name = "pciespscsi",
-> -    .version_id = 1,
-> +    .version_id = 2,
->      .minimum_version_id = 1,
->      .fields = (VMStateField[]) {
->          VMSTATE_PCI_DEVICE(parent_obj, PCIESPState),
->          VMSTATE_BUFFER_UNSAFE(dma_regs, PCIESPState, 0, 8 * sizeof(uint32_t)),
-> +        VMSTATE_UINT8_V(esp.mig_version_id, PCIESPState, 2),
->          VMSTATE_STRUCT(esp, PCIESPState, 0, vmstate_esp, ESPState),
->          VMSTATE_END_OF_LIST()
->      }
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 1635f86622..9427c55d1d 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -796,10 +796,28 @@ static const VMStateDescription vmstate_esp_pdma = {
->      }
->  };
->  
-> +static int esp_pre_save(void *opaque)
-> +{
-> +    ESPState *s = ESP(opaque);
-> +
-> +    s->mig_version_id = vmstate_esp.version_id;
-> +    return 0;
-> +}
-> +
-> +static int esp_post_load(void *opaque, int version_id)
-> +{
-> +    ESPState *s = ESP(opaque);
-> +
-> +    s->mig_version_id = vmstate_esp.version_id;
-> +    return 0;
-> +}
-> +
->  const VMStateDescription vmstate_esp = {
->      .name = "esp",
-> -    .version_id = 4,
-> +    .version_id = 5,
->      .minimum_version_id = 3,
-> +    .pre_save = esp_pre_save,
-> +    .post_load = esp_post_load,
->      .fields = (VMStateField[]) {
->          VMSTATE_BUFFER(rregs, ESPState),
->          VMSTATE_BUFFER(wregs, ESPState),
-> @@ -996,9 +1014,10 @@ static void sysbus_esp_init(Object *obj)
->  
->  static const VMStateDescription vmstate_sysbus_esp_scsi = {
->      .name = "sysbusespscsi",
-> -    .version_id = 1,
-> +    .version_id = 2,
->      .minimum_version_id = 1,
->      .fields = (VMStateField[]) {
-> +        VMSTATE_UINT8_V(esp.mig_version_id, SysBusESPState, 2),
->          VMSTATE_STRUCT(esp, SysBusESPState, 0, vmstate_esp, ESPState),
->          VMSTATE_END_OF_LIST()
->      }
-> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-> index 11c799d91e..7d92471c5b 100644
-> --- a/include/hw/scsi/esp.h
-> +++ b/include/hw/scsi/esp.h
-> @@ -68,6 +68,8 @@ struct ESPState {
->      uint32_t pdma_start;
->      uint32_t pdma_cur;
->      void (*pdma_cb)(ESPState *s);
-> +
-> +    uint8_t mig_version_id;
->  };
->  
->  #define TYPE_SYSBUS_ESP "sysbus-esp"
-> 
+> > Hi Babu,
+> >
+> > I tried to test below patch for AMD EPYC Rome CPU and I got below error=
+ [1]:
+> >
+> > Also, I noticed SSBD CPU flag for guest was still available even withou=
+t this
+> > patch, I noticed that for the guest, AMD_SSBD not got set.
+> >
+> > Guest:
+> > 0x80000008 0x00: eax=3D0x00003028 ebx=3D0x00009205 ecx=3D0x00002003
+> > edx=3D0x00000000
+> >
+> > [1]
+> > [    0.008000] unchecked MSR access error: WRMSR to 0x48 (tried to
+> > write 0x0000000000000000) at rIP: 0xffffffff9245c9e4
+> > (native_write_msr+0x4/0x20)
+> > [    0.008000]  [<ffffffff9243a6c5>] ? x86_spec_ctrl_setup_ap+0x35/0x50
+> > [    0.008000]  [<ffffffff92439423>] ? identify_secondary_cpu+0x53/0x80
+> > [    0.008000]  [<ffffffff9244adfa>] ? start_secondary+0x6a/0x1b0
+> >
+> > 0.011970] unchecked MSR access error: RDMSR from 0x48 at rIP:
+> > 0xffffffff9245c772 (native_read_msr+0x2/0x40)
+>
+> I did not see any problem with these patches.
+> My guest setup.
+> # lscpu |grep -o ssbd
+> ssbd
+> [root@rome-vm ~]# uname -r
+> 4.18.0-147.el8.x86_64
+> [root@rome-vm ~]# cat /etc/redhat-release
+> Red Hat Enterprise Linux release 8.1 (Ootpa)
+> # wrmsr 0x48 7
+> [root@rome-vm ~]# rdmsr 0x48
+> 7
+>
+>
+> My host os.
+> # uname -r
+> 4.18.0-193.el8.x86_64
+> [root@rome images]# cat /etc/redhat-release
+> Red Hat Enterprise Linux release 8.2 Beta (Ootpa)
+>
+> Also, I only see ssbd feature when add this patch(EPYC-Rome-v2).
+> Otherwise, I don=E2=80=99t see ssbd feature.
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Thanks for checking!
+Can you also see the ibrs feature inside guest with this patch?
+
+Thanks,
+Pankaj
+>
+> Thanks
+> Babu
+>
+>
+> >
+> > Thanks,
+> > Pankaj
+> >
+> > > > It is normally added as v2 for compatibility. Like this.
+> > >
+> > > o.k. Thanks!
+> > > I will test this tomorrow.
+> > >
+> > > >
+> > > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c index
+> > > > 24db7ed892..f721d0db78 100644
+> > > > --- a/target/i386/cpu.c
+> > > > +++ b/target/i386/cpu.c
+> > > > @@ -4179,6 +4179,20 @@ static X86CPUDefinition builtin_x86_defs[] =
+=3D {
+> > > >          .xlevel =3D 0x8000001E,
+> > > >          .model_id =3D "AMD EPYC-Rome Processor",
+> > > >          .cache_info =3D &epyc_rome_cache_info,
+> > > > +        .versions =3D (X86CPUVersionDefinition[]) {
+> > > > +            { .version =3D 1 },
+> > > > +            {
+> > > > +                .version =3D 2,
+> > > > +                .props =3D (PropValue[]) {
+> > > > +                    { "ibrs", "on" },
+> > > > +                    { "amd-ssbd", "on" },
+> > > > +                    { "model-id",
+> > > > +                      "AMD EPYC-Rome Processor" },
+> > > > +                    { /* end of list */ }
+> > > > +                }
+> > > > +            },
+> > > > +            { /* end of list */ }
+> > > > +        }
+> > > >      },
+> > > >      {
+> > > >          .name =3D "EPYC-Milan",
 
