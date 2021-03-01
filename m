@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 015EE328171
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:54:37 +0100 (CET)
-Received: from localhost ([::1]:34004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34FA5328172
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:54:56 +0100 (CET)
+Received: from localhost ([::1]:34512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjwR-0007sB-Lq
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:54:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49566)
+	id 1lGjwl-00084b-83
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:54:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lGjsj-0003oE-2V
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:50:45 -0500
-Received: from rev.ng ([5.9.113.41]:50869)
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lGjt1-00048h-Mo
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:51:04 -0500
+Received: from rev.ng ([5.9.113.41]:57271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lGjsh-0000MA-BP
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:50:44 -0500
+ (Exim 4.90_1) (envelope-from <ale@rev.ng>) id 1lGjsy-0000Sb-9o
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:51:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
  s=dkim; h=Content-Transfer-Encoding:Content-Type:MIME-Version:References:
  In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:Content-ID:
  Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
  :Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
  List-Post:List-Owner:List-Archive;
- bh=Ps1w5mzplZ1XtZef/+95wENGOnzXhAyftWEPpbAmo5o=; b=ONwgBO3sV5iW0nIA8gT+Welslr
- dQA3tv3q3kcwBwsYcPxdiQalFu0Elo2s9n3KHAfCQjv2zoCjlZ/sj5vV7ysG5zXK6zpRw5Siu19OV
- Uc5vGo75xBnV9WpX256HdGtNHtaH2OpKhcKAMPS0HSKMo5Wa16HiAOquWEh25r5GekAk=;
-Date: Mon, 1 Mar 2021 15:50:35 +0100
+ bh=X1E25+6yroUo3fh5+SnUEr2lAPV+Xat+DouPq1c+cdA=; b=cAfOnuiWGaDxhH0l8rxaVTkq5M
+ KhP5BWCmw+9McW8wz5f3L3tBxwsWaQ+yeHYIHYLsnsJyKByjYah7K7kUBVDLChbxkMMTKxbr9A3B8
+ 5v6as+QvRRLUk75P3W4h3AXa/NObFCzVQYF1MAgq7ZnDFV/w165K13oNJVr73dnMRf6Q=;
+Date: Mon, 1 Mar 2021 15:50:52 +0100
 To: Richard Henderson <richard.henderson@linaro.org>
 Cc: Alessandro Di Federico <ale.qemu@rev.ng>, qemu-devel@nongnu.org,
  tsimpson@quicinc.com, bcain@quicinc.com, babush@rev.ng, nizzo@rev.ng,
  philmd@redhat.com
-Subject: Re: [PATCH v2 02/10] target/hexagon: import README for idef-parser
-Message-ID: <20210301155035.2a7360e8@orange>
-In-Reply-To: <3b3c6088-0ff2-beeb-e9fe-29c2dec012ca@linaro.org>
+Subject: Re: [PATCH v2 08/10] target/hexagon: import parser for idef-parser
+Message-ID: <20210301155052.2e70eaf1@orange>
+In-Reply-To: <d4290039-5604-62d3-c8b2-f960d5717059@linaro.org>
 References: <20210225151856.3284701-1-ale.qemu@rev.ng>
- <20210225151856.3284701-3-ale.qemu@rev.ng>
- <3b3c6088-0ff2-beeb-e9fe-29c2dec012ca@linaro.org>
+ <20210225151856.3284701-9-ale.qemu@rev.ng>
+ <d4290039-5604-62d3-c8b2-f960d5717059@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
@@ -64,37 +64,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Alessandro Di Federico <ale@rev.ng>
 From:  Alessandro Di Federico via <qemu-devel@nongnu.org>
 
-On Thu, 25 Feb 2021 12:20:53 -0800
+On Thu, 25 Feb 2021 19:30:14 -0800
 Richard Henderson <richard.henderson@linaro.org> wrote:
-> This is odd, as is the description of why.  Yes, if RdV is read
-> without initialization, TCG middle-end will abort (at least with
-> --enable-debug-tcg enabling the assertions).  But you've just said
-> that "no reading" was found.
 
-When we say that no reading was found, we mean that it was not
-initialized by the caller. The term "reading" is a leftover from how
-the parser input was organized in the first iterations of the base
-patchset.
+> > +    }
+> > +}
+> > +code
+> > +{
+> > +    if (c->inst.error_count != 0) {
+> > +        fprintf(stderr,
+> > +                "Parsing of instruction %s generated %d errors!\n",
+> > +                c->inst.name,
+> > +                c->inst.error_count);
+> > +        EMIT(c, "assert(false && \"This instruction is not
+> > implemented!\");");  
+> 
+> What's the point of assert(false) above abort()?
+> 
+> Is there any point in emitting anything at all, since I assume the
+> idef-parser program itself will exit with error, stopping the build
+> process?
 
-I'll rephrase that.
+This is a leftover, that string will never be written to disk (`commit`
+is not invoked).
 
-> So why did you perform this dummy initialization, which will be
-> eliminated later?
+> > +| pre ASSIGN rvalue
+> > +{
+> > +    @1.last_column = @3.last_column;  
+> 
+> Do you really find any value in this column manipulation, given that
+> the input is not the original file, but the output of cpp?
 
-The initialization is redundant in this specific example, but, in
-general, non-initialized values are assumed to be zero-initialized.
-For instance when you're writing a 64-bit integer piecewise, by OR-ing
-two 32-bit integers, it matters.
+The output of `cpp` is quite readable. We use it a lot for debugging
+and it's very helpful.
 
-In short: useless in this case (but DCE'd by the mid-end), important in
-general.
- 
-> So, I take it from this that you're emitting tcg directly from within
-> the parser, and not generating any kind of abstract syntax tree?
+> IMO this is another reason to *not* preprocess with macros.inc, nor
+> sed the output as a workaround for your parsing troubles.
 
-Yes. There a few spots where an AST would have been beneficial, but
-overall we deem it would increase the complexity of the parser with
-limited return.
+Yes, `sed` is a workaround I really don't like too. But preprocessing
+with `cpp` saves us from having to handle a larger, redundant language.
+After all, the input language is designed to be expanded through the
+preprocessor, although with a different set of macros. I'd keep that
+part.
 
 -- 
 Alessandro Di Federico
