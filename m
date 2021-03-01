@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F79D32804E
+	by mail.lfdr.de (Postfix) with ESMTPS id E68C232804F
 	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:09:29 +0100 (CET)
-Received: from localhost ([::1]:47726 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:47872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjEl-0006ej-Ti
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:09:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36176)
+	id 1lGjEm-0006iT-Pc
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:09:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGj6a-00028g-Ew; Mon, 01 Mar 2021 09:01:02 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:46519)
+ id 1lGj6c-0002AM-9Y; Mon, 01 Mar 2021 09:01:02 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:45625)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGj6W-0003yo-Nn; Mon, 01 Mar 2021 09:01:00 -0500
+ id 1lGj6X-0003zK-DL; Mon, 01 Mar 2021 09:01:02 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id DB017580431;
- Mon,  1 Mar 2021 09:00:54 -0500 (EST)
+ by mailnew.nyi.internal (Postfix) with ESMTP id 672AC5803BC;
+ Mon,  1 Mar 2021 09:00:55 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 01 Mar 2021 09:00:54 -0500
+ by compute4.internal (MEProxy); Mon, 01 Mar 2021 09:00:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=lbpPJYPnrHHTz
- jS91PJgsF/7TDEfbL/4wZuaIBpzfQ0=; b=yFd4m4dGxv/BD+KtNzKUyE0A5wVMM
- D2ALwjSgmnCRkJ0vm9n50yBevh6Wtvt2TwjRdh+wXgSdjVnAH6SrDRuvZ4390IEC
- FiP7Vgei8cUeZuhLBnD1xgVdAb2BB/mFTXi7txl+B0i3kdA6yrmUp8ZRkOxlBsru
- B3+INGx25FQ/NY249Ma55INdzNFy8xMfQYP16uzc14Rs1xkaFuI07otMmSEEvyxV
- o9UBM2Mxh/cgR0JwVKEjfi1HVt25nfQ/jrOdiedsZyYJTMpPMiQRLdemd0Qz9SgC
- ENv2IO9n1zhYbwGddlYI7Mjmr+4rjhq6/uP3m567uvFtqUnBZ5tBtuVEA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=agC0G6g5VCDJ+
+ 67kg3vEnbj2qAo19qlIIRh1GLrSUxE=; b=YT2A5J29Z31v8b03b11OCLIQDXyrI
+ bYMklKEHnPyyCErBaLQvgjZUV9/Yqo5pBC5N5K4im+/1bQN5qZPYgZUrIvr+tPjY
+ Hwi6ZjgRVZVy6ob0oWdwDWvfsyspIvj/NMkGasP9/8usN8GNk3+ExKRd7HEkP2B3
+ 4oVfDkmJGPrYT1KsRwlDfFv2L56EWqUki2/S3HC9cS0RMMp0ZIemYzGeQT08VS2r
+ xAv53EQyfZ9MTA7bI+z6ll7ZLOZqQqVS1J10gKiPafb8qRyON9vPUhGQklxRuVIh
+ J7vWJ3FYKPkv9R+c3r2JyIRss48l/1fj4jcK6hho2eHcDJIsdY+FVz2hA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=lbpPJYPnrHHTzjS91PJgsF/7TDEfbL/4wZuaIBpzfQ0=; b=GwpVLl0u
- 2eG2M3W1Uvt4Fgp0FBtNS+IbGy/yr/GnWnr6HQGAEKy1HAGGrdw/es3EwIEfpLTq
- bpC89cRsrLRVmwhQhxeyRZ8DYWeuIhNmvHFpp347EX8BTxamyZNYlQnwBofdrvJD
- uy/2z4c3uvqSA7XlVa/Z5j2Xcc90YOflEF+NYJJTq04ewOlV00/xZk6iW2DtwCUV
- BFYz5CBHAGQqn2gSTNiRal7lqpiFg2/DNoqpXzwgU3IBPG3mCabtdQDR9EMaqMX+
- b+lUsCpsOZcTp4lTxSHiy1VkKTTitfVfZlza+IFJYQcfOAwj5MEs2Ozfb1llLkVF
- l6YaAxuAJj1KEA==
-X-ME-Sender: <xms:lfM8YGfuvcBRRx7d-lUr7pVy9heYycmLdpU4uxZULZyfBMuSLNWetg>
- <xme:lfM8YAMo-RUKlas9zvArHInR9Vlppk33oxwFbKhgVq1gleuCuk2kcgd8QLYZsir-C
- H6yrYo8x9mUkGtviXs>
+ fm2; bh=agC0G6g5VCDJ+67kg3vEnbj2qAo19qlIIRh1GLrSUxE=; b=pdmxc5m3
+ GC+6Os836LAgC7iNi+r7TwcZhjfVDjjlfxJiUUj/ifh6BoNtqjZcLOrc4CAwSe2o
+ SCr2Nl6+5DnGs8rLTcWdVQ5YZg9iSjDkyq51vFPgi6WPBnSaBg97wJ+JlpZT7NTo
+ eiULOefNfuwJpPEhqX4iEZbr4/tdgpbj96ZnFWPGKu2HcDsd3Mm/o2/EKeqNpn/t
+ dlNqP1NjGsNbchohC617LvgaO7YW/t9Dh4BCUArC+5i/IpQA7/H8b5Ortnlieecm
+ Z5JdyhC2nhiaY6deHmx9yTSSAkzXESj0ox8JNbBI6Mtn2xZxlAraC9Z2Ct+tnKwW
+ nnYUHwoGe5vcHg==
+X-ME-Sender: <xms:l_M8YIFflQSbkjIUolez-I-HORarzgBvHaX_mKr6XdFyZbujMzfpsw>
+ <xme:l_M8YMCVAO8fGOwr8I_ODrMnqjIDEfHmDPYrLf-ktXysESIDR3VPjbA78NjmvtggV
+ nBb9okxMQhWDBGsNQ0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdehjecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdehjecutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:lfM8YHgTLanDGXS0jKhOyaaFqitbtvrpFiL2aX_HHYOtFeRLYN-O-w>
- <xmx:lfM8YD-GMs_GTzrgVfaX48sfALQWhjgZaYOEVEIUgsMdthhYkARCTg>
- <xmx:lfM8YCuHdz3y5UflJmsA9fZ981De1kYtQ2r6ZZj533_4hQJtDf-vvQ>
- <xmx:lvM8YADKp1jzwSA-N2Jv3pWMwXd9DukMzjwlwZmoNcfgO8GOEGcmHQ>
+X-ME-Proxy: <xmx:l_M8YK0MTIQlS_bIQDfNLE3uHisPAJvu2EmpqLkFRVt7C00siyl7Dg>
+ <xmx:l_M8YBN2Nhc_M_5cWA8lzwqZolY-0ylKmoPeerbL9C2uUhcLnIMyHw>
+ <xmx:l_M8YP4WDm2xy6VgobFnvK_n3hPQXefqcMYYuvoND8G8hCi05iDIOQ>
+ <xmx:l_M8YHTGhOFA7UYBFcmoJiDNGXd6IWBaYa8vOgTaUhBjpxXQRkdmtA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3DB8C108006C;
- Mon,  1 Mar 2021 09:00:52 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D70E9108006E;
+ Mon,  1 Mar 2021 09:00:53 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 02/12] hw/block/nvme: remove block accounting for write
- zeroes
-Date: Mon,  1 Mar 2021 15:00:37 +0100
-Message-Id: <20210301140047.106261-3-its@irrelevant.dk>
+Subject: [PATCH v4 03/12] hw/block/nvme: fix strerror printing
+Date: Mon,  1 Mar 2021 15:00:38 +0100
+Message-Id: <20210301140047.106261-4-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.1
 In-Reply-To: <20210301140047.106261-1-its@irrelevant.dk>
 References: <20210301140047.106261-1-its@irrelevant.dk>
@@ -103,28 +102,28 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-A Write Zeroes commands should not be counted in either the 'Data Units
-Written' or in 'Host Write Commands' SMART/Health Information Log page.
+Fix missing sign inversion.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Reviewed-by: Keith Busch <kbusch@kernel.org>
 ---
- hw/block/nvme.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index baa69a4a6859..8244909562a2 100644
+index 8244909562a2..ed6068d1306d 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -2171,7 +2171,6 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
-                                          nvme_rw_cb, req);
-         }
-     } else {
--        block_acct_start(blk_get_stats(blk), &req->acct, 0, BLOCK_ACCT_WRITE);
-         req->aiocb = blk_aio_pwrite_zeroes(blk, data_offset, data_size,
-                                            BDRV_REQ_MAY_UNMAP, nvme_rw_cb,
-                                            req);
+@@ -1155,7 +1155,7 @@ static void nvme_aio_err(NvmeRequest *req, int ret)
+         break;
+     }
+ 
+-    trace_pci_nvme_err_aio(nvme_cid(req), strerror(ret), status);
++    trace_pci_nvme_err_aio(nvme_cid(req), strerror(-ret), status);
+ 
+     error_setg_errno(&local_err, -ret, "aio failed");
+     error_report_err(local_err);
 -- 
 2.30.1
 
