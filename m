@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89BA8327AAE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:26:13 +0100 (CET)
-Received: from localhost ([::1]:49056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B8E327AFE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:41:17 +0100 (CET)
+Received: from localhost ([::1]:53372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGeoe-0004z3-Is
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:26:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56502)
+	id 1lGf3E-0007Yl-H2
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:41:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60144)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lGenE-000494-Gq
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 04:24:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51262)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lGf1j-0006xj-SI
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 04:39:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36613)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eesposit@redhat.com>)
- id 1lGenB-0000xb-Kn
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 04:24:44 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1lGf1h-0001QR-4l
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 04:39:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614590680;
+ s=mimecast20190719; t=1614591578;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=eggz2Umc0qNeTJbGU7LqW0yV7ij/d5/HEbjXqa7nG4M=;
- b=FFHT7bC7TLavuNtccs+KnRykS2dKMkcoB+ORVZE+zm39GFRMTo7d/2OZoq6aRxjxSbrIYr
- oo4iq8OXDGdpeXsjavUOnQ7Ra7jKndtu+w2fcLe9zZ7o3kh6O7u1pmCgZQ9m54E8VTfBBT
- ByKNy+lhQwoid9QESnGlPkEQ7k+KkhU=
+ in-reply-to:in-reply-to:references:references;
+ bh=qY3oJvW8QwYMDLkONjlnZJ5gOHQb+ZkcY2t/a2UNb/Q=;
+ b=WwnF5jV2xSYKAVF/ahMNkgiKkvCOzE2WnqW3fjNijckKhVqhzOFBzEPzWBjR1upCmaqWbx
+ wGsnyRnihkoaPHBBmj952++ScMx3pgjZZo3vU55eYQKGIe0U5x6Gkq70NoH0Yjn7ilzkIL
+ Tcd/yfz6ofmh8JadPgOc/1EMMqQ8vQw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-bc4j4eY9N2-G_8Tn7pEWlA-1; Mon, 01 Mar 2021 04:24:37 -0500
-X-MC-Unique: bc4j4eY9N2-G_8Tn7pEWlA-1
+ us-mta-602-dOhavX5MP4WNzL2W6lXSEg-1; Mon, 01 Mar 2021 04:39:34 -0500
+X-MC-Unique: dOhavX5MP4WNzL2W6lXSEg-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5A4D5874980
- for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 09:24:36 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-113-17.ams2.redhat.com
- [10.36.113.17])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CAD5F60636;
- Mon,  1 Mar 2021 09:24:34 +0000 (UTC)
-From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/devel/qgraph: improve qgraph documentation
-Date: Mon,  1 Mar 2021 10:24:32 +0100
-Message-Id: <20210301092432.20342-1-eesposit@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 03383801975;
+ Mon,  1 Mar 2021 09:39:33 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.194.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1958E60636;
+ Mon,  1 Mar 2021 09:39:25 +0000 (UTC)
+Date: Mon, 1 Mar 2021 10:39:19 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Ying Fang <fangying1@huawei.com>
+Subject: Re: [RFC PATCH 4/5] hw/acpi/aml-build: add processor hierarchy node
+ structure
+Message-ID: <20210301093919.yt65iz26p6niairw@kamzik.brq.redhat.com>
+References: <20210225085627.2263-1-fangying1@huawei.com>
+ <20210225085627.2263-5-fangying1@huawei.com>
+ <20210225114732.5f7gqgl7lym7d4hs@kamzik.brq.redhat.com>
+ <5afc6d2b-6e16-d44c-13cf-bd75c63f89db@huawei.com>
 MIME-Version: 1.0
+In-Reply-To: <5afc6d2b-6e16-d44c-13cf-bd75c63f89db@huawei.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eesposit@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eesposit@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -63,8 +68,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- WEIRD_QUOTING=0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,634 +81,171 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>
+Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
+ zhang.zhanghailiang@huawei.com, mst@redhat.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, Henglong Fan <fanhenglong@huawei.com>,
+ alistair.francis@wdc.com, qemu-arm@nongnu.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Improve current qgraph documentation with a more concrete example
-and clearer motivation.
+On Fri, Feb 26, 2021 at 10:23:03AM +0800, Ying Fang wrote:
+> 
+> 
+> On 2/25/2021 7:47 PM, Andrew Jones wrote:
+> > On Thu, Feb 25, 2021 at 04:56:26PM +0800, Ying Fang wrote:
+> > > Add the processor hierarchy node structures to build ACPI information
+> > > for CPU topology. Since the private resources may be used to describe
+> > > cache hierarchy and it is variable among different topology level,
+> > > three helpers are introduced to describe the hierarchy.
+> > > 
+> > > (1) build_socket_hierarchy for socket description
+> > > (2) build_processor_hierarchy for processor description
+> > > (3) build_smt_hierarchy for thread (logic processor) description
+> > > 
+> > > Signed-off-by: Ying Fang <fangying1@huawei.com>
+> > > Signed-off-by: Henglong Fan <fanhenglong@huawei.com>
+> > > ---
+> > >   hw/acpi/aml-build.c         | 40 +++++++++++++++++++++++++++++++++++++
+> > >   include/hw/acpi/acpi-defs.h | 13 ++++++++++++
+> > >   include/hw/acpi/aml-build.h |  7 +++++++
+> > >   3 files changed, 60 insertions(+)
+> > > 
+> > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > > index a2cd7a5830..a0af3e9d73 100644
+> > > --- a/hw/acpi/aml-build.c
+> > > +++ b/hw/acpi/aml-build.c
+> > > @@ -1888,6 +1888,46 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+> > >                    table_data->len - slit_start, 1, oem_id, oem_table_id);
+> > >   }
+> > > +/*
+> > > + * ACPI 6.3: 5.2.29.1 Processor hierarchy node structure (Type 0)
+> > > + */
+> > > +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+> > > +{
+> > > +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
+> > > +    build_append_byte(tbl, 20);         /* Length, no private resources */
+> > > +    build_append_int_noprefix(tbl, 0, 2);  /* Reserved */
+> > > +    build_append_int_noprefix(tbl, ACPI_PPTT_PHYSICAL_PACKAGE, 4);
+> > 
+> > Missing '/* Flags */'
+> 
+> Will fix.
+> 
+> > 
+> > > +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
+> > > +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
+> > > +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+> > > +}
+> > > +
+> > > +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+> > > +                               uint32_t parent, uint32_t id)
+> > > +{
+> > > +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR);  /* Type 0 - processor */
+> > > +    build_append_byte(tbl, 20);         /* Length, no private resources */
+> > > +    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
+> > > +    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
+> > > +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
+> > > +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
+> > > +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+> > > +}
+> > > +
+> > > +void build_thread_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+> > > +{
+> > > +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
+> > > +    build_append_byte(tbl, 20);           /* Length, no private resources */
+> > > +    build_append_int_noprefix(tbl, 0, 2); /* Reserved */
+> > > +    build_append_int_noprefix(tbl,
+> > > +                              ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
+> > > +                              ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD |
+> > > +                              ACPI_PPTT_ACPI_LEAF_NODE, 4);  /* Flags */
+> > > +    build_append_int_noprefix(tbl, parent , 4); /* parent */
+> > 
+> > 'parent' not capitalized. We want these comments to exactly match the text
+> > in the spec.
+> 
+> Will fix.
+> 
+> > 
+> > > +    build_append_int_noprefix(tbl, id, 4);      /* ACPI processor ID */
+> > > +    build_append_int_noprefix(tbl, 0, 4);       /* Num of private resources */
+> > > +}
+> > > +
+> > >   /* build rev1/rev3/rev5.1 FADT */
+> > >   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> > >                   const char *oem_id, const char *oem_table_id)
+> > > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > > index cf9f44299c..45e10d886f 100644
+> > > --- a/include/hw/acpi/acpi-defs.h
+> > > +++ b/include/hw/acpi/acpi-defs.h
+> > > @@ -618,4 +618,17 @@ struct AcpiIortRC {
+> > >   } QEMU_PACKED;
+> > >   typedef struct AcpiIortRC AcpiIortRC;
+> > > +enum {
+> > > +    ACPI_PPTT_TYPE_PROCESSOR = 0,
+> > > +    ACPI_PPTT_TYPE_CACHE,
+> > > +    ACPI_PPTT_TYPE_ID,
+> > > +    ACPI_PPTT_TYPE_RESERVED
+> > > +};
+> > > +
+> > > +#define ACPI_PPTT_PHYSICAL_PACKAGE          (1)
+> > > +#define ACPI_PPTT_ACPI_PROCESSOR_ID_VALID   (1 << 1)
+> > > +#define ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD  (1 << 2)      /* ACPI 6.3 */
+> > > +#define ACPI_PPTT_ACPI_LEAF_NODE            (1 << 3)      /* ACPI 6.3 */
+> > > +#define ACPI_PPTT_ACPI_IDENTICAL            (1 << 4)      /* ACPI 6.3 */
+> > > +
+> > >   #endif
+> > > diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+> > > index 380d3e3924..7f0ca1a198 100644
+> > > --- a/include/hw/acpi/aml-build.h
+> > > +++ b/include/hw/acpi/aml-build.h
+> > > @@ -462,6 +462,13 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+> > >   void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+> > >                   const char *oem_id, const char *oem_table_id);
+> > > +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
+> > > +
+> > > +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+> > > +                               uint32_t parent, uint32_t id);
+> > > +
+> > > +void build_thread_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
+> > 
+> > Why does build_processor_hierarchy() take a flags argument, but the
+> > others don't? Why not just have a single 'flags' taking function,
+> > like [*] that works for all of them? I think that answer to that is
+> 
+> Yes, you are right.
+> 
+> > that when cache topology support is added it's better to break these
+> > into separate functions, but should we do that now? It seems odd to
+> > be introducing unused defines and this API before it's necessary.
+> So it is better for us to keep just one common build_processor_hierarchy
+> API here in your opinion.
 
-This patch depends on the previous serie
-"libqos/qgraph: format qgraph comments for sphinx documentation"
+Well, a consistent API without unused defines. Whether or not that's
+a single common function or not isn't that important.
 
-Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
----
- docs/devel/qgraph.rst | 509 +++++++++++++++++++++++++++++++++---------
- 1 file changed, 408 insertions(+), 101 deletions(-)
+Thanks,
+drew
 
-diff --git a/docs/devel/qgraph.rst b/docs/devel/qgraph.rst
-index 62a45cbcbf..a9aff167ad 100644
---- a/docs/devel/qgraph.rst
-+++ b/docs/devel/qgraph.rst
-@@ -4,14 +4,37 @@
- Qtest Driver Framework
- ========================================
- 
--This Qgraph API provides all basic functions to create a graph
--and instantiate nodes representing machines, drivers and tests
--representing their relations with ``CONSUMES``, ``PRODUCES``, and
--``CONTAINS`` edges.
-+In order to test a specific driver, plain libqos tests need to
-+take care of booting QEMU with the right machine and devices.
-+This makes each test "hardcoded" for a specific configuration, reducing
-+the possible coverage that it can reach.
-+
-+For example, the sdhci device is supported on both x86_64 and ARM boards,
-+therefore a generic sdhci test should test all machines and drivers that
-+support that device.
-+Using only libqos APIs, the test has to manually take care of
-+covering all the setups, and build the correct command line.
-+
-+This also introduces backward compability issues: if a device/driver command
-+line name is changed, all tests that use that will not work
-+properly anymore and need to be adjusted.
-+
-+The aim of qgraph is to create a graph of drivers, machines and tests such that
-+a test aimed to a certain driver does not have to care of
-+booting the right QEMU machine, pick the right device, build the command line
-+and so on. Instead, it only defines what type of device it is testing
-+(interface in qgraph terms) and the framework takes care of
-+covering all supported types of devices and machine architectures.
-+
-+Following the above example, an interface would be ``sdhci``,
-+so the sdhci-test should only care of linking its qgraph node with
-+that interface. In this way, if the command line of a sdhci driver
-+is changed, only the respective qgraph driver node has to be adjusted.
-+
-+The graph is composed by nodes that represent machines, drivers, tests
-+and edges that define the relationships between them (``CONSUMES``, ``PRODUCES``, and
-+``CONTAINS``).
- 
--The idea is to have a framework where each test asks for a specific
--driver, and the framework takes care of allocating the proper devices
--required and passing the correct command line arguments to QEMU.
- 
- Nodes
- ^^^^^^
-@@ -24,8 +47,11 @@ A node can be of four types:
-   drivers).
-   An interface is not explicitly created, it will be automatically
-   instantiated when a node consumes or produces it.
--- **QNODE_TEST**:      for example ``sdhci-test``, consumes an interface and
--  tests the functions provided.
-+  An interface is simply a struct that abstracts the various drivers
-+  for the same type of device, and offers an API to the nodes that
-+  use it ("consume" relation in qgraph terms) that is implemented/backed up by the drivers that implement it ("produce" relation in qgraph terms).
-+- **QNODE_TEST**:      for example ``sdhci-test``. A test consumes an interface
-+  and tests the functions provided by it.
- 
- Notes for the nodes:
- 
-@@ -69,136 +95,415 @@ available and only test that are reached by them will be executed.
- Creating a new driver and its interface
- """""""""""""""""""""""""""""""""""""""""
- 
--.. code::
-+Here we continue the ``sdhci`` use case, with the following scenario:
-+
-+- ``sdhci-test`` aims to test the ``read[q,w], writeq`` functions
-+  offered by the ``sdhci`` drivers.
-+- The current ``sdhci`` device is supported by both ``x86_64/pc`` and ``ARM``
-+  (in this example we focus on the ``arm-raspi2``) machines.
-+- QEMU offers 2 types of drivers: ``QSDHCI_MemoryMapped`` for ``ARM`` and
-+  ``QSDHCI_PCI`` for ``x86_64/pc``. Both implement the
-+  ``read[q,w], writeq`` functions.
-+
-+In order to implement such scenario in qgraph, the test developer needs to:
-+
-+- Create the ``x86_64/pc`` machine node. This machine uses the
-+  ``pci-bus`` architecture so it ``contains`` a PCI driver,
-+  ``pci-bus-pc``. The actual path is
-+
-+  ``x86_64/pc --contains--> 1440FX-pcihost --contains-->
-+  pci-bus-pc --produces--> pci-bus``.
-+
-+  For the sake of this example,
-+  we do not focus on the PCI interface implementation.
-+- Create the ``sdhci-pci`` driver node, representing ``QSDHCI_PCI``.
-+  The driver uses the PCI bus (and its API),
-+  so it must ``consume`` the ``pci-bus`` generic interface (which abstracts
-+  all the pci drivers available)
-+
-+  ``sdhci-pci --consumes--> pci-bus``
-+- Create an ``arm/raspi2`` machine node. This machine ``contains``
-+  a ``generic-sdhci`` memory mapped ``sdhci`` driver node, representing
-+  ``QSDHCI_MemoryMapped``.
-+
-+  ``arm/raspi2 --contains--> generic-sdhci``
-+- Create the ``sdhci`` interface node. This interface offers the
-+  functions that are shared by all ``sdhci`` devices.
-+  The interface is produced by ``sdhci-pci`` and ``generic-sdhci``,
-+  the available architecture-specific drivers.
-+
-+  ``sdhci-pci --produces--> sdhci``
-+
-+  ``generic-sdhci --produces--> sdhci``
-+- Create the ``sdhci-test`` test node. The test ``consumes`` the
-+  ``sdhci`` interface, using its API. It doesn't need to look at
-+  the supported machines or drivers.
-+
-+  ``sdhci-test --consumes--> sdhci``
-+
-+``arm-raspi2`` machine, simplified from
-+``tests/qtest/libqos/arm-raspi2-machine.c``::
- 
-     #include "qgraph.h"
- 
--    struct My_driver {
-+    struct QRaspi2Machine {
-         QOSGraphObject obj;
--        Node_produced prod;
--        Node_contained cont;
-+        QGuestAllocator alloc;
-+        QSDHCI_MemoryMapped sdhci;
-+    };
-+
-+    static void *raspi2_get_driver(void *object, const char *interface)
-+    {
-+        QRaspi2Machine *machine = object;
-+        if (!g_strcmp0(interface, "memory")) {
-+            return &machine->alloc;
-+        }
-+
-+        fprintf(stderr, "%s not present in arm/raspi2\n", interface);
-+        g_assert_not_reached();
-+    }
-+
-+    static QOSGraphObject *raspi2_get_device(void *obj,
-+                                                const char *device)
-+    {
-+        QRaspi2Machine *machine = obj;
-+        if (!g_strcmp0(device, "generic-sdhci")) {
-+            return &machine->sdhci.obj;
-+        }
-+
-+        fprintf(stderr, "%s not present in arm/raspi2\n", device);
-+        g_assert_not_reached();
-     }
- 
--    static void my_destructor(QOSGraphObject *obj)
-+    static void *qos_create_machine_arm_raspi2(QTestState *qts)
-     {
--        g_free(obj);
-+        QRaspi2Machine *machine = g_new0(QRaspi2Machine, 1);
-+
-+        alloc_init(&machine->alloc, ...);
-+
-+        /* Get node(s) contained inside (CONTAINS) */
-+        machine->obj.get_device = raspi2_get_device;
-+
-+        /* Get node(s) produced (PRODUCES) */
-+        machine->obj.get_driver = raspi2_get_driver;
-+
-+        /* free the object */
-+        machine->obj.destructor = raspi2_destructor;
-+        qos_init_sdhci_mm(&machine->sdhci, ...);
-+        return &machine->obj;
-     }
- 
--    static void *my_get_driver(void *object, const char *interface) {
--        My_driver *dev = object;
--        if (!g_strcmp0(interface, "my_interface")) {
--            return &dev->prod;
-+    static void raspi2_register_nodes(void)
-+    {
-+        /* arm/raspi2 --contains--> generic-sdhci */
-+        qos_node_create_machine("arm/raspi2",
-+                                 qos_create_machine_arm_raspi2);
-+        qos_node_contains("arm/raspi2", "generic-sdhci", NULL);
-+    }
-+
-+    libqos_init(raspi2_register_nodes);
-+
-+``x86_64/pc`` machine, simplified from
-+``tests/qtest/libqos/x86_64_pc-machine.c``::
-+
-+    #include "qgraph.h"
-+
-+    struct i440FX_pcihost {
-+        QOSGraphObject obj;
-+        QPCIBusPC pci;
-+    };
-+
-+    struct QX86PCMachine {
-+        QOSGraphObject obj;
-+        QGuestAllocator alloc;
-+        i440FX_pcihost bridge;
-+    };
-+
-+    /* i440FX_pcihost */
-+
-+    static QOSGraphObject *i440FX_host_get_device(void *obj,
-+                                                const char *device)
-+    {
-+        i440FX_pcihost *host = obj;
-+        if (!g_strcmp0(device, "pci-bus-pc")) {
-+            return &host->pci.obj;
-+        }
-+        fprintf(stderr, "%s not present in i440FX-pcihost\n", device);
-+        g_assert_not_reached();
-+    }
-+
-+    /* x86_64/pc machine */
-+
-+    static void *pc_get_driver(void *object, const char *interface)
-+    {
-+        QX86PCMachine *machine = object;
-+        if (!g_strcmp0(interface, "memory")) {
-+            return &machine->alloc;
-         }
--        abort();
-+
-+        fprintf(stderr, "%s not present in x86_64/pc\n", interface);
-+        g_assert_not_reached();
-     }
- 
--    static void *my_get_device(void *object, const char *device) {
--        My_driver *dev = object;
--        if (!g_strcmp0(device, "my_driver_contained")) {
--            return &dev->cont;
-+    static QOSGraphObject *pc_get_device(void *obj, const char *device)
-+    {
-+        QX86PCMachine *machine = obj;
-+        if (!g_strcmp0(device, "i440FX-pcihost")) {
-+            return &machine->bridge.obj;
-         }
--        abort();
-+
-+        fprintf(stderr, "%s not present in x86_64/pc\n", device);
-+        g_assert_not_reached();
-     }
- 
--    static void *my_driver_constructor(void *node_consumed,
--                                        QOSGraphObject *alloc)
-+    static void *qos_create_machine_pc(QTestState *qts)
-     {
--        My_driver dev = g_new(My_driver, 1);
-+        QX86PCMachine *machine = g_new0(QX86PCMachine, 1);
- 
--        // get the node pointed by the produce edge
--        dev->obj.get_driver = my_get_driver;
-+        /* Get node(s) contained inside (CONTAINS) */
-+        machine->obj.get_device = pc_get_device;
- 
--        // get the node pointed by the contains
--        dev->obj.get_device = my_get_device;
-+        /* Get node(s) produced (PRODUCES) */
-+        machine->obj.get_driver = pc_get_driver;
- 
--        // free the object
--        dev->obj.destructor = my_destructor;
-+        /* free the object */
-+        machine->obj.destructor = pc_destructor;
-+        pc_alloc_init(&machine->alloc, qts, ALLOC_NO_FLAGS);
- 
--        do_something_with_node_consumed(node_consumed);
-+        /* Get node(s) contained inside (CONTAINS) */
-+        machine->bridge.obj.get_device = i440FX_host_get_device;
- 
--        // set all fields of contained device
--        init_contained_device(&dev->cont);
--        return &dev->obj;
-+        return &machine->obj;
-     }
- 
--    static void register_my_driver(void)
-+    static void pc_machine_register_nodes(void)
-     {
--        qos_node_create_driver("my_driver", my_driver_constructor);
--
--        // contained drivers don't need a constructor,
--        // they will be init by the parent.
--        qos_node_create_driver("my_driver_contained", NULL);
--
--        // For the sake of this example, assume machine x86_64/pc
--        // contains "other_node".
--        // This relation, along with the machine and "other_node"
--        // creation, should be defined in the x86_64_pc-machine.c file.
--        // "my_driver" will then consume "other_node"
--        qos_node_contains("my_driver", "my_driver_contained");
--        qos_node_produces("my_driver", "my_interface");
--        qos_node_consumes("my_driver", "other_node");
-+        /* x86_64/pc --contains--> 1440FX-pcihost --contains-->
-+         * pci-bus-pc [--produces--> pci-bus (in pci.h)] */
-+        qos_node_create_machine("x86_64/pc", qos_create_machine_pc);
-+        qos_node_contains("x86_64/pc", "i440FX-pcihost", NULL);
-+
-+        /* contained drivers don't need a constructor,
-+         * they will be init by the parent */
-+        qos_node_create_driver("i440FX-pcihost", NULL);
-+        qos_node_contains("i440FX-pcihost", "pci-bus-pc", NULL);
-     }
- 
--In the above example, all possible types of relations are created:
--node "my_driver" consumes, contains and produces other nodes.
--More specifically::
-+    libqos_init(pc_machine_register_nodes);
- 
--  x86_64/pc -->contains--> other_node <--consumes-- my_driver
--                                                        |
--                       my_driver_contained <--contains--+
--                                                        |
--                              my_interface <--produces--+
-+``sdhci`` taken from ``tests/qtest/libqos/sdhci.c``::
- 
--or inverting the consumes edge in consumed_by::
-+    /* Interface node, offers the sdhci API */
-+    struct QSDHCI {
-+        uint16_t (*readw)(QSDHCI *s, uint32_t reg);
-+        uint64_t (*readq)(QSDHCI *s, uint32_t reg);
-+        void (*writeq)(QSDHCI *s, uint32_t reg, uint64_t val);
-+        /* other fields */
-+    };
- 
--  x86_64/pc -->contains--> other_node --consumed_by--> my_driver
--                                                            |
--                           my_driver_contained <--contains--+
-+    /* Memory Mapped implementation of QSDHCI */
-+    struct QSDHCI_MemoryMapped {
-+        QOSGraphObject obj;
-+        QSDHCI sdhci;
-+        /* other driver-specific fields */
-+    };
-+
-+    /* PCI implementation of QSDHCI */
-+    struct QSDHCI_PCI {
-+        QOSGraphObject obj;
-+        QSDHCI sdhci;
-+        /* other driver-specific fields */
-+    };
-+
-+    /* Memory mapped implementation of QSDHCI */
-+
-+    static void *sdhci_mm_get_driver(void *obj, const char *interface)
-+    {
-+        QSDHCI_MemoryMapped *smm = obj;
-+        if (!g_strcmp0(interface, "sdhci")) {
-+            return &smm->sdhci;
-+        }
-+        fprintf(stderr, "%s not present in generic-sdhci\n", interface);
-+        g_assert_not_reached();
-+    }
-+
-+    void qos_init_sdhci_mm(QSDHCI_MemoryMapped *sdhci, QTestState *qts,
-+                        uint32_t addr, QSDHCIProperties *common)
-+    {
-+        /* Get node contained inside (CONTAINS) */
-+        sdhci->obj.get_driver = sdhci_mm_get_driver;
-+
-+        /* SDHCI interface API */
-+        sdhci->sdhci.readw = sdhci_mm_readw;
-+        sdhci->sdhci.readq = sdhci_mm_readq;
-+        sdhci->sdhci.writeq = sdhci_mm_writeq;
-+        sdhci->qts = qts;
-+    }
-+
-+    /* PCI implementation of QSDHCI */
-+
-+    static void *sdhci_pci_get_driver(void *object,
-+                                      const char *interface)
-+    {
-+        QSDHCI_PCI *spci = object;
-+        if (!g_strcmp0(interface, "sdhci")) {
-+            return &spci->sdhci;
-+        }
-+
-+        fprintf(stderr, "%s not present in sdhci-pci\n", interface);
-+        g_assert_not_reached();
-+    }
-+
-+    static void *sdhci_pci_create(void *pci_bus,
-+                                  QGuestAllocator *alloc,
-+                                  void *addr)
-+    {
-+        QSDHCI_PCI *spci = g_new0(QSDHCI_PCI, 1);
-+        QPCIBus *bus = pci_bus;
-+        uint64_t barsize;
-+
-+        qpci_device_init(&spci->dev, bus, addr);
-+
-+        /* SDHCI interface API */
-+        spci->sdhci.readw = sdhci_pci_readw;
-+        spci->sdhci.readq = sdhci_pci_readq;
-+        spci->sdhci.writeq = sdhci_pci_writeq;
-+
-+        /* Get node(s) produced (PRODUCES) */
-+        spci->obj.get_driver = sdhci_pci_get_driver;
-+
-+        spci->obj.start_hw = sdhci_pci_start_hw;
-+        spci->obj.destructor = sdhci_destructor;
-+        return &spci->obj;
-+    }
-+
-+    static void qsdhci_register_nodes(void)
-+    {
-+        QOSGraphEdgeOptions opts = {
-+            .extra_device_opts = "addr=04.0",
-+        };
-+
-+        /* generic-sdhci */
-+        /* generic-sdhci --produces--> sdhci */
-+        qos_node_create_driver("generic-sdhci", NULL);
-+        qos_node_produces("generic-sdhci", "sdhci");
-+
-+        /* sdhci-pci */
-+        /* sdhci-pci --produces--> sdhci
-+         * sdhci-pci --consumes--> pci-bus */
-+        qos_node_create_driver("sdhci-pci", sdhci_pci_create);
-+        qos_node_produces("sdhci-pci", "sdhci");
-+        qos_node_consumes("sdhci-pci", "pci-bus", &opts);
-+    }
-+
-+    libqos_init(qsdhci_register_nodes);
-+
-+In the above example, all possible types of relations are created::
-+
-+  x86_64/pc --contains--> 1440FX-pcihost --contains--> pci-bus-pc
-                                                             |
--                                  my_interface <--produces--+
-+               sdhci-pci --consumes--> pci-bus <--produces--+
-+                  |
-+                  +--produces--+
-+                               |
-+                               v
-+                             sdhci
-+                               ^
-+                               |
-+                               +--produces-- +
-+                                             |
-+               arm/raspi2 --contains--> generic-sdhci
-+
-+or inverting the consumes edge in consumed_by::
- 
--Creating new test
-+  x86_64/pc --contains--> 1440FX-pcihost --contains--> pci-bus-pc
-+                                                            |
-+            sdhci-pci <--consumed by-- pci-bus <--produces--+
-+                |
-+                +--produces--+
-+                             |
-+                             v
-+                            sdhci
-+                             ^
-+                             |
-+                             +--produces-- +
-+                                           |
-+            arm/raspi2 --contains--> generic-sdhci
-+
-+Adding a new test
- """""""""""""""""
- 
--.. code::
-+Given the above setup, adding a new test is very simple.
-+``sdhci-test``, taken from ``tests/qtest/sdhci-test.c``::
- 
--    #include "qgraph.h"
-+    static void check_capab_sdma(QSDHCI *s, bool supported)
-+    {
-+        uint64_t capab, capab_sdma;
- 
--    static void my_test_function(void *obj, void *data)
-+        capab = s->readq(s, SDHC_CAPAB);
-+        capab_sdma = FIELD_EX64(capab, SDHC_CAPAB, SDMA);
-+        g_assert_cmpuint(capab_sdma, ==, supported);
-+    }
-+
-+    static void test_registers(void *obj, void *data,
-+                                QGuestAllocator *alloc)
-     {
--        Node_produced *interface_to_test = obj;
--        // test interface_to_test
-+        QSDHCI *s = obj;
-+
-+        /* example test */
-+        check_capab_sdma(s, s->props.capab.sdma);
-     }
- 
--    static void register_my_test(void)
-+    static void register_sdhci_test(void)
-     {
--        qos_add_test("my_interface", "my_test", my_test_function);
-+        /* sdhci-test --consumes--> sdhci */
-+        qos_add_test("registers", "sdhci", test_registers, NULL);
-     }
- 
--    libqos_init(register_my_test);
-+    libqos_init(register_sdhci_test);
- 
--Here a new test is created, consuming "my_interface" node
--and creating a valid path from a machine to a test.
-+Here a new test is created, consuming ``sdhci`` interface node
-+and creating a valid path from both machines to a test.
- Final graph will be like this::
- 
--  x86_64/pc --contains--> other_node <--consumes-- my_driver
--                                                         |
--                        my_driver_contained <--contains--+
--                                                         |
--         my_test --consumes--> my_interface <--produces--+
-+  x86_64/pc --contains--> 1440FX-pcihost --contains--> pci-bus-pc
-+                                                            |
-+               sdhci-pci --consumes--> pci-bus <--produces--+
-+                  |
-+                  +--produces--+
-+                               |
-+                               v
-+                             sdhci <--consumes-- sdhci-test
-+                               ^
-+                               |
-+                               +--produces-- +
-+                                             |
-+               arm/raspi2 --contains--> generic-sdhci
- 
- or inverting the consumes edge in consumed_by::
- 
--  x86_64/pc --contains--> other_node --consumed_by--> my_driver
--                                                            |
--                           my_driver_contained <--contains--+
-+  x86_64/pc --contains--> 1440FX-pcihost --contains--> pci-bus-pc
-                                                             |
--         my_test <--consumed_by-- my_interface <--produces--+
-+            sdhci-pci <--consumed by-- pci-bus <--produces--+
-+                |
-+                +--produces--+
-+                             |
-+                             v
-+                            sdhci --consumed by--> sdhci-test
-+                             ^
-+                             |
-+                             +--produces-- +
-+                                           |
-+            arm/raspi2 --contains--> generic-sdhci
- 
- Assuming there the binary is
- ``QTEST_QEMU_BINARY=./qemu-system-x86_64``
- a valid test path will be:
--``/x86_64/pc/other_node/my_driver/my_interface/my_test``.
-+``/x86_64/pc/1440FX-pcihost/pci-bus-pc/pci-bus/sdhci-pc/sdhci/sdhci-test``
-+
-+and for the binary ``QTEST_QEMU_BINARY=./qemu-system-arm``:
-+
-+``/arm/raspi2/generic-sdhci/sdhci/sdhci-test``
- 
- Additional examples are also in ``test-qgraph.c``
- 
-@@ -215,19 +520,19 @@ There are three types of command line arguments:
-   ``-device <device>``. It is automatically done by the framework.
- - ``after node``   : added as additional argument to the node name.
-   This argument is added optionally when creating edges,
--  by setting the parameter @after_cmd_line and
--  @extra_edge_opts in #QOSGraphEdgeOptions.
-+  by setting the parameter ``after_cmd_line`` and
-+  ``extra_edge_opts`` in ``QOSGraphEdgeOptions``.
-   The framework automatically adds
--  a comma before @extra_edge_opts,
-+  a comma before ``extra_edge_opts``,
-   because it is going to add attributes
-   after the destination node pointed by
-   the edge containing these options, and automatically
--  adds a space before @after_cmd_line, because it
-+  adds a space before ``after_cmd_line``, because it
-   adds an additional device, not an attribute.
- - ``before node``  : added as additional argument to the node name.
-   This argument is added optionally when creating edges,
--  by setting the parameter @before_cmd_line in
--  #QOSGraphEdgeOptions. This attribute
-+  by setting the parameter ``before_cmd_line`` in
-+  ``QOSGraphEdgeOptions``. This attribute
-   is going to add attributes before the destination node
-   pointed by the edge containing these options. It is
-   helpful to commands that are not node-representable,
-@@ -243,17 +548,19 @@ devices to be added in QEMU.
- Example::
- 
-     QOSGraphEdgeOptions opts = {
--        .arg = NULL,
--        .size_arg = 0,
--        .after_cmd_line = "-device other",
--        .before_cmd_line = "-netdev something",
--        .extra_edge_opts = "addr=04.0",
-+        .before_cmd_line = "-drive id=drv0,if=none,file=null-co://,"
-+                           "file.read-zeroes=on,format=raw",
-+        .after_cmd_line = "-device scsi-hd,bus=vs0.0,drive=drv0",
-+
-+        opts.extra_device_opts = "id=vs0";
-     };
--    QOSGraphNodeS *node = qos_node_create_driver("my_node", constructor);
--    qos_node_consumes_args("my_node", "interface", &opts);
-+
-+    qos_node_create_driver("virtio-scsi-device",
-+                            virtio_scsi_device_create);
-+    qos_node_consumes("virtio-scsi-device", "virtio-bus", &opts);
- 
- Will produce the following command line:
--``-netdev something -device my_node,addr=04.0 -device other``
-+``-drive id=drv0,if=none,file=null-co://, -device virtio-scsi-device,id=vs0 -device scsi-hd,bus=vs0.0,drive=drv0``
- 
- Qgraph API reference
- ^^^^^^^^^^^^^^^^^^^^
--- 
-2.29.2
+> 
+> > 
+> > [*] https://github.com/rhdrjones/qemu/commit/439b38d67ca1f2cbfa5b9892a822b651ebd05c11
+> > 
+> > Thanks,
+> > drew
+> > 
+> > > +
+> > >   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> > >                   const char *oem_id, const char *oem_table_id);
+> > > -- 
+> > > 2.23.0
+> > > 
+> > > 
+> > 
+> > .
+> > 
+> 
+> Thanks,
+> Ying.
+> 
 
 
