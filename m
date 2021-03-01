@@ -2,74 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E8EE328126
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:45:14 +0100 (CET)
-Received: from localhost ([::1]:37618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D6832813F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:47:41 +0100 (CET)
+Received: from localhost ([::1]:45078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjnN-0005yC-8W
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:45:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
+	id 1lGjpk-0000iS-Vp
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:47:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41872)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lGjPp-0000XS-Gs
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:20:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1lGjPm-0003Uc-7M
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:20:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614608448;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bcMLKTkDA9Bdaf3fKmfj6PDQeOQLZULO5/KaYwRt0q4=;
- b=L5ZXMghfVmWsx95mc0jxquoijNy/9gAszXV7K/rEvItBJDn39E9cmg587BsS9yeNXp4XJ+
- wJ4Qxui2kxx6uetbggxh465uJbzyOYDBi6+rZcMFT+FPw/4uPILNU/v/YXwzDC4K/24i5R
- xTtjpJV63+mQ4Grk5nKEe+5RuszubnU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-133-RqZzePEUMJuWj6KzoUdbGA-1; Mon, 01 Mar 2021 09:20:44 -0500
-X-MC-Unique: RqZzePEUMJuWj6KzoUdbGA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BCE46186DD21;
- Mon,  1 Mar 2021 14:20:42 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.56])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B03755D71F;
- Mon,  1 Mar 2021 14:20:39 +0000 (UTC)
-Date: Mon, 1 Mar 2021 15:20:36 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-Message-ID: <20210301152036.0c12cbf5@redhat.com>
-In-Reply-To: <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
-References: <20200730155755.188845-1-mst@redhat.com>
- <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
- <20210228154208-mutt-send-email-mst@kernel.org>
- <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
- <20210301021449-mutt-send-email-mst@kernel.org>
- <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lGjSY-0002OU-75
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:23:42 -0500
+Received: from foss.arm.com ([217.140.110.172]:51636)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lGjSW-0004qh-5f
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:23:42 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4E1A7113E;
+ Mon,  1 Mar 2021 06:23:39 -0800 (PST)
+Received: from e112269-lin.arm.com (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 843B43F70D;
+ Mon,  1 Mar 2021 06:23:36 -0800 (PST)
+From: Steven Price <steven.price@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v9 2/6] arm64: kvm: Introduce MTE VM feature
+Date: Mon,  1 Mar 2021 14:23:11 +0000
+Message-Id: <20210301142315.30920-3-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210301142315.30920-1-steven.price@arm.com>
+References: <20210301142315.30920-1-steven.price@arm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,94 +54,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vit9696 <vit9696@protonmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Laszlo Ersek <lersek@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Mar 2021 08:45:53 +0100
-Thomas Lamprecht <t.lamprecht@proxmox.com> wrote:
+Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
+for a VM. This will expose the feature to the guest and automatically
+tag memory pages touched by the VM as PG_mte_tagged (and clear the tag
+storage) to ensure that the guest cannot see stale tags, and so that
+the tags are correctly saved/restored across swap.
 
-> On 01.03.21 08:20, Michael S. Tsirkin wrote:
-> > On Mon, Mar 01, 2021 at 08:12:35AM +0100, Thomas Lamprecht wrote:  
-> >> On 28.02.21 21:43, Michael S. Tsirkin wrote:  
-> >>> Sure. The way to do that is to tie old behaviour to old machine
-> >>> versions. We'll need it in stable too ...  
-> >>
-> >> Yeah, using machine types is how its meant to be with solving migration
-> >> breakage, sure.
-> >> But that means we have to permanently pin the VM, and any backup restored from
-> >> that to that machine type *forever*. That'd be new for us as we always could
-> >> allow a newer machine type for a fresh start (i.e., non migration or the like)
-> >> here, and mean that lots of other improvements guarded by a newer machine type
-> >> for those VMs will.  
-> > 
-> > If you don't do that, that is a bug as any virtual hardware
-> > can change across machine types.  
-> 
-> For us a feature, for fresh starts one gets the current virtual HW but for
-> live migration or our live snapshot code it stays compatible. Works quite
-> well here for many years, as we can simply test the HW changes on existing
-> VMs - which failed here due to lack of static IPs in the test bed. So yes,
-> it has its problems as it is not really  what an OS considers as HW change
-> so big that it makes it a new device, mostly Windows is a PITA here as seen
-> in this issue.
-> 
-> I mean, QEMU deprecates very old machines at some point anyway, so even then
-> it is impossible to keep to the old machine forever, but otoh redoing some
-> changes after a decade or two can be fine, I guess?
-> 
-> >   
-> >> And yeah, stable is wanted, but extrapolating from the current stable releases
-> >> frequency, where normally there's maximal one after 5-6 months from the .0
-> >> release, means that this will probably still hit all those distributions I
-> >> mentioned or is there something more soon planned?
-> >>
-> >> Also, is there any regression testing infrastructure around to avoid such
-> >> changes in the future? This change got undetected for 7 months, which can be
-> >> pretty the norm for QEMU releases, so some earlier safety net would be good? Is
-> >> there anything which dumps various default machine HW layouts and uses them for
-> >> an ABI check of some sorts?  
-> > 
-> > There are various testing efforts the reason this got undetected is
-> > because it does not affect linux guests, and even for windows
-> > they kind of recover, there's just some boot slowdown around reconfiguration.
-> > Not easy to detect automatically given windows has lots of random
-> > downtime during boot around updates etc etc.
-> >   
-> 
-> No, Windows does not reconfigure, this is a permanent change, one is just lucky
-> if one has a DHCP server around in the network accessible for the guest.
-> As static addresses setup on that virtual NIC before that config is gone,
-> no recovery whatsoever until manual intervention.
-Static IP's are the pain guest admin picked up to deal with so he might have to
-reconfigure guest OS when it decides to rename NICs. In this case moving
-to new QEMU is alike to updating BIOS which fixed PCI description.
-(On QEMU side we try to avoid breaking changes, but sometime it happens anyway
-and it's up guest admin to fix OS quirks)
+Actually exposing the new capability to user space happens in a later
+patch.
 
-> I meant more of a "dump HW layout to .txt file, commit to git, and ensure
-> there's no diff without and machine version bump" (very boiled down), e.g., like
-> ABI checks for kernel builds are often done by distros - albeit those are easier
-> as its quite clear what and how the kernel ABI can be used.
-ACPI tables are not considered as ABI change in QEMU, technically tables that QEMU
-generates are firmware and not version-ed (same like we don't tie anything to
-specific firmware versions). 
+Signed-off-by: Steven Price <steven.price@arm.com>
+---
+ arch/arm64/include/asm/kvm_emulate.h |  3 +++
+ arch/arm64/include/asm/kvm_host.h    |  3 +++
+ arch/arm64/kvm/hyp/exception.c       |  3 ++-
+ arch/arm64/kvm/mmu.c                 | 16 ++++++++++++++++
+ arch/arm64/kvm/sys_regs.c            |  3 ++-
+ include/uapi/linux/kvm.h             |  1 +
+ 6 files changed, 27 insertions(+), 2 deletions(-)
 
-However we rarely do version ACPI changes (only when it breaks something or
-we suspect it would break and we can't accept that breakage), this time it took
-a lot of time to find out that. We try to minimize such cases as every
-versioning knob adds up to maintenance.
-
-For ACPI tables changes, QEMU has bios-tables-test, but it lets us to catch
-unintended changes only.
-Technically it's possible to keep master tables for old machine versions
-and test against it. But I'm not sure if we should do that, because some
-(most) changes are harmless or useful and should apply to all machine
-versions.
-So we will end up in the same situation, where we decide if a change
-should be versioned or not.
+diff --git a/arch/arm64/include/asm/kvm_emulate.h b/arch/arm64/include/asm/kvm_emulate.h
+index f612c090f2e4..6bf776c2399c 100644
+--- a/arch/arm64/include/asm/kvm_emulate.h
++++ b/arch/arm64/include/asm/kvm_emulate.h
+@@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu *vcpu)
+ 	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
+ 	    vcpu_el1_is_32bit(vcpu))
+ 		vcpu->arch.hcr_el2 |= HCR_TID2;
++
++	if (kvm_has_mte(vcpu->kvm))
++		vcpu->arch.hcr_el2 |= HCR_ATA;
+ }
+ 
+ static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
+diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
+index 3d10e6527f7d..1170ee137096 100644
+--- a/arch/arm64/include/asm/kvm_host.h
++++ b/arch/arm64/include/asm/kvm_host.h
+@@ -132,6 +132,8 @@ struct kvm_arch {
+ 
+ 	u8 pfr0_csv2;
+ 	u8 pfr0_csv3;
++	/* Memory Tagging Extension enabled for the guest */
++	bool mte_enabled;
+ };
+ 
+ struct kvm_vcpu_fault_info {
+@@ -767,6 +769,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu *vcpu);
+ #define kvm_arm_vcpu_sve_finalized(vcpu) \
+ 	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
+ 
++#define kvm_has_mte(kvm) (system_supports_mte() && (kvm)->arch.mte_enabled)
+ #define kvm_vcpu_has_pmu(vcpu)					\
+ 	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
+ 
+diff --git a/arch/arm64/kvm/hyp/exception.c b/arch/arm64/kvm/hyp/exception.c
+index 73629094f903..56426565600c 100644
+--- a/arch/arm64/kvm/hyp/exception.c
++++ b/arch/arm64/kvm/hyp/exception.c
+@@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu *vcpu, unsigned long target_mode,
+ 	new |= (old & PSR_C_BIT);
+ 	new |= (old & PSR_V_BIT);
+ 
+-	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
++	if (kvm_has_mte(vcpu->kvm))
++		new |= PSR_TCO_BIT;
+ 
+ 	new |= (old & PSR_DIT_BIT);
+ 
+diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
+index 77cb2d28f2a4..fdb6ab604fd0 100644
+--- a/arch/arm64/kvm/mmu.c
++++ b/arch/arm64/kvm/mmu.c
+@@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
+ 	if (vma_pagesize == PAGE_SIZE && !force_pte)
+ 		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
+ 							   &pfn, &fault_ipa);
++
++	if (kvm_has_mte(kvm) && pfn_valid(pfn)) {
++		/*
++		 * VM will be able to see the page's tags, so we must ensure
++		 * they have been initialised. if PG_mte_tagged is set, tags
++		 * have already been initialised.
++		 */
++		struct page *page = pfn_to_page(pfn);
++		unsigned long i, nr_pages = vma_pagesize >> PAGE_SHIFT;
++
++		for (i = 0; i < nr_pages; i++, page++) {
++			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
++				mte_clear_page_tags(page_address(page));
++		}
++	}
++
+ 	if (writable)
+ 		prot |= KVM_PGTABLE_PROT_W;
+ 
+diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
+index 4f2f1e3145de..e09dbc00b0a2 100644
+--- a/arch/arm64/kvm/sys_regs.c
++++ b/arch/arm64/kvm/sys_regs.c
+@@ -1046,7 +1046,8 @@ static u64 read_id_reg(const struct kvm_vcpu *vcpu,
+ 		val |= FIELD_PREP(FEATURE(ID_AA64PFR0_CSV3), (u64)vcpu->kvm->arch.pfr0_csv3);
+ 		break;
+ 	case SYS_ID_AA64PFR1_EL1:
+-		val &= ~FEATURE(ID_AA64PFR1_MTE);
++		if (!kvm_has_mte(vcpu->kvm))
++			val &= ~FEATURE(ID_AA64PFR1_MTE);
+ 		break;
+ 	case SYS_ID_AA64ISAR1_EL1:
+ 		if (!vcpu_has_ptrauth(vcpu))
+diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+index 8b281f722e5b..05618a4abf7e 100644
+--- a/include/uapi/linux/kvm.h
++++ b/include/uapi/linux/kvm.h
+@@ -1078,6 +1078,7 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_DIRTY_LOG_RING 192
+ #define KVM_CAP_X86_BUS_LOCK_EXIT 193
+ #define KVM_CAP_PPC_DAWR1 194
++#define KVM_CAP_ARM_MTE 195
+ 
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+-- 
+2.20.1
 
 
