@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0F3327925
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 09:26:02 +0100 (CET)
-Received: from localhost ([::1]:33022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B420132791D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 09:24:07 +0100 (CET)
+Received: from localhost ([::1]:55470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGdsP-0005Cu-Gr
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 03:26:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
+	id 1lGdqY-0002pm-Mu
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 03:24:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42842)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lGdoj-0001ZD-Ue
+ id 1lGdok-0001ZY-RZ
  for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:22:14 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2944)
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2945)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangkunkun@huawei.com>)
- id 1lGdog-0005W7-BF
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:22:13 -0500
+ id 1lGdog-0005W8-Aa
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:22:14 -0500
 Received: from DGGEMS405-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DptV26RdlzMgSm;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DptV269NNzMgSn;
  Mon,  1 Mar 2021 16:19:54 +0800 (CST)
 Received: from DESKTOP-6NKE0BC.china.huawei.com (10.174.185.210) by
  DGGEMS405-HUB.china.huawei.com (10.3.19.205) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 1 Mar 2021 16:21:51 +0800
+ 14.3.498.0; Mon, 1 Mar 2021 16:21:54 +0800
 From: Kunkun Jiang <jiangkunkun@huawei.com>
 To: David Edmondson <dme@dme.org>, Juan Quintela <quintela@redhat.com>, "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>, "open list:All patches CC here"
  <qemu-devel@nongnu.org>
-Subject: [PATCH v2 0/3] Some modifications about ram_save_host_page()
-Date: Mon, 1 Mar 2021 16:21:29 +0800
-Message-ID: <20210301082132.1107-1-jiangkunkun@huawei.com>
+Subject: [PATCH v2 1/3] migration/ram: Modify the code comment of
+ ram_save_host_page()
+Date: Mon, 1 Mar 2021 16:21:30 +0800
+Message-ID: <20210301082132.1107-2-jiangkunkun@huawei.com>
 X-Mailer: git-send-email 2.26.2.windows.1
+In-Reply-To: <20210301082132.1107-1-jiangkunkun@huawei.com>
+References: <20210301082132.1107-1-jiangkunkun@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -63,30 +66,43 @@ Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+The ram_save_host_page() has been modified several times
+since its birth. But the comment hasn't been modified as it should
+be. It'd better to modify the comment to explain ram_save_host_page()
+more clearly.
 
-This series include patches as below:
-Patch 1-2:
-- modified the comment and code of ram_save_host_page() to make them match each other
+Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+Signed-off-by: Kunkun Jiang <jiangkunkun@huawei.com>
+---
+ migration/ram.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-Patch 3:
-- optimized ram_save_host_page() by using migration_bitmap_find_dirty() to find dirty
-pages
-
-History:
-
-v1 -> v2:
-- Modify ram_save_host_page() comment [David Edmondson]
-- Remove 'goto' [David Edmondson]
-
-Kunkun Jiang (3):
-  migration/ram: Modify the code comment of ram_save_host_page()
-  migration/ram: Modify ram_save_host_page() to match the comment
-  migration/ram: Optimize ram_save_host_page()
-
- migration/ram.c | 30 ++++++++++++++++--------------
- 1 file changed, 16 insertions(+), 14 deletions(-)
-
+diff --git a/migration/ram.c b/migration/ram.c
+index 72143da0ac..24967cb970 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1970,15 +1970,13 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss,
+ }
+ 
+ /**
+- * ram_save_host_page: save a whole host page
++ * ram_save_host_page: save a whole host page or the rest of a RAMBlock
+  *
+- * Starting at *offset send pages up to the end of the current host
+- * page. It's valid for the initial offset to point into the middle of
+- * a host page in which case the remainder of the hostpage is sent.
+- * Only dirty target pages are sent. Note that the host page size may
+- * be a huge page for this block.
+- * The saving stops at the boundary of the used_length of the block
+- * if the RAMBlock isn't a multiple of the host page size.
++ * Send dirty pages between pss->page and either the end of that page
++ * or the used_length of the RAMBlock, whichever is smaller.
++ *
++ * Note that if the host page is a huge page, pss->page may be in the
++ * middle of that page.
+  *
+  * Returns the number of pages written or negative on error
+  *
 -- 
 2.23.0
 
