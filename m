@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA61A327E69
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 13:33:10 +0100 (CET)
-Received: from localhost ([::1]:46050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A42E327E7E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 13:43:39 +0100 (CET)
+Received: from localhost ([::1]:53930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGhjZ-00046E-MI
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 07:33:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41972)
+	id 1lGhth-0007sN-V5
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 07:43:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1lGhdv-0005RW-Hh
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:27:19 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2946)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1lGhdt-00026p-C7
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:27:19 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Dpzwy2DjVzMgb3;
- Mon,  1 Mar 2021 20:25:06 +0800 (CST)
-Received: from [10.174.186.51] (10.174.186.51) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 1 Mar 2021 20:27:03 +0800
-From: Zheng Chuan <zhengchuan@huawei.com>
-Subject: Re: [PATCH v4 16/18] migration/rdma: add rdma_channel into
- Migrationstate field
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
- <1612339311-114805-17-git-send-email-zhengchuan@huawei.com>
- <20210203201946.GY2950@work-vm>
-Message-ID: <8c76d7f7-b23d-25b3-4a9a-e8c1fec4a7aa@huawei.com>
-Date: Mon, 1 Mar 2021 20:27:03 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.6.0
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lGhrv-0006yj-AZ; Mon, 01 Mar 2021 07:41:47 -0500
+Received: from mail-qk1-x735.google.com ([2607:f8b0:4864:20::735]:33900)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1lGhrt-0002PB-Hj; Mon, 01 Mar 2021 07:41:47 -0500
+Received: by mail-qk1-x735.google.com with SMTP id x124so16288420qkc.1;
+ Mon, 01 Mar 2021 04:41:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=19xrvCQnTHanHxLFr7a+mSBkIfHF9X0QKdwb5VptyYg=;
+ b=DxAVHihQH0abzrj169tFS14Zc3zgjM5U5BhTGwbeR9oSPbe4KOoiIhJQs93KQFqJBi
+ 9EenReDwWGUkFAUQ6v+d1MogBRHvHDaWNYs6NXJf8FuSRybvJizbdsNv5EXfoMT5Q0zQ
+ XRrrWJ0Z5QfBYqmCOQS8nWXveRUZAhRZTbZFcWpVFqP9pUh4Jj/0hpjfCdROa8HsJTHH
+ jMcfJqESGbL2D77WBPAwnl7coEz8Jrj2UKHkAPXqGPUHF8mWwOxYf6YR6ENdpZBYpJNV
+ Xg3sygxUJnzskfsWN0m4PnzgOioAYM9Xxi8cdO77L2kZM/E7B81D3joycuI69CQ/GTwE
+ 0p4A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=19xrvCQnTHanHxLFr7a+mSBkIfHF9X0QKdwb5VptyYg=;
+ b=RPj68Bjl76s2h8czOjTUufIR3xHTuJwtHLkVTN/YHt4sMaGy+1q0lRjNYzsQ1skECh
+ JvD/sobIbc8TUr9q5evUXPzVuljleChzSwpiqCYcHuKvW9YDNcGajL63x9AxrDa5i9l+
+ uBMwKfZBMAMjzDWiWXqaqSE5PAbgMj9EWrgG4iWBhOE2f2HcXrlRUEEI6ldRoU8APYFZ
+ 8WvGduqSw0Auy5mpc4WUwUxrW9JJmHMhmFEdl4pUtmCaIMz2lXE4FVafXQ3S4X33+Gd5
+ rqkorOApeGVTdqD65iWVFtgaNE9jiRiJCUCBhy5LU5pNE36cpJII08rboXK46F1heUP1
+ O36w==
+X-Gm-Message-State: AOAM531zdQv+N0oPe0wyJVSldTXAyZuL2/XBqLHlAXFIKRK5ftzmW1UD
+ HAjXC0Nh58CSAWFyHFj949ofQ8Lx9pbfxQ==
+X-Google-Smtp-Source: ABdhPJxF6MCfumFjzIZFbPN3NsmX+qrqFLPUwvLc9CTo/xWTA0mtdxpDm5C9j8XaFpTPX9Q2rfW3xQ==
+X-Received: by 2002:a37:7fc2:: with SMTP id
+ a185mr14702253qkd.202.1614602503449; 
+ Mon, 01 Mar 2021 04:41:43 -0800 (PST)
+Received: from rekt.ibmuc.com ([2804:431:c7c6:cd1c:d722:e26f:4e76:c5c1])
+ by smtp.gmail.com with ESMTPSA id t16sm10981755qto.58.2021.03.01.04.41.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 04:41:42 -0800 (PST)
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/1] qemu_timer.c: add timer_deadline_ms() helper
+Date: Mon,  1 Mar 2021 09:41:32 -0300
+Message-Id: <20210301124133.23800-1-danielhb413@gmail.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <20210203201946.GY2950@work-vm>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.51]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhengchuan@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::735;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x735.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,90 +80,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yubihong@huawei.com, berrange@redhat.com, zhang.zhanghailiang@huawei.com,
- quintela@redhat.com, qemu-devel@nongnu.org, xiexiangyou@huawei.com,
- alex.chen@huawei.com, wanghao232@huawei.com
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ groug@kaod.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Changes from v1:
+- Added Paolo's ACK
+- Changed the helper to get the clock via timer->timer_list->clock->type
+  instead of assuming QEMU_CLOCK_VIRTUAL, as suggested by Greg 
+- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg08097.html
 
+Daniel Henrique Barboza (1):
+  qemu_timer.c: add timer_deadline_ms() helper
 
-On 2021/2/4 4:19, Dr. David Alan Gilbert wrote:
-> * Chuan Zheng (zhengchuan@huawei.com) wrote:
->> Multifd RDMA is need to poll when we send data, record it.
-> 
-> This looks like it's trying to be the equivalent of the 'static int
-> next_channel' in multifd_send_pages.
-> 
-> If so, why not mkae this 'multifd_channel' and make the function
-> 'multifd_next_channel' and replace the code in multifd_send_pages to use
-> this as well, rather than make it a special for rdma.
-> 
-> Dave
-> 
-Yes, that's a good suggestion. I'll do it in V5.
-
->> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
->> ---
->>  migration/migration.c |  1 +
->>  migration/migration.h |  1 +
->>  migration/rdma.c      | 14 ++++++++++++++
->>  3 files changed, 16 insertions(+)
->>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index b8f4844..47bd11d 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -1926,6 +1926,7 @@ void migrate_init(MigrationState *s)
->>      s->migration_thread_running = false;
->>      s->enabled_rdma_migration = false;
->>      s->host_port = NULL;
->> +    s->rdma_channel = 0;
->>      error_free(s->error);
->>      s->error = NULL;
->>      s->hostname = NULL;
->> diff --git a/migration/migration.h b/migration/migration.h
->> index 537ee09..5ff46e6 100644
->> --- a/migration/migration.h
->> +++ b/migration/migration.h
->> @@ -288,6 +288,7 @@ struct MigrationState {
->>  
->>      /* Need by Multi-RDMA */
->>      char *host_port;
->> +    int rdma_channel;
->>  };
->>  
->>  void migrate_set_state(int *state, int old_state, int new_state);
->> diff --git a/migration/rdma.c b/migration/rdma.c
->> index f5eb563..2097839 100644
->> --- a/migration/rdma.c
->> +++ b/migration/rdma.c
->> @@ -183,6 +183,20 @@ typedef struct {
->>  } RDMAWorkRequestData;
->>  
->>  /*
->> + * Get the multifd RDMA channel used to send data.
->> + */
->> +static int get_multifd_RDMA_channel(void)
->> +{
->> +    int thread_count = migrate_multifd_channels();
->> +    MigrationState *s = migrate_get_current();
->> +
->> +    s->rdma_channel++;
->> +    s->rdma_channel %= thread_count;
->> +
->> +    return s->rdma_channel;
->> +}
->> +
->> +/*
->>   * Negotiate RDMA capabilities during connection-setup time.
->>   */
->>  typedef struct {
->> -- 
->> 1.8.3.1
->>
+ hw/ppc/spapr_drc.c   |  5 ++---
+ include/qemu/timer.h |  8 ++++++++
+ util/qemu-timer.c    | 13 +++++++++++++
+ 3 files changed, 23 insertions(+), 3 deletions(-)
 
 -- 
-Regards.
-Chuan
+2.29.2
+
 
