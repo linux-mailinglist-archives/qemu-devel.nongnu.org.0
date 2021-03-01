@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F6B3275B7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 02:11:44 +0100 (CET)
-Received: from localhost ([::1]:35988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAB0B3275B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 02:10:09 +0100 (CET)
+Received: from localhost ([::1]:59992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGX67-0005Ox-P6
-	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 20:11:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32980)
+	id 1lGX4a-0003aZ-MS
+	for lists+qemu-devel@lfdr.de; Sun, 28 Feb 2021 20:10:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGX1C-0000Vl-TD; Sun, 28 Feb 2021 20:06:39 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:45835)
+ id 1lGX1L-0000Z0-4e; Sun, 28 Feb 2021 20:06:47 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:58115)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGX1A-0001jV-5o; Sun, 28 Feb 2021 20:06:38 -0500
+ id 1lGX1D-0001lB-Pu; Sun, 28 Feb 2021 20:06:46 -0500
 Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id 6897E5C00E8;
- Sun, 28 Feb 2021 20:06:35 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 0ACB75C0093;
+ Sun, 28 Feb 2021 20:06:39 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Sun, 28 Feb 2021 20:06:35 -0500
+ by compute3.internal (MEProxy); Sun, 28 Feb 2021 20:06:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=from
  :to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=K1eeLrpe1ZAcH
- 2f++WQC2It5GCo/sHwGONfed+MYii4=; b=L7LZn7ZOvMnk4vRP1yMLu5LYF9W+D
- B8jwf0zbkeSKzNdakPU9KecqOpzdRxTFyBreDhLjCAxL2hOU97WpklKIgO6ZCi4r
- r2ZNLN9lK2swown1LBD8t9vmGNah7IfPqgbO05Sew4wVHMt0WKNeH7EizYlqvfYf
- dyaR0xnHg+QPob+ChkkQVQ6oNMWiS/7IgYFLAbhMK7zl3W4ZQK8duKZWH5GIM6WN
- ArAI1BOZZ1oqk/2sOiScoMrmfku+n6dySVAGTRZ5Wm/HUSsAiy2jwQCSVxaf1Pbu
- JD8XRYFtkjbhgBKKbKEH9LS+n+fIFi97v+p6xpMFRVQ20kSNMYu5fDSeQ==
+ :mime-version:content-type:content-transfer-encoding; s=fm2; bh=
+ KwJBBslf2zOLUMqyaHaRM8+84tY20zzliw+rNqTdBHk=; b=kctz3TWgLIWHSE+3
+ ElHxK4DTYuzhH0YDtcgaXRLzZpEybe5WXR/mitoYK717QJGp+vPkw+rKB3N6Hk5g
+ 6KJEDhG6j4xzgAmbEVuyBE8u0vsfCfgUf/TI5NSRjX2f+1jIryfmnZF2h1UFihac
+ HLyCv62KlOzngaKcTKlr29nentK2KncU+necfSMskdB3RAUG5tNG3KGOCFjzwUfE
+ KsddfytjqSfAWE1F9MXvf5SnAEA5OLnb18mq2ItxqgsJPv9TLJfhgJdJgm0rZFBv
+ a3duF73Asp1KEJfMU1xcFrNcASnJYXG6mIy0jezVpYuX6D0nZ+w3zSmI6ZXurBuG
+ sZ4HcQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm2; bh=K1eeLrpe1ZAcH2f++WQC2It5GCo/sHwGONfed+MYii4=; b=TAAniufx
- ksvHLfBJBulAITHohLeX3qXK7cWfrr8jUK7flAidN8IvI0dRJg5lzWjJONwnwt8c
- MtXPkfvVEStUE7albM0/Tzzdgr2N1OzAyCY6AWF7XgcIRhIhJ6N7iyVNlxi1lGDI
- 5CCnJVKPIeZhSCyMq1JH29WpcS2OBEKlClBEQXKyQjOSg7OTmkNQM1Sb8xvVh/xT
- lHMIG+/4sK0RjvcVolKSRMySEUYhlDcRXkcTcvSDarmA/HEtJ2+Ti4ze9KGf+ra7
- bUB7b5jKI9HnNgLHmqlslX6PHQGM3C6vKJzpEogkYpSsaBs9JaEeCvx5xAFF+ULE
- UhJx/mlm6DRk8Q==
-X-ME-Sender: <xms:Gz48YGPabX5cWbl4NfHM2jR_b64IX4NaPZocJNhXodvgPalIChPJCA>
- <xme:Gz48YE8KNfx2_dJgthZSeYqrJbHfZJtvQPhKqxxSR3W0LxqmMN_3n0SeKvjDjI9AG
- ZDh37o6hJJHA4KQuQ>
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=KwJBBslf2zOLUMqyaHaRM8+84tY20zzliw+rNqTdB
+ Hk=; b=wKYQlcdDGvPfNLUESFj7ZUrSno8djKXROkD6+iDolrtDFbiWlZwUt36am
+ zxPCpPZPfVHcu6wSPnqXj54HeseA92OJSYKg4i/H3YWyR/s9UY6HF1p6sdQK5tbP
+ K0C3xfPH3Ig8mBRG/+vKrUSLdsddWUa8mpWHW3BxGrEYEvmyUDogpzlReDgMxBTz
+ E24NzsbNkqG8isIlXFIHQjqxRYNqVPo0/Ctx2ojbI9FJ+Ovbn0lTWOgDQ/3y3PLW
+ sSLcIqyswHmJDGGSOPRfOI4jkyR0O7m3gdE96YMyVjlMTAQW3LKwCKIUnRLLIKdL
+ 66Ngu6WaakSkK6IFvqnKB7RkOQ+IA==
+X-ME-Sender: <xms:Hj48YGTSTf-I7TRz5smZROlof6OObmFGzGbPvExlbcERoMZmbNqD5Q>
+ <xme:Hj48YLyITpOG3lHxspCG68850CReO7d-GrQgjmwFAxwGUEATjVf_x-NYOCKlHHFPp
+ s1tVDzjV8FLw1g49g>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleejgdefvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfggfgsedtkeertd
- ertddtnecuhfhrohhmpeetnhgurhgvficulfgvfhhfvghrhicuoegrnhgurhgvfiesrghj
- rdhiugdrrghuqeenucggtffrrghtthgvrhhnpeejgfdvveehteekveeggeellefgleette
- ejffelffdvudduveeiffegteelvefhteenucfkphepudegrddvrdeluddrfeejnecuvehl
- uhhsthgvrhfuihiivgepvdenucfrrghrrghmpehmrghilhhfrhhomheprghnughrvgifse
- grjhdrihgurdgruh
-X-ME-Proxy: <xmx:Gz48YNS1DARInja5JzTsEFH7BkJyE_3Hna4DMae-LMou8D67MrLs4w>
- <xmx:Gz48YGtPGeGDzBYm8wQWN39f23sOIz9covRMC0OepjyDrrJVsTr3qw>
- <xmx:Gz48YOe2CNIyoi63IqEZxvW10JOqmLj2V2vCg8T9gnG9FT6Z5-QUQg>
- <xmx:Gz48YLGUXmfyDHMgh9rKcObPA1QSPzsBxSBUs9a0bdVt4i_CACVCSg>
+ uegrihhlohhuthemuceftddtnecunecujfgurhephffvufffkffojghfgggtgfesthekre
+ dtredtjeenucfhrhhomheptehnughrvgifucflvghffhgvrhihuceorghnughrvgifsegr
+ jhdrihgurdgruheqnecuggftrfgrthhtvghrnheptefhvdethedtgffgvefftedvkeelvd
+ fhvddtjeeukeevvdekjefgtdeifeelgfegnecukfhppedugedrvddrledurdefjeenucev
+ lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgvfi
+ esrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:Hj48YD14-VM2Scp7yHizm3ZBjX8n-8QBx2DOjL6v0AkUm6ppVz2XWQ>
+ <xmx:Hj48YCBsXuaEOSaDxcS1tTgXqlG4sQnVza_rWM2R9upL8VddYmuHGA>
+ <xmx:Hj48YPiNHJXFPaC5P_bRSZdCLAZJ9tHQLyDrI3mef3GZfiGr3Z0xmg>
+ <xmx:Hz48YFYjhHB-xcSNeAXDsJLrr8obaU7vPrjCa3gShL0b4OC31iO8Wg>
 Received: from localhost.localdomain
  (ppp14-2-91-37.adl-apt-pir-bras31.tpg.internode.on.net [14.2.91.37])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4C23F240054;
- Sun, 28 Feb 2021 20:06:32 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id DE3BA24005E;
+ Sun, 28 Feb 2021 20:06:35 -0500 (EST)
 From: Andrew Jeffery <andrew@aj.id.au>
 To: qemu-arm@nongnu.org
-Subject: [PATCH v2 3/5] hw/arm: ast2600: Correct the iBT interrupt ID
-Date: Mon,  1 Mar 2021 11:36:08 +1030
-Message-Id: <20210301010610.355702-4-andrew@aj.id.au>
+Subject: [PATCH v2 4/5] hw/misc: Add a basic Aspeed LPC controller model
+Date: Mon,  1 Mar 2021 11:36:09 +1030
+Message-Id: <20210301010610.355702-5-andrew@aj.id.au>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20210301010610.355702-1-andrew@aj.id.au>
 References: <20210301010610.355702-1-andrew@aj.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=andrew@aj.id.au;
  helo=out2-smtp.messagingengine.com
@@ -93,32 +95,320 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: peter.maydell@linaro.org, ryan_chen@aspeedtech.com, minyard@acm.org,
- qemu-devel@nongnu.org, f4bug@amsat.org, clg@kaod.org, joel@jms.id.au
+ qemu-devel@nongnu.org, f4bug@amsat.org,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, joel@jms.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The AST2600 allocates distinct GIC IRQs for the LPC subdevices such as
-the iBT device. Previously on the AST2400 and AST2500 the LPC subdevices
-shared a single LPC IRQ.
+From: Cédric Le Goater <clg@kaod.org>
 
+This is a very minimal framework to access registers which are used to
+configure the AHB memory mapping of the flash chips on the LPC HC
+Firmware address space.
+
+Signed-off-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
 ---
- hw/arm/aspeed_ast2600.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ docs/system/arm/aspeed.rst   |   2 +-
+ hw/arm/aspeed_ast2600.c      |  10 +++
+ hw/arm/aspeed_soc.c          |  10 +++
+ hw/misc/aspeed_lpc.c         | 131 +++++++++++++++++++++++++++++++++++
+ hw/misc/meson.build          |   7 +-
+ include/hw/arm/aspeed_soc.h  |   2 +
+ include/hw/misc/aspeed_lpc.h |  32 +++++++++
+ 7 files changed, 192 insertions(+), 2 deletions(-)
+ create mode 100644 hw/misc/aspeed_lpc.c
+ create mode 100644 include/hw/misc/aspeed_lpc.h
 
+diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+index 690bada7842b..2f6fa8938d02 100644
+--- a/docs/system/arm/aspeed.rst
++++ b/docs/system/arm/aspeed.rst
+@@ -48,6 +48,7 @@ Supported devices
+  * UART
+  * Ethernet controllers
+  * Front LEDs (PCA9552 on I2C bus)
++ * LPC Peripheral Controller (a subset of subdevices are supported)
+ 
+ 
+ Missing devices
+@@ -56,7 +57,6 @@ Missing devices
+  * Coprocessor support
+  * ADC (out of tree implementation)
+  * PWM and Fan Controller
+- * LPC Bus Controller
+  * Slave GPIO Controller
+  * Super I/O Controller
+  * Hash/Crypto Engine
 diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index 22fcb5b0edbe..2125a96ef317 100644
+index 2125a96ef317..60152de001e6 100644
 --- a/hw/arm/aspeed_ast2600.c
 +++ b/hw/arm/aspeed_ast2600.c
-@@ -98,7 +98,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
-     [ASPEED_DEV_WDT]       = 24,
-     [ASPEED_DEV_PWM]       = 44,
-     [ASPEED_DEV_LPC]       = 35,
--    [ASPEED_DEV_IBT]       = 35,    /* LPC */
-+    [ASPEED_DEV_IBT]       = 143,
-     [ASPEED_DEV_I2C]       = 110,   /* 110 -> 125 */
-     [ASPEED_DEV_ETH1]      = 2,
-     [ASPEED_DEV_ETH2]      = 3,
+@@ -211,6 +211,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+ 
+     object_initialize_child(obj, "emmc-controller.sdhci", &s->emmc.slots[0],
+                             TYPE_SYSBUS_SDHCI);
++
++    object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+ }
+ 
+ /*
+@@ -469,6 +471,14 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0, sc->memmap[ASPEED_DEV_EMMC]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
+                        aspeed_soc_get_irq(s, ASPEED_DEV_EMMC));
++
++    /* LPC */
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->lpc), 0, sc->memmap[ASPEED_DEV_LPC]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
++                       aspeed_soc_get_irq(s, ASPEED_DEV_LPC));
+ }
+ 
+ static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index 7eefd54ac07a..4f098da437ac 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -211,6 +211,8 @@ static void aspeed_soc_init(Object *obj)
+         object_initialize_child(obj, "sdhci[*]", &s->sdhci.slots[i],
+                                 TYPE_SYSBUS_SDHCI);
+     }
++
++    object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+ }
+ 
+ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+@@ -393,6 +395,14 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+                     sc->memmap[ASPEED_DEV_SDHCI]);
+     sysbus_connect_irq(SYS_BUS_DEVICE(&s->sdhci), 0,
+                        aspeed_soc_get_irq(s, ASPEED_DEV_SDHCI));
++
++    /* LPC */
++    if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
++        return;
++    }
++    sysbus_mmio_map(SYS_BUS_DEVICE(&s->lpc), 0, sc->memmap[ASPEED_DEV_LPC]);
++    sysbus_connect_irq(SYS_BUS_DEVICE(&s->lpc), 0,
++                       aspeed_soc_get_irq(s, ASPEED_DEV_LPC));
+ }
+ static Property aspeed_soc_properties[] = {
+     DEFINE_PROP_LINK("dram", AspeedSoCState, dram_mr, TYPE_MEMORY_REGION,
+diff --git a/hw/misc/aspeed_lpc.c b/hw/misc/aspeed_lpc.c
+new file mode 100644
+index 000000000000..e668e985ff04
+--- /dev/null
++++ b/hw/misc/aspeed_lpc.c
+@@ -0,0 +1,131 @@
++/*
++ *  ASPEED LPC Controller
++ *
++ *  Copyright (C) 2017-2018 IBM Corp.
++ *
++ * This code is licensed under the GPL version 2 or later.  See
++ * the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "qemu/log.h"
++#include "qemu/error-report.h"
++#include "hw/misc/aspeed_lpc.h"
++#include "qapi/error.h"
++#include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
++
++#define TO_REG(offset) ((offset) >> 2)
++
++#define HICR0                TO_REG(0x00)
++#define HICR1                TO_REG(0x04)
++#define HICR2                TO_REG(0x08)
++#define HICR3                TO_REG(0x0C)
++#define HICR4                TO_REG(0x10)
++#define HICR5                TO_REG(0x80)
++#define HICR6                TO_REG(0x84)
++#define HICR7                TO_REG(0x88)
++#define HICR8                TO_REG(0x8C)
++
++static uint64_t aspeed_lpc_read(void *opaque, hwaddr offset, unsigned size)
++{
++    AspeedLPCState *s = ASPEED_LPC(opaque);
++    int reg = TO_REG(offset);
++
++    if (reg >= ARRAY_SIZE(s->regs)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Out-of-bounds read at offset 0x%" HWADDR_PRIx "\n",
++                      __func__, offset);
++        return 0;
++    }
++
++    return s->regs[reg];
++}
++
++static void aspeed_lpc_write(void *opaque, hwaddr offset, uint64_t data,
++                             unsigned int size)
++{
++    AspeedLPCState *s = ASPEED_LPC(opaque);
++    int reg = TO_REG(offset);
++
++    if (reg >= ARRAY_SIZE(s->regs)) {
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: Out-of-bounds write at offset 0x%" HWADDR_PRIx "\n",
++                      __func__, offset);
++        return;
++    }
++
++    s->regs[reg] = data;
++}
++
++static const MemoryRegionOps aspeed_lpc_ops = {
++    .read = aspeed_lpc_read,
++    .write = aspeed_lpc_write,
++    .endianness = DEVICE_LITTLE_ENDIAN,
++    .valid = {
++        .min_access_size = 1,
++        .max_access_size = 4,
++    },
++};
++
++static void aspeed_lpc_reset(DeviceState *dev)
++{
++    struct AspeedLPCState *s = ASPEED_LPC(dev);
++
++    memset(s->regs, 0, sizeof(s->regs));
++
++    s->regs[HICR7] = s->hicr7;
++}
++
++static void aspeed_lpc_realize(DeviceState *dev, Error **errp)
++{
++    AspeedLPCState *s = ASPEED_LPC(dev);
++    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
++
++    sysbus_init_irq(sbd, &s->irq);
++
++    memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_lpc_ops, s,
++            TYPE_ASPEED_LPC, 0x1000);
++
++    sysbus_init_mmio(sbd, &s->iomem);
++}
++
++static const VMStateDescription vmstate_aspeed_lpc = {
++    .name = TYPE_ASPEED_LPC,
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32_ARRAY(regs, AspeedLPCState, ASPEED_LPC_NR_REGS),
++        VMSTATE_END_OF_LIST(),
++    }
++};
++
++static Property aspeed_lpc_properties[] = {
++    DEFINE_PROP_UINT32("hicr7", AspeedLPCState, hicr7, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void aspeed_lpc_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++
++    dc->realize = aspeed_lpc_realize;
++    dc->reset = aspeed_lpc_reset;
++    dc->desc = "Aspeed LPC Controller",
++    dc->vmsd = &vmstate_aspeed_lpc;
++    device_class_set_props(dc, aspeed_lpc_properties);
++}
++
++static const TypeInfo aspeed_lpc_info = {
++    .name = TYPE_ASPEED_LPC,
++    .parent = TYPE_SYS_BUS_DEVICE,
++    .instance_size = sizeof(AspeedLPCState),
++    .class_init = aspeed_lpc_class_init,
++};
++
++static void aspeed_lpc_register_types(void)
++{
++    type_register_static(&aspeed_lpc_info);
++}
++
++type_init(aspeed_lpc_register_types);
+diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+index 629283957fcc..e3263383cd59 100644
+--- a/hw/misc/meson.build
++++ b/hw/misc/meson.build
+@@ -102,7 +102,12 @@ softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
+ softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
+ softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+-softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
++softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
++  'aspeed_lpc.c',
++  'aspeed_scu.c',
++  'aspeed_sdmc.c',
++  'aspeed_xdma.c'))
++
+ softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
+ softmmu_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_rng.c'))
+ 
+diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+index 11cfe6e3585b..42c64bd28ba2 100644
+--- a/include/hw/arm/aspeed_soc.h
++++ b/include/hw/arm/aspeed_soc.h
+@@ -28,6 +28,7 @@
+ #include "hw/sd/aspeed_sdhci.h"
+ #include "hw/usb/hcd-ehci.h"
+ #include "qom/object.h"
++#include "hw/misc/aspeed_lpc.h"
+ 
+ #define ASPEED_SPIS_NUM  2
+ #define ASPEED_EHCIS_NUM 2
+@@ -61,6 +62,7 @@ struct AspeedSoCState {
+     AspeedGPIOState gpio_1_8v;
+     AspeedSDHCIState sdhci;
+     AspeedSDHCIState emmc;
++    AspeedLPCState lpc;
+ };
+ 
+ #define TYPE_ASPEED_SOC "aspeed-soc"
+diff --git a/include/hw/misc/aspeed_lpc.h b/include/hw/misc/aspeed_lpc.h
+new file mode 100644
+index 000000000000..0fbb7f68bed2
+--- /dev/null
++++ b/include/hw/misc/aspeed_lpc.h
+@@ -0,0 +1,32 @@
++/*
++ *  ASPEED LPC Controller
++ *
++ *  Copyright (C) 2017-2018 IBM Corp.
++ *
++ * This code is licensed under the GPL version 2 or later.  See
++ * the COPYING file in the top-level directory.
++ */
++
++#ifndef ASPEED_LPC_H
++#define ASPEED_LPC_H
++
++#include "hw/sysbus.h"
++
++#define TYPE_ASPEED_LPC "aspeed.lpc"
++#define ASPEED_LPC(obj) OBJECT_CHECK(AspeedLPCState, (obj), TYPE_ASPEED_LPC)
++
++#define ASPEED_LPC_NR_REGS (0x260 >> 2)
++
++typedef struct AspeedLPCState {
++    /* <private> */
++    SysBusDevice parent;
++
++    /*< public >*/
++    MemoryRegion iomem;
++    qemu_irq irq;
++
++    uint32_t regs[ASPEED_LPC_NR_REGS];
++    uint32_t hicr7;
++} AspeedLPCState;
++
++#endif /* _ASPEED_LPC_H_ */
 -- 
 2.27.0
 
