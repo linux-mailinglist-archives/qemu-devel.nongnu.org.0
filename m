@@ -2,48 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4116327DA7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:53:28 +0100 (CET)
-Received: from localhost ([::1]:54396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBAA6327DA8
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:54:45 +0100 (CET)
+Received: from localhost ([::1]:58418 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGh79-0004bX-Td
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:53:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34368)
+	id 1lGh8O-0006GY-U1
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:54:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGh60-0003vY-3E
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:52:16 -0500
-Received: from mx2.suse.de ([195.135.220.15]:49670)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGh5x-0006bH-5S
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:52:15 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 792B2ADE5;
- Mon,  1 Mar 2021 11:52:11 +0000 (UTC)
-Subject: Re: [RFC v1 00/38] arm cleanup experiment for kvm-only build
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210221092449.7545-1-cfontana@suse.de>
- <875z2k53mn.fsf@linaro.org> <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <63847c79-93c2-5ee3-d568-9091fedf325c@suse.de>
-Date: Mon, 1 Mar 2021 12:52:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lGh77-0004uZ-RA
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:53:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25168)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1lGh76-0007J4-0l
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:53:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614599603;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MCBDfNcM5/wJ83GY1PhLIHZr4JrVIvrzHU4dOtdbxAI=;
+ b=RkMLunoW9vuLfdvLOnLZYDH13XUFKVXnUJ3U0eUeLZ41TZWcQDB/59Du9SnLhzPsbKqS+g
+ cmElRtnhUyZ//F/5mBDbv83H8/3LQ/Po3wY9F3xwjMMSrEvVi9VpExoqAce/af4jI0kfdM
+ m/FAbfCZOUcP34SV9pGhm01GMQ384iA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-307-Kmy4d9b_ORSfHBj0ioWf2Q-1; Mon, 01 Mar 2021 06:53:21 -0500
+X-MC-Unique: Kmy4d9b_ORSfHBj0ioWf2Q-1
+Received: by mail-ed1-f72.google.com with SMTP id n20so3231186edr.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 03:53:21 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=MCBDfNcM5/wJ83GY1PhLIHZr4JrVIvrzHU4dOtdbxAI=;
+ b=mw4SqvCOq8RKnFE2yr2+XW4nCFTrBLM48RDk7Ez6uRdGHQvcGViPHZk6yyee8Q3A56
+ 20hLPcatJDzp2FBH/nqcnBYqUEvt7bDcrYawwj7dxbOjiBE43Hg3/kltTMg33VcobrZE
+ 70qUB3e6qzaV7Cd1SFhivJDSOr0EHs4F5oIwJavZlDAbYnC6N7Y+I+Bxj1VBfVIV81ui
+ pYbvlq7gyl1/YGZJFYXEKaV91q++hO9To22+w+bpEqAPtDKkwGR7vUMxNbPLjgCEkhLb
+ bV4Iwbf+anZQm9r+Pbk2W+nN8K0nQjLxJcpcHF/GLGsj6yNuN7arFxSo1gzM42I79Z8A
+ 3z+w==
+X-Gm-Message-State: AOAM531NLKgE98TGysZK5F2IC9FlL6N1EVW672de6W6PizffAdzzzXQc
+ No8kCxTbvCIvDQPeY4F4OVKCGb4Q7uMoWXv4XZhfIM43G1EaFau2oDwyv59D/d5t1SO2N6LfCiP
+ c8waqN74znnECJb4=
+X-Received: by 2002:a17:906:3444:: with SMTP id
+ d4mr15489031ejb.410.1614599600333; 
+ Mon, 01 Mar 2021 03:53:20 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+XBbAKrCokAQEK6pKnHp8WjhVPNlhiULoljVh+9JfjEWbg50a2G5vQM69kFnBZwe4JzlQEg==
+X-Received: by 2002:a17:906:3444:: with SMTP id
+ d4mr15489022ejb.410.1614599600147; 
+ Mon, 01 Mar 2021 03:53:20 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id hr31sm13703307ejc.125.2021.03.01.03.53.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 03:53:19 -0800 (PST)
+Date: Mon, 1 Mar 2021 12:53:17 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [RFC PATCH 1/3] exec/memory: Introduce
+ memory_region_init_rom_device_from_file()
+Message-ID: <20210301115317.i7qctejcit6zcbac@steredhat>
+References: <20210225230238.3719051-1-philmd@redhat.com>
+ <20210225230238.3719051-2-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a3ed4064-6dec-24c6-8138-ce8301f01e1e@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20210225230238.3719051-2-philmd@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -56,55 +100,300 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Xu Yandong <xuyandong2@huawei.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ David Edmondson <david.edmondson@oracle.com>,
+ Zheng Xiang <zhengxiang9@huawei.com>, haibinzhang <haibinzhang@tencent.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/23/21 10:18 AM, Philippe Mathieu-Daudé wrote:
-> On 2/22/21 8:00 PM, Alex Bennée wrote:
->>
->> Claudio Fontana <cfontana@suse.de> writes:
->>
->>> Hi all,
->>>
->>> this is an experiment, a cleanup based on and requiring the series
->>> "i386 cleanup PART 2":
->>>
->>> https://lists.gnu.org/archive/html/qemu-devel/2021-02/msg05935.html
->>>
->>> The goal is to split the code between TCG-only and non-TCG code,
->>> fixing the KVM-only build (configure --disable-tcg),
->>>
->>> and laying the ground for further cleanups and the use of the
->>> new accel objects in the hierarchy to specialize the cpu
->>> according to the accelerator.
->>>
->>> This is known to be an early state, with probably a lot of work
->>> still needed.
->>
->> Well early work is looking pretty good:
->>
->>   18:59:22 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh qemu-system-aarch64
->>   -rwxr-xr-x 1 alex alex 107M Feb 22 18:08 qemu-system-aarch64*
->>   18:59:29 [alex@idun:~/l/q/b/default] review/arm-cleanup-rfc1|… ± ls -lh ../disable.tcg/qemu-system-aarch64
->>   -rwxr-xr-x 1 alex alex 76M Feb 22 17:47 ../disable.tcg/qemu-system-aarch64*
-> 
-> :~)
-> 
->>
->> and I've tested the KVM side works well enough with a basic image.
-> 
-> 
+I don't know this code very well, but I have a couple of comments below 
+:-)
 
-I am working on the next version, one thing I noticed among others as I get close to the v2,
-is the fact that tests/ for arm require tcg in many cases.
+On Fri, Feb 26, 2021 at 12:02:36AM +0100, Philippe Mathieu-Daud� wrote:
+>Introduce memory_region_init_rom_device_from_file() which mmap
+>the backing file of ROM devices. This allows to reduce QEMU memory
+>footprint as the same file can be shared between multiple instances
+>of QEMU.
+>
+>Signed-off-by: Philippe Mathieu-Daud� <philmd@redhat.com>
+>---
+> include/exec/memory.h | 85 +++++++++++++++++++++++++++++++++++++
+> softmmu/memory.c      | 98 +++++++++++++++++++++++++++++++++++++++++++
+> 2 files changed, 183 insertions(+)
+>
+>diff --git a/include/exec/memory.h b/include/exec/memory.h
+>index c6fb714e499..bacf7495003 100644
+>--- a/include/exec/memory.h
+>+++ b/include/exec/memory.h
+>@@ -487,6 +487,9 @@ struct MemoryRegion {
+>     const char *name;
+>     unsigned ioeventfd_nb;
+>     MemoryRegionIoeventfd *ioeventfds;
+>+#ifndef CONFIG_POSIX
+>+    gchar *contents;
+>+#endif
+> };
+>
+> struct IOMMUMemoryRegion {
+>@@ -1131,6 +1134,43 @@ void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+>                                              uint64_t size,
+>                                              Error **errp);
+>
+>+/**
+>+ * memory_region_init_rom_device_from_file_nomigrate:
+>+ * Initialize a ROM memory region from the specified backing file.
+>+ * Writes are handled via callbacks.
+>+ *
+>+ * Note that this function does not do anything to cause the data in the
+>+ * RAM side of the memory region to be migrated; that is the responsibility
+>+ * of the caller.
+>+ *
+>+ * @mr: the #MemoryRegion to be initialized.
+>+ * @owner: the object that tracks the region's reference count
+>+ * @ops: callbacks for write access handling (must not be NULL).
+>+ * @opaque: passed to the read and write callbacks of the @ops structure.
+>+ * @name: Region name, becomes part of RAMBlock name used in migration stream
+>+ *        must be unique within any device
+>+ * @size: size of the region.
+>+ * @ram_flags: specify the properties of the ram block, which can be one
+>+ *             or bit-or of following values
+>+ *             - RAM_SHARED: mmap the backing file or device with MAP_SHARED
+>+ *             - RAM_PMEM: the backend @mem_path is persistent memory
+>+ *             Other bits are ignored.
+>+ * @path: specify the backing file
+>+ * @readonly: true to open @path for reading, false for read/write.
+>+ * @errp: pointer to Error*, to store an error if it happens.
+>+ */
+>+void memory_region_init_rom_device_from_file_nomigrate(MemoryRegion *mr,
+>+                                                       Object *owner,
+>+                                                       const MemoryRegionOps *ops,
+>+                                                       void *opaque,
+>+                                                       const char 
+>*name,
+>+                                                       uint64_t size,
+>+                                                       uint64_t align,
+>+                                                       uint32_t ram_flags,
+>+                                                       const char *path,
+>+                                                       bool readonly,
+>+                                                       Error **errp);
+>+
+> /**
+>  * memory_region_init_iommu: Initialize a memory region of a custom type
+>  * that translates addresses
+>@@ -1249,6 +1289,51 @@ void memory_region_init_rom_device(MemoryRegion *mr,
+>                                    Error **errp);
+>
+>
+>+/**
+>+ * memory_region_init_rom_device_from_file:
+>+ * Initialize a ROM memory region from the specified backing file.
+>+ * Writes are handled via callbacks.
+>+ *
+>+ * This function initializes a memory region backed by RAM for reads
+>+ * and callbacks for writes, and arranges for the RAM backing to
+>+ * be migrated (by calling vmstate_register_ram()
+>+ * if @owner is a DeviceState, or vmstate_register_ram_global() if
+>+ * @owner is NULL).
+>+ *
+>+ * TODO: Currently we restrict @owner to being either NULL (for
+>+ * global RAM regions with no owner) or devices, so that we can
+>+ * give the RAM block a unique name for migration purposes.
+>+ * We should lift this restriction and allow arbitrary Objects.
+>+ * If you pass a non-NULL non-device @owner then we will assert.
+>+ *
+>+ * @mr: the #MemoryRegion to be initialized.
+>+ * @owner: the object that tracks the region's reference count
+>+ * @ops: callbacks for write access handling (must not be NULL).
+>+ * @opaque: passed to the read and write callbacks of the @ops structure.
+>+ * @name: Region name, becomes part of RAMBlock name used in migration stream
+>+ *        must be unique within any device
+>+ * @size: size of the region.
+>+ * @ram_flags: specify the properties of the ram block, which can be one
+>+ *             or bit-or of following values
+>+ *             - RAM_SHARED: mmap the backing file or device with MAP_SHARED
+>+ *             - RAM_PMEM: the backend @mem_path is persistent memory
+>+ *             Other bits are ignored.
+>+ * @path: specify the backing file
+>+ * @readonly: true to open @path for reading, false for read/write.
+>+ * @errp: pointer to Error*, to store an error if it happens.
+>+ */
+>+void memory_region_init_rom_device_from_file(MemoryRegion *mr,
+>+                                             Object *owner,
+>+                                             const MemoryRegionOps *ops,
+>+                                             void *opaque,
+>+                                             const char *name,
+>+                                             uint64_t size,
+>+                                             uint64_t align,
+>+                                             uint32_t ram_flags,
+>+                                             const char *path,
+>+                                             bool readonly,
+>+                                             Error **errp);
+>+
+> /**
+>  * memory_region_owner: get a memory region's owner.
+>  *
+>diff --git a/softmmu/memory.c b/softmmu/memory.c
+>index 874a8fccdee..ea1892a8cd6 100644
+>--- a/softmmu/memory.c
+>+++ b/softmmu/memory.c
+>@@ -1120,6 +1120,14 @@ static void memory_region_destructor_ram(MemoryRegion *mr)
+>     qemu_ram_free(mr->ram_block);
+> }
+>
+>+#ifndef CONFIG_POSIX
+>+static void memory_region_destructor_contents(MemoryRegion *mr)
+>+{
+>+    qemu_ram_free(mr->ram_block);
+>+    g_free(mr->contents);
+>+}
+>+#endif
+>+
+> static bool memory_region_need_escape(char c)
+> {
+>     return c == '/' || c == '[' || c == '\\' || c == ']';
+>@@ -1712,6 +1720,96 @@ void memory_region_init_rom_device_nomigrate(MemoryRegion *mr,
+>     }
+> }
+>
+>+void memory_region_init_rom_device_from_file_nomigrate(MemoryRegion *mr,
+>+                                                       Object *owner,
+>+                                                       const MemoryRegionOps *ops,
+>+                                                       void *opaque,
+>+                                                       const char *name,
+>+                                                       uint64_t size,
+>+                                                       uint64_t align,
+>+                                                       uint32_t ram_flags,
+>+                                                       const char *path,
+>+                                                       bool readonly,
+>+                                                       Error **errp)
+>+{
+>+    Error *err = NULL;
+>+
+>+    assert(ops);
+>+#ifdef CONFIG_POSIX
+>+    memory_region_init(mr, owner, name, size);
+>+    mr->opaque = opaque;
+>+    mr->ops = ops;
+>+    mr->rom_device = true;
+>+    mr->readonly = readonly;
+>+    mr->ram = true;
+>+    mr->align = align;
+>+    mr->terminates = true;
+>+    mr->destructor = memory_region_destructor_ram;
+>+    mr->ram_block = qemu_ram_alloc_from_file(size, mr, ram_flags, path,
+>+                                             readonly, &err);
+>+    if (err) {
+>+        mr->size = int128_zero();
+>+        object_unparent(OBJECT(mr));
+>+        error_propagate(errp, err);
+>+    }
+>+#else
+>+    g_autoptr(GError) gerr = NULL;
+>+    gsize len;
+>+
+>+    memory_region_init(mr, owner, name, size);
+>+    mr->ops = ops;
+>+    mr->opaque = opaque;
+>+    mr->terminates = true;
+>+    mr->rom_device = true;
 
-So there is even more cleanup needed to discern which are actually tcg-only, and how to tweak the others into working also with only kvm available..
+Why when CONFIG_POSIX is defined we set 'mr->ram', 'mr->align', and 
+'mr->readonly = readonly' but not here?
+(I honestly don't know if they are important, I ask out of curiosity.  
+:-)
 
-Ciao,
+>+
+>+    if (!g_file_get_contents(path, &mr->contents, &len, &gerr)) {
 
-Claudio
+Should we do these steps in case of an error?
+
+           mr->size = int128_zero();
+           object_unparent(OBJECT(mr));
+
+>+        error_setg(errp, "Unable to read '%s': %s", path, gerr->message);
+>+        return;
+>+    }
+>+    mr->destructor = memory_region_destructor_contents;
+>+    mr->contents = g_realloc(mr->contents, size);
+>+    mr->ram_block = qemu_ram_alloc_from_ptr(size, mr->contents, mr, &err);
+>+    if (err) {
+>+        mr->size = int128_zero();
+>+        object_unparent(OBJECT(mr));
+>+        error_propagate(errp, err);
+>+    }
+>+#endif
+
+Maybe I would reorganize the code inside ifdef like this:
+
+         memory_region_init(mr, owner, name, size);
+         mr->opaque = opaque;
+         ...
+     #ifdef CONFIG_POSIX
+         mr->destructor = memory_region_destructor_ram;
+         mr->ram_block = qemu_ram_alloc_from_file(...);
+     #else
+         if (!g_file_get_contents(..)) {
+             ...
+         }
+         mr->destructor = memory_region_destructor_contents;
+         mr->contents = g_realloc(mr->contents, size);
+         mr->ram_block = qemu_ram_alloc_from_ptr(...)
+     #endif
+
+         if (err) {
+             ...
+         }
+
+I don't have a strong opinion, just an idea.
+
+Thanks,
+Stefano
+
+>+}
+>+
+>+void memory_region_init_rom_device_from_file(MemoryRegion *mr,
+>+                                             Object *owner,
+>+                                             const MemoryRegionOps 
+>*ops,
+>+                                             void *opaque,
+>+                                             const char *name,
+>+                                             uint64_t size,
+>+                                             uint64_t align,
+>+                                             uint32_t ram_flags,
+>+                                             const char *path,
+>+                                             bool readonly,
+>+                                             Error **errp)
+>+{
+>+    DeviceState *owner_dev;
+>+    Error *err = NULL;
+>+
+>+    memory_region_init_rom_device_from_file_nomigrate(mr, owner, ops, opaque,
+>+                                                      name, size, align,
+>+                                                      ram_flags, path, readonly,
+>+                                                      &err);
+>+    if (err) {
+>+        error_propagate(errp, err);
+>+        return;
+>+    }
+>+    /* This will assert if owner is neither NULL nor a DeviceState.
+>+     * We only want the owner here for the purposes of defining a
+>+     * unique name for migration. TODO: Ideally we should implement
+>+     * a naming scheme for Objects which are not DeviceStates, in
+>+     * which case we can relax this restriction.
+>+     */
+>+    owner_dev = DEVICE(owner);
+>+    vmstate_register_ram(mr, owner_dev);
+>+}
+>+
+> void memory_region_init_iommu(void *_iommu_mr,
+>                               size_t instance_size,
+>                               const char *mrtypename,
+>-- 
+>2.26.2
+>
+
 
