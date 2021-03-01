@@ -2,81 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ADB0327FBE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 14:41:56 +0100 (CET)
-Received: from localhost ([::1]:59778 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C57E0327FD2
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 14:46:04 +0100 (CET)
+Received: from localhost ([::1]:34344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGio5-0003uF-Ji
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 08:41:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58320)
+	id 1lGis7-0005IQ-Qo
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 08:46:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lGil6-0001eg-2U
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:38:48 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:36682)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1lGil3-0002ao-Gg
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:38:47 -0500
-Received: by mail-wm1-x334.google.com with SMTP id k66so14538520wmf.1
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 05:38:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version:content-transfer-encoding;
- bh=huoBhlCYFeDimNGtOjp/zuvqaBBR5G2/2Bg5LAsPTZU=;
- b=i5VBQiBTir6SvT7gzRZBSGrOqNnaZ5ZKCQ3g9NUXvdMRAc4jqnJZHq2V03aZwmhOc+
- IOVZDvi0TMqy5bb69R1Q8MuFicdb9dKK5I1Ja6CnSBdApagTUldVbt2LKVsR3h8fwYju
- 4O77gDq7nif5NTbQbyBPACFeoqyE51j7eMZ4OiyrhuaDAoKA2VVI+lWHTSq++Gu/nIuj
- oTrZ7smhXR2l0iaQV5zto9/ZzNGk3eN/z02jkotI/yCo6RNKREmlG7uXpPHFT3WDeSJf
- gKAtS0nHLsVBuihIyCXr+MzVv8XPwn9J1sHNmdQHrUFAakFrdtbCEdgznF1QqxOyHJuc
- qflw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lGirE-0004q1-V7
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:45:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31967)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lGirC-0005X1-Oo
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 08:45:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614606305;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qBkEvHxE0hdCL0m4Znb06UBIQE5UTE85fF1PySmco5o=;
+ b=XyXOmAMEq6VOa4zD7FDnkHXY9hGNTwMTz5QQea/qFHDMPEss4LgV8ARx9FbLGjU1c03rux
+ oD/fH2dDOadKIcxOEePybAx0wLZIVNSr0z/Q6/gXnW7M6ACBkShyHEVM+uqe2ClNhyU6gh
+ 3FwEd7YvFINsp+seWVYfaGl+BbhtHlg=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-1AD7UnTdP_GAABeKPFl8BA-1; Mon, 01 Mar 2021 08:45:04 -0500
+X-MC-Unique: 1AD7UnTdP_GAABeKPFl8BA-1
+Received: by mail-wr1-f72.google.com with SMTP id z6so689765wrh.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 05:45:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version:content-transfer-encoding;
- bh=huoBhlCYFeDimNGtOjp/zuvqaBBR5G2/2Bg5LAsPTZU=;
- b=MCqX2RYnce0IC5hnVlR5SzQlTuNSdiV6oU/ScDGqsQH6m+SUsyqGDvENAM+k60bVTG
- PItcgDGz8RjkcoqgDPLI8TJ5sY42VRTOv4UnSwLjmplx4RYTMYCNSX5Uyv6gPt6zZ0iN
- uxq/ZV3YqoxZJghfoCqOlrqY8Baye+8vNbpe34cGq4GNMEaNKEojnmg/dptFYS6rEOE4
- btVT6/L0BVbwFKsUME6sQgCM5EC6HSvnz2EtpQRqM9e13NJ+53ZB7oAHt27D4UYeKuGf
- CUhEViZLEbp+BIZl3cylUAbzilXP2MCAE/7+2ltt0sJ1uHxhPLff9KNOX2Aw71SMnxII
- 5czQ==
-X-Gm-Message-State: AOAM533VAKL6AtsIqF5h9NjvAQxu4ZETM2sVbO2g1YLxyw4wBfffHufv
- DmMOZ5mSGoH1Ul8Nc7wx9ARnog==
-X-Google-Smtp-Source: ABdhPJywjofKW48a/2o0Z9SyUQ/2naF0yq4v+tm+T0ZW1tws/ii7PmEalz6q2aVYnytXcQ1wZIELWg==
-X-Received: by 2002:a1c:cc14:: with SMTP id h20mr15722936wmb.14.1614605923261; 
- Mon, 01 Mar 2021 05:38:43 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [2001:8b0:bb71:7140:64::1])
- by smtp.gmail.com with ESMTPSA id p6sm11200036wru.2.2021.03.01.05.38.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 05:38:42 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id fef18acf;
- Mon, 1 Mar 2021 13:38:41 +0000 (UTC)
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [RFC PATCH 3/3] hw/block/pflash: use
- memory_region_init_rom_device_from_file()
-In-Reply-To: <be6e184a-21e9-81f7-4f2e-363213a389b4@redhat.com>
-References: <20210225230238.3719051-1-philmd@redhat.com>
- <20210225230238.3719051-4-philmd@redhat.com> <m2im6fb5k9.fsf@dme.org>
- <be6e184a-21e9-81f7-4f2e-363213a389b4@redhat.com>
-X-HGTTG: heart-of-gold
-From: David Edmondson <dme@dme.org>
-Date: Mon, 01 Mar 2021 13:38:41 +0000
-Message-ID: <m2a6rnat9a.fsf@dme.org>
+ h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=qBkEvHxE0hdCL0m4Znb06UBIQE5UTE85fF1PySmco5o=;
+ b=ZEltAkMFSosA4h5woOXiCJ2D2g4B6S7pgifxvVkqoQCF7P0mNvEk667O0cB+pDTapj
+ j8nvKzdTK3DyjcCF+8545/afPTYNZAHuF2h+fVpHWJVSKB8OhMy3L7yNvOZeFqilCKrJ
+ e0CD4CgnwNAMlLgTWn8KaiGhNqt5H2J6Ai7JrMneg0e3TwCTMNxyZqV2ohAAWExRXpyc
+ JP9SAMmS1SMFF2A3GnfriRPvkUTwE7qFgjX3yyqG1BXmfT6BgawNK2osRAAr6GS1p+gw
+ AP9MUz/wY8yHUzOpl/exI6GgQda76yLAtkJCN6EiZJMU3ISL+OcwIcyw/IvZNUuCZ28D
+ z0/Q==
+X-Gm-Message-State: AOAM5313fmsnIWsY7+La9BuQVldFZ42FAmr5a7XZH4L9U2DK6PdFO4JJ
+ yK0/txggzw2bP4EZ+p872Htljywq3L8pjtAzCmR039WL2KFJ/k+RCfLN9aTVDUhCPrPsJ1+rexm
+ c5weYczPswK5BrwlFstH59caA0+WorDJQp3595s0vXklDKgAS3T4f3Nq2vhSsjY1eI3E=
+X-Received: by 2002:a1c:2403:: with SMTP id k3mr16123273wmk.130.1614606301609; 
+ Mon, 01 Mar 2021 05:45:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwYjPr1bPuxGHO27ZUc2OpH2AcIWpuew+qRjPp24qL9Fl+5W9elaMaNofapG+K0eR8Jl444ew==
+X-Received: by 2002:a1c:2403:: with SMTP id k3mr16123245wmk.130.1614606301337; 
+ Mon, 01 Mar 2021 05:45:01 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id j12sm12651795wrt.27.2021.03.01.05.45.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Mar 2021 05:45:00 -0800 (PST)
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210226080526.651705-1-pbonzini@redhat.com>
+ <20210226080526.651705-28-pbonzini@redhat.com>
+ <87r1kzl2vy.fsf@dusky.pond.sub.org>
+ <94db680f-a43f-7f94-a897-5512ceef6b98@redhat.com>
+ <878s77hunk.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PULL 27/29] vl: deprecate -writeconfig
+Message-ID: <51d463b8-29ec-b0b9-fece-d8a7594f7dbe@redhat.com>
+Date: Mon, 1 Mar 2021 14:45:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: neutral client-ip=2a00:1450:4864:20::334;
- envelope-from=dme@dme.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <878s77hunk.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,74 +103,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Xu Yandong <xuyandong2@huawei.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Zheng Xiang <zhengxiang9@huawei.com>,
- haibinzhang <haibinzhang@tencent.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Monday, 2021-03-01 at 12:50:33 +01, Philippe Mathieu-Daud=C3=A9 wrote:
+On 01/03/21 14:26, Markus Armbruster wrote:
+>> Didn't really forget; being pretty sure that there's no usage in the
+>> wild and having good reasons to remove the code, giving a firm removal
+>> date should encourage people to speak up sooner rather than later.
+> Second thoughts after agreeing to change something are okay.  Keeping
+> them for yourself not so much, because it deprives your reviewers of a
+> chance to raise further points.
 
-> On 2/26/21 9:23 AM, David Edmondson wrote:
->> On Friday, 2021-02-26 at 00:02:38 +01, Philippe Mathieu-Daud=C3=A9 wrote:
->>=20
->>> If the block drive is read-only we will model a "protected" flash
->>> device. We can thus use memory_region_init_rom_device_from_file()
->>> which mmap the backing file when creating the MemoryRegion.
->>> If the same backing file is used by multiple QEMU instances, this
->>> reduces the memory footprint (this is often the case with the
->>> CODE flash image from OVMF and AAVMF).
->>>
->>> Suggested-by: Stefan Hajnoczi <stefanha@redhat.com>
->>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
->>> ---
->>>  hw/block/pflash_cfi01.c | 20 ++++++++++++++------
->>>  hw/block/pflash_cfi02.c | 18 ++++++++++++++----
->>>  2 files changed, 28 insertions(+), 10 deletions(-)
->>>
->>> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
->>> index a5fa8d8b74a..5757391df1c 100644
->>> --- a/hw/block/pflash_cfi01.c
->>> +++ b/hw/block/pflash_cfi01.c
->>> @@ -743,11 +743,19 @@ static void pflash_cfi01_realize(DeviceState *dev=
-, Error **errp)
->>>          pfl->ro =3D 0;
->>>      }
->>>=20=20
->>> -    memory_region_init_rom_device(
->>> -        &pfl->mem, OBJECT(dev),
->>> -        &pflash_cfi01_ops,
->>> -        pfl,
->>> -        pfl->name, total_len, errp);
->>> +    if (pfl->blk && pfl->ro) {
->>> +        memory_region_init_rom_device_from_file(&pfl->mem, OBJECT(dev),
->>> +                                                &pflash_cfi01_ops, pfl,
->>> +                                                pfl->name, total_len,
->>> +                                                qemu_real_host_page_si=
-ze,
->>> +                                                RAM_SHARED,
->>> +                                                blk_bs(pfl->blk)->file=
-name,
->>=20
->> How will this behave if someone does:
->>=20
->>     -drive file=3DOVMF_CODE.fd.qcow2,index=3D0,if=3Dpflash,format=3Dqcow=
-2,readonly=3Don
->>=20
->> Honestly, I'm not sure why they would, but it works today.
->
-> OK I can add a check for "raw" driver, but I don't know to check for
-> offset =3D=3D 0.
+Sorry about that.
 
-This is pretty much where I got to when I tried using mmap() and gave up
-(mostly because I figured that adding layer violating checks to the
-pflash driver would not be well received, but also because we don't
-share the same underlying file between multiple VMs and I wasn't sure
-that it would eventually work well for writable devices).
+> In this case, the point I didn't make because I wanted to reach
+> agreement on contents before nitpicking form: you're not using
+> warn_report() the way it wants to be used:
+> 
+>      /*
+>       * Print a warning message to current monitor if we have one, else to stderr.
+>       * Format arguments like sprintf(). The resulting message should be a
+> ---> * single phrase, with no newline or trailing punctuation.
+>       * Prepend the current location and append a newline.
+>       */
+>      void warn_report(const char *fmt, ...)
 
-dme.
---=20
-Driving at 90 down those country lanes, singing to "Tiny Dancer".
+I knew about the rules for no newline or trailing punctuation, but I 
+didn't remember the other.  I can certainly respin, that said:
+
+- the comment should say "sentence", not "phrase".  For example "a 
+single phrase" is a single phrase, while "the resulting message should 
+be a single phrase" is a single sentence.
+
+- I'm not sure how to interpret the rule above.  First of all, the 
+sentence mixes part that are mandatory part ("no newline", checked by 
+checkpatch.pl) is mixed with the style guide ("no trailing punctuation" 
+and "a single sentence").  Second, whether a single sentence is better 
+often depends on the case.  For example, comparing these four:
+
+WARNING: -writeconfig foo: -writeconfig is deprecated.  It will go away 
+in QEMU 6.2 with no replacement
+
+WARNING: -writeconfig foo: -writeconfig is deprecated and will go away 
+in QEMU 6.2 with no replacement
+
+WARNING: -writeconfig foo: -writeconfig is deprecated; it will go away 
+in QEMU 6.2 with no replacement
+
+WARNING: -writeconfig foo: -writeconfig is deprecated
+WARNING: -writeconfig foo: it will go away in QEMU 6.2 with no replacement
+
+The first one is what was in this patch.
+
+The second does sound fine to me and it's probably what I'll use in v2, 
+with or without the "in QEMU 6.2" part.  However some could consider it 
+to be worse style due to the longer sentence.
+
+The third one is playing with the rules; a semicolon would be separating 
+two sentences.  However usage of the semicolon is quite common in error 
+messages, so maybe it would be good too?
+
+The last one also complies, but it is not clear what "it" refers to so 
+it seems to be the worst in this case.  In other cases it's the obvious 
+choice, and we even have an API for it (error_append_hint... however it 
+doesn't play well with error_fatal which I'm otherwise a big fan of). 
+In this case, not so much.
+
+Paolo
+
 
