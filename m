@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94E83328322
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:11:24 +0100 (CET)
-Received: from localhost ([::1]:37820 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC05832832F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:14:16 +0100 (CET)
+Received: from localhost ([::1]:41404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGl8l-0000ig-L2
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:11:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43344)
+	id 1lGlBX-0002FW-Op
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:14:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1lGl7D-0007zW-SB; Mon, 01 Mar 2021 11:09:47 -0500
-Received: from mail.kernel.org ([198.145.29.99]:36328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1lGl7C-0002Zg-5S; Mon, 01 Mar 2021 11:09:47 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1613C64DBD;
- Mon,  1 Mar 2021 16:09:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1614614984;
- bh=Ff/jZOqt4F9OD5N1uOKO6cuVd/7Sf3dy5XD4IVxAgxM=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=KrBnYf4WxZ3b9iOzbrB4X09lg0p/Ff+rZRGOJKOxUiNcX4C6hdtPw5+GxfWZwEOP6
- 4zj14MHxG48sQRDwv1W6fYBKkUUpIKI5YcamfgzwTG9ew2WkzPk0gY7TtAWGwfSqN/
- O1nBXxHouR8vun0+auok7wjvvbgYfZiZdHl47WAPoYbg1HVT9i8dFzLlGZn/UGugM4
- VIruRthYwdR7aifFWMDRC3ZoPxKl7TcHd8Xbpm8Zo20ZpKEkyJ9ECmQpeL/ijsyCvX
- /SA8q8DtCRp425/o6UKi3lElYaENgmTHcXIlnPY4/h0Xg3F66upH1hnG7v42QcXoSF
- oyAF/6znsM+tw==
-Date: Tue, 2 Mar 2021 01:09:40 +0900
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH RFC v3 12/12] hw/block/nvme: add support for the format
- nvm command
-Message-ID: <20210301160940.GC17228@redsun51.ssa.fujisawa.hgst.com>
-References: <20210214230240.301275-1-its@irrelevant.dk>
- <20210214230240.301275-13-its@irrelevant.dk>
- <20210216231632.GG2708768@dhcp-10-100-145-180.wdc.com>
- <YCzTPdmLgQywAtf0@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lGl9Q-0001Jn-IS
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:12:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1lGl9O-0003IM-WE
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:12:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614615122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mhcC3iMZm80eGpkVvNMZIm69/jqpnpuKyF7oL2vWKOk=;
+ b=DLguZLS6oMWcb/W9ps3gUte9dsiWN3vCBIhdcPKuak3Kb0cn3/WqClRr1Xyu4BXETq0U7b
+ m7oQcyVai5Zu0JebKL7rKK+GUx+Ih5ssqBLFinYkHu1nqtzIRghnKpuLWGeQV79+3GnN+9
+ gVrfGGiCHly9dkHnuthe7+u8SLP+DJk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-416-vzBVHwQFOnWz7RLZnqR86A-1; Mon, 01 Mar 2021 11:11:58 -0500
+X-MC-Unique: vzBVHwQFOnWz7RLZnqR86A-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7EEC080196C;
+ Mon,  1 Mar 2021 16:11:57 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-114-87.ams2.redhat.com [10.36.114.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 536D619C45;
+ Mon,  1 Mar 2021 16:11:38 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/5] softmmu/memory_mapping: optimize dump/tpm for
+ virtio-mem
+Date: Mon,  1 Mar 2021 17:11:32 +0100
+Message-Id: <20210301161137.78941-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YCzTPdmLgQywAtf0@apples.localdomain>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,47 +74,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Minwoo Im <minwoo.im@samsung.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Stefan Berger <stefanb@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Feb 17, 2021 at 09:26:37AM +0100, Klaus Jensen wrote:
-> On Feb 16 15:16, Keith Busch wrote:
-> > On Mon, Feb 15, 2021 at 12:02:40AM +0100, Klaus Jensen wrote:
-> > > From: Minwoo Im <minwoo.im@samsung.com>
-> > > 
-> > > Format NVM admin command can make a namespace or namespaces to be
-> > > with different LBA size and metadata size with protection information
-> > > types.
-> > > 
-> > > This patch introduces Format NVM command with LBA format, Metadata, and
-> > > Protection Information for the device. The secure erase operation things
-> > > are yet to be added.
-> > > 
-> > > The parameter checks inside of this patch has been referred from
-> > > Keith's old branch.
-> > 
-> > Oh, and here's the format command now, so my previous comment on patch
-> > 11 doesn't matter.
-> > 
-> > > +struct nvme_aio_format_ctx {
-> > > +    NvmeRequest   *req;
-> > > +    NvmeNamespace *ns;
-> > > +
-> > > +    /* number of outstanding write zeroes for this namespace */
-> > > +    int *count;
-> > 
-> > Shouldn't this count be the NvmeRequest's opaque value?
-> 
-> That is already occupied by `num_formats` which tracks formats of
-> individual namespaces. `count` is for outstanding write zeroes on one
-> particular namespace.
+Minor fixes and cleanups, followed by an optimization for virtio-mem
+regarding guest dumps and tpm.
 
-But why are they tracked separately? It looks like we only care about
-the number of outstanding zero-out commands. It doesn't matter how that
-number is spread across multiple namespaces.
+virtio-mem logically plugs/unplugs memory within a sparse memory region
+and notifies via the RamDiscardMgr interface when parts become
+plugged (populated) or unplugged (discarded).
+
+Currently, guest_phys_blocks_append() appends the whole (sparse)
+virtio-mem managed region and therefore tpm code might zero the hole
+region and dump code will dump the whole region. Let's only add logically
+plugged (populated) parts of that region, skipping over logically
+unplugged (discarded) parts by reusing the RamDiscardMgr infrastructure
+introduced to handle virtio-mem + VFIO properly.
+
+Based-on: 20210224094910.44986-1-david@redhat.com
+
+v1 -> v2:
+- "softmmu/memory_mapping: factor out adding physical memory ranges"
+-- Simplify based on RamDiscardManager changes: add using a
+   MemoryRegionSection
+- "softmmu/memory_mapping: optimize for RamDiscardManager sections"
+-- Simplify based on RamDiscardManager changes
+
+David Hildenbrand (5):
+  tpm: mark correct memory region range dirty when clearing RAM
+  softmmu/memory_mapping: reuse qemu_get_guest_simple_memory_mapping()
+  softmmu/memory_mapping: never merge ranges accross memory regions
+  softmmu/memory_mapping: factor out adding physical memory ranges
+  softmmu/memory_mapping: optimize for RamDiscardManager sections
+
+ hw/tpm/tpm_ppi.c         |  4 ++-
+ softmmu/memory_mapping.c | 72 ++++++++++++++++++++++++----------------
+ 2 files changed, 46 insertions(+), 30 deletions(-)
+
+-- 
+2.29.2
+
 
