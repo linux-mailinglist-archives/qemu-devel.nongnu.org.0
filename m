@@ -2,86 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8F10329410
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:48:43 +0100 (CET)
-Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E248329430
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:52:00 +0100 (CET)
+Received: from localhost ([::1]:33152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGqPC-0007Gl-T9
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:48:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
+	id 1lGqSN-0000IK-CT
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:51:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGqNg-0006TU-LN; Mon, 01 Mar 2021 16:47:10 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34705)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGqR5-000815-73
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:50:39 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:36497)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
- id 1lGqNe-0002nI-FS; Mon, 01 Mar 2021 16:47:08 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.nyi.internal (Postfix) with ESMTP id CBD8E5C0143;
- Mon,  1 Mar 2021 16:47:04 -0500 (EST)
-Received: from imap2 ([10.202.2.52])
- by compute3.internal (MEProxy); Mon, 01 Mar 2021 16:47:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
- mime-version:message-id:in-reply-to:references:date:from:to:cc
- :subject:content-type:content-transfer-encoding; s=fm2; bh=GknQ2
- UYUFzxEKEJMsF7yxlDNRK339wb7h8EKsuFS8lM=; b=olA5Cl8dYz6AlDk959Bvv
- LvWGGjtPAiJ3Pplbf4BQ8zN+zTmMYm3VCSheha6E/jrZCMz5WL86fz6NpDD2nSYw
- 82H4Ed9ysuU37F8G8l3zA3/XDfgnP1hzNe3uJbRWYRNJX8qbiT2dfPYklDkwt5uV
- kxcfaDnW6Jyekho/K50s/XE+Z21Bxbo38t8g1zxzCr7UWnrS4ebTluWGuUJSwChT
- UvmfZOHhLVatBN9MsynB4baQ5peQ3+wXWUt4hdhntGf7oafm3h6cMqYuGDcMxQuS
- PL0BOQKqfoPgEoXab4aF3oWJd94BJO3ctc9Nw+X77P0IEtLnbMfp01MIC2+aiRcg
- A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm2; bh=GknQ2UYUFzxEKEJMsF7yxlDNRK339wb7h8EKsuFS8
- lM=; b=Np7PxXmNPqB+9H+dr7LMtJHZWgBgL5R6fXaatThb20CCiUdsjo1E6DU6O
- Xqz8/cAlAi6Mrnw/E4rYpBUc1NXZnegXYdDacVf0EsYOMckdM0D1Xtc3yKDzDtas
- VUhk2UrYFQi/4feiSst7a/7iJFMCldNdfCxaeKHr+gtN7vv08q2yRVM2J6FVVIi0
- FtZnNaRIIzIHyyoIfkMUA/Eegf2E+ew/dgFmKub1WSflhsDohVepqT/SvGqyEYIl
- VyhyC4icvrQRZtGTZqrRGJC0tBK/cxhLPdb2aue7WAiiiT2ue5W6vZrytVEHAPLj
- kPvKC3gNcHkpfGhyRtXKm0da3XrSA==
-X-ME-Sender: <xms:12A9YJb_E51kaaLPSWK0XbRpyYTjE_V6PbDIQctk2dJQvKFR1cT18g>
- <xme:12A9YAazYtNgf1a9Ft1efEpiPBCRjrmFjFWTM_YahYN6BW-FLpIWcWCPQ-8v02Aws
- G_no9P--BCcByuMlg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdduheefucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
- ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
- frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
- kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
- hmpegrnhgurhgvfiesrghjrdhiugdrrghu
-X-ME-Proxy: <xmx:12A9YL_1xeKK2TjIyWLJ-rx8IripjyEb97vQYVEmSZ8auRUlGUhLLA>
- <xmx:12A9YHqoCtzeG_E_TOH1JZltOPsHwfUmw66AI1_IxA8Q2syXNJJudg>
- <xmx:12A9YEoco5wy4IXuIZy9NeYdenEi9d9_UEZLDBEAkueGTwfu9gThfw>
- <xmx:2GA9YJDQNEuJCBWfn119JyHMb11cMLJ28q2ARXF7r__QwqZDvfEQaQ>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
- id 65589A00064; Mon,  1 Mar 2021 16:47:03 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.5.0-alpha0-206-g078a48fda5-fm-20210226.001-g078a48fd
-Mime-Version: 1.0
-Message-Id: <19d389df-c9e8-499e-b691-7b6c9e2da1d7@www.fastmail.com>
-In-Reply-To: <20210301010610.355702-5-andrew@aj.id.au>
-References: <20210301010610.355702-1-andrew@aj.id.au>
- <20210301010610.355702-5-andrew@aj.id.au>
-Date: Tue, 02 Mar 2021 08:16:42 +1030
-From: "Andrew Jeffery" <andrew@aj.id.au>
-To: qemu-arm@nongnu.org
-Subject: Re: [PATCH v2 4/5] hw/misc: Add a basic Aspeed LPC controller model
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=andrew@aj.id.au;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGqR3-0004IE-2C
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:50:38 -0500
+Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MUpCz-1lPGUu3OTJ-00QlGV; Mon, 01 Mar 2021 22:50:30 +0100
+Subject: Re: [PATCH v2 13/42] esp: remove dma_left from ESPState
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ pbonzini@redhat.com, fam@euphon.net
+References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
+ <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <b9a04919-3027-ac15-d73e-041d0965f222@vivier.eu>
+Date: Mon, 1 Mar 2021 22:50:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+MIME-Version: 1.0
+In-Reply-To: <20210209193018.31339-14-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:sz9EF+LlPu13HkhfAuwhDIUTcLEYdmeKCsbPPxjB8dCBEUPp2vo
+ N/D4RJa7scAlVgQ6gH909sRIzfBTmO12lODjUh5eco5WBFEYy0MCqwORy5F1QS9qUZXP++5
+ FzgIzQr3vuvtc6pz9C9s4FKbkCxKXc5JX4vUWSl+QxWzknw1buKCyY2b7T3QnezYokgHhAp
+ DBXlYjRqxyuai8ELqZS8w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EFQRSfLKhKo=:3h6KHhjJjbtkWqhAgBCM+C
+ XUVRdR+4xawFs4uDURetBEihx3IRJ10PpJRsalqebDzE8c+IlB6maA93IfFg2t+kRDjJAtbWE
+ oP1KF3hWHMiqe47SA3JGAT9RGkFW0CHT4sNLrdZH2XeyUR8FoUMALx56R5CH7+KTJAOWxBRxC
+ tZj9UalSBQ10hSDMLefPtj8AKhy6r/3+4qYp0USHYP3XuAYxALkSyeYQ6zn1fBprfdxiguUK8
+ FOCgHCDH1+cOHaqo/J36VZVzb4piuklmZOsAN/GfeaK/rI6+MDojKBn5Z9Ggy0OwKswGLsBuZ
+ esOgdTrtYD4ckFvLnfm6dC9zxxPvbYpHdt9be3+x64TqwUm6/imDl8iZdg82AUFc0YX+mgnL2
+ g52dUR5olessLC4mTCxCx7QA4+UcmeT7xEgcBBe1xWEFGQBBBvMagXyA0zsL68R1nL4iWJoe5
+ OhtIBqMRXw==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,96 +67,231 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Ryan Chen <ryan_chen@aspeedtech.com>, Corey Minyard <minyard@acm.org>,
- Cameron Esfahani via <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Mon, 1 Mar 2021, at 11:36, Andrew Jeffery wrote:
-> From: C=C3=A9dric Le Goater <clg@kaod.org>
->=20
-> This is a very minimal framework to access registers which are used to=
-
-> configure the AHB memory mapping of the flash chips on the LPC HC
-> Firmware address space.
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
+> The ESP device already keeps track of the remaining bytes left to transfer via
+> its TC (transfer counter) register which is decremented for each byte that
+> is transferred across the SCSI bus.
+> 
+> Switch the transfer logic to use the value of TC instead of dma_left and then
+> remove dma_left completely, adding logic to the vmstate_esp post_load() function
+> to transfer the old dma_left value to the TC register during migration from
+> older versions.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 > ---
->  docs/system/arm/aspeed.rst   |   2 +-
->  hw/arm/aspeed_ast2600.c      |  10 +++
->  hw/arm/aspeed_soc.c          |  10 +++
->  hw/misc/aspeed_lpc.c         | 131 ++++++++++++++++++++++++++++++++++=
-+
->  hw/misc/meson.build          |   7 +-
->  include/hw/arm/aspeed_soc.h  |   2 +
->  include/hw/misc/aspeed_lpc.h |  32 +++++++++
->  7 files changed, 192 insertions(+), 2 deletions(-)
->  create mode 100644 hw/misc/aspeed_lpc.c
->  create mode 100644 include/hw/misc/aspeed_lpc.h
->=20
-> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
-> index 690bada7842b..2f6fa8938d02 100644
-> --- a/docs/system/arm/aspeed.rst
-> +++ b/docs/system/arm/aspeed.rst
-> @@ -48,6 +48,7 @@ Supported devices
->   * UART
->   * Ethernet controllers
->   * Front LEDs (PCA9552 on I2C bus)
-> + * LPC Peripheral Controller (a subset of subdevices are supported)
-> =20
-> =20
->  Missing devices
-> @@ -56,7 +57,6 @@ Missing devices
->   * Coprocessor support
->   * ADC (out of tree implementation)
->   * PWM and Fan Controller
-> - * LPC Bus Controller
->   * Slave GPIO Controller
->   * Super I/O Controller
->   * Hash/Crypto Engine
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index 2125a96ef317..60152de001e6 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -211,6 +211,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
-> =20
->      object_initialize_child(obj, "emmc-controller.sdhci", &s->emmc.sl=
-ots[0],
->                              TYPE_SYSBUS_SDHCI);
+>  hw/scsi/esp.c         | 47 ++++++++++++++++++++++++++++---------------
+>  include/hw/scsi/esp.h |  5 +++--
+>  2 files changed, 34 insertions(+), 18 deletions(-)
+> 
+> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
+> index 6c495b29c0..fcc99f5fe4 100644
+> --- a/hw/scsi/esp.c
+> +++ b/hw/scsi/esp.c
+> @@ -228,7 +228,7 @@ static void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)
+>      s->ti_size = datalen;
+>      if (datalen != 0) {
+>          s->rregs[ESP_RSTAT] = STAT_TC;
+> -        s->dma_left = 0;
+> +        esp_set_tc(s, 0);
+>          if (datalen > 0) {
+>              s->rregs[ESP_RSTAT] |= STAT_DI;
+>          } else {
+> @@ -382,6 +382,7 @@ static void do_dma_pdma_cb(ESPState *s)
+>  {
+>      int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
+>      int len = s->pdma_cur - s->pdma_start;
 > +
-> +    object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
->  }
-> =20
->  /*
-> @@ -469,6 +471,14 @@ static void aspeed_soc_ast2600_realize(DeviceStat=
-e=20
-> *dev, Error **errp)
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0,=20
-> sc->memmap[ASPEED_DEV_EMMC]);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
->                         aspeed_soc_get_irq(s, ASPEED_DEV_EMMC));
+>      if (s->do_cmd) {
+>          s->ti_size = 0;
+>          s->cmdlen = 0;
+> @@ -389,7 +390,6 @@ static void do_dma_pdma_cb(ESPState *s)
+>          do_cmd(s, s->cmdbuf);
+>          return;
+>      }
+> -    s->dma_left -= len;
+>      s->async_buf += len;
+>      s->async_len -= len;
+>      if (to_device) {
+> @@ -404,7 +404,7 @@ static void do_dma_pdma_cb(ESPState *s)
+>           * complete the DMA operation immediately.  Otherwise defer
+>           * until the scsi layer has completed.
+>           */
+> -        if (to_device || s->dma_left != 0 || s->ti_size == 0) {
+> +        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
+>              return;
+>          }
+>      }
+> @@ -418,7 +418,7 @@ static void esp_do_dma(ESPState *s)
+>      uint32_t len;
+>      int to_device = ((s->rregs[ESP_RSTAT] & 7) == STAT_DO);
+>  
+> -    len = s->dma_left;
+> +    len = esp_get_tc(s);
+>      if (s->do_cmd) {
+>          /*
+>           * handle_ti_cmd() case: esp_do_dma() is called only from
+> @@ -468,7 +468,7 @@ static void esp_do_dma(ESPState *s)
+>              return;
+>          }
+>      }
+> -    s->dma_left -= len;
+> +    esp_set_tc(s, esp_get_tc(s) - len);
+>      s->async_buf += len;
+>      s->async_len -= len;
+>      if (to_device) {
+> @@ -483,7 +483,7 @@ static void esp_do_dma(ESPState *s)
+>           * complete the DMA operation immediately.  Otherwise defer
+>           * until the scsi layer has completed.
+>           */
+> -        if (to_device || s->dma_left != 0 || s->ti_size == 0) {
+> +        if (to_device || esp_get_tc(s) != 0 || s->ti_size == 0) {
+>              return;
+>          }
+>      }
+> @@ -499,7 +499,6 @@ static void esp_report_command_complete(ESPState *s, uint32_t status)
+>          trace_esp_command_complete_unexpected();
+>      }
+>      s->ti_size = 0;
+> -    s->dma_left = 0;
+>      s->async_len = 0;
+>      if (status) {
+>          trace_esp_command_complete_fail();
+> @@ -535,12 +534,13 @@ void esp_command_complete(SCSIRequest *req, uint32_t status,
+>  void esp_transfer_data(SCSIRequest *req, uint32_t len)
+>  {
+>      ESPState *s = req->hba_private;
+> +    uint32_t dmalen = esp_get_tc(s);
+>  
+>      assert(!s->do_cmd);
+> -    trace_esp_transfer_data(s->dma_left, s->ti_size);
+> +    trace_esp_transfer_data(dmalen, s->ti_size);
+>      s->async_len = len;
+>      s->async_buf = scsi_req_get_buf(req);
+> -    if (s->dma_left) {
+> +    if (dmalen) {
+>          esp_do_dma(s);
+>      } else if (s->ti_size <= 0) {
+>          /*
+> @@ -571,7 +571,6 @@ static void handle_ti(ESPState *s)
+>      }
+>      trace_esp_handle_ti(minlen);
+>      if (s->dma) {
+> -        s->dma_left = minlen;
+>          s->rregs[ESP_RSTAT] &= ~STAT_TC;
+>          esp_do_dma(s);
+>      } else if (s->do_cmd) {
+> @@ -824,6 +823,14 @@ static const VMStateDescription vmstate_esp_pdma = {
+>      }
+>  };
+>  
+> +static bool esp_is_before_version_5(void *opaque, int version_id)
+> +{
+> +    ESPState *s = ESP(opaque);
 > +
-> +    /* LPC */
-> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
-> +        return;
+> +    version_id = MIN(version_id, s->mig_version_id);
+> +    return version_id < 5;
+> +}
+> +
+>  static int esp_pre_save(void *opaque)
+>  {
+>      ESPState *s = ESP(opaque);
+> @@ -836,6 +843,12 @@ static int esp_post_load(void *opaque, int version_id)
+>  {
+>      ESPState *s = ESP(opaque);
+>  
+> +    version_id = MIN(version_id, s->mig_version_id);
+> +
+> +    if (version_id < 5) {
+> +        esp_set_tc(s, s->mig_dma_left);
 > +    }
-> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->lpc), 0,=20
-> sc->memmap[ASPEED_DEV_LPC]);
-> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
-> +                       aspeed_soc_get_irq(s, ASPEED_DEV_LPC));
+> +
+>      s->mig_version_id = vmstate_esp.version_id;
+>      return 0;
+>  }
+> @@ -861,7 +874,7 @@ const VMStateDescription vmstate_esp = {
+>          VMSTATE_BUFFER_START_MIDDLE_V(cmdbuf, ESPState, 16, 4),
+>          VMSTATE_UINT32(cmdlen, ESPState),
+>          VMSTATE_UINT32(do_cmd, ESPState),
+> -        VMSTATE_UINT32(dma_left, ESPState),
+> +        VMSTATE_UINT32_TEST(mig_dma_left, ESPState, esp_is_before_version_5),
+>          VMSTATE_END_OF_LIST()
+>      },
+>      .subsections = (const VMStateDescription * []) {
+> @@ -904,12 +917,11 @@ static void sysbus_esp_pdma_write(void *opaque, hwaddr addr,
+>  {
+>      SysBusESPState *sysbus = opaque;
+>      ESPState *s = ESP(&sysbus->esp);
+> -    uint32_t dmalen;
+> +    uint32_t dmalen = esp_get_tc(s);
+>      uint8_t *buf = get_pdma_buf(s);
+>  
+>      trace_esp_pdma_write(size);
+>  
+> -    dmalen = esp_get_tc(s);
+>      if (dmalen == 0 || s->pdma_len == 0) {
+>          return;
+>      }
+> @@ -939,27 +951,30 @@ static uint64_t sysbus_esp_pdma_read(void *opaque, hwaddr addr,
+>  {
+>      SysBusESPState *sysbus = opaque;
+>      ESPState *s = ESP(&sysbus->esp);
+> +    uint32_t dmalen = esp_get_tc(s);
+>      uint8_t *buf = get_pdma_buf(s);
+>      uint64_t val = 0;
+>  
+>      trace_esp_pdma_read(size);
+>  
+> -    if (s->pdma_len == 0) {
+> +    if (dmalen == 0 || s->pdma_len == 0) {
+>          return 0;
+>      }
+>      switch (size) {
+>      case 1:
+>          val = buf[s->pdma_cur++];
+>          s->pdma_len--;
+> +        dmalen--;
+>          break;
+>      case 2:
+>          val = buf[s->pdma_cur++];
+>          val = (val << 8) | buf[s->pdma_cur++];
+>          s->pdma_len -= 2;
+> +        dmalen -= 2;
+>          break;
+>      }
+> -
+> -    if (s->pdma_len == 0 && s->pdma_cb) {
+> +    esp_set_tc(s, dmalen);
+> +    if (dmalen == 0 || (s->pdma_len == 0 && s->pdma_cb)) {
+>          esp_lower_drq(s);
+>          s->pdma_cb(s);
+>          s->pdma_cb = NULL;
+> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
+> index b313ef27f2..9fad320513 100644
+> --- a/include/hw/scsi/esp.h
+> +++ b/include/hw/scsi/esp.h
+> @@ -48,8 +48,6 @@ struct ESPState {
+>      uint32_t cmdlen;
+>      uint32_t do_cmd;
+>  
+> -    /* The amount of data left in the current DMA transfer.  */
+> -    uint32_t dma_left;
+>      int dma_enabled;
+>  
+>      uint32_t async_len;
+> @@ -67,6 +65,9 @@ struct ESPState {
+>      void (*pdma_cb)(ESPState *s);
+>  
+>      uint8_t mig_version_id;
+> +
+> +    /* Legacy fields for vmstate_esp version < 5 */
+> +    uint32_t mig_dma_left;
+>  };
+>  
+>  #define TYPE_SYSBUS_ESP "sysbus-esp"
+> 
 
-Hah, this isn't right! We don't notice it wrt LPC devices because the=20=
-
-LPC IRQ is unused right now, but it will impact the eMMC.
-
-Let me do a v3.
-
-Andrew
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
