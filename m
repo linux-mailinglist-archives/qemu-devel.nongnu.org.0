@@ -2,70 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C8E327CEE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:17:52 +0100 (CET)
-Received: from localhost ([::1]:37638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B51327D22
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:25:42 +0100 (CET)
+Received: from localhost ([::1]:46916 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGgYg-0001VP-J2
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:17:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54686)
+	id 1lGggG-0005WI-1F
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:25:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54936)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lGgWz-0000la-Jx
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:16:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38058)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1lGgWv-0001dK-H0
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:16:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614597360;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UW5EAhRq01zAlhshGr6Cj14eUZMgDl5l2wepDZBjdqk=;
- b=Mq38vOakwCAA9ufqoSCEW/o6psBIIBqrO1XIwMmVYZg7o4cT7pTABX+VFagCMMSgwT4Dc3
- f1n5jNyiEoFoqAfmg4RrHZcPuTOhocmHQhMJRckfVmBPDpEhS3FwszdtdtLMNdL0YYat7A
- yqlZr9ziv/wHkpCUsQdNFxPZ0eihTDg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-ODy2Ef9OM0WM6VBrQGnVAA-1; Mon, 01 Mar 2021 06:15:58 -0500
-X-MC-Unique: ODy2Ef9OM0WM6VBrQGnVAA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 589AA106BB23;
- Mon,  1 Mar 2021 11:15:56 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-165.ams2.redhat.com [10.36.114.165])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B4DCB60BFA;
- Mon,  1 Mar 2021 11:15:35 +0000 (UTC)
-Date: Mon, 1 Mar 2021 12:15:34 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Jim Fehlig <jfehlig@suse.com>
-Subject: Re: [PATCH 00/14] deprecations: remove many old deprecations
-Message-ID: <20210301111534.GD7698@merkur.fritz.box>
-References: <20210224131142.1952027-1-berrange@redhat.com>
- <de4a241c-3cca-203e-62c2-bf2c19f9e7ce@suse.com>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lGgXn-0001Py-B5
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:16:55 -0500
+Received: from isrv.corpit.ru ([86.62.121.231]:51531)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lGgXk-00029O-9m
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:16:54 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id F3C5A400F2;
+ Mon,  1 Mar 2021 14:16:47 +0300 (MSK)
+Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with ESMTP id CB64DDA;
+ Mon,  1 Mar 2021 14:16:47 +0300 (MSK)
+Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210222105004.1642234-1-laurent@vivier.eu>
+ <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
+ <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
+ <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
+ <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
+ <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
+ <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
+ <b2095785-3477-ccaf-ad88-1da88f3f597a@physik.fu-berlin.de>
+ <b39b1254-e76c-a793-6c13-058926ffdd65@msgid.tls.msk.ru>
+ <6b0c8faf-98c8-29f7-a6be-7901b94deb38@physik.fu-berlin.de>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <185ce154-c34e-a417-69db-3d1da5609468@msgid.tls.msk.ru>
+Date: Mon, 1 Mar 2021 14:16:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <de4a241c-3cca-203e-62c2-bf2c19f9e7ce@suse.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <6b0c8faf-98c8-29f7-a6be-7901b94deb38@physik.fu-berlin.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,76 +66,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Michael S. Tsirkin" <mst@redhat.com>,
- libvir-list@redhat.com, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- xen-devel <xen-devel@lists.xenproject.org>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Greg Kurz <groug@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Helge Deller <deller@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.02.2021 um 18:32 hat Jim Fehlig geschrieben:
-> Adding xen-devel and Ian to cc.
+01.03.2021 14:07, John Paul Adrian Glaubitz wrote:
+> On 3/1/21 11:40 AM, Michael Tokarev wrote:
+>> 01.03.2021 13:35, John Paul Adrian Glaubitz wrote:
+>> ..
+>>> I have been trying to get qemu-user working with sbuild as it is shipped in Debian
+>>> unstable now but I didn't have any success.
+>>>
+>>> Do you have some instructions somewhere how to get qemu-user working with sbuild?
+>>
+>> Have you seen #983087 which I fixed yesterday?
 > 
-> On 2/24/21 6:11 AM, Daniel P. Berrangé wrote:
-> > The following features have been deprecated for well over the 2
-> > release cycle we promise
+> Thanks, but it doesn't help, unfortunately.
 > 
-> This reminded me of a bug report we received late last year when updating to
-> 5.2.0. 'virsh setvcpus' suddenly stopped working for Xen HVM guests. Turns
-> out libxl uses cpu-add under the covers.
-> 
-> > 
-> >    ``-usbdevice`` (since 2.10.0)
-> >    ``-drive file=3Djson:{...{'driver':'file'}}`` (since 3.0)
-> >    ``-vnc acl`` (since 4.0.0)
-> >    ``-mon ...,control=3Dreadline,pretty=3Don|off`` (since 4.1)
-> >    ``migrate_set_downtime`` and ``migrate_set_speed`` (since 2.8.0)
-> >    ``query-named-block-nodes`` result ``encryption_key_missing`` (since 2.10.0)
-> >    ``query-block`` result ``inserted.encryption_key_missing`` (since 2.10.0)
-> >    ``migrate-set-cache-size`` and ``query-migrate-cache-size`` (since 2.11.0)
-> >    ``query-named-block-nodes`` and ``query-block`` result dirty-bitmaps[i].sta=
-> > tus (ince 4.0)
-> >    ``query-cpus`` (since 2.12.0)
-> >    ``query-cpus-fast`` ``arch`` output member (since 3.0.0)
-> >    ``query-events`` (since 4.0)
-> >    chardev client socket with ``wait`` option (since 4.0)
-> >    ``acl_show``, ``acl_reset``, ``acl_policy``, ``acl_add``, ``acl_remove`` (s=
-> > ince 4.0.0)
-> >    ``ide-drive`` (since 4.2)
-> >    ``scsi-disk`` (since 4.2)
-> > 
-> > AFAICT, libvirt has ceased to use all of these too.
-> 
-> A quick grep of the libxl code shows it uses -usbdevice, query-cpus, and scsi-disk.
-> 
-> > There are many more similarly old deprecations not (yet) tackled.
-> 
-> The Xen tools maintainers will need to be more vigilant of the deprecations.
-> I don't follow Xen development close enough to know if this topic has
-> already been discussed.
+> Do I need to use qemu-user-static or qemu-user-binfmt?
 
-MAINTAINERS has a section for "Incompatible changes" that covers
-docs/system/deprecated.rst. Maybe if the Xen maintainers are interested
-in that, we could add another list or individual people there so they
-would see patches that deprecate something?
+Oh. You tried to use qemu-user, not qemu-user-static..
+Well.
 
-But either way, it would probably be useful to check the full
-deprecation list rather than just what we're going to remove right now.
+In order for it to work it should be registered with the
+in-kernel binfmt-misc subsystem. qemu-user-static package
+does this automatically for you, but qemu-user does not,
+for that with qemu-user you'll have to additionally install
+qemu-user-binfmt package.
 
-Kevin
+But I guess it wont work with qemu-user even if it is registered
+(by means of installing qemu-user-binfmt or manual registration
+or whatever), - because regular qemu-user binaries aren't
+statically linked and hence require all the shared libraries
+within the chroot in order to run.
+
+I never tried to use regular (non-static) qemu-user with
+foreign chroot, and I suspect it wont work because of that
+very reason, and at least extra setup is needed (like
+copying appropriate /lib/ld.so and libc&glib&Co to the
+chroot).
+
+This is all about how qemu-user works, be it debian or
+any other distribution, - it is basically the same.
+I can only guess the wiki page you mentioned is wrong
+here.
+
+Thanks,
+
+/mjt
 
 
