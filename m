@@ -2,62 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B033290AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 21:13:46 +0100 (CET)
-Received: from localhost ([::1]:59478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD7B93290E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 21:17:57 +0100 (CET)
+Received: from localhost ([::1]:35162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGovJ-0007Ak-AG
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 15:13:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56414)
+	id 1lGozM-0000iG-QS
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 15:17:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGotc-0006gZ-3W
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:12:00 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:58157)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGotW-0002Ka-RH
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:11:59 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MTiDV-1lM0Sl1TbB-00U4HX; Mon, 01 Mar 2021 21:11:38 +0100
-Subject: Re: [PATCH v2 03/42] esp: QOMify the internal ESP device state
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-4-mark.cave-ayland@ilande.co.uk>
- <743ad0ea-6b85-29cb-8f92-60b4d9f0e9de@amsat.org>
- <4cdbc056-fc58-15f7-b480-860b1821974e@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <163eaac8-bdcc-9ea8-b024-ba24d1f470af@vivier.eu>
-Date: Mon, 1 Mar 2021 21:11:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lGoy4-0000Du-US
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:16:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41184)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1lGoy0-0004SZ-9b
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 15:16:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614629790;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OE3bex2xuusC5iT4ke6HfnYe68Ca6O0+gL1TS52VkHY=;
+ b=W9LzFlQNL9PW4dRssCa3ZCryOf2PbVkOqxEnfKx9BjjXcR6c+7EPl+bvsgVlMRfJIMYBj9
+ STj+PcnJAk3wOhVtyL/AjxAkd8l8woRwvtHj/ZpTfgK/DSt9Do0zVgooeriM0SbqAG/nV2
+ U0OzZfb0O7rkzjzg5YYFSGFOG15KYzM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-587-sQGrLABTNaaGYtfJ6bf8fA-1; Mon, 01 Mar 2021 15:16:26 -0500
+X-MC-Unique: sQGrLABTNaaGYtfJ6bf8fA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5089C2AA;
+ Mon,  1 Mar 2021 20:16:24 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.56])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id DFE4319744;
+ Mon,  1 Mar 2021 20:16:13 +0000 (UTC)
+Date: Mon, 1 Mar 2021 21:16:11 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Thomas Lamprecht <t.lamprecht@proxmox.com>
+Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
+Message-ID: <20210301211611.28d7606a@redhat.com>
+In-Reply-To: <dcf40b52-e695-e516-aa26-0db30e5ee6ea@proxmox.com>
+References: <20200730155755.188845-1-mst@redhat.com>
+ <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
+ <20210228154208-mutt-send-email-mst@kernel.org>
+ <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
+ <20210301021449-mutt-send-email-mst@kernel.org>
+ <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
+ <20210301152036.0c12cbf5@redhat.com>
+ <dcf40b52-e695-e516-aa26-0db30e5ee6ea@proxmox.com>
 MIME-Version: 1.0
-In-Reply-To: <4cdbc056-fc58-15f7-b480-860b1821974e@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:rdWw6iggf+o9PWe7/vos4L7E/ChHKP06DI4Pqb4sxn+PyOq4fh1
- FHZPhYum6kiMpEmiERPZkKW0o5VWU+uW6/9Sfnimhug4cAIobMB7Ij+JoMN0/77n6zelxbu
- LbGX05qil6WmxcO7zKh1UoU7V8FjPRaK/+YR4NRkwurrGL0koSYPFy7bL4VMINkc4enQJaT
- dz/rD/CFztdhNK+fpsR8g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:JOe3psaJ+N8=:F69S6ChlLJGisRS/SKwoPc
- YIGK4CaCvvmJkx0mbPrKs3TqeCYY5Rk04ShRPZ1yYSUENgCRna/k340SByjr53PO93b/5yPII
- GyofaNgXvhvhWOgcoxFYkTngHWg87RYkyvEf/IswWsFUDZP4yfAQ+x7Xu7sQjUlI860fyjQFv
- xELJOaEl3i789j9uzYo5hyJjvy1xj/6f7h3dlaygweh6Q8wRkHSkZzqUe0aXd4Su7lyUWdQB4
- LODr0nucqLRENRqMuhmYIXubx9K3+6pELy0Sz0Dz3tJNDGw1iP8L4CuQbP9lVeS4EtBJmxw/r
- gD3EQ7KxuJtNRV9Q4u86a/SDjrrhVMz7OPwBCpkBLZNfcirGIvr5bXKJNK6Qbg/l1rJ0u2s6M
- rdUAB1awr2/DGNEpnJNJWOSc1uTA6z+YxO4IOfSXjuBTKymzjmtfP/R1bEATbiw7rIAq3uBlj
- gvG6G+D6xA==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,64 +85,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: vit9696 <vit9696@protonmail.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Stefan Reiter <s.reiter@proxmox.com>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 15/02/2021 à 23:29, Mark Cave-Ayland a écrit :
-> On 12/02/2021 18:51, Philippe Mathieu-Daudé wrote:
-> 
->> On 2/9/21 8:29 PM, Mark Cave-Ayland wrote:
->>> Make this new QOM device state a child device of both the sysbus-esp and esp-pci
->>> implementations.
->>>
->>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->>> ---
->>>   hw/scsi/esp-pci.c     | 48 +++++++++++++++++++++++++++++++------------
->>>   hw/scsi/esp.c         | 45 +++++++++++++++++++++++++++++++++-------
->>>   include/hw/scsi/esp.h |  5 +++++
->>>   3 files changed, 78 insertions(+), 20 deletions(-)
->>
->> Please setup scripts/git.orderfile ;)
-> 
-> I will have to take a look at this at some point - it has been on my TODO list for a while :)
-> 
->>> @@ -354,9 +365,11 @@ static void esp_pci_scsi_realize(PCIDevice *dev, Error **errp)
->>>   {
->>>       PCIESPState *pci = PCI_ESP(dev);
->>>       DeviceState *d = DEVICE(dev);
->>> -    ESPState *s = &pci->esp;
->>> +    ESPState *s = ESP(&pci->esp);
->>>       uint8_t *pci_conf;
->>>   +    qdev_realize(DEVICE(s), NULL, errp);
->>
->>         if (!qdev_realize(DEVICE(s), NULL, errp)) {
->>             return;
->>         }
->>
->>>       pci_conf = dev->config;
->>>         /* Interrupt pin A */
->>> @@ -375,11 +388,19 @@ static void esp_pci_scsi_realize(PCIDevice *dev, Error **errp)
->>>       scsi_bus_new(&s->bus, sizeof(s->bus), d, &esp_pci_scsi_info, NULL);
->>>   }
->> ...
->>
->>> @@ -956,7 +958,9 @@ static void sysbus_esp_realize(DeviceState *dev, Error **errp)
->>>   {
->>>       SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
->>>       SysBusESPState *sysbus = SYSBUS_ESP(dev);
->>> -    ESPState *s = &sysbus->esp;
->>> +    ESPState *s = ESP(&sysbus->esp);
->>> +
->>> +    qdev_realize(DEVICE(s), NULL, errp);
->>
->>         if (!qdev_realize(DEVICE(s), NULL, errp)) {
->>             return;
->>         }
->>
->> With both if():
->> Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> 
-> Great! I've added the if() statements and added your R-B to the patch.
+On Mon, 1 Mar 2021 15:27:38 +0100
+Thomas Lamprecht <t.lamprecht@proxmox.com> wrote:
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> On 01.03.21 15:20, Igor Mammedov wrote:
+> > On Mon, 1 Mar 2021 08:45:53 +0100
+> > Thomas Lamprecht <t.lamprecht@proxmox.com> wrote:  
+> >> On 01.03.21 08:20, Michael S. Tsirkin wrote:  
+> >>> There are various testing efforts the reason this got undetected is
+> >>> because it does not affect linux guests, and even for windows
+> >>> they kind of recover, there's just some boot slowdown around reconfiguration.
+> >>> Not easy to detect automatically given windows has lots of random
+> >>> downtime during boot around updates etc etc.
+> >>>     
+> >>
+> >> No, Windows does not reconfigure, this is a permanent change, one is just lucky
+> >> if one has a DHCP server around in the network accessible for the guest.
+> >> As static addresses setup on that virtual NIC before that config is gone,
+> >> no recovery whatsoever until manual intervention.  
+> > Static IP's are the pain guest admin picked up to deal with so he might have to
+> > reconfigure guest OS when it decides to rename NICs. In this case moving
+> > to new QEMU is alike to updating BIOS which fixed PCI description.
+> > (On QEMU side we try to avoid breaking changes, but sometime it happens anyway
+> > and it's up guest admin to fix OS quirks)
+> >   
+> 
+> heh, I agree, but users see it very differently, QEMU got updated, something
+> stopped working/changed/... -> QEMU at fault.
+lets try to workaround it as Michael have suggested, i.e. old behavior for old
+machine types.
+
+> >> I meant more of a "dump HW layout to .txt file, commit to git, and ensure
+> >> there's no diff without and machine version bump" (very boiled down), e.g., like
+> >> ABI checks for kernel builds are often done by distros - albeit those are easier
+> >> as its quite clear what and how the kernel ABI can be used.  
+> > ACPI tables are not considered as ABI change in QEMU, technically tables that QEMU
+> > generates are firmware and not version-ed (same like we don't tie anything to
+> > specific firmware versions). 
+> > 
+> > However we rarely do version ACPI changes (only when it breaks something or
+> > we suspect it would break and we can't accept that breakage), this time it took
+> > a lot of time to find out that. We try to minimize such cases as every
+> > versioning knob adds up to maintenance.
+> > 
+> > For ACPI tables changes, QEMU has bios-tables-test, but it lets us to catch
+> > unintended changes only.
+> > Technically it's possible to keep master tables for old machine versions
+> > and test against it. But I'm not sure if we should do that, because some
+> > (most) changes are harmless or useful and should apply to all machine
+> > versions.
+> > So we will end up in the same situation, where we decide if a change
+> > should be versioned or not.
+
+If you can come up with a test case for this issue, patches are welcome.
+
+We probably should test PCI device enumeration on Windows,
+as it's what's broken. Testing that in qtest (make check) is out of question,
+but there are acceptance tests which run various guest OSes and provide tools
+to interact with guest. Perhaps adding test there could work.
+Though I don't know if there are Windows based guest images available for it.
+
+I guess it's something to discuss with guys who work on CI/testing
+infrastructure (CCed).
+ 
+> OK, fair enough. Many thanks for providing some rationale!
+> 
+> 
+
 
