@@ -2,62 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C7AA3281E2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:12:03 +0100 (CET)
-Received: from localhost ([::1]:56370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EBB3281DB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:11:17 +0100 (CET)
+Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGkDK-0001K2-8r
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:12:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55150)
+	id 1lGkCa-0000F9-5F
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:11:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxinxin.wang@huawei.com>)
- id 1lGkAp-0007Kv-06
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:09:27 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187]:2970)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wangxinxin.wang@huawei.com>)
- id 1lGkAl-00008J-DE
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:09:26 -0500
-Received: from DGGEMM401-HUB.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4Dq3XR3fYxzYF0M;
- Mon,  1 Mar 2021 23:07:35 +0800 (CST)
-Received: from dggema716-chm.china.huawei.com (10.3.20.80) by
- DGGEMM401-HUB.china.huawei.com (10.3.20.209) with Microsoft SMTP Server (TLS)
- id 14.3.498.0; Mon, 1 Mar 2021 23:09:06 +0800
-Received: from dggema771-chm.china.huawei.com (10.1.198.213) by
- dggema716-chm.china.huawei.com (10.3.20.80) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.2106.2; Mon, 1 Mar 2021 23:09:00 +0800
-Received: from dggema771-chm.china.huawei.com ([10.9.128.123]) by
- dggema771-chm.china.huawei.com ([10.9.128.123]) with mapi id 15.01.2106.006;
- Mon, 1 Mar 2021 23:09:00 +0800
-From: "Wangxin (Alexander)" <wangxinxin.wang@huawei.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: [RFC]migration: stop/start device at the end of live migration
- concurrently
-Thread-Topic: [RFC]migration: stop/start device at the end of live migration
- concurrently
-Thread-Index: AdcOrIzBJVDdoqTXSMWIMcUnmEwV9w==
-Date: Mon, 1 Mar 2021 15:09:00 +0000
-Message-ID: <c716d92c659149f6bdb00c9aa642abf9@huawei.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.149.106]
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lGkAs-0007RI-Mb
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:09:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58985)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lGkAr-0000G5-14
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:09:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614611367;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iQT/c4bSl96nw1CD5TO3b1xfLXLAoR/0IbgklK74pZ4=;
+ b=eyOC4xA9+DIgmyiW4/4t8o+Y94zhPRFPO6xvQ5vkLv3PjzKW7F4JSH5q1B+NZBTgqXw5ea
+ xqC1p8WGsu5NoCITVTC5ni4FG2wtXB0l/atjW5FwOJJHMo3XYdBf6XxYG0neeYiOEDlfbo
+ RiP6JdKaVFeqGOYHBnQIdcXpHkqm+T4=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-1-G-7YPqM1mTqM1XMw3Qzw-1; Mon, 01 Mar 2021 10:09:23 -0500
+X-MC-Unique: 1-G-7YPqM1mTqM1XMw3Qzw-1
+Received: by mail-wr1-f71.google.com with SMTP id g2so2667579wrx.20
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 07:09:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iQT/c4bSl96nw1CD5TO3b1xfLXLAoR/0IbgklK74pZ4=;
+ b=JvFtAlafod5w2//cdc1jNmzZMX9Gw8MHZf6Hpyf1d44XLWTD9dhY0jaWtlRK2cL9za
+ U+vDQKhl+jmhak+heoHhtmwozxq87LQEDVYWpMZ3SBbImLcEcZDo1DmVU8fktpGzUf/+
+ +Bo7dg422CoacR504KUIOKlmB2GfEVRqmf9MgY9MMJzQtut82kERenYMhk++vItGM/Ba
+ Kufqx+IFfBJYfVnMXr4Qfpiqxyzzg3PST8VBAKOvm999jZPH78mx4uQDUKZ7c2wPIgu4
+ g6oUSqiQWSlhKNXQXQ4TrhZ4AX9kJT6y1M/lV85TGtlY5gBxTWZMqwTpX2qOs6XaYt1B
+ nv9w==
+X-Gm-Message-State: AOAM532z6501sVCj0Dv7YvGpspEFTYWBGO7IgmY1UzACFSbSyjtlQz0l
+ jWhrOaPpMJJ1VoJOvRmzf0Zaq3pwyhqa5EHTAQDr3NOvA48EY0vsZBm+CoCxNtJljD2ALH8XCvw
+ 1N2i7MwDNQ55A8ew=
+X-Received: by 2002:a05:600c:3550:: with SMTP id
+ i16mr16180559wmq.170.1614611361910; 
+ Mon, 01 Mar 2021 07:09:21 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwT9O3H38oZSTdjU7+fZxZgzYLEz1DWgK5mcVPqLUk429sHj6CBGs8kuiYjfJ44TRQOuI8xMA==
+X-Received: by 2002:a05:600c:3550:: with SMTP id
+ i16mr16180522wmq.170.1614611361499; 
+ Mon, 01 Mar 2021 07:09:21 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id m17sm4787090wrx.92.2021.03.01.07.09.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Mar 2021 07:09:20 -0800 (PST)
+Subject: Re: [PATCH] storage-daemon: include current command line option in
+ the errors
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210226110312.157645-1-pbonzini@redhat.com>
+ <20210301122638.GG7698@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <6d8b8217-d1d3-b7e9-c005-90ce4b2f8b1a@redhat.com>
+Date: Mon, 1 Mar 2021 16:09:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=wangxinxin.wang@huawei.com; helo=szxga01-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210301122638.GG7698@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,87 +103,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Wuchenye \(karot, Cloud Infrastructure Service
- Product Dept\)" <wuchenye@huawei.com>,
- "Zhoujian \(jay\)" <jianjay.zhou@huawei.com>,
- "dgilbert@redhat.com" <dgilbert@redhat.com>,
- "quintela@redhat.com" <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all,
+On 01/03/21 13:26, Kevin Wolf wrote:
+> This save_index approach isn't perfect because getopt may skip
+> non-option arguments and they will be included in the help text:
+> 
+>      $ build/storage-daemon/qemu-storage-daemon foo --object iothread
+>      qemu-storage-daemon: foo --object iothread: Parameter 'id' is missing
+> 
+>      $ build/storage-daemon/qemu-storage-daemon foo --object iothread,id=t
+>      qemu-storage-daemon: --object iothread,id=t foo: Unexpected argument: foo
+> 
+> However, without changing the interface of loc_set_cmdline(), getting
+> the right index seems hard. Not sure what is the best way for fixing
+> this or if it's worth the effort.
 
-We found that the downtime of migration will reach a few seconds when live
-migrating a huge VM with 224vCPU/180GiB/16 vhost-user nics (x32 queues)/
-24 vhost-user-blk disks(x4 queues), most of the time is spent in the
-position of stopping the device at src and starting device at dst.
+We can do better by passing "-hT:V" to getopt_long.  Then each 
+non-option argument is returned directly, and everything works as 
+getopt_long no longer needs to reorder argv.
 
-Our idea is to stop the device through multiple threads during the end of
-migration. To be more specific, we create thread pool at the beginning of l=
-ive
-migraion, when migration thread call virtio_vmstate_change callback to stop=
- or
-start device in vm_state_notify, it will submits request to thread pool to
-handle the callback concurrently.
+Paolo
 
-We live migrate the vm and count the cost time at different stages of
-stopping/starting devices.
-
-  -       -     -                 Cost: Original    With state change concu=
-rrently
-                get vring base             36ms          18ms
-        disk    disable guest notify       48ms          32ms
-                disable host notify        300ms         120ms
-Src             get vring base             1376ms        294ms
-        net     disable host notify        1011ms        116ms
-                disable guest notify       59ms          40ms
- -       -      -
-                enable guest notify        310ms         97ms
-        net     set memtable               48ms          20ms
-                enable host notify         2022ms        114ms=20
-Dst             enable host notify         312ms         78ms
-        disk    enable guest notify        32ms          23ms
-                set memTable               16ms          10ms
-Total Downtime                             5600ms        962ms
-
-However, there are some side effects:
-1. When disable host notify or guest notify concurrently, the vm will be cr=
-ashed
-due to disabling same notify at the different threads, we now add two diffe=
-rent lock
-to solve this problem, it is hacking to do so and may be resulting in other=
- problems.
-
-2. As the QEMU BQL will be held by migration thread before stopping device =
-in
-migration_completion, there will be deadlock in the following scene:
-migration_thread                              [thread 1]
-  set_up_multithread
-  ...
-  migration_completion()# get QEMU BQL
-    qemu_mutex_lock_iothread()
-    vm_stop_force_state()
-    ...
-      submit stopping device request
-      to thread pool
-                                           virtio_vmstate_change
-                                             virtio_set_status
-                                             ...
-                                               memory_region_transaction_be=
-gin
-                                               ...
-                                                 prepare_mmio_access
-                                                   qemu_mutex_iothread_lock=
-ed()# N
-                                                   qemu_mutex_lock_iothread=
-()# deadlock
-
-Now we add another lock to replace the BQL in this scene to solve the probl=
-em,
-but we think this is not reliable enough and has potential risk that other
-processes will also use the QEMU BQL during the process of stopping device.=
- My
-question is: how to deal with the conflict with QEMU BQL properly.
-
-Any advice will be appreciated, thanks.
 
