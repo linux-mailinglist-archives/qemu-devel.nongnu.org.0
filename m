@@ -2,42 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 533F1327E55
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 13:29:38 +0100 (CET)
-Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 537DF327E49
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 13:29:13 +0100 (CET)
+Received: from localhost ([::1]:35268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGhg9-0000WZ-AR
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 07:29:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41802)
+	id 1lGhfk-0007yx-8d
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 07:29:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1lGhdb-0004vl-54
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:26:59 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3315)
+ id 1lGhdk-00055b-5N
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:27:08 -0500
+Received: from szxga04-in.huawei.com ([45.249.212.190]:3316)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhengchuan@huawei.com>)
- id 1lGhdX-0001u6-JW
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:26:58 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DpzwZ5qtKzlR1b;
- Mon,  1 Mar 2021 20:24:46 +0800 (CST)
+ id 1lGhdh-0001yP-0N
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:27:07 -0500
+Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.58])
+ by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Dpzwk2yr1zlRJn;
+ Mon,  1 Mar 2021 20:24:54 +0800 (CST)
 Received: from [10.174.186.51] (10.174.186.51) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 1 Mar 2021 20:26:45 +0800
+ DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server id
+ 14.3.498.0; Mon, 1 Mar 2021 20:26:50 +0800
 From: Zheng Chuan <zhengchuan@huawei.com>
-Subject: Re: [PATCH v4 08/18] migration/rdma: export getQIOChannel to get
- QIOchannel in rdma
+Subject: Re: [PATCH v4 11/18] migration/rdma: record host_port for multifd RDMA
 To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 References: <1612339311-114805-1-git-send-email-zhengchuan@huawei.com>
- <1612339311-114805-9-git-send-email-zhengchuan@huawei.com>
- <20210203184933.GS2950@work-vm>
-Message-ID: <3010309f-be48-ca1d-e50d-83f3f42cb7d6@huawei.com>
-Date: Mon, 1 Mar 2021 20:26:45 +0800
+ <1612339311-114805-12-git-send-email-zhengchuan@huawei.com>
+ <20210203190427.GU2950@work-vm>
+Message-ID: <f2a2ff10-160f-00ec-c5ec-e157215e6cec@huawei.com>
+Date: Mon, 1 Mar 2021 20:26:50 +0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
  Thunderbird/68.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210203184933.GS2950@work-vm>
+In-Reply-To: <20210203190427.GU2950@work-vm>
 Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -71,55 +70,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 2021/2/4 2:49, Dr. David Alan Gilbert wrote:
+On 2021/2/4 3:04, Dr. David Alan Gilbert wrote:
 > * Chuan Zheng (zhengchuan@huawei.com) wrote:
->> Signed-off-by: Zhimin Feng <fengzhimin1@huawei.com>
 >> Signed-off-by: Chuan Zheng <zhengchuan@huawei.com>
 >> ---
->>  migration/qemu-file.c | 5 +++++
->>  migration/qemu-file.h | 1 +
->>  2 files changed, 6 insertions(+)
+>>  migration/migration.c | 1 +
+>>  migration/migration.h | 3 +++
+>>  migration/rdma.c      | 3 +++
+>>  3 files changed, 7 insertions(+)
 >>
->> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
->> index be21518..37f6201 100644
->> --- a/migration/qemu-file.c
->> +++ b/migration/qemu-file.c
->> @@ -260,6 +260,11 @@ void ram_control_before_iterate(QEMUFile *f, uint64_t flags)
->>      }
->>  }
->>  
->> +void *getQIOChannel(QEMUFile *f)
->> +{
->> +    return f->opaque;
->> +}
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 129c81a..b8f4844 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -1925,6 +1925,7 @@ void migrate_init(MigrationState *s)
+>>      s->postcopy_after_devices = false;
+>>      s->migration_thread_running = false;
+>>      s->enabled_rdma_migration = false;
+>> +    s->host_port = NULL;
+>>      error_free(s->error);
+>>      s->error = NULL;
+>>      s->hostname = NULL;
+>> diff --git a/migration/migration.h b/migration/migration.h
+>> index da5681b..537ee09 100644
+>> --- a/migration/migration.h
+>> +++ b/migration/migration.h
+>> @@ -285,6 +285,9 @@ struct MigrationState {
+>>       * Enable RDMA migration
+>>       */
+>>      bool enabled_rdma_migration;
 >> +
+>> +    /* Need by Multi-RDMA */
+>> +    char *host_port;
 > 
-> Unfortunately that's not right, since the opaque isn't always a
-> QUIChannel, so getOpaque would be a suitable name here.
-> 
-> It's a shame this is needed; I'm surprised you ever have a QEMUFIle* in
-> the rdma code in somewhere you don't have the QIOChannel; could you
-> avoid this by adding a QIOChannel pointer into the RDAMContext to point
-> back to the channel which it's for?
+> Please keep that next to the char *hostname, since they go together.
+> Also, 'Needed'
 > 
 > Dave
 > 
-OK, i'll try it.
->>  void ram_control_after_iterate(QEMUFile *f, uint64_t flags)
->>  {
->>      int ret = 0;
->> diff --git a/migration/qemu-file.h b/migration/qemu-file.h
->> index a9b6d6c..4cef043 100644
->> --- a/migration/qemu-file.h
->> +++ b/migration/qemu-file.h
->> @@ -165,6 +165,7 @@ void qemu_file_set_blocking(QEMUFile *f, bool block);
->>  void ram_control_before_iterate(QEMUFile *f, uint64_t flags);
->>  void ram_control_after_iterate(QEMUFile *f, uint64_t flags);
->>  void ram_control_load_hook(QEMUFile *f, uint64_t flags, void *data);
->> +void *getQIOChannel(QEMUFile *f);
+OK, will fix it in V5.
+>>  };
 >>  
->>  /* Whenever this is found in the data stream, the flags
->>   * will be passed to ram_control_load_hook in the incoming-migration
+>>  void migrate_set_state(int *state, int old_state, int new_state);
+>> diff --git a/migration/rdma.c b/migration/rdma.c
+>> index ed8a015..9654b87 100644
+>> --- a/migration/rdma.c
+>> +++ b/migration/rdma.c
+>> @@ -4206,6 +4206,8 @@ void rdma_start_outgoing_migration(void *opaque,
+>>          goto err;
+>>      }
+>>  
+>> +    s->host_port = g_strdup(host_port);
+>> +
+>>      ret = qemu_rdma_source_init(rdma,
+>>          s->enabled_capabilities[MIGRATION_CAPABILITY_RDMA_PIN_ALL], errp);
+>>  
+>> @@ -4250,6 +4252,7 @@ void rdma_start_outgoing_migration(void *opaque,
+>>  
+>>      s->to_dst_file = qemu_fopen_rdma(rdma, "wb");
+>>      migrate_fd_connect(s, NULL);
+>> +    g_free(s->host_port);
+>>      return;
+>>  return_path_err:
+>>      qemu_rdma_cleanup(rdma);
 >> -- 
 >> 1.8.3.1
 >>
