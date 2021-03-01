@@ -2,71 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12388328AA2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 19:21:04 +0100 (CET)
-Received: from localhost ([::1]:51676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87376328AA7
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 19:22:10 +0100 (CET)
+Received: from localhost ([::1]:53992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGnAF-0001Mh-2h
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 13:21:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56766)
+	id 1lGnBJ-0002Sy-JL
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 13:22:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lGn8i-0000q9-5l
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 13:19:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27972)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1lGn8f-0002wq-UO
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 13:19:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614622762;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=oSt+8RrLCm2xkS5Sd6syvpA2asSyqw/PpjxpBRFpLkg=;
- b=i1/6edlUeiM9dR75MYTb1F8i380ERnP3x+FL1PsxHLrp9Bzoo8BYwsZf8cq0oZC+995XjH
- vSyV3378T6F/WmyFqnPT/VPaUg3K9loO6Es3/XbuIfpGnoSTqU9Cy4kcPDktEqLC3/T8zK
- LnSCkZjfwVnbqXqoDGzfEcw/0w3xWOw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-562-l7xnz2MdMvCG424A5ID-tg-1; Mon, 01 Mar 2021 13:19:21 -0500
-X-MC-Unique: l7xnz2MdMvCG424A5ID-tg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1218A835E24;
- Mon,  1 Mar 2021 18:19:20 +0000 (UTC)
-Received: from localhost (ovpn-115-54.ams2.redhat.com [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A7F3C10013D7;
- Mon,  1 Mar 2021 18:19:19 +0000 (UTC)
-Date: Mon, 1 Mar 2021 18:19:18 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 0/2] docs: show how to spawn qemu-storage-daemon with
- fd passing
-Message-ID: <YD0wJhKgAg19Y8+1@stefanha-x1.localdomain>
-References: <20210301171107.134100-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1lGn8z-00012Y-Ph
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 13:19:45 -0500
+Received: from mo6-p01-ob.smtp.rzone.de ([2a01:238:400:200::c]:17904)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <olaf@aepfle.de>) id 1lGn8x-000325-NG
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 13:19:45 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1614622778; cv=none;
+ d=strato.com; s=strato-dkim-0002;
+ b=bLahahnxyeq9suwS4Q8wqKOHJ1PQ7FFAeymggFtwpxm/LqwDrM3liz0Xa1BvtyMp6b
+ Jfj5OR/+WuyKyO1G2szeiNNL4NDgbvoIsToINhJAVXfUKdYN57PubC6k2nTNGWnPVCfu
+ nn0L/2/Rt3+CdD84Zc8TyyGrPZ1NZDIlWL+t13dyMbgqOb89ZNCkLjhB7t35dm/+T22s
+ 0TxRUWFItkhb9n+CIRYQ1HWRIe70i/vajl43CdJXvdG4El3Nl7Xw+vcmA4qbHvK8fFob
+ iv0QJbsBNHTu+JUro3IHA5mZvi17N7u8vnQP5MZbHNRB1TfWcrCj4CGtrh/Dcdyd4XyL
+ gqBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; t=1614622778;
+ s=strato-dkim-0002; d=strato.com;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=2rsZSWK2dz1pyQe/d2PYwLZpPMODNVXB/GMaV35Y6aY=;
+ b=IhQafR4AXr18nxYR8pmzblBQxUSYG9D2rhQAlcUuIkMtKHEuqGAQpE5TQjUccUMyOm
+ H8LLXC2B5lQb6ihZwGRiiGYOA6wpnAA+O+oe3saFgvEWtnbHEg3SHz4nA0pW6ZnVQRJl
+ CMkpbtOCKfXVxvBfw9arUxkoxnO+VUhsIH/TzJ3Jtp/bDMMyILjvG+GSPnMYGT5njTJS
+ PjoSmY2U3a/h60s5olFsMmTv0DeXBjxDnRNHz6RLxyxtlNQZS/nNapEt2UTg2iVNHRAE
+ nr7qVnTe283E3d6S5XSC0erRxSwIM8m4Z8JWQuM6P298bjBoE1a2yBXP7iXoQjvzNR/t
+ Vb4Q==
+ARC-Authentication-Results: i=1; strato.com;
+    dkim=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1614622778;
+ s=strato-dkim-0002; d=aepfle.de;
+ h=References:In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Cc:Date:
+ From:Subject:Sender;
+ bh=2rsZSWK2dz1pyQe/d2PYwLZpPMODNVXB/GMaV35Y6aY=;
+ b=MQfaCZl3ExkZsRhAskT34FOCu9s/Hc7/xSGrBhYH09iybgjNkOB1Hk6MpCANuZ/J+1
+ Yg9xQGc7tu4NR8r2mjxZmQErQQG0ro2jIv+871/pCSAGbq4tnZ2InJpTyhPU//99BYd2
+ jvXQznrMyjBQ08WFZrDIuW1BlnMV+DUCjfBREi5U8cEalYSf40B0HiBmYlxxbtY7bd7d
+ z/7L6DwPZyNbI5VQYMCn/YFruHjSLVwHUDCuMvd2IN/3SdvJQSRTin36V3TWwWup209i
+ Rt2D4GXYsilQBxHeE8jNiOUb0e4Q3LNddi4kQXeBItptr3ubTQRzqE8Y/6tJuQO7I/sY
+ qnXQ==
+Authentication-Results: strato.com;
+    dkim=none
+X-RZG-AUTH: ":P2EQZWCpfu+qG7CngxMFH1J+3q8wa/QLpd5ylWvMDXdoX8l8pYAcz5OTW+j4/A=="
+X-RZG-CLASS-ID: mo00
+Received: from sender by smtp.strato.de (RZmta 47.20.2 DYNA|AUTH)
+ with ESMTPSA id c0372ax21IJb270
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits))
+ (Client did not present a certificate);
+ Mon, 1 Mar 2021 19:19:37 +0100 (CET)
+Date: Mon, 1 Mar 2021 19:19:24 +0100
+From: Olaf Hering <olaf@aepfle.de>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
+Subject: Re: [RFC v1 34/38] target/arm: cpu: only initialize TCG gt timers
+ under CONFIG_TCG
+Message-ID: <20210301191924.0cb03520.olaf@aepfle.de>
+In-Reply-To: <9c82fac6-68f3-6e27-1e2a-54cb2236c1d6@suse.de>
+References: <20210221092449.7545-1-cfontana@suse.de>
+ <20210221092449.7545-35-cfontana@suse.de>
+ <ef926947-1073-4d7e-0b59-c47fbbfb44a2@amsat.org>
+ <9c82fac6-68f3-6e27-1e2a-54cb2236c1d6@suse.de>
+X-Mailer: Claws Mail 2021.01.29 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210301171107.134100-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="gN8JGcTIYxEBBm/1"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ boundary="Sig_/WOCkqIuds.Tpa2nCKNn4ZG_"; protocol="application/pgp-signature"
+Received-SPF: none client-ip=2a01:238:400:200::c; envelope-from=olaf@aepfle.de;
+ helo=mo6-p01-ob.smtp.rzone.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001, SPF_NONE=0.001,
+ URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,53 +94,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---gN8JGcTIYxEBBm/1
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+--Sig_/WOCkqIuds.Tpa2nCKNn4ZG_
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Mar 01, 2021 at 05:11:05PM +0000, Stefan Hajnoczi wrote:
-> Add an example of how to spawn qemu-storage-daemon with fd passing. This
-> approach eliminates the need to busy wait for the QMP, NBD, or vhost-user
-> socket to become available.
->=20
-> v2:
->  * Use /var/run/qmp.sock instead of /tmp/qmp-$PID.sock to prevent securit=
-y
->    issues with world-writeable directories [Rich, Daniel]
->  * Add Patch 2 to fix insecure examples in the documentation [Rich, Danie=
-l]
->=20
-> Stefan Hajnoczi (2):
->   docs: show how to spawn qemu-storage-daemon with fd passing
->   docs: replace insecure /tmp examples in qsd docs
->=20
->  docs/tools/qemu-storage-daemon.rst | 44 ++++++++++++++++++++++++++----
->  1 file changed, 39 insertions(+), 5 deletions(-)
+Am Sun, 21 Feb 2021 14:59:38 +0100
+schrieb Claudio Fontana <cfontana@suse.de>:
 
-Obsoleted by v3.
+> On 2/21/21 10:55 AM, Philippe Mathieu-Daud=C3=A9 wrote:
+> > On 2/21/21 10:24 AM, Claudio Fontana wrote: =20
 
-Stefan
+> >> @@ -1347,7 +1348,8 @@ static void arm_cpu_realizefn(DeviceState *dev, =
+Error **errp)
+> >>          cpu->gt_timer[GTIMER_HYPVIRT] =3D timer_new(QEMU_CLOCK_VIRTUA=
+L, scale,
+> >>                                                    arm_gt_hvtimer_cb, =
+cpu); =20
+> > What about Xen? =20
+> Good question, what about it..
+> Ccing also Olaf.
 
---gN8JGcTIYxEBBm/1
-Content-Type: application/pgp-signature; name="signature.asc"
+
+Yes, what about Xen?
+
+Does Xen on ARM use these code paths? I do not have the answer for this que=
+stion.
+
+
+Olaf
+
+--Sig_/WOCkqIuds.Tpa2nCKNn4ZG_
+Content-Type: application/pgp-signature
+Content-Description: Digitale Signatur von OpenPGP
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmA9MCYACgkQnKSrs4Gr
-c8hzrwf/cMB9jZBjk4kh2ZJgDZbB9R5Acsch8LUUqc+GTm9Gr47DtMTrHKL1g0MQ
-MMYn6ToMFWL4D6YgQgSANIwwc0DJaf0l8iDaLpoCXHdXHSa3h/o4iUuoTDRL29h8
-F5srKMv4uwQml9K3HuO9RQQ+XnrqJTcFgkw81b6VCm2SLUntx3Hy2UwCY5Aw+0+L
-8eSBzEOnKu6qxdJwPd9sumgPnl0BDimTIgJgTnta6gbHL6OUIyD7+BdawC7VpjF0
-JBNYL6Bs3ZvHkmad7gqrTFOGVgSeYBVR5o+g6A5lsSpZdjqYH7NIN+zfY+xyCc1J
-jrdeyyn8OoVf2RFRAhlYePGvKGyo+g==
-=87NE
+iQIzBAEBCAAdFiEE97o7Um30LT3B+5b/86SN7mm1DoAFAmA9MC0ACgkQ86SN7mm1
+DoBctQ//WksEqQ901r4Pe7nJMdoJ5T3oL/3J+vSLxYBwiqp1v4sbTW41/xjZGexY
+V68NZkT1PXjkqMGwthuo8DjYvmIW7K2uB5bHMjzC8Rl5DP2YHh8EEkCNTGi3AIEW
+rXS6h/2xwAxAGg3ymKYlPnemxgFXWiZLgUsrWe+WXi5zwgHZWwsp7iIiUNXLiDZP
+r7BXA5oIxenQSz14E4Vp1PvozD9zLY8JKrPVMGyMWnYgF6J1eE/Kp2p0gWooH1Aq
+Y/ZHR4VGgpdkve8HdRGedLSY0ojNofLvOPKifcGZfPLQsZGGfNApPp++j4isdPze
+MaAh0F7GbHFHNCDbuLw4ULR8DNoTG/Do6G/HA/UjjhyDXrFZv4M5csSekukV9UJ5
+0Qbc0xkuQbCGw/xf6bonoUZ5IaRZeHCgpG+iU9gCunPE26sbAhFuRnJZ7uF87CBU
+K+qwhdm2rJIQrBjC6eGDJHL2kV0kfdA3Tmk65RPHq/uqvJHQBAhtyfC7x4oWXX9P
+GKrblkf4kvsuQPqPuS13C1oFV0Yy1ZgRhVXT612bZdV6kYYH4+1lt8HizzssXNgz
+vP5CM4BD8SAXs+y7uOtJfuzE0XU3haYsVHfm2khZUTUSOzuATt4QWrfErSPJzElF
+86JVrWWsOEkCfGlRhQHjU6ByV5OgqDn9CcDKoITC6yS0vJQi6BU=
+=tJhN
 -----END PGP SIGNATURE-----
 
---gN8JGcTIYxEBBm/1--
-
+--Sig_/WOCkqIuds.Tpa2nCKNn4ZG_--
 
