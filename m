@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B510328CE7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 20:02:33 +0100 (CET)
-Received: from localhost ([::1]:45112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 996FA328D79
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 20:12:59 +0100 (CET)
+Received: from localhost ([::1]:56106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGnoO-0005nn-6u
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 14:02:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37918)
+	id 1lGnyU-0002uE-MD
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 14:12:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lGnmn-0005F5-Af
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:00:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20657)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lGnmk-0004o5-KP
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:00:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614625248;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Js3Mfw5E/S4fJARqqIzfgo6Ug1mBhWTjOBrVNRs5AuE=;
- b=B+SFWNEYAW161S9kS3YTCzRsnBxXllLZ6p55axD9cR2r9lzKzdEa4nXGFun4DixkZ752Cc
- 5UwIBWX2+P1OIzN73GSfIAbHeoXDPGfSBkL4vYji5u+2rLwKN61eeF8j1kvbCsFTy9p5O5
- qSPXozy9DedTlMfIDsQ6e5QUZ33M/ZU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-sUJPGEE-MF-nVH1nydfL_w-1; Mon, 01 Mar 2021 14:00:41 -0500
-X-MC-Unique: sUJPGEE-MF-nVH1nydfL_w-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AEAA1966321;
- Mon,  1 Mar 2021 19:00:40 +0000 (UTC)
-Received: from localhost (ovpn-112-87.ams2.redhat.com [10.36.112.87])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 479E75D731;
- Mon,  1 Mar 2021 19:00:36 +0000 (UTC)
-Date: Mon, 1 Mar 2021 19:00:36 +0000
-From: "Richard W.M. Jones" <rjones@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v3 2/2] docs: replace insecure /tmp examples in qsd docs
-Message-ID: <20210301190036.GG30079@redhat.com>
-References: <20210301172728.135331-1-stefanha@redhat.com>
- <20210301172728.135331-3-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lGnwT-0001oV-B2
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:10:57 -0500
+Received: from indium.canonical.com ([91.189.90.7]:43400)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1lGnwP-0000uq-MA
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 14:10:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1lGnwN-0006wF-Ur
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 19:10:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id E67302E80FF
+ for <qemu-devel@nongnu.org>; Mon,  1 Mar 2021 19:10:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210301172728.135331-3-stefanha@redhat.com>
-User-Agent: Mutt/1.5.21 (2010-09-15)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=rjones@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Mar 2021 19:03:27 -0000
+From: Iris Johnson <1913341@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: modwizcode
+X-Launchpad-Bug-Reporter: Iris Johnson (modwizcode)
+X-Launchpad-Bug-Modifier: Iris Johnson (modwizcode)
+References: <161169229373.32028.17843536287596168887.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161462540844.24934.6047508141936543632.launchpad@wampee.canonical.com>
+Subject: [Bug 1913341] Re: Chardev behavior breaks polling based devices
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="cd61f0bfc5208dd4b58a15e953892eaabba1e0b8"; Instance="production"
+X-Launchpad-Hash: f756819f1482ac48a5337720a45c3240a9139002
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,24 +70,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
+Reply-To: Bug 1913341 <1913341@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-For the series:
+-- =
 
-Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913341
 
-Rich.
+Title:
+  Chardev behavior breaks polling based devices
 
--- 
-Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
-Read my programming and virtualization blog: http://rwmj.wordpress.com
-Fedora Windows cross-compiler. Compile Windows programs, test, and
-build Windows installers. Over 100 libraries supported.
-http://fedoraproject.org/wiki/MinGW
+Status in QEMU:
+  Fix Committed
 
+Bug description:
+  Currently in latest QEMU (9cd69f1a270235b652766f00b94114f48a2d603f at
+  this time) the behavior of chardev sources is that when processed
+  (before IO polling occurs), the chardev source will check the amount
+  of space for reading.
+
+  If it reports more than 0 bytes available to accept the read and a
+  callback is not set, the code will set a child source connected to the
+  QIOChannel submitted to the original source. If there's no buffer
+  space reported, it will check for an active source, if registered it
+  will detach this source.
+
+  Next time the loop fires, if the buffer now reports space (most likely
+  the guest has run, emptying some bytes from the buffer), it will setup
+  the callback again.
+
+  However, if we have a stupid simple device (or driver) that doesn't
+  have buffers big enough to fit an available write when one is sent
+  (say a single byte buffer, polled serial port), then the poll will be
+  set, the poll will occur and return quickly, then the callback will
+  (depending on the backend chardev used) most likely read the 1 byte it
+  has space for from the source, push it over to the frontend hardware
+  side, and the IO loop will run again.
+
+  Most likely the guest will not clear this byte before the next io loop
+  cycle, meaning that the next prepare call on the source will see a
+  full buffer in the guest and remove the poll for the data source, to
+  allow the guest time to run to clear the buffer. Except, without a
+  poll or a timeout set, the io loop might now block forever, since
+  there's no report from the guest after clearing that buffer. This only
+  returns in a sane amount of time because often some other device/timer
+  is scheduled which sets a timeout on the poll to a reasonable time.
+
+  I don't have a simple submittable bit of code to replicate at the
+  moment but connecting a serial port to a pty then writing a large
+  amount of data, while a guest that doesn't enable the fifo spins on an
+  rx ready register, you can observe that RX on the guest takes anywhere
+  from 1s to forever per byte.
+
+  This logic all occurs in chardev/char-io.c
+
+  Fixing this can be as simple as removing the logic to detach the child
+  event source and changing the attach logic to only occur if there's
+  buffer space and the poll isn't already setup. That fix could cause
+  flow control issues potentially if the io runs on the same thread as
+  the emulated guest (I am not sure about the details of this) and the
+  guest is in a tight loop doing the poll. I don't see that as happening
+  but the logic might be there for a reason.
+
+  Another option is to set a timeout when the source gets removed,
+  forcing the poll to exit with a fixed delay, this delay could
+  potentially be derived from something like the baud rate set, forcing
+  a minimum time before forward progress.
+
+  If removing the logic isn't an option, another solution is to make the
+  emulated hardware code itself kick the IO loop and trigger it to
+  reschedule the poll. Similar to how the non-blocking write logic
+  works, the read logic could recognize when the buffer has been emptied
+  and reschedule the hw on the guest. In theory this sounds nice, but
+  for it to work would require adding logic to all the emulated chardev
+  frontends and in reality would likely be going through the effort to
+  remove the callback only to within a few nanoseconds potentially want
+  to add it back.
+
+  I'm planning to submit a patch with just outright removing the logic,
+  but am filing this bug as a place to reference since tracking down
+  this problem is non-obvious.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913341/+subscriptions
 
