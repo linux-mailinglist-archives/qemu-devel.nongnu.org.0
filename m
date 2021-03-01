@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FB13282AC
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:39:31 +0100 (CET)
-Received: from localhost ([::1]:58496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE66C3282B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:41:50 +0100 (CET)
+Received: from localhost ([::1]:35894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGkdt-0007QV-S9
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:39:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33738)
+	id 1lGkgA-0001VA-0d
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:41:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34134)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lGkco-0006U3-LJ
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:38:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48471)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lGkdo-00087F-7a
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:39:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50196)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lGkck-0004kb-1c
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:38:21 -0500
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1lGkdm-0005Ee-Ba
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:39:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614613096;
+ s=mimecast20190719; t=1614613161;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lzf7uQzOkBy89QAZ4omcHjYitYA7TbcIh/V5HxbAR98=;
- b=DUMUWKQMViDFUG9IlTxcNz/w9cfbIW8e6un2Vu7tuJevOhIYFbbOBittKgt6jhNfNo+ofv
- j4kSFdY7wdX7a0lQMmzyQKMx4+FhuW0ZCyvvpOgVeJBRUo8na1oAkmahQ7//t5PfnhIiws
- I5WlhUJUJF2pchHdikqmyguu16GErV0=
+ bh=i6hvHAHKzJiT0t25GvVEqTvjQiPmJHi6C/apWaxLC/8=;
+ b=UmFjcHkR4sMbCSpQEPvvrIismMvKs2TnlxhuilCF28GZY5/FvsWd2rczG3245OoW+/aen1
+ w1r7xaYuPx5sILg+ZxBcBzpVcyvBaZuKkIh+RqpHp3uwMCIAoysd88lDjBwy69xSS6+Sgv
+ 6dwSAA6+XSMxAMpy6+pHGlAN9ujo9PU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-348-vyu-ZdcCOgmyX8R730Ek7Q-1; Mon, 01 Mar 2021 10:38:13 -0500
-X-MC-Unique: vyu-ZdcCOgmyX8R730Ek7Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-302-U_de9E4fPeWZOV0UUhb6dA-1; Mon, 01 Mar 2021 10:39:12 -0500
+X-MC-Unique: U_de9E4fPeWZOV0UUhb6dA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 623061966339;
- Mon,  1 Mar 2021 15:38:12 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FE971002C11;
- Mon,  1 Mar 2021 15:38:12 +0000 (UTC)
-Subject: Re: [PATCH v2 1/2] storage-daemon: report unexpected arguments on the
- fly
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210301152844.291799-1-pbonzini@redhat.com>
- <20210301152844.291799-2-pbonzini@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <b7b29e6a-4fe6-ab6a-87d9-e2e794b2b5d0@redhat.com>
-Date: Mon, 1 Mar 2021 09:38:11 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3D29E185A0D1;
+ Mon,  1 Mar 2021 15:39:11 +0000 (UTC)
+Received: from localhost (ovpn-112-87.ams2.redhat.com [10.36.112.87])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CA8515C3E4;
+ Mon,  1 Mar 2021 15:39:07 +0000 (UTC)
+Date: Mon, 1 Mar 2021 15:39:06 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH] docs: show how to spawn qemu-storage-daemon with fd
+ passing
+Message-ID: <20210301153906.GZ30079@redhat.com>
+References: <20210301153159.35660-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210301152844.291799-2-pbonzini@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210301153159.35660-1-stefanha@redhat.com>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=rjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +79,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 9:28 AM, Paolo Bonzini wrote:
-> If the first character of optstring is '-', then each nonoption argv
-> element is handled as if it were the argument of an option with character
-> code 1.  This removes the reordering of the argv array, and enables usage
-> of loc_set_cmdline to provide better error messages.
+On Mon, Mar 01, 2021 at 03:31:59PM +0000, Stefan Hajnoczi wrote:
+> The QMP monitor, NBD server, and vhost-user-blk export all support file
+> descriptor passing. This is a useful technique because it allows the
+> parent process to spawn and wait for qemu-storage-daemon without busy
+> waiting, which may delay startup due to arbitrary sleep() calls.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> This Python example is inspired by the test case written for libnbd by
+> Richard W.M. Jones <rjones@redhat.com>:
+> https://gitlab.com/nbdkit/libnbd/-/commit/89113f484effb0e6c322314ba75c1cbe07a04543
+> 
+> Thanks to Daniel P. Berrangé <berrange@redhat.com> for suggestions on
+> how to get this working. Now let's document it!
+> 
+> Reported-by: Richard W.M. Jones <rjones@redhat.com>
+> Cc: Kevin Wolf <kwolf@redhat.com>
+> Cc: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  storage-daemon/qemu-storage-daemon.c | 9 ++++-----
->  1 file changed, 4 insertions(+), 5 deletions(-)
+>  docs/tools/qemu-storage-daemon.rst | 38 ++++++++++++++++++++++++++++--
+>  1 file changed, 36 insertions(+), 2 deletions(-)
+> 
+> diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
+> index f63627eaf6..45854c131e 100644
+> --- a/docs/tools/qemu-storage-daemon.rst
+> +++ b/docs/tools/qemu-storage-daemon.rst
+> @@ -101,10 +101,12 @@ Standard options:
+>  
+>  .. option:: --nbd-server addr.type=inet,addr.host=<host>,addr.port=<port>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
+>    --nbd-server addr.type=unix,addr.path=<path>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
+> +  --nbd-server addr.type=fd,addr.str=<fd>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
+>  
+>    is a server for NBD exports. Both TCP and UNIX domain sockets are supported.
+> -  TLS encryption can be configured using ``--object`` tls-creds-* and authz-*
+> -  secrets (see below).
+> +  A listen socket can be provided via file descriptor passing (see Examples
+> +  below). TLS encryption can be configured using ``--object`` tls-creds-* and
+> +  authz-* secrets (see below).
+>  
+>    To configure an NBD server on UNIX domain socket path ``/tmp/nbd.sock``::
+>  
+> @@ -127,6 +129,38 @@ QMP commands::
+>        --chardev socket,path=qmp.sock,server,nowait,id=char1 \
+>        --monitor chardev=char1
+>  
+> +Launch the daemon from Python with a QMP monitor socket using file descriptor
+> +passing so there is no need to busy wait for the QMP monitor to become
+> +available::
+> +
+> +  #!/usr/bin/env python3
+> +  import os
+> +  import subprocess
+> +  import socket
+> +
+> +  sock_path = '/tmp/qmp-{}.sock'.format(os.getpid())
 
-Nice.  The man page for 'getopt_long' is unclear whether setting
-POSIXLY_CORRECT in the environment would break this (that is, setting
-POSIXLY_CORRECT has the same effect as a leading '+'; but you can't have
-both leading '+' and leading '-' and when both are set, it is not clear
-which one wins).  But that's a corner case that I don't think will ever
-bite us in real life.
+Not sure how much you worry about the insecure / easily guessable tmp
+path here.  I notice that there's already one in the surrounding
+documentation (/tmp/nbd.sock) so maybe it's not a problem :-)
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+> +  with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as listen_sock:
+> +      listen_sock.bind(sock_path)
+> +      listen_sock.listen()
+> +
+> +      fd = listen_sock.fileno()
+> +
+> +      subprocess.Popen(
+> +          ['qemu-storage-daemon',
+> +           '--chardev', f'socket,fd={fd},server=on,id=char1',
+> +           '--monitor', 'chardev=char1'],
+> +          pass_fds=[fd],
+> +      )
+> +
+> +  qmp_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+> +  qmp_sock.connect(sock_path)
+
+A note that the order of opening the sockets is slightly different
+from how I did it in the interop test.  But I believe it makes no
+difference, as long as you don't connect to the socket until it's in
+the listening state, which is what you're doing here.  So it should be
+fine.
+
+> +  ...QMP interaction...
+> +
+> +The same socket spawning approach also works with the ``--nbd-server
+> +addr.type=fd,addr.str=<fd>`` and ``--export
+> +type=vhost-user-blk,addr.type=fd,addr.str=<fd>`` options.
+> +
+>  Export raw image file ``disk.img`` over NBD UNIX domain socket ``nbd.sock``::
+
+The patch looks fine in general:
+
+Reviewed-by: Richard W.M. Jones <rjones@redhat.com>
+
+Rich.
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
 
 
