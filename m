@@ -2,81 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF9B3276D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 06:11:36 +0100 (CET)
-Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC185327732
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 06:44:23 +0100 (CET)
+Received: from localhost ([::1]:47816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGaqD-0003Vw-V8
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 00:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36278)
+	id 1lGbLy-0004yT-UX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 00:44:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGaom-0002xo-Kv
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 00:10:04 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:33644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1lGaol-0006jm-0r
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 00:10:04 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id b8so6311590plh.0
- for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 21:10:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=oNMgX9PlOgeIdu5IyVoME7R4MOUwSVIYCcN9AJno7Dg=;
- b=VYTNe0Byx/WJkZ65OhikMSFkg5reSfU0IHaRRIuk0oBcdo3UuxSCxrg0I0/tSK54eQ
- OTmo98Sh8ClCpDt1LanjxJHSYiciRNC5NWdX8FeuoOLYSSW9k69OiVlD1WaW7i6IRWPn
- 6h6ZFg3+/g1ktqpybP9Z6F7dGT1qPQPVcbiP4rtrbshFOKtjLtBly5LFZtMZqeZ6kcLF
- TqMtNF+FEu4liwhmuq/2mp/qiAaO7T/Pxqoh6trd8IK+REj0u/2GgItd3pJDtU0F/gVz
- zWEIO54KIy30n2O3t+yqKsePHM6q+f82fUhawmXYK4lIGeiEXuhacCqut8jS9iDhndKm
- O0dA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=oNMgX9PlOgeIdu5IyVoME7R4MOUwSVIYCcN9AJno7Dg=;
- b=NohCRT4rM/MTO7PZqik9MlFEMfGlcYtTqy8pNX21xO2BdB4fuO8xnI2JPpw7I1/X8g
- U2ssQo79sa9W6KpBjqS3fkBQ7VgzjIr1zSSjSPqcXpgAp4FOmIxvQ/VphxfgBcFY2fKM
- PfyzicTJr5uMx4162gVxI5OKn7NJnHFYdG58xu4DAUOtdjC3aL6swkdOW3NmICfebmcY
- oUceIXczGL5HcZCdU/U51A8HAmavwBFt/M7gTUerI7pgvgjmDovS7S60D8t71ddLX0Un
- 35UF5QjS5tp1P4BfjUdkfbH9G4xjyJbLl4XmVUpzsngFMI+XqJHFSPpZLCjrSHqCkMca
- 3Bfg==
-X-Gm-Message-State: AOAM5318qjo0EPMhIitzGUzEaOUuXGkoigZl5Q8nu2vofs6TcTWi1J7P
- j58wQoLsZwM2l1xtolZoryPL1g==
-X-Google-Smtp-Source: ABdhPJzydtdhvVuccZdbbNLXedaFqb+8riH12Dp/q3inxvu9nDg/uM5Wnp5lplYwll96Sus+mccGKw==
-X-Received: by 2002:a17:902:34a:b029:e4:8b7f:14b8 with SMTP id
- 68-20020a170902034ab02900e48b7f14b8mr8420282pld.29.1614575401471; 
- Sun, 28 Feb 2021 21:10:01 -0800 (PST)
-Received: from [192.168.1.11] (174-21-84-25.tukw.qwest.net. [174.21.84.25])
- by smtp.gmail.com with ESMTPSA id h6sm15159684pfv.84.2021.02.28.21.10.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 28 Feb 2021 21:10:01 -0800 (PST)
-Subject: Re: [PATCH v2 19/24] hw/arm/mps2-tz: Get armv7m_load_kernel() size
- argument from RAMInfo
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210215115138.20465-1-peter.maydell@linaro.org>
- <20210215115138.20465-20-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <3301e83d-cfcc-e690-a501-c1bf6de7d5c5@linaro.org>
-Date: Sun, 28 Feb 2021 21:09:59 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.1
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lGbKb-0003oA-BQ
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 00:42:57 -0500
+Received: from mga12.intel.com ([192.55.52.136]:2504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <yang.zhong@intel.com>)
+ id 1lGbKY-00029h-VS
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 00:42:56 -0500
+IronPort-SDR: VdJ4nCIvl8CU4O1yJ45T/X9a05l6HgW30yQDDx/aJ3HD3wiBYnnFA9RScneTorVQ8DT9Yo5+9y
+ Ix1Sug9y0PVw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9909"; a="165595209"
+X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; d="scan'208";a="165595209"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+ by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 28 Feb 2021 21:42:48 -0800
+IronPort-SDR: yWQz9wywHVjyrWJJzX2ua1o+S6yGXeZOeq2fvQm7SfRq+A0Sxw7+zEFKHRHQhSyx11vSxz2S25
+ lqrWBb6h+0rQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.81,214,1610438400"; d="scan'208";a="397524153"
+Received: from icx-2s.bj.intel.com ([10.240.192.119])
+ by fmsmga008.fm.intel.com with ESMTP; 28 Feb 2021 21:42:46 -0800
+From: Yang Zhong <yang.zhong@intel.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/1] Expose AVX_VNNI instruction to guset
+Date: Mon,  1 Mar 2021 13:15:51 +0800
+Message-Id: <20210301051552.84828-1-yang.zhong@intel.com>
+X-Mailer: git-send-email 2.29.2.334.gfaefdd61ec
 MIME-Version: 1.0
-In-Reply-To: <20210215115138.20465-20-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=192.55.52.136; envelope-from=yang.zhong@intel.com;
+ helo=mga12.intel.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,27 +60,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: yang.zhong@intel.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/15/21 3:51 AM, Peter Maydell wrote:
-> The armv7m_load_kernel() function takes a mem_size argument which it
-> expects to be the size of the memory region at guest address 0.  (It
-> uses this argument only as a limit on how large a raw image file it
-> can load at address zero).
-> 
-> Instead of hardcoding this value, find the RAMInfo corresponding to
-> the 0 address and extract its size.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> Reviewed-by: Philippe Mathieu-Daudé<f4bug@amsat.org>
-> ---
->   hw/arm/mps2-tz.c | 17 ++++++++++++++++-
->   1 file changed, 16 insertions(+), 1 deletion(-)
+This patch will expose AVX_VNNI features to the guest. The related
+kvm/kernel patches series have been queued as below link:
+https://lore.kernel.org/kvm/eee07399-df81-83ed-d410-18b42d51e26c@redhat.com/
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-r~
+Yang Zhong (1):
+  i386/cpu: Expose AVX_VNNI instruction to guset
+
+ target/i386/cpu.c | 4 ++--
+ target/i386/cpu.h | 2 ++
+ 2 files changed, 4 insertions(+), 2 deletions(-)
+
+-- 
+2.29.2.334.gfaefdd61ec
 
 
