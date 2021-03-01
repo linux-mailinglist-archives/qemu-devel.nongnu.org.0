@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E3332828A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:33:36 +0100 (CET)
-Received: from localhost ([::1]:46478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E99328290
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:34:11 +0100 (CET)
+Received: from localhost ([::1]:47748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGkYB-00025A-NM
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:33:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60448)
+	id 1lGkYk-0002e4-9m
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:34:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGkWZ-0001Fs-TW
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:31:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59005)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lGkWn-0001S0-7d
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:32:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25558)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGkWW-00027h-IL
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:31:55 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1lGkWl-0002Fr-85
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:32:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614612711;
+ s=mimecast20190719; t=1614612726;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jCiCALr1D0k63A7jygbsEpTsP7/1Br5Kksy79n9URyo=;
- b=E6cY1Y2xsuRScqRRvc5+xpRmnqUaN0zgtGWwmES0ng3k7YHDDp5WpmWl9XAUNWatrojBsF
- os5x3amsj0hI0efFyC6aFApUAWhAyQjDmlFzOGXYslTbHF0uzhbhGwq4uK4Bl4rX+F2n1l
- 5+PKYHWf4NBpjbj0CcrXcdwajYPtuhI=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-343-NxCDFLCmPbaLSBWI1BDLLA-1; Mon, 01 Mar 2021 10:31:50 -0500
-X-MC-Unique: NxCDFLCmPbaLSBWI1BDLLA-1
-Received: by mail-ej1-f70.google.com with SMTP id p8so589923ejl.0
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 07:31:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=jCiCALr1D0k63A7jygbsEpTsP7/1Br5Kksy79n9URyo=;
- b=SBbULo3vcaBFh7p0o5dIadFwu9+qHLHSiGZW2BOpFoRk+9BKBaoE4+s421dOyJOHoE
- y4l6QIsTTznkdgQoOcQ5945+FsNvvZF+MpYv6TwrfEzvOVj9eZKCRlPZ1PuFTBtKNxXH
- IQ3ywJKnuXheUFoMqYTHIv9FBrCSp9Gb4CqnOO/MTIjYBgytORGtF+ghqwpkKD+scEB5
- hGlKKIw3U7o9sfU/E/sGrk+/tjXX+CAcpxTwqHatvtpvDmDshSaZBjpgd48JlPOpQdu5
- MixvNVJ2MSmekH2mKoPm/uqdeEVq8K23F4Zac7HuRWmL5Yt6LPbX6e3TbWQtovXIF6OB
- Fjxw==
-X-Gm-Message-State: AOAM5323wtgUXWwKz1h8jH9YwEdiW6Ek2mkvoi1PPAnKtqCO0HRcqQ/f
- wnL+2oQbNrZh9s4d6WnG0lNPXYeyRWeTY58IwQoynEiHNQJn3pzKbQdEPiJ4Y7Q3sA7C+2Wh9Hs
- MS2DFD+LT04lL0wo=
-X-Received: by 2002:a50:e80c:: with SMTP id e12mr17093154edn.229.1614612709026; 
- Mon, 01 Mar 2021 07:31:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzWXeJGNOCS8qztkyF/uG1En4b/xC9no2kAELX7K+SAkOLpxH3LailXh6d+yb/4Ii+UXNMvkQ==
-X-Received: by 2002:a50:e80c:: with SMTP id e12mr17093126edn.229.1614612708837; 
- Mon, 01 Mar 2021 07:31:48 -0800 (PST)
-Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
- by smtp.gmail.com with ESMTPSA id z19sm16349317edr.69.2021.03.01.07.31.46
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Mar 2021 07:31:47 -0800 (PST)
-Date: Mon, 1 Mar 2021 10:31:44 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-Message-ID: <20210301081147-mutt-send-email-mst@kernel.org>
-References: <20200730155755.188845-1-mst@redhat.com>
- <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
- <20210228154208-mutt-send-email-mst@kernel.org>
- <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
- <20210301021449-mutt-send-email-mst@kernel.org>
- <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=vHslKbJrov1Sj5p7l3/ILTzgapFMZHegcDCUyzwPG4Q=;
+ b=es+pZ4XUTO4u08mYittFFJsox//0j3e8vvtETPEv6BkZ5UxzVIihFZpYm5Vdqk9tqtX3xC
+ 1kjmjSRdg3oJUSb+3OVvY0Ll1acm2UYXbXxpl0hzpzYFHH9QVmy5cf9G1IpXB1iGYfr0AR
+ WsfIQY9EqSe5VoZg4rE5J+5O+PsIfl8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-420-KSBY1bzONI-SNRIfuc-g9w-1; Mon, 01 Mar 2021 10:32:04 -0500
+X-MC-Unique: KSBY1bzONI-SNRIfuc-g9w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0109610CE780;
+ Mon,  1 Mar 2021 15:32:04 +0000 (UTC)
+Received: from localhost (ovpn-115-54.ams2.redhat.com [10.36.115.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 92B7A5C1D1;
+ Mon,  1 Mar 2021 15:32:00 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs: show how to spawn qemu-storage-daemon with fd passing
+Date: Mon,  1 Mar 2021 15:31:59 +0000
+Message-Id: <20210301153159.35660-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,81 +75,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Laszlo Ersek <lersek@redhat.com>, vit9696 <vit9696@protonmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org,
+ "Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 01, 2021 at 08:45:53AM +0100, Thomas Lamprecht wrote:
-> On 01.03.21 08:20, Michael S. Tsirkin wrote:
-> > On Mon, Mar 01, 2021 at 08:12:35AM +0100, Thomas Lamprecht wrote:
-> >> On 28.02.21 21:43, Michael S. Tsirkin wrote:
-> >>> Sure. The way to do that is to tie old behaviour to old machine
-> >>> versions. We'll need it in stable too ...
-> >>
-> >> Yeah, using machine types is how its meant to be with solving migration
-> >> breakage, sure.
-> >> But that means we have to permanently pin the VM, and any backup restored from
-> >> that to that machine type *forever*. That'd be new for us as we always could
-> >> allow a newer machine type for a fresh start (i.e., non migration or the like)
-> >> here, and mean that lots of other improvements guarded by a newer machine type
-> >> for those VMs will.
-> > 
-> > If you don't do that, that is a bug as any virtual hardware
-> > can change across machine types.
-> 
-> For us a feature, for fresh starts one gets the current virtual HW but for
-> live migration or our live snapshot code it stays compatible. Works quite
-> well here for many years, as we can simply test the HW changes on existing
-> VMs - which failed here due to lack of static IPs in the test bed. So yes,
-> it has its problems as it is not really  what an OS considers as HW change
-> so big that it makes it a new device, mostly Windows is a PITA here as seen
-> in this issue.
-> 
-> I mean, QEMU deprecates very old machines at some point anyway, so even then
-> it is impossible to keep to the old machine forever, but otoh redoing some
-> changes after a decade or two can be fine, I guess?
-> 
-> > 
-> >> And yeah, stable is wanted, but extrapolating from the current stable releases
-> >> frequency, where normally there's maximal one after 5-6 months from the .0
-> >> release, means that this will probably still hit all those distributions I
-> >> mentioned or is there something more soon planned?
-> >>
-> >> Also, is there any regression testing infrastructure around to avoid such
-> >> changes in the future? This change got undetected for 7 months, which can be
-> >> pretty the norm for QEMU releases, so some earlier safety net would be good? Is
-> >> there anything which dumps various default machine HW layouts and uses them for
-> >> an ABI check of some sorts?
-> > 
-> > There are various testing efforts the reason this got undetected is
-> > because it does not affect linux guests, and even for windows
-> > they kind of recover, there's just some boot slowdown around reconfiguration.
-> > Not easy to detect automatically given windows has lots of random
-> > downtime during boot around updates etc etc.
-> > 
-> 
-> No, Windows does not reconfigure, this is a permanent change, one is just lucky
-> if one has a DHCP server around in the network accessible for the guest.
-> As static addresses setup on that virtual NIC before that config is gone,
-> no recovery whatsoever until manual intervention.
-
-Right, it so happened no one tested with a static IP.
-
-> I meant more of a "dump HW layout to .txt file, commit to git, and ensure
-> there's no diff without and machine version bump" (very boiled down), e.g., like
-> ABI checks for kernel builds are often done by distros - albeit those are easier
-> as its quite clear what and how the kernel ABI can be used.
-
-Exactly. We have such tests for ACPI which is what changed here.  We
-just *do* change ACPI once in a while - it is code after all, and it is
-normally fine to change as long as changes are not material.  So what do
-we do  when we change it?  All we have right now is inspecting
-it manually.
-
--- 
-MST
+VGhlIFFNUCBtb25pdG9yLCBOQkQgc2VydmVyLCBhbmQgdmhvc3QtdXNlci1ibGsgZXhwb3J0IGFs
+bCBzdXBwb3J0IGZpbGUKZGVzY3JpcHRvciBwYXNzaW5nLiBUaGlzIGlzIGEgdXNlZnVsIHRlY2hu
+aXF1ZSBiZWNhdXNlIGl0IGFsbG93cyB0aGUKcGFyZW50IHByb2Nlc3MgdG8gc3Bhd24gYW5kIHdh
+aXQgZm9yIHFlbXUtc3RvcmFnZS1kYWVtb24gd2l0aG91dCBidXN5CndhaXRpbmcsIHdoaWNoIG1h
+eSBkZWxheSBzdGFydHVwIGR1ZSB0byBhcmJpdHJhcnkgc2xlZXAoKSBjYWxscy4KClRoaXMgUHl0
+aG9uIGV4YW1wbGUgaXMgaW5zcGlyZWQgYnkgdGhlIHRlc3QgY2FzZSB3cml0dGVuIGZvciBsaWJu
+YmQgYnkKUmljaGFyZCBXLk0uIEpvbmVzIDxyam9uZXNAcmVkaGF0LmNvbT46Cmh0dHBzOi8vZ2l0
+bGFiLmNvbS9uYmRraXQvbGlibmJkLy0vY29tbWl0Lzg5MTEzZjQ4NGVmZmIwZTZjMzIyMzE0YmE3
+NWMxY2JlMDdhMDQ1NDMKClRoYW5rcyB0byBEYW5pZWwgUC4gQmVycmFuZ8OpIDxiZXJyYW5nZUBy
+ZWRoYXQuY29tPiBmb3Igc3VnZ2VzdGlvbnMgb24KaG93IHRvIGdldCB0aGlzIHdvcmtpbmcuIE5v
+dyBsZXQncyBkb2N1bWVudCBpdCEKClJlcG9ydGVkLWJ5OiBSaWNoYXJkIFcuTS4gSm9uZXMgPHJq
+b25lc0ByZWRoYXQuY29tPgpDYzogS2V2aW4gV29sZiA8a3dvbGZAcmVkaGF0LmNvbT4KQ2M6IERh
+bmllbCBQLiBCZXJyYW5nw6kgPGJlcnJhbmdlQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYtYnk6IFN0
+ZWZhbiBIYWpub2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCiBkb2NzL3Rvb2xzL3FlbXUt
+c3RvcmFnZS1kYWVtb24ucnN0IHwgMzggKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tCiAx
+IGZpbGUgY2hhbmdlZCwgMzYgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMoLSkKCmRpZmYgLS1n
+aXQgYS9kb2NzL3Rvb2xzL3FlbXUtc3RvcmFnZS1kYWVtb24ucnN0IGIvZG9jcy90b29scy9xZW11
+LXN0b3JhZ2UtZGFlbW9uLnJzdAppbmRleCBmNjM2MjdlYWY2Li40NTg1NGMxMzFlIDEwMDY0NAot
+LS0gYS9kb2NzL3Rvb2xzL3FlbXUtc3RvcmFnZS1kYWVtb24ucnN0CisrKyBiL2RvY3MvdG9vbHMv
+cWVtdS1zdG9yYWdlLWRhZW1vbi5yc3QKQEAgLTEwMSwxMCArMTAxLDEyIEBAIFN0YW5kYXJkIG9w
+dGlvbnM6CiAKIC4uIG9wdGlvbjo6IC0tbmJkLXNlcnZlciBhZGRyLnR5cGU9aW5ldCxhZGRyLmhv
+c3Q9PGhvc3Q+LGFkZHIucG9ydD08cG9ydD5bLHRscy1jcmVkcz08aWQ+XVssdGxzLWF1dGh6PTxp
+ZD5dWyxtYXgtY29ubmVjdGlvbnM9PG4+XQogICAtLW5iZC1zZXJ2ZXIgYWRkci50eXBlPXVuaXgs
+YWRkci5wYXRoPTxwYXRoPlssdGxzLWNyZWRzPTxpZD5dWyx0bHMtYXV0aHo9PGlkPl1bLG1heC1j
+b25uZWN0aW9ucz08bj5dCisgIC0tbmJkLXNlcnZlciBhZGRyLnR5cGU9ZmQsYWRkci5zdHI9PGZk
+PlssdGxzLWNyZWRzPTxpZD5dWyx0bHMtYXV0aHo9PGlkPl1bLG1heC1jb25uZWN0aW9ucz08bj5d
+CiAKICAgaXMgYSBzZXJ2ZXIgZm9yIE5CRCBleHBvcnRzLiBCb3RoIFRDUCBhbmQgVU5JWCBkb21h
+aW4gc29ja2V0cyBhcmUgc3VwcG9ydGVkLgotICBUTFMgZW5jcnlwdGlvbiBjYW4gYmUgY29uZmln
+dXJlZCB1c2luZyBgYC0tb2JqZWN0YGAgdGxzLWNyZWRzLSogYW5kIGF1dGh6LSoKLSAgc2VjcmV0
+cyAoc2VlIGJlbG93KS4KKyAgQSBsaXN0ZW4gc29ja2V0IGNhbiBiZSBwcm92aWRlZCB2aWEgZmls
+ZSBkZXNjcmlwdG9yIHBhc3NpbmcgKHNlZSBFeGFtcGxlcworICBiZWxvdykuIFRMUyBlbmNyeXB0
+aW9uIGNhbiBiZSBjb25maWd1cmVkIHVzaW5nIGBgLS1vYmplY3RgYCB0bHMtY3JlZHMtKiBhbmQK
+KyAgYXV0aHotKiBzZWNyZXRzIChzZWUgYmVsb3cpLgogCiAgIFRvIGNvbmZpZ3VyZSBhbiBOQkQg
+c2VydmVyIG9uIFVOSVggZG9tYWluIHNvY2tldCBwYXRoIGBgL3RtcC9uYmQuc29ja2BgOjoKIApA
+QCAtMTI3LDYgKzEyOSwzOCBAQCBRTVAgY29tbWFuZHM6OgogICAgICAgLS1jaGFyZGV2IHNvY2tl
+dCxwYXRoPXFtcC5zb2NrLHNlcnZlcixub3dhaXQsaWQ9Y2hhcjEgXAogICAgICAgLS1tb25pdG9y
+IGNoYXJkZXY9Y2hhcjEKIAorTGF1bmNoIHRoZSBkYWVtb24gZnJvbSBQeXRob24gd2l0aCBhIFFN
+UCBtb25pdG9yIHNvY2tldCB1c2luZyBmaWxlIGRlc2NyaXB0b3IKK3Bhc3Npbmcgc28gdGhlcmUg
+aXMgbm8gbmVlZCB0byBidXN5IHdhaXQgZm9yIHRoZSBRTVAgbW9uaXRvciB0byBiZWNvbWUKK2F2
+YWlsYWJsZTo6CisKKyAgIyEvdXNyL2Jpbi9lbnYgcHl0aG9uMworICBpbXBvcnQgb3MKKyAgaW1w
+b3J0IHN1YnByb2Nlc3MKKyAgaW1wb3J0IHNvY2tldAorCisgIHNvY2tfcGF0aCA9ICcvdG1wL3Ft
+cC17fS5zb2NrJy5mb3JtYXQob3MuZ2V0cGlkKCkpCisKKyAgd2l0aCBzb2NrZXQuc29ja2V0KHNv
+Y2tldC5BRl9VTklYLCBzb2NrZXQuU09DS19TVFJFQU0pIGFzIGxpc3Rlbl9zb2NrOgorICAgICAg
+bGlzdGVuX3NvY2suYmluZChzb2NrX3BhdGgpCisgICAgICBsaXN0ZW5fc29jay5saXN0ZW4oKQor
+CisgICAgICBmZCA9IGxpc3Rlbl9zb2NrLmZpbGVubygpCisKKyAgICAgIHN1YnByb2Nlc3MuUG9w
+ZW4oCisgICAgICAgICAgWydxZW11LXN0b3JhZ2UtZGFlbW9uJywKKyAgICAgICAgICAgJy0tY2hh
+cmRldicsIGYnc29ja2V0LGZkPXtmZH0sc2VydmVyPW9uLGlkPWNoYXIxJywKKyAgICAgICAgICAg
+Jy0tbW9uaXRvcicsICdjaGFyZGV2PWNoYXIxJ10sCisgICAgICAgICAgcGFzc19mZHM9W2ZkXSwK
+KyAgICAgICkKKworICBxbXBfc29jayA9IHNvY2tldC5zb2NrZXQoc29ja2V0LkFGX1VOSVgsIHNv
+Y2tldC5TT0NLX1NUUkVBTSkKKyAgcW1wX3NvY2suY29ubmVjdChzb2NrX3BhdGgpCisgIC4uLlFN
+UCBpbnRlcmFjdGlvbi4uLgorCitUaGUgc2FtZSBzb2NrZXQgc3Bhd25pbmcgYXBwcm9hY2ggYWxz
+byB3b3JrcyB3aXRoIHRoZSBgYC0tbmJkLXNlcnZlcgorYWRkci50eXBlPWZkLGFkZHIuc3RyPTxm
+ZD5gYCBhbmQgYGAtLWV4cG9ydAordHlwZT12aG9zdC11c2VyLWJsayxhZGRyLnR5cGU9ZmQsYWRk
+ci5zdHI9PGZkPmBgIG9wdGlvbnMuCisKIEV4cG9ydCByYXcgaW1hZ2UgZmlsZSBgYGRpc2suaW1n
+YGAgb3ZlciBOQkQgVU5JWCBkb21haW4gc29ja2V0IGBgbmJkLnNvY2tgYDo6CiAKICAgJCBxZW11
+LXN0b3JhZ2UtZGFlbW9uIFwKLS0gCjIuMjkuMgoK
 
 
