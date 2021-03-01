@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77931327910
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 09:20:07 +0100 (CET)
-Received: from localhost ([::1]:49736 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A29D327914
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 09:22:37 +0100 (CET)
+Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGdmg-0000DS-Hn
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 03:20:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42186)
+	id 1lGdp6-0001M3-0O
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 03:22:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGdlr-0008Eq-S6
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:19:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47729)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGdlq-0003Kd-5p
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:19:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614586753;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DTfVW/ZM5hF7HyKYBV/gOdP5ZpyOXGheGf/vkVaJK1A=;
- b=ersLcYTK8vI+vOVo2Nyzbcj6wksRnPU7lOH8tG3HrY74mJfsEfrIJ9HkYAvNMqJvvtisk9
- JQSdZ+rFXS09priSkWd8JGh7WLw01zhf5Ag4m/wH2gB7pMrjo8lWMxXkx0YdQgg9K6Didh
- xXj+HdxxMBq8vOe++C3nXvX7ZFGU8uU=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-GujUbMIMNuyqfCeU_XMdfQ-1; Mon, 01 Mar 2021 03:19:11 -0500
-X-MC-Unique: GujUbMIMNuyqfCeU_XMdfQ-1
-Received: by mail-wr1-f71.google.com with SMTP id e13so8970262wrg.4
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 00:19:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lGdne-0000vD-Bx
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:21:06 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:54278)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1lGdnb-0004TQ-4D
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:21:06 -0500
+Received: by mail-wm1-x334.google.com with SMTP id u187so10751812wmg.4
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 00:21:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=sm4sMuPVCY61AgDjfvaLwDiT8dLLtxGhUWLsLHtSyU0=;
+ b=TDusfE/I1w1pJuLSuIeOPajSmROo6a7Jf8tk4lS8zGtL3FNfriRRaFh+UkvRPKYfsO
+ a8dvk8jwmgNzNdvjzz1/4NmRZ1nudPNnliOAwALAoE3Cjm0uhDYsvOpJ/HEEdU+M8vid
+ gb4eKis5bv9fnPRb2AVwaczbJYQSm1YKKvkPttf28YbYCa9orwUB+lTZE+6Z63Fpf1kX
+ WfEfJSUP746FaDLICuwuWwPh7+TPkOk35CC9h2QEQgDjgzOd/U38WRERqhDeeK+AAwUl
+ jlqNnNTbuO5wcvjICBNEtHTGYW3AmHxo0M5rLW+vqLM7c/XHBoJedSaeW8BtJTDl79kV
+ o1xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=DTfVW/ZM5hF7HyKYBV/gOdP5ZpyOXGheGf/vkVaJK1A=;
- b=rYEHRMRhoQAU19pi3Wd4ria/bJCht7HkjbGSPXL6dh49Ugm4l++2St2HnwDVxM6Sdl
- PCfKcW/kKbGirauIdCjbn+PzcuDdM/XtTzs5fr8H9lxLIVmmm04dkHtNSKwMp17vq6z+
- +ON6L6hnZb7EHiUvadkF7nvkoDWk6d7UY8di6HVAOOXSV7PAEr+jq0R9PylMzpZF/D49
- mL1Ydq9twFGJwcE4Da+g1TS4tqKUuSB3PNy8C7eBRRufALuEpbUjwUPDz8hoUyYIJkXh
- DaCDBMAUT2PUFILxmdYQ1uiNpOnhszQLJOx6/OoBnEWcBF73FqxQgpa4/Vf1Znf6Ydfn
- IBnw==
-X-Gm-Message-State: AOAM533UYUcHK1QAQzhQOHh99fD5tMZ+GeC3NAKY0ubXpYaevaLTMj+5
- Ns/kvH1cMv4cvuTUSou7ilMcaibQumiMBo7d7m752gujkvK9ot7WwnnAC+hvP9NQx7IBBaP+WAQ
- bXe3ergpXnpBF50Q=
-X-Received: by 2002:adf:f44b:: with SMTP id f11mr11763073wrp.345.1614586750762; 
- Mon, 01 Mar 2021 00:19:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzU1HV5QGLEuW7dlbEP9dGRSF6DsiRid/PwYVZGUOhdgYaeRD7tMS7HrlV906qz44I1EHc5eQ==
-X-Received: by 2002:adf:f44b:: with SMTP id f11mr11763059wrp.345.1614586750614; 
- Mon, 01 Mar 2021 00:19:10 -0800 (PST)
+ bh=sm4sMuPVCY61AgDjfvaLwDiT8dLLtxGhUWLsLHtSyU0=;
+ b=JmC0TpB3dEAjmbNw6KHsLmFOhEzixF975qe85WAfwKRKn34Uf7t8bdUanfPb8FnZTp
+ lJ+HcyDdKyLvAiK9JaKMefKJT7e8p6xJSThNocbYJJnvOh7ETTVoRhGB3UR2pjGd2ND1
+ LPaq9QoQxk6KB30SQT8C6fMmINTSkNkdhb4EC+jDRLY6VAKfrcgmqPJokJQn9MaHsVNJ
+ EvGgEv1yEO035jNqHPDNxn1WIC2LWHtgiBwDjIR7TqFYp+darx4ALW/VSBUaHDGkqlvv
+ BELr2bzCXB2AYSiSVzlEEQmq2IdvaQQBtV5X1NV0Rb7/iCEkqrMuMokiwqU8pHNYgFin
+ r1zg==
+X-Gm-Message-State: AOAM532XVkhH/IYm+YJ2wV83zu299EVRPxEnwp0f8AwTSONI0yaXK6sf
+ Q7ef2vg6D/KQj0Aq2VzDWng=
+X-Google-Smtp-Source: ABdhPJxcUgiPKaWZ0JSNQv3VC6zWvsjmqMCqwA5f1KqHy5aew/DmiIgMfDy/FO0bBYK+l1jYJ9gx+A==
+X-Received: by 2002:a05:600c:3590:: with SMTP id
+ p16mr14414996wmq.108.1614586861641; 
+ Mon, 01 Mar 2021 00:21:01 -0800 (PST)
 Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
  [83.57.175.68])
- by smtp.gmail.com with ESMTPSA id a131sm21998769wmc.48.2021.03.01.00.19.09
+ by smtp.gmail.com with ESMTPSA id n1sm26731339wrx.45.2021.03.01.00.20.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 00:19:09 -0800 (PST)
-Subject: Re: [PATCH] hw/pci: Have safer pcie_bus_realize() by checking error
- path
-To: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
-References: <20210201153700.618946-1-philmd@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <1e1b3d3a-a891-c3cd-0496-2a139737ec63@redhat.com>
-Date: Mon, 1 Mar 2021 09:19:09 +0100
+ Mon, 01 Mar 2021 00:21:00 -0800 (PST)
+Subject: Re: [PATCH] gitlab-ci: Disable vhost-kernel in build-disable job
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210131104621.221602-1-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <60e7663d-e270-6499-adaf-217fa0a911ab@amsat.org>
+Date: Mon, 1 Mar 2021 09:20:59 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <20210201153700.618946-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210131104621.221602-1-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,45 +90,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 ping?
 
-On 2/1/21 4:37 PM, Philippe Mathieu-Daudé wrote:
-> While pci_bus_realize() currently does not use the Error* argument,
-> it would be an error to leave pcie_bus_realize() setting bus->flags
-> if pci_bus_realize() had failed.
+On 1/31/21 11:46 AM, Philippe Mathieu-Daudé wrote:
+> Commit 299e6f19b3e ("vhost-net: revamp configure logic") added
+> the --enable-vhost-kernel option.
+> Disable it in the build-disable job.
 > 
-> Fix by using a local Error* and return early (propagating the error)
-> if pci_bus_realize() failed.
-> 
-> Reported-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/pci/pci.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+>  .gitlab-ci.yml | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> index 512e9042ffa..0d12e94a02e 100644
-> --- a/hw/pci/pci.c
-> +++ b/hw/pci/pci.c
-> @@ -130,8 +130,13 @@ static void pci_bus_realize(BusState *qbus, Error **errp)
->  static void pcie_bus_realize(BusState *qbus, Error **errp)
->  {
->      PCIBus *bus = PCI_BUS(qbus);
-> +    Error *local_err = NULL;
->  
-> -    pci_bus_realize(qbus, errp);
-> +    pci_bus_realize(qbus, &local_err);
-> +    if (local_err) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
->  
->      /*
->       * A PCI-E bus can support extended config space if it's the root
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 7c0db64710b..e8390314d89 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -346,6 +346,7 @@ build-disabled:
+>        --disable-vhost-crypto
+>        --disable-vhost-net
+>        --disable-vhost-scsi
+> +      --disable-vhost-kernel
+>        --disable-vhost-user
+>        --disable-vhost-vdpa
+>        --disable-vhost-vsock
 > 
 
 
