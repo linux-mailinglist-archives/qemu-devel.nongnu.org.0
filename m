@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269E6328673
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 18:11:50 +0100 (CET)
-Received: from localhost ([::1]:46944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B153286E5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 18:19:01 +0100 (CET)
+Received: from localhost ([::1]:58416 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGm5E-0003XR-UP
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 12:11:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58674)
+	id 1lGmCC-0000Xn-4L
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 12:19:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGlwj-0006ob-Gl; Mon, 01 Mar 2021 12:03:01 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:38293)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGlwf-0002vm-Su; Mon, 01 Mar 2021 12:03:01 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailnew.nyi.internal (Postfix) with ESMTP id 67B0158051D;
- Mon,  1 Mar 2021 12:02:56 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 01 Mar 2021 12:02:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=1Uhvaqqg3TT+fnNQyb2LMD01sen
- 7DOGYFlT4cAV6/ts=; b=G/tNSAS4elWjNqZbFp4N3/ztjwKcckO3+en0Jb7xrcx
- G+ufov01vfg+NIOvachNNQOABHZo/F74DZiA4qf+XM254/OyuFSciY0WsO7g/iNC
- OD/8gJs/RQfUTYG4+umvDUqgAdccIAPmaT2XylE/JpLAW9OzkB/Oai52Xbi9pL6y
- opWRADsw0hp3tEd/Yozoqh+cjLW90TbVJug6MHi7vyA36GnJPjJ/ck0sMnxuhAwT
- NqxM9gcSi+coxb8URw3DUF75GQrrBCmHhU6TpJ19Ct0bJLUodnmEvv/SqaYboJrV
- TRrQruDHT9/1FvcvZgXE/oDGPf0k1Sj2ENJicKwFi5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=1Uhvaq
- qg3TT+fnNQyb2LMD01sen7DOGYFlT4cAV6/ts=; b=S9QWGO5CYFVGSWKwjCS9RI
- jgxP4zdzTLnCxLoPL/Ym1mBlW3mlkokklOTuiohNsoxtyvBhP5Ge/oTS2JD8fLeP
- dtlkYeTnlB81NQPq2AEouh2Key3YuTcHtLaj6WkhvbYDWdRprad1SIQM3h3uHyrv
- 371Mkomq88LRj1mmwVZUJo8RWfKXa//Jqsf0pNoec1SBie+Qbj/Qu6he6OiB3ACh
- dhqKtD2IJdgxNb4Wc2w20fzQw+YIkIX+bIwTihleF3xWsSb84gkWJlNUcuT7kBHM
- JTf/T8B9a3gGiN1iXEvRd22RBarakyl45jAUCLWWn0gAKs01dCgsPz7WV08CepSg
- ==
-X-ME-Sender: <xms:Ph49YKZWPPt-HKouRHYnEfcKeGyt6d24HqBnxhFlC49enr9SuO6rFw>
- <xme:Ph49YNWJB2yBT6wJnKxMdJHdAaqLa-5zUVQ4XyCdpQBSW_u4xERqmKvYrKNmbnmB7
- IT_9ffauypyr2iLSA4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdelhecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:Ph49YB0DjCxbkkAKY7-oy9-NtjJWk_-O2hhdSVhu_qa-DE5U-o3hEA>
- <xmx:Ph49YEZO0IhOC3mheBEpwh_kkpjkeSk7DFYweogeeeZNYp1e4AW5eQ>
- <xmx:Ph49YEpBi1L6JcAJnZ8eHSmtPGOjk0by62CPSXOw71gHrn89haRxZA>
- <xmx:QB49YEwp4oLU5goBWf7ykqFl5cLGfyWpHL4Tm16gK1OZKlaaGW9o0Q>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 220D424005B;
- Mon,  1 Mar 2021 12:02:53 -0500 (EST)
-Date: Mon, 1 Mar 2021 18:02:51 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH RFC v3 12/12] hw/block/nvme: add support for the format
- nvm command
-Message-ID: <YD0eO1uoDxjbvbaN@apples.localdomain>
-References: <20210214230240.301275-1-its@irrelevant.dk>
- <20210214230240.301275-13-its@irrelevant.dk>
- <20210216231632.GG2708768@dhcp-10-100-145-180.wdc.com>
- <YCzTPdmLgQywAtf0@apples.localdomain>
- <20210301160940.GC17228@redsun51.ssa.fujisawa.hgst.com>
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1lGm9b-0007vn-PS
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:16:20 -0500
+Received: from mail-lf1-f52.google.com ([209.85.167.52]:35540)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wuhaotsh@google.com>)
+ id 1lGm9X-0007kw-O4
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:16:19 -0500
+Received: by mail-lf1-f52.google.com with SMTP id e7so26724457lft.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 09:16:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=xME7qSSR084Nxx8fzJ5zbfWNXFdKf1Fmd8aMrFFczkI=;
+ b=p1kFFNwo3ufNyN0+JuAg1Cgn9Z0OKOV3ULTtsu/FKPva9fbNW7ZiUkGjpOwvCw8n6F
+ 9XMUf76l2bRrr+xXdOf+cne1MNn1rn3zODX2PO44hBIHJwkXb+/p0eF3H2KOg3F4QMn+
+ 8LROnN7YInuz/OcPTAzafw6Nvr7wbjXRiIMZsohRnhfKaFp8Ufu7JdpXRQWjGG07WXTx
+ +aatzOUtAI+yi+13uCUWX6jLuWpThnle8XI7B3zujoYSqKoOgN/E1/0cCQnp9FAZLjS7
+ YWNKWAKRsnatlD6Ka4C3EyjOCL3sUAKT9ekEq++aQHogWN9EESLEN/nDBVz6Lqi1ib2e
+ sZsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=xME7qSSR084Nxx8fzJ5zbfWNXFdKf1Fmd8aMrFFczkI=;
+ b=So+f0qZYNMBBqGynnpQ3zqUotFZ0D5OfQHCd3ZraU0cVLymCAvOmNmBlCW00/P8vd/
+ /OGE9yovBn68pZaDAgTOzOdUGiAdFtgBVeJhpUxl31HTxcT4yueLQEOrLG0M5Jo4cWYs
+ AFQHufcZPy4kd6uKSm7tdeOCHTtx6fRubrnGUkHPBc8Cu7mqHsC3kNFt+LBmpsS0Ovjq
+ yoxqn2QKx/UOxfgiKK4qS53dDmDANksCIt2G5JqH3kVbRYSIMX2GWeZ59SHULu3yg6Ax
+ y5XDR9Pqx54S7hOs3farB3gj65jKOUBX3cx4oiAWHhmTafaBH4rQMPQ3x908Q08EJtyC
+ z2RA==
+X-Gm-Message-State: AOAM530C6UYYRWPEyNT5QmdATah3F8J1EPN6GFdqCqfjHrNw8T8UhIiP
+ uyP6F/9kAZY8OnNLsJXa6TrEaIe1WaILb+mBwhpVgg==
+X-Google-Smtp-Source: ABdhPJwpXaRt17fcI9+ahoub+2dy813V6J4Vy51DoWMP8tE6bl4ZY53mwsQdkSOeLFnNcnfCxjAz1ucX2aNhUXF9QLk=
+X-Received: by 2002:a05:6512:1284:: with SMTP id
+ u4mr10374853lfs.175.1614618671428; 
+ Mon, 01 Mar 2021 09:11:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Jh3Ju3ze/fLSiLM9"
-Content-Disposition: inline
-In-Reply-To: <20210301160940.GC17228@redsun51.ssa.fujisawa.hgst.com>
-Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
- helo=new3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210228224813.312532-1-f4bug@amsat.org>
+In-Reply-To: <20210228224813.312532-1-f4bug@amsat.org>
+From: Hao Wu <wuhaotsh@google.com>
+Date: Mon, 1 Mar 2021 09:10:59 -0800
+Message-ID: <CAGcCb12NR=bheKp2iGKrKRp1M_A2b_xG_Fc5NhissLRKW86U3w@mail.gmail.com>
+Subject: Re: [PATCH] hw/i2c/npcm7xx_smbus: Simplify npcm7xx_smbus_init()
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Tyrone Ting <kfting@nuvoton.com>, 
+ qemu-arm <qemu-arm@nongnu.org>, Havard Skinnemoen <hskinnemoen@google.com>
+Content-Type: multipart/alternative; boundary="0000000000005c115c05bc7cb42a"
+Received-SPF: pass client-ip=209.85.167.52; envelope-from=wuhaotsh@google.com;
+ helo=mail-lf1-f52.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,78 +81,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Minwoo Im <minwoo.im@samsung.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---Jh3Ju3ze/fLSiLM9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+--0000000000005c115c05bc7cb42a
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mar  2 01:09, Keith Busch wrote:
-> On Wed, Feb 17, 2021 at 09:26:37AM +0100, Klaus Jensen wrote:
-> > On Feb 16 15:16, Keith Busch wrote:
-> > > On Mon, Feb 15, 2021 at 12:02:40AM +0100, Klaus Jensen wrote:
-> > > > From: Minwoo Im <minwoo.im@samsung.com>
-> > > >=20
-> > > > Format NVM admin command can make a namespace or namespaces to be
-> > > > with different LBA size and metadata size with protection informati=
-on
-> > > > types.
-> > > >=20
-> > > > This patch introduces Format NVM command with LBA format, Metadata,=
- and
-> > > > Protection Information for the device. The secure erase operation t=
-hings
-> > > > are yet to be added.
-> > > >=20
-> > > > The parameter checks inside of this patch has been referred from
-> > > > Keith's old branch.
-> > >=20
-> > > Oh, and here's the format command now, so my previous comment on patch
-> > > 11 doesn't matter.
-> > >=20
-> > > > +struct nvme_aio_format_ctx {
-> > > > +    NvmeRequest   *req;
-> > > > +    NvmeNamespace *ns;
-> > > > +
-> > > > +    /* number of outstanding write zeroes for this namespace */
-> > > > +    int *count;
-> > >=20
-> > > Shouldn't this count be the NvmeRequest's opaque value?
-> >=20
-> > That is already occupied by `num_formats` which tracks formats of
-> > individual namespaces. `count` is for outstanding write zeroes on one
-> > particular namespace.
->=20
-> But why are they tracked separately? It looks like we only care about
-> the number of outstanding zero-out commands. It doesn't matter how that
-> number is spread across multiple namespaces.
+On Sun, Feb 28, 2021 at 2:50 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g>
+wrote:
 
-It is to allow the Format In Progress status code to be returned
-individually on the namespaces. When `count` is zero we set ns->status
-back to 0x0.
+> The STATUS register will be reset to IDLE in
+> cnpcm7xx_smbus_enter_reset(), no need to preset
+> it in instance_init().
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+>
+Reviewed-by: Hao Wu <wuhaotsh@google.com>
 
---Jh3Ju3ze/fLSiLM9
-Content-Type: application/pgp-signature; name="signature.asc"
+> ---
+>  hw/i2c/npcm7xx_smbus.c | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c
+> index 6b2f9e1aaad..e7e0ba66fe7 100644
+> --- a/hw/i2c/npcm7xx_smbus.c
+> +++ b/hw/i2c/npcm7xx_smbus.c
+> @@ -1040,7 +1040,6 @@ static void npcm7xx_smbus_init(Object *obj)
+>      sysbus_init_mmio(sbd, &s->iomem);
+>
+>      s->bus =3D i2c_init_bus(DEVICE(s), "i2c-bus");
+> -    s->status =3D NPCM7XX_SMBUS_STATUS_IDLE;
+>  }
+>
+>  static const VMStateDescription vmstate_npcm7xx_smbus =3D {
+> --
+> 2.26.2
+>
+>
+>
 
------BEGIN PGP SIGNATURE-----
+--0000000000005c115c05bc7cb42a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmA9HjkACgkQTeGvMW1P
-Den95AgAp5x9lufPrI5tv2Sju0VeWR0uZl+yzcxRFq/KZxo8ViTxtv5q/D1rjLKV
-69tUTcJ7ZbXiCkpohdkyMeelVfpkQKqtjQSdU3xx3baRC+FJJIBGzKXhEEJFDPhk
-4+DGbuZFeVzD9JGqdMG6wXHDiMgmOCNcFf6+WHdaBUb/LQzmIPkk82lA4TADotPW
-L15dCHzLSace8kCbn7+ia2RCD33OzAM+DGaZolyVhk5UkcJo5nGC8sT706EJtB2k
-GXXBnu8tu4u/99hkNVIHLY+Xo0RsU/GP6wrZq0i+zTciUzodJofAmkF4E7WVCEqV
-5W6OwX16xtVRWYMjcftc5POUcd9VfA==
-=OT5K
------END PGP SIGNATURE-----
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Sun, Feb 28, 2021 at 2:50 PM Phili=
+ppe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsat.org">f4bug@amsat.o=
+rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">The STATUS register will be reset to IDLE in<br>
+cnpcm7xx_smbus_enter_reset(), no need to preset<br>
+it in instance_init().<br>
+<br>
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 &lt;<a href=3D"mailto:f4bug@amsa=
+t.org" target=3D"_blank">f4bug@amsat.org</a>&gt;<br></blockquote><div>Revie=
+wed-by: Hao Wu &lt;<a href=3D"mailto:wuhaotsh@google.com">wuhaotsh@google.c=
+om</a>&gt;=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+---<br>
+=C2=A0hw/i2c/npcm7xx_smbus.c | 1 -<br>
+=C2=A01 file changed, 1 deletion(-)<br>
+<br>
+diff --git a/hw/i2c/npcm7xx_smbus.c b/hw/i2c/npcm7xx_smbus.c<br>
+index 6b2f9e1aaad..e7e0ba66fe7 100644<br>
+--- a/hw/i2c/npcm7xx_smbus.c<br>
++++ b/hw/i2c/npcm7xx_smbus.c<br>
+@@ -1040,7 +1040,6 @@ static void npcm7xx_smbus_init(Object *obj)<br>
+=C2=A0 =C2=A0 =C2=A0sysbus_init_mmio(sbd, &amp;s-&gt;iomem);<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0s-&gt;bus =3D i2c_init_bus(DEVICE(s), &quot;i2c-bus&quo=
+t;);<br>
+-=C2=A0 =C2=A0 s-&gt;status =3D NPCM7XX_SMBUS_STATUS_IDLE;<br>
+=C2=A0}<br>
+<br>
+=C2=A0static const VMStateDescription vmstate_npcm7xx_smbus =3D {<br>
+-- <br>
+2.26.2<br>
+<br>
+<br>
+</blockquote></div></div>
 
---Jh3Ju3ze/fLSiLM9--
+--0000000000005c115c05bc7cb42a--
 
