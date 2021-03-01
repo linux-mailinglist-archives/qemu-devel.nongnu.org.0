@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D7FD328119
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:40:22 +0100 (CET)
-Received: from localhost ([::1]:51488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDC483280F4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:34:25 +0100 (CET)
+Received: from localhost ([::1]:37910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjif-0008Ud-02
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:40:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37448)
+	id 1lGjcu-0002oO-QL
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:34:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38602)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGjBt-000613-7l
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:06:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1lGjBj-0005rf-FV
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:06:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614607577;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=hg6ek5C3jHmTuo3hejRHfnYD4GbP4aK+owFXrhFox9M=;
- b=Gq0Hr0JP6GrJ32RLDPib4OjviA3J2kGWC0XVTa3P14JrFf1s6kKqpyOA60mux5zJ+DBxX2
- VKDkiVoBroCHp6vqP0rsFNpBhi4H9jI4LzfJiLDgu61keRX9gZxUp8th0c+DYOFVYfHaCQ
- vr1J40SV+Xcl+NWLZ14ecYnLbK6mUQ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-205-I2INcYHlMQ2u1Of5DCZ1oQ-1; Mon, 01 Mar 2021 09:06:15 -0500
-X-MC-Unique: I2INcYHlMQ2u1Of5DCZ1oQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4845218B62AE;
- Mon,  1 Mar 2021 14:06:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-79.ams2.redhat.com
- [10.36.115.79])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 26DB460BFA;
- Mon,  1 Mar 2021 14:06:11 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B3428113860F; Mon,  1 Mar 2021 15:06:09 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@redhat.com>, Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
-Subject: CI with --enable-debug?
-Date: Mon, 01 Mar 2021 15:06:07 +0100
-Message-ID: <877dmrge9c.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lGjGk-0003I2-4K; Mon, 01 Mar 2021 09:11:30 -0500
+Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:45502)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1lGjGi-00082v-7N; Mon, 01 Mar 2021 09:11:29 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.125])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 51FFC246659;
+ Mon,  1 Mar 2021 15:11:24 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
+ 15:11:23 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R00296d8af2e-fe0a-42b3-8b4c-334a91d6c693,
+ 479CA1392526D135F52AAC0E93683906E8F354F3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 1 Mar 2021 15:11:22 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 1/5] spapr.c: assert first DRC LMB earlier in
+ spapr_memory_unplug_request()
+Message-ID: <20210301151122.6d17d3da@bahia.lan>
+In-Reply-To: <20210226163301.419727-2-danielhb413@gmail.com>
+References: <20210226163301.419727-1-danielhb413@gmail.com>
+ <20210226163301.419727-2-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: fb5fc366-b46f-4699-90ab-c93fc2a35f40
+X-Ovh-Tracer-Id: 17729545833287490016
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepuggrvhhiugesghhisghsohhnrdgurhhophgsvggrrhdrihgurdgruh
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
+ helo=4.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,16 +68,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Today I debugged why Paolo couldn't reproduce an assertion failure I
-found in review.  Turns out compiling with optimization masks it for
-both of us.
+On Fri, 26 Feb 2021 13:32:57 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-This made me wonder whether our CI tests with and without optimization.
-I quick grep finds --enable-debug in .travis.yml, but not in .gitlab*.
-Is this a gap?
+> We are asserting the existence of the first DRC LMB after sending unplug
+> requests to all LMBs of the DIMM, where every DRC is being asserted
+> inside the loop. This means that the first DRC is being asserted twice.
+> 
+> We will use the first DRC to simplify the code a bit in the next patch,
+> so instead of removing the duplicated assert, let's do it earlier.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  hw/ppc/spapr.c | 12 +++++++-----
+>  1 file changed, 7 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 6eaddb12cb..74e046b522 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -3664,7 +3664,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+>      uint32_t nr_lmbs;
+>      uint64_t size, addr_start, addr;
+>      int i;
+> -    SpaprDrc *drc;
+> +    SpaprDrc *drc, *drc_start;
+>  
+>      if (object_dynamic_cast(OBJECT(dev), TYPE_NVDIMM)) {
+>          error_setg(errp, "nvdimm device hot unplug is not supported yet.");
+> @@ -3677,6 +3677,10 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+>      addr_start = object_property_get_uint(OBJECT(dimm), PC_DIMM_ADDR_PROP,
+>                                            &error_abort);
+>  
+> +    drc_start = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+> +                                addr_start / SPAPR_MEMORY_BLOCK_SIZE);
+> +    g_assert(drc_start);
+> +
+>      /*
+>       * An existing pending dimm state for this DIMM means that there is an
+>       * unplug operation in progress, waiting for the spapr_lmb_release
+> @@ -3701,11 +3705,9 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
+>          addr += SPAPR_MEMORY_BLOCK_SIZE;
+>      }
+>  
+> -    drc = spapr_drc_by_id(TYPE_SPAPR_DRC_LMB,
+> -                          addr_start / SPAPR_MEMORY_BLOCK_SIZE);
+> -    g_assert(drc);
+>      spapr_hotplug_req_remove_by_count_indexed(SPAPR_DR_CONNECTOR_TYPE_LMB,
+> -                                              nr_lmbs, spapr_drc_index(drc));
+> +                                              nr_lmbs,
+> +                                              spapr_drc_index(drc_start));
+>  }
+>  
+>  /* Callback to be called during DRC release. */
 
 
