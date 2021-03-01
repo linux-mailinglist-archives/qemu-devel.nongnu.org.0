@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC3E8327C4C
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 11:37:20 +0100 (CET)
-Received: from localhost ([::1]:49796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACCFA327C4E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 11:37:30 +0100 (CET)
+Received: from localhost ([::1]:50680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGfvT-0006kP-NE
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 05:37:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45614)
+	id 1lGfvd-0007Az-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 05:37:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lGftl-0005Iy-M8; Mon, 01 Mar 2021 05:35:33 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:48093)
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1lGfuA-0005go-Sp
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:35:58 -0500
+Received: from outpost1.zedat.fu-berlin.de ([130.133.4.66]:42165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lGftj-000290-N2; Mon, 01 Mar 2021 05:35:33 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.250])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F01448C015C7;
- Mon,  1 Mar 2021 11:35:15 +0100 (CET)
-Received: from kaod.org (37.59.142.100) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
- 11:35:14 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-100R003e05e2a1c-c082-4c7c-bb2e-fd73d94c8e1e,
- 79E354DF6B7F793720F6EA4F82BCB5A412373A8E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 2/5] hw/arm: ast2600: Set AST2600_MAX_IRQ to value from
- datasheet
-To: Andrew Jeffery <andrew@aj.id.au>, <qemu-arm@nongnu.org>
-References: <20210301010610.355702-1-andrew@aj.id.au>
- <20210301010610.355702-3-andrew@aj.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <4ea97dcf-43ec-8cc6-242f-cf474c0290a9@kaod.org>
-Date: Mon, 1 Mar 2021 11:35:13 +0100
+ (Exim 4.90_1) (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1lGfu7-0002Gn-1B
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:35:58 -0500
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+ by outpost.zedat.fu-berlin.de (Exim 4.94) with esmtps (TLS1.2)
+ tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+ (envelope-from <glaubitz@zedat.fu-berlin.de>)
+ id 1lGftl-002X2W-7B; Mon, 01 Mar 2021 11:35:33 +0100
+Received: from p57bd9fdc.dip0.t-ipconnect.de ([87.189.159.220]
+ helo=[192.168.178.139]) by inpost2.zedat.fu-berlin.de (Exim 4.94)
+ with esmtpsa (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+ (envelope-from <glaubitz@physik.fu-berlin.de>)
+ id 1lGftl-001AD9-0V; Mon, 01 Mar 2021 11:35:33 +0100
+Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
+To: Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+ qemu-devel@nongnu.org
+References: <20210222105004.1642234-1-laurent@vivier.eu>
+ <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
+ <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
+ <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
+ <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
+ <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
+ <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Message-ID: <b2095785-3477-ccaf-ad88-1da88f3f597a@physik.fu-berlin.de>
+Date: Mon, 1 Mar 2021 11:35:32 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210301010610.355702-3-andrew@aj.id.au>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.100]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: c63f2861-c7a2-4b35-adaf-0a565a3d6456
-X-Ovh-Tracer-Id: 14079096862087089004
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprghnughrvgifsegrjhdrihgurdgruh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-Originating-IP: 87.189.159.220
+Received-SPF: pass client-ip=130.133.4.66;
+ envelope-from=glaubitz@zedat.fu-berlin.de; helo=outpost1.zedat.fu-berlin.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,37 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ryan_chen@aspeedtech.com, minyard@acm.org,
- f4bug@amsat.org, qemu-devel@nongnu.org, joel@jms.id.au
+Cc: Helge Deller <deller@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 2:06 AM, Andrew Jeffery wrote:
-> The datasheet says we have 197 IRQs allocated, and we need more than 128
-> to describe IRQs from LPC devices. Raise the value now to allow
-> modelling of the LPC devices.
-> 
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+Hi Michael!
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+On 2/22/21 3:58 PM, Michael Tokarev wrote:
+> 22.02.2021 17:54, John Paul Adrian Glaubitz wrote:
+> 
+>> OK, gotcha. Is it supposed to work with systemd-binfmt? It looks like it depends
+>> on the old binfmt-support package.
+> 
+> the qemu 4-line patch does not depend on any particular system, it relies on a
+> special name of its own argv[0] when registering the binfmt entry.  In order to
+> utilize it, we create a special-named symlink to qemu-foo and register that one
+> with the binfmt-misc subsystem, no matter if it is systemd or binfmt-support or
+> whatever else.
 
-> ---
->  hw/arm/aspeed_ast2600.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index bc0eeb058b24..22fcb5b0edbe 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -65,7 +65,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
->  
->  #define ASPEED_A7MPCORE_ADDR 0x40460000
->  
-> -#define AST2600_MAX_IRQ 128
-> +#define AST2600_MAX_IRQ 197
->  
->  /* Shared Peripheral Interrupt values below are offset by -32 from datasheet */
->  static const int aspeed_soc_ast2600_irqmap[] = {
-> 
+I have been trying to get qemu-user working with sbuild as it is shipped in Debian
+unstable now but I didn't have any success.
+
+Do you have some instructions somewhere how to get qemu-user working with sbuild?
+
+My standard method [1] no longer works with the qemu-user-static package that is
+shipped in unstable now:
+
+> E: 15binfmt: update-binfmts: unable to open /var/run/schroot/mount/sid-m68k-sbuild-b1484996-cb57-436b-b491-60665add9bb8/bin/sh: No such file or directory
+> E: Failed to execute “/usr/bin/getent”: No such file or directory
+> E: Failed to execute “/usr/sbin/groupadd”: No such file or directory
+> E: Failed to create group sbuild
+
+Adrian
+
+> [1] https://wiki.debian.org/M68k/sbuildQEMU
+
+-- 
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer - glaubitz@debian.org
+`. `'   Freie Universitaet Berlin - glaubitz@physik.fu-berlin.de
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
 
 
