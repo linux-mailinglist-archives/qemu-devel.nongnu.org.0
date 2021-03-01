@@ -2,59 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AEC32940F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:47:12 +0100 (CET)
-Received: from localhost ([::1]:55638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F10329410
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 22:48:43 +0100 (CET)
+Received: from localhost ([::1]:58618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGqNi-0005x2-S5
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:47:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46286)
+	id 1lGqPC-0007Gl-T9
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 16:48:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGqLL-0004q9-Kk
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:44:43 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:41763)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1lGqNg-0006TU-LN; Mon, 01 Mar 2021 16:47:10 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:34705)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1lGqLH-0001ZF-TG
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 16:44:43 -0500
-Received: from [192.168.100.1] ([82.252.139.98]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M9npV-1lB5iX0OJR-005r4r; Mon, 01 Mar 2021 22:44:32 +0100
-Subject: Re: [PATCH v2 12/42] esp: remove dma_counter from ESPState
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- pbonzini@redhat.com, fam@euphon.net
-References: <20210209193018.31339-1-mark.cave-ayland@ilande.co.uk>
- <20210209193018.31339-13-mark.cave-ayland@ilande.co.uk>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <ceb2b81d-c370-ca18-c5bf-5055c7b5f9c4@vivier.eu>
-Date: Mon, 1 Mar 2021 22:44:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
-MIME-Version: 1.0
-In-Reply-To: <20210209193018.31339-13-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:LdsKMD2uN9zCibZV0MTTS9gMtUgYB3Ahd6XPbFlXTeVsZKVddip
- hGf/Nklv8ck2CLb9UBgT0BJDsk0chgHUy6pMyaIxJi8qSrZfHjoWCiNYqErNqpS7zvRvA3a
- nIUKUURDX4wTaCuEsXe2WmDUIjsjaTnmYICIL1leOPdm1gl53MJwXhlxuw0cCWd/MErjtAQ
- Jd2wKfBUEKAL5XWvFTtAw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1Q63+IFDMmE=:kmKFFRxi0i+Fl5IVjnB8YM
- hSEp2tFmb8XjL+S1IhIgH/FL0V/Yd32bnZ98O+k0HymZCvwdX/bCBciYj2z7udGIsP8HFtET8
- p4GWoHX5DoAtoyPs+rUuIkLM7uCpIYhRcqJxcSR6KLVSOMME3XaamiPBX7rwRoTvKyrUPxMWV
- ZGerS3xQ47VhWV9UXsMMYtKLTe5j5uv4ZdAkN9YGlVhb4W1gbApK06RU1l1Nin0v4RZixBriI
- mMIWXukgSAhTZzH/1wFZEE0ee3dDY9hGdUBt+JDfQCclckiLeHKGPY0afHymqp05H4dNw8bzR
- GtFyqMNGEtnSriKJRSgNEXqujJoSbsqxMrHBXALYgtA1msnJp34TtSkiMXa70Ufl6MznYuaGL
- 1ftR/rB/2c5x6f4zEbN2OI3RQY1de20Mewe2sTb2uJSDtzjyWBeK4qXVOGWY7T60u30C/dkgm
- kA3Ws6Fl+g==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1lGqNe-0002nI-FS; Mon, 01 Mar 2021 16:47:08 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id CBD8E5C0143;
+ Mon,  1 Mar 2021 16:47:04 -0500 (EST)
+Received: from imap2 ([10.202.2.52])
+ by compute3.internal (MEProxy); Mon, 01 Mar 2021 16:47:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=
+ mime-version:message-id:in-reply-to:references:date:from:to:cc
+ :subject:content-type:content-transfer-encoding; s=fm2; bh=GknQ2
+ UYUFzxEKEJMsF7yxlDNRK339wb7h8EKsuFS8lM=; b=olA5Cl8dYz6AlDk959Bvv
+ LvWGGjtPAiJ3Pplbf4BQ8zN+zTmMYm3VCSheha6E/jrZCMz5WL86fz6NpDD2nSYw
+ 82H4Ed9ysuU37F8G8l3zA3/XDfgnP1hzNe3uJbRWYRNJX8qbiT2dfPYklDkwt5uV
+ kxcfaDnW6Jyekho/K50s/XE+Z21Bxbo38t8g1zxzCr7UWnrS4ebTluWGuUJSwChT
+ UvmfZOHhLVatBN9MsynB4baQ5peQ3+wXWUt4hdhntGf7oafm3h6cMqYuGDcMxQuS
+ PL0BOQKqfoPgEoXab4aF3oWJd94BJO3ctc9Nw+X77P0IEtLnbMfp01MIC2+aiRcg
+ A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm2; bh=GknQ2UYUFzxEKEJMsF7yxlDNRK339wb7h8EKsuFS8
+ lM=; b=Np7PxXmNPqB+9H+dr7LMtJHZWgBgL5R6fXaatThb20CCiUdsjo1E6DU6O
+ Xqz8/cAlAi6Mrnw/E4rYpBUc1NXZnegXYdDacVf0EsYOMckdM0D1Xtc3yKDzDtas
+ VUhk2UrYFQi/4feiSst7a/7iJFMCldNdfCxaeKHr+gtN7vv08q2yRVM2J6FVVIi0
+ FtZnNaRIIzIHyyoIfkMUA/Eegf2E+ew/dgFmKub1WSflhsDohVepqT/SvGqyEYIl
+ VyhyC4icvrQRZtGTZqrRGJC0tBK/cxhLPdb2aue7WAiiiT2ue5W6vZrytVEHAPLj
+ kPvKC3gNcHkpfGhyRtXKm0da3XrSA==
+X-ME-Sender: <xms:12A9YJb_E51kaaLPSWK0XbRpyYTjE_V6PbDIQctk2dJQvKFR1cT18g>
+ <xme:12A9YAazYtNgf1a9Ft1efEpiPBCRjrmFjFWTM_YahYN6BW-FLpIWcWCPQ-8v02Aws
+ G_no9P--BCcByuMlg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdduheefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepofgfggfkjghffffhvffutgfgsehtqhertderreejnecuhfhrohhmpedftehn
+ ughrvgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtf
+ frrghtthgvrhhnpedvgeekheegfedvhfethefhudetteegueeggfeiieegueehkedugedt
+ kefglefgheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhroh
+ hmpegrnhgurhgvfiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:12A9YL_1xeKK2TjIyWLJ-rx8IripjyEb97vQYVEmSZ8auRUlGUhLLA>
+ <xmx:12A9YHqoCtzeG_E_TOH1JZltOPsHwfUmw66AI1_IxA8Q2syXNJJudg>
+ <xmx:12A9YEoco5wy4IXuIZy9NeYdenEi9d9_UEZLDBEAkueGTwfu9gThfw>
+ <xmx:2GA9YJDQNEuJCBWfn119JyHMb11cMLJ28q2ARXF7r__QwqZDvfEQaQ>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 65589A00064; Mon,  1 Mar 2021 16:47:03 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.5.0-alpha0-206-g078a48fda5-fm-20210226.001-g078a48fd
+Mime-Version: 1.0
+Message-Id: <19d389df-c9e8-499e-b691-7b6c9e2da1d7@www.fastmail.com>
+In-Reply-To: <20210301010610.355702-5-andrew@aj.id.au>
+References: <20210301010610.355702-1-andrew@aj.id.au>
+ <20210301010610.355702-5-andrew@aj.id.au>
+Date: Tue, 02 Mar 2021 08:16:42 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: qemu-arm@nongnu.org
+Subject: Re: [PATCH v2 4/5] hw/misc: Add a basic Aspeed LPC controller model
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=andrew@aj.id.au;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,65 +94,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Ryan Chen <ryan_chen@aspeedtech.com>, Corey Minyard <minyard@acm.org>,
+ Cameron Esfahani via <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 09/02/2021 à 20:29, Mark Cave-Ayland a écrit :
-> The value of dma_counter is set once at the start of the transfer and remains
-> the same until the transfer is complete. This allows the check in esp_transfer_data
-> to be simplified since dma_left will always be non-zero until the transfer is
-> completed.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  hw/scsi/esp.c         | 4 +---
->  include/hw/scsi/esp.h | 3 ---
->  2 files changed, 1 insertion(+), 6 deletions(-)
-> 
-> diff --git a/hw/scsi/esp.c b/hw/scsi/esp.c
-> index 02b7876394..6c495b29c0 100644
-> --- a/hw/scsi/esp.c
-> +++ b/hw/scsi/esp.c
-> @@ -229,7 +229,6 @@ static void do_busid_cmd(ESPState *s, uint8_t *buf, uint8_t busid)
->      if (datalen != 0) {
->          s->rregs[ESP_RSTAT] = STAT_TC;
->          s->dma_left = 0;
-> -        s->dma_counter = 0;
->          if (datalen > 0) {
->              s->rregs[ESP_RSTAT] |= STAT_DI;
->          } else {
-> @@ -543,7 +542,7 @@ void esp_transfer_data(SCSIRequest *req, uint32_t len)
->      s->async_buf = scsi_req_get_buf(req);
->      if (s->dma_left) {
->          esp_do_dma(s);
-> -    } else if (s->dma_counter != 0 && s->ti_size <= 0) {
-> +    } else if (s->ti_size <= 0) {
->          /*
->           * If this was the last part of a DMA transfer then the
->           * completion interrupt is deferred to here.
-> @@ -562,7 +561,6 @@ static void handle_ti(ESPState *s)
->      }
->  
->      dmalen = esp_get_tc(s);
-> -    s->dma_counter = dmalen;
->  
->      if (s->do_cmd) {
->          minlen = (dmalen < ESP_CMDBUF_SZ) ? dmalen : ESP_CMDBUF_SZ;
-> diff --git a/include/hw/scsi/esp.h b/include/hw/scsi/esp.h
-> index 7d92471c5b..b313ef27f2 100644
-> --- a/include/hw/scsi/esp.h
-> +++ b/include/hw/scsi/esp.h
-> @@ -50,9 +50,6 @@ struct ESPState {
->  
->      /* The amount of data left in the current DMA transfer.  */
->      uint32_t dma_left;
-> -    /* The size of the current DMA transfer.  Zero if no transfer is in
-> -       progress.  */
-> -    uint32_t dma_counter;
->      int dma_enabled;
->  
->      uint32_t async_len;
-> 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
+On Mon, 1 Mar 2021, at 11:36, Andrew Jeffery wrote:
+> From: C=C3=A9dric Le Goater <clg@kaod.org>
+>=20
+> This is a very minimal framework to access registers which are used to=
+
+> configure the AHB memory mapping of the flash chips on the LPC HC
+> Firmware address space.
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> ---
+>  docs/system/arm/aspeed.rst   |   2 +-
+>  hw/arm/aspeed_ast2600.c      |  10 +++
+>  hw/arm/aspeed_soc.c          |  10 +++
+>  hw/misc/aspeed_lpc.c         | 131 ++++++++++++++++++++++++++++++++++=
++
+>  hw/misc/meson.build          |   7 +-
+>  include/hw/arm/aspeed_soc.h  |   2 +
+>  include/hw/misc/aspeed_lpc.h |  32 +++++++++
+>  7 files changed, 192 insertions(+), 2 deletions(-)
+>  create mode 100644 hw/misc/aspeed_lpc.c
+>  create mode 100644 include/hw/misc/aspeed_lpc.h
+>=20
+> diff --git a/docs/system/arm/aspeed.rst b/docs/system/arm/aspeed.rst
+> index 690bada7842b..2f6fa8938d02 100644
+> --- a/docs/system/arm/aspeed.rst
+> +++ b/docs/system/arm/aspeed.rst
+> @@ -48,6 +48,7 @@ Supported devices
+>   * UART
+>   * Ethernet controllers
+>   * Front LEDs (PCA9552 on I2C bus)
+> + * LPC Peripheral Controller (a subset of subdevices are supported)
+> =20
+> =20
+>  Missing devices
+> @@ -56,7 +57,6 @@ Missing devices
+>   * Coprocessor support
+>   * ADC (out of tree implementation)
+>   * PWM and Fan Controller
+> - * LPC Bus Controller
+>   * Slave GPIO Controller
+>   * Super I/O Controller
+>   * Hash/Crypto Engine
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index 2125a96ef317..60152de001e6 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -211,6 +211,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+> =20
+>      object_initialize_child(obj, "emmc-controller.sdhci", &s->emmc.sl=
+ots[0],
+>                              TYPE_SYSBUS_SDHCI);
+> +
+> +    object_initialize_child(obj, "lpc", &s->lpc, TYPE_ASPEED_LPC);
+>  }
+> =20
+>  /*
+> @@ -469,6 +471,14 @@ static void aspeed_soc_ast2600_realize(DeviceStat=
+e=20
+> *dev, Error **errp)
+>      sysbus_mmio_map(SYS_BUS_DEVICE(&s->emmc), 0,=20
+> sc->memmap[ASPEED_DEV_EMMC]);
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
+>                         aspeed_soc_get_irq(s, ASPEED_DEV_EMMC));
+> +
+> +    /* LPC */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->lpc), errp)) {
+> +        return;
+> +    }
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(&s->lpc), 0,=20
+> sc->memmap[ASPEED_DEV_LPC]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->emmc), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_LPC));
+
+Hah, this isn't right! We don't notice it wrt LPC devices because the=20=
+
+LPC IRQ is unused right now, but it will impact the eMMC.
+
+Let me do a v3.
+
+Andrew
 
