@@ -2,85 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C192E327D76
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:44:54 +0100 (CET)
-Received: from localhost ([::1]:41760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FD3327D7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 12:46:52 +0100 (CET)
+Received: from localhost ([::1]:44284 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGgyr-0007UU-Lz
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:44:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59342)
+	id 1lGh0l-0000Bu-A2
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 06:46:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGgtU-0006Bq-Ep; Mon, 01 Mar 2021 06:39:20 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:47043)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1lGgtS-0006f9-Vz; Mon, 01 Mar 2021 06:39:20 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 468FC5C004F;
- Mon,  1 Mar 2021 06:39:18 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 01 Mar 2021 06:39:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=jUn5BwGkrIGYoJLi4ZlK9qVVpPR
- aATaYCdcq2sa1/3w=; b=EOUid07oBhJiK1lRYz5pjTKAikaMys4dlScCP5p8tLI
- jyNhOIOevQN/JZlCmrr8n68VDt952qx7UDLm4SgrlifQqj/zI+r8y3+oe29mOAy/
- en0lUqd7qhbLwqNtfvHpxoeL3KL+1zoRpwcXjCX3Fm1mqAiwr/Fh4NRewMIhSXVn
- T2f7F8mq/UsNPJKaVi1TdVkViK5qITK3jsXJiQ15Vquoz70FjBWIjGSKma6m80sv
- mg6V9MOz9phbcrtWrkiXwdm+qoVjb9rfvCIQk7qXDc4jEOmKi4rt0h0vHuqmlFvu
- orrtXXtVkqc2dz99zEKaRcYfK4y6QT0iV5/gi913Vsw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=jUn5Bw
- GkrIGYoJLi4ZlK9qVVpPRaATaYCdcq2sa1/3w=; b=JmSGRTDm7Sg0BmV1NNpDLZ
- YTkluLBUR9AOzOGG/QWeFhDGWvsaDWIx2x6TYzUJajh6A4tL8dwowv8nuiZ4cA6g
- mKB3pFF8zYKn86oqSczBbBXFo2AS5uYP13Oyx+hw4FMJVzHAJG0l5DEDDwXwapYO
- BWSb+NkBf1OQFchHxUreyM7wfU4pglKELAcaEoR6X4TM95P3/G+fOwD7p2XzU5QH
- FLEjvGTbqb59Qo/mwjjt26Kj2er2aNrT/QF5RwCN00K78g7jmGj5dOef+F/D0cg7
- 55pO4JlqKhWjfPWm97m7R4MtL6MTEo8YrvffY+yF5eka5xzNXvaBuq2L0VTPunjQ
- ==
-X-ME-Sender: <xms:ZdI8YJlY7rxZIXLjrA8s-PQMZ2I9D-l-cMVrvED-DPU90_wluNYjUQ>
- <xme:ZdI8YJIauY2YZtQemxU55ba73SLT_oZIvBn43e_34ZfxFmzfwtElyyOK6Wh7yohOQ
- lW7ETUx_FjmdXFzhds>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdeftdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:ZdI8YOwu3JuAkt4S0-Hww5vs7IhIdHHOI7cu4_NjQONnUoNCOWZt9g>
- <xmx:ZdI8YBv6ScprJ_LB0E2z_n88k-Lu6_pCy0_mTmb2pyJ_u2gkBwiiug>
- <xmx:ZdI8YNvHlcfDhk0FEBux2jcb0XbHuCgIjQnwm86fA3II7cF6ND8pdg>
- <xmx:ZtI8YJUPPtwwG7g5mAwZQm8xQit7SWySA83grf8jBbnAsz9UKg861g>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C86E6240054;
- Mon,  1 Mar 2021 06:39:16 -0500 (EST)
-Date: Mon, 1 Mar 2021 12:39:14 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v2] hw/nvme: move nvme emulation out of hw/block
-Message-ID: <YDzSYrlIiwAgXRq3@apples.localdomain>
-References: <20210301113509.79706-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGgtj-0006IB-3k
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:39:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41014)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1lGgte-0006kw-Ie
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 06:39:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614598768;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XC8Nvm8/K3HDuo+8nxAllfCAy5bWbYsY/EI9hzAFoPA=;
+ b=gDnw8LYsFxNv3zq7PMHSA3daxMrTPGRjEWw+WSs6m6Co0xAHKwpabBfJL9zBQzGT1cc+yb
+ S1YcCN4gFEodwNZ9SwXdSPpsu+PHKx2pKcXhtUF2UqgvKBEsr/A6WrM4LnQldpimlDWtxy
+ pWOHchfAN+iFyZo+1S9vPeS7Fgi9w3g=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-380-biTto8GzNseAGasnBwZSJg-1; Mon, 01 Mar 2021 06:39:25 -0500
+X-MC-Unique: biTto8GzNseAGasnBwZSJg-1
+Received: by mail-wr1-f69.google.com with SMTP id b15so7554012wrm.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 03:39:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=XC8Nvm8/K3HDuo+8nxAllfCAy5bWbYsY/EI9hzAFoPA=;
+ b=VtYC451LOvVmHGeAT7AltCypMEO8CutFSRTvSlFrvX04ZxSGaAx5JnzsxA80Ep8x8X
+ aT7xSOstVbB6imT6NsrYtO/iNxm49bfnVXCG7nRkD+uOBLZbpiVljp/SYPNbfQlEAz7s
+ med5t/m46OOwYDNmIZnwy/Tf4XeFaMFs7fHU2X8xWWjGfCNCAzW7zVnXR9A0zNv/0J1d
+ fMxs64IJHjAieA1HW7btusvDELSPYOIihgHNA8BA7Qzl/c43HQnh0KVFB7EVofYYTAVC
+ vcDZXiF70OVx4Et31R8d0IvybjodkXD17dIHeUvIESPUzanZK33t0L+gvEdScg1lm9HM
+ +4SQ==
+X-Gm-Message-State: AOAM530amD/e1ar8PhjtEDK0gAV45szH/iWfRb2IPf/rIwJ3fVv/wpIJ
+ w6ibLTFMKeqcJWtOfOtEr8JHXFcpj0eb/vov3yYVuzhZNQVi3nqNYZxlRZXtvkhazK8LcCgA2W8
+ 02WMNxtTBON2Ylbk=
+X-Received: by 2002:a1c:7214:: with SMTP id n20mr15580682wmc.78.1614598764382; 
+ Mon, 01 Mar 2021 03:39:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxTv6urN9qfzLB2JXRBOJBPUC+efG2urPB6a5fKONohp1pR50JR2oEcCw78WW2+iu2hEac8lA==
+X-Received: by 2002:a1c:7214:: with SMTP id n20mr15580667wmc.78.1614598764243; 
+ Mon, 01 Mar 2021 03:39:24 -0800 (PST)
+Received: from [192.168.1.36] (68.red-83-57-175.dynamicip.rima-tde.net.
+ [83.57.175.68])
+ by smtp.gmail.com with ESMTPSA id c128sm7150309wme.3.2021.03.01.03.39.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Mar 2021 03:39:23 -0800 (PST)
+Subject: Re: [PATCH 1/1] qga-vss: Use dynamic linking for GLib
+To: Kostiantyn Kostiuk <konstantin@daynix.com>,
+ Developers <qemu-devel@nongnu.org>
+References: <20210209145423.178611-1-konstantin@daynix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <4ecbde1e-fd10-28a5-10b7-33dda8c7f9a1@redhat.com>
+Date: Mon, 1 Mar 2021 12:39:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="il0I/docZ1eBBCvE"
-Content-Disposition: inline
-In-Reply-To: <20210301113509.79706-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
- helo=out1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210209145423.178611-1-konstantin@daynix.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,56 +98,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Keith Busch <kbusch@kernel.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Cc'ing Paolo/Marc-André/Daniel
 
---il0I/docZ1eBBCvE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mar  1 12:35, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> With the introduction of the nvme-subsystem device we are really
-> cluttering up the hw/block directory.
->=20
-> As suggested by Philippe previously, move the nvme emulation to
-> hw/nvme.
->=20
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+On 2/9/21 3:54 PM, Kostiantyn Kostiuk wrote:
+> The current GLib version implements the DllMain function. DllMain is also
+> present in the provider.cpp code. So in the case of static linking, the
+> DllMain redefinition error occurs. For now, just switch to dynamic linking
+> and revert this patch when the issue will be solved.
+> 
+> See Glib issue for more details https://gitlab.gnome.org/GNOME/glib/-/issues/692
+> 
+> Signed-off-by: Kostiantyn Kostiuk <konstantin@daynix.com>
 > ---
-> v2:
->   * rebased on nvme-next
->   * got rid of the second patch (Minwoo)
->=20
+>  qga/vss-win32/meson.build | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/qga/vss-win32/meson.build b/qga/vss-win32/meson.build
+> index 780c461432..90825edef3 100644
+> --- a/qga/vss-win32/meson.build
+> +++ b/qga/vss-win32/meson.build
+> @@ -1,5 +1,5 @@
+>  if add_languages('cpp', required: false)
+> -  glib_static = dependency('glib-2.0', static: true)
+> +  glib_dynamic = dependency('glib-2.0', static: false)
+>    link_args = cc.get_supported_link_arguments(['-fstack-protector-all', '-fstack-protector-strong',
+>                                                 '-Wl,--add-stdcall-alias', '-Wl,--enable-stdcall-fixup'])
+>  
+> @@ -8,7 +8,7 @@ if add_languages('cpp', required: false)
+>                  cpp_args: ['-Wno-unknown-pragmas', '-Wno-delete-non-virtual-dtor', '-Wno-non-virtual-dtor'],
+>                  link_args: link_args,
+>                  vs_module_defs: 'qga-vss.def',
+> -                dependencies: [glib_static, socket,
+> +                dependencies: [glib_dynamic, socket,
+>                                 cc.find_library('ole32'),
+>                                 cc.find_library('oleaut32'),
+>                                 cc.find_library('shlwapi'),
+> 
 
-Argh. I forgot to add Minwoo's Acked-by and the change to the commit
-messages that was suggested.
-
-Anyway, would be nice to get this merged before I post v4 of the eedp
-series since that will add yet another file in the hw/block directory.
-
---il0I/docZ1eBBCvE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmA80mAACgkQTeGvMW1P
-DekaXQf/U8CLtPYAdfQrqbN+vj8ugXQASXhhL7s90ZI8RT19bOHhsGyUHUPeJkX9
-1HCTnQbbnVj/L63BPM5ZAoEn0KCrPTkt+Ai8EYXdd6ouplpzRQ4WexHeQj2y0/JU
-hcnNikuAYdzyAKBqrVk3aN3nElXIZ5bvQL7xOAqVp7vHNJTL3QnbMgr4jHYgbJmd
-pE9t03FCt1xeIILwpTQtqNURD6I/yPpT45hWMN+YDPvSWcudhh71RmeJkHrNwdso
-YZO9bmBB067y7XvUhQEBIl25eb5HkFC4jPMNmIxrn6/2bY8ABM9NZ1Ou51T3ebPN
-KtypUTGXyrE1nS6T6VzyRLEBgqhLcQ==
-=u1Fb
------END PGP SIGNATURE-----
-
---il0I/docZ1eBBCvE--
 
