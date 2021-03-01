@@ -2,60 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90899328080
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:17:01 +0100 (CET)
-Received: from localhost ([::1]:38222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 594153280B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 15:25:10 +0100 (CET)
+Received: from localhost ([::1]:48238 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGjM4-0006Xb-Jj
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:17:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39166)
+	id 1lGjTx-0003C6-Cr
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 09:25:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lGjIl-0004o2-T5
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:13:35 -0500
-Received: from 7.mo52.mail-out.ovh.net ([188.165.59.253]:43758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1lGjIe-0000UV-04
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:13:35 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id B344524691F;
- Mon,  1 Mar 2021 15:13:25 +0100 (CET)
-Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
- 15:13:25 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-102R004dc091803-810c-4e6a-b76a-248a406b0601,
- 479CA1392526D135F52AAC0E93683906E8F354F3) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 1 Mar 2021 15:13:24 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 2/5] spapr.c: check unplug_request flag in
- spapr_memory_unplug_request()
-Message-ID: <20210301151324.3003e6a4@bahia.lan>
-In-Reply-To: <20210226163301.419727-3-danielhb413@gmail.com>
-References: <20210226163301.419727-1-danielhb413@gmail.com>
- <20210226163301.419727-3-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <steven.price@arm.com>)
+ id 1lGjSV-0002Kk-PJ
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:23:39 -0500
+Received: from foss.arm.com ([217.140.110.172]:51594)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <steven.price@arm.com>) id 1lGjSR-0004mk-VG
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 09:23:39 -0500
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+ by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 440931042;
+ Mon,  1 Mar 2021 06:23:33 -0800 (PST)
+Received: from e112269-lin.arm.com (unknown [172.31.20.19])
+ by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7C1183F70D;
+ Mon,  1 Mar 2021 06:23:30 -0800 (PST)
+From: Steven Price <steven.price@arm.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Marc Zyngier <maz@kernel.org>,
+ Will Deacon <will@kernel.org>
+Subject: [PATCH v9 0/6] MTE support for KVM guest
+Date: Mon,  1 Mar 2021 14:23:09 +0000
+Message-Id: <20210301142315.30920-1-steven.price@arm.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.102]
-X-ClientProxiedBy: DAG5EX1.mxp5.local (172.16.2.41) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 2e19bfc0-46a4-4a30-ae95-974b7b870eae
-X-Ovh-Tracer-Id: 17763604307183835616
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdeitdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgepudenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=groug@kaod.org;
- helo=7.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=217.140.110.172;
+ envelope-from=steven.price@arm.com; helo=foss.arm.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,48 +52,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, david@gibson.dropbear.id.au
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Andrew Jones <drjones@redhat.com>, Haibo Xu <Haibo.Xu@arm.com>,
+ Suzuki K Poulose <suzuki.poulose@arm.com>, qemu-devel@nongnu.org,
+ Dave Martin <Dave.Martin@arm.com>, Juan Quintela <quintela@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
+ Steven Price <steven.price@arm.com>, James Morse <james.morse@arm.com>,
+ Julien Thierry <julien.thierry.kdev@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, kvmarm@lists.cs.columbia.edu,
+ linux-arm-kernel@lists.infradead.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Feb 2021 13:32:58 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+This series adds support for using the Arm Memory Tagging Extensions
+(MTE) in a KVM guest.
 
-> Now that we're asserting the first DRC LMB earlier, use it to query if
-> the DRC is already pending unplug and, in this case, issue the same
-> error we already do.
-> 
-> The previous check was introduced in commit 2a129767ebb1 and it works,
-> but it's easier to check the unplug_requested  flag instead of looking
-> for the existence of the sPAPRDIMMState. It's also compliant with what
-> is already done in other unplug_request functions for other devices.
-> 
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
+This version is rebased on v5.12-rc1 and added a documentation patch,
+but is otherwise unchanged from the v8[1] posting.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
+Changes since v8[1]:
+ * Rebased on v5.12-rc1 (note new CAP number)
+ * New documentation patch
 
->  hw/ppc/spapr.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 74e046b522..149dc2113f 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3681,13 +3681,7 @@ static void spapr_memory_unplug_request(HotplugHandler *hotplug_dev,
->                                  addr_start / SPAPR_MEMORY_BLOCK_SIZE);
->      g_assert(drc_start);
->  
-> -    /*
-> -     * An existing pending dimm state for this DIMM means that there is an
-> -     * unplug operation in progress, waiting for the spapr_lmb_release
-> -     * callback to complete the job (BQL can't cover that far). In this case,
-> -     * bail out to avoid detaching DRCs that were already released.
-> -     */
-> -    if (spapr_pending_dimm_unplugs_find(spapr, dimm)) {
-> +    if (spapr_drc_unplug_requested(drc_start)) {
->          error_setg(errp, "Memory unplug already in progress for device %s",
->                     dev->id);
->          return;
+[1] https://lore.kernel.org/r/20210205135803.48321-1-steven.price@arm.com/
+
+Steven Price (6):
+  arm64: mte: Sync tags for pages where PTE is untagged
+  arm64: kvm: Introduce MTE VM feature
+  arm64: kvm: Save/restore MTE registers
+  arm64: kvm: Expose KVM_ARM_CAP_MTE
+  KVM: arm64: ioctl to fetch/store tags in a guest
+  KVM: arm64: Document MTE capability and ioctl
+
+ Documentation/virt/kvm/api.rst             | 37 ++++++++++++
+ arch/arm64/include/asm/kvm_emulate.h       |  3 +
+ arch/arm64/include/asm/kvm_host.h          |  9 +++
+ arch/arm64/include/asm/kvm_mte.h           | 66 ++++++++++++++++++++++
+ arch/arm64/include/asm/pgtable.h           |  2 +-
+ arch/arm64/include/asm/sysreg.h            |  3 +-
+ arch/arm64/include/uapi/asm/kvm.h          | 13 +++++
+ arch/arm64/kernel/asm-offsets.c            |  3 +
+ arch/arm64/kernel/mte.c                    | 16 ++++--
+ arch/arm64/kvm/arm.c                       | 66 ++++++++++++++++++++++
+ arch/arm64/kvm/hyp/entry.S                 |  7 +++
+ arch/arm64/kvm/hyp/exception.c             |  3 +-
+ arch/arm64/kvm/hyp/include/hyp/sysreg-sr.h | 21 +++++++
+ arch/arm64/kvm/mmu.c                       | 16 ++++++
+ arch/arm64/kvm/sys_regs.c                  | 28 +++++++--
+ include/uapi/linux/kvm.h                   |  2 +
+ 16 files changed, 283 insertions(+), 12 deletions(-)
+ create mode 100644 arch/arm64/include/asm/kvm_mte.h
+
+-- 
+2.20.1
 
 
