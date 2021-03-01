@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0FF6328592
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 17:58:52 +0100 (CET)
-Received: from localhost ([::1]:54256 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5857232863E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 18:07:44 +0100 (CET)
+Received: from localhost ([::1]:44292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGlsh-0001gd-Qh
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 11:58:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56900)
+	id 1lGm1H-0001ts-Ct
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 12:07:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lGlqc-0000dh-Vy
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:56:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1lGlqb-0000zE-10
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 11:56:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614617800;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=P8OiGXdRHnlsq4P1WPnZO7Sn/4Ms0moWr/6fImuyR2k=;
- b=DyxOXNPBbts0b/wf8k0cSfEaentTfIp0Kv5ekyqKIeqqVug/FzMp4nEk7wvxFDiLpV6FHp
- nyO3x5BwfzRUX09FGA7bA7XXk3V6ncTl+1b2pekcVDippBhUz6uGbrhJmEQTLyi0HAaUJL
- HngTE3Pm63LbOwroUskh1gfp8iqyH6c=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-Xw0IIif1MdeRTGplxTt0IQ-1; Mon, 01 Mar 2021 11:56:26 -0500
-X-MC-Unique: Xw0IIif1MdeRTGplxTt0IQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DA474107ACE4;
- Mon,  1 Mar 2021 16:56:24 +0000 (UTC)
-Received: from redhat.com (ovpn-113-132.ams2.redhat.com [10.36.113.132])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BB14F6060F;
- Mon,  1 Mar 2021 16:56:20 +0000 (UTC)
-Date: Mon, 1 Mar 2021 16:56:17 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH] docs: show how to spawn qemu-storage-daemon with fd
- passing
-Message-ID: <YD0csS5KptLrmKJF@redhat.com>
-References: <20210301153159.35660-1-stefanha@redhat.com>
- <20210301153906.GZ30079@redhat.com> <YD0L6r68S+Rv8a+R@redhat.com>
- <YD0bRoy34wH8slYj@stefanha-x1.localdomain>
+ (Exim 4.90_1) (envelope-from <danny.milo@datacom.wien>)
+ id 1lGlvW-0005KH-Tk
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:01:46 -0500
+Received: from mail-lf1-x12f.google.com ([2a00:1450:4864:20::12f]:41760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danny.milo@datacom.wien>)
+ id 1lGlvT-0002aJ-Js
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 12:01:46 -0500
+Received: by mail-lf1-x12f.google.com with SMTP id q25so6409574lfc.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 09:01:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=datacom-wien.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PbnRqXcRw3GFMjovQ8HTIBPol3CuTcv9WBzMt3bl3vg=;
+ b=KhGKVHsKMkr+hCIvPR6xc+J4xyvN99HPh3kJPTt2bLYFvuZyVlt05Lw8xQDrpE0jWb
+ 3dC7EWPpIepmkHo6UB2yWB7EEOX3I5B2dfFNPCf45er4rmmo4CsBZ+8sfVDagVCwhY+E
+ 10AnXfzzxFVfeoYmM+ao2ITU3IM2Ht4zpmkAXfhhGx8TziiKLJmYooN6Xj0/ndY6bJko
+ GRWfSS0SEG1k6nYFe7Gg3HfQm1o+UOGaAwKp6bfBqJTFPpyLntuzOB/bcdhDIyjL2PsF
+ noIqQ152PyE24ms5cDOPHG/UgPQzoOtMA2yyyvk238/gi1pLbfTvs9kjYnOMHp5m5eZl
+ KsIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PbnRqXcRw3GFMjovQ8HTIBPol3CuTcv9WBzMt3bl3vg=;
+ b=MItGTlNpeXRnupjIQohTq28ekWThXlgXJKJ5Wf2M/YdwvKtBykxS3JnSa2bl+HxOTh
+ 4zNawCkm5GHFbXNCN15C/ytM1Hw+H0rHVkhqDMv+ZkKUWCTdqEHgHP/75tBXMssuIfQZ
+ pzLOK7JAT1P2bKny17BaQLL9CPtCJcIrFbxUzW7sCrAV0BW+gzozWdN8KOS9OYWLnbuC
+ FlPGmJTfEuJrX2b7w9VcBk975fJPmDD02Yd8UQhsCXNgVMNG8j17vspg9e268OPzZJIl
+ uXsmT/EhSanMv/Z33LAmsWjf+smzvi650d/rnG1rl7Tj+HiVkXUaM7OlMURdYJOm1qf+
+ 8Nog==
+X-Gm-Message-State: AOAM530fncZs2z/HEIzTCaQ/piGwa2ReVrLgf8QeWtRvuS3ny3CtnncD
+ HjgjLMLd/3EEod4v0/REwMwkFAJkpEe5Lg==
+X-Google-Smtp-Source: ABdhPJyziGtjD2EtdCbBOW60pI5mhwoQ0PzE0h+BMjLO9wEXTZhcTG7rmOXLt+vp1NADXR3qqgL4oQ==
+X-Received: by 2002:ac2:5d4d:: with SMTP id w13mr7124903lfd.63.1614618098656; 
+ Mon, 01 Mar 2021 09:01:38 -0800 (PST)
+Received: from dayas.lan
+ (2a02-8388-0281-94f0-b958-b6e3-fc53-344d.cable.dynamic.v6.surfer.at.
+ [2a02:8388:281:94f0:b958:b6e3:fc53:344d])
+ by smtp.gmail.com with ESMTPSA id c12sm1409914ljk.11.2021.03.01.09.01.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 09:01:37 -0800 (PST)
+From: Danny Milosavljevic <danny.milo@datacom.wien>
+To: qemu-devel@nongnu.org,
+	rminnich@google.com
+Subject: [PATCH 0/1] Add support for AMD new-style boot mechanism.
+Date: Mon,  1 Mar 2021 17:14:31 +0100
+Message-Id: <20210301161432.22554-1-danny.milo@datacom.wien>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <YD0bRoy34wH8slYj@stefanha-x1.localdomain>
-User-Agent: Mutt/2.0.5 (2021-01-21)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::12f;
+ envelope-from=danny.milo@datacom.wien; helo=mail-lf1-x12f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 01 Mar 2021 12:03:09 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -84,119 +85,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Kevin Wolf <kwolf@redhat.com>, "Richard W.M. Jones" <rjones@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
+Cc: Danny Milosavljevic <danny.milo@datacom.wien>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Mar 01, 2021 at 04:50:14PM +0000, Stefan Hajnoczi wrote:
-> On Mon, Mar 01, 2021 at 03:44:42PM +0000, Daniel P. Berrangé wrote:
-> > On Mon, Mar 01, 2021 at 03:39:06PM +0000, Richard W.M. Jones wrote:
-> > > On Mon, Mar 01, 2021 at 03:31:59PM +0000, Stefan Hajnoczi wrote:
-> > > > The QMP monitor, NBD server, and vhost-user-blk export all support file
-> > > > descriptor passing. This is a useful technique because it allows the
-> > > > parent process to spawn and wait for qemu-storage-daemon without busy
-> > > > waiting, which may delay startup due to arbitrary sleep() calls.
-> > > > 
-> > > > This Python example is inspired by the test case written for libnbd by
-> > > > Richard W.M. Jones <rjones@redhat.com>:
-> > > > https://gitlab.com/nbdkit/libnbd/-/commit/89113f484effb0e6c322314ba75c1cbe07a04543
-> > > > 
-> > > > Thanks to Daniel P. Berrangé <berrange@redhat.com> for suggestions on
-> > > > how to get this working. Now let's document it!
-> > > > 
-> > > > Reported-by: Richard W.M. Jones <rjones@redhat.com>
-> > > > Cc: Kevin Wolf <kwolf@redhat.com>
-> > > > Cc: Daniel P. Berrangé <berrange@redhat.com>
-> > > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > > ---
-> > > >  docs/tools/qemu-storage-daemon.rst | 38 ++++++++++++++++++++++++++++--
-> > > >  1 file changed, 36 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/docs/tools/qemu-storage-daemon.rst b/docs/tools/qemu-storage-daemon.rst
-> > > > index f63627eaf6..45854c131e 100644
-> > > > --- a/docs/tools/qemu-storage-daemon.rst
-> > > > +++ b/docs/tools/qemu-storage-daemon.rst
-> > > > @@ -101,10 +101,12 @@ Standard options:
-> > > >  
-> > > >  .. option:: --nbd-server addr.type=inet,addr.host=<host>,addr.port=<port>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
-> > > >    --nbd-server addr.type=unix,addr.path=<path>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
-> > > > +  --nbd-server addr.type=fd,addr.str=<fd>[,tls-creds=<id>][,tls-authz=<id>][,max-connections=<n>]
-> > > >  
-> > > >    is a server for NBD exports. Both TCP and UNIX domain sockets are supported.
-> > > > -  TLS encryption can be configured using ``--object`` tls-creds-* and authz-*
-> > > > -  secrets (see below).
-> > > > +  A listen socket can be provided via file descriptor passing (see Examples
-> > > > +  below). TLS encryption can be configured using ``--object`` tls-creds-* and
-> > > > +  authz-* secrets (see below).
-> > > >  
-> > > >    To configure an NBD server on UNIX domain socket path ``/tmp/nbd.sock``::
-> > > >  
-> > > > @@ -127,6 +129,38 @@ QMP commands::
-> > > >        --chardev socket,path=qmp.sock,server,nowait,id=char1 \
-> > > >        --monitor chardev=char1
-> > > >  
-> > > > +Launch the daemon from Python with a QMP monitor socket using file descriptor
-> > > > +passing so there is no need to busy wait for the QMP monitor to become
-> > > > +available::
-> > > > +
-> > > > +  #!/usr/bin/env python3
-> > > > +  import os
-> > > > +  import subprocess
-> > > > +  import socket
-> > > > +
-> > > > +  sock_path = '/tmp/qmp-{}.sock'.format(os.getpid())
-> > > 
-> > > Not sure how much you worry about the insecure / easily guessable tmp
-> > > path here.  I notice that there's already one in the surrounding
-> > > documentation (/tmp/nbd.sock) so maybe it's not a problem :-)
-> > > 
-> > > > +  with socket.socket(socket.AF_UNIX, socket.SOCK_STREAM) as listen_sock:
-> > > > +      listen_sock.bind(sock_path)
-> > > > +      listen_sock.listen()
-> > > > +
-> > > > +      fd = listen_sock.fileno()
-> > > > +
-> > > > +      subprocess.Popen(
-> > > > +          ['qemu-storage-daemon',
-> > > > +           '--chardev', f'socket,fd={fd},server=on,id=char1',
-> > > > +           '--monitor', 'chardev=char1'],
-> > > > +          pass_fds=[fd],
-> > > > +      )
-> > > > +
-> > > > +  qmp_sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-> > > > +  qmp_sock.connect(sock_path)
-> > > 
-> > > A note that the order of opening the sockets is slightly different
-> > > from how I did it in the interop test.  But I believe it makes no
-> > > difference, as long as you don't connect to the socket until it's in
-> > > the listening state, which is what you're doing here.  So it should be
-> > > fine.
-> > 
-> > Nothing here is closing listen_sock in the parent though.
-> > 
-> > The trick of passing the listener FD into the child relies on the
-> > listener being closed in the parent, so that the parent can get
-> > a socket error if the child exits abnormally during startup. Keeping
-> > the listen socket open means the parent will wait forever for an
-> > accept() that never comes.
-> 
-> The listen socket is closed by the context manager at the end of the
-> 'with' statement. This is the modern Python approach for resource
-> acquisition that also handles exceptions automatically. It's like RAII
-> in C++.
+A lot of AMD CPUs boot the bootstrap processor using a new mechanism.
 
-Hmm, yes, I didn't remember that at first. I'm not sure that is a good
-idea as an example code, because people mapping this example into other
-languages are likely to miss that critical detail.
+According to https://doc.coreboot.org/soc/amd/family17h.html [1] that means
+that the flash header specifies a destination and size in RAM (!), and the
+bootstrap processor will start using a CS segment descriptor set up in such
+a way that from the CPU's point of view, 0xf000:0xffff is the last byte of
+the loaded blob (i.e. of the BIOS).
 
+See <https://doc.coreboot.org/soc/amd/family17h.html>, which says:
 
-Regards,
-Daniel
+>Picasso Reset Vector and First Instructions
+[example]
+>Flash BIOS Directory Table
+>destination = 0x9b00000
+>size  = 0x300000
+
+>... then the BIOS image is placed at the topmost position the region
+>0x9b00000-0x9dfffff and
+
+>reset_vector = 0x9dffff0
+>CS_shdw_base = 0x9df0000
+>CS:IP  = 0xf000:0xfff0
+
+The patch below allows the user to set up CS_shdw_base.
+
+In order to test, try
+
+qemu-system-x86_64 \
+   -m 1G \
+   -device loader,file=BIOS.fd,csbaseaddr=0x9df0000,addr=$0x9b00000,cpu-num=0,force-raw=on \
+   -device loader,addr=0xfff0,cpu-num=0 \
+   -bios BIOS.fd
+
+The "-bios BIOS.fd" at the end is optional--but customary.
+
+This has been used successfully for more than a year in BIOS development.
+
+Danny Milosavljevic (1):
+  i386: Add support for AMD new-style boot mechanism.
+
+ hw/core/generic-loader.c         |  5 ++++-
+ include/hw/core/cpu.h            |  1 +
+ include/hw/core/generic-loader.h |  1 +
+ target/i386/cpu.c                | 11 +++++++++++
+ 4 files changed, 17 insertions(+), 1 deletion(-)
+
+[1] http://web.archive.org/web/20201125131718/https://doc.coreboot.org/soc/amd/family17h.html
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.29.2
 
 
