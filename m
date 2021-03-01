@@ -2,76 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EDB13282D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:52:18 +0100 (CET)
-Received: from localhost ([::1]:46904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7606A3282D3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:52:45 +0100 (CET)
+Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGkqH-0006y2-Hk
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:52:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37830)
+	id 1lGkqi-00077S-GE
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:52:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lGko6-0005t0-4J
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:50:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28881)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGkoT-00062b-5n
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:50:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31646)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1lGko3-0001QI-Ls
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:50:01 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1lGkoP-0001bo-4Y
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:50:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614613796;
+ s=mimecast20190719; t=1614613819;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=V1TepUgexujrGnyNMcpL0PysLa3n1cwp1PLb9OZS+I8=;
- b=SjCaFxRz3bF3vGrtX8lfLIqop7yMm/uSuxb2uX4aONLrxkgnVboA2EYs1bjEmh+siocxKC
- 0Ft/sXP4OqWlR2viVoKPXj/GknDO2MZ1pQNGM9dSK23gNPhXgoZeg6I64VXq8AHaJujC3x
- 8+0V/QHtFPVjTKiI9O+UUSg7QxNQDhY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-CUWH6xRHNI2IQeJsDaYx_g-1; Mon, 01 Mar 2021 10:49:49 -0500
-X-MC-Unique: CUWH6xRHNI2IQeJsDaYx_g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 40389808B4;
- Mon,  1 Mar 2021 15:49:22 +0000 (UTC)
-Received: from [10.3.113.12] (ovpn-113-12.phx2.redhat.com [10.3.113.12])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D197160636;
- Mon,  1 Mar 2021 15:49:21 +0000 (UTC)
-Subject: Re: [PATCH] docs: show how to spawn qemu-storage-daemon with fd
- passing
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210301153159.35660-1-stefanha@redhat.com>
- <YD0LQ3fDG6t2VRG4@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <5b86b310-8e3b-8bb6-365c-a73b0f2843be@redhat.com>
-Date: Mon, 1 Mar 2021 09:49:21 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ bh=QROTVm6i767r9jJ4lmz7ScYYUu95J4nAcDF/5ZlGgks=;
+ b=WHBar4k8OEo8pN4M9vNxjUpyuNL8VSHTu1ANoWPwCxFT1oC3LwZiSw/+Z7GJm4wFv5Qj4n
+ RNYMql+KC7EXhUZYoA9gvVajRqj84chCIqCcYv1THfFOtcwG6Hb/ZDgIAHbjwcoksw4lhi
+ ZuYDE8PxAexjVa4W/pepbveGutH7/jg=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-477-tO6grJXdN-edpIp-PArOYg-1; Mon, 01 Mar 2021 10:50:11 -0500
+X-MC-Unique: tO6grJXdN-edpIp-PArOYg-1
+Received: by mail-ej1-f70.google.com with SMTP id h14so2905832ejg.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 07:50:11 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=QROTVm6i767r9jJ4lmz7ScYYUu95J4nAcDF/5ZlGgks=;
+ b=UZj4St8uCmHeSIe9sLQkI+5dX/sm8UGs2zVcD5tHOfT2cl1tZR+L5j/tECOWirqgDX
+ 8jx9vFLripzxRrxANVVr5XUO8qcGsV7NT1NI/Mk2mmNK4hI2OMTFRdtTe2rCMLtArnsW
+ rNkjRhTR5as21PkmbDDP/PIGjZOWS9nxRsthAvkslh6W1xVch0eKz1SMzWVdqCk+pt6E
+ iISEuf5ygFZUcSdFtrgMnjTvPGXOhid65D9OA9qNkWP7XSBAvnv2TTWCNJNijkuFoXGH
+ k2Po2WEPBdBpe3ArZDYjdvMMTpzAPAXFG9T33KEvbg/0xqakcVF6ZJNp05DehfxI4GNL
+ 031w==
+X-Gm-Message-State: AOAM5336NU9bzKF+V/EU/9XTClGAAu111nfV5KudTr63jWJR580H6FWf
+ +dRKydGURkdlFty6kDQCnqeuHfUgUZkTPIf6Rvtz3Nnj/g4dhkckdbNna5kGHKehLO5HSidK+be
+ n//I9kAAY5EFvu5w=
+X-Received: by 2002:a17:906:5e4a:: with SMTP id
+ b10mr1820994eju.116.1614613810211; 
+ Mon, 01 Mar 2021 07:50:10 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxk65o7nEOQSI+igvN92CX3fwWIYULoeXzQpSX9/BSPdsBlCxFWTmncwj/7LjU3lMXyEr9sYA==
+X-Received: by 2002:a17:906:5e4a:: with SMTP id
+ b10mr1820971eju.116.1614613809994; 
+ Mon, 01 Mar 2021 07:50:09 -0800 (PST)
+Received: from redhat.com (bzq-79-180-2-31.red.bezeqint.net. [79.180.2.31])
+ by smtp.gmail.com with ESMTPSA id dz7sm15922179edb.74.2021.03.01.07.50.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Mar 2021 07:50:09 -0800 (PST)
+Date: Mon, 1 Mar 2021 10:50:06 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Subject: Re: [RFC PATCH 4/5] hw/acpi/aml-build: add processor hierarchy node
+ structure
+Message-ID: <20210301103619-mutt-send-email-mst@kernel.org>
+References: <20210225085627.2263-1-fangying1@huawei.com>
+ <20210225085627.2263-5-fangying1@huawei.com>
+ <20210225114732.5f7gqgl7lym7d4hs@kamzik.brq.redhat.com>
+ <5afc6d2b-6e16-d44c-13cf-bd75c63f89db@huawei.com>
+ <20210301093919.yt65iz26p6niairw@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <YD0LQ3fDG6t2VRG4@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20210301093919.yt65iz26p6niairw@kamzik.brq.redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,37 +97,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: peter.maydell@linaro.org, salil.mehta@huawei.com,
+ zhang.zhanghailiang@huawei.com, qemu-devel@nongnu.org,
+ shannon.zhaosl@gmail.com, Henglong Fan <fanhenglong@huawei.com>,
+ alistair.francis@wdc.com, qemu-arm@nongnu.org,
+ Ying Fang <fangying1@huawei.com>, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 9:41 AM, Daniel P. Berrangé wrote:
-> On Mon, Mar 01, 2021 at 03:31:59PM +0000, Stefan Hajnoczi wrote:
->> The QMP monitor, NBD server, and vhost-user-blk export all support file
->> descriptor passing. This is a useful technique because it allows the
->> parent process to spawn and wait for qemu-storage-daemon without busy
->> waiting, which may delay startup due to arbitrary sleep() calls.
->>
->> This Python example is inspired by the test case written for libnbd by
->> Richard W.M. Jones <rjones@redhat.com>:
->> https://gitlab.com/nbdkit/libnbd/-/commit/89113f484effb0e6c322314ba75c1cbe07a04543
->>
->> Thanks to Daniel P. Berrangé <berrange@redhat.com> for suggestions on
->> how to get this working. Now let's document it!
->>
+On Mon, Mar 01, 2021 at 10:39:19AM +0100, Andrew Jones wrote:
+> On Fri, Feb 26, 2021 at 10:23:03AM +0800, Ying Fang wrote:
+> > 
+> > 
+> > On 2/25/2021 7:47 PM, Andrew Jones wrote:
+> > > On Thu, Feb 25, 2021 at 04:56:26PM +0800, Ying Fang wrote:
+> > > > Add the processor hierarchy node structures to build ACPI information
+> > > > for CPU topology. Since the private resources may be used to describe
+> > > > cache hierarchy and it is variable among different topology level,
+> > > > three helpers are introduced to describe the hierarchy.
+> > > > 
+> > > > (1) build_socket_hierarchy for socket description
+> > > > (2) build_processor_hierarchy for processor description
+> > > > (3) build_smt_hierarchy for thread (logic processor) description
+> > > > 
+> > > > Signed-off-by: Ying Fang <fangying1@huawei.com>
+> > > > Signed-off-by: Henglong Fan <fanhenglong@huawei.com>
+> > > > ---
+> > > >   hw/acpi/aml-build.c         | 40 +++++++++++++++++++++++++++++++++++++
+> > > >   include/hw/acpi/acpi-defs.h | 13 ++++++++++++
+> > > >   include/hw/acpi/aml-build.h |  7 +++++++
+> > > >   3 files changed, 60 insertions(+)
+> > > > 
+> > > > diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
+> > > > index a2cd7a5830..a0af3e9d73 100644
+> > > > --- a/hw/acpi/aml-build.c
+> > > > +++ b/hw/acpi/aml-build.c
+> > > > @@ -1888,6 +1888,46 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+> > > >                    table_data->len - slit_start, 1, oem_id, oem_table_id);
+> > > >   }
+> > > > +/*
+> > > > + * ACPI 6.3: 5.2.29.1 Processor hierarchy node structure (Type 0)
+> > > > + */
+> > > > +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+> > > > +{
+> > > > +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
+> > > > +    build_append_byte(tbl, 20);         /* Length, no private resources */
+> > > > +    build_append_int_noprefix(tbl, 0, 2);  /* Reserved */
+> > > > +    build_append_int_noprefix(tbl, ACPI_PPTT_PHYSICAL_PACKAGE, 4);
+> > > 
+> > > Missing '/* Flags */'
+> > 
+> > Will fix.
+> > 
+> > > 
+> > > > +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
+> > > > +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
+> > > > +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+> > > > +}
+> > > > +
+> > > > +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+> > > > +                               uint32_t parent, uint32_t id)
+> > > > +{
+> > > > +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR);  /* Type 0 - processor */
+> > > > +    build_append_byte(tbl, 20);         /* Length, no private resources */
+> > > > +    build_append_int_noprefix(tbl, 0, 2);      /* Reserved */
+> > > > +    build_append_int_noprefix(tbl, flags, 4);  /* Flags */
+> > > > +    build_append_int_noprefix(tbl, parent, 4); /* Parent */
+> > > > +    build_append_int_noprefix(tbl, id, 4);     /* ACPI processor ID */
+> > > > +    build_append_int_noprefix(tbl, 0, 4);  /* Number of private resources */
+> > > > +}
+> > > > +
+> > > > +void build_thread_hierarchy(GArray *tbl, uint32_t parent, uint32_t id)
+> > > > +{
+> > > > +    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR); /* Type 0 - processor */
+> > > > +    build_append_byte(tbl, 20);           /* Length, no private resources */
+> > > > +    build_append_int_noprefix(tbl, 0, 2); /* Reserved */
+> > > > +    build_append_int_noprefix(tbl,
+> > > > +                              ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
+> > > > +                              ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD |
+> > > > +                              ACPI_PPTT_ACPI_LEAF_NODE, 4);  /* Flags */
+> > > > +    build_append_int_noprefix(tbl, parent , 4); /* parent */
+> > > 
+> > > 'parent' not capitalized. We want these comments to exactly match the text
+> > > in the spec.
+> > 
+> > Will fix.
+> > 
+> > > 
+> > > > +    build_append_int_noprefix(tbl, id, 4);      /* ACPI processor ID */
+> > > > +    build_append_int_noprefix(tbl, 0, 4);       /* Num of private resources */
+> > > > +}
+> > > > +
+> > > >   /* build rev1/rev3/rev5.1 FADT */
+> > > >   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> > > >                   const char *oem_id, const char *oem_table_id)
+> > > > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > > > index cf9f44299c..45e10d886f 100644
+> > > > --- a/include/hw/acpi/acpi-defs.h
+> > > > +++ b/include/hw/acpi/acpi-defs.h
+> > > > @@ -618,4 +618,17 @@ struct AcpiIortRC {
+> > > >   } QEMU_PACKED;
+> > > >   typedef struct AcpiIortRC AcpiIortRC;
+> > > > +enum {
+> > > > +    ACPI_PPTT_TYPE_PROCESSOR = 0,
+> > > > +    ACPI_PPTT_TYPE_CACHE,
+> > > > +    ACPI_PPTT_TYPE_ID,
+> > > > +    ACPI_PPTT_TYPE_RESERVED
+> > > > +};
+> > > > +
+> > > > +#define ACPI_PPTT_PHYSICAL_PACKAGE          (1)
+> > > > +#define ACPI_PPTT_ACPI_PROCESSOR_ID_VALID   (1 << 1)
+> > > > +#define ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD  (1 << 2)      /* ACPI 6.3 */
+> > > > +#define ACPI_PPTT_ACPI_LEAF_NODE            (1 << 3)      /* ACPI 6.3 */
+> > > > +#define ACPI_PPTT_ACPI_IDENTICAL            (1 << 4)      /* ACPI 6.3 */
 
->> +  sock_path = '/tmp/qmp-{}.sock'.format(os.getpid())
+You need to quote specific place in spec where this appeared, not
+just version. and what about previous ones?
+
+
+> > > > +
+> > > >   #endif
+> > > > diff --git a/include/hw/acpi/aml-build.h b/include/hw/acpi/aml-build.h
+> > > > index 380d3e3924..7f0ca1a198 100644
+> > > > --- a/include/hw/acpi/aml-build.h
+> > > > +++ b/include/hw/acpi/aml-build.h
+> > > > @@ -462,6 +462,13 @@ void build_srat_memory(AcpiSratMemoryAffinity *numamem, uint64_t base,
+> > > >   void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms,
+> > > >                   const char *oem_id, const char *oem_table_id);
+> > > > +void build_socket_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
+> > > > +
+> > > > +void build_processor_hierarchy(GArray *tbl, uint32_t flags,
+> > > > +                               uint32_t parent, uint32_t id);
+> > > > +
+> > > > +void build_thread_hierarchy(GArray *tbl, uint32_t parent, uint32_t id);
+> > > 
+> > > Why does build_processor_hierarchy() take a flags argument, but the
+> > > others don't? Why not just have a single 'flags' taking function,
+> > > like [*] that works for all of them? I think that answer to that is
+> > 
+> > Yes, you are right.
+> > 
+> > > that when cache topology support is added it's better to break these
+> > > into separate functions, but should we do that now? It seems odd to
+> > > be introducing unused defines and this API before it's necessary.
+> > So it is better for us to keep just one common build_processor_hierarchy
+> > API here in your opinion.
 > 
-> Example code inevitably gets cut+paste into real world apps, and this
-> example is a tmpfile CVE flaw. At least put it in $CWD instead.
+> Well, a consistent API without unused defines. Whether or not that's
+> a single common function or not isn't that important.
+> 
+> Thanks,
+> drew
 
-Except $CWD may be too long for a sock file name to be created.
-Creating the sock in a securely-created subdirectory of /tmp is more
-reliable.
+Yes, the preferred way is code comments:
+E.g.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+    build_append_byte(tbl, ACPI_PPTT_TYPE_PROCESSOR);  /* Type 0 - processor */
+
+should be
+
+    build_append_byte(tbl, 0);  /* Type 0 - processor */
+
+
+similar:
+
+> > > > +    build_append_int_noprefix(tbl,
+> > > > +                              ACPI_PPTT_ACPI_PROCESSOR_ID_VALID |
+> > > > +                              ACPI_PPTT_ACPI_PROCESSOR_IS_THREAD |
+> > > > +                              ACPI_PPTT_ACPI_LEAF_NODE, 4);  /* Flags */
+
+should be
+
+ +    build_append_int_noprefix(tbl, /* Processor Structure Flags */
+ +                              (1 << 1)  /* ACPI Processor ID valid */|
+ +                              (1 << 2) /* Processor is a Thread */) |
+ +                              (1 << 3) /* Node is a Leaf */, 4);
+
+where you would make sure the text matches the spec verbatim.
+
+also note how for multi-line code comments precede the code.
+For single-line they can come after the code.
+
+> > 
+> > > 
+> > > [*] https://github.com/rhdrjones/qemu/commit/439b38d67ca1f2cbfa5b9892a822b651ebd05c11
+> > > 
+> > > Thanks,
+> > > drew
+> > > 
+> > > > +
+> > > >   void build_fadt(GArray *tbl, BIOSLinker *linker, const AcpiFadtData *f,
+> > > >                   const char *oem_id, const char *oem_table_id);
+> > > > -- 
+> > > > 2.23.0
+> > > > 
+> > > > 
+> > > 
+> > > .
+> > > 
+> > 
+> > Thanks,
+> > Ying.
+> > 
 
 
