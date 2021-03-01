@@ -2,50 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C93F4327887
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 08:47:58 +0100 (CET)
-Received: from localhost ([::1]:40696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F62E32788A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 08:48:54 +0100 (CET)
+Received: from localhost ([::1]:42860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGdHZ-00006j-IR
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 02:47:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35350)
+	id 1lGdIT-000145-7c
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 02:48:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
- id 1lGdFp-000886-EX
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:46:09 -0500
-Received: from proxmox-new.maurer-it.com ([212.186.127.180]:24453)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <t.lamprecht@proxmox.com>)
- id 1lGdFh-0000TQ-QH
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:46:08 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 8E24641D13;
- Mon,  1 Mar 2021 08:45:54 +0100 (CET)
-Message-ID: <4b7e58a9-e6bf-818f-b2f1-72600fced210@proxmox.com>
-Date: Mon, 1 Mar 2021 08:45:53 +0100
+ (Exim 4.90_1) (envelope-from <amorenoz@redhat.com>)
+ id 1lGdH5-0000Ld-OY
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:47:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26680)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <amorenoz@redhat.com>)
+ id 1lGdH3-00018r-UY
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 02:47:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614584840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BBSmKpOV9XEzRSgZzgS2nPmROr7wXwjGxXkXj3czfTY=;
+ b=EhFF2SUNUSTjqbVgZxr8RpNaKMRW6bwm8c5q++e+c6RFwqHoFkuFOCWpWvnIPAUHDAhrDg
+ 3LmL2PrbW5yykSMmj1ookiki6np7ha7desl1gLMasM5nTAEaW/v8UhQgMiUbfTWwKgNv6q
+ CSFQ1e083m/jHGMCpqhJbO2Sl7ASLD4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-589-2KebvqMdOF6nUDdxY7oB9A-1; Mon, 01 Mar 2021 02:47:18 -0500
+X-MC-Unique: 2KebvqMdOF6nUDdxY7oB9A-1
+Received: by mail-wm1-f72.google.com with SMTP id m17so149324wml.3
+ for <qemu-devel@nongnu.org>; Sun, 28 Feb 2021 23:47:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=BBSmKpOV9XEzRSgZzgS2nPmROr7wXwjGxXkXj3czfTY=;
+ b=ijzgSO5/W55JVTioc54DlJYLVdp/XLGCq+8DEjAbRxgAkkBh84xiBLLAHxISR9PRyj
+ iGb2avxFPh5GfFhJ8bfwGUZiVMhaBDlXFa23uD41/b4fcELOcYdeItmmlqpLzZvTvgNv
+ KJtTq+NjwwMATpwUnZYibwixRmtSgsBVxPj9sNHpEpOJJ+9uPCElq7Md0SUsLxReimr8
+ m70fl52IRt94wF0L+UyOp1iK288xRZfuRIKrzfKYKSnWMRkgT2VaPmrajtzd44+bkAyy
+ hqnQrfJcWG9hbAG48m5Jpy9NerdrzImTHZDqNqcc1lC8ySQp1gvA6R3UScJh5+t3/U2R
+ PeCA==
+X-Gm-Message-State: AOAM530UpRfg7s4He0qH6xkLWoPWtNCUmuWIAq8LTNq44LhLCvLzIgEL
+ EDnRAXoh6fkGdfReNESDw4LRzRcWsu8kjg3K6fG6KaF8NCgJWB/MGhthZGxxqYH+kHPIMK5EXSu
+ ShaGEkzY39fnb+qM=
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr14812887wrq.136.1614584837322; 
+ Sun, 28 Feb 2021 23:47:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwyZAW/1+pkpK4C4gYs8b7v2/pBoN8cF9wIM5g1YZ7pllv8TsHEBktG5ayTbjvMisisjq0H3w==
+X-Received: by 2002:a5d:6d0c:: with SMTP id e12mr14812871wrq.136.1614584837112; 
+ Sun, 28 Feb 2021 23:47:17 -0800 (PST)
+Received: from amorenoz.users.ipa.redhat.com ([94.73.62.62])
+ by smtp.gmail.com with ESMTPSA id w16sm10930869wrk.41.2021.02.28.23.47.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 28 Feb 2021 23:47:16 -0800 (PST)
+Subject: Re: [PATCH v5 1/1] virtio-net: Add check for mac address while peer
+ is vdpa
+To: Cindy Lu <lulu@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20210225165506.18321-1-lulu@redhat.com>
+ <20210225165506.18321-2-lulu@redhat.com>
+ <20210225141203-mutt-send-email-mst@kernel.org>
+ <20210228153905-mutt-send-email-mst@kernel.org>
+ <CACLfguUUqYAEo_vLRpW3uZr6FUY=STwNUuQjUvqDdHqSAiNmuA@mail.gmail.com>
+From: Adrian Moreno <amorenoz@redhat.com>
+Message-ID: <e98ddf35-6030-0016-6ca7-f61f77da5078@redhat.com>
+Date: Mon, 1 Mar 2021 08:47:15 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:87.0) Gecko/20100101
- Thunderbird/87.0
+In-Reply-To: <CACLfguUUqYAEo_vLRpW3uZr6FUY=STwNUuQjUvqDdHqSAiNmuA@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=amorenoz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-To: "Michael S. Tsirkin" <mst@redhat.com>
-References: <20200730155755.188845-1-mst@redhat.com>
- <5b40e1ac-03ca-7954-4d50-f5f96c339772@proxmox.com>
- <20210228154208-mutt-send-email-mst@kernel.org>
- <967d3e1f-d387-0b33-95b0-6560f49657dd@proxmox.com>
- <20210301021449-mutt-send-email-mst@kernel.org>
-From: Thomas Lamprecht <t.lamprecht@proxmox.com>
-Subject: Re: [PATCH 1/2] i386/acpi: fix inconsistent QEMU/OVMF device paths
-In-Reply-To: <20210301021449-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=212.186.127.180;
- envelope-from=t.lamprecht@proxmox.com; helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=amorenoz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.248,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,69 +103,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Stefan Reiter <s.reiter@proxmox.com>,
- qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
- Laszlo Ersek <lersek@redhat.com>, vit9696 <vit9696@protonmail.com>
+Cc: Eugenio Perez Martin <eperezma@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Sean Mooney <smooney@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01.03.21 08:20, Michael S. Tsirkin wrote:
-> On Mon, Mar 01, 2021 at 08:12:35AM +0100, Thomas Lamprecht wrote:
->> On 28.02.21 21:43, Michael S. Tsirkin wrote:
->>> Sure. The way to do that is to tie old behaviour to old machine
->>> versions. We'll need it in stable too ...
+
+
+On 3/1/21 2:36 AM, Cindy Lu wrote:
+> On Mon, Mar 1, 2021 at 4:40 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >>
->> Yeah, using machine types is how its meant to be with solving migration
->> breakage, sure.
->> But that means we have to permanently pin the VM, and any backup restored from
->> that to that machine type *forever*. That'd be new for us as we always could
->> allow a newer machine type for a fresh start (i.e., non migration or the like)
->> here, and mean that lots of other improvements guarded by a newer machine type
->> for those VMs will.
-> 
-> If you don't do that, that is a bug as any virtual hardware
-> can change across machine types.
-
-For us a feature, for fresh starts one gets the current virtual HW but for
-live migration or our live snapshot code it stays compatible. Works quite
-well here for many years, as we can simply test the HW changes on existing
-VMs - which failed here due to lack of static IPs in the test bed. So yes,
-it has its problems as it is not really  what an OS considers as HW change
-so big that it makes it a new device, mostly Windows is a PITA here as seen
-in this issue.
-
-I mean, QEMU deprecates very old machines at some point anyway, so even then
-it is impossible to keep to the old machine forever, but otoh redoing some
-changes after a decade or two can be fine, I guess?
-
-> 
->> And yeah, stable is wanted, but extrapolating from the current stable releases
->> frequency, where normally there's maximal one after 5-6 months from the .0
->> release, means that this will probably still hit all those distributions I
->> mentioned or is there something more soon planned?
+>> On Thu, Feb 25, 2021 at 02:14:39PM -0500, Michael S. Tsirkin wrote:
+>>> On Fri, Feb 26, 2021 at 12:55:06AM +0800, Cindy Lu wrote:
+>>>> While peer is vdpa, sometime qemu get an all zero mac address from the hardware,
+>>>> This is not a legal value. Add the check for this.if we get an zero mac address.
+>>>> qemu will use the default mac address or the mac address from qemu cmdline
+>>>>
+>>>> Signed-off-by: Cindy Lu <lulu@redhat.com>
+>>>
+>>> I guess I will have to rewrite the comments and commit log :(
+>>>
+>>> It is all saying what does the patch do. We want it to rather
+>>> give motivation.
+>>>
+>>> Sean could you please comment on whether this patch fixes your
+>>> config?
 >>
->> Also, is there any regression testing infrastructure around to avoid such
->> changes in the future? This change got undetected for 7 months, which can be
->> pretty the norm for QEMU releases, so some earlier safety net would be good? Is
->> there anything which dumps various default machine HW layouts and uses them for
->> an ABI check of some sorts?
-> 
-> There are various testing efforts the reason this got undetected is
-> because it does not affect linux guests, and even for windows
-> they kind of recover, there's just some boot slowdown around reconfiguration.
-> Not easy to detect automatically given windows has lots of random
-> downtime during boot around updates etc etc.
+>> ping. if I'm to try and merge this work around it's critical
+>> that someone with access to hardware confirm it actually works.
+>>
+> Hi Michael, I have tested this patch in qemu+vdpa+mlx environment.
+> it's working fine.
+
+I have also verified it. For the record, I'll expand:
+
+Libvirt definition contains:
+
+    <interface type='vdpa'>
+      <mac address='52:54:00:8e:a4:12'/>
+      <source dev='/dev/vhost-vdpa-0'/>
+      <model type='virtio'/>
+      <alias name='net1'/>
+      <address type='pci' domain='0x0000' bus='0x06' slot='0x00' function='0x0'/>
+    </interface>
+	
+Qemu command line contains:
+
+-add-fd set=3,fd=42,opaque=/dev/vhost-vdpa-0 \
+-netdev vhost-vdpa,vhostdev=/dev/fdset/3,id=hostnet1 \
+-device
+virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:8e:a4:12,bus=pci.4,addr=0x0 \
+
+The vdpa device is created by mlx_vdpa (Connect-X6 DX) on switchdev mode.
+
+The original problem was:
+The mac address in struct virtio_net_config in the vdpa device is zero because
+it has not been configured. This does not have implications in the traffic
+steering since the card will rely on the eswitch flow configuration to perform
+smac/dmac filtering (in my case, this is done through ovs + tcflower hw offload).
+
+Since we anyhow have to rely on the mac address having been configured
+externally on the eswitch, we can also trust that whoever applied such flow
+configuration also gave us the correct mac address in the cmd line. Therefore,
+exposing such address to the guest seems like a sane way to tell it what mac
+address to use.
+
+Until the vdpa framework / iproute2 tool support configuring the
+virtio_net_config struct and such mechanism is used externally to align the
+virtio device's mac with the one configured in the eswitch, this patch allows
+the guest to have connectivity.
+
+
+>>
+>>>> ---
+>>>>  hw/net/virtio-net.c | 10 ++++++++++
+>>>>  1 file changed, 10 insertions(+)
+>>>>
+>>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>>>> index 9179013ac4..8f36ca5066 100644
+>>>> --- a/hw/net/virtio-net.c
+>>>> +++ b/hw/net/virtio-net.c
+>>>> @@ -126,6 +126,7 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+>>>>      VirtIONet *n = VIRTIO_NET(vdev);
+>>>>      struct virtio_net_config netcfg;
+>>>>      NetClientState *nc = qemu_get_queue(n->nic);
+>>>> +    static const MACAddr zero = { .a = { 0, 0, 0, 0, 0, 0 } };
+>>>>
+>>>>      int ret = 0;
+>>>>      memset(&netcfg, 0 , sizeof(struct virtio_net_config));
+>>>> @@ -151,6 +152,15 @@ static void virtio_net_get_config(VirtIODevice *vdev, uint8_t *config)
+>>>>          ret = vhost_net_get_config(get_vhost_net(nc->peer), (uint8_t *)&netcfg,
+>>>>                                     n->config_size);
+>>>>          if (ret != -1) {
+>>>> +            /*
+>>>> +             * Here is a work around, the 0 mac address is not a legal value.
+>>>> +             * if we got this from hardware, qemu will use the mac address
+>>>> +             * saved in VirtIONet->mac.
+>>>> +             */
+>>>> +            if (memcmp(&netcfg.mac, &zero, sizeof(zero)) == 0) {
+>>>> +                info_report("Get an all zero mac address from hardware");
+
+s/Get/Got/?
+
+>>>> +                memcpy(netcfg.mac, n->mac, ETH_ALEN);
+>>>> +            }
+>>>>              memcpy(config, &netcfg, n->config_size);
+>>>>          }
+>>>>      }
+>>>> --
+>>>> 2.21.3
+>>
 > 
 
-No, Windows does not reconfigure, this is a permanent change, one is just lucky
-if one has a DHCP server around in the network accessible for the guest.
-As static addresses setup on that virtual NIC before that config is gone,
-no recovery whatsoever until manual intervention.
+FWIW:
+Tested-by: Adrián Moreno <amorenoz@redhat.com>
 
-I meant more of a "dump HW layout to .txt file, commit to git, and ensure
-there's no diff without and machine version bump" (very boiled down), e.g., like
-ABI checks for kernel builds are often done by distros - albeit those are easier
-as its quite clear what and how the kernel ABI can be used.
+-- 
+Adrián Moreno
 
 
