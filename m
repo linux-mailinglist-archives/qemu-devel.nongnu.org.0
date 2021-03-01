@@ -2,62 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15BAE327C4D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 11:37:27 +0100 (CET)
-Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209AD327C86
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 11:46:47 +0100 (CET)
+Received: from localhost ([::1]:57848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGfva-00072g-3X
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 05:37:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45688)
+	id 1lGg4b-0001u8-SX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 05:46:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lGfu0-0005Vo-RW; Mon, 01 Mar 2021 05:35:48 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50763)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lGfyX-0000N2-9c
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:40:29 -0500
+Received: from isrv.corpit.ru ([86.62.121.231]:37667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lGfty-0002Mb-8W; Mon, 01 Mar 2021 05:35:48 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.140])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id E008A8C0163A;
- Mon,  1 Mar 2021 11:35:43 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
- 11:35:43 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005e48769fb-98f2-4e70-8903-9c4f63c21e21,
- 79E354DF6B7F793720F6EA4F82BCB5A412373A8E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v2 3/5] hw/arm: ast2600: Correct the iBT interrupt ID
-To: Andrew Jeffery <andrew@aj.id.au>, <qemu-arm@nongnu.org>
-References: <20210301010610.355702-1-andrew@aj.id.au>
- <20210301010610.355702-4-andrew@aj.id.au>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <42e9d178-6ee6-c50f-8f54-332ad9a58aee@kaod.org>
-Date: Mon, 1 Mar 2021 11:35:41 +0100
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1lGfyV-00055K-EO
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 05:40:29 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id DA4CF400F2;
+ Mon,  1 Mar 2021 13:40:16 +0300 (MSK)
+Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with ESMTP id BC29995;
+ Mon,  1 Mar 2021 13:40:16 +0300 (MSK)
+Subject: Re: [PATCH] linux-user: manage binfmt-misc preserve-arg[0] flag
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210222105004.1642234-1-laurent@vivier.eu>
+ <0ee2b107-1533-3098-9797-040633964300@physik.fu-berlin.de>
+ <09fefe8c-c3bb-1303-9e85-d207c6ec4ffc@msgid.tls.msk.ru>
+ <d0076988-a8f9-cd4c-1d19-bcb0b0a28dfb@physik.fu-berlin.de>
+ <ba3a2bae-d2a4-ca3d-cf3f-c2effc9d6ca9@msgid.tls.msk.ru>
+ <1f1c6fa9-a9cc-b169-1c9a-57008752efb4@physik.fu-berlin.de>
+ <644a53ea-852e-b60c-973d-10e37096d99e@msgid.tls.msk.ru>
+ <b2095785-3477-ccaf-ad88-1da88f3f597a@physik.fu-berlin.de>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Message-ID: <b39b1254-e76c-a793-6c13-058926ffdd65@msgid.tls.msk.ru>
+Date: Mon, 1 Mar 2021 13:40:16 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.1
 MIME-Version: 1.0
-In-Reply-To: <20210301010610.355702-4-andrew@aj.id.au>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <b2095785-3477-ccaf-ad88-1da88f3f597a@physik.fu-berlin.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: a0108dda-2cd2-483e-a72c-428524cbd263
-X-Ovh-Tracer-Id: 14086978162818386796
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtoheprghnughrvgifsegrjhdrihgurdgruh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,38 +64,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, ryan_chen@aspeedtech.com, minyard@acm.org,
- f4bug@amsat.org, qemu-devel@nongnu.org, joel@jms.id.au
+Cc: Helge Deller <deller@gmx.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 3/1/21 2:06 AM, Andrew Jeffery wrote:
-> The AST2600 allocates distinct GIC IRQs for the LPC subdevices such as
-> the iBT device. Previously on the AST2400 and AST2500 the LPC subdevices
-> shared a single LPC IRQ.
+01.03.2021 13:35, John Paul Adrian Glaubitz wrote:
+..
+> I have been trying to get qemu-user working with sbuild as it is shipped in Debian
+> unstable now but I didn't have any success.
 > 
-> Signed-off-by: Andrew Jeffery <andrew@aj.id.au>
+> Do you have some instructions somewhere how to get qemu-user working with sbuild?
 
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Have you seen #983087 which I fixed yesterday?
 
-
-> ---
->  hw/arm/aspeed_ast2600.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-> index 22fcb5b0edbe..2125a96ef317 100644
-> --- a/hw/arm/aspeed_ast2600.c
-> +++ b/hw/arm/aspeed_ast2600.c
-> @@ -98,7 +98,7 @@ static const int aspeed_soc_ast2600_irqmap[] = {
->      [ASPEED_DEV_WDT]       = 24,
->      [ASPEED_DEV_PWM]       = 44,
->      [ASPEED_DEV_LPC]       = 35,
-> -    [ASPEED_DEV_IBT]       = 35,    /* LPC */
-> +    [ASPEED_DEV_IBT]       = 143,
->      [ASPEED_DEV_I2C]       = 110,   /* 110 -> 125 */
->      [ASPEED_DEV_ETH1]      = 2,
->      [ASPEED_DEV_ETH2]      = 3,
-> 
-
+/mjt
 
