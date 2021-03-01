@@ -2,95 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38EBB3281DB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:11:17 +0100 (CET)
-Received: from localhost ([::1]:54014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35B6328275
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 16:30:03 +0100 (CET)
+Received: from localhost ([::1]:40604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGkCa-0000F9-5F
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:11:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55194)
+	id 1lGkUk-0007m4-1w
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 10:30:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGkAs-0007RI-Mb
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:09:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58985)
+ id 1lGkTf-0006PT-0o
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:28:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:51753)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1lGkAr-0000G5-14
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:09:30 -0500
+ id 1lGkTa-0000UQ-7n
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 10:28:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1614611367;
+ s=mimecast20190719; t=1614612528;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=iQT/c4bSl96nw1CD5TO3b1xfLXLAoR/0IbgklK74pZ4=;
- b=eyOC4xA9+DIgmyiW4/4t8o+Y94zhPRFPO6xvQ5vkLv3PjzKW7F4JSH5q1B+NZBTgqXw5ea
- xqC1p8WGsu5NoCITVTC5ni4FG2wtXB0l/atjW5FwOJJHMo3XYdBf6XxYG0neeYiOEDlfbo
- RiP6JdKaVFeqGOYHBnQIdcXpHkqm+T4=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-470-1-G-7YPqM1mTqM1XMw3Qzw-1; Mon, 01 Mar 2021 10:09:23 -0500
-X-MC-Unique: 1-G-7YPqM1mTqM1XMw3Qzw-1
-Received: by mail-wr1-f71.google.com with SMTP id g2so2667579wrx.20
- for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 07:09:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=iQT/c4bSl96nw1CD5TO3b1xfLXLAoR/0IbgklK74pZ4=;
- b=JvFtAlafod5w2//cdc1jNmzZMX9Gw8MHZf6Hpyf1d44XLWTD9dhY0jaWtlRK2cL9za
- U+vDQKhl+jmhak+heoHhtmwozxq87LQEDVYWpMZ3SBbImLcEcZDo1DmVU8fktpGzUf/+
- +Bo7dg422CoacR504KUIOKlmB2GfEVRqmf9MgY9MMJzQtut82kERenYMhk++vItGM/Ba
- Kufqx+IFfBJYfVnMXr4Qfpiqxyzzg3PST8VBAKOvm999jZPH78mx4uQDUKZ7c2wPIgu4
- g6oUSqiQWSlhKNXQXQ4TrhZ4AX9kJT6y1M/lV85TGtlY5gBxTWZMqwTpX2qOs6XaYt1B
- nv9w==
-X-Gm-Message-State: AOAM532z6501sVCj0Dv7YvGpspEFTYWBGO7IgmY1UzACFSbSyjtlQz0l
- jWhrOaPpMJJ1VoJOvRmzf0Zaq3pwyhqa5EHTAQDr3NOvA48EY0vsZBm+CoCxNtJljD2ALH8XCvw
- 1N2i7MwDNQ55A8ew=
-X-Received: by 2002:a05:600c:3550:: with SMTP id
- i16mr16180559wmq.170.1614611361910; 
- Mon, 01 Mar 2021 07:09:21 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwT9O3H38oZSTdjU7+fZxZgzYLEz1DWgK5mcVPqLUk429sHj6CBGs8kuiYjfJ44TRQOuI8xMA==
-X-Received: by 2002:a05:600c:3550:: with SMTP id
- i16mr16180522wmq.170.1614611361499; 
- Mon, 01 Mar 2021 07:09:21 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id m17sm4787090wrx.92.2021.03.01.07.09.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Mar 2021 07:09:20 -0800 (PST)
-Subject: Re: [PATCH] storage-daemon: include current command line option in
- the errors
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20210226110312.157645-1-pbonzini@redhat.com>
- <20210301122638.GG7698@merkur.fritz.box>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UAuiBHavZooHxnN7LWCPw/E7MZ3mA7Pt1E38NfgHBos=;
+ b=eWth13szy13GvHfiNoQMg2gxQsfh8VCJ1BT4OV70TSfg8bwH6bN9iBJcyAhd/mVvpvzBYh
+ oI6JbIsyzpLvp4i73QS2Hg/ZlXd6CjErUkZu6wUAxLUl5oXLzE+MUyMLf5BGIWiWhKgWeb
+ fhp1z/CpH8jozUGXqXaFSb9PagIRUAk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-48-j65lawNuO22BZOsAte9s1A-1; Mon, 01 Mar 2021 10:28:46 -0500
+X-MC-Unique: j65lawNuO22BZOsAte9s1A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 956C7801976;
+ Mon,  1 Mar 2021 15:28:45 +0000 (UTC)
+Received: from virtlab511.virt.lab.eng.bos.redhat.com
+ (virtlab511.virt.lab.eng.bos.redhat.com [10.19.152.198])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 217305C1D1;
+ Mon,  1 Mar 2021 15:28:44 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <6d8b8217-d1d3-b7e9-c005-90ce4b2f8b1a@redhat.com>
-Date: Mon, 1 Mar 2021 16:09:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] storage-daemon: include current command line option in
+ the errors
+Date: Mon,  1 Mar 2021 10:28:42 -0500
+Message-Id: <20210301152844.291799-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210301122638.GG7698@merkur.fritz.box>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,28 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/03/21 13:26, Kevin Wolf wrote:
-> This save_index approach isn't perfect because getopt may skip
-> non-option arguments and they will be included in the help text:
-> 
->      $ build/storage-daemon/qemu-storage-daemon foo --object iothread
->      qemu-storage-daemon: foo --object iothread: Parameter 'id' is missing
-> 
->      $ build/storage-daemon/qemu-storage-daemon foo --object iothread,id=t
->      qemu-storage-daemon: --object iothread,id=t foo: Unexpected argument: foo
-> 
-> However, without changing the interface of loc_set_cmdline(), getting
-> the right index seems hard. Not sure what is the best way for fixing
-> this or if it's worth the effort.
+Use the location management facilities that the emulator uses, so that
+the current command line option appears in the error message.
 
-We can do better by passing "-hT:V" to getopt_long.  Then each 
-non-option argument is returned directly, and everything works as 
-getopt_long no longer needs to reorder argv.
+Before:
 
-Paolo
+  $ storage-daemon/qemu-storage-daemon --nbd key..=
+  qemu-storage-daemon: Invalid parameter 'key..'
+
+After:
+
+  $ storage-daemon/qemu-storage-daemon --nbd key..=
+  qemu-storage-daemon: --nbd key..=: Invalid parameter 'key..'
+
+The first patch tweaks the command line parsing so that argv is
+not reordered by getopt_long and optind is only advanced by one
+option+argument on every call to getopt_long.  This is required
+by loc_set_cmdline.
+
+Paolo Bonzini (2):
+  storage-daemon: report unexpected arguments on the fly
+  storage-daemon: include current command line option in the errors
+
+ storage-daemon/qemu-storage-daemon.c | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
+
+-- 
+2.26.2
 
 
