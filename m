@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02867327DCE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 13:04:20 +0100 (CET)
-Received: from localhost ([::1]:52482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A68327DD4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 13:05:18 +0100 (CET)
+Received: from localhost ([::1]:55148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGhHf-0007BU-0N
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 07:04:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36422)
+	id 1lGhIc-0008HP-0J
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 07:05:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lGhGA-0006SD-Hw; Mon, 01 Mar 2021 07:02:46 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:59697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1lGhG8-0004LH-Hx; Mon, 01 Mar 2021 07:02:46 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 3694A92B80CE;
- Mon,  1 Mar 2021 13:02:39 +0100 (CET)
-Received: from kaod.org (37.59.142.98) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Mar 2021
- 13:02:37 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-98R002d0a4660c-29f9-4d1a-b7a6-3dbdaf8a50fd,
- 79E354DF6B7F793720F6EA4F82BCB5A412373A8E) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH v3 06/21] sd: emmc: Update CMD8 to send EXT_CSD register
-To: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Markus Armbruster
- <armbru@redhat.com>, Kevin Wolf <kwolf@redhat.com>, Max Reitz
- <mreitz@redhat.com>, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, 
- Eric Blake <eblake@redhat.com>, Joel Stanley <joel@jms.id.au>, Vincent
- Palatin <vpalatin@chromium.org>, "Dr. David Alan Gilbert"
- <dgilbert@redhat.com>, Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Peter Maydell <peter.maydell@linaro.org>, Alistair
- Francis <alistair.francis@wdc.com>, "Edgar E. Iglesias"
- <edgar.iglesias@xilinx.com>, Luc Michel <luc.michel@greensocs.com>, Paolo
- Bonzini <pbonzini@redhat.com>
-References: <1614540807-30686-1-git-send-email-sai.pavan.boddu@xilinx.com>
- <1614540807-30686-7-git-send-email-sai.pavan.boddu@xilinx.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <b60d056c-96a6-4cfe-39bf-9d43e6abc993@kaod.org>
-Date: Mon, 1 Mar 2021 13:02:37 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lGhGm-0006wz-J0
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:03:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33750)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1lGhGl-0004jF-7F
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 07:03:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1614600202;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YsyuZdjVtZLl/pBvqNpqWSw+FyYwnFzTWSxiB17NW3I=;
+ b=IxKk3xhttR4RraR64pq+go5IVswNVhiXtKf0YA5EBqlzP+mwcDRE08rurNn/aeY8kqURYs
+ iE8Xit790nwJfNNqMmE+pz04WX3GAmqZ277zml139lWvM0njf0g0u8dlrgIkEs/n0XPw7+
+ n45zVPPeFMCoMpY2a6mJ0hqzbQN/8qc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-295-3w4hGGv7OAGc37E9H7ZAMw-1; Mon, 01 Mar 2021 07:03:18 -0500
+X-MC-Unique: 3w4hGGv7OAGc37E9H7ZAMw-1
+Received: by mail-wr1-f70.google.com with SMTP id x9so5411605wro.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Mar 2021 04:03:18 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=YsyuZdjVtZLl/pBvqNpqWSw+FyYwnFzTWSxiB17NW3I=;
+ b=Cj+Kvg6nUR2MmFWazywR718x6eCTH7CaGDL5hf5CGZ2mFTrQqBK3eAmRvXcl+B9QFt
+ PaLX9UR8BV94QqGkoqWkuKrQXKOyahQfzgUrsTO0Cli1wvK9n0xVHMMzFZF6Or1srd/b
+ RgBP2gVmBbznL/EleigIbM2OFpDtT5jUMuxQjuAD+FUQKhTm5syxsXV5qfjfb/SLtwhi
+ vyfO82Yf4qsS1KTIS5p4UJJoqw9D3WggaP9+MHtVhFO5z+E78zjdh88xO/BBU/kowc03
+ bAIc4nARYA8G63z3o8JuqMKy/k3nSWGQ3XIGQugDVelzK6QVyJFAWSmFqiYKBxFLptwk
+ S09A==
+X-Gm-Message-State: AOAM530rPASas871TGwrS52XnpVFKpl3xbEcUlHmuvMOPQcnMUFOMpSI
+ WTzAy4rdFf+RN4TTmDzJD2nJopXQKAbvAF2Jm1lhWpGfkRf51xmsaW5u/AjIZ4Lvi63gsjfJWJX
+ 6O5O8hp79c5jihIA=
+X-Received: by 2002:a5d:4fc1:: with SMTP id h1mr9873185wrw.268.1614600197810; 
+ Mon, 01 Mar 2021 04:03:17 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyCezDrnBE5U8O4N6zYerMgYgxBt0ILRbYG1OBLUQSIRhqtHgjDFBYdzf+qPW5eskeGnFntZA==
+X-Received: by 2002:a5d:4fc1:: with SMTP id h1mr9873137wrw.268.1614600197565; 
+ Mon, 01 Mar 2021 04:03:17 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
+ ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
+ by smtp.gmail.com with ESMTPSA id y16sm1477553wrh.3.2021.03.01.04.03.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Mar 2021 04:03:17 -0800 (PST)
+Subject: Re: [PATCH v2 19/31] qapi/qom: QAPIfy object-add
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20210224135255.253837-1-kwolf@redhat.com>
+ <20210224135255.253837-20-kwolf@redhat.com>
+ <e2114559-e0dd-a9bf-403c-a34874bb271d@redhat.com>
+ <20210301115400.GF7698@merkur.fritz.box>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2835f94e-2dee-0669-ebd8-bc1601c40822@redhat.com>
+Date: Mon, 1 Mar 2021 13:03:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <1614540807-30686-7-git-send-email-sai.pavan.boddu@xilinx.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210301115400.GF7698@merkur.fritz.box>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.98]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9f4f0e70-26bf-4ae0-a2a6-102d0575ad6d
-X-Ovh-Tracer-Id: 15555151641345755917
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrleekgdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthejredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeegvdeijeefvdfhudfhffeuveehledufffhvdekheelgedttddthfeigeevgefhffenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeknecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehsrghirdhprghvrghnrdgsohguughuseigihhlihhngidrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,101 +102,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saipava@xilinx.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: lvivier@redhat.com, thuth@redhat.com, pkrempa@redhat.com,
+ berrange@redhat.com, ehabkost@redhat.com, qemu-block@nongnu.org,
+ libvir-list@redhat.com, jasowang@redhat.com, armbru@redhat.com,
+ qemu-devel@nongnu.org, kraxel@redhat.com, mreitz@redhat.com,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/28/21 8:33 PM, Sai Pavan Boddu wrote:
-> From: Vincent Palatin <vpalatin@chromium.org>
-> 
-> Sends the EXT_CSD register as response to CMD8.
-> 
-> Signed-off-by: Vincent Palatin <vpalatin@chromium.org>
-> Signed-off-by: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>
-> ---
->  hw/sd/sd.c | 52 ++++++++++++++++++++++++++++++++++++----------------
->  1 file changed, 36 insertions(+), 16 deletions(-)
-> 
-> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-> index a26695b..181e7e2 100644
-> --- a/hw/sd/sd.c
-> +++ b/hw/sd/sd.c
-> @@ -1141,24 +1141,37 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
->          }
->          break;
->  
-> -    case 8: /* CMD8:   SEND_IF_COND */
-> -        if (sd->spec_version < SD_PHY_SPECv2_00_VERS) {
-> -            break;
-> -        }
-> -        if (sd->state != sd_idle_state) {
-> -            break;
-> -        }
-> -        sd->vhs = 0;
-> -
-> -        /* No response if not exactly one VHS bit is set.  */
-> -        if (!(req.arg >> 8) || (req.arg >> (ctz32(req.arg & ~0xff) + 1))) {
-> -            return sd->spi ? sd_r7 : sd_r0;
-> -        }
-> +    case 8:    /* CMD8:   SEND_IF_COND / SEND_EXT_CSD */
-> +        if (sd->emmc) {
-> +            switch (sd->state) {
-> +            case sd_transfer_state:
-> +                /* MMC : Sends the EXT_CSD register as a Block of data */
-> +                sd->state = sd_sendingdata_state;
-> +                memcpy(sd->data, sd->ext_csd, sizeof(sd->ext_csd));
-> +                sd->data_start = addr;
-> +                sd->data_offset = 0;
-> +                return sd_r1;
-> +            default:
-> +                break;
-> +            }
+On 01/03/21 12:54, Kevin Wolf wrote:
+>> Please add a check in object_property_add_child that the id is well formed
+>> (using the id_wellformed function).  This is pre-existing, but it becomes a
+>> regression for -object later in the series.
+> Are the conditions for internally called object_property_add_child()
+> actually the same as for IDs specified by the user? For example, I seem
+> to remember some array-ish properties with [] in their name which aren't
+> allowed by id_wellformed().
 
-This is big enough to be a SDCardClass handler.
+Yes, you are right.
 
-Thanks,
+> The obvious place to affect only the external interfaces would be
+> user_creatable_add_type().
 
-C.
+Makes sense, thanks.
 
-
-> +        } else {
-> +            if (sd->spec_version < SD_PHY_SPECv2_00_VERS) {
-> +                break;
-> +            }
-> +            if (sd->state != sd_idle_state) {
-> +                break;
-> +            }
-> +            sd->vhs = 0;
->  
-> -        /* Accept.  */
-> -        sd->vhs = req.arg;
-> -        return sd_r7;
-> +            /* No response if not exactly one VHS bit is set.  */
-> +            if (!(req.arg >> 8) || (req.arg >> (ctz32(req.arg & ~0xff) + 1))) {
-> +                return sd->spi ? sd_r7 : sd_r0;
-> +            }
->  
-> +            /* Accept.  */
-> +            sd->vhs = req.arg;
-> +            return sd_r7;
-> +        }
->      case 9: /* CMD9:   SEND_CSD */
->          switch (sd->state) {
->          case sd_standby_state:
-> @@ -2081,6 +2094,13 @@ uint8_t sd_read_byte(SDState *sd)
->              sd->state = sd_transfer_state;
->          break;
->  
-> +    case 8:     /* CMD8: SEND_EXT_CSD on MMC */
-> +        ret = sd->data[sd->data_offset++];
-> +        if (sd->data_offset >= sizeof(sd->ext_csd)) {
-> +            sd->state = sd_transfer_state;
-> +        }
-> +        break;
-> +
->      case 9:     /* CMD9:   SEND_CSD */
->      case 10:    /* CMD10:  SEND_CID */
->          ret = sd->data[sd->data_offset ++];
-> 
+Paolo
 
 
