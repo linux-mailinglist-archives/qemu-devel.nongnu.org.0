@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4560D327A63
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:06:36 +0100 (CET)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96028327A4E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Mar 2021 10:03:00 +0100 (CET)
+Received: from localhost ([::1]:39960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1lGeVf-0000yq-AH
-	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:06:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49584)
+	id 1lGeSB-0005AF-Ja
+	for lists+qemu-devel@lfdr.de; Mon, 01 Mar 2021 04:02:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKa-0004sW-Ky
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:15 -0500
-Received: from mx2.suse.de ([195.135.220.15]:56754)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKW-0004r5-DX
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:04 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKQ-0000EV-HK
- for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:08 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1lGeKS-0000Eh-30
+ for qemu-devel@nongnu.org; Mon, 01 Mar 2021 03:55:04 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 4C17DB001;
- Mon,  1 Mar 2021 08:54:56 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 1F17EB030;
+ Mon,  1 Mar 2021 08:54:58 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
@@ -28,10 +28,10 @@ To: Paolo Bonzini <pbonzini@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH v26 04/20] cpu: call AccelCPUClass::cpu_realizefn in
- cpu_exec_realizefn
-Date: Mon,  1 Mar 2021 09:54:34 +0100
-Message-Id: <20210301085450.1732-5-cfontana@suse.de>
+Subject: [PATCH v26 06/20] target/i386: fix host_cpu_adjust_phys_bits error
+ handling
+Date: Mon,  1 Mar 2021 09:54:36 +0100
+Message-Id: <20210301085450.1732-7-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210301085450.1732-1-cfontana@suse.de>
 References: <20210301085450.1732-1-cfontana@suse.de>
@@ -64,86 +64,65 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-move the call to accel_cpu->cpu_realizefn to the general
-cpu_exec_realizefn from target/i386, so it does not need to be
-called for every target explicitly as we enable more targets.
+move the check for phys_bits outside of host_cpu_adjust_phys_bits,
+because otherwise it is impossible to return an error condition
+explicitly.
 
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- cpu.c             |  6 ++++++
- target/i386/cpu.c | 20 +++++++-------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ target/i386/host-cpu.c | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
-diff --git a/cpu.c b/cpu.c
-index bfbe5a66f9..ba5d272c1e 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -36,6 +36,7 @@
- #include "sysemu/replay.h"
- #include "exec/translate-all.h"
- #include "exec/log.h"
-+#include "hw/core/accel-cpu.h"
+diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
+index 9cfe56ce41..d07d41c34c 100644
+--- a/target/i386/host-cpu.c
++++ b/target/i386/host-cpu.c
+@@ -50,7 +50,7 @@ static void host_cpu_enable_cpu_pm(X86CPU *cpu)
+     env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
+ }
  
- uintptr_t qemu_host_page_size;
- intptr_t qemu_host_page_mask;
-@@ -130,6 +131,11 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
- 
-     cpu_list_add(cpu);
- 
-+    if (cc->accel_cpu) {
-+        /* NB: errp parameter is unused currently */
-+        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+    }
-+
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 648e41791f..6e2b5d7e59 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -6445,16 +6445,19 @@ static void x86_cpu_hyperv_realize(X86CPU *cpu)
- static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+-static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
++static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
  {
-     CPUState *cs = CPU(dev);
--    CPUClass *cc = CPU_GET_CLASS(cs);
-     X86CPU *cpu = X86_CPU(dev);
-     X86CPUClass *xcc = X86_CPU_GET_CLASS(dev);
-     CPUX86State *env = &cpu->env;
-     Error *local_err = NULL;
-     static bool ht_warned;
- 
--    /* The accelerator realizefn needs to be called first. */
--    if (cc->accel_cpu) {
--        cc->accel_cpu->cpu_realizefn(cs, errp);
-+    /* Process Hyper-V enlightenments */
-+    x86_cpu_hyperv_realize(cpu);
-+
-+    cpu_exec_realizefn(cs, &local_err);
-+    if (local_err != NULL) {
-+        error_propagate(errp, local_err);
-+        return;
+     uint32_t host_phys_bits = host_cpu_phys_bits();
+     uint32_t phys_bits = cpu->phys_bits;
+@@ -77,14 +77,6 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
+         }
      }
  
-     if (xcc->host_cpuid_required && !accel_uses_host_cpuid()) {
-@@ -6570,15 +6573,6 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
-         env->cache_info_amd.l3_cache = &legacy_l3_cache;
-     }
- 
--    /* Process Hyper-V enlightenments */
--    x86_cpu_hyperv_realize(cpu);
--
--    cpu_exec_realizefn(cs, &local_err);
--    if (local_err != NULL) {
--        error_propagate(errp, local_err);
--        return;
+-    if (phys_bits &&
+-        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
+-         phys_bits < 32)) {
+-        error_setg(errp, "phys-bits should be between 32 and %u "
+-                   " (but is %u)",
+-                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
 -    }
 -
- #ifndef CONFIG_USER_ONLY
-     MachineState *ms = MACHINE(qdev_get_machine());
-     qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
+     return phys_bits;
+ }
+ 
+@@ -97,7 +89,17 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
+         host_cpu_enable_cpu_pm(cpu);
+     }
+     if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
+-        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
++        uint32_t phys_bits = host_cpu_adjust_phys_bits(cpu);
++
++        if (phys_bits &&
++            (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
++             phys_bits < 32)) {
++            error_setg(errp, "phys-bits should be between 32 and %u "
++                       " (but is %u)",
++                       TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
++            return;
++        }
++        cpu->phys_bits = phys_bits;
+     }
+ }
+ 
 -- 
 2.26.2
 
